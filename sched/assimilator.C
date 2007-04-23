@@ -144,16 +144,14 @@ bool do_pass(APP& app) {
 
 int main(int argc, char** argv) {
     int retval;
-    bool asynch = false, one_pass = false;
+    bool one_pass = false;
     DB_APP app;
     int i;
     char buf[256];
 
     check_stop_daemons();
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-asynch")) {
-            asynch = true;
-        } else if (!strcmp(argv[i], "-one_pass_N_WU")) {
+        if (!strcmp(argv[i], "-one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
             one_pass = true;
         } else if (!strcmp(argv[i], "-sleep_interval")) {
@@ -193,12 +191,6 @@ int main(int argc, char** argv) {
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't parse config file\n");
         exit(1);
-    }
-
-    if (asynch) {
-        if (fork()) {
-            exit(0);
-        }
     }
 
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");

@@ -38,15 +38,15 @@ BEGIN_EVENT_TABLE (CPaintStatistics, wxWindow)
 	EVT_PAINT(CPaintStatistics::OnPaint)
 	EVT_SIZE(CPaintStatistics::OnSize)
 	EVT_LEFT_DOWN(CPaintStatistics::OnLeftMouseDown)
-	EVT_RIGHT_DOWN(CPaintStatistics::OnRightMouseDown)
-	EVT_MOTION(CPaintStatistics::OnMouseMotion)
 	EVT_LEFT_UP(CPaintStatistics::OnLeftMouseUp)
+	EVT_LEFT_DCLICK(CPaintStatistics::OnLeftMouseDoubleClick)
+	EVT_RIGHT_DOWN(CPaintStatistics::OnRightMouseDown)
+	EVT_RIGHT_UP(CPaintStatistics::OnRightMouseUp)
+	EVT_MOTION(CPaintStatistics::OnMouseMotion)
 	EVT_LEAVE_WINDOW(CPaintStatistics::OnMouseLeaveWindows)
 	EVT_ERASE_BACKGROUND(CPaintStatistics::OnEraseBackground)
 END_EVENT_TABLE ()
 
-CPaintStatistics::CPaintStatistics() {
-}
 
 CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoint& pos,	const wxSize& size, long style, const wxString& name
 ): wxWindow(parent, id, pos, size, style, name)
@@ -78,6 +78,13 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_GraphZoom_Y2_old = 0;
 
 	m_GraphZoomStart = false;
+
+	m_GraphMove_X1 = 0;
+	m_GraphMove_Y1 = 0;
+	m_GraphMove_X2 = 0;
+	m_GraphMove_Y2 = 0;
+	m_GraphMoveStart = false;
+	m_GraphMoveGo = false;
 
 	m_Zoom_max_val_X = 0;
 	m_Zoom_min_val_X = 0;
@@ -117,6 +124,7 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_Graph_draw_Y_end = 0;
 
 	m_Legend_dY = 0;
+	m_LegendDraw = true;
 
 // Default colours
 	m_pen_MarkerLineColour = wxColour(0, 0, 0);
@@ -124,6 +132,8 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_brush_ZoomRectColour = wxColour(24, 31, 0);
 	m_brush_AxisColour = wxColour(192, 224, 255);
 	m_pen_AxisColour = wxColour(64, 128, 192);
+	m_pen_AxisColourZoom = wxColour(255, 64, 0);
+	m_pen_AxisColourAutoZoom = wxColour(64, 128, 192);
 	m_pen_AxisXColour = wxColour(64, 128, 192);
 	m_pen_AxisYColour = wxColour(64, 128, 192);
 	m_pen_AxisXTextColour = wxColour(0, 0, 0);
@@ -271,10 +281,11 @@ static void MinMaxDayCredit(std::vector<PROJECT*>::const_iterator &i, double &mi
 	}
 }
 static void CheckMinMaxD(double &min_val, double &max_val) {
-	if (min_val < 0) min_val = 0;
-	if (max_val < 0) max_val = 0;
 	if (min_val > max_val) min_val = max_val;
-	if (max_val == min_val) max_val += 1.0;
+	if (max_val == min_val){
+		max_val += 0.5;
+		min_val -= 0.5;
+	}
 }
 void CPaintStatistics::ClearXY(){
 	m_main_X_start = 0;
@@ -287,16 +298,6 @@ void CPaintStatistics::ClearXY(){
 	m_WorkSpace_Y_start = 0;
 	m_WorkSpace_Y_end = 0;
 
-	m_Legend_X_start = 0;
-	m_Legend_X_end = 0;
-	m_Legend_Y_start = 0;
-	m_Legend_Y_end = 0;
-
-	m_Legend_select_X_start = 0;
-	m_Legend_select_X_end = 0;
-	m_Legend_select_Y_start = 0;
-	m_Legend_select_Y_end = 0;
-
 	m_Graph_X_start = 0;
 	m_Graph_X_end = 0;
 	m_Graph_Y_start = 0;
@@ -306,6 +307,18 @@ void CPaintStatistics::ClearXY(){
 	m_Graph_draw_X_end = 0;
 	m_Graph_draw_Y_start = 0;
 	m_Graph_draw_Y_end = 0;
+}
+void CPaintStatistics::ClearLegendXY(){
+
+	m_Legend_X_start = 0;
+	m_Legend_X_end = 0;
+	m_Legend_Y_start = 0;
+	m_Legend_Y_end = 0;
+
+	m_Legend_select_X_start = 0;
+	m_Legend_select_X_end = 0;
+	m_Legend_select_Y_start = 0;
+	m_Legend_select_Y_end = 0;
 
 	m_Legend_dY = 0;
 }
@@ -360,7 +373,7 @@ void CPaintStatistics::DrawMainHead(wxDC &dc, const wxString head_name){
 	if (m_WorkSpace_Y_start < 0.0) m_WorkSpace_Y_start = 0.0;
 }
 //----Draw Project Head----
-void CPaintStatistics::DrawProjectHead(wxDC &dc, PROJECT * &project1, const wxString head_name_last){
+void CPaintStatistics::DrawProjectHead(wxDC &dc, PROJECT* project1, const wxString head_name_last){
 	wxCoord w_temp = 0, h_temp = 0, des_temp = 0, lead_temp = 0;
 	wxString head_name = wxT("");
 	wxCoord x0 = 0;
@@ -428,7 +441,7 @@ void CPaintStatistics::DrawProjectHead(wxDC &dc, PROJECT * &project1, const wxSt
 	}
 }
 //----Draw Legend----
-void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, int SelProj, bool bColour, int &m_Legend_Shift){
+void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc, int SelProj, bool bColour, int &m_Legend_Shift){
 	wxString head_name = wxT("0");
 	wxCoord project_name_max_width = 0;
 	const double radius1 = 5;
@@ -600,7 +613,8 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS * &proj, CMainDocument* &pD
 	dc.SetFont(m_font_standart);
 }
 //----Draw background, axis(lines), text(01-Jan-1980)----
-void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x) {
+void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x, 
+								wxColour pen_AxisColour, const double max_val_y_all, const double min_val_y_all) {
 	wxCoord x0 = wxCoord(m_WorkSpace_X_start);
 	wxCoord y0 = wxCoord(m_WorkSpace_Y_start);
 	wxCoord w0 = wxCoord(m_WorkSpace_X_end - m_WorkSpace_X_start);
@@ -614,11 +628,15 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	dc.SetClippingRegion(x0, y0, w0, h0);
 
 	dc.SetBrush(wxBrush(m_brush_AxisColour , wxSOLID));
-	dc.SetPen(wxPen(m_pen_AxisColour , 1 , wxSOLID));
+	dc.SetPen(wxPen(pen_AxisColour , 1 , wxSOLID));
 
 	wxCoord w_temp, h_temp, des_temp, lead_temp;
+	wxCoord w_temp2;
 	
-	dc.GetTextExtent(wxString::Format(wxT(" %.2f"), max_val_y), &w_temp, &h_temp, &des_temp, &lead_temp);
+	dc.GetTextExtent(wxString::Format(wxT(" %.2f"), max_val_y_all), &w_temp, &h_temp, &des_temp, &lead_temp);
+	dc.GetTextExtent(wxString::Format(wxT(" %.2f"), min_val_y_all), &w_temp2, &h_temp, &des_temp, &lead_temp);
+
+	if (w_temp < w_temp2) w_temp = w_temp2;
 
 	m_WorkSpace_X_start += double(w_temp) + 3.0;
 	m_WorkSpace_Y_end -= double(h_temp) + 3.0;
@@ -633,7 +651,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	wxDateTime dtTemp1;
 	wxString strBuffer1;
 	dtTemp1.Set((time_t)max_val_x);
-	strBuffer1 = dtTemp1.Format(wxT("%d.%b.%y"));
+	strBuffer1 = dtTemp1.Format(wxT("%d.%b.%y"), wxDateTime::GMT0);
 	dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
 	
 	double d_x = (double)(w_temp) / 2.0;
@@ -715,7 +733,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	dc.SetTextForeground (m_pen_AxisXTextColour);
 
 	dtTemp1.Set((time_t)max_val_x);
-	strBuffer1 = dtTemp1.Format(wxT("%d.%b.%y"));
+	strBuffer1 = dtTemp1.Format(wxT("%d.%b.%y"), wxDateTime::GMT0);
 	dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
 
 	int d_ox_count = 1;
@@ -730,7 +748,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 
 	for (double nx = 0; nx <= double(d_ox_count); ++nx){
 		dtTemp1.Set((time_t)(x_start_val + nx * d_ox_val));
-		strBuffer1 = dtTemp1.Format(wxT("%d.%b.%y"));
+		strBuffer1 = dtTemp1.Format(wxT("%d.%b.%y"), wxDateTime::GMT0);
 		dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
 		x0 = wxCoord(m_Ax_ValToCoord * (x_start_val + nx * d_ox_val) + m_Bx_ValToCoord);
 		y0 = wxCoord(m_Graph_Y_start + 1.0);
@@ -1041,7 +1059,7 @@ void CPaintStatistics::DrawMarker(wxDC &dc) {
 			wxDateTime dtTemp1;
 			wxString strBuffer1;
 			dtTemp1.Set((time_t)m_GraphMarker_X1);
-			strBuffer1=dtTemp1.Format(wxT("%d.%b.%y"));
+			strBuffer1=dtTemp1.Format(wxT("%d.%b.%y"), wxDateTime::GMT0);
 
 			dc.SetFont(m_font_bold);
 			dc.SetTextBackground (m_brush_AxisColour);
@@ -1132,18 +1150,43 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 
 	switch (m_ModeViewStatistic){
 	case 0:{
+	//Draw Legend
+		if (m_ViewHideProjectStatistic >= 0){
+			int count = -1;
+			std::set<wxString>::iterator s;
+			for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
+				++count;
+				if (m_ViewHideProjectStatistic == count){
+					s = m_HideProjectStatistic.find( wxString((*i)->master_url.c_str(),wxConvUTF8) );
+					if (s != m_HideProjectStatistic.end()){
+						m_HideProjectStatistic.erase(s);
+					}else m_HideProjectStatistic.insert( wxString((*i)->master_url.c_str(),wxConvUTF8) );
+					break;
+				}
+			}
+		}
+		m_ViewHideProjectStatistic = -1;
+
+		if (m_LegendDraw) DrawLegend(dc, proj, pDoc, -1, false, m_Legend_Shift_Mode2);
 	///Draw heading
 		dc.SetFont(m_font_bold);
 		DrawMainHead(dc, heading);
 		dc.SetFont(m_font_standart);
 	//How many rows/colums?
+		int nb_proj_show = 0;
+		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
+			if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str(),wxConvUTF8) ))){
+				++nb_proj_show;
+			}
+		}
+//
 		int nb_proj_row = 0, nb_proj_col = 0;
-		if (nb_proj < 4) {
+		if (nb_proj_show < 4) {
 			nb_proj_col = 1;
-			nb_proj_row = nb_proj;
+			nb_proj_row = nb_proj_show;
 		} else {
 			nb_proj_col = 2;
-			nb_proj_row = (int)ceil(double(nb_proj) / double(nb_proj_col));
+			nb_proj_row = (int)ceil(double(nb_proj_show) / double(nb_proj_col));
 		}
 
 		int col = 1, row = 1; //Used to identify the actual row/col
@@ -1158,61 +1201,69 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		const double x_fac = (rectangle_x_end - rectangle_x_start) / double(nb_proj_col);
 		const double y_fac = (rectangle_y_end - rectangle_y_start) / double(nb_proj_row);
 	
-		int count = -1;
-	
+		double min_val_y_all = 10e32, max_val_y_all = 0;
+		double min_val_x_all = 10e32, max_val_x_all = 0;
+		
 		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
-			++count;
-		//Find minimum/maximum value
-			double min_val_y = 10e32, max_val_y = 0;
-			double min_val_x = 10e32, max_val_x = 0;
-			MinMaxDayCredit(i, min_val_y, max_val_y, min_val_x, max_val_x, m_SelectedStatistic);
-			CheckMinMaxD(min_val_x, max_val_x);
-			CheckMinMaxD(min_val_y, max_val_y);
-			min_val_x = floor(min_val_x / 86400.0) * 86400.0;
-			max_val_x = ceil(max_val_x / 86400.0) * 86400.0;
-		//Where do we draw in?
-			ClearXY();
-			m_main_X_start = (wxCoord)(rectangle_x_start + x_fac * (double)(col - 1));
-			m_main_X_end = (wxCoord)(rectangle_x_start + x_fac * ((double)col));
-			m_main_Y_start = (wxCoord)(rectangle_y_start + y_fac * (double)(row - 1));
-			m_main_Y_end = (wxCoord)(rectangle_y_start + y_fac * (double)row);
-			if (m_main_X_start < 0) m_main_X_start = 0;
-			if (m_main_X_start > m_main_X_end) m_main_X_end = m_main_X_start;
-			if (m_main_Y_start < 0) m_main_Y_start = 0;
-			if (m_main_Y_start > m_main_Y_end) m_main_Y_end = m_main_Y_start;
-			
-			m_WorkSpace_X_start = m_main_X_start;
-			m_WorkSpace_X_end = m_main_X_end;
-			m_WorkSpace_Y_start = m_main_Y_start;
-			m_WorkSpace_Y_end = m_main_Y_end;
-
-		//Draw scale Draw Project name
-			wxString head_name = wxT("?");
-			PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
-			if (state_project) {
-				head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+			if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str(),wxConvUTF8) ))){
+				MinMaxDayCredit(i, min_val_y_all, max_val_y_all, min_val_x_all, max_val_x_all, m_SelectedStatistic, false);
 			}
-		//Draw heading
-			DrawMainHead(dc, head_name);
-		//Draw axis
-			DrawAxis(dc, max_val_y, min_val_y,max_val_x, min_val_x);
-		//Draw graph
-			wxColour graphColour=wxColour(0,0,0);
-			getDrawColour(graphColour,m_SelectedStatistic);
-			DrawGraph(dc, i, graphColour, 0, m_SelectedStatistic);
-		//Change row/col
-			if (col == nb_proj_col) {
-				col = 1;
-				++row;
-			} else {
-				++col;
+		}
+
+		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
+			if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str(),wxConvUTF8) ))){
+			//Find minimum/maximum value
+				double min_val_y = 10e32, max_val_y = 0;
+				double min_val_x = 10e32, max_val_x = 0;
+				MinMaxDayCredit(i, min_val_y, max_val_y, min_val_x, max_val_x, m_SelectedStatistic);
+				CheckMinMaxD(min_val_x, max_val_x);
+				CheckMinMaxD(min_val_y, max_val_y);
+				min_val_x = floor(min_val_x / 86400.0) * 86400.0;
+				max_val_x = ceil(max_val_x / 86400.0) * 86400.0;
+			//Where do we draw in?
+				ClearXY();
+				m_main_X_start = (wxCoord)(rectangle_x_start + x_fac * (double)(col - 1));
+				m_main_X_end = (wxCoord)(rectangle_x_start + x_fac * ((double)col));
+				m_main_Y_start = (wxCoord)(rectangle_y_start + y_fac * (double)(row - 1));
+				m_main_Y_end = (wxCoord)(rectangle_y_start + y_fac * (double)row);
+				if (m_main_X_start < 0) m_main_X_start = 0;
+				if (m_main_X_start > m_main_X_end) m_main_X_end = m_main_X_start;
+				if (m_main_Y_start < 0) m_main_Y_start = 0;
+				if (m_main_Y_start > m_main_Y_end) m_main_Y_end = m_main_Y_start;
+				
+				m_WorkSpace_X_start = m_main_X_start;
+				m_WorkSpace_X_end = m_main_X_end;
+				m_WorkSpace_Y_start = m_main_Y_start;
+				m_WorkSpace_Y_end = m_main_Y_end;
+
+			//Draw scale Draw Project name
+				wxString head_name = wxT("?");
+				PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
+				if (state_project) {
+					head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
+				}
+			//Draw heading
+				DrawMainHead(dc, head_name);
+			//Draw axis
+				DrawAxis(dc, max_val_y, min_val_y,max_val_x, min_val_x, m_pen_AxisColour, max_val_y_all, min_val_y_all);
+			//Draw graph
+				wxColour graphColour=wxColour(0,0,0);
+				getDrawColour(graphColour,m_SelectedStatistic);
+				DrawGraph(dc, i, graphColour, 0, m_SelectedStatistic);
+			//Change row/col
+				if (col == nb_proj_col) {
+					col = 1;
+					++row;
+				} else {
+					++col;
+				}
 			}
 		}
 		break;
 		}
 	case 1:{
 	//Draw Legend
-		DrawLegend(dc, proj, pDoc, m_NextProjectStatistic, false, m_Legend_Shift_Mode1);
+		if (m_LegendDraw) DrawLegend(dc, proj, pDoc, m_NextProjectStatistic, false, m_Legend_Shift_Mode1);
 	//Draw heading
 		dc.SetFont(m_font_bold);
 		DrawMainHead(dc, heading);
@@ -1232,11 +1283,14 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 			double t_d1 = floor((t_n1 - max_val_x) / 86400.0);
 
 			wxString head_name=wxString::Format(_("Last update: %.0f days ago"), t_d1);
+			
+			wxColour pen_AxisColour1 = m_pen_AxisColourAutoZoom;
 
 			if (m_Zoom_Auto){
 				min_val_x = floor(min_val_x / 86400.0) * 86400.0;
 				max_val_x = ceil(max_val_x / 86400.0) * 86400.0;
 			}else{
+				pen_AxisColour1 = m_pen_AxisColourZoom;
 				min_val_x = m_Zoom_min_val_X;
 				max_val_x = m_Zoom_max_val_X;
 				min_val_y = m_Zoom_min_val_Y;
@@ -1244,6 +1298,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 			}
 			CheckMinMaxD(min_val_x, max_val_x);
 			CheckMinMaxD(min_val_y, max_val_y);
+
 		//Draw heading
 			PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
 			if (state_project) {
@@ -1251,8 +1306,12 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 				DrawProjectHead(dc, state_project, head_name);
 				dc.SetFont(m_font_standart);
 			}
+			m_Zoom_min_val_X = min_val_x;
+			m_Zoom_max_val_X = max_val_x;
+			m_Zoom_min_val_Y = min_val_y;
+			m_Zoom_max_val_Y = max_val_y;
 		//Draw axis
-			DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x);
+			DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x, pen_AxisColour1, max_val_y, min_val_y);
 		//Draw graph
 			wxColour graphColour=wxColour(0,0,0);
 			getDrawColour(graphColour,m_SelectedStatistic);
@@ -1281,7 +1340,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		}
 		m_ViewHideProjectStatistic = -1;
 
-		DrawLegend(dc, proj, pDoc, -1, true, m_Legend_Shift_Mode2);
+		if (m_LegendDraw) DrawLegend(dc, proj, pDoc, -1, true, m_Legend_Shift_Mode2);
 	//Draw heading
 		dc.SetFont(m_font_bold);
 		DrawMainHead(dc, heading);
@@ -1290,6 +1349,8 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		double min_val_y = 10e32, max_val_y = 0;
 		double min_val_x = 10e32, max_val_x = 0;
 		
+		wxColour pen_AxisColour1 = m_pen_AxisColourAutoZoom;
+
 		if (m_Zoom_Auto){
 			for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
 				if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str(),wxConvUTF8) ))){
@@ -1299,6 +1360,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 			min_val_x = floor(min_val_x / 86400.0) * 86400.0;
 			max_val_x = ceil(max_val_x / 86400.0) * 86400.0;
 		}else{
+			pen_AxisColour1 = m_pen_AxisColourZoom;
 			min_val_x = m_Zoom_min_val_X;
 			max_val_x = m_Zoom_max_val_X;
 			min_val_y = m_Zoom_min_val_Y;
@@ -1306,8 +1368,13 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		}
 		CheckMinMaxD(min_val_x, max_val_x);
 		CheckMinMaxD(min_val_y, max_val_y);
+
+		m_Zoom_min_val_X = min_val_x;
+        m_Zoom_max_val_X = max_val_x;
+		m_Zoom_min_val_Y = min_val_y;
+		m_Zoom_max_val_Y = max_val_y;
 	//Draw axis
-		DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x);
+		DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x, pen_AxisColour1, max_val_y, min_val_y);
 	//Draw graph
 		int count = -1;
 		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
@@ -1340,6 +1407,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	if (m_full_repaint){
 		if (!m_GraphZoomStart){
 			ClearXY();
+			ClearLegendXY();
 
 			m_main_X_start = 0.0;
 			if (width > 0) m_main_X_end = double(width); else m_main_X_end = 0.0;
@@ -1410,6 +1478,30 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 }
 
 void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
+// Legend
+	if (m_Legend_dY > 0){
+		wxClientDC dc (this);
+		wxPoint pt(event.GetLogicalPosition(dc));
+		if((double(pt.y) > m_Legend_select_Y_start) && (double(pt.y) < m_Legend_select_Y_end) && (double(pt.x) > m_Legend_select_X_start) && (double(pt.x) < m_Legend_select_X_end)){
+			int i1 = (int)floor((double(pt.y) - m_Legend_select_Y_start) / m_Legend_dY);
+			switch (m_ModeViewStatistic){
+			case 1: 
+				m_NextProjectStatistic = i1 + m_Legend_Shift_Mode1; 
+				m_Zoom_Auto = true;
+				m_GraphMarker1 = false;
+				break;
+			case 0:
+			case 2:
+				m_ViewHideProjectStatistic = i1 + m_Legend_Shift_Mode2; 
+				break;
+			}
+			m_full_repaint = true;
+			Refresh(false);
+		    event.Skip();
+			return;
+		}
+	}
+// Graph
 	switch (m_ModeViewStatistic){
 	case 1:
 	case 2:{
@@ -1428,28 +1520,20 @@ void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
 			m_GraphZoom_Y2_old = wxCoord(pt.y);
 
 			m_GraphZoomStart = true;
-		}else if (m_Legend_dY > 0){
-			if((double(pt.y) > m_Legend_select_Y_start) && (double(pt.y) < m_Legend_select_Y_end) && (double(pt.x) > m_Legend_select_X_start) && (double(pt.x) < m_Legend_select_X_end)){
-				int i1 = (int)floor((double(pt.y) - m_Legend_select_Y_start) / m_Legend_dY);
-				switch (m_ModeViewStatistic){
-				case 1: 
-					m_NextProjectStatistic = i1 + m_Legend_Shift_Mode1; 
-					m_Zoom_Auto = true;
-					m_GraphMarker1 = false;
-					break;
-				case 2:
-					m_ViewHideProjectStatistic = i1 + m_Legend_Shift_Mode2; 
-					break;
-				}
-				m_full_repaint = true;
-				Refresh(false);
-			}
 		}
 		break;
 		}
 	}
     event.Skip();
 }
+
+void CPaintStatistics::OnLeftMouseDoubleClick(wxMouseEvent& event) {
+	m_LegendDraw = !m_LegendDraw;
+	m_full_repaint = true;
+	Refresh(false);
+	event.Skip(); 
+}
+
 void CPaintStatistics::OnMouseMotion(wxMouseEvent& event) {
 	switch (m_ModeViewStatistic){
 	case 1:
@@ -1468,7 +1552,42 @@ void CPaintStatistics::OnMouseMotion(wxMouseEvent& event) {
 				}
 			}else{
 				m_GraphZoomStart = false;
-				
+
+				m_full_repaint = true;
+				Refresh(false);
+			}
+		}else if (m_GraphMoveStart){
+			if (event.RightIsDown()){
+				wxClientDC cdc (this);
+				wxPoint pt(event.GetLogicalPosition(cdc));
+				if((double(pt.y) > m_Graph_Y_start) && (double(pt.y) < m_Graph_Y_end) && (double(pt.x) > m_Graph_X_start) && (double(pt.x) < m_Graph_X_end)){
+
+					m_GraphMove_X2 = wxCoord(pt.x);
+					m_GraphMove_Y2 = wxCoord(pt.y);
+
+					double X1 = m_Ax_CoordToVal * double(m_GraphMove_X1 - m_GraphMove_X2);
+					double Y1 = m_Ay_CoordToVal * double(m_GraphMove_Y1 - m_GraphMove_Y2);
+
+					if ( (X1 != 0) || (Y1 != 0)){
+						m_GraphMove_X1 = m_GraphMove_X2;
+						m_GraphMove_Y1 = m_GraphMove_Y2;
+		
+						m_Zoom_min_val_X = m_Zoom_min_val_X + X1;
+						m_Zoom_max_val_X = m_Zoom_max_val_X + X1;
+						m_Zoom_min_val_Y = m_Zoom_min_val_Y + Y1;
+						m_Zoom_max_val_Y = m_Zoom_max_val_Y + Y1;
+
+						m_GraphMoveGo = true;
+						m_Zoom_Auto = false;
+						m_full_repaint = true;
+						Refresh(false);
+					}
+
+				}
+			}else{
+				m_GraphMoveStart = false;
+				m_GraphMoveGo = false;
+
 				m_full_repaint = true;
 				Refresh(false);
 			}
@@ -1516,21 +1635,42 @@ void CPaintStatistics::OnLeftMouseUp(wxMouseEvent& event) {
 	event.Skip();
 }
 void CPaintStatistics::OnRightMouseDown(wxMouseEvent& event) {
-	if (m_GraphZoomStart){
-		m_GraphZoomStart = false;
-		m_full_repaint = true;
-		Refresh(false);
-	}else{
-		if (m_GraphMarker1){
+	switch (m_ModeViewStatistic){
+	case 1:
+	case 2:{
+		if (m_GraphZoomStart){       //???
+			m_GraphZoomStart = false;
 			m_GraphMarker1 = false;
 			m_full_repaint = true;
 			Refresh(false);
+		}else{
+			wxClientDC dc (this);
+			wxPoint pt(event.GetLogicalPosition(dc));
+			if((double(pt.y) > m_Graph_Y_start) && (double(pt.y) < m_Graph_Y_end) && (double(pt.x) > m_Graph_X_start) && (double(pt.x) < m_Graph_X_end)){
+				m_GraphMove_X1 = wxCoord(pt.x);
+				m_GraphMove_Y1 = wxCoord(pt.y);
+
+				m_GraphMoveStart = true;
+				m_GraphMoveGo = false;
+			}
 		}
-		else if (!m_Zoom_Auto){
-			m_Zoom_Auto = true;
-			m_full_repaint = true;
-			Refresh(false);
+		break;
 		}
+	}
+    event.Skip();
+}
+void CPaintStatistics::OnRightMouseUp(wxMouseEvent& event) {
+	if (m_GraphMoveGo){
+		m_GraphMoveStart = false;
+		m_GraphMoveGo = false;
+	}else if (m_GraphMarker1){
+		m_GraphMarker1 = false;
+		m_full_repaint = true;
+		Refresh(false);
+	}else if (!m_Zoom_Auto){
+		m_Zoom_Auto = true;
+		m_full_repaint = true;
+		Refresh(false);
 	}
 	event.Skip();
 }
@@ -1540,6 +1680,10 @@ void CPaintStatistics::OnMouseLeaveWindows(wxMouseEvent& event) {
 		m_GraphZoomStart = false;
 		m_full_repaint = true;
 		Refresh(false);
+	}
+	if (m_GraphMoveStart || m_GraphMoveGo){
+		m_GraphMoveStart = false;
+		m_GraphMoveGo = false;
 	}
 	event.Skip();
 }
@@ -1668,8 +1812,6 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
-	m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]); /// "project" button
-     
     UpdateSelection();
 }
 
@@ -1693,7 +1835,7 @@ const int CViewStatistics::GetViewRefreshRate() {
 void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function Begin"));
 
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
@@ -1788,8 +1930,6 @@ void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-	m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[0]);
-	m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -1811,8 +1951,6 @@ void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-	m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[0]);
-	m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -1834,8 +1972,6 @@ void CViewStatistics::OnStatisticsModeView2( wxCommandEvent& WXUNUSED(event) ) {
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-	m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[0]);
-	m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -1857,6 +1993,7 @@ void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) )
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
+	if (m_PaintStatistics->m_ModeViewStatistic == 0) m_PaintStatistics->m_Legend_Shift_Mode2++;
 	if (m_PaintStatistics->m_ModeViewStatistic == 2) m_PaintStatistics->m_Legend_Shift_Mode2++;
     pFrame->UpdateStatusText(wxT(""));
 
@@ -1879,6 +2016,7 @@ void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) )
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
+	if (m_PaintStatistics->m_ModeViewStatistic == 0) m_PaintStatistics->m_Legend_Shift_Mode2--;
 	if (m_PaintStatistics->m_ModeViewStatistic == 2) m_PaintStatistics->m_Legend_Shift_Mode2--;
     pFrame->UpdateStatusText(wxT(""));
 
@@ -1929,7 +2067,7 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
     strBaseConfigLocation = wxT("/StatisticPage");
 	pConfig->SetPath(strBaseConfigLocation);
 
-	m_PaintStatistics->m_ModeViewStatistic=0;
+	m_PaintStatistics->m_ModeViewStatistic = 0;
 	pConfig->Read(wxT("ModeViewStatistic"), &iTempValue, -1);
 	if ((iTempValue >= 0) && (iTempValue <= 2))m_PaintStatistics->m_ModeViewStatistic = iTempValue;
 
@@ -1953,12 +2091,6 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 			m_PaintStatistics->m_HideProjectStatistic.insert(tmpstr1);
 		}
 	}
-
-// Disable/Enable TaskGroups
-	if((m_PaintStatistics->m_ModeViewStatistic == 1) || (m_PaintStatistics->m_ModeViewStatistic == 2)){
-		m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]); /// "project" button 
-	}else m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]); /// "project" button
-//--
     return true;
 }
 

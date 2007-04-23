@@ -510,7 +510,7 @@ void win_graphics_event_loop() {
     //
     reg_win_class();
 
-    gfx_timer_id = SetTimer(NULL, 1, 30, &timer_handler);
+    gfx_timer_id = SetTimer(NULL, 1, 30, (TIMERPROC)&timer_handler);
 
     if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);

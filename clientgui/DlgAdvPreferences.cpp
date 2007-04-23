@@ -376,7 +376,6 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	mask.hangup_if_dialed=true;
 	//
 	m_txtNetAdditionalDays->GetValue().ToDouble(&td);
-	td = td * 86400.0;
 	prefs.work_buf_additional_days = td;
 	mask.work_buf_additional_days = true;
 	//

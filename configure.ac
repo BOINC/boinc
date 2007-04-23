@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 5.9.3)
+AC_INIT(BOINC, 5.9.4)
 
 AC_ARG_ENABLE(debug, 
     AS_HELP_STRING([--enable-debug],
@@ -397,8 +397,6 @@ AH_TOP([
 
 ])
 AH_BOTTOM([
-/* include fixes for the most common problems */
-#include "std_fixes.h"
 
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */

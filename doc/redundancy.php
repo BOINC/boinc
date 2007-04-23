@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Redundancy and errors");
+page_head("Redundancy and errors [deprecated - Wiki]");
 echo "
 A BOINC 'result' abstracts an instance of a computation,
 possibly not performed yet.

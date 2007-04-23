@@ -36,7 +36,7 @@ if ($book) {
     copyright();
     echo "</font><br><br>";
 } else {
-    page_head("Creating BOINC projects");
+    page_head("Creating BOINC projects [deprecated - Wiki]");
     echo "
         These pages are also available as
         <a href=create_project.php?book=1>one big HTML file</a>
@@ -165,6 +165,7 @@ chapter("multi_host.php", "Increasing server capacity");
 chapter("beta.php", "Beta-test applications");
 echo "
 
+</ul>
 </ul>
 
 <font size=+1><b>

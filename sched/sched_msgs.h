@@ -32,7 +32,7 @@ public:
         MSG_NORMAL=2,
         MSG_DEBUG=3
     };
-    SCHED_MSG_LOG(): MSG_LOG(stderr) {}
+    SCHED_MSG_LOG(): MSG_LOG(stderr) { debug_level = MSG_NORMAL; }
     void set_debug_level(int new_level) { debug_level = new_level; }
 };
 

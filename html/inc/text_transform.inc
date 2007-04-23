@@ -1,4 +1,6 @@
 <?
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
 require_once('../inc/sanitize_html.inc');
 
 /**
@@ -167,7 +169,7 @@ function bb2html($text) {
 		"<font color=\"\\1\">\\2</font>",
 		"\\1<li>\\2</li>\n\\3",
 		"<span style=\"font-size: \\1px;\">\\2</span>",
-		"<font class=\"code\"><pre>\\1</pre></font>",
+		"<div class=\"code\">\\1</div>",
 		"<a href=\"mailto:\\1\">\\1</a>",
 		"<a href=\"mailto:\\1\">\\1</a>"
 		);

@@ -3,7 +3,7 @@ require_once("docutil.php");
 page_head("Python scripting framework");
 
 echo "
-See the section on Python in the <a href=build.php>Software Prerequisites</a>.
+See the section on Python in the <a href=http://boinc.berkeley.edu/trac/wiki/SoftwarePrereqsUnix>Software Prerequisites</a>.
 
 <h2>Structure</h2>
 

@@ -534,6 +534,34 @@ int create_work(
     }
     strlcpy(wu.result_template_file, result_template_filename, sizeof(wu.result_template_file));
 
+    if (wu.rsc_fpops_est == 0) {
+        fprintf(stderr, "no rsc_fpops_est given; can't create job\n");
+        return ERR_NO_OPTION;
+    }
+    if (wu.rsc_fpops_bound == 0) {
+        fprintf(stderr, "no rsc_fpops_bound given; can't create job\n");
+        return ERR_NO_OPTION;
+    }
+    if (wu.rsc_disk_bound == 0) {
+        fprintf(stderr, "no rsc_disk_bound given; can't create job\n");
+        return ERR_NO_OPTION;
+    }
+    if (wu.target_nresults == 0) {
+        fprintf(stderr, "no target_nresults given; can't create job\n");
+        return ERR_NO_OPTION;
+    }
+    if (wu.max_error_results == 0) {
+        fprintf(stderr, "no max_error_results given; can't create job\n");
+        return ERR_NO_OPTION;
+    }
+    if (wu.max_total_results == 0) {
+        fprintf(stderr, "no max_total_results given; can't create job\n");
+        return ERR_NO_OPTION;
+    }
+    if (wu.max_success_results == 0) {
+        fprintf(stderr, "no max_success_results given; can't create job\n");
+        return ERR_NO_OPTION;
+    }
     wu.transition_time = time(0);
     retval = wu.insert();
     if (retval) {

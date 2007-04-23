@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Generating work");
+page_head("Generating work [deprecated - Wiki]");
 echo "
 
 As described earlier, a <a href=work.php>workunit</a>

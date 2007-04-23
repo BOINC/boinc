@@ -86,28 +86,6 @@ void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
     }
 }
 
-int count_results(char* query) {
-    int n;
-    DB_RESULT result;
-    int retval = result.count(n, query);
-    if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't count results\n");
-        exit(1);
-    }
-    return n;
-}
-
-int count_workunits(const char* query="") {
-    int n;
-    DB_WORKUNIT workunit;
-    int retval = workunit.count(n, const_cast<char*>(query));
-    if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't count workunits\n");
-        exit(1);
-    }
-    return n;
-}
-
 void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
     char file_name[256], buf[LARGE_BLOB_SIZE], new_file_name[256];
     char new_buf[LARGE_BLOB_SIZE];
@@ -211,10 +189,25 @@ void make_work(vector<string> &wu_names) {
 
     while (1) {
         check_stop_daemons();
+        int unsent_results;
 
-        sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
-        int unsent_results = count_results(buf);
-        int total_wus = count_workunits();
+        retval = count_unsent_results(unsent_results);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "can't get result count\n"
+            );
+            exit(1);
+        }
+        int total_wus=0;
+        if (max_wus) {
+            retval = count_workunits(total_wus);
+            if (retval) {
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    "can't get wu count\n"
+                );
+                exit(1);
+            }
+        }
         log_messages.printf(
             SCHED_MSG_LOG::MSG_DEBUG, "unsent: %d cushion: %d\n",
             unsent_results, cushion
@@ -226,7 +219,6 @@ void make_work(vector<string> &wu_names) {
 
         int results_needed = cushion - unsent_results;
 
-
         while (1) {
             DB_WORKUNIT& wu = wus[index++];
             if (index == nwu_names) index=0;
@@ -235,9 +227,9 @@ void make_work(vector<string> &wu_names) {
                     "Reached max_wus = %d\n", max_wus
                 );
                 exit(0);
+                total_wus++;
             }
             make_new_wu(wu, wu.xml_doc, start_time);
-            total_wus++;
             results_needed -= wu.target_nresults;
             if (results_needed <= 0) break;
         }
@@ -250,14 +242,11 @@ void make_work(vector<string> &wu_names) {
 }
 
 int main(int argc, char** argv) {
-    bool asynch = false;
     int i;
     vector<string> wu_names;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-asynch")) {
-            asynch = true;
-        } else if (!strcmp(argv[i], "-cushion")) {
+        if (!strcmp(argv[i], "-cushion")) {
             cushion = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
@@ -279,11 +268,6 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Must supply at least one WU name\n");
         exit(1);
 
-    }
-    if (asynch) {
-        if (fork()) {
-            exit(0);
-        }
     }
 
     log_messages.printf(

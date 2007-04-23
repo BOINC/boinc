@@ -116,6 +116,13 @@ boinc_core_release_x_y_z
 <dd>
 The source code for version x.y.z.
 </dl>
+To check out a branch (for example, boinc_core_release_5_8a)
+use the following URL:
+
+<pre>
+http://boinc.berkeley.edu/svn/branches/boinc_core_release_5_8/boinc
+</pre>
+
 
 ";
 

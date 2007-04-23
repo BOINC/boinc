@@ -8,11 +8,9 @@ function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
     echo "
-        <tr><td bgcolor=$light_blue>
-            <font size=4>&nbsp;Featured volunteer</font>
-        </td></tr>
         <tr><td>
         <center>
+        <hr width=80% size=1>
         <table border=0 cellpadding=6><tr><td>
     ";
     include("piecharts/$i.html");
@@ -87,19 +85,19 @@ function show_create() {
         A BOINC project with a single Linux server
         can provide computing power equivalent
         to a cluster with tens of thousands of CPUs.
-        Learn how to <a href=create_project.php>create
+        Learn how to <a href=trac/wiki/CreateProjectOutline>create
         and operate a BOINC project</a>.
         <ul>
         <li> <b>Scientists</b>: if your group has moderate
         programming, web, sysadmin, and hardware resources,
         you can create your own BOINC project.
-        Otherwise, organizations such as World Community Grid may be able
+        Or organizations such as IBM World Community Grid may be able
         to host your project
         (please <a href=contact.php>contact us</a> for information).
         <li> <b>Universities</b>: use BOINC to create a
             <a href=vcsc.php>Virtual Campus Supercomputing Center</a>.
         <li> <b>Companies</b>:
-            use BOINC for <a href=dg.php>Desktop Grid Computing</a>.
+            use BOINC for <a href=dg.php>desktop Grid computing</a>.
         </ul>
         </td></tr>
     ";
@@ -112,7 +110,7 @@ function show_other() {
         <tr><td>
             <ul>
             <li> <a href=intro.php>Overview</a>
-            <li> <a href=boinc_dev.php>Software development</a>
+            <li> <a href=trac/>Software development</a>
             <li> <a href=translation.php>Translation</a> of web and GUI text
             <li> <a href=contact.php>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>

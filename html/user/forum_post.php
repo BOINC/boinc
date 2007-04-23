@@ -8,6 +8,7 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
+require_once('../inc/akismet.inc');
 
 db_init();
 
@@ -50,6 +51,7 @@ if ($content && $title){
         $add_signature=false;
     }
     check_tokens($logged_in_user->getAuthenticator());
+    akismet_check($logged_in_user, $content);
     $thread = $forum->createThread($title, $content, $logged_in_user, $add_signature);
     header('Location: forum_thread.php?id=' . $thread->getID());
 }

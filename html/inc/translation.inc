@@ -288,6 +288,7 @@ function parseLanguage($file, $interface){
     }
     $translation_file = file($file);
     $first_entry = true;
+    $current_token_text="";
     for ($i = 0;$i<sizeof($translation_file);$i++){
         $entry = ltrim(trim($translation_file[$i]));
         //echo $entry;
@@ -297,7 +298,7 @@ function parseLanguage($file, $interface){
                 //If this is not the first, save the previous entry
                 //Does token msgid entry exist in interface?
                 //If so, add to output
-                $id = checkToken($current_token, $interface, $i);
+                $id = checkToken($current_token, $interface, $i, $file);
                 if ($id!==false){
                     $output[$id]=$current_token_text;
                 }
@@ -311,7 +312,7 @@ function parseLanguage($file, $interface){
             $current_token_text.=getPOLineContent($entry);
         }
     }
-    $id = checkToken($current_token, $interface, $i);
+    $id = checkToken($current_token, $interface, $i, $file);
     if ($id!==false){
         $output[$id]=$current_token_text;
     }
@@ -323,7 +324,7 @@ function parseLanguage($file, $interface){
  * Checks if token is in interface.
  * Displays error if not
  **********************/
-function checkToken($current_token, $interface, $line){
+function checkToken($current_token, $interface, $line, $file){
     $id = array_search($current_token,$interface);
     if ($id===false){
         language_log("Above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.",1);

@@ -217,31 +217,26 @@ function main($email_files) {
     $f = fopen($mass_email_log, 'a');
     $n = 10;
     if ($id_file == "") {
-      while (1) {
-          $new_startid = do_batch($email_files, $startid, $n, $f);
-          if ($new_startid == $startid) break;
-          $startid = $new_startid;
-      }
+        while (1) {
+            $new_startid = do_batch($email_files, $startid, $n, $f);
+            if ($new_startid == $startid) break;
+            $startid = $new_startid;
+        }
     } else {
-    $fid = fopen($id_file, 'r'); 
-    if (!$fid) {
-      echo  $id_file . ' not found - create id list and run again\n';
-      exit();
-    }
-    $thisid = 0;
-    while (fscanf($fid, '%d', &$thisid)) {
-      if ($thisid > $startid) {
-        do_one($email_files, $thisid, $f);
-      }
-    }
-    fclose($fid);
-
-       
+        $fid = fopen($id_file, 'r'); 
+        if (!$fid) {
+            echo  $id_file . ' not found - create id list and run again\n';
+            exit();
+        }
+        $thisid = 0;
+        while (fscanf($fid, '%d', &$thisid)) {
+            if ($thisid > $startid) {
+                do_one($email_files, $thisid, $f);
+            }
+        }
+        fclose($fid);
     }
     echo 'All done!' . "\n";
-}
-
-function test($email_files) {
 }
 
 if (!$USE_PHPMAILER) {

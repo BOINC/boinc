@@ -433,7 +433,7 @@ void canonicalize_master_url(char* url) {
     if (buf[n-1] != '/') {
         strcat(buf, "/");
     }
-	sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf); // CMC Here -- add SSL if needed
+	sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf);
 }
 
 void canonicalize_master_url(string& url) {
@@ -662,6 +662,7 @@ const char* boincerror(int which_error) {
         case ERR_SHMEM_NAME: return "can't get shared mem segment name";
         case ERR_NO_NETWORK_CONNECTION: return "no available network connection";
         case ERR_IN_PROGRESS: return "operation in progress";
+        case ERR_ACCT_CREATION_DISABLED: return "account creation disabled";
         case ERR_ATTACH_FAIL_INIT: return "Couldn't start master page download";
         case ERR_ATTACH_FAIL_DOWNLOAD: return "Couldn't download master page";
         case ERR_ATTACH_FAIL_PARSE: return "Couldn't parse master page";

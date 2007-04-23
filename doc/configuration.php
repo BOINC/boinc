@@ -2,7 +2,7 @@
 
 require_once("docutil.php");
 
-page_head("The project configuration file");
+page_head("The project configuration file [deprecated - wiki]");
 echo "<!-- \$Id$ -->\n";
 
 echo"

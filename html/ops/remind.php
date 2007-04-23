@@ -1,5 +1,9 @@
+#! /usr/bin/env php
+
 <?php
 
+// remind.php [-lapsed|-failed]
+//
 // send "reminder" emails to
 // - failed users: those who
 //   1) were created at least Sstart_interval seconds ago,
@@ -38,6 +42,13 @@ $testing = true;
 //
 $userid = 1;
 
+if ($argc > 1 && $argv[1] == "-failed") { $do_type = "failed"; }
+elseif ($argc > 1 && $argv[1] == "-lapsed") { $do_type = "lapsed"; }
+else {
+  echo "usage: remind.php [-failed|-lapsed]\n\n";
+  exit (1);
+  }
+
 require_once('../project/project.inc');
 require_once("../inc/db.inc");
 require_once("../inc/email.inc");
@@ -64,6 +75,7 @@ function last_rpc_time($user) {
     while ($host = mysql_fetch_object($result)) {
         if ($host->rpc_time > $x) $x = $host->rpc_time;
     }
+    mysql_free_result($result);
     return $x;
 }
 
@@ -118,19 +130,13 @@ function replace($user, $template) {
         '/<user_id\/>/',
         '/<lapsed_interval\/>/',
     );
-    $most_recent = 0;
-    $result = mysql_query("select * from host where userid=" . $user->id);
-    while ($host = mysql_fetch_object($result)) {
-        if ($host->rpc_time > $most_recent) { $most_recent = $host->rpc_time; }
-    }
-    mysql_free_result($result);
     $rep = array(
         $user->name,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
         $user->id,
-        floor((time() - $most_recent) / 86400),
+        floor ((time() - last_rpc_time($user)) / 86400),
     );
     return preg_replace($pat, $rep, $template);
 }
@@ -162,76 +168,77 @@ function mail_type($user, $email_files, $type) {
         );
         $now = time();
         $ntype = 0;
-        if $type == 'lapsed') $ntype = 2;
-        if $type == 'failed') $ntype = 3;
+        if ($type == 'lapsed') $ntype = 2;
+        if ($type == 'failed') $ntype = 3;
         $query = "insert into sent_email values($user->id, $now, $ntype)";
         mysql_query($query);
     }
 }
 
-function handle_user($user, $email_files) {
+function handle_user($user, $do_type, $email_files) {
     global $lapsed_interval;
     global $testing;
     if ($testing) {
         $x = (time() - $user->create_time)/86400;
         echo "user $user->email_addr was created $x days ago\n";
-    }
-    if ($user->total_credit == 0) {
-        if ($testing) {
+        if ($user->total_credit == 0) {
             echo "zero credit, sending failed email\n";
-        }
-        mail_type($user, $email_files, 'failed');
-    } else {
-        $t = last_rpc_time($user);
-        if ($t < time() - $lapsed_interval) {
-            $user->lapsed_interval = (time()-$t)/86400;
-            if ($testing) {
-                echo "nonzero credit, last RPC $user->lapsed_interval days ago, sending lapsed email\n";
-            }
-            mail_type($user, $email_files, 'lapsed');
+        } else {
+            $t = last_rpc_time($user);
+            $show_lapsed_interval = (time()-$t)/86400;
+            echo "nonzero credit, last RPC $show_lapsed_interval days ago, sending lapsed email\n";
         }
     }
+    mail_type($user, $email_files, $do_type);
 }
 
 function last_reminder_time($user) {
-    $query = "select * from sent_email where $userid=$user->id";
+    $query = "select * from sent_email where userid=$user->id";
     $result = mysql_query($query);
     $t = 0;
     while ($r = mysql_fetch_object($result)) {
         if ($r->email_type !=2 && $r->email_type != 3) continue;
-        if ($r->time_sent > $t) $t = $time_sent;
+        if ($r->time_sent > $t) $t = $r->time_sent;
+
     }
     mysql_free_result($result);
     return $t;
 }
 
-function do_batch($email_files, $startid, $n) {
+function main($email_files) {
     global $email_interval;
     global $start_interval;
+    global $lapsed_interval;
+    global $do_type;
 
     $max_email_time = time() - $email_interval;
-    $max_create_time = time() - $start_interval;
-    $result = mysql_query(
-        "select * from user where id>$startid and send_email<>0 and create_time<$max_create_time and expavg_credit < 10 order by id limit $n"
-    );
-    while ($user = mysql_fetch_object($result)) {
-        if (last_reminder_time($user) > $max_email_time) continue;
-        handle_user($user, $email_files);
-        $startid = $user->id;
+    if ($do_type == "failed") {
+      $max_create_time = time() - $start_interval;
+      $result = mysql_query(
+          "select * from user where send_email<>0 and create_time<$max_create_time and total_credit = 0;"
+      );
+      while ($user = mysql_fetch_object($result)) {
+          if (last_reminder_time($user) > $max_email_time) { echo "userid: $user->id already sent..\n"; continue;}
+          echo "sending to $user->id ..\n";
+          handle_user($user, $do_type, $email_files);
+      }
+      mysql_free_result($result);
+    } else {
+      $max_last_rpc_time = time() - $lapsed_interval;
+      $result = mysql_query(
+          "select userid from host group by userid having max(rpc_time)<$max_last_rpc_time;"
+      );
+      while ($host = mysql_fetch_object($result)) {
+          $uresult = mysql_query("select * from user where id = $host->userid;");
+          $user = mysql_fetch_object($uresult);
+          if ($user->send_email == 0) { echo "userid: $user->id send_email = 0..\n"; continue; }
+          if (last_reminder_time($user) > $max_email_time) { echo "userid: $user->id already sent..\n"; continue;}
+          echo "sending to $user->id ..\n";
+          handle_user($user, $do_type, $email_files);
+          mysql_free_result($uresult);
+      }
+      mysql_free_result($result);
     }
-    mysql_free_result($result);
-    return $startid;
-}
-
-function main($email_files) {
-    $startid = 0;
-    $n = 1000;
-    while (1) {
-        $new_startid = do_batch($email_files, $startid, $n, $f);
-        if ($new_startid == $startid) break;
-        $startid = $new_startid;
-    }
-    echo "All done!\n";
 }
 
 if (!$USE_PHPMAILER) {

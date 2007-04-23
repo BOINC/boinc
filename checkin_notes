@@ -3690,3 +3690,227 @@ David  17 Apr 2007
 
     sched/
         start
+
+David  18 Apr 2007
+    - Server: added sample_assimilator.C
+        (an assimilator that copies output files to a directory)
+    - Server: added sample_work_generator.C
+
+    Note: until now we haven't supplied an example of of a work generator.
+    The above two components (and the uppercase app) let us create
+    an example project that actually does something.
+    My plan is to have make_project install all this stuff
+
+    - Server: added count_unsent_results() to sched_util
+    - backend code: remove the -asynch arg from all programs.
+        This was used by old PHP test framework, not needed now.
+    - backend code: got rid of some compile warnings
+    - removed assimilator_placeholder and validator_placeholder.
+        These serve no useful purpose
+        (they're copies of other files, and they don't actually
+        act as placeholders since they get overwritten on a SVN update)
+
+    sched/
+        Makefile.am
+        assimilator.C
+        assimilator_placeholder.C (removed)
+        db_dump.C
+        db_purge.C
+        feeder.C
+        handle_request.C
+        make_work.C
+        message_handler.C
+        sample_assimilator.C (new)
+        sample_work_generator.C (new)
+        sched_config.C,h
+        sched_util.C,h
+        server_types.C
+        transitioner.C
+        trickle_handler.C
+        update_stats.C
+        validator.C
+        validator_placeholder.C (removed)
+
+Rom    18 Apr 2007
+    - fixes #7: Includes the last remaining files needed to build and
+        package up 64-bit files for setup. We can now build and create
+        64-bit windows installer packages.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/installerv2/redist/Windows/src/
+        <Numerious Files>
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll (Added)
+        boinccas95.dll (Added)
+        dbghelp95.dll (Added)
+
+David  18 Apr 2007
+    - bug fixes for sample work generator
+
+    sched/
+        sched_config.C,h
+        sample_work_generator.C
+
+Rom    19 Apr 2007
+    - Fix a minor compile problem on 64-bit Windows platforms with the
+        call to SetTimer.
+    - fixes #80: Introduce the notion of an alternate platform for 64-bit
+        Windows clients, which can also run 32-bit Windows apps.
+        
+      TODO: We'll need to refactor the whole platform section in the
+        scheduler request creation section so that it can handle
+        multiple alternate platforms and for Linux/Mac.
+        
+    api/
+        windows_opengl.C
+    client/
+        client_state.C, .h
+        cpp.h
+        cs_scheduler.C
+
+David  19 Apr 2007
+    - Change things so that make_project installs a test application
+        (uppercase) and the daemons to go along with it
+        (sample_work_generator, sample_bitwise_validator, sample_assimilator).
+        This is mostly working, not completely.
+
+    apps
+        upper_case.C
+    html/ops/
+        mass_email_script.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        sched_config.C,h
+        sample_work_generator.C
+    tools/
+        make_project
+        project.xml
+        Makefile.am
+
+David  19 Apr 2007
+    - scheduler: accept elements of the form
+        <alt_platform>
+            <name>windows_x86</name>
+        </alt_platform>
+        in request messages.
+        These are platforms that the client can handle,
+        other than its main one,
+        listed in order of decreasing preferences.
+        fixes #81.
+
+    sched/
+        handle_request.C
+        server_types.C,h
+
+Rom    19 Apr 2007
+    - Match the client-side and server-side XML for alternate
+        platforms.
+    - Print both the max active memory usage and max idle
+        memory usage after all the preference information has
+        been parsed.
+        
+    client/
+        cs_prefs.C
+        cs_scheduler.C
+        
+Rom    19 Apr 2007
+    - Statistics view update.
+      (From Mifistor)
+      
+    clientgui/
+        ViewStatistics.cpp, .h
+
+Rom    19 Apr 2007 (HEAD)
+    - Tag for 5.9.4 release, all platforms
+      boinc_core_release_5_9_4
+
+David  20 Apr 2007
+    - make_project: add periodic tasks to default config.xml:
+        dp_dump, update_uotd, update_forum_activities, update_stats,
+        update_profile_pages
+    - backend_lib.C: refuse to create a job for which some necessary
+        parameter (rsc_fpops_est, rsc_fpops_bound, etc.) is missing
+    - Unix build: don't include std_fixes.h in config.h.
+        std_fixes.h is (I think) deprecated
+    - sched_util: default sched log level is MSG_NORMAL
+    - client: add ".txt" to job log filename
+    - compile fixes
+
+    configure.ac
+    api/
+        reduce_main.C
+    client/
+        file_names.C
+    lib/
+        str_util.h
+    sched/
+        sample_work_generator.C
+        sched_msgs.h
+    tools/
+        backend_lib.C
+        make_project
+
+David  20 Apr 2007
+    - str_util: don't use std::transform, since it causes problems
+        with VC++ express edition
+
+    clientgui/
+        sg_SGUIListControl.h
+    html/ops/
+        db_update.php
+    lib/
+        str_util.C,h
+
+David  20 Apr 2007
+	- Advanced prefs: remove incorrect multiplication by 86400
+
+	client/
+		cs_prefs.C
+	clientgui/
+		DlgAdvPreferences.cpp
+
+Rom    20 Apr 2007
+    - Fix: Win x64's alternate platform is really windows_intelx86
+        not windows_x86_64.
+    
+    client/
+        client_state.C
+
+Bruce  20 April 2007
+    - Minor locality sched change for E@H
+
+    sched/
+        sched_locality.C
+
+David  23 Apr 2007
+    - make_project: remove --no_test_app option, add --test_app option
+    - make_project: initial config in all cases has
+        one_result_per_user_per_wu = 0
+    - sample_assimilator: make it able to handle > 1 output file
+    - boinc_cmd: make --help output more readable
+    - User web: fix some undefined vars in translation.inc
+        Rytis: let's try to fix PHP runtime warnings
+    - DB: add default values for app table (avoid MySQL warnings)
+
+    db/
+        schema.sql
+    html/
+        inc/
+            translation.inc
+            uotd.inc
+        ops/
+            update_forum_activities.php
+    lib/
+        str_util.C
+        boinc_cmd.C
+    py/Boinc/
+        setup_project.py
+    sched/
+        sample_work_generator.C
+        sample_assimilator.C
+    tools/
+        make_project
+        uc_wu, uc_result (new)

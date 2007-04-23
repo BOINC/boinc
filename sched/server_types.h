@@ -133,9 +133,15 @@ struct OTHER_RESULT {
     int parse(FILE*);
 };
 
+struct CLIENT_PLATFORM {
+    char name[256];
+    int parse(FILE*);
+};
+
 struct SCHEDULER_REQUEST {
     char authenticator[256];
-    char platform_name[256];
+    CLIENT_PLATFORM platform;
+    std::vector<CLIENT_PLATFORM> alt_platforms;
     char cross_project_id[256];
     int hostid;                 // zero if first RPC
     int core_client_major_version;

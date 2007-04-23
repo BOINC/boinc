@@ -560,14 +560,12 @@ bool do_pass() {
 
 int main(int argc, char** argv) {
     int retval;
-    bool asynch = false, one_pass = false;
+    bool one_pass = false;
     int i;
     int sleep_sec = 600;
     check_stop_daemons();
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-asynch")) {
-            asynch = true;
-        } else if (!strcmp(argv[i], "-one_pass")) {
+        if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
@@ -604,12 +602,6 @@ int main(int argc, char** argv) {
             "Can't parse config file\n"
         );
         exit(1);
-    }
-
-    if (asynch) {
-        if (fork()) {
-            exit(0);
-        }
     }
 
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");

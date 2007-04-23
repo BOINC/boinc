@@ -22,7 +22,6 @@
 //  [-d debug_level]
 //  [-one_pass_N_WU N]  // Validate only N WU in one pass, then exit
 //  [-one_pass]         // make one pass through WU table, then exit
-//  [-asynch]           // fork, run in separate process
 //  [-mod n i]          // process only WUs with (id mod n) == i
 //  [-max_granted_credit X]  // limit maximum granted credit to X
 //  [-max_claimed_credit Y]  // invalid if claims more than Y
@@ -570,7 +569,6 @@ int boinc_validator_debuglevel=0;
 
 int main(int argc, char** argv) {
     int i, retval;
-    bool asynch = false;
 
 #if 0
     int mypid=getpid();
@@ -590,7 +588,6 @@ int main(int argc, char** argv) {
       "  -max_claimed_credit X	If a result claims more credit than this, mark it as invalid\n"
       "  -max_granted_credit X	Grant no more than this amount of credit to a result\n"
       "  -grant_claimed_credit	Grant the claimed credit, regardless of what other results for this workunit claimed\n"
-      "  -asynch		fork, run in separate process\n"
       "  -sleep_interval n	Set sleep-interval to n\n"
       "  -d level		Set debug-level\n\n";
 
@@ -603,9 +600,7 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-asynch")) {
-            asynch = true;
-        } else if (!strcmp(argv[i], "-one_pass_N_WU")) {
+        if (!strcmp(argv[i], "-one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
             one_pass = true;
         } else if (!strcmp(argv[i], "-sleep_interval")) {
@@ -646,12 +641,6 @@ int main(int argc, char** argv) {
             "Can't parse config file: %d\n", retval
         );
         exit(1);
-    }
-
-    if (asynch) {
-        if (fork()) {
-            exit(0);
-        }
     }
 
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting validator\n");

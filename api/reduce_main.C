@@ -44,7 +44,6 @@
 #endif
 #endif
 
-//#include "std_fixes.h"
 #include "boinc_gl.h"
 #include "gutil.h"
 #include "reduce.h"
