@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("The BOINC application programming interface (API)");
+page_head("The BOINC application programming interface (API) [ Deprectated - Wiki ]");
 echo "
 <p>
 The BOINC API is a set of C++ functions.

@@ -35,7 +35,7 @@ Misc options:
    --user_name          default: $USER (%(USER)s)
    --delete_prev_inst   delete project-root first (from prev installation)
    --drop_db_first      drop database first (from prev installation)
-   --no_test_app        don't install test application
+   --test_app           install test application
 
 Dir-options:
    --project_root       default: HOME/projects/PROJECT
@@ -75,7 +75,7 @@ try:
             'help',
             'verbose=',
             'no_query',
-            'no_test_app',
+            'test_app',
             'user_name=',
             'drop_db_first',
             'delete_prev_inst',
@@ -97,7 +97,7 @@ except getopt.GetoptError, e:
 
 options.url_base = None
 options.no_query = False
-options.no_test_app = False
+options.test_app = False
 options.delete_prev_inst = False
 
 for o,a in opts:
@@ -105,7 +105,7 @@ for o,a in opts:
     elif o == '-v':              options.echo_verbose   = 2
     elif o == '--verbose':       options.echo_verbose   = int(a)
     elif o == '--no_query':      options.no_query       = True
-    elif o == '--no_test_app':   options.no_test_app       = True
+    elif o == '--test_app':      options.test_app       = True
     elif o == '--user_name':     options.user_name      = a
     elif o == '--drop_db_first': options.drop_db_first  = True
     elif o == '--delete_prev_inst': options.delete_prev_inst  = True
@@ -206,7 +206,7 @@ project = Project(
     cgi_url = options.cgi_url,
     key_dir = options.key_dir,
     db_name = options.db_name,
-    production = 1
+    production = True
     )
 
 project.install_project()
@@ -216,7 +216,7 @@ proot = delete_slash(options.project_root)
 project.sched_install('feeder')
 project.sched_install('transitioner')
 project.sched_install('file_deleter')
-if not options.no_test_app:
+if options.test_app:
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_bitwise_validator -d 3 -app uppercase'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_assimilator -d 3 -app uppercase'
@@ -253,7 +253,7 @@ project.config.write()
 print '''Done installing default daemons.'''
 
 # copy the test app if needed
-if not options.no_test_app:
+if options.test_app:
     pname = 'i686-pc-linux-gnu'
     dname = 'uppercase_1.1_'+pname
     ucdir = proot+'/apps/uppercase/'
@@ -262,6 +262,9 @@ if not options.no_test_app:
     os.mkdir(ucdir)
     os.mkdir(versdir)
     shutil.copy('../apps/upper_case', filepath)
+    shutil.copy('uc_result', proot+'/templates/')
+    shutil.copy('uc_wu', proot+'/templates/')
+    shutil.copy('../tools/create_work_example', proot+'/bin/')
 
 httpd_conf_template_filename = os.path.join(
     options.project_root,

@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Storage");
+page_head("Storage [Deprecated - Wiki]");
 echo "
 <h3>Files and data servers</h3> 
 <p>

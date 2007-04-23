@@ -41,12 +41,12 @@ create table app (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
     name                varchar(254) not null,
-    min_version         integer     not null,
-    deprecated          smallint    not null,
+    min_version         integer     not null default 0,
+    deprecated          smallint    not null default 0,
     user_friendly_name  varchar(254) not null,
-    homogeneous_redundancy smallint not null,
-    weight              double      not null,
-    beta                smallint    not null,
+    homogeneous_redundancy smallint not null default 0,
+    weight              double      not null default 1,
+    beta                smallint    not null default 0,
     primary key (id)
 ) type=InnoDB;
 

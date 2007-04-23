@@ -3885,3 +3885,32 @@ Bruce  20 April 2007
     sched/
         sched_locality.C
 
+David  23 Apr 2007
+    - make_project: remove --no_test_app option, add --test_app option
+    - make_project: initial config in all cases has
+        one_result_per_user_per_wu = 0
+    - sample_assimilator: make it able to handle > 1 output file
+    - boinc_cmd: make --help output more readable
+    - User web: fix some undefined vars in translation.inc
+        Rytis: let's try to fix PHP runtime warnings
+    - DB: add default values for app table (avoid MySQL warnings)
+
+    db/
+        schema.sql
+    html/
+        inc/
+            translation.inc
+            uotd.inc
+        ops/
+            update_forum_activities.php
+    lib/
+        str_util.C
+        boinc_cmd.C
+    py/Boinc/
+        setup_project.py
+    sched/
+        sample_work_generator.C
+        sample_assimilator.C
+    tools/
+        make_project
+        uc_wu, uc_result (new)

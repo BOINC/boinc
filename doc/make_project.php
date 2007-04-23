@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("The make_project script");
+page_head("The make_project script [deprecated - Wiki]");
 echo "
 <p>
 The <code>make_project</code> script creates

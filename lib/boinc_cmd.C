@@ -61,36 +61,40 @@ void version(){
 }
 
 void help() {
-    fprintf(stderr, "\n\n\
-    usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
+    fprintf(stderr, "\n\
+usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
- --get_state                   show entire state\n\
- --get_results                 show results\n\
- --get_file_transfers            show file transfers\n\
- --get_project_status            show status of all attached projects\n\
- --get_simple_gui_info           show status of projects and active results\n\
- --get_disk_usage\n\
- --result url result_name {suspend | resume | abort | graphics_window | graphics_fullscreen}\n\
- --project url {reset | detach | update | suspend | resume | nomorework | allowmorework}\n\
- --project_attach url auth\n\
- --file_transfer url filename {retry | abort}\n\
- --set_run_mode {always | auto | never} duration\n\
- --set_network_mode {always | auto | never} duration\n\
+ --get_state                        show entire state\n\
+ --get_results                      show results\n\
+ --get_file_transfers               show file transfers\n\
+ --get_project_status               show status of all attached projects\n\
+ --get_simple_gui_info              show status of projects and active results\n\
+ --get_disk_usage                   show disk usage\n\
+ --result url result_name op        job operation\n\
+   op = suspend | resume | abort | graphics_window | graphics_fullscreen\n\
+ --project url op                   project operation\n\
+   op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
+ --project_attach url auth          attach to project\n\
+ --file_transfer url filename op    file transfer operation\n\
+   op = retry | abort\n\
+ --set_run_mode mode duration       set run mode for given duration\n\
+   mode = always | auto | never\n\
+ --set_network_mode mode duration\n\
  --get_proxy_settings\n\
  --set_proxy_settings\n\
- --get_messages seqno            show messages > seqno\n\
+ --get_messages seqno               show messages > seqno\n\
  --get_host_info\n\
  --acct_mgr_rpc url name password\n\
  --run_benchmarks\n\
  --get_screensaver_mode\n\
- --set_screensaver_mode on|off blank_time {desktop window_station}\n\
+ --set_screensaver_mode on|off blank_time [desktop window_station]\n\
  --get_project_config url\n\
  --get_project_config_poll\n\
  --lookup_account url email passwd\n\
  --create_account url email passwd name\n\
  --read_cc_config\n\
- --quit\n\
-   ");
+ --quit\n"
+);
     exit(1);
 }
 

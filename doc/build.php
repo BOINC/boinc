@@ -1,7 +1,7 @@
 <?php
 
 require_once("docutil.php");
-page_head("Software prerequisites (Unix/Linux)");
+page_head("Software prerequisites (Unix/Linux) [deprecated - wiki]");
 
 echo "
 

@@ -4,7 +4,7 @@ page_head("Project creation cookbook");
 echo "
 <h2>Make skeletal project</h2>
 <ul>
-<li> Install and configure all <a href=build.php>prerequisite software</a>
+<li> Install and configure all <a href=http://boinc.berkeley.edu/trac/wiki/SoftwarePrereqsUnix>prerequisite software</a>
 (follow the directions carefully).
 Make sure MySQL is configured and running.
 <li> <a href=source_code.php>Get the BOINC software</a>,

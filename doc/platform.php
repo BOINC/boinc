@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Platforms");
+page_head("Platforms [Deprecated - Wiki]");
 echo "
 <p>
 The computers available to a volunteer computing project

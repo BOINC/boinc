@@ -40,7 +40,7 @@ function get_current_uotd() {
 // see if it's time to pick a new UOTD.
 //
 function build_uotd_page() {
-    echo date("F d Y", time())."\n";
+    echo date("F d Y", time()).": Starting\n";
     $current_uotd = get_current_uotd();
     if ($current_uotd) {
         $assigned = getdate($current_uotd->uotd_time);
