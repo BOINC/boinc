@@ -3943,3 +3943,14 @@ Rom    24 Apr 2007
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
+
+Rom    24 Apr 2007
+    - fixes #122 - Windows benhcmark differences between VS 2003 and 
+        VS 2005.
+      
+      The default FP model has changed since 2003, so change how the
+        BOINC components are compiled so that they use /fp:fast instead
+        of /fp:precise.
+    
+    win_build/
+        *.vcproj
