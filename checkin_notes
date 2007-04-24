@@ -3935,3 +3935,11 @@ David  23 Apr 2007
 
 	client/
 		gui_rpc_server.C,h
+
+Rom    24 Apr 2007
+    - fixes #121 - Both 32-bit and 64-bit BOINC Windows Installation
+        packages require bootstrap loader.
+
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
