@@ -3,9 +3,8 @@
 function akismet_check($user, $post) {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");
-    $key = parse_config(get_config(), "<akismet_key>");
+    $key = parse_config($config, "<akismet_key>");
     if ($key == null) {
-        exit();
         return true; // unable to get key from config
     }
     $master_url = urlencode($master_url);
