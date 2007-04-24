@@ -681,33 +681,7 @@
                Width="358"
                Height="130"
                Sunken="yes">
-        <Text>
-          <![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Courier New;}}
-{\*\generator Msftedit 5.41.21.2500;}\viewkind4\uc1\pard\lang1033\f0\fs20 Berkeley Open Infrastructure for Network Computing (BOINC)\par
-\par
-License Agreement\par
-\par
-Please carefully read the following terms and conditions before using this software.  Your use of this software indicates your acceptance of this license agreement and warranty.\par
-\par
-Disclaimer of Warranty\par
-\par
-THIS SOFTWARE AND THE ACCOMPANYING FILES ARE DISTRIBUTED "AS IS" AND WITHOUT WARRANTIES AS TO PERFORMANCE OR MERCHANTABILITY OR ANY OTHER WARRANTIES WHETHER EXPRESSED OR IMPLIED.  NO WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE IS OFFERED.\par
-\par
-Restrictions\par
-\par
-You may use this software on a computer system only if you own the system or have the permission of the owner.\par
-\par
-Distribution\par
-\par
-This is free software. 
-It is distributed under the terms of the GNU Lesser General Public License 
-as published by the Free Software Foundation (http://www.fsf.org/). 
-The source code may be obtained 
-from the BOINC web site (http://boinc.berkeley.edu).\par
-\par
-}
-]]>
-        </Text>
+        <Text SourceFile="SourceDir\LICENSE.rtf" />
       </Control>
     </Dialog>
     <Dialog Id="ReadyToInstall"

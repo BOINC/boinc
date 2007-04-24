@@ -16,36 +16,16 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			Name="Deploy|Win32"
+			OutputDirectory="Build\$(PlatformName)\$(ConfigurationName)\"
+			IntermediateDirectory="Build\$(PlatformName)\$(ConfigurationName)\obj\"
 			ConfigurationType="0"
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="nmake -nologo -d -p -f installerv3\makefile"
-				ReBuildCommandLine="nmake -nologo -a -d -p -f installerv3\makefile"
-				CleanCommandLine="nmake -nologo -f installerv3\makefile clean"
-				Output="setup.exe"
-				PreprocessorDefinitions="WIN32;_DEBUG"
-				IncludeSearchPath=""
-				ForcedIncludes=""
-				AssemblySearchPath=""
-				ForcedUsingAssemblies=""
-				CompileAsManaged=""
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="0"
-			>
-			<Tool
-				Name="VCNMakeTool"
-				BuildCommandLine="nmake -nologo -d -p -f installerv3\makefile"
-				ReBuildCommandLine="nmake -nologo -a -d -p -f installerv3\makefile"
-				CleanCommandLine="nmake -nologo -f installerv3\makefile clean"
+				BuildCommandLine="nmake -nologo -d -p -f installerv3\makefile out=$(OutDir) int=$(IntDir) platform=$(PlatformName) config=$(ConfigurationName) all"
+				ReBuildCommandLine="nmake -nologo -a -d -p -f installerv3\makefile out=$(OutDir) int=$(IntDir) platform=$(PlatformName) config=$(ConfigurationName) all"
+				CleanCommandLine="nmake -nologo -f installerv3\makefile out=$(OutDir) int=$(IntDir) platform=$(PlatformName) config=$(ConfigurationName) clean"
 				Output="setup.exe"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				IncludeSearchPath=""

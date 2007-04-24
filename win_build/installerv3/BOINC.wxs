@@ -39,6 +39,7 @@
     LAUNCHPROGRAM
     Whether to automatically launch BOINC Manager after setup completes.
     Valid Values: '0' for disabled, '1' for enabled.
+    '2' for launch minimised (default for upgrades)
     SERVICE_DOMAINUSERNAME
     Which user account should the service use.
     Valid Values: '%ComputerName%\%UserName%'
@@ -50,7 +51,18 @@
     %Password% the password for the SERVICE_DOMAINUSERNAME user account.
     SERVICE_GRANTEXECUTIONRIGHT
     Grant the above user account the 'Logon as a Service' user right.
-    Valid Values: '0' for disabled, '1' for enabled.
+    Valid Values: '0' for disabled, '1' for enabled. 
+    
+    
+    <Property Id="HTTPPROXYADDRESS"></Property>
+    <Property Id="HTTPPROXYPORT"></Property>
+    <Property Id="HTTPPROXYUSERNAME"></Property>
+    <Property Id="HTTPPROXYPASSWORD"></Property>
+
+    <Property Id="SOCKSPROXYADDRESS"></Property>
+    <Property Id="SOCKSPROXYPORT"></Property>
+    <Property Id="SOCKSPROXYUSERNAME"></Property>
+    <Property Id="SOCKSPROXYPASSWORD"></Property>
 -->
     
     <!--
@@ -61,6 +73,8 @@
     <!-- BOINC public properties -->
     <Property Id="ENABLELAUNCHATLOGON">1</Property>
     <Property Id="SETUPTYPE">Service</Property>
+
+    
 	  
     <!-- Add or Remove Programs properties -->
     <Property Id="ARPCOMMENTS">Berkeley Open Infrastructure for Network Computing (BOINC)</Property>
@@ -103,7 +117,6 @@
             SourceFile="Binary\dialog-warning.ico" />
     <Binary Id="FolderNew16Icon"
             SourceFile="Binary\folder-new.ico" />
-
 
     <?include UI.wxi ?>
   </Product>
