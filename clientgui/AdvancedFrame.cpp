@@ -200,12 +200,12 @@ CAdvancedFrame::CAdvancedFrame() {
 }
 
 
-CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) : 
+CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
     CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, wxDefaultPosition, wxDefaultSize,
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function Begin"));
-    
+
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
@@ -298,7 +298,7 @@ bool CAdvancedFrame::CreateMenu() {
     bool               is_acct_mgr_detected = false;
     wxString           strMenuName;
     wxString           strMenuDescription;
-    
+
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -320,7 +320,7 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
-        _("Exit the %s"), 
+        _("Exit the %s"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuFile->Append(
@@ -343,26 +343,26 @@ bool CAdvancedFrame::CreateMenu() {
 
     if (!is_acct_mgr_detected) {
         menuTools->Append(
-            ID_PROJECTSATTACHPROJECT, 
+            ID_PROJECTSATTACHPROJECT,
             _("Attach to &project..."),
             _("Attach to a project")
         );
         menuTools->Append(
-            ID_PROJECTSATTACHACCOUNTMANAGER, 
+            ID_PROJECTSATTACHACCOUNTMANAGER,
             _("Attach to &account manager..."),
             _("Attach to an account manager")
         );
     } else {
         strMenuName.Printf(
-            _("&Synchronize with %s"), 
+            _("&Synchronize with %s"),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMenuDescription.Printf(
-            _("Get current settings from %s"), 
+            _("Get current settings from %s"),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuTools->Append(
-            ID_TOOLSAMUPDATENOW, 
+            ID_TOOLSAMUPDATENOW,
             strMenuName,
             strMenuDescription
         );
@@ -417,12 +417,12 @@ bool CAdvancedFrame::CreateMenu() {
     // Advanced menu
     wxMenu *menuAdvanced = new wxMenu;
     menuAdvanced->Append(
-        ID_OPTIONSOPTIONS, 
+        ID_OPTIONSOPTIONS,
         _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
     menuAdvanced->Append(
-		ID_ADVPREFSDLG, 
+		ID_ADVPREFSDLG,
         _("&Preferences..."),
         _("Configure local preferences")
     );
@@ -430,51 +430,51 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
-        _("Connect to another computer running %s"), 
+        _("Connect to another computer running %s"),
         pSkinAdvanced->GetProjectName().c_str()
     );
     menuAdvanced->Append(
-        ID_FILESELECTCOMPUTER, 
+        ID_FILESELECTCOMPUTER,
         _("Select computer..."),
         strMenuDescription
     );
     menuAdvanced->Append(
-        ID_SHUTDOWNCORECLIENT, 
+        ID_SHUTDOWNCORECLIENT,
         _("Shut down connected client..."),
         _("Shut down the currently connected core client")
     );
     menuAdvanced->Append(
-        ID_FILERUNBENCHMARKS, 
+        ID_FILERUNBENCHMARKS,
         _("Run CPU &benchmarks"),
         _("Runs BOINC CPU benchmarks")
     );
     menuAdvanced->Append(
-        ID_COMMANDSRETRYCOMMUNICATIONS, 
+        ID_COMMANDSRETRYCOMMUNICATIONS,
         _("Retry &communications"),
         _("Retry all deferred network communication.")
     );
     menuAdvanced->Append(
-        ID_READ_CONFIG, 
+        ID_READ_CONFIG,
         _("Read config file"),
         _("Read configuration info from cc_config.xml.")
     );
     menuAdvanced->Append(
-        ID_READ_PREFS, 
+        ID_READ_PREFS,
         _("Read local prefs file"),
         _("Read preferences from global_prefs_override.xml.")
     );
     if (is_acct_mgr_detected) {
         strMenuName.Printf(
-            _("&Stop using %s"), 
+            _("&Stop using %s"),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuAdvanced->Append(
-            ID_ADVANCEDAMDEFECT, 
+            ID_ADVANCEDAMDEFECT,
             strMenuName,
             _("Remove client from account manager control.")
         );
         menuAdvanced->Append(
-            ID_PROJECTSATTACHPROJECT, 
+            ID_PROJECTSATTACHPROJECT,
             _("Attach to &project"),
             _("Attach to a project to begin processing work")
         );
@@ -487,43 +487,43 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
-        _("%s &help"), 
+        _("%s &help"),
         pSkinAdvanced->GetProjectName().c_str()
     );
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
-        _("Show information about %s"), 
+        _("Show information about %s"),
         pSkinAdvanced->GetProjectName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINC,
-        strMenuName, 
+        strMenuName,
         strMenuDescription
     );
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
-        _("&%s help"), 
+        _("&%s help"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
-        _("Show information about the %s"), 
+        _("Show information about the %s"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
-        strMenuName, 
+        strMenuName,
         strMenuDescription
     );
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
-        _("%s &website"), 
+        _("%s &website"),
         pSkinAdvanced->GetProjectName().c_str()
     );
     // %s is the application name
@@ -534,7 +534,7 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
-        strMenuName, 
+        strMenuName,
         strMenuDescription
     );
 
@@ -545,12 +545,12 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the project name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
-        _("&About %s..."), 
+        _("&About %s..."),
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
         wxID_ABOUT,
-        strMenuName, 
+        strMenuName,
         _("Licensing and copyright information.")
     );
 
@@ -589,7 +589,7 @@ bool CAdvancedFrame::CreateMenu() {
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
-    
+
 #ifdef __WXMAC__
     MenuRef prefsMenuRef;
     MenuItemIndex prefsMenuItemIndex;
@@ -597,7 +597,7 @@ bool CAdvancedFrame::CreateMenu() {
     // Hide Mac OS X's standard Preferences menu item, since we don't use it
     if (GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &prefsMenuRef, &prefsMenuItemIndex) == noErr)
         ChangeMenuItemAttributes(prefsMenuRef, prefsMenuItemIndex, kMenuItemAttrHidden, 0);
-    
+
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
@@ -630,9 +630,9 @@ bool CAdvancedFrame::CreateNotebook() {
 
 
     // create the various notebook pages
-	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
-	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
-	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
+	CreateNotebookPage(new CViewProjects(m_pNotebook));
+	CreateNotebookPage(new CViewWork(m_pNotebook));
+	CreateNotebookPage(new CViewTransfers(m_pNotebook));
     CreateNotebookPage(new CViewMessages(m_pNotebook));
 	CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
@@ -665,7 +665,7 @@ bool CAdvancedFrame::CreateNotebookPage(T pwndNewNotebookPage) {
         wxASSERT(pImageList != NULL);
         m_pNotebook->SetImageList(pImageList);
     }
-    
+
     iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()));
     m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewName(), TRUE, iImageIndex);
 
@@ -777,11 +777,11 @@ bool CAdvancedFrame::SaveState() {
     //
     // Save Page(s) State
     //
- 
+
     // Convert to a zero based index
     iItemCount = (int)m_pNotebook->GetPageCount() - 1;
 
-    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {   
+    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
@@ -858,7 +858,7 @@ bool CAdvancedFrame::RestoreState() {
     // Convert to a zero based index
     iPageCount = (long)m_pNotebook->GetPageCount() - 1;
 
-    for (iIndex = 0; iIndex <= iPageCount; iIndex++) {   
+    for (iIndex = 0; iIndex <= iPageCount; iIndex++) {
 
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
@@ -900,7 +900,7 @@ void CAdvancedFrame::SaveWindowDimensions() {
     pConfig->Write(wxT("YPos"), GetPosition().y);
 #endif  // ! __WXMAC__
 }
-    
+
 
 void CAdvancedFrame::RestoreWindowDimensions() {
     wxString        strBaseConfigLocation = wxString(wxT("/"));
@@ -933,7 +933,7 @@ void CAdvancedFrame::RestoreWindowDimensions() {
 
 #else   // ! __WXMAC__
 
-    // If the user has changed the arrangement of multiple 
+    // If the user has changed the arrangement of multiple
     // displays, make sure the window title bar is still on-screen.
     Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
     InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
@@ -1004,7 +1004,7 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function End"));
 }
 
-   
+
 void CAdvancedFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function Begin"));
 
@@ -1055,7 +1055,7 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         } else {
             // Connect up to the remote machine
             lRetVal = pDoc->Connect(
-                dlg.m_ComputerNameCtrl->GetValue(), 
+                dlg.m_ComputerNameCtrl->GetValue(),
                 dlg.m_ComputerPasswordCtrl->GetValue(),
                 TRUE,
                 FALSE
@@ -1246,7 +1246,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerDetach - Function Begin"));
 
     CMainDocument* pDoc           = wxGetApp().GetDocument();
-    wxInt32        iAnswer        = 0; 
+    wxInt32        iAnswer        = 0;
     wxString       strTitle       = wxEmptyString;
     wxString       strMessage     = wxEmptyString;
     ACCT_MGR_INFO  ami;
@@ -1262,7 +1262,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         pDoc->rpc.acct_mgr_info(ami);
 
         strTitle.Printf(
-            _("BOINC Manager - Detach from %s"), 
+            _("BOINC Manager - Detach from %s"),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
@@ -1270,7 +1270,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
               "you'll keep all your current projects,\n"
               "but you'll have to manage projects manually.\n"
               "\n"
-              "Do you want to stop using %s?"), 
+              "Do you want to stop using %s?"),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
@@ -1601,7 +1601,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));
-    
+
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CWizardAccountManager* pAMWizard = NULL;
@@ -1773,7 +1773,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     wxString strStatusText = wxEmptyString;
                     wxString strTitle = m_strBaseTitle;
                     wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
-     
+
                     if (pDoc->IsReconnecting()) {
                         pDoc->GetConnectingComputerName(strComputerName);
                     } else {
@@ -1792,11 +1792,11 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                         strStatusText.Printf(_("Connected to %s"), strComputerName.c_str());
                     }
 
-                    // The Mac takes a huge performance hit redrawing this window, 
+                    // The Mac takes a huge performance hit redrawing this window,
                     //   window, so don't change the text unless we really have too.
                     if (GetTitle() != strTitle)
                         SetTitle(strTitle);
-                        
+
                     if (strStatusText != strCachedStatusText) {
                         strCachedStatusText = strStatusText;
                         m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
@@ -1852,10 +1852,10 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 if (pDoc->IsConnected()) {
                     // Set new view specific refresh rate
-                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000); 
+                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000);
                 } else {
                     // Set view refresh rate to 1 second
-                    m_pFrameListPanelRenderTimer->Start(1000); 
+                    m_pFrameListPanelRenderTimer->Start(1000);
                 }
             }
         }
