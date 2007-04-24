@@ -360,6 +360,11 @@ function update_4_07_2007() {
     );
 }
 
+function update_4_24_2007() {
+    do_query('alter table host add error_rate double not null default 0');
+    
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

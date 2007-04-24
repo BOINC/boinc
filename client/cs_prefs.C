@@ -407,7 +407,7 @@ void CLIENT_STATE::read_global_prefs() {
 		(host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
-		"Preferences: limit disk usage to %.2fGB",
+		"Preferences limit disk usage to %.2fGB",
         allowed_disk_usage()/GIGA
     );
     // max_cpus, bandwidth limits may have changed

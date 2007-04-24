@@ -118,7 +118,7 @@ Show if the servers of various projects are up or down.
 <h3>Miscellaneous</h3>
 ";
 $misc_sites = array(
-    array("http://www.kd-web.info/clanky.php", "Flash-based BOINC tutorial", "(in Czech)"),
+    array("http://www.kd-web.info/clanky.php", "Flash-based BOINC tutorial", "(in Czech, English, and Slovak)"),
     array("http://www.myboinc.com/", "BOINC Users of the Day"),
     array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
     array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
@@ -196,14 +196,14 @@ language("English", array(
 ));
 language("Estonian", array(
     site("http://boinc.tmac.pri.ee", "boinc.tmac.pri.ee"),
-    site("http://setimehed.net/", "setimehed.net"),
+    //site("http://setimehed.net/", "setimehed.net"),
 ));
 language("Finnish", array(
     site( "http://www.universe-examiners.org/",
         "Universe Examiners"),
-    site(
-    "http://news.universe-examiners.org/asennus/boinc.html",
-        "BOINC instructions in Finnish")
+    //site("http://news.universe-examiners.org/asennus/boinc.html",
+    //    "BOINC instructions in Finnish"
+    //),
 ));
 language("French", array(
     site("http://boincfrance.org", "BOINCFRANCE.ORG"),
@@ -247,7 +247,7 @@ language("Korean", array(
 ));
 
 language("Polish", array(
-    site("http://www.boinc-polska.org/", "BOINC-Polska.org"),
+    //site("http://www.boinc-polska.org/", "BOINC-Polska.org"),
     site("http://www.boinc.org.pl/", "Team boinc.pl"),
     site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),
     site("http://www.boincatpoland.org", "BOINC@Poland"),

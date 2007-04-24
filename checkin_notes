@@ -3954,3 +3954,20 @@ Rom    24 Apr 2007
     
     win_build/
         *.vcproj
+
+David  24 Apr 2007
+    - Server: add new database field host.error_rate.
+        Stores a dynamic estimate of the fraction of the hosts's
+        results that fail validation (updated by the validator).
+
+    client/
+        sim.C
+        cs_prefs.C
+    db/
+        boinc_db.C,h
+    html/ops/
+        db_update.php
+    sched/
+        handle_request.C
+        sched_msgs.h
+        validator.C

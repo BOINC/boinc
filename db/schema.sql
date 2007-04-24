@@ -6,8 +6,9 @@
     html/
         inc/
             host.inc (host)
-        ops/
             db_ops.inc
+        ops/
+            db_update.php
         user/
             create_account_action.php (user)
             team_create_action.php (team)
@@ -167,6 +168,7 @@ create table host (
     host_cpid           varchar(254),
     external_ip_addr    varchar(254),
     max_results_day     integer     not null,
+    error_rate          double      not null default 0,
 
     primary key (id)
 ) type=InnoDB;

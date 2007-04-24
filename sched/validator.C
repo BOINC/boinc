@@ -79,11 +79,20 @@ double max_granted_credit = 0;
 double max_claimed_credit = 0;
 bool grant_claimed_credit = false;
 
+void update_error_rate(DB_HOST& host, bool valid) {
+    if (host.error_rate > 1) host.error_rate = 1;
+    if (host.error_rate <= 0) host.error_rate = 0.1;
+    //
+    host.error_rate *= 0.95;
+    if (!valid) {
+        host.error_rate += 0.05;
+    }
+}
 
-// here when a result has been validated and its granted_credit as been set.
-// grant credit to host, user and team
+// Here when a result has been validated and its granted_credit as been set.
+// Grant credit to host, user and team, and update host error rate.
 //
-int grant_credit(RESULT& result) {
+int is_valid(RESULT& result) {
     DB_USER user;
     DB_HOST host;
     DB_TEAM team;
@@ -147,10 +156,12 @@ int grant_credit(RESULT& result) {
         );
     }
 
+    double old_error_rate = host.error_rate;
+    update_error_rate(host, true);
     sprintf(
         buf,
-        "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f, credit_per_cpu_sec=%f",
-        result.granted_credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround, host.credit_per_cpu_sec
+        "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f, credit_per_cpu_sec=%f, error_rate=%f",
+        result.granted_credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround, host.credit_per_cpu_sec, host.error_rate
     );
     retval = host.update_field(buf);
     if (retval) {
@@ -160,6 +171,10 @@ int grant_credit(RESULT& result) {
             result.id, result.hostid, retval
         );
     }
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        "[HOST#%d] error rate %f->%f\n",
+        host.id, old_error_rate, host.error_rate
+    );
 
     if (user.teamid) {
         retval = team.lookup_id(user.teamid);
@@ -186,6 +201,39 @@ int grant_credit(RESULT& result) {
         }
     }
 
+    return 0;
+}
+
+int is_invalid(RESULT& result) {
+    char buf[256];
+    int retval;
+    DB_HOST host;
+
+    retval = host.lookup_id(result.hostid);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[RESULT#%d] lookup of host %d failed %d\n",
+            result.id, result.hostid, retval
+        );
+        return retval;
+    }
+    double old_error_rate = host.error_rate;
+    update_error_rate(host, false);
+    sprintf(buf, "error_rate=%f", host.error_rate);
+    retval = host.update_field(buf);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[RESULT#%d] update of host %d failed %d\n",
+            result.id, result.hostid, retval
+        );
+        return retval;
+    }
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        "[HOST#%d] invalid result; error rate %f->%f\n",
+        host.id, old_error_rate, host.error_rate
+    );
     return 0;
 }
 
@@ -277,7 +325,7 @@ int handle_wu(
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
                     result.id, result.name, result.granted_credit
                 );
-                retval = grant_credit(result);
+                retval = is_valid(result);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_NORMAL,
@@ -293,6 +341,7 @@ int handle_wu(
                     "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
                     result.id, result.name
                 );
+                is_invalid(result);
             }
             if (update_result) {
                 log_messages.printf(
@@ -385,11 +434,11 @@ int handle_wu(
                     if (max_granted_credit && result.granted_credit > max_granted_credit) {
                         result.granted_credit = max_granted_credit;
                     }
-                    retval = grant_credit(result);
+                    retval = is_valid(result);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::MSG_DEBUG,
-                            "[RESULT#%d %s] grant_credit() failed: %d\n",
+                            "[RESULT#%d %s] is_valid() failed: %d\n",
                             result.id, result.name, retval
                         );
                     }
@@ -400,6 +449,7 @@ int handle_wu(
                     );
                     break;
                 case VALIDATE_STATE_INVALID:
+                    is_invalid(result);
                     update_result = true;
                     break;
                 case VALIDATE_STATE_INIT:
@@ -426,8 +476,7 @@ int handle_wu(
                 // the transitioner - doing so creates a race condition
                 //
                 transition_time = NEVER;
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_DEBUG,
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "[WU#%d %s] Found a canonical result: id=%d\n",
                     wu.id, wu.name, canonicalid
                 );
@@ -643,7 +692,9 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting validator\n");
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        "Starting validator, debug level %d\n", log_messages.debug_level
+    );
     if (wu_id_modulus) {
         log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "Modulus %d, remainder %d\n", wu_id_modulus, wu_id_remainder

@@ -1,7 +1,7 @@
 <?php
 
 require_once("docutil.php");
-page_head("Simple validator framework");
+page_head("Simple validator framework [deprecated: SimpleValidation]");
 echo "
 To create a validator using the simple framework,
 you must supply four functions:

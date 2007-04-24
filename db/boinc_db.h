@@ -280,6 +280,8 @@ struct HOST {
     char external_ip_addr[256]; // IP address seen by scheduler
     int max_results_day;    // maximum # of results to send per day per CPU
         // this is dynamically adjusted to limit work sent to bad hosts
+    double error_rate;      // dynamic estimate of fraction of results
+                            // that fail validation
 
     // the following not stored in DB
     //

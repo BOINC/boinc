@@ -68,7 +68,7 @@ function show_participate() {
         ".sprintf(tr(HOME_P3), "<a href=help.php>", "</a>")."
         <center>
         <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-        | <a href=participate.php><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
+        | <a href=trac/wiki/RunningBoinc><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
         | <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
         | <a href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
         | <a href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
@@ -109,10 +109,10 @@ function show_other() {
         <tr><td bgcolor=$light_blue><font size=4>Other info</font></td></tr>
         <tr><td>
             <ul>
-            <li> <a href=intro.php>Overview</a>
+            <li> <a href=trac/wiki/BoincIntro/>Overview</a>
             <li> <a href=trac/>Software development</a>
             <li> <a href=translation.php>Translation</a> of web and GUI text
-            <li> <a href=contact.php>Personnel and contributors</a>
+            <li> <a href=trac/wiki/ProjectPeople>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
             <li> BOINC <a href=dev/>message boards</a>
             <li> <a href=papers.php>Papers and talks</a> about BOINC
@@ -190,9 +190,4 @@ echo "
 ";
 
 page_tail(true, true);
-echo "
-    <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
-    </body>
-    </html>
-";
 ?>

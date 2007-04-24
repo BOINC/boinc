@@ -1,6 +1,17 @@
 <?
 
 $project_news = array(
+array("April 23, 2007",
+    "Krystof Dolezal's
+    <a href=http://www.kd-web.info/clanky.php>Flash-based BOINC tutorials</a>
+    are now available in English and Slovak,
+    as well as Czech."
+),
+array("April 23, 2007",
+    "BOINCstats and BAM! are now available in the Czech language
+    (<a href=http://cz.boincstats.com>http://cz.boincstats.com</a>).
+    Thanks to Zelvuska for the translation."
+),
 array("April 17, 2007",
     "<a href=http://desktopgrid.hu/>Desktopgrid.hu</a>
     has been created by the Computer and Automation Research Institute

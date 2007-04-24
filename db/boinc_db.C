@@ -358,7 +358,8 @@ void DB_HOST::db_print(char* buf){
         "credit_per_cpu_sec=%.15e, "
         "venue='%s', nresults_today=%d, "
         "avg_turnaround=%f, "
-        "host_cpid='%s', external_ip_addr='%s', max_results_day=%d ",
+        "host_cpid='%s', external_ip_addr='%s', max_results_day=%d, "
+        "error_rate=%f ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -376,7 +377,8 @@ void DB_HOST::db_print(char* buf){
         credit_per_cpu_sec,
         venue, nresults_today,
         avg_turnaround,
-        host_cpid, external_ip_addr, max_results_day
+        host_cpid, external_ip_addr, max_results_day,
+        error_rate
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -434,10 +436,12 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     strcpy2(host_cpid, r[i++]);
     strcpy2(external_ip_addr, r[i++]);
     max_results_day = atoi(r[i++]);
+    error_rate = atof(r[i++]);
 }
 
-// update fields that differ from the argument HOST.
-// called from scheduler (handle_request.C)
+// Update fields that differ from the argument HOST.
+// Called from scheduler (handle_request.C),
+// so only include fields modified by the scheduler.
 //
 int DB_HOST::update_diff(HOST& h) {
     char buf[LARGE_BLOB_SIZE], updates[LARGE_BLOB_SIZE], query[LARGE_BLOB_SIZE];

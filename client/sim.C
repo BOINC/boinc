@@ -352,13 +352,14 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         wup->rsc_fpops_est = ap->fpops_est;
         results.push_back(rp);
         double ops = ap->fpops.sample();
+        if (ops < 0) ops = 0;
         rp->final_cpu_time = ops/net_fpops;
         rp->report_deadline = now + ap->latency_bound;
         sprintf(buf, "got job %s: CPU time %.2f, deadline %s<br>",
             rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
         );
         html_msg += buf;
-        p->work_request -= ap->fpops_est/net_fpops;
+        p->work_request -= p->duration_correction_factor*ap->fpops_est/net_fpops;
     }
     p->work_request = 0;
     request_schedule_cpus("simulate_rpc");
@@ -920,7 +921,7 @@ void parse_error(char* file, int retval) {
 }
 
 void help(char* prog) {
-    fprintf(stderr, "usage: %s [--duration X] [--delta X]\n", prog);
+    fprintf(stderr, "usage: %s [--duration X] [--delta X] [--dirs ...]\n", prog);
     exit(1);
 }
 

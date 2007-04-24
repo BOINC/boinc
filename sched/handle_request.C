@@ -330,6 +330,7 @@ make_new_host:
         host.userid = reply.user.id;
         host.rpc_seqno = 0;
         host.expavg_time = time(0);
+        host.error_rate = 0.1;
         strcpy(host.venue, reply.user.venue);
         host.fix_nans();
         retval = host.insert();
