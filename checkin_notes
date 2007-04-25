@@ -3992,3 +3992,8 @@ Eric K 24 Apr 07
         cs_scheduler.C
         client_state.h
 
+David  25 Apr 2007
+	- eliminate spurious "work fetch too big" message
+
+	client/
+		work_fetch.C

@@ -579,7 +579,8 @@ bool CLIENT_STATE::compute_work_requests() {
 
         // sanity check
         //
-        double x = work_buf_total()*ncpus;
+        double x = 1.01*work_buf_total()*ncpus;
+            // the 1.01 is for round-off error
         if (pbest->work_request > x) {
         	msg_printf(NULL, MSG_INTERNAL_ERROR,
         	    "Proposed work request %f bigger than max %f",
