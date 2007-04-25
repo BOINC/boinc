@@ -299,6 +299,14 @@ print >>open(httpd_conf_template_filename,'w'), '''
     </Directory>
 ''' %locals()
 
+cronjob_filename = os.path.join(
+    options.project_root,
+    project_shortname+'.cronjob'
+    )
+print >>open(cronjob_filename,'w'), '''
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * %(proot)s/bin/start --cron
+''' %locals()
+
 print '''Done installing files.
 
 Steps to complete installation:
@@ -310,10 +318,11 @@ Steps to complete installation:
    (path to httpd.conf varies)
 
 2. Add to crontab (as %(USER)s)
-   (If cron cannot run "start", try using a helper script to set PATH and
-   PYTHONPATH)
 
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * %(proot)s/bin/start --cron
+
+   (If cron cannot run "start", try using a helper script to set PATH and
+   PYTHONPATH)
 
 3. The project is configured with a test application.
     To install this application (recommended) run:

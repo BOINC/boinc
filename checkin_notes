@@ -3997,3 +3997,9 @@ David  25 Apr 2007
 
 	client/
 		work_fetch.C
+
+David  25 Apr 2007
+    - fixes #126 - generate cronjob file in make_project
+
+    tools/
+        make_project
