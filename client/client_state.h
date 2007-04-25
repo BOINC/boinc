@@ -157,7 +157,7 @@ public:
     bool run_by_updater;
     double now;
     const char* platform_name;
-#ifdef _WIN64
+#ifdef HOSTTYPEALT
     const char* alt_platform_name;
 #endif
     bool initialized;

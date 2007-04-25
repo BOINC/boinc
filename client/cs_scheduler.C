@@ -112,7 +112,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <hostid>%d</hostid>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <platform_name>%s</platform_name>\n"
-#ifdef _WIN64
+#ifdef HOSTTYPEALT
         "    <alt_platform>\n"
 		"        <name>%s</name>\n"
 		"    </alt_platform>\n"
@@ -130,7 +130,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->hostid,
         p->rpc_seqno,
         p->anonymous_platform?"anonymous":platform_name,
-#ifdef _WIN64
+#ifdef HOSTTYPEALT
 		alt_platform_name,
 #endif
         core_client_version.major,
