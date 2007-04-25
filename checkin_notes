@@ -3971,3 +3971,24 @@ David  24 Apr 2007
         handle_request.C
         sched_msgs.h
         validator.C
+
+Eric K 24 Apr 07
+    -  Exteded the "altername_platform" mechanism to x86_64 linux
+       and solaris.  The current alternate platforms found by configure
+       are...
+	 x86_64-pc-linux-gnu    -> i686-pc-linux-gnu
+	 sparc64-sun-solaris    -> sparc-sun-solaris
+	 sparc-sun-solaris      -> sparc-sun-solaris2.7
+	 powerpc64-apple-darwin -> powerpc-apple-darwin
+    -  The alternate platform can be overridden on the configure command line
+         --with-boinc-alt-platform="platformname"
+
+    m4/
+        boinc_platform.m4
+    sched/
+        Makefile.am
+    client/
+        client_state.C
+        cs_scheduler.C
+        client_state.h
+
