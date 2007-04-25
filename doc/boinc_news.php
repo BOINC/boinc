@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("April 24, 2007",
+    "<a href=http://www.gridrepublic.org/>GridRepublic</a> announces
+    a significant upgrade to their web site, including improved
+    registration workflow and better integration with IBM World Community Grid
+    (including WCG sub-project registration)."
+),
 array("April 23, 2007",
     "Krystof Dolezal's
     <a href=http://www.kd-web.info/clanky.php>Flash-based BOINC tutorials</a>
