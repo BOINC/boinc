@@ -4012,3 +4012,27 @@ Rom    26 Apr 2007
     win_build/installerv2
         BOINC.ism
         BOINCx64.ism
+
+Rom    26 Apr 2007
+    - fixes #10 - Remove dependency on ATL framework for 
+      boinc.dll on Windows
+      
+      With this checkin, the BOINC client should now be able
+      to be built with Visual Studio Express.
+      
+    clientgui/
+        BOINCGUIApp.cpp, .h
+    clientlib/win/
+        boinc_dll.cpp, .h
+        boinc_dll.rc
+        boincclient.rgs (deleted)
+        boincsens.rgs (deleted)
+        BOINCSENSSink.cpp, .h (deleted)
+        IdleTracker.cpp
+        NetworkTracker.cpp, .h (deleted)
+        SENSLogonSubscriptions.h (deleted)
+        SENSNetworkSubscriptions.h (deleted)
+        SENSOnNowSubscriptions.h (deleted)
+        SENSSubscriptions.h (deleted)
+        stdafx.h
+        
