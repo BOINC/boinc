@@ -1,6 +1,6 @@
 #########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.9, based on en.po v1.26(cvs).   2006/09/03 JST je2bwm 
+# FileID  : ja.po,v 1.10, based on en.po v1.27(cvs).   2007/04/25 JST je2bwm 
 # Author  : Janus Kristensen ( Translator: Komori Hitoshi, Reviewer: Takeda Nobuhiko )
 # Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
 #########################################
@@ -372,12 +372,12 @@ msgstr "少なくとも %s 文字なければなりません。"
 msgid "CREATE_AC_CONFIRM_PASSWORD"
 msgstr "確認のためパスワードをもう一度"
 
-# msgid  "AC_INVITE_CODE"
+# msgid "AC_INVITE_CODE"
 # msgstr "Invitation Code"
 msgid "AC_INVITE_CODE"
 msgstr "招待コード"
 
-# msgid  "AC_INVITE_CODE_DESC"
+# msgid "AC_INVITE_CODE_DESC"
 # msgstr "A valid invitation code is required to create an account"
 msgid "AC_INVITE_CODE_DESC"
 msgstr "アカウントを作るには、正しい招待コードが必要です"
