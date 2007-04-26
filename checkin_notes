@@ -4003,3 +4003,12 @@ David  25 Apr 2007
 
     tools/
         make_project
+
+Rom    26 Apr 2007
+    - fixes #86 - 5.9.3 won't install on Win98
+        Make sure that the custom actions that use NT
+        specific APIs are only executed on NT based systems.
+        
+    win_build/installerv2
+        BOINC.ism
+        BOINCx64.ism
