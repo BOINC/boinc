@@ -32,6 +32,7 @@
 // this program could be modified to report to the core client.
 //
 // See http://boinc.berkeley.edu/wrapper.php for details
+// Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
 #include <stdio.h>
 #include <vector>
@@ -59,6 +60,7 @@ struct TASK {
     string application;
     string stdin_filename;
     string stdout_filename;
+    string stderr_filename;
     string command_line;
 #ifdef _WIN32
     HANDLE pid_handle;
@@ -68,7 +70,7 @@ struct TASK {
 #endif
     int parse(XML_PARSER&);
     bool poll(int& status);
-    int run();
+    int run(int argc, char** argv);
     void kill();
     void stop();
     void resume();
@@ -78,8 +80,6 @@ struct TASK {
 vector<TASK> tasks;
 
 bool app_suspended = false;
-
-FILE* debug;
 
 int TASK::parse(XML_PARSER& xp) {
     char tag[1024];
@@ -96,6 +96,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "application", application)) continue;
         else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
+        else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
         else if (xp.parse_string(tag, "command_line", command_line)) continue;
     }
     return ERR_XML_PARSE;
@@ -178,15 +179,24 @@ HANDLE win_fopen(const char* path, const char* mode) {
 
 // the "state file" might tell us which app we're in the middle of,
 // what the starting CPU time is, etc.
+// Not implemented yet.
 //
 void parse_state_file() {
 }
 
-int TASK::run() {
-    string app_path, stdout_path, stdin_path;
+int TASK::run(int argct, char** argvt) {
+    string app_path, stdout_path, stdin_path, stderr_path;
 
     boinc_resolve_filename_s(application.c_str(), app_path);
 
+    // Append wrapper's command-line arguments to those in the job file.
+    //
+    for (int i=1; i<argct; i++){
+        command_line += argvt[i];
+        if ((i+1) < argct){
+            command_line += string(" ");
+        }
+    }   
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
@@ -208,7 +218,12 @@ int TASK::run() {
 		boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
 		startup_info.hStdInput = win_fopen(stdin_path.c_str(), "r");
 	}
-    startup_info.hStdError = win_fopen(STDERR_FILE, "a");
+    if (stderr_filename != "") {
+        boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
+        startup_info.hStdError = win_fopen(stderr_path.c_str(), "w");
+    } else {
+        startup_info.hStdError = win_fopen(STDERR_FILE, "a");
+    }
              
     if (!CreateProcess(
         app_path.c_str(),
@@ -230,9 +245,10 @@ int TASK::run() {
     int retval, argc;
     char progname[256], buf[256];
     char* argv[256];
-    char arglist[4000];
+    char arglist[4096];
 	FILE* stdout_file;
 	FILE* stdin_file;
+	FILE* stderr_file;
 
     pid = fork();
     if (pid == -1) {
@@ -255,11 +271,18 @@ int TASK::run() {
 			stdin_file = freopen(stdin_path.c_str(), "r", stdin);
 			if (!stdin_file) return ERR_FOPEN;
 		}
+        if (stderr_filename != "") {
+            boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
+            stderr_file = freopen(stderr_path.c_str(), "w", stderr);
+            if (!stderr_file) return ERR_FOPEN;
+        }
+
 		// construct argv
+        // TODO: use malloc instead of stack var
         //
         strcpy(buf, app_path.c_str());
         argv[0] = buf;
-        strcpy(arglist, command_line.c_str());
+        strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         argc = parse_command_line(arglist, argv+1);
         retval = execv(buf, argv);
         exit(ERR_EXEC);
@@ -371,16 +394,11 @@ int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
 
-    debug = fopen("wrapper_log", "a");
-    setbuf(debug, 0);
-    fprintf(debug, "foobar\n");
-
     boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED
         | BOINC_DIAG_HEAPCHECKENABLED
         | BOINC_DIAG_MEMORYLEAKCHECKENABLED
         | BOINC_DIAG_TRACETOSTDERR
-        //| BOINC_DIAG_REDIRECTSTDERR
     );
 
     memset(&options, 0, sizeof(options));
@@ -405,7 +423,7 @@ int main(int argc, char** argv) {
     TASK& task = tasks[0];
 
     fprintf(stderr, "running %s\n", task.application.c_str());
-    retval = task.run();
+    retval = task.run(argc, argv);
     if (retval) {
         fprintf(stderr, "can't run app: %d\n", retval);
         boinc_finish(retval);

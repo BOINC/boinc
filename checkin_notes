@@ -295,3 +295,16 @@ David  20 Mar 2007
 
     wrapper/
         wrapper.C
+
+David  26 Apr 2007
+    - wrapper: pass wrapper's command-line args to application,
+        after those in the job file (if any).
+        This lets you pass different command-line args to the app
+        for different workunits,
+        without creating a new app version per workunit.
+
+    NOTE: actually, I don't think this is necessary;
+    the job file can be part of the workunit, not part of the app version.
+
+    wrapper/
+        wrapper.C
