@@ -4036,3 +4036,11 @@ Rom    26 Apr 2007
         SENSSubscriptions.h (deleted)
         stdafx.h
         
+David  26 Apr 2007
+    - server: fix bug that causes PHP scripts not to run from Cron
+        Fixes #129.  From Christian Beer.
+
+    html/ops/
+        update_profile_pages.php
+    tools/
+        run_in_ops
