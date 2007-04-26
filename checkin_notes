@@ -4044,3 +4044,18 @@ David  26 Apr 2007
         update_profile_pages.php
     tools/
         run_in_ops
+
+David  26 Apr 2007
+    - core client: set config settings to default values before
+        parsing cc_config.xml.
+        Otherwise, if you have a lot of log flags set,
+        and tell the client to reread a config file that
+        doesn't specify ANY log flags,
+        you'll end up with all the flags still set.
+        (from Sebastian Masch)
+    - make_project: add cmdline args for update_stats in initial config
+
+    tools/
+        make_project
+    client/
+        log_flags.C,h

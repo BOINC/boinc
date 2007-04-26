@@ -241,7 +241,7 @@ t.cmd = 'run_in_ops update_forum_activities.php'
 t = project.config.tasks.make_node_and_append("task")
 t.period = '7 days'
 t.output = 'update_stats.out'
-t.cmd = 'update_stats'
+t.cmd = 'update_stats -update_users -update_teams -update_hosts'
 
 t = project.config.tasks.make_node_and_append("task")
 t.period = '24 hours'
