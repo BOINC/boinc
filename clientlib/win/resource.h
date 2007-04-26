@@ -3,7 +3,6 @@
 // Used by boinc_dll.rc
 //
 #define IDS_PROJNAME                    100
-#define IDR_BOINCSENS                   101
 
 // Next default values for new objects
 // 

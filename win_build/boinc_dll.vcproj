@@ -24,7 +24,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfATL="1"
+			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -117,8 +117,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Performing registration"
-				CommandLine="regsvr32 /s /c &quot;$(TargetPath)&quot;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -220,8 +220,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Performing registration"
-				CommandLine="regsvr32 /s /c &quot;$(TargetPath)&quot;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -323,8 +323,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Performing registration"
-				CommandLine="regsvr32 /s /c &quot;$(TargetPath)&quot;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -426,8 +426,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Performing registration"
-				CommandLine="regsvr32 /s /c &quot;$(TargetPath)&quot;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -529,8 +529,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing &amp; Registration"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;regsvr32 /s /c &quot;$(TargetPath)&quot;&#x0D;&#x0A;"
+				Description="Code Signing"
+				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -632,8 +632,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing &amp; Registration"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;regsvr32 /s /c &quot;$(TargetPath)&quot;&#x0D;&#x0A;"
+				Description="Code Signing"
+				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -650,15 +650,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientlib\win\BOINCSENSSink.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\clientlib\win\IdleTracker.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientlib\win\NetworkTracker.cpp"
 				>
 			</File>
 			<File
@@ -780,35 +772,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientlib\win\BOINCSENSSink.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clientlib\win\IdleTracker.h"
 				>
 			</File>
 			<File
-				RelativePath="..\clientlib\win\NetworkTracker.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clientlib\win\Resource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSLogonSubscriptions.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSNetworkSubscriptions.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSOnNowSubscriptions.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSSubscriptions.h"
 				>
 			</File>
 			<File
@@ -827,10 +795,6 @@
 			>
 			<File
 				RelativePath="..\clientlib\win\boinc_dll.rc"
-				>
-			</File>
-			<File
-				RelativePath="..\clientlib\win\boincsens.rgs"
 				>
 			</File>
 		</Filter>

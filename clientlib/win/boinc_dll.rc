@@ -176,7 +176,7 @@ END
 // REGISTRY
 //
 
-IDR_BOINCSENS           REGISTRY                "boincsens.rgs"
+IDR_BOINCCLIENT           REGISTRY                "boincclient.rgs"
 
 /////////////////////////////////////////////////////////////////////////////
 //

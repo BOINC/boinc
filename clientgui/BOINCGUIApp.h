@@ -104,8 +104,6 @@ public:
 
     bool                AutoRestartBOINC();
 
-    int                 IsNetworkAlive(long* lpdwFlags);
-    int                 IsNetworkAlwaysOnline();
     int                 UpdateSystemIdleDetection();
 
     int                 StartBOINCScreensaverTest();
