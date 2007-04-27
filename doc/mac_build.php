@@ -3,6 +3,12 @@ require_once("docutil.php");
 page_head("Building BOINC Clients and Applications on Macintosh OS X");
 
 echo "
+<b>This page is deprecated. Please see the new wiki page at </b>
+";
+show_link("http://boinc.berkeley.edu/trac/wiki/MacBuild"); 
+echo "
+<p>
+
 This document applies to BOINC version 5.9.2 and later.
 It has instructions for building BOINC for Macintosh OS X,
 plus information for building science project applications to run under

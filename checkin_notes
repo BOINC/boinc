@@ -4061,7 +4061,8 @@ David  26 Apr 2007
         log_flags.C,h
 
 Charlie 27 Apr 2007
-    - Mac: Update build instructions.
+    - Mac: Update build instructions.  Mark old mac_build.php page as 
+        deprecated and add link to new wiki page.
 
     doc/
         mac_build.php
