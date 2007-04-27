@@ -127,6 +127,7 @@ wxMac-2.8.3 (needed  only if you are building the BOINC Manager):
 ";
 show_link("http://www.wxwidgets.org");
 show_link("http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.3.tar.gz");
+show_link("http://downloads.sourceforge.net/wxwindows/wxMac-2.8.3.tar.bz2");
 echo "
 <p>
 curl-7.16.1:
