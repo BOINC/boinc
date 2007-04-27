@@ -4059,3 +4059,11 @@ David  26 Apr 2007
         make_project
     client/
         log_flags.C,h
+
+Charlie 27 Apr 2007
+    - Mac: Update build instructions.
+
+    doc/
+        mac_build.php
+    mac_build/
+        HowToBuildBOINC_XCode.rtf

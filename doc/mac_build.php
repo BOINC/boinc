@@ -73,9 +73,23 @@ themselves until run time.
 
 
 Be sure to follow the directions in this document to ensure that these requirements are met.
+<p>
+Building BOINC now requires XCode Tools version 2.4.1 or later.  (Version 2.3 may work; this has not been tested.)
+<p>
+Source files are now archived using Subversion.  You can download svnX, a free GUI application for running Subversion from either
+";
+show_link("http://www.apple.com/downloads/macosx/development_tools/svnx.html");
+echo "
+or
+";
+show_link("http://www.lachoseinteractive.net/en/community/subversion/svnx/");
+echo "
+<p>
+You also need to install Subversion itself.  One place to get it is:
+";
+show_link("http://www.codingmonkeys.de/mbo/");
 
-
-
+echo "
 <h2>Building BOINC libraries to link with project applications</h2>
 
 
@@ -89,7 +103,7 @@ If you are building a project application to be run by BOINC, you only need to b
 (If you wish, you can combine separate Intel and PowerPC builds in a single Universal Binary mach-O file using the command-line utility lipo.  For details on lipo, type 'man lipo' in Terminal; it is available on all Macs running OS10.4.x.)
 
 
-<li> Use scripts setupForBOINC.sh and BuildMacBOINC.sh.  You do this once on any Macintosh (PowerPC or Intel) running OS 10.4.x and with XCode 2.2 (or later) installed.  This will produce Universal Binaries of all the libraries.  These can then be linked with both PowerPC applications and Mac Intel applications.
+<li> Use scripts setupForBOINC.sh and BuildMacBOINC.sh.  You do this once on any Macintosh (PowerPC or Intel) running OS 10.4.x and with XCode 2.4.1 (or later) installed.  This will produce Universal Binaries of all the libraries.  These can then be linked with both PowerPC applications and Mac Intel applications.
 
 </ol>
 
@@ -104,15 +118,15 @@ After building the libraries as Universal Binaries using the second method, you 
 <h2>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</h2>
 
 
-BOINC depends on three third-party libraries: wxMac-2.8.2, curl-7.16.1, and jpeg-6b.  You can obtain these from the following URLs:
+BOINC depends on three third-party libraries: wxMac-2.8.3, curl-7.16.1, and jpeg-6b.  You can obtain these from the following URLs:
 
 
 <p>
-wxMac-2.8.2 (needed  only if you are building the BOINC Manager):
+wxMac-2.8.3 (needed  only if you are building the BOINC Manager):
 
 ";
 show_link("http://www.wxwidgets.org");
-show_link("http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.2.tar.gz");
+show_link("http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.3.tar.gz");
 echo "
 <p>
 curl-7.16.1:
@@ -129,7 +143,7 @@ show_link("ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz");
 echo "
 <p>
 
-XCode 2.2 installs autoconf 2.59 and automake 1.63.  To determine the version number, type 'autoconf --version' or 'automake --version' .  Building wxMac-2.8.2 and curl-7.16.1 require autoconf 2.59 and automake 1.93 or later.  
+XCode 2.4.1 installs autoconf 2.59 and automake 1.63.  To determine the version number, type 'autoconf --version' or 'automake --version' .  Building wxMac-2.8.3 and curl-7.16.1 require autoconf 2.59 and automake 1.93 or later.  
 
 <p>
 Upgrades for autoconf and automake are available from www.gnu.org:  
@@ -147,11 +161,11 @@ As stated above, all BOINC software for Power PC Macs must be built using GCC 3.
 
 
 <p>
-These are not done by either the XCode projects which come with wxMac-2.8.2, nor  the AutoMake scripts supplied with wxMac-2.8.2, curl-7.16.1, or jpeg-6b.  So be sure to use our special scripts to build these packages.
+These are not done by either the XCode projects which come with wxMac-2.8.3, nor  the AutoMake scripts supplied with wxMac-2.8.3, curl-7.16.1, or jpeg-6b.  So be sure to use our special scripts to build these packages.
 
 
 <p>
-Building BOINC and the library packages on which it depends requires OS 10.4.4 and XCode 2.2 (or greater).  It may be possible to use XCode 2.1 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.
+Building BOINC and the library packages on which it depends requires OS 10.4.4 and XCode 2.4.1 (or greater).  It may be possible to use XCode 2.3 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.
 
 
 <ol>
@@ -163,7 +177,7 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 a
 <pre>
 curl-7.16.1
 jpeg-6b
-wxMac-2.8.2
+wxMac-2.8.3
 </pre>
 
 
