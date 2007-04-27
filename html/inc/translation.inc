@@ -415,8 +415,8 @@ if (isset($_COOKIE['lang'])){
 } else {
     $language_string = '';
 }
-if (isset($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"])) {
-    $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
+if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
+    $language_string .= strtolower($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
 }
 
 // Find out which language to use by iterating through list

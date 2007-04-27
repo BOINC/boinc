@@ -4067,3 +4067,20 @@ Charlie 27 Apr 2007
         mac_build.php
     mac_build/
         HowToBuildBOINC_XCode.rtf
+
+David  27 Apr 2007
+    - bug in language_select.php made 'auto' not work,
+        i.e. its impossible to return to browser settings
+        after doing a cookie-based language choice
+    - translation.inc and language_select.php were using $HTTP_SERVER_VARS,
+        which appears to be deprecated in PHP 5.
+        Use $_SERVER instead.
+    - made strings at top of web site translatable
+
+    html/
+        inc/
+            translation.inc
+        user/
+            language_select.php
+    languages/translations/
+        en.po

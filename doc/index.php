@@ -152,16 +152,36 @@ echo "
 <body bgcolor=#ffffff>
 <img hspace=30 vspace=10 align=left src=logo/logo_small.png>
 <h1>
-Berkeley Open Infrastructure for Network Computing
+".tr(HOME_BOINC)."
 </h1>
 <font size=+1>
-Open-source software for
-<a href=volunteer.php>volunteer computing</a> and <a href=dg.php>desktop grid computing</a>.</font>
+".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php>', '</a>', '<a href=dg.php>', '</a>')."
+</font>
 <p>
 ";
 search_form();
 echo "
 <br clear=all>
+<a href=set_language.php?lang=ar>العربية</a>
+| <a href=set_language.php?lang=be>Беларускі</a>
+| <a href=set_language.php?lang=bg>���������</a>
+| <a href=set_language.php?lang=ca>Català</a>
+| <a href=set_language.php?lang=de>Deutsch</a>
+| <a href=set_language.php?lang=en>English</a>
+| <a href=set_language.php?lang=es>Espa�ol</a>
+| <a href=set_language.php?lang=fr>Fran�ais</a>
+| <a href=set_language.php?lang=ja>日本語</a>
+";
+//| <a href=set_language.php?lang=ja_JP>日本語</a>
+echo "
+| <a href=set_language.php?lang=lt>Lietuvių</a>
+| <a href=set_language.php?lang=pl>Polski</a>
+| <a href=set_language.php?lang=pt_BR>Portugu�s - Brasil</a>
+| <a href=set_language.php?lang=ru>Русский</a>
+| <a href=set_language.php?lang=sk>Slovenčina</a>
+| <a href=set_language.php?lang=tr>Türkçe</a>
+| <a href=set_language.php?lang=zh_CN>简体中文</a>
+| <a href=set_language.php?lang=auto>Browser</a>
 
 <table width=100% border=0 cellspacing=0 cellpadding=4>
 <tr>
