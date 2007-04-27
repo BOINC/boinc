@@ -2,7 +2,23 @@
 
 <?php
 
-// mass email program
+// mass_email_script [--userid N] [--send] [--idfile X] [--batch N]
+//
+// send mass email.  Options:
+// --userid     send only to the given user
+// --send       actually send email
+// --show_email show what would be sent rather than sending it
+// --explain    show what we're doing
+// --idfile     read user ID from the given file; otherwise send to everyone.
+//              The IDs must be in increasing order
+// --nocurrent  Don't send to current users
+// --batch N    Do batches of N (default 1000)
+//
+// NOTE: a file "email_log" is used for checkpoint/restart.
+// It stores a list of user IDs sent to.
+// You must create this file (use touch) before starting
+// (this is to prevent you from accidentally running this
+// in the wrong directory and re-mailing a lot of people)
 //
 // see http://boinc.berkeley.edu/mass_email.php for info
 
@@ -13,43 +29,51 @@ require_once('../inc/db.inc');
 db_init();
 set_time_limit(0);
 
-// set the following to false to actually send emails
-// (rather than just print to stdout)
-//
-$testing = false;
+$globals->send = false;
+$globals->explain = false;
+$globals->userid = 0;
+$globals->nocurrent = false;
+$globals->idfile = null;
+$globals->batch = 1000;
+$globals->lapsed_interval = 60*86400;
 
-// If the following is nonzero, email will be sent to the given user ID
-// Otherwise it will be sent to all users
-//
-$userid = 0;
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == "--batch") {
+        $i++;
+        $globals->batch = $argv[$i];
+    } elseif ($argv[$i] == "--show_email") {
+        $globals->show_email = true;
+    } elseif ($argv[$i] == "--explain") {
+        $globals->explain = true;
+    } elseif ($argv[$i] == "--send") {
+        $globals->send = true;
+    } elseif ($argv[$i] == "--idfile") {
+        $i++;
+        $globals->idfile = $argv[$i];
+    } elseif ($argv[$i] == "--userid") {
+        $i++;
+        $globals->userid = $argv[$i];
+    } else {
+        echo "unrecognized option $argv[$i]\n";
+        echo "usage: mass_email_script.php [--userid N] [--show_mail] [--explain] [--send]\n";
+        exit (1);
+    }
+}
 
-// If set to 1, don't bother with "current" users - only mail failed/lapsed users
-//
-$nocurrent = 1;
-
-// name of input id file - if empty, just process ids in batches that are greater
-// than the last id in output id file. Note: ids MUST be in increasing order.
-//
-$id_file = "./id_file";
-
-// name of output id file (for checkpointing) - must be created before starting
-//
-$mass_email_log = './email_log';
+$mass_email_log = 'email_log';
 
 // File names for the various mail types.
 // Change these here if you like.
 
-$email_failed_html = 'remind_email/sample_failed_html';
-$email_failed_text = 'remind_email/sample_failed_text';
-$email_failed_subject = 'remind_email/sample_failed_subject';
-$email_lapsed_html = 'remind_email/sample_lapsed_html';
-$email_lapsed_text = 'remind_email/sample_lapsed_text';
-$email_lapsed_subject = 'remind_email/sample_lapsed_subject';
-$email_current_html = 'remind_email/sample_current_html';
-$email_current_text = 'remind_email/sample_current_text';
-$email_current_subject = 'remind_email/sample_current_subject';
-
-//////////////////////////////////////////////////////////////////////////
+$email_failed_html = 'newsletter/failed_html';
+$email_failed_text = 'newsletter/failed_text';
+$email_failed_subject = 'newsletter/failed_subject';
+$email_lapsed_html = 'newsletter/lapsed_html';
+$email_lapsed_text = 'newsletter/lapsed_text';
+$email_lapsed_subject = 'newsletter/lapsed_subject';
+$email_current_html = 'newsletter/current_html';
+$email_current_text = 'newsletter/current_text';
+$email_current_subject = 'newsletter/current_subject';
 
 function read_files(&$item) {
     $item['html'] = file_get_contents($item['html_file']);
@@ -73,6 +97,7 @@ function read_files(&$item) {
 }
 
 function read_email_files() {
+    global $globals;
     global $email_failed_html;
     global $email_failed_text;
     global $email_failed_subject;
@@ -82,7 +107,6 @@ function read_email_files() {
     global $email_current_html;
     global $email_current_text;
     global $email_current_subject;
-    global $nocurrent;
 
     $failed['html_file'] = $email_failed_html;
     $failed['text_file'] = $email_failed_text;
@@ -95,11 +119,23 @@ function read_email_files() {
     $current['subject'] = $email_current_subject;
     read_files($failed);
     read_files($lapsed);
-    if ($nocurrent == 0) { read_files($current); }
+    if (!$globals->nocurrent) {
+        read_files($current);
+    }
     $email_files['failed'] = $failed;
     $email_files['lapsed'] = $lapsed;
     $email_files['current'] = $current;
     return $email_files;
+}
+
+function last_rpc_time($user) {
+    $x = 0;
+    $result = mysql_query("select rpc_time from host where userid=$user->id");
+    while ($host = mysql_fetch_object($result)) {
+        if ($host->rpc_time > $x) $x = $host->rpc_time;
+    }
+    mysql_free_result($result);
+    return $x;
 }
 
 function replace($user, $template) {
@@ -110,27 +146,22 @@ function replace($user, $template) {
         '/<opt_out_url\/>/',
         '/<lapsed_interval\/>/',
     );
-    $most_recent = 0; 
-    $result = mysql_query("select * from host where userid=" . $user->id);
-    while ($host = mysql_fetch_object($result)) {
-      if ($host->rpc_time > $most_recent) { $most_recent = $host->rpc_time; }
-    }
-    mysql_free_result($result);
     $rep = array(
         $user->name,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
-        floor((time() - $most_recent) / 86400),
+        floor((time() - $user->last_rpc_time) / 86400),
     );
     return preg_replace($pat, $rep, $template);
 }
 
 function mail_type($user, $email_file) {
-    global $testing;
+    global $globals;
+
     $html = replace($user, $email_file['html']);
     $text = replace($user, $email_file['text']);
-    if ($testing) {
+    if ($globals->show_email) {
         echo "\nSending to $user->email_addr:\n";
         echo "------- SUBJECT ----------\n";
         echo $email_file['subject'];
@@ -138,43 +169,56 @@ function mail_type($user, $email_file) {
         echo $html;
         echo "\n------- TEXT ----------\n";
         echo $text;
-    } else {
-        echo $user->id . ": ";
+    }
+    if ($globals->send) {
         if (is_valid_email_addr($user->email_addr)) {
-          send_email(
-              $user,
-              $email_file['subject'],
-              $text,
-              $html
-              );
-          echo "sent\n";
+            send_email(
+                $user,
+                $email_file['subject'],
+                $text,
+                $html
+            );
         } else {
-          echo "invalid e-mail address\n";
+            if ($globals->explain) {
+                echo "invalid e-mail address\n";
+            }
         }
     }
 }
 
-function handle_user($user, $email_files) {
-    global $nocurrent;
+function handle_user($user) {
+    global $email_files;
+    global $globals;
+
+    $user->last_rpc_time = last_rpc_time($user);
+    $lapsed = time() - $user->last_rpc_time > $globals->lapsed_interval;
+
     if ($user->total_credit == 0) {
         mail_type($user, $email_files['failed']);
-    } else if ($user->expavg_credit < 1000) {
+        if ($globals->explain) {
+            echo "sending failed email to $user->email_addr\n";
+        }
+    } else if ($lapsed) {
         mail_type($user, $email_files['lapsed']);
+        if ($globals->explain) {
+            echo "sending lapsed email to $user->email_addr\n";
+        }
     } else {
-        if ($nocurrent == 0) {
-          mail_type($user, $email_files['current']);
-        } else {
-          echo $user-> id . ": not doing current/active users\n";
+        if (!$globals->nocurrent) {
+            mail_type($user, $email_files['current']);
+            if ($globals->explain) {
+                echo "sending current email to $user->email_addr\n";
+            }
         }
     }
 }
 
-function do_batch($email_files, $startid, $n, $log) {
+function do_batch($startid, $n, $log) {
     $result = mysql_query(
-        "select * from user where id>$startid and id < 122080 order by id limit $n"
+        "select * from user where id>$startid order by id limit $n"
     );
     while ($user = mysql_fetch_object($result)) {
-        handle_user($user, $email_files);
+        handle_user($user);
         $startid = $user->id;
         fputs($log, $user->id . "\n");
         fflush($log);
@@ -183,12 +227,13 @@ function do_batch($email_files, $startid, $n, $log) {
     return $startid;
 }
 
-function do_one($email_files, $thisid, $log) {
+function do_one($thisid, $log) {
     $result = mysql_query(
         "select * from user where id=$thisid"
     );
-    while ($user = mysql_fetch_object($result)) {
-        handle_user($user, $email_files);
+    $user = mysql_fetch_object($result);
+    if ($user) {
+        handle_user($user);
         fputs($log, $user->id . "\n");
         fflush($log);
     }
@@ -200,38 +245,39 @@ function read_log() {
     global $mass_email_log;
     $f = fopen($mass_email_log, 'r');
     if (!$f) {
-        echo $mass_email_log . ' not found - create empty file and run again\n';
+        echo "$mass_email_log not found - create empty file and run again\n";
         exit();
     }
     $startid = 0;
     while (fscanf($f, '%d', &$startid)) {
+        // read to the last entry in the file
     }
     fclose($f);
     return $startid;
 }
 
-function main($email_files) {
+function main() {
+    global $globals;
     global $id_file;
     global $mass_email_log;
     $startid = read_log();
     $f = fopen($mass_email_log, 'a');
-    $n = 10;
     if ($id_file == "") {
         while (1) {
-            $new_startid = do_batch($email_files, $startid, $n, $f);
+            $new_startid = do_batch($startid, $globals->batch, $f);
             if ($new_startid == $startid) break;
             $startid = $new_startid;
         }
     } else {
         $fid = fopen($id_file, 'r'); 
         if (!$fid) {
-            echo  $id_file . ' not found - create id list and run again\n';
+            echo  $id_file . ' not found - create ID list and run again\n';
             exit();
         }
         $thisid = 0;
         while (fscanf($fid, '%d', &$thisid)) {
             if ($thisid > $startid) {
-                do_one($email_files, $thisid, $f);
+                do_one($thisid, $f);
             }
         }
         fclose($fid);
@@ -246,13 +292,20 @@ if (!$USE_PHPMAILER) {
 
 $email_files = read_email_files();
 
-if ($userid) {
-    $user = lookup_user_id($userid);
-    mail_type($user, $email_files['failed']);
-    mail_type($user, $email_files['lapsed']);
-    if ($nocurrent == 0) { mail_type($user, $email_files['current']); }
+if ($globals->userid) {
+    $user = lookup_user_id($globals->userid);
+    if (!$user) {
+        echo "no such user\n";
+    } else {
+        $user->last_rpc_time = last_rpc_time($user);
+        mail_type($user, $email_files['failed']);
+        mail_type($user, $email_files['lapsed']);
+        if (!$globals->nocurrent) {
+            mail_type($user, $email_files['current']);
+        }
+    }
 } else {
-    main($email_files);
+    main();
 }
 
 ?>

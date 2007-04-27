@@ -110,7 +110,7 @@ function show_other() {
         <tr><td>
             <ul>
             <li> <a href=trac/wiki/BoincIntro/>Overview</a>
-            <li> <a href=trac/>Software development</a>
+            <li> <a href=trac/wiki/SoftwareDevelopment>Software development</a>
             <li> <a href=translation.php>Translation</a> of web and GUI text
             <li> <a href=trac/wiki/ProjectPeople>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
@@ -162,6 +162,7 @@ echo "
 search_form();
 echo "
 <br clear=all>
+<font size=-1>
 <a href=set_language.php?lang=ar>العربية</a>
 | <a href=set_language.php?lang=be>Беларускі</a>
 | <a href=set_language.php?lang=bg>���������</a>
@@ -182,6 +183,7 @@ echo "
 | <a href=set_language.php?lang=tr>Türkçe</a>
 | <a href=set_language.php?lang=zh_CN>简体中文</a>
 | <a href=set_language.php?lang=auto>Browser</a>
+</font>
 
 <table width=100% border=0 cellspacing=0 cellpadding=4>
 <tr>

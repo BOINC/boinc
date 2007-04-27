@@ -4084,3 +4084,12 @@ David  27 Apr 2007
             language_select.php
     languages/translations/
         en.po
+
+David  27 Apr 2007
+    - Major rewrite of email-sending programs.
+        Instead of editing their source (ugh!)
+        you can now use command-line args to get testing functionality.
+
+    html/ops/
+        remind.php
+        mass_email_script.php
