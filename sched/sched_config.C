@@ -146,6 +146,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_str(tag, "uldl_pid", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "sched_pid", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "min_core_client_version_announced", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "akismet_key", temp, sizeof(temp))) continue;
         else fprintf(stderr, "unknown tag: %s\n", tag);
     }   
     return ERR_XML_PARSE;
