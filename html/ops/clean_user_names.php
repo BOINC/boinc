@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("../inc/db.inc");
 
 set_time_limit(0);
