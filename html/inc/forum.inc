@@ -82,7 +82,7 @@ $post_ratings['-1'] = "Not helpful (-1)";
 $post_ratings['-2'] = "Off topic (-2)";
 
 $config = get_config();
-$no_forum_rating = parse_element($config,"<no_forum_rating/>"); 
+$no_forum_rating = parse_bool($config, "no_forum_rating"); 
 
 /**
  *  Process a user-supplied title to remove HTML stuff
