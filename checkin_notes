@@ -4094,3 +4094,28 @@ David  27 Apr 2007
     html/ops/
         remind.php
         mass_email_script.php
+
+Rytis  29 Apr 2007
+    - Private message functionality for the forums.
+        NOTE: needs database update.
+
+    html/
+        user/
+            forum_forum.php
+            forum_help_desk.php
+            forum_index.php
+            forum_pm.php (new)
+            white.css
+            img/
+                pm.png (new)
+        
+        inc/
+            db.inc
+            forum.inc
+            forum_user.inc
+            user.inc
+        
+        ops/
+            db_update.php
+            
+    db/schema.sql

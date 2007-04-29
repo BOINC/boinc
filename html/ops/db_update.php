@@ -365,11 +365,26 @@ function update_4_24_2007() {
     
 }
 
+function update_4_29_2007() {
+    do_query("CREATE TABLE `private_messages` (
+            `id`        int(10)     unsigned    NOT NULL auto_increment,
+            `userid`    int(10)     unsigned    NOT NULL,
+            `senderid`  int(10)     unsigned    NOT NULL,
+            `date`      int(10)     unsigned    NOT NULL,
+            `opened`    tinyint(1)  unsigned    NOT NULL default '0',
+            `subject`   varchar(255)            NOT NULL,
+            `content`   text                    NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `userid` (`userid`)
+        ) TYPE=MyISAM;"
+    );
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_4_07_2007();
+//update_4_29_2007();
 
 ?>

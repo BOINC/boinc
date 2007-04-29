@@ -393,6 +393,34 @@ function end_forum_table() {
  * Output the forum/thread title.
  **/
 function show_forum_title($forum=NULL, $thread=NULL) {
+    start_table_noborder();
+    echo "<tr>\n";
+
+    // Search
+    echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
+        <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
+        <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
+        <input type=\"hidden\" name=\"search_sort\" value=\"5\">
+        <input type=\"text\" name=\"search_keywords\">
+        <input type=\"submit\" value=\"search\"><br>
+        <span class=\"smalltext\"><a href=\"forum_search.php\">advanced search</a></span>
+        </form>
+    ";
+    echo "</td>\n";
+
+    $logged_in_user = get_logged_in_user(false);
+    // Custom stuff for logged in user
+    if ($logged_in_user) {
+        echo "<td align=\"right\">\n";
+        
+        // Private messages
+        echo pm_notification($logged_in_user);
+        
+        echo "</td>\n";
+    }
+    echo "</tr>\n";
+    end_table();
+
     echo "<p>\n";
     if ($forum) {
         $category = $forum->getCategory();
@@ -541,6 +569,23 @@ function can_reply($thread, $user) {
     } else {
         return false;
     }
+}
+
+function pm_notification($user) {
+    $output = "";
+    $pm = mysql_query("SELECT COUNT(*) AS unread FROM private_messages WHERE userid=".$user->id." AND opened=0");
+    $pm = mysql_fetch_object($pm);
+    if ($pm->unread > 1) {
+        $output .= "<strong><a href=\"forum_pm.php?action=inbox\">You have ".$pm->unread." unread private messages.</a> </strong>";
+    } elseif ($pm->unread == 1) {
+        $output .= "<strong><a href=\"forum_pm.php?action=inbox\">You have one unread private message.</a> </strong>";
+    } else {
+        $output .= "You have no unread private messages. ";
+    }
+    
+    $output .= "| <a href=\"forum_pm.php?action=inbox\">Inbox</a>\n";
+    $output .= "| <a href=\"forum_pm.php?action=new\">Write</a>\n";
+    return $output;
 }
 
 ?>

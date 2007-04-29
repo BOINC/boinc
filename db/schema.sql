@@ -453,3 +453,15 @@ create table sent_email (
         -- 6 = fundraising appeal
     primary key(userid)
 ) TYPE=MyISAM;
+
+create table private_messages (
+    id                  int(10)     unsigned    not null auto_increment,
+    userid              int(10)     unsigned    not null,
+    senderid            int(10)     unsigned    not null,
+    date                int(10)     unsigned    not null,
+    opened              tinyint(1)  unsigned    not null default '0',
+    subject             varchar(255)            not null,
+    content             text                    not null,
+    primary key(id),
+    key userid (userid)
+) TYPE=MyISAM;
