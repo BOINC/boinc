@@ -125,6 +125,11 @@ struct IP_RESULT {
     int parse(FILE*);
 };
 
+// Represents a result from this project that the client has.
+// The request message has a list of these.
+// The reply message may include a list of those to be aborted
+// or aborted if not started
+//
 struct OTHER_RESULT {
     std::string name;
     bool abort;
