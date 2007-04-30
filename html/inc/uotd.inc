@@ -3,6 +3,7 @@
 require_once('../inc/profile.inc');
 
 define('UOTD_THRESHOLD', 7);
+    // email sysadmin if # of UOTD candidates falls below this
 
 function uotd_thumbnail($profile, $user) {
     if ($profile->has_picture) {
@@ -12,16 +13,19 @@ function uotd_thumbnail($profile, $user) {
     }
 }
 
-function generate_uotd_page($profile, $user) {
-    $filename = PROFILE_PATH."uotd.html";
-    $descriptor = fopen($filename, "w");
-
-    if ($profile->has_picture) {
-        fwrite($descriptor, uotd_thumbnail($profile, $user));
+// show UOTD in a small box
+//
+function show_uotd() {
+    $profile = get_current_uotd();
+    if ($profile) {
+        $user = lookup_user_id($profile->userid);
+        echo "<br><table cellpadding=4 cellspacing=0><tr><td>";
+        echo uotd_thumbnail($profile, $user);
+        echo "</td><td>";
+        echo user_links($user)."<br>";
+        echo sub_sentence(output_transform(no_pres(strip_tags($profile->response1))), ' ', 150, true);
+        echo "</td></tr></table><br>\n";
     }
-    $x = user_links($user);
-    fwrite($descriptor, "The " . PROJECT . " User of the Day is $x");
-    fclose($descriptor);
 }
 
 // return the last UOTD profile, or null
@@ -36,10 +40,9 @@ function get_current_uotd() {
     return $p;
 }
 
-// Generate the UOTD page;
-// see if it's time to pick a new UOTD.
+// Select a (possibly new) UOTD
 //
-function build_uotd_page() {
+function select_uotd() {
     echo date("F d Y", time()).": Starting\n";
     $current_uotd = get_current_uotd();
     if ($current_uotd) {
@@ -47,7 +50,6 @@ function build_uotd_page() {
         $now = getdate(time());
         if ($assigned['mday'] == $now['mday']) {
             $user = lookup_user_id($current_uotd->userid);
-            generate_uotd_page($current_uotd, $user);
             echo "Already have UOTD for today\n";
             exit();
         }
@@ -90,7 +92,6 @@ function build_uotd_page() {
     }
     $profile = mysql_fetch_object($result);
     $user = lookup_user_id($profile->userid);
-    generate_uotd_page($profile, $user);
 
     $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
     mysql_query($sql);
@@ -125,6 +126,7 @@ function default_uotd_candidates_query(){
 
 // get a list of profiles that have been 'approved' for UOTD,
 // using a project-specific query if supplied in project.inc
+//
 function count_uotd_candidates(){
     $n = -1;                    // negative value returned on error
     if (function_exists('uotd_candidates_query')) {

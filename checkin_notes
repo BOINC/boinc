@@ -4119,3 +4119,14 @@ Rytis  29 Apr 2007
             db_update.php
             
     db/schema.sql
+
+David  30 Apr 2007
+    - UOTD code: don't generate a static page; add uotd.php
+
+    html/
+        ops/
+            update_uotd.php
+        inc/
+            uotd.inc
+        user/
+            uotd.php (new)

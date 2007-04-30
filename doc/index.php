@@ -2,6 +2,7 @@
 require_once("docutil.php");
 require_once("../html/inc/translation.inc");
 
+header('Content-Type: text/html; charset="UTF-8"');
 
 function show_participant() {
     global $light_blue;
@@ -169,15 +170,15 @@ echo "
 | <a href=set_language.php?lang=ca>Català</a>
 | <a href=set_language.php?lang=de>Deutsch</a>
 | <a href=set_language.php?lang=en>English</a>
-| <a href=set_language.php?lang=es>Espa�ol</a>
-| <a href=set_language.php?lang=fr>Fran�ais</a>
+| <a href=set_language.php?lang=es>Espa&ntilde;ol</a>
+| <a href=set_language.php?lang=fr>Fran&ccedil;ais</a>
 | <a href=set_language.php?lang=ja>日本語</a>
 ";
 //| <a href=set_language.php?lang=ja_JP>日本語</a>
 echo "
 | <a href=set_language.php?lang=lt>Lietuvių</a>
 | <a href=set_language.php?lang=pl>Polski</a>
-| <a href=set_language.php?lang=pt_BR>Portugu�s - Brasil</a>
+| <a href=set_language.php?lang=pt_BR>Portugu&ecirc;s - Brasil</a>
 | <a href=set_language.php?lang=ru>Русский</a>
 | <a href=set_language.php?lang=sk>Slovenčina</a>
 | <a href=set_language.php?lang=tr>Türkçe</a>
