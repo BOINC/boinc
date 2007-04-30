@@ -18,13 +18,11 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 extern void send_work_locality(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss
+    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, PLATFORM_LIST&, SCHED_SHMEM&
 );
 
 extern int decrement_disk_space_locality(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request,
-    SCHEDULER_REPLY& reply
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 );
 
 extern int delete_file_from_host(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);

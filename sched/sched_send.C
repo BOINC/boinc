@@ -60,8 +60,8 @@ const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 const double DEFAULT_RAM_SIZE = 64000000;
     // if host sends us an impossible RAM size, use this instead
 
-bool anonymous(PLATFORM& platform) {
-    return (!strcmp(platform.name, "anonymous"));
+bool anonymous(PLATFORM* platform) {
+    return (!strcmp(platform->name, "anonymous"));
 }
 
 bool SCHEDULER_REQUEST::has_version(APP& app) {
@@ -76,15 +76,15 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
     return false;
 }
 
-// Find the app and app_version for the client's platform.
+// Find an app and app_version for the client's platform(s).
 //
 int get_app_version(
     WORKUNIT& wu, APP* &app, APP_VERSION* &avp,
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
     bool found;
-    if (anonymous(platform)) {
+    if (anonymous(platforms.list[0])) {
         app = ss.lookup_app(wu.appid);
         found = sreq.has_version(*app);
         if (!found) {
@@ -95,7 +95,7 @@ int get_app_version(
         }
         avp = NULL;
     } else {
-        found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
+        found = find_app_version(reply.wreq, wu, platforms, ss, app, avp);
         if (!found) {
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Didn't find app version\n");
             return ERR_NO_APP_VERSION;
@@ -486,7 +486,7 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
 // return false if none
 //
 bool find_app_version(
-    WORK_REQ& wreq, WORKUNIT& wu, PLATFORM& platform, SCHED_SHMEM& ss,
+    WORK_REQ& wreq, WORKUNIT& wu, PLATFORM_LIST& platforms, SCHED_SHMEM& ss,
     APP*& app, APP_VERSION*& avp
 ) {
     app = ss.lookup_app(wu.appid);
@@ -496,17 +496,19 @@ bool find_app_version(
         );
         return false;
     }
-    avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
-    if (!avp) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG,
-            "no app version available: APP#%d PLATFORM#%d min_version %d\n",
-            app->id, platform.id, app->min_version
-        );
-        wreq.no_app_version = true;
-        return false;
+    unsigned int i;
+    for (i=0; i<platforms.list.size(); i++) {
+        PLATFORM* p = platforms.list[i];
+        avp = ss.lookup_app_version(app->id, p->id, app->min_version);
+        if (avp) return true;
     }
-    return true;
+    log_messages.printf(
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "no app version available: APP#%d PLATFORM#%d min_version %d\n",
+        app->id, platforms.list[0]->id, app->min_version
+    );
+    wreq.no_app_version = true;
+    return false;
 }
 
 // verify that the given APP_VERSION will work with the core client
@@ -531,7 +533,7 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     APP* app, APP_VERSION* avp
 ) {
     int retval;
@@ -551,8 +553,8 @@ int add_wu_to_reply(
         reply.insert_app_version_unique(*avp2);
         log_messages.printf(
             SCHED_MSG_LOG::MSG_DEBUG,
-            "[HOST#%d] Sending app_version %s %s %d\n",
-            reply.host.id, app->name, platform.name, avp2->version_num
+            "[HOST#%d] Sending app_version %s %d %d\n",
+            reply.host.id, app->name, avp2->platformid, avp2->version_num
         );
     }
 
@@ -690,14 +692,14 @@ void SCHEDULER_REPLY::got_bad_result() {
 
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
-    SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     APP* app, APP_VERSION* avp
 ) {
     int retval;
     double wu_seconds_filled;
     bool resent_result = false;
 
-    retval = add_wu_to_reply(wu, reply, platform, app, avp);
+    retval = add_wu_to_reply(wu, reply, platforms, app, avp);
     if (retval) return retval;
 
     // in the scheduling locality case,
@@ -814,7 +816,7 @@ int add_result_to_reply(
 }
 
 int send_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
 #if 1
@@ -864,14 +866,14 @@ int send_work(
 
     if (config.locality_scheduling) {
         reply.wreq.infeasible_only = false;
-        send_work_locality(sreq, reply, platform, ss);
+        send_work_locality(sreq, reply, platforms, ss);
     } else {
     	// give top priority to results that require a 'reliable host'
         //
         if (reply.wreq.host_info.reliable) {
         	reply.wreq.reliable_only = true;
         	reply.wreq.infeasible_only = false;
-        	scan_work_array(sreq, reply, platform, ss);
+        	scan_work_array(sreq, reply, platforms, ss);
         }
     	reply.wreq.reliable_only = false;
 
@@ -886,17 +888,17 @@ int send_work(
                 "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
                 reply.host.id
             );
-            scan_work_array(sreq, reply, platform, ss);
+            scan_work_array(sreq, reply, platforms, ss);
         }
         reply.wreq.beta_only = false;
     	
         // give next priority to results that were infeasible for some other host
         //
         reply.wreq.infeasible_only = true;
-        scan_work_array(sreq, reply, platform, ss);
+        scan_work_array(sreq, reply, platforms, ss);
 
         reply.wreq.infeasible_only = false;
-        scan_work_array(sreq, reply, platform, ss);
+        scan_work_array(sreq, reply, platforms, ss);
     }
 
     log_messages.printf(

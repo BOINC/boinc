@@ -4135,3 +4135,16 @@ Rom    30 Apr 2007 (HEAD)
     - Tag for 5.9.5 release, all platforms
       boinc_core_release_5_9_5
 
+David  30 Apr 2007
+    - scheduler: added (correct this time!) support for
+        <alt_platform> tags in scheduler requests.
+    - file_deleter: add check for -dont_delete_batches
+
+    sched/
+        file_deleter.C
+        handle_request.C
+        sched_array.C,h
+        sched_locality.C,h
+        sched_resend.C,h
+        sched_send.C,h
+        server_types.h

@@ -138,6 +138,10 @@ struct CLIENT_PLATFORM {
     int parse(FILE*);
 };
 
+struct PLATFORM_LIST {
+    std::vector<PLATFORM*> list;
+};
+
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     CLIENT_PLATFORM platform;

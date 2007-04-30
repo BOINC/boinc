@@ -85,8 +85,8 @@ static int possibly_give_result_new_deadline(
 }
 
 bool resend_lost_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
+    PLATFORM_LIST& platforms, SCHED_SHMEM& ss
 ) {
     DB_RESULT result;
     std::vector<DB_RESULT>results;
@@ -142,7 +142,7 @@ bool resend_lost_work(
                 sreq.core_client_major_version*100 + sreq.core_client_minor_version;
 
             retval = get_app_version(
-                wu, app, avp, sreq, reply, platform, ss
+                wu, app, avp, sreq, reply, platforms, ss
             );
             if (retval) {
                 log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
@@ -201,7 +201,7 @@ bool resend_lost_work(
             }
 
             retval = add_result_to_reply(
-                result, wu, sreq, reply, platform, app, avp
+                result, wu, sreq, reply, platforms, app, avp
             );
             if (retval) {
                 log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,

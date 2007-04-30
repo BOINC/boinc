@@ -487,8 +487,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
 }
 
 int send_result_abort(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
 ) {
 	int aborts_sent = 0;
     DB_IN_PROGRESS_RESULT result;
@@ -1187,6 +1186,7 @@ void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
     char* code_sign_key
 ) {
+    PLATFORM_LIST platforms;
     PLATFORM* platform;
     int retval;
     double last_rpc_time;
@@ -1318,16 +1318,15 @@ void process_request(
     }
     retval = modify_host_struct(sreq, reply.host);
 
-    // look up the client's platform in the DB
+    // look up the client's platform(s) in the DB
     //
     platform = ss.lookup_platform(sreq.platform.name);
-    if (!platform) {
-        for (i=0; i<sreq.alt_platforms.size(); i++) {
-            platform = ss.lookup_platform(sreq.alt_platforms[i].name);
-            if (platform) break;
-        }
+    if (platform) platforms.list.push_back(platform);
+    for (i=0; i<sreq.alt_platforms.size(); i++) {
+        platform = ss.lookup_platform(sreq.alt_platforms[i].name);
+        if (platform) platforms.list.push_back(platform);
     }
-    if (!platform) {
+    if (platforms.list.size() == 0) {
         sprintf(buf, "platform '%s' not found", sreq.platform.name);
         USER_MESSAGE um(buf, "low");
         reply.insert_message(um);
@@ -1344,13 +1343,13 @@ void process_request(
     handle_results(sreq, reply);
 
     if (config.resend_lost_results && sreq.have_other_results_list) {
-        if (resend_lost_work(sreq, reply, *platform, ss)) {
+        if (resend_lost_work(sreq, reply, platforms, ss)) {
             ok_to_send_work = false;
         }
     }
 
     if (config.send_result_abort && sreq.have_other_results_list) {
-        send_result_abort(sreq, reply, *platform, ss);
+        send_result_abort(sreq, reply, ss);
     }
     
     // if last RPC was within config.min_sendwork_interval, don't send work
@@ -1377,7 +1376,7 @@ void process_request(
             }
         }
         if (ok_to_send_work) {
-            send_work(sreq, reply, *platform, ss);
+            send_work(sreq, reply, platforms, ss);
         }
     }
 
