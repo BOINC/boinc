@@ -498,8 +498,8 @@ int send_result_abort(
     	return 0;
     }
 
-    // initially mark all results for abort and build list of results
-    // to query
+    // initially mark all results for abort and build list of results to query
+    //
     for (i=0; i<sreq.other_results.size(); i++) {
         OTHER_RESULT& orp=sreq.other_results[i];
         orp.abort = true;
@@ -513,7 +513,9 @@ int send_result_abort(
             reply.host.id, orp.name.c_str()
         );
     }
+
     // query the db for the results and set the appropriate flag
+    //
     while (!result.enumerate(reply.host.id, result_names.c_str())) {
         for (i=0; i<sreq.other_results.size(); i++) {
             OTHER_RESULT& orp = sreq.other_results[i];
@@ -538,27 +540,26 @@ int send_result_abort(
     }
     
     // loop through the results and send the appropriate message (if any)
+    //
     for (i=0; i<sreq.other_results.size(); i++) {
     	OTHER_RESULT& orp = sreq.other_results[i];
-    	if ( orp.abort ) {
+    	if (orp.abort) {
     		reply.result_aborts.push_back(orp.name);
 			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             	"[HOST#%d]: Send result_abort for result %s\n",
             	reply.host.id, orp.name.c_str()
-        		); 
+            ); 
         	// send user message 
             char buf[256];
             sprintf(buf, "Result %s is no longer usable\n", orp.name.c_str());
             USER_MESSAGE um(buf, "high");
             reply.insert_message(um);
-        } else if ( orp.abort_if_not_started ) {
-        	/* commented out becuase this crashes the core client
-    		reply.result_abort_if_unstarteds.push_back(orp.name);
+        } else if (orp.abort_if_not_started) {
+    		reply.result_abort_if_not_starteds.push_back(orp.name);
 			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             	"[HOST#%d]: Send result_abort_if_unstarted for result %s\n",
             	reply.host.id, orp.name.c_str()
-        		); 
-        	*/   	
+            ); 
     	}
     }
     
