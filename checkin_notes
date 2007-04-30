@@ -4148,3 +4148,12 @@ David  30 Apr 2007
         sched_resend.C,h
         sched_send.C,h
         server_types.h
+
+David  30 Apr 2007
+    - core client: if platform is different from platform in state file,
+        print a message but don't reset projects
+        (otherwise people running on 64-bit machines would lost
+        in-progress jobs when switching to 64-bit client)
+
+    client/
+        client_state.C

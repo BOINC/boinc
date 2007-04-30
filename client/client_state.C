@@ -323,18 +323,13 @@ int CLIENT_STATE::init() {
         if (retval) return retval;
     }
 
-    // Has platform name changed?  If so reset all.
-    // This could happen e.g. if user copies files from PPC to Intel Mac
+    // If platform name changed, print warning
     //
     if (statefile_platform_name.size() && strcmp(platform_name, statefile_platform_name.c_str())) {
         msg_printf(NULL, MSG_INFO,
-            "Platform changed from %s to %s - resetting projects",
+            "Platform changed from %s to %s",
             statefile_platform_name.c_str(), platform_name
         );
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
-            reset_project(p);
-        }
     }
 
 #if (defined(SANDBOX) && ! defined(_WIN32))
