@@ -390,11 +390,11 @@ $linux_libs_gcc41= "
       </ul>
 ";
 
-$w595= array(
-    "num"=>"5.9.5",
+$w594= array(
+    "num"=>"5.9.4",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.5_windows_intelx86.exe",
-    "date"=>"30 Apr 2007",
+    "file"=>"boinc_5.9.4_windows_intelx86.msi",
+    "date"=>"20 Apr 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -404,11 +404,11 @@ $w595= array(
     "bugs"=>""
 );
 
-$w595x64= array(
-    "num"=>"5.9.5",
+$w594x64= array(
+    "num"=>"5.9.4",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.5_windows_x86_64.exe",
-    "date"=>"30 Apr 2007",
+    "file"=>"boinc_5.9.4_windows_x86_64.msi",
+    "date"=>"20 Apr 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -473,6 +473,21 @@ $w5411= array(
     "
 );
 
+$m595 = array(
+    "num"=>"5.9.5",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.9.5_macOSX_universal.zip",
+    "date"=>"30 Apr 2007",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+".$features_510."
+".$changes_510."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
 $m5817 = array(
     "num"=>"5.8.17",
     "status"=>"Recommended version (standard GUI)",
@@ -509,6 +524,21 @@ $m549 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
+$m595c = array(
+    "num"=>"5.9.5",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.9.5_universal-apple-darwin.zip",
+    "date"=>"30 Apr 2007",
+    "type"=>"bare_core",
+    "features"=>"<ul>
+".$features_510."
+".$changes_510."
      </ul>
     ",
     "bugs"=>"
@@ -597,7 +627,8 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w595,
+        $w594,
+        $w593,
         $w5816,
         $w5411,
     )
@@ -607,7 +638,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w595x64,
+        $w594x64,
     )
 );
 
@@ -619,6 +650,8 @@ $mac = array(
         $m5817c,
         $m549,
         $m549c,
+        $m595,
+        $m595c,
     )
 );
 $linux = array(
