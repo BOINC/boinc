@@ -225,7 +225,7 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
 
     if (!file_exists($langdir.$compdir)){
         //This directory does not exist - try to create one
-        mkdir($langdir.$compdir,0733);
+        mkdir($langdir.$compdir,0773);
         return true;
         //and force an update since we need it
     }

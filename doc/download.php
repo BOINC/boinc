@@ -14,6 +14,9 @@ function latest_version($p) {
         if (!$dev && is_dev($v)) continue;
         return $v;
     }
+    foreach ($p['versions'] as $i=>$v) {
+        return $v;
+    }
 }
 
 function download_link($pname) {
@@ -105,6 +108,7 @@ function show_download($pname) {
         echo "<table cellpadding=8>
         ";
         link_row('win');
+        link_row('winx64');
         link_row('mac');
         link_row('linux');
         echo "</table>
@@ -156,7 +160,11 @@ page_head(tr(DL_DOWNLOAD_TITLE));
 if ($_GET['all_platforms']) {
     show_download(null);
 } else if (strstr($client_info, 'Windows')) {
-    show_download('win');
+    if (strstr($client_info, 'Win64')||strstr($client_info, 'WOW64')) {
+        show_download('winx64');
+    } else {
+        show_download('win');
+    }
 } else if (strstr($client_info, 'Mac')) {
     show_download('mac');
 } else if (strstr($client_info, 'Linux')) {

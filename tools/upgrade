@@ -64,5 +64,11 @@ print "You may need to do database upgrades also."
 print "(see html/ops/db_update.php)"
 print "Run `bin/start' to restart the project."
 
+svn_version_file = INSTALL_DIR+'/local.revision'
+try:
+    os.system('/bin/sh -c /usr/bin/svnversion > '+svn_version_file)
+except:
+    print '''Couldn't find svnversion'''
+
 #if os.system(os.path.join(INSTALL_DIR,'bin/start')):
 #    raise SystemExit("Couldn't start BOINC!")

@@ -250,6 +250,12 @@ t.cmd = 'run_in_ops update_profile_pages.php'
 
 project.config.write()
 
+svn_version_file = proot+'/local.revision'
+try:
+    os.system('/bin/sh -c /usr/bin/svnversion > '+svn_version_file)
+except:
+    print '''Couldn't find svnversion'''
+
 print '''Done installing default daemons.'''
 
 # copy the test app if needed

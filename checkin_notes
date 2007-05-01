@@ -4164,3 +4164,19 @@ David  30 Apr 2007
 
     sched/
         handle_request.C
+
+David  1 May 2007
+    - make_project and upgrade now write a file 'local.revision'
+        in the project home directory.
+        It contains the output of /usr/bin/svnversion,
+        i.e. the code revision from which the server software was built.
+    - Web files that create directories now give them g+rwx permissions
+        
+    html/inc/
+        cache.inc
+        translation.inc
+    sched/
+        edf_sim.C
+    tools/
+        make_project
+        upgrade
