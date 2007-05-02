@@ -233,7 +233,7 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
 		int row = aRows.Item(i);
 		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_PROJECT).Trim(false);
 		pDoc->ProjectUpdate(searchName);
-	}		
+	}
     pFrame->UpdateStatusText(wxT(""));
 
 	pDoc->ForceCacheUpdate();
@@ -264,13 +264,13 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
 	for(unsigned int i=0; i< aRows.Count();i++) {
 		int row = aRows.Item(i);
 		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_PROJECT).Trim(false);
-		PROJECT* project = pDoc->project(searchName);		
+		PROJECT* project = pDoc->project(searchName);
 		if(project) {
-		    if (!(project->suspended_via_gui)) {				
-				pDoc->ProjectSuspend(searchName);				
+		    if (!(project->suspended_via_gui)) {
+				pDoc->ProjectSuspend(searchName);
 			}
 		}
-	}		
+	}
 	pFrame->UpdateStatusText(wxT(""));
 	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
@@ -298,13 +298,13 @@ void CViewProjectsGrid::OnProjectResume( wxCommandEvent& WXUNUSED(event) ) {
 	for(unsigned int i=0; i< aRows.Count();i++) {
 		int row = aRows.Item(i);
 		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_PROJECT).Trim(false);
-		PROJECT* project = pDoc->project(searchName);		
+		PROJECT* project = pDoc->project(searchName);
 		if(project) {
-		    if (project->suspended_via_gui) {				
-				pDoc->ProjectResume(searchName);				
+		    if (project->suspended_via_gui) {
+				pDoc->ProjectResume(searchName);
 			}
 		}
-	}		
+	}
 	pFrame->UpdateStatusText(wxT(""));
 	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
@@ -332,13 +332,13 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
 	for(unsigned int i=0; i< aRows.Count();i++) {
 		int row = aRows.Item(i);
 		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_PROJECT).Trim(false);
-		PROJECT* project = pDoc->project(searchName);		
+		PROJECT* project = pDoc->project(searchName);
 		if(project) {
-			if (!(project->dont_request_more_work)) {				
-				pDoc->ProjectNoMoreWork(searchName);				
+			if (!(project->dont_request_more_work)) {
+				pDoc->ProjectNoMoreWork(searchName);
 			}
 		}
-	}		
+	}
 	pFrame->UpdateStatusText(wxT(""));
 
 	pDoc->ForceCacheUpdate();
@@ -367,13 +367,13 @@ void CViewProjectsGrid::OnProjectAllowNewWork( wxCommandEvent& WXUNUSED(event) )
 	for(unsigned int i=0; i< aRows.Count();i++) {
 		int row = aRows.Item(i);
 		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_PROJECT).Trim(false);
-		PROJECT* project = pDoc->project(searchName);		
+		PROJECT* project = pDoc->project(searchName);
 		if(project) {
-			if (project->dont_request_more_work) {				
-				pDoc->ProjectAllowMoreWork(searchName);				
+			if (project->dont_request_more_work) {
+				pDoc->ProjectAllowMoreWork(searchName);
 			}
 		}
-	}		
+	}
 	pFrame->UpdateStatusText(wxT(""));
 	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
@@ -406,7 +406,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 	for(unsigned int i=0; i< aRows.Count();i++) {
 		int row = aRows.Item(i);
 		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_PROJECT).Trim(false);
-		PROJECT* project = pDoc->project(searchName);		
+		PROJECT* project = pDoc->project(searchName);
 		if(project) {
 		    strMessage.Printf(_("Are you sure you want to reset project '%s'?"),searchName.c_str());
 		    iAnswer = ::wxMessageBox(strMessage,_("Reset Project"),wxYES_NO | wxICON_QUESTION,this);
@@ -414,7 +414,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 				pDoc->ProjectReset(searchName);
 			}
 		}
-	}		
+	}
 
     pFrame->UpdateStatusText(wxT(""));
 
@@ -451,7 +451,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 	for(unsigned int i=0; i< aRows.Count();i++) {
 		int row = aRows.Item(i);
 		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_PROJECT).Trim(false);
-		PROJECT* project = pDoc->project(searchName);		
+		PROJECT* project = pDoc->project(searchName);
 		if(project) {
 		    strMessage.Printf(_("Are you sure you want to detach from project '%s'?"), searchName.c_str());
 		    iAnswer = ::wxMessageBox(strMessage,_("Detach from Project"),wxYES_NO | wxICON_QUESTION,this);
@@ -459,7 +459,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 				pDoc->ProjectDetach(searchName);
 			}
 		}
-	}		
+	}
     pFrame->UpdateStatusText(wxT(""));
 	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
@@ -520,8 +520,8 @@ void CViewProjectsGrid::UpdateSelection() {
     //
     pGroup = m_TaskGroups[0];
 
-	if (m_pGridPane->GetSelectedRows2().size() > 0) {		
-        // init states 
+	if (m_pGridPane->GetSelectedRows2().size() > 0) {
+        // init states
 		bool suspendedProjectsSelected=false;
 		bool runningProjectsSelected=false;
 		bool noWorkProjectsSelected=false;
@@ -550,7 +550,7 @@ void CViewProjectsGrid::UpdateSelection() {
 					accountManagerUsed=true;
 				}
 			}
-		}		
+		}
 
 		//update is always enabled
 		m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
@@ -580,17 +580,17 @@ void CViewProjectsGrid::UpdateSelection() {
 		}
 		else {
 			m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_NOWORK]);
-		}		
+		}
 		//disable detach while using account manager
         if (accountManagerUsed) {
             m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
         } else {
             m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
         }
-		//website links only for single selection		
+		//website links only for single selection
 		if(m_pGridPane->GetSelectedRows2().size() == 1) {
 			wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
-			PROJECT* project = pDoc->project(searchName);			
+			PROJECT* project = pDoc->project(searchName);
 			UpdateWebsiteSelection(GRP_WEBSITES, project);
 		}
 		else {
@@ -712,9 +712,9 @@ void CViewProjectsGrid::FormatResourceShare(wxInt32 item, wxString& strBuffer){
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (project && pDoc) {
-        strBuffer.Printf(wxT(" %0.0f (%0.2f%%)"), 
-            project->resource_share, 
-            ((project->resource_share / pDoc->m_fProjectTotalResourceShare) * 100)
+        strBuffer.Printf(wxT("  %0.2f%% (%0.0f)"),
+            ((project->resource_share / pDoc->m_fProjectTotalResourceShare) * 100),
+            project->resource_share
         );
     }
 }
@@ -845,7 +845,7 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	wxString strBuffer;
 	int iMax = m_pGridPane->GetNumberRows();
 	for(int iRow = 0; iRow < iMax; iRow++) {
-		
+
         FormatProjectName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
