@@ -560,8 +560,12 @@ void CBOINCGUIApp::StartupBOINCCore() {
                     argv[3] = "-insecure";
                     argv[4] = NULL;
                 }
-#endif  
-                m_lBOINCCoreProcessId = ::wxExecute(argv);
+#endif
+                // Under wxMac-2.8.0, wxExecute starts a separate thread to wait for child's termination.
+                // That wxProcessTerminationThread uses a huge amount of processor time (about 11% of one 
+                // CPU on 2GHz Intel Dual-Core Mac).
+//                m_lBOINCCoreProcessId = ::wxExecute(argv);
+                run_program("/Library/Application Support/BOINC Data", buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId);
 #endif
             } else {
                 buf[0] = '\0';

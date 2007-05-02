@@ -4270,3 +4270,11 @@ Matt    2 May 2007
     html/ops/
         db_update.php
 
+Charlie 2 May 2007
+    - Mac: Use run_program() instead of wxExecute to launch boinc CC, 
+        because under wxMac-2.8.0, wxExecute starts a separate thread 
+        to wait for child's termination. wxProcessTerminationThread uses 
+        a huge amount of CPU time (about 11% of 1 CPU on 2GHz Intel Mac). 
+
+    clientgui/
+        BOINCGUIApp.cpp
