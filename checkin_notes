@@ -4184,3 +4184,15 @@ David  1 May 2007
 Rom    30 Apr 2007 (HEAD)
     - Tag for 5.9.6 release, all platforms
       boinc_core_release_5_9_6
+
+Charlie 2 May 2007
+    - Mac: Revert to wxMac-2.8.0 due to bugs in later versions.
+    - Mac: Update XCode project, build scripts and build instructions to use 
+        wxMac-2.8.0.  Tag these changes for 5.9.6 release.
+
+    mac_build/
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
