@@ -249,6 +249,8 @@ public:
     bool scheduler_rpc_poll();
     bool simulate_rpc(PROJECT*);
     void print_project_results(FILE*);
+	bool task_deadline_before_connect(SIM_APP *ap);
+	bool task_makes_work_later(RESULT *rp);
 };
 
 inline bool results_by_deadline(RESULT * r1, RESULT *r2) {return r1->report_deadline > r2->report_deadline;};

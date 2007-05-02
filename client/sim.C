@@ -48,6 +48,7 @@ bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
 bool running;
+bool server_uses_client_deadlines;
 
 SIM_RESULTS sim_results;
 
@@ -276,6 +277,70 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
     return 0;
 }
 
+bool CLIENT_STATE::task_deadline_before_connect(SIM_APP *ap) {
+	if (ap->latency_bound < gstate.global_prefs.work_buf_min_days * 86400) {
+		printf("application %s latency less than min queue", ap->name);
+		return true;
+	}
+	return false;
+}
+
+bool CLIENT_STATE::task_makes_work_later(RESULT *rp) {
+	std::vector<RESULT*> existing_results;
+	std::vector<double> estimated_cpu_time_per_cpu;
+
+	// next set up an array to be sorted, and sort it.
+	for (unsigned int i = 0; i < results.size(); ++i)
+	{
+		existing_results.push_back(results[i]);
+	}
+	std::sort(existing_results.begin(), existing_results.end(), results_by_deadline);
+	// set up an array of CPU simulators.
+	estimated_cpu_time_per_cpu.resize(ncpus);
+	for (unsigned int i = 0; i < estimated_cpu_time_per_cpu.size(); ++i) {
+		estimated_cpu_time_per_cpu[i] = 0.0;
+	}
+	for (unsigned int i = 0; i < results.size(); ++i) {
+		unsigned int cpu_index = 0;
+		for (int j = 1; j < ncpus; ++j) {
+			if (estimated_cpu_time_per_cpu[j] < estimated_cpu_time_per_cpu[cpu_index]) {
+				cpu_index = j;
+			}
+		}
+		estimated_cpu_time_per_cpu[cpu_index] += results[i]->estimated_cpu_time_remaining();
+		if (results[i]->computation_deadline() < (estimated_cpu_time_per_cpu[cpu_index] + gstate.now)) {
+			// it is going to be late, let us mark it as such.
+			results[i]->sim_deadline_missed_by = 
+				(estimated_cpu_time_per_cpu[cpu_index] + gstate.now) - results[i]->computation_deadline();
+		} else {
+			results[i]->sim_deadline_missed_by = 0;
+		}
+	}
+	// test the new result before adding it to the results.
+	rp->sim_deadline_missed_by = 0;
+	existing_results.push_back(rp);
+	std::sort(existing_results.begin(), existing_results.end(), results_by_deadline);
+	for (unsigned int i = 0; i < estimated_cpu_time_per_cpu.size(); ++i) {
+		estimated_cpu_time_per_cpu[i] = 0.0;
+	}
+	for (unsigned int i = 0; i < results.size(); ++i) {
+		unsigned int cpu_index = 0;
+		for (int j = 1; j < ncpus; ++j) {
+			if (estimated_cpu_time_per_cpu[j] < estimated_cpu_time_per_cpu[cpu_index]) {
+				cpu_index = j;
+			}
+		}
+		estimated_cpu_time_per_cpu[cpu_index] += results[i]->estimated_cpu_time_remaining();
+		if (results[i]->sim_deadline_missed_by < 
+				(estimated_cpu_time_per_cpu[cpu_index] + gstate.now - results[i]->computation_deadline())) {
+			// it is going to be later than originally, mark the app as non-feasible and bail.
+			printf("deadline misses extended\n");
+			return true;
+		}
+	}
+	return false;
+}
+
 bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     double net_fpops = host_info.p_fpops;
     char buf[256];
@@ -327,12 +392,14 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 	// setup the infeasibility for the applications.
 	// Note that this only works because each application has only one fpops estimate.
 	int infeasible_count = 0;
-	while (p->work_request > 0 && infeasible_count < p->max_infeasible_count) {
+	while (p->work_request > 0 && 
+		(!server_uses_client_deadlines || infeasible_count < p->max_infeasible_count)) {
+
+		bool infeasible = false;
+
 		// pick a random app
 		SIM_APP* ap1, *ap=0;
 		double x = drand();
-		// if there are no applications that can send work because of 
-		// deadlines, quit.
 		for (unsigned int i=0; i<apps.size();i++) {
 			ap1 = (SIM_APP*)apps[i];
 			if (ap1->project != p) continue;
@@ -352,45 +419,9 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 		// connected periods last, and how much more connected period is expected.
 		// if the connected period has enough time to finish the task, and report it, then,
 		// why not send it.
-		if (config.experimental_server_deadlines) {
-			if (ap->latency_bound < gstate.global_prefs.work_buf_min_days * 86400) {
-				printf("application %s latency less than min queue", ap->name);
-				++infeasible_count;
-				continue;
-			}
-		}
-
-		std::vector<RESULT*> existing_results;
-		std::vector<double> estimated_cpu_time_per_cpu;
-		if (config.experimental_server_deadlines) {
-
-			// next set up an array to be sorted, and sort it.
-			for (unsigned int i = 0; i < results.size(); ++i)
-			{
-				existing_results.push_back(results[i]);
-			}
-			std::sort(existing_results.begin(), existing_results.end(), results_by_deadline);
-			// set up an array of CPU simulators.
-			estimated_cpu_time_per_cpu.resize(ncpus);
-			for (unsigned int i = 0; i < estimated_cpu_time_per_cpu.size(); ++i) {
-				estimated_cpu_time_per_cpu[i] = 0.0;
-			}
-			for (unsigned int i = 0; i < results.size(); ++i) {
-				unsigned int cpu_index = 0;
-				for (int j = 1; j < ncpus; ++j) {
-					if (estimated_cpu_time_per_cpu[j] < estimated_cpu_time_per_cpu[cpu_index]) {
-						cpu_index = j;
-					}
-				}
-				estimated_cpu_time_per_cpu[cpu_index] += results[i]->estimated_cpu_time_remaining();
-				if (results[i]->computation_deadline() < (estimated_cpu_time_per_cpu[cpu_index] + gstate.now)) {
-					// it is going to be late, let us mark it as such.
-					results[i]->sim_deadline_missed_by = 
-						(estimated_cpu_time_per_cpu[cpu_index] + gstate.now) - results[i]->computation_deadline();
-				} else {
-					results[i]->sim_deadline_missed_by = 0;
-				}
-			}
+		if (server_uses_client_deadlines && task_deadline_before_connect(ap)) {
+			++infeasible_count;
+			continue;
 		}
 
         RESULT* rp = new RESULT;
@@ -402,39 +433,16 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         wup->project = p;
         wup->rsc_fpops_est = ap->fpops_est;
-		if (config.experimental_server_deadlines) {
-			// test the new result before adding it to the results.
-			rp->sim_deadline_missed_by = 0;
-			existing_results.push_back(rp);
-			std::sort(existing_results.begin(), existing_results.end(), results_by_deadline);
-			for (unsigned int i = 0; i < estimated_cpu_time_per_cpu.size(); ++i) {
-				estimated_cpu_time_per_cpu[i] = 0.0;
-			}
-			bool infeasible = false;
-			for (unsigned int i = 0; i < results.size(); ++i) {
-				unsigned int cpu_index = 0;
-				for (int j = 1; j < ncpus; ++j) {
-					if (estimated_cpu_time_per_cpu[j] < estimated_cpu_time_per_cpu[cpu_index]) {
-						cpu_index = j;
-					}
-				}
-				estimated_cpu_time_per_cpu[cpu_index] += results[i]->estimated_cpu_time_remaining();
-				if (results[i]->sim_deadline_missed_by < 
-						(estimated_cpu_time_per_cpu[cpu_index] + gstate.now - results[i]->computation_deadline())) {
-					// it is going to be later than originally, mark the app as non-feasible and bail.
-					printf("deadline misses extended\n");
-					delete rp;
-					delete wup;
-					rp = NULL;
-					wup = NULL;
-					++infeasible_count;
-					infeasible = true;
-					break;
-				}
-			}
-			if (infeasible) {
-				continue;
-			}
+		if (server_uses_client_deadlines && task_makes_work_later(rp)) {
+			infeasible = true;
+		}
+		if (infeasible) {
+			++infeasible_count;
+			delete rp;
+			delete wup;
+			rp = NULL;
+			wup = NULL;
+			continue;
 		}
 
 		results.push_back(rp);
@@ -1013,7 +1021,9 @@ void parse_error(char* file, int retval) {
 }
 
 void help(char* prog) {
-    fprintf(stderr, "usage: %s [--duration X] [--delta X] [--dirs dir ...]\n", prog);
+	fprintf(stderr, "usage: %s [--duration X] [--delta X] [--server_uses_client_deadlines] [--client_knows_server_uses_deadlines] [--naive_cpu_scheduler] [--no_dcf] [stats_based_dcf] [--dual_dcf] [--dirs dir ...]\n", prog);
+	fprintf(stderr, "    Notes:  --dual_dcf requires stats_based_dcf.\n");
+	fprintf(stderr, "            --stats_based_dcf and no_dcf are mutually exclusive.\n");
     exit(1);
 }
 
@@ -1032,6 +1042,8 @@ char* next_arg(int argc, char** argv, int& i) {
 #define LOG_FILE "sim_log.txt"
 
 int main(int argc, char** argv) {
+	server_uses_client_deadlines = false;  //based on a parameter to be read
+
     int i, retval;
     vector<std::string> dirs;
 
@@ -1043,6 +1055,18 @@ int main(int argc, char** argv) {
             duration = atof(next_arg(argc, argv, i));
         } else if (!strcmp(opt, "--delta")) {
             delta = atof(next_arg(argc, argv, i));
+		} else if (!strcmp(opt, "--server_uses_client_deadlines")) {
+			server_uses_client_deadlines = true;
+		} else if (!strcmp(opt, "--client_knows_server_uses_deadlines")) {
+			config.experimental_server_deadlines = true;
+		} else if (!strcmp(opt, "--naive_cpu_scheduler")) {
+			config.experimental_rr_only_cpu_scheduler = true;
+		} else if (!strcmp(opt, "--no_dcf")) {
+			config.experimental_no_dcf = true;
+		} else if(!strcmp(opt, "--dual_dcf")) {
+			config.experimental_dual_dcf = true;
+		} else if(!strcmp(opt, "--stats_based_dcf")) {
+			config.experimental_stats_based_dcf;
         } else if (!strcmp(opt, "--dirs")) {
             while (i<argc) {
                 dirs.push_back(argv[i++]);
