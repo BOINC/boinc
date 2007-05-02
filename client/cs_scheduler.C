@@ -111,12 +111,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <authenticator>%s</authenticator>\n"
         "    <hostid>%d</hostid>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
-        "    <platform_name>%s</platform_name>\n"
-#ifdef HOSTTYPEALT
-        "    <alt_platform>\n"
-		"        <name>%s</name>\n"
-		"    </alt_platform>\n"
-#endif
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <core_client_release>%d</core_client_release>\n"
@@ -129,10 +123,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
-        p->anonymous_platform?"anonymous":platform_name,
-#ifdef HOSTTYPEALT
-		alt_platform_name,
-#endif
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
@@ -143,6 +133,13 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
         p->duration_correction_factor
     );
+
+    // send supported platforms
+    //
+    report_supported_platforms(p, mf);
+
+    // send supported app_versions for anonymous platform
+    //   clients
     if (p->anonymous_platform) {
         fprintf(f, "    <app_versions>\n");
         for (i=0; i<app_versions.size(); i++) {

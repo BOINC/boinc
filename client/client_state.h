@@ -64,6 +64,7 @@ using std::vector;
 //
 class CLIENT_STATE {
 public:
+    vector<PLATFORM*> platforms;
     vector<PROJECT*> projects;
     vector<APP*> apps;
     vector<FILE_INFO*> file_infos;
@@ -156,10 +157,6 @@ public:
         // this affects auto-update
     bool run_by_updater;
     double now;
-    const char* platform_name;
-#ifdef HOSTTYPEALT
-    const char* alt_platform_name;
-#endif
     bool initialized;
 
 private:
@@ -363,6 +360,14 @@ public:
 private:
     int make_project_dirs();
     bool handle_pers_file_xfers();
+
+// --------------- cs_platforms.C:
+public:
+    const char* get_primary_platform();
+private:
+    void add_supported_platform(const char* supported_platform);
+    void detect_supported_platforms();
+    void report_supported_platforms(PROJECT*, MIOFILE&);
 
 // --------------- cs_prefs.C:
 public:

@@ -139,7 +139,8 @@ void parse_url(const char* url, char* host, int &port, char* file) {
 
 void get_user_agent_string() {
     sprintf(g_user_agent_string, "BOINC client (%s %d.%d.%d)",
-        HOSTTYPE, BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
+        gstate.get_primary_platform(),
+        BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
 }
 

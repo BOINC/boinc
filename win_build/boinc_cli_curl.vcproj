@@ -1319,6 +1319,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\cs_platforms.C"
+				>
+			</File>
+			<File
 				RelativePath="..\client\cs_prefs.C"
 				>
 				<FileConfiguration

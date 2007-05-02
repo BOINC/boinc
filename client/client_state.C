@@ -73,10 +73,6 @@ CLIENT_STATE::CLIENT_STATE() {
     core_client_version.major = BOINC_MAJOR_VERSION;
     core_client_version.minor = BOINC_MINOR_VERSION;
     core_client_version.release = BOINC_RELEASE;
-    platform_name = HOSTTYPE;
-#ifdef HOSTTYPEALT
-    alt_platform_name = HOSTTYPEALT;
-#endif
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -157,13 +153,18 @@ int CLIENT_STATE::init() {
 #ifdef _DEBUG
     debug_str = " (DEBUG)";
 #endif
+
+    // initialize supported platforms vector
+    detect_supported_platforms();
+
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        platform_name, debug_str
+        get_primary_platform(), debug_str
     );
+
     log_flags.show();
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
@@ -325,10 +326,10 @@ int CLIENT_STATE::init() {
 
     // If platform name changed, print warning
     //
-    if (statefile_platform_name.size() && strcmp(platform_name, statefile_platform_name.c_str())) {
+    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
         msg_printf(NULL, MSG_INFO,
             "Platform changed from %s to %s",
-            statefile_platform_name.c_str(), platform_name
+            statefile_platform_name.c_str(), get_primary_platform()
         );
     }
 

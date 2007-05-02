@@ -4196,3 +4196,24 @@ Charlie 2 May 2007
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    2 May 2007
+    - fixes #154: 
+        * refactored the alternate platform mechinism so that we
+          can support multiple alternate platforms.
+        * moved everything to cs_platforms.C since we expect the
+          kind of sprawl that is in host_info.C on the *nix
+          environments.
+    - Clean up some warnings
+          
+    client/
+        acct_setup.C
+        client_state.C, .h
+        client_types.h
+        cs_platforms.C (Added)
+        cs_scheduler.C
+        cs_statefile.C
+        http_curl.C
+    lib/
+        str_util.h
+
