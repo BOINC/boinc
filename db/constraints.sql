@@ -104,3 +104,8 @@ alter table post
     add index post_user (user),
     add index post_thread (thread),
     add fulltext index post_content(content);
+
+alter table wuhash
+   add index wuhash_user (userid),
+   add index wuhash_wu (workunitid),
+   add unique wuhash_user_wu (userid, workunitid);

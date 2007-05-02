@@ -4217,3 +4217,24 @@ Rom    2 May 2007
     lib/
         str_util.h
 
+Matt	2 May 2007
+    - updated db/validator to add logic for wuhash table.
+      wuhash table (see schema.sql) has two fields, user and 
+      project-specific workunit id so that a user's contribution
+      can be tied to the appropriate workunit ID in the science
+      database (a different ID than in the BOINC database). This logic
+      is only enacted with -update_wuhash flag on command line.
+      The project-specific workunit id is expected to be found
+      in the workunit.opaque field.
+
+    db/
+        schema.sql
+        constraints.sql
+        boinc_db.C,h
+    sched/
+        validator.C
+    html/ops/
+        db_update.php
+    
+
+

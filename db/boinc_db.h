@@ -374,6 +374,14 @@ struct WORKUNIT {
     void clear();
 };
 
+struct WUHASH {
+    int userid;
+    long workunitid;
+
+    // the following not used in the DB
+    void clear();
+};
+
 // WARNING: be Very careful about changing any values,
 // especially for a project already running -
 // the database will become inconsistent
@@ -591,6 +599,14 @@ public:
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
+};
+
+class DB_WUHASH : public DB_BASE, public WUHASH {
+public:
+    DB_WUHASH(DB_CONN* p=0);
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(WUHASH& wh) {WUHASH::operator=(wh);}
 };
 
 class DB_MSG_FROM_HOST : public DB_BASE, public MSG_FROM_HOST {

@@ -61,6 +61,7 @@ void TEAM::clear() {memset(this, 0, sizeof(*this));}
 void HOST::clear() {memset(this, 0, sizeof(*this));}
 void RESULT::clear() {memset(this, 0, sizeof(*this));}
 void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
+void WUHASH::clear() {memset(this, 0, sizeof(*this));}
 void MSG_FROM_HOST::clear() {memset(this, 0, sizeof(*this));}
 void MSG_TO_HOST::clear() {memset(this, 0, sizeof(*this));}
 void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
@@ -81,6 +82,8 @@ DB_HOST::DB_HOST(DB_CONN* dc) :
     DB_BASE("host", dc?dc:&boinc_db){}
 DB_WORKUNIT::DB_WORKUNIT(DB_CONN* dc) :
     DB_BASE("workunit", dc?dc:&boinc_db){}
+DB_WUHASH::DB_WUHASH(DB_CONN* dc) :
+    DB_BASE("wuhash", dc?dc:&boinc_db){}
 DB_RESULT::DB_RESULT(DB_CONN* dc) :
     DB_BASE("result", dc?dc:&boinc_db){}
 DB_MSG_FROM_HOST::DB_MSG_FROM_HOST(DB_CONN* dc) :
@@ -685,6 +688,20 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     priority = atoi(r[i++]);
     strcpy2(mod_time, r[i++]);
 }
+
+void DB_WUHASH::db_print(char* buf){
+    sprintf(buf,
+        "userid=%d, workunitid=%d",
+        userid, workunitid
+    );
+}
+
+void DB_WUHASH::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    userid = atoi(r[i++]);
+    workunitid = atoi(r[i++]);
+};
 
 void DB_RESULT::db_print(char* buf){
     ESCAPE(xml_doc_out);

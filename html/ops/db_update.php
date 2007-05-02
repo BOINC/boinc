@@ -380,11 +380,22 @@ function update_4_29_2007() {
     );
 }
 
+function update_4_30_2007() {
+    do_query("create table wuhash (
+    userid              integer     not null,
+    workunitid          bigint      not null
+    ) TYPE=MyISAM;");
+    do_query("alter table wuhash add index wuhash_user (userid),
+    add index wuhash_wu (workunitid),
+    add unique wuhash_user_wu (userid, workunitid);"
+    );
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_4_29_2007();
+//update_4_30_2007();
 
 ?>

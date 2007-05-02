@@ -465,3 +465,8 @@ create table private_messages (
     primary key(id),
     key userid (userid)
 ) TYPE=MyISAM;
+
+create table wuhash (
+    userid              integer     not null,
+    workunitid          bigint      not null
+) TYPE=MyISAM;

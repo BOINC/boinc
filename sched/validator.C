@@ -26,6 +26,7 @@
 //  [-max_granted_credit X]  // limit maximum granted credit to X
 //  [-max_claimed_credit Y]  // invalid if claims more than Y
 //  [-grant_claimed_credit]  // just grant whatever is claimed 
+//  [-update_wuhash]    // add userid/wuid pair to wuhash table
 //
 // This program must be linked with two project-specific functions:
 // check_set() and check_pair().
@@ -78,6 +79,7 @@ bool one_pass = false;
 double max_granted_credit = 0;
 double max_claimed_credit = 0;
 bool grant_claimed_credit = false;
+bool update_wuhash = false;
 
 void update_error_rate(DB_HOST& host, bool valid) {
     if (host.error_rate > 1) host.error_rate = 1;
@@ -89,13 +91,14 @@ void update_error_rate(DB_HOST& host, bool valid) {
     }
 }
 
-// Here when a result has been validated and its granted_credit as been set.
+// Here when a result has been validated and its granted_credit has been set.
 // Grant credit to host, user and team, and update host error rate.
 //
-int is_valid(RESULT& result) {
+int is_valid(RESULT& result, WORKUNIT& wu) {
     DB_USER user;
     DB_HOST host;
     DB_TEAM team;
+    DB_WUHASH wuhash;
     int retval;
     char buf[256];
 
@@ -198,6 +201,25 @@ int is_valid(RESULT& result) {
                 "[RESULT#%d] update of team %d failed %d\n",
                 result.id, team.id, retval
             );
+        }
+    }
+
+    if (update_wuhash) {
+        wuhash.userid = user.id;
+        wuhash.workunitid = long(wu.opaque);
+        retval = wuhash.insert();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "[RESULT#%d] Warning: wuhash insert failed (userid: %d workunit: %d err: %d)\n",
+                result.id, user.id, long(wu.opaque), retval
+            );
+        } else {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "[RESULT#%d %s] Granted contribution to valid result [WU#%d OPAQUE#%d USER#%d]\n",
+            result.id, result.name, wu.id, long(wu.opaque), user.id
+        );
         }
     }
 
@@ -325,7 +347,7 @@ int handle_wu(
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
                     result.id, result.name, result.granted_credit
                 );
-                retval = is_valid(result);
+                retval = is_valid(result,wu);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_NORMAL,
@@ -434,7 +456,7 @@ int handle_wu(
                     if (max_granted_credit && result.granted_credit > max_granted_credit) {
                         result.granted_credit = max_granted_credit;
                     }
-                    retval = is_valid(result);
+                    retval = is_valid(result,wu);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::MSG_DEBUG,
@@ -637,6 +659,7 @@ int main(int argc, char** argv) {
       "  -max_claimed_credit X	If a result claims more credit than this, mark it as invalid\n"
       "  -max_granted_credit X	Grant no more than this amount of credit to a result\n"
       "  -grant_claimed_credit	Grant the claimed credit, regardless of what other results for this workunit claimed\n"
+      "  -update_wuhash	Add userid/wuid pair to wuhash after granting credit\n"
       "  -sleep_interval n	Set sleep-interval to n\n"
       "  -d level		Set debug-level\n\n";
 
@@ -670,6 +693,8 @@ int main(int argc, char** argv) {
             max_claimed_credit = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-grant_claimed_credit")) {
             grant_claimed_credit = true;
+        } else if (!strcmp(argv[i], "-update_wuhash")) {
+            update_wuhash = true;
         } else {
             fprintf(stderr, "Invalid option '%s'\nTry `%s --help` for more information\n", argv[i], argv[0]);
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
