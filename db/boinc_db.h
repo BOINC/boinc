@@ -374,7 +374,7 @@ struct WORKUNIT {
     void clear();
 };
 
-struct WUHASH {
+struct CREDITED_JOB {
     int userid;
     long workunitid;
 
@@ -605,12 +605,12 @@ public:
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
 
-class DB_WUHASH : public DB_BASE, public WUHASH {
+class DB_CREDITED_JOB : public DB_BASE, public CREDITED_JOB {
 public:
-    DB_WUHASH(DB_CONN* p=0);
+    DB_CREDITED_JOB(DB_CONN* p=0);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
-    void operator=(WUHASH& wh) {WUHASH::operator=(wh);}
+    void operator=(CREDITED_JOB& wh) {CREDITED_JOB::operator=(wh);}
 };
 
 class DB_MSG_FROM_HOST : public DB_BASE, public MSG_FROM_HOST {

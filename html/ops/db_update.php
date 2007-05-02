@@ -381,13 +381,13 @@ function update_4_29_2007() {
 }
 
 function update_4_30_2007() {
-    do_query("create table wuhash (
+    do_query("create table credited_job (
     userid              integer     not null,
     workunitid          bigint      not null
     ) TYPE=MyISAM;");
-    do_query("alter table wuhash add index wuhash_user (userid),
-    add index wuhash_wu (workunitid),
-    add unique wuhash_user_wu (userid, workunitid);"
+    do_query("alter table credited_job add index credited_job_user (userid),
+    add index credited_job_wu (workunitid),
+    add unique credited_job_user_wu (userid, workunitid);"
     );
 }
 

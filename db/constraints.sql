@@ -105,7 +105,7 @@ alter table post
     add index post_thread (thread),
     add fulltext index post_content(content);
 
-alter table wuhash
-   add index wuhash_user (userid),
-   add index wuhash_wu (workunitid),
-   add unique wuhash_user_wu (userid, workunitid);
+alter table credited_job 
+   add index credited_job_user (userid),
+   add index credited_job_wu (workunitid),
+   add unique credited_job_user_wu (userid, workunitid);

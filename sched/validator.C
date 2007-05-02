@@ -26,7 +26,7 @@
 //  [-max_granted_credit X]  // limit maximum granted credit to X
 //  [-max_claimed_credit Y]  // invalid if claims more than Y
 //  [-grant_claimed_credit]  // just grant whatever is claimed 
-//  [-update_wuhash]    // add userid/wuid pair to wuhash table
+//  [-update_credited_job]    // add userid/wuid pair to credited_job table
 //
 // This program must be linked with two project-specific functions:
 // check_set() and check_pair().
@@ -79,7 +79,7 @@ bool one_pass = false;
 double max_granted_credit = 0;
 double max_claimed_credit = 0;
 bool grant_claimed_credit = false;
-bool update_wuhash = false;
+bool update_credited_job = false;
 
 void update_error_rate(DB_HOST& host, bool valid) {
     if (host.error_rate > 1) host.error_rate = 1;
@@ -98,7 +98,7 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     DB_USER user;
     DB_HOST host;
     DB_TEAM team;
-    DB_WUHASH wuhash;
+    DB_CREDITED_JOB credited_job;
     int retval;
     char buf[256];
 
@@ -204,14 +204,14 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
         }
     }
 
-    if (update_wuhash) {
-        wuhash.userid = user.id;
-        wuhash.workunitid = long(wu.opaque);
-        retval = wuhash.insert();
+    if (update_credited_job) {
+        credited_job.userid = user.id;
+        credited_job.workunitid = long(wu.opaque);
+        retval = credited_job.insert();
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
-                "[RESULT#%d] Warning: wuhash insert failed (userid: %d workunit: %d err: %d)\n",
+                "[RESULT#%d] Warning: credited_job insert failed (userid: %d workunit: %d err: %d)\n",
                 result.id, user.id, long(wu.opaque), retval
             );
         } else {
@@ -659,7 +659,7 @@ int main(int argc, char** argv) {
       "  -max_claimed_credit X	If a result claims more credit than this, mark it as invalid\n"
       "  -max_granted_credit X	Grant no more than this amount of credit to a result\n"
       "  -grant_claimed_credit	Grant the claimed credit, regardless of what other results for this workunit claimed\n"
-      "  -update_wuhash	Add userid/wuid pair to wuhash after granting credit\n"
+      "  -update_credited_job	Add userid/wuid pair to credited_job after granting credit\n"
       "  -sleep_interval n	Set sleep-interval to n\n"
       "  -d level		Set debug-level\n\n";
 
@@ -693,8 +693,8 @@ int main(int argc, char** argv) {
             max_claimed_credit = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-grant_claimed_credit")) {
             grant_claimed_credit = true;
-        } else if (!strcmp(argv[i], "-update_wuhash")) {
-            update_wuhash = true;
+        } else if (!strcmp(argv[i], "-update_credited_job")) {
+            update_credited_job= true;
         } else {
             fprintf(stderr, "Invalid option '%s'\nTry `%s --help` for more information\n", argv[i], argv[0]);
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);

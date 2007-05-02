@@ -466,7 +466,7 @@ create table private_messages (
     key userid (userid)
 ) TYPE=MyISAM;
 
-create table wuhash (
+create table credited_job (
     userid              integer     not null,
     workunitid          bigint      not null
 ) TYPE=MyISAM;

@@ -4256,3 +4256,17 @@ David  2 May 2007
         sched_send.C
         sched_shmem.C,h
         server_types.C
+
+Matt    2 May 2007
+    - per Dave's request changed "wuhash" to "credited_job" which
+      is a little more self-explanatory.
+
+    db/
+        schema.sql
+        constraints.sql
+        boinc_db.C,h
+    sched/
+        validator.C
+    html/ops/
+        db_update.php
+
