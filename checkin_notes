@@ -4241,3 +4241,18 @@ Walt   2 May 2007
           
     client/
         Makefile.am
+
+David  2 May 2007
+    - Scheduler: in reply, add <platform> element to each <app_version,
+        and add <platform> and <version_num> elements to <result>
+        (server half of multi-version changes)
+    - scheduler: make ssp a global; could eliminate from args everywhere
+
+    db/
+        boinc_db.h
+    sched/
+        feeder.C
+        main.C,h
+        sched_send.C
+        sched_shmem.C,h
+        server_types.C

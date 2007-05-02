@@ -459,14 +459,18 @@ struct RESULT {
     int priority;
     char mod_time[16];
 
-    // the following not used in the DB
+    // the following used by the scheduler, but not stored in the DB
+    //
     char wu_name[256];
     double fpops_per_cpu_sec;
     double fpops_cumulative;
     double intops_per_cpu_sec;
     double intops_cumulative;
     int parse_from_client(FILE*);
+    char platform_name[256];
+    int version_num;
     void clear();
+    int write_to_client(FILE*);
 };
 
 struct MSG_FROM_HOST {

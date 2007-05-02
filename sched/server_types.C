@@ -625,12 +625,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
 
     for (i=0; i<app_versions.size(); i++) {
-        for (j=0; j<apps.size(); j++) {
-            if (apps[j].id == app_versions[i].appid) {
-                app_versions[i].write(fout);
-                break;
-            }
-        }
+        app_versions[i].write(fout);
     }
 
     for (i=0; i<wus.size(); i++) {
@@ -638,7 +633,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
 
     for (i=0; i<results.size(); i++) {
-        fputs(results[i].xml_doc_in, fout);
+        results[i].write_to_client(fout);
     }
 
     if (strlen(code_sign_key)) {
@@ -753,7 +748,37 @@ int APP::write(FILE* fout) {
 }
 
 int APP_VERSION::write(FILE* fout) {
-    fputs(xml_doc, fout);
+    char buf[LARGE_BLOB_SIZE], buf2[256];
+    strcpy(buf, xml_doc);
+    char* p = strstr(buf, "</app_version>");
+    if (!p) {
+        fprintf(stderr, "ERROR: app version %d XML has no end tag!\n", id);
+        return -1;
+    }
+    *p = 0;
+    fputs(buf, fout);
+    PLATFORM* pp = ssp->lookup_platform_id(platformid);
+    sprintf(buf2, "    <platform>%s</platform>\n", pp->name);
+    fputs(buf2, fout);
+    fputs("</app_version>\n", fout);
+    return 0;
+}
+
+int RESULT::write_to_client(FILE* fout) {
+    char buf[LARGE_BLOB_SIZE], buf2[256];
+    strcpy(buf, xml_doc_in);
+    char* p = strstr(buf, "</result>");
+    if (!p) {
+        fprintf(stderr, "ERROR: result %d XML has no end tag!\n", id);
+        return -1;
+    }
+    *p = 0;
+    fputs(buf, fout);
+    sprintf(buf2, "    <platform>%s</platform>\n    <version_num>%d</version_num>\n",
+        platform_name, version_num
+    );
+    fputs(buf2, fout);
+    fputs("</result>\n", fout);
     return 0;
 }
 
