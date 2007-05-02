@@ -4236,5 +4236,8 @@ Matt	2 May 2007
     html/ops/
         db_update.php
     
-
-
+Walt   2 May 2007
+    - Add cs_platform.C to Makefile.am
+          
+    client/
+        Makefile.am
