@@ -3323,14 +3323,14 @@ David  9 Apr 2007
         util.C
 
 David  9 Apr 2007
-	- bug fix in simulator (possibly core client too):
-		in handle_finished_apps(),
-		do the vector erase directly instead of calling remove()
-		(which could cause you to skip one task)
+    - bug fix in simulator (possibly core client too):
+        in handle_finished_apps(),
+        do the vector erase directly instead of calling remove()
+        (which could cause you to skip one task)
 
-	client/
-		app.C,h
-		cs_apps.C
+    client/
+        app.C,h
+        cs_apps.C
 
 David  9 Apr 2007
     - update netsoft URL
@@ -3865,12 +3865,12 @@ David  20 Apr 2007
         str_util.C,h
 
 David  20 Apr 2007
-	- Advanced prefs: remove incorrect multiplication by 86400
+    - Advanced prefs: remove incorrect multiplication by 86400
 
-	client/
-		cs_prefs.C
-	clientgui/
-		DlgAdvPreferences.cpp
+    client/
+        cs_prefs.C
+    clientgui/
+        DlgAdvPreferences.cpp
 
 Rom    20 Apr 2007
     - Fix: Win x64's alternate platform is really windows_intelx86
@@ -3930,11 +3930,11 @@ Rom    23 Apr 2007
         <multiple files>
 
 David  23 Apr 2007
-	- client: fix bug where client is unresponsive if
-		there are unresolvable names in remote_hosts.cfg file
+    - client: fix bug where client is unresponsive if
+        there are unresolvable names in remote_hosts.cfg file
 
-	client/
-		gui_rpc_server.C,h
+    client/
+        gui_rpc_server.C,h
 
 Rom    24 Apr 2007
     - fixes #121 - Both 32-bit and 64-bit BOINC Windows Installation
@@ -3976,10 +3976,10 @@ Eric K 24 Apr 07
     -  Exteded the "altername_platform" mechanism to x86_64 linux
        and solaris.  The current alternate platforms found by configure
        are...
-	 x86_64-pc-linux-gnu    -> i686-pc-linux-gnu
-	 sparc64-sun-solaris    -> sparc-sun-solaris
-	 sparc-sun-solaris      -> sparc-sun-solaris2.7
-	 powerpc64-apple-darwin -> powerpc-apple-darwin
+     x86_64-pc-linux-gnu    -> i686-pc-linux-gnu
+     sparc64-sun-solaris    -> sparc-sun-solaris
+     sparc-sun-solaris      -> sparc-sun-solaris2.7
+     powerpc64-apple-darwin -> powerpc-apple-darwin
     -  The alternate platform can be overridden on the configure command line
          --with-boinc-alt-platform="platformname"
 
@@ -3993,10 +3993,10 @@ Eric K 24 Apr 07
         client_state.h
 
 David  25 Apr 2007
-	- eliminate spurious "work fetch too big" message
+    - eliminate spurious "work fetch too big" message
 
-	client/
-		work_fetch.C
+    client/
+        work_fetch.C
 
 David  25 Apr 2007
     - fixes #126 - generate cronjob file in make_project
@@ -4217,7 +4217,7 @@ Rom    2 May 2007
     lib/
         str_util.h
 
-Matt	2 May 2007
+Matt    2 May 2007
     - updated db/validator to add logic for wuhash table.
       wuhash table (see schema.sql) has two fields, user and 
       project-specific workunit id so that a user's contribution
@@ -4297,4 +4297,35 @@ Rom    3 May 2007
         MainDocument.cpp, .h
         ViewProjectsGrid.cpp
 
-        
+David  3 May 2007
+    - Core client: handle multiple platforms correctly.
+        Remove the tacet assumption that a host can handle
+        applications for a single platform.
+        With the Apr 30 scheduler changes,
+        a project may (at different times)
+        send app versions for the same app and version number,
+        but different platforms.
+        Before we would have ignored all but the first;
+        now we handle them correctly.
+
+        Implementation notes:
+        - Add APP_VERSION.platform, RESULT.platform,
+            and RESULT.version_num.
+            If these are missing from an XML doc
+            (e.g. an existing state file or a scheduler reply
+            from a project not running current server)
+            then set to the primary platform.
+        - Continue to write workunit.version_num
+            and active_task.version_num to state file,
+            even though these are no longer part of the struct.
+            This allows users to revert to an older version.
+
+    client/
+        app.C
+        check_state.C
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        cs_statefile.C
+        sim.C

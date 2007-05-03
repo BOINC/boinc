@@ -1059,14 +1059,13 @@ int FILE_INFO::gzip() {
     return 0;
 }
 
-// Parse XML based app_version information, usually from client_state.xml
-//
 int APP_VERSION::parse(MIOFILE& in) {
     char buf[256];
     FILE_REF file_ref;
 
     strcpy(app_name, "");
     version_num = 0;
+    strcpy(platform, "");
     app = NULL;
     project = NULL;
     while (in.fgets(buf, 256)) {
@@ -1078,6 +1077,7 @@ int APP_VERSION::parse(MIOFILE& in) {
             continue;
         }
         else if (parse_int(buf, "<version_num>", version_num)) continue;
+        else if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
@@ -1096,9 +1096,11 @@ int APP_VERSION::write(MIOFILE& out) {
     out.printf(
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
-        "    <version_num>%d</version_num>\n",
+        "    <version_num>%d</version_num>\n"
+        "    <platform>%s</platform>",
         app_name,
-        version_num
+        version_num,
+        platform
     );
     for (i=0; i<app_files.size(); i++) {
         retval = app_files[i].write(out);
@@ -1386,6 +1388,8 @@ void RESULT::clear() {
     app = NULL;
     wup = NULL;
     project = NULL;
+    version_num = 0;
+    strcpy(platform, "");
 }
 
 // parse a <result> element from scheduling server.
@@ -1399,20 +1403,18 @@ int RESULT::parse_server(MIOFILE& in) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
-        if (parse_double(buf, "<report_deadline>", report_deadline)) {
-            continue;
-        }
+        if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
+        if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
             continue;
         }
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
-                );
-            }
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -1464,6 +1466,8 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
         else if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
         else if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
+        else if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        else if (parse_int(buf, "<version_num>", version_num)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
@@ -1485,11 +1489,15 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         "    <name>%s</name>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
         "    <exit_status>%d</exit_status>\n"
-        "    <state>%d</state>\n",
+        "    <state>%d</state>\n"
+        "    <platform>%s</platform>\n"
+        "    <version_num>%d</version_num>\n",
         name,
         final_cpu_time,
         exit_status,
-        state()
+        state(),
+        platform,
+        version_num
     );
     if (fpops_per_cpu_sec) {
         out.printf("    <fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
@@ -1657,8 +1665,8 @@ bool RESULT::some_download_stalled() {
             return true;
         }
     }
-    for (i=0; i<wup->avp->app_files.size(); i++) {
-        fip = wup->avp->app_files[i].file_info;
+    for (i=0; i<avp->app_files.size(); i++) {
+        fip = avp->app_files[i].file_info;
         pfx = fip->pers_file_xfer;
         if (pfx && pfx->next_request_time > gstate.now) {
             return true;

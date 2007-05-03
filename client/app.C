@@ -199,7 +199,7 @@ void ACTIVE_TASK::cleanup_task() {
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
-    app_version = wup->avp;
+    app_version = rp->avp;
     max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
@@ -457,7 +457,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 
 int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
-    int app_version_num=0, n;
+    int n;
     unsigned int i;
     PROJECT* project;
 
@@ -500,13 +500,13 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
 
             wup = result->wup;
             app_version = gstate.lookup_app_version(
-                result->app, app_version_num
+                result->app, result->platform, result->version_num
             );
             if (!app_version) {
                 msg_printf(
                     project, MSG_INTERNAL_ERROR,
-                    "State file error: application %s version %d not found\n",
-                    result->app->name, app_version_num
+                    "State file error: app %s platform %s version %d not found\n",
+                    result->app->name, result->platform, result->version_num
                 );
                 return ERR_NULL;
             }
@@ -526,7 +526,6 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         }
         else if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
         else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
-        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;

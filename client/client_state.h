@@ -222,7 +222,7 @@ public:
     FILE_INFO* lookup_file_info(PROJECT*, const char* name);
     RESULT* lookup_result(PROJECT*, const char*);
     WORKUNIT* lookup_workunit(PROJECT*, const char*);
-    APP_VERSION* lookup_app_version(APP*, int);
+    APP_VERSION* lookup_app_version(APP*, char* platform, int ver);
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
@@ -329,7 +329,7 @@ public:
 private:
     int nslots;
 
-    int choose_version_num(WORKUNIT*, SCHEDULER_REPLY&);
+    int latest_version(APP*, char*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
