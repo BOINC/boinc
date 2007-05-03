@@ -4275,6 +4275,10 @@ Charlie 2 May 2007
         because under wxMac-2.8.0, wxExecute starts a separate thread 
         to wait for child's termination. wxProcessTerminationThread uses 
         a huge amount of CPU time (about 11% of 1 CPU on 2GHz Intel Mac). 
+    - Mac: add cs_platform.C to XCode project.
 
     clientgui/
         BOINCGUIApp.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
