@@ -458,6 +458,8 @@ void CLIENT_STATE::schedule_cpus() {
         print_deadline_misses();
     }
 
+    adjust_debts();
+
     // set temporary variables
     //
     for (i=0; i<results.size(); i++) {
@@ -474,8 +476,6 @@ void CLIENT_STATE::schedule_cpus() {
 	for (i=0; i<active_tasks.active_tasks.size(); i++) {
 		active_tasks.active_tasks[i]->too_large = false;
 	}
-
-    adjust_debts();
 
     expected_pay_off = global_prefs.cpu_scheduling_period_minutes * 60;
     ordered_scheduled_results.clear();
@@ -755,7 +755,7 @@ bool CLIENT_STATE::enforce_schedule() {
             //
             atp = running_tasks[0];
             double time_running = now - atp->run_interval_start_wall_time;
-            bool running_beyond_sched_period = time_running > global_prefs.cpu_scheduling_period_minutes*60;
+            bool running_beyond_sched_period = time_running >= global_prefs.cpu_scheduling_period_minutes*60;
             double time_since_checkpoint = now - atp->checkpoint_wall_time;
             bool checkpointed_recently = time_since_checkpoint < 10;
             if (rp->project->deadlines_missed

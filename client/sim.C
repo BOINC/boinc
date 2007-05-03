@@ -133,7 +133,7 @@ void SIM_PROJECT::init() {
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
-	possibly_backed_off = true;
+    possibly_backed_off = true;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
     next_rpc_time = 0;
@@ -256,16 +256,16 @@ double CLIENT_STATE::available_ram() {
     if (user_active) {
         return host_info.m_nbytes * global_prefs.ram_max_used_busy_frac;
     } else {
-		return host_info.m_nbytes * global_prefs.ram_max_used_idle_frac;
+        return host_info.m_nbytes * global_prefs.ram_max_used_idle_frac;
     }
 }
 
 // max amount that will ever be usable
 //
 double CLIENT_STATE::max_available_ram() {
-	return host_info.m_nbytes*std::max(
-		global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
-	);
+    return host_info.m_nbytes*std::max(
+        global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
+    );
 }
 
 RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
@@ -401,6 +401,8 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = (SIM_PROJECT*) gstate.projects[i];
         p->idle = true;
+        sprintf(buf, "%s STD: %f<br>", p->project_name, p->short_term_debt);
+        gstate.html_msg += buf;
     }
 
     int n=0;
@@ -409,6 +411,7 @@ bool ACTIVE_TASK_SET::poll() {
         switch (atp->task_state()) {
         case PROCESS_EXECUTING:
             atp->cpu_time_left -= diff;
+            atp->current_cpu_time += diff;
             RESULT* rp = atp->result;
 
             double cpu_time_used = rp->final_cpu_time - atp->cpu_time_left;
@@ -423,6 +426,7 @@ bool ACTIVE_TASK_SET::poll() {
                 gstate.request_work_fetch("ATP poll");
                 sprintf(buf, "result %s finished<br>", rp->name);
                 gstate.html_msg += buf;
+                action = true;
             }
             ((SIM_PROJECT*)rp->project)->idle = false;
             n++;
@@ -441,11 +445,13 @@ bool ACTIVE_TASK_SET::poll() {
         if (p->idle) {
             p->idle_period_duration += diff;
         } else {
+            double ipd = p->idle_period_duration;
+            if (ipd) {
+                p->idle_period_sumsq += ipd*ipd;
+                p->nidle_periods++;
+            }
             p->idle_period_duration = 0;
         }
-        double ipd = p->idle_period_duration;
-        p->idle_period_sumsq += ipd*ipd;
-        p->nidle_periods++;
     }
 
     return action;
@@ -699,13 +705,13 @@ void SIM_RESULTS::print(FILE* f, const char* title) {
     if (title) {
         fprintf(f, title);
     }
-    fprintf(f, "wasted %f idle %f share_violation %f variety %f\n",
+    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f variety %f\n",
         cpu_wasted_frac, cpu_idle_frac, share_violation, variety
     );
 }
 
 void SIM_RESULTS::parse(FILE* f) {
-    fscanf(f, "wasted %lf idle %lf share_violation %lf variety %lf",
+    fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf variety %lf",
         &cpu_wasted, &cpu_idle, &share_violation, &variety
     );
 }
@@ -859,7 +865,7 @@ void CLIENT_STATE::html_rec() {
 
     if (!running) {
         for (int j=0; j<ncpus; j++) {
-            fprintf(html_out, "<td bgcolor=#888888><br></td>");
+            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
         }
     } else {
         int n=0;
@@ -867,13 +873,16 @@ void CLIENT_STATE::html_rec() {
             ACTIVE_TASK* atp = active_tasks.active_tasks[i];
             if (atp->task_state() == PROCESS_EXECUTING) {
                 SIM_PROJECT* p = (SIM_PROJECT*)atp->result->project;
-                fprintf(html_out, "<td bgcolor=%s>%s: %.2f</td>",
-                colors[p->index], atp->result->name, atp->cpu_time_left);
+                fprintf(html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
+                    colors[p->index],
+                    atp->result->rr_sim_misses_deadline?"*":"",
+                    atp->result->name, atp->cpu_time_left
+                );
                 n++;
             }
         }
         while (n<ncpus) {
-            fprintf(html_out, "<td><br></td>");
+            fprintf(html_out, "<td>IDLE</td>");
             n++;
         }
     }

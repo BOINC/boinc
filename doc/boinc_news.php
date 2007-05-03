@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("May 3, 2007",
+    "The source code behind <a href=http://boinc.netsoft-online.com/>BOINC Combined Stats</a> is now <a href=trac/wiki/CreditStats#Codeexamples>available via Subversion</a>.  This may be helpful for other statistics site developers."
+),
 array("April 24, 2007",
     "<a href=http://www.gridrepublic.org/>GridRepublic</a> announces
     a significant upgrade to their web site, including improved

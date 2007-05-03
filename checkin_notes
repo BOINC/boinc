@@ -4329,3 +4329,13 @@ David  3 May 2007
         cs_scheduler.C
         cs_statefile.C
         sim.C
+
+David  3 May 2007
+    - Core client: small changes to make the client simulator act reasonably.
+        - change > to >= for check for running beyond sched period
+        - adjust debts before calculating anticipated debt
+
+    client/
+        client_types.h
+        cpu_sched.C
+        sim.C
