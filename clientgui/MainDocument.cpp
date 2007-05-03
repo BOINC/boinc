@@ -169,6 +169,12 @@ int CNetworkConnection::GetConnectedComputerName(wxString& strMachine) {
 }
 
 
+int CNetworkConnection::GetConnectedComputerVersion(wxString& strVersion) {
+    strVersion = m_strConnectedComputerVersion;
+    return 0;
+}
+
+
 int CNetworkConnection::GetConnectingComputerName(wxString& strMachine) {
     strMachine = m_strNewComputerName;
     return 0;
@@ -262,6 +268,14 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
         m_strNewComputerName = wxEmptyString;
         m_strNewComputerPassword = wxEmptyString;
         m_bNewConnection = false;
+
+        // Get the version of the client and cache it
+        VERSION_INFO vi;
+        m_pDocument->rpc.exchange_versions(vi);
+        m_strConnectedComputerVersion.Printf(
+            wxT("%d.%d.%d"),
+            vi.major, vi.minor, vi.release
+        );
 
         m_bConnectEvent = false;
 
@@ -428,6 +442,12 @@ int CMainDocument::Reconnect() {
 
 int CMainDocument::GetConnectedComputerName(wxString& strMachine) {
     m_pNetworkConnection->GetConnectedComputerName(strMachine);
+    return 0;
+}
+
+
+int CMainDocument::GetConnectedComputerVersion(wxString& strVersion) {
+    m_pNetworkConnection->GetConnectedComputerVersion(strVersion);
     return 0;
 }
 

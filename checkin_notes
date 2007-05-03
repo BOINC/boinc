@@ -4282,3 +4282,19 @@ Charlie 2 May 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    3 May 2007
+    - fixes #5: Include the version number of the client next to it's
+        name, so people can see if they need to upgrade a remote client.
+    - fixes #149: Change the parsing function for the
+        CBOINCGridCellProgressRenderer so that we don't have to update
+        the docs or screenshots. Display the progress bar as a resource
+        share fraction.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGridCtrl.cpp
+        MainDocument.cpp, .h
+        ViewProjectsGrid.cpp
+
+        

@@ -586,10 +586,7 @@ void CViewProjectsGrid::FormatAVGCredit(wxInt32 item, wxString& strBuffer) {
 
 void CViewProjectsGrid::FormatResourceShare(wxInt32 item, wxString& strBuffer){
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    PROJECT*       project = wxGetApp().GetDocument()->project(item);
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    PROJECT* project = pDoc->project(item);
 
     if (project && pDoc) {
         strBuffer.Printf(wxT(" %0.0f (%0.2f%%)"), 

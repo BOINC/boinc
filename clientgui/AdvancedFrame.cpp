@@ -1770,6 +1770,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 
                     wxString strBuffer = wxEmptyString;
                     wxString strComputerName = wxEmptyString;
+                    wxString strComputerVersion = wxEmptyString;
                     wxString strStatusText = wxEmptyString;
                     wxString strTitle = m_strBaseTitle;
                     wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
@@ -1778,6 +1779,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                         pDoc->GetConnectingComputerName(strComputerName);
                     } else {
                         pDoc->GetConnectedComputerName(strComputerName);
+                        pDoc->GetConnectedComputerVersion(strComputerVersion);
                     }
 
                     if (pDoc->IsComputerNameLocal(strComputerName)) {
@@ -1789,7 +1791,11 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                         strStatusText.Printf(_("Connecting to %s"), strComputerName.c_str());
                     } else {
                         strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
-                        strStatusText.Printf(_("Connected to %s"), strComputerName.c_str());
+                        strStatusText.Printf(
+                            _("Connected to %s (%s)"),
+                            strComputerName.c_str(),
+                            strComputerVersion.c_str()
+                        );
                     }
 
                     // The Mac takes a huge performance hit redrawing this window, 

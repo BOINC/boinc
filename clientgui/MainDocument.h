@@ -39,6 +39,7 @@ public:
     void           ForceReconnect() { m_bForceReconnect = true; SetStateDisconnected(); };
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
+    int            GetConnectedComputerVersion(wxString& strVersion);
     int            GetConnectingComputerName(wxString& strMachine);
     bool           IsComputerNameLocal(const wxString& strMachine);
     void           GetLocalPassword(wxString& strPassword);
@@ -67,6 +68,7 @@ private:
     wxString       m_strNewComputerPassword;
     wxString       m_strConnectedComputerName;
     wxString       m_strConnectedComputerPassword;
+    wxString       m_strConnectedComputerVersion;
 };
 
 
@@ -112,6 +114,7 @@ public:
     int                         CoreClientQuit();
 
     int                         GetConnectedComputerName(wxString& strMachine);
+    int                         GetConnectedComputerVersion(wxString& strVersion);
     int                         GetConnectingComputerName(wxString& strMachine);
     bool                        IsComputerNameLocal(const wxString strMachine);
     bool                        IsConnected();
