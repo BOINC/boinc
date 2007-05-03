@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Recruiting and retaining volunteers");
+page_head("Recruiting and retaining volunteers [deprecated - wiki]");
 echo "
 <h3>Contents</h3>
 <ul>

@@ -225,7 +225,7 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
 
     if (!file_exists($langdir.$compdir)){
         //This directory does not exist - try to create one
-        mkdir($langdir.$compdir,0733);
+        mkdir($langdir.$compdir,0773);
         return true;
         //and force an update since we need it
     }
@@ -288,6 +288,7 @@ function parseLanguage($file, $interface){
     }
     $translation_file = file($file);
     $first_entry = true;
+    $current_token_text="";
     for ($i = 0;$i<sizeof($translation_file);$i++){
         $entry = ltrim(trim($translation_file[$i]));
         //echo $entry;
@@ -297,7 +298,7 @@ function parseLanguage($file, $interface){
                 //If this is not the first, save the previous entry
                 //Does token msgid entry exist in interface?
                 //If so, add to output
-                $id = checkToken($current_token, $interface, $i);
+                $id = checkToken($current_token, $interface, $i, $file);
                 if ($id!==false){
                     $output[$id]=$current_token_text;
                 }
@@ -311,7 +312,7 @@ function parseLanguage($file, $interface){
             $current_token_text.=getPOLineContent($entry);
         }
     }
-    $id = checkToken($current_token, $interface, $i);
+    $id = checkToken($current_token, $interface, $i, $file);
     if ($id!==false){
         $output[$id]=$current_token_text;
     }
@@ -323,7 +324,7 @@ function parseLanguage($file, $interface){
  * Checks if token is in interface.
  * Displays error if not
  **********************/
-function checkToken($current_token, $interface, $line){
+function checkToken($current_token, $interface, $line, $file){
     $id = array_search($current_token,$interface);
     if ($id===false){
         language_log("Above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.",1);
@@ -414,8 +415,8 @@ if (isset($_COOKIE['lang'])){
 } else {
     $language_string = '';
 }
-if (isset($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"])) {
-    $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
+if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
+    $language_string .= strtolower($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
 }
 
 // Find out which language to use by iterating through list

@@ -20,26 +20,36 @@ array(
     '',
     1168202706
 ),
-array('boinc-irc.exe',
-    'Boinc mIRC',
-    '1.0',
-    'A ready setup mIRC to take you straight there',
-    'http://comatosed.net/boinc/boinc-irc.exe',
-    'Windows',
-    'Built in security systems for DCC and MSG systems and some other nice toys 2.00MB',
-    1089651337
+array(
+    'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
+    'BOINC mIRC',
+    '0.1',
+    'MRC file for sending your BOINC status on IRC',
+    'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
+    'all',
+    '',
+    1177964485
 ),
-array('boinc.mrc',
-    'Boinc mircstats',
-    '0.4',
-    'Script to show your Boinc stats on IRC (with mIRC)',
-    'http://sqreal.no-ip.org/boinc.mrc',
-    'Windows',
-    'This addon shows your boinc details to IRC like Credits, current progress , pulse, gaussian, spike, team ...
-    <br>
-    Put the .mrc on your mIRC main dir and type',
-    1162833635
-),
+//array('boinc-irc.exe',
+//    'Boinc mIRC',
+//    '1.0',
+//    'A ready setup mIRC to take you straight there',
+//    'http://comatosed.net/boinc/boinc-irc.exe',
+//    'Windows',
+//    'Built in security systems for DCC and MSG systems and some other nice toys 2.00MB',
+//    1089651337
+//),
+//array('boinc.mrc',
+//    'Boinc mircstats',
+//    '0.4',
+//    'Script to show your Boinc stats on IRC (with mIRC)',
+//    'http://sqreal.no-ip.org/boinc.mrc',
+//    'Windows',
+//    'This addon shows your boinc details to IRC like Credits, current progress , pulse, gaussian, spike, team ...
+//    <br>
+//    Put the .mrc on your mIRC main dir and type',
+//    1162833635
+//),
 array('boincdv_v0306.zip',
     'BoincDV',
     '',

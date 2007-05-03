@@ -72,8 +72,8 @@ inline bool starts_with(std::string const& s, std::string const& prefix) {
 inline void downcase_string(std::string& w) {
     char buf[1024];
     strlcpy(buf, w.c_str(), sizeof(buf));
-    int n = strlen(buf);
-    for (int i=0; i<n; i++) {
+    size_t n = strlen(buf);
+    for (size_t i=0; i<n; i++) {
         buf[i] = tolower(buf[i]);
     }
     w = buf;

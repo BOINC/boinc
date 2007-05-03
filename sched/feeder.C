@@ -259,7 +259,7 @@ static bool find_work_item(
         } else {
         	// Check for a work item with an invalid application id
             //
-            if (!ssp->have_app(wi->wu.appid)) {
+            if (!ssp->lookup_app(wi->wu.appid)) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_CRITICAL,
                     "result [RESULT#%d] has bad appid %d; clean up your DB!\n",

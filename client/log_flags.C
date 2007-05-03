@@ -43,13 +43,43 @@ LOG_FLAGS::LOG_FLAGS() {
 
     memset(this, 0, sizeof(LOG_FLAGS));
 
+    defaults();
+}
+
+void LOG_FLAGS::defaults() {
     // on by default
     // (others are off by default)
     //
     task = true;
     file_xfer = true;
     sched_ops = true;
-}
+
+    // off by default; intended for developers and testers
+    //
+    cpu_sched = false;
+    cpu_sched_debug = false;
+    rr_simulation = false;
+    debt_debug = false;
+    task_debug = false;
+    work_fetch_debug = false;
+    unparsed_xml = false;
+    state_debug = false;
+    file_xfer_debug = false;
+    sched_op_debug = false;
+    http_debug = false;
+    proxy_debug = false;
+    time_debug = false;
+    http_xfer_debug = false;
+    benchmark_debug = false;
+    poll_debug = false;
+    guirpc_debug = false;
+    scrsave_debug = false;
+    app_msg_send = false;
+    app_msg_receive = false;
+    mem_usage_debug = false;
+    network_status_debug = false;
+    checkpoint_debug = false;
+} 
 
 // Parse log flag preferences
 //
@@ -151,8 +181,13 @@ void LOG_FLAGS::show() {
 
 CONFIG::CONFIG() {
     memset(this, 0, sizeof(CONFIG));
+
+    defaults();
+}
+
+void CONFIG::defaults() {
     dont_check_file_sizes = false;
-	http_1_0 = false;
+    http_1_0 = false;
     save_stats_days = 30;
     max_file_xfers = MAX_FILE_XFERS;
     max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
@@ -226,6 +261,9 @@ int CONFIG::parse(FILE* f) {
 
 int read_config_file() {
     FILE* f;
+
+    log_flags.defaults();
+    config.defaults();
 
     f = boinc_fopen(CONFIG_FILE, "r");
     if (!f) return ERR_FOPEN;

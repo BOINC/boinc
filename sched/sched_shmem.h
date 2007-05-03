@@ -23,6 +23,9 @@
 // small static tables like app_version,
 // and a queue of results waiting to be sent.
 
+#ifndef _SCHED_SHMEM_H_
+#define _SCHED_SHMEM_H_
+
 #include "boinc_db.h"
 
 // the following must be at least as large as DB tables
@@ -84,12 +87,13 @@ struct SCHED_SHMEM {
     void init();
     int verify();
     int scan_tables();
-    bool have_app(int);
     bool no_work(int pid);
     void restore_work(int pid);
 
     APP* lookup_app(int);
     APP_VERSION* lookup_app_version(int appid, int platform, int version);
+    PLATFORM* lookup_platform_id(int);
     PLATFORM* lookup_platform(char*);
 };
 
+#endif

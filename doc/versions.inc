@@ -390,11 +390,11 @@ $linux_libs_gcc41= "
       </ul>
 ";
 
-$w594= array(
-    "num"=>"5.9.4",
+$w595= array(
+    "num"=>"5.9.5",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.4_windows_intelx86.msi",
-    "date"=>"20 Apr 2007",
+    "file"=>"boinc_5.9.5_windows_intelx86.exe",
+    "date"=>"30 Apr 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -404,11 +404,11 @@ $w594= array(
     "bugs"=>""
 );
 
-$w594x64= array(
-    "num"=>"5.9.4",
+$w595x64= array(
+    "num"=>"5.9.5",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.4_windows_x86_64.msi",
-    "date"=>"20 Apr 2007",
+    "file"=>"boinc_5.9.5_windows_x86_64.exe",
+    "date"=>"30 Apr 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -473,6 +473,21 @@ $w5411= array(
     "
 );
 
+$m596 = array(
+    "num"=>"5.9.6",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.9.6_macOSX_universal.zip",
+    "date"=>"2 May 2007",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+".$features_510."
+".$changes_510."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
 $m5817 = array(
     "num"=>"5.8.17",
     "status"=>"Recommended version (standard GUI)",
@@ -509,6 +524,21 @@ $m549 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
+$m596c = array(
+    "num"=>"5.9.6",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.9.6_universal-apple-darwin.zip",
+    "date"=>"2 May 2007",
+    "type"=>"bare_core",
+    "features"=>"<ul>
+".$features_510."
+".$changes_510."
      </ul>
     ",
     "bugs"=>"
@@ -554,11 +584,11 @@ $m549c = array(
     "
 );
 
-$l593 = array(
-    "num"=>"5.9.3",
+$l595 = array(
+    "num"=>"5.9.5",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.9.3_i686-pc-linux-gnu.sh",
-    "date"=>"4 April 2007",
+    "file"=>"boinc_5.9.5_i686-pc-linux-gnu.sh",
+    "date"=>"01 May 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_510."
@@ -567,15 +597,14 @@ $l593 = array(
     </ul>
     "
 );
-$l5817 = array(
-    "num"=>"5.8.17",
+$l5816 = array(
+    "num"=>"5.8.16",
     "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.8.17_i686-pc-linux-gnu.sh",
+    "file"=>"boinc_5.8.16_i686-pc-linux-gnu.sh",
     "date"=>"7 March 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55.$features_57."
-".$linux_libs_gcc41." 
 ".$changes_57."
     </ul>
     "
@@ -598,8 +627,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w594,
-        $w593,
+        $w595,
         $w5816,
         $w5411,
     )
@@ -609,7 +637,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w594x64,
+        $w595x64,
     )
 );
 
@@ -617,6 +645,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m596,
+        $m596c,
         $m5817,
         $m5817c,
         $m549,
@@ -628,8 +658,8 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l593,
-        $l5817,
+        $l595,
+        $l5816,
         $l5411,
     )
 );

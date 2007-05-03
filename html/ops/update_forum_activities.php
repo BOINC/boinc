@@ -7,6 +7,8 @@ define('MAX_REWARD', 4096);
 define('SCALAR', 0.9);
 set_time_limit(0);
 
+echo date(DATE_RFC822), ": Starting\n";
+
 db_init();
 
 $now = time();
@@ -37,6 +39,7 @@ while ($thread = mysql_fetch_object($result)) {
     
 }
 
+echo date(DATE_RFC822), ": Finished\n";
 
 
 ?>

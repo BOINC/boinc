@@ -78,6 +78,7 @@ key_t sema_key;
 int g_pid;
 static bool db_opened=false;
 bool shmem_failed = false;
+SCHED_SHMEM* ssp = 0;
 
 void send_message(const char* msg, int delay, bool send_header) {
     if (send_header) {
@@ -192,7 +193,6 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
     char path[256];
     get_project_dir(path, sizeof(path));
     get_key(path, 'a', sema_key);
-    SCHED_SHMEM* ssp = 0;
     int i, retval;
     void* p;
 

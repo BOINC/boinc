@@ -23,10 +23,10 @@
 #include "msg_log.h"
 
 class SCHED_MSG_LOG : public MSG_LOG {
-    int debug_level;
     const char* v_format_kind(int kind) const;
     bool v_message_wanted(int kind) const;
 public:
+    int debug_level;
     enum Kind {
         MSG_CRITICAL=1,
         MSG_NORMAL=2,

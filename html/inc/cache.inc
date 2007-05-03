@@ -12,11 +12,11 @@ else {
 // mechanism for caching commonly-accessed pages
 
 function make_cache_dirs() {
-    if (!@filemtime("../cache")) mkdir("../cache");
+    if (!@filemtime("../cache")) mkdir("../cache", 0770);
     for ($i=0;$i<256;$i++) {
         $j=sprintf("%02x",$i);
         if (!@filemtime("../cache/$j")) {
-            mkdir("../cache/$j", 0700);
+            mkdir("../cache/$j", 0770);
         } 
     }
 }

@@ -198,6 +198,8 @@ function show_user_info_private($user) {
     if ($tot) {
         row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
     }
+    
+    row2("Private messages", pm_notification($user));
 
     row1("Teams");
     if ($user->teamid) {

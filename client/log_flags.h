@@ -75,6 +75,7 @@ struct LOG_FLAGS {
     bool checkpoint_debug;
 
     LOG_FLAGS();
+    void defaults();
     int parse(XML_PARSER&);
     void show();
 };
@@ -91,6 +92,7 @@ struct CONFIG {
     bool os_random_only;
 
     CONFIG();
+    void defaults();
     int parse(FILE*);
     int parse_options(XML_PARSER&);
 };

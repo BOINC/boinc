@@ -1,2 +1,2 @@
 #! /bin/sh
-cd ../html/ops; ${*}
+cd ../html/ops; ./${*}

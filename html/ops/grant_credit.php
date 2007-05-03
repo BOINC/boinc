@@ -1,4 +1,4 @@
-<?
+<?php
 
 // This is a script which awards credit to users/hosts/teams for WU which have been
 // cancelled or have otherwise failed (error_mask != 0).  Credit granted is credit

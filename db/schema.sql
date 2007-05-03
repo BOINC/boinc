@@ -6,8 +6,9 @@
     html/
         inc/
             host.inc (host)
-        ops/
             db_ops.inc
+        ops/
+            db_update.php
         user/
             create_account_action.php (user)
             team_create_action.php (team)
@@ -41,12 +42,12 @@ create table app (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
     name                varchar(254) not null,
-    min_version         integer     not null,
-    deprecated          smallint    not null,
+    min_version         integer     not null default 0,
+    deprecated          smallint    not null default 0,
     user_friendly_name  varchar(254) not null,
-    homogeneous_redundancy smallint not null,
-    weight              double      not null,
-    beta                smallint    not null,
+    homogeneous_redundancy smallint not null default 0,
+    weight              double      not null default 1,
+    beta                smallint    not null default 0,
     primary key (id)
 ) type=InnoDB;
 
@@ -167,6 +168,7 @@ create table host (
     host_cpid           varchar(254),
     external_ip_addr    varchar(254),
     max_results_day     integer     not null,
+    error_rate          double      not null default 0,
 
     primary key (id)
 ) type=InnoDB;
@@ -450,4 +452,21 @@ create table sent_email (
         -- 5 = forum ban
         -- 6 = fundraising appeal
     primary key(userid)
+) TYPE=MyISAM;
+
+create table private_messages (
+    id                  int(10)     unsigned    not null auto_increment,
+    userid              int(10)     unsigned    not null,
+    senderid            int(10)     unsigned    not null,
+    date                int(10)     unsigned    not null,
+    opened              tinyint(1)  unsigned    not null default '0',
+    subject             varchar(255)            not null,
+    content             text                    not null,
+    primary key(id),
+    key userid (userid)
+) TYPE=MyISAM;
+
+create table credited_job (
+    userid              integer     not null,
+    workunitid          bigint      not null
 ) TYPE=MyISAM;

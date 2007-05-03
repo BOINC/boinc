@@ -77,7 +77,16 @@ int make_job() {
     wu.clear();
     wu.appid = app.id;
     strcpy(wu.name, name);
+    wu.rsc_fpops_est = 1e12;
+    wu.rsc_fpops_bound = 1e14;
+    wu.rsc_memory_bound = 1e8;
+    wu.rsc_disk_bound = 1e8;
+    wu.delay_bound = 86400;
+    wu.min_quorum = REPLICATION_FACTOR;
     wu.target_nresults = REPLICATION_FACTOR;
+    wu.max_error_results = REPLICATION_FACTOR*4;
+    wu.max_total_results = REPLICATION_FACTOR*8;
+    wu.max_success_results = REPLICATION_FACTOR*4;
     infiles[0] = name;
 
     // Register the job with BOINC
@@ -85,7 +94,7 @@ int make_job() {
     return create_work(
         wu,
         wu_template,
-        "uc_result",
+        "templates/uc_result",
         "../templates/uc_result",
         infiles,
         1,
@@ -103,7 +112,7 @@ void main_loop() {
         if (n > CUSHION) {
             sleep(60);
         } else {
-            int njobs = (CUSHION-n)/REPLICATION_FACTOR+1;
+            int njobs = (CUSHION-n)/REPLICATION_FACTOR;
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "Making %d jobs\n", njobs
             );
@@ -116,6 +125,10 @@ void main_loop() {
                     exit(retval);
                 }
             }
+            // Now sleep for a few seconds to let the transitioner
+            // create instances for the jobs we just created.
+            // Otherwise we could end up creating an excess of jobs.
+            sleep(5);
         }
     }
 }

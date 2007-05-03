@@ -7,24 +7,17 @@ require_once('../inc/time.inc');
 
 db_init();
 
+get_logged_in_user(false);
+
 page_head("Questions and answers");
 
 echo "<p>
     Talk live via Skype with a volunteer, in any of several languages.
     Go to
     <a href=\"http://boinc.berkeley.edu/help.php\">BOINC Online Help</a>.</p>
-    <p>
-    <form action=\"forum_search_action.php\" method=\"POST\">
-    <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
-    <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
-    <input type=\"hidden\" name=\"search_sort\" value=\"5\">
-    <input type=\"text\" name=\"search_keywords\">
-    <input type=\"submit\" value=\"Start forum search\">
-    <span class=\"smalltext\">or do <a href=\"forum_search.php\">advanced search</a></span>
-    </form>
-    </p>
 ";
 
+show_forum_title(null, null);
 start_forum_table(array("Topic", "# Questions", "Last post"));
 
 $categories = getHelpDeskCategories();

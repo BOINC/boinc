@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("The BOINC graphics API");
+page_head("The BOINC graphics API [deprecated - Wiki]");
 echo"
 <p>
 BOINC applications can optionally provide graphics,

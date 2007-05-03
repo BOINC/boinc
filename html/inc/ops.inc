@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Only allow this script to run from the command line
 //

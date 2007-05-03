@@ -1,7 +1,7 @@
 <?php
 
 require_once("docutil.php");
-page_head("Project options");
+page_head("Project options [deprecated - wiki]");
 
 function list_option($x, $y) {
     echo "<a name=$x></a>";

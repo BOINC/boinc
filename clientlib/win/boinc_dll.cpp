@@ -22,34 +22,32 @@
 #include "resource.h"
 #include "win_util.h"
 #include "IdleTracker.h"
-#include "NetworkTracker.h"
 
+// Declare a global hModule variable for this process, which will
+//   be initialized when the DLL is loaded.
+HMODULE g_hModule = NULL;
 
-// The module attribute causes DllMain, DllRegisterServer and DllUnregisterServer to be automatically implemented for you
-[ module(dll, 
-         uuid = "{16B09F41-6216-4131-AADD-D66276A88089}", 
-		 name = "BOINCSENS", 
-		 helpstring = "BOINCSENS 1.0 Type Library",
-		 resource_name = "IDR_BOINCSENS") ]
-class CBOINCSENSModule
+BOOL APIENTRY DllMain(
+	HMODULE hModule, DWORD  ul_reason_for_call, LPVOID /* lpReserved */
+)
 {
-public:
-// Override CAtlDllModuleT members
-};
-
+	switch (ul_reason_for_call)
+	{
+		case DLL_PROCESS_ATTACH:
+			g_hModule = hModule;
+			break;
+		case DLL_THREAD_ATTACH:
+		case DLL_THREAD_DETACH:
+		case DLL_PROCESS_DETACH:
+			break;
+	}
+    return TRUE;
+}
 
 EXTERN_C __declspec(dllexport) BOOL ClientLibraryStartup()
 {
-    if (!IdleTrackerStartup())
+	if (!IdleTrackerStartup())
         return FALSE;
-
-    if (IsWindows2000Compatible()) {
-        // For now try to start it up and ignore any possible
-        //   error from this.  It is not critical path even though
-        //   we might be using it more in the future.
-        CoInitializeEx(NULL, NULL);
-        NetworkTrackerStartup();
-    }
 
     return TRUE;
 }
@@ -57,11 +55,5 @@ EXTERN_C __declspec(dllexport) BOOL ClientLibraryStartup()
 EXTERN_C __declspec(dllexport) void ClientLibraryShutdown()
 {
     IdleTrackerShutdown();
-    if (IsWindows2000Compatible()) {
-        NetworkTrackerShutdown();
-    }
-
-    // Cleanup the COM Framework.
-    CoUninitialize();
 }
 

@@ -2,6 +2,7 @@
 require_once("docutil.php");
 require_once("../html/inc/translation.inc");
 
+header('Content-Type: text/html; charset="UTF-8"');
 
 function show_participant() {
     global $light_blue;
@@ -68,7 +69,7 @@ function show_participate() {
         ".sprintf(tr(HOME_P3), "<a href=help.php>", "</a>")."
         <center>
         <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-        | <a href=participate.php><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
+        | <a href=trac/wiki/RunningBoinc><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
         | <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
         | <a href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
         | <a href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
@@ -109,10 +110,10 @@ function show_other() {
         <tr><td bgcolor=$light_blue><font size=4>Other info</font></td></tr>
         <tr><td>
             <ul>
-            <li> <a href=intro.php>Overview</a>
-            <li> <a href=trac/>Software development</a>
+            <li> <a href=trac/wiki/BoincIntro/>Overview</a>
+            <li> <a href=trac/wiki/SoftwareDevelopment>Software development</a>
             <li> <a href=translation.php>Translation</a> of web and GUI text
-            <li> <a href=contact.php>Personnel and contributors</a>
+            <li> <a href=trac/wiki/ProjectPeople>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
             <li> BOINC <a href=dev/>message boards</a>
             <li> <a href=papers.php>Papers and talks</a> about BOINC
@@ -152,16 +153,38 @@ echo "
 <body bgcolor=#ffffff>
 <img hspace=30 vspace=10 align=left src=logo/logo_small.png>
 <h1>
-Berkeley Open Infrastructure for Network Computing
+".tr(HOME_BOINC)."
 </h1>
 <font size=+1>
-Open-source software for
-<a href=volunteer.php>volunteer computing</a> and <a href=dg.php>desktop grid computing</a>.</font>
+".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php>', '</a>', '<a href=dg.php>', '</a>')."
+</font>
 <p>
 ";
 search_form();
 echo "
 <br clear=all>
+<font size=-1>
+<a href=set_language.php?lang=ar>العربية</a>
+| <a href=set_language.php?lang=be>Беларускі</a>
+| <a href=set_language.php?lang=bg>���������</a>
+| <a href=set_language.php?lang=ca>Català</a>
+| <a href=set_language.php?lang=de>Deutsch</a>
+| <a href=set_language.php?lang=en>English</a>
+| <a href=set_language.php?lang=es>Espa&ntilde;ol</a>
+| <a href=set_language.php?lang=fr>Fran&ccedil;ais</a>
+| <a href=set_language.php?lang=ja>日本語</a>
+";
+//| <a href=set_language.php?lang=ja_JP>日本語</a>
+echo "
+| <a href=set_language.php?lang=lt>Lietuvių</a>
+| <a href=set_language.php?lang=pl>Polski</a>
+| <a href=set_language.php?lang=pt_BR>Portugu&ecirc;s - Brasil</a>
+| <a href=set_language.php?lang=ru>Русский</a>
+| <a href=set_language.php?lang=sk>Slovenčina</a>
+| <a href=set_language.php?lang=tr>Türkçe</a>
+| <a href=set_language.php?lang=zh_CN>简体中文</a>
+| <a href=set_language.php?lang=auto>Browser</a>
+</font>
 
 <table width=100% border=0 cellspacing=0 cellpadding=4>
 <tr>
@@ -190,9 +213,4 @@ echo "
 ";
 
 page_tail(true, true);
-echo "
-    <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
-    </body>
-    </html>
-";
 ?>

@@ -518,7 +518,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n"
         "<all_projects_list_check_time>%f</all_projects_list_check_time>\n",
-        platform_name,
+        get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
@@ -678,7 +678,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
         "%s",
-        platform_name,
+        get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,

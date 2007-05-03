@@ -24,7 +24,6 @@
 #include "config.h"
 #include <cstdio>
 #include <cstring>
-#include <cassert>
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -81,15 +80,6 @@ static void overflow(const char* table, const char* param_name) {
     exit(1);
 }
 
-bool SCHED_SHMEM::have_app(int appid) {
-    int i;
-
-    for (i=0; i<napps; i++) {
-        if (apps[i].id == appid) return true;
-    }
-    return false;
-}
-
 int SCHED_SHMEM::scan_tables() {
     DB_PLATFORM platform;
     DB_APP app;
@@ -121,7 +111,14 @@ int SCHED_SHMEM::scan_tables() {
     n = 0;
     while (!app_version.enumerate()) {
         if (app_version.deprecated) continue;
-        if (!have_app(app_version.appid)) continue;
+        if (!lookup_app(app_version.appid)) continue;
+        PLATFORM* pp= lookup_platform_id(app_version.platformid);
+        if (!pp) {
+            fprintf(stderr, "app version %d refers to nonexistent platform %d",
+                app_version.id, app_version.platformid
+            );
+            continue;
+        }
         app_versions[n++] = app_version;
         if (n == MAX_APP_VERSIONS) {
             overflow("app_versions", "MAX_APP_VERSIONS");
@@ -133,9 +130,7 @@ int SCHED_SHMEM::scan_tables() {
 }
 
 PLATFORM* SCHED_SHMEM::lookup_platform(char* name) {
-    int i;
-    assert(name!=NULL);
-    for (i=0; i<nplatforms; i++) {
+    for (int i=0; i<nplatforms; i++) {
         if (!strcmp(platforms[i].name, name)) {
             return &platforms[i];
         }
@@ -143,13 +138,16 @@ PLATFORM* SCHED_SHMEM::lookup_platform(char* name) {
     return 0;
 }
 
-APP* SCHED_SHMEM::lookup_app(int id) {
-    int i;
+PLATFORM* SCHED_SHMEM::lookup_platform_id(int id) {
+    for (int i=0; i<nplatforms; i++) {
+        if (platforms[i].id == id) return &platforms[i];
+    }
+    return 0;
+}
 
-    for (i=0; i<napps; i++) {
-        if (apps[i].id == id) {
-            return &apps[i];
-        }
+APP* SCHED_SHMEM::lookup_app(int id) {
+    for (int i=0; i<napps; i++) {
+        if (apps[i].id == id) return &apps[i];
     }
     return 0;
 }
@@ -161,7 +159,6 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
 ) {
     int i, best_version=-1;
     APP_VERSION* avp, *best_avp = 0;
-    assert(min_version>=0);
     for (i=0; i<napp_versions; i++) {
         avp = &app_versions[i];
         if (avp->appid == appid && avp->platformid == platformid) {

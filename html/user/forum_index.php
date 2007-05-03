@@ -9,6 +9,8 @@ require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
 db_init();
 
+get_logged_in_user(false);
+
 function forum_summary($forum) {
     echo '
         <tr class="row1">
@@ -31,16 +33,6 @@ echo "
     If you have a question or problem, please use the
     <a href=forum_help_desk.php>Questions & answers</a>
     area instead of the Message boards.
-    </p>
-    <p>
-    <form action=\"forum_search_action.php\" method=\"POST\">
-    <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
-    <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
-    <input type=\"hidden\" name=\"search_sort\" value=\"5\">
-    <input type=\"text\" name=\"search_keywords\">
-    <input type=\"submit\" value=\"Start forum search\">
-    <span class=\"smalltext\">or do <a href=\"forum_search.php\">advanced search</a></span>
-    </form>
     </p>
 ";
 

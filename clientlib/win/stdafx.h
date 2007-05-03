@@ -26,29 +26,11 @@
 #define _WIN32_IE 0x0501        // Change this to the appropriate value to target IE 6.0 or later.
 #endif
 
-#define _ATL_APARTMENT_THREADED
-#define _ATL_NO_AUTOMATIC_NAMESPACE
-
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
-
-// turns off ATL's hiding of some common and often safely ignored warning messages
-#define _ATL_ALL_WARNINGS
-
 #include <windows.h>
 #include <initguid.h>
-#include <Sens.h>
-#include <SensApi.h>
-#include <EventSys.h>
 #include <wininet.h>
 #include <crtdbg.h>
 #include <tchar.h>
-
-#include <atlbase.h>
-#include <atlcom.h>
-#include <atlwin.h>
-#include <atltypes.h>
-#include <atlctl.h>
-#include <atlhost.h>
 
 #include <vector>
 #include <string>
@@ -60,7 +42,3 @@
 #define tstring std::string
 #define tostringstream std::ostringstream
 #endif
-
-#import "SENS.DLL" raw_interfaces_only, raw_native_types, no_namespace, named_guids 
-
-using namespace ATL;

@@ -43,21 +43,13 @@ if ($Category->getType()!=0){
 // Allow users with a linktab-browser to get some usefull links
 echo '<link href="forum_index.php" rel="up" title="Forum Index">';
 
+
+show_forum_title($forum, NULL);
+
 echo '
     <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="bottom">
     <td colspan=2>';
-
-show_forum_title($forum, NULL);
-
-if ($Category->getType()!=0){
-    echo "
-    <div class=\"helpdesk_note\">
-	<br /><form action=\"forum_search.php\"><input type=\"hidden\" name=\"forumid\" value=\"".$forum->getID()."\"><input type=\"submit\" value=\"Search ".$forum->getTitle()."\"></form>
-	To keep the number of repeated posts to a minimum please <a href=\"forum_search.php\"><b>search</b></a> before you create a new thread.
-    </div></td></tr><tr><td>";
-}
-
 
 echo '<a href="forum_post.php?id='.$id.'">';
 echo "[Create a new thread]</a><br><br></td>";

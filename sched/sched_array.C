@@ -44,7 +44,7 @@
 // send only results that were previously infeasible for some host
 //
 void scan_work_array(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
     int i, j, retval, n, rnd_off;
@@ -140,7 +140,7 @@ void scan_work_array(
         // Find the app and app_version for the client's platform.
         // If none, treat the WU as infeasible
         //
-        if (anonymous(platform)) {
+        if (anonymous(platforms.list[0])) {
             app = ss.lookup_app(wu.appid);
             found = sreq.has_version(*app);
             if (!found) {
@@ -148,7 +148,7 @@ void scan_work_array(
             }
             avp = NULL;
         } else {
-            found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
+            found = find_app_version(reply.wreq, wu, platforms, ss, app, avp);
             if (!found) {
                 wu_result.infeasible_count++;
                 continue;
@@ -277,7 +277,7 @@ void scan_work_array(
         }
 
         retval = add_result_to_reply(
-            result, wu, sreq, reply, platform, app, avp
+            result, wu, sreq, reply, platforms, app, avp
         );
 
         // add_result_to_reply() fails only in fairly pathological cases -

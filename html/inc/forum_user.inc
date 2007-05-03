@@ -370,17 +370,7 @@ function newUser($id, $optional_dbobj="", $optional_prefobj=""){
  * Construct links to the given user
  **/
 function re_user_links($user) {
-    $x = '<a href="show_user.php?userid='.$user->getID().'">'.$user->getName().'</a>';
-    if ($user->hasProfile()) {
-        $x .= ' <a href="view_profile.php?userid='.$user->getID().'"><img border="0" src="img/head_20.png"></a>';
-    }
-    # Does this project accept donations?
-    # If so, do you want to have a link next to user name as it appears on the web site?
-    if ($user->hasDonated() == 1) {
-        @require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    return $x;
+    return user_links(get_user_from_id($user->getID()));
 }
 
 ?>

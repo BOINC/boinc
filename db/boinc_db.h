@@ -280,6 +280,8 @@ struct HOST {
     char external_ip_addr[256]; // IP address seen by scheduler
     int max_results_day;    // maximum # of results to send per day per CPU
         // this is dynamically adjusted to limit work sent to bad hosts
+    double error_rate;      // dynamic estimate of fraction of results
+                            // that fail validation
 
     // the following not stored in DB
     //
@@ -372,6 +374,14 @@ struct WORKUNIT {
     void clear();
 };
 
+struct CREDITED_JOB {
+    int userid;
+    long workunitid;
+
+    // the following not used in the DB
+    void clear();
+};
+
 // WARNING: be Very careful about changing any values,
 // especially for a project already running -
 // the database will become inconsistent
@@ -449,14 +459,18 @@ struct RESULT {
     int priority;
     char mod_time[16];
 
-    // the following not used in the DB
+    // the following used by the scheduler, but not stored in the DB
+    //
     char wu_name[256];
     double fpops_per_cpu_sec;
     double fpops_cumulative;
     double intops_per_cpu_sec;
     double intops_cumulative;
     int parse_from_client(FILE*);
+    char platform_name[256];
+    int version_num;
     void clear();
+    int write_to_client(FILE*);
 };
 
 struct MSG_FROM_HOST {
@@ -589,6 +603,14 @@ public:
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
+};
+
+class DB_CREDITED_JOB : public DB_BASE, public CREDITED_JOB {
+public:
+    DB_CREDITED_JOB(DB_CONN* p=0);
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(CREDITED_JOB& wh) {CREDITED_JOB::operator=(wh);}
 };
 
 class DB_MSG_FROM_HOST : public DB_BASE, public MSG_FROM_HOST {

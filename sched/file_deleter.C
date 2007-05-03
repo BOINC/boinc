@@ -565,6 +565,8 @@ int main(int argc, char** argv) {
             id_remainder = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-dont_delete_antiques")) {
             dont_delete_antiques = true;
+        } else if (!strcmp(argv[i], "-dont_delete_batches")) {
+            dont_delete_batches = true;
         } else {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "Unrecognized arg: %s\n", argv[i]

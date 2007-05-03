@@ -365,13 +365,14 @@ def install_boinc_files(dest_dir):
 class Project:
     def __init__(self,
                  short_name, long_name,
-                 project_dir=None,key_dir=None,
+                 project_dir=None, key_dir=None,
                  master_url=None, cgi_url=None,
                  db_name=None,
                  production=False
                  ):
         init()
 
+        self.production = production
         self.short_name     = short_name
         self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
 
@@ -396,6 +397,7 @@ class Project:
         config.show_results = 1
         config.sched_debug_level = 3
         config.fuh_debug_level = 3
+        config.one_result_per_user_per_wu = 0
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')
@@ -406,10 +408,8 @@ class Project:
         config.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
         config.app_dir       = os.path.join(self.project_dir, 'apps')
         if production:
-            config.one_result_per_user_per_wu = '1'
             config.min_sendwork_interval = 6
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
-
 
     def dir(self, *dirs):
         return apply(os.path.join,(self.project_dir,)+dirs)
@@ -481,16 +481,14 @@ class Project:
             self.dir('html/user/server_status.php'))
         install(srcdir('html/languages/project_specific_translations/sample_en.po'), self.dir('html/languages/project_specific_translations/en.po'))
         install(srcdir('tools/project.xml'), self.dir('project.xml'))
-        install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
-        install(srcdir('test/uc_wu_nodelete'), self.dir('templates/uc_wu'))
-        install(srcdir('tools/create_work_example'), self.dir('bin/create_work_example'))
-
+        if not self.production:
+            install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
+            install(srcdir('test/uc_wu_nodelete'), self.dir('templates/uc_wu'))
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
         my_symlink('../stats', self.dir('html/user/stats'))
         my_symlink('../user_profile', self.dir('html/user/user_profile'))
         my_symlink('../user_profile', self.dir('html/user_profile/user_profile'))
-
 
         # Copy the sched server in the cgi directory with the cgi names given
         # source_dir/html/user/schedulers.txt

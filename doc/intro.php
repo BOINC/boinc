@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Overview of BOINC");
+page_head("Overview of BOINC [Deprecated - Wiki]");
 echo"
 <p>
 BOINC is a software platform for distributed computing

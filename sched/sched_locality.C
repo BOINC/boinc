@@ -275,7 +275,7 @@ int decrement_disk_space_locality(
 //
 static int possibly_send_result(
     DB_RESULT& result,
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
     DB_WORKUNIT wu;
@@ -304,10 +304,10 @@ static int possibly_send_result(
     }
 
     retval = get_app_version(
-        wu, app, avp, sreq, reply, platform, ss
+        wu, app, avp, sreq, reply, platforms, ss
     );
 
-    if (retval==ERR_NO_APP_VERSION && !strcmp("anonymous", platform.name)) {
+    if (retval==ERR_NO_APP_VERSION && anonymous(platforms.list[0])) {
         char help_msg_buf[512];
         sprintf(help_msg_buf, "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.", config.long_name);
         USER_MESSAGE um(help_msg_buf, "high");
@@ -317,7 +317,7 @@ static int possibly_send_result(
 
     if (retval) return ERR_NO_APP_VERSION;
 
-    return add_result_to_reply(result, wu, sreq, reply, platform, app, avp);
+    return add_result_to_reply(result, wu, sreq, reply, platforms, app, avp);
 }
 
 // returns true if the work generator can not make more work for this
@@ -495,7 +495,7 @@ static void flag_for_possible_removal(char* filename) {
 static int send_results_for_file(
     char* filename,
     int& nsent,
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss,
     bool /*in_working_set*/
 ) {
@@ -651,7 +651,7 @@ static int send_results_for_file(
             // This *should* always work.
             //
             retval_send = possibly_send_result(
-                result, sreq, reply, platform, ss
+                result, sreq, reply, platforms, ss
             );
             boinc_db.commit_transaction();
 
@@ -715,7 +715,7 @@ static int send_results_for_file(
 //    min_resultname = R.filename;
 //
 static int send_new_file_work_deterministic_seeded(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss, int& nsent, const char *start_f, const char *end_f
 ) {
     DB_RESULT result;
@@ -756,7 +756,7 @@ static int send_new_file_work_deterministic_seeded(
         );
 
         retval = send_results_for_file(
-            filename, nsent, sreq, reply, platform, ss, false
+            filename, nsent, sreq, reply, platforms, ss, false
         );
 
         if (retval==ERR_NO_APP_VERSION || retval==ERR_INSUFFICIENT_RESOURCE) return retval;
@@ -793,7 +793,7 @@ static bool is_host_slow(SCHEDULER_REQUEST& sreq) {
 // if it has not sent any new work.
 //
 static int send_new_file_work_deterministic(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
     char start_filename[256];
@@ -808,7 +808,7 @@ static int send_new_file_work_deterministic(
   
     // start deterministic search with randomly chosen filename, go to
     // lexical maximum
-    send_new_file_work_deterministic_seeded(sreq, reply, platform, ss, nsent, start_filename, NULL);
+    send_new_file_work_deterministic_seeded(sreq, reply, platforms, ss, nsent, start_filename, NULL);
     if (nsent) {
         return 0;
     }
@@ -817,7 +817,7 @@ static int send_new_file_work_deterministic(
     // filename, continue to randomly choosen one
     if (!getfile_retval && reply.work_needed(true)) {
         send_new_file_work_deterministic_seeded(
-            sreq, reply, platform, ss, nsent, "", start_filename
+            sreq, reply, platforms, ss, nsent, "", start_filename
         );
         if (nsent) {
             return 0;
@@ -829,7 +829,7 @@ static int send_new_file_work_deterministic(
 
 
 static int send_new_file_work_working_set(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
     char filename[256];
@@ -843,20 +843,20 @@ static int send_new_file_work_working_set(
     );
 
     return send_results_for_file(
-        filename, nsent, sreq, reply, platform, ss, true
+        filename, nsent, sreq, reply, platforms, ss, true
     );
 }
 
 // prototype
 static int send_old_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss, int t_min, int t_max);
 
 // The host doesn't have any files for which work is available.
 // Pick new file to send.  Returns nonzero if no work is available.
 //
 static int send_new_file_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
 
@@ -878,7 +878,7 @@ static int send_new_file_work(
             "send_new_file_work(): try to send old work\n"
         );
 
-        retval_sow=send_old_work(sreq, reply, platform, ss, start, end);
+        retval_sow=send_old_work(sreq, reply, platforms, ss, start, end);
 
         if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return retval_sow;
 
@@ -888,7 +888,7 @@ static int send_new_file_work(
                 "send_new_file_work(%d): try to send from working set\n", retry
             );
             retry++;
-            retval_snfwws=send_new_file_work_working_set(sreq, reply, platform, ss);
+            retval_snfwws=send_new_file_work_working_set(sreq, reply, platforms, ss);
             if (retval_snfwws==ERR_NO_APP_VERSION || retval_snfwws==ERR_INSUFFICIENT_RESOURCE) return retval_snfwws;
 
         }    
@@ -897,7 +897,7 @@ static int send_new_file_work(
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "send_new_file_work(): try deterministic method\n"
             );
-            if (send_new_file_work_deterministic(sreq, reply, platform, ss)) {
+            if (send_new_file_work_deterministic(sreq, reply, platforms, ss)) {
                 // if no work remains at all,
                 // we learn it here and return nonzero.
                 //
@@ -917,7 +917,7 @@ static int send_new_file_work(
 // t_min=INT_MIN if you wish to leave off the left constraint.
 //
 static int send_old_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss, int t_min, int t_max
 ) {
     char buf[1024], filename[256];
@@ -945,7 +945,7 @@ static int send_old_work(
 
     retval = result.lookup(buf);
     if (!retval) {
-        retval = possibly_send_result(result, sreq, reply, platform, ss);
+        retval = possibly_send_result(result, sreq, reply, platforms, ss);
         boinc_db.commit_transaction();
         if (!retval) {
             double age=(now-result.create_time)/3600.0;
@@ -955,7 +955,7 @@ static int send_old_work(
             extract_retval=extract_filename(result.name, filename);
             if (!extract_retval) {
                 send_results_for_file(
-                    filename, nsent, sreq, reply, platform, ss, false
+                    filename, nsent, sreq, reply, platforms, ss, false
                 );
             } else {
                 // David, is this right?  Is this the only place in
@@ -1003,7 +1003,7 @@ bool file_info_order(const FILE_INFO& fi1, const FILE_INFO& fi2) {
 }
 
 void send_work_locality(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
     int i, nsent, nfiles, j;
@@ -1090,7 +1090,7 @@ void send_work_locality(
     //
     if (config.locality_scheduling_send_timeout && sreq.host.n_bwdown>100000) {
         int until=time(0)-config.locality_scheduling_send_timeout;
-        int retval_sow=send_old_work(sreq, reply, platform, ss, INT_MIN, until);
+        int retval_sow=send_old_work(sreq, reply, platforms, ss, INT_MIN, until);
         if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return;
     }
 
@@ -1103,7 +1103,7 @@ void send_work_locality(
         if (!reply.work_needed(true)) break;
         FILE_INFO& fi = sreq.file_infos[k];
         retval_srff=send_results_for_file(
-            fi.name, nsent, sreq, reply, platform, ss, false
+            fi.name, nsent, sreq, reply, platforms, ss, false
         );
 
         if (retval_srff==ERR_NO_APP_VERSION || retval_srff==ERR_INSUFFICIENT_RESOURCE) return;
@@ -1126,7 +1126,7 @@ void send_work_locality(
     // send new files if needed
     //
     if (reply.work_needed(true)) {
-        send_new_file_work(sreq, reply, platform, ss);
+        send_new_file_work(sreq, reply, platforms, ss);
     }
 }
 

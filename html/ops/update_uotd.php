@@ -7,5 +7,5 @@ require_once("../inc/uotd.inc");
 
 db_init();
 
-build_uotd_page();
+select_uotd();
 ?>

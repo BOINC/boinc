@@ -2,11 +2,28 @@
 
 <?php
 
-// remind.php [-lapsed|-failed]
+// remind.php [--lapsed | --failed] [--show_email] [--userid ID]
 //
-// send "reminder" emails to
+// --lapsed
+//      Send emails to lapsed user (see below)
+// --failed
+//      Send emails to failed user (see below)
+// --userid
+//      Send both "lapsed" and "failed" emails to the given user,
+//      regardless of whether they are due to be sent.
+//      The --lapsed and --failed options are ignored.
+//      (for testing)
+// --show_email
+//      Show the text that would be mailed
+// --explain
+//      Show which users would be sent email and why
+// --send
+//      Actually send emails (this is an option to encourage
+//      you to do thorough testing before using it)
+//
+// This program sends "reminder" emails to
 // - failed users: those who
-//   1) were created at least Sstart_interval seconds ago,
+//   1) were created at least $start_interval seconds ago,
 //   2) have zero total credit
 //   3) haven't been sent an email in at least $email_interval seconds.
 //   These people typically either had a technical glitch,
@@ -28,26 +45,36 @@
 //   The email should gently prod them to start running the project again.
 //
 
-$start_interval = 14*86400;
-$email_interval = 30*86400;
-$lapsed_interval = 60*86400;
+$globals->start_interval = 14*86400;
+$globals->email_interval = 30*86400;
+$globals->lapsed_interval = 60*86400;
+$globals->do_failed = false;
+$globals->do_lapsed = false;
+$globals->show_email = false;
+$globals->send = false;
+$globals->explain = false;
+$globals->userid = 0;
 
-// set the following to false to actually send emails
-// (rather than just print to stdout)
-//
-$testing = true;
-
-// If the following is nonzero, email will be sent to the given user ID
-// Otherwise it will be sent to all users
-//
-$userid = 1;
-
-if ($argc > 1 && $argv[1] == "-failed") { $do_type = "failed"; }
-elseif ($argc > 1 && $argv[1] == "-lapsed") { $do_type = "lapsed"; }
-else {
-  echo "usage: remind.php [-failed|-lapsed]\n\n";
-  exit (1);
-  }
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == "--failed") {
+        $do_failed = true;
+    } elseif ($argv[$i] == "--lapsed") {
+        $do_lapsed = true;
+    } elseif ($argv[$i] == "--show_email") {
+        $globals->show_email = true;
+    } elseif ($argv[$i] == "--explain") {
+        $globals->explain = true;
+    } elseif ($argv[$i] == "--send") {
+        $globals->send = true;
+    } elseif ($argv[$i] == "--userid") {
+        $i++;
+        $globals->userid = $argv[$i];
+    } else {
+        echo "unrecognized option $argv[$i]\n";
+        echo "usage: remind.php [--failed ] [--lapsed] [--userid N] [--show_mail] [--explain] [--send]\n";
+        exit (1);
+    }
+}
 
 require_once('../project/project.inc');
 require_once("../inc/db.inc");
@@ -58,6 +85,7 @@ set_time_limit(0);
 
 // File names for the various mail types.
 // Change these here if needed.
+//
 $dir = "remind_email";
 $failed_html = "$dir/failed_html";
 $failed_text = "$dir/failed_text";
@@ -71,7 +99,7 @@ $lapsed_subject = "$dir/lapsed_subject";
 //
 function last_rpc_time($user) {
     $x = 0;
-    $result = mysql_query("select * from host where userid=$user->id");
+    $result = mysql_query("select rpc_time from host where userid=$user->id");
     while ($host = mysql_fetch_object($result)) {
         if ($host->rpc_time > $x) $x = $host->rpc_time;
     }
@@ -136,13 +164,15 @@ function replace($user, $template) {
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
         $user->id,
-        floor ((time() - last_rpc_time($user)) / 86400),
+        floor ((time() - $user->last_rpc_time) / 86400),
     );
     return preg_replace($pat, $rep, $template);
 }
 
-function mail_type($user, $email_files, $type) {
-    global $testing;
+function mail_type($user, $type) {
+    global $globals;
+    global $email_files;
+
     $email_file = $email_files[$type];
     if ($email_file['html']) {
         $html = replace($user, $email_file['html']);
@@ -150,17 +180,17 @@ function mail_type($user, $email_files, $type) {
         $html = null;
     }
     $text = replace($user, $email_file['text']);
-    if ($testing) {
-        if (true) {
-            echo "------- SUBJECT ----------\n";
-            echo $email_file['subject'];
-            echo "\n------- HTML ----------\n";
-            echo $html;
-            echo "\n------- TEXT ----------\n";
-            echo $text;
-        }
-    } else {
-        send_email(
+    if ($globals->show_email) {
+        echo "------- SUBJECT ----------\n";
+        echo $email_file['subject'];
+        echo "\n------- HTML ----------\n";
+        echo $html;
+        echo "\n------- TEXT ----------\n";
+        echo $text;
+    }
+    if ($globals->send) {
+        echo "sending to $user->email_addr\n";
+        echo send_email(
             $user,
             $email_file['subject'],
             $text,
@@ -173,23 +203,6 @@ function mail_type($user, $email_files, $type) {
         $query = "insert into sent_email values($user->id, $now, $ntype)";
         mysql_query($query);
     }
-}
-
-function handle_user($user, $do_type, $email_files) {
-    global $lapsed_interval;
-    global $testing;
-    if ($testing) {
-        $x = (time() - $user->create_time)/86400;
-        echo "user $user->email_addr was created $x days ago\n";
-        if ($user->total_credit == 0) {
-            echo "zero credit, sending failed email\n";
-        } else {
-            $t = last_rpc_time($user);
-            $show_lapsed_interval = (time()-$t)/86400;
-            echo "nonzero credit, last RPC $show_lapsed_interval days ago, sending lapsed email\n";
-        }
-    }
-    mail_type($user, $email_files, $do_type);
 }
 
 function last_reminder_time($user) {
@@ -205,59 +218,93 @@ function last_reminder_time($user) {
     return $t;
 }
 
-function main($email_files) {
+function handle_user($user, $do_type) {
+    global $globals;
     global $email_interval;
-    global $start_interval;
-    global $lapsed_interval;
-    global $do_type;
 
-    $max_email_time = time() - $email_interval;
-    if ($do_type == "failed") {
-      $max_create_time = time() - $start_interval;
-      $result = mysql_query(
-          "select * from user where send_email<>0 and create_time<$max_create_time and total_credit = 0;"
-      );
-      while ($user = mysql_fetch_object($result)) {
-          if (last_reminder_time($user) > $max_email_time) { echo "userid: $user->id already sent..\n"; continue;}
-          echo "sending to $user->id ..\n";
-          handle_user($user, $do_type, $email_files);
-      }
-      mysql_free_result($result);
-    } else {
-      $max_last_rpc_time = time() - $lapsed_interval;
-      $result = mysql_query(
-          "select userid from host group by userid having max(rpc_time)<$max_last_rpc_time;"
-      );
-      while ($host = mysql_fetch_object($result)) {
-          $uresult = mysql_query("select * from user where id = $host->userid;");
-          $user = mysql_fetch_object($uresult);
-          if ($user->send_email == 0) { echo "userid: $user->id send_email = 0..\n"; continue; }
-          if (last_reminder_time($user) > $max_email_time) { echo "userid: $user->id already sent..\n"; continue;}
-          echo "sending to $user->id ..\n";
-          handle_user($user, $do_type, $email_files);
-          mysql_free_result($uresult);
-      }
-      mysql_free_result($result);
+    if ($user->send_email == 0) {
+        if ($globals->explain) {
+            echo "user: $user->id send_email = 0\n";
+        }
+        return;
     }
+    $max_email_time = time() - $email_interval;
+    if (last_reminder_time($user) > $max_email_time) {
+        if ($globals->explain) {
+            echo "user: $user->id sent too recently\n";
+        }
+        return;
+    }
+    if ($globals->explain) {
+        $x = (time() - $user->create_time)/86400;
+        $t = last_rpc_time($user);
+        $show_lapsed_interval = (time()-$t)/86400;
+        echo "user $user->id ($user->email_addr) was created $x days ago\n";
+        echo "  total_credit: $user->total_credit; last RPC $show_lapsed_interval days ago\n";
+        echo "  sending $do_type email\n";
+    }
+    mail_type($user, $do_type);
+}
+
+function do_failed() {
+    global $globals;
+
+    $max_create_time = time() - $globals->start_interval;
+    $result = mysql_query(
+        "select * from user where send_email<>0 and create_time<$max_create_time and total_credit = 0;"
+    );
+    while ($user = mysql_fetch_object($result)) {
+        handle_user($user, 'failed');
+    }
+    mysql_free_result($result);
+}
+
+function do_lapsed() {
+    global $globals;
+    $max_last_rpc_time = time() - $globals->lapsed_interval;
+
+    // the following is an efficient way of getting the list of
+    // users for which no host has done an RPC recently
+    //
+    $result = mysql_query(
+        "select userid from host group by userid having max(rpc_time)<$max_last_rpc_time;"
+    );
+    while ($host = mysql_fetch_object($result)) {
+        $uresult = mysql_query("select * from user where id = $host->userid;");
+        $user = mysql_fetch_object($uresult);
+        mysql_free_result($uresult);
+        if (!$user) {
+            echo "Can't find user $host->userid\n";
+            continue;
+        }
+        handle_user($user, 'lapsed');
+    }
+    mysql_free_result($result);
 }
 
 if (!$USE_PHPMAILER) {
-    echo "You must use PHPMailer.\n";
+    echo "You must use PHPMailer (http://phpmailer.sourceforge.net)\n";
     exit();
 }
 
 $email_files = read_email_files();
 
-if ($userid) {
-    $user = lookup_user_id($userid);
+if ($globals->userid) {
+    $user = lookup_user_id($globals->userid);
     if (!$user) {
-        echo "No such user: $userid\n";
+        echo "No such user: $globals->userid\n";
         exit();
     }
-    mail_type($user, $email_files, 'failed');
-    mail_type($user, $email_files, 'lapsed');
+    $user->last_rpc_time = last_rpc_time($user);
+    mail_type($user, 'failed');
+    mail_type($user, 'lapsed');
 } else {
-    main($email_files);
+    if ($do_failed) {
+        do_failed();
+    }
+    if ($do_lapsed) {
+        do_lapsed();
+    }
 }
 
 ?>

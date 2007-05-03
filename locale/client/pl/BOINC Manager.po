@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.8.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-04-05 17:15+0100\n"
+"PO-Revision-Date: 2007-04-18 15:50+0100\n"
 "Last-Translator: MarekZ <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "MIME-Version: 1.0\n"
@@ -295,7 +295,7 @@ msgstr "Konfiguracja języka oraz parametrów połączenia z internetem."
 
 #: clientgui/AdvancedFrame.cpp:422
 msgid "&Preferences..."
-msgstr "&Preferencje..."
+msgstr "&Preferencje lokalne..."
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "Configure local preferences"
@@ -431,7 +431,7 @@ msgstr "&Pomoc"
 
 #: clientgui/AdvancedFrame.cpp:1091
 msgid "Shutdown the current client..."
-msgstr "Zamknij obecnego klienta..."
+msgstr "Zamknij obecnie używanego klienta..."
 
 #: clientgui/AdvancedFrame.cpp:1100
 #, c-format
@@ -441,8 +441,9 @@ msgid ""
 "so you can attach to a different core client."
 msgstr ""
 "%s zamknie klienta BOINC, do którego jest obecnie podłączony.\n"
-"UWAGA: Wybranie 'OK' spowoduje ukazanie się okna wyboru nowego komputera\n"
-"a zatem będziesz mógł się podłączyć do innego klienta BOINC."
+"\n"
+"UWAGA: Wybranie 'OK' spowoduje pojawienie się okna wyboru nowego\n"
+"komputera, a zatem będziesz mógł się podłączyć do innego klienta BOINC."
 
 #: clientgui/AdvancedFrame.cpp:1244
 #, c-format
@@ -865,7 +866,7 @@ msgstr "Prawa autorskie:"
 
 #: clientgui/DlgAbout.cpp:168
 msgid ""
-"(C) 2003-2007 University of California at Berkeley.\n"
+"(C) 2003-2007 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
 "(C) 2003-2007 Uniwersytet Kalifornijski w Berkeley.\n"
@@ -874,11 +875,13 @@ msgstr ""
 "Polska wersja językowa:\n"
 "Marek Czerwonka (marekz@irc.pl)\n"
 "\n"
-"Wersja: 1.40 (5.9.01)"
+"Wersja: 1.40 (5.9.03)"
 
 #: clientgui/DlgAbout.cpp:172
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Berkeley Open Infrastructure for Network Computing"
+msgstr ""
+"Berkeley Open Infrastructure for Network Computing\n"
+"Otwarta Platforma Obliczeń Rozproszonych BOINC"
 
 #: clientgui/DlgAbout.cpp:176
 msgid "A system for volunteer computing"
@@ -913,10 +916,10 @@ msgid ""
 "On Save - preferences will be stored locally.\n"
 "If you would like to revert to web-based settings, click the Clear-Button."
 msgstr ""
-"Te ustawienia preferencji dotyczą tylko tego komputera.\n"
-"Po zapisaniu będą one przechowywane tylko na tym komputerze.\n"
-"Jesli chcesz nadal stosować preferencje ogólne i nie wprowadzać zmian,\n"
-"nacisnij przycisk Wyczyść."
+"Poniższe ustawienia dotyczą wyłącznie tego komputera, a nie całego konta\n"
+"uczestnika. Po ich zapisaniu będą przechowywane tylko na tym komputerze\n"
+"lokalnym. Jeśli chciałbyś powrócić do stosowania ogólnych preferencji konta\n"
+"uczestnika dla tego komputera, użyj przycisku Wyczyść."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:41
 msgid "Clear"
@@ -1004,7 +1007,7 @@ msgstr "Inne opcje"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:225
 msgid "switch between applications between every"
-msgstr "przełączaj się pomiędzy aplikacjami co"
+msgstr "przełączaj się pomiędzy aplikacjami projektów co"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:234
 msgid "on multiprocessor systems, use at most"
@@ -1046,7 +1049,7 @@ msgstr "dni"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:286
 msgid "maximum download rate"
-msgstr "maksymalna szybkość pobierania"
+msgstr "max. szybkość pobierania"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:292
 #: clientgui/DlgAdvPreferencesBase.cpp:301
@@ -1055,11 +1058,11 @@ msgstr "KB/s"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:295
 msgid "maximum upload rate"
-msgstr "maksymalna szybkość wysyłania"
+msgstr "max. szybkość wysyłania"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:304
 msgid "skip image file verification"
-msgstr "pomiń weryfikację pliku z obrazem jpg"
+msgstr "nie weryfikuj pliku jpg"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:315
 msgid "connect options"
@@ -1095,7 +1098,7 @@ msgstr "Użycie dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:471
 msgid "Gigabytes disk space"
-msgstr "przestrzeni dyskowej (GB)"
+msgstr " GB przestrzeni dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:474
 msgid "leave at least"
@@ -1103,7 +1106,7 @@ msgstr "pozostaw co najmniej"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:482
 msgid "Gigabytes disk space free"
-msgstr "wolnej przestrzeni dysku (GB)"
+msgstr "GB wolnej przestrzeni dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 #, c-format
@@ -1121,7 +1124,7 @@ msgstr "sekund"
 #: clientgui/DlgAdvPreferencesBase.cpp:511
 #, c-format
 msgid "% of page file (swap space)"
-msgstr "% ogólnego rozmiaru pliku wymiany"
+msgstr "% obszaru pliku wymiany"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:519
 msgid "memory usage"
@@ -1129,11 +1132,11 @@ msgstr "Użycie pamięci"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:533
 msgid "% when computer is in use"
-msgstr "% gdy komputer jest używany"
+msgstr "% kiedy komputer jest w użyciu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:542
 msgid "% when computer is idle"
-msgstr "% gdy komputer nie jest używany"
+msgstr "% kiedy komputer nie jest w użyciu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:547
 msgid "leave applications in memory while suspended"
@@ -1511,7 +1514,10 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "Adres który wprowadziłeś nie jest adresem żadnego z projektów BOINC./n/nSprawdź adres i spróbuj ponownie."
+msgstr ""
+"Adres który wprowadziłeś nie jest adresem żadnego z projektów BOINC.\n"
+"\n"
+"Sprawdź adres i spróbuj ponownie."
 
 #: clientgui/NotDetectedPage.cpp:193
 msgid "Account manager not found"
@@ -1592,15 +1598,16 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
-"BOINC nie mógł połączyć się z internetem. Najbardziej\n"
-"prawdopodobne powody to:\n"
+"BOINC nie mógł połączyć się z internetem.\n"
+"Najbardziej prawdopodobne przyczyny to:\n"
 "\n"
 "1) Problem z połączeniem. Sprawdź swoje połączenie sieciowe\n"
-"lub modemowe, kliknij Wstecz i spróbuj ponownie.\n"
+"lub modemowe, następnie kliknij Wstecz aby spróbować ponownie.\n"
 "\n"
-"2) Firewall blokuje BOINC.\n"
+"2) Firewall blokuje używanie sieci przez BOINC.\n"
 "Skonfiguruj swojego firewalla tak, aby zezwalał BOINC'owi\n"
-"na kominikacje poprzez port 80, kliknij Wstecz i spróbuj ponownie.\n"
+"na komunikację poprzez port 80, następnie kliknij Wstecz,\n"
+"aby spróbować ponownie.\n"
 "\n"
 "3) Używasz serwera Proxy.\n"
 "Kliknij Dalej, aby skonfigurować ustawienia proxy."
@@ -2185,7 +2192,7 @@ msgstr "Przesyła informacje o zakończonych obliczeniach oraz aktualizuje prefe
 #: clientgui/ViewWorkGrid.cpp:114
 #: clientgui/ViewWorkGrid.cpp:382
 msgid "Suspend"
-msgstr "Wstrzymaj projekt"
+msgstr "Wstrzymaj"
 
 #: clientgui/ViewProjects.cpp:118
 #: clientgui/ViewProjects.cpp:568
@@ -2510,7 +2517,7 @@ msgstr "Próbuj ponownie"
 #: clientgui/ViewTransfers.cpp:99
 #: clientgui/ViewTransfersGrid.cpp:106
 msgid "Click 'Retry now' to transfer the file now"
-msgstr "Kliknięcie 'Próbuj ponownie' spowoduje podjęcie próby ponownego przesłania pliku."
+msgstr "Naciśnięcie przycisku 'Próbuj ponownie' spowoduje podjęcie próby ponownego przesłania lub pobrania pliku."
 
 #: clientgui/ViewTransfers.cpp:105
 #: clientgui/ViewTransfersGrid.cpp:112
@@ -2520,7 +2527,7 @@ msgstr "Przerwij przesyłanie pliku"
 #: clientgui/ViewTransfers.cpp:106
 #: clientgui/ViewTransfersGrid.cpp:113
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "Kliknięcie 'Przerwij transfer' spowoduje usunięcie przesyłanego pliku. Jeśli jest to plik z wynikami obliczeń, nie otrzymasz punktów za to zadanie."
+msgstr "Naciśnięcie przycisku 'Przerwij przesyłanie pliku' spowoduje przerwanie transferu odsyłanego lub pobieranego pliku. Jeśli jest to odsyłany plik z wynikami obliczeń, nie otrzymasz punktów za to zadanie."
 
 #: clientgui/ViewTransfers.cpp:118
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -2715,7 +2722,7 @@ msgstr "Usuń zadanie"
 #: clientgui/ViewWork.cpp:506
 #: clientgui/ViewWorkGrid.cpp:377
 msgid "Resume work for this task."
-msgstr "Wznóe to zadanie."
+msgstr "Wznów to zadanie."
 
 #: clientgui/ViewWork.cpp:512
 #: clientgui/ViewWorkGrid.cpp:383
@@ -2993,7 +3000,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.h:49
 msgid "BOINC Manager - Options"
-msgstr "Menadżer BOINC - Opcje"
+msgstr "Menadżer BOINC - Ustawienia"
 
 #: clientgui/DlgSelectComputer.h:49
 msgid "BOINC Manager - Select Computer"

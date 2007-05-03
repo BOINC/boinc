@@ -544,4 +544,10 @@ public:
 	double delay();
 };
 
+// contains all the attributes of each platform supported by the client.
+class PLATFORM {
+public:
+    std::string name;
+};
+
 #endif

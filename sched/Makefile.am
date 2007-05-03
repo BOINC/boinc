@@ -33,7 +33,7 @@ EXTRA_PROGRAMS = fcgi \
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = start stop status
 
-LDADD = -L. -lsched $(MYSQL_LIBS) $(BOINC_LIB) $(PTHREAD_LIBS)
+LDADD = -L. -lsched   $(MYSQL_LIBS) $(BOINC_LIB) $(PTHREAD_LIBS) 
 
 LIB_SCHED = libsched.a
 

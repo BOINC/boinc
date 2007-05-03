@@ -1,4 +1,4 @@
-<?
+<?php
 
 function credit_to_ops($user, &$ops, &$unit) {
     // 100 units of credit is 86400*10^9 ops

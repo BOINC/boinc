@@ -61,6 +61,20 @@ function lookup_user_email_addr($email_addr) {
     return null;
 }
 
+function lookup_user_name($name) {
+    $result = mysql_query("SELECT * FROM user WHERE name='".mysql_escape_string($name)."'");
+    if ($result) {
+        if (mysql_num_rows($result) == 1) {
+            return mysql_fetch_object($result);
+        } elseif (mysql_num_rows($result) == 0) {
+            return null;
+        } else {
+            return -1; // Non-unique username
+        }
+    }
+    return null;
+}
+
 function lookup_host($id) {
     $result = mysql_query("select * from host where id=$id");
     if ($result) {

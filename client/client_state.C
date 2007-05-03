@@ -73,8 +73,6 @@ CLIENT_STATE::CLIENT_STATE() {
     core_client_version.major = BOINC_MAJOR_VERSION;
     core_client_version.minor = BOINC_MINOR_VERSION;
     core_client_version.release = BOINC_RELEASE;
-    platform_name = HOSTTYPE;
-    alt_platform_name = HOSTTYPEALT;
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -155,13 +153,18 @@ int CLIENT_STATE::init() {
 #ifdef _DEBUG
     debug_str = " (DEBUG)";
 #endif
+
+    // initialize supported platforms vector
+    detect_supported_platforms();
+
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        platform_name, debug_str
+        get_primary_platform(), debug_str
     );
+
     log_flags.show();
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
@@ -321,18 +324,13 @@ int CLIENT_STATE::init() {
         if (retval) return retval;
     }
 
-    // Has platform name changed?  If so reset all.
-    // This could happen e.g. if user copies files from PPC to Intel Mac
+    // If platform name changed, print warning
     //
-    if (statefile_platform_name.size() && strcmp(platform_name, statefile_platform_name.c_str())) {
+    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
         msg_printf(NULL, MSG_INFO,
-            "Platform changed from %s to %s - resetting projects",
-            statefile_platform_name.c_str(), platform_name
+            "Platform changed from %s to %s",
+            statefile_platform_name.c_str(), get_primary_platform()
         );
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
-            reset_project(p);
-        }
     }
 
 #if (defined(SANDBOX) && ! defined(_WIN32))
