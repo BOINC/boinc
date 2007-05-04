@@ -4383,3 +4383,21 @@ Rom    3 May 2007
 Rom    3 May 2007 (HEAD)
     - Tag for 5.9.7 release, all platforms
       boinc_core_release_5_9_7
+
+David  4 May 2007
+    - scheduler: in send_result_abort(), distinguish between
+        the enumeration ending versus it failing.
+        This fixes a bug where lots of results would be
+        incorrectly aborted if there's a database problem.
+        This fix only matters if you use the <send_result_abort> config flag.
+        (from Kevin Reed)
+    - validator: add -credit_from_wu option.
+        This gets credit from the workunit XML
+        (which must have a <credit> flag).
+        This lets you use credit-from-WU with the standard validators
+        (sample_bitwise and sample_trivial)
+
+    sched/
+        handle_request.C
+        validator.C
+        validate_util.h
