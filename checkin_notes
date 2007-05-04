@@ -4401,3 +4401,10 @@ David  4 May 2007
         handle_request.C
         validator.C
         validate_util.h
+
+David  4 May 2007
+    - API: if using graphics, set worker thread stack size limit to max
+        (from Rosetta@home)
+
+    api/
+        graphics_impl.C

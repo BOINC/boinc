@@ -37,6 +37,7 @@ extern void win_graphics_event_loop();
 #include <pthread.h>
 #include <sched.h>
 #include <signal.h>
+#include <sys/resource.h>
 #include "x_opengl.h"
 #endif
 
@@ -139,6 +140,12 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     // initialize ID of calling thread (the graphics-thread!)
     graphics_thread = pthread_self();
     
+    // set work stack size to max
+    //
+    struct rlimit rlim;
+    getrlimit(RLIMIT_STACK, &rlim);
+    pthread_attr_setstacksize(&worker_thread_attr, rlim.rlim_max);
+
     retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );

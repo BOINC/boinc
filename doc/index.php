@@ -2,8 +2,6 @@
 require_once("docutil.php");
 require_once("../html/inc/translation.inc");
 
-header('Content-Type: text/html; charset="UTF-8"');
-
 function show_participant() {
     global $light_blue;
     $i = rand(0, 99);
