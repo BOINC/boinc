@@ -717,7 +717,7 @@ CBOINCGridCellMessageRenderer::CBOINCGridCellMessageRenderer(int priocol){
 }
 
 void CBOINCGridCellMessageRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
-	wxString szError("Error");
+	wxString szError(wxT("Error"));
 	if(grid.GetCellValue(row,column).Trim(false).IsSameAs(szError)) {
 		attr.SetTextColour(*wxRED);
 	}
@@ -760,13 +760,13 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 	double dv = 0.0;
 	wxString strValue = grid.GetCellValue(row,col);
 	if(m_bDoPercentAppending) {
-		strValue = strValue + wxString(" %");
+		strValue = strValue + wxT(" %");
 	}
 
     // Project view uses the format:  %0.0f (%0.2f%%)
     // Everyone else uses: %.3f%%
-    if (strValue.Find("(") != wxNOT_FOUND) {
-        strValue.SubString(strValue.Find("(") + 1, strValue.Find(")") - 1).ToDouble( &dv );
+    if (strValue.Find(wxT("(")) != wxNOT_FOUND) {
+        strValue.SubString(strValue.Find(wxT("(")) + 1, strValue.Find(wxT(")")) - 1).ToDouble( &dv );
     } else {
     	strValue.ToDouble ( &dv );	 // NOTE: we should do error-checking/reporting here!!
     }
@@ -781,7 +781,7 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 	//start drawing
 	dc.SetClippingRegion(rect);
 	wxBrush old = dc.GetBrush();
-	wxColour progressColour = wxTheColourDatabase->Find(wxString("LIGHT BLUE"));
+	wxColour progressColour = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
 	wxBrush* progressBrush = wxTheBrushList->FindOrCreateBrush(progressColour);
 	wxPen* progressPen = wxThePenList->FindOrCreatePen(progressColour,1,wxSOLID);
 	//draw the outline rectangle

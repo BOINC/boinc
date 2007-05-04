@@ -4348,3 +4348,27 @@ Charlie 3 May 2007
         License.rtf
         release_boinc.sh
         release_GridRepublic.sh
+
+Rom    3 May 2007
+    - Fix build break for Unicode builds
+      ( From Frank Weiler )
+    - Win: Introduce a custom action to delete any lingering binaries from the
+        installation directory before MSI determines what needs to be copied.
+    - Win: Introduce a custom action that will migrate
+        C:\Program Files (x86)\BOINC to C:\Program Files\BOINC for the x64
+        upgrade scenario.
+    
+    clientgui/
+        BOINCGridCtrl.cpp
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        boinccas95.def
+        boinccas95.vcproj
+        CACleanupOldBinaries.cpp, .h (Added)
+        CAMigratex86x64.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
