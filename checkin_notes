@@ -4380,3 +4380,6 @@ Rom    3 May 2007
         BOINC.ism
         BOINCx64.ism
     
+Rom    3 May 2007 (HEAD)
+    - Tag for 5.9.7 release, all platforms
+      boinc_core_release_5_9_7
