@@ -48,6 +48,7 @@ bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
 bool running;
+double running_time = 0;
 
 SIM_RESULTS sim_results;
 
@@ -167,8 +168,8 @@ void SIM_PROJECT::init() {
     rr_sim_deadlines_missed = 0;
     deadlines_missed = 0;
 
-    idle_period_duration = 0;
-    idle_period_sumsq = 0;
+    idle_time = 0;
+    idle_time_sumsq = 0;
 }
 
 void RESULT::clear() {
@@ -443,16 +444,13 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = (SIM_PROJECT*) gstate.projects[i];
         if (p->idle) {
-            p->idle_period_duration += diff;
+            p->idle_time += diff;
+            p->idle_time_sumsq += diff*(p->idle_time*p->idle_time);
         } else {
-            double ipd = p->idle_period_duration;
-            if (ipd) {
-                p->idle_period_sumsq += ipd*ipd;
-                p->nidle_periods++;
-            }
-            p->idle_period_duration = 0;
+            p->idle_time = 0;
         }
     }
+    running_time += diff;
 
     return action;
 }
@@ -676,21 +674,26 @@ double CLIENT_STATE::share_violation() {
 
 }
 
-// "variety" is defined as the RMS of the duration of idle periods
-// across all projects
+// "variety" is defined as follows:
+// for each project P, maintain R(P), the time since P last ran,
+// let S(P) be the RMS of R(P).
+// Let variety = mean(S(P))
 //
 double CLIENT_STATE::variety() {
     double sum = 0;
-    int n = 0;
+    double schedint = global_prefs.cpu_scheduling_period_minutes*60;
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
-        sum += p->idle_period_sumsq;
-        n += p->nidle_periods;
+        double avg_ss = p->idle_time_sumsq/running_time;
+        double s = sqrt(avg_ss);
+        sum += s;
     }
-    return sqrt(sum/n);
+    return sum/(projects.size()*schedint);
 }
 
+// the CPU totals are there; compute the other fields
+//
 void SIM_RESULTS::compute() {
     double total = cpu_used + cpu_wasted + cpu_idle;
     cpu_wasted_frac = cpu_wasted/total;
@@ -703,7 +706,7 @@ void SIM_RESULTS::compute() {
 //
 void SIM_RESULTS::print(FILE* f, const char* title) {
     if (title) {
-        fprintf(f, title);
+        fprintf(f, "%s: ", title);
     }
     fprintf(f, "wasted_frac %f idle_frac %f share_violation %f variety %f\n",
         cpu_wasted_frac, cpu_idle_frac, share_violation, variety
@@ -712,20 +715,26 @@ void SIM_RESULTS::print(FILE* f, const char* title) {
 
 void SIM_RESULTS::parse(FILE* f) {
     fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf variety %lf",
-        &cpu_wasted, &cpu_idle, &share_violation, &variety
+        &cpu_wasted_frac, &cpu_idle_frac, &share_violation, &variety
     );
 }
+
 void SIM_RESULTS::add(SIM_RESULTS& r) {
-    cpu_used += r.cpu_used;
-    cpu_wasted += r.cpu_wasted;
-    cpu_idle += r.cpu_idle;
-    nresults_met_deadline += r.nresults_met_deadline;
-    nresults_missed_deadline += r.nresults_missed_deadline;
+    cpu_wasted_frac += r.cpu_wasted_frac;
+    cpu_idle_frac += r.cpu_idle_frac;
+    share_violation += r.share_violation;
+    variety += r.variety;
 }
 
-SIM_RESULTS::SIM_RESULTS() {
-    cpu_used = 0; cpu_wasted=0; cpu_idle=0;
-    nresults_met_deadline = 0; nresults_missed_deadline = 0;
+void SIM_RESULTS::divide(int n) {
+    cpu_wasted_frac /= n;
+    cpu_idle_frac /= n;
+    share_violation /= n;
+    variety /= n;
+}
+
+void SIM_RESULTS::clear() {
+    memset(this, 0, sizeof(*this));
 }
 
 void SIM_PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
@@ -954,6 +963,7 @@ int main(int argc, char** argv) {
 
     logfile = fopen("sim_log.txt", "w");
 
+    sim_results.clear();
     for (i=1; i<argc;) {
         char* opt = argv[i++];
         if (!strcmp(opt, "--duration")) {
@@ -986,6 +996,7 @@ int main(int argc, char** argv) {
         //
         unsigned int i;
         SIM_RESULTS total_results;
+        total_results.clear();
         for (i=0; i<dirs.size(); i++) {
             std::string dir = dirs[i];
             retval = chdir(dir.c_str());
@@ -999,7 +1010,11 @@ int main(int argc, char** argv) {
                 buf, "../sim --duration %f --delta %f > %s",
                 duration, delta, SUMMARY_FILE
             );
-            system(buf);
+            retval = system(buf);
+            if (retval) {
+                printf("simulation in %s failed\n", dir.c_str());
+                exit(1);
+            }
             FILE* f = fopen(SUMMARY_FILE, "r");
             sim_results.parse(f);
             fclose(f);
@@ -1007,6 +1022,7 @@ int main(int argc, char** argv) {
             total_results.add(sim_results);
             chdir("..");
         }
+        total_results.divide(dirs.size());
         total_results.print(stdout, "Total");
     } else {
         read_config_file();

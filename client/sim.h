@@ -34,7 +34,8 @@ struct SIM_RESULTS {
     void print(FILE* f, const char* title=0);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);
-    SIM_RESULTS();
+    void divide(int);
+    void clear();
 };
 
 struct PROJECT_RESULTS {
@@ -92,9 +93,8 @@ public:
     RANDOM_PROCESS available;
     int index;
     int result_index;
-    int nidle_periods;
-    double idle_period_duration;
-    double idle_period_sumsq;
+    double idle_time;
+    double idle_time_sumsq;
     bool idle;
 
     int parse(XML_PARSER&);

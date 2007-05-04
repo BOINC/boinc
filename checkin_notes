@@ -4404,7 +4404,15 @@ David  4 May 2007
 
 David  4 May 2007
     - API: if using graphics, set worker thread stack size limit to max
-        (from Rosetta@home)
+        (from Rhiju Das of Rosetta@home)
 
     api/
         graphics_impl.C
+
+David  4 May 2007
+    - Sim-related stuff
+
+    sched/
+        edf_sim.C
+    client/
+        sim.C,h

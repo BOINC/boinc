@@ -53,7 +53,7 @@ bool lessthan_deadline(const IP_RESULT& p1, const IP_RESULT& p2) {
     return false;
 }
 
-// runs an edf simulation, markings which results will miss
+// run an EDF simulation, marking which results will miss
 // their deadlines and when
 //
 void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
@@ -185,7 +185,7 @@ vector<TEMP_RESULT> REQUEST_HANDLER_WORK_SEND::find_sendable_test_results (
 // 3) X would miss its deadline
 //
 bool check_candidate (
-    IP_RESULT candidate,
+    IP_RESULT& candidate,
     int ncpus, 
     vector<IP_RESULT> ip_results        // passed by value (copy)
 ) {
