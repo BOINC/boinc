@@ -4339,3 +4339,12 @@ David  3 May 2007
         client_types.h
         cpu_sched.C
         sim.C
+
+Charlie 3 May 2007
+    - Mac: Update license agreement, modify build scripts to include license 
+        agreement with bare-client releases, not only wih Manager.
+
+    mac_installer/
+        License.rtf
+        release_boinc.sh
+        release_GridRepublic.sh
