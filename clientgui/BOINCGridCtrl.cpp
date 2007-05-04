@@ -121,7 +121,7 @@ BEGIN_EVENT_TABLE (CBOINCGridCtrl, wxGrid)
 	EVT_GRID_LABEL_LEFT_CLICK(CBOINCGridCtrl::OnLabelLClick)
 END_EVENT_TABLE ()
 
-/* Constructor, don't call any grid methods here, because they could raise events, 
+/* Constructor, don't call any grid methods here, because they could raise events,
    which couldn't be handled correctly while the grid isn't constructed completly.
    Instead call Setup() and place all further initialization there
    */
@@ -131,13 +131,13 @@ CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxG
 	sortAscending=true;
 	m_pkColumnIndex=-1;
 	m_cursorcol=-1;
-	m_cursorrow=-1;		
+	m_cursorrow=-1;
 	//load sorting bitmaps
 	ascBitmap = wxBitmap(sortascending_xpm);
 	descBitmap = wxBitmap(sortdescending_xpm);
 }
 
-/* make settings for the grid here instead in the constructor */ 
+/* make settings for the grid here instead in the constructor */
 void CBOINCGridCtrl::Setup() {
 	//make grid cursor invisible
 	SetCellHighlightPenWidth(0);
@@ -167,7 +167,7 @@ void CBOINCGridCtrl::Setup() {
 CBOINCGridCtrl::~CBOINCGridCtrl() {
 }
 
-/* use this method instead of wxGrid::GetSelectedRows() 
+/* use this method instead of wxGrid::GetSelectedRows()
    because a bug in wxGrid::GetSelectedRows() doesn't return anything although some rows are selected */
 wxArrayInt CBOINCGridCtrl::GetSelectedRows2() {
 	wxArrayInt ret;
@@ -201,7 +201,7 @@ void CBOINCGridCtrl::ClearSavedSelection() {
 /* save the key values of the currently selected rows for later restore */
 void CBOINCGridCtrl::SaveSelection() {
 	if(m_pkColumnIndex>=0) {
-		wxArrayInt arrSelRows = GetSelectedRows2();	
+		wxArrayInt arrSelRows = GetSelectedRows2();
 		for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
 			m_arrSelectedKeys.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex));
 		}
@@ -222,7 +222,7 @@ void CBOINCGridCtrl::RestoreSelection() {
 
 void CBOINCGridCtrl::SaveGridCursorPosition() {
 	m_cursorcol = GetGridCursorCol();
-	m_cursorrow = GetGridCursorRow();	
+	m_cursorrow = GetGridCursorRow();
 	if(m_cursorrow>=0 && m_cursorcol >=0) {
 		m_szCursorKey = GetCellValue(m_cursorrow,m_pkColumnIndex);
 	}
@@ -230,8 +230,8 @@ void CBOINCGridCtrl::SaveGridCursorPosition() {
 
 void CBOINCGridCtrl::RestoreGridCursorPosition() {
 	int index = GetTable()->FindRowIndexByColValue(m_pkColumnIndex,m_szCursorKey);
-	if(index >=0) {		
-		SetGridCursor(index,m_cursorcol);		
+	if(index >=0) {
+		SetGridCursor(index,m_cursorcol);
 	}
 }
 
@@ -717,7 +717,7 @@ CBOINCGridCellMessageRenderer::CBOINCGridCellMessageRenderer(int priocol){
 }
 
 void CBOINCGridCellMessageRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
-	wxString szError("Error");
+	wxString szError(wxT("Error"));
 	if(grid.GetCellValue(row,column).Trim(false).IsSameAs(szError)) {
 		attr.SetTextColour(*wxRED);
 	}
@@ -760,13 +760,13 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 	double dv = 0.0;
 	wxString strValue = grid.GetCellValue(row,col);
 	if(m_bDoPercentAppending) {
-		strValue = strValue + wxString(" %");
+		strValue = strValue + wxT(" %");
 	}
 
     // Project view uses the format:  %0.0f (%0.2f%%)
     // Everyone else uses: %.3f%%
-    if (strValue.Find("(") != wxNOT_FOUND) {
-        strValue.SubString(strValue.Find("(") + 1, strValue.Find(")") - 1).ToDouble( &dv );
+    if (strValue.Find(wxT("(")) != wxNOT_FOUND) {
+        strValue.SubString(strValue.Find(wxT("(")) + 1, strValue.Find(wxT(")")) - 1).ToDouble( &dv );
     } else {
     	strValue.ToDouble ( &dv );	 // NOTE: we should do error-checking/reporting here!!
     }
@@ -781,7 +781,7 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 	//start drawing
 	dc.SetClippingRegion(rect);
 	wxBrush old = dc.GetBrush();
-	wxColour progressColour = wxTheColourDatabase->Find(wxString("LIGHT BLUE"));
+	wxColour progressColour = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
 	wxBrush* progressBrush = wxTheBrushList->FindOrCreateBrush(progressColour);
 	wxPen* progressPen = wxThePenList->FindOrCreatePen(progressColour,1,wxSOLID);
 	//draw the outline rectangle
