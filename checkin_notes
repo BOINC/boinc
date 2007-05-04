@@ -4372,3 +4372,11 @@ Rom    3 May 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    3 May 2007
+    - Include the new custom actions in the Windows Installers
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    
