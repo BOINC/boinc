@@ -123,7 +123,6 @@ void CLIENT_STATE::check_workunit(WORKUNIT& p) {
     }
     check_project_pointer(p.project);
     check_app_pointer(p.app);
-    check_app_version_pointer(p.avp);
 }
 
 void CLIENT_STATE::check_result(RESULT& p) {

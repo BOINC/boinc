@@ -18,6 +18,7 @@ msgstr "Čeština"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Czech"
 
+
 #########################################
 # Apps page (apps.php)
 #########################################
@@ -199,10 +200,10 @@ msgstr "Musí mít délku aspoň %s znaků"
 msgid "CREATE_AC_CONFIRM_PASSWORD"
 msgstr "Heslo pro kontrolu"
 
-msgid  "AC_INVITE_CODE"
+msgid "AC_INVITE_CODE"
 msgstr "Pozvánkový kód"
 
-msgid  "AC_INVITE_CODE_DESC"
+msgid "AC_INVITE_CODE_DESC"
 msgstr "Pro vytvoření účtu je zapotřebí platný povánkový kód."
 
 msgid "AC_INVITE_REQUIRED"

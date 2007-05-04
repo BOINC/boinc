@@ -717,7 +717,7 @@ CBOINCGridCellMessageRenderer::CBOINCGridCellMessageRenderer(int priocol){
 }
 
 void CBOINCGridCellMessageRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
-	wxString szError("Error",wxConvUTF8);
+	wxString szError("Error");
 	if(grid.GetCellValue(row,column).Trim(false).IsSameAs(szError)) {
 		attr.SetTextColour(*wxRED);
 	}
@@ -756,13 +756,22 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
     SetTextColoursAndFont(grid, attr, dc, isSelected);
 
 	//calculate the two parts of the progress rect
-	wxString value = grid.GetCellValue(row,col);
-	wxString strValue = value;
+    //
+	double dv = 0.0;
+	wxString strValue = grid.GetCellValue(row,col);
 	if(m_bDoPercentAppending) {
-		strValue = strValue + wxString(" %",wxConvUTF8);
+		strValue = strValue + wxString(" %");
 	}
-	double dv;
-	value.ToDouble ( &dv );	 // NOTE: we should do error-checking/reporting here!!
+
+    // Project view uses the format:  %0.0f (%0.2f%%)
+    // Everyone else uses: %.3f%%
+    if (strValue.Find("(") != wxNOT_FOUND) {
+        strValue.SubString(strValue.Find("(") + 1, strValue.Find(")") - 1).ToDouble( &dv );
+    } else {
+    	strValue.ToDouble ( &dv );	 // NOTE: we should do error-checking/reporting here!!
+    }
+
+
 	wxRect p1(rect);
 	wxRect p2(rect);
 	int r = (int)((rect.GetRight()-rect.GetLeft())*dv / 100.0);
@@ -772,7 +781,7 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 	//start drawing
 	dc.SetClippingRegion(rect);
 	wxBrush old = dc.GetBrush();
-	wxColour progressColour = wxTheColourDatabase->Find(wxString("LIGHT BLUE",wxConvUTF8));
+	wxColour progressColour = wxTheColourDatabase->Find(wxString("LIGHT BLUE"));
 	wxBrush* progressBrush = wxTheBrushList->FindOrCreateBrush(progressColour);
 	wxPen* progressPen = wxThePenList->FindOrCreatePen(progressColour,1,wxSOLID);
 	//draw the outline rectangle

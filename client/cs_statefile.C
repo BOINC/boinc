@@ -235,6 +235,9 @@ int CLIENT_STATE::parse_state_file() {
                 delete avp;
                 continue;
             }
+            if (strlen(avp->platform) == 0) {
+                strcpy(avp->platform, get_primary_platform());
+            }
             app_versions.push_back(avp);
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
@@ -289,6 +292,20 @@ int CLIENT_STATE::parse_state_file() {
                 delete rp;
                 continue;
             }
+            if (strlen(rp->platform) == 0) {
+                strcpy(rp->platform, get_primary_platform());
+                rp->version_num = latest_version(rp->wup->app, rp->platform);
+            }
+            rp->avp = lookup_app_version(rp->wup->app, rp->platform, rp->version_num);
+            if (!rp->avp) {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "No app version for result: %s %d",
+                    rp->platform, rp->version_num
+                );
+                delete rp;
+                continue;
+            }
+            rp->wup->version_num = rp->version_num;
             results.push_back(rp);
         } else if (match_tag(buf, "<project_files>")) {
             if (!project) {
@@ -329,6 +346,8 @@ int CLIENT_STATE::parse_state_file() {
                 );
             }
         } else if (parse_str(buf, "<platform_name>", statefile_platform_name)) {
+            continue;
+        } else if (match_tag(buf, "<alt_platform>")) {
             continue;
         } else if (parse_int(buf, "<user_run_request>", retval)) {
             run_mode.set(retval, 0);
@@ -531,7 +550,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
-
+    for (i=1; i<platforms.size(); i++) {
+        f.printf("<alt_platform>%s</alt_platform>\n", platforms[i]->name.c_str());
+    }
     proxy_info.write(f);
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);

@@ -642,8 +642,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
     for (i=0; i<sr.app_versions.size(); i++) {
-        APP* app = lookup_app(project, sr.app_versions[i].app_name);
-        APP_VERSION* avp = lookup_app_version(app, sr.app_versions[i].version_num);
+        APP_VERSION& avpp = sr.app_versions[i];
+        APP* app = lookup_app(project, avpp.app_name);
+        APP_VERSION* avp = lookup_app_version(app, avpp.platform, avpp.version_num);
         if (avp) {
             // if we had download failures, clear them
             //
@@ -668,16 +669,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         WORKUNIT* wup = new WORKUNIT;
         *wup = sr.workunits[i];
         wup->project = project;
-        int vnum = choose_version_num(wup, sr);
-        if (vnum < 0) {
-            msg_printf(project, MSG_INTERNAL_ERROR,
-                "Can't find application version for task %s", wup->name
-            );
-            delete wup;
-            continue;
-        }
-
-        wup->version_num = vnum;
         retval = link_workunit(project, wup);
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -706,6 +697,20 @@ int CLIENT_STATE::handle_scheduler_reply(
             delete rp;
             continue;
         }
+        if (strlen(rp->platform) == 0) {
+            strcpy(rp->platform, get_primary_platform());
+            rp->version_num = latest_version(rp->wup->app, rp->platform);
+        }
+        rp->avp = lookup_app_version(rp->wup->app, rp->platform, rp->version_num);
+        if (!rp->avp) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "No app version for result: %s %d",
+                rp->platform, rp->version_num
+            );
+            delete rp;
+            continue;
+        }
+        rp->wup->version_num = rp->version_num;
         results.push_back(rp);
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");
         nresults++;

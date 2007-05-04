@@ -603,12 +603,13 @@ WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
     return 0;
 }
 
-APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, int version_num) {
+APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, char* platform, int version_num) {
     for (unsigned int i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
-        if (avp->app == app && version_num==avp->version_num) {
-            return avp;
-        }
+        if (avp->app != app ) continue;
+        if (strcmp(avp->platform, platform)) continue;
+        if (version_num!=avp->version_num) continue;
+        return avp;
     }
     return 0;
 }
@@ -655,7 +656,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     }
     avp->app = app;
 
-    if (lookup_app_version(app, avp->version_num)) return ERR_NOT_UNIQUE;
+    if (lookup_app_version(app, avp->platform, avp->version_num)) return ERR_NOT_UNIQUE;
 
     for (i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
@@ -693,7 +694,6 @@ int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
 
 int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     APP* app;
-    APP_VERSION* avp;
     unsigned int i;
     int retval;
 
@@ -705,17 +705,8 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
         );
         return ERR_NOT_FOUND;
     }
-    avp = lookup_app_version(app, wup->version_num);
-    if (!avp) {
-        msg_printf(p, MSG_INTERNAL_ERROR,
-            "State file error: no application version %s %d\n",
-            wup->app_name, wup->version_num
-        );
-        return ERR_NOT_FOUND;
-    }
     wup->project = p;
     wup->app = app;
-    wup->avp = avp;
     for (i=0; i<wup->input_files.size(); i++) {
         retval = link_file_ref(p, &wup->input_files[i]);
         if (retval) {
@@ -925,8 +916,8 @@ bool CLIENT_STATE::garbage_collect_always() {
                 report_result_error(
                     *rp, "WU download error: %s", error_msgs.c_str()
                 );
-            } else if (wup->avp && wup->avp->had_download_failure(failnum)) {
-                wup->avp->get_file_errors(error_msgs);
+            } else if (rp->avp && rp->avp->had_download_failure(failnum)) {
+                rp->avp->get_file_errors(error_msgs);
                 report_result_error(
                     *rp, "app_version download error: %s", error_msgs.c_str()
                 );
@@ -954,6 +945,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         if (found_error) {
             report_result_error(*rp, "%s", error_str.c_str());
         }
+        rp->avp->ref_cnt++;
         rp->wup->ref_cnt++;
         result_iter++;
     }
@@ -978,7 +970,6 @@ bool CLIENT_STATE::garbage_collect_always() {
             for (i=0; i<wup->input_files.size(); i++) {
                 wup->input_files[i].file_info->ref_cnt++;
             }
-            wup->avp->ref_cnt++;
             wu_iter++;
         }
     }
@@ -1096,7 +1087,7 @@ bool CLIENT_STATE::update_results() {
             retval = input_files_available(rp, false);
             if (!retval) {
                 rp->set_state(RESULT_FILES_DOWNLOADED, "CS::update_results");
-                if (rp->wup->avp->app_files.size()==0) {
+                if (rp->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //
                     rp->set_state(RESULT_FILES_UPLOADING, "CS::update_results");
