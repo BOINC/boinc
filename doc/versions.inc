@@ -390,11 +390,11 @@ $linux_libs_gcc41= "
       </ul>
 ";
 
-$w597= array(
-    "num"=>"5.9.7",
+$w598= array(
+    "num"=>"5.9.8",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.7_windows_intelx86.exe",
-    "date"=>"3 May 2007",
+    "file"=>"boinc_5.9.8_windows_intelx86.exe",
+    "date"=>"5 May 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -404,11 +404,11 @@ $w597= array(
     "bugs"=>""
 );
 
-$w597x64= array(
-    "num"=>"5.9.7",
+$w598x64= array(
+    "num"=>"5.9.8",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.7_windows_x86_64.exe",
-    "date"=>"3 May 2007",
+    "file"=>"boinc_5.9.8_windows_x86_64.exe",
+    "date"=>"5 May 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -627,7 +627,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w597,
+        $w598,
         $w5816,
         $w5411,
     )
@@ -637,7 +637,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w597x64,
+        $w598x64,
     )
 );
 
