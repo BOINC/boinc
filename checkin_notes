@@ -4416,3 +4416,9 @@ David  4 May 2007
         edf_sim.C
     client/
         sim.C,h
+
+David  4 May 2007
+	- Oops!  Small mistake in multi-platform changes.
+
+	client/
+		cs_scheduler.C

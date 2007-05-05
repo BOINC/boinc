@@ -662,6 +662,9 @@ int CLIENT_STATE::handle_scheduler_reply(
              delete avp;
              continue;
         }
+        if (strlen(avp->platform) == 0) {
+            strcpy(avp->platform, get_primary_platform());
+        }
         app_versions.push_back(avp);
     }
     for (i=0; i<sr.workunits.size(); i++) {
