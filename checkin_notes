@@ -4422,3 +4422,11 @@ David  4 May 2007
 
 	client/
 		cs_scheduler.C
+
+David  4 May 2007
+    - Server status page: fix bug that showed most daemons as not running
+        on FC6; needed to trim white space from pid
+    - Server status page: show server software SVN revision
+
+    html/ops/
+        sample_server_status.php

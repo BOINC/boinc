@@ -75,13 +75,14 @@ function daemon_status($host, $pidname, $progname, $disabled) {
     if (is_file($path)) {
         $pid = file_get_contents($path);
         if ($pid) {
+            $pid = trim($pid);
             $command = "$ps_exe ww $pid";
             if ($host != $project_host) {
                 $command = "$ssh_exe $host " . $command;
             }
             $foo = exec($command);
             if ($foo) {
-                if (strstr($foo, $pid)) $running = 1;
+                if (strstr($foo, (string)$pid)) $running = 1;
             }
         }
     }
@@ -167,8 +168,19 @@ if ($ps_exe == "") {
     $ps_exe = "/bin/ps";
 }
 
+$version = null;
+if (file_exists("../../local.revision")) {
+    $version = trim(file_get_contents("../../local.revision"));
+}
+$now = time();
 
-$xmlstring = "<server_status>\n  <update_time>" . time() . "</update_time>\n  <daemon_status>\n";
+$xmlstring = "<server_status>
+  <update_time>$now</update_time>
+";
+if ($version) {
+    $xmlstring .= "<software_version>$version</software_version>\n";
+}
+$xmlstring .= "  <daemon_status>\n";
 if ($xml) {
     xml_header();
     echo $xmlstring;
@@ -177,8 +189,10 @@ if ($xml) {
         fwrite($xmloutfile,$xmlstring);
     }
     page_head("Server status page");
-    echo "<p>
-        [As of ", time_str(time()), "]
+    if ($version) {
+        echo "Server software version: $version<p>\n";
+    }
+    echo time_str(time()), "
         <table width=100%>
         <tr>
         <td width=40% valign=top>
@@ -187,10 +201,10 @@ if ($xml) {
         <tr><th>Program</th><th>Host</th><th>Status</th></tr>
     ";
 }
-
-// Are the data-driven web sites running? Check for existence
-// of stop_web. If it is there, set $web_running to -1 for
-// "disabled," otherwise it will be already set to 1 for "enabled."
+;
+// Are the data-driven web sites running? Check for existence of stop_web.
+// If it is there, set $web_running to -1 for "disabled",
+// otherwise it will be already set to 1 for "enabled."
 // Set $www_host to the name of server hosting WWW site.
 //
 $web_running = !file_exists("../../stop_web");
@@ -320,13 +334,13 @@ if ($xml) {
     echo $xmlstring;
 } else {
     if ($xmlout) {
-        fwrite($xmloutfile,$xmlstring);
+        fwrite($xmloutfile, $xmlstring);
     }
     echo "
-    </td>
-    <td>&nbsp;</td>
-    </tr>
-    </table>
+        </td>
+        <td>&nbsp;</td>
+        </tr>
+        </table>
     ";
     page_tail();
 }
