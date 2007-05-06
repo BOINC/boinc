@@ -4444,3 +4444,9 @@ Charlie 6 May 2007
     
     client/
         cs_platforms.C
+
+David  6 May 2007
+	- another multi-platform fix (missing \n)
+
+	client/
+		client_types.C

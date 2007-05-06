@@ -1097,7 +1097,7 @@ int APP_VERSION::write(MIOFILE& out) {
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
         "    <version_num>%d</version_num>\n"
-        "    <platform>%s</platform>",
+        "    <platform>%s</platform>\n",
         app_name,
         version_num,
         platform
