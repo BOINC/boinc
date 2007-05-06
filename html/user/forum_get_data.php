@@ -19,6 +19,8 @@ if ($method == "user_posts") {
     
     $count = get_int("count", true);
     if (!$count || $count <= 0 || $count > 50) { $count = 10; }
+    $length = get_int("contentlength", true);
+    if (($length == null) || ($length <= 0)) { $length = 0; }
     $res = mysql_query("SELECT * FROM post WHERE user=$userid ORDER BY timestamp DESC LIMIT $count");
     if ($res) {
         $count = mysql_num_rows($res);
@@ -26,13 +28,20 @@ if ($method == "user_posts") {
         echo "<rpc_response>\n";
         echo "<count>$count</count>\n";
         echo "<posts>\n";
-    	
+        
         while ($row = mysql_fetch_object($res)) {
+            $thread = mysql_query("SELECT * FROM thread WHERE id=".$row->thread);
+            $thread = mysql_fetch_object($thread);
             echo "<post>\n";
             echo "    <id>$row->id</id>\n";
             echo "    <threadid>$row->thread</threadid>\n";
+            echo "    <threadtitle><![CDATA[".$thread->title."]]></threadtitle>\n";
             echo "    <timestamp>$row->timestamp</timestamp>\n";
-            echo "    <content><![CDATA[".substr($row->content, 0, 100)."]]></content>\n";
+            if ($length > 0) {
+                echo "    <content><![CDATA[".substr($row->content, 0, $length)."]]></content>\n";
+            } else {
+                echo "    <content><![CDATA[".$row->content."]]></content>\n";
+            }
             echo "</post>\n";
         }
         
