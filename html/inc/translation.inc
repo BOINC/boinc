@@ -9,10 +9,12 @@ $lang_project_default = "en";
 $lang_log_level = 0;
 $lang_log_file = $lang_language_dir."translator.log";
 
-
+/**
+ * Fetches a list of compiled languages from the directory
+ * set to contain such files.
+ */
 function getSupportedLanguages(){
     global $lang_language_dir, $lang_compiled_dir;
-    //echo $lang_language_dir.$lang_compiled_dir;
     if (is_dir($lang_language_dir.$lang_compiled_dir)) {
         if ($dh = opendir($lang_language_dir.$lang_compiled_dir)) {                        //If dir exists
             while (($file = readdir($dh)) !== false) {
@@ -23,8 +25,10 @@ function getSupportedLanguages(){
                 $list[] = substr($file,0,-7);
             }
         }
-    } else {echo "uh";}
-    //print_r($list);
+    } else {
+	echo "\"".$lang_language_dir.$lang_compiled_dir."\" is not a directory. Please consult the documentation for correctly setting up the translation system.";
+	exit;
+    }
     return $list;
 }
 
