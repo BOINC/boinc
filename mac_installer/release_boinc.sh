@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh BOINC Manager 4/3/07 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 5/4/07 by Charlie Fenton
 ##
 
 ## Usage:
