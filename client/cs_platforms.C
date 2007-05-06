@@ -74,6 +74,19 @@ void CLIENT_STATE::detect_supported_platforms() {
     add_supported_platform("windows_intelx86");
 
 #endif
+
+#elif defined(__APPLE__)
+#if defined(__i386__)
+
+    add_supported_platform("i686-apple-darwin");
+    add_supported_platform("powerpc-apple-darwin");
+
+#else
+
+    add_supported_platform("powerpc-apple-darwin");
+
+#endif
+
 #else
 
     // Any other platform, fall back to the previous method

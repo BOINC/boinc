@@ -4438,3 +4438,9 @@ Charlie 5 May 2007 (HEAD)
     
     client/
         version.h
+
+Charlie 6 May 2007
+    - Mac: On Intel Macs, support PowerPC Mac as a secondary platform.
+    
+    client/
+        cs_platforms.C
