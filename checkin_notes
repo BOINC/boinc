@@ -4462,3 +4462,10 @@ David  6 May 2007
 		cs_platforms.C
 		cs_scheduler.C
 		cs_statefile.C
+
+Janus	6 May 2007
+    - Removed some old debug code and changed a bogus error message to a more
+      sane one.
+
+    html/inc/
+        translation.inc
