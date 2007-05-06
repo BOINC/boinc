@@ -237,6 +237,14 @@ int CLIENT_STATE::parse_state_file() {
             }
             if (strlen(avp->platform) == 0) {
                 strcpy(avp->platform, get_primary_platform());
+            } else {
+                if (!is_supported_platform(avp->platform)) {
+                    msg_printf(project, MSG_INTERNAL_ERROR,
+                        "App version has unsupported platform %s", avp->platform
+                    );
+                    delete avp;
+                    continue;
+                }
             }
             app_versions.push_back(avp);
         } else if (match_tag(buf, "<workunit>")) {

@@ -134,12 +134,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->duration_correction_factor
     );
 
-    // send supported platforms
-    //
-    report_supported_platforms(p, mf);
+    write_platforms(p, mf);
 
-    // send supported app_versions for anonymous platform
-    //   clients
+    // send supported app_versions for anonymous platform clients
+    //
     if (p->anonymous_platform) {
         fprintf(f, "    <app_versions>\n");
         for (i=0; i<app_versions.size(); i++) {
@@ -664,6 +662,14 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
         if (strlen(avp->platform) == 0) {
             strcpy(avp->platform, get_primary_platform());
+        } else {
+            if (!is_supported_platform(avp->platform)) {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "App version has unsupported platform %s", avp->platform
+                );
+            }
+            delete avp;
+            continue;
         }
         app_versions.push_back(avp);
     }

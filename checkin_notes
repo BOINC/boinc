@@ -4446,7 +4446,19 @@ Charlie 6 May 2007
         cs_platforms.C
 
 David  6 May 2007
-	- another multi-platform fix (missing \n)
+	- core client: another multi-platform fix (missing \n)
 
 	client/
 		client_types.C
+
+David  6 May 2007
+	- core client: when parsing statefile or scheduler reply,
+		if get an app_version with unknown platform name, ignore it.
+		This means that, e.g. if someone moves a BOINC directory
+		from Intel to PowerPC Mac, things will still work right.
+
+	client/
+		client_state.C,h
+		cs_platforms.C
+		cs_scheduler.C
+		cs_statefile.C

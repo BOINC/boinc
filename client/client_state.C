@@ -154,8 +154,7 @@ int CLIENT_STATE::init() {
     debug_str = " (DEBUG)";
 #endif
 
-    // initialize supported platforms vector
-    detect_supported_platforms();
+    detect_platforms();
 
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",

@@ -365,9 +365,10 @@ private:
 public:
     const char* get_primary_platform();
 private:
-    void add_supported_platform(const char* supported_platform);
-    void detect_supported_platforms();
-    void report_supported_platforms(PROJECT*, MIOFILE&);
+    void add_platform(const char*);
+    void detect_platforms();
+    void write_platforms(PROJECT*, MIOFILE&);
+    bool is_supported_platform(const char*);
 
 // --------------- cs_prefs.C:
 public:

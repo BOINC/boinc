@@ -29,11 +29,6 @@
 #ifndef _WIN32
 #include "config.h"
 #include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <strings.h>
-#include <map>
-#include <set>
 #endif
 
 #include "client_types.h"
@@ -50,49 +45,49 @@ const char* CLIENT_STATE::get_primary_platform() {
 }
 
 
-// add a supported platform to the platforms vector.
+// add a platform to the vector.
 //
-void CLIENT_STATE::add_supported_platform(const char* supported_platform) {
+void CLIENT_STATE::add_platform(const char* platform) {
     PLATFORM* pp = new PLATFORM;
-    pp->name = supported_platform;
+    pp->name = platform;
     platforms.push_back(pp);
 }
 
 
 // determine the list of supported platforms.
 //
-void CLIENT_STATE::detect_supported_platforms() {
+void CLIENT_STATE::detect_platforms() {
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #if defined(_WIN64) && defined(_M_X64)
 
-    add_supported_platform("windows_x86_64");
-    add_supported_platform("windows_intelx86");
+    add_platform("windows_x86_64");
+    add_platform("windows_intelx86");
 
 #else
 
-    add_supported_platform("windows_intelx86");
+    add_platform("windows_intelx86");
 
 #endif
 
 #elif defined(__APPLE__)
 #if defined(__i386__)
 
-    add_supported_platform("i686-apple-darwin");
-    add_supported_platform("powerpc-apple-darwin");
+    add_platform("i686-apple-darwin");
+    add_platform("powerpc-apple-darwin");
 
 #else
 
-    add_supported_platform("powerpc-apple-darwin");
+    add_platform("powerpc-apple-darwin");
 
 #endif
 
 #else
 
     // Any other platform, fall back to the previous method
-    add_supported_platform(HOSTTYPE);
+    add_platform(HOSTTYPE);
 #ifdef HOSTTYPEALT
-    add_supported_platform(HOSTTYPEALT);
+    add_platform(HOSTTYPEALT);
 #endif
 
 #endif
@@ -100,21 +95,17 @@ void CLIENT_STATE::detect_supported_platforms() {
 }
 
 
-// report the list of supported platforms
+// write XML list of supported platforms
 //
-void CLIENT_STATE::report_supported_platforms(PROJECT* p, MIOFILE& mf) {
-    PLATFORM* platform = NULL;
-    unsigned int i = 0;
+void CLIENT_STATE::write_platforms(PROJECT* p, MIOFILE& mf) {
 
-    // primary platform
     mf.printf(
         "    <platform_name>%s</platform_name>\n",
         p->anonymous_platform ? "anonymous" : get_primary_platform()
     );
 
-    // alternate platforms
-    for (i=1; i<platforms.size(); i++) {
-        platform = platforms[i];
+    for (unsigned int i=1; i<platforms.size(); i++) {
+        PLATFORM* platform = platforms[i];
         mf.printf(
             "    <alt_platform>\n"
             "        <name>%s</name>\n"
@@ -124,3 +115,12 @@ void CLIENT_STATE::report_supported_platforms(PROJECT* p, MIOFILE& mf) {
     }
 }
 
+bool CLIENT_STATE::is_supported_platform(const char* p) {
+    for (unsigned int i=0; i<platforms.size(); i++) {
+        PLATFORM* platform = platforms[i];
+        if (!strcmp(p, platform->name.c_str())) {
+            return true;
+        }
+    }
+    return false;
+}
