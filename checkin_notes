@@ -4498,3 +4498,12 @@ David  7 May 2007
 
 	client/
 		cs_scheduler.C
+
+Rom    7 May 2007
+    - fixes# 162: Fix the Windows setup to install the CRT as a private assembly
+        so that we can avoid running into sxs problems. At some point I'll have 
+        to revisit this and figure out what is really going on.
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
