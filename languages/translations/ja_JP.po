@@ -1,6 +1,6 @@
 #########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.8, based on en.po v1.8(cvs).   2006/08/10 JST je2bwm 
+# FileID  : ja.po and ja_JP.po, based on en.po 12493(svn).  2007/05/04 17:05 JST je2bwm 
 # Translator: Komori Hitoshi (je2bwm at jarl.com)
 ##########################################
 # For more information please see:
@@ -26,12 +26,14 @@ msgstr "日本語"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Japanese"
 
-# for user survey
+########################################
+# poll-related stuff
+########################################
+
 # msgid "POLL_TITLE"
 # msgstr "BOINC user survey"
 msgid "POLL_TITLE"
 msgstr "BOINC 参加者サーベイ"
-
 
 #########################################
 # poll.php
@@ -53,9 +55,6 @@ msgstr "BOINC 参加者サーベイ"
 # "<p> "
 # "The current results of the survey are "
 # "<a href=poll_results.php>here</a>. "
-# "<p> "
-# "The survey is also available in "
-# "<a href=http://boinc.oocp.org/poll.php>Japanese</a>. "
 msgid "POLL_INTRO"
 msgstr ""
 "BOINC ソフトウェアは、いくつものボランティア・コンピューティング・プロジェクトで"
@@ -71,466 +70,439 @@ msgstr ""
 "<p> "
 "<a href='poll_results.php'>現在時点のサーベイの結果</a> はここにあります。 "
 
-
 # msgid "POLL_RUN"
 # msgstr "Do you run BOINC?"
 msgid "POLL_RUN"
 msgstr "BOINC を走らせていますか?"
 
-
-# msgid "POLL_PARTICIPATION",
+# msgid "POLL_PARTICIPATION"
 # msgstr "Your participation"
 msgid "POLL_PARTICIPATION"
 msgstr "あなたの参加について"
 
-
-# msgid "POLL_COMPUTERS",
+# msgid "POLL_COMPUTERS"
 # msgstr "Your computers"
 msgid "POLL_COMPUTERS"
 msgstr "あなたのコンピュータについて"
 
-
-# msgid "POLL_YOU",
+# msgid "POLL_YOU"
 # msgstr "You"
 msgid "POLL_YOU"
 msgstr "あなた自身について"
 
-
-# msgid "POLL_NATIONALITY",
+# msgid "POLL_NATIONALITY"
 # msgstr "Nationality"
 msgid "POLL_NATIONALITY"
 msgstr "国籍"
 
-
-# msgid "POLL_COMMENTS",
+# msgid "POLL_COMMENTS"
 # msgstr "Comments"
 msgid "POLL_COMMENTS"
 msgstr "コメント"
 
-# msgid "POLL_COMMENTS_QUESTION",
+# msgid "POLL_COMMENTS_QUESTION"
 # msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
 msgid "POLL_COMMENTS_QUESTION"
 msgstr "BOINC とそれを使うプロジェクト群がより良くなる方法について示唆を書いていただきたい:"
 
-# msgid "POLL_OTHER",
+# msgid "POLL_OTHER"
 # msgstr "Other:"
 msgid "POLL_OTHER"
 msgstr "その他:"
 
-# msgid "POLL_CHECK_ALL",
+# msgid "POLL_CHECK_ALL"
 # msgstr "[check all that apply]"
 msgid "POLL_CHECK_ALL"
 msgstr "[当てはまるものすべてをチェック]"
 
-# msgid "POLL_DONE",
+# msgid "POLL_DONE"
 # msgstr "When done click:"
 msgid "POLL_DONE"
 msgstr "記入が終わりましたら、右のOKボタンをクリックしてください:"
 
-
-#########################################
-# poll.inc
-#########################################
-
-
 #########################################
 # poll_data.inc
 #########################################
-# msgid "POLL_CURRENT",
+# msgid "POLL_CURRENT"
 # msgstr "Yes - I have been running BOINC on my computer for..."
 msgid "POLL_CURRENT"
 msgstr "はい。 今まで BOINC を自分のコンピュータで動かしていた期間は、 "
 
-# msgid "POLL_TWEEK",
+# msgid "POLL_TWEEK"
 # msgstr "less than a week"
 msgid "POLL_TWEEK"
 msgstr "1週間未満"
 
-# msgid "POLL_TMONTH",
+# msgid "POLL_TMONTH"
 # msgstr "less than a month"
 msgid "POLL_TMONTH"
 msgstr "1ヶ月未満"
 
-# msgid "POLL_TYEAR",
+# msgid "POLL_TYEAR"
 # msgstr "less than a year"
 msgid "POLL_TYEAR"
 msgstr "1年未満"
 
-# msgid "POLL_TMOREYEAR",
+# msgid "POLL_TMOREYEAR"
 # msgstr "more than a year"
 msgid "POLL_TMOREYEAR"
 msgstr "1年以上"
 
-
-# msgid "POLL_LAPSED",
+# msgid "POLL_LAPSED"
 # msgstr "No - I was running BOINC, but stopped because..."
 msgid "POLL_LAPSED"
 msgstr "いいえ。 BOINC を動かしていたことがありましたが、停めました。 その理由は、"
 
-# msgid "POLL_LINTEREST",
+# msgid "POLL_LINTEREST"
 # msgstr "I lost interest"
 msgid "POLL_LINTEREST"
 msgstr "興味をなくしたので"
 
-# msgid "POLL_LCOMPLICATED",
+# msgid "POLL_LCOMPLICATED"
 # msgstr "it was too complicated"
 msgid "POLL_LCOMPLICATED"
 msgstr "複雑過ぎるため"
 
-# msgid "POLL_LSTOPPED",
+# msgid "POLL_LSTOPPED"
 # msgstr "I stopped it and forgot to start again"
 msgid "POLL_LSTOPPED"
 msgstr "一度停めたあと、再開するのを忘れていた"
 
-# msgid "POLL_LPROBLEMS",
+# msgid "POLL_LPROBLEMS"
 # msgstr "it caused problems on my computer"
 msgid "POLL_LPROBLEMS"
 msgstr "BOINC は私のコンピュータでは問題を起こしたから"
 
-# msgid "POLL_LPOWER",
+# msgid "POLL_LPOWER"
 # msgstr "it used too much electricity"
 msgid "POLL_LPOWER"
 msgstr "電気を使いすぎるので"
 
-# msgid "POLL_LNONBOINC",
+# msgid "POLL_LNONBOINC"
 # msgstr "I switched to a non-BOINC computing project"
 msgid "POLL_LNONBOINC"
 msgstr "BOINC 以外のコンピューティング・プロジェクトに切り替えたので"
 
-
-# msgid "POLL_FAILED",
+# msgid "POLL_FAILED"
 # msgstr "No - I tried running BOINC, but..."
 msgid "POLL_FAILED"
 msgstr "いいえ。 BOINC を使おうと試したのですが、..."
 
-# msgid "POLL_FINSTALL",
+# msgid "POLL_FINSTALL"
 # msgstr "the software didn't install correctly"
 msgid "POLL_FINSTALL"
 msgstr "BOINC ソフトウェアが正しくインストールされませんでした"
 
-# msgid "POLL_FFIGURE",
+# msgid "POLL_FFIGURE"
 # msgstr "I couldn't figure out how to use the software"
 msgid "POLL_FFIGURE"
 msgstr "このソフトをどう使うかわかりませんでした"
 
-# msgid "POLL_FNETWORK",
+# msgid "POLL_FNETWORK"
 # msgstr "I had network communication problems"
 msgid "POLL_FNETWORK"
 msgstr "ネットワーク通信に問題があってうまくいきませんでした"
 
-# msgid "POLL_FATTACH",
+# msgid "POLL_FATTACH"
 # msgstr "I couldn't attach to a project"
 msgid "POLL_FATTACH"
 msgstr "プロジェクトに参加できませんでした"
 
-# msgid "POLL_FWORK",
+# msgid "POLL_FWORK"
 # msgstr "I attached to a project, but never got any work"
 msgid "POLL_FWORK"
 msgstr "あるプロジェクトに参加しましたが、仕事をまったく取り出せません"
 
-
-# msgid "POLL_NEVER",
+# msgid "POLL_NEVER"
 # msgstr "No - I never tried running BOINC, because..."
 msgid "POLL_NEVER"
 msgstr "いいえ。 BOINC を試そうとしたことはありません。 というのも、"
 
-# msgid "POLL_NSECURITY",
+# msgid "POLL_NSECURITY"
 # msgstr "I was concerned about security"
 msgid "POLL_NSECURITY"
 msgstr "セキュリティに心配があったからです"
 
-# msgid "POLL_NPROJECT",
+# msgid "POLL_NPROJECT"
 # msgstr "I wasn't interested in any of the projects"
 msgid "POLL_NPROJECT"
 msgstr "どのプロジェクトについても興味がわかなかったからです"
 
-# msgid "POLL_NPERMISSION",
+# msgid "POLL_NPERMISSION"
 # msgstr "I don't have permission to run it on my computer"
 msgid "POLL_NPERMISSION"
 msgstr "どのプロジェクトについても興味がわかなかったからです"
 
-# msgid "POLL_NVERSION",
+# msgid "POLL_NVERSION"
 # msgstr "No version was available for my computer"
 msgid "POLL_NVERSION"
 msgstr "私のコンピュータで使える BOINC の版がなかったからです"
 
-
-# msgid "POLL_KIND",
+# msgid "POLL_KIND"
 # msgstr "What kind of computers do you have running BOINC?"
 msgid "POLL_KIND"
 msgstr "どんな種類のコンピュータで BOINC を走らせていますか"
 
-# msgid "POLL_WHERE",
+# msgid "POLL_WHERE"
 # msgstr "Where are they?"
 msgid "POLL_WHERE"
 msgstr "あなたのコンピュータはどこにありますか"
 
-# msgid "POLL_HOME",
+# msgid "POLL_HOME"
 # msgstr "Home"
 msgid "POLL_HOME"
 msgstr "自宅(Home)"
 
-# msgid "POLL_WORK",
+# msgid "POLL_WORK"
 # msgstr "Work"
 msgid "POLL_WORK"
 msgstr "仕事場(Work)"
 
-# msgid "POLL_SCHOOL",
+# msgid "POLL_SCHOOL"
 # msgstr "School"
 msgid "POLL_SCHOOL"
 msgstr "学校(School)"
 
-
-# msgid "POLL_HOW_MANY",
+# msgid "POLL_HOW_MANY"
 # msgstr "How many computers?"
 msgid "POLL_HOW_MANY"
 msgstr "コンピュータは何台ですか"
 
-# msgid "POLL_TURNED_ON",
+# msgid "POLL_TURNED_ON"
 # msgstr "On average, how many hours per day are they powered on?"
 msgid "POLL_TURNED_ON"
 msgstr "平均して、あなたのコンピュータは日に何時間電源が入っていますか"
 
-# msgid "POLL_AGE",
+# msgid "POLL_AGE"
 # msgstr "Age"
 msgid "POLL_AGE"
 msgstr "あなたの年齢"
 
-
-# msgid "POLL_SEX",
+# msgid "POLL_SEX"
 # msgstr "Sex"
 msgid "POLL_SEX"
 msgstr "性別"
 
-# msgid "POLL_MALE",
+# msgid "POLL_MALE"
 # msgstr "Male"
 msgid "POLL_MALE"
 msgstr "男性"
 
-# msgid "POLL_FEMALE",
+# msgid "POLL_FEMALE"
 # msgstr "Female"
 msgid "POLL_FEMALE"
 msgstr "女性"
 
-
-# msgid "POLL_EXPERTISE",
+# msgid "POLL_EXPERTISE"
 # msgstr "Your level of computer expertise"
 msgid "POLL_EXPERTISE"
 msgstr "コンピュータに関する専門知識レベル"
 
-# msgid "POLL_LEVB",
+# msgid "POLL_LEVB"
 # msgstr "Beginner"
 msgid "POLL_LEVB"
 msgstr "初心者"
 
-# msgid "POLL_LEVI",
+# msgid "POLL_LEVI"
 # msgstr "Intermediate"
 msgid "POLL_LEVI"
 msgstr "中くらい"
 
-# msgid "POLL_LEVA",
+# msgid "POLL_LEVA"
 # msgstr "Advanced"
 msgid "POLL_LEVA"
 msgstr "高度"
 
-
-# msgid "POLL_LEARN_WHERE",
+# msgid "POLL_LEARN_WHERE"
 # msgstr "Where did you learn about BOINC projects?"
 msgid "POLL_LEARN_WHERE"
 msgstr "BOINC のプロジェクトを、どこで知りましたか"
 
-# msgid "POLL_WTV",
+# msgid "POLL_WTV"
 # msgstr "TV/radio/newspaper"
 msgid "POLL_WTV"
 msgstr "テレビ/ラジオ/新聞"
 
-# msgid "POLL_WPERS",
+# msgid "POLL_WPERS"
 # msgstr "From friends, relatives, or coworkers"
 msgid "POLL_WPERS"
 msgstr "友人、親戚、あるいは同僚から"
 
-# msgid "POLL_WTEAM",
+# msgid "POLL_WTEAM"
 # msgstr "Team message boards or web sites"
 msgid "POLL_WTEAM"
 msgstr "チームの掲示板・ウェブサイトで"
 
-# msgid "POLL_WBOINC",
+# msgid "POLL_WBOINC"
 # msgstr "The BOINC web site"
 msgid "POLL_WBOINC"
 msgstr "BOINC のウェブサイトで"
 
-# msgid "POLL_WWEB",
+# msgid "POLL_WWEB"
 # msgstr "Other web sites"
 msgid "POLL_WWEB"
 msgstr "その他のウェブサイトで"
 
-
-# msgid "POLL_FACTOR",
+# msgid "POLL_FACTOR"
 # msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
 msgid "POLL_FACTOR"
 msgstr "BOINC のプロジェクトに参加するかどうか判断するときに、以下のどの要因が特に重要ですか"
 
-# msgid "POLL_GRAPHICS",
+# msgid "POLL_GRAPHICS"
 # msgstr "Nice-looking screensaver graphics"
 msgid "POLL_GRAPHICS"
 msgstr "見栄えのするスクリーンセイバーのグラフィクス"
 
-# msgid "POLL_CREDIT_FAIR",
+# msgid "POLL_CREDIT_FAIR"
 # msgstr "Fair and quick granting of credit for work done"
 msgid "POLL_CREDIT_FAIR"
 msgstr "やりおえた仕事に対して、公正にかつ迅速に功績(credit)が付与されること"
 
-# msgid "POLL_CREDIT_MORE",
+# msgid "POLL_CREDIT_MORE"
 # msgstr "Getting more credit from this project than from others"
 msgid "POLL_CREDIT_MORE"
 msgstr "他のプロジェクトよりもこのプロジェクトの方がより多く功績(credit)が得られること"
 
-# msgid "POLL_MB_FRIENDLY",
+# msgid "POLL_MB_FRIENDLY"
 # msgstr "Helpful and friendly message boards"
 msgid "POLL_MB_FRIENDLY"
 msgstr "役に立ち、かつ、親しみやすい掲示板があること"
 
-# msgid "POLL_MB_STAFF",
+# msgid "POLL_MB_STAFF"
 # msgstr "Participation by project staff on the message boards"
 msgid "POLL_MB_STAFF"
 msgstr "掲示板にそのプロジェクトのスタッフが参加してくれること"
 
-# msgid "POLL_WEB_SITE",
+# msgid "POLL_WEB_SITE"
 # msgstr "Informative project web site"
 msgid "POLL_WEB_SITE"
 msgstr "プロジェクトのウェブサイトに参考になる情報が多く載っていること"
 
-# msgid "POLL_SCIENCE_IMPORTANT",
+# msgid "POLL_SCIENCE_IMPORTANT"
 # msgstr "The science is important and beneficial"
 msgid "POLL_SCIENCE_IMPORTANT"
 msgstr "対象としている科学の内容が重要でかつ有益であること"
 
-# msgid "POLL_SCIENCE_PUBLIC",
+# msgid "POLL_SCIENCE_PUBLIC"
 # msgstr "Non-profit, and results are public"
 msgid "POLL_SCIENCE_PUBLIC"
 msgstr "非営利のプロジェクトであって、得られた科学的成果が公開されていること"
 
-# msgid "POLL_RECOGNIZE",
+# msgid "POLL_RECOGNIZE"
 # msgstr "Personal recognition if my computer finds something"
 msgid "POLL_RECOGNIZE"
 msgstr "自分のコンピュータが何か発見したら、個人として表彰してもらえること"
 
-# msgid "POLL_PUBLISH",
+# msgid "POLL_PUBLISH"
 # msgstr "Publication by the project in scientific journals"
 msgid "POLL_PUBLISH"
 msgstr "定期的な科学刊行物でこのプロジェクトによる公表がなされること"
 
-# msgid "POLL_EMAIL",
+# msgid "POLL_EMAIL"
 # msgstr "Periodic email newsletters from the project"
 msgid "POLL_EMAIL"
 msgstr "プロジェクトから、メイルによる定期的なニュースレターが送られてくること"
 
-
-# msgid "POLL_NPROJECTS",
+# msgid "POLL_NPROJECTS"
 # msgstr "How many BOINC projects do you participate in?"
 msgid "POLL_NPROJECTS"
 msgstr "BOINC プロジェクトにいくつ参加していますか"
 
-
-# msgid "POLL_SSAVER",
+# msgid "POLL_SSAVER"
 # msgstr "Do you run BOINC as a screensaver?"
 msgid "POLL_SSAVER"
 msgstr "BOINC をスクリーンセイバーとして走らせていますか"
 
-# msgid "POLL_YES",
+# msgid "POLL_YES"
 # msgstr "Yes"
 msgid "POLL_YES"
 msgstr "はい"
 
-# msgid "POLL_NO",
+# msgid "POLL_NO"
 # msgstr "No"
 msgid "POLL_NO"
 msgstr "いいえ"
 
-
-# msgid "POLL_MBOARDS",
+# msgid "POLL_MBOARDS"
 # msgstr "Your usage of project messages boards:"
 msgid "POLL_MBOARDS"
 msgstr "掲示板をどのように使っていますか:"
 
-# msgid "POLL_MBR",
+# msgid "POLL_MBR"
 # msgstr "to read information"
 msgid "POLL_MBR"
 msgstr "読んでいるだけです"
 
-# msgid "POLL_MBRW",
+# msgid "POLL_MBRW"
 # msgstr "to read and post information"
 msgid "POLL_MBRW"
 msgstr "読むだけでなく書き込みもします"
 
-# msgid "POLL_NONE",
+# msgid "POLL_NONE"
 # msgstr "None"
 msgid "POLL_NONE"
 msgstr "使っていません"
 
-
-# msgid "POLL_HELP",
+# msgid "POLL_HELP"
 # msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
 msgid "POLL_HELP"
 msgstr "BOINC あるいは BOINC プロジェクトで問題が生じたときにどこで解決のための情報を得ますか"
 
-# msgid "POLL_HELP_PMB",
+# msgid "POLL_HELP_PMB"
 # msgstr "The project message boards"
 msgid "POLL_HELP_PMB"
 msgstr "そのプロジェクトの掲示板"
 
-# msgid "POLL_HELP_BMB",
+# msgid "POLL_HELP_BMB"
 # msgstr "The BOINC message boards"
 msgid "POLL_HELP_BMB"
 msgstr "BOINC の掲示板"
 
-# msgid "POLL_HELP_BDOC",
+# msgid "POLL_HELP_BDOC"
 # msgstr "The BOINC web site"
 msgid "POLL_HELP_BDOC"
 msgstr "BOINC のウェブサイト"
 
-# msgid "POLL_HELP_BMLIST",
+# msgid "POLL_HELP_BMLIST"
 # msgstr "BOINC mailing lists"
 msgid "POLL_HELP_BMLIST"
 msgstr "BOINC のメイリング・リスト"
 
-# msgid "POLL_HELP_WIKI",
+# msgid "POLL_HELP_WIKI"
 # msgstr "The Unofficial BOINC Wiki"
 msgid "POLL_HELP_WIKI"
 msgstr "非公式の BOINC Wiki"
 
-# msgid "POLL_HELP_TEAM",
+# msgid "POLL_HELP_TEAM"
 # msgstr "Team web sites"
 msgid "POLL_HELP_TEAM"
 msgstr "チームのウェブサイト"
 
-# msgid "POLL_HELP_GOOGLE",
+# msgid "POLL_HELP_GOOGLE"
 # msgstr "Google or other search engines"
 msgid "POLL_HELP_GOOGLE"
 msgstr "Google などの検索エンジン"
 
-
-
 #########################################
 # poll_action.php
 #########################################
-# msgid "POLL_ERROR_TITLE",
+# msgid "POLL_ERROR_TITLE"
 # msgstr "Error - results not recorded"
 msgid "POLL_ERROR_TITLE"
 msgstr "エラー発生 - 入力データは記録されませんでした"
 
-# msgid "POLL_ERROR_TEXT",
+# msgid "POLL_ERROR_TEXT"
 # msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
 msgid "POLL_ERROR_TEXT"
 msgstr "内部エラーのためにあなたが入力してくれた内容を記録できませんでした。 "
 "申し訳ありませんが、少したってからもう一度試してみてください"
 
-# msgid "POLL_RECORDED",
+# msgid "POLL_RECORDED"
 # msgstr "Survey response recorded"
 msgid "POLL_RECORDED"
 msgstr "入力していただいたデータを記録しました"
 
-# msgid "POLL_THANKS",
+# msgid "POLL_THANKS"
 # msgstr "Thank you for completing the BOINC user survey."
 msgid "POLL_THANKS"
 msgstr "BOINC 参加者サーベイにご協力ありがとうございました。 \n "
@@ -546,9 +518,8 @@ msgid "POLL_RESULTS_TEXT"
 msgstr "以下は <a href=poll.php>BOINC 参加者サーベイ</a> の現時点での結果です。 このページは1時間ごとに更新されます。 "
 
 
-
 ########################################
-# download.php 2006/08/05 by je2bwm
+# download.php 2006/08/03 by je2bwm
 ########################################
 
 # msgid "DL_DOWNLOAD"
@@ -583,7 +554,6 @@ msgstr " BOINC はあなたのコンピュータの空き時間を、色々な�
 "        上記のプロジェクトのいくつにでも好きなだけつなげることができます。 "
 "        <p>"
 
-
 # msgid "DL_SYSTEMREQ"
 # msgstr "System requirements"
 msgid "DL_SYSTEMREQ"
@@ -594,15 +564,20 @@ msgstr "コンピュータの条件"
 msgid "DL_RELNOTES"
 msgstr "公開時の注意書き"
 
+# msgid "DL_TROUBLE"
+# msgstr "Troubleshooting"
+msgid "DL_TROUBLE"
+msgstr "問題解決のヒント"
+
 # msgid "DL_OTHERSYS"
 # msgstr "Other systems"
 msgid "DL_OTHERSYS"
-msgstr "その他のシステム"
+msgstr "その他(Windows,MAC,Linux)"
 
 # msgid "DL_ALLVERSIONS"
 # msgstr "All versions"
 msgid "DL_ALLVERSIONS"
-msgstr "すべての版"
+msgstr "ダウンロードの一覧"
 
 # msgid "DL_IF_OTHERTYPES"
 # msgstr "If your computer is not of one of the above types, you can"
@@ -627,9 +602,9 @@ msgid "DL_DOWNLOAD_TITLE"
 msgstr "BOINC: 科学のための計算をしよう"
 
 # msgid "DL_MIRRORS"
-# msgstr         "Note: files are downloaded from mirror servers "
+# msgstr "Note: files are downloaded from mirror servers "
 # "at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, "
-# "einstein.astro.gla.ac.uk, and einstein.aset.psu.edu "
+# "einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu "
 # "(thanks to these institutions). "
 # "The server is chosen randomly - "
 # "if a download fails, reload this page and try again. "
@@ -637,12 +612,10 @@ msgid "DL_MIRRORS"
 msgstr ""
 "ご注意: ファイルは次のミラーサーバ群のうちからダウンロードされます： "
 "boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg.de、"
-"einstein.astro.gla.ac.uk、einstein.aset.psu.edu  "
+"einstein.astro.gla.ac.uk、einstein.ligo.caltech.edu, einstein.aset.psu.edu  "
 "　ミラーサーバを設置していただいたこれらの機関に感謝します。 "
 "これらのどのサーバを選ぶかは無作為に決まります。 "
 "ですから、もしダウンロードに失敗したら、このぺージを再読み込みした後もう一度試してみてください。 "
-
-
 
 ##############################################
 # system_requirements.php by je2bwm 2006/08/07
@@ -760,7 +733,7 @@ msgid "SRQ_LINUX_REQ_DISK"
 msgstr "50 MB のディスク領域"
 
 ##############################################
-# release notes by je2bwm 2006/08/09
+# release_notes.php  by je2bwm 2006/08/09
 ##############################################
 # msgid "RLN_PAGE_TITLE"
 # msgstr "Release notes"
@@ -777,7 +750,6 @@ msgstr "%s 版での更新内容"
 msgid "RLN_INSTALLING"
 msgstr "インストール時の注意"
 
-
 # msgid "RLN_UNINSTALLING"
 # msgstr "Uninstalling"
 msgid "RLN_UNINSTALLING"
@@ -788,10 +760,51 @@ msgstr "アンインストール時の注意"
 msgid "RLN_KNOWN_ISSUES"
 msgstr "既知の問題点"
 
+# msgid "RLN_WIN_INSTALL_PROBLEMS"
+# msgstr "(Windows) In rare cases, installation may fail because "
+# "of an existing installation of BOINC.  If this happens: "
+# "%s Quit BOINC if it's running, and uninstall BOINC "
+# "using %s Start/Control Panel/Add and remove programs%s. "
+# "Install the new version again. "
+# "%s If that fails, reinstall the version of BOINC you "
+# "were previously running "
+# "(old versions can be found %shere%s). "
+# "Uninstall it as above, then install the new version. "
+# "%s If that fails, download the %sWindows Install Clean Up%s "
+# "utility from Microsoft and run it. "
+# "The old BOINC version shows up as either BOINC.msi or as "
+# "a corrupt icon .msi (it'll be the top option). "
+# "Click on it to select, then click Remove and Exit. "
+# "Reboot your computer. "
+# "Install the new version. "
+# "(Warning: leave all other .msi files as they are, "
+# "otherwise you will have problems uninstalling other programs). "
+# "%s "
+msgid "RLN_WIN_INSTALL_PROBLEMS"
+msgstr "(Windows) まれに、既にインストールされた BOINC が原因で"
+" BOINC のインストールが失敗することがあります。"
+"この場合には以下のようにしてください。まず、%s BOINC が動作中ならそれを停止させ、"
+"%s スタート→コントロールパネル→プログラムの追加と削除 %s"
+"へ行って BOINC をアンインストールします。"
+"そして、新しい版の BOINC をもう一度インストールして下さい。"
+"%s 上記のやり方でも失敗したら、従前に走らせていた版の BOINC "
+"を再インストールします。(%s古い版はここ%s にあります)。"
+"そして上記のようにそれをアンインストールしてから、新しい版をインストールします。"
+"%s これでもうまくいかないなら、%sWindows インストール除去%s ユーティリティ"
+"(Windows Installer Clean Up Utility)をマイクロソフト社からダウンロードしてきて、走らせて下さい。"
+"古い BOINC の版が、BOINC.msi または 壊れたアイコンの付いた .msi (これは先頭にでてきます)"
+"として表示されます。"
+"その行をクリックして選択してから、Remove ボタンを押し、次に Exit ボタンを押します。"
+"コンピュータを再起動してください。"
+"新しい版の BOINC をインストールします。"
+"(警告: 他の全ての .msi ファイルを示す行については触らないで下さい。"
+"さもないと、他のプログラムもアンインストールしてしまって問題を起こします)。"
+"%s "
+
 # msgid "RLN_TROUBLESHOOT"
-# msgstr "Troubleshooting"
+# msgstr "Troubleshooting BOINC"
 msgid "RLN_TROUBLESHOOT"
-msgstr "問題解決のためのヒント"
+msgstr "BOINC に関する問題解決のヒント"
 
 # msgid "RLN_NEWF_5_4_AM"
 # msgstr "Support for 'Account managers' - web sites that let you browse "
@@ -816,13 +829,59 @@ msgstr "ウェブサイトで登録した General プレファレンスの値を
 "ローカルなファイルに指定した値を優先して使うことができるようにしました。 "
 "詳しくは、%s プレファレンスに優先する指定 %s をご覧ください。 
 
-
-
 # msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
 # msgstr "BOINC now alerts you whenever it needs you "
 # "to create a network connection."
 msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
 msgstr "ネットワークへの接続をあなたがする必要のあるときは、BOINC はいつでも警告をするようになりました。 "
+
+# msgid "RLN_5_8_SIMPLE_GUI"
+# msgstr "The BOINC Manager offers two different interfaces: "
+# " 'Simple' (small, graphical, skinnable) "
+# " and 'Advanced' (maximum information). "
+# " The Simple GUI allows local editing of preferences. "
+# " You can switch back and forth between Simple and Advanced. "
+msgid "RLN_5_8_SIMPLE_GUI"
+msgstr "BOINC マネージャは 2種類のインタフェースを提供します。"
+" 「単純(Simple)版」 (小さく、グラフィカルで、スキンの交換ができる) "
+" と「上級者向け(Advanced) (情報を最大限見せます)の 2つです。"
+" この単純版の GUI では、プレファレンスの編集を[そのクライアントに] ローカルに行えます。"
+" 単純版と上級者向けの両方を行ったり来たり切替えることができます。"
+
+# msgid "RLN_5_8_THROTTLE"
+# msgstr " CPU throttling: you can reduce CPU heat by limiting "
+# " the fraction of time that BOINC computes. "
+msgid "RLN_5_8_THROTTLE"
+msgstr " CPU スロットリング:  BOINC の計算時間の割合を制限することにより、"
+" CPU の発熱を抑えることができます。"
+
+# msgid "RLN_5_8_SCHED"
+# msgstr " Improved scheduling policies avoid missing job deadlines "
+# " even on a slow computer with lots of projects. "
+msgid "RLN_5_8_SCHED"
+msgstr " 改善されたスケジューリング方針の実装により、遅いコンピュータで多くのプロジェクトを走らせても、"
+" 報告期限を超過してしまうことがないようにしました。"
+
+# msgid "RLN_5_8_MEM"
+# msgstr " You can limit the amount of memory used by BOINC; "
+# " this lets you compute all the time without losing performance. "
+msgid "RLN_5_8_MEM"
+msgstr " BOINC が使うメモリ量をあなたが制限することができます。"
+" この機能を使えば、[通常使用時の] 性能を落とすことなく、常時計算をさせることができます。"
+
+# msgid "RLN_5_8_SANDBOX"
+# msgstr " Mac OS X version runs applications in an unpriviledged account, "
+# " increasing security. "
+msgid "RLN_5_8_SANDBOX"
+msgstr " Mac OS X 版は、アプリケーションを通常のアカウントで実行しますので、"
+" セキュリティが高まっています。"
+
+# msgid "RLN_5_8_SNOOZE"
+# msgstr " Snooze button (in the system tray icon) lets you "
+# " stop computing for one hour. "
+msgid "RLN_5_8_SNOOZE"
+msgstr " スヌーズ(Snooze) ボタン (システムトレイのアイコンにあります)"
+"を使うと、1時間だけ計算を止めることができます。"
 
 # msgid "RLN_RECOMMEND_LATEST_VERSION"
 # msgstr "We recommend that all BOINC users upgrade to %s."
@@ -830,7 +889,7 @@ msgid "RLN_RECOMMEND_LATEST_VERSION"
 msgstr "BOINC をお使いのすべての皆さんに、%s版へアップグレイドすることをお勧めします。 "
 
 # msgid "RLN_LINK2_VERSION_HISTORY"
-# msgstr "A detailed revision history is %s here %s."
+# msgstr "A detailed revision history is %shere%s."
 msgid "RLN_LINK2_VERSION_HISTORY"
 msgstr "詳細な %s 更新履歴はここ %s にあります。 "
 
@@ -921,14 +980,15 @@ msgstr "いつでも(たとえ誰も Windows ユーザがログインしてい�
 # "This type of installation requires that you be familiar with the "
 # "UNIX command-line interface."
 msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "Linux 用の BOINC は、自己解凍型のアーカイブとして提供されます。 "
+msgstr ""
+"Linux 用の BOINC は、自己解凍型のアーカイブとして提供されます。 "
 "この種類のクライアントをインストールするには、"
 "Unix のコマンドライン・インタフェースになじんでいる必要があります。 "
 
 # msgid "RLN_LINUX_DL_FILENAME"
-# msgstr "The download files have names like<code> %s </code>."
+# msgstr "The download files have names like <code>%s</code>."
 msgid "RLN_LINUX_DL_FILENAME"
-msgstr "ダウンロード・ファイル名は以下のようなものです。 <code> %s </code>"
+msgstr "ダウンロード・ファイル名は以下のようなものです。 <code>%s</code>"
 
 # msgid "RLN_LINUX_RUN_SEA"
 # msgstr "After downloading the file, type<pre>%s</pre>"
@@ -966,11 +1026,17 @@ msgid "RLN_LINUX_AUTOSTART"
 msgstr "マシンを起動したときに %s 自動的にコア・クライアントを走らせる%s ということをしたいと思うかもしれません。 "
 
 # msgid "RLN_MSWIN_UNINSTALL_DESC"
-# msgstr "In the Start menu, select Programs / BOINC / Uninstall. "
-# "Or in the Start menu, select Settings / Add or remove programs."
+# msgstr "Select Start/Control Panel/Add or Remove Programs. "
+# "Select BOINC, then click Remove. "
+# "This removes the BOINC software only. "
+# "To completely remove BOINC, delete the BOINC data directory "
+# "(usually C:/Program Files/BOINC). "
 msgid "RLN_MSWIN_UNINSTALL_DESC"
 msgstr "スタート・メニューから、コントロールパネルへ行って、[プログラムの追加と削除]を開き、"
 "一覧から BOINC を選んで削除を実行します。 "
+"この操作では、BOINC ソフトウェアだけが削除されます。"
+"BOINC を完全に除去するには、BOINC のデータディレクトリも消して下さい"
+"(通常このディレクトリは C:￥Program Files￥BOINC にあるでしょう)。"
 
 # msgid "RLN_ISSUE_PROXY_NTLMAUTH"
 # msgstr "If you use a proxy server, please hold off upgrading for now. "
@@ -980,28 +1046,28 @@ msgstr "プロキシサーバをお使いならば、今すぐアップグレイ
 "NTLM 認証を使うプロキシに対しての修正が作業中ですから。 "
 
 # msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-# msgstr "if BOINC applications are repeatedly crashing on your computer, "
+# msgstr "(Windows) If BOINC applications are repeatedly crashing on your computer, "
 # "it's possibly that you need to "
-# "%supgrade to the latest version of DirectX %s."
+# "%supgrade to the latest version (9.0c or later) of DirectX %s."
 msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-msgstr "もし BOINC アプリケーションが あなたのコンピュータで続けて実行に失敗するようであれば、"
-"%s 最新判の DirectX にアップグレイド %s"
-"する必要のある場合かもしれません。 "
+msgstr "(Windows) もし BOINC アプリケーションが あなたのコンピュータで続けて実行に失敗するようであれば、"
+"%s DirectX を最新版に(9.0c 以降) アップグレイド %s"
+"する必要がある場合かもしれません。 "
 
 # msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-# msgstr "If BOINC runs at the same time as Windows XP 3-D screensavers, "
+# msgstr "(Windows) If BOINC runs at the same time as Windows XP 3-D screensavers, "
 # "the system becomes sluggish and unresponsive."
 msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-msgstr "BOINC が Windows XP の 3D スクリーンセイバー と同時に走ると、システムはのろくなり、応答が悪くなります。 "
+msgstr "(Windows) BOINC が Windows XP の 3D スクリーンセイバー と同時に走ると、システムはのろくなり、応答が悪くなります。 "
 
 # msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-# msgstr "Applications that were built before October 2004 "
+# msgstr "(Windows) Applications that were built before October 2004 "
 # "do not display screensaver graphics with the Service or "
 # "Shared install type, "
 # "or the Single-user install type with "
 # "the password protect screensaver option on NT based machines."
 msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-msgstr "2004年10月より以前に作成されたアプリケーションは、 "
+msgstr "(Windows) 2004年10月より以前に作成されたアプリケーションは、 "
 "サービス・モードのインストールと、共有モードのインストールとで、 スクリーンセイバーを表示しません。 "
 "使用者が一人のモードのインストールでも、"
 "NT ベースのマシンでパスワード保護付きのスクリーンセイバー・オプションを使うと、 スクリーンセイバーを表示しません。 "
@@ -1012,24 +1078,21 @@ msgid "RLN_TROUBLESHOOT_INTRO"
 msgstr "BOINC を使って問題がおきたら、以下の手順を踏んで対処してみてください。 "
 
 # msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-# msgstr "If the problem is with a particular project, "
+# msgstr "If you have a problem with a particular project, "
 # "go to the 'Questions and Answers' area of the project's web site. "
 # "You may find the solution to your problem. "
-# "If not, post it there, and you'll get help from other users."
+# "If not, post it there, and you'll get help from other users. "
+# "If the problem persists, "
+# "use the BOINC Manager to 'reset' that project. "
+# "This will erase any jobs in progress and start from scratch. "
 msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
 msgstr "もしその問題が特定のプロジェクトだけで発生するなら、"
 "そのプロジェクトのウェブサイトの、質問と答(Questions and Answers)のページを見てください。 "
 "あなたの出会った問題の解決方法が見つかるかもしれません。 "
 "見つからない場合には、そこにあなたの問題を投稿すれば、他の参加者から助けてもらえます。 "
-
-# msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
-# msgstr "If project-specific problems persist, "
-# "use the BOINC Manager to 'reset' that project. "
-# "This will erase any jobs in progress and start from scratch."
-msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
-msgstr "特定のプロジェクトだけで発生する問題が解決せずに持続するようなら、"
-"BOINC マネージャを使ってそのプロジェクトをリセット(reset)してください。 "
-"こうすると、やりかけのどの仕事もすべて削除され、初めからやり直します。 "
+"その問題がなかなか解消しないなら、"
+"BOINC マネージャ で対象のプロジェクトを「リセット」して下さい。"
+"こうすると、進行中の仕事を消して何もないところからやり直します。"
 
 # msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 # msgstr "If you have problems with BOINC itself, "
@@ -1037,6 +1100,199 @@ msgstr "特定のプロジェクトだけで発生する問題が解決せずに
 msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 msgstr " BOINC そのものに問題がある場合は、"
 "%s BOINC 掲示板 %s で助けを求めてください。 "
+
+##############################################
+# help.php
+##############################################
+# msgid "HELP_TITLE"
+# msgstr "Getting help with BOINC"
+msgid "HELP_TITLE"
+msgstr " BOINC に関するヘルプ"
+
+# msgid "HELP_HEADING1"
+# msgstr "Online Help"
+msgid "HELP_HEADING1"
+msgstr "オンライン・ヘルプ"
+
+# msgid "HELP_P1_1"
+# msgstr "BOINC Online Help lets you talk one-on-one "
+# "with experienced BOINC users, who can: "
+# "%s answer questions about BOINC and volunteer computing; "
+# "%s walk you through the process of installing and using BOINC; "
+# "%s troubleshoot any problems you might have. "
+msgid "HELP_P1_1"
+msgstr "BOINC のオンライン・ヘルプでは、経験ある BOINC 参加者と1対1で話ができます。"
+"話の相手となってくれる方は、"
+"%s BOINC とボランティア・コンピューティングについて質問に答えることができますし、"
+"%s BOINC をインストールし使うまであなたをガイドできます。さらに"
+"%s あなたが遭遇するかもしれない問題も解決できるでしょう。"
+
+# msgid "HELP_P1_2"
+# msgstr "BOINC Online Help is based on "
+# "%sSkype%s, "
+# "an Internet-based telephone system. "
+# "Skype is free (both the software and the calls). "
+# "If you don't already have Skype, please "
+# "%sdownload and install it now%s. "
+# "When you're finished, return to this page. "
+msgid "HELP_P1_2"
+msgstr "BOINC オンライン・ヘルプは "
+"インターネット・ベースの電話システムの1つである %sSkype%s を使います。"
+"Skype は無料 (ソフトウェアも通話料も）です。"
+"まだ Skype をもっていなければ、どうぞ "
+"%s 今すぐダウンロードしてインストールして下さい%s。"
+"それが済んだら、このページに戻って下さい。"
+
+# msgid "HELP_P1_3"
+# msgstr "The best way to get help is by voice, "
+# "for which you need either built-in microphone and speakers "
+# "or an external headset for your computer. "
+# "Alternatively, you can use Skype's text-based chat system "
+# "to communicate with Help Volunteers."
+msgid "HELP_P1_3"
+msgstr "助けを求める一番良いやり方は、口頭で相談することです。"
+"そのためには、あなたのコンピュータに組み込まれたマイクとスピーカ、あるいは、"
+"外部接続のヘッドセットが要ります。"
+"別の方法としては、Skype のテキストベースのチャットシステムを使って、"
+"ヘルプを担当してくれるボランティアとやりとりをすることもできます。 "
+
+# msgid "HELP_P1_4"
+# msgstr "Volunteers speaking several languages are available. "
+# "Please select a language: "
+msgid "HELP_P1_4"
+msgstr "数ヶ国語についてボランティアはヘルプを提供できます。"
+"使いたい言語を以下から選択してください"
+
+# msgid "HELP_HEADING2"
+# msgstr "Other sources of help"
+msgid "HELP_HEADING2"
+msgstr "その他、困ったとき役立つ情報源"
+
+# msgid "HELP_P2_ITEM1"
+# msgstr "Running BOINC "
+msgid "HELP_P2_ITEM1"
+msgstr "BOINCプロジェクトに参加するには"
+
+# msgid "HELP_P2_ITEM2"
+# msgstr "Troubleshooting BOINC "
+msgid "HELP_P2_ITEM2"
+msgstr "問題解決のためのヒント"
+
+# msgid "HELP_P2_ITEM3"
+# msgstr "BOINC-related web sites "
+msgid "HELP_P2_ITEM3"
+msgstr "BOINC 関連のウェブサイト"
+
+# msgid "HELP_P2_ITEM4"
+# msgstr "The BOINC message boards "
+msgid "HELP_P2_ITEM4"
+msgstr "BOINC 掲示板"
+
+# msgid "HELP_P2_ITEM5"
+# msgstr "The message boards on any BOINC-based project "
+msgid "HELP_P2_ITEM5"
+msgstr " BOINC を使ったプロジェクト全般についての掲示板"
+
+# msgid "HELP_HEADING3"
+# msgstr "Be a Help Volunteer"
+msgid "HELP_HEADING3"
+msgstr "ヘルプ担当のボランティアになるには"
+
+# msgid "HELP_P3_1"
+# msgstr "If you're an experienced BOINC user, we encourage you to "
+# "%sbecome a Help Volunteer%s. "
+# "It's a great way to help the cause of scientific research "
+# "and volunteer computing - "
+# "and it's fun!  "
+msgid "HELP_P3_1"
+msgstr "あなたが BOINC 参加者としての経験がおありなら、是非、"
+"%s ヘルプ担当のボランティアをやって%s いただけませんか。"
+"科学研究とボランティア・コンピューティングの主旨を支援する、"
+"重要な活動の1つです。さらに、楽しい活動でもあります！"
+
+# msgid "HELP_P3_2"
+# msgstr "If you're already a Help Volunteer: to edit your settings, "
+# "%sclick here%s. "
+msgid "HELP_P3_2"
+msgstr "既にヘルプ担当のボランティアをされている方へ：あなたの"
+"%s 設定を編集する%s には左のリンクをクリックして下さい。"
+
+##############################################
+# index.php
+##############################################
+
+# msgid "HOME_HEADING1"
+# msgstr "Volunteer"
+msgid "HOME_HEADING1"
+msgstr "ボランティアとして参加してくださる方へ"
+
+# msgid "HOME_P1"
+# msgstr " Use the idle time on your computer "
+# " (Windows, Mac, or Linux) "
+# " to cure diseases, study global warming, "
+# " discover pulsars, and do many other types of scientific research. "
+# " It's safe, secure, and easy: "
+# " %sChoose%s projects "
+# " %sDownload%s and run BOINC software "
+# " %sEnter%s the project URLs, your email address, and password. "
+msgid "HOME_P1"
+msgstr "あなたのコンピュータの空き時間を、病気を治すためや、地球温暖化を研究するため、"
+" パルサーを発見するため、そしてその他たくさんの種類の科学研究のために使って下さい。"
+" (コンピュータは、Windows、Mac、Linux のどれでも可です)。 "
+" やり方は以下のように簡単で、安全かつ安心です。"
+" プロジェクトを %s 選択し%s、"
+" BOINC ソフトウェアを %sダウンロード%s して走らせます。 そして、"
+" 参加するプロジェクトの URL とあなたのメイルアドレス、そしてパスワードを %s 入力 %s して下さい。"
+
+# msgid "HOME_P2"
+# msgstr "Or, if you run several projects, try "
+# "an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgid "HOME_P2"
+msgstr "あるいは、もし複数のプロジェクトに参加したいなら、"
+%3s GridRepublic %4s や %5s BAM! %6s のような %1s アカウント・マネージャ%2s を試して下さい。" 
+
+# msgid "HOME_P3"
+# msgstr "If you have any questions, or need help getting started, you can "
+# "%stalk to a Volunteer Helper%s. "
+msgid "HOME_P3"
+msgstr "ご質問がある方、あるいは、始めようとして助けが欲しい方は、"
+"%s ボランティアの人と相談のための会話ができます%s。"
+
+# msgid "HOME_MORE_INFO"
+# msgstr "Running BOINC"
+msgid "HOME_MORE_INFO"
+msgstr "BOINC を走らせる"
+
+# msgid "HOME_DOWNLOAD"
+# msgstr "Download"
+msgid "HOME_DOWNLOAD"
+msgstr "ダウンロード"
+
+# msgid "HOME_WEB_SITES"
+# msgstr "Web sites"
+msgid "HOME_WEB_SITES"
+msgstr "ウェブサイト"
+
+# msgid "HOME_ADD_ONS"
+# msgstr "Add-ons"
+msgid "HOME_ADD_ONS"
+msgstr "アドオン・プログラム"
+
+# msgid "HOME_SURVEY"
+# msgstr "Survey"
+msgid "HOME_SURVEY"
+msgstr "サーベイ"
+
+# msgid "HOME_BOINC"
+# msgstr "Berkeley Open Infrastructure for Network Computing"
+msgid "HOME_BOINC"
+msgstr "ネットワークコンピューティングのための バークレー・オープン・インフラストラクチャ"
+
+# msgid "HOME_BOINC_DESC"
+# msgstr "Open-source software for %svolunteer computing%s and %sdesktop grid computing%s.
+msgid "HOME_BOINC_DESC"
+msgstr "BOINC は %sボランティア・コンピューティング%s と %sデスクトップ・グリッド・コンピューティング%s"
+"のためのオープンソース・ソフトウェアです。"
 
 
 

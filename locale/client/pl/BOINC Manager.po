@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.8.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-04-18 15:50+0100\n"
+"PO-Revision-Date: 2007-05-04 16:47+0100\n"
 "Last-Translator: MarekZ <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "MIME-Version: 1.0\n"
@@ -185,7 +185,7 @@ msgstr "Rozłączony"
 #: clientgui/AdvancedFrame.cpp:312
 #: clientgui/sg_BoincSimpleGUI.cpp:102
 msgid "&Close Window\tCTRL+W"
-msgstr "&Zamknij okno\tCTRL+W"
+msgstr "&Zamknij okno\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:313
 #: clientgui/sg_BoincSimpleGUI.cpp:103
@@ -328,7 +328,7 @@ msgstr "Uruchomienie BOINC'owego miernika wydajności systemu."
 
 #: clientgui/AdvancedFrame.cpp:449
 msgid "Retry &communications"
-msgstr "&Ponów próbę połączenia"
+msgstr "&Ponów próby połączeń"
 
 #: clientgui/AdvancedFrame.cpp:450
 msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
@@ -481,7 +481,7 @@ msgstr "%s - Wybór języka"
 #: clientgui/AdvancedFrame.cpp:1433
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr "Domyslny język dla %s został zmieniony. Aby zmiany odniosły skutek zrestartuj %s."
+msgstr "Domyślny język dla %s'a został zmieniony. Aby zmiany odniosły skutek zrestartuj %s'a."
 
 #: clientgui/AdvancedFrame.cpp:1642
 #: clientgui/DlgAbout.cpp:105
@@ -579,7 +579,7 @@ msgid ""
 "Would you like to try to connect again?"
 msgstr ""
 "%s nie może połączyć się z klientem %s.\n"
-"Czy chcesz ponownie spróbować połączenia?"
+"Czy chcesz spróbować połączyć się ponownie?"
 
 #: clientgui/BOINCBaseFrame.cpp:450
 #, c-format
@@ -593,9 +593,9 @@ msgid ""
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s nie jest obecnie podłączony do klienta %s.\n"
-"Użyj opcji 'Zaawansowane/Wybierz komputer...' z menu aby połączyć się do klienta %s.\n"
-"Aby połączyć się z komputerem lokalnym, jako nazwy komputera użyj nazwy 'localhost'."
+"%s nie jest obecnie połączony z żadnym klientem %s.\n"
+"Użyj opcji 'Zaawansowane/Wybierz komputer...' aby połączyć się z klientem %s.\n"
+"Aby połączyć się z klientem na komputerze lokalnym, jako nazwę komputera podaj 'localhost'."
 
 #: clientgui/BOINCBaseView.cpp:465
 #: clientgui/ViewProjectsGrid.cpp:559
@@ -748,7 +748,7 @@ msgstr "Otwórz %s..."
 
 #: clientgui/BOINCTaskBar.cpp:620
 msgid "Snooze"
-msgstr "Wstrzymaj"
+msgstr "Wstrzymaj aktywność na 1 godzinę"
 
 #: clientgui/CompletionErrorPage.cpp:202
 msgid "Failed to attach to project"
@@ -784,11 +784,11 @@ msgstr ""
 #: clientgui/CompletionPage.cpp:267
 #: clientgui/CompletionPage.cpp:316
 msgid "Click Finish to close."
-msgstr "Nacisnij 'Zakończ' aby zamknąć."
+msgstr "Nacisnij 'Zakończ' aby zamknąć to okno."
 
 #: clientgui/CompletionErrorPage.cpp:240
 msgid "Messages from server:"
-msgstr "Wiadomości z serwera:"
+msgstr "Wiadomości przesłane przez serwer projektu:"
 
 #: clientgui/CompletionPage.cpp:207
 msgid "Attached to project"
@@ -875,13 +875,13 @@ msgstr ""
 "Polska wersja językowa:\n"
 "Marek Czerwonka (marekz@irc.pl)\n"
 "\n"
-"Wersja: 1.40 (5.9.03)"
+"Wersja: 1.40 (5.9.04)"
 
 #: clientgui/DlgAbout.cpp:172
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr ""
 "Berkeley Open Infrastructure for Network Computing\n"
-"Otwarta Platforma Obliczeń Rozproszonych BOINC"
+"  Otwarta Platforma Obliczeń Rozproszonych BOINC"
 
 #: clientgui/DlgAbout.cpp:176
 msgid "A system for volunteer computing"
@@ -1098,7 +1098,7 @@ msgstr "Użycie dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:471
 msgid "Gigabytes disk space"
-msgstr " GB przestrzeni dysku"
+msgstr "GB przestrzeni dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:474
 msgid "leave at least"
@@ -1367,7 +1367,7 @@ msgstr "Przeczytaj FAQ projektu Einstein@Home"
 
 #: clientgui/Localization.cpp:67
 msgid "Screensaver info"
-msgstr "Informacje o wygaszaczu ekranu"
+msgstr "Informacje o wygaszaczu"
 
 #: clientgui/Localization.cpp:69
 msgid "Read a detailed description of the Einstein@Home screensaver"
@@ -1379,7 +1379,7 @@ msgstr "Porozmawiaj z innymi uczestnikami projektu Einstein@Home"
 
 #: clientgui/Localization.cpp:75
 msgid "Einstein status"
-msgstr "Status projektu Einstein@Home"
+msgstr "Status Einstein@Home"
 
 #: clientgui/Localization.cpp:77
 msgid "Current status of the Einstein@Home server"
@@ -1898,7 +1898,7 @@ msgstr "Przetwarzaj dane podczas zasilania z baterii."
 
 #: clientgui/sg_DlgPreferences.cpp:437
 msgid "Do work after idle for:"
-msgstr "Przetwarzaj dane przy bezczynności przez"
+msgstr "Przetwarzaj dane przy bezczynności przez:"
 
 #: clientgui/sg_DlgPreferences.cpp:670
 #: clientgui/sg_DlgPreferences.cpp:673
@@ -2326,7 +2326,7 @@ msgstr "Otwieranie okna przeglądarki..."
 #: clientgui/ViewWork.cpp:505
 #: clientgui/ViewWorkGrid.cpp:376
 msgid "Resume"
-msgstr "Wznów projekt"
+msgstr "Wznów"
 
 #: clientgui/ViewProjects.cpp:564
 #: clientgui/ViewProjectsGrid.cpp:488
@@ -2471,7 +2471,7 @@ msgstr "Rodzaj widoku"
 
 #: clientgui/ViewStatistics.cpp:1649
 msgid "All projects"
-msgstr "Wszystkie projekty"
+msgstr "Wszystkie projekty (osobno)"
 
 #: clientgui/ViewStatistics.cpp:1650
 msgid "Show all projects, one chart per project"
@@ -2487,7 +2487,7 @@ msgstr "Pokazuje wykres dla wybranego projektu."
 
 #: clientgui/ViewStatistics.cpp:1663
 msgid "All projects(sum)"
-msgstr "Wszystkie projekty (jeden wykres)"
+msgstr "Wszystkie projekty (łącznie)"
 
 #: clientgui/ViewStatistics.cpp:1664
 msgid "Show one chart with all projects"
@@ -2549,7 +2549,7 @@ msgstr "Rozmiar"
 #: clientgui/ViewTransfers.cpp:121
 #: clientgui/ViewTransfersGrid.cpp:129
 msgid "Elapsed Time"
-msgstr "Pozostało"
+msgstr "Czas trwania"
 
 #: clientgui/ViewTransfers.cpp:122
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -2628,12 +2628,12 @@ msgstr "Pobieranie"
 #: clientgui/ViewTransfers.cpp:534
 #: clientgui/ViewTransfersGrid.cpp:420
 msgid "Upload pending"
-msgstr "Rozpoczynanie odsyłania"
+msgstr "Kolejka odsyłania"
 
 #: clientgui/ViewTransfers.cpp:534
 #: clientgui/ViewTransfersGrid.cpp:420
 msgid "Download pending"
-msgstr "Rozpoczynanie pobierania"
+msgstr "Kolejka pobierania"
 
 #: clientgui/ViewWork.cpp:107
 #: clientgui/ViewWorkGrid.cpp:108
@@ -2777,7 +2777,7 @@ msgstr " - brak dostatecznej ilości przestrzeni na dysku"
 #: clientgui/ViewWork.cpp:780
 #: clientgui/ViewWorkGrid.cpp:697
 msgid "Waiting for memory"
-msgstr "Oczekujący na dostęp do pamięci"
+msgstr "Brak dostępnej pamięci RAM"
 
 #: clientgui/ViewWork.cpp:782
 #: clientgui/ViewWorkGrid.cpp:699
