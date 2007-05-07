@@ -4477,3 +4477,12 @@ David  6 May 2007
 
     py/Boinc/
         setup_project.py
+
+Charlie 7 May 2007 (HEAD)
+    - Bump version to 5.9.9 for release with multi-platform fix.
+    - Tag for 5.9.9 release, all platforms
+      boinc_core_release_5_9_9
+    
+    client/
+        version.h
+
