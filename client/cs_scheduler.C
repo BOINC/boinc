@@ -667,9 +667,9 @@ int CLIENT_STATE::handle_scheduler_reply(
                 msg_printf(project, MSG_INTERNAL_ERROR,
                     "App version has unsupported platform %s", avp->platform
                 );
+                delete avp;
+                continue;
             }
-            delete avp;
-            continue;
         }
         app_versions.push_back(avp);
     }

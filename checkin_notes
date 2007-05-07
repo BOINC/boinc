@@ -4493,3 +4493,8 @@ Janus	7 May 2007
     /html/inc/
         stats_sites.inc
 
+David  7 May 2007
+	- core client: fix bug in code to ignore unknown platforms.
+
+	client/
+		cs_scheduler.C
