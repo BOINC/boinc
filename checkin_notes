@@ -4418,10 +4418,10 @@ David  4 May 2007
         sim.C,h
 
 David  4 May 2007
-	- Oops!  Small mistake in multi-platform changes.
+    - Oops!  Small mistake in multi-platform changes.
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
 
 David  4 May 2007
     - Server status page: fix bug that showed most daemons as not running
@@ -4446,24 +4446,24 @@ Charlie 6 May 2007
         cs_platforms.C
 
 David  6 May 2007
-	- core client: another multi-platform fix (missing \n)
+    - core client: another multi-platform fix (missing \n)
 
-	client/
-		client_types.C
+    client/
+        client_types.C
 
 David  6 May 2007
-	- core client: when parsing statefile or scheduler reply,
-		if get an app_version with unknown platform name, ignore it.
-		This means that, e.g. if someone moves a BOINC directory
-		from Intel to PowerPC Mac, things will still work right.
+    - core client: when parsing statefile or scheduler reply,
+        if get an app_version with unknown platform name, ignore it.
+        This means that, e.g. if someone moves a BOINC directory
+        from Intel to PowerPC Mac, things will still work right.
 
-	client/
-		client_state.C,h
-		cs_platforms.C
-		cs_scheduler.C
-		cs_statefile.C
+    client/
+        client_state.C,h
+        cs_platforms.C
+        cs_scheduler.C
+        cs_statefile.C
 
-Janus	6 May 2007
+Janus    6 May 2007
     - Removed some old debug code and changed a bogus error message to a more
       sane one.
 
@@ -4486,7 +4486,7 @@ Charlie 7 May 2007 (HEAD)
     client/
         version.h
 
-Janus	7 May 2007
+Janus    7 May 2007
     - Removed BOINC.dk from stats sites as it is in the process of shutting down
       several of its services.
       
@@ -4494,10 +4494,10 @@ Janus	7 May 2007
         stats_sites.inc
 
 David  7 May 2007
-	- core client: fix bug in code to ignore unknown platforms.
+    - core client: fix bug in code to ignore unknown platforms.
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
 
 Rom    7 May 2007
     - fixes# 162: Fix the Windows setup to install the CRT as a private assembly
@@ -4507,3 +4507,5 @@ Rom    7 May 2007
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
+
+David  7 May 2007

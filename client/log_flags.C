@@ -216,6 +216,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
         else if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
         else if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
+        else if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
         else {
             msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag

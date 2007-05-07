@@ -559,7 +559,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
     for (i=1; i<platforms.size(); i++) {
-        f.printf("<alt_platform>%s</alt_platform>\n", platforms[i]->name.c_str());
+        f.printf("<alt_platform>%s</alt_platform>\n", platforms[i].name.c_str());
     }
     proxy_info.write(f);
     if (strlen(main_host_venue)) {

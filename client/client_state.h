@@ -64,7 +64,7 @@ using std::vector;
 //
 class CLIENT_STATE {
 public:
-    vector<PLATFORM*> platforms;
+    vector<PLATFORM> platforms;
     vector<PROJECT*> projects;
     vector<APP*> apps;
     vector<FILE_INFO*> file_infos;

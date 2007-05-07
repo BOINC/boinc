@@ -90,6 +90,7 @@ struct CONFIG {
     bool suppress_net_info;
     bool disallow_attach;
     bool os_random_only;
+    bool no_alt_platform;
 
     CONFIG();
     void defaults();

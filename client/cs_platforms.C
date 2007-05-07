@@ -34,6 +34,7 @@
 #include "client_types.h"
 #include "client_state.h"
 #include "error_numbers.h"
+#include "log_flags.h"
 #include "str_util.h"
 #include "util.h"
 
@@ -41,15 +42,15 @@
 // return the primary platform id.
 //
 const char* CLIENT_STATE::get_primary_platform() {
-    return platforms[0]->name.c_str();
+    return platforms[0].name.c_str();
 }
 
 
 // add a platform to the vector.
 //
 void CLIENT_STATE::add_platform(const char* platform) {
-    PLATFORM* pp = new PLATFORM;
-    pp->name = platform;
+    PLATFORM pp;
+    pp.name = platform;
     platforms.push_back(pp);
 }
 
@@ -92,6 +93,11 @@ void CLIENT_STATE::detect_platforms() {
 
 #endif
 
+    if (config.no_alt_platform) {
+        PLATFORM p = platforms[0];
+        platforms.clear();
+        platforms.push_back(p);
+    }
 }
 
 
@@ -105,20 +111,20 @@ void CLIENT_STATE::write_platforms(PROJECT* p, MIOFILE& mf) {
     );
 
     for (unsigned int i=1; i<platforms.size(); i++) {
-        PLATFORM* platform = platforms[i];
+        PLATFORM& platform = platforms[i];
         mf.printf(
             "    <alt_platform>\n"
             "        <name>%s</name>\n"
             "    </alt_platform>\n",
-            platform->name.c_str()
+            platform.name.c_str()
         );
     }
 }
 
 bool CLIENT_STATE::is_supported_platform(const char* p) {
     for (unsigned int i=0; i<platforms.size(); i++) {
-        PLATFORM* platform = platforms[i];
-        if (!strcmp(p, platform->name.c_str())) {
+        PLATFORM& platform = platforms[i];
+        if (!strcmp(p, platform.name.c_str())) {
             return true;
         }
     }
