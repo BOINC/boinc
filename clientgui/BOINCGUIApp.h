@@ -76,6 +76,7 @@ protected:
 #endif
 
     bool                m_bBOINCStartedByManager;
+    wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCArguments;
 
     int                 m_iDisplayExitWarning;

@@ -77,6 +77,7 @@ bool CBOINCGUIApp::OnInit() {
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
     m_strBOINCArguments = wxEmptyString;
+    m_strBOINCMGRRootDirectory = wxEmptyString;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -141,6 +142,9 @@ bool CBOINCGUIApp::OnInit() {
         szPath[pszProg - szPath + 1] = 0;
         SetCurrentDirectory(szPath);
     }
+
+    // Store the root directory for later use.
+    m_strBOINCMGRRootDirectory = szPath;
 
 #endif
 
@@ -238,8 +242,14 @@ bool CBOINCGUIApp::OnInit() {
 
     wxInt32 iSelectedLanguage = m_pConfig->Read(wxT("Language"), 0L);
 
-    // Locale information is stored relative to the executable.
+    // Look for the localization files by absolute and relative locations.
+    //   preference given to the absolute location.
     m_pLocale->Init(iSelectedLanguage);
+    if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
+        m_pLocale->AddCatalogLookupPathPrefix(
+            wxString(m_strBOINCMGRRootDirectory + wxT("locale")).c_str()
+        );
+    }
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
     m_pLocale->AddCatalog(wxT("BOINC Manager"));
 

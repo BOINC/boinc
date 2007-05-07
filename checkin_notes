@@ -4524,4 +4524,15 @@ Rom    7 May 2007
     clientgui/
         sg_ImageLoader.cpp
         sg_ProjectsComponent.cpp, .h
-        
+
+Rom    7 May 2007
+    - fixes #4 - BOINC Manager should be able to find it's 
+      localization files.
+      
+      BOINCMgr will now check in the absolute path in which
+      it was installed as well as the relative path from where
+      it was executed from.
+      
+
+    clientgui/
+        BOINCGUIApp.cpp, .h
