@@ -247,7 +247,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale->Init(iSelectedLanguage);
     if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
         m_pLocale->AddCatalogLookupPathPrefix(
-            wxString(m_strBOINCMGRRootDirectory + wxT("locale")).c_str()
+            wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
         );
     }
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
