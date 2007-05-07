@@ -190,9 +190,9 @@ void CProjectsComponent::CreateComponent()
 	btnAlertMessages->Show(false);
 
     //spacer
-	wxWindow *w_sp1 = new wxWindow(this,-1,wxPoint(83,91),wxSize(2,11));
-    i_spacer = new ImageLoader(w_sp1);
-    i_spacer->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
+	w_sp1 = new wxWindow(this,-1,wxPoint(83,91),wxSize(2,11));
+    i_spacer1 = new ImageLoader(w_sp1);
+    i_spacer1->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
 
     // pause btn
 	wxToolTip *ttPause = new wxToolTip(_("Stop all activity"));
@@ -219,9 +219,9 @@ void CProjectsComponent::CreateComponent()
 	btnResume->SetToolTip(ttResume);
 
 	//spacer
-	wxWindow *w_sp2 = new wxWindow(this,-1,wxPoint(144,91),wxSize(2,11));
-    i_spacer = new ImageLoader(w_sp2);
-    i_spacer->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
+	w_sp2 = new wxWindow(this,-1,wxPoint(144,91),wxSize(2,11));
+    i_spacer2 = new ImageLoader(w_sp2);
+    i_spacer2->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
 
     // Pref Btn
 	wxToolTip *ttPreferences = new wxToolTip(_("Open a window to set your preferences"));
@@ -236,9 +236,9 @@ void CProjectsComponent::CreateComponent()
 	btnPreferences->SetToolTip(ttPreferences);
 
     //spacer
-	wxWindow *w_sp3 = new wxWindow(this,-1,wxPoint(230,91),wxSize(2,11));
-    i_spacer = new ImageLoader(w_sp3);
-    i_spacer->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
+	w_sp3 = new wxWindow(this,-1,wxPoint(230,91),wxSize(2,11));
+    i_spacer3 = new ImageLoader(w_sp3);
+    i_spacer3->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
 
     // Advanced View
 	wxToolTip *ttAdvView = new wxToolTip(_("Switch to the BOINC advanced view"));
@@ -572,6 +572,11 @@ void CProjectsComponent::ReskinInterface()
     //set line colors
     lnMyProjTop->SetLineColor(pSkinSimple->GetStaticLineColor());
 	lnMyProjBtm->SetLineColor(pSkinSimple->GetStaticLineColor());
+
+    // spacers
+    i_spacer1->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
+    i_spacer2->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
+    i_spacer2->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
 
 	// Rebuild stat menus and reload icons
 	for(int m = 0; m < (int)m_statProjects.size(); m++){

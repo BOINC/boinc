@@ -48,7 +48,9 @@ public:
 	CTransparentStaticLine *lnMyProjBtm;
 	// default icon
 	// spacer
-	ImageLoader *i_spacer;
+	ImageLoader *i_spacer1;
+	ImageLoader *i_spacer2;
+	ImageLoader *i_spacer3;
 
 	wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
@@ -60,6 +62,9 @@ public:
 	wxBitmapButton *btnResume;
 	wxBitmapButton *btnPreferences;
 	wxBitmapButton *btnAdvancedView;
+    wxWindow       *w_sp1;
+    wxWindow       *w_sp2;
+    wxWindow       *w_sp3;
 	
     CProjectsComponent();
     CProjectsComponent(CSimplePanel* parent,wxPoint coord);

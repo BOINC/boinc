@@ -4509,3 +4509,19 @@ Rom    7 May 2007
         BOINCx64.ism
 
 David  7 May 2007
+    - core client: add <no_alt_platform> config option;
+        eliminates use of alternate platforms.
+
+    client/
+        client_state.h
+        cs_platforms.C
+        cs_statefile.C
+        log_flags.C,h
+
+Rom    7 May 2007
+    - fixes #110 - Simple GUI: "spacer" image is not updated
+    
+    clientgui/
+        sg_ImageLoader.cpp
+        sg_ProjectsComponent.cpp, .h
+        
