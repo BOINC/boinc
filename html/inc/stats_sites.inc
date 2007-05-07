@@ -57,10 +57,6 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
-    array("http://www.boinc.dk/index.php?page=statistics",
-        "BOINC.dk",
-        "developed by Janus Kristensen (email: stats at boinc.dk)."
-    ),
     //array("http://stats.boincbzh.net/BZHwds/index.php",
     //    "BOINC Alliance Francophone",
     //    "developed by Vincent Mary (email: stats at hoincbzh.net).
@@ -100,10 +96,6 @@ $sig_sites = array(
     array("http://boinc.mundayweb.com/",
         "http://boinc.mundayweb.com",
         "user-configurable stats counters. Cool!"
-    ),
-    array("http://www.boinc.dk/index.php?page=signatures",
-        "http://www.boinc.dk/index.php?page=signatures",
-        ""
     ),
     array("http://www.bigbee.be/comp/boinc/signature.php?id=9",
         "http://www.bigbee.be/comp/boinc/signature.php",
