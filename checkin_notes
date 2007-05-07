@@ -4469,3 +4469,11 @@ Janus	6 May 2007
 
     html/inc/
         translation.inc
+
+David  6 May 2007
+    - make_project: create <log_dir> element in config.xml
+        (so that show_logs.php will work).
+        Fixes #170
+
+    py/Boinc/
+        setup_project.py

@@ -1,6 +1,21 @@
 <?
 
 $project_news = array(
+array("May 6, 2007",
+    "An excellent article on BOINC and the projects using it
+    appeared today in the Catalan newspaper AVUI.
+    It is available in PDF (pages
+    <a href=http://media.avui.cat/pdf/07/0506/070506diari034.pdf>one</a>
+    and <a href=http://media.avui.cat/pdf/07/0506/070506diari035.pdf>two</a>)
+    and also as a <a href=http://paper.avui.cat/article/societat/73609/computacio/ciutadana.html>web page</a>.
+    Thanks to Dr. Jordi Portell i de Mora for telling us about it."
+),
+array("May 6, 2007",
+    "<a href=http://www.boincstats.com/>BOINCstats and BAM!</a>
+    are now available in 15 languages.
+    As of today, they are now viewable in Swedish
+    (<a href= http://se.boincstats.com> http://se.boincstats.com</a>)."
+),
 array("May 3, 2007",
     "The source code behind <a href=http://boinc.netsoft-online.com/>BOINC Combined Stats</a> is now <a href=trac/wiki/CreditStats#Codeexamples>available via Subversion</a>.  This may be helpful for other statistics site developers."
 ),

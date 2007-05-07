@@ -407,6 +407,7 @@ class Project:
         config.upload_dir    = os.path.join(self.project_dir , 'upload')
         config.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
         config.app_dir       = os.path.join(self.project_dir, 'apps')
+        config.log_dir       = self.project_dir+'log_'+config.host
         if production:
             config.min_sendwork_interval = 6
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
