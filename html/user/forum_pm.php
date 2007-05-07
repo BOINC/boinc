@@ -1,5 +1,5 @@
 <?php
-$cvs_version_tracker[]="\$Id: util.inc,v 1.119 2007/03/14 18:05:28 mattl Exp $";
+$cvs_version_tracker[]="\$Id: forum_pm.php,v 1.119 2007/03/14 18:05:28 Rytis Exp $";
 
 require_once("../inc/forum.inc");
 require_once("../inc/forum_std.inc");
@@ -48,9 +48,9 @@ if ($action == "inbox") {
         $message = mysql_fetch_object($message);
         page_head("Private messages : ".$message->subject);
         pm_header();
-
+        
         $options = new output_options;
-
+        
         start_table();
         echo "<tr><th>Subject</th><td>".$message->subject."</td></tr>";
         echo "<tr><th>Sender</th><td>".user_links(get_user_from_id($message->senderid))."</td></tr>";
@@ -61,7 +61,7 @@ if ($action == "inbox") {
         echo " | <a href=\"forum_pm.php?action=new&replyto=$id\">Reply</a>\n";
         echo " | <a href=\"forum_pm.php?action=inbox\">Inbox</a>\n";
         end_table();
-
+        
         if ($message->opened == 0) {
             mysql_query("UPDATE private_messages SET opened=1 WHERE id=$id");
         }
@@ -102,9 +102,9 @@ if ($action == "inbox") {
 } elseif ($action == "send") {
     check_tokens($logged_in_user->authenticator);
 
-    $to = post_str("to", true);
-    $subject = post_str("subject", true);
-    $content = post_str("content", true);
+    $to = stripslashes(post_str("to", true));
+    $subject = stripslashes(post_str("subject", true));
+    $content = stripslashes(post_str("content", true));
 
     if (($to == null) || ($subject == null) || ($content == null)) {
         pm_create_new("You need to fill all fields to send a private message");
@@ -115,7 +115,7 @@ if ($action == "inbox") {
         
         $userlist = array();
         $userids = array(); // To prevent from spamming a single user by adding it multiple times
-
+        
         foreach ($users as $username) {
             $user = explode(" ", $username);
             if (is_numeric($user[0])) { // user ID is gived
@@ -142,7 +142,7 @@ if ($action == "inbox") {
                 $userids[$user->id] = true;
             }
         }
-
+        
         foreach ($userlist as $user) {
             pm_send($user, $subject, $content);
         }
@@ -168,8 +168,7 @@ function pm_create_new($error = null) {
     global $logged_in_user;
     $replyto = get_int("replyto", true);
     $userid = get_int("userid", true);
-
-
+    
     if ($replyto) {
         $message = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$replyto");
         if ($message) {
@@ -196,6 +195,8 @@ function pm_create_new($error = null) {
         $content = post_str("content", true);
     }
     
+    $subject = htmlspecialchars($subject);
+    
     if ($error != null) {
         echo "<div class=\"error\">$error</div>\n";
     }
@@ -220,8 +221,8 @@ function pm_send($to, $subject, $content) {
     global $logged_in_user;
     $userid = $to->id;
     $senderid = $logged_in_user->id;
-    $sql_subject = mysql_escape_string($subject);
-    $sql_content = mysql_escape_string($content);
+    $sql_subject = mysql_real_escape_string($subject);
+    $sql_content = mysql_real_escape_string($content);
     mysql_query("INSERT INTO private_messages (userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if ($to->send_email == 1) { // Send email notification
         $message  = "Dear ".$to->name.",\n\n";
