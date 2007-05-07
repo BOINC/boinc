@@ -4486,3 +4486,10 @@ Charlie 7 May 2007 (HEAD)
     client/
         version.h
 
+Janus	7 May 2007
+    - Removed BOINC.dk from stats sites as it is in the process of shutting down
+      several of its services.
+      
+    /html/inc/
+        stats_sites.inc
+
