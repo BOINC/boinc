@@ -229,9 +229,6 @@ int CLIENT_STATE::parse_state_file() {
             } 
             retval = link_app_version(project, avp);
             if (retval) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Can't handle application version in state file"
-                );
                 delete avp;
                 continue;
             }

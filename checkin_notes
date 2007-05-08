@@ -4577,3 +4577,9 @@ Janus	8 May 2007
     html/bt/inc/ (new)
         belement.inc (new)
 
+David  8 May 2007
+	- core client: improve error message when can't link app version
+
+	client/
+		client_state.C
+		cs_statefile.C

@@ -655,7 +655,13 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     }
     avp->app = app;
 
-    if (lookup_app_version(app, avp->platform, avp->version_num)) return ERR_NOT_UNIQUE;
+    if (lookup_app_version(app, avp->platform, avp->version_num)) {
+        msg_printf(p, MSG_INTERNAL_ERROR,
+            "State file error: duplicate app version: %s %s %d",
+            avp->app_name, avp->platform, avp->version_num
+        );
+        return ERR_NOT_UNIQUE;
+    }
 
     for (i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
