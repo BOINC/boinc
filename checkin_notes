@@ -4564,3 +4564,16 @@ Rom    7 May 2007
     client/
         configure.ac
         version.h
+
+Janus	8 May 2007
+    - Initial checkin of a tiny part of the serverside Bittorrent file 
+      distribution code. Everything BT-related will reside in /html/bt and
+      will be disabled by default.
+    - Id property set on belement.inc
+    
+    html/bt/ (new)
+        README (new)
+	INSTALL (new)
+    html/bt/inc/ (new)
+        belement.inc (new)
+
