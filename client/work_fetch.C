@@ -761,7 +761,8 @@ double ACTIVE_TASK::est_cpu_time_to_completion() {
     if (fraction_done <= 0) return wu_est;
     double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
     double fraction_left = 1-fraction_done;
-    return fraction_done*frac_est + fraction_left*fraction_left*wu_est;
+    double x = fraction_done*frac_est + fraction_left*fraction_left*wu_est;
+    return x;
 }
 
 // trigger work fetch

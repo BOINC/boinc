@@ -4536,3 +4536,23 @@ Rom    7 May 2007
 
     clientgui/
         BOINCGUIApp.cpp, .h
+
+David  7 May 2007
+    - client simulator:
+        - Add --server_uses_workload option
+            (simulate server that does EDF simulation)
+        - Add simulation of exponential backoff when don't get work.
+            Otherwise it will keep asking forever.
+        - move non-interesting stuff to sim_util.C
+    - change simulator code to use ' instead of " in compiled translations
+
+    client/
+        makefile_sim
+        sim_util.C
+        sim.C,h
+        work_fetch.C
+    html/inc/
+        translation.inc
+    sched/
+        edf_sim.C
+        edf_sim.h (new)

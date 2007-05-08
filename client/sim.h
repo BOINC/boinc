@@ -3,6 +3,7 @@
 #include "app.h"
 #include "time_stats.h"
 #include "client_types.h"
+#include "../sched/edf_sim.h"
 
 using std::vector;
 
@@ -101,6 +102,7 @@ public:
     PROJECT_RESULTS project_results;
     void print_results(FILE*, SIM_RESULTS&);
     void init();
+    void backoff();
 };
 
 class SIM_HOST: public HOST_INFO {
@@ -240,6 +242,9 @@ public:
     void compute_nuploading_results();
 
 //////////////////
+    void make_job(SIM_PROJECT*, WORKUNIT*, RESULT*);
+    void handle_completed_results();
+    void get_workload(vector<IP_RESULT>&);
     int parse_projects(char*);
     int parse_host(char*);
     void simulate();
@@ -255,3 +260,10 @@ public:
 
 extern CLIENT_STATE gstate;
 extern NET_STATUS net_status;
+extern FILE* logfile;
+extern bool user_active;
+extern SIM_RESULTS sim_results;
+extern double calculate_exponential_backoff(
+    int n, double MIN, double MAX
+);
+

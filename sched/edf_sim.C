@@ -20,33 +20,20 @@
 #include <vector>
 #include <algorithm>
 
+#include "edf_sim.h"
+
 using std::vector;
 
+//#define TEST
+#ifdef TEST
 #define INFO0 printf
 #define INFO1 printf
 #define INFO2 printf
-
-struct IP_RESULT {
-    char name[256];
-    double computation_deadline;
-    double report_deadline;
-    double cpu_time_remaining;
-    //int parse(FILE*);
-    bool misses_deadline;
-        // Whether or not the result would have missed its deadline,
-        // independent of any newly scheduled result
-        // Used to determine if late results will complete even later
-    double estimated_completion_time;
-
-    IP_RESULT(const char* n, double d, double c) {
-        strcpy(name, n);
-        report_deadline = d;
-        computation_deadline = d;
-        cpu_time_remaining = c;
-        misses_deadline = false;
-        estimated_completion_time = 0;
-    }
-};
+#else
+#define INFO0 //
+#define INFO1 //
+#define INFO2 //
+#endif
 
 bool lessthan_deadline(const IP_RESULT& p1, const IP_RESULT& p2) {
     if (p1.computation_deadline < p2.computation_deadline) return true;
@@ -250,6 +237,7 @@ bool check_candidate (
     return true;
 }
 
+#ifdef TEST
 int main() {
     vector<IP_RESULT> ip_results;
     double work_buf_min = 0;
@@ -273,3 +261,4 @@ int main() {
         ip_results.push_back(c2);
     }
 }
+#endif
