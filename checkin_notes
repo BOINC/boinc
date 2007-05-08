@@ -4583,3 +4583,20 @@ David  8 May 2007
 	client/
 		client_state.C
 		cs_statefile.C
+
+David  8 May 2007
+    - GUI RPC: add new element d_boinc to DISK_USAGE;
+        tells how much disk space BOINC is using
+        (not including projects).
+    - added project.max_infeasible_count to client simulator
+
+    client/
+        gui_rpc_server_ops.C
+        sim.C,h
+        sim_util.C
+    clientgui/
+        ViewResources.cpp
+    lib/
+        filesys.C
+        bui_rpc_client.h
+        bui_rpc_client_ops.C

@@ -97,6 +97,7 @@ public:
     double idle_time;
     double idle_time_sumsq;
     bool idle;
+    int max_infeasible_count;
 
     int parse(XML_PARSER&);
     PROJECT_RESULTS project_results;

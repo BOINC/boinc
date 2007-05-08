@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("May 8, 2007",
+    "As of about May 1, BOINC projects have had
+    <a href=http://boinc.berkeley.edu/dev/forum_thread.php?id=1777>over one million volunteers</a>."
+),
 array("May 6, 2007",
     "An excellent article on BOINC and the projects using it
     appeared today in the Catalan newspaper AVUI.

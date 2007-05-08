@@ -147,6 +147,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     SIM_PROJECT* p = (SIM_PROJECT*) _p;
     static double last_time=0;
     vector<IP_RESULT> ip_results;
+    int infeasible_count = 0;
 
     double diff = now - last_time;
     if (diff && diff < host_info.connection_interval) {
@@ -178,7 +179,10 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
             } else {
                 delete rp;
                 delete wup;
-                break;
+                if (++infeasible_count > p->max_infeasible_count) {
+                    p->min_rpc_time = now + 1;
+                    break;
+                }
             }
         }
 
@@ -189,7 +193,6 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
             rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
         );
         html_msg += buf;
-        printf("%s\n", buf);
         work_left -= p->duration_correction_factor*wup->rsc_fpops_est/host_info.p_fpops;
     }
 
@@ -525,7 +528,13 @@ void parse_error(char* file, int retval) {
 }
 
 void help(char* prog) {
-    fprintf(stderr, "usage: %s [--duration X] [--delta X] [--dirs ...]\n", prog);
+    fprintf(stderr, "usage: %s\n"
+        "[--duration X]\n"
+        "[--delta X]\n"
+        "[--server_uses_workload]\n"
+        "[--dirs ...]\n",
+        prog
+    );
     exit(1);
 }
 

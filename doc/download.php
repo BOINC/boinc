@@ -160,7 +160,8 @@ page_head(tr(DL_DOWNLOAD_TITLE));
 if ($_GET['all_platforms']) {
     show_download(null);
 } else if (strstr($client_info, 'Windows')) {
-    if (strstr($client_info, 'Win64')||strstr($client_info, 'WOW64')) {
+    //if (strstr($client_info, 'Win64')||strstr($client_info, 'WOW64')) {
+    if (0) {
         show_download('winx64');
     } else {
         show_download('win');

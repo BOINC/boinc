@@ -461,6 +461,7 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
     bool is_tag;
     int retval;
 
+    max_infeasible_count = 0;
     while(!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) return ERR_XML_PARSE;
         if (!strcmp(tag, "/project")) return 0;
@@ -475,6 +476,8 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
             retval = available.parse(xp, "/available");
             if (retval) return retval;
         } else if (xp.parse_double(tag, "resource_share", resource_share)) {
+            continue;
+        } else if (xp.parse_int(tag, "max_infeasible_count", max_infeasible_count)) {
             continue;
         } else {
             printf("unrecognized: %s\n", tag);

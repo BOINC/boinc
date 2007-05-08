@@ -16,6 +16,7 @@ $spoken_languages = array(
     'Chinese, Wu',
     'Chinese, Xiang',
     'Chinese, Yue (Cantonese)',
+    'Czech',
     'Dutch',
     'English',
     'French',

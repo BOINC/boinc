@@ -223,6 +223,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	part.SetColour(wxColour(238,238,238));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
+    boinctotal += pDoc->disk_usage.d_boinc;
 	FormatDiskSpace(boinctotal,diskspace);		
 	part.SetLabel(_("used by BOINC - ") + diskspace);
 	part.SetValue(boinctotal);
