@@ -4556,3 +4556,11 @@ David  7 May 2007
     sched/
         edf_sim.C
         edf_sim.h (new)
+
+Rom    7 May 2007
+    - Tag for 5.9.10 release, all platforms
+      boinc_core_release_5_9_10
+    
+    client/
+        configure.ac
+        version.h
