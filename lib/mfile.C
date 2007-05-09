@@ -57,7 +57,7 @@ int MFILE::open(const char* path, const char* mode) {
     return 0;
 }
 
-#define BUFSIZE 200000
+#define BUFSIZE 100000
 
 int MFILE::vprintf(const char* format, va_list ap) {
     char buf2[BUFSIZE];

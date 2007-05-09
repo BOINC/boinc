@@ -1,6 +1,45 @@
 <?
 
 $project_news = array(
+array("May 8, 2007",
+    "As of about May 1, BOINC projects have had
+    <a href=http://boinc.berkeley.edu/dev/forum_thread.php?id=1777>over one million volunteers</a>."
+),
+array("May 6, 2007",
+    "An excellent article on BOINC and the projects using it
+    appeared today in the Catalan newspaper AVUI.
+    It is available in PDF (pages
+    <a href=http://media.avui.cat/pdf/07/0506/070506diari034.pdf>one</a>
+    and <a href=http://media.avui.cat/pdf/07/0506/070506diari035.pdf>two</a>)
+    and also as a <a href=http://paper.avui.cat/article/societat/73609/computacio/ciutadana.html>web page</a>.
+    Thanks to Dr. Jordi Portell i de Mora for telling us about it."
+),
+array("May 6, 2007",
+    "<a href=http://www.boincstats.com/>BOINCstats and BAM!</a>
+    are now available in 15 languages.
+    As of today, they are now viewable in Swedish
+    (<a href= http://se.boincstats.com> http://se.boincstats.com</a>)."
+),
+array("May 3, 2007",
+    "The source code behind <a href=http://boinc.netsoft-online.com/>BOINC Combined Stats</a> is now <a href=trac/wiki/CreditStats#Codeexamples>available via Subversion</a>.  This may be helpful for other statistics site developers."
+),
+array("April 24, 2007",
+    "<a href=http://www.gridrepublic.org/>GridRepublic</a> announces
+    a significant upgrade to their web site, including improved
+    registration workflow and better integration with IBM World Community Grid
+    (including WCG sub-project registration)."
+),
+array("April 23, 2007",
+    "Krystof Dolezal's
+    <a href=http://www.kd-web.info/clanky.php>Flash-based BOINC tutorials</a>
+    are now available in English and Slovak,
+    as well as Czech."
+),
+array("April 23, 2007",
+    "BOINCstats and BAM! are now available in the Czech language
+    (<a href=http://cz.boincstats.com>http://cz.boincstats.com</a>).
+    Thanks to Zelvuska for the translation."
+),
 array("April 17, 2007",
     "<a href=http://desktopgrid.hu/>Desktopgrid.hu</a>
     has been created by the Computer and Automation Research Institute

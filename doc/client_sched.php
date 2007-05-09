@@ -1,10 +1,10 @@
 <?php
 require_once("docutil.php");
-page_head("Client scheduling policies");
+page_head("Client scheduling policies (version 4)");
 echo "
 
 This document describes two interrelated scheduling policies
-in the BOINC client:
+in version 4.x of the BOINC client:
 
 <ul>
 <li> <b>CPU scheduling policy</b>: what result to run when.

@@ -817,6 +817,9 @@ void DISK_USAGE::clear() {
         delete projects[i];
     }
     projects.clear();
+    d_free = 0;
+    d_total = 0;
+    d_boinc = 0;
 }
 
 RESULTS::~RESULTS() {
@@ -1454,6 +1457,7 @@ int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
             }
             else if (parse_double(buf, "<d_total>", du.d_total)) continue;
             else if (parse_double(buf, "<d_free>", du.d_free)) continue;
+            else if (parse_double(buf, "<d_boinc>", du.d_boinc)) continue;
         }
     }
     return retval;

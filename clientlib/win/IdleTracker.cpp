@@ -15,6 +15,7 @@
  **/
 
 #include "stdafx.h"
+#include "boinc_dll.h"
 #include "win_util.h"
 
 
@@ -154,7 +155,7 @@ BOOL IdleTrackerStartup()
             g_hHkKeyboard = SetWindowsHookEx( 
                 WH_KEYBOARD, 
                 KeyboardTracker, 
-                _AtlBaseModule.GetModuleInstance(),
+                g_hModule,
                 0
             );
 	    }
@@ -163,7 +164,7 @@ BOOL IdleTrackerStartup()
 		    g_hHkMouse = SetWindowsHookEx( 
                 WH_MOUSE, 
                 MouseTracker, 
-                _AtlBaseModule.GetModuleInstance(),
+                g_hModule,
                 0
             );
 	    }

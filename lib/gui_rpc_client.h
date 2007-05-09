@@ -350,6 +350,7 @@ struct DISK_USAGE {
     std::vector<PROJECT*> projects;
     double d_total;
     double d_free;
+    double d_boinc;     // amount used by BOINC itself, not projects
 
     DISK_USAGE(){}
     ~DISK_USAGE();

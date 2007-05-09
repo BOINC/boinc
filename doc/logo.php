@@ -62,7 +62,7 @@ $logos = array(
         <img src=logos/markus/Logo2/MarkusBoinc.jpg>
         <br>... and <a href=logos/markus>various others</a>"
     ),
-    array("<a href=http://www.boincproject.org/>Invisible Design</a>",
+    array("Invisible Design",
         "<img src=logos/logo.boinc.240x80-01.jpg>
         ... and <a href=logos/>many variants</a> in different sizes and colors,
         and for specific countries."

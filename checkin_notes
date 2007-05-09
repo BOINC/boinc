@@ -3323,14 +3323,14 @@ David  9 Apr 2007
         util.C
 
 David  9 Apr 2007
-	- bug fix in simulator (possibly core client too):
-		in handle_finished_apps(),
-		do the vector erase directly instead of calling remove()
-		(which could cause you to skip one task)
+    - bug fix in simulator (possibly core client too):
+        in handle_finished_apps(),
+        do the vector erase directly instead of calling remove()
+        (which could cause you to skip one task)
 
-	client/
-		app.C,h
-		cs_apps.C
+    client/
+        app.C,h
+        cs_apps.C
 
 David  9 Apr 2007
     - update netsoft URL
@@ -3865,12 +3865,12 @@ David  20 Apr 2007
         str_util.C,h
 
 David  20 Apr 2007
-	- Advanced prefs: remove incorrect multiplication by 86400
+    - Advanced prefs: remove incorrect multiplication by 86400
 
-	client/
-		cs_prefs.C
-	clientgui/
-		DlgAdvPreferences.cpp
+    client/
+        cs_prefs.C
+    clientgui/
+        DlgAdvPreferences.cpp
 
 Rom    20 Apr 2007
     - Fix: Win x64's alternate platform is really windows_intelx86
@@ -3914,3 +3914,689 @@ David  23 Apr 2007
     tools/
         make_project
         uc_wu, uc_result (new)
+
+Rom    23 Apr 2007
+    - fixes #120 - Rebuild all 32-bit Windows dependencies using
+        VS 2005 so tht they all depend on the new CRT runtime. Make
+        sure all dependencies include an application manifest.
+    - WIN: Rebuild libcurl for x64 and include an application
+        manifest so that it can find MSVCR80 when executing.
+        
+    curl/
+        <multiple files>
+    openssl/
+        <multiple files>
+    zlib/
+        <multiple files>
+
+David  23 Apr 2007
+    - client: fix bug where client is unresponsive if
+        there are unresolvable names in remote_hosts.cfg file
+
+    client/
+        gui_rpc_server.C,h
+
+Rom    24 Apr 2007
+    - fixes #121 - Both 32-bit and 64-bit BOINC Windows Installation
+        packages require bootstrap loader.
+
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+
+Rom    24 Apr 2007
+    - fixes #122 - Windows benhcmark differences between VS 2003 and 
+        VS 2005.
+      
+      The default FP model has changed since 2003, so change how the
+        BOINC components are compiled so that they use /fp:fast instead
+        of /fp:precise.
+    
+    win_build/
+        *.vcproj
+
+David  24 Apr 2007
+    - Server: add new database field host.error_rate.
+        Stores a dynamic estimate of the fraction of the hosts's
+        results that fail validation (updated by the validator).
+
+    client/
+        sim.C
+        cs_prefs.C
+    db/
+        boinc_db.C,h
+    html/ops/
+        db_update.php
+    sched/
+        handle_request.C
+        sched_msgs.h
+        validator.C
+
+Eric K 24 Apr 07
+    -  Exteded the "altername_platform" mechanism to x86_64 linux
+       and solaris.  The current alternate platforms found by configure
+       are...
+     x86_64-pc-linux-gnu    -> i686-pc-linux-gnu
+     sparc64-sun-solaris    -> sparc-sun-solaris
+     sparc-sun-solaris      -> sparc-sun-solaris2.7
+     powerpc64-apple-darwin -> powerpc-apple-darwin
+    -  The alternate platform can be overridden on the configure command line
+         --with-boinc-alt-platform="platformname"
+
+    m4/
+        boinc_platform.m4
+    sched/
+        Makefile.am
+    client/
+        client_state.C
+        cs_scheduler.C
+        client_state.h
+
+David  25 Apr 2007
+    - eliminate spurious "work fetch too big" message
+
+    client/
+        work_fetch.C
+
+David  25 Apr 2007
+    - fixes #126 - generate cronjob file in make_project
+
+    tools/
+        make_project
+
+Rom    26 Apr 2007
+    - fixes #86 - 5.9.3 won't install on Win98
+        Make sure that the custom actions that use NT
+        specific APIs are only executed on NT based systems.
+        
+    win_build/installerv2
+        BOINC.ism
+        BOINCx64.ism
+
+Rom    26 Apr 2007
+    - fixes #10 - Remove dependency on ATL framework for 
+      boinc.dll on Windows
+      
+      With this checkin, the BOINC client should now be able
+      to be built with Visual Studio Express.
+      
+    clientgui/
+        BOINCGUIApp.cpp, .h
+    clientlib/win/
+        boinc_dll.cpp, .h
+        boinc_dll.rc
+        boincclient.rgs (deleted)
+        boincsens.rgs (deleted)
+        BOINCSENSSink.cpp, .h (deleted)
+        IdleTracker.cpp
+        NetworkTracker.cpp, .h (deleted)
+        SENSLogonSubscriptions.h (deleted)
+        SENSNetworkSubscriptions.h (deleted)
+        SENSOnNowSubscriptions.h (deleted)
+        SENSSubscriptions.h (deleted)
+        stdafx.h
+        
+David  26 Apr 2007
+    - server: fix bug that causes PHP scripts not to run from Cron
+        Fixes #129.  From Christian Beer.
+
+    html/ops/
+        update_profile_pages.php
+    tools/
+        run_in_ops
+
+David  26 Apr 2007
+    - core client: set config settings to default values before
+        parsing cc_config.xml.
+        Otherwise, if you have a lot of log flags set,
+        and tell the client to reread a config file that
+        doesn't specify ANY log flags,
+        you'll end up with all the flags still set.
+        (from Sebastian Masch)
+    - make_project: add cmdline args for update_stats in initial config
+
+    tools/
+        make_project
+    client/
+        log_flags.C,h
+
+Charlie 27 Apr 2007
+    - Mac: Update build instructions.  Mark old mac_build.php page as 
+        deprecated and add link to new wiki page.
+
+    doc/
+        mac_build.php
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+
+David  27 Apr 2007
+    - bug in language_select.php made 'auto' not work,
+        i.e. its impossible to return to browser settings
+        after doing a cookie-based language choice
+    - translation.inc and language_select.php were using $HTTP_SERVER_VARS,
+        which appears to be deprecated in PHP 5.
+        Use $_SERVER instead.
+    - made strings at top of web site translatable
+
+    html/
+        inc/
+            translation.inc
+        user/
+            language_select.php
+    languages/translations/
+        en.po
+
+David  27 Apr 2007
+    - Major rewrite of email-sending programs.
+        Instead of editing their source (ugh!)
+        you can now use command-line args to get testing functionality.
+
+    html/ops/
+        remind.php
+        mass_email_script.php
+
+Rytis  29 Apr 2007
+    - Private message functionality for the forums.
+        NOTE: needs database update.
+
+    html/
+        user/
+            forum_forum.php
+            forum_help_desk.php
+            forum_index.php
+            forum_pm.php (new)
+            white.css
+            img/
+                pm.png (new)
+        
+        inc/
+            db.inc
+            forum.inc
+            forum_user.inc
+            user.inc
+        
+        ops/
+            db_update.php
+            
+    db/schema.sql
+
+David  30 Apr 2007
+    - UOTD code: don't generate a static page; add uotd.php
+
+    html/
+        ops/
+            update_uotd.php
+        inc/
+            uotd.inc
+        user/
+            uotd.php (new)
+
+Rom    30 Apr 2007 (HEAD)
+    - Tag for 5.9.5 release, all platforms
+      boinc_core_release_5_9_5
+
+David  30 Apr 2007
+    - scheduler: added (correct this time!) support for
+        <alt_platform> tags in scheduler requests.
+    - file_deleter: add check for -dont_delete_batches
+
+    sched/
+        file_deleter.C
+        handle_request.C
+        sched_array.C,h
+        sched_locality.C,h
+        sched_resend.C,h
+        sched_send.C,h
+        server_types.h
+
+David  30 Apr 2007
+    - core client: if platform is different from platform in state file,
+        print a message but don't reset projects
+        (otherwise people running on 64-bit machines would lost
+        in-progress jobs when switching to 64-bit client)
+
+    client/
+        client_state.C
+
+David  30 Apr 2007
+    - scheduler: un-comment-out code to send abort_if_result_not_started
+        messages
+
+    sched/
+        handle_request.C
+
+David  1 May 2007
+    - make_project and upgrade now write a file 'local.revision'
+        in the project home directory.
+        It contains the output of /usr/bin/svnversion,
+        i.e. the code revision from which the server software was built.
+    - Web files that create directories now give them g+rwx permissions
+        
+    html/inc/
+        cache.inc
+        translation.inc
+    sched/
+        edf_sim.C
+    tools/
+        make_project
+        upgrade
+
+Rom    30 Apr 2007 (HEAD)
+    - Tag for 5.9.6 release, all platforms
+      boinc_core_release_5_9_6
+
+Charlie 2 May 2007
+    - Mac: Revert to wxMac-2.8.0 due to bugs in later versions.
+    - Mac: Update XCode project, build scripts and build instructions to use 
+        wxMac-2.8.0.  Tag these changes for 5.9.6 release.
+
+    mac_build/
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
+
+Rom    2 May 2007
+    - fixes #154: 
+        * refactored the alternate platform mechinism so that we
+          can support multiple alternate platforms.
+        * moved everything to cs_platforms.C since we expect the
+          kind of sprawl that is in host_info.C on the *nix
+          environments.
+    - Clean up some warnings
+          
+    client/
+        acct_setup.C
+        client_state.C, .h
+        client_types.h
+        cs_platforms.C (Added)
+        cs_scheduler.C
+        cs_statefile.C
+        http_curl.C
+    lib/
+        str_util.h
+
+Matt    2 May 2007
+    - updated db/validator to add logic for wuhash table.
+      wuhash table (see schema.sql) has two fields, user and 
+      project-specific workunit id so that a user's contribution
+      can be tied to the appropriate workunit ID in the science
+      database (a different ID than in the BOINC database). This logic
+      is only enacted with -update_wuhash flag on command line.
+      The project-specific workunit id is expected to be found
+      in the workunit.opaque field.
+
+    db/
+        schema.sql
+        constraints.sql
+        boinc_db.C,h
+    sched/
+        validator.C
+    html/ops/
+        db_update.php
+    
+Walt   2 May 2007
+    - Add cs_platform.C to Makefile.am
+          
+    client/
+        Makefile.am
+
+David  2 May 2007
+    - Scheduler: in reply, add <platform> element to each <app_version,
+        and add <platform> and <version_num> elements to <result>
+        (server half of multi-version changes)
+    - scheduler: make ssp a global; could eliminate from args everywhere
+
+    db/
+        boinc_db.h
+    sched/
+        feeder.C
+        main.C,h
+        sched_send.C
+        sched_shmem.C,h
+        server_types.C
+
+Matt    2 May 2007
+    - per Dave's request changed "wuhash" to "credited_job" which
+      is a little more self-explanatory.
+
+    db/
+        schema.sql
+        constraints.sql
+        boinc_db.C,h
+    sched/
+        validator.C
+    html/ops/
+        db_update.php
+
+Charlie 2 May 2007
+    - Mac: Use run_program() instead of wxExecute to launch boinc CC, 
+        because under wxMac-2.8.0, wxExecute starts a separate thread 
+        to wait for child's termination. wxProcessTerminationThread uses 
+        a huge amount of CPU time (about 11% of 1 CPU on 2GHz Intel Mac). 
+    - Mac: add cs_platform.C to XCode project.
+
+    clientgui/
+        BOINCGUIApp.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Rom    3 May 2007
+    - fixes #5: Include the version number of the client next to it's
+        name, so people can see if they need to upgrade a remote client.
+    - fixes #149: Change the parsing function for the
+        CBOINCGridCellProgressRenderer so that we don't have to update
+        the docs or screenshots. Display the progress bar as a resource
+        share fraction.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGridCtrl.cpp
+        MainDocument.cpp, .h
+        ViewProjectsGrid.cpp
+
+David  3 May 2007
+    - Core client: handle multiple platforms correctly.
+        Remove the tacet assumption that a host can handle
+        applications for a single platform.
+        With the Apr 30 scheduler changes,
+        a project may (at different times)
+        send app versions for the same app and version number,
+        but different platforms.
+        Before we would have ignored all but the first;
+        now we handle them correctly.
+
+        Implementation notes:
+        - Add APP_VERSION.platform, RESULT.platform,
+            and RESULT.version_num.
+            If these are missing from an XML doc
+            (e.g. an existing state file or a scheduler reply
+            from a project not running current server)
+            then set to the primary platform.
+        - Continue to write workunit.version_num
+            and active_task.version_num to state file,
+            even though these are no longer part of the struct.
+            This allows users to revert to an older version.
+
+    client/
+        app.C
+        check_state.C
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        cs_statefile.C
+        sim.C
+
+David  3 May 2007
+    - Core client: small changes to make the client simulator act reasonably.
+        - change > to >= for check for running beyond sched period
+        - adjust debts before calculating anticipated debt
+
+    client/
+        client_types.h
+        cpu_sched.C
+        sim.C
+
+Charlie 3 May 2007
+    - Mac: Update license agreement, modify build scripts to include license 
+        agreement with bare-client releases, not only wih Manager.
+
+    mac_installer/
+        License.rtf
+        release_boinc.sh
+        release_GridRepublic.sh
+
+Rom    3 May 2007
+    - Fix build break for Unicode builds
+      ( From Frank Weiler )
+    - Win: Introduce a custom action to delete any lingering binaries from the
+        installation directory before MSI determines what needs to be copied.
+    - Win: Introduce a custom action that will migrate
+        C:\Program Files (x86)\BOINC to C:\Program Files\BOINC for the x64
+        upgrade scenario.
+    
+    clientgui/
+        BOINCGridCtrl.cpp
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        boinccas95.def
+        boinccas95.vcproj
+        CACleanupOldBinaries.cpp, .h (Added)
+        CAMigratex86x64.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    3 May 2007
+    - Include the new custom actions in the Windows Installers
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    
+Rom    3 May 2007 (HEAD)
+    - Tag for 5.9.7 release, all platforms
+      boinc_core_release_5_9_7
+
+David  4 May 2007
+    - scheduler: in send_result_abort(), distinguish between
+        the enumeration ending versus it failing.
+        This fixes a bug where lots of results would be
+        incorrectly aborted if there's a database problem.
+        This fix only matters if you use the <send_result_abort> config flag.
+        (from Kevin Reed)
+    - validator: add -credit_from_wu option.
+        This gets credit from the workunit XML
+        (which must have a <credit> flag).
+        This lets you use credit-from-WU with the standard validators
+        (sample_bitwise and sample_trivial)
+
+    sched/
+        handle_request.C
+        validator.C
+        validate_util.h
+
+David  4 May 2007
+    - API: if using graphics, set worker thread stack size limit to max
+        (from Rhiju Das of Rosetta@home)
+
+    api/
+        graphics_impl.C
+
+David  4 May 2007
+    - Sim-related stuff
+
+    sched/
+        edf_sim.C
+    client/
+        sim.C,h
+
+David  4 May 2007
+    - Oops!  Small mistake in multi-platform changes.
+
+    client/
+        cs_scheduler.C
+
+David  4 May 2007
+    - Server status page: fix bug that showed most daemons as not running
+        on FC6; needed to trim white space from pid
+    - Server status page: show server software SVN revision
+
+    html/ops/
+        sample_server_status.php
+
+Charlie 5 May 2007 (HEAD)
+    - Bump version to 5.9.8 for release with multi-platform fix.
+    - Tag for 5.9.8 release, all platforms
+      boinc_core_release_5_9_8
+    
+    client/
+        version.h
+
+Charlie 6 May 2007
+    - Mac: On Intel Macs, support PowerPC Mac as a secondary platform.
+    
+    client/
+        cs_platforms.C
+
+David  6 May 2007
+    - core client: another multi-platform fix (missing \n)
+
+    client/
+        client_types.C
+
+David  6 May 2007
+    - core client: when parsing statefile or scheduler reply,
+        if get an app_version with unknown platform name, ignore it.
+        This means that, e.g. if someone moves a BOINC directory
+        from Intel to PowerPC Mac, things will still work right.
+
+    client/
+        client_state.C,h
+        cs_platforms.C
+        cs_scheduler.C
+        cs_statefile.C
+
+Janus    6 May 2007
+    - Removed some old debug code and changed a bogus error message to a more
+      sane one.
+
+    html/inc/
+        translation.inc
+
+David  6 May 2007
+    - make_project: create <log_dir> element in config.xml
+        (so that show_logs.php will work).
+        Fixes #170
+
+    py/Boinc/
+        setup_project.py
+
+Charlie 7 May 2007 (HEAD)
+    - Bump version to 5.9.9 for release with multi-platform fix.
+    - Tag for 5.9.9 release, all platforms
+      boinc_core_release_5_9_9
+    
+    client/
+        version.h
+
+Janus    7 May 2007
+    - Removed BOINC.dk from stats sites as it is in the process of shutting down
+      several of its services.
+      
+    /html/inc/
+        stats_sites.inc
+
+David  7 May 2007
+    - core client: fix bug in code to ignore unknown platforms.
+
+    client/
+        cs_scheduler.C
+
+Rom    7 May 2007
+    - fixes# 162: Fix the Windows setup to install the CRT as a private assembly
+        so that we can avoid running into sxs problems. At some point I'll have 
+        to revisit this and figure out what is really going on.
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+
+David  7 May 2007
+    - core client: add <no_alt_platform> config option;
+        eliminates use of alternate platforms.
+
+    client/
+        client_state.h
+        cs_platforms.C
+        cs_statefile.C
+        log_flags.C,h
+
+Rom    7 May 2007
+    - fixes #110 - Simple GUI: "spacer" image is not updated
+    
+    clientgui/
+        sg_ImageLoader.cpp
+        sg_ProjectsComponent.cpp, .h
+
+Rom    7 May 2007
+    - fixes #4 - BOINC Manager should be able to find it's 
+      localization files.
+      
+      BOINCMgr will now check in the absolute path in which
+      it was installed as well as the relative path from where
+      it was executed from.
+      
+
+    clientgui/
+        BOINCGUIApp.cpp, .h
+
+David  7 May 2007
+    - client simulator:
+        - Add --server_uses_workload option
+            (simulate server that does EDF simulation)
+        - Add simulation of exponential backoff when don't get work.
+            Otherwise it will keep asking forever.
+        - move non-interesting stuff to sim_util.C
+    - change simulator code to use ' instead of " in compiled translations
+
+    client/
+        makefile_sim
+        sim_util.C
+        sim.C,h
+        work_fetch.C
+    html/inc/
+        translation.inc
+    sched/
+        edf_sim.C
+        edf_sim.h (new)
+
+Rom    7 May 2007
+    - Tag for 5.9.10 release, all platforms
+      boinc_core_release_5_9_10
+    
+    client/
+        configure.ac
+        version.h
+
+Janus	8 May 2007
+    - Initial checkin of a tiny part of the serverside Bittorrent file 
+      distribution code. Everything BT-related will reside in /html/bt and
+      will be disabled by default.
+    - Id property set on belement.inc
+    
+    html/bt/ (new)
+        README (new)
+	INSTALL (new)
+    html/bt/inc/ (new)
+        belement.inc (new)
+
+David  8 May 2007
+	- core client: improve error message when can't link app version
+
+	client/
+		client_state.C
+		cs_statefile.C
+
+David  8 May 2007
+    - GUI RPC: add new element d_boinc to DISK_USAGE;
+        tells how much disk space BOINC is using
+        (not including projects).
+    - added project.max_infeasible_count to client simulator
+
+    client/
+        gui_rpc_server_ops.C
+        sim.C,h
+        sim_util.C
+    clientgui/
+        ViewResources.cpp
+    lib/
+        filesys.C
+        bui_rpc_client.h
+        bui_rpc_client_ops.C

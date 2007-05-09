@@ -745,3 +745,9 @@ msgstr "Add-ons"
 
 msgid "HOME_SURVEY"
 msgstr "Survey"
+
+msgid "HOME_BOINC"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+msgid "HOME_BOINC_DESC"
+msgstr "Open-source software for %svolunteer computing%s and %sdesktop grid computing%s.

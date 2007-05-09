@@ -348,7 +348,7 @@ int clean_out_dir(const char* dirpath) {
 
 // return total size of files in directory and its subdirectories
 //
-int dir_size(const char* dirpath, double& size) {
+int dir_size(const char* dirpath, double& size, bool recurse) {
     char filename[256], subdir[256];
     int retval=0;
     DIRREF dirp;
@@ -362,12 +362,12 @@ int dir_size(const char* dirpath, double& size) {
         if (retval) break;
         sprintf(subdir, "%s/%s", dirpath, filename);
 
-        // We don't know if this entry is a file or a directory.
-        // dir_size() will return -1 if it's a file
-        //
-        retval = dir_size(subdir, x);
-        if (retval == 0) {
-            size += x;
+        if (is_dir(subdir)) {
+            if (recurse) {
+                retval = dir_size(subdir, x);
+                if (retval) continue;
+                size += x;
+            }
         } else {
             retval = file_size(subdir, x);
             if (retval) continue;
