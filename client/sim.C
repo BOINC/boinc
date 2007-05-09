@@ -55,8 +55,29 @@ FILE* logfile;
 bool running;
 double running_time = 0;
 bool server_uses_workload = false;
+bool dcf_dont_use;
+bool dcf_stats;
 
 SIM_RESULTS sim_results;
+
+void SIM_PROJECT::update_dcf_stats(RESULT* rp) {
+    double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
+    // algorithm from Donald Knuth reference Wikipedia.
+    ++completed_task_count;
+    double delta = raw_ratio - completions_ratio_mean;
+    completions_ratio_mean += delta / completed_task_count;
+    completions_ratio_s += delta * ( raw_ratio - completions_ratio_mean);
+    if (completed_task_count > 1) {
+        completions_ratio_stdev = completions_ratio_s / (completed_task_count - 1);
+        double required_stdev = (raw_ratio - completions_ratio_mean) / completions_ratio_stdev;
+        if (required_stdev > completions_required_stdevs) {
+            completions_required_stdevs = std::min(required_stdev, 7.0);
+        }
+    }
+    duration_correction_factor = completions_ratio_mean + 
+        completions_required_stdevs * completions_ratio_stdev;
+    return;
+}
 
 // generate a job; pick a random app,
 // and pick a FLOP count from its distribution
@@ -571,6 +592,10 @@ int main(int argc, char** argv) {
             }
         } else if (!strcmp(opt, "--server_uses_workload")) {
             server_uses_workload = true;
+        } else if (!strcmp(opt, "--dcf_dont_use")) {
+            dcf_dont_use = true;
+        } else if (!strcmp(opt, "--dcf_stats")) {
+            dcf_stats = true;
         } else {
             help(argv[0]);
         }

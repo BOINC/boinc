@@ -1474,6 +1474,16 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
+#ifdef SIM
+	if (dcf_dont_use) {
+		duration_correction_factor = 1.0;
+		return;
+	}
+	if (dcf_stats) {
+		((SIM_PROJECT*)this)->update_dcf_stats(rp);
+        return;
+	}
+#endif
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
     double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
 	double old_dcf = duration_correction_factor;

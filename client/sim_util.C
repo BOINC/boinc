@@ -157,8 +157,14 @@ void SIM_PROJECT::init() {
     rr_sim_deadlines_missed = 0;
     deadlines_missed = 0;
 
+    // sim-specific:
     idle_time = 0;
     idle_time_sumsq = 0;
+    completed_task_count = 0;
+    completions_ratio_mean = 0.0;
+    completions_ratio_s = 0.0;
+    completions_ratio_stdev = 0.1;  // for the first couple of completions - guess.
+    completions_required_stdevs = 3.0;
 }
 
 void RESULT::clear() {

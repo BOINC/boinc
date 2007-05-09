@@ -98,12 +98,19 @@ public:
     double idle_time_sumsq;
     bool idle;
     int max_infeasible_count;
+    // for DCF variants:
+    int completed_task_count;
+    double completions_ratio_mean;
+    double completions_ratio_s;
+    double completions_ratio_stdev;
+    double completions_required_stdevs;
 
     int parse(XML_PARSER&);
     PROJECT_RESULTS project_results;
     void print_results(FILE*, SIM_RESULTS&);
     void init();
     void backoff();
+    void update_dcf_stats(RESULT*);
 };
 
 class SIM_HOST: public HOST_INFO {
@@ -268,3 +275,5 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
+extern bool dcf_dont_use;
+extern bool dcf_stats;

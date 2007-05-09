@@ -4639,3 +4639,13 @@ Charlie 9 May 2007
         ViewResources.cpp
         common/
             wxPieCtrl.cpp
+
+David  8 May 2007
+    - Client simulator: added --dcf_dont_use and --dcf_stats options
+        (alternate ways of computing DCF)
+
+    client/
+        cpu_sched.C
+        sim.C,h
+        sim_util.C
+
