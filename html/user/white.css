@@ -177,9 +177,11 @@ blockquote {
     font-style: oblique
 } 
 
-#thread table {
+#thread {
     width: 100%;
     table-layout: fixed;
+    overflow:overflow;
+    word-wrap:break-word;           
 }
 
 .sigdelim {
