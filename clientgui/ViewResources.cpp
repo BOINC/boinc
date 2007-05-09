@@ -168,6 +168,16 @@ bool CViewResources::OnRestoreState(wxConfigBase* /*pConfig*/) {
 }
 
 void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
+#ifdef __WXMAC__
+    // Refresh only on every 10th call to reduce CPU overhead
+    // But refresh once per second the first 3 times to work around a bug drawing the legends
+    static int passCounter = -3;
+    if (++passCounter > 0) {
+        if (passCounter < 10)
+            return;
+        passCounter = 0;
+    }
+#endif
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString diskspace;
 	double boinctotal=0.0;
