@@ -97,13 +97,39 @@ void wxPieCtrlLegend::SetBackColour(wxColour colour)
 
 void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 {
-	wxPaintDC pdc(this);
-
 	int w,h;
-	GetSize(&w,&h);
-	wxBitmap bmp(w,h);
-	wxMemoryDC mdc;
-	mdc.SelectObject(bmp);
+	unsigned int i;
+	wxPieCtrl * parent = (wxPieCtrl *)GetParent();
+
+	if (parent->m_Series.Count() == 0)
+		return;
+
+	// First determine the desired size of the legend box
+	wxBitmap testbmp(10, 10);
+	wxMemoryDC testmdc(testbmp);
+	int dy(m_VerBorder),tw,th,titlew,titleh;
+ 	testmdc.SetFont(m_TitleFont);
+	testmdc.GetTextExtent(m_szTitle,&titlew,&titleh);
+	dy += (titleh+5);
+	testmdc.SetFont(m_LabelFont);
+	int maxwidth(titlew + 2*m_HorBorder + 15);
+	for(i = 0; i < parent->m_Series.Count(); i++)
+	{
+		testmdc.GetTextExtent(parent->m_Series[i].GetLabel(), &tw, &th);
+		dy += (th+3);
+		maxwidth = max(maxwidth, (int)(2*m_HorBorder+tw+15));
+	}
+	dy += m_VerBorder;
+	if(w != maxwidth || h != dy) {
+		SetSize(maxwidth, dy);
+		w = maxwidth;
+		h = dy;
+	}
+
+	// Now create the legend box
+	wxBitmap bmp(w, h);
+	wxMemoryDC mdc(bmp);
+
 	if(IsTransparent())
 	{
 		wxClientDC parentdc(GetParent());
@@ -114,19 +140,17 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 		mdc.SetBackground(wxBrush(m_BackColour));
 		mdc.Clear();
 	}
-	wxPieCtrl * parent = (wxPieCtrl *)GetParent();
-	unsigned int i;
-	int dy(m_VerBorder),tw,th,titlew,titleh;
-	//draw legend title
+
+	// Draw legend title
 	mdc.SetFont(m_TitleFont);
 	mdc.SetTextForeground(m_TitleColour);
-	mdc.GetTextExtent(m_szTitle,&titlew,&titleh);
 	mdc.DrawText(m_szTitle,m_HorBorder+2,m_VerBorder+2);
-	dy += (titleh+5);
-	//draw legend items
+
+	// Draw legend items
+	dy = m_VerBorder+titleh+5;
 	mdc.SetFont(m_LabelFont);
 	mdc.SetTextForeground(m_LabelColour);
-	int maxwidth(titlew + 2*m_HorBorder + 15);
+
 	for(i = 0; i < parent->m_Series.Count(); i++)
 	{
 		mdc.GetTextExtent(parent->m_Series[i].GetLabel(), &tw, &th);
@@ -134,25 +158,23 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 		mdc.DrawCircle(m_HorBorder+5, dy+th/2, 5);
 		mdc.DrawText(parent->m_Series[i].GetLabel(), m_HorBorder+15, dy);
 		dy += (th+3);
-		maxwidth = max(maxwidth, (int)(2*m_HorBorder+tw+15));
 	}
-	dy += m_VerBorder;
-	if(w != maxwidth || h != dy) SetSize(maxwidth, dy);
 
-    // SetWindowStyle borders distort the pie circle on Mac so we draw our own
-    int x, y;
-    wxPen savedPen = mdc.GetPen();
+	// SetWindowStyle borders distort the pie circle on Mac so we draw our own
+	int x, y;
+	wxPen savedPen = mdc.GetPen();
 	GetSize(&x,&y);
-    x--;
-    y--;
-    mdc.SetPen(*wxGREY_PEN);
-	mdc.DrawLine(0,0,x,0);      // top
-	mdc.DrawLine(0,y,0,0);      // left
-    mdc.SetPen(*wxWHITE_PEN);
-	mdc.DrawLine(0,y,x,y);      // bottom
-	mdc.DrawLine(x,0,x,y);      // right
-    mdc.SetPen(savedPen);
+	x--;
+	y--;
+	mdc.SetPen(*wxGREY_PEN);
+	mdc.DrawLine(0,0,x,0);	  // top
+	mdc.DrawLine(0,y,0,0);	  // left
+	mdc.SetPen(*wxWHITE_PEN);
+	mdc.DrawLine(0,y,x,y);	  // bottom
+	mdc.DrawLine(x,0,x,y);	  // right
+	mdc.SetPen(savedPen);
 
+	wxPaintDC pdc(this);
 	pdc.Blit(0,0,w,h,&mdc,0,0);
 }
 
@@ -205,8 +227,8 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 	SetSizer(NULL);
 	SetSize(sz);
 	m_CanvasBitmap.Create(1,1);
-	RecreateCanvas();
 	m_Legend = new wxPieCtrlLegend(this, _("Pie Ctrl"), wxPoint(10,10), wxSize(100,75));
+	RecreateCanvas();
 }
 
 /* getter and setter */
@@ -297,14 +319,15 @@ int wxPieCtrl::GetCoveredPiePart(int x,int y) {
 
 void wxPieCtrl::RecreateCanvas()
 {
-    int x = GetSize().GetWidth();
-    int y = GetSize().GetHeight();
+	int x = GetSize().GetWidth();
+	int y = GetSize().GetHeight();
 //#ifdef __WXMAC__
-    if ((x < 1) || (y < 1))
-        return;
+	if ((x < 1) || (y < 1))
+		return;
 //#endif
  	m_CanvasBitmap.Create(x, y);
    	m_CanvasDC.SelectObject(m_CanvasBitmap);
+	m_Legend->SetSize(x, y);
 }
 
 void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)

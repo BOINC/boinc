@@ -4624,3 +4624,18 @@ Janus	9 May 2007
     html/bt/inc/
         bdictionary.php
 
+Charlie 9 May 2007
+    - Finally fixed a long-standing bug which caused the PieCtrl legend to 
+        be clipped to a small rectangle when first drawn on Macs.  If the 
+        legend changed so it required more space, this bug would also clip 
+        to the former size the first time it was updated.  This problem 
+        did not occur on Windows.
+        NOTE: I currently can't build on Windows or Linux, so please verify 
+        that my modified code works OK on those platforms. 
+    - Mac: removed the hack which refreshed once a second the first 3 times 
+        to work around this bug.
+        
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp
