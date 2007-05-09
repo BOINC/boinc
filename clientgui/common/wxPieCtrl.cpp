@@ -120,11 +120,8 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 		maxwidth = max(maxwidth, (int)(2*m_HorBorder+tw+15));
 	}
 	dy += m_VerBorder;
-	if(w != maxwidth || h != dy) {
-		SetSize(maxwidth, dy);
-		w = maxwidth;
-		h = dy;
-	}
+        w = maxwidth;
+        h = dy;
 
 	// Now create the legend box
 	wxBitmap bmp(w, h);
