@@ -4564,3 +4564,12 @@ Rom    7 May 2007
     client/
         configure.ac
         version.h
+
+Charlie 8 May 2007
+    - Mac: Refresh Disk Usage pane only on every 10th call to reduce 
+        CPU overhead, but refresh once per second the first 3 times 
+        to work around a bug drawing the legends. (Included in 5.9.10 
+        Mac release, added to boinc_core_release_5_9_10 tag.)
+
+    clientgui/
+        ViewResources.cpp
