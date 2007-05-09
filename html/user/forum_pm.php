@@ -1,5 +1,5 @@
 <?php
-$cvs_version_tracker[]="\$Id: forum_pm.php,v 1.119 2007/03/14 18:05:28 Rytis Exp $";
+$cvs_version_tracker[]="\$Id$";
 
 require_once("../inc/forum.inc");
 require_once("../inc/forum_std.inc");

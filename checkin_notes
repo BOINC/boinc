@@ -4657,3 +4657,12 @@ David  9 May 2007
     sched/
         sched_send.C
         server_types.h
+
+Rytis   9 May 2007
+    - Update BBCode to allow easy linking to Trac tickets, wiki and changesets.
+        
+    html/
+        user/
+            bbcode.php
+        inc/
+            text_transform.inc
