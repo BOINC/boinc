@@ -111,12 +111,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <authenticator>%s</authenticator>\n"
         "    <hostid>%d</hostid>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
-        "    <platform_name>%s</platform_name>\n"
-#ifdef _WIN64
-        "    <alt_platform>\n"
-		"        <name>%s</name>\n"
-		"    </alt_platform>\n"
-#endif
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <core_client_release>%d</core_client_release>\n"
@@ -129,10 +123,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
-        p->anonymous_platform?"anonymous":platform_name,
-#ifdef _WIN64
-		alt_platform_name,
-#endif
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
@@ -653,8 +643,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
     for (i=0; i<sr.app_versions.size(); i++) {
-        APP* app = lookup_app(project, sr.app_versions[i].app_name);
-        APP_VERSION* avp = lookup_app_version(app, sr.app_versions[i].version_num);
+        APP_VERSION& avpp = sr.app_versions[i];
+        APP* app = lookup_app(project, avpp.app_name);
+        APP_VERSION* avp = lookup_app_version(app, avpp.platform, avpp.version_num);
         if (avp) {
             // if we had download failures, clear them
             //
@@ -672,6 +663,17 @@ int CLIENT_STATE::handle_scheduler_reply(
              delete avp;
              continue;
         }
+        if (strlen(avp->platform) == 0) {
+            strcpy(avp->platform, get_primary_platform());
+        } else {
+            if (!is_supported_platform(avp->platform)) {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "App version has unsupported platform %s", avp->platform
+                );
+                delete avp;
+                continue;
+            }
+        }
         app_versions.push_back(avp);
     }
     for (i=0; i<sr.workunits.size(); i++) {
@@ -679,16 +681,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         WORKUNIT* wup = new WORKUNIT;
         *wup = sr.workunits[i];
         wup->project = project;
-        int vnum = choose_version_num(wup, sr);
-        if (vnum < 0) {
-            msg_printf(project, MSG_INTERNAL_ERROR,
-                "Can't find application version for task %s", wup->name
-            );
-            delete wup;
-            continue;
-        }
-
-        wup->version_num = vnum;
         retval = link_workunit(project, wup);
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -717,6 +709,20 @@ int CLIENT_STATE::handle_scheduler_reply(
             delete rp;
             continue;
         }
+        if (strlen(rp->platform) == 0) {
+            strcpy(rp->platform, get_primary_platform());
+            rp->version_num = latest_version(rp->wup->app, rp->platform);
+        }
+        rp->avp = lookup_app_version(rp->wup->app, rp->platform, rp->version_num);
+        if (!rp->avp) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "No app version for result: %s %d",
+                rp->platform, rp->version_num
+            );
+            delete rp;
+            continue;
+        }
+        rp->wup->version_num = rp->version_num;
         results.push_back(rp);
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");
         nresults++;

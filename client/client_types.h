@@ -410,6 +410,7 @@ struct APP {
 struct APP_VERSION {
     char app_name[256];
     int version_num;
+    char platform[256];
     APP* app;
     PROJECT* project;
     std::vector<FILE_REF> app_files;
@@ -426,14 +427,13 @@ struct WORKUNIT {
     char name[256];
     char app_name[256];
     int version_num;
-        // This isn't sent from the server.
-        // Instead, the client picks the latest app version
+        // Deprecated, but need to keep around to let people revert
+        // to versions before multi-platform support
     std::string command_line;
     //char env_vars[256];         // environment vars in URL format
     std::vector<FILE_REF> input_files;
     PROJECT* project;
     APP* app;
-    APP_VERSION* avp;
     int ref_cnt;
     double rsc_fpops_est;
     double rsc_fpops_bound;
@@ -451,6 +451,9 @@ struct RESULT {
     char name[256];
     char wu_name[256];
     double report_deadline;
+    int version_num;        // identifies the app used
+    char platform[256];
+    APP_VERSION* avp;
     std::vector<FILE_REF> output_files;
     bool ready_to_report;
         // we're ready to report this result to the server;
@@ -557,6 +560,13 @@ public:
     int get_perm();
     int get_current();
 	double delay();
+};
+
+// a platform supported by the client.
+//
+class PLATFORM {
+public:
+    std::string name;
 };
 
 #endif

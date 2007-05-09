@@ -3,6 +3,7 @@
 #include "app.h"
 #include "time_stats.h"
 #include "client_types.h"
+#include "../sched/edf_sim.h"
 
 using std::vector;
 
@@ -34,7 +35,8 @@ struct SIM_RESULTS {
     void print(FILE* f, const char* title=0);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);
-    SIM_RESULTS();
+    void divide(int);
+    void clear();
 };
 
 struct PROJECT_RESULTS {
@@ -92,16 +94,16 @@ public:
     RANDOM_PROCESS available;
     int index;
     int result_index;
-    int nidle_periods;
-    double idle_period_duration;
-    double idle_period_sumsq;
+    double idle_time;
+    double idle_time_sumsq;
     bool idle;
-	int max_infeasible_count;
+    int max_infeasible_count;
 
     int parse(XML_PARSER&);
     PROJECT_RESULTS project_results;
     void print_results(FILE*, SIM_RESULTS&);
     void init();
+    void backoff();
 };
 
 class SIM_HOST: public HOST_INFO {
@@ -112,7 +114,6 @@ public:
         // min time between network connections
     int parse(XML_PARSER&);
 };
-
 
 class CLIENT_STATE {
 public:
@@ -241,20 +242,17 @@ public:
     void generate_new_host_cpid();
     void compute_nuploading_results();
 
-	void calculate_shortfalls();
 //////////////////
+    void make_job(SIM_PROJECT*, WORKUNIT*, RESULT*);
+    void handle_completed_results();
+    void get_workload(vector<IP_RESULT>&);
     int parse_projects(char*);
     int parse_host(char*);
     void simulate();
     bool scheduler_rpc_poll();
     bool simulate_rpc(PROJECT*);
     void print_project_results(FILE*);
-	bool task_deadline_before_connect(SIM_APP *ap);
-	bool task_makes_work_later(RESULT *rp);
 };
-
-inline bool results_by_deadline(RESULT * r1, RESULT *r2) {return r1->report_deadline > r2->report_deadline;};
-inline bool results_longest_first(RESULT *r1, RESULT *r2) {return r1->estimated_cpu_time(true) < r2->estimated_cpu_time(true);};
 
 class NET_STATUS {
 public:
@@ -263,3 +261,10 @@ public:
 
 extern CLIENT_STATE gstate;
 extern NET_STATUS net_status;
+extern FILE* logfile;
+extern bool user_active;
+extern SIM_RESULTS sim_results;
+extern double calculate_exponential_backoff(
+    int n, double MIN, double MAX
+);
+

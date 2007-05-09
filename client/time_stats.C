@@ -300,8 +300,6 @@ void TIME_STATS::log_append(const char* msg, double t) {
 #ifndef SIM
     if (!time_stats_log) return;
     fprintf(time_stats_log, "%f %s\n", t, msg);
-	fflush(time_stats_log);  // the trace is in an undeterminate state if a crash occurs 
-							// without this line.
 #endif
 }
 

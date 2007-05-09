@@ -226,7 +226,7 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
     PROJECT* project = rp->project;
     int retval;
 
-    avp = wup->avp;
+    avp = rp->avp;
     for (i=0; i<avp->app_files.size(); i++) {
         fr = avp->app_files[i];
         fip = fr.file_info;
@@ -261,29 +261,17 @@ double CLIENT_STATE::get_fraction_done(RESULT* result) {
     return atp ? force_fraction(atp->fraction_done) : 0.0;
 }
 
-// Decide which app version to use for a WU.
-// Return -1 if can't find one
+// Find latest version of app for given platform
+// or -1 if can't find one
 //
-int CLIENT_STATE::choose_version_num(WORKUNIT* wup, SCHEDULER_REPLY& sr) {
+int CLIENT_STATE::latest_version(APP* app, char* platform) {
     unsigned int i;
     int best = -1;
-    APP_VERSION* avp;
 
-    // First look in the scheduler reply
-    //
-    for (i=0; i<sr.app_versions.size(); i++) {
-        avp = &sr.app_versions[i];
-        if (!strcmp(wup->app_name, avp->app_name)) {
-            return avp->version_num;
-        }
-    }
-
-    // If not there, use the latest one in our state
-    //
     for (i=0; i<app_versions.size(); i++) {
-        avp = app_versions[i];
-        if (avp->project != wup->project) continue;
-        if (strcmp(avp->app_name, wup->app_name)) continue;
+        APP_VERSION* avp = app_versions[i];
+        if (avp->app != app) continue;
+        if (strcmp(platform, avp->platform)) continue;
         if (avp->version_num < best) continue;
         best = avp->version_num;
     }

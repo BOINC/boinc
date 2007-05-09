@@ -75,6 +75,7 @@ struct LOG_FLAGS {
     bool checkpoint_debug;
 
     LOG_FLAGS();
+    void defaults();
     int parse(XML_PARSER&);
     void show();
 };
@@ -89,6 +90,7 @@ struct CONFIG {
     bool suppress_net_info;
     bool disallow_attach;
     bool os_random_only;
+    bool no_alt_platform;
 
 		// experimental stuff
 	bool experimental_server_deadlines;
@@ -99,6 +101,7 @@ struct CONFIG {
 	bool experimental_dual_dcf;  // requires stats_based_dcf to work.
 
     CONFIG();
+    void defaults();
     int parse(FILE*);
     int parse_options(XML_PARSER&);
 };
