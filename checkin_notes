@@ -4616,6 +4616,7 @@ Janus	9 May 2007
       particular post.
       If you use a different css stylesheet than white.css you should copy over the
       #thread part.
+      Thanks to Lee Carre for pointing out the issue and possible solution.
     - Added BEncoded dictionaries to the Bittorrent checkin.
 
     html/user/
