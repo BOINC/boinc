@@ -308,3 +308,11 @@ David  26 Apr 2007
 
     wrapper/
         wrapper.C
+
+Rom    9 May 2007
+    - Update Windows build files so that the advanced features of
+        Visual Studio can be supported, like building multiple binaries
+        at a time.
+
+    win_build/
+        *.vcproj
