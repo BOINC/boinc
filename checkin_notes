@@ -4609,3 +4609,17 @@ Charlie 8 May 2007
 
     clientgui/
         ViewResources.cpp
+
+Janus	9 May 2007
+    - Fixed an issue where long unbreakable post content could break the layout
+      of the forum for an entire thread. Now this only breaks the layout for that
+      particular post.
+      If you use a different css stylesheet than white.css you should copy over the
+      #thread part.
+    - Added BEncoded dictionaries to the Bittorrent checkin.
+
+    html/user/
+        white.css
+    html/bt/inc/
+        bdictionary.php
+
