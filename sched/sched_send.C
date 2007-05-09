@@ -173,8 +173,6 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
         x1 = x2 = x3 = 0;
     }
 
-
-    //if (true) {
     if (x < 0) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
@@ -264,7 +262,6 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 	while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
         APP_INFO ai;
         ai.appid = temp_int;
-        ai.work_available=0;
         reply.wreq.host_info.preferred_apps.push_back(ai);
 
 		pos = str.find("<app_id>", pos) + 1;
@@ -278,93 +275,54 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     double expavg_time = reply.host.expavg_time;
     double avg_turnaround = reply.host.avg_turnaround;
     update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
+    double credit_scale, turnaround_scale;
     if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux")
     ) {
-        if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit || config.reliable_min_avg_credit == 0)
-            && (avg_turnaround < config.reliable_max_avg_turnaround || config.reliable_max_avg_turnaround == 0)
-        ){
-            reply.wreq.host_info.reliable = true;
-            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
-                reply.host.id, reply.host.os_name, expavg_credit,
-                avg_turnaround/3600
-            );
-        }
+        credit_scale = 1;
+        turnaround_scale = 1;
     } else {
-        if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit*.75 || config.reliable_min_avg_credit == 0)
-            && (avg_turnaround < config.reliable_max_avg_turnaround*1.25 || config.reliable_max_avg_turnaround == 0)
-        ){
-            reply.wreq.host_info.reliable = true;
-            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
-                reply.host.id, reply.host.os_name, expavg_credit,
-                avg_turnaround/3600
-            );
-        }
+        credit_scale = .75;
+        turnaround_scale = 1.25;
+    }
+
+    if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit*credit_scale || config.reliable_min_avg_credit == 0)
+            && (avg_turnaround < config.reliable_max_avg_turnaround*turnaround_scale || config.reliable_max_avg_turnaround == 0)
+    ){
+        reply.wreq.host_info.reliable = true;
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
+            reply.host.id, reply.host.os_name, expavg_credit,
+            avg_turnaround/3600
+        );
     }
 	return 0;
 }
 
-int find_preferred_app_index(SCHEDULER_REPLY& reply, int appid) {
-    int result = -1;
+// Check to see if the user has set application preferences.
+// If they have, then only send work for the allowed applications
+//
+static inline void check_app_filter(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
     unsigned int i;
+
+    if (reply.wreq.host_info.preferred_apps.size() == 0) return;
+    bool app_allowed = false;
     for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
-        if (reply.wreq.host_info.preferred_apps[i].appid == appid ) {
-            result = (int)i;
+        if (wu.appid==reply.wreq.host_info.preferred_apps[i].appid) {
+            app_allowed = true;
             break;
         }
     }
-    return result;
+    if (!app_allowed && !reply.wreq.beta_only) {
+        reply.wreq.no_allowed_apps_available = true;
+        reason |= INFEASIBLE_APP_SETTING;
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "[USER#%d] [WU#%d] workunit infeasible because user doesn't want work for this application\n",
+            reply.user.id, wu.id
+        );
+    }
 }
 
-// if the WU can't be executed on the host, return a bitmap of reasons why.
-// Reasons include:
-// 1) the host doesn't have enough memory;
-// 2) the host doesn't have enough disk space;
-// 3) based on CPU speed, resource share and estimated delay,
-//    the host probably won't get the result done within the delay bound
-// 4) app isn't in user's "approved apps" list
-//
-// NOTE: This is a "fast" check; no DB access allowed.
-// In particular it doesn't enforce the one-result-per-user-per-wu rule
-//
-int wu_is_infeasible(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
-) {
-    int reason = 0;
-    unsigned int i;
-    
-    // Check to see if the user has set application preferences.
-    // If they have then only send work for the allowed applications
-    // TODO: call find_allowed_apps() only once, not once for each WU!!
-    //
-    bool app_allowed = false;
-    if (reply.wreq.host_info.preferred_apps.size() > 0) {
-        for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                "Scanning preferred apps. index=%d, appid=%d, work_avail=%d\n",
-                i, reply.wreq.host_info.preferred_apps[i].appid,
-                reply.wreq.host_info.preferred_apps[i].work_available
-            );
-            if (wu.appid==reply.wreq.host_info.preferred_apps[i].appid) {
-    			app_allowed = true;
-                reply.wreq.host_info.preferred_apps[i].work_available=1;
-    			break;
-    		}
-    	}
-
-        // Only mark infeasible if we are looking at user preferred apps only
-        //
-        if (!app_allowed && !reply.wreq.beta_only) {
-        	reply.wreq.no_allowed_apps_available = true;
-    		reason |= INFEASIBLE_APP_SETTING;
-			log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                "[USER#%d] [WU#%d] workunit infeasible because user doesn't want work for this application\n",
-                reply.user.id, wu.id
-            );
-    	}
-    }
-    	
+static inline void check_memory(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
     // see how much RAM we can use on this machine
     //
     double ram = reply.host.m_nbytes;
@@ -408,12 +366,16 @@ int wu_is_infeasible(
         reason |= INFEASIBLE_MEM;
         reply.set_delay(DELAY_NO_WORK_TEMP);
     }
+}
 
+static inline void check_disk(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
     if (wu.rsc_disk_bound > reply.wreq.disk_available) {
         reply.wreq.insufficient_disk = true;
         reason |= INFEASIBLE_DISK;
     }
+}
 
+static inline void check_deadline(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
     // skip delay check if host currently doesn't have any work
     // (i.e. everyone gets one result, no matter how slow they are)
     //
@@ -429,6 +391,28 @@ int wu_is_infeasible(
             reason |= INFEASIBLE_CPU;
         }
     }
+}
+
+// If the WU can't be executed on the host, return a bitmap of reasons why.
+// Possible reasons include:
+// 1) the host doesn't have enough memory;
+// 2) the host doesn't have enough disk space;
+// 3) based on CPU speed, resource share and estimated delay,
+//    the host probably won't get the result done within the delay bound
+// 4) app isn't in user's "approved apps" list
+//
+// NOTE: This is a "fast" check; no DB access allowed.
+// In particular it doesn't enforce the one-result-per-user-per-wu rule
+//
+int wu_is_infeasible(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
+    int reason = 0;
+    
+    check_app_filter(wu, request, reply, reason);
+    check_memory(wu, request, reply, reason);
+    check_disk(wu, request, reply, reason);
+    check_deadline(wu, request, reply, reason);
 
     return reason;
 }
@@ -822,11 +806,7 @@ int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
-#if 1
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
-#else
-    reply.wreq.disk_available = sreq.project_disk_free;
-#endif
     reply.wreq.insufficient_disk = false;
     reply.wreq.insufficient_mem = false;
     reply.wreq.insufficient_speed = false;

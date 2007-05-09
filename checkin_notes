@@ -4640,7 +4640,7 @@ Charlie 9 May 2007
         common/
             wxPieCtrl.cpp
 
-David  8 May 2007
+David  9 May 2007
     - Client simulator: added --dcf_dont_use and --dcf_stats options
         (alternate ways of computing DCF)
 
@@ -4649,3 +4649,11 @@ David  8 May 2007
         sim.C,h
         sim_util.C
 
+David  9 May 2007
+    - scheduler: slight code cleanup prior to adding EDF stuff
+
+    languages/translations/
+        en.po
+    sched/
+        sched_send.C
+        server_types.h

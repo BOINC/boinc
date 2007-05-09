@@ -27,13 +27,14 @@
 #include "common_defs.h"
 #include "md5_file.h"
 
+// for projects that support work filtering by app,
+// this records an app for which the user will accept work
+//
 struct APP_INFO {
 	int appid;
-	//int reason;
-	bool work_available;
 };
 
-// Details concerning a hosts settings
+// Details concerning a host
 //
 struct HOST_INFO {
 	int allow_beta_work;
