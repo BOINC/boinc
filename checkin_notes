@@ -4775,3 +4775,10 @@ David  10 May 2007
         sched_resend.C
         sched_send.C,h
         server_types.C,h
+
+Janus	10 May 2007
+    - Added BEncoded integer support for the Bittorrent utility files
+
+    /html/bt/inc/
+        binteger.php
+
