@@ -95,24 +95,23 @@ void wxPieCtrlLegend::SetBackColour(wxColour colour)
 	Refresh();
 }
 
-void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
+void wxPieCtrlLegend::MeasureText()
 {
-	int w,h;
 	unsigned int i;
+	int w,h;
+	int dy(m_VerBorder),maxwidth,tw,th,titlew,titleh;
 	wxPieCtrl * parent = (wxPieCtrl *)GetParent();
 
 	if (parent->m_Series.Count() == 0)
 		return;
 
-	// First determine the desired size of the legend box
 	wxBitmap testbmp(10, 10);
 	wxMemoryDC testmdc(testbmp);
-	int dy(m_VerBorder),tw,th,titlew,titleh;
  	testmdc.SetFont(m_TitleFont);
 	testmdc.GetTextExtent(m_szTitle,&titlew,&titleh);
 	dy += (titleh+5);
 	testmdc.SetFont(m_LabelFont);
-	int maxwidth(titlew + 2*m_HorBorder + 15);
+	maxwidth = titlew + 2*m_HorBorder + 15;
 	for(i = 0; i < parent->m_Series.Count(); i++)
 	{
 		testmdc.GetTextExtent(parent->m_Series[i].GetLabel(), &tw, &th);
@@ -120,16 +119,30 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 		maxwidth = max(maxwidth, (int)(2*m_HorBorder+tw+15));
 	}
 	dy += m_VerBorder;
-        w = maxwidth;
-        h = dy;
 
-	// Now create the legend box
+	GetSize(&w, &h);
+	if(w != maxwidth || h != dy)
+		SetSize(maxwidth, dy);
+}
+
+void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
+{
+	int w,h,dy;
+	unsigned int i;
+	int tw,th,titlew,titleh;
+
+	wxPieCtrl * parent = (wxPieCtrl *)GetParent();
+
+	if (parent->m_Series.Count() == 0)
+		return;
+
+	GetSize(&w, &h);
 	wxBitmap bmp(w, h);
 	wxMemoryDC mdc(bmp);
 
 	if(IsTransparent())
 	{
-		wxClientDC parentdc(GetParent());
+//		wxClientDC parentdc(GetParent());
 		mdc.Blit(0,0,w,h,&m_BackgroundDC, 0, 0);
 	}
 	else
@@ -141,6 +154,7 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 	// Draw legend title
 	mdc.SetFont(m_TitleFont);
 	mdc.SetTextForeground(m_TitleColour);
+	mdc.GetTextExtent(m_szTitle,&titlew,&titleh);
 	mdc.DrawText(m_szTitle,m_HorBorder+2,m_VerBorder+2);
 
 	// Draw legend items
@@ -324,7 +338,7 @@ void wxPieCtrl::RecreateCanvas()
 //#endif
  	m_CanvasBitmap.Create(x, y);
    	m_CanvasDC.SelectObject(m_CanvasBitmap);
-	m_Legend->SetSize(x, y);
+
 }
 
 void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)
@@ -447,5 +461,6 @@ void wxPieCtrl::Refresh(bool eraseBackground, const wxRect* rect)
 {
 	m_CanRepaint = true;
 	wxWindow::Refresh(eraseBackground, rect);
+	m_Legend->MeasureText();   
 }
 

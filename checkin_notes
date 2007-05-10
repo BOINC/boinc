@@ -4666,3 +4666,20 @@ Rytis   9 May 2007
             bbcode.php
         inc/
             text_transform.inc
+
+Charlie 10 May 2007
+    - A better fix for Mac PieCtrl legend clipping bug: wxPieCtrl::Refresh() 
+        calls new wxPieCtrlLegend::MeasureText() method to caclulate size of 
+        the legend area and SetSize() of legend window before OnPaint() is 
+        called.  Apparently, calling SetSize() from within the OnPaint() 
+        function doesn't adjust the "invalid" area to be repainted until 
+        a return to the event loop, so the added area didn't get painted 
+        until the next OnPaint() call.  Also, the wxMemoryDC bitmap was 
+        being created at the smaller size, so that was also clipping the 
+        drawing.
+
+    clientgui/
+        common/
+            wxPieCtrl.cpp
+        
+        

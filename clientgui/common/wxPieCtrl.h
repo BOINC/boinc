@@ -84,6 +84,7 @@ class wxPieCtrlLegend : public wxWindow
 	wxString m_szTitle;
 
 protected:
+        void MeasureText();
 	void RecreateBackground(wxMemoryDC & parentdc);
 public:
 	/// Constructor
