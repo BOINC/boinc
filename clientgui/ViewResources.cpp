@@ -222,7 +222,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//
 	wxPiePart part;		
 	double free = pDoc->disk_usage.d_free;
-	double total = pDoc->disk_usage.d_total;			
+	double total = pDoc->disk_usage.d_total;
 	//free disk space
 	FormatDiskSpace(free,diskspace);		
 	part.SetLabel(_("free disk space - ") + diskspace);
@@ -230,7 +230,10 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	part.SetColour(wxColour(238,238,238));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
-    boinctotal += pDoc->disk_usage.d_boinc;
+	boinctotal += pDoc->disk_usage.d_boinc;
+#ifdef __WXMAC__
+	boinctotal += wxGetApp().GetManagerBundleSize();
+#endif			
 	FormatDiskSpace(boinctotal,diskspace);		
 	part.SetLabel(_("used by BOINC - ") + diskspace);
 	part.SetValue(boinctotal);

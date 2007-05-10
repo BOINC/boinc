@@ -552,6 +552,8 @@ void CBOINCGUIApp::StartupBOINCCore() {
             }
             if (err == noErr) {
                 err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
+                // Get BOINC Manager Bundle Size and save for later use in CViewResources::OnListRender()
+                dir_size(buf, m_ManagerBundleSize, true);
             }
             if (err == noErr) {
 #if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path

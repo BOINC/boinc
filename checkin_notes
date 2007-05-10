@@ -4677,9 +4677,11 @@ Charlie 10 May 2007
         until the next OnPaint() call.  Also, the wxMemoryDC bitmap was 
         being created at the smaller size, so that was also clipping the 
         drawing.
+    - Mac: include size of BOINC Manager bundle in BOINC total disk usage 
+        displayed in Disk Usage pane Pie Chart.
 
     clientgui/
+        BOINCGUIApp.cpp, .h
+        ViewResources.cpp
         common/
             wxPieCtrl.cpp
-        
-        
