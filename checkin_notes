@@ -4685,3 +4685,11 @@ Charlie 10 May 2007
         ViewResources.cpp
         common/
             wxPieCtrl.cpp
+
+Rom    10 May 2007
+    - Possible fix for a crashing condition when the manager is shutdown
+        from the system tray icon.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp, .h

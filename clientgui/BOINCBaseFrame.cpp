@@ -309,7 +309,7 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         // TaskBarIcon isn't used in Linux
 #if defined(__WXMSW__) || defined(__WXMAC__)
         CTaskBarIcon* pTBI = wxGetApp().GetTaskBarIcon();
-        if (pTBI)
+        if (pTBI && !pTBI->m_bTaskbarInitiatedShutdown)
             delete pTBI;
 #endif
         Close(true);
