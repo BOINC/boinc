@@ -55,8 +55,8 @@ bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
     static double last_time = 0;
-    if (gstate.now - last_time < 1.0) return false;
-    last_time = gstate.now;
+    if (now - last_time < 1.0) return false;
+    last_time = now;
 
     vector<ACTIVE_TASK*>::iterator iter;
 

@@ -27,6 +27,8 @@
 #include "common_defs.h"
 #include "md5_file.h"
 
+#include "edf_sim.h"
+
 // for projects that support work filtering by app,
 // this records an app for which the user will accept work
 //
@@ -119,12 +121,14 @@ struct PROJECT_FILES {
     void init();
 };
 
+#if 0
 struct IP_RESULT {
     double report_deadline;
     double cpu_time_remaining;
 
     int parse(FILE*);
 };
+#endif
 
 // Represents a result from this project that the client has.
 // The request message has a list of these.

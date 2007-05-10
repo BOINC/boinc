@@ -254,7 +254,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     if (p->send_time_stats_log) {
         fprintf(f, "<time_stats_log>\n");
-        gstate.time_stats.get_log_after(p->send_time_stats_log, mf);
+        time_stats.get_log_after(p->send_time_stats_log, mf);
         fprintf(f, "</time_stats_log>\n");
     }
     if (p->send_job_log) {
@@ -315,8 +315,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
 	// check only every 5 sec, unless there's a tentative (new) project
 	//
-    if (!have_tentative_project() && gstate.now - last_time < 5.0) return false;
-    last_time = gstate.now;
+    if (!have_tentative_project() && now - last_time < 5.0) return false;
+    last_time = now;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
@@ -412,7 +412,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             msg_printf(project, MSG_USER_ERROR,
                 "The correct URL is %s", sr.master_url
             );
-            p2 = gstate.lookup_project(sr.master_url);
+            p2 = lookup_project(sr.master_url);
             if (p2) {
                 msg_printf(project, MSG_INFO,
                     "You seem to be attached to this project twice"
@@ -440,8 +440,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (project->tentative) {
         bool dup_name = false;
-        for (i=0; i<gstate.projects.size(); i++) {
-            p2 = gstate.projects[i];
+        for (i=0; i<projects.size(); i++) {
+            p2 = projects[i];
             if (project == p2) continue;
             if (!strcmp(p2->project_name, project->project_name)) {
                 dup_name = true;
@@ -467,7 +467,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         sprintf(buf, "Message from server: %s", um.message.c_str());
         int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ERROR:MSG_INFO;
         show_message(project, buf, prio);
-        gstate.project_attach.messages.push_back(um.message);
+        project_attach.messages.push_back(um.message);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {
@@ -481,7 +481,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (sr.project_is_down) {
         if (sr.request_delay) {
-            double x = gstate.now + sr.request_delay;
+            double x = now + sr.request_delay;
 			project->set_min_rpc_time(x, "project is down");
         }
         return ERR_PROJECT_DOWN;
@@ -793,14 +793,14 @@ int CLIENT_STATE::handle_scheduler_reply(
     // handle delay request
     //
     if (sr.request_delay) {
-        double x = gstate.now + sr.request_delay;
+        double x = now + sr.request_delay;
 		project->set_min_rpc_time(x, "requested by project");
     } else {
         project->min_rpc_time = 0;
     }
 
     if (sr.next_rpc_delay) {
-        project->next_rpc_time = gstate.now + sr.next_rpc_delay;
+        project->next_rpc_time = now + sr.next_rpc_delay;
     } else {
         project->next_rpc_time = 0;
     }

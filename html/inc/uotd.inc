@@ -51,6 +51,7 @@ function select_uotd() {
         if ($assigned['mday'] == $now['mday']) {
             $user = lookup_user_id($current_uotd->userid);
             echo "Already have UOTD for today\n";
+            generate_uotd_gadget($profile, $user);
             exit();
         }
     }
@@ -92,6 +93,8 @@ function select_uotd() {
     }
     $profile = mysql_fetch_object($result);
     $user = lookup_user_id($profile->userid);
+
+    generate_uotd_gadget($profile, $user);
 
     $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
     mysql_query($sql);
@@ -142,6 +145,35 @@ function count_uotd_candidates(){
     mysql_free_result($result);
                                                                         
     return $n;
+}
+
+// iGoogle gadget  - generate the gadget content page
+//
+function generate_uotd_gadget($profile, $user) {
+    $x = "<font size='2'>\n";
+    $gadget =  PROFILE_PATH."uotd_gadget.html";
+    if( $h = fopen($gadget, "w") ){
+        if( (time()-$profile->uotd_time) <= 86400+3600 ) { // allow for slop
+            $x .= uotd_thumbnail($profile, $user);
+            $x .= user_links($user);
+            $x .= "&nbsp;&nbsp;".
+                sub_sentence(strip_tags(output_transform($profile->response1)), ' ',
+                             250, true);
+        }
+        else {
+            $x .= "<font color='fuscia'>
+                There is no User of the Day today.
+                Only volunteers who have created a Profile
+                (with a picture), and have recent credit,
+                are eligible to be chosen as User of the Day.
+                We have run out of these, so there isn't a
+                User of the Day.
+                </font>";
+        }
+        $x .= "\n</font>\n";
+        fwrite($h, $x);
+        fclose($h);
+    }
 }
 
 ?>

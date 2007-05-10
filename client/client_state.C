@@ -607,7 +607,7 @@ APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, char* platform, int vers
         APP_VERSION* avp = app_versions[i];
         if (avp->app != app ) continue;
         if (strcmp(avp->platform, platform)) continue;
-        if (version_num!=avp->version_num) continue;
+        if (version_num != avp->version_num) continue;
         return avp;
     }
     return 0;

@@ -405,6 +405,8 @@ struct APP_VERSION {
     std::vector<FILE_REF> app_files;
     int ref_cnt;
 
+    APP_VERSION(){}
+    ~APP_VERSION(){}
     int parse(MIOFILE&);
     int write(MIOFILE&);
     bool had_download_failure(int& failnum);
@@ -429,6 +431,8 @@ struct WORKUNIT {
     double rsc_memory_bound;
     double rsc_disk_bound;
 
+    WORKUNIT(){}
+    ~WORKUNIT(){}
     int parse(MIOFILE&);
     int write(MIOFILE&);
     bool had_download_failure(int& failnum);
@@ -483,6 +487,8 @@ struct RESULT {
         // this may be NULL after result is finished
     PROJECT* project;
 
+    RESULT(){}
+    ~RESULT(){}
     void clear();
     int parse_server(MIOFILE&);
     int parse_state(MIOFILE&);

@@ -131,15 +131,18 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
 		request_schedule_cpus("Idle state change");
 	}
 #ifdef __APPLE__
-    // Mac screensaver launches client if not already running.  OS X 
-    // quits screensaver when energy saver puts display to sleep, but 
-    // we want to keep crunching.  Also, user can start Mac screensaver 
-    // by putting cursor in "hot corner" so idletime may be very small 
-    // initially.  If screensaver started client, this code tells client 
+    // Mac screensaver launches client if not already running.
+    // OS X quits screensaver when energy saver puts display to sleep,
+    // but we want to keep crunching.
+    // Also, user can start Mac screensaver by putting cursor in "hot corner"
+    // so idletime may be very small initially.
+    // If screensaver started client, this code tells client 
     // to exit when user becomes active, accounting for all these factors.
-    if (started_by_screensaver && (idletime < 30) && 
-            (getppid() == 1) )                // true if parent has exited
-        gstate.requested_exit = true;
+    //
+    if (started_by_screensaver && (idletime < 30) && (getppid() == 1)) {
+        // pid is 1 if parent has exited
+        requested_exit = true;
+    }
 #endif
 
     switch(run_mode.get_current()) {
@@ -230,7 +233,7 @@ int CLIENT_STATE::resume_tasks(int reason) {
     } else {
         msg_printf(NULL, MSG_INFO, "Resuming computation");
         active_tasks.unsuspend_all();
-        gstate.request_schedule_cpus("Resuming computation");
+        request_schedule_cpus("Resuming computation");
     }
     return 0;
 }

@@ -4565,7 +4565,7 @@ Rom    7 May 2007
         configure.ac
         version.h
 
-Janus	8 May 2007
+Janus    8 May 2007
     - Initial checkin of a tiny part of the serverside Bittorrent file 
       distribution code. Everything BT-related will reside in /html/bt and
       will be disabled by default.
@@ -4573,16 +4573,16 @@ Janus	8 May 2007
     
     html/bt/ (new)
         README (new)
-	INSTALL (new)
+    INSTALL (new)
     html/bt/inc/ (new)
         belement.inc (new)
 
 David  8 May 2007
-	- core client: improve error message when can't link app version
+    - core client: improve error message when can't link app version
 
-	client/
-		client_state.C
-		cs_statefile.C
+    client/
+        client_state.C
+        cs_statefile.C
 
 David  8 May 2007
     - GUI RPC: add new element d_boinc to DISK_USAGE;
@@ -4610,7 +4610,7 @@ Charlie 8 May 2007
     clientgui/
         ViewResources.cpp
 
-Janus	9 May 2007
+Janus    9 May 2007
     - Fixed an issue where long unbreakable post content could break the layout
       of the forum for an entire thread. Now this only breaks the layout for that
       particular post.
@@ -4696,14 +4696,14 @@ Rom    10 May 2007
 
 
 David  10 May 2007
-	- client simulator: make it compile on Win
-	- client: parse version_num in active_task to avoid spurious error msg
+    - client simulator: make it compile on Win
+    - client: parse version_num in active_task to avoid spurious error msg
 
-	client/
-		app.C
-		sim.C
-	win_build/
-		sim.vcproj
+    client/
+        app.C
+        sim.C
+    win_build/
+        sim.vcproj
 
 Rom    10 May 2007
     - fixes #164: Aborting a Task
@@ -4714,3 +4714,28 @@ Rom    10 May 2007
     clientgui/
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+David  10 May 2007
+    - client: add constructor/destructor for APP_VERSION, WORKUNIT, RESULT
+    - client: with anonymous platform, don't link app version twice
+
+    client/
+        client_types.h
+        client_state.C
+        cs_apps.C
+        cs_files.C
+        cs_prefs.C
+        cs_scheduler.C
+        cs_statefile.C
+        sim_util.C
+    html/
+        uotd.inc
+    sched/
+        edf_sim.h
+        server_types.h
+	client/
+		app.C
+		sim.C
+	win_build/
+		sim.vcproj
+

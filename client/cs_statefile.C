@@ -648,11 +648,10 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
-            if (gstate.link_app_version(p, avp)) {
+            if (link_app_version(p, avp)) {
                 delete avp;
                 continue;
             }
-            link_app_version(p, avp);
             app_versions.push_back(avp);
             continue;
         }

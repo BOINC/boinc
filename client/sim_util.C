@@ -565,3 +565,6 @@ int CLIENT_STATE::parse_host(char* name) {
     return host_info.parse(xp);
 }
 
+int IP_RESULT::parse(FILE*) {
+    return 0;
+}

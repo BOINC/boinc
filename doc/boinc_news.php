@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("May 9, 2007",
+    "The BOINC Virtual Server - a VMWare virtual machine
+    preconfigured with BOINC and all prerequisite software -
+    is <a href=http://boinc.berkeley.edu/trac/wiki/ServerIntro>now available</a>.
+    This greatly simplifies the task of creating a BOINC projects.
+    Thanks to Christian Beer for creating this."
+),
 array("May 8, 2007",
     "As of about May 1, BOINC projects have had
     <a href=http://boinc.berkeley.edu/dev/forum_thread.php?id=1777>over one million volunteers</a>."
