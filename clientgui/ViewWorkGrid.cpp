@@ -390,6 +390,16 @@ void CViewWorkGrid::UpdateSelection() {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
             }
 
+            if (
+                !result->active_task_state == PROCESS_ABORT_PENDING &&
+                !result->active_task_state == PROCESS_ABORTED &&
+                !result->state == RESULT_ABORTED 
+            ) {
+                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
+            } else {
+                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_ABORT]);
+            }
+
             project = pDoc->state.lookup_project(result->project_url);
             UpdateWebsiteSelection(GRP_WEBSITES, project);
         } else {

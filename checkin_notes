@@ -4694,6 +4694,7 @@ Rom    10 May 2007
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp, .h
 
+
 David  10 May 2007
 	- client simulator: make it compile on Win
 	- client: parse version_num in active_task to avoid spurious error msg
@@ -4703,3 +4704,13 @@ David  10 May 2007
 		sim.C
 	win_build/
 		sim.vcproj
+
+Rom    10 May 2007
+    - fixes #164: Aborting a Task
+    
+        If a task has already been aborted, don't enable the abort task
+        button.
+
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp

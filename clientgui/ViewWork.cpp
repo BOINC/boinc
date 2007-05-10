@@ -512,32 +512,21 @@ void CViewWork::UpdateSelection() {
                     _("Suspend work for this task.")
                 );
             }
+
             if (result->supports_graphics) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
-/*
-                if ((MODE_WINDOW == result->graphics_mode_acked) || (MODE_FULLSCREEN == result->graphics_mode_acked)) {
-                    m_pTaskPane->UpdateTask(
-                        pGroup->m_Tasks[BTN_GRAPHICS],
-                        _("Hide graphics"),
-                        _("Hide application graphics window.")
-                    );
-                } else {
-                    m_pTaskPane->UpdateTask(
-                        pGroup->m_Tasks[BTN_GRAPHICS],
-                        _("Show graphics"),
-                        _("Show application graphics in a window.")
-                    );
-                }
-*/
             } else {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
-/*
-                m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_GRAPHICS],
-                    _("Show graphics"),
-                    _("Show application graphics in a window.")
-                );
-*/
+            }
+
+            if (
+                !result->active_task_state == PROCESS_ABORT_PENDING &&
+                !result->active_task_state == PROCESS_ABORTED &&
+                !result->state == RESULT_ABORTED 
+            ) {
+                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
+            } else {
+                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_ABORT]);
             }
 
             project = pDoc->state.lookup_project(result->project_url);
@@ -545,8 +534,6 @@ void CViewWork::UpdateSelection() {
         } else {
             CBOINCBaseView::UpdateWebsiteSelection(GRP_WEBSITES, NULL);
         }
-
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
