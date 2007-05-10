@@ -7,7 +7,8 @@ define('UOTD_THRESHOLD', 7);
 
 function uotd_thumbnail($profile, $user) {
     if ($profile->has_picture) {
-        return "<a href=view_profile.php?userid=$user->id><img border=0 vspace=4 hspace=8 align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>";
+        $ub = URL_BASE;
+        return "<a href=$ub/view_profile.php?userid=$user->id><img border=0 vspace=4 hspace=8 align=left src=$ub".IMAGE_URL.$user->id."_sm.jpg></a>";
     } else {
         return "";
     }
@@ -51,7 +52,7 @@ function select_uotd() {
         if ($assigned['mday'] == $now['mday']) {
             $user = lookup_user_id($current_uotd->userid);
             echo "Already have UOTD for today\n";
-            generate_uotd_gadget($profile, $user);
+            generate_uotd_gadget($current_uotd, $user);
             exit();
         }
     }
@@ -94,8 +95,6 @@ function select_uotd() {
     $profile = mysql_fetch_object($result);
     $user = lookup_user_id($profile->userid);
 
-    generate_uotd_gadget($profile, $user);
-
     $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
     mysql_query($sql);
 
@@ -106,6 +105,8 @@ function select_uotd() {
         Your profile will be featured on the " . PROJECT . " website for the next 24 hours."
     );
     echo "Chose user $user->id as UOTD\n";
+    $profile->uotd_time = time();
+    generate_uotd_gadget($profile, $user);
 }
 
 // This is the default policy for choosing the UOTD on any BOINC project.
@@ -153,7 +154,9 @@ function generate_uotd_gadget($profile, $user) {
     $x = "<font size='2'>\n";
     $gadget =  PROFILE_PATH."uotd_gadget.html";
     if( $h = fopen($gadget, "w") ){
-        if( (time()-$profile->uotd_time) <= 86400+3600 ) { // allow for slop
+        $age = time()-$profile->uotd_time;
+        echo "age: $age";
+        if($age <= 86400+3600) { // allow for slop
             $x .= uotd_thumbnail($profile, $user);
             $x .= user_links($user);
             $x .= "&nbsp;&nbsp;".

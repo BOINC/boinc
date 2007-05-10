@@ -78,12 +78,24 @@ public:
     int sched_debug_level;
     int fuh_debug_level;
     int reliable_time; // age of workunit before requiring reliable
-    int reliable_min_avg_credit;  // min average credit for a host to be declared reliable
-    int reliable_max_avg_turnaround;  // max average turnaround for a host to be declared reliable
-    int reliable_priority_on_over; // additional results generated after at least one result is over will have their priority boosted by this amount    
-    int reliable_priority_on_over_except_error; // additional results generated after at least one result is over (unless their is an error) will have their priority boosted by this amount
-    int reliable_on_priority;  // results with a priority equal or greater than this value will be sent to reliable hosts
-    double reliable_reduced_delay_bound;  // Reduce the delay bounds for reliable hosts by this percent
+    int reliable_min_avg_credit;
+        // min average credit for a host to be declared reliable
+    int reliable_max_avg_turnaround;
+        // max average turnaround for a host to be declared reliable
+    int reliable_priority_on_over;
+        // additional results generated after at least one result
+        // is over will have their priority boosted by this amount    
+    int reliable_priority_on_over_except_error;
+        // additional results generated after at least one result is over
+        // (unless their is an error) will have their priority boosted
+        // by this amount
+    int reliable_on_priority;
+        // results with a priority equal or greater than this value
+        // will be sent to reliable hosts
+    double reliable_reduced_delay_bound;
+        // Reduce the delay bounds for reliable hosts by this percent
+    bool workload_sim;
+        // Do workload simulation in deciding whether to send a result
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

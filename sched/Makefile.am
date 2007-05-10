@@ -62,6 +62,7 @@ EXTRA_DIST =    \
 
 
 cgi_SOURCES = \
+    edf_sim.C \
     handle_request.C \
     main.C \
     sched_array.C \

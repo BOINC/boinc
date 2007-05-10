@@ -25,15 +25,20 @@
 using std::vector;
 
 //#define TEST
-#ifdef TEST
-#define INFO0 printf
-#define INFO1 printf
-#define INFO2 printf
+#define DEBUG
+#ifdef DEBUG
+#define INFO0
+#define INFO1
+#define INFO2
 #else
 #define INFO0 //
 #define INFO1 //
 #define INFO2 //
 #endif
+
+// 0 shows initial workload and candidate decisions
+// 1 shows function calls results of sim: make/miss deadline
+// 2 shows every step of sim
 
 bool lessthan_deadline(const IP_RESULT& p1, const IP_RESULT& p2) {
     if (p1.computation_deadline < p2.computation_deadline) return true;
@@ -48,7 +53,7 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
     double booked_to[128];
     int j;
 
-    INFO1("mark_edf_misses\n");
+    INFO1 fprintf(stderr, "mark_edf_misses\n");
 
     // keeps track of when each cpu is next free
     //
@@ -77,18 +82,18 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
         }
       
         booked_to[lowest_booked_cpu] += r.cpu_time_remaining;
-        INFO2("  running %s on cpu %d; finishes at %f\n",
+        INFO2 fprintf(stderr, "  running %s on cpu %d; finishes at %f\n",
             r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]
         );
         if (booked_to[lowest_booked_cpu] > r.computation_deadline) {
 	        r.misses_deadline = true;
 	        r.estimated_completion_time = booked_to[lowest_booked_cpu];
-	        INFO1("  %s misses_deadline; est completion %f\n",
+	        INFO1 fprintf(stderr, "  %s misses_deadline; est completion %f\n",
                 r.name, booked_to[lowest_booked_cpu]
             );
         } else {
 	        r.misses_deadline = false;
-	        INFO1("  %s makes deadline; est completion %f\n",
+	        INFO1 fprintf(stderr, "  %s makes deadline; est completion %f\n",
                 r.name, booked_to[lowest_booked_cpu]
             );
 	        // if result doesn't miss its deadline,
@@ -106,9 +111,14 @@ void init_ip_results(
     vector<IP_RESULT>& ip_results
 ){
     unsigned int i;
+
+    INFO0 fprintf(stderr, "init_ip_results; work_buf_min %f ncpus %d:\n", work_buf_min, ncpus);
     for (i=0; i<ip_results.size(); i++) {
         IP_RESULT& r = ip_results[i];
         r.computation_deadline = r.report_deadline - work_buf_min;
+        INFO0 fprintf(stderr, "    %s: deadline %.2f cpu %.2f\n",
+            r.name, r.computation_deadline, r.cpu_time_remaining
+        );
     }
 
     // run edf simulation to determine whether any results miss their deadline
@@ -179,7 +189,7 @@ bool check_candidate (
     double booked_to[128];     // keeps track of when each cpu is free
     int j;
 
-    INFO0 ("check_candidate %s: dl %f cpu %f\n",
+    INFO0  fprintf(stderr, "check_candidate %s: dl %f cpu %f\n",
         candidate.name, candidate.computation_deadline,
         candidate.cpu_time_remaining
     );
@@ -209,7 +219,7 @@ bool check_candidate (
             }
         }
         booked_to[lowest_booked_cpu] += r.cpu_time_remaining;
-        INFO2("  running %s on cpu %d; finishes at %f\n",
+        INFO2 fprintf(stderr, "  running %s on cpu %d; finishes at %f\n",
             r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]
         );
 
@@ -219,7 +229,7 @@ bool check_candidate (
         if (booked_to[lowest_booked_cpu] > r.computation_deadline
             && !r.misses_deadline
         ) {
-	        INFO1 ("  %s now misses deadline: %f\n",
+	        INFO0  fprintf(stderr, "  cand. fails; %s now misses deadline: %f\n",
                 r.name, booked_to[lowest_booked_cpu]
             );
             return false;
@@ -230,10 +240,11 @@ bool check_candidate (
         if (r.misses_deadline 
             && booked_to[lowest_booked_cpu] > r.estimated_completion_time
         ){
-            INFO0 ("  %s: late result to be returned even later\n", r.name);
+            INFO1  fprintf(stderr, "  cand. fails; late result %s to be returned even later\n", r.name);
             return false;
         }
     }
+    INFO1  fprintf(stderr, "  cand. succeeds\n");
     return true;
 }
 

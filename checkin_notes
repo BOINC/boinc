@@ -4739,3 +4739,39 @@ David  10 May 2007
 	win_build/
 		sim.vcproj
 
+David  10 May 2007
+    - scheduler: add <workload_sim> config option.
+        If set, the scheduler will use EDF simulation,
+        together with the in-progress workload reported by the client,
+        to avoid sending results that
+        1) will miss their deadline, or
+        2) will cause an in-progress result to miss its deadline, or
+        3) will make an in-progress result miss its deadline
+            by more than is already predicted.
+        If this option is not set, or if the client request doesn't
+        include a workload description (i.e. the client is old)
+        use the existing approach, which assumes there's no workload.
+        NOTE: this is experimental.  Production projects should not use it.
+    - EDF sim: write debug stuff to stderr instead of stdout
+    - Account manager:
+        - if an account is detach_when_done, set dont_request_more_work
+        - check done_request_more_work even for first-time projects
+    - update_uotd: generate a file for use by Google gadget
+    - user_links(): use full URLs (so can use in Google gadget)
+
+    client/
+        acct_mgr.C
+        work_fetch.C
+    html/
+        inc/
+            uotd.inc
+            util.inc
+        user/
+            uotd_gadget.php (new)
+    sched/
+        Makefile.am
+        edf_sim.C
+        sched_config.C,h
+        sched_resend.C
+        sched_send.C,h
+        server_types.C,h

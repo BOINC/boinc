@@ -108,6 +108,7 @@ struct GLOBAL_PREFS {
 
     void parse(const char* buf, const char* venue);
     void defaults();
+    inline double work_buf_min() {return work_buf_min_days*86400;}
 };
 
 struct GUI_URLS {

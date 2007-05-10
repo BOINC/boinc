@@ -411,6 +411,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         }
                         if (acct.detach_when_done.present) {
                             pp->detach_when_done = acct.detach_when_done.value;
+                            if (pp->detach_when_done) {
+                                pp->dont_request_more_work = true;
+                            }
                         }
 
                         // initiate a scheduler RPC if requested by AMS
@@ -448,6 +451,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     gstate.add_project(
                         acct.url.c_str(), acct.authenticator.c_str(), "", true
                     );
+                    if (acct.dont_request_more_work.present) {
+                        pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    }
                 }
             }
         }

@@ -92,10 +92,12 @@ int IP_RESULT::parse(FILE* f) {
 
     report_deadline = 0;
     cpu_time_remaining = 0;
+    strcpy(name, "");
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</ip_result>")) {
             return 0;
         }
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
         if (parse_double(buf, "<cpu_time_remaining>", cpu_time_remaining)) continue;
     }
@@ -257,12 +259,18 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         } else if (match_tag(buf, "<in_progress_results>")) {
             have_ip_results_list = true;
+            int i = 0;
+            double now = time(0);
             while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</in_progress_results>")) break;
                 if (match_tag(buf, "<ip_result>")) {
                     IP_RESULT ir;
                     retval = ir.parse(fin);
                     if (!retval) {
+                        if (!strlen(ir.name)) {
+                            sprintf(ir.name, "ip%d", i++);
+                        }
+                        ir.report_deadline -= now;
                         ip_results.push_back(ir);
                     }
                 }
@@ -812,6 +820,10 @@ int RESULT::parse_from_client(FILE* fin) {
                 safe_strcat(stderr_out, buf);
             }
             continue;
+        } else if (match_tag(buf, "<platform>")) {
+            continue;
+        } else if (match_tag(buf, "<version_num>")) {
+            continue;
         } else {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
@@ -859,6 +871,8 @@ int HOST::parse(FILE* fin) {
 
         // fields reported by 5.5+ clients, not currently used
         //
+        else if (match_tag(buf, "<p_features>")) continue;
+#if 0
         else if (match_tag(buf, "<p_capabilities>")) continue;
         else if (match_tag(buf, "<accelerators>")) continue;
 
@@ -869,8 +883,7 @@ int HOST::parse(FILE* fin) {
         else if (match_tag(buf, "<cache_l1>")) continue;
         else if (match_tag(buf, "<cache_l2>")) continue;
         else if (match_tag(buf, "<cache_l3>")) continue;
-        
-
+#endif
         else {
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse(): unrecognized: %s\n", buf

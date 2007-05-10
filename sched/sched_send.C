@@ -410,9 +410,27 @@ int wu_is_infeasible(
     int reason = 0;
     
     check_app_filter(wu, request, reply, reason);
+    if (reason) return reason;
     check_memory(wu, request, reply, reason);
+    if (reason) return reason;
     check_disk(wu, request, reply, reason);
-    check_deadline(wu, request, reply, reason);
+    if (reason) return reason;
+
+    if (config.workload_sim && request.have_other_results_list) {
+        double est_cpu = estimate_cpu_duration(wu, reply);
+        IP_RESULT candidate("", wu.delay_bound, est_cpu);
+        strcpy(candidate.name, wu.name);
+        if (check_candidate(candidate, reply.host.p_ncpus, request.ip_results)) {
+            // it passed the feasibility test,
+            // but don't add it the the workload yet;
+            // wait until we commit to sending it
+        } else {
+            reply.wreq.insufficient_speed = true;
+            reason |= INFEASIBLE_WORKLOAD;
+        }
+    } else {
+        check_deadline(wu, request, reply, reason);
+    }
 
     return reason;
 }
@@ -799,6 +817,14 @@ int add_result_to_reply(
     request.estimated_delay += wu_seconds_filled/reply.host.p_ncpus;
     reply.wreq.nresults++;
     if (!resent_result) reply.host.nresults_today++;
+
+    // add this result to workload for simulation
+    //
+    if (config.workload_sim && request.have_other_results_list) {
+        double est_cpu = estimate_cpu_duration(wu, reply);
+        IP_RESULT ipr ("", time(0)+wu.delay_bound, est_cpu);
+        request.ip_results.push_back(ipr);
+    }
     return 0;
 }
 
@@ -837,15 +863,11 @@ int send_work(
         reply.wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
-    // TODO: add code to send results that were sent earlier but not reported.
-    // Cautions (from John McLeod):
-    // - make sure the result is still needed
-    // - don't send if the project has been reset since first send,
-    //   since result may have been cause of the reset
-    //   (need to pass reset time?)
-    // - make sure can complete by deadline
-    // - don't send if project is suspended or "no more work" on client
-    //   (need to pass these)
+    if (config.workload_sim && sreq.have_other_results_list) {
+        init_ip_results(
+            sreq.global_prefs.work_buf_min(), reply.host.p_ncpus, sreq.ip_results
+        );
+    }
 
     if (config.locality_scheduling) {
         reply.wreq.infeasible_only = false;

@@ -130,6 +130,7 @@ int SCHED_CONFIG::parse(FILE* f) {
 
         else if (xp.parse_int(tag, "grace_period_hours", grace_period_hours)) continue;
         else if (xp.parse_int(tag, "delete_delay_hours", delete_delay_hours)) continue;
+        else if (xp.parse_bool(tag, "workload_sim", workload_sim)) continue;
 		
         // some tags that scheduler doesn't care about
         //
