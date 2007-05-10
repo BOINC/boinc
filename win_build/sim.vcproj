@@ -704,6 +704,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\sched\edf_sim.C"
+				>
+			</File>
+			<File
 				RelativePath="..\client\log_flags.C"
 				>
 			</File>
@@ -725,6 +729,10 @@
 			</File>
 			<File
 				RelativePath="..\client\sim.C"
+				>
+			</File>
+			<File
+				RelativePath="..\client\sim_util.C"
 				>
 			</File>
 			<File

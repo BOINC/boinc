@@ -4693,3 +4693,13 @@ Rom    10 May 2007
     clientgui/
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp, .h
+
+David  10 May 2007
+	- client simulator: make it compile on Win
+	- client: parse version_num in active_task to avoid spurious error msg
+
+	client/
+		app.C
+		sim.C
+	win_build/
+		sim.vcproj
