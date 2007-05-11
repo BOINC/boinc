@@ -1,6 +1,6 @@
 #########################################
 # Language: Japanese
-# FileID  : ja.po and ja_JP.po, based on en.po 12493(svn).  2007/05/04 17:05 JST je2bwm 
+# FileID  : ja.po and ja_JP.po, based on en.po 12493(svn).  2007/05/08 23:57 JST je2bwm 
 # Translator: Komori Hitoshi (je2bwm at jarl.com)
 ##########################################
 # For more information please see:
@@ -577,7 +577,7 @@ msgstr "その他(Windows,MAC,Linux)"
 # msgid "DL_ALLVERSIONS"
 # msgstr "All versions"
 msgid "DL_ALLVERSIONS"
-msgstr "ダウンロードの一覧"
+msgstr "ダウンロード一覧"
 
 # msgid "DL_IF_OTHERTYPES"
 # msgstr "If your computer is not of one of the above types, you can"
@@ -1240,22 +1240,23 @@ msgstr "あなたのコンピュータの空き時間を、病気を治すため
 " パルサーを発見するため、そしてその他たくさんの種類の科学研究のために使って下さい。"
 " (コンピュータは、Windows、Mac、Linux のどれでも可です)。 "
 " やり方は以下のように簡単で、安全かつ安心です。"
-" プロジェクトを %s 選択し%s、"
-" BOINC ソフトウェアを %sダウンロード%s して走らせます。 そして、"
-" 参加するプロジェクトの URL とあなたのメイルアドレス、そしてパスワードを %s 入力 %s して下さい。"
+" %s プロジェクトを選択し%s、"
+" %s BOINC ソフトウェアを ダウンロード%s して走らせます。 "
+" %s その後、入力 %s する必要があるのは、参加するプロジェクトの URL とあなたのメイルアドレスとパスワードです。"
 
 # msgid "HOME_P2"
 # msgstr "Or, if you run several projects, try "
 # "an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
 msgid "HOME_P2"
 msgstr "あるいは、もし複数のプロジェクトに参加したいなら、"
-%3s GridRepublic %4s や %5s BAM! %6s のような %1s アカウント・マネージャ%2s を試して下さい。" 
+"%3$s GridRepublic %4$s や %5$s BAM! %6$s のような %1$s アカウント・マネージャ%2$s を試して下さい。" 
+#"%s アカウント・マネージャ%s (たとえば、%s GridRepublic %s や %s BAM! %s ) を試して下さい。" 
 
 # msgid "HOME_P3"
 # msgstr "If you have any questions, or need help getting started, you can "
 # "%stalk to a Volunteer Helper%s. "
 msgid "HOME_P3"
-msgstr "ご質問がある方、あるいは、始めようとして助けが欲しい方は、"
+msgstr "ご質問がある方、あるいは、 BOINC を始めようとして助けが欲しい方は、"
 "%s ボランティアの人と相談のための会話ができます%s。"
 
 # msgid "HOME_MORE_INFO"

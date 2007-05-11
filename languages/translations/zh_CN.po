@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.15\n"
+"Project-Id-Version: 12493\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-02-08 18:08+0800\n"
+"PO-Revision-Date: 2007-05-09 16:48+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: www.EQUN.com <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -343,7 +343,7 @@ msgid "DL_DOWNLOAD_TITLE"
 msgstr "BOINC：为科学而计算"
 
 msgid "DL_MIRRORS"
-msgstr "注意：文件是从包括 boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg.de、einstein.astro.gla.ac.uk 以及 einstein.aset.psu.edu 在内的镜像服务器下载的，感谢提供下载服务的这些学校。下载服务器是随机选择的，如果下载失败，请尝试刷新页面后重新下载。"
+msgstr "注意：文件是从包括 boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg.de、einstein.astro.gla.ac.uk、einstein.ligo.caltech.edu 以及 einstein.aset.psu.edu 在内的镜像服务器下载的，感谢提供下载服务的这些学校。下载服务器是随机选择的，如果下载失败，请尝试刷新页面后重新下载。"
 
 ##############################################
 # system_requirements.php by je2bwm 2006/08/07
@@ -629,4 +629,10 @@ msgstr "辅助工具"
 
 msgid "HOME_SURVEY"
 msgstr "调查"
+
+msgid "HOME_BOINC"
+msgstr "伯克利开放式网络计算架构"
+
+msgid "HOME_BOINC_DESC"
+msgstr "用于 %s志愿计算%s 和 %s桌面网格计算%s 的开源软件"
 
