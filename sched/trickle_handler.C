@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-            "Can't parse config file: %d\n", retval
+            "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }

@@ -140,7 +140,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                     for ($i=0;$i<sizeof($interface);$i++){
                         if (isset($keys[$i]) && isset($language[$keys[$i]]) && $language[$keys[$i]]!="") {
                             //Translate to PHP
-                            fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = '".addslashes($language[$keys[$i]])."';\n");
+                            fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($language[$keys[$i]])."\";\n");
                         }
                     }
                     fwrite($fh, '?>');
@@ -190,7 +190,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
                         if ($language[$keys[$i]]!="") {
-                            fwrite($fh, "\$language_lookup_array[".($real_interface_size+$keys[$i])."] = '".addslashes($language[$keys[$i]])."';\n");                //Translate to PHP
+                            fwrite($fh, "\$language_lookup_array[".($real_interface_size+$keys[$i])."] = \"".addslashes($language[$keys[$i]])."\";\n");                //Translate to PHP
                         }
                     }
                     fwrite($fh, '?>');

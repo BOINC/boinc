@@ -381,7 +381,9 @@ static inline void check_deadline(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHE
     //
     if (!config.ignore_delay_bound && request.estimated_delay>0) {
         double ewd = estimate_wallclock_duration(wu, request, reply);
-        if (request.estimated_delay + ewd > wu.delay_bound) {
+        double est_completion_delay = request.estimated_delay + ewd;
+        double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
+        if (est_report_delay> wu.delay_bound) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (request.estimated_delay is %f)\n",

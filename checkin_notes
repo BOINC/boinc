@@ -4832,3 +4832,17 @@ Charlie 10 May 2007
         ViewResources.cpp, h
         common/
             wxPieCtrl.cpp, h
+
+David  11 May 2007
+    - translation.inc: backed out change of 7 May;
+        we need to use " to expand $PROJECT var
+    - scheduler:
+        take work_buf_min into account in deciding whether
+        a result will be reported by its deadline.
+    - all back end programs:
+        better error message if can't parse config file
+
+    html/inc/
+        translation.inc
+    sched/
+        *.C

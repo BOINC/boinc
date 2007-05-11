@@ -47,6 +47,7 @@ using namespace std;
 #include "error_numbers.h"
 #include "shmem.h"
 #include "util.h"
+#include "str_util.h"
 
 #include "sched_config.h"
 #include "server_types.h"
@@ -293,7 +294,7 @@ int main(int argc, char** argv) {
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "Can't parse config file\n"
+            "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         send_message("Server can't parse configuration file", 3600, true);
         exit(0);
