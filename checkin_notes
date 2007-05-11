@@ -4846,3 +4846,9 @@ David  11 May 2007
         translation.inc
     sched/
         *.C
+
+David  11 May 2007
+    - web RPC: fix bug in XML variant in show_user.php, bad-ID case.
+
+    html/user/
+        show_user.php

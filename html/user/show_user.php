@@ -34,7 +34,9 @@ if ($format=="xml"){
         $show_hosts = true;
     } else {
         $user = lookup_user_id($id);
-        $user = get_other_projects($user);
+        if ($user) {
+            $user = get_other_projects($user);
+        }
         $show_hosts = false;
     }
     if (!$user) xml_error(-136);
