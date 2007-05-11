@@ -62,74 +62,6 @@ public:
 
 WX_DECLARE_OBJARRAY(wxPiePart, wxPieSeries);
 
-class wxPieCtrl;
-
-// ========================================================================
-//  wxPieCtrlLegend
-// ------------------------------------------------------------------------
-///	The component draws a rectangle and outputs text information for
-/// each sector of pie diagram
-class wxPieCtrlLegend : public wxWindow
-{
-	wxFont m_TitleFont;
-	wxFont m_LabelFont;
-	bool m_IsTransparent;
-	wxColour m_TitleColour;
-	wxColour m_LabelColour;
-	wxColour m_BackColour;
-	wxBitmap m_Background;
-	wxMemoryDC m_BackgroundDC;
-	unsigned int m_HorBorder;
-	unsigned int m_VerBorder;
-	wxString m_szTitle;
-
-protected:
-        void MeasureText();
-	void RecreateBackground(wxMemoryDC & parentdc);
-public:
-	/// Constructor
-	/*!
-		\param parent Pointer to a parent window
-		\param title Legend window title
-		\param pos Legend window position
-		\param sz Legend window size
-		\param style Window style
-	*/
-	wxPieCtrlLegend(wxPieCtrl * parent, wxString title = wxEmptyString,
-		wxPoint pos = wxPoint(10,10), wxSize sz = wxDefaultSize,
-		long style = 0);
-	/// Returns transparency flag of legend window
-	bool IsTransparent() {return m_IsTransparent;}
-	/// Sets transparency flag of legend window
-	void SetTransparent(bool value);
-	/// Returns the font used for displaying the labels of sectors
-	wxFont GetLabelFont() {return m_LabelFont;}
-	/// Sets the font used for displaying the labels of sectors
-	void SetLabelFont(wxFont font);
-	/// Returns the size of horizontal border of legend window
-	unsigned int GetHorBorder() {return m_HorBorder;}
-	/// Returns the size of vertical border of legend window
-	unsigned int GetVerBorder() {return m_VerBorder;}
-	/// Sets the size of horizontal border of legend window
-	void SetHorBorder(unsigned int value);
-	/// Sets the size of vertical border of legend window
-	void SetVerBorder(unsigned int value);
-	/// Returns the colour used for displaying the labels of sectors
-	wxColour GetLabelColour() {return m_LabelColour;}
-	/// Sets the colour used for displaying the labels of sectors
-	void SetLabelColour(wxColour colour);
-	/// Returns the colour used for displaying lagend window background
-	wxColour GetBackColour() {return m_BackColour;}
-	/// Sets the colour used for displaying legend window background
-	void SetBackColour(wxColour colour);
-
-	void SetLabel(const wxString& label);
-
-	DECLARE_EVENT_TABLE()
-	void OnPaint(wxPaintEvent & event);
-	void OnEraseBackground(wxEraseEvent & event);
-	friend class wxPieCtrl;
-};
 // ========================================================================
 //  wxPieCtrl
 // ------------------------------------------------------------------------
@@ -141,15 +73,26 @@ protected:
 	wxBitmap m_CanvasBitmap;
 	wxMemoryDC m_CanvasDC;
 	wxColour m_BackColour;
-	wxPieCtrlLegend * m_Legend;
 	bool m_CanRepaint;
 	bool m_ShowEdges;
 	int m_lastCoveredPart;
+        // parameters affecting legend
+        wxFont m_TitleFont;
+	wxFont m_LabelFont;
+	bool m_LegendIsTransparent;
+	wxColour m_TitleColour;
+	wxColour m_LabelColour;
+	wxColour m_LegendBackColour;
+	unsigned int m_legendHorBorder;
+	unsigned int m_LegendVerBorder;
+	wxString m_szTitle;
+
 	//internal methods
 	void GetPartAngles(wxArrayDouble & angles);	
 	void RecreateCanvas();
 	int GetCoveredPiePart(int x,int y);
 	void DrawParts(wxRect& pieRect);
+        void DrawLegend(int left, int top);
 	void Draw(wxPaintDC & pdc);
 public:
 	/// An array of wxPiePart objects for storing information about sectors
@@ -166,9 +109,34 @@ public:
 
 	void SetPadding(int pad);
 	int GetPadding();
-	/// Returns the pointer of diagram legend
-	wxPieCtrlLegend * GetLegend() {return m_Legend;}
 	virtual void Refresh(bool eraseBackground = true, const wxRect* rect = NULL);
+
+	/// Returns transparency flag of legend box
+	bool IsTransparent() {return m_LegendIsTransparent;}
+	/// Sets transparency flag of legend box
+	void SetTransparent(bool value);
+	/// Returns the font used for displaying the labels of sectors
+	wxFont GetLabelFont() {return m_LabelFont;}
+	/// Sets the font used for displaying the labels of sectors
+	void SetLabelFont(wxFont font);
+	/// Returns the size of horizontal border of legend box
+	unsigned int GeHorLegendBorder() {return m_legendHorBorder;}
+	/// Returns the size of vertical border of legend box
+	unsigned int GetVerLegendBorder() {return m_LegendVerBorder;}
+	/// Sets the size of horizontal border of legend box
+	void SetHorLegendBorder(unsigned int value);
+	/// Sets the size of vertical border of legend box
+	void SetVerLegendBorder(unsigned int value);
+	/// Returns the colour used for displaying the labels of sectors
+	wxColour GetLabelColour() {return m_LabelColour;}
+	/// Sets the colour used for displaying the labels of sectors
+	void SetLabelColour(wxColour colour);
+	/// Returns the colour used for displaying lagend box background
+	wxColour GetLegendBackColour() {return m_LegendBackColour;}
+	/// Sets the colour used for displaying legend box background
+	void SetLegendBackColour(wxColour colour);
+
+	void SetLabel(const wxString& label);
 	
 
 	DECLARE_EVENT_TABLE()

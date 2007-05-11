@@ -18,188 +18,6 @@ WX_DEFINE_OBJARRAY(wxArrayDouble);
 #endif
 WX_DEFINE_OBJARRAY(wxPieSeries);
 
-
-/* #### wxPieCtlrLegend */
-BEGIN_EVENT_TABLE(wxPieCtrlLegend, wxWindow)
-	EVT_PAINT(wxPieCtrlLegend::OnPaint)
-	EVT_ERASE_BACKGROUND(wxPieCtrlLegend::OnEraseBackground)
-END_EVENT_TABLE()
-
-/* constructor */
-wxPieCtrlLegend::wxPieCtrlLegend(wxPieCtrl * parent, wxString title,
-		wxPoint pos, wxSize sz,
-		long style)
-		: wxWindow(parent, -1, pos, sz, style), m_IsTransparent(false),
-		m_HorBorder(5), m_VerBorder(5)
-{
-	m_TitleColour = wxColour(0,0,0);
-	m_LabelColour = *wxBLACK;
-	m_BackColour = wxColour(255,255,0);
-	m_TitleFont = *wxSWISS_FONT;
-	m_TitleFont.SetWeight(wxBOLD);
-	//remember the title, because GetLabel() doesn't seem to work under X
-	m_szTitle = title;
-}
-
-
-void wxPieCtrlLegend::SetLabel(const wxString& label) {
-	wxWindow::SetLabel(label);
-	m_szTitle = label;
-}
-
-void wxPieCtrlLegend::SetTransparent(bool value)
-{
-	m_IsTransparent = value;
-	Refresh();
-}
-
-void wxPieCtrlLegend::RecreateBackground(wxMemoryDC & parentdc)
-{
-	int w,h;
-	GetSize(&w,&h);
-	m_Background.Create(w,h);
-	m_BackgroundDC.SelectObject(m_Background);
-	if(IsTransparent())
-	{
-		m_BackgroundDC.Blit(0,0,w, h, &parentdc, GetPosition().x, GetPosition().y);
-	}
-	else
-	{
-		m_BackgroundDC.SetBackground(wxBrush(m_BackColour));
-		m_BackgroundDC.Clear();
-	}
-	Refresh();
-}
-
-void wxPieCtrlLegend::SetHorBorder(unsigned int value)
-{
-	m_HorBorder = value;
-	Refresh();
-}
-
-void wxPieCtrlLegend::SetVerBorder(unsigned int value)
-{
-	m_VerBorder = value;
-	Refresh();
-}
-
-void wxPieCtrlLegend::SetLabelColour(wxColour colour)
-{
-	m_LabelColour = colour;
-	Refresh();
-}
-
-void wxPieCtrlLegend::SetBackColour(wxColour colour)
-{
-	m_BackColour = colour;
-	Refresh();
-}
-
-void wxPieCtrlLegend::MeasureText()
-{
-	unsigned int i;
-	int w,h;
-	int dy(m_VerBorder),maxwidth,tw,th,titlew,titleh;
-	wxPieCtrl * parent = (wxPieCtrl *)GetParent();
-
-	if (parent->m_Series.Count() == 0)
-		return;
-
-	wxBitmap testbmp(10, 10);
-	wxMemoryDC testmdc(testbmp);
- 	testmdc.SetFont(m_TitleFont);
-	testmdc.GetTextExtent(m_szTitle,&titlew,&titleh);
-	dy += (titleh+5);
-	testmdc.SetFont(m_LabelFont);
-	maxwidth = titlew + 2*m_HorBorder + 15;
-	for(i = 0; i < parent->m_Series.Count(); i++)
-	{
-		testmdc.GetTextExtent(parent->m_Series[i].GetLabel(), &tw, &th);
-		dy += (th+3);
-		maxwidth = max(maxwidth, (int)(2*m_HorBorder+tw+15));
-	}
-	dy += m_VerBorder;
-
-	GetSize(&w, &h);
-	if(w != maxwidth || h != dy)
-		SetSize(maxwidth, dy);
-}
-
-void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
-{
-	int w,h,dy;
-	unsigned int i;
-	int tw,th,titlew,titleh;
-
-	wxPieCtrl * parent = (wxPieCtrl *)GetParent();
-
-	if (parent->m_Series.Count() == 0)
-		return;
-
-	GetSize(&w, &h);
-	wxBitmap bmp(w, h);
-	wxMemoryDC mdc(bmp);
-
-	if(IsTransparent())
-	{
-//		wxClientDC parentdc(GetParent());
-		mdc.Blit(0,0,w,h,&m_BackgroundDC, 0, 0);
-	}
-	else
-	{
-		mdc.SetBackground(wxBrush(m_BackColour));
-		mdc.Clear();
-	}
-
-	// Draw legend title
-	mdc.SetFont(m_TitleFont);
-	mdc.SetTextForeground(m_TitleColour);
-	mdc.GetTextExtent(m_szTitle,&titlew,&titleh);
-	mdc.DrawText(m_szTitle,m_HorBorder+2,m_VerBorder+2);
-
-	// Draw legend items
-	dy = m_VerBorder+titleh+5;
-	mdc.SetFont(m_LabelFont);
-	mdc.SetTextForeground(m_LabelColour);
-
-	for(i = 0; i < parent->m_Series.Count(); i++)
-	{
-		mdc.GetTextExtent(parent->m_Series[i].GetLabel(), &tw, &th);
-		mdc.SetBrush(wxBrush(parent->m_Series[i].GetColour()));
-		mdc.DrawCircle(m_HorBorder+5, dy+th/2, 5);
-		mdc.DrawText(parent->m_Series[i].GetLabel(), m_HorBorder+15, dy);
-		dy += (th+3);
-	}
-
-	// SetWindowStyle borders distort the pie circle on Mac so we draw our own
-	int x, y;
-	wxPen savedPen = mdc.GetPen();
-	GetSize(&x,&y);
-	x--;
-	y--;
-	mdc.SetPen(*wxGREY_PEN);
-	mdc.DrawLine(0,0,x,0);	  // top
-	mdc.DrawLine(0,y,0,0);	  // left
-	mdc.SetPen(*wxWHITE_PEN);
-	mdc.DrawLine(0,y,x,y);	  // bottom
-	mdc.DrawLine(x,0,x,y);	  // right
-	mdc.SetPen(savedPen);
-
-	wxPaintDC pdc(this);
-	pdc.Blit(0,0,w,h,&mdc,0,0);
-}
-
-void wxPieCtrlLegend::SetLabelFont(wxFont font)
-{
-	m_LabelFont = font;
-	Refresh();
-}
-
-void wxPieCtrlLegend::OnEraseBackground(wxEraseEvent & /*event*/)
-{
-	//prevent flickering
-}
-
 /* ####### wxPiePart */
 wxPiePart::wxPiePart()
 : m_Value(0)
@@ -235,10 +53,19 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 	m_BackColour=*wxWHITE;
 	m_padding=10;
 
+	m_TitleColour = wxColour(0,0,0);
+	m_LabelColour = *wxBLACK;
+	m_LegendBackColour = wxColour(255,255,0);
+	m_TitleFont = *wxSWISS_FONT;
+	m_TitleFont.SetWeight(wxBOLD);
+	m_LabelFont = *wxSWISS_FONT;
+	m_legendHorBorder = 10;
+ 	m_LegendVerBorder = 10;
+	m_szTitle = _("Pie Ctrl");
+
 	SetSizer(NULL);
 	SetSize(sz);
 	m_CanvasBitmap.Create(1,1);
-	m_Legend = new wxPieCtrlLegend(this, _("Pie Ctrl"), wxPoint(10,10), wxSize(100,75));
 	RecreateCanvas();
 }
 
@@ -337,8 +164,7 @@ void wxPieCtrl::RecreateCanvas()
 		return;
 //#endif
  	m_CanvasBitmap.Create(x, y);
-   	m_CanvasDC.SelectObject(m_CanvasBitmap);
-
+	m_CanvasDC.SelectObject(m_CanvasBitmap);
 }
 
 void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)
@@ -411,6 +237,64 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	m_CanvasDC.SetPen(oldpen);
 }
 
+void wxPieCtrl::DrawLegend(int left, int top)
+{
+	unsigned int i;
+	int dy(m_LegendVerBorder),tw,th,titlew,titleh;
+
+	// First determine the size of the legend box
+	m_CanvasDC.SetFont(m_TitleFont);
+	m_CanvasDC.GetTextExtent(m_szTitle,&titlew,&titleh);
+
+	m_CanvasDC.DrawText(m_szTitle,left+m_legendHorBorder+2,top+m_LegendVerBorder+2);
+	dy += (titleh+5);
+	m_CanvasDC.SetFont(m_LabelFont);
+
+	int maxwidth(titlew + 2*m_legendHorBorder + 15);
+	for(i = 0; i < m_Series.Count(); i++)
+	{
+		m_CanvasDC.GetTextExtent(m_Series[i].GetLabel(), &tw, &th);
+		dy += (th+3);
+		maxwidth = max(maxwidth, (int)(2*m_legendHorBorder+tw+15));
+	}
+	dy += m_LegendVerBorder;
+
+	int right(left+maxwidth-1), bottom(top+dy-1);
+
+	if(! IsTransparent())
+	{
+		m_CanvasDC.SetBrush(wxBrush(m_LegendBackColour));
+		m_CanvasDC.DrawRectangle(left, top, maxwidth, dy);
+	}
+
+	// Now draw the legend title
+	dy = m_LegendVerBorder+titleh+5;
+	m_CanvasDC.SetFont(m_TitleFont);
+	m_CanvasDC.SetTextForeground(m_TitleColour);
+	m_CanvasDC.DrawText(m_szTitle,left+m_legendHorBorder+2,top+m_LegendVerBorder+2);
+
+ 	// Draw the legend items
+	m_CanvasDC.SetFont(m_LabelFont);
+	m_CanvasDC.SetTextForeground(m_LabelColour);
+	for(i = 0; i < m_Series.Count(); i++)
+	{
+		m_CanvasDC.SetBrush(wxBrush(m_Series[i].GetColour()));
+		m_CanvasDC.DrawCircle(left+m_legendHorBorder+5, top+dy+th/2, 5);
+		m_CanvasDC.DrawText(m_Series[i].GetLabel(), left+m_legendHorBorder+15, top+dy);
+		dy += (th+3);
+	}
+
+	// Draw the legend frame
+	wxPen savedPen = m_CanvasDC.GetPen();
+	m_CanvasDC.SetPen(*wxGREY_PEN);
+	m_CanvasDC.DrawLine(left,top,right,top);		// top
+	m_CanvasDC.DrawLine(left,bottom,left,top);		// left
+	m_CanvasDC.SetPen(*wxWHITE_PEN);
+	m_CanvasDC.DrawLine(left,bottom,right,bottom);		// bottom
+	m_CanvasDC.DrawLine(right,top,right,bottom);		// right
+	m_CanvasDC.SetPen(savedPen);
+}
+
 /* paint the pie */
 void wxPieCtrl::Draw(wxPaintDC & pdc)
 {
@@ -437,6 +321,7 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		if(m_Series.Count())
 		{
 			DrawParts(pieRect);
+			DrawLegend(10, 10);
 		}
 		else {
 			//no data, draw an black circle
@@ -453,7 +338,6 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		m_CanRepaint = false;
 	}
 	pdc.Blit(0,0,bgW,bgH,&m_CanvasDC,0,0);
-	m_Legend->RecreateBackground(m_CanvasDC);
 }
 
 
@@ -461,6 +345,47 @@ void wxPieCtrl::Refresh(bool eraseBackground, const wxRect* rect)
 {
 	m_CanRepaint = true;
 	wxWindow::Refresh(eraseBackground, rect);
-	m_Legend->MeasureText();   
 }
 
+
+
+void wxPieCtrl::SetLabel(const wxString& label) {
+	wxWindow::SetLabel(label);
+	m_szTitle = label;
+}
+
+void wxPieCtrl::SetTransparent(bool value)
+{
+	m_LegendIsTransparent = value;
+	Refresh();
+}
+
+void wxPieCtrl::SetLabelFont(wxFont font)
+{
+	m_LabelFont = font;
+	Refresh();
+}
+
+void wxPieCtrl::SetHorLegendBorder(unsigned int value)
+{
+	m_legendHorBorder = value;
+	Refresh();
+}
+
+void wxPieCtrl::SetVerLegendBorder(unsigned int value)
+{
+	m_LegendVerBorder = value;
+	Refresh();
+}
+
+void wxPieCtrl::SetLabelColour(wxColour colour)
+{
+	m_LabelColour = colour;
+	Refresh();
+}
+
+void wxPieCtrl::SetLegendBackColour(wxColour colour)
+{
+	m_LegendBackColour = colour;
+	Refresh();
+}
