@@ -613,6 +613,9 @@ void CViewProjectsGrid::FormatStatus(wxInt32 item, wxString& strBuffer) {
             append_to_status(strBuffer, _("Scheduler request pending"));
 			append_to_status(strBuffer, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
         }
+        if (project->scheduler_rpc_in_progress) {
+            append_to_status(strBuffer, _("Scheduler request in progress"));
+        }
         wxDateTime dtNextRPC((time_t)project->min_rpc_time);
         wxDateTime dtNow(wxDateTime::Now());
         if (dtNextRPC > dtNow) {

@@ -4852,3 +4852,10 @@ David  11 May 2007
 
     html/user/
         show_user.php
+
+David  11 May 2007
+    - Manager: show (in Project/status) if a sched RPC is in progress
+
+    clientgui/
+        ViewProjects.cpp
+        ViewProjectsGrid.cpp
