@@ -4805,3 +4805,11 @@ David  10 May 2007
 
 	client/
 		cs_scheduler.C
+
+Rom    10 May 2007
+    - Fix a build break in the manager.
+    
+    client/
+        app.h
+    lib/
+        common_defs.h

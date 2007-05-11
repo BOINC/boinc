@@ -130,6 +130,28 @@ enum SUSPEND_REASON {
 #define RESULT_ABORTED          6
     // result was aborted
 
+// values of ACTIVE_TASK::task_state
+//
+#define PROCESS_UNINITIALIZED   0
+    // process doesn't exist yet
+#define PROCESS_EXECUTING       1
+    // process is running, as far as we know
+#define PROCESS_SUSPENDED       9
+    // we've sent it a "suspend" message
+#define PROCESS_ABORT_PENDING   5
+    // process exceeded limits; send "abort" message, waiting to exit
+#define PROCESS_QUIT_PENDING    8
+    // we've sent it a "quit" message, waiting to exit
+
+// states in which the process has exited
+#define PROCESS_EXITED          2
+#define PROCESS_WAS_SIGNALED    3
+#define PROCESS_EXIT_UNKNOWN    4
+#define PROCESS_ABORTED         6
+    // aborted process has exited
+#define PROCESS_COULDNT_START   7
+
+
 // values of "network status"
 //
 #define NETWORK_STATUS_ONLINE			0
