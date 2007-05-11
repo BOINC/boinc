@@ -4797,3 +4797,11 @@ Rom    10 May 2007
     html/inc/
         forum.inc
         forum_moderators.inc
+
+David  10 May 2007
+	- core client: fix big that caused
+		duplicate app versions to appear in state file
+		(this was harmless, BTW)
+
+	client/
+		cs_scheduler.C
