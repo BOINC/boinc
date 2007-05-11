@@ -231,9 +231,6 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
 	boinctotal += pDoc->disk_usage.d_boinc;
-#ifdef __WXMAC__
-	boinctotal += wxGetApp().GetManagerBundleSize();
-#endif			
 	FormatDiskSpace(boinctotal,diskspace);		
 	part.SetLabel(_("used by BOINC - ") + diskspace);
 	part.SetValue(boinctotal);

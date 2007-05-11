@@ -4820,9 +4820,15 @@ Charlie 10 May 2007
         drawing into the PieCtrl class itself, greatly simplifying it.
     - Mac only: create CViewResources::GetViewRefreshRate() to update 
         PieCtrl only every 10 seconds to reduce CPU overhead instead of 
-        doing it with a counter in CViewResources::OnListRender(). 
+        doing it with a counter in CViewResources::OnListRender().
+    - Mac: Determine size of BOINC Manager bundle in core client if it was 
+        launched by Manager rather than in the Manager itself, to get 
+        correct information when controlling a remote computer.
 
+    client/
+        gui_rpc_server_ops.C
     clientgui/
+        BOINCGUIApp.cpp, .h
         ViewResources.cpp, h
         common/
             wxPieCtrl.cpp, h

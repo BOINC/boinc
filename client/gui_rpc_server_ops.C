@@ -23,6 +23,10 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #ifndef _WIN32
 #include "config.h"
 #include <stdio.h>
@@ -124,6 +128,21 @@ static void handle_get_disk_usage(MIOFILE& fout) {
     dir_size(".", d_boinc, false);
     dir_size("locale", size, false);
     d_boinc += size;
+#ifdef __APPLE__
+    if (gstate.launched_by_manager) {
+        // If launched by Manager, get Manager's size on disk
+        ProcessSerialNumber managerPSN;
+        FSRef ourFSRef;
+        char path[1024];
+        double manager_size = 0.0;
+        OSStatus err;
+        err = GetProcessForPID(getppid(), &managerPSN);
+        if (! err) err = GetProcessBundleLocation(&managerPSN, &ourFSRef);
+        if (! err) err = FSRefMakePath (&ourFSRef, (UInt8*)path, sizeof(path));
+        if (! err) dir_size(path, manager_size, true);
+        if (! err) d_boinc += manager_size;
+    }
+#endif
     fout.printf(
         "<d_total>%f</d_total>\n"
         "<d_free>%f</d_free>\n"
