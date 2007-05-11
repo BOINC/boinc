@@ -4865,3 +4865,16 @@ David  11 May 2007
 
     html/inc/
         xml.inc
+
+David  11 May 2007
+    - Python tools:
+        - removed "add" (long deprecated)
+        - version.py is needed only in test/;
+            remove references to it in boinc_path_config.py,
+            and don't copy it to project/bin
+
+    py/Boinc/
+        boinc_path_config.py.in
+        setup_project.py
+    tools/
+        add (removed)

@@ -15,24 +15,3 @@ TOP_SOURCE_DIR = os.environ.get('TOP_SOURCE_DIR') or TOP_SOURCE_DIR
 sys.path.insert(0, os.path.join(TOP_SOURCE_DIR, 'py'))
 if TOP_BUILD_DIR != TOP_SOURCE_DIR:
     sys.path.insert(0, os.path.join(TOP_BUILD_DIR, 'py'))
-
-try:
-    from Boinc import version
-except ImportError:
-    sys_path = sys.path
-    raise SystemExit("""
-
-FATAL configuration error
-=========================
-
-boinc_path_config.py: Couldn't find version.py.
-
-boinc/py/Boinc/version.py should have been built from boinc/py/version.py.in
-by configure.
-
-TOP_SOURCE_DIR = %(TOP_SOURCE_DIR)s
-TOP_BUILD_DIR  = %(TOP_BUILD_DIR)s
-
-sys.path = %(sys_path)s
-
-""" %locals())
