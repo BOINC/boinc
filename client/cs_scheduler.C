@@ -290,9 +290,11 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         if (x == 0) continue;
         fprintf(f,
             "    <ip_result>\n"
+            "        <name>%s</name>\n"
             "        <report_deadline>%f</report_deadline>\n"
             "        <cpu_time_remaining>%f</cpu_time_remaining>\n"
             "    </ip_result>\n",
+            rp->name,
             rp->report_deadline,
             x
         );
@@ -641,6 +643,16 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
     for (i=0; i<sr.app_versions.size(); i++) {
         APP_VERSION& avpp = sr.app_versions[i];
+        if (strlen(avpp.platform) == 0) {
+            strcpy(avpp.platform, get_primary_platform());
+        } else {
+            if (!is_supported_platform(avpp.platform)) {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "App version has unsupported platform %s", avpp.platform
+                );
+                continue;
+            }
+        }
         APP* app = lookup_app(project, avpp.app_name);
         APP_VERSION* avp = lookup_app_version(app, avpp.platform, avpp.version_num);
         if (avp) {
@@ -650,26 +662,11 @@ int CLIENT_STATE::handle_scheduler_reply(
             continue;
         }
         avp = new APP_VERSION;
-        *avp = sr.app_versions[i];
+        *avp = avpp;
         retval = link_app_version(project, avp);
         if (retval) {
-             msg_printf(project, MSG_INTERNAL_ERROR,
-                 "Can't handle application version %s %d in scheduler reply",
-                 avp->app_name, avp->version_num
-             );
              delete avp;
              continue;
-        }
-        if (strlen(avp->platform) == 0) {
-            strcpy(avp->platform, get_primary_platform());
-        } else {
-            if (!is_supported_platform(avp->platform)) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
-                    "App version has unsupported platform %s", avp->platform
-                );
-                delete avp;
-                continue;
-            }
         }
         app_versions.push_back(avp);
     }
