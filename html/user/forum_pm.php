@@ -128,6 +128,8 @@ if ($action == "inbox") {
                 $user = lookup_user_name($username);
                 if ($user == null) {
                     pm_create_new("Could not find user $username");
+                } elseif ($user == -1) { // Non-unique username
+                    pm_create_new("User $username is not unique; you will have to use user ID");
                 }
             }
             $ignorelist = mysql_query("SELECT ignorelist FROM forum_preferences WHERE userid=".$user->id);

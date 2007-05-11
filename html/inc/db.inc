@@ -62,7 +62,7 @@ function lookup_user_email_addr($email_addr) {
 }
 
 function lookup_user_name($name) {
-    $result = mysql_query("SELECT * FROM user WHERE name='".mysql_escape_string($name)."'");
+    $result = mysql_query("SELECT * FROM user WHERE name='".mysql_real_escape_string($name)."'");
     if ($result) {
         if (mysql_num_rows($result) == 1) {
             return mysql_fetch_object($result);
