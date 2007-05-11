@@ -4782,3 +4782,8 @@ Janus	10 May 2007
     /html/bt/inc/
         binteger.php
 
+David  10 May 2007
+    - boinc_cmd: add --network_available and --get_cc_status options
+
+    lib/
+        boinc_cmd.C

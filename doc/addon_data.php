@@ -186,6 +186,16 @@ array('inst_nB_v13.exe',
 
 $linux = array(
 array(
+    'http://www.vanheusden.com/multitail/',
+    'MultiTail',
+    '5.0.3',
+    'Multitail shows several simultaneous tails in different curses windows.',
+    'http://www.vanheusden.com/multitail/',
+    '',
+    'Multitail shows several simultaneous tails in different curses windows. It\'s handy in combination with BOINCtail, or to see the client output files when run with -redirectio. ',
+    1178838772
+),
+array(
     'http://www.vanheusden.com/boinctail/',
     'BOINCTail',
     '0.1',

@@ -93,6 +93,8 @@ Commands:\n\
  --lookup_account url email passwd\n\
  --create_account url email passwd name\n\
  --read_cc_config\n\
+ --network_available\n\
+ --get_cc_status\n\
  --quit\n"
 );
     exit(1);
@@ -519,17 +521,25 @@ int main(int argc, char** argv) {
         retval = rpc.quit();
     } else if (!strcmp(cmd, "read_cc_config")) {
         retval = rpc.read_cc_config();
+    } else if (!strcmp(cmd, "network_available")) {
+        retval = rpc.network_available();
+    } else if (!strcmp(cmd, "get_cc_status")) {
+        CC_STATUS cs;
+        retval = rpc.get_cc_status(cs);
+        if (!retval) {
+            retval = cs.network_status;
+        }
     } else {
         fprintf(stderr, "unrecognized command %s\n", cmd);
     }
-    if (retval) {
+    if (retval < 0) {
         show_error(retval);
     }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSACleanup();
 #endif
-    return 0;
+    exit(retval);
 }
 
 const char *BOINC_RCSID_77f00010ab = "$Id$";
