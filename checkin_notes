@@ -4813,3 +4813,16 @@ Rom    10 May 2007
         app.h
     lib/
         common_defs.h
+
+Charlie 10 May 2007
+    - One more rework of Mac PieCtrl following Frank Weiler's suggestions.
+        Eliminated wxPieCtrlLegend class completely, integrated legend 
+        drawing into the PieCtrl class itself, greatly simplifying it.
+    - Mac only: create CViewResources::GetViewRefreshRate() to update 
+        PieCtrl only every 10 seconds to reduce CPU overhead instead of 
+        doing it with a counter in CViewResources::OnListRender(). 
+
+    clientgui/
+        ViewResources.cpp, h
+        common/
+            wxPieCtrl.cpp, h
