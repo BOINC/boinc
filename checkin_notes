@@ -4787,3 +4787,13 @@ David  10 May 2007
 
     lib/
         boinc_cmd.C
+
+Rom    10 May 2007
+    - Add a project config.xml option to allow moderators to ban
+        accounts.
+        
+      <moderators_allowed_to_ban>1</moderators_allowed_to_ban>
+      
+    html/inc/
+        forum.inc
+        forum_moderators.inc
