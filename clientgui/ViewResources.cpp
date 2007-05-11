@@ -75,21 +75,21 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlTotal = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxSize(-1,-1));
 	wxASSERT(m_pieCtrlTotal);
 	// setup the legend
-	m_pieCtrlTotal->GetLegend()->SetTransparent(true);
-	m_pieCtrlTotal->GetLegend()->SetHorBorder(10);
-	m_pieCtrlTotal->GetLegend()->SetLabelFont(*wxSWISS_FONT);
-	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,0));
-	m_pieCtrlTotal->GetLegend()->SetLabel(_("total disk usage"));
+	m_pieCtrlTotal->SetTransparent(true);
+	m_pieCtrlTotal->SetHorLegendBorder(10);
+	m_pieCtrlTotal->SetLabelFont(*wxSWISS_FONT);
+	m_pieCtrlTotal->SetLabelColour(wxColour(0,0,0));
+	m_pieCtrlTotal->SetLabel(_("total disk usage"));
 
 	// create pie chart ctrl for BOINC disk usage
 	m_pieCtrlBOINC = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
 	wxASSERT(m_pieCtrlBOINC);
 	//setup the legend
-	m_pieCtrlBOINC->GetLegend()->SetTransparent(true);
-	m_pieCtrlBOINC->GetLegend()->SetHorBorder(10);
-	m_pieCtrlBOINC->GetLegend()->SetLabelFont(*wxSWISS_FONT);
-	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,0));
-	m_pieCtrlBOINC->GetLegend()->SetLabel(_("disk usage by BOINC projects"));
+	m_pieCtrlBOINC->SetTransparent(true);
+	m_pieCtrlBOINC->SetHorLegendBorder(10);
+	m_pieCtrlBOINC->SetLabelFont(*wxSWISS_FONT);
+	m_pieCtrlBOINC->SetLabelColour(wxColour(0,0,0));
+	m_pieCtrlBOINC->SetLabel(_("disk usage by BOINC projects"));
 	//init the flexGrid
     itemGridSizer->Add(m_pieCtrlTotal,1,wxGROW|wxALL,1);
     itemGridSizer->Add(m_pieCtrlBOINC,1, wxGROW|wxALL,1);	
@@ -122,6 +122,13 @@ void CViewResources::UpdateSelection() {
     CBOINCBaseView::PreUpdateSelection();
     //CBOINCBaseView::PostUpdateSelection();
 }
+
+
+#ifdef __WXMAC__
+const int CViewResources::GetViewRefreshRate() {
+    return 10;
+}
+#endif
 
 
 wxInt32 CViewResources::FormatProjectName(PROJECT* project, wxString& strBuffer) const {
@@ -168,13 +175,6 @@ bool CViewResources::OnRestoreState(wxConfigBase* /*pConfig*/) {
 }
 
 void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-#ifdef __WXMAC__
-    // Refresh only on every 10th call to reduce CPU overhead
-    static int passCounter = 9;
-    if (++passCounter < 10)
-            return;
-        passCounter = 0;
-#endif
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString diskspace;
 	double boinctotal=0.0;
