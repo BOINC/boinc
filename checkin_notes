@@ -4859,3 +4859,9 @@ David  11 May 2007
     clientgui/
         ViewProjects.cpp
         ViewProjectsGrid.cpp
+
+David  11 May 2007
+    - web RPC: show lots more info in team_lookup.php, XML version
+
+    html/inc/
+        xml.inc

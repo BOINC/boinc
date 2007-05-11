@@ -117,8 +117,15 @@ function show_team_member($user, $show_email) {
 function show_team_xml($team) {
     echo "<team>
     <id>$team->id</id>
+    <create_time>$team->create_time</create_time>
+    <userid>$team->userid</userid>
     <name>".htmlspecialchars($team->name)."</name>
+    <url>$team->url</url>
+    <type>$team->type</type>
     <country>$team->country</country>
+    <total_credit>$team->total_credit</total_credit>
+    <expavg_credit>$team->expavg_credit</expavg_credit>
+    <expavg_time>$team->expavg_time</expavg_time>
 </team>
 ";
 }
