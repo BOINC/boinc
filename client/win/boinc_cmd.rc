@@ -120,7 +120,7 @@ BEGIN
             VALUE "InternalName", "boinc_cmd"
             VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc_cmd.exe"
-            VALUE "ProductName", "BOINC core client"
+            VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -155,7 +155,7 @@ BEGIN
             VALUE "InternalName", "boinc_cmd"
             VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc_cmd.exe"
-            VALUE "ProductName", "BOINC core client"
+            VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -190,7 +190,7 @@ BEGIN
             VALUE "InternalName", "boinc_cmd"
             VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc_cmd.exe"
-            VALUE "ProductName", "BOINC core client"
+            VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -225,7 +225,7 @@ BEGIN
             VALUE "InternalName", "boinc_cmd"
             VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc_cmd.exe"
-            VALUE "ProductName", "BOINC core client"
+            VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END

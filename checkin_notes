@@ -4878,3 +4878,13 @@ David  11 May 2007
         setup_project.py
     tools/
         add (removed)
+
+Rom    12 May 2007
+    - Change the 'ProductName' in the resource structures to
+        'BOINC client' instead of 'BOINC core client'
+
+    client/win/
+        boinc_cmd.rc
+        boinc_ss.rc
+    clientgui/
+        BOINCGUIApp.rc
