@@ -393,34 +393,38 @@ function end_forum_table() {
 /**
  * Output the forum/thread title.
  **/
-function show_forum_title($forum=NULL, $thread=NULL) {
-    start_table_noborder();
-    echo "<tr>\n";
+function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
+    if ($extended) {
+        start_table_noborder();
+        echo "<tr>\n";
 
-    // Search
-    echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
-        <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
-        <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
-        <input type=\"hidden\" name=\"search_sort\" value=\"5\">
-        <input type=\"text\" name=\"search_keywords\">
-        <input type=\"submit\" value=\"search\"><br>
-        <span class=\"smalltext\"><a href=\"forum_search.php\">advanced search</a></span>
-        </form>
-    ";
-    echo "</td>\n";
-
-    $logged_in_user = get_logged_in_user(false);
-    // Custom stuff for logged in user
-    if ($logged_in_user) {
-        echo "<td align=\"right\">\n";
-        
-        // Private messages
-        echo pm_notification($logged_in_user);
-        
+      
+        // Search
+        echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
+            <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
+            <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
+            <input type=\"hidden\" name=\"search_sort\" value=\"5\">
+            <input type=\"text\" name=\"search_keywords\">
+            <input type=\"submit\" value=\"search\"><br>
+            <span class=\"smalltext\"><a href=\"forum_search.php\">advanced search</a></span>
+            </form>
+        ";
         echo "</td>\n";
+
+      
+        $logged_in_user = get_logged_in_user(false);
+        // Custom stuff for logged in user
+        if ($logged_in_user) {
+            echo "<td align=\"right\">\n";
+            
+            // Private messages
+            echo pm_notification($logged_in_user);
+            
+            echo "</td>\n";
+        }
+        echo "</tr>\n";
+        end_table();
     }
-    echo "</tr>\n";
-    end_table();
 
     echo "<p>\n";
     if ($forum) {

@@ -36,7 +36,7 @@ echo "
     </p>
 ";
 
-show_forum_title(NULL, NULL, false);
+show_forum_title(NULL, NULL);
 start_forum_table(array(tr(FORUM_TOPIC), tr(FORUM_THREADS), tr(FORUM_POSTS), tr(FORUM_LAST_POST)));
 
 $categories = $mainFactory->getCategories();

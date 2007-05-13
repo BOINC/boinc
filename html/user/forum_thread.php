@@ -42,17 +42,17 @@ $title = cleanup_title($thread->getTitle());
 if (!$sort_style) {
     // get the sorting style from the user or a cookie
     if ($logged_in_user){
-	$sort_style = $logged_in_user->getThreadSortStyle();
+        $sort_style = $logged_in_user->getThreadSortStyle();
     } else {
         list($forum_style, $sort_style)=explode("|",$_COOKIE['sorting']);
     }
 } else {
     if ($logged_in_user){
-	$logged_in_user->setThreadSortStyle($sort_style);
+        $logged_in_user->setThreadSortStyle($sort_style);
     } else {
         list($forum_style,$old_style)=explode("|",$_COOKIE['sorting']);
         setcookie('sorting', implode("|",array($forum_style,$sort_style)), time()+3600*24*365);
-    }	
+    }
 }
 
 
@@ -72,57 +72,57 @@ show_forum_title($forum, $thread);
 if ($thread->getType()!=0 && $thread->getStatus()==0){
     $thread_owner = $thread->getOwner();
     if ($logged_in_user){
-	    if ($thread_owner->getID() == $logged_in_user->getID()){
-	    if ($thread->getPostCount()!=0) {
-	        // Show a "this question has been answered" to the author
-		    echo "<div class=\"helpdesk_note\">
-		    <form action=\"forum_thread_status.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->getID()."\">
-		    <input type=\"submit\" value=\"My question was answered\">
-		    </form>
-		    If your question has been adequately answered please click here to close it!
-		    </div>";
-	        }
-	    } else {
-	        // and a "I also got this question" to everyone else if they havent already told so
-	        echo "<div class=\"helpdesk_note\">
-	        <form action=\"forum_thread_vote.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->getID()."\">
-	        <input type=\"submit\" value=\"I've also got this question\">
-	        </form>
-	        </div>";
-	    }
-	}
+            if ($thread_owner->getID() == $logged_in_user->getID()){
+                if ($thread->getPostCount()!=0) {
+                    // Show a "this question has been answered" to the author
+                    echo "<div class=\"helpdesk_note\">
+                    <form action=\"forum_thread_status.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->getID()."\">
+                    <input type=\"submit\" value=\"My question was answered\">
+                    </form>
+                    If your question has been adequately answered please click here to close it!
+                    </div>";
+                }
+            } else {
+                // and a "I also got this question" to everyone else if they havent already told so
+                echo "<div class=\"helpdesk_note\">
+                <form action=\"forum_thread_vote.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->getID()."\">
+                <input type=\"submit\" value=\"I've also got this question\">
+                </form>
+                </div>";
+            }
+        }
     }
-
+    
     echo "
         <form action=\"forum_thread.php\">
         <input type=\"hidden\" name=\"id\" value=\"", $thread->getID(), "\">
         <table width=\"100%\" cellspacing=0 cellpadding=0>
         <tr>
         <td align=\"left\">";
-
+    
     if (can_reply($thread, $logged_in_user)) {        
         echo $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
     }
-
+    
     if ($is_subscribed) {
         echo tr(FORUM_THREAD_SUBSCRIBED)." ";
         echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->getID()."$tokens\">".tr(FORUM_THREAD_UNSUBSCRIBE)."</a>.";
     } else {
         echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=".$thread->getID()."$tokens\">".tr(FORUM_THREAD_SUBSCRIBE)."</a>";
     }
-
+    
     //If the logged in user is moderator enable some extra features
     if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
-	    if ($thread->isHidden()){
-	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."$tokens\">Un-Delete this thread</a>";
-	    } else {
-	        echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=".$thread->getID()."\">Delete this thread</a>";
-	    }
-	    if ($thread->isSticky()){
-	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."$tokens\">De-sticky this thread</a>"; 
-	    } else {
-	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."$tokens\">Make this thread sticky</a>";
-	    }
+        if ($thread->isHidden()){
+            echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."$tokens\">Un-Delete this thread</a>";
+        } else {
+            echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=".$thread->getID()."\">Delete this thread</a>";
+        }
+        if ($thread->isSticky()){
+            echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."$tokens\">De-sticky this thread</a>"; 
+        } else {
+            echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."$tokens\">Make this thread sticky</a>";
+        }
         if ($thread->isLocked()) {
             echo "<br /><a href=\"forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->getID()."$tokens\">Unlock thread</a>";
         } else {
@@ -147,7 +147,7 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
     end_forum_table();
 
     echo "<p>".$reply_text;
-    show_forum_title($forum, $thread);
+    show_forum_title($forum, $thread, false);
     $thread->incViews();
 
 page_tail();
