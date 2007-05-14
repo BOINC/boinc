@@ -70,6 +70,8 @@ struct WORK_REQ {
     bool outdated_core;
     bool daily_result_quota_exceeded;
     int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
+    bool cache_size_exceeded;
+    int nresults_on_host;
     void update_for_result(double seconds_filled);
 };
 

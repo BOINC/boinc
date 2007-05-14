@@ -99,6 +99,7 @@ bool resend_lost_work(
     bool did_any = false;
     int num_to_resend=0;
     int num_resent=0;
+    int num_on_host=0;
     APP* app;
     APP_VERSION* avp;
     int retval;
@@ -118,6 +119,7 @@ bool resend_lost_work(
     );
     while (!result.enumerate(buf)) {
         bool found = false;
+        num_on_host++;
         for (i=0; i<sreq.other_results.size(); i++) {
             OTHER_RESULT& orp = sreq.other_results[i];
             if (!strcmp(orp.name.c_str(), result.name)) {
@@ -221,6 +223,13 @@ bool resend_lost_work(
             did_any = true;
         }
     }
+
+    reply.wreq.nresults_on_host = num_on_host;
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        "[HOST#%d] %d results in progress, set for later checking\n",
+        reply.host.id, num_on_host
+    );
+
     if (num_to_resend) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_to_resend, num_resent 

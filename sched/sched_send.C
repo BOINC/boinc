@@ -677,6 +677,19 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
             return false;
         }
     }
+
+    if (config.max_wus_in_progress) {
+        int limit = config.max_wus_in_progress;
+        if (wreq.nresults_on_host >= limit) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "cache limit exceeded; %d > %d\n",
+                wreq.nresults_on_host, config.max_wus_in_progress
+            );
+            wreq.cache_size_exceeded=true;
+            return false;
+        }
+    }
     return true;
 }
 
@@ -818,6 +831,7 @@ int add_result_to_reply(
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
     request.estimated_delay += wu_seconds_filled/reply.host.p_ncpus;
     reply.wreq.nresults++;
+    reply.wreq.nresults_on_host++;
     if (!resent_result) reply.host.nresults_today++;
 
     // add this result to workload for simulation
@@ -1021,6 +1035,20 @@ int send_work(
                           (int)(3600*(double)rand()/(double)RAND_MAX);
             reply.set_delay(delay_time);
         }
+        if (reply.wreq.cache_size_exceeded) {
+            char helpful[256];
+            sprintf(helpful, "(reached per-host limit of %d tasks)",
+                config.max_wus_in_progress
+            );
+            USER_MESSAGE um(helpful, "high");
+            reply.insert_message(um);
+            reply.set_delay(DELAY_NO_WORK_CACHE);
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "host %d already has %d result(s) on cache\n",
+                reply.host.id, reply.wreq.nresults_on_host
+            );
+        }        
     }
 
     return 0;

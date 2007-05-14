@@ -92,6 +92,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_bool(tag, "ignore_delay_bound", ignore_delay_bound)) continue;
         else if (xp.parse_int(tag, "min_sendwork_interval", min_sendwork_interval)) continue;
         else if (xp.parse_int(tag, "max_wus_to_send", max_wus_to_send)) continue;
+        else if (xp.parse_int(tag, "max_wus_in_progress", max_wus_in_progress)) continue;
         else if (xp.parse_int(tag, "daily_result_quota", daily_result_quota)) continue;
         else if (xp.parse_int(tag, "uldl_dir_fanout", uldl_dir_fanout)) continue;
         else if (xp.parse_int(tag, "locality_scheduling_wait_period", locality_scheduling_wait_period)) continue;

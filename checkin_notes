@@ -4888,3 +4888,14 @@ Rom    12 May 2007
         boinc_ss.rc
     clientgui/
         BOINCGUIApp.rc
+
+David  14 May 2007
+    - scheduler: add max_wus_in_progress option.
+        Limits total # of in-progress results per host
+        (independently of #CPUs)
+
+    sched/
+        sched_config.C,h
+        sched_resend.C
+        sched_send.C
+        server_types.h
