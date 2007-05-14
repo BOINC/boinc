@@ -31,6 +31,7 @@
 extern "C" {
 #endif
 typedef struct BOINC_OPTIONS {
+    // the following are booleans, implemented as ints for portability
     int main_program;
         // this is the main program, so
         // - lock a lock file in the slot directory
@@ -52,6 +53,8 @@ typedef struct BOINC_OPTIONS {
     int all_threads_cpu_time;
         // count the CPU time of all threads
         // (for apps that have multiple worker threads)
+    int worker_thread_stack_size;
+        // if nonzero, the worker thread stack size limit
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {

@@ -12,10 +12,17 @@ if (!$min_passwd_length) {
     $min_passwd_length = 6;
 }
 $disable_account_creation = parse_bool($config, "disable_account_creation");
+$master_url = parse_config($config, "<master_url>");
 
 echo "<project_config>
     <name>$long_name</name>
+    <master_url>$master_url</master_url>
 ";
+
+$local_revision = trim(file_get_contents("../../local.revision"));
+if ($local_revision) {
+    echo "<local_revision>$local_revision</local_revision>\n";
+}
 
 if (web_stopped()) {
     echo "
@@ -30,10 +37,6 @@ if (web_stopped()) {
     echo "
         <min_passwd_length>$min_passwd_length</min_passwd_length>
     ";
-    $forum_version = parse_config($config, '<forum_version');
-    if ($forum_version) {
-        echo "    <forum_version>$forum_version</forum_version>\n";
-    }
 }
 if (sched_stopped()) {
     echo "<sched_stopped>1</sched_stopped>\n";

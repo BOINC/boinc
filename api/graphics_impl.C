@@ -86,7 +86,9 @@ int boinc_init_graphics_impl(WORKER_FUNC_PTR worker, BOINC_MAIN_STATE* bmsp) {
     return boinc_init_options_graphics_impl(opt, worker, bmsp);
 }
 
-int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
+static int start_worker_thread(
+    WORKER_FUNC_PTR _worker_main, BOINC_OPTIONS& options
+) {
     worker_main = _worker_main;
 #ifdef _WIN32
 
@@ -140,11 +142,13 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     // initialize ID of calling thread (the graphics-thread!)
     graphics_thread = pthread_self();
     
-    // set work stack size to max
+    // set worker stack size if specified
     //
-    struct rlimit rlim;
-    getrlimit(RLIMIT_STACK, &rlim);
-    pthread_attr_setstacksize(&worker_thread_attr, rlim.rlim_max);
+    if (options.worker_thread_stack_size) {
+        pthread_attr_setstacksize(
+            &worker_thread_attr, options.worker_thread_stack_size
+        );
+    }
 
     retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);
     if (retval) return ERR_THREAD;
@@ -166,7 +170,7 @@ int boinc_init_options_graphics_impl(
     retval = g_bmsp->boinc_init_options_general_hook(opt);
     if (retval) return retval;
     if (_worker_main) {
-        retval = start_worker_thread(_worker_main);
+        retval = start_worker_thread(_worker_main, opt);
         if (retval) return retval;
     }
 #ifdef _WIN32

@@ -4926,7 +4926,8 @@ David  14 May 2007
 		by considering an attach to be complete immediately,
 		without waiting for a successful scheduler RPC.
 
-		This was originally done to ensure that the URL and account key were valid.
+		This was originally done to ensure that the URL and account key
+        were valid.
 		But when using the BOINC Manager, we've already verified
 		both of these before doing the attach project RPC.
 
@@ -4946,3 +4947,18 @@ David  14 May 2007
 		scheduler_op.C
 		sim.C
 		sim_util.C
+
+David  14 May 2007
+    - API: Eric Myers reported that my 4 May checkin
+        (which increased worker thread stack size to the limit
+        returned by getrlimit())
+        broke his app on several Linux platforms.
+        So I added a worker_thread_stack_size element to BOINC_OPTIONS.
+        If you want an increased stack size, set this.
+    - web RPC: add <url> and <local_revision> elements to
+        the XML returned by get_project_config.php
+
+    html/user/
+        sample_get_project_config.php
+    api/
+        graphics_impl.C
