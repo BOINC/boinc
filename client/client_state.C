@@ -115,6 +115,7 @@ CLIENT_STATE::CLIENT_STATE() {
 #endif
     launched_by_manager = false;
     initialized = false;
+    last_wakeup_time = dtime();
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -432,8 +433,12 @@ bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, retval;
     static int last_suspend_reason=0;
     static bool tasks_restarted = false;
+    double old_now = now;
 
     now = dtime();
+    if (now - old_now > POLL_INTERVAL*10) {
+        last_wakeup_time = now;
+    }
 
 	if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
         run_cpu_benchmarks = false;

@@ -152,10 +152,10 @@ int NET_STATS::parse(MIOFILE& in) {
 }
 
 // Return:
-// 0 if we have network connections open
-// 1 if we need a physical connection
-// 2 if we don't have any connections, and don't need any
-// 3 if a website lookup is pending (try again later)
+// ONLINE if we have network connections open
+// WANT_CONNECTION  if we need a physical connection
+// WANT_DISCONNECT if we don't have any connections, and don't need any
+// LOOKUP_PENDING if a website lookup is pending (try again later)
 //
 // There's a 10-second slop factor;
 // if we've done network comm in the last 10 seconds,
@@ -218,6 +218,9 @@ void NET_STATUS::network_available() {
 void NET_STATUS::got_http_error() {
     if ((gstate.lookup_website_op.error_num != ERR_IN_PROGRESS)
         && !need_physical_connection
+        && gstate.now > gstate.last_wakeup_time + 30
+            // for 30 seconds after wakeup, the network system (DNS etc.)
+            // may still be coming up, so don't worry for now
     ) {
 		need_to_contact_reference_site = true;
         show_ref_message = true;

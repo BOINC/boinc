@@ -4962,3 +4962,24 @@ David  14 May 2007
         sample_get_project_config.php
     api/
         graphics_impl.C
+
+David  14 May 2007
+    - client: fix bug where:
+        1) client wakes up from hibernate
+        2) one or more network ops start (e.g. because backoff expired)
+        3) ops fail because DNS system isn't up yet
+        4) connect to reference site fails too
+        5) user sees "please create physical connection",
+            even though there's been a physical connection the whole time.
+        Solution:
+        - keep track of "last wakeup time": the last time the
+            time of day (measured in poll_slow_events())
+            increased by more than 10 times the polling interval.
+            This must be either coming out of hibernation,
+            or the user resetting the system clock.
+        - When a network operation fails, try to contact the reference site
+            only if it's more than 30 seconds after the last wakeup time.
+
+    client/
+        client_state.C,h
+        net_stats.C

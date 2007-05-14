@@ -157,6 +157,7 @@ public:
         // this affects auto-update
     bool run_by_updater;
     double now;
+    double last_wakeup_time;
     bool initialized;
 
 private:
@@ -480,4 +481,8 @@ extern double calculate_exponential_backoff(
 );
 
 #define POLL_INTERVAL   1.0
+    // the client will handle I/O (including GUI RPCs)
+    // for up to POLL_INTERVAL seconds before calling poll_slow_events()
+    // to call the polling functions
+
 #endif
