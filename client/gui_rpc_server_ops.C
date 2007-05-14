@@ -729,10 +729,9 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
     // clear messages from previous attach to project.
     //
     gstate.project_attach.messages.clear();
-    gstate.add_project(
+    gstate.project_attach.error_num = gstate.add_project(
         url.c_str(), authenticator.c_str(), project_name.c_str(), false
     );
-    gstate.project_attach.error_num = ERR_IN_PROGRESS;
     fout.printf("<success/>\n");
 }
 

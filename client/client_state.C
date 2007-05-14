@@ -435,7 +435,7 @@ bool CLIENT_STATE::poll_slow_events() {
 
     now = dtime();
 
-	if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running() && have_nontentative_project()) {
+	if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
@@ -605,7 +605,7 @@ WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
 APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, char* platform, int version_num) {
     for (unsigned int i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
-        if (avp->app != app ) continue;
+        if (avp->app != app) continue;
         if (strcmp(avp->platform, platform)) continue;
         if (version_num != avp->version_num) continue;
         return avp;
@@ -1463,24 +1463,6 @@ static inline double rand_range(double rmin, double rmax) {
 double calculate_exponential_backoff( int n, double MIN, double MAX) {
     double rmax = std::min(MAX, exp((double)n));
     return rand_range(MIN, rmax);
-}
-
-bool CLIENT_STATE::have_tentative_project() {
-	unsigned int i;
-	for (i=0; i<projects.size(); i++) {
-		PROJECT* p = projects[i];
-		if (p->tentative) return true;
-	}
-	return false;
-}
-
-bool CLIENT_STATE::have_nontentative_project() {
-	unsigned int i;
-	for (i=0; i<projects.size(); i++) {
-		PROJECT* p = projects[i];
-		if (!p->tentative) return true;
-	}
-	return false;
 }
 
 const char *BOINC_RCSID_e836980ee1 = "$Id$";

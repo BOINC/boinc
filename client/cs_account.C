@@ -70,9 +70,6 @@ int PROJECT::write_account_file() {
     if (strlen(project_name)) {
         fprintf(f, "    <project_name>%s</project_name>\n", project_name);
     }
-    if (tentative) {
-        fprintf(f, "    <tentative/>\n");
-    }
     fprintf(f, "<project_preferences>\n%s</project_preferences>\n",
         project_prefs.c_str()
     );
@@ -110,10 +107,7 @@ int PROJECT::parse_account(FILE* in) {
         } else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
-        else if (match_tag(buf, "<tentative/>")) {
-            tentative = true;
-            continue;
-        } else if (match_tag(buf, "<gui_urls>")) {
+        else if (match_tag(buf, "<gui_urls>")) {
             string foo;
             retval = copy_element_contents(in, "</gui_urls>", foo);
             if (retval) return retval;
@@ -445,7 +439,6 @@ int CLIENT_STATE::add_project(
     strcpy(project->project_name, project_name);
     project->attached_via_acct_mgr = attached_via_acct_mgr;
 
-    project->tentative = true;
     retval = project->write_account_file();
     if (retval) return retval;
 
@@ -472,59 +465,6 @@ int CLIENT_STATE::add_project(
     project->sched_rpc_pending = RPC_REASON_INIT;
     set_client_state_dirty("Add project");
     return 0;
-}
-
-// called when the client fails to attach to a project
-//
-void PROJECT::attach_failed(int error_num) {
-    gstate.project_attach.error_num = error_num;
-    switch(error_num){
-    case ERR_ATTACH_FAIL_INIT:
-        msg_printf(this, MSG_USER_ERROR,
-            "Couldn't connect to URL %s"
-            "Please check URL.",
-            master_url
-        );
-        break;
-    case ERR_ATTACH_FAIL_DOWNLOAD:
-        msg_printf(this, MSG_USER_ERROR,
-            "Couldn't access URL %s.\n"
-            "The project's servers may be down; please try again later",
-            master_url
-        );
-        break;
-    case ERR_ATTACH_FAIL_PARSE:
-        msg_printf(this, MSG_USER_ERROR,
-            "The web page at %s contains no BOINC information.\n"
-            "It may not be the URL of a BOINC project.\n"
-            "Please check the URL and try again.",
-            master_url
-        );
-        break;
-    case ERR_ATTACH_FAIL_BAD_KEY:
-        msg_printf(this, MSG_USER_ERROR,
-            "The account key you provided for %s was not valid.\n"
-            "Please check the account key and try again.",
-            master_url
-        );
-        break;
-    case ERR_ATTACH_FAIL_FILE_WRITE:
-        msg_printf(this, MSG_USER_ERROR,
-            "BOINC was unable to create an account file for %s on your disk.\n"
-            "Please check file system permissions and try again.",
-            master_url
-        );
-        break;
-    case ERR_ATTACH_FAIL_SERVER_ERROR:
-        msg_printf(this, MSG_USER_ERROR, "Can't attach - server error");
-        break;
-    default:
-        msg_printf(this, MSG_USER_ERROR,
-            "Can't attach - unknown error %d", error_num
-        );
-        break;
-    }
-    gstate.detach_project(this);
 }
 
 int CLIENT_STATE::parse_preferences_for_user_files() {

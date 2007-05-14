@@ -315,9 +315,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     bool action=false;
     static double last_time=0;
 
-	// check only every 5 sec, unless there's a tentative (new) project
+	// check only every 5 sec
 	//
-    if (!have_tentative_project() && now - last_time < 5.0) return false;
+    if (now - last_time < 5.0) return false;
     last_time = now;
 
     switch(scheduler_op->state) {
@@ -440,36 +440,32 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // make sure we don't already have a project of same name
     //
-    if (project->tentative) {
-        bool dup_name = false;
-        for (i=0; i<projects.size(); i++) {
-            p2 = projects[i];
-            if (project == p2) continue;
-            if (!strcmp(p2->project_name, project->project_name)) {
-                dup_name = true;
-                break;
-            }
-        }
-        if (dup_name) {
-            msg_printf(project, MSG_USER_ERROR,
-                "Already attached to a project named %s (possibly with wrong URL)",
-                project->project_name
-            );
-            msg_printf(project, MSG_USER_ERROR,
-                "Consider detaching this project, then trying again"
-            );
+    bool dup_name = false;
+    for (i=0; i<projects.size(); i++) {
+        p2 = projects[i];
+        if (project == p2) continue;
+        if (!strcmp(p2->project_name, project->project_name)) {
+            dup_name = true;
+            break;
         }
     }
+    if (dup_name) {
+        msg_printf(project, MSG_USER_ERROR,
+            "Already attached to a project named %s (possibly with wrong URL)",
+            project->project_name
+        );
+        msg_printf(project, MSG_USER_ERROR,
+            "Consider detaching this project, then trying again"
+        );
+    }
 
-    // on the off chance that this is the initial RPC for a project
-    // being attached, copy messages to a safe place
+    // show messages from server
     //
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());
         int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ERROR:MSG_INFO;
         show_message(project, buf, prio);
-        project_attach.messages.push_back(um.message);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {

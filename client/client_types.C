@@ -82,7 +82,6 @@ void PROJECT::init() {
     next_rpc_time = 0;
     last_rpc_time = 0;
     trickle_up_pending = false;
-    tentative = false;
     anonymous_platform = false;
     non_cpu_intensive = false;
     verify_files_on_app_start = false;

@@ -4914,3 +4914,35 @@ David  14 May 2007
 		gui_rpc_server_ops.C
 		scheduler_op.C
 		time_stats.C
+
+David  14 May 2007
+	- core client: on attach to project,
+		if the initial sched request failed,
+		the manager would show "communicating" for 60 sec,
+		then time out and show "failed to attach".
+		But the project would actually be attached.
+		This was due to a logic error,
+		but I fixed it in a more fundamental way:
+		by considering an attach to be complete immediately,
+		without waiting for a successful scheduler RPC.
+
+		This was originally done to ensure that the URL and account key were valid.
+		But when using the BOINC Manager, we've already verified
+		both of these before doing the attach project RPC.
+
+		When using boinc_cmd, you now have to check for messages
+		indicating a bad URL or account key.
+		I changed things to print these messages on every sched RPC.
+
+		Implementation: the notion of "tentative project" no longer exists.
+
+	client/
+		client_state.C,h
+		client_types.C,h
+		cs_account.C
+		cs_benchmarks.C
+		cs_scheduler.C
+		gui_rpc_server_ops.C
+		scheduler_op.C
+		sim.C
+		sim_util.C

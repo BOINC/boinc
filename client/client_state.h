@@ -226,8 +226,6 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
-    bool have_tentative_project();
-	bool have_nontentative_project();
     bool no_gui_rpc;
 private:
     int link_app(PROJECT*, APP*);

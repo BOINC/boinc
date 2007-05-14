@@ -362,7 +362,6 @@ int SIM_APP::parse(XML_PARSER& xp) {
 // add up |X-Y| over all projects, and divide by total CPU
 //
 double CLIENT_STATE::share_violation() {
-    double x = 0;
     unsigned int i;
 
     double tot = 0, trs=0;
@@ -510,7 +509,6 @@ void CLIENT_STATE::html_rec() {
 }
 
 void CLIENT_STATE::html_end() {
-    double cpu_total=sim_results.cpu_used + sim_results.cpu_wasted + sim_results.cpu_idle;
     fprintf(html_out, "</table><pre>\n");
     sim_results.compute();
     sim_results.print(html_out);
@@ -644,7 +642,7 @@ int main(int argc, char** argv) {
             total_results.add(sim_results);
             chdir("..");
         }
-        total_results.divide(dirs.size());
+        total_results.divide((int)(dirs.size()));
         total_results.print(stdout, "Total");
     } else {
         read_config_file();

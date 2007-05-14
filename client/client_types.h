@@ -221,10 +221,6 @@ public:
         // should be done (as requested by server)
 	bool possibly_backed_off;
     bool trickle_up_pending;    // have trickle up to send
-    bool tentative;
-	    // we haven't done a scheduler RPC to this project yet;
-		// still need to verify that its name isn't a dup,
-		// and that the URL is correct
     double last_rpc_time;          // when last RPC finished
 
     // Other stuff
@@ -377,7 +373,6 @@ public:
     int parse_account_file();
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
-    void attach_failed(int reason);
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
