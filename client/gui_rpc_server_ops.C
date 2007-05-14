@@ -684,39 +684,9 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
     bool already_attached = false;
     unsigned int i;
 
-    // check whether to the URL in project_init.xml
+    // Get URL/auth from project_init.xml?
     //
-    if (!parse_bool(buf, "use_config_file", use_config_file)) {
-        // no
-        //
-        if (!parse_str(buf, "<project_url>", url)) {
-            fout.printf("<error>Missing URL</error>\n");
-            return;
-        }
-
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
-            if (url == p->master_url) already_attached = true;
-        }
-
-        if (already_attached) {
-            fout.printf("<error>Already attached to project</error>\n");
-            return;
-        }
-
-        if (!parse_str(buf, "<authenticator>", authenticator)) {
-            fout.printf("<error>Missing authenticator</error>\n");
-            return;
-        }
-
-        if (authenticator.empty()) {
-            fout.printf("<error>Missing authenticator</error>\n");
-            return;
-        }
-        parse_str(buf, "<project_name>", project_name);
-    } else {
-        // yes
-        //
+    if (parse_bool(buf, "use_config_file", use_config_file)) {
         if (!strlen(gstate.project_init.url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
@@ -729,6 +699,31 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
 
         url = gstate.project_init.url;
         authenticator = gstate.project_init.account_key;
+    } else {
+        if (!parse_str(buf, "<project_url>", url)) {
+            fout.printf("<error>Missing URL</error>\n");
+            return;
+        }
+        if (!parse_str(buf, "<authenticator>", authenticator)) {
+            fout.printf("<error>Missing authenticator</error>\n");
+            return;
+        }
+
+        if (authenticator.empty()) {
+            fout.printf("<error>Missing authenticator</error>\n");
+            return;
+        }
+        parse_str(buf, "<project_name>", project_name);
+    }
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (url == p->master_url) already_attached = true;
+    }
+
+    if (already_attached) {
+        fout.printf("<error>Already attached to project</error>\n");
+        return;
     }
 
     // clear messages from previous attach to project.

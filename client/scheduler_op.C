@@ -399,7 +399,6 @@ bool SCHEDULER_OP::poll() {
     int retval, nresults;
     vector<std::string> urls;
     bool changed, scheduler_op_done;
-    bool err = false;
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
@@ -425,7 +424,6 @@ bool SCHEDULER_OP::poll() {
                         PROJECT* project_temp = cur_proj;
                         cur_proj = 0;   // keep detach(0) from removing HTTP OP
                         project_temp->attach_failed(ERR_ATTACH_FAIL_PARSE);
-                        err = true;
                     } else {
                         cur_proj->master_fetch_failures++;
                         backoff(cur_proj, "Couldn't parse scheduler list");

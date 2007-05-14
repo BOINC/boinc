@@ -4899,3 +4899,18 @@ David  14 May 2007
         sched_resend.C
         sched_send.C
         server_types.h
+
+David  14 May 2007
+	- core client: in statefile read, set avp->platform
+		before linking.
+	- core client: when parse app_info.xml,
+		set platform to primary platform.
+		Otherwise anonymous platform mechanism doesn't work.
+	- GUI RPC: in attach project RPC, check for
+		already attached even in config file case
+
+	client/
+		cs_statefile.C
+		gui_rpc_server_ops.C
+		scheduler_op.C
+		time_stats.C

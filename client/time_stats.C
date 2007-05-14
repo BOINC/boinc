@@ -192,6 +192,7 @@ void TIME_STATS::update(int suspend_reason) {
                 inactive_start = gstate.now;
                 log_append("proc_stop", gstate.now);
             }
+            //msg_printf(NULL, MSG_INFO, "is_active %d, active_frac %f", is_active, active_frac);
         }
         last_update = gstate.now;
         if (log_flags.time_debug) {
