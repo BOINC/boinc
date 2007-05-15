@@ -242,23 +242,23 @@ function show_user_summary_public($user) {
     row2(PROJECT." member since", date_str($user->create_time));
     row2("Country", $user->country);
     if (strlen($user->url)) {
-        row2("URL", "<a href=http://$user->url>http://$user->url</a>");
+        row2("URL", "<a href=\"http://$user->url\">http://$user->url</a>");
     }
     show_credit($user);
 
     if ($user->teamid && ($team = lookup_team($user->teamid))) {
-        row2("Team", "<a href=".URL_BASE."team_display.php?teamid=$team->id>$team->name</a>");
+        row2("Team", "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
     } else {
         row2("Team", "None");
     }
     if ($user->show_hosts) {
-        row2("Computers", "<a href=".URL_BASE."hosts_user.php?userid=$user->id>View</a>");
+        row2("Computers", "<a href=\"".URL_BASE."hosts_user.php?userid=$user->id\">View</a>");
     } else {
         row2("Computers", "hidden");
     }
     $tot = total_posts($user);
     if ($tot) {
-        row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
+        row2("Message boards", "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">$tot posts</a>");
     }
 
     if ($user->donated == 1) { 
@@ -268,11 +268,13 @@ function show_user_summary_public($user) {
             row2("Donor",$x);
         }
     }
+    
+    row2("Contact", "<a href=\"forum_pm.php?action=new&amp;userid=".$user->id."\">Send private message</a>");
 }
 
 function show_profile_link($user) {
     if ($user->has_profile) {
-        row2("Profile", "<a href=view_profile.php?userid=$user->id>View</a>");
+        row2("Profile", "<a href=\"view_profile.php?userid=$user->id\">View</a>");
     }
 }
 

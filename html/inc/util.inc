@@ -156,7 +156,7 @@ function page_tail($show_date=false, $prefix="") {
 
 function display_cvs_versions(){
     global $cvs_version_tracker;
-    echo "\n<!-- CVS VERSIONS -->\n";
+    echo "\n<!-- SVN VERSIONS -->\n";
     for ($i=0;$i<sizeof($cvs_version_tracker);$i++) {
         echo "<!-- ".$cvs_version_tracker[$i]." -->\n";
     }

@@ -274,8 +274,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->hasAvatar() && (!$logged_in_user || ($logged_in_user->hasHideAvatars()==false))) {
             echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->getAvatar()."\" alt=\"Avatar\"><br>";
         }
-        echo "Joined: ", gmdate('M j, Y', $user->getCreateTime()), "<br>";
     }
+    
+    echo "<a href=\"forum_pm.php?action=new&userid=".$user->getID()."\" class=\"smalltext\">private message</a><br>\n";
+    echo "Joined: ", gmdate('M j, Y', $user->getCreateTime()), "<br>";
     
     if(function_exists('project_forum_user_info')){
         project_forum_user_info($user);
@@ -397,7 +399,6 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
     if ($extended) {
         start_table_noborder();
         echo "<tr>\n";
-
       
         // Search
         echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
@@ -410,7 +411,6 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
             </form>
         ";
         echo "</td>\n";
-
       
         $logged_in_user = get_logged_in_user(false);
         // Custom stuff for logged in user
