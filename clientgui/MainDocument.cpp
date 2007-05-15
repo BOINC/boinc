@@ -141,6 +141,10 @@ void CNetworkConnection::Poll() {
             // a host value of NULL is special cased as binding to the localhost and
             //   if we are connecting to the localhost we need to retry the connection
             //   for awhile so that the users can respond to firewall prompts.
+            //
+            // use a timeout of 60 seconds so that slow machines do not get a
+            //   timeout event right after boot-up.
+            //
             if (IsComputerNameLocal(strComputer)) {
                 retval = m_pDocument->rpc.init_asynch(NULL, 60.0, true);
             } else {
