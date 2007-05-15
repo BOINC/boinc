@@ -19,7 +19,7 @@ echo "<project_config>
     <master_url>$master_url</master_url>
 ";
 
-$local_revision = trim(file_get_contents("../../local.revision"));
+$local_revision = trim(@file_get_contents("../../local.revision"));
 if ($local_revision) {
     echo "<local_revision>$local_revision</local_revision>\n";
 }
