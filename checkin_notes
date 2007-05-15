@@ -4983,3 +4983,10 @@ David  14 May 2007
     client/
         client_state.C,h
         net_stats.C
+
+Rom    15 May 2007
+    - MGR: Increase the connection timeout to one minute to account
+        for slow machines during boot-up.
+        
+    clientgui/
+        MainDocument.cpp
