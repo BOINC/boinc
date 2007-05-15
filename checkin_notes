@@ -5003,3 +5003,13 @@ David  15 May 2007
         cs_scheduler.C
         sim.C,h
         work_fetch.C
+
+David  15 May 2007
+    - user web: add 
+        $s = '$s';
+        at top of compiled translation files,
+        to allow re-ordering of format codes
+        (from H. Komori)
+
+    html/inc/
+        translation.inc

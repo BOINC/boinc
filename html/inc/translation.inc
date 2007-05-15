@@ -136,6 +136,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                         exit;
                     }
                     fwrite($fh, "<?php\n");
+                    fwrite($fh, '$s = \'$s\''.";\n"); // Quick Kludge
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
                         if (isset($keys[$i]) && isset($language[$keys[$i]]) && $language[$keys[$i]]!="") {
@@ -187,6 +188,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                         exit;
                     }
                     fwrite($fh, "<?php\n");
+                    fwrite($fh, '$s = \'$s\''.";\n"); // Quick Kludge
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
                         if ($language[$keys[$i]]!="") {
