@@ -326,9 +326,9 @@ double CLIENT_STATE::time_until_work_done(
             // if it is a non_cpu intensive project,
             // it needs only one at a time.
             //
-            est = max(rp->estimated_cpu_time_remaining(), work_buf_min());  
+            est = max(rp->estimated_cpu_time_remaining(true), work_buf_min());  
         } else {
-            est += rp->estimated_cpu_time_remaining();
+            est += rp->estimated_cpu_time_remaining(true);
         }
     }
 	if (log_flags.work_fetch_debug) {
@@ -737,17 +737,23 @@ double RESULT::estimated_cpu_time_uncorrected() {
 
 // estimate how long a result will take on this host
 //
-double RESULT::estimated_cpu_time() {
+double RESULT::estimated_cpu_time(bool for_work_fetch) {
+#ifdef SIM
+    SIM_PROJECT* spp = (SIM_PROJECT*)project;
+    if (dual_dcf && for_work_fetch && spp->completions_ratio_mean) {
+        return estimated_cpu_time_uncorrected()*spp->completions_ratio_mean;
+    }
+#endif
     return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
 }
 
-double RESULT::estimated_cpu_time_remaining() {
+double RESULT::estimated_cpu_time_remaining(bool for_work_fetch) {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp) {
-        return atp->est_cpu_time_to_completion();
+        return atp->est_cpu_time_to_completion(for_work_fetch);
     }
-    return estimated_cpu_time();
+    return estimated_cpu_time(for_work_fetch);
 }
 
 // Returns the estimated CPU time to completion (in seconds) of this task.
@@ -755,9 +761,9 @@ double RESULT::estimated_cpu_time_remaining() {
 // 1) the workunit's flops count
 // 2) the current reported CPU time and fraction done
 //
-double ACTIVE_TASK::est_cpu_time_to_completion() {
+double ACTIVE_TASK::est_cpu_time_to_completion(bool for_work_fetch) {
     if (fraction_done >= 1) return 0;
-    double wu_est = result->estimated_cpu_time();
+    double wu_est = result->estimated_cpu_time(for_work_fetch);
     if (fraction_done <= 0) return wu_est;
     double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
     double fraction_left = 1-fraction_done;

@@ -4990,3 +4990,16 @@ Rom    15 May 2007
         
     clientgui/
         MainDocument.cpp
+
+David  15 May 2007
+    - client: change Win program launch to suppress hourglass cursor
+    - client simulator: add --cpu_sched_rr_only and --dual_dcf options
+
+    client/
+        app.h
+        app_start.C
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C
+        sim.C,h
+        work_fetch.C

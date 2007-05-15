@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("May 14, 2007",
+    "The <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop07>3rd Pan-Galactic
+    BOINC Workshop</a> will be held 5-6 September 2007 in Geneva, Switzerland."
+),
 array("May 9, 2007",
     "The BOINC Virtual Server - a VMWare virtual machine
     preconfigured with BOINC and all prerequisite software -

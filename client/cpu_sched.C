@@ -211,7 +211,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (!best_result
             || rp->report_deadline < best_result->report_deadline
             || (rp->report_deadline == best_result->report_deadline
-                && rp->estimated_cpu_time_remaining() < best_result->estimated_cpu_time_remaining()
+                && rp->estimated_cpu_time_remaining(false) < best_result->estimated_cpu_time_remaining(false)
                 )
         ) {
             best_result = rp;
@@ -483,6 +483,9 @@ void CLIENT_STATE::schedule_cpus() {
 
     // First choose results from projects with P.deadlines_missed>0
     //
+#ifdef SIM
+    if (cpu_sched_rr_only) {
+#endif
     while ((int)ordered_scheduled_results.size() < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
@@ -518,6 +521,9 @@ void CLIENT_STATE::schedule_cpus() {
         }
         ordered_scheduled_results.push_back(rp);
     }
+#ifdef SIM
+    }
+#endif
 
     // Next, choose results from projects with large debt
     //
@@ -1028,7 +1034,7 @@ void CLIENT_STATE::rr_simulation() {
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
         if (rp->project->non_cpu_intensive) continue;
-        rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
+        rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining(false);
         p = rp->project;
         if (p->active.size() < (unsigned int)ncpus) {
             active.push_back(rp);
@@ -1485,7 +1491,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
 	}
 #endif
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
-    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
+    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time(false);
 	double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,

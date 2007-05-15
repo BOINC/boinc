@@ -57,6 +57,8 @@ double running_time = 0;
 bool server_uses_workload = false;
 bool dcf_dont_use;
 bool dcf_stats;
+bool dual_dcf;
+bool cpu_sched_rr_only;
 
 SIM_RESULTS sim_results;
 
@@ -155,7 +157,7 @@ void CLIENT_STATE::handle_completed_results() {
 void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        double x = rp->estimated_cpu_time_remaining();
+        double x = rp->estimated_cpu_time_remaining(false);
         if (x == 0) continue;
         IP_RESULT ipr(rp->name, rp->report_deadline, x);
         ip_results.push_back(ipr);
@@ -594,6 +596,11 @@ int main(int argc, char** argv) {
             dcf_dont_use = true;
         } else if (!strcmp(opt, "--dcf_stats")) {
             dcf_stats = true;
+        } else if (!strcmp(opt, "--dual_dcf")) {
+            dual_dcf = true;
+            dcf_stats = true;
+        } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
+            cpu_sched_rr_only = true;
         } else {
             help(argv[0]);
         }
