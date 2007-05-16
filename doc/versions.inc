@@ -584,11 +584,11 @@ $m549c = array(
     "
 );
 
-$l595 = array(
-    "num"=>"5.9.5",
+$l5911 = array(
+    "num"=>"5.9.11",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.9.5_i686-pc-linux-gnu.sh",
-    "date"=>"01 May 2007",
+    "file"=>"boinc_5.9.11_i686-pc-linux-gnu.sh",
+    "date"=>"16 May 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_510."
@@ -597,6 +597,7 @@ $l595 = array(
     </ul>
     "
 );
+
 $l5816 = array(
     "num"=>"5.8.16",
     "status"=>"Recommended version (standard GUI)",
@@ -658,7 +659,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l595,
+        $l5911,
         $l5816,
         $l5411,
     )
