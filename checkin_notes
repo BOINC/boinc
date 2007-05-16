@@ -5013,3 +5013,11 @@ David  15 May 2007
 
     html/inc/
         translation.inc
+
+Rom    16 May 2007
+    - Tag for 5.9.11 release, all platforms
+      boinc_core_release_5_9_11
+    
+    client/
+        configure.ac
+        version.h
