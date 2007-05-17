@@ -598,6 +598,20 @@ $l5911 = array(
     "
 );
 
+$l5911x64 = array(
+    "num"=>"5.9.11",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.9.11_x86_64-pc-linux-gnu.sh",
+    "date"=>"17 May 2007",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_510."
+".$linux_libs_gcc41." 
+".$changes_510."
+    </ul>
+    "
+);
+
 $l5816 = array(
     "num"=>"5.8.16",
     "status"=>"Recommended version (standard GUI)",
@@ -654,6 +668,7 @@ $mac = array(
         $m549c,
     )
 );
+
 $linux = array(
     "name"=>"Linux/x86",
     "dbname" => "i686-pc-linux-gnu",
@@ -665,11 +680,21 @@ $linux = array(
     )
 );
 
+$linuxx64 = array(
+    "name"=>"Linux/x64",
+    "dbname" => "x86_64-pc-linux-gnu",
+    "url"=>"linux.php",
+    "versions"=>array(
+        $l5911x64,
+    )
+);
+
 $platforms = array(
     "win"=>$windows,
     "winx64"=>$windowsx64,
     "mac"=>$mac,
     "linux"=>$linux,
+    "linuxx64"=>$linuxx64,
 );
 
 function is_dev($v) {
