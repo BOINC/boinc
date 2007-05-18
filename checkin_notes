@@ -5034,3 +5034,12 @@ Charlie 17 May 2007
 
     mac_installer/
         GR-ReadMe.rtf
+
+Charlie 18 May 2007
+    - Mac: New shell script make_GridRepublic.sh creates a GridRepublic 
+        installer from a standard (unbranded) Mac BOINC installer plus 
+        the GridRepublic branded resources: GridRepublic.icns, 
+        GridRepublic.tiff, GR_ReadMe.rtf and skin files. 
+
+    mac_installer/
+        make_GridRepublic.sh
