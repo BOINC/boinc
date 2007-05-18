@@ -159,10 +159,6 @@ int wu_delete_files(WORKUNIT& wu) {
                         "[WU#%d] deleting %s\n", wu.id, filename
                     );
                     retval = unlink(pathname);
-                    if (retval && strlen(config.download_dir_alt)) {
-                        sprintf(pathname, "%s/%s", config.download_dir_alt, filename);
-                        retval = unlink(pathname);
-                    }
                     if (retval) {
                         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                             "[WU#%d] unlink %s failed: %d\n",

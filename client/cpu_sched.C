@@ -484,7 +484,7 @@ void CLIENT_STATE::schedule_cpus() {
     // First choose results from projects with P.deadlines_missed>0
     //
 #ifdef SIM
-    if (cpu_sched_rr_only) {
+    if (!cpu_sched_rr_only) {
 #endif
     while ((int)ordered_scheduled_results.size() < ncpus) {
         rp = earliest_deadline_result();

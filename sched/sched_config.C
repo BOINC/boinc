@@ -75,7 +75,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_str(tag, "key_dir", key_dir, sizeof(key_dir))) continue;
         else if (xp.parse_str(tag, "download_url", download_url, sizeof(download_url))) continue;
         else if (xp.parse_str(tag, "download_dir", download_dir, sizeof(download_dir))) continue;
-        else if (xp.parse_str(tag, "download_dir_alt", download_dir_alt, sizeof(download_dir_alt))) continue;
         else if (xp.parse_str(tag, "upload_url", upload_url, sizeof(upload_url))) continue;
         else if (xp.parse_str(tag, "upload_dir", upload_dir, sizeof(upload_dir))) continue;
         else if (xp.parse_str(tag, "sched_lockfile_dir", sched_lockfile_dir, sizeof(sched_lockfile_dir))) continue;

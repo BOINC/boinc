@@ -64,7 +64,7 @@ SIM_RESULTS sim_results;
 
 void SIM_PROJECT::update_dcf_stats(RESULT* rp) {
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
-    // algorithm from Donald Knuth reference Wikipedia.
+    // see http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Algorithm_III
     ++completed_task_count;
     double delta = raw_ratio - completions_ratio_mean;
     completions_ratio_mean += delta / completed_task_count;

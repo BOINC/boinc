@@ -34,9 +34,6 @@ public:
     char key_dir[256];
     char download_url[256];
     char download_dir[256];
-    char download_dir_alt[256];
-        // old download dir, assumed to be flat
-        // (file deleter looks here if not in main dir)
     char upload_url[256];
     char upload_dir[256];
     char sched_lockfile_dir[256];

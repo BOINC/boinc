@@ -35,7 +35,7 @@ $stats_sites = array(
     ),
     array("http://www.setisynergy.com/stats/index.php",
         "BOINC Statistics for the WORLD!",
-        "developed by Zain Upton (email: zain.upton at setisynergy.com)"
+        "developed by Zain Upton (email: zain.upton at boincsynergy.com)"
     ),
     array("http://boinc.netsoft-online.com/",
         "BOINC Combined Statistics",

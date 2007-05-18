@@ -5043,3 +5043,24 @@ Charlie 18 May 2007
 
     mac_installer/
         make_GridRepublic.sh
+
+David  18 May 2007
+    - client simulator: fix cpu_sched_rr_only bug
+    - boinc_cmd: canonicalize URLs
+    - user web: fix link to Top Teams
+    - back end: remove code related to alternate download dir
+
+    client/
+        cpu_sched.C
+        sim.C
+    html/
+        inc/
+            stats_sites.inc
+        user/
+            stats.php
+    lib/
+        boinc_cmd.C
+    sched/
+        file_deleter.C
+        sched_config.C,h
+
