@@ -642,7 +642,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5910,
+        $w5911,
         $w5816,
         $w5411,
     )
@@ -652,7 +652,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w5910x64,
+        $w5911x64,
     )
 );
 
