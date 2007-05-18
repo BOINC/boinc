@@ -5021,3 +5021,9 @@ Rom    16 May 2007
     client/
         configure.ac
         version.h
+
+David  17 May 2007
+    - sort team-lookup results by avg credit desc
+
+    html/user/
+        team_lookup.php
