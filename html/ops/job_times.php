@@ -7,20 +7,41 @@ db_init();
 
 $hist = array();
 $quantum = 1e10;
+$mean = 0;
+$count = 0;
+$varsum = 0;
 
 function handle_result($result) {
     global $hist;
     global $quantum;
+    global $mean;
+    global $count;
+    global $varsum;
+
     $flops = $result->cpu_time * $result->p_fpops;
-    //echo "$flops\n";
+    //printf("%e<br>\n", $flops);
     $n = (int) ($flops/$quantum);
     if (!array_key_exists($n, $hist)) {
         $hist[$n] = 0;
     }
     $hist[$n]++;
+    $count++;
+    $delta = $flops - $mean;
+    $mean += $delta/$count;
+    $varsum += $delta*($flops-$mean);
 }
 
 function show_stats() {
+    global $mean;
+    global $count;
+    global $varsum;
+    global $sum;
+
+    $stdev = sqrt($varsum/($count-1));
+    printf("mean: %e<br>stdev: %e", $mean, $stdev);
+}
+
+function show_stats_hist() {    //deprecated
     global $hist;
     global $quantum;
 
@@ -82,7 +103,7 @@ function show_as_table() {
         }
         $f = $i*$quantum;
         echo "<tr><td><font size=-2>";
-        printf("%e", $f);
+        printf("%e ", $f);
         echo "</font></td><td><img vspace=0 src=http://boinc.berkeley.edu/colors/000000.gif height=10 width=$w></td></tr>\n";
     }
     echo "</table>";

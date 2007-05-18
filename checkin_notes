@@ -5064,3 +5064,8 @@ David  18 May 2007
         file_deleter.C
         sched_config.C,h
 
+David  18 May 2007
+    - fix bugs in job_times.php; it shows the correct mean and stdev now.
+
+    html/ops/
+        job_times.php
