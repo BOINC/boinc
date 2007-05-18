@@ -8,7 +8,7 @@ require_once("../inc/countries.inc");
 db_init();
 $user = get_logged_in_user();
 
-$name = process_user_text(post_str("user_name"));
+$name = boinc_htmlentities(process_user_text(post_str("user_name")));
 if ($name != strip_tags($name)) {
     error_page("HTML tags not allowed in name");
 }

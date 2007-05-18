@@ -8,7 +8,7 @@ db_init();
 
 $user = get_logged_in_user();
 
-$name = process_user_text(strip_tags(post_str("name"))); 
+$name = boinc_htmlentities(process_user_text(strip_tags(post_str("name")))); 
 if (strlen($name) == 0) {
     error_page("Must set team name");
 }
@@ -17,13 +17,13 @@ $url = process_user_text(strip_tags(post_str("url", true)));
 if (strstr($url, "http://")) {
     $url = substr($url, 7);
 }
-$type = process_user_text(strip_tags(post_str("type", true))); 
+$type = process_user_text(strip_tags(post_str("type", true)));
 if (!is_valid_team_type($type)) {
     $type = 'None';
 }
 
 $name_html = process_user_text(post_str("name_html", true));
-$description = process_user_text(post_str("description", true));
+$description = boinc_htmlentities(process_user_text(post_str("description", true)));
 $country = process_user_text(post_str("country", true));
 
 if (!is_valid_country($country)) {

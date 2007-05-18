@@ -65,7 +65,6 @@ if (get_str('action')=="hide") {
     $selectbox .= '</option>';  
     
     row2("Destination forum:", $selectbox);  
-    //todo display where to move the thread as a dropdown instead of having to get ID
 } elseif (get_str('action')=="title") {
 
     echo "<input type=hidden name=action value=title>";
