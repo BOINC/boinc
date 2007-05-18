@@ -46,7 +46,25 @@ if (get_str('action')=="hide") {
 } elseif (get_str('action')=="move") {
 
     echo "<input type=hidden name=action value=move>";
-    row2("Destination forum ID:", "<input name=\"forumid\">");
+    
+    $selectbox = '<select name="forumid">';  
+    $categories = $mainFactory->getCategories();  
+    $i=0;  
+    // For each category  
+    while ($categories[$i]){  
+        $forums = $categories[$i]->getForums();  
+        $ii=0;  
+        // Show a summary of each of the forums  
+        while ($forums[$ii]){  
+            $forum = $forums[$ii];  
+            $selectbox .= '<option value="'.$forum->getID().'">'.$forum->getTitle().'</option>';  
+            $ii++;  
+        }  
+        $i++;  
+    }  
+    $selectbox .= '</option>';  
+    
+    row2("Destination forum:", $selectbox);  
     //todo display where to move the thread as a dropdown instead of having to get ID
 } elseif (get_str('action')=="title") {
 
