@@ -49,20 +49,20 @@ Note: on some versions of the Mac OS, you may not be able to exit the GridRepubl
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 Version 5.5.4 of GridRepublic Manager for the Macintosh features new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting GridRepublic projects' access to your  system and data.  \
+\f1\b0 \cf0 Version 5.5.4 of GridRepublic Desktop for the Macintosh features new, stricter security measures.  This additional security helps protect your computer data from potential theft or accidental or malicious damage by limiting GridRepublic projects' access to your  system and data.  \
 \
 If you experience problems with this software, you can re-install a version of GridRepublic or BOINC prior to  5.5.4; this will automatically revert ownership and permissions to the earlier  implementation.\
 \
 Once we have tested this security implementation on the Mac, we plan to extend it to other computer platforms, including Linux and Windows.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 The installer sets special permission for the GridRepublic Manager and Client, which allows them to write to the shared BOINC Data regardless of which user is logged in.  If you 
+\cf0 The installer sets special permission for the GridRepublic Desktop and Client, which allows them to write to the shared BOINC Data regardless of which user is logged in.  If you 
 \f0\b copy
-\f1\b0  GridRepublic Manager or the GridRepublic core client without using the installer, it will not run properly.  \
+\f1\b0  GridRepublic Desktop or the GridRepublic core client without using the installer, it will not run properly.  \
 \
 However, you can safely 
 \f0\b move
-\f1\b0  the GridRepublic Manager within the same disk drive or partition.  If you need multiple copies, run the installer again after moving GridRepublic Manager; this will create a fresh copy in the 
+\f1\b0  the GridRepublic Desktop within the same disk drive or partition.  If you need multiple copies, run the installer again after moving GridRepublic Desktop; this will create a fresh copy in the 
 \f0\b /Applications
 \f1\b0  folder.\
 \
@@ -79,7 +79,7 @@ In addition to these "visible" users and groups, the operating system contains a
 \
 This structure of users and groups is used to provide security by restricting what data and operations each person or application can use.  For example, many files belong to user "system" (also called "root") and group "wheel" so that non-privileged users can't modify them, thus protecting the computer system from accidental or malicious harm.\
 \
-Starting with version 5.5.4 of the GridRepublic Manager for the Macintosh, the GridRepublic installer creates 2 new "hidden" users 
+Starting with version 5.5.4 of the GridRepublic Desktop for the Macintosh, the GridRepublic installer creates 2 new "hidden" users 
 \f0\b boinc_master
 \f1\b0  and 
 \f0\b boinc_project
@@ -89,19 +89,19 @@ Starting with version 5.5.4 of the GridRepublic Manager for the Macintosh, the G
 \f0\b boinc_project
 \f1\b0  (unless they were created by a previous installation of GridRepublic or BOINC.)\
 \
-The installer automatically gives administrators (users who are members of the "admin" group) membership in the two new groups, so that they can easily manipulate GridRepublic files.  Non-admin users are denied direct access to these files (except through GridRepublic Manager), protecting GridRepublic and its projects files.  This is particularly useful where many people have access to the computer, as in a school computer lab.\
+The installer automatically gives administrators (users who are members of the "admin" group) membership in the two new groups, so that they can easily manipulate GridRepublic files.  Non-admin users are denied direct access to these files (except through GridRepublic Desktop), protecting GridRepublic and its projects files.  This is particularly useful where many people have access to the computer, as in a school computer lab.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 GridRepublic projects are given permission to access only project files, protecting your computer in the event someone downloads bad software from a bogus project, or in the unlikely case that a legitimate project's server is infiltrated by a cracker.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
-The GridRepublic Manager also blocks non-admin users' access to certain functions, such as Attach, Detach, Reset Project.  GridRepublic permits a non-admin user to override this restriction by entering an administrator user name and password.\
+The GridRepublic Desktop also blocks non-admin users' access to certain functions, such as Attach, Detach, Reset Project.  GridRepublic permits a non-admin user to override this restriction by entering an administrator user name and password.\
 \
 For technical details of the implementation, please see \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/sandbox.php"}}{\fldrslt \cf0 http://boinc.berkeley.edu/sandbox.php}}\
 \
-As of Version 5.5.4, the installer now sets GridRepublic Manager as a Login item for 
+As of Version 5.5.4, the installer now sets GridRepublic Desktop as a Login item for 
 \f0\b all
 \f1\b0  users, not just the user who ran the installer.  You can add or remove Login Items by using the Accounts Pane in the System Preferences (accessible from the Apple menu).  (These items are called "Login Items" in OS 10.4 or "Startup Items" in OS 10.3.)\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural

@@ -5027,3 +5027,10 @@ David  17 May 2007
 
     html/user/
         team_lookup.php
+
+Charlie 17 May 2007
+    - Mac: Change "GridRepublic Manager" to "GridRepublic Desktop" in 
+        GridRepublic ReadMe file.
+
+    mac_installer/
+        GR-ReadMe.rtf
