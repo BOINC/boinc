@@ -390,11 +390,11 @@ $linux_libs_gcc41= "
       </ul>
 ";
 
-$w5910= array(
-    "num"=>"5.9.10",
+$w5911= array(
+    "num"=>"5.9.11",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.10_windows_intelx86.exe",
-    "date"=>"8 May 2007",
+    "file"=>"boinc_5.9.11_windows_intelx86.exe",
+    "date"=>"18 May 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -404,11 +404,11 @@ $w5910= array(
     "bugs"=>""
 );
 
-$w5910x64= array(
-    "num"=>"5.9.10",
+$w5911x64= array(
+    "num"=>"5.9.11",
     "status"=>"Development version",
-    "file"=>"boinc_5.9.10_windows_x86_64.exe",
-    "date"=>"8 May 2007",
+    "file"=>"boinc_5.9.11_windows_x86_64.exe",
+    "date"=>"18 May 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
