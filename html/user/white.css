@@ -198,7 +198,6 @@ td.postheader{
     border-bottom: 1px solid rgb(190,190,200);
     border-left: none;
     border-right: none;
-    height:1px;
 }
 
 td.postbody {
@@ -210,7 +209,6 @@ td.postfooter{
     border-top: 1px solid rgb(190,190,200);
     border-left: none;
     border-right: none;
-    height:1px;
 }
 
 tr.helpdeskseperator{
