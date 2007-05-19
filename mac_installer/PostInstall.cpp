@@ -45,6 +45,7 @@ void Initialize(void);	/* function prototypes */
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
 void SetLoginItem(long brandID, Boolean deleteLogInItem);
+void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -444,6 +445,58 @@ void SetLoginItem(long brandID, Boolean deleteLogInItem)
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
 }
 
+// Sets the current skin selection to the specified skin in the specified user's preferences
+void SetSkinInUserPrefs(char *userName, char *skinName)
+{
+    passwd              *pw;
+    FILE                *oldPrefs, *newPrefs;
+    char                oldFileName[MAXPATHLEN], tempFilename[MAXPATHLEN];
+    char                buf[1024];
+    int                 wroteSkinName;
+    struct stat         sbuf;
+    group               *grp;
+    OSStatus            statErr;
+
+    if (skinName[0]) {
+        sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", userName);
+        sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", userName);
+        newPrefs = fopen(tempFilename, "w");
+        if (newPrefs) {
+            wroteSkinName = 0;
+            statErr = stat(oldFileName, &sbuf);
+
+            oldPrefs = fopen(oldFileName, "r");
+            if (oldPrefs) {
+                while (fgets(buf, sizeof(buf), oldPrefs)) {
+                    if (strstr(buf, "Skin=")) {
+                        fprintf(newPrefs, "Skin=%s\n", skinName);
+                        wroteSkinName = 1;
+                    } else {
+                        fputs(buf, newPrefs);
+                    }
+                }
+                fclose(oldPrefs);
+            }
+            
+            if (! wroteSkinName)
+                fprintf(newPrefs, "Skin=%s\n", skinName);
+                
+            fclose(newPrefs);
+            rename(tempFilename, oldFileName);  // Deletes old file
+            if (! statErr) {
+                chown(oldFileName, sbuf.st_uid, sbuf.st_gid);
+                chmod(oldFileName, sbuf.st_mode);
+            } else {
+                chmod(oldFileName, 0664);
+                pw = getpwnam(userName);
+                grp = getgrnam(userName);
+                if (pw && grp)
+                    chown(oldFileName, pw->pw_uid, grp->gr_gid);
+            }
+        }
+    }
+}
+
 // Returns true if the user name is in the nologinitems.txt, else false
 Boolean CheckDeleteFile(char *name)
 {
@@ -495,13 +548,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
     char                skinName[256];
-    FILE                *oldPrefs, *newPrefs;
-    char                oldFileName[MAXPATHLEN], tempFilename[MAXPATHLEN];
-    char                buf[1024];
-    int                 wroteSkinName;
-    struct stat         sbuf;
     group               *grp;
-    OSStatus            err, statErr;
+    OSStatus            err;
 #ifdef SANDBOX
     char                *p;
     short               i;
@@ -550,47 +598,11 @@ OSErr UpdateAllVisibleUsers(long brandID)
         deleteLoginItem = CheckDeleteFile(dp->d_name);
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+
         SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
 
-        if (skinName[0]) {
-            sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", dp->d_name);
-            sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", dp->d_name);
-            newPrefs = fopen(tempFilename, "w");
-            if (newPrefs) {
-                wroteSkinName = 0;
-                statErr = stat(oldFileName, &sbuf);
-
-                oldPrefs = fopen(oldFileName, "r");
-                if (oldPrefs) {
-                    while (fgets(buf, sizeof(buf), oldPrefs)) {
-                        if (strstr(buf, "Skin=")) {
-                            fprintf(newPrefs, "Skin=%s\n", skinName);
-                            wroteSkinName = 1;
-                        } else {
-                            fputs(buf, newPrefs);
-                        }
-                    }
-                    fclose(oldPrefs);
-                }
-                
-                if (! wroteSkinName)
-                    fprintf(newPrefs, "Skin=%s\n", skinName);
-                    
-                fclose(newPrefs);
-                rename(tempFilename, oldFileName);  // Deletes old file
-                if (! statErr) {
-                    chown(oldFileName, sbuf.st_uid, sbuf.st_gid);
-                    chmod(oldFileName, sbuf.st_mode);
-                } else {
-                    chmod(oldFileName, 0664);
-                    pw = getpwnam(dp->d_name);
-                    grp = getgrnam(dp->d_name);
-                    if (pw && grp)
-                        chown(oldFileName, pw->pw_uid, grp->gr_gid);
-                }
-            }
-        }
-
+        SetSkinInUserPrefs(dp->d_name, skinName);
+        
         seteuid(saved_uid);                         // Set effective uid back to privileged user
     }
     
