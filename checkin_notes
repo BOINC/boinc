@@ -5069,3 +5069,10 @@ David  18 May 2007
 
     html/ops/
         job_times.php
+
+Charlie 19 May 2007
+    - Mac installer: if installer package includes a custom skin, set 
+        preferences of all users to that skin.
+        
+    mac_installer/
+        PostInstall.cpp
