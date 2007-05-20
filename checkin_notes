@@ -5076,3 +5076,10 @@ Charlie 19 May 2007
         
     mac_installer/
         PostInstall.cpp
+
+Janus	20 May 2007
+    - Added BEncoded lists to the Bittorrent serverside utility classes
+
+    html/bt/inc/
+        blist.php
+
