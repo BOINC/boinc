@@ -5119,3 +5119,11 @@ David  21 May 2007
 
     sched/
         feeder.C
+
+Rom    21 May 2007
+    - fixes #182 - System tray icon should be removed for both exit
+        scenarios.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp

@@ -116,7 +116,7 @@ void CTaskBarIcon::OnIdle(wxIdleEvent& event) {
 void CTaskBarIcon::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
 
-    ResetTaskBar();
+    RemoveIcon();
     m_bTaskbarInitiatedShutdown = true;
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
