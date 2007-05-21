@@ -4733,11 +4733,11 @@ David  10 May 2007
     sched/
         edf_sim.h
         server_types.h
-	client/
-		app.C
-		sim.C
-	win_build/
-		sim.vcproj
+    client/
+        app.C
+        sim.C
+    win_build/
+        sim.vcproj
 
 David  10 May 2007
     - scheduler: add <workload_sim> config option.
@@ -4776,7 +4776,7 @@ David  10 May 2007
         sched_send.C,h
         server_types.C,h
 
-Janus	10 May 2007
+Janus    10 May 2007
     - Added BEncoded integer support for the Bittorrent utility files
 
     /html/bt/inc/
@@ -4799,12 +4799,12 @@ Rom    10 May 2007
         forum_moderators.inc
 
 David  10 May 2007
-	- core client: fix big that caused
-		duplicate app versions to appear in state file
-		(this was harmless, BTW)
+    - core client: fix big that caused
+        duplicate app versions to appear in state file
+        (this was harmless, BTW)
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
 
 Rom    10 May 2007
     - Fix a build break in the manager.
@@ -4901,52 +4901,52 @@ David  14 May 2007
         server_types.h
 
 David  14 May 2007
-	- core client: in statefile read, set avp->platform
-		before linking.
-	- core client: when parse app_info.xml,
-		set platform to primary platform.
-		Otherwise anonymous platform mechanism doesn't work.
-	- GUI RPC: in attach project RPC, check for
-		already attached even in config file case
+    - core client: in statefile read, set avp->platform
+        before linking.
+    - core client: when parse app_info.xml,
+        set platform to primary platform.
+        Otherwise anonymous platform mechanism doesn't work.
+    - GUI RPC: in attach project RPC, check for
+        already attached even in config file case
 
-	client/
-		cs_statefile.C
-		gui_rpc_server_ops.C
-		scheduler_op.C
-		time_stats.C
+    client/
+        cs_statefile.C
+        gui_rpc_server_ops.C
+        scheduler_op.C
+        time_stats.C
 
 David  14 May 2007
-	- core client: on attach to project,
-		if the initial sched request failed,
-		the manager would show "communicating" for 60 sec,
-		then time out and show "failed to attach".
-		But the project would actually be attached.
-		This was due to a logic error,
-		but I fixed it in a more fundamental way:
-		by considering an attach to be complete immediately,
-		without waiting for a successful scheduler RPC.
+    - core client: on attach to project,
+        if the initial sched request failed,
+        the manager would show "communicating" for 60 sec,
+        then time out and show "failed to attach".
+        But the project would actually be attached.
+        This was due to a logic error,
+        but I fixed it in a more fundamental way:
+        by considering an attach to be complete immediately,
+        without waiting for a successful scheduler RPC.
 
-		This was originally done to ensure that the URL and account key
+        This was originally done to ensure that the URL and account key
         were valid.
-		But when using the BOINC Manager, we've already verified
-		both of these before doing the attach project RPC.
+        But when using the BOINC Manager, we've already verified
+        both of these before doing the attach project RPC.
 
-		When using boinc_cmd, you now have to check for messages
-		indicating a bad URL or account key.
-		I changed things to print these messages on every sched RPC.
+        When using boinc_cmd, you now have to check for messages
+        indicating a bad URL or account key.
+        I changed things to print these messages on every sched RPC.
 
-		Implementation: the notion of "tentative project" no longer exists.
+        Implementation: the notion of "tentative project" no longer exists.
 
-	client/
-		client_state.C,h
-		client_types.C,h
-		cs_account.C
-		cs_benchmarks.C
-		cs_scheduler.C
-		gui_rpc_server_ops.C
-		scheduler_op.C
-		sim.C
-		sim_util.C
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        cs_benchmarks.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_op.C
+        sim.C
+        sim_util.C
 
 David  14 May 2007
     - API: Eric Myers reported that my 4 May checkin
@@ -5077,7 +5077,7 @@ Charlie 19 May 2007
     mac_installer/
         PostInstall.cpp
 
-Janus	20 May 2007
+Janus    20 May 2007
     - Added BEncoded lists to the Bittorrent serverside utility classes
 
     html/bt/inc/
@@ -5104,3 +5104,10 @@ David  21 May 2007
         sched_config.C
         sched_send.C
         server_types.C
+
+David  21 May 2007
+    - client: if anonymous platform, don't match platform/version
+        in lookup_app_version(); just match app
+
+    client/
+        client_state.C
