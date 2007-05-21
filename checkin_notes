@@ -5111,3 +5111,11 @@ David  21 May 2007
 
     client/
         client_state.C
+
+David  21 May 2007
+    - feeder: the query change of 13 April broke the -random_order,
+        -priority_order, -priority_order_create_time,and -mod options
+        (from Nicolas Maire)
+
+    sched/
+        feeder.C

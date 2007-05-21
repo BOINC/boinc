@@ -524,19 +524,19 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-random_order")) {
-            order_clause = "order by random ";
+            order_clause = "order by r1.random ";
         } else if (!strcmp(argv[i], "-allapps")) {
             all_apps = true;
         } else if (!strcmp(argv[i], "-priority_order")) {
-            order_clause = "order by result.priority desc ";
+            order_clause = "order by r1.result.priority desc ";
         } else if (!strcmp(argv[i], "-priority_order_create_time")) {
-            order_clause = "order by result.priority desc, workunit.create_time ";
+            order_clause = "order by r1.result.priority desc, workunit.create_time ";
         } else if (!strcmp(argv[i], "-purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
-            sprintf(select_clause, "and result.id %% %d = %d ", n, j);
+            sprintf(select_clause, "and r1.result.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_interval = atof(argv[++i]);
         } else {
