@@ -186,7 +186,7 @@ bool CSkinImage::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.mb_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -196,7 +196,7 @@ bool CSkinImage::Validate() {
             m_colBackgroundColor = ParseColor(m_strDesiredBackgroundColor);
         }
         if (!m_colBackgroundColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' background color. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' background color. Using default.\n", m_strComponentName.mb_str());
             m_colBackgroundColor = ParseColor(m_strDefaultBackgroundColor);
             wxASSERT(m_colBackgroundColor.Ok());
         }
@@ -276,7 +276,7 @@ bool CSkinIcon::Validate() {
             m_icoIcon.CopyFromBitmap(bmp);
         }
         if (!m_icoIcon.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", m_strComponentName.mb_str());
             m_icoIcon = wxIcon(m_ppDefaultIcon);
             wxASSERT(m_icoIcon.Ok());
         }
@@ -362,7 +362,7 @@ bool CSkinSimpleButton::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.mb_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -372,7 +372,7 @@ bool CSkinSimpleButton::Validate() {
             m_bmpBitmapClicked = wxBitmap(wxImage(m_strDesiredBitmapClicked, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmapClicked.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' clicked image. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' clicked image. Using default.\n", m_strComponentName.mb_str());
             m_bmpBitmapClicked = wxBitmap(m_ppDefaultBitmapClicked);
             wxASSERT(m_bmpBitmapClicked.Ok());
         }
@@ -487,7 +487,7 @@ bool CSkinSimpleTab::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab image. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab image. Using default.\n", m_strComponentName.mb_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -497,7 +497,7 @@ bool CSkinSimpleTab::Validate() {
             m_colBorderColor = ParseColor(m_strDesiredBorderColor);
         }
         if (!m_colBorderColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab border color. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab border color. Using default.\n", m_strComponentName.mb_str());
             m_colBorderColor = ParseColor(m_strDefaultBorderColor);
             wxASSERT(m_colBorderColor.Ok());
         }
@@ -507,7 +507,7 @@ bool CSkinSimpleTab::Validate() {
             m_colGradientFromColor = ParseColor(m_strDesiredGradientFromColor);
         }
         if (!m_colGradientFromColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n", m_strComponentName.mb_str());
             m_colGradientFromColor = ParseColor(m_strDefaultGradientFromColor);
             wxASSERT(m_colGradientFromColor.Ok());
         }
@@ -517,7 +517,7 @@ bool CSkinSimpleTab::Validate() {
             m_colGradientToColor = ParseColor(m_strDesiredGradientToColor);
         }
         if (!m_colGradientToColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n", m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n", m_strComponentName.mb_str());
             m_colGradientToColor = ParseColor(m_strDefaultGradientToColor);
             wxASSERT(m_colGradientToColor.Ok());
         }

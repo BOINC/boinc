@@ -520,9 +520,9 @@ void CViewWork::UpdateSelection() {
             }
 
             if (
-                !result->active_task_state == PROCESS_ABORT_PENDING &&
-                !result->active_task_state == PROCESS_ABORTED &&
-                !result->state == RESULT_ABORTED 
+                result->active_task_state != PROCESS_ABORT_PENDING &&
+                result->active_task_state != PROCESS_ABORTED &&
+                result->state != RESULT_ABORTED 
             ) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
             } else {

@@ -5083,3 +5083,13 @@ Janus	20 May 2007
     html/bt/inc/
         blist.php
 
+Rom     21 May 2007
+    - Bug Fix: fprintf is an ANSI function in Linux, convert Unicode
+        string to ANSI before writing them to sdterr.
+    - Bug Fix: Fix the abort button logic, VS 2005 was throwing some
+        useful warnings.
+        
+    clientgui/
+        SkinManager.cpp
+        ViewWork.cpp
+        ViewWorkGrid.cpp
