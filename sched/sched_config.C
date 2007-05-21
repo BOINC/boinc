@@ -144,8 +144,13 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_str(tag, "min_passwd_length", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "disable_account_creation", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "no_forum_rating", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "www_host", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "uldl_host", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "uldl_pid", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "sched_host", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "sched_pid", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "ssh_exe", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "ps_exe", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "min_core_client_version_announced", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "akismet_key", temp, sizeof(temp))) continue;
         else fprintf(stderr, "unknown tag: %s\n", tag);

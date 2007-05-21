@@ -782,10 +782,17 @@ int RESULT::write_to_client(FILE* fout) {
     }
     *p = 0;
     fputs(buf, fout);
-    sprintf(buf2, "    <platform>%s</platform>\n    <version_num>%d</version_num>\n",
-        platform_name, version_num
-    );
-    fputs(buf2, fout);
+
+    // platform name will be null in anonymous case; don't send
+    //
+    if (strlen(platform_name)) {
+        sprintf(buf2,
+            "    <platform>%s</platform>\n"
+            "    <version_num>%d</version_num>\n",
+            platform_name, version_num
+        );
+        fputs(buf2, fout);
+    }
     fputs("</result>\n", fout);
     return 0;
 }

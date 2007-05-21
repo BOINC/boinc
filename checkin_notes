@@ -5093,3 +5093,14 @@ Rom     21 May 2007
         SkinManager.cpp
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+David  21 May 2007
+    - scheduler: fix bug that caused crash in anonymous platform case;
+        don't send result platform or version num if anon platform.
+    - back end: parse server status-related config elements
+        (wwww_host etc.) to avoid XML warnings
+
+    sched/
+        sched_config.C
+        sched_send.C
+        server_types.C

@@ -824,9 +824,11 @@ int add_result_to_reply(
         );
         return retval;
     }
-    PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
-    strcpy(result.platform_name, pp->name);
-    result.version_num = avp->version_num;
+    if (avp) {
+        PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
+        strcpy(result.platform_name, pp->name);
+        result.version_num = avp->version_num;
+    }
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
     request.estimated_delay += wu_seconds_filled/reply.host.p_ncpus;
