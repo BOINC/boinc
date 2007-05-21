@@ -1,5 +1,3 @@
-#include "config.h"
-
 #include "tgalib.h"
 
 tImageTGA *LoadTGA(const char *filename)

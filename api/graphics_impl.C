@@ -23,8 +23,6 @@
 // and thus can be put in a shared library,
 // separate from the application.
 
-#include "config.h"
-
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif

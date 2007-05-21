@@ -5127,3 +5127,11 @@ Rom    21 May 2007
     clientgui/
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp
+
+David  21 May 2007
+	- API: don't include config.h in a few places
+
+	api/
+		graphics_impl.C
+		texture.C
+		tgalib.C
