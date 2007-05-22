@@ -238,9 +238,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
 
     // Restore previous application settings
     RestoreState();
-
-    // Display the correct views
-    RepopulateNotebook();
     RestoreViewState();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
@@ -254,12 +251,17 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
 
     m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-    m_pFrameListPanelRenderTimer->Start(1000);       // Send event every 1 second
+    m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 second
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
     //         CPU time
     wxUpdateUIEvent::SetUpdateInterval(500);
+
+    // After the timer has been contructed, set the correct refresh interval, then
+    //   manually fire the refresh event to do the initial population of the view.
+    UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
+    FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function End"));
 }
@@ -1963,38 +1965,8 @@ void CAdvancedFrame::OnListPanelRender(wxTimerEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function Begin"));
 
-    if ((-1 != event.GetSelection()) && IsShown()) {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-        CMainDocument*  pDoc = wxGetApp().GetDocument();
-
-
-        wxASSERT(m_pNotebook);
-
-        pwndNotebookPage = m_pNotebook->GetPage(event.GetSelection());
-        wxASSERT(pwndNotebookPage);
-
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(pView);
-
-        if (m_pFrameListPanelRenderTimer->IsRunning()) {
-            m_pFrameListPanelRenderTimer->Stop();
-
-            // View specific refresh rates only apply when a connection to the core
-            //   client has been established, otherwise the refresh rate should be 1
-            //   second.
-            if (pDoc) {
-                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-                if (pDoc->IsConnected()) {
-                    // Set new view specific refresh rate
-                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000); 
-                } else {
-                    // Set view refresh rate to 1 second
-                    m_pFrameListPanelRenderTimer->Start(1000); 
-                }
-            }
-        }
-
+    if ((-1 != event.GetSelection())) {
+        UpdateRefreshTimerInterval(event.GetSelection());
         FireRefreshView();
     }
 
@@ -2065,6 +2037,46 @@ void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
         pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
     if (RUN_MODE_AUTO == status.network_mode)
         pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
+}
+
+
+void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateRefreshTimerInterval - Function Begin"));
+
+    if (IsShown()) {
+        wxWindow*       pwndNotebookPage = NULL;
+        CBOINCBaseView* pView = NULL;
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+
+        wxASSERT(m_pNotebook);
+
+        pwndNotebookPage = m_pNotebook->GetPage(iCurrentNotebookPage);
+        wxASSERT(pwndNotebookPage);
+
+        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+        wxASSERT(pView);
+
+        if (m_pFrameListPanelRenderTimer->IsRunning()) {
+            m_pFrameListPanelRenderTimer->Stop();
+
+            // View specific refresh rates only apply when a connection to the core
+            //   client has been established, otherwise the refresh rate should be 1
+            //   second.
+            if (pDoc) {
+                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                if (pDoc->IsConnected()) {
+                    // Set new view specific refresh rate
+                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000); 
+                } else {
+                    // Set view refresh rate to 1 second
+                    m_pFrameListPanelRenderTimer->Start(1000); 
+                }
+            }
+        }
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateRefreshTimerInterval - Function End"));
 }
 
 

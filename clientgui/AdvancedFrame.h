@@ -131,6 +131,7 @@ private:
 
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );
+    void            UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage );
 
     void            StartTimers();
     void            StopTimers();

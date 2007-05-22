@@ -5156,3 +5156,17 @@ Janus	22 May 2007
 	binteger.php
 	bstring.php (new)
 
+Rom    22 May 2007
+    - fixes #85 - Both Grid based views and List based views are now
+        available.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        Events.h
+
+Rom    22 May 2007
+    - fixes #187 - Fix the initial refresh interval for the various
+        views.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
