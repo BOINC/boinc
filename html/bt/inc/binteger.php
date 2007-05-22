@@ -4,6 +4,9 @@
  * Bittorrent features.
  * An integer starts with "i", has the value and then ends with "e".
  */
+ 
+$cvs_version_tracker[]="\$Id: belement.inc 12611 2007-05-08 08:25:13Z jbk $";  //Generated automatically - do not edit
+ 
 class BInteger {
     private function __construct(){
     }
