@@ -24,25 +24,18 @@ LIBGLUT = /usr/local/lib/libglut.a
 LIBGLU = /usr/local/lib/libGLU.a
 LIBJPEG = /usr/local/lib/libjpeg.a
 
-PROGS = upper_case upper_case.so
+PROGS = uc2 uc2_graphics
 
 all: $(PROGS)
 
 clean:
 	rm $(PROGS)
 
-# the -Wl,--export-dynamic causes the main program's symbols
-# to be exported to the graphics library
+uc2: uc2.o $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread -lboinc_api -lboinc
 
-upper_case: upper_case.o $(BOINC_API_DIR)/libboinc_api.a $(BOINC_API_DIR)/libboinc_graphics_lib.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) -Wl,--export-dynamic -o upper_case upper_case.o libstdc++.a -pthread -lboinc_api -lboinc -lboinc_graphics_lib -ldl
-
-upper_case.so: uc_graphics.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics_impl.a
-	$(CXX) $(CXXFLAGS) -o upper_case.so \
-    -shared -fPIC -pthread \
-    uc_graphics.o \
-    libstdc++.a \
-    -lboinc_graphics_impl -lboinc \
+uc2_graphics: uc2_graphics.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
+	$(CXX) $(CXXFLAGS) -o uc2_graphics uc2_graphics.o libstdc++.a -pthread \
+    -lboinc_graphics2 -lboinc_api -lboinc \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
-    -lGL -lX11 -lXmu -lm; \
-    chcon -t textrel_shlib_t upper_case.so
+    -lGL -lX11 -lXmu -lm
