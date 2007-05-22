@@ -316,3 +316,21 @@ Rom    9 May 2007
 
     win_build/
         *.vcproj
+
+David  22 May 2007
+	- add version 6-style app
+
+	example_app/
+		Makefile
+		uc2.C
+		uc2_graphics.C
+
+David  22 May 2007
+	- first stab at getting it to work on Win
+
+	win_build/
+		libboincapi.vcproj
+		libgraphics2.vcproj (new)
+		samples.sln
+		uc2.vcproj (new)
+		uc2_graphics.vcproj (new)

@@ -407,6 +407,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\boinc\api\tgalib.C"
+				>
+			</File>
+			<File
 				RelativePath="..\..\boinc\api\txf_util.C"
 				>
 			</File>
