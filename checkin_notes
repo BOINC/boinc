@@ -5081,7 +5081,7 @@ Janus    20 May 2007
     - Added BEncoded lists to the Bittorrent serverside utility classes
 
     html/bt/inc/
-        blist.php
+        blist.php (new)
 
 Rom     21 May 2007
     - Bug Fix: fprintf is an ANSI function in Linux, convert Unicode
@@ -5146,3 +5146,13 @@ David  21 May 2007
     sched/
         feeder.C
         start
+
+Janus	22 May 2007
+    - Fixed missing version trackers in BInteger, BList classes
+    - Added BString class for BEncoded strings for the Bittorrent code
+
+    html/bt/inc/
+        blist.php
+	binteger.php
+	bstring.php (new)
+
