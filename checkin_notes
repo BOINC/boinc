@@ -5138,6 +5138,11 @@ David  21 May 2007
 
 David  21 May 2007
     - feeder: fixed SQL query again
+    - start script: print error if host has no daemons
+    - client: fix bug if #CPUs changes during benchmark
 
+    client/
+        cs_benchmark.C
     sched/
         feeder.C
+        start
