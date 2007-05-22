@@ -54,9 +54,9 @@ $biomed = array(
         array(
             "World Community Grid",
             "http://www.worldcommunitygrid.org/",
-            "IBM",
-            "Biomedicine",
-            "Advance our knowledge of human disease.",
+            "IBM Corporate Community Relations",
+            "Humanitarian research on new and infectious disease, natural disasters and hunger.",
+            "To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more.",
             "wcg.jpg",
         ),
     ),

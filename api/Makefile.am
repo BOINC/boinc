@@ -47,13 +47,24 @@ graphics_impl_files =   \
     txf_util.C          \
 	x_opengl.C
 
+graphics2_files = \
+	gutil.C	            \
+	gutil_text.C	    \
+	reduce_lib.C		\
+    texfont.c           \
+    texture.C           \
+    txf_util.C          \
+    graphics2.C \
+    graphics2_unix.C
+
 EXTRA_DIST = *.h
 
 if BUILD_GRAPHICS_API
 graphics_libs = \
     libboinc_graphics_api.a \
     libboinc_graphics_lib.a \
-    libboinc_graphics_impl.a
+    libboinc_graphics_impl.a \
+    libboinc_graphics2.a
 else
 graphics_libs = 
 endif
@@ -70,6 +81,8 @@ libboinc_graphics_lib_a_SOURCES = $(graphics_lib_files)
 libboinc_graphics_lib_a_CPPFLAGS = -I$(top_srcdir)/lib 
 libboinc_graphics_impl_a_SOURCES = $(graphics_impl_files)
 libboinc_graphics_impl_a_CPPFLAGS = -I$(top_srcdir)/lib 
+libboinc_graphics2_a_SOURCES = $(graphics2_files)
+libboinc_graphics2_a_CPPFLAGS = -I$(top_srcdir)/lib 
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/

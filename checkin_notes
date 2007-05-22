@@ -5170,3 +5170,15 @@ Rom    22 May 2007
     
     clientgui/
         AdvancedFrame.cpp, .h
+
+David  22 May 2007
+    - scheduler: fix FCGI compile
+    - API: add files for version 6 graphics
+
+    api/
+        Makefile.am
+        graphics2.C (new)
+        graphics2_unix.C (new)
+        graphics2_win.C (new)
+    sched/
+        Makefile.am

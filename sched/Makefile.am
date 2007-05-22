@@ -174,6 +174,7 @@ fcgi_SOURCES =                                  \
     sched_msgs.C                                \
     sched_locality.C                            \
     sched_timezone.C                            \
+    edf_sim.C \
     ../db/boinc_db.C                            \
     ../db/db_base.C                             \
     ../lib/base64.C                             \
