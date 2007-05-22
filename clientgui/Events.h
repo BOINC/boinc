@@ -57,6 +57,7 @@
 #define ID_ADVPREFSDLG							6033
 #define ID_SHUTDOWNCORECLIENT                   6034
 #define ID_HELPBOINC                            6035
+#define ID_VIEWSWITCHTYPE                       6036
 #define ID_SIMPLEFRAME                          6100
 #define ID_SIMPLEMESSAGECHECKTIMER              6101
 #define ID_SIMPLE_ATTACHTOPROJECT               6600

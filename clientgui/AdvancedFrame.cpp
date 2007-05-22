@@ -41,10 +41,13 @@
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
 #include "ViewProjectsGrid.h"
+#include "ViewProjects.h"
 #include "ViewWorkGrid.h"
+#include "ViewWork.h"
 #include "ViewTransfersGrid.h"
-#include "ViewMessages.h"
+#include "ViewTransfers.h"
 #include "ViewMessagesGrid.h"
+#include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
@@ -66,6 +69,12 @@
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
+
+
+// Which of the view sets should we display.
+//
+#define VIEW_GRID       1
+#define VIEW_LIST       2
 
 
 enum STATUSBARFIELDS {
@@ -165,6 +174,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
+    EVT_MENU(ID_VIEWSWITCHTYPE, CAdvancedFrame::OnSwitchView)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
 	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
 	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
@@ -213,19 +223,25 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
     // Working Variables
     m_strBaseTitle = title;
     m_bDisplayShutdownClientWarning = true;
+	m_iDisplayViewType = VIEW_GRID;
 
 
     // Initialize Application
     SetIcon(*icon);
 
+    // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
-    RestoreState();
-
     SetStatusBarPane(0);
 
+    // Restore previous application settings
+    RestoreState();
+
+    // Display the correct views
+    RepopulateNotebook();
+    RestoreViewState();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -260,6 +276,7 @@ CAdvancedFrame::~CAdvancedFrame() {
     wxASSERT(m_pStatusbar);
 
     SaveState();
+    SaveViewState();
 
     if (m_pRefreshStateTimer) {
         m_pRefreshStateTimer->Stop();
@@ -331,6 +348,14 @@ bool CAdvancedFrame::CreateMenu() {
 
     // View menu
     wxMenu *menuView = new wxMenu;
+
+    menuView->Append(
+        ID_VIEWSWITCHTYPE,
+        _("&Change View"),
+        _("Grid based views feature progress controls and sorting ability and "
+          "list based views are compatible with accessibility aids such as "
+          "screen readers.")
+    );
 
     menuView->Append(
         ID_FILESWITCHGUI,
@@ -628,21 +653,41 @@ bool CAdvancedFrame::CreateNotebook() {
 	pPanelSizer->Add(0, 5);
     pPanelSizer->Add(m_pNotebook, 1, wxEXPAND);
 
-
-    // create the various notebook pages
-	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
-	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
-	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
-    CreateNotebookPage(new CViewMessages(m_pNotebook));
-	CreateNotebookPage(new CViewStatistics(m_pNotebook));
-    CreateNotebookPage(new CViewResources(m_pNotebook));
-
+    // Display default views
+    RepopulateNotebook();
 
     pPanel->SetSizer(pPanelSizer);
     pPanel->Layout();
 
-
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function End"));
+    return true;
+}
+
+
+bool CAdvancedFrame::RepopulateNotebook() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function Begin"));
+
+    DeleteNotebook();
+
+    // Create the various notebook pages
+    if ( VIEW_GRID == m_iDisplayViewType ) {
+	    CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
+	    CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
+	    CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
+        CreateNotebookPage(new CViewMessages(m_pNotebook));
+	    CreateNotebookPage(new CViewStatistics(m_pNotebook));
+        CreateNotebookPage(new CViewResources(m_pNotebook));
+    } else {
+	    CreateNotebookPage(new CViewProjects(m_pNotebook));
+	    CreateNotebookPage(new CViewWork(m_pNotebook));
+	    CreateNotebookPage(new CViewTransfers(m_pNotebook));
+        CreateNotebookPage(new CViewMessages(m_pNotebook));
+	    CreateNotebookPage(new CViewStatistics(m_pNotebook));
+        CreateNotebookPage(new CViewResources(m_pNotebook));
+    }
+
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
 }
 
@@ -700,16 +745,16 @@ bool CAdvancedFrame::DeleteMenu() {
 bool CAdvancedFrame::DeleteNotebook() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::DeleteNotebook - Function Begin"));
 
-    wxImageList*    pImageList;
-
     wxASSERT(m_pNotebook);
 
-    pImageList = m_pNotebook->GetImageList();
+    // Delete all existing pages
+    m_pNotebook->DeleteAllPages();
 
-    wxASSERT(pImageList);
-
-    if (pImageList)
-        delete pImageList;
+    // Delete all existing images
+    wxImageList* pImageList = m_pNotebook->GetImageList();
+    if (pImageList) {
+        pImageList->RemoveAll();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::DeleteNotebook - Function End"));
     return true;
@@ -737,13 +782,9 @@ bool CAdvancedFrame::SaveState() {
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxWindow*       pwndNotebookPage = NULL;
-    CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
     wxString        strBuffer;
-    int             iIndex = 0;
-    int             iItemCount = 0;
 
 
     wxASSERT(pConfig);
@@ -764,8 +805,8 @@ bool CAdvancedFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
     pConfig->Write(wxT("DisplayShutdownClientWarning"), m_bDisplayShutdownClientWarning);
+    pConfig->Write(wxT("DisplayViewType"), m_iDisplayViewType);
 
 
 #ifdef __WXMAC__
@@ -773,6 +814,41 @@ bool CAdvancedFrame::SaveState() {
     SaveWindowDimensions();
 #endif
 
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
+    return true;
+}
+
+
+bool CAdvancedFrame::SaveViewState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveViewState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxWindow*       pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    int             iIndex = 0;
+    int             iItemCount = 0;
+
+
+    wxASSERT(pConfig);
+    wxASSERT(m_pNotebook);
+
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Save Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
     //
     // Save Page(s) State
@@ -796,16 +872,54 @@ bool CAdvancedFrame::SaveState() {
         pConfig->SetPath(strPreviousLocation);
     }
 
-    pConfig->SetPath(strPreviousLocation);
-
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveViewState - Function End"));
     return true;
 }
 
 
 bool CAdvancedFrame::RestoreState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    wxString        strValue;
+
+
+    wxASSERT(pConfig);
+    wxASSERT(m_pNotebook);
+
+
+    CBOINCBaseFrame::RestoreState();
+
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Restore Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
+    pConfig->Read(wxT("DisplayViewType"), &m_iDisplayViewType, VIEW_GRID);
+
+#ifdef __WXMAC__
+    RestoreWindowDimensions();
+#endif
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
+    return true;
+}
+
+
+bool CAdvancedFrame::RestoreViewState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreViewState - Function Begin"));
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
@@ -844,12 +958,6 @@ bool CAdvancedFrame::RestoreState() {
         pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
         m_pNotebook->SetSelection(iCurrentPage);
     }
-    pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
-
-#ifdef __WXMAC__
-    RestoreWindowDimensions();
-#endif
-
 
     //
     // Restore Page(s) State
@@ -875,9 +983,7 @@ bool CAdvancedFrame::RestoreState() {
 
     }
 
-    pConfig->SetPath(strPreviousLocation);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreViewState - Function End"));
     return true;
 }
 
@@ -1157,6 +1263,29 @@ void CAdvancedFrame::Onread_prefs(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	pDoc->rpc.read_cc_config();
+}
+
+
+void CAdvancedFrame::OnSwitchView(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function Begin"));
+
+    if ( VIEW_GRID == m_iDisplayViewType ) {
+        m_iDisplayViewType = VIEW_LIST;
+    } else {
+        m_iDisplayViewType = VIEW_GRID;
+    }
+
+    // Save the current view state
+    SaveViewState();
+
+    // Delete the old pages and then create/display the new pages.
+    RepopulateNotebook();
+
+    // Restore the current view state settings to the newly
+    //   constructed views.
+    RestoreViewState();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function End"));
 }
 
 
