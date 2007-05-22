@@ -21,6 +21,7 @@
 #include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
+#include "str_util.h"
 #include "graphics_impl.h"
 
 #define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
@@ -40,6 +41,7 @@ static HDC myhDC;
 static bool visible = true;
 static bool window_ready=false;
 static UINT_PTR gfx_timer_id = 0;
+static bool fullscreen;
 
 void close_window() {
     window_ready=false;
@@ -181,16 +183,16 @@ LRESULT CALLBACK WndProc(
             return 0;
     case WM_KEYDOWN:
         if(!window_ready) return 0;    
-        if (current_graphics_mode == MODE_FULLSCREEN) {
-               set_mode(MODE_HIDE_GRAPHICS);
+        if (fullscreen) {
+            close_window();
         } else {           
             boinc_app_key_press((int)wParam, (int)lParam);
         }
         return 0;
     case WM_KEYUP:
         if(!window_ready) return 0;    
-        if (current_graphics_mode == MODE_FULLSCREEN) {
-            set_mode(MODE_HIDE_GRAPHICS);
+        if (fullscreen) {
+            close_window();
         } else {
             boinc_app_key_release((int)wParam, (int)lParam);           
         }
@@ -334,10 +336,17 @@ void boinc_graphics(int argc, char** argv) {
             fullscreen = true;
         }
     }
-    boinc_get_init_data(aid);
-    if (!strlen(aid.app_name))  {
-        strcpy(aid.app_name, "BOINC Application");
-    }
-    make_window(fullscreen);
+    make_window();
     win_graphics_event_loop();
 }
+
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+    LPSTR command_line;
+    char* argv[100];
+    int argc;
+
+    command_line = GetCommandLine();
+    argc = parse_command_line( command_line, argv );
+    boinc_graphics(argc, argv);
+}
+
