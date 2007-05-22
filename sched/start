@@ -408,15 +408,18 @@ def run_daemon(task):
     exec_command_string(task.cmd)
 
 def run_daemons():
+    found_any = False
     if verbose: print "Starting daemons"
     if is_main_host:
         remove_stop_daemons()
     for task in config.daemons:
         if task.host != local_hostname:
             continue
+        found_any = True
         if task.disabled:
             continue
         run_daemon(task)
+    return found_any
 
 def run_tasks():
     if verbose: print "Running tasks"
@@ -503,7 +506,9 @@ def command_enable_start():
             print "Entering ENABLED mode"
     # NOTE: must use '1', not '0' here
     run_state.enabled = 1
-    run_daemons()
+    found_any = run_daemons()
+    if not found_any:
+        print "No daemons for this host found - check host name in config.xml"
     time.sleep(10)      # give feeder time to start up and create shmem
     remove_stop_sched()
     remove_cached_home_page()

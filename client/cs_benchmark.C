@@ -111,6 +111,9 @@ struct BENCHMARK_DESC {
 static BENCHMARK_DESC* benchmark_descs=0;
 static bool benchmarks_running=false;    // at least 1 benchmark thread running
 static double cpu_benchmarks_start;
+static int bm_ncpus;
+    // user might change ncpus during benchmarks.
+    // store starting value here.
 
 const char *file_names[2] = {"do_fp", "do_int"};
 
@@ -204,10 +207,11 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     if (benchmark_descs) {
         free(benchmark_descs);
     }
-    benchmark_descs = (BENCHMARK_DESC*)calloc(ncpus, sizeof(BENCHMARK_DESC));
+    bm_ncpus = ncpus;
+    benchmark_descs = (BENCHMARK_DESC*)calloc(bm_ncpus, sizeof(BENCHMARK_DESC));
     benchmarks_running = true;
 
-    for (i=0; i<ncpus; i++) {
+    for (i=0; i<bm_ncpus; i++) {
         benchmark_descs[i].ordinal = i;
         benchmark_descs[i].done = false;
         benchmark_descs[i].error = false;
@@ -305,7 +309,7 @@ void check_benchmark(BENCHMARK_DESC& desc) {
 void CLIENT_STATE::abort_cpu_benchmarks() {
     int i;
     if (!benchmarks_running) return;
-    for (i=0; i<ncpus; i++) {
+    for (i=0; i<bm_ncpus; i++) {
         abort_benchmark(benchmark_descs[i]);
     }
 }
@@ -407,7 +411,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
     int ndone = 0;
     bool had_error = false;
-    for (i=0; i<ncpus; i++) {
+    for (i=0; i<bm_ncpus; i++) {
         if (!benchmark_descs[i].done) {
             check_benchmark(benchmark_descs[i]);
         }
@@ -423,10 +427,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     }
     if (log_flags.benchmark_debug) {
         msg_printf(0, MSG_INFO,
-            "[benchmark_debug] %d out of %d CPUs done", ndone, ncpus
+            "[benchmark_debug] %d out of %d CPUs done", ndone, bm_ncpus
         );
     }
-    if (ndone == ncpus) {
+    if (ndone == bm_ncpus) {
         double old_p_fpops = host_info.p_fpops;
         if (had_error) {
             msg_printf(NULL, MSG_INTERNAL_ERROR, "CPU benchmarks error");
@@ -436,7 +440,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             double p_iops = 0;
             double p_membw = 0;
             double m_cache = 0;
-            for (i=0; i<ncpus; i++) {
+            for (i=0; i<bm_ncpus; i++) {
                 if (log_flags.benchmark_debug) {
                     msg_printf(0, MSG_INFO,
                         "[benchmark_debug] CPU %d: fp %f int %f intloops %f inttime %f",
@@ -451,10 +455,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
                 p_membw += benchmark_descs[i].host_info.p_membw;
                 m_cache += benchmark_descs[i].host_info.m_cache;
             }
-            p_fpops /= ncpus;
-            p_iops /= ncpus;
-            p_membw /= ncpus;
-            m_cache /= ncpus;
+            p_fpops /= bm_ncpus;
+            p_iops /= bm_ncpus;
+            p_membw /= bm_ncpus;
+            m_cache /= bm_ncpus;
             if (p_fpops > 0) {
                 host_info.p_fpops = p_fpops;
             } else {
@@ -484,7 +488,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
 void CLIENT_STATE::print_benchmark_results() {
     msg_printf(NULL, MSG_INFO, "Benchmark results:");
-    msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", ncpus);
+    msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", bm_ncpus);
     msg_printf(
         NULL, MSG_INFO, "   %.0f floating point MIPS (Whetstone) per CPU",
         host_info.p_fpops/1e6

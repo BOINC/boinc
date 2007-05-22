@@ -528,15 +528,15 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-allapps")) {
             all_apps = true;
         } else if (!strcmp(argv[i], "-priority_order")) {
-            order_clause = "order by r1.result.priority desc ";
+            order_clause = "order by r1.priority desc ";
         } else if (!strcmp(argv[i], "-priority_order_create_time")) {
-            order_clause = "order by r1.result.priority desc, workunit.create_time ";
+            order_clause = "order by r1.priority desc, workunit.create_time ";
         } else if (!strcmp(argv[i], "-purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
-            sprintf(select_clause, "and r1.result.id %% %d = %d ", n, j);
+            sprintf(select_clause, "and r1.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_interval = atof(argv[++i]);
         } else {

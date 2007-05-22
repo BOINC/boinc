@@ -70,7 +70,7 @@ void SIM_PROJECT::update_dcf_stats(RESULT* rp) {
     completions_ratio_mean += delta / completed_task_count;
     completions_ratio_s += delta * ( raw_ratio - completions_ratio_mean);
     if (completed_task_count > 1) {
-        completions_ratio_stdev = completions_ratio_s / (completed_task_count - 1);
+        completions_ratio_stdev = sqrt(completions_ratio_s / (completed_task_count - 1));
         double required_stdev = (raw_ratio - completions_ratio_mean) / completions_ratio_stdev;
         if (required_stdev > completions_required_stdevs) {
             completions_required_stdevs = std::min(required_stdev, 7.0);
