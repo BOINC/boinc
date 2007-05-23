@@ -45,4 +45,3 @@ upper_case.so: uc_graphics.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboi
     -lboinc_graphics_impl -lboinc \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
     -lGL -lX11 -lXmu -lm; \
-    chcon -t textrel_shlib_t upper_case.so

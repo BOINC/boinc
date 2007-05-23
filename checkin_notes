@@ -347,3 +347,11 @@ David  23 May 2007
 			samples.sln
 			uc2.vcproj
 			uc2_graphics.vcproj
+
+David  23 May 2007
+	- version 6 example app works on Linux
+
+    example_app/
+        uc2.h
+    uppercase/
+        Makefile
