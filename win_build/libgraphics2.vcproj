@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libboincapi.lib"
+				OutputFile="$(OutDir)/libgraphics2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
