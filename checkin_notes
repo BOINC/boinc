@@ -5276,3 +5276,13 @@ Jeff  23 May 2007
         Makefile.am
         file_upload_handler.C
 
+David  23 May 2007
+	- debug version 6-style graphics on Windows.
+		New example app works now!
+
+	api/
+		graphics2.C,h
+		graphics2_util.C
+		graphics2_win.C
+	lib/
+		util.C,h

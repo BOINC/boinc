@@ -567,4 +567,12 @@ double linux_cpu_time(int pid) {
 #endif
 #endif
 
+void boinc_crash() {
+#ifdef _WIN32
+	DebugBreak();
+#else
+	*(int*)0 = 0;
+#endif
+}
+
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";

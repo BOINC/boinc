@@ -1,5 +1,8 @@
 #include "util.h"
-#include "graphics_api.h"
+#include "app_ipc.h"
+#include "shmem.h"
+#include "boinc_api.h"
+#include "graphics2.h"
 
 double boinc_max_fps;
 double boinc_max_gfx_cpu_frac;
@@ -61,7 +64,9 @@ bool throttled_app_render(int x, int y, double t) {
     return false;
 }
 
-void get_window_title(APP_INIT_DATA& aid, char* buf, int len) {
+void get_window_title(char* buf, int len) {
+    APP_INIT_DATA aid;
+    boinc_get_init_data(aid);
     if (aid.app_version) {
         snprintf(buf, len,
             "%s version %.2f [workunit: %s]",

@@ -101,5 +101,6 @@ extern int get_exit_status(int);
 #endif
 
 extern int wait_client_mutex(const char* dir, double timeout);
+extern void boinc_crash();
 
 #endif

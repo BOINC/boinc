@@ -22,7 +22,7 @@
 #include "app_ipc.h"
 #include "util.h"
 #include "str_util.h"
-#include "graphics_impl.h"
+#include "graphics2.h"
 
 #define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
 #define WM_SHUTDOWNGFX              WM_USER+1
@@ -119,7 +119,7 @@ static void make_window() {
     boinc_get_init_data(aid);
     if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
     char window_title[256];
-    get_window_title(aid, window_title, 256);
+    get_window_title(window_title, 256);
     hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,
         dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
         WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
@@ -299,7 +299,7 @@ BOOL reg_win_class() {
 BOOL unreg_win_class() {
     if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME,hInstance)) {
         MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
-        hInstance=NULL;                                    // Set hInstance To NULL
+        hInstance=NULL;
     }
 
     return TRUE;
@@ -323,6 +323,7 @@ void win_graphics_event_loop() {
 
     reg_win_class();
     gfx_timer_id = SetTimer(NULL, 1, 30, (TIMERPROC)&timer_handler);
+    wglMakeCurrent(NULL,NULL); 
     make_window();
     while (1) {
         if (GetMessage(&msg,NULL,0,0)) {
@@ -335,7 +336,7 @@ void win_graphics_event_loop() {
     unreg_win_class();
 }
 
-void boinc_graphics(int argc, char** argv) {
+void boinc_graphics_loop(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             fullscreen = true;
@@ -344,6 +345,8 @@ void boinc_graphics(int argc, char** argv) {
     win_graphics_event_loop();
 }
 
+extern int main(int, char**);
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
     LPSTR command_line;
     char* argv[100];
@@ -351,6 +354,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 
     command_line = GetCommandLine();
     argc = parse_command_line( command_line, argv );
-    boinc_graphics(argc, argv);
+    main(argc, argv);
 }
 

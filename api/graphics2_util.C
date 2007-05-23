@@ -1,0 +1,60 @@
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
+#include "shmem.h"
+#include "app_ipc.h"
+#include "boinc_api.h"
+#include "graphics2.h"
+
+
+#ifdef _WIN32
+static void get_shmem_name(char* prog_name, char* shmem_name) {
+    APP_INIT_DATA aid;
+    boinc_get_init_data(aid);
+    sprintf(shmem_name, "boinc_%s_%d", prog_name, aid.slot);
+}
+#else
+static key_t get_shmem_name(char* prog_name) {
+    char cwd[256], path[256];
+    boinc_get_cwd(cwd);
+    sprintf(path, "%s/init_data.xml", cwd);
+    return ftok(path, 2);
+}
+#endif
+
+void* boinc_graphics_make_shmem(char* prog_name, int size) {
+#ifdef _WIN32
+    HANDLE shmem_handle;
+    char shmem_name[256];
+    void* p;
+    get_shmem_name(prog_name, shmem_name);
+    shmem_handle = create_shmem(shmem_name, size, &p, false);
+    if (shmem_handle == NULL) return 0;
+    return p;
+#else
+    void* p;
+    key_t key = get_shmem_name(prog_name);
+    retval = create_shmem(key, size, 0, &p);
+    if (retval) return 0;
+    return p;
+#endif
+}
+
+void* boinc_graphics_get_shmem(char* prog_name) {
+#ifdef _WIN32
+    HANDLE shmem_handle;
+    char shmem_name[256];
+    void* p;
+    get_shmem_name(prog_name, shmem_name);
+    shmem_handle = attach_shmem(shmem_name, &p);
+    if (shmem_handle == NULL) return 0;
+    return p;
+#else
+    void* p;
+    key_t key = get_shmem_name(prog_name);
+    retval = attach_shmem(key, &p);
+    if (retval) return 0;
+    return p;
+#endif
+}
