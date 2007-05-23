@@ -87,7 +87,10 @@ void SetupPixelFormat(HDC hDC) {
    nPixelFormat = ChoosePixelFormat(hDC, &pfd);
 
    // This set pixel format to device context.
-   SetPixelFormat(hDC, nPixelFormat, &pfd);
+   BOOL flag = SetPixelFormat(hDC, nPixelFormat, &pfd);
+   if (!flag) {
+       DWORD x = GetLastError();
+   }
 }
 
 static void make_window() {
@@ -133,6 +136,7 @@ static void make_window() {
 
     hRC = wglCreateContext(hDC);
     if (hRC == 0) {
+        DWORD x = GetLastError();
         ReleaseDC(hWnd, hDC);
         return;
     }
@@ -319,6 +323,7 @@ void win_graphics_event_loop() {
 
     reg_win_class();
     gfx_timer_id = SetTimer(NULL, 1, 30, (TIMERPROC)&timer_handler);
+    make_window();
     while (1) {
         if (GetMessage(&msg,NULL,0,0)) {
             TranslateMessage(&msg);
@@ -336,7 +341,6 @@ void boinc_graphics(int argc, char** argv) {
             fullscreen = true;
         }
     }
-    make_window();
     win_graphics_event_loop();
 }
 
