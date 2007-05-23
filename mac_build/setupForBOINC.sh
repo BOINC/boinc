@@ -21,10 +21,10 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.16.1, jpeg-6b and wxMac-2.8.0
+# curl-7.16.1, jpeg-6b and wxMac-2.6.3
 #
 # by Charlie Fenton 7/21/06
-# Updated for curl-7.16.1 and wx-Mac 2.8.0 5/2/07
+# Updated for curl-7.16.1 and wx-Mac 2.6.3 5/22/07
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -75,15 +75,15 @@ if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD wxMac-2.8.0 --------"
+echo "------- BUILD wxMac-2.6.3 --------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cp -fpR wxMac-BOINC.xcodeproj ../../wxMac-2.8.0/src/
+cp -fpR wxMac-BOINC.xcodeproj ../../wxMac-2.6.3/src/
 
-cd ../../wxMac-2.8.0/
+cd ../../wxMac-2.6.3/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi

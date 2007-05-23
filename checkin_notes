@@ -5187,3 +5187,16 @@ David  22 May 2007
 	api/
 		graphics2.C
 		graphics2_win.C
+
+Charlie 22 May 2007
+    - Mac: Add list control sources back into XCode Project 
+        (ViewTransfers.cpp,.h, ViewWork.cpp,.h,ViewProjects.cpp,.h)
+    - Mac: Revert XCode project, build scripts and build instructions to use 
+        wxMac-2.6.3 as a temporary workaround to SimpleGUI drawing bug.  
+        
+    mac_build/
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
