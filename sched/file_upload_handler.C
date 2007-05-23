@@ -585,6 +585,7 @@ int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
+    unsigned int counter=0;
     elapsed_wallclock_time();
 
     installer();
@@ -621,6 +622,8 @@ int main() {
 
 #ifdef _USING_FCGI_
   while(FCGI_Accept() >= 0) {
+    counter++;
+    fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
 #endif
     handle_request(stdin, key);
 #ifdef _USING_FCGI_
