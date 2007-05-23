@@ -5219,3 +5219,18 @@ David  22 May 2007
         filesys.C
     sched/
         sched_send.C
+
+Rom    23 May 2007
+    - MGR: Make it as plain as day what the new menu item it geared
+        towards by calling it the accessible view.
+
+    clientgui/
+        AdvancedFrame.cpp
+
+Rom    23 May 2007
+    - Tag for 5.9.12 release, all platforms
+      boinc_core_release_5_9_12
+    
+    client/
+        configure.ac
+        version.h

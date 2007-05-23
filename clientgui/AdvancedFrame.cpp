@@ -351,11 +351,10 @@ bool CAdvancedFrame::CreateMenu() {
     // View menu
     wxMenu *menuView = new wxMenu;
 
-    menuView->Append(
+    menuView->AppendCheckItem(
         ID_VIEWSWITCHTYPE,
-        _("&Change View"),
-        _("Grid based views feature progress controls and sorting ability and "
-          "list based views are compatible with accessibility aids such as "
+        _("&Accessible View"),
+        _("Accessible views are compatible with accessibility aids such as "
           "screen readers.")
     );
 
@@ -1268,10 +1267,10 @@ void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CAdvancedFrame::OnSwitchView(wxCommandEvent& WXUNUSED(event)) {
+void CAdvancedFrame::OnSwitchView(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function Begin"));
 
-    if ( VIEW_GRID == m_iDisplayViewType ) {
+    if ( event.IsChecked() ) {
         m_iDisplayViewType = VIEW_LIST;
     } else {
         m_iDisplayViewType = VIEW_GRID;
