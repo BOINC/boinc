@@ -1206,6 +1206,7 @@ int FILE_REF::write(MIOFILE& out) {
 int WORKUNIT::parse(MIOFILE& in) {
     char buf[4096];
     FILE_REF file_ref;
+    double dtemp;
 
     strcpy(name, "");
     strcpy(app_name, "");
@@ -1258,6 +1259,8 @@ int WORKUNIT::parse(MIOFILE& in) {
             input_files.push_back(file_ref);
             continue;
         }
+        // unused stuff
+        else if (parse_double(buf, "<credit>", dtemp)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,

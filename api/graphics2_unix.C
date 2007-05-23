@@ -25,20 +25,6 @@ static APP_INIT_DATA aid;
 
 bool fullscreen;
 
-static void get_window_title(APP_INIT_DATA& aid, char* buf, int len) {
-    if (aid.app_version) {
-        snprintf(buf, len,
-            "%s version %.2f [workunit: %s]",
-            aid.app_name, aid.app_version/100.0, aid.wu_name
-        );
-    } else {
-        snprintf(buf, len,
-            "%s [workunit: %s]",
-            aid.app_name, aid.wu_name
-        );
-    }
-}
-
 static void close_window() {
     exit(0);
 }

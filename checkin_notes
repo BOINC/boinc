@@ -5203,3 +5203,19 @@ Charlie 22 May 2007
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  22 May 2007
+    - lib/filesys: do timed retry of delete/rename on Unix as well as Win
+    - client: sleep 1 sec (not 60) before retry statefile write
+    - client: parse <credit> in workunit XML
+    - scheduler: better error messages if insert_wu_tags() fails
+
+    api/
+        graphics2_unix.C
+    client/
+        client_state.C
+        client_types.C
+    lib/
+        filesys.C
+    sched/
+        sched_send.C

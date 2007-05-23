@@ -528,7 +528,7 @@ bool CLIENT_STATE::poll_slow_events() {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't write state file: %s", boincerror(retval)
         );
-        boinc_sleep(60.0);
+        boinc_sleep(1.0);
 
         // if we can't write the state file twice in a row, something's hosed;
         // better to not keep trying

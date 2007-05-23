@@ -444,8 +444,9 @@ int insert_after(char* buffer, const char* after, const char* text) {
     char temp[LARGE_BLOB_SIZE];
 
     if (strlen(buffer) + strlen(text) > LARGE_BLOB_SIZE-1) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-            "insert_after: overflow\n"
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "insert_after: overflow: %d %d\n",
+            strlen(buffer), strlen(text)
         );
         return ERR_BUFFER_OVERFLOW;
     }
@@ -567,7 +568,9 @@ int add_wu_to_reply(
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "insert_wu_tags failed\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "insert_wu_tags failed %d\n", retval
+        );
         return retval;
     }
     wu3=wu2;
