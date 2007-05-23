@@ -5265,3 +5265,14 @@ David  23 May 2007
     client/
         app_start.C
         hostinfo_unix.C
+
+Jeff  23 May 2007
+    - fixed a linkage problem whereby the fcgi_file_upload_handler was
+      linking to some non-fcgi versions of .o files.  This was resulting
+      in segfaults.
+    - added an fcgi entry counter to the file_upload_handler
+
+    sched/
+        Makefile.am
+        file_upload_handler.C
+
