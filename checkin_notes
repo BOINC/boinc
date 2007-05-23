@@ -5234,3 +5234,18 @@ Rom    23 May 2007
     client/
         configure.ac
         version.h
+
+Janus	23 May 2007
+    - Added "IllegalArgumentException" class for use in the remainin BT code
+    - Also added the class which will be used to represent the contents of
+      a .torrent descriptor.
+      This class can generate (hopefully!) valid .torrents and register the file
+      that the torrent points to with the database for later tracking.
+      The constructor takes a list of webseeds (HTTP servers) as input together
+      with an URL where the tracker can be found - and of course the file that it
+      should generate data for.
+
+    html/bt/inc/
+        torrent.php (new)
+	illegalargumentexception.php (new)
+
