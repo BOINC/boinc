@@ -295,6 +295,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\boinc\api\graphics2_util.C"
+				>
+			</File>
+			<File
 				RelativePath="..\..\boinc\api\graphics2_win.C"
 				>
 			</File>
@@ -358,6 +362,10 @@
 			</File>
 			<File
 				RelativePath="..\..\boinc\api\boinc_gl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\boinc\api\graphics2.h"
 				>
 			</File>
 			<File

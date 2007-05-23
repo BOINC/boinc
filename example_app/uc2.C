@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2007 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -33,9 +33,6 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#endif
-
-#ifndef _WIN32
 #include <cstdio>
 #include <cctype>
 #include <ctime>
@@ -50,6 +47,8 @@
 #include "filesys.h"
 #include "boinc_api.h"
 #include "mfile.h"
+#include "graphics2.h"
+#include "uc2.h"
 
 using std::string;
 
@@ -62,7 +61,7 @@ bool early_exit = false;
 bool early_crash = false;
 bool early_sleep = false;
 double cpu_time = 20;
-
+UC_SHMEM* shmem;
 
 static void use_some_cpu() {
     double j = 3.14159;
@@ -96,13 +95,23 @@ int do_checkpoint(MFILE& mf, int nchars) {
     return 0;
 }
 
+void update_shmem(double fd) {
+    double cpu;
+    if (!shmem) return;
+    shmem->fraction_done = fd;
+    boinc_calling_thread_cpu_time(cpu);
+    shmem->cpu_time = cpu;
+    shmem->update_time = dtime();
+}
 
 void worker() {
     int c, nchars = 0, retval, n;
-    double fsize;
+    double fsize, fd;
     char input_path[512], output_path[512], chkpt_path[512];
     MFILE out;
     FILE* state, *infile;
+
+    shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
 
     // open the input file (resolve logical name first)
     //
@@ -119,8 +128,6 @@ void worker() {
     //
     file_size(input_path, fsize);
 
-    // open output file
-    //
     boinc_resolve_filename(OUTPUT_FILENAME, output_path, sizeof(output_path));
 
     // See if there's a valid checkpoint file.
@@ -164,11 +171,7 @@ void worker() {
         }
 
         if (early_crash && i>30) {
-#ifdef _WIN32
-            DebugBreak();
-#else
-	        *(int*)0 = 0;
-#endif
+            boinc_crash();
         }
         if (early_sleep && i>30) {
 			g_sleep = true;
@@ -184,7 +187,10 @@ void worker() {
             boinc_checkpoint_completed();
         }
 
-        boinc_fraction_done(nchars/fsize);
+        fd = nchars/fsize;
+        if (cpu_time) fd /= 2;
+        boinc_fraction_done(fd);
+        update_shmem(fd);
     }
 
     retval = out.flush();
@@ -200,7 +206,9 @@ void worker() {
         while (1) {
             double e = dtime()-start;
             if (e > cpu_time) break;
-            boinc_fraction_done(e/cpu_time);
+            fd = .5 + .5*(e/cpu_time);
+            boinc_fraction_done(fd);
+            update_shmem(fd);
 
 			if (boinc_time_to_checkpoint()) {
 				retval = do_checkpoint(out, nchars);
@@ -214,6 +222,7 @@ void worker() {
             use_some_cpu();
         }
     }
+    update_shmem(1);
     boinc_finish(0);
 }
 
@@ -249,3 +258,4 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 #endif
 
 const char *BOINC_RCSID_33ac47a071 = "$Id: upper_case.C 12135 2007-02-21 20:04:14Z davea $";
+

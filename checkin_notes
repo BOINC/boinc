@@ -334,3 +334,16 @@ David  22 May 2007
 		samples.sln
 		uc2.vcproj (new)
 		uc2_graphics.vcproj (new)
+
+David  23 May 2007
+	- version 6 example app works on Win
+
+	example_app/
+		uc2.C
+		uc2.h (new)
+		uc2_graphics.C
+		win_build/
+			libgraphics2.vcproj
+			samples.sln
+			uc2.vcproj
+			uc2_graphics.vcproj

@@ -417,6 +417,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath="..\..\boinc\api\graphics2_util.C"
+				>
+			</File>
+			<File
 				RelativePath="..\example_app\uc2.C"
 				>
 			</File>
@@ -430,6 +434,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath="..\example_app\uc2.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -28,8 +28,11 @@
 #include "parse.h"
 #include "gutil.h"
 #include "boinc_gl.h"
-#include "graphics_api.h"
+#include "app_ipc.h"
+#include "boinc_api.h"
+#include "graphics2.h"
 #include "txf_util.h"
+#include "uc2.h"
 
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
@@ -39,6 +42,7 @@ bool mouse_down = false;
 int mouse_x, mouse_y;
 double pitch_angle, roll_angle, viewpoint_distance=10;
 float color[4] = {.7, .2, .5, 1};
+UC_SHMEM* shmem;
 
 static void parse_project_prefs(char* buf) {
     char cs[256];
@@ -102,12 +106,19 @@ static void draw_text() {
     y += dy;
     if (x < 0 || x > .5) dx *= -1;
     if (y < 0 || y > .5) dy *= -1;
+    double fd = 0, cpu=0;
+    if (shmem) {
+        fd = shmem->fraction_done;
+        cpu = shmem->cpu_time;
+    }
     sprintf(buf, "User: %s", uc_aid.user_name);
     txf_render_string(.1, x, y, 0, 500, white, 0, buf);
     sprintf(buf, "Team: %s", uc_aid.team_name);
     txf_render_string(.1, x, y+.1, 0, 500, white, 0, buf);
-    sprintf(buf, "%% Done: %f", 100*boinc_get_fraction_done());
+    sprintf(buf, "%% Done: %f", 100*fd);
     txf_render_string(.1, x, y+.2, 0, 500, white, 0, buf);
+    sprintf(buf, "CPU time: %f", cpu);
+    txf_render_string(.1, x, y+.3, 0, 500, white, 0, buf);
 }
 
 static void draw_3d_stuff() {
@@ -221,8 +232,7 @@ void boinc_app_key_release(int, int){}
 
 }
 
-extern void boinc_graphics(int, char**);
-
 int main(int argc, char** argv) {
-    boinc_graphics(argc, argv);
+    shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
+    boinc_graphics_loop(argc, argv);
 }
