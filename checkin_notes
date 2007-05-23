@@ -5249,3 +5249,9 @@ Janus	23 May 2007
         torrent.php (new)
 	illegalargumentexception.php (new)
 
+David  23 May 2007
+    - client: unscrambled some of the #ifdefs in hostinfo_unix.C
+        In Linux case, if measured RAM size is negative, print some info.
+
+    client/
+        hostinfo_unix.C
