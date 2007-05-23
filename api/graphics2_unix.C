@@ -9,10 +9,11 @@
 
 #include "app_ipc.h"
 #include "util.h"
-#include "graphics_api.h"
 
 #include "boinc_gl.h"
 #include "boinc_glut.h"
+#include "boinc_api.h"
+#include "graphics2.h"
 
 #define TIMER_INTERVAL_MSEC 30
 
@@ -20,8 +21,6 @@ static int xpos = 100, ypos = 100;
 static int win_width = 600, win_height = 400;
 static int clicked_button;
 static int win=0;
-
-static APP_INIT_DATA aid;
 
 bool fullscreen;
 
@@ -92,7 +91,7 @@ static void maybe_render() {
 
 static void make_window() {
     char window_title[256];
-    get_window_title(aid, window_title, 256);
+    get_window_title(window_title, 256);
 
     win = glutCreateWindow(window_title); 
     glutReshapeFunc(app_graphics_resize);
@@ -120,12 +119,12 @@ static void make_window() {
 }
 
 static void boinc_glut_init() {
-    const char* args[2] = {"screensaver", NULL};
+    const char* args[2] = {"BOINC", NULL};
     int one=1;
     
     win = 0;
     glutInit (&one, (char**)args);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_ALPHA); 
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(600, 400); 
 }
@@ -135,15 +134,11 @@ static void timer_handler(int) {
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
 }
 
-void boinc_graphics(int argc, char** argv) {
+void boinc_graphics_loop(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             fullscreen = true;
         }
-    }
-    boinc_get_init_data(aid);
-    if (!strlen(aid.app_name))  {
-        strcpy(aid.app_name, "BOINC Application");
     }
     boinc_glut_init();
     make_window();

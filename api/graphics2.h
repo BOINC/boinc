@@ -33,6 +33,7 @@ extern void* boinc_graphics_get_shmem(char*);
 extern double boinc_max_fps;
 extern double boinc_max_gfx_cpu_frac;
 extern void get_window_title(char* buf, int len);
+extern bool throttled_app_render(int, int, double);
 
 #endif // C++ API
 

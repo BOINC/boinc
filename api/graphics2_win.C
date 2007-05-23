@@ -18,7 +18,6 @@
 
 #include "diagnostics.h"
 #include "boinc_api.h"
-#include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
 #include "str_util.h"

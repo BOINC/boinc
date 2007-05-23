@@ -3,6 +3,7 @@
 #endif
 
 #include "shmem.h"
+#include "filesys.h"
 #include "app_ipc.h"
 #include "boinc_api.h"
 #include "graphics2.h"
@@ -17,7 +18,7 @@ static void get_shmem_name(char* prog_name, char* shmem_name) {
 #else
 static key_t get_shmem_name(char* prog_name) {
     char cwd[256], path[256];
-    boinc_get_cwd(cwd);
+    boinc_getcwd(cwd);
     sprintf(path, "%s/init_data.xml", cwd);
     return ftok(path, 2);
 }
@@ -35,7 +36,7 @@ void* boinc_graphics_make_shmem(char* prog_name, int size) {
 #else
     void* p;
     key_t key = get_shmem_name(prog_name);
-    retval = create_shmem(key, size, 0, &p);
+    int retval = create_shmem(key, size, 0, &p);
     if (retval) return 0;
     return p;
 #endif
@@ -53,7 +54,7 @@ void* boinc_graphics_get_shmem(char* prog_name) {
 #else
     void* p;
     key_t key = get_shmem_name(prog_name);
-    retval = attach_shmem(key, &p);
+    int retval = attach_shmem(key, &p);
     if (retval) return 0;
     return p;
 #endif

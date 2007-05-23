@@ -5286,3 +5286,15 @@ David  23 May 2007
 		graphics2_win.C
 	lib/
 		util.C,h
+
+David  23 May 2007
+    - debug version-6-style graphics on Unix
+
+    api/
+        Makefile
+        graphics2.h
+        graphics2_win.C
+        graphics2_util.C
+        graphics2_unix.C
+    lib/
+        shmem.h

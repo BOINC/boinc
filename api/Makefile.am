@@ -7,7 +7,8 @@ AM_CFLAGS += @GLUT_CFLAGS@
 AM_LDFLAGS += @GLUT_LIBS@
 
 api_files= \
-	boinc_api.C
+	boinc_api.C \
+    graphics2_util.C
 
 # graphics library for monolithic apps
 graphics_api_files = 	\
