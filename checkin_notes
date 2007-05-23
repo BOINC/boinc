@@ -5255,3 +5255,13 @@ David  23 May 2007
 
     client/
         hostinfo_unix.C
+
+David  23 May 2007
+    - client, Unix: always use 1 (rather than slot#) in ftok().
+        Slot is already encoded in path.
+    - client, Linux: get memory size from /proc/meminfo
+        rather than sysconf()
+
+    client/
+        app_start.C
+        hostinfo_unix.C

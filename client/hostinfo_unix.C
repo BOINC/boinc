@@ -243,6 +243,25 @@ bool HOST_INFO::host_is_running_on_batteries() {
 }
 
 #ifdef linux
+static void parse_meminfo_linux(HOST_INFO& host) {
+    char buf[256];
+    double x;
+    FILE* f = fopen("/proc/meminfo", "r");
+    if (!f) return;
+    while (fgets(buf, 256, f)) {
+        if (strstr(buf, "MemTotal:")) {
+            sscanf(buf, "MemTotal: %lf", &x);
+            host.m_nbytes = x*1024;
+        } else if (strstr(buf, "SwapTotal:")) {
+            sscanf(buf, "SwapTotal: %lf", &x);
+            host.m_swap = x*1024;
+        } else if (strstr(buf, "Mem:")) {
+            sscanf(buf, "Mem: %lf", &host.m_nbytes);
+        } else if (strstr(buf, "Swap:")) {
+            sscanf(buf, "Swap: %lf", &host.m_swap);
+        }
+    }
+}
 
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
@@ -574,12 +593,13 @@ int HOST_INFO::get_host_info() {
         DosQuerySysInfo( QSV_TOTAVAILMEM, QSV_TOTAVAILMEM, &ulMem, sizeof(ulMem));
         m_swap = ulMem;
     }
+#elif defined(linux)
+    parse_meminfo_linux(*this);
 #elif defined(_SC_USEABLE_MEMORY)
     // UnixWare
     m_nbytes = (double)sysconf(_SC_PAGESIZE)
         * (double)sysconf(_SC_USEABLE_MEMORY);
 #elif defined(_SC_PHYS_PAGES)
-    // Linux
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     if (m_nbytes < 0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
