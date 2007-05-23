@@ -5189,11 +5189,14 @@ David  22 May 2007
 		graphics2_win.C
 
 Charlie 22 May 2007
+    - Manager: Fix crash bug in wxPieCtrl.
     - Mac: Add list control sources back into XCode Project 
         (ViewTransfers.cpp,.h, ViewWork.cpp,.h,ViewProjects.cpp,.h)
     - Mac: Revert XCode project, build scripts and build instructions to use 
         wxMac-2.6.3 as a temporary workaround to SimpleGUI drawing bug.  
         
+    clientgui/
+        wxPieCtrl.cpp
     mac_build/
         buildWxMac.sh
         HowToBuildBOINC_XCode.rtf

@@ -176,6 +176,8 @@ void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)
 	{
 		total += m_Series[i].GetValue();
 	}
+        if (total == 0.0)
+            return;
 	double current(0);
 	angles.Add(current);
 	for(i = 0; i < m_Series.Count(); i++)
