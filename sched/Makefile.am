@@ -197,6 +197,8 @@ fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 
 fcgi_file_upload_handler_SOURCES = 		\
     file_upload_handler.C			\
+    sched_config.C                              \
+    ../lib/miofile.C                            \
     ../lib/parse.C				\
     ../lib/crypt.C
 fcgi_file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
