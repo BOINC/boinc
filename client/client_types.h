@@ -249,6 +249,8 @@ public:
     bool attached_via_acct_mgr;
     bool detach_when_done;
         // when no results for this project, detach it.
+    bool ended;
+        // project has ended; advise user to detach
     char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;

@@ -460,6 +460,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             config.master_url
         );
     }
+    if (config.ended) {
+        fprintf(fout, "   <ended>1</ended>\n");
+    }
 
     // if the scheduler has requested a delay OR the sysadmin has configured
     // the scheduler with a minimum time between RPCs, send a delay request.

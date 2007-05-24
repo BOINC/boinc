@@ -798,6 +798,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (parse_bool(buf, "non_cpu_intensive", project->non_cpu_intensive)) {
             continue;
+        } else if (parse_bool(buf, "ended", project->ended)) {
+            continue;
         } else if (parse_bool(buf, "verify_files_on_app_start", project->verify_files_on_app_start)) {
             continue;
         } else if (match_tag(buf, "<request_file_list/>")) {

@@ -5305,3 +5305,24 @@ Charlie 23 May 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  24 May 2007
+    - Add a mechanism for a project to shut down gracefully.
+        If <ended>1</ended> is included in config.xml,
+        this gets send to clients,
+        and they display a "Project ended - OK to detach" message.
+
+    client/
+        client_state.C
+        client_types.C,h
+        scheduler_op.C
+    clientgui/
+        VIewProjects.cpp
+        VIewProjectsGrid.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C
+    sched/
+        sched_config.C,h
+        server_types.C

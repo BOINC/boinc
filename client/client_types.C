@@ -94,6 +94,7 @@ void PROJECT::init() {
     dont_request_more_work = false;
     detach_when_done = false;
     attached_via_acct_mgr = false;
+    ended = false;
     strcpy(code_sign_key, "");
     user_files.clear();
     project_files.clear();
@@ -175,6 +176,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
         else if (match_tag(buf, "<dont_request_more_work/>")) dont_request_more_work = true;
         else if (match_tag(buf, "<detach_when_done/>")) detach_when_done = true;
+        else if (match_tag(buf, "<ended/>")) ended = true;
         else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
@@ -233,7 +235,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
 		"    <send_time_stats_log>%d</send_time_stats_log>\n"
 		"    <send_job_log>%d</send_job_log>\n"
-        "%s%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -269,6 +271,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
         detach_when_done?"    <detach_when_done/>\n":"",
+        ended?"    <ended/>\n":"",
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
     );
@@ -344,6 +347,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     dont_request_more_work = p.dont_request_more_work;
     detach_when_done = p.detach_when_done;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
+    ended = p.ended;
     duration_correction_factor = p.duration_correction_factor;
     ams_resource_share = p.ams_resource_share;
     if (ams_resource_share > 0) {

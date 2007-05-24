@@ -182,13 +182,13 @@ void PROJECT::copy(PROJECT& p) {
     duration_correction_factor = p.duration_correction_factor;
     master_url_fetch_pending = p.master_url_fetch_pending;
     sched_rpc_pending = p.sched_rpc_pending;
-    tentative = p.tentative;
     non_cpu_intensive = p.non_cpu_intensive;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
     scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
     detach_when_done = p.detach_when_done;
+    ended = p.ended;
     project_files_downloaded_time = p.project_files_downloaded_time;
     last_rpc_time = p.last_rpc_time;
 }
@@ -233,8 +233,8 @@ int PROJECT::parse(MIOFILE& in) {
             dont_request_more_work = true;
             continue;
         }
-        else if (match_tag(buf, "<tentative/>")) {
-            tentative = true;
+        else if (match_tag(buf, "<ended/>")) {
+            ended = true;
             continue;
         }
         else if (match_tag(buf, "<scheduler_rpc_in_progress/>")) {
@@ -286,7 +286,7 @@ void PROJECT::clear() {
     duration_correction_factor = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
-    tentative = false;
+    ended = false;
     non_cpu_intensive = false;
     suspended_via_gui = false;
     dont_request_more_work = false;

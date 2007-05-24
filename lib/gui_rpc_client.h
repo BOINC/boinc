@@ -102,13 +102,13 @@ public:
     bool master_url_fetch_pending; // need to fetch and parse the master URL
     int sched_rpc_pending;      // need to contact scheduling server
     int rr_sim_deadlines_missed;
-    bool tentative;             // master URL and account ID not confirmed
     bool non_cpu_intensive;
     bool suspended_via_gui;
     bool dont_request_more_work;
     bool scheduler_rpc_in_progress;
     bool attached_via_acct_mgr;
     bool detach_when_done;
+    bool ended;
     double project_files_downloaded_time;
         // when the last project file download was finished
         // (i.e. the time when ALL project files were finished downloading)

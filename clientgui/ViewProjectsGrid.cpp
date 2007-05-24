@@ -606,8 +606,11 @@ void CViewProjectsGrid::FormatStatus(wxInt32 item, wxString& strBuffer) {
         if (project->dont_request_more_work) {
             append_to_status(strBuffer, _("Won't get new tasks"));
         }
+        if (project->ended) {
+            append_to_status(strBuffer, _("Project ended - OK to detach"));
+        }
         if (project->detach_when_done) {
-            append_to_status(strBuffer, _("detach when done"));
+            append_to_status(strBuffer, _("Will detach when tasks done"));
         }
         if (project->sched_rpc_pending) {
             append_to_status(strBuffer, _("Scheduler request pending"));

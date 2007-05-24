@@ -94,6 +94,8 @@ public:
         // Reduce the delay bounds for reliable hosts by this percent
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
+    bool ended;
+        // Project has ended - tell clients to detach
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

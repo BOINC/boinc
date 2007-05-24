@@ -280,6 +280,9 @@ int CLIENT_STATE::init() {
             buf, strlen(p->host_venue)?p->host_venue:"(none)",
             p->using_venue_specific_prefs?p->host_venue:"default"
         );
+        if (p->ended) {
+            msg_printf(p, MSG_INFO, "Project has ended - OK to detach");
+        }
     }
 
     read_global_prefs();
