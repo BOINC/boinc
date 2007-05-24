@@ -5324,5 +5324,6 @@ David  24 May 2007
         gui_rpc_client_ops.C
         gui_rpc_client_print.C
     sched/
+        main.C
         sched_config.C,h
         server_types.C

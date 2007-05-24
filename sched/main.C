@@ -90,8 +90,9 @@ void send_message(const char* msg, int delay, bool send_header) {
         "    <message priority=\"low\">%s</message>\n"
         "    <request_delay>%d</request_delay>\n"
         "    <project_is_down/>\n"
-        "</scheduler_reply>\n",
-        msg, delay
+        "%s</scheduler_reply>\n",
+        msg, delay,
+        config.ended?"    <ended>1</ended>\n":""
     );
 }
 
@@ -286,11 +287,6 @@ int main(int argc, char** argv) {
     set_core_dump_size_limit();
 #endif
 
-    if (check_stop_sched()) {
-        send_message("Project is temporarily shut down for maintenance", 3600, true);
-        goto done;
-    }
-
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
@@ -298,6 +294,11 @@ int main(int argc, char** argv) {
         );
         send_message("Server can't parse configuration file", 3600, true);
         exit(0);
+    }
+
+    if (check_stop_sched()) {
+        send_message("Project is temporarily shut down for maintenance", 3600, true);
+        goto done;
     }
 
     log_messages.set_debug_level(config.sched_debug_level);
