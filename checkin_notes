@@ -5298,3 +5298,10 @@ David  23 May 2007
         graphics2_unix.C
     lib/
         shmem.h
+
+Charlie 23 May 2007
+    - Mac: Remove obsolete XCode project script phase for separate SG 
+        build symbol table.
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
