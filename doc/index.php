@@ -165,7 +165,7 @@ echo "
 <font size=-1>
 <a href=set_language.php?lang=ar>العربية</a>
 | <a href=set_language.php?lang=be>Беларускі</a>
-| <a href=set_language.php?lang=bg>���������</a>
+| <a href=set_language.php?lang=bg>Български</a>
 | <a href=set_language.php?lang=ca>Català</a>
 | <a href=set_language.php?lang=de>Deutsch</a>
 | <a href=set_language.php?lang=en>English</a>
