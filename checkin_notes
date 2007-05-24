@@ -5327,3 +5327,14 @@ David  24 May 2007
         main.C
         sched_config.C,h
         server_types.C
+
+David  24 May 2007
+	- client, Windows: when making calls to get free disk space
+		(e.g. pGetDiskFreeSpaceEx())
+		pass the path of the current directory instead of NULL.
+		Otherwise, if we're running as an unprivileted user
+		with no access to the root dir,
+		the call fails and reports zero free space.
+
+	lib/
+		filesys.C

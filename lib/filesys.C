@@ -656,6 +656,8 @@ void relative_to_absolute(const char* relname, char* path) {
 //
 int get_filesystem_info(double &total_space, double &free_space) {
 #ifdef _WIN32
+    char buf[256];
+    boinc_getcwd(buf);
     FreeFn pGetDiskFreeSpaceEx;
     pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"),
                                                  "GetDiskFreeSpaceExA");
@@ -663,7 +665,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
         ULARGE_INTEGER TotalNumberOfFreeBytes;
         ULARGE_INTEGER TotalNumberOfBytes;
         ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;
-        pGetDiskFreeSpaceEx(NULL, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
+        pGetDiskFreeSpaceEx(buf, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
         signed __int64 uMB;
         uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
         free_space = uMB * 1024.0 * 1024.0;
@@ -674,7 +676,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
         DWORD dwBytesPerSect;
         DWORD dwFreeClusters;
         DWORD dwTotalClusters;
-        GetDiskFreeSpace(NULL, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
+        GetDiskFreeSpace(buf, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
         free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
         total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
     }
