@@ -19,7 +19,7 @@ graphics_api_files = 	\
 	gutil_text.C	    \
 	reduce_main.C		\
     reduce_lib.C        \
-    texfont.c           \
+    texfont.C           \
     texture.C           \
     txf_util.C          \
 	x_opengl.C
@@ -43,7 +43,7 @@ graphics_impl_files =   \
 	gutil.C	            \
 	gutil_text.C	    \
 	reduce_lib.C		\
-    texfont.c           \
+    texfont.C           \
     texture.C           \
     txf_util.C          \
 	x_opengl.C
@@ -52,7 +52,7 @@ graphics2_files = \
 	gutil.C	            \
 	gutil_text.C	    \
 	reduce_lib.C		\
-    texfont.c           \
+    texfont.C           \
     texture.C           \
     txf_util.C          \
     graphics2.C \

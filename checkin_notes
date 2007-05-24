@@ -5338,3 +5338,10 @@ David  24 May 2007
 
 	lib/
 		filesys.C
+
+David  24 May 2007
+    - renamed texfont.c to texfont.C to fix automake warning
+
+    api/
+        texfont.C (changed c to C)
+        Makefile.am
