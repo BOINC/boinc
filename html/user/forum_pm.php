@@ -17,7 +17,11 @@ $logged_in_user = get_logged_in_user();
 if ($action == "inbox") {
     page_head("Private messages : Inbox");
     pm_header();
-
+    
+    if (get_int("sent", true) == 1) {
+        echo "<div class=\"notice\">Your message has been sent.</div>\n";
+    }
+    
     $query = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." ORDER BY date DESC");
     if (mysql_num_rows($query) == 0) {
         echo "You have no private messages.";
@@ -53,12 +57,13 @@ if ($action == "inbox") {
         
         start_table();
         echo "<tr><th>Subject</th><td>".$message->subject."</td></tr>";
-        echo "<tr><th>Sender</th><td>".user_links(get_user_from_id($message->senderid))."</td></tr>";
+        echo "<tr><th>Sender</th><td>".user_links(get_user_from_id($message->senderid))." 
+    <a href=\"forum_pm.php?action=block&amp;id=".$message->senderid."\"><img src=\"img/report_post.png\" width=\"9\" height=\"9\" alt=\"Block user\"></a></td></tr>";
         echo "<tr><th>Date</th><td>".time_str($message->date)."</td></tr>";
         echo "<tr><th>Message</th><td>".output_transform($message->content, $options)."</td></tr>";
         echo "<tr><td class=\"pm_footer\"></td><td>\n";
-        echo "<a href=\"forum_pm.php?action=delete&id=$id\">Delete</a>\n";
-        echo " | <a href=\"forum_pm.php?action=new&replyto=$id\">Reply</a>\n";
+        echo "<a href=\"forum_pm.php?action=delete&amp;id=$id\">Delete</a>\n";
+        echo " | <a href=\"forum_pm.php?action=new&amp;replyto=$id\">Reply</a>\n";
         echo " | <a href=\"forum_pm.php?action=inbox\">Inbox</a>\n";
         end_table();
         
@@ -151,92 +156,39 @@ if ($action == "inbox") {
         
         Header("Location: forum_pm.php?action=inbox&sent=1");
     }
+} elseif ($action == "block") {
+    $id = get_int("id");
+    $user = mysql_query("SELECT name FROM user WHERE id=$id");
+    if ($user) {
+        $user = mysql_fetch_object($user);
+        page_head("Really block ".$user->name."?");
+        echo "<div>Are you really sure you want to block user ".$user->name." from sending you private messages?<br>\n";
+        echo "Please have in mind that you can only block a limited amount of users.</div>\n";
+        echo "<div>Once the user has been blocked you can unblock it using forum preferences page.</div>\n";
+        
+        echo "<form action=\"forum_pm.php\" method=\"POST\">\n";
+        echo form_tokens($logged_in_user->authenticator);
+        echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
+        echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+        echo "<input type=\"submit\" value=\"Add user to filter\">\n";
+        echo "<a href=\"forum_pm.php?action=inbox\">No, cancel</a>\n";
+        echo "</form>\n";
+    } else {
+        error_page("No such user");
+    }
+} elseif ($action == "confirmedblock") {
+    check_tokens($logged_in_user->authenticator);
+    $id = post_int("id");
+    $user = new User($logged_in_user->id);
+    $blocked = new User($id);
+    $user->addIgnoredUser($blocked);
+
+    page_head("User ".$blocked->getName()." blocked");
+    
+    echo "<div>User ".$blocked->getName()." has been blocked from sending you private messages. To unblock, visit
+        <a href=\"edit_forum_preferences_form.php\">message board preferences</a>.</div>\n";
 }
 
 page_tail();
-
-
-function pm_header() {
-    echo "<div>\n";
-    echo "    <a href=\"forum_pm.php?action=inbox\">Inbox</a>\n";
-    echo "    | <a href=\"forum_pm.php?action=new\">Write</a>\n";
-    echo "</div>\n";
-}
-
-function pm_create_new($error = null) {
-    page_head("Private messages : Create new");
-    pm_header();
-    
-    global $logged_in_user;
-    $replyto = get_int("replyto", true);
-    $userid = get_int("userid", true);
-    
-    if ($replyto) {
-        $message = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$replyto");
-        if ($message) {
-            $message = mysql_fetch_object($message);
-            $content = "[quote]".$message->content."[/quote]\n";
-            $userid = $message->senderid;
-            $user = get_user_from_id($userid);
-            if ($user != null) {
-                $writeto = $userid." (".$user->name.")";
-            }
-            $subject = $message->subject;
-            if (substr($subject, 0, 3) != "re:") {
-                $subject = "re: ".$subject;
-            }
-        }
-    } elseif ($userid) {
-        $user = get_user_from_id($userid);
-        if ($user != null) {
-            $writeto = $userid." (".$user->name.")";
-        }
-    } else {
-        $writeto = post_str("to", true);
-        $subject = post_str("subject", true);
-        $content = post_str("content", true);
-    }
-    
-    $subject = htmlspecialchars($subject);
-    
-    if ($error != null) {
-        echo "<div class=\"error\">$error</div>\n";
-    }
-    
-    echo "<form action=\"forum_pm.php\" method=\"post\">\n";
-    echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
-    echo form_tokens($logged_in_user->authenticator);
-    start_table();
-    echo "<tr><th>To<br /><span class=\"smalltext\">User IDs or unique usernames, separated with commas</span></th>\n";
-    echo "<td><input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>Subject</th><td><input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>Message<br /><span class=\"smalltext\">".html_info()."</span></th>\n";
-    echo "<td><textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea></td></tr>\n";
-    echo "<tr><td></td><td><input type=\"submit\" value=\"Send message\"></td></tr>\n";
-    end_table();
-
-    page_tail();
-    exit();
-}
-
-function pm_send($to, $subject, $content) {
-    global $logged_in_user;
-    $userid = $to->id;
-    $senderid = $logged_in_user->id;
-    $sql_subject = mysql_real_escape_string($subject);
-    $sql_content = mysql_real_escape_string($content);
-    mysql_query("INSERT INTO private_messages (userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
-    if ($to->send_email == 1) { // Send email notification
-        $message  = "Dear ".$to->name.",\n\n";
-        $message .= "You have received a new private message at ".PROJECT." from ".$logged_in_user->name.", entitled \"".$subject."\".\n\n";
-        $message .= "To read the original version, respond to, or delete this message, you must log in here:\n";
-        $message .= URL_BASE."forum_pm.php\n\n";
-        $message .= "Do not reply to this message. To disable email notification, go to\n";
-        $message .= URL_BASE."prefs.php?subset=project\n";
-        $message .= "and change email notification settings.\n";
-
-        send_email($to, "[".PROJECT."] Private message notification", $message);
-    }
-}
 
 ?>

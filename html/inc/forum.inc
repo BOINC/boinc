@@ -7,6 +7,7 @@ require_once('../inc/time.inc');
 require_once('../inc/forum_moderators.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/util.inc');
+require_once('../inc/forum_pm.inc');
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
