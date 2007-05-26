@@ -45,6 +45,7 @@
 #endif
 
 #include "str_util.h"
+#include "client_state.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "parse.h"
@@ -182,7 +183,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
     GRAPHICS_MSG gm;
     ACTIVE_TASK* atp;
 
-    if        (match_tag(buf, "<full_screen/>")) {
+    if (match_tag(buf, "<full_screen/>")) {
         gm.mode = MODE_FULLSCREEN;
     } else if (match_tag(buf, "<hide/>")) {
         gm.mode = MODE_HIDE_GRAPHICS;
@@ -518,13 +519,13 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
     parse_str(buf, "<display>", gm.display, sizeof(gm.display));
     if (match_tag(buf, "<enabled")) {
-    	if (log_flags.scrsave_debug) {
-		    msg_printf(NULL, MSG_INFO, "Got start msg from screensaver");
+        if (log_flags.scrsave_debug) {
+            msg_printf(NULL, MSG_INFO, "Got start msg from screensaver");
         }
         gstate.ss_logic.start_ss(gm, blank_time );
     } else {
-    	if (log_flags.scrsave_debug) {
-		    msg_printf(NULL, MSG_INFO, "Got stop msg from screensaver");
+        if (log_flags.scrsave_debug) {
+            msg_printf(NULL, MSG_INFO, "Got stop msg from screensaver");
         }
         gstate.ss_logic.stop_ss();
     }
@@ -580,8 +581,8 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         gstate.network_mode.get_current(),
         gstate.run_mode.get_perm(),
         gstate.network_mode.get_perm(),
-		gstate.run_mode.delay(),
-		gstate.network_mode.delay()
+        gstate.run_mode.delay(),
+        gstate.network_mode.delay()
     );
     if (gr->au_mgr_state == AU_MGR_QUIT_REQ) {
         fout.printf(
@@ -873,6 +874,58 @@ static void read_all_projects_list_file(MIOFILE& fout) {
     }
 }
 
+static int set_debt(XML_PARSER& xp) {
+    bool is_tag;
+    char tag[256], url[256];
+    double short_term_debt, long_term_debt;
+    bool got_std=false, got_ltd=false;
+    strcpy(url, "");
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!strcmp(tag, "/project")) {
+            if (!strlen(url)) return ERR_XML_PARSE;
+            PROJECT* p = gstate.lookup_project(url);
+            if (!p) return ERR_NOT_FOUND;
+            if (got_std) p->short_term_debt = short_term_debt;
+            if (got_ltd) p->long_term_debt = long_term_debt;
+            return 0;
+        }
+        if (xp.parse_str(tag, "master_url", url, sizeof(url))) continue;
+        if (xp.parse_double(tag, "short_term_debt", short_term_debt)) {
+            got_std = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "long_term_debt", long_term_debt)) {
+            got_ltd = true;
+            continue;
+        }
+    }
+}
+
+static void handle_set_debts(char* buf, MIOFILE& fout) {
+    MIOFILE in;
+    XML_PARSER xp(&in);
+    bool is_tag;
+    char tag[256];
+    int retval;
+
+    in.init_buf_read(buf);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/set_debts")) {
+            fout.printf("<success/>\n");
+            gstate.set_client_state_dirty("set_debt RPC");
+            break;
+        }
+        if (!strcmp(tag, "project")) {
+            retval = set_debt(xp);
+            if (retval) {
+                fout.printf("<error>%d</error>\n", retval);
+                return;
+            }
+        }
+    }
+}
+
 static void handle_set_cc_config(char* buf, MIOFILE& fout) {
     char *p, *q=0;
     int retval = ERR_XML_PARSE;
@@ -1036,6 +1089,8 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.request_work_fetch("Core client configuration");
     } else if (match_tag(request_msg, "<get_all_projects_list/>")) {
         read_all_projects_list_file(mf);
+    } else if (match_tag(request_msg, "<set_debts")) {
+        handle_set_debts(request_msg, mf);
     } else {
 
         // RPCs after this point enable network communication
@@ -1072,8 +1127,8 @@ int GUI_RPC_CONN::handle_rpc() {
         } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
             handle_acct_mgr_rpc_poll(request_msg, mf);
 
-		// DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
-		// AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
+        // DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
+        // AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
 
         } else {
             mf.printf("<error>unrecognized op</error>\n");

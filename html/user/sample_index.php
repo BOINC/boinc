@@ -22,12 +22,11 @@ function show_nav() {
         You can participate by downloading and running a free program
         on your computer.
         <p>
-        XXX is based at research lab of Professor XXX
-        at <a href=xxx>the University of XXX</a>.
+        XXX is based at 
+        [describe your institution, with link to web page]
         <ul>
-        <li> <a href=xxx>Our research</a>
-        <li> <a href=xxx>Project personnel</a>
-        <li> <a href=\"apps.php\">".tr(APPS_TITLE)."</a>
+        <li> [Link to page describing your research in detail]
+        <li> [Link to page listing project personnel, and an email address]
         </ul>
         <h2>Join ".PROJECT."</h2>
         <ul>
@@ -47,6 +46,7 @@ function show_nav() {
         <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
         <li><a href=\"team.php\">Teams</a> - create or join a team
         <li><a href=\"cert1.php\">Certificate</a>
+        <li> <a href=\"apps.php\">".tr(APPS_TITLE)."</a>
         </ul>
         <h2>Community</h2>
         <ul>

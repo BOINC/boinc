@@ -95,6 +95,7 @@ Commands:\n\
  --read_cc_config\n\
  --network_available\n\
  --get_cc_status\n\
+ --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
  --quit\n"
 );
     exit(1);
@@ -498,40 +499,27 @@ int main(int argc, char** argv) {
         retval = rpc.read_global_prefs_override();
     } else if (!strcmp(cmd, "--read_cc_config")) {
         retval = rpc.read_cc_config();
-    } else if (!strcmp(cmd, "--test1")) {
-        string s;
-        retval = rpc.get_global_prefs_override(s);
-        printf("retval: %d\nprefs:\n%s\n", retval, s.c_str());
-    } else if (!strcmp(cmd, "--test2")) {
-        string s = "foobar";
-        retval = rpc.set_global_prefs_override(s);
-        printf("retval: %d\n", retval);
-    } else if (!strcmp(cmd, "--test3")) {
-        GLOBAL_PREFS gp;
-        GLOBAL_PREFS_MASK mask;
-        memset(&gp, 0, sizeof(gp));
-        mask.clear();
-        retval = rpc.get_global_prefs_override_struct(gp, mask);
-        printf("retval %d max %d\n", retval, gp.max_cpus);
-    } else if (!strcmp(cmd, "--test4")) {
-        GLOBAL_PREFS gp;
-        GLOBAL_PREFS_MASK m;
-        gp.max_cpus = 2;
-        m.max_cpus = true;
-        retval = rpc.set_global_prefs_override_struct(gp, m);
         printf("retval %d\n", retval);
-    } else if (!strcmp(cmd, "--quit")) {
-        retval = rpc.quit();
-    } else if (!strcmp(cmd, "read_cc_config")) {
-        retval = rpc.read_cc_config();
-    } else if (!strcmp(cmd, "network_available")) {
+    } else if (!strcmp(cmd, "--network_available")) {
         retval = rpc.network_available();
-    } else if (!strcmp(cmd, "get_cc_status")) {
+    } else if (!strcmp(cmd, "--get_cc_status")) {
         CC_STATUS cs;
         retval = rpc.get_cc_status(cs);
         if (!retval) {
             retval = cs.network_status;
         }
+    } else if (!strcmp(cmd, "--set_debts")) {
+        vector<PROJECT>projects;
+        while (i < argc) {
+            PROJECT p;
+            p.master_url = string(next_arg(argc, argv, i));
+            p.short_term_debt = atoi(next_arg(argc, argv, i));
+            p.long_term_debt = atoi(next_arg(argc, argv, i));
+            projects.push_back(p);
+        }
+        retval = rpc.set_debts(projects);
+    } else if (!strcmp(cmd, "--quit")) {
+        retval = rpc.quit();
     } else {
         fprintf(stderr, "unrecognized command %s\n", cmd);
     }

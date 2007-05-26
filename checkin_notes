@@ -5345,3 +5345,17 @@ David  24 May 2007
     api/
         texfont.C (changed c to C)
         Makefile.am
+
+David  26 May 2007
+    - Add GUI RPC to set projects debts (short and long term).
+        Lets you set all of them at once, as suggested by Nicolas Alvarez.
+        fixes #131
+
+    client/
+        gui_rpc_server_ops.C
+    html/user/
+        sample_index.php
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
