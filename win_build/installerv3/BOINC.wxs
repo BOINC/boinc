@@ -24,12 +24,12 @@
     INSTALLDIR
     The location to install BOINC too.
     Example: 'C:\BOINC'
-    SETUPTYPE
+    SETUPTYPE - map this to ALLUSERS
     The type of installation to perform.
     Valid Values: 'Single', 'Shared', 'Service'.
     ALLUSERS
     Whether the shortcuts appear for just one user or all users.
-    Valid Values: '0' for Single, '1' for shared, '1' for service.
+    Valid Values: '0' for Single, '1' for shared, '1' for service. - 0 or 1 for service! - 0 default.
     ENABLESCREENSAVER
     Whether to automatically enable the screensaver.
     Valid Values: '0' for disabled, '1' for enabled.
@@ -42,14 +42,14 @@
     '2' for launch minimised (default for upgrades)
     SERVICE_DOMAINUSERNAME
     Which user account should the service use.
-    Valid Values: '%ComputerName%\%UserName%'
+    Valid Values: '%ComputerName%\%UserName%' - Don't specify to use internal BOINC account.
     %ComputerName% can be either the local computername or a domain name.
     %UserName% should be the username of the user to use.
     SERVICE_PASSWORD
     The password for the account described in the SERVICE_DOMAINUSERNAME property.
     Valid Values: '%Password%'
     %Password% the password for the SERVICE_DOMAINUSERNAME user account.
-    SERVICE_GRANTEXECUTIONRIGHT
+    SERVICE_GRANTEXECUTIONRIGHT - seems pointless. Service will fail without this right.
     Grant the above user account the 'Logon as a Service' user right.
     Valid Values: '0' for disabled, '1' for enabled. 
     
@@ -86,17 +86,85 @@
     <!-- Standard properties -->
     <Property Id="DiskPrompt">[1]</Property>
     <Property Id="INSTALLLEVEL">100</Property>
+    <Property Id="ALLUSERS">2</Property>
 
     <!-- <Property Id="SERVICE_DOMAINUSERNAME">LocalSystem</Property> -->
     
     <!-- Internal properties -->
     <Property Id="InstallType">0</Property>
-    <Property Id="ServiceAccount">LocalSystem</Property>
+    <Property Id="ServiceAccount">None</Property>
     <Property Id="MaintenanceType">Reinstall</Property>
 
 
-    <!-- <?include Components.wxi ?> -->
-    <?include DummyComponents.wxi ?>
+    <!-- <?include Components.wxi ?>
+    <?include DummyComponents.wxi ?> -->
+
+    <!-- <CloseApplication xmlns="http://schemas.microsoft.com/wix/UtilExtension"
+                      Id="CloseBOINCManager" Description="Need to close BOINC Manager" Target="boincmgr.exe" Sequence="10" /> -->
+
+    <CustomAction Id="SetBOINCUser" Return="check" Property="ServiceAccount" Value="BOINCUser" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="StartupFolder" />
+      <Directory Id="WindowsFolder">
+        <Directory Id="ScreensaverFolder" />
+      </Directory>
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR"
+                   Name="BOINC"
+                   SourceName="." FileSource="SourceDir\">
+          <Directory Id="SERVICEDIRECTORY" />
+          <Directory Id="locale" Name="locale" />
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="BOINCStartMenu" Name="BOINC" />
+      </Directory>
+      <Directory Id="DATADIR" Name="BOINC" />
+    </Directory>
+
+
+
+
+
+    <Feature Id="BOINC"
+             Title="Complete BOINC Client Package"
+             Level="1">
+      <ComponentRef Id="CRT71"/>
+      <ComponentRef Id="License" />
+      <Feature Id="Client"
+               Title="BOINC Core Client"
+               Level="1">
+        <ComponentRef Id="BOINCService" />
+        <ComponentRef Id="boinc.exe" />
+        <ComponentRef Id="boinccmd.exe" />
+        <ComponentRef Id="Debug"/>
+        <ComponentRef Id="cabundle.crt"/>
+        <ComponentRef Id="zlib1.dll"/>
+        <ComponentRef Id="libeay32.dll"/>
+        <ComponentRef Id="ssleay32.dll"/>
+        <ComponentRef Id="libcurl.dll"/>
+        <Feature Id="Screensaver"
+                 Title="BOINC Screensaver"
+                 Level="1">
+          <ComponentRef Id="Screensaver" />
+          <ComponentRef Id="ScreensaverEnable9X" />
+          <ComponentRef Id="ScreensaverEnableNT" />
+        </Feature>
+      </Feature>
+      <Feature Id="Manager"
+               Title="BOINC Manager"
+               Level="1">
+        <ComponentRef Id="boincmgr.exe" />
+        <ComponentRef Id="boinc.dll" />
+        <Feature Id="Startup"
+                 Title="Manager Startup Shortcut"
+                 Level="1">
+          <ComponentRef Id="ManagerStartup" />
+        </Feature>
+        <FeatureRef Id="Globalization" />
+      </Feature>
+    </Feature>
 
     <!-- Branding binaries -->
     <Binary Id="BannerBinary"

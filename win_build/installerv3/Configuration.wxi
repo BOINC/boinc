@@ -238,12 +238,12 @@
              Height="52"
              Property="ServiceAccount">
       <RadioButtonGroup Property="ServiceAccount">
-        <RadioButton Value="LocalSystem"
+        <RadioButton Value="BOINCUser"
                      X="0"
                      Y="0"
                      Width="280"
                      Height="15"
-                     Text="!(loc.AdvancedConfigRadioButtonGroupLocalSystem)" />
+                     Text="!(loc.AdvancedConfigRadioButtonGroupBOINCUser)" />
         <RadioButton Value="None"
                      X="0"
                      Y="17"

@@ -57,6 +57,73 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<Filter
+			Name="WiX Localization"
+			>
+			<File
+				RelativePath=".\installerv3\Localization\en-us.wxl"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="WiX Files"
+			>
+			<File
+				RelativePath=".\installerv3\BOINC.wxs"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\Branding.wxs"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\Components.wxs"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\Configuration.wxi"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\DummyComponents.wxi"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\Globalization.wxs"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\Strings.wxs"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\TemplateBanner.wxi"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\TemplatePoster.wxi"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\UI.wxi"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\Welcome.wxi"
+				FileType="13"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\installerv3\makefile"
 			FileType="8"

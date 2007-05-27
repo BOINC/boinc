@@ -54,7 +54,7 @@
   <String Id="AdvancedConfigManagerGroupBox" Overridable="yes">BOINC Manager Options</String>
   <String Id="AdvancedConfigStartup" Overridable="yes">&amp;Start BOINC Manager when logging on.</String>
   <String Id="AdvancedConfigServiceGroupBox" Overridable="yes">Service Options</String>
-  <String Id="AdvancedConfigRadioButtonGroupLocalSystem" Overridable="yes">Run BOINC using the Local System account (Recommended)</String>
+  <String Id="AdvancedConfigRadioButtonGroupBOINCUser" Overridable="yes">Run BOINC using the restricted BOINC account (Recommended)</String>
   <String Id="AdvancedConfigRadioButtonGroupNone" Overridable="yes">Don't run BOINC as a service</String>
   <String Id="AdvancedConfigRadioButtonGroupOther" Overridable="yes">Run BOINC using this account:</String>
   <String Id="AdvancedConfigUsernameLabel" Overridable="yes">&amp;Username:</String>
@@ -308,6 +308,32 @@
   <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">File: [1],  Section: [2],  Key: [3], Value: [4]</String>
   <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Writing system registry values</String>
   <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Key: [1], Name: [2], Value: [3]</String>
+
+  <!-- WixUtilExtension loc strings -->
+  <String Id="msierrUSRFailedUserCreate" Overridable="yes">Failed to create user.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrUSRFailedUserCreatePswd" Overridable="yes">Failed to create user due to invalid password.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrUSRFailedUserGroupAdd" Overridable="yes">Failed to add user to group.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrUSRFailedUserCreateExists" Overridable="yes">Failed to create user because it already exists.  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="msierrSMBFailedCreate" Overridable="yes">Failed to create network share.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrSMBFailedDrop" Overridable="yes">Failed to drop network share.  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="msierrPERFMONFailedRegisterDLL" Overridable="yes">Failed to register DLL with PerfMon.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrPERFMONFailedUnregisterDLL" Overridable="yes">Failed to unregister DLL with PerfMon.  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">Failed to create security descriptor for [3]\[4], system error: [2]</String>
+  <String Id="msierrSecureObjectsFailedSet" Overridable="yes">Failed to set security descriptor on object [3], system error: [2]</String>
+  <String Id="msierrSecureObjectsUnknownType" Overridable="yes">Unknown Object Type [3], system error: [2]</String>
+
+  <String Id="msierrXmlFileFailedRead" Overridable="yes">There was a failure while configuring XML files.</String>
+  <String Id="msierrXmlFileFailedOpen" Overridable="yes">Failed to open XML file [3], system error: [2]</String>
+  <String Id="msierrXmlFileFailedSelect" Overridable="yes">Failed to find node: [3] in XML file: [4], system error: [2]</String>
+  <String Id="msierrXmlFileFailedSave" Overridable="yes">Failed to save changes to XML file [3], system error: [2]</String>
+
+  <String Id="msierrXmlConfigFailedRead" Overridable="yes">There was a failure while configuring XML files.</String>
+  <String Id="msierrXmlConfigFailedOpen" Overridable="yes">Failed to open XML file [3], system error: [2]</String>
+  <String Id="msierrXmlConfigFailedSelect" Overridable="yes">Failed to find node: [3] in XML file: [4], system error: [2]</String>
+  <String Id="msierrXmlConfigFailedSave" Overridable="yes">Failed to save changes to XML file [3], system error: [2]</String>
 
 
 

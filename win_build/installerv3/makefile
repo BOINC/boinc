@@ -41,23 +41,25 @@ all: $(out)BOINC.msi
 #  $
 
 $(out)BOINC.msi: SourceDir $(int)BOINC.wixlib $(loc)en-us.wxl
-	$(light) -sice:ICE30 -b $(out) -out $@ $(int)BOINC.wixlib -loc $(loc)en-us.wxl
+	$(light) -ext WixUtilExtension -sice:ICE30 -b $(out) -out $@ $(int)BOINC.wixlib -loc $(loc)en-us.wxl
 
-$(int)BOINC.wixlib: $(int)BOINC.wixobj $(int)Strings.wixobj $(int)Branding.wixobj
-	$(lit) -out $@ $**
+$(int)BOINC.wixlib: $(int)BOINC.wixobj $(int)Strings.wixobj $(int)Branding.wixobj $(int)Components.wixobj $(int)Globalization.wixobj
+	$(lit) -ext WixUtilExtension -out $@ $**
 
 {$(root)}.wxs.wixobj:
-	$(candle) -out $(int)%|fF.wixobj %s
+	$(candle) -ext WixUtilExtension -out $(int)%|fF.wixobj %s
 
 
 # Installation files
 # ...
 SourceDir: Folders $(source)COPYING.txt $(source)COPYRIGHT.txt $(source)LICENSE.rtf
-# Shared binary streams						
+# Shared binary streams
 	-copy /y $(out)..^\..^\Shared^\$(config)^\Binary^\*.* $(out)Binary
-# Platform specific files			
+# Build (release) files
+	-copy /y $(out)..^\Release^\*.* $(out)SourceDir
+# Platform specific files
 	-copy /y $(out)Redist^\*.* $(out)SourceDir
-# Shared files					
+# Shared files
 	-copy /y $(out)..^\..^\Shared^\$(config)^\Redist^\*.* $(out)SourceDir
 	
 Folders:

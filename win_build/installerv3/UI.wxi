@@ -1686,6 +1686,7 @@
     </AdminUISequence>
     <InstallUISequence>
       <Show Dialog="Prepare" After="LaunchConditions" />
+      <Custom Action="SetBOINCUser" After="LaunchConditions">Not SERVICE_DOMAINUSERNAME</Custom>
       <Show Dialog="SetupResume"
             After="InstallWelcome">Installed And (RESUME Or Preselected) And Not PATCH</Show>
       <Show Dialog="SetupInterrupted"
@@ -1693,12 +1694,12 @@
       <Show Dialog="SetupCompleteSuccess"
             OnExit="success" />
       <Show Dialog="PatchWelcome"
-            After="MigrateFeatureStates">PATCH And Not IS_MAJOR_UPGRADE</Show>
+            After="MigrateFeatureStates">PATCH</Show>
       <ResolveSource After="IsolateComponents">Not Installed And Not PATCH</ResolveSource>
       <Show Dialog="SetupCompleteError"
             OnExit="error" />
       <Show Dialog="InstallWelcome"
-            After="PatchWelcome">Not Installed And (Not PATCH Or IS_MAJOR_UPGRADE)</Show>
+            After="PatchWelcome">Not Installed And Not PATCH</Show>
       <Show Dialog="MaintenanceWelcome"
             After="SetupResume">Installed And Not RESUME And Not Preselected And Not PATCH</Show>
       <Show Dialog="SetupProgress"

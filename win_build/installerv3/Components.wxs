@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id="ScreensaverFolder" FileSource="SourceDir">
+      <Component Id="Screensaver"
+                 Guid="2136FACB-CAB5-4062-B9CD-857592A53033">
+        <File Id="boinc.scr"
+              Name="boinc.scr"
+              KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="ScreensaverFolder" FileSource="SourceDir">
+      <Component Id="ScreensaverEnable9X"
+                 Guid="EB447EBB-055D-4E9A-B3F6-39FB4E24CCB6"
+                 Permanent="yes">
+        <Condition>Version9X AND ( ENABLESCREENSAVER = 1 )</Condition>
+        <IniFile Id="Screensaver9X"
+                 Name="system.ini"
+                 Directory="WindowsFolder"
+                 Section="boot"
+                 Key="SCRNSAVE.EXE"
+                 Value="boinc.scr"
+                 Action="addLine" />
+        <RegistryValue Id="Enable9X"
+                       Root="HKCU"
+                       Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Screensaver\Enable9X"
+                       Type="string"
+                       Name="Enable9X"
+                       Value="Yes"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="ScreensaverFolder" FileSource="SourceDir">
+      <!-- Replace with CA to perform uninstall correctly? -->
+      <Component Id="ScreensaverEnableNT"
+                 Guid="B7587D05-0270-4E1D-843A-59232869DF62"
+                 Permanent="yes">
+        <Condition>VersionNT AND ( ENABLESCREENSAVER = 1 )</Condition>
+
+        <RegistryValue Id="ScreensaverNT"
+                       Root="HKCU"
+                       Key="Control Panel\Desktop"
+                       Name="SCRNSAVE.EXE"
+                       Type="string"
+                       Value="[ScreensaverFolder]boinc.scr" />
+        <RegistryValue Id="EnableNT"
+                       Root="HKCU"
+                       Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Screensaver"
+                       Type="string"
+                       Name="EnableNT"
+                       Value="Yes"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="boinc.exe"
+                 Guid="491167D5-19F9-4271-8BC5-7D16394F2ED0">
+        <Condition>SETUPTYPE &lt;&gt; "Service"</Condition>
+        <!-- boinc.exe is key path for service and non-service components.
+            However, components are mutually exclusive. We can ignore ICE30.-->
+        <File Id="boinc.exe"
+              Name="boinc.exe"
+              KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="boinccmd.exe"
+                 Guid="4A12B24B-2EAE-4D5F-8F72-90B4F7D93DD9">
+        <File Id="boinccmd.exe"
+              Name="boinccmd.exe"
+              KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="boinc.dll"
+                 Guid="DE1CE3BA-C172-409E-AC9E-B0515C43631C">
+        <File Id="boinc.dll"
+              Name="boinc.dll"
+              KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="boincmgr.exe"
+                 Guid="5028F306-BDC9-43A6-A508-3EBA4CD7FA47">
+        <File Id="boincmgr.exe"
+              Name="boincmgr.exe"
+              KeyPath="yes" />
+        <Shortcut Id="ManagerShortcut"
+                  Directory="BOINCStartMenu"
+                  Name="BOINC Manager"
+                  Advertise="yes"
+                  Description="Allows you to control the core client, attach to new projects, detach from old projects, and otherwise maintain the health of the BOINC system"
+                  Icon="boincicon.exe"
+                  IconIndex="0"
+                  Show="normal"
+                  WorkingDirectory="INSTALLDIR" />
+        <RemoveFolder Id="BOINCStartMenu"
+                      Directory="BOINCStartMenu"
+                      On="uninstall" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <!-- Side-by-side using merge modules: -->
+  <!--   <Merge Id="Microsoft_VC80_CRT_x86.msm" SourceFile="Microsoft_VC80_CRT_x86.msm" DiskId="1" Language="0" />
+          <Merge Id="policy_8_0_Microsoft_VC80_CRT_x86.msm" SourceFile="policy_8_0_Microsoft_VC80_CRT_x86.msm" DiskId="1" Language="0" />
+          -->
+
+  <!-- Private assembly NOT using merge modules (side-by-side should override if it is already installed) -->
+  <!--
+        <Component Id="Microsoft_VC80_CRT_x86"
+                   Guid="2572F195-6B34-4981-80BA-66F2391BA264">
+          <File Id="Microsoft.VC80.CRT.manifest"
+    Name="Microsoft.VC80.CRT.manifest" KeyPath="yes"
+      />
+          <File Id="msvcm80.dll"
+    Name="msvcm80.dll"
+      />
+          <File Id="msvcp80.dll"
+    Name="msvcp80.dll"
+      />
+          <File Id="msvcr80.dll"
+    Name="msvcr80.dll"
+      />
+        </Component> -->
+
+  <!-- Downlevel -->
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="CRT71"
+                 Guid="AD7B874C-C79D-4641-9FEE-0F20585A890E">
+        <File Id="msvcp71.dll"
+              Name="msvcp71.dll"
+              KeyPath="yes"/>
+        <File Id="msvcr71.dll"
+              Name="msvcr71.dll" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="Debug"
+                 Guid="160EE59B-94A4-4D97-BF72-4CDBEBD720FB">
+        <File Id="dbghelp.dll"
+              Name="dbghelp.dll"
+              KeyPath="yes"/>
+        <File Id="symsrv.dll"
+              Name="symsrv.dll" />
+        <File Id="dbghelp95.dll"
+              Name="dbghelp95.dll"/>
+        <File Id="srcsrv.dll"
+              Name="srcsrv.dll"/>
+        <File Id="symsrv.yes"
+              Name="symsrv.yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="License"
+                 Guid="3ECB290A-1A6E-46F2-8C0F-F3AFF2CE9A93">
+        <File Id="licence"
+             Name="LICENSE.rtf" KeyPath="yes" />
+        <File Id="copyright"
+              Name="COPYRIGHT.txt"/>
+        <File Id="copying"
+              Name="COPYING.txt" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="cabundle.crt"
+                 Guid="948E4D4D-50C3-43BF-9AEA-B80EA6A30ED7">
+        <File Id="cabundle.crt"
+              Name="ca-bundle.crt"
+              KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="libeay32.dll"
+                 Guid="2AB68BD5-2391-4FC8-BC97-790260233930">
+        <File Id="libeay32.dll"
+              Name="libeay32.dll"
+              KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="ssleay32.dll"
+                 Guid="6AB72588-540A-4259-9945-0877D7176ED1">
+        <File Id="ssleay32.dll"
+              Name="ssleay32.dll"
+              KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="libcurl.dll"
+                 Guid="E219334E-37F1-4E76-A15D-30F51A7F7C30">
+        <File Id="libcurl.dll"
+              Name="libcurl.dll"
+              KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="zlib1.dll"
+                 Guid="84FF26A2-4EF0-4ED4-9301-1BA6C1AEDE76">
+        <File Id="zlib1.dll"
+              Name="zlib1.dll"
+              KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR" FileSource="SourceDir">
+      <Component Id="ManagerStartup"
+                 Guid="00299140-79A6-41E9-A5E4-B906E788A55A"
+                 Transitive="yes">
+        <Condition>ENABLELAUNCHATLOGON = 1</Condition>
+        <Shortcut Id="BOINCMGRStartupLink"
+                  Directory="StartupFolder"
+                  Name="BOINC Manager"
+                  Target="[INSTALLDIR]boincmgr.exe"
+                  Description="Allows you to control the core client, attach to new projects, detach from old projects, and otherwise maintain the health of the BOINC system"
+                  Arguments="/s"
+                  Icon="boincicon.exe"
+                  IconIndex="0"
+                  Show="normal"
+                  WorkingDirectory="INSTALLDIR" />
+        <RegistryValue Id="Startup"
+                       Root="HKCU"
+                       Key="Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager\Startup"
+                       Type="string"
+                       Value="Yes"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="SERVICEDIRECTORY" FileSource="SourceDir">
+      <Component Id="BOINCService"
+                       Guid="0AA16578-66CC-4266-8A2C-ADECD2967BA7">
+        <Condition>SETUPTYPE="Service" AND VersionNT</Condition>
+        <User xmlns="http://schemas.microsoft.com/wix/UtilExtension" CreateUser="yes" Name="boinc_master" Id="BOINCUser" UpdateIfExists="yes" RemoveOnUninstall="yes" Password="[SERVICE_PASSWORD]" />
+
+        <File Id="boincsvc.exe"
+              Name="boinc.exe"
+              KeyPath="yes"/>
+
+        <ServiceInstall Id="BOINCServiceInstall"
+                        Name="BOINC"
+                        DisplayName="BOINC"
+                        Type="ownProcess"
+                        Start="auto"
+                        ErrorControl="normal"
+                        Account="[SERVICE_DOMAINUSERNAME]"
+                        Password="[SERVICE_PASSWORD]"
+                        Arguments="-daemon"
+                        Description="Provides all the infrastructure for BOINC to download workunits and process them without user interaction.">
+          <ServiceDependency Id="RpcSs" />
+        </ServiceInstall>
+        <ServiceControl Id="BOINCServiceConfig"
+                        Name="BOINC"
+                        Start="install"
+                        Stop="both"
+                        Remove="uninstall" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
