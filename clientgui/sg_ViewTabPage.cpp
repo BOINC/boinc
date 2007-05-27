@@ -444,10 +444,10 @@ void CViewTabPage::WriteText(wxDC* dc) {
 	dc->DrawText(projName, wxPoint(20,8)); 
 
     dc->SetFont(wxFont(SMALL_FONT,74,90,90,0,wxT("Arial")));
-	FormatText(wxT("Application: "), projectFrName, dc, wxPoint(20,47));
+	FormatText(_("Application: "), projectFrName, dc, wxPoint(20,47));
 
 	int height, width;
-	dc->GetTextExtent(wxT("Time Remaining: "), &width, &height);
+	dc->GetTextExtent(_("Time Remaining: "), &width, &height);
 	width = width + 20; // add the starting x position
 
 	FormatText(wxT("Elapsed Time: "), elapsedTimeValue, dc, wxPoint(20,230), width);

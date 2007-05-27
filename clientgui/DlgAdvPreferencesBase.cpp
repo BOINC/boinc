@@ -39,7 +39,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	sbSizer92->Add( m_staticText321, 1, wxALL, 1 );
 
 	m_btnClear = new wxButton( this, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_btnClear->SetToolTip( wxT("clears all local preferences and close the dialog") );
+	m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
 
 	sbSizer92->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 1 );
 
@@ -65,13 +65,13 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 	m_chkProcOnBatteries = new wxCheckBox( m_panelProcessor, ID_CHKPROCONBATTERIES, _("while computer is on batteries"), wxDefaultPosition, wxDefaultSize, 0 );
 
-	m_chkProcOnBatteries->SetToolTip( wxT("check this, if you want that this host does work while it runs on batteries") );
+	m_chkProcOnBatteries->SetToolTip( _("check this if you want this computer to do work while it runs on batteries") );
 
 	sbSizer4->Add( m_chkProcOnBatteries, 0, wxALL, 5 );
 
 	m_chkProcInUse = new wxCheckBox( m_panelProcessor, ID_CHKPROCINUSE, _("while computer is in use"), wxDefaultPosition, wxDefaultSize, 0 );
 
-	m_chkProcInUse->SetToolTip( wxT("check this, if work should be done while you are working at this host") );
+	m_chkProcInUse->SetToolTip( _("check this if you want this computer to do work even when you're using it") );
 
 	sbSizer4->Add( m_chkProcInUse, 0, wxALL, 5 );
 
@@ -85,7 +85,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizer5->Add( m_staticText26, 0, wxALL, 5 );
 
 	m_txtProcIdleFor = new wxTextCtrl( m_panelProcessor, ID_TXTPROCIDLEFOR, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtProcIdleFor->SetToolTip( wxT("work is done after this amount of minutes idle time (no mouse movement and/or keyboard input)") );
+	m_txtProcIdleFor->SetToolTip( _("do work only after you haven't used the computer for this number of minutes") );
 
 	fgSizer5->Add( m_txtProcIdleFor, 0, wxALL, 1 );
 
@@ -109,7 +109,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer111->Add( m_staticText351, 0, wxALL, 5 );
 
 	m_txtProcEveryDayStart = new wxTextCtrl( m_panelProcessor, ID_TXTPROCEVERYDAYSTART, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtProcEveryDayStart->SetToolTip( wxT("start work at this time") );
+	m_txtProcEveryDayStart->SetToolTip( _("start work at this time") );
 
 	bSizer111->Add( m_txtProcEveryDayStart, 0, wxALL, 1 );
 
@@ -117,7 +117,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer111->Add( m_staticText25, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtProcEveryDayStop = new wxTextCtrl( m_panelProcessor, ID_TXTPROCEVERYDAYSTOP, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtProcEveryDayStop->SetToolTip( wxT("stop work at this time") );
+	m_txtProcEveryDayStop->SetToolTip( _("stop work at this time") );
 
 	bSizer111->Add( m_txtProcEveryDayStop, 0, wxALL, 1 );
 
@@ -275,7 +275,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizer7->Add( m_staticText30, 0, wxALL, 5 );
 
 	m_txtNetConnectInterval = new wxTextCtrl( m_panelNetwork, ID_TXTNETCONNECTINTERVAL, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtNetConnectInterval->SetToolTip( wxT("specify the connect-to-server frequency\n(this influences the amount of work is requested from projects)") );
+	m_txtNetConnectInterval->SetToolTip( _("this computer is connected to the Internet about every X days\n(0 if it's always connected)") );
 
 	fgSizer7->Add( m_txtNetConnectInterval, 0, wxALL, 1 );
 
@@ -293,7 +293,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 	m_chkNetSkipImageVerification = new wxCheckBox( m_panelNetwork, ID_CHKNETSKIPIMAGEVERIFICATION, _("skip image file verification"), wxDefaultPosition, wxDefaultSize, 0 );
 
-	m_chkNetSkipImageVerification->SetToolTip( wxT("check this only if your internet provider modifies image files") );
+	m_chkNetSkipImageVerification->SetToolTip( _("check this if your Internet provider modifies image files") );
 
 	fgSizer7->Add( m_chkNetSkipImageVerification, 0, wxALL, 5 );
 
@@ -306,13 +306,13 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 	m_chkNetConfirmBeforeConnect = new wxCheckBox( m_panelNetwork, ID_CHKNETCONFIRMBEFORECONNECT, _("confirm before connecting to internet"), wxDefaultPosition, wxDefaultSize, 0 );
 
-	m_chkNetConfirmBeforeConnect->SetToolTip( wxT("if checked, a confirmation dialog is displayed before trying to connect to the internet") );
+	m_chkNetConfirmBeforeConnect->SetToolTip( _("if checked, a confirmation dialog will be displayed before trying to connect to the Internet") );
 
 	sbSizer7->Add( m_chkNetConfirmBeforeConnect, 0, wxALL, 5 );
 
 	m_chkNetDisconnectWhenDone = new wxCheckBox( m_panelNetwork, ID_CHKNETDISCONNECTWHENDONE, _("disconnect when done"), wxDefaultPosition, wxDefaultSize, 0 );
 
-	m_chkNetDisconnectWhenDone->SetToolTip( wxT("if checked, BOINC hangs up when netwrok transfer is done\n(only relevant for dialup-connection)") );
+	m_chkNetDisconnectWhenDone->SetToolTip( _("if checked, BOINC hangs up when network usage is done\n(only relevant for dialup-connection)") );
 
 	sbSizer7->Add( m_chkNetDisconnectWhenDone, 0, wxALL, 5 );
 
@@ -328,7 +328,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer14->Add( m_staticText38, 0, wxALL, 5 );
 
 	m_txtNetEveryDayStart = new wxTextCtrl( m_panelNetwork, ID_TXTNETEVERYDAYSTART, _(""), wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	m_txtNetEveryDayStart->SetToolTip( wxT("network usage start hour") );
+	m_txtNetEveryDayStart->SetToolTip( _("network usage start hour") );
 
 	bSizer14->Add( m_txtNetEveryDayStart, 0, wxALL, 1 );
 
@@ -336,7 +336,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer14->Add( m_staticText37, 0, wxALL, 5 );
 
 	m_txtNetEveryDayStop = new wxTextCtrl( m_panelNetwork, ID_TXTNETEVERYDAYSTOP, _(""), wxDefaultPosition, wxSize( 50,-1 ), 0 );
-	m_txtNetEveryDayStop->SetToolTip( wxT("network usage stop hour") );
+	m_txtNetEveryDayStop->SetToolTip( _("network usage stop hour") );
 
 	bSizer14->Add( m_txtNetEveryDayStop, 0, wxALL, 1 );
 
@@ -347,7 +347,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 	m_panelNetSpecialTimes = new wxPanel( m_panelNetwork, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 	m_panelNetSpecialTimes->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
-	m_panelNetSpecialTimes->SetToolTip( wxT("use network on thursday") );
+	m_panelNetSpecialTimes->SetToolTip( _("use network on thursday") );
 
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxVERTICAL );
@@ -438,7 +438,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizerDiskUsage->Add( m_staticText40, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtDiskMaxSpace = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTDISKMAXSPACE, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtDiskMaxSpace->SetToolTip( wxT("the maximum amount diskspace used by BOINC (in Gigabytes)") );
+	m_txtDiskMaxSpace->SetToolTip( _("the maximum disks pace used by BOINC (in Gigabytes)") );
 
 	fgSizerDiskUsage->Add( m_txtDiskMaxSpace, 0, wxALL, 1 );
 
@@ -449,7 +449,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizerDiskUsage->Add( m_staticText42, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtDiskLeastFree = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTDISKLEASTFREE, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtDiskLeastFree->SetToolTip( wxT("BOINC leaves at least this amount of diskspace free (in Gigagytes)") );
+	m_txtDiskLeastFree->SetToolTip( _("BOINC leaves at least this amount of disk space free (in Gigagytes)") );
 
 	fgSizerDiskUsage->Add( m_txtDiskLeastFree, 0, wxALL, 1 );
 
@@ -460,7 +460,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizerDiskUsage->Add( m_staticText44, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtDiskMaxOfTotal = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTDISKMAXOFTOTAL, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtDiskMaxOfTotal->SetToolTip( wxT("BOINC uses at most this percentage of total diskspace") );
+	m_txtDiskMaxOfTotal->SetToolTip( _("BOINC uses at most this percentage of total disk space") );
 
 	fgSizerDiskUsage->Add( m_txtDiskMaxOfTotal, 0, wxALL, 1 );
 
@@ -520,7 +520,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 	m_chkMemoryWhileSuspended = new wxCheckBox( m_panelDiskAndMemory, ID_CHKMEMORYWHILESUSPENDED, _("leave applications in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0 );
 
-	m_chkMemoryWhileSuspended->SetToolTip( wxT("if checked, suspended work units leave in memory") );
+	m_chkMemoryWhileSuspended->SetToolTip( _("if checked, suspended work units are left in memory") );
 
 	sbSizerMemoryUsage->Add( m_chkMemoryWhileSuspended, 0, wxALL, 5 );
 
@@ -543,17 +543,17 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer5 = new wxBoxSizer( wxHORIZONTAL );
 
 	m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_btnOK->SetToolTip( wxT("save all values and close the dialog") );
+	m_btnOK->SetToolTip( _("save all values and close the dialog") );
 
 	bSizer5->Add( m_btnOK, 0, wxALL, 5 );
 
 	m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_btnCancel->SetToolTip( wxT("close the dialog without saving") );
+	m_btnCancel->SetToolTip( _("close the dialog without saving") );
 
 	bSizer5->Add( m_btnCancel, 0, wxALL, 5 );
 
 	m_btnHelp = new wxButton( m_panelButtons, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_btnHelp->SetToolTip( wxT("shows the preferences web page") );
+	m_btnHelp->SetToolTip( _("shows the preferences web page") );
 
 	bSizer5->Add( m_btnHelp, 0, wxALL, 5 );
 

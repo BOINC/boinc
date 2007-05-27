@@ -5359,3 +5359,12 @@ David  26 May 2007
         boinc_cmd.C
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  27 May 2007
+    - Manager: make some strings translatable, and fix them
+
+    clientgui/
+        sg_StatImageLoader.cpp
+        sg_ProjectsComponent.cpp
+        sg_ViewTabPage.cpp
+        DlgAdvPreferences Base.cpp
