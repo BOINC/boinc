@@ -470,3 +470,33 @@ create table credited_job (
     userid              integer     not null,
     workunitid          bigint      not null
 ) TYPE=MyISAM;
+
+create table donation_items (
+    id                  integer     unsigned    not null auto_increment,
+    item_name           varchar(32)             not null,
+    title               varchar(255)            not null,
+    description         varchar(255)            not null,
+    required            double      unsigned    not null default '0',
+    PRIMARY KEY(id)
+) TYPE=MyISAM;
+
+create table donation_paypal (
+    id                  integer                 not null auto_increment,
+    order_time          integer     unsigned    not null,
+    userid              integer                 not null,
+    email_addr          varchar(255)            not null,
+    order_amount        double(6,2)             not null,
+    processed           tinyint(1)              not null default '0',
+    payment_time        integer     unsigned    not null,
+    item_name           varchar(255)            not null,
+    item_number         varchar(255)            not null,
+    payment_status      varchar(255)            not null,
+    payment_amount      double(6,2)             not null,
+    payment_fee         double(5,2)             default null,
+    payment_currency    varchar(255)            not null,
+    txn_id              varchar(255)            not null,
+    receiver_email      varchar(255)            not null,
+    payer_email         varchar(255)            not null,
+    payer_name          varchar(255)            not null,
+    PRIMARY KEY(id)
+) TYPE=MyISAM;

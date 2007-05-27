@@ -5368,3 +5368,19 @@ David  27 May 2007
         sg_ProjectsComponent.cpp
         sg_ViewTabPage.cpp
         DlgAdvPreferences Base.cpp
+
+Rytis   27 May 2007
+    - Donations system (running via PayPal).
+        NOTE: DB updated needed. Documented in
+        http://boinc.berkeley.edu/trac/wiki/PayPalDonations
+        
+    db/
+        schema.sql
+    html/user/
+        currency.js
+        donate.php
+        donated.php
+        donation_ipn.php
+        donations.php
+        img/
+            paypal_logo.png
