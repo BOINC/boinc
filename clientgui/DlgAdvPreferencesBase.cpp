@@ -438,7 +438,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizerDiskUsage->Add( m_staticText40, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtDiskMaxSpace = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTDISKMAXSPACE, _(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtDiskMaxSpace->SetToolTip( _("the maximum disks pace used by BOINC (in Gigabytes)") );
+	m_txtDiskMaxSpace->SetToolTip( _("the maximum disk space used by BOINC (in Gigabytes)") );
 
 	fgSizerDiskUsage->Add( m_txtDiskMaxSpace, 0, wxALL, 1 );
 
