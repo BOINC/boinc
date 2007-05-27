@@ -1,0 +1,590 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <Feature Id="Globalization"
+         Title="BOINC Manager Globalization Files"
+         Level="1">
+      <ComponentRef Id="af_ZA_wxstd.mo"/>
+      <ComponentRef Id="ar_Manager.mo"/>
+      <ComponentRef Id="be_Manager.mo"/>
+      <ComponentRef Id="bg_Manager.mo"/>
+      <ComponentRef Id="ca_Manager.mo"/>
+      <ComponentRef Id="ca_wxstd.mo"/>
+      <ComponentRef Id="cs_Manager.mo"/>
+      <ComponentRef Id="cs_CZ_wxstd.mo"/>
+      <ComponentRef Id="da_Manager.mo"/>
+      <ComponentRef Id="da_wxstd.mo"/>
+      <ComponentRef Id="de_Manager.mo"/>
+      <ComponentRef Id="de_wxstd.mo"/>
+      <ComponentRef Id="el_Manager.mo"/>
+      <ComponentRef Id="en_US_Manager.mo"/>
+      <ComponentRef Id="es_Manager.mo"/>
+      <ComponentRef Id="es_wxstd.mo"/>
+      <ComponentRef Id="eu_wxstd.mo"/>
+      <ComponentRef Id="fi_Manager.mo"/>
+      <ComponentRef Id="fr_Manager.mo"/>
+      <ComponentRef Id="fr_wxstd.mo"/>
+      <ComponentRef Id="hr_Manager.mo"/>
+      <ComponentRef Id="hu_Manager.mo"/>
+      <ComponentRef Id="hu_wxstd.mo"/>
+      <ComponentRef Id="it_wxstd.mo"/>
+      <ComponentRef Id="ja_Manager.mo"/>
+      <ComponentRef Id="ja_Manager.win98.mo"/>
+      <ComponentRef Id="ko_KR_Manager.mo"/>
+      <ComponentRef Id="lt_Manager.mo"/>
+      <ComponentRef Id="lv_Manager.mo"/>
+      <ComponentRef Id="nb_wxstd.mo"/>
+      <ComponentRef Id="nl_Manager.mo"/>
+      <ComponentRef Id="nl_wxstd.mo"/>
+      <ComponentRef Id="pl_Manager.mo"/>
+      <ComponentRef Id="pt_Manager.mo"/>
+      <ComponentRef Id="pt_BR_Manager.mo"/>
+      <ComponentRef Id="ro_Manager.mo"/>
+      <ComponentRef Id="ru_Manager.mo"/>
+      <ComponentRef Id="ru_wxstd.mo"/>
+      <ComponentRef Id="sk_Manager.mo"/>
+      <ComponentRef Id="sl_wxstd.mo"/>
+      <ComponentRef Id="sv_SE_Manager.mo"/>
+      <ComponentRef Id="sv_SE_wxstd.mo"/>
+      <ComponentRef Id="tr_wxstd.mo"/>
+      <ComponentRef Id="uk_wxstd.mo"/>
+      <ComponentRef Id="zh_CN_Manager.mo"/>
+      <ComponentRef Id="zh_CN_wxstd.mo"/>
+      <ComponentRef Id="zh_TW_Manager.mo"/>
+    </Feature>
+  </Fragment>
+  
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="af_ZA" Name="af_ZA">
+        <Component Id="af_ZA_wxstd.mo"
+                   Guid="B309D329-AD6B-44DA-9623-6EBA0E8EF51E">
+          <File Id="af_ZA_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="ar" Name="ar">
+        <Component Id="ar_Manager.mo"
+                   Guid="EE2DE6C6-4442-4E31-BE3B-805E82761B04">
+          <File Id="ar_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="be" Name="be">
+        <Component Id="be_Manager.mo"
+                   Guid="86C4DA07-E838-4753-BE42-268FB46C8192">
+          <File Id="be_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="bg" Name="bg">
+        <Component Id="bg_Manager.mo"
+                   Guid="1C29F6BB-D9E2-4AD9-B5D1-72A6CB3FF071">
+          <File Id="bg_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="ca" Name="ca">
+        <Component Id="ca_Manager.mo"
+                   Guid="469B17A5-4E43-4893-A329-ACAFA5EDF963">
+          <File Id="ca_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="ca_wxstd.mo"
+           Guid="C87D0937-06E9-4C17-BF29-C57390F59F52">
+          <File Id="ca_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="cs" Name="cs">
+        <Component Id="cs_Manager.mo"
+                   Guid="F9615744-5A28-4D84-8B0D-A0F5FCC9CBAC">
+          <File Id="cs_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="cs_CZ" Name="cs_CZ">
+        <Component Id="cs_CZ_wxstd.mo"
+                   Guid="2B83C633-A960-4CA6-A184-AF8211236AD1">
+          <File Id="cs_CZ_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="da" Name="da">
+        <Component Id="da_Manager.mo"
+                   Guid="FFA49711-3AAA-46CB-9F84-76D2DC248F24">
+          <File Id="da_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="da_wxstd.mo"
+           Guid="5E1DBD7C-1203-4FBC-8DC0-EF47FE3177A5">
+          <File Id="da_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="de" Name="de">
+        <Component Id="de_Manager.mo"
+                   Guid="8B05E3EF-6123-4C85-8D79-392FCB536C3B">
+          <File Id="de_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="de_wxstd.mo"
+           Guid="EFB7B550-8CA4-4B91-9707-A005DB40FAD7">
+          <File Id="de_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="el" Name="el">
+        <Component Id="el_Manager.mo"
+                   Guid="3FB97F60-DB3B-4907-B298-865A0424506B">
+          <File Id="el_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="en_US" Name="en_US">
+        <Component Id="en_US_Manager.mo"
+                   Guid="95F9E0F5-CD67-493A-AAF8-08EAC00693AC">
+          <File Id="en_US_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="es" Name="es">
+        <Component Id="es_Manager.mo"
+                   Guid="492AFF38-CB5E-4965-9319-7DC438A80A6D">
+          <File Id="es_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="es_wxstd.mo"
+           Guid="46427942-361E-4E85-99C5-17809C77D4A6">
+          <File Id="es_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="eu" Name="eu">
+        <Component Id="eu_wxstd.mo"
+                   Guid="4975C5C3-F0E7-471B-BCC6-9B7895A8FB29">
+          <File Id="eu_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="fi" Name="fi">
+        <Component Id="fi_Manager.mo"
+                   Guid="78D8871D-7AB7-4408-90BD-3B4FF370FBB7">
+          <File Id="fi_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="fr" Name="fr">
+        <Component Id="fr_Manager.mo"
+                   Guid="DC3A9355-CEFA-44D6-AF4E-90FF2F0ABD0B">
+          <File Id="fr_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="fr_wxstd.mo"
+           Guid="32FEC9EC-8CF4-4BAC-9F8F-EC04B71727E2">
+          <File Id="fr_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="hr" Name="hr">
+        <Component Id="hr_Manager.mo"
+                   Guid="D93235C4-A590-4505-8880-62D7278F5940">
+          <File Id="hr_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="hu" Name="hu">
+        <Component Id="hu_Manager.mo"
+                   Guid="4F44E31C-B28D-49B0-BFE7-2102934ADDFF">
+          <File Id="hu_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="hu_wxstd.mo"
+           Guid="FB03A292-D6DE-4231-9AC0-F00D048710B6">
+          <File Id="hu_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="it" Name="it">
+        <Component Id="it_wxstd.mo"
+                   Guid="68E4F4BC-4E8E-477E-AC01-8CDA67A86CC4">
+          <File Id="it_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="ja" Name="ja">
+        <Component Id="ja_Manager.mo"
+                   Guid="607B59A8-9DB0-4520-A402-46817F2066CA">
+          <File Id="ja_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="ja_Manager.win98.mo"
+                   Guid="1569238A-F208-4FA2-900F-80972AF62D6F">
+          <File Id="ja_Manager.win98.mo"
+                Name="BOINC Manager.win98.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="ko_KR" Name="ko_KR">
+        <Component Id="ko_KR_Manager.mo"
+                   Guid="4B457708-6847-4FCB-B457-168F25463D21">
+          <File Id="ko_KR_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="lt" Name="lt">
+        <Component Id="lt_Manager.mo"
+                   Guid="A29E7E2D-4526-46AE-A2BC-DD0780A6CBF3">
+          <File Id="lt_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="lv" Name="lv">
+        <Component Id="lv_Manager.mo"
+                   Guid="3015F0FC-4A25-4E3B-92E8-6C775A11AAE2">
+          <File Id="lv_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="nb" Name="nb">
+        <Component Id="nb_wxstd.mo"
+                   Guid="5E28EC4A-3A1D-4828-94E5-7D1E063B0748">
+          <File Id="nb_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="nl" Name="nl">
+        <Component Id="nl_Manager.mo"
+                   Guid="4024BB12-890A-4910-8FB9-ACA7312740DF">
+          <File Id="nl_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="nl_wxstd.mo"
+           Guid="A701AA85-759D-49C3-824A-88AF4AC3801C">
+          <File Id="nl_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="pl" Name="pl">
+        <Component Id="pl_Manager.mo"
+                   Guid="10EC07EC-5123-4B49-A84D-5BF7337DA212">
+          <File Id="pl_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="pt" Name="pt">
+        <Component Id="pt_Manager.mo"
+                   Guid="8E300992-579B-49CE-B815-6A75E73092DA">
+          <File Id="pt_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="pt_BR" Name="pt_BR">
+        <Component Id="pt_BR_Manager.mo"
+                   Guid="1DC55052-CDD3-465A-8916-8D8496C53AE5">
+          <File Id="pt_BR_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="ro" Name="ro">
+        <Component Id="ro_Manager.mo"
+                   Guid="35FCFE55-E173-4BF0-93B8-1404D0E2C156">
+          <File Id="ro_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="ru" Name="ru">
+        <Component Id="ru_Manager.mo"
+                   Guid="D6C220C1-30E1-4BFA-B563-18044417232D">
+          <File Id="ru_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="ru_wxstd.mo"
+           Guid="42104843-A4FF-474F-A5CA-6D868C43C709">
+          <File Id="ru_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="sk" Name="sk">
+        <Component Id="sk_Manager.mo"
+                   Guid="F5C92C66-725D-4101-9C72-31A0E0463B13">
+          <File Id="sk_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="sl" Name="sl">
+        <Component Id="sl_wxstd.mo"
+                   Guid="A19F8DEB-D2FA-4F73-9626-830F8D3FDC39">
+          <File Id="sl_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="sv_SE" Name="sv_SE">
+        <Component Id="sv_SE_Manager.mo"
+                   Guid="D290F113-9EB7-4F69-95C0-F35B547789E4">
+          <File Id="sv_SE_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="sv_SE_wxstd.mo"
+           Guid="E6648715-4B1A-4B0F-837B-985CC498AEBE">
+          <File Id="sv_SE_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="tr" Name="tr">
+        <Component Id="tr_wxstd.mo"
+                   Guid="3532CA11-BA0D-4FB4-81D7-24BF053252FC">
+          <File Id="tr_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="uk" Name="uk">
+        <Component Id="uk_wxstd.mo"
+                   Guid="9D5651B6-BAA7-43B3-A715-B3C323FD097C">
+          <File Id="uk_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="zh_CN" Name="zh_CN">
+        <Component Id="zh_CN_Manager.mo"
+                   Guid="20004E2B-B4FD-4427-85EF-1A8CF55E093C">
+          <File Id="zh_CN_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+        <Component Id="zh_CN_wxstd.mo"
+           Guid="FC837FAE-1023-4DE3-898F-92E7971BD119">
+          <File Id="zh_CN_wxstd.mo"
+                Name="wxstd.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <DirectoryRef Id="locale" FileSource="../../../../locale/client">
+      <Directory Id="zh_TW" Name="zh_TW">
+        <Component Id="zh_TW_Manager.mo"
+                   Guid="8CA1CDC7-E40B-4E1C-A24F-740A7B276388">
+          <File Id="zh_TW_Manager.mo"
+                Name="BOINC Manager.mo"
+                KeyPath="yes" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
