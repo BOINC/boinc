@@ -5384,3 +5384,10 @@ Rytis   27 May 2007
         donations.php
         img/
             paypal_logo.png
+
+David  28 May 2007
+    - Unix: 'make install' copies certificate authority file
+        to client directory
+
+    client/
+        Makefile.am
