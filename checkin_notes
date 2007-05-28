@@ -355,3 +355,10 @@ David  23 May 2007
         uc2.h
     uppercase/
         Makefile
+
+David  28 May 2007
+    - Wrapper can handle multiple tasks
+
+    wrapper/
+        job.xml
+        wrapper.C
