@@ -550,6 +550,7 @@ void CBOINCBaseView::append_to_status(wxString& existing, const wxChar* addition
 wxString CBOINCBaseView::HtmlEntityEncode(wxString strRaw) {
 	wxString strEncodedHtml(strRaw);
 
+#ifdef __WXMSW__
     strEncodedHtml.Replace(wxT("&"),  wxT("&amp;"),    true);
     strEncodedHtml.Replace(wxT("\""), wxT("&quot;"),   true);
     strEncodedHtml.Replace(wxT("<"),  wxT("&lt;"),     true);
@@ -668,6 +669,7 @@ wxString CBOINCBaseView::HtmlEntityEncode(wxString strRaw) {
     strEncodedHtml.Replace(wxT("ý"),  wxT("&yacute;"), true);
     strEncodedHtml.Replace(wxT("þ"),  wxT("&thorn;"),  true);
     strEncodedHtml.Replace(wxT("ÿ"),  wxT("&yuml;"),   true);
+#endif
 
     return strEncodedHtml;
 }
@@ -676,6 +678,7 @@ wxString CBOINCBaseView::HtmlEntityDecode(wxString strRaw) {
 	wxString strDecodedHtml(strRaw);
 
     if (0 <= strDecodedHtml.Find(wxT("&"))) {
+#ifdef __WXMSW__
         strDecodedHtml.Replace(wxT("&amp;"),    wxT("&"),  true);
         strDecodedHtml.Replace(wxT("&quot;"),   wxT("\""), true);
         strDecodedHtml.Replace(wxT("&lt;"),     wxT("<"),  true);
@@ -794,6 +797,7 @@ wxString CBOINCBaseView::HtmlEntityDecode(wxString strRaw) {
         strDecodedHtml.Replace(wxT("&yacute;"), wxT("ý"),  true);
         strDecodedHtml.Replace(wxT("&thorn;"),  wxT("þ"),  true);
         strDecodedHtml.Replace(wxT("&yuml;"),   wxT("ÿ"),  true);
+#endif
     }
 
 	return strDecodedHtml;

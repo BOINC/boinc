@@ -5447,3 +5447,31 @@ Rom    29 May 2007
         ViewWorkGrid.cpp, .h
     lib/
         gui_rpc_client_ops.C
+
+Rom    29 May 2007
+    - Disable HtmlEntityEncode/HtmlEntityDecode on all platforms but
+        Windows for now.
+    - Change all references of mb_str() to c_str() in SkinManager.cpp
+        to avoid SIGILL's on Unicode environments.
+    - fixes #215: Customize the VBS script used to launch BOINC Manager
+        for each system we install on.
+
+    clientgui/
+        BOINCBaseView.cpp
+        SkinManager.cpp
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/installerv2/redist/Windows/
+        BOINC Manager.vbs (Deleted)
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.sln
+        boinccas95.vcproj
+        CACreateVBSShortcut.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+        

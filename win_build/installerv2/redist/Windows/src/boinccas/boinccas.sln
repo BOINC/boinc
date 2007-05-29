@@ -4,8 +4,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOINCCAS", "boinccas.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOINCCAS95", "boinccas95.vcproj", "{49723CA5-DA05-43C0-93AB-6FD30D046910}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testkill", "..\testkill\testkill.vcproj", "{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -30,14 +28,6 @@ Global
 		{49723CA5-DA05-43C0-93AB-6FD30D046910}.Release|Win32.Build.0 = Release|Win32
 		{49723CA5-DA05-43C0-93AB-6FD30D046910}.Release|x64.ActiveCfg = Release|x64
 		{49723CA5-DA05-43C0-93AB-6FD30D046910}.Release|x64.Build.0 = Release|x64
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Debug|Win32.Build.0 = Debug|Win32
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Debug|x64.ActiveCfg = Debug|x64
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Debug|x64.Build.0 = Debug|x64
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Release|Win32.ActiveCfg = Release|Win32
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Release|Win32.Build.0 = Release|Win32
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Release|x64.ActiveCfg = Release|x64
-		{F8FE1FD7-1DB9-4A8B-8FDF-E7C1E360C962}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

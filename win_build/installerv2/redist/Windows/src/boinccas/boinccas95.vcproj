@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shell32.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -151,7 +151,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shell32.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -236,7 +236,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shell32.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -324,7 +324,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shell32.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -377,6 +377,10 @@
 			</File>
 			<File
 				RelativePath=".\CACleanupOldBinaries.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CACreateVBSShortcut.cpp"
 				>
 			</File>
 			<File
@@ -454,6 +458,10 @@
 			</File>
 			<File
 				RelativePath=".\CACleanupOldBinaries.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CACreateVBSShortcut.h"
 				>
 			</File>
 			<File
