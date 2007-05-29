@@ -157,7 +157,11 @@ void scan_work_array(
         } else {
             found = find_app_version(reply.wreq, wu, platforms, ss, app, avp);
             if (!found) {
+#if 0
+                // see comment above
+                //
                 wu_result.infeasible_count++;
+#endif
                 continue;
             }
 
