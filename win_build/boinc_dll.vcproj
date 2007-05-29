@@ -117,7 +117,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -220,7 +219,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -323,7 +321,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -426,7 +423,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -529,8 +525,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -632,8 +628,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
