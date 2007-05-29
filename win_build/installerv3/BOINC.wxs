@@ -1,4 +1,24 @@
 <?xml version="1.0"?>
+<!--
+  Berkeley Open Infrastructure for Network Computing
+  http://boinc.berkeley.edu
+  Copyright (C) 2007 University of California
+
+  This is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation;
+  either version 2.1 of the License, or (at your option) any later version.
+
+  This software is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  To view the GNU Lesser General Public License visit
+  http://www.gnu.org/copyleft/lesser.html
+  or write to the Free Software Foundation, Inc.,
+  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="8DD2C81D-E718-4D7D-832B-4B14F265BA60"
            UpgradeCode="E913E54D-5080-42EC-A312-B21948BA1C02"
@@ -94,6 +114,7 @@
     <Property Id="InstallType">0</Property>
     <Property Id="ServiceAccount">None</Property>
     <Property Id="MaintenanceType">Reinstall</Property>
+    <Property Id="InstallMode">Install</Property>
 
 
     <!-- <?include Components.wxi ?>
@@ -115,6 +136,7 @@
                    SourceName="." FileSource="SourceDir\">
           <Directory Id="SERVICEDIRECTORY" />
           <Directory Id="locale" Name="locale" />
+          <Directory Id="skins" Name="skins" />
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
@@ -157,6 +179,7 @@
                Level="1">
         <ComponentRef Id="boincmgr.exe" />
         <ComponentRef Id="boinc.dll" />
+        <ComponentRef Id="skins" />
         <Feature Id="Startup"
                  Title="Manager Startup Shortcut"
                  Level="1">

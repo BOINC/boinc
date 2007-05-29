@@ -99,6 +99,24 @@
           Title="!(loc.WizardTitle)"
           NoMinimize="yes">
     <?include TemplatePoster.wxi ?>
+    <Control Id="Title"
+     Type="Text"
+     X="135"
+     Y="8"
+     Width="225"
+     Height="45"
+     Transparent="yes">
+      <Text>!(loc.MaintenanceWelcomeDlgTitle)</Text>
+    </Control>
+    <Control Id="Description"
+             Type="Text"
+             X="135"
+             Y="55"
+             Width="228"
+             Height="45"
+             Transparent="yes">
+      <Text>!(loc.MaintenanceWelcomeDlgDescription)</Text>
+    </Control>
     <Control Id="Next"
              Type="PushButton"
              X="230"

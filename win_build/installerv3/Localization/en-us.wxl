@@ -121,7 +121,24 @@
   <String Id="ChangeFolderNewFolderTooltip" Overridable="yes">Create a new folder</String>
   <String Id="ChangeFolderPathLabel" Overridable="yes">&amp;Folder name:</String>
   
+  <String Id="MaintenanceTypeTitle" Overridable="yes">{&amp;BannerTitle}Program Maintenance</String>
+  <String Id="MaintenanceTypeDescription" Overridable="yes">Modify, repair, or remove the program.</String>
+  <String Id="MaintenanceTypeRadioButtonGroupReinstall" Overridable="yes">{&amp;BannerTitle}Re&amp;pair</String>
+  <String Id="MaintenanceTypeReinstallText" Overridable="yes">Repair installation errors in the program. This option fixes missing or corrupt files, shortcuts, and registry entries.</String>
+  <String Id="MaintenanceTypeRadioButtonGroupRemove" Overridable="yes">{&amp;BannerTitle}&amp;Remove</String>
+  <String Id="MaintenanceTypeRemoveText" Overridable="yes">Remove [ProductName] from your computer.</String>
+
+  <String Id="ReadyToRemoveTitle" Overridable="yes">{&amp;BannerTitle}Remove the Program</String>
+  <String Id="ReadyToRemoveDescription" Overridable="yes">You have chosen to remove the program from your system.</String>
+  <String Id="ReadyToRemoveText" Overridable="yes">Click Remove to remove [ProductName] from your computer. After removal, this program will no longer be available for use.</String>
+  <String Id="ReadyToRemoveReviewText" Overridable="yes">If you want to review or change any settings, click Back.</String>
+  <String Id="ReadyToRemoveRemoveNow" Overridable="yes">&amp;Remove</String>
+
+
+
   <!-- up to here -->
+  
+  
   <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] Setup Wizard ended prematurely</String>
   <String Id="FatalErrorDescription1" Overridable="yes">[ProductName] Setup Wizard ended prematurely because of an error. Your system has not been modified. To install this program at a later time, run Setup Wizard again.</String>
   <String Id="FatalErrorDescription2" Overridable="yes">Click the Finish button to exit the Setup Wizard.</String>
@@ -138,22 +155,6 @@
   <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">I &amp;accept the terms in the License Agreement</String>
   <String Id="LicenseAgreementDlgDescription" Overridable="yes">Please read the following license agreement carefully</String>
   <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}End-User License Agreement</String>
-
-  <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Change</String>
-  <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Change Installation</String>
-  <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">Re&amp;pair</String>
-  <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Repair Installation</String>
-  <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Remove</String>
-  <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Remove Installation</String>
-  <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-  <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Select the operation you wish to perform.</String>
-  <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Change, repair, or remove installation</String>
-  <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Lets you change the way features are installed.</String>
-  <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">[ProductName] has no independently selectable features.</String>
-  <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Removes [ProductName] from your computer.</String>
-  <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">[ProductName] cannot be removed.</String>
-  <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Repairs errors in the most recent installation by fixing missing and corrupt files, shortcuts, and registry entries.</String>
-  <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">[ProductName] cannot be repaired.</String>
 
 
   <String Id="MsiRMFilesInUseText" Overridable="yes">The following applications are using files that need to be updated by this setup. You can let Setup Wizard close them and attempt to restart them or reboot the machine later.</String>

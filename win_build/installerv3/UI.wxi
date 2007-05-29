@@ -371,7 +371,7 @@
                Hidden="yes"
                Transparent="yes">
         <Text>!(loc.SetupProgressTitleInstalling)</Text>
-        <Condition Action="show">ProgressType1="Installing"</Condition>
+        <Condition Action="show">InstallMode&lt;&gt;"Remove"</Condition>
       </Control>
       <Control Id="TextInstalling"
                Type="Text"
@@ -382,7 +382,7 @@
                Hidden="yes"
                Transparent="yes">
         <Text>!(loc.SetupProgressTextInstalling)</Text>
-        <Condition Action="show">ProgressType2="installed"</Condition>
+        <Condition Action="show">InstallMode&lt;&gt;"Remove"</Condition>
       </Control>
 
       <Control Id="TitleRemoving"
@@ -394,7 +394,7 @@
                Hidden="yes"
                Transparent="yes">
         <Text>!(loc.SetupProgressTitleRemoving)</Text>
-        <Condition Action="show">ProgressType1="Uninstalling"</Condition>
+        <Condition Action="show">InstallMode="Remove"</Condition>
       </Control>
       <Control Id="TextRemoving"
                Type="Text"
@@ -405,7 +405,7 @@
                Hidden="yes"
                Transparent="yes">
         <Text>!(loc.SetupProgressTextRemoving)</Text>
-        <Condition Action="show">ProgressType2="uninstalled"</Condition>
+        <Condition Action="show">InstallMode="Remove"</Condition>
       </Control>
       <Control Id="ProgressBar"
                Type="ProgressBar"
@@ -1471,13 +1471,13 @@
                        Y="0"
                        Width="290"
                        Height="14"
-                       Text="{&amp;BannerTitle}Re&amp;pair" />
+                       Text="!(loc.MaintenanceTypeRadioButtonGroupReinstall)" />
           <RadioButton Value="Remove"
                        X="0"
                        Y="60"
                        Width="290"
                        Height="14"
-                       Text="{&amp;BannerTitle}&amp;Remove" />
+                       Text="!(loc.MaintenanceTypeRadioButtonGroupRemove)" />
         </RadioButtonGroup>
       </Control>
       <Control Id="Back"
@@ -1488,7 +1488,7 @@
                Height="17"
                Text="!(loc.Back)">
         <Publish Event="NewDialog"
-                 Value="MaintenanceWelcome"><![CDATA[1]]></Publish>
+                 Value="MaintenanceWelcome">1</Publish>
       </Control>
       <Control Id="Next"
                Type="PushButton"
@@ -1498,22 +1498,15 @@
                Height="17"
                Default="yes"
                Text="!(loc.Next)">
-        <Publish Property="ProgressType0"
-                 Value="Repair"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
-        <Publish Property="ProgressType1"
-                 Value="Repairing"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
-        <Publish Property="ProgressType2"
-                 Value="repairs"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
-        <Publish Property="ProgressType3"
-                 Value="repairs"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+        <Publish Property="InstallMode" Value="[MaintenanceType]">1</Publish>
         <Publish Event="ReinstallMode"
-                 Value="[ReinstallModeText]"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+                 Value="[ReinstallModeText]">MaintenanceType = "Reinstall"</Publish>
         <Publish Event="Reinstall"
-                 Value="ALL"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+                 Value="ALL">MaintenanceType = "Reinstall"</Publish>
         <Publish Event="NewDialog"
-                 Value="ReadyToRemove"><![CDATA[_IsMaintenance = "Remove"]]></Publish>
+                 Value="ReadyToRemove">MaintenanceType = "Remove"</Publish>
         <Publish Event="NewDialog"
-                 Value="ReadyToInstall"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+                 Value="ReadyToInstall">MaintenanceType = "Reinstall"</Publish>
       </Control>
       <Control Id="Cancel"
                Type="PushButton"
@@ -1524,16 +1517,16 @@
                Cancel="yes"
                Text="Cancel">
         <Publish Event="SpawnDialog"
-                 Value="CancelSetup"><![CDATA[1]]></Publish>
+                 Value="CancelSetup">1</Publish>
       </Control>
-      <Control Id="DlgDesc"
+      <Control Id="Description"
               Type="Text"
               X="21"
               Y="23"
               Width="292"
               Height="25"
               Transparent="yes">
-        <Text><![CDATA[Modify, repair, or remove the program.]]></Text>
+        <Text>!(loc.MaintenanceTypeDescription)</Text>
       </Control>
       <Control Id="DlgTitle"
                Type="Text"
@@ -1542,9 +1535,9 @@
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&BannerTitle}Program Maintenance]]></Text>
+        <Text>!(loc.MaintenanceTypeTitle)</Text>
       </Control>
-      <Control Id="Ico2"
+      <Control Id="ReinstallIcon"
                Type="Icon"
                X="35"
                Y="75"
@@ -1553,7 +1546,7 @@
                FixedSize="yes"
                IconSize="32"
                Text="PackageIcon" />
-      <Control Id="Ico3"
+      <Control Id="RemoveIcon"
                Type="Icon"
                X="35"
                Y="135"
@@ -1562,21 +1555,21 @@
                FixedSize="yes"
                IconSize="32"
                Text="PackageIcon" />
-      <Control Id="Text2"
+      <Control Id="ReinstallText"
                Type="Text"
                X="80"
                Y="75"
                Width="260"
                Height="35">
-        <Text><![CDATA[Repair installation errors in the program. This option fixes missing or corrupt files, shortcuts, and registry entries.]]></Text>
+        <Text>!(loc.MaintenanceTypeReinstallText)</Text>
       </Control>
-      <Control Id="Text3"
+      <Control Id="RemoveText"
                Type="Text"
                X="80"
                Y="135"
                Width="260"
                Height="35">
-        <Text><![CDATA[Remove [ProductName] from your computer.]]></Text>
+        <Text>!(loc.MaintenanceTypeRemoveText)</Text>
       </Control>
     </Dialog>
     <Dialog Id="ReadyToRemove"
@@ -1592,19 +1585,13 @@
                Width="66"
                Height="17"
                Default="yes"
-               Text="&amp;Remove">
-        <Publish Property="ProgressType1"
-                 Value="Uninstalling"><![CDATA[1]]></Publish>
-        <Publish Property="ProgressType2"
-                 Value="uninstalled"><![CDATA[1]]></Publish>
-        <Publish Property="ProgressType3"
-                 Value="uninstalls"><![CDATA[1]]></Publish>
+               Text="!(loc.ReadyToRemoveRemoveNow)">
         <Publish Event="Remove"
-                 Value="ALL"><![CDATA[1]]></Publish>
+                 Value="ALL">1</Publish>
         <Publish Event="NewDialog"
-                 Value="OutOfSpace"><![CDATA[OutOfNoRbDiskSpace = 1]]></Publish>
+                 Value="OutOfSpace">OutOfNoRbDiskSpace = 1</Publish>
         <Publish Event="EndDialog"
-                 Value="Return"><![CDATA[OutOfNoRbDiskSpace <> 1]]></Publish>
+                 Value="Return">OutOfNoRbDiskSpace &lt;&gt; 1</Publish>
       </Control>
       <Control Id="Cancel"
                Type="PushButton"
@@ -1615,7 +1602,7 @@
                Cancel="yes"
                Text="Cancel">
         <Publish Event="SpawnDialog"
-                 Value="CancelSetup"><![CDATA[1]]></Publish>
+                 Value="CancelSetup">1</Publish>
       </Control>
       <Control Id="Back"
                Type="PushButton"
@@ -1625,47 +1612,41 @@
                Height="17"
                Text="!(loc.Back)">
         <Publish Event="NewDialog"
-                 Value="MaintenanceType"><![CDATA[1]]></Publish>
+                 Value="MaintenanceType">1</Publish>
       </Control>
-      <Control Id="DlgDesc"
+      <Control Id="Description"
                Type="Text"
                X="21"
                Y="23"
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[You have chosen to remove the program from your system.]]></Text>
+        <Text>!(loc.ReadyToRemoveDescription)</Text>
       </Control>
-      <Control Id="DlgTitle"
+      <Control Id="Title"
                Type="Text"
                X="13"
                Y="6"
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&BannerTitle}Remove the Program]]></Text>
+        <Text>!(loc.ReadyToRemoveTitle)</Text>
       </Control>
-      <Control Id="DlgText"
+      <Control Id="Text"
                Type="Text"
                X="21"
                Y="51"
                Width="326"
                Height="24">
-        <Text><![CDATA[Click Remove to remove [ProductName] from your computer. After removal, this program will no longer be available for use.]]></Text>
+        <Text>!(loc.ReadyToRemoveText)</Text>
       </Control>
-      <Control Id="DlgText2"
-               Type="Text"
-               X="21"
-               Y="102"
-               Width="330"
-               Height="24" />
-      <Control Id="DlgText1"
+      <Control Id="ReviewText"
                Type="Text"
                X="21"
                Y="79"
                Width="330"
                Height="23">
-        <Text><![CDATA[If you want to review or change any settings, click Back.]]></Text>
+        <Text>!(loc.ReadyToRemoveReviewText)</Text>
       </Control>
     </Dialog>
 
