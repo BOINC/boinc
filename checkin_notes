@@ -5513,3 +5513,18 @@ David  29 May 2007
         sched_shmem.C,h
         sched_util.C
         show_shmem.C
+
+David  29 May 2007
+    - Scheduler: increased the resolution of homogeneous redundancy (HR)
+        e.g. distinguish between models of Intel and AMD
+    - Scheduler: add a quick HR check that doesn't access the DB
+    - Transitioner: if a workunit has >0 error results and no success results,
+        set its HR class to zero
+    From M.F. Somers.
+
+    db/
+        boinc_db.C,h
+    sched/
+        sched_array.C
+        sched_hr.C,h
+        transitioner.C

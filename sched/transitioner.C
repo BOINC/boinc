@@ -263,6 +263,13 @@ int handle_wu(
         wu_item.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
     }
 
+    // if WU has results with errors and no success yet,
+    // reset homogeneous redundancy class to give other platforms a try
+    //
+    if (nerrors & !(nsuccess | ninprogress)) {
+        wu_item.hr_class = 0;
+    }
+
     if (nerrors > wu_item.max_error_results) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,

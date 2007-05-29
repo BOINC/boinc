@@ -510,6 +510,7 @@ struct TRANSITIONER_ITEM {
     int target_nresults;
     char result_template_file[64];
     int priority;
+    int hr_class;
     int batch;
     int res_id; // This is the RESULT ID
     char res_name[256];

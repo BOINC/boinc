@@ -17,8 +17,12 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-extern bool already_sent_to_different_platform(
+extern bool already_sent_to_different_platform_quick(
+    SCHEDULER_REQUEST& sreq, WORKUNIT&
+);
+
+extern bool already_sent_to_different_platform_careful(
     SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
 );
 
-extern bool hr_unknown_platform(SCHEDULER_REQUEST&);
+extern bool hr_unknown_platform(HOST&);

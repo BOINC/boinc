@@ -56,7 +56,7 @@ void scan_work_array(
     bool found;
 
     if (config.homogeneous_redundancy) {
-        if (hr_unknown_platform(sreq)) {
+        if (hr_unknown_platform(sreq.host)) {
             reply.wreq.hr_reject_perm = true;
             return;
         }
@@ -133,15 +133,15 @@ void scan_work_array(
                	SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                	reply.host.id, wu.id, wu.name
            	);
-#if 0
-            // commented this out because the mechanism doesn't really work;
-            // Periodically a host with small mem or disk will ask for work,
-            // and all results will be flagged as infeasible.
-            // Also, no projects currently have a large range of WU sizes
-            //
-            wu_result.infeasible_count++;
-#endif
             continue;
+        }
+
+        // homogeneous redundancy, quick check
+        //
+        if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
+            if (already_sent_to_different_platform_quick(sreq, wu)) {
+                continue;
+            }
         }
 
         // Find the app and app_version for the client's platform.
@@ -157,11 +157,6 @@ void scan_work_array(
         } else {
             found = find_app_version(reply.wreq, wu, platforms, ss, app, avp);
             if (!found) {
-#if 0
-                // see comment above
-                //
-                wu_result.infeasible_count++;
-#endif
                 continue;
             }
 
@@ -234,10 +229,8 @@ void scan_work_array(
             }
         }
 
-        // if desired, make sure redundancy is homogeneous
-        //
         if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
-            if (already_sent_to_different_platform(
+            if (already_sent_to_different_platform_careful(
                 sreq, wu_result.workunit, reply.wreq
             )) {
  				log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,

@@ -885,6 +885,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     target_nresults = atoi(r[i++]);
     strcpy2(result_template_file, r[i++]);
     priority = atoi(r[i++]);
+    hr_class = atoi(r[i++]);
     batch = atoi(r[i++]);
 
     // use safe_atoi() from here on cuz they might not be there
@@ -944,6 +945,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.target_nresults, "
             "   wu.result_template_file, "
             "   wu.priority, "
+            "   wu.hr_class, "
             "   wu.batch, "
             "   res.id, "
             "   res.name, "
@@ -1053,6 +1055,10 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(
     }
     if (ti.transition_time != ti_original.transition_time) {
         sprintf(buf, " transition_time=%d,", ti.transition_time);
+        strcat(updates, buf);
+    }
+    if (ti.hr_class != ti_original.hr_class) {
+        sprintf(buf, " hr_class=%d,", ti.hr_class);
         strcat(updates, buf);
     }
     int n = strlen(updates);

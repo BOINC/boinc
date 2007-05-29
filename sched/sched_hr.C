@@ -38,39 +38,115 @@
 #define FCGI_ToFILE(x) (x)
 #endif
 
-const int unspec = 0;
-
 const int nocpu = 1;
 const int Intel = 2;
 const int AMD = 3;
-const int PowerPC = 4;
+const int Macintosh = 4;
+const int AMDAthlon = 5;
+const int AMDDuron = 6;
+const int AMDSempron = 7;
+const int AMDOpteron = 8;
+const int AMDAthlon64 = 9;
+const int AMDAthlonXP = 10;
+const int IntelXeon = 11;
+const int IntelCeleron = 12;
+const int IntelPentium = 13;
+const int IntelPentiumII = 14;
+const int IntelPentiumIII = 15;
+const int IntelPentium4 = 16;
+const int IntelPentiumD = 17;
+const int IntelPentiumM = 18;
+const int AMDAthlonMP = 19;
+const int AMDTurion = 20;
+const int IntelCore2 = 21;
+
 
 const int noos = 128;
 const int Linux = 256;
 const int Windows = 384;
 const int Darwin = 512;
-const int SunOS = 640;
+const int freebsd = 640;
 
-inline int OS(SCHEDULER_REQUEST& sreq){
-    if (strstr(sreq.host.os_name, "Linux")) return Linux;
-    else if (strstr(sreq.host.os_name, "Windows")) return Windows;
-    else if (strstr(sreq.host.os_name, "Darwin")) return Darwin;
-    else if (strstr(sreq.host.os_name, "SunOS")) return SunOS;
+inline int OS(HOST& host){
+    if (strcasestr(host.os_name, "Linux")) return Linux;
+    else if (strcasestr(host.os_name, "Windows")) return Windows;
+    else if (strcasestr(host.os_name, "Darwin")) return Darwin;
+    else if (strcasestr(host.os_name, "FreeBSD")) return freebsd;
     else return noos;
 };
 
-inline int CPU(SCHEDULER_REQUEST& sreq){
-    if (strstr(sreq.host.p_vendor, "Intel")) return Intel;
-    else if (strstr(sreq.host.p_vendor, "i386")) return Intel;
-    else if (strstr(sreq.host.p_vendor, "AMD")) return AMD;
-    else if (strstr(sreq.host.p_vendor, "Power")) return PowerPC;
+inline int CPU(HOST& host){
+    if (strcasestr(host.p_vendor, "Intel")) {
+        if (strcasestr(host.p_model, "Xeon")) return IntelXeon;
+        if (strcasestr(host.p_model, "Celeron")) {
+            if (strcasestr(host.p_model, " M ")) return IntelPentiumM;
+            if (strcasestr(host.p_model, " D ")) return IntelPentiumD;
+            if (strcasestr(host.p_model, "III"))  return IntelPentiumIII;
+            return IntelCeleron;
+        }
+        if (strcasestr(host.p_model, "Core")) return IntelCore2;
+        if (strcasestr(host.p_model, "Pentium")) {
+            if (strcasestr(host.p_model, "III"))  return IntelPentiumIII;
+            if (strcasestr(host.p_model, "II"))  return IntelPentiumII;
+            if (strcasestr(host.p_model, " 4 "))  return IntelPentium4;
+            if (strcasestr(host.p_model, " D "))  return IntelPentiumD;
+            if (strcasestr(host.p_model, " M "))  return IntelPentiumM;
+            return IntelPentium;
+        }
+        if (strcasestr(host.p_model, "x86")) {
+            if (strcasestr(host.p_model, "Family 6 Model 6")) return IntelCeleron;
+            if (strcasestr(host.p_model, "Family 6 Model 9")) return IntelPentiumM;
+            if (strcasestr(host.p_model, "Family 6 Model 10")) return IntelXeon;
+            if (strcasestr(host.p_model, "Family 5 Model 1")) return IntelPentium;
+            if (strcasestr(host.p_model, "Family 5 Model 2")) return IntelPentium;
+            if (strcasestr(host.p_model, "Family 6 Model 1")) return IntelPentium;
+            if (strcasestr(host.p_model, "Family 15 Model 1")) return IntelPentium4;
+            if (strcasestr(host.p_model, "Family 15 Model 2")) return IntelPentium4;
+            if (strcasestr(host.p_model, "Family 6 Model 7")) return IntelPentiumIII;
+            if (strcasestr(host.p_model, "Family 6 Model 8" )) return IntelPentiumIII;
+            if (strcasestr(host.p_model, "Family 6 Model 11")) return IntelPentiumIII;
+            if (strcasestr(host.p_model, "Family 6 Model 3")) return IntelPentiumII;
+            if (strcasestr(host.p_model, "Family 6 Model 5")) return IntelPentiumII;
+        }
+        return Intel;
+    } else if(strcasestr(host.p_vendor, "AMD")) {
+        if (strcasestr(host.p_model, "Duron")) return AMDDuron;
+        if (strcasestr(host.p_model, "Opteron")) return AMDOpteron;
+        if (strcasestr(host.p_model, "Sempron")) return AMDSempron;
+        if (strcasestr(host.p_model, "Turion")) return AMDTurion;
+        if (strcasestr(host.p_model, "Athlon")) {
+            if (strcasestr(host.p_model, "XP"))  return AMDAthlonXP;
+            if (strcasestr(host.p_model, "MP"))  return AMDAthlonMP;
+            if (strcasestr(host.p_model, "64"))  return AMDAthlon64;
+            return AMDAthlon;
+        }
+        return AMD;
+    }
+    else if (strcasestr(host.p_vendor, "Macintosh")) return Macintosh;
     else return nocpu;
 };
 
-// Check that the two platform has the same architecture and operating system
-bool hr_unknown_platform(SCHEDULER_REQUEST& sreq) {
-    if (OS(sreq) == noos) return true;
-    if (CPU(sreq) == nocpu) return true;
+inline int HR_CLASS(HOST& host) {
+    return OS(host) + CPU(host);
+}
+
+bool hr_unknown_platform(HOST& host) {
+    if (OS(host) == noos) return true;
+    if (CPU(host) == nocpu) return true;
+    return false;
+}
+
+// quick check for platform compatibility
+//
+bool already_sent_to_different_platform_quick(
+    SCHEDULER_REQUEST& sreq, WORKUNIT& wu
+) {
+    int host_hr_class = HR_CLASS(sreq.host);
+    if (wu.hr_class) {
+        if (host_hr_class != wu.hr_class) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -82,17 +158,17 @@ bool hr_unknown_platform(SCHEDULER_REQUEST& sreq) {
 //
 // (where "platform" is os_name + p_vendor; may want to sharpen this for Unix)
 //
-bool already_sent_to_different_platform(
+bool already_sent_to_different_platform_careful(
     SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
 ) {
     DB_WORKUNIT db_wu;
-    int retval, hr_class=0;
+    int retval, wu_hr_class;
     char buf[256];
 
     // reread hr_class field from DB in case it's changed
     //
     db_wu.id = workunit.id;
-    retval = db_wu.get_field_int("hr_class", hr_class);
+    retval = db_wu.get_field_int("hr_class", wu_hr_class);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL, "can't get hr_class for %d: %d\n",
@@ -101,13 +177,13 @@ bool already_sent_to_different_platform(
         return true;
     }
     wreq.hr_reject_temp = false;
-    if (hr_class != unspec) {
-        if (OS(sreq) + CPU(sreq) != hr_class) {
+    int host_hr_class = HR_CLASS(sreq.host);
+    if (wu_hr_class) {
+        if (host_hr_class != wu_hr_class) {
             wreq.hr_reject_temp = true;
         }
     } else {
-        hr_class = OS(sreq) + CPU(sreq);
-        sprintf(buf, "hr_class=%d", hr_class);
+        sprintf(buf, "hr_class=%d", host_hr_class);
         db_wu.update_field(buf);
     }
     return wreq.hr_reject_temp;
