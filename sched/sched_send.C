@@ -56,6 +56,9 @@ using namespace std;
 
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
+const int MAX_CPUS = 8;
+    // max multiplier for daily_result_quota;
+    // need to change as multicore processors expand
 
 const double DEFAULT_RAM_SIZE = 64000000;
     // if host sends us an impossible RAM size, use this instead
@@ -662,17 +665,17 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
 
-    // config.daily_result_quota is PER CPU (up to max of four CPUs)
+    // config.daily_result_quota is PER CPU (up to max of MAX_CPUS CPUs)
     // host.max_results_day is between 1 and config.daily_result_quota inclusive
     // wreq.daily_result_quota is between ncpus and ncpus*host.max_results_day inclusive
     if (config.daily_result_quota) {
         if (host.max_results_day <= 0 || host.max_results_day>config.daily_result_quota) {
             host.max_results_day = config.daily_result_quota;
         }
-        // scale daily quota by #CPUs, up to a limit of 4
+        // scale daily quota by #CPUs, up to a limit of MAX_CPUS 4
         //
         int ncpus = host.p_ncpus;
-        if (ncpus > 4) ncpus = 4;
+        if (ncpus > MAX_CPUS) ncpus = MAX_CPUS;
         if (ncpus < 1) ncpus = 1;
         wreq.daily_result_quota = ncpus*host.max_results_day;
         if (host.nresults_today >= wreq.daily_result_quota) {

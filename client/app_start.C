@@ -434,6 +434,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     link_user_files();
 
+    if (gstate.exit_before_start) {
+        exit(0);
+    }
+
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;

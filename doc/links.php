@@ -19,6 +19,10 @@ function site($url, $name) {
 
 $wiki_sites = array(
     array(
+        "http://www.kd-web.info/clanky.php",
+        "Flash-based BOINC tutorials", "(in Czech, English, and Slovak)"
+    ),
+    array(
         "http://www.kazlev.karoo.net/noob_help.htm",
         "BOINC mini-FAQ"
     ),
@@ -118,7 +122,6 @@ Show if the servers of various projects are up or down.
 <h3>Miscellaneous</h3>
 ";
 $misc_sites = array(
-    array("http://www.kd-web.info/clanky.php", "Flash-based BOINC tutorial", "(in Czech, English, and Slovak)"),
     array("http://www.myboinc.com/", "BOINC Users of the Day"),
     array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
     array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),

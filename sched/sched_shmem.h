@@ -36,11 +36,13 @@
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    50
 
+// Default number of work items in shared mem.
+// You can configure this in config.xml (<shmem_work_items>)
 // If you increase this above 100,
 // you may exceed the max shared-memory segment size
 // on some operating systems.
+//
 #define MAX_WU_RESULTS      100
-//#define MAX_WU_RESULTS      500
 
 // values of WU_RESULT.state
 #define WR_STATE_EMPTY   0
@@ -59,11 +61,13 @@ struct WU_RESULT {
     int result_priority;
 };
 
+// this struct is followed in memory by an array of WU_RESULTS
+//
 struct SCHED_SHMEM {
     bool ready;             // feeder sets to true when init done
         // the following fields let the scheduler make sure
         // that the shared mem has the right format
-    int ss_size;            // sizeof(SCHED_SHMEM)
+    int ss_size;            // size of this struct, including array
     int platform_size;      // sizeof(PLATFORM)
     int app_size;           // sizeof(APP)
     int app_version_size;   // sizeof(APP_VERSION)
@@ -73,7 +77,6 @@ struct SCHED_SHMEM {
     double app_weights;
     int napp_versions;
     int ncore_versions;
-    int nwu_results;
     int max_platforms;
     int max_apps;
     int max_app_versions;
@@ -82,9 +85,9 @@ struct SCHED_SHMEM {
     PLATFORM platforms[MAX_PLATFORMS];
     APP apps[MAX_APPS];
     APP_VERSION app_versions[MAX_APP_VERSIONS];
-    WU_RESULT wu_results[MAX_WU_RESULTS];
+    WU_RESULT wu_results[0];
 
-    void init();
+    void init(int nwu_results);
     int verify();
     int scan_tables();
     bool no_work(int pid);

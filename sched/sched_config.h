@@ -96,6 +96,10 @@ public:
         // Do workload simulation in deciding whether to send a result
     bool ended;
         // Project has ended - tell clients to detach
+    int shmem_work_items;
+        // number of work items in shared memory
+    int feeder_query_size;
+        // number of work items to request in each feeder query
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

@@ -46,7 +46,6 @@ int main() {
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     printf("ready: %d\n", ssp->ready);
-    printf("nwu_results: %d\n", ssp->nwu_results);
     printf("max_wu_results: %d\n", ssp->max_wu_results);
     for (i=0; i<ssp->max_wu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];

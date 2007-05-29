@@ -92,6 +92,8 @@ public:
     MODE network_mode;
     bool started_by_screensaver;
     bool exit_when_idle;
+    bool exit_before_start;
+    bool exit_after_finish;
     bool check_all_logins;
     bool user_active;       // there has been recent mouse/kbd input
     bool return_results_immediately;

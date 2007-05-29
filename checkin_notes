@@ -5483,3 +5483,33 @@ Rom    29 May 2007
         configure.ac
         version.h
 
+David  29 May 2007
+    - client: add cmdline options --exit_before_start and --exit_after_finish.
+        This cause the core client to exit immediately before or after
+        running a job,
+        letting you examine the contents of the slot directory.
+    - scheduler: changed max # of CPUs used in daily_result_quota
+        limit from 4 to 8, and make it a compile-time parameter
+    - feeder/scheduler: make the number of work items in shared
+        memory configurable (in config.xml).
+        The element is <shmem_work_items>
+    - feeder: make the size of the work item query configurable
+        (<feeder_query_size)
+    - feeder: remove code related to removing infeasible results
+        from shared mem.
+        This mechanism was never needed,
+        and I think a timeout would accomplish the same effect.
+
+    client/
+        app.C
+        app_start.C
+        client_state.C,h
+        cs_cmdline.C
+    sched/
+        feeder.C
+        sched_array.C
+        sched_config.C,h
+        sched_send.C
+        sched_shmem.C,h
+        sched_util.C
+        show_shmem.C

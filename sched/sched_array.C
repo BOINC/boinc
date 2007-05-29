@@ -64,9 +64,9 @@ void scan_work_array(
 
     lock_sema();
     
-    rnd_off = rand() % ss.nwu_results;
-    for (j=0; j<ss.nwu_results; j++) {
-        i = (j+rnd_off) % ss.nwu_results;
+    rnd_off = rand() % ss.max_wu_results;
+    for (j=0; j<ss.max_wu_results; j++) {
+        i = (j+rnd_off) % ss.max_wu_results;
         if (!reply.work_needed()) break;
 
         WU_RESULT& wu_result = ss.wu_results[i];
@@ -133,7 +133,14 @@ void scan_work_array(
                	SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                	reply.host.id, wu.id, wu.name
            	);
+#if 0
+            // commented this out because the mechanism doesn't really work;
+            // Periodically a host with small mem or disk will ask for work,
+            // and all results will be flagged as infeasible.
+            // Also, no projects currently have a large range of WU sizes
+            //
             wu_result.infeasible_count++;
+#endif
             continue;
         }
 

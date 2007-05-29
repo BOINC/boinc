@@ -53,24 +53,6 @@
 //    Crude approach: if a "collision" (as above) occurred on
 //    a pass through the array, wait a long time (5 sec)
 //
-// Checking for infeasible results (i.e. can't sent to any host):
-//
-// - the "infeasible_count" field of WU_RESULT keeps track of
-//   how many times the WU_RESULT was infeasible for a host
-//
-// - the scheduler gives priority to results that have infeasible_count > 0
-//
-// - If the infeasible_count of any result exceeds MAX_INFEASIBLE_COUNT,
-//   the feeder flags the result as OVER with outcome COULDNT_SEND,
-//   and flags the WU for the transitioner.
-//
-// - the feeder tries to ensure that the number of WU_RESULTs
-//   with infeasible_count  > MAX_INFEASIBLE_THRESHOLD
-//   doesn't exceed MAX_INFEASIBLE (defined in sched_shmem.h)
-//   If it does, then the feeder picks the WU_RESULT with
-//   the largest infeasible_count, marks if COULDNT_SEND as above,
-//   and repeats this until the infeasible count is low enough again
-
 // Trigger files:
 // The feeder program periodically checks for two trigger files:
 //
@@ -109,29 +91,6 @@ using std::vector;
 #include "sched_msgs.h"
 
 #define DEFAULT_SLEEP_INTERVAL  5
-#define ENUM_LIMIT MAX_WU_RESULTS*2
-
-// The following parameters determine the feeder's policy
-// for purging "infeasible" results,
-// i.e. those that are hard to send to any client.
-// TODO: remove these from the source code,
-// make them config.xml parameters
-
-#define MAX_INFEASIBLE_THRESHOLD    2000
-    // if a result's infeasible_count exceeds this,
-    // count it as "possibly infeasible" (see the following)
-    // TODO: lower this to 20 or so
-#define MAX_INFEASIBLE      500
-    // if # of possibly infeasibly results exceeds this,
-    // classify some of them as COULDNT_SEND and remove from array
-#define MAX_INFEASIBLE_COUNT    5000
-    // a result's infeasible_count exceeds this,
-    // classify as COULDNT_SEND and remove it from array
-    // TODO: lower this to 50 or so
-
-// Uncomment the following to enable this purging.
-//
-//#define REMOVE_INFEASIBLE_ENTRIES
 
 #define REREAD_DB_FILENAME      "../reread_db"
 
@@ -143,6 +102,8 @@ char select_clause[256];
 double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 bool all_apps = false;
 int purge_stale_time = 0;
+int num_work_items = MAX_WU_RESULTS;
+int enum_limit = MAX_WU_RESULTS*2;
 
 void cleanup_shmem() {
     ssp->ready = false;
@@ -160,7 +121,7 @@ int check_reread_trigger() {
             "Found trigger file %s; re-scanning database tables.\n",
             REREAD_DB_FILENAME
         );
-        ssp->init();
+        ssp->init(num_work_items);
         ssp->scan_tables();
         unlink(REREAD_DB_FILENAME);
         log_messages.printf(
@@ -170,55 +131,6 @@ int check_reread_trigger() {
     }
     return 0;
 }
-
-#ifdef REMOVE_INFEASIBLE_ENTRIES
-static int remove_infeasible(int i) {
-    char buf[256]; 
-    int retval;
-    DB_RESULT result;
-    DB_WORKUNIT wu;
-
-    WU_RESULT& wu_result = ssp->wu_results[i];
-    wu_result.state = WR_STATE_EMPTY;
-    result = wu_result.result;
-    wu = wu_result.workunit;
-
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_NORMAL,
-        "[%s] declaring result as unsendable; infeasible count %d\n",
-        result.name, wu_result.infeasible_count
-    );
-
-    result.server_state = RESULT_SERVER_STATE_OVER;
-    result.outcome = RESULT_OUTCOME_COULDNT_SEND;
-    sprintf(
-        buf, "server_state=%d, outcome=%d",
-        result.server_state, result.outcome
-    ); 
-    retval = result.update_field(buf);
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "[%s]: can't update: %d\n",
-            result.name, retval
-        );
-        return retval;
-    }
-    wu.transition_time = time(0);
-    sprintf(buf, "transition_time=%d", wu.transition_time); 
-    retval = wu.update_field(buf);
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "[%s]: can't update: %d\n",
-            wu.name, retval
-        );
-        return retval;
-    }
-
-    return 0;
-}
-#endif
 
 // Scan work items for a given appp until one found
 // that is not already on the shared memory segment.
@@ -275,7 +187,7 @@ static bool find_work_item(
             // If collision, then advance to the next workitem
             //
             found = true;
-            for (j=0; j<ssp->nwu_results; j++) {
+            for (j=0; j<ssp->max_wu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY && ssp->wu_results[j].resultid == wi->res_id) {
                 	// If the result is already in shared mem,
                 	// and another instance of the WU has been sent,
@@ -322,8 +234,7 @@ static int find_work_item_index(int slot_pos) {
 }
 
 static void scan_work_array(
-    vector<DB_WORK_ITEM>* work_items,
-    int& nadditions, int& ncollisions, int& /*ninfeasible*/
+    vector<DB_WORK_ITEM>* work_items, int& nadditions, int& ncollisions
 ) {
     int i;
     bool found;
@@ -337,25 +248,27 @@ static void scan_work_array(
     	restarted_enum[i] = false;
     }
 
-    for (i=0; i<ssp->nwu_results; i++) {
+    for (i=0; i<ssp->max_wu_results; i++) {
    	    // If all_apps is set then every nth item in the shared memory segment
         // will be assigned to the application stored in that index in ssp->apps
         //
     	if (all_apps) {
     		if (ssp->app_weights > 0) {
     			work_item_index = find_work_item_index(i);
-    			enum_size = (int) floor(0.5 + ENUM_LIMIT*(ssp->apps[work_item_index].weight)/(ssp->app_weights));
+    			enum_size = (int) floor(0.5 + enum_limit*(ssp->apps[work_item_index].weight)/(ssp->app_weights));
     		} else {
-    			// If all apps have a weight of zero then evenly distribute the slots
+    			// If all apps have a weight of zero then evenly
+                // distribute the slots
+                //
     			work_item_index = i % ssp->napps;
-    			enum_size = (int) floor(0.5 + ((double)ENUM_LIMIT)/ssp->napps);
+    			enum_size = (int) floor(0.5 + ((double)enum_limit)/ssp->napps);
     		}
     		sprintf(mod_select_clause, "%s and r1.appid=%d",
     		    select_clause, ssp->apps[work_item_index].id
     		);
     	} else {
     		work_item_index = 0;
-    		enum_size = ENUM_LIMIT;
+    		enum_size = enum_limit;
     		strcpy(mod_select_clause, select_clause);
     	}
     	wi = &((*work_items).at(work_item_index));
@@ -371,14 +284,6 @@ static void scan_work_array(
             } else {
             	break;
         	}
-#ifdef REMOVE_INFEASIBLE_ENTRIES
-            if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {
-                remove_infeasible(i);
-            } else if (wu_result.infeasible_count > MAX_INFEASIBLE_THRESHOLD) {
-                ninfeasible++;
-            }
-            break;
-#endif
         case WR_STATE_EMPTY:
             found = find_work_item(
                 wi, restarted_enum[work_item_index], ncollisions,
@@ -397,6 +302,7 @@ static void scan_work_array(
                 // If the workunit has already been allocated to a certain
                 // OS then it should be assigned quickly,
                 // so we set its infeasible_count to 1
+                //
                 if (wi->wu.hr_class > 0) {
                 	wu_result.infeasible_count = 1;
                 } else {
@@ -437,26 +343,8 @@ static void scan_work_array(
     }
 }
 
-#ifdef REMOVE_INFEASIBLE_ENTRIES
-static int remove_most_infeasible() {
-    int i, max, imax=-1;
-
-    max = 0;
-    for (i=0; i<ssp->nwu_results; i++) {
-        WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.state == WR_STATE_PRESENT && wu_result.infeasible_count > max) {
-            imax = i;
-            max = wu_result.infeasible_count;
-        }
-    }
-    if (max == 0) return -1;        // nothing is infeasible
-
-    return remove_infeasible(imax);
-}
-#endif
-
 void feeder_loop() {
-    int nadditions, ncollisions, ninfeasible;
+    int nadditions, ncollisions;
     vector<DB_WORK_ITEM> work_items;
     DB_WORK_ITEM* wi;
     
@@ -473,22 +361,11 @@ void feeder_loop() {
     while (1) {
         nadditions = 0;
         ncollisions = 0;
-        ninfeasible = 0;
 
-        scan_work_array(&work_items, nadditions, ncollisions, ninfeasible);
+        scan_work_array(&work_items, nadditions, ncollisions);
 
         ssp->ready = true;
 
-#ifdef REMOVE_INFEASIBLE_ENTRIES
-        int i, n, retval;
-        if (ninfeasible > MAX_INFEASIBLE) {
-            n = ninfeasible - MAX_INFEASIBLE;
-            for (i=0; i<n; i++ ) {
-                retval = remove_most_infeasible();
-                if (retval) break;
-            }
-        }
-#endif
         if (nadditions == 0) {
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "No results added; sleeping %.2f sec\n", sleep_interval);
             boinc_sleep(sleep_interval);
@@ -549,6 +426,12 @@ int main(int argc, char** argv) {
 
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
 
+    if (config.feeder_query_size) {
+        enum_limit = config.feeder_query_size;
+    }
+    if (config.shmem_work_items) {
+        num_work_items = config.shmem_work_items;
+    }
     get_project_dir(path, sizeof(path));
     get_key(path, 'a', sema_key);
     destroy_semaphore(sema_key);
@@ -559,13 +442,15 @@ int main(int argc, char** argv) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't destroy shmem\n");
         exit(1);
     }
-    retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), 0 /* don't set GID */, &p);
+
+    int shmem_size = sizeof(SCHED_SHMEM) + num_work_items*sizeof(WU_RESULT);
+    retval = create_shmem(config.shmem_key, shmem_size, 0 /* don't set GID */, &p);
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't create shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
-    ssp->init();
+    ssp->init(num_work_items);
 
     atexit(cleanup_shmem);
     install_stop_signal_handler();

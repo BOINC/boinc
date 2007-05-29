@@ -238,6 +238,7 @@ int mylockf(int fd) {
 }
 
 double fpops_to_credit(double fpops, double intops) {
+    // TODO: use fp_weight if specified in config file
     double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
     double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
     return std::max(fpc, intc);

@@ -59,6 +59,8 @@ CLIENT_STATE::CLIENT_STATE() {
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
+    exit_before_start = false;
+    exit_after_finish = false;
     check_all_logins = false;
     allow_remote_gui_rpc = false;
     cmdline_gui_rpc_port = 0;

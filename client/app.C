@@ -167,6 +167,9 @@ void ACTIVE_TASK::close_process_handles() {
 // call this when a process has exited and we're not going to restart it
 //
 void ACTIVE_TASK::cleanup_task() {
+    if (gstate.exit_after_finish) {
+        exit(0);
+    }
 #ifdef _WIN32
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment

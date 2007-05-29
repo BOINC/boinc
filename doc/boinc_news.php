@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("May 29, 2007",
+    "Check out <a href=http://www.youtube.com/watch?v=UNDcMAePKYY&eurl=http%3A%2F%2Fcb%2Dtools%2Epytalhost%2Ede%2Fblog%2F>a video promoting BOINC</a> on YouTube.</a>"
+),
+array("May 28, 2007",
+    "A <a href=http://www.kd-web.info/boinc_tutorial_wcg-english.php>Flash guide to using BOINC with IBM World Community Grid</a> is available in Czech and English."
+),
 array("May 14, 2007",
     "The <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop07>3rd Pan-Galactic
     BOINC Workshop</a> will be held 5-6 September 2007 in Geneva, Switzerland."

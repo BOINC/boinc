@@ -38,7 +38,7 @@ static void print_options(char* prog) {
         "Usage: %s [options]\n"
         "    --help                          show options\n"
         "    --version                       show version info\n"
-        "    --exit_when_idle                Get/process/report work, then exit\n"
+        "    --exit_when_idle                exit when there are no results\n"
         "    --show_projects                 show attached projects\n"
         "    --return_results_immediately    contact server when have results\n"
         "    --detach_project <URL>          detach from a project\n"
@@ -54,6 +54,8 @@ static void print_options(char* prog) {
         "    --dir <path>                    use given dir as BOINC home\n"
         "    --no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
         "    --daemon                        run as daemon (Unix)\n"
+        "    --exit_before_start             exit right before starting a job
+        "    --exit_after_finish             exit right before finishing a job
         "    --insecure                      disable BOINC security users and permissions (Unix, Linux)\n"
         "    --launched_by_manager           core client was launched by Manager\n"
         "    --run_by_updater                set by updater\n"
@@ -80,6 +82,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (ARG(exit_when_idle)) {
             exit_when_idle = true;
+        } else if (ARG(exit_before_start)) {
+            exit_before_start = true;
+        } else if (ARG(exit_after_finish)) {
+            exit_after_finish = true;
         } else if (ARG(check_all_logins)) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
