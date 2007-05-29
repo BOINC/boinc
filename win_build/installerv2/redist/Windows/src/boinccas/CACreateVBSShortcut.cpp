@@ -89,7 +89,7 @@ UINT CACreateVBSShortcut::OnExecution()
     fprintf(
         pScript,
         _T("set objShell = CreateObject(\"Wscript.Shell\")\n"
-           "objShell.Run \"\"\"%s\boincmgr.exe\"\" /s\""),
+           "objShell.Run \"\"\"%s\\boincmgr.exe\"\" /s\""),
         strInstallDirectory.c_str()
     );
 
