@@ -5475,3 +5475,11 @@ Rom    29 May 2007
         boinccas.dll
         boinccas95.dll
         
+Rom    29 May 2007
+    - Tag for 5.10.0 release, all platforms
+      boinc_core_release_5_10_0
+    
+    client/
+        configure.ac
+        version.h
+
