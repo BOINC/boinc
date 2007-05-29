@@ -174,6 +174,12 @@ wxString& CViewProjects::GetViewName() {
 }
 
 
+wxString& CViewProjects::GetViewDisplayName() {
+    static wxString strViewName(_("Projects"));
+    return strViewName;
+}
+
+
 const char** CViewProjects::GetViewIcon() {
     return proj_xpm;
 }
@@ -182,15 +188,13 @@ const char** CViewProjects::GetViewIcon() {
 void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function Begin"));
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CMainDocument*  pDoc   = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Updating project..."));
     pDoc->ProjectUpdate(m_pListPane->GetFirstSelected());
@@ -208,14 +212,13 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function Begin"));
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CMainDocument*  pDoc   = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
     PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
@@ -240,14 +243,13 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectNoNewWork - Function Begin"));
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CMainDocument*  pDoc   = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
     PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
@@ -274,30 +276,27 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
-    std::string strProjectName;
-    wxString strMessage     = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    wxInt32         iAnswer        = 0; 
+    wxString        strMessage     = wxEmptyString;
+    CMainDocument*  pDoc           = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CProject*       pProject       = NULL;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
 
     if (!pDoc->IsUserAuthorized())
         return;
 
     pFrame->UpdateStatusText(_("Resetting project..."));
 
-    PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
-    project->get_name(strProjectName);
+    pProject = m_ProjectCache.at(m_pListPane->GetFirstSelected());
 
     strMessage.Printf(
         _("Are you sure you want to reset project '%s'?"), 
-        wxString(strProjectName.c_str(), wxConvUTF8).c_str()
+        pProject->m_strProjectName.c_str()
     );
 
     iAnswer = ::wxMessageBox(
@@ -324,30 +323,27 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
-    std::string strProjectName;
-    wxString strMessage     = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    wxInt32         iAnswer        = 0; 
+    wxString        strMessage     = wxEmptyString;
+    CMainDocument*  pDoc           = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CProject*       pProject       = NULL;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
 
     if (!pDoc->IsUserAuthorized())
         return;
 
     pFrame->UpdateStatusText(_("Detaching from project..."));
 
-    PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
-    project->get_name(strProjectName);
+    pProject = m_ProjectCache.at(m_pListPane->GetFirstSelected());
 
     strMessage.Printf(
         _("Are you sure you want to detach from project '%s'?"), 
-        wxString(strProjectName.c_str(), wxConvUTF8).c_str()
+        pProject->m_strProjectName.c_str()
     );
 
     iAnswer = ::wxMessageBox(
@@ -378,8 +374,6 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Launching browser..."));
 
@@ -605,7 +599,7 @@ wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 
     if (project) {
         project->get_name(project_name);
-        strBuffer = wxString(project_name.c_str(), wxConvUTF8);
+        strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
     }
 
     return 0;
@@ -616,7 +610,7 @@ wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) cons
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
     if (project) {
-        strBuffer = wxString(project->user_name.c_str(), wxConvUTF8);
+        strBuffer = HtmlEntityDecode(wxString(project->user_name.c_str(), wxConvUTF8));
     }
 
     return 0;
@@ -627,7 +621,7 @@ wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
     if (project) {
-        strBuffer = wxString(project->team_name.c_str(), wxConvUTF8);
+        strBuffer = HtmlEntityDecode(wxString(project->team_name.c_str(), wxConvUTF8));
     }
 
     return 0;

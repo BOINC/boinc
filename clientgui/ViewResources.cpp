@@ -113,6 +113,12 @@ wxString& CViewResources::GetViewName() {
 }
 
 
+wxString& CViewResources::GetViewDisplayName() {
+    static wxString strViewName(_("Disk"));
+    return strViewName;
+}
+
+
 const char** CViewResources::GetViewIcon() {
     return usage_xpm;
 }
@@ -142,7 +148,7 @@ wxInt32 CViewResources::FormatProjectName(PROJECT* project, wxString& strBuffer)
         PROJECT* state_project = doc->state.lookup_project(project->master_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxString(project_name.c_str(), wxConvUTF8);
+            strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
         }
     }
 

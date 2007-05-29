@@ -151,6 +151,12 @@ CViewTransfersGrid::~CViewTransfersGrid() {
 
 
 wxString& CViewTransfersGrid::GetViewName() {
+    static wxString strViewName(_("TransfersGrid"));
+    return strViewName;
+}
+
+
+wxString& CViewTransfersGrid::GetViewDisplayName() {
     static wxString strViewName(_("Transfers"));
     return strViewName;
 }
@@ -206,7 +212,6 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
     if (!pDoc->IsUserAuthorized())
@@ -258,7 +263,7 @@ wxInt32 CViewTransfersGrid::FormatProjectName(wxInt32 item, wxString& strBuffer)
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        strBuffer = wxT(" ") + wxString(transfer->project_name.c_str(), wxConvUTF8);
+        strBuffer = wxT(" ") + HtmlEntityDecode(wxString(transfer->project_name.c_str(), wxConvUTF8));
     }
     return 0;
 }
@@ -528,6 +533,9 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 
 	m_pGridPane->SortData();
+
+	// Refresh Grid
+	m_pGridPane->ForceRefresh();
 
 	UpdateSelection();
 }

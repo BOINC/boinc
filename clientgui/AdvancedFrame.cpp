@@ -229,15 +229,16 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
     // Initialize Application
     SetIcon(*icon);
 
+    // Restore main application frame settings
+    RestoreState();
+
     // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
-
     SetStatusBarPane(0);
 
-    // Restore previous application settings
-    RestoreState();
+    // Restore view settings
     RestoreViewState();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
@@ -251,17 +252,12 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
 
     m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-    m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 second
+    m_pFrameListPanelRenderTimer->Start(1000);       // Send event every 1 second
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
     //         CPU time
     wxUpdateUIEvent::SetUpdateInterval(500);
-
-    // After the timer has been contructed, set the correct refresh interval, then
-    //   manually fire the refresh event to do the initial population of the view.
-    UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
-    FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function End"));
 }
@@ -713,7 +709,7 @@ bool CAdvancedFrame::CreateNotebookPage(T pwndNewNotebookPage) {
     }
     
     iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()));
-    m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewName(), TRUE, iImageIndex);
+    m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewDisplayName(), TRUE, iImageIndex);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function End"));
     return true;
@@ -890,7 +886,6 @@ bool CAdvancedFrame::RestoreState() {
 
 
     wxASSERT(pConfig);
-    wxASSERT(m_pNotebook);
 
 
     CBOINCBaseFrame::RestoreState();
@@ -1831,6 +1826,13 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     // Restart timers to continue normal operations.
     StartTimers();
 
+
+    // Set the correct refresh interval, then manually fire the refresh
+	//   event to do the initial population of the view.
+    UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
+    FireRefreshView();
+
+
     if (pAMWizard)
         pAMWizard->Destroy();
     if (pAPWizard)
@@ -1880,6 +1882,16 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
         bAlreadyRunningLoop = true;
 
         if (IsShown()) {
+            wxMenuBar* pMenuBar = GetMenuBar();
+
+            wxASSERT(pMenuBar);
+            wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+            pMenuBar->Check(ID_VIEWSWITCHTYPE, false);
+            if (VIEW_LIST == m_iDisplayViewType) {
+                pMenuBar->Check(ID_VIEWSWITCHTYPE, true);
+            }
+
             if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));

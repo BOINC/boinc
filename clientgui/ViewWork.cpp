@@ -154,6 +154,12 @@ wxString& CViewWork::GetViewName() {
 }
 
 
+wxString& CViewWork::GetViewDisplayName() {
+    static wxString strViewName(_("Tasks"));
+    return strViewName;
+}
+
+
 const char** CViewWork::GetViewIcon() {
     return result_xpm;
 }
@@ -555,7 +561,7 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxString(project_name.c_str(), wxConvUTF8);
+            strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
         } else {
             doc->ForceCacheUpdate();
         }
@@ -585,9 +591,9 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
         if (state_result->wup->app->user_friendly_name.size()) {
-            strLocalBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8).c_str();
+            strLocalBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
-            strLocalBuffer = wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str();
+            strLocalBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
         }
         strBuffer.Printf(
             wxT("%s %.2f"), 

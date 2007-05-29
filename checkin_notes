@@ -5403,3 +5403,47 @@ David  28 May 2007
             host.inc
         user/
             host_edit_form.php
+
+Rom    29 May 2007
+    - fixes #207 - HTML entities in BOINC Manager have to be decoded
+    
+        BOINC Manager can now properly decode HTML entites for the
+        following elements:
+        
+            Projects Tab:
+                Project Name
+                User Name
+                Team Name
+            Work Tab:
+                Project Name
+                Application Name
+            Transfers Tab:
+                Project Name
+            Messages Tab:
+                Project Name
+            Disk Tab:
+                Project Name
+    - fixes #212 - Info in columns misaligned on switching views
+    - Properly restore which tab view the user left from when going
+        to the advanced view from the simple view
+    - Fix the problem that caused the manager to wait for 7 seconds
+        to display anything on initial startup.
+    - Store the various Grid/List persisted data seperately so that
+        the different header sizes don't cause problems.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseView.cpp, .h
+        BOINCGridCtrl.cpp
+        ViewMessages.cpp, .h
+        ViewMessagesGrid.cpp, .h
+        ViewProjects.cpp, .h
+        ViewProjectsGrid.cpp, .h
+        ViewResources.cpp, .h
+        ViewStatistics.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewTransfersGrid.cpp, .h
+        ViewWork.cpp, .h
+        ViewWorkGrid.cpp, .h
+    lib/
+        gui_rpc_client_ops.C

@@ -154,6 +154,12 @@ CViewMessagesGrid::~CViewMessagesGrid() {
 
 
 wxString& CViewMessagesGrid::GetViewName() {
+    static wxString strViewName(_("MessagesGrid"));
+    return strViewName;
+}
+
+
+wxString& CViewMessagesGrid::GetViewDisplayName() {
     static wxString strViewName(_("Messages"));
     return strViewName;
 }
@@ -322,6 +328,9 @@ void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
     //sorting
 	m_pGridPane->SortData();
 
+	// Refresh Grid
+	m_pGridPane->ForceRefresh();
+
     UpdateSelection();
 }
 
@@ -345,11 +354,10 @@ wxInt32 CViewMessagesGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) 
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-		wxString szProjectName(message->project.c_str(), wxConvUTF8);
+		wxString szProjectName = HtmlEntityDecode(wxString(message->project.c_str(), wxConvUTF8));
 		if(szProjectName == wxEmptyString) {
 			strBuffer = wxT("BOINC core client");
-		}
-		else {
+		} else {
 			strBuffer = szProjectName;
 		}
     }

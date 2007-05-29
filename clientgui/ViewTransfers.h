@@ -53,6 +53,7 @@ public:
     ~CViewTransfers();
 
     virtual wxString&       GetViewName();
+    virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
 
     void                    OnTransfersRetryNow( wxCommandEvent& event );

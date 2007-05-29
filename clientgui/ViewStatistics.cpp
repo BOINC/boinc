@@ -1824,6 +1824,11 @@ wxString& CViewStatistics::GetViewName() {
     return strViewName;
 }
 
+wxString& CViewStatistics::GetViewDisplayName() {
+    static wxString strViewName(_("Statistics"));
+    return strViewName;
+}
+
 const char** CViewStatistics::GetViewIcon() {
     return stats_xpm;
 }

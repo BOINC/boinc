@@ -138,6 +138,12 @@ wxString& CViewMessages::GetViewName() {
 }
 
 
+wxString& CViewMessages::GetViewDisplayName() {
+    static wxString strViewName(_("Messages"));
+    return strViewName;
+}
+
+
 const char** CViewMessages::GetViewIcon() {
     return mess_xpm;
 }
@@ -305,7 +311,7 @@ wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-        strBuffer = wxString(message->project.c_str(), wxConvUTF8);
+        strBuffer = HtmlEntityDecode(wxString(message->project.c_str(), wxConvUTF8));
     }
 
     return 0;

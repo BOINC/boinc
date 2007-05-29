@@ -166,6 +166,12 @@ CViewWorkGrid::~CViewWorkGrid() {
 
 
 wxString& CViewWorkGrid::GetViewName() {
+    static wxString strViewName(_("TasksGrid"));
+    return strViewName;
+}
+
+
+wxString& CViewWorkGrid::GetViewDisplayName() {
     static wxString strViewName(_("Tasks"));
     return strViewName;
 }
@@ -496,7 +502,7 @@ wxInt32 CViewWorkGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxT(" ") + wxString(project_name.c_str(), wxConvUTF8);
+            strBuffer = wxT(" ") + HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
         } else {
             doc->ForceCacheUpdate();
         }
@@ -525,9 +531,9 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
         if (state_result->wup->app->user_friendly_name.size()) {
-            strLocalBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8).c_str();
+            strLocalBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
-            strLocalBuffer = wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str();
+            strLocalBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
         }
         strBuffer.Printf(
             wxT(" %s %.2f"), 
@@ -862,6 +868,9 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 
     m_pGridPane->SortData();
+
+	// Refresh Grid
+	m_pGridPane->ForceRefresh();
 
 	UpdateSelection();
 }

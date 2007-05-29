@@ -285,7 +285,7 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
     wxInt32     iIndex = 0;
     wxInt32     iTempValue = 0;
-	wxInt32		iColumnCount = this->GetCols();
+	wxInt32		iColumnCount = GetCols();
 
     wxASSERT(pConfig);
 
@@ -295,23 +295,23 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     // Cycle through the columns recording anything interesting
     for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
-		wxString label = this->GetColLabelValue(iIndex);
+		wxString label = GetColLabelValue(iIndex);
         pConfig->SetPath(strBaseConfigLocation + label);
 
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
-			this->SetColumnWidth(iIndex,iTempValue);
+			SetColSize(iIndex, iTempValue);
         }
     }
 	//read sorting
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Read(wxT("SortColumn"),&iTempValue,-1);
 	if(-1 != iTempValue) {
-		this->sortColumn = iTempValue;
+		sortColumn = iTempValue;
 	}
 	pConfig->Read(wxT("SortAscending"),&iTempValue,-1);
 	if(-1 != iTempValue) {
-		this->sortAscending = iTempValue != 0 ? true : false;
+		sortAscending = iTempValue != 0 ? true : false;
 	}
 
     return true;
