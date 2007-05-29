@@ -22,18 +22,34 @@ echo "
     <form name=blah action=host_edit_action.php>
     <input type=hidden name=id_0 value=$hostid>
     <p>
+";
+
+$result = mysql_query("select * from host where userid=$user->id");
+
+$nhosts = 1;
+$hosts = array();
+while ($host2 = mysql_fetch_object($result)) {
+    if ($host->id == $host2->id) continue;
+    if (!hosts_compatible($host, $host2)) continue;
+    $hosts[] = $host2;
+    $nhosts++;
+    if ($nhosts==500) break;
+}
+mysql_free_result($result);
+if ($nhosts == 1) {
+    echo "No hosts are eligible for merging with this one.";
+    page_tail();
+    exit();
+}
+echo "
+    <p>
     Check the computers that are the same as $host->domain_name
     (created $t, computer ID $host->id):
     <p>
 ";
-
-$result = mysql_query("select * from host where userid=$user->id");
-$nhosts = 1;
 start_table();
 row_heading_array(array("", "name", "created", "computer ID"));
-while ($host2 = mysql_fetch_object($result)) {
-    if ($host->id == $host2->id) continue;
-    if (!hosts_compatible($host, $host2)) continue;
+foreach ($hosts as $host2) {
     $t = time_str($host2->create_time);
     $x = $host2->domain_name;
     if ($x == "") {
@@ -45,11 +61,8 @@ while ($host2 = mysql_fetch_object($result)) {
         "$t",
         "$host2->id"
      ));
-    $nhosts++;
-    if ($nhosts==500) break;
 }
 end_table();
-mysql_free_result($result);
 echo "
     <br>
     <script>

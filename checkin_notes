@@ -5391,3 +5391,15 @@ David  28 May 2007
 
     client/
         Makefile.am
+
+David  28 May 2007
+    - user web: host-merging logic was wrong for Intel CPUs
+        with MHz instead of GHz in their names.
+    - user web: it no hosts eligible for merging, say so
+        instead of showing blank table
+
+    html/
+        inc/
+            host.inc
+        user/
+            host_edit_form.php

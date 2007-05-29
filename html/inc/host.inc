@@ -253,6 +253,7 @@ function ghz($x) {
     $y = explode(" ", $x);
     foreach ($y as $z) {
         if (strstr($z, "GHz")) return $z;
+        if (strstr($z, "MHz")) return $z;
     }
 }
 
