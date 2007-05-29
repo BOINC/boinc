@@ -38,7 +38,7 @@
     <Media Id="1"
            EmbedCab="yes"
            Cabinet="BOINC.cab" />
-    <FragmentRef Id="Branding" />
+
     <WixVariable Id="ProductName" Overridable="yes" Value="BOINC" />
     <!--
     INSTALLDIR
@@ -117,9 +117,7 @@
     <Property Id="InstallMode">Install</Property>
 
 
-    <!-- <?include Components.wxi ?>
-    <?include DummyComponents.wxi ?> -->
-
+    <!-- Doesn't seem to work very well - use existing CA instead. -->
     <!-- <CloseApplication xmlns="http://schemas.microsoft.com/wix/UtilExtension"
                       Id="CloseBOINCManager" Description="Need to close BOINC Manager" Target="boincmgr.exe" Sequence="10" /> -->
 
@@ -186,6 +184,7 @@
           <ComponentRef Id="ManagerStartup" />
         </Feature>
         <FeatureRef Id="Globalization" />
+        <FeatureRef Id="Branding" />
       </Feature>
     </Feature>
 

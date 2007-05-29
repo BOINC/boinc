@@ -1,8 +1,22 @@
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Fragment Id="Branding">
+  <Fragment>
     <WixVariable Id="ProductName" Value="World Community Grid (BOINC)" />
     <WixVariable Id="PosterImage" Value="Binary\splash.jpg" />
     <WixVariable Id="BannerImage" Value="Binary\banner.jpg" />
+
+    <Feature Id="Branding" Title="Customised Simple GUI skin" Level="1">
+      <ComponentRef Id="WCG_Skin" />
+    </Feature>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="skins">
+      <Directory Id="WCG_Skin" Name="World Community Grid">
+        <Component Id="WCG_Skin" Guid="41516A99-00C1-4AA4-B848-5EA27847981F">
+          <CreateFolder />
+        </Component>
+      </Directory>
+    </DirectoryRef>
   </Fragment>
 </Wix>
