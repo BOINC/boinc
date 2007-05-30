@@ -5587,3 +5587,18 @@ David  30 May 2007
     sched/
         sched_array.C
         sched_send.C,h
+
+David  30 May 2007
+    - user web: added new feature to merge hosts by name.
+        This is handy if you have a lot of hosts,
+        and every now and then they get a new host ID
+        (e.g. because you delete and reinstall BOINC).
+        You can now merge all of them with a single click.
+
+    html/
+        inc/
+            host.inc
+        user/
+            host_edit_action.php
+            merge_by_name.php (new)
+            hosts_user.php

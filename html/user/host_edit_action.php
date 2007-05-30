@@ -17,48 +17,6 @@ function get_host($hostid, $user) {
     return $host;
 }
 
-// invariant: old_host.create_time < new_host.create_time
-//
-function merge_hosts($old_host, $new_host) {
-    if ($old_host->id == $new_host->id) {
-        fail("same host");
-    }
-    if (!hosts_compatible($old_host, $new_host)) {
-        fail("<br>Can't merge host $old_host->id into $new_host->id - they're incompatible");
-    }
-
-    echo "<br>Merging host $old_host->id into host $new_host->id\n";
-
-	// decay the average credit of both hosts
-	//
-	$now = time();
-	update_average($now, 0, 0, $old_host->expavg_credit, $old_host->expavg_time);
-	update_average($now, 0, 0, $new_host->expavg_credit, $new_host->expavg_time);
-
-    // update the database:
-    // - add credit from old to new host
-    // - change results to refer to new host
-    // - put old host in "zombie" state: userid 0, rpc_seqno = new host ID
-    //   (this lets scheduler handle requests from old host ID)
-    //
-    $total_credit = $old_host->total_credit + $new_host->total_credit;
-    $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
-    $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit, expavg_time=$now where id=$new_host->id");
-    if (!$result) {
-        fail("Couldn't update credit of new computer");
-    }
-    $result = mysql_query("update result set hostid=$new_host->id where hostid=$old_host->id");
-    if (!$result) {
-        fail("Couldn't update results");
-    }
-
-    $result = mysql_query("update host set total_credit=0, expavg_credit=0, userid=0, rpc_seqno=$new_host->id where id=$old_host->id");
-    if (!$result) {
-        fail("Couldn't retire old computer");
-    }
-    echo "<br>Retired old computer $old_host->id\n";
-}
-
 db_init();
 $user = get_logged_in_user();
 
@@ -73,7 +31,10 @@ for ($i=1; $i<$nhosts; $i++) {
     if (!$hostid) continue;
 	$host = get_host($hostid, $user);
 	if ($host->create_time > $latest_host->create_time) {
-		merge_hosts($latest_host, $host);
+		$error = merge_hosts($latest_host, $host);
+        if ($error) {
+            fail($error);
+        }
 		$latest_host = $host;
 	} else {
 		merge_hosts($host, $latest_host);

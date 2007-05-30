@@ -9,9 +9,9 @@ require_once("../inc/cache.inc");
 
 function more_or_less($show_all) {
     if ($show_all) {
-        echo "<p>Show: All hosts  |  ".link_with_GET_variables("Only hosts active in past 30 days<br>", "hosts_user.php", 'show_all', '0');
+        echo "<p>Show: All hosts  |  ".link_with_GET_variables("Only hosts active in past 30 days<p>", "hosts_user.php", 'show_all', '0');
     } else {
-        echo "<p>Show: ".link_with_GET_variables("All hosts", "hosts_user.php", 'show_all', '1')."  |  Only hosts active in past 30 days<br>";;
+        echo "<p>Show: ".link_with_GET_variables("All hosts", "hosts_user.php", 'show_all', '1')."  |  Only hosts active in past 30 days<p>";;
     }
 }
 
@@ -129,6 +129,10 @@ mysql_free_result($result);
 echo "</table>\n";
 
 if ($old_hosts>0) more_or_less($show_all);
+
+echo "
+    <a href=merge_by_name.php>Merge hosts by name</a>
+";
 
 if ($caching) {
     page_tail(true);
