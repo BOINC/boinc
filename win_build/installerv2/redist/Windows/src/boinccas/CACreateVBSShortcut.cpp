@@ -63,6 +63,7 @@ UINT CACreateVBSShortcut::OnExecution()
     tstring     strInstallDirectory;
     tstring     strAllUsers;
     tstring     strVBSScript;
+    tstring     strEnableLaunchAtLogon;
 	TCHAR		szBuffer[MAX_PATH];
     UINT        uiReturnValue = -1;
 
@@ -72,6 +73,14 @@ UINT CACreateVBSShortcut::OnExecution()
 
     uiReturnValue = GetProperty( _T("ALLUSERS"), strAllUsers );
     if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    // Fix for Win9x systems
+    if (_T("1") != strEnableLaunchAtLogon) {
+        return ERROR_SUCCESS;
+    }
 
     // Find the correct startup directory.
     if (_T("1") == strAllUsers) {

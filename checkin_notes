@@ -5528,3 +5528,20 @@ David  29 May 2007
         sched_array.C
         sched_hr.C,h
         transitioner.C
+
+Rom    29 May 2007
+    - fixes #220: 5.10.0 won't install on Win98
+    - fixes #11: Installer installs autostart command when not
+        selected (Win9x)
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        boinccas95.vcproj
+        CACreateVBSShortcut.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+        
