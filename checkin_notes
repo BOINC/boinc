@@ -5483,3 +5483,8 @@ Rom    29 May 2007
         configure.ac
         version.h
 
+Charlie 30 May 2007
+    - Mac: Fix substantial build breaks in reorganized hostinfo_unix.C.
+    
+    client/
+        hostinfo_unix.C
