@@ -444,14 +444,15 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #endif  // linux
 
 #ifdef __APPLE__
-static void get_cpuinfo_macosx(HOST_INFO& host) {
-    int p_model_size = sizeof(p_model);
+static void get_cpu_info_maxosx(HOST_INFO& host) {
+    int p_model_size = sizeof(host.p_model);
+    size_t len;
 #ifdef __i386__
     char brand_string[256];
     int family, stepping, model;
     
-    len = sizeof(p_vendor);
-    sysctlbyname("machdep.cpu.vendor", p_vendor, &len, NULL, 0);
+    len = sizeof(host.p_vendor);
+    sysctlbyname("machdep.cpu.vendor", host.p_vendor, &len, NULL, 0);
 
     len = sizeof(brand_string);
     sysctlbyname("machdep.cpu.brand_string", brand_string, &len, NULL, 0);
@@ -465,11 +466,11 @@ static void get_cpuinfo_macosx(HOST_INFO& host) {
     len = sizeof(stepping);
     sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
 
-    len = sizeof(p_features);
-    sysctlbyname("machdep.cpu.features", p_features, &len, NULL, 0);
+    len = sizeof(host.p_features);
+    sysctlbyname("machdep.cpu.features", host.p_features, &len, NULL, 0);
 
     snprintf(
-        p_model, sizeof(p_model),
+        host.p_model, sizeof(host.p_model),
         "%s [x86 Family %d Model %d Stepping %d]", 
         brand_string, family, model, stepping
     );
@@ -478,7 +479,7 @@ static void get_cpuinfo_macosx(HOST_INFO& host) {
     int response = 0;
     int retval;
     len = sizeof(response);
-    safe_strcpy(p_vendor, "Power Macintosh");
+    safe_strcpy(host.p_vendor, "Power Macintosh");
     retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
     if (response && (!retval)) {
         safe_strcpy(capabilities, "AltiVec");
@@ -487,12 +488,12 @@ static void get_cpuinfo_macosx(HOST_INFO& host) {
     len = sizeof(model);
     sysctlbyname("hw.model", model, &len, NULL, 0);
 
-    snprintf(p_model, p_model_size, "%s [%s Model %s] [%s]", p_vendor, p_vendor, model, capabilities);
+    snprintf(host.p_model, p_model_size, "%s [%s Model %s] [%s]", host.p_vendor, host.p_vendor, model, capabilities);
 
 #endif
 
-    p_model[p_model_size-1] = 0;
-    char *in = p_model + 1;
+    host.p_model[p_model_size-1] = 0;
+    char *in = host.p_model + 1;
     char *out = in;
     // Strip out runs of multiple spaces
     do {
@@ -511,10 +512,12 @@ int HOST_INFO::get_host_info() {
     get_filesystem_info(d_total, d_free);
 
 ///////////// p_vendor, p_model, p_features /////////////////
-
 #ifdef linux
     parse_cpuinfo_linux(*this);
 #elif defined( __APPLE__)
+    int mib[2];
+    size_t len;
+
     get_cpu_info_maxosx(*this);
 #elif defined(__EMX__)
     CPU_INFO_t    cpuInfo;
