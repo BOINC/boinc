@@ -5545,3 +5545,10 @@ Rom    29 May 2007
         boinccas.dll
         boinccas95.dll
         
+Charlie 30 May 2007
+    - Client: fix compile break.
+    - Mac: Fix substantial build breaks in reorganized hostinfo_unix.C.
+    
+    client/
+        cs_cmdline.C
+        hostinfo_unix.C
