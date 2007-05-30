@@ -5611,3 +5611,10 @@ David  30 May 2007
     html/user/
         prefs_edit.php
         merge_by_name.php
+
+David  30 May 2007
+    - scheduler: add debugging msg for HR reject
+
+    sched/
+        sched_hr.C,h
+        sched_array.C

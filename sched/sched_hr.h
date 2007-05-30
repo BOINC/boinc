@@ -26,3 +26,5 @@ extern bool already_sent_to_different_platform_careful(
 );
 
 extern bool hr_unknown_platform(HOST&);
+
+extern int hr_class(HOST&);

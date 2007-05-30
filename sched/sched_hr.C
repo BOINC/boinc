@@ -130,6 +130,10 @@ inline int HR_CLASS(HOST& host) {
     return OS(host) + CPU(host);
 }
 
+int hr_class(HOST& host) {
+    return HR_CLASS(host);
+}
+
 bool hr_unknown_platform(HOST& host) {
     if (OS(host) == noos) return true;
     if (CPU(host) == nocpu) return true;
