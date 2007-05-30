@@ -92,6 +92,7 @@ Commands:\n\
  --get_project_config_poll\n\
  --lookup_account url email passwd\n\
  --create_account url email passwd name\n\
+ --read_global_prefs_override\n\ 
  --read_cc_config\n\
  --network_available\n\
  --get_cc_status\n\

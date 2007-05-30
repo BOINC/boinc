@@ -5559,3 +5559,13 @@ Rom    30 May 2007
         
     clientgui/
         sg_StatImageLoader.cpp
+
+David  30 May 2007
+    - fixed --help output of client and boinc_cmd
+        (from Frank Thomas)
+        Fixes #222
+
+    lib/
+        boinc_cmd.C
+    client/
+        cs_cmdline.C
