@@ -5552,3 +5552,10 @@ Charlie 30 May 2007
     client/
         cs_cmdline.C
         hostinfo_unix.C
+
+Rom    30 May 2007
+    - MGR: _() is for static content, wxGetTranslation is for dynamic
+        content.
+        
+    clientgui/
+        sg_StatImageLoader.cpp

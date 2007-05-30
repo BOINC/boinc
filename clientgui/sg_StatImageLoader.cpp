@@ -136,7 +136,7 @@ void StatImageLoader::AddMenuItems()
 
 	// Add any GUI urls
 	for(unsigned int i = 0; i < urlCount; i++){
-		urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID + i, _(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)));
+        urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID + i, wxGetTranslation(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)));
 #ifdef __WXMSW__
 		urlItem->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 #endif
