@@ -74,49 +74,49 @@ if (DONATION_CURRENCY == "EUR") {
     $amount .= "<option value=\"51\">Euros</option>\n";
 }
 elseif (DONATION_CURRENCY == "CAD") {
-$amount .= "<option value=\"30\">Canadian Dollars</option>\n";
+    $amount .= "<option value=\"30\">Canadian Dollars</option>\n";
 }
 elseif (DONATION_CURRENCY == "GBP") {
-$amount .= "<option value=\"24\">Pounds Sterling</option>\n";
+    $amount .= "<option value=\"24\">Pounds Sterling</option>\n";
 }
 elseif (DONATION_CURRENCY == "USD") {
-$amount .= "<option value=\"2\">U.S. Dollars</option>\n";
+    $amount .= "<option value=\"3\">U.S. Dollars</option>\n";
 }
 elseif (DONATION_CURRENCY == "JPY") {
-$amount .= "<option value=\"72\">Yen</option>\n";
+    $amount .= "<option value=\"72\">Yen</option>\n";
 }
 elseif (DONATION_CURRENCY == "AUD") {
-$amount .= "<option value=\"9\">Australian Dollars</option>\n";
+    $amount .= "<option value=\"9\">Australian Dollars</option>\n";
 }
 elseif (DONATION_CURRENCY == "NZD") {
-$amount .= "<option value=\"102\">New Zealand Dollars</option>\n";
+    $amount .= "<option value=\"102\">New Zealand Dollars</option>\n";
 }
 elseif (DONATION_CURRENCY == "CHF") {
-$amount .= "<option value=\"139\">Swiss Francs</option>\n";
+    $amount .= "<option value=\"139\">Swiss Francs</option>\n";
 }
 elseif (DONATION_CURRENCY == "HKD") {
-$amount .= "<option value=\"63\">Hong Kong Dollars</option>\n";
+    $amount .= "<option value=\"63\">Hong Kong Dollars</option>\n";
 }
 elseif (DONATION_CURRENCY == "SGD") {
-$amount .= "<option value=\"126\">Singapore Dollars</option>\n";
+    $amount .= "<option value=\"126\">Singapore Dollars</option>\n";
 }
 elseif (DONATION_CURRENCY == "SEK") {
-$amount .= "<option value=\"138\">Swedish Kronor</option>\n";
+    $amount .= "<option value=\"138\">Swedish Kronor</option>\n";
 }
 elseif (DONATION_CURRENCY == "DKK") {
-$amount .= "<option value=\"42\">Danish Kroner</option>\n";
+    $amount .= "<option value=\"42\">Danish Kroner</option>\n";
 }
 elseif (DONATION_CURRENCY == "PLN") {
-$amount .= "<option value=\"114\">Polish Zloty</option>\n";
+    $amount .= "<option value=\"114\">Polish Zloty</option>\n";
 }
 elseif (DONATION_CURRENCY == "NOK") {
-$amount .= "<option value=\"106\">Norwegian Kroner</option>\n";
+    $amount .= "<option value=\"106\">Norwegian Kroner</option>\n";
 }
 elseif (DONATION_CURRENCY == "HUF") {
-$amount .= "<option value=\"64\">Hungarian Forint</option>\n";
+    $amount .= "<option value=\"64\">Hungarian Forint</option>\n";
 }
 elseif (DONATION_CURRENCY == "CZK") {
-$amount .= "<option value=\"41\">Czech Koruna</option>\n";
+    $amount .= "<option value=\"41\">Czech Koruna</option>\n";
 }
 $amount .= "</select>\n";
 $amount .= "<input type=\"hidden\" name=\"currency\" value=\"".DONATION_CURRENCY."\">\n";
