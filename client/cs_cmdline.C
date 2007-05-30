@@ -54,8 +54,8 @@ static void print_options(char* prog) {
         "    --dir <path>                    use given dir as BOINC home\n"
         "    --no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
         "    --daemon                        run as daemon (Unix)\n"
-        "    --exit_before_start             exit right before starting a job
-        "    --exit_after_finish             exit right before finishing a job
+        "    --exit_before_start             exit right before starting a job\n"
+        "    --exit_after_finish             exit right before finishing a job\n"
         "    --insecure                      disable BOINC security users and permissions (Unix, Linux)\n"
         "    --launched_by_manager           core client was launched by Manager\n"
         "    --run_by_updater                set by updater\n"
