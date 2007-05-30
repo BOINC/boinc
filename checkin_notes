@@ -5602,3 +5602,12 @@ David  30 May 2007
             host_edit_action.php
             merge_by_name.php (new)
             hosts_user.php
+
+David  30 May 2007
+    - add token protection to the previous checkin;
+        for prefs edit, don't demand token if only showing form.
+        (opt_out.php doesn't supply tokens)
+
+    html/user/
+        prefs_edit.php
+        merge_by_name.php

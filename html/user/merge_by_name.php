@@ -1,5 +1,6 @@
 <?php
 
+require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/host.inc");
 
@@ -44,12 +45,14 @@ $user = get_logged_in_user();
 page_head("Merge computers by name");
 
 if ($_GET['confirmed']) {
+    check_tokens($user->authenticator);
     merge_by_name($user->id);
     echo "
         <p><a href=hosts_user.php>
         Return to the list of your computers</a>.
     ";
 } else {
+    $tokens = url_tokens($user->authenticator);
     echo "
         This operation will merge all of your computers
         that have the same domain name.
@@ -58,7 +61,7 @@ if ($_GET['confirmed']) {
         having that name with the newest computer having that name.
         Incompatible computers will not be merged.
         <p>
-        Click <a href=merge_by_name.php?confirmed=1>here</a>
+        Click <a href=merge_by_name.php?confirmed=1&$tokens>here</a>
         if you're sure you want to do this.
         <p>Click <a href=hosts_user.php>here</a>
         to return to the list of your computers.

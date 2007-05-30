@@ -6,7 +6,6 @@ include_once("../inc/prefs.inc");
 db_init();
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
 
 $action = get_str("action", true);
 $subset = get_str("subset");
@@ -16,6 +15,7 @@ $c = $columns?"&cols=$columns":"";
 check_subset($subset);
 
 if ($action) {
+    check_tokens($user->authenticator);
     if ($subset == "global") {
         $main_prefs = prefs_parse_global($user->global_prefs);
         if ($venue) $prefs = $main_prefs->$venue;
