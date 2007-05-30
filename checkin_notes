@@ -5569,3 +5569,21 @@ David  30 May 2007
         boinc_cmd.C
     client/
         cs_cmdline.C
+
+David  30 May 2007
+    - user web: fix bug in host merge function
+    - core client: fix bug in set_debt() GUI RPC
+    - scheduler: some of the "quick checks" in scan_work_array()
+        are applicable to locality scheduling also,
+        so they should be moved to wu_is_infeasible().
+        I did this for one: the check for one result
+        per user (or host) per WU.  Should do for others.
+
+    client/
+        gui_rpc_server_ops.C
+    html/
+        host_edit_action.php
+        host_edit_form.php
+    sched/
+        sched_array.C
+        sched_send.C,h

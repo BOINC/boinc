@@ -117,14 +117,6 @@ void scan_work_array(
             continue;
         }
         
-        // don't send if we're already sending a result for same WU
-        //
-        if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
-            if (wu_already_in_reply(wu_result.workunit, reply)) {
-        		continue;
-            }
-        }
-
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;

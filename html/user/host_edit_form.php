@@ -49,6 +49,8 @@ echo "
 ";
 start_table();
 row_heading_array(array("", "name", "created", "computer ID"));
+
+$i = 1;
 foreach ($hosts as $host2) {
     $t = time_str($host2->create_time);
     $x = $host2->domain_name;
@@ -56,11 +58,12 @@ foreach ($hosts as $host2) {
         $x = "[no hostname]";
     }
     row_array(array(
-        "<input type=checkbox name=id_$nhosts value=$host2->id>",
+        "<input type=checkbox name=id_$i value=$host2->id>",
         $x,
         "$t",
         "$host2->id"
-     ));
+    ));
+    $i++;
 }
 end_table();
 echo "

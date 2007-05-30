@@ -292,7 +292,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
             && (avg_turnaround < config.reliable_max_avg_turnaround*turnaround_scale || config.reliable_max_avg_turnaround == 0)
     ){
         reply.wreq.host_info.reliable = true;
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
             reply.host.id, reply.host.os_name, expavg_credit,
             avg_turnaround/3600
@@ -304,10 +304,12 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 // Check to see if the user has set application preferences.
 // If they have, then only send work for the allowed applications
 //
-static inline void check_app_filter(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
+static inline int check_app_filter(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
     unsigned int i;
 
-    if (reply.wreq.host_info.preferred_apps.size() == 0) return;
+    if (reply.wreq.host_info.preferred_apps.size() == 0) return 0;
     bool app_allowed = false;
     for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
         if (wu.appid==reply.wreq.host_info.preferred_apps[i].appid) {
@@ -317,15 +319,18 @@ static inline void check_app_filter(WORKUNIT& wu, SCHEDULER_REQUEST& request, SC
     }
     if (!app_allowed && !reply.wreq.beta_only) {
         reply.wreq.no_allowed_apps_available = true;
-        reason |= INFEASIBLE_APP_SETTING;
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-            "[USER#%d] [WU#%d] workunit infeasible because user doesn't want work for this application\n",
+            "[USER#%d] [WU#%d] user doesn't want work for this application\n",
             reply.user.id, wu.id
         );
+        return INFEASIBLE_APP_SETTING;
     }
+    return 0;
 }
 
-static inline void check_memory(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
+static inline int check_memory(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
     // see how much RAM we can use on this machine
     //
     double ram = reply.host.m_nbytes;
@@ -366,19 +371,25 @@ static inline void check_memory(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDU
             reply.insert_message(um);
         }
         reply.wreq.insufficient_mem = true;
-        reason |= INFEASIBLE_MEM;
         reply.set_delay(DELAY_NO_WORK_TEMP);
+        return INFEASIBLE_MEM;
     }
+    return 0;
 }
 
-static inline void check_disk(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
+static inline int check_disk(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
     if (wu.rsc_disk_bound > reply.wreq.disk_available) {
         reply.wreq.insufficient_disk = true;
-        reason |= INFEASIBLE_DISK;
+        return INFEASIBLE_DISK;
     }
+    return 0;
 }
 
-static inline void check_deadline(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, int& reason) {
+static inline int check_deadline(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
     // skip delay check if host currently doesn't have any work
     // (i.e. everyone gets one result, no matter how slow they are)
     //
@@ -393,33 +404,34 @@ static inline void check_deadline(WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHE
                 wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound, request.estimated_delay
             );
             reply.wreq.insufficient_speed = true;
-            reason |= INFEASIBLE_CPU;
+            return INFEASIBLE_CPU;
         }
     }
+    return 0;
 }
 
-// If the WU can't be executed on the host, return a bitmap of reasons why.
-// Possible reasons include:
+// Quick checks (no DB access) to see if the WU can be sent on the host.
+// Reasons why not include:
 // 1) the host doesn't have enough memory;
 // 2) the host doesn't have enough disk space;
 // 3) based on CPU speed, resource share and estimated delay,
 //    the host probably won't get the result done within the delay bound
 // 4) app isn't in user's "approved apps" list
 //
-// NOTE: This is a "fast" check; no DB access allowed.
-// In particular it doesn't enforce the one-result-per-user-per-wu rule
+// TODO: this should be used in locality scheduling case too.
+// Should move a few other checks from sched_array.C
 //
 int wu_is_infeasible(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
-    int reason = 0;
+    int retval;
     
-    check_app_filter(wu, request, reply, reason);
-    if (reason) return reason;
-    check_memory(wu, request, reply, reason);
-    if (reason) return reason;
-    check_disk(wu, request, reply, reason);
-    if (reason) return reason;
+    retval = check_app_filter(wu, request, reply);
+    if (retval) return retval;
+    retval = check_memory(wu, request, reply);
+    if (retval) return retval;
+    retval = check_disk(wu, request, reply);
+    if (retval) return retval;
 
     if (config.workload_sim && request.have_other_results_list) {
         double est_cpu = estimate_cpu_duration(wu, reply);
@@ -431,13 +443,21 @@ int wu_is_infeasible(
             // wait until we commit to sending it
         } else {
             reply.wreq.insufficient_speed = true;
-            reason |= INFEASIBLE_WORKLOAD;
+            return INFEASIBLE_WORKLOAD;
         }
     } else {
-        check_deadline(wu, request, reply, reason);
+        retval = check_deadline(wu, request, reply);
+        if (retval) return retval;
     }
 
-    return reason;
+    if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
+        if (wu_already_in_reply(wu, reply)) {
+            return -1;
+        }
+    }
+
+
+    return 0;
 }
 
 // insert "text" right after "after" in the given buffer

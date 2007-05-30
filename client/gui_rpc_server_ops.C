@@ -899,6 +899,7 @@ static int set_debt(XML_PARSER& xp) {
             continue;
         }
     }
+    return 0;
 }
 
 static void handle_set_debts(char* buf, MIOFILE& fout) {

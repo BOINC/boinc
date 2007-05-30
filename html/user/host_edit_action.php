@@ -38,8 +38,8 @@ function merge_hosts($old_host, $new_host) {
     // update the database:
     // - add credit from old to new host
     // - change results to refer to new host
-    // - put old host in "zombie" state
-    // - update rpc_seqno if needed
+    // - put old host in "zombie" state: userid 0, rpc_seqno = new host ID
+    //   (this lets scheduler handle requests from old host ID)
     //
     $total_credit = $old_host->total_credit + $new_host->total_credit;
     $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
