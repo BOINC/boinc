@@ -475,7 +475,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             {
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                iReturnValue = pDoc->rpc.get_cc_status(status);
+                iReturnValue = pDoc->GetCoreClientStatus(status);
                 IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);

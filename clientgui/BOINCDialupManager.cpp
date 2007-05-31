@@ -122,7 +122,7 @@ void CBOINCDialUpManager::OnPoll() {
         //   successfully connected.  IsNetworkAlive/IsOnline both report the
         //   success or failure of the dialup device to establish a connection
         //   to the outside world.
-        pDoc->rpc.get_cc_status(cc_status);
+        pDoc->GetCoreClientStatus(cc_status);
 
         bIsOnline = (cc_status.network_status == NETWORK_STATUS_ONLINE);
         bWantConnection = (cc_status.network_status == NETWORK_STATUS_WANT_CONNECTION);

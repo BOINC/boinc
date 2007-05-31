@@ -5624,3 +5624,13 @@ Charlie 31 May 2007
 
     lib/
         boinc_cmd.C
+
+Rom    31 May 2007
+    - MGR: Make sure get_cc_status is called only once a second.
+        Polling should be taken care of via MainDocument functions
+        to make sure that RPCs calls do not become excessive.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        BOINCDialupManager.cpp
+        ProjectPropertiesPage.cpp
