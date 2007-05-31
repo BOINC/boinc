@@ -5650,3 +5650,10 @@ David  31 May 2007
         sched_array.C
         sched_locality.C
         server_types.C
+
+Rom    31 May 2007
+    - MGR: Get rid of an exit(0) call since it is evil in Windows
+        programs.
+
+    clientgui/
+        MainDocument.cpp

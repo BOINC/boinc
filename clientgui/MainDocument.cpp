@@ -483,7 +483,11 @@ int CMainDocument::FrameShutdownDetected() {
 
 
 int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
-    int     iRetVal = 0;
+    wxString         strMachine = wxEmptyString;
+    int              iRetVal = 0;
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
@@ -493,12 +497,11 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
             iRetVal = rpc.get_cc_status(ccs);
             if (0 == iRetVal) {
                 status = ccs;
-
                 if (ccs.manager_must_quit) {
-                    // TODO:
-                    // if client is remote, don't do anything
-                    // otherwise notify user and exit
-                    exit(0);
+                    GetConnectedComputerName(strMachine);
+                    if (IsComputerNameLocal(strMachine)) {
+                        pFrame->Close(true);
+                    }
                 }
             }
         } else {
