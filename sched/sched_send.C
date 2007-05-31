@@ -43,10 +43,11 @@ using namespace std;
 #include "main.h"
 #include "sched_array.h"
 #include "sched_msgs.h"
-#include "sched_send.h"
+#include "sched_hr.h"
 #include "sched_locality.h"
 #include "sched_timezone.h"
 
+#include "sched_send.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -422,10 +423,30 @@ static inline int check_deadline(
 // Should move a few other checks from sched_array.C
 //
 int wu_is_infeasible(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply,
+    APP* app
 ) {
     int retval;
+
+    // homogeneous redundancy, quick check
+    //
+    if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
+        if (already_sent_to_different_platform_quick(request, wu)) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
+                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host)
+            );
+            return INFEASIBLE_HR;
+        }
+    }
     
+    if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
+        if (wu_already_in_reply(wu, reply)) {
+            return INFEASIBLE_DUP;
+        }
+    }
+
     retval = check_app_filter(wu, request, reply);
     if (retval) return retval;
     retval = check_memory(wu, request, reply);
@@ -433,6 +454,8 @@ int wu_is_infeasible(
     retval = check_disk(wu, request, reply);
     if (retval) return retval;
 
+    // do this last because EDF sim uses some CPU
+    //
     if (config.workload_sim && request.have_other_results_list) {
         double est_cpu = estimate_cpu_duration(wu, reply);
         IP_RESULT candidate("", wu.delay_bound, est_cpu);
@@ -447,15 +470,8 @@ int wu_is_infeasible(
         }
     } else {
         retval = check_deadline(wu, request, reply);
-        if (retval) return retval;
+        if (retval) return INFEASIBLE_WORKLOAD;
     }
-
-    if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
-        if (wu_already_in_reply(wu, reply)) {
-            return -1;
-        }
-    }
-
 
     return 0;
 }

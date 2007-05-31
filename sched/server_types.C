@@ -882,10 +882,10 @@ int HOST::parse(FILE* fin) {
         // fields reported by 5.5+ clients, not currently used
         //
         else if (match_tag(buf, "<p_features>")) continue;
-#if 0
         else if (match_tag(buf, "<p_capabilities>")) continue;
         else if (match_tag(buf, "<accelerators>")) continue;
 
+#if 0
         // not sure where thees fields belong in the above
         // categories
         //

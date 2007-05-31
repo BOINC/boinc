@@ -5634,3 +5634,19 @@ Rom    31 May 2007
         AccountManagerPropertiesPage.cpp
         BOINCDialupManager.cpp
         ProjectPropertiesPage.cpp
+
+David  31 May 2007
+    - scheduler: move HR check to wu_is_infeasible()
+        In principle, a project can now use both
+        locality scheduling and homogeneous redundancy.
+    - scheduler: do HR check before deadline check,
+        since the latter is slower.
+    - scheduler: wu_is_infeasible() doesn't return a bitmap.
+        Change its return values to sequential numbers.
+    - scheduler: ignore <accelerator> and <p_capabilities> tags
+
+    sched/
+        sched_send.C,h
+        sched_array.C
+        sched_locality.C
+        server_types.C

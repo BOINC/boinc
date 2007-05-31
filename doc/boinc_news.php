@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("May 31, 2007",
+    "Sony Playstation 3 owners: researchers at the Barcelona
+    Biomedical Research Park have launched
+    <a href=http://www.ps3grid.net/>PS3GRID</a>,
+    a BOINC-based project whose application
+    (molecular dynamics simulations) runs on the
+    PS3's Cell processor, on Linux."
+),
 array("May 29, 2007",
     "Check out <a href=http://www.youtube.com/watch?v=UNDcMAePKYY&eurl=http%3A%2F%2Fcb%2Dtools%2Epytalhost%2Ede%2Fblog%2F>a video promoting BOINC</a> on YouTube.</a>"
 ),

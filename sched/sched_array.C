@@ -120,26 +120,13 @@ void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        retval = wu_is_infeasible(wu, sreq, reply);
+        retval = wu_is_infeasible(wu, sreq, reply, app);
         if (retval) {
            	log_messages.printf(
                	SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible: %d\n",
                	reply.host.id, wu.id, wu.name, retval
            	);
             continue;
-        }
-
-        // homogeneous redundancy, quick check
-        //
-        if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
-            if (already_sent_to_different_platform_quick(sreq, wu)) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_DEBUG,
-                    "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
-                    wu.hr_class, hr_class(sreq.host)
-                );
-                continue;
-            }
         }
 
         // Find the app and app_version for the client's platform.

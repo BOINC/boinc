@@ -288,21 +288,6 @@ static int possibly_send_result(
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    // wu_is_infeasible() returns a bitmask of potential reasons
-    // why the WU is not feasible.  These are defined in sched_send.h.
-    // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
-    // 
-    if (wu_is_infeasible(wu, sreq, reply)) {
-        return ERR_INSUFFICIENT_RESOURCE;
-    }
-
-    if (config.one_result_per_user_per_wu) {
-        sprintf(buf, "where userid=%d and workunitid=%d", reply.user.id, wu.id);
-        retval = result2.count(count, buf);
-        if (retval) return ERR_DB_NOT_FOUND;
-        if (count > 0) return ERR_WU_USER_RULE;
-    }
-
     retval = get_app_version(
         wu, app, avp, sreq, reply, platforms, ss
     );
@@ -316,6 +301,21 @@ static int possibly_send_result(
     }
 
     if (retval) return ERR_NO_APP_VERSION;
+
+    // wu_is_infeasible() returns the reason why the WU is not feasible;
+    // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
+    // see sched_send.h.
+    // 
+    if (wu_is_infeasible(wu, sreq, reply, app)) {
+        return ERR_INSUFFICIENT_RESOURCE;
+    }
+
+    if (config.one_result_per_user_per_wu) {
+        sprintf(buf, "where userid=%d and workunitid=%d", reply.user.id, wu.id);
+        retval = result2.count(count, buf);
+        if (retval) return ERR_DB_NOT_FOUND;
+        if (count > 0) return ERR_WU_USER_RULE;
+    }
 
     return add_result_to_reply(result, wu, sreq, reply, platforms, app, avp);
 }
