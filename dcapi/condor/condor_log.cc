@@ -54,6 +54,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	{
 		DC_log(LOG_ERR, "Condor user log file reader "
 		       "initialization failed for %s", fn_tmp->str);
+		unlink(fn_tmp->str);
 		g_string_free(fn_org, TRUE);
 		g_string_free(fn_tmp, TRUE);
 		return;
