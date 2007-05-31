@@ -5618,3 +5618,9 @@ David  30 May 2007
     sched/
         sched_hr.C,h
         sched_array.C
+
+Charlie 31 May 2007
+    - Fix compiler warning.
+
+    lib/
+        boinc_cmd.C
