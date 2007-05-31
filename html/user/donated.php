@@ -2,6 +2,8 @@
 
 require_once("../inc/util.inc");
 
+$st = get_str("st", true);
+
 page_head("PayPal - Transaction Completed");
 
 if ($st == "Completed") {
