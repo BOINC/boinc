@@ -41,8 +41,7 @@ if (!$fp) {
             $item_array = explode("_",$item_number);
             $payment_id = abs($item_array[0]);
             $order_time = abs($item_array[1]);
-            $sql = "SELECT * FROM donation_paypal WHERE order_time = '$order_time' AND id = '$payment_id' AND processed = '0'";
-            $result = mysql_query($sql,$db);
+            $result = mysql_query("SELECT * FROM donation_paypal WHERE order_time = '$order_time' AND id = '$payment_id' AND processed = '0'");
             $num_rows = mysql_num_rows($result);
             if ($num_rows == 1) {
                 $row = mysql_fetch_object($result);
