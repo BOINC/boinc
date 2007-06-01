@@ -5657,3 +5657,18 @@ Rom    31 May 2007
 
     clientgui/
         MainDocument.cpp
+
+Rom    1 June 2007
+    - WinSETUP: Add an exception handler to the VBS script so if the
+        user cancels the launch of BOINC Manager at startup the script
+        itself doesn't throw an error message.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CACreateVBSShortcut.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
