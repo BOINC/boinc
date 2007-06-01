@@ -62,6 +62,15 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
+#if 0
+	printf("FILETIME: %d\n", sizeof(FILETIME));
+	printf("LARGE_INTEGER: %d\n", sizeof(LARGE_INTEGER));
+	printf("DWORD: %d\n", sizeof(DWORD));
+	printf("UNICODE_STRING: %d\n", sizeof(UNICODE_STRING));
+	printf("KPRIORITY: %d\n", sizeof(KPRIORITY));
+	printf("ULONG: %d\n", sizeof(ULONG));
+	printf("SIZE_T: %d\n", sizeof(SIZE_T));
+#endif
 
     get_process_information(&pBuffer, &cbBuffer);
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
@@ -78,7 +87,6 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
 		p.parentid = pProcesses->InheritedFromProcessId;
 		p.is_boinc_app = false;
         pi.push_back(p);
-
         if (!pProcesses->NextEntryDelta) {
             break;
         }
