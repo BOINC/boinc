@@ -380,16 +380,6 @@ $linux_libs_58= "
       </ul>
 ";
 
-$linux_libs_gcc41= "
-    <li>Boincmgr requires GTK++2.0 and glibc 2.4 (libc) or higher which are included
-        in recent Linux distributions.  Its been tested on:
-      <ul>
-        <li>Fedora Core 5 (with updates)
-        <li>SUSE 10.1
-        <li>Ubuntu 6.10
-      </ul>
-";
-
 $w5100= array(
     "num"=>"5.10.0",
     "status"=>"Development version",
@@ -570,15 +560,14 @@ $m549c = array(
     "
 );
 
-$l5911 = array(
-    "num"=>"5.9.11",
+$l5100 = array(
+    "num"=>"5.10.0",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.9.11_i686-pc-linux-gnu.sh",
-    "date"=>"16 May 2007",
+    "file"=>"boinc_5.10.0_i686-pc-linux-gnu.sh",
+    "date"=>"1 June 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_510."
-".$linux_libs_gcc41." 
 ".$changes_510."
     </ul>
     "
@@ -592,7 +581,6 @@ $l5911x64 = array(
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_510."
-".$linux_libs_gcc41." 
 ".$changes_510."
     </ul>
     "
@@ -660,7 +648,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5911,
+        $l5100,
         $l5816,
         $l5411,
     )
