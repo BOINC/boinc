@@ -5682,3 +5682,10 @@ David  1 June 2007
     lib/
         diagnostics_sin.h
         procinfo.h
+
+David  1 June 2007
+	- client: a few more network_status_debug messages
+
+	client/
+		client_state.C
+		net_stats.C

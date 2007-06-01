@@ -222,6 +222,11 @@ void NET_STATUS::got_http_error() {
             // for 30 seconds after wakeup, the network system (DNS etc.)
             // may still be coming up, so don't worry for now
     ) {
+	    if (log_flags.network_status_debug) {
+		    msg_printf(0, MSG_INFO,
+			    "[network_status_debug] got http error and not still waking up"
+		    );
+	    }
 		need_to_contact_reference_site = true;
         show_ref_message = true;
     }

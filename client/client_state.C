@@ -442,6 +442,12 @@ bool CLIENT_STATE::poll_slow_events() {
 
     now = dtime();
     if (now - old_now > POLL_INTERVAL*10) {
+        if (log_flags.network_status_debug) {
+            msg_printf(0, MSG_INFO,
+                "[network_status_debug] woke up after %f seconds",
+                now - old_now
+            );
+        }
         last_wakeup_time = now;
     }
 
