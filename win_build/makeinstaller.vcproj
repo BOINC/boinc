@@ -84,7 +84,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\installerv3\Configuration.wxi"
+				RelativePath=".\installerv3\Configuration.wxs"
 				FileType="13"
 				>
 			</File>
@@ -114,12 +114,12 @@
 				>
 			</File>
 			<File
-				RelativePath=".\installerv3\UI.wxi"
+				RelativePath=".\installerv3\UI.wxs"
 				FileType="13"
 				>
 			</File>
 			<File
-				RelativePath=".\installerv3\Welcome.wxi"
+				RelativePath=".\installerv3\Welcome.wxs"
 				FileType="13"
 				>
 			</File>
