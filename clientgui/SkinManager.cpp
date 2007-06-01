@@ -155,7 +155,7 @@ int CSkinImage::Parse(MIOFILE& in) {
 
 wxBitmap* CSkinImage::GetBitmap() {
     Validate();
-    return &m_bmpBitmap; 
+    return &m_bmpBitmap;
 }
 
 
@@ -468,7 +468,7 @@ wxColour* CSkinSimpleTab::GetGradientToColor() {
     return &m_colGradientToColor;
 }
 
-   
+
 bool CSkinSimpleTab::SetDefaults(
     wxString strComponentName, const char** ppDefaultImage, wxString strBorderColor, wxString strGradientFromColor, wxString strGradientToColor
 ) {
@@ -884,7 +884,7 @@ wxIcon* CSkinAdvanced::GetApplicationIcon() {
 }
 
 
-wxIcon* CSkinAdvanced::GetApplicationDisconnectedIcon() { 
+wxIcon* CSkinAdvanced::GetApplicationDisconnectedIcon() {
     return m_iconApplicationDisconnectedIcon.GetIcon();
 }
 
@@ -899,7 +899,7 @@ wxBitmap* CSkinAdvanced::GetApplicationLogo() {
 }
 
 
-wxString CSkinAdvanced::GetCompanyName() { 
+wxString CSkinAdvanced::GetCompanyName() {
     return m_strCompanyName;
 }
 
@@ -914,22 +914,22 @@ wxString CSkinAdvanced::GetProjectName() {
 }
 
 
-int CSkinAdvanced::GetDefaultTab() { 
+int CSkinAdvanced::GetDefaultTab() {
     return m_iDefaultTab;
 }
 
 
-wxString CSkinAdvanced::GetExitMessage() { 
+wxString CSkinAdvanced::GetExitMessage() {
     return m_strExitMessage;
 }
 
 
-bool CSkinAdvanced::IsBranded() { 
+bool CSkinAdvanced::IsBranded() {
     return m_bIsBranded;
 }
 
 
-bool CSkinAdvanced::IsDefaultTabSpecified() { 
+bool CSkinAdvanced::IsDefaultTabSpecified() {
     return m_bDefaultTabSpecified;
 }
 
@@ -1156,7 +1156,7 @@ int CSkinWizards::Parse(MIOFILE& in) {
 
 
 bool CSkinWizards::InitializeDelayedValidation() {
-    return m_AttachToProjectWizard.InitializeDelayedValidation() && 
+    return m_AttachToProjectWizard.InitializeDelayedValidation() &&
            m_AttachToAccountManagerWizard.InitializeDelayedValidation();
 }
 
@@ -1181,12 +1181,12 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
 
     // This fixes a (rare) crash bug
     if (strSkin.IsEmpty()) strSkin = GetDefaultSkinName();
-    
+
     // Check to make sure that we are not trying to load the skin we
     //   are already using.
     if (m_strSelectedSkin == strSkin) return true;
 
-    // Clear out all the old stuff 
+    // Clear out all the old stuff
     Clear();
 
     // Set the default skin back to Default
@@ -1263,9 +1263,9 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
 
     // Trim out the path information for all the entries
     for (i = 0; i < m_astrSkins.GetCount(); i++) {
-        m_astrSkins[i] = 
+        m_astrSkins[i] =
             m_astrSkins[i].Remove(0, strSkinLocation.Length());
-        m_astrSkins[i] = 
+        m_astrSkins[i] =
             m_astrSkins[i].Remove(m_astrSkins[i].Find(strSkinFileName.c_str()), strSkinFileName.Length());
 
         // Special case: 'Default' to mean the embedded default skin.
@@ -1290,9 +1290,9 @@ wxString CSkinManager::GetDefaultSkinName() {
 
 wxString CSkinManager::ConstructSkinFileName() {
     return wxString(
-        GetSkinsLocation() + 
+        GetSkinsLocation() +
         wxString(wxFileName::GetPathSeparator()) +
-        m_strSelectedSkin + 
+        m_strSelectedSkin +
         wxString(wxFileName::GetPathSeparator()) +
         GetSkinFileName()
     );
@@ -1301,9 +1301,9 @@ wxString CSkinManager::ConstructSkinFileName() {
 
 wxString CSkinManager::ConstructSkinPath() {
     return wxString(
-        GetSkinsLocation() + 
+        GetSkinsLocation() +
         wxString(wxFileName::GetPathSeparator()) +
-        m_strSelectedSkin + 
+        m_strSelectedSkin +
         wxString(wxFileName::GetPathSeparator())
     );
 }
@@ -1372,8 +1372,8 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
 
 
 bool CSkinManager::InitializeDelayedValidation() {
-    return m_SimpleSkin.InitializeDelayedValidation() && 
-           m_AdvancedSkin.InitializeDelayedValidation() && 
+    return m_SimpleSkin.InitializeDelayedValidation() &&
+           m_AdvancedSkin.InitializeDelayedValidation() &&
            m_WizardsSkin.InitializeDelayedValidation();
 }
 
