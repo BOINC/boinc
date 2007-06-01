@@ -43,7 +43,7 @@ all: $(out)BOINC.msi
 $(out)BOINC.msi: SourceDir $(int)BOINC.wixlib $(loc)en-us.wxl
 	$(light) -ext WixUtilExtension -sice:ICE30 -b $(out) -out $@ $(int)BOINC.wixlib -loc $(loc)en-us.wxl
 
-$(int)BOINC.wixlib: $(int)BOINC.wixobj $(int)Strings.wixobj $(int)Branding.wixobj $(int)Components.wixobj $(int)Globalization.wixobj
+$(int)BOINC.wixlib: $(int)BOINC.wixobj $(int)Strings.wixobj $(int)Branding.wixobj $(int)Components.wixobj $(int)Globalization.wixobj $(int)UI.wixobj $(int)Welcome.wixobj $(int)Configuration.wixobj
 	$(lit) -ext WixUtilExtension -out $@ $**
 
 {$(root)}.wxs.wixobj:

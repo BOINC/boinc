@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <UI Id="Welcome">
+      <Dialog Id="AdminWelcome"
+              Width="374"
+              Height="266"
+              Title="!(loc.WizardTitle)"
+              NoMinimize="yes">
+        <?include TemplatePoster.wxi ?>
+        <Control Id="Next"
+                 Type="PushButton"
+                 X="230"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Default="yes"
+                 Text="!(loc.Next)">
+          <Publish Event="NewDialog"
+                   Value="AdminNetworkLocation">1</Publish>
+        </Control>
+        <Control Id="Cancel"
+                 Type="PushButton"
+                 X="301"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Cancel="yes"
+                 Text="!(loc.Cancel)">
+          <Publish Event="SpawnDialog"
+                   Value="CancelSetup">1</Publish>
+        </Control>
+        <Control Id="Back"
+                 Type="PushButton"
+                 X="164"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Disabled="yes"
+                 Text="!(loc.Back)" />
+      </Dialog>
+      <Dialog Id="InstallWelcome"
+              Width="374"
+              Height="266"
+              Title="!(loc.WizardTitle)"
+              NoMinimize="yes">
+        <?include TemplatePoster.wxi ?>
+        <Control Id="Title"
+             Type="Text"
+             X="135"
+             Y="8"
+             Width="225"
+             Height="45"
+             Transparent="yes">
+          <Text>!(loc.InstallWelcomeTitle)</Text>
+        </Control>
+        <Control Id="Description"
+                 Type="Text"
+                 X="135"
+                 Y="55"
+                 Width="228"
+                 Height="45"
+                 Transparent="yes">
+          <Text>!(loc.InstallWelcomeDescription)</Text>
+        </Control>
+        <Control Id="Next"
+                 Type="PushButton"
+                 X="230"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Default="yes"
+                 Text="!(loc.Next)">
+          <Publish Event="NewDialog"
+                   Value="LicenseAgreement">1</Publish>
+        </Control>
+        <Control Id="Cancel"
+                 Type="PushButton"
+                 X="301"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Cancel="yes"
+                 Text="!(loc.Cancel)">
+          <Publish Event="SpawnDialog"
+                   Value="CancelSetup">1</Publish>
+        </Control>
+        <Control Id="Back"
+                 Type="PushButton"
+                 X="164"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Disabled="yes"
+                 Text="!(loc.Back)">
+        </Control>
+      </Dialog>
+      <Dialog Id="MaintenanceWelcome"
+              Width="374"
+              Height="266"
+              Title="!(loc.WizardTitle)"
+              NoMinimize="yes">
+        <?include TemplatePoster.wxi ?>
+        <Control Id="Title"
+         Type="Text"
+         X="135"
+         Y="8"
+         Width="225"
+         Height="45"
+         Transparent="yes">
+          <Text>!(loc.MaintenanceWelcomeDlgTitle)</Text>
+        </Control>
+        <Control Id="Description"
+                 Type="Text"
+                 X="135"
+                 Y="55"
+                 Width="228"
+                 Height="45"
+                 Transparent="yes">
+          <Text>!(loc.MaintenanceWelcomeDlgDescription)</Text>
+        </Control>
+        <Control Id="Next"
+                 Type="PushButton"
+                 X="230"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Default="yes"
+                 Text="!(loc.Next)">
+          <Publish Event="NewDialog"
+                   Value="MaintenanceType">1</Publish>
+        </Control>
+        <Control Id="Cancel"
+                 Type="PushButton"
+                 X="301"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Cancel="yes"
+                 Text="!(loc.Cancel)">
+          <Publish Event="SpawnDialog"
+                   Value="CancelSetup">1</Publish>
+        </Control>
+        <Control Id="Back"
+                 Type="PushButton"
+                 X="164"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Disabled="yes"
+                 Text="!(loc.Back)" />
+      </Dialog>
+      <Dialog Id="PatchWelcome"
+              Width="374"
+              Height="266"
+              Title="[ProductName] Patch Installer"
+              NoMinimize="yes">
+        <?include TemplatePoster.wxi ?>
+        <Control Id="Next"
+                 Type="PushButton"
+                 X="230"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Default="yes"
+                 Text="&amp;Update &gt;">
+          <Publish Event="Reinstall"
+                   Value="ALL">PATCH And REINSTALL=""</Publish>
+          <Publish Event="ReinstallMode"
+                   Value="omus">PATCH And REINSTALLMODE=""</Publish>
+          <Publish Event="EndDialog"
+                   Value="Return">1</Publish>
+        </Control>
+        <Control Id="Cancel"
+                 Type="PushButton"
+                 X="301"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Cancel="yes"
+                 Text="!(loc.Cancel)">
+          <Publish Event="SpawnDialog"
+                   Value="CancelSetup">1</Publish>
+        </Control>
+        <Control Id="Back"
+                 Type="PushButton"
+                 X="164"
+                 Y="243"
+                 Width="66"
+                 Height="17"
+                 Disabled="yes"
+                 Text="!(loc.Back)">
+        </Control>
+        <Control Id="TextLine1"
+                 Type="Text"
+                 X="135"
+                 Y="8"
+                 Width="225"
+                 Height="45"
+                 Transparent="yes">
+          <Text>{&amp;PosterTitle}Welcome to the Patch for [ProductName]</Text>
+        </Control>
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>

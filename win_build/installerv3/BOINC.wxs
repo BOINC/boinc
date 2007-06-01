@@ -208,7 +208,8 @@
     <Binary Id="FolderNew16Icon"
             SourceFile="Binary\folder-new.ico" />
 
-    <?include UI.wxi ?>
+    <UIRef Id="Standard" />
+    <UIRef Id="Configuration" />
   </Product>
 
 </Wix>
