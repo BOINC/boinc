@@ -26,7 +26,7 @@ if ($format == "xml") {
         exit();
     }
     $sum = 0;
-    $res = mysql_query("SELECT * FROM result WHERE userid=$user->id AND validate_state=0 AND claimed_credit > 0");
+    $res = mysql_query("SELECT * FROM result WHERE userid=$user->id AND (validate_state=0 OR validate_state=4) AND claimed_credit > 0");
     
     echo "<pending_credit>\n";
     while ($result = mysql_fetch_object($res)) {
@@ -43,7 +43,7 @@ if ($format == "xml") {
 } else {
     $user = get_logged_in_user();
     $sum = 0;
-    $res = mysql_query("select * from result where userid=$user->id and validate_state=0 AND claimed_credit > 0");
+    $res = mysql_query("select * from result where userid=$user->id and (validate_state=0 OR validate_state=4) AND claimed_credit > 0");
     
     page_head("Pending credit");
     start_table();
@@ -58,8 +58,8 @@ if ($format == "xml") {
     }
     end_table();
     
-    echo "Pending credit: ",format_credit($sum);
-    page_tail();    
+    echo "Pending credit: ".format_credit($sum);
+    page_tail();
 }
 
 ?>
