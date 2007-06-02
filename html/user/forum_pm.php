@@ -42,7 +42,6 @@ if ($action == "inbox") {
         }
         end_table();
     }
-
 } elseif ($action == "read") {
     $id = get_int("id");
     $message = mysql_query("SELECT * FROM private_messages WHERE id=".$id." AND userid=".$logged_in_user->id);
@@ -73,6 +72,7 @@ if ($action == "inbox") {
     }
 
 } elseif ($action == "new") {
+    check_banished(new User($logged_in_user));
     pm_create_new();
 } elseif ($action == "delete") {
     $id = get_int("id", true);
@@ -105,12 +105,13 @@ if ($action == "inbox") {
         }
     }
 } elseif ($action == "send") {
+    check_banished(new User($logged_in_user));
     check_tokens($logged_in_user->authenticator);
-
+    
     $to = stripslashes(post_str("to", true));
     $subject = stripslashes(post_str("subject", true));
     $content = stripslashes(post_str("content", true));
-
+    
     if (($to == null) || ($subject == null) || ($content == null)) {
         pm_create_new("You need to fill all fields to send a private message");
     } else {
@@ -182,7 +183,7 @@ if ($action == "inbox") {
     $user = new User($logged_in_user->id);
     $blocked = new User($id);
     $user->addIgnoredUser($blocked);
-
+    
     page_head("User ".$blocked->getName()." blocked");
     
     echo "<div>User ".$blocked->getName()." has been blocked from sending you private messages. To unblock, visit
