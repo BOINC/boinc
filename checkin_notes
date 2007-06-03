@@ -5706,3 +5706,13 @@ David  3 June 2007
     sched/
         feeder.C
         start
+
+David  3 June 2007
+    - client: fix inconsistent integer benchmarks on Windows
+        with multicore machines.  I don't know why this happened,
+        but I fixed it by doing integer benchmarks only on CPU zero.
+        This is OK since cores have separate integer units
+        (but not necessarily FP units)
+
+    client/
+        cs_benchmark.C

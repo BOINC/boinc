@@ -74,10 +74,10 @@
 #define DEFAULT_CACHE   1e6
 
 #define FP_START    2
-#define FP_END      22
-#define INT_START   37
-#define INT_END     57
-#define OVERALL_END 60
+#define FP_END      12
+#define INT_START   17
+#define INT_END     27
+#define OVERALL_END 30
 
 #define BM_FP_INIT  0
 #define BM_FP       1
@@ -151,12 +151,20 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 
     host_info.clear_host_info();
     whetstone(host_info.p_fpops);
+#ifdef _WIN32
+	// Windows: do integer benchmark only on CPU zero.
+	// There's a mysterious bug/problem that gives wildly
+	// differing benchmarks on multi-CPU and multi-core machines,
+	// if you use all the CPUs at once.
+	//
+	if (bdp->ordinal == 0) {
+#endif
     dhrystone(vax_mips, int_loops, int_time);
     host_info.p_iops = vax_mips*1e6;
     host_info.p_membw = 1e9;
     host_info.m_cache = 1e6;    // TODO: measure the cache
-
 #ifdef _WIN32
+	}
     bdp->host_info = host_info;
     bdp->int_loops = int_loops;
     bdp->int_time = int_time;
@@ -451,7 +459,11 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
                     );
                 }
                 p_fpops += benchmark_descs[i].host_info.p_fpops;
+#ifdef _WIN32
+                p_iops += benchmark_descs[0].host_info.p_iops;
+#else
                 p_iops += benchmark_descs[i].host_info.p_iops;
+#endif
                 p_membw += benchmark_descs[i].host_info.p_membw;
                 m_cache += benchmark_descs[i].host_info.m_cache;
             }
