@@ -147,7 +147,7 @@ bool benchmark_time_to_stop(int which) {
 //
 int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     HOST_INFO host_info;
-    double vax_mips, int_loops, int_time;
+    double vax_mips, int_loops=0, int_time=0;
 
     host_info.clear_host_info();
     whetstone(host_info.p_fpops);

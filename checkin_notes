@@ -5713,6 +5713,7 @@ David  3 June 2007
         but I fixed it by doing integer benchmarks only on CPU zero.
         This is OK since cores have separate integer units
         (but not necessarily FP units)
+		Also shortened benchmark from 60 sec to 30 sec.
 
     client/
         cs_benchmark.C
