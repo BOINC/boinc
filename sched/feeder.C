@@ -132,12 +132,12 @@ int check_reread_trigger() {
     return 0;
 }
 
-// Scan work items for a given appp until one found
-// that is not already on the shared memory segment.
+// Scan work items for a given app until one found
+// that is not already in the shared memory segment.
 // Errors that can occur:
 // 1) No valid work item found even after restarting the enumeration
 //   ACTION: return false
-// 2) The work item can be for a app that doesn't exist in the database
+// 2) The work item is for a app that doesn't exist in the database
 //   ACTION: exit application
 // 
 static bool find_work_item(
@@ -169,7 +169,8 @@ static bool find_work_item(
     		restarted_enum = true;
 			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             	"restarted enumeration for appid %d\n",
-                ssp->apps[work_item_index].id);
+                ssp->apps[work_item_index].id
+            );
         } else {
         	// Check for a work item with an invalid application id
             //

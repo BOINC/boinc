@@ -117,7 +117,7 @@ def assign_task_defaults():
         if not host:
             task.host = config.config.host
         disabled = task.__dict__.get('disabled')
-        if disabled:
+        if disabled and disabled != "0":
             task.disabled = 1
         else:
             task.disabled = 0
@@ -126,7 +126,7 @@ def assign_task_defaults():
         if not host:
             task.host = config.config.host
         disabled = task.__dict__.get('disabled')
-        if disabled:
+        if disabled and disabled != "0":
             task.disabled = 1
         else:
             task.disabled = 0

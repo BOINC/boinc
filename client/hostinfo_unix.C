@@ -247,7 +247,14 @@ static void parse_meminfo_linux(HOST_INFO& host) {
     char buf[256];
     double x;
     FILE* f = fopen("/proc/meminfo", "r");
-    if (!f) return;
+    if (!f) {
+        msg_printf(NULL, MSG_USER_ERROR,
+            "Can't open /proc/meminfo - defaulting to 1 GB."
+        );
+        host.m_nbytes = GIGA;
+        host.m_swap = GIGA;
+        return;
+    }
     while (fgets(buf, 256, f)) {
         if (strstr(buf, "MemTotal:")) {
             sscanf(buf, "MemTotal: %lf", &x);
@@ -261,6 +268,7 @@ static void parse_meminfo_linux(HOST_INFO& host) {
             sscanf(buf, "Swap: %lf", &host.m_swap);
         }
     }
+    fclose(f);
 }
 
 // Unfortunately the format of /proc/cpuinfo is not standardized.
@@ -277,7 +285,12 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     char buf2[256];
 
     FILE* f = fopen("/proc/cpuinfo", "r");
-    if (!f) return;
+    if (!f) {
+        msg_printf(NULL, MSG_USER_ERROR, "Can't open /proc/cpuinfo.");
+        strcpy(host.p_model, "unknown");
+        strcpy(host.p_vendor, "unknown");
+        return;
+    }
 
 #ifdef __mips__
     strcpy(host.p_model, "MIPS ");
@@ -600,8 +613,7 @@ int HOST_INFO::get_host_info() {
     parse_meminfo_linux(*this);
 #elif defined(_SC_USEABLE_MEMORY)
     // UnixWare
-    m_nbytes = (double)sysconf(_SC_PAGESIZE)
-        * (double)sysconf(_SC_USEABLE_MEMORY);
+    m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_USEABLE_MEMORY);
 #elif defined(_SC_PHYS_PAGES)
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     if (m_nbytes < 0) {
@@ -661,24 +673,9 @@ int HOST_INFO::get_host_info() {
     swapctl(SWAP_STATS, s, n);
     m_swap = 0.0;
     for (i = 0; i < n; i ++) {
-      if (s[i].se_flags & SWF_ENABLE)
-        m_swap += 512. * (double)s[i].se_nblks;
-    }
-#elif defined(HAVE__PROC_MEMINFO)
-    // Linux
-    FILE *fp;
-    if ((fp = fopen("/proc/meminfo", "r")) != 0) {
-        char minfo_buf[1024];
-        int n;
-        if ((n = fread(minfo_buf, sizeof(char), sizeof(minfo_buf)-1, fp))) {
-            char *p;
-            minfo_buf[n] = '\0';
-            if ((p = strstr(minfo_buf, "SwapTotal:"))) {
-                p += 10; // move past "SwapTotal:"
-                m_swap = 1024.*(double) strtoul(p, NULL, 10);
-            }
+        if (s[i].se_flags & SWF_ENABLE) {
+            m_swap += 512. * (double)s[i].se_nblks;
         }
-        fclose(fp);
     }
 #elif defined(__APPLE__)
     // The sysctl(vm.vmmeter) function doesn't work on OS X.  However, swap  

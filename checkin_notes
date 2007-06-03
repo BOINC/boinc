@@ -5689,3 +5689,20 @@ David  1 June 2007
 	client/
 		client_state.C
 		net_stats.C
+
+David  3 June 2007
+    - client: allow suspension of non-CPU-intensive project or app
+        (undoes checkin of 25 Jan 2005; I don't remember why we
+        made that change.  Next time put in checkin notes!)
+    - client: Linux: show error msg if can't open /proc/cpuinfo
+        or /proc/meminfo; set memory size of 1 GB in latter case.
+        Remove duplicate code that read /proc/meminfo
+    - 'start' script; handle <disabled>0</disable> in tasks and daemon
+        elements of config.xml (can't handle <disable/>, however).
+
+    client/
+        gui_rpc_server_ops.C
+        hostinfo_unix.C
+    sched/
+        feeder.C
+        start

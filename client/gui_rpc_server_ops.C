@@ -236,14 +236,10 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.request_work_fetch("project reset by user");
         gstate.reset_project(p);    // writes state file
     } else if (!strcmp(op, "suspend")) {
-        if (p->non_cpu_intensive) {
-            msg_printf(p, MSG_USER_ERROR, "Can't suspend non-CPU-intensive project");
-        } else {
-            p->suspended_via_gui = true;
-            gstate.request_schedule_cpus("project suspended by user");
-            gstate.request_work_fetch("project suspended by user");
-            gstate.set_client_state_dirty("Project suspended by user");
-        }
+        p->suspended_via_gui = true;
+        gstate.request_schedule_cpus("project suspended by user");
+        gstate.request_work_fetch("project suspended by user");
+        gstate.set_client_state_dirty("Project suspended by user");
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
         gstate.request_schedule_cpus("project resumed by user");
@@ -478,12 +474,8 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
         }
         gstate.request_work_fetch("result aborted by user");
     } else if (!strcmp(op, "suspend")) {
-        if (p->non_cpu_intensive) {
-            msg_printf(p, MSG_USER_ERROR, "Can't suspend non-CPU-intensive result");
-        } else {
-            rp->suspended_via_gui = true;
-            gstate.request_work_fetch("result suspended by user");
-        }
+        rp->suspended_via_gui = true;
+        gstate.request_work_fetch("result suspended by user");
     } else if (!strcmp(op, "resume")) {
         rp->suspended_via_gui = false;
     }
