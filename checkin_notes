@@ -5734,3 +5734,23 @@ Rytis   5 June 2007
         user/
             edit_forum_preferences_action.php
             edit_forum_preferences_form.php
+
+David  4 June 2007
+    - Client (Unix) show process exit codes as negative numbers also
+        (e.g., to show BOINC error codes correctly)
+    - get_project_config.php: add an element that lists the
+        platforms supported by this project
+        (i.e. for which there's a non-deprecated app version)
+        Cache this info in a file (cache/platform_list.xml)
+        so that it will be available even when the project's DB is down.
+    - Rename sample_get_project_config.php to get_project_config.php;
+        a project should no longer need its own version of this file.
+        Change setup_project accordingly.
+
+    client/
+        app_control.C
+    html/user/
+        get_project_config.php (new)
+        sample_get_project_config.php (removed)
+    py/Boinc/
+        setup_project.py

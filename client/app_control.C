@@ -253,8 +253,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 gstate.report_result_error(
                     *result,
-                    "process exited with code %d (0x%x)",
-                    result->exit_status, result->exit_status
+                    "process exited with code %d (0x%x, %d)",
+                    result->exit_status, result->exit_status,
+                    (-1<<8)|result->exit_status
                 );
             } else {
                 if (finish_file_present()) {
@@ -382,7 +383,11 @@ void ACTIVE_TASK_SET::process_control_poll() {
 		// assume it's hung and restart it
 		//
 		if (atp->process_control_queue.timeout(180)) {
-			msg_printf(NULL, MSG_INFO, "Restarting %s - message timeout", atp->result->name);
+            if (log_flags.task_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "Restarting %s - message timeout", atp->result->name
+                );
+            }
 			atp->kill_task(true);
 		} else {
 			atp->process_control_queue.msg_queue_poll(

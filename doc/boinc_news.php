@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("June 3, 2007",
+    "BOINCstats and BAM! are now viewable in Finnish
+    (<a href=http://fi.boincstats.com>http://fi.boincstats.com</a>). "
+),
 array("May 31, 2007",
     "Sony Playstation 3 owners: researchers at the Barcelona
     Biomedical Research Park have launched
