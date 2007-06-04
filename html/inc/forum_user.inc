@@ -237,6 +237,13 @@ class User {
     function setHideSignatures($bool){
         $this->updatePrefs("hide_signatures", $bool?true:false);
     }
+    function hasEnabledPMNotification(){
+        $this->ensurePrefsLoaded();
+        return $this->fprefObj->pm_notification;
+    }
+    function setEnabledPMNotification($bool){
+        $this->updatePrefs("pm_notification", $bool?true:false);
+    }
     function hasHideAvatars(){
         $this->ensurePrefsLoaded();
         return $this->fprefObj->hide_avatars;

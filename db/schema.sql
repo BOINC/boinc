@@ -423,6 +423,7 @@ create table forum_preferences (
     ignorelist          varchar(254) not null,
     ignore_sticky_posts tinyint(1)  unsigned not null,
     banished_until      integer     not null default 0,
+    pm_notification     tinyint(1)  unsigned not null default 1,
     primary key (userid)
 ) type=MyISAM; 
 

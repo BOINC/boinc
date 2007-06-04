@@ -422,11 +422,15 @@ function update_5_27_2007() {
 ) TYPE=MyISAM;");
 }
 
+function update_6_5_2007() {
+    do_query("ALTER TABLE `forum_preferences` ADD `pm_notification` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1';");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_5_27_2007();
+//update_6_5_2007();
 
 ?>

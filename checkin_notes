@@ -5717,3 +5717,20 @@ David  3 June 2007
 
     client/
         cs_benchmark.C
+
+Rytis   5 June 2007
+    - user web: add a separate preference for private message notification
+        emails.
+        NOTE: needs DB update, see html/ops/db_update.php
+        
+    db/
+        schema.sql
+    html/
+        inc/
+            forum_pm.inc
+            forum_user.inc
+        ops/
+            db_update.php
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php

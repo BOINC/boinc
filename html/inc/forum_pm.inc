@@ -71,8 +71,19 @@ function pm_send($to, $subject, $content) {
     $senderid = $logged_in_user->id;
     $sql_subject = mysql_real_escape_string($subject);
     $sql_content = mysql_real_escape_string($content);
+    $result = mysql_query("SELECT pm_notification FROM forum_preferences WHERE userid=".$userid);
+    if ($result) {
+        $result = mysql_fetch_object($result);
+        if ($result->pm_notification == 1) {
+            $send_email = true;
+        } else {
+            $send_email = false;
+        }
+    } else {
+        $send_email = false;
+    }
     mysql_query("INSERT INTO private_messages (userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
-    if ($to->send_email == 1) { // Send email notification
+    if ($send_email) { // Send email notification
         $message  = "Dear ".$to->name.",\n\n";
         $message .= "You have received a new private message at ".PROJECT." from ".$logged_in_user->name.", entitled \"".$subject."\".\n\n";
         $message .= "To read the original version, respond to, or delete this message, you must log in here:\n";
