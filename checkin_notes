@@ -5754,3 +5754,12 @@ David  4 June 2007
         sample_get_project_config.php (removed)
     py/Boinc/
         setup_project.py
+
+Rom    4 June 2007
+    - fixes #221: Win64 - attach/syncronice AMS crash Manager.
+    
+      The manager was getting stuck in an infinite loop since a
+      bool wasn't being explicitly initialized to false.
+      
+    clientgui/
+        AccountManagerProcessingPage.cpp
