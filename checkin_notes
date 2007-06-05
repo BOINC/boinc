@@ -5763,3 +5763,11 @@ Rom    4 June 2007
       
     clientgui/
         AccountManagerProcessingPage.cpp
+
+Rom    4 June 2007
+    - Tag for 5.10.1 release, all platforms
+      boinc_core_release_5_10_1
+    
+    client/
+        configure.ac
+        version.h
