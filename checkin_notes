@@ -5778,3 +5778,12 @@ Rom    5 June 2007
         
     lib/
         gui_rpc_client_ops.C
+
+Rom    4 June 2007
+    - Tag for 5.10.2 release, all platforms
+      boinc_core_release_5_10_2
+    
+    client/
+        configure.ac
+        version.h
+
