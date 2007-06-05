@@ -5771,3 +5771,10 @@ Rom    4 June 2007
     client/
         configure.ac
         version.h
+
+Rom    5 June 2007
+    - MGR: Bug Fix for suspend/resume operations not updating
+        in the UI after the user selected operation.
+        
+    lib/
+        gui_rpc_client_ops.C

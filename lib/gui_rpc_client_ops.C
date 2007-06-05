@@ -1600,12 +1600,16 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         tag = "project_update";
     } else if (!strcmp(op, "suspend")) {
         tag = "project_suspend";
+        project.suspended_via_gui = true;
     } else if (!strcmp(op, "resume")) {
         tag = "project_resume";
+        project.suspended_via_gui = false;
     } else if (!strcmp(op, "allowmorework")) {
-         tag = "project_allowmorework";
+        tag = "project_allowmorework";
+        project.dont_request_more_work = false;
     } else if (!strcmp(op, "nomorework")) {
          tag = "project_nomorework";
+        project.dont_request_more_work = true;
     } else {
         return -1;
     }
@@ -1887,8 +1891,10 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         tag = "abort_result";
     } else if (!strcmp(op, "suspend")) {
         tag = "suspend_result";
+        result.suspended_via_gui = true;
     } else if (!strcmp(op, "resume")) {
         tag = "resume_result";
+        result.suspended_via_gui = false;
     } else {
         return -1;
     }
