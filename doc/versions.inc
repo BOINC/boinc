@@ -380,11 +380,11 @@ $linux_libs_58= "
       </ul>
 ";
 
-$w5101= array(
-    "num"=>"5.10.1",
+$w5102= array(
+    "num"=>"5.10.2",
     "status"=>"Development version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.1_windows_intelx86.exe",
-    "date"=>"4 June 2007",
+    "file"=>"boinc_5.10.2_windows_intelx86.exe",
+    "date"=>"5 June 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -394,11 +394,11 @@ $w5101= array(
     "bugs"=>""
 );
 
-$w5101x64= array(
-    "num"=>"5.10.1",
+$w5102x64= array(
+    "num"=>"5.10.2",
     "status"=>"Development version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.1_windows_x86_64.exe",
-    "date"=>"4 June 2007",
+    "file"=>"boinc_5.10.2_windows_x86_64.exe",
+    "date"=>"5 June 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -560,11 +560,11 @@ $m549c = array(
     "
 );
 
-$l5100 = array(
-    "num"=>"5.10.0",
+$l5102 = array(
+    "num"=>"5.10.2",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.0_i686-pc-linux-gnu.sh",
-    "date"=>"1 June 2007",
+    "file"=>"boinc_5.10.2_i686-pc-linux-gnu.sh",
+    "date"=>"5 June 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_510."
@@ -616,7 +616,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5101,
+        $w5102,
         $w5816,
         $w5411,
     )
@@ -626,7 +626,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w5101x64,
+        $w5102x64,
     )
 );
 
@@ -648,7 +648,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5100,
+        $l5102,
         $l5816,
         $l5411,
     )
