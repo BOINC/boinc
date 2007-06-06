@@ -51,7 +51,7 @@ if ($format == "xml") {
     while ($result = mysql_fetch_object($res)) {
         echo "<tr>\n";
         echo "<td><a href=\"result.php?resultid=$result->id\">$result->id</a></td>\n";
-        echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->id</a></td>\n";
+        echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
         echo "<td>".format_credit($result->claimed_credit)."</td>\n";
         echo "</tr>\n";
         $sum += $result->claimed_credit;
