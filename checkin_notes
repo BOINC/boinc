@@ -5836,3 +5836,11 @@ Rom    1 June 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Janus	6 June 2007
+    - Fixed a small display error on the pending credit page (the
+      workunitid-column was showing the resultid for the result.
+
+    html/user/
+        pending.php
+
