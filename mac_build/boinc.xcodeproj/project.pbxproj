@@ -2985,6 +2985,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-DSANDBOX",
 					"-D_MAC_INSTALLER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -3020,6 +3021,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-DSANDBOX",
 					"-D_MAC_INSTALLER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3055,6 +3057,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-DSANDBOX",
 					"-D_MAC_INSTALLER",
 				);
@@ -3176,6 +3179,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-DSANDBOX",
+					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -3236,6 +3240,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-DSANDBOX",
+					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -3295,6 +3300,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-DSANDBOX",
+					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 					"-DSIMPLEGUI",
 				);
@@ -3376,6 +3382,10 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3396,6 +3406,10 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3418,6 +3432,10 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3438,6 +3456,10 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3499,6 +3521,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3566,6 +3589,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3630,6 +3654,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3750,6 +3775,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3841,6 +3867,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3988,7 +4015,10 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = "-D_MAC_INSTALLER";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-D_MAC_INSTALLER",
+				);
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040";
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4147,6 +4177,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4169,6 +4203,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = "$(inherited)";
 				PREBINDING = NO;
 				PRODUCT_NAME = switcher;
 				ZERO_LINK = NO;
@@ -4185,6 +4220,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = switcher;
 				ZERO_LINK = NO;
@@ -4240,7 +4279,10 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = "-D_MAC_INSTALLER";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-D_MAC_INSTALLER",
+				);
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040";
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4288,6 +4330,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = setprojectgrp;
 				ZERO_LINK = NO;
@@ -4434,6 +4480,7 @@
 					"-DNOCLIPBOARD",
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
+					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -DSIMPLEGUI";
@@ -4532,6 +4579,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4550,6 +4601,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4570,6 +4625,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4595,6 +4654,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4628,6 +4688,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4660,6 +4721,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4716,6 +4778,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4761,6 +4824,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4838,6 +4902,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-DSANDBOX",
 					"-D_MAC_INSTALLER",
 				);
@@ -5006,6 +5071,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5072,6 +5138,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5135,6 +5202,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5254,6 +5322,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5343,6 +5412,7 @@
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5486,6 +5556,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-DSANDBOX",
 					"-D_MAC_INSTALLER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -5705,6 +5776,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5737,6 +5809,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5768,6 +5841,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5823,6 +5897,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5863,6 +5938,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
+					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5935,6 +6011,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
+					"-DNDEBUG",
 					"-DSANDBOX",
 					"-D_MAC_INSTALLER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -6072,6 +6149,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = switcher;
 				ZERO_LINK = NO;
@@ -6086,6 +6167,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = switcher;
 				ZERO_LINK = NO;
@@ -6102,6 +6187,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = switcher;
 				ZERO_LINK = NO;
@@ -6135,6 +6224,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = setprojectgrp;
 				ZERO_LINK = NO;
@@ -6149,6 +6242,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = setprojectgrp;
 				ZERO_LINK = NO;
@@ -6165,6 +6262,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = setprojectgrp;
 				ZERO_LINK = NO;

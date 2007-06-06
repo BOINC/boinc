@@ -710,6 +710,7 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
                     // and then attach with GDB.  This code let's me do it without 
                     // have to recompile.
 
+#if 0       // Added for BOINC
                     #if !defined(NDEBUG)
                         {
                             static bool     sInited;
@@ -727,7 +728,7 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
                             }
                         }
                     #endif
-
+#endif
 					frameOutPtr->flags |= kQBTSignalHandlerMask;
 					err = context->arch->crossSignalFrame(context, thisFrame, &nextPC, &nextFrame);
                     
