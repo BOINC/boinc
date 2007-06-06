@@ -27,6 +27,7 @@
 ## Usage:
 ## First put the following files into a working directory:
 ##     the BOINC installer to be converted
+##     the Uninstall BOINC application to be converted
 ##     GR_ReadMe.rtf
 ##     GridRepublic.icns
 ##     COPYING
@@ -146,6 +147,16 @@ sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NA
 
 # Replace screensaver's boinc.tiff file
 cp -fp "${SAVER_SYSPREF_ICON}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.tiff"
+
+# Copy and rename the Uninstall application's bundle and rename its executable inside the bundle
+cp -fpR "Uninstall BOINC.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
+mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall BOINC" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall ${BRAND_NAME}"
+
+# Update Uninstall application's info.plist, InfoPlist.strings files
+sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
+sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
+sudo chmod -R 555 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
 
 ## Fix up ownership and permissions
 sudo chown -R root:admin "${PR_PATH}"/*

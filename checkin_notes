@@ -5787,3 +5787,25 @@ Rom    4 June 2007
         configure.ac
         version.h
 
+Charlie 6 June 2007
+    - Mac: Minor fix to error handling when setting permissions.
+    - Mac: Create "Uninstall BOINC" application, modify build scripts 
+        to include it in release package with BOINC Manager.
+    - Mac: Fix a bug in release_GridRepublic.sh build script which 
+        created a boogus " BOINC Data/locale" directory (with a bad 
+        leading space character.)
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Uninstaller-Info.plist (new)
+    mac_installer/
+        uninstall.cpp (new)
+        make_GridRepublic.sh
+        release_GridRepublic.sh
+        release_boinc.sh
+        GR-ReadMe.rtf
+        ReadMe.rtf
+    clientgui/
+        mac/
+            SetVersion.C

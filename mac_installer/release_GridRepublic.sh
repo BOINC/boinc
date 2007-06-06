@@ -109,7 +109,7 @@ mkdir -p "${PR_PATH}/Library/Application Support"
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data"
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data/locale"
 mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data"
-mkdir -p "${PR_PATH}/Library/Application Support/ BOINC Data/locale"
+mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data/locale"
 mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data/switcher"
 
 cp -fpR "$BUILDPATH/switcher" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
@@ -191,6 +191,16 @@ sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/CO
 cp -fp "COPYRIGHT" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/"
 sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/COPYRIGHT"
 sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/COPYRIGHT"
+
+# Copy & rename the Uninstall application's bundle and rename its executable inside the bundle
+cp -fpR "$BUILDPATH/Uninstall BOINC.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
+mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall BOINC" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall ${BRAND_NAME}"
+
+# Update Uninstall application's info.plist, InfoPlist.strings files
+sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
+sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
+sudo chmod -R 555 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
 
 ##### We've decided not to create branded command-line executables; they are identical to standard ones
 #### mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"
