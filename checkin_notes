@@ -5822,3 +5822,17 @@ David  6 June 2007
         I'll put this in soon.
     html/user/
         get_project_config.php
+
+Rom    1 June 2007
+    - WinSETUP: The VBS custom action should delete the existing
+        VBS script when executing in uninstall mode.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CACreateVBSShortcut.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

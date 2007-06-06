@@ -64,6 +64,7 @@ UINT CACreateVBSShortcut::OnExecution()
     tstring     strAllUsers;
     tstring     strVBSScript;
     tstring     strEnableLaunchAtLogon;
+    tstring     strRemove;
 	TCHAR		szBuffer[MAX_PATH];
     UINT        uiReturnValue = -1;
 
@@ -75,6 +76,9 @@ UINT CACreateVBSShortcut::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("REMOVE"), strRemove);
     if ( uiReturnValue ) return uiReturnValue;
 
     // Fix for Win9x systems
@@ -92,19 +96,26 @@ UINT CACreateVBSShortcut::OnExecution()
     // Open the file for writing
     strVBSScript =  szBuffer;
     strVBSScript += _T("\\BOINC Manager.vbs");
-    FILE* pScript = fopen(strVBSScript.c_str(), "w");
 
-    // Write Script
-    fprintf(
-        pScript,
-        _T("On Error Resume Next\n"
-           "set objShell = CreateObject(\"Wscript.Shell\")\n"
-           "objShell.Run \"\"\"%s\\boincmgr.exe\"\" /s\""),
-        strInstallDirectory.c_str()
-    );
+    if (_T("ALL") == strRemove) {
+        // Uninstall operation
+        DeleteFile(strVBSScript.c_str());
+    } else {
+        // Install operation
+        FILE* pScript = fopen(strVBSScript.c_str(), "w");
 
-    // Close the file
-    fclose(pScript);
+        // Write Script
+        fprintf(
+            pScript,
+            _T("On Error Resume Next\n"
+               "set objShell = CreateObject(\"Wscript.Shell\")\n"
+               "objShell.Run \"\"\"%s\\boincmgr.exe\"\" /s\""),
+            strInstallDirectory.c_str()
+        );
+
+        // Close the file
+        fclose(pScript);
+    }
 
     return ERROR_SUCCESS;
 }
