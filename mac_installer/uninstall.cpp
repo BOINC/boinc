@@ -1,0 +1,538 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2006 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+/*  uninstall.cpp */
+
+#define TESTING 0    /* for debugging */
+    
+#include <Carbon/Carbon.h>
+#include <Security/Authorization.h>
+#include <Security/AuthorizationTags.h>
+
+#include <grp.h>
+
+#include <unistd.h>	// geteuid, seteuid
+#include <pwd.h>	// passwd, getpwnam
+#include <dirent.h>
+#include <sys/param.h>  // for MAXPATHLEN
+
+#include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
+
+static OSStatus DoUninstall(void);
+static OSErr CleanupAllVisibleUsers(void);
+static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToTool, char *brandName);
+static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
+static void DeleteLoginItem(void);
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+static pid_t FindProcessPID(char* name, pid_t thePID);
+static OSErr QuitBOINCManager(OSType signature);
+static void SleepTicks(UInt32 ticksToSleep);
+static void ShowMessage(const char *format, ...);
+static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
+
+
+int main(int argc, char *argv[])
+{
+    char                        pathToSelf[MAXPATHLEN], appName[256], *p;
+    ProcessSerialNumber         ourPSN;
+    FSRef                       ourFSRef;
+    OSStatus                    err = noErr;
+
+    // Determine whether this is the intial launch or the relaunch with privileges
+    if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
+        if (geteuid() != 0) {        // Confirm that we are running as root
+            ShowMessage("Permission error after relaunch");
+            return permErr;
+        }
+        
+        return DoUninstall();
+    }
+
+    // This is the initial launch.  Authenticate and relaunch ourselves with privileges.
+    
+    // Get the full path to our executable inside this application's bundle
+    err = GetCurrentProcess (&ourPSN);
+    if (err == noErr) {
+        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
+    }
+    if (err == noErr) {
+        err = FSRefMakePath (&ourFSRef, (UInt8*)pathToSelf, sizeof(pathToSelf));
+    }
+    if (err != noErr) {
+        ShowMessage("Couldn't get path to self.  Error %d", err);
+        return err;
+    }
+
+    // To allow for branding, assume name of executable inside bundle is same as name of bundle
+    p = strrchr(pathToSelf, '/');         // Assume name of executable inside bundle is same as name of bundle
+    if (p == NULL)
+        p = pathToSelf - 1;
+    strlcpy(appName, p+1, sizeof(appName));
+    p = strrchr(appName, '.');         // Strip off bundle extension (".app")
+    if (p)
+        *p = '\0'; 
+
+    strlcat(pathToSelf, "/Contents/MacOS/", sizeof(pathToSelf));
+    strlcat(pathToSelf, appName, sizeof(pathToSelf));
+
+    p = strrchr(appName, ' ');
+    p += 1;         // Point to brand name following "Uninstall "
+
+    err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
+    if (err == errAuthorizationCanceled) {
+        ShowMessage("Canceled: %s has not been touched.", p);
+        return err;
+    }
+
+#if TESTING
+    ShowMessage("DoPrivilegedExec returned %d", err);
+#endif
+
+    if (err)
+        ShowMessage("An error occurred: error code %d", err);
+    else
+        ShowMessage("Removal completed.");
+        
+    return err;
+}
+
+
+static OSStatus DoUninstall(void) {
+    pid_t                   coreClientPID = 0;
+
+#if TESTING
+    ShowMessage("Permission OK after relaunch");
+#endif
+
+    QuitBOINCManager('BNC!'); // Quit any old instance of BOINC manager
+    sleep(2);
+
+    // Core Client may still be running if it was started without Manager
+    coreClientPID = FindProcessPID("boinc", 0);
+    if (coreClientPID)
+        kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
+
+    // Remove everything we've installed, whether BOINC or GridRepublic
+    system ("rm -rf /Applications/BOINCManager.app");
+    system ("rm -rf \"/Library/Screen Savers/BOINCSaver.saver\"");
+    system ("rm -rf /Library/Receipts/BOINC.pkg");
+    
+    system ("rm -rf \"/Applications/GridRepublic Desktop.app\"");
+    system ("rm -rf \"/Library/Screen Savers/GridRepublic.saver\"");
+    system ("rm -rf /Library/Receipts/GridRepublic.pkg");
+
+    // We don't customize BOINC Data directory name for branding
+    system ("rm -rf \"/Library/Application Support/BOINC Data\"");
+
+    CleanupAllVisibleUsers();
+    
+    system ("dscl . -delete /users/boinc_master");
+    system ("dscl . -delete /groups/boinc_master");
+    system ("dscl . -delete /users/boinc_project");
+    system ("dscl . -delete /groups/boinc_project");
+    
+    
+}
+
+// Find all visible users and delete their login item to launch BOINC Manager.
+// Remove each user from groups boinc_master and boinc_project.
+// Delete user's BOINC Preferences file.
+static OSErr CleanupAllVisibleUsers(void)
+{
+    DIR                 *dirp;
+    dirent              *dp;
+    passwd              *pw;
+    uid_t               saved_uid;
+    char                s[1024];
+    FILE                *f;
+    Boolean             changeSaver;
+
+    dirp = opendir("/Users");
+    if (dirp == NULL) {      // Should never happen
+        ShowMessage("opendir(\"/Users\") failed");
+        return -1;
+    }
+    
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+            
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+    
+        pw = getpwnam(dp->d_name);
+        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+            continue;
+
+        // Remove user from groups boinc_master and boinc_project
+        sprintf(s, "dscl . -delete /groups/boinc_master users %s", dp->d_name);
+        system (s);
+
+        sprintf(s, "dscl . -delete /groups/boinc_project users %s", dp->d_name);
+        system (s);
+
+#if TESTING
+//    ShowMessage("Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, dp->d_name, geteuid());
+#endif
+        
+        saved_uid = geteuid();
+        seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+
+        DeleteLoginItem();                          // Delete our login item(s) for this user
+
+        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", dp->d_name);
+        system (s);
+        
+        //  Set screensaver to "Computer Name" default screensaver only if it was BOINC or GridRepublic.
+        changeSaver = false;
+        f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+        if (f) {
+            PersistentFGets(s, sizeof(s), f);
+            if (strstr(s, "BOINCSaver"))
+                changeSaver = true;
+            if (strstr(s, "GridRepublic"))
+                changeSaver = true;
+            pclose(f);
+        }
+        
+        if (changeSaver) {
+            system ("defaults -currentHost write com.apple.screensaver moduleName \"Computer Name\"");
+            system ("defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver\"");
+        }
+        
+        seteuid(saved_uid);                         // Set effective uid back to privileged user
+#if TESTING
+//    ShowMessage("After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, dp->d_name, geteuid(), saved_uid);
+#endif
+    }
+    
+    closedir(dirp);
+    return noErr;
+}
+
+
+static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToTool, char *brandName) {
+    static Boolean              sIsAuthorized = false;
+    AuthorizationRights         ourAuthRights;
+    AuthorizationFlags          ourAuthFlags;
+    AuthorizationItem           ourAuthRightsItem[1];
+    AuthorizationEnvironment    ourAuthEnvironment;
+    AuthorizationItem           ourAuthEnvItem[1];
+    char                        prompt[256];
+    OSStatus                    err = noErr;
+
+    if (sIsAuthorized)
+        return noErr;
+    
+    sprintf(prompt, "Enter administrator password to completely remove %s from you computer.\n\n", brandName);
+
+    ourAuthRights.count = 0;
+    ourAuthRights.items = NULL;
+
+    err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, authRef);
+    if (err != noErr) {
+        ShowMessage("AuthorizationCreate returned error %d", err);
+        return err;
+    }
+     
+    ourAuthRightsItem[0].name = kAuthorizationRightExecute;
+    ourAuthRightsItem[0].value = (void *)pathToTool;
+    ourAuthRightsItem[0].valueLength = strlen (pathToTool);
+    ourAuthRightsItem[0].flags = 0;
+    ourAuthRights.count = 1;
+    ourAuthRights.items = ourAuthRightsItem;
+
+    ourAuthEnvItem[0].name = kAuthorizationEnvironmentPrompt;
+    ourAuthEnvItem[0].value = prompt;
+    ourAuthEnvItem[0].valueLength = strlen (prompt);
+    ourAuthEnvItem[0].flags = 0;
+
+    ourAuthEnvironment.count = 1;
+    ourAuthEnvironment.items = ourAuthEnvItem;
+
+    
+    ourAuthFlags = kAuthorizationFlagInteractionAllowed | kAuthorizationFlagExtendRights;
+    
+    // When this is called from the installer, the installer has already authenticated.  
+    // In that case we are already running with full root privileges so AuthorizationCopyRights() 
+    // does not request a password from the user again.
+    err = AuthorizationCopyRights (*authRef, &ourAuthRights, &ourAuthEnvironment, ourAuthFlags, NULL);
+    
+    if (err == noErr)
+        sIsAuthorized = true;
+    
+    return err;
+}
+
+
+
+static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5) {
+    AuthorizationRef    authRef = NULL;
+    short               i;
+    char                *args[8];
+    OSStatus            err;
+    FILE                *ioPipe;
+    char                *p, junk[256];
+
+    err = GetAuthorization(&authRef, pathToTool, brandName);
+    if (err != noErr) {
+        if (err != errAuthorizationCanceled)
+            ShowMessage("GetAuthorization returned error %d", err);
+        return err;
+    }
+
+    for (i=0; i<5; i++) {       // Retry 5 times if error
+        args[0] = arg1;
+        args[1] = arg2;
+        args[2] = arg3;
+        args[3] = arg4;
+        args[4] = arg5;
+        args[5] = NULL;
+
+        err = AuthorizationExecuteWithPrivileges (authRef, pathToTool, 0, args, &ioPipe);
+        // We use the pipe to signal us when the command has completed
+        if (ioPipe) {
+            do {
+                p = fgets(junk, sizeof(junk), ioPipe);
+            } while (p);
+            
+            fclose (ioPipe);
+        }
+        
+        if (err == noErr)
+            break;
+    }
+
+if (err != noErr)
+    ShowMessage("\"%s %s %s %s %s %s\" returned error %d", pathToTool, 
+                        arg1 ? arg1 : "", arg2 ? arg2 : "", arg3 ? arg3 : "", 
+                        arg4 ? arg4 : "", arg5 ? arg5 : "", err);
+
+   return err;
+}
+
+
+static void DeleteLoginItem(void)
+{
+    Boolean                 Success;
+    int                     NumberOfLoginItems, Counter;
+    char                    *p, *q;
+
+    Success = false;
+
+    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
+    
+    // Search existing login items in reverse order, deleting ours
+    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
+    {
+        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
+        q = p;
+        while (*q)
+        {
+            // It is OK to modify the returned string because we "own" it
+            *q = toupper(*q);	// Make it case-insensitive
+            q++;
+        }
+            
+        if (strcmp(p, "BOINCMANAGER.APP") == 0)
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+        if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+    }
+}
+
+
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
+static pid_t FindProcessPID(char* name, pid_t thePID)
+{
+    FILE *f;
+    char buf[1024];
+    size_t n = 0;
+    pid_t aPID;
+    
+    if (name != NULL)     // Search ny name
+        n = strlen(name);
+    
+    f = popen("ps -a -x -c -o command,pid", "r");
+    if (f == NULL)
+        return 0;
+    
+    while (PersistentFGets(buf, sizeof(buf), f))
+    {
+        if (name != NULL) {     // Search by name
+            if (strncmp(buf, name, n) == 0)
+            {
+                aPID = atol(buf+16);
+                pclose(f);
+                return aPID;
+            }
+        } else {      // Search by PID
+            aPID = atol(buf+16);
+            if (aPID == thePID) {
+                pclose(f);
+                return aPID;
+            }
+        }
+    }
+    pclose(f);
+    return 0;
+}
+
+
+static OSErr QuitBOINCManager(OSType signature) {
+    bool			done = false;
+    ProcessSerialNumber         thisPSN;
+    ProcessInfoRec		thisPIR;
+    OSErr                       err = noErr;
+    Str63			thisProcessName;
+    AEAddressDesc		thisPSNDesc;
+    AppleEvent			thisQuitEvent, thisReplyEvent;
+    
+
+    thisPIR.processInfoLength = sizeof (ProcessInfoRec);
+    thisPIR.processName = thisProcessName;
+    thisPIR.processAppSpec = nil;
+    
+    thisPSN.highLongOfPSN = 0;
+    thisPSN.lowLongOfPSN = kNoProcess;
+    
+    while (done == false) {		
+        err = GetNextProcess(&thisPSN);
+        if (err == procNotFound)	
+            done = true;		// apparently the demo app isn't running.  Odd but not impossible
+        else {		
+            err = GetProcessInformation(&thisPSN,&thisPIR);
+            if (err != noErr)
+                goto bail;
+                    
+            if (thisPIR.processSignature == signature) {	// is it or target process?
+                err = AECreateDesc(typeProcessSerialNumber, (Ptr)&thisPSN,
+                                            sizeof(thisPSN), &thisPSNDesc);
+                if (err != noErr)
+                        goto bail;
+
+                // Create the 'quit' Apple event for this process.
+                err = AECreateAppleEvent(kCoreEventClass, kAEQuitApplication, &thisPSNDesc,
+                                                kAutoGenerateReturnID, kAnyTransactionID, &thisQuitEvent);
+                if (err != noErr) {
+                    AEDisposeDesc (&thisPSNDesc);
+                    goto bail;		// don't know how this could happen, but limp gamely onward
+                }
+
+                // send the event 
+                err = AESend(&thisQuitEvent, &thisReplyEvent, kAEWaitReply,
+                                           kAENormalPriority, kAEDefaultTimeout, 0L, 0L);
+                AEDisposeDesc (&thisQuitEvent);
+                AEDisposeDesc (&thisPSNDesc);
+#if 0
+                if (err == errAETimeout) {
+                    pid_t thisPID;
+                        
+                    err = GetProcessPID(&thisPSN , &thisPID);
+                    if (err == noErr)
+                        err = kill(thisPID, SIGKILL);
+                }
+#endif
+                done = true;		// we've killed the process, presumably
+            }
+        }
+    }
+
+bail:
+    return err;
+}
+
+// Uses usleep to sleep for full duration even if a signal is received
+static void SleepTicks(UInt32 ticksToSleep) {
+    UInt32 endSleep, timeNow, ticksRemaining;
+
+    timeNow = TickCount();
+    ticksRemaining = ticksToSleep;
+    endSleep = timeNow + ticksToSleep;
+    while ( (timeNow < endSleep) && (ticksRemaining <= ticksToSleep) ) {
+        usleep(16667 * ticksRemaining);
+        timeNow = TickCount();
+        ticksRemaining = endSleep - timeNow;
+    } 
+}
+
+
+static void ShowMessage(const char *format, ...) {
+    va_list                 args;
+    char                    s[1024];
+    short                   itemHit;
+    AlertStdAlertParamRec   alertParams;
+    ModalFilterUPP          ErrorDlgFilterProcUPP;
+    
+    ProcessSerialNumber	ourProcess;
+
+    va_start(args, format);
+    s[0] = vsprintf(s+1, format, args);
+    va_end(args);
+
+    ErrorDlgFilterProcUPP = NewModalFilterUPP(ErrorDlgFilterProc);
+
+    alertParams.movable = true;
+    alertParams.helpButton = false;
+    alertParams.filterProc = ErrorDlgFilterProcUPP;
+    alertParams.defaultText = "\pOK";
+    alertParams.cancelText = NULL;
+    alertParams.otherText = NULL;
+    alertParams.defaultButton = kAlertStdAlertOKButton;
+    alertParams.cancelButton = 0;
+    alertParams.position = kWindowDefaultPosition;
+
+    ::GetCurrentProcess (&ourProcess);
+    ::SetFrontProcess(&ourProcess);
+
+    StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
+
+    DisposeModalFilterUPP(ErrorDlgFilterProcUPP);
+}
+
+
+static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit) {
+    // We need this because this is a command-line application so it does not get normal events
+    if (Button()) {
+        *theItemHit = kStdOkItemIndex;
+        return true;
+    }
+    
+    return StdFilterProc(theDialog, theEvent, theItemHit);
+}
+
