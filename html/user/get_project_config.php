@@ -24,7 +24,7 @@ function show_platforms() {
             fwrite($f, "<platforms>\n");
             while ($p = mysql_fetch_object($result)) {
                 fwrite($f,
-                    "  <platform>\n    <name>$p->name</name>\n    <user_friendly_name>$p->user_friendly_name</user_friendly_name>\n  </platform>\n"
+                    "  <platform>\n    <platform_name>$p->name</platform_name>\n    <user_friendly_name>$p->user_friendly_name</user_friendly_name>\n  </platform>\n"
                 );
             }
             mysql_free_result($result);

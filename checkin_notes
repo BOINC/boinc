@@ -5810,3 +5810,15 @@ Charlie 6 June 2007
         mac/
             SetupSecurity.cpp
             SetVersion.C
+
+David  6 June 2007
+    - new <platform> elements in get_project_config.php
+        confuse the client because their <name> element
+        gets parsed as the project name.
+        Work around by changing to <platform_name>.
+    
+    Note: here (and everywhere else) if we get an unparsed XML tag
+        we should skip to past the close tag.
+        I'll put this in soon.
+    html/user/
+        get_project_config.php
