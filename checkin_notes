@@ -5808,4 +5808,5 @@ Charlie 6 June 2007
         ReadMe.rtf
     clientgui/
         mac/
+            SetupSecurity.cpp
             SetVersion.C
