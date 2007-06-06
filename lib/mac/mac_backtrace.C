@@ -77,8 +77,8 @@ static void GetNameOfThisApp(char *nameBuf, int buflen);
 static void PrintOSVersion(char *minorVersion);
 
 void PrintBacktrace(void) {
-    int                     err;
-    QCrashReportRef         crRef;
+    int                         err;
+    QCrashReportRef             crRef = NULL;
 
     char                        nameBuf[1024];
     const NXArchInfo            *localArch;

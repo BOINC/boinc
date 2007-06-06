@@ -5824,7 +5824,7 @@ David  6 June 2007
     html/user/
         get_project_config.php
 
-Rom    1 June 2007
+Rom    6 June 2007
     - WinSETUP: The VBS custom action should delete the existing
         VBS script when executing in uninstall mode.
 
@@ -5845,3 +5845,9 @@ Janus	6 June 2007
     html/user/
         pending.php
 
+Charlie 6 June 2007
+    - Mac: Fix a minor bug which caused an assert in backtrace code.
+    
+    lib/
+        mac/
+            mac_backtrace.C
