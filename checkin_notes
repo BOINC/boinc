@@ -5847,7 +5847,12 @@ Janus	6 June 2007
 
 Charlie 6 June 2007
     - Mac: Fix a minor bug which caused an assert in backtrace code.
+    - Mac: Define NDEBUG in all projects for all deployment builds.
     
     lib/
         mac/
             mac_backtrace.C
+            QBacktrace.c
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
