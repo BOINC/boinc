@@ -5857,7 +5857,7 @@ Charlie 6 June 2007
         boinc.xcodeproj/
             project.pbxproj
 
-Rom    6 June 2007
+Rom    7 June 2007
     - WinSETUP: The VBS custom action should delete the existing
         VBS script in the various uninstall modes.
 
@@ -5888,3 +5888,11 @@ Charlie 7 June 2007
         uninstall.cpp
         make_GridRepublic.sh
         release_GridRepublic.sh
+
+Rom    7 June 2007
+    - fixes #241: BOINC Manager should only display one of each
+        project, no mater how many time you switch to and from
+        the page.
+
+    clientgui/
+        ProjectInfoPage.cpp, .h

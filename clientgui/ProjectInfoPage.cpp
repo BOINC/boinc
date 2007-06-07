@@ -90,6 +90,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectUrlStaticCtrl = NULL;
     m_pProjectUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
+    bProjectListPopulated = false;
  
 ////@begin CProjectInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
@@ -251,12 +252,15 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     // Populate the combo box with project information
     //
-    pDoc->rpc.get_all_projects_list(pl);
-    for (i=0; i<pl.projects.size(); i++) {
-        m_pProjectListCtrl->Append(
-            wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
-            wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
-        );
+    if (!bProjectListPopulated) {
+        pDoc->rpc.get_all_projects_list(pl);
+        for (i=0; i<pl.projects.size(); i++) {
+            m_pProjectListCtrl->Append(
+                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
+            );
+        }
+        bProjectListPopulated = true;
     }
 
     Layout();
@@ -271,11 +275,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  */
 
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
-
-    // Delete all existing entries
-    //
-    m_pProjectListCtrl->DeleteAllEntries();
-
     event.Skip();
 }
 
