@@ -5792,7 +5792,7 @@ Charlie 6 June 2007
     - Mac: Create "Uninstall BOINC" application, modify build scripts 
         to include it in release package with BOINC Manager.
     - Mac: Fix a bug in release_GridRepublic.sh build script which 
-        created a boogus " BOINC Data/locale" directory (with a bad 
+        created a bogus " BOINC Data/locale" directory (with a bad 
         leading space character.)
     
     mac_build/
@@ -5871,3 +5871,15 @@ Rom    6 June 2007
         boinccas.dll
         boinccas95.dll
 
+Charlie 7 June 2007
+    - Mac: Further work on "Uninstall BOINC" application: use various 
+        techniques to try to locate BOINC Manager in non-standard 
+        directories, use branding-independent search techniques.
+        to include it in release package with BOINC Manager.
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Uninstaller-Info.plist
+    mac_installer/
+        uninstall.cpp

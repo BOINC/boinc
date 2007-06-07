@@ -35,16 +35,17 @@
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
 static OSStatus DoUninstall(void);
-static OSErr CleanupAllVisibleUsers(void);
+static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
+static OSStatus CleanupAllVisibleUsers(void);
+static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
 static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToTool, char *brandName);
 static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
 static void DeleteLoginItem(void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static pid_t FindProcessPID(char* name, pid_t thePID);
-static OSErr QuitBOINCManager(OSType signature);
+static OSStatus QuitBOINCManager(OSType signature);
 static void SleepTicks(UInt32 ticksToSleep);
 static void ShowMessage(const char *format, ...);
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
 
 
 int main(int argc, char *argv[])
@@ -91,7 +92,7 @@ int main(int argc, char *argv[])
     strlcat(pathToSelf, "/Contents/MacOS/", sizeof(pathToSelf));
     strlcat(pathToSelf, appName, sizeof(pathToSelf));
 
-    p = strrchr(appName, ' ');
+    p = strchr(appName, ' ');
     p += 1;         // Point to brand name following "Uninstall "
 
     err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
@@ -115,6 +116,11 @@ int main(int argc, char *argv[])
 
 static OSStatus DoUninstall(void) {
     pid_t                   coreClientPID = 0;
+    char                    myRmCommand[MAXPATHLEN+10], plistRmCommand[MAXPATHLEN+10], *p;
+    char                    notBoot[] = "/Volumes/";
+    FSRef                   theFSRef;
+    int                     pathOffset, i;
+    OSStatus                err = noErr;
 
 #if TESTING
     ShowMessage("Permission OK after relaunch");
@@ -128,32 +134,199 @@ static OSStatus DoUninstall(void) {
     if (coreClientPID)
         kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
 
+    // Phase 1: try to find all our applications using LaunchServices
+    for (i=0; i<100; i++) {
+        strlcpy(myRmCommand, "rm -rf \"", 10);
+        pathOffset = strlen(myRmCommand);
+    
+        err = GetpathToBOINCManagerApp(myRmCommand+pathOffset, MAXPATHLEN, &theFSRef);
+        if (err)
+            break;
+        
+        strlcat(myRmCommand, "\"", sizeof(myRmCommand));
+    
+#if TESTING
+        ShowMessage("manager: %s", myRmCommand);
+#endif
+
+        p = strstr(myRmCommand, notBoot);
+        
+        if (p == myRmCommand+pathOffset) {
+#if TESTING
+            ShowMessage("Not on boot volume: %s", myRmCommand);
+#endif
+            break;
+        } else {
+
+            // First delete just the application's info.plist file and update the 
+            // LaunchServices Database;; otherwise LSFindApplicationForInfo might 
+            // return this application again after it's been deleted.
+            strlcpy(plistRmCommand, myRmCommand, sizeof(plistRmCommand));
+            strlcat(plistRmCommand, "/Contents/info.plist", sizeof(plistRmCommand));
+#if TESTING
+        ShowMessage("Deleting info.plist: %s", plistRmCommand);
+#endif
+            system(plistRmCommand); 
+            err = LSRegisterFSRef(&theFSRef, true);
+#if TESTING
+            if (err)
+                ShowMessage("LSRegisterFSRef returned error %d", err);
+#endif
+            system(myRmCommand);
+        }
+    }
+
+    // Phase 2: step through default Applications directory searching for our applications
+    err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boinc"), "app", "/Applications");
+
+    // Phase 3: step through default Screen Savers directory searching for our screen savers
+    err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boincsaver"), "saver", "/Library/Screen Savers");
+
+    // Phase 4: Delete our files and directories at our installer's default locations
     // Remove everything we've installed, whether BOINC or GridRepublic
+    // These first 4 should already have been deleted by the above code, but do them anyway for safety
     system ("rm -rf /Applications/BOINCManager.app");
     system ("rm -rf \"/Library/Screen Savers/BOINCSaver.saver\"");
-    system ("rm -rf /Library/Receipts/BOINC.pkg");
     
     system ("rm -rf \"/Applications/GridRepublic Desktop.app\"");
     system ("rm -rf \"/Library/Screen Savers/GridRepublic.saver\"");
+
+
     system ("rm -rf /Library/Receipts/GridRepublic.pkg");
+    system ("rm -rf /Library/Receipts/BOINC.pkg");
 
     // We don't customize BOINC Data directory name for branding
     system ("rm -rf \"/Library/Application Support/BOINC Data\"");
 
+    // Phase 5: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
     
     system ("dscl . -delete /users/boinc_master");
     system ("dscl . -delete /groups/boinc_master");
     system ("dscl . -delete /users/boinc_project");
     system ("dscl . -delete /groups/boinc_project");
-    
-    
 }
+
+
+static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef)
+{
+    CFStringRef             bundleID = CFSTR("edu.berkeley.boinc");
+    OSType                  creator = 'BNC!';
+    OSStatus                status = noErr;
+
+        status = LSFindApplicationForInfo(creator, bundleID, NULL, theFSRef, NULL);
+        if (status) {
+#if TESTING
+            ShowMessage("LSFindApplicationForInfo returned error %d", status);
+#endif 
+            return status;
+        }
+    
+        status = FSRefMakePath(theFSRef, (unsigned char *)path, maxLen);
+#if TESTING
+        if (status)
+            ShowMessage("GetpathToBOINCManagerApp FSRefMakePath returned error %d, %s", status, path);
+#endif
+    
+    return status;
+}
+
+
+static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath) {
+    DIR                     *dirp;
+    dirent                  *dp;
+    CFStringRef             urlStringRef = NULL;
+    int                     index;
+    CFStringRef             thisID = NULL;
+    CFBundleRef             thisBundle = NULL;
+    CFURLRef                bundleURLRef = NULL;
+    char                    myRmCommand[MAXPATHLEN+10], *p;
+    int                     pathOffset;
+
+    dirp = opendir(dirPath);
+    if (dirp == NULL) {      // Should never happen
+        ShowMessage("opendir(\"%s\") failed", dirPath);
+        return -1;
+    }
+    
+    index = -1;
+    while (true) {
+        index++;
+        
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+
+        p = strrchr(dp->d_name, '.');
+        if (p == NULL)
+            continue;
+
+        if (strcmp(p+1, extension))
+            continue;
+        
+        strlcpy(myRmCommand, "rm -rf \"", 10);
+        pathOffset = strlen(myRmCommand);
+        strlcat(myRmCommand, dirPath, sizeof(myRmCommand));
+        strlcat(myRmCommand, "/", sizeof(myRmCommand));
+        strlcat(myRmCommand, dp->d_name, sizeof(myRmCommand));
+        urlStringRef = CFStringCreateWithCString(kCFAllocatorDefault, myRmCommand+pathOffset, CFStringGetSystemEncoding());
+        if (urlStringRef) {
+            bundleURLRef = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, urlStringRef, kCFURLPOSIXPathStyle, false);
+            if (bundleURLRef) {
+                thisBundle = CFBundleCreate( kCFAllocatorDefault, bundleURLRef );
+                if (thisBundle) {
+                    thisID = CFBundleGetIdentifier(thisBundle);
+                        if (thisID) {
+                            strlcat(myRmCommand, "\"", sizeof(myRmCommand));
+                            if (CFStringCompare(thisID, bundleID, 0) == kCFCompareEqualTo) {
+#if TESTING
+                                ShowMessage("Bundles: %s", myRmCommand);                                
+#endif
+
+                               system(myRmCommand);
+                            } else {
+#if TESTING
+//                                ShowMessage("Bundles: Not deleting %s", myRmCommand+pathOffset);
+#endif
+                            }
+
+                
+                        } // if (thisID)
+#if TESTING
+                        else
+                            ShowMessage("CFBundleGetIdentifier failed for index %d", index);                                
+#endif
+                        CFRelease(thisBundle);                
+               } //if (thisBundle)
+#if TESTING
+                        else
+                            ShowMessage("CFBundleCreate failed for index %d", index);                                
+#endif
+                CFRelease(bundleURLRef);                
+            } // if (bundleURLRef)
+#if TESTING
+        else
+            ShowMessage("CFURLCreateWithFileSystemPath failed");                                
+#endif
+        
+            CFRelease(urlStringRef);
+        } // if (urlStringRef)
+#if TESTING
+        else
+            ShowMessage("CFStringCreateWithCString failed");                                
+#endif
+    }   // while true
+    
+    closedir(dirp);
+
+    return noErr;
+}
+
 
 // Find all visible users and delete their login item to launch BOINC Manager.
 // Remove each user from groups boinc_master and boinc_project.
 // Delete user's BOINC Preferences file.
-static OSErr CleanupAllVisibleUsers(void)
+static OSStatus CleanupAllVisibleUsers(void)
 {
     DIR                 *dirp;
     dirent              *dp;
@@ -414,11 +587,11 @@ static pid_t FindProcessPID(char* name, pid_t thePID)
 }
 
 
-static OSErr QuitBOINCManager(OSType signature) {
+static OSStatus QuitBOINCManager(OSType signature) {
     bool			done = false;
     ProcessSerialNumber         thisPSN;
     ProcessInfoRec		thisPIR;
-    OSErr                       err = noErr;
+    OSStatus                    err = noErr;
     Str63			thisProcessName;
     AEAddressDesc		thisPSNDesc;
     AppleEvent			thisQuitEvent, thisReplyEvent;
@@ -497,7 +670,7 @@ static void ShowMessage(const char *format, ...) {
     char                    s[1024];
     short                   itemHit;
     AlertStdAlertParamRec   alertParams;
-    ModalFilterUPP          ErrorDlgFilterProcUPP;
+//    ModalFilterUPP          ErrorDlgFilterProcUPP;
     
     ProcessSerialNumber	ourProcess;
 
@@ -505,11 +678,12 @@ static void ShowMessage(const char *format, ...) {
     s[0] = vsprintf(s+1, format, args);
     va_end(args);
 
-    ErrorDlgFilterProcUPP = NewModalFilterUPP(ErrorDlgFilterProc);
+//    ErrorDlgFilterProcUPP = NewModalFilterUPP(ErrorDlgFilterProc);
 
     alertParams.movable = true;
     alertParams.helpButton = false;
-    alertParams.filterProc = ErrorDlgFilterProcUPP;
+//    alertParams.filterProc = ErrorDlgFilterProcUPP;
+    alertParams.filterProc = NULL;
     alertParams.defaultText = "\pOK";
     alertParams.cancelText = NULL;
     alertParams.otherText = NULL;
@@ -521,18 +695,4 @@ static void ShowMessage(const char *format, ...) {
     ::SetFrontProcess(&ourProcess);
 
     StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
-
-    DisposeModalFilterUPP(ErrorDlgFilterProcUPP);
 }
-
-
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit) {
-    // We need this because this is a command-line application so it does not get normal events
-    if (Button()) {
-        *theItemHit = kStdOkItemIndex;
-        return true;
-    }
-    
-    return StdFilterProc(theDialog, theEvent, theItemHit);
-}
-
