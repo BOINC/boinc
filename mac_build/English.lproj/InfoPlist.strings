@@ -2,4 +2,4 @@
 
 CFBundleName = "BOINC";
 CFBundleShortVersionString = "BOINC version 5.10.2";
-CFBundleGetInfoString = "BOINC version 5.10.2, Copyright 2006 University of California.";
+CFBundleGetInfoString = "BOINC version 5.10.2, Copyright 2007 University of California.";

@@ -5876,10 +5876,15 @@ Charlie 7 June 2007
         techniques to try to locate BOINC Manager in non-standard 
         directories, use branding-independent search techniques.
         to include it in release package with BOINC Manager.
+    - Mac: Update visible copyright date from 2006 to 2007.
     
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
         Uninstaller-Info.plist
+        English.lproj/
+            InfoPlist.strings
     mac_installer/
         uninstall.cpp
+        make_GridRepublic.sh
+        release_GridRepublic.sh
