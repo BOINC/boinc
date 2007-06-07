@@ -5856,3 +5856,18 @@ Charlie 6 June 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    6 June 2007
+    - WinSETUP: The VBS custom action should delete the existing
+        VBS script in the various uninstall modes.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CACreateVBSShortcut.cpp, .h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+

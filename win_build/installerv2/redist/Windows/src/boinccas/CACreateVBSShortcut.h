@@ -29,7 +29,9 @@ public:
     CACreateVBSShortcut(MSIHANDLE hMSIHandle);
     ~CACreateVBSShortcut();
     virtual UINT OnExecution();
-
+    virtual UINT OnUninstall();
+    virtual UINT OnRollbackUninstall();
+    virtual UINT OnCommitUninstall();
 };
 
 

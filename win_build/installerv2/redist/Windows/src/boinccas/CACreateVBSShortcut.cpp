@@ -123,6 +123,141 @@ UINT CACreateVBSShortcut::OnExecution()
 
 /////////////////////////////////////////////////////////////////////
 // 
+// Function:    
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT CACreateVBSShortcut::OnUninstall()
+{
+    tstring     strAllUsers;
+    tstring     strVBSScript;
+    tstring     strEnableLaunchAtLogon;
+	TCHAR		szBuffer[MAX_PATH];
+    UINT        uiReturnValue = -1;
+
+
+    uiReturnValue = GetProperty( _T("ALLUSERS"), strAllUsers );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    // Fix for Win9x systems
+    if (_T("1") != strEnableLaunchAtLogon) {
+        return ERROR_SUCCESS;
+    }
+
+    // Find the correct startup directory.
+    if (_T("1") == strAllUsers) {
+        SHGetFolderPath(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer);
+    } else {
+        SHGetFolderPath(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer);
+    }
+
+    // Open the file for writing
+    strVBSScript =  szBuffer;
+    strVBSScript += _T("\\BOINC Manager.vbs");
+
+    // Uninstall operation
+    DeleteFile(strVBSScript.c_str());
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT CACreateVBSShortcut::OnRollbackUninstall()
+{
+    tstring     strAllUsers;
+    tstring     strVBSScript;
+    tstring     strEnableLaunchAtLogon;
+	TCHAR		szBuffer[MAX_PATH];
+    UINT        uiReturnValue = -1;
+
+
+    uiReturnValue = GetProperty( _T("ALLUSERS"), strAllUsers );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    // Fix for Win9x systems
+    if (_T("1") != strEnableLaunchAtLogon) {
+        return ERROR_SUCCESS;
+    }
+
+    // Find the correct startup directory.
+    if (_T("1") == strAllUsers) {
+        SHGetFolderPath(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer);
+    } else {
+        SHGetFolderPath(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer);
+    }
+
+    // Open the file for writing
+    strVBSScript =  szBuffer;
+    strVBSScript += _T("\\BOINC Manager.vbs");
+
+    // Uninstall operation
+    DeleteFile(strVBSScript.c_str());
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT CACreateVBSShortcut::OnCommitUninstall()
+{
+    tstring     strAllUsers;
+    tstring     strVBSScript;
+    tstring     strEnableLaunchAtLogon;
+	TCHAR		szBuffer[MAX_PATH];
+    UINT        uiReturnValue = -1;
+
+
+    uiReturnValue = GetProperty( _T("ALLUSERS"), strAllUsers );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    // Fix for Win9x systems
+    if (_T("1") != strEnableLaunchAtLogon) {
+        return ERROR_SUCCESS;
+    }
+
+    // Find the correct startup directory.
+    if (_T("1") == strAllUsers) {
+        SHGetFolderPath(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer);
+    } else {
+        SHGetFolderPath(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer);
+    }
+
+    // Open the file for writing
+    strVBSScript =  szBuffer;
+    strVBSScript += _T("\\BOINC Manager.vbs");
+
+    // Uninstall operation
+    DeleteFile(strVBSScript.c_str());
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
 // Function:    CreateVBSShortcut
 //
 // Description: 

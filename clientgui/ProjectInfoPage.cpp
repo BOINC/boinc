@@ -271,6 +271,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  */
 
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
+
+    // Delete all existing entries
+    //
+    m_pProjectListCtrl->DeleteAllEntries();
+
     event.Skip();
 }
 
