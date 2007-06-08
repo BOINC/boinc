@@ -36,6 +36,7 @@ $features_510 = "
     <li> Advanced preferences dialog.
     <li> Project list in the attach to project wizard.
     <li> Improved Windows Vista compatibility.
+    <li> An Uninstaller is now included with the Macintosh BOINC Manager distribution.
 ";
 
 $features_57 = "
@@ -453,7 +454,7 @@ $m5102 = array(
     "num"=>"5.10.2",
     "status"=>"Development version (standard GUI)",
     "file"=>"boinc_5.10.2_macOSX_universal.zip",
-    "date"=>"5 June 2007",
+    "date"=>"8 June 2007",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_510."
@@ -510,7 +511,7 @@ $m5102c = array(
     "num"=>"5.10.2",
     "status"=>"Development version (Unix command-line version)",
     "file"=>"boinc_5.10.2_universal-apple-darwin.zip",
-    "date"=>"5 June 2007",
+    "date"=>"8 June 2007",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_510."
