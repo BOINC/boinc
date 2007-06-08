@@ -5990,3 +5990,12 @@ David  8 June 2007
 		gui_rpc_client_ops.C
 		parse.C
 		prefs.C
+		
+Rom    8 June 2007
+    - Tag for 5.10.3 release, all platforms
+      boinc_core_release_5_10_3
+    
+    client/
+        configure.ac
+        version.h
+
