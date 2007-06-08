@@ -6,6 +6,8 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string>MacUninstaller.icns</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Uninstall BOINC version 5.10.2, Copyright 2007 University of California.</string>
 	<key>CFBundleIdentifier</key>

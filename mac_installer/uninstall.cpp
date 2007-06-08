@@ -45,7 +45,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitBOINCManager(OSType signature);
 static void SleepTicks(UInt32 ticksToSleep);
-static void ShowMessage(const char *format, ...);
+static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 
 
 int main(int argc, char *argv[])
@@ -53,12 +53,13 @@ int main(int argc, char *argv[])
     char                        pathToSelf[MAXPATHLEN], appName[256], *p;
     ProcessSerialNumber         ourPSN;
     FSRef                       ourFSRef;
+    Boolean                     cancelled = false;
     OSStatus                    err = noErr;
 
     // Determine whether this is the intial launch or the relaunch with privileges
     if ( (argc == 2) && (strcmp(argv[1], "--privileged") == 0) ) {
         if (geteuid() != 0) {        // Confirm that we are running as root
-            ShowMessage("Permission error after relaunch");
+            ShowMessage(false, "Permission error after relaunch");
             return permErr;
         }
         
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
         err = FSRefMakePath (&ourFSRef, (UInt8*)pathToSelf, sizeof(pathToSelf));
     }
     if (err != noErr) {
-        ShowMessage("Couldn't get path to self.  Error %d", err);
+        ShowMessage(false, "Couldn't get path to self.  Error %d", err);
         return err;
     }
 
@@ -95,20 +96,25 @@ int main(int argc, char *argv[])
     p = strchr(appName, ' ');
     p += 1;         // Point to brand name following "Uninstall "
 
-    err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
-    if (err == errAuthorizationCanceled) {
-        ShowMessage("Canceled: %s has not been touched.", p);
+    cancelled = ! ShowMessage(true, "Are you sure you want to completely remove %s and all its data from your computer?\n\n"
+                                    "Any unreported results will be lost.", p);
+
+    if (! cancelled)
+        err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
+    
+    if (cancelled || (err == errAuthorizationCanceled)) {
+        ShowMessage(false, "Canceled: %s has not been touched.", p);
         return err;
     }
 
 #if TESTING
-    ShowMessage("DoPrivilegedExec returned %d", err);
+    ShowMessage(false, "DoPrivilegedExec returned %d", err);
 #endif
 
     if (err)
-        ShowMessage("An error occurred: error code %d", err);
+        ShowMessage(false, "An error occurred: error code %d", err);
     else
-        ShowMessage("Removal completed.");
+        ShowMessage(false, "Removal completed.");
         
     return err;
 }
@@ -123,7 +129,7 @@ static OSStatus DoUninstall(void) {
     OSStatus                err = noErr;
 
 #if TESTING
-    ShowMessage("Permission OK after relaunch");
+    ShowMessage(false, "Permission OK after relaunch");
 #endif
 
     QuitBOINCManager('BNC!'); // Quit any old instance of BOINC manager
@@ -146,14 +152,14 @@ static OSStatus DoUninstall(void) {
         strlcat(myRmCommand, "\"", sizeof(myRmCommand));
     
 #if TESTING
-        ShowMessage("manager: %s", myRmCommand);
+        ShowMessage(false, "manager: %s", myRmCommand);
 #endif
 
         p = strstr(myRmCommand, notBoot);
         
         if (p == myRmCommand+pathOffset) {
 #if TESTING
-            ShowMessage("Not on boot volume: %s", myRmCommand);
+            ShowMessage(false, "Not on boot volume: %s", myRmCommand);
 #endif
             break;
         } else {
@@ -164,13 +170,13 @@ static OSStatus DoUninstall(void) {
             strlcpy(plistRmCommand, myRmCommand, sizeof(plistRmCommand));
             strlcat(plistRmCommand, "/Contents/info.plist", sizeof(plistRmCommand));
 #if TESTING
-        ShowMessage("Deleting info.plist: %s", plistRmCommand);
+        ShowMessage(false, "Deleting info.plist: %s", plistRmCommand);
 #endif
             system(plistRmCommand); 
             err = LSRegisterFSRef(&theFSRef, true);
 #if TESTING
             if (err)
-                ShowMessage("LSRegisterFSRef returned error %d", err);
+                ShowMessage(false, "LSRegisterFSRef returned error %d", err);
 #endif
             system(myRmCommand);
         }
@@ -217,7 +223,7 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
         status = LSFindApplicationForInfo(creator, bundleID, NULL, theFSRef, NULL);
         if (status) {
 #if TESTING
-            ShowMessage("LSFindApplicationForInfo returned error %d", status);
+            ShowMessage(false, "LSFindApplicationForInfo returned error %d", status);
 #endif 
             return status;
         }
@@ -225,7 +231,7 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
         status = FSRefMakePath(theFSRef, (unsigned char *)path, maxLen);
 #if TESTING
         if (status)
-            ShowMessage("GetpathToBOINCManagerApp FSRefMakePath returned error %d, %s", status, path);
+            ShowMessage(false, "GetpathToBOINCManagerApp FSRefMakePath returned error %d, %s", status, path);
 #endif
     
     return status;
@@ -245,7 +251,7 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 
     dirp = opendir(dirPath);
     if (dirp == NULL) {      // Should never happen
-        ShowMessage("opendir(\"%s\") failed", dirPath);
+        ShowMessage(false, "opendir(\"%s\") failed", dirPath);
         return -1;
     }
     
@@ -280,13 +286,13 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
                             strlcat(myRmCommand, "\"", sizeof(myRmCommand));
                             if (CFStringCompare(thisID, bundleID, 0) == kCFCompareEqualTo) {
 #if TESTING
-                                ShowMessage("Bundles: %s", myRmCommand);                                
+                                ShowMessage(false, "Bundles: %s", myRmCommand);                                
 #endif
 
                                system(myRmCommand);
                             } else {
 #if TESTING
-//                                ShowMessage("Bundles: Not deleting %s", myRmCommand+pathOffset);
+//                                ShowMessage(false, "Bundles: Not deleting %s", myRmCommand+pathOffset);
 #endif
                             }
 
@@ -294,26 +300,26 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
                         } // if (thisID)
 #if TESTING
                         else
-                            ShowMessage("CFBundleGetIdentifier failed for index %d", index);                                
+                            ShowMessage(false, "CFBundleGetIdentifier failed for index %d", index);                                
 #endif
                         CFRelease(thisBundle);                
                } //if (thisBundle)
 #if TESTING
                         else
-                            ShowMessage("CFBundleCreate failed for index %d", index);                                
+                            ShowMessage(false, "CFBundleCreate failed for index %d", index);                                
 #endif
                 CFRelease(bundleURLRef);                
             } // if (bundleURLRef)
 #if TESTING
         else
-            ShowMessage("CFURLCreateWithFileSystemPath failed");                                
+            ShowMessage(false, "CFURLCreateWithFileSystemPath failed");                                
 #endif
         
             CFRelease(urlStringRef);
         } // if (urlStringRef)
 #if TESTING
         else
-            ShowMessage("CFStringCreateWithCString failed");                                
+            ShowMessage(false, "CFStringCreateWithCString failed");                                
 #endif
     }   // while true
     
@@ -338,7 +344,7 @@ static OSStatus CleanupAllVisibleUsers(void)
 
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
-        ShowMessage("opendir(\"/Users\") failed");
+        ShowMessage(false, "opendir(\"/Users\") failed");
         return -1;
     }
     
@@ -362,7 +368,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         system (s);
 
 #if TESTING
-//    ShowMessage("Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, dp->d_name, geteuid());
+//    ShowMessage(false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, dp->d_name, geteuid());
 #endif
         
         saved_uid = geteuid();
@@ -392,7 +398,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         
         seteuid(saved_uid);                         // Set effective uid back to privileged user
 #if TESTING
-//    ShowMessage("After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, dp->d_name, geteuid(), saved_uid);
+//    ShowMessage(false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, dp->d_name, geteuid(), saved_uid);
 #endif
     }
     
@@ -421,7 +427,7 @@ static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToT
 
     err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, authRef);
     if (err != noErr) {
-        ShowMessage("AuthorizationCreate returned error %d", err);
+        ShowMessage(false, "AuthorizationCreate returned error %d", err);
         return err;
     }
      
@@ -467,7 +473,7 @@ static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *
     err = GetAuthorization(&authRef, pathToTool, brandName);
     if (err != noErr) {
         if (err != errAuthorizationCanceled)
-            ShowMessage("GetAuthorization returned error %d", err);
+            ShowMessage(false, "GetAuthorization returned error %d", err);
         return err;
     }
 
@@ -494,7 +500,7 @@ static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *
     }
 
 if (err != noErr)
-    ShowMessage("\"%s %s %s %s %s %s\" returned error %d", pathToTool, 
+    ShowMessage(false, "\"%s %s %s %s %s %s\" returned error %d", pathToTool, 
                         arg1 ? arg1 : "", arg2 ? arg2 : "", arg3 ? arg3 : "", 
                         arg4 ? arg4 : "", arg5 ? arg5 : "", err);
 
@@ -665,12 +671,11 @@ static void SleepTicks(UInt32 ticksToSleep) {
 }
 
 
-static void ShowMessage(const char *format, ...) {
+static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
     va_list                 args;
     char                    s[1024];
     short                   itemHit;
     AlertStdAlertParamRec   alertParams;
-//    ModalFilterUPP          ErrorDlgFilterProcUPP;
     
     ProcessSerialNumber	ourProcess;
 
@@ -678,21 +683,20 @@ static void ShowMessage(const char *format, ...) {
     s[0] = vsprintf(s+1, format, args);
     va_end(args);
 
-//    ErrorDlgFilterProcUPP = NewModalFilterUPP(ErrorDlgFilterProc);
-
     alertParams.movable = true;
     alertParams.helpButton = false;
-//    alertParams.filterProc = ErrorDlgFilterProcUPP;
     alertParams.filterProc = NULL;
-    alertParams.defaultText = "\pOK";
-    alertParams.cancelText = NULL;
+    alertParams.defaultText = (StringPtr)-1;
+    alertParams.cancelText = allowCancel ? (StringPtr)-1 : NULL;
     alertParams.otherText = NULL;
     alertParams.defaultButton = kAlertStdAlertOKButton;
-    alertParams.cancelButton = 0;
+    alertParams.cancelButton = allowCancel ? kAlertStdAlertCancelButton : 0;
     alertParams.position = kWindowDefaultPosition;
 
     ::GetCurrentProcess (&ourProcess);
     ::SetFrontProcess(&ourProcess);
 
-    StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
+    StandardAlert (kAlertNoteAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
+    
+    return (itemHit == kAlertStdAlertOKButton);
 }

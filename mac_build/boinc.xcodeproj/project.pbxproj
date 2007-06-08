@@ -46,7 +46,6 @@
 		DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD130F340820C4C4001A0291 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.C in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.C */; };
-		DD1AFEA80A512D8700EE5B82 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD1AFEAD0A512D8700EE5B82 /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -183,6 +182,8 @@
 		DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.C */; };
 		DD52C81408B5D484008D9AA4 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
+		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
+		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
@@ -958,6 +959,8 @@
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = texture.C; path = ../api/texture.C; sourceTree = SOURCE_ROOT; };
 		DD4EC61008A0A083009AA08F /* texture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../api/texture.h; sourceTree = SOURCE_ROOT; };
+		DD531BC50C193D3800742E50 /* MacInstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacInstaller.icns; path = ../clientgui/res/MacInstaller.icns; sourceTree = SOURCE_ROOT; };
+		DD531BC70C193D5200742E50 /* MacUninstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacUninstaller.icns; path = ../clientgui/res/MacUninstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountInfoPage.cpp; path = ../clientgui/AccountInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C41908F3343F00C1DF66 /* AccountInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountInfoPage.h; path = ../clientgui/AccountInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C41A08F3343F00C1DF66 /* AccountKeyPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountKeyPage.cpp; path = ../clientgui/AccountKeyPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1380,6 +1383,8 @@
 			children = (
 				DD0C5A8A0816711400CEC5D7 /* boinc.tiff */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
+				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
+				DD531BC70C193D5200742E50 /* MacUninstaller.icns */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DDEB3CA80981084A0087E200 /* gridrepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
@@ -2226,7 +2231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD1AFEA80A512D8700EE5B82 /* InfoPlist.strings in Resources */,
+				DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2251,6 +2256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

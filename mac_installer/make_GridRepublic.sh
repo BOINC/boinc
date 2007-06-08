@@ -21,7 +21,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# 6/7/07 by Charlie Fenton
+# 6/8/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -29,10 +29,12 @@
 ##     the BOINC installer to be converted
 ##     the Uninstall BOINC application to be converted
 ##     GR_ReadMe.rtf
-##     GridRepublic.icns
+##     gridrepublic.icns
+##     GR_install.icns
+##     GR_uninstall.icns
 ##     COPYING
 ##     COPYRIGHT
-##     GridRepublic.tiff (for screensaver)
+##     gridrepublic.tiff (for screensaver)
 ##     skins directory containing GridRepublic skin (optional)
 ##
 ## cd to the working directory:
@@ -51,8 +53,10 @@ NEW_DIR_PATH="New_Release_GR_$1_$2_$3"
 README_FILE="GR-ReadMe.rtf"
 ## BRANDING_FILE="GR-Branding"
 BRANDING_INFO="BrandId=1"
-ICNS_FILE="GridRepublic.icns"
-SAVER_SYSPREF_ICON="GridRepublic.tiff"
+ICNS_FILE="gridrepublic.icns"
+INSTALLER_ICNS_FILE="GR_install.icns"
+UNINSTALLER_ICNS_FILE="GR_uninstall.icns"
+SAVER_SYSPREF_ICON="gridrepublic.tiff"
 BRAND_NAME="GridRepublic"
 MANAGER_NAME="GridRepublic Desktop"
 LC_BRAND_NAME="gridrepublic"
@@ -149,12 +153,18 @@ sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NA
 cp -fp "${SAVER_SYSPREF_ICON}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.tiff"
 
 # Copy and rename the Uninstall application's bundle and rename its executable inside the bundle
-cp -fpR "Uninstall BOINC.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
-mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall BOINC" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall ${BRAND_NAME}"
+sudo cp -fpR "Uninstall BOINC.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
+sudo mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall BOINC" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/MacOS/Uninstall ${BRAND_NAME}"
 
 # Update Uninstall application's info.plist, InfoPlist.strings files
-sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
+sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
+sudo sed -i "" s/MacUninstaller.icns/"${UNINSTALLER_ICNS_FILE}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
 #### sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+
+# Replace the Uninstall application's MacUninstaller.icns file
+sudo cp -fp "${UNINSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Resources/${UNINSTALLER_ICNS_FILE}"
+sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app/Contents/Resources/MacUninstaller.icns"
+
 sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
 sudo chmod -R 555 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/Uninstall ${BRAND_NAME}.app"
 
@@ -194,7 +204,12 @@ sudo rm -dfR "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND
 
 # Update the installer wrapper application's info.plist, InfoPlist.strings files
 sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Info.plist"
-sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sed -i "" s/MacInstaller.icns/"${INSTALLER_ICNS_FILE}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Info.plist"
+## sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
+
+# Replace the installer wrapper application's MacInstaller.icns file
+cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${INSTALLER_ICNS_FILE}"
+rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/MacInstaller.icns"
 
 # Rename the installer wrapper application's executable inside the bundle
 mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/MacOS/BOINC Installer" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/MacOS/${BRAND_NAME} Installer"
@@ -219,6 +234,10 @@ zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip ${LC_BRAND_NAME}_$1.$2.$
 #### zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin.zip ${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin
 ##### We've decided not to create branded symbol table file; it is identical to standard one
 #### zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables
+
+# Force Finder to recognize changed icons by deleting the uncompressed products and expanding the zip file 
+sudo rm -dfR ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal
+open ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip
 
 popd
 exit 0
