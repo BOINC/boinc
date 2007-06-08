@@ -280,7 +280,9 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                 "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
             );
-            retval = skip_unrecognized(buf, fin);
+            MIOFILE mf;
+            mf.init_file(fin);
+            retval = skip_unrecognized(buf, mf);
             if (retval) return retval;
         }
     }

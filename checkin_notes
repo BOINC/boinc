@@ -5999,3 +5999,8 @@ Rom    8 June 2007
         configure.ac
         version.h
 
+David  8 June 2007
+    - sched compile fix
+
+    sched/
+        server_types.C
