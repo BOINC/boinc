@@ -5890,9 +5890,16 @@ Charlie 7 June 2007
         release_GridRepublic.sh
 
 Rom    7 June 2007
-    - fixes #241: BOINC Manager should only display one of each
-        project, no mater how many time you switch to and from
-        the page.
+    - fixes #241: BOINC Manager should only display one of each project,
+        no matter how many time you switch to and from the page.
 
     clientgui/
         ProjectInfoPage.cpp, .h
+
+David  8 June 2007
+    - rename BOINC_DIAG_USEDEFALUTS (??) to BOINC_DIAG_DEFAULTS
+
+    api/
+        boinc_api.C
+    lib/
+        diagnostics.h

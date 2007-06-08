@@ -261,7 +261,7 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
 int boinc_init() {
     int retval;
     if (!diagnostics_is_initialized()) {
-        retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
+        retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
         if (retval) return retval;
     }
     boinc_options_defaults(options);
@@ -271,7 +271,7 @@ int boinc_init() {
 int boinc_init_options(BOINC_OPTIONS* opt) {
     int retval;
     if (!diagnostics_is_initialized()) {
-        retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
+        retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
         if (retval) return retval;
     }
     retval = boinc_init_options_general(*opt);
