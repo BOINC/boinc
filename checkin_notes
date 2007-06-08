@@ -362,3 +362,9 @@ David  28 May 2007
     wrapper/
         job.xml
         wrapper.C
+
+David  8 June 2007
+    - Wrapper: use default diag options
+
+    wrapper/
+        wrapper.C

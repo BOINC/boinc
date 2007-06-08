@@ -434,13 +434,6 @@ int main(int argc, char** argv) {
     int ntasks;
     double cpu;
 
-    boinc_init_diagnostics(
-        BOINC_DIAG_DUMPCALLSTACKENABLED
-        | BOINC_DIAG_HEAPCHECKENABLED
-        | BOINC_DIAG_MEMORYLEAKCHECKENABLED
-        | BOINC_DIAG_TRACETOSTDERR
-    );
-
     memset(&options, 0, sizeof(options));
     options.main_program = true;
     options.check_heartbeat = true;
