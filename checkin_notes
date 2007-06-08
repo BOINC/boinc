@@ -5787,3 +5787,80 @@ Rom    4 June 2007
         configure.ac
         version.h
 
+Charlie 6 June 2007
+    - Mac: Minor fix to error handling when setting permissions.
+    - Mac: Create "Uninstall BOINC" application, modify build scripts 
+        to include it in release package with BOINC Manager.
+    - Mac: Fix a bug in release_GridRepublic.sh build script which 
+        created a bogus " BOINC Data/locale" directory (with a bad 
+        leading space character.)
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Uninstaller-Info.plist (new)
+    mac_installer/
+        uninstall.cpp (new)
+        make_GridRepublic.sh
+        release_GridRepublic.sh
+        release_boinc.sh
+        GR-ReadMe.rtf
+        ReadMe.rtf
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+            SetVersion.C
+
+Charlie 6 June 2007
+    - Mac: Fix a minor bug which caused an assert in backtrace code.
+    - Mac: Define NDEBUG in all projects for all deployment builds.
+    
+    lib/
+        mac/
+            mac_backtrace.C
+            QBacktrace.c
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 7 June 2007
+    - Mac: Further work on "Uninstall BOINC" application: use various 
+        techniques to try to locate BOINC Manager in non-standard 
+        directories, use branding-independent search techniques.
+        to include it in release package with BOINC Manager.
+    - Mac: Update visible copyright date from 2006 to 2007.
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Uninstaller-Info.plist
+        English.lproj/
+            InfoPlist.strings
+    mac_installer/
+        uninstall.cpp
+        make_GridRepublic.sh
+        release_GridRepublic.sh
+
+Charlie 8 June 2007
+    - Mac: Add application icons to installer, uninstaller; add 
+        "are you sure?" dialog to uninstaller.  Fix installer 
+        copyright and version strings.
+    - All listed changes checked into boinc_core_release_5_10_2
+
+    clientgui/
+        res/
+            MacInstaller.icns (new)
+            MacUninstaller.icns (new)
+            GR_install.icns (new)
+            GR_uninstall.icns (new)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Uninstaller-Info.plist
+        Installer-Info.plist
+        English.lproj/
+            InfoPlist.strings
+    mac_installer/
+        uninstall.cpp
+        make_GridRepublic.sh
+        release_GridRepublic.sh

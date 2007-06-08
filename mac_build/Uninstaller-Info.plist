@@ -5,9 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>PostInstall</string>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string>MacUninstaller.icns</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Uninstall BOINC version 5.10.2, Copyright 2007 University of California.</string>
 	<key>CFBundleIdentifier</key>
-	<string>edu.berkeley.boinc.PostInstall</string>
+	<string>edu.berkeley.boinc.Uninstaller</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -16,5 +20,11 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>5.10.2</string>
+	<key>CFBundleName</key>
+	<string>Uninstall BOINC</string>
+	<key>CFBundleShortVersionString</key>
+	<string>Uninstall BOINC version 5.10.2</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
 </dict>
 </plist>
