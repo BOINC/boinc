@@ -95,37 +95,36 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
             continue;
         }
         if (!strcmp(tag, "/log_flags")) return 0;
-        else if (xp.parse_bool(tag, "task", task)) continue;
-        else if (xp.parse_bool(tag, "file_xfer", file_xfer)) continue;
-        else if (xp.parse_bool(tag, "sched_ops", sched_ops)) continue;
-        else if (xp.parse_bool(tag, "cpu_sched", cpu_sched)) continue;
-        else if (xp.parse_bool(tag, "cpu_sched_debug", cpu_sched_debug)) continue;
-        else if (xp.parse_bool(tag, "rr_simulation", rr_simulation)) continue;
-        else if (xp.parse_bool(tag, "debt_debug", debt_debug)) continue;
-        else if (xp.parse_bool(tag, "task_debug", task_debug)) continue;
-        else if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
-        else if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
-        else if (xp.parse_bool(tag, "state_debug", state_debug)) continue;
-        else if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
-        else if (xp.parse_bool(tag, "sched_op_debug", sched_op_debug)) continue;
-        else if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
-        else if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
-        else if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
-        else if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
-        else if (xp.parse_bool(tag, "benchmark_debug", benchmark_debug)) continue;
-        else if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
-        else if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
-        else if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
-        else if (xp.parse_bool(tag, "app_msg_send", app_msg_send)) continue;
-        else if (xp.parse_bool(tag, "app_msg_receive", app_msg_receive)) continue;
-        else if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
-        else if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
-        else if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
-        else {
-            msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
-                CONFIG_FILE, tag
-            );
-        }
+        if (xp.parse_bool(tag, "task", task)) continue;
+        if (xp.parse_bool(tag, "file_xfer", file_xfer)) continue;
+        if (xp.parse_bool(tag, "sched_ops", sched_ops)) continue;
+        if (xp.parse_bool(tag, "cpu_sched", cpu_sched)) continue;
+        if (xp.parse_bool(tag, "cpu_sched_debug", cpu_sched_debug)) continue;
+        if (xp.parse_bool(tag, "rr_simulation", rr_simulation)) continue;
+        if (xp.parse_bool(tag, "debt_debug", debt_debug)) continue;
+        if (xp.parse_bool(tag, "task_debug", task_debug)) continue;
+        if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
+        if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
+        if (xp.parse_bool(tag, "state_debug", state_debug)) continue;
+        if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
+        if (xp.parse_bool(tag, "sched_op_debug", sched_op_debug)) continue;
+        if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
+        if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
+        if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
+        if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
+        if (xp.parse_bool(tag, "benchmark_debug", benchmark_debug)) continue;
+        if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
+        if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
+        if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
+        if (xp.parse_bool(tag, "app_msg_send", app_msg_send)) continue;
+        if (xp.parse_bool(tag, "app_msg_receive", app_msg_receive)) continue;
+        if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
+        if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
+        if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
+        msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
+            CONFIG_FILE, tag
+        );
+        xp.skip_unexpected(tag);
     }
     return ERR_XML_PARSE;
 }
@@ -207,21 +206,20 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (!strcmp(tag, "/options")) {
             return 0;
         }
-        else if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
-        else if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
-        else if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
-        else if (xp.parse_int(tag, "ncpus", ncpus)) continue;
-        else if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
-        else if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        else if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
-        else if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
-        else if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
-        else if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
-        else {
-            msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
-                CONFIG_FILE, tag
-            );
-        }
+        if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
+        if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
+        if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
+        if (xp.parse_int(tag, "ncpus", ncpus)) continue;
+        if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
+        if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
+        if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
+        if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
+        if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
+        if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
+        msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
+            CONFIG_FILE, tag
+        );
+        xp.skip_unexpected(tag);
     }
     return ERR_XML_PARSE;
 }
@@ -254,6 +252,7 @@ int CONFIG::parse(FILE* f) {
             msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag
             );
+            xp.skip_unexpected(tag);
         }
     }
     msg_printf(NULL, MSG_USER_ERROR, "Missing end tag in %s", CONFIG_FILE);

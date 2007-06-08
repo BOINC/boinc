@@ -317,7 +317,7 @@ int CLIENT_STATE::parse_state_file() {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Project files outside project in state file"
                 );
-                skip_unrecognized(buf, f);
+                skip_unrecognized(buf, mf);
                 continue;
             }
             project->parse_project_files(mf, false);
@@ -383,7 +383,7 @@ int CLIENT_STATE::parse_state_file() {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "auto update outside project in state file"
                 );
-                skip_unrecognized(buf, f);
+                skip_unrecognized(buf, mf);
                 continue;
             }
             if (!auto_update.parse(mf) && !auto_update.validate_and_link(project)) {
@@ -395,6 +395,7 @@ int CLIENT_STATE::parse_state_file() {
                     "[unparsed_xml] state_file: unrecognized: %s", buf
                 );
             }
+            skip_unrecognized(buf, mf);
         }
     }
     fclose(f);

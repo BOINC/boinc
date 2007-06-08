@@ -391,7 +391,7 @@ void xml_unescape(const char* in, char* out) {
 // If it's of the form <foo> then scan for </foo> and return 0.
 // Otherwise return ERR_XML_PARSE
 //
-int skip_unrecognized(char* buf, FILE* in) {
+int skip_unrecognized(char* buf, MIOFILE& fin) {
     char* p, *q, buf2[256];
     std::string close_tag;
 
@@ -408,7 +408,7 @@ int skip_unrecognized(char* buf, FILE* in) {
     }
     *q = 0;
     close_tag = string("</") + string(p+1) + string(">");
-    while (fgets(buf2, 256, in)) {
+    while (fin.fgets(buf2, 256)) {
         if (strstr(buf2, close_tag.c_str())) {
             return 0;
         }
@@ -697,6 +697,23 @@ int XML_PARSER::element_contents(const char* end_tag, char* buf, int buflen) {
     return retval;
 }
 
+// We got an unexpected tag.
+// If it's an end tag, do nothing.
+// Otherwise skip until the end tag, if any
+//
+void XML_PARSER::skip_unexpected(const char* start_tag) {
+    char tag[256], end_tag[256];
+    bool eof, is_tag;
+
+    if (start_tag[0] == '/') return;
+    sprintf(end_tag, "/%s", start_tag);
+    while (!get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, end_tag)) return;
+        skip_unexpected(tag);
+    }
+}
+
 // sample use is shown below
 
 #if 0
@@ -732,7 +749,7 @@ void parse(FILE* f) {
             printf("got bool: %d\n", flag);
         } else {
             printf("unparsed tag: %s\n", tag);
-            return;
+            xp.skip_unexpected(tag);
         }
     }
     printf("unexpected EOF\n");
@@ -742,5 +759,21 @@ int main() {
     FILE* f = fopen("foo.xml", "r");
     parse(f);
 }
+
+... and run it against, e.g.:
+
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<blah>
+    <x>
+    asdlfkj
+      <x> fj</x>
+    </x>
+    <str>blah</str>
+    <int>  6
+    </int>
+    <double>6.555</double>
+    <bool>0</bool>
+</blah>
+
 #endif
 const char *BOINC_RCSID_3f3de9eb18 = "$Id$";

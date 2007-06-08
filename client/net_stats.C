@@ -172,16 +172,13 @@ int NET_STATUS::network_status() {
 	if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
         retval = NETWORK_STATUS_LOOKUP_PENDING;
 	} else if (gstate.now - last_comm_time < 10) {
-        //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
         retval = NETWORK_STATUS_ONLINE;
     } else if (need_physical_connection) {
-        //msg_printf(0, MSG_INFO, "need phys conn; return 1");
         retval = NETWORK_STATUS_WANT_CONNECTION;
     } else if (gstate.active_tasks.want_network()) {
         retval = NETWORK_STATUS_WANT_CONNECTION;
 	} else {
 		have_sporadic_connection = false;
-    //msg_printf(0, MSG_INFO, "returning 2");
 		retval = NETWORK_STATUS_WANT_DISCONNECT;
 	}
 	if (log_flags.network_status_debug) {

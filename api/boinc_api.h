@@ -67,6 +67,8 @@ typedef struct BOINC_STATUS {
     double max_working_set_size;
 } BOINC_STATUS;
 
+typedef void (*FUNC_PTR)();
+
 struct APP_INIT_DATA;
 
 extern int boinc_init(void);
@@ -94,6 +96,8 @@ extern int boinc_receive_trickle_down(char* buf, int len);
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);
 extern double boinc_get_fraction_done();
+extern void boinc_register_timer_callback(FUNC_PTR);
+extern double boinc_worker_thread_cpu_time();
 
 #ifdef __APPLE__
 extern int setMacPList(void);

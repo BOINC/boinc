@@ -5129,12 +5129,12 @@ Rom    21 May 2007
         BOINCTaskBar.cpp
 
 David  21 May 2007
-	- API: don't include config.h in a few places
+    - API: don't include config.h in a few places
 
-	api/
-		graphics_impl.C
-		texture.C
-		tgalib.C
+    api/
+        graphics_impl.C
+        texture.C
+        tgalib.C
 
 David  21 May 2007
     - feeder: fixed SQL query again
@@ -5147,14 +5147,14 @@ David  21 May 2007
         feeder.C
         start
 
-Janus	22 May 2007
+Janus    22 May 2007
     - Fixed missing version trackers in BInteger, BList classes
     - Added BString class for BEncoded strings for the Bittorrent code
 
     html/bt/inc/
         blist.php
-	binteger.php
-	bstring.php (new)
+    binteger.php
+    bstring.php (new)
 
 Rom    22 May 2007
     - fixes #85 - Both Grid based views and List based views are now
@@ -5184,9 +5184,9 @@ David  22 May 2007
         Makefile.am
 
 David  22 May 2007
-	api/
-		graphics2.C
-		graphics2_win.C
+    api/
+        graphics2.C
+        graphics2_win.C
 
 Charlie 22 May 2007
     - Manager: Fix crash bug in wxPieCtrl.
@@ -5235,7 +5235,7 @@ Rom    23 May 2007
         configure.ac
         version.h
 
-Janus	23 May 2007
+Janus    23 May 2007
     - Added "IllegalArgumentException" class for use in the remainin BT code
     - Also added the class which will be used to represent the contents of
       a .torrent descriptor.
@@ -5247,7 +5247,7 @@ Janus	23 May 2007
 
     html/bt/inc/
         torrent.php (new)
-	illegalargumentexception.php (new)
+    illegalargumentexception.php (new)
 
 David  23 May 2007
     - client: unscrambled some of the #ifdefs in hostinfo_unix.C
@@ -5277,15 +5277,15 @@ Jeff  23 May 2007
         file_upload_handler.C
 
 David  23 May 2007
-	- debug version 6-style graphics on Windows.
-		New example app works now!
+    - debug version 6-style graphics on Windows.
+        New example app works now!
 
-	api/
-		graphics2.C,h
-		graphics2_util.C
-		graphics2_win.C
-	lib/
-		util.C,h
+    api/
+        graphics2.C,h
+        graphics2_util.C
+        graphics2_win.C
+    lib/
+        util.C,h
 
 David  23 May 2007
     - debug version-6-style graphics on Unix
@@ -5329,15 +5329,15 @@ David  24 May 2007
         server_types.C
 
 David  24 May 2007
-	- client, Windows: when making calls to get free disk space
-		(e.g. pGetDiskFreeSpaceEx())
-		pass the path of the current directory instead of NULL.
-		Otherwise, if we're running as an unprivileted user
-		with no access to the root dir,
-		the call fails and reports zero free space.
+    - client, Windows: when making calls to get free disk space
+        (e.g. pGetDiskFreeSpaceEx())
+        pass the path of the current directory instead of NULL.
+        Otherwise, if we're running as an unprivileted user
+        with no access to the root dir,
+        the call fails and reports zero free space.
 
-	lib/
-		filesys.C
+    lib/
+        filesys.C
 
 David  24 May 2007
     - renamed texfont.c to texfont.C to fix automake warning
@@ -5684,11 +5684,11 @@ David  1 June 2007
         procinfo.h
 
 David  1 June 2007
-	- client: a few more network_status_debug messages
+    - client: a few more network_status_debug messages
 
-	client/
-		client_state.C
-		net_stats.C
+    client/
+        client_state.C
+        net_stats.C
 
 David  3 June 2007
     - client: allow suspension of non-CPU-intensive project or app
@@ -5713,7 +5713,7 @@ David  3 June 2007
         but I fixed it by doing integer benchmarks only on CPU zero.
         This is OK since cores have separate integer units
         (but not necessarily FP units)
-		Also shortened benchmark from 60 sec to 30 sec.
+        Also shortened benchmark from 60 sec to 30 sec.
 
     client/
         cs_benchmark.C
@@ -5838,7 +5838,7 @@ Rom    6 June 2007
         boinccas.dll
         boinccas95.dll
 
-Janus	6 June 2007
+Janus    6 June 2007
     - Fixed a small display error on the pending credit page (the
       workunitid-column was showing the resultid for the result.
 
@@ -5903,3 +5903,46 @@ David  8 June 2007
         boinc_api.C
     lib/
         diagnostics.h
+
+David  8 June 2007
+    - API: added boinc_register_timer_callback() for V6 graphics.
+        This lets the app do things
+        (e.g. updated shared memory for graphics) every second.
+    - API: change signature of boinc_worker_thread_cpu()
+    - API: rename worker_timer() to timer_handler()
+    - API (win): got rid of timer_quit_event (not used)
+    - API (version 6 graphics): removed extern C stuff
+    - client: improved the handling of unrecognized XML
+        Old: suppose we have
+            <name>foobar</name>
+            <unrec>
+               <name>blah</name>
+            </unrec>
+            where "<unrec>" is unrecognized.
+            We'd skip the <unrec>, but parse the <name> within it.
+            This wrong.
+        New: skip the entire unrecognized element
+        NOTE: I implemented this in the new parser (XML_PARSER)
+        and added it for everything that uses XML_PARSER.
+        The old parser still isn't quite right:
+        it will skip until the next </unrec>,
+        but not necessarily the matching instance of that tag.
+    - client: added error messages for unparsed XML in several places
+    - client/lib: use "else-less" syntax in XML parsing code
+
+    api/
+        boinc_api.C,h
+        graphics2.h
+        greaphic2_win.C
+    client/
+        acct_mgr.C
+        cs_statefile
+        gui_rpc_server_ops.C
+        log_flags.C
+        net_stats.C
+    lib/
+        app_ipc.C
+        gui_rpc_client_ops.C
+        parse.C,h
+        prefs.C
+

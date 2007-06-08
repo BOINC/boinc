@@ -120,6 +120,7 @@ static int want_network = 0;
 static int have_network = 1;
 bool g_sleep = false;
 	// simulate unresponsive app by setting to true (debugging)
+static FUNC_PTR timer_callback = 0;
 
 #define TIMER_PERIOD 1
     // period of worker-thread timer interrupts.
@@ -176,14 +177,14 @@ static int setup_shared_mem() {
     return 0;
 }
 
-// Return CPU time of worker thread.
+// Return CPU time of worker thread (and optionally others)
 // This may be called from other threads
 //
-static int boinc_worker_thread_cpu_time(double& cpu) {
+double boinc_worker_thread_cpu_time() {
     static double last_cpu=0;
     static time_t last_time=0;
     time_t now = time(0);
-    double time_diff = now-last_time;
+    double cpu, time_diff = now - last_time;
 #ifdef _WIN32
     int retval;
     if (options.all_threads_cpu_time) {
@@ -195,24 +196,23 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
-    if (!pthread_mutex_lock(&getrusage_mutex)) {
-        cpu = (double)worker_thread_ru.ru_utime.tv_sec
-          + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
-        cpu += (double)worker_thread_ru.ru_stime.tv_sec
-          + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
-        pthread_mutex_unlock(&getrusage_mutex);
-    }
+    if (pthread_mutex_lock(&getrusage_mutex)) return last_cpu;
+    cpu = (double)worker_thread_ru.ru_utime.tv_sec
+      + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
+    cpu += (double)worker_thread_ru.ru_stime.tv_sec
+      + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
+    pthread_mutex_unlock(&getrusage_mutex);
 #endif
     double cpu_diff = cpu - last_cpu;
-    if (cpu_diff>(time_diff+1)) {
+    if (cpu_diff>(time_diff + 1)) {
 //      fprintf(stderr,"CPU time incrementing faster than real time.  Correcting.\n");
-        cpu = last_cpu+time_diff;
+        cpu = last_cpu + time_diff;
     }
-    if (time_diff != 0) {
-        last_cpu=cpu;
-        last_time=now;
+    if (time_diff) {
+        last_cpu = cpu;
+        last_time = now;
     }
-    return 0;
+    return cpu;
 }
 
 // communicate to the core client (via shared mem)
@@ -382,7 +382,7 @@ static void send_trickle_up_msg() {
 int boinc_finish(int status) {
     if (options.send_status_msgs) {
         double total_cpu;
-        boinc_worker_thread_cpu_time(total_cpu);
+        total_cpu = boinc_worker_thread_cpu_time();
         total_cpu += initial_wu_cpu_time;
 
         // NOTE: the app_status slot may already contain a message.
@@ -693,7 +693,10 @@ static void handle_process_control_msg() {
     }
 }
 
-static void worker_timer(int /*a*/) {
+// once-a-second timer.
+// Runs in a separate thread (not the worker thread)
+//
+static void timer_handler() {
 	if (g_sleep) return;
     interrupt_count++;
     if (!ready_to_checkpoint) {
@@ -740,7 +743,7 @@ static void worker_timer(int /*a*/) {
         time_until_fraction_done_update -= TIMER_PERIOD;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
-            boinc_worker_thread_cpu_time(cur_cpu);
+            cur_cpu = boinc_worker_thread_cpu_time();
             last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
             update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
             time_until_fraction_done_update = (int)aid.fraction_done_update_period;
@@ -749,6 +752,9 @@ static void worker_timer(int /*a*/) {
     if (options.handle_trickle_ups) {
         send_trickle_up_msg();
     }
+    if (timer_callback) {
+        timer_callback();
+    }
 }
 
 #ifdef _WIN32
@@ -756,41 +762,17 @@ static void worker_timer(int /*a*/) {
 static HANDLE timer_quit_event;
 
 UINT WINAPI timer_thread(void *) {
-    DWORD        dwEvent = NULL;
-    BOOL         bContinue = TRUE;
-
     diagnostics_set_thread_name("Timer");
+    while (1) {
+        Sleep(TIMER_PERIOD*1000);
+        timer_handler();
 
-    // Create the event that can be used to shutdown the timer thread.
-    //
-    timer_quit_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-    if (!timer_quit_event) {
-        fprintf(stderr, "timer_thread(): CreateEvent() failed, GLE %d.\n", GetLastError());
-    }
-
-    while (bContinue) {
-        dwEvent = WaitForSingleObject( 
-            timer_quit_event, 
-            TIMER_PERIOD*1000     
-        );
-        switch(dwEvent) {
-            case WAIT_OBJECT_0:
-                // timer_quit_event was signaled.
-                bContinue = FALSE;
-                break;
-            case WAIT_TIMEOUT:
-                // process any shared memory messages.
-                worker_timer(0);
-
-                // poor man's CPU time accounting for Win9x
-                //
-                if (!boinc_status.suspended) {
-                    nrunning_ticks++;
-                }
-                break;
+        // poor man's CPU time accounting for Win9x
+        //
+        if (!boinc_status.suspended) {
+            nrunning_ticks++;
         }
     }
-
     return 0;
 }
 
@@ -800,11 +782,15 @@ void* timer_thread(void*) {
     block_sigalrm();
     while(1) {
         boinc_sleep(TIMER_PERIOD);
-        worker_timer(0);
+        timer_handler();
     }
     return 0;
 }
 
+// This SIGALRM handler gets handled only by the worker thread.
+// It gets CPU time and implements sleeping.
+// It must call only signal-safe functions, and must not do FP math
+//
 void worker_signal_handler(int) {
     if (!pthread_mutex_trylock(&getrusage_mutex)) {
         getrusage(RUSAGE_SELF, &worker_thread_ru);
@@ -828,7 +814,7 @@ int set_worker_timer() {
 
 #ifdef _WIN32
 
-    // as long as we're here, get the worker thread handle
+    // get the worker thread handle
     //
     DuplicateHandle(
         GetCurrentProcess(),
@@ -840,13 +826,12 @@ int set_worker_timer() {
         DUPLICATE_SAME_ACCESS
     );
 
-
     // Initialize the worker thread info for diagnostic purposes.
     //
     diagnostics_set_thread_name("Worker");
     diagnostics_set_thread_worker();
 
-    // Create the timer thread to deal with shared memory control messages.
+    // Create the timer thread
     //
     uintptr_t thread;
     UINT      uiThreadId;
@@ -865,7 +850,7 @@ int set_worker_timer() {
         return retval;
     }
     
-    // lower our priority here
+    // lower our priority
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 
@@ -877,6 +862,8 @@ int set_worker_timer() {
         return retval;
     }
 
+    // set up a periodic SIGALRM, to be hanled by the worker thread
+    //
     struct sigaction sa;
     itimerval value;
     sa.sa_handler = worker_signal_handler;
@@ -924,7 +911,7 @@ int boinc_time_to_checkpoint() {
 
 int boinc_checkpoint_completed() {
     double cur_cpu;
-    boinc_worker_thread_cpu_time(cur_cpu);
+    cur_cpu = boinc_worker_thread_cpu_time();
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
     if (options.send_status_msgs) {
@@ -1038,5 +1025,9 @@ void block_sigalrm() {
     pthread_sigmask(SIG_BLOCK, &mask, NULL);
 }
 #endif
+
+void boinc_register_timer_callback(FUNC_PTR p) {
+    timer_callback = p;
+}
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

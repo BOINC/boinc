@@ -107,27 +107,14 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/project")) return 0;
-        else if (xp.parse_string(tag, "name", name)) {
-            continue;
-        }
-        else if (xp.parse_string(tag, "url", url)) {
-            continue;
-        }
-        else if (xp.parse_string(tag, "general_area", general_area)) {
-            continue;
-        }
-        else if (xp.parse_string(tag, "specific_area", specific_area)) {
-            continue;
-        }
-        else if (xp.parse_string(tag, "description", description)) {
-            continue;
-        }
-        else if (xp.parse_string(tag, "home", home)) {
-            continue;
-        }
-        else if (xp.parse_string(tag, "image", image)) {
-            continue;
-        }
+        if (xp.parse_string(tag, "name", name)) continue;
+        if (xp.parse_string(tag, "url", url)) continue;
+        if (xp.parse_string(tag, "general_area", general_area)) continue;
+        if (xp.parse_string(tag, "specific_area", specific_area)) continue;
+        if (xp.parse_string(tag, "description", description)) continue;
+        if (xp.parse_string(tag, "home", home)) continue;
+        if (xp.parse_string(tag, "image", image)) continue;
+        xp.skip_unexpected(tag);
     }
     return ERR_XML_PARSE;
 }
@@ -1136,24 +1123,23 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
 
             // the following are to handle responses from pre-5.6 core clients
             // remove them 6/07
-            else if (parse_int(buf, "<major_version>", state.version_info.major)) continue;
-            else if (parse_int(buf, "<minor_version>", state.version_info.minor)) continue;
-            else if (parse_int(buf, "<release>", state.version_info.release)) continue;
-
-            else if (match_tag(buf, "<project>")) {
+            if (parse_int(buf, "<major_version>", state.version_info.major)) continue;
+            if (parse_int(buf, "<minor_version>", state.version_info.minor)) continue;
+            if (parse_int(buf, "<release>", state.version_info.release)) continue;
+            if (match_tag(buf, "<project>")) {
                 project = new PROJECT();
                 project->parse(rpc.fin);
                 state.projects.push_back(project);
                 continue;
             }
-            else if (match_tag(buf, "<app>")) {
+            if (match_tag(buf, "<app>")) {
                 APP* app = new APP();
                 app->parse(rpc.fin);
                 app->project = project;
                 state.apps.push_back(app);
                 continue;
             }
-            else if (match_tag(buf, "<app_version>")) {
+            if (match_tag(buf, "<app_version>")) {
                 APP_VERSION* app_version = new APP_VERSION();
                 app_version->parse(rpc.fin);
                 app_version->project = project;
@@ -1161,7 +1147,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 state.app_versions.push_back(app_version);
                 continue;
             }
-            else if (match_tag(buf, "<workunit>")) {
+            if (match_tag(buf, "<workunit>")) {
                 WORKUNIT* wu = new WORKUNIT();
                 wu->parse(rpc.fin);
                 wu->project = project;
@@ -1170,7 +1156,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 state.wus.push_back(wu);
                 continue;
             }
-            else if (match_tag(buf, "<result>")) {
+            if (match_tag(buf, "<result>")) {
                 RESULT* result = new RESULT();
                 result->parse(rpc.fin);
                 result->project = project;
@@ -1179,13 +1165,14 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 state.results.push_back(result);
                 continue;
             }
-            else if (match_tag(buf, "<global_preferences>")) {
+            if (match_tag(buf, "<global_preferences>")) {
                 bool flag = false;
                 GLOBAL_PREFS_MASK mask;
                 XML_PARSER xp(&rpc.fin);
                 state.global_prefs.parse(xp, "", flag, mask);
                 continue;
             }
+            skip_unrecognized(buf, rpc.fin);
         }
     }
     return retval;

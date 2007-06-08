@@ -50,6 +50,7 @@ public:
     bool parse_double(char*, const char*, double&);
     bool parse_bool(char*, const char*, bool&);
 	int element_contents(const char*, char*, int);
+    void skip_unexpected(const char*);
 };
 
 /////////////// START DEPRECATED XML PARSER
@@ -117,6 +118,6 @@ extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(const char*, char*);
 extern void xml_unescape(const char*, char*);
 extern void extract_venue(const char*, const char*, char*);
-extern int skip_unrecognized(char* buf, FILE*);
+extern int skip_unrecognized(char* buf, MIOFILE&);
 
 #endif

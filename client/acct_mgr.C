@@ -228,13 +228,22 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "update", update)) continue;
         if (xp.parse_bool(tag, "dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);
+            continue;
         }
         if (xp.parse_bool(tag, "detach_when_done", btemp)) {
             detach_when_done.set(btemp);
+            continue;
         }
         if (xp.parse_double(tag, "resource_share", dtemp)) {
             resource_share.set(dtemp);
+            continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] AM_ACCOUNT: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag);
     }
     return ERR_XML_PARSE;
 }
@@ -306,6 +315,12 @@ int ACCT_MGR_OP::parse(FILE* f) {
             continue;
         }
         if (xp.parse_str(tag, "host_venue", host_venue, sizeof(host_venue))) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag);
     }
     return ERR_XML_PARSE;
 }
@@ -586,6 +601,12 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
             retval = xp.element_contents("</opaque>", opaque, sizeof(opaque));
             continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] ACCT_MGR_INFO::parse_login: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag);
     }
     return 0;
 }
@@ -618,6 +639,12 @@ int ACCT_MGR_INFO::init() {
             retval = xp.element_contents("</signing_key>", signing_key, sizeof(signing_key));
             continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] ACCT_MGR_INFO::init: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag);
     }
     fclose(p);
 
