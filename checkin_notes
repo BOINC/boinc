@@ -5951,3 +5951,27 @@ David  8 June 2007
 
 	api/
 		graphics_api.C
+
+Charlie 8 June 2007
+    - Mac: Add application icons to installer, uninstaller; add 
+        "are you sure?" dialog to uninstaller.  Fix installer 
+        copyright and version strings.
+
+    clientgui/
+        res/
+            MacInstaller.icns (new)
+            MacUninstaller.icns (new)
+            GR_install.icns (new)
+            GR_uninstall.icns (new)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Uninstaller-Info.plist
+        Installer-Info.plist
+        English.lproj/
+            InfoPlist.strings
+    mac_installer/
+        uninstall.cpp
+        make_GridRepublic.sh
+        release_GridRepublic.sh
+
