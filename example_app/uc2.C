@@ -95,23 +95,34 @@ int do_checkpoint(MFILE& mf, int nchars) {
     return 0;
 }
 
-void update_shmem(double fd) {
-    double cpu;
+void update_shmem() {
     if (!shmem) return;
-    shmem->fraction_done = fd;
-    boinc_calling_thread_cpu_time(cpu);
-    shmem->cpu_time = cpu;
+    shmem->fraction_done = boinc_get_fraction_done();
+    shmem->cpu_time = boinc_worker_thread_cpu_time();;
     shmem->update_time = dtime();
+    boinc_get_status(&shmem->status);
 }
 
-void worker() {
+int main(int argc, char **argv) {
+    int i;
     int c, nchars = 0, retval, n;
     double fsize, fd;
     char input_path[512], output_path[512], chkpt_path[512];
     MFILE out;
     FILE* state, *infile;
 
-    shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
+    for (i=0; i<argc; i++) {
+        if (!strcmp(argv[i], "-early_exit")) early_exit = true;
+        if (!strcmp(argv[i], "-early_crash")) early_crash = true;
+        if (!strcmp(argv[i], "-early_sleep")) early_sleep = true;
+        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
+        if (!strcmp(argv[i], "-cpu_time")) {
+            cpu_time = atof(argv[++i]);
+        }
+    }
+
+    retval = boinc_init();
+    if (retval) exit(retval);
 
     // open the input file (resolve logical name first)
     //
@@ -153,6 +164,11 @@ void worker() {
         exit(1);
     }
 
+    // create shared mem segment for graphics, and arrange to update it
+    //
+    shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
+    boinc_register_timer_callback(update_shmem);
+
     // main loop - read characters, convert to UC, write
     //
     for (int i=0; ; i++) {
@@ -190,7 +206,6 @@ void worker() {
         fd = nchars/fsize;
         if (cpu_time) fd /= 2;
         boinc_fraction_done(fd);
-        update_shmem(fd);
     }
 
     retval = out.flush();
@@ -208,7 +223,6 @@ void worker() {
             if (e > cpu_time) break;
             fd = .5 + .5*(e/cpu_time);
             boinc_fraction_done(fd);
-            update_shmem(fd);
 
 			if (boinc_time_to_checkpoint()) {
 				retval = do_checkpoint(out, nchars);
@@ -222,27 +236,9 @@ void worker() {
             use_some_cpu();
         }
     }
-    update_shmem(1);
+    boinc_fraction_done(1);
+    update_shmem();
     boinc_finish(0);
-}
-
-int main(int argc, char **argv) {
-    int i;
-    int retval = 0;
-
-    for (i=0; i<argc; i++) {
-        if (!strcmp(argv[i], "-early_exit")) early_exit = true;
-        if (!strcmp(argv[i], "-early_crash")) early_crash = true;
-        if (!strcmp(argv[i], "-early_sleep")) early_sleep = true;
-        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
-        if (!strcmp(argv[i], "-cpu_time")) {
-            cpu_time = atof(argv[++i]);
-        }
-    }
-
-    retval = boinc_init();
-    if (retval) exit(retval);
-    worker();
 }
 
 #ifdef _WIN32

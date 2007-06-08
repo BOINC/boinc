@@ -17,7 +17,13 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// graphics code for upper_case
+// Example graphics application, paired with uc2.C
+// This demonstrates:
+// - using shared memory to communicate with the worker app
+// - reading XML preferences by which users can customize graphics
+//   (in this case, select colors)
+// - handle mouse input (in this case, to zoom and rotate)
+// - draw text and 3D objects using OpenGL
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -26,6 +32,7 @@
 #endif
 
 #include "parse.h"
+#include "util.h"
 #include "gutil.h"
 #include "boinc_gl.h"
 #include "app_ipc.h"
@@ -44,26 +51,6 @@ double pitch_angle, roll_angle, viewpoint_distance=10;
 float color[4] = {.7, .2, .5, 1};
 UC_SHMEM* shmem;
 
-static void parse_project_prefs(char* buf) {
-    char cs[256];
-    COLOR c;
-    double hue;
-    if (parse_str(buf, "<color_scheme>", cs, 256)) {
-        if (!strcmp(cs, "Tahiti Sunset")) {
-            hue = .9;
-        } else if (!strcmp(cs, "Desert Sands")) {
-            hue = .1;
-        } else {
-            hue = .5;
-        }
-        HLStoRGB(hue, .5, .5, c);
-        color[0] = c.r;
-        color[1] = c.g;
-        color[2] = c.b;
-        color[3] = 1;
-    }
-}
-
 // set up lighting model
 //
 static void init_lights() {
@@ -73,21 +60,6 @@ static void init_lights() {
    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
    glLightfv(GL_LIGHT0, GL_POSITION, position);
    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
-}
-
-void app_graphics_init() {
-    char path[256];
-    int viewport[4];
-
-    boinc_get_init_data(uc_aid);
-    parse_project_prefs(uc_aid.project_preferences);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    txf_load_fonts(".");
-    boinc_resolve_filename("logo.jpg", path, sizeof(path));
-    logo.load_image_file(path);
-    init_lights();
-    get_viewport(viewport);
-    app_graphics_resize(viewport[2], viewport[3]);
 }
 
 static void draw_logo() {
@@ -117,8 +89,17 @@ static void draw_text() {
     txf_render_string(.1, x, y+.1, 0, 500, white, 0, buf);
     sprintf(buf, "%% Done: %f", 100*fd);
     txf_render_string(.1, x, y+.2, 0, 500, white, 0, buf);
-    sprintf(buf, "CPU time: %f", cpu);
+    sprintf(buf, "CPU time: %f", cpu); 
     txf_render_string(.1, x, y+.3, 0, 500, white, 0, buf);
+    if (shmem) {
+        if (dtime()-shmem->update_time > 5) {
+            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App not running");
+        } else if (shmem->status.suspended) {
+            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App suspended");
+        }
+    } else {
+        txf_render_string(.1, 0, 0, 0, 500, white, 0, "No shared mem");
+    }
 }
 
 static void draw_3d_stuff() {
@@ -154,7 +135,7 @@ void set_viewpoint(double dist) {
     glRotated(roll_angle, 0., 1., 0);
 }
 
-static void app_init_camera(double dist) {
+static void init_camera(double dist) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(
@@ -166,22 +147,25 @@ static void app_init_camera(double dist) {
     set_viewpoint(dist);
 }
 
-extern "C" {
-
 void app_graphics_render(int xs, int ys, double time_of_day) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // draw logo first - it's in background
+    //
     mode_unshaded();
     mode_ortho();
     draw_logo();
     ortho_done();
 
-    app_init_camera(viewpoint_distance);
-
+    // draw 3D objects
+    //
+    init_camera(viewpoint_distance);
     scale_screen(width, height);
     mode_shaded(color);
     draw_3d_stuff();
 
-    scale_screen(width, height);
+    // draw text on top
+    //
     mode_unshaded();
     mode_ortho();
     draw_text();
@@ -194,12 +178,9 @@ void app_graphics_resize(int w, int h){
     glViewport(0, 0, w, h);
 }
 
-void app_graphics_reread_prefs(){
-    boinc_parse_init_data_file();
-    boinc_get_init_data(uc_aid);
-    parse_project_prefs(uc_aid.project_preferences);
-}
-
+// mouse drag w/ left button rotates 3D objects;
+// mouse draw w/ right button zooms 3D objects
+//
 void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
     if (left) {
         pitch_angle += (y-mouse_y)*.1;
@@ -230,9 +211,39 @@ void boinc_app_key_press(int, int){}
 
 void boinc_app_key_release(int, int){}
 
+void app_graphics_init() {
+    char path[256];
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    txf_load_fonts(".");
+    boinc_resolve_filename("logo.jpg", path, sizeof(path));
+    logo.load_image_file(path);
+    init_lights();
+}
+
+static void parse_project_prefs(char* buf) {
+    char cs[256];
+    COLOR c;
+    double hue;
+    if (parse_str(buf, "<color_scheme>", cs, 256)) {
+        if (!strcmp(cs, "Tahiti Sunset")) {
+            hue = .9;
+        } else if (!strcmp(cs, "Desert Sands")) {
+            hue = .1;
+        } else {
+            hue = .5;
+        }
+        HLStoRGB(hue, .5, .5, c);
+        color[0] = c.r;
+        color[1] = c.g;
+        color[2] = c.b;
+        color[3] = 1;
+    }
 }
 
 int main(int argc, char** argv) {
     shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
+    boinc_get_init_data(uc_aid);
+    parse_project_prefs(uc_aid.project_preferences);
     boinc_graphics_loop(argc, argv);
 }
