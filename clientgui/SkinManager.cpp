@@ -1207,7 +1207,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     // First we try the users canonical locale resources.
     //  i.e. en_US
     retval = ERR_XML_PARSE;
-    p = fopen(ConstructSkinFileName().c_str(), "r");
+    p = fopen((const char*)ConstructSkinFileName().mb_str(wxConvUTF8), "r");
     if (p) {
         mf.init_file(p);
         retval = Parse(mf, strDesiredLocale);
@@ -1218,7 +1218,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     //   locale.
     //  i.e. en
     if (ERR_XML_PARSE == retval) {
-        p = fopen(ConstructSkinFileName().c_str(), "r");
+        p = fopen((const char*)ConstructSkinFileName().mb_str(wxConvUTF8), "r");
         if (p) {
             mf.init_file(p);
             retval = Parse(mf, strDesiredLocale.Left(2));
@@ -1229,7 +1229,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     // If we failed the second lookup try english
     //  i.e. en
     if (ERR_XML_PARSE == retval) {
-        p = fopen(ConstructSkinFileName().c_str(), "r");
+        p = fopen((const char*)ConstructSkinFileName().mb_str(wxConvUTF8), "r");
         if (p) {
             mf.init_file(p);
             retval = Parse(mf, wxT("en"));
@@ -1343,7 +1343,7 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
 
     // Look for the begining of the desired locale.
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, strLocaleStartTag.c_str())) {
+        if (match_tag(buf, (const char*)strLocaleStartTag.mb_str(wxConvUTF8))) {
             bLocaleFound = true;
             break;
         }
@@ -1352,7 +1352,7 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
     if (!bLocaleFound) return ERR_XML_PARSE;
 
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, strLocaleEndTag.c_str())) break;
+        if (match_tag(buf, (const char*)strLocaleStartTag.mb_str(wxConvUTF8))) break;
         else if (match_tag(buf, "<simple>")) {
             m_SimpleSkin.Parse(in);
             continue;

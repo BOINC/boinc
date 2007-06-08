@@ -5975,3 +5975,10 @@ Charlie 8 June 2007
         make_GridRepublic.sh
         release_GridRepublic.sh
 
+Rom    8 June 2007
+    - fixes #237 - current BM fails to build with wxWidgets
+        unicode variant
+      (Applied Frank Thomas's patch)
+    
+    clientgui/
+        SkinManager.cpp
