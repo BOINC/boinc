@@ -1172,7 +1172,6 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 state.global_prefs.parse(xp, "", flag, mask);
                 continue;
             }
-            skip_unrecognized(buf, rpc.fin);
         }
     }
     return retval;

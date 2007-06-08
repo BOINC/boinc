@@ -703,8 +703,9 @@ int XML_PARSER::element_contents(const char* end_tag, char* buf, int buflen) {
 //
 void XML_PARSER::skip_unexpected(const char* start_tag) {
     char tag[256], end_tag[256];
-    bool eof, is_tag;
+    bool is_tag;
 
+    fprintf(stderr, "UNRECOGNIZED: %s\n", start_tag);
     if (start_tag[0] == '/') return;
     sprintf(end_tag, "/%s", start_tag);
     while (!get(tag, sizeof(tag), is_tag)) {

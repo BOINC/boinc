@@ -246,6 +246,9 @@ int GLOBAL_PREFS::parse_override(
 
     found_venue = false;
     mask.clear();
+    if (!xp.parse_start("global_preferences")) {
+        return ERR_XML_PARSE;
+    }
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (in_venue) {

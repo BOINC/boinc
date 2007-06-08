@@ -5982,3 +5982,11 @@ Rom    8 June 2007
     
     clientgui/
         SkinManager.cpp
+
+David  8 June 2007
+	- fix bugs introduced by recent XML changes
+
+	lib/
+		gui_rpc_client_ops.C
+		parse.C
+		prefs.C
