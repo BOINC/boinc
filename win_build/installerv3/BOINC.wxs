@@ -24,7 +24,7 @@
            UpgradeCode="E913E54D-5080-42EC-A312-B21948BA1C02"
            Name="!(wix.ProductName)"
            Language="1033"
-           Version="5.9.1"
+           Version="5.11.1"
            Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
     <!-- Do not brand or localize the Summary information. -->
     <Package Description="BOINC for Windows"
