@@ -6004,3 +6004,19 @@ David  8 June 2007
 
     sched/
         server_types.C
+
+Charlie 8 June 2007
+    - Mac: Better application icons for installer, uninstaller.
+    - Mac: move uninstaller, COPYING and COPYRIGHT files to a 
+        subdirectory in Manager distributions.
+
+    clientgui/
+        res/
+            MacInstaller.icns
+            MacUninstaller.icns
+            GR_install.icns
+            GR_uninstall.icns
+    mac_installer/
+        release_boinc.sh
+        make_GridRepublic.sh
+        release_GridRepublic.sh
