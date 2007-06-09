@@ -6026,3 +6026,11 @@ David  9 June 2007
 
 	lib
 		prefs.C
+
+Rom    8 June 2007
+    - Tag for 5.10.4 release, all platforms
+      boinc_core_release_5_10_4
+    
+    client/
+        configure.ac
+        version.h
