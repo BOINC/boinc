@@ -429,9 +429,6 @@ int GLOBAL_PREFS::parse_file(
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);
-    if (!xp.parse_start("global_preferences")) {
-        return ERR_XML_PARSE;
-    }
     retval = parse(xp, host_venue, found_venue, mask);
     fclose(f);
     return retval;

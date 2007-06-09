@@ -6020,3 +6020,9 @@ Charlie 8 June 2007
         release_boinc.sh
         make_GridRepublic.sh
         release_GridRepublic.sh
+
+David  9 June 2007
+	- client: fixed bug in prefs parsing
+
+	lib
+		prefs.C
