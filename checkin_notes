@@ -6047,3 +6047,12 @@ David  11 June 2007
 		ProjectListCtrl.cpp
 	lib/
 		gui_rpc_client_ops.C
+
+Janus	11 June 2007
+    - Added checks.php containin common code between the bittorrent tracker
+      and the scraping mechanism.
+    - Fixed some of the SVN properties for the BT-related files.
+
+    html/bt/inc
+        checks.php (new)
+
