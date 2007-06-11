@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 4.x\n"
+"Project-Id-Version: rev.12746\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-05-31 22:18+0800\n"
+"PO-Revision-Date: 2007-06-05 22:51+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Entwicklung\\Produktion\\Boinc\n"
+"X-Poedit-Basepath: E:\\Works\\boinc\\boinc_src\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:320
@@ -905,7 +905,7 @@ msgstr "计算时间限制"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:108
 msgid "every day between hour of"
-msgstr "每天的时间段从"
+msgstr "每日时间段 从"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:116
 #: clientgui/DlgAdvPreferencesBase.cpp:335
@@ -981,7 +981,7 @@ msgstr "最多使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:231
 msgid "% CPU time"
-msgstr "已用CPU时间"
+msgstr "% CPU时间"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:241
 msgid "processor usage"
@@ -1042,7 +1042,7 @@ msgstr "网络使用限制"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:327
 msgid "every day between hours of"
-msgstr "每日时间段"
+msgstr "每日时间段 从"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:421
 msgid "network usage"
@@ -1088,11 +1088,11 @@ msgstr "内存使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:507
 msgid "% when computer is in use"
-msgstr "% 使用计算机时"
+msgstr "% (使用计算机时)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid "% when computer is idle"
-msgstr "% 计算机闲置时"
+msgstr "% (计算机闲置时)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:521
 msgid "leave applications in memory while suspended"
@@ -1520,7 +1520,7 @@ msgstr ""
 
 #: clientgui/ProjectListCtrl.cpp:302
 msgid "(web)"
-msgstr ""
+msgstr "(网站)"
 
 #: clientgui/ProjectProcessingPage.cpp:326
 #: clientgui/ProjectPropertiesPage.cpp:327
