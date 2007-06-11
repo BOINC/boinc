@@ -436,23 +436,51 @@ bool XML_PARSER::scan_nonws(int& first_char) {
     }
 }
 
+int XML_PARSER::scan_comment() {
+    char buf[256];
+    char* p = buf;
+    while (1) {
+        int c = f->_getc();
+        if (c == EOF) return 2;
+        *p++ = c;
+        *p = 0;
+        if (strstr(buf, "-->")) {
+            return 1;
+        }
+        if (strlen(buf) > 32) {
+            strcpy(buf, buf+16);
+            p = buf;
+        }
+    }
+}
+
 // we just read a <; read until we find a >,
 // and copy intervening text (except spaces) to buf.
-// Return true iff reached EOF
+// Return:
+// 0 if got a tag
+// 1 if got a comment (ignore)
+// 2 if reached EOF
 // TODO: parse attributes too
 //
-bool XML_PARSER::scan_tag(char* buf, int len) {
+int XML_PARSER::scan_tag(char* buf, int len) {
     int c;
-    while (1) {
+    char* buf_start = buf;
+    for (int i=0; ; i++) {
         c = f->_getc();
-        if (c == EOF) return true;
+        if (c == EOF) return 2;
         if (isspace(c)) continue;
         if (c == '>') {
             *buf = 0;
-            return false;
+            return 0;
         }
         if (--len > 0) {
             *buf++ = c;
+        }
+
+        // check for comment start
+        //
+        if (i==2 && !strncmp(buf_start, "!--", 3)) {
+            return scan_comment();
         }
     }
 }
@@ -485,20 +513,23 @@ bool XML_PARSER::get(char* buf, int len, bool& is_tag) {
     bool eof;
     int c;
     
-    eof = scan_nonws(c);
-    if (eof) return true;
-    if (c == '<') {
-        eof = scan_tag(buf, len);
+    while (1) {
+        eof = scan_nonws(c);
         if (eof) return true;
-        is_tag = true;
-    } else {
-        buf[0] = c;
-        eof = copy_until_tag(buf+1, len-1);
-        if (eof) return true;
-        is_tag = false;
+        if (c == '<') {
+            int retval = scan_tag(buf, len);
+            if (retval == 2) return true;
+            if (retval == 1) continue;
+            is_tag = true;
+        } else {
+            buf[0] = c;
+            eof = copy_until_tag(buf+1, len-1);
+            if (eof) return true;
+            is_tag = false;
+        }
+        strip_whitespace(buf);
+        return false;
     }
-    strip_whitespace(buf);
-    return false;
 }
 
 // We just parsed "parsed_tag".

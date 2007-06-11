@@ -38,7 +38,8 @@
 class XML_PARSER {
     MIOFILE* f;
     bool scan_nonws(int&);
-    bool scan_tag(char*, int);
+    int scan_comment();
+    int scan_tag(char*, int);
     bool copy_until_tag(char*, int);
 public:
     XML_PARSER(MIOFILE*);

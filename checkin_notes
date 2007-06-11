@@ -6066,3 +6066,11 @@ David  11 June 2007
 
     client/
         cs_statefile.C
+
+David  11 June 2007
+	- change new XML parser to handle XML comments (<!-- ... -->)
+
+	client/
+		log_flags.C
+	lib/
+		parse.C,h

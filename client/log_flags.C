@@ -246,14 +246,15 @@ int CONFIG::parse(FILE* f) {
         if (!strcmp(tag, "log_flags")) {
             log_flags.parse(xp);
             continue;
-        } else if (!strcmp(tag, "options")) {
-            parse_options(xp);
-        } else {
-            msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
-                CONFIG_FILE, tag
-            );
-            xp.skip_unexpected(tag);
         }
+        if (!strcmp(tag, "options")) {
+            parse_options(xp);
+            continue;
+        }
+        msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
+            CONFIG_FILE, tag
+        );
+        xp.skip_unexpected(tag);
     }
     msg_printf(NULL, MSG_USER_ERROR, "Missing end tag in %s", CONFIG_FILE);
     return ERR_XML_PARSE;
