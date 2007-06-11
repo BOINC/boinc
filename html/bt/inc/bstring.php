@@ -5,7 +5,7 @@
  * Strings are native in PHP.
  */
 
-$cvs_version_tracker[]="\$Id: belement.inc 12611 2007-05-08 08:25:13Z jbk $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
  
 class BString {
     private function __construct(){
