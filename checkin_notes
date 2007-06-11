@@ -6085,3 +6085,13 @@ David  11 June 2007
         graphics2_unix.C
     client/
         cpu_sched.C
+
+David  11 June 2007
+    - Project initialization: create project home page
+        and schedulers.txt file in a way that will work
+        with UMTS ISPs (which strip out comments)
+
+    html/user/
+        sample_index.php
+    py/Boinc/
+        setup_project.py

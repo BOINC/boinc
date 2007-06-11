@@ -131,13 +131,11 @@ echo "
     <a href=\"rss_main.php\">RSS feed</a> <img src=\"xml.gif\" alt=\"XML\">.</p>
     </td>
     </tr></table>
-<!--
 ";
 
 include 'schedulers.txt';
 
 echo "
--->
 ";
 
 if ($caching) {
