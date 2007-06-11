@@ -100,9 +100,11 @@ int CLIENT_STATE::parse_state_file() {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             break;
-        } else if (match_tag(buf, "<client_state>")) {
+        }
+        if (match_tag(buf, "<client_state>")) {
             continue;
-        } else if (match_tag(buf, "<project>")) {
+        }
+        if (match_tag(buf, "<project>")) {
             PROJECT temp_project;
             retval = temp_project.parse_state(mf);
             if (retval) {
@@ -118,7 +120,9 @@ int CLIENT_STATE::parse_state_file() {
                     );
                 }
             }
-        } else if (match_tag(buf, "<app>")) {
+            continue;
+        }
+        if (match_tag(buf, "<app>")) {
             APP* app = new APP;
             retval = app->parse(mf);
             if (!project) {
@@ -150,7 +154,9 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
 		    }
             apps.push_back(app);
-        } else if (match_tag(buf, "<file_info>")) {
+            continue;
+        }
+        if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
             retval = fip->parse(mf, false);
             if (!project) {
@@ -206,7 +212,9 @@ int CLIENT_STATE::parse_state_file() {
                     );
                 }
             }
-        } else if (match_tag(buf, "<app_version>")) {
+            continue;
+        }
+        if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
             retval = avp->parse(mf);
             if (!project) {
@@ -244,7 +252,9 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             app_versions.push_back(avp);
-        } else if (match_tag(buf, "<workunit>")) {
+            continue;
+        }
+        if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
             retval = wup->parse(mf);
             if (!project) {
@@ -270,7 +280,9 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             workunits.push_back(wup);
-        } else if (match_tag(buf, "<result>")) {
+            continue;
+        }
+        if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
             retval = rp->parse_state(mf);
             if (!project) {
@@ -312,7 +324,9 @@ int CLIENT_STATE::parse_state_file() {
             }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
-        } else if (match_tag(buf, "<project_files>")) {
+            continue;
+        }
+        if (match_tag(buf, "<project_files>")) {
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Project files outside project in state file"
@@ -322,63 +336,97 @@ int CLIENT_STATE::parse_state_file() {
             }
             project->parse_project_files(mf, false);
             project->link_project_files(false);
-        } else if (match_tag(buf, "<host_info>")) {
+            continue;
+        }
+        if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse host info in state file"
                 );
             }
-        } else if (match_tag(buf, "<time_stats>")) {
+            continue;
+        }
+        if (match_tag(buf, "<time_stats>")) {
             retval = time_stats.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse time stats in state file"
                 );
             }
-        } else if (match_tag(buf, "<net_stats>")) {
+            continue;
+        }
+        if (match_tag(buf, "<net_stats>")) {
             retval = net_stats.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse network stats in state file"
                 );
             }
-        } else if (match_tag(buf, "<active_task_set>")) {
+            continue;
+        }
+        if (match_tag(buf, "<active_task_set>")) {
             retval = active_tasks.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse active tasks in state file"
                 );
             }
-        } else if (parse_str(buf, "<platform_name>", statefile_platform_name)) {
             continue;
-        } else if (match_tag(buf, "<alt_platform>")) {
+        }
+        if (parse_str(buf, "<platform_name>", statefile_platform_name)) {
             continue;
-        } else if (parse_int(buf, "<user_run_request>", retval)) {
+        }
+        if (match_tag(buf, "<alt_platform>")) {
+            continue;
+        }
+        if (parse_int(buf, "<user_run_request>", retval)) {
             run_mode.set(retval, 0);
             continue;
-        } else if (parse_int(buf, "<user_network_request>", retval)) {
+        }
+        if (parse_int(buf, "<user_network_request>", retval)) {
             network_mode.set(retval, 0);
             continue;
-        } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
-        } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
-        } else if (parse_int(buf, "<core_client_release>", old_release)) {
-        } else if (match_tag(buf, "<cpu_benchmarks_pending/>")) {
+        }
+        if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
+            continue;
+        }
+        if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
+            continue;
+        }
+        if (parse_int(buf, "<core_client_release>", old_release)) {
+            continue;
+        }
+        if (match_tag(buf, "<cpu_benchmarks_pending/>")) {
             run_cpu_benchmarks = true;
-        } else if (match_tag(buf, "<work_fetch_no_new_work/>")) {
+            continue;
+        }
+        if (match_tag(buf, "<work_fetch_no_new_work/>")) {
             work_fetch_no_new_work = true;
-        } else if (match_tag(buf, "<proxy_info>")) {
+            continue;
+        }
+        if (match_tag(buf, "<proxy_info>")) {
             retval = proxy_info.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse proxy info in state file"
                 );
             }
-        } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
-        } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
-        } else if (parse_double(buf, "<all_projects_list_check_time>", all_projects_list_check_time)) {
-        } else if (parse_str(buf, "<newer_version>", newer_version)) {
-        } else if (match_tag(buf, "<auto_update>")) {
+            continue;
+        }
+        if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
+            continue;
+        }
+        if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
+            continue;
+        }
+        if (parse_double(buf, "<all_projects_list_check_time>", all_projects_list_check_time)) {
+            continue;
+        }
+        if (parse_str(buf, "<newer_version>", newer_version)) {
+            continue;
+        }
+        if (match_tag(buf, "<auto_update>")) {
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "auto update outside project in state file"
@@ -389,14 +437,14 @@ int CLIENT_STATE::parse_state_file() {
             if (!auto_update.parse(mf) && !auto_update.validate_and_link(project)) {
                 auto_update.present = true;
             }
-        } else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] state_file: unrecognized: %s", buf
-                );
-            }
-            skip_unrecognized(buf, mf);
+            continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] state_file: unrecognized: %s", buf
+            );
+        }
+        skip_unrecognized(buf, mf);
     }
     fclose(f);
     return 0;

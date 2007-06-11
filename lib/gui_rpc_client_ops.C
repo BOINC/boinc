@@ -1406,8 +1406,8 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
     if (retval) return retval;
     XML_PARSER xp(&rpc.fin);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (strstr(tag, "/projects")) break;
-        else if (strstr(tag, "project")) {
+        if (!strcmp(tag, "/projects")) break;
+        else if (!strcmp(tag, "project")) {
             project = new PROJECT_LIST_ENTRY();
             retval = project->parse(xp);
             if (!retval) {

@@ -6034,3 +6034,16 @@ Rom    8 June 2007
     client/
         configure.ac
         version.h
+
+David  11 June 2007
+	- manager: fix bug in parsing of all-projects list
+		(caused Wizard list to be empty)
+	- manager: change (web) to WWW
+
+	client/
+		acct_mgr.C
+		cs_statefile.C
+	clientgui/
+		ProjectListCtrl.cpp
+	lib/
+		gui_rpc_client_ops.C

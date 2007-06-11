@@ -64,7 +64,7 @@ int ACCT_MGR_OP::do_rpc(
         global_prefs_xml = 0;
     }
 
-    // if null URL, defect from current AMS
+    // if null URL, detach from current AMS
     //
     if (!strlen(url) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
@@ -115,13 +115,13 @@ int ACCT_MGR_OP::do_rpc(
             gstate.acct_mgr_info.previous_host_cpid
         );
     }
+
+    // If the AMS requested it, send GUI RPC port and password hash.
+    // This is for the "farm" account manager so it
+    // can know where to send GUI RPC requests to
+    // without having to configure each host
+    //
     if (gstate.acct_mgr_info.send_gui_rpc_info) {
-        // send GUI RPC port and password hash.
-        // User must enable this by hand
-        // this is for the "farm" account manager so it
-        // can know where to send gui rpc requests to
-        // without having to configure each host
-        //
         if (gstate.cmdline_gui_rpc_port) {
             fprintf(f,"   <gui_rpc_port>%d</gui_rpc_port>\n", gstate.cmdline_gui_rpc_port);
         } else {
@@ -659,12 +659,6 @@ int ACCT_MGR_INFO::init() {
 bool ACCT_MGR_INFO::poll() {
     if (gstate.acct_mgr_op.error_num == ERR_IN_PROGRESS) return false;
 
-    // if we do not any any credentials we shouldn't attempt to contact
-    // the account manager should should reject us anyway for a bad
-    // login.  This also avoids the bug where the content of
-    // acct_mgr_url.xml is overwritten with incomplete information such
-    // as the account manager name.
-    //
     if (!strlen(login_name) && !strlen(password_hash)) return false;
 
     if (gstate.now > next_rpc_time) {
