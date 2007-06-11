@@ -5,7 +5,7 @@
  * In PHP lists are simply non-keyed (ie. standard keyed) arrays.
  */
  
-$cvs_version_tracker[]="\$Id: belement.inc 12611 2007-05-08 08:25:13Z jbk $";  //Generated automatically - do not edit
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
  
 class BList {
     private function __construct(){
