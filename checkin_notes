@@ -6056,3 +6056,13 @@ Janus	11 June 2007
     html/bt/inc
         checks.php (new)
 
+David  11 June 2007
+    - client: if statefile has an app version an unknown platform,
+        change it to the primary platform.
+        The probably cause of this is that the user switched to
+        a 64-bit client, then back to the 32-bit client.
+        If we reject the app version, it would e.g. cause CPDN
+        WUs to get aborted in the middle.
+
+    client/
+        cs_statefile.C

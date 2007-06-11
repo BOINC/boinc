@@ -239,11 +239,16 @@ int CLIENT_STATE::parse_state_file() {
                 strcpy(avp->platform, get_primary_platform());
             } else {
                 if (!is_supported_platform(avp->platform)) {
+                    // if it's a platform we haven't heard of,
+                    // must be that the user tried out a 64 bit client
+                    // and then reverted to a 32-bit client.
+                    // Let's not throw away the app version and its WUs
+                    //
                     msg_printf(project, MSG_INTERNAL_ERROR,
-                        "App version has unsupported platform %s", avp->platform
+                        "App version has unsupported platform %s; changing to %s",
+                        avp->platform, get_primary_platform()
                     );
-                    delete avp;
-                    continue;
+                    strcpy(avp->platform, get_primary_platform());
                 }
             }
             retval = link_app_version(project, avp);
