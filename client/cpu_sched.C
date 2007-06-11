@@ -889,9 +889,9 @@ bool CLIENT_STATE::enforce_schedule() {
                     preempt_by_quit = true;
                 }
                 atp->preempt(preempt_by_quit);
-                atp->scheduler_state = CPU_SCHED_PREEMPTED;
                 break;
             }
+            atp->scheduler_state = CPU_SCHED_PREEMPTED;
             break;
         case CPU_SCHED_SCHEDULED:
             switch (atp->task_state()) {
@@ -913,6 +913,7 @@ bool CLIENT_STATE::enforce_schedule() {
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
             swap_left -= atp->procinfo.swap_size;
+            break;
         }
     }
     if (action) {

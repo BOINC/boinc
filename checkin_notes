@@ -6074,3 +6074,14 @@ David  11 June 2007
 		log_flags.C
 	lib/
 		parse.C,h
+
+David  11 June 2007
+    - client: enforce_schedule(): if try to preempt a
+        process that's not running, at least mark it as preempted.
+        (this should never happen in principle)
+    - API: compile fix for Mac
+
+    api/
+        graphics2_unix.C
+    client/
+        cpu_sched.C

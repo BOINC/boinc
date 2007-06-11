@@ -159,6 +159,7 @@ language("Chinese", array(
     site("http://boinc.equn.com/", "boinc.equn.com")
 ));
 language("Czech", array(
+    site("http://www.czechnationalteam.cz/", "Czech National Team"),
     site("http://www.boincteamcz.net/", "BOINC Team CZ"),
     site("http://www.boinc.cz/", "www.boinc.cz")
 ));
@@ -214,6 +215,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
     site("http://www.swissteam.net/", "SwissTeam.net"),
     site("http://www.unitedmacs.com/", "United Macs"),
     site("http://www.rechenkraft.net/", "Rechenkraft"),

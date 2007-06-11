@@ -22,6 +22,11 @@ static int win_width = 600, win_height = 400;
 static int clicked_button;
 static int win=0;
 
+#ifdef __APPLE__
+extern void CloseWindow();
+static bool need_show = false;
+#endif
+
 bool fullscreen;
 
 static void close_window() {
