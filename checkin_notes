@@ -6095,3 +6095,11 @@ David  11 June 2007
         sample_index.php
     py/Boinc/
         setup_project.py
+
+Rom    8 June 2007
+    - Tag for 5.10.5 release, all platforms
+      boinc_core_release_5_10_5
+    
+    client/
+        configure.ac
+        version.h
