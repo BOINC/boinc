@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5.10.4</string>
+	<string>5.10.5</string>
 	<key>CFBundleName</key>
 	<string>Uninstall BOINC</string>
 	<key>CFBundleShortVersionString</key>
