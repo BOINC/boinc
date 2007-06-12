@@ -6137,3 +6137,11 @@ David  12 June 2007
 		cs_benchmark.C
 		dhrystone.C
 		whetstone.C
+
+David  12 June 2007
+    - API: initialize all fields on BOINC_OPTIONS.
+        Fixes a bug that caused crash on 64bit Linux
+        (from M.F. Somers)
+
+    api/
+        boinc_api.h

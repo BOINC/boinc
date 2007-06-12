@@ -140,13 +140,15 @@ extern int set_worker_timer(void);
 extern bool g_sleep;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
-    b.main_program = true;
-    b.check_heartbeat = true;
-    b.handle_trickle_ups = true;
-    b.handle_trickle_downs = true;
-    b.handle_process_control = true;
-    b.send_status_msgs = true;
-    b.direct_process_action = true;
+    b.main_program = 1;
+    b.check_heartbeat = 1;
+    b.handle_trickle_ups = 1;
+    b.handle_trickle_downs = 1;
+    b.handle_process_control = 1;
+    b.send_status_msgs = 1;
+    b.direct_process_action = 1;
+    b.all_threads_cpu_time = 0;
+    b.worker_thread_stack_size = 0;
 }
 
 
