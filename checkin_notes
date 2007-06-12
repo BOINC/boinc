@@ -6113,3 +6113,13 @@ Charlie 12 June 2007
         PostInstall.cpp
         release_boinc.sh
         release_GridRepublic.sh
+
+David  12 June 2007
+    - client: fetch all-projects list at startup if it doesn't exist
+    - client: if result in statefile is labeled with unsupported platform,
+        set its platform to primary
+        (this completes the fix of 11 June, hopefully fixes #262)
+
+    client/
+        client_state.C
+        cs_statefile.C

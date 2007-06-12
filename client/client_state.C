@@ -354,8 +354,8 @@ int CLIENT_STATE::init() {
     check_file_existence();
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;
-        all_projects_list_check();
     }
+    all_projects_list_check();
 
     auto_update.init();
     http_ops->cleanup_temp_files();

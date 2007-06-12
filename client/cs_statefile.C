@@ -314,7 +314,7 @@ int CLIENT_STATE::parse_state_file() {
                 delete rp;
                 continue;
             }
-            if (strlen(rp->platform) == 0) {
+            if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
                 strcpy(rp->platform, get_primary_platform());
                 rp->version_num = latest_version(rp->wup->app, rp->platform);
             }

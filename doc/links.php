@@ -17,7 +17,12 @@ function site($url, $name) {
     return "<a href=$url>$name</a>";
 }
 
-$wiki_sites = array(
+$info_sites = array(
+    array(
+        "http://www.hyper.net/dc-howto.html",
+        "How to participate in grid computing projects that benefit humanity",
+        "(survey of volunteer computing, including non-BOINC projects)"
+    ),
     array(
         "http://www.kd-web.info/clanky.php",
         "Flash-based BOINC tutorials", "(in Czech, English, and Slovak)"
@@ -77,8 +82,8 @@ echo "
 <h3>Help and Information</h3>
 Sites with information and documentation about BOINC.
 ";
-shuffle($wiki_sites);
-site_list($wiki_sites);
+shuffle($info_sites);
+site_list($info_sites);
 echo "
 <a name=stats></a>
 <h3>Credit statistics</h3>
