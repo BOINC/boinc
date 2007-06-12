@@ -6096,10 +6096,20 @@ David  11 June 2007
     py/Boinc/
         setup_project.py
 
-Rom    8 June 2007
+Rom    11 June 2007
     - Tag for 5.10.5 release, all platforms
       boinc_core_release_5_10_5
     
     client/
         configure.ac
         version.h
+
+Charlie 12 June 2007
+    - Mac: Installer writes all_projects_list.xml file to BOINC 
+        Data directory unless it already contains one.  This 
+        avoids overwriting a newer project list with an older one.
+        
+    mac_installer/
+        PostInstall.cpp
+        release_boinc.sh
+        release_GridRepublic.sh
