@@ -53,6 +53,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bReconnectOnError = false;
     m_bNewConnection = false;
     m_bUsedDefaultPassword = false;
+    m_bIdentifyHostType = true;
 }
 
 
@@ -186,18 +187,24 @@ int CNetworkConnection::GetConnectingComputerName(wxString& strMachine) {
 
 
 bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
-    if (strMachine.empty()) {
-        return true;
-    } else if (wxT("localhost") == strMachine.Lower()) {
-        return true;
-    } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
-        return true;
-    } else if (::wxGetHostName().Lower() == strMachine.Lower()) {
-        return true;
-    } else if (::wxGetFullHostName().Lower() == strMachine.Lower()) {
-        return true;
+    static bool bLocalHostName = true;
+
+    if (m_bIdentifyHostType) {
+        if (strMachine.empty()) {
+            bLocalHostName = true;
+        } else if (wxT("localhost") == strMachine.Lower()) {
+            bLocalHostName = true;
+        } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
+            bLocalHostName = true;
+        } else if (::wxGetHostName().Lower() == strMachine.Lower()) {
+            bLocalHostName = true;
+        } else if (::wxGetFullHostName().Lower() == strMachine.Lower()) {
+            bLocalHostName = true;
+        }
+        m_bIdentifyHostType = false;
     }
-    return false;
+
+    return bLocalHostName;
 }
 
 
@@ -207,6 +214,7 @@ int CNetworkConnection::SetComputer(const wxChar* szComputer, const wxChar* szPa
     m_bUseDefaultPassword = FALSE;
 
     m_bNewConnection = true;
+    m_bIdentifyHostType = true;
     m_strNewComputerName = szComputer;
     m_strNewComputerPassword = szPassword;
     m_bUseDefaultPassword = bUseDefaultPassword;

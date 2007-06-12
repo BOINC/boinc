@@ -6155,3 +6155,9 @@ Rom    12 June 2007
     clientgui/
         AdvancedFrame.cpp
         BOINCGUIApp.cpp
+
+Rom    12 June 2007
+    - MGR: Only detect if the host name is local once per connection.
+    
+    clientgui/
+        MainDocument.cpp, .h
