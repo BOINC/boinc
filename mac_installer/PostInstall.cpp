@@ -69,6 +69,15 @@ enum { launchWhenDone,
         restartRequired
     };
 
+/******************************************************************
+***                                                             ***
+***                         NOTE:                               ***
+***                                                             ***
+*** On entry, the postinstall or postupgrade script has set the ***
+*** current directory to the top level of our installer package ***
+***                                                             ***
+******************************************************************/
+
 int main(int argc, char *argv[])
 {
     Boolean                 Success;
@@ -81,6 +90,7 @@ int main(int argc, char *argv[])
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
     char                    *p;
+    FILE                    *f;
 #ifdef SANDBOX
     uid_t                   savedeuid, b_m_uid;
     passwd                  *pw;
@@ -147,6 +157,16 @@ int main(int argc, char *argv[])
     }
     
     sleep (2);
+
+    // Install all_projects_list.xml file, but only if one doesn't 
+    // already exist, since a pre-existing one is probably newer.
+    f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
+    if (f) {
+        fclose(f);      // Already exists
+    } else {
+        system ("cp -fp Contents/Resources/all_projects_list.xml /Library/Application\\ Support/BOINC\\ Data/");
+        system ("chmod a-x /Library/Application\\ Support/BOINC\\ Data/all_projects_list.xml");
+    }
     
     Success = false;
     
