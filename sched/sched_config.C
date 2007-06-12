@@ -156,6 +156,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_str(tag, "akismet_key", temp, sizeof(temp))) continue;
         else if (xp.parse_int(tag, "shmem_work_items", shmem_work_items)) continue;
         else if (xp.parse_int(tag, "feeder_query_size", feeder_query_size)) continue;
+        else if (xp.parse_bool(tag, "no_darwin_6", no_darwin_6)) continue;
+        else if (xp.parse_bool(tag, "no_amd_k6", no_amd_k6)) continue;
         else fprintf(stderr, "unknown tag: %s\n", tag);
     }   
     return ERR_XML_PARSE;

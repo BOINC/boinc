@@ -1072,43 +1072,56 @@ void warn_user_if_core_client_upgrade_scheduled(
     return;
 }
 
-#ifdef EINSTEIN_AT_HOME
 bool unacceptable_os(
-        SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_NORMAL,
-        "OS version %s %s\n",
-        sreq.host.os_name, sreq.host.os_version
-    );
-
-    if (!strcmp(sreq.host.os_name, "Darwin") &&
-           (!strncmp(sreq.host.os_version, "5.", 2) ||
-            !strncmp(sreq.host.os_version, "6.", 2)
-           )
-        ) {
+    if (config.no_darwin_6) {
         log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
-            "Unacceptable OS %s %s\n",
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "OS version %s %s\n",
             sreq.host.os_name, sreq.host.os_version
         );
-        USER_MESSAGE um(
-            "Project only supports MacOS Darwin versions 7.X and above",
-            "low"
-        );
-        reply.insert_message(um);
-        reply.set_delay(DELAY_UNACCEPTABLE_OS);
-        return true;
+
+        if (!strcmp(sreq.host.os_name, "Darwin") &&
+               (!strncmp(sreq.host.os_version, "5.", 2) ||
+                !strncmp(sreq.host.os_version, "6.", 2)
+               )
+            ) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "Unacceptable OS %s %s\n",
+                sreq.host.os_name, sreq.host.os_version
+            );
+            USER_MESSAGE um(
+                "Project only supports MacOS Darwin versions 7.X and above",
+                "low"
+            );
+            reply.insert_message(um);
+            reply.set_delay(DELAY_UNACCEPTABLE_OS);
+            return true;
+        }
     }
     return false;
 }
-#else
-bool unacceptable_os(
-    SCHEDULER_REQUEST& , SCHEDULER_REPLY&
+
+bool unacceptable_cpu(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
+    if (config.no_amd_k6) {
+        if (strstr(sreq.host.p_model, "Family 5 Model 8 Stepping 0")) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "Unacceptable CPU %s %s\n",
+                sreq.host.p_vendor, sreq.host.p_model
+            );
+            USER_MESSAGE um("Project doesn't support AMD K6 CPUs", "low");
+            reply.insert_message(um);
+            reply.set_delay(DELAY_UNACCEPTABLE_OS);
+            return true;
+        }
+    }
     return false;
 }
-#endif // EINSTEIN_AT_HOME
 
 bool wrong_core_client_version(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
@@ -1212,7 +1225,10 @@ void process_request(
 
     // if different major version of BOINC, just send a message
     //
-    if (wrong_core_client_version(sreq, reply) || unacceptable_os(sreq, reply)) {
+    if (wrong_core_client_version(sreq, reply)
+        || unacceptable_os(sreq, reply)
+        || unacceptable_cpu(sreq, reply)
+    ) {
         ok_to_send_work = false;
 
         // if no results, return without accessing DB

@@ -6161,3 +6161,14 @@ Rom    12 June 2007
     
     clientgui/
         MainDocument.cpp, .h
+
+David  12 June 2007
+    - scheduler: add no_darwin_6 option
+        (don't send work to Mac OS X 10.2 or earlier).
+        This used to be #ifdef in by Einstein@home.
+    - scheduler: add no_amd_k6 option
+        (don't send work to AMD K6 CPUs)
+
+    sched/
+        handle_request.C
+        sched_config.C,h

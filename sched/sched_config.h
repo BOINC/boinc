@@ -100,6 +100,10 @@ public:
         // number of work items in shared memory
     int feeder_query_size;
         // number of work items to request in each feeder query
+    bool no_darwin_6;
+        // don't allow Mac OS X 10.2 or earlier
+    bool no_amd_k6;
+        // don't allow AMD K6 CPUs
 
     int parse(FILE*);
     int parse_file(const char* dir=".");
