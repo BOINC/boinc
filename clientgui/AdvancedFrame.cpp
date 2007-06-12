@@ -225,12 +225,21 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
     m_bDisplayShutdownClientWarning = true;
 	m_iDisplayViewType = VIEW_GRID;
 
-
     // Initialize Application
     SetIcon(*icon);
 
     // Restore main application frame settings
     RestoreState();
+
+    // Screen reader in use? If so, force the list view so that they
+    //   can still use us.
+#ifdef __WXMSW__
+    BOOL bScreenReaderEnabled = false;
+    SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
+    if (bScreenReaderEnabled) {
+        m_iDisplayViewType = VIEW_LIST;
+    }
+#endif
 
     // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));

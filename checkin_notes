@@ -6145,3 +6145,13 @@ David  12 June 2007
 
     api/
         boinc_api.h
+
+Rom    12 June 2007
+    - MGR: If the screen resolution is too small for the Simple GUI
+        switch to the Advanced GUI automatically.
+    - MGR: If a screen reader is detected, switch to the Advanced
+        GUI list view automatically.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp

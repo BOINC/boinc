@@ -277,6 +277,24 @@ bool CBOINCGUIApp::OnInit() {
     // Which GUI should be displayed?
     m_iGUISelected = m_pConfig->Read(wxT("GUISelection"), BOINC_SIMPLEGUI);
 
+    // Is there a condition in which the Simple GUI should not be used?
+    if (BOINC_SIMPLEGUI == m_iGUISelected) {
+
+        // Screen to small?
+        if ((wxGetDisplaySize().GetWidth() == 640) && (wxGetDisplaySize().GetHeight() == 480)) {
+            m_iGUISelected = BOINC_ADVANCEDGUI;
+        }
+
+        // Screen reader in use?
+#ifdef __WXMSW__
+        BOOL bScreenReaderEnabled = false;
+        SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
+        if (bScreenReaderEnabled) {
+            m_iGUISelected = BOINC_ADVANCEDGUI;
+        }
+#endif
+    }
+
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	m_pTaskBarIcon = new CTaskBarIcon(
