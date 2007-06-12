@@ -87,9 +87,10 @@ void whetstone(double& flops) {
 	double startsec, finisec;
 	double KIPS;
     int xtra, ii;
-    int x100 = 10000;   // chosen to make each pass take about 1 sec
+    int x100 = 1000;   // chosen to make each pass take about 0.1 sec
             // on my current computer (2.2 GHz celeron)
-            // Non-critical.
+            // This must be small enough that one loop finishes
+            // in 10 sec on the slowest CPU
 
     extern_array[11] = 1;
     benchmark_wait_to_start(BM_TYPE_FP);

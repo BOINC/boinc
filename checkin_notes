@@ -6123,3 +6123,17 @@ David  12 June 2007
     client/
         client_state.C
         cs_statefile.C
+
+David  12 June 2007
+	- client: when I changed the length of benchmark intervals
+		from 20 to 10 seconds, this broke things on ultra-slow CPUs.
+		I think this is because a single loop of the FP
+		benchmark took so long that the end time of the int
+		benchmark had already come and gone.
+		Fixed this (I hope) by reducing the loop length
+		by a factor of 10.
+
+	client/
+		cs_benchmark.C
+		dhrystone.C
+		whetstone.C

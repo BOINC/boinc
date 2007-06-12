@@ -19,8 +19,8 @@
 
 // Manage a (perhaps multi-processor) benchmark.
 // Because of hyperthreaded CPUs we can't just benchmark 1 CPU;
-// we have to run parallel benchmarks,
-// and we have to ensure that they run more or less concurrently.
+// we must run parallel benchmarks
+// and ensure that they run more or less concurrently.
 // Here's our scheme:
 // - the main program forks N benchmarks threads or processes
 // - after FP_START seconds it creates a file "do_fp"
