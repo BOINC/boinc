@@ -6208,3 +6208,10 @@ Rom    13 June 2007
         configure.ac
         version.h
 
+David  13 June 2007
+	- API: XML parsing glitch caused apps to always run standalone,
+		not report CPU time etc.
+
+	lib/
+		app_ipc.C
+		prefs.C
