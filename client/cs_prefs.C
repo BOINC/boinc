@@ -143,6 +143,13 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
         // pid is 1 if parent has exited
         requested_exit = true;
     }
+    
+    // Exit if we were launched by Manager and it crashed.
+    if (launched_by_manager) {
+        // pid is 1 if parent no longer running
+        if (getppid() == 1)
+            gstate.requested_exit = true;
+    }
 #endif
 
     switch(run_mode.get_current()) {
