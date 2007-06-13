@@ -6199,3 +6199,12 @@ Charlie 12 June 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    13 June 2007
+    - Tag for 5.10.6 release, all platforms
+      boinc_core_release_5_10_6
+    
+    client/
+        configure.ac
+        version.h
+
