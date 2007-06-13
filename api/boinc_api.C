@@ -837,7 +837,7 @@ int set_worker_timer() {
     UINT      uiThreadId;
     thread = _beginthreadex(
         NULL,
-        0,
+        16384,       // stack size
         timer_thread,
         0,
         0,
@@ -855,8 +855,10 @@ int set_worker_timer() {
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 
 #else
-
-    retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
+    pthread_attr_t thread_attrs;
+    pthread_attr_init(&thread_attrs);
+    pthread_attr_setstacksize(&thread_attrs, 16384);
+    retval = pthread_create(&timer_thread_handle, &thread_attrs, timer_thread, NULL);
     if (retval) {
         fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
         return retval;

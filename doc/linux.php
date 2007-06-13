@@ -12,16 +12,14 @@ The BOINC client software should work on:
 <li> Any Intel x86-compatible processor.
 </ul>
 
-<p>
-Specifically, it should work on Redhat 7.3 or later.
 <hr>
-If BOINC produces as error message of the form
+If BOINC produces the error message
 <pre>
 boinc_client: /lib/libc.so.6: version `GLIBC_2.2' not found (required by ./boinc_client)
 </pre>
 then you need to install a newer version of libc.
 <hr>
-If BOINC produces as error message of the form
+If BOINC produces the error message
 <pre>
 boinc_client: /lib/libc.so.6: version `GLIBC_2.3' not found (required by ./boinc_client)
 </pre>

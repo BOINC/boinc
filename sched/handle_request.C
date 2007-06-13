@@ -1108,7 +1108,7 @@ bool unacceptable_cpu(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
     if (config.no_amd_k6) {
-        if (strstr(sreq.host.p_model, "Family 5 Model 8 Stepping 0")) {
+        if (strstr(sreq.host.p_vendor, "AMD") && strstr(sreq.host.p_model, "Family 5 Model 8 Stepping 0")) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
                 "Unacceptable CPU %s %s\n",

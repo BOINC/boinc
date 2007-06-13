@@ -6215,3 +6215,12 @@ David  13 June 2007
 	lib/
 		app_ipc.C
 		prefs.C
+
+David  13 June 2007
+    - API: set timer thread stack size to 16KB
+    - Scheduler: for no_amd_k6 option, check CPU vendor as well as model
+
+    sched/
+        handle_request.C
+    api/
+        boinc_api.C
