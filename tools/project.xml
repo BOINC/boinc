@@ -36,6 +36,10 @@
         <user_friendly_name>Solaris 2.8 or later running on a SPARC 64-bit CPU</user_friendly_name>
     </platform>
     <platform>
+        <name>powerpc64-ps3-linux-gnu</name>
+        <user_friendly_name>Sony Playstation 3 running Linux</user_friendly_name>
+    </platform>
+    <platform>
         <name>anonymous</name>
         <user_friendly_name>anonymous</user_friendly_name>
     </platform>

@@ -6234,3 +6234,15 @@ David  13 June 2007
     client/
         client_state.C
         scheduler_op.C
+
+David  13 June 2007
+    - Added project.xml entry for Playstation 3 / Linux
+    - Server status page: if the scheduler isn't running,
+        it's almost certainly because "stop_sched" is present,
+        not because Apache isn't running.
+        Get rid of the use of "sched_pid".
+
+    tools/
+        project.xml
+    html/ops/
+        sample_server_status.php

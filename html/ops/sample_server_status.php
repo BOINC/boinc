@@ -36,8 +36,6 @@
 //
 // <www_host>    hostname of web server (default: same as <host>)
 // <sched_host>  hostname of scheduling server (default: same as <host>)
-// <sched_pid>   pid file of scheduling server httpd.conf
-//               (default: /etc/httpd/run/httpd.pid)
 // <uldl_host>   hostname of upload/download server (default: same as <host>)
 // <uldl_pid>    pid file of upload/download server httpd.conf
 //               (default: /etc/httpd/run/httpd.pid)
@@ -97,19 +95,21 @@ function show_status($host, $function, $running) {
     if ($running == 1) {
         $xmlstring .= "      <status>running</status>\n";
         $htmlstring .= "<td bgcolor=00ff00>Running</td>\n";
-        }
-    elseif ($running == 0) {
+    } elseif ($running == 0) {
         $xmlstring .= "      <status>not running</status>\n";
         $htmlstring .= "<td bgcolor=ff0000>Not Running</td>\n";
-        }
-    else {
+    } else {
         $xmlstring .= "      <status>disabled</status>\n";
         $htmlstring .= "<td bgcolor=ff8800>Disabled</td>\n";
-        }
+    }
     $xmlstring .= "    </daemon>\n";
     $htmlstring .= "</tr>\n";
-    if ($xml) { echo $xmlstring; return 0; }
-    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+    if ($xml) {
+        echo $xmlstring; return 0;
+    }
+    if ($xmlout) {
+        fwrite($xmloutfile, $xmlstring);
+    }
     echo $htmlstring;
     return 0;
 }
@@ -123,8 +123,13 @@ function show_counts($key, $xmlkey, $value) {
     global $xml,$xmlout,$xmloutfile;
     $formattedvalue = number_format($value);
     $xmlstring = "    <$xmlkey>$value</$xmlkey>\n";
-    if ($xml) { echo $xmlstring; return 0; }
-    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+    if ($xml) {
+        echo $xmlstring;
+        return 0;
+    }
+    if ($xmlout) {
+        fwrite($xmloutfile,$xmlstring);
+    }
     echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
     return 0;
 }
@@ -142,10 +147,6 @@ $project_host = parse_element($config_vars,"<host>");
 $www_host = parse_element($config_vars,"<www_host>");
 if ($www_host == "") {
     $www_host = $project_host;
-}
-$sched_pid = parse_element($config_vars,"<sched_pid>");
-if ($sched_pid == "") {
-    $sched_pid = "/etc/httpd/run/httpd.pid";
 }
 $sched_host = parse_element($config_vars,"<sched_host>");
 if ($sched_host == "") {
@@ -217,10 +218,7 @@ $uldl_running = file_exists($uldl_pid);
 if ($uldl_running == 0) $uldl_running = -1;
 show_status($uldl_host, "upload/download server", $uldl_running);
 
-// $sched_running = !file_exists("../../stop_sched");
-//
-$sched_running = file_exists($sched_pid);
-if ($sched_running == 0) $sched_running = -1;
+$sched_running = !file_exists("../../stop_sched");
 show_status($sched_host, "scheduler", $sched_running);
 
 // parse through config.xml to get all daemons running
@@ -237,7 +235,7 @@ while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",$cursor))) {
     $pid = parse_element($thisxml,"<pid_file>");
     if (!$pid) { $pid = $ncmd . ".pid"; }
     $disabled = parse_element($thisxml,"<disabled>");
-    show_daemon_status($host,$nlog,$ncmd,$disabled);
+    show_daemon_status($host, $nlog, $ncmd, $disabled);
 }
 
 $xmlstring = "  </daemon_status>\n  <database_file_states>\n";
