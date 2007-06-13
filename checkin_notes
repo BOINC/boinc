@@ -6172,3 +6172,12 @@ David  12 June 2007
     sched/
         handle_request.C
         sched_config.C,h
+
+Janus  12 June 2007
+    - Added an index page giving clues about potential misconfigurations in the BT
+      serverside setup. Once the remaining parts of the code are in place it should
+      be possible to use this page as a guide on where to look for any errors.
+
+    html/bt/
+        index.php (new)
+
