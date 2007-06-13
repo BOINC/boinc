@@ -250,6 +250,7 @@ int TASK::run(int argct, char** argvt) {
     }
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
+    SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
 #else
     int retval, argc;
     char progname[256], buf[256];
@@ -294,6 +295,7 @@ int TASK::run(int argct, char** argvt) {
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         argc = parse_command_line(arglist, argv+1);
         fprintf(stderr, "wrapper: running %s (%s)\n", buf, arglist);
+        setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
         retval = execv(buf, argv);
         exit(ERR_EXEC);
     }

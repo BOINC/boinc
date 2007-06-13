@@ -374,3 +374,12 @@ David  8 June 2007
 		uc2.C,h
 		uc2_graphics.C
 
+David  13 June 2007
+	- wrapper: set thread priority of worker processes
+		to IDLE class (Win);
+		set prior of worker processes to PROCESS_IDLE_PRIORITY (Unix)
+
+	uppercase/
+		upper_case.C
+	wrapper/
+		wrapper.C

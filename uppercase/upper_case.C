@@ -229,14 +229,6 @@ int main(int argc, char **argv) {
     int i;
     int retval = 0;
 
-    boinc_init_diagnostics(
-        BOINC_DIAG_DUMPCALLSTACKENABLED |
-        BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-        BOINC_DIAG_TRACETOSTDERR |
-        BOINC_DIAG_REDIRECTSTDERR
-    );
-
     for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
         if (!strcmp(argv[i], "-early_crash")) early_crash = true;
