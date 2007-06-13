@@ -618,15 +618,17 @@ WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
     return 0;
 }
 
-APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, char* platform, int version_num) {
+APP_VERSION* CLIENT_STATE::lookup_app_version(
+    APP* app, char* platform, int version_num
+) {
     for (unsigned int i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
         if (avp->app != app) continue;
+        if (version_num != avp->version_num) continue;
         if (app->project->anonymous_platform) {
             return avp;
         }
         if (strcmp(avp->platform, platform)) continue;
-        if (version_num != avp->version_num) continue;
         return avp;
     }
     return 0;

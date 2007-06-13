@@ -320,7 +320,6 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         //
         char* q = buf;
         while (q && parse_str(q, "<scheduler>", str)) {
-            strip_whitespace(str);
             push_unique(str, urls);
             q = strstr(q, "</scheduler>");
             if (q) q += strlen("</scheduler>");
@@ -334,6 +333,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
             if (n == 1) {
                 char* q = strchr(buf2, '\"');
                 if (q) *q = 0;
+                strip_whitespace(buf2);
                 str = string(buf2);
                 push_unique(str, urls);
             }

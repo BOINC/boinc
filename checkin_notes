@@ -6224,3 +6224,13 @@ David  13 June 2007
         handle_request.C
     api/
         boinc_api.C
+
+David  13 June 2007
+    - parse_str(): remove unnecessary checks
+    - client: allow app_info.xml to have multiple versions
+ 
+    lib/
+        parse.C
+    client/
+        client_state.C
+        scheduler_op.C

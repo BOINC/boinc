@@ -84,10 +84,6 @@ bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     char tempbuf[1024];
     int len;
 
-    // sanity check on NULL and empty cases. 
-    if (!buf || !tag || !strlen(tag))
-    return false;
-
     p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
