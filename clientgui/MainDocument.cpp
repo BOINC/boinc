@@ -579,21 +579,17 @@ int CMainDocument::CoreClientQuit() {
 
 
 bool CMainDocument::IsUserAuthorized() {
-#ifdef _WIN32
-    return true;
-#else       // !  _WIN32
-    static bool         sIsAuthorized = false;
-
-    if (sIsAuthorized)
-        return true;            // We already checked and OK'd current user
-
+#ifndef _WIN32
 #ifdef SANDBOX
+    static bool         sIsAuthorized = false;
     group               *grp;
     gid_t               rgid, boinc_master_gid;
     char                *userName, *groupMember;
     int                 i;
 
     if (g_use_sandbox) {
+        if (sIsAuthorized)
+            return true;            // We already checked and OK'd current user
 
         grp = getgrnam(BOINC_MASTER_GROUP_NAME);
         if (grp) {
@@ -618,22 +614,21 @@ bool CMainDocument::IsUserAuthorized() {
                 }       // for (i)
             }           // if (userName)
         }               // if grp
-    }
-#endif      // SANDBOX
-#endif      // !  _WIN32
 
 #ifdef __WXMAC__
-    if (Mac_Authorize()) {          // Run Mac Authentication dialog
-        sIsAuthorized = true;       // Authenticated by password
-        return true;
-    }
+        if (Mac_Authorize()) {          // Run Mac Authentication dialog
+            sIsAuthorized = true;       // Authenticated by password
+            return true;
+        }
 #endif      // __WXMAC__
 
-#ifdef SANDBOX
-    return false;
-#else
+        return false;
+
+    }       // if (g_use_sandbox)
+#endif      // SANDBOX
+#endif      // #ifndef _WIN32
+
     return true;
-#endif
 }
 
 
