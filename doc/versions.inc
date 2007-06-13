@@ -658,7 +658,7 @@ $linux = array(
 $linuxx64 = array(
     "name"=>"Linux/x64",
     "dbname" => "x86_64-pc-linux-gnu",
-    "url"=>"linux.php",
+    "url"=>"linuxx64.php",
     "versions"=>array(
         $l5911x64,
     )
