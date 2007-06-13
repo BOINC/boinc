@@ -39,7 +39,6 @@ GLOBAL_PREFS_MASK::GLOBAL_PREFS_MASK() {
     clear();
 }
 
-
 void GLOBAL_PREFS_MASK::clear() {
     memset(this, 0, sizeof(GLOBAL_PREFS_MASK));
 }
@@ -187,7 +186,6 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 }
 
 // Parse XML global prefs, setting defaults first.
-// The start tag has already been parsed.
 //
 int GLOBAL_PREFS::parse(
     XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
@@ -234,7 +232,7 @@ int DAY_PREFS::parse(XML_PARSER& xp) {
 // where X==host_venue, then parse that and ignore the rest.
 // Otherwise ignore <venue> elements.
 //
-// The start tag has already been parsed.
+// The start tag may or may not have already been parsed
 //
 int GLOBAL_PREFS::parse_override(
     XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
@@ -246,11 +244,11 @@ int GLOBAL_PREFS::parse_override(
 
     found_venue = false;
     mask.clear();
-    if (!xp.parse_start("global_preferences")) {
-        return ERR_XML_PARSE;
-    }
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "global_preferences")) continue;
+        if (!strcmp(tag, "/global_preferences"))  return 0;
         if (in_venue) {
             if (!strcmp(tag, "/venue")) {
                 if (in_correct_venue) {
@@ -282,7 +280,6 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_int(tag, "mod_time", mod_time)) continue;
-        if (!strcmp(tag, "/global_preferences"))  return 0;
         if (xp.parse_bool(tag, "run_on_batteries", run_on_batteries)) {
             mask.run_on_batteries = true;
             continue;

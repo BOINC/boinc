@@ -179,6 +179,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     XML_PARSER xp(&mf);
 
     if (!xp.parse_start("app_init_data")) {
+        fprintf(stderr, "no start tag in app init data\n");
         return ERR_XML_PARSE;
     }
 
@@ -188,9 +189,10 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            printf("unexpected text in init_data.xml: %s\n", tag);
+            fprintf(stderr, "unexpected text in init_data.xml: %s\n", tag);
             continue;
-        }   
+        }
+        if (!strcmp(tag, "/app_init_data")) return 0;
         if (!strcmp(tag, "project_preferences")) {
             retval = dup_element_contents(f, "</project_preferences>", &ai.project_preferences);
             if (retval) return retval;
@@ -243,10 +245,11 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double(tag, "fraction_done_update_period", ai.fraction_done_update_period)) continue;
         if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double(tag, "fraction_done_end", ai.fraction_done_end)) continue;
-        // fprintf(stderr, "parse_init_data_file: unrecognized %s", tag);
+        fprintf(stderr, "parse_init_data_file: unrecognized %s\n", tag);
         xp.skip_unexpected(tag);
     }
-    return 0;
+    fprintf(stderr, "parse_init_data_file: no end tag\n");
+    return ERR_XML_PARSE;
 }
 
 APP_CLIENT_SHM::APP_CLIENT_SHM() {
