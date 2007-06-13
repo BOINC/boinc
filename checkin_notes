@@ -6181,3 +6181,21 @@ Janus  12 June 2007
     html/bt/
         index.php (new)
 
+Charlie 12 June 2007
+    - Mac: Exit Client if launched by Manager and Manager crashed.
+    - Sandbox: clean up authentication logic for privileged operations 
+        (attach, detach, reset, etc.), fixing bugs.
+    - Mac Sandbox: free authorization after authenticating.
+    - Mac: Add graphics2_util.C to XCode Project for libboinc_api.a.
+    - Mac: Fix bug in XCode project which sometimes overwrote 
+        symbol table files with stripped application.
+
+    client/
+        cs_prefs.C
+    clientgui/
+        MainDocument.cpp
+        mac/
+            MacGUI.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
