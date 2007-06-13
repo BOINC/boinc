@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-03 15:17+0100\n"
+"PO-Revision-Date: 2007-06-12 11:38+0100\n"
 "Last-Translator: Marek Czerwonka <marekz@irc.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "MIME-Version: 1.0\n"
@@ -722,11 +722,11 @@ msgstr "(detekcja automatyczna)"
 
 #: clientgui/BOINCGUIApp.cpp:446
 msgid "(Unknown)"
-msgstr "(nieznany)"
+msgstr "(Nieznany)"
 
 #: clientgui/BOINCGUIApp.cpp:447
 msgid "(User Defined)"
-msgstr "(definiowane przez użytkownika)"
+msgstr "(Użytkownika)"
 
 #: clientgui/BOINCGUIApp.cpp:1034
 #, c-format
@@ -892,7 +892,7 @@ msgstr ""
 "Polska wersja językowa:\n"
 "Marek Czerwonka (marekz@irc.pl)\n"
 "\n"
-"Wersja: 5.10.1 (rev. 12746)"
+"Wersja: 5.10.6 (rev. 12746)"
 
 #: clientgui/DlgAbout.cpp:172
 #: clientgui/DlgAbout.cpp:176
@@ -957,11 +957,11 @@ msgstr "Przetwarzanie danych"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid "while computer is on batteries"
-msgstr "kiedy komputer jest zasilany z baterii"
+msgstr " kiedy komputer jest zasilany z baterii"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:72
 msgid "while computer is in use"
-msgstr "kiedy komputer jest w użyciu"
+msgstr " kiedy komputer jest w użyciu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:84
 msgid "only if computer is idle for"
@@ -971,7 +971,7 @@ msgstr "tylko kiedy komputer pozostaje nieużywany przez nie mniej niż"
 #: clientgui/DlgAdvPreferencesBase.cpp:213
 #: clientgui/sg_DlgPreferences.cpp:450
 msgid "minutes"
-msgstr "minut"
+msgstr "minut(y)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:103
 msgid "work time restrictions"
@@ -1097,7 +1097,7 @@ msgstr "dni (max. 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "skip image file verification"
-msgstr "nie weryfikuj pliku jpg"
+msgstr " nie weryfikuj pliku jpg"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:305
 msgid "connect options"
@@ -1105,11 +1105,11 @@ msgstr "Opcje połączenia"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:307
 msgid "confirm before connecting to internet"
-msgstr "potwierdź przed połączeniem z internetem"
+msgstr " potwierdź przed połączeniem z internetem"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:313
 msgid "disconnect when done"
-msgstr "rozłącz po zakończeniu"
+msgstr " rozłącz po zakończeniu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:322
 msgid "network usage restrictions"
@@ -1129,7 +1129,7 @@ msgstr "Użycie dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:445
 msgid "Gigabytes disk space"
-msgstr "GB przestrzeni dysku"
+msgstr "GB obszaru dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:448
 msgid "leave at least"
@@ -1137,12 +1137,12 @@ msgstr "pozostaw nie mniej niż"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:456
 msgid "Gigabytes disk space free"
-msgstr "GB wolnej przestrzeni dysku"
+msgstr "GB wolnego obszaru dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:467
 #, c-format
 msgid "% of total disk space"
-msgstr "% ogólnej przestrzeni dysku"
+msgstr "% obszaru całego dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "write to disk at most every"
@@ -1171,7 +1171,7 @@ msgstr "% kiedy komputer nie jest w użyciu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:521
 msgid "leave applications in memory while suspended"
-msgstr "przełączając między projektami pozostawiaj aplikacje w pamięci operacyjnej"
+msgstr " przełączając między projektami pozostawiaj aplikacje w pamięci operacyjnej"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "disk and memory usage"
@@ -1598,7 +1598,7 @@ msgid "  "
 msgstr "  "
 
 #: clientgui/ProjectListCtrl.cpp:302
-msgid "(web)"
+msgid "(WWW)"
 msgstr "(adres)"
 
 #: clientgui/ProjectProcessingPage.cpp:326
