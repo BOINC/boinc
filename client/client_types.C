@@ -130,27 +130,23 @@ int PROJECT::parse_state(MIOFILE& in) {
             scheduler_urls.push_back(sched_url);
             continue;
         }
-        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
-        else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
-        else if (parse_str(buf, "<symstore>", symstore, sizeof(symstore))) continue;
-        else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
-        else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
-        else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
-        else if (parse_str(buf, "<email_hash>", email_hash, sizeof(email_hash))) continue;
-        else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
-        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
-        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        else if (parse_double(buf, "<user_create_time>", user_create_time)) {
-            continue;
-        }
-        else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
-        else if (parse_int(buf, "<hostid>", hostid)) continue;
-        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
-        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
-        else if (parse_double(buf, "<host_create_time>", host_create_time)) {
-            continue;
-        }
-        else if (match_tag(buf, "<code_sign_key>")) {
+        if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
+        if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
+        if (parse_str(buf, "<symstore>", symstore, sizeof(symstore))) continue;
+        if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
+        if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
+        if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
+        if (parse_str(buf, "<email_hash>", email_hash, sizeof(email_hash))) continue;
+        if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
+        if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
+        if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
+        if (parse_double(buf, "<user_create_time>", user_create_time)) continue;
+        if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
+        if (parse_int(buf, "<hostid>", hostid)) continue;
+        if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        if (parse_double(buf, "<host_create_time>", host_create_time)) continue;
+        if (match_tag(buf, "<code_sign_key>")) {
             retval = copy_element_contents(
                 in,
                 "</code_sign_key>",
@@ -158,38 +154,35 @@ int PROJECT::parse_state(MIOFILE& in) {
                 sizeof(code_sign_key)
             );
             if (retval) return retval;
-        }
-        else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
-        else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
-        else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) {
             continue;
         }
-        else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
-        else if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
-        else if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
-        else if (match_tag(buf, "<trickle_up_pending/>")) trickle_up_pending = true;
-        else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
-        else if (parse_int(buf, "<send_time_stats_log>", send_time_stats_log)) continue;
-        else if (parse_int(buf, "<send_job_log>", send_job_log)) continue;
-        else if (match_tag(buf, "<non_cpu_intensive/>")) non_cpu_intensive = true;
-        else if (parse_bool(buf, "verify_files_on_app_start", verify_files_on_app_start)) continue;
-        else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
-        else if (match_tag(buf, "<dont_request_more_work/>")) dont_request_more_work = true;
-        else if (match_tag(buf, "<detach_when_done/>")) detach_when_done = true;
-        else if (match_tag(buf, "<ended/>")) ended = true;
-        else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
-        else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
-        else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
-        else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
-        else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
-        else if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
-        else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s", buf
-                );
-            }
+        if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
+        if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
+        if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
+        if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
+        if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
+        if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
+        if (parse_bool(buf, "trickle_up_pending", trickle_up_pending)) continue;
+        if (parse_bool(buf, "send_file_list", send_file_list)) continue;
+        if (parse_int(buf, "<send_time_stats_log>", send_time_stats_log)) continue;
+        if (parse_int(buf, "<send_job_log>", send_job_log)) continue;
+        if (parse_bool(buf, "non_cpu_intensive", non_cpu_intensive)) continue;
+        if (parse_bool(buf, "verify_files_on_app_start", verify_files_on_app_start)) continue;
+        if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
+        if (parse_bool(buf, "dont_request_more_work", dont_request_more_work)) continue;
+        if (parse_bool(buf, "detach_when_done", detach_when_done)) continue;
+        if (parse_bool(buf, "ended", ended)) continue;
+        if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
+        if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
+        if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
+        if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
+        if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
+        if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
+        if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -567,17 +560,17 @@ int APP::parse(MIOFILE& in) {
     project = NULL;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) {
-            if (!strlen(user_friendly_name)) strcpy(user_friendly_name, name);
+            if (!strlen(user_friendly_name)) {
+                strcpy(user_friendly_name, name);
+            }
             return 0;
         }
-        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] APP::parse(): unrecognized: %s\n", buf
-                );
-            }
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] APP::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -706,7 +699,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             if (strstr(name, "%")) return ERR_BAD_FILENAME;
             return 0;
         }
-        else if (match_tag(buf, "<xml_signature>")) {
+        if (match_tag(buf, "<xml_signature>")) {
             retval = copy_element_contents(
                 in,
                 "</xml_signature>",
@@ -716,7 +709,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             if (retval) return retval;
             continue;
         }
-        else if (match_tag(buf, "<file_signature>")) {
+        if (match_tag(buf, "<file_signature>")) {
             retval = copy_element_contents(
                 in,
                 "</file_signature>",
@@ -733,26 +726,26 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         }
         strcat(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else if (parse_str(buf, "<url>", url)) {
+        if (parse_str(buf, "<url>", url)) {
             urls.push_back(url);
             continue;
         }
-        else if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
-        else if (parse_double(buf, "<nbytes>", nbytes)) continue;
-        else if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        else if (parse_bool(buf, "generated_locally", generated_locally)) continue;
-        else if (parse_int(buf, "<status>", status)) continue;
-        else if (parse_bool(buf, "executable", executable)) continue;
-        else if (parse_bool(buf, "uploaded", uploaded)) continue;
-        else if (parse_bool(buf, "upload_when_present", upload_when_present)) continue;
-        else if (parse_bool(buf, "sticky", sticky)) continue;
-        else if (parse_bool(buf, "marked_for_delete", marked_for_delete)) continue;
-        else if (parse_bool(buf, "report_on_rpc", report_on_rpc)) continue;
-        else if (parse_bool(buf, "gzip_when_done", gzip_when_done)) continue;
-        else if (parse_bool(buf, "signature_required", signature_required)) continue;
-        else if (parse_bool(buf, "is_project_file", is_project_file)) continue;
-        else if (match_tag(buf, "<no_delete")) continue;
-        else if (match_tag(buf, "<persistent_file_xfer>")) {
+        if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
+        if (parse_double(buf, "<nbytes>", nbytes)) continue;
+        if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
+        if (parse_bool(buf, "generated_locally", generated_locally)) continue;
+        if (parse_int(buf, "<status>", status)) continue;
+        if (parse_bool(buf, "executable", executable)) continue;
+        if (parse_bool(buf, "uploaded", uploaded)) continue;
+        if (parse_bool(buf, "upload_when_present", upload_when_present)) continue;
+        if (parse_bool(buf, "sticky", sticky)) continue;
+        if (parse_bool(buf, "marked_for_delete", marked_for_delete)) continue;
+        if (parse_bool(buf, "report_on_rpc", report_on_rpc)) continue;
+        if (parse_bool(buf, "gzip_when_done", gzip_when_done)) continue;
+        if (parse_bool(buf, "signature_required", signature_required)) continue;
+        if (parse_bool(buf, "is_project_file", is_project_file)) continue;
+        if (match_tag(buf, "<no_delete")) continue;
+        if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
             if (!retval) {
@@ -760,7 +753,9 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             } else {
                 delete pfxp;
             }
-        } else if (!from_server && match_tag(buf, "<signed_xml>")) {
+            continue;
+        }
+        if (!from_server && match_tag(buf, "<signed_xml>")) {
             retval = copy_element_contents(
                 in,
                 "</signed_xml>",
@@ -769,23 +764,25 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             );
             if (retval) return retval;
             continue;
-        } else if (match_tag(buf, "<file_xfer>")) {
+        }
+        if (match_tag(buf, "<file_xfer>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</file_xfer>")) break;
             }
             continue;
-        } else if (match_tag(buf, "<error_msg>")) {
+        }
+        if (match_tag(buf, "<error_msg>")) {
             retval = copy_element_contents(
                 in, "</error_msg>", buf2, sizeof(buf2)
             );
             if (retval) return retval;
             error_msg = buf2;
-        } else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] FILE_INFO::parse(): unrecognized: %s\n", buf
-                );
-            }
+            continue;
+        }
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] FILE_INFO::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -1073,20 +1070,18 @@ int APP_VERSION::parse(MIOFILE& in) {
     project = NULL;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
-        else if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
-        else if (match_tag(buf, "<file_ref>")) {
+        if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
+        if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             app_files.push_back(file_ref);
             continue;
         }
-        else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] APP_VERSION::parse(): unrecognized: %s\n", buf
-                );
-            }
+        if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] APP_VERSION::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -1164,18 +1159,16 @@ int FILE_REF::parse(MIOFILE& in) {
 	optional = false;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_ref>")) return 0;
-        else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
-        else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
-        else if (parse_int(buf, "<fd>", fd)) continue;
-        else if (parse_bool(buf, "main_program", main_program)) continue;
-        else if (parse_bool(buf, "copy_file", copy_file)) continue;
-		else if (parse_bool(buf, "optional", optional)) continue;
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] FILE_REF::parse(): unrecognized: %s\n", buf
-                );
-            }
+        if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
+        if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
+        if (parse_int(buf, "<fd>", fd)) continue;
+        if (parse_bool(buf, "main_program", main_program)) continue;
+        if (parse_bool(buf, "copy_file", copy_file)) continue;
+		if (parse_bool(buf, "optional", optional)) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] FILE_REF::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -1227,10 +1220,10 @@ int WORKUNIT::parse(MIOFILE& in) {
     rsc_disk_bound = 1e9;
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</workunit>")) return 0;
-        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
-        else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else if (match_tag(buf, "<command_line>")) {
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (match_tag(buf, "<command_line>")) {
             if (strstr(buf, "</command_line>")) {
                 parse_str(buf, "<command_line>", command_line);
             } else {
@@ -1253,24 +1246,22 @@ int WORKUNIT::parse(MIOFILE& in) {
             strip_whitespace(command_line);
             continue;
         }
-        //else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
-        else if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
-        else if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
-        else if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
-        else if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
-        else if (match_tag(buf, "<file_ref>")) {
+        //if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
+        if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
+        if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
+        if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
+        if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
+        if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             input_files.push_back(file_ref);
             continue;
         }
         // unused stuff
-        else if (parse_double(buf, "<credit>", dtemp)) continue;
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] WORKUNIT::parse(): unrecognized: %s\n", buf
-                );
-            }
+        if (parse_double(buf, "<credit>", dtemp)) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] WORKUNIT::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -1360,13 +1351,11 @@ int RESULT::parse_name(FILE* in, const char* end_tag) {
     strcpy(name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, end_tag)) return 0;
-        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] RESULT::parse_name(): unrecognized: %s\n", buf
-                );
-            }
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] RESULT::parse_name(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -1452,14 +1441,14 @@ int RESULT::parse_state(MIOFILE& in) {
             output_files.push_back(file_ref);
             continue;
         }
-        else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
-        else if (parse_int(buf, "<exit_status>", exit_status)) continue;
-        else if (match_tag(buf, "<got_server_ack/>")) got_server_ack = true;
-        else if (match_tag(buf, "<ready_to_report/>")) ready_to_report = true;
-        else if (parse_double(buf, "<completed_time>", completed_time)) continue;
-        else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
-        else if (parse_int(buf, "<state>", _state)) continue;
-        else if (match_tag(buf, "<stderr_out>")) {
+        if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
+        if (parse_int(buf, "<exit_status>", exit_status)) continue;
+        if (parse_bool(buf, "got_server_ack", got_server_ack)) continue;
+        if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
+        if (parse_double(buf, "<completed_time>", completed_time)) continue;
+        if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
+        if (parse_int(buf, "<state>", _state)) continue;
+        if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</stderr_out>")) break;
                 if (strstr(buf, "<![CDATA[")) continue;
@@ -1468,18 +1457,16 @@ int RESULT::parse_state(MIOFILE& in) {
             }
             continue;
         }
-        else if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
-        else if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
-        else if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
-        else if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
-        else if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
-        else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
-                );
-            }
+        if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
+        if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
+        if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
+        if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
+        if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -1604,7 +1591,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
-        atp->write(out);
+        atp->write_gui(out);
     }
     out.printf("</result>\n");
     return 0;

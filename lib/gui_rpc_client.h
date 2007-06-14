@@ -213,6 +213,8 @@ public:
     int graphics_mode_acked;
     bool too_large;
     bool edf_scheduled;
+    std::string graphics_exec_path;
+    std::string slot_path;
 
     APP* app;
     WORKUNIT* wup;

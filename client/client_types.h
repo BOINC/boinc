@@ -401,6 +401,7 @@ struct APP_VERSION {
     PROJECT* project;
     std::vector<FILE_REF> app_files;
     int ref_cnt;
+    char graphics_exec_path[512];
 
     APP_VERSION(){}
     ~APP_VERSION(){}

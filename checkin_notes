@@ -6276,3 +6276,23 @@ David  14 June 2007
         sched_array.C
         sched_hr.C,h
         sched_send.C,h
+
+David  14 June 2007
+    - GUI RPC: add graphics_exec_path and slot_path fields to RESULT.
+        These let the Manager run the graphics app.
+        Graphics apps have physical name *v6graphics*
+    - Separated ACTIVE_TASK::write() and ACTIVE_TASK::write_gui().
+        These need to write largely disjoint set of items.
+    - code cleanup: remove a zillion "else"s in parsing code
+    - code cleanup: change a zillion match_tag(buf, "<foo/>"
+        to parse_bool(buf, "foo")
+
+    client/
+        app.C,h
+        client_state.C
+        client_types.C,h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    sched/
+        server_types.C

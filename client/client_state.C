@@ -695,6 +695,13 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             return ERR_NOT_FOUND;
         }
 
+        if (strstr(file_ref.file_name, "v6graphics")) {
+            char relpath[512], path[512];
+            get_pathname(fip, relpath, sizeof(relpath));
+            relative_to_absolute(relpath, path);
+            strlcpy(avp->graphics_exec_path, path, sizeof(avp->graphics_exec_path));
+        }
+
         // any file associated with an app version must be signed
         //
         fip->signature_required = true;

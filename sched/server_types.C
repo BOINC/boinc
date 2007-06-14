@@ -94,9 +94,7 @@ int IP_RESULT::parse(FILE* f) {
     cpu_time_remaining = 0;
     strcpy(name, "");
     while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</ip_result>")) {
-            return 0;
-        }
+        if (match_tag(buf, "</ip_result>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
         if (parse_double(buf, "<cpu_time_remaining>", cpu_time_remaining)) continue;
@@ -108,11 +106,8 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
     char buf[256];
     strcpy(name, "");
     while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</alt_platform>")) {
-            return 0;
-        } else if (parse_str(buf, "<name>", name, sizeof(name))) {
-            continue;
-        }
+        if (match_tag(buf, "</alt_platform>")) return 0;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -154,22 +149,23 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</scheduler_request>")) return 0;
-        else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
+        if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
             remove_quotes(authenticator);
             continue;
         }
-        else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
-        else if (parse_int(buf, "<hostid>", hostid)) continue;
-        else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
-        else if (parse_str(buf, "<platform_name>", platform.name, sizeof(platform.name))) continue;
-        else if (match_tag(buf, "<alt_platform>")) {
+        if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
+        if (parse_int(buf, "<hostid>", hostid)) continue;
+        if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
+        if (parse_str(buf, "<platform_name>", platform.name, sizeof(platform.name))) continue;
+        if (match_tag(buf, "<alt_platform>")) {
             CLIENT_PLATFORM cp;
             retval = cp.parse(fin);
             if (!retval) {
                 alt_platforms.push_back(cp);
             }
+            continue;
         }
-        else if (match_tag(buf, "<app_versions>")) {
+        if (match_tag(buf, "<app_versions>")) {
             while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</app_versions>")) break;
                 if (match_tag(buf, "<app_version>")) {
@@ -180,71 +176,77 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         }
-        else if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
-        else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
-        else if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
-        else if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
-        else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
-        else if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
-        else if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
-        else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
-        else if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
-
-        else if (match_tag(buf, "<global_preferences>")) {
+        if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
+        if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
+        if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
+        if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
+        if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
+        if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
+        if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
+        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+        if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
+        if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
             while (fgets(buf, sizeof(buf), fin)) {
                 if (strstr(buf, "</global_preferences>")) break;
                 safe_strcat(global_prefs_xml, buf);
             }
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
+            continue;
         }
-        else if (match_tag(buf, "<working_global_preferences>")) {
+        if (match_tag(buf, "<working_global_preferences>")) {
             while (fgets(buf, sizeof(buf), fin)) {
                 if (strstr(buf, "</working_global_preferences>")) break;
                 safe_strcat(working_global_prefs_xml, buf);
             }
+            continue;
         }
-        else if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
-        else if (match_tag(buf, "<host_info>")) {
+        if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
+        if (match_tag(buf, "<host_info>")) {
             host.parse(fin);
             continue;
         }
-        else if (match_tag(buf, "<time_stats>")) {
+        if (match_tag(buf, "<time_stats>")) {
             host.parse_time_stats(fin);
             continue;
         }
-        else if (match_tag(buf, "<net_stats>")) {
+        if (match_tag(buf, "<net_stats>")) {
             host.parse_net_stats(fin);
             continue;
         }
-        else if (match_tag(buf, "<disk_usage>")) {
+        if (match_tag(buf, "<disk_usage>")) {
             host.parse_disk_usage(fin);
             continue;
         }
-        else if (match_tag(buf, "<result>")) {
+        if (match_tag(buf, "<result>")) {
             result.parse_from_client(fin);
             results.push_back(result);
             continue;
         }
-        else if (match_tag(buf, "<code_sign_key>")) {
+        if (match_tag(buf, "<code_sign_key>")) {
             copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
+            continue;
         }
-        else if (match_tag(buf, "<msg_from_host>")) {
+        if (match_tag(buf, "<msg_from_host>")) {
             MSG_FROM_HOST_DESC md;
             retval = md.parse(fin);
             if (!retval) {
                 msgs_from_host.push_back(md);
             }
+            continue;
         }
-        else if (match_tag(buf, "<file_info>")) {
+        if (match_tag(buf, "<file_info>")) {
             FILE_INFO fi;
             retval = fi.parse(fin);
             if (!retval) {
                 file_infos.push_back(fi);
             }
-        } else if (match_tag(buf, "<host_venue>")) {
             continue;
-        } else if (match_tag(buf, "<other_results>")) {
+        }
+        if (match_tag(buf, "<host_venue>")) {
+            continue;
+        }
+        if (match_tag(buf, "<other_results>")) {
             have_other_results_list = true;
             while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</other_results>")) break;
@@ -257,7 +259,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
                 }
             }
             continue;
-        } else if (match_tag(buf, "<in_progress_results>")) {
+        }
+        if (match_tag(buf, "<in_progress_results>")) {
             have_ip_results_list = true;
             int i = 0;
             double now = time(0);
@@ -276,15 +279,14 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
                 }
             }
             continue;
-        } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
-            );
-            MIOFILE mf;
-            mf.init_file(fin);
-            retval = skip_unrecognized(buf, mf);
-            if (retval) return retval;
         }
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
+        );
+        MIOFILE mf;
+        mf.init_file(fin);
+        retval = skip_unrecognized(buf, mf);
+        if (retval) return retval;
     }
     return ERR_XML_PARSE;
 }
@@ -810,39 +812,37 @@ int RESULT::parse_from_client(FILE* fin) {
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</result>")) return 0;
-        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else if (parse_int(buf, "<state>", client_state)) continue;
-        else if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
-        else if (parse_int(buf, "<exit_status>", exit_status)) continue;
-        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
-        else if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
-        else if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
-        else if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
-        else if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
-        else if (match_tag(buf, "<file_info>")) {
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_int(buf, "<state>", client_state)) continue;
+        if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
+        if (parse_int(buf, "<exit_status>", exit_status)) continue;
+        if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
+        if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
+        if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
+        if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
+        if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
+        if (match_tag(buf, "<file_info>")) {
             safe_strcat(xml_doc_out, buf);
             while (fgets(buf, sizeof(buf), fin)) {
                 safe_strcat(xml_doc_out, buf);
                 if (match_tag(buf, "</file_info>")) break;
             }
             continue;
-        } else if (match_tag(buf, "<stderr_out>" )) {
+        }
+        if (match_tag(buf, "<stderr_out>" )) {
             while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</stderr_out>")) break;
                 safe_strcat(stderr_out, buf);
             }
             continue;
-        } else if (match_tag(buf, "<platform>")) {
-            continue;
-        } else if (match_tag(buf, "<version_num>")) {
-            continue;
-        } else {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_NORMAL,
-                "RESULT::parse_from_client(): unrecognized: %s\n",
-                buf
-            );
         }
+        if (match_tag(buf, "<platform>")) continue;
+        if (match_tag(buf, "<version_num>")) continue;
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_NORMAL,
+            "RESULT::parse_from_client(): unrecognized: %s\n",
+            buf
+        );
     }
     return ERR_XML_PARSE;
 }
@@ -853,54 +853,52 @@ int HOST::parse(FILE* fin) {
     p_ncpus = 1;
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
-        else if (parse_int(buf, "<timezone>", timezone)) continue;
-        else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
-        else if (parse_str(buf, "<serialnum>", serialnum, sizeof(serialnum))) continue;
-        else if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
-        else if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
-        else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
-        else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
-        else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
-        else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
-        else if (parse_double(buf, "<p_iops>", p_iops)) continue;
-        else if (parse_double(buf, "<p_membw>", p_membw)) continue;
-        else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
-        else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
-        else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
-        else if (parse_double(buf, "<m_cache>", m_cache)) continue;
-        else if (parse_double(buf, "<m_swap>", m_swap)) continue;
-        else if (parse_double(buf, "<d_total>", d_total)) continue;
-        else if (parse_double(buf, "<d_free>", d_free)) continue;
-        else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
-        else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
+        if (parse_int(buf, "<timezone>", timezone)) continue;
+        if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
+        if (parse_str(buf, "<serialnum>", serialnum, sizeof(serialnum))) continue;
+        if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
+        if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
+        if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
+        if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
+        if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
+        if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
+        if (parse_double(buf, "<p_iops>", p_iops)) continue;
+        if (parse_double(buf, "<p_membw>", p_membw)) continue;
+        if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
+        if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
+        if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
+        if (parse_double(buf, "<m_cache>", m_cache)) continue;
+        if (parse_double(buf, "<m_swap>", m_swap)) continue;
+        if (parse_double(buf, "<d_total>", d_total)) continue;
+        if (parse_double(buf, "<d_free>", d_free)) continue;
+        if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
+        if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
 
         // parse deprecated fields to avoid error messages
         //
-        else if (match_tag(buf, "<p_calculated>")) continue;
-        else if (match_tag(buf, "<p_fpop_err>")) continue;
-        else if (match_tag(buf, "<p_iop_err>")) continue;
-        else if (match_tag(buf, "<p_membw_err>")) continue;
+        if (match_tag(buf, "<p_calculated>")) continue;
+        if (match_tag(buf, "<p_fpop_err>")) continue;
+        if (match_tag(buf, "<p_iop_err>")) continue;
+        if (match_tag(buf, "<p_membw_err>")) continue;
 
         // fields reported by 5.5+ clients, not currently used
         //
-        else if (match_tag(buf, "<p_features>")) continue;
-        else if (match_tag(buf, "<p_capabilities>")) continue;
-        else if (match_tag(buf, "<accelerators>")) continue;
+        if (match_tag(buf, "<p_features>")) continue;
+        if (match_tag(buf, "<p_capabilities>")) continue;
+        if (match_tag(buf, "<accelerators>")) continue;
 
 #if 0
         // not sure where thees fields belong in the above
         // categories
         //
-        else if (match_tag(buf, "<cpu_caps>")) continue;
-        else if (match_tag(buf, "<cache_l1>")) continue;
-        else if (match_tag(buf, "<cache_l2>")) continue;
-        else if (match_tag(buf, "<cache_l3>")) continue;
+        if (match_tag(buf, "<cpu_caps>")) continue;
+        if (match_tag(buf, "<cache_l1>")) continue;
+        if (match_tag(buf, "<cache_l2>")) continue;
+        if (match_tag(buf, "<cache_l3>")) continue;
 #endif
-        else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                "HOST::parse(): unrecognized: %s\n", buf
-            );
-        }
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "HOST::parse(): unrecognized: %s\n", buf
+        );
     }
     return ERR_XML_PARSE;
 }
@@ -911,19 +909,17 @@ int HOST::parse_time_stats(FILE* fin) {
 
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</time_stats>")) return 0;
-        else if (parse_double(buf, "<on_frac>", on_frac)) continue;
-        else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
-        else if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
-        else if (match_tag(buf, "<outages>")) continue;
-        else if (match_tag(buf, "<outage>")) continue;
-        else {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_NORMAL,
-                "HOST::parse_time_stats(): unrecognized: %s\n",
-                buf
-            );
-        }
+        if (parse_double(buf, "<on_frac>", on_frac)) continue;
+        if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
+        if (parse_double(buf, "<active_frac>", active_frac)) continue;
+        if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
+        if (match_tag(buf, "<outages>")) continue;
+        if (match_tag(buf, "<outage>")) continue;
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_NORMAL,
+            "HOST::parse_time_stats(): unrecognized: %s\n",
+            buf
+        );
     }
     return ERR_XML_PARSE;
 }
@@ -933,15 +929,13 @@ int HOST::parse_net_stats(FILE* fin) {
 
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</net_stats>")) return 0;
-        else if (parse_double(buf, "<bwup>", n_bwup)) continue;
-        else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
-        else {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_NORMAL,
-                "HOST::parse_net_stats(): unrecognized: %s\n",
-                buf
-            );
-        }
+        if (parse_double(buf, "<bwup>", n_bwup)) continue;
+        if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_NORMAL,
+            "HOST::parse_net_stats(): unrecognized: %s\n",
+            buf
+        );
     }
     return ERR_XML_PARSE;
 }
@@ -951,15 +945,13 @@ int HOST::parse_disk_usage(FILE* fin) {
 
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</disk_usage>")) return 0;
-        else if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
-        else if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;
-        else {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_NORMAL,
-                "HOST::parse_disk_usage(): unrecognized: %s\n",
-                buf
-            );
-        }
+        if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
+        if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_NORMAL,
+            "HOST::parse_disk_usage(): unrecognized: %s\n",
+            buf
+        );
     }
     return ERR_XML_PARSE;
 }

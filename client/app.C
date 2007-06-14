@@ -207,6 +207,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     get_slot_dir(slot, slot_dir, sizeof(slot_dir));
+    relative_to_absolute(slot_dir, slot_path);
     return 0;
 }
 
@@ -420,9 +421,36 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "<active_task>\n"
         "    <project_master_url>%s</project_master_url>\n"
         "    <result_name>%s</result_name>\n"
-        "    <active_task_state>%d</active_task_state>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
+        "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
+        "    <fraction_done>%f</fraction_done>\n"
+        "    <current_cpu_time>%f</current_cpu_time>\n"
+        "    <swap_size>%f</swap_size>\n"
+        "    <working_set_size>%f</working_set_size>\n"
+        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
+        "    <page_fault_rate>%f</page_fault_rate>\n",
+        result->project->master_url,
+        result->name,
+        app_version->version_num,
+        slot,
+        checkpoint_cpu_time,
+        fraction_done,
+        current_cpu_time,
+        procinfo.swap_size,
+        procinfo.working_set_size,
+        procinfo.working_set_size_smoothed,
+        procinfo.page_fault_rate
+    );
+    fout.printf("</active_task>\n");
+    return 0;
+}
+
+int ACTIVE_TASK::write_gui(MIOFILE& fout) {
+    fout.printf(
+        "<active_task>\n"
+        "    <active_task_state>%d</active_task_state>\n"
+        "    <app_version_num>%d</app_version_num>\n"
         "    <scheduler_state>%d</scheduler_state>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
@@ -432,11 +460,8 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "    <page_fault_rate>%f</page_fault_rate>\n"
         "%s",
-        result->project->master_url,
-        result->name,
         task_state(),
         app_version->version_num,
-        slot,
         scheduler_state,
         checkpoint_cpu_time,
         fraction_done,
@@ -447,6 +472,14 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         procinfo.page_fault_rate,
         too_large?"   <too_large/>\n":""
     );
+    if (strlen(app_version->graphics_exec_path)) {
+        fout.printf(
+            "   <graphics_exec_path>%s</graphics_exec_path>\n"
+            "   <slot_path>%s</slot_path>\n",
+            app_version->graphics_exec_path,
+            slot_path
+        );
+    }
     if (supports_graphics() && !gstate.disable_graphics) {
         fout.printf(
             "   <supports_graphics/>\n"
@@ -533,15 +566,11 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else if (parse_int(buf, "<active_task_state>", n)) continue;
         else if (parse_int(buf, "<app_version_num>", n)) continue;
         else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
         else if (parse_double(buf, "<working_set_size_smoothed>", procinfo.working_set_size_smoothed)) continue;
         else if (parse_double(buf, "<page_fault_rate>", procinfo.page_fault_rate)) continue;
-        else if (match_tag(buf, "<supports_graphics/>")) continue;
-        else if (parse_int(buf, "<graphics_mode_acked>", n)) continue;
-        else if (parse_int(buf, "<scheduler_state>", n)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,

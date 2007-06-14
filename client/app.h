@@ -91,7 +91,11 @@ public:
         // most recent CPU time reported by app
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
-    char slot_dir[256];      // directory where process runs
+    char slot_dir[256];      // directory where process runs (relative)
+    char slot_path[512];        // same, absolute
+        // This is used only to run graphics apps
+        // (that way don't have to worry about top-level dirs
+        // being non-readable, etc).
     double max_cpu_time;    // abort if total CPU exceeds this
     double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;   // abort if memory usage exceeds this
@@ -187,6 +191,7 @@ public:
     int copy_output_files();
 
     int write(MIOFILE&);
+    int write_gui(MIOFILE&);
     int parse(MIOFILE&);
 };
 

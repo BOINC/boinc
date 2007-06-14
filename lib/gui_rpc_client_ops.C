@@ -21,10 +21,10 @@
 // 1) functions to clear and parse the various structs
 // 2) actual GUI RPCs
 
-// The core client expects all data to be formatted to the "C" locale,
-// each GUI RPC should retrieve the current locale then switch to the
-// "C" locale before formatting messages or parsing results. After all
-// work is completed revert back to the original locale.
+// The core client expects all data to be formatted in the "C" locale,
+// so each GUI RPC should get the current locale, then switch to the
+// "C" locale before formatting messages or parsing results.
+// After all work is completed, revert back to the original locale.
 //
 // Template:
 //
@@ -85,9 +85,9 @@ int GUI_URL::parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</gui_url>")) return 0;
         if (match_tag(buf, "</gui_urls>")) break;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<description>", description)) continue;
-        else if (parse_str(buf, "<url>", url)) continue;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<description>", description)) continue;
+        if (parse_str(buf, "<url>", url)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -186,70 +186,47 @@ int PROJECT::parse(MIOFILE& in) {
 
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<master_url>", master_url)) continue;
-        else if (parse_double(buf, "<resource_share>", resource_share)) continue;
-        else if (parse_str(buf, "<project_name>", project_name)) continue;
-        else if (parse_str(buf, "<user_name>", user_name)) continue;
-        else if (parse_str(buf, "<team_name>", team_name)) continue;
-        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
-        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
-        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
-        else if (parse_double(buf, "<disk_usage>", disk_usage)) continue;
-        else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
-        else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
-        else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
-        else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
-        else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
-        else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
-        else if (match_tag(buf, "<master_url_fetch_pending/>")) {
-            master_url_fetch_pending = true;
-            continue;
-        }
-        else if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
-        else if (parse_int(buf, "<rr_sim_deadlines_missed>", rr_sim_deadlines_missed)) continue;
-        else if (match_tag(buf, "<non_cpu_intensive/>")) {
-            non_cpu_intensive = true;
-            continue;
-        }
-        else if (match_tag(buf, "<suspended_via_gui/>")) {
-            suspended_via_gui = true;
-            continue;
-        }
-        else if (match_tag(buf, "<dont_request_more_work/>")) {
-            dont_request_more_work = true;
-            continue;
-        }
-        else if (match_tag(buf, "<ended/>")) {
-            ended = true;
-            continue;
-        }
-        else if (match_tag(buf, "<scheduler_rpc_in_progress/>")) {
-            scheduler_rpc_in_progress = true;
-            continue;
-        }
-        else if (match_tag(buf, "<attached_via_acct_mgr/>")) {
-            attached_via_acct_mgr = true;
-            continue;
-        }
-        else if (match_tag(buf, "<detach_when_done/>")) {
-            detach_when_done = true;
-            continue;
-        }
-        else if (match_tag(buf, "<gui_urls>")) {
+        if (parse_str(buf, "<master_url>", master_url)) continue;
+        if (parse_double(buf, "<resource_share>", resource_share)) continue;
+        if (parse_str(buf, "<project_name>", project_name)) continue;
+        if (parse_str(buf, "<user_name>", user_name)) continue;
+        if (parse_str(buf, "<team_name>", team_name)) continue;
+        if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
+        if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
+        if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        if (parse_double(buf, "<disk_usage>", disk_usage)) continue;
+        if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
+        if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
+        if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
+        if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
+        if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
+        if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
+        if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
+        if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
+        if (parse_int(buf, "<rr_sim_deadlines_missed>", rr_sim_deadlines_missed)) continue;
+        if (parse_bool(buf, "non_cpu_intensive", non_cpu_intensive)) continue;
+        if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
+        if (parse_bool(buf, "dont_request_more_work", dont_request_more_work)) continue;
+        if (parse_bool(buf, "ended", ended)) continue;
+        if (parse_bool(buf, "scheduler_rpc_in_progress", scheduler_rpc_in_progress)) continue;
+        if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
+        if (parse_bool(buf, "detach_when_done", detach_when_done)) continue;
+        if (match_tag(buf, "<gui_urls>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</gui_urls>")) break;
-                else if (match_tag(buf, "<gui_url>")) {
+                if (match_tag(buf, "<gui_url>")) {
                     GUI_URL gu;
                     retval = gu.parse(in);
                     if (retval) break;
                     gui_urls.push_back(gu);
+                    continue;
                 }
             }
             continue;
         }
-        else if (parse_double(buf, "<project_files_downloaded_time>", project_files_downloaded_time)) continue;
-        else if (parse_double(buf, "<last_rpc_time>", last_rpc_time)) continue;
+        if (parse_double(buf, "<project_files_downloaded_time>", project_files_downloaded_time)) continue;
+        if (parse_double(buf, "<last_rpc_time>", last_rpc_time)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -298,8 +275,8 @@ int APP::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<user_friendly_name>", user_friendly_name)) continue;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<user_friendly_name>", user_friendly_name)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -321,8 +298,8 @@ int APP_VERSION::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
-        else if (parse_str(buf, "<app_name>", app_name)) continue;
-        else if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_str(buf, "<app_name>", app_name)) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -346,13 +323,13 @@ int WORKUNIT::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</workunit>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<app_name>", app_name)) continue;
-        else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
-        else if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
-        else if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
-        else if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<app_name>", app_name)) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
+        if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
+        if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
+        if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -382,59 +359,39 @@ int RESULT::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<wu_name>", wu_name)) continue;
-        else if (parse_str(buf, "<project_url>", project_url)) continue;
-        else if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
-        else if (match_tag(buf, "<ready_to_report/>")) {
-            ready_to_report = true;
-            continue;
-        }
-        else if (match_tag(buf, "<got_server_ack/>")) {
-            got_server_ack = true;
-            continue;
-        }
-        else if (match_tag(buf, "<suspended_via_gui/>")) {
-            suspended_via_gui = true;
-            continue;
-        }
-        else if (match_tag(buf, "<project_suspended_via_gui/>")) {
-            project_suspended_via_gui = true;
-            continue;
-        }
-        else if (match_tag(buf, "<active_task>")) {
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (parse_str(buf, "<project_url>", project_url)) continue;
+        if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
+        if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
+        if (parse_bool(buf, "got_server_ack", got_server_ack)) continue;
+        if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
+        if (parse_bool(buf, "project_suspended_via_gui", project_suspended_via_gui)) continue;
+        if (match_tag(buf, "<active_task>")) {
             active_task = true;
             continue;
         }
-        else if (match_tag(buf, "<supports_graphics/>")) {
-            supports_graphics = true;
-            continue;
-        }
-        else if (parse_int(buf, "<graphics_mode_acked>", graphics_mode_acked)) continue;
-        else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
-        else if (parse_int(buf, "<state>", state)) continue;
-        else if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
-        else if (parse_int(buf, "<exit_status>", exit_status)) continue;
-        else if (parse_int(buf, "<signal>", signal)) continue;
-        else if (parse_int(buf, "<active_task_state>", active_task_state)) continue;
-        else if (match_tag(buf, "<stderr_out>")) {
+        if (parse_bool(buf, "supports_graphics", supports_graphics)) continue;
+        if (parse_int(buf, "<graphics_mode_acked>", graphics_mode_acked)) continue;
+        if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
+        if (parse_int(buf, "<state>", state)) continue;
+        if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
+        if (parse_int(buf, "<exit_status>", exit_status)) continue;
+        if (parse_int(buf, "<signal>", signal)) continue;
+        if (parse_int(buf, "<active_task_state>", active_task_state)) continue;
+        if (match_tag(buf, "<stderr_out>")) {
             copy_element_contents(in, "</stderr_out>", stderr_out);
-        }
-        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
-        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
-        else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else if (parse_double(buf, "<swap_size>", swap_size)) continue;
-        else if (parse_double(buf, "<working_set_size_smoothed>", working_set_size_smoothed)) continue;
-        else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
-        else if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
-        else if (match_tag(buf, "<too_large/>")) {
-            too_large = true;
             continue;
         }
-        else if (match_tag(buf, "<edf_scheduled/>")) {
-            edf_scheduled = true;
-            continue;
-        }
+        if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
+        if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        if (parse_double(buf, "<swap_size>", swap_size)) continue;
+        if (parse_double(buf, "<working_set_size_smoothed>", working_set_size_smoothed)) continue;
+        if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
+        if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
+        if (parse_bool(buf, "too_large", too_large)) continue;
+        if (parse_bool(buf, "edf_scheduled", edf_scheduled)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -486,43 +443,31 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_transfer>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<project_url>", project_url)) continue;
-        else if (parse_str(buf, "<project_name>", project_name)) continue;
-        else if (parse_double(buf, "<nbytes>", nbytes)) continue;
-        else if (match_tag(buf, "<generated_locally/>")) {
-            generated_locally = true;
-            continue;
-        }
-        else if (match_tag(buf, "<uploaded/>")) {
-            uploaded = true;
-            continue;
-        }
-        else if (match_tag(buf, "<upload_when_present/>")) {
-            upload_when_present = true;
-            continue;
-        }
-        else if (match_tag(buf, "<sticky/>")) {
-            sticky = true;
-            continue;
-        }
-        else if (match_tag(buf, "<persistent_file_xfer>")) {
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<project_url>", project_url)) continue;
+        if (parse_str(buf, "<project_name>", project_name)) continue;
+        if (parse_double(buf, "<nbytes>", nbytes)) continue;
+        if (parse_bool(buf, "generated_locally", generated_locally)) continue;
+        if (parse_bool(buf, "uploaded", uploaded)) continue;
+        if (parse_bool(buf, "upload_when_present", upload_when_present)) continue;
+        if (parse_bool(buf, "sticky", sticky)) continue;
+        if (match_tag(buf, "<persistent_file_xfer>")) {
             pers_xfer_active = true;
             continue;
         }
-        else if (match_tag(buf, "<file_xfer>")) {
+        if (match_tag(buf, "<file_xfer>")) {
             xfer_active = true;
             continue;
         }
-        else if (parse_int(buf, "<num_retries>", num_retries)) continue;
-        else if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
-        else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
-        else if (parse_int(buf, "<status>", status)) continue;
-        else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
-        else if (parse_double(buf, "<last_bytes_xferred>", bytes_xferred)) continue;
-        else if (parse_double(buf, "<file_offset>", file_offset)) continue;
-        else if (parse_double(buf, "<xfer_speed>", xfer_speed)) continue;
-        else if (parse_str(buf, "<hostname>", hostname)) continue;
+        if (parse_int(buf, "<num_retries>", num_retries)) continue;
+        if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
+        if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
+        if (parse_int(buf, "<status>", status)) continue;
+        if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
+        if (parse_double(buf, "<last_bytes_xferred>", bytes_xferred)) continue;
+        if (parse_double(buf, "<file_offset>", file_offset)) continue;
+        if (parse_double(buf, "<xfer_speed>", xfer_speed)) continue;
+        if (parse_str(buf, "<hostname>", hostname)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -562,14 +507,14 @@ int MESSAGE::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</msg>")) return 0;
-        else if (parse_str(buf, "<project>", project)) continue;
-        else if (match_tag(buf, "<body>" )) {
+        if (parse_str(buf, "<project>", project)) continue;
+        if (match_tag(buf, "<body>" )) {
             copy_element_contents(in, "</body>", body);
             continue;
         }
-        else if (parse_int(buf, "<pri>", priority)) continue;
-        else if (parse_int(buf, "<time>", timestamp)) continue;
-        else if (parse_int(buf, "<seqno>", seqno)) continue;
+        if (parse_int(buf, "<pri>", priority)) continue;
+        if (parse_int(buf, "<time>", timestamp)) continue;
+        if (parse_int(buf, "<seqno>", seqno)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -596,27 +541,18 @@ int GR_PROXY_INFO::parse(MIOFILE& in) {
     use_http_authentication = false;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</proxy_info>")) return 0;
-        else if (parse_int(buf, "<socks_version>", socks_version)) continue;
-        else if (parse_str(buf, "<socks_server_name>", socks_server_name)) continue;
-        else if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
-        else if (parse_str(buf, "<socks5_user_name>", socks5_user_name)) continue;
-        else if (parse_str(buf, "<socks5_user_passwd>", socks5_user_passwd)) continue;
-        else if (parse_str(buf, "<http_server_name>", http_server_name)) continue;
-        else if (parse_int(buf, "<http_server_port>", http_server_port)) continue;
-        else if (parse_str(buf, "<http_user_name>", http_user_name)) continue;
-        else if (parse_str(buf, "<http_user_passwd>", http_user_passwd)) continue;
-        else if (match_tag(buf, "<use_http_proxy/>")) {
-            use_http_proxy = true;
-            continue;
-        }
-        else if (match_tag(buf, "<use_socks_proxy/>")) {
-            use_socks_proxy = true;
-            continue;
-        }
-        else if (match_tag(buf, "<use_http_auth/>")) {
-            use_http_authentication = true;
-            continue;
-        }
+        if (parse_int(buf, "<socks_version>", socks_version)) continue;
+        if (parse_str(buf, "<socks_server_name>", socks_server_name)) continue;
+        if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
+        if (parse_str(buf, "<socks5_user_name>", socks5_user_name)) continue;
+        if (parse_str(buf, "<socks5_user_passwd>", socks5_user_passwd)) continue;
+        if (parse_str(buf, "<http_server_name>", http_server_name)) continue;
+        if (parse_int(buf, "<http_server_port>", http_server_port)) continue;
+        if (parse_str(buf, "<http_user_name>", http_user_name)) continue;
+        if (parse_str(buf, "<http_user_passwd>", http_user_passwd)) continue;
+        if (parse_bool(buf, "use_http_proxy", use_http_proxy)) continue;
+        if (parse_bool(buf, "use_socks_proxy", use_socks_proxy)) continue;
+        if (parse_bool(buf, "use_http_auth", use_http_authentication)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -861,12 +797,9 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_info>")) return 0;
-        else if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
-        else if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
-        else if (match_tag(buf, "<have_credentials/>")) {
-            have_credentials = true;
-            continue;
-        }
+        if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
+        if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
+        if (parse_bool(buf, "have_credentials", have_credentials)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -887,8 +820,11 @@ int ACCT_MGR_RPC_REPLY::parse(MIOFILE& in) {
     clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_rpc_reply>")) return 0;
-        else if (parse_int(buf, "<error_num>", error_num)) continue;
-        else if (parse_str(buf, "<message>", msg)) messages.push_back(msg);
+        if (parse_int(buf, "<error_num>", error_num)) continue;
+        if (parse_str(buf, "<message>", msg)) {
+            messages.push_back(msg);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -908,8 +844,11 @@ int PROJECT_ATTACH_REPLY::parse(MIOFILE& in) {
     clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_attach_reply>")) return 0;
-        else if (parse_int(buf, "<error_num>", error_num)) continue;
-        else if (parse_str(buf, "<message>", msg)) messages.push_back(msg);
+        if (parse_int(buf, "<error_num>", error_num)) continue;
+        if (parse_str(buf, "<message>", msg)) {
+            messages.push_back(msg);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -927,12 +866,9 @@ int PROJECT_INIT_STATUS::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</get_project_init_status>")) return 0;
-        else if (parse_str(buf, "<url>", url)) continue;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (match_tag(buf, "<has_account_key/>")) {
-            has_account_key = true;
-            continue;
-        }
+        if (parse_str(buf, "<url>", url)) continue;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_bool(buf, "has_account_key", has_account_key)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -957,23 +893,16 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
     clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_config>")) return 0;
-        else if (parse_int(buf, "<error_num>", error_num)) continue;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
-        else if (match_tag(buf, "<account_manager/>")) {
-            account_manager = true;
-            continue;
-        } else if (match_tag(buf, "<uses_username/>")) {
-            uses_username = true;
-            continue;
-        } else if (match_tag(buf, "<account_creation_disabled")) {
-            account_creation_disabled = true;
-            continue;
-        } else if (match_tag(buf, "<client_account_creation_disabled")) {
-            client_account_creation_disabled = true;
-            continue;
-        } else if (parse_str(buf, "<message>", msg)) {
+        if (parse_int(buf, "<error_num>", error_num)) continue;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
+        if (parse_bool(buf, "account_manager", account_manager)) continue;
+        if (parse_bool(buf, "uses_username", uses_username)) continue;
+        if (parse_bool(buf, "account_creation_disabled", account_creation_disabled)) continue;
+        if (parse_bool(buf, "client_account_creation_disabled", client_account_creation_disabled)) continue;
+        if (parse_str(buf, "<message>", msg)) {
             messages.push_back(msg);
+            continue;
         }
     }
     return ERR_XML_PARSE;
@@ -1018,8 +947,8 @@ int ACCOUNT_OUT::parse(MIOFILE& in) {
     clear();
     while (in.fgets(buf, 256)) {
         if (parse_int(buf, "<error_num>", error_num)) continue;
-        else if (parse_str(buf, "<error_msg>", error_msg)) continue;
-        else if (parse_str(buf, "<authenticator>", authenticator)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (parse_str(buf, "<authenticator>", authenticator)) continue;
     }
     return 0;
 }
@@ -1042,17 +971,17 @@ int CC_STATUS::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</cc_status>")) return 0; 
-        else if (parse_int(buf, "<network_status>", network_status)) continue;
-        else if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
-        else if (parse_bool(buf, "manager_must_quit", manager_must_quit)) continue;
-        else if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
-        else if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
-        else if (parse_int(buf, "<task_mode>", task_mode)) continue;
-        else if (parse_int(buf, "<network_mode>", network_mode)) continue;
-        else if (parse_int(buf, "<task_mode_perm>", task_mode_perm)) continue;
-        else if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
-		else if (parse_double(buf, "<task_mode_delay>", task_mode_delay)) continue;
-		else if (parse_double(buf, "<network_mode_delay>", network_mode_delay)) continue;
+        if (parse_int(buf, "<network_status>", network_status)) continue;
+        if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
+        if (parse_bool(buf, "manager_must_quit", manager_must_quit)) continue;
+        if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
+        if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
+        if (parse_int(buf, "<task_mode>", task_mode)) continue;
+        if (parse_int(buf, "<network_mode>", network_mode)) continue;
+        if (parse_int(buf, "<task_mode_perm>", task_mode_perm)) continue;
+        if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
+		if (parse_double(buf, "<task_mode_delay>", task_mode_delay)) continue;
+		if (parse_double(buf, "<network_mode_delay>", network_mode_delay)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1435,15 +1364,15 @@ int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</disk_usage_summary>")) break;
-            else if (match_tag(buf, "<project>")) {
+            if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
                 project->parse(rpc.fin);
                 du.projects.push_back(project);
                 continue;
             }
-            else if (parse_double(buf, "<d_total>", du.d_total)) continue;
-            else if (parse_double(buf, "<d_free>", du.d_free)) continue;
-            else if (parse_double(buf, "<d_boinc>", du.d_boinc)) continue;
+            if (parse_double(buf, "<d_total>", du.d_total)) continue;
+            if (parse_double(buf, "<d_free>", du.d_free)) continue;
+            if (parse_double(buf, "<d_boinc>", du.d_boinc)) continue;
         }
     }
     return retval;
@@ -1453,11 +1382,11 @@ int DAILY_STATS::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</daily_statistics>")) return 0;
-        else if (parse_double(buf, "<day>", day)) continue;
-        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
-        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
-        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        if (parse_double(buf, "<day>", day)) continue;
+        if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
+        if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
+        if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1475,20 +1404,22 @@ int RPC_CLIENT::get_statistics(PROJECTS& p) {
         while (rpc.fin.fgets(buf, 256)) {
             if (retval) break;
             if (match_tag(buf, "</statistics>")) break;
-            else if (match_tag(buf, "<project_statistics>")) {
+            if (match_tag(buf, "<project_statistics>")) {
                 PROJECT* project = new PROJECT();
                 p.projects.push_back(project);
 
                 while (rpc.fin.fgets(buf, 256)) {
                     if (match_tag(buf, "</project_statistics>")) break;
-                    else if (parse_str(buf, "<master_url>", p.projects.back()->master_url)) continue;
-                    else if (match_tag(buf, "<daily_statistics>")) {
+                    if (parse_str(buf, "<master_url>", p.projects.back()->master_url)) continue;
+                    if (match_tag(buf, "<daily_statistics>")) {
                         DAILY_STATS ds;
                         retval = ds.parse(rpc.fin);
                         if (retval) break;
                         p.projects.back()->statistics.push_back(ds);
+                        continue;
                     }
                 }
+                continue;
             }
         }
     }
