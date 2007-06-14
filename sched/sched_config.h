@@ -47,7 +47,7 @@ public:
     int max_wus_in_progress;
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
-    bool homogeneous_redundancy;
+    int homogeneous_redundancy;
     bool locality_scheduling;
     bool locality_scheduling_sorted_order;
     bool ignore_upload_certificates;

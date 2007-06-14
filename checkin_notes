@@ -6246,3 +6246,18 @@ David  13 June 2007
         project.xml
     html/ops/
         sample_server_status.php
+
+David  14 June 2007
+    - Scheduler: changed the <homogeneous_redundancy> option
+        from a bool to an int:
+        0 = no HR
+        1 = HR with fine-grained classification (from MF Somers)
+        2 = HR with coarse-grained classification (from WCG)
+
+        Note: numerical equivalence depends on your application
+        and how it's compiled.  Some apps may need classifications
+        other than these two.  Contact me if so.
+
+    sched/
+        sched_hr.C
+        sched_config.C,h

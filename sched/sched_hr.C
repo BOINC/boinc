@@ -29,6 +29,7 @@
 #include "server_types.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
+#include "main.h"
 #include "sched_hr.h"
 
 
@@ -67,7 +68,7 @@ const int Windows = 384;
 const int Darwin = 512;
 const int freebsd = 640;
 
-inline int OS(HOST& host){
+inline int os(HOST& host){
     if (strcasestr(host.os_name, "Linux")) return Linux;
     else if (strcasestr(host.os_name, "Windows")) return Windows;
     else if (strcasestr(host.os_name, "Darwin")) return Darwin;
@@ -75,7 +76,14 @@ inline int OS(HOST& host){
     else return noos;
 };
 
-inline int CPU(HOST& host){
+inline int cpu_coarse(HOST& host){
+    if (strcasestr(host.p_vendor, "Intel")) return Intel;
+    if (strcasestr(host.p_vendor, "AMD")) return AMD;
+    if (strcasestr(host.p_vendor, "Macintosh")) return Macintosh;
+    return nocpu;
+}
+
+inline int cpu_fine(HOST& host){
     if (strcasestr(host.p_vendor, "Intel")) {
         if (strcasestr(host.p_model, "Xeon")) return IntelXeon;
         if (strcasestr(host.p_model, "Celeron")) {
@@ -109,7 +117,8 @@ inline int CPU(HOST& host){
             if (strcasestr(host.p_model, "Family 6 Model 5")) return IntelPentiumII;
         }
         return Intel;
-    } else if(strcasestr(host.p_vendor, "AMD")) {
+    }
+    if (strcasestr(host.p_vendor, "AMD")) {
         if (strcasestr(host.p_model, "Duron")) return AMDDuron;
         if (strcasestr(host.p_model, "Opteron")) return AMDOpteron;
         if (strcasestr(host.p_model, "Sempron")) return AMDSempron;
@@ -122,22 +131,45 @@ inline int CPU(HOST& host){
         }
         return AMD;
     }
-    else if (strcasestr(host.p_vendor, "Macintosh")) return Macintosh;
-    else return nocpu;
+    if (strcasestr(host.p_vendor, "Macintosh")) return Macintosh;
+    return nocpu;
 };
 
-inline int HR_CLASS(HOST& host) {
-    return OS(host) + CPU(host);
-}
-
 int hr_class(HOST& host) {
-    return HR_CLASS(host);
+    switch (config.homogeneous_redundancy) {
+    case 1:
+        return os(host) + cpu_fine(host);
+    case 2:
+        switch (os(host)) {
+        case Windows:
+        case Linux:
+            return os(host);
+        case Darwin:
+            return os(host) + cpu_coarse(host);
+        }
+    }
 }
 
 bool hr_unknown_platform(HOST& host) {
-    if (OS(host) == noos) return true;
-    if (CPU(host) == nocpu) return true;
-    return false;
+    switch (config.homogeneous_redundancy) {
+    case 1:
+        if (os(host) == noos) return true;
+        if (cpu_fine(host) == nocpu) return true;
+        return false;
+    case 2:
+        switch (os(host)) {
+        case Windows:
+        case Linux:
+        case Darwin:
+            switch(cpu_coarse(host)) {
+            case Intel:
+            case Macintosh:
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
 }
 
 // quick check for platform compatibility
@@ -145,11 +177,8 @@ bool hr_unknown_platform(HOST& host) {
 bool already_sent_to_different_platform_quick(
     SCHEDULER_REQUEST& sreq, WORKUNIT& wu
 ) {
-    int host_hr_class = HR_CLASS(sreq.host);
-    if (wu.hr_class) {
-        if (host_hr_class != wu.hr_class) {
-            return true;
-        }
+    if (wu.hr_class && (hr_class(sreq.host) != wu.hr_class)) {
+        return true;
     }
     return false;
 }
@@ -181,7 +210,7 @@ bool already_sent_to_different_platform_careful(
         return true;
     }
     wreq.hr_reject_temp = false;
-    int host_hr_class = HR_CLASS(sreq.host);
+    int host_hr_class = hr_class(sreq.host);
     if (wu_hr_class) {
         if (host_hr_class != wu_hr_class) {
             wreq.hr_reject_temp = true;

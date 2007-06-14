@@ -82,7 +82,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_bool(tag, "one_result_per_host_per_wu", one_result_per_host_per_wu)) continue;
         else if (xp.parse_bool(tag, "non_cpu_intensive", non_cpu_intensive)) continue;
         else if (xp.parse_bool(tag, "verify_files_on_app_start", verify_files_on_app_start)) continue;
-        else if (xp.parse_bool(tag, "homogeneous_redundancy", homogeneous_redundancy)) continue;
+        else if (xp.parse_int(tag, "homogeneous_redundancy", homogeneous_redundancy)) continue;
         else if (xp.parse_bool(tag, "locality_scheduling", locality_scheduling)) continue;
         else if (xp.parse_bool(tag, "locality_scheduling_sorted_order", locality_scheduling_sorted_order)) continue;
         else if (xp.parse_bool(tag, "msg_to_host", msg_to_host)) continue;
