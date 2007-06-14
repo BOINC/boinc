@@ -1,4 +1,5 @@
 <?php
+
 $cvs_version_tracker[]="\$Id$";
 
 require_once("../inc/forum.inc");
@@ -152,6 +153,7 @@ if ($action == "inbox") {
         }
         
         foreach ($userlist as $user) {
+            check_pm_count($logged_in_user->id);
             pm_send($user, $subject, $content);
         }
         

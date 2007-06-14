@@ -1,4 +1,5 @@
 <?php
+
 $cvs_version_tracker[]="\$Id$";
 
 function pm_header() {
@@ -93,6 +94,23 @@ function pm_send($to, $subject, $content) {
         $message .= "and change email notification settings.\n";
         
         send_email($to, "[".PROJECT."] Private message notification", $message);
+    }
+}
+
+function pm_count($userid, $duration) {
+    $time = time() - $duration;
+    $result = mysql_query("SELECT COUNT(*) AS total FROM private_messages WHERE senderid=".$userid." AND date>".$time);
+    if ($result) {
+        $result = mysql_fetch_object($result);
+        return $result->total;
+    }
+    return 0;
+}
+
+function check_pm_count($userid) {
+    if ((pm_count($userid, 60) >= 2) || (pm_count($userid, 600) >= 5) ||
+        (pm_count($userid, 3600) >= 15) || (pm_count($userid, 86400) >= 50)) {
+        error_page("You are not allowed to send privates messages so often. Please wait some time before sending more messages.");
     }
 }
 
