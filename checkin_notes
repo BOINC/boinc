@@ -6261,3 +6261,18 @@ David  14 June 2007
     sched/
         sched_hr.C
         sched_config.C,h
+
+David  14 June 2007
+    - scheduler: support per-app HR type, specified in the DB;
+        this supercedes the global HR type specified in config.xml
+    - API: eliminate small memory leak
+        (if reread app init file, free malloc'd project prefs from last time)
+    - file upload handler: parse <md5_cksum> to avoid error msg
+
+    lib/
+        app_ipc.C
+    sched/
+        file_upload_handler.C
+        sched_array.C
+        sched_hr.C,h
+        sched_send.C,h

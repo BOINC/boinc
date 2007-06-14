@@ -135,8 +135,8 @@ inline int cpu_fine(HOST& host){
     return nocpu;
 };
 
-int hr_class(HOST& host) {
-    switch (config.homogeneous_redundancy) {
+int hr_class(HOST& host, APP& app) {
+    switch (hr_type(app)) {
     case 1:
         return os(host) + cpu_fine(host);
     case 2:
@@ -150,8 +150,8 @@ int hr_class(HOST& host) {
     }
 }
 
-bool hr_unknown_platform(HOST& host) {
-    switch (config.homogeneous_redundancy) {
+static bool hr_unknown_platform_app(HOST& host, APP& app) {
+    switch (hr_type(app)) {
     case 1:
         if (os(host) == noos) return true;
         if (cpu_fine(host) == nocpu) return true;
@@ -170,14 +170,25 @@ bool hr_unknown_platform(HOST& host) {
         }
         return true;
     }
+    return false;
+}
+
+// return true if HR rules out sending any work to this host
+//
+bool hr_unknown_platform(HOST& host) {
+    for (int i=0; i<ssp->napps; i++) {
+        APP& app = ssp->apps[i];
+        if (!hr_unknown_platform_app(host, app)) return false;
+    }
+    return true;
 }
 
 // quick check for platform compatibility
 //
 bool already_sent_to_different_platform_quick(
-    SCHEDULER_REQUEST& sreq, WORKUNIT& wu
+    SCHEDULER_REQUEST& sreq, WORKUNIT& wu, APP& app
 ) {
-    if (wu.hr_class && (hr_class(sreq.host) != wu.hr_class)) {
+    if (wu.hr_class && (hr_class(sreq.host, app) != wu.hr_class)) {
         return true;
     }
     return false;
@@ -191,8 +202,10 @@ bool already_sent_to_different_platform_quick(
 //
 // (where "platform" is os_name + p_vendor; may want to sharpen this for Unix)
 //
+// This is "careful" in that it rereads the WU from DB
+//
 bool already_sent_to_different_platform_careful(
-    SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
+    SCHEDULER_REQUEST& sreq, WORK_REQ& wreq, WORKUNIT& workunit, APP& app
 ) {
     DB_WORKUNIT db_wu;
     int retval, wu_hr_class;
@@ -210,7 +223,7 @@ bool already_sent_to_different_platform_careful(
         return true;
     }
     wreq.hr_reject_temp = false;
-    int host_hr_class = hr_class(sreq.host);
+    int host_hr_class = hr_class(sreq.host, app);
     if (wu_hr_class) {
         if (host_hr_class != wu_hr_class) {
             wreq.hr_reject_temp = true;

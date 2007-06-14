@@ -55,13 +55,6 @@ void scan_work_array(
     APP_VERSION* avp;
     bool found;
 
-    if (config.homogeneous_redundancy) {
-        if (hr_unknown_platform(sreq.host)) {
-            reply.wreq.hr_reject_perm = true;
-            return;
-        }
-    }
-
     lock_sema();
     
     rnd_off = rand() % ss.max_wu_results;
@@ -154,9 +147,14 @@ void scan_work_array(
             }
         }
 
-        // end of fast checks - mark wu_result as checked out and release sema.
+        // End of fast checks;
+        // mark wu_result as checked out and release semaphore.
         // from here on in this loop, don't continue on failure;
         // instead, goto dont_send (so that we reacquire semaphore)
+        //
+        // Note: without the semaphore we don't have mutual exclusion;
+        // ideally we should use a transaction from now until when
+        // we commit to sending the results.
 
         wu_result.state = g_pid;
         unlock_sema();
@@ -214,17 +212,17 @@ void scan_work_array(
             }
         }
 
-        if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
+        if (hr_type(*app)) {
             if (already_sent_to_different_platform_careful(
-                sreq, wu_result.workunit, reply.wreq
+                sreq, reply.wreq, wu_result.workunit, *app
             )) {
  				log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
                     reply.host.id, wu.id, wu.name
                 );
                 // Mark the workunit as infeasible.
-                // This ensures that work already assigned to a platform
-                // is processed first.
+                // This ensures that jobs already assigned to a platform
+                // are processed first.
                 //
  				wu_result.infeasible_count++;
 				goto dont_send;

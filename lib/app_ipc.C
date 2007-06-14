@@ -183,6 +183,10 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         return ERR_XML_PARSE;
     }
 
+    if (ai.project_preferences) {
+        free(ai.project_preferences);
+        ai.project_preferences = 0;
+    }
     memset(&ai, 0, sizeof(ai));
     ai.fraction_done_start = 0;
     ai.fraction_done_end = 1;

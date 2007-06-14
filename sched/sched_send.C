@@ -431,11 +431,11 @@ int wu_is_infeasible(
     // homogeneous redundancy, quick check
     //
     if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
-        if (already_sent_to_different_platform_quick(request, wu)) {
+        if (already_sent_to_different_platform_quick(request, wu, *app)) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
-                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host)
+                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, *app)
             );
             return INFEASIBLE_HR;
         }
@@ -888,7 +888,7 @@ int add_result_to_reply(
     return 0;
 }
 
-int send_work(
+void send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
@@ -904,6 +904,12 @@ int send_work(
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
     reply.wreq.nresults = 0;
+
+    if (hr_unknown_platform(sreq.host)) {
+        reply.wreq.hr_reject_perm = true;
+        return;
+    }
+
     get_host_info(reply); // parse project prefs for app details
     reply.wreq.beta_only = false;
 
@@ -913,7 +919,7 @@ int send_work(
         reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
     );
 
-    if (sreq.work_req_seconds <= 0) return 0;
+    if (sreq.work_req_seconds <= 0) return;
 
     reply.wreq.seconds_to_fill = sreq.work_req_seconds;
     if (reply.wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
@@ -1094,8 +1100,6 @@ int send_work(
             );
         }        
     }
-
-    return 0;
 }
 
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

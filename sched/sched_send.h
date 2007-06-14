@@ -23,7 +23,7 @@ extern int get_app_version(
     PLATFORM_LIST& platforms, SCHED_SHMEM& ss
 );
 
-extern int send_work(
+extern void send_work(
     SCHEDULER_REQUEST&, SCHEDULER_REPLY&, PLATFORM_LIST&, SCHED_SHMEM&
 );
 

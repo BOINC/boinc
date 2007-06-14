@@ -18,13 +18,23 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 extern bool already_sent_to_different_platform_quick(
-    SCHEDULER_REQUEST& sreq, WORKUNIT&
+    SCHEDULER_REQUEST& sreq, WORKUNIT&, APP&
 );
 
 extern bool already_sent_to_different_platform_careful(
-    SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
+    SCHEDULER_REQUEST& sreq, WORK_REQ& wreq, WORKUNIT& workunit, APP&
 );
 
 extern bool hr_unknown_platform(HOST&);
 
-extern int hr_class(HOST&);
+extern int hr_class(HOST&, APP&);
+
+// return the HR type to use for this app;
+// app-specific HR type overrides global HR type
+//
+inline int hr_type(APP& app) {
+    if (app.homogeneous_redundancy) {
+        return app.homogeneous_redundancy;
+    }
+    return config.homogeneous_redundancy;
+}
