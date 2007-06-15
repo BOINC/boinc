@@ -38,6 +38,7 @@ $countries = array(
     "Brunei",
     "Bulgaria",
     "Burkina Faso",
+    "Burma",
     "Burundi",
     "Cambodia",
     "Cameroon",
@@ -147,6 +148,7 @@ $countries = array(
     "Montserrat",
     "Morocco",
     "Mozambique",
+    "Myanmar 
     "Namibia",
     "Nauru",
     "Nepal",

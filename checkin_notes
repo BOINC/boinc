@@ -6296,3 +6296,16 @@ David  14 June 2007
         gui_rpc_client_ops.C
     sched/
         server_types.C
+
+David  14 June 2007
+    - user web: added Burma to country list
+    - admin web: removed deprecated create-account scripts
+
+    html/
+        inc/
+            cache.inc
+            country.inc
+        ops/
+            create_account_form.php (removed)
+            create_account_action.php (removed)
+            show_log.php

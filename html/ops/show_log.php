@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 // grep logs for a particular string
 
 require_once("../inc/util_ops.inc");

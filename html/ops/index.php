@@ -40,7 +40,7 @@ if (!file_exists("../cache/remote.revision") || (filemtime("../cache/remote.revi
 
 echo "<li>";
 if ($local_rev) {
-    echo "Currently used SVN revision: ".$local_rev." ";
+    echo "Currently used SVN revision: ".$local_rev."; ";
 }
 echo "Latest SVN revision: ".$remote_rev."</li>\n";
 
@@ -99,7 +99,6 @@ echo "
     <td><b>Regular Operations:</b>
     <ul>
         <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
-        <li><a href=\"create_account_form.php\">Create account</a></li>
         <li><a href=\"manage_special_users.php\">Manage special users</a></li>
     </ul>
     
