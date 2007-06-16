@@ -148,7 +148,6 @@ $countries = array(
     "Montserrat",
     "Morocco",
     "Mozambique",
-    "Myanmar 
     "Namibia",
     "Nauru",
     "Nepal",
