@@ -207,7 +207,6 @@ int CNetworkConnection::SetComputer(const wxChar* szComputer, const wxChar* szPa
     m_bUseDefaultPassword = FALSE;
 
     m_bNewConnection = true;
-    m_bIdentifyHostType = true;
     m_strNewComputerName = szComputer;
     m_strNewComputerPassword = szPassword;
     m_bUseDefaultPassword = bUseDefaultPassword;
