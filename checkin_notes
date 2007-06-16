@@ -6281,3 +6281,12 @@ Rom    16 June 2007
 
     clientgui/
         MainDocument.cpp, .h
+
+Rom    16 June 2007
+    - Tag for 5.10.7 release, all platforms
+      boinc_core_release_5_10_7
+    
+    client/
+        configure.ac
+        version.h
+
