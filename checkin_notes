@@ -6262,6 +6262,11 @@ David  14 June 2007
         sched_hr.C
         sched_config.C,h
 
+
+Rom    14 June 2007
+    - Branch for 5.10 release, all platforms
+      boinc_core_release_5_10
+
 David  14 June 2007
     - scheduler: support per-app HR type, specified in the DB;
         this supercedes the global HR type specified in config.xml
@@ -6309,3 +6314,19 @@ David  14 June 2007
             create_account_form.php (removed)
             create_account_action.php (removed)
             show_log.php
+
+Rom    16 June 2007
+    - WINSETUP: Remove the VBS Script custom action and put back
+        the shortcut to BOINC Manager.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+
+Rom    16 June 2007
+    - MGR: Revert back out the change to cache the host type
+        (local/remote). Somehow it was messing up controlling
+        remote machines.
+
+    clientgui/
+        MainDocument.cpp, .h
