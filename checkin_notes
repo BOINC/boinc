@@ -6330,3 +6330,14 @@ Rom    16 June 2007
 
     clientgui/
         MainDocument.cpp, .h
+
+Janus	17 June 2007
+    - Added the .torrent-generator which will (at some point) allow 
+      projects to dynamically generate .torrent-data for their files.
+
+    html/bt/
+        torrent_cache.php (new)
+
+
+    
+    
