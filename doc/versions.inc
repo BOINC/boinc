@@ -397,7 +397,7 @@ $w5107= array(
 
 $w5107x64= array(
     "num"=>"5.10.7",
-    "status"=>"Development version (Win98+, Win2000+)",
+    "status"=>"Development version (WinXP64+)",
     "file"=>"boinc_5.10.7_windows_x86_64.exe",
     "date"=>"16 June 2007",
     "type"=>"win_new",
