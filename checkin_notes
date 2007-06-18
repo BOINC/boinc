@@ -6338,6 +6338,13 @@ Janus	17 June 2007
     html/bt/
         torrent_cache.php (new)
 
+Rom    17 June 2007
+    - MGR: Check initial function to launch v6graphics if it exists
+        in the slot directory.
+        
+        NOTE: Only implemented in the advanced view list controls
+          for now.
 
-    
-    
+    clientgui/
+        Events.h
+        ViewWork.cpp, .h

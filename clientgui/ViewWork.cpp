@@ -31,6 +31,8 @@
 #include "ViewWork.h"
 #include "Events.h"
 #include "error_numbers.h"
+#include "app_ipc.h"
+#include "util.h"
 
 #include "res/result.xpm"
 
@@ -75,6 +77,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
+    EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICSNEW, CViewWork::OnWorkShowGraphicsNew)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
@@ -106,6 +109,13 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
         _("Show graphics"),
         _("Show application graphics in a window."),
         ID_TASK_WORK_SHOWGRAPHICS 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Show new graphics"),
+        _("Show application v6 graphics in a window."),
+        ID_TASK_WORK_SHOWGRAPHICSNEW 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -242,6 +252,78 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
             strDefaultDesktop,
             strDefaultDisplay
         );
+    }
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
+}
+
+
+void CViewWork::OnWorkShowGraphicsNew( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphicsNew - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    wxString strMachineName = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
+
+    pFrame->UpdateStatusText(_("Showing graphics for task..."));
+
+    // TODO: implement hide as well as show
+#if (defined(_WIN32) || defined(__WXMAC__))
+    pDoc->GetConnectedComputerName(strMachineName);
+    if (!pDoc->IsComputerNameLocal(strMachineName)) {
+        iAnswer = ::wxMessageBox(
+            _("Are you sure you want to display graphics on a remote machine?"),
+            _("Show graphics"),
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
+    } else {
+        iAnswer = wxYES;
+    }
+#else
+    iAnswer = wxYES;
+#endif
+
+    if (wxYES == iAnswer) {
+        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+        if (!result->graphics_exec_path.empty()) {
+            wxString strCurrentDirectory = wxGetCwd();
+            wxString strSlotDirectory = result->slot_path.c_str();
+            char     buf[512];
+#ifdef __WXMSW__
+            HANDLE   id;
+#else
+            int      id;
+#endif
+
+            wxSetWorkingDirectory(strSlotDirectory);
+
+            boinc_resolve_filename("v6graphics", buf, sizeof(buf));
+
+            run_program(
+                (char*)result->slot_path.c_str(),
+                buf,
+                0,
+                NULL,
+                5,
+                id
+            );
+
+            wxSetWorkingDirectory(strCurrentDirectory);
+        }
     }
 
     pFrame->UpdateStatusText(wxT(""));

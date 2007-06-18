@@ -61,6 +61,7 @@ public:
 
     void                    OnWorkSuspend( wxCommandEvent& event );
     void                    OnWorkShowGraphics( wxCommandEvent& event );
+    void                    OnWorkShowGraphicsNew( wxCommandEvent& event );
     void                    OnWorkAbort( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
