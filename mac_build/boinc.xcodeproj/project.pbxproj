@@ -57,6 +57,8 @@
 		DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */; };
 		DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */; };
 		DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0830B4B22010073B1AA /* BOINCGridCtrl.cpp */; };
+		DD32CC830C27CEFB0016F571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
+		DD32CC8F0C27CF860016F571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD33C6F308B5BAF500768630 /* gui_http.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.C */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.C */; };
 		DD33C70408B5BEDE00768630 /* http_curl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.C */; };
@@ -1988,6 +1990,7 @@
 				DD46883D0C165F3C0089F500 /* Resources */,
 				DD46883E0C165F3C0089F500 /* Sources */,
 				DD46883F0C165F3C0089F500 /* Frameworks */,
+				DD32CC900C27CFB90016F571 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2235,6 +2238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */,
+				DD32CC830C27CEFB0016F571 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2260,6 +2264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */,
+				DD32CC8F0C27CF860016F571 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2289,7 +2294,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -fpv \"${SRCROOT}/Installer-Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Info.plist\"";
+			shellScript = "sed -i \"\" s/BOINC/\"BOINC Installer\"/g \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
 		DD1B90070A954C9A00FF5591 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2303,6 +2308,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$BUILD_STYLE\" != \"Deploy_noSandbox\" ] && [ \"$BUILD_STYLE\" != \"Dev_noSandbox\" ]; then\n    chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/boinc\"\n    chmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/boinc\"\nfi";
+		};
+		DD32CC900C27CFB90016F571 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Uninstaller-Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sed -i \"\" s/BOINC/\"Uninstall BOINC\"/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
 		DD3E15370A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -6290,3 +6290,10 @@ Rom    16 June 2007
         configure.ac
         version.h
 
+Charlie 19 June 2007
+    - Mac: Fix visible copyright and version strings in installer and 
+        uninstaller.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
