@@ -6348,3 +6348,11 @@ Rom    17 June 2007
     clientgui/
         Events.h
         ViewWork.cpp, .h
+
+Charlie 19 June 2007
+    - Mac: Fix visible copyright and version strings in installer and 
+        uninstaller.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

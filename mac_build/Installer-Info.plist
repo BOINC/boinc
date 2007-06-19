@@ -8,8 +8,6 @@
 	<string>BOINC Installer</string>
 	<key>CFBundleIconFile</key>
 	<string>MacInstaller.icns</string>
-	<key>CFBundleGetInfoString</key>
-	<string>BOINC Installer version 5.10.2, Copyright 2007 University of California.</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.berkeley.boinc.Installer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -20,9 +18,7 @@
 	<string>????</string>
 	<key>CFBundleName</key>
 	<string>BOINC Installer</string>
-	<key>CFBundleShortVersionString</key>
-	<string>BOINC Installer version 5.10.2</string>
 	<key>CFBundleVersion</key>
-	<string>5.10.5</string>
+	<string>5.10.7</string>
 </dict>
 </plist>
