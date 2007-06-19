@@ -37,6 +37,11 @@ $features_510 = "
     <li> Project list in the attach to project wizard.
     <li> Improved Windows Vista compatibility.
     <li> An Uninstaller is now included with the Macintosh BOINC Manager distribution.
+    <li> NOTE: BOINC may NOT start at startup if you are running Windows Defender
+         (WinXP, WinXPx64, WinVista, WinVistax64). This issue should be resolved in a 
+         future version of BOINC. In order to have BOINC start automatically you'll need
+         to install as a service. On Vista the user account will need to have 
+         administrative access to the system.
 ";
 
 $features_57 = "
@@ -383,7 +388,7 @@ $linux_libs_58= "
 
 $w5107= array(
     "num"=>"5.10.7",
-    "status"=>"Development version (Win98+, Win2000+)",
+    "status"=>"Recommended version (Win98+, Win2000+)",
     "file"=>"boinc_5.10.7_windows_intelx86.exe",
     "date"=>"16 June 2007",
     "type"=>"win_new",
@@ -397,7 +402,7 @@ $w5107= array(
 
 $w5107x64= array(
     "num"=>"5.10.7",
-    "status"=>"Development version (WinXP64+)",
+    "status"=>"Recommended version (WinXP64+)",
     "file"=>"boinc_5.10.7_windows_x86_64.exe",
     "date"=>"16 June 2007",
     "type"=>"win_new",
@@ -452,7 +457,7 @@ $w5411= array(
 
 $m5107 = array(
     "num"=>"5.10.7",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.10.7_macOSX_universal.zip",
     "date"=>"16 June 2007",
     "type"=>"mac_advanced",
@@ -509,7 +514,7 @@ $m549 = array(
 
 $m5107c = array(
     "num"=>"5.10.7",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.10.7_universal-apple-darwin.zip",
     "date"=>"16 June 2007",
     "type"=>"bare_core",
