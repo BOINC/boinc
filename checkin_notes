@@ -6356,3 +6356,10 @@ Charlie 19 June 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    19 June 2007
+    - Set version number to 5.11.0 to start off the 6.0 development cycle.
+    
+    /
+        configure.ac
+        version.h
