@@ -6363,3 +6363,11 @@ Rom    19 June 2007
     /
         configure.ac
         version.h
+
+David  19 June 2007
+	- manager: v6 graphics fixes.  doesn't work yet
+
+	clientgui/
+		ViewWork.cpp
+	lib/
+		util.C,h

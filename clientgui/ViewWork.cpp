@@ -300,29 +300,22 @@ void CViewWork::OnWorkShowGraphicsNew( wxCommandEvent& WXUNUSED(event) ) {
     if (wxYES == iAnswer) {
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
         if (!result->graphics_exec_path.empty()) {
-            wxString strCurrentDirectory = wxGetCwd();
-            wxString strSlotDirectory = result->slot_path.c_str();
-            char     buf[512];
+            char* argv[2];
+            argv[0] = "graphics";
+            argv[1] = 0;
 #ifdef __WXMSW__
             HANDLE   id;
 #else
             int      id;
 #endif
-
-            wxSetWorkingDirectory(strSlotDirectory);
-
-            boinc_resolve_filename("v6graphics", buf, sizeof(buf));
-
             run_program(
                 (char*)result->slot_path.c_str(),
-                buf,
+                result->graphics_exec_path.c_str(),
+                1,
+                argv,
                 0,
-                NULL,
-                5,
                 id
             );
-
-            wxSetWorkingDirectory(strCurrentDirectory);
         }
     }
 
