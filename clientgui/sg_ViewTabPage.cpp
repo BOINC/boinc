@@ -136,7 +136,7 @@ void CViewTabPage::CreatePage()
 	FormatCPUTime(resultWU, elapsedTimeValue);
 	FormatTimeToCompletion(resultWU, timeRemainingValue);
 	// show graphic button 
-	if (resultWU->supports_graphics) {
+	if (resultWU->supports_graphics || !resultWU->graphics_exec_path.empty()) {
 		m_hasGraphic = true;
 	}
 	int status = ComputeState();
@@ -282,7 +282,7 @@ void CViewTabPage::UpdateInterface()
 
 	// check to see if we can display graphics
 	bool changed = false;
-	if (resultWU->supports_graphics && isRunning(resultWU) ) {
+	if ((resultWU->supports_graphics || !resultWU->graphics_exec_path.empty()) && isRunning(resultWU) ) {
 		if ( !m_hasGraphic ) {
 			changed = true;
 		}

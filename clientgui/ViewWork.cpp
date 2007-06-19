@@ -594,7 +594,7 @@ void CViewWork::UpdateSelection() {
                 );
             }
 
-            if (result->supports_graphics) {
+            if (result->supports_graphics || !result->graphics_exec_path.empty()) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
             } else {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);

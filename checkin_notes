@@ -6371,3 +6371,11 @@ David  19 June 2007
 		ViewWork.cpp
 	lib/
 		util.C,h
+
+Rom    19 June 2007
+    - MGR: Misc v6 graphics fixes
+    
+    clientgui/
+        sg_ViewTabPage.cpp
+        ViewWork.cpp
+        ViewWorkGrid.cpp
