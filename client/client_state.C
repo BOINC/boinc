@@ -695,7 +695,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             return ERR_NOT_FOUND;
         }
 
-        if (strstr(file_ref.file_name, "v6graphics")) {
+        if (!strcmp(file_ref.open_name, "v6graphics")) {
             char relpath[512], path[512];
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);

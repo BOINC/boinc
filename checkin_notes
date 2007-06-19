@@ -6379,3 +6379,11 @@ Rom    19 June 2007
         sg_ViewTabPage.cpp
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+David  19 June 2007
+	- manager: v6 graphics fixes.  doesn't work yet
+
+	client/
+		client_state.C
+	lib/
+		gui_rpc_client_ops.C

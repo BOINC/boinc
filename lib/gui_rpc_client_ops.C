@@ -392,6 +392,8 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
         if (parse_bool(buf, "too_large", too_large)) continue;
         if (parse_bool(buf, "edf_scheduled", edf_scheduled)) continue;
+        if (parse_str(buf, "graphics_exec_path", graphics_exec_path)) continue;
+        if (parse_str(buf, "slot_path", slot_path)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -400,6 +402,8 @@ void RESULT::clear() {
     name.clear();
     wu_name.clear();
     project_url.clear();
+    graphics_exec_path.clear();
+    slot_path.clear();
     report_deadline = 0;
     ready_to_report = false;
     got_server_ack = false;
