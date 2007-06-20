@@ -243,7 +243,10 @@ static void parse_project_prefs(char* buf) {
 
 int main(int argc, char** argv) {
     shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
+    boinc_parse_init_data_file();
     boinc_get_init_data(uc_aid);
-    parse_project_prefs(uc_aid.project_preferences);
+    if (uc_aid.project_preferences) {
+        parse_project_prefs(uc_aid.project_preferences);
+    }
     boinc_graphics_loop(argc, argv);
 }
