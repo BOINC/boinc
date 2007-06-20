@@ -454,7 +454,7 @@ int run_program(
 }
 #else
 int run_program(
-    const char* dir, const char* file, int argc, char** argv, double nsecs, int& id
+    const char* dir, const char* file, int , char** argv, double nsecs, int& id
 ) {
     int retval;
     int pid = fork();

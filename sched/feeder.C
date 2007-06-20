@@ -280,7 +280,6 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
     bool found;
     int enum_phase[napps];
     int app_index;
-    int enum_size;
     int nadditions=0, ncollisions=0;
     
   	for (i=0; i<napps; i++) {
@@ -374,7 +373,12 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "%d results already in array\n", ncollisions
         );
+        return false;
     }
+    if (nadditions == 0) {
+        return false;
+    }
+    return true;
 }
 
 void feeder_loop() {

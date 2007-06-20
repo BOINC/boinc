@@ -691,7 +691,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
 
 void DB_CREDITED_JOB::db_print(char* buf){
     sprintf(buf,
-        "userid=%d, workunitid=%d",
+        "userid=%d, workunitid=%f",
         userid, workunitid
     );
 }
@@ -700,7 +700,7 @@ void DB_CREDITED_JOB::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
     userid = atoi(r[i++]);
-    workunitid = atoi(r[i++]);
+    workunitid = atof(r[i++]);
 };
 
 void DB_RESULT::db_print(char* buf){

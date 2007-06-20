@@ -404,11 +404,11 @@ int main(int argc, char** argv) {
                         if (amrr.error_num != ERR_IN_PROGRESS) break;
                         boinc_sleep(1);
                     } else {
-                        unsigned int i, n = amrr.messages.size();
+                        unsigned int j, n = amrr.messages.size();
                         if (n) {
                             printf("Messages from account manager:\n");
-                            for (i=0; i<n; i++) {
-                                printf("%s\n", amrr.messages[i].c_str());
+                            for (j=0; j<n; j++) {
+                                printf("%s\n", amrr.messages[j].c_str());
                             }
                         }
                         break;
@@ -512,11 +512,11 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--set_debts")) {
         vector<PROJECT>projects;
         while (i < argc) {
-            PROJECT p;
-            p.master_url = string(next_arg(argc, argv, i));
-            p.short_term_debt = atoi(next_arg(argc, argv, i));
-            p.long_term_debt = atoi(next_arg(argc, argv, i));
-            projects.push_back(p);
+            PROJECT proj;
+            proj.master_url = string(next_arg(argc, argv, i));
+            proj.short_term_debt = atoi(next_arg(argc, argv, i));
+            proj.long_term_debt = atoi(next_arg(argc, argv, i));
+            projects.push_back(proj);
         }
         retval = rpc.set_debts(projects);
     } else if (!strcmp(cmd, "--quit")) {

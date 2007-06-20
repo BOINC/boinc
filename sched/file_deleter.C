@@ -541,7 +541,7 @@ void do_antique_pass() {
 
 int main(int argc, char** argv) {
     int retval;
-    bool one_pass = false, retry_error = false, delete_antiques = false;
+    bool one_pass = false;
     int i;
 
     check_stop_daemons();

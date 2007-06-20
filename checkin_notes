@@ -6443,3 +6443,38 @@ David  20 June 2007
 
     sched/
         feeder.C
+
+David  20 June 2007
+    - added "census", a program that counts up how much RAC
+        there is for each HR class, and writes it to a file.
+        This will be used soon for HR support in the feeder.
+    - split the HR code into hr.C,h (stuff used by both census and scheduler)
+        and sched_hr.C (stuff used only by the scheduler)
+    - database: change DB_CREDITED_JOB to treat workunitid
+        as a double (which it is) rather than a long.
+        BTW, long == int.
+    - fixed lots of compile warnings in the server code
+
+    db/
+        boinc_db.C,h
+    lib/
+        boinc_cmd.C
+        miofile.C
+        util.C
+    sched/
+        Makefile.am
+        census.C (new)
+        feeder.C
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        hr.C,h (new)
+        main.C
+        sample_assimilator.C
+        sample_work_generator.C
+        sched_array.C
+        sched_hr.C,h
+        sched_send.C
+        server_types.C
+        transitioner.C
+        validator.C

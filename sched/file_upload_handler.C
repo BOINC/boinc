@@ -218,7 +218,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
             ssize_t ret = write(fd, buf+n-to_write, to_write);
             if (ret < 0) { 
                 close(fd);
-                char* errmsg;
+                const char* errmsg;
                 if (errno == ENOSPC) {
                     errmsg = "No space left on server";
                 } else {
@@ -590,7 +590,9 @@ int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
+#ifdef _USING_FCGI_
     unsigned int counter=0;
+#endif
     elapsed_wallclock_time();
 
     installer();

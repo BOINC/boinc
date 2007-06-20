@@ -493,7 +493,12 @@ int handle_wu(
             }
         }
     } else if ( wu_item.assimilate_state == ASSIMILATE_DONE ) {
-		log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n", wu_item.id, wu_item.name, most_recently_returned + config.delete_delay_hours*60*60-now);
+		log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n",
+            wu_item.id,
+            wu_item.name,
+            most_recently_returned + config.delete_delay_hours*60*60-(int)now
+        );
     }
 
     // compute next transition time = minimum timeout of in-progress results

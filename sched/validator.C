@@ -215,14 +215,14 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,
-                "[RESULT#%d] Warning: credited_job insert failed (userid: %d workunit: %d err: %d)\n",
-                result.id, user.id, long(wu.opaque), retval
+                "[RESULT#%d] Warning: credited_job insert failed (userid: %d workunit: %f err: %d)\n",
+                result.id, user.id, wu.opaque, retval
             );
         } else {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
-                "[RESULT#%d %s] added credited_job record [WU#%d OPAQUE#%d USER#%d]\n",
-                result.id, result.name, wu.id, long(wu.opaque), user.id
+                "[RESULT#%d %s] added credited_job record [WU#%d OPAQUE#%f USER#%d]\n",
+                result.id, result.name, wu.id, wu.opaque, user.id
             );
         }
     }

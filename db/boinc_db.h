@@ -376,7 +376,7 @@ struct WORKUNIT {
 
 struct CREDITED_JOB {
     int userid;
-    long workunitid;
+    double workunitid;
 
     // the following not used in the DB
     void clear();

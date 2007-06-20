@@ -490,7 +490,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
 // should be aborted outright, or aborted if not started yet
 //
 int send_result_abort(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& 
 ) {
     int aborts_sent = 0;
     int retval = 0;

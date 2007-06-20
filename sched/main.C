@@ -238,7 +238,6 @@ int main(int argc, char** argv) {
     FILE* fin, *fout;
     int i, retval;
     char req_path[256], reply_path[256], path[256];
-    SCHED_SHMEM* ssp=0;
     unsigned int counter=0;
     char* code_sign_key;
     int length=-1;

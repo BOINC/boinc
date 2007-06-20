@@ -54,7 +54,7 @@ SCHED_CONFIG config;
 //
 int make_job() {
     DB_WORKUNIT wu;
-    char name[256], path[256], buf[256];
+    char name[256], path[256];
     const char* infiles[1];
     int retval;
 

@@ -2,27 +2,28 @@
 
 include $(top_srcdir)/Makefile.incl
 
-noinst_PROGRAMS =                               \
-    cgi                                         \
-    db_dump                                     \
-    db_purge                                    \
-    delete_file					\
-    feeder                                      \
-    file_deleter                                \
-    file_upload_handler                         \
-    get_file					\
-    make_work                                   \
-    message_handler                             \
-    request_file_list				\
+noinst_PROGRAMS = \
+    census \
+    cgi \
+    db_dump \
+    db_purge \
+    delete_file \
+    feeder \
+    file_deleter \
+    file_upload_handler \
+    get_file \
+    make_work \
+    message_handler \
+    request_file_list \
     sample_assimilator \
-    sample_dummy_assimilator                    \
-    sample_bitwise_validator                    \
-    sample_trivial_validator                    \
+    sample_dummy_assimilator \
+    sample_bitwise_validator \
+    sample_trivial_validator \
     sample_work_generator \
-    send_file					\
-    show_shmem                                  \
-    transitioner                                \
-    update_stats                                \
+    send_file \
+    show_shmem \
+    transitioner \
+    update_stats \
     wu_check
 
 lib_LIBRARIES = libsched.a
@@ -37,33 +38,34 @@ LDADD = -L. -lsched   $(MYSQL_LIBS) $(BOINC_LIB) $(PTHREAD_LIBS)
 
 LIB_SCHED = libsched.a
 
-libsched_a_SOURCES =                            \
-    sched_shmem.C                               \
-    sched_util.C                                \
-    sched_config.C                              \
-    sched_msgs.C                                \
-    ../db/boinc_db.C                            \
-    ../db/db_base.C                             \
-    ../lib/msg_log.C                            \
-    ../tools/process_result_template.C          \
+libsched_a_SOURCES = \
+    sched_shmem.C \
+    sched_util.C \
+    sched_config.C \
+    sched_msgs.C \
+    ../db/boinc_db.C \
+    ../db/db_base.C \
+    ../lib/msg_log.C \
+    ../tools/process_result_template.C \
     ../tools/backend_lib.C 
 
-EXTRA_DIST =    \
-    assimilate_handler.h                        \
-    fcgiapp.h                                   \
-    fcgi_stdio.h                                \
-    handle_request.h                            \
-    main.h                                      \
-    sched_locality.h                            \
-    sched_send.h                                \
-    sched_shmem.h                               \
-    server_types.h                              \
+EXTRA_DIST = \
+    assimilate_handler.h \
+    fcgiapp.h \
+    fcgi_stdio.h \
+    handle_request.h \
+    main.h \
+    sched_locality.h \
+    sched_send.h \
+    sched_shmem.h \
+    server_types.h \
     start                                       
 
 
 cgi_SOURCES = \
     edf_sim.C \
     handle_request.C \
+    hr.C \
     main.C \
     sched_array.C \
     sched_hr.C \
@@ -74,16 +76,19 @@ cgi_SOURCES = \
     server_types.C \
     ../lib/synch.C
 
+census_SOURCES = \
+    census.C \
+    hr.C
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
 
 ## install only headers that are meant for exporting the API !!
-include_HEADERS = 	\
-	sched_config.h	\
-	sched_msgs.h	\
-	sched_util.h	\
-	../tools/backend_lib.h	\
+include_HEADERS = \
+	sched_config.h \
+	sched_msgs.h \
+	sched_util.h \
+	../tools/backend_lib.h \
 	validate_util.h
 
 
@@ -160,46 +165,46 @@ delete_file_SOURCES = delete_file.C
 delete_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 delete_file_LDADD = $(LDADD) $(RSA_LIBS)
 
-fcgi_SOURCES =                                  \
-    handle_request.C                            \
-    main.C                                      \
-    sched_send.C                                \
-    sched_resend.C 				\
-    sched_array.C 				\
-    sched_hr.C 					\
-    server_types.C                              \
-    sched_shmem.C                               \
-    sched_util.C                                \
-    sched_config.C                              \
-    sched_msgs.C                                \
-    sched_locality.C                            \
-    sched_timezone.C                            \
+fcgi_SOURCES = \
+    handle_request.C \
+    main.C \
+    sched_send.C \
+    sched_resend.C \
+    sched_array.C \
+    sched_hr.C \
+    server_types.C \
+    sched_shmem.C \
+    sched_util.C \
+    sched_config.C \
+    sched_msgs.C \
+    sched_locality.C \
+    sched_timezone.C \
     edf_sim.C \
-    ../db/boinc_db.C                            \
-    ../db/db_base.C                             \
-    ../lib/base64.C                             \
-    ../lib/crypt.C                              \
-    ../lib/filesys.C                            \
-    ../lib/md5.c                                \
-    ../lib/md5_file.C                           \
-    ../lib/miofile.C                            \
-    ../lib/msg_log.C                            \
-    ../lib/parse.C                              \
-    ../lib/shmem.C                              \
-    ../lib/synch.C                              \
-    ../lib/util.C                               \
-    ../tools/process_result_template.C          \
+    ../db/boinc_db.C \
+    ../db/db_base.C \
+    ../lib/base64.C \
+    ../lib/crypt.C \
+    ../lib/filesys.C \
+    ../lib/md5.c \
+    ../lib/md5_file.C \
+    ../lib/miofile.C \
+    ../lib/msg_log.C \
+    ../lib/parse.C \
+    ../lib/shmem.C \
+    ../lib/synch.C \
+    ../lib/util.C \
+    ../tools/process_result_template.C \
     ../tools/backend_lib.C
 
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 
-fcgi_file_upload_handler_SOURCES = 		\
-    file_upload_handler.C			\
-    sched_config.C                              \
-    ../lib/miofile.C                            \
-    ../lib/parse.C				\
+fcgi_file_upload_handler_SOURCES = \
+    file_upload_handler.C \
+    sched_config.C \
+    ../lib/miofile.C \
+    ../lib/parse.C \
     ../lib/crypt.C
 fcgi_file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_file_upload_handler_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)

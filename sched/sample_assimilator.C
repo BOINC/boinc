@@ -40,6 +40,7 @@ int write_error(char* p) {
         f = fopen("../sample_results/errors", "a");
         if (!f) return ERR_FOPEN;
     }
+    fprintf(f, "%s", p);
     fflush(f);
     return 0;
 }
@@ -58,7 +59,7 @@ int assimilate_handler(
         vector<string> output_file_paths;
         char copy_path[256];
         get_output_file_paths(canonical_result, output_file_paths);
-        int n = output_file_paths.size();
+        unsigned int n = output_file_paths.size();
         for (i=0; i<n; i++) {
             string path = output_file_paths[i];
             if (n==1) {

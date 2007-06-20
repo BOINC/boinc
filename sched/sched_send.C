@@ -44,6 +44,7 @@ using namespace std;
 #include "sched_array.h"
 #include "sched_msgs.h"
 #include "sched_hr.h"
+#include "hr.h"
 #include "sched_locality.h"
 #include "sched_timezone.h"
 
@@ -306,7 +307,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 // If they have, then only send work for the allowed applications
 //
 static inline int check_app_filter(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+    WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
 ) {
     unsigned int i;
 
@@ -379,7 +380,7 @@ static inline int check_memory(
 }
 
 static inline int check_disk(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+    WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
 ) {
     if (wu.rsc_disk_bound > reply.wreq.disk_available) {
         reply.wreq.insufficient_disk = true;
@@ -435,7 +436,7 @@ int wu_is_infeasible(
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
-                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, *app)
+                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, app_hr_type(*app))
             );
             return INFEASIBLE_HR;
         }
@@ -577,7 +578,7 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM_LIST& ,
     APP* app, APP_VERSION* avp
 ) {
     int retval;

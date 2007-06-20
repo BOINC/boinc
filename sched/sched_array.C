@@ -212,7 +212,7 @@ void scan_work_array(
             }
         }
 
-        if (hr_type(*app)) {
+        if (app_hr_type(*app)) {
             if (already_sent_to_different_platform_careful(
                 sreq, reply.wreq, wu_result.workunit, *app
             )) {

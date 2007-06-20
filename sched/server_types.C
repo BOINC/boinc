@@ -444,7 +444,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 }
 
 int SCHEDULER_REPLY::write(FILE* fout) {
-    unsigned int i, j;
+    unsigned int i;
     char buf[LARGE_BLOB_SIZE];
 
     // Note: at one point we had

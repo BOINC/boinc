@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2007 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,18 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-extern bool already_sent_to_different_platform_quick(
-    SCHEDULER_REQUEST& sreq, WORKUNIT&, APP&
-);
+#include "boinc_db.h"
 
-extern bool already_sent_to_different_platform_careful(
-    SCHEDULER_REQUEST& sreq, WORK_REQ& wreq, WORKUNIT& workunit, APP&
-);
+#define HR_NTYPES 3
 
-extern bool hr_unknown_platform(HOST&);
+struct HR_INFO {
+    double *rac_per_class[HR_NTYPES];
+    void write_file(const char*);
+    void read_file(const char*);
+    void scan_db();
+};
 
-// return the HR type to use for this app;
-// app-specific HR type overrides global HR type
-//
-inline int app_hr_type(APP& app) {
-    if (app.homogeneous_redundancy) {
-        return app.homogeneous_redundancy;
-    }
-    return config.homogeneous_redundancy;
-}
+extern int hr_class(HOST&, int hr_type);
+extern bool hr_unknown_platform_type(HOST&, int hr_type);
+extern const char* hr_names[];
+extern int hr_nclasses[];
