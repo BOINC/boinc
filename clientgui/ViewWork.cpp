@@ -243,7 +243,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
             int      id;
 #endif
             run_program(
-                (char*)result->slot_path.c_str(),
+                result->slot_path.c_str(),
                 result->graphics_exec_path.c_str(),
                 1,
                 argv,

@@ -6387,3 +6387,12 @@ David  19 June 2007
 		client_state.C
 	lib/
 		gui_rpc_client_ops.C
+
+David  19 June 2007
+	- manager: v6 graphics fixes.
+		Works now, with a few problems
+
+	clientgui/
+		ViewWork.cpp
+	lib/
+		util.C

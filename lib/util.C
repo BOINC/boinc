@@ -416,7 +416,7 @@ int run_program(
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    char cmdline[1024], path[1024];
+    char cmdline[1024];
     unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
@@ -428,9 +428,8 @@ int run_program(
         strcat(cmdline, " ");
     }
 
-	sprintf(path, "%s/%s", dir, file);
     retval = CreateProcess(
-        path,
+        file,
         cmdline,
         NULL,
         NULL,
