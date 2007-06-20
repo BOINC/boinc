@@ -331,8 +331,8 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         while (q) {
             n = sscanf(q, "<link rel=\"boinc_scheduler\" href=\"%s", buf2);
             if (n == 1) {
-                char* q = strchr(buf2, '\"');
-                if (q) *q = 0;
+                char* q2 = strchr(buf2, '\"');
+                if (q2) *q2 = 0;
                 strip_whitespace(buf2);
                 str = string(buf2);
                 push_unique(str, urls);

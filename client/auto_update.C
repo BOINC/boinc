@@ -173,7 +173,7 @@ void AUTO_UPDATE::install() {
     FILE_INFO* fip=0;
     char version_dir[1024];
     char cwd[256];
-    char* argv[10];
+    char *argv[10];
     int retval, argc;
 #ifdef _WIN32
     HANDLE pid;

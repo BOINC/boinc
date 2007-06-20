@@ -88,13 +88,13 @@ extern pthread_mutex_t getrusage_mutex;
 
 #ifdef _WIN32
 extern int run_program(
-    const char* path, const char* cdir, int argc, char** argv, double, HANDLE&
+    const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&
 );
 extern void kill_program(HANDLE);
 extern int get_exit_status(HANDLE);
 #else
 extern int run_program(
-    const char* path, const char* cdir, int argc, char** argv, double, int&
+    const char* path, const char* cdir, int argc, char *const argv[], double, int&
 );
 extern void kill_program(int);
 extern int get_exit_status(int);

@@ -411,7 +411,7 @@ int lookup_group(char* name, gid_t& gid) {
 //
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* file, int argc, char** argv, double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -454,7 +454,7 @@ int run_program(
 }
 #else
 int run_program(
-    const char* dir, const char* file, int , char** argv, double nsecs, int& id
+    const char* dir, const char* file, int , char *const argv[], double nsecs, int& id
 ) {
     int retval;
     int pid = fork();

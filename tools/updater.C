@@ -79,7 +79,7 @@ int prepare_prev_dir() {
     return 0;
 }
 
-int move_file(char* file, char* old_dir, char* new_dir) {
+int move_file(const char* file, char* old_dir, char* new_dir) {
     char old_path[1024], new_path[1024];
     sprintf(old_path, "%s/%s", old_dir, file);
     sprintf(new_path, "%s/%s", new_dir, file);
@@ -93,7 +93,7 @@ int move_file(char* file, char* old_dir, char* new_dir) {
 
 // try to move all; return 0 if moved all
 //
-int move_files(vector<char*> files, char* old_dir, char* new_dir) {
+int move_files(vector<const char*> files, char* old_dir, char* new_dir) {
     int retval = 0;
     for (unsigned int i=0; i<files.size(); i++) {
         int ret = move_file(files[i], old_dir, new_dir);
@@ -113,13 +113,12 @@ int main(int argc, char** argv) {
     int core_pid, mgr_pid;
 #endif
     bool run_as_service = false;
-    bool run_core = false;
     bool run_manager = false;
     char* argv2[10];
     char path[1024];
     char cur_dir[1024];
     bool new_version_installed = false;
-    vector<char*> files;
+    vector<const char*> files;
 
     install_dir = 0;
     for (i=1; i<argc; i++) {

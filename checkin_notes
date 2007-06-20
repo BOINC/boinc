@@ -6478,3 +6478,17 @@ David  20 June 2007
         server_types.C
         transitioner.C
         validator.C
+
+David  20 June 2007
+    - random compile warning fixes
+
+    client/
+        auto_update.C
+        file_names.h
+        scheduler_op.C
+        time_stats.C
+    lib/
+        util.C,h
+    tools/
+        create_work.C
+        updater.C

@@ -97,7 +97,7 @@ void TIME_STATS::trim_stats_log() {
 #endif
 }
 
-void send_log_after(char* filename, double t, MIOFILE& mf) {
+void send_log_after(const char* filename, double t, MIOFILE& mf) {
     char buf[256];
     double x;
 
