@@ -77,7 +77,6 @@ IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
-    EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICSNEW, CViewWork::OnWorkShowGraphicsNew)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
@@ -113,13 +112,6 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Show new graphics"),
-        _("Show application v6 graphics in a window."),
-        ID_TASK_WORK_SHOWGRAPHICSNEW 
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
-	pItem = new CTaskItem(
         _("Suspend"),
         _("Suspend work for this result."),
         ID_TASK_WORK_SUSPEND 
@@ -133,7 +125,6 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
         ID_TASK_WORK_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );
-
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
@@ -241,65 +232,8 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 
     if (wxYES == iAnswer) {
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
-		std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
-		std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
-		std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
-        pDoc->WorkShowGraphics(
-            result->project_url,
-            result->name,
-            MODE_WINDOW,
-            strDefaultWindowStation,
-            strDefaultDesktop,
-            strDefaultDisplay
-        );
-    }
-
-    pFrame->UpdateStatusText(wxT(""));
-
-    UpdateSelection();
-    pFrame->FireRefreshView();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
-}
-
-
-void CViewWork::OnWorkShowGraphicsNew( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphicsNew - Function Begin"));
-
-    wxInt32  iAnswer        = 0; 
-    wxString strMachineName = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
-
-    pFrame->UpdateStatusText(_("Showing graphics for task..."));
-
-    // TODO: implement hide as well as show
-#if (defined(_WIN32) || defined(__WXMAC__))
-    pDoc->GetConnectedComputerName(strMachineName);
-    if (!pDoc->IsComputerNameLocal(strMachineName)) {
-        iAnswer = ::wxMessageBox(
-            _("Are you sure you want to display graphics on a remote machine?"),
-            _("Show graphics"),
-            wxYES_NO | wxICON_QUESTION,
-            this
-        );
-    } else {
-        iAnswer = wxYES;
-    }
-#else
-    iAnswer = wxYES;
-#endif
-
-    if (wxYES == iAnswer) {
-        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
         if (!result->graphics_exec_path.empty()) {
+            // V6 Graphics
             char* argv[2];
             argv[0] = "graphics";
             argv[1] = 0;
@@ -315,6 +249,19 @@ void CViewWork::OnWorkShowGraphicsNew( wxCommandEvent& WXUNUSED(event) ) {
                 argv,
                 0,
                 id
+            );
+        } else {
+            // V5 and Older
+		    std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
+		    std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
+		    std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
+            pDoc->WorkShowGraphics(
+                result->project_url,
+                result->name,
+                MODE_WINDOW,
+                strDefaultWindowStation,
+                strDefaultDesktop,
+                strDefaultDisplay
             );
         }
     }
