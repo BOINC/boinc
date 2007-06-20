@@ -35,6 +35,10 @@
 
 static void print_options(char* prog) {
     printf(
+        "The command-line options for %s are intended for debugging.\n"
+        "The recommended command-line interface is a separate program,'boinc_cmd'.\n"
+        "Run boinc_cmd in the same current as %s.\n"
+        "\n"
         "Usage: %s [options]\n"
         "    --help                          show options\n"
         "    --version                       show version info\n"
@@ -60,7 +64,7 @@ static void print_options(char* prog) {
         "    --launched_by_manager           core client was launched by Manager\n"
         "    --run_by_updater                set by updater\n"
         ,
-        prog
+        prog, prog, prog
     );
 }
 

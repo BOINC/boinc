@@ -130,9 +130,11 @@ echo "</table>\n";
 
 if ($old_hosts>0) more_or_less($show_all);
 
-echo "
-    <a href=merge_by_name.php>Merge hosts by name</a>
-";
+if ($userid == 0) {
+    echo "
+        <a href=merge_by_name.php>Merge hosts by name</a>
+    ";
+}
 
 if ($caching) {
     page_tail(true);

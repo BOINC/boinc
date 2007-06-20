@@ -135,6 +135,9 @@ struct GLOBAL_PREFS {
     int write(MIOFILE&);
     int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);
     bool suspended_time_of_day(int);
+    inline double cpu_scheduling_period() {
+        return cpu_scheduling_period_minutes*60;
+    }
 };
 
 #endif

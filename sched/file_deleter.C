@@ -503,7 +503,7 @@ int find_antique_files() {
     // with the 'regular' file delete mechanism,
     // so better to do it like this.
     //
-    sprintf(buf, "order by create_time limit 1");
+    sprintf(buf, "order by id limit 1");
     if (!wu.enumerate(buf)) {
         // Don't ever delete files younger than a month.
         //

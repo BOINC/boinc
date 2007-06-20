@@ -106,6 +106,7 @@ int move_files(vector<char*> files, char* old_dir, char* new_dir) {
 
 int main(int argc, char** argv) {
     int i, retval, argc2;
+    char filepath[512];
 #ifdef _WIN32
     HANDLE core_pid, mgr_pid;
 #else
@@ -172,7 +173,8 @@ restart:
     argv2[1] = "--run_by_updater";
     argv2[2] = 0;
     argc2 = 2;
-    retval = run_program(install_dir, CORE_NAME, argc2, argv2, 5, core_pid);
+    sprintf(filepath, "%s/%s", install_dir, CORE_NAME);
+    retval = run_program(install_dir, filepath, argc2, argv2, 5, core_pid);
     if (retval) {
         fprintf(stderr, "failed to run core client (%d); backing out\n", retval);
         if (new_version_installed) {
@@ -187,7 +189,8 @@ restart:
         argv2[0] = MANAGER_NAME;
         argv2[1] = 0;
         argc2 = 1;
-        retval = run_program(install_dir, MANAGER_NAME, argc2, argv2, 5, mgr_pid);
+        sprintf(filepath, "%s/%s", install_dir, MANAGER_NAME);
+        retval = run_program(install_dir, filepath, argc2, argv2, 5, mgr_pid);
         if (retval) {
             fprintf(stderr, "failed to run manager (%d); backing out\n", retval);
             if (new_version_installed) {

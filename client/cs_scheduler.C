@@ -744,7 +744,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
             if (atp) {
-                atp->abort_task(ERR_ABORTED_BY_PROJECT, "aborted by project");
+                atp->abort_task(ERR_ABORTED_BY_PROJECT,
+                    "aborted by project - no longer usable"
+                );
             } else {
                 rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
             }

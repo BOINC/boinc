@@ -263,11 +263,11 @@ void CLIENT_STATE::adjust_debts() {
     // Currently we don't have a way to estimate how long this was for,
     // so ignore the last period and reset counters.
     //
-    if (wall_cpu_time > global_prefs.cpu_scheduling_period_minutes*60*2) {
+    if (wall_cpu_time > global_prefs.cpu_scheduling_period()*2) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[debt_debug] adjust_debt: elapsed time (%d min) longer than sched period (%d min).  Ignoring this period.",
-                (int)(wall_cpu_time/60), (int)global_prefs.cpu_scheduling_period_minutes
+                "[debt_debug] adjust_debt: elapsed time (%d) longer than sched period (%d).  Ignoring this period.",
+                (int)wall_cpu_time, (int)global_prefs.cpu_scheduling_period()
             );
         }
         reset_debt_accounting();
@@ -397,7 +397,7 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     // (meaning a new result is available, or a CPU has been freed).
     //
     elapsed_time = now - last_reschedule;
-    if (elapsed_time >= global_prefs.cpu_scheduling_period_minutes * 60) {
+    if (elapsed_time >= global_prefs.cpu_scheduling_period()) {
         request_schedule_cpus("Scheduling period elapsed.");
     }
 
@@ -477,7 +477,7 @@ void CLIENT_STATE::schedule_cpus() {
 		active_tasks.active_tasks[i]->too_large = false;
 	}
 
-    expected_pay_off = global_prefs.cpu_scheduling_period_minutes * 60;
+    expected_pay_off = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
 	double ram_left = available_ram();
 
@@ -761,7 +761,7 @@ bool CLIENT_STATE::enforce_schedule() {
             //
             atp = running_tasks[0];
             double time_running = now - atp->run_interval_start_wall_time;
-            bool running_beyond_sched_period = time_running >= global_prefs.cpu_scheduling_period_minutes*60;
+            bool running_beyond_sched_period = time_running >= global_prefs.cpu_scheduling_period();
             double time_since_checkpoint = now - atp->checkpoint_wall_time;
             bool checkpointed_recently = time_since_checkpoint < 10;
             if (rp->project->deadlines_missed
@@ -1330,8 +1330,8 @@ double CLIENT_STATE::fetchable_resource_share() {
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->non_cpu_intensive) continue;
-        if (p->long_term_debt < -this->global_prefs.cpu_scheduling_period_minutes * 60) continue;
-        if (p->nearly_runnable()) {
+        if (p->long_term_debt < -global_prefs.cpu_scheduling_period()) continue;
+        if (p->contactable()) {
             x += p->resource_share;
         }
     }
@@ -1383,7 +1383,7 @@ double RESULT::computation_deadline() {
     return report_deadline - (
         gstate.work_buf_min()
             // Seconds that the host will not be connected to the Internet
-        + gstate.global_prefs.cpu_scheduling_period_minutes * 60
+        + gstate.global_prefs.cpu_scheduling_period()
             // Seconds that the CPU may be busy with some other result
         + DEADLINE_CUSHION
     );

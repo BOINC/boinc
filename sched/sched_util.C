@@ -259,9 +259,15 @@ int count_workunits(int& n, const char* query) {
     return 0;
 }
 
-int count_unsent_results(int& n) {
+int count_unsent_results(int& n, int appid) {
     char buf[256];
-    sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+    if (appid) {
+        sprintf(buf, "where server_state=%d and appid=%d ",
+            RESULT_SERVER_STATE_UNSENT, appid
+        );
+    } else {
+        sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+    }
     return count_results(buf, n);
 
 }

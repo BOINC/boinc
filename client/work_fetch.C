@@ -409,7 +409,7 @@ bool CLIENT_STATE::compute_work_requests() {
 			if (p->rr_sim_deadlines_missed) {
 				possible_deadline_miss = true;
 			}
-            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period_minutes * 60) {
+            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period()) {
                 project_shortfall = true;
             }
         }
@@ -707,7 +707,7 @@ bool PROJECT::nearly_runnable() {
 }
 
 bool PROJECT::overworked() {
-    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period_minutes * 60;
+    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period();
 }
 
 bool RESULT::runnable() {

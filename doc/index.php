@@ -114,7 +114,7 @@ function show_other() {
             <li> <a href=trac/wiki/ProjectPeople>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
             <li> BOINC <a href=dev/>message boards</a>
-            <li> <a href=papers.php>Papers and talks</a> about BOINC
+            <li> <a href=http://boinc.berkeley.edu/trac/wiki/BoincPapers>Papers and talks</a> on BOINC
             <li> <a href=logo.php>Logos and graphics</a>
             <li> <a href=events.php>Events (Note: the <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop07>3rd Pan-Galactic
                 BOINC Workshop</a> will be held 5-6 September 2007 in Geneva, Switzerland.</a>)

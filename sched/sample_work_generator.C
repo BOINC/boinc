@@ -108,7 +108,7 @@ void main_loop() {
     while (1) {
         check_stop_daemons();
         int n;
-        retval = count_unsent_results(n);
+        retval = count_unsent_results(n, 0);
         if (n > CUSHION) {
             sleep(60);
         } else {

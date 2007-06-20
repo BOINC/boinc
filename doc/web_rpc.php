@@ -4,6 +4,7 @@ require_once("docutil.php");
 page_head("Web Remote Procedure Calls (RPCs)");
 
 echo "
+DEPRECATED - SEE WIKI PAGE
 <h3>Contents</h3>
 <ul>
 <li> <a href=#overview>Overview</a>

@@ -6396,3 +6396,44 @@ David  19 June 2007
 		ViewWork.cpp
 	lib/
 		util.C
+
+David  20 June 2007
+    - back end: make it possible to run multiple instances of make_work,
+        for WUs of different applications
+        (need to count unsent results separately by app)
+    - feeder: major code cleanup
+        - application interleaving (for -allapps) is now done
+            by building a static slot-to-app array "app_indices".
+            Fractional weights now work correctly.
+        - enum sizes (for -allapps) are now precomputed
+            in an array "enum_sizes"
+        - rename "found" (confusing!!) to "collision"
+        - swapped the names of mod_select_clause and select_clause,
+            to reflect what they actually are
+    - file deleter: in finding oldest WU, order by id instead of create_time
+        (there's no index on create_time)
+    - user web: show "merge by name" only to host owner
+    - add cpu_scheduler_period() member to GLOBAL_PREFS
+        (so you don't have to multiply by 60 everywhere)
+    - infinite() fix for HPUX
+
+    client/
+        cpu_sched.C
+        cs_cmdline.C
+        cs_scheduler.C
+        rrsim_test.C
+        sim.C
+        work_fetch.C
+    html/user/
+        hosts_user.php
+    lib/
+        parse.h
+        prefs.h
+    sched/
+        feeder.C
+        file_deleter.C
+        make_work.C
+        sample_work_generator.C
+        sched_util.C,h
+    tools/
+        updater.C

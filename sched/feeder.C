@@ -33,11 +33,11 @@
 //                        but haven't been assigned
 //
 // Creates a shared memory segment containing DB info,
-// including the work array (results/workunits to send).
+// including an array of work items (results/workunits to send).
 //
-// Try to keep the work array filled.
+// feeder tries to keep the work array filled.
 // This is a little tricky.
-// We use an enumerator.
+// We use a DB enumerator.
 // The inner loop scans the wu_result table,
 // looking for empty slots and trying to fill them in.
 // When the enumerator reaches the end, it is restarted;
@@ -60,6 +60,12 @@
 //               leave trigger file there (for other daemons)
 // reread_db:    update DB contents in existing shmem
 //               delete trigger file
+
+// If -allapps is used, the work array is interleaved by application,
+// based on their weights.
+// slot_to_app[] maps slot (i.e. work array index) to app index.
+// app_count[] is the number of slots per app
+// (approximately proportional to its weight)
 
 // If you get an "Invalid argument" error when trying to run the feeder,
 // it is likely that you aren't able to allocate enough shared memory.
@@ -98,12 +104,14 @@ SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
 key_t sema_key;
 const char* order_clause="";
-char select_clause[256];
+char mod_select_clause[256];
 double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 bool all_apps = false;
 int purge_stale_time = 0;
 int num_work_items = MAX_WU_RESULTS;
 int enum_limit = MAX_WU_RESULTS*2;
+int *enum_sizes;
+int *app_indices;
 
 void cleanup_shmem() {
     ssp->ready = false;
@@ -132,7 +140,7 @@ int check_reread_trigger() {
     return 0;
 }
 
-// Scan work items for a given app until one found
+// Scan DB for work items until one found
 // that is not already in the shared memory segment.
 // Errors that can occur:
 // 1) No valid work item found even after restarting the enumeration
@@ -141,16 +149,30 @@ int check_reread_trigger() {
 //   ACTION: exit application
 // 
 static bool find_work_item(
-    DB_WORK_ITEM *wi, bool& restarted_enum, int& ncollisions,
-    int work_item_index, int enum_size, char* mod_select_clause
+    DB_WORK_ITEM wi,    // if -allapps, array of enumerators; else just one
+    int app_index,      // if using -allapps, the app index
+    bool& restarted_enum,
+    int& ncollisions
 ) {
 	bool in_second_pass = false;
-	bool found = false;
-	int retval, j;
+	bool collision;
+	int retval, j, enum_size;
+    char select_clause[256];
 	
-	if (!wi->cursor.active && restarted_enum) {
-		return false;
-	} else if (!wi->cursor.active) {
+    if (all_apps) {
+        sprintf(select_clause, "%s and r1.appid=%d",
+            mod_select_clause, ssp->apps[app_index].id
+        );
+        enum_size = enum_sizes[app_index];
+    } else {
+        strcpy(select_clause, mod_select_clause);
+        enum_size = enum_limit;
+    }
+
+	if (!wi.cursor.active) {
+        if (restarted_enum) {
+            return false;
+        }
 		in_second_pass = true;
 	}
 	do {
@@ -160,25 +182,24 @@ static bool find_work_item(
         	in_second_pass = true;
         	ncollisions = 0;
         }
-   		retval = wi->enumerate(enum_size, mod_select_clause, order_clause);
-   		// if retval is not 0 (i.e. true),
-        // then we have reached the end of the result
+   		retval = wi.enumerate(enum_size, select_clause, order_clause);
+   		// if retval is nonzero, we have reached the end of the result set
         // and we need to requery the database
         //
     	if (retval) {
     		restarted_enum = true;
 			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             	"restarted enumeration for appid %d\n",
-                ssp->apps[work_item_index].id
+                ssp->apps[app_index].id
             );
         } else {
         	// Check for a work item with an invalid application id
             //
-            if (!ssp->lookup_app(wi->wu.appid)) {
+            if (!ssp->lookup_app(wi.wu.appid)) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_CRITICAL,
                     "result [RESULT#%d] has bad appid %d; clean up your DB!\n",
-                    wi->res_id, wi->wu.appid
+                    wi.res_id, wi.wu.appid
                 );
                 exit(1);
             }
@@ -187,24 +208,25 @@ static bool find_work_item(
             // (i.e. this result already is in the array)
             // If collision, then advance to the next workitem
             //
-            found = true;
+            collision = false;
             for (j=0; j<ssp->max_wu_results; j++) {
-                if (ssp->wu_results[j].state != WR_STATE_EMPTY && ssp->wu_results[j].resultid == wi->res_id) {
+                if (ssp->wu_results[j].state != WR_STATE_EMPTY && ssp->wu_results[j].resultid == wi.res_id) {
                 	// If the result is already in shared mem,
                 	// and another instance of the WU has been sent,
                 	// bump the infeasible count to encourage
                 	// it to get sent more quickly
                 	//
                 	if (ssp->wu_results[j].infeasible_count == 0) {
-                		if (wi->wu.hr_class > 0) {
+                		if (wi.wu.hr_class > 0) {
                 			ssp->wu_results[j].infeasible_count++;
                 		}
                 	}
                     ncollisions++;
-                    found = false;  // not found if it is a collision
+                    collision = false;
                     break;
                 }
-            }    		
+            }
+            if (!collision) return true;
     	}
         // exit conditions
         // (in_second_pass && retval) means if we have looped a second time
@@ -212,37 +234,48 @@ static bool find_work_item(
         // This is an error.
         // found means that we identified a valid work item
         //
-	} while ((!in_second_pass || !retval) && !found);
-	return found;
+	} while ((!in_second_pass || !retval));
+	return false;
 }
 
-static int find_work_item_index(int slot_pos) {
-	if (ssp->app_weights == 0) return 0;
-	int mod = slot_pos % (int)(ssp->app_weights);
-	int work_item_index = -1;
-	for (int i=0; i<ssp->napps; i++) {
-		if (ssp->apps[i].weight < 1) continue;
-		if (mod < ssp->apps[i].weight) {
-			work_item_index = i;
-			break;
-		} else {
-			mod = mod - (int)ssp->apps[i].weight;
-		}
-	}
-	// The condition below will occur if all projects have a weight of 0
-	if ( work_item_index == -1 ) work_item_index = 0;
-	return work_item_index;
+// Inputs:
+//   n (number of weights)
+//   k (length of vector)
+//   a set of weights w(0)..w(n-1)
+// Outputs:
+//   a vector v(0)..v(k-1) with values 0..n-1,
+//     where each value occurs with the given weight,
+//     and values are interleaved as much as possible.
+//   a vector count(0)..count(n-1) saying how many times
+//     each value occurs in v
+//
+void weighted_interleave(double* weights, int n, int k, int* v, int* count) {
+    double *x = (double*) calloc(n, sizeof(double));
+    int i;
+    for (i=0; i<n; i++) count[i] = 0;
+    for (i=0; i<k; i++) {
+        int best = 0;
+        for (int j=1; j<n; j++) {
+            if (x[j] > x[best]) {
+                best = j;
+            }
+        }
+        v[i] = best;
+        x[best] -= 1/weights[best];
+        count[best]++;
+    }
+    free(x);
 }
 
+// Make one pass through the work array, filling in empty slots
+//
 static void scan_work_array(
-    vector<DB_WORK_ITEM>* work_items, int& nadditions, int& ncollisions
+    vector<DB_WORK_ITEM> &work_items, int& nadditions, int& ncollisions
 ) {
     int i;
     bool found;
     bool restarted_enum[ssp->napps];
-    DB_WORK_ITEM* wi;
-    char mod_select_clause[256];
-    int work_item_index;
+    int app_index;
     int enum_size;
     
   	for (i=0; i < ssp->napps; i++) {
@@ -250,30 +283,8 @@ static void scan_work_array(
     }
 
     for (i=0; i<ssp->max_wu_results; i++) {
-   	    // If all_apps is set then every nth item in the shared memory segment
-        // will be assigned to the application stored in that index in ssp->apps
-        //
-    	if (all_apps) {
-    		if (ssp->app_weights > 0) {
-    			work_item_index = find_work_item_index(i);
-    			enum_size = (int) floor(0.5 + enum_limit*(ssp->apps[work_item_index].weight)/(ssp->app_weights));
-    		} else {
-    			// If all apps have a weight of zero then evenly
-                // distribute the slots
-                //
-    			work_item_index = i % ssp->napps;
-    			enum_size = (int) floor(0.5 + ((double)enum_limit)/ssp->napps);
-    		}
-    		sprintf(mod_select_clause, "%s and r1.appid=%d",
-    		    select_clause, ssp->apps[work_item_index].id
-    		);
-    	} else {
-    		work_item_index = 0;
-    		enum_size = enum_limit;
-    		strcpy(mod_select_clause, select_clause);
-    	}
-    	wi = &((*work_items).at(work_item_index));
-    	
+        app_index = app_indices[i];
+    	DB_WORK_ITEM& wi = work_items[app_index];
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch (wu_result.state) {
         case WR_STATE_PRESENT:
@@ -281,30 +292,31 @@ static void scan_work_array(
     			wu_result.state = WR_STATE_EMPTY;
 				log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                     "remove result [RESULT#%d] from slot %d because it is stale\n",
-                    wu_result.resultid, i);
+                    wu_result.resultid, i
+                );
             } else {
             	break;
         	}
         case WR_STATE_EMPTY:
             found = find_work_item(
-                wi, restarted_enum[work_item_index], ncollisions,
-                work_item_index, enum_size, mod_select_clause
+                wi, app_index,
+                restarted_enum[app_index], ncollisions
             );
             if (found) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_NORMAL,
                     "adding result [RESULT#%d] in slot %d\n",
-                    wi->res_id, i
+                    wi.res_id, i
                 );
-                wu_result.resultid = wi->res_id;
-                wu_result.result_priority = wi->res_priority;
-                wu_result.workunit = wi->wu;
+                wu_result.resultid = wi.res_id;
+                wu_result.result_priority = wi.res_priority;
+                wu_result.workunit = wi.wu;
                 wu_result.state = WR_STATE_PRESENT;
                 // If the workunit has already been allocated to a certain
                 // OS then it should be assigned quickly,
                 // so we set its infeasible_count to 1
                 //
-                if (wi->wu.hr_class > 0) {
+                if (wi.wu.hr_class > 0) {
                 	wu_result.infeasible_count = 1;
                 } else {
                 	wu_result.infeasible_count = 0;
@@ -363,7 +375,7 @@ void feeder_loop() {
         nadditions = 0;
         ncollisions = 0;
 
-        scan_work_array(&work_items, nadditions, ncollisions);
+        scan_work_array(work_items, nadditions, ncollisions);
 
         ssp->ready = true;
 
@@ -414,7 +426,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
-            sprintf(select_clause, "and r1.id %% %d = %d ", n, j);
+            sprintf(mod_select_clause, "and r1.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_interval = atof(argv[++i]);
         } else {
@@ -484,6 +496,31 @@ int main(int argc, char** argv) {
         ssp->napp_versions
     );
 
+    app_indices = (int*) calloc(ssp->max_wu_results, sizeof(int));
+    enum_sizes = (int*) calloc(ssp->napps, sizeof(int));
+    double* weights = (double*) calloc(ssp->napps, sizeof(double));
+    int* counts = (int*) calloc(ssp->napps, sizeof(int));
+
+    // If all_apps is set, make an array saying which array slot
+    // is associated with which app
+    //
+    if (all_apps) {
+        if (ssp->app_weights == 0) {
+            for (i=0; i<ssp->napps; i++) {
+                ssp->apps[i].weight = 1;
+            }
+            ssp->app_weights = ssp->napps;
+        }
+        for (i=0; i<ssp->napps; i++) {
+            weights[i] = ssp->apps[i].weight;
+        }
+        for (i=0; i<ssp->napps; i++) {
+            enum_sizes[i] = (int) floor(0.5 + enum_limit*(weights[i])/(ssp->app_weights));
+        }
+        weighted_interleave(
+            weights, ssp->napps, ssp->max_wu_results, app_indices, counts
+        );
+    }
     feeder_loop();
 }
 

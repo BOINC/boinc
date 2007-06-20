@@ -88,7 +88,11 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     y = atof(p+strlen(tag));
+#if defined (HPUX_SOURCE)
+    if (_Isfinite(y)) {
+#else
     if (finite(y)) {
+#endif
         x = y;
         return true;
     }

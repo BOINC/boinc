@@ -391,7 +391,7 @@ double CLIENT_STATE::share_violation() {
 //
 double CLIENT_STATE::variety() {
     double sum = 0;
-    double schedint = global_prefs.cpu_scheduling_period_minutes*60;
+    double schedint = global_prefs.cpu_scheduling_period();
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
