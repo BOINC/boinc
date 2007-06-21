@@ -6296,3 +6296,11 @@ Charlie 16 June 2007
         
     clientgui/
         MainDocument.cpp
+
+Charlie 20 June 2007
+    Mac: Correct visible version numbers in installer and 
+        uninstaller.
+
+    mac_build/
+        Installer-Info.plist
+        Uninstaller-Info.plist
