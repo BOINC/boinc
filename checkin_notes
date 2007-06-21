@@ -6492,3 +6492,14 @@ David  20 June 2007
     tools/
         create_work.C
         updater.C
+
+Janus	21 June 2007
+    - Added the scraping mechanism for Bittorrent support (not all Bittorrent clients
+      actually support this, but those that do get an increased performance boost and
+      don't have to contact the more expensive announce.php nearly as often as those
+      that do not support it. Since it hasn't yet been decided which BT library we
+      will be using I just added scraping anyways.
+
+    html/bt/
+        scrape.php (new)
+
