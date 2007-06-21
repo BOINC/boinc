@@ -459,7 +459,7 @@ $m5107 = array(
     "num"=>"5.10.7",
     "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.10.7_macOSX_universal.zip",
-    "date"=>"16 June 2007",
+    "date"=>"20 June 2007",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_510."
