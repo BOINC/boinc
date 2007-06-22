@@ -357,8 +357,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
             echo "<td class=\"postfooter\"></td>";
         }
         echo "</tr>";
+    } else {
+        echo "</td></tr><tr><td class=\"postfooter\" colspan=\"2\">";
     }
-    echo "</td></tr>";
     echo "<tr class=\"postseperator\"><td colspan=3></td></tr>";
 }
 
