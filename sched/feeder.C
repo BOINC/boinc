@@ -224,9 +224,14 @@ static bool get_job_from_db(
         strcpy(select_clause, mod_select_clause);
         enum_size = enum_limit;
     }
+    int hrt = ssp->apps[app_index].homogeneous_redundancy;
 
     while (1) {
-   		retval = wi.enumerate(enum_size, select_clause, order_clause);
+        if (hrt) {
+            retval = wi.enumerate_all(enum_size, select_clause);
+        } else {
+            retval = wi.enumerate(enum_size, select_clause, order_clause);
+        }
     	if (retval) {
             printf("Reached end of enum for app %d\n", app_index);
             // we've reach the end of the result set
@@ -287,7 +292,6 @@ static bool get_job_from_db(
 
             // if using HR, check whether we've exceeded quota for this class
             //
-            int hrt = ssp->apps[app_index].homogeneous_redundancy;
             if (hrt) {
                 if (!hr_info.accept(hrt, wi.wu.hr_class)) {
                     log_messages.printf(
@@ -375,7 +379,6 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
             	break;
         	}
         case WR_STATE_EMPTY:
-            printf("doing slot %d app %d\n", i, app_index);
             found = get_job_from_db(
                 wi, app_index, enum_phase[app_index], ncollisions
             );
@@ -635,15 +638,17 @@ int main(int argc, char** argv) {
     }
     ssp->scan_tables();
 
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_NORMAL,
-        "feeder: read "
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        "read "
         "%d platforms, "
         "%d apps, "
         "%d app_versions\n",
         ssp->nplatforms,
         ssp->napps,
         ssp->napp_versions
+    );
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        "Using %d job slots\n", ssp->max_wu_results
     );
 
     app_indices = (int*) calloc(ssp->max_wu_results, sizeof(int));

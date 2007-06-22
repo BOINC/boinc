@@ -95,7 +95,10 @@ DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
 DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_WORK_ITEM::DB_WORK_ITEM(DB_CONN* dc) :
-    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+    DB_BASE_SPECIAL(dc?dc:&boinc_db
+){
+    start_id = 0;
+}
 DB_IN_PROGRESS_RESULT::DB_IN_PROGRESS_RESULT(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET(DB_CONN* dc) :
@@ -1326,6 +1329,51 @@ int DB_WORK_ITEM::enumerate(
         return ERR_DB_NOT_FOUND;
     } else {
         parse(row);
+    }
+    return 0;
+}
+
+int DB_WORK_ITEM::enumerate_all(
+    int limit, const char* select_clause
+) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    MYSQL_ROW row;
+    if (!cursor.active) {
+        sprintf(query,
+            "select high_priority r2.id, r2.priority, workunit.* from result r1, result r2, workunit "
+            " where r1.server_state=%d and r2.id=r1.id and r1.workunitid=workunit.id and r1.id>%d "
+            " %s "
+            "limit %d",
+            RESULT_SERVER_STATE_UNSENT,
+            start_id,
+            select_clause,
+            limit
+        );
+        retval = db->do_query(query);
+        if (retval) return mysql_errno(db->mysql);
+        cursor.rp = mysql_store_result(db->mysql);
+        if (!cursor.rp) return mysql_errno(db->mysql);
+
+        // if query gets no rows, start over in ID space
+        //
+        if (mysql_num_rows(cursor.rp) == 0) {
+            mysql_free_result(cursor.rp);
+            start_id = 0;
+            return ERR_DB_NOT_FOUND;
+        }
+        cursor.active = true;
+    }
+    row = mysql_fetch_row(cursor.rp);
+    if (!row) {
+        mysql_free_result(cursor.rp);
+        cursor.active = false;
+        retval = mysql_errno(db->mysql);
+        if (retval) return retval;
+        return ERR_DB_NOT_FOUND;
+    } else {
+        parse(row);
+        start_id = res_id;
     }
     return 0;
 }

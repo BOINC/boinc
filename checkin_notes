@@ -6595,3 +6595,20 @@ David  22 June 2007
         prefs.inc
     client/
         app_control.C
+
+David  22 June 2007
+    - feeder: added a new enumerator of DB_WORK_ITEM that,
+        on successive calls, scans through ALL the sendable
+        jobs satisfying the select clause
+        (it does this by ID order, so there's no order clause)
+        This is used for HR, so that if a job has been committed
+        to an HR class, we eventually get it.
+
+        With extremely minimal testing, the new HR stuff seems to work.
+
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C
+        sample_work_generator.C
+        server_types.C

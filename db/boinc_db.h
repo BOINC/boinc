@@ -680,12 +680,19 @@ struct WORK_ITEM {
 };
 
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
+    int start_id;
+        // when enumerate_all is used, keeps track of which ID to start from
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     int enumerate(
         int limit, const char* select_clause, const char* order_clause
     );
         // used by feeder
+    int enumerate_all(
+        int limit, const char* select_clause
+    );
+        // used by feeder when HR is used.
+        // Successive calls cycle through all results.
     int read_result();
         // used by scheduler to read result server state
     int update();
