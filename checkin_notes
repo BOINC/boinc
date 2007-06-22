@@ -6522,3 +6522,11 @@ David  21 June 2007
         feeder.C
         hr.C,h
         hr_info.C,h (new)
+
+Charlie 22 June 2007
+    Sandbox: fix switcher call to kill to eliminate error 
+        message and to correctly send SIGKILL instead of 
+        SIGTERM.
+        
+    client/
+        app_start.C
