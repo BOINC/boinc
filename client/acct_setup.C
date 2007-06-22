@@ -30,6 +30,7 @@
 #include "parse.h"
 #include "filesys.h"
 #include "str_util.h"
+#include "util.h"
 #include "client_msgs.h"
 
 #include "acct_setup.h"

@@ -528,8 +528,8 @@ int boinc_rmdir(const char* name) {
 #endif
 }
 
-int remove_project_owned_file_or_dir(const char* path) {
 #ifdef SANDBOX
+int remove_project_owned_file_or_dir(const char* path) {
     char cmd[1024];
 
     if (g_use_sandbox) {
@@ -544,6 +544,7 @@ int remove_project_owned_file_or_dir(const char* path) {
         }
     }
 #endif
+int remove_project_owned_file_or_dir(const char*) {
     return ERR_UNLINK;
 }
 

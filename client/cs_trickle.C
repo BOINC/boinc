@@ -28,6 +28,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "parse.h"
+#include "util.h"
 #include "str_util.h"
 #include "client_state.h"
 

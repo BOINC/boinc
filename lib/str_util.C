@@ -713,44 +713,6 @@ const char* rpc_reason_string(int reason) {
     }
 }
 
-// read file (at most max_len chars, if nonzero) into malloc'd buf
-//
-int read_file_malloc(const char* path, char*& buf, int max_len) {
-    FILE* f;
-    int retval, isize;
-    double size;
-
-    retval = file_size(path, size);
-    if (retval) return retval;
-
-    f = fopen(path, "r");
-    if (!f) return ERR_FOPEN;
-
-    if (max_len && size > max_len) {
-        size = max_len;
-    }
-    isize = (int) size;
-    buf = (char*)malloc(isize+1);
-    int n = fread(buf, 1, isize, f);
-    buf[n] = 0;
-    fclose(f);
-    return 0;
-}
-
-// read file (at most max_len chars, if nonzero) into string
-//
-int read_file_string(const char* path, string& result, int max_len) {
-    result.erase();
-    int retval;
-    char* buf;
-
-    retval = read_file_malloc(path, buf, max_len);
-    if (retval) return retval;
-    result = buf;
-    free(buf);
-    return 0;
-}
-
 #ifdef WIN32
 
 // get message for last error

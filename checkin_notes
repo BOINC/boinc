@@ -6552,3 +6552,19 @@ David  22 June 2007
         parse.C,h
         str_util.C,h
         util.C,h
+
+David  22 June 2007
+	- compile fixes for Win
+
+	client/
+		acct_setup.C
+		cs_prefs.C
+		cs_trickle.C
+	lib/
+		filesys.C
+		str_util.C,h
+		util.C,h
+	tools/
+		updater.C
+	win_build/
+		sim.vcproj

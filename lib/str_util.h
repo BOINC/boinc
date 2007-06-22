@@ -58,8 +58,6 @@ extern void canonicalize_master_url(std::string&);
 extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern std::string timediff_format(double);
-extern int read_file_malloc(const char* path, char*&, int max_len=0);
-extern int read_file_string(const char* path, std::string&, int max_len=0);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return

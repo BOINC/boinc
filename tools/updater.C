@@ -115,7 +115,6 @@ int main(int argc, char** argv) {
     bool run_as_service = false;
     bool run_manager = false;
     char* argv2[10];
-    char path[1024];
     char cur_dir[1024];
     bool new_version_installed = false;
     vector<const char*> files;

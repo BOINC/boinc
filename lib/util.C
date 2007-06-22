@@ -400,8 +400,8 @@ int get_exit_status(int pid) {
 }
 #endif
 
-static int get_client_mutex(const char* dir) {
 #ifdef _WIN32
+static int get_client_mutex(const char*) {
     char buf[MAX_PATH] = "";
     
     // Global mutex on Win2k and later
@@ -416,6 +416,7 @@ static int get_client_mutex(const char* dir) {
         return ERR_ALREADY_RUNNING;
     }
 #else
+static int get_client_mutex(const char* dir) {
     char path[1024];
     static FILE_LOCK file_lock;
 
@@ -465,6 +466,44 @@ void boinc_crash() {
 #else
 	*(int*)0 = 0;
 #endif
+}
+
+// read file (at most max_len chars, if nonzero) into malloc'd buf
+//
+int read_file_malloc(const char* path, char*& buf, int max_len) {
+    FILE* f;
+    int retval, isize;
+    double size;
+
+    retval = file_size(path, size);
+    if (retval) return retval;
+
+    f = fopen(path, "r");
+    if (!f) return ERR_FOPEN;
+
+    if (max_len && size > max_len) {
+        size = max_len;
+    }
+    isize = (int) size;
+    buf = (char*)malloc(isize+1);
+    size_t n = fread(buf, 1, isize, f);
+    buf[n] = 0;
+    fclose(f);
+    return 0;
+}
+
+// read file (at most max_len chars, if nonzero) into string
+//
+int read_file_string(const char* path, string& result, int max_len) {
+    result.erase();
+    int retval;
+    char* buf;
+
+    retval = read_file_malloc(path, buf, max_len);
+    if (retval) return retval;
+    result = buf;
+    free(buf);
+    return 0;
 }
 
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";

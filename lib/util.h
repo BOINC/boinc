@@ -99,5 +99,7 @@ extern int get_exit_status(int);
 
 extern int wait_client_mutex(const char* dir, double timeout);
 extern void boinc_crash();
+extern int read_file_malloc(const char* path, char*&, int max_len=0);
+extern int read_file_string(const char* path, std::string&, int max_len=0);
 
 #endif
