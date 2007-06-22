@@ -66,6 +66,7 @@ cgi_SOURCES = \
     edf_sim.C \
     handle_request.C \
     hr.C \
+    hr_info.C \
     main.C \
     sched_array.C \
     sched_hr.C \
@@ -78,7 +79,8 @@ cgi_SOURCES = \
 
 census_SOURCES = \
     census.C \
-    hr.C
+    hr.C \
+    hr_info.C
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
@@ -96,6 +98,8 @@ cgi_DEPENDENCIES = $(LIB_SCHED)
 
 feeder_SOURCES = \
     feeder.C \
+    hr.C \
+    hr_info.C \
     ../lib/synch.C
 
 feeder_DEPENDENCIES = $(LIB_SCHED)
@@ -167,6 +171,8 @@ delete_file_LDADD = $(LDADD) $(RSA_LIBS)
 
 fcgi_SOURCES = \
     handle_request.C \
+    hr.C \
+    hr_info.C \
     main.C \
     sched_send.C \
     sched_resend.C \

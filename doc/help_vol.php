@@ -118,7 +118,7 @@ if ($send_email) {
     $volid = $_GET['volid'];
     $subject = stripslashes($_GET['subject']);
     $vol = vol_lookup($volid);
-    if (!$vol) {
+    if (!$vol || $vol->hide) {
         error_page("No such volunteer $volid");
     }
     $msg = stripslashes($_GET['message']);

@@ -17,9 +17,10 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// -------------------------------
+// Feeder: create a shared memory segment containing DB info,
+// including an array of work items (results/workunits to send).
 //
-// feeder
+// Usage: feeder [ options ]
 //  [ -d x ]              debug level x
 //  [ -random_order ]     order by "random" field of result
 //  [ -priority_order ]   order by decreasing "priority" field of result
@@ -31,9 +32,6 @@
 //  [ -purge_stale x ]    remove work items from the shared memory segment
 //                        that have been there for longer then x minutes
 //                        but haven't been assigned
-//
-// Creates a shared memory segment containing DB info,
-// including an array of work items (results/workunits to send).
 //
 // The feeder tries to keep the work array filled.
 // It maintains a DB enumerator (DB_WORK_ITEM).
@@ -61,6 +59,20 @@
 //   slot_to_app[] maps slot (i.e. work array index) to app index.
 //   app_count[] is the number of slots per app
 //   (approximately proportional to its weight)
+
+// Homogeneous redundancy (HR):
+// If HR is used, jobs can either be "uncommitted"
+// (can send to any HR class)
+// or "committed" (can send only to one HR class).
+// The feeder tries to maintain a ratio of committed to uncommitted
+// (generally 50/50) and, of committed jobs, ratios between HR classes
+// (proportional to the total RAC of hosts in that class).
+// This is to maximize the likelihood of having work for an average host.
+//
+// If you use different HR types between apps, you must use -allapps.
+// Otherwise we wouldn't know how many slots to reserve for each HR type.
+//
+// It's OK to use HR for some apps and not others.
 
 // Trigger files:
 // The feeder program periodically checks for two trigger files:
@@ -98,6 +110,7 @@ using std::vector;
 #include "sched_shmem.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "hr_info.h"
 
 #define DEFAULT_SLEEP_INTERVAL  5
 
@@ -125,6 +138,9 @@ int *app_indices;
 int napps;
     // if -allapps, the number of apps
     // otherwise one
+HR_INFO hr_info;
+bool using_hr;
+    // true iff any app is using HR
 
 void cleanup_shmem() {
     ssp->ready = false;
@@ -151,6 +167,38 @@ int check_reread_trigger() {
         );
     }
     return 0;
+}
+
+// Count the # of slots used by HR classes.
+// This is done at the start of each array scan,
+// and doesn't reflect slots that have been emptied out by the scheduler
+//
+void hr_count_slots() {
+    int i, j;
+
+    for (i=1; i<HR_NTYPES; i++) {
+        if (!hr_info.type_being_used[i]) continue;
+        for (j=0; j<hr_nclasses[i]; j++) {
+            hr_info.cur_slots[i][j] = 0;
+        }
+    }
+    for (i=0; i<ssp->max_wu_results; i++) {
+        int app_index = app_indices[i];
+        int hrt = ssp->apps[app_index].homogeneous_redundancy;
+        if (!hrt) continue;
+
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.state == WR_STATE_PRESENT) {
+            int hrc = wu_result.workunit.hr_class;
+            if (hrc < 0 || hrc >= hr_nclasses[hrt]) {
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    "HR class %d is out of range\n", hrc
+                );
+                continue;
+            }
+            hr_info.cur_slots[hrt][hrc]++;
+        }
+    }
 }
 
 // Enumerate jobs from DB until find one that is not already in the work array.
@@ -209,9 +257,7 @@ static bool get_job_from_db(
                 exit(1);
             }
             
-            // Check for collision
-            // (i.e. this result already is in the array)
-            // If collision, then advance to the next workitem
+            // Check for collision (i.e. this result already is in the array)
             //
             collision = false;
             for (j=0; j<ssp->max_wu_results; j++) {
@@ -235,14 +281,30 @@ static bool get_job_from_db(
                     break;
                 }
             }
-            if (!collision) {
-                return true;
+            if (collision) {
+                continue;
             }
+
+            // if using HR, check whether we've exceeded quota for this class
+            //
+            int hrt = ssp->apps[app_index].homogeneous_redundancy;
+            if (hrt) {
+                if (!hr_info.accept(hrt, wi.wu.hr_class)) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::MSG_DEBUG,
+                        "rejecting [RESULT#%d] because HR class %d/%d over quota\n",
+                        wi.res_id, hrt, wi.wu.hr_class
+                    );
+                    continue;
+                }
+            }
+            return true;
     	}
 	}
 	return false;   // never reached
 }
 
+// This function decides the interleaving used for -allapps.
 // Inputs:
 //   n (number of weights)
 //   k (length of vector)
@@ -288,6 +350,10 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         } else {
             enum_phase[i] = ENUM_SECOND_PASS;
         }
+    }
+
+    if (using_hr) {
+        hr_count_slots();
     }
 
     for (i=0; i<ssp->max_wu_results; i++) {
@@ -403,6 +469,80 @@ void feeder_loop() {
         check_stop_daemons();
         check_reread_trigger();
     }
+}
+
+// see if we're using HR, and if so initialize the necessary data structures
+//
+void hr_init() {
+    int i, retval;
+    bool apps_differ = false;
+    bool some_app_uses_hr = false;
+    int hrt, hr_type0 = ssp->apps[0].homogeneous_redundancy;
+
+    using_hr = false;
+
+    for (i=0; i<ssp->napps; i++) {
+        hrt = ssp->apps[i].homogeneous_redundancy;
+        if (hrt <0 || hrt >= HR_NTYPES) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "HR type %d out of range for app %d\n", hrt, i
+            );
+            exit(1);
+        }
+        if (hrt) some_app_uses_hr = true;
+        if (hrt != hr_type0) apps_differ = true;
+    }
+    if (config.homogeneous_redundancy) {
+        hrt = config.homogeneous_redundancy;
+        if (hrt < 0 || hrt >= HR_NTYPES) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "Main HR type %d out of range\n", hrt
+            );
+            exit(1);
+        }
+        if (some_app_uses_hr) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "You can specify HR at global or app level, but not both\n"
+            );
+            exit(1);
+        }
+        for (i=0; i<ssp->napps; i++) {
+            ssp->apps[i].homogeneous_redundancy = config.homogeneous_redundancy;
+            ssp->apps[i].weight = 1;
+        }
+    } else {
+        if (some_app_uses_hr) {
+            if (apps_differ && !all_apps) {
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    "You must use -allapps if apps have different HR\n"
+                );
+                exit(1);
+            }
+        } else {
+            return;     // HR not being used
+        }
+    }
+    using_hr = true;
+    hr_info.init();
+    retval = hr_info.read_file();
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "Can't read HR info file: %d\n", retval
+        );
+        exit(1);
+    }
+
+    // find the weight for each HR type
+    //
+    for (i=0; i<ssp->napps; i++) {
+        int hrt = ssp->apps[i].homogeneous_redundancy;
+        hr_info.type_weights[hrt] += ssp->apps[i].weight;
+        hr_info.type_being_used[hrt] = true;
+    }
+
+    // compute the slot allocations for HR classes
+    //
+    hr_info.allocate(ssp->max_wu_results);
 }
 
 int main(int argc, char** argv) {
@@ -535,6 +675,7 @@ int main(int argc, char** argv) {
         napps = 1;
     }
 
+    hr_init();
 
     feeder_loop();
 }

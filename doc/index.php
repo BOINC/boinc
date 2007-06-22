@@ -141,6 +141,10 @@ function show_nsf() {
 }
 
 html_tag();
+if (defined("CHARSET")) {
+    header("Content-type: text/html; charset=".tr(CHARSET));
+}
+
 echo "
 <head>
 <link rel=\"shortcut icon\" href=\"iconsmall.ico\">

@@ -101,11 +101,11 @@ function show_login($user) {
     }
 }
 
-/**
- * Page_head() is overridable so that projects that want to integrate BOINC with an existing web framework
- * can more easily do so. To take advantage of this simply define the function page_head() somewhere
- * in the project include file.
- */
+// Page_head() is overridable so that projects that want to integrate BOINC
+// with an existing web framework can more easily do so.
+// To take advantage of this simply define the function page_head()
+// somewhere in the project include file.
+//
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     $styleSheet = URL_BASE . STYLESHEET;

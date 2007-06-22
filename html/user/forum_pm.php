@@ -73,7 +73,7 @@ if ($action == "inbox") {
     }
 
 } elseif ($action == "new") {
-    check_banished(new User($logged_in_user));
+    check_banished(new User($logged_in_user->id));
     pm_create_new();
 } elseif ($action == "delete") {
     $id = get_int("id", true);
@@ -106,7 +106,7 @@ if ($action == "inbox") {
         }
     }
 } elseif ($action == "send") {
-    check_banished(new User($logged_in_user));
+    check_banished(new User($logged_in_user->id));
     check_tokens($logged_in_user->authenticator);
     
     $to = stripslashes(post_str("to", true));

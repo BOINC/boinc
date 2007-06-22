@@ -6494,12 +6494,31 @@ David  20 June 2007
         updater.C
 
 Janus	21 June 2007
-    - Added the scraping mechanism for Bittorrent support (not all Bittorrent clients
-      actually support this, but those that do get an increased performance boost and
-      don't have to contact the more expensive announce.php nearly as often as those
-      that do not support it. Since it hasn't yet been decided which BT library we
-      will be using I just added scraping anyways.
+    - Added the scraping mechanism for Bittorrent support
+        (not all Bittorrent clients actually support this,
+        but those that do get an increased performance boost and
+        don't have to contact the more expensive announce.php
+        nearly as often as those that do not support it.
+        Since it hasn't yet been decided which BT library we
+        will be using I just added scraping anyways.
 
     html/bt/
         scrape.php (new)
 
+David  21 June 2007
+    - user web: fixed bug in private-message code
+    - back end: moved HR_INFO to a separate file;
+        did some debugging in HR code
+
+    html/
+        inc/
+            forum_user.inc
+            util.inc
+        user/
+            forum_pm.php
+    sched/
+        Makefile.am
+        census.C
+        feeder.C
+        hr.C,h
+        hr_info.C,h (new)

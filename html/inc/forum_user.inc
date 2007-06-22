@@ -34,8 +34,13 @@ class User {
         } else {
             $this->dbObj = $this->dbhandler->getUser($id);
         }
-        if ($optional_prefobj) {$this->fprefObj = $optional_prefobj; $this->prefs_loaded=true;};
-        if (!$this->dbObj) error_page("User with id $id created but nothing returned from DB layer");
+        if ($optional_prefobj) {
+            $this->fprefObj = $optional_prefobj;
+            $this->prefs_loaded=true;
+    };
+        if (!$this->dbObj) {
+            error_page("User with id $id created but nothing returned from DB layer");
+        }
     }
     
     /**

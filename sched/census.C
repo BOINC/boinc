@@ -29,7 +29,7 @@
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
-#include "hr.h"
+#include "hr_info.h"
 
 int main() {
     HR_INFO hri;
@@ -52,6 +52,7 @@ int main() {
         exit(1);
     }
     boinc_db.set_isolation_level(READ_UNCOMMITTED);
+    hri.init();
     hri.scan_db();
-    hri.write_file("foobar");
+    hri.write_file();
 }

@@ -20,15 +20,9 @@
 #include "boinc_db.h"
 
 #define HR_NTYPES 3
-
-struct HR_INFO {
-    double *rac_per_class[HR_NTYPES];
-    void write_file(const char*);
-    void read_file(const char*);
-    void scan_db();
-};
+    // actually ntypes+1 (0 is reserved for "no HR")
 
 extern int hr_class(HOST&, int hr_type);
 extern bool hr_unknown_platform_type(HOST&, int hr_type);
-extern const char* hr_names[];
-extern int hr_nclasses[];
+extern const char* hr_names[HR_NTYPES];
+extern int hr_nclasses[HR_NTYPES];
