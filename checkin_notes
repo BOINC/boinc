@@ -6568,3 +6568,21 @@ David  22 June 2007
 		updater.C
 	win_build/
 		sim.vcproj
+
+David  22 June 2007
+	- client: fix two XML parsing bugs:
+		1) XML_PARSER::parse_int() and parse_double() wouldn't parse
+			<foo></foo>, and in fact would consume the </foo>,
+			so that the resulting skip_unexpected()
+			would skip the entire rest of the document.
+
+			This was exercised because my checking of 17 Apr
+			set the default for work_buf_min_days as "" rather than 0.
+
+		2) XML_PARSER::scan_tag() was removing spaces,
+			so <venue name="home"> parsed as venuename="home"
+			This actually didn't do any damage.
+
+	lib/
+		parse.C
+		prefs.C
