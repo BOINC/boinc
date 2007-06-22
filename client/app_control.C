@@ -565,22 +565,19 @@ bool ACTIVE_TASK::read_stderr_file() {
     std::string stderr_file;
     char path[256];
 
+    // truncate stderr output to 63KB;
+    // it's unlikely that more than that will be useful
+    //
+    int max_len = 63*1024;
+
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
-    if (boinc_file_exists(path) && !read_file_string(path, stderr_file)) {
-        // truncate stderr output to 63KB;
-        // it's unlikely that more than that will be useful
-        //
-        int max_len = 63*1024;
-        int len = (int)stderr_file.length();
-        if (len > max_len) {
-            stderr_file = stderr_file.substr(len-max_len, len);
-        }
-        result->stderr_out += "<stderr_txt>\n";
-        result->stderr_out += stderr_file;
-        result->stderr_out += "\n</stderr_txt>\n";
-        return true;
-    }
-    return false;
+    if (!boinc_file_exists(path)) return false;
+    if (read_file_string(path, stderr_file, max_len)) return false;
+
+    result->stderr_out += "<stderr_txt>\n";
+    result->stderr_out += stderr_file;
+    result->stderr_out += "\n</stderr_txt>\n";
+    return true;
 }
 
 // tell a running app to reread project preferences.

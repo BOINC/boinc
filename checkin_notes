@@ -6586,3 +6586,12 @@ David  22 June 2007
 	lib/
 		parse.C
 		prefs.C
+
+David  22 June 2007
+    - client: read only first 63KB of stderr.txt
+    - user web: default work_buf_min_days is 0, not ""
+
+    html/inc/
+        prefs.inc
+    client/
+        app_control.C

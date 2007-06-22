@@ -686,7 +686,7 @@ switch(rand(0,5)) {
     case 1: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;
     case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
     case 3: $url_base = "http://einstein.astro.gla.ac.uk/download/boinc/dl/"; break;
-    case 4: $url_base = "http://einstein.aset.psu.edu/download/boinc/dl/"; break;
+    case 4: $url_base = "http://albert.gravity.psu.edu/download/boinc/dl/"; break;
     case 5: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
     //case 6: $url_base = "http://einstein.phys.uwm.edu/download/boinc/dl/"; break;
 }
