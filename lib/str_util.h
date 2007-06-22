@@ -49,6 +49,7 @@ extern void unescape_url(char *url);
 extern void escape_url(std::string& url);
 extern void escape_url(char *in, char*out);
 extern void escape_url_readable(char* in, char* out);
+extern void escape_project_url(char *in, char* out);
 extern bool valid_master_url(char*);
 extern void canonicalize_master_url(char *url);
 extern void canonicalize_master_url(std::string&);
@@ -57,7 +58,8 @@ extern void canonicalize_master_url(std::string&);
 extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern std::string timediff_format(double);
-extern void escape_project_url(char *in, char* out);
+extern int read_file_malloc(const char* path, char*&, int max_len=0);
+extern int read_file_string(const char* path, std::string&, int max_len=0);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return

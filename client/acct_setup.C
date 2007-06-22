@@ -112,14 +112,7 @@ void GET_PROJECT_CONFIG_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
         error_num = http_op_retval;
     } else {
-        FILE* f = fopen(GET_PROJECT_CONFIG_FILENAME, "r");
-        if (f) {
-            file_to_str(f, reply);
-            fclose(f);
-            error_num = 0;
-        } else {
-            error_num = ERR_FOPEN;
-        }
+        error_num = read_file_string(GET_PROJECT_CONFIG_FILENAME, reply);
     }
 }
 
@@ -154,14 +147,7 @@ void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
         error_num = http_op_retval;
     } else {
-        FILE* f = fopen(LOOKUP_ACCOUNT_FILENAME, "r");
-        if (f) {
-            file_to_str(f, reply);
-            fclose(f);
-            error_num = 0;
-        } else {
-            error_num = ERR_FOPEN;
-        }
+        error_num = read_file_string(LOOKUP_ACCOUNT_FILENAME, reply);
     }
 }
 
@@ -201,14 +187,7 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
         error_num = http_op_retval;
     } else {
-        FILE* f = fopen(CREATE_ACCOUNT_FILENAME, "r");
-        if (f) {
-            file_to_str(f, reply);
-            fclose(f);
-            error_num = 0;
-        } else {
-            error_num = ERR_FOPEN;
-        }
+        error_num = read_file_string(CREATE_ACCOUNT_FILENAME, reply);
     }
 }
 

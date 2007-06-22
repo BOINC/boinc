@@ -6530,3 +6530,25 @@ Charlie 22 June 2007
         
     client/
         app_start.C
+
+David  22 June 2007
+    - client: when you read a file into a string with:
+            loop
+                read a line X
+                S += X
+        it performs real bad if the file is large
+        (allocation of std::string seems to stupid)
+        So I changed this to
+            find file size n
+            read file into malloced buf size n
+            S = buf
+            free buf
+    - lib: moved functions to appropriate file
+            
+    client/
+        acct_setup.C
+        cs_prefs.C
+    lib/
+        parse.C,h
+        str_util.C,h
+        util.C,h
