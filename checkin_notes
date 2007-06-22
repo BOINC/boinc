@@ -6297,3 +6297,11 @@ Charlie 19 June 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 22 June 2007
+    Sandbox: fix switcher call to kill to eliminate error 
+        message and to correctly send SIGKILL instead of 
+        SIGTERM.
+        
+    client/
+        app_start.C
