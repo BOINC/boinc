@@ -6305,3 +6305,10 @@ Charlie 22 June 2007
         
     client/
         app_start.C
+
+Charlie 23 June 2007
+    Mac: if (log_flags.state_debug) print debugging info when rename 
+        of client_state_next.xml to client_state.xml fails
+
+    client/
+        cs_statefile.C
