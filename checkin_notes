@@ -6306,9 +6306,83 @@ Charlie 22 June 2007
     client/
         app_start.C
 
+David  22 June 2007
+    - client: when you read a file into a string with:
+            loop
+                read a line X
+                S += X
+        it performs real bad if the file is large
+        (allocation of std::string seems to stupid)
+        So I changed this to
+            find file size n
+            read file into malloced buf size n
+            S = buf
+            free buf
+    - lib: moved functions to appropriate file
+            
+    client/
+        acct_setup.C
+        cs_prefs.C
+    lib/
+        parse.C,h
+        str_util.C,h
+        util.C,h
+
+David  22 June 2007
+	- compile fixes for Win
+
+	client/
+		acct_setup.C
+		cs_prefs.C
+		cs_trickle.C
+	lib/
+		filesys.C
+		str_util.C,h
+		util.C,h
+	tools/
+		updater.C
+	win_build/
+		sim.vcproj
+
+David  22 June 2007
+	- client: fix two XML parsing bugs:
+		1) XML_PARSER::parse_int() and parse_double() wouldn't parse
+			<foo></foo>, and in fact would consume the </foo>,
+			so that the resulting skip_unexpected()
+			would skip the entire rest of the document.
+
+			This was exercised because my checking of 17 Apr
+			set the default for work_buf_min_days as "" rather than 0.
+
+		2) XML_PARSER::scan_tag() was removing spaces,
+			so <venue name="home"> parsed as venuename="home"
+			This actually didn't do any damage.
+
+	lib/
+		parse.C
+		prefs.C
+
+David  22 June 2007
+    - client: read only first 63KB of stderr.txt
+    - user web: default work_buf_min_days is 0, not ""
+
+    html/inc/
+        prefs.inc
+    client/
+        app_control.C
+
 Charlie 23 June 2007
     Mac: if (log_flags.state_debug) print debugging info when rename 
         of client_state_next.xml to client_state.xml fails
 
     client/
         cs_statefile.C
+
+Rom    23 June 2007
+    - Tag for 5.10.8 release, all platforms
+      boinc_core_release_5_10_8
+    
+    client/
+        configure.ac
+        version.h
+

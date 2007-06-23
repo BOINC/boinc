@@ -267,6 +267,7 @@ int GLOBAL_PREFS::parse_override(
                 if (!strcmp(buf2, host_venue)) {
                     defaults();
                     clear_bools();
+                    mask.clear();
                     in_correct_venue = true;
                     found_venue = true;
                 } else {

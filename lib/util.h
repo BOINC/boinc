@@ -39,12 +39,9 @@
 // so the most practical solution is to use a global.
 extern int      g_use_sandbox;
 
-
 extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);
-extern int read_file_string(const char* pathname, std::string& result);
-extern void escape_project_url(char *in, char* out);
 extern void push_unique(std::string, std::vector<std::string>&);
 
 // NOTE: use #include <functional>   to get max,min
@@ -102,5 +99,7 @@ extern int get_exit_status(int);
 
 extern int wait_client_mutex(const char* dir, double timeout);
 extern void boinc_crash();
+extern int read_file_malloc(const char* path, char*&, int max_len=0);
+extern int read_file_string(const char* path, std::string&, int max_len=0);
 
 #endif

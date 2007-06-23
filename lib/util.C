@@ -125,114 +125,7 @@ void push_unique(string s, vector<string>& v) {
     v.push_back(s);
 }
 
-// read entire file into string
-int read_file_string(const char* pathname, string& result) {
-    result.erase();
-    FILE* f;
-    char buf[256];
-
-    f = fopen(pathname, "r");
-    if (!f) return ERR_FOPEN;
-
-    while (fgets(buf, 256, f)) result += buf;
-    fclose(f);
-    return 0;
-}
-
-#ifdef WIN32
-
-//
-//  FUNCTION: windows_error_string
-//
-//  PURPOSE: copies error message text to string
-//
-//  PARAMETERS:
-//    pszBuf - destination buffer
-//    iSize - size of buffer
-//
-//  RETURN VALUE:
-//    destination buffer
-//
-//  COMMENTS:
-//
-char* windows_error_string( char* pszBuf, int iSize ) {
-    DWORD dwRet;
-    LPTSTR lpszTemp = NULL;
-
-    dwRet = FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_ARGUMENT_ARRAY,
-        NULL,
-        GetLastError(),
-        LANG_NEUTRAL,
-        (LPTSTR)&lpszTemp,
-        0,
-        NULL
-    );
-
-    // supplied buffer is not long enough
-    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
-        pszBuf[0] = TEXT('\0');
-    } else {
-        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
-        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, GetLastError() );
-    }
-
-    if ( lpszTemp ) {
-        LocalFree((HLOCAL) lpszTemp );
-    }
-
-    return pszBuf;
-}
-
-
-//
-//  FUNCTION: windows_format_error_string
-//
-//  PURPOSE: copies error message text to string
-//
-//  PARAMETERS:
-//    dwError - the error value to look up
-//    pszBuf - destination buffer
-//    iSize - size of buffer
-//
-//  RETURN VALUE:
-//    destination buffer
-//
-//  COMMENTS:
-//
-char* windows_format_error_string( unsigned long dwError, char* pszBuf, int iSize )
-{
-    DWORD dwRet;
-    LPTSTR lpszTemp = NULL;
-
-    dwRet = FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_ARGUMENT_ARRAY,
-        NULL,
-        dwError,
-        LANG_NEUTRAL,
-        (LPTSTR)&lpszTemp,
-        0,
-        NULL
-    );
-
-    // supplied buffer is not long enough
-    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
-        pszBuf[0] = TEXT('\0');
-    } else {
-        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
-        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, dwError );
-    }
-
-    if ( lpszTemp ) {
-        LocalFree((HLOCAL) lpszTemp );
-    }
-
-    return pszBuf;
-}
+#ifdef _WIN32
 
 int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
     FILETIME creationTime, exitTime, kernelTime, userTime;
@@ -302,7 +195,7 @@ int boinc_calling_thread_cpu_time(double& cpu) {
 
 #else
 
-pthread_mutex_t getrusage_mutex=PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t getrusage_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // Unix: pthreads doesn't seem to provide an API for getting
 // per-thread CPU time.  So just get the process's CPU time
@@ -508,8 +401,8 @@ int get_exit_status(int pid) {
 }
 #endif
 
-static int get_client_mutex(const char* dir) {
 #ifdef _WIN32
+static int get_client_mutex(const char*) {
     char buf[MAX_PATH] = "";
     
     // Global mutex on Win2k and later
@@ -524,6 +417,7 @@ static int get_client_mutex(const char* dir) {
         return ERR_ALREADY_RUNNING;
     }
 #else
+static int get_client_mutex(const char* dir) {
     char path[1024];
     static FILE_LOCK file_lock;
 
@@ -573,6 +467,44 @@ void boinc_crash() {
 #else
 	*(int*)0 = 0;
 #endif
+}
+
+// read file (at most max_len chars, if nonzero) into malloc'd buf
+//
+int read_file_malloc(const char* path, char*& buf, int max_len) {
+    FILE* f;
+    int retval, isize;
+    double size;
+
+    retval = file_size(path, size);
+    if (retval) return retval;
+
+    f = fopen(path, "r");
+    if (!f) return ERR_FOPEN;
+
+    if (max_len && size > max_len) {
+        size = max_len;
+    }
+    isize = (int) size;
+    buf = (char*)malloc(isize+1);
+    size_t n = fread(buf, 1, isize, f);
+    buf[n] = 0;
+    fclose(f);
+    return 0;
+}
+
+// read file (at most max_len chars, if nonzero) into string
+//
+int read_file_string(const char* path, string& result, int max_len) {
+    result.erase();
+    int retval;
+    char* buf;
+
+    retval = read_file_malloc(path, buf, max_len);
+    if (retval) return retval;
+    result = buf;
+    free(buf);
+    return 0;
 }
 
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";

@@ -195,34 +195,6 @@ int copy_element_contents(FILE* in, const char* end_tag, string& str) {
     return ERR_XML_PARSE;
 }
 
-void file_to_str(FILE* in, string& str) {
-    char buf[256];
-
-    str = "";
-    while (fgets(buf, 256, in)) {
-        str += buf;
-    }
-}
-
-// read a file into a malloc'd string
-//
-int read_file_malloc(const char* pathname, char*& str) {
-    char buf[256];
-    FILE* f;
-    int retval;
-
-    f = fopen(pathname, "r");
-    if (!f) return ERR_FOPEN;
-    str = strdup("");
-    while (fgets(buf, 256, f)) {
-        retval = strcatdup(str, buf);
-        if (retval) return retval;
-    }
-    fclose(f);
-    return 0;
-}
-
-
 // replace XML element contents (element must be present)
 //
 void replace_element_contents(
@@ -451,7 +423,7 @@ int XML_PARSER::scan_comment() {
 }
 
 // we just read a <; read until we find a >,
-// and copy intervening text (except spaces) to buf.
+// and copy intervening text to buf.
 // Return:
 // 0 if got a tag
 // 1 if got a comment (ignore)
@@ -464,7 +436,6 @@ int XML_PARSER::scan_tag(char* buf, int len) {
     for (int i=0; ; i++) {
         c = f->_getc();
         if (c == EOF) return 2;
-        if (isspace(c)) continue;
         if (c == '>') {
             *buf = 0;
             return 0;
@@ -598,14 +569,22 @@ bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
-    if (is_tag) return false;
+    if (is_tag) {
+        if (!strcmp(buf, end_tag)) {
+            i = 0;      // treat <foo></foo> as <foo>0</foo>
+            return true;
+        } else {
+            return false;
+        }
+    }
     i = strtol(buf, &end, 0);
     if (end != buf+strlen(buf)) return false;
 
-    end_tag[0] = '/';
-    strcpy(end_tag+1, start_tag);
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
@@ -622,14 +601,22 @@ bool XML_PARSER::parse_double(char* parsed_tag, const char* start_tag, double& x
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
-    if (is_tag) return false;
+    if (is_tag) {
+        if (!strcmp(buf, end_tag)) {
+            x = 0;      // treat <foo></foo> as <foo>0</foo>
+            return true;
+        } else {
+            return false;
+        }
+    }
     x = strtod(buf, &end);
     if (end != buf+strlen(buf)) return false;
 
-    end_tag[0] = '/';
-    strcpy(end_tag+1, start_tag);
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;

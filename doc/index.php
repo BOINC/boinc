@@ -110,7 +110,7 @@ function show_other() {
             <ul>
             <li> <a href=trac/wiki/BoincIntro/>Overview</a>
             <li> <a href=trac/wiki/SoftwareDevelopment>Software development</a>
-            <li> <a href=translation.php>Translation</a> of web and GUI text
+            <li> <a href=trac/wiki/TranslateIntro>Translation</a> of web and GUI text
             <li> <a href=trac/wiki/ProjectPeople>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
             <li> BOINC <a href=dev/>message boards</a>

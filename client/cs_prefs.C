@@ -36,6 +36,7 @@
 #endif
 
 #include "str_util.h"
+#include "util.h"
 #include "filesys.h"
 #include "parse.h"
 #include "file_names.h"
@@ -366,12 +367,10 @@ void CLIENT_STATE::read_global_prefs() {
     bool found_venue;
     int retval;
 	FILE* f;
+    string foo;
 
-    f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
-    if (f) {
-		string foo;
-		file_to_str(f, foo);
-		fclose(f);
+    retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, foo);
+    if (!retval) {
 		parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
 	}
 

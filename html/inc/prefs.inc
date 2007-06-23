@@ -393,7 +393,7 @@ function default_prefs_global() {
     $p->cpu_scheduling_period_minutes = 60;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
-    $p->work_buf_min_days = "";
+    $p->work_buf_min_days = 0;
     $p->work_buf_additional_days = 0.25;
     $p->max_cpus = 16;
     $p->cpu_usage_limit = 100;
