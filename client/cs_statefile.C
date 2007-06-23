@@ -539,6 +539,14 @@ int CLIENT_STATE::write_state_file() {
             STATE_FILE_NEXT, STATE_FILE_NAME
         );
 #endif
+#ifdef __APPLE__
+    if (log_flags.state_debug) {
+        msg_printf(0, MSG_USER_ERROR, 
+            "rename %s to %s returned error %d", 
+            STATE_FILE_NEXT, STATE_FILE_NAME, retval);
+        system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
+    }
+#endif
         return ERR_RENAME;
     }
     return 0;
