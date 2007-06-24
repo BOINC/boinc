@@ -624,11 +624,11 @@ $m549c = array(
     "
 );
 
-$l5107 = array(
-    "num"=>"5.10.7",
+$l5108 = array(
+    "num"=>"5.10.8",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.7_i686-pc-linux-gnu.sh",
-    "date"=>"16 June 2007",
+    "file"=>"boinc_5.10.8_i686-pc-linux-gnu.sh",
+    "date"=>"24 June 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_510."
@@ -637,11 +637,11 @@ $l5107 = array(
     "
 );
 
-$l5107x64 = array(
-    "num"=>"5.10.7",
+$l5108x64 = array(
+    "num"=>"5.10.8",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.7_x86_64-pc-linux-gnu.sh",
-    "date"=>"16 June 2007",
+    "file"=>"boinc_5.10.8_x86_64-pc-linux-gnu.sh",
+    "date"=>"24 June 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_510."
@@ -716,7 +716,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5107,
+        $l5108,
         $l5816,
         $l5411,
     )
@@ -727,7 +727,7 @@ $linuxx64 = array(
     "dbname" => "x86_64-pc-linux-gnu",
     "url"=>"linuxx64.php",
     "versions"=>array(
-        $l5107x64,
+        $l5108x64,
     )
 );
 
