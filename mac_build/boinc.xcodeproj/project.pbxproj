@@ -246,11 +246,8 @@
 		DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
-		DDD52DCB0C03CAE6009B5FC0 /* ViewProjects.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDD52DC50C03CAE6009B5FC0 /* ViewProjects.h */; };
 		DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */; };
-		DDD52DCD0C03CAE6009B5FC0 /* ViewTransfers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDD52DC70C03CAE6009B5FC0 /* ViewTransfers.h */; };
 		DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */; };
-		DDD52DCF0C03CAE6009B5FC0 /* ViewWork.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */; };
 		DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.C */; };
 		DDD74D8A07CF48E70065AC9D /* app.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.C */; };
 		DDD74D8B07CF48E80065AC9D /* app_control.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B4807C5AC4C0043025C /* app_control.C */; };
@@ -820,9 +817,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DD3E15360A774397007E0084 /* SystemMenu.bundle in CopyFiles */,
-				DDD52DCB0C03CAE6009B5FC0 /* ViewProjects.h in CopyFiles */,
-				DDD52DCD0C03CAE6009B5FC0 /* ViewTransfers.h in CopyFiles */,
-				DDD52DCF0C03CAE6009B5FC0 /* ViewWork.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
