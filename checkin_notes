@@ -6625,9 +6625,14 @@ Charlie 23 June 2007
 
 Charlie 24 June 2007
     Mac: Fix bugs when user chooses Quit from menubar icon menu and 
-        then cancels in confirmation dialog.
+        then cancels in confirmation dialog. 
+    Mac: Modify XCode project not to copy header files into Manager bundle.
     
     clientgui/
+        BOINCGUIApp.cpp
         BOINCTaskBar.cpp
         mac/
             MacSysMenu.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
