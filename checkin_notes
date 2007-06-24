@@ -6391,10 +6391,15 @@ Rom    23 June 2007
 
 Charlie 24 June 2007
     Mac: Fix bugs when user chooses Quit from menubar icon menu and 
-        then cancels in confirmation dialog. (Checked into 
-        boinc_core_release_5_10_8 and re-released in Mac 5.8.10)
+        then cancels in confirmation dialog. 
+    Mac: Modify XCode project not to copy header files into Manager bundle.
+    (Both checked into boinc_core_release_5_10_8 and re-released in Mac 5.8.10)
     
     clientgui/
+        BOINCGUIApp.cpp
         BOINCTaskBar.cpp
         mac/
             MacSysMenu.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
