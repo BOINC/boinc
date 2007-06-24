@@ -6374,9 +6374,12 @@ David  22 June 2007
 Charlie 23 June 2007
     Mac: if (log_flags.state_debug) print debugging info when rename 
         of client_state_next.xml to client_state.xml fails
+    Sandbox: fix build break.
 
     client/
         cs_statefile.C
+    lib/
+        filesys.C
 
 Rom    23 June 2007
     - Tag for 5.10.8 release, all platforms

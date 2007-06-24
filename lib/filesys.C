@@ -543,10 +543,13 @@ int remove_project_owned_file_or_dir(const char* path) {
             return 0;
         }
     }
-#endif
+    return ERR_UNLINK;
+}
+#else
 int remove_project_owned_file_or_dir(const char*) {
     return ERR_UNLINK;
 }
+#endif
 
 #ifndef _WIN32
 int boinc_chown(const char* path, gid_t gid) {
