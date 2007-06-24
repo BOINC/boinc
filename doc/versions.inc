@@ -483,6 +483,21 @@ $w5411= array(
     "
 );
 
+$m5108 = array(
+    "num"=>"5.10.8",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.10.8_macOSX_universal.zip",
+    "date"=>"23 June 2007",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+".$features_510."
+".$changes_510."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
 $m5107 = array(
     "num"=>"5.10.7",
     "status"=>"Recommended version (standard GUI)",
@@ -534,6 +549,21 @@ $m549 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
+$m5108c = array(
+    "num"=>"5.10.8",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.10.8_universal-apple-darwin.zip",
+    "date"=>"23 June 2007",
+    "type"=>"bare_core",
+    "features"=>"<ul>
+".$features_510."
+".$changes_510."
      </ul>
     ",
     "bugs"=>"
@@ -670,6 +700,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m5108
+        $m5108c,
         $m5107,
         $m5107c,
         $m5817,
