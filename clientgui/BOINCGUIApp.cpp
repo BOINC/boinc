@@ -51,7 +51,7 @@
 #include "sg_BoincSimpleGUI.h"
 #include "DlgGenericMessage.h"
 
-static bool s_bSkipExitConfirmation;
+static bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMSW__
 EXTERN_C BOOL  IsBOINCServiceInstalled();
@@ -1045,6 +1045,7 @@ int CBOINCGUIApp::ConfirmExit() {
     ProcessSerialNumber psn;
 
     GetCurrentProcess(&psn);
+    bool wasVisible = IsProcessVisible(&psn);
     SetFrontProcess(&psn);  // Shows process if hidden
 #endif
 
@@ -1064,8 +1065,14 @@ int CBOINCGUIApp::ConfirmExit() {
         if (dlg.m_DialogDisableMessage->GetValue()) {
             m_iDisplayExitWarning = 0;
         }
+        s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
         return 1;
     }
+#ifdef __WXMAC__
+    if (!wasVisible) {
+        ShowHideProcess(&psn, false);
+    }
+#endif
     return 0;       // User cancelled exit
 }
 
