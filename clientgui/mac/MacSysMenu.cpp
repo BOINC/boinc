@@ -314,7 +314,12 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                 commandID = wxID_PREFERENCES;
                 break;
             case kHICommandQuit:
-                commandID = wxID_EXIT;
+                if (wxGetApp().ConfirmExit()) {
+                    commandID = wxID_EXIT;
+                } else {
+                    commandID = 0;
+                    return noErr;
+                }
                 break;
             }
                 
