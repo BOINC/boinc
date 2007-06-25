@@ -909,13 +909,20 @@ bool CLIENT_STATE::enforce_schedule() {
                 retval = atp->resume_or_start(
                     atp->scheduler_state == CPU_SCHED_UNINITIALIZED
                 );
-                if (retval) {
-                    if ((retval != ERR_SHMGET) && (retval != ERR_SHMAT)) {
-                        report_result_error(
-                            *(atp->result), "Couldn't start or resume: %d", retval
-                        );
-                        request_schedule_cpus("start failed");
+                if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
+                    // Assume no additional shared memory is available for next 10 seconds
+                    // (run only tasks which are already attached to shared memory).
+                    if (gstate.retry_shmem_time < gstate.now) {     // Do this only once
+                        request_schedule_cpus("no more shared memory");
                     }
+                    gstate.retry_shmem_time = gstate.now + 10.0;
+                    continue;
+                }
+                if (retval) {
+                    report_result_error(
+                        *(atp->result), "Couldn't start or resume: %d", retval
+                    );
+                    request_schedule_cpus("start failed");
                     continue;
                 }
                 atp->run_interval_start_wall_time = now;

@@ -580,9 +580,6 @@ int ACTIVE_TASK::start(bool first_time) {
         );
         if (retval) {
             needs_shmem = true;
-            // Assume no additional shared memory is available for next 10 seconds
-            // (run only tasks which are already attached to shared memory).
-            gstate.retry_shmem_time = gstate.now + 10.0;
             destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment
             return retval;
         }
