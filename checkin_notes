@@ -6708,3 +6708,9 @@ David  25 June 2007
     clientgui/
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+David  25 June 2007
+    - added hr_info.*
+
+    sched/
+        hr_info.C,h
