@@ -111,6 +111,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     have_trickle_down = false;
     send_upload_file_status = false;
     too_large = false;
+    needs_shmem = false;
     want_network = 0;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
@@ -167,10 +168,10 @@ void ACTIVE_TASK::close_process_handles() {
 // call this when a process has exited and we're not going to restart it
 //
 void ACTIVE_TASK::cleanup_task() {
+#ifdef _WIN32
     if (gstate.exit_after_finish) {
         exit(0);
     }
-#ifdef _WIN32
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment
     //
@@ -195,6 +196,10 @@ void ACTIVE_TASK::cleanup_task() {
             );
         }
         app_client_shm.shm = NULL;
+    }
+
+    if (gstate.exit_after_finish) {
+        exit(0);
     }
 #endif
 }
@@ -459,6 +464,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "    <page_fault_rate>%f</page_fault_rate>\n"
+        "%s"
         "%s",
         task_state(),
         app_version->version_num,
@@ -470,7 +476,8 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
         procinfo.page_fault_rate,
-        too_large?"   <too_large/>\n":""
+        too_large?"   <too_large/>\n":"",
+        needs_shmem?"   <needs_shmem/>\n":""
     );
     if (strlen(app_version->graphics_exec_path)) {
         fout.printf(

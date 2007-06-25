@@ -268,6 +268,7 @@ private:
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
 public:
+    double retry_shmem_time;
 	inline double work_buf_min() {
 		return global_prefs.work_buf_min_days * 86400;
 	}

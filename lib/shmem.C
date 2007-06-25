@@ -260,6 +260,28 @@ int print_shmem_info(key_t key) {
     return 0;
 }
 
+// For debugging shared memory logic
+// For testing on Apple, Linux, UNIX systems with limited number 
+// of shared memory segments per process and / or system-wide
+// Mac OS X has a default limit of 8 segments per process, 32 system-wide
+void stress_shmem() {
+    int retval;
+    void * shmaddr[8];
+    key_t key[] = {'BNC1', 'BNC2', 'BNC3', 'BNC4', 'BNC5', 'BNC6', 'BNC7', 'BNC8' };
+    int i, id;
+    
+    // Tie up 5 of the 8 shared memory segments each process may have
+    for (i=0; i<5; i++) {
+        retval = create_shmem(key[i], 1024, 0, &shmaddr[i]);
+        if (!retval) {
+            id = shmget(key[i], 0, 0);
+            // Mark it for automatic destruction when BOINC exits
+            if (id >= 0)
+                retval = shmctl(id, IPC_RMID, 0);
+        }
+    }
+}
+
 #endif
 
 const char *BOINC_RCSID_f835f078de = "$Id$";

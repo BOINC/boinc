@@ -391,6 +391,7 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
         if (parse_bool(buf, "too_large", too_large)) continue;
+        if (parse_bool(buf, "needs_shmem", needs_shmem)) continue;
         if (parse_bool(buf, "edf_scheduled", edf_scheduled)) continue;
         if (parse_str(buf, "graphics_exec_path", graphics_exec_path)) continue;
         if (parse_str(buf, "slot_path", slot_path)) continue;
@@ -428,6 +429,7 @@ void RESULT::clear() {
     supports_graphics = false;
     graphics_mode_acked = 0;
     too_large = false;
+    needs_shmem = false;
     edf_scheduled = false;
 
     app = NULL;

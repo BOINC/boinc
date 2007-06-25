@@ -212,6 +212,7 @@ public:
     bool supports_graphics;
     int graphics_mode_acked;
     bool too_large;
+    bool needs_shmem;
     bool edf_scheduled;
     std::string graphics_exec_path;
     std::string slot_path;

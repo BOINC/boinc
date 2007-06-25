@@ -6636,3 +6636,54 @@ Charlie 24 June 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 25 June 2007
+    CC: Add logic to scheduler, etc. for systems which limit the number 
+        of shared memory segments per process and / or system-wide.  
+        Mac OS X has default limits of 8 shmem segments per process, 32 
+        max system wide.
+        - Don't treat failure to allocate & attach to shared memory as a 
+            computation error.
+        - Destroy shared memory segments associated with all tasks which 
+            exit, not just those with a finished file.  This frees up a 
+            segment for use by another task.
+        - If we run out of shared memory, start a 10 second timer during 
+            which don't try to run tasks unless they are already attached 
+            to shared memory (suspended tasks left in memory qualify.)
+        - If a task is waiting for shared memory to become available, 
+            display this in the Manager's tasks pane.
+        - Added a new log flag stress_shmem_debug for testing scheduling 
+            logic when we run out of shared memory.
+        
+    QUESTIONS for further development:
+        - Note that it is quite easy to run out of shared memory segments if 
+            the leave-suspended-tasks-in-memory option is set.  (The shared 
+            memory channel must remain active for heartbeats and to tell the 
+            task when to resume.)
+            - Should we override this option if we run out of shared memory 
+                segments?  
+            - What about tasks left in RAM because they don't checkpoint?
+        - If BOINC crashes, its shared memory is not removed.  In some 
+            cases, when BOINC is relaunched it will use the same key and 
+            so can re-attach to the orphaned segments, but this won't always 
+            happen.  This can cause problems with the system-wide limits.
+            We can't mark the segment for removal when we create it, because 
+            doing so (by calling shmctl with IPC_RMID) would remove its key 
+            so the project application couldn't attach to it.
+            But we could do this safely after the first successful response 
+            from the project application.  Should we make this change?
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        client_state.C,h
+        cpu_sched.C
+        log_flags.C,h
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
+    lib/
+        shmem.C,h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

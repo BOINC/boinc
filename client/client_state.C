@@ -46,6 +46,7 @@
 #include "network.h"
 #include "http_curl.h"
 #include "client_msgs.h"
+#include "shmem.h"
 #include "client_state.h"
 
 using std::max;
@@ -104,6 +105,7 @@ CLIENT_STATE::CLIENT_STATE() {
 
     debt_interval_start = 0;
     total_wall_cpu_time_this_debt_interval = 0;
+    retry_shmem_time = 0;
     must_schedule_cpus = true;
     must_enforce_cpu_schedule = true;
     no_gui_rpc = false;
@@ -359,7 +361,11 @@ int CLIENT_STATE::init() {
 
     auto_update.init();
     http_ops->cleanup_temp_files();
-
+    
+    if (log_flags.stress_shmem_debug) {
+        stress_shmem();
+    }
+    
     initialized = true;
     return 0;
 }

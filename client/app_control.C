@@ -315,8 +315,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 #endif
     }
 
+    cleanup_task();         // Always release shared memory
     if (!will_restart) {
-        cleanup_task();
         copy_output_files();
         read_stderr_file();
         clean_out_dir(slot_dir);

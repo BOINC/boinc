@@ -64,5 +64,11 @@ extern int detach_shmem(void*);
 
 extern int shmem_info(key_t key);
 
+#ifndef __EMX__
+// For testing on Apple, Linux, UNIX systems with limited number 
+// of shared memory segments per process and / or system-wide
+void stress_shmem(void);
+#endif
+
 #endif
 #endif

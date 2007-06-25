@@ -79,6 +79,7 @@ void LOG_FLAGS::defaults() {
     mem_usage_debug = false;
     network_status_debug = false;
     checkpoint_debug = false;
+    stress_shmem_debug = false;
 } 
 
 // Parse log flag preferences
@@ -121,6 +122,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
         if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
         if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
+        if (xp.parse_bool(tag, "stress_shmem_debug", stress_shmem_debug)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

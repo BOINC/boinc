@@ -516,8 +516,7 @@ int ACTIVE_TASK::start(bool first_time) {
             shmem_seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
         );
         if (retval) {
-            sprintf(buf, "Can't create shared memory: %s", boincerror(retval));
-            goto error;
+            return retval;
         }
     }
     app_client_shm.reset_msgs();
@@ -580,9 +579,14 @@ int ACTIVE_TASK::start(bool first_time) {
             (void**)&app_client_shm.shm
         );
         if (retval) {
-            sprintf(buf, "Can't create shared memory: %s", boincerror(retval));
-            goto error;
+            needs_shmem = true;
+            // Assume no additional shared memory is available for next 10 seconds
+            // (run only tasks which are already attached to shared memory).
+            gstate.retry_shmem_time = gstate.now + 10.0;
+            destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment
+            return retval;
         }
+        needs_shmem = false;
     }
     app_client_shm.reset_msgs();
 
@@ -709,6 +713,9 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         } else {
             retval = start(false);
             str = "Restarting";
+        }
+        if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
+            return retval;
         }
         if (retval) {
             set_task_state(PROCESS_COULDNT_START, "resume_or_start1");

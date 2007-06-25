@@ -506,6 +506,14 @@ void CLIENT_STATE::schedule_cpus() {
 				continue;
 			} else {
                 atp->too_large = false;
+                
+                if (gstate.retry_shmem_time < gstate.now) {
+                    if (atp->app_client_shm.shm == NULL) {
+                        atp->needs_shmem = true;
+                        continue;
+                    }
+                atp->needs_shmem = false;
+                }
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
@@ -902,10 +910,12 @@ bool CLIENT_STATE::enforce_schedule() {
                     atp->scheduler_state == CPU_SCHED_UNINITIALIZED
                 );
                 if (retval) {
-                    report_result_error(
-                        *(atp->result), "Couldn't start or resume: %d", retval
-                    );
-                    request_schedule_cpus("start failed");
+                    if ((retval != ERR_SHMGET) && (retval != ERR_SHMAT)) {
+                        report_result_error(
+                            *(atp->result), "Couldn't start or resume: %d", retval
+                        );
+                        request_schedule_cpus("start failed");
+                    }
                     continue;
                 }
                 atp->run_interval_start_wall_time = now;
