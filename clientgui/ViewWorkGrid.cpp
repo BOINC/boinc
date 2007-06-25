@@ -715,7 +715,11 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
             } else if (result->needs_shmem) {
                 strBuffer = _("Waiting for shared memory");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                strBuffer = _("Running");
+                if (result->edf_scheduled) {
+                    strBuffer = _("Running, high priority");
+                } else {
+                    strBuffer = _("Running");
+                }
             } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
                 strBuffer = _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {

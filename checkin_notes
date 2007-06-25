@@ -6695,3 +6695,16 @@ Charlie 25 June 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+            
+David  25 June 2007
+    - Manager: if a job is running EDF, show "high priority" in status
+    - compile fixes for Charlie's next-to-last checkin
+    
+    client/
+        client_state.h
+        cpu_sched.C
+        sim.h
+        sim_util.C
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp

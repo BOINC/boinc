@@ -49,6 +49,7 @@
 #include "client_msgs.h"
 #include "str_util.h"
 #include "util.h"
+#include "error_numbers.h"
 #include "log_flags.h"
 
 using std::vector;
@@ -504,16 +505,16 @@ void CLIENT_STATE::schedule_cpus() {
 				}
                 atp->too_large = true;
 				continue;
-			} else {
-                atp->too_large = false;
-                
-                if (gstate.retry_shmem_time < gstate.now) {
-                    if (atp->app_client_shm.shm == NULL) {
-                        atp->needs_shmem = true;
-                        continue;
-                    }
-                atp->needs_shmem = false;
+			}
+            atp->too_large = false;
+            
+            // TODO: merge this chunk of code with its clone
+            if (gstate.retry_shmem_time < gstate.now) {
+                if (atp->app_client_shm.shm == NULL) {
+                    atp->needs_shmem = true;
+                    continue;
                 }
+                atp->needs_shmem = false;
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
@@ -550,16 +551,19 @@ void CLIENT_STATE::schedule_cpus() {
 				}
                 atp->too_large = true;
 				continue;
-			} else {
-                atp->too_large = false;
-            }
-                if (gstate.retry_shmem_time < gstate.now) {
-                    if (atp->app_client_shm.shm == NULL) {
-                        atp->needs_shmem = true;
-                        continue;
-                    }
-                atp->needs_shmem = false;
+			}
+            atp->too_large = false;
+
+            // don't select if it would need a new shared-mem seg
+            // and we're out of them
+            //
+            if (gstate.retry_shmem_time < gstate.now) {
+                if (atp->app_client_shm.shm == NULL) {
+                    atp->needs_shmem = true;
+                    continue;
                 }
+                atp->needs_shmem = false;
+            }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
         double xx = (rp->project->resource_share / rrs) * expected_pay_off;
@@ -917,9 +921,11 @@ bool CLIENT_STATE::enforce_schedule() {
                     atp->scheduler_state == CPU_SCHED_UNINITIALIZED
                 );
                 if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
-                    // Assume no additional shared memory is available for next 10 seconds
+                    // Assume no additional shared memory segs
+                    // will be available in the next 10 seconds
                     // (run only tasks which are already attached to shared memory).
-                    if (gstate.retry_shmem_time < gstate.now) {     // Do this only once
+                    //
+                    if (gstate.retry_shmem_time < gstate.now) {
                         request_schedule_cpus("no more shared memory");
                     }
                     gstate.retry_shmem_time = gstate.now + 10.0;

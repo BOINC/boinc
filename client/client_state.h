@@ -269,6 +269,9 @@ private:
     void print_deadline_misses();
 public:
     double retry_shmem_time;
+        // if we fail to start a task due to no shared-mem segments,
+        // wait until at least this time to try running
+        // another task that needs a shared-mem seg
 	inline double work_buf_min() {
 		return global_prefs.work_buf_min_days * 86400;
 	}
