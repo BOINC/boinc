@@ -553,6 +553,13 @@ void CLIENT_STATE::schedule_cpus() {
 			} else {
                 atp->too_large = false;
             }
+                if (gstate.retry_shmem_time < gstate.now) {
+                    if (atp->app_client_shm.shm == NULL) {
+                        atp->needs_shmem = true;
+                        continue;
+                    }
+                atp->needs_shmem = false;
+                }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
         double xx = (rp->project->resource_share / rrs) * expected_pay_off;
