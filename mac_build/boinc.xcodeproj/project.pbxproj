@@ -2288,7 +2288,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sed -i \"\" s/BOINC/\"BOINC Installer\"/g \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
+			shellScript = "sed -i \"\" s/\"BOINC Installer\"/BOINC/g \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings\"\nsed -i \"\" s/BOINC/\"BOINC Installer\"/g \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
 		DD1B90070A954C9A00FF5591 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2316,7 +2316,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sed -i \"\" s/BOINC/\"Uninstall BOINC\"/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
+			shellScript = "sed -i \"\" s/\"Uninstall BOINC\"/BOINC/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\nsed -i \"\" s/BOINC/\"Uninstall BOINC\"/g \"${BUILT_PRODUCTS_DIR}/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
 		DD3E15370A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
