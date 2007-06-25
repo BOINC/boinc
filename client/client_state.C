@@ -362,10 +362,12 @@ int CLIENT_STATE::init() {
     auto_update.init();
     http_ops->cleanup_temp_files();
     
+#if !(defined(_WIN32) || defined(__EMX__)) 
     if (log_flags.stress_shmem_debug) {
         stress_shmem();
     }
-    
+#endif
+
     initialized = true;
     return 0;
 }
