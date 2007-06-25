@@ -6687,3 +6687,11 @@ Charlie 25 June 2007
         shmem.C,h
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Charlie 25 June 2007
+    Mac: Fix bugs in XCode script phases which create visible copyright and 
+        version strings in installer and uninstaller.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
