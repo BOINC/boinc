@@ -73,7 +73,7 @@ struct LOG_FLAGS {
 	bool mem_usage_debug;	// memory usage
 	bool network_status_debug;
     bool checkpoint_debug;
-    bool stress_shmem_debug;
+    int stress_shmem_debug;
 
     LOG_FLAGS();
     void defaults();
