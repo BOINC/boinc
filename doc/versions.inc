@@ -400,39 +400,11 @@ $w5108= array(
     "bugs"=>""
 );
 
-$w5107= array(
-    "num"=>"5.10.7",
-    "status"=>"Recommended version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.7_windows_intelx86.exe",
-    "date"=>"16 June 2007",
-    "type"=>"win_new",
-    "features"=>"<ul>
-".$features_510."
-".$changes_510."
-    </ul>
-    ",
-    "bugs"=>""
-);
-
 $w5108x64= array(
     "num"=>"5.10.8",
     "status"=>"Development version (WinXP64+)",
     "file"=>"boinc_5.10.8_windows_x86_64.exe",
     "date"=>"23 June 2007",
-    "type"=>"win_new",
-    "features"=>"<ul>
-".$features_510."
-".$changes_510."
-    </ul>
-    ",
-    "bugs"=>""
-);
-
-$w5107x64= array(
-    "num"=>"5.10.7",
-    "status"=>"Recommended version (WinXP64+)",
-    "file"=>"boinc_5.10.7_windows_x86_64.exe",
-    "date"=>"16 June 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -681,7 +653,6 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w5108,
-        $w5107,
         $w5816,
         $w5411,
     )
@@ -692,7 +663,6 @@ $windowsx64 = array(
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w5108x64,
-        $w5107x64,
     )
 );
 
