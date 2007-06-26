@@ -364,7 +364,7 @@ int CLIENT_STATE::init() {
     
 #if !(defined(_WIN32) || defined(__EMX__)) 
     if (log_flags.stress_shmem_debug) {
-        stress_shmem();
+        stress_shmem(log_flags.stress_shmem_debug);
     }
 #endif
 
