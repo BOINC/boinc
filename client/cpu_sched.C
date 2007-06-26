@@ -925,7 +925,7 @@ bool CLIENT_STATE::enforce_schedule() {
                     // will be available in the next 10 seconds
                     // (run only tasks which are already attached to shared memory).
                     //
-                    if (gstate.retry_shmem_time > gstate.now) {
+                    if (gstate.retry_shmem_time < gstate.now) {
                         request_schedule_cpus("no more shared memory");
                     }
                     gstate.retry_shmem_time = gstate.now + 10.0;
