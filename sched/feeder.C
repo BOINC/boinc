@@ -27,6 +27,8 @@
 //  [ -priority_order_create_time ]
 //                        order by priority, then by increasing WU create time
 //  [ -mod n i ]          handle only results with (id mod n) == i
+//  [ -wmod n i ]         handle only workunits with (id mod n) == i
+//                        recommended if using HR with multiple schedulers
 //  [ -sleep_interval x ]   sleep x seconds if nothing to do
 //  [ -allapps ]  		  interleave results from all applications uniformly
 //  [ -purge_stale x ]    remove work items from the shared memory segment
@@ -580,6 +582,10 @@ int main(int argc, char** argv) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
             sprintf(mod_select_clause, "and r1.id %% %d = %d ", n, j);
+        } else if (!strcmp(argv[i], "-wmod")) {
+            int n = atoi(argv[++i]);
+            int j = atoi(argv[++i]);
+            sprintf(mod_select_clause, "and workunit.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_interval = atof(argv[++i]);
         } else {

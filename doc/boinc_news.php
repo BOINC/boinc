@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("June 26, 2007",
+    "There are reports that version 5.10.8 of the BOINC client software
+    causes a problem on Windows XP Pro in which the desktop becomes empty.
+    If you see this, please uninstall 5.10.8 and install version 5.8.16."
+),
 array("June 3, 2007",
     "BOINCstats and BAM! are now viewable in Finnish
     (<a href=http://fi.boincstats.com>http://fi.boincstats.com</a>). "

@@ -3,6 +3,9 @@
 // the following sites generate stats for a given CPID
 //
 $cpid_stats_sites = array(
+    array("BOINC all Project Stats",
+        "http://www.allprojectstats.com/showuser.php?id=%s"
+    ),
     array("BOINCstats",
         "http://www.boincstats.com/stats/boinc_user_graph.php?pr=bo&id=%s"
     ),
@@ -18,6 +21,10 @@ $cpid_stats_sites = array(
 );
 
 $stats_sites = array(
+    array(
+        "http://www.allprojectstats.com/",
+        "BOINC all Project Stats"
+    ),
     array(
         "http://stats.free-dc.org",
         "Free-DC",

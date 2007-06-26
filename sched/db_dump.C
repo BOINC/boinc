@@ -834,7 +834,7 @@ int main(int argc, char** argv) {
         );
     }
 
-    mkdir(spec.output_dir, 0777);
+    boinc_mkdir(spec.output_dir);
 
     unsigned int j;
     for (j=0; j<spec.enumerations.size(); j++) {

@@ -496,6 +496,8 @@ int boinc_rename(const char* old, const char* newf) {
     return retval;
 }
 
+// make a dir that's owner and group RWX
+//
 int boinc_mkdir(const char* path) {
     if (is_dir(path)) return 0;
 #ifdef _WIN32

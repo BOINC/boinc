@@ -6741,3 +6741,16 @@ David  25 June 2007
 
 	lib/
 		prefs.C,h
+
+David  25 June 2007
+    - add new stats site
+    - back end: use boinc_mkdir to get permissions right
+
+    html/inc/
+        stats_sites.inc
+    lib/
+        filesys.C
+    sched/
+        db_dump.C
+        db_purge.C
+        feeder.C
