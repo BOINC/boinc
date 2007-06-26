@@ -196,6 +196,7 @@ void ACTIVE_TASK::cleanup_task() {
             );
         }
         app_client_shm.shm = NULL;
+        gstate.retry_shmem_time = 0;
     }
 
     if (gstate.exit_after_finish) {
