@@ -93,6 +93,7 @@ struct DAY_PREFS {
 struct WEEK_PREFS {
     bool present;       // at least one day is present
     DAY_PREFS days[7];  // sun..sat
+    void clear();
 };
 
 // The following structure is a parsed version of the prefs file

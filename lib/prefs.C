@@ -121,9 +121,7 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
     week_prefs.present = false;
-	for(int i=0;i<7;i++) {		
-		week_prefs.days[i].time_prefs.clear();
-	}
+    week_prefs.clear();
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here
     // since they are outside of <venue> elements,
@@ -223,6 +221,10 @@ int DAY_PREFS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+void WEEK_PREFS::clear() {
+    memset(this, 0, sizeof(*this));
+}
+
 // Parse global prefs, overriding whatever is currently in the structure.
 //
 // If host_venue is nonempty and we find an element of the form
@@ -313,6 +315,7 @@ int GLOBAL_PREFS::parse_override(
                 week_prefs.present = true;
                 week_prefs.days[dp.day_of_week] = dp;
             }
+            continue;
         }
         if (xp.parse_bool(tag, "leave_apps_in_memory", leave_apps_in_memory)) {
             mask.leave_apps_in_memory = true;

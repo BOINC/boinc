@@ -6734,3 +6734,10 @@ David  25 June 2007
 
 	clientgui/
 		DlgAdvPreferencesBase.cpp,h
+
+David  25 June 2007
+	- manager and client: fixed bug where only one day-of-week
+		preference would be parsed.
+
+	lib/
+		prefs.C,h
