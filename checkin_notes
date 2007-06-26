@@ -6716,8 +6716,8 @@ David  25 June 2007
         hr_info.C,h
 
 Charlie 25 June 2007
-    CC: More scheduler tweaks for shared memory: clear retry_shmem_time 
-        when releasing shared memory, value of stress_shmem_debug log 
+    CC: More scheduler tweaks for shared memory: clear retry_shmem_time
+        when releasing shared memory, value of stress_shmem_debug log
         flag sets number of shared memory segments to make unavailable.
         Fix bug: reversed comparison of retry_shmem_time.
 
@@ -6728,3 +6728,9 @@ Charlie 25 June 2007
         log_flags.C,h
     lib/
         shmem.C,h
+
+David  25 June 2007
+	- manager: improve wording in advanced prefs dialog
+
+	clientgui/
+		DlgAdvPreferencesBase.cpp,h
