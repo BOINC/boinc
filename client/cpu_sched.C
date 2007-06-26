@@ -509,7 +509,7 @@ void CLIENT_STATE::schedule_cpus() {
             atp->too_large = false;
             
             // TODO: merge this chunk of code with its clone
-            if (gstate.retry_shmem_time < gstate.now) {
+            if (gstate.retry_shmem_time > gstate.now) {
                 if (atp->app_client_shm.shm == NULL) {
                     atp->needs_shmem = true;
                     continue;
@@ -557,7 +557,7 @@ void CLIENT_STATE::schedule_cpus() {
             // don't select if it would need a new shared-mem seg
             // and we're out of them
             //
-            if (gstate.retry_shmem_time < gstate.now) {
+            if (gstate.retry_shmem_time > gstate.now) {
                 if (atp->app_client_shm.shm == NULL) {
                     atp->needs_shmem = true;
                     continue;
@@ -925,7 +925,7 @@ bool CLIENT_STATE::enforce_schedule() {
                     // will be available in the next 10 seconds
                     // (run only tasks which are already attached to shared memory).
                     //
-                    if (gstate.retry_shmem_time < gstate.now) {
+                    if (gstate.retry_shmem_time > gstate.now) {
                         request_schedule_cpus("no more shared memory");
                     }
                     gstate.retry_shmem_time = gstate.now + 10.0;
