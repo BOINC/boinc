@@ -6714,3 +6714,17 @@ David  25 June 2007
 
     sched/
         hr_info.C,h
+
+Charlie 25 June 2007
+    CC: More scheduler tweaks for shared memory: clear retry_shmem_time 
+        when releasing shared memory, value of stress_shmem_debug log 
+        flag sets number of shared memory segments to make unavailable.
+        Fix bug: reversed comparison of retry_shmem_time.
+
+    client/
+        app.C
+        client_state.C
+        cpu_sched.C
+        log_flags.C,h
+    lib/
+        shmem.C,h
