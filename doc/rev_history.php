@@ -3,7 +3,7 @@ require_once("docutil.php");
 page_head("Version history");
 echo"
 
-<h3>Version 5.9</h3>
+<h3>Version 5.10</h3>
 <ul>
 <li> Manager
     <ul>
@@ -46,6 +46,16 @@ echo"
     <ul>
     <li> OpenSSL 0.9.8e
     <li> LibcURL 7.16.1
+    </ul>
+<li> Notes
+    <ul>
+    <li> NOTE: BOINC may NOT start at startup if you are running Windows Defender
+         (WinXP, WinXPx64, WinVista, WinVistax64). This issue should be resolved 
+         in a future version of BOINC. In order to have BOINC start automatically
+         you'll need to install as a service. On Vista the user account will need
+         to have administrative access to the system. 
+    <li> NOTE: Linux: The manager uses GTK1 which does not support recent 
+         distro's clipboard functionality.
     </ul>
 </ul>
 <h3>Version 5.8</h3>
