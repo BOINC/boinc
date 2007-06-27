@@ -42,6 +42,8 @@ $features_510 = "
          future version of BOINC. In order to have BOINC start automatically you'll need
          to install as a service. On Vista the user account will need to have 
          administrative access to the system.
+    <li> NOTE: Linux: The manager uses GTK1 which does not support recent distro's
+         clipboard functionality.
 ";
 
 $features_57 = "
