@@ -917,12 +917,15 @@ bool ACTIVE_TASK_SET::get_msgs() {
     ACTIVE_TASK *atp;
     double old_time;
     bool action = false;
+    bool was_attached_to_shmem;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
+        was_attached_to_shmem = atp->app_attached_to_shmem;
         if (atp->get_app_status_msg()) {
+            atp->app_attached_to_shmem = true;
             if (old_time != atp->checkpoint_cpu_time) {
                 gstate.request_enforce_schedule("Checkpoint reached");
                 atp->checkpoint_wall_time = gstate.now;
@@ -940,7 +943,22 @@ bool ACTIVE_TASK_SET::get_msgs() {
                 }
             }
         }
-        atp->get_trickle_up_msg();
+        if (atp->get_trickle_up_msg()) {
+            atp->app_attached_to_shmem = true;
+        }
+        
+#if !(defined(_WIN32) || defined(__EMX__)) 
+        // On some systems, marking the shared memory segment for 
+        // destruction prevents other processes from attaching. So 
+        // wait until first msg from task confirms it has attached.
+        if (atp->app_attached_to_shmem && (!was_attached_to_shmem)) {
+            // On some systems, failure to do this causes shared 
+            // memory leaks if BOINC crashes or exits suddenly.
+            // The segment will be destroyed only after all its 
+            // attached processes have detached or exit.
+            destroy_shmem(atp->shmem_seg_name);
+        }
+#endif
     }
     return action;
 }

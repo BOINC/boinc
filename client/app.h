@@ -103,6 +103,7 @@ public:
     bool send_upload_file_status;
     bool too_large;                 // working set too large to run now
     bool needs_shmem;               // waiting for a free shared memory segment
+    bool app_attached_to_shmem;     // project app has attached to our shared memory segment
     int want_network;
         // This task wants to do network comm (for F@h)
         // this is passed via share-memory message (app_status channel)

@@ -6754,3 +6754,23 @@ David  25 June 2007
         db_dump.C
         db_purge.C
         feeder.C
+
+Charlie 27 June 2007
+    CC: Problem: On Mac OS X and some other systems, shared memory 
+        segments remain allocated unless the owner has marked them 
+        for destruction with shmctl(id, IPC_RMID, 0), causing shared 
+        memory leaks if BOINC crashes or exits suddenly.
+        But on Mac OS X and some other systems, this shmctl command 
+        also prevents any more processes from attaching.
+        Solution: On *nix systems, BOINC marks shared memory segment 
+        for destruction as soon as we receive first message or trickle 
+        down from the project application, so BOINC has confirmation 
+        that the task has attached.  The segment will automatically be 
+        destroyed after all attached processes have detached or exit.
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+    lib/
+        shmem.C

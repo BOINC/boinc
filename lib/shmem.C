@@ -200,6 +200,14 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     return attach_shmem(key, pp);
 }
 
+// Mark the shared memory segment so it will be released after 
+// the last attached process detaches or exits.
+// On Mac OS X and some other systems, not doing this causes 
+// shared memory leaks if BOINC crashes or exits suddenly.
+// On Mac OS X and some other systems, this command also 
+// prevents any more processes from attaching (by clearing 
+// the key in the shared memory structure), so BOINC does it 
+// only after we have confirmation that the task has attached.
 int destroy_shmem(key_t key){
     struct shmid_ds buf;
     int id, retval;

@@ -112,6 +112,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     send_upload_file_status = false;
     too_large = false;
     needs_shmem = false;
+    app_attached_to_shmem = false;
     want_network = 0;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
