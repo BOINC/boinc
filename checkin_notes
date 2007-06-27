@@ -6781,3 +6781,10 @@ David  27 June 2007
 
     html/inc/
         host.inc
+
+David  27 June 2007
+    - user web: host merge: don't require OS names to match exactly;
+        OK if both contain "Windows", "Linux", "SunOS" or "Darwin".
+
+    html/inc/
+        host.inc

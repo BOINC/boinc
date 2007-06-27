@@ -303,6 +303,14 @@ function times_disjoint($host1, $host2) {
     return false;
 }
 
+function os_compatible($host1, $host2) {
+    if (strstr($host1->os_name, "Windows") && strstr($host2->os_name, "Windows")) return true;
+    if (strstr($host1->os_name, "Linux") && strstr($host2->os_name, "Linux")) return true;
+    if (strstr($host1->os_name, "Darwin") && strstr($host2->os_name, "Darwin")) return true;
+    if (strstr($host1->os_name, "SunOS") && strstr($host2->os_name, "SunOS")) return true;
+    return false;
+}
+
 // Return true if it's possible that the two host records
 // correspond to the same host
 // NOTE: the cheat-proofing comes from checking
@@ -313,10 +321,19 @@ function hosts_compatible($host1, $host2) {
     // skip disjoint-time check if one host or other has no credit
     //
     if ($host1->total_credit && $host->total_credit) {
-        if (!times_disjoint($host1, $host2)) return false;
+        if (!times_disjoint($host1, $host2)) {
+            //echo "<br>h2 $host2->create_time $host2->rpc_time";
+            return false;
+        }
     }
-    if ($host2->os_name != $host1->os_name) return false;
-    if (!cpus_compatible($host1, $host2)) return false;
+    if (!os_compatible($host1, $host2)) {
+        //echo "<br>$host1->id $host2->id: name\n";
+        return false;
+    }
+    if (!cpus_compatible($host1, $host2)) {
+        //echo "<br>$host1->id $host2->id: cpu\n";
+        return false;
+    }
     return true;
 }
 
