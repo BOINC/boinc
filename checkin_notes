@@ -6421,3 +6421,11 @@ Rom    27 June 2007
     lib/
         diagnostics.C, .h
         diagnostics_win.C
+
+Rom    27 June 2007
+    - Tag for 5.10.9 release, all platforms
+      boinc_core_release_5_10_9
+    
+    client/
+        configure.ac
+        version.h
