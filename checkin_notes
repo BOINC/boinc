@@ -6774,3 +6774,10 @@ Charlie 27 June 2007
         app_start.C
     lib/
         shmem.C
+
+David  27 June 2007
+    - user web: host merge: skip disjoint-time check
+        if one of the hosts has zero credit
+
+    html/inc/
+        host.inc

@@ -310,7 +310,11 @@ function times_disjoint($host1, $host2) {
 // So the CPU/OS checks don't have to be very strict.
 //
 function hosts_compatible($host1, $host2) {
-    if (!times_disjoint($host1, $host2)) return false;
+    // skip disjoint-time check if one host or other has no credit
+    //
+    if ($host1->total_credit && $host->total_credit) {
+        if (!times_disjoint($host1, $host2)) return false;
+    }
     if ($host2->os_name != $host1->os_name) return false;
     if (!cpus_compatible($host1, $host2)) return false;
     return true;
