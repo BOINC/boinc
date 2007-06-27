@@ -104,6 +104,8 @@ public:
         // don't allow Mac OS X 10.2 or earlier
     bool no_amd_k6;
         // don't allow AMD K6 CPUs
+    char httpd_user[256];
+        // user name under which web server runs (default: apache)
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

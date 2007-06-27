@@ -395,13 +395,13 @@ int add_antiques_to_list(int days) {
     char single_line[1024];
     FILE *fp;
     int dirlen=strlen(config.upload_dir);
-    struct passwd *apache_info=getpwnam("apache");
+    struct passwd *apache_info=getpwnam(config.httpd_user);
     int del_time=time(0)-86400*days;
     int nfiles=0;
 
     if (!apache_info) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "no user named 'apache' found!\n"
+            "no user named '%s' found!\n", config.httpd_user
         );
         return -1;
     }

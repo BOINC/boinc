@@ -4,11 +4,32 @@ require_once("projects.inc");
 page_head("Choosing BOINC projects");
 
 echo "
-A partial list of current projects is below;
-you can find others using <a href=http://google.com>Google</a>.
 <p>
-Mouse over a project for details.
-    <ul>
+BOINC software is used by many volunteer computing projects.
+These projects are completely independent.
+Some are based at universities and research labs,
+others are run by companies and individuals.
+
+When you participate in a project,
+you entrust it with the health of your computer and the privacy of your data.
+In deciding whether to participate in a project,
+read its web site and consider the following questions:
+
+<ul>
+<li> Does it clearly describe its goals,
+    and are these goals important and beneficial?
+<li> Do you trust that its applications
+  won't damage your computer or violate your privacy?
+<li> Do you trust it to use proper security practices on its servers?
+<li> Who owns the results of the computation?
+  Will they be freely available to the public
+  or will they belong to a for-profit business?
+</ul>
+
+The following list of projects is provided for your information;
+they are not endorsed by BOINC or U.C. Berkeley.
+You can find other projects using <a href=http://google.com>Google</a>.
+<ul>
 ";
 list_start("cellpadding=2, width=100%");
 list_heading("Project name<br><span class=note>Mouse over for details; click to visit web site</span>", "Project URL<br><span class=note>Copy and paste into BOINC client</span>");
@@ -37,32 +58,10 @@ your computer will be kept busy even when one project has no work.
 You can control how your resources (such as computer time
 and disk space) are divided among these projects.
 When you attach to a project, you will be asked for its URL.
-This is simply its web address: visit each project's web site,
-and copy the URL from your browser's address field.
+This is simply the address of its web site;
+copy it from your browser's address field or from the list above.
 
-<p>
-Projects are independent.
-BOINC does not control or endorse BOINC-based projects.
-When you participate in a project,
-you entrust that project with the health of your
-computer and the privacy of your data.
-In deciding whether to participate in a project,
-you should consider the following questions:
-
-<ul>
-<li> Do you trust the project to ensure that its applications
-  won't damage your computer or violate your privacy?
-<li> Do you trust the project to use proper security practices on their servers?
-<li> Does the project clearly describe its goals,
-    and are these goals important and beneficial?
-<li> Who owns the results of the computation?
-  If the results are valuable, will they be freely available to the public
-  or will they belong to a for-profit business?
-</ul>
-
-";
-echo "
-    <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
+<script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
 ";
 page_tail();
 ?>

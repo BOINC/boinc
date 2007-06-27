@@ -2,6 +2,16 @@
 
 $project_news = array(
 array("June 26, 2007",
+    "There's a great new statistics site,
+    <a href=http://www.allprojectstats.com/>BOINC All Project Stats</a>.
+    It has lists of the top users and teams,
+    recent changes in rankings, graphs showing history and
+    breakdown by project, and many other features.
+    You can also see the stats and rankings
+    of an individual volunteer or team across all BOINC projects.
+    Thanks to Markus Tervooren for putting this together!"
+),
+array("June 26, 2007",
     "There are reports that version 5.10.8 of the BOINC client software
     causes a problem on Windows XP Pro in which the desktop becomes empty.
     If you see this, please uninstall 5.10.8 and install version 5.8.16."

@@ -6788,3 +6788,21 @@ David  27 June 2007
 
     html/inc/
         host.inc
+
+David  27 June 2007
+    - client: allow up to a day (rather than work_buf_min()) to elapsed
+        between completing a result and reporting it.
+    - back end: added <httpd_user> config option:
+        Web server user name (used by file deleter)
+    - back end: don't report unparsed XML in config.xml as an error
+
+    client/
+        app.h
+        work_fetch.C
+    lib/
+        shmem.C
+    sched/
+        file_deleter.C
+        file_upload_handler.C
+        sched_config.C,h
+        show_shmem.C

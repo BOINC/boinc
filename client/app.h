@@ -52,9 +52,10 @@ typedef int PROCESS_ID;
 // that BOINC doesn't know about.
 //
 class ACTIVE_TASK {
+    int _task_state;
 public:
 #ifdef _WIN32
-    HANDLE pid_handle, thread_handle, quitRequestEvent, shm_handle;
+    HANDLE pid_handle, thread_handle, shm_handle;
     bool kill_all_children();
 #endif
     SHMEM_SEG_NAME shmem_seg_name;
@@ -65,7 +66,6 @@ public:
 	PROCINFO procinfo;
 
     int slot;   // subdirectory of slots/ where this runs
-    int _task_state;
     inline int task_state() {
         return _task_state;
     }

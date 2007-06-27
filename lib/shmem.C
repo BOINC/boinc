@@ -276,8 +276,10 @@ int print_shmem_info(key_t key) {
 void stress_shmem(short reduce_by) {
     int retval;
     void * shmaddr[16];
-    key_t key[] = {'BNC0', 'BNC1', 'BNC2', 'BNC3', 'BNC4', 'BNC5', 'BNC6', 'BNC7',
-                    'BNC8', 'BNC9', 'BNCA', 'BNCB', 'BNCC', 'BNCD', 'BNCE', 'BNCF' };
+    key_t key[] = {
+        'BNC0', 'BNC1', 'BNC2', 'BNC3', 'BNC4', 'BNC5', 'BNC6', 'BNC7',
+        'BNC8', 'BNC9', 'BNCA', 'BNCB', 'BNCC', 'BNCD', 'BNCE', 'BNCF' 
+    };
     int i, id;
     
     if (reduce_by > 16) reduce_by = 16;

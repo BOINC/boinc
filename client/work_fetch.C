@@ -238,9 +238,8 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
 // This means:
 //    - we're not backing off contacting the project
 //    - the result is ready_to_report (compute done; files uploaded)
-//    - we're either within a day of the report deadline,
-//      or at least work_buf_min_days time has elapsed since
-//      result was completed,
+//    - we're within a day of the report deadline,
+//      or at least a day has elapsed since the result was completed,
 //      or we have a sporadic connection
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
@@ -249,33 +248,25 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
-        // return the project for this result to report if:
-        //
+        if (!r->ready_to_report) continue;
 
         PROJECT* p = r->project;
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
 
-        if (!r->ready_to_report) continue;
         if (net_status.have_sporadic_connection) {
             return p;
         }
+
         double cushion = std::max(REPORT_DEADLINE_CUSHION, work_buf_min());
         if (gstate.now > r->report_deadline - cushion) {
             return p;
         }
-        if (gstate.now > r->completed_time + work_buf_min()) {
-            return p;
-        }
 
-        // Handle the case where the report is due
-        // before the next reconnect is likely.
-        //
-        if (gstate.now > r->report_deadline - work_buf_min()) {
+        if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
             return p;
         }
     }
-
     return 0;
 }
 
