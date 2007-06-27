@@ -6806,3 +6806,12 @@ David  27 June 2007
         file_upload_handler.C
         sched_config.C,h
         show_shmem.C
+
+Matt  27 June 2007
+   - added strip_bbcode tags and updated show_uotd function so that
+     front page doesn't get clobbered when showing summary of UOTD
+     that contains obnoxiously large graphics
+
+   html/inc/
+       util.inc
+       uotd.inc
