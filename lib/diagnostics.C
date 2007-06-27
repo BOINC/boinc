@@ -137,6 +137,9 @@ int boinc_finish_diag() {
 int boinc_install_signal_handlers() {
 #ifdef _WIN32
     SetUnhandledExceptionFilter(boinc_catch_signal);
+#if _MSC_VER >= 1400
+	_set_invalid_parameter_handler(boinc_catch_signal_invalid_parameter);
+#endif
 #else  //_WIN32
 
     // register handlers for fatal internal signals

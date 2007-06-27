@@ -6411,3 +6411,13 @@ Charlie 25 June 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    27 June 2007
+    - DIAG: Visual Studio 2005 enforces parameter checking, and if
+        a parameter is wrong it just terminates the process with
+        a 0xc000000d. This is a shot in the dark but I think it
+        is a good guess as to what is happening right now.
+        
+    lib/
+        diagnostics.C, .h
+        diagnostics_win.C
