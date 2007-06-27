@@ -24,7 +24,7 @@ function show_uotd() {
         echo uotd_thumbnail($profile, $user);
         echo "</td><td>";
         echo user_links($user)."<br>";
-        echo sub_sentence(output_transform(no_pres(strip_tags($profile->response1))), ' ', 150, true);
+        echo sub_sentence(output_transform(strip_bbcode(no_pres(strip_tags($profile->response1)))), ' ', 150, true);
         echo "</td></tr></table><br>\n";
     }
 }

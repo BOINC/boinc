@@ -703,4 +703,8 @@ function boinc_htmlentities($str) {
     return $str; 
 } 
 
+function strip_bbcode($string){
+    return preg_replace("/((\[.+\])+?)(.+?)((\[\/.+\])+?)/","",$string);
+}
+
 ?>
