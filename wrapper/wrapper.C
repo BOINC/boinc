@@ -67,6 +67,7 @@ struct TASK {
     string command_line;
     double final_cpu_time;
     double starting_cpu;
+        // how much CPU time was used by tasks before this in the job file
 #ifdef _WIN32
     HANDLE pid_handle;
     HANDLE thread_handle;
@@ -402,7 +403,11 @@ double TASK::cpu_time() {
 }
 
 void send_status_message(TASK& task, double frac_done) {
-    boinc_report_app_status(task.cpu_time(), task.starting_cpu, frac_done);
+    boinc_report_app_status(
+        task.starting_cpu + task.cpu_time(),
+        task.starting_cpu,
+        frac_done
+    );
 }
 
 // Support for multiple tasks.

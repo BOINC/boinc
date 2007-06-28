@@ -387,3 +387,9 @@ David  13 June 2007
 David  19 June 2007
 	example_app/
 		uc2_graphics.C
+
+David  28 June 2007
+    - wrapper: report CPU time correctly when >1 job
+
+    wrapper/
+        wrapper.C
