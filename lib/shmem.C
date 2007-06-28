@@ -207,7 +207,7 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
 // On Mac OS X and some other systems, this command also 
 // prevents any more processes from attaching (by clearing 
 // the key in the shared memory structure), so BOINC does it 
-// only after we have confirmation that the task has attached.
+// only after we are completey done with the segment.
 int destroy_shmem(key_t key){
     struct shmid_ds buf;
     int id, retval;

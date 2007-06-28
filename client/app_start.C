@@ -584,7 +584,6 @@ int ACTIVE_TASK::start(bool first_time) {
             return retval;
         }
         needs_shmem = false;
-        app_attached_to_shmem = false;
     }
     app_client_shm.reset_msgs();
 
