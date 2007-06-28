@@ -6849,3 +6849,9 @@ Charlie 28 June 2007
         file_names.C
     lib/
         shmem.C
+
+David  28 June 2007
+    - API: set fraction_done to 1 in boinc_finish()
+
+    api/
+        boinc_api.C

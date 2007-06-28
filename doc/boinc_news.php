@@ -1,6 +1,16 @@
 <?
 
 $project_news = array(
+array("June 28, 2007",
+    "Linux users: if you use bash,
+    check out a cool <a href=http://boinc.berkeley.edu/trac/wiki/BashCommandCompletion>script</a>
+    that provides command completion in both boinc_cmd and boinc_client
+    (thanks to Frank S. Thomas)."
+),
+array("June 27, 2007",
+    "Help increase volunteer computing power -
+    <a href=http://boinc.berkeley.edu/trac/wiki/BoincPr>publicize BOINC</a> by writing to computer magazines."
+),
 array("June 26, 2007",
     "There's a great new statistics site,
     <a href=http://www.allprojectstats.com/>BOINC All Project Stats</a>.

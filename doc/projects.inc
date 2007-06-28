@@ -3,14 +3,14 @@
 $biomed = array(
     "Biology and Medicine",
     array(
-        array(
-            "Proteins@Home",
-            "http://biology.polytechnique.fr/proteinsathome",
-            "Ecole Polytechnique, Paris",
-            "Protein structure prediction",
-            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
-            "proteinsathome.gif"
-        ),
+//        array(
+//            "Proteins@Home",
+//            "http://biology.polytechnique.fr/proteinsathome",
+//            "Ecole Polytechnique, Paris",
+//            "Protein structure prediction",
+//            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
+//            "proteinsathome.gif"
+//        ),
         array(
             "Malariacontrol.net",
             "http://www.malariacontrol.net",

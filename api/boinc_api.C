@@ -384,6 +384,7 @@ int boinc_finish(int status) {
         double total_cpu;
         total_cpu = boinc_worker_thread_cpu_time();
         total_cpu += initial_wu_cpu_time;
+        fraction_done = 1;
 
         // NOTE: the app_status slot may already contain a message.
         // So retry a couple of times.
@@ -407,7 +408,7 @@ int boinc_finish(int status) {
 
     boinc_exit(status);
 
-    return(0); // doh... we never get here
+    return 0;   // never reached
 }
 
 
