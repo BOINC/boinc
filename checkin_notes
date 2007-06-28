@@ -6759,7 +6759,8 @@ Charlie 27 June 2007
     CC: Problem: On Mac OS X and some other systems, shared memory 
         segments remain allocated unless the owner has marked them 
         for destruction with shmctl(id, IPC_RMID, 0), causing shared 
-        memory leaks if BOINC crashes or exits suddenly.
+        memory leaks if BOINC crashes or exits suddenly (e.g., due 
+        to being called with --exit_after_finish).
         But on Mac OS X and some other systems, this shmctl command 
         also prevents any more processes from attaching.
         Solution: On *nix systems, BOINC marks shared memory segment 
@@ -6832,3 +6833,19 @@ David  27 June 2007
 
     html/inc/
         host.inc
+
+Charlie 28 June 2007
+    CC: Back out my shared memory changes of 27 June because it might 
+        prevent compound applications from attaching to the shared 
+        memory as needed.  Instead, add code to delete_old_slot_dirs() 
+        to check for and delete the possible orphan shared memory 
+        segment at BOINC startup for each slot directories with an 
+        init_data.xml file.
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        file_names.C
+    lib/
+        shmem.C
