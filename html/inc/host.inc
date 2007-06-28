@@ -274,6 +274,8 @@ function cpus_compatible($host1, $host2) {
         } else {
             return false;
         }
+    } else if (strstr($p1, "AuthenticAMD") && strstr($p2, "AuthenticAMD")) {
+        return true;
     } else {
         if ($host2->p_vendor != $host1->p_vendor) return false;
 
@@ -322,16 +324,16 @@ function hosts_compatible($host1, $host2) {
     //
     if ($host1->total_credit && $host->total_credit) {
         if (!times_disjoint($host1, $host2)) {
-            //echo "<br>h2 $host2->create_time $host2->rpc_time";
+            echo "<br>h2 $host2->create_time $host2->rpc_time";
             return false;
         }
     }
     if (!os_compatible($host1, $host2)) {
-        //echo "<br>$host1->id $host2->id: name\n";
+        echo "<br>$host1->id $host2->id: name\n";
         return false;
     }
     if (!cpus_compatible($host1, $host2)) {
-        //echo "<br>$host1->id $host2->id: cpu\n";
+        echo "<br>$host1->id $host2->id: cpu\n";
         return false;
     }
     return true;

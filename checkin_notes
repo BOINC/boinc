@@ -6826,3 +6826,9 @@ Rom    27 June 2007
         diagnostics.C, .h
         diagnostics_win.C
 
+David  27 June 2007
+    - user web: host merge: consider CPUs compatible if both
+        are vendor "AuthenticAMD".
+
+    html/inc/
+        host.inc
