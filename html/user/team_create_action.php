@@ -23,7 +23,7 @@ if (!is_valid_team_type($type)) {
 }
 
 $name_html = process_user_text(post_str("name_html", true));
-$description = boinc_htmlentities(process_user_text(post_str("description", true)));
+$description = process_user_text(post_str("description", true));
 $country = process_user_text(post_str("country", true));
 
 if (!is_valid_country($country)) {

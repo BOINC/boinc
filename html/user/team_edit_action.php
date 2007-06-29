@@ -21,7 +21,7 @@ if ($user->teamid == $teamid) {
     $team_name = boinc_htmlentities(process_user_text(strip_tags(post_str("name"))));
     $team_name_lc = strtolower($team_name);
     $team_name_html = process_user_text(post_str("name_html", true)); //Do we really not want to
-    $team_description = boinc_htmlentities(process_user_text(post_str("description", true))); //scrub out bad HTML tags?
+    $team_description = process_user_text(post_str("description", true)); //scrub out bad HTML tags?
     $type = process_user_text(post_str("type", true));
     $country = process_user_text(post_str("country", true));
     
