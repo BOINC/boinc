@@ -6855,3 +6855,12 @@ David  28 June 2007
 
     api/
         boinc_api.C
+
+David  29 June 2007
+    - client: code cleanup.  Was looking for fopen()s without fclose(),
+        didn't find any.
+
+    client/
+        cs_scheduler.C
+        app_start.C
+        time_stats.C

@@ -90,10 +90,11 @@ static int make_link(const char *existing, const char *new_link) {
     if (!fp) return ERR_FOPEN;
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);
-    if (g_use_sandbox)
+    if (g_use_sandbox) {
         return set_to_project_group(new_link);
-    else
+    } else {
         return 0;
+    }
 }
 
 int ACTIVE_TASK::link_user_files() {
@@ -755,8 +756,10 @@ union headeru {
     mach_header mach;
 };
 
-// Read the mach-o headers to determine the architectures supported by executable file.
+// Read the mach-o headers to determine the architectures
+// supported by executable file.
 // Returns 1 if application can run natively on i386 Macs, else returns 0.
+//
 int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     FILE *f;
     int result = 0;
@@ -767,8 +770,9 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     uint32_t n, i, len;
     
     f = boinc_fopen(exec_path, "rb");
-    if (!f)
+    if (!f) {
         return result;          // Should never happen
+    }
     
     myHeader.fat.magic = 0;
     myHeader.fat.nfat_arch = 0;
@@ -776,15 +780,18 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     fread(&myHeader, 1, sizeof(fat_header), f);
     switch (myHeader.mach.magic) {
     case MH_MAGIC:
-        if (myHeader.mach.cputype == CPU_TYPE_I386)
+        if (myHeader.mach.cputype == CPU_TYPE_I386) {
             result = 1;        // Single-architecture i386 file
+        }
         break;
     case FAT_CIGAM:
-        n = _OSSwapInt32(myHeader.fat.nfat_arch);   // Multiple architecture (fat) file
+        n = _OSSwapInt32(myHeader.fat.nfat_arch);
+           // Multiple architecture (fat) file
         for (i=0; i<n; i++) {
             len = fread(&fatHeader, 1, sizeof(fat_arch), f);
-            if (len < sizeof(fat_arch))
+            if (len < sizeof(fat_arch)) {
                 break;          // Should never happen
+            }
             if (fatHeader.cputype == OSSwapConstInt32(CPU_TYPE_I386)) {
                 result = 1;
                 break;

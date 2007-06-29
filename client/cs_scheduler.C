@@ -77,6 +77,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     get_sched_request_filename(*p, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "wb");
+    if (!f) return ERR_FOPEN;
 
     double trs = total_resource_share();
     double rrs = runnable_resource_share();
@@ -104,7 +105,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->rpc_seqno = 0;
     }
 
-    if (!f) return ERR_FOPEN;
     mf.init_file(f);
     fprintf(f,
         "<scheduler_request>\n"
@@ -197,15 +197,16 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     );
 
     retval = time_stats.write(mf, true);
-    if (retval) return retval;
+    //if (retval) return retval;
+    // can't return without closing file
     retval = net_stats.write(mf);
-    if (retval) return retval;
+    //if (retval) return retval;
 
     // update hardware info, and write host info
     //
     host_info.get_host_info();
     retval = host_info.write(mf, config.suppress_net_info);
-    if (retval) return retval;
+    //if (retval) return retval;
 
     // get and write disk usage
     //
@@ -300,7 +301,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         );
     }
     fprintf(f, "</in_progress_results>\n");
-
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);

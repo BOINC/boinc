@@ -84,8 +84,12 @@ void TIME_STATS::trim_stats_log() {
     if (retval) return;
     if (size < 1e6) return;
     FILE* f = fopen(TIME_STATS_LOG, "r");
+    if (!f) return;
     FILE* f2 = fopen(TEMP_FILE_NAME, "w");
-    if (!f || !f2) return;
+    if (!f2) {
+        fclose(f);
+        return;
+    }
     while (fgets(buf, 256, f)) {
         int n = sscanf(buf, "%lf", &x);
         if (n != 1) continue;
@@ -242,27 +246,6 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
             last_update
         );
     }
-#if 0
-    // too much text.  Maybe just send the longest outage?
-    //
-    if (outages.size()) {
-        out.printf("    <outages>\n");
-        unsigned int i;
-        for (i=0; i<outages.size(); i++) {
-            if (outages[i].is_recent()) {
-                out.printf(
-                    "        <outage>\n"
-                    "            <start>%f</start>\n"
-                    "            <end>%f</end>\n"
-                    "        </outage>\n",
-                    outages[i].start,
-                    outages[i].end
-                );
-            }
-        }
-        out.printf("    </outages>\n");
-    }
-#endif
     out.printf("</time_stats>\n");
     return 0;
 }
