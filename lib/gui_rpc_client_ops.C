@@ -431,6 +431,10 @@ int RESULT::parse(MIOFILE& in) {
             too_large = true;
             continue;
         }
+        else if (match_tag(buf, "<needs_shmem/>")) {
+            needs_shmem = true;
+            continue;
+        }
         else if (match_tag(buf, "<edf_scheduled/>")) {
             edf_scheduled = true;
             continue;
@@ -467,6 +471,7 @@ void RESULT::clear() {
     supports_graphics = false;
     graphics_mode_acked = 0;
     too_large = false;
+    needs_shmem = false;
     edf_scheduled = false;
 
     app = NULL;

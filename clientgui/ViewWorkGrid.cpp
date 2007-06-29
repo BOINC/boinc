@@ -712,6 +712,8 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer = _("Waiting for memory");
+            } else if (result->needs_shmem) {
+                strBuffer = _("Waiting for shared memory");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                 strBuffer = _("Running");
             } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
