@@ -875,6 +875,7 @@ static int set_debt(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/project")) {
             if (!strlen(url)) return ERR_XML_PARSE;
+            canonicalize_master_url(url);
             PROJECT* p = gstate.lookup_project(url);
             if (!p) return ERR_NOT_FOUND;
             if (got_std) p->short_term_debt = short_term_debt;
@@ -910,10 +911,12 @@ static void handle_set_debts(char* buf, MIOFILE& fout) {
     in.init_buf_read(buf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
+        if (!strcmp(tag, "boinc_gui_rpc_request")) continue;
+        if (!strcmp(tag, "set_debts")) continue;
         if (!strcmp(tag, "/set_debts")) {
             fout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_debt RPC");
-            break;
+            return;
         }
         if (!strcmp(tag, "project")) {
             retval = set_debt(xp);
@@ -921,6 +924,7 @@ static void handle_set_debts(char* buf, MIOFILE& fout) {
                 fout.printf("<error>%d</error>\n", retval);
                 return;
             }
+            continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
@@ -929,6 +933,7 @@ static void handle_set_debts(char* buf, MIOFILE& fout) {
         }
         xp.skip_unexpected(tag);
     }
+    fout.printf("<error>No end tag</error>\n");
 }
 
 static void handle_set_cc_config(char* buf, MIOFILE& fout) {

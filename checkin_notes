@@ -6878,3 +6878,9 @@ Charlie 29 June 2007
     clientgui/
         mac/
             SetVersion.C
+
+David  30 June 2007
+    - GUI RPC: debug set_debts handler.  Fixes #131
+
+    client/
+        gui_rpc_server_ops.C
