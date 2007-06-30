@@ -6871,3 +6871,10 @@ Rom    29 June 2007
 
     /
         <Numerious Files>
+
+Charlie 29 June 2007
+    Mac: Update user-visible copyright dates from 2006 to 2007
+
+    clientgui/
+        mac/
+            SetVersion.C
