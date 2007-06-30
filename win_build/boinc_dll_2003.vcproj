@@ -13,17 +13,17 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Build\Debug"
-			IntermediateDirectory=".\Build\Debug\boinc_dll\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="2"
-			UseOfATL="1"
+			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_ATL_ATTRIBUTES"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -37,11 +37,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
-				AdditionalDependencies="sensapi.lib wininet.lib"
-				OutputFile="$(OutDir)/boinc.dll"
-				LinkIncremental="2"
+				AdditionalDependencies="wininet.lib"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/boinc.dll"
+				LinkIncremental="0"
 				MergedIDLBaseFileName="_boinc_dll.idl"
 				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/boinc_dll.pdb"
 				SubSystem="2"
 				ImportLibrary="$(OutDir)/boinc_dll.lib"
 				TargetMachine="1"/>
@@ -57,9 +58,7 @@
 				InterfaceIdentifierFileName="boinc_dll_i.c"
 				ProxyFileName="boinc_dll_p.c"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				Description="Performing registration"
-				CommandLine="regsvr32 /s /c &quot;$(TargetPath)&quot;"/>
+				Name="VCPostBuildEventTool"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -82,10 +81,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Build\Release"
-			IntermediateDirectory=".\Build\Release\boinc_dll\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="2"
-			UseOfATL="1"
+			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
@@ -104,10 +103,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalDependencies="sensapi.lib wininet.lib"
-				OutputFile="$(OutDir)/boinc.dll"
-				LinkIncremental="1"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/boinc.dll"
+				LinkIncremental="0"
 				MergedIDLBaseFileName="_boinc_dll.idl"
 				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/boinc_dll.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -126,11 +126,75 @@
 				InterfaceIdentifierFileName="boinc_dll_i.c"
 				ProxyFileName="boinc_dll_p.c"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				Description="Signing and Registration"
-				CommandLine="signcode -v &quot;$(InputDir)\installerv2\boinc.pvk&quot; -spc &quot;$(InputDir)\installerv2\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\boinc.dll&quot;
-regsvr32 /s /c &quot;$(TargetPath)&quot;
-"/>
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;../"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseSigned|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="2"
+			UseOfATL="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../lib"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_ATL_ATTRIBUTES"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="TRUE"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4127;4702;4244"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalDependencies="sensapi.lib wininet.lib"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/boinc.dll"
+				LinkIncremental="0"
+				MergedIDLBaseFileName="_boinc_dll.idl"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/boinc_dll.pdb"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				SetChecksum="TRUE"
+				ImportLibrary="$(OutDir)/boinc_dll.lib"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="FALSE"
+				TargetEnvironment="1"
+				GenerateStublessProxies="TRUE"
+				TypeLibraryName="$(IntDir)/boinc_dll.tlb"
+				HeaderFileName="boinc_dll.h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="boinc_dll_i.c"
+				ProxyFileName="boinc_dll_p.c"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -163,13 +227,7 @@ regsvr32 /s /c &quot;$(TargetPath)&quot;
 				RelativePath="..\clientlib\win\boinc_dll.cpp">
 			</File>
 			<File
-				RelativePath="..\clientlib\win\BOINCSENSSink.cpp">
-			</File>
-			<File
 				RelativePath="..\clientlib\win\IdleTracker.cpp">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\NetworkTracker.cpp">
 			</File>
 			<File
 				RelativePath="..\clientlib\win\Service.cpp">
@@ -184,6 +242,12 @@ regsvr32 /s /c &quot;$(TargetPath)&quot;
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>
@@ -203,6 +267,12 @@ regsvr32 /s /c &quot;$(TargetPath)&quot;
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -213,28 +283,10 @@ regsvr32 /s /c &quot;$(TargetPath)&quot;
 				RelativePath="..\clientlib\win\boinc_dll.h">
 			</File>
 			<File
-				RelativePath="..\clientlib\win\BOINCSENSSink.h">
-			</File>
-			<File
 				RelativePath="..\clientlib\win\IdleTracker.h">
 			</File>
 			<File
-				RelativePath="..\clientlib\win\NetworkTracker.h">
-			</File>
-			<File
 				RelativePath="..\clientlib\win\Resource.h">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSLogonSubscriptions.h">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSNetworkSubscriptions.h">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSOnNowSubscriptions.h">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\SENSSubscriptions.h">
 			</File>
 			<File
 				RelativePath="..\clientlib\win\stdafx.h">
@@ -245,10 +297,7 @@ regsvr32 /s /c &quot;$(TargetPath)&quot;
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
 			<File
-				RelativePath="..\clientlib\win\boinc_dll.rc">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\boincsens.rgs">
+				RelativePath="..\clientlib\win\boinc_dll_2003.rc">
 			</File>
 		</Filter>
 	</Files>

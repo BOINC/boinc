@@ -6510,3 +6510,19 @@ Charlie 28 June 2007
 
     client/
         file_names.C
+
+Rom    29 June 2007
+    - WIN: Update 2003 project files
+    - WIN: Re-introduce manifests for 2003 built files.
+
+    /
+        <Numerious Files>
+
+Rom    29 June 2007
+    - Tag for 5.10.10 release, all platforms
+      boinc_core_release_5_10_10
+    
+    client/
+        configure.ac
+        version.h
+
