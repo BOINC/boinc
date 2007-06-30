@@ -6518,6 +6518,16 @@ Rom    29 June 2007
     /
         <Numerious Files>
 
+Charlie 29 June 2007
+    Mac: Update user-visible copyright dates from 2006 to 2007
+
+    clientgui/
+        mac/
+            SetVersion.C
+     mac_build/
+        English.lproj/
+            InfoPlist.strings
+        
 Rom    29 June 2007
     - Tag for 5.10.10 release, all platforms
       boinc_core_release_5_10_10
