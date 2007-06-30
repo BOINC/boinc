@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Build\Release"
-			IntermediateDirectory=".\Build\Release\boincmgr\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			CharacterSet="2">
@@ -41,9 +41,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase26.lib wxbase26_net.lib wxbase26_xml.lib wxmsw26_adv.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
-				OutputFile="$(OutDir)/boincmgr.exe"
-				LinkIncremental="1"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/$(ProjectName).exe"
+				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
@@ -56,8 +56,7 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="signcode -v &quot;$(InputDir)\installerv2\boinc.pvk&quot; -spc &quot;$(InputDir)\installerv2\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\boincmgr.exe&quot;"/>
+				Name="VCPostBuildEventTool"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -79,8 +78,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Build\Debug"
-			IntermediateDirectory=".\Build\Debug\boincmgr\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			CharacterSet="2"
@@ -110,8 +109,8 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase26d.lib wxbase26d_net.lib wxbase26d_xml.lib wxmsw26d_adv.lib wxmsw26d_core.lib wxmsw26d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib"
-				OutputFile="$(OutDir)/boincmgr.exe"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28d.lib wxbase28d_net.lib wxbase28d_xml.lib wxmsw28d_adv.lib wxmsw28d_core.lib wxmsw28d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/$(ProjectName).exe"
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
 				IgnoreAllDefaultLibraries="TRUE"
@@ -131,6 +130,69 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
 				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;.."/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseSigned|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
+				AdditionalIncludeDirectories="..;&quot;$(WXWINPROD)\include&quot;;&quot;$(WXWINPROD)\contrib\include&quot;;&quot;$(WXWINPROD)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="TRUE"
+				EnableFunctionLevelLinking="FALSE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdwx.h"
+				WarningLevel="4"
+				WarnAsError="FALSE"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="stdwx.h"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase26.lib wxbase26_net.lib wxbase26_xml.lib wxmsw26_adv.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/$(ProjectName).exe"
+				LinkIncremental="0"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINPROD)\lib\vc_lib&quot;;&quot;$(WXWINPROD)\contrib\lib&quot;"
+				IgnoreAllDefaultLibraries="TRUE"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/boincmgr.pdb"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				SetChecksum="TRUE"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -166,16 +228,10 @@
 				RelativePath="..\clientgui\res\BOINCGUIApp.ico">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCGUIApp.rc">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."/>
-				</FileConfiguration>
+				RelativePath="..\clientgui\res\BOINCGUIApp.xpm">
 			</File>
 			<File
-				RelativePath="..\clientgui\res\BOINCGUIApp.xpm">
+				RelativePath="..\clientgui\BOINCGUIApp_2003.rc">
 			</File>
 			<File
 				RelativePath="..\clientgui\res\boincsnooze.xpm">
@@ -502,26 +558,26 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\lib\app_ipc.h">
-			</File>
-			<File
-				RelativePath="..\lib\browser.C">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\browser.h">
+				RelativePath="..\lib\app_ipc.h">
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.C">
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
@@ -538,6 +594,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\error_numbers.h">
@@ -546,6 +608,12 @@
 				RelativePath="..\lib\filesys.C">
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
@@ -562,6 +630,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\hostinfo.h">
@@ -570,6 +644,12 @@
 				RelativePath="..\lib\md5.c">
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
@@ -586,6 +666,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\md5_file.h">
@@ -594,6 +680,12 @@
 				RelativePath="..\lib\mfile.C">
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
@@ -610,6 +702,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\miofile.h">
@@ -618,6 +716,12 @@
 				RelativePath="..\lib\network.C">
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
@@ -634,6 +738,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">
@@ -646,6 +756,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\prefs.h">
@@ -654,6 +770,12 @@
 				RelativePath="..\lib\proxy_info.C">
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
@@ -682,6 +804,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\str_util.h">
@@ -694,6 +822,12 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\util.h">
@@ -702,6 +836,12 @@
 				RelativePath="..\lib\win_util.C">
 				<FileConfiguration
 					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
@@ -886,6 +1026,18 @@
 				RelativePath="..\clientgui\BOINCDialupManager.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\browser.C">
+				<FileConfiguration
+					Name="ReleaseSigned|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\clientgui\browser.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\hyperlink.cpp">
 			</File>
 			<File
@@ -993,6 +1145,12 @@
 					RelativePath="..\clientgui\ViewMessagesGrid.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\ViewProjects.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewProjects.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\ViewProjectsGrid.cpp">
 				</File>
 				<File
@@ -1011,10 +1169,22 @@
 					RelativePath="..\clientgui\ViewStatistics.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\ViewTransfers.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewTransfers.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\ViewTransfersGrid.cpp">
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewTransfersGrid.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewWork.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewWork.h">
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewWorkGrid.cpp">
@@ -1136,6 +1306,15 @@
 							BrowseInformation="1"
 							CompileAs="2"/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseSigned|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							CompileAs="2"/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\lib\gui_rpc_client.h">
@@ -1144,6 +1323,12 @@
 					RelativePath="..\lib\gui_rpc_client_ops.C">
 					<FileConfiguration
 						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAs="2"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseSigned|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							CompileAs="2"/>
@@ -1161,9 +1346,6 @@
 			RelativePath="..\clientgui\BOINCGUIApp.h">
 		</File>
 		<File
-			RelativePath="..\clientgui\boincmgr.exe.manifest">
-		</File>
-		<File
 			RelativePath="..\clientgui\Events.h">
 		</File>
 		<File
@@ -1179,6 +1361,12 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="ReleaseSigned|Win32">
 				<Tool
 					Name="VCCLCompilerTool"
 					UsePrecompiledHeader="1"/>

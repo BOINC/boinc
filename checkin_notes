@@ -6864,3 +6864,10 @@ David  29 June 2007
         cs_scheduler.C
         app_start.C
         time_stats.C
+
+Rom    29 June 2007
+    - WIN: Update 2003 project files
+    - WIN: Re-introduce manifests for 2003 built files.
+
+    /
+        <Numerious Files>
