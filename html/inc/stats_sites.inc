@@ -64,11 +64,6 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
-    //array("http://stats.boincbzh.net/BZHwds/index.php",
-    //    "BOINC Alliance Francophone",
-    //    "developed by Vincent Mary (email: stats at hoincbzh.net).
-    //    Supports competition between 'mini-teams'."
-    //),
     array("http://stats.kwsn.net/",
         "The Knights Who Say 'Ni' stats",
         ""
@@ -82,7 +77,7 @@ $stats_sites = array(
 $team_stats_sites = array(
     array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
     array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
-    array("http://www.oxxam.net/", "L'Alliance Francophone"),
+    array("http://www.myboinc.com/scores/", "L'Alliance Francophone"),
     array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
     array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     array("http://www.bigbee.be/comp/boinc/index.php",

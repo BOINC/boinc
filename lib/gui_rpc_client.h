@@ -506,6 +506,8 @@ struct CC_STATUS {
     int network_mode_perm;
 	double task_mode_delay;		// time until perm becomes actual
 	double network_mode_delay;
+    bool disallow_attach;
+    bool simple_gui_only;
 
     CC_STATUS();
     ~CC_STATUS();

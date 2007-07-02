@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("July 2, 2007",
+    "Amir Alexander of The Planetary Society talks about
+    <a href=http://www.boincuk.com/amir_alexander.mp3>SETI, distributed computing, and space exploration</a> in an interview by Mike of BOINC UK."
+),
 array("June 28, 2007",
     "Linux users: if you use bash,
     check out a cool <a href=http://boinc.berkeley.edu/trac/wiki/BashCommandCompletion>script</a>

@@ -5947,10 +5947,10 @@ David  8 June 2007
         prefs.C
 
 David  8 June 2007
-	- compile fix
+    - compile fix
 
-	api/
-		graphics_api.C
+    api/
+        graphics_api.C
 
 Charlie 8 June 2007
     - Mac: Add application icons to installer, uninstaller; add 
@@ -5984,13 +5984,13 @@ Rom    8 June 2007
         SkinManager.cpp
 
 David  8 June 2007
-	- fix bugs introduced by recent XML changes
+    - fix bugs introduced by recent XML changes
 
-	lib/
-		gui_rpc_client_ops.C
-		parse.C
-		prefs.C
-		
+    lib/
+        gui_rpc_client_ops.C
+        parse.C
+        prefs.C
+        
 Rom    8 June 2007
     - Tag for 5.10.3 release, all platforms
       boinc_core_release_5_10_3
@@ -6022,10 +6022,10 @@ Charlie 8 June 2007
         release_GridRepublic.sh
 
 David  9 June 2007
-	- client: fixed bug in prefs parsing
+    - client: fixed bug in prefs parsing
 
-	lib
-		prefs.C
+    lib
+        prefs.C
 
 Rom    8 June 2007
     - Tag for 5.10.4 release, all platforms
@@ -6036,19 +6036,19 @@ Rom    8 June 2007
         version.h
 
 David  11 June 2007
-	- manager: fix bug in parsing of all-projects list
-		(caused Wizard list to be empty)
-	- manager: change (web) to WWW
+    - manager: fix bug in parsing of all-projects list
+        (caused Wizard list to be empty)
+    - manager: change (web) to WWW
 
-	client/
-		acct_mgr.C
-		cs_statefile.C
-	clientgui/
-		ProjectListCtrl.cpp
-	lib/
-		gui_rpc_client_ops.C
+    client/
+        acct_mgr.C
+        cs_statefile.C
+    clientgui/
+        ProjectListCtrl.cpp
+    lib/
+        gui_rpc_client_ops.C
 
-Janus	11 June 2007
+Janus    11 June 2007
     - Added checks.php containin common code between the bittorrent tracker
       and the scraping mechanism.
     - Fixed some of the SVN properties for the BT-related files.
@@ -6068,12 +6068,12 @@ David  11 June 2007
         cs_statefile.C
 
 David  11 June 2007
-	- change new XML parser to handle XML comments (<!-- ... -->)
+    - change new XML parser to handle XML comments (<!-- ... -->)
 
-	client/
-		log_flags.C
-	lib/
-		parse.C,h
+    client/
+        log_flags.C
+    lib/
+        parse.C,h
 
 David  11 June 2007
     - client: enforce_schedule(): if try to preempt a
@@ -6125,18 +6125,18 @@ David  12 June 2007
         cs_statefile.C
 
 David  12 June 2007
-	- client: when I changed the length of benchmark intervals
-		from 20 to 10 seconds, this broke things on ultra-slow CPUs.
-		I think this is because a single loop of the FP
-		benchmark took so long that the end time of the int
-		benchmark had already come and gone.
-		Fixed this (I hope) by reducing the loop length
-		by a factor of 10.
+    - client: when I changed the length of benchmark intervals
+        from 20 to 10 seconds, this broke things on ultra-slow CPUs.
+        I think this is because a single loop of the FP
+        benchmark took so long that the end time of the int
+        benchmark had already come and gone.
+        Fixed this (I hope) by reducing the loop length
+        by a factor of 10.
 
-	client/
-		cs_benchmark.C
-		dhrystone.C
-		whetstone.C
+    client/
+        cs_benchmark.C
+        dhrystone.C
+        whetstone.C
 
 David  12 June 2007
     - API: initialize all fields on BOINC_OPTIONS.
@@ -6209,12 +6209,12 @@ Rom    13 June 2007
         version.h
 
 David  13 June 2007
-	- API: XML parsing glitch caused apps to always run standalone,
-		not report CPU time etc.
+    - API: XML parsing glitch caused apps to always run standalone,
+        not report CPU time etc.
 
-	lib/
-		app_ipc.C
-		prefs.C
+    lib/
+        app_ipc.C
+        prefs.C
 
 David  13 June 2007
     - API: set timer thread stack size to 16KB
@@ -6331,7 +6331,7 @@ Rom    16 June 2007
     clientgui/
         MainDocument.cpp, .h
 
-Janus	17 June 2007
+Janus    17 June 2007
     - Added the .torrent-generator which will (at some point) allow 
       projects to dynamically generate .torrent-data for their files.
 
@@ -6365,12 +6365,12 @@ Rom    19 June 2007
         version.h
 
 David  19 June 2007
-	- manager: v6 graphics fixes.  doesn't work yet
+    - manager: v6 graphics fixes.  doesn't work yet
 
-	clientgui/
-		ViewWork.cpp
-	lib/
-		util.C,h
+    clientgui/
+        ViewWork.cpp
+    lib/
+        util.C,h
 
 Rom    19 June 2007
     - MGR: Misc v6 graphics fixes
@@ -6381,21 +6381,21 @@ Rom    19 June 2007
         ViewWorkGrid.cpp
 
 David  19 June 2007
-	- manager: v6 graphics fixes.  doesn't work yet
+    - manager: v6 graphics fixes.  doesn't work yet
 
-	client/
-		client_state.C
-	lib/
-		gui_rpc_client_ops.C
+    client/
+        client_state.C
+    lib/
+        gui_rpc_client_ops.C
 
 David  19 June 2007
-	- manager: v6 graphics fixes.
-		Works now, with a few problems
+    - manager: v6 graphics fixes.
+        Works now, with a few problems
 
-	clientgui/
-		ViewWork.cpp
-	lib/
-		util.C
+    clientgui/
+        ViewWork.cpp
+    lib/
+        util.C
 
 David  20 June 2007
     - back end: make it possible to run multiple instances of make_work,
@@ -6493,7 +6493,7 @@ David  20 June 2007
         create_work.C
         updater.C
 
-Janus	21 June 2007
+Janus    21 June 2007
     - Added the scraping mechanism for Bittorrent support
         (not all Bittorrent clients actually support this,
         but those that do get an increased performance boost and
@@ -6554,38 +6554,38 @@ David  22 June 2007
         util.C,h
 
 David  22 June 2007
-	- compile fixes for Win
+    - compile fixes for Win
 
-	client/
-		acct_setup.C
-		cs_prefs.C
-		cs_trickle.C
-	lib/
-		filesys.C
-		str_util.C,h
-		util.C,h
-	tools/
-		updater.C
-	win_build/
-		sim.vcproj
+    client/
+        acct_setup.C
+        cs_prefs.C
+        cs_trickle.C
+    lib/
+        filesys.C
+        str_util.C,h
+        util.C,h
+    tools/
+        updater.C
+    win_build/
+        sim.vcproj
 
 David  22 June 2007
-	- client: fix two XML parsing bugs:
-		1) XML_PARSER::parse_int() and parse_double() wouldn't parse
-			<foo></foo>, and in fact would consume the </foo>,
-			so that the resulting skip_unexpected()
-			would skip the entire rest of the document.
+    - client: fix two XML parsing bugs:
+        1) XML_PARSER::parse_int() and parse_double() wouldn't parse
+            <foo></foo>, and in fact would consume the </foo>,
+            so that the resulting skip_unexpected()
+            would skip the entire rest of the document.
 
-			This was exercised because my checking of 17 Apr
-			set the default for work_buf_min_days as "" rather than 0.
+            This was exercised because my checking of 17 Apr
+            set the default for work_buf_min_days as "" rather than 0.
 
-		2) XML_PARSER::scan_tag() was removing spaces,
-			so <venue name="home"> parsed as venuename="home"
-			This actually didn't do any damage.
+        2) XML_PARSER::scan_tag() was removing spaces,
+            so <venue name="home"> parsed as venuename="home"
+            This actually didn't do any damage.
 
-	lib/
-		parse.C
-		prefs.C
+    lib/
+        parse.C
+        prefs.C
 
 David  22 June 2007
     - client: read only first 63KB of stderr.txt
@@ -6730,17 +6730,17 @@ Charlie 25 June 2007
         shmem.C,h
 
 David  25 June 2007
-	- manager: improve wording in advanced prefs dialog
+    - manager: improve wording in advanced prefs dialog
 
-	clientgui/
-		DlgAdvPreferencesBase.cpp,h
+    clientgui/
+        DlgAdvPreferencesBase.cpp,h
 
 David  25 June 2007
-	- manager and client: fixed bug where only one day-of-week
-		preference would be parsed.
+    - manager and client: fixed bug where only one day-of-week
+        preference would be parsed.
 
-	lib/
-		prefs.C,h
+    lib/
+        prefs.C,h
 
 David  25 June 2007
     - add new stats site
@@ -6899,14 +6899,28 @@ Rom    2 July 2007
         app_control.C
 
 David  2 July 2007
-	- client: fix bug that broke <os_random_only> option
-	- client and Manager: attempts to fix problems
-		if <guirpc_debug> is set
+    - client: fix bug that broke <os_random_only> option
+    - client and Manager: attempts to fix problems
+        if <guirpc_debug> is set
 
-	client/
-		gui_rpc_server_ops.C
-	clientgui/
-		MainDocument.cpp
-	lib/
-		gui_rpc_client_ops.C
-		md5_file.C
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        MainDocument.cpp
+    lib/
+        gui_rpc_client_ops.C
+        md5_file.C
+
+David  2 July 2007
+    - client: add <simple_gui_only> config flag
+    - GUI RPC: add disallow_attach and simple_gui_only flags
+        to CC_STATUS structure
+
+    client/
+        gui_rpc_server_ops.C
+        log_flags.C,h
+    html/inc/
+        stats_sites.inc
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

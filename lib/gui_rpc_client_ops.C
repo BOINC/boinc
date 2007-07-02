@@ -988,6 +988,8 @@ int CC_STATUS::parse(MIOFILE& in) {
         if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
 		if (parse_double(buf, "<task_mode_delay>", task_mode_delay)) continue;
 		if (parse_double(buf, "<network_mode_delay>", network_mode_delay)) continue;
+        if (parse_bool(buf, "disallow_attach", disallow_attach)) continue;
+        if (parse_bool(buf, "simple_gui_only", simple_gui_only)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1004,6 +1006,8 @@ void CC_STATUS::clear() {
     network_mode_perm = -1;
 	task_mode_delay = 0;
 	network_mode_delay = 0;
+    disallow_attach = false;
+    simple_gui_only = false;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
