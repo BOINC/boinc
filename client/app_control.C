@@ -120,7 +120,6 @@ int ACTIVE_TASK::request_abort() {
 int ACTIVE_TASK::kill_task(bool restart) {
 #ifdef _WIN32
     TerminateProcessById(pid);
-    kill_all_children();
 #else
 #ifdef SANDBOX
     char cmd[1024];
@@ -211,7 +210,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
     } else {
 #ifdef _WIN32
-        kill_all_children();
         close_process_handles();
         result->exit_status = exit_code;
         if (exit_code) {

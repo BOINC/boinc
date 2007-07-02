@@ -6891,4 +6891,10 @@ Rom    2 July 2007
     clientgui/
         AdvancedFrame.cpp
         Events.h
-        
+
+Rom    2 July 2007
+    - CC: Remove calls to kill_all_children.
+    
+    client/
+        app_control.C
+
