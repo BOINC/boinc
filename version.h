@@ -7,13 +7,13 @@
 #define BOINC_MAJOR_VERSION 5
 
 /* Minor part of BOINC version number */
-#define BOINC_MINOR_VERSION 11
+#define BOINC_MINOR_VERSION 10
 
 /* Release part of BOINC version number */
 #define BOINC_RELEASE 11
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "5.10.11"
+#define BOINC_VERSION_STRING "5.10.10"
 
 #if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */
