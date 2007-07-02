@@ -13,7 +13,7 @@
 #define BOINC_RELEASE 11
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "5.10.10"
+#define BOINC_VERSION_STRING "5.10.11"
 
 #if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */
