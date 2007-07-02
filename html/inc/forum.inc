@@ -1,4 +1,5 @@
 <?php
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once('../inc/db.inc');
@@ -506,12 +507,7 @@ function show_post2($post, $n) {
     $title = cleanup_title($thread->title);
     $m = $n%2;
     if($post->hidden) {
-        //Todo: factor this array out, it is also used elsewhere
-        $deleted_text = array( "Obscene", "Flame/Hate", "Commercial Spam", "Flamebait", "Doublepost", "User Request", "Other");
-        $deleted = "<br><font color=red>[Deleted " .
-                   "by a moderator " .
-                   //as " . $deleted_text[$post->hidden-1] .
-                   "] </font>";
+        $deleted = "<br><font color=red>[Deleted by a moderator]</font>";
     } else {
         $deleted = "";
     }
@@ -521,6 +517,7 @@ function show_post2($post, $n) {
             $n) <a href=\"$top_url\">$where</a> : $category->name :
             <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a> :
             <a href=\"forum_thread.php?id=$thread->id\">$title</a>
+            (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">Message ".$post->id."</a>)
             <br>
             Posted $when by $user->name $deleted
             <hr>
