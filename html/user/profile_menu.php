@@ -1,5 +1,7 @@
 <?php
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
@@ -14,7 +16,6 @@ if ($option) {
 }
 
 page_head("Profile Zone");
-
 
 start_table_noborder();
 rowify("
@@ -38,7 +39,7 @@ echo "<tr><td>";
         $user = lookup_user_id($profile->userid);
         echo uotd_thumbnail($profile, $user);
         echo user_links($user)."<br>";
-        echo sub_sentence(strip_tags($profile->response1), ' ', 150, true);
+        echo sub_sentence(output_transform(strip_tags($profile->response1)), ' ', 150, true);
     }
 
 echo "</td></tr>";
