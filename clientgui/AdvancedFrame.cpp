@@ -174,7 +174,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
-    EVT_MENU(ID_VIEWSWITCHTYPE, CAdvancedFrame::OnSwitchView)
+    EVT_MENU_RANGE(ID_VIEWACCESSIBLE, ID_VIEWGRID, CAdvancedFrame::OnSwitchView)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
 	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
 	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
@@ -356,16 +356,23 @@ bool CAdvancedFrame::CreateMenu() {
     // View menu
     wxMenu *menuView = new wxMenu;
 
-    menuView->AppendCheckItem(
-        ID_VIEWSWITCHTYPE,
+    menuView->AppendRadioItem(
+        ID_VIEWACCESSIBLE,
         _("&Accessible View"),
         _("Accessible views are compatible with accessibility aids such as "
           "screen readers.")
     );
 
+    menuView->AppendRadioItem(
+        ID_VIEWGRID,
+        _("&Grid View"),
+        _("Grid views allow you to sort various columns and displays "
+          "graphical progress bars.")
+    );
+
     menuView->Append(
         ID_FILESWITCHGUI,
-        _("&Simple View"),
+        _("&Simple View..."),
         _("Display the simple BOINC graphical interface.")
     );
 
@@ -1274,10 +1281,14 @@ void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnSwitchView(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function Begin"));
 
-    if ( event.IsChecked() ) {
+    switch(event.GetId()) {
+    case ID_VIEWACCESSIBLE:
         m_iDisplayViewType = VIEW_LIST;
-    } else {
+        break;
+    case ID_VIEWGRID:
+    default:
         m_iDisplayViewType = VIEW_GRID;
+        break;
     }
 
     // Save the current view state
@@ -1891,16 +1902,6 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
         bAlreadyRunningLoop = true;
 
         if (IsShown()) {
-            wxMenuBar* pMenuBar = GetMenuBar();
-
-            wxASSERT(pMenuBar);
-            wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
-
-            pMenuBar->Check(ID_VIEWSWITCHTYPE, false);
-            if (VIEW_LIST == m_iDisplayViewType) {
-                pMenuBar->Check(ID_VIEWSWITCHTYPE, true);
-            }
-
             if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));

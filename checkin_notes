@@ -6884,3 +6884,11 @@ David  30 June 2007
 
     client/
         gui_rpc_server_ops.C
+
+Rom    2 July 2007
+    - MGR: Adjust menu names.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        Events.h
+        
