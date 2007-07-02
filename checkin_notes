@@ -6548,3 +6548,16 @@ Rom    2 July 2007
         configure.ac
         version.h
 
+Rom    2 July 2007
+    - CC: Remove calls to kill_all_children.
+    
+    client/
+        app_control.C
+
+Rom    2 July 2007
+    - Tag for 5.10.12 release, all platforms
+      boinc_core_release_5_10_12
+    
+    client/
+        configure.ac
+        version.h
