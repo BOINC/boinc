@@ -1763,13 +1763,18 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
     retval = rpc.do_rpc(buf);
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</msgs>")) break;
-            else if (match_tag(buf, "<msg>")) {
+            if (match_tag(buf, "</msgs>")) {
+                return 0;
+            }
+            if (match_tag(buf, "<msg>")) {
                 MESSAGE* message = new MESSAGE();
                 message->parse(rpc.fin);
                 msgs.messages.push_back(message);
                 continue;
             }
+            if (match_tag(buf, "<boinc_gui_rpc_reply>")) continue;
+            if (match_tag(buf, "<msgs>")) continue;
+            fprintf(stderr, "bad tag %s\n", buf);
         }
     }
     return retval;

@@ -989,7 +989,7 @@ int GUI_RPC_CONN::handle_rpc() {
         n = read(sock, request_msg, 4095);
 #endif
     if (n <= 0) return ERR_READ;
-    request_msg[n] = 0;
+    request_msg[n-1] = 0;   // replace 003 with NULL
 
     if (log_flags.guirpc_debug) {
         msg_printf(0, MSG_INFO,
@@ -1149,8 +1149,9 @@ int GUI_RPC_CONN::handle_rpc() {
     m.get_buf(p, n);
     if (p) {
         send(sock, p, n, 0);
+        p[n-1]=0;   // replace 003 with NULL
         if (log_flags.guirpc_debug) {
-            if (n > 1000) p[1000] = 0;
+            if (n > 50) p[50] = 0;
             msg_printf(0, MSG_INFO,
                 "[guirpc_debug] GUI RPC reply: '%s'\n", p
             );

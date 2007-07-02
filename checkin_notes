@@ -6898,3 +6898,15 @@ Rom    2 July 2007
     client/
         app_control.C
 
+David  2 July 2007
+	- client: fix bug that broke <os_random_only> option
+	- client and Manager: attempts to fix problems
+		if <guirpc_debug> is set
+
+	client/
+		gui_rpc_server_ops.C
+	clientgui/
+		MainDocument.cpp
+	lib/
+		gui_rpc_client_ops.C
+		md5_file.C

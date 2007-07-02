@@ -1032,7 +1032,8 @@ int CMainDocument::CachedMessageUpdate() {
             goto done;
         }
         if (messages.messages.size() != 0) {
-            m_iMessageSequenceNumber = messages.messages.at(messages.messages.size()-1)->seqno;
+            int last_ind = messages.messages.size()-1;
+            m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
     }
 done:
