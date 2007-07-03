@@ -1119,7 +1119,21 @@ void send_work_locality(
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d]: delete file %s (not needed)\n", reply.host.id, fi.name
-            ); 
+            );
+#ifdef EINSTEIN_AT_HOME
+            // For name matching pattern h1_XXXX.XX_S5R2
+            // generate corresponding l1_h1_XXXX.XX_S5R2 pattern and delete it also
+            //
+            if (strlen(fi.name)==15 && !strncmp("h1_", fi.name, 3)) {
+                FILE_INFO fi_l = fi;
+                fi_l.name[0]='l';
+                reply.file_deletes.push_back(fi_l);
+                log_messages.printf(
+                    SCHED_MSG_LOG::MSG_DEBUG,
+                    "[HOST#%d]: delete file %s (not needed)\n", reply.host.id, fi_l.name
+                );
+            }
+#endif
         } // nsent==0
     } // loop over files already on the host
 
