@@ -114,7 +114,7 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "description", description)) continue;
         if (xp.parse_string(tag, "home", home)) continue;
         if (xp.parse_string(tag, "image", image)) continue;
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, false, "");
     }
     return ERR_XML_PARSE;
 }

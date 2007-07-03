@@ -60,7 +60,7 @@ boinc_client_SOURCES = \
     whetstone.C \
     work_fetch.C
 
-boinc_client_DEPENDENCIES = $(LIBRSA)
+boinc_client_DEPENDENCIES =
 boinc_client_CPPFLAGS = -O3 -fomit-frame-pointer -fforce-addr -ffast-math $(AM_CPPFLAGS)
 boinc_client_LDFLAGS = -static-libgcc
 boinc_client_LDADD = -L../lib -lboinc $(PTHREAD_LIBS)

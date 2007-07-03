@@ -106,5 +106,5 @@ md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C
 msg_test_SOURCES = msg_test.C msg_queue.C
 crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C
-crypt_prog_DEPENDENCIES = $(LIBRSA)
+crypt_prog_DEPENDENCIES =
 crypt_prog_LDADD = $(RSA_LIBS) $(PTHREAD_LIBS)

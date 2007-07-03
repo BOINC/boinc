@@ -126,7 +126,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, true, "LOG_FLAGS::parse");
     }
     return ERR_XML_PARSE;
 }
@@ -222,7 +222,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, true, "CONFIG::parse_options");
     }
     return ERR_XML_PARSE;
 }
@@ -257,7 +257,7 @@ int CONFIG::parse(FILE* f) {
         msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, true, "CONFIG.parse");
     }
     msg_printf(NULL, MSG_USER_ERROR, "Missing end tag in %s", CONFIG_FILE);
     return ERR_XML_PARSE;

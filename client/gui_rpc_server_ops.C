@@ -900,7 +900,7 @@ static int set_debt(XML_PARSER& xp) {
                 "[unparsed_xml] set_debt: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "set_debt");
     }
     return 0;
 }
@@ -935,7 +935,7 @@ static void handle_set_debts(char* buf, MIOFILE& fout) {
                 "[unparsed_xml] handle_set_debts: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "handle_set_debts");
     }
     fout.printf("<error>No end tag</error>\n");
 }

@@ -20,6 +20,7 @@ noinst_PROGRAMS = \
     sample_bitwise_validator \
     sample_trivial_validator \
     sample_work_generator \
+    sched_driver \
     send_file \
     show_shmem \
     transitioner \
@@ -138,36 +139,40 @@ update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
 
 file_upload_handler_SOURCES = file_upload_handler.C
-file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+file_upload_handler_DEPENDENCIES = $(LIB_SCHED)
 file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
 make_work_SOURCES = make_work.C
-make_work_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+make_work_DEPENDENCIES = $(LIB_SCHED)
 make_work_LDADD = $(LDADD) $(RSA_LIBS)
 
 transitioner_SOURCES = transitioner.C
-transitioner_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+transitioner_DEPENDENCIES = $(LIB_SCHED)
 transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
 message_handler_SOURCES = message_handler.C
-message_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+message_handler_DEPENDENCIES = $(LIB_SCHED)
 message_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
 request_file_list_SOURCES = request_file_list.C
-request_file_list_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+request_file_list_DEPENDENCIES = $(LIB_SCHED)
 request_file_list_LDADD = $(LDADD) $(RSA_LIBS)
 
 get_file_SOURCES = get_file.C
-get_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+get_file_DEPENDENCIES = $(LIB_SCHED)
 get_file_LDADD = $(LDADD) $(RSA_LIBS)
 
 send_file_SOURCES = send_file.C
-send_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+send_file_DEPENDENCIES = $(LIB_SCHED)
 send_file_LDADD = $(LDADD) $(RSA_LIBS)
 
 delete_file_SOURCES = delete_file.C
-delete_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+delete_file_DEPENDENCIES = $(LIB_SCHED)
 delete_file_LDADD = $(LDADD) $(RSA_LIBS)
+
+sched_driver_SOURCES = sched_driver.C
+sched_driver_DEPENDENCIES = $(LIB_SCHED)
+sched_driver_LDADD =
 
 fcgi_SOURCES = \
     handle_request.C \
@@ -202,7 +207,7 @@ fcgi_SOURCES = \
     ../tools/process_result_template.C \
     ../tools/backend_lib.C
 
-fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+fcgi_DEPENDENCIES = $(LIB_SCHED)
 fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 
@@ -212,7 +217,7 @@ fcgi_file_upload_handler_SOURCES = \
     ../lib/miofile.C \
     ../lib/parse.C \
     ../lib/crypt.C
-fcgi_file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+fcgi_file_upload_handler_DEPENDENCIES = $(LIB_SCHED)
 fcgi_file_upload_handler_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi
 

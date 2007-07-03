@@ -216,7 +216,7 @@ int DAY_PREFS::parse(XML_PARSER& xp) {
         if (xp.parse_double(tag, "end_hour", time_prefs.end_hour)) continue;
         if (xp.parse_double(tag, "net_start_hour", time_prefs.net_start_hour)) continue;
         if (xp.parse_double(tag, "net_end_hour", time_prefs.net_end_hour)) continue;
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, true, "GLOBAL_PREFS::parse");
     }
     return ERR_XML_PARSE;
 }
@@ -411,7 +411,7 @@ int GLOBAL_PREFS::parse_override(
         if (xp.parse_bool(tag, "host_specific", host_specific)) {
             continue;
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, true, "GLOBAL_PREFS::parse_override");
     }
     return ERR_XML_PARSE;
 }

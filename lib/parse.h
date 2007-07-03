@@ -51,7 +51,7 @@ public:
     bool parse_double(char*, const char*, double&);
     bool parse_bool(char*, const char*, bool&);
 	int element_contents(const char*, char*, int);
-    void skip_unexpected(const char*);
+    void skip_unexpected(const char*, bool verbose, const char*);
 };
 
 /////////////// START DEPRECATED XML PARSER

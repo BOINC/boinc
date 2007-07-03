@@ -6935,3 +6935,30 @@ Bruce 3 July 2007
     sched/
         sched_locality.C
 
+David  3 July 2007
+    - Added program sched/sched_driver.C.
+        This generates a sequence of scheduler requests,
+        with host info taken from a file,
+        that you can feed into the scheduler (cgi --batch)
+        to simulate things like homogeneous redundancy
+    - Added args to XML_PARSER::skip_unexpected() to you can say
+        whether to write messages to stderr for unparsed stuff.
+        This is set to true if log_flags.unparsed_xml is set (client)
+        or if debug_level is 3 (server)
+    - removed references to $(LIBRSA) in Makefile.am's
+
+    client/
+        Makefile.am
+        acct_mgr.C
+        gui_rpc_server_ops.C
+        log_flags.C
+    lib/
+        Makefile.am
+        app_ipc.C
+        gui_rpc_client_ops.C
+        parse.C,h
+        prefs.C
+    sched/
+        Makefile.am
+        sched_config.C
+        sched_driver.C
