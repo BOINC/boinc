@@ -6924,3 +6924,14 @@ David  2 July 2007
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Bruce 3 July 2007
+    - Einstein@Home specific hack to locality scheduler.
+      If deleting a file with name matching pattern h1_XXXX.XX_S5R22
+      generate corresponding l1_h1_XXXX.XX_S5R2 pattern and delete it also.
+      This is needed because E@H is doing file locality scheduling with
+      PAIRS h1_... and l1_... of files. Yuk.  I am not proud of this.
+
+    sched/
+        sched_locality.C
+
