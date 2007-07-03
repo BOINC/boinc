@@ -6962,3 +6962,22 @@ David  3 July 2007
         Makefile.am
         sched_config.C
         sched_driver.C
+
+Janus	3 July 2007
+    - Added the bittorrent tracker code
+    - Also added a simple file filter that accepts any file present in the
+      download directory for tracking (or whatever directory is set to be the
+      data directory).
+      FileFilter is the class to subclass if you need some kind of special rules
+      on which files to allow your tracker to track. (Some projects may want to
+      disallow tracking of workunit files while allowing tracking of application 
+      files etc.)
+      Once the base system has been done there'll be different file filters to
+      chose from.
+
+    html/bt/
+        announce.php (new)
+    html/bt/filters/ (new)
+        filefilter.php (new)
+	allfilesfilefilter.php (new)
+
