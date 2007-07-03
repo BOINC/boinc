@@ -1122,7 +1122,7 @@ void send_work_locality(
             );
 #ifdef EINSTEIN_AT_HOME
             // For name matching pattern h1_XXXX.XX_S5R2
-            // generate corresponding l1_h1_XXXX.XX_S5R2 pattern and delete it also
+            // generate corresponding l1_XXXX.XX_S5R2 pattern and delete it also
             //
             if (strlen(fi.name)==15 && !strncmp("h1_", fi.name, 3)) {
                 FILE_INFO fi_l = fi;
