@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-08-10 14:24+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2007-06-22 17:54+0200\n"
+"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -317,6 +317,10 @@ msgstr "Sisteminiai reikalavimai"
 msgid "DL_RELNOTES"
 msgstr "Trumpas aprašymas"
 
+#, fuzzy
+msgid "DL_TROUBLE"
+msgstr "Problemų sprendimas"
+
 msgid "DL_OTHERSYS"
 msgstr "Kitos sistemos"
 
@@ -334,6 +338,9 @@ msgstr "%s parsisiųsti iš kitų tinklapių %s (jau yra Solaris/Opteron, Linux/
 
 msgid "DL_DOWNLOAD_TITLE"
 msgstr "BOINC: skaičiavimai mokslui"
+
+msgid "DL_MIRRORS"
+msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these institutions). The server is chosen randomly - if a download fails, reload this page and try again. "
 
 # #############################################
 # system_requirements.php by je2bwm 2006/08/07
@@ -422,6 +429,10 @@ msgstr "Išdiegimas"
 msgid "RLN_KNOWN_ISSUES"
 msgstr "Žinomos problemos"
 
+#, fuzzy
+msgid "RLN_WIN_INSTALL_PROBLEMS"
+msgstr "Įdiegimo metu galima pasirinkti vieną iš kelių BOINC veikimo režimų:"
+
 msgid "RLN_TROUBLESHOOT"
 msgstr "Problemų sprendimas"
 
@@ -433,6 +444,25 @@ msgstr "Bendri nustatymai gali būti apeinami įrašant vietines bylas; daugiau 
 
 msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
 msgstr "BOINC dabar praneša kai jam reikia prisijungimo prie interneto."
+
+msgid "RLN_5_8_SIMPLE_GUI"
+msgstr "The BOINC Manager offers two different interfaces:  'Simple' (small, graphical, skinnable)  and 'Advanced' (maximum information).  The Simple GUI allows local editing of preferences.  You can switch back and forth between Simple and Advanced. "
+
+msgid "RLN_5_8_THROTTLE"
+msgstr " CPU throttling: you can reduce CPU heat by limiting  the fraction of time that BOINC computes. "
+
+msgid "RLN_5_8_SCHED"
+msgstr " Improved scheduling policies avoid missing job deadlines  even on a slow computer with lots of projects. "
+
+#, fuzzy
+msgid "RLN_5_8_MEM"
+msgstr "Palaiko 'Abonentų valdiklius' - tinklapius, kurie leidžia jums pasirinkti BOINC projektus, prisijungti/atsijungti, pakeisti resursų padalijimą ir nustatymus. Visa tai vyksta labai paprastai. Abonentų valdikliai taip pat leidžia greitai keisti kelių kompiuterių nustatymus vienu metu."
+
+msgid "RLN_5_8_SANDBOX"
+msgstr " Mac OS X version runs applications in an unpriviledged account,  increasing security. "
+
+msgid "RLN_5_8_SNOOZE"
+msgstr " Snooze button (in the system tray icon) lets you  stop computing for one hour. "
 
 msgid "RLN_RECOMMEND_LATEST_VERSION"
 msgstr "Mes rekomenduojame BOINC vartotojams atnaujinti savo programą iki %s versijos."
@@ -518,9 +548,93 @@ msgstr "Jei jums iškilo problemu su BOINC, štai čia yra keli žingniai kurie 
 msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
 msgstr "Jei jums kilo problemų su konkrečiu projektu, eikite į 'Klausimų ir atsakymų' skiltį projekto tinklapyje. Jūs ten galite rasti sprendimą savo problemai. Jei ne, tuomet praneškite apie problemą ir jums ją išspręsti padės kiti vartotojai."
 
-msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
-msgstr "Jei su projektu susijusi problema neišsprendžiama, pasinaudokite BOINC valdilyje esančia komanda 'perkrauti projektą'. Tai ištrins visus su projektu susijusius darbus ir pradėsite projektą iš naujo."
-
 msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 msgstr "Jei jums kilo su problemų su pačiu BOINC, pagalbą ir patarimus surasite %s BOINC pranešimų lentose %s."
+
+# for user survey
+#, fuzzy
+msgid "HELP_TITLE"
+msgstr "BOINC vartotojų apklausa"
+
+msgid "HELP_HEADING1"
+msgstr "Pagalba internetu"
+
+msgid "HELP_P1_1"
+msgstr "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have. "
+
+msgid "HELP_P1_2"
+msgstr "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page. "
+
+msgid "HELP_P1_3"
+msgstr "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. Alternatively, you can use Skype's text-based chat system to communicate with Help Volunteers."
+
+msgid "HELP_P1_4"
+msgstr "Volunteers speaking several languages are available. Please select a language: "
+
+msgid "HELP_HEADING2"
+msgstr "Other sources of help"
+
+msgid "HELP_P2_ITEM1"
+msgstr "Running BOINC "
+
+msgid "HELP_P2_ITEM2"
+msgstr "Troubleshooting BOINC "
+
+msgid "HELP_P2_ITEM3"
+msgstr "BOINC-related web sites "
+
+msgid "HELP_P2_ITEM4"
+msgstr "The BOINC message boards "
+
+msgid "HELP_P2_ITEM5"
+msgstr "The message boards on any BOINC-based project "
+
+msgid "HELP_HEADING3"
+msgstr "Būk savanoriu pagalbininku"
+
+msgid "HELP_P3_1"
+msgstr "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!  "
+
+msgid "HELP_P3_2"
+msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%s. "
+
+# #############################################
+# index.php
+# #############################################
+msgid "HOME_HEADING1"
+msgstr "Būk savanoriu"
+
+msgid "HOME_P1"
+msgstr "Panaudokite laisvus savo kompiuterio resursus (Windows, Mac arba Linux) vaistų paieškai, globalinio klimato studijoms, pulsarų paieškai ir daugybei kitų mokslinių tyrimų. Tai saugu ir paprasta: %sPasirinkite%s projektus %sParsisiųskite%s ir paleiskite BOINC programinę įrangą %sĮveskite%s projektų adresus, savo el. pašto adresą bei slaptažodį."
+
+msgid "HOME_P2"
+msgstr "Arba, jei dalyvaujate keliuose projektuose, išmėginkite %sabonento valdiklį%s, pvz., %sGridRepublic%s arba %sBAM!%s."
+
+msgid "HOME_P3"
+msgstr "Jeigu turite klausimų arba jums reikia pagalbos pradedant naudoti BOINC, galite %ssusisiekti su savanoriu pagalbininku%s."
+
+msgid "HOME_MORE_INFO"
+msgstr "BOINC naudojimas"
+
+# #######################################
+# download.php 2006/08/03 by je2bwm
+# #######################################
+#, fuzzy
+msgid "HOME_DOWNLOAD"
+msgstr "Parsisiųsti BOINC"
+
+msgid "HOME_WEB_SITES"
+msgstr "Informaciniai tinklapiai"
+
+msgid "HOME_ADD_ONS"
+msgstr "Priedai"
+
+msgid "HOME_SURVEY"
+msgstr "Apklausa"
+
+msgid "HOME_BOINC"
+msgstr "BOINC interneto svetainė"
+
+msgid "HOME_BOINC_DESC"
+msgstr "Atviro kodo programinė įranga %ssavanoriškiems skaičiavimams%s ir %sskaičiavimams panaudojant esamus kompiuterių tinklus%s"
 
