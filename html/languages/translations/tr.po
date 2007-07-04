@@ -6,7 +6,7 @@ msgstr ""
 "Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 ##########################################
@@ -17,7 +17,7 @@ msgstr ""
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
 msgid "CHARSET"
-msgstr "iso-8859-9"
+msgstr "UTF-8"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Turkish"
