@@ -16,7 +16,7 @@ echo "
                    computing project ".PROJECT."\"
      height=\"100\"
   /> 
-  <Content type=\"url\" href=\"".URL_BASE."user_profile/uotd_gadget.html\" /> 
+  <Content type=\"url\" href=\"".URL_BASE."/user_profile/uotd_gadget.html\" /> 
 </Module>
 ";
 

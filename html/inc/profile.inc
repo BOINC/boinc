@@ -443,8 +443,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
                     $show_picture = false;
                 }
                 if ($show_picture) {
-                    echo "<a href=\"", URL_BASE, "view_profile.php?userid={$members[$count]}\"><img src=\"", URL_BASE, IMAGE_URL, "{$members[$count]}_sm.jpg\"></a>";
-
+                    echo "<a href=\"".URL_BASE."/view_profile.php?userid={$members[$count]}\"><img src=\"".URL_BASE."/".IMAGE_URL."{$members[$count]}_sm.jpg\"></a>";
                 } else {
                     echo "&nbsp;";
                 }
@@ -483,7 +482,7 @@ function get_profile_summary($profile) {
 
     }
 
-    $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $profile->userid . "\">" . $user->name . "</a> " . $description;
+    $summary = "<a href=\"" . URL_BASE . "/view_profile.php?userid=" . $profile->userid . "\">" . $user->name . "</a> " . $description;
     return $summary;
 }
 
@@ -530,8 +529,8 @@ function show_profile($userid, $verify_mode = FALSE) {
     }
     if ($show_picture) {
         echo "
-            <tr><td colspan=2 align=center>
-            <img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">
+            <tr><td colspan=\"2\" align=\"center\">
+            <img vspace=\"6\" hspace=\"9\" src=\"".URL_BASE."/".IMAGE_URL.$user->id.".jpg\">
             </td></tr>
         ";
     }

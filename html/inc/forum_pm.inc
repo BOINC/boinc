@@ -88,9 +88,9 @@ function pm_send($to, $subject, $content) {
         $message  = "Dear ".$to->name.",\n\n";
         $message .= "You have received a new private message at ".PROJECT." from ".$logged_in_user->name.", entitled \"".$subject."\".\n\n";
         $message .= "To read the original version, respond to, or delete this message, you must log in here:\n";
-        $message .= URL_BASE."forum_pm.php\n\n";
+        $message .= URL_BASE."/forum_pm.php\n\n";
         $message .= "Do not reply to this message. To disable email notification, go to\n";
-        $message .= URL_BASE."prefs.php?subset=project\n";
+        $message .= URL_BASE."/prefs.php?subset=project\n";
         $message .= "and change email notification settings.\n";
         
         send_email($to, "[".PROJECT."] Private message notification", $message);

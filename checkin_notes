@@ -7014,5 +7014,12 @@ Janus	4 July 2007
         user/
             top_hosts.php
         languages/translations/
-	    en.po
+            en.po
 
+Rytis   5 July 2007
+    - user web: make sure that all links that have URL_BASE have slashes after
+        it. This makes a slash in the end of URL_BASE definition in
+        project/project.inc no longer necessary.
+        
+    html/
+        <numerous files>

@@ -162,7 +162,7 @@ function replace($user, $template) {
         $user->name,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
-        URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
+        URL_BASE."/opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
         $user->id,
         floor ((time() - $user->last_rpc_time) / 86400),
     );

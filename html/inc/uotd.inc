@@ -7,8 +7,7 @@ define('UOTD_THRESHOLD', 7);
 
 function uotd_thumbnail($profile, $user) {
     if ($profile->has_picture) {
-        $ub = URL_BASE;
-        return "<a href=$ub/view_profile.php?userid=$user->id><img border=0 vspace=4 hspace=8 align=left src=$ub".IMAGE_URL.$user->id."_sm.jpg></a>";
+        return "<a href=".URL_BASE."/view_profile.php?userid=$user->id><img border=0 vspace=4 hspace=8 align=left src=".URL_BASE."/".IMAGE_URL.$user->id."_sm.jpg></a>";
     } else {
         return "";
     }

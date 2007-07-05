@@ -108,9 +108,9 @@ function show_login($user) {
 //
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
-    $styleSheet = URL_BASE . STYLESHEET;
+    $styleSheet = URL_BASE . "/".STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
-    $rsslink = URL_BASE . "rss_main.php";
+    $rsslink = URL_BASE . "/rss_main.php";
 
     if (defined("CHARSET")) {
         header("Content-type: text/html; charset=".tr(CHARSET));
@@ -512,10 +512,9 @@ function sched_stopped() {
 }
 
 function user_links($user) {
-    $ub = URL_BASE;
-    $x = '<a href="'.$ub.'show_user.php?userid='.$user->id.'">'.$user->name.'</a>';
+    $x = "<a href=\"".URL_BASE."/show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->has_profile) {
-        $x .= ' <a href="'.$ub.'view_profile.php?userid='.$user->id.'"><img border="0" src="'.$ub.'img/head_20.png" alt="User profile image"></a>';
+        $x .= ' <a href="'.URL_BASE.'/view_profile.php?userid='.$user->id.'"><img border="0" src="'.URL_BASE.'/img/head_20.png" alt="User profile image"></a>';
     }
     # Does this project accept donations?
     # If so, do you want to have a link next to user name as it appears on the web site?

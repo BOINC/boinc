@@ -105,7 +105,7 @@ if (!$thread_ids && !$post_ids){
     echo "<p>Sorry, couldn't find anything matching your search query. You 
     can try to broaden your search by using less words (or less specific words).</p>
     <p>You can also 
-    <a href=\"http://www.google.com/search?domains=".URL_BASE."&sitesearch=".URL_BASE."forum_thread.php&q=".htmlentities($search_keywords)."\">
+    <a href=\"http://www.google.com/search?domains=".URL_BASE."&sitesearch=".URL_BASE."/forum_thread.php&q=".htmlentities($search_keywords)."\">
     try the same search on Google.</a></p>";
 }
 echo "<p><a href=\"forum_search.php\">Perform another search</a></p>";

@@ -50,7 +50,7 @@ function show_nav() {
         </ul>
         <h2>Community</h2>
         <ul>
-        <li><a href=\"".URL_BASE."profile_menu.php\">Participant profiles</a>
+        <li><a href=\"".URL_BASE."/profile_menu.php\">Participant profiles</a>
         <li><a href=\"forum_index.php\">Message boards</a>
         <li><a href=\"forum_help_desk.php\">Questions and answers</a>
         <li><a href=\"stats.php\">Statistics</a>
@@ -67,7 +67,7 @@ if ($caching) {
 
 $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
-$rsslink = URL_BASE . "rss_main.php";
+$rsslink = URL_BASE . "/rss_main.php";
 
 if (defined("CHARSET")) {
     header("Content-type: text/html; charset=".tr(CHARSET));

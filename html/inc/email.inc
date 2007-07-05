@@ -210,7 +210,7 @@ function send_founder_transfer_email($team, $user) {
     $body = "Team member ".$user->name." has requested you to hand over
 the privileges and responsibilities of team founder to him in ".PROJECT.".
     
-Visit ".URL_BASE."team_change_founder_form.php?teamid=".$team->id."
+Visit ".URL_BASE."/team_change_founder_form.php?teamid=".$team->id."
 to change team founder or decline user's request.
     
 If you do not respond to this request within two months, ".$user->name." will

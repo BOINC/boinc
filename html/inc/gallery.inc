@@ -111,12 +111,9 @@ function build_picture_pages($width, $height) {
             echo "<tr>";
             for ($col = 0; $col < $width; $col++) {
 	            if ($count < $numIds) {
-                    echo "<td class=bordered align=\"center\"><a href=\"",
-                        URL_BASE, "view_profile.php?userid=",
-                        $userIds[$count], "\"><img src=\"",
-                        URL_BASE, IMAGE_URL, $userIds[$count],
-                        "_sm.jpg\"></a></td>";
-
+                    echo "<td class=\"bordered\" align=\"center\">
+                        <a href=\"".URL_BASE."/view_profile.php?userid=".$userIds[$count]."\"><img src=\"".URL_BASE."/".IMAGE_URL.$userIds[$count]."_sm.jpg\"></a>
+                    </td>";
                     $count++;
                 }
             }
@@ -311,7 +308,7 @@ function build_alpha_summary_page($characters_used) {
 
     foreach ($alphabet as $character) {
         if (isset($characters_used[$character])) {
-            echo "<a href=", URL_BASE, PROFILE_URL, "profile_{$character}_1.html>$character</a>&nbsp;";
+            echo "<a href=\"".URL_BASE."/".PROFILE_URL."profile_{$character}_1.html\">$character</a>&nbsp;";
             unset($characters_used[$character]);
         } else {
             echo "$character ";
@@ -320,7 +317,7 @@ function build_alpha_summary_page($characters_used) {
 
     // Link to the 'Other' page if necessary.
     if (!empty($characters_used)) {
-        echo "<a href=", URL_BASE, PROFILE_URL, "profile_other_1.html>Other</a>&nbsp;";
+        echo "<a href=\"".URL_BASE."/".PROFILE_URL."profile_other_1.html\">Other</a>&nbsp;";
     }
     close_output_buffer($filename);
 }

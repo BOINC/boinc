@@ -160,10 +160,8 @@ if( !empty($user) ) {
  */
 
 admin_page_head("User Management: $user->name");
-echo "\n<link rel='stylesheet' type=text/css href='". URL_BASE. "new_forum.css'>\n";
-echo "\n<link rel='stylesheet' type=text/css href='" .URL_BASE. "arrgh.css'>\n";
 
-echo "<h2>User Managment</h2>\n";
+echo "<h2>User Management</h2>\n";
 
 if (!defined("POST_REPORT_EMAILS")) {
     echo "<p><font color='RED'>
