@@ -7003,3 +7003,16 @@ David  4 July 2007
         sched_driver.C
         sched_send.C
         server_types.h
+
+Janus	4 July 2007
+    - Made the top hosts page translation aware (which I should have done 2-3 years ago...)
+      It now uses the same caching mechanism as the other two top pages.
+      Projects applying this update should consider clearing their cache directory
+      for immediate effects - or just wait a short while and let the cache do its own work.
+
+    html/
+        user/
+            top_hosts.php
+        languages/translations/
+	    en.po
+
