@@ -388,11 +388,11 @@ $linux_libs_58= "
       </ul>
 ";
 
-$w51012= array(
-    "num"=>"5.10.12",
+$w51013= array(
+    "num"=>"5.10.13",
     "status"=>"Development version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.12_windows_intelx86.exe",
-    "date"=>"2 July 2007",
+    "file"=>"boinc_5.10.13_windows_intelx86.exe",
+    "date"=>"5 July 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -402,11 +402,11 @@ $w51012= array(
     "bugs"=>""
 );
 
-$w51012x64= array(
-    "num"=>"5.10.12",
+$w51013x64= array(
+    "num"=>"5.10.13",
     "status"=>"Development version (WinXP64+)",
-    "file"=>"boinc_5.10.12_windows_x86_64.exe",
-    "date"=>"2 July 2007",
+    "file"=>"boinc_5.10.13_windows_x86_64.exe",
+    "date"=>"5 July 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -654,7 +654,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w51012,
+        $w51013,
         $w5816,
         $w5411,
     )
@@ -664,7 +664,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w51012x64,
+        $w51013x64,
     )
 );
 
