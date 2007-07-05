@@ -2,67 +2,82 @@
 
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
+require_once("../inc/user.inc");
+require_once("../inc/host.inc");
+require_once("../inc/db.inc");
+require_once("../inc/translation.inc");
 
-$n = 20;
+define (ITEMS_PER_PAGE, 20);
+define (ITEM_LIMIT,10000);
+
+
+
+function get_top_hosts($offset,$sort_by){ //Possibly move this to db.inc at some point...
+    if ($sort_by == "total_credit") {
+	$sort_order = "total_credit desc";
+    } else {
+        $sort_order = "expavg_credit desc";
+    }
+    $res=mysql_query("select * from host order by $sort_order limit $offset,".ITEMS_PER_PAGE);
+    echo mysql_error();
+    while ($arr[]=mysql_fetch_object($res)){};
+    return $arr;
+}
+
+function hosts_to_store($participants){ //These converter functions are here in case we later decide to use something 
+    return serialize($participants);	       //else than serializing to save temp data
+}
+function store_to_hosts($data){
+    return unserialize($data);
+}
 
 if (isset($_GET["sort_by"])) {
     $sort_by = $_GET["sort_by"];
 } else {
     $sort_by = "expavg_credit";
 }
+
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
+if ($offset % ITEMS_PER_PAGE) $offset = 0;
 
-if ($offset % $n) $offset = 0;
-
-if ($offset < 1000) {
+if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";
-    start_cache(TOP_PAGES_TTL, $cache_args);
+    $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
+    if ($cacheddata){ //If we have got the data in cache
+	$data = store_to_hosts($cacheddata); // use the cached data
+    } else { //if not do queries etc to generate new data
+	db_init(true);
+	$data = get_top_hosts($offset,$sort_by);
+	set_cache_data(hosts_to_store($data),$cache_args); //save data in cache
+    };
 } else {
-    page_head("Limit exceeded");
-    echo "Sorry - first 1000 only.";
-    page_tail();
-    exit();
+    error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
 }
 
-require_once("../inc/db.inc");
-require_once("../inc/host.inc");
 
-db_init(true);
-page_head("Top computers");
-if ($sort_by == "total_credit") {
-    $sort_clause = "total_credit desc";
-} else {
-    $sort_clause = "expavg_credit desc";
-}
-$result = mysql_query("select * from host where total_credit>300 order by $sort_clause limit $offset,$n");
+//Now display what we've got (either gotten from cache or from DB)
+page_head(tr(TOP_HOST_TITLE));
 top_host_table_start($sort_by);
-$i = $offset+1;
-while ($host = mysql_fetch_object($result)) {
-    if ($sort_by == "total_credit") {
-        show_host_row($host, $i, false, true);
-        $i++;
-    } else {
-        if (!host_inactive_ndays($host, 7)) {
-            show_host_row($host, $i, false, true);
-            $i++;
-        }
-    }
+$i = 1 + $offset;
+$o = 0;
+while ($host = $data[$o]) {
+    show_host_row($host, $i, false, true);
+    $i++;
+    $o++;
 }
-mysql_free_result($result);
-echo "</table>\n";
+echo "</table>\n<p>";
 if ($offset > 0) {
-    $new_offset = $offset - $n;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
+    $new_offset = $offset - ITEMS_PER_PAGE;
+    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Previous ".ITEMS_PER_PAGE."</a> | ";
 
 }
-$new_offset = $offset + $n;
-echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Next $n</a>";
-if ($offset < 1000) {
-    page_tail(true);
-    end_cache(TOP_PAGES_TTL,$cache_args);
-} else {
-    page_tail();
+if ($o==ITEMS_PER_PAGE){ //If we aren't on the last page
+    $new_offset = $offset + ITEMS_PER_PAGE;
+    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Next ".ITEMS_PER_PAGE."</a>";
 }
+
+page_tail();
+
 
 ?>
