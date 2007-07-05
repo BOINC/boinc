@@ -260,7 +260,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // the user must have copied the state file to a different host.
         // Make a new host record.
         //
-        if (sreq.rpc_seqno < reply.host.rpc_seqno) {
+        if (!batch && sreq.rpc_seqno < reply.host.rpc_seqno) {
             sreq.hostid = 0;
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
@@ -1369,6 +1369,7 @@ void process_request(
 
     handle_results(sreq, reply);
 
+    reply.wreq.nresults_on_host = sreq.other_results.size();
     if (config.resend_lost_results && sreq.have_other_results_list) {
         if (resend_lost_work(sreq, reply, platforms, ss)) {
             ok_to_send_work = false;

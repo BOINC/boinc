@@ -722,14 +722,13 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
 
     if (config.max_wus_in_progress) {
-        int limit = config.max_wus_in_progress;
-        if (wreq.nresults_on_host >= limit) {
+        if (wreq.nresults_on_host >= config.max_wus_in_progress) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "cache limit exceeded; %d > %d\n",
                 wreq.nresults_on_host, config.max_wus_in_progress
             );
-            wreq.cache_size_exceeded=true;
+            wreq.cache_size_exceeded = true;
             return false;
         }
     }
@@ -885,6 +884,23 @@ int add_result_to_reply(
         double est_cpu = estimate_cpu_duration(wu, reply);
         IP_RESULT ipr ("", time(0)+wu.delay_bound, est_cpu);
         request.ip_results.push_back(ipr);
+    }
+
+    // mark job as done if debugging flag is set
+    //
+    if (mark_jobs_done) {
+        DB_WORKUNIT dbwu;
+        char buf[256];
+        sprintf(buf,
+            "server_state=%d outcome=%d",
+            RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
+        );
+        result.update_field(buf);
+
+        dbwu.id = wu.id;
+        sprintf(buf, "transition_time=%d", time(0));
+        dbwu.update_field(buf);
+
     }
     return 0;
 }

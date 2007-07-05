@@ -172,7 +172,7 @@ delete_file_LDADD = $(LDADD) $(RSA_LIBS)
 
 sched_driver_SOURCES = sched_driver.C
 sched_driver_DEPENDENCIES = $(LIB_SCHED)
-sched_driver_LDADD =
+sched_driver_LDADD = $(LDADD)
 
 fcgi_SOURCES = \
     handle_request.C \

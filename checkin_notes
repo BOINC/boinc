@@ -6981,3 +6981,25 @@ Janus	3 July 2007
         filefilter.php (new)
 	allfilesfilefilter.php (new)
 
+David  4 July 2007
+    - scheduler: the "max_wus_in_progress" option only worked if
+        "resend_lost_results" option was used also
+        (because the count of in-progress results was
+        based from the DB query used by resend_lost_results).
+
+        Fix: initialize the count of in-progress results to
+        the list provided in the scheduler request.
+    - scheduler: add "--mark_jobs_done" flag; if set, all jobs
+        sent are marked as done, and their WUs enabled for transition.
+        This is used for simulation purposes,
+        in conjunction with sched_driver.
+    - scheduler: if --batch option is set, don't check RPC seqnos
+        (for simulation purposes)
+
+    sched/
+        Makefile.am
+        handle_request.C
+        main.C,h
+        sched_driver.C
+        sched_send.C
+        server_types.h

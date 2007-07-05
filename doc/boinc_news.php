@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("July 4, 2007",
+    "Docking@home is moving from Texas to Delaware. Volunteers should detach from the project; you will be emailed when the project is alive in Delaware."
+),
+array("July 2, 2007",
+    "Read <a href=http://www.isgtw.org/?pid=1000527>Volunteer computing: Grid or not Grid?</a> on International Science Grid This Week."
+),
 array("July 2, 2007",
     "Amir Alexander of The Planetary Society talks about
     <a href=http://www.boincuk.com/amir_alexander.mp3>SETI, distributed computing, and space exploration</a> in an interview by Mike of BOINC UK."

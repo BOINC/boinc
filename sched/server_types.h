@@ -72,6 +72,13 @@ struct WORK_REQ {
     int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
     bool cache_size_exceeded;
     int nresults_on_host;
+        // How many results from this project are (or should be) on the host.
+        // Initially this is the number of "other_results"
+        // reported in the request message.
+        // If the resend_lost_results option is used,
+        // it's set to the number of outstanding results taken from the DB
+        // (those that were lost are resent).
+        // As new results are sent, it's incremented.
     void update_for_result(double seconds_filled);
 };
 
@@ -189,6 +196,7 @@ struct SCHEDULER_REQUEST {
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
     std::vector<RESULT> results;
+        // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
     std::vector<FILE_INFO> file_infos;   // sticky files reported by host for locality scheduling
 #ifdef EINSTEIN_AT_HOME
@@ -196,7 +204,9 @@ struct SCHEDULER_REQUEST {
     std::vector<FILE_INFO> files_not_needed;         // sticky files reported by host, no longer needed
 #endif
     std::vector<OTHER_RESULT> other_results;
+        // in-progress results from this project
     std::vector<IP_RESULT> ip_results;
+        // in-progress results from all projects
     bool have_other_results_list;
     bool have_ip_results_list;
 
@@ -254,8 +264,6 @@ struct SCHEDULER_REPLY {
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_msg_ack;
-    bool deletion_policy_priority;
-    bool deletion_policy_expire;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

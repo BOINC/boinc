@@ -21,7 +21,8 @@
 //
 // command-line options:
 //  --batch
-//      stdin contains a catenated sequence of request messages.  Do them all.
+//      stdin contains a catenated sequence of request messages.
+//      Do them all, and ignore rpc_seqno
 //
 // Note: use_files is a debugging option (see below).
 // But it's a compile setting, not a cmdline flag
@@ -80,6 +81,8 @@ int g_pid;
 static bool db_opened=false;
 bool shmem_failed = false;
 SCHED_SHMEM* ssp = 0;
+bool batch = false;
+bool mark_jobs_done = false;
 
 void send_message(const char* msg, int delay, bool send_header) {
     if (send_header) {
@@ -242,11 +245,14 @@ int main(int argc, char** argv) {
     char* code_sign_key;
     int length=-1;
     log_messages.pid = getpid();
-    bool batch = false;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--batch")) {
             batch = true;
+            continue;
+        }
+        if (!strcmp(argv[i], "--mark_jobs_done")) {
+            mark_jobs_done = true;
         }
     }
 
