@@ -95,6 +95,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <csignal>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -550,6 +551,13 @@ void hr_init() {
     hr_info.allocate(ssp->max_wu_results);
 }
 
+// write a summary of feeder state to stderr
+//
+void show_state(int) {
+    ssp->show(stderr);
+    hr_info.show(stderr);
+}
+
 int main(int argc, char** argv) {
     int i, retval;
     void* p;
@@ -687,6 +695,8 @@ int main(int argc, char** argv) {
     }
 
     hr_init();
+
+    signal(SIGUSR1, show_state);
 
     feeder_loop();
 }

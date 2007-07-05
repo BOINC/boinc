@@ -17,7 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// show_shmem: display WU part of shared-memory structure
+// show_shmem: display work_item part of shared-memory structure
+
 #include "config.h"
 #include <cstdio>
 #include <cstdlib>
@@ -45,23 +46,7 @@ int main() {
     }
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
-    printf("ready: %d\n", ssp->ready);
-    printf("max_wu_results: %d\n", ssp->max_wu_results);
-    for (i=0; i<ssp->max_wu_results; i++) {
-        WU_RESULT& wu_result = ssp->wu_results[i];
-        switch(wu_result.state) {
-        case WR_STATE_PRESENT:
-            printf("%d: present; app id %d; infeasible_count %d; workunit %d result %d, hr_class %d, need_reliable %d\n",
-                i, wu_result.workunit.appid, wu_result.infeasible_count, wu_result.workunit.id, wu_result.resultid, wu_result.workunit.hr_class, wu_result.need_reliable
-            );
-            break;
-        case WR_STATE_EMPTY:
-            printf("%d: absent\n", i);
-            break;
-        default:
-            printf("%d: PID %d: result %d\n", i, wu_result.state, wu_result.resultid);
-        }
-    }
+    ssp->show(stdout);
 }
 
 const char *BOINC_RCSID_a370415aab = "$Id$";

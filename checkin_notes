@@ -6963,7 +6963,7 @@ David  3 July 2007
         sched_config.C
         sched_driver.C
 
-Janus	3 July 2007
+Janus    3 July 2007
     - Added the bittorrent tracker code
     - Also added a simple file filter that accepts any file present in the
       download directory for tracking (or whatever directory is set to be the
@@ -6979,7 +6979,7 @@ Janus	3 July 2007
         announce.php (new)
     html/bt/filters/ (new)
         filefilter.php (new)
-	allfilesfilefilter.php (new)
+    allfilesfilefilter.php (new)
 
 David  4 July 2007
     - scheduler: the "max_wus_in_progress" option only worked if
@@ -7004,11 +7004,13 @@ David  4 July 2007
         sched_send.C
         server_types.h
 
-Janus	4 July 2007
-    - Made the top hosts page translation aware (which I should have done 2-3 years ago...)
-      It now uses the same caching mechanism as the other two top pages.
-      Projects applying this update should consider clearing their cache directory
-      for immediate effects - or just wait a short while and let the cache do its own work.
+Janus    4 July 2007
+    - Made the top hosts page translation aware
+        (which I should have done 2-3 years ago...)
+        It now uses the same caching mechanism as the other two top pages.
+        Projects applying this update should consider clearing
+        their cache directory for immediate effects -
+        or just wait a short while and let the cache do its own work.
 
     html/
         user/
@@ -7023,3 +7025,14 @@ Rytis   5 July 2007
         
     html/
         <numerous files>
+
+David  5 July 2007
+    - feeder: add debugging feature:
+        if you send it a USR1 signal, it writes a summary
+        of the shmem contents and HR state to the log file
+
+    sched/
+        feeder.C
+        hr_info.C,h
+        sched_shmem.C,h
+        show_shmem.C

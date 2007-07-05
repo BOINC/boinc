@@ -172,15 +172,15 @@ array('boinclogger.zip',
     I  recommend you put a shortcut to the program in the startup folder and the actual program in a folder in the program files.',
     1106878118
 ),
-array('inst_nB_v13.exe',
+array(
+    'http://www.nuchill.de/nboinc/#dl',
     'nBOiNC',
-    '1.3.x',
-    'stats picker',
-    'http://boinc.nuchill.de',
-    'requires .NET-Framework 2',
-    'get your information from the projects from which you do work
-    exe-installer',
-    1151998190
+    '2.0',
+    'View your current credit for one or all projects',
+    'http://www.nuchill.de/nboinc/',
+    '',
+    'An application that shows your credit, per project and total, based on your cross-project ID',
+    1183650844
 ),
 );
 

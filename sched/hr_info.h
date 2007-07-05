@@ -20,6 +20,7 @@ struct HR_INFO {
     void init();
     void allocate(int);
     bool accept(int, int);
+    void show(FILE*);
 };
 
 #define HR_INFO_FILENAME "../hr_info.txt"

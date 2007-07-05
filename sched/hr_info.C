@@ -148,3 +148,18 @@ bool HR_INFO::accept(int hrt, int hrc) {
     }
     cur_slots[hrt][hrc]++;
 }
+
+void HR_INFO::show(FILE* f) {
+    for (int ht=1; ht<HR_NTYPES; ht++) {
+        fprintf(f, "HR type %s: weight %f nslots %d\n",
+            hr_names[ht], type_weights[ht], slots_per_type[ht]
+        );
+        for (int hc=0; hc<hr_nclasses[ht]; hc++) {
+            if (hc && rac_per_class[ht][hc] == 0) continue;
+            fprintf(f,
+                "  class %d: rac %f max_slots %d cur_slots %d\n",
+                hc, rac_per_class[ht][hc], max_slots[ht][hc], cur_slots[ht][hc]
+            );
+        }
+    }
+}

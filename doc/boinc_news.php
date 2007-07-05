@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("July 5, 2007",
+    "Windows users:
+    <a href=http://www.nuchill.de/nboinc/>version 2.0 of nBOiNC</a>,
+    an add-on application for viewing your up-to-the-minute credit totals,
+    has been released."
+),
 array("July 4, 2007",
     "Docking@home is moving from Texas to Delaware. Volunteers should detach from the project; you will be emailed when the project is alive in Delaware."
 ),
