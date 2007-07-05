@@ -6561,3 +6561,11 @@ Rom    2 July 2007
     client/
         configure.ac
         version.h
+
+Rom    4 July 2007
+    - Tag for 5.10.13 release, all platforms
+      boinc_core_release_5_10_13
+    
+    client/
+        configure.ac
+        version.h
