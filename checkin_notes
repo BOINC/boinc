@@ -5680,7 +5680,7 @@ David  1 June 2007
         I had to reverse engineer it - very unpleasant.
 
     lib/
-        diagnostics_sin.h
+        diagnostics_win.h
         procinfo.h
 
 David  1 June 2007
@@ -7089,3 +7089,10 @@ David  7 July 2007
         stats_sites.inc
     sched/
         hr_info.C
+
+
+David  7 July 2007
+    - bug fix to the above
+
+    client/
+        scheduler_op.C

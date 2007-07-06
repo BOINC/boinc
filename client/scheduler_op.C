@@ -482,6 +482,8 @@ bool SCHEDULER_OP::poll() {
             } else {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
                 switch (retval) {
+                case 0:
+                    break;
                 case ERR_PROJECT_DOWN:
                     backoff(cur_proj, "project is down");
                     break;
