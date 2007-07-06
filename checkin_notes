@@ -7065,3 +7065,9 @@ David  6 July 2007
         sched_send.C
         server_types.C,h
         transitioner.C
+
+Rom    7 July 2007
+    - Additional support for VS Express Edition.
+    
+    clientlib/win/
+        boinc_dll.rc
