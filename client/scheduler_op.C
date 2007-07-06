@@ -482,16 +482,6 @@ bool SCHEDULER_OP::poll() {
             } else {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
                 switch (retval) {
-                case 0:
-                    // if we asked for work and didn't get any,
-                    // back off this project
-                    //
-                    if (cur_proj->work_request && nresults==0) {
-                        backoff(cur_proj, "no work from project\n");
-                    } else {
-                        cur_proj->nrpc_failures = 0;
-                    }
-                    break;
                 case ERR_PROJECT_DOWN:
                     backoff(cur_proj, "project is down");
                     break;

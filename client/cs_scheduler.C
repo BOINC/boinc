@@ -785,21 +785,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     project->sched_rpc_pending = 0;
     project->trickle_up_pending = false;
 
-    // handle delay request
-    //
-    if (sr.request_delay) {
-        double x = now + sr.request_delay;
-		project->set_min_rpc_time(x, "requested by project");
-    } else {
-        project->min_rpc_time = 0;
-    }
-
-    if (sr.next_rpc_delay) {
-        project->next_rpc_time = now + sr.next_rpc_delay;
-    } else {
-        project->next_rpc_time = 0;
-    }
-
     // The project returns a hostid only if it has created a new host record.
     // In that case reset RPC seqno
     //
@@ -835,6 +820,31 @@ int CLIENT_STATE::handle_scheduler_reply(
         );
         print_summary();
     }
+
+    // if we asked for work and didn't get any,
+    // back off this project
+    //
+    if (project->work_request && nresults==0) {
+        scheduler_op->backoff(project, "no work from project\n");
+    } else {
+        project->nrpc_failures = 0;
+    }
+
+    // handle delay request
+    //
+    if (sr.request_delay) {
+        double x = now + sr.request_delay;
+		project->set_min_rpc_time(x, "requested by project");
+    } else {
+        project->min_rpc_time = 0;
+    }
+
+    if (sr.next_rpc_delay) {
+        project->next_rpc_time = now + sr.next_rpc_delay;
+    } else {
+        project->next_rpc_time = 0;
+    }
+
     return 0;
 }
 

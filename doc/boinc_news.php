@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("July 6, 2007",
+     "Welcome to a new web site with cross-project BOINC statistics:
+     <a href=http://statsnstones.tswb.org/>Team Starfire World BOINC Stats 'N Stones</a>."
+),
 array("July 5, 2007",
     "Windows users:
     <a href=http://www.nuchill.de/nboinc/>version 2.0 of nBOiNC</a>,

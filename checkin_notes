@@ -7077,3 +7077,15 @@ David  7 July 2007
 
     sched/
         sample_hr_info.txt
+
+David  7 July 2007
+    - client: change order so that backoff because of no work
+        happens before server-requested backoff (eliminate double messages)
+
+    client/
+        cs_scheduler.C
+        scheduler_op.C
+    html/inc/
+        stats_sites.inc
+    sched/
+        hr_info.C

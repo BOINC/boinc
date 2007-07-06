@@ -69,14 +69,14 @@ void HR_INFO::scan_db() {
     while (1) {
         retval = host.enumerate("where expavg_credit>1");
         if (retval) break;
-        printf("host %d: %s | %s | %s\n", host.id, host.os_name, host.p_vendor, host.p_model);
+        //printf("host %d: %s | %s | %s\n", host.id, host.os_name, host.p_vendor, host.p_model);
         for (i=1; i<HR_NTYPES; i++) {
             if (hr_unknown_platform_type(host, i)) {
-                printf("type %d: unknown\n", i);
+                //printf("type %d: unknown\n", i);
                 continue;
             }
             int hrc = hr_class(host, i);
-            printf("type %d: class %d\n", i, hrc);
+            //printf("type %d: class %d\n", i, hrc);
             if (!hrc) continue;
             rac_per_class[i][hrc] += host.expavg_credit;
         }

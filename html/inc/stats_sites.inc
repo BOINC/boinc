@@ -22,6 +22,10 @@ $cpid_stats_sites = array(
 
 $stats_sites = array(
     array(
+        "http://statsnstones.tswb.org/",
+        "Team Starfire World BOINC Stats 'N Stones"
+    ),
+    array(
         "http://www.allprojectstats.com/",
         "BOINC all Project Stats"
     ),
