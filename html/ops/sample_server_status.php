@@ -314,7 +314,7 @@ if ($retval) {
     $min = mysql_fetch_object($result);
     mysql_free_result($result);
     $gap = (time() - $min->min)/3600;
-    if ($gap < 0) {
+    if (($gap < 0) || ($min->min == 0)) {
         $gap = 0;
     }
     show_counts(
