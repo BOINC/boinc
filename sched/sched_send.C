@@ -706,7 +706,7 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     // host.max_results_day is between 1 and config.daily_result_quota inclusive
     // wreq.daily_result_quota is between ncpus and ncpus*host.max_results_day inclusive
     if (config.daily_result_quota) {
-        if (host.max_results_day <= 0 || host.max_results_day>config.daily_result_quota) {
+        if (host.max_results_day == 0 || host.max_results_day>config.daily_result_quota) {
             host.max_results_day = config.daily_result_quota;
         }
         // scale daily quota by #CPUs, up to a limit of MAX_CPUS 4

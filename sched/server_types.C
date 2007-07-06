@@ -521,12 +521,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             );
         }
     }
-    if (nucleus_only) goto end;
-
     fprintf(fout,
         "<project_name>%s</project_name>\n",
         config.long_name
     );
+
+    if (nucleus_only) goto end;
 
     if (strlen(config.symstore)) {
         fprintf(fout, "<symstore>%s</symstore>\n", config.symstore);

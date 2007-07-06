@@ -7036,3 +7036,32 @@ David  5 July 2007
         hr_info.C,h
         sched_shmem.C,h
         show_shmem.C
+
+David  6 July 2007
+    - Back end: add a feature for "blackballing" hosts.
+        To do this, set host.max_results_day to -1.
+        If you do this, scheduler requests from that host
+        will get an error message, and will otherwise be ignored
+        (no jobs in or out, no trickles).
+    - Scheduler: send_message() should be called ONLY if you're
+        not going to call handle_request();
+        otherwise we'll write two separate replies.
+        To fix this, I added a separate function (send_error_message())
+        that can be called within handle_request()
+        to deal with error situations.
+    - Scheduler: moved debug_sched() to main.C
+    - Scheduler: moved logic to send "delete file" commands
+        out of handle_request() into a separate function,
+        send_file_deletes() in sched_locality.C.
+        Remove #ifdef EINSTEIN_AT_HOMEs; maybe someday another project
+        will use locality scheduling!
+
+    db/
+        boinc_db.h
+    sched/
+        handle_request.C
+        main.C,h
+        sched_locality.C,h
+        sched_send.C
+        server_types.C,h
+        transitioner.C

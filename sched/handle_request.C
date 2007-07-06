@@ -57,6 +57,13 @@ using namespace std;
 #include "fcgi_stdio.h"
 #endif
 
+static void send_error_message(SCHEDULER_REPLY& reply, char* msg, int delay) {
+    USER_MESSAGE um(msg, "low");
+    reply.insert_message(um);
+    reply.set_delay(delay);
+    reply.nucleus_only = true;
+}
+
 // Try to lock a file with name based on host ID,
 // to prevent 2 schedulers from running at same time for same host.
 // Return:
@@ -1277,7 +1284,7 @@ void process_request(
     //
     retval = open_database();
     if (retval) {
-        send_message("Server can't open database", 3600, false);
+        send_error_message(reply, "Server can't open database", 3600);
         goto leave;
     }
 
@@ -1298,6 +1305,15 @@ void process_request(
     );
     ++log_messages;
 
+    // is host blacklisted?
+    //
+    if (reply.host.max_results_day == -1) {
+        send_error_message(
+            reply, "Not accepting requests from this host", 86400
+        );
+        goto leave;
+    }
+
     if (strlen(config.sched_lockfile_dir)) {
         int pid_with_lock = lock_sched(reply);
         if (pid_with_lock > 0) {
@@ -1311,9 +1327,8 @@ void process_request(
             );
         }
         if (pid_with_lock) {
-            send_message(
-                "Another scheduler instance is running for this host",
-                60, false
+            send_error_message(
+                reply, "Another scheduler instance is running for this host", 60
             );
             goto leave;
         }
@@ -1328,7 +1343,7 @@ void process_request(
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (config.daily_result_quota) {
-        if (reply.host.max_results_day <= 0 || reply.host.max_results_day > config.daily_result_quota) {
+        if (reply.host.max_results_day == 0 || reply.host.max_results_day > config.daily_result_quota) {
             reply.host.max_results_day = config.daily_result_quota;
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] Initializing max_results_day to %d\n",
@@ -1423,60 +1438,6 @@ leave:
     }
 }
 
-void debug_sched(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
-) {
-    char tmpfilename[256];
-    FILE *fp;
-
-    if (!boinc_file_exists(trigger)) {
-        return;
-    }
-
-    sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
-    // use _XXXXXX if you want random filenames rather than
-    // deterministic mkstemp(tmpfilename);
-
-    fp=fopen(tmpfilename, "w");
-
-    if (!fp) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "Found %s, but can't open %s\n", trigger, tmpfilename
-        );
-        return;
-    }
-
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
-        "Found %s, so writing %s\n", trigger, tmpfilename
-    );
-
-    sreply.write(fp);
-    fclose(fp);
-
-    sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
-    fp=fopen(tmpfilename, "w");
-
-    if (!fp) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "Found %s, but can't open %s\n", trigger, tmpfilename
-        );
-        return;
-    }
-
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
-        "Found %s, so writing %s\n", trigger, tmpfilename
-    );
-
-    sreq.write(fp);
-    fclose(fp);
-
-    return;
-}
-
 void handle_request(
     FILE* fin, FILE* fout, SCHED_SHMEM& ss, char* code_sign_key
 ) {
@@ -1518,66 +1479,18 @@ void handle_request(
         sreply.nucleus_only = true;
     }
 
-#ifdef EINSTEIN_AT_HOME
-    // for testing
-    if (sreply.user.id==3) {
-        USER_MESSAGE um("THIS IS A SHORT MESSAGE. \n AND ANOTHER", "high");
-        // USER_MESSAGE um("THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE. \n"
-    //        "THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "low");
-        sreply.insert_message(um);
-        // USER_MESSAGE um2("THIS IS A VERY LONG TEST MESSAGE2. THIS IS A VERY LONG TEST MESSAGE. \n"
-    //        "THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "high");
-        // sreply.insert_message(um2);
-    }
-
-    // delete useless files
-    int num_useless = sreq.files_not_needed.size();
-    int i;
-    for (i=0; i<num_useless; i++) {
-        char buf[256];
-        FILE_INFO& fi = sreq.files_not_needed[i];
-        sreply.file_deletes.push_back(fi);
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG,
-            "[HOST#%d]: delete file %s (not needed)\n", sreply.host.id, fi.name
-        );
-        sprintf(buf, "BOINC will delete file %s (no longer needed)", fi.name);
-        USER_MESSAGE um(buf, "low");
-        sreply.insert_message(um);
-     }
-#endif
-
-    // if we got no work, and we have no file space, delete some files
-    //
-    if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
-        // try to delete a file to make more space.
-        // Also give some hints to the user about what's going wrong
-        // (lack of disk space).
-        //
-        delete_file_from_host(sreq, sreply);
+    if (config.locality_scheduling && !sreply.nucleus_only) {
+        send_file_deletes(sreq, sreply);
     }
 
     // write all messages to log file
+    //
     for (unsigned int i=0; i<sreply.messages.size(); i++) {
         USER_MESSAGE um = sreply.messages[i];
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] MSG(%4s) %s \n", sreply.host.id, um.priority.c_str(), um.message.c_str()
         );
     }
-
-    debug_sched(sreq, sreply, "../debug_sched");
-
-#ifdef EINSTEIN_AT_HOME
-    // You can call debug_sched() for whatever situation is of
-    // interest to you.  It won't do anything unless you create
-    // (touch) the file 'debug_sched' in the project root directory.
-    //
-    if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) {
-        debug_sched(sreq, sreply, "../debug_sched");
-    } else if (max_allowable_disk(sreq, sreply)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
-        debug_sched(sreq, sreply, "../debug_sched");
-    }
-#endif
 
     sreply.write(fout);
 

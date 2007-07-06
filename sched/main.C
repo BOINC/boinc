@@ -84,11 +84,69 @@ SCHED_SHMEM* ssp = 0;
 bool batch = false;
 bool mark_jobs_done = false;
 
-void send_message(const char* msg, int delay, bool send_header) {
-    if (send_header) {
-        printf("Content-type: text/plain\n\n");
+// You can call debug_sched() for whatever situation is of
+// interest to you.  It won't do anything unless you create
+// (touch) the file 'debug_sched' in the project root directory.
+//
+void debug_sched(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
+) {
+    char tmpfilename[256];
+    FILE *fp;
+
+    if (!boinc_file_exists(trigger)) {
+        return;
     }
+
+    sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+    // use _XXXXXX if you want random filenames rather than
+    // deterministic mkstemp(tmpfilename);
+
+    fp=fopen(tmpfilename, "w");
+
+    if (!fp) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "Found %s, but can't open %s\n", trigger, tmpfilename
+        );
+        return;
+    }
+
+    log_messages.printf(
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "Found %s, so writing %s\n", trigger, tmpfilename
+    );
+
+    sreply.write(fp);
+    fclose(fp);
+
+    sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+    fp=fopen(tmpfilename, "w");
+
+    if (!fp) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "Found %s, but can't open %s\n", trigger, tmpfilename
+        );
+        return;
+    }
+
+    log_messages.printf(
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "Found %s, so writing %s\n", trigger, tmpfilename
+    );
+
+    sreq.write(fp);
+    fclose(fp);
+
+    return;
+}
+
+// call this only if we're not going to call handle_request()
+//
+static void send_message(const char* msg, int delay) {
     printf(
+        "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
         "    <message priority=\"low\">%s</message>\n"
         "    <request_delay>%d</request_delay>\n"
@@ -104,21 +162,23 @@ int open_database() {
 
     if (db_opened) return 0;
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't open database\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "can't open database\n"
+        );
         return retval;
     }
     db_opened = true;
     return 0;
 }
 
-void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger); 
-
 // If the scheduler 'hangs', which it can do if a request is not fully processed
 // or some other process arises, then Apache will send a SIGTERM to the cgi.
-// This signal handler ensures that rather than dying silently, the cgi process
-// will leave behind some record in the log file.
+// This signal handler ensures that rather than dying silently,
+// the cgi process will leave behind some record in the log file.
 //
 void sigterm_handler(int signo) {
    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
@@ -215,7 +275,7 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "shmem has wrong struct sizes - recompile\n"
             );
-            send_message("Server has software problem", 3600, true);
+            send_message("Server error: recompile needed", 3600);
             exit(0);
         }
 
@@ -230,7 +290,9 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "feeder doesn't seem to be running\n"
             );
-            send_message("Project encountered internal error: feeder not running", 3600, true);
+            send_message(
+                "Server error: feeder not running", 3600
+            );
             exit(0);
         }
     }
@@ -270,7 +332,7 @@ int main(int argc, char** argv) {
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
         sprintf(buf, "Server can't open log file (%s)", path);
-        send_message(buf, 3600, true);
+        send_message(buf, 3600);
         exit(0);
     }
     // install a larger buffer for stderr.  This ensures that
@@ -297,12 +359,12 @@ int main(int argc, char** argv) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
-        send_message("Server can't parse configuration file", 3600, true);
+        send_message("Server can't parse configuration file", 3600);
         exit(0);
     }
 
     if (check_stop_sched()) {
-        send_message("Project is temporarily shut down for maintenance", 3600, true);
+        send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
 
@@ -317,7 +379,7 @@ int main(int argc, char** argv) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "Can't read code sign key file (%s)\n", path
         );
-        send_message("Server can't find key file", 3600, true);
+        send_message("Server can't find key file", 3600);
         exit(0);
     }
 
@@ -330,7 +392,7 @@ int main(int argc, char** argv) {
     counter++;
 #endif
     if (shmem_failed) {
-        send_message("Project encountered internal error: shared memory", 3600, true);
+        send_message("Server error: can't attach shared memory", 3600);
         goto done;
     }
     log_request_info(length);

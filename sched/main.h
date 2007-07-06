@@ -68,5 +68,7 @@ extern bool mark_jobs_done;
     // mark jobs as successfully done immediately after send
     // (for debugging/testing)
 
-extern void send_message(const char*, int delay, bool send_header);
 extern int open_database();
+extern void debug_sched(
+    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, const char *trigger
+);
