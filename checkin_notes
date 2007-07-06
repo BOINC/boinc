@@ -7071,3 +7071,9 @@ Rom    7 July 2007
     
     clientlib/win/
         boinc_dll.rc
+
+David  7 July 2007
+    - added sample host-distribution file for HR
+
+    sched/
+        sample_hr_info.txt
