@@ -2,22 +2,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-06-24 22:40+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2007-07-08 13:20+0200\n"
+"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-##########################################
-# Language: English (International)
+# #########################################
+# Language: Lithuanian
 # FileID  : $Id$
-# Author  : Janus Kristensen
-# Email   : jbk@visualgroup.dk
-##########################################
+# Author  : Rytis Slatkevičius
+# Email   : rytis.s@gmail.com
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
+# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -30,9 +30,9 @@ msgstr "Lietuvių"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Lithuanian"
 
-#########################################
+# ########################################
 # Apps page (apps.php)
-#########################################
+# ########################################
 msgid "APPS_TITLE"
 msgstr "Programos"
 
@@ -48,9 +48,9 @@ msgstr "Naudojama versija"
 msgid "APPS_INSTALLTIME"
 msgstr "Įdiegta"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
-#########################################
+# ########################################
 msgid "RULES_TITLE"
 msgstr "Perskaitykite mūsų taisykles ir politiką"
 
@@ -111,9 +111,9 @@ msgstr "Kiti projektai, kaip ir $PROJECT, naudoja BOINC. Jūs galite nuspręsti 
 msgid "RULES_OTHER_TEXT_B"
 msgstr "Išvardinti projektai nėra susiję su $PROJECT, ir dėl to mes negalime garantuoti už jų projekto saugumą ar tyrimo tikslus. Jūs sprendžiate ar prisijungti prie kitų projektų."
 
-#########################################
+# ########################################
 # Create account form (create_account_form.php)
-#########################################
+# ########################################
 msgid "CREATE_AC_TITLE"
 msgstr "Susikurti abonentą"
 
@@ -168,30 +168,36 @@ msgstr "Turi būti bent %s simboliai"
 msgid "CREATE_AC_CONFIRM_PASSWORD"
 msgstr "Patvirtinkite slaptažodį"
 
+msgid "AC_INVITE_CODE"
+msgstr "Kvietimo kodas"
+
+msgid "AC_INVITE_CODE_DESC"
+msgstr "Norint sukurti vartotojo abonementą jums reikia įvesti kvietimo kodą."
+
 msgid "AC_INVITE_REQUIRED"
 msgstr "Norint sukurti vartotojo abonementą jums reikia įvesti kvietimo kodą."
 
 msgid "AC_INVITE_INVALID"
 msgstr "Jūsų įvestas kvietimo kodas neteisingas."
 
-#########################################
+# ########################################
 # Forum sample index page
-#########################################
+# ########################################
 msgid "FORUM_TITLE"
 msgstr "$PROJECT Pranešimų lentos"
 
 msgid "FORUM_TITLE_SHORT"
 msgstr "Pranešimų lentos"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
-#########################################
+# ########################################
 msgid "OPTIONAL"
 msgstr "Papildomas pasirinkimas"
 
-#########################################
+# ########################################
 # Various top table pages (top users, computers, teams)
-#########################################
+# ########################################
 msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Geriausi dalyviai"
 
@@ -219,9 +225,12 @@ msgstr "Geriausios %s komandos"
 msgid "TEAM_TABLE_MEMBERS"
 msgstr "Nariai"
 
-#########################################
+msgid "TOP_HOST_TITLE"
+msgstr "Geriausi kompiuteriai"
+
+# ########################################
 # Forum
-#########################################
+# ########################################
 msgid "FORUM_POSTS"
 msgstr "Pranešimai"
 
@@ -291,9 +300,9 @@ msgstr "Tai atsakė į mano klausimą"
 msgid "FORUM_HTML_INFO"
 msgstr "Naudokite BBCode žymes savo teksto formatavimui"
 
-#########################################
+# ########################################
 # Forum thread
-#########################################
+# ########################################
 msgid "FORUM_THREAD_HIDDEN"
 msgstr "Šį skiltis buvo paslėpta administravimo tikslais"
 
@@ -309,9 +318,9 @@ msgstr "Norėdami išsiregistruoti spauskite čia"
 msgid "FORUM_THREAD_SUBSCRIBE"
 msgstr "Registruotis šioje skiltyje"
 
-#########################################
+# ########################################
 # Forum search features
-#########################################
+# ########################################
 msgid "FORUM_SEARCH"
 msgstr "Paieška pranešimų lentose"
 
@@ -327,9 +336,9 @@ msgstr "Nerasta pavadinimų su '%s'."
 msgid "FORUM_SEARCH_BODIES_NO"
 msgstr "Nerasta pranešimų su '%s'."
 
-#########################################
+# ########################################
 # Links from the main page
-#########################################
+# ########################################
 msgid "LINKS_QA"
 msgstr "Klausimai ir Atsakymai"
 

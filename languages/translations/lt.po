@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-22 17:54+0200\n"
+"PO-Revision-Date: 2007-07-08 13:15+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -309,7 +309,7 @@ msgid "DL_VERSION_LNAME_SIZE"
 msgstr "%s skirta %s (%s MB)"
 
 msgid "DL_WHATS_BOINC"
-msgstr " BOINC yra programa, kuri leidžia dovanoti        nenaudojamą jūsų kompiuterio laiką moksliniams projektams, kaip        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, ir daugeliui kitų.        <p>        Po BOINC įdiegimo jūsų kompiuteryje,        jūs galite prisijungtie prie tiek projektų, kiek jūs norite.        <p>"
+msgstr " BOINC yra programa, kuri leidžia dovanoti nenaudojamą jūsų kompiuterio laiką moksliniams projektams, kaip SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, ir daugeliui kitų.<p>Po BOINC įdiegimo jūsų kompiuteryje, jūs galite prisijungtie prie tiek projektų, kiek jūs norite.<p>"
 
 msgid "DL_SYSTEMREQ"
 msgstr "Sisteminiai reikalavimai"
@@ -446,7 +446,7 @@ msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
 msgstr "BOINC dabar praneša kai jam reikia prisijungimo prie interneto."
 
 msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "The BOINC Manager offers two different interfaces:  'Simple' (small, graphical, skinnable)  and 'Advanced' (maximum information).  The Simple GUI allows local editing of preferences.  You can switch back and forth between Simple and Advanced. "
+msgstr "BOINC Valdiklis gali veikti dviem režimais: supaprastintu (mažas bei grafinis) ir skirtu pažengusiems (daugiausiai informacijos). Supaprastintame režime galima keisti vietinius nustatymus. Galima bet kada persijungti tarp supaprastintojo ir pažengusiųjų režimų."
 
 msgid "RLN_5_8_THROTTLE"
 msgstr " CPU throttling: you can reduce CPU heat by limiting  the fraction of time that BOINC computes. "
@@ -454,7 +454,6 @@ msgstr " CPU throttling: you can reduce CPU heat by limiting  the fraction of ti
 msgid "RLN_5_8_SCHED"
 msgstr " Improved scheduling policies avoid missing job deadlines  even on a slow computer with lots of projects. "
 
-#, fuzzy
 msgid "RLN_5_8_MEM"
 msgstr "Palaiko 'Abonentų valdiklius' - tinklapius, kurie leidžia jums pasirinkti BOINC projektus, prisijungti/atsijungti, pakeisti resursų padalijimą ir nustatymus. Visa tai vyksta labai paprastai. Abonentų valdikliai taip pat leidžia greitai keisti kelių kompiuterių nustatymus vienu metu."
 
@@ -552,7 +551,6 @@ msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 msgstr "Jei jums kilo su problemų su pačiu BOINC, pagalbą ir patarimus surasite %s BOINC pranešimų lentose %s."
 
 # for user survey
-#, fuzzy
 msgid "HELP_TITLE"
 msgstr "BOINC vartotojų apklausa"
 
@@ -619,7 +617,6 @@ msgstr "BOINC naudojimas"
 # #######################################
 # download.php 2006/08/03 by je2bwm
 # #######################################
-#, fuzzy
 msgid "HOME_DOWNLOAD"
 msgstr "Parsisiųsti BOINC"
 
