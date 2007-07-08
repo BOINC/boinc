@@ -99,17 +99,16 @@ int is_dir(const char* path) {
 //
 DIRREF dir_open(const char* p) {
     DIRREF dirp;
-
-#ifdef HAVE_DIRENT_H
-    dirp = opendir(p);
-    if (!dirp) return NULL;
-#elif defined(_WIN32)
+#ifdef _WIN32
     if (!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
     safe_strcpy(dirp->path, p);
     strcat(dirp->path, "\\*");
     dirp->handle = INVALID_HANDLE_VALUE;
+#else
+    dirp = opendir(p);
+    if (!dirp) return NULL;
 #endif
     return dirp;
 }
@@ -117,19 +116,7 @@ DIRREF dir_open(const char* p) {
 // Scan through a directory and return the next file name in it
 //
 int dir_scan(char* p, DIRREF dirp, int p_len) {
-#ifdef HAVE_DIRENT_H
-    while (1) {
-        dirent* dp = readdir(dirp);
-        if (dp) {
-            if (!strcmp(dp->d_name, ".")) continue;
-            if (!strcmp(dp->d_name, "..")) continue;
-            if (p) strlcpy(p, dp->d_name, p_len);
-            return 0;
-        } else {
-            return ERR_READDIR;
-        }
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     WIN32_FIND_DATA data;
     while (1) {
         if (dirp->first) {
@@ -158,55 +145,54 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
             }
         }
     }
+#else
+    while (1) {
+        dirent* dp = readdir(dirp);
+        if (dp) {
+            if (!strcmp(dp->d_name, ".")) continue;
+            if (!strcmp(dp->d_name, "..")) continue;
+            if (p) strlcpy(p, dp->d_name, p_len);
+            return 0;
+        } else {
+            return ERR_READDIR;
+        }
+    }
 #endif
 }
 
 // Close a directory
 //
 void dir_close(DIRREF dirp) {
-#ifdef HAVE_DIRENT_H
-    if (dirp) {
-        closedir(dirp);
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     if (dirp->handle != INVALID_HANDLE_VALUE) {
         FindClose(dirp->handle);
         dirp->handle = INVALID_HANDLE_VALUE;
     }
     free(dirp);
+#else
+    if (dirp) {
+        closedir(dirp);
+    }
 #endif
 }
 
 DirScanner::DirScanner(string const& path) {
-#ifdef HAVE_DIRENT_H
-    dirp = opendir(path.c_str());
-#elif defined(_WIN32)
+#ifdef _WIN32
     first = true;
     handle = INVALID_HANDLE_VALUE;
     if (!is_dir((char*)path.c_str())) {
         return;
     }
     dir = path + "\\*";
+#else
+    dirp = opendir(path.c_str());
 #endif
 }
 
 // Scan through a directory and return the next file name in it
 //
 bool DirScanner::scan(string& s) {
-#ifdef HAVE_DIRENT_H
-    if (!dirp) return false;
-
-    while (1) {
-        dirent* dp = readdir(dirp);
-        if (dp) {
-            if (dp->d_name[0] == '.') continue;
-            s = dp->d_name;
-            return true;
-        } else {
-            return false;
-        }
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     WIN32_FIND_DATA data;
     while (1) {
         if (first) {
@@ -231,18 +217,30 @@ bool DirScanner::scan(string& s) {
             }
         }
     }
+#else
+    if (!dirp) return false;
+
+    while (1) {
+        dirent* dp = readdir(dirp);
+        if (dp) {
+            if (dp->d_name[0] == '.') continue;
+            s = dp->d_name;
+            return true;
+        } else {
+            return false;
+        }
+    }
 #endif
 }
 
-// Close a directory
 DirScanner::~DirScanner() {
-#ifdef HAVE_DIRENT_H
-    if (dirp) {
-        closedir(dirp);
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     if (handle != INVALID_HANDLE_VALUE) {
         FindClose(handle);
+    }
+#else
+    if (dirp) {
+        closedir(dirp);
     }
 #endif
 }
@@ -354,8 +352,34 @@ int clean_out_dir(const char* dirpath) {
 }
 
 // return total size of files in directory and its subdirectories
+// Special version for Win because stat() is slow, can be avoided
 //
 int dir_size(const char* dirpath, double& size, bool recurse) {
+#ifdef WIN32
+    size = 0.0;
+    WIN32_FIND_DATA findData;
+    HANDLE hFind = ::FindFirstFile(dirpath, &findData);
+    if (INVALID_HANDLE_VALUE != hFind) {
+        do {
+            if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                if (!recurse) continue;
+                if (!strcmp(findData.cFileName, ".")) continue;
+                if (!strcmp(findData.cFileName, "..")) continue;
+
+                double dsize = 0;
+                char buf[_MAX_PATH];
+                ::sprintf(buf, "%s\\%s", dirpath, findData.cFileName);
+                dir_size(buf, dsize, recurse);
+                size += dsize;
+            } else {
+                size += findData.nFileSizeLow + (__int64(findData.nFileSizeHigh) << 32);
+            }
+        } while (FindNextFile(hFind, &findData));
+		::FindClose(hFind);
+    }  else {
+        return ERR_OPENDIR;
+    }
+#else
     char filename[256], subdir[256];
     int retval=0;
     DIRREF dirp;
@@ -383,6 +407,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
     }
     dir_close(dirp);
     return 0;
+#endif
 }
 
 FILE* boinc_fopen(const char* path, const char* mode) {

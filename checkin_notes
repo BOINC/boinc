@@ -7066,19 +7066,19 @@ David  6 July 2007
         server_types.C,h
         transitioner.C
 
-Rom    7 July 2007
+Rom    6 July 2007
     - Additional support for VS Express Edition.
     
     clientlib/win/
         boinc_dll.rc
 
-David  7 July 2007
+David  6 July 2007
     - added sample host-distribution file for HR
 
     sched/
         sample_hr_info.txt
 
-David  7 July 2007
+David  6 July 2007
     - client: change order so that backoff because of no work
         happens before server-requested backoff (eliminate double messages)
 
@@ -7091,8 +7091,15 @@ David  7 July 2007
         hr_info.C
 
 
-David  7 July 2007
+David  6 July 2007
     - bug fix to the above
 
     client/
         scheduler_op.C
+
+David  7 July 2007
+    - Client: radically faster (on Win) version of dir_size()
+        (from John McLeod)
+
+    lib/
+        filesys.C
