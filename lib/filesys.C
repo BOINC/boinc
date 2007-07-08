@@ -408,8 +408,8 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
         }
     }
     dir_close(dirp);
-    return 0;
 #endif
+    return 0;
 }
 
 FILE* boinc_fopen(const char* path, const char* mode) {
