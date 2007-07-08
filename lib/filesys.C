@@ -359,7 +359,9 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
 #ifdef WIN32
 	size =0.0;
     WIN32_FIND_DATA findData;
-    HANDLE hFind = ::FindFirstFile(dirpath, &findData);
+	char buf1 [_MAX_PATH];
+	sprintf(buf1, "%s\\*", dirpath);
+    HANDLE hFind = ::FindFirstFile(buf1, &findData);
     if (INVALID_HANDLE_VALUE != hFind) {
         do {
             if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -380,6 +382,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
     }  else {
         return ERR_OPENDIR;
     }
+	return 0;
 #else
     char filename[256], subdir[256];
     int retval=0;
