@@ -356,9 +356,11 @@ int clean_out_dir(const char* dirpath) {
 //
 int dir_size(const char* dirpath, double& size, bool recurse) {
 #ifdef WIN32
+    char path2[_MAX_PATH];
+    sprintf(path2, "%s/*", dirpath);
     size = 0.0;
     WIN32_FIND_DATA findData;
-    HANDLE hFind = ::FindFirstFile(dirpath, &findData);
+    HANDLE hFind = ::FindFirstFile(path2, &findData);
     if (INVALID_HANDLE_VALUE != hFind) {
         do {
             if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -368,7 +370,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
 
                 double dsize = 0;
                 char buf[_MAX_PATH];
-                ::sprintf(buf, "%s\\%s", dirpath, findData.cFileName);
+                ::sprintf(buf, "%s/%s", dirpath, findData.cFileName);
                 dir_size(buf, dsize, recurse);
                 size += dsize;
             } else {
