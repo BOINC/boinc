@@ -43,11 +43,11 @@ if ($offset % ITEMS_PER_PAGE) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";
+    db_init(true);
     $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
     if ($cacheddata){ //If we have got the data in cache
 	$data = store_to_hosts($cacheddata); // use the cached data
     } else { //if not do queries etc to generate new data
-	db_init(true);
 	$data = get_top_hosts($offset,$sort_by);
 	set_cache_data(hosts_to_store($data),$cache_args); //save data in cache
     };
