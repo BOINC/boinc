@@ -7103,3 +7103,12 @@ David  7 July 2007
 
     lib/
         filesys.C
+
+Janus	8 July 2007
+    - Fixed an issue causing people to appear anonymous in the top hosts pages on
+      projects with no automatic MySQL connection set up.
+    
+    html/user/
+        top_hosts.php
+
+
