@@ -219,6 +219,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
         if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool(tag, "simple_gui_only", simple_gui_only)) continue;
+        if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

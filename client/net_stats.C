@@ -218,6 +218,7 @@ void NET_STATUS::got_http_error() {
         && gstate.now > gstate.last_wakeup_time + 30
             // for 30 seconds after wakeup, the network system (DNS etc.)
             // may still be coming up, so don't worry for now
+        && !config.dont_contact_ref_site
     ) {
 	    if (log_flags.network_status_debug) {
 		    msg_printf(0, MSG_INFO,

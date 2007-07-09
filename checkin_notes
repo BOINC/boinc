@@ -7105,10 +7105,16 @@ David  7 July 2007
         filesys.C
 
 Janus	8 July 2007
-    - Fixed an issue causing people to appear anonymous in the top hosts pages on
-      projects with no automatic MySQL connection set up.
+    - Fixed an issue causing people to appear anonymous in the top hosts
+        pages on projects with no automatic MySQL connection set up.
     
     html/user/
         top_hosts.php
 
+David  9 July 2007
+    - client: add "dont_contact_ref_site" config flag;
+        suppresses connectivity-testing connections to google.com
 
+    client/
+        log_flags.C,h
+        net_stats.C
