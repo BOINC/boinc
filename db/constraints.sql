@@ -50,7 +50,7 @@ alter table result
         -- feeder
 
     add index res_app_state(appid, server_state),
-        -- splitter, e.g.
+        -- to get count of unsent results for given app (e.g. in work generator)
 
     add index res_filedel (file_delete_state),
         -- file_deleter

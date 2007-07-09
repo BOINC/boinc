@@ -508,7 +508,7 @@ class Project:
         else:
             scheduler_file = 'schedulers.txt'
             f = open(self.dir('html/user', scheduler_file), 'w')
-            print >>f, "<!-- <scheduler>" + self.scheduler_url.strip(), "</scheduler> -->"
+            print >>f, "<!-- <scheduler>" + self.scheduler_url.strip() + "</scheduler> -->"
             print >>f, "<link rel=\"boinc_scheduler\" href=\"" + self.scheduler_url.strip()+ "\">"
             f.close()
 

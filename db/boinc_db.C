@@ -1303,9 +1303,12 @@ int DB_WORK_ITEM::enumerate(
     int retval;
     MYSQL_ROW row;
     if (!cursor.active) {
+        // use "r1" to refer to the result, since the feeder assumes that
+        // (historical reasons)
+        //
         sprintf(query,
-            "select high_priority r2.id, r2.priority, workunit.* from result r1, result r2, workunit "
-            " where r1.server_state=%d and r2.id=r1.id and r1.workunitid=workunit.id "
+            "select high_priority r1.id, r1.priority, workunit.* from result r1 force index(ind_res_st), workunit "
+            " where r1.server_state=%d and r1.workunitid=workunit.id "
             " %s "
             " %s "
             "limit %d",
@@ -1340,9 +1343,12 @@ int DB_WORK_ITEM::enumerate_all(
     int retval;
     MYSQL_ROW row;
     if (!cursor.active) {
+        // use "r1" to refer to the result, since the feeder assumes that
+        // (historical reasons)
+        //
         sprintf(query,
-            "select high_priority r2.id, r2.priority, workunit.* from result r1, result r2, workunit "
-            " where r1.server_state=%d and r2.id=r1.id and r1.workunitid=workunit.id and r1.id>%d "
+            "select high_priority r1.id, r1.priority, workunit.* from result r1 force index(ind_res_st), workunit force index(primary)"
+            " where r1.server_state=%d and r1.workunitid=workunit.id and r1.id>%d "
             " %s "
             "limit %d",
             RESULT_SERVER_STATE_UNSENT,

@@ -7126,3 +7126,12 @@ Rom    9 July 2007
     clientgui/
         MainDocument.cpp
 
+David  9 July 2007
+    - feeder: simplified DB query
+    - make_project: remove space after URL in schedulers.txt
+
+    db/
+        boinc_db.C
+        constraints.sql
+    py/Boinc/
+        setup_project.py
