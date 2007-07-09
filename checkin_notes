@@ -7118,3 +7118,11 @@ David  9 July 2007
     client/
         log_flags.C,h
         net_stats.C
+
+Rom    9 July 2007
+    - MGR: Workaround a crash issue by only dealing with the frame
+        pointer if the manager is told to quit by the cc.
+        
+    clientgui/
+        MainDocument.cpp
+

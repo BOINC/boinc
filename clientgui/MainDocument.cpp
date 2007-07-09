@@ -485,9 +485,6 @@ int CMainDocument::FrameShutdownDetected() {
 int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     wxString         strMachine = wxEmptyString;
     int              iRetVal = 0;
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-
-    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
@@ -500,6 +497,8 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
                 if (ccs.manager_must_quit) {
                     GetConnectedComputerName(strMachine);
                     if (IsComputerNameLocal(strMachine)) {
+                        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+                        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
                         pFrame->Close(true);
                     }
                 }
