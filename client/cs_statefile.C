@@ -31,6 +31,9 @@
 #include "file_names.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#ifdef __APPLE__
+#include <cerrno>
+#endif
 
 void CLIENT_STATE::set_client_state_dirty(const char* source) {
     if (log_flags.state_debug) {
@@ -542,8 +545,8 @@ int CLIENT_STATE::write_state_file() {
 #ifdef __APPLE__
     if (log_flags.state_debug) {
         msg_printf(0, MSG_USER_ERROR, 
-            "rename %s to %s returned error %d", 
-            STATE_FILE_NEXT, STATE_FILE_NAME, retval);
+            "rename %s to %s returned error %d: %s", 
+            STATE_FILE_NEXT, STATE_FILE_NAME, errno, strerror(errno));
         system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
     }
 #endif

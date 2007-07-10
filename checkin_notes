@@ -6569,3 +6569,10 @@ Rom    4 July 2007
     client/
         configure.ac
         version.h
+
+Charlie 10 July 2007
+    Mac: log_flags.state_debug prints errno when rename of 
+        client_state_next.xml to client_state.xml fails
+
+    client/
+        cs_statefile.C
