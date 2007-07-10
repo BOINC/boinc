@@ -384,6 +384,10 @@ int main(int argc, char** argv) {
     }
 
     ssp = attach_to_feeder_shmem();
+    if (shmem_failed) {
+        send_message("Server error: can't attach shared memory", 3600);
+        goto done;
+    }
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
@@ -391,10 +395,6 @@ int main(int argc, char** argv) {
     while(FCGI_Accept() >= 0) {
     counter++;
 #endif
-    if (shmem_failed) {
-        send_message("Server error: can't attach shared memory", 3600);
-        goto done;
-    }
     log_request_info(length);
 
     if (use_files) {
@@ -468,11 +468,10 @@ int main(int argc, char** argv) {
     } else {
         handle_request(stdin, stdout, *ssp, code_sign_key);
     }
-done:
 #ifdef _USING_FCGI_
     fprintf(stderr, "FCGI: counter: %d\n", counter);
     continue;
-    }
+    }   // do()
     if (counter == MAX_FCGI_COUNT) {
         fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
     } else {
@@ -482,6 +481,7 @@ done:
     // about "incomplete headers"
     fprintf(stdout,"Content-type: text/plain\n\n");
 #endif
+done:
     if (db_opened) {
         boinc_db.close();
     }

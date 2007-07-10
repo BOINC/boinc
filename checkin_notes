@@ -7151,3 +7151,9 @@ David  10 July 2007
     client/
         client_state.C,h
         cs_prefs.C
+
+David  10 July 2007
+    - scheduler: FCGI version would crash if stop_sched is set
+
+    sched/
+        main.C
