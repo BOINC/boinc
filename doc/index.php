@@ -187,7 +187,7 @@ echo "
 </font>
 <p>
 <br clear=all>
-<table width=100% border=0 cellpadding=8 cellspacing=0><tr><td valign=top>
+<table width=100% border=0 cellpadding=8 cellspacing=0><tr><td>
 <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
 | <a href=trac/wiki/RunningBoinc><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
 | <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>

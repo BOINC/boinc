@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("July 10, 2007",
+    "<a href=http://boinc.berkeley.edu/images/gw.jpg border=0><img align=right src=http://boinc.berkeley.edu/images/gw_small.jpg></a>
+    A growing number of 'skins' for the BOINC simple GUI are available
+    from <a href=http://crunching-family.at/dlc/>crunching-family.at</a>.
+    Here's an example.
+    "
+),
 array("July 6, 2007",
      "Welcome to a new web site with cross-project BOINC statistics:
      <a href=http://statsnstones.tswb.org/>Team Starfire World BOINC Stats 'N Stones</a>."

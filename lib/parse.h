@@ -107,7 +107,7 @@ extern bool parse_bool(const char*, const char*, bool&);
 
 /////////////// END DEPRECATED XML PARSER
 
-extern void copy_stream(FILE* in, FILE* out);
+extern int copy_stream(FILE* in, FILE* out);
 extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
 extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len);

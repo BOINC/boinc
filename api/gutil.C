@@ -572,6 +572,7 @@ int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
     sscanf(buf, "%d %d", &w, &h);
     do {fgets(buf, 256, f);} while (buf[0] == '#');
     array = (unsigned char*)malloc(w*h*3);
+    if (!array) return -1;
     switch(img_type) {  // TODO: pad image dimension to power of 2
     case '3':
         for (i=0; i<w*h*3; i++) {
@@ -718,6 +719,7 @@ tImageJPG *LoadJPG(const char *filename) {
 	jpeg_create_decompress(&cinfo);
 	jpeg_stdio_src(&cinfo, pFile);
 	pImageData = (tImageJPG*)malloc(sizeof(tImageJPG));
+    if (!pImageData) return 0;
 	DecodeJPG(&cinfo, pImageData);
 	jpeg_destroy_decompress(&cinfo);
 	fclose(pFile);

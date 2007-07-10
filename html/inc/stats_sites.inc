@@ -18,6 +18,9 @@ $cpid_stats_sites = array(
     array("The Knights Who Say 'Ni!'",
         "http://stats.kwsn.net/user.php?proj=all&cpid=%s"
     ),
+    array("Team Starfire World BOINC Stats 'N Stones",
+        "http://statsnstones.tswb.org/userdetail.aspx?cpid=%s"
+    ),
 );
 
 $stats_sites = array(
