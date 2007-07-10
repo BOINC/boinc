@@ -7135,3 +7135,10 @@ David  9 July 2007
         constraints.sql
     py/Boinc/
         setup_project.py
+
+Charlie 10 July 2007
+    Mac: log_flags.state_debug prints errno when rename of 
+        client_state_next.xml to client_state.xml fails
+
+    client/
+        cs_statefile.C
