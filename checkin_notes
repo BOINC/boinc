@@ -7142,3 +7142,12 @@ Charlie 10 July 2007
 
     client/
         cs_statefile.C
+
+David  10 July 2007
+    - client: run_if_user_active pref applies to both
+        network transfers and CPU usage.
+        (Note: maybe we should have a separate pref for this).
+
+    client/
+        client_state.C,h
+        cs_prefs.C

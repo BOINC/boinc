@@ -14,28 +14,24 @@ code {
 a:link {
 	color: blue;
     text-decoration: none;
-#font-weight: bold;
 }
 
 a:visited {
 	color: blue;
     text-decoration: none;
-#font-weight: bold;
 }
 
 a:active {
 	color: blue;
-#font-weight: bold;
 }
 
 a:hover {
     color: rgb(200,80,80);
-#font-weight: bold;
 }
 
 body , table , input , select {
 	font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
-#font-size: small;
+#font-size: 16px;
 }
 
 table.box {
@@ -114,4 +110,14 @@ img {
 .description {
 	font-size: 80%;
 	font-weight: normal;
+}
+
+select.selectbox {
+	font-size: 12px;
+    height:20px;
+}
+
+input.small {
+	font-size: 12px;
+    height:22px;
 }

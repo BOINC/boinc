@@ -447,6 +447,9 @@ bool CLIENT_STATE::poll_slow_events() {
     static int last_suspend_reason=0;
     static bool tasks_restarted = false;
     double old_now = now;
+#ifdef __APPLE__
+    double idletime;
+#endif
 
     now = dtime();
     if (now - old_now > POLL_INTERVAL*10) {
@@ -464,7 +467,39 @@ bool CLIENT_STATE::poll_slow_events() {
         start_cpu_benchmarks();
     }
 
-    check_suspend_activities(suspend_reason);
+    bool old_user_active = user_active;
+    user_active = !host_info.users_idle(
+        check_all_logins, global_prefs.idle_time_to_run
+#ifdef __APPLE__
+         , &idletime
+#endif
+    );
+
+    if (user_active != old_user_active) {
+        request_schedule_cpus("Idle state change");
+    }
+#ifdef __APPLE__
+    // Mac screensaver launches client if not already running.
+    // OS X quits screensaver when energy saver puts display to sleep,
+    // but we want to keep crunching.
+    // Also, user can start Mac screensaver by putting cursor in "hot corner"
+    // so idletime may be very small initially.
+    // If screensaver started client, this code tells client
+    // to exit when user becomes active, accounting for all these factors.
+    //
+    if (started_by_screensaver && (idletime < 30) && (getppid() == 1)) {
+        // pid is 1 if parent has exited
+        requested_exit = true;
+    }
+
+    // Exit if we were launched by Manager and it crashed.
+    //
+    if (launched_by_manager && (getppid() == 1)) {
+        gstate.requested_exit = true;
+    }
+#endif
+
+    check_suspend_processing(suspend_reason);
 
     // suspend or resume activities (but only if already did startup)
     //

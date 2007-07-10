@@ -1,12 +1,13 @@
 <?php
 
 function search_form() {
-    echo "<form method=get action=http://google.com/search>
+    echo "
+    <form method=get action=http://google.com/search>
     <input type=hidden name=domains value=http://boinc.berkeley.edu>
     <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
     <nobr>
-    <input class=small name=q size=30>
-    <input type=image name=submit src=images/search.gif alt=Search>
+    <input class=small name=q size=20>
+    <input class=small type=submit value=Search>
     </nobr>
     </form>
 ";
