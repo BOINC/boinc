@@ -7191,3 +7191,10 @@ David  11 July 2007
         AccountInfoPage.cpp
         sg_ImageButton.cpp
         sg_ViewTabPage.cpp
+
+Eric K. 11 July 2007
+    - Web: result display: Changed text for display of results cancelled by
+      server (exit_status=-221).
+
+    html/inc/result.inc
+
