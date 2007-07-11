@@ -375,6 +375,10 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Simple View..."),
         _("Display the simple BOINC graphical interface.")
     );
+    
+    menuView->Check(ID_VIEWACCESSIBLE, VIEW_LIST == m_iDisplayViewType);
+    menuView->Check(ID_VIEWGRID, VIEW_GRID == m_iDisplayViewType);
+
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
