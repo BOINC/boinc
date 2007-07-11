@@ -7167,3 +7167,19 @@ David  10 July 2007
     lib/
         parse.C,h
         api/gutil.C
+
+Charlie 11 July 2007
+    Mac Installer: use sh shell (bash) instead of csh for 
+        postinstall and postupgrade scripts.
+    Mac Installer: installer creates skins directory if it 
+        doesn't already exist.
+    MGR: Check correct menu item in View menu when launching Manager 
+        or when returning from Simple View.
+
+    clientgui/
+        AdvancedFrame.cpp
+    mac_installer/
+        postinstall
+        postupgrade
+        release_boinc.sh
+        release_GridRepublic.sh
