@@ -7104,7 +7104,7 @@ David  7 July 2007
     lib/
         filesys.C
 
-Janus	8 July 2007
+Janus    8 July 2007
     - Fixed an issue causing people to appear anonymous in the top hosts
         pages on projects with no automatic MySQL connection set up.
     
@@ -7183,3 +7183,11 @@ Charlie 11 July 2007
         postupgrade
         release_boinc.sh
         release_GridRepublic.sh
+
+David  11 July 2007
+    - Manager: make various strings translatable (from Mifistor)
+
+    clientgui/
+        AccountInfoPage.cpp
+        sg_ImageButton.cpp
+        sg_ViewTabPage.cpp

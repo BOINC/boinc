@@ -450,8 +450,8 @@ void CViewTabPage::WriteText(wxDC* dc) {
 	dc->GetTextExtent(_("Time Remaining: "), &width, &height);
 	width = width + 20; // add the starting x position
 
-	FormatText(wxT("Elapsed Time: "), elapsedTimeValue, dc, wxPoint(20,230), width);
-	FormatText(wxT("Time Remaining: "), timeRemainingValue, dc, wxPoint(20,255), width);
+	FormatText(_("Elapsed Time: "), elapsedTimeValue, dc, wxPoint(20,230), width);
+	FormatText(_("Time Remaining: "), timeRemainingValue, dc, wxPoint(20,255), width);
 
     dc->DrawText(gaugePercent, wxPoint(290,283)); 
 
