@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh BOINC Manager 6/12/07 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 7/11/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -91,6 +91,7 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
+mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
 
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
