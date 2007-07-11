@@ -280,3 +280,4 @@ extern bool dcf_dont_use;
 extern bool dcf_stats;
 extern bool cpu_sched_rr_only;
 extern bool dual_dcf;
+extern bool work_fetch_old;

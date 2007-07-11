@@ -110,6 +110,8 @@ function show_form() {
     <p>
     Client uses RR CPU sched? <input type=checkbox name=rr_only>
     <p>
+    Client uses old work fetch policy? <input type=checkbox name=work_fetch_old>
+    <p>
     DCF: <input type=radio name=dcf value=normal checked> Normal
         : <input type=radio name=dcf value=stats> Stats
         : <input type=radio name=dcf value=dual> Dual
@@ -153,6 +155,10 @@ if ($_POST['submit']) {
     if ($_POST['rr_only']) {
         $rr_only = '--cpu_sched_rr_only';
     }
+    $work_fetch_old = '';
+    if ($_POST['work_fetch_old']) {
+        $work_fetch_old = '--work_fetch_old';
+    }
 
     $dcfflag = "";
     $dcf = ($_POST['dcf']);
@@ -165,7 +171,7 @@ if ($_POST['submit']) {
     }
 
     Header("Location: sim/sim_out.html");
-    $cmd = "./sim --duration $duration --delta $delta $suw $dcfflag $rr_only";
+    $cmd = "./sim --duration $duration --delta $delta $suw $dcfflag $rr_only $work_fetch_old";
     system("/bin/rm sim_log.txt sim_out.html");
     system($cmd);
 } else {

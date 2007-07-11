@@ -59,6 +59,7 @@ bool dcf_dont_use;
 bool dcf_stats;
 bool dual_dcf;
 bool cpu_sched_rr_only;
+bool work_fetch_old;
 
 SIM_RESULTS sim_results;
 
@@ -601,6 +602,8 @@ int main(int argc, char** argv) {
             dcf_stats = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
+        } else if (!strcmp(opt, "--work_fetch_old")) {
+            work_fetch_old = true;
         } else {
             help(argv[0]);
         }

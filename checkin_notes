@@ -7196,5 +7196,16 @@ Eric K. 11 July 2007
     - Web: result display: Changed text for display of results cancelled by
       server (exit_status=-221).
 
-    html/inc/result.inc
+    html/inc/
+        result.inc
 
+David  11 July 2007
+    - client simulator: added '--work_fetch_old' option.
+        If set, the simulator uses an approximation of the old
+        work fetch policy, where the client tries to maintain
+        an amount of work for each project equal to
+        the buffer size times its relative resource share
+
+    client/
+        sim.C,h
+        work_fetch.C

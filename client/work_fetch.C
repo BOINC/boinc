@@ -370,6 +370,38 @@ bool CLIENT_STATE::compute_work_requests() {
     compute_nuploading_results();
     adjust_debts();
 
+#ifdef SIM
+    if (work_fetch_old) {
+        // "dumb" version for simulator only.
+        // for each project, compute extra work needed to bring it up to
+        // total_buf/relative resource share.
+        //
+        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
+        double trs = total_resource_share();
+        double total_buf = ncpus*(work_buf_min() + work_buf_additional());
+        for (i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
+            double d = 0;
+            for (unsigned int j=0; j<results.size(); j++) {
+                RESULT* rp = results[j];
+                if (rp->project != p) continue;
+                d += rp->estimated_cpu_time_remaining(true);
+            }
+            double rrs = p->resource_share/trs;
+            double minq = total_buf*rrs;
+            if (d < minq) {
+                p->work_request = minq-d;
+                p->work_request_urgency = WORK_FETCH_NEED;
+                overall_work_fetch_urgency = WORK_FETCH_NEED;
+            } else {
+                p->work_request = 0;
+                p->work_request_urgency = WORK_FETCH_DONT_NEED;
+            }
+        }
+        return false;
+    }
+#endif
+
     rr_simulation();
 
     // compute per-project and overall urgency
