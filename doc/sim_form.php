@@ -117,6 +117,8 @@ function show_form() {
         : <input type=radio name=dcf value=dual> Dual
         : <input type=radio name=dcf value=none> None
     <p>
+    HTML output lines per file: <input name=line_limit>
+    <p>
     <input type=submit name=submit>
 
     </form>
@@ -170,9 +172,15 @@ if ($_POST['submit']) {
         $dcfflag = '--dual_dcf';
     }
 
-    Header("Location: sim/sim_out.html");
-    $cmd = "./sim --duration $duration --delta $delta $suw $dcfflag $rr_only $work_fetch_old";
-    system("/bin/rm sim_log.txt sim_out.html");
+    $llflag = '';
+    $line_limit = $_POST['line_limit'];
+    if ($line_limit) {
+        $llflag = "--line_limit $line_limit";
+    }
+
+    Header("Location: sim/sim_out_0.html");
+    $cmd = "./sim --duration $duration --delta $delta $suw $dcfflag $rr_only $work_fetch_old $llflag";
+    system("/bin/rm sim_log.txt sim_out_*.html");
     system($cmd);
 } else {
     show_form();

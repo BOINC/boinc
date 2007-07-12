@@ -48,7 +48,6 @@
 
 CLIENT_STATE gstate;
 NET_STATUS net_status;
-//bool g_use_sandbox;
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
@@ -60,6 +59,7 @@ bool dcf_stats;
 bool dual_dcf;
 bool cpu_sched_rr_only;
 bool work_fetch_old;
+int line_limit = 1000000;
 
 SIM_RESULTS sim_results;
 
@@ -472,16 +472,30 @@ char* colors[] = {
     "#ffdddd",
 };
 
-void CLIENT_STATE::html_start() {
-    html_out = fopen("sim_out.html", "w");
+static int outfile_num=0;
+
+void CLIENT_STATE::html_start(bool show_prev) {
+    char buf[256];
+
+    sprintf(buf, "sim_out_%d.html", outfile_num++);
+    html_out = fopen(buf, "w");
     setbuf(html_out, 0);
-    fprintf(html_out, "<h2>Simulator output</h2>"
+    fprintf(html_out, "<h2>Simulator output</h2>\n");
+    if (show_prev) {
+        fprintf(html_out,
+            "<a href=sim_out_%d.html>Previous file</a><p>\n",
+            outfile_num-2
+        );
+    }
+    fprintf(html_out,
         "<a href=sim_log.txt>message log</a><p>"
         "<table border=1>\n"
     );
 }
 
 void CLIENT_STATE::html_rec() {
+    static int line_num=0;
+
     fprintf(html_out, "<tr><td>%s</td>", time_to_string(now));
 
     if (!running) {
@@ -509,21 +523,42 @@ void CLIENT_STATE::html_rec() {
     }
     fprintf(html_out, "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str());
     html_msg = "";
+
+    if (++line_num == line_limit) {
+        line_num = 0;
+        html_end(true);
+        html_start(true);
+    }
 }
 
-void CLIENT_STATE::html_end() {
-    fprintf(html_out, "</table><pre>\n");
-    sim_results.compute();
-    sim_results.print(html_out);
-    print_project_results(html_out);
-    fprintf(html_out, "</pre>\n");
+void CLIENT_STATE::html_end(bool show_next) {
+    fprintf(html_out, "</table>");
+    if (show_next) {
+        fprintf(html_out,
+            "<p><a href=sim_out_%d.html>Next file</a>\n",
+            outfile_num
+        );
+    } else {
+        fprintf(html_out, "<pre>\n");
+        sim_results.compute();
+        sim_results.print(html_out);
+        print_project_results(html_out);
+        fprintf(html_out, "</pre>\n");
+    }
+    if (show_next) {
+        fprintf(html_out, "<p><a href=sim_out_last.html>Last file</a>\n");
+    } else {
+        char buf[256];
+        sprintf(buf, "sim_out_%d.html", outfile_num-1);
+        symlink(buf, "sim_out_last.html");
+    }
     fclose(html_out);
 }
 
 void CLIENT_STATE::simulate() {
     bool action;
     now = 0;
-    html_start();
+    html_start(false);
     while (1) {
         running = host_info.available.sample(now);
         while (1) {
@@ -541,7 +576,7 @@ void CLIENT_STATE::simulate() {
         html_rec();
         if (now > duration) break;
     }
-    html_end();
+    html_end(false);
 }
 
 void parse_error(char* file, int retval) {
@@ -604,6 +639,8 @@ int main(int argc, char** argv) {
             cpu_sched_rr_only = true;
         } else if (!strcmp(opt, "--work_fetch_old")) {
             work_fetch_old = true;
+        } else if (!strcmp(opt, "--line_limit")) {
+            line_limit = atoi(next_arg(argc, argv, i));
         } else {
             help(argv[0]);
         }

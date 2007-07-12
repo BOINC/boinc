@@ -7209,3 +7209,10 @@ David  11 July 2007
     client/
         sim.C,h
         work_fetch.C
+
+David  12 July 2007
+    - client simulator: add --line_limit option;
+        splits up HTML output into multiple fixed-size files
+
+    client/
+        sim.C,h

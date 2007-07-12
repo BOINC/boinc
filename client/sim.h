@@ -137,9 +137,9 @@ public:
     bool initialized;
     bool run_cpu_benchmarks;
     FILE* html_out;
-    void html_start();
+    void html_start(bool);
     void html_rec();
-    void html_end();
+    void html_end(bool);
     std::string html_msg;
     double share_violation();
     double variety();

@@ -79,7 +79,8 @@ function show_create() {
         <ul>
         <li> <b>Scientists</b>: if your group has moderate
         programming, web, sysadmin, and hardware resources,
-        you can create your own BOINC project.
+        you can use BOINC to create a
+        <a href=volunteer.php>volunteer computing project</a>.
         A BOINC project with a single Linux server
         can provide computing power equivalent
         to a cluster with tens of thousands of CPUs.
