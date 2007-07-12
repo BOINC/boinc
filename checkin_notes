@@ -7216,3 +7216,11 @@ David  12 July 2007
 
     client/
         sim.C,h
+
+David  12 July 2007
+    - client simulator: rename "variety" to "monotony",
+        and redefine it so the range is
+        zero (no monotony) to one (maximal monotony)
+
+    client/
+        sim.C,h

@@ -27,7 +27,7 @@ struct SIM_RESULTS {
     int nresults_met_deadline;
     int nresults_missed_deadline;
     double share_violation;
-    double variety;
+    double monotony;
     double cpu_wasted_frac;
     double cpu_idle_frac;
 
@@ -142,7 +142,7 @@ public:
     void html_end(bool);
     std::string html_msg;
     double share_violation();
-    double variety();
+    double monotony();
 
 private:
     double app_started;

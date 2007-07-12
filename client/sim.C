@@ -385,12 +385,17 @@ double CLIENT_STATE::share_violation() {
 
 }
 
-// "variety" is defined as follows:
+// "monotony" is defined as follows:
 // for each project P, maintain R(P), the time since P last ran,
 // let S(P) be the RMS of R(P).
-// Let variety = mean(S(P))
+// Let X = mean(S(P))/(sched_interval*nprojects)
+//  (the *nprojects reflects the fact that in the limit of nprojects,
+//   each one waits for a time to run proportional to nprojects)
+//  X varies from zero (no monotony) to infinity.
+//   X is one in the case of round-robin on 1 CPU.
+// Let monotony = 1-1/(x+1)
 //
-double CLIENT_STATE::variety() {
+double CLIENT_STATE::monotony() {
     double sum = 0;
     double schedint = global_prefs.cpu_scheduling_period();
     unsigned int i;
@@ -400,7 +405,11 @@ double CLIENT_STATE::variety() {
         double s = sqrt(avg_ss);
         sum += s;
     }
-    return sum/(projects.size()*schedint);
+    int n = (int)projects.size();
+    double x = sum/(n*schedint*n);
+    double m = 1-(1/(x+1));
+    //printf("sum: %f; x: %f m: %f\n", sum, x, m);
+    return m;
 }
 
 // the CPU totals are there; compute the other fields
@@ -410,7 +419,7 @@ void SIM_RESULTS::compute() {
     cpu_wasted_frac = cpu_wasted/total;
     cpu_idle_frac = cpu_idle/total;
     share_violation = gstate.share_violation();
-    variety = gstate.variety();
+    monotony = gstate.monotony();
 }
 
 // top-level results (for aggregating multiple simulations)
@@ -419,14 +428,14 @@ void SIM_RESULTS::print(FILE* f, const char* title) {
     if (title) {
         fprintf(f, "%s: ", title);
     }
-    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f variety %f\n",
-        cpu_wasted_frac, cpu_idle_frac, share_violation, variety
+    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f monotony %f\n",
+        cpu_wasted_frac, cpu_idle_frac, share_violation, monotony
     );
 }
 
 void SIM_RESULTS::parse(FILE* f) {
-    fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf variety %lf",
-        &cpu_wasted_frac, &cpu_idle_frac, &share_violation, &variety
+    fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf monotony %lf",
+        &cpu_wasted_frac, &cpu_idle_frac, &share_violation, &monotony
     );
 }
 
@@ -434,14 +443,14 @@ void SIM_RESULTS::add(SIM_RESULTS& r) {
     cpu_wasted_frac += r.cpu_wasted_frac;
     cpu_idle_frac += r.cpu_idle_frac;
     share_violation += r.share_violation;
-    variety += r.variety;
+    monotony += r.monotony;
 }
 
 void SIM_RESULTS::divide(int n) {
     cpu_wasted_frac /= n;
     cpu_idle_frac /= n;
     share_violation /= n;
-    variety /= n;
+    monotony /= n;
 }
 
 void SIM_RESULTS::clear() {
