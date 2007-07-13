@@ -42,6 +42,7 @@
 #include "util.h"
 
 #include "network.h"
+#include "file_names.h"
 #include "client_msgs.h"
 #include "base64.h"
 #include "http_curl.h"

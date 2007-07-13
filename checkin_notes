@@ -7235,3 +7235,20 @@ David  13 July 2007
         http_curl.C
     html/inc
         stats_sites.inc
+
+David  13 July 2007
+    - API: fix unlikely memory leaks in graphics
+
+    api/
+        texture.C
+
+David  13 July 2007
+    - API: some out-of-mem checks
+
+    api/
+        gutil.C
+        texture.C
+        tgalib.C
+    client/
+        cs_apps.C
+        http_curl.C

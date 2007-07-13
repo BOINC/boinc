@@ -33,6 +33,11 @@ tImageTGA *LoadTGA(const char *filename)
 		
 	// Allocate the structure that will hold our eventual image data (must free it!)
 	pImageData = (tImageTGA*)malloc(sizeof(tImageTGA));
+    if (!pImageData) {
+        fprintf(stderr, "out of mem in LoadTGA");
+        fclose(pFile);
+        return NULL;
+    }
 
 	// Read in the length in bytes from the header to the pixel data
 	fread(&length, sizeof(byte), 1, pFile);

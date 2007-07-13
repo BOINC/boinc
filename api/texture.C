@@ -110,11 +110,11 @@ static ImageRec *ImageOpen(const char *fileName){
     }
     image = (ImageRec *)malloc(sizeof(ImageRec));
     if (image == NULL) {
-		fprintf(stderr, "Out of memory!\n");
-		return NULL;
+		goto error;
     }
     if ((image->file = fopen(fileName, "rb")) == NULL) {
 		perror(fileName);
+        free(image);
 		return NULL;
     }
     fread(image, 1, 12, image->file);
@@ -127,8 +127,7 @@ static ImageRec *ImageOpen(const char *fileName){
     image->tmpG = (unsigned char *)malloc(image->xsize*256);
     image->tmpB = (unsigned char *)malloc(image->xsize*256);
     if (image->tmp == NULL || image->tmpR == NULL || image->tmpG == NULL ||image->tmpB == NULL) {
-		fprintf(stderr, "Out of memory!\n");
-		return NULL;
+        goto error;
     }
 
     if ((image->type & 0xFF00) == 0x0100) {
@@ -136,8 +135,7 @@ static ImageRec *ImageOpen(const char *fileName){
 		image->rowStart = (unsigned *)malloc(x);
 		image->rowSize = (int *)malloc(x);
 		if (image->rowStart == NULL || image->rowSize == NULL) {
-			fprintf(stderr, "Out of memory!\n");
-			return NULL;
+            goto error;
 		}
 		image->rleEnd = 512 + (2 * x);
 		fseek(image->file, 512, SEEK_SET);
@@ -149,6 +147,19 @@ static ImageRec *ImageOpen(const char *fileName){
 		}
     }
     return image;
+error:
+    if (image) { 
+        if (image->rowSize) free(image->rowSize); 
+        if (image->rowStart) free(image->rowStart); 
+        if (image->tmpB) free(image->tmpB); 
+        if (image->tmpG) free(image->tmpG); 
+        if (image->tmpR)free(image->tmpR); 
+        if (image->tmp) free(image->tmp); 
+        if (image->file) fclose(image->file); 
+        free(image); 
+    } 
+    fprintf(stderr, "Out of memory!\n"); 
+    return NULL; 
 }
 
 static void ImageClose(ImageRec *image) {
@@ -332,7 +343,7 @@ unsigned * read_rgb_texture(const char *name, int *width, int *height, int *comp
     gbuf = (unsigned char *)malloc(image->xsize*sizeof(unsigned char));
     bbuf = (unsigned char *)malloc(image->xsize*sizeof(unsigned char));
     abuf = (unsigned char *)malloc(image->xsize*sizeof(unsigned char));
-    if(!base || !rbuf || !gbuf || !bbuf) return NULL;
+    if(!base || !rbuf || !gbuf || !bbuf) goto error;
     lptr = base;
 	for(y=0; y<image->ysize; y++) {
 		if(image->zsize>=4) {
@@ -365,6 +376,14 @@ unsigned * read_rgb_texture(const char *name, int *width, int *height, int *comp
     free(bbuf);
     free(abuf);
     return (unsigned *) base;
+error:
+ 	ImageClose(image); 
+ 	if (abuf) free(abuf); 
+ 	if (bbuf) free(bbuf); 
+ 	if (bbuf) free(gbuf); 
+ 	if (bbuf) free(rbuf); 
+ 	if (base) free(base); 
+ 	return NULL; 
 }
 
 const char *BOINC_RCSID_97d4f29d84="$Id$";
