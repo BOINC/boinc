@@ -298,6 +298,10 @@ int main(int argc, char** argv) {
             retval = rpc.project_op(project, "nomorework");
         } else if (!strcmp(op, "allowmorework")) {
             retval = rpc.project_op(project, "allowmorework");
+        } else if (!strcmp(op, "detach_when_done")) {
+            retval = rpc.project_op(project, "detach_when_done");
+        } else if (!strcmp(op, "dont_detach_when_done")) {
+            retval = rpc.project_op(project, "dont_detach_when_done");
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }

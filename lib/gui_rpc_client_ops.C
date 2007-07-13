@@ -1537,6 +1537,10 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     } else if (!strcmp(op, "nomorework")) {
          tag = "project_nomorework";
         project.dont_request_more_work = true;
+    } else if (!strcmp(op, "detach_when_done")) {
+         tag = "project_detach_when_done";
+    } else if (!strcmp(op, "dont_detach_when_done")) {
+         tag = "project_dont_detach_when_done";
     } else {
         return -1;
     }

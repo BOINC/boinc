@@ -231,20 +231,19 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         fout.printf("<error>no such project</error>\n");
         return;
     }
+    gstate.set_client_state_dirty("Project modified by user");
     if (!strcmp(op, "reset")) {
         gstate.request_schedule_cpus("project reset by user");
         gstate.request_work_fetch("project reset by user");
-        gstate.reset_project(p);    // writes state file
+        gstate.reset_project(p);
     } else if (!strcmp(op, "suspend")) {
         p->suspended_via_gui = true;
         gstate.request_schedule_cpus("project suspended by user");
         gstate.request_work_fetch("project suspended by user");
-        gstate.set_client_state_dirty("Project suspended by user");
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
         gstate.request_schedule_cpus("project resumed by user");
         gstate.request_work_fetch("project resumed by user");
-        gstate.set_client_state_dirty("Project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
             msg_printf(p, MSG_USER_ERROR,
@@ -267,21 +266,24 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             }
         }
 
-        gstate.detach_project(p);       // writes state file; deletes p
+        gstate.detach_project(p);
         gstate.request_schedule_cpus("project detached by user");
         gstate.request_work_fetch("project detached by user");
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = RPC_REASON_USER_REQ;
         p->min_rpc_time = 0;
         gstate.request_work_fetch("project updated by user");
-        gstate.set_client_state_dirty("project updated by user");
     } else if (!strcmp(op, "nomorework")) {
         p->dont_request_more_work = true;
-        gstate.set_client_state_dirty("project modified by user");
     } else if (!strcmp(op, "allowmorework")) {
         p->dont_request_more_work = false;
         gstate.request_work_fetch("project allowed to fetch work by user");
-        gstate.set_client_state_dirty("Project modified by user");
+    } else if (!strcmp(op, "detach_when_done")) {
+        p->detach_when_done = true;
+        p->dont_request_more_work = true;
+    } else if (!strcmp(op, "dont_detach_when_done")) {
+        p->detach_when_done = false;
+        p->dont_request_more_work = false;
     }
     fout.printf("<success/>\n");
 }
@@ -1053,6 +1055,10 @@ int GUI_RPC_CONN::handle_rpc() {
          handle_project_op(request_msg, mf, "nomorework");
      } else if (match_tag(request_msg, "<project_allowmorework")) {
          handle_project_op(request_msg, mf, "allowmorework");
+    } else if (match_tag(request_msg, "<project_detach_when_done")) {
+         handle_project_op(request_msg, mf, "detach_when_done");
+    } else if (match_tag(request_msg, "<project_dont_detach_when_done")) {
+         handle_project_op(request_msg, mf, "dont_detach_when_done");
     } else if (match_tag(request_msg, "<set_network_mode")) {
         handle_set_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<run_benchmarks")) {

@@ -7252,3 +7252,15 @@ David  13 July 2007
     client/
         cs_apps.C
         http_curl.C
+
+David  13 July 2007
+    - GUI RPC: added "detach_when_done" and "dont_detach_when_done"
+        project-control options.
+        Made these available in boinc_cmd.
+        Fixes #335.
+
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client_ops.C
