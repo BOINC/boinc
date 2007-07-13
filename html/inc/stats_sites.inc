@@ -99,7 +99,7 @@ $team_stats_sites = array(
 $sig_sites = array(
     array(
         "http://brainsmashr.com/BOINC/",
-        "boincwapstats",
+        "BrainSmashR.com boincwapstats",
         "Boincwapstats retrieves real-time BOINC statistics data
         and creates signature pictures out of it.
         You can select the background, style, data, etc.

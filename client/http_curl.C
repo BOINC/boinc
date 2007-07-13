@@ -314,7 +314,13 @@ The checking this option controls is of the identity that the server claims. The
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
 
     // if the above is nonzero, you need the following:
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, "ca-bundle.crt");
+    //
+    if (boinc_file_exists(CA_BUNDLE_FILENAME)) {
+        // call this only if a local copy of ca-bundle.crt exists;
+        // otherwise, let's hope that it exists in the default place
+        //
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
+    }
 
     // set the user agent as this boinc client & version
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);

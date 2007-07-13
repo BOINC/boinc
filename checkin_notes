@@ -7224,3 +7224,14 @@ David  12 July 2007
 
     client/
         sim.C,h
+
+David  13 July 2007
+    - client: if CA bundle file isn't in BOINC directory,
+        don't tell Curl to look for it there.
+        It might be in the default place where Curl looks.
+
+    client/
+        file_names.h
+        http_curl.C
+    html/inc
+        stats_sites.inc

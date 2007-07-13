@@ -43,9 +43,15 @@ function download_link($pname) {
         echo "
             <p>
             Note: BOINC may be available as a package for
-            for your particular Linux distribution
-            (Gentoo, Fedora, Debian, Ubuntu);
-            check this first before downloading from this page.
+            for your particular Linux distribution.
+            Check this first before downloading from this page.
+            Example package names:
+            <ul>
+            <li> Gentoo: sci-misc/boinc
+            <li> Debian and Ubuntu: boinc-client, boinc-manager
+                (more info <a href=http://wiki.debian.org/BOINC>here</a>).
+                Also boinc-dev (for project developers).
+            </ul>
         ";
     }
 }
@@ -112,9 +118,9 @@ function show_download($pname) {
     }
     echo "
         <p>
-        <a href=system_requirements.php><nobr>".tr(DL_SYSTEMREQ)."</nobr></a>
-        | <a href=release_notes.php><nobr>".tr(DL_RELNOTES)."</nobr></a>
-        | <a href=troubleshoot.php><nobr>".tr(DL_TROUBLE)."</nobr></a>
+        <a href=trac/wiki/SystemRequirements><nobr>".tr(DL_SYSTEMREQ)."</nobr></a>
+        | <a href=trac/wiki/ReleaseNotes><nobr>".tr(DL_RELNOTES)."</nobr></a>
+        | <a href=trac/wiki/TroubleshootClient><nobr>".tr(DL_TROUBLE)."</nobr></a>
     ";
     if ($pname) {
         //echo " | <a href=download.php?all_platforms=1><nobr>".tr(DL_OTHERSYS)."</nobr></a>

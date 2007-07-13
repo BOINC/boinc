@@ -23,9 +23,7 @@ $type_name = $_GET["type"];
 
 require_once("versions.inc");
 
-if ($dev) {
-    $url_base = "dl/";
-}
+//$url_base = "dl/";
 
 function dl_item($x, $y) {
     global $light_blue;
@@ -198,14 +196,6 @@ if ($xml) {
     } else {
         page_head("Download BOINC client software");
         echo "
-            We are now using mirrored download servers at partner institutions.
-            Your download will come from a randomly-chosen server.
-            Thanks to these partners for their help.
-            <b>If you have trouble downloading a file,
-            please reload this page in your browser and try again.
-            This will link to a different download mirror and may
-            fix the problem.</b>
-            <p>
             <table border=2 cellpadding=4 width=100%>
         ";
         foreach($platforms as $short_name=>$p) {

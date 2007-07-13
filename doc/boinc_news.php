@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("July 12, 2007",
+    "<a href=http://boinc.gorlaeus.net/>Leiden Classical</a>
+    is using BOINC for education - it provides a
+    <a href=http://boinc.gorlaeus.net/ClassicalBuilder.php>
+    high-performance computing resource</a> for
+    students of Theoretical Chemistry at Leiden University."
+),
 array("July 10, 2007",
     "<a href=http://boinc.berkeley.edu/images/gw.jpg border=0><img align=right src=http://boinc.berkeley.edu/images/gw_small.jpg></a>
     A growing number of 'skins' for the BOINC simple GUI are available

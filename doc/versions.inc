@@ -686,7 +686,6 @@ $mac = array(
 $linux = array(
     "name"=>"Linux/x86",
     "dbname" => "i686-pc-linux-gnu",
-    "url"=>"linux.php",
     "versions"=>array(
         $l5108,
         $l5816,
@@ -697,7 +696,6 @@ $linux = array(
 $linuxx64 = array(
     "name"=>"Linux/x64",
     "dbname" => "x86_64-pc-linux-gnu",
-    "url"=>"linuxx64.php",
     "versions"=>array(
         $l5108x64,
     )
