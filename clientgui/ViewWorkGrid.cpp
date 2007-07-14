@@ -871,9 +871,6 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     m_pGridPane->SortData();
 
-	// Refresh Grid
-	m_pGridPane->ForceRefresh();
-
 	UpdateSelection();
 }
 

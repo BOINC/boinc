@@ -6592,3 +6592,14 @@ Charlie 11 July 2007
         postupgrade
         release_boinc.sh
         release_GridRepublic.sh
+
+Charlie 14 July 2007
+    MGR: Merged David's changes of today into 5.10 branch to greatly 
+        reduce Grid Views' CPU usage (change from Frank Weiler): 
+        Don't call m_pGridPane->ForceRefresh() from OnListRender().
+
+    clientgui/
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp

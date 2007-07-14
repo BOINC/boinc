@@ -328,9 +328,6 @@ void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
     //sorting
 	m_pGridPane->SortData();
 
-	// Refresh Grid
-	m_pGridPane->ForceRefresh();
-
     UpdateSelection();
 }
 
