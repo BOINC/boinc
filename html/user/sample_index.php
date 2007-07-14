@@ -128,7 +128,7 @@ if (count($project_news) > 5) {
 echo "
     <p class=\"smalltext\">
     News is available as an
-    <a href=\"rss_main.php\">RSS feed</a> <img src=\"xml.gif\" alt=\"XML\">.</p>
+    <a href=\"rss_main.php\">RSS feed</a> <img src=img/xml.gif alt=\"XML\">.</p>
     </td>
     </tr></table>
 ";

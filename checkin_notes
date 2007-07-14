@@ -7264,3 +7264,9 @@ David  13 July 2007
     lib/
         boinc_cmd.C
         gui_rpc_client_ops.C
+
+David  14 July 2007
+    - user web: fix image URL on home page.  Fixes #340
+
+    html/user/
+        sample_index.php
