@@ -559,7 +559,9 @@ void CLIENT_STATE::html_end(bool show_next) {
     } else {
         char buf[256];
         sprintf(buf, "sim_out_%d.html", outfile_num-1);
+#ifndef _WIN32
         symlink(buf, "sim_out_last.html");
+#endif
     }
     fclose(html_out);
 }

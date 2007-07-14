@@ -142,6 +142,10 @@ void CLIENT_STATE::show_host_info() {
     nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
     msg_printf(NULL, MSG_INFO, "Disk: %s total, %s free", buf, buf2);
+    int tz = host_info.timezone/3600;
+    msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
+        tz<0?"":"+", tz
+    );
 }
 
 int CLIENT_STATE::init() {

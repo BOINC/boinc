@@ -257,7 +257,9 @@ void CLIENT_STATE::adjust_debts() {
     double share_frac;
     double wall_cpu_time = now - debt_interval_start;
 
-    if (wall_cpu_time < 1) return;
+    if (wall_cpu_time < 1) {
+        return;
+    }
 
     // if the elapsed time is more than the scheduling period,
     // it must be because the host was suspended for a long time.

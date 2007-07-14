@@ -7270,3 +7270,17 @@ David  14 July 2007
 
     html/user/
         sample_index.php
+
+David  14 July 2007
+	- client: print time zone message at startup
+	- Manager: removed ForceRefresh() calls in grid views;
+		reduces CPU usage, still seems to work (from Frank Weiler)
+
+	client/
+		client_state.C
+		cpu_sched.C
+	clientgui/
+		ViewMessagesGrid.cpp
+		ViewProjectsGrid.cpp
+		ViewTransfersGrid.cpp
+		ViewWorkGrid.cpp
