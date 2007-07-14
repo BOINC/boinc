@@ -250,9 +250,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
 
     echo "
-        <tr class=\"row$n\" valign=\"top\">
-        <td rowspan=\"3\"><div class=\"authorcol\">
-        <a name=\"".$post->getID()."\"></a>
+        <tr class=\"row".$n."\" valign=\"top\">
+        <td rowspan=\"3\"><a name=\"".$post->getID()."\"></a><div class=\"authorcol\">
     ";
 
     // Print the user links
