@@ -7310,3 +7310,13 @@ David  16 July 2007
 
     client/
         client_state.C,h
+
+David  16 July 2007
+	- Manager: changed wording the "Choose a project" page
+		of attach wizard.
+		At least one person was confused by 'WWW';
+		he thought you clicked there to choose project.
+
+	clientgui/
+		ProjectInfoPage.cpp
+		ProjectListCtrl.cpp

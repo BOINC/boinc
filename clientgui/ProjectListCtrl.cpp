@@ -299,7 +299,7 @@ bool CProjectListItemCtrl::SetTitle( wxString strTitle ) {
 
 bool CProjectListItemCtrl::SetURL( wxString strURL ) {
     if (m_pWebsiteCtrl) {
-        m_pWebsiteCtrl->SetLabel(_("WWW"));
+        m_pWebsiteCtrl->SetLabel(_("www"));
         m_pWebsiteCtrl->SetURL(strURL);
     }
     m_strURL = strURL;
