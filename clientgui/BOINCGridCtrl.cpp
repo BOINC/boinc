@@ -129,6 +129,7 @@ CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxG
 	//init members
 	sortColumn=-1;
 	sortAscending=true;
+	sortNeededByLabelClick=false;
 	m_pkColumnIndex=-1;
 	m_cursorcol=-1;
 	m_cursorrow=-1;		
@@ -556,7 +557,8 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 
         // Force a repaint of the label
         SetColLabelValue(ev.GetCol(), GetColLabelValue(ev.GetCol()));
-
+		//
+		sortNeededByLabelClick=true;
 		// Update and sort data
 		wxTimerEvent tEvent;
 		wxDynamicCast(GetParent(),CBOINCBaseView)->FireOnListRender(tEvent);
@@ -567,6 +569,7 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 
 void CBOINCGridCtrl::SortData() {
 	GetTable()->SortData(sortColumn,sortAscending);
+	sortNeededByLabelClick=false;
 }
 
 void CBOINCGridCtrl::SetColumnSortType(int col,int sortType/*=CST_STRING*/) {

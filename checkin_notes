@@ -6620,3 +6620,10 @@ Charlie 16 July 2007
     
     client/
         cs_statefile.C
+
+David  16 July 2007
+    - Manager: in grid views, don't sort unless needed (from Frank)
+
+    clientgui/
+        BOINCGridCtrl.cpp,h
+        ViewWorkGrid.cpp
