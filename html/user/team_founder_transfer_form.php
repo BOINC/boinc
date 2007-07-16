@@ -21,7 +21,7 @@ if ((($team->ping_user == 0) && ($team->ping_time < $now - 60 * 86400)) ||
     ($team->ping_time < $now - 90 * 86400)) {
     echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">";
     echo "<p>If the team founder is no longer active and you feel that you can
-	take over from him, click the button below. The current team founder
+	take over from him/her, click the button below. The current team founder
 	will be sent an email detailing your request and will be given an option
 	to transfer the founder position to you. If the founder does not respond
 	in two months, you will be given an option to become the founder
