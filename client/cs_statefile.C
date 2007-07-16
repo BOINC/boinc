@@ -516,6 +516,14 @@ int CLIENT_STATE::write_state_file() {
             );
         }
 #endif
+#ifdef __APPLE__
+        if (retval) {
+            msg_printf(0, MSG_USER_ERROR, 
+                "rename current state file to previous state file returned error %d: %s", 
+                errno, strerror(errno)
+            );
+        }
+#endif
     }
 
     retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
@@ -543,12 +551,13 @@ int CLIENT_STATE::write_state_file() {
         );
 #endif
 #ifdef __APPLE__
-    if (log_flags.state_debug) {
         msg_printf(0, MSG_USER_ERROR, 
             "rename %s to %s returned error %d: %s", 
-            STATE_FILE_NEXT, STATE_FILE_NAME, errno, strerror(errno));
-        system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
-    }
+            STATE_FILE_NEXT, STATE_FILE_NAME, errno, strerror(errno)
+        );
+        if (log_flags.state_debug) {
+            system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
+        }
 #endif
         return ERR_RENAME;
     }
