@@ -7275,6 +7275,7 @@ David  14 July 2007
 	- client: print time zone message at startup
 	- Manager: removed ForceRefresh() calls in grid views;
 		reduces CPU usage, still seems to work (from Frank Weiler)
+                Fixes #291.
 
 	client/
 		client_state.C
@@ -7284,3 +7285,9 @@ David  14 July 2007
 		ViewProjectsGrid.cpp
 		ViewTransfersGrid.cpp
 		ViewWorkGrid.cpp
+
+Charlie 16 July 2007
+    - Mac client: always show UNIX error if state file rename fails.
+    
+    client/
+        cs_statefile.C
