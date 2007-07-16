@@ -814,17 +814,26 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         return;
     }
     
+	// flag for row count changes 
+	bool rowCountChanged=false;
     // Right-size the grid so that the number of rows matches
     //   the document state.
     if(GetDocCount() != m_pGridPane->GetNumberRows()) {
         if (GetDocCount() > m_pGridPane->GetNumberRows()) {
     	    m_pGridPane->AppendRows(GetDocCount() - m_pGridPane->GetNumberRows());
+			rowCountChanged=true;
         } else {
 		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - GetDocCount());
+			rowCountChanged=true;
         }
         wxASSERT(GetDocCount() == m_pGridPane->GetNumberRows());
     }
 
+	//init array to detect cell value changes
+	wxArrayInt arrColumnDataChanged;
+	for(int i=0; i<= COLUMN_STATUS;i++) {
+		arrColumnDataChanged.Add(0);
+	}
 	//update cell values	
 	wxString strBuffer;
     int iMax = m_pGridPane->GetNumberRows();
@@ -833,48 +842,65 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		FormatProjectName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
     		m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
+			arrColumnDataChanged[COLUMN_PROJECT]=1;
         }
 
 		FormatApplicationName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_APPLICATION) != strBuffer) {
     		m_pGridPane->SetCellValue(iRow, COLUMN_APPLICATION, strBuffer);
+			arrColumnDataChanged[COLUMN_APPLICATION]=1;
         }
 
 		FormatName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_NAME) != strBuffer) {
 	    	m_pGridPane->SetCellValue(iRow, COLUMN_NAME, strBuffer);
+			arrColumnDataChanged[COLUMN_NAME]=1;
         }
 
 		FormatCPUTime(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_CPUTIME) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_CPUTIME, strBuffer);
+			arrColumnDataChanged[COLUMN_CPUTIME]=1;
         }
 
 		FormatProgress(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_PROGRESS) != strBuffer) {
     		m_pGridPane->SetCellValue(iRow, COLUMN_PROGRESS, strBuffer);
 	    	m_pGridPane->SetCellAlignment(iRow, COLUMN_PROGRESS, wxALIGN_CENTRE, wxALIGN_CENTRE);
+			arrColumnDataChanged[COLUMN_PROGRESS]=1;
         }
 
 		FormatTimeToCompletion(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_TOCOMPLETION) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_TOCOMPLETION, strBuffer);
+			arrColumnDataChanged[COLUMN_TOCOMPLETION]=1;
         }
 
 		FormatReportDeadline(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_REPORTDEADLINE) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_REPORTDEADLINE, strBuffer);
+			arrColumnDataChanged[COLUMN_REPORTDEADLINE]=1;
         }
 		
         strBuffer = wxEmptyString;
 		FormatStatus(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
+			arrColumnDataChanged[COLUMN_STATUS]=1;
         }
 	}
 
-    m_pGridPane->SortData();
-
+	//sort only
+	//1. if row count changed
+	//2. if sorting column has cell value changes
+	//3. if sort is enforced by user through label click
+	if( rowCountChanged || 
+	    (arrColumnDataChanged[m_pGridPane->sortColumn]==1) || 
+		m_pGridPane->sortNeededByLabelClick) 
+	{
+			m_pGridPane->SortData();
+	}
 	UpdateSelection();
 }
+
 

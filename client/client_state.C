@@ -131,6 +131,9 @@ void CLIENT_STATE::show_host_info() {
     msg_printf(NULL, MSG_INFO,
         "Processor features: %s", host_info.p_features
     );
+    msg_printf(NULL, MSG_INFO,
+        "OS: %s: %s", host_info.os_name, host_info.os_version
+    );
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
