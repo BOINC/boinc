@@ -51,7 +51,6 @@ function show_detail($v) {
     dl_item("File (click to download)", "$dlink ($s MB)");
     dl_item("Version number", $num);
     dl_item("Release date", $date);
-    dl_item("Installer type", $type);
     //dl_item("MD5 checksum of download file", $md);
     if ($features) {
         dl_item ("New features", $features);
@@ -106,7 +105,7 @@ function show_version($pname, $i, $v) {
     $status = $v["status"];
     if (is_dev($v)) {
         $status = $status."
-            <font color=dd0000><b>
+            <br><font color=ff0000><b>
             (MAY BE UNSTABLE - USE ONLY FOR TESTING)
             </b></font>
         ";
@@ -121,9 +120,6 @@ function show_version($pname, $i, $v) {
         </td>
         <td>
         <a href=".$url_base.$file."><b>Download</b></a> ($s MB)
-        </td>
-        <td>
-        Instructions: $type_text
         </td>
         <td width=1%>
         <a href=download_all.php?platform=$pname&version=$num&type=$type><nobr>version details</nobr></a>
@@ -206,15 +202,15 @@ if ($xml) {
             <p>
             If your computer is not of one of these types, you can
             <ul>
-            <li> <a href=anonymous_platform.php>make your own client software</a> or
-            <li> <a href=download_other.php>download executables from a third-party site</a>
+            <li> <a href=trac/wiki/AnonymousPlatform>make your own client software</a> or
+            <li> <a href=trac/wiki/DownloadOther>download executables from a third-party site</a>
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>
             BOINC is not available for Mac OS 9 or earlier.
             There are no plans to develop an OS 9 version.
             <p>
             The Windows BOINC client can be
-            <a href=win_deploy.php>deployed across a Windows network
+            <a href=trac/wiki/WinDeploy>deployed across a Windows network
             using Active Directory</a>.
         ";
     }
@@ -223,7 +219,7 @@ if ($xml) {
         Download information can be restricted by
         platform and/or version number, 
         and can be obtained in XML format.
-        <a href=download_info.php>Details</a>.
+        <a href=trac/wiki/DownloadInfo>Details</a>.
     ";
     page_tail();
 }

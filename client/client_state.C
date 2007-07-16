@@ -102,6 +102,7 @@ CLIENT_STATE::CLIENT_STATE() {
     redirect_io = false;
     disable_graphics = false;
     work_fetch_no_new_work = false;
+    cant_write_state_file = false;
 
     debt_interval_start = 0;
     total_wall_cpu_time_this_debt_interval = 0;
@@ -247,7 +248,7 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_USER_ERROR,
             "Make sure directory permissions are set correctly"
         );
-        return retval;
+        cant_write_state_file = true;
     }
 
     // scan user prefs; create file records
@@ -421,8 +422,8 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 
         if (n==0) break;
 
-        // Limit number of times thru this loop.  Can get
-        // stuck in while loop, if network isn't available,
+        // Limit number of times thru this loop.
+        // Can get stuck in while loop, if network isn't available,
         // DNS lookups tend to eat CPU cycles.
         //
         if (loops++ > 99) {
@@ -459,6 +460,11 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif
 
     now = dtime();
+
+    if (cant_write_state_file) {
+        return false;
+    }
+
     if (now - old_now > POLL_INTERVAL*10) {
         if (log_flags.network_status_debug) {
             msg_printf(0, MSG_INFO,
@@ -1210,7 +1216,6 @@ bool CLIENT_STATE::update_results() {
 // (timeout or idle)
 //
 bool CLIENT_STATE::time_to_exit() {
-    if (!exit_when_idle && !exit_after_app_start_secs) return false;
     if (exit_after_app_start_secs
         && (app_started>0)
         && ((now - app_started) >= exit_after_app_start_secs)
@@ -1223,6 +1228,22 @@ bool CLIENT_STATE::time_to_exit() {
     if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
         msg_printf(NULL, MSG_INFO, "exiting because no more results");
         return true;
+    }
+    if (cant_write_state_file) {
+        static bool first = true;
+        double t = now - last_wakeup_time;
+        if (first && t > 50) {
+            first = false;
+            msg_printf(NULL, MSG_INFO,
+                "Can't write state file, exiting in 10 seconds"
+            );
+        }
+        if (t > 60) {
+            msg_printf(NULL, MSG_INFO,
+                "Can't write state file, exiting now"
+            );
+            return true;
+        }
     }
     return false;
 }

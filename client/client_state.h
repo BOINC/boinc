@@ -161,7 +161,11 @@ public:
     double now;
     double last_wakeup_time;
     bool initialized;
-
+    bool cant_write_state_file;
+        // failed to write state file.
+        // In this case we continue to run for 1 minute,
+        // handling GUI RPCs but doing nothing else,
+        // so that the Manager can tell the user what the problem is
 private:
     bool client_state_dirty;
     int old_major_version;

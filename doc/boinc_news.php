@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("July 16, 2007",
+    "BOINC is now the preferred client software at
+    <a href=http://worldcommunitygrid.org>World Community Grid</a>."
+),
 array("July 12, 2007",
     "<a href=http://boinc.gorlaeus.net/>Leiden Classical</a>
     is using BOINC for education - it provides a

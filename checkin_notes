@@ -7301,3 +7301,12 @@ David  16 July 2007
     clientgui/
         BOINCGridCtrl.cpp,h
         ViewWorkGrid.cpp
+
+David  16 July 2007
+    - client: if can't write state file, don't immediately exit,
+        but don't do anything other than handle GUI RPCs.
+        After 50 secs, print an "about to exit" message.
+        After 60 seconds, exit
+
+    client/
+        client_state.C,h
