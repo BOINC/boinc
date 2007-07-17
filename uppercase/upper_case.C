@@ -192,7 +192,9 @@ void worker() {
             boinc_checkpoint_completed();
         }
 
-        boinc_fraction_done(nchars/fsize);
+        double f = nchars/fsize;
+        if (cpu_time) f /= 2;
+        boinc_fraction_done(f);
     }
 
     retval = out.flush();
@@ -208,7 +210,7 @@ void worker() {
         while (1) {
             double e = dtime()-start;
             if (e > cpu_time) break;
-            boinc_fraction_done(e/cpu_time);
+            boinc_fraction_done(.5 + e/(cpu_time*2));
 
 			if (boinc_time_to_checkpoint()) {
 				retval = do_checkpoint(out, nchars);

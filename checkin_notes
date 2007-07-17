@@ -393,3 +393,10 @@ David  28 June 2007
 
     wrapper/
         wrapper.C
+
+David  17 July 2007
+    - fix fraction done for uppercase.
+        fixes #341
+
+    uppercase/
+        upper_case.C
