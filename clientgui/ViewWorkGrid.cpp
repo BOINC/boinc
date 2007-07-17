@@ -140,7 +140,7 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 
 	// init grid columns
 	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135, 0};
-	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),_("Progress"),_("To completion"),_("Report deadline"),_("Status"),_("Index")};
+	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),_("Progress"),_("To completion"),_("Report deadline"),_("Status"),wxEmptyString};
 	for(int i=0; i< NUM_COLUMNS;i++){
 		m_pGridPane->SetColLabelValue(i,colTitles[i]);
 		m_pGridPane->SetColSize(i,colSizes[i]);		

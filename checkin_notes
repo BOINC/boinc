@@ -6637,3 +6637,10 @@ Charlie 17 July 2007
 
     clientgui/
         ViewWorkGrid.cpp
+
+Charlie 17 July 2007
+    - Manager GridCtrl: Don't save/restore width of hidden/invisible columns.
+
+    clientgui/
+        BOINCGridCtrl.cpp
+        ViewWorkGrid.cpp
