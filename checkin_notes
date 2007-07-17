@@ -7345,6 +7345,7 @@ David  17 July 2007
 
 Charlie 17 July 2007
     - Manager GridCtrl: Don't save/restore width of hidden/invisible columns.
+        Fix Compile error on some platforms.
 
     clientgui/
         BOINCGridCtrl.cpp

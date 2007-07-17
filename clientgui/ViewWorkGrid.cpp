@@ -848,7 +848,7 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     if (rowCountChanged) {
         for(int iRow = 0; iRow < iMax; iRow++) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_RESULTS_INDEX, strBuffer.Format("%d", iRow));
+            m_pGridPane->SetCellValue(iRow, COLUMN_RESULTS_INDEX, strBuffer.Format(wxT("%d"), iRow));
         }
     }
 
