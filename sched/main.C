@@ -144,7 +144,7 @@ void debug_sched(
 // call this only if we're not going to call handle_request()
 //
 static void send_message(const char* msg, int delay) {
-    printf(
+    fprintf(stdout,
         "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
         "    <message priority=\"low\">%s</message>\n"
