@@ -914,9 +914,20 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         (arrColumnDataChanged[m_pGridPane->sortColumn]==1) || 
         m_pGridPane->sortNeededByLabelClick) 
     {
+        wxArrayString ordered_indexes;
+        for(int iRow = 0; iRow < iMax; iRow++) {
+            ordered_indexes.Add(m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX));
+        }
+        
         m_pGridPane->SortData();
-	// Refresh Grid
-	m_pGridPane->ForceRefresh();
+    
+        for(int iRow = 0; iRow < iMax; iRow++) {
+            if (ordered_indexes[iRow] != m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX)) {
+                // Refresh entire grid if sort order has changed
+                m_pGridPane->ForceRefresh();
+                break;
+            }
+        }
     }
     UpdateSelection();
 }
