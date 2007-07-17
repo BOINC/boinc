@@ -79,7 +79,6 @@ PROJECT_FILES project_files;
 key_t sema_key;
 int g_pid;
 static bool db_opened=false;
-bool shmem_failed = false;
 SCHED_SHMEM* ssp = 0;
 bool batch = false;
 bool mark_jobs_done = false;
@@ -254,7 +253,7 @@ void set_core_dump_size_limit() {
 }
 #endif
 
-SCHED_SHMEM* attach_to_feeder_shmem() {
+void attach_to_feeder_shmem() {
     char path[256];
     get_project_dir(path, sizeof(path));
     get_key(path, 'a', sema_key);
@@ -267,7 +266,6 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
             "Can't attach shmem: %d (feeder not running?)\n",
             retval
         );
-        shmem_failed = true;
     } else {
         ssp = (SCHED_SHMEM*)p;
         retval = ssp->verify();
@@ -296,7 +294,6 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
             exit(0);
         }
     }
-    return ssp;
 }
 
 int main(int argc, char** argv) {
@@ -337,8 +334,7 @@ int main(int argc, char** argv) {
     }
     // install a larger buffer for stderr.  This ensures that
     // log information from different scheduler requests running
-    // in parallel don't collide in the log file and appear
-    // intermingled.
+    // in parallel don't collide in the log file and appear intermingled.
     //
     if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
@@ -363,11 +359,6 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    if (check_stop_sched()) {
-        send_message("Project is temporarily shut down for maintenance", 3600);
-        goto done;
-    }
-
     log_messages.set_debug_level(config.sched_debug_level);
 
     gui_urls.init();
@@ -383,11 +374,6 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    ssp = attach_to_feeder_shmem();
-    if (shmem_failed) {
-        send_message("Server error: can't attach shared memory", 3600);
-        goto done;
-    }
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
@@ -396,6 +382,19 @@ int main(int argc, char** argv) {
     counter++;
 #endif
     log_request_info(length);
+
+    if (check_stop_sched()) {
+        send_message("Project is temporarily shut down for maintenance", 3600);
+        goto done;
+    }
+
+    if (!ssp) {
+        attach_to_feeder_shmem();
+    }
+    if (!ssp) {
+        send_message("Server error: can't attach shared memory", 3600);
+        goto done;
+    }
 
     if (use_files) {
         struct stat statbuf;
@@ -468,6 +467,7 @@ int main(int argc, char** argv) {
     } else {
         handle_request(stdin, stdout, *ssp, code_sign_key);
     }
+done:
 #ifdef _USING_FCGI_
     fprintf(stderr, "FCGI: counter: %d\n", counter);
     continue;
@@ -481,7 +481,6 @@ int main(int argc, char** argv) {
     // about "incomplete headers"
     fprintf(stdout,"Content-type: text/plain\n\n");
 #endif
-done:
     if (db_opened) {
         boinc_db.close();
     }

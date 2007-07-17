@@ -1,8 +1,9 @@
 <?php
 
+require_once("docutil.php");
+
 function show_form() {
     echo "
-    <h2>BOINC client simulator</h2>
     <form action=sim_form.php method=post>
 
     sim_projects.xml:
@@ -103,23 +104,24 @@ function show_form() {
 </cc_config></textarea>
 
     <p>
-    Duration: <input name=duration value=86400>
-    Time step: <input name=delta value=60>
+    <br>Time step: <input name=delta value=60>
+    <br>Duration: <input name=duration value=86400>
+    <br>(may not exceed TimeStep*10000)
     <p>
-    Server uses workload? <input type=checkbox name=suw>
+    Server does EDF simulation based on current workload? <input type=checkbox name=suw>
     <p>
-    Client uses RR CPU sched? <input type=checkbox name=rr_only>
+    Client uses Round-Robin (old-style) CPU scheduling? <input type=checkbox name=rr_only>
     <p>
     Client uses old work fetch policy? <input type=checkbox name=work_fetch_old>
     <p>
-    DCF: <input type=radio name=dcf value=normal checked> Normal
+    Duration correction factor: <input type=radio name=dcf value=normal checked> Normal
         : <input type=radio name=dcf value=stats> Stats
         : <input type=radio name=dcf value=dual> Dual
         : <input type=radio name=dcf value=none> None
     <p>
     HTML output lines per file: <input name=line_limit>
     <p>
-    <input type=submit name=submit>
+    <input type=submit name=submit value=\"Run simulation\">
 
     </form>
     ";
@@ -138,13 +140,14 @@ if ($_POST['submit']) {
     }
     $duration = $_POST['duration'];
 
-    if ($duration > 100000) {
-        echo "duration must be <= 100000";
-        exit();
-    }
     $delta = $_POST['delta'];
     if ($delta < 1) {
         echo "time step must be >= 1";
+        exit();
+    }
+
+    if ($duration/$delta > 10000) {
+        echo "duration/step must be <= 10000";
         exit();
     }
 
@@ -183,6 +186,13 @@ if ($_POST['submit']) {
     system("/bin/rm sim_log.txt sim_out_*.html");
     system($cmd);
 } else {
+    page_head("BOINC client simulator");
+    echo "
+        This is a web interface to the BOINC client simulator.
+        Fill in the following form to specify the parameters
+        of your simulation.
+        Click <a href=trac/wiki/ClientSim>here</a> for more info.
+    ";
     show_form();
 }
 

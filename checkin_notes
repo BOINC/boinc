@@ -7331,3 +7331,14 @@ Charlie 17 July 2007
 
     clientgui/
         ViewWorkGrid.cpp
+
+David  17 July 2007
+    - scheduler: move startup checks (stop_sched, shmem) inside FCGI loop.
+        Hopefully this will make it feasible to run scheduler
+        even when project is down.
+    - lib: fix cygwin build error
+
+    lib/
+        filesys.C
+    sched/
+        main.C

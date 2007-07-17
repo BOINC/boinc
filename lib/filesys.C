@@ -374,7 +374,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
                 dir_size(buf, dsize, recurse);
                 size += dsize;
             } else {
-                size += findData.nFileSizeLow + (__int64(findData.nFileSizeHigh) << 32);
+                size += findData.nFileSizeLow + ((__int64)(findData.nFileSizeHigh) << 32);
             }
         } while (FindNextFile(hFind, &findData));
 		::FindClose(hFind);

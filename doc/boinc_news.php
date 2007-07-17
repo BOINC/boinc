@@ -2,6 +2,10 @@
 
 $project_news = array(
 array("July 16, 2007",
+    "If you use the Yahoo! Widget Engine,
+    check out version 1.1 of the <a href=http://boinc.berkeley.edu/addon_item.php?platform=browser&item=BOINC_server_status.zip>BOINC Server Status</a> widget."
+),
+array("July 16, 2007",
     "BOINC is now the preferred client software at
     <a href=http://worldcommunitygrid.org>World Community Grid</a>."
 ),

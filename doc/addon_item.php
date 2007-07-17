@@ -19,7 +19,7 @@ function show_item($y) {
     list_start();
     list_item(
         "Name<br><font size=-2>Click to download</font>",
-        "<a href=$url>".$y[1].'</a>');
+        "<a href=\"$url\">".$y[1].'</a>');
     if ($y[2]) {
         list_item("Version", $y[2]);
     }
