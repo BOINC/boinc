@@ -270,7 +270,11 @@ bool CBOINCGridCtrl::OnSaveState(wxConfigBase* pConfig) {
 
     // Cycle through the columns recording anything interesting
     for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
-		wxString label = this->GetColLabelValue(iIndex);
+        wxString label = this->GetColLabelValue(iIndex);
+        // Don't save width for hidden / invisible columns
+        if (label.IsEmpty()) {
+            continue;
+        }
         pConfig->SetPath(strBaseConfigLocation + label);
 		pConfig->Write(wxT("Width"), this->GetColumnWidth(iIndex));
     }
@@ -296,7 +300,11 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     // Cycle through the columns recording anything interesting
     for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
-		wxString label = GetColLabelValue(iIndex);
+        wxString label = GetColLabelValue(iIndex);
+        // Don't restore width for hidden / invisible columns
+        if (label.IsEmpty()) {
+            continue;
+        }
         pConfig->SetPath(strBaseConfigLocation + label);
 
         pConfig->Read(wxT("Width"), &iTempValue, -1);

@@ -7342,3 +7342,10 @@ David  17 July 2007
         filesys.C
     sched/
         main.C
+
+Charlie 17 July 2007
+    - Manager GridCtrl: Don't save/restore width of hidden/invisible columns.
+
+    clientgui/
+        BOINCGridCtrl.cpp
+        ViewWorkGrid.cpp
