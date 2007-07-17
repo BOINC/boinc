@@ -7320,3 +7320,14 @@ David  16 July 2007
 	clientgui/
 		ProjectInfoPage.cpp
 		ProjectListCtrl.cpp
+
+
+Charlie 17 July 2007
+    - Manager: Fixed bug in task grid view: code was always using the 
+        grid row number as index into results vector. Added a hidden 
+        column COLUMN_RESULTS_INDEX to hold index into results vector 
+        for the data in each row, so it is available after sorting grid.
+        This allows the changes of 16 July 2007 to work properly.
+
+    clientgui/
+        ViewWorkGrid.cpp
