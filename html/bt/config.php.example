@@ -1,0 +1,81 @@
+<?php
+// Includes from BOINC
+require_once("../inc/cache.inc");
+require_once("../inc/util.inc");
+
+// Includes from BT
+require_once("./inc/illegalargumentexception.php");
+require_once("./inc/torrent.php");
+require_once("./inc/belement.php");
+require_once("./inc/blist.php");
+require_once("./inc/bstring.php");
+require_once("./inc/bdictionary.php");
+require_once("./inc/binteger.php");
+require_once("./inc/checks.php");
+
+// Includes for filtering
+require_once("./filters/filefilter.php");
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
+
+/**
+ * Usually it should be enough to edit the lines below this comment to fit your usage scenario - 
+ * ie. if you have a lot of users and the files you have change a lot you may wish to cut down on
+ * the torrent_ttl (since this determines the final size of the database).
+ * The remaining part of this configuation file is split into 2 subparts: One for configuration
+ * of the tracker and one for configuration of the .torrent-generator.
+ */
+
+// Tracker --------------------------------------------------------------------------------------------------------
+define (TORRENT_TTL, 3600*24*15); // How long any torrent will remain in the database if it hasn't been accessed
+define (PEER_TTL, 3600*24); // How long any peer will remain in the database if it hasn't talked to us
+define (DB_CLEAN_TTL, 3600*24); // How often the DB will be cleaned
+define (DEFAULT_CONNECTION_INTERVAL, 3600); // How often we would like clients to talk to the tracker
+define (MAX_INFO_HASH_PEERS, 30); // How many peers to send back for each tracker request
+define (TRACKER_LOGFILE, "../../logs/bittorrent.log");
+// Tracker end ----------------------------------------------------------------------------------------------------
+
+
+// Generator ------------------------------------------------------------------------------------------------------
+define (TORRENT_CACHE_TTL, 3600*24); // How long before regenerating any torrent information (if your files are immutable simply set this to TORRENT_TTL).
+/** 
+ * The file filter determines which files to use bittorrent for and which not to track through bittorrent.
+ * Setting the file filter requires that you include whatever filter you decide to use first. For a list
+ * of available filters please have a look in the ./filters/-folder.
+ * A good default behaviour is to either track anything or only track files greater than some set size.
+ */
+require_once("./filters/allfilesfilefilter.php"); // Include happens with the FILEname of the chosen FileFilter class
+$fileFilter = new AllFilesFileFilter(); // Instantiation happens with the CLASSname of the class.
+
+/**
+ * FileDirectory: The base directory to serve files from. All file references will be relative to this.
+ * Symlinks outside the $fileDirectory are not allowed. Either do hardlinking or make the
+ * entire $fileDirectory a symlink somewhere.
+ */
+$fileDirectory="../../download";
+$trackerURL = "http://bittorrent.burp.boinc.dk/announce.php"; // The externally accessible URL to use for tracking purposes (should point to announce.php)
+
+/**
+ * Webseeds: This optional array lists any project HTTP webservers capable of handing out the files.
+ * Note that the servers must have a very strict hierarchy for the files:
+ * The optional webseeds must be HTTP servers with a similar structure to $fileDirectory
+ * For instance if you have a webseed called "http://burp.boinc.dk/download/" and a file
+ * $fileDirectory/dir/file
+ * then the webseed musst respond to queries on http://burp.boinc.dk/download/dir/file.
+ */  
+$webseeds = array(
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=0&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=1&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=2&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=3&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=4&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=5&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=6&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=7&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=8&getfile=",
+    "http://burp.boinc.dk/mirror/mirror_download.php?fetch=true&mirsug=9&getfile=");				
+// Generator end --------------------------------------------------------------------------------------------------
+
+
+?>
