@@ -6,6 +6,9 @@ to be sent to the clients. Usually this will be the project download directory.
 
 <insert more settings here>
 
+Also, you need to run the database scripts in the /database/-directory in order
+to set up your database for bittorrent tracking.
+
 ------------------
 How to enable this
 ------------------
