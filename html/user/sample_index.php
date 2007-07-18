@@ -36,9 +36,9 @@ function show_nav() {
             If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
         <li> When prompted, enter <br><b>".$master_url."</b>
         <li> If you're running a command-line or pre-5.0 version of BOINC,
-            <a href=create_account_form.php>create an account</a> first.
+            <a href=\"create_account_form.php\">create an account</a> first.
         <li> If you have any problems,
-            <a href=http://boinc.berkeley.edu/help.php>get help here</a>.
+            <a target=\"_new\" href=\"http://boinc.berkeley.edu/help.php\">get help here</a>.
         </ul>
 
         <h2>Returning participants</h2>
@@ -50,7 +50,7 @@ function show_nav() {
         </ul>
         <h2>Community</h2>
         <ul>
-        <li><a href=\"".URL_BASE."/profile_menu.php\">Participant profiles</a>
+        <li><a href=\"profile_menu.php\">Participant profiles</a>
         <li><a href=\"forum_index.php\">Message boards</a>
         <li><a href=\"forum_help_desk.php\">Questions and answers</a>
         <li><a href=\"stats.php\">Statistics</a>
@@ -128,15 +128,12 @@ if (count($project_news) > 5) {
 echo "
     <p class=\"smalltext\">
     News is available as an
-    <a href=\"rss_main.php\">RSS feed</a> <img src=img/xml.gif alt=\"XML\">.</p>
+    <a href=\"rss_main.php\">RSS feed</a> <img src=\"img/xml.gif\" alt=\"XML\">.</p>
     </td>
     </tr></table>
 ";
 
 include 'schedulers.txt';
-
-echo "
-";
 
 if ($caching) {
     page_tail_main(true);
