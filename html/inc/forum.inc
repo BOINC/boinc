@@ -401,7 +401,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
     if ($extended) {
         start_table_noborder();
         echo "<tr>\n";
-      
+        
         // Search
         echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
             <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
@@ -413,11 +413,13 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
             </form>
         ";
         echo "</td>\n";
-      
+        
         $logged_in_user = get_logged_in_user(false);
         // Custom stuff for logged in user
         if ($logged_in_user) {
             echo "<td align=\"right\">\n";
+            
+            echo "<a href=\"forum_index.php?read=1&amp;".url_tokens($logged_in_user->authenticator)."\">Mark all threads as read</a><br />\n";
             
             // Private messages
             echo pm_notification($logged_in_user);
@@ -505,7 +507,7 @@ function show_post2($post, $n) {
     $user = lookup_user_id($post->user);
     $title = cleanup_title($thread->title);
     $m = $n%2;
-    if($post->hidden) {
+    if ($post->hidden) {
         $deleted = "<br><font color=red>[Deleted by a moderator]</font>";
     } else {
         $deleted = "";

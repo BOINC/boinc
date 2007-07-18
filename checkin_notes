@@ -7356,3 +7356,13 @@ David  18 July 2007
 
     html/user/
         team_founder_transfer_form.php
+
+Rytis   18 July 2007
+    - user web: add a feature to mark all threads as read (forums).
+    
+    html/inc/
+        forum.inc
+        forum_user.inc
+    html/user/
+        forum_forum.php
+        forum_index.php

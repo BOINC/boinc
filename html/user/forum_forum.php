@@ -19,9 +19,9 @@ $user = re_get_logged_in_user(false);
 if (!$sort_style) {
     // get the sort style either from the logged in user or a cookie
     if ($user){
-	$sort_style = $user->getForumSortStyle();
+        $sort_style = $user->getForumSortStyle();
     } else {
-	list($sort_style,$thread_style)=explode("|",$_COOKIE['sorting']);    
+        list($sort_style,$thread_style)=explode("|",$_COOKIE['sorting']);    
     }
 } else {
     // set the sort style
@@ -42,7 +42,6 @@ if ($Category->getType()!=0){
 
 // Allow users with a linktab-browser to get some usefull links
 echo '<link href="forum_index.php" rel="up" title="Forum Index">';
-
 
 show_forum_title($forum, NULL);
 
@@ -74,26 +73,27 @@ function show_forum($forum, $start, $sort_style, $user) {
     $gotoStr = "<div align=\"right\">".show_page_nav($forum,$start)."</div>";
     echo $gotoStr; // Display the navbar
     start_forum_table(array("", tr(FORUM_THREADS), tr(FORUM_POSTS), tr(FORUM_AUTHOR), tr(FORUM_VIEWS), "<nobr>".tr(FORUM_LAST_POST)."</nobr>"));
-
+    
     $sticky_first = !$user || !$user->hasIgnoreStickyPosts();
     // Show hidden threads if logged in user is a moderator
     $show_hidden = $user && $user->isSpecialUser(S_MODERATOR); 
     $threads = $forum->getThreads($start, THREADS_PER_PAGE, $sort_style, $show_hidden, $sticky_first);
-
+    
     // Run through the list of threads, displaying each of them
     $n = 0; $i=0;
     foreach ($threads as $key => $thread) {
         $owner = $thread->getOwner();
-        $unread = $user && ($thread->getLastTimestamp()>$thread->getLastReadTimestamp($user));
-
+        $timestamp = $thread->getLastTimestamp();
+        $unread = $user && ($timestamp>$thread->getLastReadTimestamp($user)) && ($timestamp > $user->getReadTimestamp());
+        
         if ($thread->getStatus()==1){
-	    // This is an answered helpdesk thread
-	    echo '<tr class="row_hd'.$n.'">';
-	} else {
-	    // Just a standard thread.
-	    echo '<tr class="row'.$n.'">';	
-	}
-
+            // This is an answered helpdesk thread
+            echo '<tr class="row_hd'.$n.'">';
+        } else {
+            // Just a standard thread.
+            echo '<tr class="row'.$n.'">';	
+        }
+        
         echo "<td width=\"1%\" align=\"right\"><nobr>";
         if ($user && ($thread->getRating()>$user->getHighRatingThreshold())) {
             echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"Emphasized thread\">";

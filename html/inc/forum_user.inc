@@ -186,6 +186,11 @@ class User {
         $this->updatePrefs("avatar", $url);
     }
     
+    function getReadTimestamp(){
+        $this->ensurePrefsLoaded();
+        return $this->fprefObj->mark_as_read_timestamp;
+    }
+    
     /**
      * Gets user's display options and creates an output_options object
      * based upon their options.  (see text_transformations.php)

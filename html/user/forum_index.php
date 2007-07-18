@@ -9,7 +9,13 @@ require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
 db_init();
 
-get_logged_in_user(false);
+$logged_in_user = get_logged_in_user(false);
+
+// Process request to mark all posts as read
+if ((get_int("read", true) == 1) && ($logged_in_user)) {
+    check_tokens($logged_in_user->authenticator);
+    mysql_query("UPDATE forum_preferences SET mark_as_read_timestamp=".time()." WHERE userid=".$logged_in_user->id.";");
+}
 
 function forum_summary($forum) {
     echo '
