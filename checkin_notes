@@ -7350,3 +7350,9 @@ Charlie 17 July 2007
     clientgui/
         BOINCGridCtrl.cpp
         ViewWorkGrid.cpp
+
+David  18 July 2007
+    - user web: team founder transfer request requires nonzero total credit
+
+    html/user/
+        team_founder_transfer_form.php

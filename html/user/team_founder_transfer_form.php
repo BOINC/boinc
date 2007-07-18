@@ -14,9 +14,18 @@ $team = lookup_team($user->teamid);
 page_head("Transfer founder position of $team->name");
 $now = time();
 
+// don't allow requests from users with no credit
+//
+if ($user->total_credit == 0) {
+    echo "You must have credit on this project.";
+    page_tail();
+    exit;
+}
+
 // if founder has declined the request and the request was done more than
 // two months ago, allow new request; if both founder and change initiator
 // haven't responded for 3 months, allow new request.
+//
 if ((($team->ping_user == 0) && ($team->ping_time < $now - 60 * 86400)) || 
     ($team->ping_time < $now - 90 * 86400)) {
     echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">";
