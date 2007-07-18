@@ -7366,3 +7366,10 @@ Rytis   18 July 2007
     html/user/
         forum_forum.php
         forum_index.php
+
+David  18 July 2007
+    - back out my last change.
+        There are a number of situations where this is undesirable.
+
+    html/user/
+        team_founder_transfer_form.php

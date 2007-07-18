@@ -498,8 +498,14 @@ void CLIENT_STATE::html_start(bool show_prev) {
     }
     fprintf(html_out,
         "<a href=sim_log.txt>message log</a><p>"
-        "<table border=1>\n"
+        "<table border=1><tr><th>Time</th>\n"
     );
+    for (int i=0; i<ncpus; i++) {
+        fprintf(html_out,
+            "<th>CPU %d<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", i
+        );
+    }
+    fprintf(html_out, "<th>Notes</th></tr>\n");
 }
 
 void CLIENT_STATE::html_rec() {

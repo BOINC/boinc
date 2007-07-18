@@ -16,11 +16,11 @@ $now = time();
 
 // don't allow requests from users with no credit
 //
-if ($user->total_credit == 0) {
-    echo "You must have credit on this project.";
-    page_tail();
-    exit;
-}
+//if ($user->total_credit == 0) {
+//    echo "You must have credit on this project.";
+//    page_tail();
+//    exit;
+//}
 
 // if founder has declined the request and the request was done more than
 // two months ago, allow new request; if both founder and change initiator

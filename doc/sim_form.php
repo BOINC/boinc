@@ -6,7 +6,7 @@ function show_form() {
     echo "
     <form action=sim_form.php method=post>
 
-    sim_projects.xml:
+    <b>sim_projects.xml</b> (describes a set of projects)
     <br>
     <textarea name=projects rows=10 cols=80><projects>
     <project>
@@ -46,7 +46,7 @@ function show_form() {
 </projects></textarea>
 
     <p>
-    sim_host.xml:
+    <b>sim_host.xml</b>: (describes the simulated host)
     <br>
     <textarea name=host rows=10 cols=80><host>
     <p_fpops>1</p_fpops>
@@ -60,7 +60,7 @@ function show_form() {
 </host></textarea>
 
     <p>
-    sim_prefs.xml:
+    <b>sim_prefs.xml:</b> (the host's preferences)
     <br>
     <textarea name=prefs rows=10 cols=80><global_preferences>
     <source_project>http://isaac.ssl.berkeley.edu/alpha/</source_project>
@@ -87,7 +87,7 @@ function show_form() {
 </global_preferences></textarea>
 
     <p>
-    cc_config.xml:
+    <b>cc_config.xml:</b> (the client configuration options)
     <br>
     <textarea name=cc_config rows=10 cols=80><cc_config>
     <log_flags>
@@ -104,9 +104,19 @@ function show_form() {
 </cc_config></textarea>
 
     <p>
+    <b>
+    The following control how long the simulation runs.
+    Duration may not exceed TimeStep*10000.
+    </b>
     <br>Time step: <input name=delta value=60>
     <br>Duration: <input name=duration value=86400>
-    <br>(may not exceed TimeStep*10000)
+    <p>
+    <b>
+    The following controls enable various experimental policies.
+    The standard policy (as of 5.10.13) is no checkboxes enabled,
+    and the 'Normal' DCF policy.
+    </b>
+
     <p>
     Server does EDF simulation based on current workload? <input type=checkbox name=suw>
     <p>
@@ -189,9 +199,10 @@ if ($_POST['submit']) {
     page_head("BOINC client simulator");
     echo "
         This is a web interface to the BOINC client simulator.
-        Fill in the following form to specify the parameters
-        of your simulation.
-        Click <a href=trac/wiki/ClientSim>here</a> for more info.
+        Fill in the following form to specify the
+        <a href=trac/wiki/ClientSim>parameters of your simulation</a>.
+        The results will be shown in your browser.
+        <p>
     ";
     show_form();
 }
