@@ -6650,6 +6650,8 @@ Charlie 17 July 2007
 Charlie 18 July 2007
     - Manager: Update disk pie chart only if something has changed (from 
         Frank Weiler)
+    - Manager: don't call GetWorkCount() unnecesaarily in ViewWorkGrid.cpp.
     
     clientgui/
         ViewResources.cpp,.h
+        ViewWorkGrid.cpp
