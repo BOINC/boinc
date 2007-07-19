@@ -46,6 +46,8 @@ void GLOBAL_PREFS_MASK::clear() {
 bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (run_on_batteries) return true;
     if (run_if_user_active) return true;
+    if (idle_time_to_run) return true;
+    if (suspend_if_no_recent_input) return true;
     if (start_hour) return true;         // 0..23; no restriction if start==end
     if (end_hour) return true;
     if (net_start_hour) return true;     // 0..23; no restriction if start==end
@@ -79,8 +81,8 @@ bool GLOBAL_PREFS_MASK::are_simple_prefs_set() {
     if (net_end_hour) return true;
     if (disk_max_used_gb) return true;
     if (cpu_usage_limit) return true;
-    if (run_if_user_active) return true;
     if (run_on_batteries) return true;
+    if (run_if_user_active) return true;
     if (idle_time_to_run) return true;
     return false;
 }
@@ -100,6 +102,8 @@ void TIME_PREFS::clear() {
 void GLOBAL_PREFS::defaults() {
     run_on_batteries = true;
     run_if_user_active = true;
+    idle_time_to_run = 3;
+    suspend_if_no_recent_input = 0;
     time_prefs.clear();
     leave_apps_in_memory = false;
     confirm_before_connecting = true;
@@ -116,7 +120,6 @@ void GLOBAL_PREFS::defaults() {
     vm_max_used_frac = 0.75;
 	ram_max_used_busy_frac = 0.5;
 	ram_max_used_idle_frac = 0.9;
-    idle_time_to_run = 3;
     max_bytes_sec_up = 0;
     max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
@@ -250,7 +253,9 @@ int GLOBAL_PREFS::parse_override(
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "global_preferences")) continue;
-        if (!strcmp(tag, "/global_preferences"))  return 0;
+        if (!strcmp(tag, "/global_preferences")) {
+            return 0;
+        }
         if (in_venue) {
             if (!strcmp(tag, "/venue")) {
                 if (in_correct_venue) {
@@ -289,6 +294,14 @@ int GLOBAL_PREFS::parse_override(
         }
         if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) {
             mask.run_if_user_active = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
+            mask.idle_time_to_run = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "suspend_if_no_recent_input", suspend_if_no_recent_input)) {
+            mask.suspend_if_no_recent_input = true;
             continue;
         }
         if (xp.parse_double(tag, "start_hour", time_prefs.start_hour)) {
@@ -387,10 +400,6 @@ int GLOBAL_PREFS::parse_override(
             mask.ram_max_used_idle_frac = true;
             continue;
         }
-        if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
-            mask.idle_time_to_run = true;
-            continue;
-        }
         if (xp.parse_double(tag, "max_bytes_sec_up", max_bytes_sec_up)) {
             if (max_bytes_sec_up < 0) max_bytes_sec_up = 0;
             mask.max_bytes_sec_up = true;
@@ -448,6 +457,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "<global_preferences>\n"
         "   <mod_time>%d</mod_time>\n"
         "%s%s"
+        "   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n"
         "   <start_hour>%f</start_hour>\n"
         "   <end_hour>%f</end_hour>\n"
         "   <net_start_hour>%f</net_start_hour>\n"
@@ -472,6 +482,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         mod_time,
         run_on_batteries?"   <run_on_batteries/>\n":"",
         run_if_user_active?"   <run_if_user_active/>\n":"",
+        suspend_if_no_recent_input,
         time_prefs.start_hour,
         time_prefs.end_hour,
         time_prefs.net_start_hour,
@@ -514,6 +525,15 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (mask.run_if_user_active) {
         f.printf("   <run_if_user_active>%d</run_if_user_active>\n",
             run_if_user_active?1:0
+        );
+    }
+    if (mask.idle_time_to_run) {
+        f.printf("   <idle_time_to_run>%f</idle_time_to_run>\n", idle_time_to_run);
+    }
+    if (mask.suspend_if_no_recent_input) {
+
+        f.printf("   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n",
+            suspend_if_no_recent_input
         );
     }
     if (mask.start_hour) {
@@ -580,9 +600,6 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.ram_max_used_idle_frac) {
         f.printf("   <ram_max_used_idle_pct>%f</ram_max_used_idle_pct>\n", ram_max_used_idle_frac*100);
-    }
-    if (mask.idle_time_to_run) {
-        f.printf("   <idle_time_to_run>%f</idle_time_to_run>\n", idle_time_to_run);
     }
     if (mask.max_bytes_sec_up) {
         f.printf("   <max_bytes_sec_up>%f</max_bytes_sec_up>\n", max_bytes_sec_up);

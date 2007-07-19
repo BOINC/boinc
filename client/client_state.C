@@ -512,7 +512,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 #endif
 
-    check_suspend_processing(suspend_reason);
+    suspend_reason = check_suspend_processing();
 
     // suspend or resume activities (but only if already did startup)
     //
@@ -534,7 +534,7 @@ bool CLIENT_STATE::poll_slow_events() {
         cpu_benchmarks_poll();
     }
 
-    check_suspend_network(network_suspend_reason);
+    network_suspend_reason = check_suspend_network();
 
     // if a recent GUI RPC needs network access, allow it
     //

@@ -395,8 +395,8 @@ public:
 	double available_ram();
 	double max_available_ram();
 private:
-    void check_suspend_processing(int&);
-    void check_suspend_network(int&);
+    int check_suspend_processing();
+    int check_suspend_network();
     void install_global_prefs();
     PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);

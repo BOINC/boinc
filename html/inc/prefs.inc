@@ -1,10 +1,9 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 // This file contains support functions for display and editing
 // preferences (global and project).
 // Preferences are represented in two ways:
 // - As a PHP structure (usually called $prefs)
-//   This has fields run_on_batteries, etc.
+//   This has fields run_if_user_active, etc.
 //   The fields "project_specific" is plain XML
 // - As XML (usually called $prefs_xml)
 //
@@ -44,15 +43,19 @@ include_once("../project/project_specific_prefs.inc");
 // strings describing various preference fields
 //
 define("CPU_LIMIT_DESC", "Processor usage");
-define("RUN_ON_BATTERIES_DESC",
-    "Do work while computer is running on batteries?
+define("SUSPEND_WHILE_ON_BATTERIES_DESC",
+    "Suspend work while computer is on battery power?
     <br><span class=note>(matters only for portable computers)</span>"
 );
 define("RUN_IF_USER_ACTIVE_DESC",
-    "Do work while computer is in use?"
+    "Suspend work while computer is in use?"
 );
-define("IDLE_TIME_TO_RUN_DESC", "Do work only after computer is idle for");
-define("IDLE_TIME_TO_RUN_DESC2", "<br><span class=note>(applies only if above is 'no')</span>");
+define("IDLE_TIME_TO_RUN_DESC", "'In use' means mouse/keyboard activity in last");
+define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
+    "Suspend work if no mouse/keyboard activity in last
+    <br><span class=note>(Needed to enter low-power mode on some computers)
+    <br>Enforced by version 5.10.14+</span>"
+);
 define("START_END_DESC", "Do work only between the hours of");
 define("START_END_DESC2", "<br><span class=note>(no restriction if equal)</span>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
@@ -76,14 +79,14 @@ define("WORK_BUF_MIN_DAYS_DESC",
 );
 define("WORK_BUF_ADDITIONAL_DAYS_DESC",
     "Maintain enough work for an additional
-    <br><span class=note>(Requires 5.10+ client.)</span>
+    <br><span class=note>Enforced by version 5.10+</span>
     "
 );
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("USE_AT_MOST", "Use at most");
-define("USE_AT_MOST2", "Use at most<br><span class=note>Enforced by version 5.6 and greater</span>");
-define("USE_AT_MOST3", "Use at most<br><span class=note>Enforced by version 5.8 and greater</span>");
+define("USE_AT_MOST2", "Use at most<br><span class=note>Enforced by version 5.6+</span>");
+define("USE_AT_MOST3", "Use at most<br><span class=note>Enforced by version 5.8+</span>");
 define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
 define("DISK_LIMIT_DESC", "Disk and memory usage");
@@ -93,13 +96,13 @@ define("DISK_SCHED_MIN_FREE_DESC2", " are ignored)</span>");
 define("DISK_MAX_USED_PCT_DESC2", "% of total disk space");
 define("VM_MAX_USED_PCT_DESC2", "% of page file (swap space)");
 define("RAM_MAX_USED_BUSY_PCT_DESC2", "% of memory when computer is in use");
-define("RAM_MAX_USED_IDLE_PCT_DESC2", "% of memory when computer is idle");
+define("RAM_MAX_USED_IDLE_PCT_DESC2", "% of memory when computer is not in use");
 define("NETWORK_LIMIT_DESC", "Network usage");
 define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
 define("NET_START_END_DESC",
     "Use network only between the hours of
-    <br><span class=note>Enforced by versions 4.46 and greater</span>"
+    <br><span class=note>Enforced by version 4.46+</span>"
 );
 define("DONT_VERIFY_IMAGES_DESC",
     "Skip image file verification?
@@ -277,6 +280,11 @@ function element_end_project($parser, $name) {
     }
 }
 
+function get_bool() {
+    global $text;
+    return (trim($text) != '0');
+}
+
 function element_end_global($parser, $name) {
     global $text;
     global $parse_result;
@@ -289,13 +297,20 @@ function element_end_global($parser, $name) {
         $parse_result = $top_parse_result;
         break;
     case "run_on_batteries":
-        $parse_result->run_on_batteries = true;
+        // deprecated, but parse anyway
+        $parse_result->suspend_while_on_batteries = !get_bool();
+        break;
+    case "suspend_while_on_batteries":
+        $parse_result->suspend_while_on_batteries = get_bool();
         break;
     case "run_if_user_active":
-        $parse_result->run_if_user_active = true;
+        $parse_result->suspend_if_user_active = false;
         break;
     case "idle_time_to_run":
         $parse_result->idle_time_to_run = $text;
+        break;
+    case "suspend_if_no_recent_input":
+        $parse_result->suspend_if_no_recent_input = $text;
         break;
     case "start_hour":
         $parse_result->start_hour = $text;
@@ -384,9 +399,10 @@ function char_handler($parser, $x) {
 //
 function default_prefs_global() {
     $p = null;
-    $p->run_on_batteries = false;
-    $p->run_if_user_active = true;
+    $p->suspend_while_on_batteries = true;
+    $p->suspend_if_user_active = false;
     $p->idle_time_to_run = 3;
+    $p->suspend_if_no_recent_input = 0;
     $p->start_hour = 0;
     $p->end_hour = 0;
     $p->leave_apps_in_memory = false;
@@ -422,12 +438,12 @@ function default_prefs_project() {
     return $p;
 }
 
-// state of prefs before parsing; initialize all booleans to false
+// state of prefs before parsing; initialize booleans
 //
 function initialize_prefs_before_parsing_global() {
     $p = default_prefs_global();
-    $p->run_on_batteries = false;
-    $p->run_if_user_active = false;
+    $p->suspend_while_on_batteries = true;
+    $p->suspend_if_user_active = true;
     $p->leave_apps_in_memory = false;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = false;
@@ -486,9 +502,12 @@ function hour_select($x, $name) {
 // display preference subsets as Columns
 //
 function row_top($x, $ncols=6, $class="heading") {
-    echo "<tr><td class=$class width=30%>$x</td>";
-    echo "<td class=$class width=15%><b>General</b></td><td class=$class width=15%><b>Home</b></td><td class=$class width=15%><b>School</b></td><td class=$class width=15%><b>Work</b></td>";
-    echo "<td width=10%><br></td></tr>\n";
+    echo "<tr><td class=$class width=35%>$x</td>";
+    echo "<td class=$class width=10%><b>Default</b></td>
+        <td class=$class width=10%><b>Home</b></td>
+        <td class=$class width=10%><b>School</b></td>
+        <td class=$class width=10%><b>Work</b></td>";
+    echo "<td width=15%><br></td></tr>\n";
 }
 
 //
@@ -504,7 +523,7 @@ function hour_range($venue, $type) {
         $e_hour = $venue->net_end_hour;
     }
     if ($s_hour == $e_hour) {
-        $x = "(no restriction)";
+        $x = "--";
     } else {
         $s = hour_str($s_hour);
         $e = hour_str($e_hour);
@@ -540,10 +559,10 @@ function row_hours($pre, $type, $global_prefs) {
     $wrk  = isset($global_prefs->work)   ? hour_range($global_prefs->work, $type)   : "--";
 
     echo "<tr><td class=fieldname>$pre</td>";
-    row_field($gen,  "");
-    row_field($hom,  "");
+    row_field($gen, "");
+    row_field($hom, "");
     row_field($schl, "");
-    row_field($wrk,  "");
+    row_field($wrk, "");
     echo "<td class=f_val><br></td></tr>\n";
 }
 
@@ -551,7 +570,7 @@ function row_hours($pre, $type, $global_prefs) {
 // row_field - Display each field value, with selectable display modes
 //
 function row_field($value, $type) {
-    echo "<td class=f_val>";
+    echo "<td class=f_val valign=top>";
     $type = $value === "--" ? "--" : $type;
     switch($type) {
     case "yesno":
@@ -562,7 +581,13 @@ function row_field($value, $type) {
         $y = "$x " . BYTE_ABBR;
         echo $x ? "$y" : "no limit";
         break;
-    case "--";
+    case "minutes":
+        if ($value) {
+            echo $value;
+        } else {
+            echo '--';
+        }
+        break;
     default:
         echo $value;
         break;
@@ -613,9 +638,11 @@ function row_links($subset, $prefs) {
 //
 function prefs_show_columns_global($prefs) {
     row_top(CPU_LIMIT_DESC);
-    row_defs(RUN_ON_BATTERIES_DESC, "run_on_batteries", "", "yesno", $prefs);
-    row_defs(RUN_IF_USER_ACTIVE_DESC, "run_if_user_active", "", "yesno", $prefs);
+    row_defs(SUSPEND_WHILE_ON_BATTERIES_DESC, "suspend_while_on_batteries", "", "yesno", $prefs);
+    row_defs(RUN_IF_USER_ACTIVE_DESC, "suspend_if_user_active", "", "yesno", $prefs);
     row_defs(IDLE_TIME_TO_RUN_DESC, "idle_time_to_run", " minutes", "", $prefs);
+
+    row_defs(SUSPEND_IF_NO_RECENT_INPUT_DESC, "suspend_if_no_recent_input", "minutes", "minutes", $prefs);
 
     row_hours(START_END_DESC, "run", $prefs);
 
@@ -646,13 +673,20 @@ function prefs_show_columns_global($prefs) {
     row_links("global", $prefs);
 }
 
+function show_double($x) {
+    if ($x) return $x;
+    return '---';
+}
+
 function prefs_show_global($prefs) {
     row1(CPU_LIMIT_DESC);
-    row2(RUN_ON_BATTERIES_DESC, $prefs->run_on_batteries?"yes":"no");
-    row2(RUN_IF_USER_ACTIVE_DESC, $prefs->run_if_user_active?"yes":"no");
-    if (!$prefs->run_if_user_active) {
-        row2(IDLE_TIME_TO_RUN_DESC, "$prefs->idle_time_to_run minutes");
-    }
+    row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $prefs->suspend_while_on_batteries?"yes":"no");
+    row2(RUN_IF_USER_ACTIVE_DESC, $prefs->suspend_if_user_active?"yes":"no");
+    row2(IDLE_TIME_TO_RUN_DESC, "$prefs->idle_time_to_run minutes");
+
+    $x = show_double($prefs->suspend_if_no_recent_input);
+    row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, "$x minutes");
+
     if ($prefs->start_hour == $prefs->end_hour) {
         $x = "(no restriction)";
     } else {
@@ -919,18 +953,18 @@ function print_prefs_form(
 //
 function prefs_form_global($user, $prefs, $error=false) {
     row1(CPU_LIMIT_DESC);
-    $y = "yes <input type=radio name=run_on_batteries value=yes "
-        .($prefs->run_on_batteries?"checked":"")
-        ."> no <input type=radio name=run_on_batteries value=no "
-        .($prefs->run_on_batteries?"":"checked")
+    $y = "yes <input type=radio name=suspend_while_on_batteries value=yes "
+        .($prefs->suspend_while_on_batteries?"checked":"")
+        ."> no <input type=radio name=suspend_while_on_batteries value=no "
+        .($prefs->suspend_while_on_batteries?"":"checked")
         .">
     ";
-    row2(RUN_ON_BATTERIES_DESC, $y);
+    row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $y);
 
-    $y = "yes <input type=radio name=run_if_user_active value=yes "
-        .($prefs->run_if_user_active?"checked":"")
-        ."> no <input type=radio name=run_if_user_active value=no "
-        .($prefs->run_if_user_active?"":"checked")
+    $y = "yes <input type=radio name=suspend_if_user_active value=yes "
+        .($prefs->suspend_if_user_active?"checked":"")
+        ."> no <input type=radio name=suspend_if_user_active value=no "
+        .($prefs->suspend_if_user_active?"":"checked")
         .">
     ";
     row2(RUN_IF_USER_ACTIVE_DESC, $y);
@@ -938,8 +972,12 @@ function prefs_form_global($user, $prefs, $error=false) {
     $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'> minutes ";
     $show_error = false;
     if (isset($error->idle_time_to_run)) $show_error= true;
-    row2(IDLE_TIME_TO_RUN_DESC.IDLE_TIME_TO_RUN_DESC2, $y, $show_error);
+    row2(IDLE_TIME_TO_RUN_DESC, $y, $show_error);
 
+    $y = "<input size=5 name=suspend_if_no_recent_input value='$prefs->suspend_if_no_recent_input'> minutes ";
+    $show_error = false;
+    if (isset($error->suspend_if_no_recent_input)) $show_error= true;
+    row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, $y, $show_error);
 
     $x = START_END_DESC.START_END_DESC2;
     $y = hour_select($prefs->start_hour, "start_hour")."and".hour_select($prefs->end_hour, "end_hour");
@@ -1178,13 +1216,15 @@ function venue_update($user) {
 ////////////////////////////////////////////
 //
 // Functions to parse form elements, modifying a preferences structure
-// @param object &$prefs Reference to preferences object to modify
-// @return object an object with errorvalues or false in success case
+// prefs is preferences object to modify
+// returns an object with errorvalues or false in success case
+//
 function prefs_global_parse_form(&$prefs) {
     $error = false;
-    $run_on_batteries = $_GET["run_on_batteries"];
-    $run_if_user_active = $_GET["run_if_user_active"];
+    $suspend_while_on_batteries = $_GET["suspend_while_on_batteries"];
+    $suspend_if_user_active = $_GET["suspend_if_user_active"];
     $idle_time_to_run = $_GET["idle_time_to_run"];
+    $suspend_if_no_recent_input = $_GET["suspend_if_no_recent_input"];
     $start_hour = $_GET["start_hour"];
     $end_hour = $_GET["end_hour"];
     $leave_apps_in_memory = $_GET["leave_apps_in_memory"];
@@ -1209,6 +1249,7 @@ function prefs_global_parse_form(&$prefs) {
     $dont_verify_images = $_GET["dont_verify_images"];
     // Verification of all user input values
     if (!verify_numeric($idle_time_to_run, 1)) $error->idle_time_to_run = true;
+    if (!verify_numeric($suspend_if_no_recent_input, 0)) $error->suspend_if_no_recent_input = true;
     if (!verify_numeric($start_hour, 0)) $error->start_hour = true;
     if (!verify_numeric($end_hour, 0)) $error->end_hour = true;
     if (!verify_numeric($cpu_scheduling_period_minutes, 1)) $error->cpu_scheduling_period_minutes = true;;
@@ -1228,9 +1269,10 @@ function prefs_global_parse_form(&$prefs) {
     if (!verify_numeric($net_start_hour, 0)) $error->net_start_hour = true;
     if (!verify_numeric($net_end_hour, 0)) $error->net_end_hour = true;
     // Modify all values within the supplied Object
-    $prefs->run_on_batteries = ($run_on_batteries == "yes");
-    $prefs->run_if_user_active = ($run_if_user_active == "yes");
+    $prefs->suspend_while_on_batteries = ($suspend_while_on_batteries == "yes");
+    $prefs->suspend_if_user_active = ($suspend_if_user_active == "yes");
     $prefs->idle_time_to_run = $idle_time_to_run;
+    $prefs->suspend_if_no_recent_input = $suspend_if_no_recent_input;
     $prefs->start_hour = $start_hour;
     $prefs->end_hour = $end_hour;
     $prefs->leave_apps_in_memory = ($leave_apps_in_memory == "yes");
@@ -1308,13 +1350,14 @@ function global_prefs_make_xml($prefs, $primary=true) {
         $now = time();
         $xml = $xml."<mod_time>$now</mod_time>\n";
     }
-    if ($prefs->run_on_batteries) {
+    if (!$prefs->suspend_while_on_batteries) {
         $xml = $xml."<run_on_batteries/>\n";
     }
-    if ($prefs->run_if_user_active) {
+    if (!$prefs->suspend_if_user_active) {
         $xml = $xml."<run_if_user_active/>\n";
     }
     $xml = $xml."<idle_time_to_run>$prefs->idle_time_to_run</idle_time_to_run>\n";
+    $xml = $xml."<suspend_if_no_recent_input>$prefs->suspend_if_no_recent_input</suspend_if_no_recent_input>\n";
 
     if ($prefs->start_hour != $prefs->end_hour) {
         $xml = $xml."<start_hour>$prefs->start_hour</start_hour>\n"

@@ -100,6 +100,7 @@
     
 
 // bitmap defs for task_suspend_reason, network_suspend_reason
+// Note: doesn't need to be a bitmap, but keep for compatibility
 //
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
@@ -108,7 +109,8 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_TIME_OF_DAY = 8,
     SUSPEND_REASON_BENCHMARKS = 16,
     SUSPEND_REASON_DISK_SIZE = 32,
-    SUSPEND_REASON_CPU_USAGE_LIMIT = 64
+    SUSPEND_REASON_CPU_USAGE_LIMIT = 64,
+    SUSPEND_REASON_NO_RECENT_INPUT = 128,
 };
 
 // States of a result on a client.

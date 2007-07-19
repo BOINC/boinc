@@ -108,37 +108,39 @@ int CLIENT_STATE::allowed_project_disk_usage(double& size) {
 // See if (on the basis of user run request and prefs)
 // we should suspend processing
 //
-void CLIENT_STATE::check_suspend_processing(int& reason) {
-    reason = 0;
+int CLIENT_STATE::check_suspend_processing() {
 
     // Don't work while we're running CPU benchmarks
     //
     if (are_cpu_benchmarks_running()) {
-        reason = SUSPEND_REASON_BENCHMARKS;
-        return;
+        return SUSPEND_REASON_BENCHMARKS;
     }
 
     switch(run_mode.get_current()) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
-        reason = SUSPEND_REASON_USER_REQ;
-        return;
+        return SUSPEND_REASON_USER_REQ;
     default:
         if (!global_prefs.run_on_batteries
             && host_info.host_is_running_on_batteries()
         ) {
-            reason = SUSPEND_REASON_BATTERIES;
-            return;
+            return SUSPEND_REASON_BATTERIES;
         }
 
         if (!global_prefs.run_if_user_active && user_active) {
-            reason = SUSPEND_REASON_USER_ACTIVE;
-            return;
+            return SUSPEND_REASON_USER_ACTIVE;
         }
-
         if (global_prefs.suspended_time_of_day(PREFS_CPU)) {
-            reason = SUSPEND_REASON_TIME_OF_DAY;
-            return;
+            return SUSPEND_REASON_TIME_OF_DAY;
+        }
+    }
+
+    if (global_prefs.suspend_if_no_recent_input) {
+        bool idle = host_info.users_idle(
+            check_all_logins, global_prefs.suspend_if_no_recent_input
+        );
+        if (idle) {
+            return SUSPEND_REASON_NO_RECENT_INPUT;
         }
     }
 
@@ -149,7 +151,7 @@ void CLIENT_STATE::check_suspend_processing(int& reason) {
             if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
                 debt += diff*global_prefs.cpu_usage_limit/100;
                 if (debt < 0) {
-                    reason = SUSPEND_REASON_CPU_USAGE_LIMIT;
+                    return SUSPEND_REASON_CPU_USAGE_LIMIT;
                 } else {
                     debt -= diff;
                 }
@@ -157,6 +159,7 @@ void CLIENT_STATE::check_suspend_processing(int& reason) {
         }
         last_time = now;
     }
+    return 0;
 }
 
 static string reason_string(int reason) {
@@ -211,23 +214,19 @@ int CLIENT_STATE::resume_tasks(int reason) {
     return 0;
 }
 
-void CLIENT_STATE::check_suspend_network(int& reason) {
-    reason = 0;
-
+int CLIENT_STATE::check_suspend_network() {
     switch(network_mode.get_current()) {
-    case RUN_MODE_ALWAYS: return;
+    case RUN_MODE_ALWAYS: return 0;
     case RUN_MODE_NEVER:
-        reason = SUSPEND_REASON_USER_REQ;
-        return;
+        return SUSPEND_REASON_USER_REQ;
     }
     if (!global_prefs.run_if_user_active && user_active) {
-        reason = SUSPEND_REASON_USER_ACTIVE;
-        return;
+        return SUSPEND_REASON_USER_ACTIVE;
     }
     if (global_prefs.suspended_time_of_day(PREFS_NETWORK)) {
-        reason = SUSPEND_REASON_TIME_OF_DAY;
+        return SUSPEND_REASON_TIME_OF_DAY;
     }
-    return;
+    return 0;
 }
 
 int CLIENT_STATE::suspend_network(int reason) {

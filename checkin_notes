@@ -7382,3 +7382,28 @@ Charlie 18 July 2007
     clientgui/
         ViewResources.cpp,.h
         ViewWorkGrid.cpp
+
+David  19 July 2007
+    - User web and client: added a new pref "suspend_if_no_recent_input"
+        that lets you suspend computation after a specified period of idleness.
+        This is necessary to allow some machines to go into low-power mode
+        when they're not being used.
+    - Change the wording of some existing prefs; for example, changed
+        "Do work while computer is in use?" to
+        "Suspend work while computer is in use".
+        The former is confusing - if you say yes, BOINC may in fact
+        NOT do work while the computer is in use,
+        due to other factors (time of day, etc.)
+    TODO: HOST_INFO::users_idle() should be changed so that it
+        returns the idle time
+        (rather than telling you whether we've been idle for X)
+
+    client/
+        client_state.C,h
+        cs_prefs.C
+        hostinfo_unix.C
+    html/inc/
+        prefs.inc
+    lib/
+        common_defs.h
+        prefs.C,h
