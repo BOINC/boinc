@@ -97,14 +97,14 @@ $team_stats_sites = array(
 );
 
 $sig_sites = array(
-    array(
-        "http://brainsmashr.com/BOINC/",
-        "BrainSmashR.com boincwapstats",
-        "Boincwapstats retrieves real-time BOINC statistics data
-        and creates signature pictures out of it.
-        You can select the background, style, data, etc.
-        It's PHP and open source, so you can run it on your own server."
-    ),
+//    array(
+//        "http://brainsmashr.com/BOINC/",
+//        "BrainSmashR.com boincwapstats",
+//        "Boincwapstats retrieves real-time BOINC statistics data
+//        and creates signature pictures out of it.
+//        You can select the background, style, data, etc.
+//        It's PHP and open source, so you can run it on your own server."
+//    ),
     array(
         "http://www.boincuk.com/show3.php",
         "BOINC UK",
