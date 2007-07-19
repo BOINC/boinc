@@ -7373,3 +7373,10 @@ David  18 July 2007
 
     html/user/
         team_founder_transfer_form.php
+
+Charlie 18 July 2007
+    - Manager: Update disk pie chart only if something has changed (from 
+        Frank Weiler)
+    
+    clientgui/
+        ViewResources.cpp,.h

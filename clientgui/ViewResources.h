@@ -56,6 +56,8 @@ protected:
 
 	wxArrayColour			m_aProjectColours;
 
+	bool					m_BOINCwasEmpty;
+
     virtual void            UpdateSelection();
 
     wxInt32                 FormatProjectName(PROJECT*, wxString& strBuffer ) const;
