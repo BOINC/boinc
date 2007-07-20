@@ -400,3 +400,10 @@ David  17 July 2007
 
     uppercase/
         upper_case.C
+
+David  20 July 2007
+    - example_app: #ifdef graphics stuff so we can use this in boinc/apps
+
+    example_app/
+        Makefile
+        uc2.C

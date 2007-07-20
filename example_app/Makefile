@@ -10,6 +10,7 @@ BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 
 CXXFLAGS = -g \
+    -DAPP_GRAPHICS \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
@@ -29,7 +30,7 @@ PROGS = uc2 uc2_graphics
 all: $(PROGS)
 
 clean:
-	rm $(PROGS)
+	/bin/rm -f $(PROGS)
 
 uc2: uc2.o $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread -lboinc_api -lboinc

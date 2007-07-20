@@ -17,6 +17,12 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// NOTE: this file exists as both
+// boinc/apps/upper_case.C
+// and
+// boinc_samples/example_app/uc2.C
+// If you update one, please update the other!
+
 // This is the primary sample BOINC application;
 // it shows most of the features of the BOINC API.
 //
@@ -48,7 +54,11 @@
 #include "boinc_api.h"
 #include "mfile.h"
 #include "graphics2.h"
+
+#ifdef APP_GRAPHICS
 #include "uc2.h"
+UC_SHMEM* shmem;
+#endif
 
 using std::string;
 
@@ -61,7 +71,6 @@ bool early_exit = false;
 bool early_crash = false;
 bool early_sleep = false;
 double cpu_time = 20;
-UC_SHMEM* shmem;
 
 static void use_some_cpu() {
     double j = 3.14159;
@@ -95,6 +104,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
     return 0;
 }
 
+#ifdef APP_GRAPHICS
 void update_shmem() {
     if (!shmem) return;
     shmem->fraction_done = boinc_get_fraction_done();
@@ -102,6 +112,7 @@ void update_shmem() {
     shmem->update_time = dtime();
     boinc_get_status(&shmem->status);
 }
+#endif
 
 int main(int argc, char **argv) {
     int i;
@@ -164,10 +175,12 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
+#ifdef APP_GRAPHICS
     // create shared mem segment for graphics, and arrange to update it
     //
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
     boinc_register_timer_callback(update_shmem);
+#endif
 
     // main loop - read characters, convert to UC, write
     //
@@ -237,7 +250,9 @@ int main(int argc, char **argv) {
         }
     }
     boinc_fraction_done(1);
+#ifdef APP_GRAPHICS
     update_shmem();
+#endif
     boinc_finish(0);
 }
 
