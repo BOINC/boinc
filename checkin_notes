@@ -7422,6 +7422,7 @@ David  20 July 2007
         unless there's a main program with same name as dir
         (previously it was treating the first executable file found
         as the main program, with occasionally disastrous consequences).
+        Fixes #350
 
     tools/
         update_versions
