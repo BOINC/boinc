@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("July 20, 2007",
+    "Team leaders: check out the
+    <a href=http://www.boincteams.com/>BOINC Team Leaders Forum</a>,
+    a place to chat and discuss team-building on BOINC projects."
+),
 array("July 16, 2007",
     "If you use the Yahoo! Widget Engine,
     check out version 1.1 of the <a href=http://boinc.berkeley.edu/addon_item.php?platform=browser&item=BOINC_server_status.zip>BOINC Server Status</a> widget."

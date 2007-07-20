@@ -537,7 +537,9 @@ int send_result_abort(
                     // only send abort if not started
                     orp.abort = false;
                     orp.abort_if_not_started = true;
-                } else if ( result.server_state == RESULT_SERVER_STATE_OVER && result.outcome == RESULT_OUTCOME_NO_REPLY ) {
+                } else if (result.server_state == RESULT_SERVER_STATE_OVER
+                    && result.outcome == RESULT_OUTCOME_NO_REPLY
+                ) {
                     // the result is late so abort it if it hasn't been started
                     orp.abort=false;
                     orp.abort_if_not_started = true;

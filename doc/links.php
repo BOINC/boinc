@@ -19,6 +19,11 @@ function site($url, $name) {
 
 $info_sites = array(
     array(
+        "http://www.boincteams.com/",
+        "BOINC Team Leaders Forum",
+        "(a meeting place to chat and discuss team building on BOINC projects)"
+    ),
+    array(
         "http://www.hyper.net/dc-howto.html",
         "How to participate in grid computing projects that benefit humanity",
         "(survey of volunteer computing, including non-BOINC projects)"

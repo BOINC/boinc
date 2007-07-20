@@ -7407,3 +7407,11 @@ David  19 July 2007
     lib/
         common_defs.h
         prefs.C,h
+
+David  20 July 2007
+    - sample app: adapt the one from boinc_samples
+
+    apps/
+        upper_case.C
+    sched/
+        handle_request.C
