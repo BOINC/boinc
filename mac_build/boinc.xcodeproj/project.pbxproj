@@ -4839,7 +4839,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.16.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.16.4/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4854,7 +4854,7 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.16.1/lib/.libs/libcurl.a",
+					"../../curl-7.16.4/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lz",

@@ -21,10 +21,10 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.16.1, jpeg-6b and wxMac-2.6.3
+# curl-7.16.4, jpeg-6b and wxMac-2.6.3
 #
 # by Charlie Fenton 7/21/06
-# Updated for curl-7.16.1 and wx-Mac 2.6.3 5/22/07
+# Updated for curl-7.16.4 7/20/07
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -49,13 +49,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.16.1 --------"
+echo "------- BUILD CURL-7.16.4 --------"
 echo "----------------------------------"
 echo ""
 
 SCRIPT_DIR=`pwd`
 
-cd ../../curl-7.16.1/
+cd ../../curl-7.16.4/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi

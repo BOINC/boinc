@@ -6655,3 +6655,14 @@ Charlie 18 July 2007
     clientgui/
         ViewResources.cpp,.h
         ViewWorkGrid.cpp
+
+Charlie 20 July 2007
+    Mac: changes for libcurl 7.16.4.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildcurl.sh
+        setupForBoinc.sh
+        HowToBuildBOINC_XCode.rtf
+        
