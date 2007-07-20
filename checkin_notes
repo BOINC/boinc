@@ -7416,3 +7416,12 @@ David  20 July 2007
         upper_case.C
     sched/
         handle_request.C
+
+David  20 July 2007
+    - update_versions: don't accept a multi-file application
+        unless there's a main program with same name as dir
+        (previously it was treating the first executable file found
+        as the main program, with occasionally disastrous consequences).
+
+    tools/
+        update_versions
