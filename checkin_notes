@@ -7410,6 +7410,7 @@ David  19 July 2007
 
 David  20 July 2007
     - sample app: adapt the one from boinc_samples
+        fixes #341
 
     apps/
         upper_case.C
