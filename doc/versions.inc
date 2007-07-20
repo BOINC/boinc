@@ -390,7 +390,7 @@ $linux_libs_58= "
 
 $w51013= array(
     "num"=>"5.10.13",
-    "status"=>"Development version (Win98+, Win2000+)",
+    "status"=>"Recommended version (Win98+, Win2000+)",
     "file"=>"boinc_5.10.13_windows_intelx86.exe",
     "date"=>"5 July 2007",
     "type"=>"win_new",
@@ -404,7 +404,7 @@ $w51013= array(
 
 $w51013x64= array(
     "num"=>"5.10.13",
-    "status"=>"Development version (WinXP64+)",
+    "status"=>"Recommended version (WinXP64+)",
     "file"=>"boinc_5.10.13_windows_x86_64.exe",
     "date"=>"5 July 2007",
     "type"=>"win_new",
