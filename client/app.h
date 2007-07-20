@@ -120,6 +120,7 @@ public:
     bool is_ss_app;
     double graphics_mode_ack_timeout;
     bool exit_requested;
+    int premature_exit_count;
 
 #ifdef SIM
     double cpu_time_left;
@@ -176,6 +177,7 @@ public:
 #else
     void handle_exited_app(int stat);
 #endif
+    void handle_exit_zero(bool&);
 
     bool check_max_disk_exceeded();
 

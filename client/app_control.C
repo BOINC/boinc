@@ -184,6 +184,40 @@ static void limbo_message(ACTIVE_TASK& at) {
     );
 }
 
+// handle a task whose process just did an exit(0)
+// (or, on Windows, was externally killed)
+//
+void ACTIVE_TASK::handle_exit_zero(bool& will_restart) {
+    // did it call boinc_finish()?
+    //
+    if (finish_file_present()) {
+        set_task_state(PROCESS_EXITED, "handle_exited_app");
+        return;
+    }
+
+    // did we send it a quit message?
+    //
+    if (task_state() == PROCESS_QUIT_PENDING) {
+        will_restart = true;
+        return;
+    }
+
+    // otherwise it exited "prematurally".
+    // Restart it unless this happens 100 times w/o a checkpoint
+    //
+    premature_exit_count++;
+    if (premature_exit_count > 100) {
+        set_task_state(PROCESS_ABORTED, "handle_exit_zero");
+        result->exit_status = ERR_TOO_MANY_EXITS;
+        gstate.report_result_error(*result, "too many exit(0)s");
+        result->set_state(RESULT_ABORTED, "handle_exit_zero");
+    } else {
+        will_restart = true;
+        limbo_message(*this);
+        set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
+    }
+}
+
 // deal with a process that has exited, for whatever reason:
 // - completion
 // - crash
@@ -233,15 +267,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 				);
 			}
         } else {
-            if (finish_file_present()) {
-                set_task_state(PROCESS_EXITED, "handle_exited_app");
-            } else {
-                will_restart = true;
-                if (task_state() != PROCESS_QUIT_PENDING) {
-                    limbo_message(*this);
-                }
-                set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-            }
+            handle_exit_zero(will_restart);
         }
 #else
         if (WIFEXITED(stat)) {
@@ -256,15 +282,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     (-1<<8)|result->exit_status
                 );
             } else {
-                if (finish_file_present()) {
-                    set_task_state(PROCESS_EXITED, "handle_exited_app");
-                } else {
-                    will_restart = true;
-                    if (task_state() != PROCESS_QUIT_PENDING) {
-                        limbo_message(*this);
-                    }
-                    set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-                }
+                handle_exit_zero(will_restart);
             }
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
@@ -924,6 +942,7 @@ bool ACTIVE_TASK_SET::get_msgs() {
             if (old_time != atp->checkpoint_cpu_time) {
                 gstate.request_enforce_schedule("Checkpoint reached");
                 atp->checkpoint_wall_time = gstate.now;
+                atp->premature_exit_count = 0;
                 action = true;
                 if (log_flags.task_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,

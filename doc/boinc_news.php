@@ -2,6 +2,10 @@
 
 $project_news = array(
 array("July 20, 2007",
+    "A newly-launched project, <a href=http://eternity2.net/>Eternity2.net</a>,
+    offers a chance to compute for a share of a US$2,000,000 prize."
+),
+array("July 20, 2007",
     "Team leaders: check out the
     <a href=http://www.boincteams.com/>BOINC Team Leaders Forum</a>,
     a place to chat and discuss team-building on BOINC projects."

@@ -7437,3 +7437,12 @@ Charlie 20 July 2007
         setupForBoinc.sh
         HowToBuildBOINC_XCode.rtf
         
+David  20 July 2007
+    - client: add mechanism to abort results if they get > 100
+        "premature exits" (exit(0) without finish file) between checkpoints
+
+    client/
+        app_control.C
+        app.C,h
+    lib/
+        error_numbers.h

@@ -119,6 +119,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     thread_handle = 0;
     shm_handle = 0;
 #endif
+    premature_exit_count = 0;
 }
 
 static const char* task_state_name(int val) {
