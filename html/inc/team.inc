@@ -273,4 +273,45 @@ function team_count_nusers($teamid) {
     }
 }
 
+// These functions determine the rules for foundership transfer, namely:
+// - A transfer request is allowed if either:
+//   - there is no active request, and it's been at least 60 days
+//     since the last request (this protects the founder from
+//     being bombarded with frequest requests)
+//   - there's an active request older than 90 days
+//     (this lets a 2nd requester eventually get a chance)
+// - Suppose someone (X) requests foundership at time T.
+//   An email is sent to the founder (Y).
+//   The request is "active" (ping_user is set to X's ID)
+// - If Y declines the change, an email is sent to X,
+//   and the request is cleared.
+// - If Y accepts the change, an email is sent to X
+//   and the request is cleared.
+// - After T + 60 days, X can become founder
+// - After T + 90 days, new requests are allowed even if there's
+//   an active request, i.e. after the 60 days elapse X has another
+//   30 days to assume foundership before someone elase can request it
+//
+function new_transfer_request_ok($team, $now) {
+    if ($team->ping_user == 0) {
+        if ($team->ping_time < $now - 60 * 86400) {
+            return true;
+        }
+        return false;
+    }
+    if ($team->ping_time < $now - 90 * 86400) {
+        return true;
+    }
+    return false;
+}
+
+function transfer_ok_time($team) {
+    return $team->ping_time + 60*86400;
+}
+
+function transfer_ok($team, $now) {
+    if ($now > transfer_ok_time($team)) return true;
+    return false;
+}
+
 ?>

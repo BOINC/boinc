@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("July 23, 2007",
+    "<a href=images/africa_workshop_7_07.jpg><img align=right src=images/workshop_200.jpg></a>
+    The Africa@home workshop on volunteer computing with BOINC,
+    sponsored by the Geneva International Academic Network (GIAN),
+    was held recently at the African Institute for Mathematical Sciences in Muizenberg, South Africa.
+    <br clear=all>"
+),
 array("July 20, 2007",
     "A newly-launched project, <a href=http://eternity2.net/>Eternity2.net</a>,
     offers a chance to compute for a share of a US$2,000,000 prize."

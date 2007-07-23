@@ -1,5 +1,8 @@
 <?php
 
+// email-related utilities.
+// Don't put specific message text here.
+
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
@@ -123,117 +126,8 @@ function is_valid_email_addr($addr) {
     return (bool) $match;
 }
 
-
-// If a user's host is identified as causing problems, this email is sent
-// to the owner to let them know.
-//
-function send_problem_email($user, $host) {
-    global $master_url;
-    $body = "";
-        
-    $host_content = "ID: ".$host->id."
-    Created: ".time_str($host->create_time)."
-    Venue: ".$host->venue."
-    Total credit: ".$host->total_credit."
-    Average credit: ".$host->expavg_credit."
-    Average update time: ".time_str($host->expavg_time)."
-    IP address: $host->last_ip_addr (same the last $host->nsame_ip_addr times)
-    Domain name: " . $host->domain_name;
-    $x = $host->timezone/3600;
-    if ($x >= 0) $x="+$x";
-    $host_content.="
-    Local Time = UTC $x hours
-    Number of CPUs: " . $host->p_ncpus."
-    CPU: $host->p_vendor $host->p_model
-    FP ops/sec: ".$host->p_fpops."
-    Int ops/sec: ".$host->p_iops."
-    memory bandwidth: ".$host->p_membw."
-    Operating System: $host->os_name $host->os_version";
-    $x = $host->m_nbytes/(1024*1024);
-    $y = round($x, 2);
-    $host_content.="
-    Memory: $y MB";
-    $x = $host->m_cache/1024;
-    $y = round($x, 2);
-    $host_content.="
-    Cache: $y KB";
-    $x = $host->m_swap/(1024*1024);
-    $y = round($x, 2);
-    $host_content.="
-    Swap Space: $y MB";
-    $x = $host->d_total/(1024*1024*1024);
-    $y = round($x, 2);
-    $host_content.="
-    Total Disk Space: $y GB";
-    $x = $host->d_free/(1024*1024*1024);
-    $y = round($x, 2);
-    $host_content.="
-    Free Disk Space: $y GB
-    Avg network bandwidth (upstream): $host->n_bwup bytes/sec
-    Avg network bandwidth (downstream): $host->n_bwdown bytes/sec";
-    $x = $host->avg_turnaround/86400;
-    $host_content.="
-    Average turnaround: ".round($x, 2)." days
-    Number of RPCs: $host->rpc_seqno
-    Last RPC: ".time_str($host->rpc_time)."
-    % of time client on: ". 100*$host->on_frac." %
-    % of time host connected: " . 100*$host->connected_frac." %
-    % of time user active: " . 100*$host->active_frac." %
-    # of results today: " . $host->nresults_today;
-    
-    $subject = PROJECT." notice for $user->name";
-    $body = PROJECT." notification:
-
-Dear $user->name
-Your machine (host # $host->id) described below appears to have a misconfigured BOINC
-installation.  Could you please have a look at it?
-
-Sincerely,
-        The ". PROJECT." team
-";
-$body .= "
-
-This is the content of our database:
-" . $host_content."
-
-For further information and assistance with ".PROJECT." go to $master_url";
-    echo nl2br($body) . "<br><br>"; 
-    return send_email($user, $subject, $body);
-
-}
-
 function salted_key($key) {
     return md5($key.'oogabooga');
-}
-
-function send_founder_transfer_email($team, $user) {
-    $body = "Team member ".$user->name." has requested you to hand over
-the privileges and responsibilities of team founder to him in ".PROJECT.".
-    
-Visit ".URL_BASE."/team_change_founder_form.php?teamid=".$team->id."
-to change team founder or decline user's request.
-    
-If you do not respond to this request within two months, ".$user->name." will
-be given the option to become the founder himself.
-    
-Please do not respond to this email. The mailbox is not monitored and the email
-was sent using an automated system.";
-    
-    $founder = lookup_user_id($team->userid);
-
-    return send_email($founder, PROJECT." team founder transfer", $body);
-}
-
-function send_founder_transfer_decline_email($team, $user) {
-    $body = "The team founder of ".$team->name." has declined your request
-to become the new team founder in ".PROJECT.". You may wish to discuss 
-the matter with him directly or apply to become a founder after three
-months have passed since the initial request.
-    
-Please do not respond to this email. The mailbox is not monitored and the email
-was sent using an automated system.";
-    
-    return send_email($user, PROJECT." team founder transfer declined", $body);
 }
 
 ?>

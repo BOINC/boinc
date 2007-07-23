@@ -7446,3 +7446,21 @@ David  20 July 2007
         app.C,h
     lib/
         error_numbers.h
+
+David  23 July 2007
+    - user web: moved functions to send specific messages out of email.inc
+    - user web: code cleanup involving team founder transfer,
+        and improved the text of some messages
+
+    db/
+        boinc_db.h
+    html/
+        inc/
+            team.inc
+            email.inc
+        ops/
+            problem_host.php
+        user/
+            team_change_founder_form.php
+            team_founder_transfer_action.php
+            team_founder_transfer_form.php

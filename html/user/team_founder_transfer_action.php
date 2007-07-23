@@ -13,6 +13,39 @@ if (!$user->teamid) {
     error_page("You need to be a member of the team to access this page.");
 }
 
+function send_founder_transfer_email($team, $user) {
+    $body = "Team member ".$user->name." has asked that you
+transfer foundership of $team->name in ".PROJECT.".
+Please visit
+".URL_BASE."/team_change_founder_form.php?teamid=".$team->id."
+to transfer foundersnip or decline user's request.
+    
+If you do not respond to this request within two months, ".$user->name." will
+be given the option to become the team founder.
+    
+Please do not respond to this email.
+The mailbox is not monitored and the email
+was sent using an automated system.";
+    
+    $founder = lookup_user_id($team->userid);
+
+    return send_email($founder, PROJECT." team founder transfer", $body);
+}
+
+function send_founder_transfer_decline_email($team, $user) {
+    $body = "The founder of ".$team->name." has declined your request
+to become the new team founder in ".PROJECT.".
+You may wish to discuss the matter with him directly
+or repeat the request at least two
+months have passed since the initial request.
+    
+Please do not respond to this email.
+The mailbox is not monitored and the email
+was sent using an automated system.";
+    
+    return send_email($user, PROJECT." team founder transfer declined", $body);
+}
+
 $action = post_str("action");
 
 if ($action == "transfer") {
