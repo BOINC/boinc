@@ -760,6 +760,7 @@ int HOST_INFO::get_host_info() {
 
 // returns true iff device was last accessed before t
 // or if an error occurred looking at the device.
+//
 inline bool device_idle(time_t t, const char *device) {
     struct stat sbuf;
     return stat(device, &sbuf) || (sbuf.st_atime < t);
@@ -930,11 +931,14 @@ static double GetOSXIdleTime(void) {
 }
 #endif  // ! __i386__
 
-bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time) {
+bool HOST_INFO::users_idle(
+    bool check_all_logins, double idle_time_to_run, double *actual_idle_time
+) {
     double idleTime = GetOSXIdleTime();
     
-    if (actual_idle_time)
+    if (actual_idle_time) {
         *actual_idle_time = idleTime;
+    }
     return (idleTime > (60 * idle_time_to_run));
 }
 

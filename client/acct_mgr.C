@@ -243,7 +243,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
                 "[unparsed_xml] AM_ACCOUNT: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "AM_ACCOUNT::parse");
     }
     return ERR_XML_PARSE;
 }
@@ -320,7 +320,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
                 "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "ACCT_MGR_OP::parse");
     }
     return ERR_XML_PARSE;
 }
@@ -606,7 +606,9 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
                 "[unparsed_xml] ACCT_MGR_INFO::parse_login: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(
+            tag, log_flags.unparsed_xml, "ACCT_MGR_INFO::parse_login_file"
+        );
     }
     return 0;
 }
@@ -644,7 +646,7 @@ int ACCT_MGR_INFO::init() {
                 "[unparsed_xml] ACCT_MGR_INFO::init: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "ACCT_MGR_INFO::init");
     }
     fclose(p);
 

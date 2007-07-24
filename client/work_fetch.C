@@ -238,9 +238,8 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
 // This means:
 //    - we're not backing off contacting the project
 //    - the result is ready_to_report (compute done; files uploaded)
-//    - we're either within a day of the report deadline,
-//      or at least work_buf_min_days time has elapsed since
-//      result was completed,
+//    - we're within a day of the report deadline,
+//      or at least a day has elapsed since the result was completed,
 //      or we have a sporadic connection
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
@@ -249,33 +248,25 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
-        // return the project for this result to report if:
-        //
+        if (!r->ready_to_report) continue;
 
         PROJECT* p = r->project;
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
 
-        if (!r->ready_to_report) continue;
         if (net_status.have_sporadic_connection) {
             return p;
         }
+
         double cushion = std::max(REPORT_DEADLINE_CUSHION, work_buf_min());
         if (gstate.now > r->report_deadline - cushion) {
             return p;
         }
-        if (gstate.now > r->completed_time + work_buf_min()) {
-            return p;
-        }
 
-        // Handle the case where the report is due
-        // before the next reconnect is likely.
-        //
-        if (gstate.now > r->report_deadline - work_buf_min()) {
+        if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
             return p;
         }
     }
-
     return 0;
 }
 
@@ -379,6 +370,38 @@ bool CLIENT_STATE::compute_work_requests() {
     compute_nuploading_results();
     adjust_debts();
 
+#ifdef SIM
+    if (work_fetch_old) {
+        // "dumb" version for simulator only.
+        // for each project, compute extra work needed to bring it up to
+        // total_buf/relative resource share.
+        //
+        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
+        double trs = total_resource_share();
+        double total_buf = ncpus*(work_buf_min() + work_buf_additional());
+        for (i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
+            double d = 0;
+            for (unsigned int j=0; j<results.size(); j++) {
+                RESULT* rp = results[j];
+                if (rp->project != p) continue;
+                d += rp->estimated_cpu_time_remaining(true);
+            }
+            double rrs = p->resource_share/trs;
+            double minq = total_buf*rrs;
+            if (d < minq) {
+                p->work_request = minq-d;
+                p->work_request_urgency = WORK_FETCH_NEED;
+                overall_work_fetch_urgency = WORK_FETCH_NEED;
+            } else {
+                p->work_request = 0;
+                p->work_request_urgency = WORK_FETCH_DONT_NEED;
+            }
+        }
+        return false;
+    }
+#endif
+
     rr_simulation();
 
     // compute per-project and overall urgency
@@ -409,7 +432,7 @@ bool CLIENT_STATE::compute_work_requests() {
 			if (p->rr_sim_deadlines_missed) {
 				possible_deadline_miss = true;
 			}
-            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period_minutes * 60) {
+            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period()) {
                 project_shortfall = true;
             }
         }
@@ -707,7 +730,7 @@ bool PROJECT::nearly_runnable() {
 }
 
 bool PROJECT::overworked() {
-    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period_minutes * 60;
+    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period();
 }
 
 bool RESULT::runnable() {

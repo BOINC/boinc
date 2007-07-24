@@ -21,7 +21,9 @@
 #include "boinc_win.h"
 #endif
 
-#ifndef _WIN32
+#ifdef _WIN32
+#include <wincrypt.h>
+#else
 #include "config.h"
 #include <cstdio>
 #endif
@@ -87,7 +89,7 @@ std::string md5_string(const unsigned char* data, int nbytes) {
 
 int make_random_string(char* out) {
     char buf[256];
-#ifdef __WINDOWS__
+#ifdef _WIN32
     HCRYPTPROV hCryptProv;
         
     if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {

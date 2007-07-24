@@ -239,11 +239,13 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectUrlCtrl);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Project Selection")
+        _("Choose a project")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("Choose which project you would like to participate in by\n"
-          "clicking on its name, or type the project URL below.")
+        _("To choose a project, click its name\n"
+          "or type its URL below.\n"
+          "Click on 'www' to visit a project's web site."
+         )
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")

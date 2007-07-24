@@ -161,7 +161,11 @@ public:
     double now;
     double last_wakeup_time;
     bool initialized;
-
+    bool cant_write_state_file;
+        // failed to write state file.
+        // In this case we continue to run for 1 minute,
+        // handling GUI RPCs but doing nothing else,
+        // so that the Manager can tell the user what the problem is
 private:
     bool client_state_dirty;
     int old_major_version;
@@ -391,8 +395,8 @@ public:
 	double available_ram();
 	double max_available_ram();
 private:
-    void check_suspend_activities(int&);
-    void check_suspend_network(int&);
+    int check_suspend_processing();
+    int check_suspend_network();
     void install_global_prefs();
     PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);

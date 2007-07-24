@@ -331,8 +331,8 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         while (q) {
             n = sscanf(q, "<link rel=\"boinc_scheduler\" href=\"%s", buf2);
             if (n == 1) {
-                char* q = strchr(buf2, '\"');
-                if (q) *q = 0;
+                char* q2 = strchr(buf2, '\"');
+                if (q2) *q2 = 0;
                 strip_whitespace(buf2);
                 str = string(buf2);
                 push_unique(str, urls);
@@ -483,14 +483,6 @@ bool SCHEDULER_OP::poll() {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
                 switch (retval) {
                 case 0:
-                    // if we asked for work and didn't get any,
-                    // back off this project
-                    //
-                    if (cur_proj->work_request && nresults==0) {
-                        backoff(cur_proj, "no work from project\n");
-                    } else {
-                        cur_proj->nrpc_failures = 0;
-                    }
                     break;
                 case ERR_PROJECT_DOWN:
                     backoff(cur_proj, "project is down");

@@ -124,14 +124,16 @@ void parse_attr(const char* buf, const char* name, char* dest, int len) {
     strlcpy(dest, p+1, len);
 }
 
-void copy_stream(FILE* in, FILE* out) {
+int copy_stream(FILE* in, FILE* out) {
     char buf[1024];
     int n, m;
     while (1) {
         n = (int)fread(buf, 1, 1024, in);
         m = (int)fwrite(buf, 1, n, out);
+        if (m != n) return ERR_FWRITE;
         if (n < 1024) break;
     }
+    return 0;
 }
 
 // append to a malloc'd string
@@ -715,17 +717,24 @@ int XML_PARSER::element_contents(const char* end_tag, char* buf, int buflen) {
 // If it's an end tag, do nothing.
 // Otherwise skip until the end tag, if any
 //
-void XML_PARSER::skip_unexpected(const char* start_tag) {
+void XML_PARSER::skip_unexpected(
+    const char* start_tag, bool verbose, const char* where
+) {
     char tag[256], end_tag[256];
     bool is_tag;
 
-    fprintf(stderr, "UNRECOGNIZED: %s\n", start_tag);
-    if (start_tag[0] == '/') return;
+    if (verbose) {
+        fprintf(stderr, "Unrecognized XML in %s: %s\n", where, start_tag);
+    }
+    if (strchr(start_tag, '/')) return;
     sprintf(end_tag, "/%s", start_tag);
     while (!get(tag, sizeof(tag), is_tag)) {
+        if (verbose) {
+            fprintf(stderr, "Skipping: %s\n", tag);
+        }
         if (!is_tag) continue;
         if (!strcmp(tag, end_tag)) return;
-        skip_unexpected(tag);
+        skip_unexpected(tag, verbose, where);
     }
 }
 

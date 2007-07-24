@@ -375,7 +375,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (!((CBOINCBaseWizard*)GetParent())->project_name.IsEmpty()) {
         wxString strQuestion;
         strQuestion.Printf(
-            _T("Are you already running %s?"),
+            _("Are you already running %s?"),
             ((CBOINCBaseWizard*)GetParent())->project_name.c_str()
         );
         m_pAccountQuestionStaticCtrl->SetLabel(strQuestion);

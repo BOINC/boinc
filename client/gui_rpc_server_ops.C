@@ -231,20 +231,19 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         fout.printf("<error>no such project</error>\n");
         return;
     }
+    gstate.set_client_state_dirty("Project modified by user");
     if (!strcmp(op, "reset")) {
         gstate.request_schedule_cpus("project reset by user");
         gstate.request_work_fetch("project reset by user");
-        gstate.reset_project(p);    // writes state file
+        gstate.reset_project(p);
     } else if (!strcmp(op, "suspend")) {
         p->suspended_via_gui = true;
         gstate.request_schedule_cpus("project suspended by user");
         gstate.request_work_fetch("project suspended by user");
-        gstate.set_client_state_dirty("Project suspended by user");
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
         gstate.request_schedule_cpus("project resumed by user");
         gstate.request_work_fetch("project resumed by user");
-        gstate.set_client_state_dirty("Project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
             msg_printf(p, MSG_USER_ERROR,
@@ -267,21 +266,24 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             }
         }
 
-        gstate.detach_project(p);       // writes state file; deletes p
+        gstate.detach_project(p);
         gstate.request_schedule_cpus("project detached by user");
         gstate.request_work_fetch("project detached by user");
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = RPC_REASON_USER_REQ;
         p->min_rpc_time = 0;
         gstate.request_work_fetch("project updated by user");
-        gstate.set_client_state_dirty("project updated by user");
     } else if (!strcmp(op, "nomorework")) {
         p->dont_request_more_work = true;
-        gstate.set_client_state_dirty("project modified by user");
     } else if (!strcmp(op, "allowmorework")) {
         p->dont_request_more_work = false;
         gstate.request_work_fetch("project allowed to fetch work by user");
-        gstate.set_client_state_dirty("Project modified by user");
+    } else if (!strcmp(op, "detach_when_done")) {
+        p->detach_when_done = true;
+        p->dont_request_more_work = true;
+    } else if (!strcmp(op, "dont_detach_when_done")) {
+        p->detach_when_done = false;
+        p->dont_request_more_work = false;
     }
     fout.printf("<success/>\n");
 }
@@ -564,7 +566,9 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         "   <task_mode_perm>%d</task_mode_perm>\n"
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <task_mode_delay>%f</task_mode_delay>\n"
-        "   <network_mode_delay>%f</network_mode_delay>\n",
+        "   <network_mode_delay>%f</network_mode_delay>\n"
+        "   <disallow_attach>%d</disallow_attach>\n"
+        "   <simple_gui_only>%ds</simple_gui_only>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
@@ -574,7 +578,9 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         gstate.run_mode.get_perm(),
         gstate.network_mode.get_perm(),
         gstate.run_mode.delay(),
-        gstate.network_mode.delay()
+        gstate.network_mode.delay(),
+        config.disallow_attach?1:0,
+        config.simple_gui_only?1:0
     );
     if (gr->au_mgr_state == AU_MGR_QUIT_REQ) {
         fout.printf(
@@ -875,6 +881,7 @@ static int set_debt(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/project")) {
             if (!strlen(url)) return ERR_XML_PARSE;
+            canonicalize_master_url(url);
             PROJECT* p = gstate.lookup_project(url);
             if (!p) return ERR_NOT_FOUND;
             if (got_std) p->short_term_debt = short_term_debt;
@@ -895,7 +902,7 @@ static int set_debt(XML_PARSER& xp) {
                 "[unparsed_xml] set_debt: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "set_debt");
     }
     return 0;
 }
@@ -910,10 +917,12 @@ static void handle_set_debts(char* buf, MIOFILE& fout) {
     in.init_buf_read(buf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
+        if (!strcmp(tag, "boinc_gui_rpc_request")) continue;
+        if (!strcmp(tag, "set_debts")) continue;
         if (!strcmp(tag, "/set_debts")) {
             fout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_debt RPC");
-            break;
+            return;
         }
         if (!strcmp(tag, "project")) {
             retval = set_debt(xp);
@@ -921,14 +930,16 @@ static void handle_set_debts(char* buf, MIOFILE& fout) {
                 fout.printf("<error>%d</error>\n", retval);
                 return;
             }
+            continue;
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
                 "[unparsed_xml] handle_set_debts: unrecognized %s", tag
             );
         }
-        xp.skip_unexpected(tag);
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "handle_set_debts");
     }
+    fout.printf("<error>No end tag</error>\n");
 }
 
 static void handle_set_cc_config(char* buf, MIOFILE& fout) {
@@ -984,7 +995,7 @@ int GUI_RPC_CONN::handle_rpc() {
         n = read(sock, request_msg, 4095);
 #endif
     if (n <= 0) return ERR_READ;
-    request_msg[n] = 0;
+    request_msg[n-1] = 0;   // replace 003 with NULL
 
     if (log_flags.guirpc_debug) {
         msg_printf(0, MSG_INFO,
@@ -1044,6 +1055,10 @@ int GUI_RPC_CONN::handle_rpc() {
          handle_project_op(request_msg, mf, "nomorework");
      } else if (match_tag(request_msg, "<project_allowmorework")) {
          handle_project_op(request_msg, mf, "allowmorework");
+    } else if (match_tag(request_msg, "<project_detach_when_done")) {
+         handle_project_op(request_msg, mf, "detach_when_done");
+    } else if (match_tag(request_msg, "<project_dont_detach_when_done")) {
+         handle_project_op(request_msg, mf, "dont_detach_when_done");
     } else if (match_tag(request_msg, "<set_network_mode")) {
         handle_set_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<run_benchmarks")) {
@@ -1144,8 +1159,9 @@ int GUI_RPC_CONN::handle_rpc() {
     m.get_buf(p, n);
     if (p) {
         send(sock, p, n, 0);
+        p[n-1]=0;   // replace 003 with NULL
         if (log_flags.guirpc_debug) {
-            if (n > 1000) p[1000] = 0;
+            if (n > 50) p[50] = 0;
             msg_printf(0, MSG_INFO,
                 "[guirpc_debug] GUI RPC reply: '%s'\n", p
             );

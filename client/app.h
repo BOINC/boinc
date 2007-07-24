@@ -52,9 +52,10 @@ typedef int PROCESS_ID;
 // that BOINC doesn't know about.
 //
 class ACTIVE_TASK {
+    int _task_state;
 public:
 #ifdef _WIN32
-    HANDLE pid_handle, thread_handle, quitRequestEvent, shm_handle;
+    HANDLE pid_handle, thread_handle, shm_handle;
     bool kill_all_children();
 #endif
     SHMEM_SEG_NAME shmem_seg_name;
@@ -65,7 +66,6 @@ public:
 	PROCINFO procinfo;
 
     int slot;   // subdirectory of slots/ where this runs
-    int _task_state;
     inline int task_state() {
         return _task_state;
     }
@@ -91,7 +91,7 @@ public:
         // most recent CPU time reported by app
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
-    char slot_dir[256];      // directory where process runs
+    char slot_dir[256];      // directory where process runs (relative)
     double max_cpu_time;    // abort if total CPU exceeds this
     double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;   // abort if memory usage exceeds this
@@ -116,6 +116,7 @@ public:
     bool is_ss_app;
     double graphics_mode_ack_timeout;
     bool exit_requested;
+    int premature_exit_count;
 
 #ifdef SIM
     double cpu_time_left;
@@ -172,6 +173,7 @@ public:
 #else
     void handle_exited_app(int stat);
 #endif
+    void handle_exit_zero(bool&);
 
     bool check_max_disk_exceeded();
 
@@ -188,6 +190,7 @@ public:
     int copy_output_files();
 
     int write(MIOFILE&);
+    int write_gui(MIOFILE&);
     int parse(MIOFILE&);
 };
 

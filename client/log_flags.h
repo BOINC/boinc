@@ -92,6 +92,8 @@ struct CONFIG {
     bool disallow_attach;
     bool os_random_only;
     bool no_alt_platform;
+    bool simple_gui_only;
+    bool dont_contact_ref_site;
 
     CONFIG();
     void defaults();

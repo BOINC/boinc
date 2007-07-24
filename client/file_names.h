@@ -51,7 +51,7 @@ extern void job_log_filename(PROJECT&, char*, int);
 extern int set_to_project_group(const char* path);
 extern void boinc_version_dir(PROJECT&, VERSION_INFO&, char*);
 extern bool is_version_dir(char*, VERSION_INFO&);
-extern void send_log_after(char* filename, double t, MIOFILE& mf);
+extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"
@@ -88,5 +88,6 @@ extern void send_log_after(char* filename, double t, MIOFILE& mf);
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 #define TIME_STATS_LOG              "time_stats_log"
 #define JOB_LOG_BASE                "job_log_"
+#define CA_BUNDLE_FILENAME          "ca-bundle.crt"
 
 #endif

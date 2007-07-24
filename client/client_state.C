@@ -102,6 +102,7 @@ CLIENT_STATE::CLIENT_STATE() {
     redirect_io = false;
     disable_graphics = false;
     work_fetch_no_new_work = false;
+    cant_write_state_file = false;
 
     debt_interval_start = 0;
     total_wall_cpu_time_this_debt_interval = 0;
@@ -131,6 +132,9 @@ void CLIENT_STATE::show_host_info() {
     msg_printf(NULL, MSG_INFO,
         "Processor features: %s", host_info.p_features
     );
+    msg_printf(NULL, MSG_INFO,
+        "OS: %s: %s", host_info.os_name, host_info.os_version
+    );
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
@@ -142,6 +146,10 @@ void CLIENT_STATE::show_host_info() {
     nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
     msg_printf(NULL, MSG_INFO, "Disk: %s total, %s free", buf, buf2);
+    int tz = host_info.timezone/3600;
+    msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
+        tz<0?"":"+", tz
+    );
 }
 
 int CLIENT_STATE::init() {
@@ -240,7 +248,7 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_USER_ERROR,
             "Make sure directory permissions are set correctly"
         );
-        return retval;
+        cant_write_state_file = true;
     }
 
     // scan user prefs; create file records
@@ -361,7 +369,7 @@ int CLIENT_STATE::init() {
 
     auto_update.init();
     http_ops->cleanup_temp_files();
-
+    
 #if !(defined(_WIN32) || defined(__EMX__)) 
     if (log_flags.stress_shmem_debug) {
         stress_shmem(log_flags.stress_shmem_debug);
@@ -414,8 +422,8 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 
         if (n==0) break;
 
-        // Limit number of times thru this loop.  Can get
-        // stuck in while loop, if network isn't available,
+        // Limit number of times thru this loop.
+        // Can get stuck in while loop, if network isn't available,
         // DNS lookups tend to eat CPU cycles.
         //
         if (loops++ > 99) {
@@ -447,8 +455,16 @@ bool CLIENT_STATE::poll_slow_events() {
     static int last_suspend_reason=0;
     static bool tasks_restarted = false;
     double old_now = now;
+#ifdef __APPLE__
+    double idletime;
+#endif
 
     now = dtime();
+
+    if (cant_write_state_file) {
+        return false;
+    }
+
     if (now - old_now > POLL_INTERVAL*10) {
         if (log_flags.network_status_debug) {
             msg_printf(0, MSG_INFO,
@@ -464,7 +480,39 @@ bool CLIENT_STATE::poll_slow_events() {
         start_cpu_benchmarks();
     }
 
-    check_suspend_activities(suspend_reason);
+    bool old_user_active = user_active;
+    user_active = !host_info.users_idle(
+        check_all_logins, global_prefs.idle_time_to_run
+#ifdef __APPLE__
+         , &idletime
+#endif
+    );
+
+    if (user_active != old_user_active) {
+        request_schedule_cpus("Idle state change");
+    }
+#ifdef __APPLE__
+    // Mac screensaver launches client if not already running.
+    // OS X quits screensaver when energy saver puts display to sleep,
+    // but we want to keep crunching.
+    // Also, user can start Mac screensaver by putting cursor in "hot corner"
+    // so idletime may be very small initially.
+    // If screensaver started client, this code tells client
+    // to exit when user becomes active, accounting for all these factors.
+    //
+    if (started_by_screensaver && (idletime < 30) && (getppid() == 1)) {
+        // pid is 1 if parent has exited
+        requested_exit = true;
+    }
+
+    // Exit if we were launched by Manager and it crashed.
+    //
+    if (launched_by_manager && (getppid() == 1)) {
+        gstate.requested_exit = true;
+    }
+#endif
+
+    suspend_reason = check_suspend_processing();
 
     // suspend or resume activities (but only if already did startup)
     //
@@ -486,7 +534,7 @@ bool CLIENT_STATE::poll_slow_events() {
         cpu_benchmarks_poll();
     }
 
-    check_suspend_network(network_suspend_reason);
+    network_suspend_reason = check_suspend_network();
 
     // if a recent GUI RPC needs network access, allow it
     //
@@ -1161,7 +1209,6 @@ bool CLIENT_STATE::update_results() {
 // (timeout or idle)
 //
 bool CLIENT_STATE::time_to_exit() {
-    if (!exit_when_idle && !exit_after_app_start_secs) return false;
     if (exit_after_app_start_secs
         && (app_started>0)
         && ((now - app_started) >= exit_after_app_start_secs)
@@ -1174,6 +1221,22 @@ bool CLIENT_STATE::time_to_exit() {
     if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
         msg_printf(NULL, MSG_INFO, "exiting because no more results");
         return true;
+    }
+    if (cant_write_state_file) {
+        static bool first = true;
+        double t = now - last_wakeup_time;
+        if (first && t > 50) {
+            first = false;
+            msg_printf(NULL, MSG_INFO,
+                "Can't write state file, exiting in 10 seconds"
+            );
+        }
+        if (t > 60) {
+            msg_printf(NULL, MSG_INFO,
+                "Can't write state file, exiting now"
+            );
+            return true;
+        }
     }
     return false;
 }

@@ -77,6 +77,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     get_sched_request_filename(*p, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "wb");
+    if (!f) return ERR_FOPEN;
 
     double trs = total_resource_share();
     double rrs = runnable_resource_share();
@@ -104,7 +105,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->rpc_seqno = 0;
     }
 
-    if (!f) return ERR_FOPEN;
     mf.init_file(f);
     fprintf(f,
         "<scheduler_request>\n"
@@ -197,15 +197,16 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     );
 
     retval = time_stats.write(mf, true);
-    if (retval) return retval;
+    //if (retval) return retval;
+    // can't return without closing file
     retval = net_stats.write(mf);
-    if (retval) return retval;
+    //if (retval) return retval;
 
     // update hardware info, and write host info
     //
     host_info.get_host_info();
     retval = host_info.write(mf, config.suppress_net_info);
-    if (retval) return retval;
+    //if (retval) return retval;
 
     // get and write disk usage
     //
@@ -300,7 +301,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         );
     }
     fprintf(f, "</in_progress_results>\n");
-
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);
@@ -744,7 +744,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
             if (atp) {
-                atp->abort_task(ERR_ABORTED_BY_PROJECT, "aborted by project");
+                atp->abort_task(ERR_ABORTED_BY_PROJECT,
+                    "aborted by project - no longer usable"
+                );
             } else {
                 rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
             }
@@ -783,21 +785,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     project->sched_rpc_pending = 0;
     project->trickle_up_pending = false;
 
-    // handle delay request
-    //
-    if (sr.request_delay) {
-        double x = now + sr.request_delay;
-		project->set_min_rpc_time(x, "requested by project");
-    } else {
-        project->min_rpc_time = 0;
-    }
-
-    if (sr.next_rpc_delay) {
-        project->next_rpc_time = now + sr.next_rpc_delay;
-    } else {
-        project->next_rpc_time = 0;
-    }
-
     // The project returns a hostid only if it has created a new host record.
     // In that case reset RPC seqno
     //
@@ -833,6 +820,31 @@ int CLIENT_STATE::handle_scheduler_reply(
         );
         print_summary();
     }
+
+    // if we asked for work and didn't get any,
+    // back off this project
+    //
+    if (project->work_request && nresults==0) {
+        scheduler_op->backoff(project, "no work from project\n");
+    } else {
+        project->nrpc_failures = 0;
+    }
+
+    // handle delay request
+    //
+    if (sr.request_delay) {
+        double x = now + sr.request_delay;
+		project->set_min_rpc_time(x, "requested by project");
+    } else {
+        project->min_rpc_time = 0;
+    }
+
+    if (sr.next_rpc_delay) {
+        project->next_rpc_time = now + sr.next_rpc_delay;
+    } else {
+        project->next_rpc_time = 0;
+    }
+
     return 0;
 }
 
