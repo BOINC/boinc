@@ -6758,6 +6758,12 @@ David  16 July 2007
     client/
         client_state.C
 
+Charlie 16 July 2007
+    - Mac client: always show UNIX error if state file rename fails.
+    
+    client/
+        cs_statefile.C
+
 David  16 July 2007
     - client: if can't write state file, don't immediately exit,
         but don't do anything other than handle GUI RPCs.
