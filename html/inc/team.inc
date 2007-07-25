@@ -355,7 +355,6 @@ function make_team(
         $teamid = mysql_insert_id();
         return lookup_team($teamid);
     } else {
-        echo mysql_error();
         return null;
     }
 }

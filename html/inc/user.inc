@@ -360,4 +360,27 @@ function user_inactive_ndays($user, $ndays) {
     return false;
 }
 
+function make_user(
+    $email_addr, $name, $passwd_hash,
+    $country=null, $postal_code=null, $project_prefs=null, $teamid=0
+) {
+    if (!is_valid_email_addr($email_addr)) return null;
+    $authenticator = random_string();
+    $cross_project_id = random_string();
+    $now = time();
+    if (!is_valid_country($country)) return null;
+    $country = boinc_real_escape_string($country);
+    $postal_code = strip_tags(process_user_text($postal_code));
+
+    $query = "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')";
+
+    $result = mysql_query($query);
+    if ($result) {
+        $id = mysql_insert_id();
+        return lookup_user_id($id);
+    } else {
+        return null;
+    }
+}
+
 ?>

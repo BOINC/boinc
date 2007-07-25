@@ -6,6 +6,7 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
+require_once("../inc/user.inc");
 
 xml_header();
 
@@ -45,22 +46,18 @@ if ($user) {
         $authenticator = $user->authenticator;
     }
 } else {
-    $authenticator = random_string();
-    $cross_project_id = random_string();
-    $now = time();
-    $query = "insert into user (create_time, email_addr, name, authenticator, expavg_time, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$user_name', '$authenticator', unix_timestamp(), 1, 1, '$cross_project_id', '$passwd_hash')";
-    $result = mysql_query($query);
-    if (!$result) {
+    $user = make_user($email_addr, $user_name, $passwd_hash);
+    if (!$user) {
         xml_error(-137);
     }
     
     if(defined('INVITE_CODES')) {
-        error_log("New account '$new_name' created using invitation code '$invite_code'");
+        error_log("Account for '$email_addr' created using invitation code '$invite_code'");
     }
 }
 
 echo " <account_out>\n";
-echo "   <authenticator>$authenticator</authenticator>\n";
+echo "   <authenticator>$user->authenticator</authenticator>\n";
 echo "</account_out>\n";
 
 ?>

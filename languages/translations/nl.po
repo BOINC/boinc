@@ -21,7 +21,7 @@ msgstr "Dutch"
 ########################################
 
 msgid "POLL_TITLE"
-msgstr "BOINC gebruikersenquête"
+msgstr "BOINC gebruikersenqu&ecirc;te"
 
 msgid "POLL_INTRO"
 msgstr "Verschillende vrijwillige rekenprojecten, "
@@ -90,13 +90,13 @@ msgid "POLL_LAPSED"
 msgstr "Nee, ik heb BOINC gedraait maar ik ben gestopt want..."
 
 msgid "POLL_LINTEREST"
-msgstr "Ik heb geen interesse meer"
+msgstr "ik heb geen interesse meer"
 
 msgid "POLL_LCOMPLICATED"
 msgstr "het was te ingewikkeld"
 
 msgid "POLL_LSTOPPED"
-msgstr "I ben gestopt en vergeten het weer aan te zetten"
+msgstr "ik ben gestopt en vergeten het weer aan te zetten"
 
 msgid "POLL_LPROBLEMS"
 msgstr "BOINC veroorzaakte problemen op mijn computer"
@@ -105,7 +105,7 @@ msgid "POLL_LPOWER"
 msgstr "BOINC gebruikte teveel electriciteit"
 
 msgid "POLL_LNONBOINC"
-msgstr "Ik ben overgestapt op een project dat niet onder BOINC draait"
+msgstr "ik ben overgestapt op een project dat niet onder BOINC draait"
 
 msgid "POLL_FAILED"
 msgstr "Nee - ik heb geprobeert BOINC te draaien maar..."
@@ -114,31 +114,31 @@ msgid "POLL_FINSTALL"
 msgstr "de software installeerde niet goed"
 
 msgid "POLL_FFIGURE"
-msgstr "Ik wist niet goed hoe de software werkte"
+msgstr "ik wist niet goed hoe de software werkte"
 
 msgid "POLL_FNETWORK"
-msgstr "Ik had problemen met netwerk-communicatie"
+msgstr "ik had problemen met netwerk-communicatie"
 
 msgid "POLL_FATTACH"
-msgstr "Ik kon geen project toevoegen"
+msgstr "ik kon geen project toevoegen"
 
 msgid "POLL_FWORK"
-msgstr "I kon een project toevoegen, maar kreeg geen werk"
+msgstr "ik kon een project toevoegen, maar kreeg geen werk"
 
 msgid "POLL_NEVER"
 msgstr "Nee - ik heb nooit geprobeerd BOINC te draaien, want..."
 
 msgid "POLL_NSECURITY"
-msgstr "Ik maakte me zorgen over veiligheid"
+msgstr "ik maakte me zorgen over veiligheid"
 
 msgid "POLL_NPROJECT"
-msgstr "Ik was in geen enkel project geïnteresseerd"
+msgstr "ik was in geen enkel project ge&iuml;nteresseerd"
 
 msgid "POLL_NPERMISSION"
-msgstr "Ik heb geen toestemming om BOINC op mijn computer te draaien"
+msgstr "ik heb geen toestemming om BOINC op mijn computer te draaien"
 
 msgid "POLL_NVERSION"
-msgstr "Er is geen versie voor mijn computer"
+msgstr "er is geen versie voor mijn computer"
 
 msgid "POLL_KIND"
 msgstr "Wat voor soort computers draaien BOINC voor jou?"
@@ -297,13 +297,13 @@ msgid "POLL_RECORDED"
 msgstr "De resultaten zijn opgeslagen"
 
 msgid "POLL_THANKS"
-msgstr "Bedankt voor je deelname in de BOINC enquête."
+msgstr "Bedankt voor je deelname in de BOINC enqu&ecirc;te."
 
 msgid "POLL_RESULTS_TITLE"
-msgstr "Enquête uitslagen"
+msgstr "Enqu&ecirc;te uitslagen"
 
 msgid "POLL_RESULTS_TEXT"
-msgstr "Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikersênquete</a>. Deze pagina wordt ieder uur vernieuwd."
+msgstr "Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikers&ecirc;nquete</a>. Deze pagina wordt ieder uur vernieuwd."
 
 
 ########################################
@@ -323,7 +323,7 @@ msgstr " BOINC is een programma dat jou ongebruikte computertijd"
 "        SETI@home, Climateprediction.net, Rosetta@home,"
 "        World Community Grid, en vele andere."
 "        <p>"
-"        Nadat BOINC is geïnstalleerd op je computer,"
+"        Nadat BOINC is ge&iuml;nstalleerd op je computer,"
 "        kan je je aanmelden voor zo veel projecten als je wilt."
 "        <p>"
 
@@ -446,7 +446,7 @@ msgid "RLN_INSTALLING"
 msgstr "Installeren"
 
 msgid "RLN_UNINSTALLING"
-msgstr "Deïnstalleren"
+msgstr "De&iuml;nstalleren"
 
 msgid "RLN_KNOWN_ISSUES"
 msgstr "Bekende problemen"
@@ -454,14 +454,14 @@ msgstr "Bekende problemen"
 msgid "RLN_WIN_INSTALL_PROBLEMS"
 msgstr "(Windows) In zeldzame gevallen, kan de installatie mislukken vanwege "
     "een bestaande installatie van BOINC. Als dit gebeurt: "
-    "%s Sluit BOINC af als het draait, en deïnstalleer BOINC "
+    "%s Sluit BOINC af als het draait, en de&iuml;nstalleer BOINC "
     "met behulp van %s Start/Configuratiescherm/Programma's toevoegen of verwijderen%s. " 
     "Installeer de nieuwe versie weer."
     "%s Als dat mislukt, herinstalleer de vesie van BOINC die je eerder draaide "
     "(oudere versies vind je %shier%s)."
     "Deïnstalleer zoals hierboven, en installeer de nieuwe versie."
     "%sAls dat mislukt, download de %sWindows Install Clean Up%s "
-    "utility van Microsoft en draai het."
+    "utility van Microsoft en draai het. "
     "De oude BOINC versie wordt getoond als BOINC.msi of als "
     "een corrupt icoon .msi (dit is dan de bovenste optie). "
     "Klik erop om het te selecteren, klik dan op Verwijderen en afsluiten."
@@ -490,7 +490,7 @@ msgstr "BOINC waarschuwt je nu wanneer je"
     "een netwerkverbinding moet maken."
 
 msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "The BOINC Manager heeft twee verschillende interfaces: "
+msgstr "De BOINC Manager heeft twee verschillende interfaces: "
     " 'Simpel' (klein, grafisch, met skins) "
     " and 'Geavanceerd' (maximale informatie). "
     " Met de simple interface kan je voorkeuren lokaal instellen. "
@@ -556,7 +556,7 @@ msgid "RLN_WIN_SERVICE_INSTALL"
 msgstr "Service installatie"
 
 msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "BOINC runs all the time (even when no one is logged in). "
+msgstr "BOINC draait altijd (zelfs als niemand ingelogd is). "
     "BOINC staat in het start menu van de installerende gebruiker, "
     "maar niet bij andere gebruikers. "
     "De 'Grafische weergave' in de BOINC manager "
@@ -662,7 +662,7 @@ msgid "HELP_P1_3"
 msgstr "De beste manier om hulp te krijgen is spraaktelefonie, "
     "waarvoor je een ingebouwde microfoon en luidsprekers nodig hebt "
     "of een externe headset voor je computer. "
-    "Ook kan je gebruikmaken van het textgebaseerde chatsysteem"
+    "Ook kan je gebruikmaken van het textgebaseerde chatsysteem "
     "om met vrijwilligers te praten."
 
 msgid "HELP_P1_4"
@@ -706,21 +706,21 @@ msgstr "Als je een BOINC vrijwilliger bent: om je instellingen aan te passen, "
 ##############################################
 
 msgid "HOME_HEADING1"
-msgstr "Vrijwilliger"
+msgstr "Meld je aan als vrijwilliger"
 
 msgid "HOME_P1"
 msgstr " Zet de ongebruikte processortijd van je computer "
     " (Windows, Mac, or Linux) "
     " in om ziekten te genezen, klimaatverandering te bestuderen, "
-    " pulsars te ontdekken, en vele andere wetenschappelijk onderzoeken. "
+    " pulsars te ontdekken, en vele andere wetenschappelijke onderzoeken. "
     " Het is veilig, snel en simpel: "
     " %sKies%s projecten "
-    " %sDownload%s and draai de BOINC software "
+    " %sDownload%s en draai de BOINC software "
     " %sVoer%s de project URL's in, je email-adres en een password. "
 
 msgid "HOME_P2"
 msgstr "Of, als je meerdere projecten draait, probeer "
-    "een %saccount manager% zoals %sGridRepublic%s of %sBAM!%s. "
+    "een %saccount manager%s zoals %sGridRepublic%s of %sBAM!%s. "
 
 msgid "HOME_P3"
 msgstr "Als je vragen hebt of heb je hulp nodig om te starten, dan kan je "
@@ -739,7 +739,7 @@ msgid "HOME_ADD_ONS"
 msgstr "Add-ons"
 
 msgid "HOME_SURVEY"
-msgstr "Enquête"
+msgstr "Enqu&ecirc;te"
 
 msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"

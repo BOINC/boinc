@@ -262,6 +262,7 @@ function print_country_select($selected_country="None") {
 
 function is_valid_country($country) {
     global $countries;
+    if ($country == '') return true;
     return in_array($country, $countries);
 }
 
