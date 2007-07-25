@@ -51,7 +51,7 @@ function page_head($title) {
         <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
-        <td align=right><a href=index.php><img src=logo/logo_small.png></a>
+        <td align=right><a href=index.php><img src=logo/www_logo.gif></a>
         <br>
 ";
         search_form();

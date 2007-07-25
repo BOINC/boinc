@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("July 25, 2007",
+    "BOINC finally has a new logo!
+    Many thanks Michal Krakowiak, the graphic designer who created it.
+    The logo (and icons based on it)
+    will soon appear on the BOINC client software
+    as well as the web site."
+),
 array("July 23, 2007",
     "<a href=images/africa_workshop_7_07.jpg><img align=right src=images/workshop_200.jpg></a>
     The Africa@home workshop on volunteer computing with BOINC,

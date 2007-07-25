@@ -7499,3 +7499,13 @@ David  25 July 2007
         user/
             create_account.php
             create_account_action.php
+
+David  25 July 2007
+    - add support for "BOINC teams" (to be explained later)
+
+    html/
+        inc/
+            team.inc
+        ops/
+            team_export.php
+            team_import.php

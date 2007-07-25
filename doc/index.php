@@ -179,7 +179,7 @@ echo "
 <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
 <body bgcolor=#ffffff>
-<img hspace=30 vspace=10 align=left src=logo/logo_small.png>
+<img hspace=40 vspace=10 align=left src=logo/www_logo.gif>
 <h1>
 ".tr(HOME_BOINC)."
 </h1>

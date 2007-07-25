@@ -319,9 +319,7 @@ function transfer_ok($team, $now) {
 function make_team(
     $userid, $name, $url, $type, $name_html, $description, $country
 ) {
-    echo $name;
     $name = boinc_htmlentities(process_user_text(strip_tags($name)));
-    echo $name;
     if (strlen($name) == 0) return null;
     $name_lc = strtolower($name);
     $url = process_user_text(strip_tags($url));
@@ -349,7 +347,6 @@ function make_team(
         $country,
         0
     );
-    echo $query;
     $result = mysql_query($query);
     if ($result) {
         $teamid = mysql_insert_id();

@@ -5,11 +5,18 @@ page_head("Logos and graphics");
 
 echo "
 
-<h2>The current BOINC logo and icons</h2>
+<h2>The current logo</h2>
+
+The current logo and associated icons was designed by Michal Krakowiak.
+Its arms represent the convergence of separated things
+(such as computers) into a unified whole.
+The colors are based on U.C. Berkeley's blue-and-gold colors.
+
+<h2>The old BOINC logo and icons</h2>
 <ul>
 <li>
-The logo in its native form as <a href=logo/logo.doc>a Word document</a>.
-The BOINC logo uses the Planet Benson font from
+The old logo in its native form as <a href=logo/logo.doc>a Word document</a>.
+The logo uses the Planet Benson font from
 <a href=http://www.larabiefonts.com>Larabie Fonts</a>.
 <li>
 Hi-res versions of the logo:
@@ -23,32 +30,7 @@ The 'B in a circle' icon
 <img src=logo/setup.PNG>was designed by Tim Lan.
 The Mac variant was contributed by Juho Viitasalo.
 
-<h2>New BOINC logo?</h2>
-<p>
-We are looking for a new graphical identity for BOINC.
-Our criteria:
-<ul>
-<li> It should work on light-colored backgrounds
-(both the web) and also on black (for the screensaver).
-<li> It should include graphics of various sizes,
-including icons (16x16 up to 128x128),
-a web-site logo (roughly 200x100),
-and an installer splash screen (roughly 400x300).
-These should all be recognizable and visually consistent.
-<li>
-It should appeal to people of all interests and demographics.
-In particular, it should NOT have a futuristic,
-high-tech, aggressive, or sci-fi look.
-<li>
-It would be good (though not vital) for the logo
-to suggest global distributed computing,
-or scientific research, or both.
-
-</ul>
-Here are some candidates.
-If you have an opinion, or think you can do better,
-   please <a href=contact.php>contact us</a>.
-<p>
+<h2>Logo proposals</h2>
 <table cellpadding=8 border=1>
 <tr><th>Artist</th><th>Images (click for hi-res version)</th></tr>
 ";
