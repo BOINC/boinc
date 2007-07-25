@@ -6576,7 +6576,6 @@ Charlie 10 July 2007
 
     client/
         cs_statefile.C
-<<<<<<< .mine
 
 David  25 June 2007
     - Manager: if a job is running EDF, show "high priority" in status
@@ -6863,3 +6862,11 @@ Charlie 20 July 2007
         setupForBoinc.sh
         HowToBuildBOINC_XCode.rtf
         
+Rom    25 July 2007
+    - Tag for 5.10.14 release, all platforms
+      boinc_core_release_5_10_14
+    
+    /
+        configure.ac
+        version.h
+
