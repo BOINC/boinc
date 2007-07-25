@@ -696,6 +696,7 @@ function select_from_array($name, $array, $selection) {
 
 // Convert to entities, while preserving already-encoded entities. 
 // Do NOT use if $str contains valid HTML tags.
+//
 function boinc_htmlentities($str) { 
     $str = html_entity_decode($str, ENT_COMPAT, "UTF-8"); 
     $str = htmlentities($str, ENT_COMPAT, "UTF-8"); 

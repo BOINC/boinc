@@ -314,4 +314,50 @@ function transfer_ok($team, $now) {
     return false;
 }
 
+// Make a team; args are untrusted, so cleanse and validate them
+//
+function make_team(
+    $userid, $name, $url, $type, $name_html, $description, $country
+) {
+    echo $name;
+    $name = boinc_htmlentities(process_user_text(strip_tags($name)));
+    echo $name;
+    if (strlen($name) == 0) return null;
+    $name_lc = strtolower($name);
+    $url = process_user_text(strip_tags($url));
+    if (strstr($url, "http://")) {
+        $url = substr($url, 7);
+    }
+    $name_html = process_user_text($name_html);
+    $description = process_user_text($description);
+    $country = process_user_text($country);
+    if (!is_valid_country($country)) {
+            $country = 'None';
+    }
+    $country = boinc_real_escape_string($country);  // for Cote d'Ivoire
+
+    $query = sprintf(
+        "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, country, nusers, expavg_time) values(%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d, unix_timestamp())",
+        $userid,
+        time(),
+        $name,
+        $name_lc,
+        $url,
+        $type,
+        $name_html,
+        $description,
+        $country,
+        0
+    );
+    echo $query;
+    $result = mysql_query($query);
+    if ($result) {
+        $teamid = mysql_insert_id();
+        return lookup_team($teamid);
+    } else {
+        echo mysql_error();
+        return null;
+    }
+}
+
 ?>

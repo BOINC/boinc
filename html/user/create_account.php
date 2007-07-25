@@ -64,4 +64,3 @@ echo "   <authenticator>$authenticator</authenticator>\n";
 echo "</account_out>\n";
 
 ?>
-

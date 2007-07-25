@@ -7464,3 +7464,25 @@ David  23 July 2007
             team_change_founder_form.php
             team_founder_transfer_action.php
             team_founder_transfer_form.php
+
+David  23 July 2007
+    - user web: code cleanup related to team creation.
+        Make a single function that creates teams
+        and cleanses arguments.
+    - API: don't include config.h in parse.h.
+        This file is included from apps
+        (indirectly, via graphics_api.h)
+        so it shouldn't assume that config.h exists
+
+    db/
+        boinc_db.h
+    html/
+        inc/
+            db.inc
+            team.inc
+            team_types.inc
+            util.inc
+        user/
+            create_account.php
+            create_team.php
+            team_create_action.php

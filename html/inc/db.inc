@@ -100,6 +100,16 @@ function lookup_team_founder($id) {
     return $result;
 }
 
+function lookup_team_name($name) {
+    $result = mysql_query("select * from team where name='$name'");
+    if ($result) {
+        $team = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $team;
+    }
+    return null;
+}
+
 function lookup_wu($id) {
     $result = mysql_query("select * from workunit where id=$id");
     if ($result) {

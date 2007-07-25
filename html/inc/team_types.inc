@@ -27,6 +27,14 @@ function is_valid_team_type($name) {
     return false;
 }
 
+function team_type_num($name) {
+    global $team_types;
+    for ($i=0; $i<sizeof($team_types); $i++) {
+        if ($name == $team_types[$i]) return $i;
+    }
+    return 0;
+}
+
 function team_type_select($team){
     global $team_types;
 

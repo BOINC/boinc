@@ -190,8 +190,8 @@ struct TEAM {
     double expavg_credit;
     double expavg_time;
 
-    // The following is specific to SETI@home
-    int seti_id;            // ID in old DB
+    int seti_id;            // ID in another DB
+        // this is used to identify BOINC-wide teams
     int ping_user;          // user who asked to become founder
     int ping_time;          // when they asked.
         // see html/inc/team.inc for more details
