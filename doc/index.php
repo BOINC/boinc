@@ -3,7 +3,6 @@ require_once("docutil.php");
 require_once("../html/inc/translation.inc");
 
 function show_participant() {
-    global $light_blue;
     $i = rand(0, 99);
     $j = $i+1;
     echo "
@@ -26,11 +25,10 @@ function show_participant() {
 }
 
 function show_news_items() {
-    global $light_blue;
     require_once("boinc_news.php");
     require_once("../html/inc/news.inc");
     echo "
-        <table border=0 cellpadding=8><tr><td bgcolor=$light_blue>
+        <table border=0 cellpadding=8><tr><td class=fieldname>
         <font size=4>News</font>
         <br>
     ";
@@ -52,9 +50,8 @@ function show_news_items() {
 }
 
 function show_participate() {
-    global $light_blue;
     echo "
-        <tr><td bgcolor=$light_blue>
+        <tr><td class=fieldname>
             <font size=4>&nbsp;".tr(HOME_HEADING1)."</font>
         </td></tr>
         <tr><td>
@@ -70,9 +67,8 @@ function show_participate() {
 }
 
 function show_create() {
-    global $light_blue;
     echo "
-        <tr><td bgcolor=$light_blue><font size=4>Compute with BOINC</font></td></tr>
+        <tr><td class=fieldname><font size=4>Compute with BOINC</font></td></tr>
         <tr><td>
         Learn how to <a href=trac/wiki/CreateProjectOutline>create
         and operate a BOINC project</a>.
@@ -98,9 +94,8 @@ function show_create() {
 }
 
 function show_other() {
-    global $light_blue;
     echo "
-        <tr><td bgcolor=$light_blue><font size=4>Other info</font></td></tr>
+        <tr><td class=fieldname><font size=4>Other info</font></td></tr>
         <tr><td>
             <ul>
             <li> <a href=trac/wiki/BoincIntro/>Overview</a>
@@ -151,6 +146,7 @@ function language_form() {
         <option value=fr>Fran&ccedil;ais
         <option value=ja>日本語
         <option value=lt>Lietuvių
+        <option value=nl>Nederlands
         <option value=pl>Polski
         <option value=pt_BR>Portugu&ecirc;s - Brasil
         <option value=ru>Русский
@@ -179,16 +175,20 @@ echo "
 <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
 <body bgcolor=#ffffff>
+<table border=0><tr><td valign=top>
 <img hspace=40 vspace=10 align=left src=logo/www_logo.gif>
+</td><td>
 <h1>
 ".tr(HOME_BOINC)."
 </h1>
-<font size=+1>
+</td></tr>
+<tr><td colspan=2>
+<font size=+1> &nbsp;
 ".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php>', '</a>', '<a href=dg.php>', '</a>')."
 </font>
-<p>
+</td></tr></table>
 <br clear=all>
-<table width=100% border=0 cellpadding=8 cellspacing=0><tr><td>
+<table width=100% border=0 cellpadding=8 cellspacing=0><tr><td valign=center>
 <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
 | <a href=trac/wiki/RunningBoinc><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
 | <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>

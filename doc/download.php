@@ -33,7 +33,7 @@ function download_link($pname) {
     $s = number_format(filesize($path)/1000000, 2);
 
     echo "
-        <table border=4 cellpadding=10><tr><td bgcolor=ccccff>
+        <table border=4 cellpadding=10><tr><td class=fieldname>
         <a href=$url><font size=4><u>".tr(DL_DOWNLOAD)."</u></font></a>
         <br>".
         sprintf(tr(DL_VERSION_LNAME_SIZE), $num, $long_name, $s )."

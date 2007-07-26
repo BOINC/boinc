@@ -30,7 +30,7 @@ show_choices($you_items, "");
 
 echo "
     <tr>
-        <td bgcolor=$light_blue valign=top>".tr(POLL_NATIONALITY)."</td>
+        <td class=fieldname valign=top>".tr(POLL_NATIONALITY)."</td>
         <td><select name=$country>
 ";
 echo country_select();

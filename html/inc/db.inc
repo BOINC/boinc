@@ -101,6 +101,7 @@ function lookup_team_founder($id) {
 }
 
 function lookup_team_name($name) {
+    $name = mysql_real_escape_string($name);
     $result = mysql_query("select * from team where name='$name'");
     if ($result) {
         $team = mysql_fetch_object($result);

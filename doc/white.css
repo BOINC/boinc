@@ -1,3 +1,9 @@
+# color scheme:
+# light background (for <pre>)
+# d5f0ff (213, 240, 255)
+# medium background (for table headings)
+# (87, 197, 255)
+
 h1 {
     font-variant: small-caps;
     font-size: 20pt;
@@ -11,22 +17,15 @@ code {
     font-size: medium;
 }
 
-a:link {
-	color: blue;
+a:link, :visited, :active{
+	color: rgb(0, 105, 161);
     text-decoration: none;
-}
-
-a:visited {
-	color: blue;
-    text-decoration: none;
-}
-
-a:active {
-	color: blue;
+	font-weight: bold;
 }
 
 a:hover {
-    color: rgb(200,80,80);
+    color: rgb(232, 174, 0);
+	font-weight: bold;
 }
 
 body , table , input , select {
@@ -54,11 +53,11 @@ span.news_date {
 }
 
 pre {
-	background-color: rgb(216, 232, 255);
+	background-color: rgb( 213, 240, 255);
 }
 
 th {
-	background-color: rgb(140,160,230);
+	background-color: rgb(87, 197, 255);
 	color: black;
 	font-weight: bold;
 }
@@ -68,12 +67,12 @@ td.indent {
 }
 
 td.heading {
-        background-color: rgb(217,217,217);
+        background-color: rgb(87, 197, 255);
 	    font-weight: bold;
 }
 
 td.fieldname {
-        background-color: rgb(237,237,237);
+        background-color: rgb(213, 240, 255);
 }
 
 td.category {

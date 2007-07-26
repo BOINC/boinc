@@ -1,6 +1,8 @@
+#!/usr/bin/env php
+
 <?php
 
-// This script is intended to be used ONLY by the BOINC-teams project.
+// This script for use ONLY by the BOINC-teams project.
 // It generates an XML file with team and user info
 
 require_once("../inc/db.inc");
@@ -48,7 +50,7 @@ function main() {
     }
     fwrite($f, "</teams>\n");
     fclose($f);
-    rename("temp.xml", "boinc_teams.xml");
+    rename("temp.xml", "/home/boincadm/boinc/doc/boinc_teams.xml");
 }
 
 main();

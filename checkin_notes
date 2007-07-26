@@ -7509,3 +7509,15 @@ David  25 July 2007
         ops/
             team_export.php
             team_import.php
+
+David  25 July 2007
+    - more teams stuff
+
+    html/
+        inc/
+            db.inc
+        ops/
+            team_export.php
+            team_import.php
+        user/
+            repair.php (deleted)
