@@ -702,7 +702,7 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        ,
+        $m51010,
         $m51010c,
         $m5107,
         $m5107c,
