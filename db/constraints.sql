@@ -106,6 +106,9 @@ alter table post
     add fulltext index post_content(content);
 
 alter table credited_job 
-   add index credited_job_user (userid),
-   add index credited_job_wu (workunitid),
-   add unique credited_job_user_wu (userid, workunitid);
+    add index credited_job_user (userid),
+    add index credited_job_wu (workunitid),
+    add unique credited_job_user_wu (userid, workunitid);
+
+alter table team_delta
+    add index team_delta_teamid (teamid, timestamp);

@@ -179,17 +179,21 @@ function show_team_row($team, $i) {
 }
 
 function user_join_team($team, $user) {
-    $old_teamid = $user->teamid;
     $res = mysql_query("update user set teamid=$team->id where id=$user->id");
-    if ($res) return true;
+    if ($res) {
+        $now = time();
+        mysql_query("insert into team_delta (userid, teamid, timestamp, joining, total_credit) values ($user->id, $team->id, $now, 1, $user->total_credit)");
+        return true;
+    }
     return false;
 }
 
 function user_quit_team($user) {
-    $team = lookup_team($user->teamid);
-    if (!$team) return;
+    if (!$user->teamid) return;
     mysql_query("update user set teamid=0 where id=$user->id");
-    mysql_query("UPDATE team SET ping_user=0 WHERE id=".$user->teamid." AND ping_user=".$user->id);
+    mysql_query("update team set ping_user=0 where id=".$user->teamid." and ping_user=".$user->id);
+    $now = time();
+    mysql_query("insert into team_delta (userid, teamid, timestamp, joining, total_credit) values ($user->id, $user->teamid, $now, 0, $user->total_credit)");
 }
 
 function team_edit_form($team, $label, $url) {

@@ -2,7 +2,7 @@
 # light background (for <pre>)
 # d5f0ff (213, 240, 255)
 # medium background (for table headings)
-# (87, 197, 255)
+# (157, 221, 255)
 
 h1 {
     font-variant: small-caps;
@@ -57,7 +57,7 @@ pre {
 }
 
 th {
-	background-color: rgb(87, 197, 255);
+	background-color: rgb(157, 221, 255);
 	color: black;
 	font-weight: bold;
 }
@@ -67,7 +67,7 @@ td.indent {
 }
 
 td.heading {
-        background-color: rgb(87, 197, 255);
+        background-color: rgb(157, 221, 255);
 	    font-weight: bold;
 }
 

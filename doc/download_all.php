@@ -23,8 +23,6 @@ $type_name = $_GET["type"];
 
 require_once("versions.inc");
 
-//$url_base = "dl/";
-
 function dl_item($x, $y) {
     global $light_blue;
     echo "<tr><td valign=top  align=right width=30% bgcolor=$light_blue>$x</td>
@@ -32,13 +30,22 @@ function dl_item($x, $y) {
     ";
 }
 
-function show_detail($v) {
+function version_url($v) {
     global $url_base;
+    $file = $v["file"];
+    if (is_dev($v)) {
+        return "http://boinc.berkeley.edu/dl/$file";
+    } else {
+        return $url_base.$file;
+    }
+}
+
+function show_detail($v) {
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    $url = $url_base.$file;
+    $url = version_url($v);
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -63,14 +70,13 @@ function show_detail($v) {
 
 
 function show_version_xml($v, $p) {
-    global $url_base;
     $name = $p["name"];
     $dbname = $p["dbname"];
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    $url = $url_base.$file;
+    $url = version_url($v);
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -99,7 +105,6 @@ function show_version_xml($v, $p) {
 }
 
 function show_version($pname, $i, $v) {
-    global $url_base;
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
@@ -114,12 +119,13 @@ function show_version($pname, $i, $v) {
     $s = number_format(filesize($path)/1000000, 2);
     $type = $v["type"];
     $type_text = type_text($type);
+    $url = version_url($v);
     echo "<tr><td width=3%><nobr>
         $num</td><td> $status
         </nobr>
         </td>
         <td>
-        <a href=".$url_base.$file."><b>Download</b></a> ($s MB)
+        <a href=$url><b>Download</b></a> ($s MB)
         </td>
         <td width=1%>
         <a href=download_all.php?platform=$pname&version=$num&type=$type><nobr>version details</nobr></a>

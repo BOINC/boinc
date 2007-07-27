@@ -7533,3 +7533,23 @@ David  27 July 2007
         ViewWork.cpp
         ViewWorkGrid.cpp
 
+David  27 July 2007
+    - user web: added mechanism for recording team membership changes.
+        These are stored in a new DB table, "team_delta".
+        The team founder can view the history in HTML or XML
+        (links on Management Functions page)
+
+    db/
+        constraints.sql
+        schema.sql
+    html/
+        inc/
+            team.inc
+        ops/
+            db_update.php
+        user/
+            team_delta.php (new)
+            team_join_action.php
+            team_manage.php
+    tools/
+        make_project

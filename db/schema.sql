@@ -501,3 +501,12 @@ create table donation_paypal (
     payer_name          varchar(255)            not null,
     PRIMARY KEY(id)
 ) TYPE=MyISAM;
+
+-- record changes in team membership
+create table team_delta (
+    userid              integer                 not null,
+    teamid              integer                 not null,
+    timestamp           integer                 not null,
+    joining             tinyint(1)              not null,
+    total_credit        double                  not null
+) TYPE=MyISAM;

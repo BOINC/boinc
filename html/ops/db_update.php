@@ -426,11 +426,25 @@ function update_6_5_2007() {
     do_query("ALTER TABLE `forum_preferences` ADD `pm_notification` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1';");
 }
 
+function update_7_26_2007() {
+    do_query("create table team_delta (
+    userid              integer                 not null,
+    teamid              integer                 not null,
+    timestamp           integer                 not null,
+    joining             tinyint(1)              not null,
+    total_credit        double                  not null
+) TYPE=MyISAM;"
+    );
+    do_query("alter table team_delta
+        add index team_delta_teamid (teamid, timestamp);"
+    );
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_6_5_2007();
+//update_7_26_2007();
 
 ?>
