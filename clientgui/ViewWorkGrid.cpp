@@ -728,6 +728,12 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                 } else {
                     strBuffer = _("Running");
                 }
+#if 0
+                // doesn't work - result pointer not there
+                if (result->project->non_cpu_intensive) {
+                    strBuffer += _(" (non-CPU-intensive)");
+                }
+#endif
             } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
                 strBuffer = _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {

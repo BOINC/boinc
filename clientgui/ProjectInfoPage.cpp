@@ -244,7 +244,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     m_pDescriptionStaticCtrl->SetLabel(
         _("To choose a project, click its name\n"
           "or type its URL below.\n"
-          "Click on 'www' to visit a project's web site."
+          "Click 'www' to visit a project's web site."
          )
     );
     m_pProjectUrlStaticCtrl->SetLabel(

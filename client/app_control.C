@@ -198,6 +198,7 @@ void ACTIVE_TASK::handle_exit_zero(bool& will_restart) {
     // did we send it a quit message?
     //
     if (task_state() == PROCESS_QUIT_PENDING) {
+        set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
         will_restart = true;
         return;
     }

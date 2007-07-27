@@ -7312,14 +7312,14 @@ David  16 July 2007
         client_state.C,h
 
 David  16 July 2007
-	- Manager: changed wording the "Choose a project" page
-		of attach wizard.
-		At least one person was confused by 'WWW';
-		he thought you clicked there to choose project.
+    - Manager: changed wording the "Choose a project" page
+        of attach wizard.
+        At least one person was confused by 'WWW';
+        he thought you clicked there to choose project.
 
-	clientgui/
-		ProjectInfoPage.cpp
-		ProjectListCtrl.cpp
+    clientgui/
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp
 
 
 Charlie 17 July 2007
@@ -7521,3 +7521,15 @@ David  25 July 2007
             team_import.php
         user/
             repair.php (deleted)
+
+David  27 July 2007
+    - client: fix bug that caused "no shared memory segment" errors,
+        introduced in 20 July checkin
+
+    client/
+        app_control.C
+    clientgui/
+        ProjectInfoPage.cpp
+        ViewWork.cpp
+        ViewWorkGrid.cpp
+
