@@ -78,16 +78,16 @@ int MIOFILE::printf(const char* format, ...) {
     return retval;
 }
 
-char* MIOFILE::fgets(char* dst, int len) {
+char* MIOFILE::fgets(char* dst, int dst_len) {
     if (f) {
-        return ::fgets(dst, len, f);
+        return ::fgets(dst, dst_len, f);
     }
     const char* q = strchr(buf, '\n');
     if (!q) return 0;
 
     q++;
     int n = (int)(q - buf);
-    if (n > len-1) n = len-1;
+    if (n > dst_len-1) n = dst_len-1;
     memcpy(dst, buf, n);
     dst[n] = 0;
 

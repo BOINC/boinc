@@ -27,7 +27,7 @@ struct SIM_RESULTS {
     int nresults_met_deadline;
     int nresults_missed_deadline;
     double share_violation;
-    double variety;
+    double monotony;
     double cpu_wasted_frac;
     double cpu_idle_frac;
 
@@ -137,12 +137,12 @@ public:
     bool initialized;
     bool run_cpu_benchmarks;
     FILE* html_out;
-    void html_start();
+    void html_start(bool);
     void html_rec();
-    void html_end();
+    void html_end(bool);
     std::string html_msg;
     double share_violation();
-    double variety();
+    double monotony();
 
 private:
     double app_started;
@@ -180,6 +180,7 @@ private:
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
 public:
+    double retry_shmem_time;
     inline double work_buf_min() {
         return global_prefs.work_buf_min_days * 86400;
     }
@@ -279,3 +280,4 @@ extern bool dcf_dont_use;
 extern bool dcf_stats;
 extern bool cpu_sched_rr_only;
 extern bool dual_dcf;
+extern bool work_fetch_old;

@@ -304,12 +304,12 @@ int lookup_group(char* name, gid_t& gid) {
 //
 #ifdef _WIN32
 int run_program(
-    char* dir, char* file, int argc, char** argv, double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    char cmdline[1024], path[1024];
+    char cmdline[1024];
     unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
@@ -321,9 +321,8 @@ int run_program(
         strcat(cmdline, " ");
     }
 
-	sprintf(path, "%s/%s", dir, file);
     retval = CreateProcess(
-        path,
+        file,
         cmdline,
         NULL,
         NULL,
@@ -348,7 +347,7 @@ int run_program(
 }
 #else
 int run_program(
-    char* dir, char* file, int argc, char** argv, double nsecs, int& id
+    const char* dir, const char* file, int , char *const argv[], double nsecs, int& id
 ) {
     int retval;
     int pid = fork();

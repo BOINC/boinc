@@ -45,6 +45,7 @@
 
 CLIENT_STATE::CLIENT_STATE() {
     initialized = false;
+    retry_shmem_time = 0;
 }
 
 FILE* boinc_fopen(const char* path, const char* mode) {

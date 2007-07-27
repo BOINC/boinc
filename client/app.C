@@ -435,9 +435,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n"
-        "%s"
-        "%s",
+        "    <page_fault_rate>%f</page_fault_rate>\n",
         result->project->master_url,
         result->name,
         app_version->version_num,
@@ -449,8 +447,6 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
         procinfo.page_fault_rate
-        too_large?"   <too_large/>\n":"",
-        needs_shmem?"   <needs_shmem/>\n":""
     );
     fout.printf("</active_task>\n");
     return 0;

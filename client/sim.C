@@ -48,7 +48,6 @@
 
 CLIENT_STATE gstate;
 NET_STATUS net_status;
-//bool g_use_sandbox;
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
@@ -59,6 +58,8 @@ bool dcf_dont_use;
 bool dcf_stats;
 bool dual_dcf;
 bool cpu_sched_rr_only;
+bool work_fetch_old;
+int line_limit = 1000000;
 
 SIM_RESULTS sim_results;
 
@@ -384,14 +385,19 @@ double CLIENT_STATE::share_violation() {
 
 }
 
-// "variety" is defined as follows:
+// "monotony" is defined as follows:
 // for each project P, maintain R(P), the time since P last ran,
 // let S(P) be the RMS of R(P).
-// Let variety = mean(S(P))
+// Let X = mean(S(P))/(sched_interval*nprojects)
+//  (the *nprojects reflects the fact that in the limit of nprojects,
+//   each one waits for a time to run proportional to nprojects)
+//  X varies from zero (no monotony) to infinity.
+//   X is one in the case of round-robin on 1 CPU.
+// Let monotony = 1-1/(x+1)
 //
-double CLIENT_STATE::variety() {
+double CLIENT_STATE::monotony() {
     double sum = 0;
-    double schedint = global_prefs.cpu_scheduling_period_minutes*60;
+    double schedint = global_prefs.cpu_scheduling_period();
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
@@ -399,7 +405,11 @@ double CLIENT_STATE::variety() {
         double s = sqrt(avg_ss);
         sum += s;
     }
-    return sum/(projects.size()*schedint);
+    int n = (int)projects.size();
+    double x = sum/(n*schedint*n);
+    double m = 1-(1/(x+1));
+    //printf("sum: %f; x: %f m: %f\n", sum, x, m);
+    return m;
 }
 
 // the CPU totals are there; compute the other fields
@@ -409,7 +419,7 @@ void SIM_RESULTS::compute() {
     cpu_wasted_frac = cpu_wasted/total;
     cpu_idle_frac = cpu_idle/total;
     share_violation = gstate.share_violation();
-    variety = gstate.variety();
+    monotony = gstate.monotony();
 }
 
 // top-level results (for aggregating multiple simulations)
@@ -418,14 +428,14 @@ void SIM_RESULTS::print(FILE* f, const char* title) {
     if (title) {
         fprintf(f, "%s: ", title);
     }
-    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f variety %f\n",
-        cpu_wasted_frac, cpu_idle_frac, share_violation, variety
+    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f monotony %f\n",
+        cpu_wasted_frac, cpu_idle_frac, share_violation, monotony
     );
 }
 
 void SIM_RESULTS::parse(FILE* f) {
-    fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf variety %lf",
-        &cpu_wasted_frac, &cpu_idle_frac, &share_violation, &variety
+    fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf monotony %lf",
+        &cpu_wasted_frac, &cpu_idle_frac, &share_violation, &monotony
     );
 }
 
@@ -433,14 +443,14 @@ void SIM_RESULTS::add(SIM_RESULTS& r) {
     cpu_wasted_frac += r.cpu_wasted_frac;
     cpu_idle_frac += r.cpu_idle_frac;
     share_violation += r.share_violation;
-    variety += r.variety;
+    monotony += r.monotony;
 }
 
 void SIM_RESULTS::divide(int n) {
     cpu_wasted_frac /= n;
     cpu_idle_frac /= n;
     share_violation /= n;
-    variety /= n;
+    monotony /= n;
 }
 
 void SIM_RESULTS::clear() {
@@ -471,16 +481,36 @@ char* colors[] = {
     "#ffdddd",
 };
 
-void CLIENT_STATE::html_start() {
-    html_out = fopen("sim_out.html", "w");
+static int outfile_num=0;
+
+void CLIENT_STATE::html_start(bool show_prev) {
+    char buf[256];
+
+    sprintf(buf, "sim_out_%d.html", outfile_num++);
+    html_out = fopen(buf, "w");
     setbuf(html_out, 0);
-    fprintf(html_out, "<h2>Simulator output</h2>"
+    fprintf(html_out, "<h2>Simulator output</h2>\n");
+    if (show_prev) {
+        fprintf(html_out,
+            "<a href=sim_out_%d.html>Previous file</a><p>\n",
+            outfile_num-2
+        );
+    }
+    fprintf(html_out,
         "<a href=sim_log.txt>message log</a><p>"
-        "<table border=1>\n"
+        "<table border=1><tr><th>Time</th>\n"
     );
+    for (int i=0; i<ncpus; i++) {
+        fprintf(html_out,
+            "<th>CPU %d<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", i
+        );
+    }
+    fprintf(html_out, "<th>Notes</th></tr>\n");
 }
 
 void CLIENT_STATE::html_rec() {
+    static int line_num=0;
+
     fprintf(html_out, "<tr><td>%s</td>", time_to_string(now));
 
     if (!running) {
@@ -508,21 +538,44 @@ void CLIENT_STATE::html_rec() {
     }
     fprintf(html_out, "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str());
     html_msg = "";
+
+    if (++line_num == line_limit) {
+        line_num = 0;
+        html_end(true);
+        html_start(true);
+    }
 }
 
-void CLIENT_STATE::html_end() {
-    fprintf(html_out, "</table><pre>\n");
-    sim_results.compute();
-    sim_results.print(html_out);
-    print_project_results(html_out);
-    fprintf(html_out, "</pre>\n");
+void CLIENT_STATE::html_end(bool show_next) {
+    fprintf(html_out, "</table>");
+    if (show_next) {
+        fprintf(html_out,
+            "<p><a href=sim_out_%d.html>Next file</a>\n",
+            outfile_num
+        );
+    } else {
+        fprintf(html_out, "<pre>\n");
+        sim_results.compute();
+        sim_results.print(html_out);
+        print_project_results(html_out);
+        fprintf(html_out, "</pre>\n");
+    }
+    if (show_next) {
+        fprintf(html_out, "<p><a href=sim_out_last.html>Last file</a>\n");
+    } else {
+        char buf[256];
+        sprintf(buf, "sim_out_%d.html", outfile_num-1);
+#ifndef _WIN32
+        symlink(buf, "sim_out_last.html");
+#endif
+    }
     fclose(html_out);
 }
 
 void CLIENT_STATE::simulate() {
     bool action;
     now = 0;
-    html_start();
+    html_start(false);
     while (1) {
         running = host_info.available.sample(now);
         while (1) {
@@ -540,7 +593,7 @@ void CLIENT_STATE::simulate() {
         html_rec();
         if (now > duration) break;
     }
-    html_end();
+    html_end(false);
 }
 
 void parse_error(char* file, int retval) {
@@ -601,6 +654,10 @@ int main(int argc, char** argv) {
             dcf_stats = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
+        } else if (!strcmp(opt, "--work_fetch_old")) {
+            work_fetch_old = true;
+        } else if (!strcmp(opt, "--line_limit")) {
+            line_limit = atoi(next_arg(argc, argv, i));
         } else {
             help(argv[0]);
         }

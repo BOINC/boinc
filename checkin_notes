@@ -6870,3 +6870,25 @@ Rom    25 July 2007
         configure.ac
         version.h
 
+Rom    27 July 2007
+    - A few lines of code that were missed in the last round of
+        checkins.
+        
+    client/
+        app.C
+        app_start.C
+        client_types.C
+        cs_apps.C
+        cs_cmdline.C
+    lib/
+        miofile.C
+        util.C, .h
+        
+Rom    27 July 2007
+    - Tag for 5.10.15 release, all platforms
+      boinc_core_release_5_10_15
+    
+    /
+        configure.ac
+        version.h
+
