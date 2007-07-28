@@ -828,15 +828,16 @@ int CLIENT_STATE::handle_scheduler_reply(
         scheduler_op->backoff(project, "no work from project\n");
     } else {
         project->nrpc_failures = 0;
-    }
 
-    // handle delay request
-    //
-    if (sr.request_delay) {
-        double x = now + sr.request_delay;
-		project->set_min_rpc_time(x, "requested by project");
-    } else {
-        project->min_rpc_time = 0;
+        // handle delay request
+        //
+        if (sr.request_delay) {
+            double x = now + sr.request_delay;
+            project->set_min_rpc_time(x, "requested by project");
+        } else {
+            project->min_rpc_time = 0;
+        }
+
     }
 
     if (sr.next_rpc_delay) {

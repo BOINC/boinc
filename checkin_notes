@@ -7538,6 +7538,7 @@ David  27 July 2007
         These are stored in a new DB table, "team_delta".
         The team founder can view the history in HTML or XML
         (links on Management Functions page)
+        REQUIRES DB UPDATE
 
     db/
         constraints.sql
@@ -7553,3 +7554,12 @@ David  27 July 2007
             team_manage.php
     tools/
         make_project
+
+David  28 July 2007
+    - client: fix bug where if you get no work from a project
+        with zero delay_request,
+        the client immediately requests more work
+
+    client/
+        client_types.h
+        cs_scheduler.C

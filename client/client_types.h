@@ -220,6 +220,10 @@ public:
         // if nonzero, specifies a time when another scheduler RPC
         // should be done (as requested by server)
 	bool possibly_backed_off;
+        // we need to call request_work_fetch() when a project
+        // transitions from being backed off to not.
+        // This (slightly misnamed) keeps track of whether this
+        // may still need to be done for given project
     bool trickle_up_pending;    // have trickle up to send
     double last_rpc_time;          // when last RPC finished
 
