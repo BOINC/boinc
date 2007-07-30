@@ -6911,3 +6911,20 @@ Rom    27 July 2007
         configure.ac
         version.h
 
+David  28 July 2007
+    - client: fix bug where if you get no work from a project
+        with zero delay_request,
+        the client immediately requests more work
+
+    client/
+        client_types.h
+        cs_scheduler.C
+
+Rom    30 July 2007
+    - Tag for 5.10.17 release, all platforms
+      boinc_core_release_5_10_17
+    
+    /
+        configure.ac
+        version.h
+
