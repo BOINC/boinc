@@ -6928,3 +6928,12 @@ Rom    30 July 2007
         configure.ac
         version.h
 
+Charlie 30 July 2007
+    - Manager: don't call GetWorkCount() repeatedly in CViewProjectsGrid, 
+        CViewTransfersGrid and CViewMessagesGrid (tagged for Mac 5.10.17 
+        release.)
+    
+    clientgui/
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
