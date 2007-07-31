@@ -192,6 +192,8 @@ void mouse_click_move(int x, int y){
     }
 }
 
+// maybe_render() can be called directly by GLUT when a window is 
+// uncovered, so we let that happen even if suspend_render is true.
 static void maybe_render() {
     int width, height;
     BOINC_STATUS boinc_status;
