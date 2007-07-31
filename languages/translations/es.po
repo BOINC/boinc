@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-01 17:56-0000\n"
+"PO-Revision-Date: 2007-07-07 14:26-0000\n"
 "Last-Translator: David <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -120,25 +120,25 @@ msgid "POLL_FATTACH"
 msgstr "no pude unirme a un proyecto"
 
 msgid "POLL_FWORK"
-msgstr "Me uní a un proyecto, pero nunca recibí trabajo alguno"
+msgstr "me uní a un proyecto, pero nunca recibí trabajo alguno"
 
 msgid "POLL_NEVER"
 msgstr "No - nunca intenté ejecutar BOINC, porque..."
 
 msgid "POLL_NSECURITY"
-msgstr "Me preocupó la seguridad"
+msgstr "me preocupó la seguridad"
 
 msgid "POLL_NPROJECT"
-msgstr "No estaba interesado en ninguno de los proyectos"
+msgstr "no estaba interesado en ninguno de los proyectos"
 
 msgid "POLL_NPERMISSION"
-msgstr "No tengo permisos para ejecutarlo en mi ordenador"
+msgstr "no tengo permisos para ejecutarlo en mi ordenador"
 
 msgid "POLL_NVERSION"
-msgstr "No había una versión disponible para mi ordenador"
+msgstr "no había una versión disponible para mi ordenador"
 
 msgid "POLL_KIND"
-msgstr "¿En qué tipo de ordenador ejecutas BOINC?"
+msgstr "¿En qué tipo de ordenador ejecuta BOINC?"
 
 msgid "POLL_WHERE"
 msgstr "¿Dónde están situados?"
@@ -183,7 +183,7 @@ msgid "POLL_LEVA"
 msgstr "Avanzado"
 
 msgid "POLL_LEARN_WHERE"
-msgstr "¿En dónde se enteró de los proyectos BOINC?"
+msgstr "¿Donde se enteró de los proyectos BOINC?"
 
 msgid "POLL_WTV"
 msgstr "TV/radio/prensa"
@@ -309,7 +309,7 @@ msgid "DL_DOWNLOAD"
 msgstr "Descargar BOINC"
 
 msgid "DL_VERSION_LNAME_SIZE"
-msgstr "%s de %s (%s MB)"
+msgstr "%s para %s (%s MB)"
 
 msgid "DL_WHATS_BOINC"
 msgstr " BOINC es un programa que le permite donar        el tiempo libre de su ordenador para proyectos científicos como        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, y muchos  otros.        <p>        Después de instalar BOINC en su ordenador,        puede conectarlo a tantos de esos proyectos como quiera.        <p>"
@@ -393,7 +393,7 @@ msgid "SRQ_LINUX"
 msgstr "Linux"
 
 msgid "SRQ_LINUX_REQ_KERNEL"
-msgstr "Núcleo Linux 2.2.14 o superior"
+msgstr "Linux kernel 2.2.14 o superior"
 
 msgid "SRQ_LINUX_REQ_GLIBC"
 msgstr "glibc 2.3.2 o superior"
@@ -432,7 +432,7 @@ msgid "RLN_KNOWN_ISSUES"
 msgstr "Problemas conocidos"
 
 msgid "RLN_WIN_INSTALL_PROBLEMS"
-msgstr "(Windows) En casos infrecuentes, la instalación puede fallar debido a una instalación previa de BOINC. Si esto ocurre: %s Salga de BOINC si está ejecutándose, y desinstale BOINC usando %s Inicio/Panel de control/Agregar o quitar programas%s. Instale la nueva versión de nuevo. %s Si esto falla, reinstale la versión de BOINC que tenían instalada anteriormente  (las versiones anteriores puede encontrarlas %saquí%s). Desinstálelo como se indicó anteriormente, y luego instale la nueva versión. %s Si esto falla, descargue la utilidad %sWindows Install Clean Up%s  de Microsoft y ejecútelo. La versión anterior de BOINC aparece bien como BOINC.msi o como un icono corrupto .msi (será la primera opción). Pulse en él para seleccionarlo, y luego pulse Eliminar y Salir (Remove and Exit). Reinicie su ordenador. Instale la nueva versión. (Advertencia: deje todos los demás ficheros .msi tal y como están, de otro modo tendrá problemas desinstalando otros programas). %s "
+msgstr "(Windows) En casos infrecuentes, la instalación puede fallar debido a una instalación previa de BOINC. Si esto ocurre: %s Salga de BOINC si está ejecutándose, y desinstale BOINC usando %s Inicio/Panel de control/Agregar o quitar programas%s. Instale la nueva versión de nuevo. %s Si esto falla, reinstale la versión de BOINC que tenían instalada anteriormente  (las versiones anteriores puede encontrarlas %saquí%s). Desinstálelo como se indicó anteriormente, y luego instale la nueva versión. %s Si esto falla, descargue la utilidad %sHerramienta de limpieza de Windows Installer%s  de Microsoft y ejecútelo. La versión anterior de BOINC aparece bien como BOINC.msi o como un icono corrupto .msi (será la primera opción). Pulse en él para seleccionarlo, y luego pulse Eliminar y Salir (Remove and Exit). Reinicie su ordenador. Instale la nueva versión. (Advertencia: deje todos los demás ficheros .msi tal y como están, de otro modo tendrá problemas desinstalando otros programas). %s "
 
 msgid "RLN_TROUBLESHOOT"
 msgstr "Solución de problemas con BOINC"
@@ -486,22 +486,22 @@ msgid "RLN_SINGLE_USER_INSTALL"
 msgstr "Instalación monousuario"
 
 msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "Este es el modo recomendado. BOINC se ejecutará mientras usted (el usuario que lo ha instalado) haya inciado una sesión en su ordenador. BOINC aparece en el menú de Inicio de usted, pero no en el de los demás usuarios. El comando 'Mostrar graficos' del administardor BOINC funciona sólo para  usted. El Protector de pantalla de BOINC muestra graficos de las aplicaciones sólo para usted (los demás usuarios pueden ejecutar el protector de pantalla pero solo verán la información textual)."
+msgstr "Este es el modo recomendado. BOINC se ejecutará mientras usted (el usuario que lo ha instalado) haya inciado una sesión en su ordenador. BOINC aparece en el menú de Inicio de usted, pero no en el de los demás usuarios. El comando 'Mostrar gráficos' del administardor BOINC funciona sólo para  usted. El Protector de pantalla de BOINC muestra gráficos de las aplicaciones sólo para usted (los demás usuarios pueden ejecutar el protector de pantalla pero solo verán la información textual)."
 
 msgid "RLN_SHARED_INSTALL"
 msgstr "Instalación compartida"
 
 msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-msgstr "BOINC se ejecuta cada vez que cualquier usuario inicia una sesión. BOINC aparece en el menú de Inicio de todos los usuarios. Mientras BOINC está funcionando, lo hace como un sólo usuario (bien el primer usuario en iniciar una sesión, o el primero que ejecuta BOINC). El comando 'Mostrar graficos' del administrador BOINC funciona sólo para dicho usuario. El protector de pantalla de BOINC muestra graficos de las aplicaciones sólo para dicho usuario (los demás usuarios pueden ejecutar el protector de pantalla pero sólo verán información textual)."
+msgstr "BOINC se ejecuta cada vez que cualquier usuario inicia una sesión. BOINC aparece en el menú de Inicio de todos los usuarios. Mientras BOINC está funcionando, lo hace como un sólo usuario (bien el primer usuario en iniciar una sesión, o el primero que ejecuta BOINC). El comando 'Mostrar gráficos' del administrador BOINC funciona sólo para dicho usuario. El protector de pantalla de BOINC muestra gráficos de las aplicaciones sólo para dicho usuario (los demás usuarios pueden ejecutar el protector de pantalla pero sólo verán información textual)."
 
 msgid "RLN_WIN_SERVICE_INSTALL"
 msgstr "Instalación de servicio"
 
 msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "BOINC funciona siempre (incluso cuando nadie ha iniciado una sesión). BOINC aparece en el menú de Inicio del usuario que lo instaló, pero no en el de los demás. El comando 'Mostrar graficos' del administrador BOINC no funcionará para ningún usuario. El protector de pantalla de BOINC sólo mostrará información textual."
+msgstr "BOINC funciona siempre (incluso cuando nadie ha iniciado una sesión). BOINC aparece en el menú de Inicio del usuario que lo instaló, pero no en el de los demás. El comando 'Mostrar gráficos' del administrador BOINC no funcionará para ningún usuario. El protector de pantalla de BOINC sólo mostrará información textual."
 
 msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "BOINC para Linux es distribuido como un archivo autoextraible. Este tipo de instalación requiere que usted esté familiarizado con el interfaz de linea de comandos de UNIX."
+msgstr "BOINC para Linux es distribuido como un archivo autoextraible. Este tipo de instalación requiere que usted esté familiarizado con el interfaz de línea de comandos de UNIX."
 
 msgid "RLN_LINUX_DL_FILENAME"
 msgstr "Los archivos de descarga tienen nombres como <code>%s</code>."
@@ -525,7 +525,7 @@ msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
 msgstr "A script that cd's into the BOINC directory and runs the manager."
 
 msgid "RLN_LINUX_AUTOSTART"
-msgstr "Usted podría querer que%s el cliente se inicie automaticamente %sal arrancar."
+msgstr "Usted podría querer que%s el cliente se inicie automáticamente %sal arrancar."
 
 msgid "RLN_MSWIN_UNINSTALL_DESC"
 msgstr "Seleccione Inicio/ Panel de control/Agregar o quitar programas. Seleccione BOINC, y después pulse Quitar. Esto sólo elimina el programa BOINC. Para eliminar BOINC completamente, borre la carpeta de datos de BOINC (normalmente en C:/Archivos de programa/BOINC)."
@@ -606,7 +606,7 @@ msgid "HOME_HEADING1"
 msgstr "Voluntario"
 
 msgid "HOME_P1"
-msgstr "Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) para curar enfermedades, estudiar el calentamiento global, descubra pulsars, y haga muchos otros tipos de investigación científica. Es seguro, asegurado, y fácil: %sElija%s projectos %sDescarge%s y ejecute el programa BOINC %sIntroduzca%s la dirección URL del projecto, su dirección de correo electrónico, y su contraseña del proyecto."
+msgstr "Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) para curar enfermedades, estudiar el calentamiento global, descubra pulsars, y haga muchos otros tipos de investigación científica. Es seguro, asegurado, y fácil: %sElija%s projectos %sDescargue%s y ejecute el programa BOINC %sIntroduzca%s la dirección URL del projecto, su dirección de correo electrónico, y su contraseña del proyecto."
 
 msgid "HOME_P2"
 msgstr "O, si usted ejecuta varios projectos, pruebe un %sadministrador de cuentas%s tales como %sGridRepublic%s o %sBAM!%s."
