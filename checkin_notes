@@ -7565,11 +7565,12 @@ David  28 July 2007
         cs_scheduler.C
 
 Charlie 30 July 2007
-    - Manager: don't call GetWorkCount() repeatedly in CViewTransfersGrid 
-        and CViewMessagesGrid.
+    - Manager: don't call GetWorkCount() repeatedly in CViewProjectsGrid, 
+        CViewTransfersGrid and CViewMessagesGrid.
     
     clientgui/
         ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
         ViewTransfersGrid.cpp
 
 David  31 July 2007
