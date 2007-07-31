@@ -26,6 +26,7 @@
 #include <signal.h>
 #include "x_opengl.h"
 
+#include "app_ipc.h"
 #include "util.h"
 #include "filesys.h"
 
