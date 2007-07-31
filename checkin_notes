@@ -6937,3 +6937,10 @@ Charlie 30 July 2007
         ViewMessagesGrid.cpp
         ViewProjectsGrid.cpp
         ViewTransfersGrid.cpp
+
+Charlie 31 July 2007
+    - Graphics API: Don't render graphics when application is suspended 
+        to reduce CPU usage.
+    
+    api/
+        x_opengl.C
