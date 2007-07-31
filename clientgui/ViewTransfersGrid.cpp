@@ -468,10 +468,11 @@ bool CViewTransfersGrid::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
+    wxInt32 docCount = GetDocCount();
 
     // We haven't connected up to the CC yet, there is nothing to display, make sure
     //   everything is deleted.
-    if ( GetDocCount() <= 0 ) {
+    if ( docCount <= 0 ) {
         if ( m_pGridPane->GetNumberRows() ) {
             m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
         }
@@ -480,13 +481,13 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     
     // Right-size the grid so that the number of rows matches
     //   the document state.
-    if(GetDocCount() != m_pGridPane->GetNumberRows()) {
-        if (GetDocCount() > m_pGridPane->GetNumberRows()) {
-    	    m_pGridPane->AppendRows(GetDocCount() - m_pGridPane->GetNumberRows());
+    if(docCount != m_pGridPane->GetNumberRows()) {
+        if (docCount > m_pGridPane->GetNumberRows()) {
+    	    m_pGridPane->AppendRows(docCount - m_pGridPane->GetNumberRows());
         } else {
-		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - GetDocCount());
+		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
         }
-        wxASSERT(GetDocCount() == m_pGridPane->GetNumberRows());
+        wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
 
 	//update cell values
