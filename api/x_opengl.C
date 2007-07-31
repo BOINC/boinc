@@ -26,7 +26,6 @@
 #include <signal.h>
 #include "x_opengl.h"
 
-#include "app_ipc.h"
 #include "util.h"
 #include "filesys.h"
 
@@ -38,6 +37,7 @@
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
 #define TIMER_INTERVAL_MSEC 30
+#define TIMER_INTERVAL_SUSPENDED_MSEC 1000
 
 static bool visible = true;
 static int current_graphics_mode = MODE_HIDE_GRAPHICS;
@@ -47,6 +47,7 @@ static int win_width = 600, win_height = 400;
 static int clicked_button;
 static int win=0;
 static bool glut_is_initialized = false;
+static bool suspend_render = false;
 
 // freeglut extensions, not in GL/glut.h.
 //
@@ -192,6 +193,8 @@ void mouse_click_move(int x, int y){
 
 static void maybe_render() {
     int width, height;
+    BOINC_STATUS boinc_status;
+
     if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS)) {
         width = glutGet(GLUT_WINDOW_WIDTH);
         height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -216,6 +219,11 @@ static void maybe_render() {
                 break;
             }
 #endif
+            // Always render once after app is suspended in case app displays
+            //  different graphics when suspended, then stop rendering
+            boinc_get_status(&boinc_status);
+            if (boinc_status.suspended)
+                suspend_render = true;
         }
     }
 }
@@ -455,6 +463,7 @@ static void wait_for_initial_message() {
 static void timer_handler(int) {
     char buf[MSG_CHANNEL_SIZE];
     GRAPHICS_MSG m;
+    BOINC_STATUS boinc_status;
 
     if (*g_bmsp->app_client_shmp) {
         if ((*g_bmsp->app_client_shmp)->shm->graphics_request.get_msg(buf)) {
@@ -489,8 +498,15 @@ static void timer_handler(int) {
             if (sent) acked_graphics_mode = current_graphics_mode;
         }
     }
-    maybe_render();
-    glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
+    boinc_get_status(&boinc_status);
+    if (! boinc_status.suspended)
+        suspend_render = false;
+    if (suspend_render) {
+        glutTimerFunc(TIMER_INTERVAL_SUSPENDED_MSEC, timer_handler, 0);
+    } else {
+        maybe_render();
+        glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
+    }
 
     return;
 }

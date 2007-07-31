@@ -7584,3 +7584,10 @@ David  31 July 2007
         db_update.php
     client/
         cs_cmdline.C
+
+Charlie 31 July 2007
+    - Graphics API: Don't render graphics when application is suspended 
+        to reduce CPU usage.
+    
+    api/
+        x_opengl.C
