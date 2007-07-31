@@ -272,10 +272,13 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(detach_project_url)) {
+        canonicalize_master_url(detach_project_url);
         PROJECT* project = lookup_project(detach_project_url);
         if (project) {
+            // do this before detaching - it frees the project
+            //
+            msg_printf(project, MSG_INFO, "detaching from %s\n", detach_project_url);
             detach_project(project);
-            msg_printf(project, MSG_INFO, "detached from %s\n", detach_project_url);
         } else {
             msg_printf(NULL, MSG_USER_ERROR, "project %s not found\n", detach_project_url);
         }
@@ -283,6 +286,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(reset_project_url)) {
+        canonicalize_master_url(reset_project_url);
         PROJECT* project = lookup_project(reset_project_url);
         if (project) {
             reset_project(project);
@@ -294,6 +298,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(update_prefs_url)) {
+        canonicalize_master_url(update_prefs_url);
         PROJECT* project = lookup_project(update_prefs_url);
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
@@ -303,6 +308,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(attach_project_url)) {
+        canonicalize_master_url(attach_project_url);
         add_project(attach_project_url, attach_project_auth, "", false);
     }
 }

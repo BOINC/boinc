@@ -9,7 +9,7 @@ require_once("../inc/util.inc");
 require_once("../inc/ops.inc");
 
 cli_only();
-db_init_cli();
+db_init();
 
 set_time_limit(0);
 

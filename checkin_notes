@@ -7571,3 +7571,15 @@ Charlie 30 July 2007
     clientgui/
         ViewMessagesGrid.cpp
         ViewTransfersGrid.cpp
+
+David  31 July 2007
+    - client: don't crash if use --detach_project option
+        (fixes #283)
+    - client: canonicalize URLs in all cmdlines
+    - db_update.php: don't prompt for DB name/host; get it from config file
+        (fixes #356)
+
+    html/ops/
+        db_update.php
+    client/
+        cs_cmdline.C
