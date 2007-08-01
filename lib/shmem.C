@@ -162,15 +162,19 @@ int detach_shmem(void* p) {
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
     
-    // try 0660, then SHM_R|SHM_W
+    // try 0666, then SHM_R|SHM_W
     // seems like some platforms require one or the other
     // (this may be superstition)
     //
-#ifdef EINSTEIN_AT_HOME
+    // NOTE: in principle it should be 0660, not 0666
+    // (i.e. Apache should belong to the same group as the
+    // project admin user, and should therefore be able to access the seg.
+    // However, this doesn't seem to work on some Linux systems.
+    // I don't have time to figure this out (31 July 07)
+    // it's a big headache for anyone it affects,
+    // and it's not a significant security issue.
+    //
     id = shmget(key, size, IPC_CREAT|0666);
-#else
-    id = shmget(key, size, IPC_CREAT|0660);
-#endif
     if (id < 0) {
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }

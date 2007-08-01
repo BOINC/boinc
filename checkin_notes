@@ -7591,3 +7591,18 @@ Charlie 31 July 2007
     
     api/
         x_opengl.C
+
+David  1 Aug 2007
+    - feeder: created shared mem seg with 0666 rather than 0660.
+        In principle 0660 should work (assuming apache belongs to admin group)
+        but apparently on some Linux systems it doesn't,
+        and the feeder gets "can't attach to shared mem" errors.
+    - scheduler: print uid/gid info if can't attach to shared mem
+    - user web: fix bug in team founder transfer form
+
+    sched/
+        main.C
+    html/user/
+        team_founder_transfer_form.php
+    lib/
+        shmem.C

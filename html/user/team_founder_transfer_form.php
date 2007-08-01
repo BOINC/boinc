@@ -39,7 +39,7 @@ if (new_transfer_request_ok($team, $now)) {
             echo "<p>You have already requested to take over the founder
                 position of $team->name.
             ";
-            if (transfer_ok($team, $now) {
+            if (transfer_ok($team, $now)) {
                 echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">
                     <input type=\"hidden\" name=\"action\" value=\"transfer\">
                     <input type=\"submit\" value=\"Complete team founder transfer\">

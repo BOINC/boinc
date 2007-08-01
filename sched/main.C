@@ -266,6 +266,10 @@ void attach_to_feeder_shmem() {
             "Can't attach shmem: %d (feeder not running?)\n",
             retval
         );
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "uid %d euid %d gid %d eguid%d\n",
+            getuid(), geteuid(), getgid(), getegid()
+        );
     } else {
         ssp = (SCHED_SHMEM*)p;
         retval = ssp->verify();
