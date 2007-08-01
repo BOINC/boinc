@@ -7606,3 +7606,14 @@ David  1 Aug 2007
         team_founder_transfer_form.php
     lib/
         shmem.C
+
+David  1 Aug 2007
+    - GUI RPC: added get_global_prefs_network()
+        and get_global_prefs_working()
+
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    client/
+        gui_rpc_server_ops.C
+        cs_prefs.C

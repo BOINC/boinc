@@ -2066,13 +2066,39 @@ int RPC_CLIENT::get_newer_version(std::string& version) {
 }
 
 int RPC_CLIENT::read_global_prefs_override() {
+    SET_LOCALE sl;
+    RPC rpc(this);
+    return rpc.do_rpc("<read_global_prefs_override/>");
+}
+
+int RPC_CLIENT::get_global_prefs_network(string& s) {
     int retval;
     SET_LOCALE sl;
     RPC rpc(this);
-
-    retval = rpc.do_rpc("<read_global_prefs_override/>");
-    return retval;
+    char buf[1024];
+    s = "";
+    retval = rpc.do_rpc("<get_global_prefs_network/>");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        s += buf;
+    }
+    return 0;
 }
+
+int RPC_CLIENT::get_global_prefs_working(string& s) {
+    int retval;
+    SET_LOCALE sl;
+    RPC rpc(this);
+    char buf[1024];
+    s = "";
+    retval = rpc.do_rpc("<get_global_prefs_working/>");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        s += buf;
+    }
+    return 0;
+}
+
 
 int RPC_CLIENT::get_global_prefs_override(string& s) {
     int retval;

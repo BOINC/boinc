@@ -307,7 +307,7 @@ public:
     std::vector<WORKUNIT*> wus;
     std::vector<RESULT*> results;
 
-    GLOBAL_PREFS global_prefs;
+    GLOBAL_PREFS global_prefs;  // working prefs, i.e. network + override
     VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
 
     CC_STATE();
@@ -613,6 +613,8 @@ public:
     int read_global_prefs_override();
     int read_cc_config();
     int get_cc_status(CC_STATUS&);
+    int get_global_prefs_network(std::string&);
+    int get_global_prefs_working(std::string&);
     int get_global_prefs_override(std::string&);
     int set_global_prefs_override(std::string&);
     int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
