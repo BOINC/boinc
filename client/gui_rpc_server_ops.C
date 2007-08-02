@@ -810,7 +810,7 @@ static void handle_get_newer_version(MIOFILE& fout) {
     );
 }
 
-static void handle_get_global_prefs_network(MIOFILE& fout) {
+static void handle_get_global_prefs_file(MIOFILE& fout) {
     GLOBAL_PREFS p;
     bool found;
     int retval = p.parse_file(
@@ -1112,8 +1112,8 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.request_work_fetch("Preferences override");
     } else if (match_tag(request_msg, "<get_project_init_status")) {
         handle_get_project_init_status(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_global_prefs_network")) {
-        handle_get_global_prefs_network(mf);
+    } else if (match_tag(request_msg, "<get_global_prefs_file")) {
+        handle_get_global_prefs_file(mf);
     } else if (match_tag(request_msg, "<get_global_prefs_working")) {
         handle_get_global_prefs_working(mf);
     } else if (match_tag(request_msg, "<get_global_prefs_override")) {

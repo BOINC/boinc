@@ -2071,7 +2071,7 @@ int RPC_CLIENT::read_global_prefs_override() {
     return rpc.do_rpc("<read_global_prefs_override/>");
 }
 
-int RPC_CLIENT::get_global_prefs_network(string& s) {
+int RPC_CLIENT::get_global_prefs_file(string& s) {
     int retval;
     SET_LOCALE sl;
     RPC rpc(this);
@@ -2080,7 +2080,7 @@ int RPC_CLIENT::get_global_prefs_network(string& s) {
     bool in_prefs = false;
 
     s = "";
-    retval = rpc.do_rpc("<get_global_prefs_network/>");
+    retval = rpc.do_rpc("<get_global_prefs_file/>");
     if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {
         if (in_prefs) {
@@ -2129,6 +2129,25 @@ int RPC_CLIENT::get_global_prefs_working(string& s) {
     return 0;
 }
 
+
+int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+    int retval;
+    SET_LOCALE sl;
+    string s;
+    MIOFILE mf;
+    bool found_venue;
+
+    retval = get_global_prefs_working(s);
+    if (retval) return retval;
+    mf.init_buf_read(s.c_str());
+    XML_PARSER xp(&mf);
+    prefs.parse(xp, "", found_venue, mask);
+
+    if (!mask.are_prefs_set()) {
+        return ERR_FILE_NOT_FOUND;
+    }
+    return 0;
+}
 
 int RPC_CLIENT::get_global_prefs_override(string& s) {
     int retval;
