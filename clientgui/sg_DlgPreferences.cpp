@@ -36,6 +36,8 @@
 #include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
+using std::string;
+
 #ifdef __WXMAC__
 #define TINY_FONT 12
 #define SMALL_FONT 12
@@ -708,14 +710,21 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     double         dTempValue1 = 0.0;
     double         dTempValue2 = 0.0;
     int            retval;
-	unsigned int   i;
+    unsigned int   i;
+    string         current_prefs;
+    MIOFILE        mf;
+    bool           found_venue;
+    XML_PARSER     xp(&mf);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
     // Populate values and arrays from preferences
-	global_preferences_override = pDoc->state.global_prefs;
+	// Get current working preferences (including any overrides) from client
+	pDoc->rpc.get_global_prefs_working(current_prefs);
+	mf.init_buf_read(current_prefs.c_str());
+	global_preferences_override.parse(xp, "", found_venue, global_preferences_mask);
 	retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
 	if (!retval && global_preferences_mask.are_simple_prefs_set()) {
         m_bCustomizedPreferences = true;

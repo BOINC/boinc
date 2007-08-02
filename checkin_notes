@@ -7617,3 +7617,14 @@ David  1 Aug 2007
     client/
         gui_rpc_server_ops.C
         cs_prefs.C
+
+Charlie 1 Aug 2007
+    - MGR: Populate Simple and Advanced Preference dialogs with current 
+        values of preferences (including any overrides), not with 
+        defaults or old (possibly stale) values.
+        
+    lib/
+        gui_rpc_client_ops.C
+    clientgui/
+        DlgAdvPreferences.cpp
+        sg_DlgPreferences.cpp

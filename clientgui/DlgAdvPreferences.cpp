@@ -33,6 +33,8 @@
 #include "hyperlink.h"
 #include "Events.h"
 
+using std::string;
+
 IMPLEMENT_DYNAMIC_CLASS(CDlgAdvPreferences, wxDialog)
 
 BEGIN_EVENT_TABLE(CDlgAdvPreferences, wxDialog)
@@ -186,16 +188,18 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	m_bInInit=true;//prevent dialog handlers from doing anything 
     CMainDocument* pDoc = wxGetApp().GetDocument();    	
 	wxString buffer;
+        string current_prefs;
+	MIOFILE mf;
+	bool found_venue;
+	XML_PARSER xp(&mf);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    //init prefs with defaults
-	prefs.defaults();
-
-	//override the global prefs with values in global_prefs_override.xml, if this file exists
-	mask.clear();
-	pDoc->rpc.get_global_prefs_override_struct(prefs, mask);
+	// Get current working preferences (including any overrides) from client
+	pDoc->rpc.get_global_prefs_working(current_prefs);
+	mf.init_buf_read(current_prefs.c_str());
+	prefs.parse(xp, "", found_venue, mask);
 
 	// ######### proc usage page
 	// do work between
