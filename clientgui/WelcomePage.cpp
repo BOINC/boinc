@@ -289,12 +289,20 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function Begin"));
     if (event.GetDirection() == false) return;
 
-    // Be careful about which pointer you use in which scenario.
-    wxString strBuffer = wxEmptyString;
+    CMainDocument*         pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
+    ACCT_MGR_INFO          ami;
+    bool                   is_acct_mgr_detected = false;
+    wxString               strBuffer = wxEmptyString;
 
 
+    wxASSERT(pDoc);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(pWAM);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+    wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
@@ -314,13 +322,36 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 #endif
 
     if (IS_ATTACHTOPROJECTWIZARD()) {
-        m_pTitleStaticCtrl->SetLabel(
-            _("Attach to project")
-        );
-        m_pDescriptionStaticCtrl->SetLabel(
-            _("We'll now guide you through the process of attaching\n"
-			  "to a project.")
-        );
+        pDoc->rpc.acct_mgr_info(ami);
+        is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+
+        if (is_acct_mgr_detected) {
+            m_pTitleStaticCtrl->SetLabel(
+                _("Attach to project (local override)")
+            );
+
+            strBuffer.Printf(
+                _("Please note that you should add projects at the\n"
+                  "%s website.\n"
+                  "\n"
+                  "Any project added via this wizard will not be listed\n"
+                  "or managed via %s."), 
+                pSkinAdvanced->GetApplicationName().c_str(),
+                pSkinAdvanced->GetApplicationName().c_str()
+            );
+
+            m_pDescriptionStaticCtrl->SetLabel(
+                strBuffer
+            );
+        } else {
+            m_pTitleStaticCtrl->SetLabel(
+                _("Attach to project")
+            );
+            m_pDescriptionStaticCtrl->SetLabel(
+                _("We'll now guide you through the process of attaching\n"
+			      "to a project.")
+            );
+        }
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
         strBuffer.Printf(
             _("&Stop using%s"), 

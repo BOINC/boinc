@@ -146,7 +146,7 @@ void CDlgAbout::CreateControls() {
 
     wxBitmap m_AboutBOINCLogoCtrlBitmap(wxNullBitmap);
     m_AboutBOINCLogoCtrl = new wxStaticBitmap;
-    m_AboutBOINCLogoCtrl->Create( itemDialog1, wxID_STATIC, m_AboutBOINCLogoCtrlBitmap, wxDefaultPosition, wxSize(50, 50), 0 );
+    m_AboutBOINCLogoCtrl->Create( itemDialog1, wxID_STATIC, m_AboutBOINCLogoCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer5->Add(m_AboutBOINCLogoCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer7 = new wxFlexGridSizer(0, 2, 0, 0);

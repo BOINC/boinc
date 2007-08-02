@@ -557,17 +557,25 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         strLocalSymbolStore += tt + std::string("symbols");
 
     // microsoft public symbol server
-    if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
-        strSymbolSearchPath += 
-            std::string( "srv*" ) + strLocalSymbolStore + 
-            std::string( "*http://msdl.microsoft.com/download/symbols;" );
+    if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || 
+        (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore)))) {
+
+        if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
+            strSymbolSearchPath += 
+                std::string( "srv*" ) + strLocalSymbolStore + 
+                std::string( "*http://msdl.microsoft.com/download/symbols;" );
+        }
     }
 
     // project symbol server
-    if ((std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
-        strSymbolSearchPath += 
-            std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
-            std::string( pszSymbolStore ) + std::string( ";" );
+    if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || 
+        (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore)))) {
+
+        if ((std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
+            strSymbolSearchPath += 
+                std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
+                std::string( pszSymbolStore ) + std::string( ";" );
+        }
     }
 
     // boinc symbol server

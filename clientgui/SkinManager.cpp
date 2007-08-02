@@ -73,16 +73,17 @@
 #include "res/skins/default/graphic/preferences_link_image.xpm"
 #include "res/skins/default/graphic/advanced_link_image.xpm"
 #include "res/skins/default/graphic/dialog_background_image.xpm"
-#ifdef __APPLE__
-#include "res/boinc_mac.xpm"
-#else
 #include "res/boinc.xpm"
-#endif
 #include "res/boincdisconnect.xpm"
 #include "res/boincsnooze.xpm"
 #include "res/boinc_logo.xpm"
 #include "res/wizard_bitmap.xpm"
 ////@end XPM images
+
+
+// Flag to disable the various error messages when the default skin
+// is used.
+static bool disable_error_msgs = false;
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSkinItem, wxObject)
@@ -186,7 +187,9 @@ bool CSkinImage::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
+            }
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -196,7 +199,9 @@ bool CSkinImage::Validate() {
             m_colBackgroundColor = ParseColor(m_strDesiredBackgroundColor);
         }
         if (!m_colBackgroundColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' background color. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' background color. Using default.\n", m_strComponentName.c_str());
+            }
             m_colBackgroundColor = ParseColor(m_strDefaultBackgroundColor);
             wxASSERT(m_colBackgroundColor.Ok());
         }
@@ -276,7 +281,9 @@ bool CSkinIcon::Validate() {
             m_icoIcon.CopyFromBitmap(bmp);
         }
         if (!m_icoIcon.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", m_strComponentName.c_str());
+            }
             m_icoIcon = wxIcon(m_ppDefaultIcon);
             wxASSERT(m_icoIcon.Ok());
         }
@@ -362,7 +369,9 @@ bool CSkinSimpleButton::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
+            }
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -372,7 +381,9 @@ bool CSkinSimpleButton::Validate() {
             m_bmpBitmapClicked = wxBitmap(wxImage(m_strDesiredBitmapClicked, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmapClicked.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' clicked image. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' clicked image. Using default.\n", m_strComponentName.c_str());
+            }
             m_bmpBitmapClicked = wxBitmap(m_ppDefaultBitmapClicked);
             wxASSERT(m_bmpBitmapClicked.Ok());
         }
@@ -487,7 +498,9 @@ bool CSkinSimpleTab::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab image. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' tab image. Using default.\n", m_strComponentName.c_str());
+            }
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -497,7 +510,9 @@ bool CSkinSimpleTab::Validate() {
             m_colBorderColor = ParseColor(m_strDesiredBorderColor);
         }
         if (!m_colBorderColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab border color. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' tab border color. Using default.\n", m_strComponentName.c_str());
+            }
             m_colBorderColor = ParseColor(m_strDefaultBorderColor);
             wxASSERT(m_colBorderColor.Ok());
         }
@@ -507,7 +522,9 @@ bool CSkinSimpleTab::Validate() {
             m_colGradientFromColor = ParseColor(m_strDesiredGradientFromColor);
         }
         if (!m_colGradientFromColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n", m_strComponentName.c_str());
+            }
             m_colGradientFromColor = ParseColor(m_strDefaultGradientFromColor);
             wxASSERT(m_colGradientFromColor.Ok());
         }
@@ -517,7 +534,9 @@ bool CSkinSimpleTab::Validate() {
             m_colGradientToColor = ParseColor(m_strDesiredGradientToColor);
         }
         if (!m_colGradientToColor.Ok()) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n", m_strComponentName.c_str());
+            if (!disable_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n", m_strComponentName.c_str());
+            }
             m_colGradientToColor = ParseColor(m_strDefaultGradientToColor);
             wxASSERT(m_colGradientToColor.Ok());
         }
@@ -564,6 +583,7 @@ void CSkinSimple::Clear() {
     m_RightArrowButton.Clear();
     m_LeftArrowButton.Clear();
     m_SaveButton.Clear();
+    m_SyncronizeButton.Clear();
     m_CancelButton.Clear();
     m_CloseButton.Clear();
     m_CopyAllButton.Clear();
@@ -650,6 +670,9 @@ int CSkinSimple::Parse(MIOFILE& in) {
         } else if (match_tag(buf, "<save_button>")) {
             m_SaveButton.Parse(in);
             continue;
+        } else if (match_tag(buf, "<syncronize_button>")) {
+            m_SyncronizeButton.Parse(in);
+            continue;
         } else if (match_tag(buf, "<cancel_button>")) {
             m_CancelButton.Parse(in);
             continue;
@@ -698,7 +721,9 @@ bool CSkinSimple::InitializeDelayedValidation() {
     );
     m_SpacerImage.SetDefaults(wxT("spacer"), (const char**)spacer_image_xpm);
     if (!m_StaticLineColor.Ok()) {
-        fprintf(stderr, "Skin Manager: Failed to parse static line color. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Failed to parse static line color. Using default.\n");
+        }
         m_StaticLineColor = ParseColor(wxString(wxT("204:102:51")));
         wxASSERT(m_StaticLineColor.Ok());
     }
@@ -755,6 +780,9 @@ bool CSkinSimple::InitializeDelayedValidation() {
     );
     m_SaveButton.SetDefaults(
         wxT("save"), (const char**)save_button_xpm, (const char**)save_clicked_button_xpm
+    );
+    m_SyncronizeButton.SetDefaults(
+        wxT("syncronize"), (const char**)attach_project_button_xpm, (const char**)attach_project_clicked_button_xpm
     );
     m_CancelButton.SetDefaults(
         wxT("cancel"), (const char**)cancel_button_xpm, (const char**)cancel_clicked_button_xpm
@@ -936,7 +964,9 @@ bool CSkinAdvanced::IsDefaultTabSpecified() {
 
 bool CSkinAdvanced::InitializeDelayedValidation() {
     if (m_strApplicationName.IsEmpty()) {
-        fprintf(stderr, "Skin Manager: Application name was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Application name was not defined. Using default.\n");
+        }
         m_strApplicationName = wxT("BOINC Manager");
         wxASSERT(!m_strApplicationName.IsEmpty());
     }
@@ -944,32 +974,44 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), (const char**)boincdisconnect_xpm);
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), (const char**)boincsnooze_xpm);
     if (!m_bitmapApplicationLogo.Ok()) {
-        fprintf(stderr, "Skin Manager: Failed to load application logo. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Failed to load application logo. Using default.\n");
+        }
         m_bitmapApplicationLogo = wxBitmap((const char**)boinc_logo_xpm);
         wxASSERT(m_bitmapApplicationLogo.Ok());
     }
     if (m_strCompanyName.IsEmpty()) {
-        fprintf(stderr, "Skin Manager: Company name was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Company name was not defined. Using default.\n");
+        }
         m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
         wxASSERT(!m_strCompanyName.IsEmpty());
     }
     if (m_strCompanyWebsite.IsEmpty()) {
-        fprintf(stderr, "Skin Manager: Company web site was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Company web site was not defined. Using default.\n");
+        }
         m_strCompanyWebsite = wxT("http://boinc.berkeley.edu");
         wxASSERT(!m_strCompanyWebsite.IsEmpty());
     }
     if (m_strProjectName.IsEmpty()) {
-        fprintf(stderr, "Skin Manager: Project name was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Project name was not defined. Using default.\n");
+        }
         m_strProjectName = wxT("BOINC");
         wxASSERT(!m_strProjectName.IsEmpty());
     }
     if (!m_bDefaultTabSpecified) {
-        fprintf(stderr, "Skin Manager: Default tab was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Default tab was not defined. Using default.\n");
+        }
         m_bDefaultTabSpecified = true;
         m_iDefaultTab = 0;
     }
     if (m_strExitMessage.IsEmpty()) {
-        fprintf(stderr, "Skin Manager: Exit message was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Exit message was not defined. Using default.\n");
+        }
         // NOTE: Must be called after filling in m_strProjectName and m_strApplicationName
         m_strExitMessage.Printf(
             _("This will shut down %s and its tasks entirely until either the\n"
@@ -1038,12 +1080,16 @@ int CSkinWizardATP::Parse(MIOFILE& in) {
 
 bool CSkinWizardATP::InitializeDelayedValidation() {
     if (!m_bitmapWizardBitmap.Ok()) {
-        fprintf(stderr, "Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n");
+        }
         m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
         wxASSERT(m_bitmapWizardBitmap.Ok());
     }
     if (m_strTitle.IsEmpty()) {
-        fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
+        }
         m_strTitle = wxT("BOINC Manager");
         wxASSERT(!m_strTitle.IsEmpty());
     }
@@ -1103,12 +1149,16 @@ int CSkinWizardATAM::Parse(MIOFILE& in) {
 
 bool CSkinWizardATAM::InitializeDelayedValidation() {
     if (!m_bitmapWizardBitmap.Ok()) {
-        fprintf(stderr, "Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n");
+        }
         m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
         wxASSERT(m_bitmapWizardBitmap.Ok());
     }
     if (m_strTitle.IsEmpty()) {
-        fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
+        }
         m_strTitle = wxT("BOINC Manager");
         wxASSERT(!m_strTitle.IsEmpty());
     }
@@ -1180,7 +1230,9 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     wxString strDesiredLocale = pLocale->GetCanonicalName();
 
     // This fixes a (rare) crash bug
-    if (strSkin.IsEmpty()) strSkin = GetDefaultSkinName();
+    if (strSkin.IsEmpty()) {
+        strSkin = GetDefaultSkinName();
+    }
     
     // Check to make sure that we are not trying to load the skin we
     //   are already using.
@@ -1194,6 +1246,11 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
 
     // Check to see if the skin we want to change to is the default skin
     if (GetDefaultSkinName() == m_strSelectedSkin) {
+
+        // Disable the error messages since the default images are
+        //   going to be used.
+        disable_error_msgs = true;
+
         // Validate settings
         InitializeDelayedValidation();
 

@@ -7648,3 +7648,39 @@ Charlie 2 Aug 2007
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Rom    2 Aug 2007
+    - DIAG: Disable symbol server technology for applications where a symbol
+        server isn't specified.
+    - MGR: Provide some additional text to the begining of the attach to project
+        wizard when the client is attached to an account manager. Warn the user
+        that the AMS will not know about the project or its stats.
+    - MGR: Fix dialog titles for the Simple GUI dialogs.
+    - MGR: Eliminate bogus error messages when using the default skin.
+    - MGR: Introduce new logo into the manager
+    - MGR: Introduce the notion of the syncronize button in the Simple GUI.
+        NOTE: This button will replace the 'attach to project' button when
+        the manager detects that the client is attached to an account manager.
+    
+    client/win/res/
+        icon.ico
+    clientgui/
+        DlgAbout.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        SkinManager.cpp, .h
+        WelcomePage.cpp
+    clientgui/res/
+        boinc.xpm
+        boinc_logo.xpm
+        BOINCGUIApp.ico
+    clientgui/res/templates/
+        boinc.ico
+        boinc16.bmp
+        boinc32.bmp
+        boinc48.bmp
+        boinc128.bmp
+        boinc256.bmp
+        boinc_logo.gif
+    lib/
+        stackwalker_win.cpp
