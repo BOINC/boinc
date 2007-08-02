@@ -7628,3 +7628,23 @@ Charlie 1 Aug 2007
     clientgui/
         DlgAdvPreferences.cpp
         sg_DlgPreferences.cpp
+
+Charlie 2 Aug 2007
+    - GUI RPC: rename get_global_prefs_network() to get_global_prefs_file() 
+        to make it clear this returns the contents of the file which was 
+        obtained from the network (i.e., web-based preferences) and not just 
+        the prefernces affecting network connectivity.
+    - GUI RPC: Add get_global_prefs_working_struct().
+    - MGR: call get_global_prefs_working_struct() for both preference dialogs.
+    - MGR: Dialup Manager updates current preferences from client before using 
+        them.
+
+     client/
+        gui_rpc_server_ops.C
+    clientgui/
+        BOINCDialupManager.cpp
+        DlgAdvPreferences.cpp
+        sg_DlgPreferences.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
