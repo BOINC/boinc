@@ -188,18 +188,12 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	m_bInInit=true;//prevent dialog handlers from doing anything 
     CMainDocument* pDoc = wxGetApp().GetDocument();    	
 	wxString buffer;
-        string current_prefs;
-	MIOFILE mf;
-	bool found_venue;
-	XML_PARSER xp(&mf);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 	// Get current working preferences (including any overrides) from client
-	pDoc->rpc.get_global_prefs_working(current_prefs);
-	mf.init_buf_read(current_prefs.c_str());
-	prefs.parse(xp, "", found_venue, mask);
+	pDoc->rpc.get_global_prefs_working_struct(prefs, mask);
 
 	// ######### proc usage page
 	// do work between
