@@ -25,13 +25,8 @@
 #include "mac/MacGUI.pch"
 #endif
 
-#ifdef __WXMSW__
-#include "version.h"
-#else
-#include "config.h"
-#endif
-
 #include "stdwx.h"
+#include "version.h"
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"
