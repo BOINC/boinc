@@ -25,6 +25,12 @@
 #include "mac/MacGUI.pch"
 #endif
 
+#ifdef __WXMSW__
+#include "version.h"
+#else
+#include "config.h"
+#endif
+
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "str_util.h"
@@ -60,12 +66,6 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "DlgAdvPreferences.h"
-#ifdef __WXMSW__
-#include "version.h"
-#endif
-#ifdef __WXMAC__
-#include "mac/MacGUI.pch"
-#endif
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
