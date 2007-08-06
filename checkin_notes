@@ -7684,3 +7684,11 @@ Rom    2 Aug 2007
         boinc_logo.gif
     lib/
         stackwalker_win.cpp
+
+Eric K 	 06 Aug 2007
+    -added new functions boinc_suspend_graphics_thread() and
+     boinc_resume_graphics_thread(), so apps can suspend the graphics
+     threads for critical sections without suspending all threads.
+     Only implemented under WIN32 thus far.
+    api/
+        graphics_lib.[Ch]
