@@ -7692,3 +7692,24 @@ Eric K 	 06 Aug 2007
      Only implemented under WIN32 thus far.
     api/
         graphics_lib.[Ch]
+
+Rom    7 Aug 2007
+    - MGR: Respect the disallow_attach and simple_gui_only status
+        flags in both the simple GUI and advanced GUI.
+    - MGR: Enable the syncronize button in the simple GUI which
+        just causes an account manager update request.
+    - MGR: Fix an overactive assert in debug builds
+
+    clientgui/
+        AdvancedFrame.cpp
+        Events.h
+        sg_BoincSimpleGUI.cpp
+        sg_ProjectsComponent.cpp, .h
+        SkinManager.cpp
+        WelcomePage.cpp
+    clientgui/res/skins/default/graphic
+        syncronize_button.xpm (Added)
+        syncronize_clicked_button.xpm (Added)
+    clientgui/res/templates/skins
+        btnSynronize.png (Added)
+        btnSynronizeClick.png (Added)

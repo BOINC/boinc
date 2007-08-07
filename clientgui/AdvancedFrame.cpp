@@ -1758,12 +1758,22 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
+	CC_STATUS     status;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    pDoc->GetCoreClientStatus(status);
+
+    // Do we need to bug out to the simple view?
+    if (status.simple_gui_only) {
+        wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
+        return;
+    }
+
 
     // Update the menus
     DeleteMenu();
@@ -1820,7 +1830,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // If failure, display the messages tab
             m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
         }
-    } else if (0 >= pDoc->GetProjectCount()) {
+    } else if (0 >= pDoc->GetProjectCount() && !status.disallow_attach) {
         pAPWizard = new CWizardAttachProject(this);
 
         if (!IsShown()) {
@@ -1895,7 +1905,9 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
     static bool       bAlreadyRunningLoop = false;
     static wxString   strCachedStatusText = wxEmptyString;
 
-    CMainDocument*    pDoc = wxGetApp().GetDocument();
+    CMainDocument*    pDoc     = wxGetApp().GetDocument();
+    wxMenuBar*        pMenuBar = GetMenuBar();
+
 
     if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
@@ -1903,6 +1915,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
         if (IsShown()) {
             if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
                 wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
 
                 // Update the menu bar
@@ -1910,6 +1923,10 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
                     UpdateActivityModeControls(status);
                     UpdateNetworkModeControls(status);
+
+                    if (status.disallow_attach) {
+                        pMenuBar->Enable(ID_PROJECTSATTACHPROJECT, false);
+                    }
                 }
 
                 // Update the statusbar

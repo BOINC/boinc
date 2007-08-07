@@ -894,6 +894,14 @@
 							>
 						</File>
 						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\syncronize_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\syncronize_clicked_button.xpm"
+							>
+						</File>
+						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\workunit_active_image.xpm"
 							>
 						</File>

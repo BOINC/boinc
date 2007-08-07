@@ -58,6 +58,8 @@
 #include "res/skins/default/graphic/left_arrow_clicked_button.xpm"
 #include "res/skins/default/graphic/save_button.xpm"
 #include "res/skins/default/graphic/save_clicked_button.xpm"
+#include "res/skins/default/graphic/syncronize_button.xpm"
+#include "res/skins/default/graphic/syncronize_clicked_button.xpm"
 #include "res/skins/default/graphic/cancel_button.xpm"
 #include "res/skins/default/graphic/cancel_clicked_button.xpm"
 #include "res/skins/default/graphic/close_button.xpm"
@@ -782,7 +784,7 @@ bool CSkinSimple::InitializeDelayedValidation() {
         wxT("save"), (const char**)save_button_xpm, (const char**)save_clicked_button_xpm
     );
     m_SyncronizeButton.SetDefaults(
-        wxT("syncronize"), (const char**)attach_project_button_xpm, (const char**)attach_project_clicked_button_xpm
+        wxT("syncronize"), (const char**)syncronize_button_xpm, (const char**)syncronize_clicked_button_xpm
     );
     m_CancelButton.SetDefaults(
         wxT("cancel"), (const char**)cancel_button_xpm, (const char**)cancel_clicked_button_xpm

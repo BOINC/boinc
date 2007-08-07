@@ -299,10 +299,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
-    wxASSERT(pWAM);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-    wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
@@ -353,6 +351,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             );
         }
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
+        wxASSERT(pWAM);
+        wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
         strBuffer.Printf(
             _("&Stop using%s"), 
             pWAM->m_strProjectName.c_str()
@@ -370,6 +370,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             strBuffer
         );
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
+        wxASSERT(pWAM);
+        wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
         m_pTitleStaticCtrl->SetLabel(
             _("Account manager")
         );
