@@ -7713,3 +7713,14 @@ Rom    7 Aug 2007
     clientgui/res/templates/skins
         btnSynronize.png (Added)
         btnSynronizeClick.png (Added)
+
+Rom    8 Aug 2007
+    - MGR: Update taskbar icons.
+    
+    clientgui/res/
+        boinc.xpm
+        boincdisconnect.xpm
+        boincsnooze.xpm
+    clientgui/res/templates/
+        boincsnooze.ico
+        boincdisconnect.ico

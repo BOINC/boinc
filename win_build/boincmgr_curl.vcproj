@@ -645,10 +645,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\clientgui\res\BOINCGUIApp.xpm"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\res\boincsnooze.xpm"
 				>
 			</File>
