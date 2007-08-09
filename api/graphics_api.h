@@ -42,6 +42,8 @@ extern void boinc_app_mouse_button(int x, int y, int which, int is_down);
 extern void boinc_app_mouse_move(int x, int y, int left, int middle, int right);
 extern void boinc_app_key_press(int, int);
 extern void boinc_app_key_release(int, int);
+extern void boinc_suspend_graphics_thread();
+extern void boinc_resume_graphics_thread();
 
 // C++ API follows here 
 #ifdef __cplusplus

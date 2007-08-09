@@ -6944,3 +6944,140 @@ Charlie 31 July 2007
     
     api/
         x_opengl.C
+
+David  31 July 2007
+    - client: don't crash if use --detach_project option
+        (fixes #283)
+    - client: canonicalize URLs in all cmdlines
+    - db_update.php: don't prompt for DB name/host; get it from config file
+        (fixes #356)
+
+    html/ops/
+        db_update.php
+    client/
+        cs_cmdline.C
+
+Charlie 31 July 2007
+    - Graphics API: Don't render graphics when application is suspended 
+        to reduce CPU usage.
+    
+    api/
+        x_opengl.C
+
+David  1 Aug 2007
+    - GUI RPC: added get_global_prefs_network()
+        and get_global_prefs_working()
+
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    client/
+        gui_rpc_server_ops.C
+        cs_prefs.C
+
+Charlie 1 Aug 2007
+    - MGR: Populate Simple and Advanced Preference dialogs with current 
+        values of preferences (including any overrides), not with 
+        defaults or old (possibly stale) values.
+        
+    lib/
+        gui_rpc_client_ops.C
+    clientgui/
+        DlgAdvPreferences.cpp
+        sg_DlgPreferences.cpp
+
+Charlie 2 Aug 2007
+    - GUI RPC: rename get_global_prefs_network() to get_global_prefs_file() 
+        to make it clear this returns the contents of the file which was 
+        obtained from the network (i.e., web-based preferences) and not just 
+        the prefernces affecting network connectivity.
+    - GUI RPC: Add get_global_prefs_working_struct().
+    - MGR: call get_global_prefs_working_struct() for both preference dialogs.
+    - MGR: Dialup Manager updates current preferences from client before using 
+        them.
+
+     client/
+        gui_rpc_server_ops.C
+    clientgui/
+        BOINCDialupManager.cpp
+        DlgAdvPreferences.cpp
+        sg_DlgPreferences.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+Rom    2 Aug 2007
+    - DIAG: Disable symbol server technology for applications where a symbol
+        server isn't specified.
+    - MGR: Provide some additional text to the begining of the attach to project
+        wizard when the client is attached to an account manager. Warn the user
+        that the AMS will not know about the project or its stats.
+    - MGR: Fix dialog titles for the Simple GUI dialogs.
+    - MGR: Eliminate bogus error messages when using the default skin.
+    - MGR: Introduce new logo into the manager
+    - MGR: Introduce the notion of the syncronize button in the Simple GUI.
+        NOTE: This button will replace the 'attach to project' button when
+        the manager detects that the client is attached to an account manager.
+    
+    client/win/res/
+        icon.ico
+    clientgui/
+        DlgAbout.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        SkinManager.cpp, .h
+        WelcomePage.cpp
+    clientgui/res/
+        boinc.xpm
+        boinc_logo.xpm
+        BOINCGUIApp.ico
+    clientgui/res/templates/
+        boinc.ico
+        boinc16.bmp
+        boinc32.bmp
+        boinc48.bmp
+        boinc128.bmp
+        boinc256.bmp
+        boinc_logo.gif
+    lib/
+        stackwalker_win.cpp
+
+Eric K 	 06 Aug 2007
+    -added new functions boinc_suspend_graphics_thread() and
+     boinc_resume_graphics_thread(), so apps can suspend the graphics
+     threads for critical sections without suspending all threads.
+     Only implemented under WIN32 thus far.
+    api/
+        graphics_lib.[Ch]
+
+Rom    7 Aug 2007
+    - MGR: Respect the disallow_attach and simple_gui_only status
+        flags in both the simple GUI and advanced GUI.
+    - MGR: Enable the syncronize button in the simple GUI which
+        just causes an account manager update request.
+    - MGR: Fix an overactive assert in debug builds
+
+    clientgui/
+        AdvancedFrame.cpp
+        Events.h
+        sg_BoincSimpleGUI.cpp
+        sg_ProjectsComponent.cpp, .h
+        SkinManager.cpp
+        WelcomePage.cpp
+    clientgui/res/skins/default/graphic
+        syncronize_button.xpm (Added)
+        syncronize_clicked_button.xpm (Added)
+    clientgui/res/templates/skins
+        btnSynronize.png (Added)
+        btnSynronizeClick.png (Added)
+
+Rom    8 Aug 2007
+    - MGR: Update taskbar icons.
+    
+    clientgui/res/
+        boinc.xpm
+        boincdisconnect.xpm
+        boincsnooze.xpm
+    clientgui/res/templates/
+        boincsnooze.ico
+        boincdisconnect.ico

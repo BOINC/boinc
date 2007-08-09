@@ -55,6 +55,7 @@ public:
 	wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
 	wxBitmapButton *btnAddProj;
+	wxBitmapButton *btnSyncronize;
 	wxBitmapButton *btnHelp;
 	wxBitmapButton *btnMessages;
 	wxBitmapButton *btnAlertMessages;
@@ -82,6 +83,8 @@ public:
     void OnMessages(wxCommandEvent& event);
     void OnSuspend(wxCommandEvent& event);
     void OnResume(wxCommandEvent& event);
+    void OnAttachToProject(wxCommandEvent& event);
+    void OnSyncronize(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE()
 

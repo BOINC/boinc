@@ -37,7 +37,19 @@ static void init_main_state() {
     boinc_main_state.set_worker_timer_hook = set_worker_timer;
     boinc_main_state.app_client_shmp = &app_client_shm;
 #ifdef _WIN32
-    boinc_main_state.gfx_timer_id = NULL;
+    boinc_main_state.gfx_timer_id = (UINT_PTR)NULL;
+#endif
+}
+
+void boinc_suspend_graphics_thread() {
+#ifdef _WIN32
+  if (graphics_threadh) SuspendThread(graphics_threadh);
+#endif
+}
+
+void boinc_resume_graphics_thread() {
+#ifdef _WIN32
+  if (graphics_threadh) ResumeThread(graphics_threadh);
 #endif
 }
 

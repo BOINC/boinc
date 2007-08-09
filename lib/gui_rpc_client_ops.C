@@ -2062,12 +2062,87 @@ int RPC_CLIENT::get_newer_version(std::string& version) {
 }
 
 int RPC_CLIENT::read_global_prefs_override() {
+    SET_LOCALE sl;
+    RPC rpc(this);
+    return rpc.do_rpc("<read_global_prefs_override/>");
+}
+
+int RPC_CLIENT::get_global_prefs_file(string& s) {
     int retval;
     SET_LOCALE sl;
     RPC rpc(this);
+    char buf[1024];
+    bool found = false;
+    bool in_prefs = false;
 
-    retval = rpc.do_rpc("<read_global_prefs_override/>");
-    return retval;
+    s = "";
+    retval = rpc.do_rpc("<get_global_prefs_file/>");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (in_prefs) {
+            s += buf;
+            if (match_tag(buf, "</global_preferences>")) {
+                in_prefs = false;
+            }
+        } else {
+            if (match_tag(buf, "<global_preferences>")) {
+                s += buf;
+                in_prefs = true;
+                found = true;
+            }
+        }
+    }
+    if (!found) return ERR_NOT_FOUND;
+    return 0;
+}
+
+int RPC_CLIENT::get_global_prefs_working(string& s) {
+    int retval;
+    SET_LOCALE sl;
+    RPC rpc(this);
+    char buf[1024];
+    bool found = false;
+    bool in_prefs = false;
+
+    s = "";
+    retval = rpc.do_rpc("<get_global_prefs_working/>");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (in_prefs) {
+            s += buf;
+            if (match_tag(buf, "</global_preferences>")) {
+                in_prefs = false;
+            }
+        } else {
+            if (match_tag(buf, "<global_preferences>")) {
+                s += buf;
+                in_prefs = true;
+                found = true;
+            }
+        }
+    }
+    if (!found) return ERR_NOT_FOUND;
+    return 0;
+}
+
+
+int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+    int retval;
+    SET_LOCALE sl;
+    string s;
+    MIOFILE mf;
+    bool found_venue;
+
+    retval = get_global_prefs_working(s);
+    if (retval) return retval;
+    mf.init_buf_read(s.c_str());
+    XML_PARSER xp(&mf);
+    prefs.parse(xp, "", found_venue, mask);
+
+    if (!mask.are_prefs_set()) {
+        return ERR_FILE_NOT_FOUND;
+    }
+    return 0;
 }
 
 int RPC_CLIENT::get_global_prefs_override(string& s) {

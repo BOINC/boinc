@@ -744,7 +744,11 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 {
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
-        strCaption = _("BOINC Manager - Messages");
+        CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxASSERT(pSkinAdvanced);
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+        strCaption.Printf(_("%s - Messages"), pSkinAdvanced->GetApplicationName().c_str());
     }
 
     SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);

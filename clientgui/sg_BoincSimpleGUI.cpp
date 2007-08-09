@@ -375,9 +375,12 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
+	CC_STATUS     status;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->GetCoreClientStatus(status);
 
 	// If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
@@ -399,7 +402,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // If successful, hide the main window
             Hide();
         }
-    } else if (0 >= pDoc->GetProjectCount()) {
+    } else if (0 >= pDoc->GetProjectCount() && !status.disallow_attach) {
         pAPWizard = new CWizardAttachProject(this);
 
         if (!IsShown()) {

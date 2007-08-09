@@ -41,6 +41,11 @@
 #include "sg_DlgMessages.h"
 #include "sg_DlgPreferences.h"
 #include "sg_ProjectsComponent.h"
+#include "wizardex.h"
+#include "BOINCWizards.h"
+#include "BOINCBaseWizard.h"
+#include "WizardAttachProject.h"
+#include "WizardAccountManager.h"
 #include "app_ipc.h"
 
 
@@ -53,6 +58,8 @@ BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
     EVT_BUTTON(ID_SIMPLE_SUSPEND, CProjectsComponent::OnSuspend)
     EVT_BUTTON(ID_SIMPLE_RESUME, CProjectsComponent::OnResume)
     EVT_BUTTON(ID_SIMPLE_PREFERENCES, CProjectsComponent::OnPreferences)
+    EVT_BUTTON(ID_SIMPLE_ATTACHTOPROJECT, CProjectsComponent::OnAttachToProject)
+    EVT_BUTTON(ID_SIMPLE_SYNCRONIZE, CProjectsComponent::OnSyncronize)
     EVT_PAINT(CProjectsComponent::OnPaint)
     EVT_BUTTON(-1,CProjectsComponent::OnBtnClick)
 	EVT_ERASE_BACKGROUND(CProjectsComponent::OnEraseBackground)
@@ -99,7 +106,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttAddProject = new wxToolTip(_("Attach to an additional project"));
 	btnAddProj=new wxBitmapButton(
         this,
-        -1,
+        ID_SIMPLE_ATTACHTOPROJECT,
         *pSkinSimple->GetAttachProjectButton()->GetBitmap(),
         wxPoint(214,7),
         wxSize(81,18),
@@ -111,6 +118,24 @@ void CProjectsComponent::CreateComponent()
 		);
 	}
 	btnAddProj->SetToolTip(ttAddProject);
+
+	// syncronize button, hidden by default.
+    wxToolTip *ttSyncronize = new wxToolTip(_("Synronize projects with account manager system"));
+	btnSyncronize=new wxBitmapButton(
+        this,
+        ID_SIMPLE_SYNCRONIZE,
+        *pSkinSimple->GetSyncronizeButton()->GetBitmap(),
+        wxPoint(214,7),
+        wxSize(81,18),
+        wxBU_AUTODRAW
+    );
+	if ( pSkinSimple->GetSyncronizeButton()->GetBitmapClicked() != NULL ) {
+		btnSyncronize->SetBitmapSelected(
+			*pSkinSimple->GetSyncronizeButton()->GetBitmapClicked()
+		);
+	}
+	btnSyncronize->SetToolTip(ttSyncronize);
+    btnSyncronize->Show(false);
 
     /// Help
 	wxToolTip *ttHelp = new wxToolTip(_("Get help with BOINC"));
@@ -460,6 +485,57 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
 }
 
 
+void CProjectsComponent::OnAttachToProject(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnAttachToProject - Function Begin"));
+
+	CSimplePanel* pPanel = wxDynamicCast(GetParent(), CSimplePanel);
+
+    wxASSERT(pPanel);
+
+	pPanel->SetDlgOpen(true);
+
+	pPanel->OnProjectsAttachToProject();
+	btnAddProj->Refresh();
+
+    pPanel->SetDlgOpen(false);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnAttachToProject - Function End"));
+}
+
+
+void CProjectsComponent::OnSyncronize(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSyncronize - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+	CSimplePanel*  pPanel = wxDynamicCast(GetParent(), CSimplePanel);
+
+    wxASSERT(pDoc);
+    wxASSERT(pPanel);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (!pDoc->IsUserAuthorized())
+        return;
+
+    if (pDoc->IsConnected()) {
+
+	    pPanel->SetDlgOpen(true);
+
+        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
+
+        pWizard->Run(ACCOUNTMANAGER_UPDATE);
+
+        if (pWizard)
+            pWizard->Destroy();
+
+    	btnSyncronize->Refresh();
+
+        pPanel->SetDlgOpen(false);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSyncronize - Function End"));
+}
+
+
 void CProjectsComponent::UpdateInterface()
 {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -487,9 +563,28 @@ void CProjectsComponent::UpdateInterface()
 		}
 	}
 
-	// Show resume or pause as appropriate
-	CC_STATUS status;
+    // Should we display the syncronize button instead of the
+    //   attach to project button?
+    ACCT_MGR_INFO ami;
+	CC_STATUS     status;
+    bool                   is_acct_mgr_detected = false;
+
 	pDoc->GetCoreClientStatus(status);
+    pDoc->rpc.acct_mgr_info(ami);
+
+    is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+
+    if (is_acct_mgr_detected) {
+		btnAddProj->Show(false);
+		btnSyncronize->Show(true);
+	} else {
+        if (!status.disallow_attach) {
+		    btnAddProj->Show(true);
+        }
+		btnSyncronize->Show(false);
+    }
+
+    // Show resume or pause as appropriate
     if (RUN_MODE_NEVER == status.task_mode) {
 		btnPause->Show(false);
 		btnResume->Show(true);
@@ -497,6 +592,20 @@ void CProjectsComponent::UpdateInterface()
 		btnPause->Show(true);
 		btnResume->Show(false);
 	}
+
+    // Should we disable the attach to project button?
+    if (status.disallow_attach || is_acct_mgr_detected) {
+        btnAddProj->Show(false);
+    } else {
+        btnAddProj->Show(true);
+    }
+
+    // Should we only be able to see the simple gui?
+    if (status.simple_gui_only) {
+        btnAdvancedView->Show(false);
+    } else {
+        btnAdvancedView->Show(true);
+    }
 
 	// Check number of projects
 	UpdateProjectArray();
@@ -533,6 +642,11 @@ void CProjectsComponent::ReskinInterface()
 	btnAddProj->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
     btnAddProj->SetBitmapLabel(*(pSkinSimple->GetAttachProjectButton()->GetBitmap()));
     btnAddProj->SetBitmapSelected(*(pSkinSimple->GetAttachProjectButton()->GetBitmapClicked()));
+
+    // syncronize btn
+	btnSyncronize->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+    btnSyncronize->SetBitmapLabel(*(pSkinSimple->GetSyncronizeButton()->GetBitmap()));
+    btnSyncronize->SetBitmapSelected(*(pSkinSimple->GetSyncronizeButton()->GetBitmapClicked()));
 
     // help btn
 	btnHelp->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
@@ -589,9 +703,6 @@ void CProjectsComponent::ReskinInterface()
 void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 
-	CSimplePanel* pPanel      = wxDynamicCast(GetParent(), CSimplePanel);
-    wxASSERT(pPanel);
-
 	if (m_wxBtnObj==btnArwLeft){
 		m_leftIndex--;
 		UpdateDisplayedProjects();
@@ -600,9 +711,6 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		m_leftIndex++;
 		UpdateDisplayedProjects();
 		Refresh();
-	} else if(m_wxBtnObj==btnAddProj){
-		pPanel->OnProjectsAttachToProject();
-		btnAddProj->Refresh();
 	} else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
     }

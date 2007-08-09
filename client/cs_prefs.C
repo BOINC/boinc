@@ -326,10 +326,15 @@ int PROJECT::parse_preferences_for_user_files() {
     return 0;
 }
 
-// Get global preferences.
+// Read global preferences into the global_prefs structure.
 // 1) read the override file to get venue in case it's there
-// 2) read the prefs file
+// 2) read global_prefs.xml
 // 3) read the override file again
+//
+// This is called:
+// - on startup
+// - on completion of a scheduler or AMS RPC, if they sent prefs
+// - in response to read_global_prefs_override GUI RPC
 //
 void CLIENT_STATE::read_global_prefs() {
     bool found_venue;
