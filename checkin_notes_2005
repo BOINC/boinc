@@ -1,4 +1,4 @@
-David  1 Jan 2005
+eavid  1 Jan 2005
     - Deprecated the bad hash function used for the
         upload/download directory hierarchies.
         It wasn't uniform.

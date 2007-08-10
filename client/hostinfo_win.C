@@ -87,15 +87,14 @@ struct INTERNALMONITORINFO
 // Returns the number of seconds difference from UTC
 //
 int get_timezone(int& timezone) {
-
     TIME_ZONE_INFORMATION tzi;
-
-	memset(&tzi, '\0', sizeof(TIME_ZONE_INFORMATION));
-
-    GetTimeZoneInformation(&tzi);
-
-    timezone = -(tzi.Bias * 60);
-
+	memset(&tzi, 0, sizeof(TIME_ZONE_INFORMATION));
+    DWORD result = GetTimeZoneInformation(&tzi);
+    if (result == TIME_ZONE_ID_DAYLIGHT) {
+        timezone = -(tzi.DaylightBias * 60);
+    } else {
+        timezone = -(tzi.StandardBias * 60);
+    }
     return 0;
 }
 

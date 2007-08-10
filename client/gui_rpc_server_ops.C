@@ -593,8 +593,9 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
     );
 }
 
-static void handle_network_available(char*, MIOFILE&) {
+static void handle_network_available(char*, MIOFILE& fout) {
     net_status.network_available();
+    fout.printf("<success>\n");
 }
 
 static void handle_get_project_init_status(char*, MIOFILE& fout) {
@@ -637,6 +638,10 @@ static void handle_lookup_account(char* buf, MIOFILE& fout) {
     ACCOUNT_IN ai;
 
     ai.parse(buf);
+    if (!ai.url.size() || !ai.email_addr.size() || !ai.passwd_hash.size()) {
+        fout.printf("<error>missing URL, email address, or password</error>\n");
+        return;
+    }
 
     gstate.lookup_account_op.do_rpc(ai);
     fout.printf("<success/>\n");
@@ -833,6 +838,8 @@ static void handle_get_global_prefs_override(MIOFILE& fout) {
     if (!retval) {
         strip_whitespace(s);
         fout.printf("%s\n", s.c_str());
+    } else {
+        fout.printf("<error>no prefs override file</error>\n");
     }
 }
 
@@ -1107,6 +1114,7 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<acct_mgr_info")) {
         handle_acct_mgr_info(request_msg, mf);
     } else if (match_tag(request_msg, "<read_global_prefs_override/>")) {
+        mf.printf("<success>\n");
         gstate.read_global_prefs();
         gstate.request_schedule_cpus("Preferences override");
         gstate.request_work_fetch("Preferences override");
@@ -1125,6 +1133,7 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<set_cc_config")) {
         handle_set_cc_config(request_msg, mf);
     } else if (match_tag(request_msg, "<read_cc_config/>")) {
+        mf.printf("<success>\n");
         read_config_file();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");

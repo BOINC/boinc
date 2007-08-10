@@ -7724,3 +7724,17 @@ Rom    8 Aug 2007
     clientgui/res/templates/
         boincsnooze.ico
         boincdisconnect.ico
+
+David  10 Aug 2007
+    - client: timezone reflects daylight savings time (Win)
+        from David Barnard; fixes #334
+    - GUI RPC: add <success/> replies for ops that don't return anything
+    - GUI RPC: check args for project_attach
+    - GUI RPC: return error (not blank) if no prefs override file
+    - add error string for ERR_TOO_MANY_EXITS
+
+    client/
+        gui_rpc_server_ops.C
+        hostinfo_win.C
+    lib/
+        str_util.C
