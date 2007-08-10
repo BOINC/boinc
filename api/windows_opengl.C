@@ -46,6 +46,7 @@ static HDESK hInteractiveDesktop = NULL;
 static bool visible = true;
 static bool window_ready=false;
 static UINT_PTR gfx_timer_id = 0;
+HANDLE graphics_threadh;
 
 #define GLUT_CTRL_KEY 17
 
@@ -79,6 +80,7 @@ void KillWindow() {
         hInteractiveDesktop = NULL;
     }
 }
+
 
 void SetupPixelFormat(HDC hDC) {
    int nPixelFormat;
@@ -255,7 +257,7 @@ static void set_mode(int mode) {
             BOINCTRACE("Retrieved the required window station\n");
             SetProcessWindowStation(hInteractiveWindowStation);
             hInteractiveDesktop = OpenDesktop(
-                graphics_msg.desktop, NULL, FALSE,
+                graphics_msg.desktop, (DWORD)NULL, FALSE,
                 GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU
             );
             if (NULL == hInteractiveDesktop) {
@@ -377,6 +379,7 @@ LRESULT CALLBACK WndProc(
         PAINTSTRUCT ps;
         RECT winRect;
         HDC pdc;
+        if (!graphics_threadh) graphics_threadh=(HANDLE)GetCurrentThreadId();  
         pdc = BeginPaint(hWnd, &ps);
         GetClientRect(hWnd, &winRect);
         FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));

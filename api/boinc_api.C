@@ -184,7 +184,7 @@ double boinc_worker_thread_cpu_time() {
     static double last_cpu=0;
     static time_t last_time=0;
     time_t now = time(0);
-    double cpu, time_diff = now - last_time;
+    double cpu, time_diff = (double)(now - last_time);
 #ifdef _WIN32
     int retval;
     if (options.all_threads_cpu_time) {
@@ -763,6 +763,7 @@ static void timer_handler() {
 static HANDLE timer_quit_event;
 
 UINT WINAPI timer_thread(void *) {
+     
     diagnostics_set_thread_name("Timer");
     while (1) {
         Sleep(TIMER_PERIOD*1000);

@@ -190,7 +190,7 @@ void HLStoRGB( double H, double L, double S, COLOR& c) {
     double m1, m2;
 
     if(S==0) {
-        c.r=c.g=c.b=L;
+        c.r=c.g=c.b=(float)L;
     } else {
         if(L <=0.5) {
             m2 = L*(1.0+S);
@@ -198,9 +198,9 @@ void HLStoRGB( double H, double L, double S, COLOR& c) {
             m2 = L+S-L*S;
         }
         m1 = 2.0*L-m2;
-        c.r = HuetoRGB(m1,m2,H+1.0/3.0);
-        c.g = HuetoRGB(m1,m2,H);
-        c.b = HuetoRGB(m1,m2,H-1.0/3.0);
+        c.r = (float)HuetoRGB(m1,m2,(H+1.0/3.0));
+        c.g = (float)HuetoRGB(m1,m2,H);
+        c.b = (float)HuetoRGB(m1,m2,H-1.0/3.0);
     }
 }
 
@@ -209,26 +209,26 @@ static inline float frand() {
 }
 
 void scale_screen(int iw, int ih) {
-	double aspect_ratio = 4.0/3.0;
-    double w=iw, h=ih;
-    double xs, ys;
+	float aspect_ratio = 4.0f/3.0f;
+    float w=(float)iw, h=(float)ih;
+    float xs, ys;
 	if (h*aspect_ratio > w) {
-        xs = 1.0;
+        xs = 1.0f;
         ys = (w/aspect_ratio)/h;
     } else {
 		xs = (h*aspect_ratio)/w;
-        ys = 1.0;
+        ys = 1.0f;
     }
-	glScalef(xs, ys*4./3., 1);
+	glScalef(xs, ys*aspect_ratio, 1.0f);
 }
 
 void center_screen(int iw, int ih) {
-	double aspect_ratio = 4.0/3.0;
-    double w=iw, h=ih;
+	float aspect_ratio = 4.0f/3.0f;
+    float w=(float)iw, h=(float)ih;
 	if (h*aspect_ratio > w) {
-		glTranslatef(0.0, (h/2.0-(w/aspect_ratio/2.0))/h, 0.0);
+		glTranslatef(0.0f, (h/2.0f-(w/aspect_ratio/2.0f))/h, 0.0f);
     } else {
-		glTranslatef((w/2.0-(h*aspect_ratio/2.0))/w, 0.0, 0.0);
+		glTranslatef((w/2.0f-(h*aspect_ratio/2.0f))/w, 0.0f, 0.0f);
     }
 }
 
@@ -299,7 +299,7 @@ void PROGRESS_2D::draw(float x) {
 	glEnd();
 
 	float dif=width-inner_width;
-	float zoffset=.01;
+	float zoffset=.01f;
     glBegin(GL_QUADS);
 	glColor4d(inner_color[0],inner_color[1],inner_color[2],inner_color[3]);
 	glVertex3d(pos[0],pos[1]-(dif/2.),pos[2]+zoffset);
@@ -346,8 +346,8 @@ static float zvec[] = {0, 0, 1};
 //
 void RIBBON_GRAPH::draw_x(int i) {
     GLfloat pt[3];
-    double r1 = i/(double)len;
-    double r2 = (i+1)/(double)len;
+    float r1 = i/(float)len;
+    float r2 = (i+1)/(float)len;
 
     glNormal3fv(yvec);
     pt[0] = pos[0] + r1*size[0];
@@ -379,7 +379,7 @@ void RIBBON_GRAPH::draw_x(int i) {
 //
 void RIBBON_GRAPH::draw_y(int i) {
     GLfloat pt[3];
-    double r1 = i/(double)len;
+    float r1 = i/(float)len;
 
     (data[i]>data[i-1])?glNormal3fv(xvecneg):glNormal3fv(xvec);
     pt[0] = pos[0] + r1*size[0];
@@ -396,17 +396,17 @@ void RIBBON_GRAPH::draw_y(int i) {
 
 void RIBBON_GRAPH::draw_tick(int i) {
     GLfloat pt[3];
-    double r1 = ticks[i]/(double)len;
+    float r1 = ticks[i]/(float)len;
 
     pt[0] = pos[0] + r1*size[0];
-    pt[1] = pos[1] + (1.-tick_yfrac)*size[1];
+    pt[1] = pos[1] + (1.0f-tick_yfrac)*size[1];
     pt[2] = pos[2];
     glVertex3fv(pt);
-    pt[1] = pos[1] + size[1]*1.1;
+    pt[1] = pos[1] + size[1]*1.1f;
     glVertex3fv(pt);
     pt[2] = pos[2] + size[2];
     glVertex3fv(pt);
-    pt[1] = pos[1] + (1.-tick_yfrac)*size[1];
+    pt[1] = pos[1] + (1.0f-tick_yfrac)*size[1];
     glVertex3fv(pt);
 }
 
@@ -520,7 +520,7 @@ void STARFIELD::update_stars(float dt) {
         if (stars[i].z > zmax/2) glPointSize(1);
         else glPointSize(2);
 		glBegin(GL_POINTS);
-		glVertex2f(x, y);
+		glVertex2f((GLfloat)x, (GLfloat)y);
 		glEnd();
 	}
     ortho_done();
@@ -601,24 +601,24 @@ int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
 //
 void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
     float pos[3];
-    double tratio, sratio, new_size;
+    float tratio, sratio, new_size;
     memcpy(pos, p, sizeof(pos));
     glColor4f(1.,1.,1.,1.);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, id);
 
-    tratio = xsize/ysize;
+    tratio = static_cast<float>(xsize/ysize);
     sratio = size[0]/size[1];
 
     if (tratio > sratio) {      // texture is wider than space
         new_size = size[0]/tratio;
-        if (yalign == ALIGN_CENTER) pos[1] += (size[1]-new_size)/2;
+        if (yalign == ALIGN_CENTER) pos[1] += (size[1]-new_size)/2.0f;
         if (yalign == ALIGN_TOP) pos[1] += size[1]-new_size;
         size[1] = new_size;
     }
     if (sratio > tratio) {      // space is wider than texture
         new_size = size[1]*tratio;
-        if (xalign == ALIGN_CENTER) pos[0] += (size[0]-new_size)/2;
+        if (xalign == ALIGN_CENTER) pos[0] += (size[0]-new_size)/2.0f;
         if (xalign == ALIGN_TOP) pos[0] += size[0]-new_size;
         size[0] = new_size;
     }
