@@ -713,4 +713,75 @@ const char* rpc_reason_string(int reason) {
     }
 }
 
+#ifdef WIN32
+
+// get message for last error
+//
+char* windows_error_string(char* pszBuf, int iSize) {
+    DWORD dwRet;
+    LPTSTR lpszTemp = NULL;
+
+    dwRet = FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_ARGUMENT_ARRAY,
+        NULL,
+        GetLastError(),
+        LANG_NEUTRAL,
+        (LPTSTR)&lpszTemp,
+        0,
+        NULL
+    );
+
+    // supplied buffer is not long enough
+    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
+        pszBuf[0] = TEXT('\0');
+    } else {
+        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
+        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, GetLastError() );
+    }
+
+    if ( lpszTemp ) {
+        LocalFree((HLOCAL) lpszTemp );
+    }
+
+    return pszBuf;
+}
+
+// get message for given error
+//
+char* windows_format_error_string(
+    unsigned long dwError, char* pszBuf, int iSize
+) {
+    DWORD dwRet;
+    LPTSTR lpszTemp = NULL;
+
+    dwRet = FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_ARGUMENT_ARRAY,
+        NULL,
+        dwError,
+        LANG_NEUTRAL,
+        (LPTSTR)&lpszTemp,
+        0,
+        NULL
+    );
+
+    // supplied buffer is not long enough
+    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
+        pszBuf[0] = TEXT('\0');
+    } else {
+        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
+        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, dwError );
+    }
+
+    if ( lpszTemp ) {
+        LocalFree((HLOCAL) lpszTemp );
+    }
+
+    return pszBuf;
+}
+#endif
+
 const char *BOINC_RCSID_ab90e1e = "$Id$";

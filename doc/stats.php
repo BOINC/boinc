@@ -4,6 +4,7 @@ require_once("docutil.php");
 
 page_head("Credit statistics web sites and services");
 echo "
+DEPRECATED - USE WIKI<p>
 <b>Statistics data</b> is the number of
 <a href=credit.php>Cobblestones</a> (credit units)
 granted to hosts, participants and teams by the various BOINC projects.

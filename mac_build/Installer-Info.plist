@@ -6,6 +6,8 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>BOINC Installer</string>
+	<key>CFBundleIconFile</key>
+	<string>MacInstaller.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.berkeley.boinc.Installer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -14,7 +16,9 @@
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleName</key>
+	<string>BOINC Installer</string>
 	<key>CFBundleVersion</key>
-	<string>5.9.3</string>
+	<string>5.10.7</string>
 </dict>
 </plist>

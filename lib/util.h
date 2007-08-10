@@ -39,12 +39,9 @@
 // so the most practical solution is to use a global.
 extern int      g_use_sandbox;
 
-
 extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);
-extern int read_file_string(const char* pathname, std::string& result);
-extern void escape_project_url(char *in, char* out);
 extern void push_unique(std::string, std::vector<std::string>&);
 
 // NOTE: use #include <functional>   to get max,min
@@ -88,18 +85,21 @@ extern pthread_mutex_t getrusage_mutex;
 
 #ifdef _WIN32
 extern int run_program(
-    char* path, char* cdir, int argc, char** argv, double, HANDLE&
+    const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&
 );
 extern void kill_program(HANDLE);
 extern int get_exit_status(HANDLE);
 #else
 extern int run_program(
-    char* path, char* cdir, int argc, char** argv, double, int&
+    const char* path, const char* cdir, int argc, char *const argv[], double, int&
 );
 extern void kill_program(int);
 extern int get_exit_status(int);
 #endif
 
 extern int wait_client_mutex(const char* dir, double timeout);
+extern void boinc_crash();
+extern int read_file_malloc(const char* path, char*&, int max_len=0);
+extern int read_file_string(const char* path, std::string&, int max_len=0);
 
 #endif

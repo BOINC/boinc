@@ -3,14 +3,14 @@
 $biomed = array(
     "Biology and Medicine",
     array(
-        array(
-            "Proteins@Home",
-            "http://biology.polytechnique.fr/proteinsathome",
-            "Ecole Polytechnique, Paris",
-            "Protein structure prediction",
-            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
-            "proteinsathome.gif"
-        ),
+//        array(
+//            "Proteins@Home",
+//            "http://biology.polytechnique.fr/proteinsathome",
+//            "Ecole Polytechnique, Paris",
+//            "Protein structure prediction",
+//            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
+//            "proteinsathome.gif"
+//        ),
         array(
             "Malariacontrol.net",
             "http://www.malariacontrol.net",
@@ -29,7 +29,7 @@ $biomed = array(
         ),
         array(
             "Predictor@home",
-            "http://predictor.scripps.edu",
+            "http://predictor.scripps.edu/",
             "Scripps Research Institute",
             "Biology",
             "Protein structure prediction starts from a sequence of amino acids and attempts to predict the folded, functioning, form of the protein.  Predicting the structure of an unknown protein is a critical problem in enabling structure-based drug design to treat new and existing diseases.",
@@ -54,9 +54,9 @@ $biomed = array(
         array(
             "World Community Grid",
             "http://www.worldcommunitygrid.org/",
-            "IBM",
-            "Biomedicine",
-            "Advance our knowledge of human disease.",
+            "IBM Corporate Community Relations",
+            "Humanitarian research on new and infectious disease, natural disasters and hunger.",
+            "To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more.",
             "wcg.jpg",
         ),
     ),
@@ -103,7 +103,7 @@ $astro_phys_chem = array(
         ),
         array(
             "LHC@home",
-            "http://lhcathome.cern.ch/",
+            "http://lhcathome.cern.ch/lhcathome/",
             "CERN (European Organization for Nuclear Research)",
             "Physics",
             "The Large Hadron Collider (LHC) is a particle accelerator which is being built at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory. When it switches on in 2007, it will be the most powerful instrument ever built to investigate on particles proprieties. LHC@home simulates particles traveling around the LHC to study the stability of their orbits.",

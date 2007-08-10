@@ -64,7 +64,7 @@ using std::vector;
 //
 class CLIENT_STATE {
 public:
-    vector<PLATFORM*> platforms;
+    vector<PLATFORM> platforms;
     vector<PROJECT*> projects;
     vector<APP*> apps;
     vector<FILE_INFO*> file_infos;
@@ -92,6 +92,8 @@ public:
     MODE network_mode;
     bool started_by_screensaver;
     bool exit_when_idle;
+    bool exit_before_start;
+    bool exit_after_finish;
     bool check_all_logins;
     bool user_active;       // there has been recent mouse/kbd input
     bool return_results_immediately;
@@ -157,8 +159,13 @@ public:
         // this affects auto-update
     bool run_by_updater;
     double now;
+    double last_wakeup_time;
     bool initialized;
-
+    bool cant_write_state_file;
+        // failed to write state file.
+        // In this case we continue to run for 1 minute,
+        // handling GUI RPCs but doing nothing else,
+        // so that the Manager can tell the user what the problem is
 private:
     bool client_state_dirty;
     int old_major_version;
@@ -226,8 +233,6 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
-    bool have_tentative_project();
-	bool have_nontentative_project();
     bool no_gui_rpc;
 private:
     int link_app(PROJECT*, APP*);
@@ -267,6 +272,10 @@ private:
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
 public:
+    double retry_shmem_time;
+        // if we fail to start a task due to no shared-mem segments,
+        // wait until at least this time to try running
+        // another task that needs a shared-mem seg
 	inline double work_buf_min() {
 		return global_prefs.work_buf_min_days * 86400;
 	}
@@ -365,9 +374,10 @@ private:
 public:
     const char* get_primary_platform();
 private:
-    void add_supported_platform(const char* supported_platform);
-    void detect_supported_platforms();
-    void report_supported_platforms(PROJECT*, MIOFILE&);
+    void add_platform(const char*);
+    void detect_platforms();
+    void write_platforms(PROJECT*, MIOFILE&);
+    bool is_supported_platform(const char*);
 
 // --------------- cs_prefs.C:
 public:
@@ -385,8 +395,8 @@ public:
 	double available_ram();
 	double max_available_ram();
 private:
-    void check_suspend_activities(int&);
-    void check_suspend_network(int&);
+    int check_suspend_processing();
+    int check_suspend_network();
     void install_global_prefs();
     PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);
@@ -481,4 +491,8 @@ extern double calculate_exponential_backoff(
 );
 
 #define POLL_INTERVAL   1.0
+    // the client will handle I/O (including GUI RPCs)
+    // for up to POLL_INTERVAL seconds before calling poll_slow_events()
+    // to call the polling functions
+
 #endif

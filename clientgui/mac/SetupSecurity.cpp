@@ -852,12 +852,14 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
             args[5] = NULL;
 
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, pathToTool, 0, args, &ioPipe);
-            // We use the pipe to signal us when the command has completed
-            do {
-                p = fgets(junk, sizeof(junk), ioPipe);
-            } while (p);
-            
-            fclose (ioPipe);
+            if (ioPipe) {
+                // We use the pipe to signal us when the command has completed
+                do {
+                    p = fgets(junk, sizeof(junk), ioPipe);
+                } while (p);
+                
+                fclose (ioPipe);
+            }
 #if 0
             if (strcmp(arg2, "-R") == 0)
                 SleepTicks(DELAY_TICKS_R);

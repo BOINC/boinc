@@ -136,7 +136,7 @@ void CViewTabPage::CreatePage()
 	FormatCPUTime(resultWU, elapsedTimeValue);
 	FormatTimeToCompletion(resultWU, timeRemainingValue);
 	// show graphic button 
-	if (resultWU->supports_graphics) {
+	if (resultWU->supports_graphics || !resultWU->graphics_exec_path.empty()) {
 		m_hasGraphic = true;
 	}
 	int status = ComputeState();
@@ -282,7 +282,7 @@ void CViewTabPage::UpdateInterface()
 
 	// check to see if we can display graphics
 	bool changed = false;
-	if (resultWU->supports_graphics && isRunning(resultWU) ) {
+	if ((resultWU->supports_graphics || !resultWU->graphics_exec_path.empty()) && isRunning(resultWU) ) {
 		if ( !m_hasGraphic ) {
 			changed = true;
 		}
@@ -444,14 +444,14 @@ void CViewTabPage::WriteText(wxDC* dc) {
 	dc->DrawText(projName, wxPoint(20,8)); 
 
     dc->SetFont(wxFont(SMALL_FONT,74,90,90,0,wxT("Arial")));
-	FormatText(wxT("Application: "), projectFrName, dc, wxPoint(20,47));
+	FormatText(_("Application: "), projectFrName, dc, wxPoint(20,47));
 
 	int height, width;
-	dc->GetTextExtent(wxT("Time Remaining: "), &width, &height);
+	dc->GetTextExtent(_("Time Remaining: "), &width, &height);
 	width = width + 20; // add the starting x position
 
-	FormatText(wxT("Elapsed Time: "), elapsedTimeValue, dc, wxPoint(20,230), width);
-	FormatText(wxT("Time Remaining: "), timeRemainingValue, dc, wxPoint(20,255), width);
+	FormatText(_("Elapsed Time: "), elapsedTimeValue, dc, wxPoint(20,230), width);
+	FormatText(_("Time Remaining: "), timeRemainingValue, dc, wxPoint(20,255), width);
 
     dc->DrawText(gaugePercent, wxPoint(290,283)); 
 

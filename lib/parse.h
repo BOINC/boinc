@@ -23,12 +23,11 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
-#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <string>
 #include <math.h>
-#if HAVE_IEEEFP_H
+#ifdef solaris
 #include <ieeefp.h>
 #endif
 #endif
@@ -38,7 +37,8 @@
 class XML_PARSER {
     MIOFILE* f;
     bool scan_nonws(int&);
-    bool scan_tag(char*, int);
+    int scan_comment();
+    int scan_tag(char*, int);
     bool copy_until_tag(char*, int);
 public:
     XML_PARSER(MIOFILE*);
@@ -50,6 +50,7 @@ public:
     bool parse_double(char*, const char*, double&);
     bool parse_bool(char*, const char*, bool&);
 	int element_contents(const char*, char*, int);
+    void skip_unexpected(const char*, bool verbose, const char*);
 };
 
 /////////////// START DEPRECATED XML PARSER
@@ -86,7 +87,11 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     y = atof(p+strlen(tag));
+#if defined (HPUX_SOURCE)
+    if (_Isfinite(y)) {
+#else
     if (finite(y)) {
+#endif
         x = y;
         return true;
     }
@@ -101,13 +106,11 @@ extern bool parse_bool(const char*, const char*, bool&);
 
 /////////////// END DEPRECATED XML PARSER
 
-extern void copy_stream(FILE* in, FILE* out);
+extern int copy_stream(FILE* in, FILE* out);
 extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
 extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len);
 extern int copy_element_contents(FILE* in, const char* end_tag, std::string&);
-extern void file_to_str(FILE* in, std::string& str);
-extern int read_file_malloc(const char* pathname, char*& str);
 extern void replace_element_contents(
     char* buf, const char* start, const char* end, const char* replacement
 );
@@ -117,6 +120,6 @@ extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(const char*, char*);
 extern void xml_unescape(const char*, char*);
 extern void extract_venue(const char*, const char*, char*);
-extern int skip_unrecognized(char* buf, FILE*);
+extern int skip_unrecognized(char* buf, MIOFILE&);
 
 #endif

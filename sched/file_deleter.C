@@ -159,10 +159,6 @@ int wu_delete_files(WORKUNIT& wu) {
                         "[WU#%d] deleting %s\n", wu.id, filename
                     );
                     retval = unlink(pathname);
-                    if (retval && strlen(config.download_dir_alt)) {
-                        sprintf(pathname, "%s/%s", config.download_dir_alt, filename);
-                        retval = unlink(pathname);
-                    }
                     if (retval) {
                         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                             "[WU#%d] unlink %s failed: %d\n",
@@ -399,13 +395,13 @@ int add_antiques_to_list(int days) {
     char single_line[1024];
     FILE *fp;
     int dirlen=strlen(config.upload_dir);
-    struct passwd *apache_info=getpwnam("apache");
+    struct passwd *apache_info=getpwnam(config.httpd_user);
     int del_time=time(0)-86400*days;
     int nfiles=0;
 
     if (!apache_info) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "no user named 'apache' found!\n"
+            "no user named '%s' found!\n", config.httpd_user
         );
         return -1;
     }
@@ -507,7 +503,7 @@ int find_antique_files() {
     // with the 'regular' file delete mechanism,
     // so better to do it like this.
     //
-    sprintf(buf, "order by create_time limit 1");
+    sprintf(buf, "order by id limit 1");
     if (!wu.enumerate(buf)) {
         // Don't ever delete files younger than a month.
         //
@@ -545,7 +541,7 @@ void do_antique_pass() {
 
 int main(int argc, char** argv) {
     int retval;
-    bool one_pass = false, retry_error = false, delete_antiques = false;
+    bool one_pass = false;
     int i;
 
     check_stop_daemons();
@@ -584,7 +580,7 @@ int main(int argc, char** argv) {
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "Can't parse config file\n"
+            "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }

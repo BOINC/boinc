@@ -76,11 +76,11 @@
 #include "str_util.h"
 #include "client_state.h"
 #include "hostinfo_network.h"
+#include "client_msgs.h"
 
 using std::string;
 
 #ifdef __APPLE__
-#include "client_msgs.h"
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
 #ifdef __cplusplus
@@ -243,11 +243,38 @@ bool HOST_INFO::host_is_running_on_batteries() {
 }
 
 #ifdef linux
+static void parse_meminfo_linux(HOST_INFO& host) {
+    char buf[256];
+    double x;
+    FILE* f = fopen("/proc/meminfo", "r");
+    if (!f) {
+        msg_printf(NULL, MSG_USER_ERROR,
+            "Can't open /proc/meminfo - defaulting to 1 GB."
+        );
+        host.m_nbytes = GIGA;
+        host.m_swap = GIGA;
+        return;
+    }
+    while (fgets(buf, 256, f)) {
+        if (strstr(buf, "MemTotal:")) {
+            sscanf(buf, "MemTotal: %lf", &x);
+            host.m_nbytes = x*1024;
+        } else if (strstr(buf, "SwapTotal:")) {
+            sscanf(buf, "SwapTotal: %lf", &x);
+            host.m_swap = x*1024;
+        } else if (strstr(buf, "Mem:")) {
+            sscanf(buf, "Mem: %lf", &host.m_nbytes);
+        } else if (strstr(buf, "Swap:")) {
+            sscanf(buf, "Swap: %lf", &host.m_swap);
+        }
+    }
+    fclose(f);
+}
 
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 //
-void parse_cpuinfo(HOST_INFO& host) {
+static void parse_cpuinfo_linux(HOST_INFO& host) {
     char buf[256], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
@@ -258,7 +285,12 @@ void parse_cpuinfo(HOST_INFO& host) {
     char buf2[256];
 
     FILE* f = fopen("/proc/cpuinfo", "r");
-    if (!f) return;
+    if (!f) {
+        msg_printf(NULL, MSG_USER_ERROR, "Can't open /proc/cpuinfo.");
+        strcpy(host.p_model, "unknown");
+        strcpy(host.p_vendor, "unknown");
+        return;
+    }
 
 #ifdef __mips__
     strcpy(host.p_model, "MIPS ");
@@ -422,31 +454,91 @@ void parse_cpuinfo(HOST_INFO& host) {
     strlcpy(host.p_model, model_buf, sizeof(host.p_model));
     fclose(f);
 }
-
 #endif  // linux
 
-// get all relevant host information
+#ifdef __APPLE__
+static void get_cpu_info_maxosx(HOST_INFO& host) {
+    int p_model_size = sizeof(host.p_model);
+    size_t len;
+#ifdef __i386__
+    char brand_string[256];
+    int family, stepping, model;
+    
+    len = sizeof(host.p_vendor);
+    sysctlbyname("machdep.cpu.vendor", host.p_vendor, &len, NULL, 0);
+
+    len = sizeof(brand_string);
+    sysctlbyname("machdep.cpu.brand_string", brand_string, &len, NULL, 0);
+
+    len = sizeof(family);
+    sysctlbyname("machdep.cpu.family", &family, &len, NULL, 0);
+
+    len = sizeof(model);
+    sysctlbyname("machdep.cpu.model", &model, &len, NULL, 0);
+
+    len = sizeof(stepping);
+    sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
+
+    len = sizeof(host.p_features);
+    sysctlbyname("machdep.cpu.features", host.p_features, &len, NULL, 0);
+
+    snprintf(
+        host.p_model, sizeof(host.p_model),
+        "%s [x86 Family %d Model %d Stepping %d]", 
+        brand_string, family, model, stepping
+    );
+#else       // PowerPC
+    char capabilities[256], model[256];
+    int response = 0;
+    int retval;
+    len = sizeof(response);
+    safe_strcpy(host.p_vendor, "Power Macintosh");
+    retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
+    if (response && (!retval)) {
+        safe_strcpy(capabilities, "AltiVec");
+    }
+        
+    len = sizeof(model);
+    sysctlbyname("hw.model", model, &len, NULL, 0);
+
+    snprintf(host.p_model, p_model_size, "%s [%s Model %s] [%s]", host.p_vendor, host.p_vendor, model, capabilities);
+
+#endif
+
+    host.p_model[p_model_size-1] = 0;
+    char *in = host.p_model + 1;
+    char *out = in;
+    // Strip out runs of multiple spaces
+    do {
+        if ((!isspace(*(in-1))) || (!isspace(*in))) {
+            *out++ = *in;
+        }
+    } while (*in++);
+}
+#endif
+
+// Rules:
+// - Keep code in the right place
+// - only one level of #if
 //
 int HOST_INFO::get_host_info() {
     get_filesystem_info(d_total, d_free);
 
+///////////// p_vendor, p_model, p_features /////////////////
 #ifdef linux
-    parse_cpuinfo(*this);
-#elif defined(__EMX__)
+    parse_cpuinfo_linux(*this);
+#elif defined( __APPLE__)
     int mib[2];
-    unsigned int mem_size;
     size_t len;
+
+    get_cpu_info_maxosx(*this);
+#elif defined(__EMX__)
     CPU_INFO_t    cpuInfo;
     strcpy( p_vendor, cpuInfo.vendor.company);
     strcpy( p_model, cpuInfo.name.fromID);
-#else
-#if HAVE_SYS_SYSCTL_H
+#elif defined(HAVE_SYS_SYSCTL_H)
     int mib[2];
     size_t len;
-#ifdef __APPLE__
-    long mem_size;
-#else
-    unsigned int mem_size;
 
     // Get machine
     mib[0] = CTL_HW;
@@ -459,12 +551,9 @@ int HOST_INFO::get_host_info() {
     mib[1] = HW_MODEL;
     len = sizeof(p_model);
     sysctl(mib, 2, &p_model, &len, NULL, 0);
-#endif      // ! __APPLE__
-#else
-// Tru64 UNIX.
-// 2005-12-26 SMS.
-#ifdef __osf__
-    int mem_size;
+#elif defined(__osf__)
+    // Tru64 UNIX.
+    // 2005-12-26 SMS.
     long cpu_type;
     char *cpu_type_name;
 
@@ -474,9 +563,22 @@ int HOST_INFO::get_host_info() {
     CPU_TYPE_TO_TEXT( (cpu_type& 0xffffffff), cpu_type_name);
     strncpy( p_model, "Alpha ", sizeof( p_model));
     strncat( p_model, cpu_type_name, (sizeof( p_model)- strlen( p_model)- 1));
+#elif defined(HAVE_SYS_SYSTEMINFO_H)
+    sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
+    sysinfo(SI_ISALIST, p_model, sizeof(p_model));
+    for (unsigned int i=0; i<sizeof(p_model); i++) {
+        if (p_model[i]==' ') {
+            p_model[i]=0;
+        }
+        if (p_model[i]==0) {
+            i=sizeof(p_model);
+        }
+    }
+#else
+#error Need to specify a method to get p_vendor, p_model
 #endif
-#endif
-#endif
+
+///////////// p_ncpus /////////////////
 
 // sysconf not working on OS2
 #if defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__)
@@ -492,13 +594,11 @@ int HOST_INFO::get_host_info() {
     pstat_getdynamic ( &psd, sizeof ( psd ), (size_t)1, 0 );
     p_ncpus = psd.psd_proc_cnt;
 #else
-#error Need to specify a sysconf() define to obtain number of processors
+#error Need to specify a method to get number of processors
 #endif
 
-// There can be a variety of methods to obtain amount of usable memory.
-// You will have to check your sysconf() defines, probably in unistd.h
-// - 2002-11-03 hiram@users.sourceforge.net
-//
+///////////// m_nbytes, m_swap /////////////////
+
 #ifdef __EMX__
     {
         ULONG ulMem;
@@ -509,27 +609,31 @@ int HOST_INFO::get_host_info() {
         DosQuerySysInfo( QSV_TOTAVAILMEM, QSV_TOTAVAILMEM, &ulMem, sizeof(ulMem));
         m_swap = ulMem;
     }
+#elif defined(linux)
+    parse_meminfo_linux(*this);
 #elif defined(_SC_USEABLE_MEMORY)
-    m_nbytes = (double)sysconf(_SC_PAGESIZE)
-        * (double)sysconf(_SC_USEABLE_MEMORY);  // UnixWare
+    // UnixWare
+    m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_USEABLE_MEMORY);
 #elif defined(_SC_PHYS_PAGES)
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
-    // Linux
+    if (m_nbytes < 0) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "RAM size not measured correctly: page size %d, #pages %d",
+            sysconf(_SC_PAGESIZE), sysconf(_SC_PHYS_PAGES)
+        );
+    }
 #elif defined(__APPLE__)
     // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
     // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
     // value to 2GB when the actual RAM size is > 2GB.  The Gestalt selector 
     // gestaltPhysicalRAMSizeInMegabytes is available starting with OS 10.3.0.
-    if (Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size))
-        msg_printf(NULL, MSG_INTERNAL_ERROR, "Couldn't determine physical RAM size");
+    long mem_size;
+    if (Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size)) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Couldn't determine physical RAM size"
+        );
+    }
     m_nbytes = (1024. * 1024.) * (double)mem_size;
-#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_PHYSMEM)
-#error This code does not properly report physical RAM size > 2GB (see comment above for __APPLE__)
-    mib[0] = CTL_HW;
-    mib[1] = HW_PHYSMEM;
-    len = sizeof(mem_size);
-    sysctl(mib, 2, &mem_size, &len, NULL, 0);    // Mac OS X
-    m_nbytes = mem_size;
 #elif defined(_HPUX_SOURCE)
     struct pst_static pst; 
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
@@ -537,10 +641,11 @@ int HOST_INFO::get_host_info() {
 #elif defined(__osf__)
     // Tru64 UNIX.
     // 2005-12-26 SMS.
+    int mem_size;
     getsysinfo( GSI_PHYSMEM, (caddr_t) &mem_size, sizeof( mem_size));
     m_nbytes = 1024.* (double)mem_size;
 #else
-#error Need to specify a sysconf() define to obtain memory size
+#error Need to specify a method to get memory size
 #endif
 
 #if defined(HAVE_SYS_SWAP_H) && defined(SC_GETNSWP)
@@ -568,24 +673,9 @@ int HOST_INFO::get_host_info() {
     swapctl(SWAP_STATS, s, n);
     m_swap = 0.0;
     for (i = 0; i < n; i ++) {
-      if (s[i].se_flags & SWF_ENABLE)
-        m_swap += 512. * (double)s[i].se_nblks;
-    }
-#elif defined(HAVE__PROC_MEMINFO)
-    // Linux
-    FILE *fp;
-    if ((fp = fopen("/proc/meminfo", "r")) != 0) {
-        char minfo_buf[1024];
-        int n;
-        if ((n = fread(minfo_buf, sizeof(char), sizeof(minfo_buf)-1, fp))) {
-            char *p;
-            minfo_buf[n] = '\0';
-            if ((p = strstr(minfo_buf, "SwapTotal:"))) {
-                p += 10; // move past "SwapTotal:"
-                m_swap = 1024.*(double) strtoul(p, NULL, 10);
-            }
+        if (s[i].se_flags & SWF_ENABLE) {
+            m_swap += 512. * (double)s[i].se_nblks;
         }
-        fclose(fp);
     }
 #elif defined(__APPLE__)
     // The sysctl(vm.vmmeter) function doesn't work on OS X.  However, swap  
@@ -623,93 +713,15 @@ int HOST_INFO::get_host_info() {
     pstat_getvminfo(&vminfo, sizeof(vminfo), (size_t)1, 0);
     m_swap = (vminfo.psv_swapspc_max * pst.page_size);
 #else
+//#error Need to specify a method to obtain swap space
 #endif
-
-#if defined(HAVE_SYS_SYSTEMINFO_H)
-#if defined(SI_HW_SERIAL)
-    sysinfo(SI_HW_SERIAL, serialnum, sizeof(serialnum));
-#else
-//#error Need to specify a method to obtain serial num
-#endif
-#ifdef SI_PLATFORM
-    sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
-#endif
-
-#ifdef SI_ISALIST
-    sysinfo(SI_ISALIST, p_model, sizeof(p_model));
-    for (unsigned int i=0; i<sizeof(p_model); i++) {
-        if (p_model[i]==' ') {
-            p_model[i]=0;
-        }
-        if (p_model[i]==0) {
-            i=sizeof(p_model);
-        }
-    }
-#endif
-#endif
-
-#ifdef __APPLE__
-    int p_model_size = sizeof(p_model);
-#ifdef __i386__
-    char brand_string[256];
-    int family, stepping, model;
-    
-    len = sizeof(p_vendor);
-    sysctlbyname("machdep.cpu.vendor", p_vendor, &len, NULL, 0);
-
-    len = sizeof(brand_string);
-    sysctlbyname("machdep.cpu.brand_string", brand_string, &len, NULL, 0);
-
-    len = sizeof(family);
-    sysctlbyname("machdep.cpu.family", &family, &len, NULL, 0);
-
-    len = sizeof(model);
-    sysctlbyname("machdep.cpu.model", &model, &len, NULL, 0);
-
-    len = sizeof(stepping);
-    sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
-
-    len = sizeof(p_features);
-    sysctlbyname("machdep.cpu.features", p_features, &len, NULL, 0);
-
-    snprintf(
-        p_model, sizeof(p_model),
-        "%s [x86 Family %d Model %d Stepping %d]", 
-        brand_string, family, model, stepping
-    );
-                
-#else       // PowerPC
-    char capabilities[256], model[256];
-    int response = 0;
-    int retval;
-    len = sizeof(response);
-    safe_strcpy(p_vendor, "Power Macintosh");
-    retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
-    if (response && (!retval)) {
-        safe_strcpy(capabilities, "AltiVec");
-    }
-        
-    len = sizeof(model);
-    sysctlbyname("hw.model", model, &len, NULL, 0);
-
-    snprintf(p_model, p_model_size, "%s [%s Model %s] [%s]", p_vendor, p_vendor, model, capabilities);
-
-#endif  // i386 or PowerPC
-
-    p_model[p_model_size-1] = 0;
-    char *in = p_model + 1;
-    char *out = in;
-    // Strip out runs of multiple spaces
-    do {
-        if ((!isspace(*(in-1))) || (!isspace(*in)))
-            *out++ = *in;
-        } while (*in++);
-    
-#endif  // __APPLE__
 
     get_local_network_info();
 
     timezone = get_timezone();
+
+///////////// os_name, os_version /////////////////
+
 #ifdef HAVE_SYS_UTSNAME_H
     struct utsname u;
     uname(&u);
@@ -748,6 +760,7 @@ int HOST_INFO::get_host_info() {
 
 // returns true iff device was last accessed before t
 // or if an error occurred looking at the device.
+//
 inline bool device_idle(time_t t, const char *device) {
     struct stat sbuf;
     return stat(device, &sbuf) || (sbuf.st_atime < t);
@@ -918,11 +931,14 @@ static double GetOSXIdleTime(void) {
 }
 #endif  // ! __i386__
 
-bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time) {
+bool HOST_INFO::users_idle(
+    bool check_all_logins, double idle_time_to_run, double *actual_idle_time
+) {
     double idleTime = GetOSXIdleTime();
     
-    if (actual_idle_time)
+    if (actual_idle_time) {
         *actual_idle_time = idleTime;
+    }
     return (idleTime > (60 * idle_time_to_run));
 }
 

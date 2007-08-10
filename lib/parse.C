@@ -84,10 +84,6 @@ bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     char tempbuf[1024];
     int len;
 
-    // sanity check on NULL and empty cases. 
-    if (!buf || !tag || !strlen(tag))
-    return false;
-
     p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
@@ -128,14 +124,16 @@ void parse_attr(const char* buf, const char* name, char* dest, int len) {
     strlcpy(dest, p+1, len);
 }
 
-void copy_stream(FILE* in, FILE* out) {
+int copy_stream(FILE* in, FILE* out) {
     char buf[1024];
     int n, m;
     while (1) {
         n = (int)fread(buf, 1, 1024, in);
         m = (int)fwrite(buf, 1, n, out);
+        if (m != n) return ERR_FWRITE;
         if (n < 1024) break;
     }
+    return 0;
 }
 
 // append to a malloc'd string
@@ -198,34 +196,6 @@ int copy_element_contents(FILE* in, const char* end_tag, string& str) {
     }
     return ERR_XML_PARSE;
 }
-
-void file_to_str(FILE* in, string& str) {
-    char buf[256];
-
-    str = "";
-    while (fgets(buf, 256, in)) {
-        str += buf;
-    }
-}
-
-// read a file into a malloc'd string
-//
-int read_file_malloc(const char* pathname, char*& str) {
-    char buf[256];
-    FILE* f;
-    int retval;
-
-    f = fopen(pathname, "r");
-    if (!f) return ERR_FOPEN;
-    str = strdup("");
-    while (fgets(buf, 256, f)) {
-        retval = strcatdup(str, buf);
-        if (retval) return retval;
-    }
-    fclose(f);
-    return 0;
-}
-
 
 // replace XML element contents (element must be present)
 //
@@ -391,7 +361,7 @@ void xml_unescape(const char* in, char* out) {
 // If it's of the form <foo> then scan for </foo> and return 0.
 // Otherwise return ERR_XML_PARSE
 //
-int skip_unrecognized(char* buf, FILE* in) {
+int skip_unrecognized(char* buf, MIOFILE& fin) {
     char* p, *q, buf2[256];
     std::string close_tag;
 
@@ -408,7 +378,7 @@ int skip_unrecognized(char* buf, FILE* in) {
     }
     *q = 0;
     close_tag = string("</") + string(p+1) + string(">");
-    while (fgets(buf2, 256, in)) {
+    while (fin.fgets(buf2, 256)) {
         if (strstr(buf2, close_tag.c_str())) {
             return 0;
         }
@@ -436,23 +406,50 @@ bool XML_PARSER::scan_nonws(int& first_char) {
     }
 }
 
+int XML_PARSER::scan_comment() {
+    char buf[256];
+    char* p = buf;
+    while (1) {
+        int c = f->_getc();
+        if (c == EOF) return 2;
+        *p++ = c;
+        *p = 0;
+        if (strstr(buf, "-->")) {
+            return 1;
+        }
+        if (strlen(buf) > 32) {
+            strcpy(buf, buf+16);
+            p = buf;
+        }
+    }
+}
+
 // we just read a <; read until we find a >,
-// and copy intervening text (except spaces) to buf.
-// Return true iff reached EOF
+// and copy intervening text to buf.
+// Return:
+// 0 if got a tag
+// 1 if got a comment (ignore)
+// 2 if reached EOF
 // TODO: parse attributes too
 //
-bool XML_PARSER::scan_tag(char* buf, int len) {
+int XML_PARSER::scan_tag(char* buf, int len) {
     int c;
-    while (1) {
+    char* buf_start = buf;
+    for (int i=0; ; i++) {
         c = f->_getc();
-        if (c == EOF) return true;
-        if (isspace(c)) continue;
+        if (c == EOF) return 2;
         if (c == '>') {
             *buf = 0;
-            return false;
+            return 0;
         }
         if (--len > 0) {
             *buf++ = c;
+        }
+
+        // check for comment start
+        //
+        if (i==2 && !strncmp(buf_start, "!--", 3)) {
+            return scan_comment();
         }
     }
 }
@@ -485,20 +482,23 @@ bool XML_PARSER::get(char* buf, int len, bool& is_tag) {
     bool eof;
     int c;
     
-    eof = scan_nonws(c);
-    if (eof) return true;
-    if (c == '<') {
-        eof = scan_tag(buf, len);
+    while (1) {
+        eof = scan_nonws(c);
         if (eof) return true;
-        is_tag = true;
-    } else {
-        buf[0] = c;
-        eof = copy_until_tag(buf+1, len-1);
-        if (eof) return true;
-        is_tag = false;
+        if (c == '<') {
+            int retval = scan_tag(buf, len);
+            if (retval == 2) return true;
+            if (retval == 1) continue;
+            is_tag = true;
+        } else {
+            buf[0] = c;
+            eof = copy_until_tag(buf+1, len-1);
+            if (eof) return true;
+            is_tag = false;
+        }
+        strip_whitespace(buf);
+        return false;
     }
-    strip_whitespace(buf);
-    return false;
 }
 
 // We just parsed "parsed_tag".
@@ -571,14 +571,22 @@ bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
-    if (is_tag) return false;
+    if (is_tag) {
+        if (!strcmp(buf, end_tag)) {
+            i = 0;      // treat <foo></foo> as <foo>0</foo>
+            return true;
+        } else {
+            return false;
+        }
+    }
     i = strtol(buf, &end, 0);
     if (end != buf+strlen(buf)) return false;
 
-    end_tag[0] = '/';
-    strcpy(end_tag+1, start_tag);
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
@@ -595,14 +603,22 @@ bool XML_PARSER::parse_double(char* parsed_tag, const char* start_tag, double& x
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
-    if (is_tag) return false;
+    if (is_tag) {
+        if (!strcmp(buf, end_tag)) {
+            x = 0;      // treat <foo></foo> as <foo>0</foo>
+            return true;
+        } else {
+            return false;
+        }
+    }
     x = strtod(buf, &end);
     if (end != buf+strlen(buf)) return false;
 
-    end_tag[0] = '/';
-    strcpy(end_tag+1, start_tag);
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
@@ -697,6 +713,31 @@ int XML_PARSER::element_contents(const char* end_tag, char* buf, int buflen) {
     return retval;
 }
 
+// We got an unexpected tag.
+// If it's an end tag, do nothing.
+// Otherwise skip until the end tag, if any
+//
+void XML_PARSER::skip_unexpected(
+    const char* start_tag, bool verbose, const char* where
+) {
+    char tag[256], end_tag[256];
+    bool is_tag;
+
+    if (verbose) {
+        fprintf(stderr, "Unrecognized XML in %s: %s\n", where, start_tag);
+    }
+    if (strchr(start_tag, '/')) return;
+    sprintf(end_tag, "/%s", start_tag);
+    while (!get(tag, sizeof(tag), is_tag)) {
+        if (verbose) {
+            fprintf(stderr, "Skipping: %s\n", tag);
+        }
+        if (!is_tag) continue;
+        if (!strcmp(tag, end_tag)) return;
+        skip_unexpected(tag, verbose, where);
+    }
+}
+
 // sample use is shown below
 
 #if 0
@@ -732,7 +773,7 @@ void parse(FILE* f) {
             printf("got bool: %d\n", flag);
         } else {
             printf("unparsed tag: %s\n", tag);
-            return;
+            xp.skip_unexpected(tag);
         }
     }
     printf("unexpected EOF\n");
@@ -742,5 +783,21 @@ int main() {
     FILE* f = fopen("foo.xml", "r");
     parse(f);
 }
+
+... and run it against, e.g.:
+
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<blah>
+    <x>
+    asdlfkj
+      <x> fj</x>
+    </x>
+    <str>blah</str>
+    <int>  6
+    </int>
+    <double>6.555</double>
+    <bool>0</bool>
+</blah>
+
 #endif
 const char *BOINC_RCSID_3f3de9eb18 = "$Id$";

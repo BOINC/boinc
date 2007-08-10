@@ -191,7 +191,7 @@ void make_work(vector<string> &wu_names) {
         check_stop_daemons();
         int unsent_results;
 
-        retval = count_unsent_results(unsent_results);
+        retval = count_unsent_results(unsent_results, wus[0].appid);
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "can't get result count\n"
@@ -200,7 +200,7 @@ void make_work(vector<string> &wu_names) {
         }
         int total_wus=0;
         if (max_wus) {
-            retval = count_workunits(total_wus);
+            retval = count_workunits(total_wus, "");
             if (retval) {
                 log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                     "can't get wu count\n"

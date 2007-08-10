@@ -288,21 +288,6 @@ static int possibly_send_result(
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    // wu_is_infeasible() returns a bitmask of potential reasons
-    // why the WU is not feasible.  These are defined in sched_send.h.
-    // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
-    // 
-    if (wu_is_infeasible(wu, sreq, reply)) {
-        return ERR_INSUFFICIENT_RESOURCE;
-    }
-
-    if (config.one_result_per_user_per_wu) {
-        sprintf(buf, "where userid=%d and workunitid=%d", reply.user.id, wu.id);
-        retval = result2.count(count, buf);
-        if (retval) return ERR_DB_NOT_FOUND;
-        if (count > 0) return ERR_WU_USER_RULE;
-    }
-
     retval = get_app_version(
         wu, app, avp, sreq, reply, platforms, ss
     );
@@ -316,6 +301,21 @@ static int possibly_send_result(
     }
 
     if (retval) return ERR_NO_APP_VERSION;
+
+    // wu_is_infeasible() returns the reason why the WU is not feasible;
+    // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
+    // see sched_send.h.
+    // 
+    if (wu_is_infeasible(wu, sreq, reply, app)) {
+        return ERR_INSUFFICIENT_RESOURCE;
+    }
+
+    if (config.one_result_per_user_per_wu) {
+        sprintf(buf, "where userid=%d and workunitid=%d", reply.user.id, wu.id);
+        retval = result2.count(count, buf);
+        if (retval) return ERR_DB_NOT_FOUND;
+        if (count > 0) return ERR_WU_USER_RULE;
+    }
 
     return add_result_to_reply(result, wu, sreq, reply, platforms, app, avp);
 }
@@ -1119,7 +1119,21 @@ void send_work_locality(
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d]: delete file %s (not needed)\n", reply.host.id, fi.name
-            ); 
+            );
+#ifdef EINSTEIN_AT_HOME
+            // For name matching pattern h1_XXXX.XX_S5R2
+            // generate corresponding l1_XXXX.XX_S5R2 pattern and delete it also
+            //
+            if (strlen(fi.name)==15 && !strncmp("h1_", fi.name, 3)) {
+                FILE_INFO fi_l = fi;
+                fi_l.name[0]='l';
+                reply.file_deletes.push_back(fi_l);
+                log_messages.printf(
+                    SCHED_MSG_LOG::MSG_DEBUG,
+                    "[HOST#%d]: delete file %s (not needed)\n", reply.host.id, fi_l.name
+                );
+            }
+#endif
         } // nsent==0
     } // loop over files already on the host
 
@@ -1127,6 +1141,41 @@ void send_work_locality(
     //
     if (reply.work_needed(true)) {
         send_new_file_work(sreq, reply, platforms, ss);
+    }
+}
+
+// send instructions to delete useless files
+//
+void send_file_deletes(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
+    int num_useless = sreq.files_not_needed.size();
+    int i;
+    for (i=0; i<num_useless; i++) {
+        char buf[256];
+        FILE_INFO& fi = sreq.files_not_needed[i];
+        sreply.file_deletes.push_back(fi);
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "[HOST#%d]: delete file %s (not needed)\n", sreply.host.id, fi.name
+        );
+        sprintf(buf, "BOINC will delete file %s (no longer needed)", fi.name);
+        USER_MESSAGE um(buf, "low");
+        sreply.insert_message(um);
+     }
+
+    // if we got no work, and we have no file space, delete some files
+    //
+    if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
+        // try to delete a file to make more space.
+        // Also give some hints to the user about what's going wrong
+        // (lack of disk space).
+        //
+        delete_file_from_host(sreq, sreply);
+    }
+
+    if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) {
+        debug_sched(sreq, sreply, "../debug_sched");
+    } else if (max_allowable_disk(sreq, sreply)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
+        debug_sched(sreq, sreply, "../debug_sched");
     }
 }
 

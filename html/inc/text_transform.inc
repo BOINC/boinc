@@ -117,73 +117,77 @@ function get_transform_settings_from_user($user, $options = '') {
  * Converts bbcode to proper HTML
  **/
 function bb2html($text) {
-	$urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
-	$httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
-	// List of allowable tags
-	$bbtags = array (
-		"@\[b\](.*?)\[/b\]@is",
-		"@\[i\](.*?)\[/i\]@is",
-		"@\[u\](.*?)\[/u\]@is",
-		"@\[url=$httpsregex\](.*?)\[/url\]@i",		
-		"@\[url\]$httpsregex\[/url\]@i",
-		"@\[link=$urlregex\](.*?)\[/link\]@i",		
-		"@\[link\]$urlregex\[/link\]@i",
-		"@\[url=$urlregex\](.*?)\[/url\]@i",		
-		"@\[url\]$urlregex\[/url\]@i",
-		"@\[quote=(.*?)\](.*?)\[/quote\]@is",
-		"@\[quote\](.*?)\[/quote\]@is",
-		"@\[font=(.*?)\](.*?)\[/font\]@is",
+    $urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
+    $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
+    // List of allowable tags
+    $bbtags = array (
+        "@\[b\](.*?)\[/b\]@is",
+        "@\[i\](.*?)\[/i\]@is",
+        "@\[u\](.*?)\[/u\]@is",
+        "@\[url=$httpsregex\](.*?)\[/url\]@i",
+        "@\[url\]$httpsregex\[/url\]@i",
+        "@\[link=$urlregex\](.*?)\[/link\]@i",
+        "@\[link\]$urlregex\[/link\]@i",
+        "@\[url=$urlregex\](.*?)\[/url\]@i",
+        "@\[url\]$urlregex\[/url\]@i",
+        "@\[quote=(.*?)\](.*?)\[/quote\]@is",
+        "@\[quote\](.*?)\[/quote\]@is",
         "@\[list\](.*?)\[/list\]@is",
         "@\[list=1\](.*?)\[/list\]@is",  
-		"@\[pre\](.*?)\[/pre\]@is",
-		"@\[img\]$urlregex\[/img\]@is",
-		"@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
-		"@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
-		"@\[size=([1-9]|[0-2][0-9])\](.*?)\[/size\]@is",
-		"@\[code\](.*?)\[/code\]@is",
-		"@\[mailto\](.*?)\[/mailto\]@is",
-		"@\[email\](.*?)\[/email\]@is"		  
-		//Note:	The above list array member ensures we're within a list
-		//		when doing list item transformations.
-		//TODO: Make sure we're not between two lists
-		);
-	
-	// What the above tags are turned in to
-	$htmltags = array (
-		"<b>\\1</b>",
-		"<i>\\1</i>",
-		"<u>\\1</u>",
-		"<a href=\"https://\\1\" rel=\"nofollow\">\\2</a>",
-		"<a href=\"https://\\1\" rel=\"nofollow\">https://\\1</a>",
-		"<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
-		"<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
-		"<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
-		"<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
+        "@\[pre\](.*?)\[/pre\]@is",
+        "@\[img\]$urlregex\[/img\]@is",
+        "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
+        "@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
+        "@\[size=([1-9]|[0-2][0-9])\](.*?)\[/size\]@is",
+        "@\[code\](.*?)\[/code\]@is",
+        "@\[mailto\](.*?)\[/mailto\]@is",
+        "@\[email\](.*?)\[/email\]@is",
+        "@\[trac\](?:\#|ticket:)(\d+)\[/trac\]@is",
+        "@\[trac\]wiki:(.*?)\[/trac\]@is",
+        "@\[trac\]changeset:(\d+)\[/trac\]@is"
+        //Note:	The above list array member ensures we're within a list
+        //when doing list item transformations.
+        //TODO: Make sure we're not between two lists
+    );
+    
+    // What the above tags are turned in to
+    $htmltags = array (
+        "<b>\\1</b>",
+        "<i>\\1</i>",
+        "<u>\\1</u>",
+        "<a href=\"https://\\1\" rel=\"nofollow\">\\2</a>",
+        "<a href=\"https://\\1\" rel=\"nofollow\">https://\\1</a>",
+        "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
+        "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
+        "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
+        "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
         "<div style='font-style: oblique'>\\1 wrote:</div><blockquote class='postbody'>\\2</blockquote>",
         "<blockquote class='postbody'>\\1</blockquote>",
-		"<font face=\\1>\\2</font>",
-		"<ul>\\1</ul><p>",
-		"<ol>\\1</ol><p>",
-		"<pre>\\1</pre>",
-		"<img src=\"http://\\2\">",
-		"<font color=\"\\1\">\\2</font>",
-		"\\1<li>\\2</li>\n\\3",
-		"<span style=\"font-size: \\1px;\">\\2</span>",
-		"<div class=\"code\">\\1</div>",
-		"<a href=\"mailto:\\1\">\\1</a>",
-		"<a href=\"mailto:\\1\">\\1</a>"
-		);
-		
-	// Do the actual replacing - iterations for nested items
-	$lasttext = "";
-	$i = 0;
-	// $i<10 to prevent DoS
-	while ($text != $lasttext && $i<20) {
-		$lasttext = $text;
-		$text = preg_replace($bbtags,$htmltags,$text);
-		$i = $i + 1;
-	}
-	return $text;
+        "<ul>\\1</ul><p>",
+        "<ol>\\1</ol><p>",
+        "<pre>\\1</pre>",
+        "<img src=\"http://\\2\">",
+        "<font color=\"\\1\">\\2</font>",
+        "\\1<li>\\2</li>\n\\3",
+        "<span style=\"font-size: \\1px;\">\\2</span>",
+        "<div class=\"code\">\\1</div>",
+        "<a href=\"mailto:\\1\">\\1</a>",
+        "<a href=\"mailto:\\1\">\\1</a>",
+        "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
+        "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
+        "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
+    );
+    
+    // Do the actual replacing - iterations for nested items
+    $lasttext = "";
+    $i = 0;
+    // $i<20 to prevent DoS
+    while ($text != $lasttext && $i<20) {
+        $lasttext = $text;
+        $text = preg_replace($bbtags,$htmltags,$text);
+        $i = $i + 1;
+    }
+    return $text;
 }
 
 /**

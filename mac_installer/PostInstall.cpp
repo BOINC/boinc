@@ -27,6 +27,7 @@
 #include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
 #include <pwd.h>	// getpwname, getpwuid, getuid
+#include <grp.h>        // getgrnam
 #include <sys/wait.h>	// waitpid
 #include <dirent.h>
 #include <sys/param.h>  // for MAXPATHLEN
@@ -44,6 +45,7 @@ void Initialize(void);	/* function prototypes */
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
 void SetLoginItem(long brandID, Boolean deleteLogInItem);
+void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -51,6 +53,7 @@ long GetBrandID(void);
 int TestRPCBind(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
+int FindSkinName(char *name, size_t len);
 static OSErr QuitBOINCManager(OSType signature);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
@@ -66,6 +69,15 @@ enum { launchWhenDone,
         restartRequired
     };
 
+/******************************************************************
+***                                                             ***
+***                         NOTE:                               ***
+***                                                             ***
+*** On entry, the postinstall or postupgrade script has set the ***
+*** current directory to the top level of our installer package ***
+***                                                             ***
+******************************************************************/
+
 int main(int argc, char *argv[])
 {
     Boolean                 Success;
@@ -78,6 +90,7 @@ int main(int argc, char *argv[])
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
     char                    *p;
+    FILE                    *f;
 #ifdef SANDBOX
     uid_t                   savedeuid, b_m_uid;
     passwd                  *pw;
@@ -144,6 +157,16 @@ int main(int argc, char *argv[])
     }
     
     sleep (2);
+
+    // Install all_projects_list.xml file, but only if one doesn't 
+    // already exist, since a pre-existing one is probably newer.
+    f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
+    if (f) {
+        fclose(f);      // Already exists
+    } else {
+        system ("cp -fp Contents/Resources/all_projects_list.xml /Library/Application\\ Support/BOINC\\ Data/");
+        system ("chmod a-x /Library/Application\\ Support/BOINC\\ Data/all_projects_list.xml");
+    }
     
     Success = false;
     
@@ -442,6 +465,58 @@ void SetLoginItem(long brandID, Boolean deleteLogInItem)
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
 }
 
+// Sets the current skin selection to the specified skin in the specified user's preferences
+void SetSkinInUserPrefs(char *userName, char *skinName)
+{
+    passwd              *pw;
+    FILE                *oldPrefs, *newPrefs;
+    char                oldFileName[MAXPATHLEN], tempFilename[MAXPATHLEN];
+    char                buf[1024];
+    int                 wroteSkinName;
+    struct stat         sbuf;
+    group               *grp;
+    OSStatus            statErr;
+
+    if (skinName[0]) {
+        sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", userName);
+        sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", userName);
+        newPrefs = fopen(tempFilename, "w");
+        if (newPrefs) {
+            wroteSkinName = 0;
+            statErr = stat(oldFileName, &sbuf);
+
+            oldPrefs = fopen(oldFileName, "r");
+            if (oldPrefs) {
+                while (fgets(buf, sizeof(buf), oldPrefs)) {
+                    if (strstr(buf, "Skin=")) {
+                        fprintf(newPrefs, "Skin=%s\n", skinName);
+                        wroteSkinName = 1;
+                    } else {
+                        fputs(buf, newPrefs);
+                    }
+                }
+                fclose(oldPrefs);
+            }
+            
+            if (! wroteSkinName)
+                fprintf(newPrefs, "Skin=%s\n", skinName);
+                
+            fclose(newPrefs);
+            rename(tempFilename, oldFileName);  // Deletes old file
+            if (! statErr) {
+                chown(oldFileName, sbuf.st_uid, sbuf.st_gid);
+                chmod(oldFileName, sbuf.st_mode);
+            } else {
+                chmod(oldFileName, 0664);
+                pw = getpwnam(userName);
+                grp = getgrnam(userName);
+                if (pw && grp)
+                    chown(oldFileName, pw->pw_uid, grp->gr_gid);
+            }
+        }
+    }
+}
+
 // Returns true if the user name is in the nologinitems.txt, else false
 Boolean CheckDeleteFile(char *name)
 {
@@ -484,6 +559,7 @@ void SetUIDBackToUser (void)
 
 // Find all visible users and set their login item to launch BOINC Manager.
 // If user is a member of group admin, add user to groups boinc_master and boinc_project.
+// If our install package included a skin, set all user's preferences to use that skin,
 OSErr UpdateAllVisibleUsers(long brandID)
 {
     DIR                 *dirp;
@@ -491,11 +567,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
     passwd              *pw;
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
+    char                skinName[256];
+    group               *grp;
+    OSStatus            err;
 #ifdef SANDBOX
     char                *p;
-    group               *grp;
     short               i;
-    OSErr 		err = noErr;
 
     grp = getgrnam("admin");
     if (grp == NULL) {      // Should never happen
@@ -503,6 +580,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
         return -1;
     }
 #endif
+
+    FindSkinName(skinName, sizeof(skinName));
 
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
@@ -539,7 +618,11 @@ OSErr UpdateAllVisibleUsers(long brandID)
         deleteLoginItem = CheckDeleteFile(dp->d_name);
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+
         SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
+
+        SetSkinInUserPrefs(dp->d_name, skinName);
+        
         seteuid(saved_uid);                         // Set effective uid back to privileged user
     }
     
@@ -654,6 +737,41 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     }
     return (buf[0] ? buf : NULL);
 }
+
+
+int FindSkinName(char *name, size_t len)
+{
+    FILE *f;
+    char buf[MAXPATHLEN];
+    char *pattern = "/BOINC Data/skins/";
+    char *p, *q;
+
+    name[0] = '\0';
+    
+    f = popen("lsbom -ds ./Contents/Archive.bom", "r");
+    if (f == NULL)
+        return 0;
+    
+    while (PersistentFGets(buf, sizeof(buf), f)) {
+        p = strstr(buf, pattern);
+        if (p) {
+            p += strlen(pattern);
+            q = strchr(p, '/');
+            if (q) *q = 0;
+            q = strchr(p, '\n');
+            if (q) *q = 0;
+
+            if (strlen(p) > (len-1))
+                return 0;
+            strlcpy(name, p, len);
+            pclose(f);
+            return 1;
+        }
+    }
+    pclose(f);
+    return 0;
+}
+
 
 
 pid_t FindProcessPID(char* name, pid_t thePID)

@@ -17,7 +17,21 @@ function site($url, $name) {
     return "<a href=$url>$name</a>";
 }
 
-$wiki_sites = array(
+$info_sites = array(
+    array(
+        "http://www.boincteams.com/",
+        "BOINC Team Leaders Forum",
+        "(a meeting place to chat and discuss team building on BOINC projects)"
+    ),
+    array(
+        "http://www.hyper.net/dc-howto.html",
+        "How to participate in grid computing projects that benefit humanity",
+        "(survey of volunteer computing, including non-BOINC projects)"
+    ),
+    array(
+        "http://www.kd-web.info/clanky.php",
+        "Flash-based BOINC tutorials", "(in Czech, English, and Slovak)"
+    ),
     array(
         "http://www.kazlev.karoo.net/noob_help.htm",
         "BOINC mini-FAQ"
@@ -73,16 +87,16 @@ echo "
 <h3>Help and Information</h3>
 Sites with information and documentation about BOINC.
 ";
-shuffle($wiki_sites);
-site_list($wiki_sites);
+shuffle($info_sites);
+site_list($info_sites);
 echo "
 <a name=stats></a>
 <h3>Credit statistics</h3>
 <p>
 The following web sites show statistics for one or more BOINC projects.
-These sites use XML-format data exported by BOINC projects.
-The format is described
-<a href=http://boinc.berkeley.edu/stats.php>here</a>.
+These sites use XML-format data exported by BOINC projects,
+as described
+<a href=http://boinc.berkeley.edu/trac/wiki/CreditStats>here</a>.
 If you're interested in running your own site or
 participating in the development efforts,
 please contact the people listed below.
@@ -118,7 +132,6 @@ Show if the servers of various projects are up or down.
 <h3>Miscellaneous</h3>
 ";
 $misc_sites = array(
-    array("http://www.kd-web.info/clanky.php", "Flash-based BOINC tutorial", "(in Czech, English, and Slovak)"),
     array("http://www.myboinc.com/", "BOINC Users of the Day"),
     array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
     array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
@@ -156,6 +169,7 @@ language("Chinese", array(
     site("http://boinc.equn.com/", "boinc.equn.com")
 ));
 language("Czech", array(
+    site("http://www.czechnationalteam.cz/", "Czech National Team"),
     site("http://www.boincteamcz.net/", "BOINC Team CZ"),
     site("http://www.boinc.cz/", "www.boinc.cz")
 ));
@@ -211,6 +225,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
     site("http://www.swissteam.net/", "SwissTeam.net"),
     site("http://www.unitedmacs.com/", "United Macs"),
     site("http://www.rechenkraft.net/", "Rechenkraft"),

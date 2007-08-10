@@ -34,8 +34,13 @@ class User {
         } else {
             $this->dbObj = $this->dbhandler->getUser($id);
         }
-        if ($optional_prefobj) {$this->fprefObj = $optional_prefobj; $this->prefs_loaded=true;};
-        if (!$this->dbObj) error_page("User with id $id created but nothing returned from DB layer");
+        if ($optional_prefobj) {
+            $this->fprefObj = $optional_prefobj;
+            $this->prefs_loaded=true;
+    };
+        if (!$this->dbObj) {
+            error_page("User with id $id created but nothing returned from DB layer");
+        }
     }
     
     /**
@@ -181,6 +186,11 @@ class User {
         $this->updatePrefs("avatar", $url);
     }
     
+    function getReadTimestamp(){
+        $this->ensurePrefsLoaded();
+        return $this->fprefObj->mark_as_read_timestamp;
+    }
+    
     /**
      * Gets user's display options and creates an output_options object
      * based upon their options.  (see text_transformations.php)
@@ -236,6 +246,13 @@ class User {
     }
     function setHideSignatures($bool){
         $this->updatePrefs("hide_signatures", $bool?true:false);
+    }
+    function hasEnabledPMNotification(){
+        $this->ensurePrefsLoaded();
+        return $this->fprefObj->pm_notification;
+    }
+    function setEnabledPMNotification($bool){
+        $this->updatePrefs("pm_notification", $bool?true:false);
     }
     function hasHideAvatars(){
         $this->ensurePrefsLoaded();

@@ -19,6 +19,7 @@ AM_CPPFLAGS =					\
         -I$(top_srcdir)/client			\
         -I$(top_srcdir)/tools			\
         -I$(top_srcdir)/sched			\
+        -I$(top_srcdir)/lib/mac			\
         $(MYSQL_CFLAGS)				\
         $(PTHREAD_CFLAGS)
 

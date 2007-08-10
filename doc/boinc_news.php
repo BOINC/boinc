@@ -1,6 +1,144 @@
 <?
 
 $project_news = array(
+array("July 25, 2007",
+    "BOINC finally has a new logo!
+    Many thanks Michal Krakowiak, the graphic designer who created it.
+    The logo (and icons based on it)
+    will soon appear on the BOINC client software
+    as well as the web site."
+),
+array("July 23, 2007",
+    "<a href=images/africa_workshop_7_07.jpg><img align=right src=images/workshop_200.jpg></a>
+    The Africa@home workshop on volunteer computing with BOINC,
+    sponsored by the Geneva International Academic Network (GIAN),
+    was held recently at the African Institute for Mathematical Sciences in Muizenberg, South Africa.
+    <br clear=all>"
+),
+array("July 20, 2007",
+    "A newly-launched project, <a href=http://eternity2.net/>Eternity2.net</a>,
+    offers a chance to compute for a share of a US$2,000,000 prize."
+),
+array("July 20, 2007",
+    "Team leaders: check out the
+    <a href=http://www.boincteams.com/>BOINC Team Leaders Forum</a>,
+    a place to chat and discuss team-building on BOINC projects."
+),
+array("July 16, 2007",
+    "If you use the Yahoo! Widget Engine,
+    check out version 1.1 of the <a href=http://boinc.berkeley.edu/addon_item.php?platform=browser&item=BOINC_server_status.zip>BOINC Server Status</a> widget."
+),
+array("July 16, 2007",
+    "BOINC is now the preferred client software at
+    <a href=http://worldcommunitygrid.org>World Community Grid</a>."
+),
+array("July 12, 2007",
+    "<a href=http://boinc.gorlaeus.net/>Leiden Classical</a>
+    is using BOINC for education - it provides a
+    <a href=http://boinc.gorlaeus.net/ClassicalBuilder.php>
+    high-performance computing resource</a> for
+    students of Theoretical Chemistry at Leiden University."
+),
+array("July 10, 2007",
+    "<a href=http://boinc.berkeley.edu/images/gw.jpg border=0><img align=right src=http://boinc.berkeley.edu/images/gw_small.jpg></a>
+    A growing number of 'skins' for the BOINC simple GUI are available
+    from <a href=http://crunching-family.at/dlc/>crunching-family.at</a>.
+    Here's an example.
+    "
+),
+array("July 6, 2007",
+     "Welcome to a new web site with cross-project BOINC statistics:
+     <a href=http://statsnstones.tswb.org/>Team Starfire World BOINC Stats 'N Stones</a>."
+),
+array("July 5, 2007",
+    "Windows users:
+    <a href=http://www.nuchill.de/nboinc/>version 2.0 of nBOiNC</a>,
+    an add-on application for viewing your up-to-the-minute credit totals,
+    has been released."
+),
+array("July 4, 2007",
+    "Docking@home is moving from Texas to Delaware. Volunteers should detach from the project; you will be emailed when the project is alive in Delaware."
+),
+array("July 2, 2007",
+    "Read <a href=http://www.isgtw.org/?pid=1000527>Volunteer computing: Grid or not Grid?</a> on International Science Grid This Week."
+),
+array("July 2, 2007",
+    "Amir Alexander of The Planetary Society talks about
+    <a href=http://www.boincuk.com/amir_alexander.mp3>SETI, distributed computing, and space exploration</a> in an interview by Mike of BOINC UK."
+),
+array("June 28, 2007",
+    "Linux users: if you use bash,
+    check out a cool <a href=http://boinc.berkeley.edu/trac/wiki/BashCommandCompletion>script</a>
+    that provides command completion in both boinc_cmd and boinc_client
+    (thanks to Frank S. Thomas)."
+),
+array("June 27, 2007",
+    "Help increase volunteer computing power -
+    <a href=http://boinc.berkeley.edu/trac/wiki/BoincPr>publicize BOINC</a> by writing to computer magazines."
+),
+array("June 26, 2007",
+    "There's a great new statistics site,
+    <a href=http://www.allprojectstats.com/>BOINC All Project Stats</a>.
+    It has lists of the top users and teams,
+    recent changes in rankings, graphs showing history and
+    breakdown by project, and many other features.
+    You can also see the stats and rankings
+    of an individual volunteer or team across all BOINC projects.
+    Thanks to Markus Tervooren for putting this together!"
+),
+array("June 26, 2007",
+    "There are reports that version 5.10.8 of the BOINC client software
+    causes a problem on Windows XP Pro in which the desktop becomes empty.
+    If you see this, please uninstall 5.10.8 and install version 5.8.16."
+),
+array("June 3, 2007",
+    "BOINCstats and BAM! are now viewable in Finnish
+    (<a href=http://fi.boincstats.com>http://fi.boincstats.com</a>). "
+),
+array("May 31, 2007",
+    "Sony Playstation 3 owners: researchers at the Barcelona
+    Biomedical Research Park have launched
+    <a href=http://www.ps3grid.net/>PS3GRID</a>,
+    a BOINC-based project whose application
+    (molecular dynamics simulations) runs on the
+    PS3's Cell processor, on Linux."
+),
+array("May 29, 2007",
+    "Check out <a href=http://www.youtube.com/watch?v=UNDcMAePKYY&eurl=http%3A%2F%2Fcb%2Dtools%2Epytalhost%2Ede%2Fblog%2F>a video promoting BOINC</a> on YouTube.</a>"
+),
+array("May 28, 2007",
+    "A <a href=http://www.kd-web.info/boinc_tutorial_wcg-english.php>Flash guide to using BOINC with IBM World Community Grid</a> is available in Czech and English."
+),
+array("May 14, 2007",
+    "The <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop07>3rd Pan-Galactic
+    BOINC Workshop</a> will be held 5-6 September 2007 in Geneva, Switzerland."
+),
+array("May 9, 2007",
+    "The BOINC Virtual Server - a VMWare virtual machine
+    preconfigured with BOINC and all prerequisite software -
+    is <a href=http://boinc.berkeley.edu/trac/wiki/ServerIntro>now available</a>.
+    This greatly simplifies the task of creating a BOINC projects.
+    Thanks to Christian Beer for creating this."
+),
+array("May 8, 2007",
+    "As of about May 1, BOINC projects have had
+    <a href=http://boinc.berkeley.edu/dev/forum_thread.php?id=1777>over one million volunteers</a>."
+),
+array("May 6, 2007",
+    "An excellent article on BOINC and the projects using it
+    appeared today in the Catalan newspaper AVUI.
+    It is available in PDF (pages
+    <a href=http://media.avui.cat/pdf/07/0506/070506diari034.pdf>one</a>
+    and <a href=http://media.avui.cat/pdf/07/0506/070506diari035.pdf>two</a>)
+    and also as a <a href=http://paper.avui.cat/article/societat/73609/computacio/ciutadana.html>web page</a>.
+    Thanks to Dr. Jordi Portell i de Mora for telling us about it."
+),
+array("May 6, 2007",
+    "<a href=http://www.boincstats.com/>BOINCstats and BAM!</a>
+    are now available in 15 languages.
+    As of today, they are now viewable in Swedish
+    (<a href= http://se.boincstats.com> http://se.boincstats.com</a>)."
+),
 array("May 3, 2007",
     "The source code behind <a href=http://boinc.netsoft-online.com/>BOINC Combined Stats</a> is now <a href=trac/wiki/CreditStats#Codeexamples>available via Subversion</a>.  This may be helpful for other statistics site developers."
 ),

@@ -34,9 +34,6 @@ public:
     char key_dir[256];
     char download_url[256];
     char download_dir[256];
-    char download_dir_alt[256];
-        // old download dir, assumed to be flat
-        // (file deleter looks here if not in main dir)
     char upload_url[256];
     char upload_dir[256];
     char sched_lockfile_dir[256];
@@ -47,9 +44,10 @@ public:
     bool msg_to_host;
     int min_sendwork_interval;
     int max_wus_to_send;
+    int max_wus_in_progress;
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
-    bool homogeneous_redundancy;
+    int homogeneous_redundancy;
     bool locality_scheduling;
     bool locality_scheduling_sorted_order;
     bool ignore_upload_certificates;
@@ -78,12 +76,36 @@ public:
     int sched_debug_level;
     int fuh_debug_level;
     int reliable_time; // age of workunit before requiring reliable
-    int reliable_min_avg_credit;  // min average credit for a host to be declared reliable
-    int reliable_max_avg_turnaround;  // max average turnaround for a host to be declared reliable
-    int reliable_priority_on_over; // additional results generated after at least one result is over will have their priority boosted by this amount    
-    int reliable_priority_on_over_except_error; // additional results generated after at least one result is over (unless their is an error) will have their priority boosted by this amount
-    int reliable_on_priority;  // results with a priority equal or greater than this value will be sent to reliable hosts
-    double reliable_reduced_delay_bound;  // Reduce the delay bounds for reliable hosts by this percent
+    int reliable_min_avg_credit;
+        // min average credit for a host to be declared reliable
+    int reliable_max_avg_turnaround;
+        // max average turnaround for a host to be declared reliable
+    int reliable_priority_on_over;
+        // additional results generated after at least one result
+        // is over will have their priority boosted by this amount    
+    int reliable_priority_on_over_except_error;
+        // additional results generated after at least one result is over
+        // (unless their is an error) will have their priority boosted
+        // by this amount
+    int reliable_on_priority;
+        // results with a priority equal or greater than this value
+        // will be sent to reliable hosts
+    double reliable_reduced_delay_bound;
+        // Reduce the delay bounds for reliable hosts by this percent
+    bool workload_sim;
+        // Do workload simulation in deciding whether to send a result
+    bool ended;
+        // Project has ended - tell clients to detach
+    int shmem_work_items;
+        // number of work items in shared memory
+    int feeder_query_size;
+        // number of work items to request in each feeder query
+    bool no_darwin_6;
+        // don't allow Mac OS X 10.2 or earlier
+    bool no_amd_k6;
+        // don't allow AMD K6 CPUs
+    char httpd_user[256];
+        // user name under which web server runs (default: apache)
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

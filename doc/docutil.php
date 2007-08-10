@@ -1,19 +1,17 @@
 <?php
 
 function search_form() {
-    echo "<form method=get action=http://google.com/search>
+    echo "
+    <form method=get action=http://google.com/search>
     <input type=hidden name=domains value=http://boinc.berkeley.edu>
     <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
     <nobr>
-    <input class=small name=q size=30>
-    <input type=image name=submit src=images/search.gif alt=Search>
+    <input class=small name=q size=20>
+    <input class=small type=submit value=Search>
     </nobr>
     </form>
 ";
 }
-
-$light_blue="#d8e8ff";
-$med_blue="#c0d0f0";
 
 function last_mod($datefile) {
     return gmdate("g:i A \U\T\C, F d Y", filemtime($datefile));
@@ -50,7 +48,7 @@ function page_head($title) {
         <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
-        <td align=right><a href=index.php><img src=logo/logo_small.png></a>
+        <td align=right><a href=index.php><img src=logo/www_logo.gif></a>
         <br>
 ";
         search_form();
@@ -108,7 +106,7 @@ function page_tail($translatable=false, $is_main=false) {
 }
 
 function html_text($x) {
-    return "<div bgcolor=$light_blue><pre>".htmlspecialchars($x)."</pre></div>
+    return "<pre>".htmlspecialchars($x)."</pre>
     ";
 }
 
@@ -137,11 +135,10 @@ function list_heading_array($x) {
 }
 
 function list_item($x, $y, $z=null) {
-    global $light_blue;
     if (!$x) $x = "<br>";
     echo "
         <tr>
-            <td bgcolor=$light_blue valign=top><b>$x</b></td>
+            <td class=fieldname valign=top><b>$x</b></td>
             <td valign=top>$y</td>
 ";
     if ($z) {
@@ -163,9 +160,8 @@ function list_item_func($x, $y) {
 }
 
 function list_bar($x) {
-    global $med_blue;
     echo "
-        <tr><td colspan=8 bgcolor=$med_blue><center><b>$x</b></center></td></tr>
+        <tr><td colspan=8 class=heading><center><b>$x</b></center></td></tr>
     ";
 }
 
@@ -181,11 +177,10 @@ function error_page($x) {
 }
 
 function block_start() {
-    global $light_blue;
     echo "
         <table width=100% cellpadding=4>
         <tr>
-        <td bgcolor=$light_blue width=100%><pre>";
+        <td class=fieldname width=100%><pre>";
 }
 
 function block_end() {

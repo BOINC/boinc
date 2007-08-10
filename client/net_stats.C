@@ -152,10 +152,10 @@ int NET_STATS::parse(MIOFILE& in) {
 }
 
 // Return:
-// 0 if we have network connections open
-// 1 if we need a physical connection
-// 2 if we don't have any connections, and don't need any
-// 3 if a website lookup is pending (try again later)
+// ONLINE if we have network connections open
+// WANT_CONNECTION  if we need a physical connection
+// WANT_DISCONNECT if we don't have any connections, and don't need any
+// LOOKUP_PENDING if a website lookup is pending (try again later)
 //
 // There's a 10-second slop factor;
 // if we've done network comm in the last 10 seconds,
@@ -172,16 +172,13 @@ int NET_STATUS::network_status() {
 	if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
         retval = NETWORK_STATUS_LOOKUP_PENDING;
 	} else if (gstate.now - last_comm_time < 10) {
-        //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
         retval = NETWORK_STATUS_ONLINE;
     } else if (need_physical_connection) {
-        //msg_printf(0, MSG_INFO, "need phys conn; return 1");
         retval = NETWORK_STATUS_WANT_CONNECTION;
     } else if (gstate.active_tasks.want_network()) {
         retval = NETWORK_STATUS_WANT_CONNECTION;
 	} else {
 		have_sporadic_connection = false;
-    //msg_printf(0, MSG_INFO, "returning 2");
 		retval = NETWORK_STATUS_WANT_DISCONNECT;
 	}
 	if (log_flags.network_status_debug) {
@@ -218,7 +215,16 @@ void NET_STATUS::network_available() {
 void NET_STATUS::got_http_error() {
     if ((gstate.lookup_website_op.error_num != ERR_IN_PROGRESS)
         && !need_physical_connection
+        && gstate.now > gstate.last_wakeup_time + 30
+            // for 30 seconds after wakeup, the network system (DNS etc.)
+            // may still be coming up, so don't worry for now
+        && !config.dont_contact_ref_site
     ) {
+	    if (log_flags.network_status_debug) {
+		    msg_printf(0, MSG_INFO,
+			    "[network_status_debug] got http error and not still waking up"
+		    );
+	    }
 		need_to_contact_reference_site = true;
         show_ref_message = true;
     }

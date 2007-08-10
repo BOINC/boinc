@@ -65,6 +65,7 @@
 #include "boinc_db.h"
 #include "filesys.h"
 #include "util.h"
+#include "str_util.h"
 #include "error_numbers.h"
 #include "md5_file.h"
 #include "parse.h"
@@ -811,7 +812,9 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "Can't parse ../config.xml: %s\n", boincerror(retval)
+        );
         exit(1);
     }
     retval = boinc_db.open(
@@ -831,7 +834,7 @@ int main(int argc, char** argv) {
         );
     }
 
-    mkdir(spec.output_dir, 0777);
+    boinc_mkdir(spec.output_dir);
 
     unsigned int j;
     for (j=0; j<spec.enumerations.size(); j++) {

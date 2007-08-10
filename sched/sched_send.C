@@ -43,10 +43,12 @@ using namespace std;
 #include "main.h"
 #include "sched_array.h"
 #include "sched_msgs.h"
-#include "sched_send.h"
+#include "sched_hr.h"
+#include "hr.h"
 #include "sched_locality.h"
 #include "sched_timezone.h"
 
+#include "sched_send.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -56,6 +58,9 @@ using namespace std;
 
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
+const int MAX_CPUS = 8;
+    // max multiplier for daily_result_quota;
+    // need to change as multicore processors expand
 
 const double DEFAULT_RAM_SIZE = 64000000;
     // if host sends us an impossible RAM size, use this instead
@@ -173,8 +178,6 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
         x1 = x2 = x3 = 0;
     }
 
-
-    //if (true) {
     if (x < 0) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
@@ -264,7 +267,6 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 	while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
         APP_INFO ai;
         ai.appid = temp_int;
-        ai.work_available=0;
         reply.wreq.host_info.preferred_apps.push_back(ai);
 
 		pos = str.find("<app_id>", pos) + 1;
@@ -278,93 +280,59 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     double expavg_time = reply.host.expavg_time;
     double avg_turnaround = reply.host.avg_turnaround;
     update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
+    double credit_scale, turnaround_scale;
     if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux")
     ) {
-        if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit || config.reliable_min_avg_credit == 0)
-            && (avg_turnaround < config.reliable_max_avg_turnaround || config.reliable_max_avg_turnaround == 0)
-        ){
-            reply.wreq.host_info.reliable = true;
-            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
-                reply.host.id, reply.host.os_name, expavg_credit,
-                avg_turnaround/3600
-            );
-        }
+        credit_scale = 1;
+        turnaround_scale = 1;
     } else {
-        if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit*.75 || config.reliable_min_avg_credit == 0)
-            && (avg_turnaround < config.reliable_max_avg_turnaround*1.25 || config.reliable_max_avg_turnaround == 0)
-        ){
-            reply.wreq.host_info.reliable = true;
-            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
-                reply.host.id, reply.host.os_name, expavg_credit,
-                avg_turnaround/3600
-            );
-        }
+        credit_scale = .75;
+        turnaround_scale = 1.25;
+    }
+
+    if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit*credit_scale || config.reliable_min_avg_credit == 0)
+            && (avg_turnaround < config.reliable_max_avg_turnaround*turnaround_scale || config.reliable_max_avg_turnaround == 0)
+    ){
+        reply.wreq.host_info.reliable = true;
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
+            reply.host.id, reply.host.os_name, expavg_credit,
+            avg_turnaround/3600
+        );
     }
 	return 0;
 }
 
-int find_preferred_app_index(SCHEDULER_REPLY& reply, int appid) {
-    int result = -1;
+// Check to see if the user has set application preferences.
+// If they have, then only send work for the allowed applications
+//
+static inline int check_app_filter(
+    WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
+) {
     unsigned int i;
+
+    if (reply.wreq.host_info.preferred_apps.size() == 0) return 0;
+    bool app_allowed = false;
     for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
-        if (reply.wreq.host_info.preferred_apps[i].appid == appid ) {
-            result = (int)i;
+        if (wu.appid==reply.wreq.host_info.preferred_apps[i].appid) {
+            app_allowed = true;
             break;
         }
     }
-    return result;
+    if (!app_allowed && !reply.wreq.beta_only) {
+        reply.wreq.no_allowed_apps_available = true;
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "[USER#%d] [WU#%d] user doesn't want work for this application\n",
+            reply.user.id, wu.id
+        );
+        return INFEASIBLE_APP_SETTING;
+    }
+    return 0;
 }
 
-// if the WU can't be executed on the host, return a bitmap of reasons why.
-// Reasons include:
-// 1) the host doesn't have enough memory;
-// 2) the host doesn't have enough disk space;
-// 3) based on CPU speed, resource share and estimated delay,
-//    the host probably won't get the result done within the delay bound
-// 4) app isn't in user's "approved apps" list
-//
-// NOTE: This is a "fast" check; no DB access allowed.
-// In particular it doesn't enforce the one-result-per-user-per-wu rule
-//
-int wu_is_infeasible(
+static inline int check_memory(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
-    int reason = 0;
-    unsigned int i;
-    
-    // Check to see if the user has set application preferences.
-    // If they have then only send work for the allowed applications
-    // TODO: call find_allowed_apps() only once, not once for each WU!!
-    //
-    bool app_allowed = false;
-    if (reply.wreq.host_info.preferred_apps.size() > 0) {
-        for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                "Scanning preferred apps. index=%d, appid=%d, work_avail=%d\n",
-                i, reply.wreq.host_info.preferred_apps[i].appid,
-                reply.wreq.host_info.preferred_apps[i].work_available
-            );
-            if (wu.appid==reply.wreq.host_info.preferred_apps[i].appid) {
-    			app_allowed = true;
-                reply.wreq.host_info.preferred_apps[i].work_available=1;
-    			break;
-    		}
-    	}
-
-        // Only mark infeasible if we are looking at user preferred apps only
-        //
-        if (!app_allowed && !reply.wreq.beta_only) {
-        	reply.wreq.no_allowed_apps_available = true;
-    		reason |= INFEASIBLE_APP_SETTING;
-			log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                "[USER#%d] [WU#%d] workunit infeasible because user doesn't want work for this application\n",
-                reply.user.id, wu.id
-            );
-    	}
-    }
-    	
     // see how much RAM we can use on this machine
     //
     double ram = reply.host.m_nbytes;
@@ -405,32 +373,108 @@ int wu_is_infeasible(
             reply.insert_message(um);
         }
         reply.wreq.insufficient_mem = true;
-        reason |= INFEASIBLE_MEM;
         reply.set_delay(DELAY_NO_WORK_TEMP);
+        return INFEASIBLE_MEM;
     }
+    return 0;
+}
 
+static inline int check_disk(
+    WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
+) {
     if (wu.rsc_disk_bound > reply.wreq.disk_available) {
         reply.wreq.insufficient_disk = true;
-        reason |= INFEASIBLE_DISK;
+        return INFEASIBLE_DISK;
     }
+    return 0;
+}
 
+static inline int check_deadline(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
     // skip delay check if host currently doesn't have any work
     // (i.e. everyone gets one result, no matter how slow they are)
     //
     if (!config.ignore_delay_bound && request.estimated_delay>0) {
         double ewd = estimate_wallclock_duration(wu, request, reply);
-        if (request.estimated_delay + ewd > wu.delay_bound) {
+        double est_completion_delay = request.estimated_delay + ewd;
+        double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
+        if (est_report_delay> wu.delay_bound) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (request.estimated_delay is %f)\n",
                 wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound, request.estimated_delay
             );
             reply.wreq.insufficient_speed = true;
-            reason |= INFEASIBLE_CPU;
+            return INFEASIBLE_CPU;
+        }
+    }
+    return 0;
+}
+
+// Quick checks (no DB access) to see if the WU can be sent on the host.
+// Reasons why not include:
+// 1) the host doesn't have enough memory;
+// 2) the host doesn't have enough disk space;
+// 3) based on CPU speed, resource share and estimated delay,
+//    the host probably won't get the result done within the delay bound
+// 4) app isn't in user's "approved apps" list
+//
+// TODO: this should be used in locality scheduling case too.
+// Should move a few other checks from sched_array.C
+//
+int wu_is_infeasible(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply,
+    APP* app
+) {
+    int retval;
+
+    // homogeneous redundancy, quick check
+    //
+    if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
+        if (already_sent_to_different_platform_quick(request, wu, *app)) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
+                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, app_hr_type(*app))
+            );
+            return INFEASIBLE_HR;
+        }
+    }
+    
+    if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
+        if (wu_already_in_reply(wu, reply)) {
+            return INFEASIBLE_DUP;
         }
     }
 
-    return reason;
+    retval = check_app_filter(wu, request, reply);
+    if (retval) return retval;
+    retval = check_memory(wu, request, reply);
+    if (retval) return retval;
+    retval = check_disk(wu, request, reply);
+    if (retval) return retval;
+
+    // do this last because EDF sim uses some CPU
+    //
+    if (config.workload_sim && request.have_other_results_list) {
+        double est_cpu = estimate_cpu_duration(wu, reply);
+        IP_RESULT candidate("", wu.delay_bound, est_cpu);
+        strcpy(candidate.name, wu.name);
+        if (check_candidate(candidate, reply.host.p_ncpus, request.ip_results)) {
+            // it passed the feasibility test,
+            // but don't add it the the workload yet;
+            // wait until we commit to sending it
+        } else {
+            reply.wreq.insufficient_speed = true;
+            return INFEASIBLE_WORKLOAD;
+        }
+    } else {
+        retval = check_deadline(wu, request, reply);
+        if (retval) return INFEASIBLE_WORKLOAD;
+    }
+
+    return 0;
 }
 
 // insert "text" right after "after" in the given buffer
@@ -440,8 +484,9 @@ int insert_after(char* buffer, const char* after, const char* text) {
     char temp[LARGE_BLOB_SIZE];
 
     if (strlen(buffer) + strlen(text) > LARGE_BLOB_SIZE-1) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-            "insert_after: overflow\n"
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "insert_after: overflow: %d %d\n",
+            strlen(buffer), strlen(text)
         );
         return ERR_BUFFER_OVERFLOW;
     }
@@ -533,7 +578,7 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM_LIST& ,
     APP* app, APP_VERSION* avp
 ) {
     int retval;
@@ -563,7 +608,9 @@ int add_wu_to_reply(
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "insert_wu_tags failed\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "insert_wu_tags failed %d\n", retval
+        );
         return retval;
     }
     wu3=wu2;
@@ -655,21 +702,33 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
 
-    // config.daily_result_quota is PER CPU (up to max of four CPUs)
+    // config.daily_result_quota is PER CPU (up to max of MAX_CPUS CPUs)
     // host.max_results_day is between 1 and config.daily_result_quota inclusive
     // wreq.daily_result_quota is between ncpus and ncpus*host.max_results_day inclusive
     if (config.daily_result_quota) {
-        if (host.max_results_day <= 0 || host.max_results_day>config.daily_result_quota) {
+        if (host.max_results_day == 0 || host.max_results_day>config.daily_result_quota) {
             host.max_results_day = config.daily_result_quota;
         }
-        // scale daily quota by #CPUs, up to a limit of 4
+        // scale daily quota by #CPUs, up to a limit of MAX_CPUS 4
         //
         int ncpus = host.p_ncpus;
-        if (ncpus > 4) ncpus = 4;
+        if (ncpus > MAX_CPUS) ncpus = MAX_CPUS;
         if (ncpus < 1) ncpus = 1;
         wreq.daily_result_quota = ncpus*host.max_results_day;
         if (host.nresults_today >= wreq.daily_result_quota) {
             wreq.daily_result_quota_exceeded = true;
+            return false;
+        }
+    }
+
+    if (config.max_wus_in_progress) {
+        if (wreq.nresults_on_host >= config.max_wus_in_progress) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "cache limit exceeded; %d > %d\n",
+                wreq.nresults_on_host, config.max_wus_in_progress
+            );
+            wreq.cache_size_exceeded = true;
             return false;
         }
     }
@@ -807,26 +866,50 @@ int add_result_to_reply(
         );
         return retval;
     }
-    PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
-    strcpy(result.platform_name, pp->name);
-    result.version_num = avp->version_num;
+    if (avp) {
+        PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
+        strcpy(result.platform_name, pp->name);
+        result.version_num = avp->version_num;
+    }
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
     request.estimated_delay += wu_seconds_filled/reply.host.p_ncpus;
     reply.wreq.nresults++;
+    reply.wreq.nresults_on_host++;
     if (!resent_result) reply.host.nresults_today++;
+
+    // add this result to workload for simulation
+    //
+    if (config.workload_sim && request.have_other_results_list) {
+        double est_cpu = estimate_cpu_duration(wu, reply);
+        IP_RESULT ipr ("", time(0)+wu.delay_bound, est_cpu);
+        request.ip_results.push_back(ipr);
+    }
+
+    // mark job as done if debugging flag is set
+    //
+    if (mark_jobs_done) {
+        DB_WORKUNIT dbwu;
+        char buf[256];
+        sprintf(buf,
+            "server_state=%d outcome=%d",
+            RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
+        );
+        result.update_field(buf);
+
+        dbwu.id = wu.id;
+        sprintf(buf, "transition_time=%d", time(0));
+        dbwu.update_field(buf);
+
+    }
     return 0;
 }
 
-int send_work(
+void send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
-#if 1
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
-#else
-    reply.wreq.disk_available = sreq.project_disk_free;
-#endif
     reply.wreq.insufficient_disk = false;
     reply.wreq.insufficient_mem = false;
     reply.wreq.insufficient_speed = false;
@@ -838,6 +921,12 @@ int send_work(
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
     reply.wreq.nresults = 0;
+
+    if (hr_unknown_platform(sreq.host)) {
+        reply.wreq.hr_reject_perm = true;
+        return;
+    }
+
     get_host_info(reply); // parse project prefs for app details
     reply.wreq.beta_only = false;
 
@@ -847,7 +936,7 @@ int send_work(
         reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
     );
 
-    if (sreq.work_req_seconds <= 0) return 0;
+    if (sreq.work_req_seconds <= 0) return;
 
     reply.wreq.seconds_to_fill = sreq.work_req_seconds;
     if (reply.wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
@@ -857,15 +946,11 @@ int send_work(
         reply.wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
-    // TODO: add code to send results that were sent earlier but not reported.
-    // Cautions (from John McLeod):
-    // - make sure the result is still needed
-    // - don't send if the project has been reset since first send,
-    //   since result may have been cause of the reset
-    //   (need to pass reset time?)
-    // - make sure can complete by deadline
-    // - don't send if project is suspended or "no more work" on client
-    //   (need to pass these)
+    if (config.workload_sim && sreq.have_other_results_list) {
+        init_ip_results(
+            sreq.global_prefs.work_buf_min(), reply.host.p_ncpus, sreq.ip_results
+        );
+    }
 
     if (config.locality_scheduling) {
         reply.wreq.infeasible_only = false;
@@ -1017,9 +1102,21 @@ int send_work(
                           (int)(3600*(double)rand()/(double)RAND_MAX);
             reply.set_delay(delay_time);
         }
+        if (reply.wreq.cache_size_exceeded) {
+            char helpful[256];
+            sprintf(helpful, "(reached per-host limit of %d tasks)",
+                config.max_wus_in_progress
+            );
+            USER_MESSAGE um(helpful, "high");
+            reply.insert_message(um);
+            reply.set_delay(DELAY_NO_WORK_CACHE);
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "host %d already has %d result(s) on cache\n",
+                reply.host.id, reply.wreq.nresults_on_host
+            );
+        }        
     }
-
-    return 0;
 }
 
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

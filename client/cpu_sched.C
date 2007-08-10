@@ -49,6 +49,7 @@
 #include "client_msgs.h"
 #include "str_util.h"
 #include "util.h"
+#include "error_numbers.h"
 #include "log_flags.h"
 
 using std::vector;
@@ -211,7 +212,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (!best_result
             || rp->report_deadline < best_result->report_deadline
             || (rp->report_deadline == best_result->report_deadline
-                && rp->estimated_cpu_time_remaining() < best_result->estimated_cpu_time_remaining()
+                && rp->estimated_cpu_time_remaining(false) < best_result->estimated_cpu_time_remaining(false)
                 )
         ) {
             best_result = rp;
@@ -256,18 +257,20 @@ void CLIENT_STATE::adjust_debts() {
     double share_frac;
     double wall_cpu_time = now - debt_interval_start;
 
-    if (wall_cpu_time < 1) return;
+    if (wall_cpu_time < 1) {
+        return;
+    }
 
     // if the elapsed time is more than the scheduling period,
     // it must be because the host was suspended for a long time.
     // Currently we don't have a way to estimate how long this was for,
     // so ignore the last period and reset counters.
     //
-    if (wall_cpu_time > global_prefs.cpu_scheduling_period_minutes*60*2) {
+    if (wall_cpu_time > global_prefs.cpu_scheduling_period()*2) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[debt_debug] adjust_debt: elapsed time (%d min) longer than sched period (%d min).  Ignoring this period.",
-                (int)(wall_cpu_time/60), (int)global_prefs.cpu_scheduling_period_minutes
+                "[debt_debug] adjust_debt: elapsed time (%d) longer than sched period (%d).  Ignoring this period.",
+                (int)wall_cpu_time, (int)global_prefs.cpu_scheduling_period()
             );
         }
         reset_debt_accounting();
@@ -397,7 +400,7 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     // (meaning a new result is available, or a CPU has been freed).
     //
     elapsed_time = now - last_reschedule;
-    if (elapsed_time >= global_prefs.cpu_scheduling_period_minutes * 60) {
+    if (elapsed_time >= global_prefs.cpu_scheduling_period()) {
         request_schedule_cpus("Scheduling period elapsed.");
     }
 
@@ -477,12 +480,15 @@ void CLIENT_STATE::schedule_cpus() {
 		active_tasks.active_tasks[i]->too_large = false;
 	}
 
-    expected_pay_off = global_prefs.cpu_scheduling_period_minutes * 60;
+    expected_pay_off = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
 	double ram_left = available_ram();
 
     // First choose results from projects with P.deadlines_missed>0
     //
+#ifdef SIM
+    if (!cpu_sched_rr_only) {
+#endif
     while ((int)ordered_scheduled_results.size() < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
@@ -501,8 +507,16 @@ void CLIENT_STATE::schedule_cpus() {
 				}
                 atp->too_large = true;
 				continue;
-			} else {
-                atp->too_large = false;
+			}
+            atp->too_large = false;
+            
+            // TODO: merge this chunk of code with its clone
+            if (gstate.retry_shmem_time > gstate.now) {
+                if (atp->app_client_shm.shm == NULL) {
+                    atp->needs_shmem = true;
+                    continue;
+                }
+                atp->needs_shmem = false;
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
@@ -518,6 +532,9 @@ void CLIENT_STATE::schedule_cpus() {
         }
         ordered_scheduled_results.push_back(rp);
     }
+#ifdef SIM
+    }
+#endif
 
     // Next, choose results from projects with large debt
     //
@@ -536,8 +553,18 @@ void CLIENT_STATE::schedule_cpus() {
 				}
                 atp->too_large = true;
 				continue;
-			} else {
-                atp->too_large = false;
+			}
+            atp->too_large = false;
+
+            // don't select if it would need a new shared-mem seg
+            // and we're out of them
+            //
+            if (gstate.retry_shmem_time > gstate.now) {
+                if (atp->app_client_shm.shm == NULL) {
+                    atp->needs_shmem = true;
+                    continue;
+                }
+                atp->needs_shmem = false;
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
@@ -755,7 +782,7 @@ bool CLIENT_STATE::enforce_schedule() {
             //
             atp = running_tasks[0];
             double time_running = now - atp->run_interval_start_wall_time;
-            bool running_beyond_sched_period = time_running >= global_prefs.cpu_scheduling_period_minutes*60;
+            bool running_beyond_sched_period = time_running >= global_prefs.cpu_scheduling_period();
             double time_since_checkpoint = now - atp->checkpoint_wall_time;
             bool checkpointed_recently = time_since_checkpoint < 10;
             if (rp->project->deadlines_missed
@@ -883,9 +910,9 @@ bool CLIENT_STATE::enforce_schedule() {
                     preempt_by_quit = true;
                 }
                 atp->preempt(preempt_by_quit);
-                atp->scheduler_state = CPU_SCHED_PREEMPTED;
                 break;
             }
+            atp->scheduler_state = CPU_SCHED_PREEMPTED;
             break;
         case CPU_SCHED_SCHEDULED:
             switch (atp->task_state()) {
@@ -895,6 +922,17 @@ bool CLIENT_STATE::enforce_schedule() {
                 retval = atp->resume_or_start(
                     atp->scheduler_state == CPU_SCHED_UNINITIALIZED
                 );
+                if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
+                    // Assume no additional shared memory segs
+                    // will be available in the next 10 seconds
+                    // (run only tasks which are already attached to shared memory).
+                    //
+                    if (gstate.retry_shmem_time < gstate.now) {
+                        request_schedule_cpus("no more shared memory");
+                    }
+                    gstate.retry_shmem_time = gstate.now + 10.0;
+                    continue;
+                }
                 if (retval) {
                     report_result_error(
                         *(atp->result), "Couldn't start or resume: %d", retval
@@ -907,6 +945,7 @@ bool CLIENT_STATE::enforce_schedule() {
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
             swap_left -= atp->procinfo.swap_size;
+            break;
         }
     }
     if (action) {
@@ -1028,7 +1067,7 @@ void CLIENT_STATE::rr_simulation() {
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
         if (rp->project->non_cpu_intensive) continue;
-        rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
+        rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining(false);
         p = rp->project;
         if (p->active.size() < (unsigned int)ncpus) {
             active.push_back(rp);
@@ -1323,8 +1362,8 @@ double CLIENT_STATE::fetchable_resource_share() {
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->non_cpu_intensive) continue;
-        if (p->long_term_debt < -this->global_prefs.cpu_scheduling_period_minutes * 60) continue;
-        if (p->nearly_runnable()) {
+        if (p->long_term_debt < -global_prefs.cpu_scheduling_period()) continue;
+        if (p->contactable()) {
             x += p->resource_share;
         }
     }
@@ -1376,7 +1415,7 @@ double RESULT::computation_deadline() {
     return report_deadline - (
         gstate.work_buf_min()
             // Seconds that the host will not be connected to the Internet
-        + gstate.global_prefs.cpu_scheduling_period_minutes * 60
+        + gstate.global_prefs.cpu_scheduling_period()
             // Seconds that the CPU may be busy with some other result
         + DEADLINE_CUSHION
     );
@@ -1474,8 +1513,18 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
+#ifdef SIM
+	if (dcf_dont_use) {
+		duration_correction_factor = 1.0;
+		return;
+	}
+	if (dcf_stats) {
+		((SIM_PROJECT*)this)->update_dcf_stats(rp);
+        return;
+	}
+#endif
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
-    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
+    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time(false);
 	double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,

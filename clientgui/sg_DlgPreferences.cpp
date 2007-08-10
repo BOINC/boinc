@@ -36,6 +36,8 @@
 #include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
+using std::string;
+
 #ifdef __WXMAC__
 #define TINY_FONT 12
 #define SMALL_FONT 12
@@ -708,14 +710,15 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     double         dTempValue1 = 0.0;
     double         dTempValue2 = 0.0;
     int            retval;
-	unsigned int   i;
+    unsigned int   i;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
     // Populate values and arrays from preferences
-	global_preferences_override = pDoc->state.global_prefs;
+	// Get current working preferences (including any overrides) from client
+	pDoc->rpc.get_global_prefs_working_struct(global_preferences_override, global_preferences_mask);
 	retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
 	if (!retval && global_preferences_mask.are_simple_prefs_set()) {
         m_bCustomizedPreferences = true;
@@ -1013,7 +1016,11 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
 {
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
-        strCaption = _("BOINC Manager - Preferences");
+        CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxASSERT(pSkinAdvanced);
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationName().c_str());
     }
 
     SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);

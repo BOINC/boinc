@@ -220,11 +220,11 @@ public:
         // if nonzero, specifies a time when another scheduler RPC
         // should be done (as requested by server)
 	bool possibly_backed_off;
+        // we need to call request_work_fetch() when a project
+        // transitions from being backed off to not.
+        // This (slightly misnamed) keeps track of whether this
+        // may still need to be done for given project
     bool trickle_up_pending;    // have trickle up to send
-    bool tentative;
-	    // we haven't done a scheduler RPC to this project yet;
-		// still need to verify that its name isn't a dup,
-		// and that the URL is correct
     double last_rpc_time;          // when last RPC finished
 
     // Other stuff
@@ -253,6 +253,8 @@ public:
     bool attached_via_acct_mgr;
     bool detach_when_done;
         // when no results for this project, detach it.
+    bool ended;
+        // project has ended; advise user to detach
     char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;
@@ -377,7 +379,6 @@ public:
     int parse_account_file();
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
-    void attach_failed(int reason);
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
@@ -404,7 +405,10 @@ struct APP_VERSION {
     PROJECT* project;
     std::vector<FILE_REF> app_files;
     int ref_cnt;
+    char graphics_exec_path[512];
 
+    APP_VERSION(){}
+    ~APP_VERSION(){}
     int parse(MIOFILE&);
     int write(MIOFILE&);
     bool had_download_failure(int& failnum);
@@ -429,6 +433,8 @@ struct WORKUNIT {
     double rsc_memory_bound;
     double rsc_disk_bound;
 
+    WORKUNIT(){}
+    ~WORKUNIT(){}
     int parse(MIOFILE&);
     int write(MIOFILE&);
     bool had_download_failure(int& failnum);
@@ -483,6 +489,8 @@ struct RESULT {
         // this may be NULL after result is finished
     PROJECT* project;
 
+    RESULT(){}
+    ~RESULT(){}
     void clear();
     int parse_server(MIOFILE&);
     int parse_state(MIOFILE&);
@@ -501,9 +509,9 @@ struct RESULT {
 
     // stuff related to CPU scheduling
 
-    double estimated_cpu_time();
+    double estimated_cpu_time(bool for_work_fetch);
     double estimated_cpu_time_uncorrected();
-    double estimated_cpu_time_remaining();
+    double estimated_cpu_time_remaining(bool for_work_fetch);
     bool computing_done();
     bool runnable();
         // downloaded, not finished, not suspended, project not suspended

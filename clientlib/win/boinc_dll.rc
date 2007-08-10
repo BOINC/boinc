@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
+#include "winresrc.h"
 #include "version.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""winres.h""\r\n"
+    "#include ""winresrc.h""\r\n"
     "#include ""version.h""\r\n"
     "\0"
 END

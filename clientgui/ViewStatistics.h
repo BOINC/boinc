@@ -212,6 +212,7 @@ public:
     ~CViewStatistics();
 
     virtual wxString&       GetViewName();
+    virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
     virtual const int       GetViewRefreshRate();
 

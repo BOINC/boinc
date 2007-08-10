@@ -31,6 +31,9 @@
 #include "file_names.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#ifdef __APPLE__
+#include <cerrno>
+#endif
 
 void CLIENT_STATE::set_client_state_dirty(const char* source) {
     if (log_flags.state_debug) {
@@ -100,9 +103,11 @@ int CLIENT_STATE::parse_state_file() {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             break;
-        } else if (match_tag(buf, "<client_state>")) {
+        }
+        if (match_tag(buf, "<client_state>")) {
             continue;
-        } else if (match_tag(buf, "<project>")) {
+        }
+        if (match_tag(buf, "<project>")) {
             PROJECT temp_project;
             retval = temp_project.parse_state(mf);
             if (retval) {
@@ -118,7 +123,9 @@ int CLIENT_STATE::parse_state_file() {
                     );
                 }
             }
-        } else if (match_tag(buf, "<app>")) {
+            continue;
+        }
+        if (match_tag(buf, "<app>")) {
             APP* app = new APP;
             retval = app->parse(mf);
             if (!project) {
@@ -150,7 +157,9 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
 		    }
             apps.push_back(app);
-        } else if (match_tag(buf, "<file_info>")) {
+            continue;
+        }
+        if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
             retval = fip->parse(mf, false);
             if (!project) {
@@ -206,7 +215,9 @@ int CLIENT_STATE::parse_state_file() {
                     );
                 }
             }
-        } else if (match_tag(buf, "<app_version>")) {
+            continue;
+        }
+        if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
             retval = avp->parse(mf);
             if (!project) {
@@ -227,19 +238,31 @@ int CLIENT_STATE::parse_state_file() {
                 delete avp;
                 continue;
             } 
+            if (strlen(avp->platform) == 0) {
+                strcpy(avp->platform, get_primary_platform());
+            } else {
+                if (!is_supported_platform(avp->platform)) {
+                    // if it's a platform we haven't heard of,
+                    // must be that the user tried out a 64 bit client
+                    // and then reverted to a 32-bit client.
+                    // Let's not throw away the app version and its WUs
+                    //
+                    msg_printf(project, MSG_INTERNAL_ERROR,
+                        "App version has unsupported platform %s; changing to %s",
+                        avp->platform, get_primary_platform()
+                    );
+                    strcpy(avp->platform, get_primary_platform());
+                }
+            }
             retval = link_app_version(project, avp);
             if (retval) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Can't handle application version in state file"
-                );
                 delete avp;
                 continue;
             }
-            if (strlen(avp->platform) == 0) {
-                strcpy(avp->platform, get_primary_platform());
-            }
             app_versions.push_back(avp);
-        } else if (match_tag(buf, "<workunit>")) {
+            continue;
+        }
+        if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
             retval = wup->parse(mf);
             if (!project) {
@@ -265,7 +288,9 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             workunits.push_back(wup);
-        } else if (match_tag(buf, "<result>")) {
+            continue;
+        }
+        if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
             retval = rp->parse_state(mf);
             if (!project) {
@@ -292,7 +317,7 @@ int CLIENT_STATE::parse_state_file() {
                 delete rp;
                 continue;
             }
-            if (strlen(rp->platform) == 0) {
+            if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
                 strcpy(rp->platform, get_primary_platform());
                 rp->version_num = latest_version(rp->wup->app, rp->platform);
             }
@@ -307,90 +332,127 @@ int CLIENT_STATE::parse_state_file() {
             }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
-        } else if (match_tag(buf, "<project_files>")) {
+            continue;
+        }
+        if (match_tag(buf, "<project_files>")) {
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Project files outside project in state file"
                 );
-                skip_unrecognized(buf, f);
+                skip_unrecognized(buf, mf);
                 continue;
             }
             project->parse_project_files(mf, false);
             project->link_project_files(false);
-        } else if (match_tag(buf, "<host_info>")) {
+            continue;
+        }
+        if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse host info in state file"
                 );
             }
-        } else if (match_tag(buf, "<time_stats>")) {
+            continue;
+        }
+        if (match_tag(buf, "<time_stats>")) {
             retval = time_stats.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse time stats in state file"
                 );
             }
-        } else if (match_tag(buf, "<net_stats>")) {
+            continue;
+        }
+        if (match_tag(buf, "<net_stats>")) {
             retval = net_stats.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse network stats in state file"
                 );
             }
-        } else if (match_tag(buf, "<active_task_set>")) {
+            continue;
+        }
+        if (match_tag(buf, "<active_task_set>")) {
             retval = active_tasks.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse active tasks in state file"
                 );
             }
-        } else if (parse_str(buf, "<platform_name>", statefile_platform_name)) {
             continue;
-        } else if (match_tag(buf, "<alt_platform>")) {
+        }
+        if (parse_str(buf, "<platform_name>", statefile_platform_name)) {
             continue;
-        } else if (parse_int(buf, "<user_run_request>", retval)) {
+        }
+        if (match_tag(buf, "<alt_platform>")) {
+            continue;
+        }
+        if (parse_int(buf, "<user_run_request>", retval)) {
             run_mode.set(retval, 0);
             continue;
-        } else if (parse_int(buf, "<user_network_request>", retval)) {
+        }
+        if (parse_int(buf, "<user_network_request>", retval)) {
             network_mode.set(retval, 0);
             continue;
-        } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
-        } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
-        } else if (parse_int(buf, "<core_client_release>", old_release)) {
-        } else if (match_tag(buf, "<cpu_benchmarks_pending/>")) {
+        }
+        if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
+            continue;
+        }
+        if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
+            continue;
+        }
+        if (parse_int(buf, "<core_client_release>", old_release)) {
+            continue;
+        }
+        if (match_tag(buf, "<cpu_benchmarks_pending/>")) {
             run_cpu_benchmarks = true;
-        } else if (match_tag(buf, "<work_fetch_no_new_work/>")) {
+            continue;
+        }
+        if (match_tag(buf, "<work_fetch_no_new_work/>")) {
             work_fetch_no_new_work = true;
-        } else if (match_tag(buf, "<proxy_info>")) {
+            continue;
+        }
+        if (match_tag(buf, "<proxy_info>")) {
             retval = proxy_info.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse proxy info in state file"
                 );
             }
-        } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
-        } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
-        } else if (parse_double(buf, "<all_projects_list_check_time>", all_projects_list_check_time)) {
-        } else if (parse_str(buf, "<newer_version>", newer_version)) {
-        } else if (match_tag(buf, "<auto_update>")) {
+            continue;
+        }
+        if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
+            continue;
+        }
+        if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
+            continue;
+        }
+        if (parse_double(buf, "<all_projects_list_check_time>", all_projects_list_check_time)) {
+            continue;
+        }
+        if (parse_str(buf, "<newer_version>", newer_version)) {
+            continue;
+        }
+        if (match_tag(buf, "<auto_update>")) {
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "auto update outside project in state file"
                 );
-                skip_unrecognized(buf, f);
+                skip_unrecognized(buf, mf);
                 continue;
             }
             if (!auto_update.parse(mf) && !auto_update.validate_and_link(project)) {
                 auto_update.present = true;
             }
-        } else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] state_file: unrecognized: %s", buf
-                );
-            }
+            continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] state_file: unrecognized: %s", buf
+            );
+        }
+        skip_unrecognized(buf, mf);
     }
     fclose(f);
     return 0;
@@ -454,6 +516,14 @@ int CLIENT_STATE::write_state_file() {
             );
         }
 #endif
+#ifdef __APPLE__
+        if (retval) {
+            msg_printf(0, MSG_USER_ERROR, 
+                "rename current state file to previous state file returned error %d: %s", 
+                errno, strerror(errno)
+            );
+        }
+#endif
     }
 
     retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
@@ -479,6 +549,15 @@ int CLIENT_STATE::write_state_file() {
             "Can't rename %s to %s; check file and directory permissions",
             STATE_FILE_NEXT, STATE_FILE_NAME
         );
+#endif
+#ifdef __APPLE__
+        msg_printf(0, MSG_USER_ERROR, 
+            "rename %s to %s returned error %d: %s", 
+            STATE_FILE_NEXT, STATE_FILE_NAME, errno, strerror(errno)
+        );
+        if (log_flags.state_debug) {
+            system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
+        }
 #endif
         return ERR_RENAME;
     }
@@ -551,7 +630,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
     for (i=1; i<platforms.size(); i++) {
-        f.printf("<alt_platform>%s</alt_platform>\n", platforms[i]->name.c_str());
+        f.printf("<alt_platform>%s</alt_platform>\n", platforms[i].name.c_str());
     }
     proxy_info.write(f);
     if (strlen(main_host_venue)) {
@@ -643,11 +722,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
-            if (gstate.link_app_version(p, avp)) {
+            if (strlen(avp->platform) == 0) {
+                strcpy(avp->platform, get_primary_platform());
+            }
+            if (link_app_version(p, avp)) {
                 delete avp;
                 continue;
             }
-            link_app_version(p, avp);
             app_versions.push_back(avp);
             continue;
         }

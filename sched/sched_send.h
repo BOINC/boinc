@@ -23,7 +23,7 @@ extern int get_app_version(
     PLATFORM_LIST& platforms, SCHED_SHMEM& ss
 );
 
-extern int send_work(
+extern void send_work(
     SCHEDULER_REQUEST&, SCHEDULER_REPLY&, PLATFORM_LIST&, SCHED_SHMEM&
 );
 
@@ -41,15 +41,20 @@ extern bool find_app_version(
 
 extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 
-// bits in bitmap returned by wu_is_infeasible()
+// values returned by wu_is_infeasible()
 //
 #define INFEASIBLE_MEM      1
 #define INFEASIBLE_DISK     2
-#define INFEASIBLE_CPU      4
-#define INFEASIBLE_WORK_BUF 8
-#define INFEASIBLE_APP_SETTING 16
+#define INFEASIBLE_CPU      3
+#define INFEASIBLE_WORK_BUF 4
+#define INFEASIBLE_APP_SETTING 5
+#define INFEASIBLE_WORKLOAD 6
+#define INFEASIBLE_DUP      7
+#define INFEASIBLE_HR       8
 
-extern int wu_is_infeasible(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern int wu_is_infeasible(
+    WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&, APP*
+);
  
 extern double max_allowable_disk(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 

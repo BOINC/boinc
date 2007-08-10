@@ -19,8 +19,8 @@
 
 // Manage a (perhaps multi-processor) benchmark.
 // Because of hyperthreaded CPUs we can't just benchmark 1 CPU;
-// we have to run parallel benchmarks,
-// and we have to ensure that they run more or less concurrently.
+// we must run parallel benchmarks
+// and ensure that they run more or less concurrently.
 // Here's our scheme:
 // - the main program forks N benchmarks threads or processes
 // - after FP_START seconds it creates a file "do_fp"
@@ -74,10 +74,10 @@
 #define DEFAULT_CACHE   1e6
 
 #define FP_START    2
-#define FP_END      22
-#define INT_START   37
-#define INT_END     57
-#define OVERALL_END 60
+#define FP_END      12
+#define INT_START   17
+#define INT_END     27
+#define OVERALL_END 30
 
 #define BM_FP_INIT  0
 #define BM_FP       1
@@ -111,6 +111,9 @@ struct BENCHMARK_DESC {
 static BENCHMARK_DESC* benchmark_descs=0;
 static bool benchmarks_running=false;    // at least 1 benchmark thread running
 static double cpu_benchmarks_start;
+static int bm_ncpus;
+    // user might change ncpus during benchmarks.
+    // store starting value here.
 
 const char *file_names[2] = {"do_fp", "do_int"};
 
@@ -144,16 +147,24 @@ bool benchmark_time_to_stop(int which) {
 //
 int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     HOST_INFO host_info;
-    double vax_mips, int_loops, int_time;
+    double vax_mips, int_loops=0, int_time=0;
 
     host_info.clear_host_info();
     whetstone(host_info.p_fpops);
+#ifdef _WIN32
+	// Windows: do integer benchmark only on CPU zero.
+	// There's a mysterious bug/problem that gives wildly
+	// differing benchmarks on multi-CPU and multi-core machines,
+	// if you use all the CPUs at once.
+	//
+	if (bdp->ordinal == 0) {
+#endif
     dhrystone(vax_mips, int_loops, int_time);
     host_info.p_iops = vax_mips*1e6;
     host_info.p_membw = 1e9;
     host_info.m_cache = 1e6;    // TODO: measure the cache
-
 #ifdef _WIN32
+	}
     bdp->host_info = host_info;
     bdp->int_loops = int_loops;
     bdp->int_time = int_time;
@@ -204,10 +215,11 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     if (benchmark_descs) {
         free(benchmark_descs);
     }
-    benchmark_descs = (BENCHMARK_DESC*)calloc(ncpus, sizeof(BENCHMARK_DESC));
+    bm_ncpus = ncpus;
+    benchmark_descs = (BENCHMARK_DESC*)calloc(bm_ncpus, sizeof(BENCHMARK_DESC));
     benchmarks_running = true;
 
-    for (i=0; i<ncpus; i++) {
+    for (i=0; i<bm_ncpus; i++) {
         benchmark_descs[i].ordinal = i;
         benchmark_descs[i].done = false;
         benchmark_descs[i].error = false;
@@ -251,6 +263,10 @@ bool CLIENT_STATE::should_run_cpu_benchmarks() {
     //
     double diff = now - host_info.p_calculated;
     if (diff < 0) return true;
+
+    // if no projects attached yet, don't run
+    //
+    if (projects.size()==0 && !run_cpu_benchmarks) return false;
 
     return ((run_cpu_benchmarks || diff > BENCHMARK_PERIOD));
 }
@@ -301,7 +317,7 @@ void check_benchmark(BENCHMARK_DESC& desc) {
 void CLIENT_STATE::abort_cpu_benchmarks() {
     int i;
     if (!benchmarks_running) return;
-    for (i=0; i<ncpus; i++) {
+    for (i=0; i<bm_ncpus; i++) {
         abort_benchmark(benchmark_descs[i]);
     }
 }
@@ -403,7 +419,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
     int ndone = 0;
     bool had_error = false;
-    for (i=0; i<ncpus; i++) {
+    for (i=0; i<bm_ncpus; i++) {
         if (!benchmark_descs[i].done) {
             check_benchmark(benchmark_descs[i]);
         }
@@ -419,10 +435,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     }
     if (log_flags.benchmark_debug) {
         msg_printf(0, MSG_INFO,
-            "[benchmark_debug] %d out of %d CPUs done", ndone, ncpus
+            "[benchmark_debug] %d out of %d CPUs done", ndone, bm_ncpus
         );
     }
-    if (ndone == ncpus) {
+    if (ndone == bm_ncpus) {
         double old_p_fpops = host_info.p_fpops;
         if (had_error) {
             msg_printf(NULL, MSG_INTERNAL_ERROR, "CPU benchmarks error");
@@ -432,7 +448,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             double p_iops = 0;
             double p_membw = 0;
             double m_cache = 0;
-            for (i=0; i<ncpus; i++) {
+            for (i=0; i<bm_ncpus; i++) {
                 if (log_flags.benchmark_debug) {
                     msg_printf(0, MSG_INFO,
                         "[benchmark_debug] CPU %d: fp %f int %f intloops %f inttime %f",
@@ -443,14 +459,18 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
                     );
                 }
                 p_fpops += benchmark_descs[i].host_info.p_fpops;
+#ifdef _WIN32
+                p_iops += benchmark_descs[0].host_info.p_iops;
+#else
                 p_iops += benchmark_descs[i].host_info.p_iops;
+#endif
                 p_membw += benchmark_descs[i].host_info.p_membw;
                 m_cache += benchmark_descs[i].host_info.m_cache;
             }
-            p_fpops /= ncpus;
-            p_iops /= ncpus;
-            p_membw /= ncpus;
-            m_cache /= ncpus;
+            p_fpops /= bm_ncpus;
+            p_iops /= bm_ncpus;
+            p_membw /= bm_ncpus;
+            m_cache /= bm_ncpus;
             if (p_fpops > 0) {
                 host_info.p_fpops = p_fpops;
             } else {
@@ -480,7 +500,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
 void CLIENT_STATE::print_benchmark_results() {
     msg_printf(NULL, MSG_INFO, "Benchmark results:");
-    msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", ncpus);
+    msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", bm_ncpus);
     msg_printf(
         NULL, MSG_INFO, "   %.0f floating point MIPS (Whetstone) per CPU",
         host_info.p_fpops/1e6

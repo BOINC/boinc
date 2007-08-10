@@ -1,6 +1,6 @@
 ##########################################
 # Language: English (International)
-# FileID  : $Id$
+# FileID  : $Id: cs.po 13097 2007-07-04 15:28:28Z Rytis $
 ##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php

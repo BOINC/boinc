@@ -10,25 +10,7 @@ config.xml must contain an <app_dir> which specifies the directory to search.
 
 apps/APPLICATION_NAME/ contains application versions for each application.
 
-Filenames must be of the form NAME_VERSION_PLATFORM[.ext].
-The prefix name and extensions .gz, .exe, .sit are ignored.
-Platform strings must match the names of platforms in the database.
-
-update_versions also handles subdirectories,
-which contain files to bundle as a single app-version.
-Subdirectory names are ignored.
-Non-executable files can be arbitrarily named.
-
-Example setup:
-
-  apps/boinc/boinc_7.17_i686-pc-linux-gnu.gz
-  apps/Astropulse/astropulse_7.17_windows_intelx86.exe
-  apps/SETI@home/sah_4.20_sparc-sun-solaris2.9.gz
-  apps/SETI@home/sah_4.20_i686-pc-linux-gnu.gz
-  apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_4.21_sparc-sun-solaris2.9.gz
-  apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_logo_1.0.jpg
-  apps/SETI@Home/sah_4.21_i686-pc-linux-gnu/sah_4.21_i686-pc-linux-gnu.gz
-  apps/SETI@Home/sah_4.21_i686-pc-linux-gnu/sah_logo_1.0.jpg
+See http://boinc.berkeley.edu/trac/wiki/UpdateVersions
 
 """
 
@@ -181,6 +163,7 @@ def find_versions__process_bundle(app, match, dir):
     signature_files = {}
     file_ref_infos = {}
     dirname = os.path.basename(dir)
+    found_main = False
     for filepath in xlistdir(dir):
         if os.path.isdir(filepath):
             continue
@@ -188,6 +171,7 @@ def find_versions__process_bundle(app, match, dir):
             # the filename matches the folder name,
             # so this is the main program executable.
             exec_files.insert(0, filepath)
+            found_main = True
             continue
         # if filename is of format 'EXECFILE.sig' treat it as signature file
         if filepath.endswith('.sig'):
@@ -202,8 +186,8 @@ def find_versions__process_bundle(app, match, dir):
             exec_files.append(filepath)
             continue;
         non_exec_files.append(filepath)
-    if not exec_files:
-        print >>sys.stderr, "  Ignoring directory (no executable found - it has to be named the same as the directory)", dir
+    if not found_main:
+        print >>sys.stderr, "  Ignoring directory (no main program found - it has to be named the same as the directory)", dir
         return
 
     # check signatures, file_path_infos

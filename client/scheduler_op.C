@@ -67,12 +67,8 @@ bool SCHEDULER_OP::check_master_fetch_start() {
         msg_printf(p, MSG_INTERNAL_ERROR,
             "Couldn't start download of scheduler list: %s", boincerror(retval)
         );
-        if (p->tentative) {
-            p->attach_failed(ERR_ATTACH_FAIL_PARSE);
-        } else {
-            p->master_fetch_failures++;
-            backoff(p, "scheduler list fetch failed\n");
-        }
+        p->master_fetch_failures++;
+        backoff(p, "scheduler list fetch failed\n");
         return false;
     }
     msg_printf(p, MSG_INFO, "Fetching scheduler list");
@@ -166,9 +162,6 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
 //
 // Back off contacting this project's schedulers,
 // and output an error msg if needed
-//
-// Master-file fetch errors for tentative (new) projects
-// are handled elsewhere; no need to detach from projects here.
 //
 void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
     char buf[1024];
@@ -327,7 +320,6 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         //
         char* q = buf;
         while (q && parse_str(q, "<scheduler>", str)) {
-            strip_whitespace(str);
             push_unique(str, urls);
             q = strstr(q, "</scheduler>");
             if (q) q += strlen("</scheduler>");
@@ -339,8 +331,9 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         while (q) {
             n = sscanf(q, "<link rel=\"boinc_scheduler\" href=\"%s", buf2);
             if (n == 1) {
-                char* q = strchr(buf2, '\"');
-                if (q) *q = 0;
+                char* q2 = strchr(buf2, '\"');
+                if (q2) *q2 = 0;
+                strip_whitespace(buf2);
                 str = string(buf2);
                 push_unique(str, urls);
             }
@@ -399,7 +392,6 @@ bool SCHEDULER_OP::poll() {
     int retval, nresults;
     vector<std::string> urls;
     bool changed, scheduler_op_done;
-    bool err = false;
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
@@ -421,15 +413,8 @@ bool SCHEDULER_OP::poll() {
                 if (retval || (urls.size()==0)) {
                     // master file parse failed.
                     //
-                    if (cur_proj->tentative) {
-                        PROJECT* project_temp = cur_proj;
-                        cur_proj = 0;   // keep detach(0) from removing HTTP OP
-                        project_temp->attach_failed(ERR_ATTACH_FAIL_PARSE);
-                        err = true;
-                    } else {
-                        cur_proj->master_fetch_failures++;
-                        backoff(cur_proj, "Couldn't parse scheduler list");
-                    }
+                    cur_proj->master_fetch_failures++;
+                    backoff(cur_proj, "Couldn't parse scheduler list");
                 } else {
                     // parse succeeded
                     //
@@ -447,18 +432,12 @@ bool SCHEDULER_OP::poll() {
             } else {
                 // master file fetch failed.
                 //
-                if (cur_proj->tentative) {
-                    PROJECT* project_temp = cur_proj;
-                    cur_proj = 0;
-                    project_temp->attach_failed(ERR_ATTACH_FAIL_DOWNLOAD);
-                } else {
-                    char buf[256];
-                    sprintf(buf, "Scheduler list fetch failed: %s",
-                        boincerror(http_op.http_op_retval)
-                    );
-                    cur_proj->master_fetch_failures++;
-                    backoff(cur_proj, buf);
-                }
+                char buf[256];
+                sprintf(buf, "Scheduler list fetch failed: %s",
+                    boincerror(http_op.http_op_retval)
+                );
+                cur_proj->master_fetch_failures++;
+                backoff(cur_proj, buf);
             }
             gstate.request_work_fetch("Master fetch complete");
             cur_proj = NULL;
@@ -502,39 +481,17 @@ bool SCHEDULER_OP::poll() {
                 }
             } else {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
-                if (cur_proj->tentative) {
-					cur_proj->tentative = false;
-					retval = cur_proj->write_account_file();
-                    if (retval) {
-                        cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
-                    } else {
-                        gstate.project_attach.error_num = 0;
-                        msg_printf(cur_proj, MSG_INFO,
-                            "Successfully attached to %s",
-                            cur_proj->get_project_name()
-                        );
-                    }
-                } else {
-                    switch (retval) {
-                    case 0:
-                        // if we asked for work and didn't get any,
-                        // back off this project
-                        //
-                        if (cur_proj->work_request && nresults==0) {
-                            backoff(cur_proj, "no work from project\n");
-                        } else {
-                            cur_proj->nrpc_failures = 0;
-                        }
-                        break;
-                    case ERR_PROJECT_DOWN:
-                        backoff(cur_proj, "project is down");
-                        break;
-                    default:
-                        backoff(cur_proj, "can't parse scheduler reply");
-                        break;
-                    }
-                    cur_proj->work_request = 0;    // don't ask again right away
+                switch (retval) {
+                case 0:
+                    break;
+                case ERR_PROJECT_DOWN:
+                    backoff(cur_proj, "project is down");
+                    break;
+                default:
+                    backoff(cur_proj, "can't parse scheduler reply");
+                    break;
                 }
+                cur_proj->work_request = 0;    // don't ask again right away
             }
             cur_proj = NULL;
             gstate.request_work_fetch("RPC complete");
@@ -832,6 +789,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
             continue;
         } else if (parse_bool(buf, "non_cpu_intensive", project->non_cpu_intensive)) {
+            continue;
+        } else if (parse_bool(buf, "ended", project->ended)) {
             continue;
         } else if (parse_bool(buf, "verify_files_on_app_start", project->verify_files_on_app_start)) {
             continue;

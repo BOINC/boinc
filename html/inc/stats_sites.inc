@@ -3,6 +3,9 @@
 // the following sites generate stats for a given CPID
 //
 $cpid_stats_sites = array(
+    array("BOINC all Project Stats",
+        "http://www.allprojectstats.com/showuser.php?id=%s"
+    ),
     array("BOINCstats",
         "http://www.boincstats.com/stats/boinc_user_graph.php?pr=bo&id=%s"
     ),
@@ -15,9 +18,20 @@ $cpid_stats_sites = array(
     array("The Knights Who Say 'Ni!'",
         "http://stats.kwsn.net/user.php?proj=all&cpid=%s"
     ),
+    array("Team Starfire World BOINC Stats 'N Stones",
+        "http://statsnstones.tswb.org/userdetail.aspx?cpid=%s"
+    ),
 );
 
 $stats_sites = array(
+    array(
+        "http://statsnstones.tswb.org/",
+        "Team Starfire World BOINC Stats 'N Stones"
+    ),
+    array(
+        "http://www.allprojectstats.com/",
+        "BOINC all Project Stats"
+    ),
     array(
         "http://stats.free-dc.org",
         "Free-DC",
@@ -35,7 +49,7 @@ $stats_sites = array(
     ),
     array("http://www.setisynergy.com/stats/index.php",
         "BOINC Statistics for the WORLD!",
-        "developed by Zain Upton (email: zain.upton at setisynergy.com)"
+        "developed by Zain Upton (email: zain.upton at boincsynergy.com)"
     ),
     array("http://boinc.netsoft-online.com/",
         "BOINC Combined Statistics",
@@ -57,15 +71,6 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
-    array("http://www.boinc.dk/index.php?page=statistics",
-        "BOINC.dk",
-        "developed by Janus Kristensen (email: stats at boinc.dk)."
-    ),
-    //array("http://stats.boincbzh.net/BZHwds/index.php",
-    //    "BOINC Alliance Francophone",
-    //    "developed by Vincent Mary (email: stats at hoincbzh.net).
-    //    Supports competition between 'mini-teams'."
-    //),
     array("http://stats.kwsn.net/",
         "The Knights Who Say 'Ni' stats",
         ""
@@ -79,7 +84,7 @@ $stats_sites = array(
 $team_stats_sites = array(
     array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
     array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
-    array("http://www.oxxam.net/", "L'Alliance Francophone"),
+    array("http://www.myboinc.com/scores/", "L'Alliance Francophone"),
     array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
     array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     array("http://www.bigbee.be/comp/boinc/index.php",
@@ -92,6 +97,14 @@ $team_stats_sites = array(
 );
 
 $sig_sites = array(
+//    array(
+//        "http://brainsmashr.com/BOINC/",
+//        "BrainSmashR.com boincwapstats",
+//        "Boincwapstats retrieves real-time BOINC statistics data
+//        and creates signature pictures out of it.
+//        You can select the background, style, data, etc.
+//        It's PHP and open source, so you can run it on your own server."
+//    ),
     array(
         "http://www.boincuk.com/show3.php",
         "BOINC UK",
@@ -99,11 +112,7 @@ $sig_sites = array(
     ),
     array("http://boinc.mundayweb.com/",
         "http://boinc.mundayweb.com",
-        "user-configurable stats counters. Cool!"
-    ),
-    array("http://www.boinc.dk/index.php?page=signatures",
-        "http://www.boinc.dk/index.php?page=signatures",
-        ""
+        "User-configurable stats counters. Cool!"
     ),
     array("http://www.bigbee.be/comp/boinc/signature.php?id=9",
         "http://www.bigbee.be/comp/boinc/signature.php",

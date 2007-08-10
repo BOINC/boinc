@@ -262,6 +262,9 @@ msgstr "Top %s teams"
 msgid "TEAM_TABLE_MEMBERS"
 msgstr "Members"
 
+msgid "TOP_HOST_TITLE"
+msgstr "Top hosts"
+
 
 #########################################
 # Forum

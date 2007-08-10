@@ -125,7 +125,11 @@ void get_log_path(char* p, const char* filename) {
     if (q) *q=0;
     sprintf(dir, "../log_%s", host);
     sprintf(p, "%s/%s", dir, filename);
+    mode_t old_mask = umask(0);
     mkdir(dir, 02770);
+        // make log_x directory sticky and group-rwx
+        // so that whatever apache puts there will be owned by us
+    umask(old_mask);
 }
 
 static void filename_hash(const char* filename, int fanout, char* dir) {
@@ -238,6 +242,7 @@ int mylockf(int fd) {
 }
 
 double fpops_to_credit(double fpops, double intops) {
+    // TODO: use fp_weight if specified in config file
     double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
     double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
     return std::max(fpc, intc);
@@ -258,9 +263,15 @@ int count_workunits(int& n, const char* query) {
     return 0;
 }
 
-int count_unsent_results(int& n) {
+int count_unsent_results(int& n, int appid) {
     char buf[256];
-    sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+    if (appid) {
+        sprintf(buf, "where server_state=%d and appid=%d ",
+            RESULT_SERVER_STATE_UNSENT, appid
+        );
+    } else {
+        sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+    }
     return count_results(buf, n);
 
 }

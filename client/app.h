@@ -26,6 +26,7 @@
 #endif
 
 #include "client_types.h"
+#include "common_defs.h"
 #include "app_ipc.h"
 #include "procinfo.h"
 
@@ -37,26 +38,6 @@ typedef int PROCESS_ID;
     // before sending to server,
     // to protect against apps that write unbounded amounts.
 
-// values of ACTIVE_TASK::task_state
-//
-#define PROCESS_UNINITIALIZED   0
-    // process doesn't exist yet
-#define PROCESS_EXECUTING       1
-    // process is running, as far as we know
-#define PROCESS_SUSPENDED       9
-    // we've sent it a "suspend" message
-#define PROCESS_ABORT_PENDING   5
-    // process exceeded limits; send "abort" message, waiting to exit
-#define PROCESS_QUIT_PENDING    8
-    // we've sent it a "quit" message, waiting to exit
-
-// states in which the process has exited
-#define PROCESS_EXITED          2
-#define PROCESS_WAS_SIGNALED    3
-#define PROCESS_EXIT_UNKNOWN    4
-#define PROCESS_ABORTED         6
-    // aborted process has exited
-#define PROCESS_COULDNT_START   7
 
 // Represents a task in progress.
 //
@@ -71,9 +52,10 @@ typedef int PROCESS_ID;
 // that BOINC doesn't know about.
 //
 class ACTIVE_TASK {
+    int _task_state;
 public:
 #ifdef _WIN32
-    HANDLE pid_handle, thread_handle, quitRequestEvent, shm_handle;
+    HANDLE pid_handle, thread_handle, shm_handle;
     bool kill_all_children();
 #endif
     SHMEM_SEG_NAME shmem_seg_name;
@@ -84,7 +66,6 @@ public:
 	PROCINFO procinfo;
 
     int slot;   // subdirectory of slots/ where this runs
-    int _task_state;
     inline int task_state() {
         return _task_state;
     }
@@ -110,13 +91,18 @@ public:
         // most recent CPU time reported by app
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
-    char slot_dir[256];      // directory where process runs
+    char slot_dir[256];      // directory where process runs (relative)
+    char slot_path[512];        // same, absolute
+        // This is used only to run graphics apps
+        // (that way don't have to worry about top-level dirs
+        // being non-readable, etc).
     double max_cpu_time;    // abort if total CPU exceeds this
     double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;   // abort if memory usage exceeds this
     bool have_trickle_down;
     bool send_upload_file_status;
     bool too_large;                 // working set too large to run now
+    bool needs_shmem;               // waiting for a free shared memory segment
     int want_network;
         // This task wants to do network comm (for F@h)
         // this is passed via share-memory message (app_status channel)
@@ -134,6 +120,7 @@ public:
     bool is_ss_app;
     double graphics_mode_ack_timeout;
     bool exit_requested;
+    int premature_exit_count;
 
 #ifdef SIM
     double cpu_time_left;
@@ -190,12 +177,13 @@ public:
 #else
     void handle_exited_app(int stat);
 #endif
+    void handle_exit_zero(bool&);
 
     bool check_max_disk_exceeded();
 
     bool get_app_status_msg();
     bool get_trickle_up_msg();
-    double est_cpu_time_to_completion();
+    double est_cpu_time_to_completion(bool for_work_fetch);
     bool read_stderr_file();
     bool finish_file_present();
     bool supports_graphics();
@@ -206,6 +194,7 @@ public:
     int copy_output_files();
 
     int write(MIOFILE&);
+    int write_gui(MIOFILE&);
     int parse(MIOFILE&);
 };
 

@@ -57,6 +57,8 @@
 #define ID_ADVPREFSDLG							6033
 #define ID_SHUTDOWNCORECLIENT                   6034
 #define ID_HELPBOINC                            6035
+#define ID_VIEWACCESSIBLE                       6036
+#define ID_VIEWGRID                             6037
 #define ID_SIMPLEFRAME                          6100
 #define ID_SIMPLEMESSAGECHECKTIMER              6101
 #define ID_SIMPLE_ATTACHTOPROJECT               6600
@@ -67,6 +69,7 @@
 #define ID_SIMPLE_RESUME                        6605
 #define ID_SIMPLE_PREFERENCES                   6606
 #define ID_SIMPLE_MESSAGESVIEW                  6607
+#define ID_SIMPLE_SYNCRONIZE                    6608
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801
 #define ID_LIST_BASE                            7000

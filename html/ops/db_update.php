@@ -9,7 +9,7 @@ require_once("../inc/util.inc");
 require_once("../inc/ops.inc");
 
 cli_only();
-db_init_cli();
+db_init();
 
 set_time_limit(0);
 
@@ -391,11 +391,60 @@ function update_4_30_2007() {
     );
 }
 
+function update_5_27_2007() {
+    do_query("create table donation_items (
+    id                  integer     unsigned    not null auto_increment,
+    item_name           varchar(32)             not null,
+    title               varchar(255)            not null,
+    description         varchar(255)            not null,
+    required            double      unsigned    not null default '0',
+    PRIMARY KEY(id)
+) TYPE=MyISAM;");
+    do_query("create table donation_paypal (
+    id                  integer                 not null auto_increment,
+    order_time          integer     unsigned    not null,
+    userid              integer                 not null,
+    email_addr          varchar(255)            not null,
+    order_amount        double(6,2)             not null,
+    processed           tinyint(1)              not null default '0',
+    payment_time        integer     unsigned    not null,
+    item_name           varchar(255)            not null,
+    item_number         varchar(255)            not null,
+    payment_status      varchar(255)            not null,
+    payment_amount      double(6,2)             not null,
+    payment_fee         double(5,2)             default null,
+    payment_currency    varchar(255)            not null,
+    txn_id              varchar(255)            not null,
+    receiver_email      varchar(255)            not null,
+    payer_email         varchar(255)            not null,
+    payer_name          varchar(255)            not null,
+    PRIMARY KEY(id)
+) TYPE=MyISAM;");
+}
+
+function update_6_5_2007() {
+    do_query("ALTER TABLE `forum_preferences` ADD `pm_notification` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1';");
+}
+
+function update_7_26_2007() {
+    do_query("create table team_delta (
+    userid              integer                 not null,
+    teamid              integer                 not null,
+    timestamp           integer                 not null,
+    joining             tinyint(1)              not null,
+    total_credit        double                  not null
+) TYPE=MyISAM;"
+    );
+    do_query("alter table team_delta
+        add index team_delta_teamid (teamid, timestamp);"
+    );
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_4_30_2007();
+//update_7_26_2007();
 
 ?>

@@ -2,10 +2,7 @@
 require_once("docutil.php");
 require_once("../html/inc/translation.inc");
 
-header('Content-Type: text/html; charset="UTF-8"');
-
 function show_participant() {
-    global $light_blue;
     $i = rand(0, 99);
     $j = $i+1;
     echo "
@@ -28,11 +25,10 @@ function show_participant() {
 }
 
 function show_news_items() {
-    global $light_blue;
     require_once("boinc_news.php");
     require_once("../html/inc/news.inc");
     echo "
-        <table border=2 cellpadding=8><tr><td bgcolor=$light_blue>
+        <table border=0 cellpadding=8><tr><td class=fieldname>
         <font size=4>News</font>
         <br>
     ";
@@ -54,9 +50,8 @@ function show_news_items() {
 }
 
 function show_participate() {
-    global $light_blue;
     echo "
-        <tr><td bgcolor=$light_blue>
+        <tr><td class=fieldname>
             <font size=4>&nbsp;".tr(HOME_HEADING1)."</font>
         </td></tr>
         <tr><td>
@@ -67,32 +62,26 @@ function show_participate() {
         ".sprintf(tr(HOME_P2), "<a href=acct_mgrs.php>", "</a>", "<a href=http://gridrepublic.org>", "</a>", "<a href=http://bam.boincstats.com/>", "</a>")."
         <p>
         ".sprintf(tr(HOME_P3), "<a href=help.php>", "</a>")."
-        <center>
-        <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-        | <a href=trac/wiki/RunningBoinc><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
-        | <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
-        | <a href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
-        | <a href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
-        </center>
         </td></tr>
     ";
 }
 
 function show_create() {
-    global $light_blue;
     echo "
-        <tr><td bgcolor=$light_blue><font size=4>Compute with BOINC</font></td></tr>
+        <tr><td class=fieldname><font size=4>Compute with BOINC</font></td></tr>
         <tr><td>
-        A BOINC project with a single Linux server
-        can provide computing power equivalent
-        to a cluster with tens of thousands of CPUs.
         Learn how to <a href=trac/wiki/CreateProjectOutline>create
         and operate a BOINC project</a>.
         <ul>
         <li> <b>Scientists</b>: if your group has moderate
         programming, web, sysadmin, and hardware resources,
-        you can create your own BOINC project.
-        Or organizations such as IBM World Community Grid may be able
+        you can use BOINC to create a
+        <a href=volunteer.php>volunteer computing project</a>.
+        A BOINC project with a single Linux server
+        can provide computing power equivalent
+        to a cluster with tens of thousands of CPUs.
+        <li>
+        Organizations such as IBM World Community Grid may be able
         to host your project
         (please <a href=contact.php>contact us</a> for information).
         <li> <b>Universities</b>: use BOINC to create a
@@ -105,20 +94,20 @@ function show_create() {
 }
 
 function show_other() {
-    global $light_blue;
     echo "
-        <tr><td bgcolor=$light_blue><font size=4>Other info</font></td></tr>
+        <tr><td class=fieldname><font size=4>Other info</font></td></tr>
         <tr><td>
             <ul>
             <li> <a href=trac/wiki/BoincIntro/>Overview</a>
             <li> <a href=trac/wiki/SoftwareDevelopment>Software development</a>
-            <li> <a href=translation.php>Translation</a> of web and GUI text
+            <li> <a href=trac/wiki/TranslateIntro>Translation</a> of web and GUI text
             <li> <a href=trac/wiki/ProjectPeople>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
             <li> BOINC <a href=dev/>message boards</a>
-            <li> <a href=papers.php>Papers and talks</a> about BOINC
+            <li> <a href=http://boinc.berkeley.edu/trac/wiki/BoincPapers>Papers and talks</a> on BOINC
             <li> <a href=logo.php>Logos and graphics</a>
-            <li> <a href=events.php>Events</a>
+            <li> <a href=events.php>Events (Note: the <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop07>3rd Pan-Galactic
+                BOINC Workshop</a> will be held 5-6 September 2007 in Geneva, Switzerland.</a>)
             </ul>
             <br>
         </td></tr>
@@ -141,7 +130,42 @@ function show_nsf() {
     ";
 }
 
+function language_form() {
+    echo "
+        <form name=language method=get action=set_language.php>
+        <select class=selectbox name=lang onchange=\"javascript: submit()\">
+        <option value=auto selected=\"selected\">-- language --
+        <option value=auto>Browser default
+        <option value=ar>العربية
+        <option value=be>Беларускі
+        <option value=bg>Български
+        <option value=ca>Català
+        <option value=de>Deutsch
+        <option value=en>English
+        <option value=es>Espa&ntilde;ol
+        <option value=fr>Fran&ccedil;ais
+        <option value=ja>日本語
+        <option value=lt>Lietuvių
+        <option value=nl>Nederlands
+        <option value=pl>Polski
+        <option value=pt_BR>Portugu&ecirc;s - Brasil
+        <option value=ru>Русский
+        <option value=sk>Slovenčina
+        <option value=tr>Türkçe
+        <option value=zh_CN>简体中文
+        </select>
+        </form>
+        <script>
+        document.language.lang.selectedIndex=0;
+        </script>
+    ";
+}
+
 html_tag();
+if (defined("CHARSET")) {
+    header("Content-type: text/html; charset=".tr(CHARSET));
+}
+
 echo "
 <head>
 <link rel=\"shortcut icon\" href=\"iconsmall.ico\">
@@ -151,40 +175,31 @@ echo "
 <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
 <body bgcolor=#ffffff>
-<img hspace=30 vspace=10 align=left src=logo/logo_small.png>
+<table border=0><tr><td valign=top>
+<img hspace=40 vspace=10 align=left src=logo/www_logo.gif>
+</td><td>
 <h1>
 ".tr(HOME_BOINC)."
 </h1>
-<font size=+1>
+</td></tr>
+<tr><td colspan=2>
+<font size=+1> &nbsp;
 ".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php>', '</a>', '<a href=dg.php>', '</a>')."
 </font>
-<p>
+</td></tr></table>
+<br clear=all>
+<table width=100% border=0 cellpadding=8 cellspacing=0><tr><td valign=center>
+<a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
+| <a href=trac/wiki/RunningBoinc><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
+| <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
+| <a href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
+| <a href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
+</td><td align=right>
 ";
+language_form();
 search_form();
 echo "
-<br clear=all>
-<font size=-1>
-<a href=set_language.php?lang=ar>العربية</a>
-| <a href=set_language.php?lang=be>Беларускі</a>
-| <a href=set_language.php?lang=bg>���������</a>
-| <a href=set_language.php?lang=ca>Català</a>
-| <a href=set_language.php?lang=de>Deutsch</a>
-| <a href=set_language.php?lang=en>English</a>
-| <a href=set_language.php?lang=es>Espa&ntilde;ol</a>
-| <a href=set_language.php?lang=fr>Fran&ccedil;ais</a>
-| <a href=set_language.php?lang=ja>日本語</a>
-";
-//| <a href=set_language.php?lang=ja_JP>日本語</a>
-echo "
-| <a href=set_language.php?lang=lt>Lietuvių</a>
-| <a href=set_language.php?lang=pl>Polski</a>
-| <a href=set_language.php?lang=pt_BR>Portugu&ecirc;s - Brasil</a>
-| <a href=set_language.php?lang=ru>Русский</a>
-| <a href=set_language.php?lang=sk>Slovenčina</a>
-| <a href=set_language.php?lang=tr>Türkçe</a>
-| <a href=set_language.php?lang=zh_CN>简体中文</a>
-| <a href=set_language.php?lang=auto>Browser</a>
-</font>
+</td></tr></table>
 
 <table width=100% border=0 cellspacing=0 cellpadding=4>
 <tr>

@@ -24,19 +24,23 @@
 #include "miofile.h"
 #include "parse.h"
 
-// Global preferences are edited and stored on BOINC servers.
-// The native representation of preferences is XML.
-// The client maintains the preferences (in XML form)
-// and mod time in the state file and in memory.
-// It includes these items in each scheduler request message.
-// A scheduler reply message may contain a more recent set of preferences.
-//
+// global prefs are maintained as follows:
+// 1) a "global_prefs.xml" file, which stores the "network" prefs;
+//      it's maintained by communication with scheduling servers
+//      or project managers
+// 2) a "global_prefs_override.xml" file, which can be edited manually
+//      or via a GUI.
+//      For the prefs that it specifies, it overrides the network prefs.
 
-// A struct with one bool per GLOBAL_PREFS field
+// A struct with one bool per pref.
+// This is passed in GUI RPCs (get/set_global_prefs_override_struct)
+// to indicate which prefs are (or should be) specified in the override file
 //
 struct GLOBAL_PREFS_MASK {
     bool run_on_batteries;
     bool run_if_user_active;
+    bool idle_time_to_run;
+    bool suspend_if_no_recent_input;
     bool start_hour;     // 0..23; no restriction if start==end
     bool end_hour;
     bool net_start_hour;     // 0..23; no restriction if start==end
@@ -56,7 +60,6 @@ struct GLOBAL_PREFS_MASK {
     bool vm_max_used_frac;
 	bool ram_max_used_busy_frac;
 	bool ram_max_used_idle_frac;
-    bool idle_time_to_run;
     bool max_bytes_sec_up;
     bool max_bytes_sec_down;
     bool cpu_usage_limit;
@@ -93,14 +96,17 @@ struct DAY_PREFS {
 struct WEEK_PREFS {
     bool present;       // at least one day is present
     DAY_PREFS days[7];  // sun..sat
+    void clear();
 };
 
-// The following structure is a parsed version of the prefs file
-//
 struct GLOBAL_PREFS {
     int mod_time;
     bool run_on_batteries;
+        // poorly named; what it really means is:
+        // if false, suspend while on batteries
     bool run_if_user_active;
+    double idle_time_to_run;
+    double suspend_if_no_recent_input;
     bool leave_apps_in_memory;
     bool confirm_before_connecting;
     bool hangup_if_dialed;
@@ -117,7 +123,6 @@ struct GLOBAL_PREFS {
     double vm_max_used_frac;
 	double ram_max_used_busy_frac;
 	double ram_max_used_idle_frac;
-    double idle_time_to_run;
     double max_bytes_sec_up;
     double max_bytes_sec_down;
     double cpu_usage_limit;
@@ -135,6 +140,9 @@ struct GLOBAL_PREFS {
     int write(MIOFILE&);
     int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);
     bool suspended_time_of_day(int);
+    inline double cpu_scheduling_period() {
+        return cpu_scheduling_period_minutes*60;
+    }
 };
 
 #endif

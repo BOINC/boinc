@@ -1,7 +1,7 @@
 ##########################################
 # Language: Spanish (Spain)
 # FileID  : $Id$
-# Author  : Janus Kristensen (Translator: Alejandro MartÌn Covarrubias)
+# Author  : Janus Kristensen (Translator: Alejandro Mart√≠n Covarrubias)
 # Email   : jbk@visualgroup.dk (alex.covarrubias@gmail.com)
 ##########################################
 # For more information please see:
@@ -10,10 +10,10 @@
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
-msgstr "iso-8859-1"
+msgstr "UTF-8"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
-msgstr "EspaÒol"
+msgstr "Espa√±ol"
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
@@ -27,16 +27,16 @@ msgstr "Aplicaciones"
 
 msgid "APPS_DESCRIPTION"
 msgstr "$PROJECT tiene actualmente las siguientes aplicaciones. "
-"Cuando usted participa en $PROJECT, el trabajo para una o m·s "
-"de esas aplicaciones ser· asignado a su ordenador. "
-"La versiÛn m·s actualizada de Èsa aplicaciÛn ser· descargada "
-"a su ordenador. …sto ocurre autom·ticamente; usted no tiene que hacer nada."
+"Cuando usted participa en $PROJECT, el trabajo para una o m√°s "
+"de esas aplicaciones ser√° asignado a su ordenador. "
+"La versi√≥n m√°s actualizada de √©sa aplicaci√≥n ser√° descargada "
+"a su ordenador. √âsto ocurre autom√°ticamente; usted no tiene que hacer nada."
 
 msgid "APPS_PLATFORM"
 msgstr "Plataforma"
 
 msgid "APPS_VERSION"
-msgstr "VersiÛn actual"
+msgstr "Versi√≥n actual"
 
 msgid "APPS_INSTALLTIME"
 msgstr "Instalada"
@@ -45,84 +45,84 @@ msgstr "Instalada"
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Lea nuestras polÌticas y normas"
+msgstr "Lea nuestras pol√≠ticas y normas"
 
 msgid "RULES_ONLY_AUTH"
-msgstr "Ejecutar $PROJECT sÛlo en ordenadores autorizados"
+msgstr "Ejecutar $PROJECT s√≥lo en ordenadores autorizados"
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Ejecute $PROJECT sÛlo en ordenadores que le pertenezcan, "
+msgstr "Ejecute $PROJECT s√≥lo en ordenadores que le pertenezcan, "
 "o de los que haya obtenido permiso del propietario. "
-"Algunas compaÒÌas y escuelas tienen normas que prohiben usar sus ordenadores "
+"Algunas compa√±√≠as y escuelas tienen normas que prohiben usar sus ordenadores "
 "para proyectos como $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
-msgstr "CÛmo $PROJECT usar· su ordenador"
+msgstr "C√≥mo $PROJECT usar√° su ordenador"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
 msgstr "Cuando ejecute $PROJECT en su ordenador, "
-"utilizar· parte de la potencia de su CPU, espacio en disco, y ancho de banda de red. "
+"utilizar√° parte de la potencia de su CPU, espacio en disco, y ancho de banda de red. "
 "Puede controlar la cantidad de recursos usados por $PROJECT, "
-"y cu·ndo son utilizados."
+"y cu√°ndo son utilizados."
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
 msgstr "El trabajo hecho por su ordenador contribuye a los "
-"objetivos de $PROJECT, como se describe en su p·gina web. "
+"objetivos de $PROJECT, como se describe en su p√°gina web. "
 "Los programas pueden ir cambiando cada cierto tiempo."
 
 msgid "RULES_PRIVACY"
-msgstr "PolÌtica de privacidad"
+msgstr "Pol√≠tica de privacidad"
 
 msgid "RULES_PRIVACY_TEXT_A"
 msgstr "Su cuenta en $PROJECT se identifica por un nombre que usted elige. "
-"…ste nombre puede ser mostrado en la p·gina web de $PROJECT, junto a un sumario del "
+"√âste nombre puede ser mostrado en la p√°gina web de $PROJECT, junto a un sumario del "
 "trabajo que su ordenador ha hecho para $PROJECT. "
 "Si quiere mantener su anonimato, elija un nombre que no revele su identidad."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Si usted participa en $PROJECT, informaciÛn sobre su ordenador "
+msgstr "Si usted participa en $PROJECT, informaci√≥n sobre su ordenador "
 "(como el tipo de procesador, cantidad de memoria, etc.) "
-"ser· guardada por $PROJECT y usada para decidir quÈ tipo de trabajo "
-"se asigna a su ordenador. …sta informaciÛn se mostrar· tambiÈn en "
-"la p·gina web de $PROJECT. "
-"Nada que permita conocer la situaciÛn de su ordenador (ej. su nombre de dominio o "
-"direcciÛn de red) ser· mostrado."
+"ser√° guardada por $PROJECT y usada para decidir qu√© tipo de trabajo "
+"se asigna a su ordenador. √âsta informaci√≥n se mostrar√° tambi√©n en "
+"la p√°gina web de $PROJECT. "
+"Nada que permita conocer la situaci√≥n de su ordenador (ej. su nombre de dominio o "
+"direcci√≥n de red) ser√° mostrado."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Para participar en $PROJECT, usted debe indicar una direcciÛn donde recibir correos. "
-"…sta direcciÛn no se mostrar· en la p·gina web de $PROJECT ni ser· compartida con otras organizaciones. "
-"$PROJECT podr· mandarle boletines periÛdicamente; de todas formas son optativos y puede desactivarlos en cualquier momento."
+msgstr "Para participar en $PROJECT, usted debe indicar una direcci√≥n donde recibir correos. "
+"√âsta direcci√≥n no se mostrar√° en la p√°gina web de $PROJECT ni ser√° compartida con otras organizaciones. "
+"$PROJECT podr√° mandarle boletines peri√≥dicamente; de todas formas son optativos y puede desactivarlos en cualquier momento."
 
 msgid "RULES_SAFE"
-msgstr "øEs seguro ejecutar $PROJECT ?"
+msgstr "¬øEs seguro ejecutar $PROJECT ?"
 
 msgid "RULES_SAFE_TEXT_A"
-msgstr "Cada vez que descarga un programa de Internet est· haciendo una elecciÛn: "
+msgstr "Cada vez que descarga un programa de Internet est√° haciendo una elecci√≥n: "
 "el programa puede tener fallos peligrosos, "
 "o el servidor de descarga puede haber sido pirateado. "
-"$PROJECT ha hecho esfuerzos para minimizar Èsos riesgos. "
+"$PROJECT ha hecho esfuerzos para minimizar √©sos riesgos. "
 "Hemos testeado nuestras aplicaciones cuidadosamente. "
-"Nuestros servidores est·n detras de cortafuegos y est·n configurados para una seguridad m·xima. "
-"Para asegurar la integridad en la descarga de programas, todos los ficheros ejecutables est·n firmados "
+"Nuestros servidores est√°n detras de cortafuegos y est√°n configurados para una seguridad m√°xima. "
+"Para asegurar la integridad en la descarga de programas, todos los ficheros ejecutables est√°n firmados "
 "digitalmente en un ordenador seguro no conectado a Internet."
 
 msgid "RULES_SAFE_TEXT_B"
 msgstr "Las aplicaciones ejecutadas por $PROJECT pueden causar que algunos ordenadores se sobrecalienten. "
-"Si Èsto ocurre, no ejecute $PROJECT o utilice una %s que limite el uso de la CPU."
+"Si √©sto ocurre, no ejecute $PROJECT o utilice una %s que limite el uso de la CPU."
 
 msgid "RULES_UTILITY_PROGRAM"
 msgstr "utilidad"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT ha sido desarrollado por %s. BOINC fuÈ desarrollado por la Universidad de "
+msgstr "$PROJECT ha sido desarrollado por %s. BOINC fu√© desarrollado por la Universidad de "
 "California."
 
 msgid "RULES_LIABILITY"
 msgstr "Responsabilidades"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT y %s no asumen ninguna responsabilidad por daÒo en su ordenador, "
-"pÈrdida de datos, o cualquier otro evento o condiciÛn que pueda ocurrir como resultado de "
+msgstr "$PROJECT y %s no asumen ninguna responsabilidad por da√±o en su ordenador, "
+"p√©rdida de datos, o cualquier otro evento o condici√≥n que pueda ocurrir como resultado de "
 "participar en $PROJECT."
 
 msgid "RULES_OTHER"
@@ -130,88 +130,88 @@ msgstr "Otros proyectos BOINC"
 
 msgid "RULES_OTHER_TEXT_A"
 msgstr "Hay otros proyectos que utilizan la misma plataforma, BOINC, como $PROJECT. Usted puede querer considerar "
-"el participar en uno o m·s de esos proyectos. "
-"HaciÈndolo su ordenador har· un trabajo ˙til incluso cuando $PROJECT no tenga trabajo "
+"el participar en uno o m√°s de esos proyectos. "
+"Haci√©ndolo su ordenador har√° un trabajo √∫til incluso cuando $PROJECT no tenga trabajo "
 "disponible por hacer."
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "Esos otros proyectos no est·n asociados con $PROJECT, y no podemos "
-"garantizar sus niveles de seguridad o la naturaleza de su trabajo. ⁄nase a ellos "
+msgstr "Esos otros proyectos no est√°n asociados con $PROJECT, y no podemos "
+"garantizar sus niveles de seguridad o la naturaleza de su trabajo. √önase a ellos "
 "por su cuenta y riesgo."
 
 #########################################
 # Create account form (create_account_form.php)
 #########################################
 msgid "CREATE_AC_TITLE"
-msgstr "CreaciÛn de cuenta"
+msgstr "Creaci√≥n de cuenta"
 
 msgid "CREATE_AC_READ_RULES"
 msgstr "Lea las %s antes de crear una cuenta."
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Si usted recibiÛ una clave de cuenta, no mande Èste formulario. "
-"H·galo con Èste otro %s."
+msgstr "Si usted recibi√≥ una clave de cuenta, no mande √©ste formulario. "
+"H√°galo con √©ste otro %s."
 
 msgid "CREATE_AC_NAME"
 msgstr "Nombre"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "Le identifica en nuestra p·gina web. Utilice su nombre real o un apodo."
+msgstr "Le identifica en nuestra p√°gina web. Utilice su nombre real o un apodo."
 
 msgid "CREATE_AC_EMAIL"
-msgstr "DirecciÛn de Correo"
+msgstr "Direcci√≥n de Correo"
 
 msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Debe ser una direcciÛn v·lida con la forma 'nombre@dominio'."
+msgstr "Debe ser una direcci√≥n v√°lida con la forma 'nombre@dominio'."
 
 msgid "CREATE_AC_COUNTRY"
-msgstr "PaÌs"
+msgstr "Pa√≠s"
 
 msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Seleccione el paÌs que quiere representar, si lo hay."
+msgstr "Seleccione el pa√≠s que quiere representar, si lo hay."
 
 msgid "CREATE_AC_ZIP"
-msgstr "CÛdigo Postal"
+msgstr "C√≥digo Postal"
 
 msgid "CREATE_AC_CREATE"
 msgstr "Crear cuenta"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "La creaciÛn de cuentas est· desactivada."
+msgstr "La creaci√≥n de cuentas est√° desactivada."
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "La creaciÛn de cuentas est· desactivada para $PROJECT por ahora. "
-"Por favor intÈntelo m·s tarde."
+msgstr "La creaci√≥n de cuentas est√° desactivada para $PROJECT por ahora. "
+"Por favor int√©ntelo m√°s tarde."
 
 msgid "CREATE_AC_TEAM"
-msgstr "…sta cuenta pertenecer· al grupo %s y tendr· las preferencias del fundador del proyecto."
+msgstr "√âsta cuenta pertenecer√° al grupo %s y tendr√° las preferencias del fundador del proyecto."
 
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "NOTA: Si usted usa la versiÛn de BOINC 5.2+ con el Administrador de BOINC, "
-"no utilice Èste formulario. "
+msgstr "NOTA: Si usted usa la versi√≥n de BOINC 5.2+ con el Administrador de BOINC, "
+"no utilice √©ste formulario. "
 "Simplemente ejecute BOINC, seleccione Unirse a un Proyecto, "
-"e introduzca una direcciÛn de correo y una contraseÒa. "
+"e introduzca una direcci√≥n de correo y una contrase√±a. "
 
 msgid "CREATE_AC_PASSWORD"
-msgstr "ContraseÒa"
+msgstr "Contrase√±a"
 
 msgid "CREATE_AC_PASSWORD_DESC"
 msgstr "Debe ser al menos de %s caracteres"
 
 msgid "CREATE_AC_CONFIRM_PASSWORD"
-msgstr "Confirme contraseÒa"
+msgstr "Confirme contrase√±a"
 
 msgid  "AC_INVITE_CODE"
-msgstr "CÛdigo de InvitaciÛn"
+msgstr "C√≥digo de Invitaci√≥n"
 
 msgid  "AC_INVITE_CODE_DESC"
-msgstr "Se necesita un cÛdigo de invitaciÛn v·lido para crear una cuenta."
+msgstr "Se necesita un c√≥digo de invitaci√≥n v√°lido para crear una cuenta."
 
 msgid "AC_INVITE_REQUIRED"
-msgstr "Debe indicar un cÛdigo de invitaciÛn para crear una cuenta."
+msgstr "Debe indicar un c√≥digo de invitaci√≥n para crear una cuenta."
 
 msgid "AC_INVITE_INVALID"
-msgstr "El cÛdigo de invitaciÛn introducido no es v·lido."
+msgstr "El c√≥digo de invitaci√≥n introducido no es v√°lido."
 
 #########################################
 # Forum sample index page
@@ -238,19 +238,19 @@ msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Mejores participantes"
 
 msgid "USER_TABLE_RANK"
-msgstr "PosiciÛn"
+msgstr "Posici√≥n"
 
 msgid "USER_TABLE_NAME"
 msgstr "Nombre"
 
 msgid "TOTAL_CREDIT"
-msgstr "CrÈdito total"
+msgstr "Cr√©dito total"
 
 msgid "EXPAVG_CREDIT"
-msgstr "Promedio de crÈditos reciente"
+msgstr "Promedio de cr√©ditos reciente"
 
 msgid "USER_TABLE_COUNTRY"
-msgstr "PaÌs"
+msgstr "Pa√≠s"
 
 msgid "USER_TABLE_PTIME"
 msgstr "Participante desde"
@@ -272,7 +272,7 @@ msgstr "Tema"
 msgid "FORUM_THREADS"
 msgstr "Hilos"
 msgid "FORUM_LAST_POST"
-msgstr "⁄ltimo mensaje"
+msgstr "√öltimo mensaje"
 msgid "FORUM_AUTHOR"
 msgstr "Autor"
 msgid "FORUM_VIEWS"
@@ -282,57 +282,57 @@ msgid "FORUM_ERR_NOT_FOUND"
 msgstr "Foro inexistente"
 
 msgid "FORUM_ERR_EXPAVG"
-msgstr "Para crear un nuevo hilo en %s usted deber· tener una cierta cantidad de crÈditos."
-"…sto es asÌ para la prevenciÛn y protecciÛn de abusos del sistema."
+msgstr "Para crear un nuevo hilo en %s usted deber√° tener una cierta cantidad de cr√©ditos."
+"√âsto es as√≠ para la prevenci√≥n y protecci√≥n de abusos del sistema."
 
 msgid "FORUM_ERR_INTERVAL"
-msgstr "Usted no puede crear m·s hilos por ahora. Por favor espere un momento antes de intentarlo de nuevo."
-"…ste retraso ha sido implementado como protecciÛn ante abusos del sistema."
+msgstr "Usted no puede crear m√°s hilos por ahora. Por favor espere un momento antes de intentarlo de nuevo."
+"√âste retraso ha sido implementado como protecci√≥n ante abusos del sistema."
 
 msgid "FORUM_QA_POST_MESSAGE"
-msgstr "El ·rea %s le permite obtener ayuda de otros usuarios. Si tiene una pregunta o problema:"
+msgstr "El √°rea %s le permite obtener ayuda de otros usuarios. Si tiene una pregunta o problema:"
 msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "Lea la lista existente de preguntas. Si su pregunta ya existe allÌ, "
-"haga click en el botÛn %s. Si se han enviado respuestas a la pregunta, lÈalas. "
-"Si una de ellas responde su pregunta, haga click en el botÛn %s."
+msgstr "Lea la lista existente de preguntas. Si su pregunta ya existe all√≠, "
+"haga click en el bot√≥n %s. Si se han enviado respuestas a la pregunta, l√©alas. "
+"Si una de ellas responde su pregunta, haga click en el bot√≥n %s."
 msgid "FORUM_QA_POST_MESSAGE3"
-msgstr "Si su pregunta todavÌa no ha sido formulada, rellene y envÌe Èste formulario."
+msgstr "Si su pregunta todav√≠a no ha sido formulada, rellene y env√≠e √©ste formulario."
 msgid "FORUM_QA_POST_MESSAGE4"
-msgstr "…sto impedir· que haya preguntas que sean repetidas contÌnuamente."
+msgstr "√âsto impedir√° que haya preguntas que sean repetidas cont√≠nuamente."
 
 msgid "FORUM_QA_SUBMIT_NEW"
-msgstr "EnvÌe una nueva pregunta/problema"
+msgstr "Env√≠e una nueva pregunta/problema"
 
 msgid "FORUM_SUBMIT_NEW"
 msgstr "Crear un nuevo hilo"
 
 msgid "FORUM_SUBMIT_NEW_TITLE"
-msgstr "TÌtulo"
+msgstr "T√≠tulo"
 
 msgid "FORUM_QA_SUBMIT_NEW_HELP"
 msgstr "Describa su pregunta en unas pocas palabras. "
-Un breve y claro resumen ayudar· a otros con la misma "
+Un breve y claro resumen ayudar√° a otros con la misma "
 "pregunta (o con una respuesta) a encontrarlo."
 
 msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "Si est· teniendo problemas de software, "
-"indique el n˙mero de versiÛn del mismo, "
+msgstr "Si est√° teniendo problemas de software, "
+"indique el n√∫mero de versi√≥n del mismo, "
 "su tipo de ordenador y sistema operativo."
 
 msgid "FORUM_ADD_MY_SIG"
-msgstr "AÒadir mi firma a Èste mensaje"
+msgstr "A√±adir mi firma a √©ste mensaje"
 
 msgid "FORUM_MESSAGE"
 msgstr "Mensaje"
 
 msgid "FORUM_QA_GOT_PROBLEM_TOO"
-msgstr "Yo tambiÈn tengo Èste problema"
+msgstr "Yo tambi√©n tengo √©ste problema"
 
 msgid "FORUM_QA_QUESTION_ANSWERED"
-msgstr "…sto ha respondido a mi pregunta"
+msgstr "√âsto ha respondido a mi pregunta"
 
 msgid "FORUM_HTML_INFO"
-msgstr "Use cÛdigos BBCode para formatear su texto"
+msgstr "Use c√≥digos BBCode para formatear su texto"
 
 
 #########################################
@@ -340,19 +340,19 @@ msgstr "Use cÛdigos BBCode para formatear su texto"
 #########################################
 
 msgid "FORUM_THREAD_HIDDEN"
-msgstr "…ste hilo ha sido ocultado por motivos administrativos"
+msgstr "√âste hilo ha sido ocultado por motivos administrativos"
 
 msgid "FORUM_THREAD_REPLY"
-msgstr "Responder a Èste hilo"
+msgstr "Responder a √©ste hilo"
 
 msgid "FORUM_THREAD_SUBSCRIBED"
-msgstr "Usted est· suscrito a Èste hilo."
+msgstr "Usted est√° suscrito a √©ste hilo."
 
 msgid "FORUM_THREAD_UNSUBSCRIBE"
-msgstr "Haga Click aquÌ para cancelar la suscripciÛn."
+msgstr "Haga Click aqu√≠ para cancelar la suscripci√≥n."
 
 msgid "FORUM_THREAD_SUBSCRIBE"
-msgstr "Subscribirse a Èste hilo"
+msgstr "Subscribirse a √©ste hilo"
 
 
 
@@ -369,10 +369,10 @@ msgid "FORUM_SEARCH_BODIES"
 msgstr "Mensajes que contienen '%s'"
 
 msgid "FORUM_SEARCH_TITLES_NO"
-msgstr "No se ha podido encontrar ning˙n encabezado que contenga '%s'."
+msgstr "No se ha podido encontrar ning√∫n encabezado que contenga '%s'."
 
 msgid "FORUM_SEARCH_BODIES_NO"
-msgstr "No se ha podido encontrar ning˙n mensaje que contenga '%s'."
+msgstr "No se ha podido encontrar ning√∫n mensaje que contenga '%s'."
 
 
 #########################################

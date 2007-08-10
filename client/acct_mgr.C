@@ -64,7 +64,7 @@ int ACCT_MGR_OP::do_rpc(
         global_prefs_xml = 0;
     }
 
-    // if null URL, defect from current AMS
+    // if null URL, detach from current AMS
     //
     if (!strlen(url) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
@@ -115,13 +115,13 @@ int ACCT_MGR_OP::do_rpc(
             gstate.acct_mgr_info.previous_host_cpid
         );
     }
+
+    // If the AMS requested it, send GUI RPC port and password hash.
+    // This is for the "farm" account manager so it
+    // can know where to send GUI RPC requests to
+    // without having to configure each host
+    //
     if (gstate.acct_mgr_info.send_gui_rpc_info) {
-        // send GUI RPC port and password hash.
-        // User must enable this by hand
-        // this is for the "farm" account manager so it
-        // can know where to send gui rpc requests to
-        // without having to configure each host
-        //
         if (gstate.cmdline_gui_rpc_port) {
             fprintf(f,"   <gui_rpc_port>%d</gui_rpc_port>\n", gstate.cmdline_gui_rpc_port);
         } else {
@@ -228,13 +228,22 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "update", update)) continue;
         if (xp.parse_bool(tag, "dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);
+            continue;
         }
         if (xp.parse_bool(tag, "detach_when_done", btemp)) {
             detach_when_done.set(btemp);
+            continue;
         }
         if (xp.parse_double(tag, "resource_share", dtemp)) {
             resource_share.set(dtemp);
+            continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] AM_ACCOUNT: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "AM_ACCOUNT::parse");
     }
     return ERR_XML_PARSE;
 }
@@ -306,6 +315,12 @@ int ACCT_MGR_OP::parse(FILE* f) {
             continue;
         }
         if (xp.parse_str(tag, "host_venue", host_venue, sizeof(host_venue))) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "ACCT_MGR_OP::parse");
     }
     return ERR_XML_PARSE;
 }
@@ -411,6 +426,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         }
                         if (acct.detach_when_done.present) {
                             pp->detach_when_done = acct.detach_when_done.value;
+                            if (pp->detach_when_done) {
+                                pp->dont_request_more_work = true;
+                            }
                         }
 
                         // initiate a scheduler RPC if requested by AMS
@@ -448,6 +466,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     gstate.add_project(
                         acct.url.c_str(), acct.authenticator.c_str(), "", true
                     );
+                    if (acct.dont_request_more_work.present) {
+                        pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    }
                 }
             }
         }
@@ -580,6 +601,14 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
             retval = xp.element_contents("</opaque>", opaque, sizeof(opaque));
             continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] ACCT_MGR_INFO::parse_login: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(
+            tag, log_flags.unparsed_xml, "ACCT_MGR_INFO::parse_login_file"
+        );
     }
     return 0;
 }
@@ -612,6 +641,12 @@ int ACCT_MGR_INFO::init() {
             retval = xp.element_contents("</signing_key>", signing_key, sizeof(signing_key));
             continue;
         }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] ACCT_MGR_INFO::init: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "ACCT_MGR_INFO::init");
     }
     fclose(p);
 
@@ -626,12 +661,6 @@ int ACCT_MGR_INFO::init() {
 bool ACCT_MGR_INFO::poll() {
     if (gstate.acct_mgr_op.error_num == ERR_IN_PROGRESS) return false;
 
-    // if we do not any any credentials we shouldn't attempt to contact
-    // the account manager should should reject us anyway for a bad
-    // login.  This also avoids the bug where the content of
-    // acct_mgr_url.xml is overwritten with incomplete information such
-    // as the account manager name.
-    //
     if (!strlen(login_name) && !strlen(password_hash)) return false;
 
     if (gstate.now > next_rpc_time) {

@@ -57,6 +57,13 @@ using namespace std;
 #include "fcgi_stdio.h"
 #endif
 
+static void send_error_message(SCHEDULER_REPLY& reply, char* msg, int delay) {
+    USER_MESSAGE um(msg, "low");
+    reply.insert_message(um);
+    reply.set_delay(delay);
+    reply.nucleus_only = true;
+}
+
 // Try to lock a file with name based on host ID,
 // to prevent 2 schedulers from running at same time for same host.
 // Return:
@@ -260,7 +267,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // the user must have copied the state file to a different host.
         // Make a new host record.
         //
-        if (sreq.rpc_seqno < reply.host.rpc_seqno) {
+        if (!batch && sreq.rpc_seqno < reply.host.rpc_seqno) {
             sreq.hostid = 0;
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
@@ -486,16 +493,20 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     return 0;
 }
 
+// Figure out which of the results the user currently has
+// should be aborted outright, or aborted if not started yet
+//
 int send_result_abort(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& 
 ) {
-	int aborts_sent = 0;
+    int aborts_sent = 0;
+    int retval = 0;
     DB_IN_PROGRESS_RESULT result;
     std::string result_names;
     unsigned int i;
     
     if (sreq.other_results.size() == 0) {
-    	return 0;
+        return 0;
     }
 
     // initially mark all results for abort and build list of results to query
@@ -504,7 +515,7 @@ int send_result_abort(
         OTHER_RESULT& orp=sreq.other_results[i];
         orp.abort = true;
         orp.abort_if_not_started = false;
-        if ( i > 0 ) result_names.append(", ");
+        if (i > 0) result_names.append(", ");
         result_names.append("'");
         result_names.append(orp.name);
         result_names.append("'");
@@ -516,54 +527,62 @@ int send_result_abort(
 
     // query the db for the results and set the appropriate flag
     //
-    while (!result.enumerate(reply.host.id, result_names.c_str())) {
+    while (!(retval = result.enumerate(reply.host.id, result_names.c_str()))) {
         for (i=0; i<sreq.other_results.size(); i++) {
             OTHER_RESULT& orp = sreq.other_results[i];
             if (!strcmp(orp.name.c_str(), result.result_name)) {
-            	if ( result.error_mask&WU_ERROR_CANCELLED ) {
-            		// do nothing, it should be aborted
-            	} else if ( result.assimilate_state == ASSIMILATE_DONE ) {
-            		// only send abort if not started
-            		orp.abort = false;
-            		orp.abort_if_not_started = true;
-            	} else if ( result.server_state == RESULT_SERVER_STATE_OVER && result.outcome == RESULT_OUTCOME_NO_REPLY ) {
-            		// the result is late so abort it if it hasn't been started
-            		orp.abort=false;
-            		orp.abort_if_not_started = true;
-            	} else {
-            		// all is good with the result - let it process
-            		orp.abort=false;
-            	}
-            	break;
+                if ( result.error_mask&WU_ERROR_CANCELLED ) {
+                    // do nothing, it should be aborted
+                } else if ( result.assimilate_state == ASSIMILATE_DONE ) {
+                    // only send abort if not started
+                    orp.abort = false;
+                    orp.abort_if_not_started = true;
+                } else if (result.server_state == RESULT_SERVER_STATE_OVER
+                    && result.outcome == RESULT_OUTCOME_NO_REPLY
+                ) {
+                    // the result is late so abort it if it hasn't been started
+                    orp.abort=false;
+                    orp.abort_if_not_started = true;
+                } else {
+                    // all is good with the result - let it process
+                    orp.abort=false;
+                }
+                break;
             }
         }
     }
     
+    // If enumeration returned an error, don't send any aborts
+    //
+    if (retval && (retval != ERR_DB_NOT_FOUND)) {
+        return retval;
+    }
+
     // loop through the results and send the appropriate message (if any)
     //
     for (i=0; i<sreq.other_results.size(); i++) {
-    	OTHER_RESULT& orp = sreq.other_results[i];
-    	if (orp.abort) {
-    		reply.result_aborts.push_back(orp.name);
-			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-            	"[HOST#%d]: Send result_abort for result %s\n",
-            	reply.host.id, orp.name.c_str()
+        OTHER_RESULT& orp = sreq.other_results[i];
+        if (orp.abort) {
+            reply.result_aborts.push_back(orp.name);
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                "[HOST#%d]: Send result_abort for result %s\n",
+                reply.host.id, orp.name.c_str()
             ); 
-        	// send user message 
+            // send user message 
             char buf[256];
             sprintf(buf, "Result %s is no longer usable\n", orp.name.c_str());
             USER_MESSAGE um(buf, "high");
             reply.insert_message(um);
         } else if (orp.abort_if_not_started) {
-    		reply.result_abort_if_not_starteds.push_back(orp.name);
-			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-            	"[HOST#%d]: Send result_abort_if_unstarted for result %s\n",
-            	reply.host.id, orp.name.c_str()
+            reply.result_abort_if_not_starteds.push_back(orp.name);
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                "[HOST#%d]: Send result_abort_if_unstarted for result %s\n",
+                reply.host.id, orp.name.c_str()
             ); 
-    	}
+        }
     }
     
-	return aborts_sent;
+    return aborts_sent;
 }
 
 // 1) Decide which global prefs to use for sched decisions: either
@@ -1062,43 +1081,56 @@ void warn_user_if_core_client_upgrade_scheduled(
     return;
 }
 
-#ifdef EINSTEIN_AT_HOME
 bool unacceptable_os(
-        SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_NORMAL,
-        "OS version %s %s\n",
-        sreq.host.os_name, sreq.host.os_version
-    );
-
-    if (!strcmp(sreq.host.os_name, "Darwin") &&
-           (!strncmp(sreq.host.os_version, "5.", 2) ||
-            !strncmp(sreq.host.os_version, "6.", 2)
-           )
-        ) {
+    if (config.no_darwin_6) {
         log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
-            "Unacceptable OS %s %s\n",
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "OS version %s %s\n",
             sreq.host.os_name, sreq.host.os_version
         );
-        USER_MESSAGE um(
-            "Project only supports MacOS Darwin versions 7.X and above",
-            "low"
-        );
-        reply.insert_message(um);
-        reply.set_delay(DELAY_UNACCEPTABLE_OS);
-        return true;
+
+        if (!strcmp(sreq.host.os_name, "Darwin") &&
+               (!strncmp(sreq.host.os_version, "5.", 2) ||
+                !strncmp(sreq.host.os_version, "6.", 2)
+               )
+            ) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "Unacceptable OS %s %s\n",
+                sreq.host.os_name, sreq.host.os_version
+            );
+            USER_MESSAGE um(
+                "Project only supports MacOS Darwin versions 7.X and above",
+                "low"
+            );
+            reply.insert_message(um);
+            reply.set_delay(DELAY_UNACCEPTABLE_OS);
+            return true;
+        }
     }
     return false;
 }
-#else
-bool unacceptable_os(
-    SCHEDULER_REQUEST& , SCHEDULER_REPLY&
+
+bool unacceptable_cpu(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
+    if (config.no_amd_k6) {
+        if (strstr(sreq.host.p_vendor, "AMD") && strstr(sreq.host.p_model, "Family 5 Model 8 Stepping 0")) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "Unacceptable CPU %s %s\n",
+                sreq.host.p_vendor, sreq.host.p_model
+            );
+            USER_MESSAGE um("Project doesn't support AMD K6 CPUs", "low");
+            reply.insert_message(um);
+            reply.set_delay(DELAY_UNACCEPTABLE_OS);
+            return true;
+        }
+    }
     return false;
 }
-#endif // EINSTEIN_AT_HOME
 
 bool wrong_core_client_version(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
@@ -1202,7 +1234,10 @@ void process_request(
 
     // if different major version of BOINC, just send a message
     //
-    if (wrong_core_client_version(sreq, reply) || unacceptable_os(sreq, reply)) {
+    if (wrong_core_client_version(sreq, reply)
+        || unacceptable_os(sreq, reply)
+        || unacceptable_cpu(sreq, reply)
+    ) {
         ok_to_send_work = false;
 
         // if no results, return without accessing DB
@@ -1251,7 +1286,7 @@ void process_request(
     //
     retval = open_database();
     if (retval) {
-        send_message("Server can't open database", 3600, false);
+        send_error_message(reply, "Server can't open database", 3600);
         goto leave;
     }
 
@@ -1272,6 +1307,15 @@ void process_request(
     );
     ++log_messages;
 
+    // is host blacklisted?
+    //
+    if (reply.host.max_results_day == -1) {
+        send_error_message(
+            reply, "Not accepting requests from this host", 86400
+        );
+        goto leave;
+    }
+
     if (strlen(config.sched_lockfile_dir)) {
         int pid_with_lock = lock_sched(reply);
         if (pid_with_lock > 0) {
@@ -1285,9 +1329,8 @@ void process_request(
             );
         }
         if (pid_with_lock) {
-            send_message(
-                "Another scheduler instance is running for this host",
-                60, false
+            send_error_message(
+                reply, "Another scheduler instance is running for this host", 60
             );
             goto leave;
         }
@@ -1302,7 +1345,7 @@ void process_request(
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (config.daily_result_quota) {
-        if (reply.host.max_results_day <= 0 || reply.host.max_results_day > config.daily_result_quota) {
+        if (reply.host.max_results_day == 0 || reply.host.max_results_day > config.daily_result_quota) {
             reply.host.max_results_day = config.daily_result_quota;
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] Initializing max_results_day to %d\n",
@@ -1343,6 +1386,7 @@ void process_request(
 
     handle_results(sreq, reply);
 
+    reply.wreq.nresults_on_host = sreq.other_results.size();
     if (config.resend_lost_results && sreq.have_other_results_list) {
         if (resend_lost_work(sreq, reply, platforms, ss)) {
             ok_to_send_work = false;
@@ -1396,60 +1440,6 @@ leave:
     }
 }
 
-void debug_sched(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
-) {
-    char tmpfilename[256];
-    FILE *fp;
-
-    if (!boinc_file_exists(trigger)) {
-        return;
-    }
-
-    sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
-    // use _XXXXXX if you want random filenames rather than
-    // deterministic mkstemp(tmpfilename);
-
-    fp=fopen(tmpfilename, "w");
-
-    if (!fp) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "Found %s, but can't open %s\n", trigger, tmpfilename
-        );
-        return;
-    }
-
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
-        "Found %s, so writing %s\n", trigger, tmpfilename
-    );
-
-    sreply.write(fp);
-    fclose(fp);
-
-    sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
-    fp=fopen(tmpfilename, "w");
-
-    if (!fp) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "Found %s, but can't open %s\n", trigger, tmpfilename
-        );
-        return;
-    }
-
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
-        "Found %s, so writing %s\n", trigger, tmpfilename
-    );
-
-    sreq.write(fp);
-    fclose(fp);
-
-    return;
-}
-
 void handle_request(
     FILE* fin, FILE* fout, SCHED_SHMEM& ss, char* code_sign_key
 ) {
@@ -1491,66 +1481,18 @@ void handle_request(
         sreply.nucleus_only = true;
     }
 
-#ifdef EINSTEIN_AT_HOME
-    // for testing
-    if (sreply.user.id==3) {
-        USER_MESSAGE um("THIS IS A SHORT MESSAGE. \n AND ANOTHER", "high");
-        // USER_MESSAGE um("THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE. \n"
-    //        "THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "low");
-        sreply.insert_message(um);
-        // USER_MESSAGE um2("THIS IS A VERY LONG TEST MESSAGE2. THIS IS A VERY LONG TEST MESSAGE. \n"
-    //        "THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "high");
-        // sreply.insert_message(um2);
-    }
-
-    // delete useless files
-    int num_useless = sreq.files_not_needed.size();
-    int i;
-    for (i=0; i<num_useless; i++) {
-        char buf[256];
-        FILE_INFO& fi = sreq.files_not_needed[i];
-        sreply.file_deletes.push_back(fi);
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG,
-            "[HOST#%d]: delete file %s (not needed)\n", sreply.host.id, fi.name
-        );
-        sprintf(buf, "BOINC will delete file %s (no longer needed)", fi.name);
-        USER_MESSAGE um(buf, "low");
-        sreply.insert_message(um);
-     }
-#endif
-
-    // if we got no work, and we have no file space, delete some files
-    //
-    if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
-        // try to delete a file to make more space.
-        // Also give some hints to the user about what's going wrong
-        // (lack of disk space).
-        //
-        delete_file_from_host(sreq, sreply);
+    if (config.locality_scheduling && !sreply.nucleus_only) {
+        send_file_deletes(sreq, sreply);
     }
 
     // write all messages to log file
+    //
     for (unsigned int i=0; i<sreply.messages.size(); i++) {
         USER_MESSAGE um = sreply.messages[i];
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] MSG(%4s) %s \n", sreply.host.id, um.priority.c_str(), um.message.c_str()
         );
     }
-
-    debug_sched(sreq, sreply, "../debug_sched");
-
-#ifdef EINSTEIN_AT_HOME
-    // You can call debug_sched() for whatever situation is of
-    // interest to you.  It won't do anything unless you create
-    // (touch) the file 'debug_sched' in the project root directory.
-    //
-    if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) {
-        debug_sched(sreq, sreply, "../debug_sched");
-    } else if (max_allowable_disk(sreq, sreply)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
-        debug_sched(sreq, sreply, "../debug_sched");
-    }
-#endif
 
     sreply.write(fout);
 

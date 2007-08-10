@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 /**
  * This class serves to represent a post in some thread
@@ -144,6 +145,13 @@ class Post {
     function hasSignature(){
         $this->ensureLoaded();
         return $this->dbObj->signature;
+    }
+    
+    /**
+     * Change signature display for the post.
+     **/
+    function setSignature($bool) {
+        return $this->dbhandler->updatePost($this, "signature", $bool?1:0);
     }
 
     /**

@@ -73,6 +73,7 @@ struct LOG_FLAGS {
 	bool mem_usage_debug;	// memory usage
 	bool network_status_debug;
     bool checkpoint_debug;
+    int stress_shmem_debug;
 
     LOG_FLAGS();
     void defaults();
@@ -90,6 +91,9 @@ struct CONFIG {
     bool suppress_net_info;
     bool disallow_attach;
     bool os_random_only;
+    bool no_alt_platform;
+    bool simple_gui_only;
+    bool dont_contact_ref_site;
 
     CONFIG();
     void defaults();

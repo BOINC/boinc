@@ -55,8 +55,8 @@ bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
     static double last_time = 0;
-    if (gstate.now - last_time < 1.0) return false;
-    last_time = gstate.now;
+    if (now - last_time < 1.0) return false;
+    last_time = now;
 
     vector<ACTIVE_TASK*>::iterator iter;
 
@@ -109,10 +109,14 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     int retval;
     double size;
 
-    // scan the output files, check if missing or too big
-    // Don't bother doing this if result was aborted via GUI
-
-    if (rp->exit_status != ERR_ABORTED_VIA_GUI) {
+    // scan the output files, check if missing or too big.
+    // Don't bother doing this if result was aborted via GUI or by project
+    //
+    switch (rp->exit_status) {
+    case ERR_ABORTED_VIA_GUI:
+    case ERR_ABORTED_BY_PROJECT:
+        break;
+    default:
         for (i=0; i<rp->output_files.size(); i++) {
 			FILE_REF& fref = rp->output_files[i];
             fip = fref.file_info;

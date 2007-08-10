@@ -46,20 +46,7 @@ Boolean Mac_Authorize()
     if (sIsAuthorized)
         return true;
         
-    uid_t               effectiveUserID, realUserID;
-    
-    if (g_use_sandbox) {
-        effectiveUserID = geteuid();
-        realUserID = getuid();
-        if (effectiveUserID == realUserID)
-        {
-            // Logged in user is also the owner
-            sIsAuthorized = true;
-            return true;
-        }
-    }
-    
-    // User is not the owner, so require admin authorization
+    // User is not the owner, so require admin authentication
     ourAuthItem[0].name = kAuthorizationRightExecute;
     ourAuthItem[0].value = NULL;
     ourAuthItem[0].valueLength = 0;
@@ -72,8 +59,12 @@ Boolean Mac_Authorize()
 
     err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, ourAuthFlags, &ourAuthRef);
 
-    if (err == noErr)
+    if (err == noErr) {
         sIsAuthorized = true;
+        // We have authenticated user's credentials; we won't actually use the 
+        // privileges / rights so destroy / discard them.
+        err = AuthorizationFree(ourAuthRef, kAuthorizationFlagDestroyRights);
+    }
         
     return sIsAuthorized;
 }

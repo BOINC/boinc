@@ -23,6 +23,10 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #ifndef _WIN32
 #include "config.h"
 #include <stdio.h>
@@ -41,6 +45,7 @@
 #endif
 
 #include "str_util.h"
+#include "client_state.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "parse.h"
@@ -117,14 +122,33 @@ static void handle_get_project_status(MIOFILE& fout) {
 
 static void handle_get_disk_usage(MIOFILE& fout) {
     unsigned int i;
-    double size, d_total, d_free;
+    double size, d_total, d_free, d_boinc;
 
     fout.printf("<disk_usage_summary>\n");
     get_filesystem_info(d_total, d_free);
+    dir_size(".", d_boinc, false);
+    dir_size("locale", size, false);
+    d_boinc += size;
+#ifdef __APPLE__
+    if (gstate.launched_by_manager) {
+        // If launched by Manager, get Manager's size on disk
+        ProcessSerialNumber managerPSN;
+        FSRef ourFSRef;
+        char path[1024];
+        double manager_size = 0.0;
+        OSStatus err;
+        err = GetProcessForPID(getppid(), &managerPSN);
+        if (! err) err = GetProcessBundleLocation(&managerPSN, &ourFSRef);
+        if (! err) err = FSRefMakePath (&ourFSRef, (UInt8*)path, sizeof(path));
+        if (! err) dir_size(path, manager_size, true);
+        if (! err) d_boinc += manager_size;
+    }
+#endif
     fout.printf(
         "<d_total>%f</d_total>\n"
-        "<d_free>%f</d_free>\n",
-        d_total, d_free
+        "<d_free>%f</d_free>\n"
+        "<d_boinc>%f</d_boinc>\n",
+        d_total, d_free, d_boinc
     );
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
@@ -159,7 +183,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
     GRAPHICS_MSG gm;
     ACTIVE_TASK* atp;
 
-    if        (match_tag(buf, "<full_screen/>")) {
+    if (match_tag(buf, "<full_screen/>")) {
         gm.mode = MODE_FULLSCREEN;
     } else if (match_tag(buf, "<hide/>")) {
         gm.mode = MODE_HIDE_GRAPHICS;
@@ -207,24 +231,19 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         fout.printf("<error>no such project</error>\n");
         return;
     }
+    gstate.set_client_state_dirty("Project modified by user");
     if (!strcmp(op, "reset")) {
         gstate.request_schedule_cpus("project reset by user");
         gstate.request_work_fetch("project reset by user");
-        gstate.reset_project(p);    // writes state file
+        gstate.reset_project(p);
     } else if (!strcmp(op, "suspend")) {
-        if (p->non_cpu_intensive) {
-            msg_printf(p, MSG_USER_ERROR, "Can't suspend non-CPU-intensive project");
-        } else {
-            p->suspended_via_gui = true;
-            gstate.request_schedule_cpus("project suspended by user");
-            gstate.request_work_fetch("project suspended by user");
-            gstate.set_client_state_dirty("Project suspended by user");
-        }
+        p->suspended_via_gui = true;
+        gstate.request_schedule_cpus("project suspended by user");
+        gstate.request_work_fetch("project suspended by user");
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
         gstate.request_schedule_cpus("project resumed by user");
         gstate.request_work_fetch("project resumed by user");
-        gstate.set_client_state_dirty("Project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
             msg_printf(p, MSG_USER_ERROR,
@@ -247,21 +266,24 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             }
         }
 
-        gstate.detach_project(p);       // writes state file; deletes p
+        gstate.detach_project(p);
         gstate.request_schedule_cpus("project detached by user");
         gstate.request_work_fetch("project detached by user");
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = RPC_REASON_USER_REQ;
         p->min_rpc_time = 0;
         gstate.request_work_fetch("project updated by user");
-        gstate.set_client_state_dirty("project updated by user");
     } else if (!strcmp(op, "nomorework")) {
         p->dont_request_more_work = true;
-        gstate.set_client_state_dirty("project modified by user");
     } else if (!strcmp(op, "allowmorework")) {
         p->dont_request_more_work = false;
         gstate.request_work_fetch("project allowed to fetch work by user");
-        gstate.set_client_state_dirty("Project modified by user");
+    } else if (!strcmp(op, "detach_when_done")) {
+        p->detach_when_done = true;
+        p->dont_request_more_work = true;
+    } else if (!strcmp(op, "dont_detach_when_done")) {
+        p->detach_when_done = false;
+        p->dont_request_more_work = false;
     }
     fout.printf("<success/>\n");
 }
@@ -454,12 +476,8 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
         }
         gstate.request_work_fetch("result aborted by user");
     } else if (!strcmp(op, "suspend")) {
-        if (p->non_cpu_intensive) {
-            msg_printf(p, MSG_USER_ERROR, "Can't suspend non-CPU-intensive result");
-        } else {
-            rp->suspended_via_gui = true;
-            gstate.request_work_fetch("result suspended by user");
-        }
+        rp->suspended_via_gui = true;
+        gstate.request_work_fetch("result suspended by user");
     } else if (!strcmp(op, "resume")) {
         rp->suspended_via_gui = false;
     }
@@ -495,13 +513,13 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
     parse_str(buf, "<display>", gm.display, sizeof(gm.display));
     if (match_tag(buf, "<enabled")) {
-    	if (log_flags.scrsave_debug) {
-		    msg_printf(NULL, MSG_INFO, "Got start msg from screensaver");
+        if (log_flags.scrsave_debug) {
+            msg_printf(NULL, MSG_INFO, "Got start msg from screensaver");
         }
         gstate.ss_logic.start_ss(gm, blank_time );
     } else {
-    	if (log_flags.scrsave_debug) {
-		    msg_printf(NULL, MSG_INFO, "Got stop msg from screensaver");
+        if (log_flags.scrsave_debug) {
+            msg_printf(NULL, MSG_INFO, "Got stop msg from screensaver");
         }
         gstate.ss_logic.stop_ss();
     }
@@ -548,7 +566,9 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         "   <task_mode_perm>%d</task_mode_perm>\n"
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <task_mode_delay>%f</task_mode_delay>\n"
-        "   <network_mode_delay>%f</network_mode_delay>\n",
+        "   <network_mode_delay>%f</network_mode_delay>\n"
+        "   <disallow_attach>%d</disallow_attach>\n"
+        "   <simple_gui_only>%ds</simple_gui_only>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
@@ -557,8 +577,10 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         gstate.network_mode.get_current(),
         gstate.run_mode.get_perm(),
         gstate.network_mode.get_perm(),
-		gstate.run_mode.delay(),
-		gstate.network_mode.delay()
+        gstate.run_mode.delay(),
+        gstate.network_mode.delay(),
+        config.disallow_attach?1:0,
+        config.simple_gui_only?1:0
     );
     if (gr->au_mgr_state == AU_MGR_QUIT_REQ) {
         fout.printf(
@@ -661,39 +683,9 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
     bool already_attached = false;
     unsigned int i;
 
-    // check whether to the URL in project_init.xml
+    // Get URL/auth from project_init.xml?
     //
-    if (!parse_bool(buf, "use_config_file", use_config_file)) {
-        // no
-        //
-        if (!parse_str(buf, "<project_url>", url)) {
-            fout.printf("<error>Missing URL</error>\n");
-            return;
-        }
-
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
-            if (url == p->master_url) already_attached = true;
-        }
-
-        if (already_attached) {
-            fout.printf("<error>Already attached to project</error>\n");
-            return;
-        }
-
-        if (!parse_str(buf, "<authenticator>", authenticator)) {
-            fout.printf("<error>Missing authenticator</error>\n");
-            return;
-        }
-
-        if (authenticator.empty()) {
-            fout.printf("<error>Missing authenticator</error>\n");
-            return;
-        }
-        parse_str(buf, "<project_name>", project_name);
-    } else {
-        // yes
-        //
+    if (parse_bool(buf, "use_config_file", use_config_file)) {
         if (!strlen(gstate.project_init.url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
@@ -706,15 +698,39 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
 
         url = gstate.project_init.url;
         authenticator = gstate.project_init.account_key;
+    } else {
+        if (!parse_str(buf, "<project_url>", url)) {
+            fout.printf("<error>Missing URL</error>\n");
+            return;
+        }
+        if (!parse_str(buf, "<authenticator>", authenticator)) {
+            fout.printf("<error>Missing authenticator</error>\n");
+            return;
+        }
+
+        if (authenticator.empty()) {
+            fout.printf("<error>Missing authenticator</error>\n");
+            return;
+        }
+        parse_str(buf, "<project_name>", project_name);
+    }
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (url == p->master_url) already_attached = true;
+    }
+
+    if (already_attached) {
+        fout.printf("<error>Already attached to project</error>\n");
+        return;
     }
 
     // clear messages from previous attach to project.
     //
     gstate.project_attach.messages.clear();
-    gstate.add_project(
+    gstate.project_attach.error_num = gstate.add_project(
         url.c_str(), authenticator.c_str(), project_name.c_str(), false
     );
-    gstate.project_attach.error_num = ERR_IN_PROGRESS;
     fout.printf("<success/>\n");
 }
 
@@ -794,6 +810,23 @@ static void handle_get_newer_version(MIOFILE& fout) {
     );
 }
 
+static void handle_get_global_prefs_file(MIOFILE& fout) {
+    GLOBAL_PREFS p;
+    bool found;
+    int retval = p.parse_file(
+        GLOBAL_PREFS_FILE_NAME, gstate.main_host_venue, found
+    );
+    if (retval) {
+        fout.printf("<error>%d</error>\n", retval);
+        return;
+    }
+    p.write(fout);
+}
+
+static void handle_get_global_prefs_working(MIOFILE& fout) {
+    gstate.global_prefs.write(fout);
+}
+
 static void handle_get_global_prefs_override(MIOFILE& fout) {
     string s;
     int retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, s);
@@ -856,6 +889,76 @@ static void read_all_projects_list_file(MIOFILE& fout) {
     }
 }
 
+static int set_debt(XML_PARSER& xp) {
+    bool is_tag;
+    char tag[256], url[256];
+    double short_term_debt, long_term_debt;
+    bool got_std=false, got_ltd=false;
+    strcpy(url, "");
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!strcmp(tag, "/project")) {
+            if (!strlen(url)) return ERR_XML_PARSE;
+            canonicalize_master_url(url);
+            PROJECT* p = gstate.lookup_project(url);
+            if (!p) return ERR_NOT_FOUND;
+            if (got_std) p->short_term_debt = short_term_debt;
+            if (got_ltd) p->long_term_debt = long_term_debt;
+            return 0;
+        }
+        if (xp.parse_str(tag, "master_url", url, sizeof(url))) continue;
+        if (xp.parse_double(tag, "short_term_debt", short_term_debt)) {
+            got_std = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "long_term_debt", long_term_debt)) {
+            got_ltd = true;
+            continue;
+        }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] set_debt: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "set_debt");
+    }
+    return 0;
+}
+
+static void handle_set_debts(char* buf, MIOFILE& fout) {
+    MIOFILE in;
+    XML_PARSER xp(&in);
+    bool is_tag;
+    char tag[256];
+    int retval;
+
+    in.init_buf_read(buf);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "boinc_gui_rpc_request")) continue;
+        if (!strcmp(tag, "set_debts")) continue;
+        if (!strcmp(tag, "/set_debts")) {
+            fout.printf("<success/>\n");
+            gstate.set_client_state_dirty("set_debt RPC");
+            return;
+        }
+        if (!strcmp(tag, "project")) {
+            retval = set_debt(xp);
+            if (retval) {
+                fout.printf("<error>%d</error>\n", retval);
+                return;
+            }
+            continue;
+        }
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] handle_set_debts: unrecognized %s", tag
+            );
+        }
+        xp.skip_unexpected(tag, log_flags.unparsed_xml, "handle_set_debts");
+    }
+    fout.printf("<error>No end tag</error>\n");
+}
+
 static void handle_set_cc_config(char* buf, MIOFILE& fout) {
     char *p, *q=0;
     int retval = ERR_XML_PARSE;
@@ -909,7 +1012,7 @@ int GUI_RPC_CONN::handle_rpc() {
         n = read(sock, request_msg, 4095);
 #endif
     if (n <= 0) return ERR_READ;
-    request_msg[n] = 0;
+    request_msg[n-1] = 0;   // replace 003 with NULL
 
     if (log_flags.guirpc_debug) {
         msg_printf(0, MSG_INFO,
@@ -969,6 +1072,10 @@ int GUI_RPC_CONN::handle_rpc() {
          handle_project_op(request_msg, mf, "nomorework");
      } else if (match_tag(request_msg, "<project_allowmorework")) {
          handle_project_op(request_msg, mf, "allowmorework");
+    } else if (match_tag(request_msg, "<project_detach_when_done")) {
+         handle_project_op(request_msg, mf, "detach_when_done");
+    } else if (match_tag(request_msg, "<project_dont_detach_when_done")) {
+         handle_project_op(request_msg, mf, "dont_detach_when_done");
     } else if (match_tag(request_msg, "<set_network_mode")) {
         handle_set_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<run_benchmarks")) {
@@ -1005,6 +1112,10 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.request_work_fetch("Preferences override");
     } else if (match_tag(request_msg, "<get_project_init_status")) {
         handle_get_project_init_status(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_global_prefs_file")) {
+        handle_get_global_prefs_file(mf);
+    } else if (match_tag(request_msg, "<get_global_prefs_working")) {
+        handle_get_global_prefs_working(mf);
     } else if (match_tag(request_msg, "<get_global_prefs_override")) {
         handle_get_global_prefs_override(mf);
     } else if (match_tag(request_msg, "<set_global_prefs_override")) {
@@ -1019,6 +1130,8 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.request_work_fetch("Core client configuration");
     } else if (match_tag(request_msg, "<get_all_projects_list/>")) {
         read_all_projects_list_file(mf);
+    } else if (match_tag(request_msg, "<set_debts")) {
+        handle_set_debts(request_msg, mf);
     } else {
 
         // RPCs after this point enable network communication
@@ -1055,8 +1168,8 @@ int GUI_RPC_CONN::handle_rpc() {
         } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
             handle_acct_mgr_rpc_poll(request_msg, mf);
 
-		// DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
-		// AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
+        // DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
+        // AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
 
         } else {
             mf.printf("<error>unrecognized op</error>\n");
@@ -1067,8 +1180,9 @@ int GUI_RPC_CONN::handle_rpc() {
     m.get_buf(p, n);
     if (p) {
         send(sock, p, n, 0);
+        p[n-1]=0;   // replace 003 with NULL
         if (log_flags.guirpc_debug) {
-            if (n > 1000) p[1000] = 0;
+            if (n > 50) p[50] = 0;
             msg_printf(0, MSG_INFO,
                 "[guirpc_debug] GUI RPC reply: '%s'\n", p
             );

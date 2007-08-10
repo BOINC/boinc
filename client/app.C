@@ -111,6 +111,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     have_trickle_down = false;
     send_upload_file_status = false;
     too_large = false;
+    needs_shmem = false;
     want_network = 0;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
@@ -118,6 +119,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     thread_handle = 0;
     shm_handle = 0;
 #endif
+    premature_exit_count = 0;
 }
 
 static const char* task_state_name(int val) {
@@ -168,6 +170,9 @@ void ACTIVE_TASK::close_process_handles() {
 //
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32
+    if (gstate.exit_after_finish) {
+        exit(0);
+    }
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment
     //
@@ -192,6 +197,11 @@ void ACTIVE_TASK::cleanup_task() {
             );
         }
         app_client_shm.shm = NULL;
+        gstate.retry_shmem_time = 0;
+    }
+
+    if (gstate.exit_after_finish) {
+        exit(0);
     }
 #endif
 }
@@ -204,6 +214,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     get_slot_dir(slot, slot_dir, sizeof(slot_dir));
+    relative_to_absolute(slot_dir, slot_path);
     return 0;
 }
 
@@ -417,9 +428,36 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "<active_task>\n"
         "    <project_master_url>%s</project_master_url>\n"
         "    <result_name>%s</result_name>\n"
-        "    <active_task_state>%d</active_task_state>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
+        "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
+        "    <fraction_done>%f</fraction_done>\n"
+        "    <current_cpu_time>%f</current_cpu_time>\n"
+        "    <swap_size>%f</swap_size>\n"
+        "    <working_set_size>%f</working_set_size>\n"
+        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
+        "    <page_fault_rate>%f</page_fault_rate>\n",
+        result->project->master_url,
+        result->name,
+        app_version->version_num,
+        slot,
+        checkpoint_cpu_time,
+        fraction_done,
+        current_cpu_time,
+        procinfo.swap_size,
+        procinfo.working_set_size,
+        procinfo.working_set_size_smoothed,
+        procinfo.page_fault_rate
+    );
+    fout.printf("</active_task>\n");
+    return 0;
+}
+
+int ACTIVE_TASK::write_gui(MIOFILE& fout) {
+    fout.printf(
+        "<active_task>\n"
+        "    <active_task_state>%d</active_task_state>\n"
+        "    <app_version_num>%d</app_version_num>\n"
         "    <scheduler_state>%d</scheduler_state>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
@@ -428,12 +466,10 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "    <page_fault_rate>%f</page_fault_rate>\n"
+        "%s"
         "%s",
-        result->project->master_url,
-        result->name,
         task_state(),
         app_version->version_num,
-        slot,
         scheduler_state,
         checkpoint_cpu_time,
         fraction_done,
@@ -442,8 +478,17 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
         procinfo.page_fault_rate,
-        too_large?"   <too_large/>\n":""
+        too_large?"   <too_large/>\n":"",
+        needs_shmem?"   <needs_shmem/>\n":""
     );
+    if (strlen(app_version->graphics_exec_path)) {
+        fout.printf(
+            "   <graphics_exec_path>%s</graphics_exec_path>\n"
+            "   <slot_path>%s</slot_path>\n",
+            app_version->graphics_exec_path,
+            slot_path
+        );
+    }
     if (supports_graphics() && !gstate.disable_graphics) {
         fout.printf(
             "   <supports_graphics/>\n"
@@ -530,14 +575,11 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else if (parse_int(buf, "<active_task_state>", n)) continue;
+        else if (parse_int(buf, "<app_version_num>", n)) continue;
         else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
         else if (parse_double(buf, "<working_set_size_smoothed>", procinfo.working_set_size_smoothed)) continue;
         else if (parse_double(buf, "<page_fault_rate>", procinfo.page_fault_rate)) continue;
-        else if (match_tag(buf, "<supports_graphics/>")) continue;
-        else if (parse_int(buf, "<graphics_mode_acked>", n)) continue;
-        else if (parse_int(buf, "<scheduler_state>", n)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,

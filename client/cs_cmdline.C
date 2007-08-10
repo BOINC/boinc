@@ -35,10 +35,14 @@
 
 static void print_options(char* prog) {
     printf(
+        "The command-line options for %s are intended for debugging.\n"
+        "The recommended command-line interface is a separate program,'boinc_cmd'.\n"
+        "Run boinc_cmd in the same current as %s.\n"
+        "\n"
         "Usage: %s [options]\n"
         "    --help                          show options\n"
         "    --version                       show version info\n"
-        "    --exit_when_idle                Get/process/report work, then exit\n"
+        "    --exit_when_idle                exit when there are no results\n"
         "    --show_projects                 show attached projects\n"
         "    --return_results_immediately    contact server when have results\n"
         "    --detach_project <URL>          detach from a project\n"
@@ -46,7 +50,7 @@ static void print_options(char* prog) {
         "    --attach_project <URL> <key>    attach to a project\n"
         "    --update_prefs <URL>            contact a project to update preferences\n"
         "    --run_cpu_benchmarks            run the CPU benchmarks\n"
-        "    --check_all_logins              for idle detection, check remote logins\n too"
+        "    --check_all_logins              for idle detection, check remote logins too\n"
         "    --allow_remote_gui_rpc          allow remote GUI RPC connections\n"
         "    --gui_rpc_port <port>           port for GUI RPCs\n"
         "    --redirectio                    redirect stdout and stderr to log files\n"
@@ -54,11 +58,13 @@ static void print_options(char* prog) {
         "    --dir <path>                    use given dir as BOINC home\n"
         "    --no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
         "    --daemon                        run as daemon (Unix)\n"
-        "    --insecure                      disable BOINC security users and permissions (Unix, Linux)\n"
+        "    --exit_before_start             exit right before starting a job\n"
+        "    --exit_after_finish             exit right after finishing a job\n"
+        "    --insecure                      disable app sandboxing (Unix)\n"
         "    --launched_by_manager           core client was launched by Manager\n"
         "    --run_by_updater                set by updater\n"
         ,
-        prog
+        prog, prog, prog
     );
 }
 
@@ -80,6 +86,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (ARG(exit_when_idle)) {
             exit_when_idle = true;
+        } else if (ARG(exit_before_start)) {
+            exit_before_start = true;
+        } else if (ARG(exit_after_finish)) {
+            exit_after_finish = true;
         } else if (ARG(check_all_logins)) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
@@ -262,10 +272,13 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(detach_project_url)) {
+        canonicalize_master_url(detach_project_url);
         PROJECT* project = lookup_project(detach_project_url);
         if (project) {
+            // do this before detaching - it frees the project
+            //
+            msg_printf(project, MSG_INFO, "detaching from %s\n", detach_project_url);
             detach_project(project);
-            msg_printf(project, MSG_INFO, "detached from %s\n", detach_project_url);
         } else {
             msg_printf(NULL, MSG_USER_ERROR, "project %s not found\n", detach_project_url);
         }
@@ -273,6 +286,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(reset_project_url)) {
+        canonicalize_master_url(reset_project_url);
         PROJECT* project = lookup_project(reset_project_url);
         if (project) {
             reset_project(project);
@@ -284,6 +298,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(update_prefs_url)) {
+        canonicalize_master_url(update_prefs_url);
         PROJECT* project = lookup_project(update_prefs_url);
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
@@ -293,6 +308,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(attach_project_url)) {
+        canonicalize_master_url(attach_project_url);
         add_project(attach_project_url, attach_project_auth, "", false);
     }
 }

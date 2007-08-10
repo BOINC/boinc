@@ -71,7 +71,7 @@ int FILE_INFO::parse(FILE* in) {
     while (fgets(buf, 256, in)) {
         //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, buf, "FILE_INFO::parse: ");
         if (match_tag(buf, "</file_info>")) return 0;
-        else if (match_tag(buf, "<xml_signature>")) {
+        if (match_tag(buf, "<xml_signature>")) {
             retval = dup_element_contents(in, "</xml_signature>", &xml_signature);
             if (retval) return retval;
             continue;
@@ -87,7 +87,9 @@ int FILE_INFO::parse(FILE* in) {
         if (match_tag(buf, "<upload_when_present/>")) continue;
         if (match_tag(buf, "<url>")) continue;
         if (match_tag(buf, "<gzip_when_done")) continue;
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "FILE_INFO::parse: unrecognized: %s \n", buf
+        );
     }
     return ERR_XML_PARSE;
 }
@@ -153,7 +155,10 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     // Advisory file locking is not guaranteed reliable when
     // used with stream buffered IO.
     //
-    int fd = open(path, O_WRONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+    int fd = open(path,
+        O_WRONLY|O_CREAT|O_APPEND,
+        S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
+    );
     if (fd<0) {
         return return_error(ERR_TRANSIENT,
             "can't open file %s: %s\n", path, strerror(errno)
@@ -216,7 +221,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
             ssize_t ret = write(fd, buf+n-to_write, to_write);
             if (ret < 0) { 
                 close(fd);
-                char* errmsg;
+                const char* errmsg;
                 if (errno == ENOSPC) {
                     errmsg = "No space left on server";
                 } else {
@@ -273,7 +278,7 @@ void copy_socket_to_null(FILE* in) {
 // ALWAYS generates an HTML reply
 //
 int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
-    char buf[256], path[512];
+    char buf[256], path[512], temp[256];
     FILE_INFO file_info;
     int retval;
     double nbytes=-1, offset=0;
@@ -323,9 +328,10 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             }
             continue;
         }
-        else if (parse_double(buf, "<offset>", offset)) continue;
-        else if (parse_double(buf, "<nbytes>", nbytes)) continue;
-        else if (match_tag(buf, "<data>")) {
+        if (parse_double(buf, "<offset>", offset)) continue;
+        if (parse_double(buf, "<nbytes>", nbytes)) continue;
+        if (parse_str(buf, "<md5_cksum>", temp, sizeof(temp))) continue;
+        if (match_tag(buf, "<data>")) {
             if (nbytes <= 0) {
                 return return_error(ERR_PERMANENT, "nbytes missing or negative");
             }
@@ -398,11 +404,10 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             fflush(stderr);
 #endif
             return retval;
-        } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-                "unrecognized: %s", buf
-            );
         }
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "unrecognized: %s", buf
+        );
     }
     return return_error(ERR_PERMANENT, "Missing <data> tag");
 }
@@ -531,7 +536,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         return return_error(ERR_PERMANENT, "no command");
     }
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "run time %f seconds\n", elapsed_wallclock_time());
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "elapsed time %f seconds\n", elapsed_wallclock_time());
 
     return retval;
 }
@@ -551,15 +556,18 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
 
 void boinc_catch_signal(int signal_num) {
     char buffer[512]="";
-    if (this_filename[0]) sprintf(buffer, "FILE=%s (%.0f bytes left) ", this_filename, bytes_left);
+    if (this_filename[0]) {
+        sprintf(buffer, "FILE=%s (%.0f bytes left) ", this_filename, bytes_left);
+    }
     log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-        "%sIP=%s caught signal %d [%s] run time %f seconds\n",
+        "%sIP=%s caught signal %d [%s] elapsed time %f seconds\n",
         buffer, get_remote_addr(),
         signal_num, strsignal(signal_num), elapsed_wallclock_time()
     );
 
-    // there is no point in trying to return an error.  At this point Apache has broken
-    // the connection so a write to stdout will just generate a SIGPIPE
+    // there is no point in trying to return an error.
+    // At this point Apache has broken the connection
+    // so a write to stdout will just generate a SIGPIPE
     //
     // return_error(ERR_TRANSIENT, "while downloading %s server caught signal %d", this_filename, signal_num);
     exit(1);
@@ -585,6 +593,9 @@ int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
+#ifdef _USING_FCGI_
+    unsigned int counter=0;
+#endif
     elapsed_wallclock_time();
 
     installer();
@@ -621,6 +632,8 @@ int main() {
 
 #ifdef _USING_FCGI_
   while(FCGI_Accept() >= 0) {
+    counter++;
+    fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
 #endif
     handle_request(stdin, key);
 #ifdef _USING_FCGI_

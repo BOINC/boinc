@@ -120,7 +120,6 @@ int ACTIVE_TASK::request_abort() {
 int ACTIVE_TASK::kill_task(bool restart) {
 #ifdef _WIN32
     TerminateProcessById(pid);
-    kill_all_children();
 #else
 #ifdef SANDBOX
     char cmd[1024];
@@ -129,7 +128,7 @@ int ACTIVE_TASK::kill_task(bool restart) {
         // if project application is running as user boinc_project and 
         // core client is running as user boinc_master, we cannot send
         // a signal directly, so use switcher.
-        sprintf(cmd, "%s/%s /bin/kill -s KILL %d", SWITCHER_DIR, SWITCHER_FILE_NAME, pid);
+        sprintf(cmd, "%s/%s /bin/kill kill -s KILL %d", SWITCHER_DIR, SWITCHER_FILE_NAME, pid);
         system(cmd);
     }
     // Always try to kill project app directly, just to be safe:
@@ -185,6 +184,41 @@ static void limbo_message(ACTIVE_TASK& at) {
     );
 }
 
+// handle a task whose process just did an exit(0)
+// (or, on Windows, was externally killed)
+//
+void ACTIVE_TASK::handle_exit_zero(bool& will_restart) {
+    // did it call boinc_finish()?
+    //
+    if (finish_file_present()) {
+        set_task_state(PROCESS_EXITED, "handle_exited_app");
+        return;
+    }
+
+    // did we send it a quit message?
+    //
+    if (task_state() == PROCESS_QUIT_PENDING) {
+        set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
+        will_restart = true;
+        return;
+    }
+
+    // otherwise it exited "prematurally".
+    // Restart it unless this happens 100 times w/o a checkpoint
+    //
+    premature_exit_count++;
+    if (premature_exit_count > 100) {
+        set_task_state(PROCESS_ABORTED, "handle_exit_zero");
+        result->exit_status = ERR_TOO_MANY_EXITS;
+        gstate.report_result_error(*result, "too many exit(0)s");
+        result->set_state(RESULT_ABORTED, "handle_exit_zero");
+    } else {
+        will_restart = true;
+        limbo_message(*this);
+        set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
+    }
+}
+
 // deal with a process that has exited, for whatever reason:
 // - completion
 // - crash
@@ -211,7 +245,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
     } else {
 #ifdef _WIN32
-        kill_all_children();
         close_process_handles();
         result->exit_status = exit_code;
         if (exit_code) {
@@ -235,15 +268,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 				);
 			}
         } else {
-            if (finish_file_present()) {
-                set_task_state(PROCESS_EXITED, "handle_exited_app");
-            } else {
-                will_restart = true;
-                if (task_state() != PROCESS_QUIT_PENDING) {
-                    limbo_message(*this);
-                }
-                set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-            }
+            handle_exit_zero(will_restart);
         }
 #else
         if (WIFEXITED(stat)) {
@@ -253,19 +278,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 gstate.report_result_error(
                     *result,
-                    "process exited with code %d (0x%x)",
-                    result->exit_status, result->exit_status
+                    "process exited with code %d (0x%x, %d)",
+                    result->exit_status, result->exit_status,
+                    (-1<<8)|result->exit_status
                 );
             } else {
-                if (finish_file_present()) {
-                    set_task_state(PROCESS_EXITED, "handle_exited_app");
-                } else {
-                    will_restart = true;
-                    if (task_state() != PROCESS_QUIT_PENDING) {
-                        limbo_message(*this);
-                    }
-                    set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-                }
+                handle_exit_zero(will_restart);
             }
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
@@ -314,8 +332,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 #endif
     }
 
+    cleanup_task();         // Always release shared memory
     if (!will_restart) {
-        cleanup_task();
         copy_output_files();
         read_stderr_file();
         clean_out_dir(slot_dir);
@@ -382,7 +400,11 @@ void ACTIVE_TASK_SET::process_control_poll() {
 		// assume it's hung and restart it
 		//
 		if (atp->process_control_queue.timeout(180)) {
-			msg_printf(NULL, MSG_INFO, "Restarting %s - message timeout", atp->result->name);
+            if (log_flags.task_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "Restarting %s - message timeout", atp->result->name
+                );
+            }
 			atp->kill_task(true);
 		} else {
 			atp->process_control_queue.msg_queue_poll(
@@ -560,22 +582,19 @@ bool ACTIVE_TASK::read_stderr_file() {
     std::string stderr_file;
     char path[256];
 
+    // truncate stderr output to 63KB;
+    // it's unlikely that more than that will be useful
+    //
+    int max_len = 63*1024;
+
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
-    if (boinc_file_exists(path) && !read_file_string(path, stderr_file)) {
-        // truncate stderr output to 63KB;
-        // it's unlikely that more than that will be useful
-        //
-        int max_len = 63*1024;
-        int len = (int)stderr_file.length();
-        if (len > max_len) {
-            stderr_file = stderr_file.substr(len-max_len, len);
-        }
-        result->stderr_out += "<stderr_txt>\n";
-        result->stderr_out += stderr_file;
-        result->stderr_out += "\n</stderr_txt>\n";
-        return true;
-    }
-    return false;
+    if (!boinc_file_exists(path)) return false;
+    if (read_file_string(path, stderr_file, max_len)) return false;
+
+    result->stderr_out += "<stderr_txt>\n";
+    result->stderr_out += stderr_file;
+    result->stderr_out += "\n</stderr_txt>\n";
+    return true;
 }
 
 // tell a running app to reread project preferences.
@@ -924,6 +943,7 @@ bool ACTIVE_TASK_SET::get_msgs() {
             if (old_time != atp->checkpoint_cpu_time) {
                 gstate.request_enforce_schedule("Checkpoint reached");
                 atp->checkpoint_wall_time = gstate.now;
+                atp->premature_exit_count = 0;
                 action = true;
                 if (log_flags.task_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,

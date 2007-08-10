@@ -69,7 +69,7 @@ void CImageButton::OnPaint(wxPaintEvent& WXUNUSED(event))
 		dc.DrawText(GetStatusText(), wxPoint(7, y-height-4));
 		// display show graphics text (if available)
 		if(m_enableShowGraphics) {
-			wxString text = wxString(wxT("Graphics Available"));
+			wxString text = wxString(_T("Graphics Available"));
 			dc.GetTextExtent(text, &width, &height);
 			dc.DrawText(text, wxPoint(x-width-7,y-height-4));
 		}
@@ -87,21 +87,21 @@ int CImageButton::GetStatus() {
 
 wxString CImageButton::GetStatusText() {
 	if ( status == TAB_STATUS_RUNNING ) {
-		return wxString(_T("Running"));
+		return wxString(_("Running"));
 	} else if ( status == TAB_STATUS_PREEMPTED )  {
-		return wxString(_T("Paused: Other work running"));
+		return wxString(_("Paused: Other work running"));
 	} else if ( status == TAB_STATUS_PAUSED_USER_REQ )  {
-		return wxString(_T("Paused: User initiatied.  Click 'Resume' to continue"));
+		return wxString(_("Paused: User initiatied.  Click 'Resume' to continue"));
 	} else if ( status == TAB_STATUS_PAUSED_USER_ACTIVE )  {
-		return wxString(_T("Paused: User active"));
+		return wxString(_("Paused: User active"));
 	} else if ( status == TAB_STATUS_PAUSED_POWER )  {
-		return wxString(_T("Paused: Computer on battery"));
+		return wxString(_("Paused: Computer on battery"));
 	} else if ( status == TAB_STATUS_PAUSED_TIME_OF_DAY )  {
-		return wxString(_T("Paused: Time of Day"));
+		return wxString(_("Paused: Time of Day"));
 	} else if ( status == TAB_STATUS_PAUSED_BENCHMARKS )  {
-		return wxString(_T("Paused: Benchmarks running"));
+		return wxString(_("Paused: Benchmarks running"));
 	} else if ( status == TAB_STATUS_PAUSED )  {
-		return wxString(_T("Paused"));
+		return wxString(_("Paused"));
 	} else {
 		return wxEmptyString;
 	}
@@ -129,7 +129,7 @@ void CImageButton::OnLeftUp(wxMouseEvent& WXUNUSED(event))
 
 void CImageButton::SetToolTip() {
 	if ( m_enableShowGraphics ) {
-		wxPanel::SetToolTip(new wxToolTip(_T("Click to show project graphics")));
+		wxPanel::SetToolTip(new wxToolTip(_("Click to show project graphics")));
 	} else {
 		wxPanel::SetToolTip(NULL);
 	}

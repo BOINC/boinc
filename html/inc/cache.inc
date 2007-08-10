@@ -4,10 +4,9 @@ require_once("../project/cache_parameters.inc");
 
 if (function_exists("apache_request_headers")) {
     $no_cache = false;
-    }
-else {
+} else {
     $no_cache = true;
-    }
+}
 
 // mechanism for caching commonly-accessed pages
 
@@ -155,7 +154,9 @@ function start_cache($max_age, $params=""){
     cache_check_diskspace(); //Check free disk space once in a while
 
     if ($max_age) {
-        $regenerate = cache_need_to_regenerate($path, $max_age); //Is the stored version too old, do we need to regenerate it?
+        //Is the stored version too old, do we need to regenerate it?
+        //
+        $regenerate = cache_need_to_regenerate($path, $max_age);
         if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache

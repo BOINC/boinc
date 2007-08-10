@@ -14,8 +14,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Build\Debug"
-			IntermediateDirectory=".\Build\Debug\boinc_cmd\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -32,9 +32,9 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
 				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
-				AssemblerListingLocation=".\Build\Debug\boinc_guirpctest\obj/"
-				ObjectFile=".\Build\Debug\boinc_guirpctest\obj/"
-				ProgramDataBaseFileName=".\Build\Debug\boinc_guirpctest\obj/vc70.pdb"
+				AssemblerListingLocation=""
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(IntDir)/vc70.pdb"
 				BrowseInformation="1"
 				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
@@ -48,13 +48,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
-				OutputFile=".\Build\Debug/boinccmd.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Debug/boinccmd.pdb"
+				ProgramDatabaseFile="$(OutDir)/boinccmd.pdb"
 				SubSystem="1"
 				OptimizeReferences="0"
 				TargetMachine="1"/>
@@ -90,8 +90,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Build\Release"
-			IntermediateDirectory=".\Build\Release\boinc_cmd\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -108,9 +108,9 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
 				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
-				AssemblerListingLocation=".\Build\Release\boinc_guirpctest\obj/"
-				ObjectFile=".\Build\Release\boinc_guirpctest\obj/"
-				ProgramDataBaseFileName=".\Build\Release\boinc_guirpctest\obj/"
+				AssemblerListingLocation=""
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(IntDir)/vc70.pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -124,13 +124,13 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
 				ShowProgress="0"
-				OutputFile=".\Build\Release/boinccmd.exe"
-				LinkIncremental="1"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/$(ProjectName).exe"
+				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/boinccmd.pdb"
+				ProgramDatabaseFile="$(OutDir)/boinccmd.pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				SetChecksum="TRUE"
@@ -144,8 +144,84 @@
 				TypeLibraryName=".\Build\Release/boinc_guirpctest.tlb"
 				HeaderFileName=""/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="signcode -v &quot;$(InputDir)\installerv2\boinc.pvk&quot; -spc &quot;$(InputDir)\installerv2\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\boinccmd.exe&quot;"/>
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".."/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseSigned|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client,.."
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
+				AssemblerListingLocation=""
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(IntDir)/vc70.pdb"
+				WarningLevel="4"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
+				DebugInformationFormat="3"
+				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
+				ShowProgress="0"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)/$(ProjectName).exe"
+				LinkIncremental="0"
+				SuppressStartupBanner="TRUE"
+				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreDefaultLibraryNames=""
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/boinccmd.pdb"
+				SubSystem="1"
+				OptimizeReferences="2"
+				SetChecksum="TRUE"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Build\Release/boinc_guirpctest.tlb"
+				HeaderFileName=""/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -200,12 +276,9 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc_cmd.rc">
+				RelativePath="..\client\win\boinc_cmd_2003.rc">
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\client\win\boinccmd.exe.manifest">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

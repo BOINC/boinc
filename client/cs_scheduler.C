@@ -77,6 +77,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     get_sched_request_filename(*p, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "wb");
+    if (!f) return ERR_FOPEN;
 
     double trs = total_resource_share();
     double rrs = runnable_resource_share();
@@ -104,7 +105,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->rpc_seqno = 0;
     }
 
-    if (!f) return ERR_FOPEN;
     mf.init_file(f);
     fprintf(f,
         "<scheduler_request>\n"
@@ -134,12 +134,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->duration_correction_factor
     );
 
-    // send supported platforms
-    //
-    report_supported_platforms(p, mf);
+    write_platforms(p, mf);
 
-    // send supported app_versions for anonymous platform
-    //   clients
+    // send supported app_versions for anonymous platform clients
+    //
     if (p->anonymous_platform) {
         fprintf(f, "    <app_versions>\n");
         for (i=0; i<app_versions.size(); i++) {
@@ -199,15 +197,16 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     );
 
     retval = time_stats.write(mf, true);
-    if (retval) return retval;
+    //if (retval) return retval;
+    // can't return without closing file
     retval = net_stats.write(mf);
-    if (retval) return retval;
+    //if (retval) return retval;
 
     // update hardware info, and write host info
     //
     host_info.get_host_info();
     retval = host_info.write(mf, config.suppress_net_info);
-    if (retval) return retval;
+    //if (retval) return retval;
 
     // get and write disk usage
     //
@@ -256,7 +255,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     if (p->send_time_stats_log) {
         fprintf(f, "<time_stats_log>\n");
-        gstate.time_stats.get_log_after(p->send_time_stats_log, mf);
+        time_stats.get_log_after(p->send_time_stats_log, mf);
         fprintf(f, "</time_stats_log>\n");
     }
     if (p->send_job_log) {
@@ -288,19 +287,20 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     fprintf(f, "<in_progress_results>\n");
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        double x = rp->estimated_cpu_time_remaining();
+        double x = rp->estimated_cpu_time_remaining(false);
         if (x == 0) continue;
         fprintf(f,
             "    <ip_result>\n"
+            "        <name>%s</name>\n"
             "        <report_deadline>%f</report_deadline>\n"
             "        <cpu_time_remaining>%f</cpu_time_remaining>\n"
             "    </ip_result>\n",
+            rp->name,
             rp->report_deadline,
             x
         );
     }
     fprintf(f, "</in_progress_results>\n");
-
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);
@@ -315,10 +315,10 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     bool action=false;
     static double last_time=0;
 
-	// check only every 5 sec, unless there's a tentative (new) project
+	// check only every 5 sec
 	//
-    if (!have_tentative_project() && gstate.now - last_time < 5.0) return false;
-    last_time = gstate.now;
+    if (now - last_time < 5.0) return false;
+    last_time = now;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
@@ -414,7 +414,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             msg_printf(project, MSG_USER_ERROR,
                 "The correct URL is %s", sr.master_url
             );
-            p2 = gstate.lookup_project(sr.master_url);
+            p2 = lookup_project(sr.master_url);
             if (p2) {
                 msg_printf(project, MSG_INFO,
                     "You seem to be attached to this project twice"
@@ -440,36 +440,32 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // make sure we don't already have a project of same name
     //
-    if (project->tentative) {
-        bool dup_name = false;
-        for (i=0; i<gstate.projects.size(); i++) {
-            p2 = gstate.projects[i];
-            if (project == p2) continue;
-            if (!strcmp(p2->project_name, project->project_name)) {
-                dup_name = true;
-                break;
-            }
-        }
-        if (dup_name) {
-            msg_printf(project, MSG_USER_ERROR,
-                "Already attached to a project named %s (possibly with wrong URL)",
-                project->project_name
-            );
-            msg_printf(project, MSG_USER_ERROR,
-                "Consider detaching this project, then trying again"
-            );
+    bool dup_name = false;
+    for (i=0; i<projects.size(); i++) {
+        p2 = projects[i];
+        if (project == p2) continue;
+        if (!strcmp(p2->project_name, project->project_name)) {
+            dup_name = true;
+            break;
         }
     }
+    if (dup_name) {
+        msg_printf(project, MSG_USER_ERROR,
+            "Already attached to a project named %s (possibly with wrong URL)",
+            project->project_name
+        );
+        msg_printf(project, MSG_USER_ERROR,
+            "Consider detaching this project, then trying again"
+        );
+    }
 
-    // on the off chance that this is the initial RPC for a project
-    // being attached, copy messages to a safe place
+    // show messages from server
     //
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());
         int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ERROR:MSG_INFO;
         show_message(project, buf, prio);
-        gstate.project_attach.messages.push_back(um.message);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {
@@ -483,7 +479,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (sr.project_is_down) {
         if (sr.request_delay) {
-            double x = gstate.now + sr.request_delay;
+            double x = now + sr.request_delay;
 			project->set_min_rpc_time(x, "project is down");
         }
         return ERR_PROJECT_DOWN;
@@ -643,6 +639,16 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
     for (i=0; i<sr.app_versions.size(); i++) {
         APP_VERSION& avpp = sr.app_versions[i];
+        if (strlen(avpp.platform) == 0) {
+            strcpy(avpp.platform, get_primary_platform());
+        } else {
+            if (!is_supported_platform(avpp.platform)) {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "App version has unsupported platform %s", avpp.platform
+                );
+                continue;
+            }
+        }
         APP* app = lookup_app(project, avpp.app_name);
         APP_VERSION* avp = lookup_app_version(app, avpp.platform, avpp.version_num);
         if (avp) {
@@ -652,13 +658,9 @@ int CLIENT_STATE::handle_scheduler_reply(
             continue;
         }
         avp = new APP_VERSION;
-        *avp = sr.app_versions[i];
+        *avp = avpp;
         retval = link_app_version(project, avp);
         if (retval) {
-             msg_printf(project, MSG_INTERNAL_ERROR,
-                 "Can't handle application version %s %d in scheduler reply",
-                 avp->app_name, avp->version_num
-             );
              delete avp;
              continue;
         }
@@ -742,7 +744,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
             if (atp) {
-                atp->abort_task(ERR_ABORTED_BY_PROJECT, "aborted by project");
+                atp->abort_task(ERR_ABORTED_BY_PROJECT,
+                    "aborted by project - no longer usable"
+                );
             } else {
                 rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
             }
@@ -781,21 +785,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     project->sched_rpc_pending = 0;
     project->trickle_up_pending = false;
 
-    // handle delay request
-    //
-    if (sr.request_delay) {
-        double x = gstate.now + sr.request_delay;
-		project->set_min_rpc_time(x, "requested by project");
-    } else {
-        project->min_rpc_time = 0;
-    }
-
-    if (sr.next_rpc_delay) {
-        project->next_rpc_time = gstate.now + sr.next_rpc_delay;
-    } else {
-        project->next_rpc_time = 0;
-    }
-
     // The project returns a hostid only if it has created a new host record.
     // In that case reset RPC seqno
     //
@@ -831,6 +820,32 @@ int CLIENT_STATE::handle_scheduler_reply(
         );
         print_summary();
     }
+
+    // if we asked for work and didn't get any,
+    // back off this project
+    //
+    if (project->work_request && nresults==0) {
+        scheduler_op->backoff(project, "no work from project\n");
+    } else {
+        project->nrpc_failures = 0;
+
+        // handle delay request
+        //
+        if (sr.request_delay) {
+            double x = now + sr.request_delay;
+            project->set_min_rpc_time(x, "requested by project");
+        } else {
+            project->min_rpc_time = 0;
+        }
+
+    }
+
+    if (sr.next_rpc_delay) {
+        project->next_rpc_time = now + sr.next_rpc_delay;
+    } else {
+        project->next_rpc_time = 0;
+    }
+
     return 0;
 }
 

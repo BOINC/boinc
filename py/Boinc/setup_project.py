@@ -350,14 +350,14 @@ def install_boinc_files(dest_dir):
     force_symlink(dir('bin', 'start'), dir('bin', 'stop'))
     force_symlink(dir('bin', 'start'), dir('bin', 'status'))
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
-        [ 'create_work', 'add', 'xadd', 'dbcheck_files_exist', 'run_in_ops',
+        [ 'create_work', 'xadd', 'dbcheck_files_exist', 'run_in_ops',
           'update_versions', 'parse_config', 'grep_logs', 'db_query',
           'watch_tcp', 'sign_executable', 'dir_hier_move', 'dir_hier_path' ])
     map(lambda (s): install(srcdir('py/Boinc',s), dir('bin',s)),
         [ 'add_util.py', 'boinc_db.py', 'boinc_project_path.py',
           'boincxml.py', 'configxml.py', 'database.py',
           'db_base.py', 'db_mid.py', 'projectxml.py',
-          'sched_messages.py', 'tools.py', 'util.py', 'version.py' ])
+          'sched_messages.py', 'tools.py', 'util.py' ])
     map(lambda (s): install(srcdir('sched',s), dir('',s)),
         [ 'db_dump_spec.xml' ])
 
@@ -407,6 +407,7 @@ class Project:
         config.upload_dir    = os.path.join(self.project_dir , 'upload')
         config.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
         config.app_dir       = os.path.join(self.project_dir, 'apps')
+        config.log_dir       = self.project_dir+'log_'+config.host
         if production:
             config.min_sendwork_interval = 6
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
@@ -465,8 +466,6 @@ class Project:
         # copy sample web files to final names
         install(srcdir('html/user/sample_index.php'),
             self.dir('html/user/index.php'))
-        install(srcdir('html/user/sample_get_project_config.php'),
-            self.dir('html/user/get_project_config.php'))
         install(srcdir('html/project.sample/project.inc'),
             self.dir('html/project/project.inc'))
         install(srcdir('html/project.sample/project_specific_prefs.inc'),
@@ -509,7 +508,7 @@ class Project:
         else:
             scheduler_file = 'schedulers.txt'
             f = open(self.dir('html/user', scheduler_file), 'w')
-            print >>f, "<scheduler>" + self.scheduler_url.strip(), "</scheduler>"
+            print >>f, "<!-- <scheduler>" + self.scheduler_url.strip() + "</scheduler> -->"
             print >>f, "<link rel=\"boinc_scheduler\" href=\"" + self.scheduler_url.strip()+ "\">"
             f.close()
 

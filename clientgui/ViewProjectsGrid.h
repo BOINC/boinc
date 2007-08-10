@@ -39,13 +39,12 @@ public:
     ~CViewProjectsGrid();
 
     virtual wxString&       GetViewName();
+    virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
 
     void                    OnProjectUpdate( wxCommandEvent& event );
     void                    OnProjectSuspend( wxCommandEvent& event );
-	void                    OnProjectResume( wxCommandEvent& event );
     void                    OnProjectNoNewWork( wxCommandEvent& event );
-	void                    OnProjectAllowNewWork( wxCommandEvent& event );
     void                    OnProjectReset( wxCommandEvent& event );
     void                    OnProjectDetach( wxCommandEvent& event );
 

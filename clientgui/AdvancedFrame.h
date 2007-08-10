@@ -56,6 +56,7 @@ public:
 
     ~CAdvancedFrame(void);
 
+    void OnSwitchView( wxCommandEvent& event );
     void OnSwitchGUI( wxCommandEvent& event );
 
     void OnActivitySelection( wxCommandEvent& event );
@@ -104,6 +105,7 @@ private:
     CStatusBar*     m_pStatusbar;
 
     bool            m_bDisplayShutdownClientWarning;
+	wxInt32			m_iDisplayViewType;
 
     wxString        m_strBaseTitle;
 
@@ -111,6 +113,7 @@ private:
     bool            DeleteMenu();
 
     bool            CreateNotebook();
+    bool            RepopulateNotebook();
     template < class T >
         bool        CreateNotebookPage( T pwndNewNotebookPage );
     bool            DeleteNotebook();
@@ -119,13 +122,16 @@ private:
     bool            DeleteStatusbar();
 
     bool            SaveState();
+    bool            SaveViewState();
     bool            RestoreState();
+    bool            RestoreViewState();
 
     void            SaveWindowDimensions();
     void            RestoreWindowDimensions();
 
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );
+    void            UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage );
 
     void            StartTimers();
     void            StopTimers();

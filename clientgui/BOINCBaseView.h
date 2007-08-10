@@ -91,6 +91,7 @@ public:
     ~CBOINCBaseView();
 
     virtual wxString&       GetViewName();
+    virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
     virtual const int       GetViewRefreshRate();
 
@@ -146,6 +147,8 @@ protected:
     virtual bool            EnsureLastItemVisible();
 
     static  void            append_to_status(wxString& existing, const wxChar* additional);
+	static  wxString        HtmlEntityEncode(wxString strRaw);
+	static  wxString        HtmlEntityDecode(wxString strRaw);
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;

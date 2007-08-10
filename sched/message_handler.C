@@ -34,6 +34,8 @@ using namespace std;
 
 #include "boinc_db.h"
 #include "util.h"
+#include "str_util.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
@@ -139,7 +141,7 @@ int main(int argc, char** argv) {
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "Can't parse config file: %d\n", retval
+            "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }

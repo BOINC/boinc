@@ -134,6 +134,7 @@ int MFILE::close() {
     fclose(f);
     free(buf);
     buf = 0;
+    f = NULL;
     return retval;
 }
 

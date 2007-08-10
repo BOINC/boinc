@@ -90,6 +90,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectUrlStaticCtrl = NULL;
     m_pProjectUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
+    bProjectListPopulated = false;
  
 ////@begin CProjectInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
@@ -238,11 +239,13 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectUrlCtrl);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Project Selection")
+        _("Choose a project")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("Choose which project you would like to participate in by\n"
-          "clicking on its name, or type the project URL below.")
+        _("To choose a project, click its name\n"
+          "or type its URL below.\n"
+          "Click 'www' to visit a project's web site."
+         )
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")
@@ -251,12 +254,15 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     // Populate the combo box with project information
     //
-    pDoc->rpc.get_all_projects_list(pl);
-    for (i=0; i<pl.projects.size(); i++) {
-        m_pProjectListCtrl->Append(
-            wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
-            wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
-        );
+    if (!bProjectListPopulated) {
+        pDoc->rpc.get_all_projects_list(pl);
+        for (i=0; i<pl.projects.size(); i++) {
+            m_pProjectListCtrl->Append(
+                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
+            );
+        }
+        bProjectListPopulated = true;
     }
 
     Layout();

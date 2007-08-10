@@ -3,7 +3,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
-
+require_once("../inc/team_types.inc");
 
 xml_header();
 $retval = db_init_xml();
@@ -15,43 +15,29 @@ if (!$user) {
     xml_error(-136);
 }
 
-$name = process_user_text(strip_tags($_GET["name"]));
+$name = $_GET["name"];
 if (strlen($name) == 0) {
     xml_error(-1, "must set team name");
 }
-$name_lc = strtolower($name);
 
-$url = process_user_text(strip_tags($_GET["url"]));
-if (strstr($url, "http://")) {
-    $url = substr($url, 7);
-}
+$url = $_GET["url"];
+$type_name = $_GET["type"];  // textual
+$type = team_type_num($type_name);
+$name_html = $_GET["name_html"];
+$description = $_GET["description"];
+$country = _GET["country"];
 
-$type = process_user_text(strip_tags($_GET["type"]));
-if (strlen($type) == 0) {
-    $type = 1;
-}
-$name_html = process_user_text($_GET["name_html"]);
-$description = process_user_text($_GET["description"]);
-$country = process_user_text($_GET["country"]);
-if (!is_valid_country($country)) {
-    $country = 'None';
-}
-
-$query = sprintf(
-    "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, country, nusers, expavg_time) values (%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d, unix_timestamp())",
-    $user->id, time(), $name, $name_lc, $url, $type, $name_html, $description, $country, 0
+// the following cleanses its args
+//
+$new_team = make_team(
+    $user->id, $name, $url, $type, $name_html, $description, $country
 );
-$result = mysql_query($query);
 
-if ($result) {
-    $teamid = mysql_insert_id();
-    $team_result = mysql_query("select * from team where id = $teamid");
-    $new_team = mysql_fetch_object($team_result);
-    mysql_free_result($team_result);
+if ($new_team) {
     user_join_team($new_team, $user);
     echo "<create_team_reply>
     <success/>
-    <team_id>$teamid</team_id>
+    <team_id>$new_team->id</team_id>
 </create_team_reply>
 ";
 } else {

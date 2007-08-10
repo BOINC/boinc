@@ -141,10 +141,14 @@ void CNetworkConnection::Poll() {
             // a host value of NULL is special cased as binding to the localhost and
             //   if we are connecting to the localhost we need to retry the connection
             //   for awhile so that the users can respond to firewall prompts.
+            //
+            // use a timeout of 60 seconds so that slow machines do not get a
+            //   timeout event right after boot-up.
+            //
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpc.init_asynch(NULL, 30., true);
+                retval = m_pDocument->rpc.init_asynch(NULL, 60.0, true);
             } else {
-                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 30., false);
+                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60.0, false);
             }
 
             if (!retval) {
@@ -479,7 +483,8 @@ int CMainDocument::FrameShutdownDetected() {
 
 
 int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
-    int     iRetVal = 0;
+    wxString         strMachine = wxEmptyString;
+    int              iRetVal = 0;
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
@@ -489,12 +494,13 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
             iRetVal = rpc.get_cc_status(ccs);
             if (0 == iRetVal) {
                 status = ccs;
-
                 if (ccs.manager_must_quit) {
-                    // TODO:
-                    // if client is remote, don't do anything
-                    // otherwise notify user and exit
-                    exit(0);
+                    GetConnectedComputerName(strMachine);
+                    if (IsComputerNameLocal(strMachine)) {
+                        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+                        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+                        pFrame->Close(true);
+                    }
                 }
             }
         } else {
@@ -564,21 +570,17 @@ int CMainDocument::CoreClientQuit() {
 
 
 bool CMainDocument::IsUserAuthorized() {
-#ifdef _WIN32
-    return true;
-#else       // !  _WIN32
-    static bool         sIsAuthorized = false;
-
-    if (sIsAuthorized)
-        return true;            // We already checked and OK'd current user
-
+#ifndef _WIN32
 #ifdef SANDBOX
+    static bool         sIsAuthorized = false;
     group               *grp;
     gid_t               rgid, boinc_master_gid;
     char                *userName, *groupMember;
     int                 i;
 
     if (g_use_sandbox) {
+        if (sIsAuthorized)
+            return true;            // We already checked and OK'd current user
 
         grp = getgrnam(BOINC_MASTER_GROUP_NAME);
         if (grp) {
@@ -603,22 +605,21 @@ bool CMainDocument::IsUserAuthorized() {
                 }       // for (i)
             }           // if (userName)
         }               // if grp
-    }
-#endif      // SANDBOX
-#endif      // !  _WIN32
 
 #ifdef __WXMAC__
-    if (Mac_Authorize()) {          // Run Mac Authentication dialog
-        sIsAuthorized = true;       // Authenticated by password
-        return true;
-    }
+        if (Mac_Authorize()) {          // Run Mac Authentication dialog
+            sIsAuthorized = true;       // Authenticated by password
+            return true;
+        }
 #endif      // __WXMAC__
 
-#ifdef SANDBOX
-    return false;
-#else
+        return false;
+
+    }       // if (g_use_sandbox)
+#endif      // SANDBOX
+#endif      // #ifndef _WIN32
+
     return true;
-#endif
 }
 
 
@@ -1030,7 +1031,8 @@ int CMainDocument::CachedMessageUpdate() {
             goto done;
         }
         if (messages.messages.size() != 0) {
-            m_iMessageSequenceNumber = messages.messages.at(messages.messages.size()-1)->seqno;
+            int last_ind = messages.messages.size()-1;
+            m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
     }
 done:

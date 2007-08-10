@@ -191,6 +191,8 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxStaticText* m_staticText52;
 		wxTextCtrl* m_txtMemoryMaxOnIdle;
 		wxStaticText* m_staticText53;
+		wxStaticText* m_staticText54;
+		wxStaticText* m_staticText55;
 		wxCheckBox* m_chkMemoryWhileSuspended;
 		wxPanel* m_panelButtons;
 		wxButton* m_btnOK;

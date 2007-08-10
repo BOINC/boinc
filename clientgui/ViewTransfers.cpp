@@ -138,6 +138,12 @@ wxString& CViewTransfers::GetViewName() {
 }
 
 
+wxString& CViewTransfers::GetViewDisplayName() {
+    static wxString strViewName(_("Transfers"));
+    return strViewName;
+}
+
+
 const char** CViewTransfers::GetViewIcon() {
     return xfer_xpm;
 }
@@ -146,15 +152,13 @@ const char** CViewTransfers::GetViewIcon() {
 void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function Begin"));
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CMainDocument*  pDoc    = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Retrying transfer now..."));
     pDoc->TransferRetryNow(m_pListPane->GetFirstSelected());
@@ -171,29 +175,29 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
 void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
-    wxString strName        = wxEmptyString;
-    wxString strMessage     = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    wxInt32         iAnswer    = 0; 
+    wxString        strMessage = wxEmptyString;
+    CMainDocument*  pDoc       = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame     = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CTransfer*      pTransfer  = NULL;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
 
     if (!pDoc->IsUserAuthorized())
         return;
 
     pFrame->UpdateStatusText(_("Aborting transfer..."));
 
+    pTransfer = m_TransferCache.at(m_pListPane->GetFirstSelected());
+
     strMessage.Printf(
         _("Are you sure you want to abort this file transfer '%s'?\n"
           "NOTE: Aborting a transfer will invalidate a task and you\n"
           "will not receive credit for it."), 
-        wxString(pDoc->file_transfer(m_pListPane->GetFirstSelected())->name.c_str(), wxConvUTF8).c_str()
+        pTransfer->m_strFileName.c_str()
     );
 
     iAnswer = ::wxMessageBox(
@@ -375,7 +379,7 @@ wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) con
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        strBuffer = wxString(transfer->project_name.c_str(), wxConvUTF8);
+        strBuffer = HtmlEntityDecode(wxString(transfer->project_name.c_str(), wxConvUTF8));
     }
     return 0;
 }

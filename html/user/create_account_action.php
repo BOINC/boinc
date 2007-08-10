@@ -3,6 +3,7 @@
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/email.inc");
+include_once("../inc/user.inc");
 
 function show_error($str) {
     page_head("Can't create account");
@@ -59,7 +60,6 @@ if ($new_name != strip_tags($new_name)) {
     show_error("HTML tags not allowed in name");
 }
 
-
 $new_email_addr = process_user_text($_POST["new_email_addr"]);
 $new_email_addr = strtolower($new_email_addr);
 if (!is_valid_email_addr($new_email_addr)) {
@@ -101,33 +101,28 @@ if (!is_valid_country($country)) {
     exit();
 }
 
-$postal_code = strip_tags(process_user_text($_POST["postal_code"]));
+$postal_code = $_POST["postal_code"];
 
-$authenticator = random_string();
-$cross_project_id = random_string();
-$country = boinc_real_escape_string($country);
-$now = time();
-$query = "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid, venue, url, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$new_email_addr', '$new_name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 'home', '', 1, 1, '$cross_project_id', '$passwd_hash')";
-$result = mysql_query($query);
-if (!$result) {
+$user = make_user(
+    $new_email_addr, $new_name, $passwd_hash,
+    $country, $postal_code, $project_prefs, $teamid
+);
+if (!$user) {
     show_error("Couldn't create account");
 }
 
 // In success case, redirect to a fixed page so that user can
 // return to it without getting "Repost form data" stuff
 
-$user->name = $new_name;
-$user->email_addr = $new_email_addr;
-$user->authenticator = $authenticator;
 send_auth_email($user, true, false);
 
 if(defined('INVITE_CODES')) {
-    error_log("New account '$new_name' created using invitation code '$invite_code'");
+    error_log("Account '$new_email_addr' created using invitation code '$invite_code'");
 }
 
 session_start();
-$_SESSION["authenticator"] = $authenticator;
+$_SESSION["authenticator"] = $user->authenticator;
 Header("Location: home.php?new_acct=1&via_web=1");
-setcookie('auth', $authenticator, time()+3600*24*365);
+setcookie('auth', $user->authenticator, time()+3600*24*365);
 
 ?>

@@ -1,19 +1,19 @@
 # ########################################
-# Language: Catal‡
+# Language: Catal√†
 # FileID  : $Id$
 # Author  : Xavier Mor-Mur
 # Email   : xmormur@telepolis.com
 # ########################################
-# Per a mes informaciÛ consulteu:
+# Per a mes informaci√≥ consulteu:
 # http://boinc.berkeley.edu/web_translation.php
 # ########################################
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
-msgstr "iso-8859-1"
+msgstr "UTF-8"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
-msgstr "Catal‡"
+msgstr "Catal√†"
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
@@ -26,20 +26,20 @@ msgid "APPS_TITLE"
 msgstr "Aplicacions"
 
 msgid "APPS_DESCRIPTION"
-msgstr "El $PROJECT actual te les seg¸ents aplicacions. "
+msgstr "El $PROJECT actual te les seg√ºents aplicacions. "
 "Quan participes a $PROJECT, s'assigna feina per una o mes "
 "d'aquestes aplicacions en el teu ordinador. "
-"La versiÛ actual de l'aplicatiu es descarrega al teu ordinador. "
-"AixÛ passa autom‡ticament, no tens que fer res. "
+"La versi√≥ actual de l'aplicatiu es descarrega al teu ordinador. "
+"Aix√≥ passa autom√†ticament, no tens que fer res. "
 
 msgid "APPS_PLATFORM"
 msgstr "Sistema base"
 
 msgid "APPS_VERSION"
-msgstr "VersiÛ actual"
+msgstr "Versi√≥ actual"
 
 msgid "APPS_INSTALLTIME"
-msgstr "Instal∑lat"
+msgstr "Instal¬∑lat"
 
 #########################################
 # Rules and Policies page (info.php)
@@ -52,18 +52,18 @@ msgstr "Executeu $PROJECT tan sols en ordinadors autoritzats"
 
 msgid "RULES_ONLY_AUTH_TEXT"
 msgstr "Executa $PROJECT tan sols en ordinadors de la teva propietat, "
-"o d'aquells per els que has obtingut permÌs del seu propietari. "
-"Algunes empreses i escoles tenen regles que prohibeixen la utilitzaciÛ "
+"o d'aquells per els que has obtingut perm√≠s del seu propietari. "
+"Algunes empreses i escoles tenen regles que prohibeixen la utilitzaci√≥ "
 "dels seus ordinadors per projectes com $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
-msgstr "Com $PROJECT utilitzar‡ el teu ordinador"
+msgstr "Com $PROJECT utilitzar√† el teu ordinador"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
 msgstr "Quan executes $PROJECT en el teu ordinador, "
-"aquest utilitzar‡ part de la capacitat de la CPU, espai en disc, i ampla de banda de xarxa. "
+"aquest utilitzar√† part de la capacitat de la CPU, espai en disc, i ampla de banda de xarxa. "
 "Pots modificar la quantitat de recursos que seran utilitzats per $PROJECT, "
-"i quan els utilitzar‡. "
+"i quan els utilitzar√†. "
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
 msgstr "La feina realitzada per el teu ordinador contribueix a "
@@ -77,20 +77,20 @@ msgid "RULES_PRIVACY_TEXT_A"
 msgstr "La teva compta a $PROJECT es identificada per el nom que esculls. "
 "Aquest nom es pot mostrar a la web de $PROJECT, amb un sumari de "
 "la feina realitzada per el teu ordinador per a $PROJECT. "
-"Si vols mantenir-te anÛnim, escull un nom que bo t'identifiqui."
+"Si vols mantenir-te an√≥nim, escull un nom que bo t'identifiqui."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Si participes a $PROJECT, informaciÛ respecte al teu ordinador "
-"(com tipus de processador, memÚria total, etc.) "
+msgstr "Si participes a $PROJECT, informaci√≥ respecte al teu ordinador "
+"(com tipus de processador, mem√≤ria total, etc.) "
 "es registrada per $PROJECT i utilitzada per decidir el tipus de feina "
-"que s'assignar‡ al teu ordinador. Aquesta informaciÛ tambÈ es pot mostrar a "
+"que s'assignar√† al teu ordinador. Aquesta informaci√≥ tamb√© es pot mostrar a "
 "la web de $PROJECT. "
 "Res que identifiqui el teu ordinador (com nom del domini o "
-"direcciÛ de xarxa) es mostrar‡."
+"direcci√≥ de xarxa) es mostrar√†."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Per participar a $PROJECT, has de subministrar una adreÁa on rebs el teu correu electrÚnic. "
-"Aquesta adreÁa no es mostrar‡ a la web de $PROJECT o organitzacions associades. "
+msgstr "Per participar a $PROJECT, has de subministrar una adre√ßa on rebs el teu correu electr√≤nic. "
+"Aquesta adre√ßa no es mostrar√† a la web de $PROJECT o organitzacions associades. "
 "$PROJECT pot enviar-te periodicament noticies; en qualsevol cas podeu optar per no rebren en qualsevol moment."
 
 msgid "RULES_SAFE"
@@ -99,39 +99,39 @@ msgstr "Es segur executar $PROJECT ?"
 msgid "RULES_SAFE_TEXT_A"
 msgstr "Sempre que descarreguis un programa des de internet pots trobar-te amb que: "
 "el programa contingui errors greus, "
-"o que el servidor de desc‡rrega hagi estat manipulat. "
+"o que el servidor de desc√†rrega hagi estat manipulat. "
 "$PROJECT ha realitzat esforsos per minimitzar aquests riscos. "
 "Hem verificat les nostres aplicacions amb cura. "
 "Els nostres servidors estan protegits per tallafocs i configurats per alta seguretat. "
-"Per assegurar la integritat de les desc‡rregues , tots els fitxers executables tene signatura "
+"Per assegurar la integritat de les desc√†rregues , tots els fitxers executables tene signatura "
 "digital en un ordinador de seguretat no connectat a internet."
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "Les aplicacions executades per $PROJECT poden provocar la sobrec‡rrega d'alguns ordinadors. "
-"Si passes aixÚ, atura l'execuciÛ de $PROJECT o utilitza un %s  que limiti la utilitzaciÛ de la CPU."
+msgstr "Les aplicacions executades per $PROJECT poden provocar la sobrec√†rrega d'alguns ordinadors. "
+"Si passes aix√≤, atura l'execuci√≥ de $PROJECT o utilitza un %s  que limiti la utilitzaci√≥ de la CPU."
 
 msgid "RULES_UTILITY_PROGRAM"
 msgstr "programa de utilitats"
 
 msgid "RULES_SAFE_TEXT_C"
 msgstr "$PROJECT ha estat desenvolupat per %s. BOINC ha estat desenvolupat a la Universitat de "
-"CalifÚrnia."
+"Calif√≤rnia."
 
 msgid "RULES_LIABILITY"
 msgstr "Responsabilitats"
 
 msgid "RULES_LIABILITY_TEXT"
 msgstr "$PROJECT i %s no assumeixen cap responsabilitat per danys al teu ordinador, "
-"pËrdua de informaciÛ, o qualsevol altre succes que pugui se degut a la "
-"participaciÛ a $PROJECT."
+"p√®rdua de informaci√≥, o qualsevol altre succes que pugui se degut a la "
+"participaci√≥ a $PROJECT."
 
 msgid "RULES_OTHER"
 msgstr "Altres projectes BOINC "
 
 msgid "RULES_OTHER_TEXT_A"
 msgstr "Altres projectes utilitzen la mateixa base, BOINC, com $PROJECT. Pots considerar "
-"la possibilitat de participar a un o mËs d'aquests projectes. "
-"Amb aixÛ, el teu ordinador pot realitzar feina util encara que $PROJECT no tingui feina "
+"la possibilitat de participar a un o m√®s d'aquests projectes. "
+"Amb aix√≥, el teu ordinador pot realitzar feina util encara que $PROJECT no tingui feina "
 "disponible per ell."
 
 msgid "RULES_OTHER_TEXT_B"
@@ -156,19 +156,19 @@ msgid "CREATE_AC_NAME"
 msgstr "Nom"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "T'identifica a la nostra web. Utilitza el teu nom real o un ‡lies."
+msgstr "T'identifica a la nostra web. Utilitza el teu nom real o un √†lies."
 
 msgid "CREATE_AC_EMAIL"
-msgstr "AdreÁa de correu electrÚnic "
+msgstr "Adre√ßa de correu electr√≤nic "
 
 msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Ha de ser una adreÁa v‡lida en el format 'nom@domini'."
+msgstr "Ha de ser una adre√ßa v√†lida en el format 'nom@domini'."
 
 msgid "CREATE_AC_COUNTRY"
-msgstr "PaÌs"
+msgstr "Pa√≠s"
 
 msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Selecciona el paÌs que vols representar, si ho desitges."
+msgstr "Selecciona el pa√≠s que vols representar, si ho desitges."
 
 msgid "CREATE_AC_ZIP"
 msgstr "Codi postal "
@@ -177,14 +177,14 @@ msgid "CREATE_AC_CREATE"
 msgstr "Crear Compte"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "La CreaciÛ de Comptes est‡ Desactivada"
+msgstr "La Creaci√≥ de Comptes est√† Desactivada"
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr " La creaciÛ de comptes est‡ desactivada moment‡niament per a $PROJECT. "
+msgstr " La creaci√≥ de comptes est√† desactivada moment√†niament per a $PROJECT. "
 "Si us plau prova-ho mes tard."
 
 msgid "CREATE_AC_TEAM"
-msgstr "Aquest compte formar‡ part del grup %s i tindr‡ les mateixes preferËncies del seu fundador."
+msgstr "Aquest compte formar√† part del grup %s i tindr√† les mateixes prefer√®ncies del seu fundador."
 
 
 #########################################
@@ -197,7 +197,7 @@ msgid "AC_READY_WELCOME"
 msgstr "Felicitats - el teu compte per a $PROJECT ha estat creat"
 
 msgid "AC_READY_PASTE"
-msgstr "Per continuar, enganxa la teva clau de compte aquÌ:"
+msgstr "Per continuar, enganxa la teva clau de compte aqu√≠:"
 
 msgid "AC_READY_CLICK"
 msgstr "i prem "
@@ -208,13 +208,13 @@ msgstr "i prem "
 #########################################
 #also used in account_setup_nonfirst.php:
 msgid "AC_SETUP_TITLE"
-msgstr "ConfiguraciÛ compte "
+msgstr "Configuraci√≥ compte "
 
 msgid "AC_SETUP_USES_BOINC"
 msgstr "$PROJECT utilitza el programari de BOINC."
 
 msgid "AC_SETUP_DIVISION"
-msgstr "BOINC et permet repartir el temps del teu ordinador entre diversos projectes de computaciÛ distribuÔda."
+msgstr "BOINC et permet repartir el temps del teu ordinador entre diversos projectes de computaci√≥ distribu√Øda."
 
 msgid "AC_SETUP_ISFIRST"
 msgstr "Es aquest el teu primer projecte BOINC?"
@@ -230,13 +230,13 @@ msgstr "No - Ja estic participant al menys en un altre projecte BOINC"
 # First Account setup page (account_setup_first.php)
 #########################################
 msgid "AC_FIRST_TITLE"
-msgstr "PreferËncies del compte "
+msgstr "Prefer√®ncies del compte "
 
 msgid "AC_FIRST_CONTROL"
 msgstr "Pots controlar quan i com el teu ordinador es utilitzat per $PROJECT"
 
 msgid "AC_FIRST_DEFAULT"
-msgstr "Per utilitzar la configuraciÛ per defecte, desplazat fins al final i premeu OK."
+msgstr "Per utilitzar la configuraci√≥ per defecte, desplazat fins al final i premeu OK."
 
 
 #########################################
@@ -244,72 +244,72 @@ msgstr "Per utilitzar la configuraciÛ per defecte, desplazat fins al final i pre
 # and (account_setup_nonfirst_done.php
 #########################################
 msgid "AC_DONE_TITLE"
-msgstr "ConfiguraciÛ compte: realitzada"
+msgstr "Configuraci√≥ compte: realitzada"
 
 msgid "AC_DONE_COMPLETE"
-msgstr "La configuraciÛ del vostre compte ha estat completada."
+msgstr "La configuraci√≥ del vostre compte ha estat completada."
 
 msgid "AC_DONE_BOINC"
-msgstr "Ara has de descarregar i instal∑lar el programari de BOINC i permetre al(s) vostre(s) ordinador(s) "
-"la utilitzaciÛ d'aquest compte."
+msgstr "Ara has de descarregar i instal¬∑lar el programari de BOINC i permetre al(s) vostre(s) ordinador(s) "
+"la utilitzaci√≥ d'aquest compte."
 
 msgid "AC_DONE_URL"
-msgstr "Quan el programa BOINC s'executa per primera vegada, et demanar‡ per una <b>URL d'un projecte</b> i "
+msgstr "Quan el programa BOINC s'executa per primera vegada, et demanar√† per una <b>URL d'un projecte</b> i "
 "per una <b>Clau de compte</b>."
 
 msgid "AC_DONE_COPYPASTE"
-msgstr " Copia-les i enganxa-les aquÌ:"
+msgstr " Copia-les i enganxa-les aqu√≠:"
 
 msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Ara pots %s per completar la instal∑laciÛ de $PROJECT."
+msgstr "Ara pots %s per completar la instal¬∑laci√≥ de $PROJECT."
 
 msgid "AC_DONE_DL_BOINC"
 msgstr "descarregar el programari BOINC"
 
 msgid "AC_DONE_THANKS"
-msgstr "MercËs per participar a $PROJECT"
+msgstr "Merc√®s per participar a $PROJECT"
 
 
 #########################################
 # Non-first Account setup page (account_setup_nonfirst.php)
 #########################################
 msgid "AC_NONFIRST_TITLE"
-msgstr "ConfiguraciÛ del compte: recursos compartits"
+msgstr "Configuraci√≥ del compte: recursos compartits"
 
 
 #########################################
 # Non-first Account setup done page (account_setup_nonfirst_done.php)
 #########################################
 msgid "AC_DONE_MUST_USE"
-msgstr "Ara has de permetre el(s) teu(s) ordinador(s) la utilitzaciÛ d'aquest compte."
+msgstr "Ara has de permetre el(s) teu(s) ordinador(s) la utilitzaci√≥ d'aquest compte."
 
 msgid "AC_DONE_WIN"
 msgstr "Usuaris de Windows:"
 
 msgid "AC_DONE_WIN_TEXT"
-msgstr "Obra la finestra de l'aplicaciÛ BOINC prement dues vegades a la icona de BOINC a barra de tasques."
-"Escull 'Ajuntar-se a un Projecte' en el menu de ConfiguraciÛ. Et demanar‡ per la URL d'un projecte "
+msgstr "Obra la finestra de l'aplicaci√≥ BOINC prement dues vegades a la icona de BOINC a barra de tasques."
+"Escull 'Ajuntar-se a un Projecte' en el menu de Configuraci√≥. Et demanar√† per la URL d'un projecte "
 "i una clau de compte."
 
 msgid "AC_DONE_UNIX"
 msgstr "Usuaris de Mac, Unix i Linux:"
 
 msgid "AC_DONE_UNIX_TEXT"
-msgstr "Finalitzar l'execuciÛ del programa BOINC. Executa el programa BOINC amb l'opciÛ -attach_project. "
-"Et demanar‡ per la URL d'un projecte i una clau de compte."
+msgstr "Finalitzar l'execuci√≥ del programa BOINC. Executa el programa BOINC amb l'opci√≥ -attach_project. "
+"Et demanar√† per la URL d'un projecte i una clau de compte."
 
 msgid "AC_DONE_ANYCASE"
-msgstr "En cada cas copieu i enganxeu el seg¸ent:"
+msgstr "En cada cas copieu i enganxeu el seg√ºent:"
 
 msgid "AC_DONE_INSTALLED"
-msgstr "AixÚ finalitza la instal∑laciÛ de $PROJECT."
+msgstr "Aix√≤ finalitza la instal¬∑laci√≥ de $PROJECT."
 
 #########################################
 # Forum sample index page
 #########################################
 
 msgid "FORUM_TITLE"
-msgstr "$PROJECT EmplaÁament de missatges "
+msgstr "$PROJECT Empla√ßament de missatges "
 
 
 #########################################
@@ -341,10 +341,10 @@ msgid "USER_TABLE_NAME"
 msgstr "Nom"
 
 msgid "USER_TABLE_TOTAL_CREDIT"
-msgstr "CrËdit Total"
+msgstr "Cr√®dit Total"
 
 msgid "USER_TABLE_EXPAVG"
-msgstr "CrËdit promitg actual"
+msgstr "Cr√®dit promitg actual"
 
 msgid "USER_TABLE_COUNTRY"
 msgstr "Pais"

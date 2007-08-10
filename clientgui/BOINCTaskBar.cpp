@@ -85,6 +85,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_iconTaskBarDisconnected = *iconDisconnected;
     m_iconTaskBarSnooze = *iconSnooze;
     m_strDefaultTitle = title;
+    m_bTaskbarInitiatedShutdown = false;
 
     m_dtLastHoverDetected = wxDateTime((time_t)0);
     m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
@@ -115,7 +116,8 @@ void CTaskBarIcon::OnIdle(wxIdleEvent& event) {
 void CTaskBarIcon::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
 
-    ResetTaskBar();
+    RemoveIcon();
+    m_bTaskbarInitiatedShutdown = true;
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
@@ -275,7 +277,10 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function Begin"));
 
-    if (wxGetApp().ConfirmExit()) {
+#ifndef __WXMAC__
+    if (wxGetApp().ConfirmExit()) 
+#endif
+    {
         wxCloseEvent eventClose;
         OnClose(eventClose);
         if (eventClose.GetSkipped()) event.Skip();

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-02-06 22:54+0500\n"
+"PO-Revision-Date: 2007-05-28 20:20+0500\n"
 "Last-Translator: \n"
 "Language-Team:  <mifistor_x@yahoo.com>\n"
 "MIME-Version: 1.0\n"
@@ -844,4 +844,13 @@ msgstr "Дополнения"
 # Survey
 msgid "HOME_SURVEY"
 msgstr "Опрос"
+
+# Berkeley Open Infrastructure for Network Computing
+# Открытая Инфраструктура для Распределённых Вычислений университета Беркли
+msgid "HOME_BOINC"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+# Open-source software for %svolunteer computing%s and %sdesktop grid computing%s.
+msgid "HOME_BOINC_DESC"
+msgstr "Программное обеспечение с открытым исходным кодом для организации %sдобровольных распределённых вычислений%s или %sраспределённых вычислений на настольных компьютерах%s"
 

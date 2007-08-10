@@ -17,8 +17,14 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// scheduler code related to sending work
-
+// scheduler code related to sending "lost" work
+// (i.e. results we sent to the host, but which they're not reporting)
+//
+// TODO:
+// - make sure result is still needed (no canonical result yet)
+// - don't send if project has been reset since first send;
+//   this result may have been the cause of reset
+//   (need to pass last reset time from client)
 
 #include "config.h"
 #include "error_numbers.h"
@@ -40,11 +46,9 @@
 #define FCGI_ToFILE(x) (x)
 #endif
 
-// returns zero if result still feasible.
-// result may hve been given a new report time.
-// Returns nonzero if result is no longer feasible
-// (not enough time to compute it on host).
-// In this case result is unchanged.
+// Assign a new deadline for the result;
+// if it's not likely to complete by this time, return nonzero.
+// TODO: EXPLAIN THE FORMULA FOR NEW DEADLINE
 //
 static int possibly_give_result_new_deadline(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply
@@ -95,6 +99,7 @@ bool resend_lost_work(
     bool did_any = false;
     int num_to_resend=0;
     int num_resent=0;
+    int num_on_host=0;
     APP* app;
     APP_VERSION* avp;
     int retval;
@@ -114,6 +119,7 @@ bool resend_lost_work(
     );
     while (!result.enumerate(buf)) {
         bool found = false;
+        num_on_host++;
         for (i=0; i<sreq.other_results.size(); i++) {
             OTHER_RESULT& orp = sreq.other_results[i];
             if (!strcmp(orp.name.c_str(), result.name)) {
@@ -217,6 +223,13 @@ bool resend_lost_work(
             did_any = true;
         }
     }
+
+    reply.wreq.nresults_on_host = num_on_host;
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        "[HOST#%d] %d results in progress, set for later checking\n",
+        reply.host.id, num_on_host
+    );
+
     if (num_to_resend) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_to_resend, num_resent 

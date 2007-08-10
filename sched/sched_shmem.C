@@ -36,9 +36,10 @@
 #include "fcgi_stdio.h"
 #endif
 
-void SCHED_SHMEM::init() {
-    memset(this, 0, sizeof(SCHED_SHMEM));
-    ss_size = sizeof(SCHED_SHMEM);
+void SCHED_SHMEM::init(int nwu_results) {
+    int size = sizeof(SCHED_SHMEM) + nwu_results*sizeof(WU_RESULT);
+    memset(this, 0, size);
+    ss_size = size;
     platform_size = sizeof(PLATFORM);
     app_size = sizeof(APP);
     app_version_size = sizeof(APP_VERSION);
@@ -46,8 +47,7 @@ void SCHED_SHMEM::init() {
     max_platforms = MAX_PLATFORMS;
     max_apps = MAX_APPS;
     max_app_versions = MAX_APP_VERSIONS;
-    max_wu_results = MAX_WU_RESULTS;
-    nwu_results = MAX_WU_RESULTS;
+    max_wu_results = nwu_results;
 }
 
 static int error_return(const char* p) {
@@ -56,7 +56,8 @@ static int error_return(const char* p) {
 }
 
 int SCHED_SHMEM::verify() {
-    if (ss_size != sizeof(SCHED_SHMEM)) return error_return("shmem");
+    int size = sizeof(SCHED_SHMEM) + max_wu_results*sizeof(WU_RESULT);
+    if (ss_size != size) return error_return("shmem");
     if (platform_size != sizeof(PLATFORM)) return error_return("platform");
     if (app_size != sizeof(APP)) return error_return("app");
     if (app_version_size != sizeof(APP_VERSION)) return error_return("app_version");
@@ -64,7 +65,6 @@ int SCHED_SHMEM::verify() {
     if (max_platforms != MAX_PLATFORMS) return error_return("max platform");
     if (max_apps != MAX_APPS) return error_return("max apps");
     if (max_app_versions != MAX_APP_VERSIONS) return error_return("max app version");
-    if (max_wu_results != MAX_WU_RESULTS) return error_return("max wu_result");
     return 0;
 }
 
@@ -197,6 +197,37 @@ void SCHED_SHMEM::restore_work(int pid) {
         if (wu_results[i].state == pid) {
             wu_results[i].state = WR_STATE_PRESENT;
             return;
+        }
+    }
+}
+
+void SCHED_SHMEM::show(FILE* f) {
+    fprintf(f,
+        "key:\n"
+        "ap: app ID\n"
+        "ic: infeasible count\n"
+        "wu: workunit ID\n"
+        "rs: result ID\n"
+        "hr: HR class\n"
+        "nr: need reliable\n"
+    );
+    fprintf(f, "ready: %d\n", ready);
+    fprintf(f, "max_wu_results: %d\n", max_wu_results);
+    for (int i=0; i<max_wu_results; i++) {
+        WU_RESULT& wu_result = wu_results[i];
+        switch(wu_result.state) {
+        case WR_STATE_PRESENT:
+            fprintf(f, "%4d: ap %d ic %d wu %d rs %d hr %d nr %d\n",
+                i, wu_result.workunit.appid, wu_result.infeasible_count,
+                wu_result.workunit.id, wu_result.resultid,
+                wu_result.workunit.hr_class, wu_result.need_reliable
+            );
+            break;
+        case WR_STATE_EMPTY:
+            fprintf(f, "%4d: ---\n", i);
+            break;
+        default:
+            fprintf(f, "%d: PID %d: result %d\n", i, wu_result.state, wu_result.resultid);
         }
     }
 }

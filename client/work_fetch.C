@@ -147,7 +147,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
             p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
             p->next_rpc_time = 0;
         }
-        //if (p->suspended_via_gui) continue;
+        // if (p->suspended_via_gui) continue;
         // do the RPC even if suspended.
         // This is critical for acct mgrs, to propagate new host CPIDs
         //
@@ -238,9 +238,8 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
 // This means:
 //    - we're not backing off contacting the project
 //    - the result is ready_to_report (compute done; files uploaded)
-//    - we're either within a day of the report deadline,
-//      or at least work_buf_min_days time has elapsed since
-//      result was completed,
+//    - we're within a day of the report deadline,
+//      or at least a day has elapsed since the result was completed,
 //      or we have a sporadic connection
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
@@ -249,33 +248,25 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
-        // return the project for this result to report if:
-        //
+        if (!r->ready_to_report) continue;
 
         PROJECT* p = r->project;
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
 
-        if (!r->ready_to_report) continue;
         if (net_status.have_sporadic_connection) {
             return p;
         }
+
         double cushion = std::max(REPORT_DEADLINE_CUSHION, work_buf_min());
         if (gstate.now > r->report_deadline - cushion) {
             return p;
         }
-        if (gstate.now > r->completed_time + work_buf_min()) {
-            return p;
-        }
 
-        // Handle the case where the report is due
-        // before the next reconnect is likely.
-        //
-        if (gstate.now > r->report_deadline - work_buf_min()) {
+        if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
             return p;
         }
     }
-
     return 0;
 }
 
@@ -326,9 +317,9 @@ double CLIENT_STATE::time_until_work_done(
             // if it is a non_cpu intensive project,
             // it needs only one at a time.
             //
-            est = max(rp->estimated_cpu_time_remaining(), work_buf_min());  
+            est = max(rp->estimated_cpu_time_remaining(true), work_buf_min());  
         } else {
-            est += rp->estimated_cpu_time_remaining();
+            est += rp->estimated_cpu_time_remaining(true);
         }
     }
 	if (log_flags.work_fetch_debug) {
@@ -379,6 +370,38 @@ bool CLIENT_STATE::compute_work_requests() {
     compute_nuploading_results();
     adjust_debts();
 
+#ifdef SIM
+    if (work_fetch_old) {
+        // "dumb" version for simulator only.
+        // for each project, compute extra work needed to bring it up to
+        // total_buf/relative resource share.
+        //
+        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
+        double trs = total_resource_share();
+        double total_buf = ncpus*(work_buf_min() + work_buf_additional());
+        for (i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
+            double d = 0;
+            for (unsigned int j=0; j<results.size(); j++) {
+                RESULT* rp = results[j];
+                if (rp->project != p) continue;
+                d += rp->estimated_cpu_time_remaining(true);
+            }
+            double rrs = p->resource_share/trs;
+            double minq = total_buf*rrs;
+            if (d < minq) {
+                p->work_request = minq-d;
+                p->work_request_urgency = WORK_FETCH_NEED;
+                overall_work_fetch_urgency = WORK_FETCH_NEED;
+            } else {
+                p->work_request = 0;
+                p->work_request_urgency = WORK_FETCH_DONT_NEED;
+            }
+        }
+        return false;
+    }
+#endif
+
     rr_simulation();
 
     // compute per-project and overall urgency
@@ -409,7 +432,7 @@ bool CLIENT_STATE::compute_work_requests() {
 			if (p->rr_sim_deadlines_missed) {
 				possible_deadline_miss = true;
 			}
-            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period_minutes * 60) {
+            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period()) {
                 project_shortfall = true;
             }
         }
@@ -707,7 +730,7 @@ bool PROJECT::nearly_runnable() {
 }
 
 bool PROJECT::overworked() {
-    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period_minutes * 60;
+    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period();
 }
 
 bool RESULT::runnable() {
@@ -737,17 +760,23 @@ double RESULT::estimated_cpu_time_uncorrected() {
 
 // estimate how long a result will take on this host
 //
-double RESULT::estimated_cpu_time() {
+double RESULT::estimated_cpu_time(bool for_work_fetch) {
+#ifdef SIM
+    SIM_PROJECT* spp = (SIM_PROJECT*)project;
+    if (dual_dcf && for_work_fetch && spp->completions_ratio_mean) {
+        return estimated_cpu_time_uncorrected()*spp->completions_ratio_mean;
+    }
+#endif
     return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
 }
 
-double RESULT::estimated_cpu_time_remaining() {
+double RESULT::estimated_cpu_time_remaining(bool for_work_fetch) {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp) {
-        return atp->est_cpu_time_to_completion();
+        return atp->est_cpu_time_to_completion(for_work_fetch);
     }
-    return estimated_cpu_time();
+    return estimated_cpu_time(for_work_fetch);
 }
 
 // Returns the estimated CPU time to completion (in seconds) of this task.
@@ -755,13 +784,14 @@ double RESULT::estimated_cpu_time_remaining() {
 // 1) the workunit's flops count
 // 2) the current reported CPU time and fraction done
 //
-double ACTIVE_TASK::est_cpu_time_to_completion() {
+double ACTIVE_TASK::est_cpu_time_to_completion(bool for_work_fetch) {
     if (fraction_done >= 1) return 0;
-    double wu_est = result->estimated_cpu_time();
+    double wu_est = result->estimated_cpu_time(for_work_fetch);
     if (fraction_done <= 0) return wu_est;
     double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
     double fraction_left = 1-fraction_done;
-    return fraction_done*frac_est + fraction_left*fraction_left*wu_est;
+    double x = fraction_done*frac_est + fraction_left*fraction_left*wu_est;
+    return x;
 }
 
 // trigger work fetch

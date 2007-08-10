@@ -106,7 +106,7 @@ minor=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
 #
 # Darwin version 8.x.y corresponds to OS 10.4.x
 # Darwin version 7.x.y corresponds to OS 10.3.x
-# Darwin version 6.x corresponds to IS 10.2.x
+# Darwin version 6.x corresponds to OS 10.2.x
 
 if [ "$major" = "8" ]; then
 echo "Building BOINC under System 10.4"

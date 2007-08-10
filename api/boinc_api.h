@@ -31,6 +31,7 @@
 extern "C" {
 #endif
 typedef struct BOINC_OPTIONS {
+    // the following are booleans, implemented as ints for portability
     int main_program;
         // this is the main program, so
         // - lock a lock file in the slot directory
@@ -52,6 +53,8 @@ typedef struct BOINC_OPTIONS {
     int all_threads_cpu_time;
         // count the CPU time of all threads
         // (for apps that have multiple worker threads)
+    int worker_thread_stack_size;
+        // if nonzero, the worker thread stack size limit
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {
@@ -63,6 +66,8 @@ typedef struct BOINC_STATUS {
     double working_set_size;
     double max_working_set_size;
 } BOINC_STATUS;
+
+typedef void (*FUNC_PTR)();
 
 struct APP_INIT_DATA;
 
@@ -91,6 +96,8 @@ extern int boinc_receive_trickle_down(char* buf, int len);
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);
 extern double boinc_get_fraction_done();
+extern void boinc_register_timer_callback(FUNC_PTR);
+extern double boinc_worker_thread_cpu_time();
 
 #ifdef __APPLE__
 extern int setMacPList(void);
@@ -133,13 +140,15 @@ extern int set_worker_timer(void);
 extern bool g_sleep;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
-    b.main_program = true;
-    b.check_heartbeat = true;
-    b.handle_trickle_ups = true;
-    b.handle_trickle_downs = true;
-    b.handle_process_control = true;
-    b.send_status_msgs = true;
-    b.direct_process_action = true;
+    b.main_program = 1;
+    b.check_heartbeat = 1;
+    b.handle_trickle_ups = 1;
+    b.handle_trickle_downs = 1;
+    b.handle_process_control = 1;
+    b.send_status_msgs = 1;
+    b.direct_process_action = 1;
+    b.all_threads_cpu_time = 0;
+    b.worker_thread_stack_size = 0;
 }
 
 

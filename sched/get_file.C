@@ -33,13 +33,15 @@
 #endif
 #include <stdlib.h>
 #include <string.h>
-
 #include <time.h>
+
 #include "boinc_db.h"
+#include "util.h"
+#include "str_util.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
 #include "md5_file.h"
-#include "util.h"
 
 SCHED_CONFIG config;
 
@@ -179,7 +181,7 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file(".");
     if (retval) {
-        fprintf(stderr, "Can't parse config file: %d\n", retval);
+        fprintf(stderr, "Can't parse ../config.xml: %s\n", boincerror(retval));
         exit(1);
     }
 

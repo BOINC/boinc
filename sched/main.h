@@ -52,6 +52,9 @@
     // client asked for work but we didn't send any,
     // because of a reason not easily changed
     // (like wrong kind of computer)
+#define DELAY_NO_WORK_CACHE         20*60
+    // client asked for work but we didn't send any,
+    // because user had too many results in cache.
 
 extern SCHED_CONFIG config;
 extern GUI_URLS gui_urls;
@@ -59,6 +62,13 @@ extern PROJECT_FILES project_files;
 extern key_t sema_key;
 extern int g_pid;
 extern SCHED_SHMEM* ssp;
+extern bool batch;
+    // read sequences of requests from stdin (for testing)
+extern bool mark_jobs_done;
+    // mark jobs as successfully done immediately after send
+    // (for debugging/testing)
 
-extern void send_message(const char*, int delay, bool send_header);
 extern int open_database();
+extern void debug_sched(
+    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, const char *trigger
+);

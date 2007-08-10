@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 5.9.6)
+AC_INIT(BOINC, 5.11.0)
 
 AC_ARG_ENABLE(debug, 
     AS_HELP_STRING([--enable-debug],
@@ -217,9 +217,9 @@ dnl installed everywhere should be linked statically when building portable
 dnl binaries.  Put libraries that should be linked statically on every platform
 dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only 
 dnl the '*' wildcard is supported).
-STATIC_LIB_LIST="stdc++* gcc gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* 
+STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* 
 glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support
-freetype fontconfig* resolv*"
+freetype fontconfig* resolv* idn"
 
 dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later 
 dnl post-processing instead of the default-action, which would append 
@@ -238,12 +238,6 @@ esac
 
 dnl m4/boinc_getsockopt.m4
 BOINC_GETSOCKOPT_TYPE
-
-dnl ---------- SSL (m4/check_ssl.m4)
-CHECK_SSL
-if test "${found_ssl}" = "yes"; then
-   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
-fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 
@@ -282,6 +276,12 @@ ERROR: could not find (recent enough) development-libs for libcurl.
 
    fi	
 
+fi
+
+dnl ---------- SSL (m4/check_ssl.m4)
+CHECK_SSL
+if test "${found_ssl}" = "yes"; then
+   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
 fi
 
 dnl save the libs, since SAH_CHECK_LIB() will change them

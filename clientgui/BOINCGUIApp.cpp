@@ -51,7 +51,7 @@
 #include "sg_BoincSimpleGUI.h"
 #include "DlgGenericMessage.h"
 
-static bool s_bSkipExitConfirmation;
+static bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMSW__
 EXTERN_C BOOL  IsBOINCServiceInstalled();
@@ -77,6 +77,7 @@ bool CBOINCGUIApp::OnInit() {
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
     m_strBOINCArguments = wxEmptyString;
+    m_strBOINCMGRRootDirectory = wxEmptyString;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -141,6 +142,9 @@ bool CBOINCGUIApp::OnInit() {
         szPath[pszProg - szPath + 1] = 0;
         SetCurrentDirectory(szPath);
     }
+
+    // Store the root directory for later use.
+    m_strBOINCMGRRootDirectory = szPath;
 
 #endif
 
@@ -238,8 +242,14 @@ bool CBOINCGUIApp::OnInit() {
 
     wxInt32 iSelectedLanguage = m_pConfig->Read(wxT("Language"), 0L);
 
-    // Locale information is stored relative to the executable.
+    // Look for the localization files by absolute and relative locations.
+    //   preference given to the absolute location.
     m_pLocale->Init(iSelectedLanguage);
+    if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
+        m_pLocale->AddCatalogLookupPathPrefix(
+            wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
+        );
+    }
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
     m_pLocale->AddCatalog(wxT("BOINC Manager"));
 
@@ -266,6 +276,24 @@ bool CBOINCGUIApp::OnInit() {
 
     // Which GUI should be displayed?
     m_iGUISelected = m_pConfig->Read(wxT("GUISelection"), BOINC_SIMPLEGUI);
+
+    // Is there a condition in which the Simple GUI should not be used?
+    if (BOINC_SIMPLEGUI == m_iGUISelected) {
+
+        // Screen to small?
+        if ((wxGetDisplaySize().GetWidth() == 640) && (wxGetDisplaySize().GetHeight() == 480)) {
+            m_iGUISelected = BOINC_ADVANCEDGUI;
+        }
+
+        // Screen reader in use?
+#ifdef __WXMSW__
+        BOOL bScreenReaderEnabled = false;
+        SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
+        if (bScreenReaderEnabled) {
+            m_iGUISelected = BOINC_ADVANCEDGUI;
+        }
+#endif
+    }
 
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
@@ -1017,6 +1045,7 @@ int CBOINCGUIApp::ConfirmExit() {
     ProcessSerialNumber psn;
 
     GetCurrentProcess(&psn);
+    bool wasVisible = IsProcessVisible(&psn);
     SetFrontProcess(&psn);  // Shows process if hidden
 #endif
 
@@ -1036,8 +1065,14 @@ int CBOINCGUIApp::ConfirmExit() {
         if (dlg.m_DialogDisableMessage->GetValue()) {
             m_iDisplayExitWarning = 0;
         }
+        s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
         return 1;
     }
+#ifdef __WXMAC__
+    if (!wasVisible) {
+        ShowHideProcess(&psn, false);
+    }
+#endif
     return 0;       // User cancelled exit
 }
 

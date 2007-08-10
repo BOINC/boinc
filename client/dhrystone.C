@@ -109,7 +109,9 @@ void dhrystone(
 
   Arr_2_Glob [8][7] = 10;
 
-    Loops = 160000;       // determines runtime
+    Loops = 16000;       // determines runtime
+        // This must be small enough that, on the slowest CPU,
+        // one loop completes within 10 seconds.
 
 
     benchmark_wait_to_start(BM_TYPE_INT);

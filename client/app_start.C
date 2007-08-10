@@ -90,10 +90,11 @@ static int make_link(const char *existing, const char *new_link) {
     if (!fp) return ERR_FOPEN;
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);
-    if (g_use_sandbox)
+    if (g_use_sandbox) {
         return set_to_project_group(new_link);
-    else
+    } else {
         return 0;
+    }
 }
 
 int ACTIVE_TASK::link_user_files() {
@@ -147,7 +148,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 	//
     FILE* f = boinc_fopen(init_data_path, "w");
     if (f) fclose(f);
-    shmem_seg_name = ftok(init_data_path, slot);
+    shmem_seg_name = ftok(init_data_path, 1);
     if (shmem_seg_name == -1) return ERR_SHMEM_NAME;
 #endif
     return 0;
@@ -434,6 +435,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     link_user_files();
 
+    if (gstate.exit_before_start) {
+        exit(0);
+    }
+
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -442,6 +447,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
+    startup_info.cb = sizeof(startup_info);
+    startup_info.dwFlags=STARTF_FORCEOFFFEEDBACK;
+        // suppress 2-sec rotating hourglass cursor on startup
+
     //startup_info.cb = sizeof(startup_info);
     //startup_info.dwFlags = STARTF_USESHOWWINDOW;
     //startup_info.wShowWindow = SW_HIDE;
@@ -508,8 +517,7 @@ int ACTIVE_TASK::start(bool first_time) {
             shmem_seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
         );
         if (retval) {
-            sprintf(buf, "Can't create shared memory: %s", boincerror(retval));
-            goto error;
+            return retval;
         }
     }
     app_client_shm.reset_msgs();
@@ -572,9 +580,11 @@ int ACTIVE_TASK::start(bool first_time) {
             (void**)&app_client_shm.shm
         );
         if (retval) {
-            sprintf(buf, "Can't create shared memory: %s", boincerror(retval));
-            goto error;
+            needs_shmem = true;
+            destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment
+            return retval;
         }
+        needs_shmem = false;
     }
     app_client_shm.reset_msgs();
 
@@ -702,6 +712,9 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
             retval = start(false);
             str = "Restarting";
         }
+        if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
+            return retval;
+        }
         if (retval) {
             set_task_state(PROCESS_COULDNT_START, "resume_or_start1");
             return retval;
@@ -743,8 +756,10 @@ union headeru {
     mach_header mach;
 };
 
-// Read the mach-o headers to determine the architectures supported by executable file.
+// Read the mach-o headers to determine the architectures
+// supported by executable file.
 // Returns 1 if application can run natively on i386 Macs, else returns 0.
+//
 int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     FILE *f;
     int result = 0;
@@ -755,8 +770,9 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     uint32_t n, i, len;
     
     f = boinc_fopen(exec_path, "rb");
-    if (!f)
+    if (!f) {
         return result;          // Should never happen
+    }
     
     myHeader.fat.magic = 0;
     myHeader.fat.nfat_arch = 0;
@@ -764,15 +780,18 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     fread(&myHeader, 1, sizeof(fat_header), f);
     switch (myHeader.mach.magic) {
     case MH_MAGIC:
-        if (myHeader.mach.cputype == CPU_TYPE_I386)
+        if (myHeader.mach.cputype == CPU_TYPE_I386) {
             result = 1;        // Single-architecture i386 file
+        }
         break;
     case FAT_CIGAM:
-        n = _OSSwapInt32(myHeader.fat.nfat_arch);   // Multiple architecture (fat) file
+        n = _OSSwapInt32(myHeader.fat.nfat_arch);
+           // Multiple architecture (fat) file
         for (i=0; i<n; i++) {
             len = fread(&fatHeader, 1, sizeof(fat_arch), f);
-            if (len < sizeof(fat_arch))
+            if (len < sizeof(fat_arch)) {
                 break;          // Should never happen
+            }
             if (fatHeader.cputype == OSSwapConstInt32(CPU_TYPE_I386)) {
                 result = 1;
                 break;

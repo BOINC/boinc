@@ -433,7 +433,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
+				AdditionalIncludeDirectories="..;&quot;$(WXWINPROD)\include&quot;;&quot;$(WXWINPROD)\contrib\include&quot;;&quot;$(WXWINPROD)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -461,10 +461,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase26.lib wxbase26_net.lib wxbase26_xml.lib wxmsw26_adv.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINPROD)\lib\vc_lib&quot;;&quot;$(WXWINPROD)\contrib\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -499,8 +499,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -531,7 +530,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWINX64)\contrib\include&quot;;&quot;$(WXWINX64)\include&quot;;&quot;$(WXWINX64)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win"
+				AdditionalIncludeDirectories="..;&quot;$(WXWINPRODX64)\contrib\include&quot;;&quot;$(WXWINPRODX64)\include&quot;;&quot;$(WXWINPRODX64)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -559,10 +558,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase26.lib wxbase26_net.lib wxbase26_xml.lib wxmsw26_adv.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINX64)\lib\vc_lib&quot;;&quot;$(WXWINX64)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINPRODX64)\lib\vc_lib&quot;;&quot;$(WXWINPRODX64)\contrib\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -597,8 +596,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;"
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
@@ -647,23 +645,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\clientgui\res\BOINCGUIApp.xpm"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\res\boincsnooze.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\cpdnbbc16.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\cpdnbbc32.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\cpdnbbcapwizard.xpm"
 				>
 			</File>
 			<File
@@ -908,6 +890,14 @@
 							>
 						</File>
 						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\syncronize_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\syncronize_clicked_button.xpm"
+							>
+						</File>
+						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\workunit_active_image.xpm"
 							>
 						</File>
@@ -1084,6 +1074,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\app_ipc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\common_defs.h"
 				>
 			</File>
 			<File

@@ -31,6 +31,8 @@
 #include "ViewWork.h"
 #include "Events.h"
 #include "error_numbers.h"
+#include "app_ipc.h"
+#include "util.h"
 
 #include "res/result.xpm"
 
@@ -124,7 +126,6 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     );
     pGroup->m_Tasks.push_back( pItem );
 
-
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
@@ -149,6 +150,12 @@ CViewWork::~CViewWork() {
 
 
 wxString& CViewWork::GetViewName() {
+    static wxString strViewName(_("Tasks"));
+    return strViewName;
+}
+
+
+wxString& CViewWork::GetViewDisplayName() {
     static wxString strViewName(_("Tasks"));
     return strViewName;
 }
@@ -225,17 +232,38 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 
     if (wxYES == iAnswer) {
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
-		std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
-		std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
-		std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
-        pDoc->WorkShowGraphics(
-            result->project_url,
-            result->name,
-            MODE_WINDOW,
-            strDefaultWindowStation,
-            strDefaultDesktop,
-            strDefaultDisplay
-        );
+        if (!result->graphics_exec_path.empty()) {
+            // V6 Graphics
+            char* argv[2];
+            argv[0] = "graphics";
+            argv[1] = 0;
+#ifdef __WXMSW__
+            HANDLE   id;
+#else
+            int      id;
+#endif
+            run_program(
+                result->slot_path.c_str(),
+                result->graphics_exec_path.c_str(),
+                1,
+                argv,
+                0,
+                id
+            );
+        } else {
+            // V5 and Older
+		    std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
+		    std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
+		    std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
+            pDoc->WorkShowGraphics(
+                result->project_url,
+                result->name,
+                MODE_WINDOW,
+                strDefaultWindowStation,
+                strDefaultDesktop,
+                strDefaultDisplay
+            );
+        }
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -512,32 +540,21 @@ void CViewWork::UpdateSelection() {
                     _("Suspend work for this task.")
                 );
             }
-            if (result->supports_graphics) {
+
+            if (result->supports_graphics || !result->graphics_exec_path.empty()) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
-/*
-                if ((MODE_WINDOW == result->graphics_mode_acked) || (MODE_FULLSCREEN == result->graphics_mode_acked)) {
-                    m_pTaskPane->UpdateTask(
-                        pGroup->m_Tasks[BTN_GRAPHICS],
-                        _("Hide graphics"),
-                        _("Hide application graphics window.")
-                    );
-                } else {
-                    m_pTaskPane->UpdateTask(
-                        pGroup->m_Tasks[BTN_GRAPHICS],
-                        _("Show graphics"),
-                        _("Show application graphics in a window.")
-                    );
-                }
-*/
             } else {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
-/*
-                m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_GRAPHICS],
-                    _("Show graphics"),
-                    _("Show application graphics in a window.")
-                );
-*/
+            }
+
+            if (
+                result->active_task_state != PROCESS_ABORT_PENDING &&
+                result->active_task_state != PROCESS_ABORTED &&
+                result->state != RESULT_ABORTED 
+            ) {
+                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
+            } else {
+                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_ABORT]);
             }
 
             project = pDoc->state.lookup_project(result->project_url);
@@ -545,8 +562,6 @@ void CViewWork::UpdateSelection() {
         } else {
             CBOINCBaseView::UpdateWebsiteSelection(GRP_WEBSITES, NULL);
         }
-
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
@@ -568,7 +583,7 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxString(project_name.c_str(), wxConvUTF8);
+            strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
         } else {
             doc->ForceCacheUpdate();
         }
@@ -598,9 +613,9 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
         if (state_result->wup->app->user_friendly_name.size()) {
-            strLocalBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8).c_str();
+            strLocalBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
-            strLocalBuffer = wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str();
+            strLocalBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
         }
         strBuffer.Printf(
             wxT("%s %.2f"), 
@@ -778,8 +793,20 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer = _("Waiting for memory");
+            } else if (result->needs_shmem) {
+                strBuffer = _("Waiting for shared memory");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                strBuffer = _("Running");
+                if (result->edf_scheduled) {
+                    strBuffer = _("Running, high priority");
+                } else {
+                    strBuffer = _("Running");
+                }
+#if 0
+                // doesn't work - result pointer not there
+                if (result->project->non_cpu_intensive) {
+                    strBuffer += _(" (non-CPU-intensive)");
+                }
+#endif
             } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
                 strBuffer = _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {

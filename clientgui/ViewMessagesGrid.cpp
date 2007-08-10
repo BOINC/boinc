@@ -154,6 +154,12 @@ CViewMessagesGrid::~CViewMessagesGrid() {
 
 
 wxString& CViewMessagesGrid::GetViewName() {
+    static wxString strViewName(_("MessagesGrid"));
+    return strViewName;
+}
+
+
+wxString& CViewMessagesGrid::GetViewDisplayName() {
     static wxString strViewName(_("Messages"));
     return strViewName;
 }
@@ -266,11 +272,12 @@ bool CViewMessagesGrid::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
+    wxInt32 docCount = GetDocCount();
     wxASSERT(m_pGridPane);
 
     // We haven't connected up to the CC yet, there is nothing to display, make sure
     //   everything is deleted.
-    if ( GetDocCount() <= 0 ) {
+    if ( docCount <= 0 ) {
         if ( m_pGridPane->GetNumberRows() ) {
             m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
         }
@@ -279,13 +286,13 @@ void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
 
     // Right-size the grid so that the number of rows matches
     //   the document state.
-    if(GetDocCount() != m_pGridPane->GetNumberRows()) {
-        if (GetDocCount() > m_pGridPane->GetNumberRows()) {
-    	    m_pGridPane->AppendRows(GetDocCount() - m_pGridPane->GetNumberRows());
+    if(docCount != m_pGridPane->GetNumberRows()) {
+        if (docCount > m_pGridPane->GetNumberRows()) {
+    	    m_pGridPane->AppendRows(docCount - m_pGridPane->GetNumberRows());
         } else {
-		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - GetDocCount());
+		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
         }
-        wxASSERT(GetDocCount() == m_pGridPane->GetNumberRows());
+        wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
 
 	//update cell values (unsorted, like delivered from core client)
@@ -345,11 +352,10 @@ wxInt32 CViewMessagesGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) 
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-		wxString szProjectName(message->project.c_str(), wxConvUTF8);
+		wxString szProjectName = HtmlEntityDecode(wxString(message->project.c_str(), wxConvUTF8));
 		if(szProjectName == wxEmptyString) {
 			strBuffer = wxT("BOINC core client");
-		}
-		else {
+		} else {
 			strBuffer = szProjectName;
 		}
     }

@@ -23,10 +23,6 @@ $type_name = $_GET["type"];
 
 require_once("versions.inc");
 
-if ($dev) {
-    $url_base = "dl/";
-}
-
 function dl_item($x, $y) {
     global $light_blue;
     echo "<tr><td valign=top  align=right width=30% bgcolor=$light_blue>$x</td>
@@ -34,13 +30,22 @@ function dl_item($x, $y) {
     ";
 }
 
-function show_detail($v) {
+function version_url($v) {
     global $url_base;
+    $file = $v["file"];
+    if (is_dev($v)) {
+        return "http://boinc.berkeley.edu/dl/$file";
+    } else {
+        return $url_base.$file;
+    }
+}
+
+function show_detail($v) {
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    $url = $url_base.$file;
+    $url = version_url($v);
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -53,7 +58,6 @@ function show_detail($v) {
     dl_item("File (click to download)", "$dlink ($s MB)");
     dl_item("Version number", $num);
     dl_item("Release date", $date);
-    dl_item("Installer type", $type);
     //dl_item("MD5 checksum of download file", $md);
     if ($features) {
         dl_item ("New features", $features);
@@ -66,14 +70,13 @@ function show_detail($v) {
 
 
 function show_version_xml($v, $p) {
-    global $url_base;
     $name = $p["name"];
     $dbname = $p["dbname"];
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    $url = $url_base.$file;
+    $url = version_url($v);
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -102,13 +105,12 @@ function show_version_xml($v, $p) {
 }
 
 function show_version($pname, $i, $v) {
-    global $url_base;
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
     if (is_dev($v)) {
         $status = $status."
-            <font color=dd0000><b>
+            <br><font color=ff0000><b>
             (MAY BE UNSTABLE - USE ONLY FOR TESTING)
             </b></font>
         ";
@@ -117,15 +119,13 @@ function show_version($pname, $i, $v) {
     $s = number_format(filesize($path)/1000000, 2);
     $type = $v["type"];
     $type_text = type_text($type);
+    $url = version_url($v);
     echo "<tr><td width=3%><nobr>
         $num</td><td> $status
         </nobr>
         </td>
         <td>
-        <a href=".$url_base.$file."><b>Download</b></a> ($s MB)
-        </td>
-        <td>
-        Instructions: $type_text
+        <a href=$url><b>Download</b></a> ($s MB)
         </td>
         <td width=1%>
         <a href=download_all.php?platform=$pname&version=$num&type=$type><nobr>version details</nobr></a>
@@ -198,14 +198,6 @@ if ($xml) {
     } else {
         page_head("Download BOINC client software");
         echo "
-            We are now using mirrored download servers at partner institutions.
-            Your download will come from a randomly-chosen server.
-            Thanks to these partners for their help.
-            <b>If you have trouble downloading a file,
-            please reload this page in your browser and try again.
-            This will link to a different download mirror and may
-            fix the problem.</b>
-            <p>
             <table border=2 cellpadding=4 width=100%>
         ";
         foreach($platforms as $short_name=>$p) {
@@ -216,15 +208,15 @@ if ($xml) {
             <p>
             If your computer is not of one of these types, you can
             <ul>
-            <li> <a href=anonymous_platform.php>make your own client software</a> or
-            <li> <a href=download_other.php>download executables from a third-party site</a>
+            <li> <a href=trac/wiki/AnonymousPlatform>make your own client software</a> or
+            <li> <a href=trac/wiki/DownloadOther>download executables from a third-party site</a>
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>
             BOINC is not available for Mac OS 9 or earlier.
             There are no plans to develop an OS 9 version.
             <p>
             The Windows BOINC client can be
-            <a href=win_deploy.php>deployed across a Windows network
+            <a href=trac/wiki/WinDeploy>deployed across a Windows network
             using Active Directory</a>.
         ";
     }
@@ -233,7 +225,7 @@ if ($xml) {
         Download information can be restricted by
         platform and/or version number, 
         and can be obtained in XML format.
-        <a href=download_info.php>Details</a>.
+        <a href=trac/wiki/DownloadInfo>Details</a>.
     ";
     page_tail();
 }

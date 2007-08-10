@@ -35,265 +35,92 @@
 
 #include "error_numbers.h"
 #include "str_util.h"
+#include "util.h"
 #include "log_flags.h"
 #include "filesys.h"
 #include "network.h"
 #include "client_msgs.h"
+#include "../sched/edf_sim.h"
 #include "sim.h"
+
+#define SCHED_RETRY_DELAY_MIN    60                // 1 minute
+#define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
 CLIENT_STATE gstate;
 NET_STATUS net_status;
-bool g_use_sandbox;
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
 bool running;
+double running_time = 0;
+bool server_uses_workload = false;
+bool dcf_dont_use;
+bool dcf_stats;
+bool dual_dcf;
+bool cpu_sched_rr_only;
+bool work_fetch_old;
+int line_limit = 1000000;
 
 SIM_RESULTS sim_results;
 
-//////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
-
-CLIENT_STATE::CLIENT_STATE() {
-    initialized = false;
-}
-
-FILE* boinc_fopen(const char* path, const char* mode) {
-    return fopen(path, mode);
-}
-
-void CLIENT_STATE::set_client_state_dirty(char const*) {
-}
-
-void HOST_INFO::generate_host_cpid() {}
-
-int get_connected_state() {return CONNECTED_STATE_CONNECTED;}
-
-int CLIENT_STATE::report_result_error(RESULT& , const char* , ...) {return 0;}
-
-void show_message(PROJECT *p, char* msg, int priority) {
-    const char* x;
-    char message[1024];
-    char* time_string = time_to_string(gstate.now);
-
-    if (priority == MSG_INTERNAL_ERROR) {
-        strcpy(message, "[error] ");
-        strlcpy(message+8, msg, sizeof(message)-8);
-    } else {
-        strlcpy(message, msg, sizeof(message));
+void SIM_PROJECT::update_dcf_stats(RESULT* rp) {
+    double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
+    // see http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Algorithm_III
+    ++completed_task_count;
+    double delta = raw_ratio - completions_ratio_mean;
+    completions_ratio_mean += delta / completed_task_count;
+    completions_ratio_s += delta * ( raw_ratio - completions_ratio_mean);
+    if (completed_task_count > 1) {
+        completions_ratio_stdev = sqrt(completions_ratio_s / (completed_task_count - 1));
+        double required_stdev = (raw_ratio - completions_ratio_mean) / completions_ratio_stdev;
+        if (required_stdev > completions_required_stdevs) {
+            completions_required_stdevs = std::min(required_stdev, 7.0);
+        }
     }
-    while (strlen(message)&&message[strlen(message)-1] == '\n') {
-        message[strlen(message)-1] = 0;
-    }
-
-    if (p) {
-        x = p->get_project_name();
-    } else {
-        x = "---";
-    }
-
-    fprintf(logfile, "%s [%s] %s\n", time_string, x, message);
-}
-bool RESULT::some_download_stalled() {
-    return false;
-}
-bool PROJECT::some_download_stalled() {
-    return false;
+    duration_correction_factor = completions_ratio_mean + 
+        completions_required_stdevs * completions_ratio_stdev;
+    return;
 }
 
-APP_CLIENT_SHM::APP_CLIENT_SHM() {}
-GRAPHICS_MSG::GRAPHICS_MSG() {}
-HOST_INFO::HOST_INFO() {}
-
-//////////////// FUNCTIONS COPIED /////////////
-
-void SIM_PROJECT::init() {
-    strcpy(master_url, "");
-    strcpy(authenticator, "");
-    project_specific_prefs = "";
-    gui_urls = "";
-    resource_share = 100;
-    strcpy(host_venue, "");
-    using_venue_specific_prefs = false;
-    scheduler_urls.clear();
-    strcpy(project_name, "");
-    strcpy(symstore, "");
-    strcpy(user_name, "");
-    strcpy(team_name, "");
-    strcpy(email_hash, "");
-    strcpy(cross_project_id, "");
-    user_total_credit = 0;
-    user_expavg_credit = 0;
-    user_create_time = 0;
-    ams_resource_share = 0;
-    rpc_seqno = 0;
-    hostid = 0;
-    host_total_credit = 0;
-    host_expavg_credit = 0;
-    host_create_time = 0;
-    nrpc_failures = 0;
-    master_fetch_failures = 0;
-    min_rpc_time = 0;
-    possibly_backed_off = true;
-    master_url_fetch_pending = false;
-    sched_rpc_pending = 0;
-    next_rpc_time = 0;
-    last_rpc_time = 0;
-    trickle_up_pending = false;
-    tentative = false;
-    anonymous_platform = false;
-    non_cpu_intensive = false;
-    verify_files_on_app_start = false;
-    short_term_debt = 0;
-    long_term_debt = 0;
-    send_file_list = false;
-    suspended_via_gui = false;
-    dont_request_more_work = false;
-    detach_when_done = false;
-    attached_via_acct_mgr = false;
-    strcpy(code_sign_key, "");
-    user_files.clear();
-    project_files.clear();
-    anticipated_debt = 0;
-    wall_cpu_time_this_debt_interval = 0;
-    next_runnable_result = NULL;
-    work_request = 0;
-    work_request_urgency = WORK_FETCH_DONT_NEED;
-    duration_correction_factor = 1;
-    project_files_downloaded_time = 0;
-
-    // Initialize scratch variables.
-    rrsim_proc_rate = 0.0;
-    cpu_shortfall = 0.0;
-    rr_sim_deadlines_missed = 0;
-    deadlines_missed = 0;
-
-    idle_period_duration = 0;
-    idle_period_sumsq = 0;
-}
-
-void RESULT::clear() {
-    strcpy(name, "");
-    strcpy(wu_name, "");
-    report_deadline = 0;
-    output_files.clear();
-    _state = RESULT_NEW;
-    ready_to_report = false;
-    completed_time = 0;
-    got_server_ack = false;
-    final_cpu_time = 0;
-    exit_status = 0;
-    stderr_out = "";
-    suspended_via_gui = false;
-    rr_sim_misses_deadline = false;
-    last_rr_sim_missed_deadline = false;
-    fpops_per_cpu_sec = 0;
-    fpops_cumulative = 0;
-    intops_per_cpu_sec = 0;
-    intops_cumulative = 0;
-    app = NULL;
-    wup = NULL;
-    project = NULL;
-}
-
-static const char* task_state_name(int val) {
-    switch (val) {
-    case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
-    case PROCESS_EXECUTING: return "EXECUTING";
-    case PROCESS_SUSPENDED: return "SUSPENDED";
-    case PROCESS_ABORT_PENDING: return "ABORT_PENDING";
-    case PROCESS_EXITED: return "EXITED";
-    case PROCESS_WAS_SIGNALED: return "WAS_SIGNALED";
-    case PROCESS_EXIT_UNKNOWN: return "EXIT_UNKNOWN";
-    case PROCESS_ABORTED: return "ABORTED";
-    case PROCESS_COULDNT_START: return "COULDNT_START";
-    case PROCESS_QUIT_PENDING: return "QUIT_PENDING";
-    }
-    return "Unknown";
-}
-
-void ACTIVE_TASK::set_task_state(int val, const char* where) {
-    _task_state = val;
-    if (log_flags.task_debug) {
-        msg_printf(result->project, MSG_INFO,
-            "[task_debug] task_state=%s for %s from %s",
-            task_state_name(val), result->name, where
-        );
-    }
-}
-
-char* PROJECT::get_project_name() {
-    if (strlen(project_name)) {
-        return project_name;
-    } else {
-        return master_url;
-    }
-}
-
-static inline double drand() {
-    return (double)rand()/(double)RAND_MAX;
-}
-
-// return a random double in the range [rmin,rmax)
-
-static inline double rand_range(double rmin, double rmax) {
-    if (rmin < rmax) {
-        return drand() * (rmax-rmin) + rmin;
-    } else {
-        return rmin;
-    }
-}
-
-// return a random double in the range [MIN,min(e^n,MAX))
+// generate a job; pick a random app,
+// and pick a FLOP count from its distribution
 //
-double calculate_exponential_backoff( int n, double MIN, double MAX) {
-    double rmax = std::min(MAX, exp((double)n));
-    return rand_range(MIN, rmax);
-}
-
-// amount of RAM usable now
-//
-double CLIENT_STATE::available_ram() {
-    if (user_active) {
-        return host_info.m_nbytes * global_prefs.ram_max_used_busy_frac;
-    } else {
-        return host_info.m_nbytes * global_prefs.ram_max_used_idle_frac;
-    }
-}
-
-// max amount that will ever be usable
-//
-double CLIENT_STATE::max_available_ram() {
-    return host_info.m_nbytes*std::max(
-        global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
-    );
-}
-
-RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
-    for (unsigned int i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
-        if (rp->project == p && !strcmp(name, rp->name)) return rp;
-    }
-    return 0;
-}
-
-bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
+void CLIENT_STATE::make_job(SIM_PROJECT* p, WORKUNIT* wup, RESULT* rp) {
+    SIM_APP* ap1, *ap=0;
     double net_fpops = host_info.p_fpops;
-    char buf[256];
-    SIM_PROJECT* p = (SIM_PROJECT*) _p;
-    static double last_time=0;
+    double x = drand();
 
-    double diff = now - last_time;
-    if (diff && diff < host_info.connection_interval) {
-        return false;
+    for (unsigned int i=0; i<apps.size();i++) {
+        ap1 = (SIM_APP*)apps[i];
+        if (ap1->project != p) continue;
+        x -= ap1->weight;
+        if (x <= 0) {
+            ap = ap1;
+            break;
+        }
     }
-    last_time = now;
+    if (!ap) {
+        printf("ERROR-NO APP\n");
+        exit(1);
+    }
+    rp->clear();
+    rp->project = p;
+    rp->wup = wup;
+    sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
+    wup->project = p;
+    wup->rsc_fpops_est = ap->fpops_est;
+    double ops = ap->fpops.sample();
+    if (ops < 0) ops = 0;
+    rp->final_cpu_time = ops/net_fpops;
+    rp->report_deadline = now + ap->latency_bound;
+}
 
-    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->work_request);
-    html_msg += buf;
-
-    // remove ready-to-report results
-    //
+// process ready-to-report results
+//
+void CLIENT_STATE::handle_completed_results() {
+    char buf[256];
     vector<RESULT*>::iterator result_iter;
+
     result_iter = results.begin();
     while (result_iter != results.end()) {
         RESULT* rp = *result_iter;
@@ -323,43 +150,80 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
             result_iter++;
         }
     }
+}
 
-    while (p->work_request > 0) {
-        // pick a random app
-        SIM_APP* ap1, *ap=0;
-        double x = drand();
-        for (unsigned int i=0; i<apps.size();i++) {
-            ap1 = (SIM_APP*)apps[i];
-            if (ap1->project != p) continue;
-            x -= ap1->weight;
-            if (x <= 0) {
-                ap = ap1;
-                break;
-            }
-        }
-        if (!ap) {
-            printf("ERROR-NO APP\n");
-            break;
-        }
+// convert results in progress to IP_RESULTs,
+// and get an initial schedule for them
+//
+void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
+    for (unsigned int i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        double x = rp->estimated_cpu_time_remaining(false);
+        if (x == 0) continue;
+        IP_RESULT ipr(rp->name, rp->report_deadline, x);
+        ip_results.push_back(ipr);
+    }
+    init_ip_results(work_buf_min(), ncpus, ip_results);
+}
+
+bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
+    char buf[256];
+    SIM_PROJECT* p = (SIM_PROJECT*) _p;
+    static double last_time=0;
+    vector<IP_RESULT> ip_results;
+    int infeasible_count = 0;
+
+    double diff = now - last_time;
+    if (diff && diff < host_info.connection_interval) {
+        msg_printf(NULL, MSG_INFO, "simulate_rpc: too soon %f < %f", diff, host_info.connection_interval);
+        return false;
+    }
+    last_time = now;
+
+    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->work_request);
+    html_msg += buf;
+
+    handle_completed_results();
+
+    if (server_uses_workload) {
+        get_workload(ip_results);
+    }
+
+    bool sent_something = false;
+    double work_left = p->work_request;
+    while (work_left > 0) {
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
-        rp->clear();
-        rp->project = p;
-        rp->wup = wup;
-        sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
+        make_job(p, wup, rp);
+
+        if (server_uses_workload) {
+            IP_RESULT c(rp->name, rp->report_deadline, rp->final_cpu_time);
+            if (check_candidate(c, ncpus, ip_results)) {
+                ip_results.push_back(c);
+            } else {
+                delete rp;
+                delete wup;
+                if (++infeasible_count > p->max_infeasible_count) {
+                    p->min_rpc_time = now + 1;
+                    break;
+                }
+            }
+        }
+
+        sent_something = true;
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
-        wup->project = p;
-        wup->rsc_fpops_est = ap->fpops_est;
         results.push_back(rp);
-        double ops = ap->fpops.sample();
-        if (ops < 0) ops = 0;
-        rp->final_cpu_time = ops/net_fpops;
-        rp->report_deadline = now + ap->latency_bound;
         sprintf(buf, "got job %s: CPU time %.2f, deadline %s<br>",
             rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
         );
         html_msg += buf;
-        p->work_request -= p->duration_correction_factor*ap->fpops_est/net_fpops;
+        work_left -= p->duration_correction_factor*wup->rsc_fpops_est/host_info.p_fpops;
+    }
+
+    if (p->work_request > 0 && !sent_something) {
+        p->backoff();
+    } else {
+        p->nrpc_failures = 0;
     }
     p->work_request = 0;
     request_schedule_cpus("simulate_rpc");
@@ -367,9 +231,18 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     return true;
 }
 
+void SIM_PROJECT::backoff() {
+    nrpc_failures++;
+    double backoff = calculate_exponential_backoff(
+        nrpc_failures, SCHED_RETRY_DELAY_MIN, SCHED_RETRY_DELAY_MAX
+    );
+    min_rpc_time = gstate.now + backoff;
+}
+
 bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
 
+    msg_printf(NULL, MSG_INFO, "RPC poll start");
     p = next_project_sched_rpc_pending();
     if (p) {
         return simulate_rpc(p);
@@ -383,6 +256,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     if (p) {
         return simulate_rpc(p);
     }
+    msg_printf(NULL, MSG_INFO, "RPC poll: nothing to do");
     return false;
 }
 
@@ -401,7 +275,10 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = (SIM_PROJECT*) gstate.projects[i];
         p->idle = true;
-        sprintf(buf, "%s STD: %f<br>", p->project_name, p->short_term_debt);
+        sprintf(buf, "%s STD: %f min RPC<br>",
+            p->project_name, p->short_term_debt,
+            time_to_string(p->min_rpc_time)
+        );
         gstate.html_msg += buf;
     }
 
@@ -443,182 +320,15 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = (SIM_PROJECT*) gstate.projects[i];
         if (p->idle) {
-            p->idle_period_duration += diff;
+            p->idle_time += diff;
+            p->idle_time_sumsq += diff*(p->idle_time*p->idle_time);
         } else {
-            double ipd = p->idle_period_duration;
-            if (ipd) {
-                p->idle_period_sumsq += ipd*ipd;
-                p->nidle_periods++;
-            }
-            p->idle_period_duration = 0;
+            p->idle_time = 0;
         }
     }
+    running_time += diff;
 
     return action;
-}
-
-//////////////// FUNCTIONS WE NEED TO IMPLEMENT /////////////
-
-ACTIVE_TASK::ACTIVE_TASK() {
-}
-
-int ACTIVE_TASK::suspend() {
-    if (task_state() != PROCESS_EXECUTING) {
-        msg_printf(0, MSG_INFO, "Internal error: expected process to be executing");
-    }
-    set_task_state(PROCESS_SUSPENDED, "suspend");
-    return 0;
-}
-
-int ACTIVE_TASK::request_exit() {
-    set_task_state(PROCESS_UNINITIALIZED, "request_exit");
-    return 0;
-}
-
-int ACTIVE_TASK::resume_or_start(bool first_time) {
-    if (log_flags.task) {
-        msg_printf(result->project, MSG_INFO,
-            "[task] %s task %s",
-            first_time?"Starting":"Resuming", result->name
-        );
-    }
-    set_task_state(PROCESS_EXECUTING, "start");
-    char buf[256];
-    sprintf(buf, "Starting %s: %f<br>", result->name, cpu_time_left);
-    gstate.html_msg += buf;
-    return 0;
-}
-
-int ACTIVE_TASK_SET::get_free_slot(){
-    return 0;
-}
-int ACTIVE_TASK::init(RESULT* rp) {
-    result = rp;
-    wup = rp->wup;
-    app_version = rp->avp;
-    max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
-    max_disk_usage = rp->wup->rsc_disk_bound;
-    max_mem_usage = rp->wup->rsc_memory_bound;
-    cpu_time_left = rp->final_cpu_time;
-    _task_state = PROCESS_UNINITIALIZED;
-    scheduler_state = CPU_SCHED_UNINITIALIZED;
-    return 0;
-}
-
-void CLIENT_STATE::print_project_results(FILE* f) {
-    for (unsigned int i=0; i<projects.size(); i++) {
-        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
-        p->print_results(f, sim_results);
-    }
-}
-
-
-//////////////// OTHER
-
-PROJECT::PROJECT() {
-}
-
-// http://www.cs.wm.edu/~va/software/park/rvgs.c
-double NORMAL_DIST::sample() {
-  const double p0 = 0.322232431088;     const double q0 = 0.099348462606;
-  const double p1 = 1.0;                const double q1 = 0.588581570495;
-  const double p2 = 0.342242088547;     const double q2 = 0.531103462366;
-  const double p3 = 0.204231210245e-1;  const double q3 = 0.103537752850;
-  const double p4 = 0.453642210148e-4;  const double q4 = 0.385607006340e-2;
-  double u, t, p, q, z;
-
-  u   = drand();
-  if (u < 0.5)
-    t = sqrt(-2.0 * log(u));
-  else
-    t = sqrt(-2.0 * log(1.0 - u));
-  p   = p0 + t * (p1 + t * (p2 + t * (p3 + t * p4)));
-  q   = q0 + t * (q1 + t * (q2 + t * (q3 + t * q4)));
-  if (u < 0.5)
-    z = (p / q) - t;
-  else
-    z = t - (p / q);
-  return (mean + stdev * z);
-
-}
-
-inline double exponential(double mean) {
-    return -mean*log(1-drand());
-}
-
-bool RANDOM_PROCESS::sample(double t) {
-    if (frac==1) return true;
-    double diff = t-last_time;
-    last_time = t;
-    time_left -= diff;
-    if (time_left < 0) {
-        if (value) {
-            time_left += exponential(off_lambda);
-            value = false;
-        } else {
-            time_left += exponential(lambda);
-            value = true;
-        }
-    }
-    return value;
-}
-
-RANDOM_PROCESS::RANDOM_PROCESS() {
-    frac = 1;
-}
-
-void RANDOM_PROCESS::init() {
-    value = true;
-    time_left = exponential(lambda);
-    off_lambda = lambda/frac - lambda;
-}
-
-int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
-    char tag[256];
-    bool is_tag;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (xp.parse_double(tag, "mean", mean)) continue;
-        else if (xp.parse_double(tag, "stdev", stdev)) continue;
-        else if (!strcmp(tag, end_tag)) return 0;
-        else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int UNIFORM_DIST::parse(XML_PARSER& xp, char* end_tag) {
-    char tag[256];
-    bool is_tag;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (xp.parse_double(tag, "lo", lo)) continue;
-        else if (xp.parse_double(tag, "hi", hi)) continue;
-        else if (!strcmp(tag, end_tag)) return 0;
-        else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int RANDOM_PROCESS::parse(XML_PARSER& xp, char* end_tag) {
-    char tag[256];
-    bool is_tag;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (xp.parse_double(tag, "frac", frac)) continue;
-        else if (xp.parse_double(tag, "lambda", lambda)) continue;
-        else if (!strcmp(tag, end_tag)) return 0;
-        else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
 }
 
 int SIM_APP::parse(XML_PARSER& xp) {
@@ -655,7 +365,6 @@ int SIM_APP::parse(XML_PARSER& xp) {
 // add up |X-Y| over all projects, and divide by total CPU
 //
 double CLIENT_STATE::share_violation() {
-    double x = 0;
     unsigned int i;
 
     double tot = 0, trs=0;
@@ -676,56 +385,76 @@ double CLIENT_STATE::share_violation() {
 
 }
 
-// "variety" is defined as the RMS of the duration of idle periods
-// across all projects
+// "monotony" is defined as follows:
+// for each project P, maintain R(P), the time since P last ran,
+// let S(P) be the RMS of R(P).
+// Let X = mean(S(P))/(sched_interval*nprojects)
+//  (the *nprojects reflects the fact that in the limit of nprojects,
+//   each one waits for a time to run proportional to nprojects)
+//  X varies from zero (no monotony) to infinity.
+//   X is one in the case of round-robin on 1 CPU.
+// Let monotony = 1-1/(x+1)
 //
-double CLIENT_STATE::variety() {
+double CLIENT_STATE::monotony() {
     double sum = 0;
-    int n = 0;
+    double schedint = global_prefs.cpu_scheduling_period();
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
-        sum += p->idle_period_sumsq;
-        n += p->nidle_periods;
+        double avg_ss = p->idle_time_sumsq/running_time;
+        double s = sqrt(avg_ss);
+        sum += s;
     }
-    return sqrt(sum/n);
+    int n = (int)projects.size();
+    double x = sum/(n*schedint*n);
+    double m = 1-(1/(x+1));
+    //printf("sum: %f; x: %f m: %f\n", sum, x, m);
+    return m;
 }
 
+// the CPU totals are there; compute the other fields
+//
 void SIM_RESULTS::compute() {
     double total = cpu_used + cpu_wasted + cpu_idle;
     cpu_wasted_frac = cpu_wasted/total;
     cpu_idle_frac = cpu_idle/total;
     share_violation = gstate.share_violation();
-    variety = gstate.variety();
+    monotony = gstate.monotony();
 }
 
 // top-level results (for aggregating multiple simulations)
 //
 void SIM_RESULTS::print(FILE* f, const char* title) {
     if (title) {
-        fprintf(f, title);
+        fprintf(f, "%s: ", title);
     }
-    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f variety %f\n",
-        cpu_wasted_frac, cpu_idle_frac, share_violation, variety
+    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f monotony %f\n",
+        cpu_wasted_frac, cpu_idle_frac, share_violation, monotony
     );
 }
 
 void SIM_RESULTS::parse(FILE* f) {
-    fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf variety %lf",
-        &cpu_wasted, &cpu_idle, &share_violation, &variety
+    fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf monotony %lf",
+        &cpu_wasted_frac, &cpu_idle_frac, &share_violation, &monotony
     );
 }
+
 void SIM_RESULTS::add(SIM_RESULTS& r) {
-    cpu_used += r.cpu_used;
-    cpu_wasted += r.cpu_wasted;
-    cpu_idle += r.cpu_idle;
-    nresults_met_deadline += r.nresults_met_deadline;
-    nresults_missed_deadline += r.nresults_missed_deadline;
+    cpu_wasted_frac += r.cpu_wasted_frac;
+    cpu_idle_frac += r.cpu_idle_frac;
+    share_violation += r.share_violation;
+    monotony += r.monotony;
 }
 
-SIM_RESULTS::SIM_RESULTS() {
-    cpu_used = 0; cpu_wasted=0; cpu_idle=0;
-    nresults_met_deadline = 0; nresults_missed_deadline = 0;
+void SIM_RESULTS::divide(int n) {
+    cpu_wasted_frac /= n;
+    cpu_idle_frac /= n;
+    share_violation /= n;
+    monotony /= n;
+}
+
+void SIM_RESULTS::clear() {
+    memset(this, 0, sizeof(*this));
 }
 
 void SIM_PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
@@ -743,106 +472,6 @@ void SIM_PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
     );
 }
 
-int SIM_PROJECT::parse(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
-    int retval;
-
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (!strcmp(tag, "/project")) return 0;
-        else if (xp.parse_str(tag, "project_name", project_name, sizeof(project_name))) continue;
-        else if (!strcmp(tag, "app")) {
-            SIM_APP* sap = new SIM_APP;
-            retval = sap->parse(xp);
-            if (retval) return retval;
-            sap->project = this;
-            gstate.apps.push_back(sap);
-        } else if (!strcmp(tag, "available")) {
-            retval = available.parse(xp, "/available");
-            if (retval) return retval;
-        } else if (xp.parse_double(tag, "resource_share", resource_share)) {
-            continue;
-        } else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int SIM_HOST::parse(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
-    int retval;
-
-    p_ncpus = 1;
-    connection_interval = 0;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (!strcmp(tag, "/host")) return 0;
-        else if (xp.parse_double(tag, "p_fpops", p_fpops)) continue;
-        else if (xp.parse_double(tag, "m_nbytes", m_nbytes)) continue;
-        else if (xp.parse_double(tag, "connection_interval", connection_interval)) continue;
-        else if (xp.parse_int(tag, "p_ncpus", p_ncpus)) continue;
-        else if (!strcmp(tag, "available")) {
-            retval = available.parse(xp, "/available");
-            if (retval) return retval;
-            available.init();
-        } else if (!strcmp(tag, "idle")) {
-            retval = idle.parse(xp, "/idle");
-            if (retval) return retval;
-            idle.init();
-        } else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }       
-    return ERR_XML_PARSE;
-}
-
-int CLIENT_STATE::parse_projects(char* name) {
-    char tag[256];
-    bool is_tag;
-    MIOFILE mf;
-    int retval, index=0;
-
-    FILE* f = fopen(name, "r");
-    if (!f) return ERR_FOPEN;
-    mf.init_file(f);
-    XML_PARSER xp(&mf);
-    if (!xp.parse_start("projects")) return ERR_XML_PARSE;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (!strcmp(tag, "project")) {
-            SIM_PROJECT *p = new SIM_PROJECT;
-            p->init();
-            retval = p->parse(xp);
-            if (retval) return retval;
-            p->index = index++;
-            p->result_index = 0;
-            projects.push_back(p);
-        } else if (!strcmp(tag, "/projects")) {
-            return 0;
-        } else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int CLIENT_STATE::parse_host(char* name) {
-    MIOFILE mf;
-
-    FILE* f = fopen(name, "r");
-    if (!f) return ERR_FOPEN;
-    mf.init_file(f);
-    XML_PARSER xp(&mf);
-    if (!xp.parse_start("host")) return ERR_XML_PARSE;
-    return host_info.parse(xp);
-}
-
 char* colors[] = {
     "#ffffdd",
     "#ffddff",
@@ -852,15 +481,36 @@ char* colors[] = {
     "#ffdddd",
 };
 
-void CLIENT_STATE::html_start() {
-    html_out = fopen("sim_out.html", "w");
-    fprintf(html_out, "<h2>Simulator output</h2>"
+static int outfile_num=0;
+
+void CLIENT_STATE::html_start(bool show_prev) {
+    char buf[256];
+
+    sprintf(buf, "sim_out_%d.html", outfile_num++);
+    html_out = fopen(buf, "w");
+    setbuf(html_out, 0);
+    fprintf(html_out, "<h2>Simulator output</h2>\n");
+    if (show_prev) {
+        fprintf(html_out,
+            "<a href=sim_out_%d.html>Previous file</a><p>\n",
+            outfile_num-2
+        );
+    }
+    fprintf(html_out,
         "<a href=sim_log.txt>message log</a><p>"
-        "<table border=1>\n"
+        "<table border=1><tr><th>Time</th>\n"
     );
+    for (int i=0; i<ncpus; i++) {
+        fprintf(html_out,
+            "<th>CPU %d<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", i
+        );
+    }
+    fprintf(html_out, "<th>Notes</th></tr>\n");
 }
 
 void CLIENT_STATE::html_rec() {
+    static int line_num=0;
+
     fprintf(html_out, "<tr><td>%s</td>", time_to_string(now));
 
     if (!running) {
@@ -888,22 +538,44 @@ void CLIENT_STATE::html_rec() {
     }
     fprintf(html_out, "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str());
     html_msg = "";
+
+    if (++line_num == line_limit) {
+        line_num = 0;
+        html_end(true);
+        html_start(true);
+    }
 }
 
-void CLIENT_STATE::html_end() {
-    double cpu_total=sim_results.cpu_used + sim_results.cpu_wasted + sim_results.cpu_idle;
-    fprintf(html_out, "</table><pre>\n");
-    sim_results.compute();
-    sim_results.print(html_out);
-    print_project_results(html_out);
-    fprintf(html_out, "</pre>\n");
+void CLIENT_STATE::html_end(bool show_next) {
+    fprintf(html_out, "</table>");
+    if (show_next) {
+        fprintf(html_out,
+            "<p><a href=sim_out_%d.html>Next file</a>\n",
+            outfile_num
+        );
+    } else {
+        fprintf(html_out, "<pre>\n");
+        sim_results.compute();
+        sim_results.print(html_out);
+        print_project_results(html_out);
+        fprintf(html_out, "</pre>\n");
+    }
+    if (show_next) {
+        fprintf(html_out, "<p><a href=sim_out_last.html>Last file</a>\n");
+    } else {
+        char buf[256];
+        sprintf(buf, "sim_out_%d.html", outfile_num-1);
+#ifndef _WIN32
+        symlink(buf, "sim_out_last.html");
+#endif
+    }
     fclose(html_out);
 }
 
 void CLIENT_STATE::simulate() {
     bool action;
     now = 0;
-    html_start();
+    html_start(false);
     while (1) {
         running = host_info.available.sample(now);
         while (1) {
@@ -921,7 +593,7 @@ void CLIENT_STATE::simulate() {
         html_rec();
         if (now > duration) break;
     }
-    html_end();
+    html_end(false);
 }
 
 void parse_error(char* file, int retval) {
@@ -930,7 +602,13 @@ void parse_error(char* file, int retval) {
 }
 
 void help(char* prog) {
-    fprintf(stderr, "usage: %s [--duration X] [--delta X] [--dirs ...]\n", prog);
+    fprintf(stderr, "usage: %s\n"
+        "[--duration X]\n"
+        "[--delta X]\n"
+        "[--server_uses_workload]\n"
+        "[--dirs ...]\n",
+        prog
+    );
     exit(1);
 }
 
@@ -954,6 +632,7 @@ int main(int argc, char** argv) {
 
     logfile = fopen("sim_log.txt", "w");
 
+    sim_results.clear();
     for (i=1; i<argc;) {
         char* opt = argv[i++];
         if (!strcmp(opt, "--duration")) {
@@ -964,6 +643,21 @@ int main(int argc, char** argv) {
             while (i<argc) {
                 dirs.push_back(argv[i++]);
             }
+        } else if (!strcmp(opt, "--server_uses_workload")) {
+            server_uses_workload = true;
+        } else if (!strcmp(opt, "--dcf_dont_use")) {
+            dcf_dont_use = true;
+        } else if (!strcmp(opt, "--dcf_stats")) {
+            dcf_stats = true;
+        } else if (!strcmp(opt, "--dual_dcf")) {
+            dual_dcf = true;
+            dcf_stats = true;
+        } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
+            cpu_sched_rr_only = true;
+        } else if (!strcmp(opt, "--work_fetch_old")) {
+            work_fetch_old = true;
+        } else if (!strcmp(opt, "--line_limit")) {
+            line_limit = atoi(next_arg(argc, argv, i));
         } else {
             help(argv[0]);
         }
@@ -986,6 +680,7 @@ int main(int argc, char** argv) {
         //
         unsigned int i;
         SIM_RESULTS total_results;
+        total_results.clear();
         for (i=0; i<dirs.size(); i++) {
             std::string dir = dirs[i];
             retval = chdir(dir.c_str());
@@ -999,7 +694,11 @@ int main(int argc, char** argv) {
                 buf, "../sim --duration %f --delta %f > %s",
                 duration, delta, SUMMARY_FILE
             );
-            system(buf);
+            retval = system(buf);
+            if (retval) {
+                printf("simulation in %s failed\n", dir.c_str());
+                exit(1);
+            }
             FILE* f = fopen(SUMMARY_FILE, "r");
             sim_results.parse(f);
             fclose(f);
@@ -1007,6 +706,7 @@ int main(int argc, char** argv) {
             total_results.add(sim_results);
             chdir("..");
         }
+        total_results.divide((int)(dirs.size()));
         total_results.print(stdout, "Total");
     } else {
         read_config_file();

@@ -121,7 +121,7 @@ BEGIN_EVENT_TABLE (CBOINCGridCtrl, wxGrid)
 	EVT_GRID_LABEL_LEFT_CLICK(CBOINCGridCtrl::OnLabelLClick)
 END_EVENT_TABLE ()
 
-/* Constructor, don't call any grid methods here, because they could raise events,
+/* Constructor, don't call any grid methods here, because they could raise events, 
    which couldn't be handled correctly while the grid isn't constructed completly.
    Instead call Setup() and place all further initialization there
    */
@@ -129,15 +129,16 @@ CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxG
 	//init members
 	sortColumn=-1;
 	sortAscending=true;
+	sortNeededByLabelClick=false;
 	m_pkColumnIndex=-1;
 	m_cursorcol=-1;
-	m_cursorrow=-1;
+	m_cursorrow=-1;		
 	//load sorting bitmaps
 	ascBitmap = wxBitmap(sortascending_xpm);
 	descBitmap = wxBitmap(sortdescending_xpm);
 }
 
-/* make settings for the grid here instead in the constructor */
+/* make settings for the grid here instead in the constructor */ 
 void CBOINCGridCtrl::Setup() {
 	//make grid cursor invisible
 	SetCellHighlightPenWidth(0);
@@ -167,7 +168,7 @@ void CBOINCGridCtrl::Setup() {
 CBOINCGridCtrl::~CBOINCGridCtrl() {
 }
 
-/* use this method instead of wxGrid::GetSelectedRows()
+/* use this method instead of wxGrid::GetSelectedRows() 
    because a bug in wxGrid::GetSelectedRows() doesn't return anything although some rows are selected */
 wxArrayInt CBOINCGridCtrl::GetSelectedRows2() {
 	wxArrayInt ret;
@@ -201,7 +202,7 @@ void CBOINCGridCtrl::ClearSavedSelection() {
 /* save the key values of the currently selected rows for later restore */
 void CBOINCGridCtrl::SaveSelection() {
 	if(m_pkColumnIndex>=0) {
-		wxArrayInt arrSelRows = GetSelectedRows2();
+		wxArrayInt arrSelRows = GetSelectedRows2();	
 		for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
 			m_arrSelectedKeys.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex));
 		}
@@ -222,7 +223,7 @@ void CBOINCGridCtrl::RestoreSelection() {
 
 void CBOINCGridCtrl::SaveGridCursorPosition() {
 	m_cursorcol = GetGridCursorCol();
-	m_cursorrow = GetGridCursorRow();
+	m_cursorrow = GetGridCursorRow();	
 	if(m_cursorrow>=0 && m_cursorcol >=0) {
 		m_szCursorKey = GetCellValue(m_cursorrow,m_pkColumnIndex);
 	}
@@ -230,8 +231,8 @@ void CBOINCGridCtrl::SaveGridCursorPosition() {
 
 void CBOINCGridCtrl::RestoreGridCursorPosition() {
 	int index = GetTable()->FindRowIndexByColValue(m_pkColumnIndex,m_szCursorKey);
-	if(index >=0) {
-		SetGridCursor(index,m_cursorcol);
+	if(index >=0) {		
+		SetGridCursor(index,m_cursorcol);		
 	}
 }
 
@@ -269,7 +270,11 @@ bool CBOINCGridCtrl::OnSaveState(wxConfigBase* pConfig) {
 
     // Cycle through the columns recording anything interesting
     for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
-		wxString label = this->GetColLabelValue(iIndex);
+        wxString label = this->GetColLabelValue(iIndex);
+        // Don't save width for hidden / invisible columns
+        if (label.IsEmpty()) {
+            continue;
+        }
         pConfig->SetPath(strBaseConfigLocation + label);
 		pConfig->Write(wxT("Width"), this->GetColumnWidth(iIndex));
     }
@@ -285,7 +290,7 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
     wxInt32     iIndex = 0;
     wxInt32     iTempValue = 0;
-	wxInt32		iColumnCount = this->GetCols();
+	wxInt32		iColumnCount = GetCols();
 
     wxASSERT(pConfig);
 
@@ -295,23 +300,27 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     // Cycle through the columns recording anything interesting
     for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
-		wxString label = this->GetColLabelValue(iIndex);
+        wxString label = GetColLabelValue(iIndex);
+        // Don't restore width for hidden / invisible columns
+        if (label.IsEmpty()) {
+            continue;
+        }
         pConfig->SetPath(strBaseConfigLocation + label);
 
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
-			this->SetColumnWidth(iIndex,iTempValue);
+			SetColSize(iIndex, iTempValue);
         }
     }
 	//read sorting
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Read(wxT("SortColumn"),&iTempValue,-1);
 	if(-1 != iTempValue) {
-		this->sortColumn = iTempValue;
+		sortColumn = iTempValue;
 	}
 	pConfig->Read(wxT("SortAscending"),&iTempValue,-1);
 	if(-1 != iTempValue) {
-		this->sortAscending = iTempValue != 0 ? true : false;
+		sortAscending = iTempValue != 0 ? true : false;
 	}
 
     return true;
@@ -556,7 +565,8 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 
         // Force a repaint of the label
         SetColLabelValue(ev.GetCol(), GetColLabelValue(ev.GetCol()));
-
+		//
+		sortNeededByLabelClick=true;
 		// Update and sort data
 		wxTimerEvent tEvent;
 		wxDynamicCast(GetParent(),CBOINCBaseView)->FireOnListRender(tEvent);
@@ -567,6 +577,7 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 
 void CBOINCGridCtrl::SortData() {
 	GetTable()->SortData(sortColumn,sortAscending);
+	sortNeededByLabelClick=false;
 }
 
 void CBOINCGridCtrl::SetColumnSortType(int col,int sortType/*=CST_STRING*/) {

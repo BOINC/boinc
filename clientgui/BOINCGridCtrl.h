@@ -107,6 +107,7 @@ public:
 	void Setup();
 	int sortColumn;
 	bool sortAscending;
+	bool sortNeededByLabelClick;
 protected:
 	DECLARE_EVENT_TABLE()
 private:

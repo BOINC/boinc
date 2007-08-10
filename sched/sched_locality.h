@@ -26,3 +26,5 @@ extern int decrement_disk_space_locality(
 );
 
 extern int delete_file_from_host(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+
+extern void send_file_deletes(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);

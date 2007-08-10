@@ -99,17 +99,16 @@ int is_dir(const char* path) {
 //
 DIRREF dir_open(const char* p) {
     DIRREF dirp;
-
-#ifdef HAVE_DIRENT_H
-    dirp = opendir(p);
-    if (!dirp) return NULL;
-#elif defined(_WIN32)
+#ifdef _WIN32
     if (!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
     safe_strcpy(dirp->path, p);
     strcat(dirp->path, "\\*");
     dirp->handle = INVALID_HANDLE_VALUE;
+#else
+    dirp = opendir(p);
+    if (!dirp) return NULL;
 #endif
     return dirp;
 }
@@ -117,19 +116,7 @@ DIRREF dir_open(const char* p) {
 // Scan through a directory and return the next file name in it
 //
 int dir_scan(char* p, DIRREF dirp, int p_len) {
-#ifdef HAVE_DIRENT_H
-    while (1) {
-        dirent* dp = readdir(dirp);
-        if (dp) {
-            if (!strcmp(dp->d_name, ".")) continue;
-            if (!strcmp(dp->d_name, "..")) continue;
-            if (p) strlcpy(p, dp->d_name, p_len);
-            return 0;
-        } else {
-            return ERR_READDIR;
-        }
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     WIN32_FIND_DATA data;
     while (1) {
         if (dirp->first) {
@@ -158,55 +145,54 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
             }
         }
     }
+#else
+    while (1) {
+        dirent* dp = readdir(dirp);
+        if (dp) {
+            if (!strcmp(dp->d_name, ".")) continue;
+            if (!strcmp(dp->d_name, "..")) continue;
+            if (p) strlcpy(p, dp->d_name, p_len);
+            return 0;
+        } else {
+            return ERR_READDIR;
+        }
+    }
 #endif
 }
 
 // Close a directory
 //
 void dir_close(DIRREF dirp) {
-#ifdef HAVE_DIRENT_H
-    if (dirp) {
-        closedir(dirp);
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     if (dirp->handle != INVALID_HANDLE_VALUE) {
         FindClose(dirp->handle);
         dirp->handle = INVALID_HANDLE_VALUE;
     }
     free(dirp);
+#else
+    if (dirp) {
+        closedir(dirp);
+    }
 #endif
 }
 
 DirScanner::DirScanner(string const& path) {
-#ifdef HAVE_DIRENT_H
-    dirp = opendir(path.c_str());
-#elif defined(_WIN32)
+#ifdef _WIN32
     first = true;
     handle = INVALID_HANDLE_VALUE;
     if (!is_dir((char*)path.c_str())) {
         return;
     }
     dir = path + "\\*";
+#else
+    dirp = opendir(path.c_str());
 #endif
 }
 
 // Scan through a directory and return the next file name in it
 //
 bool DirScanner::scan(string& s) {
-#ifdef HAVE_DIRENT_H
-    if (!dirp) return false;
-
-    while (1) {
-        dirent* dp = readdir(dirp);
-        if (dp) {
-            if (dp->d_name[0] == '.') continue;
-            s = dp->d_name;
-            return true;
-        } else {
-            return false;
-        }
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     WIN32_FIND_DATA data;
     while (1) {
         if (first) {
@@ -231,22 +217,47 @@ bool DirScanner::scan(string& s) {
             }
         }
     }
+#else
+    if (!dirp) return false;
+
+    while (1) {
+        dirent* dp = readdir(dirp);
+        if (dp) {
+            if (dp->d_name[0] == '.') continue;
+            s = dp->d_name;
+            return true;
+        } else {
+            return false;
+        }
+    }
 #endif
 }
 
-// Close a directory
 DirScanner::~DirScanner() {
-#ifdef HAVE_DIRENT_H
-    if (dirp) {
-        closedir(dirp);
-    }
-#elif defined(_WIN32)
+#ifdef _WIN32
     if (handle != INVALID_HANDLE_VALUE) {
         FindClose(handle);
     }
+#else
+    if (dirp) {
+        closedir(dirp);
+    }
 #endif
 }
 
+static int boinc_delete_file_aux(const char* path) {
+#ifdef _WIN32
+    if (DeleteFile(path)) return 0;
+    return GetLastError();
+#else
+    int retval = unlink(path);
+    if (retval && g_use_sandbox && (errno == EACCES)) {
+        // We may not have permission to read subdirectories created by projects
+        return remove_project_owned_file_or_dir(path);
+    }
+    return retval;
+#endif
+}
 
 // Delete the file located at path
 //
@@ -256,21 +267,15 @@ int boinc_delete_file(const char* path) {
     if (!boinc_file_exists(path)) {
         return 0;
     }
-#ifdef _WIN32
-    double start = dtime();
-    do {
-        if (DeleteFile(path)) break;
-        retval = GetLastError();
-        boinc_sleep(drand());       // avoid lockstep
-    } while (dtime() < start + RETRY_INTERVAL);
-#else
-    retval = unlink(path);
-    if (retval && g_use_sandbox && (errno == EACCES)) {
-        // We may not have permission to read subdirectories created by projects
-        return remove_project_owned_file_or_dir(path);
+    retval = boinc_delete_file_aux(path);
+    if (retval) {
+        double start = dtime();
+        do {
+            boinc_sleep(drand()*2);       // avoid lockstep
+            retval = boinc_delete_file_aux(path);
+            if (!retval) break;
+        } while (dtime() < start + RETRY_INTERVAL);
     }
-    return retval;
-#endif
     if (retval) {
         safe_strcpy(boinc_failed_file, path);
         return ERR_UNLINK;
@@ -347,8 +352,36 @@ int clean_out_dir(const char* dirpath) {
 }
 
 // return total size of files in directory and its subdirectories
+// Special version for Win because stat() is slow, can be avoided
 //
-int dir_size(const char* dirpath, double& size) {
+int dir_size(const char* dirpath, double& size, bool recurse) {
+#ifdef WIN32
+    char path2[_MAX_PATH];
+    sprintf(path2, "%s/*", dirpath);
+    size = 0.0;
+    WIN32_FIND_DATA findData;
+    HANDLE hFind = ::FindFirstFile(path2, &findData);
+    if (INVALID_HANDLE_VALUE != hFind) {
+        do {
+            if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                if (!recurse) continue;
+                if (!strcmp(findData.cFileName, ".")) continue;
+                if (!strcmp(findData.cFileName, "..")) continue;
+
+                double dsize = 0;
+                char buf[_MAX_PATH];
+                ::sprintf(buf, "%s/%s", dirpath, findData.cFileName);
+                dir_size(buf, dsize, recurse);
+                size += dsize;
+            } else {
+                size += findData.nFileSizeLow + ((__int64)(findData.nFileSizeHigh) << 32);
+            }
+        } while (FindNextFile(hFind, &findData));
+		::FindClose(hFind);
+    }  else {
+        return ERR_OPENDIR;
+    }
+#else
     char filename[256], subdir[256];
     int retval=0;
     DIRREF dirp;
@@ -362,12 +395,12 @@ int dir_size(const char* dirpath, double& size) {
         if (retval) break;
         sprintf(subdir, "%s/%s", dirpath, filename);
 
-        // We don't know if this entry is a file or a directory.
-        // dir_size() will return -1 if it's a file
-        //
-        retval = dir_size(subdir, x);
-        if (retval == 0) {
-            size += x;
+        if (is_dir(subdir)) {
+            if (recurse) {
+                retval = dir_size(subdir, x);
+                if (retval) continue;
+                size += x;
+            }
         } else {
             retval = file_size(subdir, x);
             if (retval) continue;
@@ -375,6 +408,7 @@ int dir_size(const char* dirpath, double& size) {
         }
     }
     dir_close(dirp);
+#endif
     return 0;
 }
 
@@ -408,6 +442,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
     //
     if (!f) {
         for (int i=0; i<5; i++) {
+            boinc_sleep(drand());
             if (errno != EINTR) break;
             f = fopen(path, mode);
             if (f) break;
@@ -463,22 +498,33 @@ int boinc_copy(const char* orig, const char* newf) {
 #endif
 }
 
-int boinc_rename(const char* old, const char* newf) {
+static int boinc_rename_aux(const char* old, const char* newf) {
 #ifdef _WIN32
-    int retval=0;
     boinc_delete_file(newf);
-    double start = dtime();
-    do {
-        if (MoveFile(old, newf)) break;
-        retval = GetLastError();
-        boinc_sleep(drand()*2);       // avoid lockstep
-    } while (dtime() < start + RETRY_INTERVAL);
-    return retval;
+    if (MoveFile(old, newf)) return 0;
+    return GetLastError();
 #else
     return rename(old, newf);
 #endif
 }
 
+int boinc_rename(const char* old, const char* newf) {
+    int retval=0;
+
+    retval = boinc_rename_aux(old, newf);
+    if (retval) {
+        double start = dtime();
+        do {
+            boinc_sleep(drand()*2);       // avoid lockstep
+            retval = boinc_rename_aux(old, newf);
+            if (!retval) break;
+        } while (dtime() < start + RETRY_INTERVAL);
+    }
+    return retval;
+}
+
+// make a dir that's owner and group RWX
+//
 int boinc_mkdir(const char* path) {
     if (is_dir(path)) return 0;
 #ifdef _WIN32
@@ -511,8 +557,8 @@ int boinc_rmdir(const char* name) {
 #endif
 }
 
-int remove_project_owned_file_or_dir(const char* path) {
 #ifdef SANDBOX
+int remove_project_owned_file_or_dir(const char* path) {
     char cmd[1024];
 
     if (g_use_sandbox) {
@@ -526,9 +572,13 @@ int remove_project_owned_file_or_dir(const char* path) {
             return 0;
         }
     }
-#endif
     return ERR_UNLINK;
 }
+#else
+int remove_project_owned_file_or_dir(const char*) {
+    return ERR_UNLINK;
+}
+#endif
 
 #ifndef _WIN32
 int boinc_chown(const char* path, gid_t gid) {
@@ -639,6 +689,8 @@ void relative_to_absolute(const char* relname, char* path) {
 //
 int get_filesystem_info(double &total_space, double &free_space) {
 #ifdef _WIN32
+    char buf[256];
+    boinc_getcwd(buf);
     FreeFn pGetDiskFreeSpaceEx;
     pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"),
                                                  "GetDiskFreeSpaceExA");
@@ -646,7 +698,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
         ULARGE_INTEGER TotalNumberOfFreeBytes;
         ULARGE_INTEGER TotalNumberOfBytes;
         ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;
-        pGetDiskFreeSpaceEx(NULL, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
+        pGetDiskFreeSpaceEx(buf, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
         signed __int64 uMB;
         uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
         free_space = uMB * 1024.0 * 1024.0;
@@ -657,7 +709,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
         DWORD dwBytesPerSect;
         DWORD dwFreeClusters;
         DWORD dwTotalClusters;
-        GetDiskFreeSpace(NULL, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
+        GetDiskFreeSpace(buf, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
         free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
         total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
     }

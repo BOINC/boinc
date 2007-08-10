@@ -253,17 +253,15 @@ function ghz($x) {
     $y = explode(" ", $x);
     foreach ($y as $z) {
         if (strstr($z, "GHz")) return $z;
+        if (strstr($z, "MHz")) return $z;
     }
 }
 
-// return true if it's possible that the two host records
-// correspond to the same host
-//
-function hosts_compatible($host1, $host2) {
+function cpus_compatible($host1, $host2) {
     // we screwed around with Intel processor names,
     // so count them as compatible if both contain "Intel" and "Pentium",
     // and don't have conflicting clock rate info
-    
+    //
     $p1 = "$host1->p_vendor $host1->p_model";
     $p2 = "$host2->p_vendor $host2->p_model";
     if (strstr($p1, "Pentium") && strstr($p1, "Intel")
@@ -276,26 +274,69 @@ function hosts_compatible($host1, $host2) {
         } else {
             return false;
         }
+    } else if (strstr($p1, "AuthenticAMD") && strstr($p2, "AuthenticAMD")) {
+        return true;
     } else {
         if ($host2->p_vendor != $host1->p_vendor) return false;
+
+        // they're compatible if models are the same,
+        // or contents of [family/model/stepping] are the same
+        //
         $pos = strpos($host1->p_model, '[');
         $host1pm = $host1->p_model;
-        if($pos !== FALSE) {
+        if($pos) {
             $host1pm = trim(substr($host1->p_model, 0, $pos));
         }
         $pos = strpos($host2->p_model, '[');
         $host2pm = $host2->p_model;
-        if($pos !== FALSE) {
+        if($pos) {
             $host2pm = trim(substr($host2->p_model, 0, $pos));
         }
-        if($host2pm != $host1pm) return false;
+        if ($host1pm != $host2pm) return false;
     }
-    if ($host2->os_name != $host1->os_name) return false;
+    return true;
+}
 
-    // one host must strictly precede the other
+// does one host strictly precede the other?
+//
+function times_disjoint($host1, $host2) {
     if ($host1->rpc_time < $host2->create_time) return true;
     if ($host2->rpc_time < $host1->create_time) return true;
     return false;
+}
+
+function os_compatible($host1, $host2) {
+    if (strstr($host1->os_name, "Windows") && strstr($host2->os_name, "Windows")) return true;
+    if (strstr($host1->os_name, "Linux") && strstr($host2->os_name, "Linux")) return true;
+    if (strstr($host1->os_name, "Darwin") && strstr($host2->os_name, "Darwin")) return true;
+    if (strstr($host1->os_name, "SunOS") && strstr($host2->os_name, "SunOS")) return true;
+    return false;
+}
+
+// Return true if it's possible that the two host records
+// correspond to the same host
+// NOTE: the cheat-proofing comes from checking
+// that their time intervals are disjoint.
+// So the CPU/OS checks don't have to be very strict.
+//
+function hosts_compatible($host1, $host2) {
+    // skip disjoint-time check if one host or other has no credit
+    //
+    if ($host1->total_credit && $host->total_credit) {
+        if (!times_disjoint($host1, $host2)) {
+            echo "<br>h2 $host2->create_time $host2->rpc_time";
+            return false;
+        }
+    }
+    if (!os_compatible($host1, $host2)) {
+        echo "<br>$host1->id $host2->id: name\n";
+        return false;
+    }
+    if (!cpus_compatible($host1, $host2)) {
+        echo "<br>$host1->id $host2->id: cpu\n";
+        return false;
+    }
+    return true;
 }
 
 // recompute host's average credit by scanning results.
@@ -350,6 +391,49 @@ function host_inactive_ndays($host, $ndays) {
         return true;
     }
     return false;
+}
+
+// invariant: old_host.create_time < new_host.create_time
+//
+function merge_hosts($old_host, $new_host) {
+    if ($old_host->id == $new_host->id) {
+        return "same host";
+    }
+    if (!hosts_compatible($old_host, $new_host)) {
+        return "Can't merge host $old_host->id into $new_host->id - they're incompatible";
+    }
+
+    echo "<br>Merging host $old_host->id into host $new_host->id\n";
+
+	// decay the average credit of both hosts
+	//
+	$now = time();
+	update_average($now, 0, 0, $old_host->expavg_credit, $old_host->expavg_time);
+	update_average($now, 0, 0, $new_host->expavg_credit, $new_host->expavg_time);
+
+    // update the database:
+    // - add credit from old to new host
+    // - change results to refer to new host
+    // - put old host in "zombie" state
+    // - update rpc_seqno if needed
+    //
+    $total_credit = $old_host->total_credit + $new_host->total_credit;
+    $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
+    $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit, expavg_time=$now where id=$new_host->id");
+    if (!$result) {
+        return "Couldn't update credit of new computer";
+    }
+    $result = mysql_query("update result set hostid=$new_host->id where hostid=$old_host->id");
+    if (!$result) {
+        return "Couldn't update results";
+    }
+
+    $result = mysql_query("update host set total_credit=0, expavg_credit=0, userid=0, rpc_seqno=$new_host->id where id=$old_host->id");
+    if (!$result) {
+        return "Couldn't retire old computer";
+    }
+    echo "<br>Retired old computer $old_host->id\n";
+    return 0;
 }
 
 ?>

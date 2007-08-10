@@ -9,8 +9,10 @@ OBJS = \
     cpu_sched.o \
     log_flags.o \
     sim.o \
+    sim_util.o \
     time_stats.o \
     work_fetch.o \
+    ../sched/edf_sim.o \
     ../lib/mfile.o \
     ../lib/miofile.o \
     ../lib/parse.o \

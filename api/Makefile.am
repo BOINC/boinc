@@ -7,7 +7,8 @@ AM_CFLAGS += @GLUT_CFLAGS@
 AM_LDFLAGS += @GLUT_LIBS@
 
 api_files= \
-	boinc_api.C
+	boinc_api.C \
+    graphics2_util.C
 
 # graphics library for monolithic apps
 graphics_api_files = 	\
@@ -18,7 +19,7 @@ graphics_api_files = 	\
 	gutil_text.C	    \
 	reduce_main.C		\
     reduce_lib.C        \
-    texfont.c           \
+    texfont.C           \
     texture.C           \
     txf_util.C          \
 	x_opengl.C
@@ -42,10 +43,20 @@ graphics_impl_files =   \
 	gutil.C	            \
 	gutil_text.C	    \
 	reduce_lib.C		\
-    texfont.c           \
+    texfont.C           \
     texture.C           \
     txf_util.C          \
 	x_opengl.C
+
+graphics2_files = \
+	gutil.C	            \
+	gutil_text.C	    \
+	reduce_lib.C		\
+    texfont.C           \
+    texture.C           \
+    txf_util.C          \
+    graphics2.C \
+    graphics2_unix.C
 
 EXTRA_DIST = *.h
 
@@ -53,7 +64,8 @@ if BUILD_GRAPHICS_API
 graphics_libs = \
     libboinc_graphics_api.a \
     libboinc_graphics_lib.a \
-    libboinc_graphics_impl.a
+    libboinc_graphics_impl.a \
+    libboinc_graphics2.a
 else
 graphics_libs = 
 endif
@@ -70,6 +82,8 @@ libboinc_graphics_lib_a_SOURCES = $(graphics_lib_files)
 libboinc_graphics_lib_a_CPPFLAGS = -I$(top_srcdir)/lib 
 libboinc_graphics_impl_a_SOURCES = $(graphics_impl_files)
 libboinc_graphics_impl_a_CPPFLAGS = -I$(top_srcdir)/lib 
+libboinc_graphics2_a_SOURCES = $(graphics2_files)
+libboinc_graphics2_a_CPPFLAGS = -I$(top_srcdir)/lib 
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/

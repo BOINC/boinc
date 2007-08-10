@@ -23,9 +23,8 @@
 #define BOINC_SHMEM_H
 
 #ifndef _WIN32
-#if HAVE_SYS_SHM_H
+#include <sys/types.h>
 #include <sys/shm.h>
-#endif
 #endif
 
 #ifdef _WIN32
@@ -64,6 +63,12 @@ extern int attach_shmem(key_t, void**);
 extern int detach_shmem(void*);
 
 extern int shmem_info(key_t key);
+
+#ifndef __EMX__
+// For testing on Apple, Linux, UNIX systems with limited number 
+// of shared memory segments per process and / or system-wide
+void stress_shmem(short reduce_by);
+#endif
 
 #endif
 #endif

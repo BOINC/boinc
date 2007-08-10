@@ -63,6 +63,8 @@ int main(int argc, char** argv) {
     if (err) retval = err;
     err = FixInfoPlistFile("./SystemMenu-Info.plist");
     if (err) retval = err;
+    err = FixInfoPlistFile("./Uninstaller-Info.plist");
+    if (err) retval = err;
     err = MakeInstallerInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
     return retval;
 }
@@ -103,7 +105,7 @@ int FixInfoPlist_Strings(char* myPath, char* brand) {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
         fprintf(f, "CFBundleName = \"%s\";\n", brand);
         fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", brand, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2006 University of California.\";\n", brand, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2007 University of California.\";\n", brand, BOINC_VERSION_STRING);
         fflush(f);
         retval = fclose(f);
     }

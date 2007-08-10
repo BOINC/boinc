@@ -1,7 +1,7 @@
-#!/bin/csh
+#!/bin/sh
 
 ##
-# post-Upgrade Script for Macintosh BOINC Manager for OS X revised 1/21/06
+# post-Upgrade Script for Macintosh BOINC Manager for OS X revised 7/11/07
 ##
 
 echo "initial directory = $PWD"

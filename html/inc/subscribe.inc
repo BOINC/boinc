@@ -93,7 +93,7 @@ function send_notice_email($userId, $threadID) {
     $row = mysql_fetch_object($result);
 
     $title = PROJECT . ": A user has posted to your subscribed thread.";
-    $link = URL_BASE . "forum_thread.php?id=" . $threadID;
+    $link = URL_BASE . "/forum_thread.php?id=" . $threadID;
     $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
         ."To view the updated thread, visit the following URL:\n\n$link";
 

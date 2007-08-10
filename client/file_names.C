@@ -28,6 +28,10 @@
 #include <cstdio>
 #include <sys/stat.h>
 #include <cctype>
+#if HAVE_SYS_IPC_H
+#include <sys/ipc.h>
+#endif
+#include "shmem.h"
 #endif
 
 #include "filesys.h"
@@ -190,8 +194,23 @@ void delete_old_slot_dirs() {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
-        sprintf(path, "%s/%s", SLOTS_DIR, filename);
+        snprintf(path, sizeof(path), "%s/%s", SLOTS_DIR, filename);
         if (is_dir(path)) {
+#ifndef _WIN32
+            char init_data_path[1024];
+            SHMEM_SEG_NAME shmem_seg_name;
+
+            // If BOINC crashes or exits suddenly (e.g., due to 
+            // being called with --exit_after_finish) it may leave 
+            // orphan shared memory segments in the system.  Clean 
+            // these up here. (We must do this before deleting the
+            // INIT_DATA_FILE, if any, from each slot directory.)
+            snprintf(init_data_path, sizeof(init_data_path), "%s/%s", path, INIT_DATA_FILE);
+            shmem_seg_name = ftok(init_data_path, 1);
+            if (shmem_seg_name != -1) {
+                destroy_shmem(shmem_seg_name);
+            }
+#endif
             if (!gstate.active_tasks.is_slot_dir_in_use(path)) {
                 clean_out_dir(path);
                 boinc_rmdir(path);

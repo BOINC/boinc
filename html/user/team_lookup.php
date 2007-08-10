@@ -31,7 +31,7 @@ $team_name = $_GET["team_name"];
 $name_lc = strtolower($team_name);
 $name_lc = escape_pattern($name_lc);
  
-$query = "select * from team where name like '%$name_lc%'";
+$query = "select * from team where name like '%$name_lc%' order by expavg_credit desc";
 $result_list = mysql_query($query);
 
 if ($format == 'xml') {

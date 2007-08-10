@@ -3,6 +3,7 @@
 #include "app.h"
 #include "time_stats.h"
 #include "client_types.h"
+#include "../sched/edf_sim.h"
 
 using std::vector;
 
@@ -26,7 +27,7 @@ struct SIM_RESULTS {
     int nresults_met_deadline;
     int nresults_missed_deadline;
     double share_violation;
-    double variety;
+    double monotony;
     double cpu_wasted_frac;
     double cpu_idle_frac;
 
@@ -34,7 +35,8 @@ struct SIM_RESULTS {
     void print(FILE* f, const char* title=0);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);
-    SIM_RESULTS();
+    void divide(int);
+    void clear();
 };
 
 struct PROJECT_RESULTS {
@@ -92,15 +94,23 @@ public:
     RANDOM_PROCESS available;
     int index;
     int result_index;
-    int nidle_periods;
-    double idle_period_duration;
-    double idle_period_sumsq;
+    double idle_time;
+    double idle_time_sumsq;
     bool idle;
+    int max_infeasible_count;
+    // for DCF variants:
+    int completed_task_count;
+    double completions_ratio_mean;
+    double completions_ratio_s;
+    double completions_ratio_stdev;
+    double completions_required_stdevs;
 
     int parse(XML_PARSER&);
     PROJECT_RESULTS project_results;
     void print_results(FILE*, SIM_RESULTS&);
     void init();
+    void backoff();
+    void update_dcf_stats(RESULT*);
 };
 
 class SIM_HOST: public HOST_INFO {
@@ -127,12 +137,12 @@ public:
     bool initialized;
     bool run_cpu_benchmarks;
     FILE* html_out;
-    void html_start();
+    void html_start(bool);
     void html_rec();
-    void html_end();
+    void html_end(bool);
     std::string html_msg;
     double share_violation();
-    double variety();
+    double monotony();
 
 private:
     double app_started;
@@ -170,6 +180,7 @@ private:
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
 public:
+    double retry_shmem_time;
     inline double work_buf_min() {
         return global_prefs.work_buf_min_days * 86400;
     }
@@ -240,6 +251,9 @@ public:
     void compute_nuploading_results();
 
 //////////////////
+    void make_job(SIM_PROJECT*, WORKUNIT*, RESULT*);
+    void handle_completed_results();
+    void get_workload(vector<IP_RESULT>&);
     int parse_projects(char*);
     int parse_host(char*);
     void simulate();
@@ -255,3 +269,15 @@ public:
 
 extern CLIENT_STATE gstate;
 extern NET_STATUS net_status;
+extern FILE* logfile;
+extern bool user_active;
+extern SIM_RESULTS sim_results;
+extern double calculate_exponential_backoff(
+    int n, double MIN, double MAX
+);
+
+extern bool dcf_dont_use;
+extern bool dcf_stats;
+extern bool cpu_sched_rr_only;
+extern bool dual_dcf;
+extern bool work_fetch_old;

@@ -162,15 +162,19 @@ int detach_shmem(void* p) {
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
     
-    // try 0660, then SHM_R|SHM_W
+    // try 0666, then SHM_R|SHM_W
     // seems like some platforms require one or the other
     // (this may be superstition)
     //
-#ifdef EINSTEIN_AT_HOME
+    // NOTE: in principle it should be 0660, not 0666
+    // (i.e. Apache should belong to the same group as the
+    // project admin user, and should therefore be able to access the seg.
+    // However, this doesn't seem to work on some Linux systems.
+    // I don't have time to figure this out (31 July 07)
+    // it's a big headache for anyone it affects,
+    // and it's not a significant security issue.
+    //
     id = shmget(key, size, IPC_CREAT|0666);
-#else
-    id = shmget(key, size, IPC_CREAT|0660);
-#endif
     if (id < 0) {
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }
@@ -200,6 +204,14 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     return attach_shmem(key, pp);
 }
 
+// Mark the shared memory segment so it will be released after 
+// the last attached process detaches or exits.
+// On Mac OS X and some other systems, not doing this causes 
+// shared memory leaks if BOINC crashes or exits suddenly.
+// On Mac OS X and some other systems, this command also 
+// prevents any more processes from attaching (by clearing 
+// the key in the shared memory structure), so BOINC does it 
+// only after we are completey done with the segment.
 int destroy_shmem(key_t key){
     struct shmid_ds buf;
     int id, retval;
@@ -258,6 +270,33 @@ int print_shmem_info(key_t key) {
     );
 
     return 0;
+}
+
+// For debugging shared memory logic
+// For testing on Apple, Linux, UNIX systems with limited number 
+// of shared memory segments per process and / or system-wide
+// Mac OS X has a default limit of 8 segments per process, 32 system-wide
+// If 
+void stress_shmem(short reduce_by) {
+    int retval;
+    void * shmaddr[16];
+    key_t key[] = {
+        'BNC0', 'BNC1', 'BNC2', 'BNC3', 'BNC4', 'BNC5', 'BNC6', 'BNC7',
+        'BNC8', 'BNC9', 'BNCA', 'BNCB', 'BNCC', 'BNCD', 'BNCE', 'BNCF' 
+    };
+    int i, id;
+    
+    if (reduce_by > 16) reduce_by = 16;
+    
+    // Tie up 5 of the 8 shared memory segments each process may have
+    for (i=0; i<reduce_by; i++) {
+        retval = create_shmem(key[i], 1024, 0, &shmaddr[i]);
+        id = shmget(key[i], 0, 0);
+        // Mark it for automatic destruction when BOINC exits
+        if (id >= 0) {
+            retval = shmctl(id, IPC_RMID, 0);
+        }
+    }
 }
 
 #endif

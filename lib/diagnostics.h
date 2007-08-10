@@ -48,11 +48,12 @@
 #define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
 #define BOINC_DIAG_HEAPCHECKEVERYALLOC      0x00000800L
 #define BOINC_DIAG_BOINCAPPLICATION         0x00001000L
-#define BOINC_DIAG_USEDEFULATS              BOINC_DIAG_DUMPCALLSTACKENABLED | \
-                                            BOINC_DIAG_HEAPCHECKENABLED | \
-                                            BOINC_DIAG_MEMORYLEAKCHECKENABLED | \
-                                            BOINC_DIAG_REDIRECTSTDERR | \
-                                            BOINC_DIAG_TRACETOSTDERR
+#define BOINC_DIAG_DEFAULTS \
+    BOINC_DIAG_DUMPCALLSTACKENABLED | \
+    BOINC_DIAG_HEAPCHECKENABLED | \
+    BOINC_DIAG_MEMORYLEAKCHECKENABLED | \
+    BOINC_DIAG_REDIRECTSTDERR | \
+    BOINC_DIAG_TRACETOSTDERR
 
 
 // filenames
@@ -113,6 +114,7 @@ extern int diagnostics_finish_unhandled_exception_monitor();
 #ifdef _WIN32
 extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+extern void boinc_catch_signal_invalid_parameter(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved);
 #else
 extern void boinc_catch_signal(int signal);
 extern void boinc_set_signal_handler(int sig, void(*handler)(int));

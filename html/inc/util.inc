@@ -101,16 +101,16 @@ function show_login($user) {
     }
 }
 
-/**
- * Page_head() is overridable so that projects that want to integrate BOINC with an existing web framework
- * can more easily do so. To take advantage of this simply define the function page_head() somewhere
- * in the project include file.
- */
+// Page_head() is overridable so that projects that want to integrate BOINC
+// with an existing web framework can more easily do so.
+// To take advantage of this simply define the function page_head()
+// somewhere in the project include file.
+//
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
-    $styleSheet = URL_BASE . STYLESHEET;
+    $styleSheet = URL_BASE . "/".STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
-    $rsslink = URL_BASE . "rss_main.php";
+    $rsslink = URL_BASE . "/rss_main.php";
 
     if (defined("CHARSET")) {
         header("Content-type: text/html; charset=".tr(CHARSET));
@@ -156,7 +156,7 @@ function page_tail($show_date=false, $prefix="") {
 
 function display_cvs_versions(){
     global $cvs_version_tracker;
-    echo "\n<!-- CVS VERSIONS -->\n";
+    echo "\n<!-- SVN VERSIONS -->\n";
     for ($i=0;$i<sizeof($cvs_version_tracker);$i++) {
         echo "<!-- ".$cvs_version_tracker[$i]." -->\n";
     }
@@ -512,9 +512,9 @@ function sched_stopped() {
 }
 
 function user_links($user) {
-    $x = '<a href="show_user.php?userid='.$user->id.'">'.$user->name.'</a>';
+    $x = "<a href=\"".URL_BASE."/show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->has_profile) {
-        $x .= ' <a href="view_profile.php?userid='.$user->id.'"><img border="0" src="img/head_20.png" alt="User profile image"></a>';
+        $x .= ' <a href="'.URL_BASE.'/view_profile.php?userid='.$user->id.'"><img border="0" src="'.URL_BASE.'/img/head_20.png" alt="User profile image"></a>';
     }
     # Does this project accept donations?
     # If so, do you want to have a link next to user name as it appears on the web site?
@@ -692,6 +692,19 @@ function select_from_array($name, $array, $selection) {
     }
     $out.= "</select>";
     return $out;
+}
+
+// Convert to entities, while preserving already-encoded entities. 
+// Do NOT use if $str contains valid HTML tags.
+//
+function boinc_htmlentities($str) { 
+    $str = html_entity_decode($str, ENT_COMPAT, "UTF-8"); 
+    $str = htmlentities($str, ENT_COMPAT, "UTF-8"); 
+    return $str; 
+} 
+
+function strip_bbcode($string){
+    return preg_replace("/((\[.+\])+?)(.+?)((\[\/.+\])+?)/","",$string);
 }
 
 ?>

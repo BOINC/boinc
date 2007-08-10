@@ -22,12 +22,11 @@ function show_nav() {
         You can participate by downloading and running a free program
         on your computer.
         <p>
-        XXX is based at research lab of Professor XXX
-        at <a href=xxx>the University of XXX</a>.
+        XXX is based at 
+        [describe your institution, with link to web page]
         <ul>
-        <li> <a href=xxx>Our research</a>
-        <li> <a href=xxx>Project personnel</a>
-        <li> <a href=\"apps.php\">".tr(APPS_TITLE)."</a>
+        <li> [Link to page describing your research in detail]
+        <li> [Link to page listing project personnel, and an email address]
         </ul>
         <h2>Join ".PROJECT."</h2>
         <ul>
@@ -37,9 +36,9 @@ function show_nav() {
             If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
         <li> When prompted, enter <br><b>".$master_url."</b>
         <li> If you're running a command-line or pre-5.0 version of BOINC,
-            <a href=create_account_form.php>create an account</a> first.
+            <a href=\"create_account_form.php\">create an account</a> first.
         <li> If you have any problems,
-            <a href=http://boinc.berkeley.edu/help.php>get help here</a>.
+            <a target=\"_new\" href=\"http://boinc.berkeley.edu/help.php\">get help here</a>.
         </ul>
 
         <h2>Returning participants</h2>
@@ -47,10 +46,11 @@ function show_nav() {
         <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
         <li><a href=\"team.php\">Teams</a> - create or join a team
         <li><a href=\"cert1.php\">Certificate</a>
+        <li> <a href=\"apps.php\">".tr(APPS_TITLE)."</a>
         </ul>
         <h2>Community</h2>
         <ul>
-        <li><a href=\"".URL_BASE."profile_menu.php\">Participant profiles</a>
+        <li><a href=\"profile_menu.php\">Participant profiles</a>
         <li><a href=\"forum_index.php\">Message boards</a>
         <li><a href=\"forum_help_desk.php\">Questions and answers</a>
         <li><a href=\"stats.php\">Statistics</a>
@@ -67,7 +67,7 @@ if ($caching) {
 
 $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
-$rsslink = URL_BASE . "rss_main.php";
+$rsslink = URL_BASE . "/rss_main.php";
 
 if (defined("CHARSET")) {
     header("Content-type: text/html; charset=".tr(CHARSET));
@@ -128,17 +128,12 @@ if (count($project_news) > 5) {
 echo "
     <p class=\"smalltext\">
     News is available as an
-    <a href=\"rss_main.php\">RSS feed</a> <img src=\"xml.gif\" alt=\"XML\">.</p>
+    <a href=\"rss_main.php\">RSS feed</a> <img src=\"img/xml.gif\" alt=\"XML\">.</p>
     </td>
     </tr></table>
-<!--
 ";
 
 include 'schedulers.txt';
-
-echo "
--->
-";
 
 if ($caching) {
     page_tail_main(true);

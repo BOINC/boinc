@@ -62,7 +62,7 @@ int main(int argc, const char** argv) {
     int retval;
     char wu_template[LARGE_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256], result_template_path[1024];
-    char* command_line=NULL;
+    const char* command_line=NULL;
     const char** infiles = NULL;
     int i, ninfiles;
     char download_dir[256], db_name[256], db_passwd[256];
@@ -131,7 +131,7 @@ int main(int argc, const char** argv) {
         } else if (!strcmp(argv[i], "-max_success_results")) {
             wu.max_success_results = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-command_line")) {
-            command_line= (char *)argv[++i];
+            command_line= argv[++i];
         } else if (!strcmp(argv[i], "-additional_xml")) {
             strcpy(additional_xml, argv[++i]);
         } else {

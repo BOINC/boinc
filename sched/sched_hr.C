@@ -29,6 +29,8 @@
 #include "server_types.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
+#include "main.h"
+#include "hr.h"
 #include "sched_hr.h"
 
 
@@ -38,39 +40,24 @@
 #define FCGI_ToFILE(x) (x)
 #endif
 
-const int unspec = 0;
+// return true if HR rules out sending any work to this host
+//
+bool hr_unknown_platform(HOST& host) {
+    for (int i=0; i<ssp->napps; i++) {
+        APP& app = ssp->apps[i];
+        if (!hr_unknown_platform_type(host, app_hr_type(app))) return false;
+    }
+    return true;
+}
 
-const int nocpu = 1;
-const int Intel = 2;
-const int AMD = 3;
-const int PowerPC = 4;
-
-const int noos = 128;
-const int Linux = 256;
-const int Windows = 384;
-const int Darwin = 512;
-const int SunOS = 640;
-
-inline int OS(SCHEDULER_REQUEST& sreq){
-    if (strstr(sreq.host.os_name, "Linux")) return Linux;
-    else if (strstr(sreq.host.os_name, "Windows")) return Windows;
-    else if (strstr(sreq.host.os_name, "Darwin")) return Darwin;
-    else if (strstr(sreq.host.os_name, "SunOS")) return SunOS;
-    else return noos;
-};
-
-inline int CPU(SCHEDULER_REQUEST& sreq){
-    if (strstr(sreq.host.p_vendor, "Intel")) return Intel;
-    else if (strstr(sreq.host.p_vendor, "i386")) return Intel;
-    else if (strstr(sreq.host.p_vendor, "AMD")) return AMD;
-    else if (strstr(sreq.host.p_vendor, "Power")) return PowerPC;
-    else return nocpu;
-};
-
-// Check that the two platform has the same architecture and operating system
-bool hr_unknown_platform(SCHEDULER_REQUEST& sreq) {
-    if (OS(sreq) == noos) return true;
-    if (CPU(sreq) == nocpu) return true;
+// quick check for platform compatibility
+//
+bool already_sent_to_different_platform_quick(
+    SCHEDULER_REQUEST& sreq, WORKUNIT& wu, APP& app
+) {
+    if (wu.hr_class && (hr_class(sreq.host, app_hr_type(app)) != wu.hr_class)) {
+        return true;
+    }
     return false;
 }
 
@@ -82,17 +69,19 @@ bool hr_unknown_platform(SCHEDULER_REQUEST& sreq) {
 //
 // (where "platform" is os_name + p_vendor; may want to sharpen this for Unix)
 //
-bool already_sent_to_different_platform(
-    SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
+// This is "careful" in that it rereads the WU from DB
+//
+bool already_sent_to_different_platform_careful(
+    SCHEDULER_REQUEST& sreq, WORK_REQ& wreq, WORKUNIT& workunit, APP& app
 ) {
     DB_WORKUNIT db_wu;
-    int retval, hr_class=0;
+    int retval, wu_hr_class;
     char buf[256];
 
     // reread hr_class field from DB in case it's changed
     //
     db_wu.id = workunit.id;
-    retval = db_wu.get_field_int("hr_class", hr_class);
+    retval = db_wu.get_field_int("hr_class", wu_hr_class);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL, "can't get hr_class for %d: %d\n",
@@ -101,13 +90,13 @@ bool already_sent_to_different_platform(
         return true;
     }
     wreq.hr_reject_temp = false;
-    if (hr_class != unspec) {
-        if (OS(sreq) + CPU(sreq) != hr_class) {
+    int host_hr_class = hr_class(sreq.host, app_hr_type(app));
+    if (wu_hr_class) {
+        if (host_hr_class != wu_hr_class) {
             wreq.hr_reject_temp = true;
         }
     } else {
-        hr_class = OS(sreq) + CPU(sreq);
-        sprintf(buf, "hr_class=%d", hr_class);
+        sprintf(buf, "hr_class=%d", host_hr_class);
         db_wu.update_field(buf);
     }
     return wreq.hr_reject_temp;

@@ -21,7 +21,8 @@
 //
 // command-line options:
 //  --batch
-//      stdin contains a catenated sequence of request messages.  Do them all.
+//      stdin contains a catenated sequence of request messages.
+//      Do them all, and ignore rpc_seqno
 //
 // Note: use_files is a debugging option (see below).
 // But it's a compile setting, not a cmdline flag
@@ -47,6 +48,7 @@ using namespace std;
 #include "error_numbers.h"
 #include "shmem.h"
 #include "util.h"
+#include "str_util.h"
 
 #include "sched_config.h"
 #include "server_types.h"
@@ -77,20 +79,80 @@ PROJECT_FILES project_files;
 key_t sema_key;
 int g_pid;
 static bool db_opened=false;
-bool shmem_failed = false;
 SCHED_SHMEM* ssp = 0;
+bool batch = false;
+bool mark_jobs_done = false;
 
-void send_message(const char* msg, int delay, bool send_header) {
-    if (send_header) {
-        printf("Content-type: text/plain\n\n");
+// You can call debug_sched() for whatever situation is of
+// interest to you.  It won't do anything unless you create
+// (touch) the file 'debug_sched' in the project root directory.
+//
+void debug_sched(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
+) {
+    char tmpfilename[256];
+    FILE *fp;
+
+    if (!boinc_file_exists(trigger)) {
+        return;
     }
-    printf(
+
+    sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+    // use _XXXXXX if you want random filenames rather than
+    // deterministic mkstemp(tmpfilename);
+
+    fp=fopen(tmpfilename, "w");
+
+    if (!fp) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "Found %s, but can't open %s\n", trigger, tmpfilename
+        );
+        return;
+    }
+
+    log_messages.printf(
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "Found %s, so writing %s\n", trigger, tmpfilename
+    );
+
+    sreply.write(fp);
+    fclose(fp);
+
+    sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+    fp=fopen(tmpfilename, "w");
+
+    if (!fp) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "Found %s, but can't open %s\n", trigger, tmpfilename
+        );
+        return;
+    }
+
+    log_messages.printf(
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "Found %s, so writing %s\n", trigger, tmpfilename
+    );
+
+    sreq.write(fp);
+    fclose(fp);
+
+    return;
+}
+
+// call this only if we're not going to call handle_request()
+//
+static void send_message(const char* msg, int delay) {
+    fprintf(stdout,
+        "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
         "    <message priority=\"low\">%s</message>\n"
         "    <request_delay>%d</request_delay>\n"
         "    <project_is_down/>\n"
-        "</scheduler_reply>\n",
-        msg, delay
+        "%s</scheduler_reply>\n",
+        msg, delay,
+        config.ended?"    <ended>1</ended>\n":""
     );
 }
 
@@ -99,21 +161,23 @@ int open_database() {
 
     if (db_opened) return 0;
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't open database\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "can't open database\n"
+        );
         return retval;
     }
     db_opened = true;
     return 0;
 }
 
-void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger); 
-
 // If the scheduler 'hangs', which it can do if a request is not fully processed
 // or some other process arises, then Apache will send a SIGTERM to the cgi.
-// This signal handler ensures that rather than dying silently, the cgi process
-// will leave behind some record in the log file.
+// This signal handler ensures that rather than dying silently,
+// the cgi process will leave behind some record in the log file.
 //
 void sigterm_handler(int signo) {
    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
@@ -189,7 +253,7 @@ void set_core_dump_size_limit() {
 }
 #endif
 
-SCHED_SHMEM* attach_to_feeder_shmem() {
+void attach_to_feeder_shmem() {
     char path[256];
     get_project_dir(path, sizeof(path));
     get_key(path, 'a', sema_key);
@@ -202,7 +266,10 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
             "Can't attach shmem: %d (feeder not running?)\n",
             retval
         );
-        shmem_failed = true;
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "uid %d euid %d gid %d eguid%d\n",
+            getuid(), geteuid(), getgid(), getegid()
+        );
     } else {
         ssp = (SCHED_SHMEM*)p;
         retval = ssp->verify();
@@ -210,7 +277,7 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "shmem has wrong struct sizes - recompile\n"
             );
-            send_message("Server has software problem", 3600, true);
+            send_message("Server error: recompile needed", 3600);
             exit(0);
         }
 
@@ -225,27 +292,30 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "feeder doesn't seem to be running\n"
             );
-            send_message("Project encountered internal error: feeder not running", 3600, true);
+            send_message(
+                "Server error: feeder not running", 3600
+            );
             exit(0);
         }
     }
-    return ssp;
 }
 
 int main(int argc, char** argv) {
     FILE* fin, *fout;
     int i, retval;
     char req_path[256], reply_path[256], path[256];
-    SCHED_SHMEM* ssp=0;
     unsigned int counter=0;
     char* code_sign_key;
     int length=-1;
     log_messages.pid = getpid();
-    bool batch = false;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--batch")) {
             batch = true;
+            continue;
+        }
+        if (!strcmp(argv[i], "--mark_jobs_done")) {
+            mark_jobs_done = true;
         }
     }
 
@@ -263,13 +333,12 @@ int main(int argc, char** argv) {
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
         sprintf(buf, "Server can't open log file (%s)", path);
-        send_message(buf, 3600, true);
+        send_message(buf, 3600);
         exit(0);
     }
     // install a larger buffer for stderr.  This ensures that
     // log information from different scheduler requests running
-    // in parallel don't collide in the log file and appear
-    // intermingled.
+    // in parallel don't collide in the log file and appear intermingled.
     //
     if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
@@ -285,17 +354,12 @@ int main(int argc, char** argv) {
     set_core_dump_size_limit();
 #endif
 
-    if (check_stop_sched()) {
-        send_message("Project is temporarily shut down for maintenance", 3600, true);
-        goto done;
-    }
-
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "Can't parse config file\n"
+            "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
-        send_message("Server can't parse configuration file", 3600, true);
+        send_message("Server can't parse configuration file", 3600);
         exit(0);
     }
 
@@ -310,11 +374,10 @@ int main(int argc, char** argv) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "Can't read code sign key file (%s)\n", path
         );
-        send_message("Server can't find key file", 3600, true);
+        send_message("Server can't find key file", 3600);
         exit(0);
     }
 
-    ssp = attach_to_feeder_shmem();
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
@@ -322,11 +385,20 @@ int main(int argc, char** argv) {
     while(FCGI_Accept() >= 0) {
     counter++;
 #endif
-    if (shmem_failed) {
-        send_message("Project encountered internal error: shared memory", 3600, true);
+    log_request_info(length);
+
+    if (check_stop_sched()) {
+        send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
-    log_request_info(length);
+
+    if (!ssp) {
+        attach_to_feeder_shmem();
+    }
+    if (!ssp) {
+        send_message("Server error: can't attach shared memory", 3600);
+        goto done;
+    }
 
     if (use_files) {
         struct stat statbuf;
@@ -403,7 +475,7 @@ done:
 #ifdef _USING_FCGI_
     fprintf(stderr, "FCGI: counter: %d\n", counter);
     continue;
-    }
+    }   // do()
     if (counter == MAX_FCGI_COUNT) {
         fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
     } else {

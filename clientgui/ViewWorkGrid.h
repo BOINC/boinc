@@ -41,6 +41,7 @@ public:
     ~CViewWorkGrid();
 
     virtual wxString&       GetViewName();
+    virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
 
 	virtual wxInt32         GetDocCount();

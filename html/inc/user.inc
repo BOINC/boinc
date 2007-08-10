@@ -157,7 +157,7 @@ function show_user_stats_private($user) {
     }
     $x .= "<br><font size=-2>Cross-project ID: $cpid</font>\n";
     row2("Cross-project statistics", $x);
-    row2("Stats on your cell phone", URL_BASE."userw.php?id=$user->id");
+    row2("Stats on your cell phone", URL_BASE."/userw.php?id=$user->id");
     row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
 }
 
@@ -196,7 +196,7 @@ function show_user_info_private($user) {
     row2("Profile", $x);
     $tot = total_posts($user);
     if ($tot) {
-        row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
+        row2("Message boards", "<a href=".URL_BASE."/forum_user_posts.php?userid=$user->id>$tot posts</a>");
     }
     
     row2("Private messages", pm_notification($user));
@@ -242,23 +242,23 @@ function show_user_summary_public($user) {
     row2(PROJECT." member since", date_str($user->create_time));
     row2("Country", $user->country);
     if (strlen($user->url)) {
-        row2("URL", "<a href=http://$user->url>http://$user->url</a>");
+        row2("URL", "<a href=\"http://$user->url\">http://$user->url</a>");
     }
     show_credit($user);
 
     if ($user->teamid && ($team = lookup_team($user->teamid))) {
-        row2("Team", "<a href=".URL_BASE."team_display.php?teamid=$team->id>$team->name</a>");
+        row2("Team", "<a href=\"".URL_BASE."/team_display.php?teamid=$team->id\">$team->name</a>");
     } else {
         row2("Team", "None");
     }
     if ($user->show_hosts) {
-        row2("Computers", "<a href=".URL_BASE."hosts_user.php?userid=$user->id>View</a>");
+        row2("Computers", "<a href=\"".URL_BASE."/hosts_user.php?userid=$user->id\">View</a>");
     } else {
         row2("Computers", "hidden");
     }
     $tot = total_posts($user);
     if ($tot) {
-        row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
+        row2("Message boards", "<a href=\"".URL_BASE."/forum_user_posts.php?userid=$user->id\">$tot posts</a>");
     }
 
     if ($user->donated == 1) { 
@@ -268,11 +268,13 @@ function show_user_summary_public($user) {
             row2("Donor",$x);
         }
     }
+    
+    row2("Contact", "<a href=\"forum_pm.php?action=new&amp;userid=".$user->id."\">Send private message</a>");
 }
 
 function show_profile_link($user) {
     if ($user->has_profile) {
-        row2("Profile", "<a href=view_profile.php?userid=$user->id>View</a>");
+        row2("Profile", "<a href=\"view_profile.php?userid=$user->id\">View</a>");
     }
 }
 
@@ -356,6 +358,29 @@ function user_inactive_ndays($user, $ndays) {
         return true;
     }
     return false;
+}
+
+function make_user(
+    $email_addr, $name, $passwd_hash,
+    $country=null, $postal_code=null, $project_prefs=null, $teamid=0
+) {
+    if (!is_valid_email_addr($email_addr)) return null;
+    $authenticator = random_string();
+    $cross_project_id = random_string();
+    $now = time();
+    if (!is_valid_country($country)) return null;
+    $country = boinc_real_escape_string($country);
+    $postal_code = strip_tags(process_user_text($postal_code));
+
+    $query = "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')";
+
+    $result = mysql_query($query);
+    if ($result) {
+        $id = mysql_insert_id();
+        return lookup_user_id($id);
+    } else {
+        return null;
+    }
 }
 
 ?>

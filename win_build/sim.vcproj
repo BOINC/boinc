@@ -563,8 +563,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -675,8 +674,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;"
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
@@ -704,6 +702,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\sched\edf_sim.C"
+				>
+			</File>
+			<File
 				RelativePath="..\client\log_flags.C"
 				>
 			</File>
@@ -725,6 +727,10 @@
 			</File>
 			<File
 				RelativePath="..\client\sim.C"
+				>
+			</File>
+			<File
+				RelativePath="..\client\sim_util.C"
 				>
 			</File>
 			<File

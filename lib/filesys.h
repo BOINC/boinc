@@ -64,7 +64,7 @@ extern "C" {
 #ifdef __cplusplus
 
 extern int file_size(const char*, double&);
-extern int dir_size(const char* dirpath, double&);
+extern int dir_size(const char* dirpath, double&, bool recurse=true);
 extern int get_filesystem_info(double& total, double& free);
 
 // TODO TODO TODO

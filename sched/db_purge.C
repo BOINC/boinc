@@ -73,6 +73,7 @@ using namespace std;
 
 #include "boinc_db.h"
 #include "util.h"
+#include "filesys.h"
 #include "parse.h"
 #include "sched_config.h"
 #include "sched_util.h"
@@ -614,7 +615,7 @@ int main(int argc, char** argv) {
         exit(2);
     }
     install_stop_signal_handler();
-    mkdir("../archives", 0777);
+    boinc_mkdir("../archives");
 
     // on exit, either via the check_stop_daemons signal handler, or
     // through a regular call to exit, these functions will be called

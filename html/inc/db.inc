@@ -62,7 +62,7 @@ function lookup_user_email_addr($email_addr) {
 }
 
 function lookup_user_name($name) {
-    $result = mysql_query("SELECT * FROM user WHERE name='".mysql_escape_string($name)."'");
+    $result = mysql_query("SELECT * FROM user WHERE name='".mysql_real_escape_string($name)."'");
     if ($result) {
         if (mysql_num_rows($result) == 1) {
             return mysql_fetch_object($result);
@@ -98,6 +98,17 @@ function lookup_team($id) {
 function lookup_team_founder($id) {
     $result = mysql_query("select * from team where userid=$id");
     return $result;
+}
+
+function lookup_team_name($name) {
+    $name = mysql_real_escape_string($name);
+    $result = mysql_query("select * from team where name='$name'");
+    if ($result) {
+        $team = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $team;
+    }
+    return null;
 }
 
 function lookup_wu($id) {

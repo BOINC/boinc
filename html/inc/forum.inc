@@ -1,4 +1,5 @@
 <?php
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once('../inc/db.inc');
@@ -7,6 +8,7 @@ require_once('../inc/time.inc');
 require_once('../inc/forum_moderators.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/util.inc');
+require_once('../inc/forum_pm.inc');
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
@@ -213,6 +215,7 @@ function show_posts($thread, $sort_style, $filter, $logged_in_user, $show_contro
 function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $filter=true) {
     $user = $post->getOwner();
     global $no_forum_rating;
+    global $config;
 
     if ($logged_in_user) {
         $tokens = url_tokens($logged_in_user->getAuthenticator());
@@ -247,9 +250,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
 
     echo "
-        <tr class=\"row$n\" valign=\"top\">
-        <td rowspan=\"3\"><div class=\"authorcol\">
-        <a name=\"".$post->getID()."\"></a>
+        <tr class=\"row".$n."\" valign=\"top\">
+        <td rowspan=\"3\"><a name=\"".$post->getID()."\"></a><div class=\"authorcol\">
     ";
 
     // Print the user links
@@ -273,8 +275,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->hasAvatar() && (!$logged_in_user || ($logged_in_user->hasHideAvatars()==false))) {
             echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->getAvatar()."\" alt=\"Avatar\"><br>";
         }
-        echo "Joined: ", gmdate('M j, Y', $user->getCreateTime()), "<br>";
     }
+    
+    echo "<a href=\"forum_pm.php?action=new&userid=".$user->getID()."\" class=\"smalltext\">private message</a><br>\n";
+    echo "Joined: ", gmdate('M j, Y', $user->getCreateTime()), "<br>";
     
     if(function_exists('project_forum_user_info')){
         project_forum_user_info($user);
@@ -311,7 +315,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     if ($post->getParentPostID()) echo " - in response to <a href=\"forum_thread.php?id=".$thread->getID()."&nowrap=true#".$post->getParentPostID()."\">Message ID ".$post->getParentPostID()."</a>.";
     if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"forum_edit.php?id=".$post->getID()."$tokens\">[Edit this post]</a>";
-    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)) echo post_moderation_links($post,$logged_in_user->isSpecialUser(S_ADMIN),$tokens); //If user is moderator, show links
+    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)) echo post_moderation_links($config,$logged_in_user,$post,$tokens); //If user is moderator, show links
     if ($post->getModificationTimestamp()) echo "<br>Last modified: ", pretty_time_Str($post->getModificationTimestamp());
     if ($rated_below_threshold && $filter){
         if ($user_is_on_ignorelist) $andtext=" and the user is on your ignore list";
@@ -353,8 +357,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
             echo "<td class=\"postfooter\"></td>";
         }
         echo "</tr>";
+    } else {
+        echo "</td></tr><tr><td class=\"postfooter\" colspan=\"2\">";
     }
-    echo "</td></tr>";
     echo "<tr class=\"postseperator\"><td colspan=3></td></tr>";
 }
 
@@ -392,34 +397,38 @@ function end_forum_table() {
 /**
  * Output the forum/thread title.
  **/
-function show_forum_title($forum=NULL, $thread=NULL) {
-    start_table_noborder();
-    echo "<tr>\n";
-
-    // Search
-    echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
-        <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
-        <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
-        <input type=\"hidden\" name=\"search_sort\" value=\"5\">
-        <input type=\"text\" name=\"search_keywords\">
-        <input type=\"submit\" value=\"search\"><br>
-        <span class=\"smalltext\"><a href=\"forum_search.php\">advanced search</a></span>
-        </form>
-    ";
-    echo "</td>\n";
-
-    $logged_in_user = get_logged_in_user(false);
-    // Custom stuff for logged in user
-    if ($logged_in_user) {
-        echo "<td align=\"right\">\n";
+function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
+    if ($extended) {
+        start_table_noborder();
+        echo "<tr>\n";
         
-        // Private messages
-        echo pm_notification($logged_in_user);
-        
+        // Search
+        echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
+            <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
+            <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
+            <input type=\"hidden\" name=\"search_sort\" value=\"5\">
+            <input type=\"text\" name=\"search_keywords\">
+            <input type=\"submit\" value=\"search\"><br>
+            <span class=\"smalltext\"><a href=\"forum_search.php\">advanced search</a></span>
+            </form>
+        ";
         echo "</td>\n";
+        
+        $logged_in_user = get_logged_in_user(false);
+        // Custom stuff for logged in user
+        if ($logged_in_user) {
+            echo "<td align=\"right\">\n";
+            
+            echo "<a href=\"forum_index.php?read=1&amp;".url_tokens($logged_in_user->authenticator)."\">Mark all threads as read</a><br />\n";
+            
+            // Private messages
+            echo pm_notification($logged_in_user);
+            
+            echo "</td>\n";
+        }
+        echo "</tr>\n";
+        end_table();
     }
-    echo "</tr>\n";
-    end_table();
 
     echo "<p>\n";
     if ($forum) {
@@ -498,13 +507,8 @@ function show_post2($post, $n) {
     $user = lookup_user_id($post->user);
     $title = cleanup_title($thread->title);
     $m = $n%2;
-    if($post->hidden) {
-        //Todo: factor this array out, it is also used elsewhere
-        $deleted_text = array( "Obscene", "Flame/Hate", "Commercial Spam", "Flamebait", "Doublepost", "User Request", "Other");
-        $deleted = "<br><font color=red>[Deleted " .
-                   "by a moderator " .
-                   //as " . $deleted_text[$post->hidden-1] .
-                   "] </font>";
+    if ($post->hidden) {
+        $deleted = "<br><font color=red>[Deleted by a moderator]</font>";
     } else {
         $deleted = "";
     }
@@ -514,6 +518,7 @@ function show_post2($post, $n) {
             $n) <a href=\"$top_url\">$where</a> : $category->name :
             <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a> :
             <a href=\"forum_thread.php?id=$thread->id\">$title</a>
+            (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">Message ".$post->id."</a>)
             <br>
             Posted $when by $user->name $deleted
             <hr>

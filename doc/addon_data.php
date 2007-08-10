@@ -172,19 +172,29 @@ array('boinclogger.zip',
     I  recommend you put a shortcut to the program in the startup folder and the actual program in a folder in the program files.',
     1106878118
 ),
-array('inst_nB_v13.exe',
+array(
+    'http://www.nuchill.de/nboinc/#dl',
     'nBOiNC',
-    '1.3.x',
-    'stats picker',
-    'http://boinc.nuchill.de',
-    'requires .NET-Framework 2',
-    'get your information from the projects from which you do work
-    exe-installer',
-    1151998190
+    '2.0',
+    'View your current credit for one or all projects',
+    'http://www.nuchill.de/nboinc/',
+    '',
+    'An application that shows your credit, per project and total, based on your cross-project ID',
+    1183650844
 ),
 );
 
 $linux = array(
+array(
+    'http://www.vanheusden.com/multitail/',
+    'MultiTail',
+    '5.0.3',
+    'Multitail shows several simultaneous tails in different curses windows.',
+    'http://www.vanheusden.com/multitail/',
+    '',
+    'Multitail shows several simultaneous tails in different curses windows. It\'s handy in combination with BOINCtail, or to see the client output files when run with -redirectio. ',
+    1178838772
+),
 array(
     'http://www.vanheusden.com/boinctail/',
     'BOINCTail',
@@ -453,11 +463,11 @@ array('BOINC_User_Statistics_Widget.widget',
     'The BOINC User Statistics Widget is highly configurable and displays your choice of statistics from almost any BOINC project.',
     1149646406
 ),
-array('http://www.esea.dk/bos/BOINC%20Server%20Status.zip',
+array('BOINC_server_status.zip',
     'BOINC Server Status',
-    '1.0',
+    '1.1',
     'Yahoo! widget adds the BOINC Online Scheduler image to your desktop.',
-    'http://www.esea.dk/bos/BOINC%20Server%20Status.zip',
+    'http://www.esea.dk/bos/',
     'Yahoo! Widget Engine - http://widgets.yahoo.com/',
     'Adds the BOINC Online Scheduler image to your desktop.
     (requires the <a href=http://widgets.yahoo.com/>Yahoo! widget engine</a>)',

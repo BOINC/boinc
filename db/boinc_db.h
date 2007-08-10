@@ -190,10 +190,11 @@ struct TEAM {
     double expavg_credit;
     double expavg_time;
 
-    // The following is specific to SETI@home
-    int seti_id;            // ID in old DB
+    int seti_id;            // ID in another DB
+        // this is used to identify BOINC-wide teams
     int ping_user;          // user who asked to become founder
-    int ping_time;          // when they asked
+    int ping_time;          // when they asked.
+        // see html/inc/team.inc for more details
 
     void clear();
 };
@@ -280,6 +281,9 @@ struct HOST {
     char external_ip_addr[256]; // IP address seen by scheduler
     int max_results_day;    // maximum # of results to send per day per CPU
         // this is dynamically adjusted to limit work sent to bad hosts
+        // 0 means uninitialized
+        // -1 means this host is blacklisted - don't return results
+        // or accept results or trickles; just send it an error message
     double error_rate;      // dynamic estimate of fraction of results
                             // that fail validation
 
@@ -376,7 +380,7 @@ struct WORKUNIT {
 
 struct CREDITED_JOB {
     int userid;
-    long workunitid;
+    double workunitid;
 
     // the following not used in the DB
     void clear();
@@ -510,6 +514,7 @@ struct TRANSITIONER_ITEM {
     int target_nresults;
     char result_template_file[64];
     int priority;
+    int hr_class;
     int batch;
     int res_id; // This is the RESULT ID
     char res_name[256];
@@ -679,12 +684,19 @@ struct WORK_ITEM {
 };
 
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
+    int start_id;
+        // when enumerate_all is used, keeps track of which ID to start from
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     int enumerate(
         int limit, const char* select_clause, const char* order_clause
     );
         // used by feeder
+    int enumerate_all(
+        int limit, const char* select_clause
+    );
+        // used by feeder when HR is used.
+        // Successive calls cycle through all results.
     int read_result();
         // used by scheduler to read result server state
     int update();

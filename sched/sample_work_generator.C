@@ -33,6 +33,7 @@
 #include "error_numbers.h"
 #include "backend_lib.h"
 #include "parse.h"
+#include "util.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -54,7 +55,7 @@ SCHED_CONFIG config;
 //
 int make_job() {
     DB_WORKUNIT wu;
-    char name[256], path[256], buf[256];
+    char name[256], path[256];
     const char* infiles[1];
     int retval;
 
@@ -108,7 +109,7 @@ void main_loop() {
     while (1) {
         check_stop_daemons();
         int n;
-        retval = count_unsent_results(n);
+        retval = count_unsent_results(n, 0);
         if (n > CUSHION) {
             sleep(60);
         } else {

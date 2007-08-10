@@ -1,4 +1,4 @@
-#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h> 
 #include <string.h>
@@ -111,11 +111,11 @@ static ImageRec *ImageOpen(const char *fileName){
     }
     image = (ImageRec *)malloc(sizeof(ImageRec));
     if (image == NULL) {
-		fprintf(stderr, "Out of memory!\n");
-		return NULL;
+		goto error;
     }
     if ((image->file = fopen(fileName, "rb")) == NULL) {
 		perror(fileName);
+        free(image);
 		return NULL;
     }
     fread(image, 1, 12, image->file);
@@ -128,8 +128,7 @@ static ImageRec *ImageOpen(const char *fileName){
     image->tmpG = (unsigned char *)malloc(image->xsize*256);
     image->tmpB = (unsigned char *)malloc(image->xsize*256);
     if (image->tmp == NULL || image->tmpR == NULL || image->tmpG == NULL ||image->tmpB == NULL) {
-		fprintf(stderr, "Out of memory!\n");
-		return NULL;
+        goto error;
     }
 
     if ((image->type & 0xFF00) == 0x0100) {
@@ -137,8 +136,7 @@ static ImageRec *ImageOpen(const char *fileName){
 		image->rowStart = (unsigned *)malloc(x);
 		image->rowSize = (int *)malloc(x);
 		if (image->rowStart == NULL || image->rowSize == NULL) {
-			fprintf(stderr, "Out of memory!\n");
-			return NULL;
+            goto error;
 		}
 		image->rleEnd = 512 + (2 * x);
 		fseek(image->file, 512, SEEK_SET);
@@ -150,6 +148,19 @@ static ImageRec *ImageOpen(const char *fileName){
 		}
     }
     return image;
+error:
+    if (image) { 
+        if (image->rowSize) free(image->rowSize); 
+        if (image->rowStart) free(image->rowStart); 
+        if (image->tmpB) free(image->tmpB); 
+        if (image->tmpG) free(image->tmpG); 
+        if (image->tmpR)free(image->tmpR); 
+        if (image->tmp) free(image->tmp); 
+        if (image->file) fclose(image->file); 
+        free(image); 
+    } 
+    fprintf(stderr, "Out of memory!\n"); 
+    return NULL; 
 }
 
 static void ImageClose(ImageRec *image) {
@@ -214,11 +225,11 @@ int checkSize (int x){
 
 unsigned int texFormat;
 
-unsigned char* getRGBA (FILE *s, int size){
+unsigned char* getRGBA (FILE *s, size_t size){
     unsigned char *rgba;
     unsigned char temp;
-    int bread;
-    int i;
+    size_t bread;
+    size_t i;
     rgba=(unsigned char*)malloc(size * 4); 
     if (rgba == NULL) return 0;
     bread = fread (rgba, sizeof (unsigned char), size * 4, s); 
@@ -240,11 +251,11 @@ unsigned char* getRGBA (FILE *s, int size){
 //	getRGB
 //	Reads in RGB data for a 24bit image. 
 //	=============
-unsigned char* getRGB (FILE *s, int size){
+unsigned char* getRGB (FILE *s, size_t size){
     unsigned char *rgb;
     unsigned char temp;
-    int bread;
-    int i;
+    size_t bread;
+    size_t i;
     rgb=(unsigned char*)malloc(size * 3); 
     if (rgb == NULL) return 0;
     bread = fread (rgb, sizeof (unsigned char), size * 3, s);
@@ -266,9 +277,9 @@ unsigned char* getRGB (FILE *s, int size){
 //	getGray
 //	Gets the grayscale image data.  Used as an alpha channel.
 //	=============
-unsigned char* getGray (FILE *s, int size){
+unsigned char* getGray (FILE *s, size_t size){
     unsigned char *grayData;
-    int bread;
+    size_t bread;
     grayData=(unsigned char*)malloc (size);
     if (grayData == NULL) return 0;
     bread = fread (grayData, sizeof (unsigned char), size, s);
@@ -333,7 +344,7 @@ unsigned * read_rgb_texture(const char *name, int *width, int *height, int *comp
     gbuf = (unsigned char *)malloc(image->xsize*sizeof(unsigned char));
     bbuf = (unsigned char *)malloc(image->xsize*sizeof(unsigned char));
     abuf = (unsigned char *)malloc(image->xsize*sizeof(unsigned char));
-    if(!base || !rbuf || !gbuf || !bbuf) return NULL;
+    if(!base || !rbuf || !gbuf || !bbuf) goto error;
     lptr = base;
 	for(y=0; y<image->ysize; y++) {
 		if(image->zsize>=4) {
@@ -366,6 +377,14 @@ unsigned * read_rgb_texture(const char *name, int *width, int *height, int *comp
     free(bbuf);
     free(abuf);
     return (unsigned *) base;
+error:
+ 	ImageClose(image); 
+ 	if (abuf) free(abuf); 
+ 	if (bbuf) free(bbuf); 
+ 	if (bbuf) free(gbuf); 
+ 	if (bbuf) free(rbuf); 
+ 	if (base) free(base); 
+ 	return NULL; 
 }
 
 const char *BOINC_RCSID_97d4f29d84="$Id$";

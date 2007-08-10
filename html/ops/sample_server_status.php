@@ -36,8 +36,6 @@
 //
 // <www_host>    hostname of web server (default: same as <host>)
 // <sched_host>  hostname of scheduling server (default: same as <host>)
-// <sched_pid>   pid file of scheduling server httpd.conf
-//               (default: /etc/httpd/run/httpd.pid)
 // <uldl_host>   hostname of upload/download server (default: same as <host>)
 // <uldl_pid>    pid file of upload/download server httpd.conf
 //               (default: /etc/httpd/run/httpd.pid)
@@ -75,13 +73,14 @@ function daemon_status($host, $pidname, $progname, $disabled) {
     if (is_file($path)) {
         $pid = file_get_contents($path);
         if ($pid) {
+            $pid = trim($pid);
             $command = "$ps_exe ww $pid";
             if ($host != $project_host) {
                 $command = "$ssh_exe $host " . $command;
             }
             $foo = exec($command);
             if ($foo) {
-                if (strstr($foo, $pid)) $running = 1;
+                if (strstr($foo, (string)$pid)) $running = 1;
             }
         }
     }
@@ -96,19 +95,21 @@ function show_status($host, $function, $running) {
     if ($running == 1) {
         $xmlstring .= "      <status>running</status>\n";
         $htmlstring .= "<td bgcolor=00ff00>Running</td>\n";
-        }
-    elseif ($running == 0) {
+    } elseif ($running == 0) {
         $xmlstring .= "      <status>not running</status>\n";
         $htmlstring .= "<td bgcolor=ff0000>Not Running</td>\n";
-        }
-    else {
+    } else {
         $xmlstring .= "      <status>disabled</status>\n";
         $htmlstring .= "<td bgcolor=ff8800>Disabled</td>\n";
-        }
+    }
     $xmlstring .= "    </daemon>\n";
     $htmlstring .= "</tr>\n";
-    if ($xml) { echo $xmlstring; return 0; }
-    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+    if ($xml) {
+        echo $xmlstring; return 0;
+    }
+    if ($xmlout) {
+        fwrite($xmloutfile, $xmlstring);
+    }
     echo $htmlstring;
     return 0;
 }
@@ -122,8 +123,13 @@ function show_counts($key, $xmlkey, $value) {
     global $xml,$xmlout,$xmloutfile;
     $formattedvalue = number_format($value);
     $xmlstring = "    <$xmlkey>$value</$xmlkey>\n";
-    if ($xml) { echo $xmlstring; return 0; }
-    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+    if ($xml) {
+        echo $xmlstring;
+        return 0;
+    }
+    if ($xmlout) {
+        fwrite($xmloutfile,$xmlstring);
+    }
     echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
     return 0;
 }
@@ -141,10 +147,6 @@ $project_host = parse_element($config_vars,"<host>");
 $www_host = parse_element($config_vars,"<www_host>");
 if ($www_host == "") {
     $www_host = $project_host;
-}
-$sched_pid = parse_element($config_vars,"<sched_pid>");
-if ($sched_pid == "") {
-    $sched_pid = "/etc/httpd/run/httpd.pid";
 }
 $sched_host = parse_element($config_vars,"<sched_host>");
 if ($sched_host == "") {
@@ -167,8 +169,19 @@ if ($ps_exe == "") {
     $ps_exe = "/bin/ps";
 }
 
+$version = null;
+if (file_exists("../../local.revision")) {
+    $version = trim(file_get_contents("../../local.revision"));
+}
+$now = time();
 
-$xmlstring = "<server_status>\n  <update_time>" . time() . "</update_time>\n  <daemon_status>\n";
+$xmlstring = "<server_status>
+  <update_time>$now</update_time>
+";
+if ($version) {
+    $xmlstring .= "<software_version>$version</software_version>\n";
+}
+$xmlstring .= "  <daemon_status>\n";
 if ($xml) {
     xml_header();
     echo $xmlstring;
@@ -177,8 +190,10 @@ if ($xml) {
         fwrite($xmloutfile,$xmlstring);
     }
     page_head("Server status page");
-    echo "<p>
-        [As of ", time_str(time()), "]
+    if ($version) {
+        echo "Server software version: $version<p>\n";
+    }
+    echo time_str(time()), "
         <table width=100%>
         <tr>
         <td width=40% valign=top>
@@ -187,10 +202,10 @@ if ($xml) {
         <tr><th>Program</th><th>Host</th><th>Status</th></tr>
     ";
 }
-
-// Are the data-driven web sites running? Check for existence
-// of stop_web. If it is there, set $web_running to -1 for
-// "disabled," otherwise it will be already set to 1 for "enabled."
+;
+// Are the data-driven web sites running? Check for existence of stop_web.
+// If it is there, set $web_running to -1 for "disabled",
+// otherwise it will be already set to 1 for "enabled."
 // Set $www_host to the name of server hosting WWW site.
 //
 $web_running = !file_exists("../../stop_web");
@@ -203,10 +218,7 @@ $uldl_running = file_exists($uldl_pid);
 if ($uldl_running == 0) $uldl_running = -1;
 show_status($uldl_host, "upload/download server", $uldl_running);
 
-// $sched_running = !file_exists("../../stop_sched");
-//
-$sched_running = file_exists($sched_pid);
-if ($sched_running == 0) $sched_running = -1;
+$sched_running = !file_exists("../../stop_sched");
 show_status($sched_host, "scheduler", $sched_running);
 
 // parse through config.xml to get all daemons running
@@ -223,7 +235,7 @@ while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",$cursor))) {
     $pid = parse_element($thisxml,"<pid_file>");
     if (!$pid) { $pid = $ncmd . ".pid"; }
     $disabled = parse_element($thisxml,"<disabled>");
-    show_daemon_status($host,$nlog,$ncmd,$disabled);
+    show_daemon_status($host, $nlog, $ncmd, $disabled);
 }
 
 $xmlstring = "  </daemon_status>\n  <database_file_states>\n";
@@ -302,7 +314,7 @@ if ($retval) {
     $min = mysql_fetch_object($result);
     mysql_free_result($result);
     $gap = (time() - $min->min)/3600;
-    if ($gap < 0) {
+    if (($gap < 0) || ($min->min == 0)) {
         $gap = 0;
     }
     show_counts(
@@ -320,13 +332,13 @@ if ($xml) {
     echo $xmlstring;
 } else {
     if ($xmlout) {
-        fwrite($xmloutfile,$xmlstring);
+        fwrite($xmloutfile, $xmlstring);
     }
     echo "
-    </td>
-    <td>&nbsp;</td>
-    </tr>
-    </table>
+        </td>
+        <td>&nbsp;</td>
+        </tr>
+        </table>
     ";
     page_tail();
 }

@@ -112,6 +112,7 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
  
     m_bProjectCommunitcationsSucceeded = false;
     m_bProjectUnavailable = false;
+    m_bProjectAccountNotFound = false;
     m_bProjectAccountAlreadyExists = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = ATTACHACCTMGR_INIT;

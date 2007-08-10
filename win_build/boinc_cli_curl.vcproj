@@ -567,8 +567,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing &amp; Checking Dependencies"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;&#x0D;&#x0A;"
+				Description="Checking Dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -678,8 +678,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Code Signing &amp; Checking Dependencies"
-				CommandLine="signcode -v &quot;$(InputDir)\boinc.pvk&quot; -spc &quot;$(InputDir)\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\$(TargetFileName)&quot;&#x0D;&#x0A;boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;&#x0D;&#x0A;"
+				Description="Checking Dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

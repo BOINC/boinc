@@ -100,15 +100,15 @@ public:
     double duration_correction_factor;
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
-    int sched_rpc_pending;      // contact scheduling server for preferences
+    int sched_rpc_pending;      // need to contact scheduling server
     int rr_sim_deadlines_missed;
-    bool tentative;             // master URL and account ID not confirmed
     bool non_cpu_intensive;
     bool suspended_via_gui;
     bool dont_request_more_work;
     bool scheduler_rpc_in_progress;
     bool attached_via_acct_mgr;
     bool detach_when_done;
+    bool ended;
     double project_files_downloaded_time;
         // when the last project file download was finished
         // (i.e. the time when ALL project files were finished downloading)
@@ -212,7 +212,10 @@ public:
     bool supports_graphics;
     int graphics_mode_acked;
     bool too_large;
+    bool needs_shmem;
     bool edf_scheduled;
+    std::string graphics_exec_path;
+    std::string slot_path;
 
     APP* app;
     WORKUNIT* wup;
@@ -304,7 +307,7 @@ public:
     std::vector<WORKUNIT*> wus;
     std::vector<RESULT*> results;
 
-    GLOBAL_PREFS global_prefs;
+    GLOBAL_PREFS global_prefs;  // working prefs, i.e. network + override
     VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
 
     CC_STATE();
@@ -350,6 +353,7 @@ struct DISK_USAGE {
     std::vector<PROJECT*> projects;
     double d_total;
     double d_free;
+    double d_boinc;     // amount used by BOINC itself, not projects
 
     DISK_USAGE(){}
     ~DISK_USAGE();
@@ -502,6 +506,8 @@ struct CC_STATUS {
     int network_mode_perm;
 	double task_mode_delay;		// time until perm becomes actual
 	double network_mode_delay;
+    bool disallow_attach;
+    bool simple_gui_only;
 
     CC_STATUS();
     ~CC_STATUS();
@@ -607,10 +613,14 @@ public:
     int read_global_prefs_override();
     int read_cc_config();
     int get_cc_status(CC_STATUS&);
+    int get_global_prefs_file(std::string&);
+    int get_global_prefs_working(std::string&);
+    int get_global_prefs_working_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int get_global_prefs_override(std::string&);
     int set_global_prefs_override(std::string&);
     int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
+    int set_debts(std::vector<PROJECT>);
 };
 
 struct RPC {

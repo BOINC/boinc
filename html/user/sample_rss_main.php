@@ -39,7 +39,7 @@ require_once("../project/project_news.inc");
 // Create channel header and open XML content
 //
 $description = "BOINC project ".PROJECT.": Main page News";
-$channel_image = URL_BASE . "rss_image.gif";
+$channel_image = URL_BASE . "/rss_image.gif";
 $language = "en-us";
 echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
     <rss version=\"2.0\">
@@ -66,7 +66,7 @@ for( $item=0; $item < $news; $item++ ) {
     if( count($project_news[$item]) >= 2) {
         $d = strtotime($project_news[$item][0]);
         $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
-        $unique_url=URL_BASE."all_news.php#$j";
+        $unique_url=URL_BASE."/all_news.php#$j";
         if (isset($project_news[$item][2])) {
             $title = strip_tags($project_news[$item][2]);
         } else {

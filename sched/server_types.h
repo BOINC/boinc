@@ -27,13 +27,16 @@
 #include "common_defs.h"
 #include "md5_file.h"
 
+#include "edf_sim.h"
+
+// for projects that support work filtering by app,
+// this records an app for which the user will accept work
+//
 struct APP_INFO {
 	int appid;
-	//int reason;
-	bool work_available;
 };
 
-// Details concerning a hosts settings
+// Details concerning a host
 //
 struct HOST_INFO {
 	int allow_beta_work;
@@ -67,6 +70,15 @@ struct WORK_REQ {
     bool outdated_core;
     bool daily_result_quota_exceeded;
     int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
+    bool cache_size_exceeded;
+    int nresults_on_host;
+        // How many results from this project are (or should be) on the host.
+        // Initially this is the number of "other_results"
+        // reported in the request message.
+        // If the resend_lost_results option is used,
+        // it's set to the number of outstanding results taken from the DB
+        // (those that were lost are resent).
+        // As new results are sent, it's incremented.
     void update_for_result(double seconds_filled);
 };
 
@@ -105,6 +117,7 @@ struct GLOBAL_PREFS {
 
     void parse(const char* buf, const char* venue);
     void defaults();
+    inline double work_buf_min() {return work_buf_min_days*86400;}
 };
 
 struct GUI_URLS {
@@ -118,12 +131,14 @@ struct PROJECT_FILES {
     void init();
 };
 
+#if 0
 struct IP_RESULT {
     double report_deadline;
     double cpu_time_remaining;
 
     int parse(FILE*);
 };
+#endif
 
 // Represents a result from this project that the client has.
 // The request message has a list of these.
@@ -181,14 +196,18 @@ struct SCHEDULER_REQUEST {
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
     std::vector<RESULT> results;
+        // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
-    std::vector<FILE_INFO> file_infos;   // sticky files reported by host for locality scheduling
-#ifdef EINSTEIN_AT_HOME
-    std::vector<FILE_INFO> file_delete_candidates;   // sticky files reported by host, deletion candidates
-    std::vector<FILE_INFO> files_not_needed;         // sticky files reported by host, no longer needed
-#endif
+    std::vector<FILE_INFO> file_infos;
+        // sticky files reported by host for locality scheduling
+    std::vector<FILE_INFO> file_delete_candidates;
+        // sticky files reported by host, deletion candidates
+    std::vector<FILE_INFO> files_not_needed;
+        // sticky files reported by host, no longer needed
     std::vector<OTHER_RESULT> other_results;
+        // in-progress results from this project
     std::vector<IP_RESULT> ip_results;
+        // in-progress results from all projects
     bool have_other_results_list;
     bool have_ip_results_list;
 
@@ -246,8 +265,6 @@ struct SCHEDULER_REPLY {
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_msg_ack;
-    bool deletion_policy_priority;
-    bool deletion_policy_expire;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

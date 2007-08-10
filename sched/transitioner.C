@@ -74,7 +74,7 @@ int penalize_host(int hostid, double delay_bound) {
     int retval = host.lookup_id(hostid);
     if (retval) return retval;
     compute_avg_turnaround(host, delay_bound);
-    if (host.max_results_day <= 0 || host.max_results_day > config.daily_result_quota) {
+    if (host.max_results_day == 0 || host.max_results_day > config.daily_result_quota) {
         host.max_results_day = config.daily_result_quota;
     }
     host.max_results_day -= 1;
@@ -261,6 +261,13 @@ int handle_wu(
     //
     if (ncouldnt_send > 0) {
         wu_item.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
+    }
+
+    // if WU has results with errors and no success yet,
+    // reset homogeneous redundancy class to give other platforms a try
+    //
+    if (nerrors & !(nsuccess | ninprogress)) {
+        wu_item.hr_class = 0;
     }
 
     if (nerrors > wu_item.max_error_results) {
@@ -486,7 +493,12 @@ int handle_wu(
             }
         }
     } else if ( wu_item.assimilate_state == ASSIMILATE_DONE ) {
-		log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n", wu_item.id, wu_item.name, most_recently_returned + config.delete_delay_hours*60*60-now);
+		log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n",
+            wu_item.id,
+            wu_item.name,
+            most_recently_returned + config.delete_delay_hours*60*60-(int)now
+        );
     }
 
     // compute next transition time = minimum timeout of in-progress results

@@ -95,7 +95,10 @@ DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
 DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_WORK_ITEM::DB_WORK_ITEM(DB_CONN* dc) :
-    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+    DB_BASE_SPECIAL(dc?dc:&boinc_db
+){
+    start_id = 0;
+}
 DB_IN_PROGRESS_RESULT::DB_IN_PROGRESS_RESULT(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET(DB_CONN* dc) :
@@ -691,7 +694,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
 
 void DB_CREDITED_JOB::db_print(char* buf){
     sprintf(buf,
-        "userid=%d, workunitid=%d",
+        "userid=%d, workunitid=%f",
         userid, workunitid
     );
 }
@@ -700,7 +703,7 @@ void DB_CREDITED_JOB::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
     userid = atoi(r[i++]);
-    workunitid = atoi(r[i++]);
+    workunitid = atof(r[i++]);
 };
 
 void DB_RESULT::db_print(char* buf){
@@ -885,6 +888,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     target_nresults = atoi(r[i++]);
     strcpy2(result_template_file, r[i++]);
     priority = atoi(r[i++]);
+    hr_class = atoi(r[i++]);
     batch = atoi(r[i++]);
 
     // use safe_atoi() from here on cuz they might not be there
@@ -944,6 +948,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.target_nresults, "
             "   wu.result_template_file, "
             "   wu.priority, "
+            "   wu.hr_class, "
             "   wu.batch, "
             "   res.id, "
             "   res.name, "
@@ -1053,6 +1058,10 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(
     }
     if (ti.transition_time != ti_original.transition_time) {
         sprintf(buf, " transition_time=%d,", ti.transition_time);
+        strcat(updates, buf);
+    }
+    if (ti.hr_class != ti_original.hr_class) {
+        sprintf(buf, " hr_class=%d,", ti.hr_class);
         strcat(updates, buf);
     }
     int n = strlen(updates);
@@ -1294,9 +1303,12 @@ int DB_WORK_ITEM::enumerate(
     int retval;
     MYSQL_ROW row;
     if (!cursor.active) {
+        // use "r1" to refer to the result, since the feeder assumes that
+        // (historical reasons)
+        //
         sprintf(query,
-            "select high_priority r2.id, r2.priority, workunit.* from result r1, result r2, workunit "
-            " where r1.server_state=%d and r2.id=r1.id and r1.workunitid=workunit.id "
+            "select high_priority r1.id, r1.priority, workunit.* from result r1 force index(ind_res_st), workunit "
+            " where r1.server_state=%d and r1.workunitid=workunit.id "
             " %s "
             " %s "
             "limit %d",
@@ -1320,6 +1332,54 @@ int DB_WORK_ITEM::enumerate(
         return ERR_DB_NOT_FOUND;
     } else {
         parse(row);
+    }
+    return 0;
+}
+
+int DB_WORK_ITEM::enumerate_all(
+    int limit, const char* select_clause
+) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    MYSQL_ROW row;
+    if (!cursor.active) {
+        // use "r1" to refer to the result, since the feeder assumes that
+        // (historical reasons)
+        //
+        sprintf(query,
+            "select high_priority r1.id, r1.priority, workunit.* from result r1 force index(ind_res_st), workunit force index(primary)"
+            " where r1.server_state=%d and r1.workunitid=workunit.id and r1.id>%d "
+            " %s "
+            "limit %d",
+            RESULT_SERVER_STATE_UNSENT,
+            start_id,
+            select_clause,
+            limit
+        );
+        retval = db->do_query(query);
+        if (retval) return mysql_errno(db->mysql);
+        cursor.rp = mysql_store_result(db->mysql);
+        if (!cursor.rp) return mysql_errno(db->mysql);
+
+        // if query gets no rows, start over in ID space
+        //
+        if (mysql_num_rows(cursor.rp) == 0) {
+            mysql_free_result(cursor.rp);
+            start_id = 0;
+            return ERR_DB_NOT_FOUND;
+        }
+        cursor.active = true;
+    }
+    row = mysql_fetch_row(cursor.rp);
+    if (!row) {
+        mysql_free_result(cursor.rp);
+        cursor.active = false;
+        retval = mysql_errno(db->mysql);
+        if (retval) return retval;
+        return ERR_DB_NOT_FOUND;
+    } else {
+        parse(row);
+        start_id = res_id;
     }
     return 0;
 }

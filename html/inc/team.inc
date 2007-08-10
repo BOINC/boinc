@@ -179,17 +179,21 @@ function show_team_row($team, $i) {
 }
 
 function user_join_team($team, $user) {
-    $old_teamid = $user->teamid;
     $res = mysql_query("update user set teamid=$team->id where id=$user->id");
-    if ($res) return true;
+    if ($res) {
+        $now = time();
+        mysql_query("insert into team_delta (userid, teamid, timestamp, joining, total_credit) values ($user->id, $team->id, $now, 1, $user->total_credit)");
+        return true;
+    }
     return false;
 }
 
 function user_quit_team($user) {
-    $team = lookup_team($user->teamid);
-    if (!$team) return;
+    if (!$user->teamid) return;
     mysql_query("update user set teamid=0 where id=$user->id");
-    mysql_query("UPDATE team SET ping_user=0 WHERE id=".$user->teamid." AND ping_user=".$user->id);
+    mysql_query("update team set ping_user=0 where id=".$user->teamid." and ping_user=".$user->id);
+    $now = time();
+    mysql_query("insert into team_delta (userid, teamid, timestamp, joining, total_credit) values ($user->id, $user->teamid, $now, 0, $user->total_credit)");
 }
 
 function team_edit_form($team, $label, $url) {
@@ -268,6 +272,89 @@ function team_count_nusers($teamid) {
     $cnt = mysql_fetch_object($res);
     if ($cnt) {
         return $cnt->total;
+    } else {
+        return null;
+    }
+}
+
+// These functions determine the rules for foundership transfer, namely:
+// - A transfer request is allowed if either:
+//   - there is no active request, and it's been at least 60 days
+//     since the last request (this protects the founder from
+//     being bombarded with frequest requests)
+//   - there's an active request older than 90 days
+//     (this lets a 2nd requester eventually get a chance)
+// - Suppose someone (X) requests foundership at time T.
+//   An email is sent to the founder (Y).
+//   The request is "active" (ping_user is set to X's ID)
+// - If Y declines the change, an email is sent to X,
+//   and the request is cleared.
+// - If Y accepts the change, an email is sent to X
+//   and the request is cleared.
+// - After T + 60 days, X can become founder
+// - After T + 90 days, new requests are allowed even if there's
+//   an active request, i.e. after the 60 days elapse X has another
+//   30 days to assume foundership before someone elase can request it
+//
+function new_transfer_request_ok($team, $now) {
+    if ($team->ping_user == 0) {
+        if ($team->ping_time < $now - 60 * 86400) {
+            return true;
+        }
+        return false;
+    }
+    if ($team->ping_time < $now - 90 * 86400) {
+        return true;
+    }
+    return false;
+}
+
+function transfer_ok_time($team) {
+    return $team->ping_time + 60*86400;
+}
+
+function transfer_ok($team, $now) {
+    if ($now > transfer_ok_time($team)) return true;
+    return false;
+}
+
+// Make a team; args are untrusted, so cleanse and validate them
+//
+function make_team(
+    $userid, $name, $url, $type, $name_html, $description, $country
+) {
+    $name = boinc_htmlentities(process_user_text(strip_tags($name)));
+    if (strlen($name) == 0) return null;
+    $name_lc = strtolower($name);
+    $url = process_user_text(strip_tags($url));
+    if (strstr($url, "http://")) {
+        $url = substr($url, 7);
+    }
+    $name_html = process_user_text($name_html);
+    $description = process_user_text($description);
+    $country = process_user_text($country);
+    if (!is_valid_country($country)) {
+            $country = 'None';
+    }
+    $country = boinc_real_escape_string($country);  // for Cote d'Ivoire
+
+    $query = sprintf(
+        "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, country, nusers, expavg_time) values(%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d, unix_timestamp())",
+        $userid,
+        time(),
+        $name,
+        $name_lc,
+        $url,
+        $type,
+        $name_html,
+        $description,
+        $country,
+        0
+    );
+    $result = mysql_query($query);
+    if ($result) {
+        $teamid = mysql_insert_id();
+        return lookup_team($teamid);
     } else {
         return null;
     }

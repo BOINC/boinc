@@ -26,6 +26,7 @@
 #endif
 
 #include "stdwx.h"
+#include "version.h"
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"
@@ -41,10 +42,13 @@
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
 #include "ViewProjectsGrid.h"
+#include "ViewProjects.h"
 #include "ViewWorkGrid.h"
+#include "ViewWork.h"
 #include "ViewTransfersGrid.h"
-#include "ViewMessages.h"
+#include "ViewTransfers.h"
 #include "ViewMessagesGrid.h"
+#include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
@@ -57,15 +61,15 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "DlgAdvPreferences.h"
-#ifdef __WXMSW__
-#include "version.h"
-#endif
-#ifdef __WXMAC__
-#include "mac/MacGUI.pch"
-#endif
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
+
+
+// Which of the view sets should we display.
+//
+#define VIEW_GRID       1
+#define VIEW_LIST       2
 
 
 enum STATUSBARFIELDS {
@@ -165,6 +169,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
+    EVT_MENU_RANGE(ID_VIEWACCESSIBLE, ID_VIEWGRID, CAdvancedFrame::OnSwitchView)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
 	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
 	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
@@ -200,12 +205,12 @@ CAdvancedFrame::CAdvancedFrame() {
 }
 
 
-CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
+CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, wxDefaultPosition, wxDefaultSize,
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function Begin"));
-
+    
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
@@ -213,19 +218,32 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
     // Working Variables
     m_strBaseTitle = title;
     m_bDisplayShutdownClientWarning = true;
-
+	m_iDisplayViewType = VIEW_GRID;
 
     // Initialize Application
     SetIcon(*icon);
 
+    // Restore main application frame settings
+    RestoreState();
+
+    // Screen reader in use? If so, force the list view so that they
+    //   can still use us.
+#ifdef __WXMSW__
+    BOOL bScreenReaderEnabled = false;
+    SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
+    if (bScreenReaderEnabled) {
+        m_iDisplayViewType = VIEW_LIST;
+    }
+#endif
+
+    // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
-
-    RestoreState();
-
     SetStatusBarPane(0);
 
+    // Restore view settings
+    RestoreViewState();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -260,6 +278,7 @@ CAdvancedFrame::~CAdvancedFrame() {
     wxASSERT(m_pStatusbar);
 
     SaveState();
+    SaveViewState();
 
     if (m_pRefreshStateTimer) {
         m_pRefreshStateTimer->Stop();
@@ -298,7 +317,7 @@ bool CAdvancedFrame::CreateMenu() {
     bool               is_acct_mgr_detected = false;
     wxString           strMenuName;
     wxString           strMenuDescription;
-
+    
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -320,7 +339,7 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
-        _("Exit the %s"),
+        _("Exit the %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuFile->Append(
@@ -332,37 +351,55 @@ bool CAdvancedFrame::CreateMenu() {
     // View menu
     wxMenu *menuView = new wxMenu;
 
+    menuView->AppendRadioItem(
+        ID_VIEWACCESSIBLE,
+        _("&Accessible View"),
+        _("Accessible views are compatible with accessibility aids such as "
+          "screen readers.")
+    );
+
+    menuView->AppendRadioItem(
+        ID_VIEWGRID,
+        _("&Grid View"),
+        _("Grid views allow you to sort various columns and displays "
+          "graphical progress bars.")
+    );
+
     menuView->Append(
         ID_FILESWITCHGUI,
-        _("&Simple View"),
+        _("&Simple View..."),
         _("Display the simple BOINC graphical interface.")
     );
+    
+    menuView->Check(ID_VIEWACCESSIBLE, VIEW_LIST == m_iDisplayViewType);
+    menuView->Check(ID_VIEWGRID, VIEW_GRID == m_iDisplayViewType);
+
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
 
     if (!is_acct_mgr_detected) {
         menuTools->Append(
-            ID_PROJECTSATTACHPROJECT,
+            ID_PROJECTSATTACHPROJECT, 
             _("Attach to &project..."),
             _("Attach to a project")
         );
         menuTools->Append(
-            ID_PROJECTSATTACHACCOUNTMANAGER,
+            ID_PROJECTSATTACHACCOUNTMANAGER, 
             _("Attach to &account manager..."),
             _("Attach to an account manager")
         );
     } else {
         strMenuName.Printf(
-            _("&Synchronize with %s"),
+            _("&Synchronize with %s"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMenuDescription.Printf(
-            _("Get current settings from %s"),
+            _("Get current settings from %s"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuTools->Append(
-            ID_TOOLSAMUPDATENOW,
+            ID_TOOLSAMUPDATENOW, 
             strMenuName,
             strMenuDescription
         );
@@ -417,12 +454,12 @@ bool CAdvancedFrame::CreateMenu() {
     // Advanced menu
     wxMenu *menuAdvanced = new wxMenu;
     menuAdvanced->Append(
-        ID_OPTIONSOPTIONS,
+        ID_OPTIONSOPTIONS, 
         _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
     menuAdvanced->Append(
-		ID_ADVPREFSDLG,
+		ID_ADVPREFSDLG, 
         _("&Preferences..."),
         _("Configure local preferences")
     );
@@ -430,51 +467,51 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
-        _("Connect to another computer running %s"),
+        _("Connect to another computer running %s"), 
         pSkinAdvanced->GetProjectName().c_str()
     );
     menuAdvanced->Append(
-        ID_FILESELECTCOMPUTER,
+        ID_FILESELECTCOMPUTER, 
         _("Select computer..."),
         strMenuDescription
     );
     menuAdvanced->Append(
-        ID_SHUTDOWNCORECLIENT,
+        ID_SHUTDOWNCORECLIENT, 
         _("Shut down connected client..."),
         _("Shut down the currently connected core client")
     );
     menuAdvanced->Append(
-        ID_FILERUNBENCHMARKS,
+        ID_FILERUNBENCHMARKS, 
         _("Run CPU &benchmarks"),
         _("Runs BOINC CPU benchmarks")
     );
     menuAdvanced->Append(
-        ID_COMMANDSRETRYCOMMUNICATIONS,
+        ID_COMMANDSRETRYCOMMUNICATIONS, 
         _("Retry &communications"),
         _("Retry all deferred network communication.")
     );
     menuAdvanced->Append(
-        ID_READ_CONFIG,
+        ID_READ_CONFIG, 
         _("Read config file"),
         _("Read configuration info from cc_config.xml.")
     );
     menuAdvanced->Append(
-        ID_READ_PREFS,
+        ID_READ_PREFS, 
         _("Read local prefs file"),
         _("Read preferences from global_prefs_override.xml.")
     );
     if (is_acct_mgr_detected) {
         strMenuName.Printf(
-            _("&Stop using %s"),
+            _("&Stop using %s"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuAdvanced->Append(
-            ID_ADVANCEDAMDEFECT,
+            ID_ADVANCEDAMDEFECT, 
             strMenuName,
             _("Remove client from account manager control.")
         );
         menuAdvanced->Append(
-            ID_PROJECTSATTACHPROJECT,
+            ID_PROJECTSATTACHPROJECT, 
             _("Attach to &project"),
             _("Attach to a project to begin processing work")
         );
@@ -487,43 +524,43 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
-        _("%s &help"),
+        _("%s &help"), 
         pSkinAdvanced->GetProjectName().c_str()
     );
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
-        _("Show information about %s"),
+        _("Show information about %s"), 
         pSkinAdvanced->GetProjectName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINC,
-        strMenuName,
+        strMenuName, 
         strMenuDescription
     );
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
-        _("&%s help"),
+        _("&%s help"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
-        _("Show information about the %s"),
+        _("Show information about the %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
-        strMenuName,
+        strMenuName, 
         strMenuDescription
     );
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
-        _("%s &website"),
+        _("%s &website"), 
         pSkinAdvanced->GetProjectName().c_str()
     );
     // %s is the application name
@@ -534,7 +571,7 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuHelp->Append(
         ID_HELPBOINCWEBSITE,
-        strMenuName,
+        strMenuName, 
         strMenuDescription
     );
 
@@ -545,12 +582,12 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the project name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
-        _("&About %s..."),
+        _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
         wxID_ABOUT,
-        strMenuName,
+        strMenuName, 
         _("Licensing and copyright information.")
     );
 
@@ -589,7 +626,7 @@ bool CAdvancedFrame::CreateMenu() {
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
-
+    
 #ifdef __WXMAC__
     MenuRef prefsMenuRef;
     MenuItemIndex prefsMenuItemIndex;
@@ -597,7 +634,7 @@ bool CAdvancedFrame::CreateMenu() {
     // Hide Mac OS X's standard Preferences menu item, since we don't use it
     if (GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &prefsMenuRef, &prefsMenuItemIndex) == noErr)
         ChangeMenuItemAttributes(prefsMenuRef, prefsMenuItemIndex, kMenuItemAttrHidden, 0);
-
+    
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
@@ -628,21 +665,41 @@ bool CAdvancedFrame::CreateNotebook() {
 	pPanelSizer->Add(0, 5);
     pPanelSizer->Add(m_pNotebook, 1, wxEXPAND);
 
-
-    // create the various notebook pages
-	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
-	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
-	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
-    CreateNotebookPage(new CViewMessages(m_pNotebook));
-	CreateNotebookPage(new CViewStatistics(m_pNotebook));
-    CreateNotebookPage(new CViewResources(m_pNotebook));
-
+    // Display default views
+    RepopulateNotebook();
 
     pPanel->SetSizer(pPanelSizer);
     pPanel->Layout();
 
-
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function End"));
+    return true;
+}
+
+
+bool CAdvancedFrame::RepopulateNotebook() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function Begin"));
+
+    DeleteNotebook();
+
+    // Create the various notebook pages
+    if ( VIEW_GRID == m_iDisplayViewType ) {
+	    CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
+	    CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
+	    CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
+        CreateNotebookPage(new CViewMessages(m_pNotebook));
+	    CreateNotebookPage(new CViewStatistics(m_pNotebook));
+        CreateNotebookPage(new CViewResources(m_pNotebook));
+    } else {
+	    CreateNotebookPage(new CViewProjects(m_pNotebook));
+	    CreateNotebookPage(new CViewWork(m_pNotebook));
+	    CreateNotebookPage(new CViewTransfers(m_pNotebook));
+        CreateNotebookPage(new CViewMessages(m_pNotebook));
+	    CreateNotebookPage(new CViewStatistics(m_pNotebook));
+        CreateNotebookPage(new CViewResources(m_pNotebook));
+    }
+
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
 }
 
@@ -665,9 +722,9 @@ bool CAdvancedFrame::CreateNotebookPage(T pwndNewNotebookPage) {
         wxASSERT(pImageList != NULL);
         m_pNotebook->SetImageList(pImageList);
     }
-
+    
     iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()));
-    m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewName(), TRUE, iImageIndex);
+    m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewDisplayName(), TRUE, iImageIndex);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function End"));
     return true;
@@ -700,16 +757,16 @@ bool CAdvancedFrame::DeleteMenu() {
 bool CAdvancedFrame::DeleteNotebook() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::DeleteNotebook - Function Begin"));
 
-    wxImageList*    pImageList;
-
     wxASSERT(m_pNotebook);
 
-    pImageList = m_pNotebook->GetImageList();
+    // Delete all existing pages
+    m_pNotebook->DeleteAllPages();
 
-    wxASSERT(pImageList);
-
-    if (pImageList)
-        delete pImageList;
+    // Delete all existing images
+    wxImageList* pImageList = m_pNotebook->GetImageList();
+    if (pImageList) {
+        pImageList->RemoveAll();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::DeleteNotebook - Function End"));
     return true;
@@ -737,13 +794,9 @@ bool CAdvancedFrame::SaveState() {
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxWindow*       pwndNotebookPage = NULL;
-    CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
     wxString        strBuffer;
-    int             iIndex = 0;
-    int             iItemCount = 0;
 
 
     wxASSERT(pConfig);
@@ -764,8 +817,8 @@ bool CAdvancedFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
     pConfig->Write(wxT("DisplayShutdownClientWarning"), m_bDisplayShutdownClientWarning);
+    pConfig->Write(wxT("DisplayViewType"), m_iDisplayViewType);
 
 
 #ifdef __WXMAC__
@@ -773,15 +826,50 @@ bool CAdvancedFrame::SaveState() {
     SaveWindowDimensions();
 #endif
 
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
+    return true;
+}
+
+
+bool CAdvancedFrame::SaveViewState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveViewState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxWindow*       pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    int             iIndex = 0;
+    int             iItemCount = 0;
+
+
+    wxASSERT(pConfig);
+    wxASSERT(m_pNotebook);
+
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Save Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
     //
     // Save Page(s) State
     //
-
+ 
     // Convert to a zero based index
     iItemCount = (int)m_pNotebook->GetPageCount() - 1;
 
-    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
+    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {   
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
@@ -796,16 +884,53 @@ bool CAdvancedFrame::SaveState() {
         pConfig->SetPath(strPreviousLocation);
     }
 
-    pConfig->SetPath(strPreviousLocation);
-
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveViewState - Function End"));
     return true;
 }
 
 
 bool CAdvancedFrame::RestoreState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    wxString        strValue;
+
+
+    wxASSERT(pConfig);
+
+
+    CBOINCBaseFrame::RestoreState();
+
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Restore Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
+    pConfig->Read(wxT("DisplayViewType"), &m_iDisplayViewType, VIEW_GRID);
+
+#ifdef __WXMAC__
+    RestoreWindowDimensions();
+#endif
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
+    return true;
+}
+
+
+bool CAdvancedFrame::RestoreViewState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreViewState - Function Begin"));
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
@@ -844,12 +969,6 @@ bool CAdvancedFrame::RestoreState() {
         pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
         m_pNotebook->SetSelection(iCurrentPage);
     }
-    pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
-
-#ifdef __WXMAC__
-    RestoreWindowDimensions();
-#endif
-
 
     //
     // Restore Page(s) State
@@ -858,7 +977,7 @@ bool CAdvancedFrame::RestoreState() {
     // Convert to a zero based index
     iPageCount = (long)m_pNotebook->GetPageCount() - 1;
 
-    for (iIndex = 0; iIndex <= iPageCount; iIndex++) {
+    for (iIndex = 0; iIndex <= iPageCount; iIndex++) {   
 
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
@@ -875,9 +994,7 @@ bool CAdvancedFrame::RestoreState() {
 
     }
 
-    pConfig->SetPath(strPreviousLocation);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreViewState - Function End"));
     return true;
 }
 
@@ -900,7 +1017,7 @@ void CAdvancedFrame::SaveWindowDimensions() {
     pConfig->Write(wxT("YPos"), GetPosition().y);
 #endif  // ! __WXMAC__
 }
-
+    
 
 void CAdvancedFrame::RestoreWindowDimensions() {
     wxString        strBaseConfigLocation = wxString(wxT("/"));
@@ -933,7 +1050,7 @@ void CAdvancedFrame::RestoreWindowDimensions() {
 
 #else   // ! __WXMAC__
 
-    // If the user has changed the arrangement of multiple
+    // If the user has changed the arrangement of multiple 
     // displays, make sure the window title bar is still on-screen.
     Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
     InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
@@ -1004,7 +1121,7 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function End"));
 }
 
-
+   
 void CAdvancedFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function Begin"));
 
@@ -1055,7 +1172,7 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         } else {
             // Connect up to the remote machine
             lRetVal = pDoc->Connect(
-                dlg.m_ComputerNameCtrl->GetValue(),
+                dlg.m_ComputerNameCtrl->GetValue(), 
                 dlg.m_ComputerPasswordCtrl->GetValue(),
                 TRUE,
                 FALSE
@@ -1160,6 +1277,33 @@ void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+void CAdvancedFrame::OnSwitchView(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function Begin"));
+
+    switch(event.GetId()) {
+    case ID_VIEWACCESSIBLE:
+        m_iDisplayViewType = VIEW_LIST;
+        break;
+    case ID_VIEWGRID:
+    default:
+        m_iDisplayViewType = VIEW_GRID;
+        break;
+    }
+
+    // Save the current view state
+    SaveViewState();
+
+    // Delete the old pages and then create/display the new pages.
+    RepopulateNotebook();
+
+    // Restore the current view state settings to the newly
+    //   constructed views.
+    RestoreViewState();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function End"));
+}
+
+
 void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
 
@@ -1246,7 +1390,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerDetach - Function Begin"));
 
     CMainDocument* pDoc           = wxGetApp().GetDocument();
-    wxInt32        iAnswer        = 0;
+    wxInt32        iAnswer        = 0; 
     wxString       strTitle       = wxEmptyString;
     wxString       strMessage     = wxEmptyString;
     ACCT_MGR_INFO  ami;
@@ -1262,7 +1406,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         pDoc->rpc.acct_mgr_info(ami);
 
         strTitle.Printf(
-            _("BOINC Manager - Detach from %s"),
+            _("BOINC Manager - Detach from %s"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
@@ -1270,7 +1414,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
               "you'll keep all your current projects,\n"
               "but you'll have to manage projects manually.\n"
               "\n"
-              "Do you want to stop using %s?"),
+              "Do you want to stop using %s?"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
@@ -1601,7 +1745,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));
-
+    
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CWizardAccountManager* pAMWizard = NULL;
@@ -1614,12 +1758,22 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
+	CC_STATUS     status;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    pDoc->GetCoreClientStatus(status);
+
+    // Do we need to bug out to the simple view?
+    if (status.simple_gui_only) {
+        wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
+        return;
+    }
+
 
     // Update the menus
     DeleteMenu();
@@ -1676,7 +1830,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // If failure, display the messages tab
             m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
         }
-    } else if (0 >= pDoc->GetProjectCount()) {
+    } else if (0 >= pDoc->GetProjectCount() && !status.disallow_attach) {
         pAPWizard = new CWizardAttachProject(this);
 
         if (!IsShown()) {
@@ -1700,6 +1854,13 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     // Restart timers to continue normal operations.
     StartTimers();
+
+
+    // Set the correct refresh interval, then manually fire the refresh
+	//   event to do the initial population of the view.
+    UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
+    FireRefreshView();
+
 
     if (pAMWizard)
         pAMWizard->Destroy();
@@ -1744,7 +1905,9 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
     static bool       bAlreadyRunningLoop = false;
     static wxString   strCachedStatusText = wxEmptyString;
 
-    CMainDocument*    pDoc = wxGetApp().GetDocument();
+    CMainDocument*    pDoc     = wxGetApp().GetDocument();
+    wxMenuBar*        pMenuBar = GetMenuBar();
+
 
     if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
@@ -1752,6 +1915,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
         if (IsShown()) {
             if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
                 wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
 
                 // Update the menu bar
@@ -1759,6 +1923,10 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
                     UpdateActivityModeControls(status);
                     UpdateNetworkModeControls(status);
+
+                    if (status.disallow_attach) {
+                        pMenuBar->Enable(ID_PROJECTSATTACHPROJECT, false);
+                    }
                 }
 
                 // Update the statusbar
@@ -1774,7 +1942,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     wxString strStatusText = wxEmptyString;
                     wxString strTitle = m_strBaseTitle;
                     wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
-
+     
                     if (pDoc->IsReconnecting()) {
                         pDoc->GetConnectingComputerName(strComputerName);
                     } else {
@@ -1798,11 +1966,11 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                         );
                     }
 
-                    // The Mac takes a huge performance hit redrawing this window,
+                    // The Mac takes a huge performance hit redrawing this window, 
                     //   window, so don't change the text unless we really have too.
                     if (GetTitle() != strTitle)
                         SetTitle(strTitle);
-
+                        
                     if (strStatusText != strCachedStatusText) {
                         strCachedStatusText = strStatusText;
                         m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
@@ -1834,38 +2002,8 @@ void CAdvancedFrame::OnListPanelRender(wxTimerEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function Begin"));
 
-    if ((-1 != event.GetSelection()) && IsShown()) {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-        CMainDocument*  pDoc = wxGetApp().GetDocument();
-
-
-        wxASSERT(m_pNotebook);
-
-        pwndNotebookPage = m_pNotebook->GetPage(event.GetSelection());
-        wxASSERT(pwndNotebookPage);
-
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(pView);
-
-        if (m_pFrameListPanelRenderTimer->IsRunning()) {
-            m_pFrameListPanelRenderTimer->Stop();
-
-            // View specific refresh rates only apply when a connection to the core
-            //   client has been established, otherwise the refresh rate should be 1
-            //   second.
-            if (pDoc) {
-                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-                if (pDoc->IsConnected()) {
-                    // Set new view specific refresh rate
-                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000);
-                } else {
-                    // Set view refresh rate to 1 second
-                    m_pFrameListPanelRenderTimer->Start(1000);
-                }
-            }
-        }
-
+    if ((-1 != event.GetSelection())) {
+        UpdateRefreshTimerInterval(event.GetSelection());
         FireRefreshView();
     }
 
@@ -1936,6 +2074,46 @@ void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
         pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
     if (RUN_MODE_AUTO == status.network_mode)
         pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
+}
+
+
+void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateRefreshTimerInterval - Function Begin"));
+
+    if (IsShown()) {
+        wxWindow*       pwndNotebookPage = NULL;
+        CBOINCBaseView* pView = NULL;
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+
+        wxASSERT(m_pNotebook);
+
+        pwndNotebookPage = m_pNotebook->GetPage(iCurrentNotebookPage);
+        wxASSERT(pwndNotebookPage);
+
+        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+        wxASSERT(pView);
+
+        if (m_pFrameListPanelRenderTimer->IsRunning()) {
+            m_pFrameListPanelRenderTimer->Stop();
+
+            // View specific refresh rates only apply when a connection to the core
+            //   client has been established, otherwise the refresh rate should be 1
+            //   second.
+            if (pDoc) {
+                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                if (pDoc->IsConnected()) {
+                    // Set new view specific refresh rate
+                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000); 
+                } else {
+                    // Set view refresh rate to 1 second
+                    m_pFrameListPanelRenderTimer->Start(1000); 
+                }
+            }
+        }
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateRefreshTimerInterval - Function End"));
 }
 
 

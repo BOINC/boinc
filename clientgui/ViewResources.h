@@ -43,7 +43,11 @@ public:
     ~CViewResources();
 
     virtual wxString&       GetViewName();
+    virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
+#ifdef __WXMAC__
+    virtual const int       GetViewRefreshRate();
+#endif
 
 protected:
 
@@ -51,6 +55,8 @@ protected:
 	wxPieCtrl*				m_pieCtrlTotal;
 
 	wxArrayColour			m_aProjectColours;
+
+	bool					m_BOINCwasEmpty;
 
     virtual void            UpdateSelection();
 

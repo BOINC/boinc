@@ -80,6 +80,7 @@ $hide_signatures = ($_POST["forum_hide_signatures"]!="");
 $jump_to_unread = ($_POST["forum_jump_to_unread"]!="");
 $ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="");
 $signature_by_default = ($_POST["signature_enable"]!="");
+$pm_notification = ($_POST["pm_notification"]!="");
 $user->setImagesAsLinks($images_as_links);
 $user->setLinkPopup($link_externally);
 $user->setHideAvatars($hide_avatars);
@@ -87,6 +88,7 @@ $user->setHideSignatures($hide_signatures);
 $user->setJumpToUnread($jump_to_unread);
 $user->setIgnoreStickyPosts($ignore_sticky_posts);
 $user->setSignatureByDefault($signature_by_default);
+$user->setEnabledPMNotification($pm_notification);
 
 // Update avatar
 $user->setAvatar($avatar_url);
