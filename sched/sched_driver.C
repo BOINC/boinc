@@ -1,0 +1,145 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2007 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+// This program generates a stream of scheduler requests;
+// it acts as a "driver" for the scheduler when used as:
+// sched_driver | cgi --batch --mark_jobs_done
+//
+// This was written to test the homogeneous redundancy features
+// of the feeder and scheduler,
+// but it could be used for a variety of other purposes.
+//
+// Usage: sched_driver --nrequests N --reqs_per_second X
+//
+// Each request asks for a uniformly-distributed random amount of work.
+// The OS and CPU info is taken from the successive lines of a file of the form
+// | os_name | p_vendor | p_model |
+// Generate this file with a SQL query, trimming off the start and end.
+
+// Notes:
+// 1) Use sample_trivial_validator and sample_dummy_assimilator
+// 2) Edit the following to something in your DB
+
+#define AUTHENTICATOR    "49bcae97f1788385b0f41123acdf5694"
+    // authenticator of a user record
+#define HOSTID "7"
+    // ID of a host belonging to that user
+
+#include <vector>
+#include "util.h"
+
+using std::vector;
+
+struct HOST_DESC{
+    char os_name[128];
+    char p_vendor[128];
+    char p_model[128];
+};
+
+vector<HOST_DESC> host_descs;
+double min_time = 1;
+double max_time = 1;
+
+void read_hosts() {
+    char buf[256], buf2[256];
+    host_descs.clear();
+    FILE* f = fopen("host_descs.txt", "r");
+    if (!f) {
+        fprintf(stderr, "no input file\n");
+        exit(1);
+    }
+    while (fgets(buf, sizeof(buf), f)) {
+        HOST_DESC hd;
+        strcpy(buf2, buf);
+        char* p1 = strtok(buf2, "\t\n");
+        strcpy(hd.os_name, p1);
+        char* p2 = strtok(0, "\t\n");
+        strcpy(hd.p_vendor, p2);
+        char* p3 = strtok(0, "\t\n");
+        if (!p3) {
+            fprintf(stderr, "bad line: %s\n", buf);
+            exit(1);
+        }
+        strcpy(hd.p_model, p3);
+        host_descs.push_back(hd);
+    }
+}
+
+inline double req_time() {
+    if (max_time == min_time) return min_time;
+    return min_time  + drand()*(max_time-min_time);
+}
+
+inline double exponential(double mean) {
+        return -mean*log(1-drand()); 
+}
+
+void make_request(int i) {
+    HOST_DESC& hd = host_descs[i%host_descs.size()];
+    printf(
+        "<scheduler_request>\n"
+        "   <authenticator>%s</authenticator>\n"
+        "   <hostid>%s</hostid>\n"
+        "   <work_req_seconds>%f</work_req_seconds>\n"
+        "   <platform_name>windows_intelx86</platform_name>\n"
+        "   <host_info>\n"
+        "      <os_name>%s</os_name>\n"
+        "      <p_vendor>%s</p_vendor>\n"
+        "      <p_model>%s</p_model>\n"
+        "      <p_fops>1e9</p_fops>\n"
+        "      <m_nbytes>1e9</m_nbytes>\n"
+        "      <d_total>1e11</d_total>\n"
+        "      <d_free>1e11</d_free>\n"
+        "   </host_info>\n"
+        "</scheduler_request>\n",
+        AUTHENTICATOR,
+        HOSTID,
+        req_time(),
+        hd.os_name,
+        hd.p_vendor,
+        hd.p_model
+    );
+}
+
+int main(int argc, char** argv) {
+    int i, nrequests = 1;
+    double reqs_per_second = 1;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--nrequests")) {
+            nrequests = atoi(argv[++i]);
+            continue;
+        }
+        if (!strcmp(argv[i], "--reqs_per_second")) {
+            reqs_per_second = atof(argv[++i]);
+        }
+    }
+    read_hosts();
+    double t1, t2, x;
+    for (i=0; i<nrequests; i++) {
+        t1 = dtime();
+        make_request(i);
+        t2 = dtime();
+        x = exponential(1./reqs_per_second);
+        if (t2 - t1 < x) {
+            boinc_sleep(x - (t2-t1));
+        }
+    }
+}
