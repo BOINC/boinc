@@ -41,7 +41,7 @@ public:
 		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),
         m_pButton(NULL), m_strWebSiteLink(wxT("")) {};
 	CTaskItem( wxString strName, wxString strDescription, wxString strWebSiteLink, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),  
+		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),
         m_pButton(NULL), m_strWebSiteLink(strWebSiteLink) {};
     ~CTaskItem() {};
 
@@ -108,6 +108,9 @@ public:
 
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
+	static  wxString        HtmlEntityEncode(wxString strRaw);
+	static  wxString        HtmlEntityDecode(wxString strRaw);
+
 protected:
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
@@ -147,8 +150,6 @@ protected:
     virtual bool            EnsureLastItemVisible();
 
     static  void            append_to_status(wxString& existing, const wxChar* additional);
-	static  wxString        HtmlEntityEncode(wxString strRaw);
-	static  wxString        HtmlEntityDecode(wxString strRaw);
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;

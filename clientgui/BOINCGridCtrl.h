@@ -24,14 +24,35 @@
 #pragma interface "BOINCGridCtrl.cpp"
 #endif
 
+// define column values data types
 #define CST_STRING		0
 #define CST_TIME	    1
 #define CST_LONG		2
 #define CST_FLOAT		3
 #define CST_DATETIME	4
+// new (currently unused)
+#define CST_DOUBLE		5
+#define CST_INT			6
+
+// this class represent a pair of String/Int 
+class pair : public wxObject {
+public:
+	int docIndex;//the document array index
+	wxString value;//the string value
+};
+
+// variant pair
+class pairVariant : public wxObject {
+public:
+	int docIndex;
+	wxVariant varValue;
+};
+
+WX_DECLARE_OBJARRAY(pair, ArrayPair);
+WX_DECLARE_OBJARRAY(pairVariant, ArrayPairVariant);
 
 /* generic boinc grid cell renderer */
-class CBOINCGridCellRenderer : public wxGridCellStringRenderer {
+class CBOINCGridCellRenderer : public wxGridCellStringRenderer {	
 public:
 	CBOINCGridCellRenderer();
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);
@@ -42,10 +63,10 @@ protected:
 
 /* progress renderer */
 class CBOINCGridCellProgressRenderer : public CBOINCGridCellRenderer {
-	int column;
+	int m_progressColumn;
 	bool m_bDoPercentAppending;
 public:
-	CBOINCGridCellProgressRenderer(int col,bool percentAppending=true);
+	CBOINCGridCellProgressRenderer(int progressColumn,bool percentAppending=true);
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);	
 	void SetPercentAppending(bool enable=true);
 protected:
@@ -55,7 +76,7 @@ protected:
 
 /* message renderer */
 class CBOINCGridCellMessageRenderer : public CBOINCGridCellRenderer {
-	int column;
+	int m_prioColumn;
 public:
 	CBOINCGridCellMessageRenderer(int priocol);
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);	
@@ -66,11 +87,23 @@ class CBOINCGridTable : public wxGridStringTable {
 public:
 	CBOINCGridTable(int rows,int cols);
 	virtual ~CBOINCGridTable();	
-	void SortData(int col,bool ascending);
-	int FindRowIndexByColValue(int col,wxString& value);
+	//sorting methods
+	void SortData(int col,bool ascending);//old style
+	void SortData2(int col,bool ascending);//new style for virtual grids
 	void SetColumnSortType(int col,int sortType=CST_STRING);
-private:
-	wxArrayInt arrColumnSortTypes;
+	//
+	int FindRowIndexByColValue(int col,wxString& value);
+	
+	//overloaded to synchronize m_arDocRows
+	bool AppendRows(size_t numRows=1);
+	bool DeleteRows( size_t pos = 0, size_t numRows = 1 );
+	//helper methods for docRow/GridRow associations
+	int GetDocRowIndex(int gridRow);
+	void ResetDocRows();
+
+protected:
+	wxArrayInt m_arrColumnSortTypes;
+	wxArrayInt m_arDocRows;
 };
 
 /* grid ctrl */
@@ -79,9 +112,13 @@ class CBOINCGridCtrl :	public wxGrid
 public:
 	CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID);
 	~CBOINCGridCtrl();
+
 	int GetFirstSelectedRow();
+	wxArrayInt GetSelectedRows2();
+
 	bool OnSaveState(wxConfigBase* pConfig);
 	bool OnRestoreState(wxConfigBase* pConfig);
+
 	void SetColAlignment(int col,int hAlign,int vAlign);
     void DrawTextRectangle( wxDC& dc, const wxArrayString& lines, const wxRect&,
                             int horizontalAlignment = wxALIGN_LEFT,
@@ -93,9 +130,12 @@ public:
 	                        int textOrientation = wxHORIZONTAL );
 	virtual void DrawColLabel( wxDC& dc, int col );
 	void OnLabelLClick(wxGridEvent& ev);
+
 	void SortData();
+	void SortData2();
 	void SetColumnSortType(int col,int sortType=CST_STRING);
-	wxArrayInt GetSelectedRows2();
+
+	
 	CBOINCGridTable* GetTable();
 	//methods to handle selection and grid cursor positions correct with sorting 
 	void SetPrimaryKeyColumn(int col);
@@ -104,24 +144,26 @@ public:
 	void SaveGridCursorPosition();
 	void RestoreGridCursorPosition();
 	void ClearSavedSelection();
+	
 	void Setup();
-	int sortColumn;
-	bool sortAscending;
-	bool sortNeededByLabelClick;
+
+	void RefreshColumn(int col);	
+
+	bool m_sortNeededByLabelClick;
 protected:
 	DECLARE_EVENT_TABLE()
-private:
 	wxString FormatTextWithEllipses(wxDC& dc,const wxString &text,int width);
-	
-	
-	int ccollast,crowlast;
-	wxBitmap ascBitmap;
-	wxBitmap descBitmap;
+private:	
+	int m_sortColumn;
+	bool m_sortAscending;	
+	wxBitmap m_ascBitmap;
+	wxBitmap m_descBitmap;
 	int m_pkColumnIndex;//col index act as a primary key
 	wxArrayString m_arrSelectedKeys;//array for remembering the current selected rows by primary key column value
 	int m_cursorcol; //saved grid cursor column index
 	int m_cursorrow; //saved grid cursor row index
 	wxString m_szCursorKey;//key value for grid cursor cell	
+	
 };
 
 #endif //_BOINCGRIDCTRL_H_
