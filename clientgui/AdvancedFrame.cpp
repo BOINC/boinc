@@ -487,8 +487,8 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuAdvanced->Append(
         ID_COMMANDSRETRYCOMMUNICATIONS, 
-        _("Retry &communications"),
-        _("Retry all deferred network communication.")
+        _("Do network &communication"),
+        _("Do all pending network communication.")
     );
     menuAdvanced->Append(
         ID_READ_CONFIG, 

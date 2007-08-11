@@ -7744,3 +7744,14 @@ David  10 Aug 2007
 
 	clientgui/
 		WelcomePage.cpp
+
+David  10 Aug 2007
+    - Manager: change "Retry communications" to "Do network communication"
+    - client: use gethostname() to get host name on Linux
+
+    client/
+        hostinfo_network.C
+    clientgui/
+        AdvancedFrame.cpp
+    lib/
+        error_numbers.h

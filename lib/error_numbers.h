@@ -185,6 +185,6 @@
 #define ERR_TOO_MANY_EXITS  -226
 
 // PLEASE: add a text description of your error to 
-// the text description function boincerror() in util.C.
+// the text description function boincerror() in str_util.C.
 
 #endif

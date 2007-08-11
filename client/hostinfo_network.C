@@ -62,13 +62,14 @@ int HOST_INFO::get_local_network_info() {
     struct in_addr addr;
     struct hostent* he;
     
-    if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
-    he = gethostbyname(buf);
+    strcpy(domain_name, "");
+    strcpy(ip_addr, "");
+    if (gethostname(domain_name, 256)) return ERR_GETHOSTBYNAME;
+    he = gethostbyname(domain_name);
     if (!he || !he->h_addr_list[0]) {
         //msg_printf(NULL, MSG_ERROR, "gethostbyname (%s) failed", buf);
         return ERR_GETHOSTBYNAME;
     }
-    strlcpy(domain_name, he->h_name, sizeof(domain_name));
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     strlcpy(ip_addr, inet_ntoa(addr), sizeof(ip_addr));
     return 0;
