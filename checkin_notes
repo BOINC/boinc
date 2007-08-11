@@ -7755,3 +7755,10 @@ David  10 Aug 2007
         AdvancedFrame.cpp
     lib/
         error_numbers.h
+
+Janus	11 Aug 2007
+    - Added a DB table creation query for the BT file table
+
+    html/bt/database/
+        bittorrent_files.sql (new)
+
