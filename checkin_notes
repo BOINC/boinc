@@ -7738,3 +7738,9 @@ David  10 Aug 2007
         hostinfo_win.C
     lib/
         str_util.C
+
+David  10 Aug 2007
+	- Manager: show the AMS name, not the skin name, in Wizard
+
+	clientgui/
+		WelcomePage.cpp
