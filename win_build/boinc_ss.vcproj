@@ -558,7 +558,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -668,7 +667,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -733,6 +731,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientscr\screensaver_win.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\stackwalker_win.cpp"
 				>
 			</File>
@@ -745,74 +747,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\win\win_screensaver.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\lib\win_util.C"
 				>
 			</File>
@@ -822,7 +756,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\client\win\boinc_ss.h"
+				RelativePath="..\clientscr\boinc_ss.h"
 				>
 			</File>
 			<File
@@ -874,6 +808,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientscr\screensaver_win.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\stackwalker_imports.h"
 				>
 			</File>
@@ -883,10 +821,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\util.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\win\win_screensaver.h"
 				>
 			</File>
 			<File
@@ -903,62 +837,8 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\win\boinc_ss.rc"
+				RelativePath="..\clientscr\boinc_ss.rc"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\client\win\res\cpdnbbc.bmp"

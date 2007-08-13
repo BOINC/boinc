@@ -35,7 +35,7 @@
 #include "diagnostics.h"
 #include "common_defs.h"
 #include "util.h"
-#include "win_screensaver.h"
+#include "screensaver_win.h"
 
 #ifdef _DEBUG
 #define UNUSED(x)

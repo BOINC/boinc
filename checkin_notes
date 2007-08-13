@@ -7762,3 +7762,19 @@ Janus	11 Aug 2007
     html/bt/database/
         bittorrent_files.sql (new)
 
+Rom    13 Aug 2007
+    - SCR: Move screensaver related files out of the CC directory
+        structure and put it into its own directory structure.
+        
+    client/win/
+        boinc.scr.manifest (deleted)
+        boinc_ss.h (deleted)
+        boinc_ss.rc (deleted)
+        boinc_ss_2003.rc (deleted)
+        win_screensaver.cpp, .h (deleted)
+    clientscr/
+        boinc.scr.manifest (added)
+        boinc_ss.h (added)
+        boinc_ss.rc (added)
+        boinc_ss_2003.rc (added)
+        win_screensaver.cpp, .h (added)
