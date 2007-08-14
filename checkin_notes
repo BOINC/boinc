@@ -7805,3 +7805,11 @@ Charlie 14 Aug 2007
             boinc_logo.xpm
     lib/
         filesys.C, h
+
+Rom    14 Aug 2007
+    SCR: Enable V6 style applications, screensaver is no longer
+           compatible with v5 style graphics.
+    
+    clientscr/
+        screensaver.cpp, .h
+        screensaver_win.cpp, .h

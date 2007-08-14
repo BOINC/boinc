@@ -63,9 +63,8 @@
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				BrowseInformation="1"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -282,9 +281,8 @@
 				AssemblerListingLocation=""
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -498,9 +496,8 @@
 				AssemblerListingLocation=""
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -731,6 +728,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientscr\screensaver.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\clientscr\screensaver_win.cpp"
 				>
 			</File>
@@ -805,6 +806,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\prefs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientscr\screensaver.h"
 				>
 			</File>
 			<File

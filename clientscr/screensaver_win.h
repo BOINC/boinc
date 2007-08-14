@@ -4,11 +4,8 @@
 //     Microsoft Knowledge Base Article - 79212
 //
 
-#ifndef _BOINC_H
-#define _BOINC_H
-
-#include "gui_rpc_client.h"
-
+#ifndef _SCREENSAVER_WIN_H
+#define _SCREENSAVER_WIN_H
 
 //-----------------------------------------------------------------------------
 // Error codes
@@ -177,17 +174,14 @@ protected:
     DWORD WINAPI    DataManagementProc();
     static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );
 
-    VOID			StartupBOINC();
-	VOID			ShutdownBOINC();
-
     RPC_CLIENT      rpc;
     CC_STATE        state;
+    RESULTS         results;
 
     HANDLE          m_hDataManagementThread;
-
-    BOOL			m_bCoreNotified;
+    HANDLE          m_hGraphicsApplication;
+    BOOL            m_bScreensaverStarted;
     BOOL            m_bResetCoreState;
-    int             m_iStatus;
 
 
     //

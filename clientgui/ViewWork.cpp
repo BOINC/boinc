@@ -235,7 +235,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
         if (!result->graphics_exec_path.empty()) {
             // V6 Graphics
             char* argv[2];
-            argv[0] = "graphics";
+            argv[0] = "--graphics";
             argv[1] = 0;
 #ifdef __WXMSW__
             HANDLE   id;
