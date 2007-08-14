@@ -7786,3 +7786,22 @@ Charlie 13 Aug 2007
         hostinfo_network.C
     clientgui/
         WelcomePage.cpp
+
+Charlie 14 Aug 2007
+    Sandbox: Create boinc_exec() function for invoking switcher and 
+        setprojectgrp utilities instead of calling system(). POSIX 
+        requires that if a shell is invoked by a setuid / setgid 
+        process, the shell is run using the real UID and GID. This 
+        was not enforced by Mac OS 10.4, but will be enforced by 
+        OS 10.5. The system() calls invoke the shell, so we must 
+        use fork() and execv() instead.
+    MGR: Add transparency mask to boinc_logo.xpm.
+
+    client/
+        app_control.C
+        file_names.C
+    clientgui/
+        res/
+            boinc_logo.xpm
+    lib/
+        filesys.C, h
