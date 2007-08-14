@@ -292,14 +292,13 @@ bool is_image_file(const char* filename) {
 }
 
 int set_to_project_group(const char* path) {
-    char buf[1024];
-    
+#ifdef SANDBOX
     if (g_use_sandbox) {
-        sprintf(buf, "%s/%s %s", SWITCHER_DIR, SETPROJECTGRP_FILE_NAME, path);
-        if (system(buf))
+        if (boinc_exec(SETPROJECTGRP_FILE_NAME, (char*)path))
             return ERR_CHOWN;
     }
-        return 0;
+#endif
+    return 0;
 }
 
 void boinc_version_dir(PROJECT& p, VERSION_INFO& vi, char* buf) {
