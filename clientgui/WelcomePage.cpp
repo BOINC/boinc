@@ -290,7 +290,6 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
     CMainDocument*         pDoc = wxGetApp().GetDocument();
-    CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
     ACCT_MGR_INFO          ami;
     bool                   is_acct_mgr_detected = false;
@@ -298,9 +297,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 
 
     wxASSERT(pDoc);
-    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);

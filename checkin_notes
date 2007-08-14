@@ -7778,3 +7778,11 @@ Rom    13 Aug 2007
         boinc_ss.rc (added)
         boinc_ss_2003.rc (added)
         win_screensaver.cpp, .h (added)
+
+Charlie 13 Aug 2007
+    Fix compiler warnings.
+    
+    client/
+        hostinfo_network.C
+    clientgui/
+        WelcomePage.cpp

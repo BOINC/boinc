@@ -58,7 +58,6 @@
 // get domain name and IP address of this host
 //
 int HOST_INFO::get_local_network_info() {
-    char buf[256];
     struct in_addr addr;
     struct hostent* he;
     
@@ -67,7 +66,7 @@ int HOST_INFO::get_local_network_info() {
     if (gethostname(domain_name, 256)) return ERR_GETHOSTBYNAME;
     he = gethostbyname(domain_name);
     if (!he || !he->h_addr_list[0]) {
-        //msg_printf(NULL, MSG_ERROR, "gethostbyname (%s) failed", buf);
+        //msg_printf(NULL, MSG_ERROR, "gethostbyname (%s) failed", domain_name);
         return ERR_GETHOSTBYNAME;
     }
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
