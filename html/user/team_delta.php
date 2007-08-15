@@ -13,6 +13,8 @@ function show_delta($delta) {
     if ($xml) {
         echo "    <action>
         <user_email>$user->email_addr</user_email>
+        <id>$user->id</id>
+        <name>$user->name</name>
         <action>$what</action>
         <total_credit>$delta->total_credit</total_credit>
         <when>$when</when>

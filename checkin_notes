@@ -7813,3 +7813,9 @@ Rom    14 Aug 2007
     clientscr/
         screensaver.cpp, .h
         screensaver_win.cpp, .h
+
+David  14 Aug 2007
+    - XML RPC: add user name, ID to team_delta.php XML version
+
+    html/user/
+        team_delta.php
