@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/credit.inc");
 
@@ -261,9 +262,21 @@ function cpus_compatible($host1, $host2) {
     // we screwed around with Intel processor names,
     // so count them as compatible if both contain "Intel" and "Pentium",
     // and don't have conflicting clock rate info
-    //
-    $p1 = "$host1->p_vendor $host1->p_model";
-    $p2 = "$host2->p_vendor $host2->p_model";
+    
+    // Get rid of cpu capabilities before check
+    $pos = strpos($host1->p_model, '[');
+    $host1pm = $host1->p_model;
+    if($pos) {
+        $host1pm = trim(substr($host1->p_model, 0, $pos));
+    }
+    $pos = strpos($host2->p_model, '[');
+    $host2pm = $host2->p_model;
+    if($pos) {
+        $host2pm = trim(substr($host2->p_model, 0, $pos));
+    }
+    $p1 = "$host1->p_vendor $host1pm";
+    $p1 = "$host2->p_vendor $host2pm";
+    
     if (strstr($p1, "Pentium") && strstr($p1, "Intel")
         && strstr($p2, "Pentium") && strstr($p2, "Intel")
     ) {
@@ -281,17 +294,6 @@ function cpus_compatible($host1, $host2) {
 
         // they're compatible if models are the same,
         // or contents of [family/model/stepping] are the same
-        //
-        $pos = strpos($host1->p_model, '[');
-        $host1pm = $host1->p_model;
-        if($pos) {
-            $host1pm = trim(substr($host1->p_model, 0, $pos));
-        }
-        $pos = strpos($host2->p_model, '[');
-        $host2pm = $host2->p_model;
-        if($pos) {
-            $host2pm = trim(substr($host2->p_model, 0, $pos));
-        }
         if ($host1pm != $host2pm) return false;
     }
     return true;
