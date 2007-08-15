@@ -7842,3 +7842,15 @@ Rom    15 Aug 2007
     lib/
         util.C
 
+Rom    15 Aug 2007
+    - MGR: Fix the synchronize button and variables.
+    
+    clientgui/
+        sg_ProjectsComponent.cpp, .h
+        SkinManager.cpp, .h
+    clientgui/res/skins/default/graphic
+        synchronize_button.xpm
+        synchronize_clicked_button.xpm
+    clientgui/res/templates/skins/
+        btnSynchronize.png
+        btnSynchronizeClick.png

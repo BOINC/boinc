@@ -218,7 +218,7 @@ public:
     CSkinSimpleButton*  GetRightArrowButton() { return &m_RightArrowButton; }
     CSkinSimpleButton*  GetLeftArrowButton() { return &m_LeftArrowButton; }
     CSkinSimpleButton*  GetSaveButton() { return &m_SaveButton; }
-    CSkinSimpleButton*  GetSyncronizeButton() { return &m_SyncronizeButton; }
+    CSkinSimpleButton*  GetSynchronizeButton() { return &m_SynchronizeButton; }
     CSkinSimpleButton*  GetCancelButton() { return &m_CancelButton; }
     CSkinSimpleButton*  GetCloseButton() { return &m_CloseButton; }
     CSkinSimpleButton*  GetCopyAllButton() { return &m_CopyAllButton; }
@@ -259,7 +259,7 @@ private:
     CSkinSimpleButton   m_RightArrowButton;
     CSkinSimpleButton   m_LeftArrowButton;
     CSkinSimpleButton   m_SaveButton;
-    CSkinSimpleButton   m_SyncronizeButton;
+    CSkinSimpleButton   m_SynchronizeButton;
     CSkinSimpleButton   m_CancelButton;
     CSkinSimpleButton   m_CloseButton;
     CSkinSimpleButton   m_CopyAllButton;
