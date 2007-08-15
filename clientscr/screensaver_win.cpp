@@ -866,7 +866,6 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
 // Update the error message
 //
 VOID CScreensaver::UpdateErrorBoxText() {
-    RESULTS  results;
     PROJECT* pProject;
     TCHAR    szBuffer[256];
     bool     bIsActive       = false;
@@ -879,29 +878,27 @@ VOID CScreensaver::UpdateErrorBoxText() {
     // Load error string
     GetTextForError(m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR));
     if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
-        if (0 == rpc.get_results(results)) {
-            iResultCount = results.results.size();
-            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state);
-                bIsActive     = (results.results.at(iIndex)->active_task);
-                bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state);
-                if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+        iResultCount = results.results.size();
+        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state);
+            bIsActive     = (results.results.at(iIndex)->active_task);
+            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state);
+            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
 
-                pProject = state.lookup_project(results.results.at(iIndex)->project_url);
-                if (NULL != pProject) {
-                    StringCbPrintf(szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
-                        _T("%s: %.2f%%\n"),
-                        pProject->project_name.c_str(),
-                        results.results.at(iIndex)->fraction_done * 100 
-                    );
+            pProject = state.lookup_project(results.results.at(iIndex)->project_url);
+            if (NULL != pProject) {
+                StringCbPrintf(szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
+                    _T("%s: %.2f%%\n"),
+                    pProject->project_name.c_str(),
+                    results.results.at(iIndex)->fraction_done * 100 
+                );
 
-                    StringCbCat(m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer);
-                } else {
-                    m_bResetCoreState = TRUE;
-                }
+                StringCbCat(m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer);
+            } else {
+                m_bResetCoreState = TRUE;
             }
-            m_szError[ sizeof(m_szError) -1 ] = '\0';
         }
+        m_szError[ sizeof(m_szError) -1 ] = '\0';
     }
     BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Updated Text '%s'\n"), m_szError);
 }
@@ -1077,6 +1074,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                         0,
                         m_hGraphicsApplication
                     );
+                    BOINCTRACE(_T("CScreensaver::DataManagementProc - run_program RetVal = '%d', m_hGraphicsApplication = '%d'\n"), retval, m_hGraphicsApplication);
                     if (!retval) {
                         m_bScreensaverStarted = TRUE;
                     }
@@ -1094,9 +1092,11 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                 }
             } else {
                 // Is the graphics app still running?
-                DWORD dwStatus;
-                GetExitCodeProcess(m_hGraphicsApplication, &dwStatus);
-                if (dwStatus != STILL_ACTIVE) {
+                DWORD dwStatus = STILL_ACTIVE;
+                BOOL  bRetVal = FALSE;
+                bRetVal = GetExitCodeProcess(m_hGraphicsApplication, &dwStatus);
+                BOINCTRACE(_T("CScreensaver::DataManagementProc - GetExitCodeProcess RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
+                if (bRetVal && (dwStatus != STILL_ACTIVE)) {
                     // Something has happened to the previously selected screensaver
                     //   application. Start a different one.
                     m_bScreensaverStarted = FALSE;
@@ -1156,6 +1156,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                     ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
                                     ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
                                     SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+                                    kill_program(m_hGraphicsApplication);
                                     SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
                                 }
                             }

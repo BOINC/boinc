@@ -7829,3 +7829,16 @@ Charlie 15 Aug 2007
             wxPieCtrl.cpp,h
         mac/
             MacGUI.pch
+
+Rom    15 Aug 2007
+    - SCR: Fix the new screensaver so that it doesn't start a new
+           graphics window every second.
+    - LIB: CreateProcess always returns a 1 on success, which means
+           the last part of the run_program function was never being
+           executed.
+    
+    clientscr/
+        screensaver_win.cpp
+    lib/
+        util.C
+

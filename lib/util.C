@@ -333,7 +333,7 @@ int run_program(
         &startup_info,
         &process_info
     );
-    if (retval) return retval;
+    if (!retval) return -1; // CreateProcess returns 1 if successful, false if it failed.
     if (nsecs) {
         boinc_sleep(nsecs);
         if (GetExitCodeProcess(process_info.hProcess, &status)) {
