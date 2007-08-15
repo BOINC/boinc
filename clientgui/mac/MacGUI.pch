@@ -51,6 +51,17 @@
 
 #define HAVE_SSIZE_T
 
+#include <wx/version.h> // For wxCHECK_VERSION
+
+#if (defined(__i386__) && wxCHECK_VERSION(2,8,2))
+// platform.h erroneously #defines __POWERPC__, so we include platform.h first 
+// and then #undef __POWERPC__ before including the other wxMac header files.
+#include <wx/platform.h>
+#ifdef __POWERPC__
+#undef __POWERPC__
+#endif
+#endif
+
 #if (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
 #undef _DEBUG       // so we can link with Deployment Wx libs

@@ -7819,3 +7819,13 @@ David  14 Aug 2007
 
     html/user/
         team_delta.php
+
+Charlie 15 Aug 2007
+    Mac MGR: Work around bugs in wxMac 2.82 - 2.8.4 to fix wxPieCtrl 
+        to work correctly on wxMac 2.6.3 - 2.8.4.
+    
+    clientgui/
+        common/
+            wxPieCtrl.cpp,h
+        mac/
+            MacGUI.pch
