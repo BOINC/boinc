@@ -58,8 +58,8 @@
 #include "res/skins/default/graphic/left_arrow_clicked_button.xpm"
 #include "res/skins/default/graphic/save_button.xpm"
 #include "res/skins/default/graphic/save_clicked_button.xpm"
-#include "res/skins/default/graphic/syncronize_button.xpm"
-#include "res/skins/default/graphic/syncronize_clicked_button.xpm"
+#include "res/skins/default/graphic/synchronize_button.xpm"
+#include "res/skins/default/graphic/synchronize_clicked_button.xpm"
 #include "res/skins/default/graphic/cancel_button.xpm"
 #include "res/skins/default/graphic/cancel_clicked_button.xpm"
 #include "res/skins/default/graphic/close_button.xpm"
@@ -585,7 +585,7 @@ void CSkinSimple::Clear() {
     m_RightArrowButton.Clear();
     m_LeftArrowButton.Clear();
     m_SaveButton.Clear();
-    m_SyncronizeButton.Clear();
+    m_SynchronizeButton.Clear();
     m_CancelButton.Clear();
     m_CloseButton.Clear();
     m_CopyAllButton.Clear();
@@ -672,8 +672,8 @@ int CSkinSimple::Parse(MIOFILE& in) {
         } else if (match_tag(buf, "<save_button>")) {
             m_SaveButton.Parse(in);
             continue;
-        } else if (match_tag(buf, "<syncronize_button>")) {
-            m_SyncronizeButton.Parse(in);
+        } else if (match_tag(buf, "<synchronize_button>")) {
+            m_SynchronizeButton.Parse(in);
             continue;
         } else if (match_tag(buf, "<cancel_button>")) {
             m_CancelButton.Parse(in);
@@ -783,8 +783,8 @@ bool CSkinSimple::InitializeDelayedValidation() {
     m_SaveButton.SetDefaults(
         wxT("save"), (const char**)save_button_xpm, (const char**)save_clicked_button_xpm
     );
-    m_SyncronizeButton.SetDefaults(
-        wxT("syncronize"), (const char**)syncronize_button_xpm, (const char**)syncronize_clicked_button_xpm
+    m_SynchronizeButton.SetDefaults(
+        wxT("synchronize"), (const char**)synchronize_button_xpm, (const char**)synchronize_clicked_button_xpm
     );
     m_CancelButton.SetDefaults(
         wxT("cancel"), (const char**)cancel_button_xpm, (const char**)cancel_clicked_button_xpm

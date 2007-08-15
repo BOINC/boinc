@@ -59,7 +59,7 @@ BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
     EVT_BUTTON(ID_SIMPLE_RESUME, CProjectsComponent::OnResume)
     EVT_BUTTON(ID_SIMPLE_PREFERENCES, CProjectsComponent::OnPreferences)
     EVT_BUTTON(ID_SIMPLE_ATTACHTOPROJECT, CProjectsComponent::OnAttachToProject)
-    EVT_BUTTON(ID_SIMPLE_SYNCRONIZE, CProjectsComponent::OnSyncronize)
+    EVT_BUTTON(ID_SIMPLE_SYNCHRONIZE, CProjectsComponent::OnSynchronize)
     EVT_PAINT(CProjectsComponent::OnPaint)
     EVT_BUTTON(-1,CProjectsComponent::OnBtnClick)
 	EVT_ERASE_BACKGROUND(CProjectsComponent::OnEraseBackground)
@@ -120,22 +120,22 @@ void CProjectsComponent::CreateComponent()
 	btnAddProj->SetToolTip(ttAddProject);
 
 	// syncronize button, hidden by default.
-    wxToolTip *ttSyncronize = new wxToolTip(_("Synronize projects with account manager system"));
-	btnSyncronize=new wxBitmapButton(
+    wxToolTip *ttSynchronize = new wxToolTip(_("Synchronize projects with account manager system"));
+	btnSynchronize=new wxBitmapButton(
         this,
-        ID_SIMPLE_SYNCRONIZE,
-        *pSkinSimple->GetSyncronizeButton()->GetBitmap(),
+        ID_SIMPLE_SYNCHRONIZE,
+        *pSkinSimple->GetSynchronizeButton()->GetBitmap(),
         wxPoint(214,7),
         wxSize(81,18),
         wxBU_AUTODRAW
     );
-	if ( pSkinSimple->GetSyncronizeButton()->GetBitmapClicked() != NULL ) {
-		btnSyncronize->SetBitmapSelected(
-			*pSkinSimple->GetSyncronizeButton()->GetBitmapClicked()
+	if ( pSkinSimple->GetSynchronizeButton()->GetBitmapClicked() != NULL ) {
+		btnSynchronize->SetBitmapSelected(
+			*pSkinSimple->GetSynchronizeButton()->GetBitmapClicked()
 		);
 	}
-	btnSyncronize->SetToolTip(ttSyncronize);
-    btnSyncronize->Show(false);
+	btnSynchronize->SetToolTip(ttSynchronize);
+    btnSynchronize->Show(false);
 
     /// Help
 	wxToolTip *ttHelp = new wxToolTip(_("Get help with BOINC"));
@@ -503,8 +503,8 @@ void CProjectsComponent::OnAttachToProject(wxCommandEvent& /*event*/) {
 }
 
 
-void CProjectsComponent::OnSyncronize(wxCommandEvent& /*event*/) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSyncronize - Function Begin"));
+void CProjectsComponent::OnSynchronize(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSynchronize - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
 	CSimplePanel*  pPanel = wxDynamicCast(GetParent(), CSimplePanel);
@@ -527,12 +527,12 @@ void CProjectsComponent::OnSyncronize(wxCommandEvent& /*event*/) {
         if (pWizard)
             pWizard->Destroy();
 
-    	btnSyncronize->Refresh();
+    	btnSynchronize->Refresh();
 
         pPanel->SetDlgOpen(false);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSyncronize - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSynchronize - Function End"));
 }
 
 
@@ -576,12 +576,12 @@ void CProjectsComponent::UpdateInterface()
 
     if (is_acct_mgr_detected) {
 		btnAddProj->Show(false);
-		btnSyncronize->Show(true);
+		btnSynchronize->Show(true);
 	} else {
         if (!status.disallow_attach) {
 		    btnAddProj->Show(true);
         }
-		btnSyncronize->Show(false);
+		btnSynchronize->Show(false);
     }
 
     // Show resume or pause as appropriate
@@ -643,10 +643,10 @@ void CProjectsComponent::ReskinInterface()
     btnAddProj->SetBitmapLabel(*(pSkinSimple->GetAttachProjectButton()->GetBitmap()));
     btnAddProj->SetBitmapSelected(*(pSkinSimple->GetAttachProjectButton()->GetBitmapClicked()));
 
-    // syncronize btn
-	btnSyncronize->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
-    btnSyncronize->SetBitmapLabel(*(pSkinSimple->GetSyncronizeButton()->GetBitmap()));
-    btnSyncronize->SetBitmapSelected(*(pSkinSimple->GetSyncronizeButton()->GetBitmapClicked()));
+    // synchronize btn
+	btnSynchronize->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+    btnSynchronize->SetBitmapLabel(*(pSkinSimple->GetSynchronizeButton()->GetBitmap()));
+    btnSynchronize->SetBitmapSelected(*(pSkinSimple->GetSynchronizeButton()->GetBitmapClicked()));
 
     // help btn
 	btnHelp->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
