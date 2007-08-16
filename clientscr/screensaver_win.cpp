@@ -1063,13 +1063,14 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 
                 if (rp) {
                     int retval = 0;
-                    char* argv[2];
-                    argv[0] = "--fullscreen";
-                    argv[1] = 0;
+                    char* argv[3];
+                    argv[0] = "app_graphics";   // not used
+                    argv[1] = "--fullscreen";
+                    argv[2] = 0;
                     retval = run_program(
                         rp->slot_path.c_str(),
                         rp->graphics_exec_path.c_str(),
-                        1,
+                        2,
                         argv,
                         0,
                         m_hGraphicsApplication

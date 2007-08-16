@@ -7889,3 +7889,9 @@ David  16 Aug 2007
         sched_send.C
         server_types.h
         transitioner.C
+
+David  16 Aug 2007
+	- screensaver fix
+
+	clientscr/
+		screensaver_win.cpp
