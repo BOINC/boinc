@@ -7939,3 +7939,11 @@ Rom    16 Aug 2007
         
     clientscr/
         screensaver_win.cpp
+
+Charlie 16 Aug 2007
+    Mac MGR: New Mac application icon built with artwork from Michal 
+        Krakowiak.
+
+    clientgui/
+        res/
+            BOINCMgr.icns
