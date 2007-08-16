@@ -44,6 +44,22 @@ struct HOST_INFO {
 	std::vector<APP_INFO> preferred_apps;
 };
 
+// represents a resource (disk etc.) that the client may not have enough of
+//
+struct RESOURCE {
+    bool insufficient;
+    double needed;      // the min extra amount needed
+
+    inline void set_insufficient(double x) {
+        insufficient = true;
+        if (needed) {
+            if (x < needed) needed = x;
+        } else {
+            needed = x;
+        }
+    }
+};
+
 // summary of a client's request for work, and our response to it
 //
 struct WORK_REQ {
@@ -52,16 +68,16 @@ struct WORK_REQ {
     bool beta_only;
     HOST_INFO host_info;
     double seconds_to_fill;
-		// in "normalized CPU seconds" (see doc/work_req.php)
+		// in "normalized CPU seconds"; see
+        // http://boinc.berkeley.edu/trac/wiki/ClientSched#NormalizedCPUTime
     double disk_available;
     int nresults;
     int core_client_version;
-    // the following flags are set whenever a result is infeasible;
-    // used to construct explanatory message to user
-    //
-    bool insufficient_disk;
-    bool insufficient_mem;
-    bool insufficient_speed;
+
+    RESOURCE disk;
+    RESOURCE mem;
+    RESOURCE speed;
+
     bool no_allowed_apps_available;
     bool excessive_work_buf;
     bool no_app_version;

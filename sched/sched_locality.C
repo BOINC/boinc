@@ -1164,7 +1164,7 @@ void send_file_deletes(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
 
     // if we got no work, and we have no file space, delete some files
     //
-    if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
+    if (sreply.results.size()==0 && (sreply.wreq.disk.insufficient || sreply.wreq.disk_available<0)) {
         // try to delete a file to make more space.
         // Also give some hints to the user about what's going wrong
         // (lack of disk space).
@@ -1174,7 +1174,7 @@ void send_file_deletes(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
 
     if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) {
         debug_sched(sreq, sreply, "../debug_sched");
-    } else if (max_allowable_disk(sreq, sreply)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
+    } else if (max_allowable_disk(sreq, sreply)<0 || (sreply.wreq.disk.insufficient || sreply.wreq.disk_available<0)) {
         debug_sched(sreq, sreply, "../debug_sched");
     }
 }

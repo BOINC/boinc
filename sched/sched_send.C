@@ -195,6 +195,7 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
             "x1 %f x2 %f x3 %f x %f\n",
             x1, x2, x3, x
         );
+        reply.wreq.disk.set_insufficient(-x);
     }
     return x;
 }
@@ -330,14 +331,16 @@ static inline int check_app_filter(
     return 0;
 }
 
-static inline int check_memory(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+// see how much RAM we can use on this machine
+// TODO: compute this once, not once per job
+//
+static inline void get_mem_sizes(
+    SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply,
+    double& ram, double& usable_ram
 ) {
-    // see how much RAM we can use on this machine
-    //
-    double ram = reply.host.m_nbytes;
+    ram = reply.host.m_nbytes;
     if (ram <= 0) ram = DEFAULT_RAM_SIZE;
-    double usable_ram = ram;
+    usable_ram = ram;
     double busy_frac = request.global_prefs.ram_max_used_busy_frac;
     double idle_frac = request.global_prefs.ram_max_used_idle_frac;
     double frac = 1;
@@ -346,33 +349,23 @@ static inline int check_memory(
         if (frac > 1) frac = 1;
         usable_ram *= frac;
     }
+}
 
-    if (wu.rsc_memory_bound > usable_ram) {
+static inline int check_memory(
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
+    double ram, usable_ram;
+    get_mem_sizes(request, reply, ram, usable_ram);
+
+    double diff = wu.rsc_memory_bound - usable_ram;
+    if (diff > 0) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_DEBUG,
             "[WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
             wu.id, wu.name, wu.rsc_memory_bound/MEGA,
             reply.host.id, ram/MEGA, usable_ram/MEGA
         );
-        // only add message once
-        //
-        if (!reply.wreq.insufficient_mem) {
-            char explanation[256];
-            if (wu.rsc_memory_bound > ram) {
-                sprintf(explanation,
-                    "Your computer has %0.2fMB of memory, and a job requires %0.2fMB",
-                    ram/MEGA, wu.rsc_memory_bound/MEGA
-                );
-            } else {
-                sprintf(explanation,
-                    "Your preferences limit memory usage to %0.2fMB, and a job requires %0.2fMB",
-                    usable_ram/MEGA, wu.rsc_memory_bound/MEGA
-                );
-            }
-            USER_MESSAGE um(explanation, "high");
-            reply.insert_message(um);
-        }
-        reply.wreq.insufficient_mem = true;
+        reply.wreq.mem.set_insufficient(wu.rsc_memory_bound);
         reply.set_delay(DELAY_NO_WORK_TEMP);
         return INFEASIBLE_MEM;
     }
@@ -382,8 +375,9 @@ static inline int check_memory(
 static inline int check_disk(
     WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
 ) {
-    if (wu.rsc_disk_bound > reply.wreq.disk_available) {
-        reply.wreq.insufficient_disk = true;
+    double diff = wu.rsc_disk_bound - reply.wreq.disk_available;
+    if (diff > 0) {
+        reply.wreq.disk.set_insufficient(diff);
         return INFEASIBLE_DISK;
     }
     return 0;
@@ -399,13 +393,15 @@ static inline int check_deadline(
         double ewd = estimate_wallclock_duration(wu, request, reply);
         double est_completion_delay = request.estimated_delay + ewd;
         double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
-        if (est_report_delay> wu.delay_bound) {
+        double diff = est_report_delay - wu.delay_bound;
+        if (diff > 0) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
-                "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (request.estimated_delay is %f)\n",
-                wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound, request.estimated_delay
+                "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (estimated_delay is %f)\n",
+                wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound,
+                request.estimated_delay
             );
-            reply.wreq.insufficient_speed = true;
+            reply.wreq.speed.set_insufficient(diff);
             return INFEASIBLE_CPU;
         }
     }
@@ -466,7 +462,7 @@ int wu_is_infeasible(
             // but don't add it the the workload yet;
             // wait until we commit to sending it
         } else {
-            reply.wreq.insufficient_speed = true;
+            reply.wreq.speed.set_insufficient(0);
             return INFEASIBLE_WORKLOAD;
         }
     } else {
@@ -691,13 +687,12 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
         // if we've failed to send a result because of a transient condition,
         // return false to preserve invariant
         //
-        if (wreq.insufficient_disk || wreq.insufficient_speed || wreq.insufficient_mem || wreq.no_allowed_apps_available) {
+        if (wreq.disk.insufficient || wreq.speed.insufficient || wreq.mem.insufficient || wreq.no_allowed_apps_available) {
             return false;
         }
     }
     if (wreq.seconds_to_fill <= 0) return false;
     if (wreq.disk_available <= 0) {
-        wreq.insufficient_disk = true;
         return false;
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
@@ -909,18 +904,12 @@ void send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
     SCHED_SHMEM& ss
 ) {
+    char helpful[512];
+
+    memset(&reply.wreq, 0, sizeof(reply.wreq));
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
-    reply.wreq.insufficient_disk = false;
-    reply.wreq.insufficient_mem = false;
-    reply.wreq.insufficient_speed = false;
-    reply.wreq.excessive_work_buf = false;
-    reply.wreq.no_app_version = false;
-    reply.wreq.hr_reject_temp = false;
-    reply.wreq.hr_reject_perm = false;
-    reply.wreq.daily_result_quota_exceeded = false;
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
-    reply.wreq.nresults = 0;
 
     if (hr_unknown_platform(sreq.host)) {
         reply.wreq.hr_reject_perm = true;
@@ -995,6 +984,8 @@ void send_work(
         reply.host.id, reply.wreq.nresults, elapsed_wallclock_time() 
     );
 
+    // if client asked for work and we're not sending any, explain why
+    //
     if (reply.wreq.nresults == 0) {
         reply.set_delay(DELAY_NO_WORK_TEMP);
         USER_MESSAGE um2("No work sent", "high");
@@ -1011,30 +1002,46 @@ void send_work(
             );
             reply.insert_message(um);
         }
-        if (reply.wreq.insufficient_disk) {
+        if (reply.wreq.disk.insufficient) {
             USER_MESSAGE um(
-                "(there was work but you don't have enough disk space allocated)",
+                "There was work but you don't have enough disk space allocated.",
                 "high"
             );
             reply.insert_message(um);
+            if (reply.wreq.disk.needed) {
+                sprintf(helpful,
+                    "An additional %.0f MB is needed.",
+                    reply.wreq.disk.needed/MEGA
+                );
+                USER_MESSAGE um2(helpful, "high");
+                reply.insert_message(um2);
+            }
         }
-        if (reply.wreq.insufficient_mem) {
-            USER_MESSAGE um(
-                "(there was work but your computer doesn't have enough memory)",
-                "high"
-            );
+        if (reply.wreq.mem.insufficient) {
+            double ram, usable_ram;
+            get_mem_sizes(sreq, reply, ram, usable_ram);
+            if (reply.wreq.mem.needed > ram) {
+                sprintf(helpful,
+                    "Your computer has %.0f MB of memory, and %.0f MB is needed",
+                    ram/MEGA, reply.wreq.mem.needed/MEGA
+                );
+            } else {
+                sprintf(helpful,
+                    "Your preferences limit memory usage to %.0f MB, and %.0f MB is needed",
+                    usable_ram/MEGA, reply.wreq.mem.needed/MEGA
+                );
+            }
+            USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
         }
-        if (reply.wreq.insufficient_speed) {
-            char helpful[512];
+        if (reply.wreq.speed.insufficient) {
             if (reply.wreq.core_client_version>419) {
                 sprintf(helpful,
                     "(won't finish in time) "
                     "Computer on %.1f%% of time, BOINC on %.1f%% of that, this project gets %.1f%% of that",
                     100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction
                 );
-            }
-            else {
+            } else {
                 sprintf(helpful,
                     "(won't finish in time) "
                     "Computer available %.1f%% of time, this project gets %.1f%% of that",
@@ -1078,7 +1085,6 @@ void send_work(
             reply.insert_message(um);
         }
         if (reply.wreq.daily_result_quota_exceeded) {
-            char helpful[256];
             struct tm *rpc_time_tm;
             int delay_time;
 
@@ -1103,7 +1109,6 @@ void send_work(
             reply.set_delay(delay_time);
         }
         if (reply.wreq.cache_size_exceeded) {
-            char helpful[256];
             sprintf(helpful, "(reached per-host limit of %d tasks)",
                 config.max_wus_in_progress
             );

@@ -7868,3 +7868,24 @@ Rom    15 Aug 2007
         boinc.gif (added)
         boincdisconnect.gif (added)
         boincsnooze.gif (added)
+
+David  16 Aug 2007
+    - client: add a <data_dir> option in cc_config.xml;
+        tells the client to use this as the data directory
+    - scheduler: improve the message telling the client that
+        more disk or memory is needed;
+        tell them the minimum amount needed to
+        send any of the jobs rejected,
+        rather than the amount needed for the first job rejected
+    - manager: fix text in "connect now" dialog
+
+    client/
+        client_state.C
+        log_flags.C,h
+    clientgui/
+        BOINCDialupManager.cpp
+    sched/
+        sched_locality.C
+        sched_send.C
+        server_types.h
+        transitioner.C

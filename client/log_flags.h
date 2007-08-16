@@ -20,7 +20,7 @@
 // flags determining what is written to standard out.
 // (errors go to stderr)
 //
-// NOTE: all writes to stdout should have an if (log.*) {} around them.
+// NOTE: all writes to stdout should have an if (log_flags.*) {} around them.
 //
 
 #ifndef _LOGFLAGS_H_

@@ -269,8 +269,8 @@ int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
         //    i.e. 'BOINC', 'GridRepublic'
         strDialogMessage.Printf(
             _("%s is unable to communicate with a project and needs an Internet connection.\n"
-                "Please connect to the Internet, then select the 'retry communications' "
-                "item off the advanced menu."),
+                "Please connect to the Internet, then select the 'Do network communications' "
+                "item from the Advanced menu."),
             pSkinAdvanced->GetProjectName().c_str()
         );
 #endif

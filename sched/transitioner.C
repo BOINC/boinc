@@ -50,7 +50,6 @@ using namespace std;
 #else
 #define SLEEP_INTERVAL  5
 #endif
-#define BATCH_INSERT    1
 
 int startup_time;
 SCHED_CONFIG config;
@@ -362,7 +361,6 @@ int handle_wu(
                 } else if (nover && !nerrors && config.reliable_priority_on_over_except_error) {
                     priority_increase = priority_increase + config.reliable_priority_on_over_except_error;
                 }
-#ifdef BATCH_INSERT
                 retval = create_result(
                     wu_item, rtfpath, suffix, key, config, value_buf, priority_increase
                 );
@@ -380,21 +378,7 @@ int handle_wu(
                     values += ",";
                     values += value_buf;
                 }
-#else
-                retval = create_result(
-                    wu_item, rtfpath, suffix, key, config, 0, priority_increase
-                );
-                if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_CRITICAL,
-                        "[WU#%d %s] create_result() %d\n",
-                        wu_item.id, wu_item.name, retval
-                    );
-                    return retval;
-                }
-#endif
             }
-#ifdef BATCH_INSERT
             DB_RESULT r;
             retval = r.insert_batch(values);
             if (retval) {
@@ -405,7 +389,6 @@ int handle_wu(
                 );
                 return retval;
             }
-#endif
         }
     }
 

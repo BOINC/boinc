@@ -162,11 +162,6 @@ int CLIENT_STATE::init() {
     now = dtime();
     scheduler_op->url_random = drand();
 
-    const char* debug_str="";
-#ifdef _DEBUG
-    debug_str = " (DEBUG)";
-#endif
-
     detect_platforms();
 
     msg_printf(
@@ -174,7 +169,12 @@ int CLIENT_STATE::init() {
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        get_primary_platform(), debug_str
+        get_primary_platform(),
+#ifdef _DEBUG
+        " (DEBUG)"
+#else
+        ""
+#endif
     );
 
     log_flags.show();
