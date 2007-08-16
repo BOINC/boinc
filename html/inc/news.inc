@@ -1,8 +1,9 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 function news_item($date, $text, $title="") {
-    echo "<span class=news_date>$date</span> $title
-        <br>$text<br><br>
+    echo "<span class=\"news_date\">$date</span> <span class=\"news_title\">$title</span>
+        <br><span class=\"news_content\">$text</span><br><br>
     ";
 }
 
