@@ -316,9 +316,11 @@ int run_program(
     memset(&startup_info, 0, sizeof(startup_info));
              
     strcpy(cmdline, "");
-    for (int i=1; i<argc; i++) {
+    for (int i=0; i<argc; i++) {
         strcat(cmdline, argv[i]);
-        strcat(cmdline, " ");
+        if (i<argc-1) {
+            strcat(cmdline, " ");
+        }
     }
 
     retval = CreateProcess(

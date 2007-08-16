@@ -7947,3 +7947,12 @@ Charlie 16 Aug 2007
     clientgui/
         res/
             BOINCMgr.icns
+
+David  16 Aug 2007
+	- screensaver fix
+
+	api/
+		graphics2_win.C
+	lib/
+		util.C
+
