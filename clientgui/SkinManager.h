@@ -290,13 +290,14 @@ public:
     bool InitializeDelayedValidation();
 
     wxString    GetApplicationName();
+    wxString    GetApplicationShortName();
     wxIcon*     GetApplicationIcon();
     wxIcon*     GetApplicationDisconnectedIcon();
     wxIcon*     GetApplicationSnoozeIcon();
     wxBitmap*   GetApplicationLogo();
-    wxString    GetCompanyName();
-    wxString    GetCompanyWebsite();
-    wxString    GetProjectName();
+    wxString    GetOrganizationName();
+    wxString    GetOrganizationWebsite();
+    wxString    GetOrganizationHelpUrl();
     int         GetDefaultTab();
     wxString    GetExitMessage();
     bool        IsBranded();
@@ -305,13 +306,14 @@ public:
 private:
     bool        m_bIsBranded;
     wxString    m_strApplicationName;
+    wxString    m_strApplicationShortName;
     CSkinIcon   m_iconApplicationIcon;
     CSkinIcon   m_iconApplicationDisconnectedIcon;
     CSkinIcon   m_iconApplicationSnoozeIcon;
     wxBitmap    m_bitmapApplicationLogo;
-    wxString    m_strCompanyName;
-    wxString    m_strCompanyWebsite;
-    wxString    m_strProjectName;
+    wxString    m_strOrganizationName;
+    wxString    m_strOrganizationWebsite;
+    wxString    m_strOrganizationHelpUrl;
     bool        m_bDefaultTabSpecified;
     int         m_iDefaultTab;
     wxString    m_strExitMessage;

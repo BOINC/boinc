@@ -397,7 +397,7 @@ void CProjectsComponent::OnHelp(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function Begin"));
 
 	std::string url;
-	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationWebsite().mb_str();
 	canonicalize_master_url(url);
 
 	wxString wxurl;

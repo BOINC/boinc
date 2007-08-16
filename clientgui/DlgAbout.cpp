@@ -112,7 +112,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
 
     m_AboutBOINCURLCtrl->SetLabel(
-        pSkinAdvanced->GetCompanyWebsite().c_str()
+        pSkinAdvanced->GetOrganizationWebsite().c_str()
     );
 
     GetSizer()->Fit(this);

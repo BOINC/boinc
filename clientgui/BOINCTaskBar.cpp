@@ -352,7 +352,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
                     _("%s is currently suspended...\n"),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
                 iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
@@ -364,7 +364,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
                     _("%s networking is currently suspended...\n"),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
                 strMessage += strBuffer;
             }
@@ -405,7 +405,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             strBuffer.Printf(
                 _("%s is currently reconnecting to a %s client...\n"),
                 pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationShortName().c_str()
             );
             strMessage += strBuffer;
         } else {
@@ -417,7 +417,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             strBuffer.Printf(
                 _("%s is not currently connected to a %s client...\n"),
                 pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationShortName().c_str()
             );
             iconIcon = m_iconTaskBarDisconnected;
             strMessage += strBuffer;
@@ -609,7 +609,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     if (is_acct_mgr_detected) {
         menuName.Printf(
             _("Open %s Web..."),
-            pSkinAdvanced->GetProjectName().c_str()
+            pSkinAdvanced->GetApplicationShortName().c_str()
         );
         pMenu->Append(ID_OPENWEBSITE, menuName, wxEmptyString);
     }

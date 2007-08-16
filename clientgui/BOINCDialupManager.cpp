@@ -261,7 +261,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
         //    i.e. 'BOINC Manager', 'GridRepublic Manager'
         strDialogMessage.Printf(
             _("%s needs to connect to the Internet.  Please click to open %s."),
-            pSkinAdvanced->GetProjectName().c_str(),
+            pSkinAdvanced->GetApplicationShortName().c_str(),
             pSkinAdvanced->GetApplicationName().c_str()
         );
 #else
@@ -271,7 +271,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
             _("%s is unable to communicate with a project and needs an Internet connection.\n"
                 "Please connect to the Internet, then select the 'Do network communications' "
                 "item from the Advanced menu."),
-            pSkinAdvanced->GetProjectName().c_str()
+            pSkinAdvanced->GetApplicationShortName().c_str()
         );
 #endif
         pFrame->ShowAlert(
@@ -318,7 +318,7 @@ int CBOINCDialUpManager::Connect() {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strDialogMessage.Printf(
                     _("%s needs to connect to the Internet.\nMay it do so now?"),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
                 iAnswer = ::wxMessageBox(
                     strDialogMessage,
@@ -331,7 +331,7 @@ int CBOINCDialUpManager::Connect() {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strDialogMessage.Printf(
                     _("%s is connecting to the Internet."),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
                 pFrame->ShowAlert(
                     m_strDialogTitle,
@@ -364,7 +364,7 @@ int CBOINCDialUpManager::Connect() {
                 _("%s couldn't do Internet communication, and no default connection is selected.\n"
                   "Please connect to the Internet, or select a default connection\n"
                   "using Advanced/Options/Connections."),
-                pSkinAdvanced->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationShortName().c_str()
             );
 
             pFrame->ShowAlert(
@@ -396,7 +396,7 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
         _("%s has successfully connected to the Internet."),
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
@@ -424,7 +424,7 @@ int CBOINCDialUpManager::ConnectionFailed() {
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
         _("%s failed to connect to the Internet."),
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
@@ -466,7 +466,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
     strDialogMessage.Printf(
         _("%s has detected it is now connected to the Internet.\n"
           "Updating all projects and retrying all transfers."),
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
 
     pFrame->ShowAlert(
@@ -511,7 +511,7 @@ int CBOINCDialUpManager::Disconnect() {
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
                 _("%s has successfully disconnected from the Internet."),
-                pSkinAdvanced->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationShortName().c_str()
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,
@@ -527,7 +527,7 @@ int CBOINCDialUpManager::Disconnect() {
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
                 _("%s failed to disconnected from the Internet."),
-                pSkinAdvanced->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationShortName().c_str()
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,

@@ -33,6 +33,8 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "hyperlink.h"
+#include "version.h"
+
 #include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
@@ -564,7 +566,7 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function Begin"));
 
 	std::string url;
-	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationWebsite().mb_str();
 	canonicalize_master_url(url);
 
 	wxString wxurl;
@@ -1059,11 +1061,16 @@ void CDlgPreferences::OnHelp(wxHelpEvent& event) {
 
     if (IsShown()) {
 		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl.Printf(wxT("%smanager_links.php?target=simple_preferences&controlid=%d"), url.c_str(), event.GetId());
+	    wxurl.Printf(
+            wxT("%s?target=simple_preferences&version=%s&controlid=%d"),
+            url.c_str(),
+            BOINC_VERSION_STRING,
+            event.GetId()
+        );
         wxHyperLink::ExecuteLink(wxurl);
     }
 

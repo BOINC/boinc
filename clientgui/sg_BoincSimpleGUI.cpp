@@ -41,6 +41,7 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "error_numbers.h"
+#include "version.h"
 
 #include "sg_BoincSimpleGUI.h"
 #include "sg_ImageLoader.h"
@@ -128,7 +129,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
         _("%s &website"), 
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -280,11 +281,16 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
 
     if (IsShown()) {
 		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl.Printf(wxT("%smanager_links.php?target=simple&controlid=%d"), url.c_str(), event.GetId());
+		wxurl.Printf(
+            wxT("%s?target=simple&version=%s&controlid=%d"),
+            url.c_str(),
+            BOINC_VERSION_STRING,
+            event.GetId()
+        );
         ExecuteBrowserLink(wxurl);
     }
 
@@ -292,16 +298,21 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
 }
 
 
-void CSimpleFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
+void CSimpleFrame::OnHelpBOINCManager(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
 		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl.Printf(wxT("%smanager_links.php?target=simple"),url.c_str());
+		wxurl.Printf(
+            wxT("%s?target=simple&version=%s&controlid=%d"),
+            url.c_str(),
+            BOINC_VERSION_STRING,
+            event.GetId()
+        );
 		ExecuteBrowserLink(wxurl);
     }
 
@@ -313,7 +324,7 @@ void CSimpleFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function Begin"));
 
     if (IsShown()) {
-        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().c_str();
         ExecuteBrowserLink(url);
     }
 

@@ -839,13 +839,14 @@ CSkinAdvanced::~CSkinAdvanced() {
 void CSkinAdvanced::Clear() {
     m_bIsBranded = false;
     m_strApplicationName = wxEmptyString;
+    m_strApplicationShortName = wxEmptyString;
     m_iconApplicationIcon.Clear();
     m_iconApplicationDisconnectedIcon.Clear();
     m_iconApplicationSnoozeIcon.Clear();
     m_bitmapApplicationLogo = wxNullBitmap;
-    m_strCompanyName = wxEmptyString;
-    m_strCompanyWebsite = wxEmptyString;
-    m_strProjectName = wxEmptyString;
+    m_strOrganizationName = wxEmptyString;
+    m_strOrganizationWebsite = wxEmptyString;
+    m_strOrganizationHelpUrl = wxEmptyString;
     m_bDefaultTabSpecified = false;
     m_iDefaultTab = 0;
     m_strExitMessage = wxEmptyString;
@@ -861,6 +862,9 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
         else if (parse_bool(buf, "is_branded", m_bIsBranded)) continue;
         else if (parse_str(buf, "<application_name>", strBuffer)) {
             m_strApplicationName = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        } else if (parse_str(buf, "<application_short_name>", strBuffer)) {
+            m_strApplicationShortName = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         } else if (match_tag(buf, "<application_icon>")) {
             m_iconApplicationIcon.Parse(in);
@@ -880,14 +884,14 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
                 m_bitmapApplicationLogo = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
             }
             continue;
-        } else if (parse_str(buf, "<company_name>", strBuffer)) {
-            m_strCompanyName = wxString(strBuffer.c_str(), wxConvUTF8);
+        } else if (parse_str(buf, "<organizaton_name>", strBuffer)) {
+            m_strOrganizationName = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
-        } else if (parse_str(buf, "<company_website>", strBuffer)) {
-            m_strCompanyWebsite = wxString(strBuffer.c_str(), wxConvUTF8);
+        } else if (parse_str(buf, "<organizaton_website>", strBuffer)) {
+            m_strOrganizationWebsite = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
-        } else if (parse_str(buf, "<project_name>", strBuffer)) {
-            m_strProjectName = wxString(strBuffer.c_str(), wxConvUTF8);
+        } else if (parse_str(buf, "<organizaton_help_url>", strBuffer)) {
+            m_strOrganizationHelpUrl = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         } else if (parse_int(buf, "<open_tab>", m_iDefaultTab)) {
             m_bDefaultTabSpecified = true;
@@ -906,6 +910,11 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
 
 wxString CSkinAdvanced::GetApplicationName() {
     return m_strApplicationName;
+}
+
+
+wxString CSkinAdvanced::GetApplicationShortName() {
+    return m_strApplicationShortName;
 }
 
 
@@ -929,18 +938,18 @@ wxBitmap* CSkinAdvanced::GetApplicationLogo() {
 }
 
 
-wxString CSkinAdvanced::GetCompanyName() { 
-    return m_strCompanyName;
+wxString CSkinAdvanced::GetOrganizationName() { 
+    return m_strOrganizationName;
 }
 
 
-wxString CSkinAdvanced::GetCompanyWebsite() {
-    return m_strCompanyWebsite;
+wxString CSkinAdvanced::GetOrganizationWebsite() {
+    return m_strOrganizationWebsite;
 }
 
 
-wxString CSkinAdvanced::GetProjectName() {
-    return m_strProjectName;
+wxString CSkinAdvanced::GetOrganizationHelpUrl() {
+    return m_strOrganizationHelpUrl;
 }
 
 
@@ -972,6 +981,13 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         m_strApplicationName = wxT("BOINC Manager");
         wxASSERT(!m_strApplicationName.IsEmpty());
     }
+    if (m_strApplicationShortName.IsEmpty()) {
+        if (!disable_error_msgs) {
+            fprintf(stderr, "Skin Manager: Application short name was not defined. Using default.\n");
+        }
+        m_strApplicationShortName = wxT("BOINC");
+        wxASSERT(!m_strApplicationShortName.IsEmpty());
+    }
     m_iconApplicationIcon.SetDefaults(wxT("application"), (const char**)boinc_xpm);
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), (const char**)boincdisconnect_xpm);
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), (const char**)boincsnooze_xpm);
@@ -982,26 +998,26 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         m_bitmapApplicationLogo = wxBitmap((const char**)boinc_logo_xpm);
         wxASSERT(m_bitmapApplicationLogo.Ok());
     }
-    if (m_strCompanyName.IsEmpty()) {
+    if (m_strOrganizationName.IsEmpty()) {
         if (!disable_error_msgs) {
-            fprintf(stderr, "Skin Manager: Company name was not defined. Using default.\n");
+            fprintf(stderr, "Skin Manager: Organization name was not defined. Using default.\n");
         }
-        m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
-        wxASSERT(!m_strCompanyName.IsEmpty());
+        m_strOrganizationName = wxT("Space Sciences Laboratory, U.C. Berkeley");
+        wxASSERT(!m_strOrganizationName.IsEmpty());
     }
-    if (m_strCompanyWebsite.IsEmpty()) {
+    if (m_strOrganizationWebsite.IsEmpty()) {
         if (!disable_error_msgs) {
-            fprintf(stderr, "Skin Manager: Company web site was not defined. Using default.\n");
+            fprintf(stderr, "Skin Manager: Organization web site was not defined. Using default.\n");
         }
-        m_strCompanyWebsite = wxT("http://boinc.berkeley.edu");
-        wxASSERT(!m_strCompanyWebsite.IsEmpty());
+        m_strOrganizationWebsite = wxT("http://boinc.berkeley.edu");
+        wxASSERT(!m_strOrganizationWebsite.IsEmpty());
     }
-    if (m_strProjectName.IsEmpty()) {
+    if (m_strOrganizationHelpUrl.IsEmpty()) {
         if (!disable_error_msgs) {
-            fprintf(stderr, "Skin Manager: Project name was not defined. Using default.\n");
+            fprintf(stderr, "Skin Manager: Organization help url was not defined. Using default.\n");
         }
-        m_strProjectName = wxT("BOINC");
-        wxASSERT(!m_strProjectName.IsEmpty());
+        m_strOrganizationHelpUrl = wxT("http://boinc.berkeley.edu/manager_links.php");
+        wxASSERT(!m_strOrganizationHelpUrl.IsEmpty());
     }
     if (!m_bDefaultTabSpecified) {
         if (!disable_error_msgs) {
@@ -1021,11 +1037,11 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
               "In most cases, it is better just to close the %s window\n"
               "rather than to exit the application; that will allow %s to run its\n"
               "tasks at the times you selected in your preferences."),
-                m_strProjectName.c_str(),
+                m_strApplicationShortName.c_str(),
                 m_strApplicationName.c_str(),
-                m_strProjectName.c_str(),
+                m_strApplicationShortName.c_str(),
                 m_strApplicationName.c_str(),
-                m_strProjectName.c_str()
+                m_strApplicationShortName.c_str()
             );
 
         wxASSERT(!m_strExitMessage.IsEmpty());

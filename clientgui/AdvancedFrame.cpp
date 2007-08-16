@@ -468,7 +468,7 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
         _("Connect to another computer running %s"), 
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuAdvanced->Append(
         ID_FILESELECTCOMPUTER, 
@@ -525,13 +525,13 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
         _("%s &help"), 
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
         _("Show information about %s"), 
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINC,
@@ -561,7 +561,7 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
         _("%s &website"), 
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -1649,11 +1649,16 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
 
     if (IsShown()) {
 		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl.Printf(wxT("%smanager_links.php?target=advanced&controlid=%d"), url.c_str(), event.GetId());
+		wxurl.Printf(
+            wxT("%s?target=advanced&version=%s&controlid=%d"),
+            url.c_str(),
+            BOINC_VERSION_STRING,
+            event.GetId()
+        );
         ExecuteBrowserLink(wxurl);
     }
 
@@ -1666,12 +1671,12 @@ void CAdvancedFrame::OnHelpBOINC(wxCommandEvent& event) {
 
     if (IsShown()) {
 		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;
 		wxurl.Printf(
-            wxT("%smanager_links.php?target=advanced&version=%s&controlid=%d"),
+            wxT("%s?target=advanced&version=%s&controlid=%d"),
             url.c_str(),
             BOINC_VERSION_STRING,
             event.GetId()
@@ -1817,7 +1822,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             strDialogDescription.Printf(
                 _("%s has successfully attached to %s"),
                 pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationShortName().c_str()
             );
 
             ShowAlert(

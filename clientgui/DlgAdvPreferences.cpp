@@ -682,7 +682,7 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 
 // handles Help button clicked
 void CDlgAdvPreferences::OnHelp(wxCommandEvent& ev) {
-	wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite();
+	wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationWebsite();
 	url += wxT("/prefs.php");//this seems not the right url, but which instead ?
 	wxHyperLink::ExecuteLink(url);
 	ev.Skip();

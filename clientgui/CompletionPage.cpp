@@ -234,7 +234,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 //    i.e. 'GridRepublic'
                 strTitle.Printf(
                     _("Update from %s completed."),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
             } else {
                 strTitle = _("Update completed.");
@@ -255,7 +255,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 //    i.e. 'GridRepublic'
                 strTitle.Printf(
                     _("Removal from %s completed."),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
             } else {
                 strTitle = _("Removal succeeded!");
@@ -276,7 +276,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 //    i.e. 'GridRepublic'
                 strTitle.Printf(
                     _("Attached to %s"),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
             } else {
                 strTitle = _("Attached to account manager");
@@ -290,7 +290,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 wxString strWelcome;
                 strWelcome.Printf(
                     _("Welcome to %s!"),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
 
                 m_pCompletionWelcome->Show();
@@ -304,7 +304,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 // 2nd %s is the account manager success message
                 strBrandedMessage.Printf(
                     _("You are now successfully attached to the %s system."),
-                    pSkinAdvanced->GetProjectName().c_str()
+                    pSkinAdvanced->GetApplicationShortName().c_str()
                 );
             } else {
                 strBrandedMessage = _("You are now successfully attached to this account manager.");

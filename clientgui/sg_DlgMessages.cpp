@@ -34,6 +34,8 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "hyperlink.h"
+#include "version.h"
+
 #include "sg_DlgMessages.h"
 #include "sg_SGUIListControl.h"
 
@@ -435,15 +437,20 @@ void CPanelMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
  */
 
-void CPanelMessages::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
+void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function Begin"));
 
 	std::string url;
-	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 	canonicalize_master_url(url);
 
 	wxString wxurl;
-	wxurl.Printf(wxT("%smanager_links.php?target=simple"), url.c_str());
+	wxurl.Printf(
+        wxT("%s?target=simple_messages&version=%s&controlid=%d"),
+        url.c_str(),
+        BOINC_VERSION_STRING,
+        event.GetId()
+    );
     wxHyperLink::ExecuteLink(wxurl);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function End"));
@@ -833,7 +840,7 @@ void CDlgMessages::OnHelp(wxHelpEvent& event) {
 
     if (IsShown()) {
 		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationWebsite().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;

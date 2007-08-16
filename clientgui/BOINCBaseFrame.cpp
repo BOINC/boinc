@@ -413,7 +413,7 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
         _("%s is not able to connect to a %s client.\n"
           "Would you like to try to connect again?"),
         pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
 
     ShowAlert(
@@ -463,8 +463,8 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
           "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
           "To connect up to your local computer please use 'localhost' as the host name."),
         pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetProjectName().c_str(),
-        pSkinAdvanced->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str(),
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
     ShowAlert(
         strDialogTitle,

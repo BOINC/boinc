@@ -7895,3 +7895,27 @@ David  16 Aug 2007
 
 	clientscr/
 		screensaver_win.cpp
+
+Rom    16 Aug 2007
+    - MGR: Update skin manager for the following changes:
+             project name = application short name
+             company name = organization name
+             company website = organization website
+             added organization help url.
+             
+           See http://boinc.berkeley.edu/trac/wiki/ManagerSkin
+             for details.
+             
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp
+        BOINCDialupManager.cpp
+        BOINCTaskBar.cpp
+        CompletionPage.cpp
+        DlgAbout.cpp
+        DlgAdvPreferences.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp
+        SkinManager.cpp, .h
