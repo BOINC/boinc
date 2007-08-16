@@ -7136,3 +7136,11 @@ Rom    15 Aug 2007
         boinc.gif (added)
         boincdisconnect.gif (added)
         boincsnooze.gif (added)
+
+Charlie 16 Aug 2007
+    Mac MGR: New Mac application icon built with artwork from Michal 
+        Krakowiak.
+
+    clientgui/
+        res/
+            BOINCMgr.icns
