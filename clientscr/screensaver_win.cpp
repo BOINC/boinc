@@ -1157,7 +1157,6 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                     ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
                                     ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
                                     SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                                    kill_program(m_hGraphicsApplication);
                                     SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
                                 }
                             }
@@ -1182,7 +1181,6 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                             //   screensaver mode.
                             BOINCTRACE(_T("CScreensaver::DataManagementProc - Unknown foreground window detected, shutdown the screensaver.\n"));
                             SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                            kill_program(m_hGraphicsApplication);
                             SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
                         }
                     }
@@ -1576,6 +1574,9 @@ VOID CScreensaver::ShutdownSaver() {
         BOOL bUnused;
         SystemParametersInfo(SPI_SCREENSAVERRUNNING, FALSE, &bUnused, 0);
     }
+
+    // Kill the currently executing graphics application
+    kill_program(m_hGraphicsApplication);
 
     // Post message to drop out of message loop
     // This can be called from the data management thread, so specifically

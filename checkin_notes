@@ -7930,3 +7930,12 @@ Rom    16 Aug 2007
         DlgAdvPreferencesBase.cpp, .h
         DlgOptions.cpp, .h
         DlgSelectComputer.cpp, .h
+
+Rom    16 Aug 2007
+    - SCR: Move the call to kill_program to ShutdownSaver instead
+        of waiting for the data thread to poll for keyboard and
+        mouse activity. If the saver's window proc detects keyboard
+        or mouse activity it'll start the shutdown proceedure.
+        
+    clientscr/
+        screensaver_win.cpp
