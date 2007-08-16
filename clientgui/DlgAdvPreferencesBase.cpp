@@ -5,24 +5,35 @@
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif //__BORLANDC__
-
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif //WX_PRECOMP
+#include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "LogBOINC.h"
+#include "BOINCGUIApp.h"
+#include "SkinManager.h"
 
 #include "DlgAdvPreferencesBase.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
-CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxString title, wxPoint pos, wxSize size, int style ) : wxDialog( parent, id, title, pos, size, style )
+CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxString title, wxPoint pos, wxSize size, int style ) :
+    wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
+    wxString strCaption = title;
+    if (strCaption.IsEmpty()) {
+        CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxASSERT(pSkinAdvanced);
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationName().c_str());
+    }
+
+    this->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 	this->Centre( wxBOTH );
+    this->SetTitle(strCaption);
 
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );

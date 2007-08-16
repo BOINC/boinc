@@ -7919,3 +7919,14 @@ Rom    16 Aug 2007
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp
         SkinManager.cpp, .h
+
+Rom    16 Aug 2007
+    - MGR: Make sure all the dialogs contain the application name
+        and do not have BOINC Manager hard coded in them.
+
+    clientgui/
+        AdvancedFrame.cpp
+        DlgAbout.h
+        DlgAdvPreferencesBase.cpp, .h
+        DlgOptions.cpp, .h
+        DlgSelectComputer.cpp, .h

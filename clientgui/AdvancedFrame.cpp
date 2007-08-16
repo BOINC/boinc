@@ -502,7 +502,7 @@ bool CAdvancedFrame::CreateMenu() {
     );
     if (is_acct_mgr_detected) {
         strMenuName.Printf(
-            _("&Stop using %s"), 
+            _("&Stop using %s..."), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuAdvanced->Append(
@@ -1206,7 +1206,7 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     wxCommandEvent     evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_FILESELECTCOMPUTER);
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CDlgGenericMessage dlg(this);
     wxString           strDialogTitle = wxEmptyString;
     wxString           strDialogMessage = wxEmptyString;
@@ -1226,7 +1226,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
-        _("Shutdown the current client..."),
+        _("%s - Shutdown the current client..."),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
@@ -1390,6 +1390,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerDetach - Function Begin"));
 
     CMainDocument* pDoc           = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxInt32        iAnswer        = 0; 
     wxString       strTitle       = wxEmptyString;
     wxString       strMessage     = wxEmptyString;
@@ -1397,6 +1398,8 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     if (!pDoc->IsUserAuthorized())
         return;
@@ -1406,7 +1409,8 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         pDoc->rpc.acct_mgr_info(ami);
 
         strTitle.Printf(
-            _("BOINC Manager - Detach from %s"), 
+            _("%s - Detach from %s"),
+            pSkinAdvanced->GetApplicationName().c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(

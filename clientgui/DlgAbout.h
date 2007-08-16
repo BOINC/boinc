@@ -49,7 +49,7 @@ class wxHyperLink;
 ////@begin control identifiers
 #define ID_DIALOG 10000
 #define SYMBOL_CDLGABOUT_STYLE wxDEFAULT_DIALOG_STYLE
-#define SYMBOL_CDLGABOUT_TITLE _("About BOINC Manager")
+#define SYMBOL_CDLGABOUT_TITLE wxT("")
 #define SYMBOL_CDLGABOUT_IDNAME ID_DIALOG
 #define SYMBOL_CDLGABOUT_SIZE wxSize(-1, -1)
 #define SYMBOL_CDLGABOUT_POSITION wxDefaultPosition

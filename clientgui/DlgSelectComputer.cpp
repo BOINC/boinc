@@ -22,8 +22,15 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "SkinManager.h"
 
 ////@begin includes
 ////@end includes
@@ -76,9 +83,18 @@ bool CDlgSelectComputer::Create( wxWindow* parent, wxWindowID id, const wxString
     m_ComputerPasswordCtrl = NULL;
 ////@end CDlgSelectComputer member initialisation
 
+    wxString strCaption = caption;
+    if (strCaption.IsEmpty()) {
+        CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxASSERT(pSkinAdvanced);
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+        strCaption.Printf(_("%s - Select Computer"), pSkinAdvanced->GetApplicationName().c_str());
+    }
+
 ////@begin CDlgSelectComputer creation
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-    wxDialog::Create( parent, id, caption, pos, size, style );
+    wxDialog::Create( parent, id, strCaption, pos, size, style );
 
     CreateControls();
     GetSizer()->Fit(this);
