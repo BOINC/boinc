@@ -42,7 +42,7 @@ BOINC/boinc_cmd: ../lib/boinc_cmd  BOINC
 
 BOINC/boincmgr.16x16.png: boincmgr.16x16.png
 	cp boincmgr.16x16.png BOINC/boincmgr.16x16.png
-BOINC/boincmgr.32x23.png: boincmgr.32x32.png
+BOINC/boincmgr.32x32.png: boincmgr.32x32.png
 	cp boincmgr.32x32.png BOINC/boincmgr.32x32.png
 BOINC/boincmgr.48x48.png: boincmgr.48x48.png
 	cp boincmgr.48x48.png BOINC/boincmgr.48x48.png
