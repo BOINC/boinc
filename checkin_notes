@@ -407,3 +407,9 @@ David  20 July 2007
     example_app/
         Makefile
         uc2.C
+
+David  17 Aug 2007
+	- project file fix
+
+	win_build/
+		libgraphics2.vcproj
