@@ -55,7 +55,7 @@ if not exist %OUTPUTDIR%\libcurl.dll (
 )
 
 if not exist %OUTPUTDIR%\libcurld.dll (
-    echo Coping libcurl to the output directory...
+    echo Coping libcurld to the output directory...
     copy "%PROJECTROOTDIR%\curl\mswin\%PLATFORMNAME%\bin\libcurld.dll" "%OUTPUTDIR%"
 )
 
@@ -70,7 +70,7 @@ if not exist %OUTPUTDIR%\libeay32.dll (
 )
 
 if not exist %OUTPUTDIR%\libeay32d.dll (
-    echo Coping libeay32 to the output directory...
+    echo Coping libeay32d to the output directory...
     copy "%PROJECTROOTDIR%\openssl\mswin\%PLATFORMNAME%\bin\libeay32d.dll" "%OUTPUTDIR%"
 )
 
@@ -80,7 +80,7 @@ if not exist %OUTPUTDIR%\ssleay32.dll (
 )
 
 if not exist %OUTPUTDIR%\ssleay32d.dll (
-    echo Coping ssleay32 to the output directory...
+    echo Coping ssleay32d to the output directory...
     copy "%PROJECTROOTDIR%\openssl\mswin\%PLATFORMNAME%\bin\ssleay32d.dll" "%OUTPUTDIR%"
 )
 
@@ -90,6 +90,6 @@ if not exist %OUTPUTDIR%\zlib1.dll (
 )
 
 if not exist %OUTPUTDIR%\zlib1d.dll (
-    echo Coping zlib1 to the output directory...
+    echo Coping zlib1d to the output directory...
     copy "%PROJECTROOTDIR%\zlib\mswin\%PLATFORMNAME%\bin\zlib1d.dll" "%OUTPUTDIR%"
 )
