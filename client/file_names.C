@@ -291,12 +291,14 @@ bool is_image_file(const char* filename) {
     return false;
 }
 
-int set_to_project_group(const char* path) {
 #ifdef SANDBOX
+int set_to_project_group(const char* path) {
     if (g_use_sandbox) {
         if (boinc_exec(SETPROJECTGRP_FILE_NAME, (char*)path))
             return ERR_CHOWN;
     }
+#else
+int set_to_project_group(const char*) {
 #endif
     return 0;
 }

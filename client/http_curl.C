@@ -835,7 +835,6 @@ void HTTP_OP::reset() {
     fileOut = NULL;
     connect_error = 0;
     bytes_xferred = 0;
-    xfer_speed = 0;
     bSentHeader = false;
     close_socket();
 }
@@ -938,16 +937,44 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
         // update byte counts and transfer speed
         //
         if (hop->want_download) {
-            bytes_down += hop->bytes_xferred;
-            curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_SPEED_DOWNLOAD, &hop->xfer_speed
+            // SIZE_DOWNLOAD is the byte count "on the wire"
+            // (possible with compression)
+            // TOTAL_TIME is the elapsed time of the download
+            // STARTTRANSFER_TIME is portion of elapsed time involved
+            // with setup (connection establishment etc.)
+            // SPEED_DOWNLOAD is bytes/sec based on uncompressed size
+            // (we don't use it)
+            //
+            double size_download, total_time, starttransfer_time;
+			curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_SIZE_DOWNLOAD, &size_download
             );
+			curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_TOTAL_TIME, &total_time
+            );
+			curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
+            );
+            double dt = total_time - starttransfer_time;
+            if (dt > 0) {
+                gstate.net_stats.down.update(size_download, dt);
+            }
         }
         if (hop->want_upload) {
-            bytes_up += hop->bytes_xferred;  
-            curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_SPEED_UPLOAD, &hop->xfer_speed
+            double size_upload, total_time, starttransfer_time;
+			curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_SIZE_UPLOAD, &size_upload
             );
+			curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_TOTAL_TIME, &total_time
+            );
+			curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
+            );
+            double dt = total_time - starttransfer_time;
+            if (dt > 0) {
+                gstate.net_stats.up.update(size_upload, dt);
+            }
         }
 
         // if proxy/socks server uses authentication and its not set yet,

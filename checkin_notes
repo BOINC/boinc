@@ -7956,3 +7956,20 @@ David  16 Aug 2007
 	lib/
 		util.C
 
+David  17 Aug 2007
+	- client: change the way upload/download throughput
+		estimates are maintained.
+		The old way took concurrency into account but ignored compression;
+		the new way does the converse.
+	- client: maintain new stat: recent average transfer rates.
+		This track average up/down throughputs
+		(over wall clock time, not just while xfers are active)
+		with a half-life of 1 day.
+		Will eventually add a new pref: don't fetch new work if
+		either of these is above a threshold
+
+	client/
+		client_state.C
+		file_names.C
+		http_curl.C,h
+		net_stats.C,h
