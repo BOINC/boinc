@@ -59,6 +59,19 @@ protected:
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 	virtual void            OnListRender( wxTimerEvent& event );	
 
+
+	void					UpdateWebsiteSelection(long lControlGroup, PROJECT* project);
+	
+	CBOINCGridCtrl*			m_pGridPane;
+	int						sortCounter;
+};
+
+class CBOINCWorkGridTable : public CBOINCGridTable {
+	
+public:
+	CBOINCWorkGridTable(int rows,int cols);
+	//virtual ~CBOINCWorkGridTable();	
+	wxString GetValue(int row, int col);
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatApplicationName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatName( wxInt32 item, wxString& strBuffer ) const;
@@ -67,12 +80,7 @@ protected:
     wxInt32                 FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
-
-	void					UpdateWebsiteSelection(long lControlGroup, PROJECT* project);
-	
-	CBOINCGridCtrl*			m_pGridPane;
 };
-
 
 #endif
 

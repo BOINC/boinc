@@ -42,8 +42,7 @@
 #define COLUMN_TOCOMPLETION         5
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
-#define COLUMN_RESULTS_INDEX        8
-#define NUM_COLUMNS                 (COLUMN_RESULTS_INDEX+1)
+#define NUM_COLUMNS                 (COLUMN_STATUS+1)
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -70,6 +69,7 @@ END_EVENT_TABLE ()
 
 CViewWorkGrid::CViewWorkGrid()
 {
+
 }
 
 
@@ -85,7 +85,7 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 
     itemFlexGridSizer->AddGrowableRow(0);
     itemFlexGridSizer->AddGrowableCol(1);
-    
+
 	m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_WORKGRIDVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
@@ -109,14 +109,14 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 	pItem = new CTaskItem(
         _("Show graphics"),
         _("Show application graphics in a window."),
-        ID_TASK_WORK_SHOWGRAPHICS 
+        ID_TASK_WORK_SHOWGRAPHICS
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Suspend"),
         _("Suspend work for this result."),
-        ID_TASK_WORK_SUSPEND 
+        ID_TASK_WORK_SUSPEND
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -124,7 +124,7 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
         _("Abort"),
         _("Abandon work on the result. "
           "You will get no credit for it."),
-        ID_TASK_WORK_ABORT 
+        ID_TASK_WORK_ABORT
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -134,38 +134,40 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 
 	// Create Grid (one dummy row is needed)
 	m_pGridPane->Setup();
-	m_pGridPane->SetTable(new CBOINCGridTable(1,NUM_COLUMNS));
+	m_pGridPane->SetTable(new CBOINCWorkGridTable(1,NUM_COLUMNS));
 	//don't use wxGrid->Create() here !!!!
 	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
 
 	// init grid columns
-	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135, 0};
-	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),_("Progress"),_("To completion"),_("Report deadline"),_("Status"),wxEmptyString};
+	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135};
+	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),_("Progress"),_("To completion"),_("Report deadline"),_("Status")};
 	for(int i=0; i< NUM_COLUMNS;i++){
 		m_pGridPane->SetColLabelValue(i,colTitles[i]);
-		m_pGridPane->SetColSize(i,colSizes[i]);		
+		m_pGridPane->SetColSize(i,colSizes[i]);
 	}
 	// set alignment for cpu time column to right
 	m_pGridPane->SetColAlignment(COLUMN_CPUTIME,wxALIGN_RIGHT,wxALIGN_CENTER);
 	// set alignment for completion column to right
 	m_pGridPane->SetColAlignment(COLUMN_TOCOMPLETION,wxALIGN_RIGHT,wxALIGN_CENTER);
-	//change the default cell renderer
+	//change the cell renderer for progress column
 	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS));
 	//set column sort types
 	m_pGridPane->SetColumnSortType(COLUMN_PROGRESS,CST_FLOAT);
 	m_pGridPane->SetColumnSortType(COLUMN_CPUTIME,CST_TIME);
 	m_pGridPane->SetColumnSortType(COLUMN_TOCOMPLETION,CST_TIME);
 	m_pGridPane->SetColumnSortType(COLUMN_REPORTDEADLINE,CST_DATETIME);
-	m_pGridPane->SetColumnSortType(COLUMN_RESULTS_INDEX,CST_LONG);
 	//set primary key column index
 	m_pGridPane->SetPrimaryKeyColumn(COLUMN_NAME);
-        // Hide the Index column
-        int min_width = m_pGridPane->GetColMinimalAcceptableWidth();
+	/*m_pGridPane->SetColumnSortType(COLUMN_RESULTS_INDEX,CST_LONG);
+    // Hide the Index column
+    int min_width = m_pGridPane->GetColMinimalAcceptableWidth();
 	m_pGridPane->SetColMinimalAcceptableWidth(0);
-        m_pGridPane->SetColSize(COLUMN_RESULTS_INDEX,0);
-	m_pGridPane->SetColMinimalAcceptableWidth(min_width);
-
+    m_pGridPane->SetColSize(COLUMN_RESULTS_INDEX,0);
+	m_pGridPane->SetColMinimalAcceptableWidth(min_width);*/
+	//delete pseudo row
+	m_pGridPane->GetTable()->DeleteRows();
     UpdateSelection();
+	sortCounter=0;
 }
 
 CViewWorkGrid::~CViewWorkGrid() {
@@ -224,7 +226,7 @@ void CViewWorkGrid::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
 void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWorkGrid::OnWorkShowGraphics - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
+    wxInt32  iAnswer        = 0;
     wxString strMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -307,14 +309,10 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 	strName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
 	strProgress = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROGRESS).Trim(false);
 	strStatus = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_STATUS).Trim(false);
-	
-    //FormatName(iResult, strName);
-    //FormatProgress(iResult, strProgress);
-    //FormatStatus(iResult, strStatus);
 
     strMessage.Printf(
         _("Are you sure you want to abort this task '%s'?\n"
-          "(Progress: %s %%, Status: %s)"), 
+          "(Progress: %s %%, Status: %s)"),
         strName.c_str(),
         strProgress.c_str(),
         strStatus.c_str()
@@ -407,7 +405,7 @@ void CViewWorkGrid::UpdateSelection() {
             if (
                 result->active_task_state != PROCESS_ABORT_PENDING &&
                 result->active_task_state != PROCESS_ABORTED &&
-                result->state != RESULT_ABORTED 
+                result->state != RESULT_ABORTED
             ) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
             } else {
@@ -470,8 +468,8 @@ void CViewWorkGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* project)
 
                 // Default project url
                 pItem = new CTaskItem(
-                    wxString(project->project_name.c_str(), wxConvUTF8), 
-                    wxT(""), 
+                    wxString(project->project_name.c_str(), wxConvUTF8),
+                    wxT(""),
                     wxString(project->master_url.c_str(), wxConvUTF8),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
@@ -497,7 +495,147 @@ void CViewWorkGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* project)
 }
 
 
-wxInt32 CViewWorkGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
+
+bool CViewWorkGrid::OnSaveState(wxConfigBase* pConfig) {
+    bool bReturnValue = true;
+
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pGridPane);
+
+    if (!m_pTaskPane->OnSaveState(pConfig)) {
+        bReturnValue = false;
+    }
+
+    if (!m_pGridPane->OnSaveState(pConfig)) {
+        bReturnValue = false;
+    }
+
+    return bReturnValue;
+}
+
+
+bool CViewWorkGrid::OnRestoreState(wxConfigBase* pConfig) {
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+	wxASSERT(m_pGridPane);
+
+    if (!m_pTaskPane->OnRestoreState(pConfig)) {
+        return false;
+    }
+
+    if (!m_pGridPane->OnRestoreState(pConfig)) {
+        return false;
+    }
+
+    return true;
+}
+
+wxInt32 CViewWorkGrid::GetDocCount() {
+	return wxGetApp().GetDocument()->GetWorkCount();
+}
+
+void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
+
+    wxInt32 docCount = GetDocCount();
+	sortCounter++;
+
+    // We haven't connected up to the CC yet, there is nothing to display, make sure
+    //   everything is deleted.
+    if ( docCount <= 0 ) {
+        if ( m_pGridPane->GetNumberRows() ) {
+            m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
+        }
+        return;
+    }
+
+	bool rowCountChanged=false;
+    // Right-size the grid so that the number of rows matches
+    //   the document state.
+    if(docCount != m_pGridPane->GetNumberRows()) {
+        if (docCount > m_pGridPane->GetNumberRows()) {
+			rowCountChanged=true;
+    	    m_pGridPane->AppendRows(docCount - m_pGridPane->GetNumberRows());
+        } else {
+			rowCountChanged=true;
+		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
+        }
+        wxASSERT(docCount == m_pGridPane->GetNumberRows());
+    }
+
+	//set the docRows indizees back to default order
+	if(rowCountChanged) {
+		m_pGridPane->GetTable()->ResetDocRows();
+	}
+	//sort only
+    //1. if row count changed
+    //2. if sort is enforced by user through label click
+	//3. internal refresh counter grows over 10
+	bool sorted=false;
+    if( rowCountChanged || m_pGridPane->m_sortNeededByLabelClick || sortCounter > 10)
+    {
+		m_pGridPane->SortData2();
+		sorted=true;
+		sortCounter=0;
+    }
+	//refresh the whole grid if rows were added/removed or sorting was done
+	if(rowCountChanged || sorted) {
+		m_pGridPane->ForceRefresh();
+	}		
+	else //otherwise refresh only columns with possible value changes (view specific)
+	{
+		m_pGridPane->RefreshColumn(COLUMN_CPUTIME);
+		m_pGridPane->RefreshColumn(COLUMN_PROGRESS);
+		m_pGridPane->RefreshColumn(COLUMN_TOCOMPLETION);
+		m_pGridPane->RefreshColumn(COLUMN_STATUS);
+	}
+
+    UpdateSelection();
+}
+
+//########################## CBOINCWorkGridTable class
+CBOINCWorkGridTable::CBOINCWorkGridTable(int rows, int cols) : CBOINCGridTable(rows,cols) {
+}
+
+wxString CBOINCWorkGridTable::GetValue(int row, int col) {
+	wxString strBuffer=wxEmptyString;
+	int docRow = GetDocRowIndex(row);
+	if(docRow<0) {
+		return strBuffer;
+	}
+	//wxLogTrace(wxT("Function Start/End"), wxT("CBOINCWorkGridTable::GetValue, col: %d , gridrow: %d, docrow: %d"),col,row,docRow);
+	switch(col) {
+		case COLUMN_PROJECT:
+			FormatProjectName(docRow, strBuffer);
+			break;
+		case COLUMN_APPLICATION:
+			FormatApplicationName(docRow, strBuffer);
+			break;
+		case COLUMN_NAME:
+			FormatName(docRow, strBuffer);
+			break;
+		case COLUMN_CPUTIME:
+			FormatCPUTime(docRow, strBuffer);
+			break;
+		case COLUMN_PROGRESS:
+			FormatProgress(docRow, strBuffer);
+			break;
+		case COLUMN_TOCOMPLETION:
+			FormatTimeToCompletion(docRow, strBuffer);
+			break;
+		case COLUMN_REPORTDEADLINE:
+			FormatReportDeadline(docRow, strBuffer);
+			break;
+		case COLUMN_STATUS:
+			FormatStatus(docRow, strBuffer);
+			break;
+		default:
+			break;
+	}
+	return strBuffer;
+}
+
+wxInt32 CBOINCWorkGridTable::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT* result = wxGetApp().GetDocument()->result(item);
     PROJECT* state_project = NULL;
@@ -510,7 +648,7 @@ wxInt32 CViewWorkGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxT(" ") + HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
+			strBuffer = wxT(" ") + CBOINCBaseView::HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
         } else {
             doc->ForceCacheUpdate();
         }
@@ -519,7 +657,7 @@ wxInt32 CViewWorkGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
     return 0;
 }
 
-wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CBOINCWorkGridTable::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT* result = wxGetApp().GetDocument()->result(item);
     RESULT* state_result = NULL;
@@ -539,12 +677,12 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
         if (state_result->wup->app->user_friendly_name.size()) {
-            strLocalBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
+			strLocalBuffer = CBOINCBaseView::HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
-            strLocalBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
+            strLocalBuffer = CBOINCBaseView::HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
         }
         strBuffer.Printf(
-            wxT(" %s %.2f"), 
+            wxT(" %s %.2f"),
             strLocalBuffer.c_str(),
             state_result->wup->avp->version_num/100.0
         );
@@ -556,7 +694,7 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
 }
 
 
-wxInt32 CViewWorkGrid::FormatName(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CBOINCWorkGridTable::FormatName(wxInt32 item, wxString& strBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(result);
@@ -569,7 +707,7 @@ wxInt32 CViewWorkGrid::FormatName(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-wxInt32 CViewWorkGrid::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CBOINCWorkGridTable::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
@@ -605,7 +743,7 @@ wxInt32 CViewWorkGrid::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-wxInt32 CViewWorkGrid::FormatProgress(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CBOINCWorkGridTable::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
@@ -627,7 +765,7 @@ wxInt32 CViewWorkGrid::FormatProgress(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-wxInt32 CViewWorkGrid::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CBOINCWorkGridTable::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
@@ -655,13 +793,13 @@ wxInt32 CViewWorkGrid::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer)
 }
 
 
-wxInt32 CViewWorkGrid::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CBOINCWorkGridTable::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const {
     wxDateTime     dtTemp;
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
         dtTemp.Set((time_t)result->report_deadline);
-		//don't trust default date string representation, this could prevent correct sorting 
+		//don't trust default date string representation, this could prevent correct sorting
         strBuffer = dtTemp.Format(wxT(" %x %X"));
     }
 
@@ -669,7 +807,7 @@ wxInt32 CViewWorkGrid::FormatReportDeadline(wxInt32 item, wxString& strBuffer) c
 }
 
 
-wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CBOINCWorkGridTable::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT*        result = wxGetApp().GetDocument()->result(item);
     CC_STATUS      status;
@@ -683,7 +821,7 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     switch(result->state) {
     case RESULT_NEW:
-        strBuffer = _("New"); 
+        strBuffer = _("New");
         break;
     case RESULT_FILES_DOWNLOADING:
         if (result->ready_to_report) {
@@ -778,166 +916,3 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 	strBuffer = wxT(" ") + strBuffer;
     return 0;
 }
-
-bool CViewWorkGrid::OnSaveState(wxConfigBase* pConfig) {
-    bool bReturnValue = true;
-
-    wxASSERT(pConfig);
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pGridPane);
-
-    if (!m_pTaskPane->OnSaveState(pConfig)) {
-        bReturnValue = false;
-    }
-
-    if (!m_pGridPane->OnSaveState(pConfig)) {
-        bReturnValue = false;
-    }
-
-    return bReturnValue;
-}
-
-
-bool CViewWorkGrid::OnRestoreState(wxConfigBase* pConfig) {
-    wxASSERT(pConfig);
-    wxASSERT(m_pTaskPane);
-	wxASSERT(m_pGridPane);
-
-    if (!m_pTaskPane->OnRestoreState(pConfig)) {
-        return false;
-    }
-
-    if (!m_pGridPane->OnRestoreState(pConfig)) {
-        return false;
-    }
-
-    return true;
-}
-
-wxInt32 CViewWorkGrid::GetDocCount() {
-	return wxGetApp().GetDocument()->GetWorkCount();
-}
-
-void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-    wxInt32 docCount = GetDocCount();
-    
-    // We haven't connected up to the CC yet, there is nothing to display, make sure
-    //   everything is deleted.
-    if ( docCount <= 0 ) {
-        if ( m_pGridPane->GetNumberRows() ) {
-            m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
-        }
-        return;
-    }
-    
-	// flag for row count changes 
-	bool rowCountChanged=false;
-    // Right-size the grid so that the number of rows matches
-    //   the document state.
-    if(docCount != m_pGridPane->GetNumberRows()) {
-        if (docCount > m_pGridPane->GetNumberRows()) {
-    	    m_pGridPane->AppendRows(docCount - m_pGridPane->GetNumberRows());
-    	    rowCountChanged=true;
-        } else {
-		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
-    	    rowCountChanged=true;
-        }
-        wxASSERT(docCount == m_pGridPane->GetNumberRows());
-    }
-
-    //init array to detect cell value changes
-    wxArrayInt arrColumnDataChanged;
-    for(int i=0; i< NUM_COLUMNS;i++) {
-        arrColumnDataChanged.Add(0);
-    }
-    //update cell values	
-    wxString strBuffer;
-    int iMax = m_pGridPane->GetNumberRows();
-
-    if (rowCountChanged) {
-        for(int iRow = 0; iRow < iMax; iRow++) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_RESULTS_INDEX, strBuffer.Format(wxT("%d"), iRow));
-        }
-    }
-
-    for(int iRow = 0; iRow < iMax; iRow++) {
-        long results_index;
-        (m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX)).ToLong(&results_index);
-        FormatProjectName(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
-            arrColumnDataChanged[COLUMN_PROJECT]=1;
-        }
-
-        FormatApplicationName(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_APPLICATION) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_APPLICATION, strBuffer);
-            arrColumnDataChanged[COLUMN_APPLICATION]=1;
-        }
-
-        FormatName(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_NAME) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_NAME, strBuffer);
-            arrColumnDataChanged[COLUMN_NAME]=1;
-        }
-
-        FormatCPUTime(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_CPUTIME) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_CPUTIME, strBuffer);
-            arrColumnDataChanged[COLUMN_CPUTIME]=1;
-        }
-
-        FormatProgress(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_PROGRESS) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_PROGRESS, strBuffer);
-            m_pGridPane->SetCellAlignment(iRow, COLUMN_PROGRESS, wxALIGN_CENTRE, wxALIGN_CENTRE);
-            arrColumnDataChanged[COLUMN_PROGRESS]=1;
-        }
-
-        FormatTimeToCompletion(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_TOCOMPLETION) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_TOCOMPLETION, strBuffer);
-            arrColumnDataChanged[COLUMN_TOCOMPLETION]=1;
-        }
-
-        FormatReportDeadline(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_REPORTDEADLINE) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_REPORTDEADLINE, strBuffer);
-            arrColumnDataChanged[COLUMN_REPORTDEADLINE]=1;
-        }
-		
-        strBuffer = wxEmptyString;
-        FormatStatus(results_index, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
-            m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
-            arrColumnDataChanged[COLUMN_STATUS]=1;
-        }
-    }
-
-    //sort only
-    //1. if row count changed
-    //2. if sorting column has cell value changes
-    //3. if sort is enforced by user through label click
-    if( rowCountChanged || 
-        (arrColumnDataChanged[m_pGridPane->sortColumn]==1) || 
-        m_pGridPane->sortNeededByLabelClick) 
-    {
-        wxArrayString ordered_indexes;
-        for(int iRow = 0; iRow < iMax; iRow++) {
-            ordered_indexes.Add(m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX));
-        }
-        
-        m_pGridPane->SortData();
-    
-        for(int iRow = 0; iRow < iMax; iRow++) {
-            if (ordered_indexes[iRow] != m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX)) {
-                // Refresh entire grid if sort order has changed
-                m_pGridPane->ForceRefresh();
-                break;
-            }
-        }
-    }
-    UpdateSelection();
-}
-
-

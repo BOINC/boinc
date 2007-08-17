@@ -147,8 +147,7 @@ protected:
     virtual bool            EnsureLastItemVisible();
 
     static  void            append_to_status(wxString& existing, const wxChar* additional);
-	static  wxString        HtmlEntityEncode(wxString strRaw);
-	static  wxString        HtmlEntityDecode(wxString strRaw);
+	
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
@@ -157,6 +156,9 @@ protected:
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
+public:
+	static  wxString        HtmlEntityEncode(wxString strRaw);
+	static  wxString        HtmlEntityDecode(wxString strRaw);
 };
 
 
