@@ -1,0 +1,25 @@
+This is a simple sample how to use Java Native Interface to implement BOINC applications in Java programming language.
+
+To test it, do the following:
+
+1. adapt pathes and lib locations in Makefile so that they point to the right directories/libs
+2. call make
+
+The sample programm can started in two different ways:
+
+a) run only the java application
+	- simply call "java -Djava.library.lib=. UpperCase"
+
+b) run the java application through the native invoker application
+	- create a symbolic link to your libjvm.so used in Makefile in the current directory
+	- set LD_LIBRARY_PATH to current directory and export it
+	- call ./uppercase_invoke
+
+
+In both cases you should get a bunch of log messages to the console, a uppercase file named "out" and a stderr.txt, that comes from boinc.
+
+Frank Weiler
+
+
+
+
