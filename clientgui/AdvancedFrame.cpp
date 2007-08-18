@@ -371,6 +371,11 @@ bool CAdvancedFrame::CreateMenu() {
         _("Display the simple BOINC graphical interface.")
     );
     
+    // Screen too small?
+    if (wxGetDisplaySize().GetHeight() < 600) {
+        menuView->Enable(ID_FILESWITCHGUI, false);
+    }
+    
     menuView->Check(ID_VIEWACCESSIBLE, VIEW_LIST == m_iDisplayViewType);
     menuView->Check(ID_VIEWGRID, VIEW_GRID == m_iDisplayViewType);
 
@@ -1307,7 +1312,10 @@ void CAdvancedFrame::OnSwitchView(wxCommandEvent& event) {
 void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
 
-    wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
+    // Screen too small?
+    if (wxGetDisplaySize().GetHeight() >= 600) {
+        wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function End"));
 }
