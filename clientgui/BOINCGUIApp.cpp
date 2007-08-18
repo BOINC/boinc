@@ -280,8 +280,8 @@ bool CBOINCGUIApp::OnInit() {
     // Is there a condition in which the Simple GUI should not be used?
     if (BOINC_SIMPLEGUI == m_iGUISelected) {
 
-        // Screen to small?
-        if ((wxGetDisplaySize().GetWidth() == 640) && (wxGetDisplaySize().GetHeight() == 480)) {
+        // Screen too small?
+        if (wxGetDisplaySize().GetHeight() < 600) {
             m_iGUISelected = BOINC_ADVANCEDGUI;
         }
 

@@ -7973,3 +7973,12 @@ David  17 Aug 2007
 		file_names.C
 		http_curl.C,h
 		net_stats.C,h
+
+Charlie 17 Aug 2007
+    MGR: Disable Simple GUI if the screen height < 600 (instead of== 480). 
+        also disable Simple GUI item in View Menu and prevent switching 
+        to Simple GUI.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp
