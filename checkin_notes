@@ -7988,4 +7988,6 @@ Rytis   18 Aug 2007
     
     html/
         user/forum_index.php
-        inc/forum.inc
+        inc/
+            forum.inc
+            util.inc

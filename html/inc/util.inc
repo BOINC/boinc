@@ -707,4 +707,22 @@ function strip_bbcode($string){
     return preg_replace("/((\[.+\])+?)(.+?)((\[\/.+\])+?)/","",$string);
 }
 
+function current_url() {
+    $url = "http";
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+        $url .= "s";
+    }
+    $url .= "://";
+    $url .= $_SERVER['SERVER_NAME'];
+    $url .= ":".$_SERVER['SERVER_PORT'];
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $url .= $_SERVER['REQUEST_URI'];
+    } else {
+        if ($_SERVER['QUERY_STRING']) {
+            $url .= "?".$_SERVER['QUERY_STRING'];
+        }
+    }
+    return $url;
+}
+
 ?>
