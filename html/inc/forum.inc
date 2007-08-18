@@ -1,5 +1,4 @@
 <?php
-
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once('../inc/db.inc');
@@ -419,7 +418,8 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
         if ($logged_in_user) {
             echo "<td align=\"right\">\n";
             
-            echo "<a href=\"forum_index.php?read=1&amp;".url_tokens($logged_in_user->authenticator)."\">Mark all threads as read</a><br />\n";
+            $return = urlencode($_SERVER["SCRIPT_NAME"]."?".$_SERVER["QUERY_STRING"]);
+            echo "<a href=\"forum_index.php?read=1&amp;".url_tokens($logged_in_user->authenticator)."&amp;return=".$return."\">Mark all threads as read</a><br />\n";
             
             // Private messages
             echo pm_notification($logged_in_user);

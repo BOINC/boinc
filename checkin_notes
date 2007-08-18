@@ -7982,3 +7982,10 @@ Charlie 17 Aug 2007
     clientgui/
         AdvancedFrame.cpp
         BOINCGUIApp.cpp
+
+Rytis   18 Aug 2007
+    Forums: return user to the same page after selecting "Mark all threads as read".
+    
+    html/
+        user/forum_index.php
+        inc/forum.inc

@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 /**
  * This is the forum index
  * It shows the categories available and each of the forums that are
@@ -15,6 +16,7 @@ $logged_in_user = get_logged_in_user(false);
 if ((get_int("read", true) == 1) && ($logged_in_user)) {
     check_tokens($logged_in_user->authenticator);
     mysql_query("UPDATE forum_preferences SET mark_as_read_timestamp=".time()." WHERE userid=".$logged_in_user->id.";");
+    Header("Location: ".get_str("return", true));
 }
 
 function forum_summary($forum) {
