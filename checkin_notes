@@ -7149,7 +7149,13 @@ Charlie 17 Aug 2007
     MGR: Disable Simple GUI if the screen height < 600 (instead of== 480). 
         also disable Simple GUI item in View Menu and prevent switching 
         to Simple GUI.
+    - API: don't include config.h in parse.h (port David's 7/24/07 change.)
+        This file is included from apps (indirectly, via graphics_api.h)
+        so it shouldn't assume that config.h exists
+
 
     clientgui/
         AdvancedFrame.cpp
         BOINCGUIApp.cpp
+    lib/
+        parse.h
