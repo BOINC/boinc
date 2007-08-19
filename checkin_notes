@@ -7991,3 +7991,13 @@ Rytis   18 Aug 2007
         inc/
             forum.inc
             util.inc
+
+Charlie 19 Aug 2007
+    Mac: New Mac application icons built with artwork from Michal 
+        Krakowiak.
+
+    clientgui/
+        res/
+            BOINCMgr.icns
+            MacInstaller.icns
+            MacUninstaller.icns
