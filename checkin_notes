@@ -7159,3 +7159,14 @@ Charlie 17 Aug 2007
         BOINCGUIApp.cpp
     lib/
         parse.h
+
+
+Charlie 19 Aug 2007
+    Mac: New Mac application icons built with artwork from Michal 
+        Krakowiak.
+
+    clientgui/
+        res/
+            BOINCMgr.icns
+            MacInstaller.icns
+            MacUninstaller.icns
