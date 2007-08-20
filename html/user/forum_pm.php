@@ -113,6 +113,9 @@ if ($action == "inbox") {
     $subject = stripslashes(post_str("subject", true));
     $content = stripslashes(post_str("content", true));
     
+    if (post_str("preview", true) == "Preview") {
+        pm_create_new();
+    }
     if (($to == null) || ($subject == null) || ($content == null)) {
         pm_create_new("You need to fill all fields to send a private message");
     } else {

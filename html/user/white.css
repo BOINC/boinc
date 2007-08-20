@@ -293,3 +293,16 @@ span.news_date {
     font-weight: bold;
     font-size: 1.1em;
 }
+
+#preview {
+    border: 2px solid #cccccc;
+    background-color: #eeeeee;
+    margin: 1em;
+    padding: 0.2em;
+}
+
+#preview .header {
+    font-weight: bold;
+    font-size: 1.3em;
+    border-bottom: 1px solid #cccccc;
+}

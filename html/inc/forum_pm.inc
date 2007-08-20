@@ -14,6 +14,17 @@ function pm_create_new($error = null) {
     page_head("Private messages : Create new");
     pm_header();
     
+    /**
+     * Preview
+     **/
+    if (post_str("preview", true) == "Preview") {
+        $options = new output_options;
+        echo "<div id=\"preview\">\n";
+        echo "<div class=\"header\">Preview</div>\n";
+        echo output_transform(post_str("content", true), $options);
+        echo "</div>\n";
+    }
+    
     global $logged_in_user;
     $replyto = get_int("replyto", true);
     $userid = get_int("userid", true);
@@ -59,7 +70,7 @@ function pm_create_new($error = null) {
     echo "<tr><th>Subject</th><td><input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\"></td></tr>\n";
     echo "<tr><th>Message<br /><span class=\"smalltext\">".html_info()."</span></th>\n";
     echo "<td><textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea></td></tr>\n";
-    echo "<tr><td></td><td><input type=\"submit\" value=\"Send message\"></td></tr>\n";
+    echo "<tr><td></td><td><input type=\"submit\" name=\"preview\" value=\"Preview\"> <input type=\"submit\" value=\"Send message\"></td></tr>\n";
     end_table();
     
     page_tail();

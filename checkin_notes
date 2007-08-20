@@ -8001,3 +8001,12 @@ Charlie 19 Aug 2007
             BOINCMgr.icns
             MacInstaller.icns
             MacUninstaller.icns
+
+Rytis   20 Aug 2007
+    Private messages: preview function before sending
+    
+    html/
+        inc/forum_pm.inc
+        user/
+            forum_pm.php
+            white.css
