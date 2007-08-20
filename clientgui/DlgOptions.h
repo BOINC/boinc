@@ -46,7 +46,7 @@
 ////@begin control identifiers
 #define ID_DIALOG 10000
 #define SYMBOL_CDLGOPTIONS_STYLE wxDEFAULT_DIALOG_STYLE
-#define SYMBOL_CDLGOPTIONS_TITLE _("BOINC Manager - Options")
+#define SYMBOL_CDLGOPTIONS_TITLE wxT("")
 #define SYMBOL_CDLGOPTIONS_IDNAME ID_DIALOG
 #define SYMBOL_CDLGOPTIONS_SIZE wxDefaultSize
 #define SYMBOL_CDLGOPTIONS_POSITION wxDefaultPosition

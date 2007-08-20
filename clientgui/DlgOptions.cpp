@@ -22,8 +22,15 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "DlgOptions.h"
+#include "SkinManager.h"
 
 ////@begin includes
 ////@end includes
@@ -100,9 +107,18 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_SOCKSPasswordCtrl = NULL;
 ////@end CDlgOptions member initialisation
 
+    wxString strCaption = caption;
+    if (strCaption.IsEmpty()) {
+        CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxASSERT(pSkinAdvanced);
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+        strCaption.Printf(_("%s - Options"), pSkinAdvanced->GetApplicationName().c_str());
+    }
+
 ////@begin CDlgOptions creation
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-    wxDialog::Create( parent, id, caption, pos, size, style );
+    wxDialog::Create( parent, id, strCaption, pos, size, style );
 
     CreateControls();
     GetSizer()->Fit(this);
