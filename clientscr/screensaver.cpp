@@ -33,8 +33,16 @@
 // NOTE: Right now it just selects the first graphics app
 //   found.
 RESULT* random_graphics_app(RESULTS& results) {
+    bool     bIsActive       = false;
+    bool     bIsExecuting    = false;
+    bool     bIsDownloaded   = false;
+
     for (unsigned i=0; i < results.results.size(); i++) {
         if (results.results[i]->graphics_exec_path.size() > 0) {
+            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results[i]->state);
+            bIsActive     = (results.results[i]->active_task);
+            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results[i]->scheduler_state);
+            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
 	        return results.results[i];
         }
     }

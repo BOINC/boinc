@@ -8010,3 +8010,17 @@ Rytis   20 Aug 2007
         user/
             forum_pm.php
             white.css
+
+Rom    20 Aug 2007
+    SCR: Only choose applications that are currently being
+      exected.
+    Win SCR: Update screensaver logo.
+    Win SCR: Reduce the amount of time the screensaver is stuck in startup mode
+      from 10 secs down to 2 secs. It still takes a second or two to download
+      state information from the CC.
+    
+    clientscr/
+        screensaver.cpp
+        screensaver_win.cpp
+    clientscr/res/
+        boinc.bmp

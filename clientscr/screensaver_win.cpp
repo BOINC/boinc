@@ -1013,7 +1013,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     tThreadCreateTime = time(0);
 
     while(1) {
-        bScreenSaverStarting = (10 >= (time(0) - tThreadCreateTime));
+        bScreenSaverStarting = (2 >= (time(0) - tThreadCreateTime));
 
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
 
@@ -1659,6 +1659,7 @@ VOID CScreensaver::UpdateErrorBox() {
     if (dwTimeLast == 0) {
         dwTimeLast = timeGetTime();
     }
+
     dwTimeNow = timeGetTime();
     fTimeDelta = (FLOAT)(dwTimeNow - dwTimeLast) / 10000.0f;
     dwTimeLast = dwTimeNow;
@@ -1726,7 +1727,7 @@ VOID CScreensaver::UpdateErrorBox() {
                     (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
                     (INT)(pMonitorInfo->yError + pMonitorInfo->heightError));
 
-				if ((dwTimeNow - pMonitorInfo->dwTimeLastUpdate) > 10000)
+				if ((dwTimeNow - pMonitorInfo->dwTimeLastUpdate) > 1000)
 				{
 					pMonitorInfo->dwTimeLastUpdate = dwTimeNow;
 
