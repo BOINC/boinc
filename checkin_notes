@@ -8034,4 +8034,4 @@ Charlie 20 Aug 2007
             project.pbxproj
     mac_installer/
         uninstall.cpp
-        Uninstaller.rsrc
+        Uninstaller.rsrc (new)
