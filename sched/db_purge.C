@@ -88,40 +88,32 @@ using namespace std;
 
 #define DB_QUERY_LIMIT                  1000
 
-SCHED_CONFIG    config;
-FILE            *wu_stream=NULL;
-FILE            *re_stream=NULL;
-FILE            *wu_index_stream=NULL;
-FILE            *re_index_stream=NULL;
-int             time_int=0;
-int min_age_days=0;
-
-// These is used if limiting the total number of workunits to eliminate
-int purged_workunits= 0;
-
-// If nonzero, maximum number of workunits to purge.
-// Since all results associated with a purged workunit are also purged,
-// this also limits the number of purged results.
-//
-int max_number_workunits_to_purge=0;
-
-// set on command line if compression of archives is desired
 #define COMPRESSION_NONE    0
 #define COMPRESSION_GZIP    1
 #define COMPRESSION_ZIP     2
 
-// subscripts MUST be in agreement with defines above
+SCHED_CONFIG config;
+FILE *wu_stream=NULL;
+FILE *re_stream=NULL;
+FILE *wu_index_stream=NULL;
+FILE *re_index_stream=NULL;
+int time_int=0;
+int min_age_days=0;
+bool no_archive = false;
+int purged_workunits= 0;
+    // used if limiting the total number of workunits to eliminate
+int max_number_workunits_to_purge=0;
+    // If nonzero, maximum number of workunits to purge.
+    // Since all results associated with a purged workunit are also purged,
+    // this also limits the number of purged results.
 const char *suffix[3]={"", ".gz", ".zip"};
-
-// default is no compression
+    // subscripts MUST be in agreement with defines above
 int compression_type=COMPRESSION_NONE;
-
-// set on command line if archive files should be closed and re-opened
-// after getting some max no of WU in the file
 int max_wu_per_file=0;
-
-// keep track of how many WU archived in file so far
+    // set on command line if archive files should be closed and re-opened
+    // after getting some max no of WU in the file
 int wu_stored_in_file=0;
+    // keep track of how many WU archived in file so far
 
 bool time_to_quit() {
     if (max_number_workunits_to_purge) {
@@ -429,12 +421,14 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 
     sprintf(buf, "where workunitid=%d", wu.id);
     while (!result.enumerate(buf)) {
-        retval= archive_result(result);
-        if (retval) return retval;
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG,
-            "Archived result [%d] to a file\n", result.id
-        );
+        if (!no_archive) {
+            retval= archive_result(result);
+            if (retval) return retval;
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "Archived result [%d] to a file\n", result.id
+            );
+        }
         retval= result.delete_from_db();
         if (retval) return retval;
         log_messages.printf(
@@ -489,25 +483,29 @@ bool do_pass() {
         did_something = true;
         
         // if archives have not already been opened, then open them.
-        if (!wu_stream) {
+        //
+        if (!no_archive && !wu_stream) {
             open_all_archives();
         }
 
         retval = purge_and_archive_results(wu, n);
         do_pass_purged_results += n;
 
-        retval= archive_wu(wu);
-        if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-                "Failed to write to XML file workunit:%d\n", wu.id
+        if (!no_archive) {
+            retval= archive_wu(wu);
+            if (retval) {
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    "Failed to write to XML file workunit:%d\n", wu.id
+                );
+                exit(5);
+            }
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "Archived workunit [%d] to a file\n", wu.id
             );
-            exit(5);
         }
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-            "Archived workunit [%d] to a file\n", wu.id
-        );
 
-        //purge workunit from DB
+        // purge workunit from DB
+        //
         retval= wu.delete_from_db();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
@@ -523,14 +521,16 @@ bool do_pass() {
         do_pass_purged_workunits++;
         wu_stored_in_file++;
 
-        // flush the various output files.
-        fflush(NULL);
+        if (!no_archive) {
+            fflush(NULL);
 
-        // if file has got max # of workunits, close and compress it.
-        // This sets file pointers to NULL
-        if (max_wu_per_file && wu_stored_in_file>=max_wu_per_file) {
-            close_all_archives();
-            wu_stored_in_file=0;
+            // if file has got max # of workunits, close and compress it.
+            // This sets file pointers to NULL
+            //
+            if (max_wu_per_file && wu_stored_in_file>=max_wu_per_file) {
+                close_all_archives();
+                wu_stored_in_file=0;
+            }
         }
 
         if (time_to_quit()) {
@@ -542,18 +542,19 @@ bool do_pass() {
     if (do_pass_purged_workunits) {
         log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "Archived %d workunits and %d results\n",
-            do_pass_purged_workunits,do_pass_purged_results
+            do_pass_purged_workunits, do_pass_purged_results
         );
     } 
 
     if (did_something && wu_stored_in_file>0) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "Currently open archive files contain %d workunits\n",
-            wu_stored_in_file);
+            wu_stored_in_file
+        );
     }
 
     if (do_pass_purged_workunits > DB_QUERY_LIMIT/2) {
-	return true;
+        return true;
     } else {
        	return false;
     }
@@ -580,6 +581,8 @@ int main(int argc, char** argv) {
             compression_type=COMPRESSION_GZIP;
         } else if (!strcmp(argv[i], "-max_wu_per_file")) {
             max_wu_per_file = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-no_archive")) {
+            no_archive = true;
         } else if (!strcmp(argv[i], "-sleep")) {
             sleep_sec = atoi(argv[++i]);
             if (sleep_sec < 1 || sleep_sec > 86400) {

@@ -244,8 +244,8 @@ static double estimate_wallclock_duration(
     }
     log_messages.printf(
         SCHED_MSG_LOG::MSG_DEBUG,
-        "est cpu dur %f; running_frac %f; rsf %f; est %f\n",
-        ecd, running_frac, request.resource_share_fraction, ewd
+        "est cpu dur %f; running_frac %f; est %f\n",
+        ecd, running_frac, ewd
     );
     return ewd;
 }
@@ -1038,14 +1038,14 @@ void send_work(
             if (reply.wreq.core_client_version>419) {
                 sprintf(helpful,
                     "(won't finish in time) "
-                    "Computer on %.1f%% of time, BOINC on %.1f%% of that, this project gets %.1f%% of that",
-                    100.0*reply.host.on_frac, 100.0*reply.host.active_frac, 100.0*sreq.resource_share_fraction
+                    "Computer on %.1f%% of time, BOINC on %.1f%% of that",
+                    100.0*reply.host.on_frac, 100.0*reply.host.active_frac
                 );
             } else {
                 sprintf(helpful,
                     "(won't finish in time) "
-                    "Computer available %.1f%% of time, this project gets %.1f%% of that",
-                    100.0*reply.host.on_frac, 100.0*sreq.resource_share_fraction
+                    "Computer available %.1f%% of time",
+                    100.0*reply.host.on_frac
                 );
             }
             USER_MESSAGE um(helpful, "high");

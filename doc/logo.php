@@ -11,6 +11,11 @@ The current logo and associated icons was designed by Michal Krakowiak.
 Its arms represent the convergence of separated things
 (such as computers) into a unified whole.
 The colors are based on U.C. Berkeley's blue-and-gold colors.
+<ul>
+<li> <a href=logo/boinc_600.jpg>600x305 version (JPEG)</a>
+<li> <a href=logo/www_logo_trans.png>Transparent-background version (PNG)</a>
+<li> <a href=logo/www_logo_trans.gif>Transparent-background version (GIFF)</a>
+</ul>
 
 <h2>The old BOINC logo and icons</h2>
 <ul>

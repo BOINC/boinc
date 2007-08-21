@@ -8039,3 +8039,13 @@ Charlie 20 Aug 2007
     mac_installer/
         uninstall.cpp
         Uninstaller.rsrc (new)
+
+David  21 Aug 2007
+    - scheduler: don't show resource share in msgs in cases where
+        it's not used.
+    - db_purge: add "no_archive" option
+
+    sched/
+        db_purge.C
+        handle_request.C
+        sched_send.C

@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("August 17, 2007",
+    "World Community Grid has announced that it is
+    <a href=http://www.worldcommunitygrid.org/forums/wcg/viewthread?thread=15715 >migrating fully to BOINC</a>.
+    Welcome to all WCG participants!"
+),
 array("July 25, 2007",
     "BOINC finally has a new logo!
     Many thanks Michal Krakowiak, the graphic designer who created it.

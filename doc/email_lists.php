@@ -46,17 +46,17 @@ list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_loc>boin
     of the BOINC GUI or web interfaces.
 ");
 list_item(
-    "<a href=http://www.lists.ssl.berkeley.edu/mailman/listinfo/boinc_stats>boinc_stats</a>",
+    "<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_stats>boinc_stats</a>",
     "For people developing web sites showing statistics for BOINC projects."
 );
 list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_cvs>boinc_cvs</a>",
     "Summaries of BOINC CVS checkins are posted to this list.
     No other posts, please."
 );
-list_item("<a href=http://www.lists.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>",
+list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>",
     "For people porting and optimizing BOINC applications."
 );
-list_item("<a href=http://www.lists.ssl.berkeley.edu/mailman/listinfo/boinc_helpers>boinc_helpers</a>",
+list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_helpers>boinc_helpers</a>",
     "For BOINC <a href=help.php>Help Volunteers</a>,
     to discuss policies and user problems."
 );
