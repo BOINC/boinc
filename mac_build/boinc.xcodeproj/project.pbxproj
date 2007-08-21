@@ -52,6 +52,7 @@
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
 		DD1C82310AF372D900F709AC /* sg_CustomControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */; };
+		DD1CF1950C7A8DDB00489EF8 /* Uninstaller.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = DD1CF1900C7A8DBC00489EF8 /* Uninstaller.rsrc */; };
 		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
 		DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */; };
@@ -850,6 +851,7 @@
 		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_CustomControls.cpp; path = ../clientgui/sg_CustomControls.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C82300AF372D900F709AC /* sg_CustomControls.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_CustomControls.h; path = ../clientgui/sg_CustomControls.h; sourceTree = SOURCE_ROOT; };
+		DD1CF1900C7A8DBC00489EF8 /* Uninstaller.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Uninstaller.rsrc; path = ../mac_installer/Uninstaller.rsrc; sourceTree = SOURCE_ROOT; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectListCtrl.cpp; path = ../clientgui/ProjectListCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD205A190BAF596E0008D473 /* ProjectListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProjectListCtrl.h; path = ../clientgui/ProjectListCtrl.h; sourceTree = SOURCE_ROOT; };
@@ -1383,6 +1385,7 @@
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
 				DD531BC70C193D5200742E50 /* MacUninstaller.icns */,
+				DD1CF1900C7A8DBC00489EF8 /* Uninstaller.rsrc */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DDEB3CA80981084A0087E200 /* gridrepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
@@ -1985,6 +1988,7 @@
 				DD46883E0C165F3C0089F500 /* Sources */,
 				DD46883F0C165F3C0089F500 /* Frameworks */,
 				DD32CC900C27CFB90016F571 /* ShellScript */,
+				DD1CF1920C7A8DCF00489EF8 /* Rez */,
 			);
 			buildRules = (
 			);
@@ -2273,6 +2277,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		DD1CF1920C7A8DCF00489EF8 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1CF1950C7A8DDB00489EF8 /* Uninstaller.rsrc in Rez */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		DD1AFEB10A512D8700EE5B82 /* ShellScript */ = {
