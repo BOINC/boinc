@@ -578,6 +578,10 @@ int DB_HOST::update_diff(HOST& h) {
         sprintf(buf, " d_boinc_max=%f,", d_boinc_max);
         strcat(updates, buf);
     }
+    if (n_bwdown != h.n_bwdown) {
+        sprintf(buf, " n_bwdown=%f,", n_bwdown);
+        strcat(updates, buf);
+    }
     if (n_bwup != h.n_bwup) {
         sprintf(buf, " n_bwup=%f,", n_bwup);
         strcat(updates, buf);

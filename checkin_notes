@@ -8049,3 +8049,11 @@ David  21 Aug 2007
         db_purge.C
         handle_request.C
         sched_send.C
+
+David  21 Aug 2007
+    - scheduler: update host.n_bwdown
+        (this was omitted for some reason).
+        From Kevin Reed.
+
+    db/
+        boinc_db.C
