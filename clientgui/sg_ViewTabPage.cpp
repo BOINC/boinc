@@ -320,7 +320,12 @@ void CViewTabPage::UpdateInterface()
 
 void CViewTabPage::CreateSlideShowWindow() {
 	wSlideShow=new wxWindow(this,-1,wxPoint(26,74),wxSize(290,126),wxNO_BORDER);
+#ifdef __WXMAC__
+        // Ugly hack for unknown alignment problem on Mac, requested by Kevin Reed
+	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,-22), wxSize(290,148), GetSlideShow());
+#else
 	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(290,126), GetSlideShow());
+#endif
 }
 
 
