@@ -19,18 +19,15 @@
 
 // NET_STATS estimates average network throughput,
 // i.e. the average total throughput in both the up and down directions.
-// Here's how it works: NET_STATS::poll() is called every second or so.
-// If there are any file transfers active,
-// it increments elapsed time and byte counts,
-// and maintains an exponential average of throughput.
+//
+// NET_STATUS keeps track of whether we have a physical connection,
+// and whether we need one
 
 #include "cpp.h"
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <cstring>
 #include <cmath>
@@ -40,6 +37,7 @@
 #include "time.h"
 #include "str_util.h"
 #include "error_numbers.h"
+#include "util.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -47,105 +45,75 @@
 
 #include "net_stats.h"
 
-#define EXP_DECAY_RATE (1./3600)
+#define NET_RATE_HALF_LIFE  (7*86400)
 
 NET_STATUS net_status;
 
 NET_STATS::NET_STATS() {
-    last_time = 0;
     memset(&up, 0, sizeof(up));
     memset(&down, 0, sizeof(down));
 }
 
-void NET_INFO::update(double dt, double nb, bool active) {
-    //msg_printf(NULL, MSG_INFO, "dt %f nb %f active %d", dt, nb, active);
-    if (active) {
-        delta_t += dt;
-        delta_nbytes += nb-last_bytes;
-    }
-    last_bytes = nb;
-}
-
-double NET_INFO::throughput() {
-    double x, tp, new_tp=0;
-    if (starting_throughput > 0) {
-        if (delta_t > 0) {
-            x = exp(-delta_t*EXP_DECAY_RATE);
-            tp = delta_nbytes/delta_t;
-            new_tp = x*starting_throughput + (1-x)*tp;
-        } else {
-            new_tp = starting_throughput;
-        }
-    } else if (delta_t > 0) {
-        new_tp = delta_nbytes/delta_t;
-    } else {
-    }
-#if 0
-    msg_printf(NULL, MSG_INFO, "start %f delta_t %f delta_nb %f new_tp %f",
-        starting_throughput, delta_t, delta_nbytes, new_tp
-    );
-#endif
-    starting_throughput = new_tp;
-    delta_nbytes = delta_t = 0;
-    return new_tp;
-}
-
-void NET_STATS::poll(FILE_XFER_SET& fxs, HTTP_OP_SET& hops) {
-    double dt;
-    bool upload_active, download_active;
-
-    if (last_time == 0) {
-        dt = 0;
-    } else {
-        dt = gstate.now - last_time;
-    }
-    last_time = gstate.now;
-
-    fxs.check_active(upload_active, download_active);
-    up.update(dt, hops.bytes_up, upload_active);
-    down.update(dt, hops.bytes_down, download_active);
-
-	if (net_status.need_to_contact_reference_site && gstate.gui_http.state==GUI_HTTP_STATE_IDLE) {
-		net_status.contact_reference_site();
-	}
-}
-
-// Write XML based network statistics
+// called after file xfer to update rates
 //
+void NET_INFO::update(double nbytes, double dt) {
+    if (nbytes == 0 || dt==0) return;
+    double bytes_sec = nbytes/dt;
+    if (max_rate == 0) {
+        max_rate = bytes_sec;   // first time
+    } else {
+        // somewhat arbitrary weighting formula
+        //
+        double w = log(nbytes)/500;
+        if (w>1) w = 1;
+        max_rate = w*bytes_sec + (1-w)*max_rate;
+    }
+    double start_time = gstate.now - dt;
+    update_average(
+        start_time,
+        nbytes,
+        NET_RATE_HALF_LIFE,
+        avg_rate,
+        avg_time
+    );
+}
+
 int NET_STATS::write(MIOFILE& out) {
     out.printf(
         "<net_stats>\n"
-        "    <bwup>%g</bwup>\n"
-        "    <bwdown>%g</bwdown>\n"
+        "    <bwup>%f</bwup>\n"
+        "    <avg_up>%f</avg_up>\n"
+        "    <avg_time_up>%f</avg_time_up>\n"
+        "    <bwdown>%f</bwdown>\n"
+        "    <avg_down>%f</avg_down>\n"
+        "    <avg_time_down>%f</avg_time_down>\n"
         "</net_stats>\n",
-        up.throughput(),
-        down.throughput()
+        up.max_rate,
+        up.avg_rate,
+        up.avg_time,
+        down.max_rate,
+        down.avg_rate,
+        down.avg_time
     );
     return 0;
 }
 
-// Read XML based network statistics
-//
 int NET_STATS::parse(MIOFILE& in) {
     char buf[256];
-    double bwup, bwdown;
 
     memset(this, 0, sizeof(NET_STATS));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</net_stats>")) return 0;
-        else if (parse_double(buf, "<bwup>", bwup)) {
-            up.starting_throughput = bwup;
-            continue;
-        }
-        else if (parse_double(buf, "<bwdown>", bwdown)) {
-            down.starting_throughput = bwdown;
-            continue;
-        } else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(NULL, MSG_INFO,
-                    "[unparsed_xml] Unrecognized network statistics line: %s", buf
-                );
-            }
+        if (parse_double(buf, "<bwup>", up.max_rate)) continue;
+        if (parse_double(buf, "<avg_up>", up.avg_rate)) continue;
+        if (parse_double(buf, "<avg_time_up>", up.avg_time)) continue;
+        if (parse_double(buf, "<bwdown>", down.max_rate)) continue;
+        if (parse_double(buf, "<avg_down>", down.avg_rate)) continue;
+        if (parse_double(buf, "<avg_time_down>", down.avg_time)) continue;
+        if (log_flags.unparsed_xml) {
+            msg_printf(NULL, MSG_INFO,
+                "[unparsed_xml] Unrecognized network statistics line: %s", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -282,6 +250,12 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
             );
         }
     }
+}
+
+void NET_STATUS::poll() {
+	if (net_status.need_to_contact_reference_site && gstate.gui_http.state==GUI_HTTP_STATE_IDLE) {
+		net_status.contact_reference_site();
+	}
 }
 
 const char *BOINC_RCSID_733b4006f5 = "$Id$";

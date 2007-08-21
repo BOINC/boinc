@@ -94,10 +94,12 @@ public:
         // the above two MUST be long (not int)
         // otherwise breaks on 64-bit machines
     double start_time;
-    double xfer_speed;
-    double bytes_xferred;   // bytes transferred overall
+    double bytes_xferred;
+        // uncompressed bytes transferred in this session
 	double start_bytes_xferred;
-
+    double xfer_speed;
+        // tranfer rate based on elapsed time and bytes_xferred
+        // (hence doesn't reflect compression; used only for GUI)
 	int http_op_state;      // values above
     int http_op_type;       // HTTP_OP_* (see above)
     int http_op_retval;

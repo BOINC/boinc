@@ -36,24 +36,25 @@ class HTTP_OP_SET;
 // there's one of these each for upload and download
 //
 struct NET_INFO {
-    double delta_t;         // elapsed time of file transfer activity
-                            // in this session of client
-    double delta_nbytes;    // bytes transferred in this session
-    double last_bytes;
-    double starting_throughput; // throughput at start of session
+    double max_rate;
+        // estimate of max transfer rate; computed as an average of
+        // the rates of recent file transfers, weighted by file size.
+        // This ignores concurrency of transfers.
+    double avg_rate;        // recent average transfer rate
+    double avg_time;        // when avg_rate was last updated
+    void update(double nbytes, double dt);
+        // updates the above vars
 
-    void update(double dt, double nb, bool active);
-    double throughput();
 };
 
 class NET_STATS {
 public:
-    double last_time;
+    //double last_time;
     NET_INFO up;
     NET_INFO down;
 
     NET_STATS();
-    void poll(FILE_XFER_SET&, HTTP_OP_SET&);
+    //void poll(FILE_XFER_SET&, HTTP_OP_SET&);
 
     int write(MIOFILE&);
     int parse(MIOFILE&);
@@ -92,6 +93,7 @@ public:
         show_ref_message = false;
 		last_comm_time = 0;
     }
+    void poll();
 };
 
 // This is used to access a reference website (like yahoo or google)

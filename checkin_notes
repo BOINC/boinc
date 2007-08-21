@@ -7156,6 +7156,24 @@ Charlie 16 Aug 2007
         res/
             BOINCMgr.icns
 
+David  17 Aug 2007
+	- client: change the way upload/download throughput
+		estimates are maintained.
+		The old way took concurrency into account but ignored compression;
+		the new way does the converse.
+	- client: maintain new stat: recent average transfer rates.
+		This track average up/down throughputs
+		(over wall clock time, not just while xfers are active)
+		with a half-life of 1 day.
+		Will eventually add a new pref: don't fetch new work if
+		either of these is above a threshold
+
+	client/
+		client_state.C
+		file_names.C
+		http_curl.C,h
+		net_stats.C,h
+
 Charlie 17 Aug 2007
     MGR: Disable Simple GUI if the screen height < 600 (instead of== 480). 
         also disable Simple GUI item in View Menu and prevent switching 
@@ -7163,7 +7181,6 @@ Charlie 17 Aug 2007
     - API: don't include config.h in parse.h (port David's 7/24/07 change.)
         This file is included from apps (indirectly, via graphics_api.h)
         so it shouldn't assume that config.h exists
-
 
     clientgui/
         AdvancedFrame.cpp
@@ -7180,4 +7197,3 @@ Charlie 19 Aug 2007
             BOINCMgr.icns
             MacInstaller.icns
             MacUninstaller.icns
-
