@@ -8026,9 +8026,13 @@ Rom    20 Aug 2007
         boinc.bmp
 
 Charlie 20 Aug 2007
+    Mac SG: Ugly hack for unknown alignment problem on Mac, requested by Kevin 
+        Reed
     Mac Uninstaller: Display new image in "Are you sure" dialog showing new 
         BOINC logo going into the trash for non-English speaking users.
-        
+    
+    clientgui/
+        sg_ViewTabPage.cpp
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
