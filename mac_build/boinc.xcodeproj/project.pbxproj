@@ -299,6 +299,7 @@
 		DDD74DD407CF493E0065AC9D /* util.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.C */; };
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
+		DDDC70440C7A86A200179273 /* Uninstaller.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = DDDC70430C7A86A200179273 /* Uninstaller.rsrc */; };
 		DDE41C260C1FCA8F00CA1F86 /* graphics2_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DDE41C250C1FCA8F00CA1F86 /* graphics2_util.C */; };
 		DDF9A32F0B2E3D4D00091FCB /* auto_update.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF9A32D0B2E3D4D00091FCB /* auto_update.C */; };
 		DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.C in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */; };
@@ -1137,6 +1138,7 @@
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDDC70430C7A86A200179273 /* Uninstaller.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Uninstaller.rsrc; path = ../mac_installer/Uninstaller.rsrc; sourceTree = SOURCE_ROOT; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDE41C250C1FCA8F00CA1F86 /* graphics2_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2_util.C; path = ../api/graphics2_util.C; sourceTree = SOURCE_ROOT; };
 		DDEB3CA80981084A0087E200 /* gridrepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gridrepublic.icns; path = ../clientgui/res/gridrepublic.icns; sourceTree = SOURCE_ROOT; };
@@ -1383,6 +1385,7 @@
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
 				DD531BC70C193D5200742E50 /* MacUninstaller.icns */,
+				DDDC70430C7A86A200179273 /* Uninstaller.rsrc */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DDEB3CA80981084A0087E200 /* gridrepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
@@ -1985,6 +1988,7 @@
 				DD46883E0C165F3C0089F500 /* Sources */,
 				DD46883F0C165F3C0089F500 /* Frameworks */,
 				DD32CC900C27CFB90016F571 /* ShellScript */,
+				DDDC700C0C7A7D8B00179273 /* Rez */,
 			);
 			buildRules = (
 			);
@@ -2273,6 +2277,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		DDDC700C0C7A7D8B00179273 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDDC70440C7A86A200179273 /* Uninstaller.rsrc in Rez */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		DD1AFEB10A512D8700EE5B82 /* ShellScript */ = {
@@ -3371,7 +3386,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "Uninstall BOINC";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
