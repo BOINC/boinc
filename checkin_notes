@@ -8024,3 +8024,14 @@ Rom    20 Aug 2007
         screensaver_win.cpp
     clientscr/res/
         boinc.bmp
+
+Charlie 20 Aug 2007
+    Mac Uninstaller: Display new image in "Are you sure" dialog showing new 
+        BOINC logo going into the trash for non-English speaking users.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        uninstall.cpp
+        Uninstaller.rsrc
