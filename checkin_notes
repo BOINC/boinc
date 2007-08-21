@@ -7168,6 +7168,7 @@ David  17 Aug 2007
 		Will eventually add a new pref: don't fetch new work if
 		either of these is above a threshold
 
+
 	client/
 		client_state.C
 		file_names.C
@@ -7197,3 +7198,14 @@ Charlie 19 Aug 2007
             BOINCMgr.icns
             MacInstaller.icns
             MacUninstaller.icns
+
+Charlie 20 Aug 2007
+    Mac Uninstaller: Display new image in "Are you sure" dialog showing new 
+        BOINC logo going into the trash for non-English speaking users.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        uninstall.cpp
+        Uninstaller.rsrc (new)
