@@ -141,7 +141,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWINX64)\contrib\include&quot;;&quot;$(WXWINX64)\include&quot;;&quot;$(WXWINX64)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win"
+				AdditionalIncludeDirectories="..;&quot;$(WXWINX64)\contrib\include&quot;;&quot;$(WXWINX64)\include&quot;;&quot;$(WXWINX64)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -530,7 +530,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWINPRODX64)\contrib\include&quot;;&quot;$(WXWINPRODX64)\include&quot;;&quot;$(WXWINPRODX64)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win"
+				AdditionalIncludeDirectories="..;&quot;$(WXWINPRODX64)\contrib\include&quot;;&quot;$(WXWINPRODX64)\include&quot;;&quot;$(WXWINPRODX64)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
