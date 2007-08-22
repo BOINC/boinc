@@ -7221,3 +7221,9 @@ Charlie 20 Aug 2007
     /
         configure.ac
         version.h
+
+Charlie 21 Aug 2007
+	Win Mgr: Fix bad include header path in boinc.sln
+
+    win_build/
+        boincmgr_curl.vcproj
