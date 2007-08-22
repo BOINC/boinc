@@ -388,11 +388,11 @@ $linux_libs_58= "
       </ul>
 ";
 
-$w51018= array(
-    "num"=>"5.10.18",
+$w51019= array(
+    "num"=>"5.10.19",
     "status"=>"Development version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.18_windows_intelx86.exe",
-    "date"=>"8 Aug 2007",
+    "file"=>"boinc_5.10.19_windows_intelx86.exe",
+    "date"=>"21 Aug 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -416,11 +416,11 @@ $w51013= array(
     "bugs"=>""
 );
 
-$w51018x64= array(
-    "num"=>"5.10.18",
+$w51019x64= array(
+    "num"=>"5.10.19",
     "status"=>"Development version (WinXP64+)",
-    "file"=>"boinc_5.10.18_windows_x86_64.exe",
-    "date"=>"8 Aug 2007",
+    "file"=>"boinc_5.10.19_windows_x86_64.exe",
+    "date"=>"21 Aug 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -485,11 +485,11 @@ $w5411= array(
     "
 );
 
-$m51018 = array(
-    "num"=>"5.10.18",
+$m51019 = array(
+    "num"=>"5.10.19",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.18_macOSX_universal.zip",
-    "date"=>"14 Aug 2007",
+    "file"=>"boinc_5.10.19_macOSX_universal.zip",
+    "date"=>"22 Aug 2007",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_510."
@@ -557,11 +557,11 @@ $m549 = array(
     "
 );
 
-$m51018c = array(
-    "num"=>"5.10.18",
+$m51019c = array(
+    "num"=>"5.10.19",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.10.18_universal-apple-darwin.zip",
-    "date"=>"14 Aug 2007",
+    "file"=>"boinc_5.10.19_universal-apple-darwin.zip",
+    "date"=>"22 Aug 2007",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_510."
@@ -682,7 +682,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w51018,
+        $w51019,
         $w51013,
         $w5816,
         $w5411,
@@ -693,7 +693,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w51018x64,
+        $w51019x64,
         $w51013x64,
     )
 );
@@ -702,8 +702,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m51018,
-        $m51018c,
+        $m51019,
+        $m51019c,
         $m5107,
         $m5107c,
         $m5817,
