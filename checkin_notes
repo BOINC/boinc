@@ -8057,3 +8057,19 @@ David  21 Aug 2007
 
     db/
         boinc_db.C
+
+Rom    23 Aug 2007
+    - Win Install: Create a custom action for terminating the united
+        devices agent for WCG.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.def
+        boinccas.rc
+        boinccas.vcproj
+        CAShutdownUD.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
