@@ -7137,6 +7137,13 @@ Rom    15 Aug 2007
         boincdisconnect.gif (added)
         boincsnooze.gif (added)
 
+David  16 Aug 2007
+    - client: add a <data_dir> option in cc_config.xml;
+        tells the client to use this as the data directory
+
+    client/
+        log_flags.C,h
+
 Rom    16 Aug 2007
     - MGR: Make sure all the dialogs contain the application name
         and do not have BOINC Manager hard coded in them.
