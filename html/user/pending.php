@@ -33,6 +33,7 @@ if ($format == "xml") {
         echo "<result>\n";
         echo "    <resultid>".$result->id."</resultid>\n";
         echo "    <workunitid>".$result->workunitid."</workunitid>\n";
+        echo "    <hostid>".$result->hostid."</hostid>\n";
         echo "    <claimed_credit>".$result->claimed_credit."</claimed_credit>\n";
         echo "    <received_time>".$result->received_time."</received_time>\n";
         echo "</result>\n";
@@ -47,11 +48,12 @@ if ($format == "xml") {
     
     page_head("Pending credit");
     start_table();
-    echo "<tr><th>Result ID</th><th>Workunit ID</th><th>Claimed credit</th></tr>\n";
+    echo "<tr><th>Result ID</th><th>Workunit ID</th><th>Host ID</th><th>Claimed credit</th></tr>\n";
     while ($result = mysql_fetch_object($res)) {
         echo "<tr>\n";
         echo "<td><a href=\"result.php?resultid=$result->id\">$result->id</a></td>\n";
         echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
+        echo "<td><a href=\"show_host_detail.php?hostid=$result->hostid\">$result->hostid</a></td>\n";
         echo "<td>".format_credit($result->claimed_credit)."</td>\n";
         echo "</tr>\n";
         $sum += $result->claimed_credit;
