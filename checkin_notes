@@ -8073,3 +8073,14 @@ Rom    23 Aug 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rytis   24 Aug 2007
+    - User web: fix XSS vulnerability in team join/quit/lookup code.
+    
+    html/user/
+        team_join_action.php
+        team_join_form.php
+        team_lookup.php
+        team_quit_action.php
+        team_quit_form.php
+

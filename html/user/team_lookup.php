@@ -27,11 +27,11 @@ if ($team_id) {
     exit();
 }
 
-$team_name = $_GET["team_name"];
+$team_name = get_str("team_name");
 $name_lc = strtolower($team_name);
 $name_lc = escape_pattern($name_lc);
  
-$query = "select * from team where name like '%$name_lc%' order by expavg_credit desc";
+$query = "select * from team where name like '%".mysql_real_escape_string($name_lc)."%' order by expavg_credit desc";
 $result_list = mysql_query($query);
 
 if ($format == 'xml') {
@@ -49,7 +49,7 @@ if ($format == 'xml') {
 page_head("Search Results");
 if ($result_list) {
     $total = 0;
-    echo "<h2>Search results for '$team_name'</h2>";
+    echo "<h2>Search results for '".strip_tags($team_name)."'</h2>";
     echo "<p>";
     echo "You may view these teams' members, statistics, and information.";
     echo "<ul>";

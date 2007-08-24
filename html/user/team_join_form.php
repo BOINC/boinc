@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -17,9 +18,11 @@ echo " <p><b>Please note:</b>
     <li> Joining a team does not affect your account's credit.
     </ul>
     <hr>
-    <form method=post action=team_join_action.php>
-    <input type=hidden name=teamid value=$teamid>
-    <input type=submit value='Join team'>
+    <form method=\"post\" action=\"team_join_action.php\">";
+echo form_tokens($user->authenticator);
+echo "
+    <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
+    <input type=\"submit\" value=\"Join team\">
     </form>
 ";
 page_tail();

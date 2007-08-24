@@ -1,13 +1,15 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
 db_init();
-$user = get_logged_in_user();
+$user = get_logged_in_user(true);
+check_tokens($user->authenticator);
 
-$teamid = $_POST["teamid"];
+$teamid = post_int("teamid");
 $team = lookup_team($teamid);
 require_team($team);
 if ($user->teamid == $team->id) {

@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -22,9 +23,10 @@ echo "
     statistics in any way.
     </ul>
     </p>
-    <form method=post action=team_quit_action.php>
-    <input type=hidden name=id value=$team->id>
-    <input type=submit value=\"Quit Team\">
+    <form method=\"post\" action=\"team_quit_action.php\">";
+echo form_tokens($user->authenticator);
+echo "<input type=\"hidden\" name=\"id\" value=\"$team->id\">
+    <input type=\"submit\" value=\"Quit Team\">
     </form>
 ";
 page_tail();
