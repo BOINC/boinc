@@ -113,6 +113,15 @@ int diagnostics_update_process_list( std::vector<BOINC_PROCESS>& ps ) {
 }
 
 
+tstring downcase_string(tstring& orig) {
+    tstring retval = orig;
+    for (size_t i=0; i < retval.length(); i++) {
+        retval[i] = tolower(retval[i]);
+    }
+    return retval;
+}
+
+
 BOOL TerminateProcessById( DWORD dwProcessID ) {
     HANDLE hProcess;
     BOOL bRetVal = FALSE;
@@ -142,7 +151,7 @@ BOOL TerminateProcessEx( tstring& strProcessName ) {
     //   terminate it.
 	for (i=0; i < ps.size(); i++) {
 		BOINC_PROCESS& p = ps[i];
-        if (p.strProcessName == strProcessName) {
+        if (downcase_string(p.strProcessName) == downcase_string(strProcessName)) {
             if (TerminateProcessById(p.dwProcessId)) {
                 tps.push_back(p);
             }

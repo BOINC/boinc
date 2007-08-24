@@ -7258,3 +7258,17 @@ Rom    23 Aug 2007
     /
         configure.ac
         version.h
+
+Rom    24 Aug 2007
+    - Win Install: ignore string case before comparing process names.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        terminate.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
