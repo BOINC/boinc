@@ -383,15 +383,19 @@ function tr($tokennumber){
 /************************
  * Translate string
  ************************/
-function tra($string){
+function tra($string, $s1 = null, $s2 = null, $s3 = null, $s4 = null, $s5 = null){
     global $language_lookup_array;
     global $translation_strings;
     if (!is_null($language_lookup_array[$translation_strings[$string]])) {
-        return $language_lookup_array[$translation_strings[$string]];
-    } else {
-        language_log("String ".$string." missing from language interface.");
-        return $string;
+        $string = $language_lookup_array[$translation_strings[$string]];
     }
+    
+    $string = str_replace('%1', $s1, $string);
+    $string = str_replace('%2', $s2, $string);
+    $string = str_replace('%3', $s3, $string);
+    $string = str_replace('%4', $s4, $string);
+    $string = str_replace('%5', $s5, $string);
+    return $string;
 }
 
 function language_log($message, $loglevel=0){
