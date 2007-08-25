@@ -8096,3 +8096,17 @@ Rom    24 Aug 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Charlie 25 Aug 2007
+    Preferences: Apply David Barnard's patches to fix #363: per-day 
+        time preferences work incorrectly.  
+    MGR: Prefernces dialogs use cached preferences if connected to older 
+        pre-5.10.18 client (before new get_global_prefs_working_struct RPC)
+        
+    client/
+        cs_prefs.C
+    clientgui/
+        DlgAdvPreferences.cpp
+        sg_DlgPreferences.cpp
+    lib/
+        prefs.C,h

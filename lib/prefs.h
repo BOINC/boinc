@@ -41,9 +41,9 @@ struct GLOBAL_PREFS_MASK {
     bool run_if_user_active;
     bool idle_time_to_run;
     bool suspend_if_no_recent_input;
-    bool start_hour;     // 0..23; no restriction if start==end
+    bool start_hour;
     bool end_hour;
-    bool net_start_hour;     // 0..23; no restriction if start==end
+    bool net_start_hour;
     bool net_end_hour;
     bool leave_apps_in_memory;
     bool confirm_before_connecting;
@@ -68,36 +68,66 @@ struct GLOBAL_PREFS_MASK {
     void clear();
     bool are_prefs_set();
     bool are_simple_prefs_set();
+    void set_all();
 };
 
-#define PREFS_CPU       0
-#define PREFS_NETWORK   1
 
-struct TIME_PREFS {
-    double start_hour;     // 0..24
-        // run always if start==end or start==0, end=24
-        // don't run at all if start=24, end=0
-    double end_hour;
-    double net_start_hour;     // 0..24; no restriction if start==end
-    double net_end_hour;
+// 0..24
+// run always if start==end or start==0, end=24
+// don't run at all if start=24, end=0
+class TIME_SPAN {
+public:
+    enum TimeMode {
+        Always = 7000,
+        Never,
+        Between,
+    };
+    TIME_SPAN()
+        : start_hour(0), end_hour(0) {}
+    TIME_SPAN(double start, double end)
+        : start_hour(start), end_hour(end) {}
 
+    bool        suspended(double hour) const;
+    TimeMode    mode() const;
+
+    double      start_hour;
+    double      end_hour;
+    
+};
+
+
+class WEEK_PREFS {
+public:
+    WEEK_PREFS();
+    WEEK_PREFS(const WEEK_PREFS& original);
+    ~WEEK_PREFS();
+
+    TIME_SPAN* get(int day) const;
+    void set(int day, double start, double end);
+    void set(int day, TIME_SPAN* time);
+    void unset(int day);
     void clear();
-    bool suspended(double hour, int which);
+    WEEK_PREFS& operator=(const WEEK_PREFS& rhs);
+
+protected:
+    void copy(const WEEK_PREFS& original);
+    TIME_SPAN* days[7];
+
 };
 
-struct DAY_PREFS {
-    bool present;
-    int day_of_week;
-    TIME_PREFS time_prefs;
 
-    int parse(XML_PARSER&);
+class TIME_PREFS : public TIME_SPAN {
+public:
+    TIME_PREFS() : TIME_SPAN() {}
+    TIME_PREFS(double start, double end)
+        : TIME_SPAN(start, end) {}
+    
+    void        clear();
+    bool        suspended() const;
+    
+    WEEK_PREFS  week;
 };
 
-struct WEEK_PREFS {
-    bool present;       // at least one day is present
-    DAY_PREFS days[7];  // sun..sat
-    void clear();
-};
 
 struct GLOBAL_PREFS {
     int mod_time;
@@ -111,7 +141,8 @@ struct GLOBAL_PREFS {
     bool confirm_before_connecting;
     bool hangup_if_dialed;
     bool dont_verify_images;
-    TIME_PREFS time_prefs;
+    TIME_PREFS cpu_times;
+    TIME_PREFS net_times;
     double work_buf_min_days;
     double work_buf_additional_days;
     int max_cpus;
@@ -129,17 +160,16 @@ struct GLOBAL_PREFS {
     char source_project[256];
     char source_scheduler[256];
     bool host_specific;
-    WEEK_PREFS week_prefs;
 
     GLOBAL_PREFS();
     void defaults();
     void clear_bools();
     int parse(XML_PARSER&, const char* venue, bool& found_venue, GLOBAL_PREFS_MASK& mask);
+    int parse_day(XML_PARSER&);
     int parse_override(XML_PARSER&, const char* venue, bool& found_venue, GLOBAL_PREFS_MASK& mask);
     int parse_file(const char* filename, const char* venue, bool& found_venue);
     int write(MIOFILE&);
     int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);
-    bool suspended_time_of_day(int);
     inline double cpu_scheduling_period() {
         return cpu_scheduling_period_minutes*60;
     }

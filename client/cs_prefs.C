@@ -130,7 +130,7 @@ int CLIENT_STATE::check_suspend_processing() {
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
-        if (global_prefs.suspended_time_of_day(PREFS_CPU)) {
+        if (global_prefs.cpu_times.suspended()) {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
     }
@@ -223,7 +223,7 @@ int CLIENT_STATE::check_suspend_network() {
     if (!global_prefs.run_if_user_active && user_active) {
         return SUSPEND_REASON_USER_ACTIVE;
     }
-    if (global_prefs.suspended_time_of_day(PREFS_NETWORK)) {
+    if (global_prefs.net_times.suspended()) {
         return SUSPEND_REASON_TIME_OF_DAY;
     }
     return 0;
