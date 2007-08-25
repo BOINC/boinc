@@ -386,7 +386,7 @@ function tr($tokennumber){
 function tra($string){
     global $language_lookup_array;
     global $translation_strings;
-    if ($language_lookup_array[$translation_strings[$string]] != "") {
+    if (!is_null($language_lookup_array[$translation_strings[$string]])) {
         return $language_lookup_array[$translation_strings[$string]];
     } else {
         language_log("String ".$string." missing from language interface.");
