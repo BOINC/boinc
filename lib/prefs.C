@@ -43,14 +43,44 @@ void GLOBAL_PREFS_MASK::clear() {
     memset(this, 0, sizeof(GLOBAL_PREFS_MASK));
 }
 
+void GLOBAL_PREFS_MASK::set_all() {
+    run_on_batteries = true;
+    run_if_user_active = true;
+    idle_time_to_run = true;
+    suspend_if_no_recent_input = true;
+    start_hour = true;
+    end_hour = true;
+    net_start_hour = true;
+    net_end_hour = true;
+    leave_apps_in_memory = true;
+    confirm_before_connecting = true;
+    hangup_if_dialed = true;
+    dont_verify_images = true;
+    work_buf_min_days = true;
+    work_buf_additional_days = true;
+    max_cpus = true;
+    cpu_scheduling_period_minutes = true;
+    disk_interval = true;
+    disk_max_used_gb = true;
+    disk_max_used_pct = true;
+    disk_min_free_gb = true;
+    vm_max_used_frac = true;
+	ram_max_used_busy_frac = true;
+	ram_max_used_idle_frac = true;
+    idle_time_to_run = true;
+    max_bytes_sec_up = true;
+    max_bytes_sec_down = true;
+    cpu_usage_limit = true;
+}
+
 bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (run_on_batteries) return true;
     if (run_if_user_active) return true;
     if (idle_time_to_run) return true;
     if (suspend_if_no_recent_input) return true;
-    if (start_hour) return true;         // 0..23; no restriction if start==end
+    if (start_hour) return true;
     if (end_hour) return true;
-    if (net_start_hour) return true;     // 0..23; no restriction if start==end
+    if (net_start_hour) return true;
     if (net_end_hour) return true;
     if (leave_apps_in_memory) return true;
     if (confirm_before_connecting) return true;
@@ -87,11 +117,161 @@ bool GLOBAL_PREFS_MASK::are_simple_prefs_set() {
     return false;
 }
 
+
+// TIME_SPAN implementation
+
+bool TIME_SPAN::suspended(double hour) const {
+
+    if (start_hour == end_hour) return false;
+    if (start_hour == 0 && end_hour == 24) return false;
+    if (start_hour == 24 && end_hour == 0) return true;
+    if (start_hour < end_hour) {
+        return (hour < start_hour || hour > end_hour);
+    } else {
+        return (hour >= end_hour && hour < start_hour);
+    }
+}
+
+
+TIME_SPAN::TimeMode TIME_SPAN::mode() const {
+
+    if (end_hour == start_hour || (start_hour == 0.0 && end_hour == 24.0)) {
+        return Always;
+    } else if (start_hour == 24.0 && end_hour == 0.0) {
+        return Never;
+    }
+    return Between;
+}
+
+
+// TIME_PREFS implementation
+
 void TIME_PREFS::clear() {
     start_hour = 0;
     end_hour = 0;
-    net_start_hour = 0;
-    net_end_hour = 0;
+    week.clear();
+}
+
+
+bool TIME_PREFS::suspended() const {
+    time_t now = time(0);
+    struct tm* tmp = localtime(&now);
+    double hour = (tmp->tm_hour * 3600 + tmp->tm_min * 60 + tmp->tm_sec) / 3600.;
+    int day = tmp->tm_wday;
+
+    // Use day-specific settings, if they exist:
+    const TIME_SPAN* span = week.get(day) ? week.get(day) : this;
+
+    return span->suspended(hour);
+}
+
+
+// WEEK_PREFS implementation
+
+WEEK_PREFS::WEEK_PREFS() {
+
+    for (int i = 0; i < 7; i++) {
+        days[i] = 0;
+    }
+}
+
+
+WEEK_PREFS::WEEK_PREFS(const WEEK_PREFS& original) {
+
+    for (int i = 0; i < 7; i++) {
+        TIME_SPAN* time = original.days[i];
+        if (time) {
+            days[i] = new TIME_SPAN(time->start_hour, time->end_hour);
+        } else {
+            days[i] = 0;
+        }
+    }
+}
+
+
+WEEK_PREFS& WEEK_PREFS::operator=(const WEEK_PREFS& rhs) {
+
+    if (this != &rhs) {
+        for (int i = 0; i < 7; i++) {
+            TIME_SPAN* time = rhs.days[i];
+            if (time) {
+                if (days[i]) {
+                    *days[i] = *time;
+                } else {
+                    days[i] = new TIME_SPAN(*time);
+                }
+            } else {
+                unset(i);
+            }
+        }
+    }
+    return *this;
+}
+
+
+// Create a deep copy.
+void WEEK_PREFS::copy(const WEEK_PREFS& original) {
+
+    for (int i = 0; i < 7; i++) {
+        TIME_SPAN* time = original.days[i];
+        if (time) {
+            days[i] = new TIME_SPAN(time->start_hour, time->end_hour);
+        } else {
+            days[i] = 0;
+        }
+    }
+}
+
+
+WEEK_PREFS::~WEEK_PREFS() {
+    clear();
+}
+
+
+void WEEK_PREFS::clear() {
+
+    for (int i = 0; i < 7; i++) {
+        if (days[i]) {
+            delete days[i];
+            days[i] = 0;
+        }
+    }
+}
+
+
+TIME_SPAN* WEEK_PREFS::get(int day) const {
+
+    if (day < 0 || day > 6) return 0;
+    return days[day];
+}
+
+
+void WEEK_PREFS::set(int day, double start, double end) {
+
+    if (day < 0 || day > 6) return;
+
+    if (days[day]) delete days[day];
+    days[day] = new TIME_SPAN(start, end);
+}
+
+
+void WEEK_PREFS::set(int day, TIME_SPAN* time) {
+
+    if (day < 0 || day > 6) return;
+    if (days[day] == time) return;
+    if (days[day]) delete days[day];
+
+    days[day] = time;
+}
+
+void WEEK_PREFS::unset(int day) {
+
+    if (day < 0 || day > 6) return;
+
+    if (days[day]) {
+        delete days[day];
+        days[day] = 0;
+    }
 }
 
 // The following values determine how the client behaves
@@ -104,7 +284,8 @@ void GLOBAL_PREFS::defaults() {
     run_if_user_active = true;
     idle_time_to_run = 3;
     suspend_if_no_recent_input = 0;
-    time_prefs.clear();
+    cpu_times.clear();
+    net_times.clear();
     leave_apps_in_memory = false;
     confirm_before_connecting = true;
     hangup_if_dialed = false;
@@ -123,8 +304,6 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_up = 0;
     max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
-    week_prefs.present = false;
-    week_prefs.clear();
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here
     // since they are outside of <venue> elements,
@@ -140,46 +319,6 @@ void GLOBAL_PREFS::clear_bools() {
     confirm_before_connecting = false;
     hangup_if_dialed = false;
     dont_verify_images = false;
-    for (int i=0; i<7; i++) {
-        week_prefs.days[i].present = false;
-    }
-}
-
-bool TIME_PREFS::suspended(double hour, int which) {
-    double start, end;
-    switch (which) {
-    case PREFS_CPU:
-        start = start_hour;
-        end = end_hour;
-        break;
-    case PREFS_NETWORK:
-        start = net_start_hour;
-        end = net_end_hour;
-        break;
-    default:
-        return false;
-    }
-    if (start==end) return false;
-    if (start==0 && end==24) return false;  // redundant?
-    if (start==24 && end==0) return true;
-    if (start < end) {
-        return (hour < start || hour > end);
-    } else {
-        return (hour >= end && hour < start);
-    }
-}
-
-bool GLOBAL_PREFS::suspended_time_of_day(int which) {
-    time_t now = time(0);
-    struct tm *tmp = localtime(&now);
-    double hour = (tmp->tm_hour*3600 + tmp->tm_min*60 + tmp->tm_sec)/3600.;
-    int day = tmp->tm_wday;
-
-    if (week_prefs.present && week_prefs.days[day].present) {
-        return week_prefs.days[day].time_prefs.suspended(hour, which);
-    } else {
-        return time_prefs.suspended(hour, which);
-    }
 }
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -202,31 +341,52 @@ int GLOBAL_PREFS::parse(
     return parse_override(xp, host_venue, found_venue, mask);
 }
 
-int DAY_PREFS::parse(XML_PARSER& xp) {
+int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
     char tag[256];
     bool is_tag;
 
-    day_of_week = -1;
-    time_prefs.clear();
+    int day_of_week = -1;
+    bool has_cpu = false;
+    bool has_net = false;
+    double start_hour = 0;
+    double end_hour = 0;
+    double net_start_hour = 0;
+    double net_end_hour = 0;
+
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/day_prefs")) {
             if (day_of_week < 0 || day_of_week > 6) return ERR_XML_PARSE;
+            if (has_cpu) {
+                cpu_times.week.set(day_of_week, start_hour, end_hour);
+            }
+            if (has_net) {
+                net_times.week.set(day_of_week, net_start_hour, net_end_hour);
+            }
             return 0;
         }
         if (xp.parse_int(tag, "day_of_week", day_of_week)) continue;
-        if (xp.parse_double(tag, "start_hour", time_prefs.start_hour)) continue;
-        if (xp.parse_double(tag, "end_hour", time_prefs.end_hour)) continue;
-        if (xp.parse_double(tag, "net_start_hour", time_prefs.net_start_hour)) continue;
-        if (xp.parse_double(tag, "net_end_hour", time_prefs.net_end_hour)) continue;
-        xp.skip_unexpected(tag, true, "GLOBAL_PREFS::parse");
+        if (xp.parse_double(tag, "start_hour", start_hour)) {
+            has_cpu = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "end_hour", end_hour)) {
+            has_cpu = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "net_start_hour", net_start_hour)) {
+            has_net = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "net_end_hour", net_end_hour)) {
+            has_net = true;
+            continue;
+        }
+        xp.skip_unexpected(tag, true, "GLOBAL_PREFS::parse_day");
     }
     return ERR_XML_PARSE;
 }
 
-void WEEK_PREFS::clear() {
-    memset(this, 0, sizeof(*this));
-}
 
 // Parse global prefs, overriding whatever is currently in the structure.
 //
@@ -245,7 +405,6 @@ int GLOBAL_PREFS::parse_override(
     char tag[256], buf2[256];
     bool in_venue = false, in_correct_venue=false, is_tag;
     double dtemp;
-    int retval;
 
     found_venue = false;
     mask.clear();
@@ -304,30 +463,24 @@ int GLOBAL_PREFS::parse_override(
             mask.suspend_if_no_recent_input = true;
             continue;
         }
-        if (xp.parse_double(tag, "start_hour", time_prefs.start_hour)) {
+        if (xp.parse_double(tag, "start_hour", cpu_times.start_hour)) {
             mask.start_hour = true;
             continue;
         }
-        if (xp.parse_double(tag, "end_hour", time_prefs.end_hour)) {
+        if (xp.parse_double(tag, "end_hour", cpu_times.end_hour)) {
             mask.end_hour = true;
             continue;
         }
-        if (xp.parse_double(tag, "net_start_hour", time_prefs.net_start_hour)) {
+        if (xp.parse_double(tag, "net_start_hour", net_times.start_hour)) {
             mask.net_start_hour = true;
             continue;
         }
-        if (xp.parse_double(tag, "net_end_hour", time_prefs.net_end_hour)) {
+        if (xp.parse_double(tag, "net_end_hour", net_times.end_hour)) {
             mask.net_end_hour = true;
             continue;
         }
         if (!strcmp(tag, "day_prefs")) {
-            DAY_PREFS dp;
-            retval = dp.parse(xp);
-            if (!retval) {
-                dp.present = true;
-                week_prefs.present = true;
-                week_prefs.days[dp.day_of_week] = dp;
-            }
+            parse_day(xp);
             continue;
         }
         if (xp.parse_bool(tag, "leave_apps_in_memory", leave_apps_in_memory)) {
@@ -477,16 +630,15 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <idle_time_to_run>%f</idle_time_to_run>\n"
         "   <max_bytes_sec_up>%f</max_bytes_sec_up>\n"
         "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
-        "   <cpu_usage_limit>%f</cpu_usage_limit>\n"
-        "</global_preferences>\n",
+        "   <cpu_usage_limit>%f</cpu_usage_limit>\n",
         mod_time,
         run_on_batteries?"   <run_on_batteries/>\n":"",
         run_if_user_active?"   <run_if_user_active/>\n":"",
         suspend_if_no_recent_input,
-        time_prefs.start_hour,
-        time_prefs.end_hour,
-        time_prefs.net_start_hour,
-        time_prefs.net_end_hour,
+        cpu_times.start_hour,
+        cpu_times.end_hour,
+        net_times.start_hour,
+        net_times.end_hour,
         leave_apps_in_memory?"   <leave_apps_in_memory/>\n":"",
         confirm_before_connecting?"   <confirm_before_connecting/>\n":"",
         hangup_if_dialed?"   <hangup_if_dialed/>\n":"",
@@ -507,6 +659,28 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         max_bytes_sec_down,
         cpu_usage_limit
     );
+
+    for (int i = 0; i < 7; i++) {
+		TIME_SPAN* cpu = cpu_times.week.get(i);
+        TIME_SPAN* net = net_times.week.get(i);
+		//write only when needed
+		if (net || cpu) {
+			
+			f.printf("   <day_prefs>\n");				
+			f.printf("      <day_of_week>%d</day_of_week>\n", i);
+			if (cpu) {
+				f.printf("      <start_hour>%.02f</start_hour>\n", cpu->start_hour);
+				f.printf("      <end_hour>%.02f</end_hour>\n", cpu->end_hour);
+			}
+			if (net) {
+				f.printf("      <net_start_hour>%.02f</net_start_hour>\n", net->start_hour);
+				f.printf("      <net_end_hour>%.02f</net_end_hour>\n", net->end_hour);
+			}
+			f.printf("   </day_prefs>\n");
+		}
+	}
+    f.printf("</global_preferences>\n");
+
     return 0;
 }
 
@@ -537,16 +711,16 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         );
     }
     if (mask.start_hour) {
-        f.printf("   <start_hour>%f</start_hour>\n", time_prefs.start_hour);
+        f.printf("   <start_hour>%f</start_hour>\n", cpu_times.start_hour);
     }
     if (mask.end_hour) {
-        f.printf("   <end_hour>%f</end_hour>\n", time_prefs.end_hour);
+        f.printf("   <end_hour>%f</end_hour>\n", cpu_times.end_hour);
     }
     if (mask.net_start_hour) {
-        f.printf("   <net_start_hour>%f</net_start_hour>\n", time_prefs.net_start_hour);
+        f.printf("   <net_start_hour>%f</net_start_hour>\n", net_times.start_hour);
     }
     if (mask.net_end_hour) {
-        f.printf("   <net_end_hour>%f</net_end_hour>\n", time_prefs.net_end_hour);
+        f.printf("   <net_end_hour>%f</net_end_hour>\n", net_times.end_hour);
     }
     if (mask.leave_apps_in_memory) {
         f.printf("   <leave_apps_in_memory>%d</leave_apps_in_memory>\n",
@@ -610,32 +784,33 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (mask.cpu_usage_limit) {
         f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit);
     }
-	if (week_prefs.present) {
-		for(int i=0; i< 7;i++) {
-			DAY_PREFS dp = week_prefs.days[i];
-			//write only when needed
-			if(dp.present && 
-				(dp.time_prefs.start_hour != dp.time_prefs.end_hour || 
-				dp.time_prefs.net_start_hour != dp.time_prefs.net_end_hour)) {
-				
-				f.printf("   <day_prefs>\n");				
-				f.printf("      <day_of_week>%d</day_of_week>\n",dp.day_of_week);
-				if(dp.time_prefs.start_hour != dp.time_prefs.end_hour) {
-					f.printf("      <start_hour>%.02f</start_hour>\n",dp.time_prefs.start_hour);
-					f.printf("      <end_hour>%.02f</end_hour>\n",dp.time_prefs.end_hour);
-				}
-				if(dp.time_prefs.net_start_hour != dp.time_prefs.net_end_hour) {
-					f.printf("      <net_start_hour>%.02f</net_start_hour>\n",dp.time_prefs.net_start_hour);
-					f.printf("      <net_end_hour>%.02f</net_end_hour>\n",dp.time_prefs.net_end_hour);
-				}
-				f.printf("   </day_prefs>\n");
+
+	for (int i = 0; i < 7; i++) {
+		TIME_SPAN* cpu = cpu_times.week.get(i);
+        TIME_SPAN* net = net_times.week.get(i);
+		//write only when needed
+		if (net || cpu) {
+			
+			f.printf("   <day_prefs>\n");				
+			f.printf("      <day_of_week>%d</day_of_week>\n", i);
+			if (cpu) {
+				f.printf("      <start_hour>%.02f</start_hour>\n", cpu->start_hour);
+				f.printf("      <end_hour>%.02f</end_hour>\n", cpu->end_hour);
 			}
+			if (net) {
+				f.printf("      <net_start_hour>%.02f</net_start_hour>\n", net->start_hour);
+				f.printf("      <net_end_hour>%.02f</net_end_hour>\n", net->end_hour);
+			}
+			f.printf("   </day_prefs>\n");
 		}
 	}
+
     f.printf("</global_preferences>\n");
     
     return 0;
 }
 
 const char *BOINC_RCSID_3fb442bb02 = "$Id$";
+
+
 
