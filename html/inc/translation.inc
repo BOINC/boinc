@@ -172,6 +172,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
         fwrite($fh, "<?php\n");
         for ($i=0;$i<sizeof($interface);$i++){
             fwrite($fh, "define(\"".$interface[$i]."\",".($i+$real_interface_size).");\n");
+            fwrite($fh, "\$translation_strings[\"".$interface[$i]."\"] = ".$i+$real_interface_size.";\n");
         }
         fwrite($fh, '?>');
         fclose($fh);
