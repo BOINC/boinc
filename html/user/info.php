@@ -1,8 +1,18 @@
 <?php
+$cvs_version_tracker[]="\$Id$";
+
 require_once('../inc/util.inc');
 require_once('../inc/translation.inc');
 
 page_head(tr(RULES_TITLE));
+
+$show_default = true;
+
+if (function_exists("project_rules_policies")) {
+    $show_default = project_rules_policies();
+}
+
+if ($show_default) {
 echo "
 
 <h3>".tr(RULES_ONLY_AUTH)."</h3>
@@ -28,5 +38,6 @@ echo "
 <h3>".tr(RULES_OTHER)."</h3>
     <p>".tr(RULES_OTHER_TEXT_A)."
     <p>".tr(RULES_OTHER_TEXT_B);
+}
 page_tail();
 ?>
