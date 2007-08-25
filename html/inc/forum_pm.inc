@@ -1,26 +1,25 @@
 <?php
-
 $cvs_version_tracker[]="\$Id$";
 
 function pm_header() {
     echo "<div>\n";
-    echo "    <a href=\"forum_pm.php?action=inbox\">Inbox</a>\n";
-    echo "    | <a href=\"forum_pm.php?action=new\">Write</a>\n";
-    echo "    | <a href=\"forum_index.php\">Forum index</a>\n";
+    echo "    <a href=\"forum_pm.php?action=inbox\">".tra("Inbox")."</a>\n";
+    echo "    | <a href=\"forum_pm.php?action=new\">".tra("Write")."</a>\n";
+    echo "    | <a href=\"forum_index.php\">".tra("Forum index")."</a>\n";
     echo "</div>\n";
 }
 
 function pm_create_new($error = null) {
-    page_head("Private messages : Create new");
+    page_head(tra("Private messages")." : ".tra("Create new"));
     pm_header();
     
     /**
      * Preview
      **/
-    if (post_str("preview", true) == "Preview") {
+    if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
         echo "<div id=\"preview\">\n";
-        echo "<div class=\"header\">Preview</div>\n";
+        echo "<div class=\"header\">".tra("Preview")."</div>\n";
         echo output_transform(post_str("content", true), $options);
         echo "</div>\n";
     }
@@ -58,19 +57,19 @@ function pm_create_new($error = null) {
     $subject = htmlspecialchars($subject);
     
     if ($error != null) {
-        echo "<div class=\"error\">$error</div>\n";
+        echo "<div class=\"error\">".$error."</div>\n";
     }
     
     echo "<form action=\"forum_pm.php\" method=\"post\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo form_tokens($logged_in_user->authenticator);
     start_table();
-    echo "<tr><th>To<br /><span class=\"smalltext\">User IDs or unique usernames, separated with commas</span></th>\n";
+    echo "<tr><th>".tra("To")."<br /><span class=\"smalltext\">".tra("User IDs or unique usernames, separated with commas")."</span></th>\n";
     echo "<td><input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>Subject</th><td><input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>Message<br /><span class=\"smalltext\">".html_info()."</span></th>\n";
+    echo "<tr><th>".tra("Subject")."</th><td><input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\"></td></tr>\n";
+    echo "<tr><th>".tra("Message")."<br /><span class=\"smalltext\">".html_info()."</span></th>\n";
     echo "<td><textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea></td></tr>\n";
-    echo "<tr><td></td><td><input type=\"submit\" name=\"preview\" value=\"Preview\"> <input type=\"submit\" value=\"Send message\"></td></tr>\n";
+    echo "<tr><td></td><td><input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
     end_table();
     
     page_tail();
@@ -121,7 +120,7 @@ function pm_count($userid, $duration) {
 function check_pm_count($userid) {
     if ((pm_count($userid, 60) >= 2) || (pm_count($userid, 600) >= 5) ||
         (pm_count($userid, 3600) >= 15) || (pm_count($userid, 86400) >= 50)) {
-        error_page("You are not allowed to send privates messages so often. Please wait some time before sending more messages.");
+        error_page(tra("You are not allowed to send privates messages so often. Please wait some time before sending more messages."));
     }
 }
 

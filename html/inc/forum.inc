@@ -581,15 +581,15 @@ function pm_notification($user) {
     $pm = mysql_query("SELECT COUNT(*) AS unread FROM private_messages WHERE userid=".$user->id." AND opened=0");
     $pm = mysql_fetch_object($pm);
     if ($pm->unread > 1) {
-        $output .= "<strong><a href=\"forum_pm.php?action=inbox\">You have ".$pm->unread." unread private messages.</a> </strong>";
+        $output .= "<strong><a href=\"forum_pm.php?action=inbox\">".tra("You have %1 unread private messages.", $pm->unread)."</a> </strong>";
     } elseif ($pm->unread == 1) {
-        $output .= "<strong><a href=\"forum_pm.php?action=inbox\">You have one unread private message.</a> </strong>";
+        $output .= "<strong><a href=\"forum_pm.php?action=inbox\">".tra("You have one unread private message.")."</a> </strong>";
     } else {
-        $output .= "You have no unread private messages. ";
+        $output .= tra("You have no unread private messages.")." ";
     }
     
-    $output .= "| <a href=\"forum_pm.php?action=inbox\">Inbox</a>\n";
-    $output .= "| <a href=\"forum_pm.php?action=new\">Write</a>\n";
+    $output .= "| <a href=\"forum_pm.php?action=inbox\">".tra("Inbox")."</a>\n";
+    $output .= "| <a href=\"forum_pm.php?action=new\">".tra("Write")."</a>\n";
     return $output;
 }
 

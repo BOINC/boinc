@@ -1,8 +1,6 @@
-msgid ""
-msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-08 13:20+0200\n"
+"PO-Revision-Date: 2007-08-25 17:56+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -335,6 +333,117 @@ msgstr "Nerasta pavadinimų su '%s'."
 
 msgid "FORUM_SEARCH_BODIES_NO"
 msgstr "Nerasta pranešimų su '%s'."
+
+# ########################################
+# Private messages
+# ########################################
+msgid "Private messages"
+msgstr "Asmeninės žinutės"
+
+msgid "Inbox"
+msgstr "Gautosios žinutės"
+
+msgid "Write"
+msgstr "Rašyti"
+
+msgid "Forum index"
+msgstr "Forumų pradžios puslapis"
+
+msgid "Create new"
+msgstr "Sukurti naują"
+
+msgid "Preview"
+msgstr "Peržiūra"
+
+msgid "To"
+msgstr "Kam"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "Vartotojo ID arba unikalūs vardai, atskirti kableliais"
+
+msgid "Subject"
+msgstr "Tema"
+
+msgid "Message"
+msgstr "Žinutė"
+
+msgid "Send message"
+msgstr "Siųsti žinutę"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "Neleidžiama taip dažnai siųsti asmeninių žinučių. Šiek tiek palaukite prieš siųsdami daugiau žinučių."
+
+msgid "Your message has been sent."
+msgstr "Jūsų žinutė išsiųsta."
+
+msgid "You have no private messages."
+msgstr "Neturite asmeninių žinučių."
+
+msgid "No such message"
+msgstr "Žinutė nerasta"
+
+msgid "Really delete?"
+msgstr "Tikrai ištrinti?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "Ar tikrai norite ištrinti žinutę, kurios tema &quot;%1&quot; (išsiuntė %2 %3)?"
+
+msgid "Yes, delete"
+msgstr "Taip, ištrinti"
+
+msgid "No, cancel"
+msgstr "Ne, atšaukti"
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Reikia užpildyti visus laukus, kad galėtumėte išsiųsti asmeninę žinutę"
+
+msgid "Could not find user with id %1"
+msgstr "Nepavyko rasti vartotojo su ID %1"
+
+msgid "Could not find user with username %1"
+msgstr "Nepavyko rasti vartotojo su vardu %1"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 nėra unikalus vartotojo vardas; turėsite naudoti vartotojo ID"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "Vartotojas %1 (ID: %2) nepriima asmeninių žinučių iš jūsų."
+
+msgid "Really block %1?"
+msgstr "Tikrai blokuoti %1?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "Ar tikrai norite uždrausti vartotojui %1 siųsti jums asmenines žinutes?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Atminkite, kad galite blokuoti ribotą vartotojų skaičių."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Kai vartotojas bus užblokuotas, blokavimą galėsite atšaukti diskusijų lentos nustatymų puslapyje."
+
+msgid "Add user to filter"
+msgstr "Filtruoti vartotoją"
+
+msgid "No such user"
+msgstr "Vartotojas nerastas"
+
+msgid "User %1 blocked"
+msgstr "Vartotojas %1 užblokuotas"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "Vartotojui %1 uždrausta jums siųsti asmenines žinutes."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Kad atblokuotumėte, apsilankykite %1diskusijų lentos nustatymuose%2"
+
+msgid "You have %1 unread private messages."
+msgstr "Turite %1 neskaitytas asmenines žinutes."
+
+msgid "You have one unread private message."
+msgstr "Turite vieną neskaitytą asmeninę žinutę."
+
+msgid "You have no unread private messages."
+msgstr "Neturite neskaitytų asmeninių žinučių."
 
 # ########################################
 # Links from the main page

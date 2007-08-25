@@ -1,3 +1,12 @@
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-08-25 17:19+0200\n"
+"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
 ##########################################
 # Language: English (International)
 # FileID  : $Id$
@@ -7,17 +16,17 @@
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
-
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "English"
-
 
 #########################################
 # Apps page (apps.php)
@@ -26,11 +35,7 @@ msgid "APPS_TITLE"
 msgstr "Applications"
 
 msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT currently has the following applications. "
-"When you participate in $PROJECT, work for one or more "
-"of these applications will be assigned to your computer. "
-"The current version of the application will be downloaded "
-"to your computer. This happens automatically; you don't have to do anything. "
+msgstr "$PROJECT currently has the following applications. When you participate in $PROJECT, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything. "
 
 msgid "APPS_PLATFORM"
 msgstr "Platform"
@@ -51,93 +56,58 @@ msgid "RULES_ONLY_AUTH"
 msgstr "Run $PROJECT only on authorized computers"
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Run $PROJECT only on computers that you own, "
-"or for which you have obtained the owner's permission. "
-"Some companies and schools have policies that prohibit using their computers "
-"for projects such as $PROJECT"
+msgstr "Run $PROJECT only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
 msgstr "How $PROJECT will use your computer"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "When you run $PROJECT on your computer, "
-"it will use part of the computer's CPU power, disk space, and network bandwidth. "
-"You can control how much of your resources are used by $PROJECT, "
-"and when it uses them."
+msgstr "When you run $PROJECT on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by $PROJECT, and when it uses them."
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "The work done by your computer contributes to the "
-"goals of $PROJECT, as described on its web site. "
-"The application programs may change from time to time."
+msgstr "The work done by your computer contributes to the goals of $PROJECT, as described on its web site. The application programs may change from time to time."
 
 msgid "RULES_PRIVACY"
 msgstr "Privacy policy"
 
 msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Your account on $PROJECT is identified by a name that you choose. "
-"This name may be shown on the $PROJECT web site, along with a summary of "
-"the work your computer has done for $PROJECT. "
-"If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "Your account on $PROJECT is identified by a name that you choose. This name may be shown on the $PROJECT web site, along with a summary of the work your computer has done for $PROJECT. If you want to be anonymous, choose a name that doesn't reveal your identity."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "If you participate in $PROJECT, information about your computer "
-"(such as its processor type, amount of memory, etc.) "
-"will be recorded by $PROJECT and used to decide what type of work to "
-"assign to your computer. This information will also be shown on "
-"$PROJECT's web site. "
-"Nothing that reveals your computer's location (e.g. its domain name or "
-"network address) will be shown."
+msgstr "If you participate in $PROJECT, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by $PROJECT and used to decide what type of work to assign to your computer. This information will also be shown on $PROJECT's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "To participate in $PROJECT, you must give an address where you receive email. "
-"This address will not be shown on the $PROJECT web site or shared with organizations. "
-"$PROJECT may send you periodic newsletters; however, you can opt out at any time."
+msgstr "To participate in $PROJECT, you must give an address where you receive email. This address will not be shown on the $PROJECT web site or shared with organizations. $PROJECT may send you periodic newsletters; however, you can opt out at any time."
 
 msgid "RULES_SAFE"
 msgstr "Is it safe to run $PROJECT ?"
 
 msgid "RULES_SAFE_TEXT_A"
-msgstr "Any time you download a program through the Internet you are taking a chance: "
-"the program might have dangerous errors, "
-"or the download server might have been hacked. "
-"$PROJECT has made efforts to minimize these risks. "
-"We have tested our applications carefully. "
-"Our servers are behind a firewall and are configured for high security. "
-"To ensure the integrity of program downloads, all executable files are digitally "
-"signed on a secure computer not connected to the Internet."
+msgstr "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. $PROJECT has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "The applications run by $PROJECT may cause some computers to overheat. "
-"If this happens, stop running $PROJECT or use a %s that limits CPU usage."
+msgstr "The applications run by $PROJECT may cause some computers to overheat. If this happens, stop running $PROJECT or use a %s that limits CPU usage."
 
 msgid "RULES_UTILITY_PROGRAM"
 msgstr "utility program"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT was developed by %s. BOINC was developed at the University of "
-"California."
+msgstr "$PROJECT was developed by %s. BOINC was developed at the University of California."
 
 msgid "RULES_LIABILITY"
 msgstr "Liability"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT and %s assume no liability for damage to your computer, "
-"loss of data, or any other event or condition that may occur as a result of "
-"participating in $PROJECT."
+msgstr "$PROJECT and %s assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in $PROJECT."
 
 msgid "RULES_OTHER"
 msgstr "Other BOINC projects"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Other projects use the same platform, BOINC, as $PROJECT. You may want "
-"to consider participating in one or more of these projects. "
-"By doing so, your computer will do useful work even when $PROJECT has no work "
-"available for it."
+msgstr "Other projects use the same platform, BOINC, as $PROJECT. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when $PROJECT has no work available for it."
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "These other projects are not associated with $PROJECT, and we cannot "
-"vouch for their security practices or the nature of their research. Join them "
-"at your own risk."
+msgstr "These other projects are not associated with $PROJECT, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
 
 #########################################
 # Create account form (create_account_form.php)
@@ -149,8 +119,7 @@ msgid "CREATE_AC_READ_RULES"
 msgstr "Read the %s before creating an account."
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "If you already received an account key, do not submit this form. "
-"%s instead."
+msgstr "If you already received an account key, do not submit this form. %s instead."
 
 msgid "CREATE_AC_NAME"
 msgstr "Name"
@@ -180,17 +149,13 @@ msgid "CREATE_AC_DISABLED"
 msgstr "Account creation is disabled"
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "Account creation is disabled for $PROJECT at the moment. "
-"Please try again later."
+msgstr "Account creation is disabled for $PROJECT at the moment. Please try again later."
 
 msgid "CREATE_AC_TEAM"
 msgstr "This account will belong to the team %s and will have the project preferences of its founder."
 
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, "
-"don't use this form. "
-"Just run BOINC, select Attach Project, "
-"and enter an email address and password. "
+msgstr "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password. "
 
 msgid "CREATE_AC_PASSWORD"
 msgstr "Password"
@@ -213,17 +178,14 @@ msgstr "You must supply an invitation code to create an account."
 msgid "AC_INVITE_INVALID"
 msgstr "The invitation code you gave is not valid."
 
-
 #########################################
 # Forum sample index page
 #########################################
-
 msgid "FORUM_TITLE"
 msgstr "$PROJECT Message boards"
 
 msgid "FORUM_TITLE_SHORT"
 msgstr "Message boards"
-
 
 #########################################
 # General stuff (create_account_form.php and others)
@@ -234,7 +196,6 @@ msgstr "Optional"
 #########################################
 # Various top table pages (top users, computers, teams)
 #########################################
-
 msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Top participants"
 
@@ -265,20 +226,24 @@ msgstr "Members"
 msgid "TOP_HOST_TITLE"
 msgstr "Top hosts"
 
-
 #########################################
 # Forum
 #########################################
 msgid "FORUM_POSTS"
 msgstr "Posts"
+
 msgid "FORUM_TOPIC"
 msgstr "Topic"
+
 msgid "FORUM_THREADS"
 msgstr "Threads"
+
 msgid "FORUM_LAST_POST"
 msgstr "Last post"
+
 msgid "FORUM_AUTHOR"
 msgstr "Author"
+
 msgid "FORUM_VIEWS"
 msgstr "Views"
 
@@ -286,21 +251,20 @@ msgid "FORUM_ERR_NOT_FOUND"
 msgstr "No such forum"
 
 msgid "FORUM_ERR_EXPAVG"
-msgstr "In order to create a new thread in %s you must have a certain amount of credit."
-"This is to prevent and protect against abuse of the system."
+msgstr "In order to create a new thread in %s you must have a certain amount of credit.This is to prevent and protect against abuse of the system."
 
 msgid "FORUM_ERR_INTERVAL"
-msgstr "You cannot create any more threads right now. Please wait a while before trying again."
-"This delay has been enforced to protect against abuse of the system."
+msgstr "You cannot create any more threads right now. Please wait a while before trying again.This delay has been enforced to protect against abuse of the system."
 
 msgid "FORUM_QA_POST_MESSAGE"
 msgstr "The %s area lets you get help from other users. If you have a question or problem:"
+
 msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "Read the existing list of questions. If your question is already there, "
-"click on the %s button. If answers to the question have been submitted, read them. "
-"If one of them answers your question, click the %s button."
+msgstr "Read the existing list of questions. If your question is already there, click on the %s button. If answers to the question have been submitted, read them. If one of them answers your question, click the %s button."
+
 msgid "FORUM_QA_POST_MESSAGE3"
 msgstr "If your question has not already been asked, fill out and submit this form."
+
 msgid "FORUM_QA_POST_MESSAGE4"
 msgstr "This will prevent questions from being asked repeatedly."
 
@@ -314,14 +278,10 @@ msgid "FORUM_SUBMIT_NEW_TITLE"
 msgstr "Title"
 
 msgid "FORUM_QA_SUBMIT_NEW_HELP"
-msgstr "Describe your question in a few words. "
-"A brief, clear summary will help others with the same "
-"question (or an answer) to find it."
+msgstr "Describe your question in a few words. A brief, clear summary will help others with the same question (or an answer) to find it."
 
 msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "If you are having software problems, "
-"mention the version number of the software, "
-"your computer type and operating system."
+msgstr "If you are having software problems, mention the version number of the software, your computer type and operating system."
 
 msgid "FORUM_ADD_MY_SIG"
 msgstr "Add my signature to this post"
@@ -338,11 +298,9 @@ msgstr "This answered my question"
 msgid "FORUM_HTML_INFO"
 msgstr "Use BBCode tags to format your text"
 
-
 #########################################
 # Forum thread
 #########################################
-
 msgid "FORUM_THREAD_HIDDEN"
 msgstr "This thread has been hidden for administrative purposes"
 
@@ -357,7 +315,6 @@ msgstr "Click here to unsubscribe"
 
 msgid "FORUM_THREAD_SUBSCRIBE"
 msgstr "Subscribe to this thread"
-
 
 #########################################
 # Forum search features
@@ -377,9 +334,121 @@ msgstr "No titles containing '%s' could be found."
 msgid "FORUM_SEARCH_BODIES_NO"
 msgstr "No posts containing '%s' could be found."
 
+#########################################
+# Private messages
+#########################################
+msgid "Private messages"
+msgstr "Private messages"
+
+msgid "Inbox"
+msgstr "Inbox"
+
+msgid "Write"
+msgstr "Write"
+
+msgid "Forum index"
+msgstr "Forum index"
+
+msgid "Create new"
+msgstr "Create new"
+
+msgid "Preview"
+msgstr "Preview"
+
+msgid "To"
+msgstr "To"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "User IDs or unique usernames, separated with commas"
+
+msgid "Subject"
+msgstr "Subject"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Send message"
+msgstr "Send message"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+
+msgid "Your message has been sent."
+msgstr "Your message has been sent."
+
+msgid "You have no private messages."
+msgstr "You have no private messages."
+
+msgid "No such message"
+msgstr "No such message"
+
+msgid "Really delete?"
+msgstr "Really delete?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+
+msgid "Yes, delete"
+msgstr "Yes, delete"
+
+msgid "No, cancel"
+msgstr "No, cancel"
+
+msgid "You need to fill all fields to send a private message"
+msgstr "You need to fill all fields to send a private message"
+
+msgid "Could not find user with id %1"
+msgstr "Could not find user with id %1"
+
+msgid "Could not find user with username %1"
+msgstr "Could not find user with username %1"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 is not a unique username; you will have to use user ID"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "User %1 (ID: %2) is not accepting private messages from you."
+
+msgid "Really block %1?"
+msgstr "Really block %1?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "Are you really sure you want to block user %1 from sending you private messages?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Please note that you can only block a limited amount of users."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Once the user has been blocked you can unblock it using forum preferences page."
+
+msgid "Add user to filter"
+msgstr "Add user to filter"
+
+msgid "No such user"
+msgstr "No such user"
+
+msgid "User %1 blocked"
+msgstr "User %1 blocked"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "User %1 has been blocked from sending you private messages."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "To unblock, visit %1message board preferences%2"
+
+msgid "You have %1 unread private messages."
+msgstr "You have %1 unread private messages."
+
+msgid "You have one unread private message."
+msgstr "You have one unread private message."
+
+msgid "You have no unread private messages."
+msgstr "You have no unread private messages."
+
 
 #########################################
 # Links from the main page
 #########################################
 msgid "LINKS_QA"
 msgstr "Questions and Answers"
+
