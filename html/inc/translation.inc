@@ -110,6 +110,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     for ($i=0;$i<sizeof($interface);$i++){
         //Translate to PHP
         fwrite($fh, "define(\"".$interface[$i]."\",".$i.");\n");
+        fwrite($fh, "\$translation_strings[\"".$interface[$i]."\"] = ".$i.";\n");
     }
     fwrite($fh, '?>');
     fclose($fh);
@@ -376,6 +377,20 @@ function tr($tokennumber){
         return stripslashes($language_lookup_array[$tokennumber]);        
     }
     return "[translation missing for $tokennumber]";
+}
+
+/************************
+ * Translate string
+ ************************/
+function tra($string){
+    global $language_lookup_array;
+    global $translation_strings;
+    if ($language_lookup_array[$translation_strings[$string]] != "") {
+        return $language_lookup_array[$translation_strings[$string]];
+    } else {
+        language_log("String ".$string." missing from language interface.");
+        return $string;
+    }
 }
 
 function language_log($message, $loglevel=0){

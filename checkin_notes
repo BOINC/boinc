@@ -8110,3 +8110,11 @@ Charlie 25 Aug 2007
         sg_DlgPreferences.cpp
     lib/
         prefs.C,h
+        
+Rytis   25 Aug 2007
+    User web: allow tokenless translations (takes actual string instead of
+        a token). New translation strings should use tra("string") instead
+        of tr(TOKEN).
+        
+    html/inc/
+        translation.inc
