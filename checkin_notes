@@ -8126,3 +8126,12 @@ Rytis   26 Aug 2007
         
     html/user/
         am_set_info.php
+        
+Rytis   26 Aug 2007
+    User web: new functions to show table rows (and headers) with unlimited
+        number of columns (table_row() and table_header())
+    User web: show credit information in team member list
+    
+    html/
+        inc/util.inc
+        user/team_email_list.php

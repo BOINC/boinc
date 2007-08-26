@@ -235,6 +235,38 @@ function end_table() {
     echo "</table>\n";
 }
 
+/*
+ * Table header row with unlimited number of columns
+ */
+function table_header() {
+    echo "<tr>\n";
+    for ($i = 0; $i < func_num_args(); $i++) {
+        if (is_array(func_get_arg($i))) {
+            $col = func_get_arg($i);
+            echo "<th ".$col[1].">".$col[0]."</th>\n";
+        } else {
+            echo "<th>".func_get_arg($i)."</th>\n";
+        }
+    }
+    echo "</tr>\n";
+}
+
+/*
+ * Table row with unlimited number of columns
+ */
+function table_row() {
+    echo "<tr>\n";
+    for ($i = 0; $i < func_num_args(); $i++) {
+        if (is_array(func_get_arg($i))) {
+            $col = func_get_arg($i);
+            echo "<td ".$col[1].">".$col[0]."</td>\n";
+        } else {
+            echo "<td>".func_get_arg($i)."</td>\n";
+        }
+    }
+    echo "</tr>\n";
+}
+
 function row1($x, $ncols=2, $class="heading") {
     echo "<tr><td class=$class colspan=$ncols>$x</td></tr>\n";
 }
