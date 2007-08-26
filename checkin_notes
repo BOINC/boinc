@@ -8118,3 +8118,11 @@ Rytis   25 Aug 2007
         
     html/inc/
         translation.inc
+
+Rytis   26 Aug 2007
+    User web: update web RPC so that project specific preferences are preserved
+        if they are missing in the request but present in previous settings
+        (to reset them AMS should send <project_specific></project_specific>)
+        
+    html/user/
+        am_set_info.php

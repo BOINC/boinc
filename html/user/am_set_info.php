@@ -51,6 +51,16 @@ if ($country && !is_valid_country($country)) {
 $postal_code = process_user_text($_GET["postal_code"]);
 $global_prefs = process_user_text($_GET["global_prefs"]);
 $project_prefs = process_user_text($_GET["project_prefs"]);
+/* Do processing on project prefs so that we don't overwrite project-specific
+ * settings if AMS has no idea about them
+ */
+if (stripos($project_prefs, "<project_specific>") === false) {
+    // AMS request does not contain project specific prefs, preserve original
+    $orig_project_specific = stristr($user->project_prefs, "<project_specific>");
+    $orig_project_specific = substr($orig_project_specific, 0, stripos($orig_project_specific, "</project_specific>") + 19)."\n";
+    $project_prefs = str_ireplace("<project_preferences>", "<project_preferences>\n".$orig_project_specific, $project_prefs);
+}
+
 $url = process_user_text($_GET["url"]);
 $send_email = process_user_text($_GET["send_email"]);
 $show_hosts = process_user_text($_GET["show_hosts"]);
