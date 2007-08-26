@@ -23,6 +23,9 @@ $type = post_str("type", true);
 $name_html = post_str("name_html", true);
 $description = post_str("description", true);
 $country = post_str("country", true);
+if ($country == "") {
+    $country = "International";
+}
 
 $new_team = make_team(
     $user->id, $name, $url, $type, $name_html, $description, $country

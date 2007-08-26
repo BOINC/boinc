@@ -25,7 +25,10 @@ $type_name = $_GET["type"];  // textual
 $type = team_type_num($type_name);
 $name_html = $_GET["name_html"];
 $description = $_GET["description"];
-$country = _GET["country"];
+$country = get_str("country");
+if ($country == "") {
+    $country = "International";
+}
 
 // the following cleanses its args
 //

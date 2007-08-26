@@ -18,6 +18,9 @@ if (strlen($name) == 0) {
 $url = process_user_text(post_str("url", true));
 $url = strip_tags($url);
 $country = post_str("country");
+if ($country == "") {
+    $country = "International";
+}
 if (!is_valid_country($country)) {
     error_page("bad country");
 }

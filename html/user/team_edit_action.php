@@ -24,6 +24,12 @@ if ($user->teamid == $teamid) {
     $team_description = process_user_text(post_str("description", true)); //scrub out bad HTML tags?
     $type = process_user_text(post_str("type", true));
     $country = process_user_text(post_str("country", true));
+    if ($country == "") {
+        $country = "International";
+    }
+    if (!is_valid_country($country)) {
+        error_page("bad country");
+    }
     
     if (! is_numeric($teamid)) {
         error_page("Team ID must be numeric.");

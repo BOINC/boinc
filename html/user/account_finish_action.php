@@ -26,6 +26,9 @@ if ($new_name != strip_tags($new_name)) {
 }
 
 $country = post_str("country");
+if ($country == "") {
+    $country = "International";
+}
 if (!is_valid_country($country)) {
     show_error( "bad country");
 }

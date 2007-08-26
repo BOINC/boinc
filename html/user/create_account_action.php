@@ -95,7 +95,10 @@ if (strlen($passwd)<$min_passwd_length) {
 
 $passwd_hash = md5($passwd.$new_email_addr);
 
-$country = $_POST["country"];
+$country = post_str("country");
+if ($country == "") {
+    $country = "International";
+}
 if (!is_valid_country($country)) {
     echo "bad country";
     exit();

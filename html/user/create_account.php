@@ -21,7 +21,7 @@ if (parse_bool($config, "disable_account_creation")) {
 if(defined('INVITE_CODES')) {
     $invite_code = process_user_text(get_str("invite_code"));
     if (!preg_match(INVITE_CODES, $invite_code)) {
-	xml_error(-209);
+        xml_error(-209);
     }
 } 
 
@@ -46,7 +46,7 @@ if ($user) {
         $authenticator = $user->authenticator;
     }
 } else {
-    $user = make_user($email_addr, $user_name, $passwd_hash);
+    $user = make_user($email_addr, $user_name, $passwd_hash, 'International');
     if (!$user) {
         xml_error(-137);
     }
