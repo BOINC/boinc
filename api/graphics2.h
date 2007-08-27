@@ -17,12 +17,7 @@ extern void boinc_app_key_release(int, int);
 //
 extern void boinc_graphics_loop(int, char**);
 extern void* boinc_graphics_make_shmem(char*, int);
-
-#ifdef USE_FILE_MAPPED_SHMEM
-// Use boinc_graphics_make_shmem() instead of boinc_graphics_get_shmem()
-#else
 extern void* boinc_graphics_get_shmem(char*);
-#endif
 
 // Implementation stuff
 //

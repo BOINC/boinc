@@ -21,12 +21,14 @@ static void get_shmem_name(char* prog_name, char* shmem_name) {
     sprintf(shmem_name, "boinc_%s_%d", prog_name, aid.slot);
 }
 #else
+#ifndef USE_FILE_MAPPED_SHMEM
 static key_t get_shmem_name(char* prog_name) {
     char cwd[256], path[256];
     boinc_getcwd(cwd);
     sprintf(path, "%s/init_data.xml", cwd);
     return ftok(path, 2);
 }
+#endif
 #endif
 
 void* boinc_graphics_make_shmem(char* prog_name, int size) {
@@ -66,7 +68,7 @@ void* boinc_graphics_get_shmem(char* prog_name) {
     void* p;
 #ifdef USE_FILE_MAPPED_SHMEM
     struct stat sbuf;
-    retval = stat(GFX_MMAPPED_FILE_NAME, &sbuf);
+    int retval = stat(GFX_MMAPPED_FILE_NAME, &sbuf);
     if (retval == 0) {
         retval = create_shmem(GFX_MMAPPED_FILE_NAME, sbuf.st_size, &p);
     }
