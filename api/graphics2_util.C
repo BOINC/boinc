@@ -35,15 +35,19 @@ void* boinc_graphics_make_shmem(char* prog_name, int size) {
     return p;
 #else
     void* p;
+#ifdef USE_FILE_MAPPED_SHMEM
+    int retval = create_shmem("gfx_mmap_file", size, &p);
+#else
     key_t key = get_shmem_name(prog_name);
     int retval = create_shmem(key, size, 0, &p);
+#endif
     if (retval) return 0;
     return p;
 #endif
 }
 
-void* boinc_graphics_get_shmem(char* prog_name) {
 #ifdef _WIN32
+void* boinc_graphics_get_shmem(char* prog_name) {
     HANDLE shmem_handle;
     char shmem_name[256];
     void* p;
@@ -51,11 +55,17 @@ void* boinc_graphics_get_shmem(char* prog_name) {
     shmem_handle = attach_shmem(shmem_name, &p);
     if (shmem_handle == NULL) return 0;
     return p;
+}
 #else
+#ifdef USE_FILE_MAPPED_SHMEM
+// Use boinc_graphics_make_shmem() instead of boinc_graphics_get_shmem()
+#else
+void* boinc_graphics_get_shmem(char* prog_name) {
     void* p;
     key_t key = get_shmem_name(prog_name);
     int retval = attach_shmem(key, &p);
     if (retval) return 0;
     return p;
-#endif
 }
+#endif
+#endif

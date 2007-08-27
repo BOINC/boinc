@@ -168,11 +168,20 @@ static int setup_shared_mem() {
         app_client_shm = NULL;
     }
 #else
+#ifdef USE_FILE_MAPPED_SHMEM
+    if (create_shmem(
+            MMAPPED_FILE_NAME, sizeof(SHARED_MEM), (void**)&app_client_shm->shm
+        )) {
+        delete app_client_shm;
+        app_client_shm = NULL;
+    }
+#else
     if (attach_shmem(aid.shmem_seg_name, (void**)&app_client_shm->shm)) {
         delete app_client_shm;
         app_client_shm = NULL;
     }
-#endif
+#endif  // ! USE_FILE_MAPPED_SHMEM
+#endif  // ! _WIN32
     if (app_client_shm == NULL) return -1;
     return 0;
 }

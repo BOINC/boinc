@@ -575,10 +575,17 @@ int ACTIVE_TASK::start(bool first_time) {
     // Set up core/app shared memory seg if needed
     //
     if (!app_client_shm.shm) {
+#ifdef USE_FILE_MAPPED_SHMEM
+        sprintf(buf, "%s%s", slot_dir, MMAPPED_FILE_NAME);
+        retval = create_shmem(
+            buf, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
+        );
+#else
         retval = create_shmem(
             shmem_seg_name, sizeof(SHARED_MEM), gstate.boinc_project_gid,
             (void**)&app_client_shm.shm
         );
+#endif
         if (retval) {
             needs_shmem = true;
             destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment

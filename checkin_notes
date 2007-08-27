@@ -8135,3 +8135,22 @@ Rytis   26 Aug 2007
     html/
         inc/util.inc
         user/team_email_list.php
+
+Charlie 25 Aug 2007
+    Begin implementation of using memory-mapped files for shared memory.
+    As a temporary measure during development, the new shared memory logic 
+    is selected by defining USE_FILE_MAPPED_SHMEM.  Once the conversion is 
+    complete, we will use these as guideposts to remove the old logic 
+    (using shmget,shmat, shmdt, shmctl, key_t, etc.) and then remove the 
+    references to USE_FILE_MAPPED_SHMEM.
+    Note: these changes are to the HEAD / trunk only, for version 6.
+    
+    api/
+        boinc_api.C
+        graphics2.h
+        graphics2_util.C
+    client/
+        app.C
+        app_start.C
+    lib/
+        shmem.C,h

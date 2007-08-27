@@ -184,7 +184,11 @@ void ACTIVE_TASK::cleanup_task() {
     int retval;
 
     if (app_client_shm.shm) {
+#ifdef USE_FILE_MAPPED_SHMEM
+        retval = detach_shmem(app_client_shm.shm, sizeof(SHARED_MEM));
+#else
         retval = detach_shmem(app_client_shm.shm);
+ #endif
         if (retval) {
             msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Couldn't detach shared memory: %s", boincerror(retval)

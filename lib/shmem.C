@@ -48,6 +48,12 @@ extern "C" int debug_printf(const char *fmt, ...);
 #endif
 #endif
 
+#ifdef USE_FILE_MAPPED_SHMEM
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#endif
+
 #include "error_numbers.h"
 #include "shmem.h"
 
@@ -158,6 +164,50 @@ int detach_shmem(void* p) {
 }
 
 #else
+
+#ifdef USE_FILE_MAPPED_SHMEM
+
+int create_shmem(char *path, size_t size, void** pp) {
+    int fd;
+    
+    // try 0666, then SHM_R|SHM_W
+    // seems like some platforms require one or the other
+    // (this may be superstition)
+    //
+    // NOTE: in principle it should be 0660, not 0666
+    // (i.e. Apache should belong to the same group as the
+    // project admin user, and should therefore be able to access the seg.
+    // However, this doesn't seem to work on some Linux systems.
+    // I don't have time to figure this out (31 July 07)
+    // it's a big headache for anyone it affects,
+    // and it's not a significant security issue.
+    //
+    fd = open(path, O_RDWR | O_CREAT, 0666);
+    if (fd < 0)
+        return ERR_SHMGET;
+
+    *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
+    
+    // Now close the file. The kernel doesnÕt use our file descriptor.
+    close(fd);
+
+    if (*pp == MAP_FAILED)
+        return ERR_SHMGET;
+
+    return 0;
+}
+
+int destroy_shmem(key_t key){
+    return 0;
+}
+
+int detach_shmem(void* p, size_t size) {
+    int retval;
+    retval = shmdt((char *)p);
+    return retval;
+}
+
+#else   // USE_FILE_MAPPED_SHMEM
 
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
@@ -272,12 +322,15 @@ int print_shmem_info(key_t key) {
     return 0;
 }
 
+#endif  // USE_FILE_MAPPED_SHMEM
+
 // For debugging shared memory logic
 // For testing on Apple, Linux, UNIX systems with limited number 
 // of shared memory segments per process and / or system-wide
 // Mac OS X has a default limit of 8 segments per process, 32 system-wide
 // If 
 void stress_shmem(short reduce_by) {
+#ifndef USE_FILE_MAPPED_SHMEM
     int retval;
     void * shmaddr[16];
     key_t key[] = {
@@ -297,8 +350,9 @@ void stress_shmem(short reduce_by) {
             retval = shmctl(id, IPC_RMID, 0);
         }
     }
+#endif  // !defined(USE_FILE_MAPPED_SHMEM)
 }
 
-#endif
+#endif  // !defined(_WIN32) && !defined(__EMX__)
 
 const char *BOINC_RCSID_f835f078de = "$Id$";
