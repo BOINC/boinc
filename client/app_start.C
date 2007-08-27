@@ -576,7 +576,7 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     if (!app_client_shm.shm) {
 #ifdef USE_FILE_MAPPED_SHMEM
-        sprintf(buf, "%s%s", slot_dir, MMAPPED_FILE_NAME);
+        sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
         retval = create_shmem(
             buf, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
         );

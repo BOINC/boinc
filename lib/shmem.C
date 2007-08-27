@@ -51,6 +51,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 #ifdef USE_FILE_MAPPED_SHMEM
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include <sys/mman.h>
 #endif
 
@@ -168,7 +169,10 @@ int detach_shmem(void* p) {
 #ifdef USE_FILE_MAPPED_SHMEM
 
 int create_shmem(char *path, size_t size, void** pp) {
-    int fd;
+    int fd, retval;
+    ssize_t n;
+    struct stat sbuf;
+    fstore_t storestruct = { F_ALLOCATECONTIG, F_PEOFPOSMODE, 0, size, 0 };
     
     // try 0666, then SHM_R|SHM_W
     // seems like some platforms require one or the other
@@ -186,6 +190,21 @@ int create_shmem(char *path, size_t size, void** pp) {
     if (fd < 0)
         return ERR_SHMGET;
 
+    retval = fstat(fd, &sbuf);
+    if (retval == 0) {
+        if (sbuf.st_size < size) {
+            storestruct.fst_length = size - sbuf.st_size;
+            retval = fcntl(fd, F_PREALLOCATE, &storestruct);
+            lseek(fd, size-1, SEEK_SET);
+            n = write(fd, "\0", 1);
+        }
+    }
+    
+    if (retval) {
+        perror("fcntl returned ");
+       return ERR_SHMGET;
+    }
+
     *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
     
     // Now close the file. The kernel doesnÕt use our file descriptor.
@@ -202,12 +221,10 @@ int destroy_shmem(key_t key){
 }
 
 int detach_shmem(void* p, size_t size) {
-    int retval;
-    retval = shmdt((char *)p);
-    return retval;
+    return munmap(p, size);
 }
 
-#else   // USE_FILE_MAPPED_SHMEM
+#else   // !defined(USE_FILE_MAPPED_SHMEM)
 
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
