@@ -8,6 +8,11 @@
 #include "boinc_api.h"
 #include "graphics2.h"
 
+#ifdef USE_FILE_MAPPED_SHMEM
+#include <sys/stat.h>
+
+#define GFX_MMAPPED_FILE_NAME    "gfx_mmap_file"
+#endif
 
 #ifdef _WIN32
 static void get_shmem_name(char* prog_name, char* shmem_name) {
@@ -36,7 +41,7 @@ void* boinc_graphics_make_shmem(char* prog_name, int size) {
 #else
     void* p;
 #ifdef USE_FILE_MAPPED_SHMEM
-    int retval = create_shmem("gfx_mmap_file", size, &p);
+    int retval = create_shmem(GFX_MMAPPED_FILE_NAME, size, &p);
 #else
     key_t key = get_shmem_name(prog_name);
     int retval = create_shmem(key, size, 0, &p);
@@ -57,15 +62,19 @@ void* boinc_graphics_get_shmem(char* prog_name) {
     return p;
 }
 #else
-#ifdef USE_FILE_MAPPED_SHMEM
-// Use boinc_graphics_make_shmem() instead of boinc_graphics_get_shmem()
-#else
 void* boinc_graphics_get_shmem(char* prog_name) {
     void* p;
+#ifdef USE_FILE_MAPPED_SHMEM
+    struct stat sbuf;
+    retval = stat(GFX_MMAPPED_FILE_NAME, &sbuf);
+    if (retval == 0) {
+        retval = create_shmem(GFX_MMAPPED_FILE_NAME, sbuf.st_size, &p);
+    }
+#else
     key_t key = get_shmem_name(prog_name);
     int retval = attach_shmem(key, &p);
+#endif
     if (retval) return 0;
     return p;
 }
-#endif
 #endif
