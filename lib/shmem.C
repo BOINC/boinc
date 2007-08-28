@@ -173,10 +173,6 @@ int create_shmem(char *path, size_t size, void** pp) {
     struct stat sbuf;
     fstore_t storestruct = { F_ALLOCATECONTIG, F_PEOFPOSMODE, 0, size, 0 };
     
-    // try 0666, then SHM_R|SHM_W
-    // seems like some platforms require one or the other
-    // (this may be superstition)
-    //
     // NOTE: in principle it should be 0660, not 0666
     // (i.e. Apache should belong to the same group as the
     // project admin user, and should therefore be able to access the seg.

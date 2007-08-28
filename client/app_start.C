@@ -52,6 +52,10 @@
 #include <libkern/OSByteOrder.h>
 #endif
 
+#ifdef USE_FILE_MAPPED_SHMEM
+#include <fcntl.h>
+#endif
+
 using std::vector;
 
 #include "filesys.h"
@@ -577,15 +581,24 @@ int ACTIVE_TASK::start(bool first_time) {
     if (!app_client_shm.shm) {
 #ifdef USE_FILE_MAPPED_SHMEM
         sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
+        if (g_use_sandbox) {
+            if (!boinc_file_exists(buf)) {
+                int fd = open(buf, O_RDWR | O_CREAT, 0660);
+                if (fd >= 0) {
+                    close (fd);
+                    set_to_project_group(buf);
+                }
+            }
+        }
         retval = create_shmem(
             buf, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
         );
-#else
+#else   // !defined(USE_FILE_MAPPED_SHMEM)
         retval = create_shmem(
             shmem_seg_name, sizeof(SHARED_MEM), gstate.boinc_project_gid,
             (void**)&app_client_shm.shm
         );
-#endif
+#endif   // !defined(USE_FILE_MAPPED_SHMEM)
         if (retval) {
             needs_shmem = true;
             destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment

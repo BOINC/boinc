@@ -8136,7 +8136,7 @@ Rytis   26 Aug 2007
         inc/util.inc
         user/team_email_list.php
 
-Charlie 25 Aug 2007
+Charlie 27 Aug 2007
     Begin implementation of using memory-mapped files for shared memory.
     As a temporary measure during development, the new shared memory logic 
     is selected by defining USE_FILE_MAPPED_SHMEM.  Once the conversion is 
