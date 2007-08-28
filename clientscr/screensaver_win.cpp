@@ -124,6 +124,10 @@ INT WINAPI WinMain(
         }
     }
 
+    // Initialize the CRT random number generator.
+    srand((unsigned int)time(0));
+
+    // Initialize the Windows sockets interface.
     retval = WSAStartup(MAKEWORD(1, 1), &wsdata);
     if (retval) {
         BOINCTRACE("WinMain - Winsock Initialization Failure '%d'\n", retval);
@@ -138,6 +142,7 @@ INT WINAPI WinMain(
 
     retval = BOINCSS.Run();
 
+    // Cleanup the Windows sockets interface.
     WSACleanup();
 
     // Clean up function pointers.
@@ -868,9 +873,6 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
 VOID CScreensaver::UpdateErrorBoxText() {
     PROJECT* pProject;
     TCHAR    szBuffer[256];
-    bool     bIsActive       = false;
-    bool     bIsExecuting    = false;
-    bool     bIsDownloaded   = false;
     size_t   iResultCount    = 0;
     size_t   iIndex          = 0;
 
@@ -880,10 +882,7 @@ VOID CScreensaver::UpdateErrorBoxText() {
     if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
         iResultCount = results.results.size();
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state);
-            bIsActive     = (results.results.at(iIndex)->active_task);
-            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state);
-            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+            if (!is_task_active(results.results.at(iIndex))) continue;
 
             pProject = state.lookup_project(results.results.at(iIndex)->project_url);
             if (NULL != pProject) {
@@ -1013,7 +1012,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     tThreadCreateTime = time(0);
 
     while(1) {
-        bScreenSaverStarting = (2 >= (time(0) - tThreadCreateTime));
+        bScreenSaverStarting = (3 >= (time(0) - tThreadCreateTime));
 
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
 
@@ -1059,23 +1058,11 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
             if (!m_bScreensaverStarted) {
 
                 // Choose a random graphics application to start.
-                RESULT* rp = random_graphics_app(results);
+                RESULT* rp = get_random_graphics_app(results);
 
                 if (rp) {
-                    int retval = 0;
-                    char* argv[3];
-                    argv[0] = "app_graphics";   // not used
-                    argv[1] = "--fullscreen";
-                    argv[2] = 0;
-                    retval = run_program(
-                        rp->slot_path.c_str(),
-                        rp->graphics_exec_path.c_str(),
-                        2,
-                        argv,
-                        0,
-                        m_hGraphicsApplication
-                    );
-                    BOINCTRACE(_T("CScreensaver::DataManagementProc - run_program RetVal = '%d', m_hGraphicsApplication = '%d'\n"), retval, m_hGraphicsApplication);
+                    int retval = launch_screensaver(rp, m_hGraphicsApplication);
+                    BOINCTRACE(_T("CScreensaver::DataManagementProc - launch_screensaver RetVal = '%d', m_hGraphicsApplication = '%d'\n"), retval, m_hGraphicsApplication);
                     if (!retval) {
                         m_bScreensaverStarted = TRUE;
                     }
@@ -1576,7 +1563,7 @@ VOID CScreensaver::ShutdownSaver() {
     }
 
     // Kill the currently executing graphics application
-    kill_program(m_hGraphicsApplication);
+    terminate_screensaver(m_hGraphicsApplication);
 
     // Post message to drop out of message loop
     // This can be called from the data management thread, so specifically

@@ -8154,3 +8154,12 @@ Charlie 27 Aug 2007
         app_start.C
     lib/
         shmem.C,h
+
+
+Rom    28 Aug 2007
+    - SCR: Move more code into the shared code module
+    
+    clientscr/
+        screensaver.cpp, .h
+        screensaver_win.cpp
+

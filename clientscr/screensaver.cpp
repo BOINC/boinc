@@ -29,23 +29,87 @@
 #include "screensaver.h"
 
 
-// Choose a random graphics application out of the vector.
-// NOTE: Right now it just selects the first graphics app
-//   found.
-RESULT* random_graphics_app(RESULTS& results) {
-    bool     bIsActive       = false;
-    bool     bIsExecuting    = false;
-    bool     bIsDownloaded   = false;
+// Determine if a task is active and executing
+//
+bool is_task_active(RESULT* result) {
+    bool bIsActive     = RESULT_FILES_DOWNLOADED == result->state;
+    bool bIsDownloaded = CPU_SCHED_SCHEDULED == result->scheduler_state;
+    bool bIsExecuting  = result->active_task;
 
-    for (unsigned i=0; i < results.results.size(); i++) {
+    if (!bIsActive || !bIsDownloaded || !bIsExecuting)
+        return true;
+    return false;
+}
+
+
+// Choose a random graphics application out of the vector.
+//
+RESULT* get_random_graphics_app(RESULTS& results) {
+    unsigned int i = 0;
+    unsigned int graphics_app_count = 0;
+    unsigned int random_selection = 0;
+    unsigned int current_counter = 0;
+
+    // Count the number of graphics apps
+    for (i = 0; i < results.results.size(); i++) {
+        if (!is_task_active(results.results[i])) continue;
         if (results.results[i]->graphics_exec_path.size() > 0) {
-            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results[i]->state);
-            bIsActive     = (results.results[i]->active_task);
-            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results[i]->scheduler_state);
-            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
-	        return results.results[i];
+	        graphics_app_count++;
         }
     }
+
+    // Choose which application to display.
+    random_selection = rand() % graphics_app_count;
+
+    // Lets find the choosen graphics application.
+    for (i = 0; i < results.results.size(); i++) {
+        if (!is_task_active(results.results[i])) continue;
+        if (results.results[i]->graphics_exec_path.size() > 0) {
+            current_counter++;
+            if (current_counter == random_selection) {
+	            return results.results[i];
+            }
+        }
+    }
+
     return NULL;
+}
+
+
+// Launch the graphics application
+//
+#ifdef _WIN32
+int launch_screensaver(RESULT* rp, HANDLE& graphics_application)
+#else
+int launch_screensaver(RESULT* rp, int& graphics_application)
+#endif
+{
+    int retval = 0;
+    char* argv[3];
+    argv[0] = "app_graphics";   // not used
+    argv[1] = "--fullscreen";
+    argv[2] = 0;
+    retval = run_program(
+        rp->slot_path.c_str(),
+        rp->graphics_exec_path.c_str(),
+        2,
+        argv,
+        0,
+        graphics_application
+    );
+    return retval;
+}
+
+
+// Terminate the graphics application
+//
+#ifdef _WIN32
+int terminate_screensaver(HANDLE& graphics_application)
+#else
+int terminate_screensaver(int& graphics_application)
+#endif
+{
+    kill_program(graphics_application);
+    return 0;
 }
 

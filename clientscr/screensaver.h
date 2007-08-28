@@ -21,8 +21,25 @@
 #ifndef __SCREENSAVER_H__
 #define __SCREENSAVER_H__
 
+// Determine if the result is active and executing
+extern bool is_task_active(RESULT* result);
+
 // Choose a ramdom graphics application from the vector that
 //   was passed in.
-extern RESULT* random_graphics_app(RESULTS& results);
+extern RESULT* get_random_graphics_app(RESULTS& results);
+
+// Launch the screensaver
+#ifdef _WIN32
+extern int launch_screensaver(RESULT* rp, HANDLE& graphics_application);
+#else
+extern int launch_screensaver(RESULT* rp, int& graphics_application);
+#endif
+
+// Terminate the screensaver
+#ifdef _WIN32
+extern int terminate_screensaver(HANDLE& graphics_application);
+#else
+extern int terminate_screensaver(int& graphics_application);
+#endif
 
 #endif
