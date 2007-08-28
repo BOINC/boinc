@@ -170,7 +170,6 @@ int detach_shmem(void* p) {
 
 int create_shmem(char *path, size_t size, void** pp) {
     int fd, retval;
-    ssize_t n;
     struct stat sbuf;
     fstore_t storestruct = { F_ALLOCATECONTIG, F_PEOFPOSMODE, 0, size, 0 };
     
@@ -196,7 +195,7 @@ int create_shmem(char *path, size_t size, void** pp) {
             storestruct.fst_length = size - sbuf.st_size;
             retval = fcntl(fd, F_PREALLOCATE, &storestruct);
             lseek(fd, size-1, SEEK_SET);
-            n = write(fd, "\0", 1);
+            write(fd, "\0", 1);
         }
     }
     
