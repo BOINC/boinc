@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {closeSheetCancel = id; closeSheetSave = id; }; 
+            CLASS = "BOINC_Saver_ModuleView"; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                mBlankingTimeTextField = NSTextField; 
+                mConfigureSheet = id; 
+                mGoToBlankCheckbox = NSButton; 
+            }; 
+            SUPERCLASS = ScreenSaverView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {closeSheetCancel = id; closeSheetSave = id; }; 
+            CLASS = NSButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSControl; 
+        }, 
+        {CLASS = ScreenSaverView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}
