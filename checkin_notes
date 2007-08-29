@@ -8168,6 +8168,7 @@ Charlie 28 Aug 2007
         "gfx_mmap_file".
     - Mac: Move Mac screensaver files to common clientscr/ directory. 
         Eliminate BOINCSaver.nib.sit, replace with BOINCSaver.nib.
+    - Mac: Create new XCode project target to build libboinc_graphics2.a.
         
     api/
         graphics2_util.C
@@ -8184,4 +8185,6 @@ Charlie 28 Aug 2007
                 classes.nib (added)
                 info.nib (added)
                 keyedobjects.nib (added)
-                
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
