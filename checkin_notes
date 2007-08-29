@@ -8194,7 +8194,7 @@ Charlie 28 Aug 2007
             project.pbxproj
 
 Charlie 28 Aug 2007
-    - Mac V2 GFX: Fix link error.
+    - Mac V2 GFX: Fix link error when building example app.
     
     api/
         graphics2_unix.C

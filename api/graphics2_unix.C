@@ -21,11 +21,11 @@ static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
 
-bool fullscreen;
-
 #ifdef __APPLE__
 static bool need_show = false;
 #endif
+
+bool fullscreen;
 
 static void close_window() {
     exit(0);
@@ -124,7 +124,7 @@ static void make_window() {
 static void boinc_glut_init() {
     const char* args[2] = {"BOINC", NULL};
     int one=1;
-    
+
     win = 0;
     glutInit (&one, (char**)args);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_ALPHA); 
