@@ -2125,7 +2125,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2361091CBDAE0048316E /* Build configuration list for PBXNativeTarget "ScreenSaver" */;
 			buildPhases = (
-				DDCDB29708CEDCE400E4F573 /* ShellScript */,
 				DD96AFF50811075000A06F22 /* Resources */,
 				DD96AFF60811075000A06F22 /* Sources */,
 				DD96AFF70811075000A06F22 /* Frameworks */,
@@ -2535,21 +2534,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
 		};
-		DDCDB29708CEDCE400E4F573 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILD_DIR}/../../clientgui/mac/BOINCSaver.nib.sit",
-			);
-			outputPaths = (
-				"${BUILD_DIR}/../../clientgui/mac/BOINCSaver.nib",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\" -nt \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\" ]; then\nrm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nfi\n";
-		};
 		DDEE266A0AA83F2B0055C98F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2845,17 +2829,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDB873B20C8509C900E0DE1F /* graphics2_unix.C in Sources */,
+				DDB873B30C8509C900E0DE1F /* graphics2.C in Sources */,
+				DDB873740C85068A00E0DE1F /* gutil_text.C in Sources */,
 				DDB8736E0C85068A00E0DE1F /* gutil.C in Sources */,
 				DDB8736F0C85068A00E0DE1F /* macglutfix.m in Sources */,
 				DDB873700C85068A00E0DE1F /* reduce_lib.C in Sources */,
 				DDB873710C85068A00E0DE1F /* reduce_main.C in Sources */,
 				DDB873720C85068A00E0DE1F /* texture.C in Sources */,
-				DDB873740C85068A00E0DE1F /* gutil_text.C in Sources */,
 				DDB873750C85068A00E0DE1F /* texfont.c in Sources */,
 				DDB873760C85068A00E0DE1F /* txf_util.C in Sources */,
 				DDB873770C85068A00E0DE1F /* str_util.C in Sources */,
-				DDB873B20C8509C900E0DE1F /* graphics2_unix.C in Sources */,
-				DDB873B30C8509C900E0DE1F /* graphics2.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
