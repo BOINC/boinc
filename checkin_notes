@@ -8170,6 +8170,8 @@ Charlie 28 Aug 2007
     - Mac: Move Mac screensaver files to common clientscr/ directory. 
         Eliminate BOINCSaver.nib.sit, replace with BOINCSaver.nib.
     - Mac: Create new XCode project target to build libboinc_graphics2.a.
+    - Mac: add "-D USE_FILE_MAPPED_SHMEM" to compiler flags for XCode 
+        project targets which build BOINC Client and BOINC libraries.
     
     api/
         graphics2_unix.C
