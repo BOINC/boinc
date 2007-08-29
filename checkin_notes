@@ -8163,3 +8163,25 @@ Rom    28 Aug 2007
         screensaver.cpp, .h
         screensaver_win.cpp
 
+Charlie 28 Aug 2007
+    - Mac V2 GFX: Create same shmem file name as for Windows, instead of 
+        "gfx_mmap_file".
+    - Mac: Move Mac screensaver files to common clientscr/ directory. 
+        Eliminate BOINCSaver.nib.sit, replace with BOINCSaver.nib.
+        
+    api/
+        graphics2_util.C
+    clientgui/
+        mac/
+            mac_saver_module.cpp (deleted)
+            Mac_Saver_ModuleView.m,h (deleted)
+            BOINCSaver.nib.sit (deleted)
+    clientscr/
+        mac_saver_module.cpp (added)
+        Mac_Saver_ModuleView.m,h (added)
+        res/
+            BOINCSaver.nib/ (added)
+                classes.nib (added)
+                info.nib (added)
+                keyedobjects.nib (added)
+                
