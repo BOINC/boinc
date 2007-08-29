@@ -10,25 +10,21 @@
 
 #ifdef USE_FILE_MAPPED_SHMEM
 #include <sys/stat.h>
-
-#define GFX_MMAPPED_FILE_NAME    "gfx_mmap_file"
 #endif
 
-#ifdef _WIN32
+#if (defined(_WIN32) || defined(USE_FILE_MAPPED_SHMEM))
 static void get_shmem_name(char* prog_name, char* shmem_name) {
     APP_INIT_DATA aid;
     boinc_get_init_data(aid);
     sprintf(shmem_name, "boinc_%s_%d", prog_name, aid.slot);
 }
 #else
-#ifndef USE_FILE_MAPPED_SHMEM
 static key_t get_shmem_name(char* prog_name) {
     char cwd[256], path[256];
     boinc_getcwd(cwd);
     sprintf(path, "%s/init_data.xml", cwd);
     return ftok(path, 2);
 }
-#endif
 #endif
 
 void* boinc_graphics_make_shmem(char* prog_name, int size) {
@@ -43,7 +39,9 @@ void* boinc_graphics_make_shmem(char* prog_name, int size) {
 #else
     void* p;
 #ifdef USE_FILE_MAPPED_SHMEM
-    int retval = create_shmem(GFX_MMAPPED_FILE_NAME, size, &p);
+    char shmem_name[256];
+    get_shmem_name(prog_name, shmem_name);
+    int retval = create_shmem(shmem_name, size, &p);
 #else
     key_t key = get_shmem_name(prog_name);
     int retval = create_shmem(key, size, 0, &p);
@@ -68,9 +66,11 @@ void* boinc_graphics_get_shmem(char* prog_name) {
     void* p;
 #ifdef USE_FILE_MAPPED_SHMEM
     struct stat sbuf;
-    int retval = stat(GFX_MMAPPED_FILE_NAME, &sbuf);
+    char shmem_name[256];
+    get_shmem_name(prog_name, shmem_name);
+    int retval = stat(shmem_name, &sbuf);
     if (retval == 0) {
-        retval = create_shmem(GFX_MMAPPED_FILE_NAME, sbuf.st_size, &p);
+        retval = create_shmem(shmem_name, sbuf.st_size, &p);
     }
 #else
     key_t key = get_shmem_name(prog_name);
