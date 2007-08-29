@@ -246,10 +246,11 @@ int main(int argc, char** argv) {
     // Provide a way to get error messages from system
     freopen("gfx_stderr.txt", "w", stderr);
 #endif
-    shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
     boinc_parse_init_data_file();
     boinc_get_init_data(uc_aid);
-    if (uc_aid.project_preferences) {
+    // boinc_graphics_get_shmem() must be called after boinc_parse_init_data_file()
+    shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
+   if (uc_aid.project_preferences) {
         parse_project_prefs(uc_aid.project_preferences);
     }
     boinc_graphics_loop(argc, argv);
