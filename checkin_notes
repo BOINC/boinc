@@ -8203,3 +8203,11 @@ Charlie 28 Aug 2007
         graphics2_unix.C
     clientgui/
         ViewWork.cpp
+
+Charlie 29 Aug 2007
+    - MGR: Add V6 GFX support to grid view.
+
+    clientgui/
+        ViewWorkGrid.cpp
+
+    

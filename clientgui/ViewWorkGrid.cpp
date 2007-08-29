@@ -258,17 +258,48 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     if (wxYES == iAnswer) {
 		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
         RESULT* result = pDoc->result(searchName);
-		std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
-		std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
-		std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
-        pDoc->WorkShowGraphics(
-            result->project_url,
-            result->name,
-            MODE_WINDOW,
-            strDefaultWindowStation,
-            strDefaultDesktop,
-            strDefaultDisplay
-        );
+        if (!result->graphics_exec_path.empty()) {
+#ifdef __WXMAC__
+            // Launching the graphics application using fork() and execv() 
+            // results in it getting "RegisterProcess failed (error = -50)"
+            // so we launch it via a shell using the system() api.
+            char cmd[1024];
+            sprintf(cmd, "cd \"%s\"; \"%s\" --graphics &", result->slot_path.c_str(), result->graphics_exec_path.c_str());
+            system(cmd);
+#else
+            // V6 Graphics
+            char* argv[2];
+            argv[0] = "--graphics";
+            argv[1] = 0;
+#ifdef __WXMSW__
+            HANDLE   id;
+#else
+            int      id;
+#endif
+            run_program(
+                result->slot_path.c_str(),
+                result->graphics_exec_path.c_str(),
+                1,
+                argv,
+                0,
+                id
+            );
+#endif
+        } else {
+            // V5 and Older
+            std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
+            std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
+            std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
+            pDoc->WorkShowGraphics(
+                result->project_url,
+                result->name,
+                MODE_WINDOW,
+                strDefaultWindowStation,
+                strDefaultDesktop,
+                strDefaultDisplay
+            );
+        }
+
     }
 
     pFrame->UpdateStatusText(wxT(""));
