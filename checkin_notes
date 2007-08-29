@@ -408,8 +408,22 @@ David  20 July 2007
         Makefile
         uc2.C
 
+Charlie 29 Aug 2007
+    - Mac: new XCode project for version 6 example_app.
+
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
 David  17 Aug 2007
 	- project file fix
 
 	win_build/
 		libgraphics2.vcproj
+
+Charlie 29 Aug 2007
+    - Mac: new XCode project for version 6 example_app.
+
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
