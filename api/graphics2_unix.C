@@ -21,12 +21,11 @@ static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
 
+bool fullscreen;
+
 #ifdef __APPLE__
-extern void CloseWindow();
 static bool need_show = false;
 #endif
-
-bool fullscreen;
 
 static void close_window() {
     exit(0);
@@ -109,7 +108,7 @@ static void make_window() {
     app_graphics_init();
   
 #ifdef __APPLE__
-    glutWMCloseFunc(CloseWindow);   // Enable the window's close box
+    glutWMCloseFunc(close_window);   // Enable the window's close box
     BringAppToFront();
     // Show window only after a successful call to throttled_app_render(); 
     // this avoids momentary display of old image when screensaver restarts 

@@ -8192,3 +8192,9 @@ Charlie 28 Aug 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 28 Aug 2007
+    - Mac V2 GFX: Fix link error.
+    
+    api/
+        graphics2_unix.C
