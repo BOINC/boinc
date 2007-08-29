@@ -18,7 +18,6 @@
 #define TIMER_INTERVAL_MSEC 30
 
 static int xpos = 100, ypos = 100;
-static int win_width = 600, win_height = 400;
 static int clicked_button;
 static int win=0;
 
