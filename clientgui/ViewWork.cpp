@@ -233,6 +233,14 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     if (wxYES == iAnswer) {
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
         if (!result->graphics_exec_path.empty()) {
+#ifdef __WXMAC__
+            // Launching the graphics application using fork() and execv() 
+            // results in it getting "RegisterProcess failed (error = -50)"
+            // so we launch it via a shell using the system() api.
+            char cmd[1024];
+            sprintf(cmd, "cd \"%s\"; \"%s\" --graphics &", result->slot_path.c_str(), result->graphics_exec_path.c_str());
+            system(cmd);
+#else
             // V6 Graphics
             char* argv[2];
             argv[0] = "--graphics";
@@ -250,6 +258,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
                 0,
                 id
             );
+#endif
         } else {
             // V5 and Older
 		    std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());

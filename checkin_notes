@@ -8164,7 +8164,7 @@ Rom    28 Aug 2007
         screensaver_win.cpp
 
 Charlie 28 Aug 2007
-    - Mac V2 GFX: Create same shmem file name as for Windows, instead of 
+    - Mac V6 GFX: Create same shmem file name as for Windows, instead of 
         "gfx_mmap_file". 
         Fix a compiler warning.
     - Mac: Move Mac screensaver files to common clientscr/ directory. 
@@ -8194,7 +8194,12 @@ Charlie 28 Aug 2007
             project.pbxproj
 
 Charlie 28 Aug 2007
-    - Mac V2 GFX: Fix link error when building example app.
+    - Mac V6 GFX: Fix link error when building example app.
+    - Mac MGR: Launch the graphics application via a shell by using 
+        the UNIX system() api.  This works around "RegisterProcess 
+        failed (error = -50)" when using fork() and execv().
     
     api/
         graphics2_unix.C
+    clientgui/
+        ViewWork.cpp
