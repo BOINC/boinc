@@ -36,7 +36,7 @@ bool is_task_active(RESULT* result) {
     bool bIsDownloaded = CPU_SCHED_SCHEDULED == result->scheduler_state;
     bool bIsExecuting  = result->active_task;
 
-    if (!bIsActive || !bIsDownloaded || !bIsExecuting)
+    if (bIsActive && bIsDownloaded && bIsExecuting)
         return true;
     return false;
 }
@@ -45,21 +45,40 @@ bool is_task_active(RESULT* result) {
 // Choose a random graphics application out of the vector.
 //
 RESULT* get_random_graphics_app(RESULTS& results) {
+    RESULT*      rp = NULL;
     unsigned int i = 0;
     unsigned int graphics_app_count = 0;
     unsigned int random_selection = 0;
     unsigned int current_counter = 0;
 
+    BOINCTRACE(_T("get_random_graphics_app -- Function Start\n"));
+
     // Count the number of graphics apps
     for (i = 0; i < results.results.size(); i++) {
         if (!is_task_active(results.results[i])) continue;
+        BOINCTRACE(_T("get_random_graphics_app -- active task detected\n"));
+        BOINCTRACE(
+            _T("get_random_graphics_app -- name = '%s', path = '%s'\n"),
+            results.results[i]->name.c_str(), results.results[i]->graphics_exec_path.c_str()
+        );
         if (results.results[i]->graphics_exec_path.size() > 0) {
+            BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
 	        graphics_app_count++;
         }
+    }
+    BOINCTRACE(_T("get_random_graphics_app -- graphics_app_count = '%d'\n"), graphics_app_count);
+
+    // If no graphics app was found, return NULL
+    if (0 == graphics_app_count) {
+        goto CLEANUP;
     }
 
     // Choose which application to display.
     random_selection = rand() % graphics_app_count;
+    if (0 == random_selection) {
+        random_selection = 1;
+    }
+    BOINCTRACE(_T("get_random_graphics_app -- random_selection = '%d'\n"), random_selection);
 
     // Lets find the choosen graphics application.
     for (i = 0; i < results.results.size(); i++) {
@@ -67,12 +86,15 @@ RESULT* get_random_graphics_app(RESULTS& results) {
         if (results.results[i]->graphics_exec_path.size() > 0) {
             current_counter++;
             if (current_counter == random_selection) {
-	            return results.results[i];
+	            rp = results.results[i];
             }
         }
     }
 
-    return NULL;
+CLEANUP:
+    BOINCTRACE(_T("get_random_graphics_app -- Function End\n"));
+
+    return rp;
 }
 
 
