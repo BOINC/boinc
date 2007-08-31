@@ -8223,3 +8223,15 @@ Rom    29 Aug 2007
     
     clientscr/
         screensaver.cpp
+
+Charlie 31 Aug 2007
+    - Mac: Update screensaver to V6 graphics.  Fix a bug in 
+        get_random_graphics_app()
+
+    clientscr/
+        mac_saver_module.cpp
+        screensaver.cpp,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+

@@ -99,7 +99,7 @@ void strip_cr(char *buf);
 #define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
 #define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
-#define GFX_CHANGE_PERIOD 22 //600 /* if > 1 CPUs, change screensaver every 600 secs */
+#define GFX_CHANGE_PERIOD 600 /* if > 1 CPUs, change screensaver every 600 secs */
 
 enum SaverState {
     SaverState_Idle,
