@@ -99,7 +99,7 @@ void strip_cr(char *buf);
 #define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
 #define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
-#define GFX_CHANGE_PERIOD 600 /* if > 1 CPUs, change screensaver every 600 secs */
+#define GFX_CHANGE_PERIOD 22 // 600 /* if > 1 CPUs, change screensaver every 600 secs */
 
 enum SaverState {
     SaverState_Idle,
@@ -490,6 +490,7 @@ OSStatus RPCThread(void* param) {
     int             iIndex                  = 0;
     double          percent_done;
     double          launch_time             = 0.0;
+    double          last_change_time        = 0.0;
     double          last_run_check_time     = 0.0;
 
     while (true) {
@@ -587,12 +588,13 @@ OSStatus RPCThread(void* param) {
                 }
             }
 #endif
-            if (launch_time && ((dtime() - launch_time) > GFX_CHANGE_PERIOD)) {
+            if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results) > 1) {
                     avoid_old_result_name = current_result_name;
                     terminate_screensaver(graphics_app_pid);
                     // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
                 }
+                last_change_time = dtime();
             }
         }
 
@@ -615,6 +617,7 @@ OSStatus RPCThread(void* param) {
                 } else {
                     gClientSaverStatus = SS_STATUS_ENABLED;
                     launch_time = dtime();
+                    last_change_time = launch_time;
                     last_run_check_time = launch_time;
                     current_result_name = graphics_app_result_ptr->name;
                 }
