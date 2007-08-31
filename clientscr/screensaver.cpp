@@ -42,18 +42,11 @@ bool is_task_active(RESULT* result) {
 }
 
 
-// Choose a random graphics application out of the vector.
-//
-RESULT* get_random_graphics_app(RESULTS& results) {
-    RESULT*      rp = NULL;
+int count_active_graphic_apps(RESULTS& results) {
     unsigned int i = 0;
     unsigned int graphics_app_count = 0;
-    unsigned int random_selection = 0;
-    unsigned int current_counter = 0;
 
-    BOINCTRACE(_T("get_random_graphics_app -- Function Start\n"));
-
-    // Count the number of graphics apps
+    // Count the number of active graphics-capable apps
     for (i = 0; i < results.results.size(); i++) {
         if (!is_task_active(results.results[i])) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected\n"));
@@ -66,6 +59,22 @@ RESULT* get_random_graphics_app(RESULTS& results) {
 	        graphics_app_count++;
         }
     }
+    return graphics_app_count;
+}
+
+
+// Choose a random graphics application out of the vector.
+//
+RESULT* get_random_graphics_app(RESULTS& results) {
+    RESULT*      rp = NULL;
+    unsigned int i = 0;
+    unsigned int graphics_app_count = 0;
+    unsigned int random_selection = 0;
+    unsigned int current_counter = 0;
+
+    BOINCTRACE(_T("get_random_graphics_app -- Function Start\n"));
+
+    graphics_app_count = count_active_graphic_apps(results);
     BOINCTRACE(_T("get_random_graphics_app -- graphics_app_count = '%d'\n"), graphics_app_count);
 
     // If no graphics app was found, return NULL
@@ -74,10 +83,7 @@ RESULT* get_random_graphics_app(RESULTS& results) {
     }
 
     // Choose which application to display.
-    random_selection = rand() % graphics_app_count;
-    if (0 == random_selection) {
-        random_selection = 1;
-    }
+    random_selection = (rand() % graphics_app_count) + 1;
     BOINCTRACE(_T("get_random_graphics_app -- random_selection = '%d'\n"), random_selection);
 
     // Lets find the choosen graphics application.

@@ -24,6 +24,9 @@
 // Determine if the result is active and executing
 extern bool is_task_active(RESULT* result);
 
+// Count the number of active graphics-capable apps
+extern int count_active_graphic_apps(RESULTS& results);
+
 // Choose a ramdom graphics application from the vector that
 //   was passed in.
 extern RESULT* get_random_graphics_app(RESULTS& results);

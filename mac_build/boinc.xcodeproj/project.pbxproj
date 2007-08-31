@@ -205,6 +205,7 @@
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; };
 		DD7BF7D90B8E7A9800A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DD7BF7DA0B8E7A9800A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DD7BF7E10B8E7B3700A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
@@ -1073,6 +1074,8 @@
 		DD73E3A408A078AF00656EB1 /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Localization.h; path = ../clientgui/Localization.h; sourceTree = SOURCE_ROOT; };
 		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
+		DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = screensaver.cpp; path = ../clientscr/screensaver.cpp; sourceTree = SOURCE_ROOT; };
+		DD7AEB680C87CE6500AC3B5C /* screensaver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = screensaver.h; path = ../clientscr/screensaver.h; sourceTree = SOURCE_ROOT; };
 		DD7BF7D70B8E7A9800A009F7 /* str_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = str_util.C; path = ../lib/str_util.C; sourceTree = SOURCE_ROOT; };
 		DD7BF7D80B8E7A9800A009F7 /* str_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = str_util.h; path = ../lib/str_util.h; sourceTree = SOURCE_ROOT; };
 		DD7BF7E70B8E7BBE00A009F7 /* work_fetch.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = work_fetch.C; path = ../client/work_fetch.C; sourceTree = SOURCE_ROOT; };
@@ -1675,6 +1678,8 @@
 				DDB873960C85072500E0DE1F /* mac_saver_module.cpp */,
 				DDB873970C85072500E0DE1F /* Mac_Saver_ModuleView.h */,
 				DDB873980C85072500E0DE1F /* Mac_Saver_ModuleView.m */,
+				DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */,
+				DD7AEB680C87CE6500AC3B5C /* screensaver.h */,
 			);
 			name = clientscr;
 			sourceTree = SOURCE_ROOT;
@@ -2814,6 +2819,7 @@
 				DD7BF7DA0B8E7A9800A009F7 /* str_util.C in Sources */,
 				DDB873990C85072500E0DE1F /* mac_saver_module.cpp in Sources */,
 				DDB8739A0C85072500E0DE1F /* Mac_Saver_ModuleView.m in Sources */,
+				DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

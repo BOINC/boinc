@@ -32,9 +32,12 @@
 #include <unistd.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 
 #include "gui_rpc_client.h"
 #include "common_defs.h"
+#include "util.h"
+#include "screensaver.h"
 
 //#include <drivers/event_status_driver.h>
 #ifdef __cplusplus
@@ -53,11 +56,12 @@ void drawBanner(GrafPtr aPort);
 int GetBrandID(void);
 void FlashIcon(void);
 OSErr FindBOINCApplication(FSSpecPtr applicationFSSpecPtr);
-pid_t FindProcessPID(char* name, pid_t thePID);
+pid_t FindProcessPID(char* name, pid_t thePID, pid_t thePPID);
 OSErr GetpathToBOINCManagerApp(char* path, int maxLen);
 OSStatus RPCThread(void* param);
 void HandleRPCError(void);
 OSErr KillScreenSaver(void);
+int Mac_launch_screensaver(RESULT* rp, int& graphics_application, pid_t& launcher_shell);
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -94,6 +98,8 @@ void strip_cr(char *buf);
 #define BANNERFREQUENCY 90 /* Number of times per second to scroll banner */
 #define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
+#define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
+#define GFX_CHANGE_PERIOD 22 //600 /* if > 1 CPUs, change screensaver every 600 secs */
 
 enum SaverState {
     SaverState_Idle,
@@ -122,7 +128,7 @@ static DISPLAY_INFO di;     // Contains all NULLs for the Macintosh
 static RPC_CLIENT *rpc;
 MPQueueID gTerminationQueue;	// This queue will report the completion of our threads
 MPTaskID gRPC_thread_id;	// IDs of the thread we create
-int gClientSaverStatus = 0;     // status returned by get_screensaver_mode RPC
+int gClientSaverStatus = 0;     // status determined by RPCThread
 Boolean gQuitRPCThread = false; // Flag to tell RPC thread to exit gracefully
 int gQuitCounter = 0;
 long gBrandId = 0;
@@ -145,9 +151,8 @@ const char *  BOINCSuspendedMsg = "BOINC is currently suspended.";
 const char *  BOINCNoAppsExecutingMsg = "BOINC is currently idle.";
 const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
 const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support screensaver graphics: ";
-const char *  BOINCNoGraphicsSupportedMsg = "This BOINC installation does not support screensaver graphics: ";
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
-const char *  BOINCTestmodeMg = "BOINC screensaver is running, but cannot display graphics in test mode.";
+const char *  BOINCTestmodeMsg = "BOINC screensaver is running, but cannot display graphics in test mode.";
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
 
@@ -224,7 +229,7 @@ OSStatus initBOINCApp() {
     
     saverState = SaverState_CantLaunchCoreClient;
     
-    CoreClientPID = FindProcessPID("boinc", 0);
+    CoreClientPID = FindProcessPID("boinc", 0, 0);
     if (CoreClientPID) {
         wasAlreadyRunning = true;
         saverState = SaverState_LaunchingCoreClient;
@@ -303,7 +308,7 @@ int drawGraphics(GrafPtr aPort) {
         else
             setBannerText(LaunchingCCMsg, aPort);
        
-        myPid = FindProcessPID(NULL, CoreClientPID);
+        myPid = FindProcessPID(NULL, CoreClientPID, 0);
         if (myPid) {
             saverState = SaverState_CoreClientRunning;
             rpc->init(NULL);   // Initialize communications with Core Client
@@ -345,14 +350,14 @@ int drawGraphics(GrafPtr aPort) {
          break;
 
     case SaverState_CoreClientRunning:
-            // set_screensaver_mode RPC called in RPCThread()
+            // RPC called in RPCThread()
             setBannerText(ConnectingCCMsg, aPort);
         break;
     
     case SaverState_CoreClientSetToSaverMode:
         switch (gClientSaverStatus) {
         case 0:
-            break;  // No status response yet from get_screensaver_mode RPC
+            break;  // No status response yet from RPCThread
         case SS_STATUS_BLANKED:
         default:
             setBannerText(0, aPort);   // No text message
@@ -373,10 +378,8 @@ int drawGraphics(GrafPtr aPort) {
             break;
 #endif
         case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
-        case SS_STATUS_DAEMONALLOWSNOGRAPHICS:
             if (msgBuf[0] == 0) {
-                strcpy(msgBuf, (gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING) ? 
-                                BOINCNoGraphicAppsExecutingMsg : BOINCNoGraphicsSupportedMsg);
+                strcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
                 setBannerText(msgBuf, aPort);
             }
             if (gStatusMessageUpdated) {
@@ -385,6 +388,7 @@ int drawGraphics(GrafPtr aPort) {
             }
             // Handled in RPCThread()
             break;
+#if 0
         case SS_STATUS_QUIT:
 //            setBannerText(BOINCExitedSaverMode, aPort);
             // Wait 1 second to allow Give ScreenSaver engine to close us down
@@ -393,11 +397,12 @@ int drawGraphics(GrafPtr aPort) {
                 KillScreenSaver(); // Stop the ScreenSaver Engine
             }
             break;
+#endif
         }       // end switch (gClientSaverStatus)
         break;
 
     case SaverState_ControlPanelTestMode:
-        setBannerText(BOINCTestmodeMg, aPort);
+        setBannerText(BOINCTestmodeMsg, aPort);
         break;
 
     case SaverState_UnrecoverableError:
@@ -466,26 +471,39 @@ void closeBOINCSaver() {
 
 
 OSStatus RPCThread(void* param) {
-    int             val             = 0;
+    int             retval                  = 0;
     CC_STATE        state;
+    CC_STATUS       cc_status;
     AbsoluteTime    timeToUnblock;
     long            time_to_blank;
+    pid_t           graphics_app_pid        = 0;
+    pid_t           launcher_shell_pid      = 0;
     char            statusBuf[256];
     unsigned int    len;
     RESULTS         results;
+    RESULT*         theResult               = NULL;
+    RESULT*         graphics_app_result_ptr = NULL;
     PROJECT*        pProject;
-    bool            bIsActive       = false;
-    bool            bIsExecuting    = false;
-    bool            bIsDownloaded   = false;
-    int             iResultCount    = 0;
-    int             iIndex          = 0;
+    std::string     current_result_name     = "";
+    std::string     avoid_old_result_name   = "";
+    int             iResultCount            = 0;
+    int             iIndex                  = 0;
     double          percent_done;
+    double          launch_time             = 0.0;
+    double          last_run_check_time     = 0.0;
 
     while (true) {
-        if (gQuitRPCThread)     // If main thread has requested we exit
-            MPExit(noErr);      // Exit the thread
+        if (gQuitRPCThread) {     // If main thread has requested we exit
+            if (graphics_app_pid) {
+                terminate_screensaver(graphics_app_pid);
+                graphics_app_pid = 0;
+                launcher_shell_pid = 0;
+                graphics_app_result_ptr = NULL;
+            }
+            MPExit(noErr);       // Exit the thread
+        }
 
-        timeToUnblock = AddDurationToAbsolute(durationSecond/4, UpTime());
+        timeToUnblock = AddDurationToAbsolute(durationSecond/2, UpTime());
         MPDelayUntil(&timeToUnblock);
 
         // Calculate the estimated blank time by adding the starting 
@@ -495,12 +513,14 @@ OSStatus RPCThread(void* param) {
         else
             time_to_blank = 0;
 
-#if ! SIMULATE_NO_GRAPHICS
-        val = rpc->set_screensaver_mode(true, time_to_blank, di);
-#endif
-        if (val == noErr)
+        // Try and get the current state of the CC
+//Get_CC_State:
+        retval = rpc->get_state(state);
+        MPYield();
+        if (retval == noErr)
             break;
 
+        // CC may not yet be running
         HandleRPCError();
     }
 
@@ -508,22 +528,124 @@ OSStatus RPCThread(void* param) {
 
     while (true) {
         if (gQuitRPCThread) {     // If main thread has requested we exit
-            rpc->set_screensaver_mode(false, 0, di);
+            if (graphics_app_pid) {
+                terminate_screensaver(graphics_app_pid);
+                graphics_app_pid = 0;
+                launcher_shell_pid = 0;
+                graphics_app_result_ptr = NULL;
+            }
             MPExit(noErr);       // Exit the thread
         }
         
-        timeToUnblock = AddDurationToAbsolute(durationSecond/4, UpTime());
+        timeToUnblock = AddDurationToAbsolute(durationSecond/2, UpTime());
         MPDelayUntil(&timeToUnblock);
 
-        val = rpc->get_screensaver_mode(gClientSaverStatus);
-        if (val)
+        retval = rpc->get_cc_status(cc_status);
+	if (cc_status.task_suspend_reason != 0) {
+            gClientSaverStatus = SS_STATUS_BOINCSUSPENDED;
+            if (graphics_app_pid) {
+                terminate_screensaver(graphics_app_pid);
+                // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+            }
+            continue;
+        }
+        
+        MPYield();
+                
+        retval = rpc->get_results(results);
+        MPYield();
+        if (retval) {
+            // rpc call returned error
             HandleRPCError();
+            continue;
+        }
+        
+#if ! SIMULATE_NO_GRAPHICS /* FOR TESTING */
+        // Is the current graphics app's associated task still running?
+        if ((graphics_app_pid) && (graphics_app_result_ptr)) {
+            iResultCount = results.results.size();
+            graphics_app_result_ptr = NULL;
+
+            // Find the current task in the new results vector
+            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                theResult = results.results.at(iIndex);
+
+               if (theResult->name == current_result_name) {
+                    graphics_app_result_ptr = theResult;
+                    break;
+                }
+            }
+
+            if ((graphics_app_result_ptr == NULL) || (is_task_active(graphics_app_result_ptr) == false)) {
+                terminate_screensaver(graphics_app_pid);
+                // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+           }
+#if 0
+            if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
+                if (FindProcessPID(NULL, ???, 0) == 0) {
+                    terminate_screensaver(graphics_app_pid);
+                }
+            }
+#endif
+            if (launch_time && ((dtime() - launch_time) > GFX_CHANGE_PERIOD)) {
+                if (count_active_graphic_apps(results) > 1) {
+                    avoid_old_result_name = current_result_name;
+                    terminate_screensaver(graphics_app_pid);
+                    // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+                }
+            }
+        }
+
+        // If no current graphics app, pick an active task at random and launch its graphics app
+        if (graphics_app_pid == 0) {
+            for (iIndex = 0; iIndex < 5; iIndex++) {        // Try to avoid repeating same task if GFX_CHANGE_PERIOD
+                graphics_app_result_ptr = get_random_graphics_app(results);
+                if (graphics_app_result_ptr && (graphics_app_result_ptr->name != avoid_old_result_name))
+                    break;
+            }
+            avoid_old_result_name = "";
+            
+            if (graphics_app_result_ptr) {
+                retval = Mac_launch_screensaver(graphics_app_result_ptr, graphics_app_pid, launcher_shell_pid);
+                if (retval) {
+                    graphics_app_pid = 0;
+                    launcher_shell_pid = 0;
+                    current_result_name = "";
+                    graphics_app_result_ptr = NULL;
+                } else {
+                    gClientSaverStatus = SS_STATUS_ENABLED;
+                    launch_time = dtime();
+                    last_run_check_time = launch_time;
+                    current_result_name = graphics_app_result_ptr->name;
+                }
+            } else {
+                if (state.projects.size() == 0) {
+                    // We are not attached to any projects
+                    gClientSaverStatus = SS_STATUS_NOPROJECTSDETECTED;
+                } else if (results.results.size() == 0) {
+                    // We currently do not have any applications to run
+                    gClientSaverStatus = SS_STATUS_NOAPPSEXECUTING;
+                } else {
+                    // We currently do not have any graphics capable application
+                    gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
+                }
+            }
+        } else {    // End if (graphics_app_pid == 0)
+            // Is the graphics app still running?
+            if (waitpid(launcher_shell_pid, 0, WNOHANG) == launcher_shell_pid) {
+                graphics_app_pid = 0;
+                launcher_shell_pid = 0;
+                graphics_app_result_ptr = NULL;
+                current_result_name = "";
+                continue;
+            }
+        }
+#endif
 
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
         gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
 #endif
         if ((gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING)
-                || (gClientSaverStatus == SS_STATUS_DAEMONALLOWSNOGRAPHICS)
 #if ALWAYS_DISPLAY_PROGRESS_TEXT
                 || (gClientSaverStatus == SS_STATUS_ENABLED)
 #endif
@@ -535,24 +657,17 @@ OSStatus RPCThread(void* param) {
                 if (! gStatusMessageUpdated) {
                     strcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
         
-                    MPYield();
-                    val = rpc->get_state(state);
-                    MPYield();
-                    if (val == 0)
-                        val = rpc->get_results(results);
-                    if (val == 0) {
                         iResultCount = results.results.size();
 
                         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state);
-                            bIsActive     = (results.results.at(iIndex)->active_task);
-                            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state);
+                            theResult = results.results.at(iIndex);
+                            if (! is_task_active(theResult)) continue;
 
-                            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
-
-                            pProject = state.lookup_project(results.results.at(iIndex)->project_url);
+                            // The get_state rpc is time-consuming, so we assume the list of 
+                            // attached projects does not change while the screensaver is active.
+                            pProject = state.lookup_project(theResult->project_url);
                             if (pProject != NULL) {
-                                percent_done = results.results.at(iIndex)->fraction_done * 100;
+                                percent_done = theResult->fraction_done * 100;
                                 if (percent_done < 0.01)
                                     len = sprintf(statusBuf, ("    %s"), pProject->project_name.c_str());
                                  else    // Display percent_done only after we have a valid value
@@ -561,21 +676,16 @@ OSStatus RPCThread(void* param) {
 
                                 strlcat(msgBuf, statusBuf, sizeof(msgBuf));
                             }       // end if (pProject != NULL)
+//                            else {          // (pProject += NULL): re-synch with client
+//                                goto Get_CC_State;  // Should never happen
+//                            }
                         }           // end for() loop
                         gStatusMessageUpdated = true;
-                    } else {        // rpc call returned error
-                        HandleRPCError();
-                    }               // end if (rpc.get_results(results) {} else {}
                     
                 }   // end if (! gStatusMessageUpdated)
                 
             }                   // end if (statusUpdateCounter > time to update)
         }                       // end if SS_STATUS_NOGRAPHICSAPPSEXECUTING
-        
-        if (gClientSaverStatus == SS_STATUS_QUIT) {
-            rpc->set_screensaver_mode(false, 0, di);
-            MPExit(noErr);      // Exit the thread
-        }
     }                           // end while(true)
             return noErr;       // should never get here; it fixes compiler warning
 }
@@ -589,7 +699,7 @@ void HandleRPCError() {
     // process of shutting down just as ScreenSaver started, so initBOINCApp() 
     // found it already running but now it has shut down.  This code takes 
     // care of that and other situations where the Core Client quits unexpectedy.  
-    if (FindProcessPID("boinc", 0) == 0) {
+    if (FindProcessPID("boinc", 0, 0) == 0) {
         saverState = SaverState_RelaunchCoreClient;
         MPExit(noErr);      // Exit the thread
      }
@@ -759,32 +869,42 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
-pid_t FindProcessPID(char* name, pid_t thePID)
+pid_t FindProcessPID(char* name, pid_t thePID, pid_t thePPID)
 {
     FILE *f;
     char buf[1024];
     size_t n = 0;
-    pid_t aPID;
+    pid_t aPID, aPPID;
     
-    if (name != NULL)     // Search by name
+    if (name != NULL) {     // Search by name
         n = strlen(name);
+    }
     
-    f = popen("ps -a -x -c -o command,pid", "r");
+    f = popen("ps -a -x -c -o pid,ppid,command", "r");
     if (f == NULL)
         return 0;
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {
         if (name != NULL) {     // Search by name
-            if (strncmp(buf, name, n) == 0)
+            if (strncmp(buf+12, name, n) == 0)
             {
-                aPID = atol(buf+16);
+                aPID = atol(buf);
                 pclose(f);
                 return aPID;
             }
-        } else {      // Search by PID
-            aPID = atol(buf+16);
+        } else 
+        if (thePID != 0) {      // Search by PID
+            aPID = atol(buf);
             if (aPID == thePID) {
+                pclose(f);
+                return aPID;
+            }
+        } else
+            if (thePPID != 0) {      // Search by PPID
+            aPPID = atol(buf+6);
+            if (aPPID == thePPID) {
+                aPID = atol(buf);
                 pclose(f);
                 return aPID;
             }
@@ -824,6 +944,32 @@ OSErr KillScreenSaver() {
 }
 
 
+// Launch the graphics application
+//
+int Mac_launch_screensaver(RESULT* rp, pid_t& graphics_application, pid_t& launcher_shell)
+{
+    char cmd[1024];
+    int retval;
+    int pid = fork();
+    if (pid == 0) {
+        retval = chdir(rp->slot_path.c_str());
+        if (retval) return retval;
+        // Launching the graphics application using fork() and execv() 
+        // results in it getting "RegisterProcess failed (error = -50)"
+        // so we launch it via a shell using the system() api.
+        sprintf(cmd, "\"%s\" --fullscreen", rp->graphics_exec_path.c_str());
+        system(cmd);
+        exit(errno);
+    }
+    
+    // Remember our child's pid: our child is the shell launched by system()
+    launcher_shell = pid;
+    // Find the pid of the graphics application (our grandchild)
+    graphics_application = FindProcessPID(NULL, 0, pid);
+    return 0;
+}
+
+
 void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
     FILE *f;
@@ -850,7 +996,7 @@ void print_to_log_file(const char *format, ...) {
     va_end(args);
     
     fputs("\n", f);
-
+    fflush(f);
     fclose(f);
 #endif
 }
