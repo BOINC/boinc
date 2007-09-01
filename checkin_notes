@@ -8245,3 +8245,6 @@ Charlie 1 Sep 2007
     clientscr/
         res/
             boinc.tiff (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

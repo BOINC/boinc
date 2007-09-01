@@ -877,7 +877,7 @@
 		AA8B6B24046C366200A80164 /* ss_logic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ss_logic.h; path = ../client/ss_logic.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.C; path = ../lib/shmem.C; sourceTree = SOURCE_ROOT; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
-		DD0C5A8A0816711400CEC5D7 /* boinc.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = boinc.tiff; path = ../clientgui/mac/boinc.tiff; sourceTree = SOURCE_ROOT; };
+		DD0C5A8A0816711400CEC5D7 /* boinc.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = boinc.tiff; path = ../clientscr/res/boinc.tiff; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
 		DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = LoginItemAPI.c; path = ../mac_installer/LoginItemAPI.c; sourceTree = SOURCE_ROOT; };
