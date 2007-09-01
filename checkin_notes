@@ -7285,3 +7285,11 @@ Charlie 25 Aug 2007
         sg_DlgPreferences.cpp
     lib/
         prefs.C,h
+
+Charlie 1 Sep 2007
+    - Mac screensaver: replace image in screensaver control panel with 
+        new logo.
+    
+    clientgui/
+        mac/
+            boinc.tiff
