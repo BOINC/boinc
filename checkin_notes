@@ -7292,4 +7292,8 @@ Charlie 1 Sep 2007
     
     clientgui/
         mac/
-            boinc.tiff
+            boinc.tiff (deleted)
+            boinc.jpg (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
