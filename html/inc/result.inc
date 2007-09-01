@@ -127,10 +127,10 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
         <tr>
     ";
     if ($show_result_link) {
-        echo "<th>Result ID<br><font size=-2>click for details</a></th>\n";
+        echo "<th>Result ID<br><span class=\"smalltext\">click for details</span></th>\n";
     }
     if ($show_wu_link) {
-        echo "<th>Work unit ID<br><font size=-2>click for details</font></th>\n";
+        echo "<th>Work unit ID<br><span class=\"smalltext\">click for details</span></th>\n";
     }
     if ($show_host_link) {
         echo "<th>Computer</th>\n";
@@ -139,16 +139,16 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
         <th>Sent</th>
         <th>Time reported
             <br>or deadline
-	    <br><font size=-2><a href=\"explain_state.php?field=result_time\">explain</a>
+            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_time\">explain</a></span>
         </th>
         <th>Server state
-            <br><font size=-2><a href=\"explain_state.php?field=result_server_state\">explain</a>
+            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_server_state\">explain</a></span>
         </th>
         <th>Outcome
-            <br><font size=-2><a href=\"explain_state.php?field=result_outcome\">explain</a>
+            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_outcome\">explain</a></span>
         </th>
         <th>Client state
-            <br><font size=-2><a href=\"explain_state.php?field=result_client_state\">explain</a>
+            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_client_state\">explain</a></span>
         </th>
         <th>CPU time (sec)</th>
         <th>claimed credit</th>
