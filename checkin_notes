@@ -8235,3 +8235,13 @@ Charlie 31 Aug 2007
         boinc.xcodeproj/
             project.pbxproj
 
+Charlie 1 Sep 2007
+    - Mac screensaver: replace image in screensaver control panel with 
+        new logo, move to common clientscr/res/ directory.
+    
+    clientgui/
+        mac/
+            boinc.tiff (removed)
+    clientscr/
+        res/
+            boinc.tiff (added)
