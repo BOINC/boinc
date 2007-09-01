@@ -8241,10 +8241,10 @@ Charlie 1 Sep 2007
     
     clientgui/
         mac/
-            boinc.tiff (removed)
+            boinc.tiff (deleted)
     clientscr/
         res/
-            boinc.tiff (added)
+            boinc.jpg (added)
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
