@@ -8248,3 +8248,18 @@ Charlie 1 Sep 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 2 Sep 2007
+    - CC: if running as a daemon, don't set disable_graphics, remove 
+        "No application graphics will be available" message.
+    - Mac MGR: if  BOINC is running as a service / daemon, delay setting 
+        up menubar icon menu to work around problem of unknown cause.
+    - Mac: add -daemon flag to script for starting BOINC as a service.
+
+    client/
+        client_state.C
+    clientgui/
+        mac/
+            MacSysMenu.cpp
+    mac_build/
+        Make_BOINC_Service.sh
