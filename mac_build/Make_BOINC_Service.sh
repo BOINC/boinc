@@ -161,7 +161,7 @@ StartService ()
     if [ -x "${PATH_TO_CLIENT}boinc" ]; then
        if [ -d "/Library/Application Support/BOINC Data" ]; then 
             ConsoleMessage "Starting BOINC client"
-            "${PATH_TO_CLIENT}boinc" -redirectio -dir "${PATH_TO_DATA}" &
+            "${PATH_TO_CLIENT}boinc" -redirectio -daemon -dir "${PATH_TO_DATA}" &
             echo \$! > /var/run/boinc.pid
         fi
     fi
