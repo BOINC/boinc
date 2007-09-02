@@ -2,7 +2,7 @@
 
 # Berkeley Open Infrastructure for Network Computing
 # http://boinc.berkeley.edu
-# Copyright (C) 2006 University of California
+# Copyright (C) 2007 University of California
 #
 # This is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,8 @@
 #
 ##
 # Script to set up Macintosh to run BOINC client as a daemon / service
-# by Charlie Fenton 7/26/06
+# by Charlie Fenton 7/26/06 
+# revised 9/2/07
 ##
 
 ## Usage:
