@@ -8263,3 +8263,10 @@ Charlie 2 Sep 2007
             MacSysMenu.cpp
     mac_build/
         Make_BOINC_Service.sh
+
+David  2 Sept 2007
+    - client: zero out xfer_speed in HTTP_OP constructor
+        (may fix problem w/ #INF bandwidth display)
+
+    client/
+        http_curl.C

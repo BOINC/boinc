@@ -162,6 +162,7 @@ HTTP_OP::HTTP_OP() {
     lSeek = 0;
     auth_flag = false;
     auth_type = 0;
+    xfer_speed = 0;
     reset();
 }
 

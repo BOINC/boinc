@@ -282,6 +282,7 @@ language("Slovak", array(
     site("http://www.boinc.sk/", "www.boinc.sk")
 ));
 language("Spanish", array(
+    site("http://elmajo.blogspot.com", "Computación Distribuida"),
     site("http://efren-canarias.blogcindario.com/", "El Pais De La Computacion"),
     site("http://www.canalboinc.org/modules/news/", "Canal BOINC"),
     site("http://www.boinc-ecuador.com/", "BOINC - Ecuador"),
