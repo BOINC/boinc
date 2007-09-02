@@ -28,6 +28,8 @@
 #include "DlgAbout.h"
 #include "Events.h"
 #include "miofile.h"
+#include "filesys.h"
+#include "util.h"
 #include "SkinManager.h"
 #include "wx/mac/private.h"     // for wxBitmapRefData::GetPictHandle
 
@@ -124,6 +126,12 @@ CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconn
                                 : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
      CFBundleRef	SysMenuBundle	= NULL;
 
+    // Work around a problem of unknown cause which sometimes causes menubar icon to be unresponsive
+    if (boinc_file_exists("/Library/StartupItems/boinc/boinc") &&  // If running as daemon
+                        (TickCount() < (120*60))) {    // If system has been up for less than 2 minutes
+        boinc_sleep(15);
+    }
+    
     m_OpeningAboutDlg = false;
     
     LoadPrivateFrameworkBundle( CFSTR("SystemMenu.bundle"), &SysMenuBundle );
