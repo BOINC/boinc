@@ -201,10 +201,6 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO,
             "BOINC is running as a service and as a non-system user."
         );
-        msg_printf(NULL, MSG_INFO,
-            "No application graphics will be available."
-        );
-        disable_graphics = true;
     }
 #endif
 
@@ -213,10 +209,6 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO,
             "BOINC is running as a daemon."
         );
-        msg_printf(NULL, MSG_INFO,
-            "No application graphics will be available."
-        );
-        disable_graphics = true;
     }
 #endif
 
