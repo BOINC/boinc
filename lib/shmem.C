@@ -171,7 +171,6 @@ int detach_shmem(void* p) {
 int create_shmem(char *path, size_t size, void** pp) {
     int fd, retval;
     struct stat sbuf;
-    fstore_t storestruct = { F_ALLOCATECONTIG, F_PEOFPOSMODE, 0, size, 0 };
     
     // NOTE: in principle it should be 0660, not 0666
     // (i.e. Apache should belong to the same group as the
@@ -188,8 +187,9 @@ int create_shmem(char *path, size_t size, void** pp) {
     retval = fstat(fd, &sbuf);
     if (retval == 0) {
         if (sbuf.st_size < size) {
-            storestruct.fst_length = size - sbuf.st_size;
-            retval = fcntl(fd, F_PREALLOCATE, &storestruct);
+            // The following 2 lines extend the file and clear its new 
+            // area to all zeros because they write beyond the old EOF. 
+            // See the lseek man page for details.
             lseek(fd, size-1, SEEK_SET);
             write(fd, "\0", 1);
         }
@@ -200,6 +200,7 @@ int create_shmem(char *path, size_t size, void** pp) {
        return ERR_SHMGET;
     }
 
+    // mmap willl return NULL if size is 0
     *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
     
     // Now close the file. The kernel doesnÕt use our file descriptor.

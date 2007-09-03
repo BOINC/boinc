@@ -8270,3 +8270,9 @@ David  2 Sept 2007
 
     client/
         http_curl.C
+
+Charlie 2 Sep 2007
+    - improvements to shared memory using memory mapped files.
+    
+    lib/
+        shmem.C
