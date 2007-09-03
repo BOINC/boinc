@@ -49,7 +49,7 @@ bool mouse_down = false;
 int mouse_x, mouse_y;
 double pitch_angle, roll_angle, viewpoint_distance=10;
 float color[4] = {.7, .2, .5, 1};
-UC_SHMEM* shmem;
+UC_SHMEM* shmem = NULL;
 
 // set up lighting model
 //
@@ -148,6 +148,13 @@ static void init_camera(double dist) {
 }
 
 void app_graphics_render(int xs, int ys, double time_of_day) {
+    // boinc_graphics_get_shmem() must be called after 
+    // boinc_parse_init_data_file()
+    // Put this in the main loop to allow retries if the 
+    // worker application has not yet created shared memory
+    if (shmem == NULL)
+        shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // draw logo first - it's in background
@@ -248,8 +255,6 @@ int main(int argc, char** argv) {
 #endif
     boinc_parse_init_data_file();
     boinc_get_init_data(uc_aid);
-    // boinc_graphics_get_shmem() must be called after boinc_parse_init_data_file()
-    shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
    if (uc_aid.project_preferences) {
         parse_project_prefs(uc_aid.project_preferences);
     }
