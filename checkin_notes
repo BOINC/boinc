@@ -7685,7 +7685,7 @@ Rom    2 Aug 2007
     lib/
         stackwalker_win.cpp
 
-Eric K 	 06 Aug 2007
+Eric K      06 Aug 2007
     -added new functions boinc_suspend_graphics_thread() and
      boinc_resume_graphics_thread(), so apps can suspend the graphics
      threads for critical sections without suspending all threads.
@@ -7740,10 +7740,10 @@ David  10 Aug 2007
         str_util.C
 
 David  10 Aug 2007
-	- Manager: show the AMS name, not the skin name, in Wizard
+    - Manager: show the AMS name, not the skin name, in Wizard
 
-	clientgui/
-		WelcomePage.cpp
+    clientgui/
+        WelcomePage.cpp
 
 David  10 Aug 2007
     - Manager: change "Retry communications" to "Do network communication"
@@ -7756,7 +7756,7 @@ David  10 Aug 2007
     lib/
         error_numbers.h
 
-Janus	11 Aug 2007
+Janus    11 Aug 2007
     - Added a DB table creation query for the BT file table
 
     html/bt/database/
@@ -7891,10 +7891,10 @@ David  16 Aug 2007
         transitioner.C
 
 David  16 Aug 2007
-	- screensaver fix
+    - screensaver fix
 
-	clientscr/
-		screensaver_win.cpp
+    clientscr/
+        screensaver_win.cpp
 
 Rom    16 Aug 2007
     - MGR: Update skin manager for the following changes:
@@ -7949,30 +7949,30 @@ Charlie 16 Aug 2007
             BOINCMgr.icns
 
 David  16 Aug 2007
-	- screensaver fix
+    - screensaver fix
 
-	api/
-		graphics2_win.C
-	lib/
-		util.C
+    api/
+        graphics2_win.C
+    lib/
+        util.C
 
 David  17 Aug 2007
-	- client: change the way upload/download throughput
-		estimates are maintained.
-		The old way took concurrency into account but ignored compression;
-		the new way does the converse.
-	- client: maintain new stat: recent average transfer rates.
-		This track average up/down throughputs
-		(over wall clock time, not just while xfers are active)
-		with a half-life of 1 day.
-		Will eventually add a new pref: don't fetch new work if
-		either of these is above a threshold
+    - client: change the way upload/download throughput
+        estimates are maintained.
+        The old way took concurrency into account but ignored compression;
+        the new way does the converse.
+    - client: maintain new stat: recent average transfer rates.
+        This track average up/down throughputs
+        (over wall clock time, not just while xfers are active)
+        with a half-life of 1 day.
+        Will eventually add a new pref: don't fetch new work if
+        either of these is above a threshold
 
-	client/
-		client_state.C
-		file_names.C
-		http_curl.C,h
-		net_stats.C,h
+    client/
+        client_state.C
+        file_names.C
+        http_curl.C,h
+        net_stats.C,h
 
 Charlie 17 Aug 2007
     MGR: Disable Simple GUI if the screen height < 600 (instead of== 480). 
@@ -8287,3 +8287,21 @@ Charlie 3 Sep 2007
     clientscr/
         mac_saver_module.cpp
         screensaver.cpp,h
+
+David  3 Sept 2007
+    - client: when a job finishes, read last (not first) 63KB of stderr
+    - client: parse <cpid_time> in scheduler reply;
+        add cpid_time field to PROJECT.
+        This defaults to the user_create_time.
+        In deciding which CPID to send in a scheduler request,
+        use the one with oldest cpid_time (not user_create_time).
+        This is the client half of fixing a bug that causes
+        CPID to flip/flop between to values in a certain case.
+
+    client/
+        app_control.C
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        util.C,h

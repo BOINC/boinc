@@ -189,6 +189,7 @@ public:
     char team_name[256];
     char email_hash[MD5_LEN];
     char cross_project_id[MD5_LEN];
+    double cpid_time;
     double user_total_credit;
     double user_expavg_credit;
     double user_create_time;

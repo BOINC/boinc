@@ -183,9 +183,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         PROJECT* project = projects[i];
         if (project == p) continue;
         if (strcmp(project->email_hash, p->email_hash)) continue;
-        if (project->user_create_time < winner->user_create_time) {
+        if (project->cpid_time < winner->cpid_time) {
             winner = project;
-        } else if (project->user_create_time == winner->user_create_time) {
+        } else if (project->cpid_time == winner->cpid_time) {
             if (strcmp(project->master_url, winner->master_url) < 0) {
                 winner = project;
             }

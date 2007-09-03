@@ -64,6 +64,7 @@ void PROJECT::init() {
     strcpy(team_name, "");
     strcpy(email_hash, "");
     strcpy(cross_project_id, "");
+    cpid_time = 0;
     user_total_credit = 0;
     user_expavg_credit = 0;
     user_create_time = 0;
@@ -125,8 +126,13 @@ int PROJECT::parse_state(MIOFILE& in) {
 
     init();
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<scheduler_url>", sched_url)) {
+        if (match_tag(buf, "</project>")) {
+            if (cpid_time == 0) {
+                cpid_time = user_create_time;
+            }
+            return 0;
+        }
+        if (parse_str(buf, "<scheduler_url>", sched_url)) {
             scheduler_urls.push_back(sched_url);
             continue;
         }
@@ -138,6 +144,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         if (parse_str(buf, "<email_hash>", email_hash, sizeof(email_hash))) continue;
         if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
+        if (parse_double(buf, "<cpid_time>", cpid_time)) continue;
         if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         if (parse_double(buf, "<user_create_time>", user_create_time)) continue;
@@ -209,6 +216,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <host_venue>%s</host_venue>\n"
         "    <email_hash>%s</email_hash>\n"
         "    <cross_project_id>%s</cross_project_id>\n"
+        "    <cpid_time>%f</cpid_time>\n"
         "    <user_total_credit>%f</user_total_credit>\n"
         "    <user_expavg_credit>%f</user_expavg_credit>\n"
         "    <user_create_time>%f</user_create_time>\n"
@@ -237,6 +245,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         host_venue,
         email_hash,
         cross_project_id,
+        cpid_time,
         user_total_credit,
         user_expavg_credit,
         user_create_time,
@@ -316,6 +325,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     user_create_time = p.user_create_time;
+    cpid_time = p.cpid_time;
     rpc_seqno = p.rpc_seqno;
     hostid = p.hostid;
     host_total_credit = p.host_total_credit;

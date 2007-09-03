@@ -534,6 +534,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     std::string delete_file_name;
     mf.init_file(in);
     bool found_start_tag = false;
+    double cpid_time = 0;
 
     hostid = 0;
     request_delay = 0;
@@ -591,6 +592,11 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 
             project->write_statistics_file();
 
+            if (cpid_time) {
+                project->cpid_time = cpid_time;
+            } else {
+                project->cpid_time = project->user_create_time;
+            }
             return 0;
         }
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) {
@@ -604,6 +610,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;
         else if (parse_double(buf, "<user_create_time>", project->user_create_time)) continue;
+        else if (parse_double(buf, "<cpid_time>", cpid_time)) continue;
         else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", project->host_total_credit)) continue;

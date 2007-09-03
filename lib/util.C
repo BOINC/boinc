@@ -472,7 +472,7 @@ void boinc_crash() {
 
 // read file (at most max_len chars, if nonzero) into malloc'd buf
 //
-int read_file_malloc(const char* path, char*& buf, int max_len) {
+int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
     FILE* f;
     int retval, isize;
     double size;
@@ -484,6 +484,9 @@ int read_file_malloc(const char* path, char*& buf, int max_len) {
     if (!f) return ERR_FOPEN;
 
     if (max_len && size > max_len) {
+        if (tail) {
+            fseek(f, size-max_len, SEEK_SET);
+        }
         size = max_len;
     }
     isize = (int) size;
@@ -496,12 +499,12 @@ int read_file_malloc(const char* path, char*& buf, int max_len) {
 
 // read file (at most max_len chars, if nonzero) into string
 //
-int read_file_string(const char* path, string& result, int max_len) {
+int read_file_string(const char* path, string& result, int max_len, bool tail) {
     result.erase();
     int retval;
     char* buf;
 
-    retval = read_file_malloc(path, buf, max_len);
+    retval = read_file_malloc(path, buf, max_len, tail);
     if (retval) return retval;
     result = buf;
     free(buf);
