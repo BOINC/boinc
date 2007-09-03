@@ -423,8 +423,19 @@ David  17 Aug 2007
 
 Charlie 29 Aug 2007
     - Mac: new XCode project for version 6 example_app.
-    - Mac: Redirect stderr to gfx_stderr.txt so we have a way to get 
-        error messages from system for graphics app; fix bugs.
+    - Mac example_app: Redirect stderr to gfx_stderr.txt so we have a way 
+        to get error messages from system for graphics app; fix bugs.
+        
+    example_app/
+        uc2_graphics.C
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
+Charlie 2 Sep 2007
+    - Mac: remove jpeg sources from worker app in example_app XCode project.
+    - example_app: put boinc_graphics_get_shmem in main graphics loop to 
+         retry if worker application has not yet created shared memory.
         
     example_app/
         uc2_graphics.C
