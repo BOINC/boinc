@@ -25,11 +25,11 @@
 extern bool is_task_active(RESULT* result);
 
 // Count the number of active graphics-capable apps
-extern int count_active_graphic_apps(RESULTS& results);
+extern int count_active_graphic_apps(RESULTS& results, std::string *exclude=NULL);
 
 // Choose a ramdom graphics application from the vector that
 //   was passed in.
-extern RESULT* get_random_graphics_app(RESULTS& results);
+extern RESULT* get_random_graphics_app(RESULTS& results, std::string *exclude=NULL);
 
 // Launch the screensaver
 #ifdef _WIN32

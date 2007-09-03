@@ -578,6 +578,7 @@ OSStatus RPCThread(void* param) {
             }
 
             if ((graphics_app_result_ptr == NULL) || (is_task_active(graphics_app_result_ptr) == false)) {
+print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
                 terminate_screensaver(graphics_app_pid);
                 // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
            }
@@ -589,7 +590,7 @@ OSStatus RPCThread(void* param) {
             }
 #endif
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
-                if (count_active_graphic_apps(results) > 1) {
+                if (count_active_graphic_apps(results, &current_result_name) > 0) {
                     avoid_old_result_name = current_result_name;
                     terminate_screensaver(graphics_app_pid);
                     // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
@@ -600,11 +601,7 @@ OSStatus RPCThread(void* param) {
 
         // If no current graphics app, pick an active task at random and launch its graphics app
         if (graphics_app_pid == 0) {
-            for (iIndex = 0; iIndex < 5; iIndex++) {        // Try to avoid repeating same task if GFX_CHANGE_PERIOD
-                graphics_app_result_ptr = get_random_graphics_app(results);
-                if (graphics_app_result_ptr && (graphics_app_result_ptr->name != avoid_old_result_name))
-                    break;
-            }
+            graphics_app_result_ptr = get_random_graphics_app(results, &avoid_old_result_name);
             avoid_old_result_name = "";
             
             if (graphics_app_result_ptr) {

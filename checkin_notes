@@ -8276,3 +8276,14 @@ Charlie 2 Sep 2007
     
     lib/
         shmem.C
+
+Charlie 3 Sep 2007
+    - SCR: Add optional argument to count_active_graphic_apps() and 
+        get_random_graphics_app() with the name of a result to avoid. This 
+        is useful to periodically switch displayed tasks.  The new argument 
+        is ignored if NULL or an empty string; get_random_graphics_app() 
+        will choose it only if there is no other candidate. 
+    
+    clientscr/
+        mac_saver_module.cpp
+        screensaver.cpp,h
