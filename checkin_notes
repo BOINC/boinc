@@ -7297,3 +7297,14 @@ Charlie 1 Sep 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 2 Sep 2007
+    - Mac MGR: if  BOINC is running as a service / daemon, connect to 
+        BOINC Client before creating menubar icon menu to work around 
+        a problem of unknown cause which sometimes made icon unresponsive.
+    - Mac: add -daemon flag to script for starting BOINC as a service.
+
+    clientgui/
+        BOINCGUIApp.cpp
+    mac_build/
+        Make_BOINC_Service.sh
