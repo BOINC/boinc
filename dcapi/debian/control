@@ -25,7 +25,7 @@ Architecture: any
 Provides: libdcapi-dev
 Replaces: libdcapi-dev (<< 0.9-7)
 Conflicts: libdcapi-dev (<< 0.9-7)
-Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, boinc-dev (>= 5.6.4-1)
+Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, boinc-dev (>= 5.6.4-1), uuid-dev
 Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
@@ -37,7 +37,7 @@ Section: libdevel
 Priority: extra
 Architecture: any
 Provides: libdcapi-dev
-Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, libcondorapi-dev
+Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, libcondorapi-dev, uuid-dev
 Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
@@ -49,7 +49,7 @@ Section: libdevel
 Priority: extra
 Architecture: any
 Provides: libdcapi-dev
-Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev
+Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, uuid-dev
 Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
