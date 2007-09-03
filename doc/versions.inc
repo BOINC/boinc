@@ -390,7 +390,7 @@ $linux_libs_58= "
 
 $w51020= array(
     "num"=>"5.10.20",
-    "status"=>"Development version (Win98+, Win2000+)",
+    "status"=>"Recommended version (Win98+, Win2000+)",
     "file"=>"boinc_5.10.20_windows_intelx86.exe",
     "date"=>"23 Aug 2007",
     "type"=>"win_new",
@@ -402,39 +402,11 @@ $w51020= array(
     "bugs"=>""
 );
 
-$w51013= array(
-    "num"=>"5.10.13",
-    "status"=>"Recommended version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.13_windows_intelx86.exe",
-    "date"=>"5 July 2007",
-    "type"=>"win_new",
-    "features"=>"<ul>
-".$features_510."
-".$changes_510."
-    </ul>
-    ",
-    "bugs"=>""
-);
-
 $w51020x64= array(
     "num"=>"5.10.20",
-    "status"=>"Development version (WinXP64+)",
+    "status"=>"Recommended version (WinXP64+)",
     "file"=>"boinc_5.10.20_windows_x86_64.exe",
     "date"=>"23 Aug 2007",
-    "type"=>"win_new",
-    "features"=>"<ul>
-".$features_510."
-".$changes_510."
-    </ul>
-    ",
-    "bugs"=>""
-);
-
-$w51013x64= array(
-    "num"=>"5.10.13",
-    "status"=>"Recommended version (WinXP64+)",
-    "file"=>"boinc_5.10.13_windows_x86_64.exe",
-    "date"=>"5 July 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_510."
@@ -487,24 +459,9 @@ $w5411= array(
 
 $m51020 = array(
     "num"=>"5.10.20",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.10.20_macOSX_universal.zip",
     "date"=>"23 Aug 2007",
-    "type"=>"mac_advanced",
-     "features"=>"<ul>
-".$features_510."
-".$changes_510."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
-$m5107 = array(
-    "num"=>"5.10.7",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.10.7_macOSX_universal.zip",
-    "date"=>"20 June 2007",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_510."
@@ -559,24 +516,9 @@ $m549 = array(
 
 $m51020c = array(
     "num"=>"5.10.20",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.10.20_universal-apple-darwin.zip",
     "date"=>"23 Aug 2007",
-    "type"=>"bare_core",
-    "features"=>"<ul>
-".$features_510."
-".$changes_510."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
-$m5107c = array(
-    "num"=>"5.10.7",
-    "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_5.10.7_universal-apple-darwin.zip",
-    "date"=>"16 June 2007",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_510."
@@ -683,7 +625,6 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w51020,
-        $w51013,
         $w5816,
         $w5411,
     )
@@ -694,7 +635,6 @@ $windowsx64 = array(
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w51020x64,
-        $w51013x64,
     )
 );
 
@@ -704,8 +644,6 @@ $mac = array(
     "versions"=>array(
         $m51020,
         $m51020c,
-        $m5107,
-        $m5107c,
         $m5817,
         $m5817c,
         $m549,
