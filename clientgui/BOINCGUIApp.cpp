@@ -285,7 +285,7 @@ bool CBOINCGUIApp::OnInit() {
             m_iGUISelected = BOINC_ADVANCEDGUI;
         }
 
-    // Screen reader in use?
+        // Screen reader in use?
 #ifdef __WXMSW__
         BOOL bScreenReaderEnabled = false;
         SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
@@ -294,6 +294,15 @@ bool CBOINCGUIApp::OnInit() {
         }
 #endif
     }
+
+#ifdef __WXMAC__
+    // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
+    // unresponsive to mouse clicks if we create it before connecting to the Client.
+    bool running_as_daemon = boinc_file_exists("/Library/StartupItems/boinc/boinc") && 
+                        (TickCount() < (120*60));     // If system has been up for less than 2 minutes
+
+    if (running_as_daemon) StartupBOINCCore();
+#endif
 
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
@@ -312,8 +321,10 @@ bool CBOINCGUIApp::OnInit() {
     // Startup the System Idle Detection code
     ClientLibraryStartup();
 
-    // Detect if we need to start the BOINC Core Client due to configuration
-    StartupBOINCCore();
+#ifdef __WXMAC__
+    if (! running_as_daemon)
+#endif
+        StartupBOINCCore();
 
 #ifdef __WXMAC__
     s_bSkipExitConfirmation = false;
