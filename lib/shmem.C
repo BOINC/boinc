@@ -172,6 +172,10 @@ int create_shmem(char *path, size_t size, void** pp) {
     int fd, retval;
     struct stat sbuf;
     
+    // Return NULL pointer if create_shmem fails
+    *pp = 0;
+    if (size == 0) return ERR_SHMGET;
+    
     // NOTE: in principle it should be 0660, not 0666
     // (i.e. Apache should belong to the same group as the
     // project admin user, and should therefore be able to access the seg.
@@ -193,7 +197,6 @@ int create_shmem(char *path, size_t size, void** pp) {
         write(fd, "\0", 1);
     }
 
-    // mmap willl return NULL if size is 0
     *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
     
     // Now close the file. The kernel doesn’t use our file descriptor.
@@ -215,11 +218,13 @@ int attach_shmem(char *path, void** pp) {
     int fd, retval;
     struct stat sbuf;
     
-    fd = open(path, O_RDWR);
+    // Return NULL pointer if attach_shmem fails
+    *pp = 0;    fd = open(path, O_RDWR);
     if (fd < 0) return ERR_SHMGET;
 
     retval = fstat(fd, &sbuf);
     if (retval) return ERR_SHMGET;
+    if (sbuf.st_size == 0) return ERR_SHMGET;
 
     *pp = mmap(NULL, sbuf.st_size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
     
