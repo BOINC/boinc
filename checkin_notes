@@ -8308,11 +8308,15 @@ David  3 Sept 2007
 
 Charlie 4 Sep 2007
     - V6 GFX: Fix bug on OS 10.3.9
+    - CC: fix bug so we do new version check when client is first started 
+        as well as every 14 days thereafter.
     - make shared memory using memory mapped files more robust.
     
     api/
         graphics2_unix.C
         graphics2_util.C
+    client/
+        acct_setup.C
     lib/
         shmem.C,h
     mac_build/
