@@ -169,9 +169,7 @@ static int setup_shared_mem() {
     }
 #else
 #ifdef USE_FILE_MAPPED_SHMEM
-    if (create_shmem(
-            MMAPPED_FILE_NAME, sizeof(SHARED_MEM), (void**)&app_client_shm->shm
-        )) {
+    if (attach_shmem( MMAPPED_FILE_NAME, (void**)&app_client_shm->shm)) {
         delete app_client_shm;
         app_client_shm = NULL;
     }

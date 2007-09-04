@@ -181,23 +181,16 @@ int create_shmem(char *path, size_t size, void** pp) {
     // and it's not a significant security issue.
     //
     fd = open(path, O_RDWR | O_CREAT, 0666);
-    if (fd < 0)
-        return ERR_SHMGET;
+    if (fd < 0) return ERR_SHMGET;
 
     retval = fstat(fd, &sbuf);
-    if (retval == 0) {
-        if (sbuf.st_size < size) {
-            // The following 2 lines extend the file and clear its new 
-            // area to all zeros because they write beyond the old EOF. 
-            // See the lseek man page for details.
-            lseek(fd, size-1, SEEK_SET);
-            write(fd, "\0", 1);
-        }
-    }
-    
-    if (retval) {
-        perror("fcntl returned ");
-       return ERR_SHMGET;
+    if (retval) return ERR_SHMGET;
+    if (sbuf.st_size < size) {
+        // The following 2 lines extend the file and clear its new 
+        // area to all zeros because they write beyond the old EOF. 
+        // See the lseek man page for details.
+        lseek(fd, size-1, SEEK_SET);
+        write(fd, "\0", 1);
     }
 
     // mmap willl return NULL if size is 0
@@ -206,15 +199,41 @@ int create_shmem(char *path, size_t size, void** pp) {
     // Now close the file. The kernel doesnÕt use our file descriptor.
     close(fd);
 
-    if (*pp == MAP_FAILED)
+    if (*pp == MAP_FAILED) {
+        *pp = 0;
         return ERR_SHMGET;
-
+    }
+    
     return 0;
 }
 
 int destroy_shmem(key_t key){
     return 0;
 }
+
+int attach_shmem(char *path, void** pp) {
+    int fd, retval;
+    struct stat sbuf;
+    
+    fd = open(path, O_RDWR);
+    if (fd < 0) return ERR_SHMGET;
+
+    retval = fstat(fd, &sbuf);
+    if (retval) return ERR_SHMGET;
+
+    *pp = mmap(NULL, sbuf.st_size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
+    
+    // Now close the file. The kernel doesnÕt use our file descriptor.
+    close(fd);
+
+    if (*pp == MAP_FAILED) {
+        *pp = 0;
+        return ERR_SHMGET;
+    }
+    
+    return 0;
+}
+
 
 int detach_shmem(void* p, size_t size) {
     return munmap(p, size);

@@ -52,6 +52,10 @@ int detach_shmem(HANDLE hSharedMem, void* p);
 //
 extern int create_shmem(char *path, size_t size, void** pp);
 
+// attach to a shared-memory segment
+//
+int attach_shmem(char *path, void** pp);
+
 // detach from a shared-mem segment
 //
 extern int detach_shmem(void* p, size_t size);

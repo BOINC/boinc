@@ -3622,8 +3622,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3658,8 +3657,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3764,10 +3762,7 @@
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = (
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
-				);
+				OTHER_CFLAGS = "-DUSE_FILE_MAPPED_SHMEM";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -3792,10 +3787,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
-				);
+				OTHER_CFLAGS = "-DUSE_FILE_MAPPED_SHMEM";
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -3958,8 +3950,7 @@
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4008,8 +3999,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4797,8 +4787,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4865,10 +4854,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
-				);
+				OTHER_CFLAGS = "-DUSE_FILE_MAPPED_SHMEM";
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4969,8 +4955,7 @@
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5183,8 +5168,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5219,8 +5203,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
@@ -5323,10 +5306,7 @@
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = (
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
-				);
+				OTHER_CFLAGS = "-DUSE_FILE_MAPPED_SHMEM";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -5351,10 +5331,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
-				);
+				OTHER_CFLAGS = "-DUSE_FILE_MAPPED_SHMEM";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -5515,8 +5492,7 @@
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
 					"-D_DEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5564,8 +5540,7 @@
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5929,8 +5904,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
@@ -5995,10 +5969,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
-				);
+				OTHER_CFLAGS = "-DUSE_FILE_MAPPED_SHMEM";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -6093,8 +6064,7 @@
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -6294,8 +6264,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -6330,8 +6299,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -6364,8 +6332,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
@@ -6399,8 +6366,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-DNDEBUG",
 					"-include",
 					../clientgui/mac/config.h,
@@ -6434,8 +6400,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -6470,8 +6435,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
-					"-D",
-					USE_FILE_MAPPED_SHMEM,
+					"-DUSE_FILE_MAPPED_SHMEM",
 					"-include",
 					../clientgui/mac/config.h,
 				);
