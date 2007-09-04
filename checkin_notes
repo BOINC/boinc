@@ -8309,7 +8309,7 @@ David  3 Sept 2007
 Charlie 4 Sep 2007
     - V6 GFX: Fix bug on OS 10.3.9
     - CC: fix bug so we do new version check when client is first started 
-        as well as every 14 days thereafter.
+        as well as every 14 days thereafter.  Display message in red.
     - make shared memory using memory mapped files more robust.
     
     api/

@@ -250,11 +250,11 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         while (fgets(buf, 256, f)) {
             if (match_tag(buf, "<version>")) {
                 if (parse_version(f, new_version)) {
-                    msg_printf(0, MSG_INFO,
+                    msg_printf(0, MSG_USER_ERROR,
                         "A new version of BOINC (%s) is available for your computer",
                         new_version
                     );
-                    msg_printf(0, MSG_INFO,
+                    msg_printf(0, MSG_USER_ERROR,
                         "Visit http://boinc.berkeley.edu/download.php to get it."
                     );
                     gstate.newer_version = string(new_version);
