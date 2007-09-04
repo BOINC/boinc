@@ -8305,3 +8305,16 @@ David  3 Sept 2007
         scheduler_op.C
     lib/
         util.C,h
+
+Charlie 4 Sep 2007
+    - V6 GFX: Fix bug on OS 10.3.9
+    - make shared memory using memory mapped files more robust.
+    
+    api/
+        graphics2_unix.C
+        graphics2_util.C
+    lib/
+        shmem.C,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
