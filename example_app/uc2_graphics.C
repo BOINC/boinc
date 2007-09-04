@@ -249,8 +249,10 @@ static void parse_project_prefs(char* buf) {
 }
 
 int main(int argc, char** argv) {
-#ifdef __APPLE__
-    // Provide a way to get error messages from system
+#if (defined(__APPLE__) && defined(_DEBUG))
+    // Provide a way to get error messages from system in Debug builds only. 
+    // In Deployment builds, ownership violates sandbox security (unless we 
+    // gave it an explicit path outside the BOINC Data directory). 
     freopen("gfx_stderr.txt", "w", stderr);
 #endif
     boinc_parse_init_data_file();

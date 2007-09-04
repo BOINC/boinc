@@ -442,3 +442,13 @@ Charlie 2 Sep 2007
     mac_build/
         UpperCase2.xcodeproj/
             project.pbxproj
+
+Charlie 4 Sep 2007
+    - Mac: redirect stderr only on Development builds so as not to violate 
+        sandbox security.
+
+    example_app/
+        uc2_graphics.C
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
