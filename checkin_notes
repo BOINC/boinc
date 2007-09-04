@@ -7308,3 +7308,9 @@ Charlie 2 Sep 2007
         BOINCGUIApp.cpp
     mac_build/
         Make_BOINC_Service.sh
+
+Charlie 4 Sep 2007
+    - CC: fix bug so we do new version check when client is first started 
+        as well as every 14 days thereafter.
+    client/
+        acct_setup.C

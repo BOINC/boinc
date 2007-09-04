@@ -269,13 +269,11 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
 #define NEW_VERSION_CHECK_PERIOD (14*86400)
 
 void CLIENT_STATE::new_version_check() {
-    if (new_version_check_time) {
-        if (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD) {
+    if (( new_version_check_time == 0) ||
+        (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)) {
+            // get_current_version_op.handle_reply() will update new_version_check_time
             get_current_version_op.do_rpc();
         }
-    } else {
-        new_version_check_time = now;
-    }
 }
 
 int GET_PROJECT_LIST_OP::do_rpc() {
