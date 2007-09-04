@@ -42,6 +42,9 @@ void* boinc_graphics_make_shmem(char* prog_name, int size) {
     char shmem_name[256];
     get_shmem_name(prog_name, shmem_name);
     int retval = create_shmem(shmem_name, size, &p);
+    // Graphics app may be run by a different user & group than worker app
+    // Although create_shmem passed 0666 to open(), it was modified by umask
+    if (retval == 0) chmod(shmem_name, 0666);
 #else
     key_t key = get_shmem_name(prog_name);
     int retval = create_shmem(key, size, 0, &p);
@@ -64,17 +67,14 @@ void* boinc_graphics_get_shmem(char* prog_name) {
 #else
 void* boinc_graphics_get_shmem(char* prog_name) {
     void* p;
+    int retval;
 #ifdef USE_FILE_MAPPED_SHMEM
-    struct stat sbuf;
     char shmem_name[256];
     get_shmem_name(prog_name, shmem_name);
-    int retval = stat(shmem_name, &sbuf);
-    if (retval == 0) {
-        retval = create_shmem(shmem_name, sbuf.st_size, &p);
-    }
+    retval = attach_shmem(shmem_name, &p);
 #else
     key_t key = get_shmem_name(prog_name);
-    int retval = attach_shmem(key, &p);
+    retval = attach_shmem(key, &p);
 #endif
     if (retval) return 0;
     return p;
