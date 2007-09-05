@@ -7323,3 +7323,12 @@ Charlie 4 Sep 2007
         
     clientgui/
         BOINCTaskBar.cpp
+
+Charlie 5 Sep 2007
+    - Mac Installer: remove boinc.tiff from screensaver because newer ones 
+        have boinc.jpg instead; touch new manager and screensaver to alert 
+        system that they have new version numbers.
+
+    mac_installer/
+        postinstall
+        postupgrade
