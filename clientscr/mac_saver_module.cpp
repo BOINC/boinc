@@ -475,7 +475,7 @@ OSStatus RPCThread(void* param) {
     CC_STATE        state;
     CC_STATUS       cc_status;
     AbsoluteTime    timeToUnblock;
-    long            time_to_blank;
+    time_t          time_to_blank;
     pid_t           graphics_app_pid        = 0;
     pid_t           launcher_shell_pid      = 0;
     char            statusBuf[256];
@@ -493,7 +493,19 @@ OSStatus RPCThread(void* param) {
     double          last_change_time        = 0.0;
     double          last_run_check_time     = 0.0;
 
+        // Calculate the estimated blank time by adding the starting 
+        //  time and and the user-specified time which is in minutes
+        if (gGoToBlank)
+            time_to_blank = SaverStartTime + (gBlankingTime * 60);
+        else
+            time_to_blank = 0;
+
     while (true) {
+        if ((gGoToBlank) && (time(0) > time_to_blank)) {
+            gClientSaverStatus = SS_STATUS_BLANKED;
+            gQuitRPCThread = true;
+        }
+
         if (gQuitRPCThread) {     // If main thread has requested we exit
             if (graphics_app_pid) {
                 terminate_screensaver(graphics_app_pid);
@@ -506,13 +518,6 @@ OSStatus RPCThread(void* param) {
 
         timeToUnblock = AddDurationToAbsolute(durationSecond/2, UpTime());
         MPDelayUntil(&timeToUnblock);
-
-        // Calculate the estimated blank time by adding the starting 
-        //  time and and the user-specified time which is in minutes
-        if (gGoToBlank)
-            time_to_blank = SaverStartTime + (gBlankingTime * 60);
-        else
-            time_to_blank = 0;
 
         // Try and get the current state of the CC
 //Get_CC_State:
@@ -528,6 +533,11 @@ OSStatus RPCThread(void* param) {
     saverState = SaverState_CoreClientSetToSaverMode;
 
     while (true) {
+        if ((gGoToBlank) && (time(0) > time_to_blank)) {
+            gClientSaverStatus = SS_STATUS_BLANKED;
+            gQuitRPCThread = true;
+        }
+
         if (gQuitRPCThread) {     // If main thread has requested we exit
             if (graphics_app_pid) {
                 terminate_screensaver(graphics_app_pid);
