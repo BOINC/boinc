@@ -7312,5 +7312,14 @@ Charlie 2 Sep 2007
 Charlie 4 Sep 2007
     - CC: fix bug so we do new version check when client is first started 
         as well as every 14 days thereafter.  Display message in red.
+
     client/
         acct_setup.C
+
+Charlie 4 Sep 2007
+    - MGR: Fix #388: Snooze menu item is disabled and not checked if user 
+        selects RUN_MODE_NEVER; it is enabled and checked if user selects 
+        Snooze; otherwise it is enabled and not checked.
+        
+    clientgui/
+        BOINCTaskBar.cpp
