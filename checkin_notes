@@ -8330,3 +8330,12 @@ Charlie 4 Sep 2007
 
     clientgui/
         BOINCTaskBar.cpp
+
+Charlie 5 Sep 2007
+    - Mac SCR: Do screen blanking in screensaver since CC no longer does it.
+    - Fix a compiler warning.
+    
+    clientscr/
+        mac_saver_module.cpp
+    lib/
+        util.C,h
