@@ -703,9 +703,16 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
 
     pDoc->GetCoreClientStatus(status);
     if (RUN_MODE_NEVER == status.task_mode) {
-        pMenu->Check(ID_TB_SUSPEND, true);
+        if (status.task_mode_perm == status.task_mode) {
+            pMenu->Check(ID_TB_SUSPEND, false);
+            pMenu->Enable(ID_TB_SUSPEND, false);
+        } else {
+            pMenu->Check(ID_TB_SUSPEND, true);
+            pMenu->Enable(ID_TB_SUSPEND, true);
+        }
     } else {
         pMenu->Check(ID_TB_SUSPEND, false);
+        pMenu->Enable(ID_TB_SUSPEND, true);
     }
 }
 

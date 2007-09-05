@@ -8322,3 +8322,11 @@ Charlie 4 Sep 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 4 Sep 2007
+    - MGR: Fix #388: Snooze menu item is disabled and not checked if user 
+        selects RUN_MODE_NEVER; it is enabled and checked if user selects 
+        Snooze; otherwise it is enabled and not checked.
+
+    clientgui/
+        BOINCTaskBar.cpp
