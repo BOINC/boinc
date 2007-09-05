@@ -21,7 +21,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# 6/8/07 by Charlie Fenton
+# 9/5/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -99,14 +99,14 @@ cp -fp "${README_FILE}" "${IR_PATH}/ReadMe.rtf"
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"
 
 # Create the installer's preinstall and preupgrade scripts from the standard preinstall script
-##### We've decided not to customize BOINC Data directory name for branding
-#### cp -fp "${SOURCE_PKG_PATH}/Resources/preinstall" "${IR_PATH}/"
+cp -fp "${SOURCE_PKG_PATH}/Resources/preinstall" "${IR_PATH}/"
 
+##### We've decided not to customize BOINC Data directory name for branding
 #### sed -i "" s/BOINC/temp/g "${IR_PATH}/preinstall"
 #### sed -i "" s/"${BRAND_NAME}"/BOINC/g "${IR_PATH}/preinstall"
 #### sed -i "" s/temp/"${BRAND_NAME}"/g "${IR_PATH}/preinstall"
 
-#### cp -fp "${IR_PATH}/preinstall" "${IR_PATH}/preupgrade"
+cp -fp "${IR_PATH}/preinstall" "${IR_PATH}/preupgrade"
 
 cp -fp "${SOURCE_PKG_PATH}/Resources/postinstall" "${IR_PATH}/"
 cp -fp "${SOURCE_PKG_PATH}/Resources/postupgrade" "${IR_PATH}/"

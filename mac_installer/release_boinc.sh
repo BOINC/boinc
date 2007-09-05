@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh BOINC Manager 7/11/07 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 9/5/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -76,8 +76,8 @@ cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Ins
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 
 #### We don't customize BOINC Data directory name for branding
-## cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
-## cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
+cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
+cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
 
