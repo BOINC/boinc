@@ -485,7 +485,7 @@ int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
 
     if (max_len && size > max_len) {
         if (tail) {
-            fseek(f, size-max_len, SEEK_SET);
+            fseek(f, (long)size-max_len, SEEK_SET);
         }
         size = max_len;
     }
