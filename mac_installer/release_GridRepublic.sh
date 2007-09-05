@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh GridRepublic Desktop 7/11/07 by Charlie Fenton
+# Release Script for Macintosh GridRepublic Desktop 9/5/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -89,14 +89,14 @@ cp -fp win_build/installerv2/redist/all_projects_list.xml "${IR_PATH}/"
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"
 
 # Create the installer's preinstall and preupgrade scripts from the standard preinstall script
-##### We've decided not to customize BOINC Data directory name for branding
-#### cp -fp mac_installer/preinstall "${IR_PATH}/"
+cp -fp mac_installer/preinstall "${IR_PATH}/"
 
+##### We've decided not to customize BOINC Data directory name for branding
 #### sed -i "" s/BOINC/temp/g "${IR_PATH}/preinstall"
 #### sed -i "" s/"${BRAND_NAME}"/BOINC/g "${IR_PATH}/preinstall"
 #### sed -i "" s/temp/"${BRAND_NAME}"/g "${IR_PATH}/preinstall"
 
-#### cp -fp "${IR_PATH}/preinstall" "${IR_PATH}/preupgrade"
+cp -fp "${IR_PATH}/preinstall" "${IR_PATH}/preupgrade"
 
 cp -fp mac_installer/postinstall "${IR_PATH}/"
 cp -fp mac_installer/postupgrade "${IR_PATH}/"

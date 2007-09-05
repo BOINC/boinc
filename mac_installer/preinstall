@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Pre-Install / Pre-Upgrade Script for Macintosh BOINC Manager for OS X revised 12/1/06
+# Pre-Install / Pre-Upgrade Script for Macintosh BOINC Manager for OS X revised 9/5/07
 ##
 
 # If we are replacing an earlier GridRepublic installation, fix the data directory name before installing
@@ -9,6 +9,10 @@
 ## mv -n "/Library/Application Support/GridRepublic Data" "/Library/Application Support/BOINC Data"
 
 # Delete old World Community Grid Skins
-sudo rm -dfR /Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/
+##sudo rm -fR /Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/
+
+# Remove any old BOINC Manager and BOINC Screen Saver bundles to guarantee a clean install
+rm -fR "/Applications/BOINCManager.app"
+rm -fR "/Library/Screen Savers/BOINCSaver.saver"
 
 exit 0

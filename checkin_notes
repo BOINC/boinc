@@ -8334,14 +8334,15 @@ Charlie 4 Sep 2007
 Charlie 5 Sep 2007
     - Mac SCR: Do screen blanking in screensaver since CC no longer does it.
     - Fix a compiler warning.
-    - Mac Installer: remove boinc.tiff from screensaver because newer ones 
-        have boinc.jpg instead; touch new manager and screensaver to alert 
-        system that they have new version numbers.
+    - Mac Installer: Remove old BOINC Manager and screensaver bundles before 
+        installing new ones to guarantee a clean install.
     
     clientscr/
         mac_saver_module.cpp
     lib/
         util.C,h
     mac_installer/
-        postinstall
-        postupgrade
+        release_boinc.sh
+        release_GridRepublic.sh
+        make_GridRepublic.sh
+        preinstall
