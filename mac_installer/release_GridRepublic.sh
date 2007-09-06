@@ -91,6 +91,9 @@ sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"
 # Create the installer's preinstall and preupgrade scripts from the standard preinstall script
 cp -fp mac_installer/preinstall "${IR_PATH}/"
 
+sed -i "" s/BOINCManager/"${MANAGER_NAME}"/g "${IR_PATH}/preinstall"
+sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${IR_PATH}/preinstall"
+
 ##### We've decided not to customize BOINC Data directory name for branding
 #### sed -i "" s/BOINC/temp/g "${IR_PATH}/preinstall"
 #### sed -i "" s/"${BRAND_NAME}"/BOINC/g "${IR_PATH}/preinstall"
@@ -168,7 +171,8 @@ mv -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/MacOS/BOINC
 sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Info.plist"
 sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings"
 
-# Replace screensaver's boinc.tiff file
+# Replace screensaver's boinc.tiff or boinc.jpg file
+rm -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.jpg"
 cp -fp "${SAVER_SYSPREF_ICON_PATH}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.tiff"
 
 ## Fix up ownership and permissions
@@ -210,6 +214,8 @@ sudo sed -i "" s/MacUninstaller.icns/"${UNINSTALLER_ICNS_FILE}"/g "${NEW_DIR_PAT
 # Replace the Uninstall application's MacUninstaller.icns file
 sudo cp -fp "clientgui/res/${UNINSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/${UNINSTALLER_ICNS_FILE}"
 sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/MacUninstaller.icns"
+# Remove the Uninstall application's resource file so it will show generic "Are you sure?" dialog
+sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/Uninstall BOINC.rsrc"
 
 sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app"
 sudo chmod -R 555 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app"

@@ -7275,7 +7275,7 @@ Rom    24 Aug 2007
 Charlie 25 Aug 2007
     Preferences: Apply David Barnard's patches to fix #363: per-day 
         time preferences work incorrectly.  
-    MGR: Prefernces dialogs use cached preferences if connected to older 
+    MGR: Preferences dialogs use cached preferences if connected to older 
         pre-5.10.18 client (before new get_global_prefs_working_struct RPC)
         
     client/
@@ -7326,10 +7326,12 @@ Charlie 4 Sep 2007
 
 Charlie 5 Sep 2007
     - Mac Installer: Remove old BOINC Manager and screensaver bundles before 
-        installing new ones to guarantee a clean install.
+        installing new ones to guarantee a clean install.  Updates for Grid 
+        Republic.
     
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
         make_GridRepublic.sh
         preinstall
+        uninstall.cpp

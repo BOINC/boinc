@@ -96,9 +96,14 @@ int main(int argc, char *argv[])
     p = strchr(appName, ' ');
     p += 1;         // Point to brand name following "Uninstall "
 
-    cancelled = (Alert(128, NULL)  == cancel);
-//    cancelled = ! ShowMessage(true, "Are you sure you want to completely remove %s and all its data from your computer?\n\n"
-//                                    "Any unreported results will be lost.", p);
+    if (GetResource('ALRT', 128)) {
+        // BOINC uses custom dialog with custom PICT
+        cancelled = (Alert(128, NULL)  == cancel);
+    } else {
+        // Grid Republic uses generic dialog with Uninstall application's icon
+        cancelled = ! ShowMessage(true, "Are you sure you want to completely remove %s and all its data from your computer?\n\n"
+                                        "Any unreported results will be lost.", p);
+    }
 
     if (! cancelled)
         err = DoPrivilegedExec(p, pathToSelf, "--privileged", NULL, NULL, NULL, NULL);
