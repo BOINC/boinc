@@ -8335,7 +8335,8 @@ Charlie 5 Sep 2007
     - Mac SCR: Do screen blanking in screensaver since CC no longer does it.
     - Fix a compiler warning.
     - Mac Installer: Remove old BOINC Manager and screensaver bundles before 
-        installing new ones to guarantee a clean install.
+        installing new ones to guarantee a clean install.  Updates for Grid 
+        Republic.
     
     clientscr/
         mac_saver_module.cpp
@@ -8346,3 +8347,4 @@ Charlie 5 Sep 2007
         release_GridRepublic.sh
         make_GridRepublic.sh
         preinstall
+        uninstall.cpp
