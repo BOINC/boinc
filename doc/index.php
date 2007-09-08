@@ -16,8 +16,8 @@ function show_participant() {
         <br>
         <center>
         <a href=chart_list.php><b>Top 100</a> |
-        <a href=http://boinc.netsoft-online.com/rankings.php?list=rac_p1c1><b>Single-computer</a> |
-        <a href=http://boinc.netsoft-online.com/rankings.php><b>Other lists</a>
+        <a href=http://boinc.netsoft-online.com/e107_plugins/boinc/u_rank.php?list=tc_p1c1><b>Single-computer</a> |
+        <a href=http://boinc.netsoft-online.com/e107_plugins/boinc/bu_rankselect.php><b>Other lists</a>
         </center>
         </td></tr></table>
         </td></tr>
@@ -168,7 +168,7 @@ if (defined("CHARSET")) {
 
 echo "
 <head>
-<link rel=\"shortcut icon\" href=\"iconsmall.ico\">
+<link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
 <link rel=\"stylesheet\" type=text/css href=white.css>
 <title>BOINC</title>
 <meta name=description content=\"BOINC is an open-source software platform for computing using volunteered resources\">

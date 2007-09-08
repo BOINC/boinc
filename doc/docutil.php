@@ -41,7 +41,7 @@ function page_head($title) {
     echo "
         <head>
         <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>
-        <link rel=\"shortcut icon\" href=\"iconsmall.ico\"/>
+        <link rel=\"shortcut icon\" href=\"logo/favicon.gif\"/>
         <title>$title</title>
         </head>
         <body bgcolor='ffffff'>

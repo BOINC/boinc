@@ -8348,3 +8348,14 @@ Charlie 5 Sep 2007
         make_GridRepublic.sh
         preinstall
         uninstall.cpp
+
+David  8 Sept 2007
+    - boinc_cmd: improve output of --help
+    - scheduler: remove giant log output when use <workload_sim>
+    - db_purge: fix crash if nothing logged
+
+    sched/
+        edf_sim.C
+        db_purge.C
+    lib/
+        boinc_cmd.C

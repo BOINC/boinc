@@ -25,7 +25,7 @@
 using std::vector;
 
 //#define TEST
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define INFO0
 #define INFO1

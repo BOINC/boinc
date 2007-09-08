@@ -230,8 +230,8 @@ void open_all_archives() {
 // pointers to indicate that files are not open.
 //
 void close_all_archives() {
-    fprintf(wu_stream, "</archive>\n");
-    fprintf(re_stream, "</archive>\n");
+    if (wu_stream) fprintf(wu_stream, "</archive>\n");
+    if (re_stream) fprintf(re_stream, "</archive>\n");
     close_archive(WU_FILENAME_PREFIX, wu_stream);
     close_archive(RESULT_FILENAME_PREFIX, re_stream);
     close_archive(RESULT_INDEX_FILENAME_PREFIX, re_index_stream);

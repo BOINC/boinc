@@ -5,34 +5,48 @@ page_head("Logos and graphics");
 
 echo "
 
-<h2>The current logo</h2>
+<h2>The BOINC logo</h2>
 
-The current logo and associated icons was designed by Michal Krakowiak.
+The BOINC logo and associated icons were designed by Michal Krakowiak.
 Its arms represent the convergence of separated things
 (such as computers) into a unified whole.
 The colors are based on U.C. Berkeley's blue-and-gold colors.
 <ul>
+<li> <a href=logo/www_logo.gif>164x73 version (GIFF)</a>
 <li> <a href=logo/boinc_600.jpg>600x305 version (JPEG)</a>
-<li> <a href=logo/www_logo_trans.png>Transparent-background version (PNG)</a>
-<li> <a href=logo/www_logo_trans.gif>Transparent-background version (GIFF)</a>
+<li> Bitmaps (.bmp):
+    <a href=logo/boinc16.bmp>16x16</a>
+    <a href=logo/boinc32.bmp>32x32</a>
+    <a href=logo/boinc48.bmp>48x48</a>
+    <a href=logo/boinc128.bmp>128x128</a>
+    <a href=logo/boinc256.bmp>256x256</a>
+<li> <a href=logo/boinc_logo.ai>Adobe Illustrator (.ai)</a>
+<li> <a href=logo/boinc_logo.cdr>Vector graphics (.cdr)</a>
+<li> <a href=logo/boinc_logo.pdf>Adobe PDF (.cdr)</a>
+<li> <a href=logo/boinc_logo.png>1280x535, transparent background (.png)</a>
+<li> <a href=logo/boinc_logo.wmf>Windows meta-file (.wmf)</a>
+<li> <a href=logo/favicon.gif>Favicon (GIFF)</a>
+<li> <a href=logo/pb_boinc.gif>'Powered by BOINC' image</a>
+<li> <a href=logo/splash_8bit.png>Splash screen, 8-bit PNG</a>
+<li> <a href=logo/splash_24bit.png>Splash screen, 24-bit PNG</a>
 </ul>
 
 <h2>The old BOINC logo and icons</h2>
 <ul>
 <li>
-The old logo in its native form as <a href=logo/logo.doc>a Word document</a>.
+The old logo in its native form as <a href=old_logo/logo.doc>a Word document</a>.
 The logo uses the Planet Benson font from
 <a href=http://www.larabiefonts.com>Larabie Fonts</a>.
 <li>
 Hi-res versions of the logo:
-<a href=logo/logo.png>PNG</a>, <a href=logo/logo.jpg>JPEG</a>.
+<a href=old_logo/logo.png>PNG</a>, <a href=old_logo/logo.jpg>JPEG</a>.
 <li>
 An icon for BOINC-related Podcasts, from Christian Beer:
 <img align=top src=images/Logo_blau.jpg>
 </ul>
 <p>
 The 'B in a circle' icon
-<img src=logo/setup.PNG>was designed by Tim Lan.
+<img src=old_logo/setup.PNG>was designed by Tim Lan.
 The Mac variant was contributed by Juho Viitasalo.
 
 <h2>Logo proposals</h2>
@@ -58,8 +72,8 @@ $logos = array(
         "<img src=logos/Boinc-Iso2.jpg>"
     ),
     array("Rebirther",
-        "<img src=logo/rebirther/bluew.png>
-        <img src=logo/rebirther/blackbackground.png>"
+        "<img src=logos/rebirther/bluew.png>
+        <img src=logos/rebirther/blackbackground.png>"
     ),
     array("Michal Krakowiak",
         "<img src=logos/boinc_krakowiak.jpg>

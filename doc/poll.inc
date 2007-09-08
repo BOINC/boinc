@@ -1,5 +1,7 @@
 <?php
 
+$light_blue = "#d5f0ff";
+
 // independent of any particular poll
 
 function list_item2($x, $y) {

@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("September 7, 2007",
+    "The new BOINC logo is now available in
+    <a href=logo.php>a variety of formats and resolutions.</a>"
+),
 array("August 17, 2007",
     "World Community Grid has announced that it is
     <a href=http://www.worldcommunitygrid.org/forums/wcg/viewthread?thread=15715 >migrating fully to BOINC</a>.

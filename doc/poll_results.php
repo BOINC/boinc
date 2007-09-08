@@ -67,8 +67,10 @@ function other_link($sums, $other_name, $link_text, $ntotal) {
         $y .= "$b <a href=$fname>$link_text</a>";
         $f = fopen($fname, "w");
         foreach ($sums[$other_name] as $text) {
-            fwrite($f, $text);
-            fwrite($f, "\n<hr>\n");
+            if (!strstr($text, '<a')) {
+                fwrite($f, $text);
+                fwrite($f, "\n<hr>\n");
+            }
         }
         fclose($f);
     } else {
