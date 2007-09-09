@@ -8366,3 +8366,9 @@ Rytis   9 Sept 2007
     html/
         inc/forum_user.inc
         user/edit_forum_preferences_action.php
+
+David  9 Sept 2007
+    - API: initialize sigaction struct in X graphics code
+
+    api/
+        x_opengl.C
