@@ -8359,3 +8359,10 @@ David  8 Sept 2007
         db_purge.C
     lib/
         boinc_cmd.C
+        
+Rytis   9 Sept 2007
+    - user web: fix issues regarding forum preferences reset.
+    
+    html/
+        inc/forum_user.inc
+        user/edit_forum_preferences_action.php

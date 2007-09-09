@@ -113,6 +113,9 @@ class User {
         $this->ensurePrefsLoaded();
         return $this->fprefObj->banished_until;
     }
+    function setBanishedUntil($value) {
+        return $this->updatePrefs("banished_until", $value);
+    }
     function setMinimumWrapPostCount($value){
         $value = intval($value);
         if ($value<0) $value=0;

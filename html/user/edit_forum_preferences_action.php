@@ -25,12 +25,14 @@ if (post_str("account_key", true) != null) {
 $dbhandler = $mainFactory->getDatabaseHandler();
 if (post_str("action", true)=="reset"){
     $post_count = $user->getPostcount();
+    $banished_until = $user->getBanishedUntil();
     $special_user = $user->getSpecialUser();
     $dbhandler->deleteUserPrefs($user);
     $user->resetPrefs();
     $user->setPostcount($post_count);        // Recreate postcount
     $user->setSpecialUser($special_user); // And recreate special user bitfield
-    Header("Location: edit_forum_preferences_form.php");    
+    $user->setBanishedUntil($banished_until);
+    Header("Location: edit_forum_preferences_form.php");
     exit;
 }
 
