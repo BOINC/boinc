@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-07 14:26-0000\n"
+"PO-Revision-Date: 2007-09-10 10:51-0000\n"
 "Last-Translator: David <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -438,7 +438,7 @@ msgid "RLN_TROUBLESHOOT"
 msgstr "Solución de problemas con BOINC"
 
 msgid "RLN_NEWF_5_4_AM"
-msgstr "Ayuda para 'Administradores de cuentas' - sitios web que le permiten ver, unirse/separase, cambiar los recursos del ordenador y preferencias de los projectos de BOINC, fácilmente, con solo marcar con el ratón. Los Adminstradores de cuentas son también muy utiles si tiene varios ordenadores -  sólo tiene que realizar los cambios una vez."
+msgstr "Ayuda para 'Administradores de cuentas' - sitios web que le permiten ver, unirse/separase, cambiar los recursos del ordenador y preferencias de los proyectos de BOINC, fácilmente, con solo marcar con el ratón. Los Adminstradores de cuentas son también muy utiles si tiene varios ordenadores -  sólo tiene que realizar los cambios una vez."
 
 msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
 msgstr "Las preferencias generales pueden ser sustituidas por otras de un archivo local; los detalles están %s aquí %s."
@@ -453,7 +453,7 @@ msgid "RLN_5_8_THROTTLE"
 msgstr "Regulación de la CPU: usted puede reducir el calentamiento de la CPU reduciendo la fraccion de tiempo durante el cual BOINC trabaja."
 
 msgid "RLN_5_8_SCHED"
-msgstr "Políticas de planificación mejoradas evitan que las tareas sobrepasen el limite para informar incluso en ordenadores lentos con muchos projectos."
+msgstr "Políticas de planificación mejoradas evitan que las tareas sobrepasen el limite para informar incluso en ordenadores lentos con muchos proyectos."
 
 msgid "RLN_5_8_MEM"
 msgstr "Puede limitar la cantidad de memoria que usa BOINC; esto le permite trabajar  con su ordenador todo el tiempo sin perder eficiencia."
@@ -546,7 +546,7 @@ msgid "RLN_TROUBLESHOOT_INTRO"
 msgstr "Si tiene problemas con BOINC, aquí tiene algunos pasos para solucionarlos:"
 
 msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-msgstr "Si tiene un problema con un projecto específico, vaya al área de 'Preguntas y Respuestas' del sitio web del proyecto. Debería encontar solución a su problema. Si no, publíquelo en dicho sitio web, y otros usuarios le ayudarán. Si el problema continúa, use el administrador BOINC para 'reiniciar' dicho projecto. Esto borrará cualquier trabajo en progreso y comenzará de cero."
+msgstr "Si tiene un problema con un proyecto específico, vaya al área de 'Preguntas y Respuestas' del sitio web del proyecto. Debería encontar solución a su problema. Si no, publíquelo en dicho sitio web, y otros usuarios le ayudarán. Si el problema continúa, use el administrador BOINC para 'reiniciar' dicho proyecto. Esto borrará cualquier trabajo en progreso y comenzará de cero."
 
 msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 msgstr "Si tiene problemas con el programa BOINC, consiga ayuda de los %s foros de BOINC %s."
@@ -588,7 +588,7 @@ msgid "HELP_P2_ITEM4"
 msgstr "Los foros de BOINC"
 
 msgid "HELP_P2_ITEM5"
-msgstr "Los foros sobre cualquier projecto basado en BOINC"
+msgstr "Los foros sobre cualquier proyecto basado en BOINC"
 
 msgid "HELP_HEADING3"
 msgstr "Sea Voluntario para Ayuda"
@@ -606,10 +606,10 @@ msgid "HOME_HEADING1"
 msgstr "Voluntario"
 
 msgid "HOME_P1"
-msgstr "Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) para curar enfermedades, estudiar el calentamiento global, descubra pulsars, y haga muchos otros tipos de investigación científica. Es seguro, asegurado, y fácil: %sElija%s projectos %sDescargue%s y ejecute el programa BOINC %sIntroduzca%s la dirección URL del projecto, su dirección de correo electrónico, y su contraseña del proyecto."
+msgstr "Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) para curar enfermedades, estudiar el calentamiento global, descubra pulsars, y haga muchos otros tipos de investigación científica. Es seguro, asegurado, y fácil: %sElija%s proyectos %sDescargue%s y ejecute el programa BOINC %sIntroduzca%s la dirección URL del proyecto, su dirección de correo electrónico, y su contraseña del proyecto."
 
 msgid "HOME_P2"
-msgstr "O, si usted ejecuta varios projectos, pruebe un %sadministrador de cuentas%s tales como %sGridRepublic%s o %sBAM!%s."
+msgstr "O, si usted ejecuta varios proyectos, pruebe un %sadministrador de cuentas%s tales como %sGridRepublic%s o %sBAM!%s."
 
 msgid "HOME_P3"
 msgstr "Si tiene alguna pregunta, o necesita ayuda para comenzar, puede %shablar con un Voluntario para Ayuda%s."
