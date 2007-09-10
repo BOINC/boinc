@@ -94,8 +94,8 @@ Reply message format:
 Status is ";
 
 list_start();
-list_item("0", "success");
-list_item("1", "transient error;
+list_item(" 0", "success");
+list_item(" 1", "transient error;
 The client should try another data server, or try this one later.
 ");
 list_item("-1", "Permanent error.
