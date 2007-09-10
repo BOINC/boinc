@@ -329,13 +329,13 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             );
 
             strBuffer.Printf(
-                _("Please note that you should add projects at the\n"
-                  "%s website.\n"
+                _("If possible, add projects at the\n"
+                  "%s web site.\n"
                   "\n"
-                  "Any project added via this wizard will not be listed\n"
-                  "or managed via %s."), 
-                pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetApplicationName().c_str()
+                  "Projects added via this wizard will not be\n"
+                  "listed on or managed via %s."), 
+                wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
+                wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
             );
 
             m_pDescriptionStaticCtrl->SetLabel(

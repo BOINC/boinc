@@ -7335,3 +7335,11 @@ Charlie 5 Sep 2007
         make_GridRepublic.sh
         preinstall
         uninstall.cpp
+
+
+Charlie 10 Sep 2007
+    - Manager: port David's checkin of 10 Aug 2007: show the AMS name, not 
+        the skin name, in Wizard
+
+    clientgui/
+        WelcomePage.cpp
