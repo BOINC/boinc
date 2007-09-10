@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.x\n"
+"Project-Id-Version: 5.10.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-09-05 15:39+0800\n"
+"PO-Revision-Date: 2007-09-07 09:56+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: E:\\Works\\boinc\\boinc_src\n"
+"X-Poedit-Basepath: E:\\Works\\boinc\\boinc_core_release_5_10\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:320
@@ -79,8 +79,7 @@ msgid "minimum length %d"
 msgstr "最小长度 %d"
 
 #: clientgui/AccountInfoPage.cpp:435
-#: clientgui/WelcomePage.cpp:325
-#: clientgui/WelcomePage.cpp:343
+#: clientgui/WelcomePage.cpp:346
 msgid "Attach to project"
 msgstr "加入项目"
 
@@ -186,12 +185,12 @@ msgid "Disconnected"
 msgstr "已断开"
 
 #: clientgui/AdvancedFrame.cpp:335
-#: clientgui/sg_BoincSimpleGUI.cpp:103
+#: clientgui/sg_BoincSimpleGUI.cpp:102
 msgid "&Close Window\tCTRL+W"
 msgstr "关闭窗口(&C)\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:336
-#: clientgui/sg_BoincSimpleGUI.cpp:104
+#: clientgui/sg_BoincSimpleGUI.cpp:103
 msgid "Close BOINC Manager Window."
 msgstr "关闭 BOINC Manager 的窗口。"
 
@@ -346,12 +345,12 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "运行 BOINC 的 CPU 基准测试"
 
 #: clientgui/AdvancedFrame.cpp:495
-msgid "Do network &communication"
-msgstr "进行网络通讯(&C)"
+msgid "Retry &communications"
+msgstr "重试所有连接(&C)"
 
 #: clientgui/AdvancedFrame.cpp:496
-msgid "Do all pending network communication."
-msgstr "进行所有等待中的网络通讯请求。"
+msgid "Retry all deferred network communication."
+msgstr "重试所有延缓的网络通讯。"
 
 #: clientgui/AdvancedFrame.cpp:500
 msgid "Read config file"
@@ -402,19 +401,19 @@ msgid "&%s help"
 msgstr "%s 帮助"
 
 #: clientgui/AdvancedFrame.cpp:556
-#: clientgui/sg_BoincSimpleGUI.cpp:119
+#: clientgui/sg_BoincSimpleGUI.cpp:118
 #, c-format
 msgid "Show information about the %s"
 msgstr "查看 %s 的信息"
 
 #: clientgui/AdvancedFrame.cpp:568
-#: clientgui/sg_BoincSimpleGUI.cpp:131
+#: clientgui/sg_BoincSimpleGUI.cpp:130
 #, c-format
 msgid "%s &website"
 msgstr "%s 网站(&W)"
 
 #: clientgui/AdvancedFrame.cpp:574
-#: clientgui/sg_BoincSimpleGUI.cpp:137
+#: clientgui/sg_BoincSimpleGUI.cpp:136
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "查看 BOINC 和 %s 的信息"
@@ -430,7 +429,7 @@ msgid "Licensing and copyright information."
 msgstr "查看许可与版权信息。"
 
 #: clientgui/AdvancedFrame.cpp:603
-#: clientgui/sg_BoincSimpleGUI.cpp:160
+#: clientgui/sg_BoincSimpleGUI.cpp:159
 msgid "&File"
 msgstr "文件(&F)"
 
@@ -451,7 +450,7 @@ msgid "A&dvanced"
 msgstr "高级(&D)"
 
 #: clientgui/AdvancedFrame.cpp:623
-#: clientgui/sg_BoincSimpleGUI.cpp:150
+#: clientgui/sg_BoincSimpleGUI.cpp:149
 #: clientgui/wizardex.cpp:399
 #: clientgui/wizardex.cpp:406
 msgid "&Help"
@@ -510,29 +509,29 @@ msgstr "%s - 语言选择"
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "%s 的缺省语言已被修改，且必须重启 %s 才能生效。"
 
-#: clientgui/AdvancedFrame.cpp:1826
+#: clientgui/AdvancedFrame.cpp:1821
 #: clientgui/DlgAbout.cpp:105
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1835
+#: clientgui/AdvancedFrame.cpp:1830
 #, c-format
 msgid "%s has successfully attached to %s"
 msgstr "%s 已经成功地加入了 %s"
 
-#: clientgui/AdvancedFrame.cpp:1975
-#: clientgui/AdvancedFrame.cpp:1978
+#: clientgui/AdvancedFrame.cpp:1970
+#: clientgui/AdvancedFrame.cpp:1973
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1976
+#: clientgui/AdvancedFrame.cpp:1971
 #, c-format
 msgid "Connecting to %s"
 msgstr "正在连接至 %s"
 
-#: clientgui/AdvancedFrame.cpp:1980
+#: clientgui/AdvancedFrame.cpp:1975
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "已连接至 %s (%s)"
@@ -624,7 +623,7 @@ msgstr ""
 
 #: clientgui/BOINCBaseView.cpp:495
 #: clientgui/ViewProjectsGrid.cpp:550
-#: clientgui/ViewWorkGrid.cpp:499
+#: clientgui/ViewWorkGrid.cpp:468
 msgid "Web sites"
 msgstr "网站"
 
@@ -642,10 +641,10 @@ msgstr "%s 需要连接至互联网。请点击打开 %s。"
 #, c-format
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
-"Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
+"Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
-"%s 无法与项目进行通讯，请求接入互联网。\n"
-"请接入互联网并在菜单中依次选择“高级->进行网络通讯”。"
+"%s 无法和项目进行通讯，需要连接到互联网。\n"
+"请连接至互联网并从菜单中选择'高级->重试所有连接'。"
 
 #: clientgui/BOINCDialupManager.cpp:320
 #, c-format
@@ -935,7 +934,7 @@ msgid "Confirmation"
 msgstr "确认"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
-#: clientgui/sg_DlgPreferences.cpp:1030
+#: clientgui/sg_DlgPreferences.cpp:1028
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - 参数设置"
@@ -988,7 +987,7 @@ msgstr "仅在您不使用计算机后指定的时间才进行计算"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:103
 #: clientgui/DlgAdvPreferencesBase.cpp:223
-#: clientgui/sg_DlgPreferences.cpp:454
+#: clientgui/sg_DlgPreferences.cpp:452
 msgid "minutes"
 msgstr "分钟"
 
@@ -1003,8 +1002,8 @@ msgstr "开始计算的时间"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:122
 #: clientgui/DlgAdvPreferencesBase.cpp:345
-#: clientgui/sg_DlgPreferences.cpp:363
-#: clientgui/sg_DlgPreferences.cpp:385
+#: clientgui/sg_DlgPreferences.cpp:361
+#: clientgui/sg_DlgPreferences.cpp:383
 msgid "and"
 msgstr "到"
 
@@ -1762,7 +1761,7 @@ msgstr "自动检测"
 msgid "SOCKS proxy"
 msgstr "SOCKS代理"
 
-#: clientgui/sg_BoincSimpleGUI.cpp:113
+#: clientgui/sg_BoincSimpleGUI.cpp:112
 #, c-format
 msgid "&%s"
 msgstr "&%s"
@@ -1820,7 +1819,7 @@ msgstr "无任务可供处理"
 msgid "Unable to connect to the core client"
 msgstr "无法连接至核心客户端"
 
-#: clientgui/sg_DlgMessages.cpp:109
+#: clientgui/sg_DlgMessages.cpp:107
 #: clientgui/ViewMessages.cpp:110
 #: clientgui/ViewMessagesGrid.cpp:134
 #: clientgui/ViewProjects.cpp:153
@@ -1830,284 +1829,246 @@ msgstr "无法连接至核心客户端"
 #: clientgui/ViewStatistics.cpp:1774
 #: clientgui/ViewTransfers.cpp:117
 #: clientgui/ViewTransfersGrid.cpp:130
-#: clientgui/ViewWork.cpp:133
+#: clientgui/ViewWork.cpp:131
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "Project"
 msgstr "项目"
 
-#: clientgui/sg_DlgMessages.cpp:110
+#: clientgui/sg_DlgMessages.cpp:108
 #: clientgui/ViewMessages.cpp:111
 #: clientgui/ViewMessagesGrid.cpp:134
 msgid "Time"
 msgstr "时间"
 
-#: clientgui/sg_DlgMessages.cpp:111
+#: clientgui/sg_DlgMessages.cpp:109
 #: clientgui/ViewMessages.cpp:112
 #: clientgui/ViewMessagesGrid.cpp:134
 msgid "Message"
 msgstr "消息"
 
-#: clientgui/sg_DlgMessages.cpp:188
-#: clientgui/sg_DlgMessages.cpp:192
+#: clientgui/sg_DlgMessages.cpp:186
+#: clientgui/sg_DlgMessages.cpp:190
 #: clientgui/ViewMessages.cpp:85
 #: clientgui/ViewMessagesGrid.cpp:104
 msgid "Copy all the messages to the clipboard."
 msgstr "复制所有消息至剪贴板。"
 
-#: clientgui/sg_DlgMessages.cpp:213
-#: clientgui/sg_DlgMessages.cpp:225
+#: clientgui/sg_DlgMessages.cpp:211
+#: clientgui/sg_DlgMessages.cpp:223
 #: clientgui/ViewMessages.cpp:93
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Commandl键来选取多条消息。"
 
-#: clientgui/sg_DlgMessages.cpp:217
-#: clientgui/sg_DlgMessages.cpp:229
+#: clientgui/sg_DlgMessages.cpp:215
+#: clientgui/sg_DlgMessages.cpp:227
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:116
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Ctrl键来选取多条消息。"
 
-#: clientgui/sg_DlgMessages.cpp:271
-#: clientgui/sg_DlgPreferences.cpp:510
+#: clientgui/sg_DlgMessages.cpp:269
+#: clientgui/sg_DlgPreferences.cpp:508
 #: clientgui/sg_ProjectsComponent.cpp:141
 msgid "Get help with BOINC"
 msgstr "从 BOINC 得到帮助"
 
-#: clientgui/sg_DlgMessages.cpp:758
+#: clientgui/sg_DlgMessages.cpp:751
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - 消息"
 
-#: clientgui/sg_DlgPreferences.cpp:96
+#: clientgui/sg_DlgPreferences.cpp:94
 msgid "100 MB"
 msgstr "100 MB"
 
-#: clientgui/sg_DlgPreferences.cpp:97
+#: clientgui/sg_DlgPreferences.cpp:95
 msgid "200 MB"
 msgstr "200 MB"
 
-#: clientgui/sg_DlgPreferences.cpp:98
+#: clientgui/sg_DlgPreferences.cpp:96
 msgid "500 MB"
 msgstr "500 MB"
 
-#: clientgui/sg_DlgPreferences.cpp:99
+#: clientgui/sg_DlgPreferences.cpp:97
 msgid "1 GB"
 msgstr "1 GB"
 
-#: clientgui/sg_DlgPreferences.cpp:100
+#: clientgui/sg_DlgPreferences.cpp:98
 msgid "2 GB"
 msgstr "2 GB"
 
-#: clientgui/sg_DlgPreferences.cpp:101
+#: clientgui/sg_DlgPreferences.cpp:99
 msgid "5 GB"
 msgstr "5 GB"
 
-#: clientgui/sg_DlgPreferences.cpp:102
+#: clientgui/sg_DlgPreferences.cpp:100
 msgid "10 GB"
 msgstr "10 GB"
 
-#: clientgui/sg_DlgPreferences.cpp:103
+#: clientgui/sg_DlgPreferences.cpp:101
 msgid "20 GB"
 msgstr "20 GB"
 
-#: clientgui/sg_DlgPreferences.cpp:104
+#: clientgui/sg_DlgPreferences.cpp:102
 msgid "50 GB"
 msgstr "50 GB"
 
-#: clientgui/sg_DlgPreferences.cpp:105
+#: clientgui/sg_DlgPreferences.cpp:103
 msgid "100 GB"
 msgstr "100 GB"
 
-#: clientgui/sg_DlgPreferences.cpp:136
+#: clientgui/sg_DlgPreferences.cpp:134
 msgid "10%"
 msgstr "10%"
 
-#: clientgui/sg_DlgPreferences.cpp:137
+#: clientgui/sg_DlgPreferences.cpp:135
 msgid "20%"
 msgstr "20%"
 
-#: clientgui/sg_DlgPreferences.cpp:138
+#: clientgui/sg_DlgPreferences.cpp:136
 msgid "30%"
 msgstr "30%"
 
-#: clientgui/sg_DlgPreferences.cpp:139
+#: clientgui/sg_DlgPreferences.cpp:137
 msgid "40%"
 msgstr "40%"
 
-#: clientgui/sg_DlgPreferences.cpp:140
+#: clientgui/sg_DlgPreferences.cpp:138
 msgid "50%"
 msgstr "50%"
 
-#: clientgui/sg_DlgPreferences.cpp:141
+#: clientgui/sg_DlgPreferences.cpp:139
 msgid "60%"
 msgstr "60%"
 
-#: clientgui/sg_DlgPreferences.cpp:142
+#: clientgui/sg_DlgPreferences.cpp:140
 msgid "70%"
 msgstr "70%"
 
-#: clientgui/sg_DlgPreferences.cpp:143
+#: clientgui/sg_DlgPreferences.cpp:141
 msgid "80%"
 msgstr "80%"
 
-#: clientgui/sg_DlgPreferences.cpp:144
+#: clientgui/sg_DlgPreferences.cpp:142
 msgid "90%"
 msgstr "90%"
 
-#: clientgui/sg_DlgPreferences.cpp:145
+#: clientgui/sg_DlgPreferences.cpp:143
 msgid "100%"
 msgstr "100%"
 
-#: clientgui/sg_DlgPreferences.cpp:170
+#: clientgui/sg_DlgPreferences.cpp:168
 msgid "1"
 msgstr "1"
 
-#: clientgui/sg_DlgPreferences.cpp:171
+#: clientgui/sg_DlgPreferences.cpp:169
 msgid "3"
 msgstr "3"
 
-#: clientgui/sg_DlgPreferences.cpp:172
+#: clientgui/sg_DlgPreferences.cpp:170
 msgid "5"
 msgstr "5"
 
-#: clientgui/sg_DlgPreferences.cpp:173
+#: clientgui/sg_DlgPreferences.cpp:171
 msgid "10"
 msgstr "10"
 
-#: clientgui/sg_DlgPreferences.cpp:174
+#: clientgui/sg_DlgPreferences.cpp:172
 msgid "15"
 msgstr "15"
 
-#: clientgui/sg_DlgPreferences.cpp:175
+#: clientgui/sg_DlgPreferences.cpp:173
 msgid "30"
 msgstr "30"
 
-#: clientgui/sg_DlgPreferences.cpp:176
+#: clientgui/sg_DlgPreferences.cpp:174
 msgid "60"
 msgstr "60"
 
-#: clientgui/sg_DlgPreferences.cpp:285
+#: clientgui/sg_DlgPreferences.cpp:283
 msgid "Skin"
 msgstr "皮肤"
 
-#: clientgui/sg_DlgPreferences.cpp:292
+#: clientgui/sg_DlgPreferences.cpp:290
 msgid "Skin:"
 msgstr "皮肤："
 
-#: clientgui/sg_DlgPreferences.cpp:308
+#: clientgui/sg_DlgPreferences.cpp:306
 msgid "Preferences"
 msgstr "参数设置"
 
-#: clientgui/sg_DlgPreferences.cpp:325
+#: clientgui/sg_DlgPreferences.cpp:323
 msgid "I want to customize my preferences for this computer only."
 msgstr "我想定制本台计算机的参数。"
 
-#: clientgui/sg_DlgPreferences.cpp:334
+#: clientgui/sg_DlgPreferences.cpp:332
 msgid "Customized Preferences"
 msgstr "定制的参数设置"
 
-#: clientgui/sg_DlgPreferences.cpp:350
+#: clientgui/sg_DlgPreferences.cpp:348
 msgid "Do work only between:"
 msgstr "计算时间段："
 
-#: clientgui/sg_DlgPreferences.cpp:372
+#: clientgui/sg_DlgPreferences.cpp:370
 msgid "Connect to internet only between:"
 msgstr "连接互联网的时间段："
 
-#: clientgui/sg_DlgPreferences.cpp:394
-#: clientgui/sg_DlgPreferences.cpp:411
+#: clientgui/sg_DlgPreferences.cpp:392
+#: clientgui/sg_DlgPreferences.cpp:409
 msgid "Use no more than:"
 msgstr "最多使用："
 
-#: clientgui/sg_DlgPreferences.cpp:407
+#: clientgui/sg_DlgPreferences.cpp:405
 msgid "of disk space"
 msgstr "磁盘空间"
 
-#: clientgui/sg_DlgPreferences.cpp:424
+#: clientgui/sg_DlgPreferences.cpp:422
 msgid "of the processor"
 msgstr "处理器"
 
-#: clientgui/sg_DlgPreferences.cpp:428
+#: clientgui/sg_DlgPreferences.cpp:426
 msgid "Do work while on battery?"
 msgstr "电池供电时仍然计算？"
 
-#: clientgui/sg_DlgPreferences.cpp:441
+#: clientgui/sg_DlgPreferences.cpp:439
 msgid "Do work after idle for:"
 msgstr "闲置一定时间后开始计算："
 
-#: clientgui/sg_DlgPreferences.cpp:674
-#: clientgui/sg_DlgPreferences.cpp:677
-#: clientgui/sg_DlgPreferences.cpp:743
-#: clientgui/sg_DlgPreferences.cpp:747
-#: clientgui/sg_DlgPreferences.cpp:759
-#: clientgui/sg_DlgPreferences.cpp:763
-#: clientgui/sg_DlgPreferences.cpp:921
-#: clientgui/sg_DlgPreferences.cpp:932
+#: clientgui/sg_DlgPreferences.cpp:672
+#: clientgui/sg_DlgPreferences.cpp:675
+#: clientgui/sg_DlgPreferences.cpp:741
+#: clientgui/sg_DlgPreferences.cpp:745
+#: clientgui/sg_DlgPreferences.cpp:757
+#: clientgui/sg_DlgPreferences.cpp:761
+#: clientgui/sg_DlgPreferences.cpp:919
+#: clientgui/sg_DlgPreferences.cpp:930
 msgid "Anytime"
 msgstr "任何时候"
 
-#: clientgui/sg_DlgPreferences.cpp:779
+#: clientgui/sg_DlgPreferences.cpp:777
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: clientgui/sg_DlgPreferences.cpp:781
+#: clientgui/sg_DlgPreferences.cpp:779
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: clientgui/sg_DlgPreferences.cpp:822
+#: clientgui/sg_DlgPreferences.cpp:820
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: clientgui/sg_DlgPreferences.cpp:858
+#: clientgui/sg_DlgPreferences.cpp:856
 msgid "0 (Run Always)"
 msgstr "0 (一直运行)"
 
-#: clientgui/sg_DlgPreferences.cpp:861
+#: clientgui/sg_DlgPreferences.cpp:859
 #, c-format
 msgid "%d"
 msgstr "%d"
-
-#: clientgui/sg_ImageButton.cpp:90
-#: clientgui/ViewWork.cpp:811
-#: clientgui/ViewWorkGrid.cpp:760
-msgid "Running"
-msgstr "运行中"
-
-#: clientgui/sg_ImageButton.cpp:92
-msgid "Paused: Other work running"
-msgstr "暂停：其它任务在运行"
-
-#: clientgui/sg_ImageButton.cpp:94
-msgid "Paused: User initiatied.  Click 'Resume' to continue"
-msgstr "暂停：用户发起，点击“继续”即可继续"
-
-#: clientgui/sg_ImageButton.cpp:96
-msgid "Paused: User active"
-msgstr "暂停：用户活跃"
-
-#: clientgui/sg_ImageButton.cpp:98
-msgid "Paused: Computer on battery"
-msgstr "暂停：电池供电"
-
-#: clientgui/sg_ImageButton.cpp:100
-msgid "Paused: Time of Day"
-msgstr "暂停：非计算时段"
-
-#: clientgui/sg_ImageButton.cpp:102
-msgid "Paused: Benchmarks running"
-msgstr "暂停：正在进行基准测试"
-
-#: clientgui/sg_ImageButton.cpp:104
-msgid "Paused"
-msgstr "暂停"
-
-#: clientgui/sg_ImageButton.cpp:132
-msgid "Click to show project graphics"
-msgstr "点击即可显示项目图形"
 
 #: clientgui/sg_ProjectsComponent.cpp:106
 msgid "Attach to an additional project"
@@ -2178,14 +2139,14 @@ msgid "%d hr %d min %d sec"
 msgstr "%d时%d分%d秒"
 
 #: clientgui/sg_ViewTabPage.cpp:419
-#: clientgui/ViewWork.cpp:221
+#: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:246
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "您确定要在远程计算机上显示图形吗？"
 
 #: clientgui/sg_ViewTabPage.cpp:420
-#: clientgui/ViewWork.cpp:108
-#: clientgui/ViewWork.cpp:222
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:220
 #: clientgui/ViewWorkGrid.cpp:110
 #: clientgui/ViewWorkGrid.cpp:247
 msgid "Show graphics"
@@ -2196,15 +2157,10 @@ msgid "Application: "
 msgstr "计算程序："
 
 #: clientgui/sg_ViewTabPage.cpp:455
-#: clientgui/sg_ViewTabPage.cpp:459
 msgid "Time Remaining: "
 msgstr "剩余时间："
 
-#: clientgui/sg_ViewTabPage.cpp:458
-msgid "Elapsed Time: "
-msgstr "已用时间："
-
-#: clientgui/SkinManager.cpp:1035
+#: clientgui/SkinManager.cpp:1019
 #, c-format
 msgid ""
 "This will shut down %s and its tasks entirely until either the\n"
@@ -2321,7 +2277,7 @@ msgstr "'%s'中未包含正确的路径。"
 #: clientgui/ViewStatistics.cpp:1743
 #: clientgui/ViewTransfers.cpp:94
 #: clientgui/ViewTransfersGrid.cpp:102
-#: clientgui/ViewWork.cpp:104
+#: clientgui/ViewWork.cpp:102
 #: clientgui/ViewWorkGrid.cpp:106
 msgid "Commands"
 msgstr "命令"
@@ -2398,10 +2354,10 @@ msgstr "上报所有完成的任务，获取最新的积分及参数设置，可
 #: clientgui/ViewProjectsBase.cpp:562
 #: clientgui/ViewProjectsGrid.cpp:125
 #: clientgui/ViewProjectsGrid.cpp:482
-#: clientgui/ViewWork.cpp:115
-#: clientgui/ViewWork.cpp:548
+#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:516
 #: clientgui/ViewWorkGrid.cpp:117
-#: clientgui/ViewWorkGrid.cpp:428
+#: clientgui/ViewWorkGrid.cpp:397
 msgid "Suspend"
 msgstr "暂停"
 
@@ -2483,7 +2439,7 @@ msgstr "资源分享"
 #: clientgui/ViewProjectsGrid.cpp:166
 #: clientgui/ViewTransfers.cpp:123
 #: clientgui/ViewTransfersGrid.cpp:130
-#: clientgui/ViewWork.cpp:140
+#: clientgui/ViewWork.cpp:138
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "Status"
 msgstr "状态"
@@ -2554,16 +2510,16 @@ msgstr "正在退出项目..."
 #: clientgui/ViewProjects.cpp:378
 #: clientgui/ViewProjectsBase.cpp:378
 #: clientgui/ViewProjectsGrid.cpp:422
-#: clientgui/ViewWork.cpp:355
-#: clientgui/ViewWorkGrid.cpp:385
+#: clientgui/ViewWork.cpp:323
+#: clientgui/ViewWorkGrid.cpp:354
 msgid "Launching browser..."
 msgstr "正在启动浏览器..."
 
 #: clientgui/ViewProjects.cpp:558
 #: clientgui/ViewProjectsBase.cpp:558
 #: clientgui/ViewProjectsGrid.cpp:478
-#: clientgui/ViewWork.cpp:542
-#: clientgui/ViewWorkGrid.cpp:422
+#: clientgui/ViewWork.cpp:510
+#: clientgui/ViewWorkGrid.cpp:391
 msgid "Resume"
 msgstr "继续"
 
@@ -2807,7 +2763,7 @@ msgstr "文件"
 
 #: clientgui/ViewTransfers.cpp:119
 #: clientgui/ViewTransfersGrid.cpp:130
-#: clientgui/ViewWork.cpp:137
+#: clientgui/ViewWork.cpp:135
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "Progress"
 msgstr "进度"
@@ -2859,36 +2815,36 @@ msgstr "稍后重试 "
 
 #: clientgui/ViewTransfers.cpp:528
 #: clientgui/ViewTransfersGrid.cpp:414
-#: clientgui/ViewWork.cpp:772
-#: clientgui/ViewWorkGrid.cpp:721
+#: clientgui/ViewWork.cpp:740
+#: clientgui/ViewWorkGrid.cpp:690
 msgid "Download failed"
 msgstr "下载失败"
 
 #: clientgui/ViewTransfers.cpp:530
 #: clientgui/ViewTransfersGrid.cpp:416
-#: clientgui/ViewWork.cpp:833
-#: clientgui/ViewWorkGrid.cpp:782
+#: clientgui/ViewWork.cpp:801
+#: clientgui/ViewWorkGrid.cpp:751
 msgid "Upload failed"
 msgstr "上传失败"
 
 #: clientgui/ViewTransfers.cpp:533
 #: clientgui/ViewTransfersGrid.cpp:419
-#: clientgui/ViewWork.cpp:783
-#: clientgui/ViewWorkGrid.cpp:732
+#: clientgui/ViewWork.cpp:751
+#: clientgui/ViewWorkGrid.cpp:701
 msgid "Suspended"
 msgstr "已被暂停"
 
 #: clientgui/ViewTransfers.cpp:536
 #: clientgui/ViewTransfersGrid.cpp:422
-#: clientgui/ViewWork.cpp:835
-#: clientgui/ViewWorkGrid.cpp:784
+#: clientgui/ViewWork.cpp:803
+#: clientgui/ViewWorkGrid.cpp:753
 msgid "Uploading"
 msgstr "正在上传"
 
 #: clientgui/ViewTransfers.cpp:536
 #: clientgui/ViewTransfersGrid.cpp:422
-#: clientgui/ViewWork.cpp:774
-#: clientgui/ViewWorkGrid.cpp:723
+#: clientgui/ViewWork.cpp:742
+#: clientgui/ViewWorkGrid.cpp:692
 msgid "Downloading"
 msgstr "正在下载"
 
@@ -2923,78 +2879,78 @@ msgstr ""
 msgid "Abort File Transfer(s)"
 msgstr "中断文件传输"
 
-#: clientgui/ViewWork.cpp:109
+#: clientgui/ViewWork.cpp:107
 #: clientgui/ViewWorkGrid.cpp:111
 msgid "Show application graphics in a window."
 msgstr "在新窗口中显示项目图形。"
 
-#: clientgui/ViewWork.cpp:116
+#: clientgui/ViewWork.cpp:114
 #: clientgui/ViewWorkGrid.cpp:118
 msgid "Suspend work for this result."
 msgstr "暂停当前任务。"
 
-#: clientgui/ViewWork.cpp:122
+#: clientgui/ViewWork.cpp:120
 #: clientgui/ViewWorkGrid.cpp:124
 msgid "Abort"
 msgstr "中止"
 
-#: clientgui/ViewWork.cpp:123
+#: clientgui/ViewWork.cpp:121
 #: clientgui/ViewWorkGrid.cpp:125
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "中止该任务，您将不能得到它的积分。"
 
-#: clientgui/ViewWork.cpp:134
+#: clientgui/ViewWork.cpp:132
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "Application"
 msgstr "计算程序"
 
-#: clientgui/ViewWork.cpp:135
+#: clientgui/ViewWork.cpp:133
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "Name"
 msgstr "任务名称"
 
-#: clientgui/ViewWork.cpp:136
+#: clientgui/ViewWork.cpp:134
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "CPU time"
 msgstr "已用 CPU 时间"
 
-#: clientgui/ViewWork.cpp:138
+#: clientgui/ViewWork.cpp:136
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "To completion"
 msgstr "剩余时间"
 
-#: clientgui/ViewWork.cpp:139
+#: clientgui/ViewWork.cpp:137
 #: clientgui/ViewWorkGrid.cpp:143
 msgid "Report deadline"
 msgstr "上报期限"
 
-#: clientgui/ViewWork.cpp:153
-#: clientgui/ViewWork.cpp:159
+#: clientgui/ViewWork.cpp:151
+#: clientgui/ViewWork.cpp:157
 #: clientgui/ViewWorkGrid.cpp:183
 msgid "Tasks"
 msgstr "任务"
 
-#: clientgui/ViewWork.cpp:184
+#: clientgui/ViewWork.cpp:182
 #: clientgui/ViewWorkGrid.cpp:209
 msgid "Resuming task..."
 msgstr "正在继续该任务..."
 
-#: clientgui/ViewWork.cpp:188
+#: clientgui/ViewWork.cpp:186
 #: clientgui/ViewWorkGrid.cpp:213
 msgid "Suspending task..."
 msgstr "正在暂停该任务..."
 
-#: clientgui/ViewWork.cpp:214
+#: clientgui/ViewWork.cpp:212
 #: clientgui/ViewWorkGrid.cpp:239
 msgid "Showing graphics for task..."
 msgstr "正在显示该任务的图形..."
 
-#: clientgui/ViewWork.cpp:309
-#: clientgui/ViewWorkGrid.cpp:336
+#: clientgui/ViewWork.cpp:277
+#: clientgui/ViewWorkGrid.cpp:305
 msgid "Aborting result..."
 msgstr "正在中止任务..."
 
-#: clientgui/ViewWork.cpp:317
+#: clientgui/ViewWork.cpp:285
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3003,130 +2959,135 @@ msgstr ""
 "您确定要中止当前任务'%s'吗？\n"
 "(进度：%s，状态：%s)"
 
-#: clientgui/ViewWork.cpp:326
-#: clientgui/ViewWorkGrid.cpp:356
+#: clientgui/ViewWork.cpp:294
+#: clientgui/ViewWorkGrid.cpp:325
 msgid "Abort task"
 msgstr "中止任务"
 
-#: clientgui/ViewWork.cpp:543
-#: clientgui/ViewWorkGrid.cpp:423
+#: clientgui/ViewWork.cpp:511
+#: clientgui/ViewWorkGrid.cpp:392
 msgid "Resume work for this task."
 msgstr "继续计算当前任务。"
 
-#: clientgui/ViewWork.cpp:549
-#: clientgui/ViewWorkGrid.cpp:429
+#: clientgui/ViewWork.cpp:517
+#: clientgui/ViewWorkGrid.cpp:398
 msgid "Suspend work for this task."
 msgstr "暂停计算当前任务。"
 
-#: clientgui/ViewWork.cpp:768
-#: clientgui/ViewWorkGrid.cpp:717
+#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWorkGrid.cpp:686
 msgid "New"
 msgstr "新任务"
 
-#: clientgui/ViewWork.cpp:779
-#: clientgui/ViewWorkGrid.cpp:728
+#: clientgui/ViewWork.cpp:747
+#: clientgui/ViewWorkGrid.cpp:697
 msgid "Project suspended by user"
 msgstr "项目已被用户暂停"
 
-#: clientgui/ViewWork.cpp:781
-#: clientgui/ViewWorkGrid.cpp:730
+#: clientgui/ViewWork.cpp:749
+#: clientgui/ViewWorkGrid.cpp:699
 msgid "Task suspended by user"
 msgstr "任务已被用户暂停"
 
-#: clientgui/ViewWork.cpp:785
-#: clientgui/ViewWorkGrid.cpp:734
+#: clientgui/ViewWork.cpp:753
+#: clientgui/ViewWorkGrid.cpp:703
 msgid " - on batteries"
 msgstr " - 电池供电"
 
-#: clientgui/ViewWork.cpp:788
-#: clientgui/ViewWorkGrid.cpp:737
+#: clientgui/ViewWork.cpp:756
+#: clientgui/ViewWorkGrid.cpp:706
 msgid " - user active"
 msgstr " - 用户活跃"
 
-#: clientgui/ViewWork.cpp:791
-#: clientgui/ViewWorkGrid.cpp:740
+#: clientgui/ViewWork.cpp:759
+#: clientgui/ViewWorkGrid.cpp:709
 msgid " - computation suspended"
 msgstr " - 计算被暂停"
 
-#: clientgui/ViewWork.cpp:794
-#: clientgui/ViewWorkGrid.cpp:743
+#: clientgui/ViewWork.cpp:762
+#: clientgui/ViewWorkGrid.cpp:712
 msgid " - time of day"
 msgstr " - 休息时间段"
 
-#: clientgui/ViewWork.cpp:797
-#: clientgui/ViewWorkGrid.cpp:746
+#: clientgui/ViewWork.cpp:765
+#: clientgui/ViewWorkGrid.cpp:715
 msgid " - CPU benchmarks"
 msgstr " - CPU基准测试"
 
-#: clientgui/ViewWork.cpp:800
-#: clientgui/ViewWorkGrid.cpp:749
+#: clientgui/ViewWork.cpp:768
+#: clientgui/ViewWorkGrid.cpp:718
 msgid " - need disk space"
 msgstr " - 磁盘空间不足"
 
-#: clientgui/ViewWork.cpp:804
-#: clientgui/ViewWorkGrid.cpp:753
+#: clientgui/ViewWork.cpp:772
+#: clientgui/ViewWorkGrid.cpp:722
 msgid "Waiting for memory"
 msgstr "等待足够的内存"
 
-#: clientgui/ViewWork.cpp:806
-#: clientgui/ViewWorkGrid.cpp:755
+#: clientgui/ViewWork.cpp:774
+#: clientgui/ViewWorkGrid.cpp:724
 msgid "Waiting for shared memory"
 msgstr "等待足够的共享内存"
 
-#: clientgui/ViewWork.cpp:809
-#: clientgui/ViewWorkGrid.cpp:758
+#: clientgui/ViewWork.cpp:777
+#: clientgui/ViewWorkGrid.cpp:727
 msgid "Running, high priority"
 msgstr "运行中，高优先级"
 
-#: clientgui/ViewWork.cpp:816
-#: clientgui/ViewWorkGrid.cpp:765
+#: clientgui/ViewWork.cpp:779
+#: clientgui/ViewWorkGrid.cpp:729
+msgid "Running"
+msgstr "运行中"
+
+#: clientgui/ViewWork.cpp:784
+#: clientgui/ViewWorkGrid.cpp:734
 msgid " (non-CPU-intensive)"
 msgstr "(非 CPU 密集)"
 
-#: clientgui/ViewWork.cpp:820
-#: clientgui/ViewWorkGrid.cpp:769
+#: clientgui/ViewWork.cpp:788
+#: clientgui/ViewWorkGrid.cpp:738
 msgid "Waiting to run"
 msgstr "等待运行"
 
-#: clientgui/ViewWork.cpp:822
-#: clientgui/ViewWork.cpp:825
-#: clientgui/ViewWorkGrid.cpp:771
-#: clientgui/ViewWorkGrid.cpp:774
+#: clientgui/ViewWork.cpp:790
+#: clientgui/ViewWork.cpp:793
+#: clientgui/ViewWorkGrid.cpp:740
+#: clientgui/ViewWorkGrid.cpp:743
 msgid "Ready to start"
 msgstr "准备运行"
 
-#: clientgui/ViewWork.cpp:829
-#: clientgui/ViewWorkGrid.cpp:778
+#: clientgui/ViewWork.cpp:797
+#: clientgui/ViewWorkGrid.cpp:747
 msgid "Computation error"
 msgstr "计算错误"
 
-#: clientgui/ViewWork.cpp:841
-#: clientgui/ViewWorkGrid.cpp:790
+#: clientgui/ViewWork.cpp:809
+#: clientgui/ViewWorkGrid.cpp:759
 msgid "Aborted by user"
 msgstr "已被用户终止"
 
-#: clientgui/ViewWork.cpp:844
-#: clientgui/ViewWorkGrid.cpp:793
+#: clientgui/ViewWork.cpp:812
+#: clientgui/ViewWorkGrid.cpp:762
 msgid "Aborted by project"
 msgstr "已被项目中止"
 
-#: clientgui/ViewWork.cpp:847
-#: clientgui/ViewWorkGrid.cpp:796
+#: clientgui/ViewWork.cpp:815
+#: clientgui/ViewWorkGrid.cpp:765
 msgid "Aborted"
 msgstr "已中止"
 
-#: clientgui/ViewWork.cpp:852
-#: clientgui/ViewWorkGrid.cpp:801
+#: clientgui/ViewWork.cpp:820
+#: clientgui/ViewWorkGrid.cpp:770
 msgid "Acknowledged"
 msgstr "已被确认"
 
-#: clientgui/ViewWork.cpp:854
-#: clientgui/ViewWorkGrid.cpp:803
+#: clientgui/ViewWork.cpp:822
+#: clientgui/ViewWorkGrid.cpp:772
 msgid "Ready to report"
 msgstr "等待上报"
 
-#: clientgui/ViewWork.cpp:856
-#: clientgui/ViewWorkGrid.cpp:805
+#: clientgui/ViewWork.cpp:824
+#: clientgui/ViewWorkGrid.cpp:774
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "错误：非法状态 '%d'"
@@ -3135,7 +3096,7 @@ msgstr "错误：非法状态 '%d'"
 msgid "TasksGrid"
 msgstr "任务网格"
 
-#: clientgui/ViewWorkGrid.cpp:347
+#: clientgui/ViewWorkGrid.cpp:316
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3144,31 +3105,35 @@ msgstr ""
 "您确定要中止当前任务'%s'吗？\n"
 "(进度：%s %%，状态：%s)"
 
-#: clientgui/WelcomePage.cpp:329
+#: clientgui/WelcomePage.cpp:328
+msgid "Attach to project (local override)"
+msgstr "加入项目 (本地操作，不通过帐号管理器)"
+
+#: clientgui/WelcomePage.cpp:332
 #, c-format
 msgid ""
-"If possible, add projects at the\n"
-"%s web site.\n"
+"Please note that you should add projects at the\n"
+"%s website.\n"
 "\n"
-"Projects added via this wizard will not be\n"
-"listed on or managed via %s."
+"Any project added via this wizard will not be listed\n"
+"or managed via %s."
 msgstr ""
-"如果可能的话，请在 %s 网站添加项目。\n"
+"请注意您应该在 %s 网站添加项目。\n"
 "\n"
 "通过向导增加的项目将不能在 %s 中显示及进行管理。"
 
-#: clientgui/WelcomePage.cpp:346
+#: clientgui/WelcomePage.cpp:349
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to a project."
 msgstr "我们将引导您完成加入一个项目的过程。"
 
-#: clientgui/WelcomePage.cpp:354
+#: clientgui/WelcomePage.cpp:357
 #, c-format
 msgid "&Stop using%s"
 msgstr "停止使用 %s(&S)"
 
-#: clientgui/WelcomePage.cpp:361
+#: clientgui/WelcomePage.cpp:364
 #, c-format
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
@@ -3177,11 +3142,11 @@ msgstr ""
 "我们将从 %s 中移除当前计算机。\n"
 "从现在开始，请直接在该客户端中加入或退出项目。\n"
 
-#: clientgui/WelcomePage.cpp:373
+#: clientgui/WelcomePage.cpp:376
 msgid "Account manager"
 msgstr "帐号管理器"
 
-#: clientgui/WelcomePage.cpp:376
+#: clientgui/WelcomePage.cpp:379
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to an account manager.\n"
@@ -3194,55 +3159,55 @@ msgstr ""
 "如果您只想要加入一个项目，请点击取消，\n"
 "然后选择菜单中的'加入项目'。"
 
-#: clientgui/WelcomePage.cpp:388
+#: clientgui/WelcomePage.cpp:391
 msgid "Debug Flags"
 msgstr "调试标志位"
 
-#: clientgui/WelcomePage.cpp:391
+#: clientgui/WelcomePage.cpp:394
 msgid "Project Properties Failure"
 msgstr "项目属性错误"
 
-#: clientgui/WelcomePage.cpp:394
+#: clientgui/WelcomePage.cpp:397
 msgid "Project Comm Failure"
 msgstr "项目通讯失败"
 
-#: clientgui/WelcomePage.cpp:397
+#: clientgui/WelcomePage.cpp:400
 msgid "Project Properties URL Failure"
 msgstr "项目网址错误"
 
-#: clientgui/WelcomePage.cpp:400
+#: clientgui/WelcomePage.cpp:403
 msgid "Account Creation Disabled"
 msgstr "帐号创建已被停用"
 
-#: clientgui/WelcomePage.cpp:403
+#: clientgui/WelcomePage.cpp:406
 msgid "Client Account Creation Disabled"
 msgstr "客户端的帐号创建已被停用"
 
-#: clientgui/WelcomePage.cpp:406
+#: clientgui/WelcomePage.cpp:409
 msgid "Account Already Exists"
 msgstr "帐号已存在"
 
-#: clientgui/WelcomePage.cpp:409
+#: clientgui/WelcomePage.cpp:412
 msgid "Project Already Attached"
 msgstr "项目已被加入"
 
-#: clientgui/WelcomePage.cpp:412
+#: clientgui/WelcomePage.cpp:415
 msgid "Project Attach Failure"
 msgstr "加入项目失败"
 
-#: clientgui/WelcomePage.cpp:415
+#: clientgui/WelcomePage.cpp:418
 msgid "Google Comm Failure"
 msgstr "连接 Google 失败"
 
-#: clientgui/WelcomePage.cpp:418
+#: clientgui/WelcomePage.cpp:421
 msgid "Yahoo Comm Failure"
 msgstr "连接 Yahoo 失败"
 
-#: clientgui/WelcomePage.cpp:421
+#: clientgui/WelcomePage.cpp:424
 msgid "Net Detection Failure"
 msgstr "网络检测失败"
 
-#: clientgui/WelcomePage.cpp:426
+#: clientgui/WelcomePage.cpp:429
 msgid "To continue, click Next."
 msgstr "点击下一步以继续。"
 
