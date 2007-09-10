@@ -45,10 +45,8 @@ The reply message has the form:
 "), "</pre>
 Status is";
 list_start();
-list_item("0", "Success.  Nbytes is 0 if the file doesn't exist.");
-list_item("1", "Transient error.
-The client should try another data server, or try this one later.
-");
+list_item(" 0", "Success.  Nbytes is 0 if the file doesn't exist.");
+list_item(" 1", "Transient error.  The client should try another data server, or try this one later.");
 list_item("-1", "Permanent error.  The client should give up on the result.");
 list_end();
 echo "

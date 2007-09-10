@@ -8372,3 +8372,9 @@ David  9 Sept 2007
 
     api/
         x_opengl.C
+
+Bruce 10 Sept 2007
+    - (obsolete doc files) fix typo in upload.php
+    doc/
+        upload.php
+
