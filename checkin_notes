@@ -8383,3 +8383,11 @@ David  11 Sept 2007
 
     html/ops/
         user_graph.php
+
+Reinhard 11 Sept 2007
+    - initialize local 'struct sigaction' variable to zero in xwin_graphics_event_loop()
+
+    api/
+	x_opengl.C
+
+    	

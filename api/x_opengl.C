@@ -593,7 +593,7 @@ void xwin_graphics_event_loop() {
 
     if (debug) fprintf(stderr, "Direct call to xwin_graphics_event_loop()\n");
 
-    struct sigaction sa;
+    struct sigaction sa = {0};
     memset(&sa, 0, sizeof(sa));
     sa.sa_handler = restart_sig;
     sa.sa_flags = SA_RESTART;
