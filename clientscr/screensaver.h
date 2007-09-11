@@ -24,12 +24,15 @@
 // Determine if the result is active and executing
 extern bool is_task_active(RESULT* result);
 
+// Determine if two RESULT pointers refer to the same task
+extern bool is_same_task(RESULT* taska, RESULT* taskb);
+
 // Count the number of active graphics-capable apps
-extern int count_active_graphic_apps(RESULTS& results, std::string *exclude=NULL);
+extern int count_active_graphic_apps(RESULTS& results, RESULT* exclude);
 
 // Choose a ramdom graphics application from the vector that
 //   was passed in.
-extern RESULT* get_random_graphics_app(RESULTS& results, std::string *exclude=NULL);
+extern RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude);
 
 // Launch the screensaver
 #ifdef _WIN32

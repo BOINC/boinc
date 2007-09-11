@@ -484,8 +484,8 @@ OSStatus RPCThread(void* param) {
     RESULT*         theResult               = NULL;
     RESULT*         graphics_app_result_ptr = NULL;
     PROJECT*        pProject;
-    std::string     current_result_name     = "";
-    std::string     avoid_old_result_name   = "";
+    RESULT*         current_result          = NULL;
+    RESULT*         avoid_old_result        = NULL;
     int             iResultCount            = 0;
     int             iIndex                  = 0;
     double          percent_done;
@@ -581,7 +581,7 @@ OSStatus RPCThread(void* param) {
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
                 theResult = results.results.at(iIndex);
 
-               if (theResult->name == current_result_name) {
+                if (is_same_task(theResult, current_result)) {
                     graphics_app_result_ptr = theResult;
                     break;
                 }
@@ -600,8 +600,8 @@ print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
             }
 #endif
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
-                if (count_active_graphic_apps(results, &current_result_name) > 0) {
-                    avoid_old_result_name = current_result_name;
+                if (count_active_graphic_apps(results, current_result) > 0) {
+                    avoid_old_result = current_result;
                     terminate_screensaver(graphics_app_pid);
                     // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
                 }
@@ -611,22 +611,22 @@ print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
 
         // If no current graphics app, pick an active task at random and launch its graphics app
         if (graphics_app_pid == 0) {
-            graphics_app_result_ptr = get_random_graphics_app(results, &avoid_old_result_name);
-            avoid_old_result_name = "";
+            graphics_app_result_ptr = get_random_graphics_app(results, avoid_old_result);
+            avoid_old_result = NULL;
             
             if (graphics_app_result_ptr) {
                 retval = Mac_launch_screensaver(graphics_app_result_ptr, graphics_app_pid, launcher_shell_pid);
                 if (retval) {
                     graphics_app_pid = 0;
                     launcher_shell_pid = 0;
-                    current_result_name = "";
+                    current_result = NULL;
                     graphics_app_result_ptr = NULL;
                 } else {
                     gClientSaverStatus = SS_STATUS_ENABLED;
                     launch_time = dtime();
                     last_change_time = launch_time;
                     last_run_check_time = launch_time;
-                    current_result_name = graphics_app_result_ptr->name;
+                    current_result = graphics_app_result_ptr;
                 }
             } else {
                 if (state.projects.size() == 0) {
@@ -646,7 +646,7 @@ print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
                 graphics_app_pid = 0;
                 launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
-                current_result_name = "";
+                current_result = NULL;
                 continue;
             }
         }

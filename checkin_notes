@@ -8396,4 +8396,12 @@ Rytis   11 Sep 2007
         (protection from spam)
         
     html/inc/uotd.inc
+
+Charlie 5 Sep 2007
+    - SCR: Create is_same_task() function which compares both task name 
+        and task URL; call it from count_active_graphic_apps () and 
+        get_random_graphics_app().
     
+    clientscr/
+        mac_saver_module.cpp
+        screensaver.cpp,h

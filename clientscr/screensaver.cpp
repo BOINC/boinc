@@ -41,13 +41,19 @@ bool is_task_active(RESULT* result) {
     return false;
 }
 
+bool is_same_task(RESULT* taska, RESULT* taskb) {
+    if ((taska == NULL) || (taskb == NULL)) return false;
+    if (taska->name != taskb->name) return false;
+    if (taska->project_url != taskb->project_url) return false;
+    return true;
+}
 
-int count_active_graphic_apps(RESULTS& results, std::string *exclude) {
+int count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
     unsigned int i = 0;
     unsigned int graphics_app_count = 0;
 
     // Count the number of active graphics-capable apps excluding the specified result.
-    // If exclude is NULL or an empty string, don't exclude any results.
+    // If exclude is NULL, don't exclude any results.
     for (i = 0; i < results.results.size(); i++) {
         if (!is_task_active(results.results[i])) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected\n"));
@@ -58,7 +64,7 @@ int count_active_graphic_apps(RESULTS& results, std::string *exclude) {
         if (results.results[i]->graphics_exec_path.size() == 0) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
         
-        if ((exclude != NULL) && (*exclude == results.results[i]->name)) continue;
+        if (is_same_task(results.results[i], exclude)) continue;
         graphics_app_count++;
     }
     return graphics_app_count;
@@ -69,13 +75,13 @@ int count_active_graphic_apps(RESULTS& results, std::string *exclude) {
 // Exclude the specified result unless it is the only candidate.
 // If exclude is NULL or an empty string, don't exclude any results.
 //
-RESULT* get_random_graphics_app(RESULTS& results, std::string *exclude) {
+RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude) {
     RESULT*      rp = NULL;
     unsigned int i = 0;
     unsigned int graphics_app_count = 0;
     unsigned int random_selection = 0;
     unsigned int current_counter = 0;
-    std::string *avoid = exclude;
+    RESULT *avoid = exclude;
 
     BOINCTRACE(_T("get_random_graphics_app -- Function Start\n"));
 
@@ -83,7 +89,7 @@ RESULT* get_random_graphics_app(RESULTS& results, std::string *exclude) {
     BOINCTRACE(_T("get_random_graphics_app -- graphics_app_count = '%d'\n"), graphics_app_count);
 
     // If no graphics app found other than the one excluded, count again without excluding any
-    if ((0 == graphics_app_count) && (avoid != NULL) && avoid->length()) {
+    if ((0 == graphics_app_count) && (avoid != NULL)) {
         avoid = NULL;
         graphics_app_count = count_active_graphic_apps(results, avoid);
     }
@@ -101,7 +107,7 @@ RESULT* get_random_graphics_app(RESULTS& results, std::string *exclude) {
     for (i = 0; i < results.results.size(); i++) {
         if (!is_task_active(results.results[i])) continue;
         if (results.results[i]->graphics_exec_path.size() == 0) continue;
-        if ((avoid != NULL) && (*avoid == results.results[i]->name)) continue;
+        if (is_same_task(results.results[i], avoid)) continue;
 
         current_counter++;
         if (current_counter == random_selection) {
