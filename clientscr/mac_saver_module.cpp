@@ -449,10 +449,13 @@ void closeBOINCSaver() {
     }
     
     if (rpc) {
-#if 0       // OS X quits screensaver when energy saver puts display to 
-            // sleep, but we want to keep crunching.  So don't kill it.
+#if 0       // OS X calls closeBOINCSaver() when energy saver puts display
+            //  to sleep, but we want to keep crunching.  So don't kill it.
             // Code in core client now quits on user activity if screen
             // saver launched it (2/28/07).
+            // Also, under sandbox security, screensaver doesn't have access 
+            // to rpc password in gui_rpc_auth.cfg file, so core client won't 
+            // accept rpc->quit from screensaver.
         if (CoreClientPID && (!wasAlreadyRunning)) {
             rpc->quit();    // Kill core client if we launched it
         }
