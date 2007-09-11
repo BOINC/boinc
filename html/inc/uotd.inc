@@ -120,8 +120,8 @@ function default_uotd_candidates_query(){
         $query .= "ORDER BY RAND()";
     } else {
         $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
-        $query .= " AND verification=1 ";
-        $query .= " AND uotd_time IS NULL ";
+        $query .= "AND expavg_credit>1 ";
+        $query .= "AND uotd_time IS NULL ";
         $query .= "ORDER BY RAND()";
     }
     return $query;

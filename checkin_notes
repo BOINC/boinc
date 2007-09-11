@@ -8385,9 +8385,15 @@ David  11 Sept 2007
         user_graph.php
 
 Reinhard 11 Sept 2007
-    - initialize local 'struct sigaction' variable to zero in xwin_graphics_event_loop()
+    - initialize local 'struct sigaction' variable to zero in
+        xwin_graphics_event_loop()
 
     api/
-	x_opengl.C
+        x_opengl.C
 
-    	
+Rytis   11 Sep 2007
+    - user web: prevent users with RAC < 1 become a user of the day
+        (protection from spam)
+        
+    html/inc/uotd.inc
+    
