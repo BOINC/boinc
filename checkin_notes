@@ -7336,6 +7336,11 @@ Charlie 5 Sep 2007
         preinstall
         uninstall.cpp
 
+David  9 Sept 2007
+    - API: initialize sigaction struct in X graphics code
+
+    api/
+        x_opengl.C
 
 Charlie 10 Sep 2007
     - Manager: port David's checkin of 10 Aug 2007: show the AMS name, not 
