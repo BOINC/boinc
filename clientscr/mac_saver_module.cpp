@@ -450,7 +450,7 @@ void closeBOINCSaver() {
     
     if (rpc) {
 #if 0       // OS X calls closeBOINCSaver() when energy saver puts display
-            //  to sleep, but we want to keep crunching.  So don't kill it.
+            // to sleep, but we want to keep crunching.  So don't kill it.
             // Code in core client now quits on user activity if screen
             // saver launched it (2/28/07).
             // Also, under sandbox security, screensaver doesn't have access 
@@ -487,8 +487,10 @@ OSStatus RPCThread(void* param) {
     RESULT*         theResult               = NULL;
     RESULT*         graphics_app_result_ptr = NULL;
     PROJECT*        pProject;
-    RESULT*         current_result          = NULL;
-    RESULT*         avoid_old_result        = NULL;
+    RESULT          current_result;
+    RESULT*         current_result_ptr      = NULL;
+    RESULT          old_result_to_avoid;
+    RESULT*         old_result_to_avoid_ptr = NULL;
     int             iResultCount            = 0;
     int             iIndex                  = 0;
     double          percent_done;
@@ -502,7 +504,7 @@ OSStatus RPCThread(void* param) {
             time_to_blank = SaverStartTime + (gBlankingTime * 60);
         else
             time_to_blank = 0;
-
+            
     while (true) {
         if ((gGoToBlank) && (time(0) > time_to_blank)) {
             gClientSaverStatus = SS_STATUS_BLANKED;
@@ -574,28 +576,35 @@ OSStatus RPCThread(void* param) {
             continue;
         }
         
-#if ! SIMULATE_NO_GRAPHICS /* FOR TESTING */
+#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
+
+        gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
+        
+#else                   /* NORMAL OPERATION */
+
         // Is the current graphics app's associated task still running?
         if ((graphics_app_pid) && (graphics_app_result_ptr)) {
+
             iResultCount = results.results.size();
             graphics_app_result_ptr = NULL;
 
-            // Find the current task in the new results vector
+            // Find the current task in the new results vector (if it still exists)
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
                 theResult = results.results.at(iIndex);
 
-                if (is_same_task(theResult, current_result)) {
+                if (is_same_task(theResult, current_result_ptr)) {
                     graphics_app_result_ptr = theResult;
                     break;
                 }
             }
 
             if ((graphics_app_result_ptr == NULL) || (is_task_active(graphics_app_result_ptr) == false)) {
-print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
+//              print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
                 terminate_screensaver(graphics_app_pid);
                 // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
            }
 #if 0
+            // Safety check that task is actually running
             if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
                 if (FindProcessPID(NULL, ???, 0) == 0) {
                     terminate_screensaver(graphics_app_pid);
@@ -603,8 +612,14 @@ print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
             }
 #endif
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
-                if (count_active_graphic_apps(results, current_result) > 0) {
-                    avoid_old_result = current_result;
+                if (count_active_graphic_apps(results, current_result_ptr) > 0) {
+                    if (current_result_ptr) {
+                        old_result_to_avoid = current_result;
+                        old_result_to_avoid_ptr = &old_result_to_avoid;
+//                      if (graphics_app_result_ptr) print_to_log_file("timeout terminating %s", graphics_app_result_ptr->name.c_str());                    
+                    } else {
+                        old_result_to_avoid_ptr = NULL;
+                    }
                     terminate_screensaver(graphics_app_pid);
                     // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
                 }
@@ -614,22 +629,26 @@ print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
 
         // If no current graphics app, pick an active task at random and launch its graphics app
         if (graphics_app_pid == 0) {
-            graphics_app_result_ptr = get_random_graphics_app(results, avoid_old_result);
-            avoid_old_result = NULL;
+            graphics_app_result_ptr = get_random_graphics_app(results, old_result_to_avoid_ptr);
+            old_result_to_avoid_ptr = NULL;
             
             if (graphics_app_result_ptr) {
                 retval = Mac_launch_screensaver(graphics_app_result_ptr, graphics_app_pid, launcher_shell_pid);
                 if (retval) {
                     graphics_app_pid = 0;
                     launcher_shell_pid = 0;
-                    current_result = NULL;
+                    current_result_ptr = NULL;
                     graphics_app_result_ptr = NULL;
                 } else {
                     gClientSaverStatus = SS_STATUS_ENABLED;
                     launch_time = dtime();
                     last_change_time = launch_time;
                     last_run_check_time = launch_time;
-                    current_result = graphics_app_result_ptr;
+                    // Make a local copy of current result, since original pointer 
+                    // may have been freed by the time we perform later tests
+                    current_result = *graphics_app_result_ptr;
+                    current_result_ptr = &current_result;
+//                  if (graphics_app_result_ptr) print_to_log_file("launching %s", graphics_app_result_ptr->name.c_str());                    
                 }
             } else {
                 if (state.projects.size() == 0) {
@@ -649,15 +668,12 @@ print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
                 graphics_app_pid = 0;
                 launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
-                current_result = NULL;
+                current_result_ptr = NULL;
                 continue;
             }
         }
-#endif
+#endif      // ! SIMULATE_NO_GRAPHICS
 
-#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
-        gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
-#endif
         if ((gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING)
 #if ALWAYS_DISPLAY_PROGRESS_TEXT
                 || (gClientSaverStatus == SS_STATUS_ENABLED)
