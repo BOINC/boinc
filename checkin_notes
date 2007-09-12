@@ -8432,3 +8432,10 @@ David  12 Sept 2007
 
     client/
         cpu_sched.C
+
+David  12 Sept 2007
+    - API: don't start timer thread (or install signal handler on Unix)
+        if running standalone
+
+    api/
+        boinc_api.C

@@ -283,7 +283,10 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
     }
     retval = boinc_init_options_general(*opt);
     if (retval) return retval;
-    return set_worker_timer();
+    if (!standalone) {
+        retval = set_worker_timer();
+    }
+    return retval;
 }
 
 // the following can be called by either graphics or worker thread
@@ -873,7 +876,7 @@ int set_worker_timer() {
         return retval;
     }
 
-    // set up a periodic SIGALRM, to be hanled by the worker thread
+    // set up a periodic SIGALRM, to be handled by the worker thread
     //
     struct sigaction sa;
     itimerval value;
