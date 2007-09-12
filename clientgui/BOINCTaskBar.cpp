@@ -339,11 +339,6 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         strTitle = pSkinAdvanced->GetApplicationName();
 
         if (pDoc->IsConnected()) {
-            pDoc->GetConnectedComputerName(strMachineName);
-            if (pDoc->IsComputerNameLocal(strMachineName)) {
-                strMachineName = wxT("localhost");
-            }
-            strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
@@ -351,8 +346,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
-                    _("%s is currently suspended...\n"),
-                    pSkinAdvanced->GetApplicationShortName().c_str()
+                    _("Computation is suspended.\n")
                 );
                 iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
@@ -363,8 +357,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
-                    _("%s networking is currently suspended...\n"),
-                    pSkinAdvanced->GetApplicationShortName().c_str()
+                    _("Network activity is suspended.\n")
                 );
                 strMessage += strBuffer;
             }
@@ -403,9 +396,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             // 3rd %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
             strBuffer.Printf(
-                _("%s is currently reconnecting to a %s client...\n"),
-                pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetApplicationShortName().c_str()
+                _("Reconnecting to client.\n")
             );
             strMessage += strBuffer;
         } else {
@@ -415,9 +406,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             // 3rd %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
             strBuffer.Printf(
-                _("%s is not currently connected to a %s client...\n"),
-                pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetApplicationShortName().c_str()
+                _("Not connected to a client.\n")
             );
             iconIcon = m_iconTaskBarDisconnected;
             strMessage += strBuffer;

@@ -8439,3 +8439,13 @@ David  12 Sept 2007
 
     api/
         boinc_api.C
+
+David  12 Sept 2007
+	- Manager: clean up text in system tray balloon
+	- Client: use dd-MMM-yyyy format for dates;
+		mm/dd/yyyy is ambiguous and mixed-endian
+
+	clientgui/
+		BOINCTaskBar.cpp
+	lib/
+		str_util.C
