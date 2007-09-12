@@ -8425,3 +8425,10 @@ David  12 Sept 2007
         setup_project.py
     sched/
         file_upload_handler.C
+
+David  12 Sept 2007
+    - client: CPU scheduler: if a project has 2 jobs with same deadline,
+        give preference to jobs already started
+
+    client/
+        cpu_sched.C

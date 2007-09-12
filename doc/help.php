@@ -47,7 +47,7 @@ echo "
 </ul>
 <h2>".tr(HELP_HEADING3)."</h2>
 <p>
-".sprintf(tr(HELP_P3_1), "<a href=help_volunteer.php>", "</a>")."
+".sprintf(tr(HELP_P3_1), "<a href=trac/wiki/HelpVolunteer>", "</a>")."
 <p>
 ".sprintf(tr(HELP_P3_2), "<a href=help_vol_edit.php?edit_login=1>", "</a>")."
 ";

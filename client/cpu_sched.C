@@ -197,6 +197,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 //
 RESULT* CLIENT_STATE::earliest_deadline_result() {
     RESULT *best_result = NULL;
+    ACTIVE_TASK* best_atp = NULL;
     unsigned int i;
 
     for (i=0; i<results.size(); i++) {
@@ -206,16 +207,22 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (rp->already_selected) continue;
         if (!rp->project->deadlines_missed) continue;
 
-        // Pick the earliest deadline result.
-        // If there is a tie, pick the one with the least remaining CPU time.
+        ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
+        if (!best_result || rp->report_deadline<best_result->report_deadline) {
+            best_result = rp;
+            best_atp = atp;
+        }
+        if (rp->report_deadline > best_result->report_deadline) continue;
+
+        // If there's a tie, pick the one with the least remaining CPU time
+        // (but don't pick an unstarted job in preference to one that's started)
         //
-        if (!best_result
-            || rp->report_deadline < best_result->report_deadline
-            || (rp->report_deadline == best_result->report_deadline
-                && rp->estimated_cpu_time_remaining(false) < best_result->estimated_cpu_time_remaining(false)
-                )
+        if (best_atp && !atp) continue;
+        if (rp->estimated_cpu_time_remaining(false)
+            < best_result->estimated_cpu_time_remaining(false)
         ) {
             best_result = rp;
+            best_atp = atp;
         }
     }
     if (!best_result) return NULL;
