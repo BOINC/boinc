@@ -137,13 +137,13 @@ function count_uotd_candidates(){
     } else {
         $query = default_uotd_candidates_query();
     }
-                                                
+    
     $result = mysql_query($query);
     if($result) {
         $n = mysql_num_rows($result);
     }
     mysql_free_result($result);
-                                                                        
+    
     return $n;
 }
 

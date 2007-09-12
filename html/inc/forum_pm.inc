@@ -50,10 +50,11 @@ function pm_create_new($error = null) {
         }
     } else {
         $writeto = post_str("to", true);
-        $subject = post_str("subject", true);
-        $content = post_str("content", true);
+        $subject = stripslashes(post_str("subject", true));
+        $content = stripslashes(post_str("content", true));
     }
     
+    $content = htmlspecialchars($content);
     $subject = htmlspecialchars($subject);
     
     if ($error != null) {
