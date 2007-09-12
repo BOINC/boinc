@@ -1,10 +1,9 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 /**
  * This file allows people to search for posts or a thread.  Takes input from 
  * forum_search.php
  **/
-
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
  
 require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
@@ -12,6 +11,11 @@ require_once('../inc/forum_std.inc');
 
 db_init();
 $logged_in_user = re_get_logged_in_user(false);
+if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
+    $show_hidden_posts = true;
+} else {
+    $show_hidden_posts = false;
+}
 
 page_head(tr(FORUM_SEARCH));
 
@@ -35,10 +39,9 @@ if ($search_author) $user = newUser($search_author);
 $dbhandler = $mainFactory->getDatabaseHandler();
 
 // First search thread titles, if we get a hit there it's almost bound to be relevant
-$thread_ids = $dbhandler->searchThreadTitles($search_list, $forum, $user, $min_timestamp, round($limit/7), $search_sort);
+$thread_ids = $dbhandler->searchThreadTitles($search_list, $forum, $user, $min_timestamp, round($limit/7), $search_sort, $show_hidden_posts);
 
 // Display the threads while we search for posts
-//STUB todo
 if ($thread_ids){
     echo "<p><a href=\"forum_search.php\">Perform another search</a></p>";
     echo "<h2>Threads found matching your search query:</h2>";
@@ -63,7 +66,7 @@ if ($thread_ids){
 }
 
 // Let's see if we can match anything in a post body as well:
-$post_ids = $dbhandler->searchPosts($search_list, $forum, $user, $min_timestamp, $limit, $search_sort);
+$post_ids = $dbhandler->searchPosts($search_list, $forum, $user, $min_timestamp, $limit, $search_sort, $show_hidden_posts);
 
 if ($post_ids){
     echo "<h2>Posts found matching your search query:</h2>";
@@ -76,8 +79,8 @@ if ($post_ids){
     foreach ($post_ids as $key => $post_id){
 	$post = new Post($post_id);
 	$thread = $post->getThread();
-	if ($thread->isHidden()) continue;
-	if ($post->isHidden()) continue;
+	if (($show_hidden_posts == false) && ($thread->isHidden())) continue;
+	if (($show_hidden_posts == false) && ($post->isHidden())) continue;
 	$options->setHighlightTerms($search_list);
 	$contents = output_transform($post->getContent(),$options);
 	$thread_forum = $thread->getForum();

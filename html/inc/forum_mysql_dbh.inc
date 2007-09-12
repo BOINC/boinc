@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db.inc");
 /**
@@ -248,7 +249,7 @@ class MySQLDatabaseHandler extends DatabaseHandler {
      * by forum or user if specified. If time is given, only posts newer than that
      * are returned.
      **/
-    function searchThreadTitles($keyword_list, $forum="", $user="", $time="", $limit=200, $sort_style=CREATE_TIME_NEW){
+    function searchThreadTitles($keyword_list, $forum="", $user="", $time="", $limit=200, $sort_style=CREATE_TIME_NEW, $show_hidden = false){
         $search_string="%";
         foreach ($keyword_list as $key => $word) {
             $search_string.=mysql_escape_string($word)."%";
@@ -262,6 +263,9 @@ class MySQLDatabaseHandler extends DatabaseHandler {
         }
         if ($time!="" && $user!="all") {
             $query.=" and timestamp > ".intval($time);
+        }
+        if ($show_hidden == false) {
+            $query .= " AND thread.hidden = 0";
         }
         switch($sort_style) {
         case MODIFIED_NEW:
@@ -391,7 +395,7 @@ class MySQLDatabaseHandler extends DatabaseHandler {
      * by forum or user if specified. If time is given, only posts newer than that
      * are returned.
      **/
-    function searchPosts($keyword_list, $forum="", $user="", $time="", $limit=200, $sort_style=CREATE_TIME_NEW){
+    function searchPosts($keyword_list, $forum="", $user="", $time="", $limit=200, $sort_style=CREATE_TIME_NEW, $show_hidden = false){
         $search_string="%";
         foreach ($keyword_list as $key => $word){
             $search_string.=mysql_escape_string($word)."%";
@@ -408,6 +412,9 @@ class MySQLDatabaseHandler extends DatabaseHandler {
         }
         if ($time!="" && $user!="all"){
             $query.=" and post.timestamp > ".intval($time);
+        }
+        if ($show_hidden == false) {
+            $query .= " AND post.hidden = 0";
         }
         switch($sort_style) {
         case VIEWS_MOST:
