@@ -8444,6 +8444,7 @@ David  12 Sept 2007
 	- Manager: clean up text in system tray balloon
 	- Client: use dd-MMM-yyyy format for dates;
 		mm/dd/yyyy is ambiguous and mixed-endian
+		Fixes #406
 
 	clientgui/
 		BOINCTaskBar.cpp
