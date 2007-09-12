@@ -97,7 +97,7 @@ if ($stopped) {
 
 echo "
     <p>
-    Powered by <a href=\"http://boinc.berkeley.edu/\"><img align=\"middle\" border=\"0\" src=\"http://boinc.berkeley.edu/boinc_logo_trans.gif\" alt=\"BOINC Logo\"></a>
+    <a href=http://boinc.berkeley.edu/><img align=middle border=0 src=img/pb_boinc.gif alt=\"BOINC Logo\"></a>
     </td>
 ";
 

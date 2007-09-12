@@ -174,16 +174,15 @@ int boinc_process_cpu_time(double& cpu) {
 }
 
 static void get_elapsed_time(double& cpu) {
-    static bool first = true;
-    static DWORD first_count = 0;
+    static double start_time;
 
-    if (first) {
-        first_count = GetTickCount();
-        first = false;
+    double now = dtime();
+    if (start_time) {
+        cpu = now - start_time;
+    } else {
+        cpu = 0;
     }
-    // TODO: Handle timer wraparound
-    DWORD cur = GetTickCount();
-    cpu = ((cur - first_count)/1000.);
+    start_time = now;
 }
 
 int boinc_calling_thread_cpu_time(double& cpu) {

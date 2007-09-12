@@ -713,18 +713,22 @@ void relative_to_absolute(const char* relname, char* path) {
 
 // get total and free space on current filesystem (in bytes)
 //
-int get_filesystem_info(double &total_space, double &free_space) {
+int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef _WIN32
     char buf[256];
     boinc_getcwd(buf);
     FreeFn pGetDiskFreeSpaceEx;
-    pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"),
-                                                 "GetDiskFreeSpaceExA");
+    pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(
+        GetModuleHandle("kernel32.dll"), "GetDiskFreeSpaceExA"
+    );
     if (pGetDiskFreeSpaceEx) {
         ULARGE_INTEGER TotalNumberOfFreeBytes;
         ULARGE_INTEGER TotalNumberOfBytes;
         ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;
-        pGetDiskFreeSpaceEx(buf, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
+        pGetDiskFreeSpaceEx(
+            buf, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes,
+            &TotalNumberOfFreeBytes
+        );
         signed __int64 uMB;
         uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
         free_space = uMB * 1024.0 * 1024.0;
@@ -735,7 +739,10 @@ int get_filesystem_info(double &total_space, double &free_space) {
         DWORD dwBytesPerSect;
         DWORD dwFreeClusters;
         DWORD dwTotalClusters;
-        GetDiskFreeSpace(buf, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
+        GetDiskFreeSpace(
+            buf, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters,
+            &dwTotalClusters
+        );
         free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
         total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
     }
@@ -743,7 +750,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
 #ifdef STATFS
     struct STATFS fs_info;
 
-    STATFS(".", &fs_info);
+    STATFS(path, &fs_info);
 #ifdef HAVE_SYS_STATVFS_H
     total_space = (double)fs_info.f_frsize * (double)fs_info.f_blocks;
     free_space = (double)fs_info.f_frsize * (double)fs_info.f_bavail;

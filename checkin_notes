@@ -8397,7 +8397,7 @@ Rytis   11 Sep 2007
         
     html/inc/uotd.inc
 
-Charlie 5 Sep 2007
+Charlie 12 Sep 2007
     - SCR: Create is_same_task() function which compares both task name 
         and task URL; call it from count_active_graphic_apps () and 
         get_random_graphics_app().
@@ -8405,3 +8405,23 @@ Charlie 5 Sep 2007
     clientscr/
         mac_saver_module.cpp
         screensaver.cpp,h
+
+David  12 Sept 2007
+    - file upload handler:
+        in get_file_size() RPC, check if volume has < 1MB available space
+        and if so return transient error.
+        This prevents client from trying upload,
+        which apparently sends entire file even if
+        handler fails at the beginning
+    - API, Win: remove use of GetTickCount(); use dtime() instead
+    - use new BOINC logo in sample project home page
+
+    lib/
+        filesys.C,h
+        util.C
+    html/user/
+        sample_index.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        file_upload_handler.C

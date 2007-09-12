@@ -412,6 +412,14 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     return return_error(ERR_PERMANENT, "Missing <data> tag");
 }
 
+bool volume_full(char* path) {
+    double total, avail;
+    int retval = get_filesystem_info(total, avail, path);
+    if (retval) return false;
+    if (avail<1e6) return true;
+    return false;
+}
+
 // always returns HTML reply
 //
 int handle_get_file_size(char* file_name) {
@@ -431,6 +439,13 @@ int handle_get_file_size(char* file_name) {
             file_name, config.upload_dir
         );
         return return_error(ERR_TRANSIENT, "can't open file");
+    }
+
+    // if the volume is full, report a transient error
+    // to prevent the client from starting a transfer
+    //
+    if (volume_full(path)) {
+        return return_error(ERR_TRANSIENT, "Server is out of space");
     }
 
     fd = open(path, O_WRONLY|O_APPEND);
