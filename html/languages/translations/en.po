@@ -1,3 +1,5 @@
+msgid ""
+msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2007-08-25 17:19+0200\n"
@@ -6,6 +8,7 @@
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 ##########################################
 # Language: English (International)
@@ -338,112 +341,127 @@ msgstr "No posts containing '%s' could be found."
 # Private messages
 #########################################
 msgid "Private messages"
-msgstr "Private messages"
+msgstr ""
 
 msgid "Inbox"
-msgstr "Inbox"
+msgstr ""
 
 msgid "Write"
-msgstr "Write"
+msgstr ""
 
 msgid "Forum index"
-msgstr "Forum index"
+msgstr ""
 
 msgid "Create new"
-msgstr "Create new"
+msgstr ""
 
 msgid "Preview"
-msgstr "Preview"
+msgstr ""
 
 msgid "To"
-msgstr "To"
+msgstr ""
 
 msgid "User IDs or unique usernames, separated with commas"
-msgstr "User IDs or unique usernames, separated with commas"
+msgstr ""
 
 msgid "Subject"
-msgstr "Subject"
+msgstr ""
 
 msgid "Message"
-msgstr "Message"
+msgstr ""
 
 msgid "Send message"
-msgstr "Send message"
+msgstr ""
 
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr ""
 
 msgid "Your message has been sent."
-msgstr "Your message has been sent."
+msgstr ""
 
 msgid "You have no private messages."
-msgstr "You have no private messages."
+msgstr ""
 
 msgid "No such message"
-msgstr "No such message"
+msgstr ""
 
 msgid "Really delete?"
-msgstr "Really delete?"
+msgstr ""
 
 msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr ""
 
 msgid "Yes, delete"
-msgstr "Yes, delete"
+msgstr ""
 
 msgid "No, cancel"
-msgstr "No, cancel"
+msgstr ""
 
 msgid "You need to fill all fields to send a private message"
-msgstr "You need to fill all fields to send a private message"
+msgstr ""
 
 msgid "Could not find user with id %1"
-msgstr "Could not find user with id %1"
+msgstr ""
 
 msgid "Could not find user with username %1"
-msgstr "Could not find user with username %1"
+msgstr ""
 
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 is not a unique username; you will have to use user ID"
+msgstr ""
 
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "User %1 (ID: %2) is not accepting private messages from you."
+msgstr ""
 
 msgid "Really block %1?"
-msgstr "Really block %1?"
+msgstr ""
 
 msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr ""
 
 msgid "Please note that you can only block a limited amount of users."
-msgstr "Please note that you can only block a limited amount of users."
+msgstr ""
 
 msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr ""
 
 msgid "Add user to filter"
-msgstr "Add user to filter"
+msgstr ""
 
 msgid "No such user"
-msgstr "No such user"
+msgstr ""
 
 msgid "User %1 blocked"
-msgstr "User %1 blocked"
+msgstr ""
 
 msgid "User %1 has been blocked from sending you private messages."
-msgstr "User %1 has been blocked from sending you private messages."
+msgstr ""
 
 msgid "To unblock, visit %1message board preferences%2"
-msgstr "To unblock, visit %1message board preferences%2"
+msgstr ""
 
 msgid "You have %1 unread private messages."
-msgstr "You have %1 unread private messages."
+msgstr ""
 
 msgid "You have one unread private message."
-msgstr "You have one unread private message."
+msgstr ""
 
 msgid "You have no unread private messages."
-msgstr "You have no unread private messages."
+msgstr ""
+
+msgid "Sender"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Reply"
+msgstr ""
+
+msgid "Block user"
+msgstr ""
 
 
 #########################################

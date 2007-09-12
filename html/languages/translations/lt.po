@@ -1,11 +1,15 @@
+msgid ""
+msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-25 17:56+0200\n"
+"PO-Revision-Date: 2007-09-12 17:28+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Lithuanian\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 # #########################################
 # Language: Lithuanian
@@ -444,6 +448,21 @@ msgstr "Turite vieną neskaitytą asmeninę žinutę."
 
 msgid "You have no unread private messages."
 msgstr "Neturite neskaitytų asmeninių žinučių."
+
+msgid "Sender"
+msgstr "Siuntėjas"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Delete"
+msgstr "Ištrinti"
+
+msgid "Reply"
+msgstr "Atsakyti"
+
+msgid "Block user"
+msgstr "Blokuoti vartotoją"
 
 # ########################################
 # Links from the main page
