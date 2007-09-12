@@ -1,10 +1,11 @@
 <?php
 
-function draw($xarr, $arr) {
-    require_once ("jpgraph/src/jpgraph.php");
-    require_once ("jpgraph/src/jpgraph_line.php");
-    require_once ("jpgraph/src/jpgraph_bar.php");
-    require_once ("jpgraph/src/jpgraph_log.php");
+function draw_graph($xarr, $arr) {
+    require_once ("jpgraph/jpgraph.php");
+    require_once ("jpgraph/jpgraph_line.php");
+    require_once ("jpgraph/jpgraph_bar.php");
+    require_once ("jpgraph/jpgraph_log.php");
+
 
     // Create the graph. These two calls are always required
     $graph = new Graph(350,250,"auto");    
@@ -25,8 +26,6 @@ function draw($xarr, $arr) {
 
 function show_text($xarr, $yarr) {
     $n = sizeof($xarr);
-    echo $n;
-    echo $xarr[1];
     for ($i=0; $i<$n; $i++) {
         echo "<br>$xarr[$i] $yarr[$i]\n";
     }
@@ -39,9 +38,17 @@ function show_graph() {
     $xaxis = $_GET['xaxis'];
     $yaxis = $_GET['yaxis'];
     $granularity = $_GET['granularity'];
+    $active = $_GET['active'];
+    $inactive = $_GET['inactive'];
+    $show_text = $_GET['show_text'];
 
-    $fields = 'host.id';
-    if ($xaxis == 'active') {
+    if (!$active && !$inactive) {
+        echo "You must select at least one of (active, inactive)";
+        exit();
+    }
+
+    $fields = 'host.id, user.create_time';
+    if ($xaxis == 'active' || !$active || !$inactive) {
         $query = "select $fields, max(rpc_time) as max_rpc_time from host, user where host.userid=user.id group by userid";
     } else {
         $query = 'select $fields from user';
@@ -50,9 +57,17 @@ function show_graph() {
     $yarr = array();
     $now = time();
     $maxind = 0;
+    $active_thresh = time() - 30*86400;
     while ($user = mysql_fetch_object($result)) {
         $val = $now - $user->max_rpc_time;
-        $ind = $val/$granularity;
+        if (!$active) {
+            if ($user->max_rpc_time > $active_thresh) continue;
+        }
+        if (!$inactive) {
+            if ($user->max_rpc_time < $active_thresh) continue;
+        }
+        $life = $user->max_rpc_time - $user->create_time;
+        $ind = $life/$granularity;
         $ind = (int)$ind;
         $yarr[$ind]++;
         if ($ind > $maxind) $maxind = $ind;
@@ -62,7 +77,11 @@ function show_graph() {
         $xarr[$i] = $i;
         if (is_null($yarr[$i])) $yarr[$i]=0;
     }
-    show_text($xarr, $yarr);
+    if ($show_text) {
+        show_text($xarr, $yarr);
+    } else {
+        draw_graph($xarr, $yarr);
+    }
 }
 
 function show_form() {
@@ -82,8 +101,12 @@ function show_form() {
         </select>
 
         <p>
-        Only currently active users?
+        Show active users?
         <input type=checkbox name=active>
+
+        <p>
+        Show inactive users?
+        <input type=checkbox name=inactive>
 
         <p>
         Granularity:
