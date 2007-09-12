@@ -487,10 +487,8 @@ OSStatus RPCThread(void* param) {
     RESULT*         theResult               = NULL;
     RESULT*         graphics_app_result_ptr = NULL;
     PROJECT*        pProject;
-    RESULT          current_result;
-    RESULT*         current_result_ptr      = NULL;
-    RESULT          old_result_to_avoid;
-    RESULT*         old_result_to_avoid_ptr = NULL;
+    RESULT          previous_result;
+    RESULT*         previous_result_ptr     = NULL;
     int             iResultCount            = 0;
     int             iIndex                  = 0;
     double          percent_done;
@@ -517,6 +515,7 @@ OSStatus RPCThread(void* param) {
                 graphics_app_pid = 0;
                 launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
+                previous_result_ptr = NULL;
             }
             MPExit(noErr);       // Exit the thread
         }
@@ -549,6 +548,7 @@ OSStatus RPCThread(void* param) {
                 graphics_app_pid = 0;
                 launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
+                previous_result_ptr = NULL;
             }
             MPExit(noErr);       // Exit the thread
         }
@@ -562,6 +562,7 @@ OSStatus RPCThread(void* param) {
             if (graphics_app_pid) {
                 terminate_screensaver(graphics_app_pid);
                 // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+                previous_result_ptr = NULL;
             }
             continue;
         }
@@ -592,15 +593,18 @@ OSStatus RPCThread(void* param) {
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
                 theResult = results.results.at(iIndex);
 
-                if (is_same_task(theResult, current_result_ptr)) {
+                if (is_same_task(theResult, previous_result_ptr)) {
                     graphics_app_result_ptr = theResult;
+                    previous_result = *theResult;
+                    previous_result_ptr = &previous_result;
                     break;
                 }
             }
 
             if ((graphics_app_result_ptr == NULL) || (is_task_active(graphics_app_result_ptr) == false)) {
-//              print_to_log_file("%s finished", graphics_app_result_ptr->name.c_str());
+//                if (previous_result_ptr) print_to_log_file("%s finished", previous_result.name.c_str());
                 terminate_screensaver(graphics_app_pid);
+                previous_result_ptr = NULL;
                 // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
            }
 #if 0
@@ -608,19 +612,16 @@ OSStatus RPCThread(void* param) {
             if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
                 if (FindProcessPID(NULL, ???, 0) == 0) {
                     terminate_screensaver(graphics_app_pid);
+                    previous_result_ptr = NULL;
+                    // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
                 }
             }
 #endif
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
-                if (count_active_graphic_apps(results, current_result_ptr) > 0) {
-                    if (current_result_ptr) {
-                        old_result_to_avoid = current_result;
-                        old_result_to_avoid_ptr = &old_result_to_avoid;
-//                      if (graphics_app_result_ptr) print_to_log_file("timeout terminating %s", graphics_app_result_ptr->name.c_str());                    
-                    } else {
-                        old_result_to_avoid_ptr = NULL;
-                    }
+                if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
+//                    if (previous_result_ptr) print_to_log_file("time to change: %s", previous_result.name.c_str());
                     terminate_screensaver(graphics_app_pid);
+                    // Save previous_result and previous_result_ptr for get_random_graphics_app() call
                     // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
                 }
                 last_change_time = dtime();
@@ -629,15 +630,15 @@ OSStatus RPCThread(void* param) {
 
         // If no current graphics app, pick an active task at random and launch its graphics app
         if (graphics_app_pid == 0) {
-            graphics_app_result_ptr = get_random_graphics_app(results, old_result_to_avoid_ptr);
-            old_result_to_avoid_ptr = NULL;
+            graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
+            previous_result_ptr = NULL;
             
             if (graphics_app_result_ptr) {
                 retval = Mac_launch_screensaver(graphics_app_result_ptr, graphics_app_pid, launcher_shell_pid);
                 if (retval) {
                     graphics_app_pid = 0;
                     launcher_shell_pid = 0;
-                    current_result_ptr = NULL;
+                    previous_result_ptr = NULL;
                     graphics_app_result_ptr = NULL;
                 } else {
                     gClientSaverStatus = SS_STATUS_ENABLED;
@@ -646,9 +647,9 @@ OSStatus RPCThread(void* param) {
                     last_run_check_time = launch_time;
                     // Make a local copy of current result, since original pointer 
                     // may have been freed by the time we perform later tests
-                    current_result = *graphics_app_result_ptr;
-                    current_result_ptr = &current_result;
-//                  if (graphics_app_result_ptr) print_to_log_file("launching %s", graphics_app_result_ptr->name.c_str());                    
+                    previous_result = *graphics_app_result_ptr;
+                    previous_result_ptr = &previous_result;
+//                    if (previous_result_ptr) print_to_log_file("launching %s", previous_result.name.c_str());                    
                 }
             } else {
                 if (state.projects.size() == 0) {
@@ -668,7 +669,6 @@ OSStatus RPCThread(void* param) {
                 graphics_app_pid = 0;
                 launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
-                current_result_ptr = NULL;
                 continue;
             }
         }
