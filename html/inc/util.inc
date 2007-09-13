@@ -589,7 +589,7 @@ function get_int($name, $optional=false) {
         if ($optional) {
             return null;
         } else {
-            error_page("missing or bad parameter: $name $x");
+            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
         }
     }
     return (int)$x;
@@ -602,7 +602,7 @@ function post_int($name, $optional=false) {
         if ($optional) {
             return null;
         } else {
-            error_page("missing or bad parameter: $name $x");
+            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
         }
     }
     return (int)$x;

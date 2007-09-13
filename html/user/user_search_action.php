@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -96,7 +97,7 @@ if (strlen($search_string)>=3) {
     $n=0;
     while ($user = mysql_fetch_object($result)) {
         if ($n==0) {
-            echo "<h2>User names starting with '$search_string' $nice_name</h2>\n";
+            echo "<h2>User names starting with '".htmlspecialchars($search_string)."' $nice_name</h2>\n";
             print_table_header($urls, $nextd);
         }
         show_user($user, $n+$offset+1);
@@ -105,7 +106,7 @@ if (strlen($search_string)>=3) {
     echo "</table>\n";
     mysql_free_result($result);
     if (!$n) {
-        echo "<h2>No user names found starting with '$search_string'</h2>\n";
+        echo "<h2>No user names found starting with '".htmlspecialchars($search_string)."'</h2>\n";
     }
     
     echo "<br><br>\n";

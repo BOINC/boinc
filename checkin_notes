@@ -8441,15 +8441,15 @@ David  12 Sept 2007
         boinc_api.C
 
 David  12 Sept 2007
-	- Manager: clean up text in system tray balloon
-	- Client: use dd-MMM-yyyy format for dates;
-		mm/dd/yyyy is ambiguous and mixed-endian
-		Fixes #406
+    - Manager: clean up text in system tray balloon
+    - Client: use dd-MMM-yyyy format for dates;
+        mm/dd/yyyy is ambiguous and mixed-endian
+        Fixes #406
 
-	clientgui/
-		BOINCTaskBar.cpp
-	lib/
-		str_util.C
+    clientgui/
+        BOINCTaskBar.cpp
+    lib/
+        str_util.C
 
 David  13 Sept 2007
     - client: restore <slot> element on GUI RPC result XML
@@ -8459,3 +8459,12 @@ David  13 Sept 2007
     client/
         app.C
         cpu_sched.C
+        
+Rytis   13 Sep 2007
+    - User web: fix XSS vulnerability, web code update recommended
+    
+    html/
+        inc/util.inc
+        user/
+            forum_text_search_action.php
+            user_search_action.php

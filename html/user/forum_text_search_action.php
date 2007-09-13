@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/forum.inc");
 require_once("../inc/time.inc");
@@ -28,19 +29,19 @@ if (isset($_GET['titles'])) {
             $thread = mysql_fetch_object($result);
             show_thread($thread, $n+$offset+1);
             $n += 1;
-	}
+        }
         echo "</table>";
     }
     mysql_free_result($result);
 
     if ($offset==0 && $n==0) {
-        echo sprintf(tr(FORUM_SEARCH_TITLES_NO),$search_string);//"No titles found containing '$search_string'";
+        echo sprintf(tr(FORUM_SEARCH_TITLES_NO),htmlspecialchars($search_string));//"No titles found containing '$search_string'";
     }
     
 } else if (isset($_GET['bodies'])) {
     $what .= 'bodies=1';
 
-    page_head(sprintf(tr(FORUM_SEARCH_BODIES),$search_string));
+    page_head(sprintf(tr(FORUM_SEARCH_BODIES),htmlspecialchars($search_string)));
     $q  = "SELECT * FROM post ";
     $q .= "LEFT JOIN thread ON post.thread = thread.id ";
     $q .= "WHERE MATCH(post.content) AGAINST ('$search_string_clean') ";
@@ -59,7 +60,7 @@ if (isset($_GET['titles'])) {
     }
     mysql_free_result($result);
     if ($offset==0 && $n==0) {
-        echo sprintf(tr(FORUM_SEARCH_BODIES_NO),$search_string);
+        echo sprintf(tr(FORUM_SEARCH_BODIES_NO),htmlspecialchars($search_string));
     }
 }
 
