@@ -452,3 +452,12 @@ Charlie 4 Sep 2007
     mac_build/
         UpperCase2.xcodeproj/
             project.pbxproj
+
+David  12 Sept 2007
+    - uppercase: fix crash in standalone mode
+    - wrapper: fix append mode in win_fopen()
+
+    uppercase/
+        uc_graphics.C
+    wrapper/
+        wrapper.C

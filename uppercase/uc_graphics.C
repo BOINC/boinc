@@ -45,6 +45,7 @@ static void parse_project_prefs(char* buf) {
     char cs[256];
     COLOR c;
     double hue;
+    if (!buf) return;
     if (parse_str(buf, "<color_scheme>", cs, 256)) {
         if (!strcmp(cs, "Tahiti Sunset")) {
             hue = .9;

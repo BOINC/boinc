@@ -181,6 +181,7 @@ HANDLE win_fopen(const char* path, const char* mode) {
 			OPEN_ALWAYS,
 			0, 0
 		);
+        SetFilePointer(hAppend, 0, NULL, FILE_END);
 	} else {
 		return 0;
 	}
