@@ -462,6 +462,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "<active_task>\n"
         "    <active_task_state>%d</active_task_state>\n"
         "    <app_version_num>%d</app_version_num>\n"
+        "    <slot>%d</slot>\n"
         "    <scheduler_state>%d</scheduler_state>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
@@ -474,6 +475,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "%s",
         task_state(),
         app_version->version_num,
+        slot,
         scheduler_state,
         checkpoint_cpu_time,
         fraction_done,

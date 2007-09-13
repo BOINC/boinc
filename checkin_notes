@@ -8450,3 +8450,12 @@ David  12 Sept 2007
 		BOINCTaskBar.cpp
 	lib/
 		str_util.C
+
+David  13 Sept 2007
+    - client: restore <slot> element on GUI RPC result XML
+        (needed by BOINCSpy)
+    - client: CPU sched fix
+
+    client/
+        app.C
+        cpu_sched.C
