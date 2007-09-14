@@ -614,9 +614,6 @@ function get_str($name, $optional=false) {
     if (!$x && !$optional) {
         error_page("missing or bad parameter: $name");
     }
-    if (get_magic_quotes_gpc() == 0) {
-        $x = addslashes($x);
-    }
     return $x;
 }
 
@@ -634,9 +631,6 @@ function post_str($name, $optional=false) {
     if (isset($_POST[$name])) $x = $_POST[$name];
     if (!$x && !$optional) {
         error_page("missing or bad parameter: $name");
-    }
-    if (get_magic_quotes_gpc() == 0) {
-        $x = addslashes($x);
     }
     return $x;
 }
