@@ -8468,3 +8468,22 @@ Rytis   13 Sep 2007
         user/
             forum_text_search_action.php
             user_search_action.php
+
+Charlie 13 Sep 2007
+    - SCR: Impelement new RPC::get_screensaver_tasks() which returns 
+        current gstate.suspend_reason and a RESULTS vector containing only 
+        currently running tasks.  This includes all running tasks whether
+        or not they are graphics-capable, so screensaver can show progress 
+        info when only non-graphics-capable tasks are running.
+    NOTE: I have edited screensaver_win.cpp so that it should compile and 
+        run as before, but this has not been tested.
+
+    client/
+        gui_rpc_server_ops.C
+    clientscr/
+        mac_saver_module.cpp
+        screensaver.cpp,h
+        screensaver_win.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

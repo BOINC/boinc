@@ -29,18 +29,6 @@
 #include "screensaver.h"
 
 
-// Determine if a task is active and executing
-//
-bool is_task_active(RESULT* result) {
-    bool bIsActive     = RESULT_FILES_DOWNLOADED == result->state;
-    bool bIsDownloaded = CPU_SCHED_SCHEDULED == result->scheduler_state;
-    bool bIsExecuting  = result->active_task;
-
-    if (bIsActive && bIsDownloaded && bIsExecuting)
-        return true;
-    return false;
-}
-
 bool is_same_task(RESULT* taska, RESULT* taskb) {
     if ((taska == NULL) || (taskb == NULL)) return false;
     if (taska->name != taskb->name) return false;
@@ -55,7 +43,6 @@ int count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
     // Count the number of active graphics-capable apps excluding the specified result.
     // If exclude is NULL, don't exclude any results.
     for (i = 0; i < results.results.size(); i++) {
-        if (!is_task_active(results.results[i])) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected\n"));
         BOINCTRACE(
             _T("get_random_graphics_app -- name = '%s', path = '%s'\n"),
@@ -105,7 +92,6 @@ RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude) {
 
     // Lets find the chosen graphics application.
     for (i = 0; i < results.results.size(); i++) {
-        if (!is_task_active(results.results[i])) continue;
         if (results.results[i]->graphics_exec_path.size() == 0) continue;
         if (is_same_task(results.results[i], avoid)) continue;
 

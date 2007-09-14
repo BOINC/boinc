@@ -1658,6 +1658,30 @@ int RPC_CLIENT::set_network_mode(int mode, double duration) {
     return retval;
 }
 
+int RPC_CLIENT::get_screensaver_tasks(int& suspend_reason, RESULTS& t) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    t.clear();
+
+    retval = rpc.do_rpc("<get_screensaver_tasks/>\n");
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</get_screensaver_tasks>")) break;
+            if (parse_int(buf, "<suspend_reason>", suspend_reason)) continue;
+            if (match_tag(buf, "<result>")) {
+                RESULT* rp = new RESULT();
+                rp->parse(rpc.fin);
+                t.results.push_back(rp);
+                continue;
+            }
+        }
+    }
+    return retval;
+}
+
 int RPC_CLIENT::get_screensaver_mode(int& status) {
     int retval;
     SET_LOCALE sl;

@@ -882,8 +882,6 @@ VOID CScreensaver::UpdateErrorBoxText() {
     if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
         iResultCount = results.results.size();
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-            if (!is_task_active(results.results.at(iIndex))) continue;
-
             pProject = state.lookup_project(results.results.at(iIndex)->project_url);
             if (NULL != pProject) {
                 StringCbPrintf(szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
@@ -1002,6 +1000,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     HWND    hwndForeParent = NULL;
     DWORD   iMonitor = 0;
     int     iReturnValue = 0;
+    int     iSuspendReason = 0;
     time_t  tThreadCreateTime = 0;
     bool    bScreenSaverStarting = false;
     INTERNALMONITORINFO* pMonitorInfo = NULL;
@@ -1028,8 +1027,8 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
         }
 
 
-        iReturnValue = rpc.get_results(results);
-        BOINCTRACE(_T("CScreensaver::DataManagementProc - get_results iReturnValue = '%d'\n"), iReturnValue);
+        iReturnValue = rpc.get_screensaver_tasks(iSuspendReason, results);
+        BOINCTRACE(_T("CScreensaver::DataManagementProc - get_screensaver_tasks iReturnValue = '%d'\n"), iReturnValue);
         if (0 != iReturnValue) {
             // Attempt to reinitialize the RPC client and state
             rpc.close();

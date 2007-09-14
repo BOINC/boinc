@@ -569,6 +569,7 @@ public:
         // otherwise, after duration expires,
         // restore last permanent mode
     int set_network_mode(int mode, double duration);
+    int get_screensaver_tasks(int& suspend_reason, RESULTS&);
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(
         bool enabled, double blank_time, DISPLAY_INFO&

@@ -490,6 +490,23 @@ static void handle_get_host_info(char*, MIOFILE& fout) {
     gstate.host_info.write(fout, false);
 }
 
+static void handle_get_screensaver_tasks(MIOFILE& fout) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+    fout.printf(
+        "<handle_get_screensaver_tasks>\n"
+        "    <suspend_reason>%d</suspend_reason>\n",
+        gstate.suspend_reason
+    );
+    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+        atp = gstate.active_tasks.active_tasks[i];
+        if (atp->task_state() == PROCESS_EXECUTING) {
+            atp->result->write_gui(fout);
+        }
+    }
+    fout.printf("</handle_get_screensaver_tasks>\n");
+}
+
 static void handle_get_screensaver_mode(GUI_RPC_CONN* gr, char*, MIOFILE& fout) {
     int ss_result = gstate.ss_logic.get_ss_status();
     if (gr->au_ss_state == AU_SS_QUIT_REQ) {
@@ -1046,6 +1063,8 @@ int GUI_RPC_CONN::handle_rpc() {
         mf.printf("<results>\n");
         gstate.write_tasks_gui(mf);
         mf.printf("</results>\n");
+    } else if (match_tag(request_msg, "<get_screensaver_tasks")) {
+        handle_get_screensaver_tasks(mf);
     } else if (match_tag(request_msg, "<get_screensaver_mode")) {
         handle_get_screensaver_mode(this, request_msg, mf);
     } else if (match_tag(request_msg, "<set_screensaver_mode")) {

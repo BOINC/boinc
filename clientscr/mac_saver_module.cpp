@@ -106,7 +106,7 @@ enum SaverState {
     SaverState_LaunchingCoreClient,
     SaverState_CoreClientRunning,
     SaverState_RelaunchCoreClient,
-    SaverState_CoreClientSetToSaverMode,
+    SaverState_ConnectedToCoreClient,
     
     SaverState_CantLaunchCoreClient,
     SaverState_ControlPanelTestMode,
@@ -354,7 +354,7 @@ int drawGraphics(GrafPtr aPort) {
             setBannerText(ConnectingCCMsg, aPort);
         break;
     
-    case SaverState_CoreClientSetToSaverMode:
+    case SaverState_ConnectedToCoreClient:
         switch (gClientSaverStatus) {
         case 0:
             break;  // No status response yet from RPCThread
@@ -476,7 +476,7 @@ void closeBOINCSaver() {
 OSStatus RPCThread(void* param) {
     int             retval                  = 0;
     CC_STATE        state;
-    CC_STATUS       cc_status;
+    int             suspend_reason          = 0;
     AbsoluteTime    timeToUnblock;
     time_t          time_to_blank;
     pid_t           graphics_app_pid        = 0;
@@ -534,7 +534,7 @@ OSStatus RPCThread(void* param) {
         HandleRPCError();
     }
 
-    saverState = SaverState_CoreClientSetToSaverMode;
+    saverState = SaverState_ConnectedToCoreClient;
 
     while (true) {
         if ((gGoToBlank) && (time(0) > time_to_blank)) {
@@ -556,8 +556,15 @@ OSStatus RPCThread(void* param) {
         timeToUnblock = AddDurationToAbsolute(durationSecond/2, UpTime());
         MPDelayUntil(&timeToUnblock);
 
-        retval = rpc->get_cc_status(cc_status);
-	if (cc_status.task_suspend_reason != 0) {
+        retval = rpc->get_screensaver_tasks(suspend_reason, results);
+        MPYield();
+        if (retval) {
+            // rpc call returned error
+            HandleRPCError();
+            continue;
+        }
+
+	if (suspend_reason != 0) {
             gClientSaverStatus = SS_STATUS_BOINCSUSPENDED;
             if (graphics_app_pid) {
                 terminate_screensaver(graphics_app_pid);
@@ -566,17 +573,7 @@ OSStatus RPCThread(void* param) {
             }
             continue;
         }
-        
-        MPYield();
                 
-        retval = rpc->get_results(results);
-        MPYield();
-        if (retval) {
-            // rpc call returned error
-            HandleRPCError();
-            continue;
-        }
-        
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
 
         gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
@@ -601,7 +598,7 @@ OSStatus RPCThread(void* param) {
                 }
             }
 
-            if ((graphics_app_result_ptr == NULL) || (is_task_active(graphics_app_result_ptr) == false)) {
+            if (graphics_app_result_ptr == NULL) {
 //                if (previous_result_ptr) print_to_log_file("%s finished", previous_result.name.c_str());
                 terminate_screensaver(graphics_app_pid);
                 previous_result_ptr = NULL;
@@ -690,7 +687,6 @@ OSStatus RPCThread(void* param) {
 
                         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
                             theResult = results.results.at(iIndex);
-                            if (! is_task_active(theResult)) continue;
 
                             // The get_state rpc is time-consuming, so we assume the list of 
                             // attached projects does not change while the screensaver is active.

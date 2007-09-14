@@ -21,9 +21,6 @@
 #ifndef __SCREENSAVER_H__
 #define __SCREENSAVER_H__
 
-// Determine if the result is active and executing
-extern bool is_task_active(RESULT* result);
-
 // Determine if two RESULT pointers refer to the same task
 extern bool is_same_task(RESULT* taska, RESULT* taskb);
 
