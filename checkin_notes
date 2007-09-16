@@ -8487,3 +8487,10 @@ Charlie 13 Sep 2007
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Charlie 16 Sep 2007
+    - SCR: make second argument optional in get_random_graphics_app() and 
+        get_random_graphics_app().
+        
+    clientscr/
+        screensaver.h

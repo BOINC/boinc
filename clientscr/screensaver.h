@@ -25,11 +25,11 @@
 extern bool is_same_task(RESULT* taska, RESULT* taskb);
 
 // Count the number of active graphics-capable apps
-extern int count_active_graphic_apps(RESULTS& results, RESULT* exclude);
+extern int count_active_graphic_apps(RESULTS& results, RESULT* exclude = NULL);
 
 // Choose a ramdom graphics application from the vector that
 //   was passed in.
-extern RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude);
+extern RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);
 
 // Launch the screensaver
 #ifdef _WIN32
