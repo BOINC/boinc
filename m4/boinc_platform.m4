@@ -6,7 +6,7 @@ AC_DEFUN([BOINC_PLATFORM],[
 	      [boinc_platform=])
   AC_ARG_WITH([boinc-alt-platform],
               AC_HELP_STRING([--with-boinc-alt-platform],
-	                      [override the boinc alterate platform]),
+	                      [override the boinc alternate platform]),
 	      [boinc_alt_platform="$withval"],
 	      [boinc_alt_platform=])
   AC_MSG_CHECKING([boinc platform])
