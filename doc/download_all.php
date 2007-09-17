@@ -51,20 +51,12 @@ function show_detail($v) {
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
     $type = type_text($v["type"]);
-    $features = $v["features"];
-    $bugs = $v["bugs"];
 
     list_start();
     dl_item("File (click to download)", "$dlink ($s MB)");
     dl_item("Version number", $num);
     dl_item("Release date", $date);
     //dl_item("MD5 checksum of download file", $md);
-    if ($features) {
-        dl_item ("New features", $features);
-    }
-    if ($bugs) {
-        dl_item ("Known problems", $bugs);
-    }
     list_end();
 }
 
@@ -82,10 +74,6 @@ function show_version_xml($v, $p) {
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
     $type = type_text($v["type"]);
-    $features = $v["features"];
-    $bugs = $v["bugs"];
-    $bugs = htmlspecialchars($bugs);
-    $features = htmlspecialchars($features);
     echo "
 <version>
     <platform>$name</platform>
@@ -97,8 +85,6 @@ function show_version_xml($v, $p) {
     <filename>$file</filename>
     <size_mb>$s</size_mb>
     <installer>$type</installer>
-    <features>$features</features>
-    <issues>$bugs</issues>
 </version>
 ";
 //    <md5>$md</md5>
@@ -117,6 +103,7 @@ function show_version($pname, $i, $v) {
     }
     $path = "dl/$file";
     $s = number_format(filesize($path)/1000000, 2);
+    $date = $v["date"];
     $type = $v["type"];
     $type_text = type_text($type);
     $url = version_url($v);
@@ -127,9 +114,7 @@ function show_version($pname, $i, $v) {
         <td>
         <a href=$url><b>Download</b></a> ($s MB)
         </td>
-        <td width=1%>
-        <a href=download_all.php?platform=$pname&version=$num&type=$type><nobr>version details</nobr></a>
-        </td>
+        <td > $date </td>
         </tr>
     ";
 }
