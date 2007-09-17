@@ -106,6 +106,8 @@ public:
         // don't allow AMD K6 CPUs
     char httpd_user[256];
         // user name under which web server runs (default: apache)
+    int file_deletion_strategy;
+        // select method of automatically deleting files from host
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

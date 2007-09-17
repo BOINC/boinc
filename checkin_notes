@@ -8517,3 +8517,17 @@ David  17 Sept 2007
     client/
         cpu_sched.C
         hostinfo_unix.C
+
+Bruce  17 Sept 2007
+    - scheduler: added config option to control (turn off) some aspects
+      of file deletion. If you set file_deletion_strategy to 0 (default)
+      then this turns off file deletion in the locality scheduler.
+      Set file_deletion_strategy to 1 to get current behavior.  Other
+      values are not defined.  I'll document this in the Wiki.
+
+    sched/
+        sched_config.h
+        sched_config.C
+        sched_locality.C
+
+

@@ -1114,7 +1114,7 @@ void send_work_locality(
         // If the work was not sent for other (dynamic) reason such as insufficient
         // cpu, then DON'T delete the file.
         //
-        if (nsent == 0 && reply.work_needed(true)) {
+        if (nsent == 0 && reply.work_needed(true) && config.file_deletion_strategy == 1) {
             reply.file_deletes.push_back(fi);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,

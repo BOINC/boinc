@@ -138,6 +138,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "no_darwin_6", no_darwin_6)) continue;
         if (xp.parse_bool(tag, "no_amd_k6", no_amd_k6)) continue;
         if (xp.parse_str(tag, "httpd_user", httpd_user, sizeof(httpd_user))) continue;
+        if (xp.parse_int(tag, "file_deletion_strategy", file_deletion_strategy)) continue;
 
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about
