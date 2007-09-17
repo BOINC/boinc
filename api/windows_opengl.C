@@ -233,6 +233,7 @@ static void set_mode(int mode) {
         (strcmp(current_desktop.window_station, graphics_msg.window_station) ||
         strcmp(current_desktop.desktop, graphics_msg.desktop))) {
 
+        BOINCINFO("Checking Desktop and Window Station Parameters\n");
         GetDesktopWindow();
 
         if (NULL == hOriginalWindowStation) {
@@ -254,8 +255,10 @@ static void set_mode(int mode) {
             BOINCINFO("Failed to retrieve the required window station\n");
             new_mode = MODE_UNSUPPORTED;
         } else {
-            BOINCTRACE("Retrieved the required window station\n");
-            SetProcessWindowStation(hInteractiveWindowStation);
+            BOINCINFO("Retrieved the required window station\n");
+            if (!SetProcessWindowStation(hInteractiveWindowStation)) {
+                BOINCINFO("Failed to SetProcessWindowStation (GLE: '%d')\n", GetLastError());
+            }
             hInteractiveDesktop = OpenDesktop(
                 graphics_msg.desktop, (DWORD)NULL, FALSE,
                 GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU
@@ -264,8 +267,10 @@ static void set_mode(int mode) {
                 BOINCINFO("Failed to retrieve the required desktop\n");
                 new_mode = MODE_UNSUPPORTED;
             } else {
-                BOINCTRACE("Retrieved the required desktop\n");
-                SetThreadDesktop(hInteractiveDesktop);
+                BOINCINFO("Retrieved the required desktop\n");
+                if (!SetThreadDesktop(hInteractiveDesktop)) {
+                    BOINCINFO("Failed to SetThreadDesktop (GLE: '%d')\n", GetLastError());
+                }
             }
         }
     }
