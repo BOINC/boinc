@@ -8530,4 +8530,8 @@ Bruce  17 Sept 2007
         sched_config.C
         sched_locality.C
 
-
+Rytis   17 Sep 2007
+    - user web: fix invalid validate state reported to user.
+    
+    html/inc/
+        result.inc

@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 function result_claimed_credit_string($result, $string_to_show) {
     if ($result->server_state <> 5) return "---";
@@ -257,7 +258,7 @@ function show_result($result) {
     row2("Report deadline", time_str($result->report_deadline));
     row2("CPU time", $result->cpu_time);
     row2("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
-    row2("Validate state", validate_state_str($result->validate_state));
+    row2("Validate state", validate_state_str($result));
     row2("Claimed credit", $result->claimed_credit);
     row2("Granted credit", $result->granted_credit);
     row2("application version", version_string($result->app_version_num));
