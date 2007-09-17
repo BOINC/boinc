@@ -8505,3 +8505,15 @@ David  17 Sept 2007
             host.inc
         user/
             host_edit_form.php
+
+David  17 Sept 2007
+    - API: embed the string API_VERSION_N.N.N in libboinc.a
+        (for v6)
+    - client: performance tweak for CPU sched
+    - client: fix /proc/cpuinfo parsing for linux 2.6.23, powerPC
+
+    api/
+        boin_api.C
+    client/
+        cpu_sched.C
+        hostinfo_unix.C

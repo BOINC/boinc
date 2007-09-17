@@ -65,12 +65,6 @@ array(
 //    "BOINC core client and SETI@home app"
 //),
 array(
-    "SETI@BOINC (<a href=http://www.marisan.nl/seti/>English</a>,
-    <a href=http://www.marisan.nl/seti/index_nl.htm>Dutch</a>)",
-    "Windows",
-    "SETI@home"
-),
-array(
     "<a href=http://www.pperry.f2s.com/downloads.htm>SETI-Linux</a>",
     "Linux: i686, Athlon-XP, AMD64, Pentium 3. Some Links to other Platforms",
     "BOINC, SETI@home"
