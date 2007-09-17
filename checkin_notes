@@ -8494,3 +8494,14 @@ Charlie 16 Sep 2007
         
     clientscr/
         screensaver.h
+
+David  17 Sept 2007
+    - user web: make it possible to merge hosts with OS other
+        than win/mac/linux/solaris;
+        when can't merge hosts, explain why better
+
+    html/
+        inc/
+            host.inc
+        user/
+            host_edit_form.php

@@ -37,7 +37,7 @@ while ($host2 = mysql_fetch_object($result)) {
 }
 mysql_free_result($result);
 if ($nhosts == 1) {
-    echo "No hosts are eligible for merging with this one.";
+    echo "<br>No hosts are eligible for merging with this one.";
     page_tail();
     exit();
 }

@@ -312,6 +312,7 @@ function os_compatible($host1, $host2) {
     if (strstr($host1->os_name, "Linux") && strstr($host2->os_name, "Linux")) return true;
     if (strstr($host1->os_name, "Darwin") && strstr($host2->os_name, "Darwin")) return true;
     if (strstr($host1->os_name, "SunOS") && strstr($host2->os_name, "SunOS")) return true;
+    if ($host1->os_name == $host2->os_name) return true;
     return false;
 }
 
@@ -331,11 +332,11 @@ function hosts_compatible($host1, $host2) {
         }
     }
     if (!os_compatible($host1, $host2)) {
-        echo "<br>$host1->id $host2->id: name\n";
+        echo "<br>$host1->id $host2->id: OS not compatible: ($host1->os_name, $host2->os_name)\n";
         return false;
     }
     if (!cpus_compatible($host1, $host2)) {
-        echo "<br>$host1->id $host2->id: cpu\n";
+        echo "<br>$host1->id $host2->id: CPU not compatible ($host1->p_vendor $host1->p_model, $host2->p_vendor $host2->p_model)\n";
         return false;
     }
     return true;
