@@ -8535,3 +8535,13 @@ Rytis   17 Sep 2007
     
     html/inc/
         result.inc
+
+Charlie 18 Sept 2007
+    - Mac MGR: Launch the graphics application using switcher to fix 
+        a potential security risk; I found another solution to the 
+        "RegisterProcess failed (error = -50)" so no longer need to 
+        use the UNIX system() api to launch the graphics application.
+
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
