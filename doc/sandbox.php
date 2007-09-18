@@ -169,7 +169,8 @@ They can modify these files only by running the BOINC Manager and Client.
 <li>The <i>switcher</i> application is inside the <i>switcher</i> directory.
 This directory is accessible only by user and group <b>boinc_master</b>,
 so that project applications cannot modify the <i>switcher</i> 
-application's permissions or code.
+application's permissions or code.  This also prevents unauthorized users 
+from using <i>switcher</i> to damage project files.
 <li>Users with admin access are members of groups <b>boinc_master</b>
 and <b>boinc_project</b> so that they do have 
 direct access to all BOINC and project files
