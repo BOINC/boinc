@@ -8549,7 +8549,7 @@ Charlie 18 Sept 2007
 Charlie 19 Sept 2007
     - Mac SCR: Put a copy of switcher utility inside screensaver's bundle 
         to launch graphics applications as user and group "nobody".
-        We can't allow unauthorized users to run the switcher application 
+        We don't allow unauthorized users to run the switcher application 
         in the BOINC Data directory because they could use it to run as user 
         & group boinc_project and damage project files.  The screensaver's 
         switcher runs as user and group "nobody" to avoid this risk.
