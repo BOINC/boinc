@@ -105,8 +105,9 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     char                    dir_path[MAXPATHLEN];
     char                    buf1[80];
     ProcessSerialNumber     ourPSN;
-    FSRef                   ourFSRef;
+    FSRef                   ourFSRef, ref;
     char                    *p;
+    Boolean                 isDirectory;
     OSStatus                err = noErr;
     
 #ifdef _DEBUG
@@ -211,6 +212,43 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     if (err)
         return err;
 
+    // Version 6 screensaver has its own embedded switcher application, but older versions don't.
+    // We don't allow unauthorized users to run the switcher application in the BOINC Data directory 
+    // because they could use it to run as user & group boinc_project and damage project files.
+    // The screensaver's switcher application runs as user and group "nobody" to avoid this risk.
+
+    // Does switcher exist in screensaver bundle?
+    strcpy(fullpath, "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher");
+    err = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);   // Does it exist?
+    if ((err == noErr) && (! isDirectory)) {
+#ifdef _DEBUG
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
+        // chown boinc_master:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher"
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // chmod u=rwx,g=rwx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher"
+        // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  read, write and execute permission for user & group;  read and execute permission for others
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+#else
+        // chown nobody:nobody "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher"
+        err = DoPrivilegedExec(chownPath, "nobody:nobody", fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // chmod u=rsx,g=rsx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher"
+        // 06555 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others
+        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+#endif
+    }
+
     return noErr;
 }
 
@@ -262,7 +300,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 #endif
 
     // Set permissions of BOINC Data directory itself
-     // chmod u=rwx,g=rwx,o=rx "/Library/Applications/BOINC Data"
+    // chmod u=rwx,g=rwx,o=rx "/Library/Applications/BOINC Data"
     // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
     //  read, write and execute permission for user & group;  read and execute permission for others
     err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
@@ -421,7 +459,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
 
         // Set permissions of switcher application
-        // chmod u=rsx,g=rsx,o= "/Library/Applications/BOINC Data/switcher/switcher"
+        // chmod u=rsx,g=rsx,o=x "/Library/Applications/BOINC Data/switcher/switcher"
         // 06551 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IXOTH
         //  setuid-on-execution, setgid-on-execution plus read and execute permission for user and group, execute only for others
         err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=x", fullpath, NULL, NULL, NULL);

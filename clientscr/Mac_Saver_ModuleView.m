@@ -26,16 +26,23 @@
 
 int gGoToBlank;      // True if we are to blank the screen
 int gBlankingTime;   // Delay in minutes before blanking the screen
+NSString *gPathToBundleResources;
 
 @implementation BOINC_Saver_ModuleView
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
     NSQuickDrawView * myQDView;
+    NSBundle * myBundle;
 
     self = [ super initWithFrame:frame isPreview:isPreview ];
     if (self) {
+        myBundle = [ NSBundle bundleForClass:[self class]];
         // grab the screensaver defaults
-        mBundleID = [[ NSBundle bundleForClass:[self class]] bundleIdentifier ];
+        mBundleID = [ myBundle bundleIdentifier ];
+
+        // Path to our copy of switcher utility application in this screensaver bundle
+        gPathToBundleResources = [ myBundle resourcePath ];
+        
         ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
         
         // try to load the version key, used to see if we have any saved settings

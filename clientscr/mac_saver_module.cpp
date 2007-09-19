@@ -33,6 +33,7 @@
 #include <limits.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <sys/param.h>  // for MAXPATHLEN
 
 #include "gui_rpc_client.h"
 #include "common_defs.h"
@@ -56,12 +57,12 @@ void drawBanner(GrafPtr aPort);
 int GetBrandID(void);
 void FlashIcon(void);
 OSErr FindBOINCApplication(FSSpecPtr applicationFSSpecPtr);
-pid_t FindProcessPID(char* name, pid_t thePID, pid_t thePPID);
+pid_t FindProcessPID(char* name, pid_t thePID);
 OSErr GetpathToBOINCManagerApp(char* path, int maxLen);
 OSStatus RPCThread(void* param);
 void HandleRPCError(void);
 OSErr KillScreenSaver(void);
-int Mac_launch_screensaver(RESULT* rp, int& graphics_application, pid_t& launcher_shell);
+int Mac_launch_screensaver(RESULT* rp, int& graphics_application);
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -116,6 +117,7 @@ enum SaverState {
 
 extern int gGoToBlank;      // True if we are to blank the screen
 extern int gBlankingTime;   // Delay in minutes before blanking the screen
+extern CFStringRef gPathToBundleResources;
 
 static time_t SaverStartTime;
 static Boolean wasAlreadyRunning = false;
@@ -138,7 +140,7 @@ RGBColor gTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
 RGBColor gWhiteTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
 RGBColor gOrangeTextColor = {0xFFFF, 0x6262, 0x0000};
 RGBColor gGrayTextColor = {0x9999, 0x9999, 0x9999};
-
+char gSwitcherPath[MAXPATHLEN];
 
 // Display first status update after 5 seconds
 static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
@@ -205,6 +207,9 @@ int initBOINCSaver(Boolean ispreview) {
     if (saverState == SaverState_Idle) {
         SaverStartTime = time(0);
         
+        CFStringGetCString(gPathToBundleResources, gSwitcherPath, sizeof(gSwitcherPath), kCFStringEncodingMacRoman);
+        strlcat(gSwitcherPath, "/switcher", sizeof(gSwitcherPath));
+
         err = initBOINCApp();
 
         if (saverState == SaverState_LaunchingCoreClient)
@@ -229,7 +234,7 @@ OSStatus initBOINCApp() {
     
     saverState = SaverState_CantLaunchCoreClient;
     
-    CoreClientPID = FindProcessPID("boinc", 0, 0);
+    CoreClientPID = FindProcessPID("boinc", 0);
     if (CoreClientPID) {
         wasAlreadyRunning = true;
         saverState = SaverState_LaunchingCoreClient;
@@ -308,7 +313,7 @@ int drawGraphics(GrafPtr aPort) {
         else
             setBannerText(LaunchingCCMsg, aPort);
        
-        myPid = FindProcessPID(NULL, CoreClientPID, 0);
+        myPid = FindProcessPID(NULL, CoreClientPID);
         if (myPid) {
             saverState = SaverState_CoreClientRunning;
             rpc->init(NULL);   // Initialize communications with Core Client
@@ -480,7 +485,6 @@ OSStatus RPCThread(void* param) {
     AbsoluteTime    timeToUnblock;
     time_t          time_to_blank;
     pid_t           graphics_app_pid        = 0;
-    pid_t           launcher_shell_pid      = 0;
     char            statusBuf[256];
     unsigned int    len;
     RESULTS         results;
@@ -513,7 +517,6 @@ OSStatus RPCThread(void* param) {
             if (graphics_app_pid) {
                 terminate_screensaver(graphics_app_pid);
                 graphics_app_pid = 0;
-                launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
                 previous_result_ptr = NULL;
             }
@@ -546,7 +549,6 @@ OSStatus RPCThread(void* param) {
             if (graphics_app_pid) {
                 terminate_screensaver(graphics_app_pid);
                 graphics_app_pid = 0;
-                launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
                 previous_result_ptr = NULL;
             }
@@ -607,7 +609,7 @@ OSStatus RPCThread(void* param) {
 #if 0
             // Safety check that task is actually running
             if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
-                if (FindProcessPID(NULL, ???, 0) == 0) {
+                if (FindProcessPID(NULL, ? ? ?) == 0) {
                     terminate_screensaver(graphics_app_pid);
                     previous_result_ptr = NULL;
                     // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
@@ -631,10 +633,9 @@ OSStatus RPCThread(void* param) {
             previous_result_ptr = NULL;
             
             if (graphics_app_result_ptr) {
-                retval = Mac_launch_screensaver(graphics_app_result_ptr, graphics_app_pid, launcher_shell_pid);
+                retval = Mac_launch_screensaver(graphics_app_result_ptr, graphics_app_pid);
                 if (retval) {
                     graphics_app_pid = 0;
-                    launcher_shell_pid = 0;
                     previous_result_ptr = NULL;
                     graphics_app_result_ptr = NULL;
                 } else {
@@ -662,9 +663,8 @@ OSStatus RPCThread(void* param) {
             }
         } else {    // End if (graphics_app_pid == 0)
             // Is the graphics app still running?
-            if (waitpid(launcher_shell_pid, 0, WNOHANG) == launcher_shell_pid) {
+            if (waitpid(graphics_app_pid, 0, WNOHANG) == graphics_app_pid) {
                 graphics_app_pid = 0;
-                launcher_shell_pid = 0;
                 graphics_app_result_ptr = NULL;
                 continue;
             }
@@ -724,7 +724,7 @@ void HandleRPCError() {
     // process of shutting down just as ScreenSaver started, so initBOINCApp() 
     // found it already running but now it has shut down.  This code takes 
     // care of that and other situations where the Core Client quits unexpectedy.  
-    if (FindProcessPID("boinc", 0, 0) == 0) {
+    if (FindProcessPID("boinc", 0) == 0) {
         saverState = SaverState_RelaunchCoreClient;
         MPExit(noErr);      // Exit the thread
      }
@@ -894,18 +894,18 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
-pid_t FindProcessPID(char* name, pid_t thePID, pid_t thePPID)
+pid_t FindProcessPID(char* name, pid_t thePID)
 {
     FILE *f;
     char buf[1024];
     size_t n = 0;
-    pid_t aPID, aPPID;
+    pid_t aPID;
     
     if (name != NULL) {     // Search by name
         n = strlen(name);
     }
     
-    f = popen("ps -a -x -c -o pid,ppid,command", "r");
+    f = popen("ps -a -x -c -o pid,command", "r");
     if (f == NULL)
         return 0;
     
@@ -922,14 +922,6 @@ pid_t FindProcessPID(char* name, pid_t thePID, pid_t thePPID)
         if (thePID != 0) {      // Search by PID
             aPID = atol(buf);
             if (aPID == thePID) {
-                pclose(f);
-                return aPID;
-            }
-        } else
-            if (thePPID != 0) {      // Search by PPID
-            aPPID = atol(buf+6);
-            if (aPPID == thePPID) {
-                aPID = atol(buf);
                 pclose(f);
                 return aPID;
             }
@@ -971,27 +963,29 @@ OSErr KillScreenSaver() {
 
 // Launch the graphics application
 //
-int Mac_launch_screensaver(RESULT* rp, pid_t& graphics_application, pid_t& launcher_shell)
+int Mac_launch_screensaver(RESULT* rp, pid_t& graphics_application)
 {
-    char cmd[1024];
+    // For unknown reasons, the graphics application exits with 
+    // "RegisterProcess failed (error = -50)" unless we pass its 
+    // full path twice in the argument list to execv.
+    char* argv[5];
+    argv[0] = "switcher";
+    argv[1] = (char *)rp->graphics_exec_path.c_str();
+    argv[2] = (char *)rp->graphics_exec_path.c_str();
+    argv[3] = "--fullscreen";
+    argv[4] = 0;
     int retval;
-    int pid = fork();
-    if (pid == 0) {
-        retval = chdir(rp->slot_path.c_str());
-        if (retval) return retval;
-        // Launching the graphics application using fork() and execv() 
-        // results in it getting "RegisterProcess failed (error = -50)"
-        // so we launch it via a shell using the system() api.
-        sprintf(cmd, "\"%s\" --fullscreen", rp->graphics_exec_path.c_str());
-        system(cmd);
-        exit(errno);
-    }
+
+   retval = run_program(
+        rp->slot_path.c_str(),
+        gSwitcherPath,
+        4,
+        argv,
+        0,
+        graphics_application
+    );
     
-    // Remember our child's pid: our child is the shell launched by system()
-    launcher_shell = pid;
-    // Find the pid of the graphics application (our grandchild)
-    graphics_application = FindProcessPID(NULL, 0, pid);
-    return 0;
+    return retval;
 }
 
 

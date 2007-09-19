@@ -43,7 +43,7 @@
 # the --insecure option.
 # NOTE: running BOINC with security disabled is not recommended.
 #
-# Last updated 2/27/07
+# Last updated 9/19/07
 
 function remove_boinc_users() {
     name=$(dscl . search /users RecordName boinc_master | cut -f1 -s)
@@ -115,8 +115,14 @@ if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ] ; then 
-chown ${user}:${group} /Applications/BOINCManager.app/Contents/Resources/boinc
+    chown ${user}:${group} /Applications/BOINCManager.app/Contents/Resources/boinc
     chmod -R u+r-ws,g+r-ws,o+r-ws /Applications/BOINCManager.app/Contents/Resources/boinc
+fi
+
+# Version 6 screensaver has its own embedded switcher application, but older versions don't.
+if [ -x "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher" ] ; then 
+    chown ${user}:${group} "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher"
+    chmod -R u+r-ws,g+r-ws,o+r-ws "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher"
 fi
 
 remove_boinc_users

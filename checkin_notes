@@ -8545,3 +8545,25 @@ Charlie 18 Sept 2007
     clientgui/
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+Charlie 19 Sept 2007
+    - Mac SCR: Put a copy of switcher utility inside screensaver's bundle 
+        to launch graphics applications as user and group "nobody".
+        We can't allow unauthorized users to run the switcher application 
+        in the BOINC Data directory because they could use it to run as user 
+        & group boinc_project and damage project files.  The screensaver's 
+        switcher runs as user and group "nobody" to avoid this risk.
+
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    clientscr/
+        Mac_Saver_ModuleView.m
+        mac_saver_module.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh

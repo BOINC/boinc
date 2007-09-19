@@ -64,7 +64,7 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 2/27/07
+# Last updated 9/19/07
 
 function make_boinc_user() {
     # Check whether group already exists
@@ -225,6 +225,14 @@ fi
 
 if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ] ; then 
     set_perm /Applications/BOINCManager.app/Contents/Resources/boinc boinc_master boinc_master 6555
+fi
+
+# Version 6 screensaver has its own embedded switcher application, but older versions don't.
+# We don't allow unauthorized users to run the switcher application in the BOINC Data directory 
+# because they could use it to run as user & group boinc_project and damage project files.
+# The screensaver's switcher application runs as user and group "nobody" to avoid this risk.
+if [ -x "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher" ] ; then 
+    set_perm "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher" nobody nobody 6555
 fi
 
 

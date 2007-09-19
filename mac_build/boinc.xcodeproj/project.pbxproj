@@ -185,6 +185,7 @@
 		DD52C81408B5D484008D9AA4 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
+		DD53C8EE0CA0FE4A00C4DEA4 /* switcher in Resources */ = {isa = PBXBuildFile; fileRef = DDD0953F0A3EDD2500C95BA4 /* switcher */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
@@ -718,6 +719,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
 			remoteInfo = setprojectgrp;
+		};
+		DD53C8DD0CA0FC6100C4DEA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4;
+			remoteInfo = switcher;
 		};
 		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2142,6 +2150,7 @@
 			);
 			dependencies = (
 				DDAD19CF09090833004E7DD0 /* PBXTargetDependency */,
+				DD53C8DE0CA0FC6100C4DEA4 /* PBXTargetDependency */,
 			);
 			name = ScreenSaver;
 			productName = ScreenSaver;
@@ -2358,6 +2367,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD53C8EE0CA0FE4A00C4DEA4 /* switcher in Resources */,
 				DD616A3008150050006981C1 /* InfoPlist.strings in Resources */,
 				DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */,
 				DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */,
@@ -2978,6 +2988,11 @@
 			isa = PBXTargetDependency;
 			target = DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */;
 			targetProxy = DD45C4A00A53E73500E923D1 /* PBXContainerItemProxy */;
+		};
+		DD53C8DE0CA0FC6100C4DEA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
+			targetProxy = DD53C8DD0CA0FC6100C4DEA4 /* PBXContainerItemProxy */;
 		};
 		DD58247D0B198BDD003B6A2F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
