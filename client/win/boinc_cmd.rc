@@ -31,7 +31,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // remains consistent on all systems.
 #if   defined(_GRIDREPUBLIC)
 
-#elif defined(_wCG)
+#elif defined(_WCG)
 
 IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
 
