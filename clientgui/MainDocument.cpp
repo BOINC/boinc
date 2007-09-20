@@ -1030,32 +1030,36 @@ void CMainDocument::KillInactiveGraphicsApps()
 {
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
     unsigned int i;
-    bool bIsActive, bIsExecuting, bIsDownloaded;
+    bool bStillRunning;
+
+    if (m_running_gfx_apps.size() <= 0) return;
     
-    // Step through in reverse order
+    // Step through in reverse order so we can erase vector items
     gfx_app_iter = m_running_gfx_apps.end();
-    if (m_running_gfx_apps.size() > 0) {
-        do {
-            gfx_app_iter--;
-       
-            for(i=0; i<results.results.size(); i++) {
-                bIsDownloaded = (RESULT_FILES_DOWNLOADED == (results.results.at(i))->state);
-                bIsActive     = ((results.results.at(i))->active_task);
-                bIsExecuting  = (CPU_SCHED_SCHEDULED == (results.results.at(i))->scheduler_state);
+    do {
+        gfx_app_iter--;
+        bStillRunning = false;
+        
+        for(i=0; i<results.results.size(); i++) {
+            if ((results.results.at(i))->state != RESULT_FILES_DOWNLOADED) continue;
+            if (! (results.results.at(i))->active_task) continue;
+            if  ((results.results.at(i))->scheduler_state != CPU_SCHED_SCHEDULED) continue;
 
-                if (bIsActive && bIsDownloaded && bIsExecuting) continue;
-            
-                if ( ((results.results.at(i))->name == (*gfx_app_iter).name) &&
-                    ((results.results.at(i))->project_url == (*gfx_app_iter).project_url) ) {
-                        kill_program((*gfx_app_iter).pid);
+            if ((results.results.at(i))->name != (*gfx_app_iter).name) continue;
+            if ((results.results.at(i))->project_url != (*gfx_app_iter).project_url) continue;
+                    
+            bStillRunning =  true;
+            break;
+        }
+        
+        if (!bStillRunning) {
+            kill_program((*gfx_app_iter).pid);
 
-                        (*gfx_app_iter).name.clear();
-                        (*gfx_app_iter).project_url.clear();
-                        m_running_gfx_apps.erase(gfx_app_iter);
-                }
-            }
-        } while (gfx_app_iter != m_running_gfx_apps.begin());
-    }
+            (*gfx_app_iter).name.clear();
+            (*gfx_app_iter).project_url.clear();
+            m_running_gfx_apps.erase(gfx_app_iter);
+        }
+    } while (gfx_app_iter != m_running_gfx_apps.begin());
 }
 
 
