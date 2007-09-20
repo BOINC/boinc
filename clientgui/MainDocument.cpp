@@ -1026,6 +1026,39 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
 }
 
 
+void CMainDocument::KillInactiveGraphicsApps()
+{
+    std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
+    unsigned int i;
+    bool bIsActive, bIsExecuting, bIsDownloaded;
+    
+    // Step through in reverse order
+    gfx_app_iter = m_running_gfx_apps.end();
+    if (m_running_gfx_apps.size() > 0) {
+        do {
+            gfx_app_iter--;
+       
+            for(i=0; i<results.results.size(); i++) {
+                bIsDownloaded = (RESULT_FILES_DOWNLOADED == (results.results.at(i))->state);
+                bIsActive     = ((results.results.at(i))->active_task);
+                bIsExecuting  = (CPU_SCHED_SCHEDULED == (results.results.at(i))->scheduler_state);
+
+                if (bIsActive && bIsDownloaded && bIsExecuting) continue;
+            
+                if ( ((results.results.at(i))->name == (*gfx_app_iter).name) &&
+                    ((results.results.at(i))->project_url == (*gfx_app_iter).project_url) ) {
+                        kill_program((*gfx_app_iter).pid);
+
+                        (*gfx_app_iter).name.clear();
+                        (*gfx_app_iter).project_url.clear();
+                        m_running_gfx_apps.erase(gfx_app_iter);
+                }
+            }
+        } while (gfx_app_iter != m_running_gfx_apps.begin());
+    }
+}
+
+
 void CMainDocument::KillAllRunningGraphicsApps()
 {
     int i, n;

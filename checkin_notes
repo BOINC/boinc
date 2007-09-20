@@ -8584,6 +8584,8 @@ Charlie 20 Sept 2007
         - Don't launch a second instance of graphics app if user presses 
             "Show Graphics" twice for the same task.  
         - Kill all graphics applications when exiting Manager.
+        - Add a routine to kill any graphics apps whose tasks are no longer
+            running, but don't call it yet.
     - Mac MGR: pressing "Show Graphics" for a running graphics app brings
         it to the front.
     
