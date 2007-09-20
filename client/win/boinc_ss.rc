@@ -269,7 +269,7 @@ IDB_BOINCSPLAT          BITMAP                  "res\\gridrepublic.bmp"
 
 #elif defined(_WCG)
 
-IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
+IDB_BOINCSPLAT          BITMAP                  "res\\wcg.bmp"
 
 #elif defined(_SEED)
 
