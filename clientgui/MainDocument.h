@@ -24,8 +24,21 @@
 #pragma interface "MainDocument.cpp"
 #endif
 
+#include <vector>
 #include "common_defs.h"
 #include "gui_rpc_client.h"
+
+typedef struct {
+    int slot;
+    std::string project_url;
+    std::string name;
+#ifdef _WIN32
+    HANDLE pid;
+#else
+    int pid;
+#endif
+} RUNNING_GFX_APP;
+
 
 class CMainDocument;
 
@@ -173,6 +186,8 @@ public:
 private:
     int                         CachedResultsStatusUpdate();
     wxDateTime                  m_dtResultsTimestamp;
+    std::vector<RUNNING_GFX_APP> m_running_gfx_apps;
+    RUNNING_GFX_APP*            GetRunningGraphicsApp(RESULT* result, int slot);
 
 public:
     RESULTS                     results;
@@ -195,6 +210,7 @@ public:
                                     std::string& strName
                                 );
 
+    void                        KillAllRunningGraphicsApps();
 
     //
     // Messages Tab

@@ -328,6 +328,7 @@ CMainDocument::CMainDocument() {
 
 
 CMainDocument::~CMainDocument() {
+    KillAllRunningGraphicsApps();
 #ifdef __WIN32__
     WSACleanup();
 #endif
@@ -980,22 +981,104 @@ int CMainDocument::WorkResume(std::string& strProjectURL, std::string& strName) 
 }
 
 
+// If the graphics application for the current task is already running,
+// return a pointer to its RUNNING_GFX_APP struct.
+RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
+{
+    bool exited = false;
+    std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
+    
+    for( gfx_app_iter = m_running_gfx_apps.begin(); 
+        gfx_app_iter != m_running_gfx_apps.end(); 
+        gfx_app_iter++
+    ) {
+         if ( (slot >= 0) && ((*gfx_app_iter).slot != slot) ) continue;
+
+#ifdef _WIN32
+        unsigned long exit_code;
+        if (GetExitCodeProcess((*gfx_app_iter).pid, &exit_code)) {
+            if (exit_code != STILL_ACTIVE) {
+                exited = true;
+            }
+        }
+#else
+        if (waitpid((*gfx_app_iter).pid, 0, WNOHANG) == (*gfx_app_iter).pid) {
+            exited = true;
+        }
+#endif
+        if (! exited) {
+            if ( (result->name == (*gfx_app_iter).name) &&
+                (result->project_url == (*gfx_app_iter).project_url) ) {
+                return &(*gfx_app_iter);
+            }
+    
+            // Graphics app is still running but the slot no longer has a different task
+            kill_program((*gfx_app_iter).pid);
+        }
+
+        // Either the graphics app had already exited or we just killed it
+        (*gfx_app_iter).name.clear();
+        (*gfx_app_iter).project_url.clear();
+        m_running_gfx_apps.erase(gfx_app_iter);
+        return NULL;
+    }
+    return NULL;
+}
+
+
+void CMainDocument::KillAllRunningGraphicsApps()
+{
+    int i, n;
+    std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
+
+    n = m_running_gfx_apps.size();
+    for (i=0; i<n; i++) {
+        gfx_app_iter = m_running_gfx_apps.begin(); 
+        kill_program((*gfx_app_iter).pid);
+        (*gfx_app_iter).name.clear();
+        (*gfx_app_iter).project_url.clear();
+        m_running_gfx_apps.erase(gfx_app_iter);
+    }
+}
+
+
 int CMainDocument::WorkShowGraphics(RESULT* result)
 {
     int iRetVal = 0;
     
     if (!result->graphics_exec_path.empty()) {
         // V6 Graphics
+        RUNNING_GFX_APP gfx_app;
+        RUNNING_GFX_APP* previous_gfx_app;
+        char *p;
+        int slot;
 #ifdef __WXMSW__
         HANDLE   id;
 #else
         int      id;
 #endif
+
+        p = strrchr(result->slot_path.c_str(), '/');
+        if (!p) return ERR_INVALID_PARAM;
+        slot = atoi(p+1);
+        
+        // See if we are already running the grapics application for this task
+        previous_gfx_app = GetRunningGraphicsApp(result, slot);
+
 #ifdef __WXMAC__
+        ProcessSerialNumber gfx_app_psn;
+        char* argv[5];
+
+        if (previous_gfx_app) {
+            // If this graphics app is already running, just bring it to the front
+            if (! GetProcessForPID(previous_gfx_app->pid, &gfx_app_psn)) {
+                SetFrontProcess(&gfx_app_psn);
+            }
+            return 0;
+        }
         // For unknown reasons, the graphics application exits with 
         // "RegisterProcess failed (error = -50)" unless we pass its 
         // full path twice in the argument list to execv.
-        char* argv[5];
         argv[0] = "switcher";
         argv[1] = (char *)result->graphics_exec_path.c_str();
         argv[2] = (char *)result->graphics_exec_path.c_str();
@@ -1003,7 +1086,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         argv[4] = 0;
     
          if (g_use_sandbox) {
-            run_program(
+            iRetVal = run_program(
                 result->slot_path.c_str(),
                "../../switcher/switcher",
                 4,
@@ -1012,7 +1095,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
                 id
             );
         } else {        
-            run_program(
+            iRetVal = run_program(
                 result->slot_path.c_str(),
                 result->graphics_exec_path.c_str(),
                 3,
@@ -1023,14 +1106,13 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         }
 #else
         char* argv[2];
+
+        // If graphics app is already running, don't launch a second instance
+        if (previous_gfx_app) return 0;
         argv[0] = "--graphics";
         argv[1] = 0;
-#ifdef __WXMSW__
-        HANDLE   id;
-#else
-        int      id;
-#endif
-        run_program(
+        
+        iRetVal = run_program(
             result->slot_path.c_str(),
             result->graphics_exec_path.c_str(),
             1,
@@ -1039,6 +1121,14 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             id
         );
 #endif
+        if (! iRetVal) {
+            gfx_app.slot = slot;
+            gfx_app.project_url = result->project_url;
+            gfx_app.name = result->name;
+            gfx_app.pid = id;
+            m_running_gfx_apps.push_back(gfx_app);
+        }
+
     } else {
         // V5 and Older
         DISPLAY_INFO di;

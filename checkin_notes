@@ -8569,11 +8569,23 @@ Charlie 19 Sept 2007
         Mac_SA_Secure.sh
 
 Charlie 19 Sept 2007
-    - Mac MGR: Consolidate common Show Graphics functionality into 
-        CMainDocument::WorkShowGraphics(); implement V6 graphics in SimpleGui.
+    - MGR: Implement V6 graphics in SimpleGui.
+        - Consolidate common Show Graphics functionality into 
+            CMainDocument::WorkShowGraphics().
     
     clientgui/
         MainDocument.cpp, h
         sg_ViewTabPage.cpp
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+Charlie 20 Sept 2007
+    - MGR: Keep a list of currently running graphics applications.
+        - Don't launch a second instance of graphics app if user presses 
+            "Show Graphics" twice for the same task.  
+        - Kill all graphics applications when exiting Manager.
+    - Mac MGR: pressing "Show Graphics" for a running graphics app brings
+        it to the front.
+    
+    clientgui/
+        MainDocument.cpp, h
