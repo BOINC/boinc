@@ -461,3 +461,9 @@ David  12 Sept 2007
         uc_graphics.C
     wrapper/
         wrapper.C
+
+David  20 Sept 2007
+    - wrapper: fix append mode in win_fopen() (2nd try)
+
+    wrapper/
+        wrapper.C

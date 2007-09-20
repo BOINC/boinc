@@ -173,7 +173,7 @@ HANDLE win_fopen(const char* path, const char* mode) {
 			0, 0
 		);
 	} else if (!strcmp(mode, "a")) {
-		return CreateFile(
+		HANDLE happend = CreateFile(
 			path,
 			GENERIC_WRITE,
 			FILE_SHARE_WRITE,
@@ -182,6 +182,7 @@ HANDLE win_fopen(const char* path, const char* mode) {
 			0, 0
 		);
         SetFilePointer(hAppend, 0, NULL, FILE_END);
+        return hAppend;
 	} else {
 		return 0;
 	}
