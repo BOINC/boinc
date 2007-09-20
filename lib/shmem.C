@@ -219,7 +219,8 @@ int attach_shmem(char *path, void** pp) {
     struct stat sbuf;
     
     // Return NULL pointer if attach_shmem fails
-    *pp = 0;    fd = open(path, O_RDWR);
+    *pp = 0;
+    fd = open(path, O_RDWR);
     if (fd < 0) return ERR_SHMGET;
 
     retval = fstat(fd, &sbuf);
