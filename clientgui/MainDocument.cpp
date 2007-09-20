@@ -980,23 +980,80 @@ int CMainDocument::WorkResume(std::string& strProjectURL, std::string& strName) 
 }
 
 
-int CMainDocument::WorkShowGraphics(
-    std::string& strProjectURL, std::string& strName, int iGraphicsMode,
-    std::string& strWindowStation, std::string& strDesktop, std::string& strDisplay)
+int CMainDocument::WorkShowGraphics(RESULT* result)
 {
     int iRetVal = 0;
-    DISPLAY_INFO di;
+    
+    if (!result->graphics_exec_path.empty()) {
+        // V6 Graphics
+#ifdef __WXMSW__
+        HANDLE   id;
+#else
+        int      id;
+#endif
+#ifdef __WXMAC__
+        // For unknown reasons, the graphics application exits with 
+        // "RegisterProcess failed (error = -50)" unless we pass its 
+        // full path twice in the argument list to execv.
+        char* argv[5];
+        argv[0] = "switcher";
+        argv[1] = (char *)result->graphics_exec_path.c_str();
+        argv[2] = (char *)result->graphics_exec_path.c_str();
+        argv[3] = "--graphics";
+        argv[4] = 0;
+    
+         if (g_use_sandbox) {
+            run_program(
+                result->slot_path.c_str(),
+               "../../switcher/switcher",
+                4,
+                argv,
+                0,
+                id
+            );
+        } else {        
+            run_program(
+                result->slot_path.c_str(),
+                result->graphics_exec_path.c_str(),
+                3,
+                &argv[1],
+                0,
+                id
+            );
+        }
+#else
+        char* argv[2];
+        argv[0] = "--graphics";
+        argv[1] = 0;
+#ifdef __WXMSW__
+        HANDLE   id;
+#else
+        int      id;
+#endif
+        run_program(
+            result->slot_path.c_str(),
+            result->graphics_exec_path.c_str(),
+            1,
+            argv,
+            0,
+            id
+        );
+#endif
+    } else {
+        // V5 and Older
+        DISPLAY_INFO di;
 
-    strcpy(di.window_station, strWindowStation.c_str());
-    strcpy(di.desktop, strDesktop.c_str());
-    strcpy(di.display, strDisplay.c_str());
+        strcpy(di.window_station, wxGetApp().m_strDefaultWindowStation.c_str());
+        strcpy(di.desktop, wxGetApp().m_strDefaultDesktop.c_str());
+        strcpy(di.display, wxGetApp().m_strDefaultDisplay.c_str());
 
-    iRetVal = rpc.show_graphics(
-        strProjectURL.c_str(),
-        strName.c_str(),
-        iGraphicsMode,
-        di
-    );
+        iRetVal = rpc.show_graphics(
+            result->project_url.c_str(),
+            result->name.c_str(),
+            MODE_WINDOW,
+            di
+        );
+    }
 
     return iRetVal;
 }

@@ -235,7 +235,6 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
     pFrame->UpdateStatusText(_("Showing graphics for task..."));
@@ -258,73 +257,9 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
-		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+        wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
         RESULT* result = pDoc->result(searchName);
-        if (!result->graphics_exec_path.empty()) {
-            // V6 Graphics
-#ifdef __WXMSW__
-            HANDLE   id;
-#else
-            int      id;
-#endif
-#ifdef __WXMAC__
-            // For unknown reasons, the graphics application exits with 
-            // "RegisterProcess failed (error = -50)" unless we pass its 
-            // full path twice in the argument list to execv.
-            char* argv[5];
-            argv[0] = "switcher";
-            argv[1] = (char *)result->graphics_exec_path.c_str();
-            argv[2] = (char *)result->graphics_exec_path.c_str();
-            argv[3] = "--graphics";
-            argv[4] = 0;
-        
-         if (g_use_sandbox) {
-           run_program(
-                result->slot_path.c_str(),
-               "../../switcher/switcher",
-                4,
-                argv,
-                0,
-                id
-            );
-        } else {        
-            run_program(
-                result->slot_path.c_str(),
-                result->graphics_exec_path.c_str(),
-                3,
-                &argv[1],
-                0,
-                id
-            );
-        }
-#else
-            char* argv[2];
-            argv[0] = "--graphics";
-            argv[1] = 0;
-            run_program(
-                result->slot_path.c_str(),
-                result->graphics_exec_path.c_str(),
-                1,
-                argv,
-                0,
-                id
-            );
-#endif
-        } else {
-            // V5 and Older
-            std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
-            std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
-            std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
-            pDoc->WorkShowGraphics(
-                result->project_url,
-                result->name,
-                MODE_WINDOW,
-                strDefaultWindowStation,
-                strDefaultDesktop,
-                strDefaultDisplay
-            );
-        }
-
+        pDoc->WorkShowGraphics(result);
     }
 
     pFrame->UpdateStatusText(wxT(""));

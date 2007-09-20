@@ -407,7 +407,7 @@ void CViewTabPage::SGUITimeFormat(float fBuffer, wxString& strBuffer) const {
 }
 
 void CViewTabPage::OnWorkShowGraphics() {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
     
@@ -428,18 +428,8 @@ void CViewTabPage::OnWorkShowGraphics() {
     iAnswer = wxYES;
 #endif
 
-	if (wxYES == iAnswer) {
-		std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
-		std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
-		std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
-        pDoc->WorkShowGraphics(
-            m_prjUrl,
-            m_name,
-            MODE_WINDOW,
-            strDefaultWindowStation,
-            strDefaultDesktop,
-            strDefaultDisplay
-        );
+    if (wxYES == iAnswer) {
+        pDoc->WorkShowGraphics(resultWU);
     }
 }
 

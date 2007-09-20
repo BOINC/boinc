@@ -8567,3 +8567,13 @@ Charlie 19 Sept 2007
             project.pbxproj
         Mac_SA_Insecure.sh
         Mac_SA_Secure.sh
+
+Charlie 19 Sept 2007
+    - Mac MGR: Consolidate common Show Graphics functionality into 
+        CMainDocument::WorkShowGraphics(); implement V6 graphics in SimpleGui.
+    
+    clientgui/
+        MainDocument.cpp, h
+        sg_ViewTabPage.cpp
+        ViewWork.cpp
+        ViewWorkGrid.cpp

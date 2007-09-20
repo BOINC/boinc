@@ -189,14 +189,7 @@ public:
                                     std::string& strProjectURL,
                                     std::string& strName
                                 );
-    int                         WorkShowGraphics(
-                                    std::string& strProjectURL,
-                                    std::string& strName,
-                                    int iGraphicsMode,
-                                    std::string& strWindowStation,
-                                    std::string& strDesktop,
-                                    std::string& strDisplay
-                                );
+    int                         WorkShowGraphics(RESULT* result);
     int                         WorkAbort(
                                     std::string& strProjectURL,
                                     std::string& strName
