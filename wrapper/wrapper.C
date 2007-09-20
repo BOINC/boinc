@@ -173,7 +173,7 @@ HANDLE win_fopen(const char* path, const char* mode) {
 			0, 0
 		);
 	} else if (!strcmp(mode, "a")) {
-		HANDLE happend = CreateFile(
+		HANDLE hAppend = CreateFile(
 			path,
 			GENERIC_WRITE,
 			FILE_SHARE_WRITE,
@@ -459,7 +459,7 @@ int main(int argc, char** argv) {
     parse_state_file();
 
     read_checkpoint(ntasks, cpu);
-    if (ntasks > tasks.size()) {
+    if (ntasks > (int)tasks.size()) {
         fprintf(stderr, "Checkpoint file: ntasks %d too large\n", ntasks);
         boinc_finish(1);
     }
