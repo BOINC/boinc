@@ -255,23 +255,23 @@ static double estimate_wallclock_duration(
 //
 static int get_host_info(SCHEDULER_REPLY& reply) {
     char buf[8096];
-   	std::string str;
-   	extract_venue(reply.user.project_prefs, reply.host.venue, buf);
-   	str = buf;
-	unsigned int pos = 0;
-	int temp_int;
+       std::string str;
+       extract_venue(reply.user.project_prefs, reply.host.venue, buf);
+       str = buf;
+    unsigned int pos = 0;
+    int temp_int;
 
     // scan user's project prefs for elements of the form <app_id>N</app_id>,
     // indicating the apps they want to run.
     //
     reply.wreq.host_info.preferred_apps.clear();
-	while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
+    while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
         APP_INFO ai;
         ai.appid = temp_int;
         reply.wreq.host_info.preferred_apps.push_back(ai);
 
-		pos = str.find("<app_id>", pos) + 1;
-	}
+        pos = str.find("<app_id>", pos) + 1;
+    }
     temp_int = parse_int(buf,"<allow_beta_work>", temp_int);
     reply.wreq.host_info.allow_beta_work = temp_int;
  
@@ -301,7 +301,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
             avg_turnaround/3600
         );
     }
-	return 0;
+    return 0;
 }
 
 // Check to see if the user has set application preferences.
@@ -775,15 +775,15 @@ int add_result_to_reply(
 
     int delay_bound = wu.delay_bound;
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
-     	// If the workunit needs reliable and is being sent to a reliable host,
-    	// then shorten the delay bound by the percent specified
-    	//
-    	if (config.reliable_time && reply.wreq.host_info.reliable && config.reliable_reduced_delay_bound > 0.01) {
-        	if ((wu.create_time + config.reliable_time) <= time(0)) {
-            	delay_bound = (int) (delay_bound * config.reliable_reduced_delay_bound);
-        	}
-    	}
-    	
+        // If the workunit needs reliable and is being sent to a reliable host,
+        // then shorten the delay bound by the percent specified
+        //
+        if (config.reliable_time && reply.wreq.host_info.reliable && config.reliable_reduced_delay_bound > 0.01) {
+            if ((wu.create_time + config.reliable_time) <= time(0)) {
+                delay_bound = (int) (delay_bound * config.reliable_reduced_delay_bound);
+            }
+        }
+
         // We are sending this result for the first time
         //
         result.report_deadline = result.sent_time + delay_bound;
@@ -945,14 +945,14 @@ void send_work(
         reply.wreq.infeasible_only = false;
         send_work_locality(sreq, reply, platforms, ss);
     } else {
-    	// give top priority to results that require a 'reliable host'
+        // give top priority to results that require a 'reliable host'
         //
         if (reply.wreq.host_info.reliable) {
-        	reply.wreq.reliable_only = true;
-        	reply.wreq.infeasible_only = false;
-        	scan_work_array(sreq, reply, platforms, ss);
+            reply.wreq.reliable_only = true;
+            reply.wreq.infeasible_only = false;
+            scan_work_array(sreq, reply, platforms, ss);
         }
-    	reply.wreq.reliable_only = false;
+        reply.wreq.reliable_only = false;
 
         // give 2nd priority to results for a beta app
         // (projects should load beta work with care,
@@ -968,7 +968,7 @@ void send_work(
             scan_work_array(sreq, reply, platforms, ss);
         }
         reply.wreq.beta_only = false;
-    	
+
         // give next priority to results that were infeasible for some other host
         //
         reply.wreq.infeasible_only = true;
@@ -1067,14 +1067,14 @@ void send_work(
         }
         if (reply.wreq.outdated_core) {
             USER_MESSAGE um(
-                " (your core client is out of date - please upgrade)",
+                " (your BOINC client is old - please install current version)",
                 "high"
             );
             reply.insert_message(um);
             reply.set_delay(DELAY_NO_WORK_PERM);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
-                "Not sending work because core client is outdated\n"
+                "Not sending work because client is outdated\n"
             );
         }
         if (reply.wreq.excessive_work_buf) {

@@ -402,6 +402,7 @@ struct APP_VERSION {
     char app_name[256];
     int version_num;
     char platform[256];
+    char api_version[16];
     APP* app;
     PROJECT* project;
     std::vector<FILE_REF> app_files;
@@ -415,6 +416,7 @@ struct APP_VERSION {
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
     void clear_errors();
+    int api_major_version();
 };
 
 struct WORKUNIT {

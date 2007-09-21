@@ -78,17 +78,17 @@ void scan_work_array(
         app = ss.lookup_app(wu_result.workunit.appid);
         if (app == NULL) continue; // this should never happen
         if (reply.wreq.beta_only) {
-        	if (!app->beta) {
-        		continue;
-        	}
+            if (!app->beta) {
+                continue;
+            }
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] beta work found.  [RESULT#%d]\n",
                 reply.host.id, wu_result.resultid
             );
         } else {
-         	if (app->beta) {
-        		continue;
-        	}
+             if (app->beta) {
+                continue;
+            }
         }
         
         // If this is a reliable host and we are checking for results that
@@ -96,11 +96,11 @@ void scan_work_array(
         // skip if the app is beta (beta apps don't use the reliable mechanism)
         //
         if (!app->beta) {
-        	if (reply.wreq.reliable_only && (!wu_result.need_reliable)) {
-        		continue;
-        	} else if (!reply.wreq.reliable_only && wu_result.need_reliable) {
-        		continue;
-        	}
+            if (reply.wreq.reliable_only && (!wu_result.need_reliable)) {
+                continue;
+            } else if (!reply.wreq.reliable_only && wu_result.need_reliable) {
+                continue;
+            }
         }
         
         // don't send if we are looking for infeasible results
@@ -115,10 +115,10 @@ void scan_work_array(
         wu = wu_result.workunit;
         retval = wu_is_infeasible(wu, sreq, reply, app);
         if (retval) {
-           	log_messages.printf(
-               	SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible: %d\n",
-               	reply.host.id, wu.id, wu.name, retval
-           	);
+               log_messages.printf(
+                   SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible: %d\n",
+                   reply.host.id, wu.id, wu.name, retval
+               );
             continue;
         }
 
@@ -216,7 +216,7 @@ void scan_work_array(
             if (already_sent_to_different_platform_careful(
                 sreq, reply.wreq, wu_result.workunit, *app
             )) {
- 				log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                 log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
                     reply.host.id, wu.id, wu.name
                 );
@@ -224,8 +224,8 @@ void scan_work_array(
                 // This ensures that jobs already assigned to a platform
                 // are processed first.
                 //
- 				wu_result.infeasible_count++;
-				goto dont_send;
+                 wu_result.infeasible_count++;
+                goto dont_send;
             }
         }
 

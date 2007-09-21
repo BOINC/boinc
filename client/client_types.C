@@ -1074,6 +1074,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     FILE_REF file_ref;
 
     strcpy(app_name, "");
+    strcpy(api_version, "");
     version_num = 0;
     strcpy(platform, "");
     app = NULL;
@@ -1087,6 +1088,7 @@ int APP_VERSION::parse(MIOFILE& in) {
             continue;
         }
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_str(buf, "<api_version>", api_version, sizeof(api_version))) continue;
         if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
@@ -1110,6 +1112,9 @@ int APP_VERSION::write(MIOFILE& out) {
         version_num,
         platform
     );
+    if (strlen(api_version)) {
+        out.printf("    <api_version>%s</api_version>\n", api_version);
+    }
     for (i=0; i<app_files.size(); i++) {
         retval = app_files[i].write(out);
         if (retval) return retval;
@@ -1156,6 +1161,13 @@ void APP_VERSION::clear_errors() {
             fip->reset();
         }
     }
+}
+
+int APP_VERSION::api_major_version() {
+    int v, n;
+    n = sscanf(api_version, "%d", &v);
+    if (n != 1) return 0;
+    return v;
 }
 
 int FILE_REF::parse(MIOFILE& in) {

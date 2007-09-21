@@ -90,6 +90,7 @@ struct APP_VERSION {
     // <app_version>
     //     <app_name>...</app_name>
     //     <version_num>x</version_num>
+    //     <api_version>n.n.n</api_version>
     //     <file_ref>
     //        ...
     //        [<main_program/>]

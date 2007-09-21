@@ -83,7 +83,7 @@ using namespace std;
 // All variables that are accessed by two threads (i.e. worker and timer)
 // MUST be declared volatile.
 
-char* api_version="API_VERSION_"PACKAGE_VERSION;
+const char* api_version="API_VERSION_"PACKAGE_VERSION;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;

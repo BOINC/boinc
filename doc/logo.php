@@ -26,9 +26,11 @@ The colors are based on U.C. Berkeley's blue-and-gold colors.
 <li> <a href=logo/boinc_logo.png>1280x535, transparent background (.png)</a>
 <li> <a href=logo/boinc_logo.wmf>Windows meta-file (.wmf)</a>
 <li> <a href=logo/favicon.gif>Favicon (GIFF)</a>
-<li> <a href=logo/pb_boinc.gif>'Powered by BOINC' image</a>
 <li> <a href=logo/splash_8bit.png>Splash screen, 8-bit PNG</a>
 <li> <a href=logo/splash_24bit.png>Splash screen, 24-bit PNG</a>
+<li> <a href=logo/pb_boinc.gif>'Powered by BOINC' image</a>
+<br>
+<img src=logo/pb_boinc.gif>
 </ul>
 
 <h2>The old BOINC logo and icons</h2>

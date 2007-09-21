@@ -131,6 +131,7 @@ def process_app_version(
     non_exec_files=[],
     signature_files={},
     file_ref_infos={},
+    api_version='',
     quiet=False
     ):
     """Return xml for application version
@@ -188,6 +189,9 @@ def process_app_version(
                      '    <app_name>%s</app_name>\n'+
                      '    <version_num>%d</version_num>\n') %(
         app.name, version_num)
+
+    if (len(api_version)):
+        xml_doc += '    <api_version>'+api_version+'</api_version>\n';
 
     first = True
     for exec_file in exec_files + non_exec_files:

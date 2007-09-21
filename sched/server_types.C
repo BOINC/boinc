@@ -888,15 +888,6 @@ int HOST::parse(FILE* fin) {
         if (match_tag(buf, "<p_capabilities>")) continue;
         if (match_tag(buf, "<accelerators>")) continue;
 
-#if 0
-        // not sure where thees fields belong in the above
-        // categories
-        //
-        if (match_tag(buf, "<cpu_caps>")) continue;
-        if (match_tag(buf, "<cache_l1>")) continue;
-        if (match_tag(buf, "<cache_l2>")) continue;
-        if (match_tag(buf, "<cache_l3>")) continue;
-#endif
         log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "HOST::parse(): unrecognized: %s\n", buf
         );
@@ -932,6 +923,13 @@ int HOST::parse_net_stats(FILE* fin) {
         if (match_tag(buf, "</net_stats>")) return 0;
         if (parse_double(buf, "<bwup>", n_bwup)) continue;
         if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
+
+        // items reported by 5.10+ clients, not currently used
+        //
+        if (match_tag(buf, "<avg_time_up>")) continue;
+        if (match_tag(buf, "<avg_up>")) continue;
+        if (match_tag(buf, "<avg_time_down>")) continue;
+        if (match_tag(buf, "<avg_down>")) continue;
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
             "HOST::parse_net_stats(): unrecognized: %s\n",

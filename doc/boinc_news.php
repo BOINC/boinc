@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("September 21, 2007",
+    "A <a href=http://boinc.berkeley.edu/boinc_papers/client_sch_eval/client_sch_eval.pdf>paper about scheduling in BOINC</a>
+    will appear in the 3rd IEEE International Conference on e-Science and Grid Computing. Banagalore, India, December 10-13 2007."
+),
 array("September 7, 2007",
     "The new BOINC logo is now available in
     <a href=logo.php>a variety of formats and resolutions.</a>"

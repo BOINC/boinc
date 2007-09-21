@@ -8610,3 +8610,32 @@ David  21 Sept 2007
 		gui_rpc_server_ops.C
 	clientgui/
 		MainDocument.cpp
+
+David  21 Sept 2007
+    - Added new script "update_versions_v6"; use this instead of
+        update_versions to add version 6 apps.
+        It looks for API_VERSION string in main executable,
+        adds the API version to the app_version XML,
+        and sets min_core_version to 6 for version 6+ apps
+    - API: include API_VERSION string
+    - convert tabs to spaces here and there
+    - scheduler: parse unused elements in <net_stats>
+    - ops/show_log.php: if no URL args, just show form (fixes #415)
+    - client: parse and store api_version (not used yet)
+
+    api/
+        boinc_api.C
+    client/
+        client_types.C,h
+    db/
+        boinc_db.h
+    html/ops/
+        show_log.php
+    py/Boinc/
+        tools.py
+    sched/
+        sched_array.C
+        sched_send.C
+        server_types.C
+    tools/
+        update_versions_v6 (new)
