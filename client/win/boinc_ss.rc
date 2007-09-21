@@ -316,24 +316,24 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_ERR_GENERIC         "There was an unspecified problem\nwith the World Community Grid screensaver."
+    IDS_ERR_GENERIC         "There was a problem\nwith the BOINC screensaver."
     IDS_ERR_BOINCNOTDETECTED 
-                            "World Community Grid is not running.\n\nPlease launch World Community Grid\nto display graphics."
+                            "The World Community Grid - BOINC agent is not running.\n\nPlease launch the World Community Grid BOINC -Agent\nto display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
-                            "World Community Grid is not running.\n(Automatic Startup not detected)\n\nWe recommend running World Community Grid at startup;\nplease reinstall World Community Grid and select this option."
-    IDS_ERR_BOINCSUSPENDED  "World Community Grid is currently suspended."
+                            "The World Community Grid - BOINC agent is not running.\n(Automatic Startup not detected)\n\nWe recommend running World Community Grid at startup;\nplease reinstall World Community Grid and select this option."
+    IDS_ERR_BOINCSUSPENDED  "The World Community Grid - BOINC agent is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
-                            "World Community Grid is currently idle."
+                            "The World Community Grid - BOINC agent is not currently\nrunning any research application."
     IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED
-                            "World Community Grid is not attached\nto any projects.\nYou can attach to projects using\nthe Attach to project wizard\nin the tools menu."
+                            "The World Community Grid - BOINC agent is not attached\nto any projects.\nYou can attach to projects using\nthe Attach to project wizard\nin the tools menu."
     IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
-                            "World Community Grid system status:\n\n"
+                            "Processing status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
-                            "World Community Grid screensaver loading"
+                            "Screensaver loading"
     IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
                             "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
-                            "World Community Grid\nscreensaver shutting down."
+                            "Screensaver shutting down."
 END
 
 #elif defined(_SEED)
