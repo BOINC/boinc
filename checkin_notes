@@ -7355,3 +7355,15 @@ Charlie 21 Sep 2007
     clientgui/
         mac/
             mac_saver_module.cpp
+
+Kevin 21 Sep 2007
+    - Screen Saver: Add additional information about the work running when no graphics are available.  
+            Increased the size to the box displaying the message to accommodate larger image sizes.  
+            Add code to center images if less then the allowed max size of 450x166
+
+    client/win
+        win_screensaver.cpp
+        
+        
+        
+  
