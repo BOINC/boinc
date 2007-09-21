@@ -148,8 +148,8 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     char init_data_path[256];
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
-	// ftok() only works if there's a file at the given location
-	//
+    // ftok() only works if there's a file at the given location
+    //
     FILE* f = boinc_fopen(init_data_path, "w");
     if (f) fclose(f);
     shmem_seg_name = ftok(init_data_path, 1);
@@ -350,8 +350,8 @@ int ACTIVE_TASK::start(bool first_time) {
     episode_start_cpu_time = checkpoint_cpu_time;
     debt_interval_start_cpu_time = checkpoint_cpu_time;
 
-	graphics_request_queue.init(result->name);		// reset message queues
-	process_control_queue.init(result->name);
+    graphics_request_queue.init(result->name);        // reset message queues
+    process_control_queue.init(result->name);
 
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
@@ -453,7 +453,7 @@ int ACTIVE_TASK::start(bool first_time) {
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
     startup_info.dwFlags=STARTF_FORCEOFFFEEDBACK;
-        // suppress 2-sec rotating hourglass cursor on startup
+    // suppress 2-sec rotating hourglass cursor on startup
 
     //startup_info.cb = sizeof(startup_info);
     //startup_info.dwFlags = STARTF_USESHOWWINDOW;
@@ -508,11 +508,10 @@ int ACTIVE_TASK::start(bool first_time) {
     pid = process_info.dwProcessId;
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
-	
 #elif defined(__EMX__)
 
-    char* 	argv[100];
-	char	current_dir[_MAX_PATH];
+    char* argv[100];
+    char current_dir[_MAX_PATH];
 
     // Set up core/app shared memory seg if needed
     //
@@ -526,39 +525,39 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     app_client_shm.reset_msgs();
 
-	// save current dir
-	getcwd( current_dir, sizeof(current_dir));
+    // save current dir
+    getcwd( current_dir, sizeof(current_dir));
 
-	// chdir() into the slot directory
-	//
-	retval = chdir(slot_dir);
-	if (retval) {
-		sprintf(buf, "Can't change directory: %s", slot_dir, boincerror(retval));
-		goto error;
-	}
+    // chdir() into the slot directory
+    //
+    retval = chdir(slot_dir);
+    if (retval) {
+        sprintf(buf, "Can't change directory: %s", slot_dir, boincerror(retval));
+        goto error;
+    }
 
-	// hook up stderr to a specially-named file
-	//
-	//freopen(STDERR_FILE, "a", stderr);
+    // hook up stderr to a specially-named file
+    //
+    //freopen(STDERR_FILE, "a", stderr);
 
-	argv[0] = exec_name;
-	char cmdline[8192];
-	strcpy(cmdline, wup->command_line.c_str());
-	parse_command_line(cmdline, argv+1);
+    argv[0] = exec_name;
+    char cmdline[8192];
+    strcpy(cmdline, wup->command_line.c_str());
+    parse_command_line(cmdline, argv+1);
     if (log_flags.task_debug) {
         debug_print_argv(argv);
     }
-	sprintf(buf, "../../%s", exec_path );
-	pid = spawnv(P_NOWAIT, buf, argv);
-	if (pid == -1) {
-		sprintf(buf, "Process creation failed: %s\n", buf, boincerror(retval));
-		chdir(current_dir);
+    sprintf(buf, "../../%s", exec_path );
+    pid = spawnv(P_NOWAIT, buf, argv);
+    if (pid == -1) {
+        sprintf(buf, "Process creation failed: %s\n", buf, boincerror(retval));
+        chdir(current_dir);
         retval = ERR_EXEC;
         goto error;
-	}
+    }
 
-	// restore current dir
-	chdir(current_dir);
+    // restore current dir
+    chdir(current_dir);
 
     if (log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
@@ -707,10 +706,10 @@ int ACTIVE_TASK::start(bool first_time) {
     // go here on error; "buf" contains error message, "retval" is nonzero
     //
 error:
-	// if something failed, it's possible that the executable was munged.
-	// Verify it to trigger another download.
-	//
-	gstate.input_files_available(result, true);
+    // if something failed, it's possible that the executable was munged.
+    // Verify it to trigger another download.
+    //
+    gstate.input_files_available(result, true);
     gstate.report_result_error(*result, buf);
     set_task_state(PROCESS_COULDNT_START, "start");
     return retval;

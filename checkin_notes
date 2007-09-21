@@ -8601,3 +8601,12 @@ Charlie 21 Sep 2007
         MainDocument.cpp
         mac/
             mac_saver_module.cpp
+
+David  21 Sept 2007
+	- client: get_proxy_settings GUI RPC requires authentication
+
+	client/
+		app_start.C
+		gui_rpc_server_ops.C
+	clientgui/
+		MainDocument.cpp

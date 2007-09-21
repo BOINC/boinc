@@ -1107,7 +1107,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         int      id;
 #endif
 
-        p = strrchr(result->slot_path.c_str(), '/');
+        p = strrchr((char*)result->slot_path.c_str(), '/');
         if (!p) return ERR_INVALID_PARAM;
         slot = atoi(p+1);
         
