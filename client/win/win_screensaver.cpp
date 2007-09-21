@@ -886,15 +886,22 @@ VOID CScreensaver::UpdateErrorBoxText() {
 
                 pProject = state.lookup_project(results.results.at(iIndex)->project_url);
                 if (NULL != pProject) {
-                    StringCbPrintf(szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
-                        _T("%s: %.2f%%\n"),
-                        pProject->project_name.c_str(),
-                        results.results.at(iIndex)->fraction_done * 100 
-                    );
-
-                    StringCbCat(m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer);
+					RESULT* pResult = state.lookup_result(pProject, results.results.at(iIndex)->name);
+					if ( pResult != NULL ) {
+						StringCbPrintf(m_szError, sizeof(m_szError) / sizeof(TCHAR),
+							_T("\nRunning research for %s\nApplication: %s\nWorkunit: %s\n%.2f%% complete\n"),
+							pProject->project_name.c_str(),
+							pResult->app->user_friendly_name.c_str(),
+							pResult->wu_name.c_str(),
+							results.results.at(iIndex)->fraction_done*100 
+						);
+					} else {
+						m_bResetCoreState = TRUE;
+						GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
+					}
                 } else {
                     m_bResetCoreState = TRUE;
+					GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
                 }
             }
             m_szError[ sizeof(m_szError) -1 ] = '\0';
@@ -1748,8 +1755,8 @@ VOID CScreensaver::UpdateErrorBox() {
                 InvalidateRect(hwnd, NULL, FALSE);    // Invalidate the hwnd so it gets drawn
                 UpdateWindow(hwnd);
             } else {
-                pMonitorInfo->widthError = 500;
-                pMonitorInfo->heightError = 154;
+                pMonitorInfo->widthError = 454;
+                pMonitorInfo->heightError = 320;
                 pMonitorInfo->xError = (rcBounds.right + rcBounds.left - pMonitorInfo->widthError) / 2.0f;
                 pMonitorInfo->yError = (rcBounds.bottom + rcBounds.top - pMonitorInfo->heightError) / 2.0f;
                 pMonitorInfo->xVelError = (rcBounds.right - rcBounds.left) / 10.0f;
@@ -1838,7 +1845,6 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
 	// Start off with a black screen and then draw on top of it.
 	FillRect(hdc, &lpps->rcPaint, hbrushBlack);
 
-
     // If the screensaver has switched to a blanked state or not in an error mode,
     // we should exit here so the screen has been erased to black.
     if ((SS_STATUS_BLANKED == m_iStatus) || !bErrorMode) {
@@ -1850,6 +1856,8 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
         (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
         (INT)(pMonitorInfo->yError + pMonitorInfo->heightError)
     );
+//  This fill rect is useful when testing
+//	FillRect(hdc, &rc, hbrushRed);
 	rcOrginal = rc;
 
 
@@ -1857,17 +1865,30 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
     // it. the bitmap is centered in the rectangle by adding 2
 	// to the left and top coordinates of the bitmap rectangle,
 	// and subtracting 4 from the right and bottom coordinates.
-    DrawTransparentBitmap(hdc, hbmp, (rc.left + 2), (rc.top + 2), RGB(255, 0, 255));
-	rc.left += 166;
+    BITMAP     bm;
+    GetObject(hbmp, sizeof(BITMAP), (LPSTR)&bm);
+
+	long left = rc.left + (pMonitorInfo->widthError - 4 - bm.bmWidth)/2;
+	long top = rc.top + 2;
+    DrawTransparentBitmap(hdc, hbmp, left, top, RGB(255, 0, 255));
 
 	// Draw text in the center of the frame
 	SetBkColor(hdc, RGB(0,0,0));           // Black
 	SetTextColor(hdc, RGB(255,255,255));   // Red
-
+   
+	// Set font
+	HFONT hf;
+    hf = CreateFont(0, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "Arial Narrow");
+	
+    if(hf)
+    {
+        SelectObject(hdc, hf);
+    }
+	
 	rc2 = rc;
     iTextHeight = DrawText(hdc, szError, -1, &rc, DT_CENTER | DT_CALCRECT);
 	rc = rc2;
-    rc2.top = (rc.bottom + rc.top - iTextHeight) / 2;
+	rc2.top+=bm.bmHeight+20;
     DrawText(hdc, szError, -1, &rc2, DT_CENTER);
 }
 
