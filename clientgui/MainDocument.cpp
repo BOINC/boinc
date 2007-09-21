@@ -29,6 +29,7 @@
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
+#include <sys/wait.h>
 
 #ifdef SANDBOX
 #include <grp.h>
@@ -395,6 +396,16 @@ int CMainDocument::OnPoll() {
 
     if (m_pNetworkConnection) {
         m_pNetworkConnection->Poll();
+    }
+
+    // Every 10 seconds, kill any running graphics apps 
+    // whose associated worker tasks are no longer running
+    wxDateTime timeNow = wxDateTime::Now();
+    wxTimeSpan ts(timeNow - m_dtKillInactiveGfxTimestamp);
+    if (ts.GetSeconds() > 10) {
+        CachedResultsStatusUpdate();
+        m_dtKillInactiveGfxTimestamp = timeNow;
+        KillInactiveGraphicsApps();
     }
 
     return iRetVal;
@@ -981,8 +992,8 @@ int CMainDocument::WorkResume(std::string& strProjectURL, std::string& strName) 
 }
 
 
-// If the graphics application for the current task is already running,
-// return a pointer to its RUNNING_GFX_APP struct.
+// If the graphics application for the current task is already 
+// running, return a pointer to its RUNNING_GFX_APP struct.
 RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
 {
     bool exited = false;
@@ -1026,6 +1037,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
 }
 
 
+// Kill any running graphics apps whose worker tasks aren't running
 void CMainDocument::KillInactiveGraphicsApps()
 {
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;

@@ -186,6 +186,7 @@ public:
 private:
     int                         CachedResultsStatusUpdate();
     wxDateTime                  m_dtResultsTimestamp;
+    wxDateTime                  m_dtKillInactiveGfxTimestamp;
     std::vector<RUNNING_GFX_APP> m_running_gfx_apps;
     RUNNING_GFX_APP*            GetRunningGraphicsApp(RESULT* result, int slot);
     void                        KillAllRunningGraphicsApps();
