@@ -7348,3 +7348,10 @@ Charlie 10 Sep 2007
 
     clientgui/
         WelcomePage.cpp
+
+Charlie 21 Sep 2007
+    - Mac SCR: prevent double delete of RPC_CLIENT rpc on closing screensaver.
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp

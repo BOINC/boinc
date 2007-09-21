@@ -456,6 +456,7 @@ void closeBOINCSaver() {
         }
 #endif
         delete rpc;
+        rpc = NULL;
     }
 
     setBannerText(0, NULL);
