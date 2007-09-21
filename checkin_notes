@@ -8591,3 +8591,13 @@ Charlie 20 Sept 2007
     
     clientgui/
         MainDocument.cpp, h
+
+Charlie 21 Sep 2007
+    - MGR: Every 10 seconds, kill any running graphics apps whose associated 
+        worker tasks are no longer running.
+    - Mac SCR: prevent double delete of RPC_CLIENT rpc on closing screensaver.
+
+    clientgui/
+        MainDocument.cpp
+        mac/
+            mac_saver_module.cpp
