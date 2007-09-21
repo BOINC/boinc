@@ -316,7 +316,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_ERR_GENERIC         "There was a problem\nwith the BOINC screensaver."
+    IDS_ERR_GENERIC         "There was a problem\nwith the screensaver."
     IDS_ERR_BOINCNOTDETECTED 
                             "The World Community Grid - BOINC agent is not running.\n\nPlease launch the World Community Grid BOINC -Agent\nto display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
@@ -334,6 +334,8 @@ BEGIN
                             "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "Screensaver shutting down."
+    IDS_ERR_DAEMONALLOWSNOGRAPHICS
+                            "Screensaver graphics disabled.\n\nGraphics cannot be displayed when configured to run\nas a Windows service."
 END
 
 #elif defined(_SEED)
