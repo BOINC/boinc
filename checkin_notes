@@ -8641,7 +8641,10 @@ David  21 Sept 2007
         update_versions_v6 (new)
 
 Charlie 21 Sep 2007
-    - MGR: Fix build problems, crash on Linux.
+    - MGR V6 GFX: Fix build problems, crash on Linux.
+    - MGR V6 GFX: If no graphics apps are running, CMainDocument::OnPoll() 
+        doesn't call CachedResultsStatusUpdate().
+        
 
 	clientgui/
             MainDocument.cpp

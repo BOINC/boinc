@@ -403,7 +403,6 @@ int CMainDocument::OnPoll() {
     wxTimeSpan ts(wxDateTime::Now() - m_dtKillInactiveGfxTimestamp);
     if (ts.GetSeconds() > 10) {
         m_dtKillInactiveGfxTimestamp = wxDateTime::Now();
-        CachedResultsStatusUpdate();
         KillInactiveGraphicsApps();
     }
 
@@ -1044,6 +1043,11 @@ void CMainDocument::KillInactiveGraphicsApps()
     bool bStillRunning;
 
     if (m_running_gfx_apps.size() <= 0) return;
+    
+    // If none of the Tasks displays are visible, we need to update 
+    // the results vector.  This call does nothing if recently updated
+    // by a call from CViewWork, CViewWorkGrid or CViewTabPage.
+    CachedResultsStatusUpdate();
     
     // Step through in reverse order so we can erase vector items
     gfx_app_iter = m_running_gfx_apps.end();
