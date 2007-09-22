@@ -321,6 +321,7 @@ CMainDocument::CMainDocument() {
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
     m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
     m_dtResultsTimestamp = wxDateTime((time_t)0);
+    m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
