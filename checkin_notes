@@ -8639,3 +8639,9 @@ David  21 Sept 2007
         server_types.C
     tools/
         update_versions_v6 (new)
+
+Charlie 21 Sep 2007
+    - MGR: Fix build problems, crash on Linux.
+
+	clientgui/
+            MainDocument.cpp

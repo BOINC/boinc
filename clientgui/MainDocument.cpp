@@ -400,11 +400,10 @@ int CMainDocument::OnPoll() {
 
     // Every 10 seconds, kill any running graphics apps 
     // whose associated worker tasks are no longer running
-    wxDateTime timeNow = wxDateTime::Now();
-    wxTimeSpan ts(timeNow - m_dtKillInactiveGfxTimestamp);
+    wxTimeSpan ts(wxDateTime::Now() - m_dtKillInactiveGfxTimestamp);
     if (ts.GetSeconds() > 10) {
+        m_dtKillInactiveGfxTimestamp = wxDateTime::Now();
         CachedResultsStatusUpdate();
-        m_dtKillInactiveGfxTimestamp = timeNow;
         KillInactiveGraphicsApps();
     }
 
@@ -1182,9 +1181,9 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         // V5 and Older
         DISPLAY_INFO di;
 
-        strcpy(di.window_station, wxGetApp().m_strDefaultWindowStation.c_str());
-        strcpy(di.desktop, wxGetApp().m_strDefaultDesktop.c_str());
-        strcpy(di.display, wxGetApp().m_strDefaultDisplay.c_str());
+        strcpy(di.window_station, (char*)wxGetApp().m_strDefaultWindowStation.c_str());
+        strcpy(di.desktop, (char*)wxGetApp().m_strDefaultDesktop.c_str());
+        strcpy(di.display, (char*)wxGetApp().m_strDefaultDisplay.c_str());
 
         iRetVal = rpc.show_graphics(
             result->project_url.c_str(),
