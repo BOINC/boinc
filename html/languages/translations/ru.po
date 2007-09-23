@@ -1,14 +1,17 @@
-﻿"Project-Id-Version: \n"
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-09-02 17:35+0300\n"
+"PO-Revision-Date: 2007-09-21 14:48+0300\n"
 "Last-Translator: Nikolay Saharov <saharovna@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 ##########################################
-# Language: Russian (Russian Federation) (based on en.po rev 13460)
+# Language: Russian (Russian Federation) (based on en.po rev 13579)
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
 # Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
@@ -478,6 +481,21 @@ msgstr "У Вас одно непрочитанное личное сообще�
 
 msgid "You have no unread private messages."
 msgstr "У Вас нет непрочитанных личных сообщений."
+
+msgid "Sender"
+msgstr "Отправитель"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Reply"
+msgstr "Ответить"
+
+msgid "Block user"
+msgstr "Заблокировать пользователя"
 
 
 #########################################

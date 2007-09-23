@@ -1,5 +1,5 @@
-##########################################
-# Language: English (International)
+####################################
+# Language: Polish [rev. 1.40 (12.09.2007/18:15)]
 # FileID  : $Id$
 # Author  : Bartosz Kaszubowski
 # Email   : gosimek@gmail.com
@@ -18,7 +18,6 @@ msgstr "Polski"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Polish"
 
-
 #########################################
 # Apps page (apps.php)
 #########################################
@@ -26,7 +25,7 @@ msgid "APPS_TITLE"
 msgstr "Aplikacje"
 
 msgid "APPS_DESCRIPTION"
-msgstr "Projekt $PROJECT obecnie korzysta z aplikacji wypisanych w tabelce poniÅ¼ej. UczestniczÄ…c w $PROJECT twÃ³j komputer otrzyma pracÄ™ od jednej lub wiÄ™cej z tych aplikacji. Za kaÅ¼dym razem, gdy zmieni siÄ™ wersja aplikacji, zostanie ona pobrana automatycznie przez BOINC Manager'a, wiÄ™c nie musisz siÄ™ o nic martwiÄ‡."
+msgstr "Projekt $PROJECT obecnie korzysta z aplikacji wypisanych w tabeli poni¿ej. Uczestnicz¹c w $PROJECT twój komputer otrzyma pracê od jednej lub wiêcej z tych aplikacji. Za ka¿dym razem, gdy zmieni siê wersja aplikacji, zostanie ona pobrana automatycznie przez BOINC Manager'a, wiêc nie musisz siê o nic martwiæ."
 
 msgid "APPS_PLATFORM"
 msgstr "Platforma"
@@ -41,133 +40,133 @@ msgstr "Zainstalowano"
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Zasady i reguÅ‚y"
+msgstr "Zasady i regu³y"
 
 msgid "RULES_ONLY_AUTH"
-msgstr "Licz w projekcie $PROJECT wyÅ‚Ä…cznie na komputerach autoryzowanych."
+msgstr "Licz w projekcie $PROJECT wy³¹cznie na komputerach autoryzowanych."
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Licz w projekcie $PROJECT tylko na komputerach, ktÃ³re sÄ… twojÄ… wÅ‚asnoÅ›ciÄ… lub do uÅ¼ycia ktÃ³rych masz zgodÄ™ wÅ‚aÅ›ciciela. NiektÃ³re firmy i szkoÅ‚y majÄ… zasady zabraniajÄ…ce wykorzystywania ich maszyn do celÃ³w takich, jak wykorzystywanie mocy obliczeniowej w projektach naukowych."
+msgstr "Licz w projekcie $PROJECT tylko na komputerach, które s¹ twoj¹ w³asnoœci¹ lub do u¿ycia których masz zgodê w³aœciciela. Niektóre firmy i szko³y maj¹ zabraniaj¹ wykorzystywania ich komputerów do celów takich, jak wykorzystywanie mocy obliczeniowej w projektach naukowych."
 
 msgid "RULES_COMPUTER_USE"
-msgstr "Jak projekt $PROJECT wykorzysta twÃ³j komputer?"
+msgstr "Jak projekt $PROJECT bêdzie korzysta³ z twojego komputera?"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Gdy uruchomisz aplikacjÄ™ projektu $PROJECT na swoim komputerze bÄ™dzie ona wykorzystywaÄ‡ czÄ™Å›Ä‡ mocy jego procesora, przestrzeni dysku i przepustowoÅ›ci Å‚Ä…cza. MoÅ¼esz jednak regulowaÄ‡, ile zasobÃ³w systemowych chcesz przeznaczyÄ‡ na pracÄ™ w projekcie $PROJECT."
+msgstr "Gdy uruchomisz aplikacjê projektu $PROJECT na swoim komputerze bêdzie ona wykorzystywaæ czêœæ mocy jego procesora, przestrzeni dysku i przepustowoœci ³¹cza. Mo¿esz swobodnie regulowaæ, ile zasobów systemowych chcesz przeznaczyæ na pracê w projekcie $PROJECT."
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "Praca wykonywana przez twÃ³j komputer sÅ‚uÅ¼y celom projektu $PROJECT, ktÃ³re opisane sÄ… na stronie gÅ‚Ã³wnej. Aplikacje tego projektu mogÄ… co jakiÅ› czas siÄ™ zmieniaÄ‡."
+msgstr "Praca wykonywana przez twój komputer s³u¿y celom projektu $PROJECT, które opisane s¹ na stronie g³ównej. Aplikacje projektu mog¹ byc co jakiœ czas aktualizowane, b¹dŸ zmieniane."
 
 msgid "RULES_PRIVACY"
-msgstr "Polityka prywatnoÅ›ci"
+msgstr "Polityka prywatnoœci"
 
 msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Twoje konto w projekcie $PROJECT jest identyfikowane dziÄ™ki nazwie, ktÃ³rÄ… sam okreÅ›lasz. MoÅ¼e byÄ‡ ona wyÅ›wietlona na stronie internetowej projektu $PROJECT wraz z podsumowaniem pracy, ktÃ³rÄ… dla potrzeb projektu wykonaÅ‚ twÃ³j komputer. JeÅ¼li jednak chcesz pozostaÄ‡ anonimowy, moÅ¼esz wybraÄ‡ nazwÄ™, ktÃ³ra nie zdradzi twej toÅ¼samoÅ›ci."
+msgstr "Twoje konto w projekcie $PROJECT jest identyfikowane dziêki nazwie, któr¹ sam okreœlasz. Nazwa uczestnika mo¿e byæ wyœwietlana na stronie internetowej projektu wraz z podsumowaniem pracy, któr¹ dla potrzeb tego projektu wykona³ twój komputer. Je¿eli jednak chcesz pozostaæ anonimowy, mo¿esz wybraæ nazwê, która nie zdradzi twojej to¿samoœci."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Gdy bierzesz udziaÅ‚ w projekcie $PROJECT, informacje o twym komputerze, takie jak rodzaj procesora, iloÅ›Ä‡ pamiÄ™ci operacyjnej itp. bÄ™dÄ… zapisane przez ten projekt i posÅ‚uÅ¼Ä… okreÅ›leniu, jakiego rodzaju zadania naleÅ¼y przydzielaÄ‡ twojemu komputerowi. Dane te bÄ™dÄ… takÅ¼e wyÅ›wietlone na stronie  projeku $PROJECT, lecz moÅ¼e je ukryÄ‡, jeÅ›li tego chcesz. Zapewniamy, Å¼e nie bÄ™dÄ… wyÅ›wietlone informacje, ktÃ³re umoÅ¼liwiÅ‚oby rozpoznanie lokacji twojego komputera (np. nazwa domeny czy adres sieciowy)."
+msgstr "Gdy bierzesz udzia³ w projekcie $PROJECT, informacje o twym komputerze, takie jak rodzaj procesora, iloœæ pamiêci operacyjnej itp. bêd¹ zapisane przez projekt i pos³u¿¹ okreœleniu, jakiego rodzaju zadania nale¿y przydzieliæ twojemu komputerowi. Dane te bêd¹ tak¿e wyœwietlone na stronie projektu $PROJECT, lecz mo¿e je ukryæ, jeœli tego chcesz. Zapewniamy, ¿e nie bêd¹ wyœwietlone informacje, które umo¿liwi³oby rozpoznanie lokacji twojego komputera (np. nazwa domeny czy adres sieciowy)."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "By uczestniczyÄ‡ w projekcie $PROJECT, musisz podaÄ‡ adres e-mailowy, na ktÃ³ry chcesz otrzymywaÄ‡ wiadomoÅ›ci odnoÅ›nie projektu. Nie bÄ™dzie on ujawniony na stronie internetowej projektu, ani uÅ¼yczany jakimkolwiek organizacjom. Projekt $PROJECT moÅ¼e przysyÅ‚aÄ‡ Ci co jakiÅ› czas wiadomoÅ›ci z nowoÅ›ciami, moÅ¼esz jednak z nich zrezygnowaÄ‡ w kaÅ¼dej chwili."
+msgstr "By uczestniczyæ w projekcie $PROJECT, musisz podaæ adres e-mailowy, na który chcesz otrzymywaæ wiadomoœci odnoœnie projektu. Nie bêdzie on ujawniony na stronie internetowej projektu, ani u¿yczany jakimkolwiek organizacjom. Projekt $PROJECT mo¿e przysy³aæ Ci co jakiœ czas wiadomoœci z nowinkami dotycz¹cymi tego projektu, mo¿esz jednak z nich zrezygnowaæ w ka¿dej chwili."
 
 msgid "RULES_SAFE"
 msgstr "Czy uruchamianie aplikacji projektu $PROJECT jest bezpieczne?"
 
 msgid "RULES_SAFE_TEXT_A"
-msgstr "Za kaÅ¼dym razem, gdy pobierasz z sieci program, ryzykujesz: moÅ¼e on zawieraÄ‡ niebezpieczne bÅ‚Ä™dy, albo serwer, z ktÃ³rego go pobierasz, moÅ¼e zostaÄ‡ zhakowany. W projekcie $PROJECT staramy siÄ™ sprowadziÄ‡ to ryzyko do minimum, aby zapewniÄ‡ uczestnikom jak najwyÅ¼szy poziom bezpieczeÅ„stwa."
+msgstr "Za ka¿dym razem, gdy pobierasz z sieci program, ryzykujesz: mo¿e on zawieraæ niebezpieczne b³êdy, albo serwer, z którego go pobierasz, mo¿e zostaæ zainfekowany wirusem czy trojanem. W projekcie $PROJECT staramy siê sprowadziæ to ryzyko do minimum, aby zapewniæ uczestnikom jak najwy¿szy poziom bezpieczeñstwa."
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "Aplikacje uruchamiane przez projekt $PROJECT mogÄ… powodowaÄ‡ przegrzanie siÄ™ niektÃ³rych komputerÃ³w. W takim przypadku zatrzymaj pracÄ™ aplikacji tego projektu lub uÅ¼yj %s, ktÃ³re miÄ™dzyinnymi ograniczajÄ… wykorzystywanie procesora twojego komputera."
+msgstr "Aplikacje uruchamiane przez projekt $PROJECT mog¹ powodowaæ przegrzewanie siê niektórych komputerów. Jeœli tak siê stanie, zatrzymaj zadania pochodz¹ce z tego projektu lub skorzystaj z %s, które miêdzyinnymi ograniczaj¹ wykorzystywanie procesora twojego komputera, przez co ograniczaj¹ wydzielane przez niego ciep³o."
 
 msgid "RULES_UTILITY_PROGRAM"
-msgstr "dodatkowych programÃ³w"
+msgstr "dodatkowych programów"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "Projekt $PROJECT powstaÅ‚ w %s. PlatformÄ™ BOINC napisano na Uniwersytecie Kalifornia."
+msgstr "Projekt $PROJECT powsta³ w %s. Platformê BOINC stworzono na Uniwersytecie Kalifornijskim w Berkeley."
 
 msgid "RULES_LIABILITY"
-msgstr "OdpowiedzialnoÅ›Ä‡"
+msgstr "Odpowiedzialnoœæ"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "Projekt $PROJECT oraz %s nie biorÄ… odpowiedzialnoÅ›ci za uszkodzenie twojego komputera, utratÄ™ danych czy inne wypadki, ktÃ³re mogÄ… wystÄ…piÄ‡ jako skutek uczestnictwa w tym projekcie."
+msgstr "Projekt $PROJECT oraz %s nie bior¹ odpowiedzialnoœci za uszkodzenie twojego komputera, utratê danych czy inne wypadki, które mog¹ wyst¹piæ w skutek uczestnictwa w tym projekcie."
 
 msgid "RULES_OTHER"
 msgstr "Inne projekty BOINC"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Inne projekty poza $PROJECT uÅ¼ywajÄ… takÅ¼e platformy BOINC. RozwaÅ¼ takÅ¼e uczestnictwo w innych projektach przetwarzania rozproszonego. W ten sposÃ³b twÃ³j komputer moÅ¼e wykonywaÄ‡ poÅ¼yteczne obliczenia nawet jeÅ›li projekt $PROJECT nie ma dla niego w danej chwili Å¼adnych zadaÅ„."
+msgstr "Tak jak $PROJECT wiele innych projektów korzysta z platformy BOINC. Rozwa¿ tak¿e uczestnictwo w innych projektach przetwarzania rozproszonego. W ten sposób twój komputer mo¿e wykonywaæ po¿yteczne dla nauki obliczenia nawet jeœli projekt $PROJECT nie ma dla niego w danej chwili ¿adnych zadañ."
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "Inne projekty nie majÄ… zwiÄ…zku z projektem $PROJECT, nie moÅ¼emy wiÄ™c odpowiadaÄ‡ za jakoÅ›Ä‡ ich zabezpieczeÅ„ czy naturÄ™ prowadzonych badaÅ„. Uczestniczysz w nich na wÅ‚asnÄ… odpowiedzialnoÅ›Ä‡ oraz ryzyko."
+msgstr "Inne projekty nie maj¹ zwi¹zku z projektem $PROJECT, nie mo¿emy wiêc odpowiadaæ za jakoœæ ich zabezpieczeñ czy naturê prowadzonych badañ. Uczestniczysz w nich na w³asn¹ odpowiedzialnoœæ oraz ryzyko."
 
 #########################################
 # Create account form (create_account_form.php)
 #########################################
 msgid "CREATE_AC_TITLE"
-msgstr "StwÃ³rz konto"
+msgstr "Stwórz konto"
 
 msgid "CREATE_AC_READ_RULES"
 msgstr "Przeczytaj %s zanim stworzysz nowe konto."
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "JeÅ›li juÅ¼ otrzymaÅ‚eÅ› klucz do konta, nie wysyÅ‚aj tego formularza, tylko %s."
+msgstr "Jeœli ju¿ otrzyma³eœ klucz do konta, nie wysy³aj tego formularza, tylko %s."
 
 msgid "CREATE_AC_NAME"
-msgstr "Nazwa konta"
+msgstr "Nazwa u¿ytkownika"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "Identyfikuje CiÄ™ na stronie. UÅ¼yj swego imienia lub pseudonimu."
+msgstr "Identyfikuje Ciebie na stronie. Np. mo¿esz uzyæ imienia lub pseudonimu."
 
 msgid "CREATE_AC_EMAIL"
 msgstr "Adres e-mail"
 
 msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Musi to byÄ‡ aktualny adres wpisany w postaci 'nazwa@domena'."
+msgstr "Musi to byæ aktualny adres wpisany w postaci 'nazwa@domena'."
 
 msgid "CREATE_AC_COUNTRY"
 msgstr "Kraj"
 
 msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "JeÅ›li chcesz, wybierz kraj, ktÃ³ry reprezentujesz."
+msgstr "Jeœli chcesz, wybierz kraj, który reprezentujesz."
 
 msgid "CREATE_AC_ZIP"
 msgstr "Kod pocztowy"
 
 msgid "CREATE_AC_CREATE"
-msgstr "StwÃ³rz konto"
+msgstr "Stwórz konto"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "Tworzenie nowego konta jest aktualnie wyÅ‚Ä…czone!"
+msgstr "Tworzenie nowego konta jest aktualnie wy³¹czone!"
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "W tej chwili moÅ¼liwoÅ›Ä‡ tworzenia konta w projekcie $PROJECT jest zawieszona. JeÅ›li chcesz sprÃ³bÃ³j stworzyÄ‡ konto pÃ³Åºniej."
+msgstr "W tej chwili mo¿liwoœæ stworzenia konta w projekcie $PROJECT jest zawieszona. ŒledŸ nowinki tego projektu i jeœli chcesz spróbuj stworzyæ nowe konto za jakiœ czas."
 
 msgid "CREATE_AC_TEAM"
-msgstr "To konto automatycznie bÄ™dzie przyÅ‚Ä…czone do zespoÅ‚u %s i zyska ustawienia okreÅ›lone przez zaÅ‚oÅ¼yciela tego zespoÅ‚u."
+msgstr "To konto automatycznie bêdzie przy³¹czone do zespo³u %s i zyska ustawienia okreœlone przez jego za³o¿yciela."
 
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "UWAGA: JeÅ¼eli uÅ¼ywasz BOINC Managera w wersji 5.2+ nie uÅ¼ywaj tej strony do stworzenia konta. Poprostu uruchom BOINC, wybierz z 'NarzÄ™dzi' opcjÄ™ 'PrzyÅ‚Ä…cz do projektu' i wpisz adres e-mail oraz hasÅ‚o."
+msgstr "UWAGA: Je¿eli u¿ywasz BOINC Manager'a w wersji 5.2+, staraj siê nie korzystaæ z tej strony w celu stworzenia konta. Poprostu uruchom Manager'a, wybierz z menu 'Opcje' polecenie 'Przy³¹cz siê do projektu...' i wpisz adres e-mail oraz has³o."
 
 msgid "CREATE_AC_PASSWORD"
-msgstr "HasÅ‚o"
+msgstr "Has³o"
 
 msgid "CREATE_AC_PASSWORD_DESC"
-msgstr "Musi mieÄ‡ conajmniej %s znakÃ³w!"
+msgstr "Has³o musi sk³adaæ siê conajmniej z %s znaków!"
 
 msgid "CREATE_AC_CONFIRM_PASSWORD"
-msgstr "PowtÃ³rz hasÅ‚o"
+msgstr "Powtórz has³o"
 
 msgid  "AC_INVITE_CODE"
-msgstr "Kod Zaproszenia"
+msgstr "Kod rejestracyjny"
 
 msgid  "AC_INVITE_CODE_DESC"
-msgstr "Poprawny kod zaproszenia jest wymagany, aby stworzyÄ‡ konto w tym projekcie!"
+msgstr "Aby stworzyæ konto w tym projekcie wymagany jest poprawny kod rejestracyjny!"
 
 msgid "AC_INVITE_REQUIRED"
-msgstr "Musisz posiadaÄ‡ kod zaproszenia, aby stworzyc konto w tym projekcie."
+msgstr "Aby stworzyæ konto w tym projekcie musisz posiadaæ kod rejestracyjny."
 
 msgid "AC_INVITE_INVALID"
-msgstr "Wpisany kod zaproszenia jest niepoprawny."
+msgstr "Wpisany kod rejestracyjny jest nieprawid³owy."
 
 
 #########################################
@@ -185,7 +184,7 @@ msgstr "Forum dyskusyjne"
 # General stuff (create_account_form.php and others)
 #########################################
 msgid "OPTIONAL"
-msgstr "Opcjonalnie"
+msgstr "Nie jest wymagany; mo¿esz go podaæ jeœli chcesz"
 
 #########################################
 # Various top table pages (top users, computers, teams)
@@ -201,10 +200,10 @@ msgid "USER_TABLE_NAME"
 msgstr "Nazwa"
 
 msgid "TOTAL_CREDIT"
-msgstr "CaÅ‚kowita liczba punktÃ³w"
+msgstr "Ca³kowita liczba punktów"
 
 msgid "EXPAVG_CREDIT"
-msgstr "Åšrednia liczba punktÃ³w"
+msgstr "Œrednia liczba punktów"
 
 msgid "USER_TABLE_COUNTRY"
 msgstr "Kraj"
@@ -213,10 +212,13 @@ msgid "USER_TABLE_PTIME"
 msgstr "Uczestniczy od"
 
 msgid "TOP_TEAMS_TITLE"
-msgstr "Najlepsze zespoÅ‚y"
+msgstr "Najlepsze zespo³y"
 
 msgid "TEAM_TABLE_MEMBERS"
-msgstr "Liczba czÅ‚onkÃ³w"
+msgstr "Liczba cz³onków"
+
+msgid "TOP_HOST_TITLE"
+msgstr "Najlepsze komputery"
 
 
 #########################################
@@ -224,14 +226,19 @@ msgstr "Liczba czÅ‚onkÃ³w"
 #########################################
 msgid "FORUM_POSTS"
 msgstr "Posty"
+
 msgid "FORUM_TOPIC"
 msgstr "Kategorie"
+
 msgid "FORUM_THREADS"
 msgstr "Tematy"
+
 msgid "FORUM_LAST_POST"
 msgstr "Ostatni post"
+
 msgid "FORUM_AUTHOR"
 msgstr "Autor"
+
 msgid "FORUM_VIEWS"
 msgstr "Czytano"
 
@@ -239,60 +246,60 @@ msgid "FORUM_ERR_NOT_FOUND"
 msgstr "Nie znaleziono tematu!"
 
 msgid "FORUM_ERR_EXPAVG"
-msgstr "Aby stworzyÄ‡ nowy temat w %s musisz mieÄ‡ okreÅ›lonÄ… liczbÄ™ punktÃ³w."
+msgstr "Aby stworzyæ nowy temat w %s musisz mieæ okreœlon¹ liczbê punktów."
 "Zapobiega to spamowaniu na forum."
 
 msgid "FORUM_ERR_INTERVAL"
-msgstr "Nie moÅ¼esz stworzyÄ‡ teraz Å¼adnego tematu wiÄ™cej. Odczekaj chwile, zanim sprÃ³bujesz stworzyÄ‡ temat ponownie."
+msgstr "Nie mo¿esz stworzyæ teraz nowego tematu. Odczekaj chwile, zanim spróbujesz stworzyæ temat ponownie."
 "Zapobiega to spamowaniu na forum."
 
 msgid "FORUM_QA_POST_MESSAGE"
-msgstr "%s pomoga Ci otrzymaÄ‡ pomoc od innych uczestnikÃ³w. JeÅ¼eli masz jakieÅ› pytanie lub jakiÅ› problem:"
+msgstr "%s pomoga Ci otrzymaæ pomoc od innych uczestników. Je¿eli masz jakieœ pytanie lub jakiœ problem:"
 
 msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "Przeczytaj listÄ™ istniejÄ…cych pytaÅ„. JeÅ¼lei twoje pytanie znajduje siÄ™ juÅ¼ tutaj,"
-"kliknij na przycisk '%s'. JeÅ¼eli zostaÅ‚y napisane odpowiedzi na to pytanie, przeczytaj je."
-"JeÅ¼eli jedna z nich odpowiad w peÅ‚ni na twoje pytanie, kliknij przycisk '%s'."
+msgstr "Przeczytaj listê istniej¹cych pytañ. Je¿lei twoje pytanie znajduje siê ju¿ tutaj,"
+"kliknij na przycisk '%s'. Je¿eli zosta³y napisane odpowiedzi na to pytanie, przeczytaj je."
+"Je¿eli jedna z nich odpowiad w pe³ni na twoje pytanie, kliknij przycisk '%s'."
 
 msgid "FORUM_QA_POST_MESSAGE3"
-msgstr "JeÅ¼eli pytanie nie byÅ‚o jeszcze zadane wypeÅ‚nij ten formularz."
+msgstr "Je¿eli pytanie nie by³o jeszcze zadane wype³nij ten formularz."
 
 msgid "FORUM_QA_POST_MESSAGE4"
-msgstr "To wszystko powinno zapobiec powtarzaniu pytaÅ„."
+msgstr "To wszystko powinno zapobiec powtarzaniu pytañ."
 
 msgid "FORUM_QA_SUBMIT_NEW"
-msgstr "WyÅ›lij nowe pytanie/problem"
+msgstr "Wyœlij nowe pytanie/problem"
 
 msgid "FORUM_SUBMIT_NEW"
-msgstr "StwÃ³rz nowy temat"
+msgstr "Stwórz nowy temat"
 
 msgid "FORUM_SUBMIT_NEW_TITLE"
 msgstr "Nazwa"
 
 msgid "FORUM_QA_SUBMIT_NEW_HELP"
-msgstr "Opisz swoje pytanie w kilku sÅ‚owach. "
-"To na pewno pomoÅ¼e w znalezieniu odpowiedzi "
+msgstr "Opisz swoje pytanie w kilku s³owach. "
+"To na pewno pomo¿e w znalezieniu odpowiedzi "
 "na zadane przez Ciebie pytanie."
 
 msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "JeÅ¼eli mas zproblem z oprogramowaniem, "
-"napisz jego wersjÄ™, napisz jaki masz komputer "
+msgstr "Je¿eli mas zproblem z oprogramowaniem, "
+"napisz jego wersjê, napisz jaki masz komputer "
 "oraz z jakiego systemu operacyjnego korzystasz."
 
 msgid "FORUM_ADD_MY_SIG"
-msgstr "Dodaj mojÄ… sygnaturÄ™ do tego postu"
+msgstr "Dodaj moj¹ sygnaturê do tego postu"
 
 msgid "FORUM_MESSAGE"
-msgstr "WiadomoÅ›Ä‡"
+msgstr "Wiadomoœæ"
 
 msgid "FORUM_QA_GOT_PROBLEM_TOO"
-msgstr "Mam takÅ¼e ten problem!"
+msgstr "Mam tak¿e ten problem!"
 
 msgid "FORUM_QA_QUESTION_ANSWERED"
 msgstr "To odpowiada na moje pytanie!"
 
 msgid "FORUM_HTML_INFO"
-msgstr "UÅ¼ywaj BBCode do formatowanie wpisywanego tekstu"
+msgstr "U¿ywaj BBCode do formatowania wpisywanego tekstu"
 
 
 #########################################
@@ -300,16 +307,16 @@ msgstr "UÅ¼ywaj BBCode do formatowanie wpisywanego tekstu"
 #########################################
 
 msgid "FORUM_THREAD_HIDDEN"
-msgstr "Ten temat zostaÅ‚ ukryty przez administracjÄ™ forum"
+msgstr "Ten temat zosta³ ukryty przez administracjê forum"
 
 msgid "FORUM_THREAD_REPLY"
-msgstr "Odpowiedz an ten temat"
+msgstr "Odpowiedz na ten temat"
 
 msgid "FORUM_THREAD_SUBSCRIBED"
 msgstr "Obserwujesz ten temat."
 
 msgid "FORUM_THREAD_UNSUBSCRIBE"
-msgstr "Kliknij tutaj, aby z tego zrezygnowaÄ‡."
+msgstr "Kliknij tutaj, aby z tego zrezygnowaæ."
 
 msgid "FORUM_THREAD_SUBSCRIBE"
 msgstr "Obserwuj ten temat"
@@ -322,16 +329,143 @@ msgid "FORUM_SEARCH"
 msgstr "Szukaj na forum"
 
 msgid "FORUM_SEARCH_TITLES"
-msgstr "Tematy zawierajÄ…ce '%s'"
+msgstr "Tematy zawieraj¹ce '%s'"
 
 msgid "FORUM_SEARCH_BODIES"
-msgstr "Posty zawierajÄ…ce '%s'"
+msgstr "Posty zawieraj¹ce '%s'"
 
 msgid "FORUM_SEARCH_TITLES_NO"
-msgstr "Nie znaleziono tematÃ³w zaierajÄ…cych '%s'."
+msgstr "Nie znaleziono tematów zawieraj¹cych '%s'."
 
 msgid "FORUM_SEARCH_BODIES_NO"
-msgstr "Nie znaleziono postÃ³w zaierajÄ…cych '%s'."
+msgstr "Nie znaleziono postów zawieraj¹cych '%s'."
+
+
+#########################################
+# Private messages
+#########################################
+msgid "Private messages"
+msgstr "Prywatne wiadomoœci"
+
+msgid "Inbox"
+msgstr "Odebrane wiadomoœci"
+
+msgid "Write"
+msgstr "Napisz wiadomoœæ"
+
+msgid "Forum index"
+msgstr "Forum dyskusyjne"
+
+msgid "Create new"
+msgstr "Stwórz nowy"
+
+msgid "Preview"
+msgstr "Podgl¹d"
+
+msgid "To"
+msgstr "Do"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "Wpisz identyfikator lub nazwê u¿ytkownika, kilku adresatów oddzielaj przecinkami"
+
+msgid "Subject"
+msgstr "Temat"
+
+msgid "Message"
+msgstr "Wiadmoœæ"
+
+msgid "Send message"
+msgstr "Wyslij wiadomoœæ"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "Nie mo¿esz wysy³aæ prywatnych wiadomoœci tak czêsto. Odczekaj chwilê i spróbuj ponownie."
+
+msgid "Your message has been sent."
+msgstr "Twoja wiadomoœæ zosta³a wys³ana."
+
+msgid "You have no private messages."
+msgstr "Nie masz ¿adnych prywatnych wiadomoœæ"
+
+msgid "No such message"
+msgstr "Nie ma takiej wiadomoœci"
+
+msgid "Really delete?"
+msgstr "Na pewno usun¹æ?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "Jeœteœ pewny, ¿e chcesz usun¹æ wiadomoœæ o tytule &quot;%1&quot; (wys³an¹ %3 przez u¿ytkownika %2)?"
+
+msgid "Yes, delete"
+msgstr "Tak, usuñ"
+
+msgid "No, cancel"
+msgstr "Nie, anuluj"
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Musisz wype³niæ wszystkie pola, aby wys³aæ prywatn¹ wiadomoœæ"
+
+msgid "Could not find user with id %1"
+msgstr "Nie mo¿na znaleŸæ u¿ytkownika z identyfikatorem %1"
+
+msgid "Could not find user with username %1"
+msgstr "Nie mo¿na znaleŸæ u¿ytkownika o nazwie %1"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "Jest kilku u¿ytkowników o nazwie %1; aby wys³aæ wiadomoœæ wpisz identyfikator u¿ytkownika"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "U¿ytkownik %1 (ID: %2) nie akceptuje prywatnych wiadomoœci od Ciebie."
+
+msgid "Really block %1?"
+msgstr "Na pewno chcesz zablokowaæ u¿ytkownika %1?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "Na pewno chcesz zablokowaæ mo¿liwoœæ wysy³ania prywatnych wiadomoœci do Ciebie przez u¿ytkownika %1?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Pamiêtaj, ¿e mo¿esz zablokowaæ tylko okreœlon¹ liczbê u¿ytkowników."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Zablokowanych u¿ytkowników mo¿esz odblokowaæ na stronie ustawieñ forum dyskusyjnego."
+
+msgid "Add user to filter"
+msgstr "Dodaj u¿ytkownika do filtru"
+
+msgid "No such user"
+msgstr "U¿ytkownik nie istnieje."
+
+msgid "User %1 blocked"
+msgstr "U¿ytkownik %1 zosta³ zablokowany"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "U¿ytkownik %1 nie mo¿e teraz wysy³aæ do Ciebie prywatnych wiadmoœci."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Aby odblokowaæ, odwiedŸ stronê 1%ustawienia forum dyskusyjnego%2"
+
+msgid "You have %1 unread private messages."
+msgstr "Masz %1 nieprzeczytanych wiadomoœci."
+
+msgid "You have one unread private message."
+msgstr "Masz nieprzeczytan¹ prywatn¹ wiadomoœæ."
+
+msgid "You have no unread private messages."
+msgstr "Nie masz nowych prywatnych wiadomoœci."
+
+msgid "Sender"
+msgstr "Nadawca"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Delete"
+msgstr "Usuñ"
+
+msgid "Reply"
+msgstr "Odpisz"
+
+msgid "Block user"
+msgstr "Zablokuj u¿ytkownika"
 
 
 #########################################
