@@ -281,6 +281,19 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         }
+
+        if (match_tag(buf, "<active_task_set>")) continue;
+        if (match_tag(buf, "<app>")) continue;
+        if (match_tag(buf, "<app_version>")) continue;
+        if (match_tag(buf, "<duration_variability>")) continue;
+        if (match_tag(buf, "<new_version_check_time>")) continue;
+        if (match_tag(buf, "<newer_version>")) continue;
+        if (match_tag(buf, "<project>")) continue;
+        if (match_tag(buf, "<project_files>")) continue;
+        if (match_tag(buf, "<proxy_info>")) continue;
+        if (match_tag(buf, "<user_network_request>")) continue;
+        if (match_tag(buf, "<user_run_request>")) continue;
+
         log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
         );
@@ -839,6 +852,14 @@ int RESULT::parse_from_client(FILE* fin) {
         }
         if (match_tag(buf, "<platform>")) continue;
         if (match_tag(buf, "<version_num>")) continue;
+        if (match_tag(buf, "<completed_time>")) continue;
+        if (match_tag(buf, "<file_name>")) continue;
+        if (match_tag(buf, "<file_ref>")) continue;
+        if (match_tag(buf, "<open_name>")) continue;
+        if (match_tag(buf, "<ready_to_report>")) continue;
+        if (match_tag(buf, "<report_deadline>")) continue;
+        if (match_tag(buf, "<wu_name>")) continue;
+
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
             "RESULT::parse_from_client(): unrecognized: %s\n",
@@ -888,6 +909,16 @@ int HOST::parse(FILE* fin) {
         if (match_tag(buf, "<p_capabilities>")) continue;
         if (match_tag(buf, "<accelerators>")) continue;
 
+#if 1
+        // not sure where thees fields belong in the above
+        // categories
+        //
+        if (match_tag(buf, "<cpu_caps>")) continue;
+        if (match_tag(buf, "<cache_l1>")) continue;
+        if (match_tag(buf, "<cache_l2>")) continue;
+        if (match_tag(buf, "<cache_l3>")) continue;
+#endif
+
         log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "HOST::parse(): unrecognized: %s\n", buf
         );
@@ -907,6 +938,8 @@ int HOST::parse_time_stats(FILE* fin) {
         if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
         if (match_tag(buf, "<outages>")) continue;
         if (match_tag(buf, "<outage>")) continue;
+        if (match_tag(buf, "<start>")) continue;
+        if (match_tag(buf, "<end>")) continue;
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
             "HOST::parse_time_stats(): unrecognized: %s\n",
@@ -930,6 +963,7 @@ int HOST::parse_net_stats(FILE* fin) {
         if (match_tag(buf, "<avg_up>")) continue;
         if (match_tag(buf, "<avg_time_down>")) continue;
         if (match_tag(buf, "<avg_down>")) continue;
+
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
             "HOST::parse_net_stats(): unrecognized: %s\n",

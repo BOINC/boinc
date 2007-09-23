@@ -8648,3 +8648,11 @@ Charlie 21 Sep 2007
 
 	clientgui/
             MainDocument.cpp
+
+Bruce 23 Sept 2007
+    - Eliminate some logging noise from the scheduler (complaints
+      about unrecognized tags).
+
+    sched/
+        server_types.C
+
