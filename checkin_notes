@@ -7364,6 +7364,14 @@ Kevin 21 Sep 2007
     client/win
         win_screensaver.cpp
         
+Rom    24 Sep 2007
+    - SCR: If the secure screensaver desktop checkbox is checked, password on resume,
+        just display the status of the active workunits so the user will have
+        something interesting to look at.
+    - SCR: Fix random crashes on Vista for machines that are extra picky about
+        manifest files.
         
-        
-  
+    client/win/
+        win_screensaver.cpp, .h
+    win_build/
+        boinc_ss.vcproj

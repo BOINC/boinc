@@ -1006,6 +1006,7 @@ BOOL CScreensaver::DestoryDataManagementThread() {
 DWORD WINAPI CScreensaver::DataManagementProc() {
     BOOL    bErrorMode;
     BOOL    bForegroundWindowIsScreensaver;
+    BOOL    bScreensaverPasswordCheckEnabled = FALSE;
     HRESULT hrError;
     HWND    hwndBOINCGraphicsWindow = NULL;
     HWND    hwndForeWindow = NULL;
@@ -1020,6 +1021,10 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
     SetError(TRUE, SCRAPPERR_BOINCSCREENSAVERLOADING);
     tThreadCreateTime = time(0);
+
+    // Check to see if the password checkbox has been checked
+    bScreensaverPasswordCheckEnabled = IsPasswordCheckEnabled();
+    BOINCTRACE(_T("CScreensaver::DataManagementProc - Password Check Enabled = '%d'\n"), bScreensaverPasswordCheckEnabled);
 
     while(1) {
         bScreenSaverStarting = (10 >= (time(0) - tThreadCreateTime));
@@ -1063,6 +1068,11 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
         } else {
             SetError(FALSE, 0);
             if (m_bCoreNotified) {
+                // HACK: At some point, Windows XP no longer allowed the transition of applications
+                //   to the screensaver desktop, so just display the percent complete instead.
+                if (bScreensaverPasswordCheckEnabled && !bScreenSaverStarting) {
+                    m_iStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
+                }
                 switch (m_iStatus) {
                     case SS_STATUS_ENABLED:
                         // When running in screensaver mode the only two valid conditions for z-order
@@ -1707,6 +1717,31 @@ VOID CScreensaver::InterruptSaver() {
         }
     }
     BOINCTRACE(_T("CScreensaver::InterruptSaver Function End\n"));
+}
+
+
+
+
+// arguments:	
+// returns:		TRUE is the password on resume option is checked for
+//              the screensaver configuration option, otherwise FALSE.
+//
+BOOL CScreensaver::IsPasswordCheckEnabled() {
+    BOOL retval = FALSE;
+    HKEY hKey;  
+    if ( RegOpenKey( HKEY_CURRENT_USER , _T("Control Panel\\Desktop") , &hKey ) == ERROR_SUCCESS )  
+    {  
+        DWORD dwVal; 
+        DWORD dwSize = sizeof(dwVal);  
+        if ( (RegQueryValueEx( hKey, _T("ScreenSaverIsSecure"), NULL, NULL, 
+                               (BYTE *)&dwVal, &dwSize ) == ERROR_SUCCESS) && dwVal )  
+        {  
+            retval = TRUE;
+        }
+    }
+
+    if ( hKey ) RegCloseKey( hKey ); 
+    return retval;
 }
 
 

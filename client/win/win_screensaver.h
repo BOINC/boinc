@@ -199,6 +199,7 @@ protected:
     VOID            InterruptSaver();
     VOID            ShutdownSaver();
 	VOID            ChangePassword();
+    BOOL            IsPasswordCheckEnabled();
 
     VOID            DoConfig();
 	HRESULT         DoSaver();
