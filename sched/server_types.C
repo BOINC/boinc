@@ -293,6 +293,25 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         if (match_tag(buf, "<proxy_info>")) continue;
         if (match_tag(buf, "<user_network_request>")) continue;
         if (match_tag(buf, "<user_run_request>")) continue;
+        if (match_tag(buf, "<master_url>")) continue;
+        if (match_tag(buf, "<project_name>")) continue;
+        if (match_tag(buf, "<user_name>")) continue;
+        if (match_tag(buf, "<team_name>")) continue;
+        if (match_tag(buf, "<email_hash>")) continue;
+        if (match_tag(buf, "<user_total_credit>")) continue;
+        if (match_tag(buf, "<user_expavg_credit>")) continue;
+        if (match_tag(buf, "<user_create_time>")) continue;
+        if (match_tag(buf, "<host_total_credit>")) continue;
+        if (match_tag(buf, "<host_expavg_credit>")) continue;
+        if (match_tag(buf, "<host_create_time>")) continue;
+        if (match_tag(buf, "<nrpc_failures>")) continue;
+        if (match_tag(buf, "<master_fetch_failures>")) continue;
+        if (match_tag(buf, "<min_rpc_time>")) continue;
+        if (match_tag(buf, "<short_term_debt>")) continue;
+        if (match_tag(buf, "<long_term_debt>")) continue;
+        if (match_tag(buf, "<resource_share>")) continue;
+        if (match_tag(buf, "<scheduler_url>")) continue;
+        if (match_tag(buf, "</project>")) continue;
 
         log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
@@ -855,8 +874,10 @@ int RESULT::parse_from_client(FILE* fin) {
         if (match_tag(buf, "<completed_time>")) continue;
         if (match_tag(buf, "<file_name>")) continue;
         if (match_tag(buf, "<file_ref>")) continue;
+        if (match_tag(buf, "</file_ref>")) continue;
         if (match_tag(buf, "<open_name>")) continue;
         if (match_tag(buf, "<ready_to_report>")) continue;
+        if (match_tag(buf, "<ready_to_report/>")) continue;
         if (match_tag(buf, "<report_deadline>")) continue;
         if (match_tag(buf, "<wu_name>")) continue;
 
