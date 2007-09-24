@@ -256,7 +256,7 @@ public:
         fprintf(f,
             "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
         );
-        strcpy(current_path, filename);
+        safe_strcpy(current_path, filename);
     }
 
     void open_num(const char* filename, int filenum) {
@@ -421,8 +421,8 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     xml_escape(user.name, name);
     xml_escape(user.url, url);
 
-    strcpy(buf, user.cross_project_id);
-    strcat(buf, user.email_addr);
+    safe_strcpy(buf, user.cross_project_id);
+    safe_strcat(buf, user.email_addr);
     md5_block((unsigned char*)buf, strlen(buf), cpid);
 
     fprintf(f,
@@ -774,7 +774,7 @@ int main(int argc, char** argv) {
     strcpy(spec_filename, "");
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dump_spec")) {
-            strcpy(spec_filename, argv[++i]);
+            safe_strcpy(spec_filename, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-db_host")) {

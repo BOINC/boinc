@@ -151,21 +151,21 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             show_projects = true;
         } else if (ARG(detach_project)) {
             if (i == argc-1) show_options = true;
-            else strcpy(detach_project_url, argv[++i]);
+            else safe_strcpy(detach_project_url, argv[++i]);
         } else if (ARG(reset_project)) {
             if (i == argc-1) show_options = true;
-            else strcpy(reset_project_url, argv[++i]);
+            else safe_strcpy(reset_project_url, argv[++i]);
         } else if (ARG(update_prefs)) {
             if (i == argc-1) show_options = true;
-            else strcpy(update_prefs_url, argv[++i]);
+            else safe_strcpy(update_prefs_url, argv[++i]);
         } else if (ARG(run_cpu_benchmarks)) {
             run_cpu_benchmarks = true;
         } else if (ARG(attach_project)) {
             if (i >= argc-2) {
                 show_options = true;
             } else {
-                strcpy(attach_project_url, argv[++i]);
-                strcpy(attach_project_auth, argv[++i]);
+                safe_strcpy(attach_project_url, argv[++i]);
+                safe_strcpy(attach_project_auth, argv[++i]);
             }
         } else if (ARG(version)) {
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
@@ -221,10 +221,10 @@ void CLIENT_STATE::parse_env_vars() {
     p = getenv("HTTP_USER_NAME");
     if (p) {
         proxy_info.use_http_auth = true;
-        strcpy(proxy_info.http_user_name, p);
+        safe_strcpy(proxy_info.http_user_name, p);
         p = getenv("HTTP_USER_PASSWD");
         if (p) {
-            strcpy(proxy_info.http_user_passwd, p);
+            safe_strcpy(proxy_info.http_user_passwd, p);
         }
     }
 

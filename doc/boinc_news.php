@@ -3,6 +3,12 @@
 $project_news = array(
 
 array("September 24, 2007",
+    "Team founders: you can now make your team
+    <a href=teams/>BOINC-wide</a>,
+    meaning that it will be created on all
+    current and future BOINC projects."
+),
+array("September 24, 2007",
     "A one-day session on BOINC will be presented at the
     <a href=http://acgrid.in2p3.fr>Advanced Computing and GRID technologies for Research</a> school in Hanoi, November 5-16, 2007."
 ),

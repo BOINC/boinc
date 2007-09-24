@@ -8666,7 +8666,8 @@ David  24 Sept 2007
         In general, revised and renamed things to clarify the
         distinction between permanent and transient errors.
         Old functions:
-            handle_xfer_failure(), try_next_url(), xfer_failed(), retry_or_backoff()
+            handle_xfer_failure(), try_next_url(), xfer_failed(),
+            retry_or_backoff()
         New functions:
             permanent_failure(), transient_failure()
     - manager: compile fix for win (don't include sys/wait.h)
@@ -8676,3 +8677,27 @@ David  24 Sept 2007
         pers_file_xfer.C,h
     clientgui/
         MainDocument.cpp
+
+David  24 Sept 2007
+    - user web: add links to BOINC-wide team sites
+        and www.boincteams.com from Team management page
+    - client: change error strings from, e.g.,
+        "system chown" to "chown() failed"
+
+    html/user/
+        team_manage.php
+    lib/
+        str_util.C
+    sched/
+        sched_send.C
+
+David  24 Sept 2007
+    - use safe_strcpy() instead of strcpy() in a few places
+        in the client and db_dump
+    - scheduler: change REQ_FILE_PREFIX to use ../ instead of /tmp/
+
+    client/
+        cs_cmdline.C
+    sched/
+        db_dump.C
+        main.C

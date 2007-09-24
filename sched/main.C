@@ -69,8 +69,8 @@ using namespace std;
 #define DEBUG_LEVEL  999
 #define MAX_FCGI_COUNT  20
 
-#define REQ_FILE_PREFIX "/tmp/boinc_req_"
-#define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
+#define REQ_FILE_PREFIX "../boinc_req/"
+#define REPLY_FILE_PREFIX "../boinc_reply/"
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 SCHED_CONFIG config;
@@ -407,6 +407,8 @@ int main(int argc, char** argv) {
         // we go via a pair of disk files
         // (this makes it easy to save the input,
         // and to know the length of the output).
+        // NOTE: to use this, you must create group-writeable dirs
+        // boinc_req and boinc_reply in the project dir
         //
         sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, g_pid, counter);
         sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
