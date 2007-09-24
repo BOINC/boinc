@@ -1186,7 +1186,13 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
         } else {
             if (!bErrorMode && !m_bCoreNotified) {
                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Startup BOINC Screensaver\n"));
-                StartupBOINC();
+                // HACK: At some point, Windows XP no longer allowed the transition of applications
+                //   to the screensaver desktop, so just display the percent complete instead.
+                if (!bScreensaverPasswordCheckEnabled) {
+                    StartupBOINC();
+                } else {
+                    m_bCoreNotified = TRUE;
+                }
             }
         }
 

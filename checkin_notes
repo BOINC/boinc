@@ -7370,6 +7370,8 @@ Rom    24 Sep 2007
         something interesting to look at.
     - SCR: Fix random crashes on Vista for machines that are extra picky about
         manifest files.
+    - SCR: Don't allow graphics at all, since that can disable the ability to
+        show graphics on the desktop.
         
     client/win/
         win_screensaver.cpp, .h
