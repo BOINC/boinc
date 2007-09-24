@@ -8603,13 +8603,13 @@ Charlie 21 Sep 2007
             mac_saver_module.cpp
 
 David  21 Sept 2007
-	- client: get_proxy_settings GUI RPC requires authentication
+    - client: get_proxy_settings GUI RPC requires authentication
 
-	client/
-		app_start.C
-		gui_rpc_server_ops.C
-	clientgui/
-		MainDocument.cpp
+    client/
+        app_start.C
+        gui_rpc_server_ops.C
+    clientgui/
+        MainDocument.cpp
 
 David  21 Sept 2007
     - Added new script "update_versions_v6"; use this instead of
@@ -8646,7 +8646,7 @@ Charlie 21 Sep 2007
         doesn't call CachedResultsStatusUpdate().
         
 
-	clientgui/
+    clientgui/
             MainDocument.cpp
 
 Bruce 23 Sept 2007
@@ -8656,3 +8656,23 @@ Bruce 23 Sept 2007
     sched/
         server_types.C
 
+David  24 Sept 2007
+    - client: clean up (old undergrad-written) code related to pers file xfer.
+        The main goal is to fix a bug where,
+        if a file is deleted from a project's download server,
+        a client will keep trying to download it for 2 weeks.
+        A download "file not found" is a permanent error, not transient.
+        (fixes #383)
+        In general, revised and renamed things to clarify the
+        distinction between permanent and transient errors.
+        Old functions:
+            handle_xfer_failure(), try_next_url(), xfer_failed(), retry_or_backoff()
+        New functions:
+            permanent_failure(), transient_failure()
+    - manager: compile fix for win (don't include sys/wait.h)
+
+    client/
+        client_types.h
+        pers_file_xfer.C,h
+    clientgui/
+        MainDocument.cpp

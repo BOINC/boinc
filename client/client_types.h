@@ -357,6 +357,9 @@ public:
     // we switch from a per-file to a project-wide backoff policy
     // (separately for the up/down directions)
     //
+    // NOTE: all this refers to transient failures, not permanent.
+    // Also, none of this is used right now (commented out)
+    //
 #define FILE_XFER_FAILURE_LIMIT 3
 private:
     int file_xfer_failures_up;
