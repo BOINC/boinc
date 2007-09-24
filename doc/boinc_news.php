@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+
+array("September 24, 2007",
+    "A one-day session on BOINC will be presented at the
+    <a href=http://acgrid.in2p3.fr>Advanced Computing and GRID technologies for Research</a> school in Hanoi, November 5-16, 2007."
+),
 array("September 21, 2007",
     "A <a href=http://boinc.berkeley.edu/boinc_papers/client_sch_eval/client_sch_eval.pdf>paper about scheduling in BOINC</a>
     will appear in the 3rd IEEE International Conference on e-Science and Grid Computing. Banagalore, India, December 10-13 2007."

@@ -3,6 +3,26 @@ require_once("docutil.php");
 
 page_head("Logos and graphics");
 
+function art_list_head() {
+    echo "
+        <table cellpadding=8 border=1>
+        <tr><th>Artist</th><th>Images (click for hi-res version)</th></tr>
+    ";
+}
+
+function art_list_show($logos) {
+    shuffle($logos);
+    foreach($logos as $logo) {
+        $x0 = $logo[0];
+        $x1 = $logo[1];
+        echo "<tr>
+            <td>$x0</td>
+            <td>$x1</td>
+            </tr>
+        ";
+    }
+}
+
 echo "
 
 <h2>The BOINC logo</h2>
@@ -33,7 +53,22 @@ The colors are based on U.C. Berkeley's blue-and-gold colors.
 <img src=logo/pb_boinc.gif>
 </ul>
 
-<h2>The old BOINC logo and icons</h2>
+Wallpaper:
+<p>
+";
+$wallpaper = array(
+    array(
+        "Robin Weezepoel",
+        "<a href=images/BOINC_background_1_blue.jpg><img src=images/BOINC_background_1_blue_120.jpg></a>
+        <a href=images/BOINC_background_1_grey.jpg><img src=images/BOINC_background_1_grey_120.jpg></a>
+        <a href=images/BOINC_background_2_blue.jpg><img src=images/BOINC_background_2_blue_120.jpg></a>"
+    ),
+);
+art_list_head();
+art_list_show($wallpaper);
+echo "
+</table>
+<h2>The old BOINC logo and related artwork</h2>
 <ul>
 <li>
 The old logo in its native form as <a href=old_logo/logo.doc>a Word document</a>.
@@ -51,9 +86,21 @@ The 'B in a circle' icon
 <img src=old_logo/setup.PNG>was designed by Tim Lan.
 The Mac variant was contributed by Juho Viitasalo.
 
-<h2>Logo proposals</h2>
+<p>
+Wallpaper:
+<p>
 <table cellpadding=8 border=1>
-<tr><th>Artist</th><th>Images (click for hi-res version)</th></tr>
+<tr><th>Artist</th><th>Images</th></tr>
+<tr><td>Landi Paolo</td>
+<td>
+<a href=images/wallpaper.png><img src=images/wallpaper_120.png></a>
+</td></tr>
+</table>
+
+<h2>Logo proposals</h2>
+";
+art_list_head();
+echo "
 ";
 $logos = array(
     array("Keijo Simonen",
@@ -104,16 +151,7 @@ $logos = array(
         <a href=images/boincb7.png><img src=images/boincb7_120.png>"
     ),
 );
-shuffle($logos);
-foreach($logos as $logo) {
-    $x0 = $logo[0];
-    $x1 = $logo[1];
-    echo "<tr>
-        <td>$x0</td>
-        <td>$x1</td>
-        </tr>
-    ";
-}
+art_list_show($logos);
 
 $banners = array(
     array(
@@ -218,14 +256,6 @@ See the <a href=images/coins/>large</a>
 and <a href=images/coins_small>small</a> versions.
 The Latin text means 'Berkeley open and shared resources'.
 
-<h2>Wallpaper</h2>
-<table cellpadding=8 border=1>
-<tr><th>Artist</th><th>Images</th></tr>
-<tr><td>Landi Paolo</td>
-<td>
-<a href=images/wallpaper.png><img src=images/wallpaper_120.png></a>
-</td></tr>
-</table>
 
 ";
 

@@ -320,6 +320,8 @@ static inline int check_app_filter(
             break;
         }
     }
+    // TODO: select between the following via config
+    //if (!app_allowed) {
     if (!app_allowed && !reply.wreq.beta_only) {
         reply.wreq.no_allowed_apps_available = true;
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
