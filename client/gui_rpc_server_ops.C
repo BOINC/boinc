@@ -507,42 +507,6 @@ static void handle_get_screensaver_tasks(MIOFILE& fout) {
     fout.printf("</handle_get_screensaver_tasks>\n");
 }
 
-static void handle_get_screensaver_mode(GUI_RPC_CONN* gr, char*, MIOFILE& fout) {
-    int ss_result = gstate.ss_logic.get_ss_status();
-    if (gr->au_ss_state == AU_SS_QUIT_REQ) {
-        ss_result = SS_STATUS_QUIT;
-        gr->au_ss_state = AU_SS_QUIT_SENT;
-    }
-    fout.printf(
-        "<screensaver_mode>\n"
-        "    <status>%d</status>\n"
-        "</screensaver_mode>\n",
-        ss_result
-    );
-}
-
-static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
-    double blank_time = 0.0;
-    GRAPHICS_MSG gm;
-
-    parse_double(buf, "<blank_time>", blank_time);
-    parse_str(buf, "<desktop>", gm.desktop, sizeof(gm.desktop));
-    parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
-    parse_str(buf, "<display>", gm.display, sizeof(gm.display));
-    if (match_tag(buf, "<enabled")) {
-        if (log_flags.scrsave_debug) {
-            msg_printf(NULL, MSG_INFO, "Got start msg from screensaver");
-        }
-        gstate.ss_logic.start_ss(gm, blank_time );
-    } else {
-        if (log_flags.scrsave_debug) {
-            msg_printf(NULL, MSG_INFO, "Got stop msg from screensaver");
-        }
-        gstate.ss_logic.stop_ss();
-    }
-    fout.printf("<success/>\n");
-}
-
 static void handle_quit(char*, MIOFILE& fout) {
     gstate.requested_exit = true;
     fout.printf("<success/>\n");
@@ -1068,10 +1032,6 @@ int GUI_RPC_CONN::handle_rpc() {
         mf.printf("</results>\n");
     } else if (match_tag(request_msg, "<get_screensaver_tasks")) {
         handle_get_screensaver_tasks(mf);
-    } else if (match_tag(request_msg, "<get_screensaver_mode")) {
-        handle_get_screensaver_mode(this, request_msg, mf);
-    } else if (match_tag(request_msg, "<set_screensaver_mode")) {
-        handle_set_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<get_file_transfers")) {
         gstate.write_file_transfers_gui(mf);
     } else if (match_tag(request_msg, "<get_simple_gui_info")) {

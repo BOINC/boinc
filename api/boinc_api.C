@@ -50,6 +50,7 @@ using namespace std;
 #include "filesys.h"
 #include "mem_usage.h"
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "app_ipc.h"
 
 #include "boinc_api.h"
@@ -120,7 +121,7 @@ static double intops_cumulative = 0;
 static int want_network = 0;
 static int have_network = 1;
 bool g_sleep = false;
-	// simulate unresponsive app by setting to true (debugging)
+    // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
 
 #define TIMER_PERIOD 1
@@ -552,7 +553,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
 //
 int suspend_activities() {
     BOINCINFO("Received Suspend Message");
-	//fprintf(stderr, "suspending; %f %d\n", last_wu_cpu_time, options.direct_process_action);
+    //fprintf(stderr, "suspending; %f %d\n", last_wu_cpu_time, options.direct_process_action);
 #ifdef _WIN32
     if (options.direct_process_action) {
         // in Windows this is called from a separate "timer thread",
@@ -569,7 +570,7 @@ int suspend_activities() {
 int resume_activities() {
     BOINCINFO("Received Resume Message");
 #ifdef _WIN32
-	//fprintf(stderr, "resuming; %f %d\n", last_wu_cpu_time, options.direct_process_action);
+    //fprintf(stderr, "resuming; %f %d\n", last_wu_cpu_time, options.direct_process_action);
     if (options.direct_process_action) {
         // in Windows this is called from a separate "timer thread",
         // and Windows lets us resume the worker thread
@@ -664,7 +665,7 @@ static void handle_trickle_down_msg() {
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
-		//fprintf(stderr, "%f: got %s\n", dtime(), buf);
+        //fprintf(stderr, "%f: got %s\n", dtime(), buf);
         if (match_tag(buf, "<suspend/>")) {
             boinc_status.suspended = true;
             suspend_activities();
@@ -705,11 +706,95 @@ static void handle_process_control_msg() {
     }
 }
 
+// helper function for handle_graphics_messages()
+//
+static void control_graphics_app(char* path, bool start, bool fullscreen) {
+    static bool running = false;
+#ifdef _WIN32
+    HANDLE pid;
+#else
+    int pid;
+#endif
+    if (start) {
+        int argc;
+        char* argv[4];
+        argv[0] = GRAPHICS_APP_FILENAME;
+        if (fullscreen) {
+            argv[1] = "--fullscreen";
+            argv[2] = 0;
+            argc = 2;
+        } else {
+            argv[1] = 0;
+            argc = 1;
+        }
+        int retval = run_program(path, ".", argc, argv, 0, pid);
+        if (retval) {
+            running = false;
+        } else {
+            running = true;
+        }
+    } else {
+        if (running) {
+            kill_program(pid);
+            running = false;
+        }
+    }
+}
+
+// The following is used by V6 apps so that graphics
+// will work with pre-V6 clients.
+// If we get a graphics message, run/kill the (separate) graphics app
+//
+static inline void handle_graphics_messages() {
+    char buf[MSG_CHANNEL_SIZE];
+    static char graphics_app_path[1024];
+    GRAPHICS_MSG m;
+    static bool first=true;
+    static bool have_graphics_app;
+    if (first) {
+        first = false;
+        boinc_resolve_filename(
+            GRAPHICS_APP_FILENAME, graphics_app_path,
+            sizeof(graphics_app_path)
+        );
+        if (!strcmp(graphics_app_path, GRAPHICS_APP_FILENAME)) {
+            have_graphics_app = false;
+        } else {
+            have_graphics_app = true;
+        }
+    }
+
+    if (!have_graphics_app) return;
+
+    if (app_client_shm->shm->graphics_request.get_msg(buf)) {
+        app_client_shm->decode_graphics_msg(buf, m);
+        switch (m.mode) {
+        case MODE_HIDE_GRAPHICS:
+            control_graphics_app(graphics_app_path, false, false);
+            break;
+        case MODE_WINDOW:
+            control_graphics_app(graphics_app_path, true, false);
+            break;
+        case MODE_FULLSCREEN:
+            control_graphics_app(graphics_app_path, true, true);
+            break;
+        case MODE_BLANKSCREEN:
+            // we can't actually blank the screen; just kill the app
+            //
+            control_graphics_app(graphics_app_path, false, false);
+            break;
+        }
+        app_client_shm->shm->graphics_reply.send_msg(
+            xml_graphics_modes[m.mode]
+        );
+    }
+}
+
 // once-a-second timer.
 // Runs in a separate thread (not the worker thread)
 //
 static void timer_handler() {
-	if (g_sleep) return;
+    if (g_sleep) return;
     interrupt_count++;
     if (!ready_to_checkpoint) {
         time_until_checkpoint -= TIMER_PERIOD;
@@ -729,6 +814,9 @@ static void timer_handler() {
         }
         if (!in_critical_section && options.handle_process_control) {
             handle_process_control_msg();
+        }
+        if (options.backwards_compatible_graphics) {
+            handle_graphics_messages();
         }
     }
 

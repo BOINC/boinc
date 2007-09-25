@@ -42,7 +42,6 @@ using std::vector;
 #include "pers_file_xfer.h"
 #include "prefs.h"
 #include "scheduler_op.h"
-#include "ss_logic.h"
 #include "time_stats.h"
 #include "http_curl.h"
 
@@ -79,7 +78,6 @@ public:
     HOST_INFO host_info;
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
-    SS_LOGIC ss_logic;
     GUI_RPC_CONN_SET gui_rpcs;
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
@@ -204,10 +202,6 @@ public:
     double new_version_check_time;
     double all_projects_list_check_time;
     string newer_version;
-
-// --------------- app_graphics.C:
-public:
-    ACTIVE_TASK* get_next_graphics_capable_app();
 
 // --------------- auto_update.C:
 public:

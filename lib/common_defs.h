@@ -187,7 +187,9 @@ struct VERSION_INFO {
 #define REG_BLANK_TIME      "Blank Time"
 #define REG_STARTUP_NAME    "BOINC"
 #else
-#define LOCK_FILE_NAME              "lockfile"
+#define LOCK_FILE_NAME      "lockfile"
 #endif
+
+#define GRAPHICS_APP_FILENAME "v6graphics"
 
 #endif

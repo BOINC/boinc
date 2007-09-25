@@ -96,9 +96,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     signal = 0;
     strcpy(slot_dir, "");
-    is_ss_app = false;
     graphics_mode_acked = MODE_UNSUPPORTED;
-    graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
     graphics_mode_ack_timeout = 0;
     exit_requested = false;
     fraction_done = 0;

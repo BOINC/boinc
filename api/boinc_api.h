@@ -55,6 +55,9 @@ typedef struct BOINC_OPTIONS {
         // (for apps that have multiple worker threads)
     int worker_thread_stack_size;
         // if nonzero, the worker thread stack size limit
+    int backwards_compatible_graphics;
+        // V6 apps should set this so that "Show Graphics" will work
+        // with pre-V6 clients
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {

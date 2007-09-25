@@ -216,7 +216,6 @@ public:
     double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);
     int input_files_available(RESULT*, bool);
-    ACTIVE_TASK* get_next_graphics_capable_app();
     int ncpus;
         // number of usable cpus
 private:

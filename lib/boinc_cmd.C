@@ -79,7 +79,6 @@ Commands:\n\
  --get_proxy_settings\n\
  --get_messages seqno               show messages > seqno\n\
  --get_host_info\n\
- --get_screensaver_mode\n\
  --version, -V                      show core client version\n\
  \n\
  --result url result_name op        job operation\n\
@@ -93,7 +92,6 @@ Commands:\n\
  --set_network_mode mode duration\n\
  --set_proxy_settings\n\
  --run_benchmarks\n\
- --set_screensaver_mode on|off blank_time [desktop window_station]\n\
  --read_global_prefs_override\n\
  --quit\n\
  --read_cc_config\n\
@@ -430,20 +428,6 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
-    } else if (!strcmp(cmd, "--get_screensaver_mode")) {
-        int status;
-        retval = rpc.get_screensaver_mode(status);
-        if (!retval) printf("screensaver mode: %d\n", status);
-    } else if (!strcmp(cmd, "--set_screensaver_mode")) {
-        double blank_time;
-        bool enabled = false;
-        DISPLAY_INFO di;
-
-        char* op = next_arg(argc, argv, i);
-        if (!strcmp(op, "on")) enabled = true;
-        blank_time = atof(next_arg(argc, argv, i));
-        parse_display_args(argv, i, di);
-        retval = rpc.set_screensaver_mode(enabled, blank_time, di);
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));

@@ -116,8 +116,6 @@ public:
     // info related to app's graphics mode (win, screensaver, etc.)
     //
     int graphics_mode_acked;            // mode acked by app
-    int graphics_mode_before_ss;        // mode before last screensaver request
-    bool is_ss_app;
     double graphics_mode_ack_timeout;
     bool exit_requested;
     int premature_exit_count;
@@ -232,11 +230,7 @@ public:
     bool slot_taken(int);
     void get_memory_usage();
 
-    // screensaver-related functions
-    ACTIVE_TASK* get_ss_app();
-    void save_app_modes();
-    void hide_apps();
-    void restore_apps();
+    // graphics-related functions
     void graphics_poll();
     void process_control_poll();
     void request_reread_prefs(PROJECT*);

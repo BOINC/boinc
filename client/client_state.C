@@ -556,7 +556,6 @@ bool CLIENT_STATE::poll_slow_events() {
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before possibly_schedule_cpus()
 
-    ss_logic.poll();
 	check_project_timeout();
     auto_update.poll();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
@@ -743,7 +742,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             return ERR_NOT_FOUND;
         }
 
-        if (!strcmp(file_ref.open_name, "v6graphics")) {
+        if (!strcmp(file_ref.open_name, GRAPHICS_APP_FILENAME)) {
             char relpath[512], path[512];
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);

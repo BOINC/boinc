@@ -8701,3 +8701,34 @@ David  24 Sept 2007
     sched/
         db_dump.C
         main.C
+
+David  25 Sept 2007
+    - client: removed everything related to screensaver
+        (deciding which app to use, implementing blanking interval, etc.)
+        This logic is all now in the screensaver itself.
+    - GUI RPC: removed get/set screensaver mode RPCs
+    - API: added a "backwards_compatible_graphics" flag to BOINC_OPTIONS.
+        V6 apps should set this.
+        If set, the runtime library checks for graphics messages
+        from the client, and launches/kills the graphics app (if any).
+        The app will then work graphically with pre-V6 clients.
+    - removed some old files
+        
+    api/
+        api_app.C (deleted)
+        api_test.C (deleted)
+        boinc_checkpoint.C (deleted)
+        boinc_api.C,h
+    client/
+        Makefile.am
+        app.C,h
+        app_graphics.C
+        client_state.C,h
+        gui_rpc_server_ops.C
+        sim.h
+        ss_logic.C,h (removed)
+    lib/
+        boinc_cmd.C
+        common_defs.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

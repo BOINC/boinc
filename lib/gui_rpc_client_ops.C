@@ -1682,45 +1682,6 @@ int RPC_CLIENT::get_screensaver_tasks(int& suspend_reason, RESULTS& t) {
     return retval;
 }
 
-int RPC_CLIENT::get_screensaver_mode(int& status) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[256];
-    RPC rpc(this);
-
-    retval = rpc.do_rpc("<get_screensaver_mode/>\n");
-    if (!retval) {
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</screensaver_mode>")) break;
-            else if (parse_int(buf, "<status>", status)) continue;
-        }
-    }
-    return retval;
-}
-
-int RPC_CLIENT::set_screensaver_mode(
-    bool enabled, double blank_time,
-    DISPLAY_INFO& di
-) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[1024];
-    RPC rpc(this);
-
-    sprintf(buf,
-        "<set_screensaver_mode>\n"
-        "     %s\n"
-        "     <blank_time>%f</blank_time>\n",
-        enabled ? "<enabled/>" : "",
-        blank_time
-    );
-    di.print_str(buf);
-    strcat(buf, "</set_screensaver_mode>\n");
-
-    retval = rpc.do_rpc(buf);
-    return retval;
-}
-
 int RPC_CLIENT::run_benchmarks() {
     int retval;
     SET_LOCALE sl;
