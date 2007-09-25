@@ -1020,7 +1020,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
     SetError(TRUE, SCRAPPERR_BOINCSCREENSAVERLOADING);
-    tThreadCreateTime = time(0);
+    tThreadCreateTime = time(0); 
 
     // Check to see if the password checkbox has been checked
     bScreensaverPasswordCheckEnabled = IsPasswordCheckEnabled();
@@ -1070,7 +1070,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
             if (m_bCoreNotified) {
                 // HACK: At some point, Windows XP no longer allowed the transition of applications
                 //   to the screensaver desktop, so just display the percent complete instead.
-                if (bScreensaverPasswordCheckEnabled && !bScreenSaverStarting) {
+                if (bScreensaverPasswordCheckEnabled) {
                     m_iStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
                 }
                 switch (m_iStatus) {
@@ -1740,7 +1740,7 @@ BOOL CScreensaver::IsPasswordCheckEnabled() {
         DWORD dwVal; 
         DWORD dwSize = sizeof(dwVal);  
         if ( (RegQueryValueEx( hKey, _T("ScreenSaverIsSecure"), NULL, NULL, 
-                               (BYTE *)&dwVal, &dwSize ) == ERROR_SUCCESS) && dwVal )  
+                               (BYTE *)&dwVal, &dwSize ) == ERROR_SUCCESS ) && ( dwVal == 49 ) )  
         {  
             retval = TRUE;
         }
