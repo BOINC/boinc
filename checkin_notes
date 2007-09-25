@@ -7377,3 +7377,10 @@ Rom    24 Sep 2007
         win_screensaver.cpp, .h
     win_build/
         boinc_ss.vcproj
+
+Kevin 25 Sep 2007
+    - Screen Saver: Fix bug related to the check to the secure screensaver box.  If graphics are not available, then rotate
+            through the currently running results (it will change every 10 seconds) for display so that all are presented
+
+    client/win
+        win_screensaver.cpp, .h

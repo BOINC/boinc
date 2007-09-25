@@ -878,23 +878,32 @@ VOID CScreensaver::UpdateErrorBoxText() {
     if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
         if (0 == rpc.get_results(results)) {
             iResultCount = results.results.size();
+			int iModIndex;
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state);
-                bIsActive     = (results.results.at(iIndex)->active_task);
-                bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state);
+				// cycle through the active results starting from the last one
+				iModIndex = (iIndex + m_iLastResultShown+1) % iResultCount;
+                bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iModIndex)->state);
+                bIsActive     = (results.results.at(iModIndex)->active_task);
+                bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iModIndex)->scheduler_state);
                 if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
 
-                pProject = state.lookup_project(results.results.at(iIndex)->project_url);
+                pProject = state.lookup_project(results.results.at(iModIndex)->project_url);
                 if (NULL != pProject) {
-					RESULT* pResult = state.lookup_result(pProject, results.results.at(iIndex)->name);
+					RESULT* pResult = state.lookup_result(pProject, results.results.at(iModIndex)->name);
 					if ( pResult != NULL ) {
+						BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Display result. iIndex=%d, iModIndex=%d, lastResult=%d\n"), iIndex, iModIndex, m_iLastResultShown);
 						StringCbPrintf(m_szError, sizeof(m_szError) / sizeof(TCHAR),
 							_T("\nRunning research for %s\nApplication: %s\nWorkunit: %s\n%.2f%% complete\n"),
 							pProject->project_name.c_str(),
 							pResult->app->user_friendly_name.c_str(),
 							pResult->wu_name.c_str(),
-							results.results.at(iIndex)->fraction_done*100 
+							results.results.at(iModIndex)->fraction_done*100 
 						);
+						if ( m_tLastResultChangeTime+10 < time(0) ) {
+							m_iLastResultShown = iModIndex;
+							m_tLastResultChangeTime = time(0);
+						}
+						break;
 					} else {
 						m_bResetCoreState = TRUE;
 						GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
@@ -1025,6 +1034,10 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     // Check to see if the password checkbox has been checked
     bScreensaverPasswordCheckEnabled = IsPasswordCheckEnabled();
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Password Check Enabled = '%d'\n"), bScreensaverPasswordCheckEnabled);
+
+	// Set the starting point for iterating through the results
+	m_iLastResultShown = 0;
+	m_tLastResultChangeTime = 0;
 
     while(1) {
         bScreenSaverStarting = (10 >= (time(0) - tThreadCreateTime));

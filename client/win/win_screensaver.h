@@ -188,6 +188,8 @@ protected:
     BOOL			m_bCoreNotified;
     BOOL            m_bResetCoreState;
     int             m_iStatus;
+	int				m_iLastResultShown;
+	time_t			m_tLastResultChangeTime;
 
 
     //
