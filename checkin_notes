@@ -8732,3 +8732,15 @@ David  25 Sept 2007
         common_defs.h
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  25 Sept 2007
+	- compile fixes for Win
+
+	client/
+		sim_util.C
+	clientgui/
+		BOINCGUIApp.cpp
+	clientscr/
+		screensaver_win.cpp
+	win_build/
+		boinc_cli_curl.vcproj

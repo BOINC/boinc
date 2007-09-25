@@ -2107,80 +2107,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\ss_logic.C"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Client\time_stats.C"
 				>
 				<FileConfiguration
@@ -2381,10 +2307,6 @@
 			</File>
 			<File
 				RelativePath="..\client\scheduler_op.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\ss_logic.h"
 				>
 			</File>
 			<File

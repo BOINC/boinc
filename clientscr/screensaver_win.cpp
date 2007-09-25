@@ -311,16 +311,6 @@ INT CScreensaver::Run() {
             DoConfig();
         }
         break;
-        
-    case sm_test:
-
-        int iCurrentStatus;
-        rpc.init(NULL);
-        rpc.get_screensaver_mode(iCurrentStatus);
-        rpc.close();
-
-        break;
-
     case sm_preview:
     case sm_full:
         // Create the data management thread to talk with the daemon
