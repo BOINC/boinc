@@ -106,7 +106,7 @@ function show_other() {
             <li> BOINC <a href=dev/>message boards</a>
             <li> <a href=http://boinc.berkeley.edu/trac/wiki/BoincPapers>Papers and talks</a> on BOINC
             <li> <a href=logo.php>Logos and graphics</a>
-            <li> <a href=events.php>Events</a>
+            <li> <a href=trac/wiki/BoincEvents>Events</a>
             </ul>
             <br>
         </td></tr>

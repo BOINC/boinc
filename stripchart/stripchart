@@ -301,14 +301,17 @@ if ($opt_v) { print STDERR "making xtics file..\n" }
 
 # depending on the range, pick appropriate tic steps and label steps
 
+$labelstep = 7200;
+$ticstep = 3600;
+
 # less than 10 minutes: label every minute, extra tics every 30 seconds 
 if ($daydiff <= 600) { $labelstep = 60; $ticstep = 30 }
 # less than 50 minutes: label every 5 minutes, extra tics every minute
 elsif ($daydiff <= 3000) { $labelstep = 300; $ticstep = 60 }
 # less than 100 minutes: label every 10 minutes, extra tics every 5 minutes
-elsif ($daydiff <= 6000) { $labelstep = 600; $ticsstep = 300 }
+elsif ($daydiff <= 6000) { $labelstep = 600; $ticstep = 300 }
 # less than 200 minutes: label every 20 minutes, extra tics every 10 minutes
-elsif ($daydiff <= 12000) { $labelstep = 1200; $ticsstep = 600 }
+elsif ($daydiff <= 12000) { $labelstep = 1200; $ticstep = 600 }
 
 # less than 5 hours: label every 30 minutes, extra tics every 15 minutes
 elsif ($daydiff <= 18000) { $labelstep = 1800; $ticstep = 900 }

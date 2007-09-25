@@ -2,6 +2,11 @@
 
 $project_news = array(
 
+array("September 25, 2007",
+    "Check out the <a href=http://boinc.iaik.tugraz.at/>SHA-1 Collision Search Graz</a>
+    project, which is based at the Graz University of Technology
+    and does research in cryptography."
+),
 array("September 24, 2007",
     "Team founders: you can now make your team
     <a href=teams/>BOINC-wide</a>,

@@ -139,6 +139,14 @@ $math = array(
     "Mathematics and strategy games",
     array(
         array(
+            "SHA-1 Collision Search Graz",
+            "http://boinc.iaik.tugraz.at/",
+            "Graz University of Technology",
+            "Cryptography",
+            "Search for collisions (weaknesses) of the widely-used SHA-1 hash function.",
+            "LogoKryptoGroup_klein.jpg"
+        ),
+        array(
             "ABC@home",
             "http://abcathome.com/",
             "Mathematical Institute of Leiden University / Kennislink",

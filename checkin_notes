@@ -8750,3 +8750,10 @@ David  25 Sept 2007
 
     tools/
         update_versions_v6
+
+David  25 Sept 2007
+    - stripcharts: fix typo that could cause disk to fill up!
+        (from Nicolas Maire)
+
+    stripchart/
+        stripchart
