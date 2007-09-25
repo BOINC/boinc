@@ -8744,3 +8744,9 @@ David  25 Sept 2007
 		screensaver_win.cpp
 	win_build/
 		boinc_cli_curl.vcproj
+
+David  25 Sept 2007
+    - update_versions_v6 doesn't set min_core_version
+
+    tools/
+        update_versions_v6

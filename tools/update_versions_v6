@@ -89,13 +89,6 @@ def add_files(
         else:
             print
 
-        min_core_version = 0;
-        if (len(api_version)):
-            n = api_version.find('.');
-            api_major_version = int(api_version[0:n])
-            if (api_major_version >= 6):
-                min_core_version = 6;
-            
         xml_doc = tools.process_app_version(
             app = app,
             version_num = version_num,
@@ -111,8 +104,7 @@ def add_files(
             app = app,
             platform = platform,
             version_num = version_num,
-            xml_doc = xml_doc,
-            min_core_version = min_core_version
+            xml_doc = xml_doc
             )
 
     objects_to_commit.append(object)
