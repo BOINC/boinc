@@ -2,6 +2,12 @@
 
 $project_news = array(
 
+array("September 26, 2007",
+    "The Third Pan-Galactic BOINC Workshop took place 5-6 Sept. in Geneva.
+    The proceedings, including talk slides and notes from
+    the breakout sessions, are
+    <a href=trac/wiki/WorkShop07/Summary>here</a>."
+),
 array("September 25, 2007",
     "Check out the <a href=http://boinc.iaik.tugraz.at/>SHA-1 Collision Search Graz</a>
     project, which is based at the Graz University of Technology

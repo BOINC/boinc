@@ -463,7 +463,7 @@ array('BOINC_User_Statistics_Widget.widget',
     'The BOINC User Statistics Widget is highly configurable and displays your choice of statistics from almost any BOINC project.',
     1149646406
 ),
-array('BOINC_server_status.zip',
+array('boinc_server_status.zip',
     'BOINC Server Status',
     '1.1',
     'Yahoo! widget adds the BOINC Online Scheduler image to your desktop.',

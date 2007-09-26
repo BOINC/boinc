@@ -8800,3 +8800,15 @@ Rytis   26 Sep 2007
         user/
             team_change_founder_form.php
             team_founder_transfer_form.php
+
+David  26 Sept 2007
+    - API: initialize backwards_compatible_graphics to true.
+    
+    NOTE: as of this checkin, applications built with the API
+    code in the trunk are assumed to do V6-type graphics.
+    If your app doesn't, then you must set
+    backwards_compatible_graphics to false
+    (and use boinc_init_graphics_options())
+
+    api/
+        boinc_api.h

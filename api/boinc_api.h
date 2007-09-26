@@ -152,6 +152,7 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.direct_process_action = 1;
     b.all_threads_cpu_time = 0;
     b.worker_thread_stack_size = 0;
+    b.backwards_compatible_graphics = 1;
 }
 
 
