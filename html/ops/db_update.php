@@ -442,7 +442,7 @@ function update_7_26_2007() {
 
 function update_9_26_2007() {
     // Change field type from unsigned to signed
-    do_query("ALTER TABLE `team` CHANGE `ping_user` `ping_user` INT( 10 ) NOT NULL DEFAULT '0'");
+    do_query("ALTER TABLE team CHANGE ping_user ping_user integer NOT NULL DEFAULT 0");
 }
 
 // modify the following to call the function you want.
