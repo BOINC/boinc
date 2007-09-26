@@ -48,7 +48,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 #endif
 #endif
 
-#ifdef USE_FILE_MAPPED_SHMEM
+#if(!defined (_WIN32) && !defined (__EMX__))
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -165,10 +165,9 @@ int detach_shmem(void* p) {
 }
 
 #else
+// V6 mmap() shared memory for Unix/Linux/Mac
 
-#ifdef USE_FILE_MAPPED_SHMEM
-
-int create_shmem(char *path, size_t size, void** pp) {
+int create_shmem_mmap(char *path, size_t size, void** pp) {
     int fd, retval;
     struct stat sbuf;
     
@@ -210,11 +209,11 @@ int create_shmem(char *path, size_t size, void** pp) {
     return 0;
 }
 
-int destroy_shmem(key_t key){
+int destroy_shmem_mmap(key_t key){
     return 0;
 }
 
-int attach_shmem(char *path, void** pp) {
+int attach_shmem_mmap(char *path, void** pp) {
     int fd, retval;
     struct stat sbuf;
     
@@ -241,12 +240,12 @@ int attach_shmem(char *path, void** pp) {
 }
 
 
-int detach_shmem(void* p, size_t size) {
+int detach_shmem_mmap(void* p, size_t size) {
     return munmap(p, size);
 }
 
-#else   // !defined(USE_FILE_MAPPED_SHMEM)
 
+// Compatibility routines for Unix/Linux/Mac V5 applications 
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
     
@@ -360,15 +359,12 @@ int print_shmem_info(key_t key) {
     return 0;
 }
 
-#endif  // USE_FILE_MAPPED_SHMEM
-
 // For debugging shared memory logic
 // For testing on Apple, Linux, UNIX systems with limited number 
 // of shared memory segments per process and / or system-wide
 // Mac OS X has a default limit of 8 segments per process, 32 system-wide
 // If 
 void stress_shmem(short reduce_by) {
-#ifndef USE_FILE_MAPPED_SHMEM
     int retval;
     void * shmaddr[16];
     key_t key[] = {
@@ -388,7 +384,6 @@ void stress_shmem(short reduce_by) {
             retval = shmctl(id, IPC_RMID, 0);
         }
     }
-#endif  // !defined(USE_FILE_MAPPED_SHMEM)
 }
 
 #endif  // !defined(_WIN32) && !defined(__EMX__)

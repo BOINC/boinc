@@ -43,24 +43,28 @@ HANDLE attach_shmem(LPCTSTR seg_name, void** pp);
 int detach_shmem(HANDLE hSharedMem, void* p);
 
 #else
-
-#ifdef USE_FILE_MAPPED_SHMEM
+#ifndef __EMX__
+// V6 mmap() shared memory for Unix/Linux/Mac
 
 #define MMAPPED_FILE_NAME    "boinc_mmap_file"
 
 // create a shared-memory segment of the given size.
 //
-extern int create_shmem(char *path, size_t size, void** pp);
+extern int create_shmem_mmap(char *path, size_t size, void** pp);
 
 // attach to a shared-memory segment
 //
-int attach_shmem(char *path, void** pp);
+int attach_shmem_mmap(char *path, void** pp);
 
 // detach from a shared-mem segment
 //
-extern int detach_shmem(void* p, size_t size);
+extern int detach_shmem_mmap(void* p, size_t size);
 
-#else
+// For testing on Apple, Linux, UNIX systems with limited number 
+// of shared memory segments per process and / or system-wide
+void stress_shmem(short reduce_by);
+
+#endif
 
 // create a shared-memory segment of the given size.
 //
@@ -76,7 +80,8 @@ extern int detach_shmem(void*);
 
 extern int shmem_info(key_t key);
 
-#endif
+#endif      // !defined(_WIN32)
+
 
 // Destroy a shared-memory segment.
 // If there are attachments to it,
@@ -84,11 +89,4 @@ extern int shmem_info(key_t key);
 //
 extern int destroy_shmem(key_t);
 
-#ifndef __EMX__
-// For testing on Apple, Linux, UNIX systems with limited number 
-// of shared memory segments per process and / or system-wide
-void stress_shmem(short reduce_by);
-#endif
-
-#endif      // !defined(_WIN32)
 #endif      // BOINC_SHMEM_H
