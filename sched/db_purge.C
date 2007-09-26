@@ -583,7 +583,7 @@ int main(int argc, char** argv) {
             max_wu_per_file = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-no_archive")) {
             no_archive = true;
-        } else if (!strcmp(argv[i], "-sleep")) {
+        } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_sec = atoi(argv[++i]);
             if (sleep_sec < 1 || sleep_sec > 86400) {
                 log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
