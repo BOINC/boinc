@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -52,6 +53,9 @@ if (new_transfer_request_ok($team, $now)) {
                 ";
             }
         } else {
+            if ($team->ping_user < 0) {
+                $team->ping_user = -$team->ping_user;
+            }
             $ping_user = lookup_user_id($team->ping_user);
             echo "<p>Founder change has already been requested by ".
                 user_links($ping_user)." on ".date_str($team->ping_time).".

@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 // handler for the "change founder" team management function
 
@@ -15,20 +16,27 @@ require_founder_login($user, $team);
 
 page_head("Change founder of $team->name");
 
-if ($team->ping_user) {
-    $ping_user = lookup_user_id($team->ping_user);
-    echo "<p>Team member ".user_links($ping_user)." has requested this
-        team's founder position.  This may be because you left
-        the team or haven't had contact with the team for a long time.
-    ";
-    echo "<p>Use the following form to transfer team founder position or
-        <form method=\"post\" action=\"team_founder_transfer_action.php\">
-        <input type=\"hidden\" name=\"action\" value=\"decline\">
-        <input type=\"hidden\" name=\"teamid\" value=\"".$team->id."\">
-        <input type=\"submit\" value=\"decline proposal\">
-        </form>
-        </p>
-    ";
+if ($team->ping_user != 0) {
+    if ($team->ping_user < 0) {
+        $ping_user = lookup_user_id(-$team->ping_user);
+        echo "<p>Team member ".user_links($ping_user)." has requested this
+            team's founder position, but has already left the team.</p>
+        ";
+    } else {
+        $ping_user = lookup_user_id($team->ping_user);
+        echo "<p>Team member ".user_links($ping_user)." has requested this
+            team's founder position.  This may be because you left
+            the team or haven't had contact with the team for a long time.</p>
+        ";
+        echo "<p>Use the following form to transfer team founder position or
+            <form method=\"post\" action=\"team_founder_transfer_action.php\">
+            <input type=\"hidden\" name=\"action\" value=\"decline\">
+            <input type=\"hidden\" name=\"teamid\" value=\"".$team->id."\">
+            <input type=\"submit\" value=\"decline proposal\">
+            </form>
+            </p>
+        ";
+    }
 }
 
 echo "

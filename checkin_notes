@@ -8785,3 +8785,18 @@ Charlie 25 Sep 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rytis   26 Sep 2007
+    - User web: fix an annoyance when team founder transfer is requested and
+        the requester leaves the team.
+    NOTE: DB UPDATE REQUIRED.
+    
+    db/schema.sql
+    html/
+        inc/
+            team.inc
+        ops/
+            db_update.php
+        user/
+            team_change_founder_form.php
+            team_founder_transfer_form.php

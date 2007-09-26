@@ -112,7 +112,7 @@ create table team (
     expavg_credit       double      not null,   /* temp */
     expavg_time         double      not null,
     seti_id             integer     not null,
-    ping_user           integer unsigned not null default 0,
+    ping_user           integer     not null default 0,
     ping_time           integer unsigned not null default 0,
     primary key (id)
 ) type=InnoDB;

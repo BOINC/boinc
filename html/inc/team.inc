@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
@@ -191,7 +192,7 @@ function user_join_team($team, $user) {
 function user_quit_team($user) {
     if (!$user->teamid) return;
     mysql_query("update user set teamid=0 where id=$user->id");
-    mysql_query("update team set ping_user=0 where id=".$user->teamid." and ping_user=".$user->id);
+    mysql_query("update team set ping_user=-ping_user where id=".$user->teamid." and ping_user=".$user->id);
     $now = time();
     mysql_query("insert into team_delta (userid, teamid, timestamp, joining, total_credit) values ($user->id, $user->teamid, $now, 0, $user->total_credit)");
 }
@@ -297,7 +298,7 @@ function team_count_nusers($teamid) {
 //   30 days to assume foundership before someone elase can request it
 //
 function new_transfer_request_ok($team, $now) {
-    if ($team->ping_user == 0) {
+    if ($team->ping_user <= 0) {
         if ($team->ping_time < $now - 60 * 86400) {
             return true;
         }

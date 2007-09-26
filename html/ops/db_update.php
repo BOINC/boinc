@@ -440,11 +440,16 @@ function update_7_26_2007() {
     );
 }
 
+function update_9_26_2007() {
+    // Change field type from unsigned to signed
+    do_query("ALTER TABLE `team` CHANGE `ping_user` `ping_user` INT( 10 ) NOT NULL DEFAULT '0'");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_7_26_2007();
+//update_9_26_2007();
 
 ?>
