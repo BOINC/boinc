@@ -292,7 +292,6 @@
 		DDD74DA707CF49040065AC9D /* net_stats.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FDA02AC0A0C01FB7237 /* net_stats.C */; };
 		DDD74DA907CF49090065AC9D /* pers_file_xfer.C in Sources */ = {isa = PBXBuildFile; fileRef = F51CCF1F02EFD37D018DB99A /* pers_file_xfer.C */; };
 		DDD74DAB07CF490C0065AC9D /* scheduler_op.C in Sources */ = {isa = PBXBuildFile; fileRef = F519F98D02C44A7501BDB3CA /* scheduler_op.C */; };
-		DDD74DAC07CF490D0065AC9D /* ss_logic.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B23046C366200A80164 /* ss_logic.C */; };
 		DDD74DAD07CF490E0065AC9D /* time_stats.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FE402AC0A0C01FB7237 /* time_stats.C */; };
 		DDD74DAE07CF490F0065AC9D /* whetstone.C in Sources */ = {isa = PBXBuildFile; fileRef = DD5EF07007C5B329007CCE8D /* whetstone.C */; };
 		DDD74DC307CF492A0065AC9D /* app_ipc.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.C */; };
@@ -881,8 +880,6 @@
 		AA763BF0040374F900A80164 /* gui_titles.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_titles.C; path = ../client/gui_titles.C; sourceTree = SOURCE_ROOT; };
 		AA8B6B1B046C364400A80164 /* app_ipc.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = app_ipc.C; path = ../lib/app_ipc.C; sourceTree = SOURCE_ROOT; };
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
-		AA8B6B23046C366200A80164 /* ss_logic.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ss_logic.C; path = ../client/ss_logic.C; sourceTree = SOURCE_ROOT; };
-		AA8B6B24046C366200A80164 /* ss_logic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ss_logic.h; path = ../client/ss_logic.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.C; path = ../lib/shmem.C; sourceTree = SOURCE_ROOT; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
@@ -1835,8 +1832,6 @@
 				F51CCF1E02EFD37D018DB99A /* pers_file_xfer.h */,
 				F519F98D02C44A7501BDB3CA /* scheduler_op.C */,
 				F519F98E02C44A7501BDB3CA /* scheduler_op.h */,
-				AA8B6B23046C366200A80164 /* ss_logic.C */,
-				AA8B6B24046C366200A80164 /* ss_logic.h */,
 				F54B8FE402AC0A0C01FB7237 /* time_stats.C */,
 				F54B8FE502AC0A0C01FB7237 /* time_stats.h */,
 				DD5EF08807C5B7C7007CCE8D /* version.h */,
@@ -2904,7 +2899,6 @@
 				DDD74DA707CF49040065AC9D /* net_stats.C in Sources */,
 				DDD74DA907CF49090065AC9D /* pers_file_xfer.C in Sources */,
 				DDD74DAB07CF490C0065AC9D /* scheduler_op.C in Sources */,
-				DDD74DAC07CF490D0065AC9D /* ss_logic.C in Sources */,
 				DDD74DAD07CF490E0065AC9D /* time_stats.C in Sources */,
 				DDD74DAE07CF490F0065AC9D /* whetstone.C in Sources */,
 				DDD74DC407CF492A0065AC9D /* base64.C in Sources */,
