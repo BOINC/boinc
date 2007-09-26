@@ -475,3 +475,9 @@ Charlie 25 Sep 2007
     example_app/
         uc2.C
         uc2_graphics.C
+
+David  26 Sept 2007
+    - example_app: don't set above flag (it's set by default now)
+
+    example_app/
+        uc2.C

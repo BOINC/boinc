@@ -121,7 +121,6 @@ int main(int argc, char **argv) {
     char input_path[512], output_path[512], chkpt_path[512];
     MFILE out;
     FILE* state, *infile;
-    BOINC_OPTIONS options;
 
     for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
@@ -133,11 +132,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    memset(&options, 0, sizeof(options));
-    boinc_options_defaults(options);
-    options.backwards_compatible_graphics = true;
-
-    retval = boinc_init_options(&options);
+    retval = boinc_init();
     if (retval) exit(retval);
 
     // open the input file (resolve logical name first)
