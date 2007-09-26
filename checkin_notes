@@ -467,3 +467,11 @@ David  20 Sept 2007
 
     wrapper/
         wrapper.C
+
+Charlie 25 Sep 2007
+    - example_app: Set backwards_compatible_graphics" flag.
+    - example_app: Port David's crash fix of 12 Sept into uc2_graphics.C.
+    
+    example_app/
+        uc2.C
+        uc2_graphics.C
