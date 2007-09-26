@@ -177,6 +177,7 @@ protected:
     RPC_CLIENT      rpc;
     CC_STATE        state;
     RESULTS         results;
+    RESULT          m_running_result;
 
     HANDLE          m_hDataManagementThread;
     HANDLE          m_hGraphicsApplication;

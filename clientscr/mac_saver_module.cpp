@@ -515,8 +515,9 @@ OSStatus RPCThread(void* param) {
         }
 
         if (gQuitRPCThread) {     // If main thread has requested we exit
-            if (graphics_app_pid) {
-                terminate_screensaver(graphics_app_pid);
+            if (graphics_app_pid || graphics_app_result_ptr) {
+                terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                graphics_app_result_ptr = NULL;
                 graphics_app_pid = 0;
                 graphics_app_result_ptr = NULL;
                 previous_result_ptr = NULL;
@@ -547,8 +548,9 @@ OSStatus RPCThread(void* param) {
         }
 
         if (gQuitRPCThread) {     // If main thread has requested we exit
-            if (graphics_app_pid) {
-                terminate_screensaver(graphics_app_pid);
+            if (graphics_app_pid || graphics_app_result_ptr) {
+                terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                graphics_app_result_ptr = NULL;
                 graphics_app_pid = 0;
                 graphics_app_result_ptr = NULL;
                 previous_result_ptr = NULL;
@@ -569,9 +571,13 @@ OSStatus RPCThread(void* param) {
 
 	if (suspend_reason != 0) {
             gClientSaverStatus = SS_STATUS_BOINCSUSPENDED;
-            if (graphics_app_pid) {
-                terminate_screensaver(graphics_app_pid);
-                // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+            if (graphics_app_pid || graphics_app_result_ptr) {
+                terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                if (graphics_app_pid == 0) {
+                    graphics_app_result_ptr = NULL;
+                } else {
+                    // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+                }
                 previous_result_ptr = NULL;
             }
             continue;
@@ -584,7 +590,7 @@ OSStatus RPCThread(void* param) {
 #else                   /* NORMAL OPERATION */
 
         // Is the current graphics app's associated task still running?
-        if ((graphics_app_pid) && (graphics_app_result_ptr)) {
+        if ((graphics_app_pid) || (graphics_app_result_ptr)) {
 
             iResultCount = results.results.size();
             graphics_app_result_ptr = NULL;
@@ -601,35 +607,45 @@ OSStatus RPCThread(void* param) {
                 }
             }
 
-            if (graphics_app_result_ptr == NULL) {
+            // V6 graphics only: if worker application has stopped running, terminate_screensaver
+            if ((graphics_app_result_ptr == NULL) && (graphics_app_pid != 0)) {
 //                if (previous_result_ptr) print_to_log_file("%s finished", previous_result.name.c_str());
-                terminate_screensaver(graphics_app_pid);
+                terminate_screensaver(graphics_app_pid, previous_result_ptr, rpc);
                 previous_result_ptr = NULL;
-                // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+                // waitpid test will clear graphics_app_pid
            }
 #if 0
             // Safety check that task is actually running
             if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
                 if (FindProcessPID(NULL, ? ? ?) == 0) {
-                    terminate_screensaver(graphics_app_pid);
+                    terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                    if (graphics_app_pid == 0) {
+                        graphics_app_result_ptr = NULL;
+                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
+                    } else {
+                        // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+                    }
                     previous_result_ptr = NULL;
-                    // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
                 }
             }
 #endif
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
 //                    if (previous_result_ptr) print_to_log_file("time to change: %s", previous_result.name.c_str());
-                    terminate_screensaver(graphics_app_pid);
-                    // Save previous_result and previous_result_ptr for get_random_graphics_app() call
-                    // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+                    terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                    if (graphics_app_pid == 0) {
+                        graphics_app_result_ptr = NULL;
+                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
+                    } else {
+                        // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
+                    }
                 }
                 last_change_time = dtime();
             }
         }
 
         // If no current graphics app, pick an active task at random and launch its graphics app
-        if (graphics_app_pid == 0) {
+        if ((graphics_app_pid == 0) && (graphics_app_result_ptr == NULL)) {
             graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
             previous_result_ptr = NULL;
             
@@ -662,12 +678,14 @@ OSStatus RPCThread(void* param) {
                     gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
                 }
             }
-        } else {    // End if (graphics_app_pid == 0)
+        } else {    // End if ((graphics_app_pid == 0) && (graphics_app_result_ptr == NULL))
             // Is the graphics app still running?
-            if (waitpid(graphics_app_pid, 0, WNOHANG) == graphics_app_pid) {
-                graphics_app_pid = 0;
-                graphics_app_result_ptr = NULL;
-                continue;
+            if (graphics_app_pid) {
+                if (waitpid(graphics_app_pid, 0, WNOHANG) == graphics_app_pid) {
+                    graphics_app_pid = 0;
+                    graphics_app_result_ptr = NULL;
+                    continue;
+                }
             }
         }
 #endif      // ! SIMULATE_NO_GRAPHICS
@@ -966,26 +984,45 @@ OSErr KillScreenSaver() {
 //
 int Mac_launch_screensaver(RESULT* rp, pid_t& graphics_application)
 {
-    // For unknown reasons, the graphics application exits with 
-    // "RegisterProcess failed (error = -50)" unless we pass its 
-    // full path twice in the argument list to execv.
-    char* argv[5];
-    argv[0] = "switcher";
-    argv[1] = (char *)rp->graphics_exec_path.c_str();
-    argv[2] = (char *)rp->graphics_exec_path.c_str();
-    argv[3] = "--fullscreen";
-    argv[4] = 0;
-    int retval;
-
-   retval = run_program(
-        rp->slot_path.c_str(),
-        gSwitcherPath,
-        4,
-        argv,
-        0,
-        graphics_application
-    );
+    int retval = 0;
     
+    if (!rp->graphics_exec_path.empty()) {
+        // V6 Graphics
+        // For unknown reasons, the graphics application exits with 
+        // "RegisterProcess failed (error = -50)" unless we pass its 
+        // full path twice in the argument list to execv.
+        char* argv[5];
+        argv[0] = "switcher";
+        argv[1] = (char *)rp->graphics_exec_path.c_str();
+        argv[2] = (char *)rp->graphics_exec_path.c_str();
+        argv[3] = "--fullscreen";
+        argv[4] = 0;
+
+       retval = run_program(
+            rp->slot_path.c_str(),
+            gSwitcherPath,
+            4,
+            argv,
+            0,
+            graphics_application
+        );
+    } else {
+        // V5 and Older
+        DISPLAY_INFO di;
+
+        memset(di.window_station, 0, sizeof(di.window_station));
+        memset(di.desktop, 0, sizeof(di.desktop));
+        memset(di.display, 0, sizeof(di.display));
+
+        graphics_application = 0;
+        
+        retval = rpc->show_graphics(
+            rp->project_url.c_str(),
+            rp->name.c_str(),
+            MODE_FULLSCREEN,
+            di
+        );
+    }
     return retval;
 }
 

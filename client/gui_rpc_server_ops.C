@@ -1032,6 +1032,8 @@ int GUI_RPC_CONN::handle_rpc() {
         mf.printf("</results>\n");
     } else if (match_tag(request_msg, "<get_screensaver_tasks")) {
         handle_get_screensaver_tasks(mf);
+    } else if (match_tag(request_msg, "<result_show_graphics")) {
+        handle_result_show_graphics(request_msg, mf);
     } else if (match_tag(request_msg, "<get_file_transfers")) {
         gstate.write_file_transfers_gui(mf);
     } else if (match_tag(request_msg, "<get_simple_gui_info")) {
@@ -1083,8 +1085,6 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_result_op(request_msg, mf, "suspend");
     } else if (match_tag(request_msg, "<resume_result")) {
         handle_result_op(request_msg, mf, "resume");
-    } else if (match_tag(request_msg, "<result_show_graphics")) {
-        handle_result_show_graphics(request_msg, mf);
     } else if (match_tag(request_msg, "<project_suspend")) {
         handle_project_op(request_msg, mf, "suspend");
     } else if (match_tag(request_msg, "<project_resume")) {

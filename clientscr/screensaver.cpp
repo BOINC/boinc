@@ -28,7 +28,6 @@
 #include "gui_rpc_client.h"
 #include "screensaver.h"
 
-
 bool is_same_task(RESULT* taska, RESULT* taskb) {
     if ((taska == NULL) || (taskb == NULL)) return false;
     if (taska->name != taskb->name) return false;
@@ -48,7 +47,8 @@ int count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
             _T("get_random_graphics_app -- name = '%s', path = '%s'\n"),
             results.results[i]->name.c_str(), results.results[i]->graphics_exec_path.c_str()
         );
-        if (results.results[i]->graphics_exec_path.size() == 0) continue;
+        if ((results.results[i]->graphics_exec_path.size() == 0) 
+                && (!(results.results[i]->supports_graphics))) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
         
         if (is_same_task(results.results[i], exclude)) continue;
@@ -92,7 +92,8 @@ RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude) {
 
     // Lets find the chosen graphics application.
     for (i = 0; i < results.results.size(); i++) {
-        if (results.results[i]->graphics_exec_path.size() == 0) continue;
+        if ((results.results[i]->graphics_exec_path.size() == 0) 
+                && (!(results.results[i]->supports_graphics))) continue;
         if (is_same_task(results.results[i], avoid)) continue;
 
         current_counter++;
@@ -112,24 +113,67 @@ CLEANUP:
 // Launch the graphics application
 //
 #ifdef _WIN32
-int launch_screensaver(RESULT* rp, HANDLE& graphics_application)
+int launch_screensaver(RESULT* rp, HANDLE& graphics_application, RPC_CLIENT* rpc)
 #else
-int launch_screensaver(RESULT* rp, int& graphics_application)
+int launch_screensaver(RESULT* rp, int& graphics_application, RPC_CLIENT* rpc)
 #endif
 {
     int retval = 0;
-    char* argv[3];
-    argv[0] = "app_graphics";   // not used
-    argv[1] = "--fullscreen";
-    argv[2] = 0;
-    retval = run_program(
-        rp->slot_path.c_str(),
-        rp->graphics_exec_path.c_str(),
-        2,
-        argv,
-        0,
-        graphics_application
-    );
+    if (!rp->graphics_exec_path.empty()) {
+        // V6 Graphics
+        char* argv[3];
+        argv[0] = "app_graphics";   // not used
+        argv[1] = "--fullscreen";
+        argv[2] = 0;
+        retval = run_program(
+            rp->slot_path.c_str(),
+            rp->graphics_exec_path.c_str(),
+            2,
+            argv,
+            0,
+            graphics_application
+        );
+    } else {
+        // V5 and Older
+        DISPLAY_INFO di;
+
+#ifdef __WXMSW__
+        graphics_application = NULL;
+
+        memset(di.window_station, 0, sizeof(window_station));
+        memset(di.desktop, 0, sizeof(di.desktop));
+        memset(di.display, 0, sizeof(di.display));
+
+        if (wxWIN95 != wxGetOsVersion(NULL, NULL)) {
+            // Retrieve the current window station and desktop names
+            GetUserObjectInformation(
+                GetProcessWindowStation(), 
+                UOI_NAME, 
+                di.window_station,
+                (sizeof(di.window_station)),
+                NULL
+            );
+            GetUserObjectInformation(
+                GetThreadDesktop(GetCurrentThreadId()), 
+                UOI_NAME, 
+                di.desktop,
+                sizeof(di.desktop),
+                NULL
+            );
+        }
+#else
+        char *p = getenv("DISPLAY");
+        if (p) strcpy(di.display, p);
+        
+        graphics_application = 0;
+#endif
+        retval = rpc->show_graphics(
+            rp->project_url.c_str(),
+            rp->name.c_str(),
+            MODE_WINDOW,
+            di
+        );
+    }
     return retval;
 }
 
@@ -137,12 +181,32 @@ int launch_screensaver(RESULT* rp, int& graphics_application)
 // Terminate the graphics application
 //
 #ifdef _WIN32
-int terminate_screensaver(HANDLE& graphics_application)
+int terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc)
 #else
-int terminate_screensaver(int& graphics_application)
+int terminate_screensaver(int& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc)
 #endif
 {
-    kill_program(graphics_application);
+
+    if (graphics_application) {
+        // V6 Graphics
+        kill_program(graphics_application);
+    } else {
+        // V5 and Older
+        DISPLAY_INFO di;
+
+        if (worker_app->name.empty()) return 0;
+
+        memset(di.window_station, 0, sizeof(di.window_station));
+        memset(di.desktop, 0, sizeof(di.desktop));
+        memset(di.display, 0, sizeof(di.display));
+
+        rpc->show_graphics(
+            worker_app->project_url.c_str(),
+            worker_app->name.c_str(),
+            MODE_HIDE_GRAPHICS,
+            di
+        );
+    }
     return 0;
 }
 

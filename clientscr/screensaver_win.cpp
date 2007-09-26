@@ -191,6 +191,7 @@ CScreensaver::CScreensaver() {
     m_bResetCoreState = TRUE;
     m_bBOINCConfigChecked = FALSE;
     m_bBOINCStartupConfigured = FALSE;
+    memset(&m_running_result, 0, sizeof(m_running_result));
 
 	ZeroMemory(m_Monitors, sizeof(m_Monitors));
     m_dwNumMonitors = 0;
@@ -1054,6 +1055,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                     BOINCTRACE(_T("CScreensaver::DataManagementProc - launch_screensaver RetVal = '%d', m_hGraphicsApplication = '%d'\n"), retval, m_hGraphicsApplication);
                     if (!retval) {
                         m_bScreensaverStarted = TRUE;
+                        m_running_result = *rp;
                     }
                 } else {
                     if (state.projects.size() == 0) {
@@ -1552,7 +1554,7 @@ VOID CScreensaver::ShutdownSaver() {
     }
 
     // Kill the currently executing graphics application
-    terminate_screensaver(m_hGraphicsApplication);
+    terminate_screensaver(m_hGraphicsApplication, &m_running_result, &rpc);
 
     // Post message to drop out of message loop
     // This can be called from the data management thread, so specifically

@@ -33,16 +33,16 @@ extern RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL)
 
 // Launch the screensaver
 #ifdef _WIN32
-extern int launch_screensaver(RESULT* rp, HANDLE& graphics_application);
+extern int launch_screensaver(RESULT* rp, HANDLE& graphics_application, RPC_CLIENT* rpc);
 #else
-extern int launch_screensaver(RESULT* rp, int& graphics_application);
+extern int launch_screensaver(RESULT* rp, int& graphics_application, RPC_CLIENT* rpc);
 #endif
 
 // Terminate the screensaver
 #ifdef _WIN32
-extern int terminate_screensaver(HANDLE& graphics_application);
+extern int terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc);
 #else
-extern int terminate_screensaver(int& graphics_application);
+extern int terminate_screensaver(int& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc);
 #endif
 
 #endif
