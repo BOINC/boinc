@@ -8763,6 +8763,7 @@ Charlie 25 Sep 2007
       NOTE: when testing V6 applications with anonymous platform mechanism, 
       you must add <api_version>600</api_version> tag under <app_version>.
     - Mac/Linux/UNIX: V6 applications uses shmget() to run with V5 clients.
+    - Eliminate "#ifdef USE_FILE_MAPPED_SHMEM" throughout.
     - V6 SCR: V6 screensaver shows graphics for both V5 and V6 applications.
       (This required permitting rpc.show_graphics without gui_rpc password.)
       NOTE: I have updated the Windows screensaver code to allow this, but 
