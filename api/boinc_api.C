@@ -170,17 +170,19 @@ static int setup_shared_mem() {
         app_client_shm = NULL;
     }
 #else
-#ifdef USE_FILE_MAPPED_SHMEM
-    if (attach_shmem( MMAPPED_FILE_NAME, (void**)&app_client_shm->shm)) {
-        delete app_client_shm;
-        app_client_shm = NULL;
+    if (aid.shmem_seg_name == -1) {
+        // Version 6 Unix/Linux/Mac client 
+        if (attach_shmem_mmap( MMAPPED_FILE_NAME, (void**)&app_client_shm->shm)) {
+            delete app_client_shm;
+            app_client_shm = NULL;
+        }
+    } else {
+        // EMX or version 5 Unix/Linux/Mac client
+        if (attach_shmem(aid.shmem_seg_name, (void**)&app_client_shm->shm)) {
+            delete app_client_shm;
+            app_client_shm = NULL;
+        }
     }
-#else
-    if (attach_shmem(aid.shmem_seg_name, (void**)&app_client_shm->shm)) {
-        delete app_client_shm;
-        app_client_shm = NULL;
-    }
-#endif  // ! USE_FILE_MAPPED_SHMEM
 #endif  // ! _WIN32
     if (app_client_shm == NULL) return -1;
     return 0;
