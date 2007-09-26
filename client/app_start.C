@@ -52,7 +52,7 @@
 #include <libkern/OSByteOrder.h>
 #endif
 
-#ifdef USE_FILE_MAPPED_SHMEM
+#if(!defined (_WIN32) && !defined (__EMX__))
 #include <fcntl.h>
 #endif
 
@@ -146,6 +146,13 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 
 #else
     char init_data_path[256];
+#ifndef __EMX__
+    // shmem_seg_name is not used with mmap() shared memory 
+    if (app_version->api_major_version() >= 6) {
+        shmem_seg_name = -1;
+        return 0;
+    }
+#endif
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
     // ftok() only works if there's a file at the given location
@@ -578,30 +585,33 @@ int ACTIVE_TASK::start(bool first_time) {
     // Set up core/app shared memory seg if needed
     //
     if (!app_client_shm.shm) {
-#ifdef USE_FILE_MAPPED_SHMEM
-        sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
-        if (g_use_sandbox) {
-            if (!boinc_file_exists(buf)) {
-                int fd = open(buf, O_RDWR | O_CREAT, 0660);
-                if (fd >= 0) {
-                    close (fd);
-                    set_to_project_group(buf);
+        if (app_version->api_major_version() >= 6) {
+            // Use mmap() shared memory
+            sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
+            if (g_use_sandbox) {
+                if (!boinc_file_exists(buf)) {
+                    int fd = open(buf, O_RDWR | O_CREAT, 0660);
+                    if (fd >= 0) {
+                        close (fd);
+                        set_to_project_group(buf);
+                    }
                 }
             }
-        }
-        retval = create_shmem(
-            buf, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
-        );
-#else   // !defined(USE_FILE_MAPPED_SHMEM)
-        retval = create_shmem(
-            shmem_seg_name, sizeof(SHARED_MEM), gstate.boinc_project_gid,
-            (void**)&app_client_shm.shm
-        );
-#endif   // !defined(USE_FILE_MAPPED_SHMEM)
-        if (retval) {
-            needs_shmem = true;
-            destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment
-            return retval;
+            retval = create_shmem_mmap(
+                buf, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
+            );
+        } else {
+            // Use shmget() shared memory
+            retval = create_shmem(
+                shmem_seg_name, sizeof(SHARED_MEM), gstate.boinc_project_gid,
+                (void**)&app_client_shm.shm
+            );
+
+            if (retval) {
+                needs_shmem = true;
+                destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment
+                return retval;
+            }
         }
         needs_shmem = false;
     }

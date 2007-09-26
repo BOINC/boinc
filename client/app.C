@@ -180,28 +180,31 @@ void ACTIVE_TASK::cleanup_task() {
     }
 #else
     int retval;
-
+    
     if (app_client_shm.shm) {
-#ifdef USE_FILE_MAPPED_SHMEM
-        retval = detach_shmem(app_client_shm.shm, sizeof(SHARED_MEM));
-#else
-        retval = detach_shmem(app_client_shm.shm);
- #endif
-        if (retval) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Couldn't detach shared memory: %s", boincerror(retval)
-            );
+#ifndef __EMX__
+        if (app_version->api_major_version() >= 6) {
+            retval = detach_shmem_mmap(app_client_shm.shm, sizeof(SHARED_MEM));
+        } else
+#endif
+        {
+            retval = detach_shmem(app_client_shm.shm);
+            if (retval) {
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "Couldn't detach shared memory: %s", boincerror(retval)
+                );
+            }
+            retval = destroy_shmem(shmem_seg_name);
+            if (retval) {
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "Couldn't destroy shared memory: %s", boincerror(retval)
+                );
+            }
+            app_client_shm.shm = NULL;
+            gstate.retry_shmem_time = 0;
         }
-        retval = destroy_shmem(shmem_seg_name);
-        if (retval) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Couldn't destroy shared memory: %s", boincerror(retval)
-            );
-        }
-        app_client_shm.shm = NULL;
-        gstate.retry_shmem_time = 0;
     }
-
+    
     if (gstate.exit_after_finish) {
         exit(0);
     }
