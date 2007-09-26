@@ -7384,3 +7384,9 @@ Kevin 25 Sep 2007
 
     client/win
         win_screensaver.cpp, .h
+
+Charlie 25 Sep 2007
+    - Manager: Fix a compiler warning.
+
+    clientgui/
+        WelcomePage.cpp
