@@ -8833,3 +8833,15 @@ David  26 Sept 2007
 	lib/
 		shmem.h
 		util.C
+
+Charlie 27 Sep 2007
+    - API: fix 2 bugs in new compatibility code for handling V5 graphics 
+        messages in a V5 app. 
+        - Make graphics app's pid static so it is still available when 
+            time to "hide" graphics.
+        - Kill graphics app when worker app exits; this is needed to work 
+            properly with V5 screensaver.
+
+    api/
+        boinc_api.C
+            

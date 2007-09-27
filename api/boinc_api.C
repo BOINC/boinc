@@ -154,6 +154,9 @@ struct UPLOAD_FILE_STATUS {
 static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
+static char graphics_app_path[1024];
+static void control_graphics_app(char* path, bool start, bool fullscreen);
+
 static int setup_shared_mem() {
     if (standalone) {
         fprintf(stderr, "Standalone mode, so not using shared memory.\n");
@@ -428,6 +431,11 @@ int boinc_finish(int status) {
 // This is called from the worker, timer, and graphics threads.
 //
 void boinc_exit(int status) {
+   // kill the (separate) graphics app if running
+    if (options.backwards_compatible_graphics && graphics_app_path[0]) {
+        control_graphics_app(graphics_app_path, false, false);
+    }
+    
     // Unlock the lock file
     //
     file_lock.unlock(LOCKFILE);
@@ -711,9 +719,9 @@ static void handle_process_control_msg() {
 static void control_graphics_app(char* path, bool start, bool fullscreen) {
     static bool running = false;
 #ifdef _WIN32
-    HANDLE pid=0;
+    static HANDLE pid=0;
 #else
-    int pid;
+    static int pid=0;
 #endif
     if (start) {
         int argc;
@@ -736,6 +744,7 @@ static void control_graphics_app(char* path, bool start, bool fullscreen) {
         int retval = run_program(0, abspath, argc, argv, 0, pid);
         if (retval) {
             running = false;
+            pid = 0;
         } else {
             running = true;
         }
@@ -743,6 +752,7 @@ static void control_graphics_app(char* path, bool start, bool fullscreen) {
         if (running) {
             kill_program(pid);
             running = false;
+            pid = 0;
         }
     }
 }
@@ -753,7 +763,6 @@ static void control_graphics_app(char* path, bool start, bool fullscreen) {
 //
 static inline void handle_graphics_messages() {
     char buf[MSG_CHANNEL_SIZE];
-    static char graphics_app_path[1024];
     GRAPHICS_MSG m;
     static bool first=true;
     static bool have_graphics_app;
@@ -765,6 +774,7 @@ static inline void handle_graphics_messages() {
         );
         if (!strcmp(graphics_app_path, GRAPHICS_APP_FILENAME)) {
             have_graphics_app = false;
+            graphics_app_path[0] = 0;
         } else {
             have_graphics_app = true;
         }
