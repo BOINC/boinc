@@ -8895,3 +8895,9 @@ David  27 Sept 2007
         gui_rpc_server.C,h
         gui_rpc_server_ops.C
         net_stats.C,h
+
+Charlie 27 Sep 2007
+    - Mac V6 GFX: add setMacPList() call.
+    
+    api/
+        graphics2_unix.C

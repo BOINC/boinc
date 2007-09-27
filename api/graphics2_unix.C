@@ -149,6 +149,9 @@ void boinc_graphics_loop(int argc, char** argv) {
             fullscreen = true;
         }
     }
+#ifdef __APPLE__
+    setMacPList();
+#endif
     boinc_glut_init();
     make_window();
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
