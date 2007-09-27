@@ -481,3 +481,10 @@ David  26 Sept 2007
 
     example_app/
         uc2.C
+
+David  26 Sept 2007
+	- minor stuff
+
+	example_app
+		uc2.C
+		uc2_graphics.C

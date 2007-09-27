@@ -55,6 +55,8 @@
 #include "mfile.h"
 #include "graphics2.h"
 
+#define APP_GRAPHICS
+
 #ifdef APP_GRAPHICS
 #include "uc2.h"
 UC_SHMEM* shmem;
@@ -179,6 +181,10 @@ int main(int argc, char **argv) {
     // create shared mem segment for graphics, and arrange to update it
     //
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
+    if (!shmem) {
+        fprintf(stderr, "failed to create shared mem segment\n");
+    }
+    update_shmem();
     boinc_register_timer_callback(update_shmem);
 #endif
 

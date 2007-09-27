@@ -152,8 +152,10 @@ void app_graphics_render(int xs, int ys, double time_of_day) {
     // boinc_parse_init_data_file()
     // Put this in the main loop to allow retries if the 
     // worker application has not yet created shared memory
-    if (shmem == NULL)
+    //
+    if (shmem == NULL) {
         shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
+    }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -258,7 +260,7 @@ int main(int argc, char** argv) {
 #endif
     boinc_parse_init_data_file();
     boinc_get_init_data(uc_aid);
-   if (uc_aid.project_preferences) {
+    if (uc_aid.project_preferences) {
         parse_project_prefs(uc_aid.project_preferences);
     }
     boinc_graphics_loop(argc, argv);
