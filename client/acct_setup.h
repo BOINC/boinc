@@ -67,38 +67,50 @@ struct LOOKUP_ACCOUNT_OP: public GUI_HTTP_OP {
     std::string reply;
     int error_num;
 
+    LOOKUP_ACCOUNT_OP(GUI_HTTP* p){
+        error_num = BOINC_SUCCESS;
+        gui_http = p;
+    }
     virtual ~LOOKUP_ACCOUNT_OP(){}
     int do_rpc(ACCOUNT_IN&);
     virtual void handle_reply(int http_op_retval);
-    LOOKUP_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
 };
 
 struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
     std::string reply;
     int error_num;
 
+    CREATE_ACCOUNT_OP(GUI_HTTP* p){
+        error_num = BOINC_SUCCESS;
+        gui_http = p;
+    }
     virtual ~CREATE_ACCOUNT_OP(){}
     int do_rpc(ACCOUNT_IN&);
     virtual void handle_reply(int http_op_retval);
-    CREATE_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
 };
 
 struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
     int error_num;
 
+    GET_CURRENT_VERSION_OP(GUI_HTTP* p){
+        error_num = BOINC_SUCCESS;
+        gui_http = p;
+    }
     virtual ~GET_CURRENT_VERSION_OP(){}
     int do_rpc();
     virtual void handle_reply(int http_op_retval);
-    GET_CURRENT_VERSION_OP(){error_num = BOINC_SUCCESS;}
 };
 
 struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
     int error_num;
 
+    GET_PROJECT_LIST_OP(GUI_HTTP* p){
+        error_num = BOINC_SUCCESS;
+        gui_http = p;
+    }
     virtual ~GET_PROJECT_LIST_OP(){}
     int do_rpc();
     virtual void handle_reply(int http_op_retval);
-    GET_PROJECT_LIST_OP(){error_num = BOINC_SUCCESS;}
 };
 
 struct PROJECT_ATTACH {

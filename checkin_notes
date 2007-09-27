@@ -8885,3 +8885,13 @@ David  27 Sept 2007
         gui_http.h
         gui_rpc_server.C,h
         gui_rpc_server_ops.C
+
+David  27 Sept 2007
+    - client: finished up the above
+
+    client/
+        acct_setup.C,h
+        client_state.C,h
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C
+        net_stats.C,h

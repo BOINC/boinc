@@ -48,6 +48,8 @@ public:
     int au_mgr_state;
     GUI_HTTP gui_http;
     GET_PROJECT_CONFIG_OP get_project_config_op;
+    LOOKUP_ACCOUNT_OP lookup_account_op;
+    CREATE_ACCOUNT_OP create_account_op;
 
     GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
@@ -56,6 +58,10 @@ public:
     void handle_auth2(char*, MIOFILE&);
     void handle_get_project_config(char* buf, MIOFILE& fout);
     void handle_get_project_config_poll(char*, MIOFILE& fout);
+    void handle_lookup_account(char* buf, MIOFILE& fout);
+    void handle_lookup_account_poll(char*, MIOFILE& fout);
+    void handle_create_account(char* buf, MIOFILE& fout);
+    void handle_create_account_poll(char*, MIOFILE& fout);
 };
 
 // authentication for GUI RPCs:

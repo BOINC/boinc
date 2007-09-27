@@ -135,7 +135,7 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     escape_url(parameter);
     url += parameter;
 
-    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_ACCOUNT_FILENAME);
+    retval = gui_http->do_rpc(this, url, LOOKUP_ACCOUNT_FILENAME);
     if (retval) {
         error_num = retval;
     } else {
@@ -175,7 +175,7 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     escape_url(parameter);
     url += parameter;
 
-    retval = gstate.gui_http.do_rpc(this, url, CREATE_ACCOUNT_FILENAME);
+    retval = gui_http->do_rpc(this, url, CREATE_ACCOUNT_FILENAME);
     if (retval) {
         error_num = retval;
     } else {
@@ -197,7 +197,7 @@ int GET_CURRENT_VERSION_OP::do_rpc() {
     char buf[256];
 
     sprintf(buf, "http://boinc.berkeley.edu/download.php?xml=1");
-    retval = gstate.gui_http.do_rpc(
+    retval = gui_http->do_rpc(
         this, string(buf), GET_CURRENT_VERSION_FILENAME
     );
     if (retval) {
@@ -281,7 +281,7 @@ int GET_PROJECT_LIST_OP::do_rpc() {
     char buf[256];
 
     sprintf(buf, "http://boinc.berkeley.edu/project_list.php");
-    retval = gstate.gui_http.do_rpc(
+    retval = gui_http->do_rpc(
         this, string(buf), ALL_PROJECTS_LIST_FILENAME
     );
     if (retval) {

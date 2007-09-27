@@ -56,7 +56,11 @@
 using std::string;
 using std::vector;
 
-GUI_RPC_CONN::GUI_RPC_CONN(int s): get_project_config_op(&gui_http) {
+GUI_RPC_CONN::GUI_RPC_CONN(int s):
+    get_project_config_op(&gui_http),
+    lookup_account_op(&gui_http),
+    create_account_op(&gui_http)
+{
     sock = s;
     auth_needed = false;
     au_ss_state = AU_SS_INIT;

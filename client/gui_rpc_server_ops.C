@@ -615,7 +615,7 @@ void GUI_RPC_CONN::handle_get_project_config_poll(char*, MIOFILE& fout) {
     }
 }
 
-static void handle_lookup_account(char* buf, MIOFILE& fout) {
+void GUI_RPC_CONN::handle_lookup_account(char* buf, MIOFILE& fout) {
     ACCOUNT_IN ai;
 
     ai.parse(buf);
@@ -624,42 +624,42 @@ static void handle_lookup_account(char* buf, MIOFILE& fout) {
         return;
     }
 
-    gstate.lookup_account_op.do_rpc(ai);
+    lookup_account_op.do_rpc(ai);
     fout.printf("<success/>\n");
 }
 
-static void handle_lookup_account_poll(char*, MIOFILE& fout) {
-    if (gstate.lookup_account_op.error_num) {
+void GUI_RPC_CONN::handle_lookup_account_poll(char*, MIOFILE& fout) {
+    if (lookup_account_op.error_num) {
         fout.printf(
             "<account_out>\n"
             "    <error_num>%d</error_num>\n"
             "</account_out>\n",
-            gstate.lookup_account_op.error_num
+            lookup_account_op.error_num
         );
     } else {
-        fout.printf("%s", gstate.lookup_account_op.reply.c_str());
+        fout.printf("%s", lookup_account_op.reply.c_str());
     }
 }
 
-static void handle_create_account(char* buf, MIOFILE& fout) {
+void GUI_RPC_CONN::handle_create_account(char* buf, MIOFILE& fout) {
     ACCOUNT_IN ai;
 
     ai.parse(buf);
 
-    gstate.create_account_op.do_rpc(ai);
+    create_account_op.do_rpc(ai);
     fout.printf("<success/>\n");
 }
 
-static void handle_create_account_poll(char*, MIOFILE& fout) {
-    if (gstate.create_account_op.error_num) {
+void GUI_RPC_CONN::handle_create_account_poll(char*, MIOFILE& fout) {
+    if (create_account_op.error_num) {
         fout.printf(
             "<account_out>\n"
             "    <error_num>%d</error_num>\n"
             "</account_out>\n",
-            gstate.create_account_op.error_num
+            create_account_op.error_num
         );
     } else {
-        fout.printf("%s", gstate.create_account_op.reply.c_str());
+        fout.printf("%s", create_account_op.reply.c_str());
     }
 }
 
