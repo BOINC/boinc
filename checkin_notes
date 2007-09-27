@@ -8856,3 +8856,13 @@ David  27 Sept 2007
         census.C
         db_dump.C
         file_upload_handler.C
+
+Rom    27 Sept 2007
+    - WIN INSTALL: Add custom action to create the two user accounts
+        needed to implement the sandbox.
+      
+      TODO: Still need a random password generator.
+      
+    win_build/installerv2/redist/Windows/src/boinccas
+        boinccas.vcproj
+        CACreateBOINCAccounts.cpp, .h (Added)

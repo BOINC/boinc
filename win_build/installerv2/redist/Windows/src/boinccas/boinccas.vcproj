@@ -376,6 +376,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACreateBOINCAccounts.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGetAdministratorsGroupName.cpp"
 				>
 			</File>
@@ -478,6 +482,10 @@
 			>
 			<File
 				RelativePath=".\boinccas.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CACreateBOINCAccounts.h"
 				>
 			</File>
 			<File
