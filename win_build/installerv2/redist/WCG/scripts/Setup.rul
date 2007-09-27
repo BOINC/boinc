@@ -86,6 +86,8 @@ begin
      //	  LaunchApp(KILL_UD_PROCESS, KILL_UD_PROCESS_PARAM);
           if (LaunchAppAndWait ("MsiExec.exe ", UD_UNINSTALL_PARAM,LAAW_OPTION_WAIT) < 0) then
           	  MessageBox (UD_UNABLE_UNINSTALL_MSG, SEVERE);  
+          else 
+              MsiSetProperty(hMSI, "UDAVAILABLE", "No");
           endif;
      	       
 //    endif; 
