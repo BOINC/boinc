@@ -488,3 +488,12 @@ David  26 Sept 2007
 	example_app
 		uc2.C
 		uc2_graphics.C
+
+Charlie 27 Sep 2007
+    Mac: remove "-DAPP_GRAPHICS" from XCode project C flags to fix a 
+        compiler warning now that it is defined in the source file.
+    
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+    

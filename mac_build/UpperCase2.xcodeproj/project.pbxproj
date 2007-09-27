@@ -566,7 +566,6 @@
 				OTHER_CFLAGS = (
 					"-DHAVE_SIGNAL_H",
 					"-D_THREAD_SAFE",
-					"-DAPP_GRAPHICS",
 					"-D_DEBUG",
 				);
 				OTHER_LDFLAGS = (
