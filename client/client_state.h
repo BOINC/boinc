@@ -190,7 +190,6 @@ public:
 // --------------- acct_setup.C:
 public:
     PROJECT_INIT project_init;
-    GET_PROJECT_CONFIG_OP get_project_config_op;
     LOOKUP_ACCOUNT_OP lookup_account_op;
     CREATE_ACCOUNT_OP create_account_op;
     LOOKUP_WEBSITE_OP lookup_website_op;

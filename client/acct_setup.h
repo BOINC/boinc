@@ -54,10 +54,13 @@ struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
     std::string reply;
     int error_num;
 
+    GET_PROJECT_CONFIG_OP(GUI_HTTP* p){
+        error_num = BOINC_SUCCESS;
+        gui_http = p;
+    }
     virtual ~GET_PROJECT_CONFIG_OP(){}
     int do_rpc(string url);
     virtual void handle_reply(int http_op_retval);
-    GET_PROJECT_CONFIG_OP(){error_num = BOINC_SUCCESS;}
 };
 
 struct LOOKUP_ACCOUNT_OP: public GUI_HTTP_OP {

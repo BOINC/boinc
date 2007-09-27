@@ -91,7 +91,7 @@ function page_tail($translatable=false, $is_main=false) {
     ";
     if ($translatable) {
         echo "
-            This page is <a href=translation.php>translatable</a>.<br>
+            This page is <a href=trac/wiki/TranslateIntro>translatable</a>.<br>
         ";
     }
     echo "

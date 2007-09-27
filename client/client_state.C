@@ -562,6 +562,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
+    POLL_ACTION(gui_rpc_http           , gui_rpcs.poll          );
     if (!network_suspended) {
         net_status.poll();
         POLL_ACTION(acct_mgr               , acct_mgr_info.poll     );

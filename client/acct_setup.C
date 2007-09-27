@@ -100,7 +100,7 @@ int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
         "Fetching configuration file from %s", url.c_str()
     );
 
-    retval = gstate.gui_http.do_rpc(this, url, GET_PROJECT_CONFIG_FILENAME);
+    retval = gui_http->do_rpc(this, url, GET_PROJECT_CONFIG_FILENAME);
     if (retval) {
         error_num = retval;
     } else {

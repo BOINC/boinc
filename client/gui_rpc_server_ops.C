@@ -592,26 +592,26 @@ static void handle_get_project_init_status(char*, MIOFILE& fout) {
     );
 }
 
-static void handle_get_project_config(char* buf, MIOFILE& fout) {
+void GUI_RPC_CONN::handle_get_project_config(char* buf, MIOFILE& fout) {
     string url;
 
     parse_str(buf, "<url>", url);
 
     canonicalize_master_url(url);
-    gstate.get_project_config_op.do_rpc(url);
+    get_project_config_op.do_rpc(url);
     fout.printf("<success/>\n");
 }
 
-static void handle_get_project_config_poll(char*, MIOFILE& fout) {
-    if (gstate.get_project_config_op.error_num) {
+void GUI_RPC_CONN::handle_get_project_config_poll(char*, MIOFILE& fout) {
+    if (get_project_config_op.error_num) {
         fout.printf(
             "<project_config>\n"
             "    <error_num>%d</error_num>\n"
             "</project_config>\n",
-            gstate.get_project_config_op.error_num
+            get_project_config_op.error_num
         );
     } else {
-        fout.printf("%s", gstate.get_project_config_op.reply.c_str());
+        fout.printf("%s", get_project_config_op.reply.c_str());
     }
 }
 

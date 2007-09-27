@@ -42,7 +42,7 @@ $info_sites = array(
         "(English, German and Dutch)"
     ),
     array(
-        "http://boinc-wiki.ath.cx/",
+        "http://www.boinc-wiki.info/",
         "The Unofficial BOINC Wiki",
         "(in English)",
     ),

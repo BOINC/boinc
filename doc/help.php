@@ -39,8 +39,8 @@ echo "
 <h2>".tr(HELP_HEADING2)."</h2>
 <p>
 <ul>
-<li> <a href=participate.php>".tr(HELP_P2_ITEM1)."</a>
-<li> <a href=troubleshoot.php>".tr(HELP_P2_ITEM2)."</a>
+<li> <a href=trac/wiki/RunningBoinc>".tr(HELP_P2_ITEM1)."</a>
+<li> <a href=trac/wiki/TroubleshootClient>".tr(HELP_P2_ITEM2)."</a>
 <li> <a href=links.php>".tr(HELP_P2_ITEM3)."</a>
 <li> <a href=dev/>".tr(HELP_P2_ITEM4)."</a>
 <li> ".tr(HELP_P2_ITEM5)."

@@ -35,19 +35,19 @@ BOINC works very well for desktop grid computing.
 The steps in creating a desktop grid are:
 <ul>
 <li>
-<a href=create_project.php>Set up a BOINC server</a>,
+<a href=trac/wiki/CreateProjectOutline>Set up a BOINC server</a>,
 develop or port applications, and test them.
-Set <a href=work.php>workunit parameters</a> to disable redundancy.
+Set <a href=trac/wiki/JobIn>workunit parameters</a> to disable redundancy.
 <li>
-Create an account with the <a href=prefs.php>general preferences</a>
+Create an account with the <a href=trac/wiki/GlobalPrefs>general preferences</a>
 that you want enforced on your desktop grid.
 <li>
-<a href=project_options.php>Configure your project</a>
+<a href=trac/wiki/ProjectOptions>Configure your project</a>
 to disable account creation.
 <li>
-<a href=win_deploy.php>Create a custom installer</a>
+<a href=trac/wiki/WinDeploy>Create a custom installer</a>
 that includes the desired
-<a href=client_unix.php>configuration files</a>.
+<a href=trac/wiki/UnixClient>configuration files</a>.
 Typically, this would include an account file
 that would attach each client to the account on your project.
 You might also want to include files that allow
@@ -55,7 +55,7 @@ clients to be remotely monitored and controlled.
 
 <li>
 Deploy your installer; on Windows networks
-this can be done using <a href=win_deploy.php>Active Directories</a>.
+this can be done using <a href=trac/wiki/WinDeploy>Active Directories</a>.
 </ul>
 
 <p>

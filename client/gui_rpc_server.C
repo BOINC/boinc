@@ -56,7 +56,7 @@
 using std::string;
 using std::vector;
 
-GUI_RPC_CONN::GUI_RPC_CONN(int s) {
+GUI_RPC_CONN::GUI_RPC_CONN(int s): get_project_config_op(&gui_http) {
     sock = s;
     auth_needed = false;
     au_ss_state = AU_SS_INIT;
@@ -70,6 +70,15 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
     lsock = -1;
     time_of_last_rpc_needing_network = 0;
+}
+
+bool GUI_RPC_CONN_SET::poll() {
+    unsigned int i;
+    bool action = false;
+    for (i=0; i<gui_rpcs.size(); i++) {
+        action |= gui_rpcs[i]->gui_http.poll();
+    }
+    return action;
 }
 
 bool GUI_RPC_CONN_SET::recent_rpc_needs_network(double interval) {

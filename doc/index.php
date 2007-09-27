@@ -43,7 +43,7 @@ function show_news_items() {
         <a href=rss_main.php>RSS feed</a> <img src=xml.gif></font>
         <br>
         <font size=-2>You can help
-        <a href=wwl.php>translate these news items to other languages</a>.
+        <a href=trac/wiki/WorldWideLexicon>translate these news items to other languages</a>.
         </td></tr></table>
         <p>
     ";

@@ -8866,3 +8866,22 @@ Rom    27 Sept 2007
     win_build/installerv2/redist/Windows/src/boinccas
         boinccas.vcproj
         CACreateBOINCAccounts.cpp, .h (Added)
+
+David  27 Sept 2007
+    - client: first pass at fixing a fundamental design flaw:
+        there's a single GUI_HTTP object,
+        and it works only if used sequentially,
+        i.e. an op is started only after the previous one ends.
+        This breaks if a GUI RPC triggerse and op while
+        a project-list fetch (initiated by the client itself) is in progress.
+        Or if two managers are connected at the same time,
+        and both do HTTP ops.
+        The solution: have a separate GUI_HTTP object for each GUI_RPC_CONN,
+        and an additional one for use by the client itself.
+
+    client/
+        acct_setup.C,h
+        client_state.C,h
+        gui_http.h
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C

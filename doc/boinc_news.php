@@ -531,7 +531,7 @@ array("July 21, 2006",
     "The BOINC survey is now available in
     <a href=http://boinc.oocp.org/poll.php>Japanese</a>.
     If you'd like to translate it to another language,
-    please <a href=contact.php>contact us</a>."
+    please <a href=trac/wiki/ProjectPeople>contact us</a>."
 ),
 array("July 13, 2006",
     "We are conducting an <a href=poll.php>online survey</a>
@@ -963,7 +963,7 @@ array("June 16, 2005",
 ),
 array("June 3, 2005",
     "Two Wiki-based BOINC informational sites have been launched recently:
-    <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a>
+    <a href=http://www.boinc-wiki.info/>The Unofficial BOINC Wiki</a>
     (in English) and
     <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German).
     Because these sites are Wikis,
@@ -1011,7 +1011,7 @@ array("May 10, 2005",
 ),
 array("April 11, 2005",
     "Volunteers have ported SETI@home and BOINC to
-    <a href=http://boinc.berkeley.edu/download_other.php>a variety of platforms</a>,
+    <a href=http://boinc.berkeley.edu/trac/wiki/DownloadOther>a variety of platforms</a>,
     including Solaris/x86-64, Linux/x86-64, Linux/PPC, HP-UX, and FreeBSD."
 ),
 
@@ -1036,7 +1036,7 @@ array(
 ),
 array(
     "February 17, 2005",
-    "We've added a <a href=web_translation.php>framework for web-site translations</a>
+    "We've added a <a href=trac/wiki/TranslateIntro>framework for web-site translations</a>
     (both BOINC-supplied and project-specific parts).
     We are adding support for
     <a href=acct_mgt.php>account management systems</a>
@@ -1322,7 +1322,7 @@ to run a distributed version of CHARMM
 
 array("February 1, 2004",
 "BOINC now has an
-<a href=anonymous_platform.php>anonymous platform mechanism</a>
+<a href=trac/wiki/AnonymousPlatform>anonymous platform mechanism</a>
 which 1) allows computers of any type to participate
 in a BOINC project, and 2) allows participants to
 run only software they have compiled themselves,
