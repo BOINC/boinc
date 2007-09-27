@@ -59,7 +59,7 @@ function show_participate() {
         ".sprintf(tr(HOME_P1), "<ol> <li> <a href=projects.php><font size=+1>", "</font></a>", "<li> <a href=download.php><font size=+1>", "</font></a>", "<li> <font size=+1>", "</font>")."
         </ol>
         <p>
-        ".sprintf(tr(HOME_P2), "<a href=acct_mgrs.php>", "</a>", "<a href=http://www.gridrepublic.org>", "</a>", "<a href=http://bam.boincstats.com/>", "</a>")."
+        ".sprintf(tr(HOME_P2), "<a href=trac/wiki/AccountManagers>", "</a>", "<a href=http://www.gridrepublic.org>", "</a>", "<a href=http://bam.boincstats.com/>", "</a>")."
         <p>
         ".sprintf(tr(HOME_P3), "<a href=help.php>", "</a>")."
         </td></tr>
@@ -83,9 +83,9 @@ function show_create() {
         <li>
         Organizations such as IBM World Community Grid may be able
         to host your project
-        (please <a href=contact.php>contact us</a> for information).
+        (please <a href=trac/wiki/ProjectPeople>contact us</a> for information).
         <li> <b>Universities</b>: use BOINC to create a
-            <a href=vcsc.php>Virtual Campus Supercomputing Center</a>.
+            <a href=trac/wiki/VirtualCampusSupercomputerCenter>Virtual Campus Supercomputing Center</a>.
         <li> <b>Companies</b>:
             use BOINC for <a href=dg.php>desktop Grid computing</a>.
         </ul>
