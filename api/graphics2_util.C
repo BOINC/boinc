@@ -61,7 +61,9 @@ void* boinc_graphics_get_shmem(char* prog_name) {
     void* p;
     get_shmem_name(prog_name, shmem_name);
     shmem_handle = attach_shmem(shmem_name, &p);
-    if (shmem_handle == NULL) return 0;
+    if (shmem_handle == NULL) {
+        return 0;
+    }
     return p;
 }
 #else

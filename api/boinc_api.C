@@ -287,9 +287,7 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
     }
     retval = boinc_init_options_general(*opt);
     if (retval) return retval;
-    if (!standalone) {
-        retval = set_worker_timer();
-    }
+    retval = set_worker_timer();
     return retval;
 }
 
@@ -713,13 +711,19 @@ static void handle_process_control_msg() {
 static void control_graphics_app(char* path, bool start, bool fullscreen) {
     static bool running = false;
 #ifdef _WIN32
-    HANDLE pid;
+    HANDLE pid=0;
 #else
     int pid;
 #endif
     if (start) {
         int argc;
         char* argv[4];
+        char abspath[1024];
+#ifdef _WIN32
+        _fullpath(abspath, path, 1024);
+#else
+        strcpy(abspath, path);
+#endif
         argv[0] = GRAPHICS_APP_FILENAME;
         if (fullscreen) {
             argv[1] = "--fullscreen";
@@ -729,7 +733,7 @@ static void control_graphics_app(char* path, bool start, bool fullscreen) {
             argv[1] = 0;
             argc = 1;
         }
-        int retval = run_program(path, ".", argc, argv, 0, pid);
+        int retval = run_program(0, abspath, argc, argv, 0, pid);
         if (retval) {
             running = false;
         } else {
@@ -764,6 +768,9 @@ static inline void handle_graphics_messages() {
         } else {
             have_graphics_app = true;
         }
+        app_client_shm->shm->graphics_reply.send_msg(
+            xml_graphics_modes[MODE_HIDE_GRAPHICS]
+        );
     }
 
     if (!have_graphics_app) return;

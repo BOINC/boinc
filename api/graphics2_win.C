@@ -26,8 +26,6 @@
 #define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
 #define WM_SHUTDOWNGFX              WM_USER+1
 
-const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
-
 static HDC hDC = NULL;
 static HGLRC hRC = NULL;
 static HWND hWnd = NULL;        // Holds Our Window Handle
@@ -237,7 +235,7 @@ LRESULT CALLBACK WndProc(
         }
         return 0;
     case WM_CLOSE:
-        boinc_exit(0);
+        DestroyWindow(hWnd);
         return 0;
     case WM_PAINT:
         PAINTSTRUCT ps;
@@ -260,10 +258,9 @@ LRESULT CALLBACK WndProc(
     case WM_SHUTDOWNGFX:
         close_window();
         return 0;
-    default:
-        if ( WM_BOINCSFW == uMsg ) {
-            SetForegroundWindow(hWnd);
-        }
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
     }
 
     // Pass All Unhandled Messages To DefWindowProc

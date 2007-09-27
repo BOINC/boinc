@@ -1051,7 +1051,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                 RESULT* rp = get_random_graphics_app(results);
 
                 if (rp) {
-                    int retval = launch_screensaver(rp, m_hGraphicsApplication);
+                    int retval = launch_screensaver(rp, m_hGraphicsApplication, &rpc);
                     BOINCTRACE(_T("CScreensaver::DataManagementProc - launch_screensaver RetVal = '%d', m_hGraphicsApplication = '%d'\n"), retval, m_hGraphicsApplication);
                     if (!retval) {
                         m_bScreensaverStarted = TRUE;

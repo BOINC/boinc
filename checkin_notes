@@ -8812,3 +8812,24 @@ David  26 Sept 2007
 
     api/
         boinc_api.h
+
+
+David  26 Sept 2007
+	- API: debug the code for handling V5 graphics messages
+		in a V6 app (and launching/killing the graphics app)
+	- API: start timer thread even if in standalone mode
+		(needed to get timer callbacks for V6 graphics)
+	- API: remove BOINCSetForegroundWindow stuff
+	- API: call DestroyWindow instead of boinc_exit() in WM_CLOSE.
+		boinc_exit() is the wrong thing to call - e.g. it tries to delete
+		the lock file, resulting in a 5-sec delay on exit
+
+	api/
+		boinc_api.C
+		graphics2_util.C
+		graphics2_win.C
+	clientscr/
+		screensaver_win.cpp
+	lib/
+		shmem.h
+		util.C

@@ -27,66 +27,35 @@
 #include <sys/shm.h>
 #endif
 
+// create_shmem(): create a shared-memory segment of the given size.
+// attach_shmem(): attach to a shared-memory segment
+// detach_shmem(): detach from a shared-mem segment.
+//    Once all processes have detached, the segment is destroyed
+// The above with _mmap: V6 mmap() shared memory for Unix/Linux/Mac
+
 #ifdef _WIN32
-
-// create a shared-memory segment of the given size.
-//
 HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview);
-
-// attach to a shared-memory segment
-//
 HANDLE attach_shmem(LPCTSTR seg_name, void** pp);
-
-// detach from a shared-mem segment.
-// Once all processes have detached, the segment is destroyed
-//
 int detach_shmem(HANDLE hSharedMem, void* p);
-
 #else
 #ifndef __EMX__
-// V6 mmap() shared memory for Unix/Linux/Mac
-
 #define MMAPPED_FILE_NAME    "boinc_mmap_file"
-
-// create a shared-memory segment of the given size.
-//
 extern int create_shmem_mmap(char *path, size_t size, void** pp);
-
-// attach to a shared-memory segment
-//
-int attach_shmem_mmap(char *path, void** pp);
-
-// detach from a shared-mem segment
-//
+extern int attach_shmem_mmap(char *path, void** pp);
 extern int detach_shmem_mmap(void* p, size_t size);
-
 // For testing on Apple, Linux, UNIX systems with limited number 
 // of shared memory segments per process and / or system-wide
-void stress_shmem(short reduce_by);
-
+extern void stress_shmem(short reduce_by);
 #endif
-
-// create a shared-memory segment of the given size.
-//
 extern int create_shmem(key_t, int size, gid_t gid, void**);
-
-// attach to a shared-memory segment
-//
 extern int attach_shmem(key_t, void**);
-
-// detach from a shared-mem segment
-//
 extern int detach_shmem(void*);
-
 extern int shmem_info(key_t key);
-
-#endif      // !defined(_WIN32)
-
-
 // Destroy a shared-memory segment.
 // If there are attachments to it,
 // print a message in a loop until the attachments are gone
 //
 extern int destroy_shmem(key_t);
+#endif      // !defined(_WIN32)
 
 #endif      // BOINC_SHMEM_H

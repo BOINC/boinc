@@ -313,6 +313,7 @@ int run_program(
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
+    startup_info.cb = sizeof(startup_info);
              
     strcpy(cmdline, "");
     for (int i=0; i<argc; i++) {
@@ -328,13 +329,15 @@ int run_program(
         NULL,
         NULL,
         FALSE,
-        CREATE_NEW_PROCESS_GROUP,
+        0,
         NULL,
         dir,
         &startup_info,
         &process_info
     );
-    if (!retval) return -1; // CreateProcess returns 1 if successful, false if it failed.
+    if (!retval) {
+        return -1; // CreateProcess returns 1 if successful, false if it failed.
+    }
     if (nsecs) {
         boinc_sleep(nsecs);
         if (GetExitCodeProcess(process_info.hProcess, &status)) {
@@ -353,8 +356,10 @@ int run_program(
     int retval;
     int pid = fork();
     if (pid == 0) {
-        retval = chdir(dir);
-        if (retval) return retval;
+        if (dir) {
+            retval = chdir(dir);
+            if (retval) return retval;
+        }
         execv(file, argv);
         perror("execv");
         exit(errno);
