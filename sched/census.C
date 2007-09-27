@@ -31,11 +31,27 @@
 #include "sched_msgs.h"
 #include "hr_info.h"
 
-int main() {
+void show_help() {
+    fprintf(stderr,
+        "This program writes a file '%s' containing the distribution of\n"
+        "host platforms (needed if you use homogeneous redundancy).\n"
+        "This should be run ~once/day as a periodic task from config.xml.\n"
+        "For more info, see http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy",
+        HR_INFO_FILENAME
+    );
+}
+
+int main(int argc, char** argv) {
     HR_INFO hri;
     int retval;
     SCHED_CONFIG config;
     
+    for (int i=0; i<argc; i++) {
+        if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+            show_help();
+            exit(0);
+        }
+    }
     check_stop_daemons();
     retval = config.parse_file("..");
     if (retval) {

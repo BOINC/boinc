@@ -759,6 +759,14 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     return 0;
 }
 
+void show_help() {
+    fprintf(stderr,
+        "This program generates XML files containing project statistics.\n"
+        "It should be run once a day as a periodic task in config.xml.\n"
+        "For more info, see http://boinc.berkeley.edu/trac/wiki/DbDump\n"
+    );
+}
+
 int main(int argc, char** argv) {
     SCHED_CONFIG config;
     int retval, i;
@@ -779,8 +787,11 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-db_host")) {
             db_host = argv[++i];
+        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+            show_help();
+            exit(0);
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Usage: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Bad arg: %s\n", argv[i]);
             exit(1);
         }
     }

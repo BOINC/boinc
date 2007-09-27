@@ -416,7 +416,9 @@ bool volume_full(char* path) {
     double total, avail;
     int retval = get_filesystem_info(total, avail, path);
     if (retval) return false;
-    if (avail<1e6) return true;
+    if (avail<1e6) {
+        return true;
+    }
     return false;
 }
 
@@ -444,7 +446,7 @@ int handle_get_file_size(char* file_name) {
     // if the volume is full, report a transient error
     // to prevent the client from starting a transfer
     //
-    if (volume_full(path)) {
+    if (volume_full(config.upload_dir)) {
         return return_error(ERR_TRANSIENT, "Server is out of space");
     }
 

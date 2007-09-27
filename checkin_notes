@@ -8844,4 +8844,15 @@ Charlie 27 Sep 2007
 
     api/
         boinc_api.C
-            
+
+David  27 Sept 2007
+    - file upload handler: fix major bug (introducted 12 Sept)
+        that caused it to report "volume full" erroneously
+    - added --help option to some backend programs;
+        gives general info and directs to web page
+
+    sched/
+        assimilator.C
+        census.C
+        db_dump.C
+        file_upload_handler.C

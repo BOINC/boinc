@@ -72,7 +72,7 @@ bool do_pass(APP& app) {
     check_stop_daemons();
 
     if (wu_id_modulus) {
-    	sprintf(mod_clause, " and workunit.id %% %d = %d ",
+        sprintf(mod_clause, " and workunit.id %% %d = %d ",
                 wu_id_modulus, wu_id_remainder
         );
     } else {
@@ -144,6 +144,14 @@ bool do_pass(APP& app) {
     return did_something;
 }
 
+void show_help() {
+    fprintf(stderr,
+        "This program is an 'assimilator'; it handles validated results.\n"
+        "Normally it is run as a daemon from config.xml.\n"
+        "For more info: http://boinc.berkeley.edu/trac/wiki/BackendPrograms\n"
+    );
+}
+
 int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
@@ -179,14 +187,19 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-mod")) {
             wu_id_modulus   = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+            show_help();
+            exit(0);
         } else {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     if (wu_id_modulus) {
-	log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Using mod'ed WU enumeration.  modulus = %d  remainder = %d\n",
-			    wu_id_modulus, wu_id_remainder);
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "Using mod'ed WU enumeration.  modulus = %d  remainder = %d\n",
+            wu_id_modulus, wu_id_remainder
+        );
     }
 
     retval = config.parse_file("..");
