@@ -101,6 +101,7 @@ public:
 // It is used ONLY from the HTTP code, when a transaction fails
 //
 struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
+public:
     int error_num;
 
     virtual ~LOOKUP_WEBSITE_OP(){}

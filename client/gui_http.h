@@ -37,7 +37,8 @@ class GUI_HTTP_OP;
 // There's one of these for each GUI RPC connection,
 // and one for the client itself.
 //
-struct GUI_HTTP {
+class GUI_HTTP {
+public:
     int state;
     GUI_HTTP_OP* gui_http_op;
     HTTP_OP http_op;
@@ -50,7 +51,8 @@ struct GUI_HTTP {
 
 // base class for various types of ops
 //
-struct GUI_HTTP_OP {
+class GUI_HTTP_OP {
+public:
     GUI_HTTP* gui_http;
     virtual void handle_reply(int) {}
     GUI_HTTP_OP(){}
