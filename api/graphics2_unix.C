@@ -9,6 +9,7 @@
 
 #include "app_ipc.h"
 #include "util.h"
+#include "filesys.h"
 
 #include "boinc_gl.h"
 #include "boinc_glut.h"
@@ -17,7 +18,7 @@
 
 #define TIMER_INTERVAL_MSEC 30
 
-static int xpos = 100, ypos = 100;
+static int xpos = 100, ypos = 100, width = 600, height = 400;
 static int clicked_button;
 static int win=0;
 
@@ -79,9 +80,29 @@ void mouse_click_move(int x, int y){
 }
 
 static void maybe_render() {
-    int width, height;
-    width = glutGet(GLUT_WINDOW_WIDTH);
-    height = glutGet(GLUT_WINDOW_HEIGHT);
+    int new_xpos, new_ypos, new_width, new_height;
+    
+    new_xpos = glutGet(GLUT_WINDOW_X);
+    new_ypos = glutGet(GLUT_WINDOW_Y);
+    new_width = glutGet(GLUT_WINDOW_WIDTH);
+    new_height = glutGet(GLUT_WINDOW_HEIGHT);
+    
+    if ((! fullscreen) &&
+        ((new_xpos != xpos) || (new_ypos != ypos) || 
+        (new_width != width) || (new_height != height))
+        ) {
+            xpos = new_xpos;
+            ypos = new_ypos;
+            width = new_width;
+            height = new_height;
+            FILE *f = boinc_fopen("gfx_info", "w");
+            if (f) {
+                // ToDo: change this to XML
+                fprintf(f, "%d %d %d %d\n", xpos, ypos, width, height);
+                fclose(f);
+            }
+    }
+    
     if (throttled_app_render(width, height, dtime())) {
         glutSwapBuffers();
 #ifdef __APPLE__
@@ -128,10 +149,18 @@ static void boinc_glut_init() {
     int one=1;
 
     win = 0;
+
+    FILE *f = boinc_fopen("gfx_info", "r");
+    if (f) {
+        // ToDo: change this to XML parsing
+        fscanf(f, "%d %d %d %d\n", &xpos, &ypos, &width, &height);
+        fclose(f);
+    }
+
     glutInit (&one, (char**)args);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_ALPHA); 
     glutInitWindowPosition(xpos, ypos);
-    glutInitWindowSize(600, 400); 
+    glutInitWindowSize(width, height); 
 }
 
 static void timer_handler(int) {
@@ -149,9 +178,6 @@ void boinc_graphics_loop(int argc, char** argv) {
             fullscreen = true;
         }
     }
-#ifdef __APPLE__
-    setMacPList();
-#endif
     boinc_glut_init();
     make_window();
 #ifdef __APPLE__
