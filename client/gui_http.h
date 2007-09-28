@@ -28,18 +28,14 @@ using std::string;
 
 #include "http_curl.h"
 
-// base class for various types of ops
-//
-struct GUI_HTTP_OP {
-    virtual void handle_reply(int) {}
-    GUI_HTTP_OP(){}
-    virtual ~GUI_HTTP_OP(){}
-};
-
 #define GUI_HTTP_STATE_IDLE     0
 #define GUI_HTTP_STATE_BUSY     1
 
-// the manager class
+class GUI_HTTP_OP;
+
+// A "channel" for doing HTTP ops.
+// There's one of these for each GUI RPC connection,
+// and one for the client itself.
 //
 struct GUI_HTTP {
     int state;
@@ -50,6 +46,15 @@ struct GUI_HTTP {
     int do_rpc(GUI_HTTP_OP*, string url, string output_file);
     int do_rpc_post(GUI_HTTP_OP*, string url, string input_file, string output_file);
     bool poll();
+};
+
+// base class for various types of ops
+//
+struct GUI_HTTP_OP {
+    GUI_HTTP* gui_http;
+    virtual void handle_reply(int) {}
+    GUI_HTTP_OP(){}
+    virtual ~GUI_HTTP_OP(){}
 };
 
 #endif

@@ -215,7 +215,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     if (net_status.show_ref_message) {
         msg_printf(0, MSG_INFO, "Project communication failed: attempting access to reference site");
     }
-    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
+    retval = gui_http->do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;
         net_status.need_physical_connection = true;

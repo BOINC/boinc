@@ -53,7 +53,11 @@ using std::max;
 
 CLIENT_STATE gstate;
 
-CLIENT_STATE::CLIENT_STATE() {
+CLIENT_STATE::CLIENT_STATE():
+    lookup_website_op(&gui_http),
+    get_current_version_op(&gui_http),
+    get_project_list_op(&gui_http)
+{
     http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
     pers_file_xfers = new PERS_FILE_XFER_SET(file_xfers);
@@ -571,6 +575,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
+    POLL_ACTION(gui_rpc_http           , gui_rpcs.poll          );
     if (!network_suspended) {
         net_status.poll();
         POLL_ACTION(acct_mgr               , acct_mgr_info.poll     );

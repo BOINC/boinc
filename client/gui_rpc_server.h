@@ -18,6 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "network.h"
+#include "acct_setup.h"
 
 // FSM states for auto-update
 
@@ -45,12 +46,22 @@ public:
         // connection is from local host
     int au_ss_state;
     int au_mgr_state;
+    GUI_HTTP gui_http;
+    GET_PROJECT_CONFIG_OP get_project_config_op;
+    LOOKUP_ACCOUNT_OP lookup_account_op;
+    CREATE_ACCOUNT_OP create_account_op;
 
     GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
     int handle_rpc();
     void handle_auth1(MIOFILE&);
     void handle_auth2(char*, MIOFILE&);
+    void handle_get_project_config(char* buf, MIOFILE& fout);
+    void handle_get_project_config_poll(char*, MIOFILE& fout);
+    void handle_lookup_account(char* buf, MIOFILE& fout);
+    void handle_lookup_account_poll(char*, MIOFILE& fout);
+    void handle_create_account(char* buf, MIOFILE& fout);
+    void handle_create_account_poll(char*, MIOFILE& fout);
 };
 
 // authentication for GUI RPCs:
@@ -79,4 +90,5 @@ public:
     bool recent_rpc_needs_network(double interval);
     void send_quits();
     bool quits_sent();
+    bool poll();
 };
