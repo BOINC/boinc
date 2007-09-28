@@ -594,7 +594,6 @@
 				OTHER_CFLAGS = (
 					"-DHAVE_SIGNAL_H",
 					"-D_THREAD_SAFE",
-					"-DAPP_GRAPHICS",
 				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
@@ -651,7 +650,6 @@
 				OTHER_CFLAGS = (
 					"-DHAVE_SIGNAL_H",
 					"-D_THREAD_SAFE",
-					"-DAPP_GRAPHICS",
 				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
