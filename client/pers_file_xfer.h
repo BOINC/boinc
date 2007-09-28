@@ -35,12 +35,8 @@
 //
 // The FILE_INFO has a list of URLs.
 // For download, the object attempts to download the file
-// from any of the URLs.
-// If one fails or is not available, try another,
-// using an exponential backoff policy to avoid flooding servers.
-//
-// For upload, try to upload the file to the first URL;
-// if that fails try the others.
+// from any combination of the URLs.
+// For upload, try to upload the file in its entirety to one of the URLs.
 
 // a PERS_FILE_XFER is created and added to pers_file_xfer_set
 // 1) when read from the client state file
@@ -109,13 +105,12 @@ public:
     ~PERS_FILE_XFER();
     int init(FILE_INFO*, bool is_file_upload);
     bool poll();
-    void handle_xfer_failure();
-    void retry_or_backoff();
-    void xfer_failed(const char*);
-    void try_next_url(const char*);
+    void transient_failure(int);
+    void permanent_failure(int);
     void abort();
     int write(MIOFILE& fout);
     int parse(MIOFILE& fin);
+    int create_xfer();
     int start_xfer();
     void suspend();
 };

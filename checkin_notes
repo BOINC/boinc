@@ -7378,6 +7378,27 @@ Rom    24 Sep 2007
     win_build/
         boinc_ss.vcproj
 
+David  24 Sept 2007
+    - client: clean up (old undergrad-written) code related to pers file xfer.
+        The main goal is to fix a bug where,
+        if a file is deleted from a project's download server,
+        a client will keep trying to download it for 2 weeks.
+        A download "file not found" is a permanent error, not transient.
+        (fixes #383)
+        In general, revised and renamed things to clarify the
+        distinction between permanent and transient errors.
+        Old functions:
+            handle_xfer_failure(), try_next_url(), xfer_failed(), retry_or_backoff()
+        New functions:
+            permanent_failure(), transient_failure()
+    - manager: compile fix for win (don't include sys/wait.h)
+
+    client/
+        client_types.h
+        pers_file_xfer.C,h
+    clientgui/
+        MainDocument.cpp
+
 Kevin 25 Sep 2007
     - Screen Saver: Fix bug related to the check to the secure screensaver box.  If graphics are not available, then rotate
             through the currently running results (it will change every 10 seconds) for display so that all are presented

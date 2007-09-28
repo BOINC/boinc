@@ -30,9 +30,12 @@
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 
+#ifndef _WIN32
+#include <sys/wait.h>
+#endif
+
 #ifdef SANDBOX
 #include <grp.h>
-#include "util.h"        // For g_use_sandbox
 #endif
 
 using std::string;
