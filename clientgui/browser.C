@@ -435,8 +435,15 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
     std::string strCookieName;
     std::string strCookieValue;
     size_t      uiDelimeterLocation;
+    std::string hostname;
+
+
+    // if we don't find the cookie at the exact project dns name, check one higher (i.e. www.worldcommunitygrid.org becomes
+	// worldcommunitygrid.org
+    parse_hostname(project_url, hostname);
 
     bReturnValue = InternetGetCookie(project_url.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
+	if (!bReturnValue) bReturnValue = InternetGetCookie(hostname.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
     if (bReturnValue)
     {
         // Format of cookie buffer:

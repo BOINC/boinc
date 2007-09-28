@@ -7440,3 +7440,12 @@ David  27 Sept 2007
         gui_rpc_server.C,h
         gui_rpc_server_ops.C
         net_stats.C,h
+
+Kevin 28 Sep 2007
+    - Manager: During an auto-attach initiated by a project_init.xml file, Mozilla based browsers are checking cookies in the domain 
+            (ex: worldcommunitygrid.org) for a project while IE cookies were only being checked for the full project dns (www.worldcommunitygrid.org).
+            IE has been changed so that it will also check the domain.
+            This mechanism is generic and can be used by any project or account manager.
+
+    client/win
+        browser.C
