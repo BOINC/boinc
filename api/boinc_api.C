@@ -154,8 +154,7 @@ struct UPLOAD_FILE_STATUS {
 static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
-static char graphics_app_path[1024];
-static void control_graphics_app(char* path, bool start, bool fullscreen);
+void graphics_cleanup();
 
 static int setup_shared_mem() {
     if (standalone) {
@@ -431,9 +430,8 @@ int boinc_finish(int status) {
 // This is called from the worker, timer, and graphics threads.
 //
 void boinc_exit(int status) {
-   // kill the (separate) graphics app if running
-    if (options.backwards_compatible_graphics && graphics_app_path[0]) {
-        control_graphics_app(graphics_app_path, false, false);
+    if (options.backwards_compatible_graphics) {
+        graphics_cleanup();
     }
     
     // Unlock the lock file
@@ -714,16 +712,15 @@ static void handle_process_control_msg() {
     }
 }
 
-// helper function for handle_graphics_messages()
-//
-static void control_graphics_app(char* path, bool start, bool fullscreen) {
-    static bool running = false;
+struct GRAPHICS_APP {
+    bool fullscreen;
 #ifdef _WIN32
-    static HANDLE pid=0;
+    HANDLE pid;
 #else
-    static int pid=0;
+    int pid;
 #endif
-    if (start) {
+    GRAPHICS_APP(bool f) {fullscreen=f;}
+    void run(char* path) {
         int argc;
         char* argv[4];
         char abspath[1024];
@@ -743,29 +740,34 @@ static void control_graphics_app(char* path, bool start, bool fullscreen) {
         }
         int retval = run_program(0, abspath, argc, argv, 0, pid);
         if (retval) {
-            running = false;
-            pid = 0;
-        } else {
-            running = true;
-        }
-    } else {
-        if (running) {
-            kill_program(pid);
-            running = false;
             pid = 0;
         }
     }
-}
+    bool is_running() {
+        if (pid && process_exists(pid)) return true;
+        pid = 0;
+        return false;
+    }
+    void kill() {
+        if (pid) {
+            kill_program(pid);
+            pid = 0;
+        }
+    }
+};
+
+static GRAPHICS_APP ga_win(false), ga_full(true);
+static bool have_graphics_app;
 
 // The following is used by V6 apps so that graphics
 // will work with pre-V6 clients.
 // If we get a graphics message, run/kill the (separate) graphics app
 //
 static inline void handle_graphics_messages() {
+    static char graphics_app_path[1024];
     char buf[MSG_CHANNEL_SIZE];
     GRAPHICS_MSG m;
     static bool first=true;
-    static bool have_graphics_app;
     if (first) {
         first = false;
         boinc_resolve_filename(
@@ -774,13 +776,12 @@ static inline void handle_graphics_messages() {
         );
         if (!strcmp(graphics_app_path, GRAPHICS_APP_FILENAME)) {
             have_graphics_app = false;
-            graphics_app_path[0] = 0;
         } else {
             have_graphics_app = true;
+            app_client_shm->shm->graphics_reply.send_msg(
+                xml_graphics_modes[MODE_HIDE_GRAPHICS]
+            );
         }
-        app_client_shm->shm->graphics_reply.send_msg(
-            xml_graphics_modes[MODE_HIDE_GRAPHICS]
-        );
     }
 
     if (!have_graphics_app) return;
@@ -789,24 +790,36 @@ static inline void handle_graphics_messages() {
         app_client_shm->decode_graphics_msg(buf, m);
         switch (m.mode) {
         case MODE_HIDE_GRAPHICS:
-            control_graphics_app(graphics_app_path, false, false);
+            if (ga_full.is_running()) {
+                ga_full.kill();
+            } else if (ga_win.is_running()) {
+                ga_win.kill();
+            }
             break;
         case MODE_WINDOW:
-            control_graphics_app(graphics_app_path, true, false);
+            if (!ga_win.is_running()) ga_win.run(graphics_app_path);
             break;
         case MODE_FULLSCREEN:
-            control_graphics_app(graphics_app_path, true, true);
+            if (!ga_full.is_running()) ga_full.run(graphics_app_path);
             break;
         case MODE_BLANKSCREEN:
             // we can't actually blank the screen; just kill the app
             //
-            control_graphics_app(graphics_app_path, false, false);
+            if (ga_full.is_running()) {
+                ga_full.kill();
+            }
             break;
         }
         app_client_shm->shm->graphics_reply.send_msg(
             xml_graphics_modes[m.mode]
         );
     }
+}
+
+void graphics_cleanup() {
+    if (!have_graphics_app) return;
+    if (ga_full.is_running()) ga_full.kill();
+    if (ga_win.is_running()) ga_win.kill();
 }
 
 // once-a-second timer.

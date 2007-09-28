@@ -398,11 +398,25 @@ int get_exit_status(HANDLE pid_handle) {
     }
     return (int) status;
 }
+bool process_exists(HANDLE h) {
+    unsigned long status=1;
+    if (GetExitCodeProcess(h, &status)) {
+        if (status == STILL_ACTIVE) return true;
+    }
+    return false;
+}
+
 #else
 int get_exit_status(int pid) {
     int status;
     waitpid(pid, &status, 0);
     return status;
+}
+bool process_exists(int pid) {
+    int p = waitpid(pid, 0, WNOHANG);
+    if (p == pid) return false;     // process has exited
+    if (p == -1) return false;      // PID doesn't exist
+    return true;
 }
 #endif
 

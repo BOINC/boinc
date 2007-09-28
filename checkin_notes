@@ -8906,3 +8906,15 @@ Charlie 27 Sep 2007
         boinc.xcodeproj/
             project.pbxproj
 
+David  27 Sept 2007
+    - graphics API: redo the code for backwards compatibility with V5 so that
+        at most one regular and one full-screen graphics window can be open,
+        and a "hide" message kills the full-screen window if one exists,
+        else a regular window.
+        Keep track of the PIDs separately for regular and full-screen.
+        Also, don't send a "hide" ack if we don't do graphics.
+
+    api/
+        boinc_api.C
+    lib/
+        util.C,h
