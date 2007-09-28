@@ -154,8 +154,8 @@ void boinc_graphics_loop(int argc, char** argv) {
 #endif
     boinc_glut_init();
     make_window();
-    glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
 #ifdef __APPLE__
+    glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
     // Apparently glut changed our working directory in OS 10.3.9
     chdir(dir);
 #endif

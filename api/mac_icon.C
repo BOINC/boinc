@@ -32,7 +32,11 @@
 */
 
 #include <Carbon/Carbon.h>
+#include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>
+
 #include "boinc_api.h"
+#include "common_defs.h"
 
 #define RESIDICON -16455
 
@@ -49,7 +53,7 @@ char MacPListData[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
     fprintf(stderr,"MacOS Error %d occured in %s line %d\n",e,__FILE__,__LINE__);\
     return(e); } }
 
-// Adds ther specified resource to the file given as an argument.
+// Adds the specified resource to the file given as an argument.
 int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize, 
                             OSType rsrcType, int rsrcID, StringPtr rsrcName) {
     OSErr oserr;                    /* stores an OS error code */
@@ -81,8 +85,9 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
                 oserr = ResError();
             }
         }
-        if (oserr == noErr)
-            break;
+        // We may not have permissions to set resources in debug runs
+        if ((oserr == noErr) || (oserr == wrPermErr) || (oserr == permErr))
+            break; 
         sleep (1);
     };
 
@@ -131,10 +136,17 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 
 void getPathToThisApp(char* pathBuf, size_t bufSize) {
     FILE *f;
-    char buf[64], *c;
+    char buf[MAXPATHLEN], *c;
     pid_t myPID = getpid();
     int i;
+    struct stat stat_buf;
     
+    strcpy(pathBuf, GRAPHICS_APP_FILENAME);
+    if (!stat(pathBuf, &stat_buf)) {
+       // stat() returns zero on success
+       return;
+    }
+   
     *pathBuf = 0;    // in case of failure
     
     // Before launching this project application, the BOINC client set the 
@@ -142,7 +154,7 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     // (or the soft-link to it.)  So all we need for the path to this 
     // application is the file name.  We use the -c option so ps strips off 
     // any command-line arguments for us.
-    sprintf(buf, "ps -cp %d -o command=", myPID);
+    sprintf(buf, "ps -wcp %d -o command=", myPID);
     f = popen(buf,  "r");
     if (!f)
         return;
@@ -164,11 +176,11 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
 
 
 // Adds plst resource 0 to the file given as an argument.  This 
-// identifies the applciation to the OS as an NSUIElement, so 
+// identifies the application to the OS as an NSUIElement, so 
 // that the application does not show in the Dock and it has no 
 // menu bar.
 int setMacPList() {
-    char path[1024], resolvedPath[1024];;
+    char path[1024], resolvedPath[1024];
     StringPtr rsrcName = (StringPtr)"\pApplication PList";
 
     getPathToThisApp(path, sizeof(path));

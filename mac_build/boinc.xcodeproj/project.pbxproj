@@ -3631,6 +3631,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-D_DEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3701,6 +3702,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-D_DEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3765,7 +3767,7 @@
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -4336,7 +4338,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_CFLAGS = "$(inherited)";
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = switcher;
 				ZERO_LINK = NO;
@@ -5165,6 +5170,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-D_DEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5234,6 +5240,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-D_DEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -5297,7 +5304,7 @@
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -6249,6 +6256,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-D_DEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -6283,6 +6291,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-D_DEBUG",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -6447,6 +6456,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"$(inherited)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = switcher;
 				ZERO_LINK = NO;

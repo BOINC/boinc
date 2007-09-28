@@ -8901,3 +8901,8 @@ Charlie 27 Sep 2007
     
     api/
         graphics2_unix.C
+        mac_icon.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
