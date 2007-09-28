@@ -8923,7 +8923,9 @@ Charlie 28 Sep 2007
     - graphics API: Write window size and position to a file in slot directory;
         if exit and relaunched, open the window with same size and position.  
     - Mac V6 GFX: don't call setMacPList(). This shows graphics application icons 
-        in the Dock so user can bring them to front when needed.
+        in the Dock so user can bring them to front when needed. If they wish, 
+        projects can add a custom icon to their graphics application by calling 
+        setMacIcon() as described in the document HowToBuildBOINC_XCode.rtf.
 
     api/
         graphics2_unix.C
