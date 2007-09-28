@@ -718,6 +718,7 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
         }
     }
 
+    fprintf(stderr, "mwip %d nroh %d\n", config.max_wus_in_progress, wreq.nresults_on_host);
     if (config.max_wus_in_progress) {
         if (wreq.nresults_on_host >= config.max_wus_in_progress) {
             log_messages.printf(
@@ -908,7 +909,6 @@ void send_work(
 ) {
     char helpful[512];
 
-    memset(&reply.wreq, 0, sizeof(reply.wreq));
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;

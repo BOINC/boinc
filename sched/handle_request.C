@@ -1232,6 +1232,8 @@ void process_request(
     HOST initial_host;
     unsigned int i;
 
+    memset(&reply.wreq, 0, sizeof(reply.wreq));
+
     // if different major version of BOINC, just send a message
     //
     if (wrong_core_client_version(sreq, reply)

@@ -11,16 +11,6 @@
 
 $win = array(
 array(
-    'http://www.skipsjunk.com/info/boincdv.html',
-    'BOINC Debt Viewer',
-    '0.3.06',
-    'BOINC Debt Viewer is a small utility that displays the debt values for each project on a  a BOINC host',
-    'http://www.skipsjunk.com/info/boincdv.html',
-    'Windows',
-    '',
-    1168202706
-),
-array(
     'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
     'BOINC mIRC',
     '0.1',
