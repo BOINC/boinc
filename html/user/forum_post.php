@@ -44,7 +44,7 @@ if (time()-$logged_in_user->getLastPostTimestamp()<$forum->getPostMinInterval())
 }
 $title = post_str("title", true);
 $content = post_str("content", true);
-$submit = post_str("preview", true);
+$preview = post_str("preview", true);
 
 if ($content && $title && (!$preview)){
     if (post_str('add_signature',true)=="add_it"){
