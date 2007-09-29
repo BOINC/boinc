@@ -103,7 +103,7 @@ static void maybe_render() {
                     width = new_width;
                     height = new_height;
                 } else {
-                    if (++size_changed > 10) {
+                    if (size_changed && (++size_changed > 10)) {
                         size_changed = 0;
                         FILE *f = boinc_fopen("gfx_info", "w");
                         if (f) {
