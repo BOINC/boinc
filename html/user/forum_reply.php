@@ -119,7 +119,7 @@ function show_message_row($thread, $parent_post) {
     $x2 .= form_tokens($logged_in_user->getAuthenticator());
     $x2 .= "<textarea name=\"content\" rows=\"18\" cols=\"80\">";
     if ($preview) {
-        $x2 .= $content;
+        $x2 .= stripslashes(htmlspecialchars($content));
     } else {
         if ($parent_post) $x2 .= quote_text(stripslashes(htmlspecialchars($parent_post->getContent())), 80)."\n";
     }
@@ -133,7 +133,7 @@ function show_message_row($thread, $parent_post) {
         <input type=\"submit\" value=\"Post reply\">
         &nbsp;&nbsp;&nbsp;
         <input name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\">
-	<label for=\"add_signature\">Add my signature to this reply</label>
+        <label for=\"add_signature\">Add my signature to this reply</label>
 
         </form>
     ";

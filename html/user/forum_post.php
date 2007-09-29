@@ -6,7 +6,6 @@ $cvs_version_tracker[]="\$Id$";
  * At first it displays an input box and when you submit
  * it will apply the changes by calling methods on the forum
  **/
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit 
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
@@ -82,9 +81,9 @@ $body_help = "";
 
 //Title
 if ($content && !$title) $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
-row2(tr(FORUM_SUBMIT_NEW_TITLE).$submit_help, "<input type=\"text\" name=\"title\" size=\"62\" value=\"".htmlspecialchars($title)."\">");
+row2(tr(FORUM_SUBMIT_NEW_TITLE).$submit_help, "<input type=\"text\" name=\"title\" size=\"62\" value=\"".stripslashes(htmlspecialchars($title))."\">");
 //Message
-row2(tr(FORUM_MESSAGE).html_info().post_warning().$body_help, "<textarea name=\"content\" rows=\"12\" cols=\"54\">".stripslashes($content)."</textarea>");
+row2(tr(FORUM_MESSAGE).html_info().post_warning().$body_help, "<textarea name=\"content\" rows=\"12\" cols=\"54\">".stripslashes(htmlspecialchars($content))."</textarea>");
 
 if ($logged_in_user->hasSignatureByDefault()) {
     $enable_signature="checked=\"true\"";
