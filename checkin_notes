@@ -8944,3 +8944,11 @@ Charlie 28 Sep 2007
 
     api/
         graphics2_unix.C
+
+Rytis   29 Sep 2007
+    - User web: preview functionality for the forums.
+    
+    html/user/
+        forum_edit.php
+        forum_post.php
+        forum_reply.php

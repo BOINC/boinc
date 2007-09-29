@@ -1,4 +1,6 @@
 <?php
+$cvs_version_tracker[]="\$Id$";
+
 /**
  * Using this file you can post a reply to a thread.  Both input (form) and
  * action take place here.
@@ -26,6 +28,7 @@ $category = $forum->getCategory();
 $sort_style = get_str('sort', true);
 $filter = get_str('filter', true);
 $content = post_str('content', true);
+$preview = post_str("preview", true);
 $parent_post_id = get_int('post', true);
 if ($parent_post_id) $parent_post = new Post($parent_post_id);
 
@@ -64,7 +67,7 @@ if (!$sort_style) {
     $logged_in_user->setThreadSortStyle($sort_style);
 }
 
-if ($content){
+if ($content && (!$preview)){
     if (post_str('add_signature',true)=="add_it"){
         $add_signature=true;    // set a flag and concatenate later
     }  else {
@@ -79,6 +82,15 @@ if ($content){
 page_head(tr(FORUM_TITLE_SHORT));
 
 show_forum_title($forum, $thread);
+
+if ($preview == tra("Preview")) {
+    $options = new output_options;
+    echo "<div id=\"preview\">\n";
+    echo "<div class=\"header\">".tra("Preview")."</div>\n";
+    echo output_transform($content, $options);
+    echo "</div>\n";
+}
+
 start_forum_table(array(tr(FORUM_AUTHOR), tr(FORUM_MESSAGE)));
 
 show_message_row($thread, $parent_post);
@@ -89,6 +101,8 @@ page_tail();
 
 function show_message_row($thread, $parent_post) {
     global $logged_in_user;
+    global $content;
+    global $preview;
 
     $x1 = "Message:".html_info().post_warning();
     $x2 = "";
@@ -104,17 +118,22 @@ function show_message_row($thread, $parent_post) {
     $x2 .= " method=\"post\">\n";
     $x2 .= form_tokens($logged_in_user->getAuthenticator());
     $x2 .= "<textarea name=\"content\" rows=\"18\" cols=\"80\">";
-
-    if ($parent_post) $x2 .= quote_text(stripslashes(htmlspecialchars($parent_post->getContent())), 80);
+    if ($preview) {
+        $x2 .= $content;
+    } else {
+        if ($parent_post) $x2 .= quote_text(stripslashes(htmlspecialchars($parent_post->getContent())), 80)."\n";
+    }
     if ($logged_in_user->hasSignatureByDefault()){
         $enable_signature="checked=\"true\"";
     } else {
         $enable_signature="";
     }
-    $x2 .= "\n</textarea><p>
-        <input type=submit value=\"Post reply\">
+    $x2 .= "</textarea><p>
+        <input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
+        <input type=\"submit\" value=\"Post reply\">
         &nbsp;&nbsp;&nbsp;
-        <input name=add_signature value=add_it ".$enable_signature." type=checkbox>Add my signature to this reply                                
+        <input name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\">
+	<label for=\"add_signature\">Add my signature to this reply</label>
 
         </form>
     ";

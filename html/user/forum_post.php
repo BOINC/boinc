@@ -1,4 +1,6 @@
 <?php
+$cvs_version_tracker[]="\$Id$";
+
 /**
  * This file allows you to create a new thread in a forum
  * At first it displays an input box and when you submit
@@ -43,8 +45,9 @@ if (time()-$logged_in_user->getLastPostTimestamp()<$forum->getPostMinInterval())
 }
 $title = post_str("title", true);
 $content = post_str("content", true);
+$submit = post_str("preview", true);
 
-if ($content && $title){
+if ($content && $title && (!$preview)){
     if (post_str('add_signature',true)=="add_it"){
         $add_signature=true;    // set a flag and concatenate later
     }  else {
@@ -60,7 +63,15 @@ page_head('Forum');
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
-echo "<form action=\"forum_post.php?id=".$forum->getID()."\" method=POST>\n";
+if ($preview == tra("Preview")) {
+    $options = new output_options;
+    echo "<div id=\"preview\">\n";
+    echo "<div class=\"header\">".tra("Preview")."</div>\n";
+    echo output_transform($content, $options);
+    echo "</div>\n";
+}
+
+echo "<form action=\"forum_post.php?id=".$forum->getID()."\" method=\"POST\">\n";
 echo form_tokens($logged_in_user->getAuthenticator());
 
 start_table();
@@ -71,7 +82,7 @@ $body_help = "";
 
 //Title
 if ($content && !$title) $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
-row2(tr(FORUM_SUBMIT_NEW_TITLE).$submit_help, "<input type=\"text\" name=\"title\" size=\"62\">");
+row2(tr(FORUM_SUBMIT_NEW_TITLE).$submit_help, "<input type=\"text\" name=\"title\" size=\"62\" value=\"".htmlspecialchars($title)."\">");
 //Message
 row2(tr(FORUM_MESSAGE).html_info().post_warning().$body_help, "<textarea name=\"content\" rows=\"12\" cols=\"54\">".stripslashes($content)."</textarea>");
 
@@ -82,7 +93,7 @@ if ($logged_in_user->hasSignatureByDefault()) {
 }
 
 row2("", "<input name=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\">".tr(FORUM_ADD_MY_SIG));
-row2("", "<input type=\"submit\" value=\"OK\">");
+row2("", "<input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"OK\">");
 
 
 end_forum_table();
