@@ -8929,7 +8929,7 @@ Charlie 28 Sep 2007
 
     api/
         graphics2_unix.C
-        
+
 David  28 Sept 2007
     - scheduler: <max_wus_in_progress> option wasn't working,
         because the reply.req structure was getting zeroed
@@ -8938,3 +8938,9 @@ David  28 Sept 2007
     sched/
         handle_request.C
         sched_send.C
+
+Charlie 28 Sep 2007
+    - graphics API: Write changed window size only after it has stopped changing.
+
+    api/
+        graphics2_unix.C

@@ -81,30 +81,39 @@ void mouse_click_move(int x, int y){
 
 static void maybe_render() {
     int new_xpos, new_ypos, new_width, new_height;
+    static int size_changed = 0;
     
     new_xpos = glutGet(GLUT_WINDOW_X);
     new_ypos = glutGet(GLUT_WINDOW_Y);
     new_width = glutGet(GLUT_WINDOW_WIDTH);
     new_height = glutGet(GLUT_WINDOW_HEIGHT);
     
-    if ((! fullscreen) &&
-        ((new_xpos != xpos) || (new_ypos != ypos) || 
-        (new_width != width) || (new_height != height))
-        ) {
-            xpos = new_xpos;
-            ypos = new_ypos;
-            width = new_width;
-            height = new_height;
-            FILE *f = boinc_fopen("gfx_info", "w");
-            if (f) {
-                // ToDo: change this to XML
-                fprintf(f, "%d %d %d %d\n", xpos, ypos, width, height);
-                fclose(f);
-            }
-    }
     
-    if (throttled_app_render(width, height, dtime())) {
+    if (throttled_app_render(new_width, new_height, dtime())) {
         glutSwapBuffers();
+        if (! fullscreen) {
+            // If user has changed window size, wait until it stops 
+            // changing and then write the new dimensions to file
+            if ((new_xpos != xpos) || (new_ypos != ypos) || 
+                (new_width != width) || (new_height != height)
+                ) {
+                    size_changed = 1;
+                    xpos = new_xpos;
+                    ypos = new_ypos;
+                    width = new_width;
+                    height = new_height;
+                } else {
+                    if (++size_changed > 10) {
+                        size_changed = 0;
+                        FILE *f = boinc_fopen("gfx_info", "w");
+                        if (f) {
+                            // ToDo: change this to XML
+                            fprintf(f, "%d %d %d %d\n", xpos, ypos, width, height);
+                            fclose(f);
+                        }
+                    }
+                }               // End if (new size != previous size) else 
+            }                   // End if (! fullscreen)
 #ifdef __APPLE__
         MacGLUTFix(fullscreen);
         if (need_show) {
