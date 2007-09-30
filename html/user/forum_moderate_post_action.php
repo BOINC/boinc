@@ -1,4 +1,6 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
 /**
  * When a moderator does something to a post, this page actually
  * commits those changes to the database.
@@ -77,12 +79,26 @@ if ($action=="hide"){
     error_page("Unknown action ");
 }
 
+switch (post_int("category", true)) {
+    case 1:
+        $mod_category = "Obscene";
+    case 2:
+        $mod_category = "Flame/Hate mail";
+    case 3:
+        $mod_category = "Commercial spam";
+    case 4:
+        $mod_category = "Doublepost";
+    case 5:
+        $mod_category = "User Request";
+    default:
+        $mod_category = "Other";
+}
 
 if ($result) {
     if (post_str('reason', true)){
-        send_moderation_email($post, post_str("reason"), $action);
+        send_moderation_email($post, "Category: ".$mod_category."\n".post_str("reason"), $action);
     } else { 
-        send_moderation_email($post, "None given", $action);
+        send_moderation_email($post, "Category: ".$mod_category."\n"."None given", $action);
     }
     header('Location: forum_thread.php?id='.$thread->getID());
 } else {
