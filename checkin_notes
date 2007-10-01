@@ -7449,3 +7449,12 @@ Kevin 28 Sep 2007
 
     client/win
         browser.C
+
+Rom    28 Sep 2007
+    - Tag for 5.10.21 release, all platforms
+      boinc_core_release_5_10_21
+    
+    /
+        configure.ac
+        version.h
+
