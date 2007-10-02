@@ -93,7 +93,7 @@ function show_list($list) {
     echo "</table>";
 }
 
-function search() {
+function search($user) {
     $keywords = $_GET['keywords'];
     $country = $_GET['country'];
     $type = $_GET['type'];
@@ -124,7 +124,7 @@ function search() {
             Or you can <a href=team_create_form.php>create a new team</a>.
             <p>
         ";
-        print_form();
+        print_form($user);
     } else {
         echo "
             The following teams match your search criteria.
@@ -137,11 +137,11 @@ function search() {
     }
 }
 
+$user = get_logged_in_user(false);
 if ($_GET['submit']) {
     page_head("Team search results");
-    search();
+    search($user);
 } else {
-    $user = get_logged_in_user(false);
     page_head("Find a team", 'document.form.keywords.focus()');
     echo "
         You can team up with other people with similar interests,
