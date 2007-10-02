@@ -9005,3 +9005,15 @@ David  2 Oct 2007
 
     html/user/
         team_search.php
+
+David  2 Oct 2007
+	- client: fix bug where failure to get project list would result
+		in an empty project list file.
+	- client: if failed to get project list file, retry in an hour, not immediately
+
+	client/
+		acct_setup.C
+		file_names.h
+		gui_http.h
+	lib/
+		util.C

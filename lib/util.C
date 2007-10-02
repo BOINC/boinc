@@ -95,10 +95,8 @@ double dtime() {
 // return time today 0:00 in seconds since 1970 as a double
 //
 double dday() {
-    const double seconds_per_day=24*60*60;
-    const double now=dtime();
-
-    return (now-fmod(now,seconds_per_day));
+    double now=dtime();
+    return (now-fmod(now, SECONDS_PER_DAY));
 }
 
 // sleep for a specified number of seconds
@@ -113,7 +111,7 @@ void boinc_sleep(double seconds) {
         if (rem == 0) break;
         if (rem > seconds) break;   // paranoia
     }
-    int x = (int)fmod(seconds*1000000,1000000);
+    int x = (int)fmod(seconds*1000000, 1000000);
     if (x) usleep(x);
 #endif
 }

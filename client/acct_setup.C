@@ -282,7 +282,7 @@ int GET_PROJECT_LIST_OP::do_rpc() {
 
     sprintf(buf, "http://boinc.berkeley.edu/project_list.php");
     retval = gui_http->do_rpc(
-        this, string(buf), ALL_PROJECTS_LIST_FILENAME
+        this, string(buf), ALL_PROJECTS_LIST_FILENAME_TEMP
     );
     if (retval) {
         error_num = retval;
@@ -292,15 +292,20 @@ int GET_PROJECT_LIST_OP::do_rpc() {
     return retval;
 }
 
+#define ALL_PROJECTS_LIST_CHECK_PERIOD (14*86400)
+
 void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
         error_num = http_op_retval;
-        return;
+        // if error, try again in a day
+        //
+        gstate.all_projects_list_check_time =
+            gstate.now - ALL_PROJECTS_LIST_CHECK_PERIOD + SECONDS_PER_DAY;
+    } else {
+        boinc_rename(ALL_PROJECTS_LIST_FILENAME_TEMP, ALL_PROJECTS_LIST_FILENAME);
+        gstate.all_projects_list_check_time = gstate.now;
     }
-    gstate.all_projects_list_check_time = gstate.now;
 }
-
-#define ALL_PROJECTS_LIST_CHECK_PERIOD (14*86400)
 
 void CLIENT_STATE::all_projects_list_check() {
     if (all_projects_list_check_time) {
