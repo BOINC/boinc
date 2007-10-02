@@ -32,14 +32,14 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				EnableFiberSafeOptimizations="TRUE"
-				OptimizeForProcessor="3"
+				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="../boinc;../common;../include;../../boinc/win_build;../../boinc;../../boinc/api;../../boinc/lib"
 				PreprocessorDefinitions="WIN32;_WIN32;_MT;NDEBUG;_WINDOWS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;_CONSOLE;_POSIX_"
 				StringPooling="TRUE"
-				RuntimeLibrary="4"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="FALSE"
-				EnableEnhancedInstructionSet="2"
+				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
@@ -57,7 +57,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies=""
-				OutputFile="$(OutDir)/$(SolutionName).lib"
+				OutputFile="$(OutDir)/libdc-client-boinc.lib"
 				AdditionalLibraryDirectories="$(OutDir)/"
 				IgnoreAllDefaultLibraries="FALSE"/>
 			<Tool
@@ -105,8 +105,8 @@
 				PreprocessorDefinitions="WIN32;_WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;_POSIX_"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="5"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="1"
 				BufferSecurityCheck="TRUE"
 				ForceConformanceInForLoopScope="FALSE"
 				UsePrecompiledHeader="0"
@@ -128,7 +128,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/$(SolutionName)d.lib"
+				OutputFile="$(OutDir)/libdc-client-boinc-debug.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
