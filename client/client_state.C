@@ -256,7 +256,7 @@ int CLIENT_STATE::init() {
 
     // if new version of core client,
     // - run CPU benchmarks
-    // - contact reference site (to trigger firewall alert)
+    // - contact reference site or some project (to trigger firewall alert)
     //
     if ((core_client_version.major != old_major_version)
         || (core_client_version.minor != old_minor_version)
@@ -270,7 +270,13 @@ int CLIENT_STATE::init() {
             core_client_version.release
         );
         run_cpu_benchmarks = true;
-        net_status.need_to_contact_reference_site = true;
+        if (config.dont_contact_ref_site) {
+            if (projects.size() > 0) {
+                projects[0]->master_url_fetch_pending = true;
+            }
+        } else {
+            net_status.need_to_contact_reference_site = true;
+        }
     }
 
     // show host IDs and venues on various projects

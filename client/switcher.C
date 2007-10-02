@@ -36,8 +36,8 @@ int main(int argc, char** argv) {
     group       *grp;
     char        user_name[256], group_name[256];
 
-    strlcpy(user_name, "boinc_project", sizeof(user_name));
-    strlcpy(group_name, "boinc_project", sizeof(group_name));
+    strcpy(user_name, "boinc_project");
+    strcpy(group_name, "boinc_project");
 
 #if 0           // For debugging only
     char	current_dir[MAXPATHLEN];
@@ -54,9 +54,9 @@ int main(int argc, char** argv) {
 #if 0       // For debugging only
     // Allow debugging without running as user or group boinc_project
     pw = getpwuid(getuid());
-    if (pw) strlcpy(user_name, pw->pw_name, sizeof(user_name));
+    if (pw) strcpy(user_name, pw->pw_name);
     grp = getgrgid(getgid());
-    if (grp) strlcpy(group_name, grp->gr_gid, sizeof(group_name));
+    if (grp) strcpy(group_name, grp->gr_gid);
 
 #endif
 
