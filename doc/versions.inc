@@ -199,10 +199,10 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m51020,
-        $m51020c,
         $m51021,
         $m51021c,
+        $m51020,
+        $m51020c,
         $m5817,
         $m5817c,
         $m549,
