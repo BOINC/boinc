@@ -37,7 +37,12 @@
 #include "sg_DlgMessages.h"
 #include "sg_SGUIListControl.h"
 
-
+// BUGBUG: Don't have a clue why the build env is acting wierd
+#ifdef  __WXGTK__
+#ifndef __WXGTK20__
+#undef  wxUSE_CLIPBOARD
+#endif
+#endif
 
 ////@begin includes
 ////@end includes
