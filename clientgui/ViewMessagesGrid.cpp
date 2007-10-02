@@ -34,6 +34,15 @@
 
 #include "res/mess.xpm"
 
+
+// BUGBUG: Don't have a clue why the build env is acting wierd
+#ifdef  __WXGTK__
+#ifndef __WXGTK20__
+#undef  wxUSE_CLIPBOARD
+#endif
+#endif
+
+
 // column indexes
 #define COLUMN_PROJECT              0
 #define COLUMN_SEQNO				1
