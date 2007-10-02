@@ -7,14 +7,13 @@ include_once("../inc/team_types.inc");
 
 db_init();
 
-function print_form() {
-    $user = get_logged_in_user(false);
+function print_form($user) {
     echo "
         <form action=team_search.php>
     ";
     start_table();
     row2("Key words<br><span class=note>Find teams with these words in their names or descriptions</span>", "<input name=keywords>");
-    row2_init("Country");
+    row2_init("Country", "");
     echo "<select name=country><option value=\"\" selected>---</option>";
     $country = $user->country;
     if (!$country || $country == 'None') $country = "XXX";
@@ -142,6 +141,7 @@ if ($_GET['submit']) {
     page_head("Team search results");
     search();
 } else {
+    $user = get_logged_in_user(false);
     page_head("Find a team");
     echo "
         You can team up with other people with similar interests,
@@ -150,7 +150,7 @@ if ($_GET['submit']) {
         Use this form to find teams that might be right for you.
         <p>
     ";
-    print_form();
+    print_form($user);
     if (isset($_COOKIE['init'])) {
         echo "
             <p>
