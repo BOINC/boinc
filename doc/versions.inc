@@ -39,11 +39,27 @@ $w51020= array(
     "type"=>"win_new",
 );
 
+$w51021= array(
+    "num"=>"5.10.21",
+    "status"=>"Development version (Win98+, Win2000+)",
+    "file"=>"boinc_5.10.21_windows_intelx86.exe",
+    "date"=>"2 Oct 2007",
+    "type"=>"win_new",
+);
+
 $w51020x64= array(
     "num"=>"5.10.20",
     "status"=>"Recommended version (WinXP64+)",
     "file"=>"boinc_5.10.20_windows_x86_64.exe",
     "date"=>"23 Aug 2007",
+    "type"=>"win_new",
+);
+
+$w51021x64= array(
+    "num"=>"5.10.21",
+    "status"=>"Development version (WinXP64+)",
+    "file"=>"boinc_5.10.21_windows_x86_64.exe",
+    "date"=>"2 Oct 2007",
     "type"=>"win_new",
 );
 
@@ -147,6 +163,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w51021,
         $w51020,
         $w5816,
         $w5411,
@@ -157,6 +174,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+        $w51021x64,
         $w51020x64,
     )
 );
