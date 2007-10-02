@@ -46,20 +46,21 @@ function merge_lists($list1, &$list2) {
 function compare($t1, $t2) {
     if ($t1->refcnt > $t2->refcnt) return -1;
     if ($t1->refcnt < $t2->refcnt) return 1;
-    if ($t1->expavg_credit > $t2->expavg_credit) return -1;
-    if ($t1->expavg_credit < $t2->expavg_credit) return 1;
+    if ($t1->expavg_credit > $t2->rnd) return -1;
+    if ($t1->expavg_credit < $t2->rnd) return 1;
     return 0;
 }
 
 // Sort list by decreasing refcnt
 //
 function sort_list(&$list) {
+    foreach ($list as $a=>$b) $b->rnd = rand();
     usort($list, compare);
 }
 
 function get_teams($clause, $active) {
     if ($active) $c2 = "and expavg_credit>0.1";
-    $query = "select * from team where $clause $c2 limit 20";
+    $query = "select * from team where $clause $c2 order by expavg_credit desc limit 20";
     $result = mysql_query($query);
     $list = array();
     while ($team = mysql_fetch_object($result)) {
@@ -84,7 +85,7 @@ function show_list($list) {
         echo "<tr class=bordered>
             <td class=shaded valign=top><a href=team_display.php?teamid=$team->id>$team->name</a></td>
             <td class=shaded valign=top><span class=note>".sanitize_html($team->description)."</span></td>
-            <td class=shaded valign=top>$team->expavg_credit</td>
+            <td class=shaded valign=top align=right>".format_credit($team->expavg_credit)."</td>
             <td class=shaded valign=top>$type</td>
             <td class=shaded valign=top>$team->country</td>
             </tr>

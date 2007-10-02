@@ -532,7 +532,7 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
 }
 
 function format_credit($x) {
-    return number_format($x, 2);
+    return number_format($x, 0);
 }
 
 function web_stopped() {
