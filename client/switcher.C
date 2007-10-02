@@ -30,6 +30,7 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <pwd.h>	// getpwuid
 #include <grp.h>
+#include <str_util.h>
 
 int main(int argc, char** argv) {
     passwd      *pw;

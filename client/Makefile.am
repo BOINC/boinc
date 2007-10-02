@@ -69,6 +69,9 @@ boinc_clientdir = $(bindir)
 boinc_client_DATA = ../curl/ca-bundle.crt
 
 switcher_SOURCES = switcher.C
+switcher_CPPFLAGS = -O3 -fomit-frame-pointer -fforce-addr -ffast-math $(AM_CPPFLAGS)
+switcher_LDFLAGS = -static-libgcc
+switcher_LDADD = -L../lib -lboinc $(PTHREAD_LIBS)
 
 all-local: client-bin
 
