@@ -9,7 +9,7 @@ db_init();
 
 function print_form($user) {
     echo "
-        <form action=team_search.php>
+        <form name=form action=team_search.php>
     ";
     start_table();
     row2("Key words<br><span class=note>Find teams with these words in their names or descriptions</span>", "<input name=keywords>");
@@ -58,7 +58,7 @@ function sort_list(&$list) {
 }
 
 function get_teams($clause, $active) {
-    if ($active) $c2 = "and expavg_credit>0";
+    if ($active) $c2 = "and expavg_credit>0.1";
     $query = "select * from team where $clause $c2 limit 20";
     $result = mysql_query($query);
     $list = array();
@@ -142,7 +142,7 @@ if ($_GET['submit']) {
     search();
 } else {
     $user = get_logged_in_user(false);
-    page_head("Find a team");
+    page_head("Find a team", 'document.form.keywords.focus()');
     echo "
         You can team up with other people with similar interests,
         or from the same country, company, or school.

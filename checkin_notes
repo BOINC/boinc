@@ -8999,3 +8999,9 @@ Charlie 1 Oct 2007
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+David  2 Oct 2007
+    - user web: tweaks to team search
+
+    html/user/
+        team_search.php
