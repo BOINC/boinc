@@ -79,6 +79,14 @@ $w5411= array(
     "type"=>"win_new",
 );
 
+$m51021 = array(
+    "num"=>"5.10.21",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.10.21_macOSX_universal.zip",
+    "date"=>"2 Oct 2007",
+    "type"=>"mac_advanced",
+);
+
 $m51020 = array(
     "num"=>"5.10.20",
     "status"=>"Recommended version (standard GUI)",
@@ -101,6 +109,14 @@ $m549 = array(
     "file"=>"boinc_5.4.9_macOSX_universal.zip",
     "date"=>"5 May 2006",
     "type"=>"mac_advanced",
+);
+
+$m51021c = array(
+    "num"=>"5.10.21",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.10.21_universal-apple-darwin.zip",
+    "date"=>"2 Oct 2007",
+    "type"=>"bare_core",
 );
 
 $m51020c = array(
@@ -185,6 +201,8 @@ $mac = array(
     "versions"=>array(
         $m51020,
         $m51020c,
+        $m51021,
+        $m51021c,
         $m5817,
         $m5817c,
         $m549,
