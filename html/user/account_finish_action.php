@@ -26,11 +26,8 @@ if ($new_name != strip_tags($new_name)) {
 }
 
 $country = post_str("country");
-if ($country == "") {
-    $country = "International";
-}
 if (!is_valid_country($country)) {
-    show_error( "bad country");
+    show_error( "invalid country");
 }
 
 $postal_code = strip_tags(process_user_text(post_str("postal_code", true)));
@@ -43,7 +40,8 @@ if (!$retval) {
 
 session_start();
 $_SESSION["authenticator"] = $auth;
-Header("Location: home.php?new_acct=1");
+Header("Location: team_search.php");
 setcookie('auth', $auth, time()+3600*24*365);
+setcookie('init', "1", time()+3600*24*365);
 
 ?>

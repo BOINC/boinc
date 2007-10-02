@@ -161,7 +161,7 @@ echo "
 
 language("Belgium (Dutch/French/English)", array(
     site("http://www.boinc.be", "www.boinc.be"),
-    seti("http://icewolves.plid.be", "IceWolves"),
+    site("http://icewolves.plid.be", "IceWolves"),
 ));
 language("Catalan", array(
     site("http://www.boinc.cat", "BOINC.cat"),

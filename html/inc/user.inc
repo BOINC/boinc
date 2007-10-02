@@ -211,7 +211,7 @@ function show_user_info_private($user) {
         }
         row2("Team", $x);
     } else {
-        row2("Team", "None (<a href=team.php>find a team</a>)");
+        row2("Team", "None (<a href=team_search.php>find a team</a>)");
     }
     
     $team_founder = lookup_team_founder($user->id);

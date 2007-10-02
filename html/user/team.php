@@ -22,16 +22,18 @@ echo "<p>".PROJECT." participants may form <b>teams</b>.
     <li> disband a team if it has no members
     </ul>
     <p>
-    To join a team, visit its team page and click Join.
+    To join a team, visit its team page and click <b>Join this team</b>.
     <hr>
     <ul>
+    <li> <a href=team_search.php>Find a team</a> based on your interests and country
+    <li> <a href=team_create_form.php>Create a team</a>
     <li> <form method=get action=team_lookup.php>
-    Search for teams whose name contains:
+    Show teams whose names contains:
     <input name=team_name>
     <input type=submit name=search value=Search>
     </form>
-    <li> <a href=team_create_form.php>Create a team</a>
     </ul>
+    <hr>
     Show top teams:
     <ul>
     <li> <a href=top_teams.php>All teams</a>

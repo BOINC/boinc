@@ -12,8 +12,7 @@ $teamid = post_int("id");
 $team = lookup_team($teamid);
 if ($user->teamid == $team->id) {
     user_quit_team($user);
-    page_head("Quit $team->name");
-    echo "You have been removed from <a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
+    Header("Location: home.php");
 } else {
     page_head("Unable to quit team");
     echo "Team doesn't exist, or you don't belong to it.\n";

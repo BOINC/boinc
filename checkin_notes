@@ -8952,3 +8952,33 @@ Rytis   29 Sep 2007
         forum_edit.php
         forum_post.php
         forum_reply.php
+
+David  1 Oct 2007
+    - user web: add "team search" page, which does a multi-criteria
+        search (keywords, country, type).
+        Have the new-user scenario route the user through this page.
+        Also, link to it rather than team.php for existing users.
+    - user web: use cookies rather than URLs to identify new users,
+        and show "Welcome to X" when they reach their user page.
+    - user web: don't show user intermediate page for join/quit team.
+        Just take them to their user page.
+
+    DB update required; see ops/db_update.php
+
+    html/
+        inc/
+            team.inc
+            team_types.inc
+            user.inc
+        ops/
+            db_update.php
+        user/
+            account_finish_action.php
+            create_account_action.php
+            home.php
+            team.php
+            team_join.php
+            team_search.php
+            team_quit_action.php
+            validate_email_addr.php
+            white.css

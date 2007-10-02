@@ -34,6 +34,10 @@ td.bordered {
     border: 1px solid gray;
 }
 
+td.shaded {
+    background-color: #f0f0f0;
+}
+
 td.indent {
      border-left: 4px solid white;
 }

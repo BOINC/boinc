@@ -445,6 +445,12 @@ function update_9_26_2007() {
     do_query("ALTER TABLE team CHANGE ping_user ping_user integer NOT NULL DEFAULT 0");
 }
 
+function update_9_28_2007() {
+    do_query("alter table team engine=myisam");
+    do_query("alter table team change description description text");
+    do_query("alter table team add fulltext index team_name_desc(name, description)");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

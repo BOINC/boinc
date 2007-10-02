@@ -125,7 +125,10 @@ if(defined('INVITE_CODES')) {
 
 session_start();
 $_SESSION["authenticator"] = $user->authenticator;
-Header("Location: home.php?new_acct=1&via_web=1");
+Header("Location: home.php");
 setcookie('auth', $user->authenticator, time()+3600*24*365);
+setcookie('init', "1", time()+3600*24*365);
+setcookie('via_web', "1", time()+3600*24*365);
+
 
 ?>

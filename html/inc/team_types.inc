@@ -35,7 +35,7 @@ function team_type_num($name) {
     return 0;
 }
 
-function team_type_select($team){
+function team_type_select($team, $allow_none=false){
     global $team_types;
 
     if (!empty($team)) {
@@ -43,8 +43,12 @@ function team_type_select($team){
     } else {
         $type = 1;
     }
-
-    return select_from_array('type', $team_types, $type);
+    $types = $team_types;
+    if ($allow_none) {
+        $types[0] = '---';
+        $type = 0;
+    }
+    return select_from_array('type', $types, $type);
 }
 
 ?>
