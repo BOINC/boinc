@@ -7465,3 +7465,21 @@ Rom    28 Sep 2007
     /
         configure.ac
         version.h
+
+Charlie 1 Oct 2007
+    Sandbox: Fix a security hole so that switcher sets real user ID, 
+    saved set_user-ID, real group ID and saved set_group-ID for process 
+    in addition to effective user ID and effective group ID.  This 
+    prevents a project application from accidentally or maliciously 
+    setting the effective user or group ID back to those of the user 
+    who launched BOINC. (Tagged for Mac 5.10.21a release.)
+
+
+    client/
+        check_security.C
+        switcher.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh
