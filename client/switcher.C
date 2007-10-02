@@ -32,7 +32,6 @@
 #include <grp.h>
 
 int main(int argc, char** argv) {
-    int         i, j;
     passwd      *pw;
     group       *grp;
     char        user_name[256], group_name[256];
