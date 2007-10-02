@@ -23,6 +23,7 @@
 // switcher Path X1 ... Xn
 // runs program at Path with args X1. ... Xn
 
+#include <config.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
