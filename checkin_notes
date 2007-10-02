@@ -8997,3 +8997,5 @@ Charlie 1 Oct 2007
     clientgui/
         mac/
             SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh

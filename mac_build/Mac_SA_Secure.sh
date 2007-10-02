@@ -64,7 +64,8 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 9/19/07
+# Last updated 10/2/07 for BOINC version 5.10.21
+# WARNING: do not use this script with older versions of BOINC
 
 function make_boinc_user() {
     # Check whether group already exists
@@ -203,7 +204,7 @@ if [ -f switcher/AppStats ] ; then
 set_perm switcher/AppStats root boinc_master 4550
 fi
 
-set_perm switcher/switcher boinc_project boinc_project 6551
+set_perm switcher/switcher root boinc_master 04050
 set_perm switcher/setprojectgrp boinc_master boinc_project 2500
 set_perm switcher boinc_master boinc_master 0550
 
