@@ -7483,3 +7483,12 @@ Charlie 1 Oct 2007
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Kevin 2 Oct 2007
+    - Manager: During an auto-attach initiated by a project_init.xml file, the code to check for the Setup cookie within an IE browser would
+        fail and cause the attach to project dialogue to close with no warning in the event that there is a cookie set for the project but there
+        is not a Setup cookie.
+
+    client/win
+        browser.C
+
