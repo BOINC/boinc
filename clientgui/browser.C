@@ -427,7 +427,7 @@ bool detect_setup_authenticator_firefox(
 //
 bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator)
 {
-    bool        bReturnValue = FALSE;
+    bool        bReturnValue = false;
     char        szCookieBuffer[2048];
     char*       pszCookieFragment = NULL;
     DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(char);
@@ -435,10 +435,21 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
     std::string strCookieName;
     std::string strCookieValue;
     size_t      uiDelimeterLocation;
+    std::string hostname;
+
+
+    // if we don't find the cookie at the exact project dns name, check one higher (i.e. www.worldcommunitygrid.org becomes
+	// worldcommunitygrid.org
+    parse_hostname(project_url, hostname);
 
     bReturnValue = InternetGetCookie(project_url.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
+	if (!bReturnValue) bReturnValue = InternetGetCookie(hostname.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
     if (bReturnValue)
     {
+        // reset this becuase at this point we just know that we found some cookies for the website.  We don't
+        // know if we actually found the Setup cookie
+        //
+        bReturnValue = false;
         // Format of cookie buffer:
         // 'cookie1=value1; cookie2=value2; cookie3=value3;
         //
@@ -460,7 +471,9 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
                 if (!is_authenticator_valid(strCookieValue)) {
                     authenticator = "";
                 } else {
+                    // Now we found it!  Yea - auto attach!
                     authenticator = strCookieValue;
+                    bReturnValue = true;
                 }
             }
 

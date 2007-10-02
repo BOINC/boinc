@@ -183,6 +183,8 @@ protected:
     HANDLE          m_hGraphicsApplication;
     BOOL            m_bScreensaverStarted;
     BOOL            m_bResetCoreState;
+	int				m_iLastResultShown;
+	time_t			m_tLastResultChangeTime;
 
 
     //

@@ -1,0 +1,17 @@
+   
+   #define TITLE_TEXT "RegDBKeyExist"
+   #define NO_UD_MSG "cool UD Doesn't exist"   
+  // #define UD_ASK_UNISTALL "There is Previous World Community Group Agent(United Devices) on your pc , it is highly recommended to delete it before installing the Latest BOINC Client, click on yes if you want to remove it" 
+   #define UD_UNABLE_UNINSTALL_MSG "Unable to unistall UD"  
+   
+   #define KILL_UD_PROCESS "taskkill"
+   #define KILL_UD_PROCESS_PARAM  "/t /f /im UD.exe"
+   
+   #define WCG_UD_GID  "{3CEA3FEC-1AF5-4818-89D5-406F627E7337}"
+   // The SUB KEY PATH OF UD SOFTWARE
+   #define WCG_UD_KEY_PATH "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+    // The SUB KEY PATH INCLUDING THE GID OF UD SOFTWARE
+   #define WCG_UD_KEY  WCG_UD_KEY_PATH+WCG_UD_GID
+      
+   //THE CMD LINE PARAM FOR UNINSTALLING UD
+   #define UD_UNINSTALL_PARAM "/quiet /X"+WCG_UD_GID

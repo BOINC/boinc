@@ -862,8 +862,12 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
 // Update the error message
 //
 VOID CScreensaver::UpdateErrorBoxText() {
+    RESULTS  results;
     PROJECT* pProject;
     TCHAR    szBuffer[256];
+    bool     bIsActive       = false;
+    bool     bIsExecuting    = false;
+    bool     bIsDownloaded   = false;
     size_t   iResultCount    = 0;
     size_t   iIndex          = 0;
 
@@ -872,18 +876,38 @@ VOID CScreensaver::UpdateErrorBoxText() {
     GetTextForError(m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR));
     if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
         iResultCount = results.results.size();
+		int iModIndex;
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+			// cycle through the active results starting from the last one
+			iModIndex = (iIndex + m_iLastResultShown+1) % iResultCount;
+            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iModIndex)->state);
+            bIsActive     = (results.results.at(iModIndex)->active_task);
+            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iModIndex)->scheduler_state);
+            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
             pProject = state.lookup_project(results.results.at(iIndex)->project_url);
             if (NULL != pProject) {
-                StringCbPrintf(szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
-                    _T("%s: %.2f%%\n"),
-                    pProject->project_name.c_str(),
-                    results.results.at(iIndex)->fraction_done * 100 
-                );
-
-                StringCbCat(m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer);
+				RESULT* pResult = state.lookup_result(pProject, results.results.at(iModIndex)->name);
+				if ( pResult != NULL ) {
+					BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Display result. iIndex=%d, iModIndex=%d, lastResult=%d\n"), iIndex, iModIndex, m_iLastResultShown);
+					StringCbPrintf(m_szError, sizeof(m_szError) / sizeof(TCHAR),
+						_T("\nRunning research for %s\nApplication: %s\nWorkunit: %s\n%.2f%% complete\n"),
+						pProject->project_name.c_str(),
+						pResult->app->user_friendly_name.c_str(),
+						pResult->wu_name.c_str(),
+						results.results.at(iModIndex)->fraction_done*100 
+					);
+					if ( m_tLastResultChangeTime+10 < time(0) ) {
+						m_iLastResultShown = iModIndex;
+						m_tLastResultChangeTime = time(0);
+					}
+					break;
+	            } else {
+	                m_bResetCoreState = TRUE;
+					GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
+	            }
             } else {
                 m_bResetCoreState = TRUE;
+				GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
             }
         }
         m_szError[ sizeof(m_szError) -1 ] = '\0';
@@ -1000,6 +1024,10 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
     SetError(TRUE, SCRAPPERR_BOINCSCREENSAVERLOADING);
     tThreadCreateTime = time(0);
+
+	// Set the starting point for iterating through the results
+	m_iLastResultShown = 0;
+	m_tLastResultChangeTime = 0;
 
     while(1) {
         bScreenSaverStarting = (3 >= (time(0) - tThreadCreateTime));
@@ -1666,8 +1694,8 @@ VOID CScreensaver::UpdateErrorBox() {
                 InvalidateRect(hwnd, NULL, FALSE);    // Invalidate the hwnd so it gets drawn
                 UpdateWindow(hwnd);
             } else {
-                pMonitorInfo->widthError = 500;
-                pMonitorInfo->heightError = 154;
+                pMonitorInfo->widthError = 454;
+                pMonitorInfo->heightError = 320;
                 pMonitorInfo->xError = (rcBounds.right + rcBounds.left - pMonitorInfo->widthError) / 2.0f;
                 pMonitorInfo->yError = (rcBounds.bottom + rcBounds.top - pMonitorInfo->heightError) / 2.0f;
                 pMonitorInfo->xVelError = (rcBounds.right - rcBounds.left) / 10.0f;
@@ -1768,6 +1796,8 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
         (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
         (INT)(pMonitorInfo->yError + pMonitorInfo->heightError)
     );
+//  This fill rect is useful when testing
+//	FillRect(hdc, &rc, hbrushRed);
 	rcOrginal = rc;
 
 
@@ -1775,17 +1805,29 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
     // it. the bitmap is centered in the rectangle by adding 2
 	// to the left and top coordinates of the bitmap rectangle,
 	// and subtracting 4 from the right and bottom coordinates.
-    DrawTransparentBitmap(hdc, hbmp, (rc.left + 2), (rc.top + 2), RGB(255, 0, 255));
-	rc.left += 166;
+    BITMAP     bm;
+    GetObject(hbmp, sizeof(BITMAP), (LPSTR)&bm);
+
+	long left = rc.left + (pMonitorInfo->widthError - 4 - bm.bmWidth)/2;
+	long top = rc.top + 2;
+    DrawTransparentBitmap(hdc, hbmp, left, top, RGB(255, 0, 255));
 
 	// Draw text in the center of the frame
 	SetBkColor(hdc, RGB(0,0,0));           // Black
 	SetTextColor(hdc, RGB(255,255,255));   // Red
-
+   
+	// Set font
+	HFONT hf;
+    hf = CreateFont(0, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "Arial Narrow");
+	
+    if(hf)
+    {
+        SelectObject(hdc, hf);
+    }
 	rc2 = rc;
     iTextHeight = DrawText(hdc, szError, -1, &rc, DT_CENTER | DT_CALCRECT);
 	rc = rc2;
-    rc2.top = (rc.bottom + rc.top - iTextHeight) / 2;
+	rc2.top+=bm.bmHeight+20;
     DrawText(hdc, szError, -1, &rc2, DT_CENTER);
 }
 

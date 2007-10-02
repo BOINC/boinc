@@ -1,0 +1,7 @@
+<cc_config>
+    <log_flags>
+    </log_flags>
+    <options>
+        <dont_contact_ref_site>1</dont_contact_ref_site>
+    </options>
+</cc_config>

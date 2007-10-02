@@ -9017,3 +9017,32 @@ David  2 Oct 2007
 		gui_http.h
 	lib/
 		util.C
+
+Kevin 2 Oct 2007
+    - Screen Saver (merge from 5.10):  Add additional information about the work 
+            running when no graphics are available.  Increased the size to the box 
+            displaying the message to accommodate larger image sizes.  Add code to 
+            center images if less then the allowed max size of 450x166
+    - Screen Saver (merge from 5.10):  If graphics are not available, then rotate
+            through the currently running results (it will change every 10 seconds) 
+            for display so that all are presented
+    - Manager (merge from 5.10): During an auto-attach initiated by a project_init.xml file, Mozilla 
+            based browsers are checking cookies in the domain  (ex: worldcommunitygrid.org) 
+            for a project while IE cookies were only being checked for the full project 
+            dns (www.worldcommunitygrid.org).  IE has been changed so that it will also 
+            check the domain.  This mechanism is generic and can be used by any project or 
+            account manager.
+    - Manager (merge from 5.10): During an auto-attach initiated by a project_init.xml file, 
+            the code to check for the Setup cookie within an IE browser would fail and cause 
+            the attach to project dialogue to close with no warning in the event that there 
+            is a cookie set for the project but there is not a Setup cookie.
+    - WCG files:  Updated image, icon and installer files for WCG
+            
+    clientgui/
+        browser.C
+    clientscr/
+        screensaver_win.cpp
+        screensaver_win.h
+        
+        
+        
