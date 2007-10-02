@@ -143,19 +143,19 @@ $m549c = array(
     "type"=>"bare_core",
 );
 
-$l5108 = array(
-    "num"=>"5.10.8",
+$l51021 = array(
+    "num"=>"5.10.21",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.8_i686-pc-linux-gnu.sh",
-    "date"=>"24 June 2007",
+    "file"=>"boinc_5.10.21_i686-pc-linux-gnu.sh",
+    "date"=>"2 Oct 2007",
     "type"=>"sea",
 );
 
-$l5108x64 = array(
-    "num"=>"5.10.8",
+$l51021x64 = array(
+    "num"=>"5.10.21",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.8_x86_64-pc-linux-gnu.sh",
-    "date"=>"24 June 2007",
+    "file"=>"boinc_5.10.21_x86_64-pc-linux-gnu.sh",
+    "date"=>"2 Oct 2007",
     "type"=>"sea",
 );
 
@@ -214,7 +214,7 @@ $linux = array(
     "name"=>"Linux/x86",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l5108,
+        $l51021,
         $l5816,
         $l5411,
     )
@@ -224,7 +224,7 @@ $linuxx64 = array(
     "name"=>"Linux/x64",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-        $l5108x64,
+        $l51021x64,
     )
 );
 
