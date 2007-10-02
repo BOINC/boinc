@@ -418,13 +418,13 @@ int use_sandbox, int isManager
         if (retval)
             return -1037;
         
-        if (sbuf.st_gid != boinc_project_gid)
+        if (sbuf.st_gid != boinc_master_gid)
             return -1038;
 
-        if (sbuf.st_uid != boinc_project_uid)
+        if (sbuf.st_uid != 0)   // root
             return -1039;
 
-        if ((sbuf.st_mode & 07777) != 06551)
+        if ((sbuf.st_mode & 07777) != 04050)
             return -1040;
 
         strlcpy(full_path, dir_path, sizeof(dir_path));

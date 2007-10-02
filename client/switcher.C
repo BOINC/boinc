@@ -25,10 +25,20 @@
 
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 #include <cerrno>
 #include <sys/param.h>  // for MAXPATHLEN
+#include <pwd.h>	// getpwuid
+#include <grp.h>
 
 int main(int argc, char** argv) {
+    int         i, j;
+    passwd      *pw;
+    group       *grp;
+    char        user_name[256], group_name[256];
+
+    strlcpy(user_name, "boinc_project", sizeof(user_name));
+    strlcpy(group_name, "boinc_project", sizeof(group_name));
 
 #if 0           // For debugging only
     char	current_dir[MAXPATHLEN];
@@ -41,6 +51,25 @@ int main(int argc, char** argv) {
     }
     fflush(stderr);
 #endif
+
+#if 0       // For debugging only
+    // Allow debugging without running as user or group boinc_project
+    pw = getpwuid(getuid());
+    if (pw) strlcpy(user_name, pw->pw_name, sizeof(user_name));
+    grp = getgrgid(getgid());
+    if (grp) strlcpy(group_name, grp->gr_gid, sizeof(group_name));
+
+#endif
+
+    // We are running setuid root, so setgid() sets real group ID, 
+    // effective group ID and saved set_group-ID for this process
+    grp = getgrnam(group_name);
+    if (grp) setgid(grp->gr_gid);
+
+    // We are running setuid root, so setuid() sets real user ID, 
+    // effective user ID and saved set_user-ID for this process
+    pw = getpwnam(user_name);
+    if (pw) setuid(pw->pw_uid);
 
     execv(argv[1], argv+2);
     

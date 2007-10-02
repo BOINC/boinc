@@ -23,7 +23,7 @@
 #include <Security/AuthorizationTags.h>
 
 #include <grp.h>	// getgrname, getgrgid
-#include <pwd.h>	// getpwname, getpwuid, getuid
+#include <pwd.h>	// getpwnam, getpwuid, getuid
 #include <unistd.h>     // usleep
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
@@ -452,17 +452,17 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (! isDirectory)) {
         // Set owner and group of switcher application
-        sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
-        // chown boinc_project:boinc_project "/Library/Applications/BOINC Data/switcher/switcher"
+        sprintf(buf1, "root:%s", boinc_master_group_name);
+        // chown root:boinc_master "/Library/Applications/BOINC Data/switcher/switcher"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
         // Set permissions of switcher application
-        // chmod u=rsx,g=rsx,o=x "/Library/Applications/BOINC Data/switcher/switcher"
-        // 06551 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IXOTH
-        //  setuid-on-execution, setgid-on-execution plus read and execute permission for user and group, execute only for others
-        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=x", fullpath, NULL, NULL, NULL);
+        // chmod u=s,g=rsx,o= "/Library/Applications/BOINC Data/switcher/switcher"
+        // 04050 = S_ISUID | S_IRGRP | S_IXGRP
+        //  setuid-on-execution, setgid-on-execution plus read and execute permission for group boinc_master only
+        err = DoPrivilegedExec(chmodPath, "u=s,g=rx,o=", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
     }       // switcher application
