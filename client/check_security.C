@@ -250,41 +250,34 @@ int use_sandbox, int isManager
 
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
         // Version 6 screensaver has its own embedded switcher application, but older versions don't.
-        // We don't allow unauthorized users to run the switcher application in the BOINC Data directory 
-        // because they could use it to run as user & group boinc_project and damage project files.
-        // The screensaver's switcher application runs as user and group "nobody" to avoid this risk.
+        // We don't allow unauthorized users to run the standard switcher application in the BOINC 
+        // Data directory because they could use it to run as user & group boinc_project and damage 
+        // project files.  The screensaver's gfx_switcher application has very limited functionality 
+        // to avoid this risk.
 
         if (use_sandbox) {
-            // Does switcher exist in screensaver bundle?
-            strcpy(full_path, "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher");
+            // Does gfx_switcher exist in screensaver bundle?
+            strcpy(full_path, "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher");
             retval = stat(full_path, &sbuf);
             if (! retval) {
 #ifdef _DEBUG
                 if (sbuf.st_uid != boinc_master_uid)
-                    return -1102;
+                    return -1101;
 
                 if (sbuf.st_gid != boinc_master_gid)
-                    return -1104;
-
-                if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != 0)
-                    return -1105;
-#else
-                pw = getpwnam("nobody");
-                if (pw == NULL)
-                    return -1101;      // User nobody does not exist: should never happen
-
-                if (sbuf.st_uid != pw->pw_uid)
                     return -1102;
 
-                grp = getgrnam("nobody");
-                if (grp == NULL)
-                    return -1103;       // Group nobody does not exist: should never happen
+                if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != 0)
+                    return -1103;
+#else
+                if (sbuf.st_uid != 0)
+                    return -1101;
 
-                if (sbuf.st_gid != grp->gr_gid)
-                    return -1104;
+                if (sbuf.st_gid != boinc_master_gid)
+                    return -1102;
 
-                if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
-                    return -1105;
+                if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != S_ISUID)
+                    return -1103;
 #endif
             }
         }

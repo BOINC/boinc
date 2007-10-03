@@ -63,6 +63,8 @@ OSStatus RPCThread(void* param);
 void HandleRPCError(void);
 OSErr KillScreenSaver(void);
 int Mac_launch_screensaver(RESULT* rp, int& graphics_application);
+int Mac_terminate_screensaver(int& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc);
+
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -140,7 +142,7 @@ RGBColor gTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
 RGBColor gWhiteTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
 RGBColor gOrangeTextColor = {0xFFFF, 0x6262, 0x0000};
 RGBColor gGrayTextColor = {0x9999, 0x9999, 0x9999};
-char gSwitcherPath[MAXPATHLEN];
+char gfx_Switcher_Path[MAXPATHLEN];
 
 // Display first status update after 5 seconds
 static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
@@ -207,8 +209,8 @@ int initBOINCSaver(Boolean ispreview) {
     if (saverState == SaverState_Idle) {
         SaverStartTime = time(0);
         
-        CFStringGetCString(gPathToBundleResources, gSwitcherPath, sizeof(gSwitcherPath), kCFStringEncodingMacRoman);
-        strlcat(gSwitcherPath, "/switcher", sizeof(gSwitcherPath));
+        CFStringGetCString(gPathToBundleResources, gfx_Switcher_Path, sizeof(gfx_Switcher_Path), kCFStringEncodingMacRoman);
+        strlcat(gfx_Switcher_Path, "/gfx_switcher", sizeof(gfx_Switcher_Path));
 
         err = initBOINCApp();
 
@@ -516,7 +518,7 @@ OSStatus RPCThread(void* param) {
 
         if (gQuitRPCThread) {     // If main thread has requested we exit
             if (graphics_app_pid || graphics_app_result_ptr) {
-                terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
                 graphics_app_result_ptr = NULL;
                 graphics_app_pid = 0;
                 graphics_app_result_ptr = NULL;
@@ -549,7 +551,7 @@ OSStatus RPCThread(void* param) {
 
         if (gQuitRPCThread) {     // If main thread has requested we exit
             if (graphics_app_pid || graphics_app_result_ptr) {
-                terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
                 graphics_app_result_ptr = NULL;
                 graphics_app_pid = 0;
                 graphics_app_result_ptr = NULL;
@@ -572,7 +574,7 @@ OSStatus RPCThread(void* param) {
 	if (suspend_reason != 0) {
             gClientSaverStatus = SS_STATUS_BOINCSUSPENDED;
             if (graphics_app_pid || graphics_app_result_ptr) {
-                terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
                 if (graphics_app_pid == 0) {
                     graphics_app_result_ptr = NULL;
                 } else {
@@ -607,10 +609,10 @@ OSStatus RPCThread(void* param) {
                 }
             }
 
-            // V6 graphics only: if worker application has stopped running, terminate_screensaver
+            // V6 graphics only: if worker application has stopped running, Mac_terminate_screensaver
             if ((graphics_app_result_ptr == NULL) && (graphics_app_pid != 0)) {
 //                if (previous_result_ptr) print_to_log_file("%s finished", previous_result.name.c_str());
-                terminate_screensaver(graphics_app_pid, previous_result_ptr, rpc);
+                Mac_terminate_screensaver(graphics_app_pid, previous_result_ptr, rpc);
                 previous_result_ptr = NULL;
                 // waitpid test will clear graphics_app_pid
            }
@@ -618,7 +620,7 @@ OSStatus RPCThread(void* param) {
             // Safety check that task is actually running
             if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
                 if (FindProcessPID(NULL, ? ? ?) == 0) {
-                    terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                    Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
                     if (graphics_app_pid == 0) {
                         graphics_app_result_ptr = NULL;
                         // Save previous_result and previous_result_ptr for get_random_graphics_app() call
@@ -632,7 +634,7 @@ OSStatus RPCThread(void* param) {
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
 //                    if (previous_result_ptr) print_to_log_file("time to change: %s", previous_result.name.c_str());
-                    terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
+                    Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
                     if (graphics_app_pid == 0) {
                         graphics_app_result_ptr = NULL;
                         // Save previous_result and previous_result_ptr for get_random_graphics_app() call
@@ -920,26 +922,24 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     size_t n = 0;
     pid_t aPID;
     
-    if (name != NULL) {     // Search by name
+    if (name != NULL)     // Search ny name
         n = strlen(name);
-    }
     
-    f = popen("ps -a -x -c -o pid,command", "r");
+    f = popen("ps -a -x -c -o command,pid", "r");
     if (f == NULL)
         return 0;
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {
-        if (name != NULL) {     // Search by name
-            if (strncmp(buf+12, name, n) == 0)
+        if (name != NULL) {     // Search ny name
+            if (strncmp(buf, name, n) == 0)
             {
-                aPID = atol(buf);
+                aPID = atol(buf+16);
                 pclose(f);
                 return aPID;
             }
-        } else 
-        if (thePID != 0) {      // Search by PID
-            aPID = atol(buf);
+        } else {      // Search by PID
+            aPID = atol(buf+16);
             if (aPID == thePID) {
                 pclose(f);
                 return aPID;
@@ -992,15 +992,17 @@ int Mac_launch_screensaver(RESULT* rp, pid_t& graphics_application)
         // "RegisterProcess failed (error = -50)" unless we pass its 
         // full path twice in the argument list to execv.
         char* argv[5];
-        argv[0] = "switcher";
-        argv[1] = (char *)rp->graphics_exec_path.c_str();
-        argv[2] = (char *)rp->graphics_exec_path.c_str();
+        argv[0] = "gfx_Switcher_Path";
+        argv[1] = "-launch_gfx";
+        argv[2] = strrchr(rp->slot_path.c_str(), '/');
+        if (*argv[2]) argv[2]++;    // Point to the slot number in ascii
+        
         argv[3] = "--fullscreen";
         argv[4] = 0;
 
        retval = run_program(
             rp->slot_path.c_str(),
-            gSwitcherPath,
+            gfx_Switcher_Path,
             4,
             argv,
             0,
@@ -1023,6 +1025,38 @@ int Mac_launch_screensaver(RESULT* rp, pid_t& graphics_application)
             di
         );
     }
+    return retval;
+}
+
+
+int Mac_terminate_screensaver(int& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc) {
+    int retval = 0;
+    char current_dir[MAXPATHLEN];
+    char gfx_pid[16];
+    pid_t dont_care;
+
+    retval = terminate_screensaver(graphics_application, worker_app, rpc);
+    
+    if (graphics_application == 0) return retval;
+
+    sprintf(gfx_pid, "%d", graphics_application);
+    getcwd( current_dir, sizeof(current_dir));
+
+    char* argv[4];
+    argv[0] = "gfx_switcher";
+    argv[1] = "-kill_gfx";
+    argv[2] = gfx_pid;
+    argv[3] = 0;
+
+   retval = run_program(
+        current_dir,
+        gfx_Switcher_Path,
+        3,
+        argv,
+        0,
+        dont_care
+    );
+
     return retval;
 }
 

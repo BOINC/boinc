@@ -185,7 +185,6 @@
 		DD52C81408B5D484008D9AA4 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
-		DD53C8EE0CA0FE4A00C4DEA4 /* switcher in Resources */ = {isa = PBXBuildFile; fileRef = DDD0953F0A3EDD2500C95BA4 /* switcher */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
@@ -315,6 +314,20 @@
 		DDDC70440C7A86A200179273 /* Uninstaller.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = DDDC70430C7A86A200179273 /* Uninstaller.rsrc */; };
 		DDE41C260C1FCA8F00CA1F86 /* graphics2_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DDE41C250C1FCA8F00CA1F86 /* graphics2_util.C */; };
 		DDF9A32F0B2E3D4D00091FCB /* auto_update.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF9A32D0B2E3D4D00091FCB /* auto_update.C */; };
+		DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */ = {isa = PBXBuildFile; fileRef = DDFA60D40CB337D40037B88C /* gfx_switcher */; };
+		DDFA60E40CB3396C0037B88C /* gfx_switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDFA60E30CB3396C0037B88C /* gfx_switcher.C */; };
+		DDFA61520CB347500037B88C /* app_ipc.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.C */; };
+		DDFA61570CB347730037B88C /* filesys.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.C */; };
+		DDFA61780CB348660037B88C /* mfile.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.C */; };
+		DDFA617A0CB3486D0037B88C /* miofile.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.C */; };
+		DDFA617E0CB3487F0037B88C /* parse.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.C */; };
+		DDFA61860CB3489E0037B88C /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
+		DDFA61890CB348A90037B88C /* util.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.C */; };
+		DDFA618C0CB348C50037B88C /* hostinfo.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.C */; };
+		DDFA618F0CB348E80037B88C /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
+		DDFA61900CB348E90037B88C /* md5_file.C in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.C */; };
+		DDFA61920CB349020037B88C /* proxy_info.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.C */; };
+		DDFA61940CB349160037B88C /* prefs.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.C */; };
 		DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.C in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */; };
 		DDFD5F270818F329002B23D4 /* filesys.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.C */; };
 		DDFD5F280818F33C002B23D4 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
@@ -719,13 +732,6 @@
 			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
 			remoteInfo = setprojectgrp;
 		};
-		DD53C8DD0CA0FC6100C4DEA4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4;
-			remoteInfo = switcher;
-		};
 		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -858,6 +864,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4;
 			remoteInfo = switcher;
+		};
+		DDFA60DC0CB338940037B88C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDFA60C90CB337D40037B88C;
+			remoteInfo = gfx_switcher;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1204,6 +1217,8 @@
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
 		DDF9A32D0B2E3D4D00091FCB /* auto_update.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = auto_update.C; path = ../client/auto_update.C; sourceTree = SOURCE_ROOT; };
 		DDF9A32E0B2E3D4D00091FCB /* auto_update.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = auto_update.h; path = ../client/auto_update.h; sourceTree = SOURCE_ROOT; };
+		DDFA60D40CB337D40037B88C /* gfx_switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gfx_switcher; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDFA60E30CB3396C0037B88C /* gfx_switcher.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gfx_switcher.C; path = ../clientscr/gfx_switcher.C; sourceTree = SOURCE_ROOT; };
 		DDFE84E10B60CD66009B43D9 /* DlgAdvPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferences.cpp; path = ../clientgui/DlgAdvPreferences.cpp; sourceTree = SOURCE_ROOT; };
 		DDFE84E20B60CD66009B43D9 /* DlgAdvPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgAdvPreferences.h; path = ../clientgui/DlgAdvPreferences.h; sourceTree = SOURCE_ROOT; };
 		DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferencesBase.cpp; path = ../clientgui/DlgAdvPreferencesBase.cpp; sourceTree = SOURCE_ROOT; };
@@ -1384,6 +1399,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDFA60CC0CB337D40037B88C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDFF2ACD0A53D4AE002BC19D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1414,6 +1436,7 @@
 				DD3E15420A774397007E0084 /* BOINCManager.app */,
 				DD4688410C165F3C0089F500 /* Uninstall BOINC.app */,
 				DDB874030C850BC800E0DE1F /* libboinc_graphics2.a */,
+				DDFA60D40CB337D40037B88C /* gfx_switcher */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1685,6 +1708,7 @@
 				DDB873980C85072500E0DE1F /* Mac_Saver_ModuleView.m */,
 				DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */,
 				DD7AEB680C87CE6500AC3B5C /* screensaver.h */,
+				DDFA60E30CB3396C0037B88C /* gfx_switcher.C */,
 			);
 			name = clientscr;
 			sourceTree = SOURCE_ROOT;
@@ -2145,7 +2169,7 @@
 			);
 			dependencies = (
 				DDAD19CF09090833004E7DD0 /* PBXTargetDependency */,
-				DD53C8DE0CA0FC6100C4DEA4 /* PBXTargetDependency */,
+				DDFA60DD0CB338940037B88C /* PBXTargetDependency */,
 			);
 			name = ScreenSaver;
 			productName = ScreenSaver;
@@ -2229,6 +2253,22 @@
 			productReference = DDD74D8707CF482E0065AC9D /* boinc */;
 			productType = "com.apple.product-type.tool";
 		};
+		DDFA60C90CB337D40037B88C /* gfx_switcher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDFA60CD0CB337D40037B88C /* Build configuration list for PBXNativeTarget "gfx_switcher" */;
+			buildPhases = (
+				DDFA60CA0CB337D40037B88C /* Sources */,
+				DDFA60CC0CB337D40037B88C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gfx_switcher;
+			productName = switcher;
+			productReference = DDFA60D40CB337D40037B88C /* gfx_switcher */;
+			productType = "com.apple.product-type.tool";
+		};
 		DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDFF2ACE0A53D4AE002BC19D /* Build configuration list for PBXNativeTarget "setprojectgrp" */;
@@ -2279,6 +2319,7 @@
 				DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */,
 				DD3E14D30A774397007E0084 /* mgr_boinc */,
 				DD4688400C165F3C0089F500 /* Uninstaller */,
+				DDFA60C90CB337D40037B88C /* gfx_switcher */,
 			);
 		};
 /* End PBXProject section */
@@ -2362,7 +2403,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD53C8EE0CA0FE4A00C4DEA4 /* switcher in Resources */,
+				DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */,
 				DD616A3008150050006981C1 /* InfoPlist.strings in Resources */,
 				DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */,
 				DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */,
@@ -2937,6 +2978,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDFA60CA0CB337D40037B88C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDFA60E40CB3396C0037B88C /* gfx_switcher.C in Sources */,
+				DDFA61520CB347500037B88C /* app_ipc.C in Sources */,
+				DDFA61570CB347730037B88C /* filesys.C in Sources */,
+				DDFA61780CB348660037B88C /* mfile.C in Sources */,
+				DDFA617A0CB3486D0037B88C /* miofile.C in Sources */,
+				DDFA617E0CB3487F0037B88C /* parse.C in Sources */,
+				DDFA61860CB3489E0037B88C /* str_util.C in Sources */,
+				DDFA61890CB348A90037B88C /* util.C in Sources */,
+				DDFA618C0CB348C50037B88C /* hostinfo.C in Sources */,
+				DDFA618F0CB348E80037B88C /* md5.c in Sources */,
+				DDFA61900CB348E90037B88C /* md5_file.C in Sources */,
+				DDFA61920CB349020037B88C /* proxy_info.C in Sources */,
+				DDFA61940CB349160037B88C /* prefs.C in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDFF2ACB0A53D4AE002BC19D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2982,11 +3043,6 @@
 			isa = PBXTargetDependency;
 			target = DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */;
 			targetProxy = DD45C4A00A53E73500E923D1 /* PBXContainerItemProxy */;
-		};
-		DD53C8DE0CA0FC6100C4DEA4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
-			targetProxy = DD53C8DD0CA0FC6100C4DEA4 /* PBXContainerItemProxy */;
 		};
 		DD58247D0B198BDD003B6A2F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3062,6 +3118,11 @@
 			isa = PBXTargetDependency;
 			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
 			targetProxy = DDD095500A3EE09900C95BA4 /* PBXContainerItemProxy */;
+		};
+		DDFA60DD0CB338940037B88C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDFA60C90CB337D40037B88C /* gfx_switcher */;
+			targetProxy = DDFA60DC0CB338940037B88C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -6523,6 +6584,127 @@
 			};
 			name = Deployment;
 		};
+		DDFA60CE0CB337D40037B88C /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"$(inherited)",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = gfx_switcher;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		DDFA60CF0CB337D40037B88C /* Dev_noSandbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"$(inherited)",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = gfx_switcher;
+				ZERO_LINK = NO;
+			};
+			name = Dev_noSandbox;
+		};
+		DDFA60D00CB337D40037B88C /* ppc_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = gfx_switcher;
+				ZERO_LINK = NO;
+			};
+			name = ppc_Deployment;
+		};
+		DDFA60D10CB337D40037B88C /* i386_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = gfx_switcher;
+				ZERO_LINK = NO;
+			};
+			name = i386_Deployment;
+		};
+		DDFA60D20CB337D40037B88C /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = gfx_switcher;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		DDFA60D30CB337D40037B88C /* Deploy_noSandbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"$(inherited)",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = gfx_switcher;
+				ZERO_LINK = NO;
+			};
+			name = Deploy_noSandbox;
+		};
 		DDFF2ACF0A53D4AE002BC19D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -6831,6 +7013,19 @@
 				DDD095440A3EDD4300C95BA4 /* i386_Deployment */,
 				DDD095450A3EDD4300C95BA4 /* Deployment */,
 				DD62C3960A801FB500B3D68A /* Deploy_noSandbox */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = ppc_Deployment;
+		};
+		DDFA60CD0CB337D40037B88C /* Build configuration list for PBXNativeTarget "gfx_switcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDFA60CE0CB337D40037B88C /* Development */,
+				DDFA60CF0CB337D40037B88C /* Dev_noSandbox */,
+				DDFA60D00CB337D40037B88C /* ppc_Deployment */,
+				DDFA60D10CB337D40037B88C /* i386_Deployment */,
+				DDFA60D20CB337D40037B88C /* Deployment */,
+				DDFA60D30CB337D40037B88C /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;

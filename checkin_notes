@@ -9058,3 +9058,26 @@ David  2 Oct 2007
     client/
         client_state.C
         switcher.C
+
+Charlie 1 Oct 2007
+    - Mac SCR: Create a new tiny utility gfx_switcher and put it inside 
+        screensaver's bundle instead of a copy of switcher.  It sets real 
+        user ID, saved set_user-ID, real group ID and saved set_group-ID 
+        for gfx app in addition to effective user ID and effective group 
+        ID, all to user and group boinc_project.  For safety, gfx_switcher 
+        has very limited functionality: screensaver launches it with 
+        arguments "-launch_gfx" and slot number to launch graphics for the 
+        project app in that slot; or with arguments "-kill_gfx" and process 
+        ID to kill graphics application running as user boinc_project.
+
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    clientscr/
+        gfx_switcher.C (added)
+        mac_saver_module.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
