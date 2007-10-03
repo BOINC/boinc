@@ -7514,3 +7514,12 @@ David  2 Oct 2007
     client/
         client_state.C
         switcher.C
+
+Rom    3 Oct 2007
+    - Tag for 5.10.22 release, all platforms
+      boinc_core_release_5_10_22
+    
+    /
+        configure.ac
+        version.h
+
