@@ -1,5 +1,7 @@
 #include <stdio.h>
+#ifdef HAVE_MALLOC_H
 #include <malloc.h>
+#endif
 
 #include "error_numbers.h"
 #include "sched_msgs.h"
