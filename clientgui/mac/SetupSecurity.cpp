@@ -242,7 +242,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
             return err;
 
         // chmod u=rsx,g=rx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-        // 04051 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        // 04055 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
         if (err)

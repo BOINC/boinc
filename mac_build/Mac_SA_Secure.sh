@@ -233,7 +233,7 @@ fi
 # because they could use it to run as user & group boinc_project and damage project files.
 # The screensaver's switcher application has very limited functionality to avoid this risk.
 if [ -x "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher" ] ; then 
-    set_perm "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher" root boinc_master 4551
+    set_perm "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher" root boinc_master 4555
 fi
 
 
