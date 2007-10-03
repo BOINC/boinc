@@ -38,6 +38,20 @@ AC_DEFUN([BOINC_PLATFORM],[
 	  fi
 	fi
 	;;
+      hppa*-hp-hpux*)
+        if test "$COMPILER_MODEL_BITS" = "64" ; then
+	  boinc_platform="hppa64-hp-hpux"
+	  if test -z "${boinc_alt_platform}" ; then
+	    boinc_alt_platform="hppa-hp-hpux"
+	  fi
+	else
+	  boinc_platform="hppa-hp-hpux"
+	fi
+        ;;
+      ia64-hp-hpux*)
+	boinc_platform="ia64-hp-hpux"
+        ;;
+
     esac
   fi
   AC_DEFINE_UNQUOTED([HOSTTYPE],"$boinc_platform",[Platform identification used to identify applications for this BOINC core client])
