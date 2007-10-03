@@ -84,6 +84,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
 #define ALL_PROJECTS_LIST_FILENAME "all_projects_list.xml"
+#define ALL_PROJECTS_LIST_FILENAME_TEMP "all_projects_list_temp.xml"
 #define SWITCHER_FILE_NAME          "switcher"
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 #define TIME_STATS_LOG              "time_stats_log"

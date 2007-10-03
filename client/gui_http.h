@@ -31,7 +31,7 @@ using std::string;
 #define GUI_HTTP_STATE_IDLE     0
 #define GUI_HTTP_STATE_BUSY     1
 
-class GUI_HTTP_OP;
+struct GUI_HTTP_OP;
 
 // A "channel" for doing HTTP ops.
 // There's one of these for each GUI RPC connection,
