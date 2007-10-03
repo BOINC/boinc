@@ -14,4 +14,6 @@
    #define WCG_UD_KEY  WCG_UD_KEY_PATH+WCG_UD_GID
       
    //THE CMD LINE PARAM FOR UNINSTALLING UD
-   #define UD_UNINSTALL_PARAM "/quiet /X"+WCG_UD_GID
+   #define UD_UNINSTALL_PARAM "/quiet /X"+WCG_UD_GID   
+   
+   #define UD_INSTALL_DIR "C:\\Program Files\\WorldCommunityGrid\\"

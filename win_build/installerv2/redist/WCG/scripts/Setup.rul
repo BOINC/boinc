@@ -87,7 +87,8 @@ begin
           if (LaunchAppAndWait ("MsiExec.exe ", UD_UNINSTALL_PARAM,LAAW_OPTION_WAIT) < 0) then
           	  MessageBox (UD_UNABLE_UNINSTALL_MSG, SEVERE);  
           else 
-              MsiSetProperty(hMSI, "UDAVAILABLE", "No");
+              MsiSetProperty(hMSI, "UDAVAILABLE", "No");     
+              DeleteDir(UD_INSTALL_DIR,ALLCONTENTS);
           endif;
      	       
 //    endif; 
