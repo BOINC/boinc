@@ -125,6 +125,22 @@ First checked in.
 #if defined(__cplusplus)
 	}
 #endif
+/////////////////////////////////////////////////////////////////
+// Fixes for compiling on 10.3 and earlier                     //
+/////////////////////////////////////////////////////////////////
+#ifdef DARWIN_10_3
+#define nlist_64 nlist
+#define mach_header_64 mach_header
+#define segment_command_64 segment_command
+#define section_64 section
+#define reserved3 reserved2
+#define MH_MAGIC_64 0x0ffffff0
+#define MH_CIGAM_64 0x00ffffff
+#define LC_SEGMENT_64 0x00fffff9
+#undef MH_CIGAM
+#define MH_CIGAM 0xcefaedfe
+#endif
+/////////////////////////////////////////////////////////////////
 
 #include "QTaskMemory.h"            // for the QTMAddr type
 
@@ -255,6 +271,8 @@ extern int QMOImageCreateFromFile(
     cpu_subtype_t   cpusubtype, 
     QMOImageRef *   qmoImagePtr
 );
+
+
 
 /*!
     @function       QMOImageCreateFromLocalImage

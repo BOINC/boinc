@@ -125,6 +125,7 @@ First checked in.
 	}
 #endif
 
+#include "QMachOImage.h"
 #include "QBacktrace.h"
 
 /////////////////////////////////////////////////////////////////

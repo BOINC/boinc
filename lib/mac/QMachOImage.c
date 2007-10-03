@@ -108,7 +108,7 @@ First checked in.
 /////////////////////////////////////////////////////////////////
 
 // Our prototypes
-
+#include "config.h"
 #include "QMachOImage.h"
 
 // Basic system interfaces

@@ -9093,3 +9093,17 @@ Rytis   3 Oct 2007
             en.po
         user/
             forum_pm.php
+
+Eric K  3 Oct 2007
+    - MacOS:  Changes to allow command line builds on MacOS 10.3
+    - New preprocessor symbol DARWIN_10_3 is defined in config.h when configure
+      script detects MacOS 10.3
+    - Added explicit include of config.h in some files in lib/Mac
+
+    configure.ac
+    lib/
+        mac/
+	    QSymbols.c
+	    QCrashReport.[ch]
+	    QMachOImage.[ch]
+

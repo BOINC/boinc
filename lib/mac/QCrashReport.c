@@ -107,6 +107,7 @@ First checked in.
 
 /////////////////////////////////////////////////////////////////
 
+#include "config.h"
 #include "QCrashReport.h"
 
 // System interfaces

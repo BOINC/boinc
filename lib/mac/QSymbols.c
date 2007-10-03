@@ -111,7 +111,7 @@ First checked in.
 /////////////////////////////////////////////////////////////////
 
 // Our Prototypes
-
+#include "config.h"
 #include "QSymbols.h"
 
 // Mac OS Interfaces
