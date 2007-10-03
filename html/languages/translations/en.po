@@ -463,6 +463,15 @@ msgstr ""
 msgid "Block user"
 msgstr ""
 
+msgid "With selected"
+msgstr ""
+
+msgid "Mark as read"
+msgstr ""
+
+msgid "Mark as unread"
+msgstr ""
+
 
 #########################################
 # Links from the main page

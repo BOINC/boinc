@@ -9081,5 +9081,15 @@ Charlie 2 Oct 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
-        Mac_SA_Insecure.sh
-        Mac_SA_Secure.sh
+            Mac_SA_Insecure.sh
+            Mac_SA_Secure.sh
+
+Rytis   3 Oct 2007
+    - Private messages: allow interaction with multiple messages from the
+        inbox, add new related translation strings.
+        
+    html/
+        /languages/
+            en.po
+        user/
+            forum_pm.php

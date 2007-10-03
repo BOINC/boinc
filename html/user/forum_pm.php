@@ -10,7 +10,11 @@ db_init();
 
 $action = get_str("action", true);
 if ($action == null) { $action = post_str("action", true); }
-if ($action == null) { $action = "inbox"; }
+if ($action == null) {
+    // Prepend "select_" because translated actions may clash with default actions
+    $action = "select_".post_str("action_select", true);
+}
+if ($action == "select_") { $action = "inbox"; }
 
 $logged_in_user = get_logged_in_user();
 
@@ -26,21 +30,29 @@ if ($action == "inbox") {
     if (mysql_num_rows($query) == 0) {
         echo tra("You have no private messages.");
     } else {
+        echo "<form action=\"forum_pm.php\" method=\"POST\">\n";
+        echo form_tokens($logged_in_user->authenticator);
         start_table();
-        print "<tr><th>".tra("Subject")."</th><th>".tra("Sender")."</th><th>".tra("Date")."</th></tr>\n";
+        echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender")."</th><th>".tra("Date")."</th></tr>\n";
         while ($row = mysql_fetch_object($query)) {
-            print "<tr>\n";
+            echo "<tr>\n";
+            $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$row->id."\">";
             $subject = "<a href=\"forum_pm.php?action=read&id=".$row->id."\">".$row->subject."</a>";
             if ($row->opened) {
-                print "<td>".$subject."</td>\n";
+                echo "<td>".$checkbox.$subject."</td>\n";
             } else {
-                print "<td><strong>".$subject."</strong></td>\n";
+                echo "<td>".$checkbox."<strong>".$subject."</strong></td>\n";
             }
-            print "<td>".user_links(get_user_from_id($row->senderid))."</td>\n";
-            print "<td>".time_str($row->date)."</td>\n";
-            print "</tr>\n";
+            echo "<td>".user_links(get_user_from_id($row->senderid))."</td>\n";
+            echo "<td>".time_str($row->date)."</td>\n";
+            echo "</tr>\n";
         }
+        $delete = "<input type=\"submit\" name=\"action_select\" value=\"".tra("Delete")."\">";
+        $mark_as_read = "<input type=\"submit\" name=\"action_select\" value=\"".tra("Mark as read")."\">";
+        $mark_as_unread = "<input type=\"submit\" name=\"action_select\" value=\"".tra("Mark as unread")."\">";
+        table_header(tra("With selected").":", array($delete." ".$mark_as_read." ".$mark_as_unread, "colspan=\"2\""));
         end_table();
+        echo "</form>\n";
     }
 } elseif ($action == "read") {
     $id = get_int("id");
@@ -70,7 +82,6 @@ if ($action == "inbox") {
             mysql_query("UPDATE private_messages SET opened=1 WHERE id=$id");
         }
     }
-
 } elseif ($action == "new") {
     check_banished(new User($logged_in_user->id));
     pm_create_new();
@@ -192,6 +203,37 @@ if ($action == "inbox") {
     
     echo "<div>".tra("User %1 has been blocked from sending you private messages.", $blocked->getName())."\n";
     echo tra("To unblock, visit %1message board preferences%2", "<a href=\"edit_forum_preferences_form.php\">", "</a>")."</div>\n";
+} elseif ($action == "select_".tra("Delete")) {
+    check_tokens($logged_in_user->authenticator);
+    foreach ($_POST["pm_select"] as $id) {
+        $query = mysql_query("SELECT * FROM private_messages ".
+                             "WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
+        if (mysql_num_rows($query) == 1) {
+            // User has rights to delete the message
+            mysql_query("DELETE FROM private_messages WHERE id=".mysql_real_escape_string($id));
+        }
+    }
+    Header("Location: forum_pm.php?action=inbox&deleted=1");
+} elseif ($action == "select_".tra("Mark as read")) {
+    check_tokens($logged_in_user->authenticator);
+    foreach ($_POST["pm_select"] as $id) {
+        $query = mysql_query("SELECT * FROM private_messages ".
+                             "WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
+        if (mysql_num_rows($query) == 1) {
+            mysql_query("UPDATE private_messages SET opened=1 WHERE id=".mysql_real_escape_string($id));
+        }
+    }
+    Header("Location: forum_pm.php?action=inbox");
+} elseif ($action == "select_".tra("Mark as unread")) {
+    check_tokens($logged_in_user->authenticator);
+    foreach ($_POST["pm_select"] as $id) {
+        $query = mysql_query("SELECT * FROM private_messages ".
+                             "WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
+        if (mysql_num_rows($query) == 1) {
+            mysql_query("UPDATE private_messages SET opened=0 WHERE id=".mysql_real_escape_string($id));
+        }
+    }
+    Header("Location: forum_pm.php?action=inbox");
 }
 
 page_tail();
