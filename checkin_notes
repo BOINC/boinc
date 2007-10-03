@@ -7503,3 +7503,14 @@ David  2 Oct 2007
 		gui_http.h
 	lib/
 		util.C
+
+David  2 Oct 2007
+    - client: if dont_contact_ref_site option is set,
+        contact a random project master URL rather than Google
+        to trigger personal firewall alert on version change
+    - switcher: compile fix for Linux (strlcpy doesn't exist,
+        and I didn't want to bring in libboinc.a)
+
+    client/
+        client_state.C
+        switcher.C
