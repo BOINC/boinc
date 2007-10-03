@@ -9059,7 +9059,7 @@ David  2 Oct 2007
         client_state.C
         switcher.C
 
-Charlie 1 Oct 2007
+Charlie 2 Oct 2007
     - Mac SCR: Create a new tiny utility gfx_switcher and put it inside 
         screensaver's bundle instead of a copy of switcher.  It sets real 
         user ID, saved set_user-ID, real group ID and saved set_group-ID 
@@ -9081,3 +9081,5 @@ Charlie 1 Oct 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh
