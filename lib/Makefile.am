@@ -108,3 +108,7 @@ msg_test_SOURCES = msg_test.C msg_queue.C
 crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C
 crypt_prog_DEPENDENCIES =
 crypt_prog_LDADD = $(RSA_LIBS) $(PTHREAD_LIBS)
+
+clean-local:
+	rm -f @CLIENT_CMD_BIN_FILENAME@
+	rm -f @CLIENT_CMD_BIN_FILENAME@.unmodified

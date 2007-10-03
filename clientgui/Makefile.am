@@ -129,5 +129,6 @@ version: win_config.h
 
 clean-local:
 	rm -f @CLIENT_GUI_BIN_FILENAME@
+	rm -f @CLIENT_GUI_BIN_FILENAME@.unmodified
 
 .PHONY: version

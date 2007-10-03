@@ -9107,3 +9107,15 @@ Eric K  3 Oct 2007
 	    QCrashReport.[ch]
 	    QMachOImage.[ch]
 
+Frank Thomas    4 Oct 2007
+    - Added clean-local target to lib/Makefile.am to remove lib/boinccmd and
+        lib/boinccmd.unmodified on "make clean" and also added
+        client/boinc.unmodified and clientgui/boincmgr.unmodified to the
+        respective clean-local targets.
+
+    client/
+        Makefile.am
+    clientgui/
+        Makefile.am
+    lib/
+        Makefile.am

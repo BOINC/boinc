@@ -88,3 +88,4 @@ EXTRA_DIST = *.h \
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@
+	rm -f @CLIENT_BIN_FILENAME@.unmodified
