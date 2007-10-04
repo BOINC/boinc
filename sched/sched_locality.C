@@ -306,7 +306,7 @@ static int possibly_send_result(
     // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
     // see sched_send.h.
     // 
-    if (wu_is_infeasible(wu, sreq, reply, app)) {
+    if (wu_is_infeasible(wu, sreq, reply, *app)) {
         return ERR_INSUFFICIENT_RESOURCE;
     }
 

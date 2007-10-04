@@ -113,7 +113,7 @@ void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        retval = wu_is_infeasible(wu, sreq, reply, app);
+        retval = wu_is_infeasible(wu, sreq, reply, *app);
         if (retval) {
                log_messages.printf(
                    SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible: %d\n",
@@ -224,7 +224,7 @@ void scan_work_array(
                 // This ensures that jobs already assigned to a platform
                 // are processed first.
                 //
-                 wu_result.infeasible_count++;
+                wu_result.infeasible_count++;
                 goto dont_send;
             }
         }

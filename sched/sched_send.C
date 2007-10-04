@@ -422,19 +422,26 @@ static inline int check_deadline(
 // Should move a few other checks from sched_array.C
 //
 int wu_is_infeasible(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply,
-    APP* app
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, APP& app
 ) {
     int retval;
 
     // homogeneous redundancy, quick check
     //
-    if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
-        if (already_sent_to_different_platform_quick(request, wu, *app)) {
+    if (app_hr_type(app)) {
+        if (hr_unknown_platform_type(reply.host, app_hr_type(app))) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
+                reply.host.id, wu.id, app_hr_type(app)
+            );
+            return INFEASIBLE_HR;
+        }
+        if (already_sent_to_different_platform_quick(request, wu, app)) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
-                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, app_hr_type(*app))
+                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, app_hr_type(app))
             );
             return INFEASIBLE_HR;
         }

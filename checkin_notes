@@ -9153,3 +9153,13 @@ David  4 Oct 2007
         prefs.C
     sched/
         file_upload_handler.C
+
+David  4 Oct 2007
+    - scheduler: bug fix in HR code:
+        in wu_is_infeasible(), check whether host type is unknown
+        before seeing if WU is already committed  to different type
+
+    sched/
+        sched_array.C
+        sched_locality.C
+        sched_send.C,h
