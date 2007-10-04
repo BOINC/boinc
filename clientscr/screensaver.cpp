@@ -170,7 +170,7 @@ int launch_screensaver(RESULT* rp, int& graphics_application, RPC_CLIENT* rpc)
         retval = rpc->show_graphics(
             rp->project_url.c_str(),
             rp->name.c_str(),
-            MODE_WINDOW,
+            MODE_FULLSCREEN,
             di
         );
     }

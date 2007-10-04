@@ -9119,3 +9119,10 @@ Frank Thomas    4 Oct 2007
         Makefile.am
     lib/
         Makefile.am
+
+Charlie 3 Oct 2007
+    - Win SCR: fix bug in compatibility code for V5 applications: use 
+        MODE_FULLSCREEN, not MODE_WINDOW.
+
+    clientscr/
+        screensaver.cpp
