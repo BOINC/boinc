@@ -9133,6 +9133,7 @@ David  4 Oct 2007
         "computer" instead of "host";
         "scheduler request" instead of "scheduler RPC"
         "access to Internet" instead of "access to reference web site"
+        Fixes #428
 
     client/
         cs_prefs.C
