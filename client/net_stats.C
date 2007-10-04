@@ -221,7 +221,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
         msg_printf(0, MSG_USER_ERROR,
-            "Access to reference web site failed - check network connection or proxy configuration."
+            "BOINC can't access Internet - check network connection or proxy configuration."
         );
     } else {
         error_num = ERR_IN_PROGRESS;
@@ -241,12 +241,12 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
         msg_printf(0, MSG_USER_ERROR,
-            "Access to reference site failed - check network connection or proxy configuration."
+            "BOINC can't access Internet - check network connection or proxy configuration."
         );
     } else {
         if (net_status.show_ref_message) {
             msg_printf(0, MSG_INFO,
-                "Access to reference site succeeded - project servers may be temporarily down."
+                "Internet access OK - project servers may be temporarily down."
             );
         }
     }

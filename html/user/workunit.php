@@ -11,7 +11,7 @@ if (!$wu) {
     error_page("can't find workunit");
 }
 
-page_head("Workunit");
+page_head("Workunit details");
 $app = lookup_app($wu->appid);
 
 start_table();
@@ -24,7 +24,7 @@ if ($wu->canonical_resultid) {
 }
 row2("minimum quorum", $wu->min_quorum);
 row2("initial replication", $wu->target_nresults);
-row2("max # of error/total/success results",
+row2("max # of error/total/success tasks",
     "$wu->max_error_results, $wu->max_total_results, $wu->max_success_results"
 );
 if ($wu->error_mask) {

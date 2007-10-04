@@ -447,7 +447,7 @@ int handle_get_file_size(char* file_name) {
     // to prevent the client from starting a transfer
     //
     if (volume_full(config.upload_dir)) {
-        return return_error(ERR_TRANSIENT, "Server is out of space");
+        return return_error(ERR_TRANSIENT, "Server is out of disk space");
     }
 
     fd = open(path, O_WRONLY|O_APPEND);

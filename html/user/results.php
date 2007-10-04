@@ -30,7 +30,7 @@ if ($hostid) {
     $type = "user";
     $clause = "userid=$userid";
 }
-page_head("Results for $type");
+page_head("Tasks for $type");
 result_table_start(true, false, true);
 $i = 0;
 $query = "select * from result where $clause order by id desc limit $offset,".($results_per_page+1);

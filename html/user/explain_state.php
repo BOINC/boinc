@@ -10,26 +10,26 @@ case "result_server_state":
     page_head("Server states");
     echo "
         <p>
-        A result's <b>server state</b> keeps track of
-        whether the result has been sent to a host,
-        and if so whether the host has finished it.
+        A tasks's <b>server state</b> indicates
+        whether the task has been sent to a computer,
+        and if so whether the computer has finished it.
         Possible values are:
         <p>
     ";
     start_table();
     row2_plain("<b>Inactive</b>",
-        "The result is not ready to send
-       (for example, because its input files are unavailable)"
+        "The task is not ready to send
+        (for example, because its input files are unavailable)"
     );
     row2_plain("<b>Unsent</b>",
-        "The result is ready to send, but hasn't been sent yet."
+        "The task is ready to send, but hasn't been sent yet."
     );
     row2_plain("<b>In Progress</b>",
-        "The result has been sent; waiting for completion."
+        "The task has been sent; waiting for completion."
     );
     row2_plain("<b>Over</b>",
-        "The result has been sent to a host and either
-       it has timed out or the host has reported its completion."
+        "The task has been sent to a computer and either
+        it has timed out or the computer has reported its completion."
     );
     break;
 
@@ -37,36 +37,35 @@ case "result_outcome":
     page_head("Outcomes");
     echo "
         <p>
-        A result's <b>outcome</b> is defined if
-        its server state is <b>over</b>.
+        A tasks's <b>outcome</b> is defined if its server state is <b>over</b>.
         Possible values are:
         <p>
     ";
     start_table();
     row2_plain("<b>Unknown</b>",
-        "The result was sent to a client, but the client has not
+        "The task was sent to a computer, but the computer has not
         yet completed the work and reported the outcome."
     );
     row2_plain("<b>Success</b>",
-        "A client completed the result successfully."
+        "A computer completed and reported the task successfully."
     );
     row2_plain("<b>Couldn't send</b>",
-        "The server wasn't able to send the result to a client
+        "The server wasn't able to send the task to a computer
         (perhaps because its resource requirements were too large)"
     );
     row2_plain("<b>Client error</b>",
-        "The result was sent to a client and an error occurred."
+        "The task was sent to a computer and an error occurred."
     );
     row2_plain("<b>No reply</b>",
-        "The result was sent to a client
+        "The task was sent to a computer
         and no reply was received within the time limit."
     );
     row2_plain("<b>Didn't need</b>",
-        "The result wasn't sent to a client because
-        enough other results were returned for this work unit."
+        "The task wasn't sent to a computer because
+        enough other tasks were completed for this workunit."
     );
     row2_plain("<b>Validate error</b>",
-        "The result was reported but could not be validated,
+        "The task was reported but could not be validated,
         typically because the output files were lost on the server."
     );
     break;
@@ -74,27 +73,24 @@ case "result_outcome":
 case "result_client_state":
     page_head("Client states");
     echo "<p>A result's <b>client state</b>
-        indicates the stage of processing at which
-        an error occurred.
+        indicates the stage of processing at which an error occurred.
         <p>
     ";
     start_table();
     row2_plain("<b>New</b>",
-        "The client has not yet completed the work.  Since the
-        processing is not over, the the final client state at
-        outcome is not yet known."
+        "The computer has not yet completed the task."
     );
     row2_plain("<b>Done</b>",
-        "No error occurred."
+        "The computer completed the task successfully."
     );
     row2_plain("<b>Downloading</b>",
-        "The client couldn't download the application or input files."
+        "The computer couldn't download the application or input files."
     );
     row2_plain("<b>Computing</b>",
         "An error occurred during computation."
     );
     row2_plain("<b>Uploading</b>",
-        "The client couldn't upload the output files."
+        "The computer couldn't upload the output files."
     );
     break;
 
@@ -102,8 +98,8 @@ case "result_time":
     page_head("Time reported and deadline");
     echo "
         <p>
-        A result's <b>Time reported or deadline</b> field depends
-        on whether the result has been reported yet:
+        A task's <b>Time reported or deadline</b> field depends
+        on whether the task has been reported yet:
         <p>
     ";
     start_table();

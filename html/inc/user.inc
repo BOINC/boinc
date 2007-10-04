@@ -146,7 +146,7 @@ function show_user_stats_private($user) {
     row2("Computers on this account",
         "<a href=hosts_user.php>View</a>"
     );
-    row2("Results", "<a href=results.php?userid=$user->id>View</a>");
+    row2("Tasks", "<a href=results.php?userid=$user->id>View</a>");
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $x = "";
     shuffle($cpid_stats_sites);

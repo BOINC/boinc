@@ -395,11 +395,11 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (log_flags.sched_ops) {
         if (sr.scheduler_version) {
             msg_printf(project, MSG_INFO,
-                "Scheduler RPC succeeded [server version %d]",
+                "Scheduler request succeeded [server version %d]",
                 sr.scheduler_version
             );
         } else {
-            msg_printf(project, MSG_INFO, "Scheduler RPC succeeded");
+            msg_printf(project, MSG_INFO, "Scheduler request succeeded");
         }
     }
 
@@ -515,7 +515,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (strcmp(project->host_venue, sr.host_venue)) {
         safe_strcpy(project->host_venue, sr.host_venue);
-        msg_printf(project, MSG_INFO, "New host venue: %s", sr.host_venue);
+        msg_printf(project, MSG_INFO, "New computer location: %s", sr.host_venue);
         update_project_prefs = true;
         if (project == global_prefs_source_project()) {
             strcpy(main_host_venue, sr.host_venue);

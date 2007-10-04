@@ -263,7 +263,7 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
         );
     }
     if (strlen(main_host_venue)) {
-		msg_printf(NULL, MSG_INFO, "Host location: %s", main_host_venue);
+		msg_printf(NULL, MSG_INFO, "Computer location: %s", main_host_venue);
         if (found_venue) {
             msg_printf(NULL, MSG_INFO,
                 "General prefs: using separate prefs for %s", main_host_venue

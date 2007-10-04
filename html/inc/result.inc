@@ -85,7 +85,7 @@ function validate_state_str($result) {
 	    } else return "Not necessary";
     case 3: return "Workunit error - check skipped";
     case 4: return "Checked, but no consensus yet";
-    case 5: return "Result was reported too late to validate";
+    case 5: return "Task was reported too late to validate";
     }
     return "Unknown";
 }
@@ -128,7 +128,7 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
         <tr>
     ";
     if ($show_result_link) {
-        echo "<th>Result ID<br><span class=\"smalltext\">click for details</span></th>\n";
+        echo "<th>Task ID<br><span class=\"smalltext\">click for details</span></th>\n";
     }
     if ($show_wu_link) {
         echo "<th>Work unit ID<br><span class=\"smalltext\">click for details</span></th>\n";
@@ -244,7 +244,7 @@ function exit_status_string($result) {
 
 function show_result($result) {
     start_table();
-    row2("Result ID", $result->id);
+    row2("Task ID", $result->id);
     row2("Name", $result->name);
     row2("Workunit", "<a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a>");
     row2("Created", time_str($result->create_time));

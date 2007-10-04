@@ -573,7 +573,8 @@ int GLOBAL_PREFS::parse_override(
         if (xp.parse_bool(tag, "host_specific", host_specific)) {
             continue;
         }
-        xp.skip_unexpected(tag, true, "GLOBAL_PREFS::parse_override");
+        // false means don't print anything
+        xp.skip_unexpected(tag, false, "GLOBAL_PREFS::parse_override");
     }
     return ERR_XML_PARSE;
 }

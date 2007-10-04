@@ -9126,3 +9126,29 @@ Charlie 3 Oct 2007
 
     clientscr/
         screensaver.cpp
+
+David  4 Oct 2007
+    - Terminology in user web and client:
+        "task" instead of "result";
+        "computer" instead of "host";
+        "scheduler request" instead of "scheduler RPC"
+        "access to Internet" instead of "access to reference web site"
+
+    client/
+        cs_prefs.C
+        cs_scheduler.C
+        net_stats.C
+    html/
+        inc/
+            host.inc
+            result.inc
+            user.inc
+        user/
+            explain_state.php
+            result.php
+            results.php
+            workunit.php
+    lib/
+        prefs.C
+    sched/
+        file_upload_handler.C

@@ -123,7 +123,7 @@ function show_host($host, $private, $ipprivate, $user) {
         } else {
             $results = "0";
         }
-        row2("Results", $results);
+        row2("Tasks", $results);
     }
 
     if ($private) {

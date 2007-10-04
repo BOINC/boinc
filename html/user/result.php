@@ -10,9 +10,9 @@ db_init();
 $resultid = get_int("resultid");
 $result = lookup_result($resultid);
 if (!$result) {
-    error_page("No such result");
+    error_page("No such task");
 }
-page_head("Result");
+page_head("Task details");
 show_result($result);
 page_tail();
 
