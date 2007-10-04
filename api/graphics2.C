@@ -4,7 +4,7 @@
 #include "boinc_api.h"
 #include "graphics2.h"
 
-double boinc_max_fps;
+double boinc_max_fps = 30.;
 double boinc_max_gfx_cpu_frac;
 
 bool throttled_app_render(int x, int y, double t) {
