@@ -9173,6 +9173,23 @@ Charlie 4 Oct 2007
 Charlie 5 Oct 2007
     - CC: Fix crash bug: set app_client_shm.shm = NULL after calling 
         detach_shmem_mmap.
+    - V6 SCR: Merge code for Mac and Windows screensavers; use common 
+        class, variable names and constants for Mac adapted from Windows 
+        implementation; put central logic in screensaver.cpp as shared 
+        function CScreensaver::DataManagementProc().  This adds full 
+        functionality to Windows screensaver, including switching graphics 
+        applications periodically, blanking, killing graphics app when the 
+        associated worker app has exited, full compatibility with graphics 
+        in V5 applications, etc.  I have tested this fairly thoroughly on 
+        both Mac and Windows XP.
         
     client/
         app.C
+    clientscr/
+        mac_saver_module.cpp
+        mac_saver_module.h (added)
+        screensaver.cpp,h
+        screensaver_win.cpp.h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
