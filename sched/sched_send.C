@@ -725,7 +725,6 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
         }
     }
 
-    fprintf(stderr, "mwip %d nroh %d\n", config.max_wus_in_progress, wreq.nresults_on_host);
     if (config.max_wus_in_progress) {
         if (wreq.nresults_on_host >= config.max_wus_in_progress) {
             log_messages.printf(

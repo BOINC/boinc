@@ -9240,3 +9240,15 @@ David  5 Oct 2007
     client/
         client_state.C
         cs_cmdline.C
+
+David  5 Oct 2007
+    - feeder/scheduler: fix bug where APP.homogeneous_redundancy
+        is defined as a bool instead of int
+        (see its only nonzero value is 1, so the "coarse" HR type is ignored).
+
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C
+        hr_info.C
+        sched_send.C

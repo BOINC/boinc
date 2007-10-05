@@ -109,7 +109,10 @@ void HR_INFO::allocate(int total_slots) {
         int nuncom = slots_per_type[i]/2;
         int ncom = slots_per_type[i] - nuncom;
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-            "nu %d nc %d spt %d\n", nuncom, ncom, slots_per_type[i]
+            "type %d: %d total slots\n", i, slots_per_type[i]
+        );
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "type %d uncommitted: allocating %d slots\n", i, nuncom
         );
 
         double total_rac = 0;

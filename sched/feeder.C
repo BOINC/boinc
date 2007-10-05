@@ -499,6 +499,7 @@ void hr_init() {
         if (hrt != hr_type0) apps_differ = true;
     }
     if (config.homogeneous_redundancy) {
+        fprintf(stderr, "config HR is %d\n", config.homogeneous_redundancy);
         hrt = config.homogeneous_redundancy;
         if (hrt < 0 || hrt >= HR_NTYPES) {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
@@ -516,6 +517,7 @@ void hr_init() {
             ssp->apps[i].homogeneous_redundancy = config.homogeneous_redundancy;
             ssp->apps[i].weight = 1;
         }
+
     } else {
         if (some_app_uses_hr) {
             if (apps_differ && !all_apps) {
@@ -549,6 +551,7 @@ void hr_init() {
     // compute the slot allocations for HR classes
     //
     hr_info.allocate(ssp->max_wu_results);
+    hr_info.show(stderr);
 }
 
 // write a summary of feeder state to stderr

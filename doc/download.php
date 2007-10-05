@@ -124,10 +124,10 @@ function show_download($pname) {
     ";
     if ($pname) {
         //echo " | <a href=download.php?all_platforms=1><nobr>".tr(DL_OTHERSYS)."</nobr></a>
-        echo " | <a href=download_all.php></nobr>".tr(DL_ALLVERSIONS)."</nobr></a>
+        echo " | <a href=download_all.php><nobr>".tr(DL_ALLVERSIONS)."</nobr></a>
         ";
     } else {
-        echo " | <a href=download_all.php></nobr>".tr(DL_ALLVERSIONS)."</nobr></a>
+        echo " | <a href=download_all.php><nobr>".tr(DL_ALLVERSIONS)."</nobr></a>
         <p>"
         .tr(DL_IF_OTHERTYPES)."
         <ul>

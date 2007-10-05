@@ -66,7 +66,7 @@ struct APP {
     int min_version;        // don't use app versions before this
     bool deprecated;
     char user_friendly_name[256];
-    bool homogeneous_redundancy;
+    int homogeneous_redundancy;
     double weight;          // tells the feeder what fraction of results
                             // should come from this app
     bool beta;
