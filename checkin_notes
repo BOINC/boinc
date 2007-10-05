@@ -9164,8 +9164,15 @@ David  4 Oct 2007
         sched_locality.C
         sched_send.C,h
 
-Charlie 3 Oct 2007
+Charlie 4 Oct 2007
     - API V6 GFX: Initialize boinc_max_fps = 30.
 
     api/
         graphics2.C
+
+Charlie 5 Oct 2007
+    - CC: Fix crash bug: set app_client_shm.shm = NULL after calling 
+        detach_shmem_mmap.
+        
+    client/
+        app.C
