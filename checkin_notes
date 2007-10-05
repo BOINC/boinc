@@ -9189,7 +9189,7 @@ Charlie 5 Oct 2007
         mac_saver_module.cpp
         mac_saver_module.h (added)
         screensaver.cpp,h
-        screensaver_win.cpp.h
+        screensaver_win.cpp,h
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
