@@ -120,8 +120,6 @@ CLIENT_STATE::CLIENT_STATE():
     detach_console = false;
 #ifdef SANDBOX
     g_use_sandbox = true; // User can override with -insecure command-line arg
-#else
-    g_use_sandbox = false;
 #endif
     launched_by_manager = false;
     initialized = false;

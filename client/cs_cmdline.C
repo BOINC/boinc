@@ -191,8 +191,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             }
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
+#ifdef SANDBOX
         } else if (ARG(insecure)) {
             g_use_sandbox = false;
+#endif
         } else if (ARG(launched_by_manager)) {
             launched_by_manager = true;
         } else if (ARG(run_by_updater)) {

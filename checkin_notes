@@ -8733,16 +8733,16 @@ David  25 Sept 2007
         gui_rpc_client_ops.C
 
 David  25 Sept 2007
-	- compile fixes for Win
+    - compile fixes for Win
 
-	client/
-		sim_util.C
-	clientgui/
-		BOINCGUIApp.cpp
-	clientscr/
-		screensaver_win.cpp
-	win_build/
-		boinc_cli_curl.vcproj
+    client/
+        sim_util.C
+    clientgui/
+        BOINCGUIApp.cpp
+    clientscr/
+        screensaver_win.cpp
+    win_build/
+        boinc_cli_curl.vcproj
 
 David  25 Sept 2007
     - update_versions_v6 doesn't set min_core_version
@@ -8815,24 +8815,24 @@ David  26 Sept 2007
 
 
 David  26 Sept 2007
-	- API: debug the code for handling V5 graphics messages
-		in a V6 app (and launching/killing the graphics app)
-	- API: start timer thread even if in standalone mode
-		(needed to get timer callbacks for V6 graphics)
-	- API: remove BOINCSetForegroundWindow stuff
-	- API: call DestroyWindow instead of boinc_exit() in WM_CLOSE.
-		boinc_exit() is the wrong thing to call - e.g. it tries to delete
-		the lock file, resulting in a 5-sec delay on exit
+    - API: debug the code for handling V5 graphics messages
+        in a V6 app (and launching/killing the graphics app)
+    - API: start timer thread even if in standalone mode
+        (needed to get timer callbacks for V6 graphics)
+    - API: remove BOINCSetForegroundWindow stuff
+    - API: call DestroyWindow instead of boinc_exit() in WM_CLOSE.
+        boinc_exit() is the wrong thing to call - e.g. it tries to delete
+        the lock file, resulting in a 5-sec delay on exit
 
-	api/
-		boinc_api.C
-		graphics2_util.C
-		graphics2_win.C
-	clientscr/
-		screensaver_win.cpp
-	lib/
-		shmem.h
-		util.C
+    api/
+        boinc_api.C
+        graphics2_util.C
+        graphics2_win.C
+    clientscr/
+        screensaver_win.cpp
+    lib/
+        shmem.h
+        util.C
 
 Charlie 27 Sep 2007
     - API: fix 2 bugs in new compatibility code for handling V5 graphics 
@@ -9007,16 +9007,16 @@ David  2 Oct 2007
         team_search.php
 
 David  2 Oct 2007
-	- client: fix bug where failure to get project list would result
-		in an empty project list file.
-	- client: if failed to get project list file, retry in an hour, not immediately
+    - client: fix bug where failure to get project list would result
+        in an empty project list file.
+    - client: if failed to get project list file, retry in an hour, not immediately
 
-	client/
-		acct_setup.C
-		file_names.h
-		gui_http.h
-	lib/
-		util.C
+    client/
+        acct_setup.C
+        file_names.h
+        gui_http.h
+    lib/
+        util.C
 
 Kevin 2 Oct 2007
     - Screen Saver (merge from 5.10):  Add additional information about the work 
@@ -9103,9 +9103,9 @@ Eric K  3 Oct 2007
     configure.ac
     lib/
         mac/
-	    QSymbols.c
-	    QCrashReport.[ch]
-	    QMachOImage.[ch]
+        QSymbols.c
+        QCrashReport.[ch]
+        QMachOImage.[ch]
 
 Frank Thomas    4 Oct 2007
     - Added clean-local target to lib/Makefile.am to remove lib/boinccmd and
@@ -9233,3 +9233,10 @@ David  5 Oct 2007
         filesys.C,h
         str_util.C
         util.C,h
+
+David  5 Oct 2007
+    - win compile fixes
+
+    client/
+        client_state.C
+        cs_cmdline.C
