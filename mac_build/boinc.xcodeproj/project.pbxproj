@@ -1143,6 +1143,7 @@
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
+		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.C; path = ../lib/mac/mac_backtrace.C; sourceTree = SOURCE_ROOT; };
 		DDA6BD050BD4551F008F7921 /* mac_backtrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mac_backtrace.h; path = ../lib/mac/mac_backtrace.h; sourceTree = SOURCE_ROOT; };
@@ -1704,8 +1705,9 @@
 			isa = PBXGroup;
 			children = (
 				DDB873960C85072500E0DE1F /* mac_saver_module.cpp */,
-				DDB873970C85072500E0DE1F /* Mac_Saver_ModuleView.h */,
+				DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */,
 				DDB873980C85072500E0DE1F /* Mac_Saver_ModuleView.m */,
+				DDB873970C85072500E0DE1F /* Mac_Saver_ModuleView.h */,
 				DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */,
 				DD7AEB680C87CE6500AC3B5C /* screensaver.h */,
 				DDFA60E30CB3396C0037B88C /* gfx_switcher.C */,

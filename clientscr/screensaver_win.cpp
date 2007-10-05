@@ -27,9 +27,9 @@
 #include <windowsx.h>
 #include <mmsystem.h>
 #include <regstr.h>
-#define COMPILE_MULTIMON_STUBS
-#include <multimon.h>
 #include <strsafe.h>
+#include <mmsystem.h>
+#define COMPILE_MULTIMON_STUBS
 
 #include "boinc_ss.h"
 #include "diagnostics.h"
@@ -185,10 +185,11 @@ CScreensaver::CScreensaver() {
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
 
+	rpc = 0;
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
-    m_bScreensaverStarted = FALSE;
     m_bResetCoreState = TRUE;
+	m_QuitDataManagementProc = FALSE;
     m_bBOINCConfigChecked = FALSE;
     m_bBOINCStartupConfigured = FALSE;
     memset(&m_running_result, 0, sizeof(m_running_result));
@@ -197,6 +198,7 @@ CScreensaver::CScreensaver() {
     m_dwNumMonitors = 0;
 
     m_dwLastInputTimeAtStartup = 0;
+    m_tThreadCreateTime = 0;
 }
 
 
@@ -261,7 +263,9 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
         return E_FAIL;
     }
 
-    // Create the screen saver window(s)
+	if (rpc == NULL) rpc = new RPC_CLIENT;
+
+			// Create the screen saver window(s)
     if (m_SaverMode == sm_preview || 
         m_SaverMode == sm_full
     ) {
@@ -862,9 +866,7 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
 // Update the error message
 //
 VOID CScreensaver::UpdateErrorBoxText() {
-    RESULTS  results;
     PROJECT* pProject;
-    TCHAR    szBuffer[256];
     bool     bIsActive       = false;
     bool     bIsExecuting    = false;
     bool     bIsDownloaded   = false;
@@ -872,9 +874,9 @@ VOID CScreensaver::UpdateErrorBoxText() {
     size_t   iIndex          = 0;
 
 
-    // Load error string
-    GetTextForError(m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR));
     if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
+        if (m_updating_results) return;     // results vector is currently being updated by rpc
+        
         iResultCount = results.results.size();
 		int iModIndex;
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
@@ -911,6 +913,9 @@ VOID CScreensaver::UpdateErrorBoxText() {
             }
         }
         m_szError[ sizeof(m_szError) -1 ] = '\0';
+    } else {
+        // Load error string
+        GetTextForError(m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR));
     }
     BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Updated Text '%s'\n"), m_szError);
 }
@@ -974,6 +979,8 @@ BOOL CScreensaver::GetTextForError(
 //
 BOOL CScreensaver::CreateDataManagementThread() {
     DWORD dwThreadID = 0;
+    BOINCTRACE(_T("CScreensaver::CreateDataManagementThread Start\n"));
+	m_QuitDataManagementProc = FALSE;
     m_hDataManagementThread = CreateThread(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
@@ -995,208 +1002,20 @@ BOOL CScreensaver::CreateDataManagementThread() {
 // Terminate the thread that is used to talk to the daemon.
 //
 BOOL CScreensaver::DestoryDataManagementThread() {
-    if (!TerminateThread(m_hDataManagementThread, 0)) {
-    	BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Failed to terminate data management thread '%d'\n"), GetLastError());
-        return FALSE;
+    m_QuitDataManagementProc = TRUE;  // Tell RPC Thread to exit
+    
+    // Wait up to 5 seconds for DataManagementThread to exit
+    for (int i=0; i< 20; i++) {
+        DWORD dwStatus = STILL_ACTIVE;
+        BOOL  bRetVal = FALSE;
+        
+        bRetVal = GetExitCodeThread(m_hDataManagementThread, &dwStatus);
+        BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread - GetExitCodeThread RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
+        if (bRetVal && (dwStatus != STILL_ACTIVE)) {
+            break;
+        }
     }
     return TRUE;
-}
-
-
-
-
-// Do what needs to be done to update the text that is displayed
-//   to the user
-//
-DWORD WINAPI CScreensaver::DataManagementProc() {
-    BOOL    bForegroundWindowIsScreensaver;
-    HWND    hwndBOINCGraphicsWindow = NULL;
-    HWND    hwndForeWindow = NULL;
-    HWND    hwndForeParent = NULL;
-    DWORD   iMonitor = 0;
-    int     iReturnValue = 0;
-    int     iSuspendReason = 0;
-    time_t  tThreadCreateTime = 0;
-    bool    bScreenSaverStarting = false;
-    INTERNALMONITORINFO* pMonitorInfo = NULL;
-
-
-    BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
-    SetError(TRUE, SCRAPPERR_BOINCSCREENSAVERLOADING);
-    tThreadCreateTime = time(0);
-
-	// Set the starting point for iterating through the results
-	m_iLastResultShown = 0;
-	m_tLastResultChangeTime = 0;
-
-    while(1) {
-        bScreenSaverStarting = (3 >= (time(0) - tThreadCreateTime));
-
-        BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
-
-
-        // Lets try and get the current state of the CC
-        if (m_bResetCoreState) {
-            iReturnValue = rpc.get_state(state);
-            if (0 == iReturnValue) {
-                m_bResetCoreState = FALSE;
-            }
-
-            BOINCTRACE(_T("CScreensaver::DataManagementProc - get_state iReturnValue = '%d'\n"), iReturnValue);
-        }
-
-
-        iReturnValue = rpc.get_screensaver_tasks(iSuspendReason, results);
-        BOINCTRACE(_T("CScreensaver::DataManagementProc - get_screensaver_tasks iReturnValue = '%d'\n"), iReturnValue);
-        if (0 != iReturnValue) {
-            // Attempt to reinitialize the RPC client and state
-            rpc.close();
-            rpc.init(NULL);
-            m_bResetCoreState = TRUE;
-
-            if (!m_bBOINCConfigChecked) {
-                m_bBOINCConfigChecked = TRUE;
-                m_bBOINCStartupConfigured = IsConfigStartupBOINC();
-            }
-
-            if (!bScreenSaverStarting) {
-		        if (m_bBOINCStartupConfigured) {
-                    SetError(TRUE, SCRAPPERR_BOINCNOTDETECTED);
-                } else {
-                    SetError(TRUE, SCRAPPERR_BOINCNOTDETECTEDSTARTUP);
-                }
-            }
-
-        } else {
-
-            // Reset the error state.
-            SetError(FALSE, 0);
-
-            // Start the screensaver if it hasn't been started already.
-            if (!m_bScreensaverStarted) {
-
-                // Choose a random graphics application to start.
-                RESULT* rp = get_random_graphics_app(results);
-
-                if (rp) {
-                    int retval = launch_screensaver(rp, m_hGraphicsApplication, &rpc);
-                    BOINCTRACE(_T("CScreensaver::DataManagementProc - launch_screensaver RetVal = '%d', m_hGraphicsApplication = '%d'\n"), retval, m_hGraphicsApplication);
-                    if (!retval) {
-                        m_bScreensaverStarted = TRUE;
-                        m_running_result = *rp;
-                    }
-                } else {
-                    if (state.projects.size() == 0) {
-                        // We are not attached to any projects
-                        SetError(TRUE, SCRAPPERR_BOINCNOPROJECTSDETECTED);
-                    } else if (results.results.size() == 0) {
-                        // We currently do not have any applications to run
-                        SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
-                    } else {
-                        // We currently do not have any graphics capable application
-                        SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
-                    }
-                }
-            } else {
-                // Is the graphics app still running?
-                DWORD dwStatus = STILL_ACTIVE;
-                BOOL  bRetVal = FALSE;
-                bRetVal = GetExitCodeProcess(m_hGraphicsApplication, &dwStatus);
-                BOINCTRACE(_T("CScreensaver::DataManagementProc - GetExitCodeProcess RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
-                if (bRetVal && (dwStatus != STILL_ACTIVE)) {
-                    // Something has happened to the previously selected screensaver
-                    //   application. Start a different one.
-                    m_bScreensaverStarted = FALSE;
-                } else {
-                    // When running in screensaver mode the only two valid conditions for z-order
-                    //   is that either the screensaver or graphics application is the foreground
-                    //   application.  If this is not true, then blow out of the screensaver.
-                    hwndBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
-                    if (hwndBOINCGraphicsWindow) {
-                        // Graphics Application.
-                        hwndForeWindow = GetForegroundWindow();
-                        // If the graphics application is not the top most window try and force it
-                        //   to the top.
-                        if (hwndForeWindow != hwndBOINCGraphicsWindow) {
-                            BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
-                            SetForegroundWindow(hwndBOINCGraphicsWindow);
-                            hwndForeWindow = GetForegroundWindow();
-                            if (hwndForeWindow != hwndBOINCGraphicsWindow) {
-                                BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
-
-                                // This may be needed on Windows 2000 or better machines
-                                if (gspfnMyBroadcastSystemMessage) {
-                                    DWORD dwComponents = BSM_APPLICATIONS;
-                                    gspfnMyBroadcastSystemMessage(
-                                        BSF_ALLOWSFW, 
-                                        &dwComponents,
-                                        WM_BOINCSFW,
-                                        NULL,
-                                        NULL
-                                    );
-                                }
-                            }
-                        } else {
-                            // Science application has focus, and is visible.
-                            //
-                            // Some science application take a really long time to display something on their
-                            // window, during this time the window will appear to eat keyboard and mouse event
-                            // messages and not respond to other system events.  These windows are considered
-                            // ghost windows, normally they have an outline and can be moved around and resized.
-                            // In the science application case where the borders are hidden from view, the
-                            // window just takes on the background of the previous window which happens to be
-                            // the black screensaver window owned by this process.
-                            //
-                            // Verify that their hasn't been any keyboard or mouse activity.  If there has
-                            // we should hide the window from this process and exit out of the screensaver to
-                            // return control back to the user as quickly as possible.
-                            BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected and is the foreground window.\n"));
-                            if (gspfnMyGetLastInputInfo) {
-                                BOINCTRACE(_T("CScreensaver::DataManagementProc - Checking idle actvity.\n"));
-                                LASTINPUTINFO lii;
-                                lii.cbSize = sizeof(LASTINPUTINFO);
-
-                                gspfnMyGetLastInputInfo(&lii);
-
-                                if (m_dwLastInputTimeAtStartup != lii.dwTime) {
-                                    BOINCTRACE(_T("CScreensaver::DataManagementProc - Activity Detected.\n"));
-                                    ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
-                                    ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
-                                    SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                                    SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
-                                }
-                            }
-                        }
-                    } else {
-                        // Graphics application does not exist. So check that one of the windows
-                        //   assigned to each monitor is the foreground window.
-                        bForegroundWindowIsScreensaver = FALSE;
-                        hwndForeWindow = GetForegroundWindow();
-                        hwndForeParent = GetParent(hwndForeWindow);
-                        for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
-                            pMonitorInfo = &m_Monitors[iMonitor];
-                            if ((pMonitorInfo->hWnd == hwndForeWindow) ||
-                                (pMonitorInfo->hWnd == hwndForeParent))
-                            {
-                                bForegroundWindowIsScreensaver = TRUE;
-                            }
-                        }
-                        if (!bForegroundWindowIsScreensaver) {
-                            // This can happen because of a personal firewall notifications or some
-                            //   funky IM client that thinks it has to notify the user even when in
-                            //   screensaver mode.
-                            BOINCTRACE(_T("CScreensaver::DataManagementProc - Unknown foreground window detected, shutdown the screensaver.\n"));
-                            SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                            SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
-                        }
-                    }
-                }
-            }
-        }
-
-        BOINCTRACE(_T("CScreensaver::SaverProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
-        Sleep(1000);
-    }
 }
 
 
@@ -1209,6 +1028,126 @@ DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
     return gspScreensaver->DataManagementProc();
 }
 
+
+
+
+void CScreensaver::HandleRPCError()
+{
+    // Attempt to reinitialize the RPC client and state
+    rpc->close();
+    rpc->init(NULL);
+    m_bResetCoreState = TRUE;
+
+    if (!m_bBOINCConfigChecked) {
+        m_bBOINCConfigChecked = TRUE;
+        m_bBOINCStartupConfigured = IsConfigStartupBOINC();
+    }
+
+    if ((time(0) - m_tThreadCreateTime) > 3) {
+                if (m_bBOINCStartupConfigured) {
+            SetError(TRUE, SCRAPPERR_BOINCNOTDETECTED);
+        } else {
+            SetError(TRUE, SCRAPPERR_BOINCNOTDETECTEDSTARTUP);
+        }
+    }
+
+}
+
+
+
+
+void CScreensaver::CheckForegroundWindow()
+{
+    BOOL    bForegroundWindowIsScreensaver;
+    HWND    hwndBOINCGraphicsWindow = NULL;
+    HWND    hwndForeWindow = NULL;
+    HWND    hwndForeParent = NULL;
+    DWORD   iMonitor = 0;
+    INTERNALMONITORINFO* pMonitorInfo = NULL;
+
+    // When running in screensaver mode the only two valid conditions for z-order
+    //   is that either the screensaver or graphics application is the foreground
+    //   application.  If this is not true, then blow out of the screensaver.
+    hwndBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
+    if (hwndBOINCGraphicsWindow) {
+        // Graphics Application.
+        hwndForeWindow = GetForegroundWindow();
+        // If the graphics application is not the top most window try and force it
+        //   to the top.
+        if (hwndForeWindow != hwndBOINCGraphicsWindow) {
+            BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
+            SetForegroundWindow(hwndBOINCGraphicsWindow);
+            hwndForeWindow = GetForegroundWindow();
+            if (hwndForeWindow != hwndBOINCGraphicsWindow) {
+                BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
+
+                // This may be needed on Windows 2000 or better machines
+                if (gspfnMyBroadcastSystemMessage) {
+                    DWORD dwComponents = BSM_APPLICATIONS;
+                    gspfnMyBroadcastSystemMessage(
+                        BSF_ALLOWSFW, 
+                        &dwComponents,
+                        WM_BOINCSFW,
+                        NULL,
+                        NULL
+                    );
+                }
+            }
+        } else {
+            // Science application has focus, and is visible.
+            //
+            // Some science application take a really long time to display something on their
+            // window, during this time the window will appear to eat keyboard and mouse event
+            // messages and not respond to other system events.  These windows are considered
+            // ghost windows, normally they have an outline and can be moved around and resized.
+            // In the science application case where the borders are hidden from view, the
+            // window just takes on the background of the previous window which happens to be
+            // the black screensaver window owned by this process.
+            //
+            // Verify that their hasn't been any keyboard or mouse activity.  If there has
+            // we should hide the window from this process and exit out of the screensaver to
+            // return control back to the user as quickly as possible.
+            BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Graphics Window Detected and is the foreground window.\n"));
+            if (gspfnMyGetLastInputInfo) {
+                BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Checking idle actvity.\n"));
+                LASTINPUTINFO lii;
+                lii.cbSize = sizeof(LASTINPUTINFO);
+
+                gspfnMyGetLastInputInfo(&lii);
+
+                if (m_dwLastInputTimeAtStartup != lii.dwTime) {
+                    BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Activity Detected.\n"));
+                    ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
+                    ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
+                    SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+                    SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+                }
+            }
+        }
+    } else {
+        // Graphics application does not exist. So check that one of the windows
+        //   assigned to each monitor is the foreground window.
+        bForegroundWindowIsScreensaver = FALSE;
+        hwndForeWindow = GetForegroundWindow();
+        hwndForeParent = GetParent(hwndForeWindow);
+        for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
+            pMonitorInfo = &m_Monitors[iMonitor];
+            if ((pMonitorInfo->hWnd == hwndForeWindow) ||
+                (pMonitorInfo->hWnd == hwndForeParent))
+            {
+                bForegroundWindowIsScreensaver = TRUE;
+            }
+        }
+        if (!bForegroundWindowIsScreensaver) {
+            // This can happen because of a personal firewall notifications or some
+            //   funky IM client that thinks it has to notify the user even when in
+            //   screensaver mode.
+            BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Unknown foreground window detected, shutdown the screensaver.\n"));
+            SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+            SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+        }
+    }
+}
 
 
 
@@ -1582,7 +1521,7 @@ VOID CScreensaver::ShutdownSaver() {
     }
 
     // Kill the currently executing graphics application
-    terminate_screensaver(m_hGraphicsApplication, &m_running_result, &rpc);
+    terminate_screensaver(m_hGraphicsApplication, &m_running_result);
 
     // Post message to drop out of message loop
     // This can be called from the data management thread, so specifically

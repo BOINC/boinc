@@ -38,33 +38,13 @@
 #include "gui_rpc_client.h"
 #include "common_defs.h"
 #include "util.h"
+#include "Mac_Saver_Module.h"
 #include "screensaver.h"
-
+ 
 //#include <drivers/event_status_driver.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-void setFrame(Rect *frame);
-int initBOINCSaver(Boolean ispreview);
-OSStatus initBOINCApp(void);
-int drawGraphics(GrafPtr aPort);
-void drawPreview(GrafPtr aPort);
-void closeBOINCSaver(void);
-void setBannerText(const char *msg, GrafPtr aPort);
-void updateBannerText(char *msg, GrafPtr aPort);
-void drawBanner(GrafPtr aPort);
-int GetBrandID(void);
-void FlashIcon(void);
-OSErr FindBOINCApplication(FSSpecPtr applicationFSSpecPtr);
-pid_t FindProcessPID(char* name, pid_t thePID);
-OSErr GetpathToBOINCManagerApp(char* path, int maxLen);
-OSStatus RPCThread(void* param);
-void HandleRPCError(void);
-OSErr KillScreenSaver(void);
-int Mac_launch_screensaver(RESULT* rp, int& graphics_application);
-int Mac_terminate_screensaver(int& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc);
-
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -102,7 +82,6 @@ void strip_cr(char *buf);
 #define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
 #define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
-#define GFX_CHANGE_PERIOD 600 /* if > 1 CPUs, change screensaver every 600 secs */
 
 enum SaverState {
     SaverState_Idle,
@@ -117,36 +96,19 @@ enum SaverState {
 };
 
 
+static CScreensaver* gspScreensaver = NULL;
+
 extern int gGoToBlank;      // True if we are to blank the screen
 extern int gBlankingTime;   // Delay in minutes before blanking the screen
 extern CFStringRef gPathToBundleResources;
 
-static time_t SaverStartTime;
-static Boolean wasAlreadyRunning = false;
-static pid_t CoreClientPID = nil;
-static char msgBuf[2048], bannerText[2048];
-static int bannerWidth;
 static SaverState saverState = SaverState_Idle;
-static StringPtr CurrentBannerMessage = 0;
-static DISPLAY_INFO di;     // Contains all NULLs for the Macintosh
-static RPC_CLIENT *rpc;
-MPQueueID gTerminationQueue;	// This queue will report the completion of our threads
-MPTaskID gRPC_thread_id;	// IDs of the thread we create
-int gClientSaverStatus = 0;     // status determined by RPCThread
-Boolean gQuitRPCThread = false; // Flag to tell RPC thread to exit gracefully
-int gQuitCounter = 0;
-long gBrandId = 0;
-char * gBrandText = "BOINC";
+// int gQuitCounter = 0;
 RGBColor gBrandColor = {0xFFFF, 0xFFFF, 0xFFFF};
 RGBColor gTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
 RGBColor gWhiteTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
 RGBColor gOrangeTextColor = {0xFFFF, 0x6262, 0x0000};
 RGBColor gGrayTextColor = {0x9999, 0x9999, 0x9999};
-char gfx_Switcher_Path[MAXPATHLEN];
-
-// Display first status update after 5 seconds
-static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
-Boolean gStatusMessageUpdated = false;
 
 const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
@@ -162,16 +124,59 @@ const char *  BOINCTestmodeMsg = "BOINC screensaver is running, but cannot displ
 
 // Returns desired Animation Frequency (per second) or 0 for no change
 int initBOINCSaver(Boolean ispreview) {
+    if (ispreview)
+        return 8;
+        
+    gspScreensaver = new CScreensaver();
+    
+    return gspScreensaver->Create();
+}
+
+int drawGraphics(GrafPtr aPort) {
+    return gspScreensaver->drawGraphics(aPort);
+};
+
+
+void drawPreview(GrafPtr aPort) {
+    gspScreensaver->drawPreview(aPort);
+};
+
+
+void closeBOINCSaver() {
+    gspScreensaver->ShutdownSaver();
+}
+
+CScreensaver::CScreensaver() {
+    
+    m_dwBlankScreen = 0;
+    m_dwBlankTime = 0;
+    m_bErrorMode = false;
+    m_hrError = 0;
+    
+    saverState = SaverState_Idle;
+    m_wasAlreadyRunning = false;
+    m_CoreClientPID = nil;
+    m_MsgBuf[0] = 0;
+    setBannerText(0, NULL);
+    m_BannerWidth = 0;
+    m_CurrentBannerMessage = 0;
+    m_QuitDataManagementProc = false;
+    m_BrandText = "BOINC";
+    m_updating_results = false;
+    
+    m_hDataManagementThread = NULL;
+    m_hGraphicsApplication = NULL;
+    m_bResetCoreState = TRUE;
+    rpc = 0;
+}
+
+
+int CScreensaver::Create() {
     int newFrequency = 15;
     ProcessSerialNumber psn;
     ProcessInfoRec pInfo;
     OSStatus err;
     
-    if (ispreview)
-        return 8;
-        
-    setBannerText(0, NULL);
-
     // Ugly workaround for a problem with the System Preferences app
     // For an unknown reason, when this screensaver is run using the 
     // Test button in the System Prefs Screensaver control panel, the 
@@ -189,35 +194,27 @@ int initBOINCSaver(Boolean ispreview) {
         saverState = SaverState_ControlPanelTestMode;
     }
 
-    gBrandId = GetBrandID();
-    switch(gBrandId) {
-    case 1:
-        gBrandText = "GridRepublic";
-        gBrandColor = gOrangeTextColor; // Orange
-        gTextColor = gGrayTextColor;  // Gray
-        break;
-    default:
-        gBrandText = "BOINC";
-        gBrandColor = gWhiteTextColor; // White
-        gTextColor = gWhiteTextColor; // White
-        break;
-    }
-
     // If there are multiple displays, initBOINCSaver may get called 
     // multiple times (once for each display), so we need to guard 
     // against launching multiple instances of the core client
     if (saverState == SaverState_Idle) {
-        SaverStartTime = time(0);
-        
-        CFStringGetCString(gPathToBundleResources, gfx_Switcher_Path, sizeof(gfx_Switcher_Path), kCFStringEncodingMacRoman);
-        strlcat(gfx_Switcher_Path, "/gfx_switcher", sizeof(gfx_Switcher_Path));
+        // Calculate the estimated blank time by adding the starting 
+        //  time and and the user-specified time which is in minutes
+        m_dwBlankScreen = gGoToBlank;
+        if (gGoToBlank)
+            m_dwBlankTime = time(0) + (gBlankingTime * 60);
+        else
+            m_dwBlankTime = 0;
+
+        CFStringGetCString(gPathToBundleResources, m_gfx_Switcher_Path, sizeof(m_gfx_Switcher_Path), kCFStringEncodingMacRoman);
+        strlcat(m_gfx_Switcher_Path, "/gfx_switcher", sizeof(m_gfx_Switcher_Path));
 
         err = initBOINCApp();
 
         if (saverState == SaverState_LaunchingCoreClient)
         {
-            gClientSaverStatus = 0;
-            gQuitRPCThread = false;
+            SetError(FALSE, 0);
+            m_QuitDataManagementProc = false;
             if (rpc == NULL)
                 rpc = new RPC_CLIENT;
             newFrequency = NOBANNERFREQUENCY;
@@ -227,32 +224,47 @@ int initBOINCSaver(Boolean ispreview) {
 }
 
 
-OSStatus initBOINCApp() {
+OSStatus CScreensaver::initBOINCApp() {
     char boincPath[2048];
     pid_t myPid;
     int status;
     OSStatus err;
     static int retryCount = 0;
+    long brandId = 0;
     
     saverState = SaverState_CantLaunchCoreClient;
     
-    CoreClientPID = FindProcessPID("boinc", 0);
-    if (CoreClientPID) {
-        wasAlreadyRunning = true;
+    m_CoreClientPID = FindProcessPID("boinc", 0);
+    if (m_CoreClientPID) {
+        m_wasAlreadyRunning = true;
         saverState = SaverState_LaunchingCoreClient;
         return noErr;
     }
     
-    wasAlreadyRunning = false;
+    m_wasAlreadyRunning = false;
     
     if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
         return -1;
 
+    brandId = GetBrandID();
+    switch(brandId) {
+    case 1:
+        m_BrandText = "GridRepublic";
+        gBrandColor = gOrangeTextColor; // Orange
+        gTextColor = gGrayTextColor;  // Gray
+        break;
+    default:
+        m_BrandText = "BOINC";
+        gBrandColor = gWhiteTextColor; // White
+        gTextColor = gWhiteTextColor; // White
+        break;
+    }
+
     err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
     if (err) {   // If we couldn't find BOINCManager.app, try default path
         strcpy(boincPath, "/Applications/");
-        if (gBrandId)
-            strcat(boincPath, gBrandText);
+        if (brandId)
+            strcat(boincPath, m_BrandText);
         else
             strcat(boincPath, "BOINCManager");
             strcat(boincPath, ".app");
@@ -283,7 +295,7 @@ OSStatus initBOINCApp() {
         fflush(NULL);
         _exit(127);         // execl error (execl should never return)
     } else {
-        CoreClientPID = myPid;		// make this available globally
+        m_CoreClientPID = myPid;		// make this available globally
         saverState = SaverState_LaunchingCoreClient;
     }
 
@@ -292,12 +304,21 @@ OSStatus initBOINCApp() {
 
 
 // Returns new desired Animation Frequency (per second) or 0 for no change
-int drawGraphics(GrafPtr aPort) {
+int CScreensaver::drawGraphics(GrafPtr aPort) {
+    // Display first status update after 5 seconds
+    static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
 
     CGrafPtr savePort;
     GDHandle saveGDH;
     int newFrequency = 15;
     pid_t myPid;
+    int iResultCount;
+    int iIndex;
+    unsigned int len;
+    RESULT* theResult;
+    PROJECT* pProject;
+    char  statusBuf[256];
+    double percent_done;
     OSStatus err;
     
     ObscureCursor();
@@ -310,102 +331,108 @@ int drawGraphics(GrafPtr aPort) {
         break;
     
     case  SaverState_LaunchingCoreClient:
-        if (wasAlreadyRunning)
+        if (m_wasAlreadyRunning)
             setBannerText(ConnectingCCMsg, aPort);
         else
             setBannerText(LaunchingCCMsg, aPort);
        
-        myPid = FindProcessPID(NULL, CoreClientPID);
+        myPid = FindProcessPID(NULL, m_CoreClientPID);
         if (myPid) {
             saverState = SaverState_CoreClientRunning;
             rpc->init(NULL);   // Initialize communications with Core Client
 
             // Set up a separate thread for communicating with Core Client
-            if (!MPLibraryIsLoaded()) {
-                saverState = SaverState_UnrecoverableError;
-                break;
-            }
-            
-            if (gTerminationQueue == NULL) {
-                err = MPCreateQueue(&gTerminationQueue);	/* Create the queue which will report the completion of the task. */
-                if (err) {
-                    saverState = SaverState_UnrecoverableError;
-                    break;
-                }
-            }
-            err = MPCreateTask(RPCThread,	/* This is the task function. */
-                        0,		/* This is the parameter to the task function. */
-                        (50*1024),		/* Stack size for thread. */
-                        gTerminationQueue,	/* We'll use this to sense task completion. */
-                        0,	/* We won't use the first part of the termination message. */
-                        0,	/* We won't use the second part of the termination message. */
-                        0,	/* Use the normal task options. (Currently this *must* be zero!) */
-                        &gRPC_thread_id);	/* Here's where the ID of the new task will go. */
-            
-            if (err) {
-                MPDeleteQueue(gTerminationQueue);
-                saverState = SaverState_UnrecoverableError;
-                break;
-            }
+            CreateDataManagementThread();
             // ToDo: Add a timeout after which we display error message
         } else
             // Take care of the possible race condition where the Core Client was in the  
             // process of shutting down just as ScreenSaver started, so initBOINCApp() 
             // found it already running but now it has shut down.
-            if (wasAlreadyRunning)  // If we launched it, then just wait for it to start
+            if (m_wasAlreadyRunning)  // If we launched it, then just wait for it to start
                 saverState = SaverState_RelaunchCoreClient;
          break;
 
     case SaverState_CoreClientRunning:
-            // RPC called in RPCThread()
+            // RPC called in DataManagementProc()
             setBannerText(ConnectingCCMsg, aPort);
+            if (! m_bResetCoreState) {
+                saverState = SaverState_ConnectedToCoreClient;
+            }
         break;
     
     case SaverState_ConnectedToCoreClient:
-        switch (gClientSaverStatus) {
+        switch (m_hrError) {
         case 0:
-            break;  // No status response yet from RPCThread
-        case SS_STATUS_BLANKED:
+            break;  // No status response yet from DataManagementProc
+        case SCRAPPERR_SCREENSAVERBLANKED:
         default:
             setBannerText(0, aPort);   // No text message
             break;
-        case SS_STATUS_BOINCSUSPENDED:
+        case SCRAPPERR_BOINCSUSPENDED:
             setBannerText(BOINCSuspendedMsg, aPort);
             break;
-        case SS_STATUS_NOAPPSEXECUTING:
+        case SCRAPPERR_BOINCNOAPPSEXECUTING:
             setBannerText(BOINCNoAppsExecutingMsg, aPort);
             break;
-        case SS_STATUS_NOPROJECTSDETECTED:
+        case SCRAPPERR_BOINCNOPROJECTSDETECTED:
             setBannerText(BOINCNoProjectsDetectedMsg, aPort);
             break;
-        case SS_STATUS_ENABLED:
+        case SCRAPPERR_SCREENSAVERRUNNING:
 #if ! ALWAYS_DISPLAY_PROGRESS_TEXT
             setBannerText(0, aPort);   // No text message
             // Let the science app draw over our window
             break;
 #endif
-        case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
-            if (msgBuf[0] == 0) {
-                strcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
-                setBannerText(msgBuf, aPort);
+        case SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING:
+            if (m_MsgBuf[0] == 0) {
+                strcpy(m_MsgBuf, BOINCNoGraphicAppsExecutingMsg);
+                setBannerText(m_MsgBuf, aPort);
             }
-            if (gStatusMessageUpdated) {
-                updateBannerText(msgBuf, aPort);
-                gStatusMessageUpdated = false;
-            }
-            // Handled in RPCThread()
+
+            if ( (statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) && !m_updating_results ) {
+                statusUpdateCounter = 0;
+
+                strcpy(m_MsgBuf, BOINCNoGraphicAppsExecutingMsg);
+    
+                iResultCount = results.results.size();
+                theResult = NULL;
+                for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                    theResult = results.results.at(iIndex);
+
+                    // The get_state rpc is time-consuming, so we assume the list of 
+                    // attached projects does not change while the screensaver is active.
+                    pProject = state.lookup_project(theResult->project_url);
+                    if (pProject != NULL) {
+                        percent_done = theResult->fraction_done * 100;
+                        if (percent_done < 0.01)
+                            len = sprintf(statusBuf, ("    %s"), pProject->project_name.c_str());
+                         else    // Display percent_done only after we have a valid value
+                           len = sprintf(statusBuf, ("    %s: %.2f%%"), 
+                                pProject->project_name.c_str(), percent_done);
+
+                        strlcat(m_MsgBuf, statusBuf, sizeof(m_MsgBuf));
+                    }       // end if (pProject != NULL)
+//                            else {          // (pProject += NULL): re-synch with client
+//                                goto Get_CC_State;  // Should never happen
+//                            }
+                }           // end for() loop
+                                
+                setBannerText(m_MsgBuf, aPort);
+                updateBannerText(m_MsgBuf, aPort);
+            }                   // end if (statusUpdateCounter > time to update)
+
             break;
 #if 0
-        case SS_STATUS_QUIT:
+        case SCRAPPERR_QUITSCREENSAVERREQUESTED:
 //            setBannerText(BOINCExitedSaverMode, aPort);
-            // Wait 1 second to allow Give ScreenSaver engine to close us down
+            // Wait 1 second to allow ScreenSaver engine to close us down
             if (++gQuitCounter > (bannerText[0] ? BANNERFREQUENCY : NOBANNERFREQUENCY)) {
                 closeBOINCSaver();
                 KillScreenSaver(); // Stop the ScreenSaver Engine
             }
             break;
 #endif
-        }       // end switch (gClientSaverStatus)
+        }       // end switch (m_hrError)
         break;
 
     case SaverState_ControlPanelTestMode:
@@ -424,7 +451,7 @@ int drawGraphics(GrafPtr aPort) {
         break;      // Should never get here; fixes compiler warning
     }           // end switch (saverState)
 
-    if (bannerText[0]) {
+    if (m_BannerText[0]) {
         GetGWorld(&savePort, &saveGDH);
         SetPort(aPort);
         drawBanner(aPort);
@@ -437,7 +464,7 @@ int drawGraphics(GrafPtr aPort) {
 }
 
 
-void drawPreview(GrafPtr aPort) {
+void CScreensaver::drawPreview(GrafPtr aPort) {
     SetPort(aPort);
     setBannerText(" BOINC", aPort);
     drawBanner(aPort);
@@ -447,13 +474,8 @@ void drawPreview(GrafPtr aPort) {
 // If there are multiple displays, closeBOINCSaver may get called 
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
-void closeBOINCSaver() {
-    gQuitRPCThread = true;  // Tell RPC Thread to exit
-    if (gTerminationQueue) {  // Wait up to 5 seconds for RPC thread to exit
-        MPWaitOnQueue(gTerminationQueue, NULL, NULL, NULL, kDurationMillisecond*5000);
-        MPDeleteQueue(gTerminationQueue);
-        gTerminationQueue = NULL;
-    }
+void CScreensaver::ShutdownSaver() {
+    DestoryDataManagementThread();
     
     if (rpc) {
 #if 0       // OS X calls closeBOINCSaver() when energy saver puts display
@@ -463,7 +485,7 @@ void closeBOINCSaver() {
             // Also, under sandbox security, screensaver doesn't have access 
             // to rpc password in gui_rpc_auth.cfg file, so core client won't 
             // accept rpc->quit from screensaver.
-        if (CoreClientPID && (!wasAlreadyRunning)) {
+        if (m_CoreClientPID && (!m_wasAlreadyRunning)) {
             rpc->quit();    // Kill core client if we launched it
         }
 #endif
@@ -473,271 +495,23 @@ void closeBOINCSaver() {
 
     setBannerText(0, NULL);
 
-    CoreClientPID = 0;
-    gQuitCounter = 0;
-    wasAlreadyRunning = false;
-    gQuitRPCThread = false;
+    m_CoreClientPID = 0;
+//    gQuitCounter = 0;
+    m_wasAlreadyRunning = false;
+    m_QuitDataManagementProc = false;
     saverState = SaverState_Idle;
 }
 
 
-OSStatus RPCThread(void* param) {
-    int             retval                  = 0;
-    CC_STATE        state;
-    int             suspend_reason          = 0;
-    AbsoluteTime    timeToUnblock;
-    time_t          time_to_blank;
-    pid_t           graphics_app_pid        = 0;
-    char            statusBuf[256];
-    unsigned int    len;
-    RESULTS         results;
-    RESULT*         theResult               = NULL;
-    RESULT*         graphics_app_result_ptr = NULL;
-    PROJECT*        pProject;
-    RESULT          previous_result;
-    RESULT*         previous_result_ptr     = NULL;
-    int             iResultCount            = 0;
-    int             iIndex                  = 0;
-    double          percent_done;
-    double          launch_time             = 0.0;
-    double          last_change_time        = 0.0;
-    double          last_run_check_time     = 0.0;
-
-        // Calculate the estimated blank time by adding the starting 
-        //  time and and the user-specified time which is in minutes
-        if (gGoToBlank)
-            time_to_blank = SaverStartTime + (gBlankingTime * 60);
-        else
-            time_to_blank = 0;
-            
-    while (true) {
-        if ((gGoToBlank) && (time(0) > time_to_blank)) {
-            gClientSaverStatus = SS_STATUS_BLANKED;
-            gQuitRPCThread = true;
-        }
-
-        if (gQuitRPCThread) {     // If main thread has requested we exit
-            if (graphics_app_pid || graphics_app_result_ptr) {
-                Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
-                graphics_app_result_ptr = NULL;
-                graphics_app_pid = 0;
-                graphics_app_result_ptr = NULL;
-                previous_result_ptr = NULL;
-            }
-            MPExit(noErr);       // Exit the thread
-        }
-
-        timeToUnblock = AddDurationToAbsolute(durationSecond/2, UpTime());
-        MPDelayUntil(&timeToUnblock);
-
-        // Try and get the current state of the CC
-//Get_CC_State:
-        retval = rpc->get_state(state);
-        MPYield();
-        if (retval == noErr)
-            break;
-
-        // CC may not yet be running
-        HandleRPCError();
-    }
-
-    saverState = SaverState_ConnectedToCoreClient;
-
-    while (true) {
-        if ((gGoToBlank) && (time(0) > time_to_blank)) {
-            gClientSaverStatus = SS_STATUS_BLANKED;
-            gQuitRPCThread = true;
-        }
-
-        if (gQuitRPCThread) {     // If main thread has requested we exit
-            if (graphics_app_pid || graphics_app_result_ptr) {
-                Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
-                graphics_app_result_ptr = NULL;
-                graphics_app_pid = 0;
-                graphics_app_result_ptr = NULL;
-                previous_result_ptr = NULL;
-            }
-            MPExit(noErr);       // Exit the thread
-        }
-        
-        timeToUnblock = AddDurationToAbsolute(durationSecond/2, UpTime());
-        MPDelayUntil(&timeToUnblock);
-
-        retval = rpc->get_screensaver_tasks(suspend_reason, results);
-        MPYield();
-        if (retval) {
-            // rpc call returned error
-            HandleRPCError();
-            continue;
-        }
-
-	if (suspend_reason != 0) {
-            gClientSaverStatus = SS_STATUS_BOINCSUSPENDED;
-            if (graphics_app_pid || graphics_app_result_ptr) {
-                Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
-                if (graphics_app_pid == 0) {
-                    graphics_app_result_ptr = NULL;
-                } else {
-                    // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
-                }
-                previous_result_ptr = NULL;
-            }
-            continue;
-        }
-                
-#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
-
-        gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
-        
-#else                   /* NORMAL OPERATION */
-
-        // Is the current graphics app's associated task still running?
-        if ((graphics_app_pid) || (graphics_app_result_ptr)) {
-
-            iResultCount = results.results.size();
-            graphics_app_result_ptr = NULL;
-
-            // Find the current task in the new results vector (if it still exists)
-            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                theResult = results.results.at(iIndex);
-
-                if (is_same_task(theResult, previous_result_ptr)) {
-                    graphics_app_result_ptr = theResult;
-                    previous_result = *theResult;
-                    previous_result_ptr = &previous_result;
-                    break;
-                }
-            }
-
-            // V6 graphics only: if worker application has stopped running, Mac_terminate_screensaver
-            if ((graphics_app_result_ptr == NULL) && (graphics_app_pid != 0)) {
-//                if (previous_result_ptr) print_to_log_file("%s finished", previous_result.name.c_str());
-                Mac_terminate_screensaver(graphics_app_pid, previous_result_ptr, rpc);
-                previous_result_ptr = NULL;
-                // waitpid test will clear graphics_app_pid
-           }
-#if 0
-            // Safety check that task is actually running
-            if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
-                if (FindProcessPID(NULL, ? ? ?) == 0) {
-                    Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
-                    if (graphics_app_pid == 0) {
-                        graphics_app_result_ptr = NULL;
-                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
-                    } else {
-                        // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
-                    }
-                    previous_result_ptr = NULL;
-                }
-            }
-#endif
-            if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
-                if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
-//                    if (previous_result_ptr) print_to_log_file("time to change: %s", previous_result.name.c_str());
-                    Mac_terminate_screensaver(graphics_app_pid, graphics_app_result_ptr, rpc);
-                    if (graphics_app_pid == 0) {
-                        graphics_app_result_ptr = NULL;
-                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
-                    } else {
-                        // waitpid test will clear graphics_app_pid and graphics_app_result_ptr
-                    }
-                }
-                last_change_time = dtime();
-            }
-        }
-
-        // If no current graphics app, pick an active task at random and launch its graphics app
-        if ((graphics_app_pid == 0) && (graphics_app_result_ptr == NULL)) {
-            graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
-            previous_result_ptr = NULL;
-            
-            if (graphics_app_result_ptr) {
-                retval = Mac_launch_screensaver(graphics_app_result_ptr, graphics_app_pid);
-                if (retval) {
-                    graphics_app_pid = 0;
-                    previous_result_ptr = NULL;
-                    graphics_app_result_ptr = NULL;
-                } else {
-                    gClientSaverStatus = SS_STATUS_ENABLED;
-                    launch_time = dtime();
-                    last_change_time = launch_time;
-                    last_run_check_time = launch_time;
-                    // Make a local copy of current result, since original pointer 
-                    // may have been freed by the time we perform later tests
-                    previous_result = *graphics_app_result_ptr;
-                    previous_result_ptr = &previous_result;
-//                    if (previous_result_ptr) print_to_log_file("launching %s", previous_result.name.c_str());                    
-                }
-            } else {
-                if (state.projects.size() == 0) {
-                    // We are not attached to any projects
-                    gClientSaverStatus = SS_STATUS_NOPROJECTSDETECTED;
-                } else if (results.results.size() == 0) {
-                    // We currently do not have any applications to run
-                    gClientSaverStatus = SS_STATUS_NOAPPSEXECUTING;
-                } else {
-                    // We currently do not have any graphics capable application
-                    gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
-                }
-            }
-        } else {    // End if ((graphics_app_pid == 0) && (graphics_app_result_ptr == NULL))
-            // Is the graphics app still running?
-            if (graphics_app_pid) {
-                if (waitpid(graphics_app_pid, 0, WNOHANG) == graphics_app_pid) {
-                    graphics_app_pid = 0;
-                    graphics_app_result_ptr = NULL;
-                    continue;
-                }
-            }
-        }
-#endif      // ! SIMULATE_NO_GRAPHICS
-
-        if ((gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING)
-#if ALWAYS_DISPLAY_PROGRESS_TEXT
-                || (gClientSaverStatus == SS_STATUS_ENABLED)
-#endif
-            )
- {
-            if (statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) {
-                statusUpdateCounter = 0;
-
-                if (! gStatusMessageUpdated) {
-                    strcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
-        
-                        iResultCount = results.results.size();
-
-                        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                            theResult = results.results.at(iIndex);
-
-                            // The get_state rpc is time-consuming, so we assume the list of 
-                            // attached projects does not change while the screensaver is active.
-                            pProject = state.lookup_project(theResult->project_url);
-                            if (pProject != NULL) {
-                                percent_done = theResult->fraction_done * 100;
-                                if (percent_done < 0.01)
-                                    len = sprintf(statusBuf, ("    %s"), pProject->project_name.c_str());
-                                 else    // Display percent_done only after we have a valid value
-                                   len = sprintf(statusBuf, ("    %s: %.2f%%"), 
-                                        pProject->project_name.c_str(), percent_done);
-
-                                strlcat(msgBuf, statusBuf, sizeof(msgBuf));
-                            }       // end if (pProject != NULL)
-//                            else {          // (pProject += NULL): re-synch with client
-//                                goto Get_CC_State;  // Should never happen
-//                            }
-                        }           // end for() loop
-                        gStatusMessageUpdated = true;
-                    
-                }   // end if (! gStatusMessageUpdated)
-                
-            }                   // end if (statusUpdateCounter > time to update)
-        }                       // end if SS_STATUS_NOGRAPHICSAPPSEXECUTING
-    }                           // end while(true)
-            return noErr;       // should never get here; it fixes compiler warning
+// This function forwards to DataManagementProc, which has access to the
+//       "this" pointer.
+//
+void * CScreensaver::DataManagementProcStub(void* param) {
+    return gspScreensaver->DataManagementProc();
 }
 
 
-void HandleRPCError() {
+void CScreensaver::HandleRPCError() {
     // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
     rpc->close();
     
@@ -747,30 +521,60 @@ void HandleRPCError() {
     // care of that and other situations where the Core Client quits unexpectedy.  
     if (FindProcessPID("boinc", 0) == 0) {
         saverState = SaverState_RelaunchCoreClient;
-        MPExit(noErr);      // Exit the thread
+        m_bResetCoreState = true;
      }
     
     rpc->init(NULL);    // Otherwise just reinitialize the RPC client and state and keep trying
     // Error message after timeout?
 }
 
-
-void setBannerText(const char * msg, GrafPtr aPort) {
-    if (msg == 0)
-        bannerText[0] = 0;
+bool CScreensaver::CreateDataManagementThread() {
+    int retval;
     
-    if ((char *)CurrentBannerMessage != msg)
+    if (m_hDataManagementThread == NULL) {
+        retval = pthread_create(&m_hDataManagementThread, NULL, DataManagementProcStub, 0);
+        if (retval) {
+            saverState = SaverState_UnrecoverableError;
+            return false;
+        }
+    }
+    return true;
+}
+
+
+bool CScreensaver::DestoryDataManagementThread() {
+    m_QuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
+    if (m_hDataManagementThread) {  // Wait for DataManagementProc thread to exit
+        pthread_join(m_hDataManagementThread, NULL);
+        m_hDataManagementThread = NULL;
+    }
+    return true;
+}
+
+
+bool CScreensaver::SetError(bool bErrorMode, int hrError) {
+    m_bErrorMode = bErrorMode;
+    m_hrError = hrError;
+    return true;
+}
+
+
+void CScreensaver::setBannerText(const char * msg, GrafPtr aPort) {
+    if (msg == 0)
+        m_BannerText[0] = 0;
+    
+    if ((char *)m_CurrentBannerMessage != msg)
         updateBannerText((char *)msg, aPort);
 }
 
 
-void updateBannerText(char *msg, GrafPtr aPort) {
+void CScreensaver::updateBannerText(char *msg, GrafPtr aPort) {
     CGrafPtr savePort;
     RGBColor saveBackColor;
     Rect wRect;
     char *p, *s;
     
-    CurrentBannerMessage = (StringPtr)msg;
+    m_CurrentBannerMessage = (StringPtr)msg;
 
     if (aPort == NULL)
         return;
@@ -789,28 +593,28 @@ void updateBannerText(char *msg, GrafPtr aPort) {
         TextSize(24);
         TextFace(bold);
         s = msg;
-        bannerText[0] = '\0';
+        m_BannerText[0] = '\0';
         do {
             p = strstr(s, "BOINC");
             if (p == NULL) {
-                strcat(bannerText, s);
+                strcat(m_BannerText, s);
             } else {
-                strncat(bannerText, s, p - s);
-                strcat(bannerText, gBrandText);
+                strncat(m_BannerText, s, p - s);
+                strcat(m_BannerText, m_BrandText);
                 s = p + 5;  // s = p + strlen("BOINC");
             }
         } while (p);
         
-        bannerWidth = TextWidth(bannerText, 0, strlen(bannerText)) + BANNER_GAP;
-        // Round up bannerWidth to an integral multiple of BANNERDELTA
-        bannerWidth = ((bannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
+        m_BannerWidth = TextWidth(m_BannerText, 0, strlen(m_BannerText)) + BANNER_GAP;
+        // Round up m_BannerWidth to an integral multiple of BANNERDELTA
+        m_BannerWidth = ((m_BannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
     }
     
     SetPort(savePort);
 }
 
 
-void drawBanner(GrafPtr aPort) {
+void CScreensaver::drawBanner(GrafPtr aPort) {
     CGrafPtr savePort;
     GDHandle saveGDH;
     RGBColor saveForeColor, saveBackColor;
@@ -831,7 +635,7 @@ void drawBanner(GrafPtr aPort) {
     RGBForeColor(&gTextColor);
     BackColor(blackColor);
     GetPortBounds(aPort, &wRect);
-    if ( (bannerPos + bannerWidth) <= (wRect.left + BANNERDELTA) )
+    if ( (bannerPos + m_BannerWidth) <= (wRect.left + BANNERDELTA) )
         bannerPos = wRect.left;
     else
         bannerPos -= BANNERDELTA;
@@ -846,21 +650,21 @@ void drawBanner(GrafPtr aPort) {
        
     do { 
         MoveTo(x, y);
-        s = bannerText;
+        s = m_BannerText;
         do {
-            p = strstr(s, gBrandText);
+            p = strstr(s, m_BrandText);
             if (p == NULL) {
                 DrawText(s, 0, strlen(s));
             } else {
                 DrawText(s, 0, p - s);
                 RGBForeColor(&gBrandColor);
-                DrawText(gBrandText, 0, strlen(gBrandText));
-                s = p + strlen(gBrandText);
+                DrawText(m_BrandText, 0, strlen(m_BrandText));
+                s = p + strlen(m_BrandText);
                 RGBForeColor(&gTextColor);
             }
         } while (p);
         
-        x+= bannerWidth;
+        x+= m_BannerWidth;
     } while (x < wRect.right);
     
     RGBForeColor(&saveForeColor);
@@ -870,7 +674,7 @@ void drawBanner(GrafPtr aPort) {
 }
 
 
-int GetBrandID()
+int CScreensaver::GetBrandID()
 {
     char buf[1024];
     long iBrandId;
@@ -896,7 +700,7 @@ int GetBrandID()
 }
 
 
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+char * CScreensaver::PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
     size_t len = buflen;
     size_t datalen = 0;
@@ -915,7 +719,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
-pid_t FindProcessPID(char* name, pid_t thePID)
+pid_t CScreensaver::FindProcessPID(char* name, pid_t thePID)
 {
     FILE *f;
     char buf[1024];
@@ -951,7 +755,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
 }
 
 
-OSErr GetpathToBOINCManagerApp(char* path, int maxLen)
+OSErr CScreensaver::GetpathToBOINCManagerApp(char* path, int maxLen)
 {
     CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
     OSType creator = 'BNC!';
@@ -967,7 +771,7 @@ OSErr GetpathToBOINCManagerApp(char* path, int maxLen)
 
 // Send a Quit AppleEvent to the process which called this module
 // (i.e., tell the ScreenSaver engine to quit)
-OSErr KillScreenSaver() {
+OSErr CScreensaver::KillScreenSaver() {
     ProcessSerialNumber         thisPSN;
     pid_t                       thisPID;
     OSErr                       err = noErr;
@@ -980,88 +784,7 @@ OSErr KillScreenSaver() {
 }
 
 
-// Launch the graphics application
-//
-int Mac_launch_screensaver(RESULT* rp, pid_t& graphics_application)
-{
-    int retval = 0;
-    
-    if (!rp->graphics_exec_path.empty()) {
-        // V6 Graphics
-        // For unknown reasons, the graphics application exits with 
-        // "RegisterProcess failed (error = -50)" unless we pass its 
-        // full path twice in the argument list to execv.
-        char* argv[5];
-        argv[0] = "gfx_Switcher_Path";
-        argv[1] = "-launch_gfx";
-        argv[2] = strrchr(rp->slot_path.c_str(), '/');
-        if (*argv[2]) argv[2]++;    // Point to the slot number in ascii
-        
-        argv[3] = "--fullscreen";
-        argv[4] = 0;
-
-       retval = run_program(
-            rp->slot_path.c_str(),
-            gfx_Switcher_Path,
-            4,
-            argv,
-            0,
-            graphics_application
-        );
-    } else {
-        // V5 and Older
-        DISPLAY_INFO di;
-
-        memset(di.window_station, 0, sizeof(di.window_station));
-        memset(di.desktop, 0, sizeof(di.desktop));
-        memset(di.display, 0, sizeof(di.display));
-
-        graphics_application = 0;
-        
-        retval = rpc->show_graphics(
-            rp->project_url.c_str(),
-            rp->name.c_str(),
-            MODE_FULLSCREEN,
-            di
-        );
-    }
-    return retval;
-}
-
-
-int Mac_terminate_screensaver(int& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc) {
-    int retval = 0;
-    char current_dir[MAXPATHLEN];
-    char gfx_pid[16];
-    pid_t dont_care;
-
-    retval = terminate_screensaver(graphics_application, worker_app, rpc);
-    
-    if (graphics_application == 0) return retval;
-
-    sprintf(gfx_pid, "%d", graphics_application);
-    getcwd( current_dir, sizeof(current_dir));
-
-    char* argv[4];
-    argv[0] = "gfx_switcher";
-    argv[1] = "-kill_gfx";
-    argv[2] = gfx_pid;
-    argv[3] = 0;
-
-   retval = run_program(
-        current_dir,
-        gfx_Switcher_Path,
-        3,
-        argv,
-        0,
-        dont_care
-    );
-
-    return retval;
-}
-
-
-void print_to_log_file(const char *format, ...) {
+void CScreensaver::print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
     FILE *f;
     va_list args;
@@ -1093,7 +816,7 @@ void print_to_log_file(const char *format, ...) {
 }
 
 #if CREATE_LOG
-void strip_cr(char *buf)
+void CScreensaver::strip_cr(char *buf)
 {
     char *theCR;
 

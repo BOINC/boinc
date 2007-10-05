@@ -7,23 +7,8 @@
 #ifndef _SCREENSAVER_WIN_H
 #define _SCREENSAVER_WIN_H
 
-//-----------------------------------------------------------------------------
-// Error codes
-//-----------------------------------------------------------------------------
 
-#define SCRAPPERR_BOINCNOTDETECTED                          0x82000001
-#define SCRAPPERR_BOINCNOTDETECTEDSTARTUP                   0x82000002
-#define SCRAPPERR_BOINCSUSPENDED                            0x82000003
-#define SCRAPPERR_BOINCNOTGRAPHICSCAPABLE                   0x82000004
-#define SCRAPPERR_BOINCNOAPPSEXECUTING                      0x82000005
-#define SCRAPPERR_BOINCNOPROJECTSDETECTED                   0x82000006
-#define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING              0x82000007  
-#define SCRAPPERR_BOINCSCREENSAVERLOADING                   0x82000008
-#define SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING              0x82000009
-#define SCRAPPERR_BOINCSHUTDOWNEVENT                        0x8200000a
-#define SCRAPPERR_NOPREVIEW                                 0x8200000f
-#define SCRAPPERR_DAEMONALLOWSNOGRAPHICS                    0x82000010
-
+#include <multimon.h>
 
 //-----------------------------------------------------------------------------
 // Constants
@@ -173,19 +158,35 @@ protected:
 
     DWORD WINAPI    DataManagementProc();
     static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );
+    void            CheckForegroundWindow();
+    int             terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app);
+	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
+    void            HandleRPCError(void);
 
-    RPC_CLIENT      rpc;
+// Determine if two RESULT pointers refer to the same task
+    bool            is_same_task(RESULT* taska, RESULT* taskb);
+
+// Count the number of active graphics-capable apps
+    int             count_active_graphic_apps(RESULTS& results, RESULT* exclude = NULL);
+
+// Choose a ramdom graphics application from the vector that
+//   was passed in.
+
+    RESULT*         get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);
+
+    RPC_CLIENT*     rpc;
     CC_STATE        state;
     RESULTS         results;
     RESULT          m_running_result;
+    bool            m_updating_results;
 
     HANDLE          m_hDataManagementThread;
     HANDLE          m_hGraphicsApplication;
-    BOOL            m_bScreensaverStarted;
     BOOL            m_bResetCoreState;
+    bool            m_QuitDataManagementProc;
 	int				m_iLastResultShown;
 	time_t			m_tLastResultChangeTime;
-
+    time_t          m_tThreadCreateTime;
 
     //
     // Presentation layer

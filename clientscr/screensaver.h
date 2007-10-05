@@ -21,28 +21,28 @@
 #ifndef __SCREENSAVER_H__
 #define __SCREENSAVER_H__
 
-// Determine if two RESULT pointers refer to the same task
-extern bool is_same_task(RESULT* taska, RESULT* taskb);
 
-// Count the number of active graphics-capable apps
-extern int count_active_graphic_apps(RESULTS& results, RESULT* exclude = NULL);
+#define GFX_CHANGE_PERIOD 600 /* if > 1 CPUs, change screensaver every 600 secs */
 
-// Choose a ramdom graphics application from the vector that
-//   was passed in.
-extern RESULT* get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);
 
-// Launch the screensaver
-#ifdef _WIN32
-extern int launch_screensaver(RESULT* rp, HANDLE& graphics_application, RPC_CLIENT* rpc);
-#else
-extern int launch_screensaver(RESULT* rp, int& graphics_application, RPC_CLIENT* rpc);
-#endif
+//-----------------------------------------------------------------------------
+// Error / status codes
+//-----------------------------------------------------------------------------
 
-// Terminate the screensaver
-#ifdef _WIN32
-extern int terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc);
-#else
-extern int terminate_screensaver(int& graphics_application, RESULT *worker_app, RPC_CLIENT* rpc);
-#endif
+#define SCRAPPERR_BOINCNOTDETECTED                          0x82000001
+#define SCRAPPERR_BOINCNOTDETECTEDSTARTUP                   0x82000002
+#define SCRAPPERR_BOINCSUSPENDED                            0x82000003
+#define SCRAPPERR_BOINCNOTGRAPHICSCAPABLE                   0x82000004
+#define SCRAPPERR_BOINCNOAPPSEXECUTING                      0x82000005
+#define SCRAPPERR_BOINCNOPROJECTSDETECTED                   0x82000006
+#define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING              0x82000007  
+#define SCRAPPERR_BOINCSCREENSAVERLOADING                   0x82000008
+#define SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING              0x82000009
+#define SCRAPPERR_BOINCSHUTDOWNEVENT                        0x8200000a
+#define SCRAPPERR_NOPREVIEW                                 0x8200000f
+#define SCRAPPERR_DAEMONALLOWSNOGRAPHICS                    0x82000010
+#define SCRAPPERR_SCREENSAVERRUNNING                        0x82000011
+#define SCRAPPERR_SCREENSAVERBLANKED                        0x82000012
+#define SCRAPPERR_QUITSCREENSAVERREQUESTED                  0x82000013
 
 #endif
