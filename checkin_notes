@@ -9193,3 +9193,43 @@ Charlie 5 Oct 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  5 Oct 2007
+    - client/manager/API: code cleanup to disentangle sandbox code from lib/.
+        - move client sandbox-specific code to a new file, sandbox.C
+        - remove g_use_sandbox from util.C; move to MainDocument.cpp (manager)
+            and sandbox.C (client)
+        - don't declare check_security() in util.h; it's not in util.C
+        - don't call remove_project_owned_file_or_dir() in
+            boinc_delete_file_aux() or boinc_rmdir();
+            rather, at the points in the client that delete
+            dirs that are usually owned by boinc_projects,
+            call remove_project_owned_file_or_dir() first,
+            then clean_out_dir().
+        - rename boinc_exec() to switcher_exec() and move it to sandbox.C
+
+    Note: this change was sparked by needing to remove a call to getgrnam()
+    from boinclib, to avoid requiring the same version of glibc
+    on both compile and target hosts
+
+    client/
+        Makefile.am
+        app.C
+        app_control.C
+        app_start.C
+        client_state.C,h
+        client_types.C
+        cs_cmdline.C
+        file_names.C,h
+        gui_rpc_server.C
+        main.C
+        sandbox.C,h (new)
+    clientgui/
+        MainDocument.cpp,h
+    lib/
+        boinc_cmd.C
+        common_defs.h
+        error_numbers.h
+        filesys.C,h
+        str_util.C
+        util.C,h

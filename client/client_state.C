@@ -47,6 +47,7 @@
 #include "http_curl.h"
 #include "client_msgs.h"
 #include "shmem.h"
+#include "sandbox.h"
 #include "client_state.h"
 
 using std::max;
@@ -350,17 +351,8 @@ int CLIENT_STATE::init() {
         );
     }
 
-#if (defined(SANDBOX) && ! defined(_WIN32))
-    if (g_use_sandbox) {
-#ifdef _DEBUG
-        boinc_project_gid = getegid();
-#else
-        retval = lookup_group(BOINC_PROJECT_GROUP_NAME, boinc_project_gid);
-        if (retval) return retval;
-#endif  // _DEBUG
-    } else {
-        boinc_project_gid = 0;
-    }
+#ifdef SANDBOX
+    get_project_gid();
 #endif
 
     check_file_existence();

@@ -190,6 +190,6 @@ struct VERSION_INFO {
 #define LOCK_FILE_NAME      "lockfile"
 #endif
 
-#define GRAPHICS_APP_FILENAME "v6graphics"
+#define GRAPHICS_APP_FILENAME "graphics_app"
 
 #endif

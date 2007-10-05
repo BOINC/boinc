@@ -64,10 +64,6 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #include "str_util.h"
 #include "error_numbers.h"
 #include "filesys.h"
-#ifdef SANDBOX
-#include "file_names.h"
-#include <sys/wait.h>
-#endif
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -248,16 +244,14 @@ DirScanner::~DirScanner() {
 
 static int boinc_delete_file_aux(const char* path) {
 #ifdef _WIN32
-    if (DeleteFile(path)) return 0;
-    return GetLastError();
+    if (!DeleteFile(path)) {
+        return ERR_UNLINK;
+    }
 #else
     int retval = unlink(path);
-    if (retval && g_use_sandbox && (errno == EACCES)) {
-        // We may not have permission to read subdirectories created by projects
-        return remove_project_owned_file_or_dir(path);
-    }
-    return retval;
+    if (retval) return ERR_UNLINK;
 #endif
+    return 0;
 }
 
 // Delete the file located at path
@@ -326,10 +320,6 @@ int clean_out_dir(const char* dirpath) {
 
     dirp = dir_open(dirpath);
     if (!dirp) {
-        if (g_use_sandbox && (errno == EACCES)) {
-            // dir may be owned by boinc_apps
-            return remove_project_owned_file_or_dir(dirpath);
-        }
         return 0;    // if dir doesn't exist, it's empty
     }
 
@@ -544,67 +534,14 @@ int boinc_mkdir(const char* path) {
 int boinc_rmdir(const char* name) {
 #ifdef _WIN32
     if (!RemoveDirectory(name)) {
-        return GetLastError();
+        return ERR_RMDIR;
     }
+#else
+    int retval = rmdir(name);
+    if (retval) return ERR_RMDIR;
+#endif
     return 0;
-#else
-    int retval;
-    retval = rmdir(name);
-    // We may not have permission to read subdirectories created by projects
-    if (retval && g_use_sandbox && (errno == EACCES)) {
-        retval = remove_project_owned_file_or_dir(name);
-    }
-    return retval;
-#endif
 }
-
-#ifdef SANDBOX
-// POSIX requires that shells run from an application will use the 
-// real UID and GID if different from the effective UID and GID.  
-// Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
-// system() invokes a shell, we can't use it to run the switcher 
-// or setprojectgrp utilities, so we must do a fork() and execv().
-int boinc_exec(char *util_filename, char* cmdline) {
-    char* argv[100];
-    char util_path[MAXPATHLEN];
-
-    sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
-    argv[0] = util_filename;
-    parse_command_line(cmdline, argv+1);
-    int pid = fork();
-    if (pid == -1) {
-        perror("fork() failed in boinc_exec");
-        return ERR_FORK;
-    }
-    if (pid == 0) {
-        // This is the new (forked) process
-        execv(util_path, argv);
-        perror("execv failed in boinc_exec");
-        return ERR_EXEC;
-    }
-    // Wait for command to complete, like system() does.
-    waitpid(pid, 0, 0); 
-    return BOINC_SUCCESS;
-}
-
-int remove_project_owned_file_or_dir(const char* path) {
-    char cmd[1024];
-
-    if (g_use_sandbox) {
-        sprintf(cmd, "/bin/rm rm -fR \"%s\"", path);
-        if (boinc_exec(SWITCHER_FILE_NAME, cmd)) {
-            return ERR_UNLINK;
-        } else {
-            return 0;
-        }
-    }
-    return ERR_UNLINK;
-}
-#else
-int remove_project_owned_file_or_dir(const char*) {
-    return ERR_UNLINK;
-}
-#endif
 
 #ifndef _WIN32
 int boinc_chown(const char* path, gid_t gid) {

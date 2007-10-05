@@ -33,10 +33,8 @@
 #else
 #include <sys/wait.h>
 #endif
-#ifdef SANDBOX
-#include <grp.h>
-#include "util.h"        // For g_use_sandbox
-#endif
+
+bool g_use_sandbox;
 
 using std::string;
 

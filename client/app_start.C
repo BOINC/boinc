@@ -66,6 +66,7 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "sandbox.h"
 
 #include "app.h"
 
@@ -94,11 +95,10 @@ static int make_link(const char *existing, const char *new_link) {
     if (!fp) return ERR_FOPEN;
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);
-    if (g_use_sandbox) {
-        return set_to_project_group(new_link);
-    } else {
-        return 0;
-    }
+#ifdef SANDBOX
+    return set_to_project_group(new_link);
+#endif
+    return 0;
 }
 
 int ACTIVE_TASK::link_user_files() {
@@ -593,7 +593,9 @@ int ACTIVE_TASK::start(bool first_time) {
                     int fd = open(buf, O_RDWR | O_CREAT, 0660);
                     if (fd >= 0) {
                         close (fd);
+#ifdef SANDBOX
                         set_to_project_group(buf);
+#endif
                     }
                 }
             }

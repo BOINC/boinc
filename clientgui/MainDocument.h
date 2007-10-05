@@ -40,6 +40,8 @@ typedef struct {
 } RUNNING_GFX_APP;
 
 
+extern bool g_use_sandbox;
+
 class CMainDocument;
 
 class CNetworkConnection : public wxObject {

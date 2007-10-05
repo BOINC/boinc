@@ -409,6 +409,9 @@ int ACTIVE_TASK_SET::get_free_slot() {
         get_slot_dir(j, path, sizeof(path));
         if (boinc_file_exists(path)) {
             if (is_dir(path)) {
+#ifdef SANDBOX
+                remove_project_owned_file_or_dirs(path);
+#endif
                 retval = clean_out_dir(path);
                 if (!retval) return j;
             }

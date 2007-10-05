@@ -33,12 +33,6 @@
 #include <pthread.h>
 #endif
 
-// Ideally, we would access this using wxGetApp().m_use_sandbox in the Manager
-// and gstate.m_use_sandbox in the Client, but it is used by some source files
-// (filesys.C, check_security.C) that are linked with both Manager and Client 
-// so the most practical solution is to use a global.
-extern int      g_use_sandbox;
-
 extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);
@@ -62,11 +56,9 @@ extern char* windows_format_error_string(
 extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 extern int boinc_process_cpu_time(double& cpu);
 #else
-extern int lookup_group(char*, gid_t& gid);
-extern int check_security(int use_sandbox, int isManager);
-
 // setpriority(2) arg to run in background
 // (don't use 20 because
+//
 static const int PROCESS_IDLE_PRIORITY = 19;
 extern double linux_cpu_time(int pid);
 #endif

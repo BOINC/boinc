@@ -66,8 +66,6 @@ using std::min;
 using std::string;
 using std::vector;
 
-int      g_use_sandbox = 0;
-
 #define EPOCHFILETIME_SEC (11644473600.)
 #define TEN_MILLION 10000000.
 
@@ -284,15 +282,6 @@ void update_average(
     }
     avg_time = now;
 }
-
-#ifndef _WIN32
-int lookup_group(char* name, gid_t& gid) {
-    struct group* gp = getgrnam(name);
-    if (!gp) return ERR_GETGRNAM;
-    gid = gp->gr_gid;
-    return 0;
-}
-#endif
 
 // chdir into the given directory, and run a program there.
 // If nsecs is nonzero, make sure it's still running after that many seconds.

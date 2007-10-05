@@ -40,6 +40,7 @@
 #include "util.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#include "sandbox.h"
 
 #include "file_names.h"
 
@@ -140,6 +141,9 @@ int remove_project_dir(PROJECT& p) {
     int retval;
 
     get_project_dir(&p, buf, sizeof(buf));
+#ifdef SANDBOX
+    remove_project_owned_file_or_dir(buf);
+#endif
     retval = clean_out_dir(buf);
     if (retval) {
         msg_printf(&p, MSG_INTERNAL_ERROR, "Can't delete file %s", boinc_failed_file);
@@ -212,6 +216,9 @@ void delete_old_slot_dirs() {
             }
 #endif
             if (!gstate.active_tasks.is_slot_dir_in_use(path)) {
+#ifdef SANDBOX
+                remove_project_owned_files_or_dirs(path);
+#endif
                 clean_out_dir(path);
                 boinc_rmdir(path);
             }
@@ -289,18 +296,6 @@ bool is_image_file(const char* filename) {
     if (ends_with(fn, std::string(".jpeg"))) return true;
     if (ends_with(fn, std::string(".png"))) return true;
     return false;
-}
-
-#ifdef SANDBOX
-int set_to_project_group(const char* path) {
-    if (g_use_sandbox) {
-        if (boinc_exec(SETPROJECTGRP_FILE_NAME, (char*)path))
-            return ERR_CHOWN;
-    }
-#else
-int set_to_project_group(const char*) {
-#endif
-    return 0;
 }
 
 void boinc_version_dir(PROJECT& p, VERSION_INFO& vi, char* buf) {

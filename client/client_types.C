@@ -39,6 +39,7 @@
 #include "str_util.h"
 #include "client_state.h"
 #include "pers_file_xfer.h"
+#include "sandbox.h"
 
 #include "client_types.h"
 

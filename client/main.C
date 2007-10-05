@@ -73,6 +73,7 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "log_flags.h"
 #include "client_msgs.h"
 #include "http_curl.h"
+#include "sandbox.h"
 
 #include "main.h"
 
@@ -718,7 +719,7 @@ int main(int argc, char** argv) {
     // for the current setting of g_use_sandbox
     //
 #if defined(_DEBUG) && defined(__APPLE__)
-    // GDB can't attach to applications which are running as a diferent user
+    // GDB can't attach to applications which are running as a different user
     // or group, so fix up data with current user and group during debugging
     //
     if (check_security(g_use_sandbox, false)) {

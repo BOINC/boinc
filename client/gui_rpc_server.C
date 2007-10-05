@@ -52,6 +52,7 @@
 #include "file_names.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#include "sandbox.h"
 
 using std::string;
 using std::vector;

@@ -62,6 +62,7 @@ using std::vector;
 #include "client_state.h"
 #include "file_names.h"
 #include "procinfo.h"
+#include "sandbox.h"
 
 #include "app.h"
 
@@ -122,16 +123,9 @@ int ACTIVE_TASK::kill_task(bool restart) {
     TerminateProcessById(pid);
 #else
 #ifdef SANDBOX
-    char cmd[1024];
-    
-    if (g_use_sandbox) {
-        // if project application is running as user boinc_project and 
-        // core client is running as user boinc_master, we cannot send
-        // a signal directly, so use switcher.
-        sprintf(cmd, "/bin/kill kill -s KILL %d", pid);
-        boinc_exec(SWITCHER_FILE_NAME, cmd);
-    }
-    // Always try to kill project app directly, just to be safe:
+    kill_via_switcher(pid);
+    // Also kill app directly, just to be safe
+    //
 #endif
     kill(pid, SIGKILL);
 #endif
@@ -336,6 +330,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     if (!will_restart) {
         copy_output_files();
         read_stderr_file();
+#ifdef SANDBOX
+        remove_project_owned_file_or_dirs(slot_dir);
+#endif
         clean_out_dir(slot_dir);
     }
     gstate.request_schedule_cpus("application exited");

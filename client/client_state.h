@@ -471,10 +471,6 @@ public:
 
 extern CLIENT_STATE gstate;
 
-#ifdef SANDBOX
-#define BOINC_PROJECT_GROUP_NAME "boinc_project"
-#endif
-
 // return a random double in the range [MIN,min(e^n,MAX))
 //
 extern double calculate_exponential_backoff(

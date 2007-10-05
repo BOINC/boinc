@@ -32,6 +32,7 @@
 #include "util.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#include "sandbox.h"
 
 static void print_options(char* prog) {
     printf(

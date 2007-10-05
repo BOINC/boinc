@@ -183,6 +183,7 @@
     // represents HTTP 404 error
 #define ERR_BAD_FILENAME    -225
 #define ERR_TOO_MANY_EXITS  -226
+#define ERR_RMDIR           -227
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.C.

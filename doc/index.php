@@ -89,6 +89,7 @@ function show_create() {
         <li> <b>Companies</b>:
             use BOINC for <a href=dg.php>desktop Grid computing</a>.
         </ul>
+        Current projects: check for <a href=trac/wiki/ServerUpdates>server software updates</a>.
         </td></tr>
     ";
 }
@@ -119,12 +120,13 @@ function show_nsf() {
         <img align=left src=nsf.gif>
         BOINC is supported by the
         <a href=http://nsf.gov>National Science Foundation</a>
-        through awards SCI/0221529, SCI/0438443 and SCI/0506411.
-        <font size=-2>
+        through awards SCI-0221529, SCI-0438443, SCI-0506411,
+                PHY/0555655, and OCI-0721124.
+        <span class=note>
         Any opinions, findings, and conclusions or recommendations expressed in
         this material are those of the author(s)
         and do not necessarily reflect the views of the National Science Foundation.
-        </font>
+        </span>
         </td></tr>
     ";
 }

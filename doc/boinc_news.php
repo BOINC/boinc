@@ -2,6 +2,11 @@
 
 $project_news = array(
 
+array("October 4, 2007",
+    "The National Science Foundation has awarded a three-year grant,
+    NSF award #OCI-0721124, to the BOINC project.
+    This will support our development efforts through August 2010."
+),
 array("September 26, 2007",
     "The Third Pan-Galactic BOINC Workshop took place 5-6 Sept. in Geneva.
     The proceedings, including talk slides and notes from
