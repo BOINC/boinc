@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ This is the manual page for boinc_cmd, a command tool that provides an
+ interactive command-line interface for the core client.
+
+ Copyright © 2007 University of California
+
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.2 or
+ any later version published by the Free Software Foundation; with no
+ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.2/docbookx.dtd" [
+
+  <!ENTITY dhbinary    "boinc_cmd">
+  <!ENTITY dhdate      "<date>October 06, 2007</date>">
+  <!ENTITY gnu         "<acronym>GNU</acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <authorgroup>
+      <author>
+        <firstname>Frank</firstname>
+        <lastname>Thomas</lastname>
+        <email>frank@thomas-alfeld.de</email>
+      </author>
+
+      <author>
+        <firstname>Peter</firstname>
+        <lastname>Bailis</lastname>
+        <email>pbailis@gmail.com</email>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>2007</year>
+      <holder>University of California</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+
+  <refmeta>
+    <refentrytitle>&dhbinary;</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>&dhbinary;</refname> 
+    <refpurpose>command line interface to the BOINC core client</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&dhbinary;</command>
+      <arg>--host <replaceable>hostname</replaceable><arg
+        >:<replaceable>port</replaceable></arg></arg>
+      <arg>--passwd <replaceable>passwd</replaceable></arg>
+      <arg choice="plain"><replaceable>command</replaceable></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      <command>&dhbinary;</command>
+      <arg>-hV</arg>
+    </cmdsynopsis>
+    <para>Notice that the order of the options is important. The --host and
+      --passwd options must precede any command.</para>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>DESCRIPTION</title>
+    <para>The BOINC command tool (<command>boinc_cmd</command>) provides
+      a command line interface to a running BOINC core client.</para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <para></para>
+
+    <variablelist>
+      <varlistentry>
+        <term>
+          <option>--host <replaceable>hostname</replaceable><optional
+            >:<replaceable>port</replaceable></optional></option>
+        </term>
+        <listitem>
+          <para>Connect to the host <replaceable>hostname</replaceable>.
+            The default host is localhost.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--passwd <replaceable>passwd</replaceable></option>
+        </term>
+        <listitem>
+          <para>Use <replaceable>passwd</replaceable> as password for RPC
+            authentication. If the current working directory contains a file
+            'gui_rpc_auth.cfg', <command>boinc_cmd</command> will read the
+            password from this file.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-h, --help</option></term>
+        <listitem>
+          <para>Show a help message and all commands.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-V, --version</option></term>
+        <listitem>
+          <para>Show the version of the program.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>COMMANDS</title>
+    <para></para>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>--get_state</option></term>
+        <listitem>
+          <para>Show entire core client state.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_results</option></term>
+        <listitem>
+          <para>Show all results.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_file_transfers</option></term>
+        <listitem>
+          <para>Show all current file transfers.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_project_status</option></term>
+        <listitem>
+          <para>Show status of all projects.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_disk_usage</option></term>
+        <listitem>
+          <para>Show disk usage of all projects.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--result
+            <replaceable>url</replaceable>
+            <replaceable>result_name</replaceable>
+            {suspend | resume | abort | graphics_window | graphics_fullscreen}
+            {--window_station ws} {--desktop dt} {--display dp}
+          </option>
+        </term>
+        <listitem>
+          <para>Do operation on a result.</para>
+
+          <variablelist>
+            <varlistentry>
+              <term><option>suspend</option></term>
+              <listitem>
+                <para>Temporarily stop work on a result.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>resume</option></term>
+              <listitem>
+                <para>Allow work on a result.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>abort</option></term>
+              <listitem>
+                <para>Permanently stop work on result.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>graphics_window</option></term>
+              <listitem>
+                <para>Open graphics in a window. The optional desktop /
+                  window_station (Windows) or display (X11) arguments
+                  specify the display.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>graphics_fullscreen</option></term>
+              <listitem>
+                <para>Open graphics fullscreen.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--project
+            <replaceable>url</replaceable>
+            {reset | detach | update | suspend | resume | nomorework 
+            | allowmorework}
+          </option>
+        </term>
+        <listitem>
+          <para>Do operation on a project.</para>
+
+          <variablelist>
+            <varlistentry>
+              <term><option>reset</option></term>
+              <listitem>
+                <para>Delete current work and get more.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>detach</option></term>
+              <listitem>
+                <para>Delete current work and don't get more.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>update</option></term>
+              <listitem>
+                <para>Contact scheduling server.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>suspend</option></term>
+              <listitem>
+                <para>Stop work for project.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>resume</option></term>
+              <listitem>
+                <para>Resume work for project.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>nomorework</option></term>
+              <listitem>
+                <para>Finish current work but don't get more.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>allowmorework</option></term>
+              <listitem>
+                <para>Undo <option>nomorework</option>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--project_attach
+            <replaceable>url</replaceable>
+            <replaceable>auth</replaceable>
+          </option>
+        </term>
+        <listitem>
+          <para>Attach to an account via <replaceable>auth</replaceable>, the
+            authorization key from the project.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--file_transfer
+            <replaceable>url</replaceable>
+            <replaceable>filename</replaceable>
+            {retry | abort}
+          </option>
+        </term>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--set_run_mode {always | auto | never}
+            [<replaceable>duration</replaceable>]
+          </option>
+        </term>
+        <listitem>
+          <para>Set run mode.</para>
+
+          <variablelist>
+            <varlistentry>
+              <term><option>always</option></term>
+              <listitem>
+                <para>Do work (network + CPU) always.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>auto</option></term>
+              <listitem>
+                <para>Do work only when allowed by preferences.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><option>never</option></term>
+              <listitem>
+                <para>Don't do work (same as suspending all projects).</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--set_network_mode {always | auto | never}
+            [<replaceable>duration</replaceable>]
+          </option>
+        </term>
+        <listitem>
+          <para>Set network mode. Like <option>--set_run_mode</option> but
+            applies only to network transfers.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--get_proxy_settings</option>
+        </term>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--set_proxy_settings
+            <replaceable>http_server_name</replaceable>
+            <replaceable>http_server_port</replaceable>
+            <replaceable>http_user_name</replaceable>
+            <replaceable>http_user_passwd</replaceable>
+            <replaceable>socks_server_name</replaceable>
+            <replaceable>socks_server_port</replaceable>
+            <replaceable>socks_version</replaceable>
+            <replaceable>socks5_user_name</replaceable>
+            <replaceable>socks5_user_passwd</replaceable>
+          </option>
+        </term>
+        <listitem>
+          <para>Set proxy settings. All fields are mandantory.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--get_messages <replaceable>seqno</replaceable></option>
+        </term>
+        <listitem>
+          <para>Show messages with sequence numbers beyond
+            <replaceable>seqno</replaceable>.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_host_info</option></term>
+        <listitem>
+          <para>Show system information about the host where the BOINC core
+            client is running.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--acct_mgr_rpc
+            <replaceable>url</replaceable>
+            <replaceable>name</replaceable>
+            <replaceable>password</replaceable>
+          </option>
+        </term>
+        <listitem>
+          <para>Instruct core client to contact an account manager
+            server.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--run_benchmarks</option></term>
+        <listitem>
+          <para>Run CPU benchmarks.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_screensaver_mode</option></term>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--set_screensaver_mode {on | off}
+            <replaceable>blank_time</replaceable>
+            {--desktop desktop} {--window_station window_station}
+            {--display display}
+          </option>
+        </term>
+        <listitem>
+          <para>Tell the core client to start or stop doing fullscreen
+            graphics, and going to black after
+            <replaceable>blank_time</replaceable> seconds. The optional
+            arguments specify which desktop / windows_station (Windows) or
+            display (X11) to use.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--get_project_config
+            <replaceable>url</replaceable>
+          </option>
+        </term>
+        <listitem>
+          <para>Fetch configuration at project located at
+            <replaceable>url</replaceable>.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_project_config_poll</option></term>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--lookup_account
+            <replaceable>url</replaceable>
+            <replaceable>email</replaceable>
+            <replaceable>passwd</replaceable>
+          </option>
+        </term>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+          <option>--create_account
+            <replaceable>url</replaceable>
+            <replaceable>email</replaceable>
+            <replaceable>passwd</replaceable>
+            <replaceable>name</replaceable>
+          </option>
+        </term>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--read_global_prefs_override</option></term>
+        <listitem>
+          <para>Tell the core client to read the global_prefs_override.xml file
+            and incorporate any global preferences indicated there.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--read_cc_config</option></term>
+         <listitem>
+          <para>Reread the configuration file (cc_config.xml).</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--network_available</option></term>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--get_cc_status</option></term>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--quit</option></term>
+        <listitem>
+          <para>Stop the running BOINC core client.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para><ulink url="http://boinc.berkeley.edu/trac/wiki/BoincCmd"/></para>
+  </refsect1>
+
+  <refsect1>
+    <title>COPYRIGHT</title>
+    <para>Copyright © 2007 University of California. Permission is granted to
+      copy, distribute and/or modify this document under the terms of the
+      &gnu; Free Documentation License, Version 1.2 or any later version
+      published by the Free Software Foundation; with no Invariant Sections,
+      no Front-Cover Texts, and no Back-Cover Texts.</para>
+  </refsect1>
+</refentry>

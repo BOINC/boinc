@@ -145,6 +145,12 @@ AC_PROG_RANLIB
 SAH_LINKS
 AM_PROG_CC_C_O
 
+dnl Check for docbook2x-man, which we use to create the manpages in
+dnl doc/manpages, and set the conditional HAVE_DOCBOOK2X_MAN to build
+dnl the manpages only if docbook2x-man is available.
+AC_PATH_PROG(DOCBOOK2X_MAN, docbook2x-man)
+AM_CONDITIONAL(HAVE_DOCBOOK2X_MAN, [test -n "${DOCBOOK2X_MAN}"])
+
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc${EXEEXT}])
 AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd${EXEEXT}])
 AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr${EXEEXT}])
@@ -668,6 +674,7 @@ AC_CONFIG_FILES([
                  client/Makefile
                  client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  db/Makefile
+                 doc/manpages/Makefile
                  lib/Makefile
                  Makefile
                  py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
@@ -684,9 +691,9 @@ AC_CONFIG_FILES([
                  tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  tools/Makefile
                  zip/Makefile
-		 zip/zip/Makefile
-		 zip/unzip/Makefile
-		 m4/Makefile
+                 zip/zip/Makefile
+                 zip/unzip/Makefile
+                 m4/Makefile
                  ])
 
 dnl AC_CONFIG_HEADER([config.h])

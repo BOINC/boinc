@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ This is the manual page for the BOINC manager (boincmgr), a monitor
+ and control utility for the core client.
+
+ Copyright © 2007 University of California
+
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.2 or
+ any later version published by the Free Software Foundation; with no
+ Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+-->
+
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.2/docbookx.dtd" [
+
+  <!ENTITY dhbinary    "boincmgr">
+  <!ENTITY dhdate      "<date>October 06, 2007</date>">
+  <!ENTITY gnu         "<acronym>GNU</acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <author>
+      <firstname>Frank</firstname>
+      <lastname>Thomas</lastname>
+      <email>frank@thomas-alfeld.de</email>
+    </author>
+    <copyright>
+      <year>2007</year>
+      <holder>University of California</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+
+  <refmeta>
+    <refentrytitle>&dhbinary;</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>&dhbinary;</refname> 
+    <refpurpose>The graphical BOINC manager for the core client.</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&dhbinary;</command>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>DESCRIPTION</title>
+    <para>The BOINC manager (<command>&dhbinary;</command>) is a controling
+      and monitoring utility for the BOINC core client.</para>
+  </refsect1>
+
+  <refsect1>
+    <title>OPTIONS</title>
+    <para>A full summary of options is included below.</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>-h, --help</option></term>
+        <listitem>
+          <para>Show all options.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--verbose</option></term>
+        <listitem>
+          <para>Generate verbose log messages.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-s, --systray</option></term>
+        <listitem>
+          <para>Startup BOINC Manager so only the system tray icon is
+            visible.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-b, --boincargs</option></term>
+        <listitem>
+          <para>Startup BOINC with these optional arguments.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-i, --insecure</option></term>
+        <listitem>
+          <para>Disable BOINC security users and permissions.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para>
+      <ulink url="http://boinc.berkeley.edu/trac/wiki/ManagerAdvanced"/>
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>COPYRIGHT</title>
+    <para>Copyright © 2007 University of California. Permission is granted to
+      copy, distribute and/or modify this document under the terms of the
+      &gnu; Free Documentation License, Version 1.2 or any later version
+      published by the Free Software Foundation; with no Invariant Sections,
+      no Front-Cover Texts, and no Back-Cover Texts.</para>
+  </refsect1>
+</refentry>

@@ -9252,3 +9252,18 @@ David  5 Oct 2007
         feeder.C
         hr_info.C
         sched_send.C
+
+Frank Thomas    7 Oct 2007
+    - Added manpages in DocBook/XML source format and integrated them in the
+        autotools build process. They are compiled into troff format using
+        docbook2x-man if it is available on the build system.
+
+    configure.ac
+    Makefile.am
+    doc/
+        manpages/
+            Makefile.am
+            boincmgr.xml
+            boinc_client.xml
+            boinc_cmd.xml
+
