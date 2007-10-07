@@ -332,11 +332,11 @@ function hosts_compatible($host1, $host2) {
         }
     }
     if (!os_compatible($host1, $host2)) {
-        echo "<br>$host1->id $host2->id: OS not compatible: ($host1->os_name, $host2->os_name)\n";
+        //echo "<br>$host1->id $host2->id: OS not compatible: ($host1->os_name, $host2->os_name)\n";
         return false;
     }
     if (!cpus_compatible($host1, $host2)) {
-        echo "<br>$host1->id $host2->id: CPU not compatible ($host1->p_vendor $host1->p_model, $host2->p_vendor $host2->p_model)\n";
+        //echo "<br>$host1->id $host2->id: CPU not compatible ($host1->p_vendor $host1->p_model, $host2->p_vendor $host2->p_model)\n";
         return false;
     }
     return true;
@@ -362,7 +362,7 @@ function host_update_credit($hostid) {
             $avg_time
         );
 
-        echo "<br>$avg\n";
+        //echo "<br>$avg\n";
     }
     mysql_free_result($r);
 

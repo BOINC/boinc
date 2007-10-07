@@ -9280,3 +9280,9 @@ David  7 Oct 2007
         user/
             pending.php
             team_change_founder_form.php
+
+David  7 Oct 2007
+    - user web: remove debugging text from host merge page
+
+    html/inc/
+        host.inc
