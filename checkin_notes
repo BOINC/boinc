@@ -9286,3 +9286,10 @@ David  7 Oct 2007
 
     html/inc/
         host.inc
+
+David  7 Oct 2007
+    - user web: when a table column has numbers intended to be compared,
+        right-justify them
+
+    html/inc/
+        team.inc

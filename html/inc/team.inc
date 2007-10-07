@@ -110,8 +110,8 @@ function display_team_page($team, $offset, $sort_by) {
         $x = user_links($user);
         echo "<tr class=row1>
             <td align=left>$j) $x
-            <td align=center>$user_total_credit</td>
-            <td align=center>$user_expavg_credit</td>
+            <td align=right>$user_total_credit</td>
+            <td align=right>$user_expavg_credit</td>
             <td align=center>$user->country</td>
             </tr>
         ";
@@ -176,9 +176,9 @@ function show_team_row($team, $i) {
     echo"<tr class=row1>
         <td>$i</td>
         <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
-        <td>".$team->nusers."</td>
-        <td>$team_expavg_credit</td>
-        <td>$team_total_credit</td>
+        <td align=right>".$team->nusers."</td>
+        <td align=right>$team_expavg_credit</td>
+        <td align=right>$team_total_credit</td>
         <td>$team->country</td>
         </tr>\n";
 }
