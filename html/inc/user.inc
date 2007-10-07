@@ -126,7 +126,7 @@ function total_posts($user) {
 }
 
 function show_credit($user) {
-    row2(tr(TOTAL_CREDIT), format_credit($user->total_credit));
+    row2(tr(TOTAL_CREDIT), format_credit_large($user->total_credit));
     row2(tr(EXPAVG_CREDIT), format_credit($user->expavg_credit));
     project_user_credit($user);
 }
@@ -331,7 +331,7 @@ function show_user_row($user, $i) {
         <td>$i</td>
         <td>", user_links($user), "</td>
         <td>", format_credit($user->expavg_credit), "</td>
-        <td>", format_credit($user->total_credit), "</td>
+        <td>", format_credit_large($user->total_credit), "</td>
         <td>", $user->country, "</td>
         <td>", time_str($user->create_time),"</td>
         </tr>

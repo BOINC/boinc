@@ -68,7 +68,7 @@ function show_host($host, $private, $ipprivate, $user) {
         }
     }
     row2("Created", time_str($host->create_time));
-    row2("Total Credit", format_credit($host->total_credit));
+    row2("Total Credit", format_credit_large($host->total_credit));
     row2("Recent average credit", format_credit($host->expavg_credit));
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of CPUs", $host->p_ncpus);
@@ -209,19 +209,19 @@ function show_host_row($host, $i, $private, $show_owner) {
         }
     }
     if ($show_owner) {
-        // This is used in the TOP COMPUTERS display
+        // This is used in the "top computers" display
         //
         printf("
             <td>%s</td>
             <td>%s</td>
             <td>%s <br> %s</td>
             <td>%s <br> %s</td>",
-               format_credit($host->expavg_credit), format_credit($host->total_credit),
+               format_credit($host->expavg_credit), format_credit_large($host->total_credit),
                $host->p_vendor, $host->p_model,
                $host->os_name, $host->os_version
         );
     } else {
-        // This is used in constructing list of COMPUTERS for a given user
+        // This is used in constructing list of computers for a given user
         //
         $config = get_config();
         if (parse_bool($config, "show_results")) {
@@ -236,7 +236,7 @@ function show_host_row($host, $i, $private, $show_owner) {
             <td>%s <br> %s</td>
             %s
             <td>%s</td>",
-               format_credit($host->expavg_credit), format_credit($host->total_credit),
+               format_credit($host->expavg_credit), format_credit_large($host->total_credit),
                $host->p_vendor, $host->p_model,
                $host->os_name, $host->os_version, $ltr, sched_log_link($host->rpc_time)
         );

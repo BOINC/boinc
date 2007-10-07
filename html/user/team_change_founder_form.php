@@ -56,7 +56,7 @@ $result = mysql_query("select * from user where teamid = $team->id");
 
 $navailable_users = 0;
 while ($user = mysql_fetch_object($result)) {
-    if($user->id!=$team->userid) {       //don't show current founder
+    if ($user->id!=$team->userid) {       //don't show current founder
         $user_total_credit = format_credit($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
         echo '

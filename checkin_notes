@@ -9267,3 +9267,16 @@ Frank Thomas    7 Oct 2007
             boinc_client.xml
             boinc_cmd.xml
 
+David  7 Oct 2007
+    - user web: add format_credit_large() function to show
+        credit in situations where it's likely to be large (e.g. team totals)
+
+    html/
+        inc/
+            host.inc
+            team.inc
+            user.inc
+            util.inc
+        user/
+            pending.php
+            team_change_founder_form.php

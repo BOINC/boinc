@@ -52,8 +52,8 @@ function display_team_page($team, $offset, $sort_by) {
     
     $user = get_logged_in_user(false);
 
-    row2("Total credit", format_credit($team->total_credit));
-    row2("Recent average credit", format_credit($team->expavg_credit));
+    row2("Total credit", format_credit_large($team->total_credit));
+    row2("Recent average credit", format_credit_large($team->expavg_credit));
     row2("Founder", user_links($founder));
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
@@ -105,7 +105,7 @@ function display_team_page($team, $offset, $sort_by) {
 
     $j = $offset + 1;
     while ($user = mysql_fetch_object($result)) {
-        $user_total_credit = format_credit($user->total_credit);
+        $user_total_credit = format_credit_large($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
         $x = user_links($user);
         echo "<tr class=row1>
@@ -171,8 +171,8 @@ function team_table_start($sort_by,$type_url) {
 }
 
 function show_team_row($team, $i) {
-    $team_expavg_credit = format_credit($team->expavg_credit);
-    $team_total_credit = format_credit($team->total_credit);
+    $team_expavg_credit = format_credit_large($team->expavg_credit);
+    $team_total_credit = format_credit_large($team->total_credit);
     echo"<tr class=row1>
         <td>$i</td>
         <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>

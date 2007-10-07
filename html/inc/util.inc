@@ -531,7 +531,15 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     return $result;
 }
 
+// use this for user RAC and result credit
+//
 function format_credit($x) {
+    return number_format($x, 2);
+}
+
+// use this when credit is likely to be large, e.g. team RAC
+//
+function format_credit_large($x) {
     return number_format($x, 0);
 }
 

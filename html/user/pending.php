@@ -1,9 +1,7 @@
 <?php
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-/*
-    Show results with pending credit for a user
-*/
+// Show results with pending credit for a user
 
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
