@@ -29,8 +29,22 @@ function isSubDir($possibleSubDir, $parent){
 $file = $_GET["file"];
 if (!$file) throw new IllegalArgumentException("No file specified");
 if (strpos(urldecode($file), "..")!==false) throw new IllegalArgumentException("Cannot use '..' in path");
+
+
+// See if we've got the file
+while (!$fileModTime){
+    if (($fileModTime = @filemtime($fileDirectory.$file)) === false){
+	$pos = strpos($file, "/", 1);
+	if ($pos === false){
+	    throw new IllegalArgumentException("File does not exist");
+	} else {
+	    $file = substr($file, $pos);
+	}	
+    }
+}
+
 $file = $fileDirectory.$file;
-if (($fileModTime = filemtime($file)) === false) throw new IllegalArgumentException("File does not exist");
+
 if (!$fileFilter->isValid($file)) throw new IllegalArgumentException("File was not accepted by the server for tracking.");
 
 // Everything's fine let's lookup the .torrent in the cache if needed:
