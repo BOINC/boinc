@@ -9293,3 +9293,20 @@ David  7 Oct 2007
 
     html/inc/
         team.inc
+
+Janus	8 Oct 2007
+    Bittorrent:
+    - Changed the torrent generator behaviour from trying only the exact path
+      to the file given to trying all paths given by removing the root of the
+      path in each step. This enables lookups like:
+      ?file=http://someplace.org/yadayada/somepath/real_path_starts_here/file
+      where it will then also find the file in 'real_path_starts_here'.
+      This makes it easier for the core client Bittorrent code to lookup
+      the metadata for a given file when it only knows the URL to that file.
+    - Added SQL peer table. This table contains active peers from the tracker.
+
+    html/bt/
+        torrent_cache.php
+	database/
+	    bittorrent_peers.sql
+
