@@ -9310,3 +9310,8 @@ Janus	8 Oct 2007
 	database/
 	    bittorrent_peers.sql
 
+Rom    8 Oct 2007
+    - MGR: User errors are supposed to be red, not internal errors.
+    
+    clientgui/
+        ViewMessages.cpp, .h
