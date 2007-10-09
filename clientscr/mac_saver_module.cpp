@@ -32,7 +32,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <sys/stat.h>
-#include <sys/wait.h>
 #include <sys/param.h>  // for MAXPATHLEN
 
 #include "gui_rpc_client.h"
