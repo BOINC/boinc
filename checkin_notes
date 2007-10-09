@@ -9367,3 +9367,6 @@ Charlie 9 Oct 2007
         boinc_cli_curl.vcproj
         boinc_ss.vcproj
         updater.vcproj
+
+David  9 Oct 2007
+    - updated svn ignore properties; deleted some .cvsignore files
