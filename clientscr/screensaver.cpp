@@ -321,18 +321,20 @@ void *CScreensaver::DataManagementProc() {
             m_QuitDataManagementProc = true;
         }
 
-        if (m_QuitDataManagementProc) {     // If main thread has requested we exit
-            if (m_hGraphicsApplication || graphics_app_result_ptr) {
-                terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
-                graphics_app_result_ptr = NULL;
-                m_hGraphicsApplication = 0;
-                graphics_app_result_ptr = NULL;
-                previous_result_ptr = NULL;
+        for (int i = 0; i < 4; i++) {
+            // Check for exit request 4 times per second
+            if (m_QuitDataManagementProc) {     // If main thread has requested we exit
+                if (m_hGraphicsApplication || graphics_app_result_ptr) {
+                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                    graphics_app_result_ptr = NULL;
+                    m_hGraphicsApplication = 0;
+                    graphics_app_result_ptr = NULL;
+                    previous_result_ptr = NULL;
+                }
+                return 0;       // Exit the thread
             }
-            return 0;       // Exit the thread
+            boinc_sleep(0.25);
         }
-
-        boinc_sleep(0.5);
 
         if (m_bResetCoreState) {
             // Try and get the current state of the CC
@@ -348,28 +350,9 @@ void *CScreensaver::DataManagementProc() {
     
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
 
-        if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
-            SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
-            m_QuitDataManagementProc = true;
-        }
-
-        if (m_QuitDataManagementProc) {     // If main thread has requested we exit
-            if (m_hGraphicsApplication || graphics_app_result_ptr) {
-                terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
-                graphics_app_result_ptr = NULL;
-                m_hGraphicsApplication = 0;
-                graphics_app_result_ptr = NULL;
-                previous_result_ptr = NULL;
-            }
-            return 0;       // Exit the thread
-         }
-        
-        boinc_sleep(0.25);
-
         m_updating_results = true;
         retval = rpc->get_screensaver_tasks(suspend_reason, results);
         m_updating_results = false;
-        boinc_sleep(0.25);
         if (retval) {
             // rpc call returned error
             HandleRPCError();
