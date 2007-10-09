@@ -15,7 +15,7 @@
 // To view the GNU Lesser General Public License visit
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
-// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 #ifndef _WIZ_ACCOUNTMANAGERINFOPAGE_H_
 #define _WIZ_ACCOUNTMANAGERINFOPAGE_H_

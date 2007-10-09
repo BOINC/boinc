@@ -15,7 +15,7 @@
 ## To view the GNU Lesser General Public License visit
 ## http://www.gnu.org/copyleft/lesser.html
 ## or write to the Free Software Foundation, Inc.,
-## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ##
 ## Provide a specially constructed binary for the Linux Ubuntu environment
 ## using GTK 2.x and wxWidgets.  This should produce a stock client for Ubuntu
