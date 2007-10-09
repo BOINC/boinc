@@ -64,7 +64,8 @@ protected:
     char*           PersistentFGets(char *buf, size_t buflen, FILE *f);
     pid_t           FindProcessPID(char* name, pid_t thePID);
     OSErr           GetpathToBOINCManagerApp(char* path, int maxLen);
-    bool            SetError( bool bErrorMode, int hrError );
+    bool            SetError( bool bErrorMode, unsigned int hrError );
+    void            UpdateProgressText();
     void            setBannerText(const char *msg, GrafPtr aPort);
     void            updateBannerText(char *msg, GrafPtr aPort);
     void            drawBanner(GrafPtr aPort);
@@ -78,14 +79,15 @@ protected:
     pid_t           m_CoreClientPID;
     int             m_dwBlankScreen;
     time_t          m_dwBlankTime;
-
+    int             m_statusUpdateCounter;
+    bool            m_StatusMessageUpdated;
 
     //
     // Data management layer
     //
 protected:
     bool            CreateDataManagementThread();
-    bool            DestoryDataManagementThread();
+    bool            DestroyDataManagementThread();
 
     void*           DataManagementProc();
     static void*    DataManagementProcStub( void* param );

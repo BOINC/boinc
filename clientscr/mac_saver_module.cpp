@@ -62,7 +62,6 @@ extern "C" {
 #define ALWAYS_DISPLAY_PROGRESS_TEXT 0
 
 // Flags for testing & debugging
-#define SIMULATE_NO_GRAPHICS 0
 #define CREATE_LOG 1
 
 #ifdef __cplusplus
@@ -151,6 +150,9 @@ CScreensaver::CScreensaver() {
     m_dwBlankTime = 0;
     m_bErrorMode = false;
     m_hrError = 0;
+    m_StatusMessageUpdated = false;
+    // Display first status update after 5 seconds
+    m_statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
     
     saverState = SaverState_Idle;
     m_wasAlreadyRunning = false;
@@ -304,25 +306,15 @@ OSStatus CScreensaver::initBOINCApp() {
 
 // Returns new desired Animation Frequency (per second) or 0 for no change
 int CScreensaver::drawGraphics(GrafPtr aPort) {
-    // Display first status update after 5 seconds
-    static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
-
     CGrafPtr savePort;
     GDHandle saveGDH;
     int newFrequency = 15;
     pid_t myPid;
-    int iResultCount;
-    int iIndex;
-    unsigned int len;
-    RESULT* theResult;
-    PROJECT* pProject;
-    char  statusBuf[256];
-    double percent_done;
     OSStatus err;
     
     ObscureCursor();
     
-    statusUpdateCounter++;
+    m_statusUpdateCounter++;
 
     switch (saverState) {
     case SaverState_RelaunchCoreClient:
@@ -383,43 +375,11 @@ int CScreensaver::drawGraphics(GrafPtr aPort) {
             break;
 #endif
         case SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING:
-            if (m_MsgBuf[0] == 0) {
-                strcpy(m_MsgBuf, BOINCNoGraphicAppsExecutingMsg);
-                setBannerText(m_MsgBuf, aPort);
-            }
-
-            if ( (statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) && !m_updating_results ) {
-                statusUpdateCounter = 0;
-
-                strcpy(m_MsgBuf, BOINCNoGraphicAppsExecutingMsg);
-    
-                iResultCount = results.results.size();
-                theResult = NULL;
-                for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                    theResult = results.results.at(iIndex);
-
-                    // The get_state rpc is time-consuming, so we assume the list of 
-                    // attached projects does not change while the screensaver is active.
-                    pProject = state.lookup_project(theResult->project_url);
-                    if (pProject != NULL) {
-                        percent_done = theResult->fraction_done * 100;
-                        if (percent_done < 0.01)
-                            len = sprintf(statusBuf, ("    %s"), pProject->project_name.c_str());
-                         else    // Display percent_done only after we have a valid value
-                           len = sprintf(statusBuf, ("    %s: %.2f%%"), 
-                                pProject->project_name.c_str(), percent_done);
-
-                        strlcat(m_MsgBuf, statusBuf, sizeof(m_MsgBuf));
-                    }       // end if (pProject != NULL)
-//                            else {          // (pProject += NULL): re-synch with client
-//                                goto Get_CC_State;  // Should never happen
-//                            }
-                }           // end for() loop
-                                
+            if (m_StatusMessageUpdated) {
                 setBannerText(m_MsgBuf, aPort);
                 updateBannerText(m_MsgBuf, aPort);
-            }                   // end if (statusUpdateCounter > time to update)
-
+                m_StatusMessageUpdated = false;
+            }
             break;
 #if 0
         case SCRAPPERR_QUITSCREENSAVERREQUESTED:
@@ -474,7 +434,7 @@ void CScreensaver::drawPreview(GrafPtr aPort) {
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
 void CScreensaver::ShutdownSaver() {
-    DestoryDataManagementThread();
+    DestroyDataManagementThread();
     
     if (rpc) {
 #if 0       // OS X calls closeBOINCSaver() when energy saver puts display
@@ -541,7 +501,7 @@ bool CScreensaver::CreateDataManagementThread() {
 }
 
 
-bool CScreensaver::DestoryDataManagementThread() {
+bool CScreensaver::DestroyDataManagementThread() {
     m_QuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
     if (m_hDataManagementThread) {  // Wait for DataManagementProc thread to exit
         pthread_join(m_hDataManagementThread, NULL);
@@ -551,10 +511,59 @@ bool CScreensaver::DestoryDataManagementThread() {
 }
 
 
-bool CScreensaver::SetError(bool bErrorMode, int hrError) {
+bool CScreensaver::SetError(bool bErrorMode, unsigned int hrError) {
     m_bErrorMode = bErrorMode;
     m_hrError = hrError;
+    if ((hrError == SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING)
+#if ALWAYS_DISPLAY_PROGRESS_TEXT
+            || (hrError == SCRAPPERR_SCREENSAVERRUNNING)
+#endif
+            )
+    {
+        UpdateProgressText();
+    }
     return true;
+}
+
+void CScreensaver::UpdateProgressText() {
+    int iResultCount;
+    int iIndex;
+    unsigned int len;
+    RESULT* theResult;
+    PROJECT* pProject;
+    char  statusBuf[256];
+    double percent_done;
+
+     if ( (m_statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) && !m_updating_results ) {
+        if (! m_StatusMessageUpdated) {
+            m_statusUpdateCounter = 0;
+            strcpy(m_MsgBuf, BOINCNoGraphicAppsExecutingMsg);
+
+        iResultCount = results.results.size();
+        theResult = NULL;
+        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+            theResult = results.results.at(iIndex);
+
+            // The get_state rpc is time-consuming, so we assume the list of 
+            // attached projects does not change while the screensaver is active.
+            pProject = state.lookup_project(theResult->project_url);
+            if (pProject != NULL) {
+                percent_done = theResult->fraction_done * 100;
+                if (percent_done < 0.01)
+                    len = sprintf(statusBuf, ("    %s"), pProject->project_name.c_str());
+                 else    // Display percent_done only after we have a valid value
+                   len = sprintf(statusBuf, ("    %s: %.2f%%"), 
+                        pProject->project_name.c_str(), percent_done);
+
+                strlcat(m_MsgBuf, statusBuf, sizeof(m_MsgBuf));
+            } else {          // (pProject == NULL): re-synch with client
+                 HandleRPCError();
+                 return;
+            }
+        }           // end for() loop
+                m_StatusMessageUpdated = true;
+        }   // end if (! m_StatusMessageUpdated)
+    }                   // end if (m_statusUpdateCounter > time to update)
 }
 
 
