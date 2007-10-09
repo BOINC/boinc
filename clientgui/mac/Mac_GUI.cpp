@@ -23,7 +23,7 @@
 #include <Security/AuthorizationTags.h>
 
 #include <unistd.h>
-#include "util.h"        // For g_use_sandbox
+#include "sandbox.h"
 
 
 // Determine if the currently logged-in user is auhorized to 

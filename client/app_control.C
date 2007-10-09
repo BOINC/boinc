@@ -330,9 +330,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     if (!will_restart) {
         copy_output_files();
         read_stderr_file();
-#ifdef SANDBOX
-        remove_project_owned_file_or_dirs(slot_dir);
-#endif
         clean_out_dir(slot_dir);
     }
     gstate.request_schedule_cpus("application exited");

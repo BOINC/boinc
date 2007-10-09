@@ -28,6 +28,7 @@
 #if (defined(SANDBOX) && defined(_DEBUG))
 #include "SetupSecurity.h"
 #endif
+#include "sandbox.h"
 #endif
 
 #include "stdwx.h"

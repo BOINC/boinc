@@ -73,6 +73,7 @@
 #include "str_util.h"
 #include "client_msgs.h"
 #include "procinfo.h"
+#include "sandbox.h"
 #include "app.h"
 
 using std::max;
@@ -348,7 +349,7 @@ int ACTIVE_TASK::move_trickle_file() {
     // if can't move it, remove
     //
     if (retval) {
-        boinc_delete_file(old_path);
+        delete_project_owned_file(old_path);
         return ERR_RENAME;
     }
     return 0;
@@ -409,9 +410,6 @@ int ACTIVE_TASK_SET::get_free_slot() {
         get_slot_dir(j, path, sizeof(path));
         if (boinc_file_exists(path)) {
             if (is_dir(path)) {
-#ifdef SANDBOX
-                remove_project_owned_file_or_dirs(path);
-#endif
                 retval = clean_out_dir(path);
                 if (!retval) return j;
             }
@@ -772,7 +770,7 @@ int ACTIVE_TASK::handle_upload_files() {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Can't find uploadable file %s", p);
             }
             sprintf(path, "%s/%s", slot_dir, buf);
-            boinc_delete_file(path);
+            delete_project_owned_file(path);
         }
     }
     return 0;

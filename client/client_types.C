@@ -463,7 +463,7 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
         for (i=0; i<project_files.size(); i++) {
             FILE_REF& fref = project_files[i];
             sprintf(path, "%s/%s", project_dir, fref.open_name);
-            boinc_delete_file(path);
+            delete_project_owned_file(path);
         }
     }
 
@@ -889,7 +889,7 @@ int FILE_INFO::delete_file() {
     char path[256];
 
     get_pathname(this, path, sizeof(path));
-    int retval = boinc_delete_file(path);
+    int retval = delete_project_owned_file(path);
     if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't delete file %s", path);
     }
@@ -1065,7 +1065,7 @@ int FILE_INFO::gzip() {
     }
     fclose(in);
     gzclose(out);
-    boinc_delete_file(inpath);
+    delete_project_owned_file(inpath);
     boinc_rename(outpath, inpath);
     return 0;
 }

@@ -39,8 +39,8 @@
 #include "str_util.h"
 #include "util.h"
 #include "client_msgs.h"
-#include "client_state.h"
 #include "sandbox.h"
+#include "client_state.h"
 
 #include "file_names.h"
 
@@ -141,15 +141,12 @@ int remove_project_dir(PROJECT& p) {
     int retval;
 
     get_project_dir(&p, buf, sizeof(buf));
-#ifdef SANDBOX
-    remove_project_owned_file_or_dir(buf);
-#endif
     retval = clean_out_dir(buf);
     if (retval) {
         msg_printf(&p, MSG_INTERNAL_ERROR, "Can't delete file %s", boinc_failed_file);
         return retval;
     }
-    return boinc_rmdir(buf);
+    return remove_project_owned_dir(buf);
 }
 
 // Create the slot directory for the specified slot #
@@ -216,14 +213,11 @@ void delete_old_slot_dirs() {
             }
 #endif
             if (!gstate.active_tasks.is_slot_dir_in_use(path)) {
-#ifdef SANDBOX
-                remove_project_owned_files_or_dirs(path);
-#endif
                 clean_out_dir(path);
-                boinc_rmdir(path);
+                remove_project_owned_dir(path);
             }
         } else {
-            boinc_delete_file(path);
+            delete_project_owned_file(path);
         }
     }
     dir_close(dirp);

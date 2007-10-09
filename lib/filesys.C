@@ -70,10 +70,6 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #endif
 
 
-#define RETRY_INTERVAL 5
-    // On Windows, retry for this period of time, since some other program
-    // (virus scan, defrag, index) may have the file open.
-
 using std::string;
 
 char boinc_failed_file[256];
@@ -269,7 +265,7 @@ int boinc_delete_file(const char* path) {
             boinc_sleep(drand()*2);       // avoid lockstep
             retval = boinc_delete_file_aux(path);
             if (!retval) break;
-        } while (dtime() < start + RETRY_INTERVAL);
+        } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
     if (retval) {
         safe_strcpy(boinc_failed_file, path);
@@ -309,38 +305,6 @@ int boinc_truncate(const char* path, double size) {
     return 0;
 }
 
-// recursively delete everything in the specified directory
-// (but not the directory itself).
-// If an error occurs, delete as much as you can.
-//
-int clean_out_dir(const char* dirpath) {
-    char filename[256], path[256];
-    int retval, final_retval = 0;
-    DIRREF dirp;
-
-    dirp = dir_open(dirpath);
-    if (!dirp) {
-        return 0;    // if dir doesn't exist, it's empty
-    }
-
-    while (1) {
-        strcpy(filename, "");
-        retval = dir_scan(filename, dirp, sizeof(filename));
-        if (retval) break;
-        sprintf(path, "%s/%s", dirpath,  filename);
-        if (is_dir(path)) {
-            retval = clean_out_dir(path);
-            if (retval) final_retval = retval;
-            retval = boinc_rmdir(path);
-            if (retval) final_retval = retval;
-        } else {
-            retval = boinc_delete_file(path);
-            if (retval) final_retval = retval;
-        }
-    }
-    dir_close(dirp);
-    return final_retval;
-}
 
 // return total size of files in directory and its subdirectories
 // Special version for Win because stat() is slow, can be avoided
@@ -426,7 +390,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
             f = _fsopen(path, mode, _SH_DENYNO);
                 // _SH_DENYNO makes the file sharable while open
             if (f) break;
-        } while (dtime() < start + RETRY_INTERVAL);
+        } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
 #else
     // Unix - if call was interrupted, retry a few times
@@ -509,7 +473,7 @@ int boinc_rename(const char* old, const char* newf) {
             boinc_sleep(drand()*2);       // avoid lockstep
             retval = boinc_rename_aux(old, newf);
             if (!retval) break;
-        } while (dtime() < start + RETRY_INTERVAL);
+        } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
     return retval;
 }

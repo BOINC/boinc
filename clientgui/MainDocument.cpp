@@ -34,7 +34,11 @@
 #include <sys/wait.h>
 #endif
 
-bool g_use_sandbox;
+#ifdef SANDBOX
+#include <grp.h>
+#endif
+
+bool g_use_sandbox = false;
 
 using std::string;
 

@@ -20,6 +20,11 @@
 #ifndef _FILESYS_
 #define _FILESYS_
 
+#define FILE_RETRY_INTERVAL 5
+    // On Windows, retry for this period of time, since some other program
+    // (virus scan, defrag, index) may have the file open.
+
+
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #else
 #include <stdio.h>
@@ -37,7 +42,6 @@ extern "C" {
 #endif
   extern int boinc_delete_file(const char*);
   extern int boinc_touch_file(const char *path);
-  extern int clean_out_dir(const char*);
   extern FILE* boinc_fopen(const char* path, const char* mode);
   extern int boinc_copy(const char* orig, const char* newf);
   extern int boinc_rename(const char* old, const char* newf);
