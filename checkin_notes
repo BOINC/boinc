@@ -9317,13 +9317,13 @@ Rom    8 Oct 2007
         ViewMessages.cpp, .h
 
 Charlie 8 Oct 2007
-    - client/manager/API: Finish & fix bugs in code cleanup to disentangle sandbox 
-        code from lib/.
+    - client/manager/API: Finish & fix bugs in code cleanup to disentangle 
+        sandbox code from lib/.
         - Move clean_out_dir() out of lib.
         - create new low-level routines delete_project_owned_file() and 
-            remove_project_owned_dir().  These should be called by client instead 
-            of boinc_delete_file() and boinc_rmdir() for files or directories which 
-            may have owner or group boinc_project.
+            remove_project_owned_dir().  These should be called by client 
+            instead of boinc_delete_file() and boinc_rmdir() for files or 
+            directories which may have owner or group boinc_project.
         - Add sandbox.C to XCode project.
     - Fix compile error in Mac screensaver.
 
@@ -9347,3 +9347,8 @@ Charlie 8 Oct 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 9 Oct 2007
+    - V6 SCR: Add handshaking between Mac screensaver threads when updating 
+        progress display.
+        - fix Windows thread termination and cleanup.
