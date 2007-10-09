@@ -9370,3 +9370,9 @@ Charlie 9 Oct 2007
 
 David  9 Oct 2007
     - updated svn ignore properties; deleted some .cvsignore files
+
+David  9 Oct 2007
+    - remove "updater" from tools/ Makefile
+
+    tools/
+        Makefile.am

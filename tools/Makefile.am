@@ -1,8 +1,6 @@
-
-
 include $(top_srcdir)/Makefile.incl
 
-bin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move updater
+bin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move
 
 EXTRA_DIST = make_project add xadd update_versions dbcheck_files_exist upgrade makelog.sh cleanlogs.sh
 
@@ -28,6 +26,5 @@ dir_hier_move_SOURCES = \
 
 dir_hier_move_LDADD = $(SCHED_LIB) $(BOINC_LIB) $(MYSQL_LIBS)
 
-updater_SOURCES = updater.C
-
-updater_LDADD = $(BOINC_LIB)
+#updater_SOURCES = updater.C
+#updater_LDADD = $(BOINC_LIB)
