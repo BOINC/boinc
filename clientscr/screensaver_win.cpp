@@ -1010,10 +1010,11 @@ BOOL CScreensaver::DestroyDataManagementThread() {
     m_QuitDataManagementProc = TRUE;  // Tell RPC Thread to exit
     
     // Wait up to 5 seconds for DataManagementThread to exit
-    for (int i=0; i< 20; i++) {
+    for (int i=0; i<50; i++) {
         DWORD dwStatus = STILL_ACTIVE;
         BOOL  bRetVal = FALSE;
-        
+
+		boinc_sleep(0.1);
         bRetVal = GetExitCodeThread(m_hDataManagementThread, &dwStatus);
         BOINCTRACE(_T("CScreensaver::DestroyDataManagementThread - GetExitCodeThread RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
         if (bRetVal && (dwStatus != STILL_ACTIVE)) {

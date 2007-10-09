@@ -305,8 +305,6 @@ void *CScreensaver::DataManagementProc() {
     double          last_change_time        = 0.0;
     double          last_run_check_time     = 0.0;
 #ifdef _WIN32
-    time_t  m_tThreadCreateTime = 0;
-
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
     SetError(TRUE, SCRAPPERR_BOINCSCREENSAVERLOADING);
     m_tThreadCreateTime = time(0);
