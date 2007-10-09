@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="boinc_ss"
 	ProjectGUID="{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
+	RootNamespace="boinc_ss"
 	>
 	<Platforms>
 		<Platform

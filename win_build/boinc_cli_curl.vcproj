@@ -2033,6 +2033,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\sandbox.C"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\scheduler_op.C"
 				>
 				<FileConfiguration
@@ -2303,6 +2307,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\procinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\sandbox.h"
 				>
 			</File>
 			<File
