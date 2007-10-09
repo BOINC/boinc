@@ -17,10 +17,13 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+
+#ifndef _WIN32
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <grp.h>
 #include <errno.h>
+#endif
 
 #include "error_numbers.h"
 #include "file_names.h"
@@ -33,7 +36,8 @@
 
 bool g_use_sandbox = false;
 
-#if (!defined(_WIN32) && !defined(_DEBUG))
+#ifndef _WIN32
+#ifndef _DEBUG
 static int lookup_group(char* name, gid_t& gid) {
     struct group* gp = getgrnam(name);
     if (!gp) return ERR_GETGRNAM;
@@ -119,6 +123,8 @@ int remove_project_owned_file_or_dir(const char* path) {
     return ERR_UNLINK;
 }
 
+#endif // ! _WIN32
+
 static int delete_project_owned_file_aux(const char* path) {
 #ifdef _WIN32
     if (DeleteFile(path)) return 0;
@@ -168,10 +174,12 @@ int clean_out_dir(const char* dirpath) {
 
     dirp = dir_open(dirpath);
     if (!dirp) {
+#ifndef _WIN32
         if (g_use_sandbox && (errno == EACCES)) {
             // dir may be owned by boinc_apps
             return remove_project_owned_file_or_dir(dirpath);
         }
+#endif
         return 0;    // if dir doesn't exist, it's empty
     }
 
