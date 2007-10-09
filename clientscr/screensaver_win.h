@@ -154,7 +154,7 @@ protected:
     //
 protected:
     BOOL            CreateDataManagementThread();
-    BOOL            DestoryDataManagementThread();
+    BOOL            DestroyDataManagementThread();
 
     DWORD WINAPI    DataManagementProc();
     static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );

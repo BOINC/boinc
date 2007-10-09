@@ -239,7 +239,7 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
     if (graphics_application) {
         // V6 Graphics
         kill_program(graphics_application);
-#ifdef __APPLE
+#ifdef __APPLE__
         // For sandbox security, use gfx_switcher to launch gfx app 
         // as user boinc_project and group boinc_project.
     int retval = 0;
@@ -331,12 +331,7 @@ void *CScreensaver::DataManagementProc() {
                 graphics_app_result_ptr = NULL;
                 previous_result_ptr = NULL;
             }
-
-#ifdef _WIN32
-            TerminateThread(m_hDataManagementThread, 0);
-#else
-            pthread_exit(0);       // Exit the thread
-#endif
+            return 0;       // Exit the thread
         }
 
         boinc_sleep(0.5);
@@ -368,11 +363,7 @@ void *CScreensaver::DataManagementProc() {
                 graphics_app_result_ptr = NULL;
                 previous_result_ptr = NULL;
             }
-#ifdef _WIN32
-            TerminateThread(m_hDataManagementThread, 0);
-#else
-            pthread_exit(0);       // Exit the thread
-#endif
+            return 0;       // Exit the thread
          }
         
         boinc_sleep(0.25);

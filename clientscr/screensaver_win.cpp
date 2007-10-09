@@ -181,20 +181,20 @@ CScreensaver::CScreensaver() {
 
     LoadString(NULL, IDS_DESCRIPTION, m_strWindowTitle, 200);
 
-	m_bPaintingInitialized = FALSE;
+    m_bPaintingInitialized = FALSE;
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
 
-	rpc = 0;
+    rpc = NULL;
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
     m_bResetCoreState = TRUE;
-	m_QuitDataManagementProc = FALSE;
+    m_QuitDataManagementProc = FALSE;
     m_bBOINCConfigChecked = FALSE;
     m_bBOINCStartupConfigured = FALSE;
     memset(&m_running_result, 0, sizeof(m_running_result));
 
-	ZeroMemory(m_Monitors, sizeof(m_Monitors));
+    ZeroMemory(m_Monitors, sizeof(m_Monitors));
     m_dwNumMonitors = 0;
 
     m_dwLastInputTimeAtStartup = 0;
@@ -329,8 +329,13 @@ INT CScreensaver::Run() {
 
         // Create the data management thread to talk with the daemon
         //
-        if (!DestoryDataManagementThread()) {
+        if (!DestroyDataManagementThread()) {
             return E_FAIL;
+        }
+        
+        if (rpc) {
+            delete rpc;
+            rpc = NULL;
         }
         break;
         
@@ -1001,7 +1006,7 @@ BOOL CScreensaver::CreateDataManagementThread() {
 
 // Terminate the thread that is used to talk to the daemon.
 //
-BOOL CScreensaver::DestoryDataManagementThread() {
+BOOL CScreensaver::DestroyDataManagementThread() {
     m_QuitDataManagementProc = TRUE;  // Tell RPC Thread to exit
     
     // Wait up to 5 seconds for DataManagementThread to exit
@@ -1010,7 +1015,7 @@ BOOL CScreensaver::DestoryDataManagementThread() {
         BOOL  bRetVal = FALSE;
         
         bRetVal = GetExitCodeThread(m_hDataManagementThread, &dwStatus);
-        BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread - GetExitCodeThread RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
+        BOINCTRACE(_T("CScreensaver::DestroyDataManagementThread - GetExitCodeThread RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
         if (bRetVal && (dwStatus != STILL_ACTIVE)) {
             break;
         }
