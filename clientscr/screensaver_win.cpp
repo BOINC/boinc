@@ -1014,7 +1014,7 @@ BOOL CScreensaver::DestroyDataManagementThread() {
         DWORD dwStatus = STILL_ACTIVE;
         BOOL  bRetVal = FALSE;
 
-		boinc_sleep(0.1);
+        boinc_sleep(0.1);
         bRetVal = GetExitCodeThread(m_hDataManagementThread, &dwStatus);
         BOINCTRACE(_T("CScreensaver::DestroyDataManagementThread - GetExitCodeThread RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
         if (bRetVal && (dwStatus != STILL_ACTIVE)) {
