@@ -9351,4 +9351,16 @@ Charlie 8 Oct 2007
 Charlie 9 Oct 2007
     - V6 SCR: Add handshaking between Mac screensaver threads when updating 
         progress display.
-        - fix Windows thread termination and cleanup.
+        - Fix minor bugs in Windows screensaver and cleanup.
+    - Fix Windows compile errors due to sandbox reorganization.
+        - Add sandbox.C,h to Windows Client build.
+
+    client/
+        sandbox.C
+    clientscr/
+        mac_saver_module.cpp,h
+        screensaver.cpp
+        screensaver_win.cpp,h
+    win_build/
+        boinc_cli_curl.vcproj
+        boinc_ss.vcproj
