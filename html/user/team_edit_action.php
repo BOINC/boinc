@@ -18,7 +18,7 @@ if ($user->teamid == $teamid) {
     if ($x) {
         $team_url = substr($team_url, 7);
     }
-    $team_name = boinc_htmlentities(process_user_text(strip_tags(post_str("name"))));
+    $team_name = process_user_text(strip_tags(post_str("name")));
     $team_name_lc = strtolower($team_name);
     $team_name_html = process_user_text(post_str("name_html", true)); //Do we really not want to
     $team_description = process_user_text(post_str("description", true)); //scrub out bad HTML tags?

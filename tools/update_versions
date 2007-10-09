@@ -15,7 +15,7 @@ See http://boinc.berkeley.edu/trac/wiki/UpdateVersions
 """
 
 import database, db_mid, configxml, tools
-import sys, os, re, time
+import sys, os, re, time, string
 
 verbose = 0
 try:
@@ -37,10 +37,26 @@ objects_to_commit = []
 def xlistdir(dir):
     return map(lambda file: os.path.join(dir, file), os.listdir(dir))
 
+def get_api_version(exec_file):
+    tmpfile = '.uvtemp'
+    cmd = "strings %s | grep API_VERSION > %s"%(exec_file, tmpfile)
+    os.system(cmd)
+    f = open(tmpfile, 'r')
+    if (f):
+        s = string.strip(f.read())
+        f.close()
+        os.unlink(tmpfile)
+        prefix = 'API_VERSION_'
+        n = string.find(s, prefix)
+        if (n == 0):
+            k = len(prefix)
+            return s[k:]
+    return ''
+
 def add_files(
-    app,
+    app,                # the entry from application DB table
     match,              # the output of re_match_exec_filename(exec_files[0])
-    exec_files,         # executable files
+    exec_files,         # executable files; entry 0 is the main program
     non_exec_files=[],  # non-executable files
     signature_files={},
     file_ref_infos = {}
@@ -59,7 +75,8 @@ def add_files(
         return
     platform = platforms[0]
 
-    if app:
+    api_version = get_api_version(exec_files[0])
+    if app:         # ?? this 'if' shouldn't be needed
         existing_versions = database.AppVersions.find(app=app, platform=platform, version_num=version_num)
         if existing_versions:
             if verbose:
@@ -78,7 +95,8 @@ def add_files(
             exec_files = exec_files,
             non_exec_files = non_exec_files,
             signature_files = signature_files,
-            file_ref_infos = file_ref_infos
+            file_ref_infos = file_ref_infos,
+            api_version = api_version
             )
 
         object = database.AppVersion(
@@ -86,7 +104,8 @@ def add_files(
             app = app,
             platform = platform,
             version_num = version_num,
-            xml_doc = xml_doc)
+            xml_doc = xml_doc
+            )
 
     objects_to_commit.append(object)
 

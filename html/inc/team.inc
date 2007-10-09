@@ -328,7 +328,7 @@ function transfer_ok($team, $now) {
 function make_team(
     $userid, $name, $url, $type, $name_html, $description, $country
 ) {
-    $name = boinc_htmlentities(process_user_text(strip_tags($name)));
+    $name = process_user_text(strip_tags($name));
     if (strlen($name) == 0) return null;
     $name_lc = strtolower($name);
     $url = process_user_text(strip_tags($url));

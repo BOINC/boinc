@@ -95,6 +95,10 @@ DIRREF dir_open(const char* p) {
 #ifdef _WIN32
     if (!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
+    if (!dirp) {
+        fprintf(stderr, "calloc() failed in dir_open()\n");
+        return NULL;
+    }
     dirp->first = true;
     safe_strcpy(dirp->path, p);
     strcat(dirp->path, "\\*");

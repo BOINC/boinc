@@ -9376,3 +9376,19 @@ David  9 Oct 2007
 
     tools/
         Makefile.am
+
+David  9 Oct 2007
+    - update_versions now generates <api_version> for all app versions
+    - user web: don't XML-escape team names in DB
+    - deleted obsolete files
+    - calloc() return check, fixes #277
+
+    client/
+        gui_titles.C,h
+    html/
+        inc/
+            team.inc
+        user/
+            team_edit_action.php
+    tools/
+        update_versions
