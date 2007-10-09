@@ -686,6 +686,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath="..\client\sandbox.C"
+				>
+			</File>
+			<File
 				RelativePath="..\tools\updater.C"
 				>
 			</File>

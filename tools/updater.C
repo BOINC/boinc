@@ -52,7 +52,7 @@
 
 #include "filesys.h"
 #include "util.h"
-
+#include "sandbox.h"
 using std::vector;
 
 #ifdef _WIN32
