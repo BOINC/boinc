@@ -9353,7 +9353,7 @@ Charlie 9 Oct 2007
         progress display.
         - Fix minor bugs in Windows screensaver and cleanup.
     - Fix Windows compile errors due to sandbox reorganization.
-        - Add sandbox.C,h to Windows Client build.
+        - Add sandbox.C,h to Windows Client and Updater builds.
 
     client/
         sandbox.C
@@ -9361,6 +9361,9 @@ Charlie 9 Oct 2007
         mac_saver_module.cpp,h
         screensaver.cpp
         screensaver_win.cpp,h
+    tools/
+        updater.C
     win_build/
         boinc_cli_curl.vcproj
         boinc_ss.vcproj
+        updater.vcproj
