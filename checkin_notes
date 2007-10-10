@@ -9394,7 +9394,7 @@ David  9 Oct 2007
         update_versions
 
 David  10 Oct 2007
-    - client/lib: compile fixes for OpenBSD
+    - client/lib: compile fixes for OpenBSD (fixes #431)
 
     client/
         hostinfo_unix.C
