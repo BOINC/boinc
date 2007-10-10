@@ -27,6 +27,7 @@
 #include "config.h"
 #include <cstdio>
 #include <cstring>
+#include <unistd.h>
 #endif
 
 #include "error_numbers.h"
