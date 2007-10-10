@@ -9401,3 +9401,17 @@ David  10 Oct 2007
         log_flags.C
     lib/
         util.C
+
+Janus  10 Oct 2007
+    - Added SQL table for bittorrent_ipbans
+    - Fixed an issue where servers with php magic quotes turned on could
+      cause Bittorrent-enabled clients to only be able to use HTTP to 
+      fetch certain files (when the infohash of that file contained a 
+      backslash or similar escape char).
+
+    html/bt
+        announce.php
+	scrape.php
+	inc/
+	    bittorrent_ipbans.sql (new)
+
