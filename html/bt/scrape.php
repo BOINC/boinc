@@ -15,7 +15,7 @@ function trackerError($error){
 }
 
 $info_hash = rawurldecode($_GET["info_hash"]);
-if (strlen($info_hash)<20) throw new IllegalArgumentException("Malformed infohash key (length ".strlen($info_hash).")");
+if (strlen($info_hash)!=20) throw new IllegalArgumentException("Malformed infohash key (length ".strlen($info_hash).")");
 
 if (!$ip){
     $ip = $_SERVER["REMOTE_ADDR"];

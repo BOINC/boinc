@@ -17,9 +17,9 @@ function trackerError($error){
 }
 
 $info_hash = rawurldecode($_GET["info_hash"]);
-if (strlen($info_hash)<20) throw new IllegalArgumentException("Malformed infohash key (length ".strlen($info_hash).")");
+if (strlen($info_hash)!=20) throw new IllegalArgumentException("Malformed infohash key (length ".strlen($info_hash).")");
 $peer_id = $_GET["peer_id"];
-if (strlen($peer_id)<20) throw new IllegalArgumentException("Malformed peer ID (".strlen($peer_id).")");
+if (strlen($peer_id)!=20) throw new IllegalArgumentException("Malformed peer ID (".strlen($peer_id).")");
 $port = $_GET["port"];
 if (!is_numeric($port)) throw new IllegalArgumentException("Non-numeric port supplied");
 $event = $_GET["event"];
@@ -43,7 +43,7 @@ if (isIPBanned($ip)){
 // Check that the info_hash is one that we allow:
 $queryHandle = mysql_query("SELECT * from bittorrent_files where info_hash=\"".process_user_text($info_hash)."\""); echo mysql_error();
 if (!mysql_num_rows($queryHandle)){
-    trackerError("The tracker does not allow tracking of this file:".$info_hash);
+    trackerError("The tracker does not allow tracking of this file:".$info_hash . " [] ".$_GET["info_hash"]);
 }
 $infoHashObject = mysql_fetch_object($queryHandle);
 
