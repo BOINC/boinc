@@ -9384,7 +9384,7 @@ David  9 Oct 2007
     - calloc() return check, fixes #277
 
     client/
-        gui_titles.C,h
+        gui_titles.C,h (deleted)
     html/
         inc/
             team.inc
@@ -9415,3 +9415,14 @@ Janus  10 Oct 2007
 	inc/
 	    bittorrent_ipbans.sql (new)
 
+Charlie 10 Oct 2007
+    - Mac V5 GFX API: In setMacPList(), if resource already exists, don't 
+        call getPathToThisApp() because it leaves a zombie process.
+        This call probably won't be used in V6 applications.
+    - Mac: Remove obsolete files gui_titles.C,h from XCode project.
+        
+    api/
+        mac_icon.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
