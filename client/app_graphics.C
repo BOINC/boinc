@@ -46,6 +46,18 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 
     if (!app_client_shm.shm) return;
 
+    if (m.mode == MODE_FULLSCREEN) {
+        // Remember mode before screensaver
+        graphics_mode_before_ss = graphics_mode_acked;
+    } else if (graphics_mode_acked != MODE_FULLSCREEN) {
+        graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
+    }
+
+    if ( (m.mode == MODE_HIDE_GRAPHICS) && (graphics_mode_acked == MODE_FULLSCREEN) ) {
+        // Restore mode from before screensaver
+        m.mode = graphics_mode_before_ss;
+    }
+    
     graphics_msg = m;       // save graphics_station, desktop, display
 
     strcpy(buf, xml_graphics_modes[m.mode]);

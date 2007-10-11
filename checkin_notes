@@ -9426,3 +9426,13 @@ Charlie 10 Oct 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 11 Oct 2007
+    - V6 GFX: Fix bugs in graphics compatibility with V5 applications:
+        - Initialize APP_VERSION::graphics_exec_path to empty string.
+        - Remember previous graphics mode when setting V5 applications 
+            to MODE_FULLSCREEN and restore mode when exiting fullscreen.
+    client/
+        app.h
+        app_graphics.C
+        client_state.C

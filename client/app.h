@@ -116,6 +116,7 @@ public:
     // info related to app's graphics mode (win, screensaver, etc.)
     //
     int graphics_mode_acked;            // mode acked by app
+    int graphics_mode_before_ss;        // mode before last screensaver request
     double graphics_mode_ack_timeout;
     bool exit_requested;
     int premature_exit_count;

@@ -731,6 +731,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         );
         return ERR_NOT_UNIQUE;
     }
+    
+    avp->graphics_exec_path[0] = 0;
 
     for (i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
