@@ -49,7 +49,7 @@ extern "C" {
 }	// extern "C"
 #endif
 
-// It would be nice to alwats display the scrolled progress info in case the 
+// It would be nice to always display the scrolled progress info in case the 
 // graphics application fails to show its window, but displaying the scrolled 
 // progress info takes up too much CPU time for this to be practical.  
 #define ALWAYS_DISPLAY_PROGRESS_TEXT 0
