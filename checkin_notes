@@ -9432,7 +9432,14 @@ Charlie 11 Oct 2007
         - Initialize APP_VERSION::graphics_exec_path to empty string.
         - Remember previous graphics mode when setting V5 applications 
             to MODE_FULLSCREEN and restore mode when exiting fullscreen.
+        - Fix typos in comments.
+    - Mac: remove obsolete screensaver comments.
+    
     client/
         app.h
         app_graphics.C
         client_state.C
+    clientscr/
+       mac_saver_module.cpp
+    clientgui/
+        MainDocument.cpp
