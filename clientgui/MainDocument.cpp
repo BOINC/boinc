@@ -1026,7 +1026,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
                 return &(*gfx_app_iter);
             }
     
-            // Graphics app is still running but the slot no longer has a different task
+            // Graphics app is still running but the slot now has a different task
             kill_program((*gfx_app_iter).pid);
         }
 
@@ -1119,7 +1119,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         if (!p) return ERR_INVALID_PARAM;
         slot = atoi(p+1);
         
-        // See if we are already running the grapics application for this task
+        // See if we are already running the graphics application for this task
         previous_gfx_app = GetRunningGraphicsApp(result, slot);
 
 #ifdef __WXMAC__
