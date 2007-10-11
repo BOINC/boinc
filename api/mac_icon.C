@@ -183,6 +183,12 @@ int setMacPList() {
     char path[1024], resolvedPath[1024];
     StringPtr rsrcName = (StringPtr)"\pApplication PList";
 
+    // If resource already exists, don't call getPathToThisApp() 
+    // which leaves a zombie process.
+    if (GetResource('plst', 0)) { 
+        return 0;
+    }
+    
     getPathToThisApp(path, sizeof(path));
     if (path[0] == 0)
         return -1; // Should never happen
