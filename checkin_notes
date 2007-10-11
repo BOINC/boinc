@@ -9443,3 +9443,11 @@ Charlie 11 Oct 2007
        mac_saver_module.cpp
     clientgui/
         MainDocument.cpp
+
+Eric K. 11 Oct 2007
+    -  Require non-zero credit to create profile.  David will modify to be
+       configuration option
+
+    html/
+        user/
+	    create_profile.php
