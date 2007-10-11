@@ -49,16 +49,9 @@ extern "C" {
 }	// extern "C"
 #endif
 
-// The science application can't display its graphics if, due to Fast User Switching, 
-// Switching, the active user is not the one who launched BOINC.  If we always display 
-// the progress information as scrolled text whenever a science application is running,
-// then the progress text would appear in this case.  The text would be covered up by 
-// the graphics if they are displayed. 
-// But displaying the scrolled progress info takes up too much CPU time.  We need to 
-// find a way to determine when Fast User Switching prevents graphics display and 
-// display scrolled progress text only in that case.
-// Of course, we also display scrolled progress text when the science application does 
-// not support graphics).
+// It would be nice to alwats display the scrolled progress info in case the 
+// graphics application fails to show its window, but displaying the scrolled 
+// progress info takes up too much CPU time for this to be practical.  
 #define ALWAYS_DISPLAY_PROGRESS_TEXT 0
 
 // Flags for testing & debugging
