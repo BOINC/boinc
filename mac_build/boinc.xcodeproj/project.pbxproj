@@ -890,8 +890,6 @@
 
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		AA7639FE04002B2800A80164 /* gui_titles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gui_titles.h; path = ../client/gui_titles.h; sourceTree = SOURCE_ROOT; };
-		AA763BF0040374F900A80164 /* gui_titles.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_titles.C; path = ../client/gui_titles.C; sourceTree = SOURCE_ROOT; };
 		AA8B6B1B046C364400A80164 /* app_ipc.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = app_ipc.C; path = ../lib/app_ipc.C; sourceTree = SOURCE_ROOT; };
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.C; path = ../lib/shmem.C; sourceTree = SOURCE_ROOT; };
@@ -1844,8 +1842,6 @@
 				DD344BAD07C5AEB70043025C /* gui_rpc_server.C */,
 				DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */,
 				DD344BAE07C5AEB70043025C /* gui_rpc_server.h */,
-				AA763BF0040374F900A80164 /* gui_titles.C */,
-				AA7639FE04002B2800A80164 /* gui_titles.h */,
 				DD344BC007C5AF280043025C /* hostinfo_network.C */,
 				DD344BC107C5AF280043025C /* hostinfo_network.h */,
 				F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.C */,
