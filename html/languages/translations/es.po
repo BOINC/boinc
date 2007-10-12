@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-26 12:35-0000\n"
+"PO-Revision-Date: 2007-10-12 17:44-0000\n"
 "Last-Translator: David <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,15 +11,15 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-##########################################
+# #########################################
 # Language: Spanish (Spain)
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translator: Alejandro Martín Covarrubias)
 # Email   : jbk@visualgroup.dk (alex.covarrubias@gmail.com)
-##########################################
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
+# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -32,9 +32,9 @@ msgstr "Español"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
 
-#########################################
+# ########################################
 # Apps page (apps.php)
-#########################################
+# ########################################
 msgid "APPS_TITLE"
 msgstr "Aplicaciones"
 
@@ -50,9 +50,9 @@ msgstr "Versión actual"
 msgid "APPS_INSTALLTIME"
 msgstr "Instalada"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
-#########################################
+# ########################################
 msgid "RULES_TITLE"
 msgstr "Lea nuestras políticas y normas"
 
@@ -113,9 +113,9 @@ msgstr "Hay otros proyectos que utilizan la misma plataforma, BOINC, como $PROJE
 msgid "RULES_OTHER_TEXT_B"
 msgstr "Esos otros proyectos no están asociados con $PROJECT, y no podemos garantizar sus niveles de seguridad o la naturaleza de su trabajo. Únase a ellos por su cuenta y riesgo."
 
-#########################################
+# ########################################
 # Create account form (create_account_form.php)
-#########################################
+# ########################################
 msgid "CREATE_AC_TITLE"
 msgstr "Creación de cuenta"
 
@@ -182,24 +182,24 @@ msgstr "Debe indicar un código de invitación para crear una cuenta."
 msgid "AC_INVITE_INVALID"
 msgstr "El código de invitación introducido no es válido."
 
-#########################################
+# ########################################
 # Forum sample index page
-#########################################
+# ########################################
 msgid "FORUM_TITLE"
 msgstr "Foros de $PROJECT"
 
 msgid "FORUM_TITLE_SHORT"
 msgstr "Foros"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
-#########################################
+# ########################################
 msgid "OPTIONAL"
 msgstr "Opcional"
 
-#########################################
+# ########################################
 # Various top table pages (top users, computers, teams)
-#########################################
+# ########################################
 msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Mejores participantes"
 
@@ -230,9 +230,9 @@ msgstr "Miembros"
 msgid "TOP_HOST_TITLE"
 msgstr "Mejores ordenadores"
 
-#########################################
+# ########################################
 # Forum
-#########################################
+# ########################################
 msgid "FORUM_POSTS"
 msgstr "Mensajes"
 
@@ -302,9 +302,9 @@ msgstr "Esto ha respondido a mi pregunta"
 msgid "FORUM_HTML_INFO"
 msgstr "Use códigos BBCode para formatear su texto"
 
-#########################################
+# ########################################
 # Forum thread
-#########################################
+# ########################################
 msgid "FORUM_THREAD_HIDDEN"
 msgstr "Éste hilo ha sido ocultado por motivos administrativos"
 
@@ -320,9 +320,9 @@ msgstr "Haga Click aquí para cancelar la suscripción."
 msgid "FORUM_THREAD_SUBSCRIBE"
 msgstr "Subscribirse a éste hilo"
 
-#########################################
+# ########################################
 # Forum search features
-#########################################
+# ########################################
 msgid "FORUM_SEARCH"
 msgstr "Buscar en el Foro"
 
@@ -338,9 +338,9 @@ msgstr "No se ha podido encontrar ningún encabezado que contenga '%s'."
 msgid "FORUM_SEARCH_BODIES_NO"
 msgstr "No se ha podido encontrar ningún mensaje que contenga '%s'."
 
-#########################################
+# ########################################
 # Private messages
-#########################################
+# ########################################
 msgid "Private messages"
 msgstr "Mensajes privados"
 
@@ -449,9 +449,33 @@ msgstr "Tiene un mensaje privado por leer."
 msgid "You have no unread private messages."
 msgstr "No tiene mensajes privados por leer."
 
-#########################################
+msgid "Sender"
+msgstr "Remitente"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "Reply"
+msgstr "Responder"
+
+msgid "Block user"
+msgstr "Bloquear a usuario"
+
+msgid "With selected"
+msgstr "Seleccionado"
+
+msgid "Mark as read"
+msgstr "Marcar como leído"
+
+msgid "Mark as unread"
+msgstr "Marcar como no leído"
+
+# ########################################
 # Links from the main page
-#########################################
+# ########################################
 msgid "LINKS_QA"
 msgstr "Preguntas y Respuestas"
 
