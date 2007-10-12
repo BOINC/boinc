@@ -71,10 +71,6 @@ extern int boinc_calling_thread_cpu_time(double&);
 //
 extern void mysql_timestamp(double, char*);
 
-#ifdef HAVE_PTHREAD
-extern pthread_mutex_t getrusage_mutex;
-#endif
-
 #ifdef _WIN32
 extern int run_program(
     const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&

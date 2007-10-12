@@ -9472,3 +9472,18 @@ Charlie 11 Oct 2007
         
     api/
         mac_icon.C
+
+David  12 Oct 2007
+    - API: get rid of getrusage_mutex to synchronize calls to getrusage()
+        and access to worker_thread_ru.
+        This was being used in the worker signal handler,
+        which is bad because pthread_mutex_lock() can allocate memory.
+        I don't think this matters; at worst we might get
+        CPU times off by < 1 sec.
+
+    api/
+        boinc_api.C
+    lib/
+        util.C,h
+    sched/
+        sched_util.C

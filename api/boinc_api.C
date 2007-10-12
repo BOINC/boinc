@@ -209,12 +209,10 @@ double boinc_worker_thread_cpu_time() {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
-    if (pthread_mutex_lock(&getrusage_mutex)) return last_cpu;
     cpu = (double)worker_thread_ru.ru_utime.tv_sec
       + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
     cpu += (double)worker_thread_ru.ru_stime.tv_sec
       + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
-    pthread_mutex_unlock(&getrusage_mutex);
 #endif
     double cpu_diff = cpu - last_cpu;
     if (cpu_diff>(time_diff + 1)) {
@@ -925,10 +923,7 @@ void* timer_thread(void*) {
 // It must call only signal-safe functions, and must not do FP math
 //
 void worker_signal_handler(int) {
-    if (!pthread_mutex_trylock(&getrusage_mutex)) {
-        getrusage(RUSAGE_SELF, &worker_thread_ru);
-        pthread_mutex_unlock(&getrusage_mutex);
-    }
+    getrusage(RUSAGE_SELF, &worker_thread_ru);
     if (options.direct_process_action) {
         while (boinc_status.suspended && !in_critical_section) {
             sleep(1);   // don't use boinc_sleep() because it does FP math

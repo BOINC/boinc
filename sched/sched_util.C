@@ -258,7 +258,7 @@ int count_results(char* query, int& n) {
 
 int count_workunits(int& n, const char* query) {
     DB_WORKUNIT workunit;
-    int retval = workunit.count(n, const_cast<char*>(query));
+    int retval = workunit.count(n, query);
     if (retval) return retval;
     return 0;
 }
