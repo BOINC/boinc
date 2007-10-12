@@ -9451,3 +9451,17 @@ Eric K. 11 Oct 2007
     html/
         user/
 	    create_profile.php
+
+Charlie 11 Oct 2007
+    - V6 GFX: Call waitpid to prevent gfx_switcher leaving zombie processes.
+        - Fix to debugging code in gfx_switcher.
+        - Update sandbox security documentation.
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    clientscr/
+        gfx_switcher.C
+        screensaver.cpp
+    doc/
+        sandbox.php
