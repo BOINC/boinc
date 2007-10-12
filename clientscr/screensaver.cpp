@@ -245,7 +245,8 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
     int retval = 0;
     char current_dir[MAXPATHLEN];
     char gfx_pid[16];
-    pid_t dont_care;
+    pid_t thePID;
+    int i;
 
     sprintf(gfx_pid, "%d", graphics_application);
     getcwd( current_dir, sizeof(current_dir));
@@ -262,8 +263,15 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
         3,
         argv,
         0,
-        dont_care
+        thePID
     );
+    if (retval) return retval;
+    
+    for (i=0; i<200; i++) {
+        boinc_sleep(0.01);      // Wait 2 seconds max
+        // Prevent gfx_switcher from becoming a zombie
+        if (waitpid(thePID, 0, WNOHANG) == thePID) break;
+    }
     return retval;
 #endif
         graphics_application = 0;

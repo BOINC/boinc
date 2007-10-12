@@ -57,17 +57,6 @@ int main(int argc, char** argv) {
     strlcpy(user_name, "boinc_project", sizeof(user_name));
     strlcpy(group_name, "boinc_project", sizeof(group_name));
 
-#if 0           // For debugging only
-    char	current_dir[MAXPATHLEN];
-
-    getcwd( current_dir, sizeof(current_dir));
-    print_to_log_file( "current directory = %s", current_dir);
-    
-    for (int i=0; i<argc; i++) {
-         print_to_log_file("switcher arg %d: %s\n", i, argv[i]);
-    }
-#endif
-
 #if 0       // For debugging only
     // Allow debugging without running as user or group boinc_project
     pw = getpwuid(getuid());
@@ -86,6 +75,18 @@ int main(int argc, char** argv) {
     // effective user ID and saved set_user-ID for this process
     pw = getpwnam(user_name);
     if (pw) setuid(pw->pw_uid);
+
+    // NOTE: call print_to_log_file only after switching user and group
+#if 0           // For debugging only
+    char	current_dir[MAXPATHLEN];
+
+    getcwd( current_dir, sizeof(current_dir));
+    print_to_log_file( "current directory = %s", current_dir);
+    
+    for (int i=0; i<argc; i++) {
+         print_to_log_file("switcher arg %d: %s\n", i, argv[i]);
+    }
+#endif
 
     if (argc < 2) return EINVAL;
     
@@ -131,9 +132,8 @@ static void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    strcpy(buf, getenv("HOME"));
-    strcat(buf, "/Documents/test_log.txt");
-    f = fopen(buf, "a");
+    
+    f = fopen("/Users/Shared/test_log.txt", "a");
     if (!f) return;
 
 //  freopen(buf, "a", stdout);
