@@ -27,7 +27,8 @@ function prot($user, $group, $perm) {
 
 $pp06640775 = prot('boinc_project', 'boinc_project', '0664 or 0775');
 $mp2500 = prot('boinc_master', 'boinc_project', '0500+setgid');
-$pp6551 = prot('boinc_project', 'boinc_project', '0551+setuid+setgid');
+$rm4050 = prot('root', 'boinc_master', '0050+setuid');
+$rm4055 = prot('root', 'boinc_master', '0055+setuid');
 $mm0550 = prot('boinc_master', 'boinc_master', '0550');
 $mm0440 = prot('boinc_master', 'boinc_master', '0440');
 $mm0660 = prot('boinc_master', 'boinc_master', '0660');
@@ -112,7 +113,7 @@ echo
             ))
         )),
         show_dir(1, 'switcher (directory)', $mm0550, array(
-            show_file('switcher (executable)', $pp6551),
+            show_file('switcher (executable)', $rm4050),
             show_file('setprojectgrp (executable)', $mp2500)
         )),
         show_dir(1, 'locale', $mm0550, array(
@@ -134,7 +135,10 @@ echo "<br><br>";
 echo
     show_dir(0, 'BOINC executables', $ua0555, array(
         show_file('BOINC Manager', $mm2555),
-        show_file('BOINC Client', $mm6555)
+        show_file('BOINC Client', $mm6555),
+        show_dir(1, 'screensaver (directory)', $ua0555, array(
+            show_file('gfx_switcher (executable)', $rm4055)
+        )),
     ));
     
 echo "
@@ -148,16 +152,70 @@ set project and slot files and directories to group <b>boinc_project</b>.
 <li>BOINC Client does not directly execute project applications.
 It runs the helper application <i>switcher</i>, 
 passing the request in the argument list.
-<i>switcher</i> runs setuid <b>boinc_project</b> and setgid 
-<b>boinc_project</b>,
+<i>switcher</i> runs setuid <b>root</b> and immediately changes its real and 
+effective user ID and group ID to <b>boinc_project</b>,
 so all project applications inherit user and group <b>boinc_project</b>.  
 This blocks project applications from accessing unauthorized files.
+<li>In most cases, it is best to avoid running setuid <b>root</b> because 
+it can present a security risk.  In this case, however, this is necessary to 
+<i>reduce</i> the risk because only the superuser can change the <i>real</i> 
+user and group of a process.  This prevents a malicious or malfunctioning 
+application from reverting to the user and group who launched BOINC, since any 
+process can change its user and group back to the <i>real</i> user and 
+group IDs.
+<li>BOINC's use of setuid <b>root</b> for the <i>switcher</i> application is 
+safe because:
+<ul>
+<li>The <i>switcher</i> application is inside the <i>switcher</i> directory.
+This directory is accessible only by user and group <b>boinc_master</b>,
+so that project applications cannot modify the <i>switcher</i> 
+application's permissions or code.  This also prevents unauthorized users 
+from using <i>switcher</i> to damage or manipulate project files.
+<li>The <i>switcher</i> application is readable and executable only by 
+group <b>boinc_master</b>; all other access is forbidden.
+<li>When it is run, the <i>switcher</i> application immediately changes 
+its real and effective user ID and group ID to <b>boinc_project</b>, disabling 
+its superuser privileges.
+</ul>
 <li>BOINC Manager runs setgid to group <b>boinc_master</b>.
 It can access all files in group <b>boinc_master</b>.  
 It runs as the user who launched it,
 which is necessary for a number of GUI features to work correctly.  
 Although this means that BOINC Manager cannot modify files
 created by project applications, there is no need for it to do so.  
+<li>Starting with BOINC version 6.0, project science applications use a 
+separate companion application to display graphics.  These graphics 
+applications are launched by the BOINC Manager when the user clicks on 
+the <i>Show Graphics</i> button.  Running the graphics application 
+with the BOINC Manager's user and group would be a security risk, so 
+BOINC Manager uses the <i>switcher</i> application to launch them as 
+user and group <b>boinc_project</b>. 
+<li>The screensaver also can run the graphics applications.  The Macintosh 
+screensaver is launched by the operating system, so it runs as the 
+currently logged in user and group.  Since running the science projects' graphics applications 
+with this user and group would be a security risk, the screensaver has 
+its own embedded helper application <i>gfx_switcher</i> which it uses to 
+launch the graphics applications.  
+Like the <i>switcher</i> application, <i>gfx_switcher</i> runs setuid 
+<b>root</b> and immediately changes its real and effective user ID and 
+group ID to <b>boinc_project</b>
+<li>The BOINC screensaver's use of setuid <b>root</b> for the 
+<i>gfx_switcher</i> application is safe because:
+<ul>
+<li>When it is run, the <i>gfx_switcher</i> application immediately changes 
+its real and effective user ID and group ID to <b>boinc_project</b>, disabling 
+its superuser privileges.
+<li>The <i>gfx_switcher</i> application has very limited functionality.  It 
+accepts only two commands as its first argument:.  
+<ul>
+<li><i>launch_gfx</i>: the second argument is the slot number.  It looks for 
+a soft-link named <b>graphics_app</b> in the specified slot directory and launches 
+the referenced graphics application.
+<li><i>kill_gfx</i>: the second argument is the process ID.  It kills the 
+application with the process ID; since it is running as user and group 
+<b>boinc_project</b>, it can affect only processes belonging to that user.
+</ul>
+</ul>
 <li>BOINC Manager and BOINC Client set their umasks to 002,
 which is inherited by all child applications.
 The default permissions for all files and directories they create prevent
@@ -166,11 +224,6 @@ Because files are world-readable, BOINC Client can read files written by project
 Third-party add-ons can also read BOINC data files.
 <li>Non-admin users cannot directly modify BOINC or project files.
 They can modify these files only by running the BOINC Manager and Client.  
-<li>The <i>switcher</i> application is inside the <i>switcher</i> directory.
-This directory is accessible only by user and group <b>boinc_master</b>,
-so that project applications cannot modify the <i>switcher</i> 
-application's permissions or code.  This also prevents unauthorized users 
-from using <i>switcher</i> to damage project files.
 <li>Users with admin access are members of groups <b>boinc_master</b>
 and <b>boinc_project</b> so that they do have 
 direct access to all BOINC and project files
@@ -185,10 +238,10 @@ Attach to Project, Detach from Project, Reset Project, Abort Task,
 Abort Transfer, Update Account Manager.  
 If an unauthorized user requests these functions,
 the Manager requires password authentication.
-<li>On Macintosh computers, the actual directory structure
-of the BOINC Manager application bundle is more complex 
-than implied by the box <i>BOINC executables</i> in the BOINC
-tree diagram shown above.
+<li>On Macintosh computers, the actual directory structures
+of the BOINC Manager application bundle and the screensaver bundle are 
+more complex than implied by the box <i>BOINC executables</i> in the 
+BOINC tree diagram shown above.
 <li>Some Macintosh system administrators may wish to limit which users
 can perform BOINC Manager functions (Activity Menu, etc.).
 This can be done by moving BOINC Manager out of the
