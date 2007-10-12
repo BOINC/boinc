@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";
 
 /**
  * This class serves to represent a forum under some category
@@ -141,6 +142,7 @@ class Forum {
 function show_page_nav($forum, $start=0){
     // How many pages to potentially show before and after this one:
     $preshow = 5; $postshow = 10;
+    $navbar = "";
     
     if ($forum->getThreadCount() > THREADS_PER_PAGE) {
         $total = ceil($forum->getThreadCount() / THREADS_PER_PAGE);

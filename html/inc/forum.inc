@@ -130,7 +130,8 @@ function getSortStyle($user,$place){
  **/
 function show_posts($thread, $sort_style, $filter, $logged_in_user, $show_controls=true) {
     $n = 1;
-
+    $first_unread_post = null;
+    
     if ($show_controls) {
         $controls = FORUM_CONTROLS;
     } else {
@@ -266,7 +267,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
             $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
         }
     }
-    if ($user->create_time>time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
+    if ($user->getCreateTime() > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
     if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
 
     echo "<span class=\"authorinfo\">";
@@ -368,6 +369,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
  * Start the forum table, output the proper headings and such.
  **/
 function start_forum_table($headings, $extra="width=100%") {
+    $span = null;
+    
     start_table($extra." cellspacing=0 cellpadding=2");
     echo "<tr>";
 
@@ -375,7 +378,9 @@ function start_forum_table($headings, $extra="width=100%") {
         if (is_array($headings[$i])){
             $title = $headings[$i][0];
             $class = $headings[$i][1]?$headings[$i][1]:"heading";
-            if ($headings[$i][2]) $span = " colspan=\"".$headings[$i][2]."\" ";
+            if (isset($headings[$i][2])) {
+                $span = " colspan=\"".$headings[$i][2]."\" ";
+            }
         } else {
             $title = $headings[$i];
             $class = "heading";

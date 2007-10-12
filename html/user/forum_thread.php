@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";
 /**
  * This file displays the contents of a thread.
  **/
@@ -59,10 +60,10 @@ if (!$sort_style) {
 
 if ($logged_in_user && $logged_in_user->hasJumpToUnread()){
     page_head($title, 'jumpToUnread();');
-    echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->getTitle()."\">";
+    echo "<link href=\"forum_forum.php?id=".$forum->getID()."\" rel=\"up\" title=\"".$forum->getTitle()."\">";
 } else {
     page_head($title);
-    echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->getTitle()."\">";
+    echo "<link href=\"forum_forum.php?id=".$forum->getID()."\" rel=\"up\" title=\"".$forum->getTitle()."\">";
 }
 
 $is_subscribed = $logged_in_user && $thread->isSubscribed($logged_in_user);

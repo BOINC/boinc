@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";
 
 /**
  * This class represents a user
@@ -380,7 +381,7 @@ function newUser($id, $optional_dbobj="", $optional_prefobj=""){
     // and a constructor that does exactly the same - this way calls to newUser
     // are simply replaced with calls to new User()
     global $singleton_users;
-    if (!$singleton_users[$id]){
+    if (!isset($singleton_users[$id])) {
         $singleton_users[$id] = & new User($id, $optional_dbobj, $optional_prefobj);
     }
     return $singleton_users[$id];

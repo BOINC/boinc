@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 /**
  * Allows users to search for a post or thread.  Sends to forum_search_action.php
  * for action and display.
@@ -38,6 +39,7 @@ row2("Search limits<br />
 	<option value="360">1 year</option>
     </select>');
 
+$forumid = null;
 if (get_str("forumid",true)){
     $forumid = get_str("forumid");
 }
@@ -55,6 +57,7 @@ row2("Forum<br />
     <font size=-1>Only display posts from this forum</font>",
     '<select name="search_forum">'.$forumlist.'</select');
 
+$sortlist = null;
 foreach ($thread_sort_styles as $id => $style){
 	if ($id == CREATE_TIME_NEW){
 	    $sortlist.="<option selected value=\"".$id."\">".$style."</option>";

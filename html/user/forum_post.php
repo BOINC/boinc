@@ -60,7 +60,7 @@ if ($content && $title && (!$preview)){
 
 page_head('Forum');
 
-show_forum_title($forum, NULL, $category->is_helpdesk);
+show_forum_title($forum);
 
 if ($preview == tra("Preview")) {
     $options = new output_options;

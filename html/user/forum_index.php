@@ -49,7 +49,7 @@ start_forum_table(array(tr(FORUM_TOPIC), tr(FORUM_THREADS), tr(FORUM_POSTS), tr(
 
 $categories = $mainFactory->getCategories();
 $i=0;
-while ($categories[$i]){
+while (isset($categories[$i])) {
     if (!$categories[$i]->getType()) {
         echo '
             <tr class="subtitle">
@@ -59,7 +59,7 @@ while ($categories[$i]){
         $forums = $categories[$i]->getForums();
         $ii=0;
         // Show a summary of each of the forums
-        while ($forums[$ii]){
+        while (isset($forums[$ii])) {
             echo forum_summary($forums[$ii]);
             $ii++;
         }

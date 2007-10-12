@@ -169,7 +169,11 @@ class MySQLDatabaseHandler extends DatabaseHandler {
         $query = "SELECT timestamp from forum_logging where userid='".$user->getID()."' and threadid='".$thread->getID()."'";
         $result = $this->query($query);
         $timestamp = mysql_fetch_object($result);
-        return $timestamp->timestamp;
+        if ($timestamp) {
+            return $timestamp->timestamp;
+        } else {
+            return 0;
+        }
     }
     
     /**
