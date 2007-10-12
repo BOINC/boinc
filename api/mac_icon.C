@@ -15,7 +15,7 @@
 // To view the GNU Lesser General Public License visit
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
-// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* Mac-specific code to display custom icon for science application (optional)
    adapted from code written by Bernd Machenschalk.  Used with permission of the 
@@ -32,6 +32,8 @@
 */
 
 #include <Carbon/Carbon.h>
+#include <sys/param.h>  // for MAXPATHLEN
+
 #include "boinc_api.h"
 
 #define RESIDICON -16455
@@ -49,7 +51,7 @@ char MacPListData[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
     fprintf(stderr,"MacOS Error %d occured in %s line %d\n",e,__FILE__,__LINE__);\
     return(e); } }
 
-// Adds ther specified resource to the file given as an argument.
+// Adds the specified resource to the file given as an argument.
 int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize, 
                             OSType rsrcType, int rsrcID, StringPtr rsrcName) {
     OSErr oserr;                    /* stores an OS error code */
@@ -131,7 +133,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 
 void getPathToThisApp(char* pathBuf, size_t bufSize) {
     FILE *f;
-    char buf[64], *c;
+    char buf[MAXPATHLEN], *c;
     pid_t myPID = getpid();
     int i;
     
@@ -142,13 +144,13 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     // (or the soft-link to it.)  So all we need for the path to this 
     // application is the file name.  We use the -c option so ps strips off 
     // any command-line arguments for us.
-    sprintf(buf, "ps -cp %d -o command=", myPID);
+    sprintf(buf, "ps -wcp %d -o command=", myPID);
     f = popen(buf,  "r");
     if (!f)
         return;
     PersistentFGets(pathBuf, bufSize, f);  // Skip over line of column headings
     PersistentFGets(pathBuf, bufSize, f);  // Get the UNIX command which ran us
-    fclose(f);
+    pclose(f);
 
     c = strstr(pathBuf, " -"); 
     if (c)
@@ -164,13 +166,19 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
 
 
 // Adds plst resource 0 to the file given as an argument.  This 
-// identifies the applciation to the OS as an NSUIElement, so 
+// identifies the application to the OS as an NSUIElement, so 
 // that the application does not show in the Dock and it has no 
 // menu bar.
 int setMacPList() {
-    char path[1024], resolvedPath[1024];;
+    char path[1024], resolvedPath[1024];
     StringPtr rsrcName = (StringPtr)"\pApplication PList";
 
+    // If resource already exists, don't call getPathToThisApp() 
+    // which leaves a zombie process.
+    if (GetResource('plst', 0)) { 
+        return 0;
+    }
+    
     getPathToThisApp(path, sizeof(path));
     if (path[0] == 0)
         return -1; // Should never happen
