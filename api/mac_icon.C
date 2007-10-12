@@ -160,7 +160,7 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
         return;
     PersistentFGets(pathBuf, bufSize, f);  // Skip over line of column headings
     PersistentFGets(pathBuf, bufSize, f);  // Get the UNIX command which ran us
-    fclose(f);
+    pclose(f);
 
     c = strstr(pathBuf, " -"); 
     if (c)

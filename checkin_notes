@@ -9465,3 +9465,10 @@ Charlie 11 Oct 2007
         screensaver.cpp
     doc/
         sandbox.php
+
+Charlie 11 Oct 2007
+    - Mac V5 GFX API: Fix old zombie process bug (I hope).  getPathToThisApp()
+        should call pclose(), not fclose().
+        
+    api/
+        mac_icon.C
