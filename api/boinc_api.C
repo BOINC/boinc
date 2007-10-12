@@ -195,7 +195,9 @@ static int setup_shared_mem() {
 //
 double boinc_worker_thread_cpu_time() {
     static double last_cpu=0;
+        // last value returned by this func
     static time_t last_time=0;
+        // when it was returned
     time_t now = time(0);
     double cpu, time_diff = (double)(now - last_time);
 #ifdef _WIN32
@@ -214,15 +216,23 @@ double boinc_worker_thread_cpu_time() {
     cpu += (double)worker_thread_ru.ru_stime.tv_sec
       + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
 #endif
-    double cpu_diff = cpu - last_cpu;
-    if (cpu_diff>(time_diff + 1)) {
-//      fprintf(stderr,"CPU time incrementing faster than real time.  Correcting.\n");
-        cpu = last_cpu + time_diff;
-    }
-    if (time_diff) {
-        last_cpu = cpu;
+    if (!finite(cpu)) {
+        fprintf(stderr, "CPU time infinite or NaN\n");
         last_time = now;
+        return last_cpu;
     }
+    double cpu_diff = cpu - last_cpu;
+    if (cpu_diff < 0) {
+        fprintf(stderr, "Negative CPU time change\n");
+        last_time = now;
+        return last_cpu;
+    }
+    if (cpu_diff>(time_diff + 1)) {
+//      fprintf(stderr, "CPU time incrementing faster than real time.  Correcting.\n");
+        cpu = last_cpu + time_diff + 1;         // allow catch-up
+    }
+    last_cpu = cpu;
+    last_time = now;
     return cpu;
 }
 

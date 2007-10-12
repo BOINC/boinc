@@ -9487,3 +9487,13 @@ David  12 Oct 2007
         util.C,h
     sched/
         sched_util.C
+
+David  12 Oct 2007
+    - API: handle wacky values in worker_thread_ru:
+        - check for infinity/NaN
+        - check for CPU time decreasing
+        - check for CPU time increasing faster than real time
+        ... and deal with each of these in a hopefully reasonable way
+
+    api/
+        boinc_api.C

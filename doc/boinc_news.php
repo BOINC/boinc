@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("October 12, 2007",
+    "LHC@home has moved from CERN to the University of London.
+    Read about it <a href=http://www.interactions.org/cms/?pid=1025457>here</a>."
+),
 array("October 4, 2007",
     "The National Science Foundation has awarded a three-year grant,
     NSF award #OCI-0721124, to the BOINC project.
