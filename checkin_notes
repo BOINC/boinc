@@ -9497,3 +9497,14 @@ David  12 Oct 2007
 
     api/
         boinc_api.C
+
+David  15 Oct 2007
+    - client: fix bug where delay request from project is ignored
+        if no results are returned.
+        Also, made the "Deferred" messages conditional on sched_op_debug
+        Fixes #430 (from Rattledagger)
+
+    client/
+        cs_scheduler.C
+        scheduler_op.C
+        work_fetch.C

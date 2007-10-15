@@ -822,22 +822,20 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     // if we asked for work and didn't get any,
-    // back off this project
+    // treat it as an RPC failure; back off this project
     //
     if (project->work_request && nresults==0) {
         scheduler_op->backoff(project, "no work from project\n");
     } else {
         project->nrpc_failures = 0;
+        project->min_rpc_time = 0;
+    }
 
-        // handle delay request
-        //
-        if (sr.request_delay) {
-            double x = now + sr.request_delay;
-            project->set_min_rpc_time(x, "requested by project");
-        } else {
-            project->min_rpc_time = 0;
-        }
-
+    // handle delay request from project
+    //
+    if (sr.request_delay) {
+        double x = now + sr.request_delay;
+        project->set_min_rpc_time(x, "requested by project");
     }
 
     if (sr.next_rpc_delay) {
