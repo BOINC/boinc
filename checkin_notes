@@ -9508,3 +9508,15 @@ David  15 Oct 2007
         cs_scheduler.C
         scheduler_op.C
         work_fetch.C
+
+Bruce 15 Oct 2007
+    - ops pages.  In the course of a four-hour repair of the E@H database,
+      where a sysadmin accidentally set outcome=6 in the entire result table, I
+      noticed some inconsistencies in the summary result tables, for example that
+      they did not properly incorporate outcome==7 (client detached) or
+      client_state==6 (aborted).  I have fixed this.
+
+    html/
+        inc/
+            db_ops.inc
+ 

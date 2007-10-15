@@ -466,10 +466,10 @@ function show_result_summary() {
     for ($ss=1; $ss<6; $ss++) {
         $server_state[$ss] = 0;
     }
-    for ($ro=0; $ro<7; $ro++) {
+    for ($ro=0; $ro<8; $ro++) {
         $outcome[$ro] = 0;
     }
-    for ($cs=1; $cs<6; $cs++) {
+    for ($cs=1; $cs<7; $cs++) {
         $client_state[$cs] = 0;
     }
     for ($fds=0; $fds<4; $fds++) {
@@ -515,6 +515,7 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '4' then 1 else 0 end) AS outcome_noreply,
        SUM(case when server_state = '5' and outcome = '5' then 1 else 0 end) AS outcome_didntneed,
        SUM(case when server_state = '5' and outcome = '6' then 1 else 0 end) AS outcome_validateerror,
+       SUM(case when server_state = '5' and outcome = '7' then 1 else 0 end) AS outcome_clientdetached,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '0' then 1 else 0 end) AS validate_init,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '1' then 1 else 0 end) AS validate_valid,
        SUM(case when server_state = '5' and outcome = '1' and validate_state = '2' then 1 else 0 end) AS validate_invalid,
@@ -570,6 +571,7 @@ FROM result WHERE
         $outcome[4]      = $res->outcome_noreply;
         $outcome[5]      = $res->outcome_didntneed;
         $outcome[6]      = $res->outcome_validateerror;
+        $outcome[7]      = $res->outcome_clientdetached;
 
         $client_state[1] = $res->clientstate_downloading;
         $client_state[2] = $res->clientstate_downloaded;
@@ -615,7 +617,7 @@ FROM result WHERE
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
 
-    for ($ro=0; $ro<7; $ro++) {
+    for ($ro=0; $ro<8; $ro++) {
         c_row2($outcome[$ro]?outcome_color($ro):'', outcome_string($ro),
             link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
@@ -668,7 +670,7 @@ function outcome_select() {
         <select name=\"outcome\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=0; $i<7; $i++) {
+    for($i=0; $i<8; $i++) {
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.outcome_string($i)."</option>\n";
     }
     echo "</select>\n";
@@ -690,7 +692,7 @@ function client_state_select() {
         <select name=\"client_state\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=0; $i<6; $i++) {
+    for($i=0; $i<7; $i++) {
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".client_state_string($i)."</option>\n";
     }
     echo "</select>\n";
@@ -1162,6 +1164,7 @@ function result_short_header() {
         <th>WU ID</th>
         <th>server<br>state</th>
         <th>outcome</th>
+        <th>client<br>state</th>
         <th>validate<br>state</th>
         <th>delete<br>state</th>
         <th>exit<br>status</th>
@@ -1176,9 +1179,10 @@ function result_short_header() {
 }
 
 function show_result_short($result) {
-    $ss = server_state_string($result->server_state);
-    $oc = outcome_string($result->outcome);
-    $vs = validate_state_str($result->validate_state);
+    $ss = server_state_string($result->server_state)." [$result->server_state]";
+    $oc = outcome_string($result->outcome)." [$result->outcome]";
+    $vs = validate_state_str($result->validate_state)." [$result->validate_state]";
+    $cs2 = client_state_string($result->client_state)." [$result->client_state]";
     if ($result->outcome == 3) {
         $cs = client_state_string($result->client_state);
         $oc = "$oc ($cs)";
@@ -1215,6 +1219,7 @@ function show_result_short($result) {
         <td><a href=\"db_action.php?table=workunit&id=$result->workunitid\">$result->workunitid</a></td>
         <td>$ss</td>
         <td bgcolor=$outcome_color>$oc</td>
+        <td>$cs2</td>
         <td bgcolor=$validate_color>$vs</td>
         <td>$delete_state</td>
         <td>", exit_status_string($result), "</td>
