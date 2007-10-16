@@ -191,15 +191,10 @@ static int setup_shared_mem() {
 }
 
 // Return CPU time of worker thread (and optionally others)
-// This may be called from other threads
+// This may be called from any thread
 //
 double boinc_worker_thread_cpu_time() {
-    static double last_cpu=0;
-        // last value returned by this func
-    static time_t last_time=0;
-        // when it was returned
-    time_t now = time(0);
-    double cpu, time_diff = (double)(now - last_time);
+    double cpu;
 #ifdef _WIN32
     int retval;
     if (options.all_threads_cpu_time) {
@@ -216,6 +211,18 @@ double boinc_worker_thread_cpu_time() {
     cpu += (double)worker_thread_ru.ru_stime.tv_sec
       + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
 #endif
+
+#if 0
+    // The following paranoia is (I hope) not needed anymore.
+    // In any case, the check for CPU incrementing faster than real time
+    // is misguided - it assumes no multi-threading.
+    //
+    static double last_cpu=0;
+        // last value returned by this func
+    static time_t last_time=0;
+        // when it was returned
+    time_t now = time(0);
+    double time_diff = (double)(now - last_time);
     if (!finite(cpu)) {
         fprintf(stderr, "CPU time infinite or NaN\n");
         last_time = now;
@@ -228,11 +235,12 @@ double boinc_worker_thread_cpu_time() {
         return last_cpu;
     }
     if (cpu_diff>(time_diff + 1)) {
-//      fprintf(stderr, "CPU time incrementing faster than real time.  Correcting.\n");
+        fprintf(stderr, "CPU time incrementing faster than real time.  Correcting.\n");
         cpu = last_cpu + time_diff + 1;         // allow catch-up
     }
     last_cpu = cpu;
     last_time = now;
+#endif
     return cpu;
 }
 
@@ -923,6 +931,7 @@ void* timer_thread(void*) {
     block_sigalrm();
     while(1) {
         boinc_sleep(TIMER_PERIOD);
+        getrusage(RUSAGE_SELF, &worker_thread_ru);
         timer_handler();
     }
     return 0;
@@ -933,7 +942,6 @@ void* timer_thread(void*) {
 // It must call only signal-safe functions, and must not do FP math
 //
 void worker_signal_handler(int) {
-    getrusage(RUSAGE_SELF, &worker_thread_ru);
     if (options.direct_process_action) {
         while (boinc_status.suspended && !in_critical_section) {
             sleep(1);   // don't use boinc_sleep() because it does FP math

@@ -9556,3 +9556,34 @@ Rom    16 Oct 2007
         boinc_tray.h (Added)
         boinc_tray.rc (Added)
         tray_win.cpp, .h (Added)
+
+David  16 Oct 2007
+    - API, Unix: call getrusage() from the timer thread,
+        not the worker signal handler.
+        There's no reason to call it from the signal handler -
+        it returns the CPU for the entire process, not the calling thread.
+        And it may be asynch-signal-handler-unsafe.
+    - API: comment out checks for bad CPU times.
+        I don't think this is needed now, and in some cases it's wrong
+        (multi-threaded apps can accumulate CPU faster than real time)
+    - API, Unix: in boinc_calling_thread_cpu_time(), don't retry getrusage().
+    - Bossa: switch to better class structure (suggested by Nicolas Alvarez).
+        Haven't switched to mysqli yet, but will later.
+        Also various other Bossa fixes
+
+    api/
+        boinc_api.C
+    db/
+        bossa_constraints.sal
+        bossa_schema.sql
+    html/
+        inc/
+            bossa_db.inc
+        ops/
+            bossa_make_jobs_example.php
+            bossa_setup_example.php
+        user/
+            bossa_example.php (new)
+            bossa_get_job.php
+    lib/
+        util.C

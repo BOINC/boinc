@@ -1,18 +1,25 @@
 <?php
 
-class Bossa {
-    function insert_app(&$app) {
-        if (!$app->long_jobs) $app->long_jobs = 0;
+function bossa_lookup($id, $table) {
+    $result = mysql_query("select * from $table where id='$id'");
+    if (!$result) return null;
+    $obj = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $obj;
+}
+
+class BossaApp {
+    function insert() {
+        if (!$this->long_jobs) $this->long_jobs = 0;
         $now = time();
-        $query = "insert into bossa_app (create_time, name, user_friendly_name, long_jobs, start_url, finish_url) values ($now, '$app->name', '$app->user_friendly_name', $app->long_jobs, '$app->start_url', '$app->finish_url')";
-        echo $query;
+        $query = "insert into bossa_app (create_time, name, user_friendly_name, long_jobs, start_url) values ($now, '$this->name', '$this->user_friendly_name', $this->long_jobs, '$this->start_url')";
         $result = mysql_query($query);
         if (!$result) return false;
-        $app->id = mysql_insert_id();
+        $this->id = mysql_insert_id();
         return true;
     }
 
-    function app_lookup_name($name) {
+    static function lookup_name($name) {
         $result = mysql_query("select * from bossa_app where name='$name'");
         if (!$result) return null;
         $app = mysql_fetch_object($result);
@@ -20,42 +27,56 @@ class Bossa {
         return $app;
     }
 
-    function app_lookup_id($id) {
-        $result = mysql_query("select * from bossa_app where id='$id'");
-        if (!$result) return null;
-        $app = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $app;
+    static function lookup_id($id) {
+        return bossa_lookup($id, 'bossa_app');
     }
+}
 
-    function insert_job(&$job) {
+class BossaJob {
+    function insert() {
         $now = time();
-        $query = "insert into bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, more_needed, npending, nsuccess, nsuccess_needed) values ($now, '$job->name', $job->app_id, '$job->info', $job->batch, $job->time_estimate, $job->time_limit, 1, 0, 0, $job->nsuccess_needed)";
+        $query = "insert into bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, more_needed, npending, nsuccess, nsuccess_needed) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, 1, 0, 0, $this->nsuccess_needed)";
         $result = mysql_query($query);
         if (!$result) {
             echo "$query\n";
             return false;
         }
-        $job->id = mysql_insert_id();
+        $this->id = mysql_insert_id();
         return true;
     }
+    function update($clause) {
+        return mysql_query("update bossa_job set $clause where id=$this->id");
+    }
+    static function lookup_id($id) {
+        return bossa_lookup($id, 'bossa_job');
+    }
+}
 
-    function insert_job_inst(&$ji) {
+class BossaJobInst {
+    function insert() {
         $now = time();
-        $query = "insert into bossa_job_inst (create_time, job_id, user_id) values ($now, $ji->job_id, $ji->user_id)";
+        $query = "insert into bossa_job_inst (create_time, job_id, user_id) values ($now, $this->job_id, $this->user_id)";
         $result = mysql_query($query);
         if (!$result) {
             echo "$query\n";
             return false;
         }
-        $ji->id = mysql_insert_id();
+        $this->id = mysql_insert_id();
         return true;
+    }
+
+    static function lookup_id($id) {
+        return bossa_lookup($id, 'bossa_job_inst');
+    }
+
+    function update($clause) {
+        return mysql_query("update bossa_job_inst set $clause where id=$this->id");
     }
 
     // Assign a job from the given app to the given user.
     // Returns the job instance or NULL.
     //
-    function assign_job($app, $user) {
+    static function assign($app, $user) {
         // this query skips jobs for which this user
         // has already been assigned an instance
         //
@@ -69,14 +90,35 @@ class Bossa {
         echo "<hr>";
         print_r($job);
         echo "<hr>";
+        $ji = new BossaJobInst();
         $ji->user_id = $user->id;
         $ji->job_id = $job->id;
 
-        if (!Bossa::insert_job_inst($ji)) {
+        if (!$ji->insert()) {
             echo mysql_error();
             return null;
         }
         return $ji;
+    }
+
+    // The given job instance has completed
+    //
+    function completed($job) {
+        $this->finish_time = time();
+        $this->update("finish_time=$this->finish_time, info='$this->info'");
+
+        $job->npending--;
+        $job->nsuccess++;
+        $job->more_needed = ($job->npending+$job->nsuccess < $job->nsuccess_needed);
+        return BossaJob::update("npending=$job->npending, nsuccess=$job->nsuccess, more_needed=$job->more_needed");
+    }
+
+    // The given job instance has timed out.
+    //
+    function timed_out($job) {
+        $job->npending--;
+        $job->more_needed = ($job->npending+$job->nsuccess < $job->nsuccess_needed);
+        return BossaJob::update("npending=$job->npending, more_needed=$job->more_needed");
     }
 }
 

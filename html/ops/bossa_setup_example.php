@@ -1,6 +1,6 @@
 <?php
 
-require_once("../bossa_inc/bossa_db.inc");
+require_once("../inc/bossa_db.inc");
 require_once("../inc/db.inc");
 
 db_init();
@@ -8,14 +8,15 @@ db_init();
 // Set up Bossa applications.
 // Customize and rename this file.
 
+$ba = new BossaApp();
 $ba->name = 'bossa_test';
 $ba->user_friendly_name = 'Simple pattern recognition';
-$ba->start_url = 'test_start.php';
+$ba->start_url = 'bossa_example.php';
 
-if (Bossa::insert_app($ba)) {
-    echo "success\n";
+if ($ba->insert($ba)) {
+    echo "Added application '$ba->name'\n";
 } else {
-    echo "failed ", mysql_error();
+    echo "Couldn't add '$ba->name': ", mysql_error(), "\n";
 }
 
 ?>
