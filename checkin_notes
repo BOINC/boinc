@@ -9520,3 +9520,17 @@ Bruce 15 Oct 2007
         inc/
             db_ops.inc
  
+David  16 Oct 2007
+    - Initial checkin of Bossa code.
+        This isn't part of BOINC and eventually
+        it should go in a different repository,
+        but for now I'm putting it here.
+
+    html/
+        inc/
+            bossa_db.inc
+        ops/
+            bossa_make_jobs_example.php
+            bossa_setup_example.php
+        user/
+            bossa_get_job.php
