@@ -9537,3 +9537,12 @@ David  16 Oct 2007
             bossa_setup_example.php
         user/
             bossa_get_job.php
+
+Rom    16 Oct 2007
+    - DEP: Update libCurl to 7.17.0
+
+    curl/include/curl/
+        <All Files>
+    curl/mswin/
+        <All Files>
+
