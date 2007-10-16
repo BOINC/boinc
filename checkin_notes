@@ -9546,3 +9546,13 @@ Rom    16 Oct 2007
     curl/mswin/
         <All Files>
 
+Rom    16 Oct 2007
+    - TRAY: Introduce BOINC Tray for Windows. It's primary goal is
+        to keep the CC up to date with when the last time the user
+        has used the computer. It has no UI. It is just meant to
+        be launhced at startup and let run in the background.
+        
+    clienttray/
+        boinc_tray.h (Added)
+        boinc_tray.rc (Added)
+        tray_win.cpp, .h (Added)
