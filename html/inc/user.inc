@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
@@ -223,7 +224,7 @@ function show_user_info_private($user) {
         }
     }
 
-    row1("<a name=prefs>Preferences");
+    row1("<a name=\"prefs\"></a>Preferences");
     row2(
         "General preferences<br><font size=-2>specify when and how BOINC uses your computer</font>",
         "<a href=prefs.php?subset=global>View or edit</a>"
