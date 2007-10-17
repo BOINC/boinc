@@ -9587,3 +9587,13 @@ David  16 Oct 2007
             bossa_get_job.php
     lib/
         util.C
+
+Charlie 16 Oct 2007
+    - Win V6 SCR compatibility: Version 5 screensaver logic kills all 
+        MODE_WINDOW graphics before starting one in fullscreen mode, then 
+        restarts the ones it killed when screensaver stops.  So write
+        size and position to a file in slot directory and restore when 
+        exiting fullscreen.
+
+    api/
+        graphics2_win.C

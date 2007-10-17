@@ -21,6 +21,7 @@
 #include "app_ipc.h"
 #include "util.h"
 #include "str_util.h"
+#include "filesys.h"
 #include "graphics2.h"
 
 #define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
@@ -106,6 +107,15 @@ static void make_window() {
         dwStyle=WS_POPUP;
         while(ShowCursor(false) >= 0);
     } else {
+        // Version 5 screensaver logic kills all MODE_WINDOW graphics before starting one
+        // in fullscreen mode, then restarts the ones it killed when screensaver stops.
+        // To be compatible with V5, we remember and restore the MODE_WINDOW dimensions.
+        FILE *f = boinc_fopen("gfx_info", "r");
+        if (f) {
+            // ToDo: change this to XML parsing
+            fscanf(f, "%d %d %d %d\n", &rect.left, &rect.top, &rect.right, &rect.bottom);
+            fclose(f);
+        }
         WindowRect = rect;
         dwExStyle=WS_EX_APPWINDOW|WS_EX_WINDOWEDGE;
         dwStyle=WS_OVERLAPPEDWINDOW;
@@ -304,13 +314,40 @@ BOOL unreg_win_class() {
 static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     RECT rt;
     int width, height;
+    static int size_changed = 0;
 
-    GetClientRect(hWnd, &rt);
+    GetWindowRect(hWnd, &rt);
     width = rt.right-rt.left;
     height = rt.bottom-rt.top;
 
     if (throttled_app_render(width, height, dtime())) {
         SwapBuffers(hDC);
+        if (! fullscreen) {
+            // If user has changed window size, wait until it stops 
+            // changing and then write the new dimensions to file
+            if ((rt.left != rect.left) || (rt.top != rect.top) || 
+                (rt.right != rect.right) || (rt.bottom != rect.bottom)
+            ) {
+				if (IsZoomed(hWnd)) return;
+				if ((rt.left < 0) && (rt.right < 0)) return;
+				if ((rt.top < 0) && (rt.bottom < 0)) return;
+                size_changed = 1;
+                rect.left = rt.left;
+                rect.top = rt.top;
+                rect.right = rt.right;
+                rect.bottom = rt.bottom;
+            } else {
+                if (size_changed && (++size_changed > 10)) {
+                    size_changed = 0;
+                    FILE *f = boinc_fopen("gfx_info", "w");
+                    if (f) {
+                        // ToDo: change this to XML
+                        fprintf(f, "%d %d %d %d\n", rect.left, rect.top, rect.right, rect.bottom);
+                        fclose(f);
+                    }
+                }
+            }               // End if (new size != previous size) else 
+        }
     }
 }
 
