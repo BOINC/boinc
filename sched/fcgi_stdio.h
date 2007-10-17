@@ -9,6 +9,9 @@
  * See the file "LICENSE.TERMS" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
+ * Note: The file "LICENSE.TERMS" is not included in the BOINC sources but is
+ * available online at http://www.fastcgi.com/om_archive/kit/LICENSE.TERMS.
+ *
  * $Id$
  */
 
