@@ -7721,6 +7721,7 @@ David  10 Aug 2007
     lib/
         str_util.C
 
+<<<<<<< .working
 David  2 Sept 2007
     - client: zero out xfer_speed in HTTP_OP constructor
         (may fix problem w/ #INF bandwidth display)
@@ -7771,3 +7772,11 @@ David  13 Sept 2007
     client/
         app.C
         cpu_sched.C
+
+David  17 Sept 2007
+    - client: performance tweak for CPU sched
+    - client: fix /proc/cpuinfo parsing for linux 2.6.23, powerPC
+
+    client/
+        cpu_sched.C
+        hostinfo_unix.C

@@ -313,17 +313,17 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
          if (
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
-                strstr(buf, "vendor     : ")
+            strstr(buf, "vendor     : ")
 #elif __hppa__        
-        strstr(buf, "cpu\t\t: ")
+            strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
-                strstr(buf, "machine\t\t: ")
+            strstr(buf, "machine\t\t: ") || strstr(buf, "platform\t: ")
 #elif __sparc__
-        strstr(buf, "type\t\t: ")
+            strstr(buf, "type\t\t: ")
 #elif __alpha__
-        strstr(buf, "cpu\t\t\t: ")
+            strstr(buf, "cpu\t\t\t: ")
 #else
-        strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
+            strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
 #endif
         ) {
             if (!vendor_hack && !vendor_found) {
