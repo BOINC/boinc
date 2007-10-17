@@ -7745,3 +7745,10 @@ David  3 Sept 2007
         scheduler_op.C
     lib/
         util.C,h
+
+David  12 Sept 2007
+    - client: CPU scheduler: if a project has 2 jobs with same deadline,
+        give preference to jobs already started
+
+    client/
+        cpu_sched.C
