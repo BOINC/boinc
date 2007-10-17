@@ -102,11 +102,13 @@ void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
     if (future_time > min_rpc_time) {
         min_rpc_time = future_time;
 		possibly_backed_off = true;
-        msg_printf(this, MSG_INFO,
-            "Deferring communication for %s",
-            timediff_format(min_rpc_time - gstate.now).c_str()
-        );
-        msg_printf(this, MSG_INFO, "Reason: %s\n", reason);
+        if (log_flags.sched_op_debug) {
+            msg_printf(this, MSG_INFO,
+                "[sched_op_debug] Deferring communication for %s",
+                timediff_format(min_rpc_time - gstate.now).c_str()
+            );
+            msg_printf(this, MSG_INFO, "[sched_op_debug] Reason: %s\n", reason);
+        }
     }
 }
 

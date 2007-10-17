@@ -104,9 +104,8 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
 
     reason = r;
     if (log_flags.sched_op_debug) {
-        msg_printf(0, MSG_INFO,
-            "[sched_op_debug] SCHEDULER_OP::init_op_project(): starting op for %s\n",
-            p->master_url
+        msg_printf(p, MSG_INFO,
+            "[sched_op_debug] Starting scheduler request"
         );
     }
 
@@ -282,10 +281,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     get_master_filename(*p, master_filename, sizeof(master_filename));
 
     if (log_flags.sched_op_debug) {
-        msg_printf(0, MSG_INFO,
-            "[sched_op_debug] SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
-            p->master_url
-        );
+        msg_printf(p, MSG_INFO, "[sched_op_debug] Fetching master file");
     }
     http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_get(p->master_url, master_filename, true);
@@ -343,8 +339,8 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     }
     fclose(f);
     if (log_flags.sched_op_debug) {
-        msg_printf(0, MSG_INFO,
-            "[sched_op_debug] SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n",
+        msg_printf(p, MSG_INFO,
+            "[sched_op_debug] Found %d scheduler URLs in master file\n",
             (int)urls.size()
         );
     }
@@ -404,9 +400,8 @@ bool SCHEDULER_OP::poll() {
             gstate.set_client_state_dirty("master URL fetch done");
             if (http_op.http_op_retval == 0) {
                 if (log_flags.sched_op_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "[sched_op_debug] SCHEDULER_OP::poll(): Got master file from %s; parsing",
-                         cur_proj->master_url
+                    msg_printf(cur_proj, MSG_INFO,
+                        "[sched_op_debug] Got master file; parsing"
                     );
                 }
                 retval = parse_master_file(cur_proj, urls);
