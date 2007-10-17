@@ -9597,3 +9597,14 @@ Charlie 16 Oct 2007
 
     api/
         graphics2_win.C
+
+Charlie 16 Oct 2007
+    - Mac: Update for curl_7.17.0.
+    
+    mac_build/
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
+    
