@@ -676,6 +676,7 @@ const char* boincerror(int which_error) {
         case ERR_CHOWN: return "can't change owner";
         case ERR_FILE_NOT_FOUND: return "file not found";
         case ERR_BAD_FILENAME: return "file name is empty or has '..'";
+        case ERR_TOO_MANY_EXITS: return "application exited too many times";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";
