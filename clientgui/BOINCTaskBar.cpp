@@ -339,34 +339,15 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         strTitle = pSkinAdvanced->GetApplicationName();
 
         if (pDoc->IsConnected()) {
-            pDoc->GetConnectedComputerName(strMachineName);
-            if (pDoc->IsComputerNameLocal(strMachineName)) {
-                strMachineName = wxT("localhost");
-            }
-            strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-                // 1st %s is the previous instance of the message
-                // 2nd %s is the project name
-                //    i.e. 'BOINC', 'GridRepublic'
-                strBuffer.Printf(
-                    _("%s is currently suspended...\n"),
-                    pSkinAdvanced->GetProjectName().c_str()
-                );
                 iconIcon = m_iconTaskBarSnooze;
-                strMessage += strBuffer;
+                strMessage += _("Computation is suspended.\n");
             }
 
             if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-                // 1st %s is the previous instance of the message
-                // 2nd %s is the project name
-                //    i.e. 'BOINC', 'GridRepublic'
-                strBuffer.Printf(
-                    _("%s networking is currently suspended...\n"),
-                    pSkinAdvanced->GetProjectName().c_str()
-                );
-                strMessage += strBuffer;
+                strMessage += _("Network activity is suspended.\n");
             }
 
             if (strMessage.Length() > 0) {
@@ -397,30 +378,10 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += strBuffer;
             }
         } else if (pDoc->IsReconnecting()) {
-            // 1st %s is the previous instance of the message
-            // 2nd %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            // 3rd %s is the project name
-            //    i.e. 'BOINC', 'GridRepublic'
-            strBuffer.Printf(
-                _("%s is currently reconnecting to a %s client...\n"),
-                pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetProjectName().c_str()
-            );
-            strMessage += strBuffer;
+            strMessage += _("Reconnecting to client.\n");
         } else {
-            // 1st %s is the previous instance of the message
-            // 2nd %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            // 3rd %s is the project name
-            //    i.e. 'BOINC', 'GridRepublic'
-            strBuffer.Printf(
-                _("%s is not currently connected to a %s client...\n"),
-                pSkinAdvanced->GetApplicationName().c_str(),
-                pSkinAdvanced->GetProjectName().c_str()
-            );
             iconIcon = m_iconTaskBarDisconnected;
-            strMessage += strBuffer;
+            strMessage += _("Not connected to a client.\n");
         }
 
         SetBalloon(iconIcon, strTitle, strMessage);
