@@ -148,13 +148,13 @@ int PERS_FILE_XFER::create_xfer() {
     }
     if (log_flags.file_xfer) {
         msg_printf(
-            fip->project, MSG_INFO, "[file_xfer] Started %s of file %s",
+            fip->project, MSG_INFO, "Started %s of %s",
             (is_upload ? "upload" : "download"), fip->name
         );
     }
     if (log_flags.file_xfer_debug) {
         msg_printf(0, MSG_INFO,
-            "[file_xfer_debug] PERS_FILE_XFER::start_xfer(): URL: %s\n",
+            "[file_xfer_debug] URL: %s\n",
             fip->get_current_url(is_upload)
         );
     }
@@ -208,7 +208,7 @@ bool PERS_FILE_XFER::poll() {
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer_debug) {
             msg_printf(0, MSG_INFO,
-                "[file_xfer_debug] PERS_FILE_XFER::poll(): file transfer status %d",
+                "[file_xfer_debug] file transfer status %d",
                 fxp->file_xfer_retval
             );
         }
@@ -217,14 +217,16 @@ bool PERS_FILE_XFER::poll() {
             fip->project->file_xfer_succeeded(is_upload);
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "[file_xfer] Finished %s of file %s",
+                    fip->project, MSG_INFO, "Finished %s of %s",
                     is_upload?"upload":"download", fip->name
                 );
+            }
+            if (log_flags.file_xfer_debug) {
                 if (fxp->xfer_speed < 0) {
-                    msg_printf(fip->project, MSG_INFO, "[file_xfer] No data transferred");
+                    msg_printf(fip->project, MSG_INFO, "[file_xfer_debug] No data transferred");
                 } else {
                     msg_printf(
-                        fip->project, MSG_INFO, "[file_xfer] Throughput %d bytes/sec",
+                        fip->project, MSG_INFO, "[file_xfer_debug] Throughput %d bytes/sec",
                         (int)fxp->xfer_speed
                     );
                 }
@@ -242,7 +244,7 @@ bool PERS_FILE_XFER::poll() {
         default:
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "[file_xfer] Temporarily failed %s of %s: %s",
+                    fip->project, MSG_INFO, "Temporarily failed %s of %s: %s",
                     is_upload?"upload":"download", fip->name,
                     boincerror(fxp->file_xfer_retval)
                 );
@@ -271,7 +273,7 @@ void PERS_FILE_XFER::permanent_failure(int retval) {
     pers_xfer_done = true;
     if (log_flags.file_xfer) {
         msg_printf(
-            fip->project, MSG_INFO, "[file_xfer] Giving up on %s of %s: %s",
+            fip->project, MSG_INFO, "Giving up on %s of %s: %s",
             is_upload?"upload":"download", fip->name, boincerror(retval)
         );
     }
@@ -331,7 +333,7 @@ void PERS_FILE_XFER::do_backoff() {
     );
     next_request_time = gstate.now + backoff;
     msg_printf(fip->project, MSG_INFO,
-        "Backing off %s on %s of file %s",
+        "Backing off %s on %s of %s",
         timediff_format(backoff).c_str(),
         is_upload?"upload":"download",
         fip->name

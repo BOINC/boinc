@@ -7695,6 +7695,7 @@ Rom    16 Oct 2007
         configure.ac
         version.h
 
+<<<<<<< .working
 David  2 July 2007 <Checked in sometime ago>
     - client: add <simple_gui_only> config flag
     - GUI RPC: add disallow_attach and simple_gui_only flags
@@ -7787,3 +7788,13 @@ David  21 Sept 2007
 
 	client/
 		gui_rpc_server_ops.C
+
+David  17 Oct 2007
+	- client: improve log messages
+
+	client/
+		cs_scheduler.C
+		pers_file_xfer.C
+		scheduler_op.C
+	clienttray/
+		tray_win.cpp

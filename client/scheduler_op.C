@@ -218,30 +218,9 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
         msg_printf(p, MSG_INFO,
-            "Sending scheduler request: %s",
-            rpc_reason_string(reason)
+            "Sending scheduler request: %s.  Requesting %.0f seconds of work, reporting %d completed tasks",
+            rpc_reason_string(reason), p->work_request, p->nresults_returned
         );
-        if (p->work_request>0 && p->nresults_returned != 0) {
-            msg_printf(
-                p, MSG_INFO,
-                "Requesting %.0f seconds of new work, and reporting %d completed tasks",
-                p->work_request, p->nresults_returned
-            );
-        } else if (p->work_request != 0) {
-            msg_printf(
-                p, MSG_INFO,
-                "Requesting %.0f seconds of new work",
-                p->work_request
-            );
-        } else if (p->nresults_returned != 0) {
-            msg_printf(p, MSG_INFO,
-                "Reporting %d tasks\n", p->nresults_returned
-            );
-        } else {
-            msg_printf( p, MSG_INFO,
-                "(not requesting new work or reporting completed tasks)"
-            );
-        }
     }
 
     get_sched_request_filename(*p, request_file, sizeof(request_file));
