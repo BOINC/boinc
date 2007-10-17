@@ -9607,4 +9607,11 @@ Charlie 16 Oct 2007
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
-    
+
+Charlie 16 Oct 2007
+    - API, Unix: call getrusage() from inside boinc_worker_thread_cpu_time() 
+        and make worker_thread_ru a local stack variable to avoid potential 
+        problems with thread preemption.
+
+    api/
+        boinc_api.C
