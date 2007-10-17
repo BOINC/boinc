@@ -7568,14 +7568,6 @@ Rom    16 Oct 2007
         boinc_tray.rc (Added)
         tray_win.cpp, .h (Added)
 
-Rom    16 Oct 2007
-    - Tag for 5.10.23 release, all platforms
-      boinc_core_release_5_10_23
-    
-    /
-        configure.ac
-        version.h
-
 Charlie 16 Oct 2007
     - Mac: Update for curl_7.17.0.
     
@@ -7585,4 +7577,12 @@ Charlie 16 Oct 2007
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    16 Oct 2007
+    - Tag for 5.10.23 release, all platforms
+      boinc_core_release_5_10_23
+    
+    /
+        configure.ac
+        version.h
     

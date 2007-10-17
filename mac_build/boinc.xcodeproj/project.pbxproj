@@ -3867,7 +3867,7 @@
 					"../../curl-7.17.0/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
-					"-ldap",
+					"-lldap",
 					"-lz",
 				);
 				OTHER_REZFLAGS = "";
@@ -3916,7 +3916,7 @@
 					"../../curl-7.17.0/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
-					"-ldap",
+					"-lldap",
 					"-lz",
 				);
 				OTHER_REZFLAGS = "";
@@ -4874,7 +4874,7 @@
 					"../../curl-7.17.0/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
-					"-ldap",
+					"-lldap",
 					"-lz",
 				);
 				OTHER_REZFLAGS = "";
@@ -5416,7 +5416,7 @@
 					"../../curl-7.17.0/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
-					"-ldap",
+					"-lldap",
 					"-lz",
 				);
 				OTHER_REZFLAGS = "";
@@ -5462,7 +5462,7 @@
 					"../../curl-7.17.0/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
-					"-ldap",
+					"-lldap",
 					"-lz",
 				);
 				OTHER_REZFLAGS = "";
@@ -5989,7 +5989,7 @@
 					"../../curl-7.17.0/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
-					"-ldap",
+					"-lldap",
 					"-lz",
 				);
 				OTHER_REZFLAGS = "";
