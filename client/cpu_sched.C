@@ -211,11 +211,14 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (!best_result || rp->report_deadline<best_result->report_deadline) {
             best_result = rp;
             best_atp = atp;
+            continue;
         }
-        if (rp->report_deadline > best_result->report_deadline) continue;
+        if (rp->report_deadline > best_result->report_deadline) {
+            continue;
+        }
 
-        // If there's a tie, pick the one with the least remaining CPU time
-        // (but don't pick an unstarted job in preference to one that's started)
+        // If there's a tie, pick the job with the least remaining CPU time
+        // (but don't pick an unstarted job over one that's started)
         //
         if (best_atp && !atp) continue;
         if (rp->estimated_cpu_time_remaining(false)
