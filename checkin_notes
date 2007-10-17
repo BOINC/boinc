@@ -7707,6 +7707,7 @@ David  2 July 2007 <Checked in sometime ago>
         gui_rpc_client.h
         gui_rpc_client_ops.C
 
+<<<<<<< .working
 David  10 Aug 2007
     - client: timezone reflects daylight savings time (Win)
         from David Barnard; fixes #334
@@ -7780,3 +7781,9 @@ David  17 Sept 2007
     client/
         cpu_sched.C
         hostinfo_unix.C
+
+David  21 Sept 2007
+	- client: get_proxy_settings GUI RPC requires authentication
+
+	client/
+		gui_rpc_server_ops.C

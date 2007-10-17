@@ -1036,7 +1036,10 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (auth_needed && !is_local) {
         auth_failure(mf);
 
-    // operations that require authentication for non-local clients start here
+    // operations that require authentication only for non-local clients start here.
+    // Use this only for information that should be available to people
+    // sharing this computer (e.g. what jobs are running)
+    // but not for anything sensitive (passwords etc.)
 
     } else if (match_tag(request_msg, "<exchange_versions")) {
         handle_exchange_versions(mf);
@@ -1058,8 +1061,6 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_project_status(mf);
     } else if (match_tag(request_msg, "<get_disk_usage")) {
         handle_get_disk_usage(mf);
-    } else if (match_tag(request_msg, "<get_proxy_settings")) {
-        handle_get_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<get_messages")) {
         handle_get_messages(request_msg, mf);
     } else if (match_tag(request_msg, "<get_host_info")) {
@@ -1087,6 +1088,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_set_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<run_benchmarks")) {
         handle_run_benchmarks(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_proxy_settings")) {
+        handle_get_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<set_proxy_settings")) {
         handle_set_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<network_available")) {
@@ -1143,8 +1146,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_set_debts(request_msg, mf);
     } else {
 
-        // RPCs after this point enable network communication
-        // for 5 minutes, overriding other factors.
+        // RPCs after this point require authentication,
+        // and enable network communication for 5 minutes, overriding other factors.
         // Things like attaching projects, etc.
         //
 
