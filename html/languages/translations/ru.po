@@ -2,7 +2,7 @@
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-09-21 14:48+0300\n"
+"PO-Revision-Date: 2007-10-12 21:24+0300\n"
 "Last-Translator: Nikolay Saharov <saharovna@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -496,6 +496,15 @@ msgstr "Ответить"
 
 msgid "Block user"
 msgstr "Заблокировать пользователя"
+
+msgid "With selected"
+msgstr "С выбранными"
+
+msgid "Mark as read"
+msgstr "Пометить прочтенным"
+
+msgid "Mark as unread"
+msgstr "Пометить непрочтенным"
 
 
 #########################################
