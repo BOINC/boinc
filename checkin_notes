@@ -7613,3 +7613,9 @@ David  10 Aug 2007
     lib/
         str_util.C
 
+David  2 Sept 2007
+    - client: zero out xfer_speed in HTTP_OP constructor
+        (may fix problem w/ #INF bandwidth display)
+
+    client/
+        http_curl.C
