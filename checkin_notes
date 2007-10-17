@@ -9615,3 +9615,13 @@ Charlie 16 Oct 2007
 
     api/
         boinc_api.C
+
+David  17 Oct 2007
+	- client: improve log messages
+
+	client/
+		cs_scheduler.C
+		pers_file_xfer.C
+		scheduler_op.C
+	clienttray/
+		tray_win.cpp

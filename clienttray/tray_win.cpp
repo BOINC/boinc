@@ -133,7 +133,7 @@ DWORD WINAPI CBOINCTray::DataManagementProc() {
 // This function forwards to DataManagementProc, which has access to the
 //       "this" pointer.
 //
-DWORD WINAPI CBOINCTray::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
+DWORD WINAPI CBOINCTray::DataManagementProcStub(LPVOID) {
     return gspBOINCTray->DataManagementProc();
 }
 
