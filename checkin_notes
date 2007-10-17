@@ -7042,7 +7042,7 @@ Rom    2 Aug 2007
     lib/
         stackwalker_win.cpp
 
-Eric K 	 06 Aug 2007
+Eric K      06 Aug 2007
     -added new functions boinc_suspend_graphics_thread() and
      boinc_resume_graphics_thread(), so apps can suspend the graphics
      threads for critical sections without suspending all threads.
@@ -7083,9 +7083,68 @@ Rom    8 Aug 2007
         boincdisconnect.ico
 <<<<<<< .working
 
+<<<<<<< .working
 Rom    8 Aug 2007
     - Tag for 5.10.18 release, all platforms
       boinc_core_release_5_10_18
+=======
+David  10 Aug 2007
+    - client: timezone reflects daylight savings time (Win)
+        from David Barnard; fixes #334
+    - GUI RPC: add <success/> replies for ops that don't return anything
+    - GUI RPC: check args for project_attach
+    - GUI RPC: return error (not blank) if no prefs override file
+    - add error string for ERR_TOO_MANY_EXITS
+
+    client/
+        gui_rpc_server_ops.C
+        hostinfo_win.C
+    lib/
+        str_util.C
+
+David  10 Aug 2007
+    - Manager: show the AMS name, not the skin name, in Wizard
+
+    clientgui/
+        WelcomePage.cpp
+
+David  10 Aug 2007
+    - Manager: change "Retry communications" to "Do network communication"
+    - client: use gethostname() to get host name on Linux
+
+    client/
+        hostinfo_network.C
+    clientgui/
+        AdvancedFrame.cpp
+    lib/
+        error_numbers.h
+
+Janus    11 Aug 2007
+    - Added a DB table creation query for the BT file table
+
+    html/bt/database/
+        bittorrent_files.sql (new)
+
+Rom    13 Aug 2007
+    - SCR: Move screensaver related files out of the CC directory
+        structure and put it into its own directory structure.
+        
+    client/win/
+        boinc.scr.manifest (deleted)
+        boinc_ss.h (deleted)
+        boinc_ss.rc (deleted)
+        boinc_ss_2003.rc (deleted)
+        win_screensaver.cpp, .h (deleted)
+    clientscr/
+        boinc.scr.manifest (added)
+        boinc_ss.h (added)
+        boinc_ss.rc (added)
+        boinc_ss_2003.rc (added)
+        win_screensaver.cpp, .h (added)
+
+Charlie 13 Aug 2007
+    Fix compiler warnings.
+>>>>>>> .merge-right.r13531
     
     /
         configure.ac
@@ -7138,6 +7197,36 @@ Rom    15 Aug 2007
         boincdisconnect.gif (added)
         boincsnooze.gif (added)
 
+<<<<<<< .working
+=======
+David  16 Aug 2007
+    - client: add a <data_dir> option in cc_config.xml;
+        tells the client to use this as the data directory
+    - scheduler: improve the message telling the client that
+        more disk or memory is needed;
+        tell them the minimum amount needed to
+        send any of the jobs rejected,
+        rather than the amount needed for the first job rejected
+    - manager: fix text in "connect now" dialog
+
+    client/
+        client_state.C
+        log_flags.C,h
+    clientgui/
+        BOINCDialupManager.cpp
+    sched/
+        sched_locality.C
+        sched_send.C
+        server_types.h
+        transitioner.C
+
+David  16 Aug 2007
+    - screensaver fix
+
+    clientscr/
+        screensaver_win.cpp
+
+>>>>>>> .merge-right.r13531
 Rom    16 Aug 2007
     - MGR: Make sure all the dialogs contain the application name
         and do not have BOINC Manager hard coded in them.
@@ -7157,24 +7246,43 @@ Charlie 16 Aug 2007
         res/
             BOINCMgr.icns
 
-David  17 Aug 2007
-	- client: change the way upload/download throughput
-		estimates are maintained.
-		The old way took concurrency into account but ignored compression;
-		the new way does the converse.
-	- client: maintain new stat: recent average transfer rates.
-		This track average up/down throughputs
-		(over wall clock time, not just while xfers are active)
-		with a half-life of 1 day.
-		Will eventually add a new pref: don't fetch new work if
-		either of these is above a threshold
+<<<<<<< .working
+=======
+David  16 Aug 2007
+    - screensaver fix
 
+    api/
+        graphics2_win.C
+    lib/
+        util.C
+
+>>>>>>> .merge-right.r13531
+David  17 Aug 2007
+    - client: change the way upload/download throughput
+        estimates are maintained.
+        The old way took concurrency into account but ignored compression;
+        the new way does the converse.
+    - client: maintain new stat: recent average transfer rates.
+        This track average up/down throughputs
+        (over wall clock time, not just while xfers are active)
+        with a half-life of 1 day.
+        Will eventually add a new pref: don't fetch new work if
+        either of these is above a threshold
+
+<<<<<<< .working
 
 	client/
 		client_state.C
 		file_names.C
 		http_curl.C,h
 		net_stats.C,h
+=======
+    client/
+        client_state.C
+        file_names.C
+        http_curl.C,h
+        net_stats.C,h
+>>>>>>> .merge-right.r13531
 
 Charlie 17 Aug 2007
     MGR: Disable Simple GUI if the screen height < 600 (instead of== 480). 
@@ -7619,3 +7727,21 @@ David  2 Sept 2007
 
     client/
         http_curl.C
+
+David  3 Sept 2007
+    - client: when a job finishes, read last (not first) 63KB of stderr
+    - client: parse <cpid_time> in scheduler reply;
+        add cpid_time field to PROJECT.
+        This defaults to the user_create_time.
+        In deciding which CPID to send in a scheduler request,
+        use the one with oldest cpid_time (not user_create_time).
+        This is the client half of fixing a bug that causes
+        CPID to flip/flop between to values in a certain case.
+
+    client/
+        app_control.C
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        util.C,h

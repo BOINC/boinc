@@ -586,7 +586,6 @@ bool ACTIVE_TASK::read_stderr_file() {
     // it's unlikely that more than that will be useful
     //
     int max_len = 63*1024;
-
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return false;
     if (read_file_string(path, stderr_file, max_len)) return false;

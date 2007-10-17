@@ -22,6 +22,7 @@
 #endif
 
 #include "stdwx.h"
+#include "util.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
