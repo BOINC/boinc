@@ -213,7 +213,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -428,7 +427,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -644,7 +642,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
