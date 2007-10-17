@@ -7695,7 +7695,6 @@ Rom    16 Oct 2007
         configure.ac
         version.h
 
-<<<<<<< .working
 David  2 July 2007 <Checked in sometime ago>
     - client: add <simple_gui_only> config flag
     - GUI RPC: add disallow_attach and simple_gui_only flags
@@ -7708,7 +7707,6 @@ David  2 July 2007 <Checked in sometime ago>
         gui_rpc_client.h
         gui_rpc_client_ops.C
 
-<<<<<<< .working
 David  10 Aug 2007
     - client: timezone reflects daylight savings time (Win)
         from David Barnard; fixes #334
@@ -7723,7 +7721,6 @@ David  10 Aug 2007
     lib/
         str_util.C
 
-<<<<<<< .working
 David  2 Sept 2007
     - client: zero out xfer_speed in HTTP_OP constructor
         (may fix problem w/ #INF bandwidth display)
@@ -7798,3 +7795,12 @@ David  17 Oct 2007
 		scheduler_op.C
 	clienttray/
 		tray_win.cpp
+
+Rom    17 Oct 2007
+    - Tag for 5.10.24 release, all platforms
+      boinc_core_release_5_10_24
+    
+    /
+        configure.ac
+        version.h
+
