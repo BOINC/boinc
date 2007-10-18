@@ -194,30 +194,15 @@ BOOL IdleTrackerStartup()
 	    * Create a filemap object that is global for everyone,
  	    * including users logged in via terminal services.
  	    */
- 	    if( g_bIsTerminalServicesEnabled )
- 	    {
- 		    g_hMemoryMappedData = 
-                CreateFileMapping(
-                    INVALID_HANDLE_VALUE,
- 				    &sec_attr,
- 				    PAGE_READWRITE,
- 				    0,
- 				    4096,
- 				    "Global\\BoincIdleTracker"
-                );
- 	    }
- 	    else
- 	    {
- 		    g_hMemoryMappedData = 
-                CreateFileMapping(
-                    INVALID_HANDLE_VALUE,
- 				    &sec_attr,
- 				    PAGE_READWRITE,
- 				    0,
- 				    4096,
- 				    "BoincIdleTracker"
-                );
- 	    }
+	    g_hMemoryMappedData = 
+            CreateFileMapping(
+                INVALID_HANDLE_VALUE,
+			    &sec_attr,
+			    PAGE_READWRITE,
+			    0,
+			    4096,
+			    "Global\\BoincIdleTracker"
+            );
 	    _ASSERT( g_hMemoryMappedData );
 
  	    if( NULL != g_hMemoryMappedData )
