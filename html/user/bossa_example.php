@@ -2,8 +2,6 @@
 
 require_once("../inc/bossa.inc");
 
-echo "foo";
-
 // Bossa example.
 // Show the user an image and ask them whether it's a zero or one.
 
