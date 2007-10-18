@@ -9631,3 +9631,9 @@ Charlie 18 Oct 2007
 
 	client/
 		cs_scheduler.C
+
+David  18 Oct 2007
+	- client (win): fix time-zone code
+
+	client/
+		hostinfo_win.C
