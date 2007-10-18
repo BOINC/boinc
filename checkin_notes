@@ -7799,3 +7799,9 @@ Charlie 18 Oct 2007
         cs_scheduler.C
     lib/
         util.C
+
+David  18 Oct 2007
+	- client (win): fix time-zone code
+
+	client/
+		hostinfo_win.C

@@ -91,9 +91,9 @@ int get_timezone(int& timezone) {
 	memset(&tzi, 0, sizeof(TIME_ZONE_INFORMATION));
     DWORD result = GetTimeZoneInformation(&tzi);
     if (result == TIME_ZONE_ID_DAYLIGHT) {
-        timezone = -(tzi.DaylightBias * 60);
+        timezone = -(tzi.Bias + tzi.DaylightBias) * 60;
     } else {
-        timezone = -(tzi.StandardBias * 60);
+        timezone = -(tzi.Bias + tzi.StandardBias) * 60;
     }
     return 0;
 }
