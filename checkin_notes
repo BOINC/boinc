@@ -9625,3 +9625,9 @@ David  17 Oct 2007
 		scheduler_op.C
 	clienttray/
 		tray_win.cpp
+
+Charlie 18 Oct 2007
+	- Fix compiler warning,
+
+	client/
+		cs_scheduler.C

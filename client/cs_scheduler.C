@@ -393,7 +393,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        msg_printf(project, MSG_INFO, "Scheduler request succeeded: got %d new tasks", sr.results.size());
+        msg_printf(project, MSG_INFO, "Scheduler request succeeded: got %d new tasks", (int)sr.results.size());
     }
     if (log_flags.sched_op_debug) {
         if (sr.scheduler_version) {
