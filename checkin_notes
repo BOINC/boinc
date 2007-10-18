@@ -7792,8 +7792,10 @@ Rom    17 Oct 2007
         version.h
 
 Charlie 18 Oct 2007
-	- Fix compiler warning.
+	- Fix compiler warnings.
         - Clean up checkin_notes SVN conflicts
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
+    lib/
+        util.C
