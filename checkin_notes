@@ -9637,3 +9637,11 @@ David  18 Oct 2007
 
 	client/
 		hostinfo_win.C
+
+Rom    18 Oct 2007
+    - Add the Global prefix to the shared memory segment that
+        is used to track keyboard and mouse activity for any
+        machine that is Windows 2000 or better.
+    
+    clientlib/win/
+        IdleTracker.cpp
