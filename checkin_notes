@@ -7813,3 +7813,9 @@ Rom    18 Oct 2007
     
     clientlib/win/
         IdleTracker.cpp
+
+Charlie 18 Oct 2007
+    - client: Fix double daylight savings time adjustment on UNIX/Linux.
+    
+    client/
+        hostinfo_unix.C
