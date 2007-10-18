@@ -7081,13 +7081,15 @@ Rom    8 Aug 2007
     clientgui/res/templates/
         boincsnooze.ico
         boincdisconnect.ico
-<<<<<<< .working
 
-<<<<<<< .working
 Rom    8 Aug 2007
     - Tag for 5.10.18 release, all platforms
       boinc_core_release_5_10_18
-=======
+
+    /
+        configure.ac
+        version.h
+
 David  10 Aug 2007
     - client: timezone reflects daylight savings time (Win)
         from David Barnard; fixes #334
@@ -7144,11 +7146,11 @@ Rom    13 Aug 2007
 
 Charlie 13 Aug 2007
     Fix compiler warnings.
->>>>>>> .merge-right.r13531
-    
-    /
-        configure.ac
-        version.h
+
+    client/
+        hostinfo_network.C
+    clientgui/
+        WelcomePage.cpp
 
 Charlie 14 Aug 2007
     Sandbox: Create boinc_exec() function for invoking switcher and 
@@ -7197,8 +7199,6 @@ Rom    15 Aug 2007
         boincdisconnect.gif (added)
         boincsnooze.gif (added)
 
-<<<<<<< .working
-=======
 David  16 Aug 2007
     - client: add a <data_dir> option in cc_config.xml;
         tells the client to use this as the data directory
@@ -7226,7 +7226,6 @@ David  16 Aug 2007
     clientscr/
         screensaver_win.cpp
 
->>>>>>> .merge-right.r13531
 Rom    16 Aug 2007
     - MGR: Make sure all the dialogs contain the application name
         and do not have BOINC Manager hard coded in them.
@@ -7246,8 +7245,6 @@ Charlie 16 Aug 2007
         res/
             BOINCMgr.icns
 
-<<<<<<< .working
-=======
 David  16 Aug 2007
     - screensaver fix
 
@@ -7256,7 +7253,6 @@ David  16 Aug 2007
     lib/
         util.C
 
->>>>>>> .merge-right.r13531
 David  17 Aug 2007
     - client: change the way upload/download throughput
         estimates are maintained.
@@ -7269,20 +7265,11 @@ David  17 Aug 2007
         Will eventually add a new pref: don't fetch new work if
         either of these is above a threshold
 
-<<<<<<< .working
-
-	client/
-		client_state.C
-		file_names.C
-		http_curl.C,h
-		net_stats.C,h
-=======
     client/
         client_state.C
         file_names.C
         http_curl.C,h
         net_stats.C,h
->>>>>>> .merge-right.r13531
 
 Charlie 17 Aug 2007
     MGR: Disable Simple GUI if the screen height < 600 (instead of== 480). 
@@ -7804,3 +7791,9 @@ Rom    17 Oct 2007
         configure.ac
         version.h
 
+Charlie 18 Oct 2007
+	- Fix compiler warning.
+        - Clean up checkin_notes SVN conflicts
+
+	client/
+		cs_scheduler.C
