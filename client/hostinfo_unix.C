@@ -130,13 +130,8 @@ int get_timezone() {
 
     cur_time = time(NULL);
     time_data = localtime( &cur_time );
-    if (time_data->tm_isdst>0) {
-        // daylight savings in effect
-        return (time_data->tm_gmtoff)-3600;
-    } else {
-        // no daylight savings in effect
-        return time_data->tm_gmtoff;
-    }
+    // tm_gmtoff is already adjusted for daylight savings time
+    return time_data->tm_gmtoff;
 #elif defined(linux)
     return -1*(__timezone);
 #elif defined(__CYGWIN32__)
