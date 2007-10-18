@@ -2,6 +2,16 @@
 
 $project_news = array(
 
+array("October 17, 2007",
+    "Congratulations to the <a href=http://www.ukboincteam.org.uk/>UK BOINC Team</a>,
+    which today became the first UK-specific team to
+    pass the 100 million combined credits mark."
+),
+array("October 17, 2007",
+    "An article in Nature,
+    <a href=http://www.nature.com/news/2007/071016/full/449765a.html>The shape of protein structures to come</a>, discusses the goals and progress of the
+    <a href= http://boinc.bakerlab.org/rosetta/>Rosetta@home</a> project from the University of Washington."
+),
 array("October 12, 2007",
     "LHC@home has moved from CERN to the University of London.
     Read about it <a href=http://www.interactions.org/cms/?pid=1025457>here</a>."

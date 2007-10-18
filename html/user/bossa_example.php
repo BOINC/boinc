@@ -1,9 +1,8 @@
 <?php
 
-require_once("../inc/util.inc");
-require_once("../inc/bossa_db.inc");
+require_once("../inc/bossa.inc");
 
-db_init();
+echo "foo";
 
 // Bossa example.
 // Show the user an image and ask them whether it's a zero or one.
@@ -12,8 +11,8 @@ function show_job($bj, $bji) {
     if ($bji->finish_time) {
         error_page("You already finished this job");
     }
-    $i = $bj->info;
-    $img_url = "http://boinc.berkeley.edu/images/number_$i.jpg";
+    $info = json_decode($bj->info);
+    $img_url = "http://boinc.berkeley.edu/images/number_".$info->number.".jpg";
     echo "
         <form method=get action=bossa_example.php>
         <input type=hidden name=bji value=$bji->id>
@@ -29,29 +28,17 @@ function show_job($bj, $bji) {
 }
 
 function handle_job_completion($bj, $bji) {
-    $response = get_int('response');
-    print_r($bji);
-    $bji->info = "response=$response";
+    $response = null;
+    $response->number = get_int('response');
+    $bji->info = json_encode($response);
     $bji->completed($bj);
 
     // show another job immediately
     //
-    $url = "bossa_get_job.php?bossa_app_id=$bj->app_id";
-    Header("Location: $url");
+    Bossa::show_next_job($bj);
 }
 
-$user = get_logged_in_user();
-$bji = BossaJobInst::lookup_id(get_int('bji'));
-if (!$bji) {
-    error_page("No such job instance");
-}
-if ($bji->user_id != $user->id) {
-    error_page("Bad user ID");
-}
-$bj = BossaJob::lookup_id($bji->job_id);
-if (!$bj) {
-    error_page("No such job");
-}
+Bossa::script_init($user, $bj, $bji);
 
 if ($_GET['submit']) {
     handle_job_completion($bj, $bji);

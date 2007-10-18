@@ -3,7 +3,7 @@ alter table bossa_app
 
 alter table bossa_job
     add unique(name),
-    add index bj_more_needed(app, more_needed);
+    add index bj_more_needed(app_id, more_needed);
 
 alter table bossa_job_inst
     add index bji_job(job_id),

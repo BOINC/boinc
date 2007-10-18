@@ -6,7 +6,7 @@ create table bossa_app (
     long_jobs           tinyint     not null,
     start_url           varchar(255) not null,
     deprecated          tinyint     not null,
-    beta                tinyint     not null,
+    info                text,
     primary key(id)
 );
 
@@ -15,7 +15,7 @@ create table bossa_job (
     create_time         integer     not null,
     name                varchar(255) not null,
     app_id              integer     not null,
-    info                varchar(255) not null,
+    info                text,
     batch               integer     not null,
     time_estimate       integer     not null,
     time_limit          integer     not null,
@@ -32,6 +32,12 @@ create table bossa_job_inst (
     job_id              integer     not null,
     user_id             integer     not null,
     finish_time         integer     not null,
-    info                varchar(255) not null,
+    info                text,
     primary key(id)
+);
+
+create table bossa_app_user (
+    app_id              integer     not null,
+    user_id             integer     not null,
+    info                text
 );

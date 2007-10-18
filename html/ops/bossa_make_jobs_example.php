@@ -19,9 +19,10 @@ function make_jobs() {
     $job->time_limit = 600;
     $job->nsuccess_needed = 3;
     for ($i=0; $i<10; $i++) {
-        $j = $i % 2;
         $job->name = "job_$i";
-        $job->info = "$j";
+        $info = null;
+        $info->number = $i % 2;
+        $job->info = json_encode($info);
         if (!$job->insert()) {
             echo "BossaJob::insert failed: ", mysql_error(), "\n";
             exit(1);

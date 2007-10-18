@@ -9645,3 +9645,20 @@ Rom    18 Oct 2007
     
     clientlib/win/
         IdleTracker.cpp
+
+David  18 Oct 2007
+    - Bossa:
+        JSON-encode stuff
+        use text instead of varchar(255) a couple of places
+        create Bossa class for utility functions
+
+    db/
+        bossa_constraints.sql
+        bossa_schema.sql
+    html/
+        inc/
+            bossa.inc (new)
+        ops/
+            bossa_make_jobs_example.php
+        user/
+            bossa_example.php

@@ -1,9 +1,9 @@
 <?php
 
-function bossa_lookup($id, $table) {
+function bossa_lookup($id, $table, $classname) {
     $result = mysql_query("select * from $table where id='$id'");
     if (!$result) return null;
-    $obj = mysql_fetch_object($result);
+    $obj = mysql_fetch_object($result, $classname);
     mysql_free_result($result);
     return $obj;
 }
@@ -22,13 +22,13 @@ class BossaApp {
     static function lookup_name($name) {
         $result = mysql_query("select * from bossa_app where name='$name'");
         if (!$result) return null;
-        $app = mysql_fetch_object($result);
+        $app = mysql_fetch_object($result, 'BossaApp');
         mysql_free_result($result);
         return $app;
     }
 
     static function lookup_id($id) {
-        return bossa_lookup($id, 'bossa_app');
+        return bossa_lookup($id, 'bossa_app', 'BossaApp');
     }
 }
 
@@ -48,7 +48,7 @@ class BossaJob {
         return mysql_query("update bossa_job set $clause where id=$this->id");
     }
     static function lookup_id($id) {
-        return bossa_lookup($id, 'bossa_job');
+        return bossa_lookup($id, 'bossa_job', 'BossaJob');
     }
 }
 
@@ -66,7 +66,7 @@ class BossaJobInst {
     }
 
     static function lookup_id($id) {
-        return bossa_lookup($id, 'bossa_job_inst');
+        return bossa_lookup($id, 'bossa_job_inst', 'BossaJobInst');
     }
 
     function update($clause) {
@@ -81,10 +81,10 @@ class BossaJobInst {
         // has already been assigned an instance
         //
         $query = "select bossa_job.* from bossa_job left join bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.more_needed<>0 and bossa_job_inst.user_id is null limit 1";
-        echo "$query\n";
         $result = mysql_query($query);
         if (!$result) return null;
-        $job = mysql_fetch_object($result);
+        $job = mysql_fetch_object($result, 'BossaJob');
+        if (!$job) return null;
         mysql_free_result($result);
 
         echo "<hr>";
