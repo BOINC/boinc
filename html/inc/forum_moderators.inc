@@ -1,10 +1,13 @@
 <?php
 
+require_once('../inc/forum_banishment_vote.inc');
+
 /** 
  * Show the links for possible moderation actions related to a single post 
  **/
 function post_moderation_links($config,$logged_in_user,$post,$tokens){
     $moderators_allowed_to_ban = parse_bool($config, "moderators_allowed_to_ban"); 
+    $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->isHidden()){
         $x = " - <a href=\"forum_moderate_post_action.php?action=unhide&id=".$post->getID()."$tokens\">[undelete post]</a>";
@@ -14,6 +17,16 @@ function post_moderation_links($config,$logged_in_user,$post,$tokens){
     $x.= " - <a href=\"forum_moderate_post.php?action=move&id=".$post->getID()."$tokens\">[move post]</a>";
     if ($logged_in_user->isSpecialUser(S_ADMIN) || ($logged_in_user->isSpecialUser(S_MODERATOR) && $moderators_allowed_to_ban)) {
       $x .= " - <a href=forum_moderate_post.php?action=banish_user&id=".$post->getID()."&userid=".$post->getOwnerID()."$tokens>[banish author]</a>";
+    }
+    if ($logged_in_user->isSpecialUser(S_MODERATOR) && $moderators_vote_to_ban) {
+      if (vote_is_in_progress($post->getOwnerID())) {
+        $x .= " - <a href=forum_banishment_vote.php?action=yes&userid=".$post->getOwnerID()
+           .">[vote to banish author]</a> - <a href=forum_banishment_vote.php?action=no&userid="
+           .$post->getOwnerID().">[vote not to banish author]</a>";
+      } else {
+        $x .= " - <a href=forum_banishment_vote.php?action=start&userid="
+            .$post->getOwnerID().">[start vote to banish author]</a>";
+      }
     }
     return $x;
 }

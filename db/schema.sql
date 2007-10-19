@@ -335,7 +335,7 @@ create table forum (
     post_min_interval   integer not null,
     post_min_expavg_credit integer not null,
     post_min_total_credit integer not null,
-    is_dev_blog	        tinyint not null default 0,
+    is_dev_blog            tinyint not null default 0,
     primary key (id)
 ) type=InnoDB;
 
@@ -509,4 +509,21 @@ create table team_delta (
     timestamp           integer                 not null,
     joining             tinyint(1)              not null,
     total_credit        double                  not null
+) TYPE=MyISAM;
+
+-- tables for moderator banishment votes
+create table banishment_vote (
+    id                  serial                  primary key,
+    userid              integer                 not null,
+    modid               integer                 not null,
+    start_time          integer                 not null,
+    end_time            integer                 not null
+) TYPE=MyISAM;
+
+create table banishment_votes (
+    id                  serial                  primary key,
+    voteid              integer                 not null,
+    modid               integer                 not null,
+    time                integer                 not null,
+    yes                 tinyint(1)              not null
 ) TYPE=MyISAM;

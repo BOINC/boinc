@@ -189,4 +189,42 @@ because your postings have not followed our guidelines.
     return re_send_email($user, $subject, $body);
 }
 
+function send_banish_vote_email($user, $duration, $reason, $end_time) {
+    $now=time();
+    $subject = PROJECT." banishment vote underway";
+    $vote_url=parse_config(get_config(), "<master_url>")."forum_banishment_vote.php";
+    $body = "
+This email if to inform you that a vote has been started
+regarding your banishment from the ".PROJECT." message boards until ".date('M j,
+Y G:i', $duration+$now).",
+because your postings have not followed our guidelines.
+
+This vote will be underway until ".date('M j, Y G:i',$end_time)." or until a majority
+decision has been reached.  If the vote does not result in banishment, you will be
+able to resume posting at that time.
+    ";
+    if ($reason) {
+        $body .= "\n\nThe moderator gave the following reason for your pending suspension:\n";
+        $body .= $reason;
+    }
+    $success = send_email($user, $subject, $body);
+    $emails = explode("|", POST_REPORT_EMAILS);
+    $success = true;
+    $body .= "\n\n<a href=".$vote_url."?action=yes&userid="
+             .$user->id
+           .">[vote to banish author]</a>\n\n"
+           ."<a href=".$vote_url."?action=no&userid="
+             .$user->id
+           .">[vote not to banish author]</a>";
+
+    foreach ($emails as $email) {
+        $admin->email_addr = $email;
+        if (!send_email($admin, "A banishment vote for ".$user->name." has been started.", $body)) {
+            $success = false;
+        }
+    }
+}
+ 
+
+
 ?>

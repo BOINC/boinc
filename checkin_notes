@@ -9676,3 +9676,25 @@ Rom    18 Oct 2007
         boinc_tray.h
         boinc_tray.rc
         tray_win.cpp
+
+Eric K 19 Oct 2007
+    - Added ability for forum moderators to vote for banishment of a poster
+    - New db tables banishment_vote and banishment_votes
+    - Daemon script vote_monitor for timing the votes
+    - new configuration option <moderators_vote_to_ban/>
+
+    db/
+        schema.sql
+    tools/
+        vote_monitor
+        Makefile.am
+    html/
+        inc/
+            forum_email.inc
+            forum_moderators.inc
+            forum_banishment_vote.inc
+    html/
+        user/
+            forum_banishment_vote.php
+            forum_banishment_vote_action.php
+
