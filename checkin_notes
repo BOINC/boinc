@@ -9668,3 +9668,11 @@ Charlie 18 Oct 2007
     
     client/
         hostinfo_unix.C
+
+Rom    18 Oct 2007
+    - TRAY: Remove the icon resource from boinctray.exe
+    
+    clienttray/
+        boinc_tray.h
+        boinc_tray.rc
+        tray_win.cpp

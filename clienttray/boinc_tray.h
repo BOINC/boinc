@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by boinc_tray.rc
 //
-#define IDI_MAIN_ICON                   1
 
 // Next default values for new objects
 // 
