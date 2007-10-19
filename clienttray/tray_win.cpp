@@ -48,8 +48,8 @@ INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     if (!hPrevInstance) {
         // Register an appropriate window class for the primary window
         WNDCLASS cls;
-        cls.hCursor        = LoadCursor(NULL, IDC_ARROW);
-        cls.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)); 
+        cls.hCursor        = NULL;
+        cls.hIcon          = NULL; 
         cls.lpszMenuName   = NULL;
         cls.lpszClassName  = _T("BOINCTrayWndClass");
         cls.hbrBackground  = (HBRUSH)GetStockObject(BLACK_BRUSH);
