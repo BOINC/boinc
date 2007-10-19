@@ -145,7 +145,7 @@ $m549c = array(
 
 $l51021 = array(
     "num"=>"5.10.21",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.10.21_i686-pc-linux-gnu.sh",
     "date"=>"2 Oct 2007",
     "type"=>"sea",
@@ -153,7 +153,7 @@ $l51021 = array(
 
 $l51021x64 = array(
     "num"=>"5.10.21",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.10.21_x86_64-pc-linux-gnu.sh",
     "date"=>"2 Oct 2007",
     "type"=>"sea",
