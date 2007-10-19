@@ -7827,3 +7827,11 @@ Rom    18 Oct 2007
         boinc_tray.h
         boinc_tray.rc
         tray_win.cpp
+
+Rom    19 Oct 2007
+    - Tag for 5.10.25 release, all platforms
+      boinc_core_release_5_10_25
+    
+    /
+        configure.ac
+        version.h
