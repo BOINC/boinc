@@ -37,6 +37,8 @@
 #include "parse.h"
 #include "filesys.h"
 
+using std::string;
+
 LOG_FLAGS log_flags;
 CONFIG config;
 
@@ -182,8 +184,6 @@ void LOG_FLAGS::show() {
 }
 
 CONFIG::CONFIG() {
-    memset(this, 0, sizeof(CONFIG));
-
     defaults();
 }
 
@@ -191,13 +191,22 @@ void CONFIG::defaults() {
     dont_check_file_sizes = false;
     http_1_0 = false;
     save_stats_days = 30;
+    ncpus = 0;
     max_file_xfers = MAX_FILE_XFERS;
     max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
+    suppress_net_info = false;
+    disallow_attach = false;
+    os_random_only = false;
+    no_alt_platform = false;
+    simple_gui_only = false;
+    dont_contact_ref_site = false;
+    alt_platforms.clear();
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
     char tag[1024], path[256];
     bool is_tag;
+    string s;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
@@ -221,6 +230,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool(tag, "simple_gui_only", simple_gui_only)) continue;
         if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
+        if (xp.parse_string(tag, "alt_platform", s)) {
+            alt_platforms.push_back(s);
+        }
         if (xp.parse_str(tag, "data_dir", path, sizeof(path))) {
             if (chdir(path)) {
                 perror("chdir");

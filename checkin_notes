@@ -9698,3 +9698,11 @@ Eric K 19 Oct 2007
             forum_banishment_vote.php
             forum_banishment_vote_action.php
 
+
+David  20 Oct 2007
+	- client: cc_config.xml can contain one or more <alt_platform> elements
+		specifying additional alternate platforms.
+
+	client/
+		cs_platforms.C
+		log_flags.C,h

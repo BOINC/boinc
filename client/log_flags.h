@@ -26,6 +26,9 @@
 #ifndef _LOGFLAGS_H_
 #define _LOGFLAGS_H_
 
+#include <vector>
+#include <string>
+
 #ifndef _WIN32
 #include <stdio.h>
 #endif
@@ -94,6 +97,7 @@ struct CONFIG {
     bool no_alt_platform;
     bool simple_gui_only;
     bool dont_contact_ref_site;
+    std::vector<std::string> alt_platforms;
 
     CONFIG();
     void defaults();
