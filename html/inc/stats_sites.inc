@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 // the following sites generate stats for a given CPID
 //
@@ -26,11 +27,13 @@ $cpid_stats_sites = array(
 $stats_sites = array(
     array(
         "http://statsnstones.tswb.org/",
-        "Team Starfire World BOINC Stats 'N Stones"
+        "Team Starfire World BOINC Stats 'N Stones",
+        ""
     ),
     array(
         "http://www.allprojectstats.com/",
-        "BOINC all Project Stats"
+        "BOINC all Project Stats",
+        ""
     ),
     array(
         "http://stats.free-dc.org",
