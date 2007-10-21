@@ -271,7 +271,7 @@ ERROR: could not find (recent enough) development-libs for libcurl.
       ## add libcurl et al. to the list of statically linked libs
       STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv"
       CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
-      CURL_LIB_PATHS=`echo $LIBCURL | sed 's/-l[[^ ]]*//g'`
+      CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
       LDFLAGS="$CURL_LIB_PATHS $LDFLAGS"
 
       if test "${enable_debug}" = yes; then
