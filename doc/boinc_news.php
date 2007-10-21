@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("October 18, 2007",
+    "BOINC user John Koulouris has written <a href=http://www.angelfire.com/jkoulouris-boinc/>The Big BOINC! Projects and Chronology Page</a>,
+    a brief history of BOINC."
+),
 array("October 17, 2007",
     "Congratulations to the <a href=http://www.ukboincteam.org.uk/>UK BOINC Team</a>,
     which today became the first UK-specific team to

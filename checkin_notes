@@ -9708,10 +9708,20 @@ David  20 Oct 2007
 		log_flags.C,h
 
 Reinhard  21 Oct 2007
-      - configure.ac: fixed handling of curl-libs to avoid erroneous trunction of compiler-flags 
-        containing '-l', such as '-funroll-loops'. These are not really supposed to be contained in 
-	"curl-config --libs", but apparently this happens at least in Gentoo, as reported here:
-	http://bugs.gentoo.org/show_bug.cgi?id=139621.
-	I have applied the patch supplied by Darragh Bailey (of 2006-07-07).
-	This should fix Gentoo Bugzilla Bug 139621.
+    - configure.ac: fixed handling of curl-libs to avoid erroneous
+        trunction of compiler-flags containing '-l', such as '-funroll-loops'.
+        These are not really supposed to be contained in "curl-config --libs",
+        but apparently this happens at least in Gentoo, as reported here:
+        http://bugs.gentoo.org/show_bug.cgi?id=139621.
+        I have applied the patch supplied by Darragh Bailey (of 2006-07-07).
+        This should fix Gentoo Bugzilla Bug 139621.
+
     configure.ac
+
+David  21 Oct 2007
+    - client: add <active_task_state> to <active_task> elements in state file.
+        These are needed by some 3rd-party software that uses
+        the state file instead of GUI RPCs
+
+    client/
+        app.C

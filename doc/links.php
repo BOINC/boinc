@@ -66,6 +66,11 @@ $info_sites = array(
         "Crunching Family Wiki",
         "(In German)",
     ),
+    array(
+        "http://www.angelfire.com/jkoulouris-boinc/",
+        "The Big BOINC! Projects and Chronology Page",
+        "(by John Koulouris)"
+    ),
 );
 
 page_head("Web resources for BOINC participants");

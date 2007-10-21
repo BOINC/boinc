@@ -429,11 +429,15 @@ bool ACTIVE_TASK_SET::slot_taken(int slot) {
     return false;
 }
 
+// <active_task_state> is here for the benefit of 3rd-party software
+// that reads the client state file
+//
 int ACTIVE_TASK::write(MIOFILE& fout) {
     fout.printf(
         "<active_task>\n"
         "    <project_master_url>%s</project_master_url>\n"
         "    <result_name>%s</result_name>\n"
+        "    <active_task_state>%d</active_task_state>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
@@ -445,6 +449,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <page_fault_rate>%f</page_fault_rate>\n",
         result->project->master_url,
         result->name,
+        task_state(),
         app_version->version_num,
         slot,
         checkpoint_cpu_time,

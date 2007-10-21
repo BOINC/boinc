@@ -8,6 +8,21 @@ function bossa_lookup($id, $table, $classname) {
     return $obj;
 }
 
+function bossa_enum($table, $classname, $clause=null) {
+    $x = array();
+    if ($clause) {
+        $result = mysql_query("select * from $table where $clause");
+    } else {
+        $result = mysql_query("select * from $table");
+    }
+    if (!$result) return null;
+    while ($obj = mysql_fetch_object($result, $classname)) {
+        $x[] = $obj;
+    }
+    mysql_free_result($result);
+    return $x;
+}
+
 class BossaApp {
     function insert() {
         if (!$this->long_jobs) $this->long_jobs = 0;
@@ -30,6 +45,10 @@ class BossaApp {
     static function lookup_id($id) {
         return bossa_lookup($id, 'bossa_app', 'BossaApp');
     }
+
+    static function enum() {
+        return bossa_enum('bossa_app', 'BossaApp');
+    }
 }
 
 class BossaJob {
@@ -50,6 +69,9 @@ class BossaJob {
     static function lookup_id($id) {
         return bossa_lookup($id, 'bossa_job', 'BossaJob');
     }
+    static function enum($clause) {
+        return bossa_enum('bossa_job', 'BossaJob', $clause);
+    }
 }
 
 class BossaJobInst {
@@ -67,6 +89,9 @@ class BossaJobInst {
 
     static function lookup_id($id) {
         return bossa_lookup($id, 'bossa_job_inst', 'BossaJobInst');
+    }
+    static function enum($clause) {
+        return bossa_enum('bossa_job_inst', 'BossaJobInst', $clause);
     }
 
     function update($clause) {
