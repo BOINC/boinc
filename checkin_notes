@@ -9756,3 +9756,12 @@ David  22 Oct 2007
 		reduce.h
 		reduce_lib.C
 		reduce_main.C
+
+David  22 Oct 2007
+	- GUI RPC: fix format of <auth2> request
+	- GUI RPC: don't enable network on bad request
+
+	client/
+		gui_rpc_server_ops.C
+	lib/
+		gui_rpc_client.C

@@ -1130,6 +1130,7 @@ int GUI_RPC_CONN::handle_rpc() {
         // Things like attaching projects, etc.
         //
 
+        double saved_time = gstate.gui_rpcs.time_of_last_rpc_needing_network;
         gstate.gui_rpcs.time_of_last_rpc_needing_network = gstate.now;
 
         if (match_tag(request_msg, "<retry_file_transfer")) {
@@ -1164,6 +1165,7 @@ int GUI_RPC_CONN::handle_rpc() {
 
         } else {
             mf.printf("<error>unrecognized op</error>\n");
+            gstate.gui_rpcs.time_of_last_rpc_needing_network = saved_time;
         }
     }
 
