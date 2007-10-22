@@ -22,10 +22,47 @@
 #ifndef REDUCE_H
 #define REDUCE_H
 
+#define MAX_DATA    65536
+#define MAX_DIMX    1024
+
+struct REDUCED_ARRAY_DATA {
+    float rdata[MAX_DATA];
+    int rdimx, rdimy;           // size of the reduced array
+    float rdata_max;            // max value in array
+    float rdata_min;            // min value in array
+    inline float* rrow(int j) {
+        return rdata + j*rdimx;
+    }
+};
+
+
+// THE PART RELEVANT TO GENERATION FOLLOWS
+
 #define REDUCE_METHOD_AVG	0		// Take the average of reduced elements
 #define REDUCE_METHOD_SUM	1		// Take the sum of reduced elements
 #define REDUCE_METHOD_MAX	2		// Take the maximum of reduced elements
 #define REDUCE_METHOD_MIN	3		// Take the minimum of reduced elements
+
+struct REDUCED_ARRAY_GEN: REDUCED_ARRAY_DATA {
+    float ftemp[MAX_DIMX];
+    int itemp[MAX_DIMX];
+    int sdimx, sdimy;           // size of the source array
+    int scury;                  // next row of source array
+        // the following 2 are relevant only if sdimy > rdimy
+    int last_ry;                // last row index accumulated into
+    int last_ry_count;          // number of source rows accumulated so far
+    int nvalid_rows;            // number of valid rows in reduced array
+	int reduce_method;			// Which method to use for data row reduction
+
+    void init_data(int, int);
+    void reduce_source_row(float*, float*);
+    void add_source_row(float*);
+    bool full();
+    void reset();
+    void update_max(int row);
+};
+
+// THE PART RELEVANT TO RENDERING FOLLOWS
 
 enum GRAPH_STYLE {
     GRAPH_STYLE_RECTANGLES,
@@ -34,49 +71,23 @@ enum GRAPH_STYLE {
     GRAPH_STYLE_SURFACE
 };
 
-class REDUCED_ARRAY {
-public:
-    int sdimx, sdimy;           // size of the source array
-    int rdimx, rdimy;           // size of the reduced array
-    int rdimx_max, rdimy_max;   // maximum sizes of reduced array
-                                // (determined by window size)
-    int scury;                  // next row of source array
-    float* rdata;
-    float rdata_max;            // estimated or actual maximum
-    float rdata_min;            // estimated or actual minimum
-    float* ftemp;
-    int* itemp;
-        // the following 2 are relevant only if sdimy > rdimy
-    int last_ry;                // last row index accumulated into
-    int last_ry_count;          // number of source rows accumulated so far
-    int nvalid_rows;            // number of valid rows in reduced array
+struct REDUCED_ARRAY_RENDER: REDUCED_ARRAY_DATA {
     int ndrawn_rows;            // number of rows drawn so far
     float draw_pos[3];
     float draw_size[3];
     float draw_deltax;
     float draw_deltaz;
-	int reduce_method;			// Which method to use for data row reduction
     double hue0;
     double dhue;
 	float alpha;
 	char* xlabel,*ylabel,*zlabel;
     GRAPH_STYLE draw_style;
+    double start_time;
 
-    REDUCED_ARRAY();
-    ~REDUCED_ARRAY();
-    void init_data(int, int);
+    void init(double grow, double hold);
     void init_display(
         GRAPH_STYLE, float*, float*, double, double, float, char*, char*, char*
     );
-    void set_max_dims(int, int);
-    void reduce_source_row(float*, float*);
-    void add_source_row(float*);
-    bool full();
-    void reset();
-    void update_max(int row);
-    float* rrow(int j) {
-        return rdata + j*rdimx;
-    }
     void draw_row_quad(int);
 	void draw_row_rect_x(int);
     void draw_row_rect_y(int);

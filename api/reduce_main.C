@@ -23,9 +23,6 @@
 #include "config.h"
 #endif
 
-#ifdef _WIN32
-#include <GL/gl.h>
-#endif
 
 #ifndef _WIN32
 #include <string.h>
@@ -39,62 +36,23 @@
 #include <cmath>
 #include <algorithm>
 
-#ifdef __APPLE_CC__
-#include <OpenGL/gl.h>
-#endif
 #endif
 
-#include "boinc_gl.h"
-#include "gutil.h"
 #include "reduce.h"
-
-REDUCED_ARRAY::REDUCED_ARRAY() : sdimx(0), sdimy(0), rdimx(0), rdimy(0), rdimx_max(0), rdimy_max(0), scury(0),
-	rdata(0), rdata_max(0), rdata_min(0), ftemp(0), itemp(0), last_ry(0), last_ry_count(0), nvalid_rows(0), 
-	ndrawn_rows(0), draw_deltax(0), draw_deltaz(0), reduce_method(REDUCE_METHOD_AVG), hue0(0), dhue(0), 
-	alpha(0), xlabel(0), ylabel(0), zlabel(0)
-{
-		memset(draw_pos,0,sizeof(draw_pos));
-		memset(draw_size,0,sizeof(draw_size));
-}
-
-
-REDUCED_ARRAY::~REDUCED_ARRAY() {
-    if (rdata) free(rdata);
-    if (ftemp) free(ftemp);
-    if (itemp) free(itemp);
-}
-
-// (mx, my) are maximum reduced dimensions
-// (typically based on window size, e.g. half of window size in pixels)
-//
-void REDUCED_ARRAY::set_max_dims(int mx, int my) {
-    rdimx_max = mx;
-    rdimy_max = my;
-    rdimx = rdimx_max;
-    rdimy = rdimy_max;
-}
 
 // Prepare to receive a source array.
 // (sx, sy) are dimensions of source array
 //
-void REDUCED_ARRAY::init_data(int sx, int sy) {
+void REDUCED_ARRAY_GEN::init_data(int sx, int sy) {
     sdimx = sx;
     sdimy = sy;
-    if (sdimx > rdimx_max) {
-        rdimx = rdimx_max;
-    } else {
-        rdimx = sdimx;
+    rdimx = sx;
+    rdimy = sy;
+    while (rdimx*rdimy > MAX_DATA) {
+        if (rdimx>1) rdimx /= 2;
+        if (rdimy>1) rdimy /= 2;
     }
-    if (sdimy > rdimy_max) {
-        rdimy = rdimy_max;
-    } else {
-        rdimy = sdimy;
-    }
-    rdata = (float*)realloc(rdata, rdimx*rdimy*sizeof(float));
-    ftemp = (float*)realloc(ftemp, rdimx*sizeof(float));
-    itemp = (int*)realloc(itemp, rdimx*sizeof(int));
     nvalid_rows = 0;
-    ndrawn_rows = 0;
     scury = 0;
     last_ry = 0;
     last_ry_count = 0;
@@ -102,38 +60,24 @@ void REDUCED_ARRAY::init_data(int sx, int sy) {
     rdata_min = (float)1e20;
 }
 
-bool REDUCED_ARRAY::full() {
+bool REDUCED_ARRAY_GEN::full() {
     return nvalid_rows==rdimy;
 }
 
-void REDUCED_ARRAY::reset() {
+#if 0
+void REDUCED_ARRAY_GEN::reset() {
     nvalid_rows = 0;
     ndrawn_rows = 0;
     scury = 0;
     last_ry = 0;
     last_ry_count = 0;
 }
+#endif
 
-void REDUCED_ARRAY::init_display(
-    GRAPH_STYLE st, float* p, float* s, double h0, double dh, float trans,
-    char* xl, char* yl, char* zl
-) {
-    memcpy(draw_pos, p, sizeof(draw_pos));
-    memcpy(draw_size, s, sizeof(draw_size));
-    draw_deltax = draw_size[0]/rdimx;
-    draw_deltaz = draw_size[2]/rdimy;
-    hue0 = h0;
-    dhue = dh;
-    alpha = trans;
-    draw_style = st;
-	xlabel=xl;
-	ylabel=yl;
-	zlabel=zl;
-}
 
 // reduce a single row.  This is called only if sdimx > rdimx;
 //
-void REDUCED_ARRAY::reduce_source_row(float* in, float* out) {
+void REDUCED_ARRAY_GEN::reduce_source_row(float* in, float* out) {
     int i, ri;
 
     memset(out, 0, rdimx*sizeof(float));
@@ -163,7 +107,7 @@ void REDUCED_ARRAY::reduce_source_row(float* in, float* out) {
     }
 }
 
-void REDUCED_ARRAY::update_max(int row) {
+void REDUCED_ARRAY_GEN::update_max(int row) {
     int i;
     float* p = rrow(row);
 
@@ -175,7 +119,7 @@ void REDUCED_ARRAY::update_max(int row) {
 
 // Add a row of data from the source array
 //
-void REDUCED_ARRAY::add_source_row(float* in) {
+void REDUCED_ARRAY_GEN::add_source_row(float* in) {
     float* p;
     int i, ry;
 

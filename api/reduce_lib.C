@@ -35,7 +35,24 @@
 #include "gutil.h"
 #include "reduce.h"
 
-void REDUCED_ARRAY::draw_row_quad(int row) {
+void REDUCED_ARRAY_RENDER::init_display(
+    GRAPH_STYLE st, float* p, float* s, double h0, double dh, float trans,
+    char* xl, char* yl, char* zl
+) {
+    memcpy(draw_pos, p, sizeof(draw_pos));
+    memcpy(draw_size, s, sizeof(draw_size));
+    draw_deltax = draw_size[0]/rdimx;
+    draw_deltaz = draw_size[2]/rdimy;
+    hue0 = h0;
+    dhue = dh;
+    alpha = trans;
+    draw_style = st;
+	xlabel=xl;
+	ylabel=yl;
+	zlabel=zl;
+}
+
+void REDUCED_ARRAY_RENDER::draw_row_quad(int row) {
     float z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
     float z1 = z0 + draw_deltaz;
     float x0, x1, y00, y01, y10, y11;
@@ -96,7 +113,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 #endif
 }
 
-void REDUCED_ARRAY::draw_row_rect_x(int row)  {
+void REDUCED_ARRAY_RENDER::draw_row_rect_x(int row)  {
 	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0,xm=0;
 	int i=0;
 	float* row0=0;
@@ -352,7 +369,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 	}
 }
 
-void REDUCED_ARRAY::draw_row_rect_y(int row) {
+void REDUCED_ARRAY_RENDER::draw_row_rect_y(int row) {
     float z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
     float z1 = z0 + draw_deltaz*.8f;
     float x0, y0, y1;
@@ -402,50 +419,32 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
 
 
 
-void REDUCED_ARRAY::draw_row_line(int ) {
+void REDUCED_ARRAY_RENDER::draw_row_line(int ) {
 }
 
-void REDUCED_ARRAY::draw(int r0, int rn) {
+void REDUCED_ARRAY_RENDER::draw(int r0, int rn) {
     int i;
     mode_unshaded();
-    if (rdimx == sdimx) {
-        if (rdimy == sdimy) {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
-            }
-        } else {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
-            }
-        }
-    } else {
-        if (rdimy == sdimy) {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
-            }
-        } else {
-            for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
-            }
-        }
+    for (i=r0; i<rn; i++) {
+        draw_row_rect_x(i);
     }
     ndrawn_rows = rn;
 }
 
-void REDUCED_ARRAY::draw_all() {
-    draw(0, nvalid_rows);
+void REDUCED_ARRAY_RENDER::draw_all() {
+    draw(0, rdimy);
 }
 
-void REDUCED_ARRAY::draw_new() {
-    draw(ndrawn_rows, nvalid_rows);
+void REDUCED_ARRAY_RENDER::draw_new() {
+    draw(ndrawn_rows, rdimy);
 }
 
-void REDUCED_ARRAY::draw_part(double frac) {
-    int nr = (int)(nvalid_rows*frac);
+void REDUCED_ARRAY_RENDER::draw_part(double frac) {
+    int nr = (int)(rdimy*frac);
     draw(0, nr);
 }
 
-void REDUCED_ARRAY::draw_axis_labels() {
+void REDUCED_ARRAY_RENDER::draw_axis_labels() {
     GLfloat char_height = .5f;
     GLfloat line_width = 3.0f;
 	GLfloat spacing = 2.0f;
@@ -476,7 +475,7 @@ void REDUCED_ARRAY::draw_axis_labels() {
 
 }
 
-void REDUCED_ARRAY::draw_axes() {
+void REDUCED_ARRAY_RENDER::draw_axes() {
 
 	// comment??
 
@@ -566,7 +565,7 @@ void REDUCED_ARRAY::draw_axes() {
 }
 
 
-void REDUCED_ARRAY::draw_labels() {
+void REDUCED_ARRAY_RENDER::draw_labels() {
 	double model[16];
 	double proj[16];
 	double z_pos[3];

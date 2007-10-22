@@ -9747,3 +9747,12 @@ Rytis  22 Oct 2007
             forum_forum.php
             forum_index.php
             stats.php
+
+David  22 Oct 2007
+	- API: some changes relevant only to SETI@home.
+
+	api/
+		graphics2.h
+		reduce.h
+		reduce_lib.C
+		reduce_main.C

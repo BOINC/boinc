@@ -5,8 +5,6 @@
 //
 extern void app_graphics_render(int xs, int ys, double time_of_day);
 extern void app_graphics_init(void);
-extern void app_graphics_reread_prefs(void);
-    // called when get REREAD_PREFS message from core client.
 extern void app_graphics_resize(int width, int height);
 extern void boinc_app_mouse_button(int x, int y, int which, int is_down);
 extern void boinc_app_mouse_move(int x, int y, int left, int middle, int right);
