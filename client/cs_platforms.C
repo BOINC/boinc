@@ -98,6 +98,12 @@ void CLIENT_STATE::detect_platforms() {
         platforms.clear();
         platforms.push_back(p);
     }
+
+    // add platforms listed in cc_config.xml AFTER the above.
+    //
+    for (unsigned int i=0; i<config.alt_platforms.size(); i++) {
+        add_platform(config.alt_platforms[i].c_str());
+    }
 }
 
 

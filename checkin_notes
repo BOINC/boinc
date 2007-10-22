@@ -7835,3 +7835,11 @@ Rom    19 Oct 2007
     /
         configure.ac
         version.h
+
+David  20 Oct 2007
+	- client: cc_config.xml can contain one or more <alt_platform> elements
+		specifying additional alternate platforms.
+
+	client/
+		cs_platforms.C
+		log_flags.C,h
