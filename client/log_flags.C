@@ -232,6 +232,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.parse_string(tag, "alt_platform", s)) {
             alt_platforms.push_back(s);
+            continue;
         }
         if (xp.parse_str(tag, "data_dir", path, sizeof(path))) {
             if (chdir(path)) {

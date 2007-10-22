@@ -9765,3 +9765,11 @@ David  22 Oct 2007
 		gui_rpc_server_ops.C
 	lib/
 		gui_rpc_client.C
+
+David  22 Oct 2007
+	- client: remove unparsed XML error for <active_task_state>
+	- client: remove spurious error if include <alt_platform> in cc_config.xml
+
+	client/
+		app.C
+		log_flags.C

@@ -515,7 +515,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
 
 int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
-    int n;
+    int n, dummy;
     unsigned int i;
     PROJECT* project;
 
@@ -585,6 +585,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
         else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
+        else if (parse_int(buf, "<active_task_state>", dummy)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
