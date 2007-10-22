@@ -7851,3 +7851,12 @@ David  21 Oct 2007
 
     client/
         app.C
+
+Rom    22 Oct 2007
+    - Tag for 5.10.26 release, all platforms
+      boinc_core_release_5_10_26
+    
+    /
+        configure.ac
+        version.h
+
