@@ -26,8 +26,7 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 function project_banner($title) {
     // Put your project title and logo here
 
-    echo "<link rel=stylesheet type=text/css href=white.css>
-        <table width=100%>
+    echo "<table width=\"100%\">
         <tr>
         <td><h2>$title</h2></td>
         <td align=right>
@@ -38,7 +37,7 @@ function project_banner($title) {
 function project_footer($show_return, $show_date) {
     echo "<br><hr noshade size=1><center>";
     if ($show_return) {
-        echo "<a href=".URL_BASE.">Return to ".PROJECT." main page</a><br>\n";
+        echo "<a href=\"".URL_BASE."\">Return to ".PROJECT." main page</a><br>\n";
     }
     echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {

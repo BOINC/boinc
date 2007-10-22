@@ -368,10 +368,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 /**
  * Start the forum table, output the proper headings and such.
  **/
-function start_forum_table($headings, $extra="width=100%") {
+function start_forum_table($headings, $extra="width=\"100%\"") {
     $span = null;
     
-    start_table($extra." cellspacing=0 cellpadding=2");
+    start_table($extra." cellspacing=\"0\"");
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {

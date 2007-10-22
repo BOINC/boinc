@@ -134,7 +134,7 @@ function site_list($sites) {
         $url = $s[0];
         $name = $s[1];
         $comment = $s[2];
-        echo "<li> <a href=$url>$name</a> $comment\n";
+        echo "<li><a href=\"$url\">$name</a> $comment\n";
     }
     echo "</ul>\n";
 }

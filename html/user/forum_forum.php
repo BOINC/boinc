@@ -21,7 +21,9 @@ if (!$sort_style) {
     if ($user){
         $sort_style = $user->getForumSortStyle();
     } else {
-        list($sort_style,$thread_style)=explode("|",$_COOKIE['sorting']);    
+        if (isset($_COOKIE['sorting'])) {
+            list($sort_style,$thread_style)=explode("|",$_COOKIE['sorting']);
+        }
     }
 } else {
     // set the sort style

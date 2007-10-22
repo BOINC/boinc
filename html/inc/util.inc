@@ -111,26 +111,24 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     $styleSheet = URL_BASE . "/".STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE . "/rss_main.php";
-
+    
     if (defined("CHARSET")) {
         header("Content-type: text/html; charset=".tr(CHARSET));
     }
-
-//    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">';
-
+    
+    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd\">\n";
+    
     if (!$title_plain) {
-        echo "<html><head><title>".strip_tags($title)."</title>
-            <link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">
-            <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
-            </head>";
+        echo "<html><head><title>".strip_tags($title)."</title>\n";
     } else {
-        echo "<html><head><title>".strip_tags($title_plain)."</title>
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">
-        <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
-        </head>";
+        echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">
+        <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
+        </head>
+    ";
     if ($java_onload){
-        echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";
+        echo "<body bgcolor=\"#ffffff\" onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=\"#ffffff\">";
     }
     display_cvs_versions();
     project_banner($title, $prefix);
@@ -223,12 +221,12 @@ function time_str($x) {
 function pretty_time_str($x) {
     return time_str($x);
 }
-function start_table($extra="width=100%") {
-    echo "<table border=1 cellpadding=5 $extra>";
+function start_table($extra="width=\"100%\"") {
+    echo "<table border=\"1\" cellpadding=\"5\" $extra>";
 }
 
 function start_table_noborder($width="100%") {
-    echo "<table border=0 cellpadding=5 width=$width>";
+    echo "<table border=\"0\" cellpadding=\"5\" width=\"$width\">";
 }
 
 function end_table() {

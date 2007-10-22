@@ -20,18 +20,18 @@ if ((get_int("read", true) == 1) && ($logged_in_user)) {
 }
 
 function forum_summary($forum) {
-    echo '
-        <tr class="row1">
+    echo "
+        <tr class=\"row1\">
         <td>
             <em>
-            <a href="forum_forum.php?id='.$forum->getID().'">'.$forum->getTitle().'
+            <a href=\"forum_forum.php?id=".$forum->getID()."\">".$forum->getTitle()."
             </a></em>
-            <br><font size="-2">'.$forum->getDescription().'
+            <br><span class=\"smalltext\">".$forum->getDescription()."</span>
         </td>
-        <td>'.$forum->getThreadCount().'</td>
-        <td>'.$forum->getPostCount().'</td>
-        <td>'.time_diff_str($forum->getLastTimestamp(), time()).'</td>
-    </tr>';
+        <td>".$forum->getThreadCount()."</td>
+        <td>".$forum->getPostCount()."</td>
+        <td>".time_diff_str($forum->getLastTimestamp(), time())."</td>
+    </tr>";
 }
 
 page_head(tr(FORUM_TITLE));

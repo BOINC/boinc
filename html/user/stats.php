@@ -7,9 +7,9 @@ echo "
 <p>
 Statistics for ".PROJECT.":
 <ul>
-<li><a href=top_users.php>Top participants</a>
-<li><a href=top_hosts.php>Top computers</a>
-<li><a href=top_teams.php>Top teams</a>
+<li><a href=\"top_users.php\">Top participants</a>
+<li><a href=\"top_hosts.php\">Top computers</a>
+<li><a href=\"top_teams.php\">Top teams</a>
 </ul>
 
 <p>
@@ -28,7 +28,7 @@ site_list($sig_sites);
 echo "
 You can get your individual statistics
 across all BOINC projects from several sites;
-see your <a href=home.php>home page</a>.
+see your <a href=\"home.php\">home page</a>.
 ";
 
 page_tail();

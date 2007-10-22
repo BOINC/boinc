@@ -9731,3 +9731,19 @@ David  21 Oct 2007
 
     api/
         graphics2_unix.C
+
+Rytis  22 Oct 2007
+    - User web: add HTML DOCTYPE (4.01 Transitional) to all pages, make some
+        HTML validity changes.
+    
+    html/
+        inc/
+            forum.inc
+            stats_sites.inc
+            util.inc
+        project.sample/
+            project.inc
+        user/
+            forum_forum.php
+            forum_index.php
+            stats.php
