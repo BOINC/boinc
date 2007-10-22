@@ -7843,3 +7843,11 @@ David  20 Oct 2007
 	client/
 		cs_platforms.C
 		log_flags.C,h
+
+David  21 Oct 2007
+    - client: add <active_task_state> to <active_task> elements in state file.
+        These are needed by some 3rd-party software that uses
+        the state file instead of GUI RPCs
+
+    client/
+        app.C
