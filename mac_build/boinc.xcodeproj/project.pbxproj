@@ -2464,7 +2464,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\" -nt \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\" ]; then\nrm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nfi\n";
+			shellScript = "if [ ! \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\" -nt \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\" ]; then\nrm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\n\nuntil [ -a \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib/keyedobjects.nib\" ]\n\tdo sleep 1\ndone\nsleep 1\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nfi\n";
 		};
 		DDEE266A0AA83F2B0055C98F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

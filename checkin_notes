@@ -7860,3 +7860,10 @@ Rom    22 Oct 2007
         configure.ac
         version.h
 
+Charlie 22 Oct 2007
+    Mac: In XCode script, wait for expansion of nib stuffit file to finish before 
+        linking screensaver.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
