@@ -9294,7 +9294,7 @@ David  7 Oct 2007
     html/inc/
         team.inc
 
-Janus	8 Oct 2007
+Janus    8 Oct 2007
     Bittorrent:
     - Changed the torrent generator behaviour from trying only the exact path
       to the file given to trying all paths given by removing the root of the
@@ -9307,8 +9307,8 @@ Janus	8 Oct 2007
 
     html/bt/
         torrent_cache.php
-	database/
-	    bittorrent_peers.sql
+    database/
+        bittorrent_peers.sql
 
 Rom    8 Oct 2007
     - MGR: User errors are supposed to be red, not internal errors.
@@ -9411,9 +9411,9 @@ Janus  10 Oct 2007
 
     html/bt
         announce.php
-	scrape.php
-	inc/
-	    bittorrent_ipbans.sql (new)
+    scrape.php
+    inc/
+        bittorrent_ipbans.sql (new)
 
 Charlie 10 Oct 2007
     - Mac V5 GFX API: In setMacPList(), if resource already exists, don't 
@@ -9450,7 +9450,7 @@ Eric K. 11 Oct 2007
 
     html/
         user/
-	    create_profile.php
+        create_profile.php
 
 Charlie 11 Oct 2007
     - V6 GFX: Call waitpid to prevent gfx_switcher leaving zombie processes.
@@ -9617,26 +9617,26 @@ Charlie 16 Oct 2007
         boinc_api.C
 
 David  17 Oct 2007
-	- client: improve log messages
+    - client: improve log messages
 
-	client/
-		cs_scheduler.C
-		pers_file_xfer.C
-		scheduler_op.C
-	clienttray/
-		tray_win.cpp
+    client/
+        cs_scheduler.C
+        pers_file_xfer.C
+        scheduler_op.C
+    clienttray/
+        tray_win.cpp
 
 Charlie 18 Oct 2007
-	- Fix compiler warning,
+    - Fix compiler warning,
 
     client/
         cs_scheduler.C
 
 David  18 Oct 2007
-	- client (win): fix time-zone code
+    - client (win): fix time-zone code
 
-	client/
-		hostinfo_win.C
+    client/
+        hostinfo_win.C
 
 Rom    18 Oct 2007
     - Add the Global prefix to the shared memory segment that
@@ -9700,12 +9700,12 @@ Eric K 19 Oct 2007
 
 
 David  20 Oct 2007
-	- client: cc_config.xml can contain one or more <alt_platform> elements
-		specifying additional alternate platforms.
+    - client: cc_config.xml can contain one or more <alt_platform> elements
+        specifying additional alternate platforms.
 
-	client/
-		cs_platforms.C
-		log_flags.C,h
+    client/
+        cs_platforms.C
+        log_flags.C,h
 
 Reinhard  21 Oct 2007
     - configure.ac: fixed handling of curl-libs to avoid erroneous
@@ -9749,30 +9749,30 @@ Rytis  22 Oct 2007
             stats.php
 
 David  22 Oct 2007
-	- API: some changes relevant only to SETI@home.
+    - API: some changes relevant only to SETI@home.
 
-	api/
-		graphics2.h
-		reduce.h
-		reduce_lib.C
-		reduce_main.C
-
-David  22 Oct 2007
-	- GUI RPC: fix format of <auth2> request
-	- GUI RPC: don't enable network on bad request
-
-	client/
-		gui_rpc_server_ops.C
-	lib/
-		gui_rpc_client.C
+    api/
+        graphics2.h
+        reduce.h
+        reduce_lib.C
+        reduce_main.C
 
 David  22 Oct 2007
-	- client: remove unparsed XML error for <active_task_state>
-	- client: remove spurious error if include <alt_platform> in cc_config.xml
+    - GUI RPC: fix format of <auth2> request
+    - GUI RPC: don't enable network on bad request
 
-	client/
-		app.C
-		log_flags.C
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.C
+
+David  22 Oct 2007
+    - client: remove unparsed XML error for <active_task_state>
+    - client: remove spurious error if include <alt_platform> in cc_config.xml
+
+    client/
+        app.C
+        log_flags.C
 
 Rom    23 Oct 2007
     - client: read_file_string was modified sometime ago to support tail
@@ -9781,3 +9781,27 @@ Rom    23 Oct 2007
     
     client/
         app_control.C
+
+
+David  23 Oct 2007
+    - assimilator: there was a bug in the situation where:
+        1) a WU is marked as ready for assimilation and has no errors;
+        2) it has no canonical result
+        In this case, the assimilate handler gets called anyway,
+        typically with the canonical result of the previous WU as arg.
+        Note: this situation doesn't arise normally;
+        it might happen if some results are deleted accidentally.
+        The fix: 
+        - identify this situation, and set the WU.error_mask to a new code
+            (WU_ERROR_NO_CANONICAL_RESULT)
+        - zero out the "canonical_result" variable passed to the handler,
+            so even if the handler fails to check wu.error_mask,
+            at least it won't assimilate the same result twice.
+        Thanks to Hendrik Verhoek for finding this bug.
+    - DB schema: team table type is MyISAM, not InnoDB
+
+    db/
+        boinc_db.h
+        schema.sql
+    sched/
+        assimilator.C

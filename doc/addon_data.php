@@ -466,14 +466,14 @@ array('boinc_server_status.zip',
 );
 
 $web = array(
-array('boinc_lcs_2.1.tar.gz',
+array('http://download.conmunix.net/pub/boinc_lcs/boinc_lcs_3.0_beta.tar.gz',
     'Boinc LCS',
-    '',
-    'Live Client State for an unlimited number of clients (needs a webserver)',
-    'http://conmunich.dyndns.org/cm/development/boinc2/',
-    'Mysql, Perl and PHP',
-    'Shows the current status from up to 4 clients on a webserver. Files will be transported by a small Perl server within the network that runs on each client. You can configure all options over a Mysql backend.',
-    '1139033692'
+    '3.0 beta',
+    'Shows the current state and other information from an unlimited number of BOINC clients connected to the Internet.',
+    'http://www.conmunix.net/boinc-lcs',
+    'Apache, PHP',
+    'Boinc LCS is a free PHP based script, that allows you to monitor the current state (and other information) from each of your connected BOINC clients. It runs on a simple webserver and since version 2.1 it is also platform independent. Boinc LCS is released under the GNU/GPL license. You can modify and redistribute or just using it!',
+    '1193023938'
 ),
 array('boincphpgui-2.3.tar.gz',
     'BoincPHP5-GUI',

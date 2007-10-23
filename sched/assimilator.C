@@ -98,15 +98,35 @@ bool do_pass(APP& app) {
         );
 
         sprintf(buf, "where workunitid=%d", wu.id);
+        canonical_result.clear();
+        bool found = false;
         while (!result.enumerate(buf)) {
             results.push_back(result);
             if (result.id == wu.canonical_resultid) {
                 canonical_result = result;
+                found = true;
             }
+        }
+
+        // If no canonical result found and WU had no other errors,
+        // something is wrong, e.g. result records got deleted prematurely.
+        // This is probably unrecoverable, so mark the WU as having
+        // an assimilation error and keep going.
+        //
+        if (!found && !wu.error_mask) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "[%s] no canonical result\n", wu.name
+            );
+            wu.error_mask = WU_ERROR_NO_CANONICAL_RESULT;
+            sprintf(buf, "error_mask=%d", wu.error_mask);
+            wu.update_field(buf);
         }
 
         retval = assimilate_handler(wu, results, canonical_result);
         if (retval) {
+            // If handler failed, there's probably a volume offline
+            // or something like that.  Better to quit.
+            //
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "[%s] handler returned error %d; exiting\n", wu.name, retval
             );

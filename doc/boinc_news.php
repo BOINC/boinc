@@ -2,6 +2,19 @@
 
 $project_news = array(
 
+array("October 22, 2007",
+    "The BOINC-based <a href=http://www.bbc.co.uk/sn/climateexperiment>BBC
+    Climate Change Experiment</a> has won the prestigious
+    <a href=http://www.prix-europa.de/>Prix Europa</a>
+    award in the Internet category."
+),
+array("October 21, 2007",
+    'Conmunix has released version 3.0 beta of
+    <a href=http://www.conmunix.net/boinc-lcs>Boinc LCS</a>
+    (Live Client State), a PHP script that allows you to monitor
+    the current state and other information from each of
+    your BOINC clients.'
+),
 array("October 18, 2007",
     "BOINC user John Koulouris has written <a href=http://www.angelfire.com/jkoulouris-boinc/>The Big BOINC! Projects and Chronology Page</a>,
     a brief history of BOINC."

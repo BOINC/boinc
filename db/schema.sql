@@ -115,7 +115,7 @@ create table team (
     ping_user           integer     not null default 0,
     ping_time           integer unsigned not null default 0,
     primary key (id)
-) type=InnoDB;
+) type=MyISAM;  
 
 create table host (
     id                  integer     not null auto_increment,
