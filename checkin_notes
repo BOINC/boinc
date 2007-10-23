@@ -9773,3 +9773,11 @@ David  22 Oct 2007
 	client/
 		app.C
 		log_flags.C
+
+Rom    23 Oct 2007
+    - client: read_file_string was modified sometime ago to support tail
+        functionality, we really do want only the last 63KB of stderr
+        for science applications.
+    
+    client/
+        app_control.C
