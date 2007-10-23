@@ -7876,3 +7876,20 @@ Rom    23 Oct 2007
     client/
         app_control.C
 
+Rom    23 Oct 2007
+    - TRAY: No longer depend on boinc.dll as it has a dependancy on MSVCRT 8.0
+        which is only installed to the BOINC directory.
+    - TRAY: On Vista systems, only processes started in session 0, i.e. services,
+        and elevated processes can create shared memory segments. All others
+        fail with an access denied error code. BOINCTray needs to be able to
+        ignore the error and attempt to re-attach to the shared memory segment
+        every 5 seconds until it is successful. When BOINC starts it'll be able
+        to created the shared memory segment and then boinctray will be able to
+        attach to it.
+        
+    clientlib/win/
+        IdleTracker.cpp
+    clienttray/
+        tray_win.cpp, .h
+    win_build/
+        boinctray.vcproj

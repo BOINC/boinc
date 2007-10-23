@@ -25,7 +25,6 @@
 HMODULE   g_hUser32 = NULL;
 HANDLE    g_hMemoryMappedData = NULL;
 BOOL      g_bIsWindows2000Compatible = FALSE;
-BOOL      g_bIsTerminalServicesEnabled = FALSE;
 
 /**
  * The following global data is SHARED among all instances of the DLL
@@ -113,17 +112,20 @@ EXTERN_C __declspec(dllexport) DWORD BOINCGetIdleTickCount()
          * If both values are greater than the system tick count then
          *   the system must have looped back to the begining.
          **/
-        if ( ( dwCurrentTickCount < lii.dwTime ) &&
-             ( dwCurrentTickCount < g_pSystemWideIdleData->dwLastTick ) )
+        if ( g_pSystemWideIdleData )
         {
-            lii.dwTime = dwCurrentTickCount;
-            g_pSystemWideIdleData->dwLastTick = dwCurrentTickCount;
+            if ( ( dwCurrentTickCount < lii.dwTime ) &&
+                 ( dwCurrentTickCount < g_pSystemWideIdleData->dwLastTick ) )
+            {
+                lii.dwTime = dwCurrentTickCount;
+                g_pSystemWideIdleData->dwLastTick = dwCurrentTickCount;
+            }
+
+            if ( lii.dwTime > g_pSystemWideIdleData->dwLastTick )
+                g_pSystemWideIdleData->dwLastTick = lii.dwTime;
+
+            dwLastTickCount = g_pSystemWideIdleData->dwLastTick;
         }
-
-        if ( lii.dwTime > g_pSystemWideIdleData->dwLastTick )
-            g_pSystemWideIdleData->dwLastTick = lii.dwTime;
-
-        dwLastTickCount = g_pSystemWideIdleData->dwLastTick;
     }
     else
     {
@@ -145,7 +147,6 @@ BOOL IdleTrackerStartup()
 
 
     g_bIsWindows2000Compatible = IsWindows2000Compatible();
-    g_bIsTerminalServicesEnabled = IsTerminalServicesEnabled();
 
         
     if ( !g_bIsWindows2000Compatible )
@@ -222,7 +223,7 @@ BOOL IdleTrackerStartup()
             _ASSERT( g_pSystemWideIdleData );
         }
 
- 	    if( !bExists )
+ 	    if( g_pSystemWideIdleData && !bExists )
  	    {
  		    g_pSystemWideIdleData->dwLastTick = GetTickCount();
  	    }
