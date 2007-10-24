@@ -461,17 +461,6 @@ if test -n "$utmp_file"; then
     AC_DEFINE_UNQUOTED(UTMP_LOCATION, "$utmp_file", utmp file location)
 fi
 
-dnl Checks for device files
-if test -e "/dev/mouse"; then
-    AC_DEFINE(HAVE__DEV_MOUSE, 1, [Define to 1 if /dev/mouse exists])
-fi
-if test -e "/dev/kbd"; then
-    AC_DEFINE(HAVE__DEV_KBD, 1, [Define to 1 if /dev/kbd exists])
-fi
-if test -e "/dev/tty1"; then
-    AC_DEFINE(HAVE__DEV_TTY1, 1, [Define to 1 if /dev/tty1 exists])
-fi
-
 dnl Check for /proc/self/psinfo (Solaris)
 if test -e "/proc/self/psinfo"; then
     AC_DEFINE(HAVE__PROC_SELF_PSINFO, 1, [Define to 1 if /proc/self/psinfo exists])

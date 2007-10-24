@@ -895,8 +895,11 @@ static double GetOSXIdleTime(void) {
 
     if (tryNewAPI) {
         if (bundleRef == NULL) {
-            frameworkURL = CFURLCreateWithFileSystemPath (kCFAllocatorSystemDefault, 
-                                CFSTR("/System/Library/Frameworks/ApplicationServices.framework"), kCFURLPOSIXPathStyle, true);
+            frameworkURL = CFURLCreateWithFileSystemPath(
+                kCFAllocatorSystemDefault, 
+                CFSTR("/System/Library/Frameworks/ApplicationServices.framework"),
+                kCFURLPOSIXPathStyle, true
+            );
             if (frameworkURL) {
                 bundleRef = CFBundleCreate(kCFAllocatorSystemDefault, frameworkURL);
                 CFRelease( frameworkURL );
@@ -904,22 +907,27 @@ static double GetOSXIdleTime(void) {
         }
         
         if (bundleRef) {
-            if ( (GetSysIdleTime == NULL) || 
-                    ( ! CFBundleIsExecutableLoaded( bundleRef ) ) )     // Is this test necessary ?
-                GetSysIdleTime = (GetIdleTimeProc) 
-                            CFBundleGetFunctionPointerForName( bundleRef, CFSTR("CGEventSourceSecondsSinceLastEventType") );
+            if ((GetSysIdleTime == NULL) || !CFBundleIsExecutableLoaded(bundleRef)
+            ) {
+                    // Is this test necessary ?
+                GetSysIdleTime = (GetIdleTimeProc) CFBundleGetFunctionPointerForName(
+                    bundleRef, CFSTR("CGEventSourceSecondsSinceLastEventType")
+                );
+            }
         }
         
-        if (GetSysIdleTime)
+        if (GetSysIdleTime) {
             idleTime = (double)GetSysIdleTime (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-        else {
+        } else {
             CFRelease( bundleRef );
             bundleRef = NULL;
-            tryNewAPI = false;  // CGEventSourceSecondsSinceLastEventType() API is not available on this system
+            tryNewAPI = false;
+            // CGEventSourceSecondsSinceLastEventType() API is not available on this system
         }
            
-        if (GetSysIdleTime) 
+        if (GetSysIdleTime) {
             return idleTime;
+        }
     }   // if (tryNewAPI)
     
     // On 10.3 use this SPI
@@ -927,6 +935,7 @@ static double GetOSXIdleTime(void) {
     // On MDD Powermacs, the above function will return a large value when the machine 
     // is active (-1?).  18446744073.0 is the lowest I've seen on my MDD -ai
     // Here we check for that value and correctly return a 0 idle time.
+    //
     idleTime = CGSSecondsSinceLastInputEvent (-1);
     if (idleTime >= 18446744000.0) idleTime = 0.0;
     return idleTime;
@@ -948,25 +957,19 @@ bool HOST_INFO::users_idle(
 #else  // ! __APPLE__
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
-#ifdef HAVE__DEV_TTY1
-    char device_tty[] = "/dev/tty1";
-#endif
-    time_t idle_time = time(NULL) - (long) (60 * idle_time_to_run);
-    return true
-#ifdef HAVE_UTMP_H
-        && (!check_all_logins || all_logins_idle(idle_time))
-#endif
-#ifdef HAVE__DEV_MOUSE
-        && device_idle(idle_time, "/dev/mouse") // solaris, linux
-#endif
-#ifdef HAVE__DEV_KBD
-        && device_idle(idle_time, "/dev/kbd") // solaris
-#endif
-#ifdef HAVE__DEV_TTY1
-        && (check_all_logins || all_tty_idle(idle_time, device_tty, '1', 7))
-#endif
+    time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
 
-        ;
+    if (check_all_logins) {
+#ifdef HAVE_UTMP_H
+        if (!all_logins_idle(idle_time)) return false;
+#endif
+        if (!all_tty_idle(idle_time, "/dev/tty1", '1', 7)) return false;
+    }
+    if (!device_idle(idle_time, "/dev/mouse")) return false;
+        // solaris, linux
+    if (!device_idle(idle_time, "/dev/kbd")) return false;
+        // solaris
+    return true;
 }
 
 #endif  // ! __APPLE__

@@ -9847,3 +9847,19 @@ David  24 Oct 2007
             host.inc
         user/
             hosts_user.php
+
+David  24 Oct 2007
+    - client: fixed bug that broke idle detection on Unix.
+        The problem: the various checks were surrounded by things like
+        #ifdef HAVE__DEV_MOUSE
+        If the host on which the client is built doesn't have a mouse
+        (as is the case with our build machine)
+        then the resulting executable doesn't check /dev/mouse,
+        even if it exists on the target host.
+    - removed configure checks for /dev/mouse, /dev/kbd, and /dev/tty1
+
+    configure.ac
+    client/
+        hostinfo_unix.C
+    html/user/
+        create_profile.php
