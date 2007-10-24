@@ -465,6 +465,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\boinc\api\reduce.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\boinc\api\texfont.h"
 				>
 			</File>
