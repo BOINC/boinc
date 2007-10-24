@@ -118,11 +118,8 @@ static BOINC_PROCESSENTRY diagnostics_process;
 //   crash.  This is platform specific in nature since it
 //   depends on the OS datatypes.
 typedef struct _BOINC_THREADLISTENTRY {
-    char                name[256];
     DWORD               thread_id;
     HANDLE              thread_handle;
-    BOOL                graphics_thread;
-    BOOL                worker_thread;
     BOOL                crash_suspend_exempt;
     FLOAT               crash_kernel_time;
     FLOAT               crash_user_time;
@@ -141,7 +138,6 @@ static HANDLE hThreadListSync;
 
 // Initialize the thread list entry.
 int diagnostics_init_thread_entry(PBOINC_THREADLISTENTRY entry) {
-    strncpy(entry->name, "", sizeof(entry->name));
     entry->thread_id = 0;
     entry->thread_handle = 0;
     entry->crash_suspend_exempt = FALSE;
@@ -585,72 +581,9 @@ int diagnostics_update_thread_list() {
 }
 
 
-// Setting the current threads name happens in two places.  Once for
-//   us and once for any full featured debugger that might be attached
-//   and listening.  The full featured debuggers expect an exception
-//   to be rasied with a special exception code.  When the debugger
-//   sees the exception code it extracts the thread name from the
-//   exception data block marshalled to the debugger by Windows.
-//
-// After the debugger is done it should resume the application
-//   where it left off.
-//
-// See KB Article:
-//   http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
-//
-// The orginal implementation requires that the compiler understands
-//   SEH, which is a problem for those using compilers that only want
-//   to deal with "Standard C/C++".
-//
-// Work around the problem by using a special unhandled exception
-//   filter which will look for the special exception and ignore it
-//   should the debugger pass it back to the application.  All other
-//   exceptions will be passed to the original unhandled ception
-//   filter for processing.
-//
-typedef struct tagTHREADNAME_INFO {
-    DWORD dwType;     // must be 0x1000
-    LPCSTR szName;    // pointer to name (in user addr space)
-    DWORD dwThreadID; // thread ID (-1=caller thread)
-    DWORD dwFlags;    // reserved for future use, must be zero
-} THREADNAME_INFO;
-
-static LPTOP_LEVEL_EXCEPTION_FILTER pPreviousExceptionHandler = NULL;
-
-LONG WINAPI set_thread_name_exception_filter(PEXCEPTION_POINTERS pExPtrs) {
-    if ( 0x406D1388 == pExPtrs->ExceptionRecord->ExceptionCode) {
-        // This is the special exception code used to name threads
-        //   within a debugger.  If no debugger is attached, then
-        //   continue execution of the application.
-        return EXCEPTION_CONTINUE_EXECUTION;
-    }
-    if (!pPreviousExceptionHandler) {
-        // This can happen if the default unhandled exception filter
-        //   hasn't been initialized yet.  No since dereferencing a
-        //   NULL pointer.
-        return EXCEPTION_CONTINUE_SEARCH;
-    }
-    return pPreviousExceptionHandler(pExPtrs);
-}
-
-void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName ) {
-    THREADNAME_INFO info;
-    info.dwType = 0x1000;
-    info.szName = szThreadName;
-    info.dwThreadID = dwThreadID;
-    info.dwFlags = 0;
-
-    pPreviousExceptionHandler = SetUnhandledExceptionFilter(set_thread_name_exception_filter);
-
-    // Pass the thread name off to a debugger where the debugger will read
-    //   the exception data block and extract the thread name.  After
-    //   processing the thread name the application should resume normally.
-    RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD_PTR), (DWORD_PTR*)&info );
-
-    SetUnhandledExceptionFilter(pPreviousExceptionHandler);
-}
-
-int diagnostics_set_thread_name( char* name ) {
+// Set the current threads name to make it easy to know what the
+//   thread is supposed to be doing.
+int diagnostics_set_thread_exception_record(PEXCEPTION_POINTERS pExPtrs) {
     HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
 
@@ -658,11 +591,8 @@ int diagnostics_set_thread_name( char* name ) {
     WaitForSingleObject(hThreadListSync, INFINITE);
 
     pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
-
-    // If we already know about the thread, just set its name.  Otherwise
-    //   create a new entry and then set the name to the new entry.
     if (pThreadEntry) {
-        strncpy(pThreadEntry->name, name, sizeof(pThreadEntry->name));
+        pThreadEntry->crash_exception_record = pExPtrs;
     } else {
         DuplicateHandle(
             GetCurrentProcess(),
@@ -676,33 +606,10 @@ int diagnostics_set_thread_name( char* name ) {
 
         pThreadEntry = new BOINC_THREADLISTENTRY;
         diagnostics_init_thread_entry(pThreadEntry);
-        strncpy(pThreadEntry->name, name, sizeof(pThreadEntry->name));
         pThreadEntry->thread_id = GetCurrentThreadId();
         pThreadEntry->thread_handle = hThread;
-        diagnostics_threads.push_back(pThreadEntry);
-    }
-
-    // Set the thread name in the debugger
-    SetThreadName(pThreadEntry->thread_id, pThreadEntry->name);
-
-    // Release the Mutex
-    ReleaseMutex(hThreadListSync);
-
-    return 0;
-}
-
-
-// Set the current threads name to make it easy to know what the
-//   thread is supposed to be doing.
-int diagnostics_set_thread_exception_record(PEXCEPTION_POINTERS pExPtrs) {
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
-
-    // Wait for the ThreadListSync mutex before writing updates
-    WaitForSingleObject(hThreadListSync, INFINITE);
-
-    pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
-    if (pThreadEntry) {
         pThreadEntry->crash_exception_record = pExPtrs;
+        diagnostics_threads.push_back(pThreadEntry);
     }
 
     // Release the Mutex
@@ -715,6 +622,7 @@ int diagnostics_set_thread_exception_record(PEXCEPTION_POINTERS pExPtrs) {
 // Set the current threads name to make it easy to know what the
 //   thread is supposed to be doing.
 int diagnostics_set_thread_exempt_suspend() {
+    HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
 
     // Wait for the ThreadListSync mutex before writing updates
@@ -723,46 +631,23 @@ int diagnostics_set_thread_exempt_suspend() {
     pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
     if (pThreadEntry) {
         pThreadEntry->crash_suspend_exempt = TRUE;
-    }
+    } else {
+        DuplicateHandle(
+            GetCurrentProcess(),
+            GetCurrentThread(),
+            GetCurrentProcess(),
+            &hThread,
+            0,
+            FALSE,
+            DUPLICATE_SAME_ACCESS
+        );
 
-    // Release the Mutex
-    ReleaseMutex(hThreadListSync);
-
-    return 0;
-}
-
-
-// Set the current thread as the graphics thread.
-//
-int diagnostics_set_thread_graphics() {
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
-
-    // Wait for the ThreadListSync mutex before writing updates
-    WaitForSingleObject(hThreadListSync, INFINITE);
-
-    pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
-    if (pThreadEntry) {
-        pThreadEntry->graphics_thread = TRUE;
-    }
-
-    // Release the Mutex
-    ReleaseMutex(hThreadListSync);
-
-    return 0;
-}
-
-
-// Set the current thread as the worker thread.
-//
-int diagnostics_set_thread_worker() {
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
-
-    // Wait for the ThreadListSync mutex before writing updates
-    WaitForSingleObject(hThreadListSync, INFINITE);
-
-    pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
-    if (pThreadEntry) {
-        pThreadEntry->worker_thread = TRUE;
+        pThreadEntry = new BOINC_THREADLISTENTRY;
+        diagnostics_init_thread_entry(pThreadEntry);
+        pThreadEntry->thread_id = GetCurrentThreadId();
+        pThreadEntry->thread_handle = hThread;
+        pThreadEntry->crash_suspend_exempt = TRUE;
+        diagnostics_threads.push_back(pThreadEntry);
     }
 
     // Release the Mutex
@@ -775,6 +660,7 @@ int diagnostics_set_thread_worker() {
 // Set the current thread's crash message.
 //
 int diagnostics_set_thread_crash_message(char* message) {
+    HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
 
     // Wait for the ThreadListSync mutex before writing updates
@@ -791,6 +677,31 @@ int diagnostics_set_thread_crash_message(char* message) {
         if ((sizeof(pThreadEntry->crash_message) == buffer_used) || (-1 == buffer_used)) { 
             pThreadEntry->crash_message[sizeof(pThreadEntry->crash_message)-1] = '\0';
         }
+    } else {
+        DuplicateHandle(
+            GetCurrentProcess(),
+            GetCurrentThread(),
+            GetCurrentProcess(),
+            &hThread,
+            0,
+            FALSE,
+            DUPLICATE_SAME_ACCESS
+        );
+
+        pThreadEntry = new BOINC_THREADLISTENTRY;
+        diagnostics_init_thread_entry(pThreadEntry);
+        pThreadEntry->thread_id = GetCurrentThreadId();
+        pThreadEntry->thread_handle = hThread;
+        int buffer_used = snprintf(
+            pThreadEntry->crash_message, 
+            sizeof(pThreadEntry->crash_message),
+            "%s",
+            message
+        );
+        if ((sizeof(pThreadEntry->crash_message) == buffer_used) || (-1 == buffer_used)) { 
+            pThreadEntry->crash_message[sizeof(pThreadEntry->crash_message)-1] = '\0';
+        }
+        diagnostics_threads.push_back(pThreadEntry);
     }
 
     // Release the Mutex
@@ -1148,8 +1059,9 @@ UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
     PBOINC_MESSAGEMONITORENTRY pMessageEntry = NULL;
     HANDLE      hEvents[2];
 
-    // Set our friendly name
-    diagnostics_set_thread_name("Debug Message Monitor");
+    // Make sure this thread doesn't get suspended during
+    //   a crash dump, the DBGHELP library is pretty verbose.
+    //   Suspending this thread will cause a deadlock.
     diagnostics_set_thread_exempt_suspend();
 
 
@@ -1620,7 +1532,6 @@ int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
         "User Time: %f, "
         "Wait Time: %f\n"
         "\n",
-        pThreadEntry->name,
         pThreadEntry->thread_id,
         diagnostics_format_thread_state(pThreadEntry->crash_state),
         strStatusExtra.c_str(),
@@ -1783,38 +1694,12 @@ UINT diagnostics_determine_exit_code() {
     UINT   uiIndex = 0;
     size_t size = 0;
 
-    // Worker thread.
+    // Any thread will do at this point
     size = diagnostics_threads.size();
     for (uiIndex = 0; uiIndex < size; uiIndex++) {
-        if (diagnostics_threads[uiIndex]) {
-            if (diagnostics_threads[uiIndex]->worker_thread && diagnostics_threads[uiIndex]->crash_exception_record) {
-                uiReturn = 
-                    diagnostics_threads[uiIndex]->crash_exception_record->ExceptionRecord->ExceptionCode;
-            }
-        }
-    }
-
-    // Graphics thread
-    if (!uiReturn) {
-        size = diagnostics_threads.size();
-        for (uiIndex = 0; uiIndex < size; uiIndex++) {
-            if (diagnostics_threads[uiIndex]) {
-                if (diagnostics_threads[uiIndex]->graphics_thread && diagnostics_threads[uiIndex]->crash_exception_record) {
-                    uiReturn = 
-                        diagnostics_threads[uiIndex]->crash_exception_record->ExceptionRecord->ExceptionCode;
-                }
-            }
-        }
-
-        // Any thread will do at this point
-        if (!uiReturn) {
-            size = diagnostics_threads.size();
-            for (uiIndex = 0; uiIndex < size; uiIndex++) {
-                if (diagnostics_threads[uiIndex]->crash_exception_record) {
-                    uiReturn = 
-                        diagnostics_threads[uiIndex]->crash_exception_record->ExceptionRecord->ExceptionCode;
-                }
-            }
+        if (diagnostics_threads[uiIndex]->crash_exception_record) {
+            uiReturn = 
+                diagnostics_threads[uiIndex]->crash_exception_record->ExceptionRecord->ExceptionCode;
         }
     }
 
@@ -1832,8 +1717,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
     BOINC_WINDOWCAPTURE window_info;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
 
-    // Set our friendly name
-    diagnostics_set_thread_name("Debug Exception Monitor");
+    // We should not suspend our crash dump thread.
     diagnostics_set_thread_exempt_suspend();
 
     // Aquire the mutex that will keep all the threads that throw an exception

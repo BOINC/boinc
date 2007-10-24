@@ -9874,3 +9874,13 @@ David  24 Oct 2007
         main.C
     lib/
         diagnostics.C,h
+
+Rom    24 Oct 2007
+    - DIAG: Remove references to diagnostics_set_thread_name().
+
+    api/
+        boinc_api.C
+        windows_opengl.C
+    lib/
+        diagnostics.h
+        diagnostics_win.C

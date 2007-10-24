@@ -913,7 +913,6 @@ static HANDLE timer_quit_event;
 
 UINT WINAPI timer_thread(void *) {
      
-    diagnostics_set_thread_name("Timer");
     while (1) {
         Sleep(TIMER_PERIOD*1000);
         timer_handler();
@@ -972,11 +971,6 @@ int set_worker_timer() {
         FALSE,
         DUPLICATE_SAME_ACCESS
     );
-
-    // Initialize the worker thread info for diagnostic purposes.
-    //
-    diagnostics_set_thread_name("Worker");
-    diagnostics_set_thread_worker();
 
     // Create the timer thread
     //
