@@ -44,8 +44,8 @@ if test $sec_from_hour -lt 300 ; then
        elif `test $ayes -gt $major` ; then
          echo Vote succeeded. >> $msgfile
          mail -s "Vote succeeded.  You have been banished"  $EMAIL < $msgfile2
-         start_time=`$MYSQL --execute="select start_time from banishment_votes where voteid=$voteid"`
-         $MYSQL --execute="update forum_preferences set banished_until=$start_time+1209600 where userid=$userid"
+         start_time=`$MYSQL --execute="select start_time from banishment_vote where id=$voteid"`
+         $MYSQL --execute="update forum_preferences set banished_until=$start_time +1209600 where userid= $userid"
          $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
        else 
          $MYSQL --execute="select 'Ends in ',(end_time-$now)/3600,' hours' from banishment_vote where id=$voteid" >> $msgfile
@@ -79,8 +79,8 @@ if test -n "$voteids" ; then
        if test $ayes -gt $nays ; then
          echo Vote succeeded. >> $msgfile
          mail -s "Vote succeeded.  You have been banished"  $EMAIL < $msgfile2
-         start_time=`$MYSQL --execute="select start_time from banishment_votes where voteid=$voteid"`
-         $MYSQL --execute="update forum_preferences set banished_until=$start_time+1209600 where userid=$userid"
+         start_time=`$MYSQL --execute="select start_time from banishment_vote where id=$voteid"`
+         $MYSQL --execute="update forum_preferences set banished_until=$start_time +1209600 where userid= $userid"
          $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
        else 
          echo Vote failed. >> $msgfile
