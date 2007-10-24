@@ -9838,3 +9838,12 @@ David  24 Oct 2007
     html/user/
         merge_by_name.php
         hosts_user.php
+
+David  24 Oct 2007
+    - user web: change "host" to "computer" in a few places
+
+    html/
+        inc/
+            host.inc
+        user/
+            hosts_user.php

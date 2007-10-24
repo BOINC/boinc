@@ -142,11 +142,11 @@ function show_host($host, $private, $ipprivate, $user) {
         }
         row2("Location", location_form($host));
         if ($nresults == 0) {
-            $x = " | <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">Delete this host</a> ";
+            $x = " | <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">Delete this computer</a> ";
         } else {
             $x = "";
         }
-        row2("Click to", "<a href=host_edit_form.php?hostid=$host->id>merge this computer</a> $x");
+        row2("Click to", "<a href=host_edit_form.php?hostid=$host->id>Merge this computer</a> $x");
         //row2("Click to", "<a href=host_update_credit.php?hostid=$host->id>recompute credit</a>");
     }
     echo "</table>\n";
