@@ -9821,3 +9821,11 @@ Charlie 23 Oct 2007
         mac/
             config.h
             Mac_GUI.pch
+
+Frank Thomas    24 Oct 2007
+    - MGR: Check on account creation if wxGetUserName() returned an empty
+        string and if it did assign the output of wxGetUserId() to
+        ai->user_name instead. (fixes #440)
+
+    clientgui/
+        ProjectProcessingPage.cpp
