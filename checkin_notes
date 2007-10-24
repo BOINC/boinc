@@ -7910,3 +7910,11 @@ Rom    23 Oct 2007
         tray_win.cpp, .h
     win_build/
         boinctray.vcproj
+
+Rom    24 Oct 2007
+    - Tag for 5.10.27 release, all platforms
+      boinc_core_release_5_10_27
+    
+    /
+        configure.ac
+        version.h
