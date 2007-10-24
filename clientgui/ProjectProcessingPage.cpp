@@ -399,6 +399,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 ai->email_addr = (const char*)pWAP->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
                 ai->passwd = (const char*)pWAP->m_AccountInfoPage->GetAccountPassword().mb_str();
                 ai->user_name = (const char*)::wxGetUserName().mb_str();
+                if (ai->user_name.empty()) {
+                    ai->user_name = (const char*)::wxGetUserId().mb_str();
+                }
 
                 if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
                     pDoc->rpc.create_account(*ai);
