@@ -72,16 +72,21 @@ void CLIENT_STATE::detect_platforms() {
 #endif
 
 #elif defined(__APPLE__)
-#if defined(__i386__)
+#if defined(__x86_64__)
 
-    add_platform("i686-apple-darwin");
-    add_platform("powerpc-apple-darwin");
-
-#else
-
-    add_platform("powerpc-apple-darwin");
+    add_platform("x86_64-apple-darwin");
 
 #endif
+
+#if defined(__i386__) || defined(__x86_64__)
+
+    // Supported on both Mac Intel architectures
+    add_platform("i686-apple-darwin");
+
+#endif
+
+    // Supported on all 3 Mac architectures
+    add_platform("powerpc-apple-darwin");
 
 #else
 

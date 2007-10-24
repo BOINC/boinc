@@ -92,7 +92,7 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 void ACTIVE_TASK::check_graphics_mode_ack() {
     GRAPHICS_MSG gm;
     char buf[MSG_CHANNEL_SIZE];
-#if (defined(__APPLE__) && defined(__i386__))
+#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
     // PowerPC apps emulated on i386 Macs crash if running graphics
     if (powerpc_emulated_on_i386) {
         graphics_mode_acked = MODE_UNSUPPORTED;
@@ -131,7 +131,7 @@ void ACTIVE_TASK_SET::graphics_poll() {
 }
 
 bool ACTIVE_TASK::supports_graphics() {
-#if (defined(__APPLE__) && defined(__i386__))
+#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
     // PowerPC apps emulated on i386 Macs crash if running graphics
     if (powerpc_emulated_on_i386)
         return false;

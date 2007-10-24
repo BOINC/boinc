@@ -53,9 +53,10 @@
 
 #include <wx/version.h> // For wxCHECK_VERSION
 
-#if (defined(__i386__) && wxCHECK_VERSION(2,8,2))
+#if ((defined(__i386__) || defined(__x86_64__)) && wxCHECK_VERSION(2,8,2))
 // platform.h erroneously #defines __POWERPC__, so we include platform.h first 
 // and then #undef __POWERPC__ before including the other wxMac header files.
+// It's unclear if this affects non-CodeWarrior builds, but do it to be safe.
 #include <wx/platform.h>
 #ifdef __POWERPC__
 #undef __POWERPC__

@@ -125,7 +125,7 @@ public:
     double cpu_time_left;
 #endif
 
-#if (defined (__APPLE__) && defined(__i386__))
+#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
     // PowerPC apps emulated on i386 Macs crash if running graphics
     int powerpc_emulated_on_i386;
     int is_native_i386_app(char*);

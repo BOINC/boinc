@@ -9805,3 +9805,19 @@ David  23 Oct 2007
         schema.sql
     sched/
         assimilator.C
+
+Charlie 23 Oct 2007
+    - Mac client: Add 64-bit support for OS 10.5 (new platform x86_64-apple-darwin).
+        These changes should have no effect until we add the x86_64 architecture 
+        using the OS 10.5 SDK to the XCode build rules.
+
+    client/
+        app.h
+        app_graphics.C
+        app_start.C
+        cs_platforms.C
+        hostinfo_unix.C
+    clientgui/
+        mac/
+            config.h
+            Mac_GUI.pch

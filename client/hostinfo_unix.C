@@ -455,7 +455,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 static void get_cpu_info_maxosx(HOST_INFO& host) {
     int p_model_size = sizeof(host.p_model);
     size_t len;
-#ifdef __i386__
+#if defined(__i386__) || defined(__x86_64__)
     char brand_string[256];
     int family, stepping, model;
     
@@ -852,7 +852,7 @@ inline bool all_logins_idle(time_t t) {
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 
-#ifdef __i386__
+#if defined(__i386__) || defined(__x86_64__)
 
 #include <ApplicationServices/ApplicationServices.h>
 
@@ -932,7 +932,7 @@ static double GetOSXIdleTime(void) {
     return idleTime;
 //    return (double)NXIdleTime(gEventHandle);      // Very old and very slow API
 }
-#endif  // ! __i386__
+#endif  // ! (__i386__ || __x86_64__)
 
 bool HOST_INFO::users_idle(
     bool check_all_logins, double idle_time_to_run, double *actual_idle_time
