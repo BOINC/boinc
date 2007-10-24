@@ -9829,3 +9829,12 @@ Frank Thomas    24 Oct 2007
 
     clientgui/
         ProjectProcessingPage.cpp
+
+David  24 Oct 2007
+    - user web: enable the "merge computers by name" feature.
+        I added this on 30 May 07 but accidentally left
+        "if ($userid==0)" around it.
+
+    html/user/
+        merge_by_name.php
+        hosts_user.php

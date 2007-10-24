@@ -22,7 +22,7 @@ function merge_name($list) {
         }
         $error = merge_hosts($host, $newest_host);
         if (!$error) {
-            echo "<b>merged $host->id into $newest_host->id\n";
+            echo "<br>Merged $host->id into $newest_host->id\n";
         } else {
             echo "<br>$error\n";
         }
@@ -54,17 +54,14 @@ if ($_GET['confirmed']) {
 } else {
     $tokens = url_tokens($user->authenticator);
     echo "
-        This operation will merge all of your computers
-        that have the same domain name.
+        This operation merges computers based on their domain name.
         <p>
-        For each name, it will merge all older computers
+        For each domain name, it will merge all older computers
         having that name with the newest computer having that name.
         Incompatible computers will not be merged.
         <p>
-        Click <a href=merge_by_name.php?confirmed=1&$tokens>here</a>
-        if you're sure you want to do this.
-        <p>Click <a href=hosts_user.php>here</a>
-        to return to the list of your computers.
+        <a href=merge_by_name.php?confirmed=1&$tokens>Go ahead and do this</a>.
+        <p><a href=hosts_user.php>Return to the list of computers</a>.
     ";
 }
 page_tail();

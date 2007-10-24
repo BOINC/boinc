@@ -85,8 +85,9 @@ if ($userid) {
         error_page("No such user");
     }
     $caching=true;
-    // At this point, we know that (1) $userid, $show_all and $sort all have
+    // At this point, we know that $userid, $show_all and $sort all have
     // valid values.
+    //
     $cache_args="userid=$userid&show_all=$show_all&sort=$sort";
     start_cache(USER_PAGE_TTL, $cache_args);
     if ($user->show_hosts) {
@@ -128,13 +129,13 @@ while ($host = mysql_fetch_object($result)) {
 mysql_free_result($result);
 echo "</table>\n";
 
-if ($old_hosts>0) more_or_less($show_all);
-
-if ($userid == 0) {
-    echo "
-        <a href=merge_by_name.php>Merge hosts by name</a>
-    ";
+if ($old_hosts>0) {
+    more_or_less($show_all);
 }
+
+echo "
+    <a href=merge_by_name.php>Merge hosts by name</a>
+";
 
 if ($caching) {
     page_tail(true);
