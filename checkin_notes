@@ -9863,3 +9863,14 @@ David  24 Oct 2007
         hostinfo_unix.C
     html/user/
         create_profile.php
+
+David  24 Oct 2007
+    - client: add <max_stdout_file_size> and <max_stderr_file_size>
+        cc_config.xml options to change log file size limit
+        from the default of 2 MB
+
+    client/
+        log_flags.C,h
+        main.C
+    lib/
+        diagnostics.C,h
