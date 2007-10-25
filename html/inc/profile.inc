@@ -9,6 +9,7 @@ require_once("../inc/user.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/text_transform.inc");
 require_once("../inc/db_forum.inc");
+require_once("../inc/recaptchalib.php");
 
 define('SMALL_IMG_WIDTH', 64);
 define('SMALL_IMG_HEIGHT', 64);
@@ -75,7 +76,19 @@ function show_profile_creation_page($user) {
     // fill in the fields with their current values.
     //
     $profile = get_profile($user->id);
-    if (isset($_POST['submit']) && $_POST['submit']) {
+    if (post_str("submit", true)) {
+	$config = get_config();
+	$privatekey = parse_config($config, "<recaptcha_private_key>");
+	if ($privatekey) {
+	    $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
+			$_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+	
+	    if (!$resp->is_valid) {
+		error_page("The reCAPTCHA wasn't entered correctly. Go back and try it again.<br>".
+	    	    "(reCAPTCHA said: " . $resp->error . ")");
+	    }
+	}
+    
         process_create_profile($user, $profile);
         exit();
     }
@@ -109,15 +122,24 @@ function show_description() {
 }
 
 function show_questions($profile) {
+    $response1 = "";
+    $response2 = "";
+    if (isset($profile->response1)) {
+	$response1 = stripslashes($profile->response1);
+    }
+    if (isset($profile->response2)) {
+	$response2 = stripslashes($profile->response2);
+    }
+
     row1(show_profile_heading1());
     rowify(show_profile_question1().html_info());
     rowify("<br>");
-    show_textarea("response1", stripslashes($profile->response1));
+    show_textarea("response1", $response1);
     rowify("<br>");
     row1( show_profile_heading2());
     rowify( show_profile_question2().html_info());
     rowify("<br>");
-    show_textarea("response2", stripslashes($profile->response2));
+    show_textarea("response2", $response2);
     rowify("<br>");
     show_language_selection($profile);
     rowify("<br>");
@@ -158,7 +180,7 @@ function show_picture_option($profile) {
         $warning = offensive_profile_warning($profile->verification);
     }
 
-    if ($profile->has_picture) {
+    if (($profile) && ($profile->has_picture)) {
         echo "
 <tr><td colspan=2>
 <table border=0 cellpadding=5
@@ -197,7 +219,7 @@ function show_language_selection($profile) {
         Select the language in which your profile is written:
         <p>
     ";
-    if (strlen($profile->language)) {
+    if (isset($profile->language)) {
         show_combo_box("language", LANGUAGE_FILE, $profile->language);
     } else {
         show_combo_box("language", LANGUAGE_FILE, "English");
@@ -207,7 +229,14 @@ function show_language_selection($profile) {
 
 function show_submit() {
     row1("Submit profile");
-    rowify("<p><input type=submit value=OK name=submit>");
+    echo "<script>var RecaptchaOptions = { theme : 'white' };</script>"; // White looks better :)
+    $config = get_config();
+    $publickey = parse_config($config, "<recaptcha_public_key>");
+    if ($publickey) {
+	table_row("To protect project's webpages from spam, we ask you to type in two words shown in the image:<br>\n".
+	    recaptcha_get_html($publickey));
+    }
+    table_row("<p><input type=\"submit\" value=\"Create/edit profile\" name=\"submit\">");
 }
 
 // If the user with id = $userid has uploaded a picture his/herself,

@@ -9900,3 +9900,14 @@ Charlie 25 Oct 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rytis   25 Oct 2007
+    - User web: add reCAPTCHA to profile creation/modification page.
+        Documented in http://boinc.berkeley.edu/trac/wiki/ProtectionFromSpam
+    
+    html/
+        inc/
+            profile.inc
+            recaptchalib.php (from recaptcha.net/plugins/php)
+        user/
+            create_profile.php
