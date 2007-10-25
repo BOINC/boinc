@@ -24,7 +24,6 @@ function db_init_aux($try_replica=false) {
         return 1;
     }
     $db_name = parse_config($config, "<db_name>");
-    print_r($link);
     if (!mysql_select_db($db_name, $link)) {
         echo "selecting $db_name\n";
         return 2;
