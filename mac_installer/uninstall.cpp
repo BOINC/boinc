@@ -44,7 +44,7 @@ static void DeleteLoginItem(void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static OSStatus QuitBOINCManager(OSType signature);
-static void SleepTicks(UInt32 ticksToSleep);
+//static void SleepTicks(UInt32 ticksToSleep);
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...);
 
 
@@ -217,6 +217,8 @@ static OSStatus DoUninstall(void) {
     system ("dscl . -delete /groups/boinc_master");
     system ("dscl . -delete /users/boinc_project");
     system ("dscl . -delete /groups/boinc_project");
+    
+    return 0;
 }
 
 
@@ -662,6 +664,7 @@ bail:
     return err;
 }
 
+#if 0
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepTicks(UInt32 ticksToSleep) {
     UInt32 endSleep, timeNow, ticksRemaining;
@@ -675,6 +678,7 @@ static void SleepTicks(UInt32 ticksToSleep) {
         ticksRemaining = endSleep - timeNow;
     } 
 }
+#endif
 
 
 static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {

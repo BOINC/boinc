@@ -35,6 +35,7 @@
 
 #define CREATE_LOG 0
 
+#if CREATE_LOG
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -44,6 +45,7 @@ static void print_to_log_file(const char *format, ...);
 
 static void strip_cr(char *buf);
 #endif
+#endif  // if CREATE_LOG
 
 int main(int argc, char** argv) {
     passwd      *pw;
@@ -126,8 +128,8 @@ int main(int argc, char** argv) {
 }
 
 
-static void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
+static void print_to_log_file(const char *format, ...) {
     FILE *f;
     va_list args;
     char buf[256];
@@ -153,10 +155,8 @@ static void print_to_log_file(const char *format, ...) {
     fputs("\n", f);
     fflush(f);
     fclose(f);
-#endif
 }
 
-#if CREATE_LOG
 static void strip_cr(char *buf)
 {
     char *theCR;

@@ -188,7 +188,7 @@ int create_shmem_mmap(char *path, size_t size, void** pp) {
 
     retval = fstat(fd, &sbuf);
     if (retval) return ERR_SHMGET;
-    if (sbuf.st_size < size) {
+    if (sbuf.st_size < (long)size) {
         // The following 2 lines extend the file and clear its new 
         // area to all zeros because they write beyond the old EOF. 
         // See the lseek man page for details.
