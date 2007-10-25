@@ -9911,3 +9911,27 @@ Rytis   25 Oct 2007
             recaptchalib.php (from recaptcha.net/plugins/php)
         user/
             create_profile.php
+
+David  25 Oct 2007
+    - Bossa: changed the DB infrastructure to let Bossa tables
+        live in a different database (and/or server) than the BOINC tables.
+        Also eliminated the need to call a DB init function.
+        This involved:
+        1) adding <bossa_db_host> etc. entries to config.xml
+        2) prefixing DB name to table name in all Bossa queries
+            (this is needed if Bossa DB is on same server as BOINC DB,
+            since we're using persistent connections)
+    - user web: added Montenegro, and changed Serbia and Montenegro to Serbia
+        (requires DB update to make latter change in existing records)
+
+    html/
+        inc/
+            bossa_db.inc
+            countries.inc
+            db.inc
+        ops/
+            bossa_make_jobs_example.php
+            bossa_setup_example.php
+            db_update.php
+        user/
+            bossa_get_job.php

@@ -19,12 +19,14 @@ function db_init_aux($try_replica=false) {
     if ($host == null) {
         $host = "localhost";
     }
-    $retval = mysql_pconnect($host, $user, $pass);
-    if (!$retval) {
+    $link = mysql_pconnect($host, $user, $pass);
+    if (!$link) {
         return 1;
     }
     $db_name = parse_config($config, "<db_name>");
-    if(!mysql_select_db($db_name)) {
+    print_r($link);
+    if (!mysql_select_db($db_name, $link)) {
+        echo "selecting $db_name\n";
         return 2;
     }
 

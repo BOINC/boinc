@@ -1,9 +1,6 @@
 <?php
 
 require_once("../inc/bossa_db.inc");
-require_once("../inc/db.inc");
-
-db_init();
 
 function make_jobs() {
     $appname = 'bossa_test';

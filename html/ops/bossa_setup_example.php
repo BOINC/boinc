@@ -1,9 +1,6 @@
 <?php
 
 require_once("../inc/bossa_db.inc");
-require_once("../inc/db.inc");
-
-db_init();
 
 // Set up Bossa applications.
 // Customize and rename this file.

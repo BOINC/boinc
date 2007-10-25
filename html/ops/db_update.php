@@ -451,11 +451,16 @@ function update_9_28_2007() {
     do_query("alter table team add fulltext index team_name_desc(name, description)");
 }
 
+function update_10_25_2007() {
+    do_query("update user set country='Serbia' where country='Serbia and Montenegro'");
+    do_query("update team set country='Serbia' where country='Serbia and Montenegro'");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_9_28_2007();
+//update_10_25_2007();
 
 ?>
