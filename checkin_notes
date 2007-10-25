@@ -9884,3 +9884,19 @@ Rom    24 Oct 2007
     lib/
         diagnostics.h
         diagnostics_win.C
+
+Charlie 25 Oct 2007
+    - Mac: Fix compiler warnings.
+    - Mac: Clean up XCode project build rules, add Deployment_no64 build 
+        configuration, add some x86_64 architecture-specific build settings 
+        in preparation for 64 bit support.
+
+    clientscr/
+        gfx_switcher.C
+    lib/
+        shmem.C
+    mac_installer/
+        uninstall.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
