@@ -386,8 +386,9 @@ function tr($tokennumber){
 function tra($string, $s1 = null, $s2 = null, $s3 = null, $s4 = null, $s5 = null){
     global $language_lookup_array;
     global $translation_strings;
-    if (!is_null($language_lookup_array[$translation_strings[$string]])) {
-        $string = $language_lookup_array[$translation_strings[$string]];
+    $key = $translation_strings[$string];
+    if (array_key_exists($key, $language_lookup_array)) {
+        $string = $language_lookup_array[$key];
     }
     
     $string = str_replace('%1', $s1, $string);

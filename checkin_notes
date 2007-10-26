@@ -9986,3 +9986,51 @@ David  26 Oct 2007
             bossa_db.inc
         user/
             bossa_example.php
+
+David  26 Oct 2007
+    - user web: added new framework for DB access from PHP.
+        Here's how things should eventually be:
+        - inc/db_conn.inc defines DbConn, a PHP class representing
+            a connection to a database with
+            various generic operations (update, insert etc.).
+            DbConn prepends the DB name to table names,
+            so you don't have to select a DB;
+            this means you can access multiple databases
+            (e.g. BOINC and Bossa) and use persistent connections.
+            ALL MYSQL-SPECIFIC CODE WILL EVENTUALLY BE HERE.
+        - inc/boinc_db.inc defines classes BoincUser, BoincTeam etc.,
+            representing the various BOINC DB tables.
+            All access to the DB should use these classes.
+
+        When you use this framework, no initialization calls are needed.
+        db.inc is deprecated and should eventually be removed.
+
+        I changed get_logged_in_user()
+        and all team-related code to use this framework.
+    - user web: show team founder link to "management functions"
+        even if they're not currently a member;
+        allow team founder to perform all operations even if not a member.
+    - turned on E_ALL error checking,
+        and fixed a bunch of warnings
+        and a couple of bugs ($team, not team)
+
+    - database: update schema/constraints for team fulltext search
+    - user web: forgot to change Serbia and Montenegro to Serbia
+
+    db/
+        constraints.sql
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc (new)
+            bossa_db.inc
+            countries.inc
+            db_conn.inc (new)
+            team.inc
+            translation.inc
+            user.inc
+            util.inc
+        user/
+            logout.php
+            team*.php
+            top_teams.php

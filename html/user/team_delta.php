@@ -3,7 +3,7 @@ require_once("../inc/db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/team.inc");
 
-$xml = $_GET['xml'];
+$xml = get_int('xml', true);
 
 function show_delta($delta) {
     global $xml;
@@ -62,11 +62,10 @@ if ($xml) {
         </tr>
     ";
 }
-$result = mysql_query("select * from team_delta where teamid=$teamid order by timestamp");
-while ($delta = mysql_fetch_object($result)) {
+$deltas = BoincTeamDelta::enum("teamid=$teamid order by timestamp");
+foreach($deltas as $delta) {
     show_delta($delta);
 }
-mysql_free_result($result);
 if ($xml) {
     echo "</actions>\n";
 } else {

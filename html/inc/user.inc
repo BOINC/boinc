@@ -219,7 +219,7 @@ function show_user_info_private($user) {
     if ($team_founder) {
         while ($res = mysql_fetch_object($team_founder)) {
             if ($res->id != $user->teamid) {
-                row2("founder of", "<a href=team_display.php?teamid=$res->id>$res->name</a> | <a href=\"team_change_founder_form.php?teamid=".$res->id."\">Change team founder</a>");
+                row2("founder but not member of", "<a href=team_display.php?teamid=$res->id>$res->name</a> | <a href=\"team_manage.php?teamid=".$res->id."\">management functions</a>");
             }
         }
     }

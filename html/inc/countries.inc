@@ -188,7 +188,7 @@ $countries = array(
     "Sao Tome and Principe",
     "Saudi Arabia",
     "Senegal",
-    "Serbia and Montenegro",
+    "Serbia",
     "Seychelles",
     "Sierra Leone",
     "Singapore",

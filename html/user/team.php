@@ -7,7 +7,7 @@ include_once("../inc/team.inc");
 init_session();
 db_init();
 
-    page_head("Teams");
+page_head("Teams");
 
 echo "<p>".PROJECT." participants may form <b>teams</b>.
     <p>
@@ -47,6 +47,6 @@ for ($i=1; $i<8; $i++) {
 echo "
     </ul>
 ";
-    page_tail();
+page_tail();
 
 ?>

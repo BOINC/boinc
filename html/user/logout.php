@@ -11,7 +11,7 @@ $user = get_logged_in_user();
 
 if ($user) {
     check_tokens($user->authenticator);
-    session_start();
+    //session_start();
     session_destroy();
     setcookie('auth', "", time());
     page_head("Logged out");

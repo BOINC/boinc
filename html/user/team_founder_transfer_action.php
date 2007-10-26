@@ -2,7 +2,7 @@
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
@@ -49,14 +49,14 @@ was sent using an automated system.";
 $action = post_str("action");
 
 if ($action == "transfer") {
-    $team = lookup_team($user->teamid);
+    $team = BoincTeam::lookup_id($user->teamid);
     page_head("Take over founder position of ".$team->name);
     $now = time();
 
     if ((($team->ping_user == 0) && ($team->ping_time < $now - 60 * 86400)) || 
         ($team->ping_time < $now - 90 * 86400)) {
         
-        mysql_query("UPDATE team SET ping_user=".$user->id.", ping_time=".$now." WHERE id=".$team->id);
+        $team->update("ping_user=$user->id, ping_time=$now");
         send_founder_transfer_email($team, $user);
         
         echo "<p>An email with your request to transfer the team to you has been
@@ -75,7 +75,7 @@ if ($action == "transfer") {
                         you will be given an option to take over the team founder
                         position.</p>";
                 } else {
-                    mysql_query("UPDATE team SET userid=".$user->id." WHERE id=".$team->id);
+                    $team->update("userid=$user->id");
                     echo "<p>Congratulations, you are now the new founder of team ".$team->name."
                     Go to <a href=\"".URL_BASE."/home.php\">Your Account page</a>
                     to find the Team Management options.</p>";
@@ -97,9 +97,9 @@ if ($action == "transfer") {
     page_head("Decline founder change request");
     
     if ($team->ping_user) {
-        $ping_user = lookup_user_id($team->ping_user);
+        $ping_user = BoincUser::lookup_id($team->ping_user);
         
-        mysql_query("UPDATE team SET ping_user=0 WHERE id=".$team->id);
+        $team->update("ping_user=0");
         send_founder_transfer_decline_email($team, $ping_user);
         echo "<p>Team founder change from team member ".user_links($ping_user)
             ." has been declined.</p>

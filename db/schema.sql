@@ -105,7 +105,7 @@ create table team (
     url                 varchar(254),
     type                integer     not null,
     name_html           varchar(254),
-    description         blob,
+    description         text,
     nusers              integer     not null,   /* temp */
     country             varchar(254),
     total_credit        double      not null,   /* temp */

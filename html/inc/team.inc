@@ -26,6 +26,7 @@ function display_team_page($team, $offset, $sort_by) {
     page_head("$team->name");
 
     echo sanitize_html($team->name_html);
+    echo "<p>";
     start_table();
     row1("Team info");
     if (strlen($team->description)) {
@@ -50,22 +51,24 @@ function display_team_page($team, $offset, $sort_by) {
         set_cache_data(serialize($founder),$cache_args);
     }
     
-    $user = get_logged_in_user(false);
 
     row2("Total credit", format_credit_large($team->total_credit));
     row2("Recent average credit", format_credit_large($team->expavg_credit));
     row2("Founder", user_links($founder));
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
-    if ($user->teamid != $team->id) {
-        $tokens = url_tokens($user->authenticator);
-        row2("",
-            "<a href='team_join.php?$tokens&teamid=$team->id'>Join this team</a>
-            <br><span class=note>Note: joining a team gives its founder access to your email address.</span>"
-        );
-    }
-    if (($user->teamid == $team->id) && ($user->id != $founder->id)) {
-        row2("Request team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
+    $user = get_logged_in_user(false);
+    if ($user) {
+        if ($user->teamid != $team->id) {
+            $tokens = url_tokens($user->authenticator);
+            row2("",
+                "<a href='team_join.php?$tokens&teamid=$team->id'>Join this team</a>
+                <br><span class=note>Note: joining a team gives its founder access to your email address.</span>"
+            );
+        }
+        if (($user->teamid == $team->id) && ($user->id != $founder->id)) {
+            row2("Request team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
+        }
     }
     echo "</table>";
     echo "<p>";
@@ -130,15 +133,14 @@ function display_team_page($team, $offset, $sort_by) {
     }
 }
 
-// requires that the team exist
+// check that the team exist
 function require_team($team) {
     if (!$team) {
         error_page("No such team.");
     }
 }
 
-// requires that the user is logged in as the founder of
-// the team trying to be edited
+// check that the user is founder of the team
 //
 function require_founder_login($user, $team) {
     require_team($team);

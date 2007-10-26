@@ -68,7 +68,7 @@ if (new_transfer_request_ok($team, $now)) {
     }
 }
 
-echo "<a href=\"team_display.php?teamid=".$team->id."\">Return to team page</a>";
+echo "<p><a href=\"team_display.php?teamid=".$team->id."\">Return to team page</a>";
 
 page_tail();
 

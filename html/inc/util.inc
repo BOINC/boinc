@@ -4,6 +4,7 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 
 $generating_xml = false;
@@ -66,11 +67,6 @@ function require_login($user) {
     }
 }
 
-function get_user_from_auth($auth) {
-    if ($auth) return lookup_user_auth($auth);
-    return NULL;
-}
-
 function get_user_from_id($id) {
     if ($id) return lookup_user_id($id);
     return NULL;
@@ -80,12 +76,15 @@ $g_logged_in_user = null;
 
 function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user;
+    $g_logged_in_user = null;
     $authenticator = init_session();
     if (!$authenticator) {
         if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
     }
     $authenticator = process_user_text($authenticator);
-    $g_logged_in_user = get_user_from_auth($authenticator);
+    if ($authenticator) {
+        $g_logged_in_user = BoincUser::lookup_auth($authenticator);
+    }
     if ($must_be_logged_in) {
         require_login($g_logged_in_user);
     }

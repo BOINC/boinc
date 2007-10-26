@@ -55,18 +55,13 @@ function compare($t1, $t2) {
 //
 function sort_list(&$list) {
     foreach ($list as $a=>$b) $b->rnd = rand();
-    usort($list, compare);
+    usort($list, 'compare');
 }
 
 function get_teams($clause, $active) {
+    $c2 = '';
     if ($active) $c2 = "and expavg_credit>0.1";
-    $query = "select * from team where $clause $c2 order by expavg_credit desc limit 20";
-    $result = mysql_query($query);
-    $list = array();
-    while ($team = mysql_fetch_object($result)) {
-        $list[$team->id] = $team;
-    }
-    return $list;
+    return BoincTeam::enum("$clause $c2 order by expavg_credit desc limit 20");
 }
 
 function show_list($list) {
@@ -98,7 +93,7 @@ function search($user) {
     $keywords = $_GET['keywords'];
     $country = $_GET['country'];
     $type = $_GET['type'];
-    $active = $_GET['active'];
+    $active = get_int('active', true);
 
     $list = array();
     if (strlen($keywords)) {
@@ -139,7 +134,7 @@ function search($user) {
 }
 
 $user = get_logged_in_user(false);
-if ($_GET['submit']) {
+if (isset($_GET['submit'])) {
     page_head("Team search results");
     search($user);
 } else {

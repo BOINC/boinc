@@ -11,7 +11,7 @@ $teams_per_page = parse_config($config, "<teams_per_page>");
 if (!$teams_per_page) {
         $teams_per_page = 20;
 }
-define (ITEM_LIMIT,10000);
+define('ITEM_LIMIT', 10000);
 
 //Possibly move this to db.inc at some point...
 function get_top_teams($offset,$sort_by,$type=""){

@@ -3,27 +3,29 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 // handler for the "change founder" team management function
 
-require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+require_once("../inc/boinc_db.inc");
 
-db_init();
 $user = get_logged_in_user();
 
-$teamid = $_GET["teamid"];
-$team = lookup_team($teamid);
+$teamid = get_int("teamid");
+$team = BoincTeam::lookup_id($teamid);
+if (!$team) {
+    error_page("no such team");
+}
 require_founder_login($user, $team);
 
 page_head("Change founder of $team->name");
 
 if ($team->ping_user != 0) {
     if ($team->ping_user < 0) {
-        $ping_user = lookup_user_id(-$team->ping_user);
+        $ping_user = BoincUser::lookup_id(-$team->ping_user);
         echo "<p>Team member ".user_links($ping_user)." has requested this
             team's founder position, but has already left the team.</p>
         ";
     } else {
-        $ping_user = lookup_user_id($team->ping_user);
+        $ping_user = BoincUser::lookup_id($team->ping_user);
         echo "<p>Team member ".user_links($ping_user)." has requested this
             team's founder position.  This may be because you left
             the team or haven't had contact with the team for a long time.</p>
@@ -52,11 +54,11 @@ echo "<tr>
     </tr>
 ";
 
-$result = mysql_query("select * from user where teamid = $team->id");
+$users = BoincUser::enum("teamid=$team->id");
 
 $navailable_users = 0;
-while ($user = mysql_fetch_object($result)) {
-    if ($user->id!=$team->userid) {       //don't show current founder
+foreach ($users as $user) {
+    if ($user->id != $team->userid) {       //don't show current founder
         $user_total_credit = format_credit($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
         echo '
@@ -82,7 +84,6 @@ if ($navailable_users > 0) {
     end_table();
 }
 echo "</form>";
-mysql_free_result($result);
 page_tail();
 
 ?>

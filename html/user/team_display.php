@@ -20,17 +20,31 @@ if ($offset > 1000) {
 
 db_init();
 
+$get_from_db = false;
+
 $user = get_logged_in_user(false);
+
+// always show fresh copy to founder; they might be editing info
+//
+if ($user && $user->teamid == $teamid) {
+    $get_from_db = true;
+}
+
 // We can only cache team object, as the page is customised to the current user
+
 $cache_args = "teamid=$teamid&sort_by=$sort_by&offset=$offset";
-$cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
-if ($cached_data) {
-    // We found some old but non-stale data, let's use it
-    $team = unserialize($cached_data);
-} else {
-    // No data was found, generate new data for the cache and store it
-    $team = lookup_team($teamid);
-    $team->nusers = team_count_nusers($team->id);
+if (!$get_from_db) {
+    $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
+    if ($cached_data) {
+        // We found some old but non-stale data, let's use it
+        $team = unserialize($cached_data);
+    } else {
+        $get_from_db = true;
+    }
+}
+if ($get_from_db) {
+    $team = BoincTeam::lookup_id($teamid);
+    $team->nusers = BoincUser::count("teamid=$teamid and total_credit>0");
     set_cache_data(serialize($team), $cache_args);
 }
 

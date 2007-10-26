@@ -4,9 +4,7 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-db_init();
-
-$user = get_logged_in_user(true);
+$user = get_logged_in_user();
 
 page_head("Create a team");
 if ($user->teamid) {
