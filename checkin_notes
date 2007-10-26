@@ -7940,3 +7940,14 @@ Rom    24 Oct 2007
     /
         configure.ac
         version.h
+
+Charlie 26 Oct 2007
+    Mac: Fix bugs in scripts for building wxMac-2.6.3; fix XCode project 
+        when using debug build of wxMac-2.6.3.
+        
+    mac_build/
+        buildWxMac.sh
+        setupForBOINC.sh
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
