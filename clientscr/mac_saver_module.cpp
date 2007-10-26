@@ -228,18 +228,6 @@ OSStatus CScreensaver::initBOINCApp() {
     
     saverState = SaverState_CantLaunchCoreClient;
     
-    m_CoreClientPID = FindProcessPID("boinc", 0);
-    if (m_CoreClientPID) {
-        m_wasAlreadyRunning = true;
-        saverState = SaverState_LaunchingCoreClient;
-        return noErr;
-    }
-    
-    m_wasAlreadyRunning = false;
-    
-    if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
-        return -1;
-
     brandId = GetBrandID();
     switch(brandId) {
     case 1:
@@ -253,6 +241,18 @@ OSStatus CScreensaver::initBOINCApp() {
         gTextColor = gWhiteTextColor; // White
         break;
     }
+
+    m_CoreClientPID = FindProcessPID("boinc", 0);
+    if (m_CoreClientPID) {
+        m_wasAlreadyRunning = true;
+        saverState = SaverState_LaunchingCoreClient;
+        return noErr;
+    }
+    
+    m_wasAlreadyRunning = false;
+    
+    if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
+        return -1;
 
     err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
     if (err) {   // If we couldn't find BOINCManager.app, try default path
