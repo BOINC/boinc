@@ -6,12 +6,16 @@ require_once("../inc/team.inc");
 require_once("../inc/db.inc");
 require_once("../inc/translation.inc");
 
-define (ITEMS_PER_PAGE, 20);
+$config = get_config();
+$teams_per_page = parse_config($config, "<teams_per_page>");
+if (!$teams_per_page) {
+        $teams_per_page = 20;
+}
 define (ITEM_LIMIT,10000);
 
-
-
-function get_top_teams($offset,$sort_by,$type=""){ //Possibly move this to db.inc at some point...
+//Possibly move this to db.inc at some point...
+function get_top_teams($offset,$sort_by,$type=""){
+    global $teams_per_page;
     if ($type){
         $type_sql = "where type=".(int)$type;
     }
@@ -20,7 +24,7 @@ function get_top_teams($offset,$sort_by,$type=""){ //Possibly move this to db.in
     } else {
         $sort_order = "expavg_credit desc";
     }
-    $res=mysql_query("select * from team $type_sql order by $sort_order limit $offset,".ITEMS_PER_PAGE);
+    $res = mysql_query("select * from team $type_sql order by $sort_order limit $offset,".$teams_per_page);
     while ($arr[]=mysql_fetch_object($res)){};
     return $arr;
 }
@@ -51,17 +55,18 @@ if ($type) {
     $type_name = team_type_name($type);
 }
 
-
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
-if ($offset % ITEMS_PER_PAGE) $offset = 0;
+if ($offset % $teams_per_page) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset&type=$type";
     $cacheddata = get_cached_data(TOP_PAGES_TTL,$cache_args);
-    if ($cacheddata){ //If we have got the data in cache
+    //If we have got the data in cache
+    if ($cacheddata){
         $data = store_to_teams($cacheddata); // use the cached data
-    } else { //if not do queries etc to generate new data
+    } else {
+        //if not do queries etc to generate new data
         db_init(true);
         $data = get_top_teams($offset,$sort_by,$type);
         
@@ -71,7 +76,8 @@ if ($offset < ITEM_LIMIT) {
             $data[$o]->nusers = team_count_nusers($team->id);
             $o++;
         }
-        set_cache_data(teams_to_store($data),$cache_args); //save data in cache
+        //save data in cache
+        set_cache_data(teams_to_store($data),$cache_args);
     }
 } else {
     error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
@@ -91,13 +97,13 @@ while ($team = $data[$o]) {
 }
 echo "</table>\n<p>";
 if ($offset > 0) {
-    $new_offset = $offset - ITEMS_PER_PAGE;
-    echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Previous ".ITEMS_PER_PAGE."</a> | ";
+    $new_offset = $offset - $teams_per_page;
+    echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Previous ".$teams_per_page."</a> | ";
 
 }
-if ($o==ITEMS_PER_PAGE){ //If we aren't on the last page
-    $new_offset = $offset + ITEMS_PER_PAGE;
-    echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".ITEMS_PER_PAGE."</a>";
+if ($o==$teams_per_page){ //If we aren't on the last page
+    $new_offset = $offset + $teams_per_page;
+    echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".$teams_per_page."</a>";
 }
 page_tail();
 

@@ -6,24 +6,31 @@ require_once("../inc/user.inc");
 require_once("../inc/db.inc");
 require_once("../inc/translation.inc");
 
-define (ITEMS_PER_PAGE, 20);
-define (ITEM_LIMIT,10000);
+$config = get_config();
+$users_per_page = parse_config($config, "<users_per_page>");
+if (!$users_per_page) {
+    $users_per_page = 20;
+}
+define (ITEM_LIMIT, 10000);
 
-
-
-function get_top_participants($offset,$sort_by){ //Possibly move this to db.inc at some point...
+// move this to db.inc at some point...
+function get_top_participants($offset,$sort_by) {
+    global $users_per_page;
     if ($sort_by == "total_credit") {
-	$sort_order = "total_credit desc";
+        $sort_order = "total_credit desc";
     } else {
         $sort_order = "expavg_credit desc";
     }
-    $res=mysql_query("select * from user order by $sort_order limit $offset,".ITEMS_PER_PAGE);
+    $res = mysql_query("select * from user order by $sort_order limit $offset,".$users_per_page);
     while ($arr[]=mysql_fetch_object($res)){};
     return $arr;
 }
 
-function participants_to_store($participants){ //These converter functions are here in case we later decide to use something 
-    return serialize($participants);	       //else than serializing to save temp data
+// These converter functions are here in case we later decide to use something 
+// else than serializing to save temp data
+//
+function participants_to_store($participants){
+    return serialize($participants);
 }
 function store_to_participants($data){
     return unserialize($data);
@@ -37,24 +44,30 @@ if (isset($_GET["sort_by"])) {
 
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
-if ($offset % ITEMS_PER_PAGE) $offset = 0;
+if ($offset % $users_per_page) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";
     $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
-    if ($cacheddata){ //If we have got the data in cache
-	$data = store_to_participants($cacheddata); // use the cached data
-    } else { //if not do queries etc to generate new data
-	db_init(true);
-	$data = get_top_participants($offset,$sort_by);
-	set_cache_data(participants_to_store($data),$cache_args); //save data in cache
-    };
+
+    // Do we have the data in cache?
+    //
+    if ($cacheddata){
+        $data = store_to_participants($cacheddata); // use the cached data
+    } else {
+        //if not do queries etc to generate new data
+        db_init(true);
+        $data = get_top_participants($offset,$sort_by);
+
+        //save data in cache
+        //
+        set_cache_data(participants_to_store($data),$cache_args);
+    }
 } else {
     error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
 }
 
-
-//Now display what we've got (either gotten from cache or from DB)
+// Now display what we've got (either gotten from cache or from DB)
 page_head(tr(TOP_PARTICIPANT_TITLE));
 user_table_start($sort_by);
 $i = 1 + $offset;
@@ -66,16 +79,15 @@ while ($user = $data[$o]) {
 }
 echo "</table>\n<p>";
 if ($offset > 0) {
-    $new_offset = $offset - ITEMS_PER_PAGE;
-    echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Previous ".ITEMS_PER_PAGE."</a> | ";
+    $new_offset = $offset - $users_per_page;
+    echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Previous ".$users_per_page."</a> | ";
 
 }
-if ($o==ITEMS_PER_PAGE){ //If we aren't on the last page
-    $new_offset = $offset + ITEMS_PER_PAGE;
-    echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Next ".ITEMS_PER_PAGE."</a>";
+if ($o==$users_per_page){ //If we aren't on the last page
+    $new_offset = $offset + $users_per_page;
+    echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Next ".$users_per_page."</a>";
 }
 
 page_tail();
-
 
 ?>

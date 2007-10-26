@@ -9935,3 +9935,14 @@ David  25 Oct 2007
             db_update.php
         user/
             bossa_get_job.php
+
+David  25 Oct 2007
+    - user web: added optional <users_per_page>, <teams_per_page> and
+        <hosts_per_page> elements to config.xml;
+        determine the number of entries to show per page
+        in top user/team/host lists
+
+    html/user/
+        top_users.php
+        top_teams.php
+        top_hosts.php

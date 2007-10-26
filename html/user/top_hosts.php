@@ -7,18 +7,22 @@ require_once("../inc/host.inc");
 require_once("../inc/db.inc");
 require_once("../inc/translation.inc");
 
-define (ITEMS_PER_PAGE, 20);
+$config = get_config();
+$hosts_per_page = parse_config($config, "<hosts_per_page>");
+if (!$hosts_per_page) {
+        $hosts_per_page = 20;
+}
 define (ITEM_LIMIT,10000);
 
-
-
-function get_top_hosts($offset,$sort_by){ //Possibly move this to db.inc at some point...
+//Possibly move this to db.inc at some point...
+function get_top_hosts($offset,$sort_by){
+    global $hosts_per_page;
     if ($sort_by == "total_credit") {
 	$sort_order = "total_credit desc";
     } else {
         $sort_order = "expavg_credit desc";
     }
-    $res=mysql_query("select * from host order by $sort_order limit $offset,".ITEMS_PER_PAGE);
+    $res=mysql_query("select * from host order by $sort_order limit $offset,".$hosts_per_page);
     echo mysql_error();
     while ($arr[]=mysql_fetch_object($res)){};
     return $arr;
@@ -39,7 +43,7 @@ if (isset($_GET["sort_by"])) {
 
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
-if ($offset % ITEMS_PER_PAGE) $offset = 0;
+if ($offset % $hosts_per_page) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";
@@ -68,13 +72,13 @@ while ($host = $data[$o]) {
 }
 echo "</table>\n<p>";
 if ($offset > 0) {
-    $new_offset = $offset - ITEMS_PER_PAGE;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Previous ".ITEMS_PER_PAGE."</a> | ";
+    $new_offset = $offset - $hosts_per_page;
+    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Previous ".$hosts_per_page."</a> | ";
 
 }
-if ($o==ITEMS_PER_PAGE){ //If we aren't on the last page
-    $new_offset = $offset + ITEMS_PER_PAGE;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Next ".ITEMS_PER_PAGE."</a>";
+if ($o==$hosts_per_page){ //If we aren't on the last page
+    $new_offset = $offset + $hosts_per_page;
+    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Next ".$hosts_per_page."</a>";
 }
 
 page_tail();
