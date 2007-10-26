@@ -38,7 +38,7 @@ function handle_job_completion($bj, $bji) {
 
 Bossa::script_init($user, $bj, $bji);
 
-if ($_GET['submit']) {
+if (isset($_GET['submit'])) {
     handle_job_completion($bj, $bji);
 } else {
     show_job($bj, $bji);

@@ -1,34 +1,40 @@
 <?php
 
+ini_set('display_errors', 'stdout');
+error_reporting(E_ALL);
+
 require_once("../inc/util.inc");
 
-class BossaDb {
-    public static $db_conn;
-    public static $db_name;
+class DbConn {
+    private $db_conn;
+    private $db_name;
 
-    static function init_conn() {
-        if ($db_conn) return;
+    function init_conn($user_tag, $passwd_tag, $host_tag, $name_tag) {
         $config = get_config();
-        $user = parse_config($config, "<bossa_db_user>");
-        $pass = parse_config($config, "<bossa_db_passwd>");
-        $host = parse_config($config, "<bossa_db_host>");
+        $user = parse_config($config, $user_tag);
+        $pass = parse_config($config, $passwd_tag);
+        $host = parse_config($config, $host_tag);
         if ($host == null) {
             $host = "localhost";
         }
-        self::$db_conn = mysql_pconnect($host, $user, $pass);
-        if (!self::$db_conn) {
+        $this->db_conn = mysql_pconnect($host, $user, $pass);
+        if (!$this->db_conn) {
             error_page("can't connect to database");
         }
-        self::$db_name = parse_config($config, "<bossa_db_name>");
+        $this->db_name = parse_config($config, $name_tag);
     }
 
-    static function lookup_id($id, $table, $classname) {
-        self::init_conn();
-        $query = "select * from ".self::$db_name.".$table where id=$id";
-        $result = mysql_query($query , self::$db_conn);
+    function do_query($query) {
+        $q = str_replace('DBNAME', $this->db_name, $query);
+        //echo $q;
+        return mysql_query($q, $this->db_conn);
+    }
+
+    function lookup($table, $classname, $clause) {
+        $query = "select * from DBNAME.$table where $clause";
+        $result = $this->do_query($query);
         if (!$result) {
             echo $query;
-            print_r($db_conn);
             echo mysql_error();
             return null;
         }
@@ -37,14 +43,18 @@ class BossaDb {
         return $obj;
     }
 
-    static function enum($table, $classname, $clause=null) {
-        self::init_conn();
+    function lookup_id($id, $table, $classname) {
+        return $this->lookup($table, $classname, "id=$id");
+    }
+
+    function enum($table, $classname, $clause=null) {
         $x = array();
         if ($clause) {
-            $result = mysql_query("select * from $db_name.$table where $clause", $db_conn);
+            $query = "select * from DBNAME.$table where $clause";
         } else {
-            $result = mysql_query("select * from $db_name.$table", $db_conn);
+            $query = "select * from DBNAME.$table";
         }
+        $result = $this->do_query($query);
         if (!$result) return null;
         while ($obj = mysql_fetch_object($result, $classname)) {
             $x[] = $obj;
@@ -52,91 +62,111 @@ class BossaDb {
         mysql_free_result($result);
         return $x;
     }
-    function update($table, $clause) {
-        self::init_conn();
-        return mysql_query(
-            "update ".parent::$db_name.".$table set $clause where id=$this->id", parent::$db_conn
-        );
+    function update($obj, $table, $clause) {
+        $query = "update DBNAME.$table set $clause where id=$obj->id";
+        return $this->do_query($query);
+    }
+    function insert_id() {
+        return mysql_insert_id($this->db_conn);
     }
 }
 
-class BossaApp extends BossaDb {
+class BossaDb extends DbConn {
+    public static $instance;
+
+    static function get() {
+        if (!isset($instance)) {
+            $instance = new DbConn();
+            $instance->init_conn(
+                "<bossa_db_user>", "<bossa_db_passwd>",
+                "<bossa_db_host>", "<bossa_db_name>"
+            );
+        }
+        return $instance;
+    }
+}
+
+class BossaApp {
     function insert() {
-        parent::init_conn();
-        if (!$this->long_jobs) $this->long_jobs = 0;
+        $db = BossaDb::get();
+        if (!isset($this->long_jobs)) $this->long_jobs = 0;
         $now = time();
-        $query = "insert into ".parent::$db_name.".bossa_app (create_time, name, user_friendly_name, long_jobs, start_url) values ($now, '$this->name', '$this->user_friendly_name', $this->long_jobs, '$this->start_url')";
-        $result = mysql_query($query, parent::$db_conn);
+        $query = "insert into DBNAME.bossa_app (create_time, name, user_friendly_name, long_jobs, start_url) values ($now, '$this->name', '$this->user_friendly_name', $this->long_jobs, '$this->start_url')";
+        $result = $db->do_query($query);
         if (!$result) return false;
-        $this->id = mysql_insert_id();
+        $this->id = $db->insert_id();
         return true;
     }
 
     static function lookup_name($name) {
-        parent::init_conn();
-        $result = mysql_query("select * from ".parent::$db_name.".bossa_app where name='$name'", parent::$db_conn);
-        if (!$result) return null;
-        $app = mysql_fetch_object($result, 'BossaApp');
-        mysql_free_result($result);
-        return $app;
+        $db = BossaDb::get();
+        return $db->lookup('bossa_app', 'BossaApp', "name='$name'");
     }
 
     static function lookup_id($id) {
-        return parent::lookup_id($id, 'bossa_app', 'BossaApp');
+        $db = BossaDb::get();
+        return $db->lookup_id($id, 'bossa_app', 'BossaApp');
     }
 
     static function enum() {
-        return parent::enum('bossa_app', 'BossaApp');
+        $db = BossaDb::get();
+        return $db->enum('bossa_app', 'BossaApp');
     }
 }
 
-class BossaJob extends BossaDb {
+class BossaJob {
     function insert() {
-        parent::init_conn();
+        $db = BossaDb::get();
         $now = time();
-        $query = "insert into ".parent::$db_name.".bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, more_needed, npending, nsuccess, nsuccess_needed) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, 1, 0, 0, $this->nsuccess_needed)";
-        $result = mysql_query($query, parent::$db_conn);
+        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, more_needed, npending, nsuccess, nsuccess_needed) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, 1, 0, 0, $this->nsuccess_needed)";
+        $result = $db->do_query($query);
         if (!$result) {
             echo "$query\n";
             return false;
         }
-        $this->id = mysql_insert_id();
+        $this->id = $db->insert_id();
         return true;
     }
     function update($clause) {
-        return parent::update('bossa_job', $clause);
+        $db = BossaDb::get();
+        return $db->update('bossa_job', $clause);
     }
     static function lookup_id($id) {
-        return parent::lookup_id($id, 'bossa_job', 'BossaJob');
+        $db = BossaDb::get();
+        return $db->lookup_id($id, 'bossa_job', 'BossaJob');
     }
     static function enum($clause) {
-        return parent::enum('bossa_job', 'BossaJob', $clause);
+        $db = BossaDb::get();
+        return $db->enum('bossa_job', 'BossaJob', $clause);
     }
 }
 
-class BossaJobInst extends BossaDb {
+class BossaJobInst {
     function insert() {
-        parent::init_conn();
+        $db = BossaDb::get();
         $now = time();
-        $query = "insert into ".parent::$db_name.".bossa_job_inst (create_time, job_id, user_id) values ($now, $this->job_id, $this->user_id)";
-        $result = mysql_query($query, parent::$db_conn);
+        $query = "insert into DBNAME.bossa_job_inst (create_time, job_id, user_id) values ($now, $this->job_id, $this->user_id)";
+        $result = $db->do_query($query);
         if (!$result) {
             echo "$query\n";
             return false;
         }
-        $this->id = mysql_insert_id();
+        $this->id = $db->insert_id();
         return true;
     }
 
     static function lookup_id($id) {
-        return parent::lookup_id($id, 'bossa_job_inst', 'BossaJobInst');
+        $db = BossaDb::get();
+        return $db->lookup_id($id, 'bossa_job_inst', 'BossaJobInst');
     }
     static function enum($clause) {
-        return parent::enum('bossa_job_inst', 'BossaJobInst', $clause);
+        $db = BossaDb::get();
+        return $db->enum('bossa_job_inst', 'BossaJobInst', $clause);
     }
 
     function update($clause) {
-        return parent::update('bossa_job_inst', $clause);
+        $db = BossaDb::get();
+        return $db->update($this, 'bossa_job_inst', $clause);
     }
 
     // Assign a job from the given app to the given user.
@@ -146,17 +176,14 @@ class BossaJobInst extends BossaDb {
         // this query skips jobs for which this user
         // has already been assigned an instance
         //
-        parent::init_conn();
-        $query = "select bossa_job.* from ".parent::$db_name.".bossa_job left join ".parent::$db_name.".bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.more_needed<>0 and bossa_job_inst.user_id is null limit 1";
-        $result = mysql_query($query, parent::$db_conn);
+        $db = BossaDb::get();
+        $query = "select bossa_job.* from DBNAME.bossa_job left join DBNAME.bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.more_needed<>0 and bossa_job_inst.user_id is null limit 1";
+        $result = $db->do_query($query);
         if (!$result) return null;
         $job = mysql_fetch_object($result, 'BossaJob');
         if (!$job) return null;
         mysql_free_result($result);
 
-        echo "<hr>";
-        print_r($job);
-        echo "<hr>";
         $ji = new BossaJobInst();
         $ji->user_id = $user->id;
         $ji->job_id = $job->id;
@@ -177,7 +204,7 @@ class BossaJobInst extends BossaDb {
         $job->npending--;
         $job->nsuccess++;
         $job->more_needed = ($job->npending+$job->nsuccess < $job->nsuccess_needed);
-        return BossaJob::update("npending=$job->npending, nsuccess=$job->nsuccess, more_needed=$job->more_needed");
+        return $job->update("npending=$job->npending, nsuccess=$job->nsuccess, more_needed=$job->more_needed");
     }
 
     // The given job instance has timed out.
@@ -185,7 +212,7 @@ class BossaJobInst extends BossaDb {
     function timed_out($job) {
         $job->npending--;
         $job->more_needed = ($job->npending+$job->nsuccess < $job->nsuccess_needed);
-        return BossaJob::update("npending=$job->npending, more_needed=$job->more_needed");
+        return $job->update("npending=$job->npending, more_needed=$job->more_needed");
     }
 }
 

@@ -9975,3 +9975,14 @@ Charlie 26 Oct 2007
         boinc.xcodeproj/
             project.pbxproj
 
+David  26 Oct 2007
+    - Bossa: refactor DB code, creating a new PHP class DbConn
+        representing a connection to a database.
+        This is independent of Bossa,
+        and we should rewrite the BOINC PHP code based on this.
+
+    html/
+        inc/
+            bossa_db.inc
+        user/
+            bossa_example.php
