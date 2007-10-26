@@ -30,8 +30,6 @@
 #include <Carbon/Carbon.h>
 #include <Cocoa/Cocoa.h>
 
-#define	_DEBUG	0
-
 @interface SystemMenu : NSObject {
 }
 - (void)BuildSysMenu:(MenuRef)menuToCopy;

@@ -22,6 +22,8 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <unistd.h>     // for getwd, getlogin
 
+#include <Carbon/Carbon.h>
+
 #include "SetupSecurity.h"
 
 // Standalone utility to set up BOINC security owners, groups, permissions

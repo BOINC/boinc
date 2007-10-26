@@ -20,7 +20,7 @@
 ## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 ##
-# Release Script for Macintosh BOINC Manager 9/5/07 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 10/26/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -183,7 +183,8 @@ cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/*
 
-cp -fpR $BUILDPATH/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+cp -fpR $BUILDPATH/boinc.dSYM ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+cp -fpR $BUILDPATH/BOINCManager.app.dSYM ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
 zip -rqy boinc_$1.$2.$3_macOSX_universal.zip boinc_$1.$2.$3_macOSX_universal

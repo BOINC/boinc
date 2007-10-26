@@ -9946,3 +9946,32 @@ David  25 Oct 2007
         top_users.php
         top_teams.php
         top_hosts.php
+
+Charlie 26 Oct 2007
+    - Mac: Update XCode project build rules to generate DWARF-style symbol 
+        tables, which are much smaller and more efficient.  Use gcc-4.0 compiler 
+        for all builds except PowerPC libraries (to maintain compatibility back 
+        to OS 10.3.0 for science applications with older versions of BOINC) and 
+        boinc_cmd (because it uses libboinc.a).  BOINC Client and BOINC Manager 
+        now require OS 10.3.9 or later (upgrade to 10.3.9 from OS 10.3.0 through 
+        10.3.8 is a free download from Apple.)  More XCode build rule cleanup.
+    - Mac: Installer displays an error message and quits if OS < 10.3.9.
+    - Mac SCR: fix GridRepublic branding bug.
+
+    clientgui/
+        mac/
+            SecurityUtility.cpp
+            SystemMenu.m
+    clientscr/
+       mac_saver_module.cpp
+    mac_installer/
+        GR-ReadMe.rtf
+        Installer.cpp
+        PostInstall.cpp
+        ReadMe.rtf
+        release_boinc.sh
+        release_GridRepublic.sh
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+

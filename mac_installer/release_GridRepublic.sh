@@ -20,7 +20,7 @@
 ## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 ##
-# Release Script for Macintosh GridRepublic Desktop 9/5/07 by Charlie Fenton
+# Release Script for Macintosh GridRepublic Desktop 10/26/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -230,7 +230,8 @@ sudo chmod -R 555 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ex
 
 ##### We've decided not to create branded symbol table file; it is identical to standard one
 #### mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables"
-#### cp -fpR $BUILDPATH/SymbolTables ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables/
+#### cp -fpR $BUILDPATH/boinc.dSYM ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables/
+#### cp -fpR $BUILDPATH/BOINCManager.app.dSYM ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables/
 
 # Make temporary copies of Pkg-Info.plist and Description.plist for PackageMaker and update for this branding
 cp -fp mac_build/Pkg-Info.plist "${NEW_DIR_PATH}"

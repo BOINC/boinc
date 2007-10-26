@@ -128,18 +128,18 @@ int main(int argc, char *argv[])
     if (err != noErr)
         return err;
 
-    if (response < 0x1030) {
+    if (response < 0x1039) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
         if (brandID == 1) {
-            StandardAlert (kAlertStopAlert, "\pSorry, GridRepublic requires system 10.3 or higher.",
+            StandardAlert (kAlertStopAlert, "\pSorry, this version of GridRepublic requires system 10.3.9 or higher.",
                                                 NULL, NULL, &itemHit);
             system ("rm -rf /Applications/GridRepublic\\ Desktop.app");
             system ("rm -rf /Library/Screen\\ Savers/GridRepublic.saver");
 // We don't customize BOINC Data directory name for branding
 //            system ("rm -rf /Library/Application\\ Support/GridRepublic\\ Data");
             system ("rm -rf /Library/Receipts/GridRepublic.pkg");
-            StandardAlert (kAlertStopAlert, "\pSorry, BOINC requires system 10.3 or higher.",
+            StandardAlert (kAlertStopAlert, "\pSorry, this version of BOINC requires system 10.3.9 or higher.",
                                                 NULL, NULL, &itemHit);
 	} else {
             system ("rm -rf /Applications/BOINCManager.app");

@@ -39,8 +39,7 @@
 
 void Initialize(void);	/* function prototypes */
 OSStatus IsLogoutNeeded(Boolean *result);
-OSErr UpdateAllVisibleUsers(long brandID);
-long GetBrandID(void);
+OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -50,9 +49,13 @@ Boolean			gQuitFlag = false;	/* global */
 int main(int argc, char *argv[])
 {
     char                    pkgPath[MAXPATHLEN], infoPlistPath[MAXPATHLEN];
+    char                    brand[64], s[256];
     char                    *p;
-    ProcessSerialNumber     ourPSN;
+    ProcessSerialNumber     ourPSN, installerPSN;
     FSRef                   ourFSRef;
+    long                    response;
+    short                   itemHit;
+    pid_t                   installerPID = 0;
     FSRef                   infoPlistFileRef;
     Boolean                 isDirectory, result;
     CFURLRef                xmlURL = NULL;
@@ -65,7 +68,6 @@ int main(int argc, char *argv[])
     CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
     CFStringRef             valueNoRestart = CFSTR("NoRestart");
     CFStringRef             errorString = NULL;
-    long                    response;
     Boolean                 needLogout;
     OSStatus                err = noErr;
     
@@ -87,10 +89,32 @@ int main(int argc, char *argv[])
     p = strrchr(infoPlistPath, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
     if (p == NULL)
         p = infoPlistPath - 1;
+    strlcpy(brand, p+1, sizeof(brand));
     strlcat(pkgPath, p+1, sizeof(pkgPath));
-    p = strrchr(pkgPath, ' ');         // Strip off space characterand everything following )
+    p = strrchr(pkgPath, ' ');         // Strip off last space character and everything following
     if (p)
         *p = '\0'; 
+
+    err = Gestalt(gestaltSystemVersion, &response);
+    if (err != noErr)
+        return err;
+
+    if (response < 0x1039) {
+        ::SetFrontProcess(&ourPSN);
+        p = strrchr(brand, ' ');         // Strip off last space character and everything following
+        if (p)
+            *p = '\0'; 
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.3.9 or higher.", brand);
+        StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
+
+        err = FindProcess ('APPL', 'xins', &installerPSN);
+        err = GetProcessPID(&installerPSN , &installerPID);
+
+        if (err == noErr)
+            err = kill(installerPID, SIGKILL);
+
+	ExitToShell();
+    }
 
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     
@@ -299,19 +323,34 @@ void Initialize()	/* Initialize some managers */
 }
 
 
-long GetBrandID()
+// ---------------------------------------------------------------------------
+/* This runs through the process list looking for the indicated application */
+/*  Searches for process by file type and signature (creator code)          */
+// ---------------------------------------------------------------------------
+OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN)
 {
-    long iBrandId;
-
-    iBrandId = 0;   // Default value
-    
-    FILE *f = fopen("Contents/Resources/Branding", "r");
-    if (f) {
-        fscanf(f, "BrandId=%ld\n", &iBrandId);
-        fclose(f);
+    ProcessInfoRec tempInfo;
+    FSSpec procSpec;
+    Str31 processName;
+    OSErr myErr = noErr;
+    /* null out the PSN so we're starting at the beginning of the list */
+    processSN->lowLongOfPSN = kNoProcess;
+    processSN->highLongOfPSN = kNoProcess;
+    /* initialize the process information record */
+    tempInfo.processInfoLength = sizeof(ProcessInfoRec);
+    tempInfo.processName = processName;
+    tempInfo.processAppSpec = &procSpec;
+    /* loop through all the processes until we */
+    /* 1) find the process we want */
+    /* 2) error out because of some reason (usually, no more processes) */
+    do {
+        myErr = GetNextProcess(processSN);
+        if (myErr == noErr)
+            GetProcessInformation(processSN, &tempInfo);
     }
-    
-    return iBrandId;
+            while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
+                   myErr == noErr);
+    return(myErr);
 }
 
 
