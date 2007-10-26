@@ -19,9 +19,9 @@ define("TD3", "<td colspan=\"3\" bgcolor=\"#708090\">");
 define("TABLE", "<table cellpadding=\"8\" border=\"1\" width=\"100%\">");
 define("TABLE2", "<table width=\"580\">");
 
-define("TITLE_COLOR", " bgcolor=\"000000\" ");
-define("TITLE_FONT", " <font color=\"ffffff\"> ");
-define("BODY_COLOR", " bgcolor=\"ffffff\" ");
+define("TITLE_COLOR", " bgcolor=\"#000000\" ");
+define("TITLE_FONT", " <font color=\"#ffffff\"> ");
+define("BODY_COLOR", " bgcolor=\"#ffffff\" ");
 define("NOLOGIN", "Not logged in. Click <a href=\"login.php\">here</a> to login.\n");
 
 function admin_page_head($title) {

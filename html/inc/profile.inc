@@ -155,7 +155,7 @@ function show_textarea($name, $text) {
 function offensive_profile_warning($verify_flag) {
     if ($verify_flag == 0) {
         return "
-            <font size='+2' color='33cc33'>
+            <font size='+2' color='#33cc33'>
             Your profile will be made visible to other people<br>
             as soon as it has been approved by the project.<br>
             This may take up to a few days.<br>
@@ -163,7 +163,7 @@ function offensive_profile_warning($verify_flag) {
         ";
     } else if ($verify_flag == -1) {
         return "
-            <font size='+2' color='ff3333'>
+            <font size='+2' color='#ff3333'>
             Your profile has been marked as unacceptable.<br>
             It is not visible to other people. Please change it.<br>
             </font>

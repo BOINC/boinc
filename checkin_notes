@@ -10034,3 +10034,15 @@ David  26 Oct 2007
             logout.php
             team*.php
             top_teams.php
+
+David  26 Oct 2007
+    - user web: fixed a few hex colors without #
+
+    html/
+        inc/
+            profile.inc
+            result.inc
+            util_ops.inc
+            db_ops.inc
+        user/
+            forum_text_search_form.php

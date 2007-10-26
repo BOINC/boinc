@@ -178,9 +178,9 @@ function show_result_row(
         $r = time_str($result->received_time);
     } else if ($result->report_deadline) {
         if ($result->report_deadline>time()) {
-            $r = "<font color='33cc33'>" . time_str($result->report_deadline) . "</font>";
+            $r = "<font color='#33cc33'>" . time_str($result->report_deadline) . "</font>";
         } else {
-            $r = "<font color='ff3333'>" . time_str($result->report_deadline) . "</font>";
+            $r = "<font color='#ff3333'>" . time_str($result->report_deadline) . "</font>";
         }
     } else {
         $r = "---";

@@ -10,7 +10,7 @@ echo "
     All Message boards and Question/answer areas will be searched.
     <br><br>
 
-    <table cellpadding=8 bgcolor=ffffcc>
+    <table cellpadding=8 bgcolor=#ffffcc>
     <tr>
     <td align=right>
     Search titles:
