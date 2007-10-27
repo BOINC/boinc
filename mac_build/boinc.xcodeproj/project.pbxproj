@@ -401,6 +401,20 @@
 			remoteGlobalIDString = DD3E14D30A774397007E0084;
 			remoteInfo = mgr_boinc;
 		};
+		DD5DDAE50CD2AF200075461A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
+			remoteInfo = static;
+		};
+		DD5DDAE70CD2AF200075461A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
+			remoteInfo = dynamic;
+		};
 		DD664F18084321A2009BFB11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -421,34 +435,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD6381E90870DC9D007A2F8E;
 			remoteInfo = MakeAppIcon_h;
-		};
-		DD78B1F40BE9195A00D95218 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD822D0C0BE8987F0000F083 /* wxMac-BOINC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
-			remoteInfo = wxStaticDebug;
-		};
-		DD78B1F60BE9195A00D95218 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD822D0C0BE8987F0000F083 /* wxMac-BOINC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086CA54063AB30000D4CD53;
-			remoteInfo = wxStaticRelease;
-		};
-		DD78B1F80BE9195A00D95218 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD822D0C0BE8987F0000F083 /* wxMac-BOINC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
-			remoteInfo = wxDynamicDebug;
-		};
-		DD78B1FA0BE9195A00D95218 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD822D0C0BE8987F0000F083 /* wxMac-BOINC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086CD6D063AB30000D4CD53;
-			remoteInfo = wxDynamicRelease;
 		};
 		DD791FF00819063C00BE2906 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -724,6 +710,7 @@
 		DD58C46808F334EA00C1DF66 /* WizardAttachProject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WizardAttachProject.h; path = ../clientgui/WizardAttachProject.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
+		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.6.3/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hyperlink.cpp; sourceTree = "<group>"; };
 		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = whetstone.C; path = ../client/whetstone.C; sourceTree = SOURCE_ROOT; };
@@ -794,7 +781,6 @@
 		DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_client.C; path = ../lib/gui_rpc_client.C; sourceTree = SOURCE_ROOT; };
 		DD81C5F007C5D8290098A04D /* boinc_win.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_win.h; path = ../lib/boinc_win.h; sourceTree = SOURCE_ROOT; };
 		DD81C60307C5D8630098A04D /* gui_rpc_client.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_rpc_client.h; path = ../lib/gui_rpc_client.h; sourceTree = SOURCE_ROOT; };
-		DD822D0C0BE8987F0000F083 /* wxMac-BOINC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "wxMac-BOINC.xcodeproj"; path = "../../wxMac-2.6.3/src/wxMac-BOINC.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCDialupManager.cpp; path = ../clientgui/BOINCDialupManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1153,7 +1139,7 @@
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
 				DDA90F260B64673D008F2E87 /* libwx_mac.a */,
-				DD822D0C0BE8987F0000F083 /* wxMac-BOINC.xcodeproj */,
+				DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
@@ -1173,13 +1159,11 @@
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD78B1ED0BE9195A00D95218 /* Products */ = {
+		DD5DDADD0CD2AF200075461A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DD78B1F50BE9195A00D95218 /* libwx_macd.a */,
-				DD78B1F70BE9195A00D95218 /* libwx_mac.a */,
-				DD78B1F90BE9195A00D95218 /* libwx_macd.dylib */,
-				DD78B1FB0BE9195A00D95218 /* libwx_mac.dylib */,
+				DD5DDAE60CD2AF200075461A /* libwx_mac_static.a */,
+				DD5DDAE80CD2AF200075461A /* libwx_mac.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1915,8 +1899,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DD78B1ED0BE9195A00D95218 /* Products */;
-					ProjectRef = DD822D0C0BE8987F0000F083 /* wxMac-BOINC.xcodeproj */;
+					ProductGroup = DD5DDADD0CD2AF200075461A /* Products */;
+					ProjectRef = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 				},
 			);
 			targets = (
@@ -1944,32 +1928,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		DD78B1F50BE9195A00D95218 /* libwx_macd.a */ = {
+		DD5DDAE60CD2AF200075461A /* libwx_mac_static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libwx_macd.a;
-			remoteRef = DD78B1F40BE9195A00D95218 /* PBXContainerItemProxy */;
+			path = libwx_mac_static.a;
+			remoteRef = DD5DDAE50CD2AF200075461A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DD78B1F70BE9195A00D95218 /* libwx_mac.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libwx_mac.a;
-			remoteRef = DD78B1F60BE9195A00D95218 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DD78B1F90BE9195A00D95218 /* libwx_macd.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libwx_macd.dylib;
-			remoteRef = DD78B1F80BE9195A00D95218 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DD78B1FB0BE9195A00D95218 /* libwx_mac.dylib */ = {
+		DD5DDAE80CD2AF200075461A /* libwx_mac.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = libwx_mac.dylib;
-			remoteRef = DD78B1FA0BE9195A00D95218 /* PBXContainerItemProxy */;
+			remoteRef = DD5DDAE70CD2AF200075461A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
