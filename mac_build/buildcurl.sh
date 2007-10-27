@@ -25,13 +25,22 @@
 #
 # by Charlie Fenton 7/21/06
 # Updated for curl-7.17.0 10/16/07
+# Updated 10/27/07
 #
 ## In Terminal, CD to the curl-7.17.0 directory.
 ##     cd [path]/curl-7.17.0/
 ## then run this script:
-##     source buildcurl.sh [ -clean ]
+##     source [path]/buildcurl.sh [ -clean ] [ -gcc33 ]
 ##
 ## the -clean argument will force a full rebuild.
+##
+## the -gcc33 argument will cause the PowerPC build to use gcc-3.3
+## otherwise both architectures will be built using gcc_4.0
+##
+## Use -gcc33 if you need to link with a project application using BOINC 
+## libraries built with gcc-3.3 for backward compatibility to OS 10.3.0
+##
+## Build with gcc-4.0 to link with the BOINC client 
 #
 
 if [ "$1" != "-clean" ]; then
@@ -42,15 +51,37 @@ if [ "$1" != "-clean" ]; then
   fi
 fi
 
+
+if [ "$1" = "-gcc33" ] || [ "$2" = "-gcc33" ]; then
+	usegcc33=1
+else
+	usegcc33=0
+fi
+
 export PATH=/usr/local/bin:$PATH
-export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
 export LDFLAGS="-arch ppc"
 export CFLAGS="-arch ppc"
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
 
+if [ $usegcc33 -ne 0 ]; then
+
+export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
+
 ## ./configure --enable-shared=NO --host=ppc
 ./configure --enable-shared=NO --host=ppc CPPFLAGS="-arch ppc -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3 -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++ -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++/ppc-darwin -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
 if [  $? -ne 0 ]; then return 1; fi
+
+else
+
+export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
+
+## ./configure --enable-shared=NO --host=ppc
+./configure --enable-shared=NO --host=ppc CPPFLAGS="-arch ppc -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
+
+fi
+
+if [  $? -ne 0 ]; then return 1; fi
+
 
 make clean
 
