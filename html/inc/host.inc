@@ -2,6 +2,7 @@
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/credit.inc");
+require_once("../inc/boinc_db.inc");
 
 function link_to_results($host) {
     if (!$host) return "No host";
@@ -180,9 +181,7 @@ function top_host_table_start($sort_by) {
 }
 
 function host_nresults($host) {
-    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id");
-    $foobar = mysql_fetch_object($result);
-    return $foobar->nresults;
+    return BoincResult::count("hostid=$host->id");
 }
 
 // If private is true, we're showing the host to its owner,
@@ -190,9 +189,7 @@ function host_nresults($host) {
 // If private is false, show the owner's name only if they've given permission
 //
 function show_host_row($host, $i, $private, $show_owner) {
-    $result = mysql_query("select * from user where id = $host->userid");
-    $user = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $user = BoincUser::lookup_id($host->userid);
 
     echo "<tr><td>", host_link($host->id), "</td>\n";
     if ($private) {
@@ -242,8 +239,6 @@ function show_host_row($host, $i, $private, $show_owner) {
         );
     }
 
-    //$nresults = host_nresults($host);
-    //echo "<td><a href=results.php?hostid=$host->id>$nresults</a></td>";
     echo "</tr>\n";
 }
 

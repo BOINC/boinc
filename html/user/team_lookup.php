@@ -31,7 +31,7 @@ $team_name = get_str("team_name");
 $name_lc = strtolower($team_name);
 $name_lc = escape_pattern($name_lc);
  
-$clause = "name like '%".mysql_real_escape_string($name_lc)."%' order by expavg_credit desc limit 100";
+$clause = "name like '%".boinc_real_escape_string($name_lc)."%' order by expavg_credit desc limit 100";
 $teams = BoincTeam::enum($clause);
 
 if ($format == 'xml') {

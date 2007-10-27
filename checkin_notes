@@ -10047,6 +10047,8 @@ David  26 Oct 2007
         user/
             forum_text_search_form.php
 
+            donate.php
+
 Charlie 27 Oct 2007
     - Mac: Fix bugs in scripts for building wxMac-2.6.3; fix XCode project 
         when using debug build of wxMac-2.6.3; Use gcc-4.0 compiler to 
@@ -10061,3 +10063,28 @@ Charlie 27 Oct 2007
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  27 Oct 2007
+    - user web: show "merge by name" only to owner
+
+    html/user/
+        hosts_user.php
+
+David  27 Oct 2007
+    - user web: Add BoincDb::escape_string(),
+        and have boinc_real_escape_string 
+        call it rather than mysql_real_escape_string(),
+        to ensure that a DB connection exists
+        (you need one to call mysql_real_escape_string()).
+    - some additional conversion to BoincDb-based classes
+
+    html/
+        inc/
+            host.inc
+            boinc_db.inc
+            profile.inc
+            db_conn.inc
+            db.inc
+        user/
+            host_delete.php
+            team_lookup.php

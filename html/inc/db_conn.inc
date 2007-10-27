@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', 'stdout');
+//ini_set('display_errors', 'stdout');
 error_reporting(E_ALL);
 
 // represents a connection to a database.
@@ -68,6 +68,10 @@ class DbConn {
         $query = "update DBNAME.$table set $clause where id=$obj->id";
         return $this->do_query($query);
     }
+    function delete($obj, $table) {
+        $query = "delete from DBNAME.$table where id=$obj->id";
+        return $this->do_query($query);
+    }
     function insert_id() {
         return mysql_insert_id($this->db_conn);
     }
@@ -78,6 +82,9 @@ class DbConn {
         if ($cnt) return $cnt->total;
         return null;
         mysql_free_result($result);
+    }
+    function base_escape_string($string) {
+        return mysql_real_escape_string($string, $this->db_conn);
     }
 }
 

@@ -1,6 +1,7 @@
 <?php
 
 require_once('../inc/util.inc');
+require_once('../inc/boinc_db.inc');
 
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
@@ -63,7 +64,7 @@ function lookup_user_email_addr($email_addr) {
 }
 
 function lookup_user_name($name) {
-    $result = mysql_query("SELECT * FROM user WHERE name='".mysql_real_escape_string($name)."'");
+    $result = mysql_query("SELECT * FROM user WHERE name='".boinc_real_escape_string($name)."'");
     if ($result) {
         if (mysql_num_rows($result) == 1) {
             return mysql_fetch_object($result);
@@ -102,7 +103,7 @@ function lookup_team_founder($id) {
 }
 
 function lookup_team_name($name) {
-    $name = mysql_real_escape_string($name);
+    $name = boinc_real_escape_string($name);
     $result = mysql_query("select * from team where name='$name'");
     if ($result) {
         $team = mysql_fetch_object($result);
@@ -156,7 +157,7 @@ function lookup_tentative_user($nonce) {
 //
 function boinc_real_escape_string($x) {
     if (version_compare(phpversion(),"4.3.0")>=0) {
-        return mysql_real_escape_string($x);
+        return BoincDb::escape_string($x);
     } else {
         $x = str_replace("'", "\'", $x);
         $x = str_replace("\"", "\\\"", $x);

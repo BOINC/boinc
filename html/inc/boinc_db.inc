@@ -15,6 +15,10 @@ class BoincDb extends DbConn {
         }
         return $instance;
     }
+    static function escape_string($string) {
+        $db = self::get();
+        return $db->base_escape_string($string);
+    }
 }
 
 class BoincUser {
@@ -61,6 +65,23 @@ class BoincTeamDelta {
     static function enum($clause) {
         $db = BoincDb::get();
         return $db->enum('team_delta', 'BoincTeamDelta', $clause);
+    }
+}
+
+class BoincHost {
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'host', 'BoincHost');
+    }
+    function delete() {
+        return $db->delete($this, 'host');
+    }
+}
+
+class BoincResult {
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('result', $clause);
     }
 }
 
