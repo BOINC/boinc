@@ -22,13 +22,7 @@
 #
 # Script to build the wxMac-2.6.3 library for BOINC as a Universal Binary
 #
-# by Charlie Fenton    7/21/06
-#
-## Before running this script, you must first copy the special XCode 
-## project
-##    boinc/mac_build/wxMac-BOINC.xcodeproj 
-## to 
-##    wxMac-2.6.3/src/
+# by Charlie Fenton    10/26/07
 #
 #
 ## In Terminal, CD to the wxMac-2.6.3 directory.
@@ -63,7 +57,7 @@ else
 
 rm -f src/build/Deployment/libwx_mac.a
 
-xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticRelease  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_mac_ppc.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_mac_ppc.a"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -75,7 +69,7 @@ else
 
 rm -f src/build/Deployment/libwx_mac.a
 
-xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticRelease  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_mac_i386.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_mac_i386.a"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -96,7 +90,7 @@ else
 
 rm -f src/build/Deployment/libwx_macd.a
 
-xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticDebug  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_macd_ppc.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_macd_ppc.a"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -107,7 +101,7 @@ else
 
 rm -f src/build/Deployment/libwx_macd.a
 
-xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticDebug  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_macd_i386.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_macd_i386.a"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

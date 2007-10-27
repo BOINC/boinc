@@ -25,6 +25,7 @@
 #
 # by Charlie Fenton 7/21/06
 # Updated for curl-7.17.0 10/21/07
+# Bug fix for wxMac-2.6.3 7/26/07
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -80,8 +81,6 @@ echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
-
-cp -fpR wxMac-BOINC.xcodeproj ../../wxMac-2.6.3/src/
 
 cd ../../wxMac-2.6.3/
 if [  $? -ne 0 ]; then return 1; fi
