@@ -84,7 +84,8 @@ if ($userid) {
     if (!$user) {
         error_page("No such user");
     }
-    $caching=true;
+    $caching = true;
+
     // At this point, we know that $userid, $show_all and $sort all have
     // valid values.
     //
@@ -104,7 +105,7 @@ if ($userid) {
     $private = false;
 } else {
     $user = get_logged_in_user();
-    $caching=false;
+    $caching = false;
     $userid = $user->id;
     page_head("Your computers");
     more_or_less($show_all);
@@ -133,9 +134,11 @@ if ($old_hosts>0) {
     more_or_less($show_all);
 }
 
-echo "
-    <a href=merge_by_name.php>Merge computers by name</a>
-";
+if (!$userid) {
+    echo "
+        <a href=merge_by_name.php>Merge computers by name</a>
+    ";
+}
 
 if ($caching) {
     page_tail(true);
