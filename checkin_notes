@@ -10066,6 +10066,7 @@ Charlie 27 Oct 2007
 
 David  27 Oct 2007
     - user web: show "merge by name" only to owner
+        Fixes #451
 
     html/user/
         hosts_user.php
