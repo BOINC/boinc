@@ -10046,3 +10046,18 @@ David  26 Oct 2007
             db_ops.inc
         user/
             forum_text_search_form.php
+
+Charlie 27 Oct 2007
+    - Mac: Fix bugs in scripts for building wxMac-2.6.3; fix XCode project 
+        when using debug build of wxMac-2.6.3; Use gcc-4.0 compiler to 
+        build wxMac-2.6.3 and curl_7.17.0 for use in BOINC Client and Manager. 
+    - Mac: buildcurl.sh accepts optional argument -gcc33 to use gcc-3.3 for 
+        PowerPC build so it can be linked with BOINC libraries when building 
+        backward-compatible project science applications.
+        
+    mac_build/
+        buildcurl.sh
+        buildWxMac.sh
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
