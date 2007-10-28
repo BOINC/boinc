@@ -1,16 +1,14 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
-
-db_init();
 
 $user = get_logged_in_user();
 
 $venue = get_venue("venue");
 $hostid = get_int("hostid");
 
-$host = lookup_host($hostid);
+$host = BoincHost::lookup_id($hostid);
 if (!$host) {
     error_page("No such host");
 }
@@ -18,7 +16,7 @@ if ($host->userid != $user->id) {
     error_page("Not your host");
 }
 
-$retval = mysql_query("update host set venue='$venue' where id = $hostid");
+$retva = $host->update("venue='$venue');
 if ($retval) {
     page_head("Host venue updated");
     if ($venue == '') {

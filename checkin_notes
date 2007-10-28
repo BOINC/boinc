@@ -10089,3 +10089,27 @@ David  27 Oct 2007
         user/
             host_delete.php
             team_lookup.php
+
+David  28 Oct 2007
+    - user web: changes to use new DB framework and eliminate PHP warnings
+
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            forum_email.inc
+            forum_mysql_dbh.inc
+            forum_pm.inc
+            host.inc
+            news.inc
+            user.inc
+            util.inc
+            xml.inc
+        user/
+            host_edit_action.php
+            host_edit_form.php
+            host_venue_action.php
+            hosts_user.php
+            merge_by_name.php
+            pending.php
+            top_hosts.php

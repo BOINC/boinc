@@ -10,26 +10,22 @@ require_once("../inc/translation.inc");
 $config = get_config();
 $hosts_per_page = parse_config($config, "<hosts_per_page>");
 if (!$hosts_per_page) {
-        $hosts_per_page = 20;
+    $hosts_per_page = 20;
 }
-define (ITEM_LIMIT,10000);
+define ('ITEM_LIMIT', 10000);
 
-//Possibly move this to db.inc at some point...
-function get_top_hosts($offset,$sort_by){
+function get_top_hosts($offset, $sort_by) {
     global $hosts_per_page;
     if ($sort_by == "total_credit") {
-	$sort_order = "total_credit desc";
+        $sort_order = "total_credit desc";
     } else {
         $sort_order = "expavg_credit desc";
     }
-    $res=mysql_query("select * from host order by $sort_order limit $offset,".$hosts_per_page);
-    echo mysql_error();
-    while ($arr[]=mysql_fetch_object($res)){};
-    return $arr;
+    return BoincHost::enum(null, "order by $sort_order limit $offset, $hosts_per_page");
 }
 
-function hosts_to_store($participants){ //These converter functions are here in case we later decide to use something 
-    return serialize($participants);	       //else than serializing to save temp data
+function hosts_to_store($participants){
+    return serialize($participants);
 }
 function store_to_hosts($data){
     return unserialize($data);
@@ -50,10 +46,10 @@ if ($offset < ITEM_LIMIT) {
     db_init(true);
     $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
     if ($cacheddata){ //If we have got the data in cache
-	$data = store_to_hosts($cacheddata); // use the cached data
+        $data = store_to_hosts($cacheddata); // use the cached data
     } else { //if not do queries etc to generate new data
-	$data = get_top_hosts($offset,$sort_by);
-	set_cache_data(hosts_to_store($data),$cache_args); //save data in cache
+        $data = get_top_hosts($offset,$sort_by);
+        set_cache_data(hosts_to_store($data),$cache_args); //save data in cache
     };
 } else {
     error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
@@ -64,11 +60,10 @@ if ($offset < ITEM_LIMIT) {
 page_head(tr(TOP_HOST_TITLE));
 top_host_table_start($sort_by);
 $i = 1 + $offset;
-$o = 0;
-while ($host = $data[$o]) {
+$n = sizeof($data);
+foreach($data as $host) {
     show_host_row($host, $i, false, true);
     $i++;
-    $o++;
 }
 echo "</table>\n<p>";
 if ($offset > 0) {
@@ -76,7 +71,7 @@ if ($offset > 0) {
     echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Previous ".$hosts_per_page."</a> | ";
 
 }
-if ($o==$hosts_per_page){ //If we aren't on the last page
+if ($n==$hosts_per_page){ //If we aren't on the last page
     $new_offset = $offset + $hosts_per_page;
     echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Next ".$hosts_per_page."</a>";
 }

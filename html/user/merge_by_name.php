@@ -1,8 +1,8 @@
 <?php
 
 require_once("../inc/util.inc");
-require_once("../inc/db.inc");
 require_once("../inc/host.inc");
+require_once("../inc/boinc_db.inc");
 
 db_init();
 
@@ -31,8 +31,8 @@ function merge_name($list) {
 
 function merge_by_name($userid) {
     $hosts = array();
-    $result = mysql_query("select * from host where userid=$userid");
-    while ($host = mysql_fetch_object($result)) {
+    $host_list = BoincHost::enum("userid=$userid");
+    foreach($host_list as $host) {
         $hosts[$host->domain_name][] = $host;
     }
     foreach($hosts as $hlist) {

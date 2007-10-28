@@ -1,14 +1,14 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
 function db_init_xml() {
     if (web_stopped()) {
         return -183;
     }
-    $retval = db_init_aux();
-    if ($retval) return -138;
+    $db = BoincDb::get();
+    if (!$db) return -138;
     return 0;
 }
 
@@ -82,9 +82,9 @@ function show_user_xml($user, $show_hosts) {
     <has_profile>$user->has_profile</has_profile>
 ";
     if ($show_hosts) {
-        $result = mysql_query("select * from host where userid=$user->id");
+        $hosts = BoincHost::enum("userid=$user->id");
         echo "   <venue>$user->venue</venue>\n";
-        while ($host = mysql_fetch_object($result)) {
+        foreach ($hosts as $host) {
             show_host_xml($host);
         }
     }

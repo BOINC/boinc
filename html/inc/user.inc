@@ -108,22 +108,8 @@ function show_other_projects($user, $personal) {
     }
 }
 
-function pending_credit($user) {
-    $result = mysql_query("select sum(claimed_credit) as total from result where userid=$user->id and (validate_state=0 or validate_state=4)");
-    $foobar = mysql_fetch_object($result);
-    if (!$foobar) return 0;
-    mysql_free_result($result);
-    return $foobar->total;
-}
-
 function total_posts($user) {
-    $result = mysql_query(
-        "select count(id) as total from post where user=$user->id"
-    );
-    if (!$result) return 0;
-    $foobar = mysql_fetch_object($result);
-    mysql_free_result($result);
-    return $foobar->total;
+    return BoincPost::count("user=$user->id");
 }
 
 function show_credit($user) {
@@ -187,9 +173,7 @@ function show_user_info_private($user) {
 
     row1("Community");
 
-    $sql = "SELECT * FROM profile WHERE userid = ".$user->id;
-    $result = mysql_query($sql);
-    if (mysql_num_rows($result) != 0) {
+    if ($user->has_profile) {
         $x = "<a href=view_profile.php?userid=$user->id>View or edit</a> | <a href=delete_profile.php>Delete</a>";
     } else {
         $x = "<a href=create_profile.php>Create</a>";
@@ -215,12 +199,10 @@ function show_user_info_private($user) {
         row2("Team", "None (<a href=team_search.php>find a team</a>)");
     }
     
-    $team_founder = lookup_team_founder($user->id);
-    if ($team_founder) {
-        while ($res = mysql_fetch_object($team_founder)) {
-            if ($res->id != $user->teamid) {
-                row2("founder but not member of", "<a href=team_display.php?teamid=$res->id>$res->name</a> | <a href=\"team_manage.php?teamid=".$res->id."\">management functions</a>");
-            }
+    $teams_founded = BoincTeam::enum("userid=$user->id");
+    foreach ($teams_founded as $team) {
+        if ($team->id != $user->teamid) {
+            row2("founder but not member of", "<a href=team_display.php?teamid=$team->id>$team->name</a> | <a href=\"team_manage.php?teamid=".$team->id."\">management functions</a>");
         }
     }
 
@@ -339,28 +321,6 @@ function show_user_row($user, $i) {
     ";
 }
 
-// decay a user's average credit
-//
-function user_decay_credit($user) {
-    $avg = $user->expavg_credit;
-    $avg_time = $user->expavg_time;
-    $now = time(0);
-    update_average($now, 0, 0, $avg, $avg_time);
-    mysql_query("update user set expavg_credit=$avg, expavg_time=$now where id=$user->id");
-
-}
-// if the user hasn't received new credit for ndays,
-// decay its average and return true
-//
-function user_inactive_ndays($user, $ndays) {
-    $diff = time() - $user->expavg_time;
-    if ($diff > $ndays*86400) {
-        user_decay_credit($user);
-        return true;
-    }
-    return false;
-}
-
 function make_user(
     $email_addr, $name, $passwd_hash,
     $country=null, $postal_code=null, $project_prefs=null, $teamid=0
@@ -370,15 +330,15 @@ function make_user(
     $cross_project_id = random_string();
     $now = time();
     if (!is_valid_country($country)) return null;
-    $country = boinc_real_escape_string($country);
+    $country = BoincDb::escape_string($country);
     $postal_code = strip_tags(process_user_text($postal_code));
 
-    $query = "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')";
+    $ret = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
 
-    $result = mysql_query($query);
-    if ($result) {
-        $id = mysql_insert_id();
-        return lookup_user_id($id);
+    if ($ret) {
+        $db = BoincDb::get();
+        $id = $db->insert_id();
+        return BoincUser::lookup_id($id);
     } else {
         return null;
     }

@@ -13,9 +13,6 @@ function pm_create_new($error = null) {
     page_head(tra("Private messages")." : ".tra("Create new"));
     pm_header();
     
-    /**
-     * Preview
-     **/
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
         echo "<div id=\"preview\">\n";
@@ -28,6 +25,8 @@ function pm_create_new($error = null) {
     $replyto = get_int("replyto", true);
     $userid = get_int("userid", true);
     
+    $subject = null;
+    $content = null;
     if ($replyto) {
         $message = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$replyto");
         if ($message) {

@@ -131,7 +131,7 @@ function show_host($host, $private, $ipprivate, $user) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
         row2("Last time contacted server", sched_log_link($host->rpc_time));
         row2("% of time BOINC client is running", 100*$host->on_frac." %");
-        if ($host->connect_frac > 0) {
+        if ($host->connected_frac > 0) {
             row2("While BOINC running, % of time host has an Internet connection", 100*$host->connected_frac." %");
         }
         row2("While BOINC running, % of time work is allowed", 100*$host->active_frac." %");
@@ -198,7 +198,7 @@ function show_host_row($host, $i, $private, $show_owner) {
         echo "<td>$i</td>\n
         ";
         if ($show_owner) {
-            if ($user->show_hosts) {
+            if ($user && $user->show_hosts) {
                 echo "<td>", user_links($user), "</td>\n";
             } else {
                 echo "<td>Anonymous</td>\n";
@@ -320,7 +320,7 @@ function os_compatible($host1, $host2) {
 function hosts_compatible($host1, $host2) {
     // skip disjoint-time check if one host or other has no credit
     //
-    if ($host1->total_credit && $host->total_credit) {
+    if ($host1->total_credit && $host2->total_credit) {
         if (!times_disjoint($host1, $host2)) {
             echo "<br>h2 $host2->create_time $host2->rpc_time";
             return false;
@@ -344,8 +344,9 @@ function host_update_credit($hostid) {
     $total = 0;
     $avg = 0;
     $avg_time = 0;
-    $r = mysql_query("select * from result where hostid=$hostid order by received_time");
-    while ($result = mysql_fetch_object($r)) {
+
+    $results = BoincResult::enum("hostid=$hostid order by received_time");
+    foreach($results as $result) {
         if ($result->granted_credit <= 0) continue;
         $total += $result->granted_credit;
 
@@ -359,14 +360,15 @@ function host_update_credit($hostid) {
 
         //echo "<br>$avg\n";
     }
-    mysql_free_result($r);
 
     // do a final decay
     //
     $now = time();
     update_average(now, 0, 0, $avg, $avg_time);
 
-    mysql_query("update host set total_credit=$total, expavg_credit=$avg, expavg_time=$now where id=$hostid");
+    $host = new BoincHost();
+    $host->id = hostid;
+    $host->update("total_credit=$total, expavg_credit=$avg, expavg_time=$now");
 }
 
 // decay a host's average credit
@@ -376,9 +378,9 @@ function host_decay_credit($host) {
     $avg_time = $host->expavg_time;
     $now = time(0);
     update_average($now, 0, 0, $avg, $avg_time);
-    mysql_query("update host set expavg_credit=$avg, expavg_time=$now where id=$host->id");
-
+    $host->update("expavg_credit=$avg, expavg_time=$now");
 }
+
 // if the host hasn't received new credit for ndays,
 // decay its average and return true
 //
@@ -417,16 +419,16 @@ function merge_hosts($old_host, $new_host) {
     //
     $total_credit = $old_host->total_credit + $new_host->total_credit;
     $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
-    $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit, expavg_time=$now where id=$new_host->id");
+    $result = $new_host->update("total_credit=$total_credit, expavg_credit=$recent_credit, expavg_time=$now");
     if (!$result) {
         return "Couldn't update credit of new computer";
     }
-    $result = mysql_query("update result set hostid=$new_host->id where hostid=$old_host->id");
+    $result = BoincResult::update_multi("hostid=$new_host->id where hostid=$old_host->id");
     if (!$result) {
         return "Couldn't update results";
     }
 
-    $result = mysql_query("update host set total_credit=0, expavg_credit=0, userid=0, rpc_seqno=$new_host->id where id=$old_host->id");
+    $result = $old_host->update("total_credit=0, expavg_credit=0, userid=0, rpc_seqno=$new_host->id");
     if (!$result) {
         return "Couldn't retire old computer";
     }

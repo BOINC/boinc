@@ -44,6 +44,10 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->enum('user', 'BoincUser', $clause);
     }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('user', $clause);
+    }
 }
 
 class BoincTeam {
@@ -73,8 +77,16 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'host', 'BoincHost');
     }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'host', $clause);
+    }
     function delete() {
         return $db->delete($this, 'host');
+    }
+    static function enum($clause, $clause2=null) {
+        $db = BoincDb::get();
+        return $db->enum('host', 'BoincHost', $clause, $clause2);
     }
 }
 
@@ -82,6 +94,21 @@ class BoincResult {
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('result', $clause);
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('result', 'BoincResult', $clause);
+    }
+    static function update_multi($clause) {
+        $db = BoincDb::get();
+        return $db->update_multi('result', $clause);
+    }
+}
+
+class BoincPost {
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('post', $clause);
     }
 }
 

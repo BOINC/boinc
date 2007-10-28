@@ -1,14 +1,13 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 
-db_init();
 $user = get_logged_in_user();
 
 $hostid = get_int("hostid");
-$host = lookup_host($hostid);
+$host = BoincHost::lookup_id($hostid);
 if (!$host || $host->userid != $user->id) {
     error_page("We have no record of that computer");
 }
@@ -24,18 +23,17 @@ echo "
     <p>
 ";
 
-$result = mysql_query("select * from host where userid=$user->id");
+$all_hosts = BoincHost::enum("userid=$user->id");
 
 $nhosts = 1;
 $hosts = array();
-while ($host2 = mysql_fetch_object($result)) {
+foreach ($all_hosts as $host2) {
     if ($host->id == $host2->id) continue;
     if (!hosts_compatible($host, $host2)) continue;
     $hosts[] = $host2;
     $nhosts++;
     if ($nhosts==500) break;
 }
-mysql_free_result($result);
 if ($nhosts == 1) {
     echo "<br>No hosts are eligible for merging with this one.";
     page_tail();

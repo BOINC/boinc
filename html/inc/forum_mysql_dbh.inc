@@ -149,6 +149,7 @@ class MySQLDatabaseHandler extends DatabaseHandler {
         }
         
         $data = $this->query($sql);
+        $list = array();
         while ($result = mysql_fetch_object($data)){ $list[]=$result;};
         return $list;
     }

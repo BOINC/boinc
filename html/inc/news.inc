@@ -12,7 +12,9 @@ function show_news($items, $n) {
         $n = count($items);
     }
     for ($i=0; $i<$n; $i++) {
-        news_item($items[$i][0], $items[$i][1], $items[$i][2]);
+        $date = null;
+        if (isset($items[$i][2])) $date = $items[$i][2];
+        news_item($items[$i][0], $items[$i][1], $date);
     }
 }
 

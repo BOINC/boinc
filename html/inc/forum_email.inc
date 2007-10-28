@@ -13,9 +13,6 @@ if (isset($USE_PHPMAILER)) {
     $USE_PHPMAILER = false;
 }
 
-if (FORUM_MODERATION_EMAIL) {
-}
-
 /**
  * Send mail using the new User object style
  **/

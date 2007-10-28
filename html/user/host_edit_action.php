@@ -1,7 +1,8 @@
 <?php
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/host.inc");
+
+require_once("../inc/boinc_db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/host.inc");
 
 function fail($msg) {
     echo "Error: $msg";
@@ -10,14 +11,13 @@ function fail($msg) {
 }
 
 function get_host($hostid, $user) {
-    $host = lookup_host($hostid);
+    $host = BoincHost::lookup_id($hostid);
     if (!$host || $host->userid != $user->id) {
         fail("We have no record of that computer");
     }
     return $host;
 }
 
-db_init();
 $user = get_logged_in_user();
 
 page_head("Merge computer records");
@@ -42,7 +42,7 @@ for ($i=1; $i<$nhosts; $i++) {
 	// reread latest_host from database since we just
 	// updated its credits
 	//
-	$latest_host = lookup_host($latest_host->id);
+	$latest_host = BoincHost::lookup_id($latest_host->id);
 }
 echo "
 	<p><a href=hosts_user.php>Return to list of your computers</a>

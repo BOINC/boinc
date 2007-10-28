@@ -138,7 +138,7 @@ Show if the servers of various projects are up or down.
 ";
 $misc_sites = array(
     array("http://www.myboinc.com/", "BOINC Users of the Day"),
-    array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
+    //array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
     array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
 );
 echo "<ul>";

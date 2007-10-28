@@ -1,6 +1,6 @@
 <?php
 
-//ini_set('display_errors', 'stdout');
+ini_set('display_errors', 'stdout');
 error_reporting(E_ALL);
 
 // represents a connection to a database.
@@ -28,14 +28,21 @@ class DbConn {
 
     function do_query($query) {
         $q = str_replace('DBNAME', $this->db_name, $query);
-        //echo $q;
-        return mysql_query($q, $this->db_conn);
+        $ret = mysql_query($q, $this->db_conn);
+        if (!$ret) {
+            echo "database error: ", mysql_error(), "\n";
+            var_dump(debug_backtrace());
+            echo "query: $q\n";
+        }
+        return $ret;
     }
 
     function lookup($table, $classname, $clause) {
         $query = "select * from DBNAME.$table where $clause";
         $result = $this->do_query($query);
         if (!$result) {
+            echo "database error: ", mysql_error(), "\n";
+            var_dump(debug_backtrace());
             echo $query;
             echo mysql_error();
             return null;
@@ -49,12 +56,12 @@ class DbConn {
         return $this->lookup($table, $classname, "id=$id");
     }
 
-    function enum($table, $classname, $clause=null) {
+    function enum($table, $classname, $clause=null, $clause2=null) {
         $x = array();
         if ($clause) {
-            $query = "select * from DBNAME.$table where $clause";
+            $query = "select * from DBNAME.$table where $clause $clause2";
         } else {
-            $query = "select * from DBNAME.$table";
+            $query = "select * from DBNAME.$table $clause2";
         }
         $result = $this->do_query($query);
         if (!$result) return null;
@@ -66,6 +73,14 @@ class DbConn {
     }
     function update($obj, $table, $clause) {
         $query = "update DBNAME.$table set $clause where id=$obj->id";
+        return $this->do_query($query);
+    }
+    function update_multi($table, $clause) {
+        $query = "update DBNAME.$table set $clause";
+        return $this->do_query($query);
+    }
+    function insert($table, $clause) {
+        $query = "insert into DBNAME.$table $clause";
         return $this->do_query($query);
     }
     function delete($obj, $table) {

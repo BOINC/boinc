@@ -2,7 +2,7 @@
 // show all the hosts for a user.
 // if $userid is absent, show hosts of logged-in user
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 require_once("../inc/cache.inc");
@@ -37,9 +37,6 @@ function user_host_table_start($private) {
     if (parse_bool($config, "show_results")) echo "<th>Results</th>";
     echo "<th>".link_with_GET_variables("Last contact", "hosts_user.php", 'sort', 'rpc_time')."</th>";
 }
-
-
-db_init();
 
 // get the _GET variables which determine how to display the page
 //
@@ -116,8 +113,8 @@ if ($userid) {
 $now = time();
 $old_hosts=0;
 $i = 1;
-$result = mysql_query("select * from host where userid=$userid order by $sort_clause");
-while ($host = mysql_fetch_object($result)) {
+$hosts = BoincHost::enum("userid=$userid order by $sort_clause");
+foreach ($hosts as $host) {
     $is_old=false;
     if (($now - $host->rpc_time) > 30*86400) {
         $is_old=true;
@@ -127,14 +124,13 @@ while ($host = mysql_fetch_object($result)) {
     show_host_row($host, $i, $private, false);
     $i++;
 }
-mysql_free_result($result);
 echo "</table>\n";
 
 if ($old_hosts>0) {
     more_or_less($show_all);
 }
 
-if (!$userid) {
+if ($private) {
     echo "
         <a href=merge_by_name.php>Merge computers by name</a>
     ";

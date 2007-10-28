@@ -338,10 +338,14 @@ function form_tokens($auth) {
 }
 
 function valid_tokens($auth) {
-    $tnow = $_GET['tnow'];
-    $ttok = $_GET['ttok'];
-    if (!$tnow) { $tnow = $_POST['tnow']; }
-    if (!$ttok) { $ttok = $_POST['ttok']; }
+    $tnow = get_str('tnow');
+    $ttok = get_str('ttok');
+    if (!$tnow) {
+        $tnow = $_POST['tnow'];
+    }
+    if (!$ttok) {
+        $ttok = $_POST['ttok'];
+    }
     if (!$tnow) return false;
     if (!$ttok) return false;
     $t = md5((string)$tnow.$auth);
