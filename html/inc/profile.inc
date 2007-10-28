@@ -304,9 +304,9 @@ function process_create_profile($user, $profile) {
     $response2 = sanitize_html($response2);
     if ($profile) {
         $query = 'UPDATE profile SET '
-            ." response1 = '".boinc_escape_string($response1)."',"
-            ." response2 = '".boinc_escape_string($response2)."',"
-            ." language = '".boinc_escape_string($language)."',"
+            ." response1 = '".boinc_real_escape_string($response1)."',"
+            ." response2 = '".boinc_real_escape_string($response2)."',"
+            ." language = '".boinc_real_escape_string($language)."',"
             ." has_picture = '$hasPicture',"
             ." verification = '$profile->verification'"
             ." WHERE userid = '$user->id'";
@@ -318,9 +318,9 @@ function process_create_profile($user, $profile) {
     } else {
         $query = 'INSERT INTO profile SET '
             ." userid = '$user->id',"
-            ." language = '".boinc_escape_string($language)."',"
-            ." response1 = '".boinc_escape_string($response1)."',"
-            ." response2 = '".boinc_escape_string($response2)."',"
+            ." language = '".boinc_real_escape_string($language)."',"
+            ." response1 = '".boinc_real_escape_string($response1)."',"
+            ." response2 = '".boinc_real_escape_string($response2)."',"
             ." has_picture = '$hasPicture',"
             ." verification=0";
         $result = mysql_query($query);
