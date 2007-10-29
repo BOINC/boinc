@@ -7951,3 +7951,18 @@ Charlie 26 Oct 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Frank Thomas    29 Oct 2007
+    - MGR: Fixed broken URLs in the Help menu. The URLs are only broken if the
+        Manager was built with the wxWidgets unicode variant.
+
+    clientgui/
+        AdvancedFrame.cpp
+
+Rom    29 Oct 2007
+    - Tag for 5.10.28 release, all platforms
+      boinc_core_release_5_10_28
+    
+    /
+        configure.ac
+        version.h

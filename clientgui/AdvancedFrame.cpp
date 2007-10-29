@@ -1665,7 +1665,12 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl.Printf(wxT("%smanager_links.php?target=advanced&controlid=%d"), url.c_str(), event.GetId());
+		wxurl.Printf(
+            wxT("%s?target=advanced&version=%s&controlid=%d"),
+            wxString(url.c_str(), wxConvUTF8).c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
+            event.GetId()
+        );
         ExecuteBrowserLink(wxurl);
     }
 
@@ -1684,8 +1689,8 @@ void CAdvancedFrame::OnHelpBOINC(wxCommandEvent& event) {
 		wxString wxurl;
 		wxurl.Printf(
             wxT("%smanager_links.php?target=advanced&version=%s&controlid=%d"),
-            url.c_str(),
-            BOINC_VERSION_STRING,
+            wxString(url.c_str(), wxConvUTF8).c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
         ExecuteBrowserLink(wxurl);
