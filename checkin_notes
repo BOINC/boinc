@@ -10130,3 +10130,11 @@ David  28 Oct 2007
             profile_search_action.php
     lib/
         prefs.C
+
+Rytis   29 Oct 2007
+    - Ops pages: add a page to list recently registered users
+    
+    html/
+        ops/
+            index.php
+            list_new_users.php
