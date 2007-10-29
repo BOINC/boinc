@@ -10138,3 +10138,10 @@ Rytis   29 Oct 2007
         ops/
             index.php
             list_new_users.php
+
+Frank Thomas    29 Oct 2007
+    - MGR: Fixed broken URLs in the Help menu. The URLs are only broken if the
+        Manager was built with the wxWidgets unicode variant.
+
+    clientgui/
+        AdvancedFrame.cpp
