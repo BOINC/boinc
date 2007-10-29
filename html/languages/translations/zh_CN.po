@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.13460\n"
+"Project-Id-Version: rev.13761\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-26 14:29+0800\n"
+"PO-Revision-Date: 2007-10-24 23:11+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -448,6 +448,30 @@ msgstr "您有一条未读私人消息。"
 
 msgid "You have no unread private messages."
 msgstr "您目前没有未读的私人消息。"
+
+msgid "Sender"
+msgstr "发送人"
+
+msgid "Date"
+msgstr "日期"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Reply"
+msgstr "回复"
+
+msgid "Block user"
+msgstr "阻止用户"
+
+msgid "With selected"
+msgstr "选择的消息"
+
+msgid "Mark as read"
+msgstr "标记为已读"
+
+msgid "Mark as unread"
+msgstr "标记为未读"
 
 #########################################
 # Links from the main page

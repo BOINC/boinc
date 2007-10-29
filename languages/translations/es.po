@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-09-10 10:51-0000\n"
+"PO-Revision-Date: 2007-10-27 23:10-0000\n"
 "Last-Translator: David <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -13,10 +13,10 @@ msgstr ""
 # ########################################
 # Language: Spanish (International)
 # FileID  : $Id$
-##########################################
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
+# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -29,9 +29,9 @@ msgstr "Español"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
 
-########################################
+# #######################################
 # poll-related stuff
-########################################
+# #######################################
 msgid "POLL_TITLE"
 msgstr "Encuesta para usuarios de BOINC"
 
@@ -302,9 +302,9 @@ msgstr "Resultados de la encuesta"
 msgid "POLL_RESULTS_TEXT"
 msgstr "Éstos son los resultados actuales de la <a href=poll.php> encuesta a usuarios BOINC</a>. Ésta página se actualiza cada hora."
 
-########################################
+# #######################################
 # download.php 2006/08/03 by je2bwm
-########################################
+# #######################################
 msgid "DL_DOWNLOAD"
 msgstr "Descargar BOINC"
 
@@ -344,9 +344,9 @@ msgstr "BOINC: computar para la ciencia"
 msgid "DL_MIRRORS"
 msgstr "Nota: los archivos son descargados de servidores espejo en boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (gracias a estas instituciones). El servidor es elegido aleatoriamente - si la descarga falla, recargue esta página e inténtelo de nuevo."
 
-##############################################
+# #############################################
 # system_requirements.php by je2bwm 2006/08/07
-##############################################
+# #############################################
 msgid "SRQ_PAGE_TITLE"
 msgstr "Requisitos del sistema"
 
@@ -413,9 +413,9 @@ msgstr "64 MB RAM"
 msgid "SRQ_LINUX_REQ_DISK"
 msgstr "50 MB de disco duro libres"
 
-##############################################
+# #############################################
 # release notes by je2bwm 2006/08/09
-##############################################
+# #############################################
 msgid "RLN_PAGE_TITLE"
 msgstr "Notas de la versión"
 
@@ -551,9 +551,9 @@ msgstr "Si tiene un problema con un proyecto específico, vaya al área de 'Preg
 msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 msgstr "Si tiene problemas con el programa BOINC, consiga ayuda de los %s foros de BOINC %s."
 
-##############################################
+# #############################################
 # help.php
-##############################################
+# #############################################
 msgid "HELP_TITLE"
 msgstr "Ayuda para BOINC"
 
@@ -567,7 +567,7 @@ msgid "HELP_P1_2"
 msgstr "La ayuda Online de BOINC está basada en %sSkype%s, un sistema de telefonía basado en Internet. Skype es gratuito (el programa y las llamadas). Si todavía no tiene Skype, por favor, %sdescarguelo e instálelo ahora%s. Cuando haya terminado, vuelva a esta página."
 
 msgid "HELP_P1_3"
-msgstr "El mejor modo de obtener ayuda es por voz, para lo que necesita micrófono y altavoces integrados en su ordenador o externos a su ordenador. Alternativamente, puede usar el chat basado en texto de Skype para comunicarse con Voluntarios para Ayuda."
+msgstr "El mejor modo de obtener ayuda es por voz, para lo que necesita micrófono y altavoces integrados en su ordenador o externos a su ordenador. Usted puede usar también el chat basado en texto de Skype o coreo electrónico normal (si no tiene Skype) para comunicarse con Voluntarios para Ayuda."
 
 msgid "HELP_P1_4"
 msgstr "Hay disponibles Voluntarios que hablan distintos idiomas. Por favor, seleccione un idioma:"
@@ -599,9 +599,9 @@ msgstr "Si usted es un usuario BOINC con experiencia, le animamos a %sser un Vol
 msgid "HELP_P3_2"
 msgstr "Si usted es ya un Voluntario para Ayuda: para editar sus preferencias, %spulse aquí%s. "
 
-##############################################
+# #############################################
 # index.php
-##############################################
+# #############################################
 msgid "HOME_HEADING1"
 msgstr "Voluntario"
 
