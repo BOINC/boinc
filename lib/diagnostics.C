@@ -53,10 +53,6 @@
 #include "diagnostics.h"
 
 
-#define MAX_STDERR_FILE_SIZE        2048*1024
-#define MAX_STDOUT_FILE_SIZE        2048*1024
-
-
 #if defined(_WIN32) && defined(_MSC_VER)
 
 static _CrtMemState start_snapshot; 
@@ -79,6 +75,8 @@ static int         boinc_proxy_enabled;
 static char        boinc_proxy[256];
 static char        symstore[256];
 static int         aborted_via_gui;
+static int max_stderr_file_size = 2048*1024;
+static int max_stdout_file_size = 2048*1024;
 
 
 #if defined(_WIN32) && defined(_DEBUG)
@@ -453,7 +451,7 @@ int diagnostics_cycle_logs() {
 #else
         file_size(stderr_log, f_size);
 #endif
-        if (MAX_STDERR_FILE_SIZE < f_size) {
+        if (f_size > max_stderr_file_size) {
             fclose(stderr_file);
             boinc_copy(stderr_log, stderr_archive);
             stderr_file = freopen(stderr_log, "w", stderr);
@@ -470,7 +468,7 @@ int diagnostics_cycle_logs() {
 #else
         file_size(stdout_log, f_size);
 #endif
-        if (MAX_STDOUT_FILE_SIZE < f_size) {
+        if (f_size > max_stdout_file_size) {
             fclose(stdout_file);
             boinc_copy(stdout_log, stdout_archive);
             stdout_file = freopen(stdout_log, "w", stdout);
@@ -655,5 +653,9 @@ void boinc_info(const char* pszFormat, ...){
 }
 #endif
 
+void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
+    if (stdout_size) max_stdout_file_size = stdout_size;
+    if (stderr_size) max_stderr_file_size = stderr_size;
+}
 
 const char *BOINC_RCSID_4967ad204c = "$Id$";
