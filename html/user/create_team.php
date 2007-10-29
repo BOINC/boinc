@@ -1,6 +1,6 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/team_types.inc");

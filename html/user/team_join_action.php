@@ -1,16 +1,15 @@
 <?php
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-db_init();
 $user = get_logged_in_user(true);
 check_tokens($user->authenticator);
 
 $teamid = post_int("teamid");
-$team = lookup_team($teamid);
+$team = BoincTeam::lookup_id($teamid);
 require_team($team);
 if ($user->teamid == $team->id) {
     page_head("Unable to add $user->name");

@@ -3,7 +3,7 @@
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 
 $config = get_config();
@@ -11,24 +11,19 @@ $users_per_page = parse_config($config, "<users_per_page>");
 if (!$users_per_page) {
     $users_per_page = 20;
 }
-define (ITEM_LIMIT, 10000);
+define ('ITEM_LIMIT', 10000);
 
-// move this to db.inc at some point...
 function get_top_participants($offset,$sort_by) {
     global $users_per_page;
+    $db = BoincDb::get(true);
     if ($sort_by == "total_credit") {
         $sort_order = "total_credit desc";
     } else {
         $sort_order = "expavg_credit desc";
     }
-    $res = mysql_query("select * from user order by $sort_order limit $offset,".$users_per_page);
-    while ($arr[]=mysql_fetch_object($res)){};
-    return $arr;
+    return BoincUser::enum(null, "order by $sort_order limit $offset,$users_per_page");
 }
 
-// These converter functions are here in case we later decide to use something 
-// else than serializing to save temp data
-//
 function participants_to_store($participants){
     return serialize($participants);
 }
@@ -56,8 +51,7 @@ if ($offset < ITEM_LIMIT) {
         $data = store_to_participants($cacheddata); // use the cached data
     } else {
         //if not do queries etc to generate new data
-        db_init(true);
-        $data = get_top_participants($offset,$sort_by);
+        $data = get_top_participants($offset, $sort_by);
 
         //save data in cache
         //
@@ -71,11 +65,10 @@ if ($offset < ITEM_LIMIT) {
 page_head(tr(TOP_PARTICIPANT_TITLE));
 user_table_start($sort_by);
 $i = 1 + $offset;
-$o = 0;
-while ($user = $data[$o]) {
+$n = sizeof($data);
+foreach ($data as $user) {
     show_user_row($user, $i);
     $i++;
-    $o++;
 }
 echo "</table>\n<p>";
 if ($offset > 0) {
@@ -83,7 +76,7 @@ if ($offset > 0) {
     echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Previous ".$users_per_page."</a> | ";
 
 }
-if ($o==$users_per_page){ //If we aren't on the last page
+if ($n==$users_per_page){ //If we aren't on the last page
     $new_offset = $offset + $users_per_page;
     echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Next ".$users_per_page."</a>";
 }

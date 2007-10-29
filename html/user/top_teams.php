@@ -13,9 +13,9 @@ if (!$teams_per_page) {
 }
 define('ITEM_LIMIT', 10000);
 
-//Possibly move this to db.inc at some point...
 function get_top_teams($offset,$sort_by,$type=""){
     global $teams_per_page;
+    $db = BoincDb::get(true);
     if ($type){
         $type_sql = "where type=".(int)$type;
     }
@@ -24,9 +24,7 @@ function get_top_teams($offset,$sort_by,$type=""){
     } else {
         $sort_order = "expavg_credit desc";
     }
-    $res = mysql_query("select * from team $type_sql order by $sort_order limit $offset,".$teams_per_page);
-    while ($arr[]=mysql_fetch_object($res)){};
-    return $arr;
+    return BoincTeam::enum(null, "order by $sort_order limit $offset, $teams_per_page");
 }
 
 // These converter functions are here in case we later decide to use something 
@@ -67,14 +65,11 @@ if ($offset < ITEM_LIMIT) {
         $data = store_to_teams($cacheddata); // use the cached data
     } else {
         //if not do queries etc to generate new data
-        db_init(true);
         $data = get_top_teams($offset,$sort_by,$type);
         
         // We need to calculate nusers before storing into the cache
-        $o = 0;
-        while ($team = $data[$o]) {
-            $data[$o]->nusers = team_count_nusers($team->id);
-            $o++;
+        foreach ($data as $team) {
+            $team->nusers = team_count_nusers($team->id);
         }
         //save data in cache
         set_cache_data(teams_to_store($data),$cache_args);
@@ -89,11 +84,10 @@ page_head(sprintf(tr(TOP_TEAMS_TITLE),$type_name));
 start_table();
 team_table_start($sort_by,$type_url);
 $i = 1 + $offset;
-$o = 0;
-while ($team = $data[$o]) {
+$n = sizeof($data);
+foreach ($data as $team) {
     show_team_row($team, $i);
     $i++;
-    $o++;
 }
 echo "</table>\n<p>";
 if ($offset > 0) {
@@ -101,7 +95,7 @@ if ($offset > 0) {
     echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Previous ".$teams_per_page."</a> | ";
 
 }
-if ($o==$teams_per_page){ //If we aren't on the last page
+if ($n==$teams_per_page){ //If we aren't on the last page
     $new_offset = $offset + $teams_per_page;
     echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".$teams_per_page."</a>";
 }

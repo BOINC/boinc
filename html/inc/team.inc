@@ -2,7 +2,7 @@
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/util.inc");
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
@@ -101,13 +101,13 @@ function display_team_page($team, $offset, $sort_by) {
     ";
 
     if ($nosort) {
-        $result = mysql_query("select * from user where teamid=$team->id and total_credit>0 limit $offset,$n");
+        $users = BoincUser::enum("teamid=$team->id and total_credit>0 limit $offset,$n");
     } else {
-        $result = mysql_query("select * from user where teamid=$team->id and total_credit>0 order by $sort_clause limit $offset,$n");
+        $users = BoincUser::enum("teamid=$team->id and total_credit>0 order by $sort_clause limit $offset,$n");
     }
 
     $j = $offset + 1;
-    while ($user = mysql_fetch_object($result)) {
+    foreach ($users as $user) {
         $user_total_credit = format_credit_large($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
         $x = user_links($user);
@@ -120,7 +120,6 @@ function display_team_page($team, $offset, $sort_by) {
         ";
         $j++;
     }
-    mysql_free_result($result);
     echo "</table>";
 
     if ($offset > 0) {
@@ -186,10 +185,10 @@ function show_team_row($team, $i) {
 }
 
 function user_join_team($team, $user) {
-    $res = mysql_query("update user set teamid=$team->id where id=$user->id");
+    $res = $user->update("teamid=$team->id");
     if ($res) {
         $now = time();
-        mysql_query("insert into team_delta (userid, teamid, timestamp, joining, total_credit) values ($user->id, $team->id, $now, 1, $user->total_credit)");
+        BoincTeamDelta::insert("(userid, teamid, timestamp, joining, total_credit) values ($user->id, $team->id, $now, 1, $user->total_credit)");
         return true;
     }
     return false;
@@ -197,10 +196,13 @@ function user_join_team($team, $user) {
 
 function user_quit_team($user) {
     if (!$user->teamid) return;
-    mysql_query("update user set teamid=0 where id=$user->id");
-    mysql_query("update team set ping_user=-ping_user where id=".$user->teamid." and ping_user=".$user->id);
+    $user->update("teamid=0");
+    $team = BoincTeam::lookup_id($user->teamid);
+    if ($team && $team->ping_user=$user->id) {
+        $team->update("ping_user=-ping_user");
+    }
     $now = time();
-    mysql_query("insert into team_delta (userid, teamid, timestamp, joining, total_credit) values ($user->id, $user->teamid, $now, 0, $user->total_credit)");
+    BoincTeamDelta::insert("(userid, teamid, timestamp, joining, total_credit) values ($user->id, $user->teamid, $now, 0, $user->total_credit)");
 }
 
 function team_edit_form($team, $label, $url) {
@@ -259,7 +261,7 @@ function team_decay_credit($team) {
     $avg_time = $team->expavg_time;
     $now = time(0);
     update_average($now, 0, 0, $avg, $avg_time);
-    mysql_query("update team set expavg_credit=$avg, expavg_time=$now where id=$team->id");
+    $team->update("expavg_credit=$avg, expavg_time=$now");
 
 }
 // if the team hasn't received new credit for ndays,
@@ -275,13 +277,7 @@ function team_inactive_ndays($team, $ndays) {
 }
 
 function team_count_nusers($teamid) {
-    $res = mysql_query("select count(*) as total from user where teamid=$teamid and total_credit>0");
-    $cnt = mysql_fetch_object($res);
-    if ($cnt) {
-        return $cnt->total;
-    } else {
-        return null;
-    }
+    return BoincUser::count("teamid=$teamid and total_credit>0");
 }
 
 // These functions determine the rules for foundership transfer, namely:
@@ -345,8 +341,8 @@ function make_team(
     }
     $country = boinc_real_escape_string($country);  // for Cote d'Ivoire
 
-    $query = sprintf(
-        "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, country, nusers, expavg_time) values(%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d, unix_timestamp())",
+    $clause = sprintf(
+        "(userid, create_time, name, name_lc, url, type, name_html, description, country, nusers, expavg_time) values(%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d, unix_timestamp())",
         $userid,
         time(),
         $name,
@@ -358,10 +354,10 @@ function make_team(
         $country,
         0
     );
-    $result = mysql_query($query);
+    $result = BoincTeam::insert($clause);
     if ($result) {
-        $teamid = mysql_insert_id();
-        return lookup_team($teamid);
+        $db = BoincDb::get();
+        return BoincTeam::lookup_id($db->insert_id());
     } else {
         return null;
     }

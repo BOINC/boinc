@@ -10,29 +10,23 @@ class DbConn {
     var $db_conn;
     var $db_name;
 
-    function init_conn($user_tag, $passwd_tag, $host_tag, $name_tag) {
-        $config = get_config();
-        $user = parse_config($config, $user_tag);
-        $pass = parse_config($config, $passwd_tag);
-        $host = parse_config($config, $host_tag);
-        if ($host == null) {
-            $host = "localhost";
-        }
-        $this->db_conn = mysql_pconnect($host, $user, $pass);
+    function init_conn($user, $passwd, $host, $name) {
+        $this->db_conn = mysql_pconnect($host, $user, $passwd);
         if (!$this->db_conn) {
             return false;
         }
-        $this->db_name = parse_config($config, $name_tag);
+        $this->db_name = $name;
         return true;
     }
 
     function do_query($query) {
         $q = str_replace('DBNAME', $this->db_name, $query);
+        //echo "query: $q";
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
-            echo "database error: ", mysql_error(), "\n";
+            echo "database error: ", mysql_error(), "\n<pre>";
             var_dump(debug_backtrace());
-            echo "query: $q\n";
+            echo "</pre>query: $q\n";
         }
         return $ret;
     }

@@ -83,7 +83,7 @@ function get_logged_in_user($must_be_logged_in=true) {
     }
     $authenticator = process_user_text($authenticator);
     if ($authenticator) {
-        $g_logged_in_user = BoincUser::lookup_auth($authenticator);
+        $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
     if ($must_be_logged_in) {
         require_login($g_logged_in_user);
@@ -338,8 +338,8 @@ function form_tokens($auth) {
 }
 
 function valid_tokens($auth) {
-    $tnow = get_str('tnow');
-    $ttok = get_str('ttok');
+    $tnow = get_str('tnow', true);
+    $ttok = get_str('ttok', true);
     if (!$tnow) {
         $tnow = $_POST['tnow'];
     }

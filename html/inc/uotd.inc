@@ -31,13 +31,11 @@ function show_uotd() {
 // return the last UOTD profile, or null
 //
 function get_current_uotd() {
-    $result = mysql_query("SELECT * FROM profile ORDER BY uotd_time DESC LIMIT 1");
-    $p = null;
-    if (mysql_num_rows($result) > 0) {
-        $p = mysql_fetch_object($result);
+    $profiles = BoincProfile::enum(null, "ORDER BY uotd_time DESC LIMIT 1");
+    if (sizeof($profiles)) {
+        return $profiles[0];
     }
-    mysql_free_result($result);
-    return $p;
+    return null;
 }
 
 // Select a (possibly new) UOTD
@@ -111,6 +109,7 @@ function select_uotd() {
 // This is the default policy for choosing the UOTD on any BOINC project.
 // To override this with your own policy, create a similar function in
 // your own project.inc called uotd_candidates_query()
+//
 function default_uotd_candidates_query(){
     if (profile_screening()) {
         $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";

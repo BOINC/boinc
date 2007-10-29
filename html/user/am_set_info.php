@@ -1,6 +1,6 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
@@ -131,8 +131,8 @@ if (strlen($query)) {
     // the seti_id=seti_id is to make the query valid,
     // since $query ends with a comma at this point
     //
-    $query = "update user set $query seti_id=seti_id where id=$user->id";
-    $result = mysql_query($query);
+    $query = "$query seti_id=seti_id";
+    $result = $user->update($query);
     if ($result) {
         success("");
     } else {

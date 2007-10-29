@@ -34,83 +34,39 @@ function db_init_aux($try_replica=false) {
 }
 
 function lookup_user_auth($auth) {
-    $result = mysql_query("select * from user where authenticator='$auth'");
-    if ($result) {
-        $user = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $user;
-    }
-    return null;
+    return BoincUser::lookup("authenticator='$auth'");
 }
 
 function lookup_user_id($id) {
-    $result = mysql_query("select * from user where id=$id");
-    if ($result) {
-        $user = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $user;
-    }
-    return null;
+    return BoincUser::lookup_id($id);
 }
 
 function lookup_user_email_addr($email_addr) {
-    $result = mysql_query("select * from user where email_addr='$email_addr'");
-    if ($result) {
-        $user = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $user;
-    }
-    return null;
+    return BoincUser::lookup("email_addr='$email_addr'");
 }
 
 function lookup_user_name($name) {
-    $result = mysql_query("SELECT * FROM user WHERE name='".boinc_real_escape_string($name)."'");
-    if ($result) {
-        if (mysql_num_rows($result) == 1) {
-            return mysql_fetch_object($result);
-        } elseif (mysql_num_rows($result) == 0) {
-            return null;
-        } else {
-            return -1; // Non-unique username
-        }
+    $teams = BoincTeam::enum("name='".boinc_real_escape_string($name)."'");
+    if (sizeof($teams)==1) {
+        return $teams[0];
     }
     return null;
 }
 
 function lookup_host($id) {
-    $result = mysql_query("select * from host where id=$id");
-    if ($result) {
-        $host = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $host;
-    }
-    return null;
+    return BoincHost::lookup_id($id);
 }
 
 function lookup_team($id) {
-    $result = mysql_query("select * from team where id=$id");
-    if ($result) {
-        $team = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $team;
-    }
-    return null;
+    return BoincTeam::lookup_id($id);
 }
 
 function lookup_team_founder($id) {
-    $result = mysql_query("select * from team where userid=$id");
-    return $result;
+    return BoincTeam::lookup("userid=$id");
 }
 
 function lookup_team_name($name) {
-    $name = boinc_real_escape_string($name);
-    $result = mysql_query("select * from team where name='$name'");
-    if ($result) {
-        $team = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $team;
-    }
-    return null;
+    return BoincTeam::lookup("name='$name'");
 }
 
 function lookup_wu($id) {
@@ -139,16 +95,6 @@ function lookup_app($id) {
         $app = mysql_fetch_object($result);
         mysql_free_result($result);
         return $app;
-    }
-    return null;
-}
-
-function lookup_tentative_user($nonce) {
-    $result = mysql_query("select * from tentative_user where nonce='$nonce'");
-    if ($result) {
-        $tu = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $tu;
     }
     return null;
 }

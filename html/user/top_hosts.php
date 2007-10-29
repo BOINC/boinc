@@ -4,7 +4,7 @@ require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/host.inc");
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 
 $config = get_config();
@@ -16,6 +16,7 @@ define ('ITEM_LIMIT', 10000);
 
 function get_top_hosts($offset, $sort_by) {
     global $hosts_per_page;
+    $db = BoincDb::get(true);
     if ($sort_by == "total_credit") {
         $sort_order = "total_credit desc";
     } else {
@@ -43,7 +44,6 @@ if ($offset % $hosts_per_page) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";
-    db_init(true);
     $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
     if ($cacheddata){ //If we have got the data in cache
         $data = store_to_hosts($cacheddata); // use the cached data

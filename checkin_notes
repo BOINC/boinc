@@ -10145,3 +10145,26 @@ Frank Thomas    29 Oct 2007
 
     clientgui/
         AdvancedFrame.cpp
+
+David  29 Oct 2007
+    - User web: more DB framework changes;
+        extended DB framework to allow use of a read-only replica
+
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            forum_user.inc
+            team.inc
+            uotd.inc
+            util.inc
+        user/
+            am_set_info.php
+            create_team.php
+            team_create_action.php
+            team_join.php
+            team_join_action.php
+            top_hosts.php
+            top_teams.php
+            top_users.php
+            totals.php (removed)

@@ -357,7 +357,7 @@ function re_get_logged_in_user($must_be_logged_in=true) {
         if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
     }
     $authenticator = process_user_text($authenticator);
-    $user = BoincUser::lookup_auth($authenticator);
+    $user = BoincUser::lookup("authenticator='$authenticator'");
     if ($must_be_logged_in) {
         require_login($user);
     }
