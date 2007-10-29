@@ -7,8 +7,8 @@ error_reporting(E_ALL);
 // Intended to be subclassed (e.g., BoincDb, BossaDb)
 
 class DbConn {
-    private $db_conn;
-    private $db_name;
+    var $db_conn;
+    var $db_name;
 
     function init_conn($user_tag, $passwd_tag, $host_tag, $name_tag) {
         $config = get_config();
@@ -75,7 +75,7 @@ class DbConn {
         $query = "update DBNAME.$table set $clause where id=$obj->id";
         return $this->do_query($query);
     }
-    function update_multi($table, $clause) {
+    function update_aux($table, $clause) {
         $query = "update DBNAME.$table set $clause";
         return $this->do_query($query);
     }

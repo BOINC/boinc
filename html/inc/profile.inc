@@ -1,7 +1,7 @@
 <?php
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/cache.inc");
@@ -62,13 +62,7 @@ function show_combo_box($name, $filename, $selection=null) {
 }
 
 function get_profile($userid) {
-    $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
-    if (!$result) {
-        return NULL;
-    }
-    $profile = mysql_fetch_object($result);
-    mysql_free_result($result);
-    return $profile;
+    return BoincProfile::lookup("userid = $userid");
 }
 
 function show_profile_creation_page($user) {
@@ -77,17 +71,18 @@ function show_profile_creation_page($user) {
     //
     $profile = get_profile($user->id);
     if (post_str("submit", true)) {
-	$config = get_config();
-	$privatekey = parse_config($config, "<recaptcha_private_key>");
-	if ($privatekey) {
-	    $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
-			$_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
-	
-	    if (!$resp->is_valid) {
-		error_page("The reCAPTCHA wasn't entered correctly. Go back and try it again.<br>".
-	    	    "(reCAPTCHA said: " . $resp->error . ")");
-	    }
-	}
+        $config = get_config();
+        $privatekey = parse_config($config, "<recaptcha_private_key>");
+        if ($privatekey) {
+            $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
+                $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
+            );
+            if (!$resp->is_valid) {
+                error_page("The reCAPTCHA wasn't entered correctly. Go back and try it again.<br>".
+                    "(reCAPTCHA said: " . $resp->error . ")"
+                );
+            }
+        }
     
         process_create_profile($user, $profile);
         exit();
@@ -125,10 +120,10 @@ function show_questions($profile) {
     $response1 = "";
     $response2 = "";
     if (isset($profile->response1)) {
-	$response1 = stripslashes($profile->response1);
+        $response1 = stripslashes($profile->response1);
     }
     if (isset($profile->response2)) {
-	$response2 = stripslashes($profile->response2);
+        $response2 = stripslashes($profile->response2);
     }
 
     row1(show_profile_heading1());
@@ -233,8 +228,8 @@ function show_submit() {
     $config = get_config();
     $publickey = parse_config($config, "<recaptcha_public_key>");
     if ($publickey) {
-	table_row("To protect project's webpages from spam, we ask you to type in two words shown in the image:<br>\n".
-	    recaptcha_get_html($publickey));
+        table_row("To protect project's webpages from spam, we ask you to type in two words shown in the image:<br>\n".
+            recaptcha_get_html($publickey));
     }
     table_row("<p><input type=\"submit\" value=\"Create/edit profile\" name=\"submit\">");
 }
@@ -303,31 +298,29 @@ function process_create_profile($user, $profile) {
     $response1 = sanitize_html($response1);
     $response2 = sanitize_html($response2);
     if ($profile) {
-        $query = 'UPDATE profile SET '
-            ." response1 = '".boinc_real_escape_string($response1)."',"
+        $query = " response1 = '".boinc_real_escape_string($response1)."',"
             ." response2 = '".boinc_real_escape_string($response2)."',"
             ." language = '".boinc_real_escape_string($language)."',"
             ." has_picture = '$hasPicture',"
             ." verification = '$profile->verification'"
             ." WHERE userid = '$user->id'";
-        $result = mysql_query($query);
+        $result = BoincProfile::update_aux($query);
         if (!$result) {
-	    echo mysql_error();
             profile_error_page("Couldn't update profile: database error");
         }
     } else {
-        $query = 'INSERT INTO profile SET '
+        $query = 'SET '
             ." userid = '$user->id',"
             ." language = '".boinc_real_escape_string($language)."',"
             ." response1 = '".boinc_real_escape_string($response1)."',"
             ." response2 = '".boinc_real_escape_string($response2)."',"
             ." has_picture = '$hasPicture',"
             ." verification=0";
-        $result = mysql_query($query);
+        $result = BoincProfile::insert($query);
         if (!$result) {
             profile_error_page("Couldn't create profile: database error");
         }
-        mysql_query("update user set has_profile=1 where id=$user->id");
+        $user->update("has_profile=1");
     }
 
     show_result_page($user);

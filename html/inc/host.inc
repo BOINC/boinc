@@ -405,11 +405,11 @@ function merge_hosts($old_host, $new_host) {
 
     echo "<br>Merging host $old_host->id into host $new_host->id\n";
 
-	// decay the average credit of both hosts
-	//
-	$now = time();
-	update_average($now, 0, 0, $old_host->expavg_credit, $old_host->expavg_time);
-	update_average($now, 0, 0, $new_host->expavg_credit, $new_host->expavg_time);
+    // decay the average credit of both hosts
+    //
+    $now = time();
+    update_average($now, 0, 0, $old_host->expavg_credit, $old_host->expavg_time);
+    update_average($now, 0, 0, $new_host->expavg_credit, $new_host->expavg_time);
 
     // update the database:
     // - add credit from old to new host
@@ -423,7 +423,7 @@ function merge_hosts($old_host, $new_host) {
     if (!$result) {
         return "Couldn't update credit of new computer";
     }
-    $result = BoincResult::update_multi("hostid=$new_host->id where hostid=$old_host->id");
+    $result = BoincResult::update_aux("hostid=$new_host->id where hostid=$old_host->id");
     if (!$result) {
         return "Couldn't update results";
     }

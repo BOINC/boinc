@@ -3,7 +3,7 @@
 require_once("../inc/db_conn.inc");
 
 class BoincDb extends DbConn {
-    public static $instance;
+    static $instance;
 
     static function get() {
         if (!isset($instance)) {
@@ -99,9 +99,9 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->enum('result', 'BoincResult', $clause);
     }
-    static function update_multi($clause) {
+    static function update_aux($clause) {
         $db = BoincDb::get();
-        return $db->update_multi('result', $clause);
+        return $db->update_aux('result', $clause);
     }
 }
 
@@ -109,6 +109,25 @@ class BoincPost {
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('post', $clause);
+    }
+}
+
+class BoincProfile {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('profile', 'BoincProfile', $clause);
+    }
+    static function update_aux($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('profile', $clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('profile', $clause);
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('profile', 'BoincProfile', $clause);
     }
 }
 

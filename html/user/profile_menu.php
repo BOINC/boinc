@@ -2,7 +2,7 @@
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/uotd.inc");
@@ -84,25 +84,25 @@ function select_profile($cmd) {
     // Request for a random profile.
     //
     if ($cmd == "rand") {
+        $profiles = array();
         if ($_GET['pic'] == 0) {
-            $result = mysql_query("SELECT userid FROM profile WHERE has_picture=0");
+            $profiles = BoincProfile::enum("has_picture=0");
         } else if ($_GET['pic'] == 1) {
-            $result = mysql_query("SELECT userid FROM profile WHERE has_picture=1");
+            $profiles = BoincProfile::enum("has_picture=1");
         } else if ($_GET['pic'] == -1) {
-            $result = mysql_query("SELECT userid FROM profile");
+            $profiles = BoincProfile::enum(null);
         }
 
-        while ($row = mysql_fetch_row($result)) {
-            $userIds[] = $row[0];
-        }
-
-        if (count($userIds) == 0) {
+        if (count($profiles) == 0) {
+            page_head("No profiles");
             echo "No profiles matched your query.<br>";
+            page_tail();
             exit();
         }
 
-        shuffle($userIds);
-        header("Location: " . URL_BASE . "/view_profile.php?userid=" . $userIds[0]);
+        shuffle($profiles);
+        $userid = $profiles[0]->userid;
+        header("Location: ".URL_BASE."/view_profile.php?userid=$userid");
         exit();
     }
 }
