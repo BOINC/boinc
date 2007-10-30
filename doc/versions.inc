@@ -31,33 +31,17 @@ function type_text($type) {
     }
 }
 
-$w51020= array(
-    "num"=>"5.10.20",
-    "status"=>"Recommended version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.20_windows_intelx86.exe",
-    "date"=>"23 Aug 2007",
-    "type"=>"win_new",
-);
-
 $w51028= array(
     "num"=>"5.10.28",
-    "status"=>"Development version (Win98+, Win2000+)",
+    "status"=>"Recommended version (Win98+, Win2000+)",
     "file"=>"boinc_5.10.28_windows_intelx86.exe",
     "date"=>"29 Oct 2007",
     "type"=>"win_new",
 );
 
-$w51020x64= array(
-    "num"=>"5.10.20",
-    "status"=>"Recommended version (WinXP64+)",
-    "file"=>"boinc_5.10.20_windows_x86_64.exe",
-    "date"=>"23 Aug 2007",
-    "type"=>"win_new",
-);
-
 $w51028x64= array(
     "num"=>"5.10.28",
-    "status"=>"Development version (WinXP64+)",
+    "status"=>"Recommended version (WinXP64+)",
     "file"=>"boinc_5.10.28_windows_x86_64.exe",
     "date"=>"29 Oct 2007",
     "type"=>"win_new",
@@ -180,7 +164,6 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w51028,
-        $w51020,
         $w5816,
         $w5411,
     )
@@ -191,7 +174,6 @@ $windowsx64 = array(
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w51028x64,
-        $w51020x64,
     )
 );
 
