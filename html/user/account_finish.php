@@ -4,12 +4,11 @@
 // They've already entered an email address and password.
 // Now get a name, country, and zip code
 
-require_once('../inc/db.inc');
+require_once('../inc/boinc_db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
 
-db_init();
 $auth = process_user_text(get_str("auth"));
 $user = lookup_user_auth($auth);
 if (!$user) {

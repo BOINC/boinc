@@ -240,7 +240,10 @@ function element_start_global($parser, $name, $attrs) {
     case "venue":
         $venue_name = $attrs["name"];
         $top_parse_result = $parse_result;
-        $parse_result = null;
+        $parse_result = initialize_prefs_before_parsing_global();
+        //echo "VENUE PREFS AFTER INIT: <pre>";
+        //var_dump($parse_result);
+        //echo "</pre>";
         break;
     }
     $text = "";
@@ -255,6 +258,9 @@ function element_end_project($parser, $name) {
 
     switch($name) {
     case "venue":
+        //echo "VENUE PREFS AFTER PARSE: <pre>";
+        //var_dump($parse_result);
+        //echo "</pre>";
         $top_parse_result->$venue_name = $parse_result;
         $parse_result = $top_parse_result;
         break;
@@ -473,11 +479,17 @@ function prefs_parse_project($prefs_xml) {
 function prefs_parse_global($prefs_xml) {
     global $parse_result;
     $parse_result = initialize_prefs_before_parsing_global();
+    //echo "AFTER INIT: <pre>";
+    //var_dump($parse_result);
+    //echo "</pre>";
     $xml_parser = xml_parser_create();
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
     xml_set_element_handler($xml_parser, "element_start_global", "element_end_global");
     xml_set_character_data_handler($xml_parser, "char_handler");
     xml_parse($xml_parser, $prefs_xml, 1);
+    //echo "AFTER PARSE: <pre>";
+    //var_dump($parse_result);
+    //echo "</pre>";
     return $parse_result;
 }
 
@@ -862,7 +874,13 @@ function print_prefs_display_global($user, $columns=false) {
         the most recently modified preferences will be used.
         </span>
         <br><br>
-        Preferences last modified: ", pretty_time_str($global_prefs->mod_time), "
+    ";
+    if (isset($global_prefs->mod_time)) {
+        echo "
+            Preferences last modified: ", pretty_time_str($global_prefs->mod_time), "
+        ";
+    }
+    echo "
         <br><br>
     ";
     $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">(Switch View)</a></font>";
@@ -952,6 +970,9 @@ function print_prefs_form(
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs, $error=false) {
+    //echo "IN PREFS_FORM_GLOBAL: <pre>";
+    //var_dump($prefs);
+    //echo "</pre>";
     row1(CPU_LIMIT_DESC);
     $y = "yes <input type=radio name=suspend_while_on_batteries value=yes "
         .($prefs->suspend_while_on_batteries?"checked":"")

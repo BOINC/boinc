@@ -1,10 +1,8 @@
 <?php
 
-include_once("../inc/db.inc");
+include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/email.inc");
-
-db_init();
 
 function show_error($str) {
     page_head("Can't update account");
@@ -16,8 +14,8 @@ function show_error($str) {
 }
 
 $auth = process_user_text(post_str("auth"));
-
 $name = process_user_text(post_str("name"));
+
 if (strlen($name)==0) {
     show_error("You must supply a name for your account");
 }
@@ -32,8 +30,11 @@ if (!is_valid_country($country)) {
 
 $postal_code = strip_tags(process_user_text(post_str("postal_code", true)));
 
-$query = "update user set name='$name', country='$country', postal_code='$postal_code' where authenticator='$auth'";
-$retval = mysql_query($query);
+$user = BoincUser::lookup("authenticator='$auth'");
+if (!$user) {
+    error_page("no such user");
+}
+$retval = $user->update("name='$name', country='$country', postal_code='$postal_code'");
 if (!$retval) {
     show_error("database error");
 }

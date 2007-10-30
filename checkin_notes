@@ -10168,3 +10168,17 @@ David  29 Oct 2007
             top_teams.php
             top_users.php
             totals.php (removed)
+
+David  30 Oct 2007
+    - user web: fix some PHP warnings
+    - user web: more DB code conversion
+
+    html/
+        inc/
+            forum_banishment_vote.inc
+            prefs.inc
+        user/
+            am_set_host_info.php
+            forum_thread.php
+            account_finish_action.php
+            account_finish.php

@@ -99,10 +99,13 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
         <input type=\"hidden\" name=\"id\" value=\"", $thread->getID(), "\">
         <table width=\"100%\" cellspacing=0 cellpadding=0>
         <tr>
-        <td align=\"left\">";
+        <td align=\"left\">
+    ";
     
+    $reply_text = "";
     if (can_reply($thread, $logged_in_user)) {        
-        echo $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
+        $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
+        echo $reply_text;
     }
     
     if ($is_subscribed) {

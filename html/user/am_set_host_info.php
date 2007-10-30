@@ -1,30 +1,30 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
 xml_header();
 
-$retval = db_init_xml();
-if ($retval) xml_error($retval);
+$db = BoincDb::get();
+if (!$db) xml_error($retval);
 
 
 $auth = process_user_text($_GET["account_key"]);
-$user = lookup_user_auth($auth);
+$user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) {
     xml_error(-136);
 }
 
 $hostid = get_int("hostid");
 
-$host = lookup_host($hostid);
+$host = BoincHost::lookup_id($hostid);
 if (!$host || $host->userid != $user->id) {
     xml_error(-136);
 }
 
 $venue = process_user_text($_GET["venue"]);
 
-$result = mysql_query("update host set venue='$venue' where id=$hostid");
+$result = $host->update("venue='$venue'");
 if ($result) {
     echo "<am_set_host_info_reply>
     <success/>
