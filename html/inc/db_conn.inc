@@ -1,7 +1,8 @@
 <?php
 
-ini_set('display_errors', 'stdout');
-error_reporting(E_ALL);
+/* Should not be enabled for public code */
+//ini_set('display_errors', 'stdout');
+//error_reporting(E_ALL);
 
 // represents a connection to a database.
 // Intended to be subclassed (e.g., BoincDb, BossaDb)
