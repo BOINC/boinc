@@ -248,9 +248,12 @@ double boinc_worker_thread_cpu_time() {
 
 // communicate to the core client (via shared mem)
 // the current CPU time and fraction done
+// NOTE: various bugs could cause some of these FP numbers to be enormous,
+// possibly overflowing the buffer.
+// So use strlcat() instead of strcat()
 //
 static bool update_app_progress(double cpu_t, double cp_cpu_t) {
-    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
+    char msg_buf[MSG_CHANNEL_SIZE], buf[8000];
 
     if (standalone) return true;
 
@@ -260,29 +263,29 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         cpu_t, cp_cpu_t
     );
     if (want_network) {
-        strcat(msg_buf, "<want_network>1</want_network>\n");
+        strlcat(msg_buf, "<want_network>1</want_network>\n", MSG_CHANNEL_SIZE);
     }
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
         sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (fpops_per_cpu_sec) {
         sprintf(buf, "<fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (fpops_cumulative) {
         sprintf(buf, "<fpops_cumulative>%f</fpops_cumulative>\n", fpops_cumulative);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (intops_per_cpu_sec) {
         sprintf(buf, "<intops_per_cpu_sec>%f</intops_per_cpu_sec>\n", intops_per_cpu_sec);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (intops_cumulative) {
         sprintf(buf, "<intops_cumulative>%f</intops_cumulative>\n", intops_cumulative);
-        strcat(msg_buf, buf);
+        strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }

@@ -10201,3 +10201,14 @@ David  30 Oct 2007
             bolt.php
             bolt_course_sample.php
             bolt_sched.php
+
+David  30 Oct 2007
+    - API: when creating message strings for CPU time etc.,
+        use strlcat() instead of strcat().
+        Einstein@home has seen some SEGVs in this function.
+        I suspect that it's getting 1e304-type values
+        (why? possible bugs in getrusage-related code, still)
+        and that these cause long strings that overflow the message buffer.
+
+    api/
+        boinc_api.C
