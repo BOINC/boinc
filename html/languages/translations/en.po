@@ -479,3 +479,136 @@ msgstr ""
 msgid "LINKS_QA"
 msgstr "Questions and Answers"
 
+
+#########################################
+# "Your account" page (home.php)
+#########################################
+
+msgid "Your account"
+msgstr ""
+
+msgid "Welcome to %1"
+msgstr ""
+
+msgid "View and edit your account preferences using the links below."
+msgstr ""
+
+msgid "If you have not already done so, %1download BOINC client software%2."
+msgstr ""
+
+msgid "Account information"
+msgstr ""
+
+msgid "Email address"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Postal code"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "email address"
+msgstr ""
+
+msgid "password"
+msgstr ""
+
+msgid "other account info"
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+msgid "Community"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Teams"
+msgstr ""
+
+msgid "Team"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "management functions"
+msgstr ""
+
+msgid "Quit team"
+msgstr ""
+
+msgid "find a team"
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+msgid "General preferences"
+msgstr ""
+
+msgid "specify when and how BOINC uses your computer"
+msgstr ""
+
+msgid "View or edit"
+msgstr ""
+
+msgid "%1 preferences"
+msgstr ""
+
+msgid "control resource share and customize graphics"
+msgstr ""
+
+msgid "Message board preferences"
+msgstr ""
+
+msgid "configure features and appearance of message boards"
+msgstr ""
+
+msgid "Work done"
+msgstr ""
+
+msgid "%1 member since"
+msgstr ""
+
+msgid "Pending credit"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Computers on this account"
+msgstr ""
+
+msgid "Tasks"
+msgstr ""
+
+msgid "Cross-project ID"
+msgstr ""
+
+msgid "Cross-project statistics"
+msgstr ""
+
+msgid "Stats on your cell phone"
+msgstr ""
+
+msgid "Account number"
+msgstr ""
+
+msgid "Used in URLs"
+msgstr ""

@@ -123,29 +123,29 @@ require_once("../inc/stats_sites.inc");
 //
 function show_user_stats_private($user) {
     global $cpid_stats_sites;
-    row1("Work done");
-    row2(PROJECT." member since", date_str($user->create_time));
+    row1(tra("Work done"));
+    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     show_credit($user);
     $config = get_config();
     if (parse_bool($config, "show_results")) {
-        row2("Pending credit", "<a href=pending.php>View</a>");
+        row2(tra("Pending credit"), "<a href=\"pending.php\">".tra("View")."</a>");
     }
-    row2("Computers on this account",
-        "<a href=hosts_user.php>View</a>"
+    row2(tra("Computers on this account"),
+        "<a href=\"hosts_user.php\">".tra("View")."</a>"
     );
-    row2("Tasks", "<a href=results.php?userid=$user->id>View</a>");
+    row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\">".tra("View")."</a>");
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $x = "";
     shuffle($cpid_stats_sites);
     foreach ($cpid_stats_sites as $site) {
         $name = $site[0];
         $y = sprintf($site[1], $cpid);
-        $x .= "<a href=$y>$name</a><br>";
+        $x .= "<a href=\"$y\">$name</a><br>";
     }
-    $x .= "<br><font size=-2>Cross-project ID: $cpid</font>\n";
-    row2("Cross-project statistics", $x);
-    row2("Stats on your cell phone", URL_BASE."/userw.php?id=$user->id");
-    row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
+    $x .= "<br><span class=\"smalltext\">".tra("Cross-project ID").": $cpid</span>\n";
+    row2(tra("Cross-project statistics"), $x);
+    row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
+    row2(tra("Account number")."<br><span class=\"smalltext\">".tra("Used in URLs")."</span>", $user->id);
 }
 
 // show static user info (private)
@@ -157,65 +157,65 @@ function show_user_info_private($user) {
         $email_text = "Verification pending";
     }
 
-    row1("Account information");
-    row2("Email address<br>", $email_text);
-    row2("Name", $user->name);
+    row1(tra("Account information"));
+    row2(tra("Email address"), $email_text);
+    row2(tra("Name"), $user->name);
     if (strlen($user->url)) {
         $x = "http://$user->url";
     } else {
         $x = "none";
     }
-    row2("URL", $x);
-    row2("Country", $user->country);
-    row2("Postal code", $user->postal_code);
-    row2("Change", "<a href=edit_email_form.php>email address</a> | <a href=edit_passwd_form.php>password</a> | <a href=edit_user_info_form.php>other account info</a>");
-    row2("", "<a href=logout.php?".url_tokens($user->authenticator).">Log out</a>");
+    row2(tra("URL"), $x);
+    row2(tra("Country"), $user->country);
+    row2(tra("Postal code"), $user->postal_code);
+    row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a> | <a href=\"edit_passwd_form.php\">".tra("password")."</a> | <a href=\"edit_user_info_form.php\">".tra("other account info")."</a>");
+    row2("", "<a href=\"logout.php?".url_tokens($user->authenticator)."\">".tra("Log out")."</a>");
 
-    row1("Community");
+    row1(tra("Community"));
 
     if ($user->has_profile) {
-        $x = "<a href=view_profile.php?userid=$user->id>View or edit</a> | <a href=delete_profile.php>Delete</a>";
+        $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View or edit")."</a> | <a href=\"delete_profile.php\">".tra("Delete")."</a>";
     } else {
-        $x = "<a href=create_profile.php>Create</a>";
+        $x = "<a href=\"create_profile.php\">".tra("Create")."</a>";
     }
-    row2("Profile", $x);
+    row2(tra("Profile"), $x);
     $tot = total_posts($user);
     if ($tot) {
-        row2("Message boards", "<a href=".URL_BASE."/forum_user_posts.php?userid=$user->id>$tot posts</a>");
+        row2(tra("Message boards"), "<a href=".URL_BASE."/forum_user_posts.php?userid=$user->id>".tra("%1 posts", $tot)."</a>");
     }
     
-    row2("Private messages", pm_notification($user));
+    row2(tra("Private messages"), pm_notification($user));
 
-    row1("Teams");
+    row1(tra("Teams"));
     if ($user->teamid) {
         $team = lookup_team($user->teamid);
-        $x = "<a href=team_display.php?teamid=$team->id>$team->name</a>
-            | <a href=team_quit_form.php>Quit team</a>";
+        $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
+            | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
         if ($team->userid == $user->id) {
-            $x .= " | <a href=team_manage.php>management functions</a>";
+            $x .= " | <a href=\"team_manage.php\">".tra("management functions")."</a>";
         }
-        row2("Team", $x);
+        row2(tra("Team"), $x);
     } else {
-        row2("Team", "None (<a href=team_search.php>find a team</a>)");
+        row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
     }
     
     $teams_founded = BoincTeam::enum("userid=$user->id");
     foreach ($teams_founded as $team) {
         if ($team->id != $user->teamid) {
-            row2("founder but not member of", "<a href=team_display.php?teamid=$team->id>$team->name</a> | <a href=\"team_manage.php?teamid=".$team->id."\">management functions</a>");
+            row2(tra("Founder but not member of"), "<a href=\"team_display.php?teamid=$team->id\">$team->name</a> | <a href=\"team_manage.php?teamid=".$team->id."\">".tra("management functions")."</a>");
         }
     }
 
-    row1("<a name=\"prefs\"></a>Preferences");
+    row1("<a name=\"prefs\"></a>".tra("Preferences"));
     row2(
-        "General preferences<br><font size=-2>specify when and how BOINC uses your computer</font>",
-        "<a href=prefs.php?subset=global>View or edit</a>"
+        tra("General preferences")."<br><span class=\"smalltext\">".tra("specify when and how BOINC uses your computer")."</span>",
+        "<a href=\"prefs.php?subset=global\">".tra("View or edit")."</a>"
     );
-    row2(PROJECT." preferences<br><font size=-2>control resource share and customize graphics</font>",
-        "<a href=prefs.php?subset=project>View or edit</a>"
+    row2(tra("%1 preferences", PROJECT)."<br><span class=\"smalltext\">".tra("control resource share and customize graphics")."</span>",
+        "<a href=\"prefs.php?subset=project\">".tra("View or edit")."</a>"
     );
-    row2("Message board preferences<br><font size=-2>configure features and appearance of message boards</font>",
-        "<a href=\"edit_forum_preferences_form.php\">View or edit</a>"
+    row2(tra("Message board preferences")."<br><span class=\"smalltext\">".tra("configure features and appearance of message boards")."</span>",
+        "<a href=\"edit_forum_preferences_form.php\">".tra("View or edit")."</a>"
     );
 }
 
@@ -267,7 +267,7 @@ function show_profile_link($user) {
 
 function show_user_page_private($user) {
     $config = get_config();
-    start_table("width=100%");
+    start_table("width=\"100%\"");
     show_user_info_private($user);
     show_user_stats_private($user);
 

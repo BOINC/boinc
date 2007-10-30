@@ -14,26 +14,23 @@ $user = get_other_projects($user);
 
 $init = isset($_COOKIE['init']);
 $via_web = isset($_COOKIE['via_web']);
+if ($via_web) {
+    setcookie('via_web', '', time()-3600);
+}
 
 if ($init) {
     setcookie('init', '', time()-3600);
-    page_head("Welcome to ".PROJECT);
-    echo "
-        <p>
-        View and edit your account preferences using the links below.
-    ";
+    page_head(tra("Welcome to %1", PROJECT);
+    echo "<p>".tra("View and edit your account preferences using the links below.")."</p>\n";
     if ($via_web) {
-        setcookie('via_web', '', time()-3600);
         echo "
             <p> If you have not already done so,
-            <a href=http://boinc.berkeley.edu/download.php>download BOINC client software</a>.
+            <a href=\"http://boinc.berkeley.edu/download.php\">download BOINC client software</a>.</p>
         ";
     }
 } else {
     page_head("Your account");
 }
-
-echo "<p>\n";
 
 show_user_page_private($user);
 show_other_projects($user, true);

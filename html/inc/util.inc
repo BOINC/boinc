@@ -265,7 +265,7 @@ function table_row() {
 }
 
 function row1($x, $ncols=2, $class="heading") {
-    echo "<tr><td class=$class colspan=$ncols>$x</td></tr>\n";
+    echo "<tr><td class=\"$class\" colspan=\"$ncols\">$x</td></tr>\n";
 }
 
 function row2($x, $y, $show_error=false) {
@@ -278,11 +278,11 @@ function row2($x, $y, $show_error=false) {
         $class1 = 'fieldname';
         $class2 = 'fieldvalue';
     }
-    echo "<tr><td width=40% class=$class1>$x</td><td class=$class2>$y</td></tr>\n";
+    echo "<tr><td width=\"40%\" class=\"$class1\">$x</td><td class=\"$class2\">$y</td></tr>\n";
 }
 
 function row2_init($x, $y) {
-    echo "<tr><td class=fieldname width=40%>$x</td><td valign=top><b>$y\n";
+    echo "<tr><td class=\"fieldname\" width=\"40%\">$x</td><td valign=\"top\"><b>$y\n";
 }
 
 function row2_plain($x, $y) {
@@ -326,14 +326,14 @@ function random_string() {
 function url_tokens($auth) {
     $now = time();
     $ttok = md5((string)$now.$auth);
-    return "&tnow=$now&ttok=$ttok";
+    return "&amp;tnow=$now&amp;ttok=$ttok";
 }
 
 function form_tokens($auth) {
     $now = time();
     $ttok = md5((string)$now.$auth);
-    return "<input type=hidden name=tnow value=$now>
-        <input type=hidden name=ttok value=$ttok>
+    return "<input type=\"hidden\" name=\"tnow\" value=\"$now\">
+        <input type=\"hidden\" name=\"ttok\" value=\"$ttok\">
     ";
 }
 

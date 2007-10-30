@@ -8,16 +8,16 @@ $cpid_stats_sites = array(
         "http://www.allprojectstats.com/showuser.php?id=%s"
     ),
     array("BOINCstats",
-        "http://www.boincstats.com/stats/boinc_user_graph.php?pr=bo&id=%s"
+        "http://www.boincstats.com/stats/boinc_user_graph.php?pr=bo&amp;id=%s"
     ),
     array("BOINC Statistics for the WORLD!",
         "http://www.boincsynergy.com/stats/boinc-individual.php?cpid=%s"
     ),
     array("BOINC Combined Statistics",
-        "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&html=1"
+        "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&amp;html=1"
     ),
     array("The Knights Who Say 'Ni!'",
-        "http://stats.kwsn.net/user.php?proj=all&cpid=%s"
+        "http://stats.kwsn.net/user.php?proj=all&amp;cpid=%s"
     ),
     array("Team Starfire World BOINC Stats 'N Stones",
         "http://statsnstones.tswb.org/userdetail.aspx?cpid=%s"

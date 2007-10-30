@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-09-12 17:28+0200\n"
+"PO-Revision-Date: 2007-10-30 21:31+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -464,9 +464,153 @@ msgstr "Atsakyti"
 msgid "Block user"
 msgstr "Blokuoti vartotoją"
 
+msgid "With selected"
+msgstr "Su pasirinktais"
+
+msgid "Mark as read"
+msgstr "Pažymėti kaip perskaitytus"
+
+msgid "Mark as unread"
+msgstr "Pažymėti kaip neskaitytus"
+
 # ########################################
 # Links from the main page
 # ########################################
 msgid "LINKS_QA"
 msgstr "Klausimai ir Atsakymai"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "Your account"
+msgstr "Jūsų abonementas"
+
+msgid "Welcome to %1"
+msgstr "Sveiki prisijungę prie %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "Peržiūrėkite ir keiskite abonemento nustatymus naudodamiesi nuorodomis žemiau."
+
+msgid "If you have not already done so, %1download BOINC client software%2."
+msgstr "Jei to dar nepadarėte, %1parsisiųskite BOINC programinę įrangą%2."
+
+msgid "Account information"
+msgstr "Abonemento informacija"
+
+msgid "Email address"
+msgstr "El. pašto adresas"
+
+msgid "Name"
+msgstr "Vardas"
+
+msgid "URL"
+msgstr "Tinklapis"
+
+msgid "Country"
+msgstr "Valstybė"
+
+msgid "Postal code"
+msgstr "Pašto kodas"
+
+msgid "Change"
+msgstr "Pakeisti"
+
+msgid "email address"
+msgstr "el. pašto adresą"
+
+msgid "password"
+msgstr "slaptažodį"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "other account info"
+msgstr "kitą abonemento informaciją"
+
+msgid "Log out"
+msgstr "Atsijungti"
+
+msgid "Community"
+msgstr "Bendruomenė"
+
+msgid "Create"
+msgstr "Sukurti"
+
+msgid "Profile"
+msgstr "Aprašymas"
+
+msgid "Teams"
+msgstr "Komandos"
+
+msgid "Team"
+msgstr "Komanda"
+
+msgid "None"
+msgstr "Nėra"
+
+msgid "management functions"
+msgstr "valdymo funkcijos"
+
+msgid "Quit team"
+msgstr "Palikti komandą"
+
+msgid "find a team"
+msgstr "raskite komandą"
+
+msgid "Preferences"
+msgstr "Nustatymai"
+
+msgid "General preferences"
+msgstr "Bendrieji nustatymai"
+
+msgid "specify when and how BOINC uses your computer"
+msgstr "nurodykite, kada ir kaip BOINC naudos jūsų kompiuterį"
+
+msgid "View or edit"
+msgstr "Peržiūrėti arba pakeisti"
+
+msgid "%1 preferences"
+msgstr "%1 nustatymai"
+
+msgid "control resource share and customize graphics"
+msgstr "valdykite resursų padalijimą ir keiskite grafikos nustatymus"
+
+msgid "Message board preferences"
+msgstr "Diskusijų lentos nustatymai"
+
+msgid "configure features and appearance of message boards"
+msgstr "nustatykite diskusijų lentos funkcijas ir išvaizdą"
+
+msgid "Work done"
+msgstr "Atlikta darbo"
+
+msgid "%1 member since"
+msgstr "%1 narys nuo"
+
+msgid "Pending credit"
+msgstr "Laukiamas kreditas"
+
+msgid "View"
+msgstr "Peržiūrėti"
+
+msgid "Computers on this account"
+msgstr "Abonementui priskirti kompiuteriai"
+
+msgid "Tasks"
+msgstr "Užduotys"
+
+msgid "Cross-project ID"
+msgstr "Tarpprojektinis ID"
+
+msgid "Cross-project statistics"
+msgstr "Tarpprojektinė statistika"
+
+msgid "Stats on your cell phone"
+msgstr "Statistika mobiliajame telefone"
+
+msgid "Account number"
+msgstr "Abonemento numeris"
+
+msgid "Used in URLs"
+msgstr "Naudojamas internetiniuose adresuose"
 
