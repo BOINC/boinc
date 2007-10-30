@@ -10182,3 +10182,22 @@ David  30 Oct 2007
             forum_thread.php
             account_finish_action.php
             account_finish.php
+
+David  30 Oct 2007
+    - initial checkin for Bolt
+
+    db/
+        bolt_constraints.sql
+        bolt_db.sql
+    html/
+        inc/
+            bolt.inc
+            bolt_db.inc
+            bolt_ex.inc
+            bossa_db.inc
+        ops/
+            bolt_setup_sample.php
+        user/
+            bolt.php
+            bolt_course_sample.php
+            bolt_sched.php

@@ -1,17 +1,23 @@
 <?php
 
 require_once("../inc/db_conn.inc");
+require_once("../inc/util.inc");
 
 class BossaDb extends DbConn {
     public static $instance;
 
     static function get() {
         if (!isset($instance)) {
+            $config = get_config();
+            $user = parse_config($config, '<bossa_db_user>');
+            $passwd = parse_config($config, '<bossa_db_passwd>');
+            $host = parse_config($config, '<bossa_db_host>');
+            $name = parse_config($config, '<bossa_db_name>');
+            if ($host == null) {
+                $host = "localhost";
+            }
             $instance = new DbConn();
-            $retval = $instance->init_conn(
-                "<bossa_db_user>", "<bossa_db_passwd>",
-                "<bossa_db_host>", "<bossa_db_name>"
-            );
+            $retval = $instance->init_conn($user, $passwd, $host, $name);
             if (!$retval) return null;
         }
         return $instance;
