@@ -41,7 +41,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
     function getCategoryIDs(){
         $query = "SELECT id FROM category ORDER BY orderID ASC";
         $result = $this->query($query);
-        while ($data = mysql_fetch_object($result)){$id_list[]=$data->id;};
+        $id_list = array();
+        while ($data = mysql_fetch_object($result)){
+            $id_list[] = $data->id;
+        }
         return $id_list;        
     }
 
@@ -60,7 +63,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
     function getForumIDs($category){
         $query = "SELECT id FROM forum WHERE category = ".intval($category->getID())." ORDER BY orderID ASC";
         $result = $this->query($query);
-        while ($data = mysql_fetch_object($result)){$id_list[]=$data->id;};
+        $id_list = array();
+        while ($data = mysql_fetch_object($result)){
+            $id_list[] = $data->id;
+        }
         return $id_list;        
     }
 
@@ -150,7 +156,9 @@ class MySQLDatabaseHandler extends DatabaseHandler {
         
         $data = $this->query($sql);
         $list = array();
-        while ($result = mysql_fetch_object($data)){ $list[]=$result;};
+        while ($result = mysql_fetch_object($data)){
+            $list[] = $result;
+        }
         return $list;
     }
 
@@ -226,7 +234,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
 	if ($unnotified_only) $notified = " AND notified = 0";
         $query = "SELECT * FROM subscriptions WHERE threadid = " . $thread->getID().$notified;
         $data = $this->query($query);
-        while ($result = mysql_fetch_object($data)){ $list[]=$result;};
+        $list = array();
+        while ($result = mysql_fetch_object($data)){
+            $list[] = $result;
+        }
         return $list;
     }
 
@@ -298,7 +309,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
 
         $query.= " limit ".intval($limit);
         $data = $this->query($query);
-        while ($result = mysql_fetch_object($data)){ $list[]=$result->id;};
+        $list = array();
+        while ($result = mysql_fetch_object($data)){
+            $list[] = $result->id;
+        }
         return $list;
     }
 
@@ -330,7 +344,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
             break;        
         }
         $data = $this->query($sql);
-        while ($result = mysql_fetch_object($data)){ $list[]=$result;};
+        $list = array();
+        while ($result = mysql_fetch_object($data)){
+            $list[] = $result;
+        }
         return $list;
     }
 
@@ -357,7 +374,11 @@ class MySQLDatabaseHandler extends DatabaseHandler {
      * Add a post to the database.
      **/
     function createPost($content, $parent, $user, $thread, $add_signature){
-        if ($add_signature){$sig=1;} else {$sig=0;};
+        if ($add_signature){
+            $sig=1;
+        } else {
+            $sig=0;
+        }
         if ($parent){
             $query = "INSERT INTO post 
             (thread, user, timestamp, content, parent_post, signature) 
@@ -405,6 +426,7 @@ class MySQLDatabaseHandler extends DatabaseHandler {
         foreach ($keyword_list as $key => $word){
             $search_string.=mysql_escape_string($word)."%";
         }
+        $optional_join = "";
         if ($forum!="" && $forum!="all"){
             $optional_join = " LEFT JOIN thread ON post.thread = thread.id";
         }
@@ -441,7 +463,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
 
         $query.= " limit ".intval($limit);
         $data = $this->query($query);
-        while ($result = mysql_fetch_object($data)){ $list[]=$result->postid;};
+        $list = array();
+        while ($result = mysql_fetch_object($data)){
+            $list[] = $result->postid;
+        }
         return $list;
     }
 
@@ -461,7 +486,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
         $sql = implode(" OR id=",$idlist);
         $query = "SELECT * FROM user JOIN forum_preferences ON user.id = forum_preferences.userid WHERE id=".$sql;
         $data = $this->query($query);        
-        while ($result = mysql_fetch_object($data)){ $list[]=$result;};
+        $list = array();
+        while ($result = mysql_fetch_object($data)){
+            $list[] = $result;
+        }
         return $list;
     }
 
@@ -505,7 +533,10 @@ class MySQLDatabaseHandler extends DatabaseHandler {
     function getUserPosts($user){
         $query = "SELECT * FROM post where user=".intval($user->getID()." ORDER BY timestamp DESC");
         $data = $this->query($query);        
-        while ($result = mysql_fetch_object($data)){ $list[]=$result->id;};
+        $list = array();
+        while ($result = mysql_fetch_object($data)){
+            $list[] = $result->id;
+        }
         return $list;
     }
 }

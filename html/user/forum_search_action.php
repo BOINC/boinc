@@ -34,6 +34,8 @@ if ($search_forum==-1){
 } else if ($search_forum) {
     $forum = new Forum($search_forum);
 }
+
+$user = null;
 if ($search_author) $user = newUser($search_author);
 
 $dbhandler = $mainFactory->getDatabaseHandler();

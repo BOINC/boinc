@@ -10212,3 +10212,13 @@ David  30 Oct 2007
 
     api/
         boinc_api.C
+
+David  30 Oct 2007
+    - user web: eliminate some PHP warnings, and code cleanup
+
+    html/
+        inc/
+            forum.inc
+            forum_mysql_dbh.inc
+        user/
+            forum_search_action.php

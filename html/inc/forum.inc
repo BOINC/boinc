@@ -128,9 +128,12 @@ function getSortStyle($user,$place){
  * Show the posts in a thread for a user.
  * It's a big one.
  **/
-function show_posts($thread, $sort_style, $filter, $logged_in_user, $show_controls=true) {
+function show_posts(
+    $thread, $sort_style, $filter, $logged_in_user, $show_controls=true
+) {
     $n = 1;
     $first_unread_post = null;
+    $last_visit = 0;
     
     if ($show_controls) {
         $controls = FORUM_CONTROLS;
@@ -147,55 +150,57 @@ function show_posts($thread, $sort_style, $filter, $logged_in_user, $show_contro
     }
     $posts = $thread->getPosts($sort_style, $show_hidden_posts);
     $postcount = (sizeof($posts)-1);
-    if ($logged_in_user) $last_visit = $thread->getLastReadTimestamp($logged_in_user);
+    if ($logged_in_user) {
+        $last_visit = $thread->getLastReadTimestamp($logged_in_user);
+    }
 
     $postnumber=0; $previous_post=0;
     $no_wraparound = get_str("nowrap",true);
     foreach ($posts as $key => $post){
-            $postnumber++;
-            
-            // There *HAS* to be a better way to do this.  WOW.
-            if ((!$logged_in_user) // If the user isn't logged in
-                || (!$logged_in_user->getMinimumWrapPostcount()) //or If the user hasn't enabled the feature to display only a certain amount of posts, simply display all of them.
-                || ($postcount < $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we havent yet hit the limit, simply display all
-                || ($no_wraparound)  // If the user has asked to display all the posts just display them
-                ||
+        $postnumber++;
+        
+        // There *HAS* to be a better way to do this.  WOW.
+        if ((!$logged_in_user) // If the user isn't logged in
+            || (!$logged_in_user->getMinimumWrapPostcount()) //or If the user hasn't enabled the feature to display only a certain amount of posts, simply display all of them.
+            || ($postcount < $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we havent yet hit the limit, simply display all
+            || ($no_wraparound)  // If the user has asked to display all the posts just display them
+            ||
+            (
+                ($postcount >= $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we have hit the limit AND we have the minimum wraparound number of posts or more
+                &&
                 (
-                    ($postcount >= $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we have hit the limit AND we have the minimum wraparound number of posts or more
-                    &&
-                    (
-                        ($postnumber==1 || $postnumber==($postcount+1)) // Let's display the post only if it is the first post 
-                        || 
-                        (        
-                            (($postnumber > $postcount+1-$logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
-                            && ($sort_style==CREATE_TIME_OLD))
-                            ||
-                            (($postnumber <= $logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
-                            && ($sort_style==CREATE_TIME_NEW))
-                            || ($sort_style!=CREATE_TIME_NEW && $sort_style!=CREATE_TIME_OLD)
-                        )  
-                        || ($post->getTimestamp() > $last_visit) //or if this post is unread
-                    )
+                    ($postnumber==1 || $postnumber==($postcount+1)) // Let's display the post only if it is the first post 
+                    || 
+                    (        
+                        (($postnumber > $postcount+1-$logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
+                        && ($sort_style==CREATE_TIME_OLD))
+                        ||
+                        (($postnumber <= $logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
+                        && ($sort_style==CREATE_TIME_NEW))
+                        || ($sort_style!=CREATE_TIME_NEW && $sort_style!=CREATE_TIME_OLD)
+                    )  
+                    || ($post->getTimestamp() > $last_visit) //or if this post is unread
                 )
-            ) {
-                if ($postnumber!=$previous_post+1){
-                    //A number of posts were hidden, display a way to unhide them:
-                    echo "<tr class=\"postseperator\"><td></td><td colspan=\"2\">
-                    Only the first post and the last ".($logged_in_user->getDisplayWrapPostcount())." posts 
-                    (of the ".($postcount+1)." posts in this thread) are displayed. <br />
-                    <a href=\"?id=".$thread->getID()."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>";
-                }
-                $previous_post=$postnumber;
-                show_post($post, $thread, $logged_in_user, $n, $controls, $filter);
-                // To allow users to start reading a thread even though our DB layer is super slow
-                $n = ($n+1)%2;
-                
-                if (($post->getTimestamp()>$last_visit) && 
-                    ((!$first_unread_post) || ($post->getTimestamp()<$first_unread_post->getTimestamp()))
-                   ){
-                    $first_unread_post=$post;
-                }
+            )
+        ) {
+            if ($postnumber!=$previous_post+1){
+                //A number of posts were hidden, display a way to unhide them:
+                echo "<tr class=\"postseperator\"><td></td><td colspan=\"2\">
+                Only the first post and the last ".($logged_in_user->getDisplayWrapPostcount())." posts 
+                (of the ".($postcount+1)." posts in this thread) are displayed. <br />
+                <a href=\"?id=".$thread->getID()."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>";
             }
+            $previous_post=$postnumber;
+            show_post($post, $thread, $logged_in_user, $n, $controls, $filter);
+            // To allow users to start reading a thread even though our DB layer is super slow
+            $n = ($n+1)%2;
+            
+            if (($post->getTimestamp()>$last_visit) && 
+                ((!$first_unread_post) || ($post->getTimestamp()<$first_unread_post->getTimestamp()))
+               ){
+                $first_unread_post=$post;
+            }
+        }
     }
 
     if ($logged_in_user && $logged_in_user->hasJumpToUnread()){
@@ -217,12 +222,15 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     global $no_forum_rating;
     global $config;
 
-    if ($logged_in_user) {
-        $tokens = url_tokens($logged_in_user->getAuthenticator());
-    }
+    $tokens = "";
+    $rated_below_threshold = false;
+    $rated_above_threshold = false;
 
-    //If the user that made this post is on the list of people to ignore, change thresholds to be much more strict
+    //If the user that made this post is on the list of people to ignore,
+    // change thresholds to be much more strict
+    //
     if ($logged_in_user){
+        $tokens = url_tokens($logged_in_user->getAuthenticator());
         if (in_array($user->getID(),$logged_in_user->getIgnoreList())){
             $user_is_on_ignorelist=true;
             $rated_below_threshold = ($logged_in_user->getHighRatingThreshold()>$post->getRating());
@@ -232,6 +240,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
             $rated_above_threshold = ($logged_in_user->getHighRatingThreshold()<($post->getRating()));
         }
     }
+
     // The creator can edit the post, but only in a specified amount of time
     // (exception: a moderator can edit his/her posts at any time)
     //
@@ -348,8 +357,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($no_forum_rating != NULL) { 
             echo " | <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
         } else {
-        $rating = $post->getRating();
-        echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=p$tokens\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=n$tokens\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
+            $rating = $post->getRating();
+            echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=p$tokens\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=n$tokens\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $logged_in_user))) {
             echo "<td align=right class=\"postfooter\">[<a href=\"forum_reply.php?thread=" . $thread->getID() . "&amp;post=" . $post->getID() . "#input\">Reply to this post</a>]</td>";
