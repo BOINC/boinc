@@ -20,7 +20,7 @@
 ## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 ##
-# Release Script for Macintosh GridRepublic Desktop 10/26/07 by Charlie Fenton
+# Release Script for Macintosh GridRepublic Desktop 10/31/07 by Charlie Fenton
 ##
 
 ## Usage:
