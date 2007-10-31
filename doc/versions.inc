@@ -135,6 +135,22 @@ $l51021 = array(
     "type"=>"sea",
 );
 
+$l51028 = array(
+    "num"=>"5.10.28",
+    "status"=>"Development version (command line interface only)",
+    "file"=>"boinc_5.10.28_i686-pc-linux-gnu.sh",
+    "date"=>"31 Oct 2007",
+    "type"=>"sea",
+);
+
+$l51028ubuntu = array(
+    "num"=>"5.10.28",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_ubuntu_5.10.28_i686-pc-linux-gnu.sh",
+    "date"=>"31 Oct 2007",
+    "type"=>"sea",
+);
+
 $l51021x64 = array(
     "num"=>"5.10.21",
     "status"=>"Recommended version (standard GUI)",
@@ -196,6 +212,8 @@ $linux = array(
     "name"=>"Linux/x86",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
+        $l51028,
+        $l51028ubuntu,
         $l51021,
         $l5816,
         $l5411,
