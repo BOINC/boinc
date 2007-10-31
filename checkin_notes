@@ -10248,3 +10248,18 @@ Charlie 31 Oct 2007
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+David  31 Oct 2007
+    - user web: bug fix in forum banish
+    - user web: add link to boinc-team-founders Google group
+        in founder management page
+
+    doc/
+        white.css
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_moderate_post_action.php
+            forum_reply.php
+            team_manage.php

@@ -120,3 +120,11 @@ input.small {
 	font-size: 12px;
     height:22px;
 }
+
+# testing for button style
+input.btn {
+    padding:0px 2px;
+	font-size: 80%;
+	font-weight: normal;
+}
+

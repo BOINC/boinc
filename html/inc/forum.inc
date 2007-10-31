@@ -433,7 +433,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
             echo "<td align=\"right\">\n";
             
             $return = urlencode(current_url());
-            echo "<a href=\"forum_index.php?read=1&amp;".url_tokens($logged_in_user->authenticator)."&amp;return=".$return."\">Mark all threads as read</a><br />\n";
+            echo "<a href=\"forum_index.php?read=1&".url_tokens($logged_in_user->authenticator)."&return=".$return."\">Mark all threads as read</a><br />\n";
             
             // Private messages
             echo pm_notification($logged_in_user);

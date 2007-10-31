@@ -30,6 +30,7 @@ $filter = get_str('filter', true);
 $content = post_str('content', true);
 $preview = post_str("preview", true);
 $parent_post_id = get_int('post', true);
+$parent_post = null;
 if ($parent_post_id) $parent_post = new Post($parent_post_id);
 
 if ($filter != "false"){

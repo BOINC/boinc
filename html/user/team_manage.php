@@ -42,6 +42,9 @@ echo "
         (current and future) you can make it into a
         <a href=http://boinc.berkeley.edu/teams/>BOINC-wide team</a>.
     <li>
+        Team founders are encouraged to join and participate in the Google
+        <a href=http://groups.google.com/group/boinc-team-founders>boinc-team-founders</a> group.
+    <li>
         Other resources for BOINC team founders
         are available from a third-party site,
         <a href=http://www.boincteams.com>www.boincteams.com</a>.

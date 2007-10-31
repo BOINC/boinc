@@ -67,7 +67,7 @@ if ($action=="hide"){
     $query = "update forum_preferences set banished_until=$t where userid=$userid";
     $result = mysql_query($query);
     if ($result) {
-        echo "User $user->name has been banished.";
+        echo "User ".$user->getName()." has been banished.";
         send_banish_email($user, $t, $reason);
     } else {
         echo "DB failure for $query";
