@@ -327,10 +327,12 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                 pMSM->SetOpeningAboutDlg(true);
                 
             // If not our system menu, pass event on to next event handler
-            sysMenuRef = command.menu.menuRef;
-            if (PLstrcmp("\pBOINC!", (GetMenuTitle((sysMenuRef), theMenuTitle) )))
-                return eventNotHandledErr;
-
+           if (command.menu.menuRef != (MenuRef)'BNC!') {           // Used only in OS 10.5
+                if (PLstrcmp("\pBOINC!", (GetMenuTitle((command.menu.menuRef), theMenuTitle) ))) {
+                    return eventNotHandledErr;
+                }
+            }
+            
             // The following code is adapted from wxTaskBarIcon's wxDockEventHandler().
             // Work with our base menu instead of the cloned System Menu
             baseMenu = (pMSM->GetCurrentMenu());
