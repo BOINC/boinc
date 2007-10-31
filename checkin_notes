@@ -10263,3 +10263,9 @@ David  31 Oct 2007
             forum_moderate_post_action.php
             forum_reply.php
             team_manage.php
+
+David  31 Oct 2007
+    - API: compile fix for systems without strlcat()
+
+    api/
+        boinc_api.C

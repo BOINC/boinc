@@ -47,6 +47,7 @@ using namespace std;
 #include "parse.h"
 #include "shmem.h"
 #include "util.h"
+#include "str_util.h"
 #include "filesys.h"
 #include "mem_usage.h"
 #include "error_numbers.h"
