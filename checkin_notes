@@ -10222,3 +10222,9 @@ David  30 Oct 2007
             forum_mysql_dbh.inc
         user/
             forum_search_action.php
+
+David  30 Oct 2007
+    - user web: bug fix in home.php
+
+    html/user/
+        home.php

@@ -20,7 +20,7 @@ if ($via_web) {
 
 if ($init) {
     setcookie('init', '', time()-3600);
-    page_head(tra("Welcome to %1", PROJECT);
+    page_head(tra("Welcome to %1", PROJECT));
     echo "<p>".tra("View and edit your account preferences using the links below.")."</p>\n";
     if ($via_web) {
         echo "
