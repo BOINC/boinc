@@ -145,7 +145,7 @@ $l51028 = array(
 
 $l51028ubuntu = array(
     "num"=>"5.10.28",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Development version (Ubuntu Release - Standard GUI)",
     "file"=>"boinc_ubuntu_5.10.28_i686-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
