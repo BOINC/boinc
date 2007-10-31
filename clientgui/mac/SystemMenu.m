@@ -33,6 +33,7 @@
 @interface SystemMenu : NSObject {
 }
 - (void)BuildSysMenu:(MenuRef)menuToCopy;
+- (void)postEvent:(id)sender;
 @end
 
 
@@ -113,6 +114,8 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon) {
     int i, n;
     Str255 s;
     CFStringRef CFText;
+    UInt32 tag;
+    OSErr err;
 
     // Add the submenu
     newItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"BOINC!" action:NULL keyEquivalent:@""];
@@ -138,7 +141,9 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon) {
     for (i=1; i<=n; i++)
     {
         GetMenuItemText(menuToCopy, i, s); 
-        if (PLstrcmp(s, "\p-") == 0)
+        err = GetMenuItemCommandID(menuToCopy, i, &tag);
+        
+       if ((PLstrcmp(s, "\p-") == 0) || (tag == 0))
         {
             [sysMenu addItem:[NSMenuItem separatorItem]];
             continue;
@@ -148,20 +153,49 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon) {
         if (CFText != NULL)
         {
             newItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(NSString*)CFText action:NULL keyEquivalent:@""];
-            [newItem setTarget:self];
-            [sysMenu addItem:newItem];
-            if( IsMenuItemEnabled(menuToCopy, i) )
-                [newItem setEnabled:YES];
-            else
-                [newItem setEnabled:NO];
-            
-            [newItem release];
+           if (err == noErr) {
+                [newItem setTarget:self];
+                [sysMenu addItem:newItem];
+                if( IsMenuItemEnabled(menuToCopy, i) )
+                    [newItem setEnabled:YES];
+                else
+                    [newItem setEnabled:NO];
+                
+                // setTag and setAction are needed only in OS 10.5
+                [newItem setTag:tag];
+                [newItem setAction:@selector(postEvent:)];
+
+                [newItem release];
+            }
             CFRelease(CFText);
         }
     }
     
     [sysMenu setAutoenablesItems:NO];
     return;
+}
+
+
+// postEvent is needed only in OS 10.5
+- (void)postEvent:(id)sender {
+    HICommand commandStruct;
+    EventRef theEvent;
+    OSStatus err;
+
+    // Build a kEventClassCommand CarbonEvent and set the CommandId 
+    //  to the value of the menu item's tag
+    err = CreateEvent(NULL, kEventClassCommand, kEventCommandProcess, 
+                                0, kEventAttributeUserEvent, &theEvent);
+    commandStruct.commandID = [sender tag];
+    commandStruct.attributes = kHICommandFromMenu;
+    commandStruct.menu.menuRef = (MenuRef)'BNC!';
+        
+    if (err == noErr)
+        err = SetEventParameter(theEvent, kEventParamDirectObject, 
+                                typeHICommand, sizeof(HICommand), &commandStruct);
+    if (err == noErr)
+        err = SendEventToEventTarget(theEvent, GetApplicationEventTarget());
+//    SysBeep(4);
 }
 
 

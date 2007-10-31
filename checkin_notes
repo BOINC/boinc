@@ -10228,3 +10228,23 @@ David  30 Oct 2007
 
     html/user/
         home.php
+
+Charlie 31 Oct 2007
+    - Mac: Fix bugs when running under OS 10.5: menubar icon menu; 
+        installer bugs due to PackageMaker changes; linker warnings 
+        due to addition of visibility patch to compiler; new command-
+        line utilities for flushing users & groups caches (used by 
+        BOINC installer). 
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+            SystemMenu.m
+            MacSysMenu.cpp
+    mac_build/
+        buildWxMac.sh
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh

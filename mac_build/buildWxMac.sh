@@ -57,7 +57,7 @@ else
 
 rm -f src/build/Deployment/libwx_mac.a
 
-xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_mac_ppc.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_mac_ppc.a" OTHER_CFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -69,7 +69,8 @@ else
 
 rm -f src/build/Deployment/libwx_mac.a
 
-xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_mac_i386.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_mac_i386.a" OTHER_CFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
+
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -90,7 +91,8 @@ else
 
 rm -f src/build/Deployment/libwx_macd.a
 
-xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_macd_ppc.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_macd_ppc.a" OTHER_CFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
+
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -101,7 +103,8 @@ else
 
 rm -f src/build/Deployment/libwx_macd.a
 
-xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_macd_i386.a"
+xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_macd_i386.a" OTHER_CFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
+
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

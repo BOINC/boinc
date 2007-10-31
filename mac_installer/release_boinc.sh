@@ -64,9 +64,11 @@ else
 fi
 
 sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
+sudo rm -dfR ../BOINC_Installer/Installer\ Scripts/
 sudo rm -dfR ../BOINC_Installer/Pkg_Root
 
 mkdir -p ../BOINC_Installer/Installer\ Resources/
+mkdir -p ../BOINC_Installer/Installer\ Scripts/
 
 cp -fp mac_Installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
@@ -76,10 +78,10 @@ cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Ins
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 
 #### We don't customize BOINC Data directory name for branding
-cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
-cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
-cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
-cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
+cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/
+cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/preupgrade
+cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Scripts/
+cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Scripts/
 
 cp -fpR $BUILDPATH/PostInstall.app ../BOINC_Installer/Installer\ Resources/
 
@@ -129,7 +131,9 @@ sudo chown -R 501:admin ../BOINC_Installer/Pkg_Root/Library/Application\ Support
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 
 sudo chown -R root:admin ../BOINC_Installer/Installer\ Resources/*
+sudo chown -R root:admin ../BOINC_Installer/Installer\ Scripts/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Resources/*
+sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Scripts/*
 
 sudo rm -dfR ../BOINC_Installer/New_Release_$1_$2_$3/
 
@@ -155,8 +159,30 @@ sudo chmod -R 555 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_
 
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/
+
+DarwinVersion=`uname -r`;
+DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
+# DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
+#
+# echo "major = $DarwinMajorVersion"
+# echo "minor = $DarwinMinorVersion"
+#
+# Darwin version 9.x.y corresponds to OS 10.5.x
+# Darwin version 8.x.y corresponds to OS 10.4.x
+# Darwin version 7.x.y corresponds to OS 10.3.x
+# Darwin version 6.x corresponds to OS 10.2.x
+
 # Build the installer package inside the wrapper application's bundle
-/Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
+if [ "$DarwinMajorVersion" = "9" ]; then
+    # OS 10.5 packagemaker
+    /Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
+    # Remove TokenDefinitions.plist which, along with IFPkgPathMappings in Info.plist, would cause installer to find a previous copy of BOINCManager and install there
+    sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/TokenDefinitions.plist
+else
+    # OS 10.4 packagemaker
+    /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
+fi
+
 # Allow the installer wrapper application to modify the package's Info.plist file
 sudo chmod u+w,g+w,o+w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
 sudo chmod u+w,g+w,o+w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist

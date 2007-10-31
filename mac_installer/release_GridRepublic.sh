@@ -41,6 +41,7 @@
 ## For different branding, modify the following 9 variables:
 PR_PATH="../BOINC_Installer/GR_Pkg_Root"
 IR_PATH="../BOINC_Installer/GR_Installer_Resources"
+SCRIPTS_PATH="../BOINC_Installer/GR_Installer\ Scripts"
 NEW_DIR_PATH="../BOINC_Installer/New_Release_GR_$1_$2_$3"
 README_FILE="mac_installer/GR-ReadMe.rtf"
 BRANDING_FILE="mac_installer/GR-Branding"
@@ -78,8 +79,10 @@ fi
 
 sudo rm -dfR "${IR_PATH}"
 sudo rm -dfR "${PR_PATH}"
+sudo rm -dfR "${SCRIPTS_PATH}"
 
 mkdir -p "${IR_PATH}"
+mkdir -p "${SCRIPTS_PATH}"
 
 cp -fp mac_Installer/License.rtf "${IR_PATH}/"
 cp -fp "${README_FILE}" "${IR_PATH}/ReadMe.rtf"
@@ -89,20 +92,20 @@ cp -fp win_build/installerv2/redist/all_projects_list.xml "${IR_PATH}/"
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"
 
 # Create the installer's preinstall and preupgrade scripts from the standard preinstall script
-cp -fp mac_installer/preinstall "${IR_PATH}/"
+cp -fp mac_installer/preinstall "${SCRIPTS_PATH}/"
 
-sed -i "" s/BOINCManager/"${MANAGER_NAME}"/g "${IR_PATH}/preinstall"
-sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${IR_PATH}/preinstall"
+sed -i "" s/BOINCManager/"${MANAGER_NAME}"/g "${SCRIPTS_PATH}/preinstall"
+sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${SCRIPTS_PATH}/preinstall"
 
 ##### We've decided not to customize BOINC Data directory name for branding
-#### sed -i "" s/BOINC/temp/g "${IR_PATH}/preinstall"
-#### sed -i "" s/"${BRAND_NAME}"/BOINC/g "${IR_PATH}/preinstall"
-#### sed -i "" s/temp/"${BRAND_NAME}"/g "${IR_PATH}/preinstall"
+#### sed -i "" s/BOINC/temp/g "${SCRIPTS_PATH}/preinstall"
+#### sed -i "" s/"${BRAND_NAME}"/BOINC/g "${SCRIPTS_PATH}/preinstall"
+#### sed -i "" s/temp/"${BRAND_NAME}"/g "${SCRIPTS_PATH}/preinstall"
 
-cp -fp "${IR_PATH}/preinstall" "${IR_PATH}/preupgrade"
+cp -fp "${SCRIPTS_PATH}/preinstall" "${SCRIPTS_PATH}/preupgrade"
 
-cp -fp mac_installer/postinstall "${IR_PATH}/"
-cp -fp mac_installer/postupgrade "${IR_PATH}/"
+cp -fp mac_installer/postinstall "${SCRIPTS_PATH}/"
+cp -fp mac_installer/postupgrade "${SCRIPTS_PATH}/"
 
 cp -fpR "$BUILDPATH/PostInstall.app" "${IR_PATH}/"
 
@@ -184,7 +187,9 @@ sudo chown -R 501:admin "${PR_PATH}/Library/Application Support"/*
 sudo chmod -R u+rw,g+r-w,o+r-w "${PR_PATH}/Library/Application Support"/*
 
 sudo chown -R root:admin "${IR_PATH}"/*
+sudo chown -R root:admin "${SCRIPTS_PATH}"/*
 sudo chmod -R u+rw,g+r-w,o+r-w "${IR_PATH}"/*
+sudo chmod -R u+rw,g+r-w,o+r-w "${SCRIPTS_PATH}"/*
 
 sudo rm -dfR "${NEW_DIR_PATH}/"
 
@@ -254,8 +259,29 @@ rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} 
 # Rename the installer wrapper application's executable inside the bundle
 mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/MacOS/BOINC Installer" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/MacOS/${BRAND_NAME} Installer"
 
+DarwinVersion=`uname -r`;
+DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
+# DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
+#
+# echo "major = $DarwinMajorVersion"
+# echo "minor = $DarwinMinorVersion"
+#
+# Darwin version 9.x.y corresponds to OS 10.5.x
+# Darwin version 8.x.y corresponds to OS 10.4.x
+# Darwin version 7.x.y corresponds to OS 10.3.x
+# Darwin version 6.x corresponds to OS 10.2.x
+
 # Build the installer package inside the wrapper application's bundle
-/Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
+if [ "$DarwinMajorVersion" = "9" ]; then
+    # OS 10.5 packagemaker
+    /Developer/usr/bin/packagemaker -r "${PR_PATH}" -e "${IR_PATH}" -s "${SCRIPTS_PATH}" -f "${NEW_DIR_PATH}/Pkg-Info.plist" -t "${MANAGER_NAME}" -n "$1.$2.$3" -b -o "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg"
+    # Remove TokenDefinitions.plist which, along with IFPkgPathMappings in Info.plist, would cause installer to find a previous copy of BOINCManager and install there
+    sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Resources/TokenDefinitions.plist"
+else
+    # OS 10.4 packagemaker
+    /Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
+fi
+
 # Allow the installer wrapper application to modify the package's Info.plist file
 sudo chmod u+w,g+w,o+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info.plist"
 

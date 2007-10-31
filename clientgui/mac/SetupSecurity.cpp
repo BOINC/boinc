@@ -742,11 +742,21 @@ static OSStatus ResynchSystem() {
     long            response;
     OSStatus        err = noErr;
    
+    err = Gestalt(gestaltSystemVersion, &response);
+    if (err) return err;
+    
+    if (response >= 0x1050) {
+        // OS 10.5
+        err = system("dscacheutil -flushcache");
+        err = system("dsmemberutil flushcache");
+        return noErr;
+    }
+    
     err = system("lookupd -flushcache");
 
     err = Gestalt(gestaltSystemVersion, &response);
     if ((err == noErr) && (response >= 0x1040))
-        err = system("memberd -r");           // Available only in OS 10.4 and later
+        err = system("memberd -r");           // Available only in OS 10.4
 
     return noErr;
 }
