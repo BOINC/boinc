@@ -145,7 +145,7 @@ $l51028 = array(
 
 $l51028ubuntu = array(
     "num"=>"5.10.28",
-    "status"=>"Development version (Ubuntu Release - Standard GUI)",
+    "status"=>"Development version (Ubuntu Release - standard GUI)",
     "file"=>"boinc_ubuntu_5.10.28_i686-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
@@ -156,6 +156,14 @@ $l51021x64 = array(
     "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.10.21_x86_64-pc-linux-gnu.sh",
     "date"=>"2 Oct 2007",
+    "type"=>"sea",
+);
+
+$l51028x64 = array(
+    "num"=>"5.10.28",
+    "status"=>"Development version (Ubuntu Release - standard GUI)",
+    "file"=>"boinc_ubuntu_5.10.28_x86_64-pc-linux-gnu.sh",
+    "date"=>"31 Oct 2007",
     "type"=>"sea",
 );
 
@@ -224,6 +232,7 @@ $linuxx64 = array(
     "name"=>"Linux/x64",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
+        $l51028x64,
         $l51021x64,
     )
 );
