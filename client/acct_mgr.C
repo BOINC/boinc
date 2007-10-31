@@ -213,7 +213,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
 			continue;
 		}
         if (!strcmp(tag, "/account")) {
-            if (url.length() && authenticator.length()) return 0;
+            if (url.length()) return 0;
             return ERR_XML_PARSE;
         }
         if (xp.parse_string(tag, "url", url)) continue;
@@ -296,7 +296,14 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (!strcmp(tag, "account")) {
             AM_ACCOUNT account;
             retval = account.parse(xp);
-            if (!retval) accounts.push_back(account);
+            if (retval) {
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "Can't parse account in account manager reply: %s",
+                    boincerror(retval)
+                );
+            } else {
+                accounts.push_back(account);
+            }
             continue;
         }
         if (!strcmp(tag, "global_preferences")) {
@@ -414,7 +421,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                 if (acct.detach) {
                     gstate.detach_project(pp);
                 } else {
-                    if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
+                    // BAM! leaves authenticator blank if our request message
+                    // had the current account info
+                    //
+                    if (acct.authenticator.size() && strcmp(pp->authenticator, acct.authenticator.c_str())) {
                         msg_printf(pp, MSG_INFO,
                             "Already attached under another account"
                         );

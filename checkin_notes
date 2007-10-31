@@ -10269,3 +10269,20 @@ David  31 Oct 2007
 
     api/
         boinc_api.C
+
+David  31 Oct 2007
+    - client: fix bug where account settings (e.g. don't get new work)
+        weren't being updated from account managers.
+        This was because BAM! wasn't returning the <authenticator>
+        in accounts already described in the request message.
+        (This violates the protocol, but it's reasonable so what the heck).
+        The client was ignoring all <account> records without an authenticator.
+        Solution: allow <account> records without an authenticator.
+    - Manager: fix crash after the Manager kills a graphics app
+        for a no-longer-running result.
+        Changed loop logic to go forwards instead of backwards.
+
+    client/
+        acct_mgr.C
+    clientgui/
+        MainDocument.cpp
