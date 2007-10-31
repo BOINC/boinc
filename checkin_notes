@@ -10286,3 +10286,21 @@ David  31 Oct 2007
         acct_mgr.C
     clientgui/
         MainDocument.cpp
+
+David  31 Oct 2007
+    - user web: make buttons look better;
+        add a function show_button() to display links as buttons
+        with hover-based explanation.
+        This should be used whenever clicking on something
+        performs an action, rather than just going to a new page
+        (sometimes the boundary is fuzzy)
+    - user web: fixed bug when send private message by user name
+
+    html/
+        inc/
+            forum.inc
+            util.inc
+        user/
+            forum_post.php
+            white.css
+        

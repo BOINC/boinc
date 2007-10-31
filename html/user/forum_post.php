@@ -58,7 +58,7 @@ if ($content && $title && (!$preview)){
     header('Location: forum_thread.php?id=' . $thread->getID());
 }
 
-page_head('Forum');
+page_head('Create new thread');
 
 show_forum_title($forum);
 

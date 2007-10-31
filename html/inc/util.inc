@@ -766,4 +766,8 @@ function current_url() {
     return $url;
 }
 
+function show_button($url, $text, $desc) {
+    echo "<a href=$url><input class=btn type=button value=\"$text\" title=\"$desc\"></a>\n";
+}
+
 ?>

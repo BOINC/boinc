@@ -46,9 +46,9 @@ function lookup_user_email_addr($email_addr) {
 }
 
 function lookup_user_name($name) {
-    $teams = BoincTeam::enum("name='".boinc_real_escape_string($name)."'");
-    if (sizeof($teams)==1) {
-        return $teams[0];
+    $users = BoincUser::enum("name='".boinc_real_escape_string($name)."'");
+    if (sizeof($users)==1) {
+        return $users[0];
     }
     return null;
 }

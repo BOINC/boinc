@@ -10,7 +10,7 @@ a:active {
     color: blue;
 }
 
-body , table , input , select {
+body , table , select {
     background-color: white;
     font-family: Verdana, Arial, Sans-Serif;
     font-size: 12px;
@@ -310,3 +310,8 @@ span.news_date {
     font-size: 1.3em;
     border-bottom: 1px solid #cccccc;
 }
+
+input.btn {
+    padding:0px 2px;
+}
+
