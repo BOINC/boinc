@@ -312,10 +312,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     }
 
     if ($logged_in_user && $post->getTimestamp()>$thread->getLastReadTimestamp($logged_in_user)){
-        echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\">";
+        show_image(NEW_IMAGE, "You haven't read this message yet", NEW_IMAGE_HEIGHT);
     }
     if ($rated_above_threshold){
-        echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"!\" height=\"".EMPHASIZE_IMAGE_HEIGHT."\">";
+        show_image(EMPHASIZE_IMAGE, "This message has a high average rating", EMPHASIZE_IMAGE_HEIGHT);
     }
 
     echo " <a href=\"forum_thread.php?id=".$thread->getID()."&nowrap=true#$post->id\">Message ".$post->getID()."</a> - ";
@@ -357,13 +357,26 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
         if ($no_forum_rating != NULL) { 
-            echo " | <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
+            echo " | <a href=\"forum_report_post.php?post=".$post->getID()."\">";
+            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
+            echo "</td>";
         } else {
             $rating = $post->getRating();
-            echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=p$tokens\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=n$tokens\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
+            echo " | Rating: ", $rating, "</i> | rate: 
+                <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=p$tokens\">
+            ";
+            show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", RATE_POSITIVE_IMAGE_HEIGHT);
+            echo "</a> / <a href=\"forum_rate.php?post=".$post->getID()."&choice=n$tokens\">";
+            show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", RATE_NEGATIVE_IMAGE_HEIGHT);
+            echo "</a> <a href=\"forum_report_post.php?post=".$post->getID()."\">";
+            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
+            echo "</a></td> ";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $logged_in_user))) {
-            echo "<td align=right class=\"postfooter\">[<a href=\"forum_reply.php?thread=" . $thread->getID() . "&amp;post=" . $post->getID() . "#input\">Reply to this post</a>]</td>";
+            echo "<td align=right class=\"postfooter\">";
+            $url = "forum_reply.php?thread=" . $thread->getID() . "&post=" . $post->getID() . "#input";
+            show_button($url, "Reply", "Post a reply to this message");
+            echo "</td>";
         } else {
             echo "<td class=\"postfooter\"></td>";
         }

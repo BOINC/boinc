@@ -102,46 +102,46 @@ function show_forum($forum, $start, $sort_style, $user) {
             echo '<tr class="row_hd'.$n.'">';
         } else {
             // Just a standard thread.
-            echo '<tr class="row'.$n.'">';	
+            echo '<tr class="row'.$n.'">';    
         }
         
         echo "<td width=\"1%\" align=\"right\"><nobr>";
         if ($user && ($thread->getRating()>$user->getHighRatingThreshold())) {
-            echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"Emphasized thread\">";
+            show_image(EMPHASIZE_IMAGE, "This message has a high average rating");
         }
         if ($user && ($thread->getRating()<$user->getLowRatingThreshold())) {
-            echo "<img src=\"".FILTER_IMAGE."\" alt=\"Filtered thread\">";
+            show_image(FILTER_IMAGE, "This message has a low average rating");
         }
         if ($thread->isHidden()) {
             echo "X";
         }
-	if ($unread) {
-	    if ($thread->isSticky()) {
-		if ($thread->isLocked()) {
-        	    echo "<img src=\"".NEW_IMAGE_STICKY_LOCKED."\" alt=\"Unread post(s), sticky, thread locked\">";
-		} else {
-        	    echo "<img src=\"".NEW_IMAGE_STICKY."\" alt=\"Unread post(s), sticky\">";
-		}
-	    } else {
-		if ($thread->isLocked()) {
-        	    echo "<img src=\"".NEW_IMAGE_LOCKED."\" alt=\"Unread post(s), thread locked\">";
-		} else {
-        	    echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
-		}
-	    }
-	} else {
-	    if ($thread->isSticky()) {
-		if ($thread->isLocked()) {
-        	    echo "<img src=\"".IMAGE_STICKY_LOCKED."\" alt=\"Sticky, thread locked\">";
-		} else {
-        	    echo "<img src=\"".IMAGE_STICKY."\" alt=\"Sticky\">";
-		}
-	    } else {
-		if ($thread->isLocked()) {
-        	    echo "<img src=\"".IMAGE_LOCKED."\" alt=\"Thread locked\">";
-		}
-	    }
-	}
+        if ($unread) {
+            if ($thread->isSticky()) {
+                if ($thread->isLocked()) {
+                    show_image(NEW_IMAGE_STICKY_LOCKED, "This thread is sticky and locked, and you haven't read it yet");
+                } else {
+                    show_image(NEW_IMAGE_STICKY, "This thread is sticky and you haven't read it yet");
+                }
+            } else {
+                if ($thread->isLocked()) {
+                    show_image(NEW_IMAGE_LOCKED, "You haven't read this thread yet, and it's locked");
+                } else {
+                    show_image(NEW_IMAGE, "You haven't read this thread yet");
+                }
+            }
+        } else {
+            if ($thread->isSticky()) {
+                if ($thread->isLocked()) {
+                    show_image(IMAGE_STICKY_LOCKED, "This thread is sticky and locked");
+                } else {
+                    show_image(IMAGE_STICKY, "This thread is sticky");
+                }
+            } else {
+                if ($thread->isLocked()) {
+                    show_image(IMAGE_LOCKED, "This thread is locked");
+                }
+            }
+        }
         echo "</nobr></td>";
 
         $titlelength = 48;
@@ -154,12 +154,13 @@ function show_forum($forum, $start, $sort_style, $user) {
         $n = ($n+1)%2;
 
         echo '
-                <td>'.($thread->getPostCount()+1).'</td>
-                <td align="left"><div class="authorcol">'.re_user_links($owner).'</div></td>
-                <td>'.$thread->getViewCount().'</td>
-                <td style="text-align:right">'.time_diff_str($thread->getLastTimestamp(), time()).'</td>
-	    </tr>';
-	flush();
+            <td>'.($thread->getPostCount()+1).'</td>
+            <td align="left"><div class="authorcol">'.re_user_links($owner).'</div></td>
+            <td>'.$thread->getViewCount().'</td>
+            <td style="text-align:right">'.time_diff_str($thread->getLastTimestamp(), time()).'</td>
+            </tr>
+        ';
+        flush();
     }
     end_forum_table();
     echo $gotoStr; // Display the navigation bar at the bottom as well.

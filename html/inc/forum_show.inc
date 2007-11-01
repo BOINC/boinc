@@ -100,23 +100,22 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
         echo "
             <tr class=row$n style=\"text-align:center\">";
 
-        if (!$category->is_helpdesk) {		        //Show thread icons if in forum:
+        //Show thread icons if in forum:
+        if (!$category->is_helpdesk) {
             echo "<td width=\"1%\" align=\"right\"><nobr>";
             $first_post = getFirstPost($thread->id);
             if ($first_post->score*$first_post->votes>$logged_in_user->high_rating_threshold) {
-                echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"Emphasized thread\">";
+                show_image(EMPHASIZE_IMAGE, "This thread has a high average rating");
             }
             if ($first_post->score*$first_post->votes<$logged_in_user->low_rating_threshold) {
-                echo "<img src=\"".FILTER_IMAGE."\" alt=\"Filtered thread\">";
+                show_image(FILTER_IMAGE, "This thread has a low average rating");
             }
             if ($unread && !$thread->sticky) {
-                echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
-            }
-	    elseif($unread) {
-                echo "<img src=\"".NEW_IMAGE_STICKY."\" alt=\"Unread post(s)\">";
-            }
-	    elseif($thread->sticky) {
-                echo "<img src=\"".STICKY_IMAGE."\" alt=\"Sticky\">";
+                show_image(NEW_IMAGE, "You haven't read this thread yet");
+            } else if($unread) {
+                show_image(NEW_IMAGE_STICKY, "This thread is sticky and you haven't read it yet");
+            } else if($thread->sticky) {
+                show_image(STICKY_IMAGE, "This thread is sticky");
             }
             echo "</nobr></td>";
         }
@@ -124,7 +123,7 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
         $titlelength = 48;
         $title = cleanup_title($thread->title);
         if (strlen($title) > $titlelength) {
-        	$title = substr($title,0,$titlelength)."...";
+            $title = substr($title,0,$titlelength)."...";
         }
         echo "<td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", $title, "</b></a><br>";
         $n = ($n+1)%2;
