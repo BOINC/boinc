@@ -50,10 +50,19 @@ show_forum_title($forum, NULL);
 echo '
     <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="bottom">
-    <td colspan=2>';
+    <td colspan=2>
+';
 
-echo '<a href="forum_post.php?id='.$id.'">';
-echo "[Create a new thread]</a><br><br></td>";
+show_button("forum_post.php?id=$id", "New thread", "Add a new thread to this forum");
+
+if ($user) {
+    $return = urlencode(current_url());
+    $tokens = url_tokens($user->dbObj->authenticator);
+    $url = "forum_index.php?read=1&$tokens&return=$return";
+    show_button($url, "Mark all threads as read", "Mark all threads in this forum as 'read'.");
+}
+
+echo " <br><br></td>";
 echo '    <form action="forum_forum.php" method="get">
     <input type="hidden" name="id" value="'.$forum->getID().'">';
 echo '<td align="right">';

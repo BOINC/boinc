@@ -286,8 +286,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         }
     }
     
-    echo "<a href=\"forum_pm.php?action=new&userid=".$user->getID()."\" class=\"smalltext\">private message</a><br>\n";
-    echo "Joined: ", gmdate('M j, Y', $user->getCreateTime()), "<br>";
+    $url = "forum_pm.php?action=new&userid=".$user->getID();
+    $name = $user->dbObj->name;
+    show_button($url, "Send message", "Send $name a private message");
+    echo "Joined: ", gmdate('M j y', $user->getCreateTime()), "<br>";
     
     if(function_exists('project_forum_user_info')){
         project_forum_user_info($user);
@@ -421,7 +423,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
             <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
             <input type=\"hidden\" name=\"search_sort\" value=\"5\">
             <input type=\"text\" name=\"search_keywords\">
-            <input class=\"btn\" type=\"submit\" value=\"search\"><br>
+            <input class=\"btn\" title=\"Search for words in forum messages\" type=\"submit\" value=\"Search forums\"><br>
             <span class=\"smalltext\"><a href=\"forum_search.php\">advanced search</a></span>
             </form>
         ";
@@ -432,10 +434,6 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
         if ($logged_in_user) {
             echo "<td align=\"right\">\n";
             
-            $return = urlencode(current_url());
-            $url = "forum_index.php?read=1&".url_tokens($logged_in_user->authenticator)."&return=".$return;
-            show_button($url, "Mark all threads as read", "Mark all threads in this forum as 'read'.");
-
             // Private messages
             echo "<p>", pm_notification($logged_in_user);
             

@@ -10304,3 +10304,19 @@ David  31 Oct 2007
             forum_post.php
             white.css
         
+David  1 Nov 2007
+    - user web:
+        - replace some links with buttons in forum pages; add hover text.
+        - show "mark all threads as read" only in forum page
+        - fix bugs in team creation
+
+    html/
+        inc/
+            boinc_db.inc
+            forum.inc
+        languages/translations/
+            en.po
+        user/
+            forum_forum.php
+            forum_thread.php
+            white.css

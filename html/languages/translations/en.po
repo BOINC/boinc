@@ -308,16 +308,16 @@ msgid "FORUM_THREAD_HIDDEN"
 msgstr "This thread has been hidden for administrative purposes"
 
 msgid "FORUM_THREAD_REPLY"
-msgstr "Reply to this thread"
+msgstr "Post to thread"
 
 msgid "FORUM_THREAD_SUBSCRIBED"
 msgstr "You are subscribed to this thread."
 
 msgid "FORUM_THREAD_UNSUBSCRIBE"
-msgstr "Click here to unsubscribe"
+msgstr "Unsubscribe"
 
 msgid "FORUM_THREAD_SUBSCRIBE"
-msgstr "Subscribe to this thread"
+msgstr "Subscribe to thread"
 
 #########################################
 # Forum search features

@@ -102,17 +102,18 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
         <td align=\"left\">
     ";
     
-    $reply_text = "";
+    $reply_url = "";
     if (can_reply($thread, $logged_in_user)) {        
-        $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
-        echo $reply_text;
+        $reply_url = "forum_reply.php?thread=".$thread->getID()."#input";
+        show_button($reply_url, tr(FORUM_THREAD_REPLY), "Add a new message to this thread");
     }
     
     if ($is_subscribed) {
-        echo tr(FORUM_THREAD_SUBSCRIBED)." ";
-        echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->getID()."$tokens\">".tr(FORUM_THREAD_UNSUBSCRIBE)."</a>.";
+        $url = "forum_subscribe.php?action=unsubscribe&thread=".$thread->getID()."$tokens";
+        show_button($url, tr(FORUM_THREAD_UNSUBSCRIBE), "You are subscribed to this thread.  Click here to unsubscribe.");
     } else {
-        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=".$thread->getID()."$tokens\">".tr(FORUM_THREAD_SUBSCRIBE)."</a>";
+        $url = "forum_subscribe.php?action=subscribe&thread=".$thread->getID()."$tokens";
+        show_button($url, tr(FORUM_THREAD_SUBSCRIBE), "Click to get email when there are new posts in this thread");
     }
     
     //If the logged in user is moderator enable some extra features
@@ -150,7 +151,9 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
     show_posts($thread, $sort_style, $filter, $logged_in_user, true);
     end_forum_table();
 
-    echo "<p>".$reply_text;
+    if ($reply_url) {
+        show_button($reply_url, tr(FORUM_THREAD_REPLY), "Add a new message to this thread");
+    }
     show_forum_title($forum, $thread, false);
     $thread->incViews();
 

@@ -63,6 +63,10 @@ class BoincUser {
 }
 
 class BoincTeam {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('team', $clause);
+    }
     static function lookup_id($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'team', 'BoincTeam');
@@ -74,6 +78,10 @@ class BoincTeam {
     static function enum($clause, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('team', 'BoincTeam', $clause, $clause2);
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('team', 'BoincTeam', $clause);
     }
 }
 
