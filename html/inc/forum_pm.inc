@@ -5,13 +5,11 @@ function pm_header() {
     echo "<div>\n";
     echo "    <a href=\"forum_pm.php?action=inbox\">".tra("Inbox")."</a>\n";
     echo "    | <a href=\"forum_pm.php?action=new\">".tra("Write")."</a>\n";
-    echo "    | <a href=\"forum_index.php\">".tra("Forum index")."</a>\n";
     echo "</div>\n";
 }
 
 function pm_create_new($error = null) {
     page_head(tra("Private messages")." : ".tra("Create new"));
-    pm_header();
     
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
@@ -122,6 +120,17 @@ function check_pm_count($userid) {
         (pm_count($userid, 3600) >= 15) || (pm_count($userid, 86400) >= 50)) {
         error_page(tra("You are not allowed to send privates messages so often. Please wait some time before sending more messages."));
     }
+}
+
+function pm_notification($user) {
+    $output = "";
+    $res = mysql_query("SELECT COUNT(*) AS unread FROM private_messages WHERE userid=".$user->id." AND opened=0");
+    $pm = mysql_fetch_object($res);
+    $unread = $pm->unread;
+    
+    $output .= "Private messages: <a href=\"forum_pm.php?action=inbox\">".tra("Inbox")."</a> ($unread unread)\n";
+    $output .= "| <a href=\"forum_pm.php?action=new\">".tra("Write")."</a>\n";
+    return $output;
 }
 
 ?>

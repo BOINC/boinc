@@ -67,7 +67,7 @@ echo '    <form action="forum_forum.php" method="get">
     <input type="hidden" name="id" value="'.$forum->getID().'">';
 echo '<td align="right">';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '<input type="submit" value="OK"><br><br></td>';
+echo '<input type="submit" value="Sort"><br><br></td>';
 echo "</tr>\n</table>\n</form>";
 
 show_forum($forum, $start, $sort_style, $user);

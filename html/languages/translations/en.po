@@ -317,7 +317,7 @@ msgid "FORUM_THREAD_UNSUBSCRIBE"
 msgstr "Unsubscribe"
 
 msgid "FORUM_THREAD_SUBSCRIBE"
-msgstr "Subscribe to thread"
+msgstr "Subscribe"
 
 #########################################
 # Forum search features
@@ -439,15 +439,6 @@ msgstr ""
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
-msgid "You have %1 unread private messages."
-msgstr ""
-
-msgid "You have one unread private message."
-msgstr ""
-
-msgid "You have no unread private messages."
-msgstr ""
-
 msgid "Sender"
 msgstr ""
 
@@ -463,7 +454,7 @@ msgstr ""
 msgid "Block user"
 msgstr ""
 
-msgid "With selected"
+msgid "With selected messages"
 msgstr ""
 
 msgid "Mark as read"

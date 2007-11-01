@@ -119,22 +119,22 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
     //If the logged in user is moderator enable some extra features
     if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
         if ($thread->isHidden()){
-            echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."$tokens\">Un-Delete this thread</a>";
+            show_button("forum_moderate_thread_action.php?action=unhide&thread=".$thread->getID()."$tokens", "Un-delete this thread");
         } else {
-            echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=".$thread->getID()."\">Delete this thread</a>";
+            show_button("forum_moderate_thread.php?action=hide&thread=".$thread->getID(), "Delete", "Delete this thread (you can un-delete it later)");
         }
         if ($thread->isSticky()){
-            echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."$tokens\">De-sticky this thread</a>"; 
+            show_button("forum_moderate_thread_action.php?action=desticky&thread=".$thread->getID()."$tokens", "Make unsticky", "Make this thread not sticky");
         } else {
-            echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."$tokens\">Make this thread sticky</a>";
+            show_button("forum_moderate_thread_action.php?action=sticky&thread=".$thread->getID()."$tokens", "Make sticky", "Make this thread sticky");
         }
         if ($thread->isLocked()) {
-            echo "<br /><a href=\"forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->getID()."$tokens\">Unlock thread</a>";
+            show_button("forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->getID()."$tokens", "Unlock", "Unlock this thread");
         } else {
-            echo "<br /><a href=\"forum_moderate_thread_action.php?action=lock&amp;thread=".$thread->getID()."$tokens\">Lock thread</a>";
+            show_button("forum_moderate_thread_action.php?action=lock&thread=".$thread->getID()."$tokens", "Lock", "Lock this thread");
         }
-        echo "<br /><a href=\"forum_moderate_thread.php?action=move&amp;thread=".$thread->getID()."$tokens\">Move this thread</a>";
-        echo "<br /><a href=\"forum_moderate_thread.php?action=title&amp;thread=".$thread->getID()."$tokens\">Edit thread title</a>";
+        show_button("forum_moderate_thread.php?action=move&thread=".$thread->getID()."$tokens", "Move", "Move this thread to a different forum");
+        show_button("forum_moderate_thread.php?action=title&thread=".$thread->getID()."$tokens", "Edit title", "Edit thread title");
     }
 
     // Display a box that allows the user to select sorting of the posts

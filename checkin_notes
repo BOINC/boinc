@@ -10337,3 +10337,24 @@ David  1 Nov 2007
             util.inc
         user/
             forum_forum.php
+
+David  1 Nov 2007
+    - user web:
+        - changed Private Messages interface so that you see
+            all your messages on one page,
+            and remove various redundant links
+            (like the Inbox link on the Inbox page)
+        - changed links to buttons for moderator functions
+            
+    api/
+        graphics2_win.C
+    html/
+        inc/
+            forum.inc
+            forum_pm.inc
+        user/
+            forum_forum.php
+            forum_pm.php
+            forum_thread.php
+        languages/translations/
+            en.po

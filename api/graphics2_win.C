@@ -33,7 +33,6 @@ static HWND hWnd = NULL;        // Holds Our Window Handle
 static HINSTANCE hInstance;     // Holds The Instance Of The Application
 static RECT rect = {50, 50, 50+640, 50+480};
 static int current_graphics_mode = MODE_HIDE_GRAPHICS;
-static int acked_graphics_mode = -1;
 static POINT mousePos;
 static HDC myhDC;
 static bool visible = true;

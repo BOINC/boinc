@@ -8,23 +8,31 @@ require_once("../inc/akismet.inc");
 
 db_init();
 
+function show_block_link($userid) {
+    echo " <a href=\"forum_pm.php?action=block&id=$userid\">";
+    show_image(REPORT_POST_IMAGE, "Block messages from this user",  REPORT_POST_IMAGE_HEIGHT);
+    echo "</a>";
+}
+
 $action = get_str("action", true);
 if ($action == null) { $action = post_str("action", true); }
 if ($action == null) {
     // Prepend "select_" because translated actions may clash with default actions
     $action = "select_".post_str("action_select", true);
 }
-if ($action == "select_") { $action = "inbox"; }
+if ($action == "select_") {
+    $action = "inbox";
+}
 
 $logged_in_user = get_logged_in_user();
 
 if ($action == "inbox") {
-    page_head(tra("Private messages")." : ".tra("Inbox"));
-    pm_header();
+    page_head(tra("Private messages").": ".tra("Inbox"));
     
     if (get_int("sent", true) == 1) {
         echo "<div class=\"notice\">".tra("Your message has been sent.")."</div>\n";
     }
+    $options = new output_options;
     
     $query = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." ORDER BY date DESC");
     if (mysql_num_rows($query) == 0) {
@@ -33,24 +41,34 @@ if ($action == "inbox") {
         echo "<form action=\"forum_pm.php\" method=\"POST\">\n";
         echo form_tokens($logged_in_user->authenticator);
         start_table();
-        echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender")."</th><th>".tra("Date")."</th></tr>\n";
+        echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender and date")."</th><th>".tra("Message")."</th></tr>\n";
+        $first = true;
         while ($row = mysql_fetch_object($query)) {
+            if ($first) {
+                $first = false;
+            } else {
+                echo "<tr><td colspan=3><hr></td></tr>\n";
+            }
             echo "<tr>\n";
             $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$row->id."\">";
-            $subject = "<a href=\"forum_pm.php?action=read&id=".$row->id."\">".$row->subject."</a>";
+            $subject = $row->subject;
             if ($row->opened) {
-                echo "<td>".$checkbox.$subject."</td>\n";
+                echo "<td valign=top> $checkbox $subject </td>\n";
             } else {
-                echo "<td>".$checkbox."<strong>".$subject."</strong></td>\n";
+                echo "<td valign=top>".$checkbox."<strong>".$subject."</strong></td>\n";
             }
-            echo "<td>".user_links(get_user_from_id($row->senderid))."</td>\n";
-            echo "<td>".time_str($row->date)."</td>\n";
-            echo "</tr>\n";
+            echo "<td valign=top>".user_links(get_user_from_id($row->senderid));
+            show_block_link($row->senderid);
+            echo "<br>".time_str($row->date)."</td>\n";
+            echo "<td valign=top>".output_transform($row->content, $options)."<p>";
+            show_button("forum_pm.php?action=delete&id=$row->id", tra("Delete"), "Delete this message");
+            show_button("forum_pm.php?action=new&replyto=$row->id", tra("Reply"), "Reply to this message");
+            echo "</td></tr>\n";
         }
         $delete = "<input type=\"submit\" name=\"action_select\" value=\"".tra("Delete")."\">";
         $mark_as_read = "<input type=\"submit\" name=\"action_select\" value=\"".tra("Mark as read")."\">";
         $mark_as_unread = "<input type=\"submit\" name=\"action_select\" value=\"".tra("Mark as unread")."\">";
-        table_header(tra("With selected").":", array($delete." ".$mark_as_read." ".$mark_as_unread, "colspan=\"2\""));
+        table_header(tra("With selected messages").":", array($delete." ".$mark_as_read." ".$mark_as_unread, "colspan=\"2\""));
         end_table();
         echo "</form>\n";
     }
@@ -64,12 +82,11 @@ if ($action == "inbox") {
         page_head(tra("Private messages")." : ".$message->subject);
         pm_header();
         
-        $options = new output_options;
-        
         start_table();
         echo "<tr><th>".tra("Subject")."</th><td>".$message->subject."</td></tr>";
-        echo "<tr><th>".tra("Sender")."</th><td>".user_links(get_user_from_id($message->senderid))." 
-    <a href=\"forum_pm.php?action=block&amp;id=".$message->senderid."\"><img src=\"img/report_post.png\" width=\"9\" height=\"9\" alt=\"".tra("Block user")."\"></a></td></tr>";
+        echo "<tr><th>".tra("Sender")."</th><td>".user_links(get_user_from_id($message->senderid));
+        show_block_link($message->senderid);
+        echo "</td></tr>";
         echo "<tr><th>".tra("Date")."</th><td>".time_str($message->date)."</td></tr>";
         echo "<tr><th>".tra("Message")."</th><td>".output_transform($message->content, $options)."</td></tr>";
         echo "<tr><td class=\"pm_footer\"></td><td>\n";
@@ -98,7 +115,6 @@ if ($action == "inbox") {
             $message = mysql_fetch_object($message);
             $sender = lookup_user_id($message->senderid);
             page_head(tra("Private messages")." : ".tra("Really delete?"));
-            pm_header();
             echo "<div>".tra("Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?", $message->subject, $sender->name, time_str($message->date))."</div>\n";
             echo "<form action=\"forum_pm.php\" method=\"post\">\n";
             echo form_tokens($logged_in_user->authenticator);
@@ -207,7 +223,7 @@ if ($action == "inbox") {
     check_tokens($logged_in_user->authenticator);
     foreach ($_POST["pm_select"] as $id) {
         $query = mysql_query("SELECT * FROM private_messages ".
-                             "WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
+             "WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
         if (mysql_num_rows($query) == 1) {
             // User has rights to delete the message
             mysql_query("DELETE FROM private_messages WHERE id=".mysql_real_escape_string($id));
