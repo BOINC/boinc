@@ -10320,3 +10320,20 @@ David  1 Nov 2007
             forum_forum.php
             forum_thread.php
             white.css
+
+David  1 Nov 2007
+    - user web:
+        - use show_image() to show images in forums;
+            this adds a title=X so that users get
+            an explanation of what the action is.
+        - turns out the <a><input type=button></a>
+            works on Firefox but not IE.
+            Fix this by adding OnClick to the <input>
+
+    html/
+        inc/
+            forum_show.inc
+            forum.inc
+            util.inc
+        user/
+            forum_forum.php
