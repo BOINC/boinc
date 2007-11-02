@@ -10410,3 +10410,13 @@ Rom    2 Nov 2007
         
     client/
         main.C
+
+David  2 Nov 2007
+    - user web: change more links to buttons; fix PHP warning
+
+    html/
+        inc/
+            forum.inc
+            forum_moderators.inc
+        user/
+            forum_thread.php

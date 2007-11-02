@@ -19,6 +19,7 @@ if ($filter != "false"){
 }
 
 $logged_in_user = re_get_logged_in_user(false);
+$tokens = "";
 if ($logged_in_user) {
     $tokens = url_tokens($logged_in_user->getAuthenticator());
 }

@@ -324,12 +324,23 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         Posted ", pretty_time_str($post->getTimestamp());
     ;
 
-    if ($post->getParentPostID()) echo " - in response to <a href=\"forum_thread.php?id=".$thread->getID()."&nowrap=true#".$post->getParentPostID()."\">Message ID ".$post->getParentPostID()."</a>.";
-    if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"forum_edit.php?id=".$post->getID()."$tokens\">[Edit this post]</a>";
-    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)) echo post_moderation_links($config,$logged_in_user,$post,$tokens); //If user is moderator, show links
-    if ($post->getModificationTimestamp()) echo "<br>Last modified: ", pretty_time_Str($post->getModificationTimestamp());
+    if ($post->getParentPostID()) {
+        echo " - in response to <a href=\"forum_thread.php?id=".$thread->getID()."&nowrap=true#".$post->getParentPostID()."\">Message ID ".$post->getParentPostID()."</a>.";
+    }
+    echo " ";
+    if ($can_edit && $controls != NO_CONTROLS) {
+        show_button("forum_edit.php?id=".$post->getID()."$tokens", "Edit", "Edit this message");
+    }
+    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)) {
+        show_post_moderation_links($config, $logged_in_user, $post, $tokens);
+    }
+    if ($post->getModificationTimestamp()) {
+        echo "<br>Last modified: ", pretty_time_Str($post->getModificationTimestamp());
+    }
     if ($rated_below_threshold && $filter){
-        if ($user_is_on_ignorelist) $andtext=" and the user is on your ignore list";
+        if ($user_is_on_ignorelist) {
+            $andtext=" and the user is on your ignore list";
+        }
         echo "<br>This post has been filtered (rating: ".($post->getRating()).")$andtext, press <a href=\"?id=".$thread->getID()."&amp;filter=false#".$post->getID()."\">here</a> to view this thread without filtering";
     }
     echo "</td></tr></form>";
