@@ -10,7 +10,7 @@ require_once('../inc/forum_std.inc');
 
 db_init();
 
-page_head(tr(FORUM_SEARCH));
+page_head(tra("Forum search"));
 
 
 start_table();

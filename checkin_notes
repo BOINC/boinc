@@ -10358,3 +10358,38 @@ David  1 Nov 2007
             forum_thread.php
         languages/translations/
             en.po
+
+Rytis   2 Nov 2007
+    - user web: convert translations from tokens to strings; update Lithuanian translation.
+    - ops pages: add user removal feature (for spammers).
+    
+    html/
+        inc/
+            forum.inc
+            team.inc
+            user.inc
+            util.inc
+        languages/translations/
+            en.po
+            lt.po
+        ops/manage_user.php
+        user/
+            account_finish.php
+            apps.php
+            create_account_action.php
+            create_account_form.php
+            forum_edit.php
+            forum_forum.php
+            forum_index.php
+            forum_post.php
+            forum_reply.php
+            forum_report_post.php
+            forum_search.php
+            forum_search_action.php
+            forum_text_search_action.php
+            forum_thread.php
+            info.php
+            sample_index.php
+            top_hosts.php
+            top_teams.php
+            top_users.php

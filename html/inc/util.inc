@@ -112,7 +112,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     $rsslink = URL_BASE . "/rss_main.php";
     
     if (defined("CHARSET")) {
-        header("Content-type: text/html; charset=".tr(CHARSET));
+        header("Content-type: text/html; charset=".tra(CHARSET));
     }
     
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd\">\n";
@@ -589,7 +589,7 @@ function close_output_buffer($filename) {
 }
 
 function html_info() {
-    return "<br><a href=\"bbcode.php\" target=\"_new\"><font size=-2>".tr(FORUM_HTML_INFO)."</font></a>\n";
+    return "<br><a href=\"bbcode.php\" target=\"_new\"><span class=\"smalltext\">".tra("Use BBCode tags to format your text")."</span></a>\n";
 }
 
 function get_int($name, $optional=false) {

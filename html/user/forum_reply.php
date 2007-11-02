@@ -80,7 +80,7 @@ if ($content && (!$preview)){
     header('Location: forum_thread.php?id='.$thread->getID());
 }
 
-page_head(tr(FORUM_TITLE_SHORT));
+page_head(tra("Message boards"));
 
 show_forum_title($forum, $thread);
 
@@ -92,7 +92,7 @@ if ($preview == tra("Preview")) {
     echo "</div>\n";
 }
 
-start_forum_table(array(tr(FORUM_AUTHOR), tr(FORUM_MESSAGE)));
+start_forum_table(array(tra("Author"), tra("Message")));
 
 show_message_row($thread, $parent_post);
 show_posts($thread, $sort_style, $filter, $logged_in_user, true);

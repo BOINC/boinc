@@ -11,6 +11,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
+require_once("../inc/team.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/profile.inc");
@@ -20,6 +21,58 @@ db_init();
 
 $is_admin = true;
 $Nbf = sizeof($special_user_bitfield);
+
+
+// Delete a user (or at least try to)
+function delete_user($user){
+    global $delete_problem;
+  
+    if( !empty($user->teamid) ){
+        user_quit_team($user);
+        #$delete_problem .= "Removed user from team.<br/>";
+    }
+    if( $user->has_profile ){
+        mysql_query("DELETE FROM profile WHERE userid = $user->id");
+        delete_user_pictures($user->id);
+        mysql_query("UPDATE user SET has_profile=0 WHERE id=$user->id");
+        #$delete_problem .= "Deleted profile.<br/>";
+    }
+
+    if( $user->total_credit > 0.0 ){
+        $delete_problem .= "Cannot delete user: User has credit.<br/>";
+        return false;
+    }  
+
+    // Don't delete user if they have any outstanding Results
+    //
+    $q = "SELECT COUNT(*) AS count FROM result WHERE userid=".$user->id;
+    $result = mysql_query($q);
+    $c = mysql_fetch_object($result);
+    mysql_free_result($result);
+    if($c->count){
+        $delete_problem .= "Cannot delete user: User has ". $c->count.
+            " Results in the database.<br/>";
+    }
+
+    // Don't delete user if they have posted to the forums
+    //
+    $q = "SELECT COUNT(*) AS count FROM post WHERE user=".$user->id;
+    $result = mysql_query($q);
+    $c = mysql_fetch_object($result);
+    mysql_free_result($result);
+    if($c->count){
+        $delete_problem .= "Cannot delete user: User has ". $c->count.
+            " forum posts.<br/>";
+    }
+    if($delete_problem) return false;
+
+    $q = "DELETE FROM user WHERE id=".$user->id;
+    $result = mysql_query($q);
+    $delete_problem .= "User ".$user->id." deleted.";
+    unset($user);
+
+}
+$delete_problem="";
 
 /**
  * Process user search form
@@ -148,6 +201,12 @@ have been restored by ".$logged_in_user->name."\n";
 }// suspend_submit
 
 
+// Process a delete request.  Empty user will trigger search form.
+//
+if( isset($_POST['delete_user']) && !empty($user)){
+    delete_user($user);
+}
+
 
 // Now update from whatever might have been set above
 
@@ -197,7 +256,14 @@ row1("<b>User: </b> ".$user->name. "<br/>
       Id# ". $user->id 
      . "<div align='right'>
         <input name='reset_page'  type='submit' value='Reset'>
-        <input name='manage_user' type='submit' value='Update'></div>");
+        <input name='manage_user' type='submit' value='Update'><br>
+        <input name=\"delete_user\" type=\"submit\" value=\"Delete user\">
+        </div>");
+
+if($delete_problem){
+    echo "<font color='RED'>$delete_problem</font><br/>\n";
+}
+
 show_user_summary_public($user);
 show_profile_link($user);
 if( $is_admin ) {

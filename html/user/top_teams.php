@@ -80,7 +80,7 @@ if ($offset < ITEM_LIMIT) {
 
 
 // Now display what we've got (either gotten from cache or from DB)
-page_head(sprintf(tr(TOP_TEAMS_TITLE),$type_name));
+page_head(tra("Top %1 teams", $type_name));
 start_table();
 team_table_start($sort_by,$type_url);
 $i = 1 + $offset;

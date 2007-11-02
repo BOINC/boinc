@@ -463,7 +463,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
     } else {
         $is_helpdesk = false;
     }
-    $where = $is_helpdesk?tr(LINKS_QA):tr(FORUM_TITLE_SHORT);
+    $where = $is_helpdesk?tra("Questions and Answers"):tra("Message boards");
     $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
     if (!$forum && !$thread) {
         echo "<p class=\"title\">";

@@ -37,9 +37,9 @@ if (!$sort_style) {
 
 $Category = $forum->getCategory(); 
 if ($Category->getType()!=0){
-    page_head(tr(LINKS_QA).' : '.$forum->getTitle());
+    page_head(tra("Questions and Answers").' : '.$forum->getTitle());
 } else {
-    page_head(tr(FORUM_TITLE_SHORT).' : '.$forum->getTitle());
+    page_head(tra("Message boards").' : '.$forum->getTitle());
 }
 
 // Allow users with a linktab-browser to get some usefull links
@@ -83,7 +83,7 @@ page_tail();
 function show_forum($forum, $start, $sort_style, $user) {
     $gotoStr = "<div align=\"right\">".show_page_nav($forum,$start)."</div>";
     echo $gotoStr; // Display the navbar
-    start_forum_table(array("", tr(FORUM_THREADS), tr(FORUM_POSTS), tr(FORUM_AUTHOR), tr(FORUM_VIEWS), "<nobr>".tr(FORUM_LAST_POST)."</nobr>"));
+    start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
     
     $sticky_first = !$user || !$user->hasIgnoreStickyPosts();
     // Show hidden threads if logged in user is a moderator

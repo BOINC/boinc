@@ -32,7 +32,7 @@ if ($thread->isHidden()) {
         * thread if he goes so far as to name it by ID like this.
         * Otherwise, hide the thread.
         */
-        error_page(tr(FORUM_THREAD_HIDDEN));
+        error_page(tra("This thread has been hidden for administrative purposes"));
     }
 }
 
@@ -105,15 +105,15 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
     $reply_url = "";
     if (can_reply($thread, $logged_in_user)) {        
         $reply_url = "forum_reply.php?thread=".$thread->getID()."#input";
-        show_button($reply_url, tr(FORUM_THREAD_REPLY), "Add a new message to this thread");
+        show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
     }
     
     if ($is_subscribed) {
         $url = "forum_subscribe.php?action=unsubscribe&thread=".$thread->getID()."$tokens";
-        show_button($url, tr(FORUM_THREAD_UNSUBSCRIBE), "You are subscribed to this thread.  Click here to unsubscribe.");
+        show_button($url, tra("Unsubscribe"), "You are subscribed to this thread.  Click here to unsubscribe.");
     } else {
         $url = "forum_subscribe.php?action=subscribe&thread=".$thread->getID()."$tokens";
-        show_button($url, tr(FORUM_THREAD_SUBSCRIBE), "Click to get email when there are new posts in this thread");
+        show_button($url, tra("Subscribe"), "Click to get email when there are new posts in this thread");
     }
     
     //If the logged in user is moderator enable some extra features
@@ -145,14 +145,14 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
     echo "</tr>\n</table>\n</form>\n";
 
     // Here is where the actual thread begins.
-    $headings = array(array(tr(FORUM_AUTHOR),"authorcol"), array(tr(FORUM_MESSAGE),"",2));
+    $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),"",2));
 
     start_forum_table($headings, "id=\"thread\" width=100%");
     show_posts($thread, $sort_style, $filter, $logged_in_user, true);
     end_forum_table();
 
     if ($reply_url) {
-        show_button($reply_url, tr(FORUM_THREAD_REPLY), "Add a new message to this thread");
+        show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
     }
     show_forum_title($forum, $thread, false);
     $thread->incViews();

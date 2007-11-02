@@ -14,20 +14,19 @@ require_once('../inc/translation.inc');
 // and clients that don't use the account manager
 
 db_init();
-page_head(tr(CREATE_AC_TITLE));
+page_head(tra("Create an account"));
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
     echo "
-        <h1>".tr(CREATE_AC_DISABLED)."</h1>
-        <p>".tr(CREATE_AC_DISABLED_TEXT)."
-        </p>
+        <h1>".tra("Account creation is disabled")."</h1>
+        <p>".tra("Account creation is disabled for %1 at the moment. Please try again later.", PROJECT)."</p>
     ";
     page_tail();
     exit();
 }
 echo "<p>
-    <b>".tr(CREATE_AC_USE_CLIENT)."</b>
+    <b>".tra("NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password.")."</b></p>
 ";
 echo "
     <p>
@@ -40,9 +39,7 @@ if ($teamid) {
     if (!$user) {
         echo "No such user";
     } else {
-        echo "<b>";
-        printf(tr(CREATE_AC_TEAM), "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>");
-        echo "</b> <p> ";
+        echo "<b>".tra("This account will belong to the team %1 and will have the project preferences of its founder.", "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>")."</b><p>";
         echo "
             <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
         ";
@@ -54,17 +51,17 @@ start_table();
 //
 if(defined('INVITE_CODES')) {
      row2(
-         tr(AC_INVITE_CODE)."<br><span class=\"description\">".tr(AC_INVITE_CODE_DESC)."</span>",
+         tra("Invitation Code")."<br><span class=\"description\">".tra("A valid invitation code is required to create an account.")."</span>",
          "<input name=\"invite_code\" size=\"30\">"
      );
 } 
 
 row2(
-    tr(CREATE_AC_NAME)."<br><span class=\"description\">".tr(CREATE_AC_NAME_DESC)."</span>",
+    tra("Name")."<br><span class=\"description\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</span>",
     "<input name=\"new_name\" size=\"30\">"
 );
 row2(
-    tr(CREATE_AC_EMAIL)."<br><span class=\"description\">".tr(CREATE_AC_EMAIL_DESC)."</span>",
+    tra("Email Address")."<br><span class=\"description\">".tra("Must be a valid address of the form 'name@domain'.")."</span>",
     "<input name=\"new_email_addr\" size=\"50\">"
 );
 $min_passwd_length = parse_element($config, "<min_passwd_length>");
@@ -73,25 +70,23 @@ if (!$min_passwd_length) {
 }
 
 row2(
-    tr(CREATE_AC_PASSWORD)
-    ."<br><span class=\"description\">"
-    .sprintf(tr(CREATE_AC_PASSWORD_DESC), $min_passwd_length)
-    ." </span>",
+    tra("Password")
+    ."<br><span class=\"description\">".tra("Must be at least %1 characters", $min_passwd_length)."</span>",
     "<input type=\"password\" name=\"passwd\">"
 );
-row2(tr(CREATE_AC_CONFIRM_PASSWORD), "<input type=\"password\" name=\"passwd2\">");
+row2(tra("Confirm password"), "<input type=\"password\" name=\"passwd2\">");
 row2_init(
-    tr(CREATE_AC_COUNTRY)."<br><span class=\"description\">".tr(CREATE_AC_COUNTRY_DESC)."</span>",
+    tra("Country")."<br><span class=\"description\">".tra("Select the country you want to represent, if any.")."</span>",
     "<select name=\"country\">"
 );
 print_country_select();
 echo "</select></td></tr>\n";
 row2(
-    tr(CREATE_AC_ZIP)."<br><span class=\"description\">".tr(OPTIONAL).".</span>",
+    tra("Postal or ZIP Code")."<br><span class=\"description\">".tra("Optional")."</span>",
     "<input name=\"postal_code\" size=\"20\">"
 );
 row2("",
-    "<input type=\"submit\" value=\"".tr(CREATE_AC_CREATE)."\">"
+    "<input type=\"submit\" value=\"".tra("Create account")."\">"
 );
 end_table();
 echo "

@@ -45,10 +45,10 @@ if ($teamid) {
 if(defined('INVITE_CODES')) {
     $invite_code = process_user_text($_POST["invite_code"]);
     if (strlen($invite_code)==0) {
-        show_error( tr(AC_INVITE_REQUIRED) );
+        show_error(tra("You must supply an invitation code to create an account."));
     }
     if (!preg_match(INVITE_CODES, $invite_code)) {
-        show_error( tr(AC_INVITE_INVALID) );
+        show_error(tra("The invitation code you gave is not valid."));
     }
 } 
 

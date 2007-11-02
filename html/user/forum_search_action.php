@@ -17,7 +17,7 @@ if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
     $show_hidden_posts = false;
 }
 
-page_head(tr(FORUM_SEARCH));
+page_head(tra("Forum search"));
 
 $search_keywords = post_str("search_keywords", true);
 $search_author = post_str("search_author", true);
@@ -47,7 +47,7 @@ $thread_ids = $dbhandler->searchThreadTitles($search_list, $forum, $user, $min_t
 if ($thread_ids){
     echo "<p><a href=\"forum_search.php\">Perform another search</a></p>";
     echo "<h2>Threads found matching your search query:</h2>";
-    start_forum_table(array(tr(FORUM_TOPIC), tr(FORUM_THREADS), tr(FORUM_POSTS), tr(FORUM_AUTHOR), tr(FORUM_VIEWS), "<nobr>".tr(FORUM_LAST_POST)."</nobr>"));
+    start_forum_table(array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
     foreach ($thread_ids as $key => $thread_id){
 	$thread = new Thread($thread_id);
 	if ($thread->isHidden()) continue;
@@ -72,7 +72,7 @@ $post_ids = $dbhandler->searchPosts($search_list, $forum, $user, $min_timestamp,
 
 if ($post_ids){
     echo "<h2>Posts found matching your search query:</h2>";
-    start_forum_table(array(tr(FORUM_TOPIC), tr(FORUM_THREADS), tr(FORUM_AUTHOR),"<nobr>".tr(FORUM_LAST_POST)."</nobr>"));
+    start_forum_table(array(tra("Topic"), tra("Threads"), tra("Author"),"<nobr>".tra("Last post")."</nobr>"));
     if ($logged_in_user){
         $options = $logged_in_user->getTextTransformSettings();
     } else {

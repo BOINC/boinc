@@ -21,8 +21,8 @@ if ($xml) {
     xml_header();
     echo "<app_versions>\n";
 } else {
-    page_head(tr(APPS_TITLE));
-    echo tr(APPS_DESCRIPTION)."<br><br>
+    page_head(tra("Applications"));
+    echo tra("%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
     ";
     start_table();
 }
@@ -36,7 +36,7 @@ while ($app = mysql_fetch_object($result)) {
     } else {
         echo "
             <tr><th colspan=3>$app->user_friendly_name</th></tr>
-            <tr><th>".tr(APPS_PLATFORM)."</th><th>".tr(APPS_VERSION)."</th><th>".tr(APPS_INSTALLTIME)."</th></tr>\n
+            <tr><th>".tra("Platform")."</th><th>".tra("Current version")."</th><th>".tra("Installation time")."</th></tr>\n
         ";
     }
     for ($i=0; $i<sizeof($platforms); $i++) {

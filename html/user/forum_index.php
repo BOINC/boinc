@@ -34,7 +34,7 @@ function forum_summary($forum) {
     </tr>";
 }
 
-page_head(tr(FORUM_TITLE));
+page_head(tra("%1 Message boards", PROJECT));
 
 echo "
     <p>
@@ -45,7 +45,7 @@ echo "
 ";
 
 show_forum_title(NULL, NULL);
-start_forum_table(array(tr(FORUM_TOPIC), tr(FORUM_THREADS), tr(FORUM_POSTS), tr(FORUM_LAST_POST)));
+start_forum_table(array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post")));
 
 $categories = $mainFactory->getCategories();
 $i=0;

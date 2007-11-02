@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-10-30 21:31+0200\n"
+"PO-Revision-Date: 2007-11-02 16:36+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,308 +35,257 @@ msgstr "Lithuanian"
 # ########################################
 # Apps page (apps.php)
 # ########################################
-msgid "APPS_TITLE"
+msgid "Applications"
 msgstr "Programos"
 
-msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT projektas naudoja sekančias programas. Kai Jūs dalyvaujate $PROJECT projekte, viena ar kelios iš šių programų vykdys darbą Jūsų kompiuteryje. Aktualiausia programos versija bus atsiųsta į Jūsų kompiuterį. Tai įvyks automatiškai ir jums nereikia nieko dėl to daryti."
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr ""
 
-msgid "APPS_PLATFORM"
+msgid "Platform"
 msgstr "Platforma"
 
-msgid "APPS_VERSION"
-msgstr "Naudojama versija"
+msgid "Current version"
+msgstr "Dabartinė versija"
 
-msgid "APPS_INSTALLTIME"
-msgstr "Įdiegta"
+msgid "Installation time"
+msgstr "Įdiegimo laikas"
 
 # ########################################
 # Rules and Policies page (info.php)
 # ########################################
-msgid "RULES_TITLE"
-msgstr "Perskaitykite mūsų taisykles ir politiką"
+msgid "Read our rules and policies"
+msgstr "Perskaitykite mūsų taisykles"
 
-msgid "RULES_ONLY_AUTH"
-msgstr "Apie kompiuterius, kuriuose galite vykdyti $PROJECT projektą"
+msgid "Run %1 only on authorized computers"
+msgstr ""
 
-msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Projektą $PROJECT vykdykite tik su tais kompiuteriais, kurių savininkas esate pats arba esate gavęs savininko leidimą. Kai kurios kompanijos ar mokyklos laikosi politikos, kuri draudžia naudoti kompiuterius projektams kaip $PROJECT."
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr ""
 
-msgid "RULES_COMPUTER_USE"
-msgstr "Kaip $PROJECT projektas naudos Jūsų kompiuterį"
+msgid "How %1 will use your computer"
+msgstr ""
 
-msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Kai bus vykdomas $PROJECT projektas jūsų kompiuteryje, jis naudos dalį kompiuterio procesoriaus galios, disko vietos ir interneto ryšio. Jūs galite kontroliuoti kiek savo resursų skirtite $PROJECT projektui ir kada juos galima naudoti."
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr ""
 
-msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "Darbas, kuri atliks Jūsų kompiuteris, padės įgyvendinti $PROJECT projekto tikslus, kurie surašyti šioje interneto svetainėje. Projekto programos laikui bėgant gali keistis."
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr ""
 
-msgid "RULES_PRIVACY"
+msgid "Privacy policy"
 msgstr "Privatumo politika"
 
-msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Jūsų vartotojo abonementas $PROJECT projekte yra nustatomas pagal jūsų pasirinktą vardą. Šis vardas gali būti rodomas $PROJECT projekto interneto svetainėje kartu su apibendrintais duomenimis apie kompiuterio atliktą darbą $PROJECT projektui. Jei norite likti anonimiškas - pasirinkite vardą, kuris neatskleistų jūsų tapatybės."
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr ""
 
-msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Jei dalyvaujate $PROJECT projekte, informacija apie jūsų kompiuterį (tokia kaip procesoriaus tipas, atminties kiekis ir kt.) bus įrašyta $PROJECT projekto duomenų bazėje ir pagal ją bus sprendžiama kokį darbą skirti jūsų kompiuteriui. Ši informacija taip pat bus rodoma $PROJECT projekto interneto svetainėje. Jokia informacija, kuri galėtų atskleisti jūsų kompiuterio buvimo vietą (domeno pavadinima ar tinklo adresą) nebus rodoma."
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr ""
 
-msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Norint dalyvauti $PROJECT projekte, jums reikia turėti elektroninio pašto dėžutę. Jūsų elektroninio pašto adresas nebus rodomas $PROJECT projekto interneto svetainėje ar perduotas kitoms organizacijoms. $PROJECT projektas gali jums atsiųsti periodinius naujienių biuletenius, tačiau jų galima atsisakyti bet kuriuo metu."
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
 
-msgid "RULES_SAFE"
-msgstr "Ar saugu vykdyti $PROJECT projektą?"
+msgid "Is it safe to run %1?"
+msgstr ""
 
-msgid "RULES_SAFE_TEXT_A"
-msgstr "Kiekvieną kartą, kai siunčiatės programą per internetą, gali būti kad: programa turi pavojingų klaidų ar serveris gali būti  'nulaužtas'. $PROJECT projektas dėjo pastangas sumažinti šią riziką. Mes atidžiai išbandėme savo programas. Mūsų serveriai yra saugomi ugniasienių ir nustatyti aukščiausiam saugumo lygiui. Visos vykdomosios bylos yra pasirašytos skaitmeniniu parašu kompiuteryje, kuris nėra prijungtas prie interneto."
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr ""
 
-msgid "RULES_SAFE_TEXT_B"
-msgstr "$PROJECT projekto vykdomos programos gali perkaitinti kai kuriuos kompiuterius. Jei taip atsitinka, nustokite vykdyti $PROJECT projektą arba naudokite %s, kurios riboja kompiuterio procesoriaus naudojimą."
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
 
-msgid "RULES_UTILITY_PROGRAM"
-msgstr "papildomas programas"
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr ""
 
-msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT projektą sukūrė %s. BOINC buvo sukurtas Kalifornijos universitete."
-
-msgid "RULES_LIABILITY"
+msgid "Liability"
 msgstr "Atsakomybė"
 
-msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT projektas ir %s neprisiima atsakomybės už žalą padarytą Jūsų kompiuteriui, duomenų praradinimą ar kokį kitą įvykį ar sąlygą, kuri galėjo kilti dėl dalyvavimo $PROJECT projekte."
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr ""
 
-msgid "RULES_OTHER"
-msgstr "Kiti BOINC projektai"
+msgid "Other BOINC projects"
+msgstr ""
 
-msgid "RULES_OTHER_TEXT_A"
-msgstr "Kiti projektai, kaip ir $PROJECT, naudoja BOINC. Jūs galite nuspręsti prisijungti prie vieno ar kelių projektų. Tokiu atveju, Jūsų kompiuteris darys naudingą darbą kai $PROJECT projektas jo neturės."
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr ""
 
-msgid "RULES_OTHER_TEXT_B"
-msgstr "Išvardinti projektai nėra susiję su $PROJECT, ir dėl to mes negalime garantuoti už jų projekto saugumą ar tyrimo tikslus. Jūs sprendžiate ar prisijungti prie kitų projektų."
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr ""
 
 # ########################################
-# Create account form (create_account_form.php)
+# "Your account" page (home.php)
 # ########################################
-msgid "CREATE_AC_TITLE"
-msgstr "Susikurti abonentą"
+msgid "Create an account"
+msgstr "Sukurti abonementą"
 
-msgid "CREATE_AC_READ_RULES"
-msgstr "Prieš kurdami vartotojo abonementą perskaitykite %s."
-
-msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Nepildykite šios formos, jei Jūs jau gavote vartotojo abonemento slaptažodį. Eikite į %s."
-
-msgid "CREATE_AC_NAME"
+msgid "Name"
 msgstr "Vardas"
 
-msgid "CREATE_AC_NAME_DESC"
-msgstr "Identifikuoja vartotoja mūsų interneto svetainėje. Galite naudoti savo tikrą vardą arba slapyvardį."
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr ""
 
-msgid "CREATE_AC_EMAIL"
-msgstr "Elektroninio pašto adresas"
+msgid "Email Address"
+msgstr "El. pašto adresas"
 
-msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Turi būti teisingas adresas pagal formatą 'vardas@domenas'."
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr ""
 
-msgid "CREATE_AC_COUNTRY"
-msgstr "Šalis"
+msgid "Country"
+msgstr "Valstybė"
 
-msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Jei norite, galite pasirinkti šalį kuriai atstovausite."
+msgid "Select the country you want to represent, if any."
+msgstr ""
 
-msgid "CREATE_AC_ZIP"
+msgid "Postal or ZIP Code"
 msgstr "Pašto kodas"
 
-msgid "CREATE_AC_CREATE"
-msgstr "Sukurti vartotojo abonementą"
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "Create account"
+msgstr "Sukurti abonementą"
 
-msgid "CREATE_AC_DISABLED"
-msgstr "Vartotojo abonementų kūrimas yra išjungtas"
+msgid "Account creation is disabled"
+msgstr "Abonementų kūrimas yra išjungtas"
 
-msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "$PROJECT projekto vartotojų abonementų kūrimas šiuo metu yra išjungtas. Prašome bandyti vėliau."
+msgid "Account creation is disabled for %1 at the moment. Please try again later."
+msgstr ""
 
-msgid "CREATE_AC_TEAM"
-msgstr "Šis vartotojo abonementas priklausys %s komandai ir bus naudojami komandos įkūrėjo nustatymai."
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr ""
 
-msgid "CREATE_AC_USE_CLIENT"
-msgstr "PASTABA: Jei naudojate BOINC 5.2 versiją ar aukštesnę kartu su BOINC valdikliu, tuomet nenaudokite šios formos. Tiesiog paleiskite BOINC, pasirinkite Prisijungti prie projekto, įveskite elektroninio pašto adresą ir slaptažodį."
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr ""
 
-msgid "CREATE_AC_PASSWORD"
+msgid "Password"
 msgstr "Slaptažodis"
 
-msgid "CREATE_AC_PASSWORD_DESC"
-msgstr "Turi būti bent %s simboliai"
+msgid "Must be at least %1 characters"
+msgstr "Turi bti bent %1 simboli ilgio"
 
-msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgid "Confirm password"
 msgstr "Patvirtinkite slaptažodį"
 
-msgid "AC_INVITE_CODE"
-msgstr "Kvietimo kodas"
+msgid "Invitation Code"
+msgstr "Pakvietimo kodas"
 
-msgid "AC_INVITE_CODE_DESC"
-msgstr "Norint sukurti vartotojo abonementą jums reikia įvesti kvietimo kodą."
+msgid "A valid invitation code is required to create an account."
+msgstr ""
 
-msgid "AC_INVITE_REQUIRED"
-msgstr "Norint sukurti vartotojo abonementą jums reikia įvesti kvietimo kodą."
+msgid "You must supply an invitation code to create an account."
+msgstr ""
 
-msgid "AC_INVITE_INVALID"
-msgstr "Jūsų įvestas kvietimo kodas neteisingas."
+msgid "The invitation code you gave is not valid."
+msgstr ""
 
-# ########################################
-# Forum sample index page
-# ########################################
-msgid "FORUM_TITLE"
-msgstr "$PROJECT Pranešimų lentos"
+msgid "%1 Message boards"
+msgstr "%1 forumai"
 
-msgid "FORUM_TITLE_SHORT"
-msgstr "Pranešimų lentos"
+msgid "Message boards"
+msgstr "Forumai"
 
 # ########################################
 # General stuff (create_account_form.php and others)
 # ########################################
-msgid "OPTIONAL"
-msgstr "Papildomas pasirinkimas"
+msgid "Optional"
+msgstr "Nebūtinas"
 
 # ########################################
 # Various top table pages (top users, computers, teams)
 # ########################################
-msgid "TOP_PARTICIPANT_TITLE"
+msgid "Top participants"
 msgstr "Geriausi dalyviai"
 
-msgid "USER_TABLE_RANK"
-msgstr "Eilės numeris"
+msgid "Rank"
+msgstr "Eilė"
 
-msgid "USER_TABLE_NAME"
-msgstr "Vardas"
+msgid "Total credit"
+msgstr "Iš viso kreditų"
 
-msgid "TOTAL_CREDIT"
-msgstr "Viso kreditų"
-
-msgid "EXPAVG_CREDIT"
+msgid "Recent average credit"
 msgstr "Vidutinis kreditas"
 
-msgid "USER_TABLE_COUNTRY"
-msgstr "Šalis"
-
-msgid "USER_TABLE_PTIME"
+msgid "Participant since"
 msgstr "Dalyvis nuo"
 
-msgid "TOP_TEAMS_TITLE"
-msgstr "Geriausios %s komandos"
+msgid "Top %1 teams"
+msgstr ""
 
-msgid "TEAM_TABLE_MEMBERS"
-msgstr "Nariai"
+msgid "Members"
+msgstr "Dalyviai"
 
-msgid "TOP_HOST_TITLE"
+msgid "Top hosts"
 msgstr "Geriausi kompiuteriai"
 
 # ########################################
 # Forum
 # ########################################
-msgid "FORUM_POSTS"
-msgstr "Pranešimai"
+msgid "Posts"
+msgstr "Žinutės"
 
-msgid "FORUM_TOPIC"
+msgid "Topic"
 msgstr "Tema"
 
-msgid "FORUM_THREADS"
-msgstr "Skiltys"
+msgid "Threads"
+msgstr "Temos"
 
-msgid "FORUM_LAST_POST"
-msgstr "Paskutinis pranešimas"
+msgid "Last post"
+msgstr "Paskutinė žinutė"
 
-msgid "FORUM_AUTHOR"
+msgid "Author"
 msgstr "Autorius"
 
-msgid "FORUM_VIEWS"
-msgstr "Peržiūrėta"
+msgid "Views"
+msgstr "Peržiūros"
 
-msgid "FORUM_ERR_NOT_FOUND"
-msgstr "Nėra tokios pranešimų lentos"
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr ""
 
-msgid "FORUM_ERR_EXPAVG"
-msgstr "Norint sukurti naują skiltį %s temoje, jums reikia turėti tam tikrą kiekį kreditų. Tai yra naudojama tam, kad būtų apsaugota sistema nuo neteisingo jos panaudojimo."
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr ""
 
-msgid "FORUM_ERR_INTERVAL"
-msgstr "Jus negalite šiuo metu sukurti daugiau skilčių. Prašome palaukti prieš bandant tai daryti vėl. Laukimo periodas įvestas norint apsaugoti sistemą nuo neteisingo jos naudojimo."
+msgid "Create a new thread"
+msgstr "Sukurti naują temą"
 
-msgid "FORUM_QA_POST_MESSAGE"
-msgstr "%s vieta leidžia jums gauti pagalbą iš kitų vartotojų. Jei turite klausimų ar problemų:"
-
-msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "Perskaitykite jau esančių klausimų sąrašą. Jei jūsų klausimas jau yra, tuomet spauskite ant %s mygtuko. Jei į klausimą yra pateikti atsakymai, perskaitykite juos. Jei vienas iš jų atsako į jūsų klausimą, tuomet spauskite %s mygtyką."
-
-msgid "FORUM_QA_POST_MESSAGE3"
-msgstr "Jei jūsų klausimo niekas neuždavė, tuomet užpildykite ir išsiųskite šią formą."
-
-msgid "FORUM_QA_POST_MESSAGE4"
-msgstr "Tai neleidžia tų pačių klausimų užduoti pakartotinai."
-
-msgid "FORUM_QA_SUBMIT_NEW"
-msgstr "Užduoti naują klausimą/problemą"
-
-msgid "FORUM_SUBMIT_NEW"
-msgstr "Sukurti naują skiltį"
-
-msgid "FORUM_SUBMIT_NEW_TITLE"
+msgid "Title"
 msgstr "Pavadinimas"
 
-msgid "FORUM_QA_SUBMIT_NEW_HELP"
-msgstr "Apibūdinkite savo klausimą keliais žodžiais. Tai trumpas, aiškus apibendrinimas, kuris kitiems vartotojams su tuo pačiu klausimu ar atsakymu padės jį surasti."
+msgid "Add my signature to this post"
+msgstr ""
 
-msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "Jei susiduriate su programinės įrangos problemomis, paminėkite programos versijos numerį, savo kompiuterio ir operacinės sistemos tipą."
+msgid "Message"
+msgstr "Žinutė"
 
-msgid "FORUM_ADD_MY_SIG"
-msgstr "Pridėti mano parašą prie šio pranešimo"
-
-msgid "FORUM_MESSAGE"
-msgstr "Pranešimas"
-
-msgid "FORUM_QA_GOT_PROBLEM_TOO"
-msgstr "Aš taip pat turiu šią problemą"
-
-msgid "FORUM_QA_QUESTION_ANSWERED"
-msgstr "Tai atsakė į mano klausimą"
-
-msgid "FORUM_HTML_INFO"
-msgstr "Naudokite BBCode žymes savo teksto formatavimui"
+msgid "Use BBCode tags to format your text"
+msgstr ""
 
 # ########################################
 # Forum thread
 # ########################################
-msgid "FORUM_THREAD_HIDDEN"
-msgstr "Šį skiltis buvo paslėpta administravimo tikslais"
+msgid "This thread has been hidden for administrative purposes"
+msgstr ""
 
-msgid "FORUM_THREAD_REPLY"
-msgstr "Atsakyti į šią skiltį"
+msgid "Post to thread"
+msgstr ""
 
-msgid "FORUM_THREAD_SUBSCRIBED"
-msgstr "Jūs esate registravęsis šioje skiltyje."
+msgid "Unsubscribe"
+msgstr ""
 
-msgid "FORUM_THREAD_UNSUBSCRIBE"
-msgstr "Norėdami išsiregistruoti spauskite čia"
+msgid "Subscribe"
+msgstr ""
 
-msgid "FORUM_THREAD_SUBSCRIBE"
-msgstr "Registruotis šioje skiltyje"
+msgid "Forum search"
+msgstr "Paieška forumuose"
 
-# ########################################
-# Forum search features
-# ########################################
-msgid "FORUM_SEARCH"
-msgstr "Paieška pranešimų lentose"
+msgid "Titles containing '%1'"
+msgstr ""
 
-msgid "FORUM_SEARCH_TITLES"
-msgstr "Pavadinimai turintys '%s'"
+msgid "Posts containing '%1'"
+msgstr ""
 
-msgid "FORUM_SEARCH_BODIES"
-msgstr "Pranešimai turintys '%s'"
+msgid "No titles containing '%1' could be found."
+msgstr ""
 
-msgid "FORUM_SEARCH_TITLES_NO"
-msgstr "Nerasta pavadinimų su '%s'."
-
-msgid "FORUM_SEARCH_BODIES_NO"
-msgstr "Nerasta pranešimų su '%s'."
+msgid "No posts containing '%1' could be found."
+msgstr ""
 
 # ########################################
 # Private messages
@@ -367,9 +316,6 @@ msgstr "Vartotojo ID arba unikalūs vardai, atskirti kableliais"
 
 msgid "Subject"
 msgstr "Tema"
-
-msgid "Message"
-msgstr "Žinutė"
 
 msgid "Send message"
 msgstr "Siųsti žinutę"
@@ -440,15 +386,6 @@ msgstr "Vartotojui %1 uždrausta jums siųsti asmenines žinutes."
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Kad atblokuotumėte, apsilankykite %1diskusijų lentos nustatymuose%2"
 
-msgid "You have %1 unread private messages."
-msgstr "Turite %1 neskaitytas asmenines žinutes."
-
-msgid "You have one unread private message."
-msgstr "Turite vieną neskaitytą asmeninę žinutę."
-
-msgid "You have no unread private messages."
-msgstr "Neturite neskaitytų asmeninių žinučių."
-
 msgid "Sender"
 msgstr "Siuntėjas"
 
@@ -464,8 +401,8 @@ msgstr "Atsakyti"
 msgid "Block user"
 msgstr "Blokuoti vartotoją"
 
-msgid "With selected"
-msgstr "Su pasirinktais"
+msgid "With selected messages"
+msgstr "Su pasirinktomis žinutėmis"
 
 msgid "Mark as read"
 msgstr "Pažymėti kaip perskaitytus"
@@ -476,8 +413,8 @@ msgstr "Pažymėti kaip neskaitytus"
 # ########################################
 # Links from the main page
 # ########################################
-msgid "LINKS_QA"
-msgstr "Klausimai ir Atsakymai"
+msgid "Questions and Answers"
+msgstr "Klausimai ir atsakymai"
 
 # ########################################
 # "Your account" page (home.php)
@@ -500,14 +437,8 @@ msgstr "Abonemento informacija"
 msgid "Email address"
 msgstr "El. pašto adresas"
 
-msgid "Name"
-msgstr "Vardas"
-
 msgid "URL"
 msgstr "Tinklapis"
-
-msgid "Country"
-msgstr "Valstybė"
 
 msgid "Postal code"
 msgstr "Pašto kodas"

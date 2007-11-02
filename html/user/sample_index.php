@@ -30,7 +30,7 @@ function show_nav() {
         </ul>
         <h2>Join ".PROJECT."</h2>
         <ul>
-        <li><a href=\"info.php\">".tr(RULES_TITLE)."</a>
+        <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
         <li> This project uses BOINC.
             If you're already running BOINC, select Attach to Project.
             If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
@@ -46,7 +46,7 @@ function show_nav() {
         <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
         <li><a href=\"team.php\">Teams</a> - create or join a team
         <li><a href=\"cert1.php\">Certificate</a>
-        <li> <a href=\"apps.php\">".tr(APPS_TITLE)."</a>
+        <li> <a href=\"apps.php\">".tra("Applications")."</a>
         </ul>
         <h2>Community</h2>
         <ul>

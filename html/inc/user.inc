@@ -113,8 +113,8 @@ function total_posts($user) {
 }
 
 function show_credit($user) {
-    row2(tr(TOTAL_CREDIT), format_credit_large($user->total_credit));
-    row2(tr(EXPAVG_CREDIT), format_credit($user->expavg_credit));
+    row2(tra("Total credit"), format_credit_large($user->total_credit));
+    row2(tra("Recent average credit"), format_credit($user->expavg_credit));
     project_user_credit($user);
 }
 
@@ -287,23 +287,23 @@ function user_table_start($sort_by) {
     start_table();
     echo "
         <tr>
-        <th>".tr(USER_TABLE_RANK)."</th>
-        <th>".tr(USER_TABLE_NAME)."</th>
+        <th>".tra("Rank")."</th>
+        <th>".tra("Name")."</th>
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_users.php?sort_by=expavg_credit>".tr(EXPAVG_CREDIT)."</a></th>
-            <th>".tr(TOTAL_CREDIT)."</th>
+            <th><a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a></th>
+            <th>".tra("Total credit")."</th>
         ";
     } else {
         echo "
-            <th>".tr(EXPAVG_CREDIT)."</th>
-            <th><a href=top_users.php?sort_by=total_credit>".tr(TOTAL_CREDIT)."</a></th>
+            <th>".tra("Recent average credit")."</th>
+            <th><a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a></th>
         ";
     }
     echo "
-        <th>".tr(USER_TABLE_COUNTRY)."</th>
-        <th>".tr(USER_TABLE_PTIME)."</th>
+        <th>".tra("Country")."</th>
+        <th>".tra("Participant since")."</th>
         </tr>
     ";
 }

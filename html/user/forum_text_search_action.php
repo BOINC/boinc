@@ -16,7 +16,7 @@ $what = '';
 
 if (isset($_GET['titles'])) {
     $what = 'titles=1';
-    page_head(sprintf(tr(FORUM_SEARCH_TITLES),$search_string)); //"les containing '$search_string'");
+    page_head(tra("Titles containing '%1'", $search_string)); //"les containing '$search_string'");
     $q = "SELECT * FROM `thread` WHERE `title` LIKE '%$search_string_clean%' AND `hidden` = 0 ORDER BY `create_time` DESC LIMIT $offset,$count";
     $result = mysql_query($q);
     echo mysql_error();
@@ -35,13 +35,13 @@ if (isset($_GET['titles'])) {
     mysql_free_result($result);
 
     if ($offset==0 && $n==0) {
-        echo sprintf(tr(FORUM_SEARCH_TITLES_NO),htmlspecialchars($search_string));//"No titles found containing '$search_string'";
+        echo tra("No titles containing '%1' could be found.", htmlspecialchars($search_string));//"No titles found containing '$search_string'";
     }
     
 } else if (isset($_GET['bodies'])) {
     $what .= 'bodies=1';
 
-    page_head(sprintf(tr(FORUM_SEARCH_BODIES),htmlspecialchars($search_string)));
+    page_head(tra("Posts containing '%1'", htmlspecialchars($search_string)));
     $q  = "SELECT * FROM post ";
     $q .= "LEFT JOIN thread ON post.thread = thread.id ";
     $q .= "WHERE MATCH(post.content) AGAINST ('$search_string_clean') ";
@@ -60,7 +60,7 @@ if (isset($_GET['titles'])) {
     }
     mysql_free_result($result);
     if ($offset==0 && $n==0) {
-        echo sprintf(tr(FORUM_SEARCH_BODIES_NO),htmlspecialchars($search_string));
+        echo tra("No posts containing '%1' could be found.", htmlspecialchars($search_string));
     }
 }
 

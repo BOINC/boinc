@@ -21,21 +21,21 @@ echo "
 ";
 start_table();
 row2(
-    tr(CREATE_AC_NAME)."<br><span class=description>".tr(CREATE_AC_NAME_DESC)."</span>",
-    "<input name=name size=30 value=$user->name>"
+    tra("Name")."<br><span class=\"description\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</span>",
+    "<input name=\"name\" size=\"30\" value=\"$user->name\">"
 );
 row2_init(
-    tr(CREATE_AC_COUNTRY)."<br><span class=description>".tr(CREATE_AC_COUNTRY_DESC)."</span>",
-    "<select name=country>"
+    tra("Country")."<br><span class=\"description\">".tra("Select the country you want to represent, if any.")."</span>",
+    "<select name=\"country\">"
 );
 print_country_select();
 echo "</select></td></tr>\n";
 row2(
-    tr(CREATE_AC_ZIP)."<br><span class=description>".tr(OPTIONAL).".</span>",
-    "<input name=postal_code size=20>"
+    tra("Postal or ZIP Code")."<br><span class=\"description\">".tra("Optional")."</span>",
+    "<input name=\"postal_code\" size=\"20\">"
 );
 row2("",
-    "<input type=submit value=OK>"
+    "<input type=\"submit\" value=\"OK\">"
 );
 end_table();
 echo "

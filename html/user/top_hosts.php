@@ -57,7 +57,7 @@ if ($offset < ITEM_LIMIT) {
 
 
 //Now display what we've got (either gotten from cache or from DB)
-page_head(tr(TOP_HOST_TITLE));
+page_head(tra("Top hosts"));
 top_host_table_start($sort_by);
 $i = 1 + $offset;
 $n = sizeof($data);

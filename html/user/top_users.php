@@ -62,7 +62,7 @@ if ($offset < ITEM_LIMIT) {
 }
 
 // Now display what we've got (either gotten from cache or from DB)
-page_head(tr(TOP_PARTICIPANT_TITLE));
+page_head(tra("Top participants"));
 user_table_start($sort_by);
 $i = 1 + $offset;
 $n = sizeof($data);
