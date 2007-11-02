@@ -10393,3 +10393,12 @@ Rytis   2 Nov 2007
             top_hosts.php
             top_teams.php
             top_users.php
+
+David  2 Nov 2007
+    - user web: <form> outside of <td> screwed up Opera
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_thread.php

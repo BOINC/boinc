@@ -95,8 +95,6 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
     }
     
     echo "
-        <form action=\"forum_thread.php\">
-        <input type=\"hidden\" name=\"id\" value=\"", $thread->getID(), "\">
         <table width=\"100%\" cellspacing=0 cellpadding=0>
         <tr>
         <td align=\"left\">
@@ -138,11 +136,16 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
     }
 
     // Display a box that allows the user to select sorting of the posts
-    echo "</td><td align=right style=\"border:0px\">";
-    echo "Sort ";
+    echo "</td><td align=right style=\"border:0px\">
+        <form action=\"forum_thread.php\">
+        <input type=\"hidden\" name=\"id\" value=\"", $thread->getID(), "\">
+        Sort 
+    ";
     echo select_from_array("sort", $thread_sort_styles, $sort_style);
-    echo "<input type=submit value=OK>\n</td>";
-    echo "</tr>\n</table>\n</form>\n";
+    echo "<input type=submit value=Sort>
+        </form>
+        </td></tr></table>
+    ";
 
     // Here is where the actual thread begins.
     $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),"",2));

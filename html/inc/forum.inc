@@ -305,8 +305,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     echo "</span></div></td>";
 
     if ($controls == FORUM_CONTROLS) {
-        echo "<form action=\"forum_rate.php?post=", $post->getID(), "\" method=\"post\">";
         echo "<td colspan=\"2\" class=\"postheader\">";
+        echo "<form action=\"forum_rate.php?post=", $post->getID(), "\" method=\"post\">";
     } else {
         echo "<td class=\"postheader\">";
     }
@@ -437,7 +437,7 @@ function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
             <input type=\"hidden\" name=\"search_sort\" value=\"5\">
             <input type=\"text\" name=\"search_keywords\">
             <input class=\"btn\" title=\"Search for words in forum messages\" type=\"submit\" value=\"Search forums\"><br>
-            <span class=\"smalltext\"><a href=\"forum_search.php\">advanced search</a></span>
+            <span class=\"smalltext\"><a href=\"forum_search.php\">Advanced search</a></span>
             </form>
         ";
         echo "</td>\n";
