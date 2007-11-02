@@ -10402,3 +10402,11 @@ David  2 Nov 2007
             forum.inc
         user/
             forum_thread.php
+
+Rom    2 Nov 2007
+    - CC: Remove the event handler for CTRL-C, or rather change it
+        so that it means the same thing as it does to other apps, just
+        quit the CC instead of suspending or resuming the CC.
+        
+    client/
+        main.C

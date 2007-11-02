@@ -216,38 +216,27 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID  ) {
     return 0;
 }
 
-BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
+BOOL WINAPI ConsoleControlHandler( DWORD dwCtrlType ){
     BOOL bReturnStatus = FALSE;
     BOINCTRACE("***** Console Event Detected *****\n");
     switch( dwCtrlType ){
-    case CTRL_C_EVENT:
-        BOINCTRACE("Event: CTRL-C Event\n");
-        if(gstate.tasks_suspended) {
-            resume_client();
-        } else {
-            suspend_client();
-        }
-        bReturnStatus =  TRUE;
-        break;
-    case CTRL_BREAK_EVENT:
-        BOINCTRACE("Event: CTRL-BREAK Event\n");
-        quit_client();
-        bReturnStatus =  TRUE;
-        break;
-    case CTRL_CLOSE_EVENT:
-        BOINCTRACE("Event: CTRL-CLOSE Event\n");
-        quit_client();
-        break;
-    case CTRL_SHUTDOWN_EVENT:
-        BOINCTRACE("Event: CTRL-SHUTDOWN Event\n");
-        quit_client();
-        break;
     case CTRL_LOGOFF_EVENT:
         BOINCTRACE("Event: CTRL-LOGOFF Event\n");
         if (!gstate.executing_as_daemon) {
            quit_client();
         }
         bReturnStatus =  TRUE;
+        break;
+    case CTRL_C_EVENT:
+    case CTRL_BREAK_EVENT:
+        BOINCTRACE("Event: CTRL-C or CTRL-BREAK Event\n");
+        quit_client();
+        bReturnStatus =  TRUE;
+        break;
+    case CTRL_CLOSE_EVENT:
+    case CTRL_SHUTDOWN_EVENT:
+        BOINCTRACE("Event: CTRL-CLOSE or CTRL-SHUTDOWN Event\n");
+        quit_client();
         break;
     }
     return bReturnStatus;
@@ -350,10 +339,6 @@ static void init_core_client(int argc, char** argv) {
             LogEventErrorMessage(TEXT("Failed to register the console control handler\n"));
         }
         exit(1);
-    } else {
-        printf(
-            "\nTo pause/resume tasks hit CTRL-C, to exit hit CTRL-BREAK\n"
-        );
     }
 #endif
 }
