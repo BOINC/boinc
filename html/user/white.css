@@ -22,8 +22,9 @@ body {
 }
 
 th{
-    background-color: #c8c8c8;
+    background-color: #c0c0c0;
     font-weight: bold;
+    border: 1px solid white;
 }
 
 td {
