@@ -113,3 +113,6 @@ alter table credited_job
 
 alter table team_delta
     add index team_delta_teamid (teamid, timestamp);
+
+alter table team_admin
+    add unique (teamid, userid);

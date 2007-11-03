@@ -527,3 +527,10 @@ create table banishment_votes (
     time                integer                 not null,
     yes                 tinyint(1)              not null
 ) TYPE=MyISAM;
+
+create table team_admin (
+    teamid              integer                 not null,
+    userid              integer                 not null,
+    create_time         integer                 not null,
+    rights              integer                 not null,
+) type=MyISAM;

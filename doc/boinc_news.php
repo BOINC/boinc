@@ -2,6 +2,13 @@
 
 $project_news = array(
 
+array("November 2, 2007",
+    "BOINC needs more volunteer programmers!
+    If you're proficient in PHP and MySQL, C++ and WxWidgets,
+    or C++ system programming,
+    please <a href=http://boinc.berkeley.edu/trac/wiki/DevProjects>read
+    about how you can help</a>."
+),
 array("October 22, 2007",
     "The BOINC-based <a href=http://www.bbc.co.uk/sn/climateexperiment>BBC
     Climate Change Experiment</a> has won the prestigious

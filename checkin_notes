@@ -10429,3 +10429,14 @@ David  2 Nov 2007
         forum_pm.php
         white.css
 
+David  2 Nov 2007
+    - user web: a private message is considered "read" the
+        first time it's shown.
+        No explicit "mark as read" action needed.
+        Also, no confirmation for message delete.
+
+    db/
+        constraints.sql
+        schema.sql
+    html/user/
+        forum_pm.php

@@ -61,8 +61,7 @@ function do_inbox($logged_in_user) {
     } else {
         echo "<form name=msg_list action=\"forum_pm.php\" method=\"POST\">\n";
         echo form_tokens($logged_in_user->authenticator);
-        echo "<table cellpadding=6 cellspacing=0>";
-        //start_table();
+        start_table();
         echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender and date")."</th><th>".tra("Message")."</th></tr>\n";
         $i = 0;
         while ($row = mysql_fetch_object($query)) {
@@ -70,17 +69,16 @@ function do_inbox($logged_in_user) {
             $class = ($i%2)? "row0": "row1";
             echo "<tr class=$class>\n";
             $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$row->id."\">";
-            $subject = $row->subject;
-            if ($row->opened) {
-                echo "<td valign=top> $checkbox $subject </td>\n";
-            } else {
-                echo "<td valign=top>".$checkbox."<strong>".$subject."</strong></td>\n";
+            if (!$row->opened) {
+                mysql_query("UPDATE private_messages SET opened=1 WHERE id=$row->id");
             }
+            echo "<td valign=top> $checkbox $row->subject </td>\n";
             echo "<td valign=top>".user_links(get_user_from_id($row->senderid));
             show_block_link($row->senderid);
             echo "<br>".time_str($row->date)."</td>\n";
             echo "<td valign=top>".output_transform($row->content, $options)."<p>";
-            show_button("forum_pm.php?action=delete&id=$row->id", tra("Delete"), "Delete this message");
+            $tokens = url_tokens($logged_in_user->authenticator);
+            show_button("forum_pm.php?action=delete&id=$row->id&$tokens", tra("Delete"), "Delete this message");
             show_button("forum_pm.php?action=new&replyto=$row->id", tra("Reply"), "Reply to this message");
             echo "</td></tr>\n";
         }
@@ -91,10 +89,8 @@ function do_inbox($logged_in_user) {
             <a href=\"javascript:set_all(0)\">Unselect all</a>
             </td>
             <td class=shaded colspan=2>
-            With selected messages:
             <input type=\"submit\" name=\"action_select\" value=\"".tra("Delete")."\">
-            <input type=\"submit\" name=\"action_select\" value=\"".tra("Mark as read")."\">
-            <input type=\"submit\" name=\"action_select\" value=\"".tra("Mark as unread")."\">
+            selected messages
             </td></tr>
         ";
         end_table();
@@ -139,32 +135,9 @@ function do_new($logged_in_user) {
 function do_delete($logged_in_user) {
     $id = get_int("id", true);
     if ($id == null) { $id = post_int("id"); }
-    if (post_int("confirm", true) == 1) {
-        check_tokens($logged_in_user->authenticator);
-        mysql_query("DELETE FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$id");
-        header("Location: forum_pm.php");
-    } else {
-        $message = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$id");
-        if (mysql_num_rows($message) == 1) {
-            $message = mysql_fetch_object($message);
-            $sender = lookup_user_id($message->senderid);
-            page_head(tra("Private messages")." : ".tra("Really delete?"));
-            echo "<div>".tra("Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?", $message->subject, $sender->name, time_str($message->date))."</div>\n";
-            echo "<form action=\"forum_pm.php\" method=\"post\">\n";
-            echo form_tokens($logged_in_user->authenticator);
-            echo "<input type=\"hidden\" name=\"action\" value=\"delete\">\n";
-            echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">\n";
-            echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-            echo "<input type=\"submit\" value=\"".tra("Yes, delete")."\">\n";
-            echo "</form>\n";
-            echo "<form action=\"forum_pm.php\" method=\"post\">\n";
-            echo "<input type=\"hidden\" name=\"action\" value=\"inbox\">\n";
-            echo "<input type=\"submit\" value=\"".tra("No, cancel")."\">\n";
-            echo "</form>\n";
-        } else {
-            error_page(tra("No such message."));
-        }
-    }
+    check_tokens($logged_in_user->authenticator);
+    mysql_query("DELETE FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$id");
+    header("Location: forum_pm.php");
 }
 
 function do_send($logged_in_user) {
