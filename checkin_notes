@@ -10440,3 +10440,11 @@ David  2 Nov 2007
         schema.sql
     html/user/
         forum_pm.php
+
+Rytis   3 Nov 2007
+    - user web: style server status page with CSS, some cleanup of the
+        stylesheet (based on ticket #457).
+
+    html/
+        ops/sample_server_status.php
+        user/white.css

@@ -94,13 +94,13 @@ function show_status($host, $function, $running) {
     $htmlstring = "<tr><td>$function</td><td>$host</td>";
     if ($running == 1) {
         $xmlstring .= "      <status>running</status>\n";
-        $htmlstring .= "<td bgcolor=00ff00>Running</td>\n";
+        $htmlstring .= "<td class=\"running\">Running</td>\n";
     } elseif ($running == 0) {
         $xmlstring .= "      <status>not running</status>\n";
-        $htmlstring .= "<td bgcolor=ff0000>Not Running</td>\n";
+        $htmlstring .= "<td class=\"notrunning\">Not Running</td>\n";
     } else {
         $xmlstring .= "      <status>disabled</status>\n";
-        $htmlstring .= "<td bgcolor=ff8800>Disabled</td>\n";
+        $htmlstring .= "<td class=\"disabled\">Disabled</td>\n";
     }
     $xmlstring .= "    </daemon>\n";
     $htmlstring .= "</tr>\n";

@@ -1,23 +1,14 @@
-a:link {
+a:link, a:visited, a:active {
     color: blue;
 }
 
-a:visited {
-    color: blue;
-}
-
-a:active {
-    color: blue;
-}
-
-body , table , select {
+body, table, select {
     background-color: white;
     font-family: Verdana, Arial, Sans-Serif;
     font-size: 12px;
 }
 
 body {
-    background-color: white;
     color: black;
 }
 
@@ -40,7 +31,7 @@ td.shaded {
 }
 
 td.indent {
-     border-left: 4px solid white;
+    border-left: 4px solid white;
 }
 
 td.heading {
@@ -64,17 +55,17 @@ td.fieldvalue {
     font-weight: bold;
 }
 
-td.fieldname_error {          
+td.fieldname_error {
     background-color: #ff8888;
-    text-align: right;        
-    vertical-align: top;      
-}                             
+    text-align: right;
+    vertical-align: top;
+}
 
-td.fieldvalue_error {         
+td.fieldvalue_error {
     background-color: #ff8888;
-    vertical-align: top;      
-    font-weight: bold;        
-}                             
+    vertical-align: top;
+    font-weight: bold;
+}
 
 td.category {
     background-color: #dddddd;
@@ -101,12 +92,12 @@ a.navbar:hover {
 }
 
 tr.row0 {
-    background-color: rgb(217,217,217);
+    background-color: #d9d9d9;
     text-align: left;
 }
 
 tr.row1 {
-    background-color: rgb(237,237,237);
+    background-color: #eeeeee;
     text-align: left;
 }
 
@@ -116,21 +107,21 @@ tr.subtitle {
 }
 
 tr.message {
-    background-color:#E0E0EF;
+    background-color: #e0e0e0;
 }
 
-input , select {
+input, select {
     vertical-align: middle;
 }
 
-h1 , h2 {
+h1, h2 {
     color: black;
     font-size: x-large;
     font-weight: normal;
     margin-top: 10px;
 }
 
-h3 , h4 {
+h3, h4 {
     color: black;
     font-size: small;
     font-weight: bold;
@@ -226,17 +217,30 @@ tr.postseperator{
 
 tr.postseperator td{
     border-top: 1px solid rgb(170,170,170);
-    border-bottom: 1px      solid rgb(170,170,170);
+    border-bottom: 1px solid rgb(170,170,170);
 }
 
 td.threadline {
     text-align:left;
 }
 
-span.note{
+td.running { 
+    background-color: #00ff00;
+} 
+
+td.notrunning { 
+    background-color: #ff0000;
+} 
+ 
+td.disabled { 
+    background-color: #ff8800;
+} 
+
+span.note {
     font-weight: normal;
     font-size: 0.9em;
 }
+
 span.news_date {
     color: rgb(100,100,100);
     font-size: 0.9em;
@@ -315,4 +319,3 @@ span.news_date {
 input.btn {
     padding:0px 2px;
 }
-
