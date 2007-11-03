@@ -525,6 +525,15 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 			did_anything = true;
 			continue;
 		}
+		if (atp->wall_cpu_time_cumulative > atp->max_cpu_time / config.min_cpu_frac) {
+			msg_printf(atp->result->project, MSG_INFO,
+				"Aborting task %s: exceeded wall time limit %f\n",
+				atp->result->name, atp->max_cpu_time
+			);
+			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum wall time exceeded");
+			did_anything = true;
+			continue;
+		}
 		if (atp->procinfo.working_set_size_smoothed > max_ram) {
 			msg_printf(atp->result->project, MSG_INFO,
 				"Aborting task %s: exceeded memory limit %.2fMB > %.2fMB\n",

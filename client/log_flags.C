@@ -203,6 +203,7 @@ void CONFIG::defaults() {
     max_stdout_file_size = 0;
     max_stderr_file_size = 0;
     alt_platforms.clear();
+    min_cpu_frac = 0.25;    // just a guess
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -245,6 +246,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_int(tag, "max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int(tag, "max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_double(tag, "min_cpu_frac", min_cpu_frac)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

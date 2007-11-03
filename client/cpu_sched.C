@@ -307,6 +307,8 @@ void CLIENT_STATE::adjust_debts() {
         atp->result->project->wall_cpu_time_this_debt_interval += wall_cpu_time;
         total_wall_cpu_time_this_debt_interval += wall_cpu_time;
         total_cpu_time_this_debt_interval += atp->current_cpu_time - atp->debt_interval_start_cpu_time;
+
+		atp->wall_cpu_time_cumulative += wall_cpu_time;
     }
 
     time_stats.update_cpu_efficiency(

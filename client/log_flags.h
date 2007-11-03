@@ -100,6 +100,8 @@ struct CONFIG {
     std::vector<std::string> alt_platforms;
     int max_stdout_file_size;
     int max_stderr_file_size;
+    double min_cpu_frac;  // the minimum CPU fraction that is acceptable
+                          // used in deciding when to abort based on wall time
 
     CONFIG();
     void defaults();

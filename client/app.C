@@ -107,6 +107,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_cpu_time = 0;
     checkpoint_wall_time = 0;
     current_cpu_time = 0;
+    wall_cpu_time_cumulative = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
     too_large = false;
@@ -443,6 +444,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
+        "    <wall_cpu_time_cumulative>%f</wall_cpu_time_cumulative>\n"
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
@@ -455,6 +457,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         checkpoint_cpu_time,
         fraction_done,
         current_cpu_time,
+        wall_cpu_time_cumulative,
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
@@ -474,6 +477,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
+        "    <wall_cpu_time_cumulative>%f</wall_cpu_time_cumulative>\n"
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
@@ -487,6 +491,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         checkpoint_cpu_time,
         fraction_done,
         current_cpu_time,
+        wall_cpu_time_cumulative,
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
@@ -589,6 +594,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        else if (parse_double(buf, "<wall_cpu_time_cumulative>", wall_cpu_time_cumulative)) continue;
         else if (parse_int(buf, "<app_version_num>", n)) continue;
         else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;

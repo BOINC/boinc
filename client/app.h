@@ -89,6 +89,8 @@ public:
         // wall time at the last checkpoint
     double current_cpu_time;
         // most recent CPU time reported by app
+    double wall_cpu_time_cumulative;
+        // the cumulative wall time used by this task
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs (relative)
