@@ -64,7 +64,7 @@ echo "</ul></td></tr>";
 row1("Search user names");
 
 rowify("
-    <form action=\"user_search_action.php\" method=\"GET\">
+    <form action=\"user_search.php\" method=\"GET\">
     <input name=\"search_string\">
     <input type=\"submit\" value=\"OK\">
     </form>

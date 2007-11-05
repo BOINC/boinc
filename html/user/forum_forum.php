@@ -1,7 +1,5 @@
 <?php
-/**
- * This page displays the threads in a forum.
- **/
+// This page displays the threads in a forum.
 
 require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
@@ -74,14 +72,13 @@ show_forum($forum, $start, $sort_style, $user);
 
 page_tail();
 
-/**
- * This function shows the threadlist for the given forum
- * Starting from $start,
- * using the given $sort_style (as defined in forum.php)
- * and using the features for the logged in user in $user.
- **/
+// This function shows the threadlist for the given forum
+// Starting from $start,
+// using the given $sort_style (as defined in forum.php)
+// and using the features for the logged in user in $user.
+//
 function show_forum($forum, $start, $sort_style, $user) {
-    $gotoStr = "<div align=\"right\">".show_page_nav($forum,$start)."</div>";
+    $gotoStr = "<div align=\"right\">".show_page_nav($forum,$start)."</div><br>";
     echo $gotoStr; // Display the navbar
     start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
     
@@ -163,7 +160,7 @@ function show_forum($forum, $start, $sort_style, $user) {
         flush();
     }
     end_forum_table();
-    echo $gotoStr; // Display the navigation bar at the bottom as well.
+    echo "<br>$gotoStr";    // show page links
 }
 
 

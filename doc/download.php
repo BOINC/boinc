@@ -144,10 +144,6 @@ function show_download($pname) {
     echo "
         </td>
         </tr></table>
-        <hr>
-        <font size=-2>
-        ".tr(DL_MIRRORS)."
-        </font>
     ";
 }
 

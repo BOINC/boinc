@@ -10461,3 +10461,35 @@ Rom    5 Nov 2007
     client/
         app.h
         app_control.C
+
+David  5 Nov 2007
+    - user web: add a general-purpose user search mechanism.
+        This lets you lookup up users sorted by
+            - descending join time
+            - descending total credit, or
+            - descending RAC
+        and lets you filter them by
+            - country
+            - presence/absence of team
+            - presence/absence of profile
+        It's implemented in such a way that no more than N
+        DB rows are examined
+        (i.e. it doesn't necessarily show you all the results)
+    - PHP database: add enum_fields() member to DbConn and BoincUser.
+        This is to select a limited number of fields
+        e.g. to make large queries more efficient.
+        Also added BoincTeam::lookup_id_cache(); this is an example
+        of how to look up items likely to be repeated
+        (like teams when you're showing a list of users)
+
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            user.inc
+            util.inc
+        user/
+            forum_forum.php
+            top_users.php
+            user_search_action.php (removed)
+            user_search.php (new)

@@ -52,9 +52,15 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->update($this, 'user', $clause);
     }
-    static function enum($clause, $clause2=null) {
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('user', 'BoincUser', $clause, $clause2);
+        return $db->enum('user', 'BoincUser', $where_clause, $order_clause);
+    }
+    static function enum_fields($fields, $where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum_fields(
+            'user', 'BoincUser', $fields, $where_clause, $order_clause
+        );
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -63,6 +69,7 @@ class BoincUser {
 }
 
 class BoincTeam {
+    static $cache;
     static function insert($clause) {
         $db = BoincDb::get();
         return $db->insert('team', $clause);
@@ -70,6 +77,12 @@ class BoincTeam {
     static function lookup_id($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'team', 'BoincTeam');
+    }
+    static function lookup_id_cache($id) {
+        if (!isset($cache[$id])) {
+            $cache[$id] = self::lookup_id($id);
+        }
+        return $cache[$id];
     }
     function update($clause) {
         $db = BoincDb::get();

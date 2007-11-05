@@ -232,9 +232,8 @@ function end_table() {
     echo "</table>\n";
 }
 
-/*
- * Table header row with unlimited number of columns
- */
+// Table header row with unlimited number of columns
+
 function table_header() {
     echo "<tr>\n";
     for ($i = 0; $i < func_num_args(); $i++) {
@@ -248,9 +247,8 @@ function table_header() {
     echo "</tr>\n";
 }
 
-/*
- * Table row with unlimited number of columns
- */
+// Table row with unlimited number of columns
+
 function table_row() {
     echo "<tr>\n";
     for ($i = 0; $i < func_num_args(); $i++) {

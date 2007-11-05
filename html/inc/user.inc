@@ -283,44 +283,6 @@ function show_user_page_private($user) {
     end_table();
 }
 
-function user_table_start($sort_by) {
-    start_table();
-    echo "
-        <tr>
-        <th>".tra("Rank")."</th>
-        <th>".tra("Name")."</th>
-    ";
-    if ($sort_by == "total_credit") {
-        echo "
-            <th><a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a></th>
-            <th>".tra("Total credit")."</th>
-        ";
-    } else {
-        echo "
-            <th>".tra("Recent average credit")."</th>
-            <th><a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a></th>
-        ";
-    }
-    echo "
-        <th>".tra("Country")."</th>
-        <th>".tra("Participant since")."</th>
-        </tr>
-    ";
-}
-
-function show_user_row($user, $i) {
-    echo "
-        <tr class=row1>
-        <td>$i</td>
-        <td>", user_links($user), "</td>
-        <td>", format_credit($user->expavg_credit), "</td>
-        <td>", format_credit_large($user->total_credit), "</td>
-        <td>", $user->country, "</td>
-        <td>", time_str($user->create_time),"</td>
-        </tr>
-    ";
-}
-
 function make_user(
     $email_addr, $name, $passwd_hash,
     $country=null, $postal_code=null, $project_prefs=null, $teamid=0

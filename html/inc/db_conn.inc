@@ -26,7 +26,7 @@ class DbConn {
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
             echo "database error: ", mysql_error(), "\n<pre>";
-            var_dump(debug_backtrace());
+            //var_dump(debug_backtrace());
             echo "</pre>query: $q\n";
         }
         return $ret;
@@ -51,13 +51,14 @@ class DbConn {
         return $this->lookup($table, $classname, "id=$id");
     }
 
-    function enum($table, $classname, $clause=null, $clause2=null) {
+    function enum_fields(
+        $table, $classname, $fields, $where_clause, $order_clause
+    ) {
         $x = array();
-        if ($clause) {
-            $query = "select * from DBNAME.$table where $clause $clause2";
-        } else {
-            $query = "select * from DBNAME.$table $clause2";
+        if ($where_clause) {
+            $where_clause = "where $where_clause";
         }
+        $query = "select $fields from DBNAME.$table $where_clause $order_clause";
         $result = $this->do_query($query);
         if (!$result) return null;
         while ($obj = mysql_fetch_object($result, $classname)) {
@@ -66,6 +67,12 @@ class DbConn {
         mysql_free_result($result);
         return $x;
     }
+    function enum($table, $classname, $where_clause=null, $order_clause=null) {
+        return self::enum_fields(
+            $table, $classname, '*', $where_clause, $order_clause
+        );
+    }
+
     function update($obj, $table, $clause) {
         $query = "update DBNAME.$table set $clause where id=$obj->id";
         return $this->do_query($query);

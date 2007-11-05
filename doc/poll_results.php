@@ -14,6 +14,7 @@ if (file_exists($cachefile)) {
         exit();
     }
 }
+set_time_limit(0);
 ob_start();
 ob_implicit_flush(0);
 

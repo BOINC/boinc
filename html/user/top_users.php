@@ -13,7 +13,7 @@ if (!$users_per_page) {
 }
 define ('ITEM_LIMIT', 10000);
 
-function get_top_participants($offset,$sort_by) {
+function get_top_participants($offset, $sort_by) {
     global $users_per_page;
     $db = BoincDb::get(true);
     if ($sort_by == "total_credit") {
@@ -24,11 +24,42 @@ function get_top_participants($offset,$sort_by) {
     return BoincUser::enum(null, "order by $sort_order limit $offset,$users_per_page");
 }
 
-function participants_to_store($participants){
-    return serialize($participants);
+function user_table_start($sort_by) {
+    start_table();
+    echo "
+        <tr>
+        <th>".tra("Rank")."</th>
+        <th>".tra("Name")."</th>
+    ";
+    if ($sort_by == "total_credit") {
+        echo "
+            <th><a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a></th>
+            <th>".tra("Total credit")."</th>
+        ";
+    } else {
+        echo "
+            <th>".tra("Recent average credit")."</th>
+            <th><a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a></th>
+        ";
+    }
+    echo "
+        <th>".tra("Country")."</th>
+        <th>".tra("Participant since")."</th>
+        </tr>
+    ";
 }
-function store_to_participants($data){
-    return unserialize($data);
+
+function show_user_row($user, $i) {
+    echo "
+        <tr class=row1>
+        <td>$i</td>
+        <td>", user_links($user), "</td>
+        <td align=right>", format_credit($user->expavg_credit), "</td>
+        <td align=right>", format_credit_large($user->total_credit), "</td>
+        <td>", $user->country, "</td>
+        <td>", time_str($user->create_time),"</td>
+        </tr>
+    ";
 }
 
 if (isset($_GET["sort_by"])) {
@@ -48,14 +79,14 @@ if ($offset < ITEM_LIMIT) {
     // Do we have the data in cache?
     //
     if ($cacheddata){
-        $data = store_to_participants($cacheddata); // use the cached data
+        $data = unserialize($cacheddata); // use the cached data
     } else {
         //if not do queries etc to generate new data
         $data = get_top_participants($offset, $sort_by);
 
         //save data in cache
         //
-        set_cache_data(participants_to_store($data),$cache_args);
+        set_cache_data(serialize($data),$cache_args);
     }
 } else {
     error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");

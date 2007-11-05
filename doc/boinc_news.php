@@ -49,7 +49,7 @@ array("September 26, 2007",
     "The Third Pan-Galactic BOINC Workshop took place 5-6 Sept. in Geneva.
     The proceedings, including talk slides and notes from
     the breakout sessions, are
-    <a href=trac/wiki/WorkShop07/Summary>here</a>."
+    <a href=http://boinc.berkeley/edu/trac/wiki/WorkShop07/Summary>here</a>."
 ),
 array("September 25, 2007",
     "Check out the <a href=http://boinc.iaik.tugraz.at/>SHA-1 Collision Search Graz</a>
@@ -387,10 +387,10 @@ array("December 8, 2006",
     Olaf Bornack of
     <a href=http://www.boinc-halle-saale.de/>Team BOINC@Halle/Saale</a>
     has supplied
-    <a href=http://boinc.berkeley.edu/manager_skin.php#stencils>stencils</a>
+    <a href=http://boinc.berkeley.edu/http://boinc.berkeley.edu/trac/wiki/ManagerSkin#stencils>stencils</a>
     for creating skins for the new BOINC GUI.
     These have been used to make skins with
-    <a href=http://boinc.berkeley.edu/skins.php>BOINCcast,
+    <a href=http://boinc.berkeley.edu/http://boinc.berkeley.edu/trac/wiki/SkinExamples>BOINCcast,
     BOINC@Halle/Saale, and BOINCmas!</a> themes.
     <br clear=all>
     "
@@ -449,10 +449,10 @@ array("November 7, 2006",
     than the current BOINC manager.
     Projects can supply their own graphics
     (icons, application-specific slideshows) for use in this GUI;
-    see <a href=http://boinc.berkeley.edu/project_skin.php>instructions for how to do this</a>.
+    see <a href=http://boinc.berkeley.edu/ProjectSkin>instructions for how to do this</a>.
     In addition, the GUI itself is skinnable;
     a skin consists of
-    <a href=http://boinc.berkeley.edu/manager_skin.php>an XML
+    <a href=http://boinc.berkeley.edu/trac/wiki/ManagerSkin>an XML
     file and a collection of images</a>."
 ),
 array("October 17, 2006",
@@ -462,7 +462,7 @@ array("October 17, 2006",
 array("October 9, 2006",
     "Interested in getting a one-CPU-month job finished in five minutes?
     BOINC can potentially help you do this, but
-    <a href=low_latency.php>some work is needed</a>."
+    <a href=http://boinc.berkeley.edu/trac/wiki/LowLatency>some work is needed</a>."
 ),
 array("October 8, 2006",
     "Versions of BOINC (and some applications) are now
@@ -512,7 +512,7 @@ array("August 16, 2006",
     "New documents discuss using BOINC for
     <a href=dg.php>Desktop Grid Computing</a>
     and for creating
-    <a href=vcsc.php>Virtual Campus Supercomputing Centers</a>."
+    <a href=http://boinc.berkeley.edu/trac/wiki/VirtualCampusSupercomputerCenter>Virtual Campus Supercomputing Centers</a>."
 ),
 array("August 15, 2006",
     "A BBC Radio program on 'Citizen Science' - including
@@ -615,7 +615,7 @@ array("June 29, 2006",
     will appear in the <a href=http://sc06.supercomp.org>SC06 conference</a>."
 ),
 array("June 28, 2006",
-    "A new <a href=sandbox_user.php>Secure BOINC Client</a>
+    "A new <a href=http://boinc.berkeley.edu/trac/wiki/SandboxUser>Secure BOINC Client</a>
     for the Macintosh is available for testing.
     This version limits BOINC applications' access to your system and data,
     thus protecting your computer from accidental or malicious damage
@@ -691,7 +691,7 @@ array("May 17, 2006",
 ),
 array("May 11, 2006",
     "Version 5.4 of the BOINC client software has been released.
-    This version lets you use <a href=acct_mgt.php>account managers</a> -
+    This version lets you use <a href=trac/wiki/AccountManagers>account managers</a> -
     special web sites that let you browse BOINC projects,
     attach/detach, change resource share and settings,
     all with point-and-click simplicity.
@@ -985,7 +985,7 @@ array("June 24, 2005",
     will cause a deadline to be missed, it suspends work fetch."
 ),
 array("June 24, 2005",
-    "<a href=acct_mgt.php>Account management system</a>
+    "<a href=trac/wiki/AccountManagers>Account management system</a>
     are web sites that let participants sign up for
     multiple projects with just a few clicks (and no account keys).
     The BOINC manager (development version) now lets you
@@ -1082,7 +1082,7 @@ array(
     "We've added a <a href=trac/wiki/TranslateIntro>framework for web-site translations</a>
     (both BOINC-supplied and project-specific parts).
     We are adding support for
-    <a href=acct_mgt.php>account management systems</a>
+    <a href=trac/wiki/AccountManagers>account management systems</a>
     that simplify participation in multiple projects.
     Security enhancement: all application files are digitally signed.
     "
@@ -1096,7 +1096,7 @@ array(
     "January 19, 2005",
     "BOINC-based projects projects now have
     80,721 participants in 188 countries.
-    Based on <a href=flops.php>current credit statistics</a>,
+    Based on <a href=http://boinc.berkeley.edu/trac/wiki/CreditSystem>current credit statistics</a>,
     together they supply 106 TeraFLOPS of computing power -
     far more than any conventional supercomputer."
 ),
@@ -1365,7 +1365,7 @@ to run a distributed version of CHARMM
 
 array("February 1, 2004",
 "BOINC now has an
-<a href=trac/wiki/AnonymousPlatform>anonymous platform mechanism</a>
+<a href=http://boinc.berkeley/edu/trac/wiki/AnonymousPlatform>anonymous platform mechanism</a>
 which 1) allows computers of any type to participate
 in a BOINC project, and 2) allows participants to
 run only software they have compiled themselves,
