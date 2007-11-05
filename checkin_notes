@@ -10448,3 +10448,16 @@ Rytis   3 Nov 2007
     html/
         ops/sample_server_status.php
         user/white.css
+
+Rom    5 Nov 2007
+    - CC: Treat the return code 0xC0000142 as though it is a temporary
+        error. 0xC0000142 means STATUS_DLL_INIT_FAILED which can happen
+        when an application attempts to create a new process while the OS
+        is shutting down, and when the desktop heap is fully utilized.
+        
+        This will keep an app from erroring out during Vista's shutdown
+        sequence. Only a reboot can fix the desktop heap.
+        
+    client/
+        app.h
+        app_control.C

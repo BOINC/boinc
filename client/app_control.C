@@ -50,6 +50,14 @@
 
 #endif
 
+#ifndef STATUS_SUCCESS
+#define STATUS_SUCCESS 0x0                             // ntstatus.h: STATUS_SUCCESS
+#endif
+
+#ifndef STATUS_DLL_INIT_FAILED
+#define STATUS_DLL_INIT_FAILED 0xC0000142              // ntstatus.h: STATUS_DLL_INIT_FAILED
+#endif
+
 using std::vector;
 
 #include "filesys.h"
@@ -169,30 +177,44 @@ bool ACTIVE_TASK::has_task_exited() {
 
 
 static void limbo_message(ACTIVE_TASK& at) {
-    msg_printf(at.result->project, MSG_INFO,
-        "Task %s exited with zero status but no 'finished' file",
-        at.result->name
-    );
-    msg_printf(at.result->project, MSG_INFO,
-        "If this happens repeatedly you may need to reset the project."
-    );
+#ifdef _WIN32
+    if (at.result->exit_status = STATUS_DLL_INIT_FAILED) {
+        msg_printf(at.result->project, MSG_INFO,
+            "Task %s exited with a DLL initialization error.",
+            at.result->name
+        );
+        msg_printf(at.result->project, MSG_INFO,
+            "If this happens repeatedly you may need to reboot your computer."
+        );
+    } else {
+#endif
+        msg_printf(at.result->project, MSG_INFO,
+            "Task %s exited with zero status but no 'finished' file",
+            at.result->name
+        );
+        msg_printf(at.result->project, MSG_INFO,
+            "If this happens repeatedly you may need to reset the project."
+        );
+#ifdef _WIN32
+    }
+#endif
 }
 
 // handle a task whose process just did an exit(0)
 // (or, on Windows, was externally killed)
 //
-void ACTIVE_TASK::handle_exit_zero(bool& will_restart) {
+void ACTIVE_TASK::handle_exit_external(bool& will_restart) {
     // did it call boinc_finish()?
     //
     if (finish_file_present()) {
-        set_task_state(PROCESS_EXITED, "handle_exited_app");
+        set_task_state(PROCESS_EXITED, "handle_exit_external");
         return;
     }
 
     // did we send it a quit message?
     //
     if (task_state() == PROCESS_QUIT_PENDING) {
-        set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
+        set_task_state(PROCESS_UNINITIALIZED, "handle_exit_external");
         will_restart = true;
         return;
     }
@@ -202,14 +224,14 @@ void ACTIVE_TASK::handle_exit_zero(bool& will_restart) {
     //
     premature_exit_count++;
     if (premature_exit_count > 100) {
-        set_task_state(PROCESS_ABORTED, "handle_exit_zero");
+        set_task_state(PROCESS_ABORTED, "handle_exit_external");
         result->exit_status = ERR_TOO_MANY_EXITS;
-        gstate.report_result_error(*result, "too many exit(0)s");
-        result->set_state(RESULT_ABORTED, "handle_exit_zero");
+        gstate.report_result_error(*result, "too many normally harmless exit(s)");
+        result->set_state(RESULT_ABORTED, "handle_exit_external");
     } else {
         will_restart = true;
         limbo_message(*this);
-        set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
+        set_task_state(PROCESS_UNINITIALIZED, "handle_exit_external");
     }
 }
 
@@ -241,28 +263,38 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 #ifdef _WIN32
         close_process_handles();
         result->exit_status = exit_code;
-        if (exit_code) {
-            char szError[1024];
-            set_task_state(PROCESS_EXITED, "handle_exited_app");
-            gstate.report_result_error(
-                *result,
-                "%s - exit code %d (0x%x)",
-                windows_format_error_string(exit_code, szError, sizeof(szError)),
-                exit_code, exit_code
-            );
-			if (log_flags.task_debug) {
-				msg_printf(result->project, MSG_INFO,
-					"[task_debug] Process for %s exited",
-                    result->name
+        switch(exit_code) {
+            case STATUS_SUCCESS:
+            case STATUS_DLL_INIT_FAILED:
+                // These conditions can happen for a number of reasons.
+                //   1. External application terminated the science applicaton
+                //   2. The OS is shutting down and so attempting to start
+                //      any new application fails automatically.
+                //   3. The OS has run out of desktop heap and needs to be
+                //      rebooted.
+                handle_exit_external(will_restart);
+                break;
+            default:
+                char szError[1024];
+                set_task_state(PROCESS_EXITED, "handle_exited_app");
+                gstate.report_result_error(
+                    *result,
+                    "%s - exit code %d (0x%x)",
+                    windows_format_error_string(exit_code, szError, sizeof(szError)),
+                    exit_code, exit_code
                 );
-				msg_printf(result->project, MSG_INFO,
-					"[task_debug] exit code %d (0x%x): %s",
-					exit_code, exit_code,
-					windows_format_error_string(exit_code, szError, sizeof(szError))
-				);
-			}
-        } else {
-            handle_exit_zero(will_restart);
+			    if (log_flags.task_debug) {
+				    msg_printf(result->project, MSG_INFO,
+					    "[task_debug] Process for %s exited",
+                        result->name
+                    );
+				    msg_printf(result->project, MSG_INFO,
+					    "[task_debug] exit code %d (0x%x): %s",
+					    exit_code, exit_code,
+					    windows_format_error_string(exit_code, szError, sizeof(szError))
+				    );
+			    }
+                break;
         }
 #else
         if (WIFEXITED(stat)) {
@@ -277,7 +309,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     (-1<<8)|result->exit_status
                 );
             } else {
-                handle_exit_zero(will_restart);
+                handle_exit_external(will_restart);
             }
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
