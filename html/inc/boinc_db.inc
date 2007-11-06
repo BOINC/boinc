@@ -7,6 +7,20 @@ class BoincDb extends DbConn {
     static $instance;
 
     static function get($readonly = false) {
+        global $generating_xml;
+        if (web_stopped()) {
+            if ($generating_xml) {
+                xml_error(-183);
+            } else {
+                page_head("Page not available");
+                echo "This page requires database access.
+                    Our database server is temporarily shut down for maintenance.
+                    Please try again later.
+                ";
+                page_tail();
+            }
+            exit();
+        }
         if (!isset($instance)) {
             $config = get_config();
             $user = parse_config($config, '<db_user>');

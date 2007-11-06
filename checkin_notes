@@ -10513,3 +10513,11 @@ Charlie 6 Nov 2007
         buildWxMac.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Nov 2007
+    - user web: BoincDb::get() checks if web activity is stopped,
+        and shows an error page (or XML error) if so.
+
+    html/inc/
+        boinc_db.inc
+        util.inc

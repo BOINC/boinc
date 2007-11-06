@@ -142,9 +142,8 @@ function page_tail_main($show_date=false) {
     page_tail_aux(false, $show_date);
 }
 
-/**
- * See the comments for page_head()
- */
+// See the comments for page_head()
+//
 if (!function_exists("page_tail")){
 function page_tail($show_date=false, $prefix="") {
     page_tail_aux(true, $show_date, $prefix);
