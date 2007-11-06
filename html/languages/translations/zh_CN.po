@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.13761\n"
+"Project-Id-Version: rev.14020\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-10-24 23:11+0800\n"
+"PO-Revision-Date: 2007-11-03 16:27+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,15 +11,15 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 
-##########################################
+# #########################################
 # Language: English (International)
 # FileID  : $Id$
 # Author  : Janus Kristensen
 # Email   : jbk@visualgroup.dk
-##########################################
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
+# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -32,315 +32,267 @@ msgstr "简体中文"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Simplified Chinese"
 
-#########################################
+# ########################################
 # Apps page (apps.php)
-#########################################
-msgid "APPS_TITLE"
+# ########################################
+msgid "Applications"
 msgstr "计算程序"
 
-msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT 目前有如下几个计算程序。当您参与 $PROJECT 项目时， 适用于这些计算程序的任务包将会分发给您的计算机。 当前版本的计算程序也会下载到您的计算机上。这一切都是自动的，您不需要做任何操作。"
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "%1 目前有如下几个计算程序。当您参与 %1 项目时，适用于这些计算程序的任务包将会分发给您的计算机。当前版本的计算程序也会下载到您的计算机上。这一切都是自动的，您不需要做任何操作。"
 
-msgid "APPS_PLATFORM"
+msgid "Platform"
 msgstr "平台"
 
-msgid "APPS_VERSION"
+msgid "Current version"
 msgstr "当前版本"
 
-msgid "APPS_INSTALLTIME"
-msgstr "发布日期"
+msgid "Installation time"
+msgstr "发布时间"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
-#########################################
-msgid "RULES_TITLE"
-msgstr "阅读规定与政策"
+# ########################################
+msgid "Read our rules and policies"
+msgstr "阅读规定和政策"
 
-msgid "RULES_ONLY_AUTH"
-msgstr "仅在已授权的计算机上运行 $PROJECT"
+msgid "Run %1 only on authorized computers"
+msgstr "仅在已授权的计算机上运行 %1"
 
-msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "仅在您自己的或者已获得别人许可的计算机上运行 $PROJECT。某些企业和学校是禁止在他们的计算机上运行 $PROJECT 之类的程序的。"
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr "仅在您自己的或者已获准使用的计算机上运行 %1。某些企业和学校是禁止在他们的计算机上运行和 %1 的类似的项目。"
 
-msgid "RULES_COMPUTER_USE"
-msgstr "$PROJECT 如何使用您的计算机"
+msgid "How %1 will use your computer"
+msgstr "%1 如何使用您的计算机"
 
-msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "当您在计算机上运行 $PROJECT 时，他会使用您计算机上部分的处理器资源、磁盘空间以及网络带宽。您也可以控制 $PROJECT 的资源使用量。"
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr "当您在计算机上运行 %1 时，他会使用您计算机上部分的处理器资源、磁盘空间以及网络带宽。您可以控制 %1 的资源使用量以及何时可以使用。"
 
-msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "您的计算机所完成的任务仅用来帮助 $PROJECT 实现其网站上所说明的目标。有时计算程序的版本可能会改变。"
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr "您的计算机所完成的计算任务仅用来帮助 %1 实现其项目网站上所申明的目标。项目计算程序的版本可能会经常改变。"
 
-msgid "RULES_PRIVACY"
+msgid "Privacy policy"
 msgstr "隐私政策"
 
-msgid "RULES_PRIVACY_TEXT_A"
-msgstr "$PROJECT 通过您选择的名称来区分您的帐号。这个名称以及您已经为 $PROJECT 完成的任务摘要将显示在 $PROJECT的网站上。如果您想匿名，那请选择一个不会泄漏您身份的名称。"
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "%1 通过您选择的用户名来标识您的帐号。该用户名以及您为 %1 完成的计算任务的摘要将显示在 %1 的网站上。如果您想要匿名，那请选择一个不会泄漏您身份的用户名。"
 
-msgid "RULES_PRIVACY_TEXT_B"
-msgstr "如果您参加了 $PROJECT ，您计算机的相关信息比如处理器的型号、内存的大小等会被 $PROJECT 记录下来，以用来决定什么样的任务最适合您的计算机。 这些信息也会被显示在 $PROJECT 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "如果您参加了 %1，那您的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合您的计算机。 这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
 
-msgid "RULES_PRIVACY_TEXT_C"
-msgstr "为了参加 $PROJECT ，您必须提供一个能够接收到邮件的电子邮箱地址。这个地址不会被显示在 $PROJECT 的网站上。$PROJECT 会定期的向您发送项目新闻； 当然，您随时可以选择退订。"
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "为了参加 %1，您必须提供一个能够接收邮件的电子邮箱地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向您发送项目的新闻快讯； 当然，您随时可以选择退订。"
 
-msgid "RULES_SAFE"
-msgstr "运行 $PROJECT 安全吗？"
+msgid "Is it safe to run %1?"
+msgstr "运行 %1 安全吗？"
 
-msgid "RULES_SAFE_TEXT_A"
-msgstr "只要您从互联网下载程序就有可能碰到下载的程序有严重错误或者下载服务器被黑客攻击的情况。$PROJECT 已经尽力降低了这方面的风险。我们已经仔细测试了我们的程序。我们在服务器上安装了防火墙，并且设置了最高的安全级别。为了保证程序下载的完整性，全部的可执行文件会被放置在一台没有连接网络的安全的计算机中进行数字签名。"
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "只要您从互联网下载程序就有可能碰到有危险错误的程序或者下载服务器已被黑客攻击的情况。%1 已经尽力最小化这方面的风险。我们已经仔细测试了我们的程序。我们的服务器处于防火墙之后，并且设置了最高的安全级别。为了保证程序下载的正确性，全部的可执行文件会被放置在一台未联网的安全的计算机中进行数字签名。"
 
-msgid "RULES_SAFE_TEXT_B"
-msgstr "$PROJECT 的计算程序可能会导致某些计算机温度过高。如果您碰到了这种情形，请停止运行 $PROJECT 或使用 %s 来限制计算程序对处理器的使用率。"
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "%1 的计算程序可能会导致某些计算机温度过高。如果您碰到了这种情形，请停止运行 %1 或者使用 %2某些工具软件%3 来限制计算程序对处理器的使用。"
 
-msgid "RULES_UTILITY_PROGRAM"
-msgstr "辅助程序"
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 由 %2 开发。BOINC 由加州大学开发。"
 
-msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT 由 %s 开发。BOINC 由加州大学开发。"
-
-msgid "RULES_LIABILITY"
+msgid "Liability"
 msgstr "免责申明"
 
-msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT 和 %s 对于您的计算机损坏、数据丢失或其他任意可能由于参与 $PROJECT 所造成的事件没有赔偿责任。"
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr "%1 和 %2 对于您的计算机损坏、数据丢失或其他任意由于参与 %1 所可能造成的事件没有赔偿责任。"
 
-msgid "RULES_OTHER"
-msgstr "其它BOINC项目"
+msgid "Other BOINC projects"
+msgstr "其它 BOINC 项目"
 
-msgid "RULES_OTHER_TEXT_A"
-msgstr "除了 $PROJECT，还有其它项目同样使用BOINC平台。您可以考虑参与一个或多个项目，当您无法从 $PROJECT 获取新任务时，运行其他的项目能提高您的计算机的利用率。"
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "除了 %1，还有其它一些项目也使用BOINC平台。您也许会考虑同时参加多个项目，这样当您无法从 %1 获取计算任务时，您的计算机仍可以处理其它项目的计算任务。"
 
-msgid "RULES_OTHER_TEXT_B"
-msgstr "其它项目同 $PROJECT 没有关系，所以我们也不能保证他们的安全性及研究内容的实质，请您自行决定是否参与其他项目。"
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr "其它项目同 %1 没有关系，所以我们也无法保证这些项目的安全性以及确切的研究内容，请您自行决定是否参加其他项目。"
 
 #########################################
 # Create account form (create_account_form.php)
 #########################################
-msgid "CREATE_AC_TITLE"
-msgstr "创建账号"
-
-msgid "CREATE_AC_READ_RULES"
-msgstr "在创建帐号前请阅读 %s。"
-
-msgid "CREATE_AC_ALREADY_GOT"
-msgstr "如果您已经收到了帐号密钥，请不要提交这个表单。您应该%s。"
-
-msgid "CREATE_AC_NAME"
-msgstr "用户名"
-
-msgid "CREATE_AC_NAME_DESC"
-msgstr "您在我们网站上的标识，可以使用您的真实姓名或是昵称。"
-
-msgid "CREATE_AC_EMAIL"
-msgstr "电子邮箱地址"
-
-msgid "CREATE_AC_EMAIL_DESC"
-msgstr "必须是有效的地址，形式如 '用户名@域名'。"
-
-msgid "CREATE_AC_COUNTRY"
-msgstr "国家或地区"
-
-msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "选择您所在的国家或地区"
-
-msgid "CREATE_AC_ZIP"
-msgstr "邮编"
-
-msgid "CREATE_AC_CREATE"
+msgid "Create an account"
 msgstr "创建帐号"
 
-msgid "CREATE_AC_DISABLED"
-msgstr "新账号创建已被禁用"
+msgid "Name"
+msgstr "用户名"
 
-msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "$PROJECT 当前已经暂停了新帐号的注册，请以后再试。"
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "您在我们网站上的标识，可以使用您的真实姓名或是昵称。"
 
-msgid "CREATE_AC_TEAM"
-msgstr "此帐户将属于 %s 团队并且项目参数的默认值是由团队创建人设置的。"
+msgid "Email Address"
+msgstr "电子邮件地址"
 
-msgid "CREATE_AC_USE_CLIENT"
-msgstr "注意：如果您正在使用版本5.2之后的客户端，请不要使用这个表单。运行BOINC，选择其菜单的“加入项目”，然后输入电子邮箱地址及密码。"
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "必须是有效的电子邮箱地址，形式如 '用户名@域名'。"
 
-msgid "CREATE_AC_PASSWORD"
-msgstr "密码"
+msgid "Country"
+msgstr "国家或地区"
 
-msgid "CREATE_AC_PASSWORD_DESC"
-msgstr "必须至少包含%s个字符"
+msgid "Select the country you want to represent, if any."
+msgstr "选择您所希望代表的国家或地区。"
 
-msgid "CREATE_AC_CONFIRM_PASSWORD"
-msgstr "密码确认"
+msgid "Postal or ZIP Code"
+msgstr "邮编"
 
-msgid "AC_INVITE_CODE"
+msgid "Create account"
+msgstr "创建帐号"
+
+msgid "Account creation is disabled"
+msgstr "账号创建功能已被禁用"
+
+msgid "Account creation is disabled for %1 at the moment. Please try again later."
+msgstr "%1 当前已经暂停了新帐号的创建功能，请以后再试。"
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "此帐户将属于 %1 团队并且其项目参数的默认值和团队创建人的项目参数相同。"
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮箱地址并设置一个用户口令。"
+
+msgid "Password"
+msgstr "用户口令"
+
+msgid "Must be at least %1 characters"
+msgstr "必须至少包含 %1 个字符"
+
+msgid "Confirm password"
+msgstr "确认用户口令"
+
+msgid "Invitation Code"
 msgstr "邀请码"
 
-msgid "AC_INVITE_CODE_DESC"
-msgstr "创建帐号时需要一个正确的邀请码"
+msgid "A valid invitation code is required to create an account."
+msgstr "创建帐号时需要一个正确的邀请码。"
 
-msgid "AC_INVITE_REQUIRED"
+msgid "You must supply an invitation code to create an account."
 msgstr "您必须提供一个邀请码才能创建帐号。"
 
-msgid "AC_INVITE_INVALID"
+msgid "The invitation code you gave is not valid."
 msgstr "您提供的邀请码是错误的。"
 
 #########################################
 # Forum sample index page
 #########################################
-msgid "FORUM_TITLE"
-msgstr "$PROJECT 留言板"
+msgid "%1 Message boards"
+msgstr "%1 留言板"
 
-msgid "FORUM_TITLE_SHORT"
+msgid "Message boards"
 msgstr "留言板"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
-#########################################
-msgid "OPTIONAL"
+# ########################################
+msgid "Optional"
 msgstr "可选的"
 
-#########################################
+# ########################################
 # Various top table pages (top users, computers, teams)
-#########################################
-msgid "TOP_PARTICIPANT_TITLE"
+# ########################################
+msgid "Top participants"
 msgstr "用户排名"
 
-msgid "USER_TABLE_RANK"
+msgid "Rank"
 msgstr "名次"
 
-msgid "USER_TABLE_NAME"
-msgstr "用户名"
-
-msgid "TOTAL_CREDIT"
+msgid "Total credit"
 msgstr "总积分"
 
-msgid "EXPAVG_CREDIT"
+msgid "Recent average credit"
 msgstr "近期平均积分"
 
-msgid "USER_TABLE_COUNTRY"
-msgstr "国家或地区"
+msgid "Participant since"
+msgstr "参加时间"
 
-msgid "USER_TABLE_PTIME"
-msgstr "参与时间"
-
-msgid "TOP_TEAMS_TITLE"
+msgid "Top %1 teams"
 msgstr "%s 团队排名"
 
-msgid "TEAM_TABLE_MEMBERS"
+msgid "Members"
 msgstr "成员"
 
-msgid "TOP_HOST_TITLE"
+msgid "Top hosts"
 msgstr "主机排名"
 
-#########################################
+# ########################################
 # Forum
-#########################################
-msgid "FORUM_POSTS"
+# ########################################
+msgid "Posts"
 msgstr "贴数"
 
-msgid "FORUM_TOPIC"
+msgid "Topic"
 msgstr "主题"
 
-msgid "FORUM_THREADS"
-msgstr "主题数"
+msgid "Threads"
+msgstr "主题"
 
-msgid "FORUM_LAST_POST"
-msgstr "上次发贴"
+msgid "Last post"
+msgstr "最近发贴"
 
-msgid "FORUM_AUTHOR"
+msgid "Author"
 msgstr "作者"
 
-msgid "FORUM_VIEWS"
-msgstr "查看"
+msgid "Views"
+msgstr "查看次数"
 
-msgid "FORUM_ERR_NOT_FOUND"
-msgstr "无此论坛"
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "您必须在已经获得了一定的积分后才能在 %1 发表一个新主题。这是为了防止对论坛系统的滥用。"
 
-msgid "FORUM_ERR_EXPAVG"
-msgstr "您必须在已经获得了一定的积分后才能在 %s 发表一个新主题。这是为了防止对论坛系统的滥用。"
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "您暂时不能发表更多的新主题，请稍后再试，这是为了防止对论坛系统的滥用而采取的延时。"
 
-msgid "FORUM_ERR_INTERVAL"
-msgstr "你现在不能发表任何新主题，请稍后再试，这是为了防止对论坛系统的滥用而使用的延时。"
+msgid "Create a new thread"
+msgstr "创建新主题"
 
-msgid "FORUM_QA_POST_MESSAGE"
-msgstr "如果您有任何疑问，可以在 %s 向其它用户求助："
-
-msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "请阅读现有的问题列表。如果您的问题已存在，请点击 %s 按钮。如果有人回答了您的问题，请仔细阅读。如果找不到您的问题，请点击 %s 按钮。"
-
-msgid "FORUM_QA_POST_MESSAGE3"
-msgstr "如果您的疑问从未被其他人询问过，请填写这个表单。"
-
-msgid "FORUM_QA_POST_MESSAGE4"
-msgstr "这样可以防止同样的问题被反复的询问。"
-
-msgid "FORUM_QA_SUBMIT_NEW"
-msgstr "提交一个新的问题"
-
-msgid "FORUM_SUBMIT_NEW"
-msgstr "发表一个新主题"
-
-msgid "FORUM_SUBMIT_NEW_TITLE"
+msgid "Title"
 msgstr "标题"
 
-msgid "FORUM_QA_SUBMIT_NEW_HELP"
-msgstr "请用少量的话描述您的问题，简短而清楚的说明可以让其他有同样疑问的用户更容易找到它。"
+msgid "Add my signature to this post"
+msgstr "在帖子后附上我的个性签名"
 
-msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "如果你碰到了软件上的问题，请注明您使用的软件版本号、您的计算机类型及操作系统种类。"
-
-msgid "FORUM_ADD_MY_SIG"
-msgstr "在帖子后加上我的个性签名"
-
-msgid "FORUM_MESSAGE"
+msgid "Message"
 msgstr "消息"
 
-msgid "FORUM_QA_GOT_PROBLEM_TOO"
-msgstr "我也有同样的问题"
+msgid "Use BBCode tags to format your text"
+msgstr "使用 BBCode 标记来格式化您的正文"
 
-msgid "FORUM_QA_QUESTION_ANSWERED"
-msgstr "他解答了我的问题。"
-
-msgid "FORUM_HTML_INFO"
-msgstr "使用BBCode标记来格式化您的正文"
-
-#########################################
+# ########################################
 # Forum thread
-#########################################
-msgid "FORUM_SEARCH"
-msgstr "论坛搜索"
-
-msgid "FORUM_THREAD_HIDDEN"
+# ########################################
+msgid "This thread has been hidden for administrative purposes"
 msgstr "该主题出于管理目的已被隐藏"
 
-msgid "FORUM_THREAD_REPLY"
+msgid "Post to thread"
 msgstr "回复该主题"
 
-msgid "FORUM_THREAD_SUBSCRIBED"
-msgstr "您已经订阅了该主题。"
+msgid "Unsubscribe"
+msgstr "退订该主题"
 
-msgid "FORUM_THREAD_UNSUBSCRIBE"
-msgstr "点击这里以退订"
-
-msgid "FORUM_THREAD_SUBSCRIBE"
+msgid "Subscribe"
 msgstr "订阅该主题"
 
 #########################################
 # Forum search features
 #########################################
-msgid "FORUM_SEARCH_TITLES"
-msgstr "包含 '%s' 的标题"
+msgid "Forum search"
+msgstr "搜索论坛"
 
-msgid "FORUM_SEARCH_BODIES"
-msgstr "包含 '%s' 的正文"
+msgid "Titles containing '%1'"
+msgstr "包含 '%1' 的标题"
 
-msgid "FORUM_SEARCH_TITLES_NO"
-msgstr "没有找到标题中包含 '%s' 的帖子"
+msgid "Posts containing '%1'"
+msgstr "包含 '%1' 的正文"
 
-msgid "FORUM_SEARCH_BODIES_NO"
-msgstr "没有找到正文中包含 '%s' 的帖子"
+msgid "No titles containing '%1' could be found."
+msgstr "没有找到标题中包含 '%1' 的主题"
 
-#########################################
+msgid "No posts containing '%1' could be found."
+msgstr "没有找到正文中包含 '%1' 的帖子"
+
+# ########################################
 # Private messages
-#########################################
+# ########################################
 msgid "Private messages"
 msgstr "私人消息"
 
@@ -367,9 +319,6 @@ msgstr "用户ID或唯一的用户名，多个收件人之间用逗号分开"
 
 msgid "Subject"
 msgstr "标题"
-
-msgid "Message"
-msgstr "消息"
 
 msgid "Send message"
 msgstr "发送消息"
@@ -440,15 +389,6 @@ msgstr "用户 %1 已被阻止向您发送私人消息。"
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
 
-msgid "You have %1 unread private messages."
-msgstr "你有 %1 条未读的私人消息。"
-
-msgid "You have one unread private message."
-msgstr "您有一条未读私人消息。"
-
-msgid "You have no unread private messages."
-msgstr "您目前没有未读的私人消息。"
-
 msgid "Sender"
 msgstr "发送人"
 
@@ -464,8 +404,8 @@ msgstr "回复"
 msgid "Block user"
 msgstr "阻止用户"
 
-msgid "With selected"
-msgstr "选择的消息"
+msgid "With selected messages"
+msgstr "对选择的消息"
 
 msgid "Mark as read"
 msgstr "标记为已读"
@@ -473,9 +413,135 @@ msgstr "标记为已读"
 msgid "Mark as unread"
 msgstr "标记为未读"
 
-#########################################
+# ########################################
 # Links from the main page
-#########################################
-msgid "LINKS_QA"
+# ########################################
+msgid "Questions and Answers"
 msgstr "疑难解答"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "Your account"
+msgstr "您的帐号"
+
+msgid "Welcome to %1"
+msgstr "欢迎访问 %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "使用下面的链接查看及编辑您的帐号参数"
+
+msgid "If you have not already done so, %1download BOINC client software%2."
+msgstr "如果您还未这么做，%1下载 BOINC 的客户端软件%2。"
+
+msgid "Account information"
+msgstr "帐号信息"
+
+msgid "Email address"
+msgstr "电子邮件地址"
+
+msgid "URL"
+msgstr "网址"
+
+msgid "Postal code"
+msgstr "邮编"
+
+msgid "Change"
+msgstr "修改"
+
+msgid "email address"
+msgstr "电子邮件地址"
+
+msgid "password"
+msgstr "用户口令"
+
+msgid "other account info"
+msgstr "其它帐号信息"
+
+msgid "Log out"
+msgstr "注销"
+
+msgid "Community"
+msgstr "社区"
+
+msgid "Create"
+msgstr "创建"
+
+msgid "Profile"
+msgstr "个人档案"
+
+msgid "Teams"
+msgstr "团队"
+
+msgid "Team"
+msgstr "团队"
+
+msgid "None"
+msgstr "未加入团队"
+
+msgid "management functions"
+msgstr "管理功能"
+
+msgid "Quit team"
+msgstr "退出团队"
+
+msgid "find a team"
+msgstr "寻找团队"
+
+msgid "Preferences"
+msgstr "参数设置"
+
+msgid "General preferences"
+msgstr "全局参数"
+
+msgid "specify when and how BOINC uses your computer"
+msgstr "指定 BOINC 该如何使用您的计算机"
+
+msgid "View or edit"
+msgstr "查看或编辑"
+
+msgid "%1 preferences"
+msgstr "%1 参数设置"
+
+msgid "control resource share and customize graphics"
+msgstr "调整项目的资源分享率及定制项目图形"
+
+msgid "Message board preferences"
+msgstr "留言板参数设置"
+
+msgid "configure features and appearance of message boards"
+msgstr "配置留言板的特性和外观"
+
+msgid "Work done"
+msgstr "总积分"
+
+msgid "%1 member since"
+msgstr "加入 %1 的日期"
+
+msgid "Pending credit"
+msgstr "待授予的积分"
+
+msgid "View"
+msgstr "查看"
+
+msgid "Computers on this account"
+msgstr "本帐号所属的计算机"
+
+msgid "Tasks"
+msgstr "任务"
+
+msgid "Cross-project ID"
+msgstr "跨项目标识符(CPID)"
+
+msgid "Cross-project statistics"
+msgstr "跨项目的统计网站"
+
+msgid "Stats on your cell phone"
+msgstr "用手机查看您的统计信息"
+
+msgid "Account number"
+msgstr "帐户编号"
+
+msgid "Used in URLs"
+msgstr "在网址(URL)中使用"
 
