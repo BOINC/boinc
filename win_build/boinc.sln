@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+# Visual C++ Express 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli_curl.vcproj", "{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B06280CB-82A4-46DE-8956-602643078BDF} = {B06280CB-82A4-46DE-8956-602643078BDF}
