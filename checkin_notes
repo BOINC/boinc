@@ -10503,8 +10503,9 @@ David  5 Nov 2007
         profile_menu.php
 
 Charlie 6 Nov 2007
-    - Mac: Fix brief flash of Manager window at OS 10.5 sysrtem startup.
+    - Mac: Fix brief flash of Manager window at OS 10.5 system startup.
     - Mac: Fix compiler warnings when building boinc_cmd under OS 10.5.
+    - Mac: Strip additional symbols from deployment product.
         
     mac_installer/
         PostInstall.cpp
