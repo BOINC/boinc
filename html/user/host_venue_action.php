@@ -16,7 +16,7 @@ if ($host->userid != $user->id) {
     error_page("Not your host");
 }
 
-$retva = $host->update("venue='$venue');
+$retval = $host->update("venue='$venue'");
 if ($retval) {
     page_head("Host venue updated");
     if ($venue == '') {
