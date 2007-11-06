@@ -60,7 +60,7 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
-#include "DlgAdvPreferences.h"
+#include "PrefFrame.h"
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
@@ -1522,7 +1522,7 @@ void CAdvancedFrame::OnCommandsRetryCommunications( wxCommandEvent& WXUNUSED(eve
 
 void CAdvancedFrame::OnDlgPreferences(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function Begin"));
-	CDlgAdvPreferences dlg(this);
+	CPrefFrame dlg(this);
 	dlg.ShowModal();
 	wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function End"));
 }
