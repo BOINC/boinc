@@ -10521,3 +10521,9 @@ David  6 Nov 2007
     html/inc/
         boinc_db.inc
         util.inc
+
+David  6 Nov 2007
+    - user web: bug prevented host delete
+
+    html/inc/
+        boinc_db.inc

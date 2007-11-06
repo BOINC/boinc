@@ -133,6 +133,7 @@ class BoincHost {
         return $db->update($this, 'host', $clause);
     }
     function delete() {
+        $db = BoincDb::get();
         return $db->delete($this, 'host');
     }
     static function enum($clause, $clause2=null) {
