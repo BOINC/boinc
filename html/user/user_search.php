@@ -63,7 +63,7 @@ function show_user($user) {
 function do_search($order, $filter) {
     $filtered_list = array();
     $nrows_scanned = 0;
-    $fields = "create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile";
+    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile";
     while (1) {
         if (count($filtered_list) > 500) break;
         $limit_clause = " limit $nrows_scanned, 1000";
@@ -78,7 +78,6 @@ function do_search($order, $filter) {
             }
         }
     }
-    echo "scanned: $nrows_scanned";
     start_table();
     table_header("Name", "Team", "Average credit", "Total credit", "Country", "Joined");
     foreach ($filtered_list as $user) {
