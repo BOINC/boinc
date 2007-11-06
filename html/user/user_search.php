@@ -95,6 +95,7 @@ function search_form() {
     row2("Decreasing sign-up time", "<input type=radio name=search_type value=\"date\" checked>");
     row2("Decreasing average credit", "<input type=radio name=search_type value=\"rac\">");
     row2("Decreasing total credit", "<input type=radio name=search_type value=\"total\">");
+    row2("User name starts with <input name=search_string>", "<input type=radio name=search_type value=\"name_prefix\">");
     row1("Filters", 2, "heading");
     row2_init("Country", "<select name=country><option value=\"any\" selected>Any</option>");
     print_country_select("asdf");
@@ -114,11 +115,9 @@ function search_form() {
     page_tail();
 }
 
-function name_search() {
+function name_search($filter) {
     $count = 100;
     $search_string = get_str('search_string');
-
-    page_head("Search results");
 
     db_init();
     if (strlen($search_string)<3) {
@@ -131,8 +130,9 @@ function name_search() {
     
     $n=0;
     while ($user = mysql_fetch_object($result)) {
+        if (!filter_user($user, $filter)) continue;
         if ($n==0) {
-            echo "<h2>User names starting with '".htmlspecialchars($search_string)."' $nice_name</h2>\n";
+            echo "<h3>User names starting with '".htmlspecialchars($search_string)."' $nice_name</h3>\n";
             start_table();
             table_header("Name", "Team", "Average credit", "Total credit", "Country", "Joined");
 
@@ -145,7 +145,6 @@ function name_search() {
     if (!$n) {
         echo "<h2>No user names found starting with '".htmlspecialchars($search_string)."'</h2>\n";
     }
-    page_tail();
 }
 
 
@@ -164,8 +163,7 @@ function main() {
             $order = 'order by total_credit desc';
             break;
         case 'name_prefix':
-            name_search();
-            exit();
+            break;
         default:
             error_page("missing search type");
         }
@@ -203,7 +201,11 @@ function main() {
             break;
         }
         page_head("User search results");
-        do_search($order, $filter);
+        if ($search_type == 'name_prefix') {
+            name_search($filter);
+        } else {
+            do_search($order, $filter);
+        }
         page_tail();
     } else {
         search_form();

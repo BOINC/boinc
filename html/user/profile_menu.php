@@ -15,20 +15,21 @@ if ($option) {
     exit();
 }
 
-page_head("Profile Zone");
+page_head("Profiles");
 
-start_table_noborder();
-rowify("
-    User profiles provide a way for individuals to share backgrounds
+echo "
+    <p>
+    <b>Profiles</b> let individuals share backgrounds
     and opinions with the " . PROJECT . " community.
-    Explore the diversity of your fellow searchers,
+    Explore the diversity of your fellow volunteers,
     and contribute your own views for others to enjoy.
     <p>
     If you haven't already, you can
     <a href=create_profile.php>create your own user profile</a>
     for others to see!
-");
+";
 rowify("<br>");
+start_table_noborder();
 
 $today = getdate(time());
 $UOTD_heading = "User of the Day -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
@@ -61,14 +62,6 @@ if (file_exists(PROFILE_PATH . "profile_alpha.html")) {
 }
 echo "</ul></td></tr>";
 
-row1("Search user names");
-
-rowify("
-    <form action=\"user_search.php\" method=\"GET\">
-    <input name=\"search_string\">
-    <input type=\"submit\" value=\"OK\">
-    </form>
-");
 row1("Search profile text");
 rowify("
     <form action=\"profile_search_action.php\" method=\"GET\">
@@ -86,11 +79,11 @@ function select_profile($cmd) {
     if ($cmd == "rand") {
         $profiles = array();
         if ($_GET['pic'] == 0) {
-            $profiles = BoincProfile::enum("has_picture=0");
+            $profiles = BoincProfile::enum("has_picture=0", "limit 1000");
         } else if ($_GET['pic'] == 1) {
-            $profiles = BoincProfile::enum("has_picture=1");
+            $profiles = BoincProfile::enum("has_picture=1", "limit 1000");
         } else if ($_GET['pic'] == -1) {
-            $profiles = BoincProfile::enum(null);
+            $profiles = BoincProfile::enum(null, "limit 1000");
         }
 
         if (count($profiles) == 0) {

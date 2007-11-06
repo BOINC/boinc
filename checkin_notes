@@ -10493,3 +10493,11 @@ David  5 Nov 2007
             top_users.php
             user_search_action.php (removed)
             user_search.php (new)
+
+David  5 Nov 2007
+    - user web: removed the "user search" option from profile_menu.php.
+        Added search-by-name to the user search page.
+
+    html/user/
+        user_search.php
+        profile_menu.php
