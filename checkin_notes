@@ -10501,3 +10501,14 @@ David  5 Nov 2007
     html/user/
         user_search.php
         profile_menu.php
+
+Charlie 6 Nov 2007
+    - Mac: Fix brief flash of Manager window at OS 10.5 sysrtem startup.
+    - Mac: Fix compiler warnings when building boinc_cmd under OS 10.5.
+        
+    mac_installer/
+        PostInstall.cpp
+    mac_build/
+        buildWxMac.sh
+        boinc.xcodeproj/
+            project.pbxproj
