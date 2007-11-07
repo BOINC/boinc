@@ -23,7 +23,14 @@ function show_admin_page($user, $team) {
             <br><span class=note>See when members joined or quit this team</span>
     ";
     if ($team->userid == $user->id) {
-        $tokens = url_tokens($user->auth);
+        $tokens = url_tokens($user->authenticator);
+        if ($team->ping_user > 0) {
+            $user2 = BoincUser::lookup_id($team->ping_user);
+            $deadline = date_str(transfer_ok_time($team));
+            echo "<li>
+                <a href=team_change_founder_form.php?teamid=$team->id><font color=red><b>Respond to foundership request</b></font></a>.  If you don't respond by $deadline, $user2->name may assume foundership of this team.
+            ";
+        }
         echo "
             <li><a href=team_change_founder_form.php?teamid=$team->id>Change founder</a>
                 <br><span class=note>Transfer foundership to another member</span>
@@ -65,7 +72,7 @@ if ($action == 'delete') {
     if (team_count_members($team->id) > 0) {
         error_page("Can't delete non-empty team");
     }
-    check_tokens($user->auth);
+    check_tokens($user->authenticator);
     $team->delete();
     page_head("Team $team->name deleted");
     page_tail();

@@ -195,6 +195,12 @@ function show_user_info_private($user) {
         if (is_admin($user, $team)) {
             $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
         }
+
+        // if there's a foundership request, notify the founder
+        //
+        if ($user->id==$team->userid && $team->ping_user >0) {
+            $x .= " <font color=red>(foundership change request pending)</font>";
+        }
         row2(tra("Team"), $x);
     } else {
         row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
@@ -203,7 +209,12 @@ function show_user_info_private($user) {
     $teams_founded = BoincTeam::enum("userid=$user->id");
     foreach ($teams_founded as $team) {
         if ($team->id != $user->teamid) {
-            row2(tra("Founder but not member of"), "<a href=\"team_display.php?teamid=$team->id\">$team->name</a> | <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>");
+            $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
+            $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
+            if ($team->ping_user > 0) {
+                $x .= " <font color=red>(foundership change request pending)</font>";
+            }
+            row2(tra("Founder but not member of"), $x);
         }
     }
 

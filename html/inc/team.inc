@@ -8,6 +8,22 @@ require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
 require_once("../inc/team_types.inc");
 
+function foundership_transfer_link($user, $team) {
+    $now = time();
+    if (new_transfer_request_ok($team, $now)) {
+        return "<a href=\"team_founder_transfer_form.php\">Initiate request</a>";
+    }
+    if ($team->ping_user == $user->id) {
+        if (transfer_ok($team, now)) {
+            return "Requested by you, and founder response deadline has passed.  <a href=\"team_founder_transfer_form.php\">Complete foundership transfer</a>.";
+        } else {
+            $deadline = date_str(transfer_ok_time($team));
+            return "<a href=\"team_founder_transfer_form.php\">Requested by you</a>; founder response deadline is $deadline";
+        }
+    }
+    return "<a href=\"team_founder_transfer_form.php\">Deferred</a>";
+}
+
 function display_team_page($team, $offset, $sort_by) {
     $n = 20;
 
@@ -66,8 +82,17 @@ function display_team_page($team, $offset, $sort_by) {
                 <br><span class=note>Note: joining a team gives its administrators access to your email address.</span>"
             );
         }
-        if (($user->teamid == $team->id) && ($user->id != $founder->id)) {
-            row2("Request team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
+        if (($user->teamid == $team->id)) {
+            if (($user->id == $founder->id)) {
+                if ($team->ping_user) {
+                    $deadline = date_str(transfer_ok_time($team));
+                    row2("Foundership change requested",
+                        "<a href=team_change_founder_form.php?teamid=1>Respond by $deadline</a>"
+                    );
+                }
+            } else {
+                row2("Team foundership", foundership_transfer_link($user, $team));
+            }
         }
     }
     echo "</table>";
@@ -332,6 +357,9 @@ function new_transfer_request_ok($team, $now) {
     return false;
 }
 
+// the time at which we can actually change foundership
+// if the founder hasn't responded
+//
 function transfer_ok_time($team) {
     return $team->ping_time + 60*86400;
 }

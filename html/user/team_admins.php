@@ -6,7 +6,7 @@ require_once("../inc/team.inc");
 
 function show_admin($user, $admin) {
     $admin_user = BoincUser::lookup_id($admin->userid);
-    $tokens = url_tokens($user->auth);
+    $tokens = url_tokens($user->authenticator);
     $date = date_str($admin->create_time);
     echo "<tr>
         <td>".user_links($admin_user)."</td>
@@ -58,7 +58,7 @@ function show_admins($user, $teamid) {
         <input type=hidden name=action value=add>
         <input type=hidden name=teamid value=$teamid>
     ";
-    echo form_tokens($user->auth);
+    echo form_tokens($user->authenticator);
     start_table();
     row1("Add Team Admin");
     row2("Email address of team member:", "<input name=email_addr>");
@@ -99,12 +99,12 @@ require_founder_login($user, $team);
 $action = get_str('action', true);
 switch($action) {
 case 'remove':
-    check_tokens($user->auth);
+    check_tokens($user->authenticator);
     remove_admin($team);
     Header("Location: team_admins.php?teamid=$teamid");
     exit();
 case 'add':
-    check_tokens($user->auth);
+    check_tokens($user->authenticator);
     add_admin($team);
     Header("Location: team_admins.php?teamid=$teamid");
     exit();

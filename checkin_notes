@@ -10621,10 +10621,40 @@ David  7 Nov 2007
         app_start.C
 
 Janus	7 Now 2007
-    - user web: Added green look to answered questions in the Q&A sections. This is an
-      old change that seemingly never reached SVN when it was originally made
-      last year.
+    - user web: Added green look to answered questions in the Q&A sections.
+        This is an old change that seemingly never reached SVN
+        when it was originally made last year.
 
     html/user/
         white.css
 
+David  7 Nov 2007
+    - user web: enhancements to the "foundership request" feature:
+        - If a request is pending, notify the current founder
+            in red on their Account page.
+            (previously there was no notification on the web;
+            if the founder didn't get the notification email,
+            they'd never find out; and if they read but lost the email,
+            they'd lose the URL they needed to visit to decline).
+        - Also notify current founder on the Admin Functions page
+        - On the team page
+            requesting user: show that request is pending, and the deadline.
+            founder: show that request is pending, link to respond
+            other users: show Deferred if can't make a request yet
+        - Say 90 days instead of 60 days where appropriate;
+            other text cleanup
+    - user web: team_change_founder_action.php was generating
+        a different name for each element of a radio button group.
+        That makes it not a radio button.
+
+    html/
+        inc/
+            team.inc
+            user.inc
+        user/
+            team_admins.php
+            team_change_founder_action.php
+            team_change_founder_form.php
+            team_founder_transfer_action.php
+            team_founder_transfer_form.php
+            team_manage.php
