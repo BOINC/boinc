@@ -10561,6 +10561,7 @@ David  7 Nov 2007
             bug_report_form.php (removed)
             create_account_action.php
             sample_index.php
+            team_admins.php (new)
             team_delta.php
             team_display.php
             team_edit_action.php
