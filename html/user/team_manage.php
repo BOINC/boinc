@@ -23,13 +23,14 @@ function show_admin_page($user, $team) {
             <br><span class=note>See when members joined or quit this team</span>
     ";
     if ($team->userid == $user->id) {
+        $tokens = url_tokens($user->auth);
         echo "
             <li><a href=team_change_founder_form.php?teamid=$team->id>Change founder</a>
                 <br><span class=note>Transfer foundership to another member</span>
             <li><a href=team_admins.php?teamid=$team->id>Add/remove Team Admins</a>
                 <br><span class=note>Give selected team members Team Admin privileges</span>
 
-            <li><a href=team_manage.php?teamid=$team->id&action=delete>Remove team</a>
+            <li><a href=team_manage.php?teamid=$team->id&action=delete&$tokens>Remove team</a>
                 <br><span class=note>Allowed only if team has no members</a>
         ";
     }
@@ -64,6 +65,7 @@ if ($action == 'delete') {
     if (team_count_members($team->id) > 0) {
         error_page("Can't delete non-empty team");
     }
+    check_tokens($user->auth);
     $team->delete();
     page_head("Team $team->name deleted");
     page_tail();

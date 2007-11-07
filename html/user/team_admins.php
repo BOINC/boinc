@@ -5,18 +5,20 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
 function show_admin($user, $admin) {
+    $admin_user = BoincUser::lookup_id($admin->userid);
+    $tokens = url_tokens($user->auth);
     $date = date_str($admin->create_time);
     echo "<tr>
-        <td>".user_links($user)."</td>
+        <td>".user_links($admin_user)."</td>
         <td>$date</td>
         <td>
     ";
-    show_button("team_admins.php?teamid=$admin->teamid&action=remove&userid=$user->id", "Remove");
+    show_button("team_admins.php?teamid=$admin->teamid&action=remove&userid=$admin_user->id".$tokens, "Remove", "Remove Team Admin status from this member");
     echo "</td></tr>
     ";
 }
 
-function show_admins($teamid) {
+function show_admins($user, $teamid) {
     page_head("Add or remove Team Admins");
     echo "
         You can select team members as 'Team Admins'.
@@ -40,12 +42,11 @@ function show_admins($teamid) {
     $admins = BoincTeamAdmin::enum("teamid=$teamid");
     start_table();
     if (count($admins)==0) {
-        row1("No admins");
+        row1("There are currently no Team Admins");
     } else {
         row1("Current Team Admins", 3);
         table_header("Name", "Became Team Admin on", "");
         foreach ($admins as $admin) {
-            $user = BoincUser::lookup_id($admin->userid);
             show_admin($user, $admin);
         }
     }
@@ -57,6 +58,7 @@ function show_admins($teamid) {
         <input type=hidden name=action value=add>
         <input type=hidden name=teamid value=$teamid>
     ";
+    echo form_tokens($user->auth);
     start_table();
     row1("Add Team Admin");
     row2("Email address of team member:", "<input name=email_addr>");
@@ -97,14 +99,16 @@ require_founder_login($user, $team);
 $action = get_str('action', true);
 switch($action) {
 case 'remove':
+    check_tokens($user->auth);
     remove_admin($team);
     Header("Location: team_admins.php?teamid=$teamid");
     exit();
 case 'add':
+    check_tokens($user->auth);
     add_admin($team);
     Header("Location: team_admins.php?teamid=$teamid");
     exit();
 }
-show_admins($teamid);
+show_admins($user, $teamid);
 
 ?>

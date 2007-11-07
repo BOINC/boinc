@@ -10573,3 +10573,13 @@ David  7 Nov 2007
             team_search.php
             top_teams.php
             user_search.php
+
+David  7 Nov 2007
+    - user web: protect Team Admin ops from cross-project link attacks
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_manage.php
+            team_admins.php
