@@ -101,6 +101,14 @@ tr.row1 {
     text-align: left;
 }
 
+tr.row_hd0 {
+    background-color: rgb(207,250,207);
+}
+
+tr.row_hd1 {
+    background-color: rgb(222,250,222);
+}
+
 tr.subtitle {
     background-color: #eeeeee;
     font-weight: bold;
