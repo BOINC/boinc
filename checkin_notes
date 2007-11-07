@@ -8008,3 +8008,10 @@ Charlie 6 Nov 2007
         buildWxMac.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 7 Nov 2007
+    - Mac: Better error-handling in sandbox setup code.
+    
+    clientgui/
+        mac/
+            SetupSecurity.cpp
