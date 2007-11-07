@@ -10583,3 +10583,18 @@ David  7 Nov 2007
         user/
             team_manage.php
             team_admins.php
+
+Rom    7 Nov 2007
+    - MGR: Change the layout of the Project List control.
+    - MGR: Clean up some comments in the task bar code since the comments
+        no longer served a purpose.
+        
+    clientgui/res/
+        externalweblink.xpm (Added)
+    clientgui/res/templates/
+        externalweblink.gif (Added)
+    clientgui/
+        BOINCGUI.pjd
+        BOINCTaskBar.cpp
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp, .h

@@ -27,6 +27,7 @@
 #include "ProjectListCtrl.h"
 
 ////@begin XPM images
+#include "res/externalweblink.xpm"
 ////@end XPM images
 
 
@@ -98,8 +99,19 @@ bool CProjectListCtrl::Create( wxWindow* parent )
 void CProjectListCtrl::CreateControls()
 {    
 ////@begin CProjectListCtrl content construction
+
+    wxFlexGridSizer* itemFlexGridSizer5 = new wxFlexGridSizer(0, 1, 0, 0);
+    itemFlexGridSizer5->AddGrowableCol(0);
+
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(1, 1, 0, 0);
+    itemFlexGridSizer6->AddGrowableRow(0);
+    itemFlexGridSizer6->AddGrowableCol(0);
+    itemFlexGridSizer5->Add(itemFlexGridSizer6, 0, wxGROW|wxGROW|wxALL, 0);
     m_pMainSizer = new wxBoxSizer(wxVERTICAL);
-    SetSizer(m_pMainSizer);
+    itemFlexGridSizer6->Add(m_pMainSizer, 0, wxGROW|wxGROW|wxALL, 0);
+
+    SetSizer(itemFlexGridSizer5);
+
 ////@end CProjectListCtrl content construction
 }
 
@@ -184,6 +196,7 @@ BEGIN_EVENT_TABLE( CProjectListItemCtrl, wxPanel )
     EVT_LEAVE_WINDOW( CProjectListItemCtrl::OnMouseEnterLeave )
     EVT_LEFT_DOWN( CProjectListItemCtrl::OnMouseClick )
     EVT_LEFT_UP( CProjectListItemCtrl::OnMouseClick )
+    EVT_BUTTON( ID_WEBSITEBUTTON, CProjectListItemCtrl::OnWebsiteButtonClick )
 ////@end CProjectListItemCtrl event table entries
  
 END_EVENT_TABLE()
@@ -208,8 +221,8 @@ CProjectListItemCtrl::CProjectListItemCtrl( wxWindow* parent )
 bool CProjectListItemCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListItemCtrl member initialisation
-    m_pWebsiteCtrl = NULL;
     m_pTitleStaticCtrl = NULL;
+    m_pWebsiteButtonCtrl = NULL;
     m_strTitle = wxEmptyString;
     m_strURL = wxEmptyString;
     m_bLeftButtonDownDetected = false;
@@ -234,19 +247,22 @@ void CProjectListItemCtrl::CreateControls()
 {    
 ////@begin CProjectListItemCtrl content construction
 
-    wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxVERTICAL);
-    SetSizer(itemBoxSizer3);
+    wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
 
-    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer3->Add(itemBoxSizer4);
-
-    m_pWebsiteCtrl = new wxHyperLink;
-    m_pWebsiteCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer4->Add(m_pWebsiteCtrl, 0, wxALIGN_LEFT|wxALL, 1);
+    wxFlexGridSizer* itemFlexGridSizer8 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemFlexGridSizer8->AddGrowableRow(0);
+    itemFlexGridSizer8->AddGrowableCol(0);
+    itemBoxSizer7->Add(itemFlexGridSizer8, 0, wxGROW|wxALL, 5);
 
     m_pTitleStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pTitleStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer4->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
+    m_pTitleStaticCtrl->Create( this, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer8->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+
+    m_pWebsiteButtonCtrl = new wxBitmapButton;
+    m_pWebsiteButtonCtrl->Create( this, ID_WEBSITEBUTTON, wxBitmap(externalweblink_xpm), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer8->Add(m_pWebsiteButtonCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+
+    SetSizer(itemBoxSizer7);
 
 ////@end CProjectListItemCtrl content construction
 }
@@ -289,18 +305,38 @@ void CProjectListItemCtrl::OnMouseClick( wxMouseEvent& event ) {
 }
 
 
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for window
+ */
+
+void CProjectListItemCtrl::OnWebsiteButtonClick( wxCommandEvent& /*event*/ ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectListItemCtrl::OnWebsiteButtonClick - Function Begin"));
+
+    if (!m_strURL.IsEmpty()) {
+        wxHyperLink::ExecuteLink(m_strURL);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectListItemCtrl::OnWebsiteButtonClick - Function End"));
+}
+
 
 bool CProjectListItemCtrl::SetTitle( wxString strTitle ) {
-    if (m_pTitleStaticCtrl) m_pTitleStaticCtrl->SetLabel(_("  ")+strTitle );
+    if (m_pTitleStaticCtrl) m_pTitleStaticCtrl->SetLabel( strTitle );
     m_strTitle = strTitle;
     return true;
 }
 
 
 bool CProjectListItemCtrl::SetURL( wxString strURL ) {
-    if (m_pWebsiteCtrl) {
-        m_pWebsiteCtrl->SetLabel(_("www"));
-        m_pWebsiteCtrl->SetURL(strURL);
+    if (m_pWebsiteButtonCtrl) {
+        wxString strBuffer = wxEmptyString;
+
+        strBuffer.Printf(
+            _("Click here to go to %s's website."),
+            m_strTitle.c_str()
+        );
+
+        m_pWebsiteButtonCtrl->SetToolTip(strBuffer);
     }
     m_strURL = strURL;
     return true;
