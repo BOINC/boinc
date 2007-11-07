@@ -13,16 +13,13 @@ if ($xml) {
     $retval = db_init_xml();
     if ($retval) xml_error($retval);
     $teamid = get_int("teamid");
-    $team = lookup_team($teamid);
+    $team = BoincTeam::lookup_id($teamid);
     if (!$team) {
         xml_error(-136);
     }
-    $show_email = true;
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);
-    if (!$user || $team->userid != $user->id || $teamid != $user->teamid) {
-        $show_email = false;
-    }
+    $show_email = ($user && is_admin($user, $team));
     echo "<users>\n";
     $users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
@@ -36,10 +33,8 @@ $user = get_logged_in_user();
 $teamid = get_int("teamid");
 $plain = get_int("plain", true);
 $team = BoincTeam::lookup_id($teamid);
-if (!$team) {
-    error_page("no such team");
-}
-require_founder_login($user, $team);
+if (!$team) error_page("no such team");
+require_admin($user, $team);
 
 if ($plain) {
     header("Content-type: text/plain");

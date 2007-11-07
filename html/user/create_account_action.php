@@ -28,6 +28,9 @@ if (parse_bool($config, "disable_account_creation")) {
 db_init();
 init_session();
 
+// see whether the new account should be pre-enrolled in a team,
+// and initialized with its founder's project prefs
+//
 $teamid = post_int("teamid", true);
 if ($teamid) {
     $team = lookup_team($teamid);

@@ -4,15 +4,11 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-$user = get_logged_in_user();
+$logged_in_user = get_logged_in_user();
 $teamid = get_int("teamid");
-
-
 $team = BoincTeam::lookup_id($teamid);
-if (!$team) {
-    error_page("no such team");
-}
-require_founder_login($user, $team);
+if (!$team) error_page("no such team");
+require_admin($logged_in_user, $team);
 page_head("Remove Members from $team->name");
 echo "
     <form method=\"post\" action=\"team_remove_inactive_action.php\">
@@ -27,10 +23,11 @@ echo "<tr>
     </tr>
 ";
 
-$users = BoincUser::enum("teamid = $team->id");
-
+$users = BoincUser::enum("teamid=$team->id");
 $ninactive_users = 0;
 foreach($users as $user) {
+    if ($user->id == $logged_in_user->id) continue;
+    if ($user->id == $team->userid) continue;
     $user_total_credit = format_credit($user->total_credit);
     $user_expavg_credit = format_credit($user->expavg_credit);
     echo "
@@ -43,9 +40,13 @@ foreach($users as $user) {
     ";
     $ninactive_users++;
 }
-echo "<input type=hidden name=ninactive_users value=$ninactive_users>";
 end_table();
-echo "<input type=submit value=\"Remove users\">";
+if ($ninactive_users == 0) {
+    echo "<p>No members are eligible for removal.";
+} else {
+    echo "<input type=hidden name=ninactive_users value=$ninactive_users>";
+    echo "<input type=submit value=\"Remove users\">";
+}
 echo "</form>";
 page_tail();
 ?>

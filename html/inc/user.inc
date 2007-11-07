@@ -4,6 +4,7 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
+require_once("../inc/team.inc");
 
 function parse_project($f) {
     $p->total_credit = 0.0;
@@ -191,8 +192,8 @@ function show_user_info_private($user) {
         $team = lookup_team($user->teamid);
         $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
             | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
-        if ($team->userid == $user->id) {
-            $x .= " | <a href=\"team_manage.php\">".tra("management functions")."</a>";
+        if (is_admin($user, $team)) {
+            $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
         }
         row2(tra("Team"), $x);
     } else {
@@ -202,7 +203,7 @@ function show_user_info_private($user) {
     $teams_founded = BoincTeam::enum("userid=$user->id");
     foreach ($teams_founded as $team) {
         if ($team->id != $user->teamid) {
-            row2(tra("Founder but not member of"), "<a href=\"team_display.php?teamid=$team->id\">$team->name</a> | <a href=\"team_manage.php?teamid=".$team->id."\">".tra("management functions")."</a>");
+            row2(tra("Founder but not member of"), "<a href=\"team_display.php?teamid=$team->id\">$team->name</a> | <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>");
         }
     }
 

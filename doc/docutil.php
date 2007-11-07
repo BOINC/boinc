@@ -1,5 +1,11 @@
 <?php
 
+$x = $_SERVER['PHP_SELF'];
+$path = "/tmp/php_pids/".getmypid();
+$f = fopen($path, "w");
+fwrite($f, $x);
+fclose($f);
+
 function search_form() {
     echo "
     <form method=get action=http://google.com/search>

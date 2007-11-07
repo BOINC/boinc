@@ -40,7 +40,7 @@ function display_team_page($team, $offset, $sort_by) {
         }
         row2("Web site", "<a href=$x>$x</a>");
     }
-    row2("Members (with credit)", $team->nusers);
+    row2("Members", $team->nusers);
     
     $cache_args = "teamid=".$team->id."&founderid=".$team->userid;
     $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
@@ -73,7 +73,7 @@ function display_team_page($team, $offset, $sort_by) {
     echo "</table>";
     echo "<p>";
     start_table();
-    row1("Active members (with credit)", 4);
+    row1("Members", 4);
     echo "<tr>
         <th>Name</th>
     ";
@@ -101,9 +101,9 @@ function display_team_page($team, $offset, $sort_by) {
     ";
 
     if ($nosort) {
-        $users = BoincUser::enum("teamid=$team->id and total_credit>0 limit $offset,$n");
+        $users = BoincUser::enum("teamid=$team->id limit $offset,$n");
     } else {
-        $users = BoincUser::enum("teamid=$team->id and total_credit>0 order by $sort_clause limit $offset,$n");
+        $users = BoincUser::enum("teamid=$team->id order by $sort_clause limit $offset,$n");
     }
 
     $j = $offset + 1;
@@ -111,6 +111,11 @@ function display_team_page($team, $offset, $sort_by) {
         $user_total_credit = format_credit_large($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
         $x = user_links($user);
+        if ($user->id == $team->userid) {
+            $x .= " [Founder]";
+        } else if (is_admin($user, $team)) {
+            $x .= " [Admin]";
+        }
         echo "<tr class=row1>
             <td align=left>$j) $x
             <td align=right>$user_total_credit</td>
@@ -132,7 +137,8 @@ function display_team_page($team, $offset, $sort_by) {
     }
 }
 
-// check that the team exist
+// check that the team exists
+//
 function require_team($team) {
     if (!$team) {
         error_page("No such team.");
@@ -145,6 +151,19 @@ function require_founder_login($user, $team) {
     require_team($team);
     if ($user->id != $team->userid) {
         error_page("Only a team's founder may edit a team.");
+    }
+}
+
+function is_admin($user, $team) {
+    if ($user->id == $team->userid) return true;
+    $admin = BoincTeamAdmin::lookup($team->id, $user->id);
+    if ($admin) return true;
+    return false;
+}
+
+function require_admin($user, $team) {
+    if (!is_admin($user, $team)) {
+        error_page("This operation requires team admin privileges");
     }
 }
 
@@ -201,6 +220,7 @@ function user_quit_team($user) {
     if ($team && $team->ping_user=$user->id) {
         $team->update("ping_user=-ping_user");
     }
+    BoincTeamAdmin::delete("teamid=$user->teamid and userid=$user->id");
     $now = time();
     BoincTeamDelta::insert("(userid, teamid, timestamp, joining, total_credit) values ($user->id, $user->teamid, $now, 0, $user->total_credit)");
 }
@@ -276,8 +296,8 @@ function team_inactive_ndays($team, $ndays) {
     return false;
 }
 
-function team_count_nusers($teamid) {
-    return BoincUser::count("teamid=$teamid and total_credit>0");
+function team_count_members($teamid) {
+    return BoincUser::count("teamid=$teamid");
 }
 
 // These functions determine the rules for foundership transfer, namely:

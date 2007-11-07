@@ -5,14 +5,10 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
 $user = get_logged_in_user();
-
 $teamid = post_int("id");
-
 $team = BoincTeam::lookup_id($teamid);
-if (!$team) {
-    error_page("No such team");
-}
-require_founder_login($user, $team);
+if (!$team) error_page("No such team");
+require_admin($user, $team);
 
 page_head("Removing users from $team->name");
 $ndel = 0;
@@ -24,7 +20,7 @@ for ($i=0; $i<$_POST["ninactive_users"]; $i++) {
     if ($user->teamid != $team->id) {
         echo "<br>$user->name is not a member of $team->name";
     } else {
-        $user->update("teamid=0");
+        user_quit_team($user);
         echo "<br>$user->name has been removed";
         $ndel++;
     }

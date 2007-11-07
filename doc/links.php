@@ -194,6 +194,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://www.calmchaosonline.com/", "Calm Chaos"),
     site("http://www.teamphoenixrising.net/", "Team Phoenix Rising"),
     site("http://www.unitedmacs.com/", "United Macs"),
     site("http://sirans-boincnews.com/", "Siran's BOINC Projects News Site"),

@@ -532,5 +532,5 @@ create table team_admin (
     teamid              integer                 not null,
     userid              integer                 not null,
     create_time         integer                 not null,
-    rights              integer                 not null,
+    rights              integer                 not null
 ) type=MyISAM;

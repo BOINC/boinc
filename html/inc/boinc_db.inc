@@ -110,6 +110,10 @@ class BoincTeam {
         $db = BoincDb::get();
         return $db->lookup('team', 'BoincTeam', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'team');
+    }
 }
 
 class BoincTeamDelta {
@@ -180,6 +184,25 @@ class BoincProfile {
     static function enum($clause, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
+    }
+}
+
+class BoincTeamAdmin {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('team_admin', $clause);
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('team_admin', 'BoincTeamAdmin', $clause);
+    }
+    static function delete($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('team_admin', $clause);
+    }
+    static function lookup($teamid, $userid) {
+        $db = BoincDb::get();
+        return $db->lookup('team_admin', 'BoincTeamAdmin', "teamid=$teamid and userid=$userid");
     }
 }
 

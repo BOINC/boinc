@@ -67,9 +67,9 @@ if ($offset < ITEM_LIMIT) {
         //if not do queries etc to generate new data
         $data = get_top_teams($offset,$sort_by,$type);
         
-        // We need to calculate nusers before storing into the cache
+        // Calculate nusers before storing into the cache
         foreach ($data as $team) {
-            $team->nusers = team_count_nusers($team->id);
+            $team->nusers = team_count_members($team->id);
         }
         //save data in cache
         set_cache_data(teams_to_store($data),$cache_args);

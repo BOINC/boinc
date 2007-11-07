@@ -10534,3 +10534,41 @@ Charlie 7 Nov 2007
     clientgui/
         mac/
             SetupSecurity.cpp
+
+David  7 Nov 2007
+    - user web: added the notion of "Team Admin": team members,
+        appointed by the founder, who have most of the same
+        rights as the founder (edit team info, view/remove users).
+        They can't, however, change the founder, or select/remove Admins.
+    - user web: added the ability for founder to delete an empty team
+    - user web: count/show all team members, not just those with credit
+    - user web: Team Search returns top team if form fields left blank
+    - Added db_update.php entry for Eric's banishment_vote stuff
+
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            team.inc
+            user.inc
+            util.inc
+        languages/translations/
+            en.po
+        ops/
+            db_update.php
+        user/
+            bug_report_action.php (removed)
+            bug_report_form.php (removed)
+            create_account_action.php
+            sample_index.php
+            team_delta.php
+            team_display.php
+            team_edit_action.php
+            team_edit_form.php
+            team_email_list.php
+            team_manage.php
+            team_remove_inactive_action.php
+            team_remove_inactive_form.php
+            team_search.php
+            top_teams.php
+            user_search.php

@@ -478,7 +478,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-msgid "management functions"
+msgid "administrative functions"
 msgstr ""
 
 msgid "Quit team"

@@ -127,7 +127,9 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
         </head>
     ";
     if ($java_onload){
-        echo "<body bgcolor=\"#ffffff\" onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=\"#ffffff\">";
+        echo "<body bgcolor=\"#ffffff\" onload=\"".$java_onload."\">";
+    } else {
+        echo "<body bgcolor=\"#ffffff\">";
     }
     display_cvs_versions();
     project_banner($title, $prefix);

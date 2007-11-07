@@ -50,7 +50,8 @@ function show_nav() {
         </ul>
         <h2>Community</h2>
         <ul>
-        <li><a href=\"profile_menu.php\">Participant profiles</a>
+        <li><a href=\"profile_menu.php\">Profiles</a>
+        <li><a href=\"user_search.php\">User search</a>
         <li><a href=\"forum_index.php\">Message boards</a>
         <li><a href=\"forum_help_desk.php\">Questions and answers</a>
         <li><a href=\"stats.php\">Statistics</a>
