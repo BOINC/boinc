@@ -10527,3 +10527,10 @@ David  6 Nov 2007
 
     html/inc/
         boinc_db.inc
+
+Charlie 7 Nov 2007
+    - Mac: Better error-handling in sandbox setup code.
+    
+    clientgui/
+        mac/
+            SetupSecurity.cpp
