@@ -456,6 +456,36 @@ function update_10_25_2007() {
     do_query("update team set country='Serbia' where country='Serbia and Montenegro'");
 }
 
+function update_10_26_2007() {
+    do_query("create table banishment_vote (
+        id                  serial                  primary key,
+        userid              integer                 not null,
+        modid               integer                 not null,
+        start_time          integer                 not null,
+        end_time            integer                 not null
+        ) TYPE=MyISAM;"
+    );
+    do_query("create table banishment_votes (
+        id                  serial                  primary key,
+        voteid              integer                 not null,
+        modid               integer                 not null,
+        time                integer                 not null,
+        yes                 tinyint(1)              not null
+        ) TYPE=MyISAM;"
+    );
+}
+
+function update_11_7_2007() {
+    do_query("create table team_admin (
+        teamid              integer                 not null,
+        userid              integer                 not null,
+        create_time         integer                 not null,
+        rights              integer                 not null
+        ) type=MyISAM;"
+    );
+    do_query("alter table team_admin add unique (teamid, userid);");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

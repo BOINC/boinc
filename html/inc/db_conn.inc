@@ -89,6 +89,10 @@ class DbConn {
         $query = "delete from DBNAME.$table where id=$obj->id";
         return $this->do_query($query);
     }
+    function delete_aux($table, $clause) {
+        $query = "delete from DBNAME.$table where $clause";
+        return $this->do_query($query);
+    }
     function insert_id() {
         return mysql_insert_id($this->db_conn);
     }

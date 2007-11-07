@@ -7,6 +7,20 @@ class BoincDb extends DbConn {
     static $instance;
 
     static function get($readonly = false) {
+        global $generating_xml;
+        if (web_stopped()) {
+            if ($generating_xml) {
+                xml_error(-183);
+            } else {
+                page_head("Page not available");
+                echo "This page requires database access.
+                    Our database server is temporarily shut down for maintenance.
+                    Please try again later.
+                ";
+                page_tail();
+            }
+            exit();
+        }
         if (!isset($instance)) {
             $config = get_config();
             $user = parse_config($config, '<db_user>');
@@ -96,6 +110,10 @@ class BoincTeam {
         $db = BoincDb::get();
         return $db->lookup('team', 'BoincTeam', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'team');
+    }
 }
 
 class BoincTeamDelta {
@@ -119,6 +137,7 @@ class BoincHost {
         return $db->update($this, 'host', $clause);
     }
     function delete() {
+        $db = BoincDb::get();
         return $db->delete($this, 'host');
     }
     static function enum($clause, $clause2=null) {
@@ -165,6 +184,25 @@ class BoincProfile {
     static function enum($clause, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
+    }
+}
+
+class BoincTeamAdmin {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('team_admin', $clause);
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('team_admin', 'BoincTeamAdmin', $clause);
+    }
+    static function delete($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('team_admin', $clause);
+    }
+    static function lookup($teamid, $userid) {
+        $db = BoincDb::get();
+        return $db->lookup('team_admin', 'BoincTeamAdmin', "teamid=$teamid and userid=$userid");
     }
 }
 

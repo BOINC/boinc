@@ -10501,3 +10501,110 @@ David  5 Nov 2007
     html/user/
         user_search.php
         profile_menu.php
+
+Charlie 6 Nov 2007
+    - Mac: Fix brief flash of Manager window at OS 10.5 system startup.
+    - Mac: Fix compiler warnings when building boinc_cmd under OS 10.5.
+    - Mac: Strip additional symbols from deployment product.
+        
+    mac_installer/
+        PostInstall.cpp
+    mac_build/
+        buildWxMac.sh
+        boinc.xcodeproj/
+            project.pbxproj
+
+David  6 Nov 2007
+    - user web: BoincDb::get() checks if web activity is stopped,
+        and shows an error page (or XML error) if so.
+
+    html/inc/
+        boinc_db.inc
+        util.inc
+
+David  6 Nov 2007
+    - user web: bug prevented host delete
+
+    html/inc/
+        boinc_db.inc
+
+Charlie 7 Nov 2007
+    - Mac: Better error-handling in sandbox setup code.
+    
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+
+David  7 Nov 2007
+    - user web: added the notion of "Team Admin": team members,
+        appointed by the founder, who have most of the same
+        rights as the founder (edit team info, view/remove users).
+        They can't, however, change the founder, or select/remove Admins.
+    - user web: added the ability for founder to delete an empty team
+    - user web: count/show all team members, not just those with credit
+    - user web: Team Search returns top team if form fields left blank
+    - Added db_update.php entry for Eric's banishment_vote stuff
+
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            team.inc
+            user.inc
+            util.inc
+        languages/translations/
+            en.po
+        ops/
+            db_update.php
+        user/
+            bug_report_action.php (removed)
+            bug_report_form.php (removed)
+            create_account_action.php
+            sample_index.php
+            team_admins.php (new)
+            team_delta.php
+            team_display.php
+            team_edit_action.php
+            team_edit_form.php
+            team_email_list.php
+            team_manage.php
+            team_remove_inactive_action.php
+            team_remove_inactive_form.php
+            team_search.php
+            top_teams.php
+            user_search.php
+
+David  7 Nov 2007
+    - user web: protect Team Admin ops from cross-project link attacks
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_manage.php
+            team_admins.php
+
+Rom    7 Nov 2007
+    - MGR: Change the layout of the Project List control.
+    - MGR: Clean up some comments in the task bar code since the comments
+        no longer served a purpose.
+        
+    clientgui/res/
+        externalweblink.xpm (Added)
+    clientgui/res/templates/
+        externalweblink.gif (Added)
+    clientgui/
+        BOINCGUI.pjd
+        BOINCTaskBar.cpp
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp, .h
+
+David  7 Nov 2007
+    - API: in update_app_progress(), use %e instead of %f everywhere;
+        this limits the length of the generated string
+        ~12 chars even for big/small numbers.
+        Also reduce buffer size from 8000 to 256;
+        default thread stack size might not accommodate 8000 + extra.
+
+    api/
+        boinc_api.C

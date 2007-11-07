@@ -649,6 +649,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\res\externalweblink.xpm"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\res\gridrepublic.ico"
 				>
 			</File>

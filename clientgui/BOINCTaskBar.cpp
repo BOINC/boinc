@@ -342,9 +342,6 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-                // 1st %s is the previous instance of the message
-                // 2nd %s is the project name
-                //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
                     _("Computation is suspended.\n")
                 );
@@ -353,9 +350,6 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             }
 
             if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-                // 1st %s is the previous instance of the message
-                // 2nd %s is the project name
-                //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
                     _("Network activity is suspended.\n")
                 );
@@ -386,25 +380,15 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                     fProgress = floor(result->fraction_done*10000)/100;
                 }
 
-                strBuffer.Printf(wxT("%s: %.2f%%\n"), strProjectName.c_str(), fProgress );
+                strBuffer.Printf(_("%s: %.2f%% completed\n"), strProjectName.c_str(), fProgress );
                 strMessage += strBuffer;
             }
         } else if (pDoc->IsReconnecting()) {
-            // 1st %s is the previous instance of the message
-            // 2nd %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            // 3rd %s is the project name
-            //    i.e. 'BOINC', 'GridRepublic'
             strBuffer.Printf(
                 _("Reconnecting to client.\n")
             );
             strMessage += strBuffer;
         } else {
-            // 1st %s is the previous instance of the message
-            // 2nd %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            // 3rd %s is the project name
-            //    i.e. 'BOINC', 'GridRepublic'
             strBuffer.Printf(
                 _("Not connected to a client.\n")
             );

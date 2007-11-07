@@ -2710,6 +2710,7 @@
 					Carbon,
 				);
 				PRODUCT_NAME = "BOINC Installer";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = ppc_Deployment;
 		};
@@ -2724,6 +2725,7 @@
 					Carbon,
 				);
 				PRODUCT_NAME = "BOINC Installer";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = i386_Deployment;
 		};
@@ -2738,6 +2740,7 @@
 					Carbon,
 				);
 				PRODUCT_NAME = "BOINC Installer";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deployment;
 		};
@@ -2785,7 +2788,6 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = Development;
 		};
@@ -2834,7 +2836,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				UNSTRIPPED_PRODUCT = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = ppc_Deployment;
 		};
@@ -2883,7 +2885,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				UNSTRIPPED_PRODUCT = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = i386_Deployment;
 		};
@@ -2932,7 +2934,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				UNSTRIPPED_PRODUCT = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deployment;
 		};
@@ -3130,7 +3132,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = Dev_noSandbox;
 		};
@@ -3150,7 +3151,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = Deploy_noSandbox;
 		};
@@ -3236,6 +3236,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -3246,6 +3248,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -3327,6 +3331,7 @@
 					Carbon,
 				);
 				PRODUCT_NAME = "BOINC Installer";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deploy_noSandbox;
 		};
@@ -3431,7 +3436,6 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = Dev_noSandbox;
 		};
@@ -3479,7 +3483,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				UNSTRIPPED_PRODUCT = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deploy_noSandbox;
 		};
@@ -3488,6 +3492,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
@@ -3523,6 +3528,7 @@
 					i386,
 					ppc,
 				);
+				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -3545,6 +3551,7 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -3676,7 +3683,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = "Deployment-no64";
 		};
@@ -3740,7 +3746,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				UNSTRIPPED_PRODUCT = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = "Deployment-no64";
 		};
@@ -3773,6 +3779,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -3815,6 +3823,7 @@
 					Carbon,
 				);
 				PRODUCT_NAME = "BOINC Installer";
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = "Deployment-no64";
 		};
@@ -3866,6 +3875,7 @@
 					i386,
 					ppc,
 				);
+				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -3889,6 +3899,7 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -3956,6 +3967,7 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deployment;
 		};
@@ -4004,6 +4016,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4045,6 +4059,7 @@
 					i386,
 					ppc,
 				);
+				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -4071,6 +4086,7 @@
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_x86_64 = /Developer/SDKs/MacOSX10.4u.sdk;
+				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4195,7 +4211,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = Development;
 		};
@@ -4212,7 +4227,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = ppc_Deployment;
 		};
@@ -4300,6 +4314,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4310,6 +4326,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4379,6 +4397,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
@@ -4412,6 +4431,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc;
+				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -4434,6 +4454,7 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4502,7 +4523,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				UNSTRIPPED_PRODUCT = YES;
 			};
 			name = i386_Deployment;
 		};
@@ -4550,6 +4570,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4588,6 +4610,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
+				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -4611,6 +4634,7 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",

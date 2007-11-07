@@ -118,17 +118,15 @@ function name_search($filter) {
     $count = 100;
     $search_string = get_str('search_string');
 
-    db_init();
     if (strlen($search_string)<3) {
         error_page("search string must be at least 3 characters");
     }
     $urls = urlencode($search_string);
     $s = escape_pattern($search_string);
-    $q = "select * from user where name like '$s%' limit $count";
-    $result = mysql_query($q);
-    
+    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile";
+    $users = BoincUser::enum_fields($fields, "name like '$s%'", "limit $count");
     $n=0;
-    while ($user = mysql_fetch_object($result)) {
+    foreach ($users as $user) {
         if (!filter_user($user, $filter)) continue;
         if ($n==0) {
             echo "<h3>User names starting with '".htmlspecialchars($search_string)."' $nice_name</h3>\n";
@@ -140,13 +138,10 @@ function name_search($filter) {
         $n++;
     }
     end_table();
-    mysql_free_result($result);
     if (!$n) {
         echo "<h2>No user names found starting with '".htmlspecialchars($search_string)."'</h2>\n";
     }
 }
-
-
 
 function main() {
     $search_type = get_str('search_type', true);

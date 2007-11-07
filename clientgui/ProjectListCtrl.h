@@ -27,9 +27,13 @@
 
 class CProjectListItemCtrl;
 class CProjectListItemStaticCtrl;
-class wxHyperLink;
 class ProjectListCtrlEvent;
 class ProjectListItemCtrlEvent;
+
+
+////@begin control identifiers
+#define ID_WEBSITEBUTTON 10001
+////@end control identifiers
 
 
 /*!
@@ -145,6 +149,9 @@ public:
     /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
     void OnMouseClick( wxMouseEvent& event );
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for window
+    void OnWebsiteButtonClick( wxCommandEvent& event );
+
 ////@end CProjectListItemCtrl event handler declarations
 
     /// Methods
@@ -155,8 +162,8 @@ public:
     bool SetURL( wxString strURL );
 
 private:
-    wxHyperLink*                m_pWebsiteCtrl;
     CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
+    wxBitmapButton*             m_pWebsiteButtonCtrl;
     wxString                    m_strTitle;
     wxString                    m_strURL;
     bool                        m_bLeftButtonDownDetected;

@@ -93,23 +93,31 @@ function search($user) {
     $keywords = $_GET['keywords'];
     $country = $_GET['country'];
     $type = $_GET['type'];
-    $active = get_int('active', true);
+    $active = get_str('active', true);
 
     $list = array();
+    $tried = false;
     if (strlen($keywords)) {
         $list2 = get_teams("match(name, description) against ('$keywords')", $active);
         //echo "<br>keyword matches: ",sizeof($list2);
         merge_lists($list2, $list);
+        $tried = true;
     }
     if (strlen($country) && $country!='None') {
         $list2 = get_teams("country = '$country'", $active);
         //echo "<br>country matches: ",sizeof($list2);
         merge_lists($list2, $list);
+        $tried = true;
     }
     if ($type and $type>1) {
         $list2 = get_teams("type=$type", $active);
         //echo "<br>type matches: ",sizeof($list2);
         merge_lists($list2, $list);
+        $tried = true;
+    }
+
+    if (!$tried) {
+        $list = get_teams("id>0", $active);
     }
 
     if (sizeof($list) == 0) {

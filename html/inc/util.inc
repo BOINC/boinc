@@ -127,7 +127,9 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
         </head>
     ";
     if ($java_onload){
-        echo "<body bgcolor=\"#ffffff\" onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=\"#ffffff\">";
+        echo "<body bgcolor=\"#ffffff\" onload=\"".$java_onload."\">";
+    } else {
+        echo "<body bgcolor=\"#ffffff\">";
     }
     display_cvs_versions();
     project_banner($title, $prefix);
@@ -142,9 +144,8 @@ function page_tail_main($show_date=false) {
     page_tail_aux(false, $show_date);
 }
 
-/**
- * See the comments for page_head()
- */
+// See the comments for page_head()
+//
 if (!function_exists("page_tail")){
 function page_tail($show_date=false, $prefix="") {
     page_tail_aux(true, $show_date, $prefix);

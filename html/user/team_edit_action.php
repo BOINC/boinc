@@ -8,10 +8,8 @@ $user = get_logged_in_user();
 $teamid = post_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 
-if (!$team) {
-    error_page("no such team");
-}
-require_founder_login($user, $team);
+if (!$team) error_page("no such team");
+require_admin($user, $team);
 
 $team_url = process_user_text(strip_tags(post_str("url", true)));
 $x = strstr($team_url, "http://");

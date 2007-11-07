@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/team.inc");
 
@@ -7,7 +7,7 @@ $xml = get_int('xml', true);
 
 function show_delta($delta) {
     global $xml;
-    $user = lookup_user_id($delta->userid);
+    $user = BoincUser::lookup_id($delta->userid);
     $when = time_str($delta->timestamp);
     $what = $delta->joining?"joined":"quit";
     if ($xml) {
@@ -31,21 +31,19 @@ function show_delta($delta) {
     }
 }
 
-db_init();
-
 $user = get_logged_in_user();
-$teamid=get_int('teamid');
-$team = lookup_team($teamid);
+$teamid = get_int('teamid');
+$team = BoincTeam::lookup_id($teamid);
 if ($xml) {
     require_once('../inc/xml.inc');
     xml_header();
 }
 
-if (!$team || $team->userid != $user->id) {
+if (!$team || !is_admin($user, $team)) {
     if ($xml) {
-        xml_error("-1", "Not founder");
+        xml_error("-1", "Not admin");
     } else {
-        error_page("You're not the founder of that team");
+        error_page("No admin privileges");
     }
 }
 
@@ -72,4 +70,5 @@ if ($xml) {
     end_table();
     page_tail();
 }
+
 ?>

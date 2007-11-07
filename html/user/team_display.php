@@ -1,7 +1,7 @@
 <?php
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/team.inc");
 
 if (isset($_GET["sort_by"])) {
@@ -17,8 +17,6 @@ $teamid = get_int("teamid");
 if ($offset > 1000) {
     error_page("Limit exceeded:  Only displaying the first 1000 members.");
 }
-
-db_init();
 
 $get_from_db = false;
 
@@ -44,7 +42,7 @@ if (!$get_from_db) {
 }
 if ($get_from_db) {
     $team = BoincTeam::lookup_id($teamid);
-    $team->nusers = BoincUser::count("teamid=$teamid and total_credit>0");
+    $team->nusers = BoincUser::count("teamid=$teamid");
     set_cache_data(serialize($team), $cache_args);
 }
 

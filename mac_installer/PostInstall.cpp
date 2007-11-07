@@ -459,10 +459,10 @@ void SetLoginItem(long brandID, Boolean deleteLogInItem)
         
     if (brandID == 1)
         Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
-                            "/Applications/GridRepublic Desktop.app", kDoNotHideOnLaunch);
+                            "/Applications/GridRepublic Desktop.app", kHideOnLaunch);
     else
         Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
-                            "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
+                            "/Applications/BOINCManager.app", kHideOnLaunch);
 }
 
 // Sets the current skin selection to the specified skin in the specified user's preferences
