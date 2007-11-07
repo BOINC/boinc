@@ -10619,3 +10619,12 @@ David  7 Nov 2007
         sim.h
         cs_apps.C
         app_start.C
+
+Janus	7 Now 2007
+    - user web: Added green look to answered questions in the Q&A sections. This is an
+      old change that seemingly never reached SVN when it was originally made
+      last year.
+
+    html/user/
+        white.css
+
