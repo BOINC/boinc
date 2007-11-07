@@ -254,13 +254,13 @@ double boinc_worker_thread_cpu_time() {
 // So use strlcat() instead of strcat()
 //
 static bool update_app_progress(double cpu_t, double cp_cpu_t) {
-    char msg_buf[MSG_CHANNEL_SIZE], buf[8000];
+    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
 
     if (standalone) return true;
 
     sprintf(msg_buf,
-        "<current_cpu_time>%.15e</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
+        "<current_cpu_time>%e</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n",
         cpu_t, cp_cpu_t
     );
     if (want_network) {
@@ -269,23 +269,23 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
-        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
+        sprintf(buf, "<fraction_done>%e</fraction_done>\n", fdone);
         strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (fpops_per_cpu_sec) {
-        sprintf(buf, "<fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
+        sprintf(buf, "<fpops_per_cpu_sec>%e</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
         strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (fpops_cumulative) {
-        sprintf(buf, "<fpops_cumulative>%f</fpops_cumulative>\n", fpops_cumulative);
+        sprintf(buf, "<fpops_cumulative>%e</fpops_cumulative>\n", fpops_cumulative);
         strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (intops_per_cpu_sec) {
-        sprintf(buf, "<intops_per_cpu_sec>%f</intops_per_cpu_sec>\n", intops_per_cpu_sec);
+        sprintf(buf, "<intops_per_cpu_sec>%e</intops_per_cpu_sec>\n", intops_per_cpu_sec);
         strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     if (intops_cumulative) {
-        sprintf(buf, "<intops_cumulative>%f</intops_cumulative>\n", intops_cumulative);
+        sprintf(buf, "<intops_cumulative>%e</intops_cumulative>\n", intops_cumulative);
         strlcat(msg_buf, buf, MSG_CHANNEL_SIZE);
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);
