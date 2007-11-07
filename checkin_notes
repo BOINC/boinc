@@ -10608,3 +10608,14 @@ David  7 Nov 2007
 
     api/
         boinc_api.C
+
+David  7 Nov 2007
+    - client: when starting an app, and an input/app file is not available,
+        show the file name and error code in the message
+        that's appended to the job's stderr_out.
+
+    client/
+        client_state.h
+        sim.h
+        cs_apps.C
+        app_start.C

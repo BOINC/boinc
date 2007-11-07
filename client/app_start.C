@@ -342,9 +342,16 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     if (wup->project->verify_files_on_app_start) {
-        retval = gstate.input_files_available(result, true);
+        FILE_INFO* fip=0;
+        retval = gstate.input_files_available(result, true, &fip);
         if (retval) {
-            strcpy(buf, "Input file missing or invalid");
+            if (fip) {
+                snprintf(
+                    buf, sizeof(buf), "Input file %s missing or invalid: %d", fip->name, retval
+                );
+            } else {
+                strcpy(buf, "Input file missing or invalid");
+            }
             goto error;
         }
     }

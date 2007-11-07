@@ -215,7 +215,7 @@ public:
     void set_ncpus();
     double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);
-    int input_files_available(RESULT*, bool);
+    int input_files_available(RESULT*, bool, FILE_INFO** f=0);
     int ncpus;
         // number of usable cpus
 private:
