@@ -25,13 +25,13 @@ function show_admins($user, $teamid) {
         Team Admins can:
         <ul>
         <li> Edit team information (name, URL, description, country).
-        <li> Remove members.
         <li> View the member list (including email addresses).
         <li> View the team's join/quit history.
         </ul>
         Team Admins cannot:
         <ul>
         <li> Change the team founder.
+        <li> Remove members.
         <li> Add or remove Team Admins.
         </ul>
         If a Team Admin quits the team, they cease to be a Team Admin.

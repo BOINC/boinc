@@ -175,7 +175,7 @@ function require_team($team) {
 function require_founder_login($user, $team) {
     require_team($team);
     if ($user->id != $team->userid) {
-        error_page("Only a team's founder may edit a team.");
+        error_page("This operation requires foundership.");
     }
 }
 
