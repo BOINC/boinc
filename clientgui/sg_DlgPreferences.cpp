@@ -655,7 +655,7 @@ void CPanelPreferences::OnOK() {
     }
 
 
-	pDoc->rpc.set_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
+	pDoc->rpc.set_global_prefs_override_struct(global_preferences_working, global_preferences_override_mask);
 	pDoc->rpc.read_global_prefs_override();
 }
 
@@ -693,15 +693,15 @@ bool CPanelPreferences::UpdateControlStates() {
 
 
 bool CPanelPreferences::ClearPreferenceSettings() {
-    global_preferences_mask.start_hour = false;
-    global_preferences_mask.end_hour = false;
-    global_preferences_mask.net_start_hour = false;
-    global_preferences_mask.net_end_hour = false;
-    global_preferences_mask.disk_max_used_gb = false;
-    global_preferences_mask.cpu_usage_limit = false;
-    global_preferences_mask.run_if_user_active = false;
-    global_preferences_mask.run_on_batteries = false;
-    global_preferences_mask.idle_time_to_run = false;
+    global_preferences_override_mask.start_hour = false;
+    global_preferences_override_mask.end_hour = false;
+    global_preferences_override_mask.net_start_hour = false;
+    global_preferences_override_mask.net_end_hour = false;
+    global_preferences_override_mask.disk_max_used_gb = false;
+    global_preferences_override_mask.cpu_usage_limit = false;
+    global_preferences_override_mask.run_if_user_active = false;
+    global_preferences_override_mask.run_on_batteries = false;
+    global_preferences_override_mask.idle_time_to_run = false;
     return true;
 }
 
@@ -719,22 +719,24 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
 
     // Populate values and arrays from preferences
-	// Get current working preferences (including any overrides) from client
-    retval = pDoc->rpc.get_global_prefs_working_struct(global_preferences_override, global_preferences_mask);
+    // Get override mask from client
+    retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_working, global_preferences_override_mask);
+    // Get current working preferences (including any overrides) from client
+    retval = pDoc->rpc.get_global_prefs_working_struct(global_preferences_working, global_preferences_mask);
     if (retval == ERR_NOT_FOUND) {
         // Older clients don't support get_global_prefs_working_struct RPC
-        global_preferences_override = pDoc->state.global_prefs;
-	retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
+        global_preferences_working = pDoc->state.global_prefs;
+	retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_working, global_preferences_mask);
     }
 
-	if (!retval && global_preferences_mask.are_simple_prefs_set()) {
+    if (!retval && global_preferences_override_mask.are_simple_prefs_set()) {
         m_bCustomizedPreferences = true;
     } else {
         m_bCustomizedPreferences = false;
     }
 	
 	// Allow this structure to be modified for display purposes
-    display_global_preferences = global_preferences_override;
+    display_global_preferences = global_preferences_working;
 
 
     // Do work only between:
@@ -919,51 +921,51 @@ bool CPanelPreferences::ReadSkinSettings() {
 bool CPanelPreferences::SavePreferenceSettings() {
     // Do work only between:
     if (_("Anytime") == m_strWorkBetweenBegin) {
-        global_preferences_override.cpu_times.start_hour = 0;
-        global_preferences_override.cpu_times.end_hour = 0;
+        global_preferences_working.cpu_times.start_hour = 0;
+        global_preferences_working.cpu_times.end_hour = 0;
     } else {
-        m_strWorkBetweenBegin.ToLong((long*)&global_preferences_override.cpu_times.start_hour);
-        m_strWorkBetweenEnd.ToLong((long*)&global_preferences_override.cpu_times.end_hour);
+        m_strWorkBetweenBegin.ToLong((long*)&global_preferences_working.cpu_times.start_hour);
+        m_strWorkBetweenEnd.ToLong((long*)&global_preferences_working.cpu_times.end_hour);
     }
-    global_preferences_mask.start_hour = true;        
-    global_preferences_mask.end_hour = true;
+    global_preferences_override_mask.start_hour = true;        
+    global_preferences_override_mask.end_hour = true;
 
     // Connect to internet only between:
     if (_("Anytime") == m_strConnectBetweenBegin) {
-        global_preferences_override.net_times.start_hour = 0;
-        global_preferences_override.net_times.end_hour = 0;
+        global_preferences_working.net_times.start_hour = 0;
+        global_preferences_working.net_times.end_hour = 0;
     } else {
-        m_strConnectBetweenBegin.ToLong((long*)&global_preferences_override.net_times.start_hour);
-        m_strConnectBetweenEnd.ToLong((long*)&global_preferences_override.net_times.end_hour);
+        m_strConnectBetweenBegin.ToLong((long*)&global_preferences_working.net_times.start_hour);
+        m_strConnectBetweenEnd.ToLong((long*)&global_preferences_working.net_times.end_hour);
     }
-    global_preferences_mask.net_start_hour = true;        
-    global_preferences_mask.net_end_hour = true;        
+    global_preferences_override_mask.net_start_hour = true;        
+    global_preferences_override_mask.net_end_hour = true;        
 
     // Use no more than %s of disk space
-    m_strMaxDiskUsage.ToDouble((double*)&global_preferences_override.disk_max_used_gb);
+    m_strMaxDiskUsage.ToDouble((double*)&global_preferences_working.disk_max_used_gb);
     if (m_strMaxDiskUsage.Find(wxT("MB")) != -1) {
-        global_preferences_override.disk_max_used_gb /= 1000;
+        global_preferences_working.disk_max_used_gb /= 1000;
     }
-    global_preferences_mask.disk_max_used_gb = true;        
+    global_preferences_override_mask.disk_max_used_gb = true;        
 
     // Use no more than %s of the processor
-    m_strMaxCPUUsage.ToDouble((double*)&global_preferences_override.cpu_usage_limit);
-    global_preferences_mask.cpu_usage_limit = true;        
+    m_strMaxCPUUsage.ToDouble((double*)&global_preferences_working.cpu_usage_limit);
+    global_preferences_override_mask.cpu_usage_limit = true;        
 
     // Do work while computer is on battery?
-    global_preferences_override.run_on_batteries = m_bWorkWhileOnBattery;
-    global_preferences_mask.run_on_batteries = true;        
+    global_preferences_working.run_on_batteries = m_bWorkWhileOnBattery;
+    global_preferences_override_mask.run_on_batteries = true;        
 
     // Do work after computer is idle for:
-    m_strWorkWhenIdle.ToDouble((double*)&global_preferences_override.idle_time_to_run);
-    if (0 == global_preferences_override.idle_time_to_run) {
-        global_preferences_override.run_if_user_active = true;
-        global_preferences_mask.idle_time_to_run = false;
+    m_strWorkWhenIdle.ToDouble((double*)&global_preferences_working.idle_time_to_run);
+    if (0 == global_preferences_working.idle_time_to_run) {
+        global_preferences_working.run_if_user_active = true;
+        global_preferences_override_mask.idle_time_to_run = false;
     } else {
-        global_preferences_override.run_if_user_active = false;
-        global_preferences_mask.idle_time_to_run = true;
+        global_preferences_working.run_if_user_active = false;
+        global_preferences_override_mask.idle_time_to_run = true;
     }
-    global_preferences_mask.run_if_user_active = true;        
+    global_preferences_override_mask.run_if_user_active = true;        
 
     return true;
 }
