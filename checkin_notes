@@ -8021,8 +8021,13 @@ Charlie 8 Nov 2007
         on OS 10.3.x when it was built using XCode 3.0 on OS 10.5.
     Mgr SG: Fix SG preferences bug: set "custom" checkmark only if
         global_prefs_override.xml file exists.
+    Mac: Additional changes to release scripts for compatibility with new 
+         PackageMaker.    
         
     clientgui/
         mac/
             mac_saver_module.cpp
         sg_DlgPreferences.cpp,h
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
