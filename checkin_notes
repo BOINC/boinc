@@ -10678,6 +10678,11 @@ David  7 Nov 2007
 Charlie 8 Nov 2007
     Mgr SG: Fix SG preferences bug: set "custom" checkmark only if
         global_prefs_override.xml file exists.
+    Mac: Additional changes to release scripts for compatibility with new 
+         PackageMaker.    
         
     clientgui/
         sg_DlgPreferences.cpp,h
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
