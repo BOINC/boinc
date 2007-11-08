@@ -7,6 +7,8 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 
+ini_set("memory_limit", "64M");
+
 $generating_xml = false;
 
 // db_init

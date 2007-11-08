@@ -10668,3 +10668,9 @@ David  7 Nov 2007
         user/
             team_admins.php
             team_remove_inactive_action.php
+
+David  7 Nov 2007
+    - user web: set PHP memory limit to 64 MB
+
+    html/inc/
+        util.inc
