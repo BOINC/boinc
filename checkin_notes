@@ -8017,8 +8017,12 @@ Charlie 7 Nov 2007
             SetupSecurity.cpp
 
 Charlie 8 Nov 2007
+    Mac SS: Work around a poorly understood problem calling MPLibraryIsLoaded()
+        on OS 10.3.x when it was built using XCode 3.0 on OS 10.5.
     Mgr SG: Fix SG preferences bug: set "custom" checkmark only if
         global_prefs_override.xml file exists.
         
     clientgui/
+        mac/
+            mac_saver_module.cpp
         sg_DlgPreferences.cpp,h

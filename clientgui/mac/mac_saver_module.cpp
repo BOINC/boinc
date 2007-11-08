@@ -286,6 +286,7 @@ int drawGraphics(GrafPtr aPort) {
     GDHandle saveGDH;
     int newFrequency = 15;
     pid_t myPid;
+    long OSVersion;
     OSStatus err;
     
     ObscureCursor();
@@ -309,9 +310,20 @@ int drawGraphics(GrafPtr aPort) {
             rpc->init(NULL);   // Initialize communications with Core Client
 
             // Set up a separate thread for communicating with Core Client
-            if (!MPLibraryIsLoaded()) {
-                saverState = SaverState_UnrecoverableError;
-                break;
+            
+            // Work around a poorly understood problem running this code 
+            // on OS 10.3.x when it was built using XCode 3.0 on OS 10.5
+            err = Gestalt(gestaltSystemVersion, &OSVersion);
+            if ((err == noErr) && (OSVersion < 0x1040)) {
+                if (! _MPIsFullyInitialized ()) {
+                    saverState = SaverState_UnrecoverableError;
+                    break;
+                }
+            } else {
+                if (!MPLibraryIsLoaded()) {
+                    saverState = SaverState_UnrecoverableError;
+                    break;
+                }
             }
             
             if (gTerminationQueue == NULL) {
