@@ -8023,7 +8023,9 @@ Charlie 8 Nov 2007
         global_prefs_override.xml file exists.
     Mac: Additional changes to release scripts for compatibility with new 
          PackageMaker.    
-        
+     - Tag for 5.10.29 release, all platforms
+      boinc_core_release_5_10_29
+    
     clientgui/
         mac/
             mac_saver_module.cpp
@@ -8031,3 +8033,6 @@ Charlie 8 Nov 2007
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+    /
+        configure.ac
+        version.h
