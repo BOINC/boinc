@@ -7983,7 +7983,7 @@ Charlie 31 Oct 2007
         installer bugs due to PackageMaker changes; linker warnings 
         due to addition of visibility patch to compiler; new command-
         line utilities for flushing users & groups caches (used by 
-        BOINC installer).
+        BOINC installer).  Checked into boinc_core_release_5_10_28.
         
     clientgui/
         mac/
