@@ -10710,3 +10710,11 @@ David  9 Nov 2007
             forum_text_search_form.php (deleted)
             team_manage.php
             user_search.php
+
+Charlie 9 Nov 2007
+    Mgr SG: Fix SG preferences bug: save "Do work only between" and 
+        "Connect only between" as doubles, not longs so they work 
+        properly.
+
+    clientgui/
+        sg_DlgPreferences.cpp

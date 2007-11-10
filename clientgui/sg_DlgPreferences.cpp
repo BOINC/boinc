@@ -924,8 +924,8 @@ bool CPanelPreferences::SavePreferenceSettings() {
         global_preferences_working.cpu_times.start_hour = 0;
         global_preferences_working.cpu_times.end_hour = 0;
     } else {
-        m_strWorkBetweenBegin.ToLong((long*)&global_preferences_working.cpu_times.start_hour);
-        m_strWorkBetweenEnd.ToLong((long*)&global_preferences_working.cpu_times.end_hour);
+        m_strWorkBetweenBegin.ToDouble(&global_preferences_working.cpu_times.start_hour);
+        m_strWorkBetweenEnd.ToDouble(&global_preferences_working.cpu_times.end_hour);
     }
     global_preferences_override_mask.start_hour = true;        
     global_preferences_override_mask.end_hour = true;
@@ -935,8 +935,8 @@ bool CPanelPreferences::SavePreferenceSettings() {
         global_preferences_working.net_times.start_hour = 0;
         global_preferences_working.net_times.end_hour = 0;
     } else {
-        m_strConnectBetweenBegin.ToLong((long*)&global_preferences_working.net_times.start_hour);
-        m_strConnectBetweenEnd.ToLong((long*)&global_preferences_working.net_times.end_hour);
+        m_strConnectBetweenBegin.ToDouble(&global_preferences_working.net_times.start_hour);
+        m_strConnectBetweenEnd.ToDouble(&global_preferences_working.net_times.end_hour);
     }
     global_preferences_override_mask.net_start_hour = true;        
     global_preferences_override_mask.net_end_hour = true;        
