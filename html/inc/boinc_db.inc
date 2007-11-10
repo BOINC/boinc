@@ -48,16 +48,22 @@ class BoincDb extends DbConn {
 }
 
 class BoincUser {
+    static $cache;
     static function lookup($clause) {
         $db = BoincDb::get();
         return $db->lookup('user', 'BoincUser', $clause);
     }
 
-    static function lookup_id($id) {
+    static function lookup_id_nocache($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'user', 'BoincUser');
     }
-
+    static function lookup_id($id) {
+        if (!isset(self::$cache[$id])) {
+            self::$cache[$id] = self::lookup_id_nocache($id);
+        }
+        return self::$cache[$id];
+    }
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('user', $clause);
@@ -158,13 +164,6 @@ class BoincResult {
     static function update_aux($clause) {
         $db = BoincDb::get();
         return $db->update_aux('result', $clause);
-    }
-}
-
-class BoincPost {
-    static function count($clause) {
-        $db = BoincDb::get();
-        return $db->count('post', $clause);
     }
 }
 

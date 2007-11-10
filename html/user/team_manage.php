@@ -10,8 +10,6 @@ function show_admin_page($user, $team) {
         <ul>
         <li><a href=team_edit_form.php?teamid=$team->id>Edit team info</a>
             <br><span class=note>Change team name, URL, description, type, or country</span>
-        <li><a href=team_remove_inactive_form.php?teamid=$team->id>Remove members</a>
-            <br><span class=note>Remove inactive or unwanted members from this team</span>
         <li>
             Member list:
         <a href=team_email_list.php?teamid=$team->id>HTML</a>
@@ -32,6 +30,8 @@ function show_admin_page($user, $team) {
             ";
         }
         echo "
+            <li><a href=team_remove_inactive_form.php?teamid=$team->id>Remove members</a>
+                <br><span class=note>Remove inactive or unwanted members from this team</span>
             <li><a href=team_change_founder_form.php?teamid=$team->id>Change founder</a>
                 <br><span class=note>Transfer foundership to another member</span>
             <li><a href=team_admins.php?teamid=$team->id>Add/remove Team Admins</a>

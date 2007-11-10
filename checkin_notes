@@ -10686,3 +10686,27 @@ Charlie 8 Nov 2007
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+David  9 Nov 2007
+    - DB: remove "lang" from schema - not used
+    - DB: added parent_type to forum
+    - user web: BoincUser uses caching by default
+    - client: fixed small memory leak in statistics parsing
+
+    db/
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            forum_show.inc (deleted)
+            forum2_db.inc (new)
+            user.inc
+        ops/
+            db_update.php
+        user/
+            forum_reply.php
+            forum_text_search_action.php (deleted)
+            forum_text_search_form.php (deleted)
+            team_manage.php
+            user_search.php

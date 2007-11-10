@@ -5,6 +5,7 @@ require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+require_once("../inc/forum2_db.inc");
 
 function parse_project($f) {
     $p->total_credit = 0.0;

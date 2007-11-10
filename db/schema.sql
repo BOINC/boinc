@@ -278,16 +278,6 @@ create table workseq (
 -- EVERYTHING FROM HERE ON IS USED ONLY FROM PHP,
 -- SO NOT IN BOINC_DB.H ETC.
 
--- represents a language (so can have message boards in different languages)
---
-create table lang (
-    id                  integer     not null auto_increment,
-    name                varchar(254) not null,
-    charset             varchar(254) not null,
-    primary key (id)
-) type=InnoDB;
-
-
 -- user profile (description, pictures)
 --
 create table profile (
@@ -313,6 +303,7 @@ create table category (
     orderID             integer     not null,
         -- order in which to display
     lang                integer     not null,
+        -- not used
     name                varchar(254) binary,
     is_helpdesk         smallint    not null,
     primary key (id)
@@ -323,12 +314,15 @@ create table category (
 create table forum (
     id                  integer     not null auto_increment,
     category            integer     not null,
+        -- ID of entity to which this forum is attached.
+        -- The type (table) of the entity is determined by parent_type
     orderID             integer     not null,
     title               varchar(254) not null,
     description         varchar(254) not null,
     timestamp           integer     not null,
         -- time of last new or modified thread or post
     threads             integer     not null,
+        -- number of non-hidden threads in forum
     posts               integer     not null,
     rate_min_expavg_credit integer not null,
     rate_min_total_credit integer not null,
@@ -336,6 +330,11 @@ create table forum (
     post_min_expavg_credit integer not null,
     post_min_total_credit integer not null,
     is_dev_blog            tinyint not null default 0,
+    parent_type         integer     not null,
+        - entity type to which this forum is attached:
+        - 0 == category (public)
+        - 1 == team
+        - 2 == group
     primary key (id)
 ) type=InnoDB;
 
@@ -352,7 +351,7 @@ create table thread (
     views               integer     not null,
         -- number of times this has been viewed
     replies             integer     not null,
-        -- number of postings in thread
+        -- number of non-hidden posts in thread, not counting the initial one
     activity            double      not null,
         -- for questions: number of askers / time since asked
         -- (set periodically by update_forum_activity.php)
@@ -427,6 +426,7 @@ create table forum_preferences (
     primary key (userid)
 ) type=MyISAM; 
 
+-- keep track of last time a user read a thread
 create table forum_logging (
     userid              integer     not null default 0,
     threadid            integer     not null default 0,

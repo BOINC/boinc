@@ -323,26 +323,26 @@ int CLIENT_STATE::parse_statistics_files() {
 
     DirScanner dir(".");
     while (dir.scan(name)) {
+        PROJECT temp;
         if (is_statistics_file(name.c_str())) {
             f = boinc_fopen(name.c_str(), "r");
             if (!f) continue;
-            PROJECT* temp = new PROJECT;
-            retval = temp->parse_statistics(f);
+            retval = temp.parse_statistics(f);
             fclose(f);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Couldn't parse %s", name.c_str()
                 );
             } else {
-                project=lookup_project(temp->master_url);
-                if (project==NULL) {
+                project = lookup_project(temp.master_url);
+                if (project == NULL) {
                     msg_printf(NULL, MSG_INFO,
                         "Project for %s not found - ignoring",
                         name.c_str()
                     );
                 } else {
-                    for (std::vector<DAILY_STATS>::const_iterator i=temp->statistics.begin();
-                        i!=temp->statistics.end(); ++i
+                    for (std::vector<DAILY_STATS>::const_iterator i=temp.statistics.begin();
+                        i!=temp.statistics.end(); ++i
                     ) {
                         project->statistics.push_back(*i);
                     }
