@@ -10620,7 +10620,7 @@ David  7 Nov 2007
         cs_apps.C
         app_start.C
 
-Janus	7 Now 2007
+Janus    7 Now 2007
     - user web: Added green look to answered questions in the Q&A sections.
         This is an old change that seemingly never reached SVN
         when it was originally made last year.
@@ -10727,3 +10727,11 @@ Janus	11 Nov 2007
     html/inc/
         forum.inc
 
+David  11 Nov 2007
+    - Manager: use random colors for disk usage pie chart
+        (need to have unique color per project,
+        else tooltip will be wrong for some projects,
+        since it's based on color)
+
+    clientgui/
+        ViewResources.cpp,h
