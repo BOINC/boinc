@@ -10718,3 +10718,12 @@ Charlie 9 Nov 2007
 
     clientgui/
         sg_DlgPreferences.cpp
+
+Janus	11 Nov 2007
+    - User web: Factored out the supermassive if-sentence in forum.inc:show_post()
+        It is now a seperate function called should_show_post() and it returns a 
+	boolean.
+	
+    html/inc/
+        forum.inc
+
