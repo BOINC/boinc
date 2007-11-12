@@ -74,33 +74,15 @@ function lookup_team_name($name) {
 }
 
 function lookup_wu($id) {
-    $result = mysql_query("select * from workunit where id=$id");
-    if ($result) {
-        $wu = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $wu;
-    }
-    return null;
+    return BoincWorkunit::lookup_id($id);
 }
 
 function lookup_result($id) {
-    $result = mysql_query("select * from result where id=$id");
-    if ($result) {
-        $r = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $r;
-    }
-    return null;
+    return BoincResult::lookup_id($id);
 }
 
 function lookup_app($id) {
-    $result = mysql_query("select * from app where id=$id");
-    if ($result) {
-        $app = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $app;
-    }
-    return null;
+    return BoincApp::lookup_id($id);
 }
 
 // apply this to any user-supplied strings used in queries

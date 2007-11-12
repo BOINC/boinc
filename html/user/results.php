@@ -41,7 +41,7 @@ echo show_result_navigation(
 );
 foreach ($results as $result) {
     if ($i >= $results_per_page) break;
-    show_result_row($res, true, false, true);
+    show_result_row($result, true, false, true);
     $i++;
 }
 echo "</table>\n";

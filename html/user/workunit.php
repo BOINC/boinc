@@ -39,7 +39,7 @@ project_workunit($wu);
 result_table_start(false, true, true);
 $results = BoincResult::enum("workunitid=$wuid");
 foreach ($results as $result) {
-    show_result_row($res, false, true, true);
+    show_result_row($result, false, true, true);
 }
 echo "</table>\n";
 page_tail();

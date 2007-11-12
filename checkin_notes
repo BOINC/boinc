@@ -10804,3 +10804,16 @@ David  12 Nov 2007
                 results.php
                 validate_amil_addr.php
                 workunit.php
+
+David  12 Nov 2007
+    - user web: fixes
+
+        html/
+            inc/
+                boinc_db.inc
+                db.inc
+            user/
+                result.php
+                results.php
+                show_user.php
+                workunit.php

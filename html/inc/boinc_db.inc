@@ -169,6 +169,10 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->update_aux('result', $clause);
     }
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'result', 'BoincResult');
+    }
 }
 
 class BoincWorkunit {

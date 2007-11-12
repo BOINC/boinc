@@ -12,7 +12,7 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/forum.inc");
 require_once("../project/project.inc");
@@ -58,7 +58,7 @@ if ($format=="xml"){
     } else {
         // No data was found, generate new data for the cache and store it
         $user = lookup_user_id($id);
-        $user = getForumPreferences($user);
+        BoincForumPrefs::lookup($user);
         $user = get_other_projects($user);
         set_cache_data(serialize($user), $cache_args);
     }
