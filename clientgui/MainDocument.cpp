@@ -361,6 +361,13 @@ int CMainDocument::CachedStateUpdate() {
         pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
 
         retval = rpc.get_host_info(host);
+        // Treat venue as part of host info for status purposes.
+        if (!retval) { 
+            retval = rpc.get_venue(venue);
+            if (venue.empty()) {
+                venue = _("none");
+            }
+        }
         if (retval) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();

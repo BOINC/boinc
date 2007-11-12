@@ -74,6 +74,7 @@
 
 enum STATUSBARFIELDS {
     STATUS_TEXT,
+    STATUS_LOCATION,
     STATUS_CONNECTION_STATUS
 };
 
@@ -96,8 +97,11 @@ CStatusBar::CStatusBar(wxWindow *parent) :
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function Begin"));
 
-    const int widths[] = {-1, 200, 20};
+    const int widths[] = {-1, 150, 200, 20};
     SetFieldsCount(WXSIZEOF(widths), widths);
+ 
+    m_ptxtLocation = new wxStaticText(this, -1, _("Host location: "), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
+    wxASSERT(m_ptxtLocation);
 
     m_pbmpConnected = new wxStaticBitmap(this, -1, wxIcon(connect_xpm));
     wxASSERT(m_pbmpConnected);
@@ -128,37 +132,43 @@ CStatusBar::~CStatusBar()
 void CStatusBar::OnSize(wxSizeEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::OnSize - Function Begin"));
 
-    if (IsShown()) {
-        wxRect rect;
-        wxSize size;
+    Freeze();
+    wxRect rect;
+    wxSize size;
 
-        GetFieldRect(STATUS_CONNECTION_STATUS, rect);
+    GetFieldRect(STATUS_LOCATION, rect);
 
-        if (m_pbmpConnected) {
-            size = m_pbmpConnected->GetSize();
-            m_pbmpConnected->Move(rect.x + 1,
-                                  rect.y + (rect.height - size.y) / 2);
-        }
-
-        if (m_ptxtConnected) {
-            m_ptxtConnected->Move((rect.x + size.x) + 2,
-                                  (rect.y + (rect.height - size.y) / 2) + 1);
-        }
-
-        if (m_pbmpDisconnect) {
-            size = m_pbmpConnected->GetSize();
-            m_pbmpDisconnect->Move(rect.x + 1,
-                                   rect.y + (rect.height - size.y) / 2);
-        }
-
-        if (m_ptxtDisconnect) {
-            m_ptxtDisconnect->Move((rect.x + size.x) + 2,
-                                   (rect.y + (rect.height - size.y) / 2) + 1);
-        }
+    if (m_ptxtLocation) {
+        size = m_ptxtLocation->GetSize();
+        m_ptxtLocation->Move(rect.x + 1,
+            rect.y + (rect.height - size.y) / 2);
     }
 
-    event.Skip();
+    GetFieldRect(STATUS_CONNECTION_STATUS, rect);
 
+    if (m_pbmpConnected) {
+        size = m_pbmpConnected->GetSize();
+        m_pbmpConnected->Move(rect.x + 1,
+                              rect.y + (rect.height - size.y) / 2);
+    }
+
+    if (m_ptxtConnected) {
+        m_ptxtConnected->Move((rect.x + size.x) + 2,
+                              (rect.y + (rect.height - size.y) / 2) + 1);
+    }
+
+    if (m_pbmpDisconnect) {
+        size = m_pbmpConnected->GetSize();
+        m_pbmpDisconnect->Move(rect.x + 1,
+                               rect.y + (rect.height - size.y) / 2);
+    }
+
+    if (m_ptxtDisconnect) {
+        m_ptxtDisconnect->Move((rect.x + size.x) + 2,
+                               (rect.y + (rect.height - size.y) / 2) + 1);
+    }
+
+    Thaw();
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::OnSize - Function End"));
 }
 
@@ -1921,6 +1931,7 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent &event) {
 void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
     static bool       bAlreadyRunningLoop = false;
     static wxString   strCachedStatusText = wxEmptyString;
+    static wxString   strCachedLocation = wxEmptyString;
 
     CMainDocument*    pDoc     = wxGetApp().GetDocument();
     wxMenuBar*        pMenuBar = GetMenuBar();
@@ -1984,19 +1995,33 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     }
 
                     // The Mac takes a huge performance hit redrawing this window, 
-                    //   window, so don't change the text unless we really have too.
+                    // so don't change the text unless we really have too.
                     if (GetTitle() != strTitle)
                         SetTitle(strTitle);
                         
                     if (strStatusText != strCachedStatusText) {
                         strCachedStatusText = strStatusText;
                         m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
+
                     }
+                    // Location status field
+                    m_pStatusbar->m_ptxtLocation->Show();
+
+                    wxString strLocation = _("Host location: ");
+                    strLocation << pDoc->venue;
+
+                    if (strLocation != strCachedLocation) {
+                        strCachedLocation = strLocation;
+                        m_pStatusbar->m_ptxtLocation->SetLabel(strLocation);
+                    }
+
                 } else {
                     m_pStatusbar->m_pbmpConnected->Hide();
                     m_pStatusbar->m_ptxtConnected->Hide();
                     m_pStatusbar->m_pbmpDisconnect->Show();
                     m_pStatusbar->m_ptxtDisconnect->Show();
+
+                    m_pStatusbar->m_ptxtLocation->Hide();
 
                     if (GetTitle() != m_strBaseTitle)
                         SetTitle(m_strBaseTitle);

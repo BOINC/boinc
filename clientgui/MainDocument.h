@@ -148,6 +148,7 @@ public:
     CC_STATE                    state;
     CC_STATUS                   status;
     HOST_INFO                   host;
+    std::string                 venue;
     wxDateTime                  m_dtCachedStateTimestamp;
 
 

@@ -36,6 +36,7 @@ public:
 
     void OnSize(wxSizeEvent& event);
 
+    wxStaticText*   m_ptxtLocation;
     wxStaticBitmap* m_pbmpConnected;
     wxStaticText*   m_ptxtConnected;
     wxStaticBitmap* m_pbmpDisconnect;
