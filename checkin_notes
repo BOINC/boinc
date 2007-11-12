@@ -10737,7 +10737,7 @@ David  11 Nov 2007
         ViewResources.cpp,h
 
 David  12 Nov 2007
-    - DB: fix typo in schema
+    - DB: fix typo in schema; fixes #466
 
     db/
         schema.sql
