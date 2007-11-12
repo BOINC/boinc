@@ -47,27 +47,6 @@ CViewResources::CViewResources()
 CViewResources::CViewResources(wxNotebook* pNotebook) :  
 	CBOINCBaseView(pNotebook)
 {
-	// generate using:
-    // http://wellstyled.com/tools/colorscheme2/index-en.html
-    // (tetrad, light pastel, 60 deg base)
-
-	m_aProjectColours.Add(COLOR(0xFFE6BF));
-	m_aProjectColours.Add(COLOR(0xBFCFFF));
-	m_aProjectColours.Add(COLOR(0xFFBFEF));
-	m_aProjectColours.Add(COLOR(0xE6FFBF));
-	m_aProjectColours.Add(COLOR(0xBF9960));
-	m_aProjectColours.Add(COLOR(0x6078BF));
-	m_aProjectColours.Add(COLOR(0xBF60A7));
-	m_aProjectColours.Add(COLOR(0x99BF60));
-	m_aProjectColours.Add(COLOR(0xFFF5E6));
-	m_aProjectColours.Add(COLOR(0xE6ECFF));
-	m_aProjectColours.Add(COLOR(0xFFE6F9));
-	m_aProjectColours.Add(COLOR(0xF5FFE6));
-	m_aProjectColours.Add(COLOR(0xFFCC80));
-	m_aProjectColours.Add(COLOR(0x809FFF));
-	m_aProjectColours.Add(COLOR(0xFF80DF));
-	m_aProjectColours.Add(COLOR(0xCCFF80));
-
 	m_BOINCwasEmpty=false;
 
 	wxGridSizer* itemGridSizer = new wxGridSizer(2, 0, 3);
@@ -227,7 +206,10 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 				wxPiePart part;
 				part.SetLabel(projectname + wxT(" - ") + diskspace);
 				part.SetValue(usage);
-				part.SetColour(m_aProjectColours[i % m_aProjectColours.size()]);
+                unsigned char r=128+(rand()&127);
+                unsigned char g=128+(rand()&127);
+                unsigned char b=128+(rand()&127);
+                part.SetColour(wxColour(r, g, b));
 				m_pieCtrlBOINC->m_Series.Add(part);
 			}
 			m_pieCtrlBOINC->Refresh();

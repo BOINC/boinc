@@ -12,21 +12,17 @@ if (!$team) {
     error_page("No such team");
 }
 require_founder_login($user, $team);
+check_tokens($user->authenticator);
+
+$userid = post_int("userid");
+$new_founder = BoincUser::lookup_id($userid);
+if (!$new_founder || $new_founder->teamid != $team->id) {
+    error_page( "User is not a member of $team->name");
+}
 
 page_head("Changing founder of $team->name");
-$n = $_POST["navailable_users"];
-for ($i=0; $i<$n; $i++) {
-    if ($_POST["change_$i"] != 0) {
-        $userid = post_int("change_$i");
-        $user = BoincUser::lookup_id($userid);
-        if ($user->teamid != $team->id) {
-            echo "<br>$user->name is not a member of $team->name";
-        } else {
-            $team->update("userid=$userid, ping_user=0");
-            echo "<br>$user->name is now founder of $team->name";
-        }
-    }
-}
+$team->update("userid=$userid, ping_user=0");
+echo "$new_founder->name is now founder of $team->name";
 page_tail();
 
 ?>

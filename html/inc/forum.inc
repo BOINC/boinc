@@ -121,7 +121,41 @@ function getSortStyle($user,$place){
     return $$place;    // Huh?
 }
 
+function should_show_post($logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit){
+    $no_wraparound = get_str("nowrap",true);
 
+    // If the user isn't logged in we always display everything (useful for Google bots etc)
+    if (!$logged_in_user) return true;
+	    
+    // If the user hasn't enabled the feature to display only a certain amount of posts, simply display all of them.
+    if (!$logged_in_user->getMinimumWrapPostcount()) return true;
+		    
+    // If the user has asked to display all the posts just display them
+    if ($no_wraparound) return true;
+	    
+    // If it is enabled and we havent yet hit the limit, simply display all
+    if ($postcount < $logged_in_user->getMinimumWrapPostcount()) return true;
+				    
+    // Let's display the post if it is the first post
+    if ($postnumber==1 || $postnumber==($postcount+1)) return true;
+    				    
+    // Also, if this post is unread, show it
+    if ($post->getTimestamp() > $last_visit) return true;
+						    
+    // The user can choose to display the last X posts in a thread only, "last" here depends on sorting criteria:
+    if ($sort_style==CREATE_TIME_OLD){
+	if ($postnumber > $postcount+1-$logged_in_user->getDisplayWrapPostcount()) return true;
+    } else if (CREATE_TIME_NEW){
+	if ($postnumber <= $logged_in_user->getDisplayWrapPostcount()) return true;
+    } else {
+	// For other sorting criteria we do not know how to define "last" so simply display it all
+	return true;
+    }
+													
+    // In all other cases we should not show this particular post
+    return false;
+}
+														
 /*** display functions ***/
 
 /**
@@ -155,34 +189,9 @@ function show_posts(
     }
 
     $postnumber=0; $previous_post=0;
-    $no_wraparound = get_str("nowrap",true);
     foreach ($posts as $key => $post){
-        $postnumber++;
-        
-        // There *HAS* to be a better way to do this.  WOW.
-        if ((!$logged_in_user) // If the user isn't logged in
-            || (!$logged_in_user->getMinimumWrapPostcount()) //or If the user hasn't enabled the feature to display only a certain amount of posts, simply display all of them.
-            || ($postcount < $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we havent yet hit the limit, simply display all
-            || ($no_wraparound)  // If the user has asked to display all the posts just display them
-            ||
-            (
-                ($postcount >= $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we have hit the limit AND we have the minimum wraparound number of posts or more
-                &&
-                (
-                    ($postnumber==1 || $postnumber==($postcount+1)) // Let's display the post only if it is the first post 
-                    || 
-                    (        
-                        (($postnumber > $postcount+1-$logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
-                        && ($sort_style==CREATE_TIME_OLD))
-                        ||
-                        (($postnumber <= $logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
-                        && ($sort_style==CREATE_TIME_NEW))
-                        || ($sort_style!=CREATE_TIME_NEW && $sort_style!=CREATE_TIME_OLD)
-                    )  
-                    || ($post->getTimestamp() > $last_visit) //or if this post is unread
-                )
-            )
-        ) {
+        $postnumber++;    
+        if (should_show_post($logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit)){
             if ($postnumber!=$previous_post+1){
                 //A number of posts were hidden, display a way to unhide them:
                 echo "<tr class=\"postseperator\"><td></td><td colspan=\"2\">

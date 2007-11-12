@@ -54,8 +54,6 @@ protected:
 	wxPieCtrl*				m_pieCtrlBOINC;
 	wxPieCtrl*				m_pieCtrlTotal;
 
-	wxArrayColour			m_aProjectColours;
-
 	bool					m_BOINCwasEmpty;
 
     virtual void            UpdateSelection();

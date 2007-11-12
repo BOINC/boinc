@@ -8,7 +8,7 @@ $user = get_logged_in_user();
 $teamid = post_int("id");
 $team = BoincTeam::lookup_id($teamid);
 if (!$team) error_page("No such team");
-require_admin($user, $team);
+require_founder_login($user, $team);
 
 page_head("Removing users from $team->name");
 $ndel = 0;

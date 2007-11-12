@@ -179,8 +179,9 @@ private:
     bool m_bWorkWhileOnBattery;
     wxString m_strWorkWhenIdle;
 ////@end CPanelPreferences member variables
-    GLOBAL_PREFS      global_preferences_override;
+    GLOBAL_PREFS      global_preferences_working;
     GLOBAL_PREFS_MASK global_preferences_mask;
+    GLOBAL_PREFS_MASK global_preferences_override_mask;
 };
 
 

@@ -486,6 +486,10 @@ function update_11_7_2007() {
     do_query("alter table team_admin add unique (teamid, userid);");
 }
 
+function update_11_8_07() {
+    do_query("alter table forum add parent_type integer not null");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

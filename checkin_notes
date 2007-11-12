@@ -10608,3 +10608,130 @@ David  7 Nov 2007
 
     api/
         boinc_api.C
+
+David  7 Nov 2007
+    - client: when starting an app, and an input/app file is not available,
+        show the file name and error code in the message
+        that's appended to the job's stderr_out.
+
+    client/
+        client_state.h
+        sim.h
+        cs_apps.C
+        app_start.C
+
+Janus    7 Now 2007
+    - user web: Added green look to answered questions in the Q&A sections.
+        This is an old change that seemingly never reached SVN
+        when it was originally made last year.
+
+    html/user/
+        white.css
+
+David  7 Nov 2007
+    - user web: enhancements to the "foundership request" feature:
+        - If a request is pending, notify the current founder
+            in red on their Account page.
+            (previously there was no notification on the web;
+            if the founder didn't get the notification email,
+            they'd never find out; and if they read but lost the email,
+            they'd lose the URL they needed to visit to decline).
+        - Also notify current founder on the Admin Functions page
+        - On the team page
+            requesting user: show that request is pending, and the deadline.
+            founder: show that request is pending, link to respond
+            other users: show Deferred if can't make a request yet
+        - Say 90 days instead of 60 days where appropriate;
+            other text cleanup
+    - user web: team_change_founder_action.php was generating
+        a different name for each element of a radio button group.
+        That makes it not a radio button.
+
+    html/
+        inc/
+            team.inc
+            user.inc
+        user/
+            team_admins.php
+            team_change_founder_action.php
+            team_change_founder_form.php
+            team_founder_transfer_action.php
+            team_founder_transfer_form.php
+            team_manage.php
+
+David  7 Nov 2007
+    - user web: Team Admins can't remove members
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_admins.php
+            team_remove_inactive_action.php
+
+David  7 Nov 2007
+    - user web: set PHP memory limit to 64 MB
+
+    html/inc/
+        util.inc
+
+Charlie 8 Nov 2007
+    Mgr SG: Fix SG preferences bug: set "custom" checkmark only if
+        global_prefs_override.xml file exists.
+    Mac: Additional changes to release scripts for compatibility with new 
+         PackageMaker.    
+        
+    clientgui/
+        sg_DlgPreferences.cpp,h
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+
+David  9 Nov 2007
+    - DB: remove "lang" from schema - not used
+    - DB: added parent_type to forum
+    - user web: BoincUser uses caching by default
+    - client: fixed small memory leak in statistics parsing
+
+    db/
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            forum_show.inc (deleted)
+            forum2_db.inc (new)
+            user.inc
+        ops/
+            db_update.php
+        user/
+            forum_reply.php
+            forum_text_search_action.php (deleted)
+            forum_text_search_form.php (deleted)
+            team_manage.php
+            user_search.php
+
+Charlie 9 Nov 2007
+    Mgr SG: Fix SG preferences bug: save "Do work only between" and 
+        "Connect only between" as doubles, not longs so they work 
+        properly.
+
+    clientgui/
+        sg_DlgPreferences.cpp
+
+Janus	11 Nov 2007
+    - User web: Factored out the supermassive if-sentence in forum.inc:show_post()
+        It is now a seperate function called should_show_post() and it returns a 
+	boolean.
+	
+    html/inc/
+        forum.inc
+
+David  11 Nov 2007
+    - Manager: use random colors for disk usage pie chart
+        (need to have unique color per project,
+        else tooltip will be wrong for some projects,
+        since it's based on color)
+
+    clientgui/
+        ViewResources.cpp,h

@@ -1,69 +1,72 @@
 <?php
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-db_init();
-$user = get_logged_in_user(true);
-if (!$user->teamid) {
+$user = get_logged_in_user();
+$team = BoincTeam::lookup_id($user->teamid);
+if (!$team) {
     error_page("You need to be a member of a team to access this page.");
 }
-$team = lookup_team($user->teamid);
 
-page_head("Transfer founder position of $team->name");
+page_head("Request foundership of $team->name");
 $now = time();
 
-// if founder has declined the request and the request was done more than
-// two months ago, allow new request; if both founder and change initiator
-// haven't responded for 3 months, allow new request.
-//
 if (new_transfer_request_ok($team, $now)) {
     echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">";
-    echo "<p>If the team founder is no longer active and you feel that you can
-        take over from him/her, click the button below. The current team founder
-        will be sent an email detailing your request and will be given an option
-        to transfer the founder position to you. If the founder does not respond
-        in two months, you will be given an option to become the founder
-        yourself.
-        <p>Are you sure you want to initiate founder transfer process?
+    echo "<p>If the team founder is not active and you want to assume
+        the role of founder, click the button below.
+        The current founder will be sent an email detailing your request,
+        and will be given an option to transfer foundership to you
+        or to decline your request.
+        If the founder does not respond in 60 days,
+        you will be given an option to become the founder.
+        <p>
+        Are you sure you want to request foundership?
     ";
 
     echo "<input type=\"hidden\" name=\"action\" value=\"transfer\">
-        <input type=\"submit\" value=\"Initiate founder transfer process\">
+        <input type=\"submit\" value=\"Request foundership\">
         </form>
     ";
 } else {
     if ($team->ping_user) {
         if ($user->id == $team->ping_user) {
-            echo "<p>You have already requested to take over the founder
-                position of $team->name.
+            echo "<p>You have already requested the foundership
+                of $team->name.
             ";
             if (transfer_ok($team, $now)) {
-                echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">
+                echo "
+                    60 days have elapsed since your request,
+                    and the founder has not responded.
+                    You may now assume foundership by clicking here:
+                    <form method=\"post\" action=\"team_founder_transfer_action.php\">
                     <input type=\"hidden\" name=\"action\" value=\"transfer\">
-                    <input type=\"submit\" value=\"Complete team founder transfer\">
+                    <input type=\"submit\" value=\"Assume foundership\">
                     </form>
                 ";
             } else {
-                echo "<p>The team founder has been notified of your request.
+                echo "<p>
+                    The founder has been notified of your request.
                     If he/she does not respond by ".date_str(transfer_ok_time($team))."
-                    you will be given an option to become team founder.
+                    you will be given an option to become founder.
                 ";
             }
         } else {
             if ($team->ping_user < 0) {
                 $team->ping_user = -$team->ping_user;
             }
-            $ping_user = lookup_user_id($team->ping_user);
+            $ping_user = BoincUser::lookup_id($team->ping_user);
             echo "<p>Founder change has already been requested by ".
                 user_links($ping_user)." on ".date_str($team->ping_time).".
             ";
         }
     } else {
-        echo "<p>A founder change has been initiated during the last two
-            months and is currently disabled.
+        echo "<p>A foundership change was requested during the last 90 days,
+             so new requests are not allowed.
+             Please try again later.
         ";
     }
 }

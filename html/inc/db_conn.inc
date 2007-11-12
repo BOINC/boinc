@@ -22,7 +22,7 @@ class DbConn {
 
     function do_query($query) {
         $q = str_replace('DBNAME', $this->db_name, $query);
-        //echo "query: $q";
+        //echo "query: $q<br>";
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
             echo "database error: ", mysql_error(), "\n<pre>";
@@ -49,6 +49,16 @@ class DbConn {
 
     function lookup_id($id, $table, $classname) {
         return $this->lookup($table, $classname, "id=$id");
+    }
+
+    function enum_general($classname, $query) {
+        $result = $this->do_query($query);
+        if (!$result) return null;
+        while ($obj = mysql_fetch_object($result, $classname)) {
+            $x[] = $obj;
+        }
+        mysql_free_result($result);
+        return $x;
     }
 
     function enum_fields(
@@ -103,6 +113,10 @@ class DbConn {
         if ($cnt) return $cnt->total;
         return null;
         mysql_free_result($result);
+    }
+    function replace($table, $clause) {
+        $query = "replace delayed into DBNAME.$table set $clause";
+        return $this->do_query($query);
     }
     function base_escape_string($string) {
         return mysql_real_escape_string($string, $this->db_conn);

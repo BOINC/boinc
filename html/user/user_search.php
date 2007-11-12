@@ -43,7 +43,7 @@ function filter_user($user, $filter) {
 
 function show_user($user) {
     if ($user->teamid) {
-        $team = BoincTeam::lookup_id_cache($user->teamid);
+        $team = BoincTeam::lookup_id($user->teamid);
         $team_name = $team->name;
     } else {
         $team_name = "";
