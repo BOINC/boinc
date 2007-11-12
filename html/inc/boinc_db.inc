@@ -205,4 +205,31 @@ class BoincTeamAdmin {
     }
 }
 
+class BoincPrivateMessage {
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'private_messages', 'BoincPrivateMessage');
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'private_messages', $clause);
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('private_messages', 'BoincPrivateMessage', $clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('private_messages', $clause);
+    }
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('private_messages', $clause);
+    }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'private_messages');
+    }
+}
+
 ?>

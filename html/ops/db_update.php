@@ -486,7 +486,7 @@ function update_11_7_2007() {
     do_query("alter table team_admin add unique (teamid, userid);");
 }
 
-function update_11_8_07() {
+function update_11_8_2007() {
     do_query("alter table forum add parent_type integer not null");
 }
 
@@ -495,6 +495,6 @@ function update_11_8_07() {
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_10_25_2007();
+//update_11_8_2007();
 
 ?>

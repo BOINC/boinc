@@ -331,10 +331,10 @@ create table forum (
     post_min_total_credit integer not null,
     is_dev_blog            tinyint not null default 0,
     parent_type         integer     not null,
-        - entity type to which this forum is attached:
-        - 0 == category (public)
-        - 1 == team
-        - 2 == group
+        -- entity type to which this forum is attached:
+        -- 0 == category (public)
+        -- 1 == team
+        -- 2 == group
     primary key (id)
 ) type=InnoDB;
 
@@ -456,10 +456,10 @@ create table sent_email (
 ) TYPE=MyISAM;
 
 create table private_messages (
-    id                  int(10)     unsigned    not null auto_increment,
-    userid              int(10)     unsigned    not null,
-    senderid            int(10)     unsigned    not null,
-    date                int(10)     unsigned    not null,
+    id                  integer     not null auto_increment,
+    userid              integer     not null,
+    senderid            integer     not null,
+    date                integer     not null,
     opened              tinyint(1)  unsigned    not null default '0',
     subject             varchar(255)            not null,
     content             text                    not null,

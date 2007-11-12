@@ -10735,3 +10735,16 @@ David  11 Nov 2007
 
     clientgui/
         ViewResources.cpp,h
+
+David  12 Nov 2007
+    - DB: fix typo in schema
+
+    db/
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            forum2_db.inc
+        ops/
+            db_update.php

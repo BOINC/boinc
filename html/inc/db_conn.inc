@@ -25,9 +25,11 @@ class DbConn {
         //echo "query: $q<br>";
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
-            echo "database error: ", mysql_error(), "\n<pre>";
+            echo "Database Error<br>";
+            //echo ": ", mysql_error(), "\n<pre>";
             //var_dump(debug_backtrace());
-            echo "</pre>query: $q\n";
+            //echo "</pre>query: $q\n";
+            return null;
         }
         return $ret;
     }
@@ -36,10 +38,6 @@ class DbConn {
         $query = "select * from DBNAME.$table where $clause";
         $result = $this->do_query($query);
         if (!$result) {
-            echo "database error: ", mysql_error(), "\n";
-            var_dump(debug_backtrace());
-            echo $query;
-            echo mysql_error();
             return null;
         }
         $obj = mysql_fetch_object($result, $classname);
@@ -115,7 +113,7 @@ class DbConn {
         mysql_free_result($result);
     }
     function replace($table, $clause) {
-        $query = "replace delayed into DBNAME.$table set $clause";
+        $query = "replace into DBNAME.$table set $clause";
         return $this->do_query($query);
     }
     function base_escape_string($string) {
