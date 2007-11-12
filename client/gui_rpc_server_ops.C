@@ -796,6 +796,12 @@ static void handle_get_newer_version(MIOFILE& fout) {
     );
 }
 
+static void handle_get_venue(MIOFILE& fout) {
+    fout.printf("<venue>%s</venue>\n",
+        gstate.main_host_venue
+    );
+}
+
 static void handle_get_global_prefs_file(MIOFILE& fout) {
     GLOBAL_PREFS p;
     bool found;
@@ -1050,8 +1056,11 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_statistics(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
+    } else if (match_tag(request_msg, "<get_venue>")) {
+        handle_get_venue(mf);
     } else if (match_tag(request_msg, "<get_cc_status")) {
         handle_get_cc_status(this, mf);
+
 
     // Operations that require authentication start here
 

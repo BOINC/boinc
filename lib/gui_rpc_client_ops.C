@@ -2050,6 +2050,23 @@ int RPC_CLIENT::get_newer_version(std::string& version) {
     return retval;
 }
 
+int RPC_CLIENT::get_venue(std::string& venue) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    venue = "";
+    retval = rpc.do_rpc("<get_venue/>\n");
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            parse_str(buf, "<venue>", venue);
+        }
+    }
+    return retval;
+}
+
+
 int RPC_CLIENT::read_global_prefs_override() {
     SET_LOCALE sl;
     RPC rpc(this);
