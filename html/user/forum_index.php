@@ -1,22 +1,27 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
-/**
- * This is the forum index
- * It shows the categories available and each of the forums that are
- * contained in those categories
- **/
+
+// Forum index
+// shows the categories and the forums in each category
 
 require_once('../inc/forum.inc');
-require_once('../inc/forum_std.inc');
-db_init();
-
-$logged_in_user = get_logged_in_user(false);
+require_once('../inc/pm.inc');
+require_once('../inc/time.inc');
 
 // Process request to mark all posts as read
-if ((get_int("read", true) == 1) && ($logged_in_user)) {
-    check_tokens($logged_in_user->authenticator);
-    mysql_query("UPDATE forum_preferences SET mark_as_read_timestamp=".time()." WHERE userid=".$logged_in_user->id.";");
-    Header("Location: ".get_str("return", true));
+// ???? uh, why is this here ????
+
+$user = get_logged_in_user(false);
+
+if ((get_int("read", true) == 1)) {
+    if ($user) {
+        check_tokens($user->authenticator);
+        BoincForumPrefs::lookup($user);
+        $now = time();
+        $user->prefs->update("mark_as_read_timestamp=$now");
+        echo "foo";
+        exit();
+        Header("Location: ".get_str("return", true));
+    }
 }
 
 function forum_summary($forum) {
@@ -24,13 +29,13 @@ function forum_summary($forum) {
         <tr class=\"row1\">
         <td>
             <em>
-            <a href=\"forum_forum.php?id=".$forum->getID()."\">".$forum->getTitle()."
+            <a href=\"forum_forum.php?id=$forum->id\">$forum->title
             </a></em>
-            <br><span class=\"smalltext\">".$forum->getDescription()."</span>
+            <br><span class=\"smalltext\">$forum->description</span>
         </td>
-        <td>".$forum->getThreadCount()."</td>
-        <td>".$forum->getPostCount()."</td>
-        <td>".time_diff_str($forum->getLastTimestamp(), time())."</td>
+        <td>$forum->threads</td>
+        <td>$forum->posts</td>
+        <td>".time_diff_str($forum->timestamp, time())."</td>
     </tr>";
 }
 
@@ -44,31 +49,26 @@ echo "
     </p>
 ";
 
-show_forum_title(NULL, NULL);
+show_forum_title($user, NULL, NULL, NULL, true);
 start_forum_table(array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post")));
 
-$categories = $mainFactory->getCategories();
-$i=0;
-while (isset($categories[$i])) {
-    if (!$categories[$i]->getType()) {
-        echo '
-            <tr class="subtitle">
-                <td class="category" colspan="4">'.$categories[$i]->getName().'</td>
-            </tr>
-        ';
-        $forums = $categories[$i]->getForums();
-        $ii=0;
-        // Show a summary of each of the forums
-        while (isset($forums[$ii])) {
-            echo forum_summary($forums[$ii]);
-            $ii++;
-        }
+$categories = BoincCategory::enum("is_helpdesk=0 order by orderID");
+foreach ($categories as $category) {
+    echo '
+        <tr class="subtitle">
+            <td class="category" colspan="4">'.$category->name.'</td>
+        </tr>
+    ';
+    $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
+    foreach ($forums as $forum) {
+        echo forum_summary($forum);
     }
-    $i++;
 }
 
 end_table();
 page_tail();
 flush();
-cleanup_forum_log();
+BoincForumLogging::cleanup();
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

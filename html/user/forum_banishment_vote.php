@@ -1,41 +1,30 @@
 <?php
-/**
- * The form where a moderator decides what he is going to do to a post.
- * Submits informaiton to forum_moderate_post_action.php for actual action
- * to be done.
- **/
 
-require_once('../inc/forum_std.inc');
-require_once('../inc/forum_user.inc');
+require_once('../inc/forum_db.inc');
 require_once('../inc/forum_banishment_vote.inc');
 
 $config = get_config();
 
-db_init();
-
-$logged_in_user = re_get_logged_in_user();
-
+$logged_in_user = get_logged_in_user();
+BoincForumPrefs::lookup($logged_in_user);
 
 if (!get_str('action')) {
     error_page("You must specify an action...");
 }
-if (!$logged_in_user->isSpecialUser(S_MODERATOR)) {
+if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     // Can't moderate without being moderator
     error_page("You are not authorized to banish users.");
 }    
 
 $userid = get_int('userid');
-$user=get_user_from_id($userid);
+$user = BoincUser::lookup_id($userid);
 
 page_head('Banishment Vote');
 
-//start form
 echo "<form action=\"forum_banishment_vote_action.php?userid=".$userid."\" method=\"POST\">\n";
-echo form_tokens($logged_in_user->getAuthenticator());
+echo form_tokens($logged_in_user->authenticator);
 start_table();
 row1("Banishment Vote");
-
-
 
 if (get_str('action')=="start") {
     if (!$user) {

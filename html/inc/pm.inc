@@ -1,10 +1,11 @@
 <?php
-$cvs_version_tracker[]="\$Id$";
+
+require_once("boinc_db.inc");
 
 function pm_header() {
     echo "<div>\n";
-    echo "    <a href=\"forum_pm.php?action=inbox\">".tra("Inbox")."</a>\n";
-    echo "    | <a href=\"forum_pm.php?action=new\">".tra("Write")."</a>\n";
+    echo "    <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
+    echo "    | <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
     echo "</div>\n";
 }
 
@@ -26,23 +27,23 @@ function pm_create_new($error = null) {
     $subject = null;
     $content = null;
     if ($replyto) {
-        $message = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$replyto");
-        if ($message) {
-            $message = mysql_fetch_object($message);
-            $content = "[quote]".$message->content."[/quote]\n";
-            $userid = $message->senderid;
-            $user = get_user_from_id($userid);
-            if ($user != null) {
-                $writeto = $userid." (".$user->name.")";
-            }
-            $subject = $message->subject;
-            if (substr($subject, 0, 3) != "re:") {
-                $subject = "re: ".$subject;
-            }
+        $message = BoincPrivateMessage::lookup_id($replyto);
+        if (!$message || $message->userid != $logged_in_user->id) {
+            error_page("no such message");
+        }
+        $content = "[quote]".$message->content."[/quote]\n";
+        $userid = $message->senderid;
+        $user = BoincUser::lookup_id($userid);
+        if ($user != null) {
+            $writeto = $userid." (".$user->name.")";
+        }
+        $subject = $message->subject;
+        if (substr($subject, 0, 3) != "re:") {
+            $subject = "re: ".$subject;
         }
     } elseif ($userid) {
-        $user = get_user_from_id($userid);
-        if ($user != null) {
+        $user = BoincUser::lookup_id($userid);
+        if ($user) {
             $writeto = $userid." (".$user->name.")";
         }
     } else {
@@ -58,7 +59,7 @@ function pm_create_new($error = null) {
         echo "<div class=\"error\">".$error."</div>\n";
     }
     
-    echo "<form action=\"forum_pm.php\" method=\"post\">\n";
+    echo "<form action=\"pm.php\" method=\"post\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo form_tokens($logged_in_user->authenticator);
     start_table();
@@ -80,23 +81,16 @@ function pm_send($to, $subject, $content) {
     $senderid = $logged_in_user->id;
     $sql_subject = mysql_real_escape_string($subject);
     $sql_content = mysql_real_escape_string($content);
-    $result = mysql_query("SELECT pm_notification FROM forum_preferences WHERE userid=".$userid);
-    if ($result) {
-        $result = mysql_fetch_object($result);
-        if ($result->pm_notification == 1) {
-            $send_email = true;
-        } else {
-            $send_email = false;
-        }
-    } else {
-        $send_email = false;
-    }
-    mysql_query("INSERT INTO private_messages (userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
+    $to_user = BoincUser::lookup_id($userid);
+    BoincForumPrefs::lookup($to_user);
+    $send_email = false;
+    if ($to_user->prefs->pm_notification) $send_email = true;
+    BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if ($send_email) { // Send email notification
         $message  = "Dear ".$to->name.",\n\n";
         $message .= "You have received a new private message at ".PROJECT." from ".$logged_in_user->name.", entitled \"".$subject."\".\n\n";
         $message .= "To read the original version, respond to, or delete this message, you must log in here:\n";
-        $message .= URL_BASE."/forum_pm.php\n\n";
+        $message .= URL_BASE."/pm.php\n\n";
         $message .= "Do not reply to this message. To disable email notification, go to\n";
         $message .= URL_BASE."/prefs.php?subset=project\n";
         $message .= "and change email notification settings.\n";
@@ -107,12 +101,7 @@ function pm_send($to, $subject, $content) {
 
 function pm_count($userid, $duration) {
     $time = time() - $duration;
-    $result = mysql_query("SELECT COUNT(*) AS total FROM private_messages WHERE senderid=".$userid." AND date>".$time);
-    if ($result) {
-        $result = mysql_fetch_object($result);
-        return $result->total;
-    }
-    return 0;
+    return PrivateMessage::count("senderid=$userid AND date>$time");
 }
 
 function check_pm_count($userid) {
@@ -124,13 +113,12 @@ function check_pm_count($userid) {
 
 function pm_notification($user) {
     $output = "";
-    $res = mysql_query("SELECT COUNT(*) AS unread FROM private_messages WHERE userid=".$user->id." AND opened=0");
-    $pm = mysql_fetch_object($res);
-    $unread = $pm->unread;
+    $unread = BoincPrivateMessage::count("userid=$user->id AND opened=0");
     
-    $output .= "Private messages: <a href=\"forum_pm.php?action=inbox\">".tra("Inbox")."</a> ($unread unread)\n";
-    $output .= "| <a href=\"forum_pm.php?action=new\">".tra("Write")."</a>\n";
+    $output .= "Private messages: <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a> ($unread unread)\n";
+    $output .= "| <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
     return $output;
 }
 
+$cvs_version_tracker[]="\$Id: pm.inc 14019 2007-11-01 23:04:39Z davea $";
 ?>

@@ -4,6 +4,8 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 
+// TODO: convert this
+
 xml_header();
 
 $retval = db_init_xml();

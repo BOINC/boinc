@@ -1,82 +1,87 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-/**
- * Using this page you can edit a post.
- * First it displays a box to edit in, and when you submit the changes
- * it will call the methods on the post to make the changes.
- **/
+// Using this page you can edit a post.
+// First it displays a box to edit in, and when you submit the changes
+// it will call the methods on the post to make the changes.
+//
 
 require_once('../inc/forum.inc');
-require_once('../inc/forum_std.inc');
 
-db_init();
-
-$logged_in_user = re_get_logged_in_user();
+$logged_in_user = get_logged_in_user();
+BoincForumPrefs::lookup($logged_in_user);
 
 // if user is a project admin or project developer or forum moderator,
 // allow them to edit their own posts indefinitely.
-$is_spec = $logged_in_user->isSpecialUser(S_MODERATOR) ||
-	   $logged_in_user->isSpecialUser(S_ADMIN) ||
-	   $logged_in_user->isSpecialUser(S_DEV);
+//
+$is_spec = $logged_in_user->prefs->privilege(S_MODERATOR) ||
+	   $logged_in_user->prefs->privilege(S_ADMIN) ||
+	   $logged_in_user->prefs->privilege(S_DEV);
 
 $postid = get_int("id");
-$post = new Post($postid);
-$thread = $post->getThread();
+$post = BoincPost::lookup_id($postid);
+$thread = BoincThread::lookup_id($post->thread);
 
-// Check some prerequisits for editting the post
-if (!$is_spec && (time() > $post->getTimestamp() + MAXIMUM_EDIT_TIME)){
+// Check some prerequisites for editing the post
+//
+if (!$is_spec && (time() > $post->timestamp + MAXIMUM_EDIT_TIME)){
     error_page ("You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.");
 }
-$post_owner = $post->getOwner();
-if (($logged_in_user->getID() != $post_owner->getID()) || (can_reply($thread, $logged_in_user) == false)) {
+
+$post_owner = BoincUser::lookup_id($post->user);
+if (($logged_in_user->id != $post_owner->id) || (can_reply($thread, $logged_in_user) == false)) {
     error_page ("You are not authorized to edit this post.");
 }
 
-$thread_owner = $thread->getOwner();
-$can_edit_title = ($post->getParentPostID()==0 and $thread_owner->getID()==$logged_in_user->getID());
+$thread_owner = BoincUser::lookup_id($thread->owner);
+$can_edit_title = ($post->parent_post==0 and $thread_owner->id==$logged_in_user->id);
 
 $content = post_str("content", true);
 $preview = post_str("preview", true);
 
-if (post_str('submit',true) && (!$preview)) {    
-    check_tokens($logged_in_user->getAuthenticator());
+if (post_str('submit',true) && (!$preview)) {
+    check_tokens($logged_in_user->authenticator);
     
-    if (post_str('add_signature', true) == "1"){
-        $add_signature = true;
+    if (post_str('add_signature', true) == "1") {
+        $add_signature = 1;
     }  else {
-        $add_signature = false;
+        $add_signature = 0;
     }
-    $post->setSignature($add_signature);
+    $content = substr($content, 0, 64000);
+    $content = mysql_real_escape_string($content);
+    $post->update("signature=$add_signature, content='$content'");
     
-    $post->setContent($content);
     // If this post belongs to the creator of the thread and is at top-level 
-    // (ie. not a response to another post) allow the user to modify the thread title
+    // (ie. not a response to another post)
+    // allow the user to modify the thread title
+    //
     if ($can_edit_title){
-        $thread->setTitle(post_str('title'));
+        $t = post_str('title');
+        $t = trim($t);
+        $t = strip_tags($ts);
+        $t = mysql_real_escape_string($t);
+        $thread->update("title='$t'");
     }
 
-    header('Location: forum_thread.php?id='.$thread->getID());
+    header("Location: forum_thread.php?id=$thread->id");
 }
-
 
 page_head('Forum');
 
-$forum = $thread->getForum();
-$category = $forum->getCategory();
+$forum = BoincForum::lookup_id($thread->forum);
+$category = BoincCategory::lookup_id($forum->category);
 
-show_forum_title($forum, $thread);
+show_forum_title($logged_in_user, $category, $forum, $thread);
 
 if ($preview == tra("Preview")) {
-    $options = new output_options;
+    $options = null;
     echo "<div id=\"preview\">\n";
     echo "<div class=\"header\">".tra("Preview")."</div>\n";
     echo output_transform($content, $options);
     echo "</div>\n";
 }
 
-echo "<form action=\"forum_edit.php?id=".$post->getID()."\" method=\"POST\">\n";
-echo form_tokens($logged_in_user->getAuthenticator());
+echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\">\n";
+echo form_tokens($logged_in_user->authenticator);
 start_table();
 row1("Edit your post");
 if ($can_edit_title) {
@@ -89,7 +94,7 @@ if ($can_edit_title) {
     } else {
         row2(
             tra("Title").html_info(),
-            '<input type="text" name="title" value="'.stripslashes(htmlspecialchars($thread->getTitle())).'">'
+            '<input type="text" name="title" value="'.stripslashes(htmlspecialchars($thread->title)).'">'
         );
     }
 };
@@ -102,11 +107,11 @@ if ($preview) {
 } else {
     row2(
         tra("Message").html_info().post_warning(),
-        '<textarea name="content" rows="12" cols="80">'.stripslashes(htmlspecialchars($post->getContent())).'</textarea>'
+        '<textarea name="content" rows="12" cols="80">'.stripslashes(htmlspecialchars($post->content)).'</textarea>'
     );
 }
 
-if ($post->hasSignature()) {
+if ($post->signature) {
     $enable_signature="checked=\"true\"";
 } else {
     $enable_signature="";
@@ -122,4 +127,5 @@ echo "</form>";
 
 page_tail();
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

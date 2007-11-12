@@ -1,31 +1,44 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-require_once('../inc/db.inc');
-require_once('../inc/db_forum.inc');
-require_once('../inc/time.inc');
-require_once('../inc/forum_moderators.inc');
-require_once('../inc/text_transform.inc');
-require_once('../inc/util.inc');
-require_once('../inc/forum_pm.inc');
+require_once("../inc/forum_db.inc");
+require_once("../inc/pm.inc");
+require_once("../inc/text_transform.inc");
+
+define('THREADS_PER_PAGE', 50);
+
+// sorting styles
+define('MODIFIED_NEW', 1);
+define('MODIFIED_OLD',2);
+define('VIEWS_MOST',3);
+define('REPLIES_MOST',4);
+define('CREATE_TIME_NEW',5);
+define('CREATE_TIME_OLD',6);
+define('POST_SCORE',7);
+
+// names for the above
+$thread_sort_styles[CREATE_TIME_OLD] = "Least recent post first";
+$thread_sort_styles[CREATE_TIME_NEW] = "Most recent post first";
+$thread_sort_styles[POST_SCORE] = "Highest rated posts first";
+
+$forum_sort_styles[MODIFIED_NEW] = "Most recent reply first";
+//$forum_sort_styles[MODIFIED_OLD] = "Least recent reply first";
+$forum_sort_styles[VIEWS_MOST] = "Most views first";
+$forum_sort_styles[REPLIES_MOST] = "Most posts first";
+$forum_sort_styles[CREATE_TIME_NEW] = "Most recently created first";
+//$forum_sort_styles[CREATE_TIME_OLD] = "Least recently created first";
+
+// values for thread.status
+define('THREAD_SOLVED', 1);
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
 
-$special_user_bitfield[0]="Forum moderator";
-$special_user_bitfield[1]="Project administrator";
-$special_user_bitfield[2]="Project developer";
-$special_user_bitfield[3]="Project tester";
-$special_user_bitfield[4]="Volunteer developer";
-$special_user_bitfield[5]="Volunteer tester";
-$special_user_bitfield[6]="Project scientist";
-
 define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
 define('ST_NEW', 'New member');
 
-define('MAXIMUM_EDIT_TIME',3600); //Maximally allow edits of forums posts up till one hour after posting.
+define('MAXIMUM_EDIT_TIME',3600);
+    // allow edits of forums posts up till one hour after posting.
 
-define('FORUM_OPEN_LINK_IN_NEW_WINDOW',1);
 define('MAX_FORUM_LOGGING_TIME', 2419200); //3600*24*28 - 28 days
 define('NO_CONTROLS', 0);
 define('FORUM_CONTROLS', 1);
@@ -58,360 +71,87 @@ define ('OFF_TOPIC', 'Off-topic');
 define ('DEFAULT_LOW_RATING_THRESHOLD', -25);
 define ('DEFAULT_HIGH_RATING_THRESHOLD', 5);
 
-$thread_sort_styles['timestamp'] = "Newest first";
-$thread_sort_styles['timestamp_asc'] = "Oldest first";
-$thread_sort_styles['score'] = "Highest rated first";
+// A list of what kind of special users exist
+define('S_MODERATOR', 0);
+define('S_ADMIN', 1);
+define('S_DEV', 2);
+define('S_TESTER', 3);
+define('S_VOLUNTEER', 4);
+define('S_VOLUNTEER_TESTER', 5);
+define('S_SCIENTIST', 6);
 
-$faq_sort_styles['create_time'] = "Most recent question first";
-$faq_sort_styles['timestamp'] = "Most recent answer first";
-$faq_sort_styles['activity'] = "Most frequently asked first";
+$special_user_bitfield[S_MODERATOR]="Forum moderator";
+$special_user_bitfield[S_ADMIN]="Project administrator";
+$special_user_bitfield[S_DEV]="Project developer";
+$special_user_bitfield[S_TESTER]="Project tester";
+$special_user_bitfield[S_VOLUNTEER]="Volunteer developer";
+$special_user_bitfield[S_VOLUNTEER_TESTER]="Volunteer tester";
+$special_user_bitfield[S_SCIENTIST]="Project scientist";
 
-$answer_sort_styles['score'] = "Highest score first";
-$answer_sort_styles['timestamp'] = "Most recent first";
-$answer_sort_styles['timestamp_asc'] = "Oldest first";
+// Output the forum/thread title.
 
-$thread_filter_styles['2'] = "\"Very helpful\"";
-$thread_filter_styles['1'] = "At least \"helpful\"";
-$thread_filter_styles['0'] = "At least \"neutral\"";
-$thread_filter_styles['-1'] = "At least \"unhelpful\"";
-$thread_filter_styles['-2'] = "All posts";
-
-$post_ratings['2'] = "Very helpful (+2)";
-$post_ratings['1'] = "Helpful (+1)";
-$post_ratings['0'] = "Neutral";
-$post_ratings['-1'] = "Not helpful (-1)";
-$post_ratings['-2'] = "Off topic (-2)";
-
-$config = get_config();
-$no_forum_rating = parse_bool($config, "no_forum_rating"); 
-
-/**
- *  Process a user-supplied title to remove HTML stuff
- **/
-function cleanup_title($title) {
-    $x = trim(htmlspecialchars($title));
-    $x = stripslashes($x);      // clean up funky old titles in DB
-    if (strlen($x)==0) return "(no title)";
-    else return $x;
-}
-
-/** 
- * Check if user has special user bit enabled
- **/
-function isSpecialUser($user, $specialbit){
-    return (substr($user->special_user, $specialbit,1)==1);
-}
-
-/**
- * Check to see if a specific user has rated a specific post before
- **/
-function getHasRated($user, $postid){
-    return (strstr($user->rated_posts,"|".$postid));
-}
-
-/**
- * Get the user's preferred sorting style.
- **/
-function getSortStyle($user,$place){
-    if ($user->id!=""){
-        list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
-    } else {
-        list($forum,$thread,$faq,$answer)=explode("|",$_COOKIE['sorting']);
-    }
-    return $$place;    // Huh?
-}
-
-function should_show_post($logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit){
-    $no_wraparound = get_str("nowrap",true);
-
-    // If the user isn't logged in we always display everything (useful for Google bots etc)
-    if (!$logged_in_user) return true;
-	    
-    // If the user hasn't enabled the feature to display only a certain amount of posts, simply display all of them.
-    if (!$logged_in_user->getMinimumWrapPostcount()) return true;
-		    
-    // If the user has asked to display all the posts just display them
-    if ($no_wraparound) return true;
-	    
-    // If it is enabled and we havent yet hit the limit, simply display all
-    if ($postcount < $logged_in_user->getMinimumWrapPostcount()) return true;
-				    
-    // Let's display the post if it is the first post
-    if ($postnumber==1 || $postnumber==($postcount+1)) return true;
-    				    
-    // Also, if this post is unread, show it
-    if ($post->getTimestamp() > $last_visit) return true;
-						    
-    // The user can choose to display the last X posts in a thread only, "last" here depends on sorting criteria:
-    if ($sort_style==CREATE_TIME_OLD){
-	if ($postnumber > $postcount+1-$logged_in_user->getDisplayWrapPostcount()) return true;
-    } else if (CREATE_TIME_NEW){
-	if ($postnumber <= $logged_in_user->getDisplayWrapPostcount()) return true;
-    } else {
-	// For other sorting criteria we do not know how to define "last" so simply display it all
-	return true;
-    }
-													
-    // In all other cases we should not show this particular post
-    return false;
-}
-														
-/*** display functions ***/
-
-/**
- * Show the posts in a thread for a user.
- * It's a big one.
- **/
-function show_posts(
-    $thread, $sort_style, $filter, $logged_in_user, $show_controls=true
-) {
-    $n = 1;
-    $first_unread_post = null;
-    $last_visit = 0;
-    
-    if ($show_controls) {
-        $controls = FORUM_CONTROLS;
-    } else {
-        $controls = NO_CONTROLS;
-    }
-
-    // If logged in user is moderator,
-    // let him see all posts - including hidden ones
-    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
-        $show_hidden_posts = true;
-    } else {
-        $show_hidden_posts = false;
-    }
-    $posts = $thread->getPosts($sort_style, $show_hidden_posts);
-    $postcount = (sizeof($posts)-1);
-    if ($logged_in_user) {
-        $last_visit = $thread->getLastReadTimestamp($logged_in_user);
-    }
-
-    $postnumber=0; $previous_post=0;
-    foreach ($posts as $key => $post){
-        $postnumber++;    
-        if (should_show_post($logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit)){
-            if ($postnumber!=$previous_post+1){
-                //A number of posts were hidden, display a way to unhide them:
-                echo "<tr class=\"postseperator\"><td></td><td colspan=\"2\">
-                Only the first post and the last ".($logged_in_user->getDisplayWrapPostcount())." posts 
-                (of the ".($postcount+1)." posts in this thread) are displayed. <br />
-                <a href=\"?id=".$thread->getID()."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>";
-            }
-            $previous_post=$postnumber;
-            show_post($post, $thread, $logged_in_user, $n, $controls, $filter);
-            // To allow users to start reading a thread even though our DB layer is super slow
-            $n = ($n+1)%2;
-            
-            if (($post->getTimestamp()>$last_visit) && 
-                ((!$first_unread_post) || ($post->getTimestamp()<$first_unread_post->getTimestamp()))
-               ){
-                $first_unread_post=$post;
-            }
-        }
-    }
-
-    if ($logged_in_user && $logged_in_user->hasJumpToUnread()){
-        if ($first_unread_post){
-            echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->getID()."';}</script>";
-        } else {
-            echo "<script>function jumpToUnread(){};</script>";
-        }
-    }
-
-    if ($logged_in_user) $thread->setLastReadTimestamp($logged_in_user);
-}
-
-/**
- * Display an individual post, as though in a thread.
- **/
-function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $filter=true) {
-    $user = $post->getOwner();
-    global $no_forum_rating;
-    global $config;
-
-    $tokens = "";
-    $rated_below_threshold = false;
-    $rated_above_threshold = false;
-
-    //If the user that made this post is on the list of people to ignore,
-    // change thresholds to be much more strict
-    //
-    if ($logged_in_user){
-        $tokens = url_tokens($logged_in_user->getAuthenticator());
-        if (in_array($user->getID(),$logged_in_user->getIgnoreList())){
-            $user_is_on_ignorelist=true;
-            $rated_below_threshold = ($logged_in_user->getHighRatingThreshold()>$post->getRating());
-            $rated_above_threshold = ($logged_in_user->getHighRatingThreshold()+abs($logged_in_user->getLowRatingThreshold())<($post->getRating()));
-        } else {                //Use normal threshold values
-            $rated_below_threshold = ($logged_in_user->getLowRatingThreshold()>($post->getRating()));
-            $rated_above_threshold = ($logged_in_user->getHighRatingThreshold()<($post->getRating()));
-        }
-    }
-
-    // The creator can edit the post, but only in a specified amount of time
-    // (exception: a moderator can edit his/her posts at any time)
-    //
-    $can_edit = false;
-    if ($logged_in_user) {
-        if ($user->getID() == $logged_in_user->getID()) {
-            if ($logged_in_user->isSpecialUser(S_MODERATOR)) {
-                $can_edit = true;
-            } else if (can_reply($thread, $logged_in_user)) {
-                $time_limit = $post->getTimestamp()+MAXIMUM_EDIT_TIME;
-                $can_edit = time()<$time_limit;
-            } else {
-                $can_edit = false;
-            }
-        }
-    }
-
-    echo "
-        <tr class=\"row".$n."\" valign=\"top\">
-        <td rowspan=\"3\"><a name=\"".$post->getID()."\"></a><div class=\"authorcol\">
-    ";
-
-    // Print the user links
-    echo re_user_links($user, URL_BASE);
-    echo "<br>";
-
-    // Print the special user lines, if any
-    global $special_user_bitfield; 
-    $fstatus="";
-    $keys = array_keys($special_user_bitfield);
-    for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
-        if ($user->isSpecialUser($keys[$i])) {
-            $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
-        }
-    }
-    if ($user->getCreateTime() > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
-    if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
-
-    echo "<span class=\"authorinfo\">";
-    if (!$filter || !$rated_below_threshold){
-        if ($user->hasAvatar() && (!$logged_in_user || ($logged_in_user->hasHideAvatars()==false))) {
-            echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->getAvatar()."\" alt=\"Avatar\"><br>";
-        }
-    }
-    
-    $url = "forum_pm.php?action=new&userid=".$user->getID();
-    $name = $user->dbObj->name;
-    show_button($url, "Send message", "Send $name a private message");
-    echo "Joined: ", gmdate('M j y', $user->getCreateTime()), "<br>";
-    
-    if(function_exists('project_forum_user_info')){
-        project_forum_user_info($user);
-    } else { // default
-        // circumvent various forms of identity spoofing
-        // by displaying the  user id of the poster.
-        // its cheap, easy, and doesn't require any additional database calls.
-        echo "Posts: ".$user->getPostCount()."<br>";
-        echo "ID: ".$user->getID()."<br>";
-        echo "Credit: ".number_format($user->getTotalCredit())."<br>";
-        echo "RAC: ".number_format($user->getExpavgCredit())."<br>";
-    }
-    echo "</span></div></td>";
-
-    if ($controls == FORUM_CONTROLS) {
-        echo "<td colspan=\"2\" class=\"postheader\">";
-        echo "<form action=\"forum_rate.php?post=", $post->getID(), "\" method=\"post\">";
-    } else {
-        echo "<td class=\"postheader\">";
-    }
-
-    if ($logged_in_user && $post->getTimestamp()>$thread->getLastReadTimestamp($logged_in_user)){
-        show_image(NEW_IMAGE, "You haven't read this message yet", NEW_IMAGE_HEIGHT);
-    }
-    if ($rated_above_threshold){
-        show_image(EMPHASIZE_IMAGE, "This message has a high average rating", EMPHASIZE_IMAGE_HEIGHT);
-    }
-
-    echo " <a href=\"forum_thread.php?id=".$thread->getID()."&nowrap=true#$post->id\">Message ".$post->getID()."</a> - ";
-    if ($post->isHidden()) echo "<font color=red>[deleted] </font>";
-    echo "
-        Posted ", pretty_time_str($post->getTimestamp());
-    ;
-
-    if ($post->getParentPostID()) {
-        echo " - in response to <a href=\"forum_thread.php?id=".$thread->getID()."&nowrap=true#".$post->getParentPostID()."\">Message ID ".$post->getParentPostID()."</a>.";
-    }
-    echo " ";
-    if ($can_edit && $controls != NO_CONTROLS) {
-        show_button("forum_edit.php?id=".$post->getID()."$tokens", "Edit", "Edit this message");
-    }
-    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)) {
-        show_post_moderation_links($config, $logged_in_user, $post, $tokens);
-    }
-    if ($post->getModificationTimestamp()) {
-        echo "<br>Last modified: ", pretty_time_Str($post->getModificationTimestamp());
-    }
-    if ($rated_below_threshold && $filter){
-        if ($user_is_on_ignorelist) {
-            $andtext=" and the user is on your ignore list";
-        }
-        echo "<br>This post has been filtered (rating: ".($post->getRating()).")$andtext, press <a href=\"?id=".$thread->getID()."&amp;filter=false#".$post->getID()."\">here</a> to view this thread without filtering";
-    }
-    echo "</td></tr></form>";
-    echo "<tr class=\"row$n\"><td class=\"postbody\" colspan=\"2\">";
-
-    //If either filtering is turned off or this post is not below the threshold
-    if (!$filter || !$rated_below_threshold){
-        $posttext = $post->getContent();
-
-        // If the creator of this post has a signature and
-        // wants it to be shown for this post AND the logged in
-        // user has signatures enabled: show it
-        //
-        if ($post->hasSignature() && (!$logged_in_user || !$logged_in_user->hasHideSignatures())){
-            $posttext.="\n____________\n".$user->getSignature();
-        }
-
-        if ($logged_in_user){
-            $options = $logged_in_user->getTextTransformSettings();
-        } else {
-            $options = new output_options;
-        }
-        $posttext = output_transform($posttext,$options);
+function show_forum_title($user, $category, $forum, $thread, $extended) {
+    if ($extended) {
+        start_table_noborder();
+        echo "<tr>\n";
         
-        echo "<p>", $posttext, "</p>";
-        echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
-        if ($no_forum_rating != NULL) { 
-            echo " | <a href=\"forum_report_post.php?post=".$post->getID()."\">";
-            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
-            echo "</td>";
-        } else {
-            $rating = $post->getRating();
-            echo " | Rating: ", $rating, "</i> | rate: 
-                <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=p$tokens\">
-            ";
-            show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", RATE_POSITIVE_IMAGE_HEIGHT);
-            echo "</a> / <a href=\"forum_rate.php?post=".$post->getID()."&choice=n$tokens\">";
-            show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", RATE_NEGATIVE_IMAGE_HEIGHT);
-            echo "</a> <a href=\"forum_report_post.php?post=".$post->getID()."\">";
-            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
-            echo "</a></td> ";
+        // Search
+        echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
+            <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
+            <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
+            <input type=\"hidden\" name=\"search_sort\" value=\"5\">
+            <input type=\"text\" name=\"search_keywords\">
+            <input class=\"btn\" title=\"Search for words in forum messages\" type=\"submit\" value=\"Search forums\"><br>
+            <span class=\"smalltext\"><a href=\"forum_search.php\">Advanced search</a></span>
+            </form>
+        ";
+        echo "</td>\n";
+        
+        // Custom stuff for logged in user
+        if ($user) {
+            echo "<td align=\"right\">\n";
+            
+            // Private messages
+            echo "<p>", pm_notification($user);
+            
+            echo "</td>\n";
         }
-        if (($controls == FORUM_CONTROLS) && (can_reply($thread, $logged_in_user))) {
-            echo "<td align=right class=\"postfooter\">";
-            $url = "forum_reply.php?thread=" . $thread->getID() . "&post=" . $post->getID() . "#input";
-            show_button($url, "Reply", "Post a reply to this message");
-            echo "</td>";
-        } else {
-            echo "<td class=\"postfooter\"></td>";
-        }
-        echo "</tr>";
-    } else {
-        echo "</td></tr><tr><td class=\"postfooter\" colspan=\"2\">";
+        echo "</tr>\n";
+        end_table();
     }
-    echo "<tr class=\"postseperator\"><td colspan=3></td></tr>";
+
+    echo "<p>\n";
+    if ($category) {
+        $is_helpdesk = $category->is_helpdesk;
+    } else {
+        $is_helpdesk = false;
+    }
+    $where = $is_helpdesk?tra("Questions and Answers"):tra("Message boards");
+    $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
+    if (!$forum && !$thread) {
+        echo "<p class=\"title\">";
+        echo $where;
+
+    } else if ($forum && !$thread) {
+        echo "<span class=title>";
+        echo "<a href=\"$top_url\">$where</a> : ";
+        echo $forum->title;
+        echo "</span><br>";
+    } else if ($forum && $thread) {
+        echo "<span class=title>";
+        echo "<a href=\"$top_url\">$where</a> : ";
+
+        echo "<a href=\"forum_forum.php?id=".$forum->id."\">", $forum->title, "</a> : ";
+        echo cleanup_title($thread->title);
+        echo "</span><br>";
+    } else {
+        echo "Invalid input to show_forum_title<br>"; // TODO: handle this condition gracefully 
+    }
+    echo "</p>\n";
 }
 
-/*** utility functions ***/
-
-/**
- * Start the forum table, output the proper headings and such.
- **/
+// Start the forum table, output the proper headings and such.
+//
 function start_forum_table($headings, $extra="width=\"100%\"") {
     $span = null;
     
@@ -435,145 +175,435 @@ function start_forum_table($headings, $extra="width=\"100%\"") {
     echo "</tr>\n";
 }
 
-/**
- * End the forum table, currently just close the open table tag.
- **/
-function end_forum_table() {
-    echo "</table>\n";
-}
-
-/**
- * Output the forum/thread title.
- **/
-function show_forum_title($forum=NULL, $thread=NULL, $extended=true) {
-    if ($extended) {
-        start_table_noborder();
-        echo "<tr>\n";
-        
-        // Search
-        echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
-            <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
-            <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
-            <input type=\"hidden\" name=\"search_sort\" value=\"5\">
-            <input type=\"text\" name=\"search_keywords\">
-            <input class=\"btn\" title=\"Search for words in forum messages\" type=\"submit\" value=\"Search forums\"><br>
-            <span class=\"smalltext\"><a href=\"forum_search.php\">Advanced search</a></span>
-            </form>
-        ";
-        echo "</td>\n";
-        
-        $logged_in_user = get_logged_in_user(false);
-        // Custom stuff for logged in user
-        if ($logged_in_user) {
-            echo "<td align=\"right\">\n";
-            
-            // Private messages
-            echo "<p>", pm_notification($logged_in_user);
-            
-            echo "</td>\n";
+// return a string containing a paged navigation bar 
+// for the given forum.  The default start place is 0. 
+//
+function show_page_nav($forum, $start=0){
+    // How many pages to potentially show before and after this one:
+    $preshow = 5; $postshow = 10;
+    $navbar = "";
+    
+    if ($forum->threads > THREADS_PER_PAGE) {
+        $total = ceil($forum->threads / THREADS_PER_PAGE);
+        $curpage = ceil($start / THREADS_PER_PAGE);
+        // If this is not the first page, display "previous"
+        if ($curpage > 0){
+            $navbar = '<a href="forum_forum.php?id='.get_int("id").'&start='.(($curpage-1)*THREADS_PER_PAGE);
+            $sort = get_int("sort",true);
+            if ($sort) $navbar.='&sort='.$sort;
+            $navbar.= '"> &lt;-- Previous</a> ';
         }
-        echo "</tr>\n";
-        end_table();
-    }
+        
+        // Display a list of pages surrounding this one
+        for ($i=$curpage-$preshow;$i<($curpage+$postshow);$i++){
+            if ($i<1) continue;
+            if ($i>$total) break;
+            // If this is the current page, emphasize it.
+            if ($i == $curpage+1){
+                $navbar.="<em>";
+            }
+            $navbar.='<a href="forum_forum.php?id='.get_int("id").'&start='.(($i-1)*THREADS_PER_PAGE);
+            $sort = get_int("sort",true);
+            if ($sort) $navbar.='&sort='.$sort;
+            $navbar.='">'.$i.' |</a> ';
+            if ($i == $curpage+1){$navbar.="</em>";}
+        }
 
-    echo "<p>\n";
-    if ($forum) {
-        $category = $forum->getCategory();
-        $is_helpdesk = $category->getType();
-    } else {
-        $is_helpdesk = false;
-    }
-    $where = $is_helpdesk?tra("Questions and Answers"):tra("Message boards");
-    $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
-    if (!$forum && !$thread) {
-        echo "<p class=\"title\">";
-        echo $where;
+        // If there is a next page
+        if ($curpage+1 < $total){
+            $navbar.= '<a href="forum_forum.php?id='.get_int("id").'&start='.(($curpage+1)*THREADS_PER_PAGE);
+            $sort = get_int("sort",true);
+            if ($sort) $navbar.='&sort='.$sort;
+            $navbar.= '"> Next --&gt;</a>';
+        }
 
-    } else if ($forum && !$thread) {
-        echo "<span class=title>";
-        echo "<a href=\"$top_url\">$where</a> : ";
-        echo $forum->getTitle();
-        echo "</span><br>";
-    } else if ($forum && $thread) {
-        echo "<span class=title>";
-        echo "<a href=\"$top_url\">$where</a> : ";
-
-        echo "<a href=\"forum_forum.php?id=".$forum->getID()."\">", $forum->getTitle(), "</a> : ";
-        echo cleanup_title($thread->getTitle());
-        echo "</span><br>";
-    } else {
-        echo "Invalid input to show_forum_title<br>"; // TODO: handle this condition gracefully 
     }
-    echo "</p>\n";
+    return $navbar;
 }
 
-/**
- * show a thread with its context (e.g. for search results)
- **/
-function show_thread($thread, $n) {
-    $forum = getForum($thread->forum);
-    $category = getCategory($forum->category);
-    $first_post = getFirstPost($thread->id);
-    $title = cleanup_title($thread->title);
-    $where = $category->is_helpdesk?"Questions and answers":"Message boards";
-    $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
-    $excerpt = sub_sentence(stripslashes($first_post->content), ' ', EXCERPT_LENGTH, true);
-    $posted = time_diff_str($thread->create_time, time());
-    $last = time_diff_str($thread->timestamp, time());
-    $m = $n%2;
+function thread_last_visit($user, $thread) {
+    if (!$user) return false;
+    $log = BoincForumLogging::lookup($user->id, $thread->id);
+    return $log->timestamp;
+}
+
+function thread_is_unread($user, $thread) {
+    if (!$user) return false;
+    $log = BoincForumLogging::lookup($user->id, $thread->id);
+    if ($thread->timestamp < $log->timestamp) return false;
+    if ($thread->timestamp < $user->prefs->mark_as_read_timestamp) return false;
+    return true;
+}
+
+//  Process a user-supplied title to remove HTML stuff
+//
+function cleanup_title($title) {
+    $x = trim(htmlspecialchars($title));
+    $x = stripslashes($x);      // clean up funky old titles in DB
+    if (strlen($x)==0) return "(no title)";
+    else return $x;
+}
+
+function can_reply($thread, $user) {
+    if (!$thread->locked || ($user && $user->prefs->privilege(S_MODERATOR))) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function should_show_post(
+    $logged_in_user, $postcount, $postnumber, $post, $sort_style, $last_visit
+){
+    $no_wraparound = get_str("nowrap",true);
+
+    // If no user logged in, display everything (useful for Google bots etc)
+    //
+    if (!$logged_in_user) return true;
+	    
+    // If the user hasn't enabled the feature to display only
+    // a certain amount of posts, simply display all of them.
+    //
+    if (!$logged_in_user->prefs->minimum_wrap_postcount) return true;
+		    
+    // If the user has asked to display all the posts just display them
+    //
+    if ($no_wraparound) return true;
+	    
+    // If it is enabled and we havent yet hit the limit, simply display all
+    if ($postcount < $logged_in_user->prefs->minimum_wrap_postcount) return true;
+				    
+    // display the post if it is the first post
+    //
+    if ($postnumber==1 || $postnumber==($postcount+1)) return true;
+    				    
+    // if this post is unread, show it
+    //
+    if ($post->timestamp > $last_visit) return true;
+						    
+    // The user can choose to display the last X posts in a thread only,
+    // "last" here depends on sorting criteria:
+    //
+    if ($sort_style==CREATE_TIME_OLD){
+        if ($postnumber > $postcount+1-$logged_in_user->prefs->display_wrap_postcount) return true;
+    } else if (CREATE_TIME_NEW){
+        if ($postnumber <= $logged_in_user->prefs->display_wrap_postcount) return true;
+    } else {
+        // For other sorting criteria we do not know how to define "last"
+        // so simply display it all
+        //
+        return true;
+    }
+													
+    // In all other cases we should not show this particular post
+    return false;
+}
+
+// Show the posts in a thread for a user.
+//
+function show_posts(
+    $thread, $sort_style, $filter, $logged_in_user, $show_controls=true
+) {
+    $n = 1;
+    $first_unread_post = null;
+    $last_visit = 0;
+    
+    if ($show_controls) {
+        $controls = FORUM_CONTROLS;
+    } else {
+        $controls = NO_CONTROLS;
+    }
+
+    // If logged in user is moderator,
+    // let him see all posts - including hidden ones
+    if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)){
+        $show_hidden_posts = true;
+    } else {
+        $show_hidden_posts = false;
+    }
+    $posts = get_thread_posts($thread->id, $sort_style, $show_hidden_posts);
+    $postcount = (sizeof($posts)-1);
+    if ($logged_in_user) {
+        $last_visit = thread_last_visit($logged_in_user, $thread);
+    }
+
+    $postnumber=0; $previous_post=0;
+    $no_wraparound = get_str("nowrap",true);
+    foreach ($posts as $post){
+        $postnumber++;
+        if (should_show_post(
+            $logged_in_user, $postcount, $postnumber, $post,
+            $sort_style, $last_visit)
+        ) {
+
+            if ($postnumber!=$previous_post+1){
+                // A number of posts were hidden, display a way to unhide them:
+                //
+                echo "<tr class=\"postseperator\"><td></td><td colspan=\"2\">
+                    Only the first post and the last ".($logged_in_user->prefs->display_wrap_postcount)." posts 
+                    (of the ".($postcount+1)." posts in this thread) are displayed. <br />
+                    <a href=\"?id=".$thread->id."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>
+                ";
+            }
+            $previous_post=$postnumber;
+            show_post($post, $thread, $logged_in_user, $last_visit, $n, $controls, $filter);
+            $n = ($n+1)%2;
+            
+            if (($post->timestamp>$last_visit) && 
+                ((!$first_unread_post) || ($post->timestamp<$first_unread_post->timestamp))
+               ){
+                $first_unread_post=$post;
+            }
+        }
+    }
+
+    if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
+        if ($first_unread_post){
+            echo "<script>function jumpToUnread(){location.href='#".$first_unread_post->id."';}</script>";
+        } else {
+            echo "<script>function jumpToUnread(){};</script>";
+        }
+    }
+
+    if ($logged_in_user) {
+        BoincForumLogging::replace($logged_in_user->id, $thread->id, time());
+    }
+}
+
+function add_ignored_user($user, $other_user) {
+    $list = explode("|", $user->prefs->ignorelist);
+    foreach ($list as $key=>$userid) {
+        if ($userid == $other_user->id) {
+            return true;
+        }
+    }
+    $list[] = $other_user->id;
+    $x = implode("|", array_values($list));
+    return $user->prefs->update("ignorelist='$x'");
+}
+
+function remove_ignored_user($user, $other_user) {
+    $list = explode("|", $user->prefs->ignorelist);
+    foreach ($list as $key=>$userid) {
+        if ($userid == $other_user->id) {
+            unset($list[$key]);
+        }
+    }
+    $x = implode("|", array_values($list));
+    return $user->prefs->update("ignorelist='$x'");
+}
+
+function is_ignoring($user, $other_user) {
+    $list = explode("|", $user->prefs->ignorelist);
+    return in_array($other_user->id, $list);
+}
+
+function get_output_options($user) {
+    $options = new output_options();
+    if ($user->prefs->images_as_links) $options->images_as_links = 1;
+    if ($user->prefs->link_popup) $options->link_popup = 1;
+    return $options;
+}
+
+// Display an individual post
+//
+function show_post(
+    $post, $thread, $logged_in_user, $last_visit, $n, $controls=FORUM_CONTROLS, $filter=true
+) {
+    $user = BoincUser::lookup_id($post->user);
+    BoincForumPrefs::lookup($user);
+
+    $config = get_config();
+    $no_forum_rating = parse_bool($config, "no_forum_rating");
+
+    $tokens = "";
+    $rated_below_threshold = false;
+    $rated_above_threshold = false;
+
+    //If the user that made this post is on the list of people to ignore,
+    // change thresholds to be much more strict
+    //
+    if ($logged_in_user){
+        $tokens = url_tokens($logged_in_user->authenticator);
+        if (is_ignoring($logged_in_user, $user)){
+            $user_is_on_ignorelist=true;
+            $rated_below_threshold = ($logged_in_user->prefs->high_rating_threshold>$post->rating());
+            $rated_above_threshold = ($logged_in_user->prefs->high_rating_threshold+abs($logged_in_user->prefs->low_rating_threshold)<($post->rating));
+        } else {                //Use normal threshold values
+            $rated_below_threshold = ($logged_in_user->prefs->low_rating_threshold>($post->rating()));
+            $rated_above_threshold = ($logged_in_user->prefs->high_rating_threshold<($post->rating));
+        }
+    }
+
+    // The creator can edit the post, but only in a specified amount of time
+    // (exception: a moderator can edit his/her posts at any time)
+    //
+    $can_edit = false;
+    if ($logged_in_user) {
+        if ($user->id == $logged_in_user->id) {
+            if ($logged_in_user->prefs->privilege(S_MODERATOR)) {
+                $can_edit = true;
+            } else if (can_reply($thread, $logged_in_user)) {
+                $time_limit = $post->timestamp+MAXIMUM_EDIT_TIME;
+                $can_edit = time()<$time_limit;
+            } else {
+                $can_edit = false;
+            }
+        }
+    }
+
     echo "
-        <tr class=\"row$m\">
-        <td><font size=\"-2\">
-            $n) Posted $posted
-            <br>
-            Last response $last
-        </td>
-        <td valign=top>
-            <a href=\"$top_url\">$where</a> : $category->name :
-            <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a> :
-            <a href=\"forum_thread.php?id=$thread->id\">$title</a>
-            <br>
-            <font size=\"-2\">$excerpt</font>
-        </td>
-        </tr>
+        <tr class=\"row".$n."\" valign=\"top\">
+        <td rowspan=\"3\"><a name=\"".$post->id."\"></a><div class=\"authorcol\">
     ";
-}
 
-/**
- * Show a post with its context (e.g. for search results)
- **/
-function show_post2($post, $n) {
-    $thread = getThread($post->thread);
-    $forum = getForum($thread->forum);
-    $category = getCategory($forum->category);
-    $where = $category->is_helpdesk?"Questions and answers":"Message boards";
-    $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
-    $content = output_transform($post->content);
-    $when = time_diff_str($post->timestamp, time());
-    $user = lookup_user_id($post->user);
-    $title = cleanup_title($thread->title);
-    $m = $n%2;
-    if ($post->hidden) {
-        $deleted = "<br><font color=red>[Deleted by a moderator]</font>";
-    } else {
-        $deleted = "";
+    // Print the user links
+    echo user_links($user, URL_BASE);
+    echo "<br>";
+
+    // Print the special user lines, if any
+    global $special_user_bitfield; 
+    $fstatus="";
+    $keys = array_keys($special_user_bitfield);
+    for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
+        if ($user->prefs->privilege($keys[$i])) {
+            $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
+        }
     }
+    if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
+    if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
+
+    echo "<span class=\"authorinfo\">";
+    if (!$filter || !$rated_below_threshold){
+        if ($user->prefs->avatar!=""  && (!$logged_in_user || ($logged_in_user->prefs->hide_avatars==false))) {
+            echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->prefs->avatar."\" alt=\"Avatar\"><br>";
+        }
+    }
+    
+    $url = "pm.php?action=new&userid=".$user->id;
+    $name = $user->name;
+    show_button($url, "Send message", "Send $name a private message");
+    echo "Joined: ", gmdate('M j y', $user->create_time), "<br>";
+
+    if (!isset($user->nposts)) {
+        $user->nposts = BoincPost::count("user=$user->id");
+    }
+    
+    if(function_exists('project_forum_user_info')){
+        project_forum_user_info($user);
+    } else { // default
+        // circumvent various forms of identity spoofing
+        // by displaying the  user id of the poster.
+        //
+        echo "Posts: $user->nposts<br>";
+        echo "ID: ".$user->id."<br>";
+        echo "Credit: ".number_format($user->total_credit)."<br>";
+        echo "RAC: ".number_format($user->expavg_credit)."<br>";
+    }
+    echo "</span></div></td>";
+
+    if ($controls == FORUM_CONTROLS) {
+        echo "<td colspan=\"2\" class=\"postheader\">";
+        echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
+    } else {
+        echo "<td class=\"postheader\">";
+    }
+
+    if ($logged_in_user && $post->timestamp>$last_visit){
+        show_image(NEW_IMAGE, "You haven't read this message yet", NEW_IMAGE_HEIGHT);
+    }
+    if ($rated_above_threshold){
+        show_image(EMPHASIZE_IMAGE, "This message has a high average rating", EMPHASIZE_IMAGE_HEIGHT);
+    }
+
+    echo " <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#$post->id\">Message ".$post->id."</a> - ";
+    if ($post->hidden) echo "<font color=red>[deleted] </font>";
     echo "
-        <tr class=row$m>
-        <td>
-            $n) <a href=\"$top_url\">$where</a> : $category->name :
-            <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a> :
-            <a href=\"forum_thread.php?id=$thread->id\">$title</a>
-            (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">Message ".$post->id."</a>)
-            <br>
-            Posted $when by $user->name $deleted
-            <hr>
-            $content
-        </td>
-        </tr>
-    ";
+        Posted ", pretty_time_str($post->timestamp);
+    ;
+
+    if ($post->parent_post) {
+        echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#".$post->parent_post."\">Message ID ".$post->parent_post."</a>.";
+    }
+    echo " ";
+    if ($can_edit && $controls != NO_CONTROLS) {
+        show_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
+    }
+    if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)) {
+        show_post_moderation_links($config, $logged_in_user, $post, $tokens);
+    }
+    if ($post->modified) {
+        echo "<br>Last modified: ", pretty_time_Str($post->modified);
+    }
+    if ($rated_below_threshold && $filter){
+        if ($user_is_on_ignorelist) {
+            $andtext=" and the user is on your ignore list";
+        }
+        echo "<br>This post has been filtered (rating: ".($post->rating()).")$andtext, press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
+    }
+    echo "</td></tr></form>";
+    echo "<tr class=\"row$n\"><td class=\"postbody\" colspan=\"2\">";
+
+    //If either filtering is turned off or this post is not below the threshold
+    if (!$filter || !$rated_below_threshold){
+        $posttext = $post->content;
+
+        // If the creator of this post has a signature and
+        // wants it to be shown for this post AND the logged in
+        // user has signatures enabled: show it
+        //
+        if ($post->signature && (!$logged_in_user || !$logged_in_user->prefs->hide_signatures)){
+            $posttext.="\n____________\n".$user->prefs->signature;
+        }
+
+        if ($logged_in_user){
+            $options = get_output_options($logged_in_user);
+        } else {
+            $options = null;
+        }
+        $posttext = output_transform($posttext,$options);
+        
+        echo "<p>", $posttext, "</p>";
+        echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
+        if ($no_forum_rating != NULL) { 
+            echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
+            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
+            echo "</td>";
+        } else {
+            $rating = $post->rating();
+            echo " | Rating: ", $rating, "</i> | rate: 
+                <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
+            ";
+            show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", RATE_POSITIVE_IMAGE_HEIGHT);
+            echo "</a> / <a href=\"forum_rate.php?post=".$post->id."&choice=n$tokens\">";
+            show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", RATE_NEGATIVE_IMAGE_HEIGHT);
+            echo "</a> <a href=\"forum_report_post.php?post=".$post->id."\">";
+            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
+            echo "</a></td> ";
+        }
+        if (($controls == FORUM_CONTROLS) && (can_reply($thread, $logged_in_user))) {
+            echo "<td align=right class=\"postfooter\">";
+            $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
+            show_button($url, "Reply", "Post a reply to this message");
+            echo "</td>";
+        } else {
+            echo "<td class=\"postfooter\"></td>";
+        }
+        echo "</tr>";
+    } else {
+        echo "</td></tr><tr><td class=\"postfooter\" colspan=\"2\">";
+    }
+    echo "<tr class=\"postseperator\"><td colspan=3></td></tr>";
 }
 
+function check_banished($user) {
+    $x = $user->prefs->banished_until;
+    if ($x>time()) {
+        error_page(
+            "You may not post or rate messages until ".gmdate('M j, Y', $x)
+        );
+    }
+}
 
 function post_rules() {
     return "
@@ -605,20 +635,308 @@ function post_warning() {
     ";
 }
 
-function check_banished($user) {
-    $x = $user->getBanishedUntil();
-    if ($x>time()) {
-        error_page(
-            "You may not post or rate messages until ".gmdate('M j, Y', $x)
-        );
+// Various functions for adding/hiding/unhiding stuff.
+// These take care of counts and timestamps.
+// Don't do these things directly - use these functions
+//
+function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
+    $content = substr($content, 0, 64000);
+    $content = mysql_real_escape_string($content);
+    $now = time();
+    $sig = $signature?1:0;
+    $id = BoincPost::insert("(thread, user, timestamp, content, parent_post, signature) values ($thread->id, $user->id, $now, '$content', $parent_id, $sig)");
+    if (!$id) return null;
+
+    // send emails to subscribed users
+    //
+    $subs = BoincSubscription::enum("threadid=$thread->id");
+    foreach ($subs as $sub) {
+        if ($user->id == $sub->userid) continue;
+        $user2 = BoincUser::lookup_id($sub->userid);
+        $visit_time = thread_last_visit($user2, $thread);
+        if ($visit_time > $sub->notified_time) {
+            send_reply_notification_email($thread, $user2);
+        }
     }
+    $user->update("posts=posts+1");
+    $thread->update("replies=replies+1, timestamp=$now");
+    $forum->update("posts=posts+1, timestamp=$now");
 }
 
-function can_reply($thread, $user) {
-    if (!$thread->isLocked() || ($user && $user->isSpecialUser(S_MODERATOR))) {
-        return true;
+function create_thread($title, $content, $user, $forum, $signature) {
+    $title = trim($title);
+    $title = strip_tags($title);
+    $title = mysql_real_escape_string($title);
+    $now = time();
+    $id  = BoincThread::insert("(forum, owner, title, create_time, timestamp, replies) values ($forum->id, $user->id, '$title', $now, $now, -1)");
+    if (!$id) return null;
+    $thread = BoincThread::lookup_id($id);
+    create_post($content, 0, $user, $forum, $thread, $signature);
+    $forum->update("threads=threads+1");
+    return $thread;
+}
+
+function hide_post($post, $thread, $forum) {
+    $post->update("hidden=1");
+    $thread->update("replies=replies-1");
+    return $forum->update("posts=posts-1");
+}
+
+function unhide_post($post, $thread, $forum) {
+    $now = time();
+    $post->update("hidden=0");
+    $thread->update("replies=replies+1, timestamp=$now");
+    return $forum->update("posts=posts+1, timestamp=$now");
+}
+
+function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
+    $now = time();
+    $post->update("thread=$new_thread->id");
+    $old_thread->update("replies=replies-1");
+    $new_thread->update("replies=replies+1, timestamp=$now");
+    $old_forum->update("posts=posts-1");
+    return $new_forum->update("posts=posts+1, timestamp=$now");
+}
+
+function hide_thread($thread, $forum) {
+    $thread->update("hidden=1");
+    $forum->update("threads=threads-1");
+    return $forum->update("posts=posts-$thread->replies-1");
+}
+
+function unhide_thread($thread, $forum) {
+    $now = time();
+    $thread->update("hidden=0");
+    return $forum->update("threads=threads+1, posts=posts+$thread->replies+1, timestamp=$now");
+}
+
+function move_thread($thread, $old_forum, $new_forum) {
+    $now = time();
+    $old_forum->update("threads=threads-1, posts=posts-$thread->replies-1");
+    $new_forum->update("threads=threads+1, posts=posts+$thread->replies+1, timestamp=$now");
+    return $thread->update("forum=$new_forum->id");
+}
+
+// $show_hidden: 1 if it is a moderator reading
+// Error page if this function returns NULL.
+// $forumID - int
+// $min - int
+// $nRec - int
+// $sort_style - string (checked by switch statement)
+// $show_hidden - bool (not directly passed to SQL)
+// $sticky - bool (not directly passed to SQL)
+//
+function get_forum_threads(
+    $forumID, $start=-1, $nRec=-1, $sort_style=MODIFIED_NEW,
+    $show_hidden = 0, $sticky = 1
+) {
+    //if (! (is_numeric($forumID) && is_numeric($min) && is_numeric($nRec))) {
+    //    return NULL;  // Something is wrong here.
+    //}
+        
+    $sql = 'forum = ' . $forumID ;
+    if ($sticky){
+        $stickysql = "sticky DESC, ";
+    }
+    if (!$show_hidden) {
+        $sql .= ' AND hidden = 0';
+    }
+    switch($sort_style) {
+    case MODIFIED_NEW:
+        $sql .= ' ORDER BY '.$stickysql.'timestamp DESC';
+        break;
+    case MODIFIED_OLD:
+        $sql .= ' ORDER BY '.$stickysql.'timestamp ASC';
+        break;
+    case VIEWS_MOST:
+        $sql .= ' ORDER BY '.$stickysql.'views DESC';
+        break;
+    case REPLIES_MOST:
+        $sql .= ' ORDER BY '.$stickysql.'replies DESC';
+        break;
+    case CREATE_TIME_NEW:
+        $sql .= ' ORDER by '.$stickysql.'create_time desc';
+        break;
+    case CREATE_TIME_OLD:
+        $sql .= ' ORDER by '.$stickysql.'create_time asc';
+        break;
+    case 'sufferers':
+        $sql .= ' ORDER by '.$stickysql.'sufferers desc';
+        break;
+    case 'activity':
+        $sql .= ' ORDER by '.$stickysql.'activity desc';
+        break;
+    case 'score':
+        $sql .= ' ORDER by '.$stickysql.'score desc';
+        break;
+    default:
+        $sql .= ' ORDER BY '.$stickysql.'timestamp DESC';
+        break;
+    }
+    if ($start > -1) {
+        $sql .= ' LIMIT '.$start;
+        if ($nRec > -1) {
+            $sql .= ', '.$nRec;
+        }
+    } else if ($nRec > -1) {
+        $sql .= ' LIMIT '.$nRec;
+    }
+    return BoincThread::enum($sql);
+}
+
+// $show_hidden = true when it is a moderator reading
+// error_page if this function returns NULL.
+// $sort_style - string (checked by switch statement)
+// $show_hidden - bool (not directly passed to SQL)
+//
+function get_thread_posts($threadid, $sort_style, $show_hidden_posts) {
+    $sql = "thread=$threadid";
+    if (!$show_hidden) {
+        $sql .= ' AND hidden = 0';
+    }
+    switch($sort_style) {
+    case CREATE_TIME_NEW:
+        $sql .= ' ORDER BY timestamp desc';
+        break;
+    case CREATE_TIME_OLD:
+        $sql .= ' ORDER BY timestamp asc';
+        break;
+    case POST_SCORE:
+        $sql .= ' ORDER BY score DESC';
+        break;
+    default:
+        $sql .= ' ORDER BY timestamp asc';
+        break;        
+    }
+    return BoincPost::enum($sql);
+}
+
+// Searches for ALL the keywords in the $keyword_list array,
+// optionally filters by forum or user if specified.
+// If time is given, only posts newer than that are returned.
+//
+function search_thread_titles(
+    $keyword_list, $forum="", $user="", $time="", $limit=200,
+    $sort_style=CREATE_TIME_NEW, $show_hidden = false
+){
+    $search_string="%";
+    foreach ($keyword_list as $key => $word) {
+        $search_string.=mysql_escape_string($word)."%";
+    }        
+    $query = "title like '".$search_string."'";
+    if ($forum!="" && $forum!="all") {
+        $query.=" and forum = ".intval($forum->id);
+    }
+    if ($user!="" && $user!="all") {
+        $query.=" and owner = ".intval($user->id);
+    }
+    if ($time!="" && $user!="all") {
+        $query.=" and timestamp > ".intval($time);
+    }
+    if ($show_hidden == false) {
+        $query .= " AND thread.hidden = 0";
+    }
+    switch($sort_style) {
+    case MODIFIED_NEW:
+        $query .= ' ORDER BY timestamp DESC';
+        break;
+    case VIEWS_MOST:
+        $query .= ' ORDER BY views DESC';
+        break;
+    case REPLIES_MOST:
+        $query .= ' ORDER BY replies DESC';
+        break;
+    case CREATE_TIME_NEW:
+        $query .= ' ORDER by create_time desc';
+        break;
+    case CREATE_TIME_OLD:
+        $query .= ' ORDER by create_time asc';
+        break;
+    case 'score':
+        $query .= ' ORDER by score desc';
+        break;
+    default:
+        $query .= ' ORDER BY timestamp DESC';
+        break;
+    }
+
+    $query.= " limit ".intval($limit);
+    return BoincThread::enum($query);
+}
+
+// Searches for ALL the keywords in the $keyword_list array,
+// optionally filters by forum or user if specified.
+// If time is given, only posts newer than that are returned.
+//
+function search_post_titles(
+    $keyword_list, $forum="", $user="", $time="", $limit=200,
+    $sort_style=CREATE_TIME_NEW, $show_hidden = false
+){
+    $search_string="%";
+    foreach ($keyword_list as $key => $word){
+        $search_string.=mysql_escape_string($word)."%";
+    }
+    $optional_join = "";
+    if ($forum!="" && $forum!="all"){
+        $optional_join = " LEFT JOIN DBNAME.thread ON post.thread = thread.id";
+    }
+    $query = "select *,post.id as postid from DBNAME.post".$optional_join." where content like '".$search_string."'";
+    if ($forum!="" && $forum!="all"){
+        $query.=" and forum = ".intval($forum->id);
+    }
+    if ($user!="" && $user!="all"){
+        $query.=" and post.user = ".intval($user->id );
+    }
+    if ($time!="" && $user!="all"){
+        $query.=" and post.timestamp > ".intval($time);
+    }
+    if ($show_hidden == false) {
+        $query .= " AND post.hidden = 0";
+    }
+    switch($sort_style) {
+    case VIEWS_MOST:
+        $query.= ' ORDER BY views DESC';
+        break;
+    case CREATE_TIME_NEW:
+        $query .= ' ORDER by post.timestamp desc';
+        break;
+    case CREATE_TIME_OLD:
+        $query .= ' ORDER by post.timestamp asc';
+        break;
+    case POST_SCORE:
+        $query .= ' ORDER by post.score desc';
+        break;
+    default:
+        $query .= ' ORDER BY post.timestamp DESC';
+        break;
+    }
+    $query.= " limit ".intval($limit);
+    return BoincPost::enum_general($query);
+}
+
+// Show the links for possible moderation actions related to a single post 
+//
+function show_post_moderation_links($config, $logged_in_user, $post, $tokens){
+    $moderators_allowed_to_ban = parse_bool($config, "moderators_allowed_to_ban"); 
+    $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
+
+    if ($post->hidden) {
+        show_button("forum_moderate_post_action.php?action=unhide&id=".$post->id."$tokens", "Unhide", "Unhide this post");
     } else {
-        return false;
+        show_button("forum_moderate_post.php?action=hide&id=".$post->id."$tokens", "Hide", "Hide this post");
+    }
+    show_button("forum_moderate_post.php?action=move&id=".$post->id."$tokens", "Move", "Move post to a different thread");
+    if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
+        show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
+    }
+    if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
+        require_once("../inc/forum_banishment_vote.inc");
+        if (vote_is_in_progress($post->user)) {
+            show_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
+            show_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
+        } else {
+            show_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
+        }
     }
 }
 

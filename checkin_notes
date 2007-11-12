@@ -10748,3 +10748,29 @@ David  12 Nov 2007
             forum2_db.inc
         ops/
             db_update.php
+
+David  12 Nov 2007
+    - user web: revise forum code to use new-style DB interface
+
+    html/
+        inc/
+            forum.inc
+            forum_db.inc (new)
+            forum_email.inc
+            forum2_db.inc (removed)
+            forum_category.inc (removed)
+            forum_dbh.inc (removed)
+            forum_forum.inc (removed)
+            forum_mainfactory.inc (removed)
+            forum_moderators.inc (removed)
+            forum_mysql_dbh.inc (removed)
+            forum_pm.inc (removed)
+            forum_post.inc (removed)
+            forum_std.inc (removed)
+            forum_thread.inc (removed)
+            forum_user.inc (removed)
+            pm.inc (new)
+            user.inc
+        user/
+            forum*.php
+            pm.php (new)

@@ -5,7 +5,7 @@ require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
-require_once("../inc/forum2_db.inc");
+require_once("../inc/forum_db.inc");
 
 function parse_project($f) {
     $p->total_credit = 0.0;
@@ -265,7 +265,7 @@ function show_user_summary_public($user) {
         }
     }
     
-    row2("Contact", "<a href=\"forum_pm.php?action=new&amp;userid=".$user->id."\">Send private message</a>");
+    row2("Contact", "<a href=\"pm.php?action=new&amp;userid=".$user->id."\">Send private message</a>");
 }
 
 function show_profile_link($user) {

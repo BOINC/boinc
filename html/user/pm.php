@@ -1,15 +1,12 @@
 <?php
-$cvs_version_tracker[]="\$Id$";
 
-require_once("../inc/forum.inc");
-require_once("../inc/forum_std.inc");
 require_once("../inc/email.inc");
+require_once("../inc/pm.inc");
+require_once("../inc/forum.inc");
 require_once("../inc/akismet.inc");
 
-db_init();
-
 function show_block_link($userid) {
-    echo " <a href=\"forum_pm.php?action=block&id=$userid\">";
+    echo " <a href=\"pm.php?action=block&id=$userid\">";
     show_image(REPORT_POST_IMAGE, "Block messages from this user",  REPORT_POST_IMAGE_HEIGHT);
     echo "</a>";
 }
@@ -55,31 +52,33 @@ function do_inbox($logged_in_user) {
     }
     $options = new output_options;
     
-    $query = mysql_query("SELECT * FROM private_messages WHERE userid=".$logged_in_user->id." ORDER BY date DESC");
-    if (mysql_num_rows($query) == 0) {
+    $msgs = BoincPrivateMessages::enum(
+        "userid=$logged_in_user->id ORDER BY date DESC"
+    );
+    if (count($msgs) == 0) {
         echo tra("You have no private messages.");
     } else {
-        echo "<form name=msg_list action=\"forum_pm.php\" method=\"POST\">\n";
+        echo "<form name=msg_list action=\"pm.php\" method=\"POST\">\n";
         echo form_tokens($logged_in_user->authenticator);
         start_table();
         echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender and date")."</th><th>".tra("Message")."</th></tr>\n";
         $i = 0;
-        while ($row = mysql_fetch_object($query)) {
+        foreach($msgs as $msg) {
             $i++;
             $class = ($i%2)? "row0": "row1";
             echo "<tr class=$class>\n";
             $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$row->id."\">";
-            if (!$row->opened) {
-                mysql_query("UPDATE private_messages SET opened=1 WHERE id=$row->id");
+            if (!$msg->opened) {
+                $msg->update("opened=1");
             }
-            echo "<td valign=top> $checkbox $row->subject </td>\n";
-            echo "<td valign=top>".user_links(get_user_from_id($row->senderid));
-            show_block_link($row->senderid);
-            echo "<br>".time_str($row->date)."</td>\n";
-            echo "<td valign=top>".output_transform($row->content, $options)."<p>";
+            echo "<td valign=top> $checkbox $msg->subject </td>\n";
+            echo "<td valign=top>".user_links(get_user_from_id($msg->senderid));
+            show_block_link($msg->senderid);
+            echo "<br>".time_str($msg->date)."</td>\n";
+            echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
             $tokens = url_tokens($logged_in_user->authenticator);
-            show_button("forum_pm.php?action=delete&id=$row->id&$tokens", tra("Delete"), "Delete this message");
-            show_button("forum_pm.php?action=new&replyto=$row->id", tra("Reply"), "Reply to this message");
+            show_button("pm.php?action=delete&id=$msg->id&$tokens", tra("Delete"), "Delete this message");
+            show_button("pm.php?action=new&replyto=$msg->id", tra("Reply"), "Reply to this message");
             echo "</td></tr>\n";
         }
         echo "
@@ -98,37 +97,39 @@ function do_inbox($logged_in_user) {
     }
 }
 
+// the following isn't currently used - we never show single messages
+//
 function do_read($logged_in_user) {
     $id = get_int("id");
-    $message = mysql_query("SELECT * FROM private_messages WHERE id=".$id." AND userid=".$logged_in_user->id);
-    if (mysql_num_rows($message) == 0) {
-        error_page(tra("No such message"));
-    } else {
-        $message = mysql_fetch_object($message);
-        page_head(tra("Private messages")." : ".$message->subject);
-        pm_header();
-        
-        start_table();
-        echo "<tr><th>".tra("Subject")."</th><td>".$message->subject."</td></tr>";
-        echo "<tr><th>".tra("Sender")."</th><td>".user_links(get_user_from_id($message->senderid));
-        show_block_link($message->senderid);
-        echo "</td></tr>";
-        echo "<tr><th>".tra("Date")."</th><td>".time_str($message->date)."</td></tr>";
-        echo "<tr><th>".tra("Message")."</th><td>".output_transform($message->content, $options)."</td></tr>";
-        echo "<tr><td class=\"pm_footer\"></td><td>\n";
-        echo "<a href=\"forum_pm.php?action=delete&amp;id=$id\">".tra("Delete")."</a>\n";
-        echo " | <a href=\"forum_pm.php?action=new&amp;replyto=$id\">".tra("Reply")."</a>\n";
-        echo " | <a href=\"forum_pm.php?action=inbox\">".tra("Inbox")."</a>\n";
-        end_table();
-        
-        if ($message->opened == 0) {
-            mysql_query("UPDATE private_messages SET opened=1 WHERE id=$id");
-        }
+    $message = BoincPrivateMessage::lookup_id($id);
+    if (!$message || $message->userid != $logged_in_user->id) {
+        error_page("no such message");
+    }
+    page_head(tra("Private messages")." : ".$message->subject);
+    pm_header();
+    
+    $sender = BoincUser::lookup_id($message->senderid);
+
+    start_table();
+    echo "<tr><th>".tra("Subject")."</th><td>".$message->subject."</td></tr>";
+    echo "<tr><th>".tra("Sender")."</th><td>".user_links($sender);
+    show_block_link($message->senderid);
+    echo "</td></tr>";
+    echo "<tr><th>".tra("Date")."</th><td>".time_str($message->date)."</td></tr>";
+    echo "<tr><th>".tra("Message")."</th><td>".output_transform($message->content, $options)."</td></tr>";
+    echo "<tr><td class=\"pm_footer\"></td><td>\n";
+    echo "<a href=\"pm.php?action=delete&amp;id=$id\">".tra("Delete")."</a>\n";
+    echo " | <a href=\"pm.php?action=new&amp;replyto=$id\">".tra("Reply")."</a>\n";
+    echo " | <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
+    end_table();
+    
+    if ($message->opened == 0) {
+        $message->update("opened=1");
     }
 }
 
 function do_new($logged_in_user) {
-    check_banished(new User($logged_in_user->id));
+    check_banished($logged_in_user);
     pm_create_new();
 }
 
@@ -137,7 +138,7 @@ function do_delete($logged_in_user) {
     if ($id == null) { $id = post_int("id"); }
     check_tokens($logged_in_user->authenticator);
     mysql_query("DELETE FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$id");
-    header("Location: forum_pm.php");
+    header("Location: pm.php");
 }
 
 function do_send($logged_in_user) {
@@ -177,11 +178,8 @@ function do_send($logged_in_user) {
                     pm_create_new(tra("%1 is not a unique username; you will have to use user ID", $username));
                 }
             }
-            $ignorelist = mysql_query("SELECT ignorelist FROM forum_preferences WHERE userid=".$user->id);
-            $ignorelist = mysql_fetch_object($ignorelist);
-            $ignorelist = $ignorelist->ignorelist;
-            $ignorelist = explode("|", $ignorelist);
-            if (in_array($logged_in_user->id, $ignorelist)) {
+            BoincForumPrefs::lookup($user);
+            if (is_ignoring($user, $logged_in_user)) {
                 pm_create_new(tra("User %1 (ID: %2) is not accepting private messages from you.", $user->name, $user->id));
             }
             if ($userids[$user->id] == null) {
@@ -195,77 +193,77 @@ function do_send($logged_in_user) {
             pm_send($user, $subject, $content);
         }
         
-        Header("Location: forum_pm.php?action=inbox&sent=1");
+        Header("Location: pm.php?action=inbox&sent=1");
     }
 }
 
 function do_block($logged_in_user) {
     $id = get_int("id");
-    $user = mysql_query("SELECT name FROM user WHERE id=$id");
-    if ($user) {
-        $user = mysql_fetch_object($user);
-        page_head(tra("Really block %1?", $user->name));
-        echo "<div>".tra("Are you really sure you want to block user %1 from sending you private messages?", $user->name)."<br>\n";
-        echo tra("Please note that you can only block a limited amount of users.")."</div>\n";
-        echo "<div>".tra("Once the user has been blocked you can unblock it using forum preferences page.")."</div>\n";
-        
-        echo "<form action=\"forum_pm.php\" method=\"POST\">\n";
-        echo form_tokens($logged_in_user->authenticator);
-        echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
-        echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-        echo "<input type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
-        echo "<a href=\"forum_pm.php?action=inbox\">".tra("No, cancel")."</a>\n";
-        echo "</form>\n";
-    } else {
+    $user = BoincUser::lookup_id($id);
+    if (!$user) {
         error_page(tra("No such user"));
     }
+    page_head(tra("Really block %1?", $user->name));
+    echo "<div>".tra("Are you really sure you want to block user %1 from sending you private messages?", $user->name)."<br>\n";
+    echo tra("Please note that you can only block a limited amount of users.")."</div>\n";
+    echo "<div>".tra("Once the user has been blocked you can unblock it using forum preferences page.")."</div>\n";
+    
+    echo "<form action=\"pm.php\" method=\"POST\">\n";
+    echo form_tokens($logged_in_user->authenticator);
+    echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
+    echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+    echo "<input type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
+    echo "<a href=\"pm.php?action=inbox\">".tra("No, cancel")."</a>\n";
+    echo "</form>\n";
 }
 
 function do_confirmedblock($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     $id = post_int("id");
-    $user = new User($logged_in_user->id);
-    $blocked = new User($id);
-    $user->addIgnoredUser($blocked);
+    $blocked_user = BoincUser::lookup_id($id);
+    if (!$blocked_user) error_page("no such user");
+    add_ignored_user($logged_in_user, $blocked_user);
     
-    page_head(tra("User %1 blocked", $blocked->getName()));
+    page_head(tra("User %1 blocked", $blocked_user->name));
     
-    echo "<div>".tra("User %1 has been blocked from sending you private messages.", $blocked->getName())."\n";
+    echo "<div>".tra("User %1 has been blocked from sending you private messages.", $blocked_user->name)."\n";
     echo tra("To unblock, visit %1message board preferences%2", "<a href=\"edit_forum_preferences_form.php\">", "</a>")."</div>\n";
 }
 
 function do_delete_selected($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     foreach ($_POST["pm_select"] as $id) {
-        $query = mysql_query("SELECT * FROM private_messages WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
-        if (mysql_num_rows($query) == 1) {
-            // User has rights to delete the message
-            mysql_query("DELETE FROM private_messages WHERE id=".mysql_real_escape_string($id));
+        $id = mysql_real_escape_string($id);
+        $msg = BoincPrivateMessage::lookup_id($id);
+        if ($msg && $msg->userid == $logged_in_user->id) {
+            $msg->delete();
         }
     }
-    Header("Location: forum_pm.php?action=inbox&deleted=1");
+    Header("Location: pm.php?action=inbox&deleted=1");
 }
 
 function do_mark_as_read_selected($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     foreach ($_POST["pm_select"] as $id) {
-        $query = mysql_query("SELECT * FROM private_messages WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
-        if (mysql_num_rows($query) == 1) {
-            mysql_query("UPDATE private_messages SET opened=1 WHERE id=".mysql_real_escape_string($id));
+        $id = mysql_real_escape_string($id);
+        $msg = BoincPrivateMessage::lookup_id($id);
+        if ($msg && $msg->userid == $logged_in_user->id) {
+            $msg->update("opened=1");
         }
     }
-    Header("Location: forum_pm.php?action=inbox");
+    Header("Location: pm.php?action=inbox");
 }
 
 function do_mark_as_unread_selected($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     foreach ($_POST["pm_select"] as $id) {
-        $query = mysql_query("SELECT * FROM private_messages WHERE id=".mysql_real_escape_string($id)." AND userid=".$logged_in_user->id);
-        if (mysql_num_rows($query) == 1) {
-            mysql_query("UPDATE private_messages SET opened=0 WHERE id=".mysql_real_escape_string($id));
+        $id = mysql_real_escape_string($id);
+        $msg = BoincPrivateMessage::lookup_id($id);
+        if ($msg && $msg->userid == $logged_in_user->id) {
+            $msg->update("opened=0");
         }
     }
-    Header("Location: forum_pm.php?action=inbox");
+    Header("Location: pm.php?action=inbox");
 }
 
 if ($action == "inbox") {
@@ -294,4 +292,5 @@ if ($action == "inbox") {
 
 page_tail();
 
+$cvs_version_tracker[]="\$Id: pm.php 14077 2007-11-03 04:26:47Z davea $";
 ?>

@@ -1,17 +1,10 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
-/**
- * Allows users to search for a post or thread.  Sends to forum_search_action.php
- * for action and display.
- **/
+// Allows users to search for a post or thread.
+// Sends to forum_search_action.php for action and display.
+
 require_once('../inc/forum.inc');
-require_once('../inc/forum_std.inc');
-
-
-db_init();
 
 page_head(tra("Forum search"));
-
 
 start_table();
 echo "<form action=\"forum_search_action.php\" method=\"post\">";
@@ -29,14 +22,14 @@ row1("Search options");
 row2("Search limits<br />
     <font size=-1>Search at most this many days back in time</font>",
     '<select name="search_max_time">
-	<option value="1">1 day</option>
-	<option value="3">3 days</option>
-	<option value="7">7 days</option>
-	<option value="15">15 days</option>
-	<option value="30" selected>30 days</option>
-	<option value="90">3 months</option>
-	<option value="180">6 months</option>
-	<option value="360">1 year</option>
+    <option value="1">1 day</option>
+    <option value="3">3 days</option>
+    <option value="7">7 days</option>
+    <option value="15">15 days</option>
+    <option value="30" selected>30 days</option>
+    <option value="90">3 months</option>
+    <option value="180">6 months</option>
+    <option value="360">1 year</option>
     </select>');
 
 $forumid = null;
@@ -44,13 +37,15 @@ if (get_str("forumid",true)){
     $forumid = get_str("forumid");
 }
 $forumlist="<option value=\"-1\">All</option>";
-foreach ($mainFactory->getCategories() as $key => $category){
-    foreach ($category->getForums() as $key2 => $forum){
-	if ($forum->getID()==$forumid){
-	    $forumlist.="<option selected value=\"".$forum->getID()."\">".$forum->getTitle()."</option>";
-	} else {
-	    $forumlist.="<option value=\"".$forum->getID()."\">".$forum->getTitle()."</option>";
-	}
+$categories = BoincCategory::enum();
+foreach ($categories as $category) {
+    $forums = BoincForum::enum("category=$category->id");
+    foreach ($forums as $forum) {
+        if ($forum->id==$forumid){
+            $forumlist.="<option selected value=\"".$forum->id."\">".$forum->title."</option>";
+        } else {
+            $forumlist.="<option value=\"".$forum->id."\">".$forum->title."</option>";
+        }
     }
 }
 row2("Forum<br />
@@ -59,11 +54,11 @@ row2("Forum<br />
 
 $sortlist = null;
 foreach ($thread_sort_styles as $id => $style){
-	if ($id == CREATE_TIME_NEW){
-	    $sortlist.="<option selected value=\"".$id."\">".$style."</option>";
-	} else {
-	    $sortlist.="<option value=\"".$id."\">".$style."</option>";
-	}
+    if ($id == CREATE_TIME_NEW){
+        $sortlist.="<option selected value=\"".$id."\">".$style."</option>";
+    } else {
+        $sortlist.="<option value=\"".$id."\">".$style."</option>";
+    }
 }
 row2("Sort by", 
     '<select name="search_sort">'.$sortlist.'</select');
@@ -76,4 +71,5 @@ end_table();
 page_tail();
 exit;
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

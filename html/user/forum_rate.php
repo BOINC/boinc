@@ -1,11 +1,8 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-/**
- * This file allows people to rate posts in a thread
- **/
+// This file allows people to rate posts in a thread
+
 require_once('../inc/forum.inc');
-require_once('../inc/forum_std.inc');
 require_once('../inc/util.inc');
 
 $config = get_config();
@@ -15,8 +12,6 @@ if (parse_bool($config, "no_forum_rating")) {
     page_tail();
     exit(0);
 }
-
-db_init();
 
 if (!empty($_GET['post'])) {
     $postId = get_int('post');
@@ -30,34 +25,32 @@ if (!empty($_GET['post'])) {
         $rating = -1;
     }
 
-    $user = re_get_logged_in_user(true);
+    $user = get_logged_in_user();
 
     if ($choice == null && ($rating == null || $rating > 2 || $rating < -2)) {
-        show_result_page(false, NULL, $choice);
+        show_result_page(false, NULL, NULL, $choice);
     }
 
-    $post = new Post($postId);
-    $thread = $post->getThread();
-    $forum = $thread->getForum();
+    $post = BoincPost::lookup_id($postId);
+    $thread = BoincThread::lookup_id($post->thread);
+    $forum = BoincForum::lookup_id($thread->forum);
 
-
-    /* Make sure the user has the forum's minimum amount of RAC and total credit
-     * before allowing them to rate a post.
-     */
-    if ($user->getTotalCredit()<$forum->getRateMinTotalCredit() || $user->getExpavgCredit()<$forum->getRateMinExpavgCredit()) {
+    // Make sure the user has the forum's minimum amount of RAC and total credit
+    // before allowing them to rate a post.
+    //
+    if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$forum->rate_min_expavg_credit) {
         error_page("You need more average or total credit to rate a post.");
     }
     
-    if ($post->hasRated($user)) {
-        $post_thread = $post->getThread();
-        error_page("You have already rated this post once.<br /><br /><a href=\"forum_thread.php?nowrap=true&id=".$post_thread->getID()."#".$post->getID()."\">Return to thread</a>");
+    if (BoincPostRating::lookup($user->id, $post->id)) {
+        error_page("You have already rated this post once.<br /><br /><a href=\"forum_thread.php?nowrap=true&id=".$thread->id."#".$post->id."\">Return to thread</a>");
     } else {
-        $success = $post->rate($user, $rating);
-        show_result_page($success, $post, $choice);
+        $success = BoincPostRating::replace($user->id, $post->id, $rating);
+        show_result_page($success, $post, $thread, $choice);
     }
 }
 
-function show_result_page($success, $post, $choice) {
+function show_result_page($success, $post, $thread, $choice) {
     if ($success) {
         if ($choice) {
             page_head('Input Recorded');
@@ -67,15 +60,13 @@ function show_result_page($success, $post, $choice) {
         echo "<span class=\"title\">Vote Registered</span>";
         echo "<p>Your rating has been successfully recorded.  Thank you for your input.</p>";
         }
-        $post_thread = $post->getThread();
-        echo "<a href=\"forum_thread.php?nowrap=true&id=", $post_thread->getID(), "#", $post->getID(), "\">Return to thread</a>";
+        echo "<a href=\"forum_thread.php?nowrap=true&id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
     } else {
         page_head('Vote Submission Problem');    
         echo "<span class=\"title\">Vote submission failed</span>";
         if ($post) {
             echo "<p>There was a problem recording your vote in our database.  Please try again later.</p>";
-            $post_thread = $post->getThread();
-            echo "<a href=\"forum_thread.php?id=", $post_thread->getID(), "#", $post->getID(), "\">Return to thread</a>";
+            echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
         } else {
             echo "<p>There post you specified does not exist, or your rating was invalid.</p>";
         }
@@ -83,4 +74,6 @@ function show_result_page($success, $post, $choice) {
     page_tail();
     exit;
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

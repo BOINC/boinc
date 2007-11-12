@@ -1,53 +1,50 @@
 <?php
-/**
- * This file gives moderators the ability to moderate threads, taking
- * action from forum_moderate_thread.php
- **/
+// This file gives moderators the ability to moderate threads, taking
+// action from forum_moderate_thread.php
  
 require_once("../inc/forum.inc");
 require_once("../inc/forum_email.inc");
-require_once("../inc/forum_std.inc");
 
-
-db_init();
-$logged_in_user = re_get_logged_in_user();
-check_tokens($logged_in_user->getAuthenticator());
+$logged_in_user = get_logged_in_user();
+check_tokens($logged_in_user->authenticator);
+BoincForumPrefs::lookup($logged_in_user);
 if (!post_str('action', true)) {
     if (!get_str('action', true)){
 	    error_page("You must specify an action...");
     } else {
-	$action = get_str('action');
+        $action = get_str('action');
     }
 } else {
     $action = post_str('action');
 }
 
-$thread = new Thread(get_int('thread'));
+$thread = BoincThread::lookup_id(get_int('thread'));
+$forum = BoincForum::lookup_id($thread->forum);
 
-if (!$logged_in_user->isSpecialUser(S_MODERATOR)) {
-    // Can't moderate without being moderator
+if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     error_page("You are not authorized to moderate this post.");
 }
 
-if ($action=="hide"){
-    // Hide the thread in the given hidden category
-    $result = $thread->hide(post_int("category"));
+if ($action=="hide") {
+    $cat = post_int("category");        // TODO - store this somewhere
+    $result = hide_thread($thread, $forum);
 } elseif ($action=="unhide"){
-    $result = $thread->unhide();
+    $result = unhide_thread($thread, $forum);
 } elseif ($action=="sticky"){
-    $result = $thread->setSticky(true);
+    $result = $thread->update("sticky=1");
 } elseif ($action=="desticky"){
-    $result = $thread->setSticky(false);
+    $result = $thread->update("sticky=0");
 } elseif ($action == "lock") {
-    $result = $thread->setLocked(true);
+    $result = $thread->update("locked=1");
 } elseif ($action == "unlock") {
-    $result = $thread->setLocked(false);
+    $result = $thread->update("locked=0");
 } elseif ($action=="move"){
-    $forum = new Forum(post_int('forumid'));
-    $result = $thread->moveTo($forum);
+    $fid = post_int('forumid');
+    $new_forum = BoincForum::lookup_id($fid);
+    $result = move_thread($thread, $forum, $new_forum);
 } elseif ($action=="title"){
     $title = post_str('newtitle');
-    $result = $thread->setTitle($title);
+    $result = $thread->update("title='$title'");
 } else {
     error_page("Unknown action ");
 }
@@ -59,7 +56,7 @@ if ($result) {
     } else {
         send_thread_moderation_email($thread, "None Given",$action);
     }
-    header('Location: forum_thread.php?id='.$thread->getID());
+    header('Location: forum_thread.php?id='.$thread->id);
 } else {
     error_page("Moderation failed");
 }
