@@ -10817,3 +10817,10 @@ David  12 Nov 2007
                 results.php
                 show_user.php
                 workunit.php
+
+David  12 Nov 2007
+    - client: fix bug in parsing of <link rel=boinc_scheduler ...>
+        element in master files.  fixes #467
+
+    client/
+        scheduler_op.C
