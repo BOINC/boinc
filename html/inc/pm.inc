@@ -101,7 +101,7 @@ function pm_send($to, $subject, $content) {
 
 function pm_count($userid, $duration) {
     $time = time() - $duration;
-    return PrivateMessage::count("senderid=$userid AND date>$time");
+    return BoincPrivateMessage::count("senderid=$userid AND date>$time");
 }
 
 function check_pm_count($userid) {

@@ -2,14 +2,13 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/forum.inc");
 
-// show the home page of whoever's logged in
+// show the home page of logged-in user
 
-db_init();
 $user = get_logged_in_user();
-$user = getForumPreferences($user);
+BoincForumPrefs::lookup($user);
 $user = get_other_projects($user);
 
 $init = isset($_COOKIE['init']);

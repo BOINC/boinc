@@ -1,10 +1,8 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/forum_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
-
-// TODO: convert this
 
 xml_header();
 
@@ -12,77 +10,66 @@ $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
 $method = get_str("method", true);
-if ($method != "user_posts" && $method != "user_threads") { xml_error(-210); }
+if ($method != "user_posts" && $method != "user_threads") {
+    xml_error(-210);
+}
+
+$userid = get_int("userid", true);
+$user = lookup_user_id($userid);
+if (!$user) {
+    xml_error(-136);
+}
 
 if ($method == "user_posts") {
-    $userid = get_int("userid", true);
-    $user = lookup_user_id($userid);
-    if (!$user) { xml_error(-136); }
-    
     $count = get_int("count", true);
     if (!$count || $count <= 0 || $count > 50) { $count = 10; }
     $length = get_int("contentlength", true);
     if (($length == null) || ($length <= 0)) { $length = 0; }
-    $res = mysql_query("SELECT * FROM post WHERE user=$userid ORDER BY timestamp DESC LIMIT $count");
-    if ($res) {
-        $count = mysql_num_rows($res);
+    $posts = BoincPost::enum("user=$userid ORDER BY timestamp DESC LIMIT $count");
+    $count = count($posts);
+    echo "<rpc_response>\n";
+    echo "<count>$count</count>\n";
+    echo "<posts>\n";
         
-        echo "<rpc_response>\n";
-        echo "<count>$count</count>\n";
-        echo "<posts>\n";
-        
-        while ($row = mysql_fetch_object($res)) {
-            $thread = mysql_query("SELECT * FROM thread WHERE id=".$row->thread);
-            $thread = mysql_fetch_object($thread);
-            echo "<post>\n";
-            echo "    <id>$row->id</id>\n";
-            echo "    <threadid>$row->thread</threadid>\n";
-            echo "    <threadtitle><![CDATA[".$thread->title."]]></threadtitle>\n";
-            echo "    <timestamp>$row->timestamp</timestamp>\n";
-            if ($length > 0) {
-                echo "    <content><![CDATA[".substr($row->content, 0, $length)."]]></content>\n";
-            } else {
-                echo "    <content><![CDATA[".$row->content."]]></content>\n";
-            }
-            echo "</post>\n";
+    foreach ($posts as $post) {
+        $thread = BoincThread::lookup_id($post->thread);
+        echo "<post>\n";
+        echo "    <id>$post->id</id>\n";
+        echo "    <threadid>$post->thread</threadid>\n";
+        echo "    <threadtitle><![CDATA[".$thread->title."]]></threadtitle>\n";
+        echo "    <timestamp>$post->timestamp</timestamp>\n";
+        if ($length > 0) {
+            echo "    <content><![CDATA[".substr($post->content, 0, $length)."]]></content>\n";
+        } else {
+            echo "    <content><![CDATA[".$post->content."]]></content>\n";
         }
-        
-        echo "</posts>\n";
-        echo "</rpc_response>\n";
-    } else {
-        xml_error(-1, "Database error");
+        echo "</post>\n";
     }
+        
+    echo "</posts>\n";
+    echo "</rpc_response>\n";
 } elseif ($method == "user_threads") {
-
-    $userid = get_int("userid", true);
-    $user = lookup_user_id($userid);
-    if (!$user) { xml_error(-136); }
-    
     $count = get_int("count", true);
     if (!$count || $count <= 0 || $count > 50) { $count = 10; }
-    $res = mysql_query("SELECT * FROM thread WHERE owner=$userid ORDER BY timestamp DESC LIMIT $count");
-    if ($res) {
-        $count = mysql_num_rows($res);
+    $threads = BoincThread::enum("owner=$userid ORDER BY timestamp DESC LIMIT $count");
+    $count = count($threads);
 	
-        echo "<rpc_response>\n";
-        echo "<count>$count</count>\n";
-        echo "<threads>\n";
-        while ($row = mysql_fetch_object($res)) {
-            echo "<thread>\n";
-            echo "    <id>$row->id</id>\n";
-            echo "    <forumid>$row->forum</forumid>\n";
-            echo "    <replies>$row->replies</replies>\n";
-            echo "    <views>$row->views</views>\n";
-            echo "    <timestamp>$row->timestamp</timestamp>\n";
-            echo "    <title><![CDATA[$row->title]]></title>\n";
-            echo "</thread>\n";
-        }
-        
-        echo "</threads>\n";
-        echo "</rpc_response>\n";
-    } else {
-        xml_error(-1, "Database error");
+    echo "<rpc_response>\n";
+    echo "<count>$count</count>\n";
+    echo "<threads>\n";
+    foreach($threads as $thread) {
+        echo "<thread>\n";
+        echo "    <id>$thread->id</id>\n";
+        echo "    <forumid>$thread->forum</forumid>\n";
+        echo "    <replies>$thread->replies</replies>\n";
+        echo "    <views>$thread->views</views>\n";
+        echo "    <timestamp>$thread->timestamp</timestamp>\n";
+        echo "    <title><![CDATA[$thread->title]]></title>\n";
+        echo "</thread>\n";
     }
+        
+    echo "</threads>\n";
+    echo "</rpc_response>\n";
 }
 
 ?>

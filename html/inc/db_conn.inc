@@ -119,6 +119,9 @@ class DbConn {
     function base_escape_string($string) {
         return mysql_real_escape_string($string, $this->db_conn);
     }
+    function base_error() {
+        return mysql_error($this->db_conn);
+    }
 }
 
 ?>

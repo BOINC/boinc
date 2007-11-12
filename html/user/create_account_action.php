@@ -1,6 +1,6 @@
 <?php
 
-include_once("../inc/db.inc");
+include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/user.inc");
@@ -8,7 +8,7 @@ include_once("../inc/user.inc");
 function show_error($str) {
     page_head("Can't create account");
     echo "$str<br>\n";
-    echo mysql_error();
+    echo BoincDb::error();
     echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
     page_tail();
     exit();
@@ -25,7 +25,6 @@ if (parse_bool($config, "disable_account_creation")) {
     exit();
 }
 
-db_init();
 init_session();
 
 // see whether the new account should be pre-enrolled in a team,

@@ -1,15 +1,15 @@
 <?php
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
 init_session();
-db_init();
 
 $mode = post_str("mode", true);
 
 // First check for email/password case
+//
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
 $passwd = stripslashes(post_str("passwd", true));
 if ($mode == "Log in with email/password") {
@@ -60,16 +60,11 @@ if (!$authenticator) {
     error_page("You must supply an account key");
 }
 
-$query = "select * from user where authenticator='$authenticator'";
-$result = mysql_query($query);
-if ($result) {
-    $user = mysql_fetch_object($result);
-    mysql_free_result($result);
-}
 if (substr($user->authenticator, 0, 1) == 'x'){
 	//User has been bad so we are going to take away ability to post for awhile.
 	error_page("This account has been administratively disabled.");
 }
+$user = lookup_user_auth($authenticator);
 if (!$user) {
     page_head("Log in");
     echo "

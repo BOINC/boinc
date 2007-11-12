@@ -13,7 +13,7 @@ function akismet_check($user, $post) {
         $post = urlencode($post);
         $ip = urlencode($_SERVER['REMOTE_ADDR']);
         $referrer = urlencode($_SERVER['HTTP_REFERER']);
-        $author = urlencode($user->getName());
+        $author = urlencode($user->name);
         $useragent = urlencode($_SERVER['HTTP_USER_AGENT']);
 
         $request  = "blog=$master_url";

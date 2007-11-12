@@ -47,7 +47,7 @@ if (post_str('submit',true) && (!$preview)) {
         $add_signature = 0;
     }
     $content = substr($content, 0, 64000);
-    $content = mysql_real_escape_string($content);
+    $content = BoincDb::escape_string($content);
     $post->update("signature=$add_signature, content='$content'");
     
     // If this post belongs to the creator of the thread and is at top-level 
@@ -58,7 +58,7 @@ if (post_str('submit',true) && (!$preview)) {
         $t = post_str('title');
         $t = trim($t);
         $t = strip_tags($ts);
-        $t = mysql_real_escape_string($t);
+        $t = BoincDb::escape_string($t);
         $thread->update("title='$t'");
     }
 

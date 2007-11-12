@@ -1,5 +1,6 @@
 <?php
 
+require_once("../inc/boinc_db.inc");
 require_once("../inc/email.inc");
 require_once("../inc/pm.inc");
 require_once("../inc/forum.inc");
@@ -52,7 +53,7 @@ function do_inbox($logged_in_user) {
     }
     $options = new output_options;
     
-    $msgs = BoincPrivateMessages::enum(
+    $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id ORDER BY date DESC"
     );
     if (count($msgs) == 0) {
@@ -135,14 +136,16 @@ function do_new($logged_in_user) {
 
 function do_delete($logged_in_user) {
     $id = get_int("id", true);
-    if ($id == null) { $id = post_int("id"); }
+    if ($id == null) {
+        $id = post_int("id");
+    }
     check_tokens($logged_in_user->authenticator);
-    mysql_query("DELETE FROM private_messages WHERE userid=".$logged_in_user->id." AND id=$id");
+    BoincPrivateMessage::delete_aux("userid=".$logged_in_user->id." AND id=$id");
     header("Location: pm.php");
 }
 
 function do_send($logged_in_user) {
-    check_banished(new User($logged_in_user->id));
+    check_banished($logged_in_user);
     check_tokens($logged_in_user->authenticator);
     
     $to = stripslashes(post_str("to", true));
@@ -155,7 +158,7 @@ function do_send($logged_in_user) {
     if (($to == null) || ($subject == null) || ($content == null)) {
         pm_create_new(tra("You need to fill all fields to send a private message"));
     } else {
-        akismet_check(new User($logged_in_user->id), $content);
+        akismet_check($logged_in_user, $content);
         $to = str_replace(", ", ",", $to); // Filter out spaces after separator
         $users = explode(",", $to);
         
@@ -233,7 +236,7 @@ function do_confirmedblock($logged_in_user) {
 function do_delete_selected($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     foreach ($_POST["pm_select"] as $id) {
-        $id = mysql_real_escape_string($id);
+        $id = BoincDb::escape_string($id);
         $msg = BoincPrivateMessage::lookup_id($id);
         if ($msg && $msg->userid == $logged_in_user->id) {
             $msg->delete();
@@ -245,7 +248,7 @@ function do_delete_selected($logged_in_user) {
 function do_mark_as_read_selected($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     foreach ($_POST["pm_select"] as $id) {
-        $id = mysql_real_escape_string($id);
+        $id = BoincDb::escape_string($id);
         $msg = BoincPrivateMessage::lookup_id($id);
         if ($msg && $msg->userid == $logged_in_user->id) {
             $msg->update("opened=1");
@@ -257,7 +260,7 @@ function do_mark_as_read_selected($logged_in_user) {
 function do_mark_as_unread_selected($logged_in_user) {
     check_tokens($logged_in_user->authenticator);
     foreach ($_POST["pm_select"] as $id) {
-        $id = mysql_real_escape_string($id);
+        $id = BoincDb::escape_string($id);
         $msg = BoincPrivateMessage::lookup_id($id);
         if ($msg && $msg->userid == $logged_in_user->id) {
             $msg->update("opened=0");

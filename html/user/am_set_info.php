@@ -137,7 +137,7 @@ if (strlen($query)) {
     if ($result) {
         success("");
     } else {
-        xml_error(-1, "database error: ".mysql_error());
+        xml_error(-1, "database error: ".BoincDb::error());
     }
 } else {
     success("");

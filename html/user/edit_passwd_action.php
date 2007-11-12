@@ -1,10 +1,8 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
-
-db_init();
 
 $auth = process_user_text(post_str("auth", true));
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
@@ -52,8 +50,7 @@ if ($auth) {
 
 page_head("Change password");
 $passwd_hash = md5($passwd.$user->email_addr);
-$query = "update user set passwd_hash='$passwd_hash' where id=$user->id";
-$result = mysql_query($query);
+$result = $user->update("passwd_hash='$passwd_hash'");
 if ($result) {
     echo "Your password has been changed.";
 } else {

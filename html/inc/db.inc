@@ -34,6 +34,7 @@ function db_init_aux($try_replica=false) {
 }
 
 function lookup_user_auth($auth) {
+    $auth = BoincDb::escape_string($auth);
     return BoincUser::lookup("authenticator='$auth'");
 }
 
@@ -42,10 +43,12 @@ function lookup_user_id($id) {
 }
 
 function lookup_user_email_addr($email_addr) {
-    return BoincUser::lookup("email_addr='$email_addr'");
+    $e = BoincDb::escape_string($email_addr);
+    return BoincUser::lookup("email_addr='$e'");
 }
 
 function lookup_user_name($name) {
+    $name = BoincDb::escape_string($name);
     $users = BoincUser::enum("name='".boinc_real_escape_string($name)."'");
     if (sizeof($users)==1) {
         return $users[0];
@@ -66,6 +69,7 @@ function lookup_team_founder($id) {
 }
 
 function lookup_team_name($name) {
+    $name = BoincDb::escape_string($name);
     return BoincTeam::lookup("name='$name'");
 }
 

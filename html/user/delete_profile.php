@@ -1,9 +1,8 @@
 <?php
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 
-db_init();
 $user = get_logged_in_user();
 
 if (isset($_POST['delete']) && $_POST['delete']) {
@@ -32,11 +31,11 @@ echo "
 page_tail();
 
 function delete_profile($user) {
-    $result = mysql_query("DELETE FROM profile WHERE userid = $user->id");
+    BoincProfile::delete_aux("userid = $user->id");
     if ($result) {
         delete_user_pictures($user->id);
         page_head("Delete Confirmation");
-        mysql_query("update user set has_profile=0 where id=$user->id");
+        $user->update("has_profile=0");
         echo "Your profile has been deleted<br>";
     } else {
 

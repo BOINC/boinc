@@ -10774,3 +10774,33 @@ David  12 Nov 2007
         user/
             forum*.php
             pm.php (new)
+
+David  12 Nov 2007
+    - user web: update other code to use new-style DB interfaces
+
+        html/
+            inc/
+                akismet.inc
+                boinc_db.inc
+                db.inc
+                db_conn.inc
+            user/
+                account_finish_action.php
+                am_set_info.php
+                apps.php
+                create_account_info.php
+                delete_profile.php
+                edit_email_action.php
+                edit_passwd_action.php
+                forum_edit.php
+                forum_get_data.php
+                home.php
+                login_action.php
+                lookup_account.php
+                opt_out.php
+                pm.php
+                profile_rate.php
+                profile_search_action.php
+                results.php
+                validate_amil_addr.php
+                workunit.php

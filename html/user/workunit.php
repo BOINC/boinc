@@ -1,18 +1,18 @@
 <?php
+
 // show summary of a workunit
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/result.inc");
 
-db_init();
 $wuid = get_int("wuid");
-$wu = lookup_wu($wuid);
+$wu = BoincWorkunit::lookup_id($wuid);
 if (!$wu) {
     error_page("can't find workunit");
 }
 
 page_head("Workunit details");
-$app = lookup_app($wu->appid);
+$app = BoincApp::lookup_id($wu->appid);
 
 start_table();
 row2("application", $app->user_friendly_name);
@@ -37,11 +37,10 @@ end_table();
 project_workunit($wu);
 
 result_table_start(false, true, true);
-$result = mysql_query("select * from result where workunitid=$wuid");
-while ($res = mysql_fetch_object($result)) {
+$results = BoincResult::enum("workunitid=$wuid");
+foreach ($results as $result) {
     show_result_row($res, false, true, true);
 }
-mysql_free_result($result);
 echo "</table>\n";
 page_tail();
 

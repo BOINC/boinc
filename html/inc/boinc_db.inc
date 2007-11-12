@@ -45,6 +45,10 @@ class BoincDb extends DbConn {
         $db = self::get();
         return $db->base_escape_string($string);
     }
+    static function error() {
+        $db = self::get();
+        return $db->base_error();
+    }
 }
 
 class BoincUser {
@@ -167,6 +171,31 @@ class BoincResult {
     }
 }
 
+class BoincWorkunit {
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'workunit', 'BoincWorkunit');
+    }
+}
+
+class BoincApp {
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'app', 'BoincApp');
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('app', 'BoincApp', $clause);
+    }
+}
+
+class BoincAppVersion {
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('app_version', 'BoincAppVersion', $clause);
+    }
+}
+
 class BoincProfile {
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -183,6 +212,10 @@ class BoincProfile {
     static function enum($clause, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
+    }
+    function delete_aux() {
+        $db = BoincDb::get();
+        return $db->delete_aux('profile', $clause);
     }
 }
 
@@ -229,6 +262,17 @@ class BoincPrivateMessage {
     function delete() {
         $db = BoincDb::get();
         return $db->delete($this, 'private_messages');
+    }
+    function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('private_messages', $clause);
+    }
+}
+
+class BoincPlatform {
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('platform', 'BoincPlatform', $clause);
     }
 }
 
