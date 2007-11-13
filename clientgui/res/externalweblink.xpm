@@ -16,29 +16,28 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-//
 
 /* XPM */
 static const char *externalweblink_xpm[] = {
 /* columns rows colors chars-per-pixel */
-"17 11 7 1",
-". c Black",
-"O c #FF3300",
-"  c None",
-"X c #99CCFF",
-"@ c #FF9966",
-"+ c #6699FF",
-"o c #003399",
+"12 12 6 1",
+"  c #FFFFFF",
+"+ c #99CCFF",
+"X c #3399CC",
+"o c #6699CC",
+"O c #0066CC",
+". c #0066FF",
 /* pixels */
-"    ...          ",
-"  ..X.X..        ",
-" .XXoXoXX.   O   ",
-" .ooooooo.   OO  ",
-".XXoXXX+@@@@OOOO ",
-".ooooooOOOOOOOOOO",
-".XXoXXX+@@@@OOOO ",
-" .ooooooo.   OO  ",
-" .XXoXoXX.   O   ",
-"  ..XoX..        ",
-"    ...          "
+"            ",
+"     ...... ",
+"    Xo    . ",
+"     .X   . ",
+" OOOO.+   . ",
+" O  .+ +X . ",
+" O .+ +..o. ",
+" O +o+.O X  ",
+" O  +. O    ",
+" O     O    ",
+" OOOOOOO    ",
+"            "
 };

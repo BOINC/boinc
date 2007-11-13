@@ -10872,3 +10872,11 @@ Rom    13 Nov 2007
     
     lib/
         boinc_win.h
+
+Rom    13 Nov 2007
+    - MGR: Update project list web link image.
+    
+    clientgui/res/
+        externalweblink.xpm
+    clientgui/res/templates
+        externalweblink.gif
