@@ -7998,6 +7998,14 @@ Charlie 31 Oct 2007
         release_boinc.sh
         release_GridRepublic.sh
 
+Rom    2 Nov 2007
+    - CC: Remove the event handler for CTRL-C, or rather change it
+        so that it means the same thing as it does to other apps, just
+        quit the CC instead of suspending or resuming the CC.
+        
+    client/
+        main.C
+
 Rom    5 Nov 2007
     - CC: Treat the return code 0xC0000142 as though it is a temporary
         error. 0xC0000142 means STATUS_DLL_INIT_FAILED which can happen
