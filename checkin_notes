@@ -10845,3 +10845,11 @@ Bernd  13 Nov 2007
     html/
          inc/
              pass_percentage_per_platform.php
+
+Rom    13 Nov 2007
+    - DEP: Update libCurl to 7.17.1
+
+    curl/include/curl/
+        <All Files>
+    curl/mswin/
+        <All Files>
