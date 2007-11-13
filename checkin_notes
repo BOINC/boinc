@@ -8078,6 +8078,13 @@ Charlie 9 Nov 2007
     clientgui/
         sg_DlgPreferences.cpp
 
+David  12 Nov 2007
+    - client: fix bug in parsing of <link rel=boinc_scheduler ...>
+        element in master files.  fixes #467
+
+    client/
+        scheduler_op.C
+
 Rom    13 Nov 2007
     - DEP: Update libCurl to 7.17.1
 
