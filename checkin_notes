@@ -10866,3 +10866,9 @@ David  13 Nov 2007
             edit_forum_preferences_action.php
             edit_forum_preferences_forum.php
             lookup_account.php
+
+Rom    13 Nov 2007
+    - Fix build break introduced by new libcurl headers on Windows.
+    
+    lib/
+        boinc_win.h
