@@ -10824,3 +10824,9 @@ David  12 Nov 2007
 
     client/
         scheduler_op.C
+
+Bernd  13 Nov 2007
+    - autoconf: fix usage of AC_ARG_ENABLE for debug and unicode
+
+    configure.ac
+

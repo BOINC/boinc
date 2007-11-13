@@ -14,13 +14,13 @@ AC_INIT(BOINC, 6.1.0)
 AC_ARG_ENABLE(debug, 
     AS_HELP_STRING([--enable-debug],
                    [enable tracing and debugging flags for all components]),
-    [enable_debug=yes],
+    [enable_debug="$enableval"],
     [])
 
 AC_ARG_ENABLE(unicode, 
     AS_HELP_STRING([--enable-unicode],
                    [enable building the manager with unicode support]),
-    [enable_unicode=yes],
+    [enable_unicode="$enableval"],
     [])
 
 AC_ARG_ENABLE(server, 
