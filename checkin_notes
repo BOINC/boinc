@@ -10856,6 +10856,7 @@ Rom    13 Nov 2007
 
 David  13 Nov 2007
     - user web: change forum prefs editing to use new DB interface
+    - fix bug in lookup_account RPC
 
     html/
         inc/
@@ -10864,3 +10865,4 @@ David  13 Nov 2007
         user/
             edit_forum_preferences_action.php
             edit_forum_preferences_forum.php
+            lookup_account.php

@@ -15,7 +15,7 @@ $email_addr = get_str("email_addr");
 $passwd_hash = process_user_text(get_str("passwd_hash", true));
 
 $email_addr = BoincDb::escape_string($email_addr);
-$user = BoincUser::lookup("email_addr='$email_addr');
+$user = BoincUser::lookup("email_addr='$email_addr'");
 if (!$user) {
     xml_error(-136);
 }
