@@ -221,7 +221,11 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 // Called from ACTIVE_TASK::start() (with verify=true)
 // when project has verify_files_on_app_start set.
 //
-int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
+// If fipp is nonzero, return a pointer to offending FILE_INFO on error
+//
+int CLIENT_STATE::input_files_available(
+    RESULT* rp, bool verify, FILE_INFO** fipp
+) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
@@ -234,22 +238,34 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
     for (i=0; i<avp->app_files.size(); i++) {
         fr = avp->app_files[i];
         fip = fr.file_info;
-        if (fip->status != FILE_PRESENT) return ERR_FILE_MISSING;
+        if (fip->status != FILE_PRESENT) {
+            if (fipp) *fipp = fip;
+            return ERR_FILE_MISSING;
+        }
 
         // don't verify app files if using anonymous platform
         //
         if (!project->anonymous_platform) {
             retval = fip->verify_file(verify, true);
-            if (retval) return retval;
+            if (retval) {
+                if (fipp) *fipp = fip;
+                return retval;
+            }
         }
     }
 
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
         if (fip->generated_locally) continue;
-        if (fip->status != FILE_PRESENT) return ERR_FILE_MISSING;
+        if (fip->status != FILE_PRESENT) {
+            if (fipp) *fipp = fip;
+            return ERR_FILE_MISSING;
+        }
         retval = fip->verify_file(verify, true);
-        if (retval) return retval;
+        if (retval) {
+            if (fipp) *fipp = fip;
+            return retval;
+        }
     }
     return 0;
 }
