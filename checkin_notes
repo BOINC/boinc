@@ -8045,3 +8045,11 @@ Charlie 9 Nov 2007
 
     clientgui/
         sg_DlgPreferences.cpp
+
+Rom    13 Nov 2007
+    - DEP: Update libCurl to 7.17.1
+
+    curl/include/curl/
+        <All Files>
+    curl/mswin/
+        <All Files>
