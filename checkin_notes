@@ -10853,3 +10853,14 @@ Rom    13 Nov 2007
         <All Files>
     curl/mswin/
         <All Files>
+
+David  13 Nov 2007
+    - user web: change forum prefs editing to use new DB interface
+
+    html/
+        inc/
+            forum.inc
+            forum_db.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_forum.php

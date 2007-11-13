@@ -121,6 +121,10 @@ class BoincForumPrefs {
         $clause = "$clause where userid=$this->userid";
         return $db->update_aux('forum_preferences', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete_aux('forum_preferences', "userid=$this->userid");
+    }
 }
 
 class BoincForumLogging {

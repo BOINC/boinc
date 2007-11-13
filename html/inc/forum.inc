@@ -370,6 +370,10 @@ function show_posts(
     }
 }
 
+function get_ignored_list($user) {
+    return explode("|", $user->prefs->ignorelist);
+}
+
 function add_ignored_user($user, $other_user) {
     $list = explode("|", $user->prefs->ignorelist);
     foreach ($list as $key=>$userid) {

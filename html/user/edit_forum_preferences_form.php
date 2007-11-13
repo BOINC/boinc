@@ -1,17 +1,13 @@
 <?php
-/**
- * This provides the form from which the user can edit his or her
- * forum preferences.  It relies upon edit_forum_preferences_action.php
- * to do anything.
- **/
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+// This provides the form from which the user can edit his or her
+// forum preferences.  It relies upon edit_forum_preferences_action.php
+// to do anything.
+
 require_once("../inc/forum.inc");
-require_once("../inc/forum_std.inc");
 
-db_init();
-$user = re_get_logged_in_user();
-
+$user = get_logged_in_user();
+BoincForumPrefs::lookup($user);
 
 page_head("Edit message board preferences");
 echo "<script type=\"text/javascript\">
@@ -34,7 +30,7 @@ row1("Reset preferences");
 row2("<font size=-2>Use this button to reset preferences to the defaults</font>",
     "<form method=\"post\" action=\"edit_forum_preferences_action.php\"><input type=\"submit\" value=\"Reset preferences\"><input type=\"hidden\" name=\"action\" value=\"reset\"></form>");
 echo "<form method=\"post\" action=\"edit_forum_preferences_action.php\" enctype=\"multipart/form-data\">";
-if ($user->hasAvatar()){
+if (strlen($user->prefs->avatar)){
     $two_select="checked=\"true\"";
 } else {
     $zero_select="checked=\"true\"";
@@ -48,34 +44,50 @@ row2("<font size=-2>The virtual representation of you on the message boards<br/>
         </table>
         "
 );
-if ($user->hasAvatar()){
+if (strlen($user->prefs->avatar)){
     row2("Avatar preview<br><font size=-2>This is how your avatar will look</font>",
-    "<img src=\"".$user->getAvatar()."\" width=\"100\" height=\"100\">");
+    "<img src=\"".$user->prefs->avatar."\" width=\"100\" height=\"100\">");
 }
 
 row1("Sort styles");
 row2("<font size=-2>How to sort the replies in the message board and Q&amp;A areas</font>",
     "
         <table>
-            <tr><td>Message threadlist:</td><td>".select_from_array("forum_sort", $forum_sort_styles, $user->getForumSortStyle())."</td></tr>
-            <tr><td>Message posts:</td><td>".select_from_array("thread_sort", $thread_sort_styles, $user->getThreadSortStyle())."</td></tr>
+            <tr><td>Message threadlist:</td><td>".select_from_array("forum_sort", $forum_sort_styles, $user->prefs->forum_sorting)."</td></tr>
+            <tr><td>Message posts:</td><td>".select_from_array("thread_sort", $thread_sort_styles, $user->prefs->thread_sorting)."</td></tr>
         </table>"
 );
 
-if ($user->hasLinkPopup()){$forum_link_externally="checked=\"checked\"";} else {$forum_link_externally="";}
-if ($user->hasImagesAsLinks()){$forum_image_as_link="checked=\"checked\"";} else {$forum_image_as_link="";}
-if ($user->hasJumpToUnread()){$forum_jump_to_unread="checked=\"checked\"";} else {$forum_jump_to_unread="";}
-if ($user->hasIgnoreStickyPosts()){$forum_ignore_sticky_posts="checked=\"checked\"";} else {$forum_ignore_sticky_posts="";}
+if ($user->prefs->link_popup){
+    $forum_link_popup="checked=\"checked\"";
+} else {
+    $forum_link_popup="";
+}
+if ($user->prefs->images_as_links){
+    $forum_image_as_link="checked=\"checked\"";
+} else {
+    $forum_image_as_link="";
+}
+if ($user->prefs->jump_to_unread){
+    $forum_jump_to_unread="checked=\"checked\"";
+} else {
+    $forum_jump_to_unread="";
+}
+if ($user->prefs->ignore_sticky_posts){
+    $forum_ignore_sticky_posts="checked=\"checked\"";
+} else {
+    $forum_ignore_sticky_posts="";
+}
 
-$forum_minimum_wrap_postcount = intval($user->getMinimumWrapPostcount());
-$forum_display_wrap_postcount = intval($user->getDisplayWrapPostcount());
+$forum_minimum_wrap_postcount = intval($user->minimum_wrap_postcount);
+$forum_display_wrap_postcount = intval($user->display_wrap_postcount);
 
 row1("Display and Behavior");
 row2(
     "<br><font size=-2>How to treat links and images in the forum<br>and how to act on unread posts</font>",
     "<table><tr><td>
         <input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
-        <input type=\"checkbox\" name=\"forum_link_externally\" ".$forum_link_externally."> Open links in new window/tab<br>
+        <input type=\"checkbox\" name=\"forum_link_popup\" ".$forum_link_popup."> Open links in new window/tab<br>
         <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> Jump to first new post in thread automatically<br>
         <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">Do not reorder sticky posts<br>
         <br />
@@ -84,16 +96,28 @@ row2(
         
     </td></tr></table>"
 );
-if ($user->hasEnabledPMNotification()){$pm_notification="checked=\"checked\"";} else {$pm_notification="";}
+if ($user->prefs->pm_notification){
+    $pm_notification="checked=\"checked\"";
+} else {
+    $pm_notification="";
+}
 row2("Private message email notification",
     "<table><tr><td><input type=\"checkbox\" id=\"pm_notification\" name=\"pm_notification\" ".$pm_notification.">
         <label for=\"pm_notification\">Notify about new private messages by email</label>
     </td></tr></table>");
 
-if ($user->hasHideAvatars()){$forum_hide_avatars="checked=\"checked\"";} else {$forum_hide_avatars="";}
-if ($user->hasHideSignatures()){$forum_hide_signatures="checked=\"checked\"";} else {$forum_hide_signatures="";}
-$forum_low_rating_threshold= $user->getLowRatingThreshold();
-$forum_high_rating_threshold= $user->getHighRatingThreshold();
+if ($user->prefs->hide_avatars){
+    $forum_hide_avatars = "checked=\"checked\"";
+} else {
+    $forum_hide_avatars = "";
+}
+if ($user->prefs->hide_signatures){
+    $forum_hide_signatures = "checked=\"checked\"";
+} else {
+    $forum_hide_signatures = "";
+}
+$forum_low_rating_threshold = $user->prefs->low_rating_threshold;
+$forum_high_rating_threshold = $user->prefs->high_rating_threshold;
 
 row1("Filtering");
 row2(
@@ -112,11 +136,15 @@ row2(
     "
 );
 
-$filtered_userlist=$user->getIgnorelist();
-for ($i=0;$i<sizeof($filtered_userlist);$i++){
-    if ($filtered_userlist[$i]!=""){
-        $filtered_user = newUser($filtered_userlist[$i]);
-        $forum_filtered_userlist.="<input type =\"submit\" name=\"remove".$filtered_user->getID()."\" value=\"Remove\"> ".$filtered_user->getID()." - ".re_user_links($filtered_user,URL_BASE)."<br>";
+$filtered_userlist = get_ignored_list($user);
+for ($i=0; $i<sizeof($filtered_userlist); $i++){
+    if ($filtered_userlist[$i] != ""){
+        $filtered_user = BoincUser::lookup_id($filtered_userlist[$i]);
+        if ($filtered_user) {
+            echo "missing user $filtered_userlist[$i]";
+            continue;
+        }
+        $forum_filtered_userlist .= "<input type =\"submit\" name=\"remove".$filtered_user->id."\" value=\"Remove\"> ".$filtered_user->id." - ".user_links($filtered_user)."<br>";
     }
 }
 row2("Filtered users".
@@ -134,8 +162,12 @@ row2("Filtered users".
     "
 );
 
-if ($user->hasSignatureByDefault()){$enable_signature="checked=\"checked\"";} else {$enable_signature="";}
-$signature=stripslashes($user->getSignature());
+if (!$user->prefs->no_signature_by_default){
+    $signature_by_default="checked=\"checked\"";
+} else {
+    $signature_by_default="";
+}
+$signature=stripslashes($user->prefs->signature);
 $maxlen=250;
 row1("Signature");
 row2(html_info().
@@ -144,12 +176,12 @@ row2(html_info().
     <textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
     onkeyup=\"textCounter(this.form.signature, this.form.remLen,250);\">".$signature."</textarea>
     <br><input name=\"remLen\" type=\"text\" id=\"remLen\" value=\"".($maxlen-strlen($signature))."\" size=\"3\" maxlength=\"3\" readonly> chars remaining
-    <br><input type=\"checkbox\" name=\"signature_enable\" ".$enable_signature."> Attach signature by default
+    <br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> Attach signature by default
     </td></tr></table>");
-if ($user->getSignature()!=""){
+if ($user->prefs->signature!=""){
 row2("Signature preview".
     "<br><font size=-2>This is how your signature will look in the forums</font>",
-    output_transform($user->getSignature())
+    output_transform($user->prefs->signature)
 );
 }
 row1("&nbsp;");
@@ -157,4 +189,6 @@ row2("", "<input type=submit value='Update info'>");
 echo "</form>\n";
 end_table();
 page_tail();
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>
