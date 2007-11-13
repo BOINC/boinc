@@ -8098,3 +8098,11 @@ Rom    13 Nov 2007
     
     lib/
         boinc_win.h
+
+Rom    29 Oct 2007
+    - Tag for 5.10.30 release, all platforms
+      boinc_core_release_5_10_30
+    
+    /
+        configure.ac
+        version.h
