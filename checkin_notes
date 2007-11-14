@@ -10953,3 +10953,10 @@ David  15 Nov 2007
     html/user/
         forum_index.php
         edit_forum_preferences_form.php
+
+David  15 Nov 2007
+    - user web: change stylesheet so that when showing
+        item/value pairs in table, don't bolden values
+
+    html/user/
+        white.css
