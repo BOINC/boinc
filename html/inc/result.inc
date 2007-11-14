@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 function result_claimed_credit_string($result, $string_to_show) {
     if ($result->server_state <> 5) return "---";
@@ -283,4 +282,7 @@ function show_result_navigation(
         echo "</center><br><br>";
     }
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
 ?>

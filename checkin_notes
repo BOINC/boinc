@@ -10896,3 +10896,23 @@ Charlie 14 Nov 2007
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  15 Nov 2007
+    - user web: code cleanup, deleted unused files
+
+    html/
+        inc/
+            db_forum.inc (removed)
+            subscribe.inc (removed)
+            userw.inc (removed)
+            gallery.inc
+            host.inc
+            profile.inc
+            result.inc
+            team.inc
+            user.inc
+            util.inc
+        user/
+            delete_profile.php
+            forum_moderate_thread_action.php
+            userw.php

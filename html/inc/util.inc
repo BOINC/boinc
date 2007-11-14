@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
@@ -779,5 +778,7 @@ function show_image($src, $title, $height=null) {
     }
     echo "<img border=0 title=\"$title\" alt=\"$title\" src=\"$src\" $h>";
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

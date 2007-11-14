@@ -1,7 +1,5 @@
 <?php
-// This file gives moderators the ability to moderate threads, taking
-// action from forum_moderate_thread.php
- 
+
 require_once("../inc/forum.inc");
 require_once("../inc/forum_email.inc");
 

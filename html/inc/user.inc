@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
@@ -318,5 +317,7 @@ function make_user(
         return null;
     }
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/credit.inc");
 require_once("../inc/boinc_db.inc");
@@ -435,5 +434,7 @@ function merge_hosts($old_host, $new_host) {
     echo "<br>Retired old computer $old_host->id\n";
     return 0;
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

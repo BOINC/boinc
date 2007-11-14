@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
@@ -600,4 +599,7 @@ function show_profile($userid, $verify_mode = FALSE) {
     }
     if (isset($caching) && $caching) end_cache(USER_PROFILE_TTL,$cache_args);
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
 ?>

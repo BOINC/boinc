@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
@@ -410,5 +409,7 @@ function make_team(
         return null;
     }
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

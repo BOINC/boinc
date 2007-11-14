@@ -1,5 +1,7 @@
 <?php
 
+// TODO: convert to new DB interface
+
 require_once("../project/project.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/util.inc");
