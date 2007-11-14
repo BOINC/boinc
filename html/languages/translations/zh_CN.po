@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.14020\n"
+"Project-Id-Version: rev.14108\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-03 16:27+0800\n"
+"PO-Revision-Date: 2007-11-08 22:56+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -75,13 +75,13 @@ msgid "Privacy policy"
 msgstr "隐私政策"
 
 msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr "%1 通过您选择的用户名来标识您的帐号。该用户名以及您为 %1 完成的计算任务的摘要将显示在 %1 的网站上。如果您想要匿名，那请选择一个不会泄漏您身份的用户名。"
+msgstr "%1 通过您选择的用户名来标识您的帐户。该用户名以及您为 %1 完成的计算任务的摘要将显示在 %1 的网站上。如果您想要匿名，那请选择一个不会泄漏您身份的用户名。"
 
 msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
 msgstr "如果您参加了 %1，那您的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合您的计算机。 这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
 
 msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "为了参加 %1，您必须提供一个能够接收邮件的电子邮箱地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向您发送项目的新闻快讯； 当然，您随时可以选择退订。"
+msgstr "为了参加 %1，您必须提供一个能够接收邮件的电子邮件地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向您发送项目的新闻快讯； 当然，您随时可以选择退订。"
 
 msgid "Is it safe to run %1?"
 msgstr "运行 %1 安全吗？"
@@ -114,7 +114,7 @@ msgstr "其它项目同 %1 没有关系，所以我们也无法保证这些项�
 # Create account form (create_account_form.php)
 #########################################
 msgid "Create an account"
-msgstr "创建帐号"
+msgstr "创建帐户"
 
 msgid "Name"
 msgstr "用户名"
@@ -126,7 +126,7 @@ msgid "Email Address"
 msgstr "电子邮件地址"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr "必须是有效的电子邮箱地址，形式如 '用户名@域名'。"
+msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
 
 msgid "Country"
 msgstr "国家或地区"
@@ -138,19 +138,19 @@ msgid "Postal or ZIP Code"
 msgstr "邮编"
 
 msgid "Create account"
-msgstr "创建帐号"
+msgstr "创建帐户"
 
 msgid "Account creation is disabled"
 msgstr "账号创建功能已被禁用"
 
 msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "%1 当前已经暂停了新帐号的创建功能，请以后再试。"
+msgstr "%1 当前已经暂停了新帐户的创建功能，请以后再试。"
 
 msgid "This account will belong to the team %1 and will have the project preferences of its founder."
 msgstr "此帐户将属于 %1 团队并且其项目参数的默认值和团队创建人的项目参数相同。"
 
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮箱地址并设置一个用户口令。"
+msgstr "注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮件地址并设置一个用户口令。"
 
 msgid "Password"
 msgstr "用户口令"
@@ -165,10 +165,10 @@ msgid "Invitation Code"
 msgstr "邀请码"
 
 msgid "A valid invitation code is required to create an account."
-msgstr "创建帐号时需要一个正确的邀请码。"
+msgstr "创建帐户时需要一个正确的邀请码。"
 
 msgid "You must supply an invitation code to create an account."
-msgstr "您必须提供一个邀请码才能创建帐号。"
+msgstr "您必须提供一个邀请码才能创建帐户。"
 
 msgid "The invitation code you gave is not valid."
 msgstr "您提供的邀请码是错误的。"
@@ -423,19 +423,19 @@ msgstr "疑难解答"
 # "Your account" page (home.php)
 # ########################################
 msgid "Your account"
-msgstr "您的帐号"
+msgstr "您的帐户"
 
 msgid "Welcome to %1"
 msgstr "欢迎访问 %1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr "使用下面的链接查看及编辑您的帐号参数"
+msgstr "使用下面的链接查看及编辑您的帐户参数"
 
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "如果您还未这么做，%1下载 BOINC 的客户端软件%2。"
 
 msgid "Account information"
-msgstr "帐号信息"
+msgstr "帐户信息"
 
 msgid "Email address"
 msgstr "电子邮件地址"
@@ -456,7 +456,7 @@ msgid "password"
 msgstr "用户口令"
 
 msgid "other account info"
-msgstr "其它帐号信息"
+msgstr "其它帐户信息"
 
 msgid "Log out"
 msgstr "注销"
@@ -468,7 +468,7 @@ msgid "Create"
 msgstr "创建"
 
 msgid "Profile"
-msgstr "个人档案"
+msgstr "个人概况"
 
 msgid "Teams"
 msgstr "团队"
@@ -479,7 +479,7 @@ msgstr "团队"
 msgid "None"
 msgstr "未加入团队"
 
-msgid "management functions"
+msgid "administrative functions"
 msgstr "管理功能"
 
 msgid "Quit team"
@@ -513,7 +513,7 @@ msgid "configure features and appearance of message boards"
 msgstr "配置留言板的特性和外观"
 
 msgid "Work done"
-msgstr "总积分"
+msgstr "任务完成情况"
 
 msgid "%1 member since"
 msgstr "加入 %1 的日期"
@@ -525,7 +525,7 @@ msgid "View"
 msgstr "查看"
 
 msgid "Computers on this account"
-msgstr "本帐号所属的计算机"
+msgstr "本帐户所属的计算机"
 
 msgid "Tasks"
 msgstr "任务"

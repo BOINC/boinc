@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-07 00:35+0100\n"
+"PO-Revision-Date: 2007-11-14 07:46+0100\n"
 "Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 ##########################################
-# Language: Russian (Russian Federation) (based on en.po rev 14020)
+# Language: Russian (Russian Federation) (based on en.po SVN rev.14108)
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
 # Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
@@ -493,8 +493,8 @@ msgstr "Команда"
 msgid "None"
 msgstr "Нет"
 
-msgid "management functions"
-msgstr "функции управления"
+msgid "administrative functions"
+msgstr "администрирование"
 
 msgid "Quit team"
 msgstr "Выйти из команды"
@@ -509,7 +509,7 @@ msgid "General preferences"
 msgstr "Общие настройки"
 
 msgid "specify when and how BOINC uses your computer"
-msgstr "укажите, когда и как BOINC использует Ваш компьютер"
+msgstr "укажите, как и когда BOINC будет использовать Ваш компьютер"
 
 msgid "View or edit"
 msgstr "Просмотр или редактирование"
@@ -518,13 +518,13 @@ msgid "%1 preferences"
 msgstr "Настройки %1"
 
 msgid "control resource share and customize graphics"
-msgstr "управляет выделением ресурсов и настройкой графики"
+msgstr "управляйте выделенными ресурсами и графикой"
 
 msgid "Message board preferences"
 msgstr "Настройки доски сообщений"
 
 msgid "configure features and appearance of message boards"
-msgstr "формирует особенности и внешний вид досок сообщений"
+msgstr "настройте возможности и внешний вид доски сообщений"
 
 msgid "Work done"
 msgstr "Выполненная работа"
