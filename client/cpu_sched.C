@@ -207,7 +207,17 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (rp->already_selected) continue;
         if (!rp->project->deadlines_missed) continue;
 
-        if (!best_result || rp->report_deadline<best_result->report_deadline) {
+        bool new_best = false;
+        if (best_result) {
+            if (rp->report_deadline < best_result->report_deadline) {
+                new_best = true;
+            } else if (rp->project->duration_correction_factor > 90.0) {
+                new_best = true;
+            }
+        } else {
+            new_best = true;
+        }
+        if (new_best) {
             best_result = rp;
             best_atp = lookup_active_task_by_result(rp);
             continue;

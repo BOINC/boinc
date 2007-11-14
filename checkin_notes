@@ -10916,3 +10916,12 @@ David  15 Nov 2007
             delete_profile.php
             forum_moderate_thread_action.php
             userw.php
+
+David  15 Nov 2007
+    - client: if a project has DCF > 90 and has projected deadline misses,
+        give its jobs priority.
+        (from John McLeod)
+
+    client/
+        sim.C
+        cpu_sched.C
