@@ -352,7 +352,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += strBuffer;
             }
 
-            std::vector<RESULT*> tasks = GetRunningTasks(pDoc);
+            std::vector<RESULT*> tasks;
+            GetRunningTasks(pDoc, tasks);
 
             if (tasks.size() == 0) {
                 strMessage += _("\nNo running tasks.");
@@ -398,9 +399,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 }
 
 
-std::vector<RESULT*> CTaskBarIcon::GetRunningTasks(CMainDocument* pDoc) {
+void CTaskBarIcon::GetRunningTasks(CMainDocument* pDoc, std::vector<RESULT*>& results) {
 
-    std::vector<RESULT*> results;
     bool bIsActive, bIsExecuting, bIsDownloaded;
     
     int iResultCount = pDoc->GetWorkCount();
@@ -417,7 +417,7 @@ std::vector<RESULT*> CTaskBarIcon::GetRunningTasks(CMainDocument* pDoc) {
             }
         }
     }
-    return results;
+    return;
 }
 
 

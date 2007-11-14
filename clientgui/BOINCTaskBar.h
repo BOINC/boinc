@@ -89,7 +89,7 @@ private:
 
     void       ResetTaskBar();
     void       DisplayContextMenu();
-    std::vector<RESULT*> GetRunningTasks(CMainDocument* pDoc);
+    void GetRunningTasks(CMainDocument* pDoc, std::vector<RESULT*>& results);
     
     DECLARE_EVENT_TABLE()
 
