@@ -17,15 +17,15 @@
 # To view the GNU Lesser General Public License visit
 # http://www.gnu.org/copyleft/lesser.html
 # or write to the Free Software Foundation, Inc.,
-# 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.17.0, jpeg-6b and wxMac-2.6.3
+# curl-7.17.1, jpeg-6b and wxMac-2.6.3
 #
 # by Charlie Fenton 7/21/06
-# Updated for curl-7.17.0 10/16/07
 # Bug fix for wxMac-2.6.3 7/26/07
+# Updated for curl-7.17.1 11/13/07
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -50,13 +50,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.17.0 --------"
+echo "------- BUILD CURL-7.17.1 --------"
 echo "----------------------------------"
 echo ""
 
 SCRIPT_DIR=`pwd`
 
-cd ../../curl-7.17.0/
+cd ../../curl-7.17.1/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi

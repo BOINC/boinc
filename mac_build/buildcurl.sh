@@ -20,14 +20,14 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# Script to build Macintosh Universal Binary library of curl-7.17.0 for
+# Script to build Macintosh Universal Binary library of curl-7.17.1 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated for curl-7.17.0 10/16/07
+# Updated for curl-7.17.1 11/14/07
 #
-## In Terminal, CD to the curl-7.17.0 directory.
-##     cd [path]/curl-7.17.0/
+## In Terminal, CD to the curl-7.17.1 directory.
+##     cd [path]/curl-7.17.1/
 ## then run this script:
 ##     source buildcurl.sh [ -clean ]
 ##
@@ -37,7 +37,7 @@
 if [ "$1" != "-clean" ]; then
   if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl.a ]; then
     
-    echo "curl-7.17.0 already built"
+    echo "curl-7.17.1 already built"
     return 0
   fi
 fi
@@ -74,13 +74,14 @@ export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 
-./configure --enable-shared=NO --host=i386
+## ./configure --enable-shared=NO --host=i386
+./configure --enable-shared=NO --host=i386 CPPFLAGS="-arch i386 -I/Developer/SDKs/MacOSX10.4u.sdk/Developer/Headers/FlatCarbon -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include"
 if [  $? -ne 0 ]; then return 1; fi
 
 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
-make -e
+make
 if [  $? -ne 0 ]; then return 1; fi
 mv -f lib/.libs/libcurl.a lib/.libs/libcurl_i386.a
 mv -f lib/libcurl_ppc.a lib/.libs/
