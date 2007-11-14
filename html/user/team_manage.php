@@ -20,6 +20,9 @@ function show_admin_page($user, $team) {
             | <a href=team_delta.php?teamid=$team->id&xml=1>XML</a>
             <br><span class=note>See when members joined or quit this team</span>
     ";
+
+    // founder-only stuff follows
+    //
     if ($team->userid == $user->id) {
         $tokens = url_tokens($user->authenticator);
         if ($team->ping_user > 0) {
@@ -39,6 +42,8 @@ function show_admin_page($user, $team) {
 
             <li><a href=team_manage.php?teamid=$team->id&action=delete&$tokens>Remove team</a>
                 <br><span class=note>Allowed only if team has no members</a>
+            <li><a href=team_forum.php?teamid=$team->id&cmd=manage>Message board</a>
+                <br><span class=note>Create or manage team message board</span>
         ";
     }
     echo "

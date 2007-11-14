@@ -490,11 +490,16 @@ function update_11_8_2007() {
     do_query("alter table forum add parent_type integer not null");
 }
 
+function update_11_14_2007() {
+    do_query("alter table forum drop index category");
+    do_query("alter table forum add unique pct (parent_type, category, title)");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_11_8_2007();
+//update_11_14_2007();
 
 ?>

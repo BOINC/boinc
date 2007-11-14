@@ -70,7 +70,7 @@ page_head('Forum');
 $forum = BoincForum::lookup_id($thread->forum);
 $category = BoincCategory::lookup_id($forum->category);
 
-show_forum_title($logged_in_user, $category, $forum, $thread);
+show_forum_title($logged_in_user, $category, $forum, $thread, true);
 
 if ($preview == tra("Preview")) {
     $options = null;

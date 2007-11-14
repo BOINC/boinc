@@ -30,7 +30,8 @@ if($hide) {
 $n = 0;
 start_table();
 foreach ($posts as $post) {
-    show_post2($post, $n+$offset+1);
+    $thread = BoincThread::lookup_id($post->thread);
+    show_post($post, $thread, $logged_in_user, $n+$offset+1);
     $n++;
 }
 echo "</table>\n";

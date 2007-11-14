@@ -14,9 +14,19 @@ class BoincCategory {
 }
 
 class BoincForum {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('forum', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
+    }
     static function lookup_id($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'forum', 'BoincForum');
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('forum', 'BoincForum', $clause);
     }
     static function enum($clause) {
         $db = BoincDb::get();

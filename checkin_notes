@@ -10925,3 +10925,16 @@ David  15 Nov 2007
     client/
         sim.C
         cpu_sched.C
+
+David  15 Nov 2007
+    - user web: bug fixes
+
+    html/
+        inc/
+            forum_db.inc
+        ops/
+            db_update.php
+        user/
+            forum_edit.php
+            forum_user_posts.php
+            team_manage.php

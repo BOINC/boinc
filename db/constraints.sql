@@ -96,7 +96,7 @@ alter table category
     add unique cat1(name, is_helpdesk);
 
 alter table forum
-    add unique(category, title);
+    add unique pct (parent_type, category, title);
 
 alter table thread
     add fulltext index thread_title(title);
