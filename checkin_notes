@@ -10886,3 +10886,13 @@ Rytis  14 Nov 2007
     
     html/user/
         lookup_account.php
+
+Charlie 14 Nov 2007
+    Mac: Update libCurl to 7.17.1.
+    
+    mac_build/
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
