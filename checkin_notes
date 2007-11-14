@@ -10938,3 +10938,9 @@ David  15 Nov 2007
             forum_edit.php
             forum_user_posts.php
             team_manage.php
+
+David  15 Nov 2007
+    - user web: bug fix in forum edit function; fixes #474
+
+    html/user/
+        forum_edit.php

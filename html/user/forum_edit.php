@@ -19,7 +19,9 @@ $is_spec = $logged_in_user->prefs->privilege(S_MODERATOR) ||
 
 $postid = get_int("id");
 $post = BoincPost::lookup_id($postid);
+if (!$post) error_page("no such post");
 $thread = BoincThread::lookup_id($post->thread);
+if (!$thread) error_page("no such thread");
 
 // Check some prerequisites for editing the post
 //
@@ -36,6 +38,7 @@ $thread_owner = BoincUser::lookup_id($thread->owner);
 $can_edit_title = ($post->parent_post==0 and $thread_owner->id==$logged_in_user->id);
 
 $content = post_str("content", true);
+$title = post_str("title", true);
 $preview = post_str("preview", true);
 
 if (post_str('submit',true) && (!$preview)) {
@@ -55,11 +58,10 @@ if (post_str('submit',true) && (!$preview)) {
     // allow the user to modify the thread title
     //
     if ($can_edit_title){
-        $t = post_str('title');
-        $t = trim($t);
-        $t = strip_tags($ts);
-        $t = BoincDb::escape_string($t);
-        $thread->update("title='$t'");
+        $title = trim($title);
+        $title = strip_tags($title);
+        $title = BoincDb::escape_string($title);
+        $thread->update("title='$title'");
     }
 
     header("Location: forum_thread.php?id=$thread->id");
