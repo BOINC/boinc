@@ -10944,3 +10944,11 @@ David  15 Nov 2007
 
     html/user/
         forum_edit.php
+
+David  15 Nov 2007
+    - user web: remove debugging code;
+        remove odd use of tables in edit forum prefs forum
+
+    html/user/
+        forum_index.php
+        edit_forum_preferences_form.php

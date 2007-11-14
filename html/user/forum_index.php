@@ -18,8 +18,6 @@ if ((get_int("read", true) == 1)) {
         BoincForumPrefs::lookup($user);
         $now = time();
         $user->prefs->update("mark_as_read_timestamp=$now");
-        echo "foo";
-        exit();
         Header("Location: ".get_str("return", true));
     }
 }

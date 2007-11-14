@@ -37,12 +37,7 @@ if (strlen($user->prefs->avatar)){
 }
 row1("Avatar");
 row2("<font size=-2>The virtual representation of you on the message boards<br/>Note: Forced size of 100x100 pixels<br>format: jpg/png - size: at most 4k</font>",
-    "
-        <table>
-            <tr><td><input type=\"radio\" name=\"avatar_select\" value=\"0\" ".$zero_select.">Don't use an avatar</td><td></td></tr>
-            <tr><td><input type=\"radio\" name=\"avatar_select\" value=\"2\" ".$two_select.">Use this uploaded avatar: <input type=\"file\" name=\"picture\"></td><td></td></tr>
-        </table>
-        "
+    "<input type=\"radio\" name=\"avatar_select\" value=\"0\" ".$zero_select.">Don't use an avatar <br><input type=\"radio\" name=\"avatar_select\" value=\"2\" ".$two_select.">Use this uploaded avatar: <input type=\"file\" name=\"picture\">"
 );
 if (strlen($user->prefs->avatar)){
     row2("Avatar preview<br><font size=-2>This is how your avatar will look</font>",
@@ -50,12 +45,8 @@ if (strlen($user->prefs->avatar)){
 }
 
 row1("Sort styles");
-row2("<font size=-2>How to sort the replies in the message board and Q&amp;A areas</font>",
-    "
-        <table>
-            <tr><td>Message threadlist:</td><td>".select_from_array("forum_sort", $forum_sort_styles, $user->prefs->forum_sorting)."</td></tr>
-            <tr><td>Message posts:</td><td>".select_from_array("thread_sort", $thread_sort_styles, $user->prefs->thread_sorting)."</td></tr>
-        </table>"
+row2("<font size=-2>How to sort threads and posts</font>",
+    "Threads: ".select_from_array("forum_sort", $forum_sort_styles, $user->prefs->forum_sorting)."<br>Posts: ".select_from_array("thread_sort", $thread_sort_styles, $user->prefs->thread_sorting)
 );
 
 if ($user->prefs->link_popup){
@@ -85,16 +76,13 @@ $forum_display_wrap_postcount = intval($user->display_wrap_postcount);
 row1("Display and Behavior");
 row2(
     "<br><font size=-2>How to treat links and images in the forum<br>and how to act on unread posts</font>",
-    "<table><tr><td>
-        <input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
+    "<input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
         <input type=\"checkbox\" name=\"forum_link_popup\" ".$forum_link_popup."> Open links in new window/tab<br>
         <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> Jump to first new post in thread automatically<br>
         <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">Do not reorder sticky posts<br>
         <br />
         <input type=\"text\" name=\"forum_minimum_wrap_postcount\" style=\"width: 30px;\" value=\"".$forum_minimum_wrap_postcount."\"> If a thread contains more than this number of posts<br />
-        <input type=\"text\" name=\"forum_display_wrap_postcount\" style=\"width: 30px;\" value=\"".$forum_display_wrap_postcount."\"> only display the first one and this many of the last ones<br />
-        
-    </td></tr></table>"
+        <input type=\"text\" name=\"forum_display_wrap_postcount\" style=\"width: 30px;\" value=\"".$forum_display_wrap_postcount."\"> only display the first one and this many of the last ones<br /> "
 );
 if ($user->prefs->pm_notification){
     $pm_notification="checked=\"checked\"";
@@ -102,9 +90,9 @@ if ($user->prefs->pm_notification){
     $pm_notification="";
 }
 row2("Private message email notification",
-    "<table><tr><td><input type=\"checkbox\" id=\"pm_notification\" name=\"pm_notification\" ".$pm_notification.">
-        <label for=\"pm_notification\">Notify about new private messages by email</label>
-    </td></tr></table>");
+    "<input type=\"checkbox\" id=\"pm_notification\" name=\"pm_notification\" ".$pm_notification.">
+        <label for=\"pm_notification\">Notify about new private messages by email</label>"
+);
 
 if ($user->prefs->hide_avatars){
     $forum_hide_avatars = "checked=\"checked\"";
@@ -122,18 +110,13 @@ $forum_high_rating_threshold = $user->prefs->high_rating_threshold;
 row1("Filtering");
 row2(
     "<br><font size=-2>What to display<br>If you set both your high and low thresholds to 0 or<br>empty they will reset to the default values</font>",
-    "<table><tr><td>
-        <input type=\"checkbox\" name=\"forum_hide_avatars\" ".$forum_hide_avatars."> Hide avatar images<br>
+    "<input type=\"checkbox\" name=\"forum_hide_avatars\" ".$forum_hide_avatars."> Hide avatar images<br>
         <input type=\"checkbox\" name=\"forum_hide_signatures\" ".$forum_hide_signatures."> Hide signatures<br>
-    </td></tr></table>
-    <table width=\"380\">
-        <tr><td width=\"32\"><input type=\"text\" name=\"forum_low_rating_threshold\" value=\"".$forum_low_rating_threshold."\" style=\"width: 30px;\"></td><td>Filter threshold (default: ".DEFAULT_LOW_RATING_THRESHOLD.")</td></tr>
-        <tr><td><input type=\"text\" name=\"forum_high_rating_threshold\" value=\"".$forum_high_rating_threshold."\" style=\"width: 30px;\"></td><td>Emphasize threshold (default: ".DEFAULT_HIGH_RATING_THRESHOLD.")</td></tr>
-        <tr><td colspan=2>
-            Anything rated lower than the filter threshold will be filtered and anything rated higher than the emphasize threshold will be emphasized.
-        </td></tr>
-    </table>
-    "
+        <input type=\"text\" name=\"forum_low_rating_threshold\" value=\"".$forum_low_rating_threshold."\" style=\"width: 30px;\">
+        Filter threshold (default: ".DEFAULT_LOW_RATING_THRESHOLD.")
+        <br><input type=\"text\" name=\"forum_high_rating_threshold\" value=\"".$forum_high_rating_threshold."\" style=\"width: 30px;\">
+        Emphasize threshold (default: ".DEFAULT_HIGH_RATING_THRESHOLD.")
+        <br>Messages rated lower than the filter threshold will be filtered and messages rated higher than the emphasize threshold will be emphasized."
 );
 
 $filtered_userlist = get_ignored_list($user);
@@ -149,16 +132,11 @@ for ($i=0; $i<sizeof($filtered_userlist); $i++){
 }
 row2("Filtered users".
     "<br><font size=-2>Ignore specific users<br>You can define a list of users to ignore.<br>These users will have to write posts with very high<br> rating in order to not be filtered.</font>",
-    "<table><tr><td>
-        $forum_filtered_userlist
-    </td></tr></table>
-    <table width=\"380\">
-        <tr><td width=\"32\"><input type=\"text\" name=\"forum_filter_user\" style=\"width: 80px;\"></td><td>Userid (For instance: 123456789)</td></tr>
-        <tr><td colspan=\"2\"><input type=\"submit\" name=\"add_user_to_filter\" value=\"Add user to filter\"></td></tr>
-        <tr><td colspan=2>
-            Please note that you can only filter a limited number of users.
-        </td></tr>
-    </table>
+    "$forum_filtered_userlist
+    <br>
+        <input type=\"text\" name=\"forum_filter_user\" style=\"width: 80px;\"> Userid (For instance: 123456789)
+        <br><input type=\"submit\" name=\"add_user_to_filter\" value=\"Add user to filter\">
+        <br>Please note that you can only filter a limited number of users.
     "
 );
 
@@ -172,12 +150,11 @@ $maxlen=250;
 row1("Signature");
 row2(html_info().
     "<font size=-2><br>Max length (including newlines) is $maxlen chars.</font>",
-    "<table><tr><td>
-    <textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
+    "<textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
     onkeyup=\"textCounter(this.form.signature, this.form.remLen,250);\">".$signature."</textarea>
     <br><input name=\"remLen\" type=\"text\" id=\"remLen\" value=\"".($maxlen-strlen($signature))."\" size=\"3\" maxlength=\"3\" readonly> chars remaining
-    <br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> Attach signature by default
-    </td></tr></table>");
+    <br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> Attach signature by default "
+);
 if ($user->prefs->signature!=""){
 row2("Signature preview".
     "<br><font size=-2>This is how your signature will look in the forums</font>",
