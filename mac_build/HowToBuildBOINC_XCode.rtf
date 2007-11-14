@@ -1,6 +1,6 @@
-{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
-{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;\f2\fmodern\fcharset77 Courier;
-\f3\fswiss\fcharset77 Helvetica-Oblique;\f4\fnil\fcharset77 LucidaGrande;}
+{\rtf1\ansi\ansicpg1252\cocoartf949
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fnil\fcharset0 LucidaGrande;
+}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue239;}
 \margl1440\margr1440\vieww14740\viewh11840\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
@@ -8,10 +8,10 @@
 \f0\b\fs28 \cf0 Building BOINC Clients and Applications on Macintosh OSX\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\b0\fs24 \cf0 \
+\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 10/16/07\
+Last updated 11/13/07\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 5.10.23 and later.  It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX.  \
@@ -19,53 +19,53 @@ This document applies to BOINC version 5.10.23 and later.  It has instructions f
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\fs26 \cf0                    boinc/mac_build/HowToBuildBOINC_XCode.rtf\
+\f1\fs26 \cf0                    boinc/mac_build/HowToBuildBOINC_XCode.rtf\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs24 \cf0 \
+\f0\fs24 \cf0 \
 Contents of this document:\
-\'a5 Important requirements for building BOINC software for the Mac.\
-\'a5 Building BOINC libraries to link with project applications.\
-\'a5 Building BOINC Manager, BOINC Client and BOINC libraries.\
-\'a5 Building BOINC Manager Installer.\
-\'a5 Debugging and BOINC security.\
-\'a5 Building project applications.\
-\'a5 Upgrading applications for Macs with Intel processors.\
-\'a5 Adding a Finder icon to your application\
+\'95 Important requirements for building BOINC software for the Mac.\
+\'95 Building BOINC libraries to link with project applications.\
+\'95 Building BOINC Manager, BOINC Client and BOINC libraries.\
+\'95 Building BOINC Manager Installer.\
+\'95 Debugging and BOINC security.\
+\'95 Building project applications.\
+\'95 Upgrading applications for Macs with Intel processors.\
+\'95 Adding a Finder icon to your application\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Important requirements for building BOINC software for the Mac
-\f1\b0\fs24 \
+\b\fs28 \cf0 Important requirements for building BOINC software for the Mac
+\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 All BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  
-\f0\b This includes not only BOINC itself, but also the WxWidgets, JPEG and cURL libraries, as well as all project applications
-\f1\b0 .\
+\b This includes not only BOINC itself, but also the WxWidgets, JPEG and cURL libraries, as well as all project applications
+\b0 .\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 Beware of using the wrong compiler!  Apple's release notes for GCC 4.0 say:\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
 
-\f3\i \cf0 If your application must support versions of Mac OS X prior to 10.3.9, you must not use the GCC 4.0 compiler. Instead, build your project using the GCC 3.3 compiler\
+\i \cf0 If your application must support versions of Mac OS X prior to 10.3.9, you must not use the GCC 4.0 compiler. Instead, build your project using the GCC 3.3 compiler\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
 
-\f1\i0 \cf0 \
+\i0 \cf0 \
 Elsewhere on Apple's web site is the warning:\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
 
-\f3\i \cf0 Do not link C++ modules compiled with one of these compilers against modules compiled with the other. Even if the modules appear to link correctly, C++ ABI differences may still cause problems that will not manifest themselves until run time.
-\f1\i0 \
+\i \cf0 Do not link C++ modules compiled with one of these compilers against modules compiled with the other. Even if the modules appear to link correctly, C++ ABI differences may still cause problems that will not manifest themselves until run time.
+\i0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f0\b \cf0 Building BOINC now requires XCode Tools version 2.4.1 or later.
-\f1\b0   (Version 2.3 may work; this has not been tested.)\
+\b \cf0 Building BOINC now requires XCode Tools version 2.4.1 or later.
+\b0   (Version 2.3 may work; this has not been tested.)\
 \
 Source files are now archived using Subversion.  You can download svnX, a free GUI application for running Subversion from either\
 	{\field{\*\fldinst{HYPERLINK "http://www.apple.com/downloads/macosx/development_tools/svnx.html"}}{\fldrslt http://www.apple.com/downloads/macosx/development_tools/svnx.html}}\
@@ -78,8 +78,8 @@ You also need to install Subversion itself.  One place to get it is:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Building BOINC libraries to link with project applications
-\f1\b0\fs24 \
+\b\fs28 \cf0 Building BOINC libraries to link with project applications
+\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
@@ -99,63 +99,63 @@ After building the libraries as Universal Binaries using the second method, you 
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a\
+\b\fs28 \cf0 Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\b0\fs24 \cf0 \
+\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 BOINC depends on three third-party libraries: wxMac-2.6.3, curl-7.17.0, and jpeg-6b.  (We have reverted to using wxMac-2.6.3 because we have found several bugs in later versions of wxMac.)  You can obtain these from the following URLs:\
+\cf0 BOINC depends on three third-party libraries: wxMac-2.6.3, curl-7.17.1, and jpeg-6b.  (We have reverted to using wxMac-2.6.3 because we have found several bugs in later versions of wxMac.)  You can obtain these from the following URLs:\
 \
 wxMac-2.6.3 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
-\f2\fs26 http://www.wxwidgets.org}}
-\f2\fs26 \
+\f1\fs26 http://www.wxwidgets.org}}
+\f1\fs26 \
 
-\f1\fs24 	{\field{\*\fldinst{HYPERLINK "http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz"}}{\fldrslt 
-\f2\fs26 http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz}}
-\f2\fs26 \
+\f0\fs24 	{\field{\*\fldinst{HYPERLINK "http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz"}}{\fldrslt 
+\f1\fs26 http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz}}
+\f1\fs26 \
 
-\f1\fs24 \
-curl-7.17.0:\
+\f0\fs24 \
+curl-7.17.1:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f2\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
-	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.17.0.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.17.0.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
+	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.17.1.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.17.1.tar.gz}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f1\fs24 \cf0 \
+\f0\fs24 \cf0 \
 jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a library):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f2\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.ijg.org"}}{\fldrslt http://www.ijg.org}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.ijg.org"}}{\fldrslt http://www.ijg.org}}\
 	{\field{\*\fldinst{HYPERLINK "ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz"}}{\fldrslt ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs24 \cf0 \
+\f0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3\i \cf0 XCode 2.4.1 installs autoconf 2.59 and automake 1.63.
-\f1\i0   
-\f3\i To determine the version number, type "autoconf --version" or "automake --version" .  Building curl-7.17.0 require autoconf 2.59 and automake 1.93 or later.  \
+\i \cf0 XCode 2.4.1 installs autoconf 2.59 and automake 1.63.
+\i0   
+\i To determine the version number, type "autoconf --version" or "automake --version" .  Building curl-7.17.1 require autoconf 2.59 and automake 1.93 or later.  \
 \
 Upgrades for autoconf and automake are available from www.gnu.org:  \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz"}}{\fldrslt 
-\f2\i0\fs26 \cf0 http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz}}
-\f2\i0\fs26 \cf2 \ul \ulc2 \
+\f1\i0\fs26 \cf0 http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz}}
+\f1\i0\fs26 \cf2 \ul \ulc2 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz"}}{\fldrslt \cf0 \ulnone http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz}}\cf0 \ulnone \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3\i\fs24 \cf0 \
+\f0\i\fs24 \cf0 \
 XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.  If you install there, you must also set your PATH environment variable to include that location.  The scripts referenced below do this automatically.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\i0 \cf0 \
+\i0 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 As stated above, all BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  \
 \
-These are not done by either the XCode projects which come with wxMac-2.6.3, nor  the AutoMake scripts supplied with wxMac-2.6.3, curl-7.17.0, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
+These are not done by either the XCode projects which come with wxMac-2.6.3, nor  the AutoMake scripts supplied with wxMac-2.6.3, curl-7.17.1, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \
 Building BOINC and the library packages on which it depends requires OS 10.4.4 and XCode 2.4.1 (or greater).  It may be possible to use XCode 2.3 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -163,7 +163,7 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 a
 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
 [2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):\
-    curl-7.17.0\
+    curl-7.17.1\
     jpeg-6b\
     wxMac-2.6.3\
 \
@@ -173,11 +173,11 @@ Important: do not change the names of any of these 3 directories.\
 \
 \pard\pardeftab720\ql\qnatural
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/
-\f1\fs24 \
+\f1\fs26 \cf0 cd \{path\}/BOINC_dev/
+\f0\fs24 \
 
-\f2\fs26 svn co http://boinc.berkeley.edu/svn/trunk/boinc
-\f1\fs24   \
+\f1\fs26 svn co http://boinc.berkeley.edu/svn/trunk/boinc
+\f0\fs24   \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 (You may change the name of the boinc directory to anything you wish.)\
@@ -185,15 +185,15 @@ Important: do not change the names of any of these 3 directories.\
 The command above retrieves the source code from the HEAD or development branch of the CVS repository.  For more information on getting the BOINC source code, see:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCode"}}{\fldrslt 
-\f2\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/SourceCode}}\
+\f1\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/SourceCode}}\
 \
 [4] Run the script to build the curl, jpeg and wxMac libraries as follows:\
 \
 \pard\pardeftab720\ql\qnatural
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
+\f1\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
 source setupForBoinc.sh -clean
-\f1\fs24 \
+\f0\fs24 \
 \
 If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -204,16 +204,16 @@ Note: this script builds curl first, followed by jpeg and finally wxMac.  If you
 \
 \pard\pardeftab720\ql\qnatural
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
+\f1\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
 source BuildMacBOINC.sh
-\f1\fs24 \
+\f0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 The complete syntax for this script is\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]
-\f1\fs24 \
+\f1\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]
+\f0\fs24 \
 \
 The options for BuildMacBOINC.sh are:\
 	-dev		build the development (debug) version (native architecture only). \
@@ -234,83 +234,83 @@ The options for BuildMacBOINC.sh are:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f0\b \cf0 Note:
-\f1\b0  You may find three XCode projects in the BOINC_dev/boinc/mac_build/ directory: \
-  \'a5 
-\f0\b boinc.pbproj
-\f1\b0  is obsolete and should no longer be used.\
-  \'a5 
-\f0\b wxMac-BOINC.xcodeproj
-\f1\b0  was needed for building older versions of the wxMac library in conjunction with the older versions of the setupForBoinc.sh or buildWxMac.sh scripts.  It is not used for BOINC 5.9.2 or later.  \
-  \'a5 
-\f0\b boinc.xcodeproj
-\f1\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.\
+\b \cf0 Note:
+\b0  You may find three XCode projects in the BOINC_dev/boinc/mac_build/ directory: \
+  \'95 
+\b boinc.pbproj
+\b0  is obsolete and should no longer be used.\
+  \'95 
+\b wxMac-BOINC.xcodeproj
+\b0  was needed for building older versions of the wxMac library in conjunction with the older versions of the setupForBoinc.sh or buildWxMac.sh scripts.  It is not used for BOINC 5.9.2 or later.  \
+  \'95 
+\b boinc.xcodeproj
+\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f4 \cf0 \
+\f2 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \cf0 \
+\f0 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Building BOINC Manager Installer
-\f1\b0\fs24 \
+\b\fs28 \cf0 Building BOINC Manager Installer
+\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 To build the Installer for the BOINC Manager, if the BOINC version number is x.y.z, you must be logged in as an administrator.  Type the following in Terminal, then enter your administrator password when prompted by the script:\
 \
 \pard\pardeftab720\ql\qnatural
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
+\f1\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 
-\f1\fs24 \
+\f0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 5.5.4, the command would be\
 \pard\pardeftab720\ql\qnatural
 
-\f2\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 5 5 4\
+\f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 5 5 4\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_5_5_4" in the BOINC_dev directory.
-\f2 \
+\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_5_5_4" in the BOINC_dev directory.
+\f1 \
 \
 
-\f1 To build version 5.5.4 of the Grid Republic flavor of BOINC, you would type:
-\f2  
-\f1 \
+\f0 To build version 5.5.4 of the Grid Republic flavor of BOINC, you would type:
+\f1  
+\f0 \
 \pard\pardeftab720\ql\qnatural
 
-\f2\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
+\f1\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
 source \{path\}/BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 5 4\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_GR_5_5_4" in the BOINC_dev directory.
-\f2 \
+\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_GR_5_5_4" in the BOINC_dev directory.
+\f1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f4 \cf0 \
+\f2 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \cf0 \
+\f0 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Debugging and BOINC security
-\f1\b0\fs24 \
+\b\fs28 \cf0 Debugging and BOINC security
+\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 Version 5.5.4 of BOINC Manager for the Macintosh introduced new, stricter security measures.  For details, please see the file boinc/mac_installer/Readme.rtf and {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/sandbox.php"}}{\fldrslt http://boinc.berkeley.edu/sandbox.php}} and {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SandboxUser"}}{\fldrslt 
-\f2 http://boinc.berkeley.edu/trac/wiki/SandboxUser}}\
+\f1 http://boinc.berkeley.edu/trac/wiki/SandboxUser}}\
 \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
 \cf0 \CocoaLigature0 The GDB debugger can't attach to applications which are running as a diferent user or group so it ignores the S_ISUID and S_ISGID permisison bits when launching an application.  To work around this, BOINC does not use the special boinc_master or boinc_project users or groups when run from XCode.  \
 \
 The 
-\f3\i Development
-\f1\i0  build 
-\f3\i only
-\f1\i0  of the BOINC Manager allows you to change the ownership and permission settings of the BOINC Data and executables by entering an administrator user name and password.  This also streamlines the development cycle by avoiding the need to run the installer for every change.\
+\i Development
+\i0  build 
+\i only
+\i0  of the BOINC Manager allows you to change the ownership and permission settings of the BOINC Data and executables by entering an administrator user name and password.  This also streamlines the development cycle by avoiding the need to run the installer for every change.\
 \
 To restore the standard ownerships and permissions, run the installer.\
 \
@@ -318,10 +318,10 @@ To restore the standard ownerships and permissions, run the installer.\
 \cf0 \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Building project applications\
+\b\fs28 \cf0 Building project applications\
 \
 Upgrading applications for Macs with Intel processors
-\f1\b0\fs24 \
+\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \
@@ -338,12 +338,12 @@ So BOINC treats Intel Macs as a new, separate platform.  BOINC previously direct
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f0\b \cf0 We have now added a fifth platform for Intel Macs (i686-apple-darwin).
-\f1\b0 \
+\b \cf0 We have now added a fifth platform for Intel Macs (i686-apple-darwin).
+\b0 \
 \
 As a 
-\f0\b temporary
-\f1\b0  measure, projects can set their servers to deliver a copy of their current PowerPC application (renamed for the new platform) under the new i686-apple-darwin platform.  The OS will run it in compatibility mode, emulating a PowerPC.  (Apple calls this compatibility mode Rosetta, which of course has nothing to do with the Rosetta BOINC project.)  \
+\b temporary
+\b0  measure, projects can set their servers to deliver a copy of their current PowerPC application (renamed for the new platform) under the new i686-apple-darwin platform.  The OS will run it in compatibility mode, emulating a PowerPC.  (Apple calls this compatibility mode Rosetta, which of course has nothing to do with the Rosetta BOINC project.)  \
 \
 If you do this, be sure to give your native Intel application a higher version number when you do release it, so that clients will download it.\
 \
@@ -358,12 +358,12 @@ So it is important to make a native Intel application available as soon as possi
 It is very easy to add a new platform to your server with the xadd utility.  For directions on how to do this, see these web pages:\
 \pard\pardeftab720\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BoincPlatforms"}}{\fldrslt 
-\f2 \cf0 http://boinc.berkeley.edu/trac/wiki/BoincPlatforms}}
-\f2\fs26 \
+\f1 \cf0 http://boinc.berkeley.edu/trac/wiki/BoincPlatforms}}
+\f1\fs26 \
 \pard\pardeftab720\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/XaddTool"}}{\fldrslt 
 \fs24 \cf0 http://boinc.berkeley.edu/trac/wiki/XaddTool}}
-\f1\fs24 \
+\f0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
 BOINC supports all PowerPC Macs running OS 10.3.0 or later, and all Intel Macs.  (The Intel Macs themselves require OS 10.4.4 or later.)\
@@ -386,30 +386,30 @@ Note that the BOINC libraries (and any third-party libraries) which you link wit
 \cf0 Additional information on building Unix applications universal can  be found here:\
 \pard\pardeftab720\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html"}}{\fldrslt 
-\f2\fs26 \cf0 http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html}}\
+\f1\fs26 \cf0 http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html}}\
 \pard\pardeftab720\ql\qnatural
 
-\f2\fs26 \cf0 \
+\f1\fs26 \cf0 \
 
-\f1\fs24 and here:
-\f2\fs26 \
+\f0\fs24 and here:
+\f1\fs26 \
 \pard\pardeftab720\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html"}}{\fldrslt \cf0 http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html}}\
 \
 \pard\pardeftab720\ql\qnatural
 
-\f1\fs24 \cf0 For information on making your code work with GCC 4:\
+\f0\fs24 \cf0 For information on making your code work with GCC 4:\
 \pard\pardeftab720\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html"}}{\fldrslt 
-\f2\fs26 \cf0 http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html}}
-\f2\fs26 \
+\f1\fs26 \cf0 http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html}}
+\f1\fs26 \
 \pard\pardeftab720\ql\qnatural
 
-\f1\fs24 \cf0 \
+\f0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Adding a Finder icon to your application
-\f1\b0\fs24 \
+\b\fs28 \cf0 Adding a Finder icon to your application
+\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 There is an optional api setMacIcon() in the libboinc_api.a library.  This allows science applications to \CocoaLigature0 display an application icon in the Dock) and in the Finder.   (The icon does not appear in the Dock until the application displays graphics.)  To implement this, do the following:\
@@ -420,26 +420,26 @@ There is an optional api setMacIcon() in the libboinc_api.a library.  This allow
 (2) Convert the xxx.icns file to an app_icon.h file as follows: in Terminal, run: \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
 
-\f2 \cf0 \{path\}/MakeAppIcon_h \{source_file_path\}/
-\f1 xxx.icns
-\f2  \{dest_file_path\}/
-\f1 app_icon.h
-\f2 \
+\f1 \cf0 \{path\}/MakeAppIcon_h \{source_file_path\}/
+\f0 xxx.icns
+\f1  \{dest_file_path\}/
+\f0 app_icon.h
+\f1 \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
 
-\f1 \cf0 (The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project in the "boinc/mac_build/build/" directory.)  Add the app_icon.h file to your science application's project.\
+\f0 \cf0 (The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project in the "boinc/mac_build/build/" directory.)  Add the app_icon.h file to your science application's project.\
 \
 (3) In the science application's main(), add \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
 
-\f2 \cf0 #include "app_icon.h" 
-\f1 \
+\f1 \cf0 #include "app_icon.h" 
+\f0 \
 and call:\
 
-\f2   setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));\
+\f1   setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));\
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
 
-\f1 \cf0 \
+\f0 \cf0 \
 (4) The science application must link with Carbon.framework to use \CocoaLigature1 setMacIcon()\CocoaLigature0 .\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \CocoaLigature1 \
