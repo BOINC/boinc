@@ -34,7 +34,7 @@ $auth_hash = md5($user->authenticator.$user->email_addr);
 //
 if (!strlen($user->passwd_hash)) {
     $user->passwd_hash = $auth_hash;
-    $user->update(passwd_hash='$user->passwd_hash'");
+    $user->update("passwd_hash='$user->passwd_hash'");
 }
 
 // if the given password hash matches (auth+email), accept it

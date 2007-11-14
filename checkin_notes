@@ -10880,3 +10880,9 @@ Rom    13 Nov 2007
         externalweblink.xpm
     clientgui/res/templates
         externalweblink.gif
+
+Rytis  14 Nov 2007
+    - user web: fix typo in lookup_account.php, preventing attach.
+    
+    html/user/
+        lookup_account.php
