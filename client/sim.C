@@ -606,6 +606,11 @@ void help(char* prog) {
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
+        "[--dcf_dont_use]\n"
+        "[--dcf_stats]\n"
+        "[--dual_dcf]\n"
+        "[--cpu_sched_rr_only]\n"
+        "[--work_fetch_old]\n"
         "[--dirs ...]\n",
         prog
     );
@@ -691,7 +696,11 @@ int main(int argc, char** argv) {
             }
             char buf[256];
             sprintf(
+#ifdef _WIN32
+                buf, "..\\boincsim --duration %f --delta %f > %s",
+#else
                 buf, "../sim --duration %f --delta %f > %s",
+#endif
                 duration, delta, SUMMARY_FILE
             );
             retval = system(buf);
