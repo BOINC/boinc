@@ -24,6 +24,7 @@
 #pragma interface "BOINCTaskBar.cpp"
 #endif
 
+#include "MainDocument.h"
 
 #ifdef __WXMSW__
 #include "msw/taskbarex.h"
@@ -81,15 +82,14 @@ public:
 
 private:
     wxDateTime m_dtLastHoverDetected;
-    wxDateTime m_dtLastBalloonDisplayed;
 
     wxTimer*   m_pRefreshTimer;
 
     bool       m_bMouseButtonPressed;
 
     void       ResetTaskBar();
-
     void       DisplayContextMenu();
+    std::vector<RESULT*> GetRunningTasks(CMainDocument* pDoc);
     
     DECLARE_EVENT_TABLE()
 

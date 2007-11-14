@@ -88,7 +88,6 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_bTaskbarInitiatedShutdown = false;
 
     m_dtLastHoverDetected = wxDateTime((time_t)0);
-    m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
 
     m_bMouseButtonPressed = false;
 
@@ -303,15 +302,11 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
 
 
 void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
-    wxTimeSpan ts(wxDateTime::Now() - m_dtLastHoverDetected);
-    if (ts.GetSeconds() >= 10) {
-        m_dtLastHoverDetected = wxDateTime::Now();
-    }
 
     wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
-    wxTimeSpan tsLastBalloon(wxDateTime::Now() - m_dtLastBalloonDisplayed);
-    if ((tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10)) {
-        m_dtLastBalloonDisplayed = wxDateTime::Now();
+
+    if (tsLastHover.GetSeconds() >= 2) {
+        m_dtLastHoverDetected = wxDateTime::Now();
 
         CMainDocument* pDoc                 = wxGetApp().GetDocument();
         CSkinAdvanced* pSkinAdvanced        = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -321,11 +316,6 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxString       strBuffer            = wxEmptyString;
         wxString       strProjectName       = wxEmptyString;
         float          fProgress            = 0;
-        bool           bIsActive            = false;
-        bool           bIsExecuting         = false;
-        bool           bIsDownloaded        = false;
-        wxInt32        iResultCount         = 0;
-        wxInt32        iIndex               = 0;
         wxIcon         iconIcon             = wxNullIcon;
         CC_STATUS      status;
 
@@ -335,15 +325,21 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
-        // What should the title of the balloon be?
+        // What should the title of the tooltip be?
         strTitle = pSkinAdvanced->GetApplicationName();
 
         if (pDoc->IsConnected()) {
+            pDoc->GetConnectedComputerName(strMachineName);
+            if (!pDoc->IsComputerNameLocal(strMachineName)) {
+                strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
+            }
+
+			strMessage += strTitle;
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("Computation is suspended.\n")
+                    _("\nComputation is suspended.")
                 );
                 iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
@@ -351,53 +347,77 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
             if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("Network activity is suspended.\n")
+                    _("\nNetwork activity is suspended.")
                 );
                 strMessage += strBuffer;
             }
 
-            if (strMessage.Length() > 0) {
-                strMessage += wxT("\n");
-            }
+            std::vector<RESULT*> tasks = GetRunningTasks(pDoc);
 
-            iResultCount = pDoc->GetWorkCount();
-            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                RESULT* result = pDoc->result(iIndex);
-                RESULT* state_result = NULL;
-                std::string project_name;
+            if (tasks.size() == 0) {
+                strMessage += _("\nNo running tasks.");
+            } else if (tasks.size() < 3) {
 
-                bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
-                bIsActive     = result->active_task;
-                bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
-                if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+                std::vector<RESULT*>::iterator i = tasks.begin();
+                while (i != tasks.end()) {
+                    RESULT* task = *i;
+                    std::string project_name;
 
-                if (result) {
-                    state_result = pDoc->state.lookup_result(result->project_url, result->name);
-                    if (state_result) {
-                        state_result->project->get_name(project_name);
-                        strProjectName = wxString(project_name.c_str());
+                    if (task) {
+                        RESULT* state_result = pDoc->state.lookup_result(task->project_url, task->name);
+                        if (state_result) {
+                            state_result->project->get_name(project_name);
+                        }
                     }
-                    fProgress = floor(result->fraction_done*10000)/100;
+                    fProgress = floor(task->fraction_done*10000)/100;
+                
+                    strBuffer.Printf(wxT("\n%s: %.2f%%"), project_name.c_str(), fProgress );
+                    strMessage += strBuffer;
+                    i++;
                 }
-
-                strBuffer.Printf(_("%s: %.2f%% completed\n"), strProjectName.c_str(), fProgress );
+            } else {
+                strBuffer.Printf(_("\n%d running tasks."), tasks.size());
                 strMessage += strBuffer;
             }
+
         } else if (pDoc->IsReconnecting()) {
             strBuffer.Printf(
-                _("Reconnecting to client.\n")
+                _("\nReconnecting to client.")
             );
             strMessage += strBuffer;
         } else {
             strBuffer.Printf(
-                _("Not connected to a client.\n")
+                _("\nNot connected to a client.")
             );
             iconIcon = m_iconTaskBarDisconnected;
             strMessage += strBuffer;
         }
 
-        SetBalloon(iconIcon, strTitle, strMessage);
+        SetTooltip(strMessage);
     }
+}
+
+
+std::vector<RESULT*> CTaskBarIcon::GetRunningTasks(CMainDocument* pDoc) {
+
+    std::vector<RESULT*> results;
+    bool bIsActive, bIsExecuting, bIsDownloaded;
+    
+    int iResultCount = pDoc->GetWorkCount();
+
+    for (int iIndex = 0; iIndex < iResultCount; iIndex++) {
+        RESULT* result = pDoc->result(iIndex);
+
+        if (result) {
+            bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
+            bIsActive     = result->active_task;
+            bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
+            if (bIsActive && bIsDownloaded && bIsExecuting) {
+                results.push_back(result);
+            }
+        }
+    }
+    return results;
 }
 
 
@@ -453,7 +473,6 @@ void CTaskBarIcon::ResetTaskBar() {
     SetIcon(m_iconTaskBarNormal, wxT(""));
 #endif
 
-    m_dtLastBalloonDisplayed = wxDateTime::Now();
 }
 
 

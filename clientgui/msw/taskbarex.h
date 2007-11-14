@@ -26,6 +26,7 @@ class wxTaskBarIconExEvent;
 
 class wxTaskBarIconEx: public wxEvtHandler {
     DECLARE_DYNAMIC_CLASS(wxTaskBarIconEx)
+    DECLARE_EVENT_TABLE()
 public:
 
     wxTaskBarIconEx(void);
@@ -57,9 +58,11 @@ public:
         unsigned int iconballoon = NIIF_INFO
     );
 
+	bool SetTooltip(const wxString tip);
+
     bool RemoveIcon();
 
-    bool PopupMenu(wxMenu *menu); //, int x, int y);
+    bool PopupMenu(wxMenu *menu);
 
 // Implementation
     static bool RegisterWindowClass();
@@ -76,7 +79,7 @@ protected:
     static unsigned int sm_taskbarMsg;
 
 private:
-    DECLARE_EVENT_TABLE()
+    bool RecreateIcon();
 
 };
 
