@@ -10948,6 +10948,7 @@ David  15 Nov 2007
 David  15 Nov 2007
     - user web: remove debugging code;
         remove odd use of tables in edit forum prefs forum
+        Fixes #475; fixes #476
 
     html/user/
         forum_index.php
