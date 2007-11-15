@@ -6,7 +6,6 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 
-db_init();
 $resultid = get_int("resultid");
 $result = lookup_result($resultid);
 if (!$result) {

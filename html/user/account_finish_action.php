@@ -7,7 +7,7 @@ include_once("../inc/email.inc");
 function show_error($str) {
     page_head("Can't update account");
     echo "$str<br>\n";
-    echo mysql_error();
+    echo BoincDb::error();
     echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
     page_tail();
     exit();

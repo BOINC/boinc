@@ -52,7 +52,7 @@ td.fieldname {
 
 td.fieldvalue {
     vertical-align: top;
-    font-weight: bold;
+#font-weight: bold;
 }
 
 td.fieldname_error {

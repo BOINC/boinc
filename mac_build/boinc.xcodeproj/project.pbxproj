@@ -3121,11 +3121,11 @@
 		DD62C3870A801FB500B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../curl-7.17.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.0/lib/.libs/libcurl.a",
+					"../../curl-7.17.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3142,9 +3142,9 @@
 					i386,
 					ppc,
 				);
-				HEADER_SEARCH_PATHS = "../../curl-7.17.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.0/lib/.libs/libcurl.a",
+					"../../curl-7.17.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3674,9 +3674,9 @@
 					i386,
 					ppc,
 				);
-				HEADER_SEARCH_PATHS = "../../curl-7.17.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.0/lib/.libs/libcurl.a",
+					"../../curl-7.17.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3958,9 +3958,9 @@
 		DD9843DE09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../curl-7.17.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.0/lib/.libs/libcurl.a",
+					"../../curl-7.17.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4200,11 +4200,11 @@
 		DD9E2366091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../curl-7.17.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.0/lib/.libs/libcurl.a",
+					"../../curl-7.17.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4218,9 +4218,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.0/lib/.libs/libcurl.a",
+					"../../curl-7.17.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4514,9 +4514,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.0/lib/.libs/libcurl.a",
+					"../../curl-7.17.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",

@@ -1,21 +1,16 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-/**
- * When a moderator does something to a post, this page actually
- * commits those changes to the database.
- **/
+// When a moderator does something to a post, this page actually
+// commits those changes to the database.
 
 require_once("../inc/forum.inc");
 require_once("../inc/forum_email.inc");
-require_once("../inc/forum_std.inc");
 
-db_init();
+$user = get_logged_in_user();
+check_tokens($user->authenticator);
+BoincForumPrefs::lookup($user);
 
-$user = re_get_logged_in_user();
-check_tokens($user->getAuthenticator());
-
-if (!$user->isSpecialUser(S_MODERATOR)) {
+if (!$user->prefs->privilege(S_MODERATOR)) {
     // Can't moderate without being moderator
     error_page("You are not authorized to moderate this post.");
 }
@@ -23,40 +18,38 @@ if (!$user->isSpecialUser(S_MODERATOR)) {
 // See if "action" is provided - either through post or get
 if (!post_str('action', true)) {
     if (!get_str('action', true)){
-	    error_page("You must specify an action...");
+        error_page("You must specify an action...");
     } else {
-	$action = get_str('action');
+        $action = get_str('action');
     }
 } else {
     $action = post_str('action');
 }
 
-$post = new Post(get_int('id'));
-$thread = $post->getThread();
+$post = BoincPost::lookup_id(get_int('id'));
+$thread = BoincThread::lookup_id($post->thread);
+$forum = BoincForum::lookup_id($thread->forum);
 
 if ($action=="hide"){
-    $result = $post->hide();
-    if ($thread->getPostCount() == 0) {
-	$result = $thread->hide();
-    }
+    $result = hide_post($post, $thread, $forum);
 } elseif ($action=="unhide"){
-    $result = $post->unhide();
+    $result = unhide_post($post, $thread, $forum);
 } elseif ($action=="move"){
-    $destination_thread = new Thread(post_int('threadid'));
-    $result = $post->move($destination_thread);
-    if ($thread->getPostCount() == 0) {
-	$thread->hide();
-    }
+    $destid = post_int('threadid');
+    $new_thread = BoincThread::lookup_id($destid);
+    $new_forum = BoincForum::lookup_id($new_thread->forum);
+    $result = move_post($post, $thread, $forum, $new_thread, $new_forum);
 } elseif ($action=="banish_user"){
-    if (!$user->isSpecialUser(S_ADMIN)) {
+    if (!$user->prefs->privilege(S_ADMIN)) {
       // Can't banish without being administrator
-      error_page("You are not authorized to banish this user.");
+        error_page("You are not authorized to banish this user.");
     }
     $userid = post_int('userid');
-    $user = newUser($userid);
+    $user = BoincUser::lookup_id($userid);
     if (!$user) {
         error_page("no user");
     }
+    BoincForumPrefs::lookup($user);
     $duration = post_int('duration');
     if ($duration == -1) {
         $t = 2147483647; // Maximum integer value
@@ -64,14 +57,13 @@ if ($action=="hide"){
         $t = time() + $duration;
     }
     $reason = post_str("reason", true);
-    $query = "update forum_preferences set banished_until=$t where userid=$userid";
-    $result = mysql_query($query);
+    $result = $user->prefs->update("banished_until=$t");
+    page_head("Banishment");
     if ($result) {
-        echo "User ".$user->getName()." has been banished.";
+        echo "User ".$user->name." has been banished.";
         send_banish_email($user, $t, $reason);
     } else {
-        echo "DB failure for $query";
-        echo mysql_error();
+        echo "DB failure";
     }
     page_tail();
     exit();
@@ -80,18 +72,24 @@ if ($action=="hide"){
 }
 
 switch (post_int("category", true)) {
-    case 1:
-        $mod_category = "Obscene";
-    case 2:
-        $mod_category = "Flame/Hate mail";
-    case 3:
-        $mod_category = "Commercial spam";
-    case 4:
-        $mod_category = "Doublepost";
-    case 5:
-        $mod_category = "User Request";
-    default:
-        $mod_category = "Other";
+case 1:
+    $mod_category = "Obscene";
+    break;
+case 2:
+    $mod_category = "Flame/Hate mail";
+    break;
+case 3:
+    $mod_category = "Commercial spam";
+    break;
+case 4:
+    $mod_category = "Doublepost";
+    break;
+case 5:
+    $mod_category = "User Request";
+    break;
+default:
+    $mod_category = "Other";
+    break;
 }
 
 if ($result) {
@@ -100,9 +98,10 @@ if ($result) {
     } else { 
         send_moderation_email($post, "Category: ".$mod_category."\n"."None given", $action);
     }
-    header('Location: forum_thread.php?id='.$thread->getID());
+    header('Location: forum_thread.php?id='.$thread->id);
 } else {
     error_page("Moderation failed");
 }
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

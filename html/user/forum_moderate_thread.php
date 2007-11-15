@@ -1,33 +1,26 @@
 <?php
-/**
- * Where the moderator decides what action to take on a thread.  Sends
- * its data to forum_moderate_thread_action.php for the actual action to
- * take place.
- **/
+// Where the moderator decides what action to take on a thread.  Sends
+// its data to forum_moderate_thread_action.php for the actual action to
+// take place.
 
 require_once('../inc/forum.inc');
-require_once('../inc/forum_std.inc');
 
-db_init();
-
-$logged_in_user = re_get_logged_in_user();
+$logged_in_user = get_logged_in_user();
+BoincForumPrefs::lookup($logged_in_user);
 
 if (!get_str('action')) {
     error_page("You must specify an action...");
 }
-$thread = new Thread(get_int('thread'));
+$thread = BoincThread::lookup_id(get_int('thread'));
         
-if (!$logged_in_user->isSpecialUser(S_MODERATOR)) {
-    // Can't moderate without being moderator
+if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     error("You are not authorized to moderate this post.");
 }
 
-
 page_head('Forum');
 
-//start form
-echo "<form action=forum_moderate_thread_action.php?thread=".$thread->getID()." method=POST>\n";
-echo form_tokens($logged_in_user->getAuthenticator());
+echo "<form action=forum_moderate_thread_action.php?thread=$thread->id method=POST>\n";
+echo form_tokens($logged_in_user->authenticator);
 start_table();
 row1("Moderate thread");
 
@@ -48,19 +41,12 @@ if (get_str('action')=="hide") {
     echo "<input type=hidden name=action value=move>";
     
     $selectbox = '<select name="forumid">';  
-    $categories = $mainFactory->getCategories();  
-    $i=0;  
-    // For each category  
-    while ($categories[$i]){  
-        $forums = $categories[$i]->getForums();  
-        $ii=0;  
-        // Show a summary of each of the forums  
-        while ($forums[$ii]){  
-            $forum = $forums[$ii];  
-            $selectbox .= '<option value="'.$forum->getID().'">'.$forum->getTitle().'</option>';  
-            $ii++;  
+    $categories = BoincCategory::enum();
+    foreach ($categories as $category) {
+        $forums = BoincForum::enum("category=$category->id");
+        foreach ($forums as $forum) {
+            $selectbox .= '<option value="'.$forum->id.'">'.$forum->title.'</option>';  
         }  
-        $i++;  
     }  
     $selectbox .= '</option>';  
     
@@ -68,7 +54,7 @@ if (get_str('action')=="hide") {
 } elseif (get_str('action')=="title") {
 
     echo "<input type=hidden name=action value=title>";
-    row2("New title:", "<input name=\"newtitle\" value=\"".stripslashes(htmlspecialchars($thread->getTitle()))."\">");
+    row2("New title:", "<input name=\"newtitle\" value=\"".stripslashes(htmlspecialchars($thread->title))."\">");
 } else {
     error_page("Unknown action");
 }

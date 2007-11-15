@@ -1,8 +1,6 @@
 <?php
  
-require_once("../inc/profile.inc");
-
-db_init();
+require_once("../inc/boinc_db.inc");
 
 $userid = $_GET['userid'];
 $vote = $_GET['vote'];
@@ -12,7 +10,7 @@ if ($vote != "recommend" && $vote != "reject") {
     exit();
 }
 
-mysql_query("UPDATE profile SET $vote=$vote+1 WHERE userid = $userid");
+BoincProfile::update_aux("$vote=$vote+1 WHERE userid = $userid");
 
 page_head("Vote Recorded");
 

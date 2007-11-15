@@ -151,6 +151,7 @@ extern "C" {
 /* The check above prevents the winsock2 inclusion if winsock.h already was
    included, since they can't co-exist without problems */
 #include <winsock2.h>
+#include <ws2tcpip.h>
 #endif
 #else
 
@@ -245,6 +246,19 @@ typedef enum  {
 typedef int (*curl_sockopt_callback)(void *clientp,
                                      curl_socket_t curlfd,
                                      curlsocktype purpose);
+
+struct curl_sockaddr {
+  int family;
+  int socktype;
+  int protocol;
+  socklen_t addrlen;
+  struct sockaddr addr;
+};
+
+typedef curl_socket_t
+(*curl_opensocket_callback)(void *clientp,
+                            curlsocktype purpose,
+                            struct curl_sockaddr *address);
 
 #ifndef CURL_NO_OLDIES
   /* not used since 7.10.8, will be removed in a future release */
@@ -367,7 +381,8 @@ typedef enum {
   CURLE_UNKNOWN_TELNET_OPTION,   /* 48 - User specified an unknown option */
   CURLE_TELNET_OPTION_SYNTAX ,   /* 49 - Malformed telnet option */
   CURLE_OBSOLETE50,              /* 50 - NOT USED */
-  CURLE_SSL_PEER_CERTIFICATE,    /* 51 - peer's certificate wasn't ok */
+  CURLE_PEER_FAILED_VERIFICATION, /* 51 - peer's certificate or fingerprint
+                                     wasn't verified fine */
   CURLE_GOT_NOTHING,             /* 52 - when this is a specific error */
   CURLE_SSL_ENGINE_NOTFOUND,     /* 53 - SSL crypto engine not found */
   CURLE_SSL_ENGINE_SETFAILED,    /* 54 - can not set SSL crypto engine as
@@ -416,10 +431,14 @@ typedef enum {
                           the obsolete stuff removed! */
 
 /* Backwards compatibility with older names */
+
+/* The following were added in 7.17.1 */
 /* These are scheduled to disappear by 2009 */
+#define CURLE_SSL_PEER_CERTIFICATE CURLE_PEER_FAILED_VERIFICATION
 
 /* The following were added in 7.17.0 */
-#define CURLE_OBSOLETE CURLE_OBSOLETE50	/* noone should be using this! */
+/* These are scheduled to disappear by 2009 */
+#define CURLE_OBSOLETE CURLE_OBSOLETE50 /* noone should be using this! */
 #define CURLE_BAD_PASSWORD_ENTERED CURLE_OBSOLETE46
 #define CURLE_BAD_CALLING_ORDER CURLE_OBSOLETE44
 #define CURLE_FTP_USER_PASSWORD_INCORRECT CURLE_OBSOLETE10
@@ -438,7 +457,7 @@ typedef enum {
 #define CURLE_FTP_QUOTE_ERROR CURLE_QUOTE_ERROR
 #define CURLE_TFTP_DISKFULL CURLE_REMOTE_DISK_FULL
 #define CURLE_TFTP_EXISTS CURLE_REMOTE_FILE_EXISTS
-#define CURLE_HTTP_RANGE_ERROR CURLE_RANGE_ERROR 
+#define CURLE_HTTP_RANGE_ERROR CURLE_RANGE_ERROR
 #define CURLE_FTP_SSL_FAILED CURLE_USE_SSL_FAILED
 
 /* The following were added earlier */
@@ -640,7 +659,7 @@ typedef enum {
    */
   CINIT(INFILESIZE, LONG, 14),
 
-  /* POST input fields. */
+  /* POST static input fields. */
   CINIT(POSTFIELDS, OBJECTPOINT, 15),
 
   /* Set the referer page (needed by some CGIs) */
@@ -1124,6 +1143,22 @@ typedef enum {
   CINIT(NEW_FILE_PERMS, LONG, 159),
   CINIT(NEW_DIRECTORY_PERMS, LONG, 160),
 
+  /* Obey RFC 2616/10.3.2 and keep POSTs as POSTs after a 301 */
+  CINIT(POST301, LONG, 161),
+
+  /* used by scp/sftp to verify the host's public key */
+  CINIT(SSH_HOST_PUBLIC_KEY_MD5, OBJECTPOINT, 162),
+
+  /* Callback function for opening socket (instead of socket(2)). Optionally,
+     callback is able change the address or refuse to connect returning
+     CURL_SOCKET_BAD.  The callback should have type
+     curl_opensocket_callback */
+  CINIT(OPENSOCKETFUNCTION, FUNCTIONPOINT, 163),
+  CINIT(OPENSOCKETDATA, OBJECTPOINT, 164),
+
+  /* POST volatile input fields. */
+  CINIT(COPYPOSTFIELDS, OBJECTPOINT, 165),
+
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
 
@@ -1134,7 +1169,7 @@ typedef enum {
 /* These are scheduled to disappear by 2009 */
 
 /* The following were added in 7.17.0 */
-#define CURLOPT_SSLKEYPASSWD CURLOPT_KEYPASSWD 
+#define CURLOPT_SSLKEYPASSWD CURLOPT_KEYPASSWD
 #define CURLOPT_FTPAPPEND CURLOPT_APPEND
 #define CURLOPT_FTPLISTONLY CURLOPT_DIRLISTONLY
 #define CURLOPT_FTP_SSL CURLOPT_USE_SSL

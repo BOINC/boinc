@@ -14,9 +14,19 @@ class BoincCategory {
 }
 
 class BoincForum {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('forum', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
+    }
     static function lookup_id($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'forum', 'BoincForum');
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('forum', 'BoincForum', $clause);
     }
     static function enum($clause) {
         $db = BoincDb::get();
@@ -86,13 +96,6 @@ class BoincPost {
     }
 }
 
-class BoincPrivateMessage {
-    static function count($clause) {
-        $db = BoincDb::get();
-        return $db->count('private_messages', $clause);
-    }
-}
-
 class BoincForumPrefs {
     static $cache;
     static function lookup_userid($id) {
@@ -127,6 +130,10 @@ class BoincForumPrefs {
         $db = BoincDb::get();
         $clause = "$clause where userid=$this->userid";
         return $db->update_aux('forum_preferences', $clause);
+    }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete_aux('forum_preferences', "userid=$this->userid");
     }
 }
 
@@ -187,6 +194,10 @@ class BoincSubscription {
     static function enum($clause) {
         $db = BoincDb::get();
         return $db->enum('subscriptions', 'BoincSubscription', $clause);
+    }
+    static function replace($userid, $threadid) {
+        $db = BoincDb::get();
+        return $db->replace('subscriptions', "userid=$userid, threadid=$threadid");
     }
 }
 

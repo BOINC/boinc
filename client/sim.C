@@ -46,6 +46,12 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
+#ifdef _WIN32
+#define SIM_EXEC "..\\boincsim"
+#else
+#define SIM_EXEC "../sim"
+#endif
+
 CLIENT_STATE gstate;
 NET_STATUS net_status;
 bool user_active;
@@ -606,6 +612,11 @@ void help(char* prog) {
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
+        "[--dcf_dont_user]\n"
+        "[--dcf_stats]\n"
+        "[--dual_dcf]\n"
+        "[--cpu_sched_rr_only]\n"
+        "[--work_fetch_old]\n"
         "[--dirs ...]\n",
         prog
     );
@@ -691,8 +702,8 @@ int main(int argc, char** argv) {
             }
             char buf[256];
             sprintf(
-                buf, "../sim --duration %f --delta %f > %s",
-                duration, delta, SUMMARY_FILE
+                buf, "%s --duration %f --delta %f > %s",
+                SIM_EXEC, duration, delta, SUMMARY_FILE
             );
             retval = system(buf);
             if (retval) {

@@ -1,9 +1,20 @@
 <?php
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 
-db_init();
+function delete_profile($user) {
+    $result = BoincProfile::delete_aux("userid = $user->id");
+    if (!$result) {
+        error_page("couldn't delete profile - please try again later");
+    }
+    delete_user_pictures($user->id);
+    page_head("Delete Confirmation");
+    $user->update("has_profile=0");
+    echo "Your profile has been deleted<br>";
+    page_tail();
+}
+
 $user = get_logged_in_user();
 
 if (isset($_POST['delete']) && $_POST['delete']) {
@@ -30,21 +41,5 @@ echo "
 ";
 
 page_tail();
-
-function delete_profile($user) {
-    $result = mysql_query("DELETE FROM profile WHERE userid = $user->id");
-    if ($result) {
-        delete_user_pictures($user->id);
-        page_head("Delete Confirmation");
-        mysql_query("update user set has_profile=0 where id=$user->id");
-        echo "Your profile has been deleted<br>";
-    } else {
-
-        // TODO: Change this to a standard dialog.
-        page_head("Deletion Error");
-        echo "There was a problem deleting your profile.";
-    }
-    page_tail();
-}
 
 ?>

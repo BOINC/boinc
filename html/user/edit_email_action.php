@@ -1,11 +1,10 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
-db_init();
 $user = get_logged_in_user();
 
 $email_addr = strtolower(process_user_text(post_str("email_addr")));
@@ -35,8 +34,7 @@ if (!is_valid_email_addr($email_addr)) {
             echo "Invalid password.";
         } else {
             $passwd_hash = md5($passwd.$email_addr);
-            $query = "update user set email_addr='$email_addr', passwd_hash='$passwd_hash' where id=$user->id";
-            $result = mysql_query($query);
+            $result = $user->update("email_addr='$email_addr', passwd_hash='$passwd_hash'");
             if ($result) {
                 echo "
                     The email address of your account is now $email_addr.

@@ -60,6 +60,9 @@ list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_helpers>
     "For BOINC <a href=help.php>Help Volunteers</a>,
     to discuss policies and user problems."
 );
+list_item("<a href=http://groups.google.com/group/boinc-team-founders>BOINC team founders</a> (Google group)",
+    "Discussion of team-related issues."
+);
 list_end();
 
 echo "

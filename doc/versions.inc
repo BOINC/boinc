@@ -31,11 +31,27 @@ function type_text($type) {
     }
 }
 
+$w51030= array(
+    "num"=>"5.10.30",
+    "status"=>"Development version (Win98+, Win2000+)",
+    "file"=>"boinc_5.10.30_windows_intelx86.exe",
+    "date"=>"13 Nov 2007",
+    "type"=>"win_new",
+);
+
 $w51028= array(
     "num"=>"5.10.28",
     "status"=>"Recommended version (Win98+, Win2000+)",
     "file"=>"boinc_5.10.28_windows_intelx86.exe",
     "date"=>"29 Oct 2007",
+    "type"=>"win_new",
+);
+
+$w51030x64= array(
+    "num"=>"5.10.30",
+    "status"=>"Development version (WinXP64+)",
+    "file"=>"boinc_5.10.30_windows_x86_64.exe",
+    "date"=>"13 Nov 2007",
     "type"=>"win_new",
 );
 
@@ -61,6 +77,14 @@ $w5411= array(
     "file"=>"boinc_5.4.11_windows_intelx86.exe",
     "date"=>"2 Aug 2006",
     "type"=>"win_new",
+);
+
+$m51030 = array(
+    "num"=>"5.10.30",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.10.30_macOSX_universal.zip",
+    "date"=>"14 Nov 2007",
+    "type"=>"mac_advanced",
 );
 
 $m51028 = array(
@@ -93,6 +117,14 @@ $m549 = array(
     "file"=>"boinc_5.4.9_macOSX_universal.zip",
     "date"=>"5 May 2006",
     "type"=>"mac_advanced",
+);
+
+$m51030c = array(
+    "num"=>"5.10.30",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.10.30_universal-apple-darwin.zip",
+    "date"=>"14 Nov 2007",
+    "type"=>"bare_core",
 );
 
 $m51028c = array(
@@ -187,6 +219,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w51030,
         $w51028,
         $w5816,
         $w5411,
@@ -197,6 +230,7 @@ $windowsx64 = array(
     "name"=>"Windows x64",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+        $w51030x64,
         $w51028x64,
     )
 );
@@ -205,6 +239,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m51030,
+        $m51030c,
         $m51029,
         $m51029c,
         $m51028,

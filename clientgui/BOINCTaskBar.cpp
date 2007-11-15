@@ -144,24 +144,12 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
-        if (IsBalloonsSupported()) {
-            SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
-        } else {
-            SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
-        }
+        SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
     } else {
-        if (RUN_MODE_NEVER == status.task_mode) {
-            if (IsBalloonsSupported()) {
-                SetIcon(m_iconTaskBarSnooze, wxEmptyString);
-            } else {
-                SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
-            }
+        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            SetIcon(m_iconTaskBarSnooze, wxEmptyString);
         } else {
-            if (IsBalloonsSupported()) {
-                SetIcon(m_iconTaskBarNormal, wxEmptyString);
-            } else {
-                SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
-            }
+            SetIcon(m_iconTaskBarNormal, wxEmptyString);
         }
     }
 
@@ -300,22 +288,24 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
 }
 
-
+#if 0
 void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
     wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
-
     if (tsLastHover.GetSeconds() >= 2) {
         m_dtLastHoverDetected = wxDateTime::Now();
 
         CMainDocument* pDoc                 = wxGetApp().GetDocument();
-        CSkinAdvanced* pSkinAdvanced        = wxGetApp().GetSkinManager()->GetAdvanced();
-        wxString       strTitle             = wxEmptyString;
         wxString       strMachineName       = wxEmptyString;
         wxString       strMessage           = wxEmptyString;
         wxString       strBuffer            = wxEmptyString;
         wxString       strProjectName       = wxEmptyString;
         float          fProgress            = 0;
+        bool           bIsActive            = false;
+        bool           bIsExecuting         = false;
+        bool           bIsDownloaded        = false;
+        wxInt32        iResultCount         = 0;
+        wxInt32        iIndex               = 0;
         wxIcon         iconIcon             = wxNullIcon;
         CC_STATUS      status;
 
@@ -325,21 +315,13 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
-        // What should the title of the tooltip be?
-        strTitle = pSkinAdvanced->GetApplicationName();
-
         if (pDoc->IsConnected()) {
-            pDoc->GetConnectedComputerName(strMachineName);
-            if (!pDoc->IsComputerNameLocal(strMachineName)) {
-                strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
-            }
-
-			strMessage += strTitle;
+            iconIcon = m_iconTaskBarNormal;
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("\nComputation is suspended.")
+                    _("Computation is suspended.\n")
                 );
                 iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
@@ -347,79 +329,153 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
             if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("\nNetwork activity is suspended.")
+                    _("Network activity is suspended.\n")
                 );
                 strMessage += strBuffer;
             }
 
-            std::vector<RESULT*> tasks;
-            GetRunningTasks(pDoc, tasks);
-
-            if (tasks.size() == 0) {
-                strMessage += _("\nNo running tasks.");
-            } else if (tasks.size() < 3) {
-
-                std::vector<RESULT*>::iterator i = tasks.begin();
-                while (i != tasks.end()) {
-                    RESULT* task = *i;
-                    std::string project_name;
-
-                    if (task) {
-                        RESULT* state_result = pDoc->state.lookup_result(task->project_url, task->name);
-                        if (state_result) {
-                            state_result->project->get_name(project_name);
-                        }
-                    }
-                    fProgress = floor(task->fraction_done*10000)/100;
-                
-                    strBuffer.Printf(wxT("\n%s: %.2f%%"), project_name.c_str(), fProgress );
-                    strMessage += strBuffer;
-                    i++;
-                }
-            } else {
-                strBuffer.Printf(_("\n%d running tasks."), tasks.size());
-                strMessage += strBuffer;
+            if (strMessage.Length() > 0) {
+                strMessage += wxT("\n");
             }
 
+            iResultCount = pDoc->GetWorkCount();
+            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                RESULT* result = pDoc->result(iIndex);
+                RESULT* state_result = NULL;
+                std::string project_name;
+
+                bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
+                bIsActive     = result->active_task;
+                bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
+                if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+
+                if (result) {
+                    state_result = pDoc->state.lookup_result(result->project_url, result->name);
+                    if (state_result) {
+                        state_result->project->get_name(project_name);
+                        strProjectName = wxString(project_name.c_str());
+                    }
+                    fProgress = floor(result->fraction_done*10000)/100;
+                }
+
+                strBuffer.Printf(_("%s: %.2f%% completed\n"), strProjectName.c_str(), fProgress );
+                strMessage += strBuffer;
+            }
         } else if (pDoc->IsReconnecting()) {
             strBuffer.Printf(
-                _("\nReconnecting to client.")
+                _("Reconnecting to client.\n")
             );
             strMessage += strBuffer;
         } else {
             strBuffer.Printf(
-                _("\nNot connected to a client.")
+                _("Not connected to a client.\n")
             );
             iconIcon = m_iconTaskBarDisconnected;
             strMessage += strBuffer;
         }
 
-        SetTooltip(strMessage);
+        SetIcon(iconIcon, strMessage);
     }
 }
+#endif
 
 
-void CTaskBarIcon::GetRunningTasks(CMainDocument* pDoc, std::vector<RESULT*>& results) {
+void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
+    wxTimeSpan ts(wxDateTime::Now() - m_dtLastHoverDetected);
+    if (ts.GetSeconds() >= 4) {
+        m_dtLastHoverDetected = wxDateTime::Now();
+        CancelBalloon();
+    }
 
-    bool bIsActive, bIsExecuting, bIsDownloaded;
-    
-    int iResultCount = pDoc->GetWorkCount();
+    wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
+    //wxTimeSpan tsLastBalloon(wxDateTime::Now() - m_dtLastBalloonDisplayed);
+    if ((tsLastHover.GetSeconds() >= 2)) {
+        //m_dtLastBalloonDisplayed = wxDateTime::Now();
 
-    for (int iIndex = 0; iIndex < iResultCount; iIndex++) {
-        RESULT* result = pDoc->result(iIndex);
+        CMainDocument* pDoc                 = wxGetApp().GetDocument();
+        CSkinAdvanced* pSkinAdvanced        = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxString       strTitle             = wxEmptyString;
+        wxString       strMachineName       = wxEmptyString;
+        wxString       strMessage           = wxEmptyString;
+        wxString       strBuffer            = wxEmptyString;
+        wxString       strProjectName       = wxEmptyString;
+        float          fProgress            = 0;
+        bool           bIsActive            = false;
+        bool           bIsExecuting         = false;
+        bool           bIsDownloaded        = false;
+        wxInt32        iResultCount         = 0;
+        wxInt32        iIndex               = 0;
+        wxIcon         iconIcon             = wxNullIcon;
+        CC_STATUS      status;
 
-        if (result) {
-            bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
-            bIsActive     = result->active_task;
-            bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
-            if (bIsActive && bIsDownloaded && bIsExecuting) {
-                results.push_back(result);
+        wxASSERT(pDoc);
+        wxASSERT(pSkinAdvanced);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+        // What should the title of the balloon be?
+        strTitle = pSkinAdvanced->GetApplicationName();
+
+        if (pDoc->IsConnected()) {
+
+            pDoc->GetCoreClientStatus(status);
+            if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+                strBuffer.Printf(
+                    _("Computation is suspended.\n")
+                );
+                strMessage += strBuffer;
             }
-        }
-    }
-    return;
-}
 
+            if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+                strBuffer.Printf(
+                    _("Network activity is suspended.\n")
+                );
+                strMessage += strBuffer;
+            }
+
+            if (strMessage.Length() > 0) {
+                strMessage += wxT("\n");
+            }
+
+            iResultCount = pDoc->GetWorkCount();
+            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                RESULT* result = pDoc->result(iIndex);
+                RESULT* state_result = NULL;
+                std::string project_name;
+
+                bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
+                bIsActive     = result->active_task;
+                bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
+                if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+
+                if (result) {
+                    state_result = pDoc->state.lookup_result(result->project_url, result->name);
+                    if (state_result) {
+                        state_result->project->get_name(project_name);
+                        strProjectName = wxString(project_name.c_str());
+                    }
+                    fProgress = floor(result->fraction_done*10000)/100;
+                }
+
+                strBuffer.Printf(_("%s: %.2f%% completed\n"), strProjectName.c_str(), fProgress );
+                strMessage += strBuffer;
+            }
+        } else if (pDoc->IsReconnecting()) {
+            strBuffer.Printf(
+                _("Reconnecting to client.\n")
+            );
+            strMessage += strBuffer;
+        } else {
+            strBuffer.Printf(
+                _("Not connected to a client.\n")
+            );
+            strMessage += strBuffer;
+        }
+
+        SetBalloon(m_iconTaskBarNormal, strTitle, strMessage);
+    }
+}
 
 void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
     DisplayContextMenu();
@@ -467,12 +523,7 @@ void CTaskBarIcon::FireReloadSkin() {
 
 
 void CTaskBarIcon::ResetTaskBar() {
-#ifdef __WXMSW___
-    SetBalloon(m_iconTaskBarNormal, wxT(""), wxT(""));
-#else
-    SetIcon(m_iconTaskBarNormal, wxT(""));
-#endif
-
+    SetIcon(m_iconTaskBarNormal, wxEmptyString);
 }
 
 

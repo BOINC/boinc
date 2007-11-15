@@ -1,34 +1,30 @@
 <?php
-/**
- * The form where a moderator decides what he is going to do to a post.
- * Submits informaiton to forum_moderate_post_action.php for actual action
- * to be done.
- **/
+// The form where a moderator decides what he is going to do to a post.
+// Submits informaiton to forum_moderate_post_action.php for actual action
+// to be done.
 
 require_once('../inc/forum.inc');
-require_once('../inc/forum_std.inc');
 
-db_init();
-
-$logged_in_user = re_get_logged_in_user();
+$logged_in_user = get_logged_in_user();
+BoincForumPrefs::lookup($logged_in_user);
 
 if (!get_str('action')) {
     error_page("You must specify an action...");
 }
-if (!$logged_in_user->isSpecialUser(S_MODERATOR)) {
+if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     // Can't moderate without being moderator
     error_page("You are not authorized to moderate this post.");
 }    
 
 $postid = get_int('id');
-$post = new Post($postid);
-$thread = $post->getThread();
+$post = BoincPost::lookup_id($postid);
+$thread = BoincThread::lookup_id($post->thread);
 
 page_head('Forum');
 
 //start form
-echo "<form action=\"forum_moderate_post_action.php?id=".$post->getID()."\" method=\"POST\">\n";
-echo form_tokens($logged_in_user->getAuthenticator());
+echo "<form action=\"forum_moderate_post_action.php?id=".$post->id."\" method=\"POST\">\n";
+echo form_tokens($logged_in_user->authenticator);
 start_table();
 row1("Moderate post");
 
@@ -52,17 +48,18 @@ if (get_str('action')=="hide") {
     //todo display where to move the post as a dropdown instead of having to get ID    
 } elseif (get_str('action')=="banish_user") {
     $userid = get_int('userid');
-    $user = newUser($userid);
+    $user = BoincUser::lookup_id($userid);
+    BoincForumPrefs::lookup($user);
     if (!$user) {
         error_page("no user");
     }
-    $x = $user->getBanishedUntil();
+    $x = $user->prefs->banished_until;
     if ($x>time()) {
         error_page("User is already banished");
     }
-    row1("Are you sure you want to banish ".$user->getName()."?
-        This will prevent ".$user->getName()." from posting for chosen time period.<br />
-        It should be done only if ".$user->getName()."
+    row1("Are you sure you want to banish ".$user->name."?
+        This will prevent ".$user->name." from posting for chosen time period.<br />
+        It should be done only if ".$user->name."
         has consistently exhibited trollish behavior.");
     row2("Ban duration", "<select name=\"duration\">
             <option value=\"14400\">4 hours</option>

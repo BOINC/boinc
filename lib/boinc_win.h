@@ -81,6 +81,8 @@
 #include <winsock.h>
 #include <wininet.h>
 
+typedef size_t socklen_t;
+
 #else 
 
 /* Under cygwin, curl was probably compiled to use <sys/socket.h> */

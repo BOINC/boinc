@@ -10735,3 +10735,268 @@ David  11 Nov 2007
 
     clientgui/
         ViewResources.cpp,h
+
+David  12 Nov 2007
+    - DB: fix typo in schema; fixes #466
+
+    db/
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            forum2_db.inc
+        ops/
+            db_update.php
+
+David  12 Nov 2007
+    - user web: revise forum code to use new-style DB interface
+
+    html/
+        inc/
+            forum.inc
+            forum_db.inc (new)
+            forum_email.inc
+            forum2_db.inc (removed)
+            forum_category.inc (removed)
+            forum_dbh.inc (removed)
+            forum_forum.inc (removed)
+            forum_mainfactory.inc (removed)
+            forum_moderators.inc (removed)
+            forum_mysql_dbh.inc (removed)
+            forum_pm.inc (removed)
+            forum_post.inc (removed)
+            forum_std.inc (removed)
+            forum_thread.inc (removed)
+            forum_user.inc (removed)
+            pm.inc (new)
+            user.inc
+        user/
+            forum*.php
+            pm.php (new)
+
+David  12 Nov 2007
+    - user web: update other code to use new-style DB interfaces
+
+        html/
+            inc/
+                akismet.inc
+                boinc_db.inc
+                db.inc
+                db_conn.inc
+            user/
+                account_finish_action.php
+                am_set_info.php
+                apps.php
+                create_account_info.php
+                delete_profile.php
+                edit_email_action.php
+                edit_passwd_action.php
+                forum_edit.php
+                forum_get_data.php
+                home.php
+                login_action.php
+                lookup_account.php
+                opt_out.php
+                pm.php
+                profile_rate.php
+                profile_search_action.php
+                results.php
+                validate_amil_addr.php
+                workunit.php
+
+David  12 Nov 2007
+    - user web: fixes
+
+        html/
+            inc/
+                boinc_db.inc
+                db.inc
+            user/
+                result.php
+                results.php
+                show_user.php
+                workunit.php
+
+David  12 Nov 2007
+    - client: fix bug in parsing of <link rel=boinc_scheduler ...>
+        element in master files.  fixes #467
+
+    client/
+        scheduler_op.C
+
+Bernd  13 Nov 2007
+    - autoconf: fix usage of AC_ARG_ENABLE for debug and unicode
+
+    configure.ac
+
+
+Bernd  13 Nov 2007
+    - added features to pass_percentage_per_platform:
+
+      1. distinguish between Darwin x86 and Darwin PPC
+      2. lists the "fail rates" for individual client states to allow to
+         distinguish between download errors, computing errors and aborts
+      3. optionally list individual "unknown" OS by name
+      4. optionally list "unofficial" application versions
+      3. and 4. are probably rather confusing on open-source projects like SETI,
+      but I found them helpful e.g. on Einstein
+
+    html/
+         inc/
+             pass_percentage_per_platform.php
+
+Rom    13 Nov 2007
+    - DEP: Update libCurl to 7.17.1
+
+    curl/include/curl/
+        <All Files>
+    curl/mswin/
+        <All Files>
+
+David  13 Nov 2007
+    - user web: change forum prefs editing to use new DB interface
+    - fix bug in lookup_account RPC
+
+    html/
+        inc/
+            forum.inc
+            forum_db.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_forum.php
+            lookup_account.php
+
+Rom    13 Nov 2007
+    - Fix build break introduced by new libcurl headers on Windows.
+    
+    lib/
+        boinc_win.h
+
+Rom    13 Nov 2007
+    - MGR: Update project list web link image.
+    
+    clientgui/res/
+        externalweblink.xpm
+    clientgui/res/templates
+        externalweblink.gif
+
+Rytis  14 Nov 2007
+    - user web: fix typo in lookup_account.php, preventing attach.
+    
+    html/user/
+        lookup_account.php
+
+Charlie 14 Nov 2007
+    Mac: Update libCurl to 7.17.1.
+    
+    mac_build/
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
+
+David  15 Nov 2007
+    - user web: code cleanup, deleted unused files
+
+    html/
+        inc/
+            db_forum.inc (removed)
+            subscribe.inc (removed)
+            userw.inc (removed)
+            gallery.inc
+            host.inc
+            profile.inc
+            result.inc
+            team.inc
+            user.inc
+            util.inc
+        user/
+            delete_profile.php
+            forum_moderate_thread_action.php
+            userw.php
+
+David  15 Nov 2007
+    - client: if a project has DCF > 90 and has projected deadline misses,
+        give its jobs priority.
+        (from John McLeod)
+
+    client/
+        sim.C
+        cpu_sched.C
+
+David  15 Nov 2007
+    - user web: bug fixes
+
+    html/
+        inc/
+            forum_db.inc
+        ops/
+            db_update.php
+        user/
+            forum_edit.php
+            forum_user_posts.php
+            team_manage.php
+
+David  15 Nov 2007
+    - user web: bug fix in forum edit function; fixes #474
+
+    html/user/
+        forum_edit.php
+
+David  15 Nov 2007
+    - user web: remove debugging code;
+        remove odd use of tables in edit forum prefs forum
+        Fixes #475; fixes #476
+
+    html/user/
+        forum_index.php
+        edit_forum_preferences_form.php
+
+David  15 Nov 2007
+    - user web: change stylesheet so that when showing
+        item/value pairs in table, don't bolden values
+
+    html/user/
+        white.css
+
+David  15 Nov 2007
+    - user web: factor out code for forum header (search forum and PM info)
+        into a separate function.
+        Don't show subtitle bar for categories with no name.
+        Rename search_post_titles() to search_post_content()
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_edit.php
+            forum_forum.php
+            forum_help_desk.php
+            forum_index.php
+            forum_post.php
+            forum_reply.php
+            forum_search_action.php
+            forum_subscribe.php
+            forum_thread.php
+
+Charlie 15 Nov 2007
+    Mac: Workaround for header problem when building libcurl-7.17.1 for ppc 
+        with gcc4.
+    Mac: Add x86_64 architecture to build of libcurl-7.17.1.
+    
+    mac_build/
+        buildcurl.sh
+
+Rom    15 Nov 2007
+    - MGR: Shrink the external web link icon to 12x12 to avoid having the
+        grey border.
+    - MGR: Use tooltips instead of balloons when displaying result completion
+        status. (from David Barnard)
+    
+    clientgui/
+        BOINCTaskBar.cpp, .h
+        ProjectListCtrl.cpp
+    clientgui/msw
+        taskbarex.cpp, .h

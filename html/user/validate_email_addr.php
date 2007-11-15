@@ -1,10 +1,8 @@
 <?php
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
-
-db_init();
 
 function send_validate_email() {
     global $master_url;
@@ -38,7 +36,7 @@ function validate() {
         error_page("Error in URL data - can't validate email address");
     }
 
-    $result = mysql_query("update user set email_validated=1 where id=$user->id");
+    $result = $user->update("email_validated=1");
     if (!$result) {
         error_page("Database update failed - please try again later.");
     }

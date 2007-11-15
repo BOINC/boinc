@@ -259,7 +259,7 @@ void CProjectListItemCtrl::CreateControls()
     itemFlexGridSizer8->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_pWebsiteButtonCtrl = new wxBitmapButton;
-    m_pWebsiteButtonCtrl->Create( this, ID_WEBSITEBUTTON, wxBitmap(externalweblink_xpm), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pWebsiteButtonCtrl->Create( this, ID_WEBSITEBUTTON, wxBitmap(externalweblink_xpm), wxDefaultPosition, wxSize(12,12), wxNO_BORDER );
     itemFlexGridSizer8->Add(m_pWebsiteButtonCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     SetSizer(itemBoxSizer7);

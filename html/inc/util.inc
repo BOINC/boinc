@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
@@ -114,7 +113,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     $rsslink = URL_BASE . "/rss_main.php";
     
     if (defined("CHARSET")) {
-        header("Content-type: text/html; charset=".tra(CHARSET));
+        header("Content-type: text/html; charset=".tra("CHARSET"));
     }
     
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd\">\n";
@@ -779,5 +778,7 @@ function show_image($src, $title, $height=null) {
     }
     echo "<img border=0 title=\"$title\" alt=\"$title\" src=\"$src\" $h>";
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

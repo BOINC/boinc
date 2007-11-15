@@ -1,51 +1,44 @@
 <?php
-/**
- * This page commits the chanegs made in edit_forum_preferences_form.php to
- * the database.
- **/
+
+// commit the chanegs made in edit_forum_preferences_form.php to the database.
 
 
 require_once("../inc/forum.inc");
 require_once("../inc/image.inc"); // Avatar scaling
-require_once("../inc/forum_std.inc");
-
-db_init();
 
 if (post_str("account_key", true) != null) {
     $user = lookup_user_auth(post_str("account_key"));
-    // Cast old style user to object-oriented user
-    $user = newUser($user->id);
     $rpc = true;
 } else {
-    $user = re_get_logged_in_user();
+    $user = get_logged_in_user();
     $rpc = false;
 }
+BoincForumPrefs::lookup($user);
 
 // If the user has requested a total reset of preferences:
-$dbhandler = $mainFactory->getDatabaseHandler();
+//
 if (post_str("action", true)=="reset"){
-    $post_count = $user->getPostcount();
-    $banished_until = $user->getBanishedUntil();
-    $special_user = $user->getSpecialUser();
-    $dbhandler->deleteUserPrefs($user);
-    $user->resetPrefs();
-    $user->setPostcount($post_count);        // Recreate postcount
-    $user->setSpecialUser($special_user); // And recreate special user bitfield
-    $user->setBanishedUntil($banished_until);
+    $posts = $user->prefs->posts;
+    $banished_until = $user->prefs->banished_until;
+    $special_user = $user->prefs->special_user;
+    $user->prefs->delete();
+    BoincForumPrefs::lookup($user);
+    $user->prefs->update("posts=$posts, banished_until=$banished_until, special_user=$special_user");
     Header("Location: edit_forum_preferences_form.php");
     exit;
 }
 
 $avatar_type = post_int("avatar_select");
-$newfile=IMAGE_PATH.$user->getID()."_avatar.jpg";
+$newfile=IMAGE_PATH.$user->id."_avatar.jpg";
 
 // Update the user avatar
 if ($avatar_type<0 or $avatar_type>3) $avatar_type=0;
 if ($avatar_type==0){
     if (file_exists($newfile)){
-        unlink($newfile);      //Delete the file on the server if the user
-                              //decides not to use an avatar
-                              // - or should it be kept?
+        // Delete the file on the server if the user
+        // decides not to use an avatar
+        //
+        unlink($newfile);
     }
     $avatar_url="";
 } elseif ($avatar_type==2){
@@ -75,75 +68,68 @@ if ($avatar_type==0){
 }
 
 // Update some simple prefs that are either on or off
-$images_as_links = ($_POST["forum_images_as_links"]!="");
-$link_externally = ($_POST["forum_link_externally"]!="");
-$hide_avatars = ($_POST["forum_hide_avatars"]!="");
-$hide_signatures = ($_POST["forum_hide_signatures"]!="");
-$jump_to_unread = ($_POST["forum_jump_to_unread"]!="");
-$ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="");
-$signature_by_default = ($_POST["signature_enable"]!="");
-$pm_notification = ($_POST["pm_notification"]!="");
-$user->setImagesAsLinks($images_as_links);
-$user->setLinkPopup($link_externally);
-$user->setHideAvatars($hide_avatars);
-$user->setHideSignatures($hide_signatures);
-$user->setJumpToUnread($jump_to_unread);
-$user->setIgnoreStickyPosts($ignore_sticky_posts);
-$user->setSignatureByDefault($signature_by_default);
-$user->setEnabledPMNotification($pm_notification);
-
-// Update avatar
-$user->setAvatar($avatar_url);
-
-// Update the rating thresholds for display of posts
+$images_as_links = ($_POST["forum_images_as_links"]!="")?1:0;
+$link_popup = ($_POST["forum_link_popup"]!="")?1:0;
+$hide_avatars = ($_POST["forum_hide_avatars"]!="")?1:0;
+$hide_signatures = ($_POST["forum_hide_signatures"]!="")?1:0;
+$jump_to_unread = ($_POST["forum_jump_to_unread"]!="")?1:0;
+$ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="")?1:0;
+$no_signature_by_default = ($_POST["signature_by_default"]!="")?0:1;
+$pm_notification = ($_POST["pm_notification"]!="")?1:0;
 $low_rating_threshold = post_int("forum_low_rating_threshold");
 $high_rating_threshold = post_int("forum_high_rating_threshold");
-$user->setLowRatingThreshold($low_rating_threshold);
-$user->setHighRatingThreshold($high_rating_threshold);
-
-// Update the signature for this user
 $signature = stripslashes($_POST["signature"]);
 if (strlen($signature)>250) {
-    error_page("Your signature was too long, please keep it less than 250 chars");
+    error_page(
+        "Your signature was too long, please keep it less than 250 chars"
+    );
 }
-$user->setSignature($signature);
-
-// Sorting styles for different forum areas
 $forum_sort = post_int("forum_sort");
 $thread_sort = post_int("thread_sort");
-$user->setForumSortStyle($forum_sort);
-$user->setThreadSortStyle($thread_sort);
+$minimum_wrap_postcount = post_int("forum_minimum_wrap_postcount");
+$display_wrap_postcount = post_int("forum_display_wrap_postcount");
+if ($minimum_wrap_postcount<0) $minimum_wrap_postcount=0;
+if ($display_wrap_postcount>$minimum_wrap_postcount) {
+    $display_wrap_postcount=round($minimum_wrap_postcount/2);
+}
+if ($display_wrap_postcount<5) $display_wrap_postcount=5;
 
-// Add users to the ignore list if any users are defined
+$signature = BoincDb::escape_string($signature);
+
+$user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, hide_avatars=$hide_avatars, hide_signatures=$hide_signatures, jump_to_unread=$jump_to_unread, ignore_sticky_posts=$ignore_sticky_posts, no_signature_by_default=$no_signature_by_default, pm_notification=$pm_notification, avatar='$avatar_url', low_rating_threshold=$low_rating_threshold, high_rating_threshold=$high_rating_threshold, signature='$signature', forum_sorting=$forum_sort, thread_sorting=$thread_sort, minimum_wrap_postcount=$minimum_wrap_postcount, display_wrap_postcount=$display_wrap_postcount");
+
+
 $add_user_to_filter = ($_POST["add_user_to_filter"]!="");
 if ($add_user_to_filter){
     $user_to_add = trim($_POST["forum_filter_user"]);
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
-        $user->addIgnoredUser(newUser($user_to_add));
+        $other_user = BoincUser::lookup_id($user_to_add);
+        if (!$other_user) {
+            echo "No such user: $other_user";
+        } else {
+            add_ignored_user($user, $other_user);
+        }
     }
 }
 
 // Or remove some from the ignore list
-$ignored_users = $user->getIgnorelist();
+//
+$ignored_users = get_ignored_list($user);
 for ($i=0;$i<sizeof($ignored_users);$i++){
     if ($_POST["remove".trim($ignored_users[$i])]!=""){
-        //this user will be removed and no longer ignored
-        $user->removeIgnoredUser(newUser($ignored_users[$i]));
+        $other_user = BoincUser::lookup_id($user_to_add);
+        if (!$other_user) {
+            echo "No such user: $other_user";
+        } else {
+            remove_ignored_user($user, $other_user);
+        }
     }
 }
-// Update preferences for the "Display only the Y last posts if there are more than X posts in the thread" feature
-$minimum_wrap_postcount = post_int("forum_minimum_wrap_postcount");
-$display_wrap_postcount = post_int("forum_display_wrap_postcount");
-if ($minimum_wrap_postcount<0) $minimum_wrap_postcount=0;
-if ($display_wrap_postcount>$minimum_wrap_postcount) $display_wrap_postcount=round($minimum_wrap_postcount/2);
-if ($display_wrap_postcount<5) $display_wrap_postcount=5;
-$user->setMinimumWrapPostcount($minimum_wrap_postcount);
-$user->setDisplayWrapPostcount($display_wrap_postcount);
 
 
 if ($rpc == false) {
-    // If we get down here everything went ok so let's redirect the user to the setup page again
-    // so that they can view their new preferences in action in the previews.
+    // If we get down here everything went ok
+    // so  redirect the user to the setup page again
     Header("Location: edit_forum_preferences_form.php");
 } else {
     echo "<status>\n";

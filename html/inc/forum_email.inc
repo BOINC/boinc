@@ -4,61 +4,24 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");
 
-// Determine if phpmailer is installed and to be used (defined in project.inc)
-if (isset($USE_PHPMAILER)) {
-    if ($USE_PHPMAILER) {
-        require_once("../inc/phpmailer/class.phpmailer.php");
-    }
-} else {
-    $USE_PHPMAILER = false;
-}
+define('MASTER_URL', $master_url);
 
-/**
- * Send mail using the new User object style
- **/
-function re_send_email($user, $subject, $body) {
-    global $USE_PHPMAILER;
-    global $PHPMAILER_HOST;
-    global $PHPMAILER_MAILER;
-
-    if ($USE_PHPMAILER) {
-        $mail = new PHPMailer();
-        $mail->AddAddress($user->getEmail(), $user->getName());
-        $mail->Subject = $subject;
-        $mail->Body = $body;
-        $mail->From = EMAIL_FROM;
-        $mail->FromName = EMAIL_FROM;
-        $mail->Host = $PHPMAILER_HOST;
-        $mail->Mailer = $PHPMAILER_MAILER;
-        return $mail->Send();
-    } else {
-        if (defined('EMAIL_FROM')) {
-            $headers = "From: ". EMAIL_FROM;
-        } else {
-            $headers ="";
-        }
-        return mail($user->getEmail(), $subject, $body, $headers);
-    }
-}
-
-/**
- * If a post is hidden, this function emails the author
- * to let them know what happened.
- **/
-function send_moderation_email($post, $message, $action) {
-    $moderator=re_get_logged_in_user();
+// If a post is hidden, this function emails the author
+// to let them know what happened.
+//
+function send_moderation_email($post, $thread, $message, $action) {
+    $moderator=get_logged_in_user();
     $body = "";
-    $thread = $post->getThread();
-    $user = $post->getOwner();
+    $user = BoincUser::lookup_id($post->user);
     $subject = PROJECT." forum ".$action." notice";
     $body = PROJECT." notification:
-    $ownerid = $user->getID();
+    $ownerid = $user->id;
 
 This email is to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
-    Thread:         ".$thread->getTitle()." 
-    Post:           ".$post->getID()." by ".$user->getID()." (".$user->getName().")
-    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."
-    Moderator:      ".$moderator->getName()." (".$moderator->getID().")
+    Thread:         ".$thread->title." 
+    Post:           ".$post->id." by ".$user->id." (".$user->name.")
+    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->id."
+    Moderator:      ".$moderator->name." (".$moderator->id.")
     Action:         ".$action."
 
 The moderator gave this explanation to why your post was moderated:
@@ -66,36 +29,35 @@ The moderator gave this explanation to why your post was moderated:
 $body .= "
 
 This was the content of your post:
-".$post->getContent()."
+".$post->content."
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
     $emails = explode("|", POST_REPORT_EMAILS);
     $success = true;
     foreach ($emails as $email) {
         $admin->email_addr = $email;
-        if (!send_email($admin, "POST ".$action." REPORT: ".$thread->getTitle(), $body)) {
+        if (!send_email($admin, "POST ".$action." REPORT: ".$thread->title, $body)) {
             $success = false;
         }
     }
-    return re_send_email($user, $subject, $body);
+    return send_email($user, $subject, $body);
 }
 
-/**
- * If an entire thread is hidden, this function emails the owner
- * to let them know what happened.
- */
+// If an entire thread is hidden, this function emails the owner
+// to let them know what happened.
+//
 function send_thread_moderation_email($thread, $message, $action) {
-    $moderator=re_get_logged_in_user();
-    $user = $thread->getOwner();
+    $moderator=get_logged_in_user();
+    $user = BoincUser::lookup_id($thread->owner);
     $body = "";
 
     $subject = PROJECT." forum moderation notice";
     $body = PROJECT." notification:
 
 This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
-    Thread:         ".$thread->getTitle()."
-    Link:           ".MASTER_URL."forum_thread.php?id=".$thread->getID()."
-    Moderator:      ".$moderator->getName()." (".$moderator->getID().")
+    Thread:         ".$thread->title."
+    Link:           ".MASTER_URL."forum_thread.php?id=".$thread->id."
+    Moderator:      ".$moderator->name." (".$moderator->id.")
     Action:         ".$action."
 
 The moderator gave this explanation to why your thread was moderated:
@@ -106,48 +68,45 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
     $emails = explode("|", POST_REPORT_EMAILS);
     foreach ($emails as $email) {
         $admin->email_addr = $email;
-        if (!send_email($admin, "THREAD ".$action." REPORT: ".$thread->getTitle(), $body)) {
+        if (!send_email($admin, "THREAD ".$action." REPORT: ".$thread->title, $body)) {
             $success = false;
         }
     }
-    return re_send_email($user, $subject, $body);
+    return send_email($user, $subject, $body);
 }
 
-/**
- * If a user is subscribed to a thread that is replied to, this
- * function sends them an email notifying them of the reply.
- **/
+// If a user is subscribed to a thread that is replied to, this
+// function sends them an email notifying them of the reply.
+//
 function send_reply_notification_email($thread, $user){
-    $title = PROJECT . ": A user has posted to '". stripslashes($thread->getTitle()) ."'";
-    $link = URL_BASE . "/forum_thread.php?id=" . $thread->getID();
-    $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->getTitle()) . "\".\n"
+    $title = PROJECT . ": A user has posted to '". stripslashes($thread->title) ."'";
+    $link = URL_BASE . "/forum_thread.php?id=" . $thread->id;
+    $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
            ."To view the updated thread, visit the following URL:\n\n$link";
-    return re_send_email($user, $title, $body);
+    return send_email($user, $title, $body);
 }
 
-/**
- * When a user clicks the red "x" to notify moderators about a post,
- * this function generates the email to let the moderators know about
- * it.
- **/
+// When a user clicks the red "x" to notify moderators about a post,
+// this function generates the email to let the moderators know about it.
+//
 function send_report_post_email($user, $thread,  $post, $message) {
     $body = "";
-    $owner = $post->getOwner();
+    $owner = BoincUser::lookup_id($post->user);
 
-    $subject = PROJECT." post in '".$thread->getTitle()."' reported as offensive";
+    $subject = PROJECT." post in '".$thread->title."' reported as offensive";
     $body = PROJECT." notification:
 
 This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
-    Thread:         ".$thread->getTitle()."
-    Post:           ".$post->getID()." by ".$owner->getID()." (".$owner->getName().")
-    Reporting User: ".$user->getID()." (".$user->getName().")
-    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."#".$post->getID()."
+    Thread:         ".$thread->title."
+    Post:           ".$post->id." by ".$owner->id." (".$owner->name.")
+    Reporting User: ".$user->id." (".$user->name.")
+    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->id."#".$post->id."
     
 The reporting user gave this explanation to why the post was reported:
 ".$message."
 
 This was the contents of the post:
-".$post->getContent()."
+".$post->content."
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 
@@ -179,11 +138,11 @@ because your postings have not followed our guidelines.
     $success = true;
     foreach ($emails as $email) {
         $admin->email_addr = $email;
-        if (!send_email($admin, $user->getName()." has been banished.", $body)) {
+        if (!send_email($admin, $user->name." has been banished.", $body)) {
             $success = false;
         }
     }
-    return re_send_email($user, $subject, $body);
+    return send_email($user, $subject, $body);
 }
 
 function send_banish_vote_email($user, $duration, $reason, $end_time) {
