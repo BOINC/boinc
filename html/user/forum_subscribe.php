@@ -1,6 +1,7 @@
 <?php
-// This file allows people to subscribe to threads
-// Whenever someone posts a new post to the thread
+
+// This file allows people to subscribe to threads.
+// Whenever someone posts to the thread
 // the subscribers will receive a notification email
 
 require_once('../inc/forum.inc');
@@ -9,13 +10,19 @@ $action = get_str('action');
 $threadid = get_int('thread');
 $thread = BoincThread::lookup_id($threadid);
 $forum = BoincForum::lookup_id($thread->forum);
-$category = BoincCategory::lookup_id($forum->category);
 
-function subscribe($category, $forum, $thread, $user) {
-    if (BoincSubscription::replace($user->id, $thread->id)) {
-        page_head("Subscription Successful");
-        show_forum_header($user);
+function show_title($forum, $thread) {
+    if ($forum->parent_type == 0) {
+        $category = BoincCategory::lookup_id($forum->category);
         show_forum_title($category, $forum, $thread);
+    }
+}
+
+function subscribe($forum, $thread, $user) {
+    if (BoincSubscription::replace($user->id, $thread->id)) {
+        page_head("Subscription successful");
+        show_forum_header($user);
+        show_title($forum, $thread);
         echo "<p>You are now subscribed to <b>", cleanup_title($thread->title), "</b>.
         You will receive an email whenever someone posts to the thread.";
     } else {
@@ -27,12 +34,12 @@ function subscribe($category, $forum, $thread, $user) {
     page_tail();
 }
 
-function unsubscribe($category, $forum, $thread, $user) {
+function unsubscribe($forum, $thread, $user) {
     BoincSubscription::delete($user->id, $thread->id);
     if (!BoincSubscription::lookup($user->id, $thread->id)) {
-        page_head("Unsubscription Successful");
+        page_head("Unsubscription successful");
         show_forum_header($user);
-        show_forum_title($category, $forum, $thread);
+        show_title($forum, $thread);
         echo "<p>You are no longer subscribed to <b>", cleanup_title($thread->title), "</b>.
         You will no longer receive notifications for this thread.";
     } else {
@@ -44,22 +51,19 @@ function unsubscribe($category, $forum, $thread, $user) {
     page_tail();
 }
 
-if ($thread && $action) {
-    $user = get_logged_in_user();
-    check_tokens($user->authenticator);
-    
-    if ($action == "subscribe") {
-        subscribe($category, $forum, $thread, $user);
-        exit();
-    } else if ($action == "unsubscribe") {
-        unsubscribe($category, $forum, $thread, $user);
-        exit();
-    } else {
-        show_result_page(null, false, $thread);
-        exit();
-    }
-} else {
+if (!$thread || !$action) {
     error_page("Unknown subscription action");
+}
+
+$user = get_logged_in_user();
+check_tokens($user->authenticator);
+
+if ($action == "subscribe") {
+    subscribe($forum, $thread, $user);
+    exit();
+} else if ($action == "unsubscribe") {
+    unsubscribe($forum, $thread, $user);
+    exit();
 }
 
 ?>

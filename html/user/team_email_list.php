@@ -19,7 +19,7 @@ if ($xml) {
     }
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);
-    $show_email = ($user && is_admin($user, $team));
+    $show_email = ($user && is_team_admin($user, $team));
     echo "<users>\n";
     $users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {

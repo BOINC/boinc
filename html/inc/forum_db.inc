@@ -109,8 +109,8 @@ class BoincForumPrefs {
     static function lookup(&$user) {
         if (!$user) return;
         if (isset($user->prefs)) return;
-        if (isset($cache[$user->id])) {
-            $prefs = $cache[$user->id];
+        if (isset(self::$cache[$user->id])) {
+            $prefs = self::$cache[$user->id];
         } else {
             $prefs = self::lookup_userid($user->id);
             if (!$prefs) {
@@ -119,7 +119,7 @@ class BoincForumPrefs {
                 $prefs->userid = $user->id;
                 $prefs->thread_sorting = 6;
             }
-            $cache[$user->id] = $prefs;
+            self::$cache[$user->id] = $prefs;
         }
         $user->prefs = $prefs;
     }
@@ -148,15 +148,15 @@ class BoincForumLogging {
         return $db->lookup('forum_logging', 'BoincForumLogging', "userid=$userid and threadid=$threadid");
     }
     static function lookup_cached($userid, $threadid) {
-        if (isset($cache[$threadid])) {
-            return $cache[$threadid];
+        if (isset(self::$cache[$threadid])) {
+            return self::$cache[$threadid];
         }
         $x = self::lookup($userid, $threadid);
         if (!$x) {
             $x = new BoincForumLogging();
             $x->timestamp = 0;
         }
-        $cache[$threadid] = $x;
+        self::$cache[$threadid] = $x;
     }
     static function cleanup() {
         // TODO - clean this up

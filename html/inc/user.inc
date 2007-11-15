@@ -192,7 +192,7 @@ function show_user_info_private($user) {
         $team = lookup_team($user->teamid);
         $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
             | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
-        if (is_admin($user, $team)) {
+        if (is_team_admin($user, $team)) {
             $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
         }
 

@@ -31,7 +31,8 @@ $n = 0;
 start_table();
 foreach ($posts as $post) {
     $thread = BoincThread::lookup_id($post->thread);
-    show_post($post, $thread, $logged_in_user, $n+$offset+1);
+    $forum = BoincForum::lookup_id($thread->forum);
+    show_post($post, $thread, $forum, $logged_in_user, $n+$offset+1);
     $n++;
 }
 echo "</table>\n";

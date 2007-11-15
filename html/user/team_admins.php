@@ -82,7 +82,7 @@ function add_admin($team) {
     $user = BoincUser::lookup("email_addr='$email_addr'");
     if (!$user) error_page("no such user");
     if ($user->teamid != $team->id) error_page("User is not member of team");
-    if (is_admin($user, $team)) {
+    if (is_team_admin($user, $team)) {
         error_page("$email_addr is already an admin of $team->name");
     }
     $now = time();

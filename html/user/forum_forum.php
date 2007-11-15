@@ -36,22 +36,30 @@ if (!$sort_style) {
     }
 }
 
-$category = BoincCategory::lookup_id($forum->category); 
-if ($category->is_helpdesk){
-    page_head(tra("Questions and Answers").' : '.$forum->title);
-} else {
-    page_head(tra("Message boards").' : '.$forum->title);
+
+switch ($forum->parent_type) {
+case 0:
+    $category = BoincCategory::lookup_id($forum->category); 
+    if ($category->is_helpdesk){
+        page_head(tra("Questions and Answers").' : '.$forum->title);
+        echo '<link href="forum_help_desk.php" rel="up" title="Forum Index">';
+    } else {
+        page_head(tra("Message boards").' : '.$forum->title);
+        echo '<link href="forum_index.php" rel="up" title="Forum Index">';
+    }
+    show_forum_header($user);
+    show_forum_title($category, $forum, NULL);
+    break;
+case 1:
+    $team = BoincTeam::lookup_id($forum->category); 
+    page_head("Team message board for $team->name");
+    show_forum_header($user);
+    break;
 }
-
-// Allow users with a linktab-browser to get some useful links
-echo '<link href="forum_index.php" rel="up" title="Forum Index">';
-
-show_forum_header($user);
-show_forum_title($category, $forum, NULL);
 
 echo '
     <table width="100%" cellspacing="0" cellpadding="0">
-    <tr valign="bottom">
+    <tr valign="top">
     <td colspan=2>
 ';
 
@@ -65,12 +73,12 @@ if ($user) {
 }
 
 echo " <br><br></td>";
+echo '<td valign=top align="right">';
 echo '    <form action="forum_forum.php" method="get">
     <input type="hidden" name="id" value="'.$forum->id.'">';
-echo '<td align="right">';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '<input type="submit" value="Sort"><br><br></td>';
-echo "</tr>\n</table>\n</form>";
+echo '<input type="submit" value="Sort"></form></td>';
+echo "</tr></table>";
 
 show_forum($forum, $start, $sort_style, $user);
 
@@ -82,13 +90,18 @@ page_tail();
 // and using the features for the logged in user in $user.
 //
 function show_forum($forum, $start, $sort_style, $user) {
-    $gotoStr = "<div align=\"right\">".show_page_nav($forum,$start)."</div><br>";
+    $gotoStr = "";
+    $nav = show_page_nav($forum, $start);
+    if ($nav) {
+        $gotoStr = "<div align=\"right\">$nav</div><br>";
+    }
     echo $gotoStr; // Display the navbar
     start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
     
     $sticky_first = !$user || !$user->prefs->ignore_sticky_posts;
     // Show hidden threads if logged in user is a moderator
-    $show_hidden = $user && $user->prefs->privilege(S_MODERATOR); 
+    //
+    $show_hidden = is_moderator($user, $forum);
     $threads = get_forum_threads(
         $forum->id, $start, THREADS_PER_PAGE,
         $sort_style, $show_hidden, $sticky_first

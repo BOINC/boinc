@@ -6,6 +6,107 @@ require_once('../inc/time.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/forum.inc');
 
+// Searches for the keywords in the $keyword_list array in thread titles.
+// Optionally filters by forum, user, time, or hidden if specified.
+//
+function search_thread_titles(
+    $keyword_list, $forum="", $user="", $time="", $limit=200,
+    $sort_style=CREATE_TIME_NEW, $show_hidden = false
+){
+    $search_string="%";
+    foreach ($keyword_list as $key => $word) {
+        $search_string.=mysql_escape_string($word)."%";
+    }        
+    $query = "title like '".$search_string."'";
+    if ($forum!="" && $forum!="all") {
+        $query.=" and forum = ".intval($forum->id);
+    }
+    if ($user!="" && $user!="all") {
+        $query.=" and owner = ".intval($user->id);
+    }
+    if ($time!="" && $user!="all") {
+        $query.=" and timestamp > ".intval($time);
+    }
+    if ($show_hidden == false) {
+        $query .= " AND thread.hidden = 0";
+    }
+    switch($sort_style) {
+    case MODIFIED_NEW:
+        $query .= ' ORDER BY timestamp DESC';
+        break;
+    case VIEWS_MOST:
+        $query .= ' ORDER BY views DESC';
+        break;
+    case REPLIES_MOST:
+        $query .= ' ORDER BY replies DESC';
+        break;
+    case CREATE_TIME_NEW:
+        $query .= ' ORDER by create_time desc';
+        break;
+    case CREATE_TIME_OLD:
+        $query .= ' ORDER by create_time asc';
+        break;
+    case 'score':
+        $query .= ' ORDER by score desc';
+        break;
+    default:
+        $query .= ' ORDER BY timestamp DESC';
+        break;
+    }
+
+    $query.= " limit ".intval($limit);
+    return BoincThread::enum($query);
+}
+
+// Searches for the keywords in the $keyword_list array in post bodies.
+// optionally filters by forum, time, hidden, or user if specified.
+//
+function search_post_content(
+    $keyword_list, $forum="", $user="", $time="", $limit=200,
+    $sort_style=CREATE_TIME_NEW, $show_hidden = false
+){
+    $search_string="%";
+    foreach ($keyword_list as $key => $word){
+        $search_string.=mysql_escape_string($word)."%";
+    }
+    $optional_join = "";
+    if ($forum!="" && $forum!="all"){
+        $optional_join = " LEFT JOIN DBNAME.thread ON post.thread = thread.id";
+    }
+    $query = "select *,post.id as postid from DBNAME.post".$optional_join." where content like '".$search_string."'";
+    if ($forum!="" && $forum!="all"){
+        $query.=" and forum = ".intval($forum->id);
+    }
+    if ($user!="" && $user!="all"){
+        $query.=" and post.user = ".intval($user->id );
+    }
+    if ($time!="" && $user!="all"){
+        $query.=" and post.timestamp > ".intval($time);
+    }
+    if ($show_hidden == false) {
+        $query .= " AND post.hidden = 0";
+    }
+    switch($sort_style) {
+    case VIEWS_MOST:
+        $query.= ' ORDER BY views DESC';
+        break;
+    case CREATE_TIME_NEW:
+        $query .= ' ORDER by post.timestamp desc';
+        break;
+    case CREATE_TIME_OLD:
+        $query .= ' ORDER by post.timestamp asc';
+        break;
+    case POST_SCORE:
+        $query .= ' ORDER by post.score desc';
+        break;
+    default:
+        $query .= ' ORDER BY post.timestamp DESC';
+        break;
+    }
+    $query.= " limit ".intval($limit);
+    return BoincPost::enum_general($query);
+}
+
 $logged_in_user = get_logged_in_user(false);
 BoincForumPrefs::lookup($logged_in_user);
 if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)){

@@ -55,7 +55,7 @@ if ($success_page==1) {
 echo "<p>Before reporting this post <em>please</em> consider using the +/- rating system instead. If enough users agree on rating a post negatively it will
     eventually be hidden. <br />You can find the rating system at the bottom of the post.</p>";
 start_forum_table(array(tra("Author"), tra("Message"),""));
-    show_post($post,$thread, $user, 0, 0);
+    show_post($post, $thread, $forum, $user, 0, 0);
     echo "<form action=\"forum_report_post.php\" method=\"get\">\n";
     echo form_tokens($user->authenticator);
     row1("Report post");

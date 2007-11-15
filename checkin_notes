@@ -11000,3 +11000,27 @@ Rom    15 Nov 2007
         ProjectListCtrl.cpp
     clientgui/msw
         taskbarex.cpp, .h
+
+David  15 Nov 2007
+    - user web: allow teams to create their own "team message board".
+        Team founder and admins have moderator power.
+        Anyone can view a team message board,
+        but only team members can write to it.
+        Users cannot be banished from team message boards
+        (due to database limitations).
+
+    html/
+        inc/
+            boinc_db.inc
+            forum.inc
+            forum_db.inc
+            team.inc
+            user.inc
+        languages/translations/
+            en.po
+        user/
+            forum*.php
+            team_admins.php
+            team_delta.php
+            team_email_list.php
+            team_forum.php (new)

@@ -2,6 +2,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/forum_db.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
@@ -72,6 +73,10 @@ function display_team_page($team, $offset, $sort_by) {
     row2("Founder", user_links($founder));
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
+    $forum = BoincForum::lookup("parent_type=1 and category=$team->id");
+    if ($forum) {
+        row2("Message board", "<a href=team_forum.php?teamid=$team->id>Visit</a>");
+    }
     $user = get_logged_in_user(false);
     if ($user) {
         if ($user->teamid != $team->id) {
@@ -137,7 +142,7 @@ function display_team_page($team, $offset, $sort_by) {
         $x = user_links($user);
         if ($user->id == $team->userid) {
             $x .= " [Founder]";
-        } else if (is_admin($user, $team)) {
+        } else if (is_team_admin($user, $team)) {
             $x .= " [Admin]";
         }
         echo "<tr class=row1>
@@ -178,7 +183,7 @@ function require_founder_login($user, $team) {
     }
 }
 
-function is_admin($user, $team) {
+function is_team_admin($user, $team) {
     if ($user->id == $team->userid) return true;
     $admin = BoincTeamAdmin::lookup($team->id, $user->id);
     if ($admin) return true;
@@ -186,7 +191,7 @@ function is_admin($user, $team) {
 }
 
 function require_admin($user, $team) {
-    if (!is_admin($user, $team)) {
+    if (!is_team_admin($user, $team)) {
         error_page("This operation requires team admin privileges");
     }
 }

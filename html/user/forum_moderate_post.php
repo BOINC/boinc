@@ -7,18 +7,17 @@ require_once('../inc/forum.inc');
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
-
-if (!get_str('action')) {
-    error_page("You must specify an action...");
-}
-if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
-    // Can't moderate without being moderator
-    error_page("You are not authorized to moderate this post.");
-}    
-
 $postid = get_int('id');
 $post = BoincPost::lookup_id($postid);
 $thread = BoincThread::lookup_id($post->thread);
+$forum = BoincForum::lookup_id($thread->forum);
+
+if (!get_str('action')) {
+    error_page("No action specified");
+}
+if (!is_moderator($logged_in_user, $forum)) {
+    error_page("You are not authorized to moderate this post.");
+}    
 
 page_head('Forum');
 
@@ -32,7 +31,8 @@ if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
     row2("",
-    "Select the reason category, optionally write a longer description of why you delete the post and then press ok to hide it.");
+        "Select the reason category, or write a longer description of why you're hiding the post; then press OK to hide it."
+    );
     row2("Category",
     "<select name=\"category\">
     <option value=\"1\">Obscene</option>

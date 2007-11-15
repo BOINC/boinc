@@ -9,9 +9,11 @@ require_once("../inc/forum_email.inc");
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 BoincForumPrefs::lookup($user);
+$post = BoincPost::lookup_id(get_int('id'));
+$thread = BoincThread::lookup_id($post->thread);
+$forum = BoincForum::lookup_id($thread->forum);
 
-if (!$user->prefs->privilege(S_MODERATOR)) {
-    // Can't moderate without being moderator
+if (!is_moderator($user, $forum)) {
     error_page("You are not authorized to moderate this post.");
 }
 
@@ -26,10 +28,6 @@ if (!post_str('action', true)) {
     $action = post_str('action');
 }
 
-$post = BoincPost::lookup_id(get_int('id'));
-$thread = BoincThread::lookup_id($post->thread);
-$forum = BoincForum::lookup_id($thread->forum);
-
 if ($action=="hide"){
     $result = hide_post($post, $thread, $forum);
 } elseif ($action=="unhide"){
@@ -38,6 +36,14 @@ if ($action=="hide"){
     $destid = post_int('threadid');
     $new_thread = BoincThread::lookup_id($destid);
     $new_forum = BoincForum::lookup_id($new_thread->forum);
+    if ($forum->parent_type != $new_forum->parent_type) {
+        error_page("Can't move to different category type");
+    }
+    if ($forum->parent_type != 0) {
+        if ($forum->category != $new_forum->category) {
+            error_page("Can't move to different category");
+        }
+    }
     $result = move_post($post, $thread, $forum, $new_thread, $new_forum);
 } elseif ($action=="banish_user"){
     if (!$user->prefs->privilege(S_ADMIN)) {

@@ -253,6 +253,9 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
+msgid "Edit message"
+msgstr ""
+
 msgid "Use BBCode tags to format your text"
 msgstr ""
 

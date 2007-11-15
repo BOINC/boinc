@@ -22,19 +22,15 @@ if ($logged_in_user) {
 }
 
 $thread = BoincThread::lookup_id($threadid);
+$forum = BoincForum::lookup_id($thread->forum);
 
 if ($thread->hidden) {
-    if ((!$logged_in_user) || (($logged_in_user) && (!$logged_in_user->prefs->privilege(S_MODERATOR)))) {
-        // If the user logged in is a moderator, show him the
-        // thread if he goes so far as to name it by ID like this.
-        // Otherwise, hide the thread.
-        //
-        error_page(tra("This thread has been hidden for administrative purposes"));
+    if (!is_moderator($logged_in_user, $forum)) {
+        error_page(
+            tra("This thread has been hidden for administrative purposes")
+        );
     }
 }
-
-$forum = BoincForum::lookup_id($thread->forum);
-$category = BoincCategory::lookup_id($forum->category);
 
 $title = cleanup_title($thread->title);
 if (!$sort_style) {
@@ -65,10 +61,12 @@ if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
 
 show_forum_header($logged_in_user);
-show_forum_title($category, $forum, $thread);
+if ($forum->parent_type == 0) {
+    $category = BoincCategory::lookup_id($forum->category);
+    show_forum_title($category, $forum, $thread);
 
-if ($category->is_helpdesk && !$thread->status){
-    if ($logged_in_user){
+    if ($category->is_helpdesk && !$thread->status){
+        if ($logged_in_user){
             if ($thread->owner == $logged_in_user->id){
                 if ($thread->replies !=0) {
                     // Show a "this question has been answered" to the author
@@ -89,72 +87,80 @@ if ($category->is_helpdesk && !$thread->status){
             }
         }
     }
-    
-    echo "
-        <table width=\"100%\" cellspacing=0 cellpadding=0>
-        <tr>
-        <td align=\"left\">
-    ";
-    
-    $reply_url = "";
-    if (can_reply($thread, $logged_in_user)) {        
-        $reply_url = "forum_reply.php?thread=".$thread->id."#input";
-        show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
-    }
-    
-    if ($is_subscribed) {
-        $url = "forum_subscribe.php?action=unsubscribe&thread=".$thread->id."$tokens";
-        show_button($url, tra("Unsubscribe"), "You are subscribed to this thread.  Click here to unsubscribe.");
+}
+
+echo "
+    <table width=\"100%\" cellspacing=0 cellpadding=0>
+    <tr>
+    <td align=\"left\">
+";
+
+$reply_url = "";
+if (can_reply($thread, $logged_in_user)) {        
+    $reply_url = "forum_reply.php?thread=".$thread->id."#input";
+    show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
+}
+
+if ($is_subscribed) {
+    $url = "forum_subscribe.php?action=unsubscribe&thread=".$thread->id."$tokens";
+    show_button($url, tra("Unsubscribe"), "You are subscribed to this thread.  Click here to unsubscribe.");
+} else {
+    $url = "forum_subscribe.php?action=subscribe&thread=".$thread->id."$tokens";
+    show_button($url, tra("Subscribe"), "Click to get email when there are new posts in this thread");
+}
+
+//If the logged in user is moderator enable some extra features
+//
+if (is_moderator($logged_in_user, $forum)) {
+    if ($thread->hidden){
+        show_button("forum_moderate_thread_action.php?action=unhide&thread=".$thread->id."$tokens", "Unhide", "Unhide this thread");
     } else {
-        $url = "forum_subscribe.php?action=subscribe&thread=".$thread->id."$tokens";
-        show_button($url, tra("Subscribe"), "Click to get email when there are new posts in this thread");
+        show_button("forum_moderate_thread.php?action=hide&thread=".$thread->id, "Hide", "Hide this thread");
     }
-    
-    //If the logged in user is moderator enable some extra features
-    if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)){
-        if ($thread->hidden){
-            show_button("forum_moderate_thread_action.php?action=unhide&thread=".$thread->id."$tokens", "Unhide", "Unhide this thread");
-        } else {
-            show_button("forum_moderate_thread.php?action=hide&thread=".$thread->id, "Hide", "Hide this thread");
-        }
-        if ($thread->sticky){
-            show_button("forum_moderate_thread_action.php?action=desticky&thread=".$thread->id."$tokens", "Make unsticky", "Make this thread not sticky");
-        } else {
-            show_button("forum_moderate_thread_action.php?action=sticky&thread=".$thread->id."$tokens", "Make sticky", "Make this thread sticky");
-        }
-        if ($thread->locked) {
-            show_button("forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens", "Unlock", "Unlock this thread");
-        } else {
-            show_button("forum_moderate_thread_action.php?action=lock&thread=".$thread->id."$tokens", "Lock", "Lock this thread");
-        }
+    if ($thread->sticky){
+        show_button("forum_moderate_thread_action.php?action=desticky&thread=".$thread->id."$tokens", "Make unsticky", "Make this thread not sticky");
+    } else {
+        show_button("forum_moderate_thread_action.php?action=sticky&thread=".$thread->id."$tokens", "Make sticky", "Make this thread sticky");
+    }
+    if ($thread->locked) {
+        show_button("forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens", "Unlock", "Unlock this thread");
+    } else {
+        show_button("forum_moderate_thread_action.php?action=lock&thread=".$thread->id."$tokens", "Lock", "Lock this thread");
+    }
+    if ($forum->parent_type == 0) {
         show_button("forum_moderate_thread.php?action=move&thread=".$thread->id."$tokens", "Move", "Move this thread to a different forum");
-        show_button("forum_moderate_thread.php?action=title&thread=".$thread->id."$tokens", "Edit title", "Edit thread title");
     }
+    show_button("forum_moderate_thread.php?action=title&thread=".$thread->id."$tokens", "Edit title", "Edit thread title");
+}
 
-    // Display a box that allows the user to select sorting of the posts
-    echo "</td><td align=right style=\"border:0px\">
-        <form action=\"forum_thread.php\">
-        <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
-        Sort 
-    ";
-    echo select_from_array("sort", $thread_sort_styles, $sort_style);
-    echo "<input type=submit value=Sort>
-        </form>
-        </td></tr></table>
-    ";
+// Display a box that allows the user to select sorting of the posts
+echo "</td><td align=right style=\"border:0px\">
+    <form action=\"forum_thread.php\">
+    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
+    Sort 
+";
+echo select_from_array("sort", $thread_sort_styles, $sort_style);
+echo "<input type=submit value=Sort>
+    </form>
+    </td></tr></table>
+";
 
-    // Here is where the actual thread begins.
-    $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),"",2));
+// Here is where the actual thread begins.
+$headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),"",2));
 
-    start_forum_table($headings, "id=\"thread\" width=100%");
-    show_posts($thread, $sort_style, $filter, $logged_in_user, true);
-    end_table();
+start_forum_table($headings, "id=\"thread\" width=100%");
+show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, true);
+end_table();
 
-    if ($reply_url) {
-        show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
-    }
+if ($reply_url) {
+    show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
+}
+
+if ($forum->parent_type == 0) {
     show_forum_title($category, $forum, $thread);
-    $thread->update("views=views+1");
+}
+
+$thread->update("views=views+1");
 
 page_tail();
 $cvs_version_tracker[]="\$Id$";

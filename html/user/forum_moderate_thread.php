@@ -1,4 +1,5 @@
 <?php
+
 // Where the moderator decides what action to take on a thread.  Sends
 // its data to forum_moderate_thread_action.php for the actual action to
 // take place.
@@ -12,9 +13,10 @@ if (!get_str('action')) {
     error_page("You must specify an action...");
 }
 $thread = BoincThread::lookup_id(get_int('thread'));
+$forum = BoincForum::lookup_id($thread->forum);
         
-if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
-    error("You are not authorized to moderate this post.");
+if (!is_moderator($logged_in_user, $forum)) {
+    error_page("You are not authorized to moderate this post.");
 }
 
 page_head('Forum');
@@ -28,7 +30,7 @@ if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
     row2("",
-    "Select the reason category, optionally write a longer description of why you delete the thread and then press ok to delete it.");
+    "Select the reason category, or write a longer description of why you're hiding the thread; then press OK to hide it.");
     row2("Category",
     "<select name=\"category\">
     <option value=\"1\">Obscene</option>
@@ -37,9 +39,8 @@ if (get_str('action')=="hide") {
     <option value=\"4\">Other</option>
 </select>");
 } elseif (get_str('action')=="move") {
-
+    if ($forum->parent_type != 0) error_page("Nope");
     echo "<input type=hidden name=action value=move>";
-    
     $selectbox = '<select name="forumid">';  
     $categories = BoincCategory::enum();
     foreach ($categories as $category) {

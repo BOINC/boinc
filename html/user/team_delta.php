@@ -39,7 +39,7 @@ if ($xml) {
     xml_header();
 }
 
-if (!$team || !is_admin($user, $team)) {
+if (!$team || !is_team_admin($user, $team)) {
     if ($xml) {
         xml_error("-1", "Not admin");
     } else {

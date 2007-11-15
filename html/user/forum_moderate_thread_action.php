@@ -19,7 +19,7 @@ if (!post_str('action', true)) {
 $thread = BoincThread::lookup_id(get_int('thread'));
 $forum = BoincForum::lookup_id($thread->forum);
 
-if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
+if (!is_moderator($logged_in_user, $forum)) {
     error_page("You are not authorized to moderate this post.");
 }
 
@@ -37,6 +37,7 @@ if ($action=="hide") {
 } elseif ($action == "unlock") {
     $result = $thread->update("locked=0");
 } elseif ($action=="move"){
+    if ($forum->parent_type != 0) error_page("No");
     $fid = post_int('forumid');
     $new_forum = BoincForum::lookup_id($fid);
     $result = move_thread($thread, $forum, $new_forum);
@@ -46,7 +47,6 @@ if ($action=="hide") {
 } else {
     error_page("Unknown action ");
 }
-
 
 if ($result) {
     if (post_str('reason', true)){

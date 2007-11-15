@@ -16,27 +16,8 @@ check_banished($logged_in_user);
 $forumid = get_int("id");
 $forum = BoincForum::lookup_id($forumid);
 
-if ($forum->is_dev_blog){
-    if (
-       (!$logged_in_user->prefs->privilege(S_SCIENTIST)) &&
-       (!$logged_in_user->prefs->privilege(S_DEV)) &&
-       (!$logged_in_user->prefs->privilege(S_ADMIN))
-       ) {
-         // Since this is a devBlog only people at the project can start threads here.
-         error_page("This forum is marked as a development blog, only people directly working with the project may start a new thread here. <br/>However, you may post a reply to an existing thread.");
-    }
-}
+check_create_thread_access($logged_in_user, $forum);
 
-if (!$logged_in_user->prefs->privilege(S_MODERATOR) && ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_user->expavg_credit<$forum->post_min_expavg_credit)) {
-    //If user haven't got enough credit (according to forum regulations)
-    //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.
-    error_page(tra("In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system.", $forum->title));
-}
-if (time()-$logged_in_user->last_post <$forum->min_post_interval){
-    //If the user is posting faster than forum regulations allow
-    //Tell the user to wait a while before creating any more posts
-    error_page(tra("You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."));
-}
 $title = post_str("title", true);
 $content = post_str("content", true);
 $preview = post_str("preview", true);
@@ -56,10 +37,12 @@ if ($content && $title && (!$preview)){
 }
 
 page_head('Create new thread');
-
-$category = BoincCategory::lookup_id($forum->category);
 show_forum_header($logged_in_user);
-show_forum_title($category, $forum, null);
+
+if ($forum->parent_type == 0) {
+    $category = BoincCategory::lookup_id($forum->category);
+    show_forum_title($category, $forum, null);
+}
 
 if ($preview == tra("Preview")) {
     $options = null;

@@ -12,14 +12,7 @@ BoincForumPrefs::lookup($logged_in_user);
 check_banished($logged_in_user);
 
 $thread = BoincThread::lookup_id(get_int('thread'));
-
-if ($thread->locked && !$logged_in_user->prefs->privilege(S_MODERATOR)
-    && !$logged_in_user->prefs->privilege(S_ADMIN)) {
-    error_page("This thread is locked. Only forum moderators and administrators are allowed to post there.");
-}
-
 $forum = BoincForum::lookup_id($thread->forum);
-$category = BoincCategory::lookup_id($forum->category);
 
 $sort_style = get_str('sort', true);
 $filter = get_str('filter', true);
@@ -42,31 +35,7 @@ if ($filter != "false"){
     $filter = false;
 }
 
-if ($thread->hidden) {
-    //If the thread has been hidden, do not display it, or allow people to continue to post
-    //to it.
-    error_page(
-       "This thread has been hidden for administrative purposes."
-    );
-}
-
-if (!$logged_in_user->prefs->privilege(S_MODERATOR) && ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_user->expavg_credit<$forum->post_min_expavg_credit)) {
-    //If user haven't got enough credit (according to forum regulations)
-    //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.
-    error_page(
-       "In order to reply to a post in ".$forum->title." you must have a certain amount of credit.
-       This is to prevent and protect against abuse of the system."
-    );
-}
-
-if (time()-$logged_in_user->prefs->last_post <$forum->post_min_interval){
-    // If the user is posting faster than forum regulations allow
-    // Tell the user to wait a while before creating any more posts
-    error_page(
-        "You cannot reply to any more posts right now. Please wait a while before trying again.<br />
-        This delay has been enforced to protect against abuse of the system."
-    );
-}
+check_reply_access($logged_in_user, $forum, $thread);
 
 if (!$sort_style) {
     $sort_style = $logged_in_user->prefs->thread_sorting;
@@ -86,10 +55,13 @@ if ($content && (!$preview)){
     header('Location: forum_thread.php?id='.$thread->id);
 }
 
-page_head(tra("Message boards"));
+page_head(tra("Post to thread"));
 
 show_forum_header($logged_in_user);
-show_forum_title($category, $forum, $thread);
+if ($forum->parent_type == 0) {
+    $category = BoincCategory::lookup_id($forum->category);
+    show_forum_title($category, $forum, $thread);
+}
 
 if ($preview == tra("Preview")) {
     $options = new output_options;
@@ -102,7 +74,7 @@ if ($preview == tra("Preview")) {
 start_forum_table(array(tra("Author"), tra("Message")));
 
 show_message_row($thread, $parent_post);
-show_posts($thread, $sort_style, $filter, $logged_in_user, true);
+show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, true);
 end_table();
 
 page_tail();

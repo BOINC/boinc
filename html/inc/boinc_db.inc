@@ -98,15 +98,15 @@ class BoincTeam {
         $db = BoincDb::get();
         return $db->insert('team', $clause);
     }
-    static function lookup_id($id) {
+    static function lookup_id_nocache($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'team', 'BoincTeam');
     }
-    static function lookup_id_cache($id) {
-        if (!isset($cache[$id])) {
-            $cache[$id] = self::lookup_id($id);
+    static function lookup_id($id) {
+        if (!isset(self::$cache[$id])) {
+            self::$cache[$id] = self::lookup_id_nocache($id);
         }
-        return $cache[$id];
+        return self::$cache[$id];
     }
     function update($clause) {
         $db = BoincDb::get();

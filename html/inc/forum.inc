@@ -2,6 +2,7 @@
 
 require_once("../inc/forum_db.inc");
 require_once("../inc/pm.inc");
+require_once("../inc/team.inc");
 require_once("../inc/text_transform.inc");
 
 define('THREADS_PER_PAGE', 50);
@@ -242,12 +243,11 @@ function cleanup_title($title) {
     else return $x;
 }
 
-function can_reply($thread, $user) {
-    if (!$thread->locked || ($user && $user->prefs->privilege(S_MODERATOR))) {
-        return true;
-    } else {
-        return false;
+function can_reply($thread, $forum, $user) {
+    if ($thread->locked) {
+        if (!is_moderator($user, $forum)) return false;
     }
+    return true;
 }
 
 function should_show_post(
@@ -300,7 +300,7 @@ function should_show_post(
 // Show the posts in a thread for a user.
 //
 function show_posts(
-    $thread, $sort_style, $filter, $logged_in_user, $show_controls=true
+    $thread, $forum, $sort_style, $filter, $logged_in_user, $show_controls=true
 ) {
     $n = 1;
     $first_unread_post = null;
@@ -314,12 +314,13 @@ function show_posts(
 
     // If logged in user is moderator,
     // let him see all posts - including hidden ones
-    if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)){
-        $show_hidden_posts = true;
+    //
+    if (is_moderator($logged_in_user, $forum)) {
+        $show_hidden = true;
     } else {
-        $show_hidden_posts = false;
+        $show_hidden = false;
     }
-    $posts = get_thread_posts($thread->id, $sort_style, $show_hidden_posts);
+    $posts = get_thread_posts($thread->id, $sort_style, $show_hidden);
     $postcount = (sizeof($posts)-1);
     if ($logged_in_user) {
         $last_visit = thread_last_visit($logged_in_user, $thread);
@@ -344,7 +345,7 @@ function show_posts(
                 ";
             }
             $previous_post=$postnumber;
-            show_post($post, $thread, $logged_in_user, $last_visit, $n, $controls, $filter);
+            show_post($post, $thread, $forum, $logged_in_user, $last_visit, $n, $controls, $filter);
             $n = ($n+1)%2;
             
             if (($post->timestamp>$last_visit) && 
@@ -410,7 +411,7 @@ function get_output_options($user) {
 // Display an individual post
 //
 function show_post(
-    $post, $thread, $logged_in_user, $last_visit, $n, $controls=FORUM_CONTROLS, $filter=true
+    $post, $thread, $forum, $logged_in_user, $last_visit, $n, $controls=FORUM_CONTROLS, $filter=true
 ) {
     $user = BoincUser::lookup_id($post->user);
     BoincForumPrefs::lookup($user);
@@ -443,7 +444,7 @@ function show_post(
     $can_edit = false;
     if ($logged_in_user) {
         if ($user->id == $logged_in_user->id) {
-            if ($logged_in_user->prefs->privilege(S_MODERATOR)) {
+            if (is_moderator($logged_in_user, $forum)) {
                 $can_edit = true;
             } else if (can_reply($thread, $logged_in_user)) {
                 $time_limit = $post->timestamp+MAXIMUM_EDIT_TIME;
@@ -519,7 +520,7 @@ function show_post(
     }
 
     echo " <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#$post->id\">Message ".$post->id."</a> - ";
-    if ($post->hidden) echo "<font color=red>[deleted] </font>";
+    if ($post->hidden) echo "<font color=red>[hidden] </font>";
     echo "
         Posted ", pretty_time_str($post->timestamp);
     ;
@@ -531,8 +532,8 @@ function show_post(
     if ($can_edit && $controls != NO_CONTROLS) {
         show_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
     }
-    if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)) {
-        show_post_moderation_links($config, $logged_in_user, $post, $tokens);
+    if (is_moderator($logged_in_user, $forum)) {
+        show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
     }
     if ($post->modified) {
         echo "<br>Last modified: ", pretty_time_Str($post->modified);
@@ -791,7 +792,7 @@ function get_forum_threads(
 // $sort_style - string (checked by switch statement)
 // $show_hidden - bool (not directly passed to SQL)
 //
-function get_thread_posts($threadid, $sort_style, $show_hidden_posts) {
+function get_thread_posts($threadid, $sort_style, $show_hidden) {
     $sql = "thread=$threadid";
     if (!$show_hidden) {
         $sql .= ' AND hidden = 0';
@@ -813,110 +814,11 @@ function get_thread_posts($threadid, $sort_style, $show_hidden_posts) {
     return BoincPost::enum($sql);
 }
 
-// Searches for the keywords in the $keyword_list array in thread titles.
-// Optionally filters by forum, user, time, or hidden if specified.
-//
-function search_thread_titles(
-    $keyword_list, $forum="", $user="", $time="", $limit=200,
-    $sort_style=CREATE_TIME_NEW, $show_hidden = false
-){
-    $search_string="%";
-    foreach ($keyword_list as $key => $word) {
-        $search_string.=mysql_escape_string($word)."%";
-    }        
-    $query = "title like '".$search_string."'";
-    if ($forum!="" && $forum!="all") {
-        $query.=" and forum = ".intval($forum->id);
-    }
-    if ($user!="" && $user!="all") {
-        $query.=" and owner = ".intval($user->id);
-    }
-    if ($time!="" && $user!="all") {
-        $query.=" and timestamp > ".intval($time);
-    }
-    if ($show_hidden == false) {
-        $query .= " AND thread.hidden = 0";
-    }
-    switch($sort_style) {
-    case MODIFIED_NEW:
-        $query .= ' ORDER BY timestamp DESC';
-        break;
-    case VIEWS_MOST:
-        $query .= ' ORDER BY views DESC';
-        break;
-    case REPLIES_MOST:
-        $query .= ' ORDER BY replies DESC';
-        break;
-    case CREATE_TIME_NEW:
-        $query .= ' ORDER by create_time desc';
-        break;
-    case CREATE_TIME_OLD:
-        $query .= ' ORDER by create_time asc';
-        break;
-    case 'score':
-        $query .= ' ORDER by score desc';
-        break;
-    default:
-        $query .= ' ORDER BY timestamp DESC';
-        break;
-    }
-
-    $query.= " limit ".intval($limit);
-    return BoincThread::enum($query);
-}
-
-// Searches for the keywords in the $keyword_list array in post bodies.
-// optionally filters by forum, time, hidden, or user if specified.
-//
-function search_post_content(
-    $keyword_list, $forum="", $user="", $time="", $limit=200,
-    $sort_style=CREATE_TIME_NEW, $show_hidden = false
-){
-    $search_string="%";
-    foreach ($keyword_list as $key => $word){
-        $search_string.=mysql_escape_string($word)."%";
-    }
-    $optional_join = "";
-    if ($forum!="" && $forum!="all"){
-        $optional_join = " LEFT JOIN DBNAME.thread ON post.thread = thread.id";
-    }
-    $query = "select *,post.id as postid from DBNAME.post".$optional_join." where content like '".$search_string."'";
-    if ($forum!="" && $forum!="all"){
-        $query.=" and forum = ".intval($forum->id);
-    }
-    if ($user!="" && $user!="all"){
-        $query.=" and post.user = ".intval($user->id );
-    }
-    if ($time!="" && $user!="all"){
-        $query.=" and post.timestamp > ".intval($time);
-    }
-    if ($show_hidden == false) {
-        $query .= " AND post.hidden = 0";
-    }
-    switch($sort_style) {
-    case VIEWS_MOST:
-        $query.= ' ORDER BY views DESC';
-        break;
-    case CREATE_TIME_NEW:
-        $query .= ' ORDER by post.timestamp desc';
-        break;
-    case CREATE_TIME_OLD:
-        $query .= ' ORDER by post.timestamp asc';
-        break;
-    case POST_SCORE:
-        $query .= ' ORDER by post.score desc';
-        break;
-    default:
-        $query .= ' ORDER BY post.timestamp DESC';
-        break;
-    }
-    $query.= " limit ".intval($limit);
-    return BoincPost::enum_general($query);
-}
-
 // Show the links for possible moderation actions related to a single post 
 //
-function show_post_moderation_links($config, $logged_in_user, $post, $tokens){
+function show_post_moderation_links(
+    $config, $logged_in_user, $post, $forum, $tokens
+){
     $moderators_allowed_to_ban = parse_bool($config, "moderators_allowed_to_ban"); 
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
@@ -925,19 +827,103 @@ function show_post_moderation_links($config, $logged_in_user, $post, $tokens){
     } else {
         show_button("forum_moderate_post.php?action=hide&id=".$post->id."$tokens", "Hide", "Hide this post");
     }
-    show_button("forum_moderate_post.php?action=move&id=".$post->id."$tokens", "Move", "Move post to a different thread");
-    if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
-        show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
-    }
-    if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
-        require_once("../inc/forum_banishment_vote.inc");
-        if (vote_is_in_progress($post->user)) {
-            show_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
-            show_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
-        } else {
-            show_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
+
+    show_button(
+        "forum_moderate_post.php?action=move&id=".$post->id."$tokens",
+        "Move", "Move post to a different thread"
+    );
+
+    if ($forum->parent_type == 0) {
+        if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
+            show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
+        }
+        if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
+            require_once("../inc/forum_banishment_vote.inc");
+            if (vote_is_in_progress($post->user)) {
+                show_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
+                show_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
+            } else {
+                show_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
+            }
         }
     }
+}
+
+function check_create_thread_access($user, $forum) {
+    if ($forum->is_dev_blog){
+        if (
+           (!$user->prefs->privilege(S_SCIENTIST)) &&
+           (!$user->prefs->privilege(S_DEV)) &&
+           (!$user->prefs->privilege(S_ADMIN))
+        ) {
+            error_page("This forum is marked as a development blog, only people directly working with the project may start a new thread here. <br/>However, you may post a reply to an existing thread.");
+        }
+    }
+    check_post_access($user, $forum);
+}
+
+function check_post_access($user, $forum) {
+    switch ($forum->parent_type) {
+    case 0:
+        if ($user->prefs->privilege(S_MODERATOR)) return;
+        break;
+    case 1:
+        $team = BoincTeam::lookup_id($forum->category);
+        if (is_team_admin($user, $team)) return;
+
+        // non-team-members can't post
+        //
+        if ($user->teamid != $team->id) {
+            error_page("Only team members can post to the team message board");
+        }
+        break;
+    }
+
+    // If user haven't got enough credit (according to forum regulations)
+    // We do not tell the (ab)user how much this is -
+    // no need to make it easy for them to break the system.
+    //
+    if ($user->total_credit<$forum->post_min_total_credit || $user->expavg_credit<$forum->post_min_expavg_credit) {
+        error_page(tra("In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system.", $forum->title));
+    }
+
+    // If the user is posting faster than forum regulations allow
+    // Tell the user to wait a while before creating any more posts
+    //
+    if (time()-$user->last_post <$forum->min_post_interval) {
+        error_page(tra("You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."));
+    }
+}
+
+function check_reply_access($user, $forum, $thread) {
+    if ($thread->locked && !is_moderator($user, $forum)) {
+        error_page(
+            "This thread is locked. Only forum moderators and administrators are allowed to post there."
+        );
+    }
+    if ($thread->hidden) {
+        error_page(
+           "Can't post to a hidden thread."
+        );
+    }
+
+    check_post_access($user, $forum);
+}
+
+function is_moderator($user, $forum) {
+    if (!$user) return false;
+    switch ($forum->parent_type) {
+    case 0:
+        if ($user->prefs->privilege(S_MODERATOR)) return true;
+        if ($user->prefs->privilege(S_ADMIN)) return true;
+        if ($user->prefs->privilege(S_DEV)) return true;
+        break;
+    case 1:
+        $team = BoincTeam::lookup_id($forum->category);
+        return is_team_admin($user, $team);
+        break;
+    }
+    return false;
 }
 
 ?>
