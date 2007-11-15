@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated for curl-7.17.1 11/14/07
+# Updated for curl-7.17.1 11/15/07
 #
 ## In Terminal, CD to the curl-7.17.1 directory.
 ##     cd [path]/curl-7.17.1/
@@ -62,6 +62,8 @@ export LDFLAGS="-arch ppc"
 export CFLAGS="-arch ppc"
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
 
+rm -fR macfix
+
 if [ $usegcc33 -ne 0 ]; then
 
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
@@ -72,11 +74,14 @@ if [  $? -ne 0 ]; then return 1; fi
 
 else
 
+## workaround for header problem
+mkdir macfix
+echo "#include <gcc/darwin/3.3/stdarg.h>" >> ./macfix/stdarg.h
+
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 
 ## ./configure --enable-shared=NO --host=ppc
-./configure --enable-shared=NO --host=ppc CPPFLAGS="-arch ppc -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3 -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/4.0/c++ -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/4.0/c++/ppc-darwin -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
-
+./configure --enable-shared=NO --host=ppc CPPFLAGS="-arch ppc -I${PWD}/macfix -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
 fi
 
 if [  $? -ne 0 ]; then return 1; fi
@@ -93,6 +98,8 @@ export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Deve
 make
 if [  $? -ne 0 ]; then return 1; fi
 mv -f lib/.libs/libcurl.a lib/libcurl_ppc.a
+
+rm -fR macfix
 
 make clean
 if [  $? -ne 0 ]; then return 1; fi

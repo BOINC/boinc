@@ -10980,3 +10980,10 @@ David  15 Nov 2007
             forum_search_action.php
             forum_subscribe.php
             forum_thread.php
+
+Charlie 15 Nov 2007
+    Mac: Workaround for header problem when building libcurl-7.17.1 for ppc 
+        with gcc4
+    
+    mac_build/
+        buildcurl.sh
