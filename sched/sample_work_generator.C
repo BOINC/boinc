@@ -33,6 +33,7 @@
 #include "error_numbers.h"
 #include "backend_lib.h"
 #include "parse.h"
+#include "util.h"
 
 #include "sched_config.h"
 #include "sched_util.h"

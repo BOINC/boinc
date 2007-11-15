@@ -29,6 +29,7 @@ using namespace std;
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "server_types.h"
+#include "util.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
