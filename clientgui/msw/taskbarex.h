@@ -55,7 +55,6 @@ public:
 	bool SetTooltip(const wxString tip);
 
     bool RemoveIcon();
-    void UpdateIcon();
 
     bool PopupMenu(wxMenu *menu);
 
@@ -77,7 +76,7 @@ protected:
     static unsigned int sm_taskbarMsg;
 
 private:
-
+    bool UpdateIcon();
 };
 
 

@@ -114,9 +114,7 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
         lstrcpyn(notifyData.szTip, WXSTRINGCAST tooltip, sizeof(notifyData.szTip));
     }
 
-
-    UpdateIcon();
-    return m_iconAdded;
+    return UpdateIcon();
 }
 
 // timeout is clamped between 10 seconds and 30 seconds by the OS.
@@ -159,8 +157,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
         lstrcpyn(notifyData.szTip, WXSTRINGCAST strTip, sizeof(notifyData.szTip));
     }
 
-    UpdateIcon();
-    return m_iconAdded;
+    return UpdateIcon();
 }
 
 // Kills a visible balloon immediately. Ought to kill a queued balloon, too.
@@ -180,8 +177,7 @@ bool wxTaskBarIconEx::CancelBalloon() {
 
     lstrcpyn(notifyData.szInfo, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szInfo));
 
-    UpdateIcon();
-    return m_iconAdded;
+    return UpdateIcon();
 }
 
 bool wxTaskBarIconEx::SetTooltip(const wxString tip)
@@ -198,8 +194,7 @@ bool wxTaskBarIconEx::SetTooltip(const wxString tip)
 
     lstrcpyn(notifyData.szTip, WXSTRINGCAST tip, sizeof(notifyData.szTip));
 
-    UpdateIcon();
-    return m_iconAdded;
+    return UpdateIcon();
 }
 
 
@@ -220,10 +215,10 @@ bool wxTaskBarIconEx::RemoveIcon(void)
     return (Shell_NotifyIcon(NIM_DELETE, & notifyData) != 0);
 }
 
-void wxTaskBarIconEx::UpdateIcon()
+bool wxTaskBarIconEx::UpdateIcon()
 {
     if (m_iconAdded) {
-        Shell_NotifyIcon(NIM_MODIFY, &notifyData);
+        return (Shell_NotifyIcon(NIM_MODIFY, &notifyData) != 0);
     } else {
         m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
         if (IsBalloonsSupported()) {
@@ -237,6 +232,7 @@ void wxTaskBarIconEx::UpdateIcon()
             Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
         }
     }
+    return m_iconAdded;
 }
 
 bool wxTaskBarIconEx::PopupMenu(wxMenu *menu) //, int x, int y);
