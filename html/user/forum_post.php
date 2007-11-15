@@ -58,7 +58,8 @@ if ($content && $title && (!$preview)){
 page_head('Create new thread');
 
 $category = BoincCategory::lookup_id($forum->category);
-show_forum_title($logged_in_user, $category, $forum, null, true);
+show_forum_header($logged_in_user);
+show_forum_title($category, $forum, null);
 
 if ($preview == tra("Preview")) {
     $options = null;

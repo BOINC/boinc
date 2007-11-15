@@ -88,7 +88,8 @@ if ($content && (!$preview)){
 
 page_head(tra("Message boards"));
 
-show_forum_title($logged_in_user, $category, $forum, $thread, true);
+show_forum_header($logged_in_user);
+show_forum_title($category, $forum, $thread);
 
 if ($preview == tra("Preview")) {
     $options = new output_options;

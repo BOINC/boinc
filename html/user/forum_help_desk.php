@@ -4,7 +4,7 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/time.inc');
 
-get_logged_in_user(false);
+$user = get_logged_in_user(false);
 
 page_head("Questions and answers");
 
@@ -14,16 +14,23 @@ echo "<p>
     <a href=\"http://boinc.berkeley.edu/help.php\">BOINC Online Help</a>.</p>
 ";
 
-show_forum_title(null, null, null, null, false);
-start_forum_table(array("Topic", "# Questions", "Last post"));
+show_forum_header($user);
 
 $categories = BoincCategory::enum("is_helpdesk=1 order by orderID");
+$first = true;
 foreach ($categories as $category) {
-    echo "
-    <tr class=\"subtitle\">
-        <td class=\"category\" colspan=\"4\">", $category->name, "</td>
-    </tr>
-    ";
+    if ($first) {
+        $first = false;
+        show_forum_title($category, null, null);
+        start_forum_table(array("Topic", "# Questions", "Last post"));
+    }
+    if (strlen($category->name)) {
+        echo "
+            <tr class=\"subtitle\">
+            <td class=\"category\" colspan=\"4\">", $category->name, "</td>
+            </tr>
+        ";
+    }
 
     $forums = BoincForum::enum("category=$category->id order by orderID");
     foreach ($forums as $forum) {

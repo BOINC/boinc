@@ -36,7 +36,7 @@ if ($search_author) {
     $user = BoincUser::lookup_id($search_author);
 }
 
-// First search thread titles, if we get a hit there it's probablyrelevant
+// First search thread titles; if we get a hit there it's probably relevant
 //
 $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, round($limit/7), $search_sort, $show_hidden_posts);
 
@@ -65,9 +65,9 @@ if (count($threads)){
 }
 
 
-// Let's see if we can match anything in a post body as well:
+// Look in a post content as well
 //
-$posts = search_post_titles(
+$posts = search_post_content(
     $search_list, $forum, $user, $min_timestamp, $limit, $search_sort,
     $show_hidden_posts
 );

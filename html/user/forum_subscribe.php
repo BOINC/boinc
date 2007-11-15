@@ -14,7 +14,8 @@ $category = BoincCategory::lookup_id($forum->category);
 function subscribe($category, $forum, $thread, $user) {
     if (BoincSubscription::replace($user->id, $thread->id)) {
         page_head("Subscription Successful");
-        show_forum_title($user, $category, $forum, $thread, true);
+        show_forum_header($user);
+        show_forum_title($category, $forum, $thread);
         echo "<p>You are now subscribed to <b>", cleanup_title($thread->title), "</b>.
         You will receive an email whenever someone posts to the thread.";
     } else {
@@ -30,7 +31,8 @@ function unsubscribe($category, $forum, $thread, $user) {
     BoincSubscription::delete($user->id, $thread->id);
     if (!BoincSubscription::lookup($user->id, $thread->id)) {
         page_head("Unsubscription Successful");
-        show_forum_title($user, $category, $forum, $thread, true);
+        show_forum_header($user);
+        show_forum_title($category, $forum, $thread);
         echo "<p>You are no longer subscribed to <b>", cleanup_title($thread->title), "</b>.
         You will no longer receive notifications for this thread.";
     } else {

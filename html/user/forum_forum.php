@@ -46,7 +46,8 @@ if ($category->is_helpdesk){
 // Allow users with a linktab-browser to get some useful links
 echo '<link href="forum_index.php" rel="up" title="Forum Index">';
 
-show_forum_title($user, $category, $forum, NULL, true);
+show_forum_header($user);
+show_forum_title($category, $forum, NULL);
 
 echo '
     <table width="100%" cellspacing="0" cellpadding="0">

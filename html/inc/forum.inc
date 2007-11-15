@@ -88,38 +88,36 @@ $special_user_bitfield[S_VOLUNTEER]="Volunteer developer";
 $special_user_bitfield[S_VOLUNTEER_TESTER]="Volunteer tester";
 $special_user_bitfield[S_SCIENTIST]="Project scientist";
 
-// Output the forum/thread title.
-
-function show_forum_title($user, $category, $forum, $thread, $extended) {
-    if ($extended) {
-        start_table_noborder();
-        echo "<tr>\n";
-        
-        // Search
-        echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
-            <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
-            <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
-            <input type=\"hidden\" name=\"search_sort\" value=\"5\">
-            <input type=\"text\" name=\"search_keywords\">
-            <input class=\"btn\" title=\"Search for words in forum messages\" type=\"submit\" value=\"Search forums\"><br>
-            <span class=\"smalltext\"><a href=\"forum_search.php\">Advanced search</a></span>
-            </form>
-        ";
+// show a banner with search form on left and PM info on right
+//
+function show_forum_header($user) {
+    start_table_noborder();
+    echo "<tr>\n";
+    
+    // Search
+    echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
+        <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
+        <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
+        <input type=\"hidden\" name=\"search_sort\" value=\"5\">
+        <input type=\"text\" name=\"search_keywords\">
+        <input class=\"btn\" title=\"Search for words in forum messages\" type=\"submit\" value=\"Search forums\"><br>
+        <span class=\"smalltext\"><a href=\"forum_search.php\">Advanced search</a></span>
+        </form>
+    ";
+    echo "</td>\n";
+    
+    if ($user) {
+        echo "<td align=\"right\">\n";
+        echo "<p>", pm_notification($user);
         echo "</td>\n";
-        
-        // Custom stuff for logged in user
-        if ($user) {
-            echo "<td align=\"right\">\n";
-            
-            // Private messages
-            echo "<p>", pm_notification($user);
-            
-            echo "</td>\n";
-        }
-        echo "</tr>\n";
-        end_table();
     }
+    echo "</tr>\n";
+    end_table();
+}
 
+// Output the forum/thread title.
+//
+function show_forum_title($category, $forum, $thread) {
     echo "<p>\n";
     if ($category) {
         $is_helpdesk = $category->is_helpdesk;
@@ -815,9 +813,8 @@ function get_thread_posts($threadid, $sort_style, $show_hidden_posts) {
     return BoincPost::enum($sql);
 }
 
-// Searches for ALL the keywords in the $keyword_list array,
-// optionally filters by forum or user if specified.
-// If time is given, only posts newer than that are returned.
+// Searches for the keywords in the $keyword_list array in thread titles.
+// Optionally filters by forum, user, time, or hidden if specified.
 //
 function search_thread_titles(
     $keyword_list, $forum="", $user="", $time="", $limit=200,
@@ -868,11 +865,10 @@ function search_thread_titles(
     return BoincThread::enum($query);
 }
 
-// Searches for ALL the keywords in the $keyword_list array,
-// optionally filters by forum or user if specified.
-// If time is given, only posts newer than that are returned.
+// Searches for the keywords in the $keyword_list array in post bodies.
+// optionally filters by forum, time, hidden, or user if specified.
 //
-function search_post_titles(
+function search_post_content(
     $keyword_list, $forum="", $user="", $time="", $limit=200,
     $sort_style=CREATE_TIME_NEW, $show_hidden = false
 ){

@@ -72,7 +72,8 @@ page_head('Forum');
 $forum = BoincForum::lookup_id($thread->forum);
 $category = BoincCategory::lookup_id($forum->category);
 
-show_forum_title($logged_in_user, $category, $forum, $thread, true);
+show_forum_header($logged_in_user);
+show_forum_title($category, $forum, $thread);
 
 if ($preview == tra("Preview")) {
     $options = null;

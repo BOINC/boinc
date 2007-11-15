@@ -47,16 +47,25 @@ echo "
     </p>
 ";
 
-show_forum_title($user, NULL, NULL, NULL, true);
-start_forum_table(array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post")));
+show_forum_header($user);
 
 $categories = BoincCategory::enum("is_helpdesk=0 order by orderID");
+$first = true;
 foreach ($categories as $category) {
-    echo '
-        <tr class="subtitle">
+    if ($first) {
+        $first = false;
+        show_forum_title($category, NULL, NULL);
+        start_forum_table(
+            array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post"))
+        );
+    }
+    if (strlen($category->name)) {
+        echo '
+            <tr class="subtitle">
             <td class="category" colspan="4">'.$category->name.'</td>
-        </tr>
-    ';
+            </tr>
+        ';
+    }
     $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
     foreach ($forums as $forum) {
         echo forum_summary($forum);

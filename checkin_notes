@@ -10960,3 +10960,23 @@ David  15 Nov 2007
 
     html/user/
         white.css
+
+David  15 Nov 2007
+    - user web: factor out code for forum header (search forum and PM info)
+        into a separate function.
+        Don't show subtitle bar for categories with no name.
+        Rename search_post_titles() to search_post_content()
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_edit.php
+            forum_forum.php
+            forum_help_desk.php
+            forum_index.php
+            forum_post.php
+            forum_reply.php
+            forum_search_action.php
+            forum_subscribe.php
+            forum_thread.php

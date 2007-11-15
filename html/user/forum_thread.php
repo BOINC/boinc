@@ -64,7 +64,8 @@ if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
 
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
 
-show_forum_title($logged_in_user, $category, $forum, $thread, true);
+show_forum_header($logged_in_user);
+show_forum_title($category, $forum, $thread);
 
 if ($category->is_helpdesk && !$thread->status){
     if ($logged_in_user){
@@ -152,7 +153,7 @@ if ($category->is_helpdesk && !$thread->status){
     if ($reply_url) {
         show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
     }
-    show_forum_title($user, $category, $forum, $thread, false);
+    show_forum_title($category, $forum, $thread);
     $thread->update("views=views+1");
 
 page_tail();
