@@ -11046,3 +11046,9 @@ David  15 Nov 2007
         user/
             team_delta.php
             team_email_list.php
+
+David  15 Nov 2007
+    - user web: fix #478
+
+    html/inc/
+        forum_db.inc
