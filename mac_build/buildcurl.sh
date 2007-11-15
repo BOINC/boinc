@@ -42,19 +42,43 @@
 ## Build with gcc-4.0 to link with the BOINC client 
 #
 
+DarwinVersion=`uname -r`;
+DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
+# DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
+#
+# echo "major = $DarwinMajorVersion"
+# echo "minor = $DarwinMinorVersion"
+#
+# Darwin version 9.x.y corresponds to OS 10.5.x
+# Darwin version 8.x.y corresponds to OS 10.4.x
+# Darwin version 7.x.y corresponds to OS 10.3.x
+# Darwin version 6.x corresponds to OS 10.2.x
+
+AlreadyBuilt=0
+
 if [ "$1" != "-clean" ]; then
-  if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl.a ]; then
+    if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl.a ]; then
+        AlreadyBuilt=1
+    fi
+fi
     
-    echo "curl-7.17.1 already built"
-    return 0
-  fi
+ if [ "$DarwinMajorVersion" = "9" ]; then
+    # OS 10.5
+    if [ ! -f lib/.libs/libcurl_x86_64.a ]; then
+        AlreadyBuilt=0
+    fi
 fi
 
+   
+if [ $AlreadyBuilt -ne 0 ]; then
+    echo "curl-7.17.1 already built"
+    return 0
+fi
 
 if [ "$1" = "-gcc33" ] || [ "$2" = "-gcc33" ]; then
-	usegcc33=1
+    usegcc33=1
 else
-	usegcc33=0
+    usegcc33=0
 fi
 
 export PATH=/usr/local/bin:$PATH
@@ -120,9 +144,44 @@ export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
 make
 if [  $? -ne 0 ]; then return 1; fi
-mv -f lib/.libs/libcurl.a lib/.libs/libcurl_i386.a
-mv -f lib/libcurl_ppc.a lib/.libs/
-lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
+
+export CC="";export CXX=""
+export LDFLAGS=""
+export CPPFLAGS=""
+export CFLAGS=""
+export SDKROOT=""
+
+if [ "$DarwinMajorVersion" != "9" ]; then
+    mv -f lib/.libs/libcurl.a lib/.libs/libcurl_i386.a
+    mv -f lib/libcurl_ppc.a lib/.libs/
+    lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
+    if [  $? -ne 0 ]; then return 1; fi
+    return 0
+fi
+
+
+# OS 10.5
+
+mv -f lib/.libs/libcurl.a lib/libcurl_i386.a
+
+make clean
+if [  $? -ne 0 ]; then return 1; fi
+
+export PATH=/usr/local/bin:$PATH
+export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
+export LDFLAGS=""
+export CPPFLAGS=""
+export CFLAGS=""
+export SDKROOT="/Developer/SDKs/MacOSX10.5u.sdk"
+
+## ./configure --enable-shared=NO --host=i386
+./configure --enable-shared=NO --host=x86_64 --without-random CFLAGS="-arch x86_64" CPPFLAGS="-arch x86_64 -DHAVE_POSIX_STRERROR_R=1 -I/Developer/SDKs/MacOSX10.5.sdk/Developer/Headers/FlatCarbon -isystem /Developer/SDKs/MacOSX10.5.sdk/usr/include"
+if [  $? -ne 0 ]; then return 1; fi
+
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+
+make
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""
@@ -130,5 +189,11 @@ export LDFLAGS=""
 export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
+
+mv -f lib/.libs/libcurl.a lib/.libs/libcurl_x86_64.a
+mv -f lib/libcurl_ppc.a lib/.libs/
+mv -f lib/libcurl_i386.a lib/.libs/
+lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_x86_64.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
+if [  $? -ne 0 ]; then return 1; fi
 
 return 0

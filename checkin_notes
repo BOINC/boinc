@@ -10983,7 +10983,8 @@ David  15 Nov 2007
 
 Charlie 15 Nov 2007
     Mac: Workaround for header problem when building libcurl-7.17.1 for ppc 
-        with gcc4
+        with gcc4.
+    Mac: Add x86_64 architecture to build of libcurl-7.17.1.
     
     mac_build/
         buildcurl.sh
