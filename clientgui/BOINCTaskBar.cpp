@@ -88,7 +88,6 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_bTaskbarInitiatedShutdown = false;
 
     m_dtLastHoverDetected = wxDateTime((time_t)0);
-    m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
 
     m_bMouseButtonPressed = false;
 
@@ -145,24 +144,12 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
-        if (IsBalloonsSupported()) {
-            SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
-        } else {
-            SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
-        }
+        SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
     } else {
-        if (RUN_MODE_NEVER == status.task_mode) {
-            if (IsBalloonsSupported()) {
-                SetIcon(m_iconTaskBarSnooze, wxEmptyString);
-            } else {
-                SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
-            }
+        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            SetIcon(m_iconTaskBarSnooze, wxEmptyString);
         } else {
-            if (IsBalloonsSupported()) {
-                SetIcon(m_iconTaskBarNormal, wxEmptyString);
-            } else {
-                SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
-            }
+            SetIcon(m_iconTaskBarNormal, wxEmptyString);
         }
     }
 
@@ -303,19 +290,12 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
 
 
 void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
-    wxTimeSpan ts(wxDateTime::Now() - m_dtLastHoverDetected);
-    if (ts.GetSeconds() >= 10) {
-        m_dtLastHoverDetected = wxDateTime::Now();
-    }
 
     wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
-    wxTimeSpan tsLastBalloon(wxDateTime::Now() - m_dtLastBalloonDisplayed);
-    if ((tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10)) {
-        m_dtLastBalloonDisplayed = wxDateTime::Now();
+    if (tsLastHover.GetSeconds() >= 2) {
+        m_dtLastHoverDetected = wxDateTime::Now();
 
         CMainDocument* pDoc                 = wxGetApp().GetDocument();
-        CSkinAdvanced* pSkinAdvanced        = wxGetApp().GetSkinManager()->GetAdvanced();
-        wxString       strTitle             = wxEmptyString;
         wxString       strMachineName       = wxEmptyString;
         wxString       strMessage           = wxEmptyString;
         wxString       strBuffer            = wxEmptyString;
@@ -335,10 +315,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
-        // What should the title of the balloon be?
-        strTitle = pSkinAdvanced->GetApplicationName();
-
         if (pDoc->IsConnected()) {
+            iconIcon = m_iconTaskBarNormal;
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
@@ -396,7 +374,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             strMessage += strBuffer;
         }
 
-        SetBalloon(iconIcon, strTitle, strMessage);
+        SetIcon(iconIcon, strMessage);
     }
 }
 
@@ -447,13 +425,7 @@ void CTaskBarIcon::FireReloadSkin() {
 
 
 void CTaskBarIcon::ResetTaskBar() {
-#ifdef __WXMSW___
-    SetBalloon(m_iconTaskBarNormal, wxT(""), wxT(""));
-#else
-    SetIcon(m_iconTaskBarNormal, wxT(""));
-#endif
-
-    m_dtLastBalloonDisplayed = wxDateTime::Now();
+    SetIcon(m_iconTaskBarNormal, wxEmptyString);
 }
 
 

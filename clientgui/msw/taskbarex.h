@@ -58,6 +58,7 @@ public:
     );
 
     bool RemoveIcon();
+    void UpdateIcon();
 
     bool PopupMenu(wxMenu *menu); //, int x, int y);
 

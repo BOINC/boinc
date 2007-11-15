@@ -81,7 +81,6 @@ public:
 
 private:
     wxDateTime m_dtLastHoverDetected;
-    wxDateTime m_dtLastBalloonDisplayed;
 
     wxTimer*   m_pRefreshTimer;
 

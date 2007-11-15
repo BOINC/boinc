@@ -94,8 +94,8 @@ void wxTaskBarIconEx::OnClose(wxCloseEvent& WXUNUSED(event))
 
 void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& WXUNUSED(event))
 {
-    m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
-    Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
+    m_iconAdded = false;
+    UpdateIcon();
 }
 
 // Operations
@@ -125,15 +125,8 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
     }
 
 
-    if (m_iconAdded)
-        return (Shell_NotifyIcon(NIM_MODIFY, &notifyData) != 0);
-    else
-    {
-        m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
-        if (IsBalloonsSupported())
-            Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
-        return m_iconAdded;
-    }
+    UpdateIcon();
+    return m_iconAdded;
 }
 
 bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int timeout, unsigned int iconballoon)
@@ -175,18 +168,11 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
         lstrcpyn(notifyData.szTip, WXSTRINGCAST strTip, sizeof(notifyData.szTip));
     }
 
-    if (m_iconAdded)
-        return (Shell_NotifyIcon(NIM_MODIFY, & notifyData) != 0);
-    else
-    {
-        m_iconAdded = (Shell_NotifyIcon(NIM_ADD, & notifyData) != 0);
-        if (IsBalloonsSupported())
-            Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
-        return m_iconAdded;
-    }
+    UpdateIcon();
+    return m_iconAdded;
 }
 
-bool wxTaskBarIconEx::RemoveIcon(void)
+bool wxTaskBarIconEx::RemoveIcon()
 {
     if (!m_iconAdded)
         return FALSE;
@@ -201,6 +187,22 @@ bool wxTaskBarIconEx::RemoveIcon(void)
     m_iconAdded = FALSE;
 
     return (Shell_NotifyIcon(NIM_DELETE, & notifyData) != 0);
+}
+
+void wxTaskBarIconEx::UpdateIcon()
+{
+    if (m_iconAdded)
+    {
+        Shell_NotifyIcon(NIM_MODIFY, &notifyData);
+    }
+    else
+    {
+        m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
+        if (IsBalloonsSupported())
+        {
+            Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
+        }
+    }
 }
 
 bool wxTaskBarIconEx::PopupMenu(wxMenu *menu) //, int x, int y);

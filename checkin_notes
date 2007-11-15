@@ -10988,3 +10988,15 @@ Charlie 15 Nov 2007
     
     mac_build/
         buildcurl.sh
+
+Rom    15 Nov 2007
+    - MGR: Shrink the external web link icon to 12x12 to avoid having the
+        grey border.
+    - MGR: Use tooltips instead of balloons when displaying result completion
+        status. (from David Barnard)
+    
+    clientgui/
+        BOINCTaskBar.cpp, .h
+        ProjectListCtrl.cpp
+    clientgui/msw
+        taskbarex.cpp, .h
