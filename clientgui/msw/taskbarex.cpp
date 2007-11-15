@@ -1,14 +1,4 @@
-/////////////////////////////////////////////////////////////////////////
-// File:        taskbar.cpp
-// Purpose:     Implements wxTaskBarIconEx class for manipulating icons on
-//              the Windows task bar.
-// Author:      Julian Smart
-// Modified by:
-// Created:     24/3/98
-// RCS-ID:      $Id$
-// Copyright:   (c)
-// Licence:     wxWindows licence
-/////////////////////////////////////////////////////////////////////////
+
 
 #ifdef __GNUG__
 #pragma implementation "taskbarex.h"
@@ -127,6 +117,7 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
     return RecreateIcon();
 }
 
+// timeout is clamped between 10 seconds and 30 seconds by the OS.
 bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int timeout, unsigned int iconballoon)
 {
     if (!IsOK())
@@ -143,13 +134,13 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     notifyData.uID              = 99;
     notifyData.uCallbackMessage = sm_taskbarMsg;
     notifyData.uFlags           = NIF_MESSAGE;
-    notifyData.dwInfoFlags      = iconballoon | NIIF_NOSOUND;
+    notifyData.dwInfoFlags      = iconballoon;
     notifyData.uTimeout         = timeout;
-    notifyData.uVersion         = NOTIFYICON_VERSION;
 
     if (icon.Ok())
     {
-        notifyData.uFlags |= NIF_ICON;
+        // XPSP2 behaviour: NIIF_USER and hIcon.
+        notifyData.dwInfoFlags = NIIF_USER;
         notifyData.hIcon = (HICON) icon.GetHICON();
     }
 
@@ -169,6 +160,26 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     return RecreateIcon();
 }
 
+// Kills a visible balloon immediately. Ought to kill a queued balloon, too.
+bool wxTaskBarIconEx::CancelBalloon() {
+
+    if (!IsOK() || !IsBalloonsSupported()) {
+        return false;
+    }
+
+    memset(&notifyData, 0, sizeof(notifyData));
+    notifyData.cbSize           = sizeof(notifyData);
+    notifyData.hWnd             = (HWND) m_hWnd;
+    notifyData.uID              = 99;
+    notifyData.uCallbackMessage = sm_taskbarMsg;
+    notifyData.uFlags           = NIF_INFO;
+    notifyData.uVersion         = NOTIFYICON_VERSION;
+
+    lstrcpyn(notifyData.szInfo, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szInfo));
+
+    return RecreateIcon();
+}
+
 bool wxTaskBarIconEx::SetTooltip(const wxString tip)
 {
 	if (!IsOK())
@@ -180,7 +191,6 @@ bool wxTaskBarIconEx::SetTooltip(const wxString tip)
     notifyData.uID              = 99;
     notifyData.uCallbackMessage = sm_taskbarMsg;
     notifyData.uFlags           = NIF_TIP;
-    notifyData.uVersion         = NOTIFYICON_VERSION;
 
     lstrcpyn(notifyData.szTip, WXSTRINGCAST tip, sizeof(notifyData.szTip));
 
@@ -207,6 +217,7 @@ bool wxTaskBarIconEx::RemoveIcon(void)
 
 bool wxTaskBarIconEx::PopupMenu(wxMenu *menu) //, int x, int y);
 {
+    CancelBalloon();
     // OK, so I know this isn't thread-friendly, but
     // what to do? We need this check.
 
@@ -428,8 +439,16 @@ bool wxTaskBarIconEx::RecreateIcon() {
         return (Shell_NotifyIcon(NIM_MODIFY, &notifyData) != 0);
     else {
         m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
-        if (IsBalloonsSupported())
+        if (IsBalloonsSupported()) {
+            memset(&notifyData, 0, sizeof(notifyData));
+            notifyData.cbSize           = sizeof(notifyData);
+            notifyData.hWnd             = (HWND) m_hWnd;
+            notifyData.uID              = 99;
+            notifyData.uCallbackMessage = sm_taskbarMsg;
+            notifyData.uVersion         = NOTIFYICON_VERSION;
+
             Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
+        }
         return m_iconAdded;
     }
 }
@@ -439,5 +458,3 @@ LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam
     return wxGetApp().GetTaskBarIcon()->WindowProc((WXHWND) hWnd, msg, wParam, lParam);
 }
 
-
-const char *BOINC_RCSID_46d006c50e = "$Id$";

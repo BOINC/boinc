@@ -1,14 +1,6 @@
-/////////////////////////////////////////////////////////////////////////
-// File:        wx/msw/taskbar.h
-// Purpose:     Defines wxTaskBarIcon class for manipulating icons on the
-//              Windows task bar.
+
 // Author:      Julian Smart
-// Modified by:
-// Created:     24/3/98
-// RCS-ID:      $Id$
-// Copyright:   (c) Julian Smart
-// Licence:     wxWindows licence
-/////////////////////////////////////////////////////////////////////////
+
 
 #ifndef _TASKBAREX_H_
 #define _TASKBAREX_H_
@@ -54,15 +46,20 @@ public:
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
-        unsigned int timeout = 5000,
+        unsigned int timeout = 15000,
         unsigned int iconballoon = NIIF_INFO
     );
+
+    bool CancelBalloon();
 
 	bool SetTooltip(const wxString tip);
 
     bool RemoveIcon();
 
     bool PopupMenu(wxMenu *menu);
+
+    // temp stuff
+    void ShowPopupTooltip() {}
 
 // Implementation
     static bool RegisterWindowClass();
