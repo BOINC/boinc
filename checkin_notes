@@ -11024,3 +11024,25 @@ David  15 Nov 2007
             team_delta.php
             team_email_list.php
             team_forum.php (new)
+
+David  15 Nov 2007
+    - user web: in the various interfaces that show team member's
+        email addresses to team admins,
+        also show the user's "send_email" flag,
+        indicating whether the agreed to get "email newsletters"
+        from the project.
+        If this is set, teams should NOT send email to that user.
+
+        Ideally, we should have a separate preference for whether
+        to get email from team
+        (or show email address to team admins at all)
+        
+        Fixes (more or less) #479
+
+
+    html/
+        inc/
+            xml.inc
+        user/
+            team_delta.php
+            team_email_list.php

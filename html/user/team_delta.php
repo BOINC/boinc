@@ -8,11 +8,13 @@ $xml = get_int('xml', true);
 function show_delta($delta) {
     global $xml;
     $user = BoincUser::lookup_id($delta->userid);
+    $e = $user->send_email?"yes":"no";
     $when = time_str($delta->timestamp);
     $what = $delta->joining?"joined":"quit";
     if ($xml) {
         echo "    <action>
         <user_email>$user->email_addr</user_email>
+        <email_ok>$e</email_ok>
         <id>$user->id</id>
         <name>$user->name</name>
         <action>$what</action>
@@ -23,7 +25,8 @@ function show_delta($delta) {
     } else {
         echo "<tr>
            <td>$when</td>
-            <td>",user_links($user)," ($user->email_addr)</td>
+           <td>",user_links($user)," ($user->email_addr)</td>
+           <td>$e</td>
            <td>$what</td>
            <td>$delta->total_credit</td>
            </tr>
@@ -55,6 +58,7 @@ if ($xml) {
     echo "<tr>
         <th>When</th>
         <th>User</th>
+        <th>Email OK?</th>
         <th>Action</th>
         <th>Total credit at time of action</th>
         </tr>

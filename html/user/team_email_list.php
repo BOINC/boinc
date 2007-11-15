@@ -41,15 +41,17 @@ if ($plain) {
 } else {
     page_head("$team->name Email List");
     start_table();
-    table_header(array("Member list of ".$team->name, "colspan=\"5\""));
-    table_header("Name", "Email address", "Total credit", "Recent average credit", "Country");
+    table_header(array("Member list of ".$team->name, "colspan=\"6\""));
+    table_header("Name", "Email address", "Email OK?", "Total credit", "Recent average credit", "Country");
 }
 $users = BoincUser::enum("teamid=$team->id");
 foreach($users as $user) {
     if ($plain) {
-        echo "$user->name <$user->email_addr>\n";
+        $e = $user->send_email?"":" (don't send email)";
+        echo "$user->name <$user->email_addr> $e\n";
     } else {
-        table_row(user_links($user), $user->email_addr, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
+        $e = $user->send_email?"yes":"no";
+        table_row(user_links($user), $user->email_addr, $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
     }
 } 
 if (!$plain) {

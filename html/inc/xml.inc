@@ -98,7 +98,10 @@ function show_team_member($user, $show_email) {
     <id>$user->id</id>
 ";
     if ($show_email) {
+        $e = $user->send_email?"yes":"no";
         echo "<email_addr>$user->email_addr</email_addr>
+";
+        echo "<email_ok>$e</email_ok>
 ";
     }
     echo "<cpid>$cpid</cpid>
