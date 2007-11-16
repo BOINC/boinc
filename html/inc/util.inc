@@ -555,7 +555,7 @@ function sched_stopped() {
 function user_links($user) {
     $x = "<a href=\"".URL_BASE."/show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->has_profile) {
-        $x .= ' <a href="'.URL_BASE.'/view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" vspace=2 border="0" src="'.URL_BASE.'/img/head_20.png" alt="User profile image"></a>';
+        $x .= ' <a href="'.URL_BASE.'/view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" src="'.URL_BASE.'/img/head_20.png" alt="User profile image"></a>';
     }
     // Does this project accept donations?
     // If so, do you want to have a link next to user name as it appears on the web site?

@@ -773,7 +773,7 @@ function prefs_show_privacy($user) {
         $x = "<br><span class=note>Emails will be sent from ".EMAIL_FROM.";
             make sure your spam filter accepts this address.</span>";
     }
-    row2("Should ".PROJECT." send you email newsletters? $x",
+    row2("OK to email?<br><span class=note>If yes, ".PROJECT." and your team (if any) may occasionally send you email. $x",
         $user->send_email?"yes":"no"
     );
     row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");

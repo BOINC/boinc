@@ -11105,3 +11105,20 @@ David  16 Nov 2007
             reset_hrclass.php
             block_host.php
         queue/*
+
+David  16 Nov 2007
+    - user web: change Team page:
+        - add more info about team message board (if it exists)
+        - show list of admins
+        - show list of new members (in last 24 hours)
+        - show number of members total, with credit, and with average credit
+        - move actual list of members to new page (team_members.php)
+
+    html/
+        inc/
+            prefs.inc
+            team.inc
+            util.inc
+        user/
+            team_display.php
+            team_members.php (new)

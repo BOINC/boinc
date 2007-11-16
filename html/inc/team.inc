@@ -7,6 +7,7 @@ require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
 require_once("../inc/team_types.inc");
+require_once("../inc/time.inc");
 
 function foundership_transfer_link($user, $team) {
     $now = time();
@@ -24,21 +25,7 @@ function foundership_transfer_link($user, $team) {
     return "<a href=\"team_founder_transfer_form.php\">Deferred</a>";
 }
 
-function display_team_page($team, $offset, $sort_by) {
-    $n = 20;
-
-    // there aren't indices to support sorting by credit.
-    // set the following variable to disable sorted output.
-    // (though since caching is generally used this shouldn't needed)
-    //
-    $nosort = false;
-
-    if ($sort_by == "total_credit") {
-        $sort_clause = "total_credit desc";
-    } else {
-        $sort_clause = "expavg_credit desc";
-    }
-    
+function display_team_page($team, $user) {
     page_head("$team->name");
 
     echo sanitize_html($team->name_html);
@@ -56,28 +43,17 @@ function display_team_page($team, $offset, $sort_by) {
         }
         row2("Web site", "<a href=$x>$x</a>");
     }
-    row2("Members", $team->nusers);
     
-    $cache_args = "teamid=".$team->id."&founderid=".$team->userid;
-    $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
-    if ($cached_data){
-        $founder = unserialize($cached_data);
-    } else {
-        $founder = lookup_user_id($team->userid);
-        set_cache_data(serialize($founder),$cache_args);
-    }
-    
-
     row2("Total credit", format_credit_large($team->total_credit));
     row2("Recent average credit", format_credit_large($team->expavg_credit));
-    row2("Founder", user_links($founder));
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
-    $forum = BoincForum::lookup("parent_type=1 and category=$team->id");
-    if ($forum) {
-        row2("Message board", "<a href=team_forum.php?teamid=$team->id>Visit</a>");
+    if ($team->forum) {
+        $f = $team->forum;
+        row2("<a href=team_forum.php?teamid=$team->id>Message board</a>",
+            "Threads: $f->threads<br>Posts: $f->posts<br>Last post: ".time_diff_str($f->timestamp, time())
+        );
     }
-    $user = get_logged_in_user(false);
     if ($user) {
         if ($user->teamid != $team->id) {
             $tokens = url_tokens($user->authenticator);
@@ -95,14 +71,63 @@ function display_team_page($team, $offset, $sort_by) {
                     );
                 }
             } else {
-                row2("Team foundership", foundership_transfer_link($user, $team));
+                row2("Team foundership change", foundership_transfer_link($user, $team));
             }
         }
     }
-    echo "</table>";
-    echo "<p>";
+    row1("Members");
+    row2("Founder", user_links($team->founder));
+    if (count($team->admins)) {
+        $first = true;
+        $x = "";
+        foreach ($team->admins as $a) {
+            if ($first) {
+                $first = false;
+            } else {
+                $x .= " | ";
+            }
+            $x .= user_links($a);
+        }
+        row2("Admins", $x);
+    }
+    $x = "0";
+    if (count($team->new_members)) {
+        $first = true;
+        $x = "";
+        foreach ($team->new_members as $a) {
+            if ($first) {
+                $first = false;
+            } else {
+                $x .= " | ";
+            }
+            $x .= user_links($a);
+        }
+    }
+    row2("New members in last day", $x);
+    row2("Total members", "$team->nusers (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=expavg_credit>view</a>)");
+    row2("Active members", "$team->nusers_active (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=expavg_credit>view</a>)");
+    row2("Members with credit", "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=total_credit>view</a>)");
+    end_table();
+}
+
+function display_team_members($team, $offset, $sort_by) {
+    $n = 20;
+
+    $admins = BoincTeamAdmin::enum("teamid=$team->id");
+
+    // there aren't indices to support sorting by credit.
+    // set the following variable to disable sorted output.
+    // (though since caching is generally used this shouldn't needed)
+    //
+    $nosort = false;
+
+    if ($sort_by == "total_credit") {
+        $sort_clause = "total_credit desc";
+    } else {
+        $sort_clause = "expavg_credit desc";
+    }
+    
     start_table();
-    row1("Members", 4);
     echo "<tr>
         <th>Name</th>
     ";
@@ -115,12 +140,12 @@ function display_team_page($team, $offset, $sort_by) {
         if ($sort_by == "total_credit") {
             echo "<th>Total credit</th>";
         } else {
-            echo "<th><a href=team_display.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
+            echo "<th><a href=team_members.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
         }
         if ($sort_by == "expavg_credit") {
             echo "<th>Recent average credit</th>";
         } else {
-            echo "<th><a href=team_display.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
+            echo "<th><a href=team_members.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
         }
     }
 
@@ -142,7 +167,7 @@ function display_team_page($team, $offset, $sort_by) {
         $x = user_links($user);
         if ($user->id == $team->userid) {
             $x .= " [Founder]";
-        } else if (is_team_admin($user, $team)) {
+        } else if (is_team_admin_aux($user, $admins)) {
             $x .= " [Admin]";
         }
         echo "<tr class=row1>
@@ -158,11 +183,11 @@ function display_team_page($team, $offset, $sort_by) {
 
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=team_display.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
+        echo "<a href=team_members.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
     }
     if ($j == $offset + $n + 1) {
         $new_offset = $offset + $n;
-        echo "<a href=team_display.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Next $n</a>";
+        echo "<a href=team_members.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Next $n</a>";
     }
 }
 
@@ -188,9 +213,20 @@ function require_founder_login($user, $team) {
 }
 
 function is_team_admin($user, $team) {
+    if (!$user) return false;
     if ($user->id == $team->userid) return true;
     $admin = BoincTeamAdmin::lookup($team->id, $user->id);
     if ($admin) return true;
+    return false;
+}
+
+// use this when you're displaying a long list of users
+// and don't want to do a lookup for each one
+//
+function is_team_admin_aux($user, $admins) {
+    foreach ($admins as $a) {
+        if ($a->userid == $user->id) return true;
+    }
     return false;
 }
 
@@ -198,6 +234,29 @@ function require_admin($user, $team) {
     if (!is_team_admin($user, $team)) {
         error_page("This operation requires team admin privileges");
     }
+}
+
+function new_member_list($teamid) {
+    $new_members = array();
+    $yesterday = time() - 86400;
+    $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1 group by userid");
+    foreach ($deltas as $delta) {
+        $u = BoincUser::lookup_id($delta->userid);
+        if ($u->teamid == $teamid) {
+            $new_members[] = $u;  // they might have later quit
+        }
+    }
+    return $new_members;
+}
+
+function admin_list($teamid) {
+    $u = array();
+    $admins = BoincTeamAdmin::enum("teamid=$teamid");
+    foreach ($admins as $admin) {
+        $user = BoincUser::lookup_id($admin->userid);
+        $u[] = $user;
+    }
+    return $u;
 }
 
 function team_table_start($sort_by,$type_url) {
