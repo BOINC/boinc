@@ -19,7 +19,7 @@ if ($xml) {
     }
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);
-    $show_email = ($user && is_team_admin($user, $team));
+    $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
     $users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
@@ -34,7 +34,7 @@ $teamid = get_int("teamid");
 $plain = get_int("plain", true);
 $team = BoincTeam::lookup_id($teamid);
 if (!$team) error_page("no such team");
-require_admin($user, $team);
+require_founder_login($user, $team);
 
 if ($plain) {
     header("Content-type: text/plain");

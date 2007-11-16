@@ -42,11 +42,11 @@ if ($xml) {
     xml_header();
 }
 
-if (!$team || !is_team_admin($user, $team)) {
+if (!$team || !is_team_founder($user, $team)) {
     if ($xml) {
-        xml_error("-1", "Not admin");
+        xml_error("-1", "Not founder");
     } else {
-        error_page("No admin privileges");
+        error_page("Not founder");
     }
 }
 

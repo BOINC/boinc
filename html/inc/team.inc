@@ -174,6 +174,10 @@ function require_team($team) {
     }
 }
 
+function is_team_founder($user, $team) {
+    return $user->id == $team->userid;
+}
+
 // check that the user is founder of the team
 //
 function require_founder_login($user, $team) {
