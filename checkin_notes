@@ -11070,3 +11070,8 @@ David  15 Nov 2007
     html/user/
         forum_index.php
         team_forum.php
+
+Charlie 16 Nov 2007
+    MGR: Fix bug which showed Snooze task bar icon when it shouldn't.
+    clientgui/
+        BOINCTaskBar.cpp

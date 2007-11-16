@@ -146,7 +146,7 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
     } else {
-        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+        if (RUN_MODE_NEVER == status.task_mode) {
             SetIcon(m_iconTaskBarSnooze, wxEmptyString);
         } else {
             SetIcon(m_iconTaskBarNormal, wxEmptyString);
