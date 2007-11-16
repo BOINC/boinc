@@ -1025,6 +1025,9 @@ static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *frame
 	// in r0, although r0 is available as part of the threadState 
 	// if I need it in the future.
 {
+#ifdef __LP64__
+    return EINVAL;
+#else
 	int		err;
 	QTMAddr	pc;
 	QTMAddr	lr;
@@ -1044,6 +1047,7 @@ static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *frame
             lr = ((const ppc_thread_state64_t *) context->threadState)->lr;
             r1 = ((const ppc_thread_state64_t *) context->threadState)->r1;
             break;
+
         default:
             err = EINVAL;
             break;
@@ -1068,6 +1072,7 @@ static int PowerPCHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *frame
     }
 
 	return err;
+#endif
 }
 
 static bool  PowerPCValidPC(QBTContext *context, QTMAddr pc)
@@ -1567,7 +1572,21 @@ static int IntelHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *framePt
 	
     err = 0;
     switch (context->threadStateFlavor) {
+#ifdef __LP64__
         case x86_THREAD_STATE64:
+
+            pc = ((const x86_thread_state64_t *) context->threadState)->__rip;
+            sp = ((const x86_thread_state64_t *) context->threadState)->__rsp;
+            fp = ((const x86_thread_state64_t *) context->threadState)->__rbp;
+            break;
+        case x86_THREAD_STATE32:
+            pc = ((const x86_thread_state32_t *) context->threadState)->__eip;
+            sp = ((const x86_thread_state32_t *) context->threadState)->__esp;
+            fp = ((const x86_thread_state32_t *) context->threadState)->__ebp;
+            break;
+#else
+        case x86_THREAD_STATE64:
+
             pc = ((const x86_thread_state64_t *) context->threadState)->rip;
             sp = ((const x86_thread_state64_t *) context->threadState)->rsp;
             fp = ((const x86_thread_state64_t *) context->threadState)->rbp;
@@ -1577,6 +1596,7 @@ static int IntelHandleLeaf(QBTContext *context, QTMAddr *pcPtr, QTMAddr *framePt
             sp = ((const x86_thread_state32_t *) context->threadState)->esp;
             fp = ((const x86_thread_state32_t *) context->threadState)->ebp;
             break;
+#endif
         default:
             err = EINVAL;
     }
@@ -2465,8 +2485,13 @@ extern int QBTCreateThreadStateSelf(
         flavor = x86_THREAD_STATE64;
         state = (x86_thread_state64_t *) calloc(1, sizeof(*state));
         if (state != NULL) {
+#ifdef __LP64__
+            state->__rip = (uintptr_t) pc;
+            state->__rbp = (uintptr_t) fp;
+#else
             state->rip = (uintptr_t) pc;
             state->rbp = (uintptr_t) fp;
+#endif
         }
     #else
         #error What architecture?

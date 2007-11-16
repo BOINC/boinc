@@ -576,7 +576,7 @@ int HOST_INFO::get_host_info() {
 ///////////// p_ncpus /////////////////
 
 // sysconf not working on OS2
-#if defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__)
+#if defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs
@@ -622,7 +622,7 @@ int HOST_INFO::get_host_info() {
     // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
     // value to 2GB when the actual RAM size is > 2GB.  The Gestalt selector 
     // gestaltPhysicalRAMSizeInMegabytes is available starting with OS 10.3.0.
-    long mem_size;
+    SInt32 mem_size;
     if (Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size)) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't determine physical RAM size"
