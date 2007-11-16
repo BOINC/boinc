@@ -11122,3 +11122,12 @@ David  16 Nov 2007
         user/
             team_display.php
             team_members.php (new)
+
+David  16 Nov 2007
+    - user web: fixes #482
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_thread.php

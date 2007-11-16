@@ -446,7 +446,7 @@ function show_post(
         if ($user->id == $logged_in_user->id) {
             if (is_moderator($logged_in_user, $forum)) {
                 $can_edit = true;
-            } else if (can_reply($thread, $logged_in_user)) {
+            } else if (can_reply($thread, $forum, $logged_in_user)) {
                 $time_limit = $post->timestamp+MAXIMUM_EDIT_TIME;
                 $can_edit = time()<$time_limit;
             } else {

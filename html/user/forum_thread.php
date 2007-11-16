@@ -96,7 +96,7 @@ echo "
 ";
 
 $reply_url = "";
-if (can_reply($thread, $logged_in_user)) {        
+if (can_reply($thread, $forum, $logged_in_user)) {        
     $reply_url = "forum_reply.php?thread=".$thread->id."#input";
     show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
 }
