@@ -22,14 +22,25 @@ if ((get_int("read", true) == 1)) {
     }
 }
 
-function forum_summary($forum) {
+function show_forum_summary($forum) {
+    switch ($forum->parent_type) {
+    case 0:
+        $t = $forum->title;
+        $d = $forum->description;
+        break;
+    case 1:
+        $team = BoincTeam::lookup_id($forum->category);
+        $t = $team->name;
+        $d = "Discussion among members of $team->name";
+        break;
+    }
     echo "
         <tr class=\"row1\">
         <td>
             <em>
-            <a href=\"forum_forum.php?id=$forum->id\">$forum->title
+            <a href=\"forum_forum.php?id=$forum->id\">$t
             </a></em>
-            <br><span class=\"smalltext\">$forum->description</span>
+            <br><span class=\"smalltext\">$d</span>
         </td>
         <td>$forum->threads</td>
         <td>$forum->posts</td>
@@ -68,7 +79,14 @@ foreach ($categories as $category) {
     }
     $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
     foreach ($forums as $forum) {
-        echo forum_summary($forum);
+        show_forum_summary($forum);
+    }
+}
+
+if ($user && $user->teamid) {
+    $forum = BoincForum::lookup("parent_type=1 and category=$user->teamid");
+    if ($forum) {
+        show_forum_summary($forum);
     }
 }
 

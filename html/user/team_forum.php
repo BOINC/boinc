@@ -31,7 +31,7 @@ function create_forum($user, $team) {
     if (!$forum) {
         error_page("couldn't create forum");
     }
-    edit_form($user, $forum);
+    edit_form($user, $team, $forum);
 }
 
 function edit_form($user, $team, $forum) {

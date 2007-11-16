@@ -11062,3 +11062,11 @@ David  15 Nov 2007
         user/
             team_delta.php
             team_email_list.php
+
+David  15 Nov 2007
+    - user web:
+        show team message board on main Message Boards page
+
+    html/user/
+        forum_index.php
+        team_forum.php
