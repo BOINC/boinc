@@ -19,8 +19,12 @@ if ($xml) {
     }
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);
+    if (!$user) {
+        xml_error(-136);
+    }
     $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
+    echo "<foo>$show_email 1</foo>\n";
     $users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
         show_team_member($user, $show_email);
@@ -42,16 +46,16 @@ if ($plain) {
     page_head("$team->name Email List");
     start_table();
     table_header(array("Member list of ".$team->name, "colspan=\"6\""));
-    table_header("Name", "Email address", "Email OK?", "Total credit", "Recent average credit", "Country");
+    table_header("Name", "Email address", "Total credit", "Recent average credit", "Country");
 }
 $users = BoincUser::enum("teamid=$team->id");
 foreach($users as $user) {
     if ($plain) {
-        $e = $user->send_email?"":" (don't send email)";
-        echo "$user->name <$user->email_addr> $e\n";
+        $e = $user->send_email?"<$user->email_addr>":"";
+        echo "$user->name $e\n";
     } else {
-        $e = $user->send_email?"yes":"no";
-        table_row(user_links($user), $user->email_addr, $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
+        $e = $user->send_email?"$user->email_addr":"";
+        table_row(user_links($user), $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
     }
 } 
 if (!$plain) {

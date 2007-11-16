@@ -31,10 +31,10 @@ function create_forum($user, $team) {
     if (!$forum) {
         error_page("couldn't create forum");
     }
-    edit_form($user, $team, $forum);
+    edit_form($user, $team, $forum, true);
 }
 
-function edit_form($user, $team, $forum) {
+function edit_form($user, $team, $forum, $first) {
     page_head("Team forum");
     echo "
         <form action=team_forum.php method=post>
@@ -59,6 +59,37 @@ function edit_form($user, $team, $forum) {
     echo "
         </form>
     ";
+    if (!$first) {
+        echo "
+            <p>
+            <a href=team_forum.php?teamid=$team->id&cmd=remove_confirm$tokens>
+            Remove your team's message board.</a>
+        ";
+    }
+    page_tail();
+}
+
+function remove_confirm($user, $team) {
+    $tokens = url_tokens($user->authenticator);
+    page_head("Really remove message board?");
+    echo "
+        Are you sure you want to remove your team's message board?
+        All threads and posts will be permanently removed.
+        (You may, however, create a new message board later).
+        <p>
+        <a href=team_forum.php?teamid=$team->id&cmd=remove>Yes - remove message board</a>
+    ";
+    page_tail();
+}
+
+function remove($team) {
+    $forum = BoincForum::lookup("parent_type=1 and category=$team->id");
+    if (!$forum) error_page("not found");
+    $forum->delete();
+
+    // don't bother deleting threads/posts etc.
+
+    page_head("Message board removed");
     page_tail();
 }
 
@@ -106,7 +137,7 @@ if ($cmd == 'manage') {
     if (!$forum) {
         create_confirm($user, $team);
     } else {
-        edit_form($user, $team, $forum);
+        edit_form($user, $team, $forum, false);
     }
 } else if ($cmd == 'create') {
     $user = get_logged_in_user();
@@ -120,6 +151,14 @@ if ($cmd == 'manage') {
     $forum = BoincForum::lookup("parent_type=1 and category=$teamid");
     if (!$forum) error_page("no forum");
     edit_action($forum);
+} else if ($cmd == "remove_confirm") {
+    $user = get_logged_in_user();
+    require_founder_login($user, $team);
+    remove_confirm($user, $team);
+} else if ($cmd == "remove") {
+    $user = get_logged_in_user();
+    require_founder_login($user, $team);
+    remove($team);
 } else if ($cmd != "") {
     error_page("unknown command $cmd");
 } else {

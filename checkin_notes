@@ -11131,3 +11131,20 @@ David  16 Nov 2007
             forum.inc
         user/
             forum_thread.php
+
+David  16 Nov 2007
+    - user web: if user unchecked "OK to send email" pref,
+        don't show his email address to team founder
+    - user web: change wording on project prefs page to clarify
+        that emails may come from project OR team
+    - user web: let team founder delete message board
+
+    html/
+        inc/
+            forum_db.inc
+            prefs.inc
+            xml.inc
+        user/
+            team_delta.php
+            team_email_list.php
+            team_forum.phhp

@@ -773,7 +773,7 @@ function prefs_show_privacy($user) {
         $x = "<br><span class=note>Emails will be sent from ".EMAIL_FROM.";
             make sure your spam filter accepts this address.</span>";
     }
-    row2("OK to email?<br><span class=note>If yes, ".PROJECT." and your team (if any) may occasionally send you email. $x",
+    row2("Is it OK for ".PROJECT." and your team (if any) to email you? $x",
         $user->send_email?"yes":"no"
     );
     row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");
@@ -1161,7 +1161,7 @@ function prefs_form_privacy($user) {
         .($user->send_email?"":"checked")
         .">
     ";
-    row2("Should ".PROJECT." send you email newsletters?", $y);
+    row2("Is it OK for ".PROJECT." and your team (if any) to email you?", $y);
 
     $y = "yes <input type=radio name=show_hosts value=yes "
         .($user->show_hosts?"checked":"")

@@ -36,6 +36,10 @@ class BoincForum {
         $db = BoincDb::get();
         return $db->update($this, 'forum', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'forum');
+    }
 }
 
 class BoincThread {
