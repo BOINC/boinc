@@ -11073,5 +11073,21 @@ David  15 Nov 2007
 
 Charlie 16 Nov 2007
     MGR: Fix bug which showed Snooze task bar icon when it shouldn't.
+    Mac: Add 64-bit Intel support to Client and libraries.
+    
+    api/
+        mac_icon.C
+    client/
+        hostinfo_unix.C
     clientgui/
         BOINCTaskBar.cpp
+    clientgui/
+            SetupSecurity.cpp
+    lib/
+        mac/
+            QBacktrace.c
+            QCrashReport.c
+            QMachOImageList.c
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
