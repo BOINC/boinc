@@ -11092,3 +11092,16 @@ Charlie 16 Nov 2007
         boinc.xcodeproj/
             project.pbxproj
         BuildMacBOINC.sh
+
+David  16 Nov 2007
+    - added optional code for user-submitted jobs (from M.F. Somers)
+    - added some scripts in ops/ for managing HR, and for blocking hosts.
+        (from M.F. Somers; these should be documented in the WIki
+        and perhaps added to ops/index.php)
+
+    html/
+        ops/
+            hrclass_summary.php
+            reset_hrclass.php
+            block_host.php
+        queue/*
