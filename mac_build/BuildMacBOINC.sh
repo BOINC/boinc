@@ -56,11 +56,30 @@
 ##
 
 targets=""
-style="Deployment"
 doclean="clean"
 buildall=0
 buildlibs=0
 buildclient=0
+
+DarwinVersion=`uname -r`;
+DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
+# DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
+#
+# echo "major = $DarwinMajorVersion"
+# echo "minor = $DarwinMinorVersion"
+#
+# Darwin version 9.x.y corresponds to OS 10.5.x
+# Darwin version 8.x.y corresponds to OS 10.4.x
+# Darwin version 7.x.y corresponds to OS 10.3.x
+# Darwin version 6.x corresponds to OS 10.2.x
+
+if [ "$DarwinMajorVersion" = "9" ]; then
+    # OS 10.5
+    style="Deployment"
+else
+    style="Deployment-no64"
+    fi
+fi
 
 while [ $# -gt 0 ]; do
   case "$1" in 

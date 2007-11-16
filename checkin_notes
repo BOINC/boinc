@@ -11091,3 +11091,4 @@ Charlie 16 Nov 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+        BuildMacBOINC.sh
