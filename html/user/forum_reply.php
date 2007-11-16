@@ -58,9 +58,15 @@ if ($content && (!$preview)){
 page_head(tra("Post to thread"));
 
 show_forum_header($logged_in_user);
-if ($forum->parent_type == 0) {
+
+switch ($forum->parent_type) {
+case 0:
     $category = BoincCategory::lookup_id($forum->category);
     show_forum_title($category, $forum, $thread);
+    break;
+case 1:
+    show_team_forum_title($forum);
+    break;
 }
 
 if ($preview == tra("Preview")) {

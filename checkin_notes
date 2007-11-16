@@ -11148,3 +11148,17 @@ David  16 Nov 2007
             team_delta.php
             team_email_list.php
             team_forum.phhp
+
+David  16 Nov 2007
+    - user web: on team message board pages,
+        put a link to the top-level message board
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_post.php
+            forum_thread.php
+            forum_subscribe.php
+            forum_reply.php
+            forum_edit.php

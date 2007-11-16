@@ -61,10 +61,18 @@ if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
 
 show_forum_header($logged_in_user);
-if ($forum->parent_type == 0) {
+
+switch ($forum->parent_type) {
+case 0:
     $category = BoincCategory::lookup_id($forum->category);
     show_forum_title($category, $forum, $thread);
+    break;
+case 1:
+    show_team_forum_title($forum);
+    break;
+}
 
+if ($forum->parent_type == 0) {
     if ($category->is_helpdesk && !$thread->status){
         if ($logged_in_user){
             if ($thread->owner == $logged_in_user->id){
@@ -156,8 +164,13 @@ if ($reply_url) {
     show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
 }
 
-if ($forum->parent_type == 0) {
+switch ($forum->parent_type) {
+case 0:
     show_forum_title($category, $forum, $thread);
+    break;
+case 1:
+    show_team_forum_title($forum);
+    break;
 }
 
 $thread->update("views=views+1");

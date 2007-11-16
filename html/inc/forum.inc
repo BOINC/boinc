@@ -149,6 +149,12 @@ function show_forum_title($category, $forum, $thread) {
     echo "</p>\n";
 }
 
+function show_team_forum_title($forum) {
+    $team = BoincTeam::lookup_id($forum->category);
+    echo "<p><a href=team_forum.php?teamid=$team->id><span class=title>$team->name message board</span></a><p>
+    ";
+}
+
 // Start the forum table, output the proper headings and such.
 //
 function start_forum_table($headings, $extra="width=\"100%\"") {
