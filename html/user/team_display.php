@@ -14,7 +14,6 @@ $user = get_logged_in_user(false);
 // always show fresh copy to admins; they might be editing info
 //
 if (is_team_admin($user, $team)) {
-    echo "foo";
     $get_from_db = true;
 }
 

@@ -30,8 +30,10 @@ function show_forum_summary($forum) {
         break;
     case 1:
         $team = BoincTeam::lookup_id($forum->category);
-        $t = $team->name;
-        $d = "Discussion among members of $team->name";
+        $t = $forum->title;
+        if (!strlen($t)) $t = $team->name;
+        $d = $forum->description;
+        if (!strlen($d)) $d = "Discussion among members of $team->name";
         break;
     }
     echo "

@@ -11162,3 +11162,14 @@ David  16 Nov 2007
             forum_subscribe.php
             forum_reply.php
             forum_edit.php
+
+David  16 Nov 2007
+    - user web: let team founder edit title/description
+        of team message board
+
+    html/user/
+        forum_forum.php
+        forum_index.php
+        team_forum.php
+        team_display.php
+        team_email_list.php

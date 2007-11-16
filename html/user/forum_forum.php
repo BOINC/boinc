@@ -52,7 +52,7 @@ case 0:
     break;
 case 1:
     $team = BoincTeam::lookup_id($forum->category); 
-    page_head("Team message board for $team->name");
+    page_head("Team message board for <a href=team_display.php?teamid=$team->id>$team->name</a>");
     show_forum_header($user);
     break;
 }

@@ -43,8 +43,10 @@ function edit_form($user, $team, $forum, $first) {
     ";
     echo form_tokens($user->authenticator);
     start_table();
-    //row2("Title", "<input name=title value=\"$forum->title\">");
-    //row2("Description", "<textarea name=description>$forum->description</textarea>");
+    if (!strlen($forum->title)) $forum->title = $team->name;
+    if (!strlen($forum->description)) $forum->description = "Discussion among members of $team->name";
+    row2("Title", "<input name=title value=\"$forum->title\">");
+    row2("Description", "<textarea name=description>$forum->description</textarea>");
     row2("Minimum time between posts (seconds)",
         "<input name=post_min_interval value=$forum->post_min_interval>"
     );
@@ -94,14 +96,14 @@ function remove($team) {
 }
 
 function edit_action($forum) {
-    //$title = post_str('title');
-    //$title = BoincDb::escape_string($title);
-    //$description = post_str('description');
-    //$description = BoincDb::escape_string($description);
+    $title = strip_tags(post_str('title'));
+    $title = BoincDb::escape_string($title);
+    $description = strip_tags(post_str('description'));
+    $description = BoincDb::escape_string($description);
     $post_min_interval = post_int('post_min_interval');
     $post_min_total_credit = post_int('post_min_total_credit');
     $post_min_expavg_credit = post_int('post_min_expavg_credit');
-    $ret = $forum->update("post_min_interval=$post_min_interval, post_min_total_credit=$post_min_total_credit, post_min_expavg_credit=$post_min_expavg_credit");
+    $ret = $forum->update("title='$title', description='$description', post_min_interval=$post_min_interval, post_min_total_credit=$post_min_total_credit, post_min_expavg_credit=$post_min_expavg_credit");
     if ($ret) {
         page_head("Team Message Board Updated");
         echo "Update successful";

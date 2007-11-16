@@ -24,7 +24,6 @@ if ($xml) {
     }
     $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
-    echo "<foo>$show_email 1</foo>\n";
     $users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
         show_team_member($user, $show_email);
