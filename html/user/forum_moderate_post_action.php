@@ -100,9 +100,9 @@ default:
 
 if ($result) {
     if (post_str('reason', true)){
-        send_moderation_email($post, "Category: ".$mod_category."\n".post_str("reason"), $action);
+        send_moderation_email($post, $thread, "Category: ".$mod_category."\n".post_str("reason"), $action);
     } else { 
-        send_moderation_email($post, "Category: ".$mod_category."\n"."None given", $action);
+        send_moderation_email($post, $thread, "Category: ".$mod_category."\n"."None given", $action);
     }
     header('Location: forum_thread.php?id='.$thread->id);
 } else {

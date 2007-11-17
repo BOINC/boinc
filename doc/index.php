@@ -1,4 +1,15 @@
 <?php
+$host = $_SERVER["SERVER_NAME"];
+if ($host == "bossa.berkeley.edu") {
+    Header("Location: http://boinc.berkeley.edu/trac/wiki/BossaIntro");
+    exit();
+
+}
+if ($host == "bolt.berkeley.edu") {
+    Header("Location: http://boinc.berkeley.edu/trac/wiki/BoltIntro");
+    exit();
+}
+
 require_once("docutil.php");
 require_once("../html/inc/translation.inc");
 

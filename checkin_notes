@@ -11177,8 +11177,8 @@ David  16 Nov 2007
 David  16 Nov 2007
     - manager: compile fix
 
-    clientgui/
-        BOINCTaskBar.cpp
+	clientgui/
+		BOINCTaskBar.cpp
 
 Rytis  17 Nov 2007
     - user web: add "Powered by BOINC" logo to the repository and update
@@ -11188,3 +11188,15 @@ Rytis  17 Nov 2007
         img/
             pb_boinc.gif
         sample_index.php
+
+David  17 Nov 2007
+    - user web: bug fix in moderation email send (fixes #485)
+    - BOINC-wide teams: HTML-escape user-supplied text (fixes #487)
+
+    html/
+        ops/
+            team_import.php
+            team_export.php
+        user/
+            forum_moderator_post_action.php
+

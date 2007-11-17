@@ -22,20 +22,20 @@ function handle_team($team, $f) {
     $user_email_munged = str_rot13($user->email_addr);
     fwrite($f, 
 "<team>
-   <name>$team->name</name>
-   <url>$team->url</url>
+   <name>".htmlspecialchars($team->name)."</name>
+   <url>".htmlspecialchars($team->url)."</url>
    <type>$team->type</type>
-   <name_html>$team->name_html</name_html>
+   <name_html>".htmlspecialchars($team->name_html)."</name_html>
    <description>
-$team->description
+".htmlspecialchars($team->description)."
     </description>
    <country>$team->country</country>
    <id>$team->id</id>
    <user_email_munged>$user_email_munged</user_email_munged>
-   <user_name>$user->name</user_name>
-   <user_country>$user->country</user_country>
-   <user_postal_code>$user->postal_code</user_postal_code>
-   <user_url>$user->url</user_url>
+   <user_name>".htmlspecialchars($user->name)."</user_name>
+   <user_country>".htmlspecialchars($user->country)."</user_country>
+   <user_postal_code>".htmlspecialchars($user->postal_code)."</user_postal_code>
+   <user_url>".htmlspecialchars($user->url)."</user_url>
 </team>
 "
     );
