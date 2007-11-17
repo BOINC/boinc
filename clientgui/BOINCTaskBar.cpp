@@ -310,10 +310,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         CC_STATUS      status;
 
         wxASSERT(pDoc);
-        wxASSERT(pSkinAdvanced);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
 
         if (pDoc->IsConnected()) {
             iconIcon = m_iconTaskBarNormal;

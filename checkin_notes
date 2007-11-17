@@ -11173,3 +11173,9 @@ David  16 Nov 2007
         team_forum.php
         team_display.php
         team_email_list.php
+
+David  16 Nov 2007
+	- manager: compile fix
+
+	clientgui/
+		BOINCTaskBar.cpp
