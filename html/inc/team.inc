@@ -59,7 +59,7 @@ function display_team_page($team, $user) {
             $tokens = url_tokens($user->authenticator);
             row2("",
                 "<a href='team_join.php?$tokens&teamid=$team->id'>Join this team</a>
-                <br><span class=note>Note: if 'OK to email' is set in your project prferences, joining a team gives its founder access to your email address.</span>"
+                <br><span class=note>Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address.</span>"
             );
         }
         if (($user->teamid == $team->id)) {
