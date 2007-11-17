@@ -60,7 +60,7 @@ if ($avatar_type==0){
         ImageJPEG($image2, $newfile);
     }
     if (file_exists($newfile)){
-        $avatar_url=IMAGE_URL.$user->getID()."_avatar.jpg"; //$newfile;
+        $avatar_url=IMAGE_URL.$user->id."_avatar.jpg"; //$newfile;
     } else {
         //User didn't upload a compatible file or it went lost on the server
         $avatar_url="";

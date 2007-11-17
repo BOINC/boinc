@@ -11200,3 +11200,8 @@ David  17 Nov 2007
         user/
             forum_moderator_post_action.php
 
+David  17 Nov 2007
+    - user web: fix bug in edit forum prefs
+
+    html/user/
+        edit_forum_preferences_action.php
