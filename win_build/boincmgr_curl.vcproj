@@ -2275,14 +2275,57 @@
 			<Filter
 				Name="Infrastructure"
 				>
-				<File
-					RelativePath="..\clientgui\msw\taskbarex.cpp"
+				<Filter
+					Name="common"
 					>
-				</File>
-				<File
-					RelativePath="..\clientgui\msw\taskbarex.h"
+					<File
+						RelativePath="..\clientgui\common\wxNotifyIcon.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\clientgui\common\wxNotifyIcon.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="msw"
 					>
-				</File>
+					<File
+						RelativePath="..\clientgui\msw\wxNotifyIcon.cpp"
+						>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\$(InputName)1.obj"
+								XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\$(InputName)1.obj"
+								XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseSigned|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\$(InputName)1.obj"
+								XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\clientgui\msw\wxNotifyIcon.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

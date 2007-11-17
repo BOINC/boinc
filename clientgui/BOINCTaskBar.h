@@ -26,16 +26,11 @@
 
 #include "MainDocument.h"
 
-#ifdef __WXMSW__
-#include "msw/taskbarex.h"
-#else
-#define wxTaskBarIconEx         wxTaskBarIcon
-#define wxTaskBarIconExEvent    wxTaskBarIconEvent
-#endif
+#include "common/wxNotifyIcon.h"
 
 class CTaskbarEvent;
 
-class CTaskBarIcon : public wxTaskBarIconEx {
+class CTaskBarIcon : public wxNotifyIcon {
 public:
     CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
     ~CTaskBarIcon();
@@ -45,7 +40,7 @@ public:
     void OnSuspendResume(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
-    void OnShutdown(wxTaskBarIconExEvent& event);
+    void OnShutdown(wxNotifyIconEvent& event);
 
     void OnIdle(wxIdleEvent& event);
     void OnClose(wxCloseEvent& event);
@@ -54,7 +49,7 @@ public:
 
     void OnMouseMove(wxTaskBarIconEvent& event);
     void OnLButtonDClick(wxTaskBarIconEvent& event);
-    void OnContextMenu(wxTaskBarIconExEvent& event);
+    void OnContextMenu(wxNotifyIconEvent& event);
     void OnRButtonDown(wxTaskBarIconEvent& event);
     void OnRButtonUp(wxTaskBarIconEvent& event);
 

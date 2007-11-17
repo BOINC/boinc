@@ -45,7 +45,7 @@
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 
 
-BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
+BEGIN_EVENT_TABLE(CTaskBarIcon, wxNotifyIcon)
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TIMER(ID_TB_TIMER, CTaskBarIcon::OnRefresh)
@@ -58,9 +58,9 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
 #ifdef __WXMSW__
-    EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
+    EVT_NOTIFYICON_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
-    EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
+    EVT_NOTIFYICON_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 #endif
@@ -73,12 +73,10 @@ END_EVENT_TABLE()
 
 
 CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
-#if   defined(__WXMAC__)
-    wxTaskBarIcon(DOCK)
-#elif defined(__WXMSW__)
-    wxTaskBarIconEx(wxT("BOINCManagerSystray"))
+#if defined(__WXMAC__)
+    wxNotifyIcon(DOCK)
 #else
-    wxTaskBarIcon()
+     wxNotifyIcon(wxT("BOINCManagerSystray"))
 #endif
 {
     m_iconTaskBarNormal = *icon;
@@ -278,7 +276,7 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
 
 
 #ifdef __WXMSW__
-void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
+void CTaskBarIcon::OnShutdown(wxNotifyIconEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
 
     wxCloseEvent eventClose;
@@ -289,7 +287,7 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
 }
 
 #if 0
-void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
+void CTaskBarIcon::OnMouseMove(wxNotifyIconEvent& WXUNUSED(event)) {
 
     wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
     if (tsLastHover.GetSeconds() >= 2) {
@@ -477,7 +475,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     }
 }
 
-void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
+void CTaskBarIcon::OnContextMenu(wxNotifyIconEvent& WXUNUSED(event)) {
     DisplayContextMenu();
 }
 
