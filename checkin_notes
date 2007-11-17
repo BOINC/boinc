@@ -11175,7 +11175,16 @@ David  16 Nov 2007
         team_email_list.php
 
 David  16 Nov 2007
-	- manager: compile fix
+    - manager: compile fix
 
-	clientgui/
-		BOINCTaskBar.cpp
+    clientgui/
+        BOINCTaskBar.cpp
+
+Rytis  17 Nov 2007
+    - user web: add "Powered by BOINC" logo to the repository and update
+        sample_index.php (fix #460).
+    
+    html/user/
+        img/
+            pb_boinc.gif
+        sample_index.php
