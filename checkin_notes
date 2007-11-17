@@ -11205,3 +11205,14 @@ David  17 Nov 2007
 
     html/user/
         edit_forum_preferences_action.php
+
+David  17 Nov 2007
+    - user web: if join team while already in a team,
+        create outgoing delta also
+
+    html/
+        inc/
+            host.inc
+            team.inc
+        user/
+            team_join.php

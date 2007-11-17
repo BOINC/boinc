@@ -296,6 +296,7 @@ function show_team_row($team, $i) {
 }
 
 function user_join_team($team, $user) {
+    user_quit_team($user);
     $res = $user->update("teamid=$team->id");
     if ($res) {
         $now = time();

@@ -321,7 +321,7 @@ function hosts_compatible($host1, $host2) {
     //
     if ($host1->total_credit && $host2->total_credit) {
         if (!times_disjoint($host1, $host2)) {
-            echo "<br>h2 $host2->create_time $host2->rpc_time";
+            //echo "<br>h2 $host2->create_time $host2->rpc_time";
             return false;
         }
     }
