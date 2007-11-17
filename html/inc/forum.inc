@@ -590,7 +590,7 @@ function show_post(
             show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
             echo "</a></td> ";
         }
-        if (($controls == FORUM_CONTROLS) && (can_reply($thread, $logged_in_user))) {
+        if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
             echo "<td align=right class=\"postfooter\">";
             $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
             show_button($url, "Reply", "Post a reply to this message");
