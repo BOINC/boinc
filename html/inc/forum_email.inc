@@ -6,10 +6,42 @@ require_once("../project/project.inc");
 
 define('MASTER_URL', $master_url);
 
+// send an email to admins:
+// - project forums: everyone in POST_REPORT_EMAILS
+// - team message board: team founder
+//
+function mail_report_list($forum, $subject, $body, $must_send=false) {
+    $success = true;
+    switch ($forum->parent_type) {
+    case 0:
+        if ($must_send && !defined("POST_REPORT_EMAILS")) {
+            echo "This project has not yet defined an administrator to
+                handle this kind of forum report.
+                Please contact the project and tell them to add this information
+                in their html/project/project.inc file
+            ";
+        }
+        $emails = explode("|", POST_REPORT_EMAILS);
+        foreach ($emails as $email) {
+            $admin->email_addr = $email;
+            if (!send_email($admin, $subject, $body)) {
+                $success = false;
+            }
+        }
+        break;
+    case 1:
+        $team = BoincTeam::lookup_id($forum->category);
+        $founder = BoincUser::lookup_id($team->userid);
+        $success = send_email($founder, $subject, $body);
+        break;
+    }
+    return $success;
+}
+
 // If a post is hidden, this function emails the author
 // to let them know what happened.
 //
-function send_moderation_email($post, $thread, $message, $action) {
+function send_moderation_email($forum, $post, $thread, $message, $action) {
     $moderator=get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
@@ -32,21 +64,15 @@ This was the content of your post:
 ".$post->content."
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
-    $emails = explode("|", POST_REPORT_EMAILS);
-    $success = true;
-    foreach ($emails as $email) {
-        $admin->email_addr = $email;
-        if (!send_email($admin, "POST ".$action." REPORT: ".$thread->title, $body)) {
-            $success = false;
-        }
-    }
-    return send_email($user, $subject, $body);
+
+    $success = mail_report_list($forum, "POST ".$action." REPORT: ".$thread->title, $body);
+    $success &= send_email($user, $subject, $body);
+    return $success;
 }
 
-// If an entire thread is hidden, this function emails the owner
-// to let them know what happened.
+// If a thread is hidden, email the owner
 //
-function send_thread_moderation_email($thread, $message, $action) {
+function send_thread_moderation_email($forum, $thread, $message, $action) {
     $moderator=get_logged_in_user();
     $user = BoincUser::lookup_id($thread->owner);
     $body = "";
@@ -65,18 +91,14 @@ The moderator gave this explanation to why your thread was moderated:
 $body .= "
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
-    $emails = explode("|", POST_REPORT_EMAILS);
-    foreach ($emails as $email) {
-        $admin->email_addr = $email;
-        if (!send_email($admin, "THREAD ".$action." REPORT: ".$thread->title, $body)) {
-            $success = false;
-        }
-    }
-    return send_email($user, $subject, $body);
+
+    $success = mail_report_list($forum, "THREAD ".$action." REPORT: ".$thread->title, $body);
+    $success &= send_email($user, $subject, $body);
+    return $success;
 }
 
-// If a user is subscribed to a thread that is replied to, this
-// function sends them an email notifying them of the reply.
+// If a user is subscribed to a thread that is replied to,
+// send them an email notifying them of the reply.
 //
 function send_reply_notification_email($thread, $user){
     $title = PROJECT . ": A user has posted to '". stripslashes($thread->title) ."'";
@@ -89,7 +111,7 @@ function send_reply_notification_email($thread, $user){
 // When a user clicks the red "x" to notify moderators about a post,
 // this function generates the email to let the moderators know about it.
 //
-function send_report_post_email($user, $thread,  $post, $message) {
+function send_report_post_email($user, $forum, $thread,  $post, $message) {
     $body = "";
     $owner = BoincUser::lookup_id($post->user);
 
@@ -110,20 +132,10 @@ This was the contents of the post:
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 
-    //Security check, do we have an admin?
-    if (!defined("POST_REPORT_EMAILS")) error_page("This project has not yet defined an administrator to handle this kind of forum reports. Please contact the project and tell them to add this information in their html/project/project.inc file");
-    $emails = explode("|", POST_REPORT_EMAILS);
-    $success = true;
-    foreach ($emails as $email) {
-        $admin->email_addr = $email;
-        if (!send_email($admin, $subject, $body)) {
-            $success = false;
-        }
-    }
-    return success;
+    return mail_report_list($forum, $subject, $body, true);
 }
 
-function send_banish_email($user, $duration, $reason) {
+function send_banish_email($forum, $user, $duration, $reason) {
     $subject = PROJECT." posting privileges suspended";
     $body = "
 This email is to inform you that you will not be able to
@@ -134,15 +146,9 @@ because your postings have not followed our guidelines.
         $body .= "\n\nThe moderator gave the following explanation about your suspension:\n";
         $body .= $reason;
     }
-    $emails = explode("|", POST_REPORT_EMAILS);
-    $success = true;
-    foreach ($emails as $email) {
-        $admin->email_addr = $email;
-        if (!send_email($admin, $user->name." has been banished.", $body)) {
-            $success = false;
-        }
-    }
-    return send_email($user, $subject, $body);
+    $success = send_report_list($forum, $user->name." has been banished.", $body);
+    $success &= send_email($user, $subject, $body);
+    return $success;
 }
 
 function send_banish_vote_email($user, $duration, $reason, $end_time) {
@@ -164,8 +170,7 @@ able to resume posting at that time.
         $body .= $reason;
     }
     $success = send_email($user, $subject, $body);
-    $emails = explode("|", POST_REPORT_EMAILS);
-    $success = true;
+
     $body .= "\n\n<a href=".$vote_url."?action=yes&userid="
              .$user->id
            .">[vote to banish author]</a>\n\n"
@@ -173,14 +178,10 @@ able to resume posting at that time.
              .$user->id
            .">[vote not to banish author]</a>";
 
-    foreach ($emails as $email) {
-        $admin->email_addr = $email;
-        if (!send_email($admin, "A banishment vote for ".$user->name." has been started.", $body)) {
-            $success = false;
-        }
-    }
+    $forum = new BoincForum;
+    $forum->parent_type = 0;
+    $success &= send_report_list($forum, "A banishment vote for ".$user->name." has been started.", $body);
+    return $success;
 }
- 
-
 
 ?>

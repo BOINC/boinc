@@ -925,6 +925,7 @@ function is_moderator($user, $forum) {
         if ($user->prefs->privilege(S_DEV)) return true;
         break;
     case 1:
+        if ($user->prefs->privilege(S_ADMIN)) return true;
         $team = BoincTeam::lookup_id($forum->category);
         return is_team_admin($user, $team);
         break;

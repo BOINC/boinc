@@ -32,7 +32,7 @@ $success_page=0;
 if (get_str("submit",true)){
     check_tokens($user->authenticator);
     $reason = get_str("reason");
-    if (send_report_post_email($user, $thread, $post, $reason)){
+    if (send_report_post_email($user, $forum, $thread, $post, $reason)){
         $success_page=1;
     } else {
         $success_page=-1;
@@ -52,25 +52,32 @@ if ($success_page==1) {
     echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
 } elseif ($success_page==0){
     page_head('Report a forum post'); 
-echo "<p>Before reporting this post <em>please</em> consider using the +/- rating system instead. If enough users agree on rating a post negatively it will
-    eventually be hidden. <br />You can find the rating system at the bottom of the post.</p>";
-start_forum_table(array(tra("Author"), tra("Message"),""));
+    echo "<p>Before reporting this post <em>please</em>
+        consider using the +/- rating system instead.
+        If enough users agree on rating a post negatively it will
+        eventually be hidden.
+        <br />You can find the rating system at the bottom of the post.</p>
+    ";
+    start_forum_table(array(tra("Author"), tra("Message"),""));
     show_post($post, $thread, $forum, $user, 0, 0);
     echo "<form action=\"forum_report_post.php\" method=\"get\">\n";
     echo form_tokens($user->authenticator);
     row1("Report post");
     row2("Why do you find the post offensive:<br><font size=-1>Please include enough information so that a person that 
     has not yet read the thread will quickly be able to identify the issue.</font>",
-    "<textarea name=\"reason\" rows=12 cols=54></textarea>");
-    row2("",
-    "<input type=\"submit\" name=\"submit\" value=\"OK\">");
+        "<textarea name=\"reason\" rows=12 cols=54></textarea>"
+    );
+    row2("", "<input type=\"submit\" name=\"submit\" value=\"OK\">");
     echo "<input type=\"hidden\" name=\"post\" value=\"".$post->id."\">";
     echo "</form>";		    
-end_table();
+    end_table();
 } elseif ($success_page==-1) {
     page_head('Report NOT registered');
-    echo "<p>Your report could not be recorded.  Please wait a short while and try again.</p>
-    <p>If this is not a temporary error, please report it to the project developers.</p>";
+    echo "<p>Your report could not be recorded.
+        Please wait a short while and try again.</p>
+        <p>If this is not a temporary error,
+        please report it to the project developers.</p>
+    ";
     echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
 }
 page_tail();

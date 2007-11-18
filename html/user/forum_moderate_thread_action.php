@@ -50,9 +50,9 @@ if ($action=="hide") {
 
 if ($result) {
     if (post_str('reason', true)){
-        send_thread_moderation_email($thread, post_str("reason"),$action);
+        send_thread_moderation_email($forum, $thread, post_str("reason"),$action);
     } else {
-        send_thread_moderation_email($thread, "None Given",$action);
+        send_thread_moderation_email($forum, $thread, "None Given",$action);
     }
     header('Location: forum_thread.php?id='.$thread->id);
 } else {

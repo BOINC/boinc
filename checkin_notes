@@ -11216,3 +11216,18 @@ David  17 Nov 2007
             team.inc
         user/
             team_join.php
+
+David  17 Nov 2007
+    - user web: for moderation actions on team forums,
+        send email notifications to team founder (not project admin)
+    - user web: let project admins (S_ADMIN) moderate team forums
+
+    html/
+        inc/
+            forum.inc
+            forum_email.inc
+        user/
+            forum_moderate_post_action.php
+            forum_moderate_thread_action.php
+            forum_report_post.php
+            team_create_form.php

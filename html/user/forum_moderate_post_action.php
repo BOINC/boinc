@@ -67,7 +67,7 @@ if ($action=="hide"){
     page_head("Banishment");
     if ($result) {
         echo "User ".$user->name." has been banished.";
-        send_banish_email($user, $t, $reason);
+        send_banish_email($forum, $user, $t, $reason);
     } else {
         echo "DB failure";
     }
@@ -100,9 +100,9 @@ default:
 
 if ($result) {
     if (post_str('reason', true)){
-        send_moderation_email($post, $thread, "Category: ".$mod_category."\n".post_str("reason"), $action);
+        send_moderation_email($forum, $post, $thread, "Category: ".$mod_category."\n".post_str("reason"), $action);
     } else { 
-        send_moderation_email($post, $thread, "Category: ".$mod_category."\n"."None given", $action);
+        send_moderation_email($forum, $post, $thread, "Category: ".$mod_category."\n"."None given", $action);
     }
     header('Location: forum_thread.php?id='.$thread->id);
 } else {
