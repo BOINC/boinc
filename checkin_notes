@@ -11241,3 +11241,9 @@ David  17 Nov 2007
             forum_email.inc
         user/
             forum_user_posts.php
+
+David  18 Nov 2007
+    - user web: update post.modified when edit post (fixes #491)
+
+    html/user/
+        forum_edit.php

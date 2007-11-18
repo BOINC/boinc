@@ -47,7 +47,8 @@ if (post_str('submit',true) && (!$preview)) {
     }
     $content = substr($content, 0, 64000);
     $content = BoincDb::escape_string($content);
-    $post->update("signature=$add_signature, content='$content'");
+    $now = time();
+    $post->update("signature=$add_signature, content='$content', modified=$now");
     
     // If this post belongs to the creator of the thread and is at top-level 
     // (ie. not a response to another post)
