@@ -68,7 +68,7 @@ function do_inbox($logged_in_user) {
             $i++;
             $class = ($i%2)? "row0": "row1";
             echo "<tr class=$class>\n";
-            $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$row->id."\">";
+            $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$msg->id."\">";
             if (!$msg->opened) {
                 $msg->update("opened=1");
             }

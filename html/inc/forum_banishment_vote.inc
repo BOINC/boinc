@@ -1,6 +1,8 @@
 <?php
 
-// TODO: convert to new DB interface
+// TODO: convert to new DB interface; use caching to avoid
+// repeated lookup for same userid
+
 // TODO: merge vote_yes() and vote_no()  (??????)
 
 db_init();

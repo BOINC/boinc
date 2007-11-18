@@ -11268,3 +11268,12 @@ David  18 Nov 2007
 
     html/user/
         team_email_list.php
+
+David  18 Nov 2007
+    - user web: fix PM mass deletion
+
+    html/
+        inc/
+            forum_banishment_vote.inc
+        user/
+            pm.php
