@@ -11247,3 +11247,12 @@ David  18 Nov 2007
 
     html/user/
         forum_edit.php
+
+David  18 Nov 2007
+    - user web: text tweak, fixes #492
+
+    html/
+        inc/
+            pm.inc
+        languages/translations/
+            en.po
