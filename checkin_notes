@@ -11270,7 +11270,7 @@ David  18 Nov 2007
         team_email_list.php
 
 David  18 Nov 2007
-    - user web: fix PM mass deletion
+    - user web: fix PM mass deletion; fixes #493
 
     html/
         inc/
