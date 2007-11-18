@@ -182,7 +182,7 @@ function show_user_info_private($user) {
     row2(tra("Profile"), $x);
     $tot = total_posts($user);
     if ($tot) {
-        row2(tra("Message boards"), "<a href=".URL_BASE."/forum_user_posts.php?userid=$user->id>".tra("%1 posts", $tot)."</a>");
+        row2(tra("Message boards"), "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>".tra("%1 posts", $tot)."</a>");
     }
     
     row2(tra("Private messages"), pm_notification($user));
@@ -242,18 +242,18 @@ function show_user_summary_public($user) {
     show_credit($user);
 
     if ($user->teamid && ($team = lookup_team($user->teamid))) {
-        row2("Team", "<a href=\"".URL_BASE."/team_display.php?teamid=$team->id\">$team->name</a>");
+        row2("Team", "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
     } else {
         row2("Team", "None");
     }
     if ($user->show_hosts) {
-        row2("Computers", "<a href=\"".URL_BASE."/hosts_user.php?userid=$user->id\">View</a>");
+        row2("Computers", "<a href=\"".URL_BASE."hosts_user.php?userid=$user->id\">View</a>");
     } else {
         row2("Computers", "hidden");
     }
     $tot = total_posts($user);
     if ($tot) {
-        row2("Message boards", "<a href=\"".URL_BASE."/forum_user_posts.php?userid=$user->id\">$tot posts</a>");
+        row2("Message boards", "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">$tot posts</a>");
     }
 
     if ($user->donated == 1) { 

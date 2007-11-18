@@ -11277,3 +11277,35 @@ David  18 Nov 2007
             forum_banishment_vote.inc
         user/
             pm.php
+
+David  18 Nov 2007
+    - user web: don't append "/" to URL_BASE.
+        URL_BASE is assumed to end with a /.
+        If you put another /, you end up with // in URLs.
+        This leads to a situation where you can have
+        one cookie for // and another for / - bad.
+
+        If this causes problems for any projects,
+        they should edit their project.inc accordingly
+
+    html/
+        inc/
+            forum_email.inc
+            gallery.inc
+            pm.inc
+            profile.inc
+            uotd.inc
+            user.inc
+            util.inc
+        ops/
+            mass_email.php
+            mass_email_script.php
+            remind.php
+        user/
+            donate.php
+            opt_out.php
+            profile_menu.php
+            sample_index.php
+            sample_rss_main.php
+            team_founder_transfer_action.php
+            uotd_gadget.php

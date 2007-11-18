@@ -49,8 +49,8 @@ rowify("<br>");
 row1("User Profile Explorer");
 echo "<tr><td>
     <ul>
-    <li>View the <a href=\"" . URL_BASE . "/user_profile/user_gallery_1.html\">User Picture Gallery</a>.</li>
-    <li>Browse profiles <a href=\"" . URL_BASE . "/user_profile/profile_country.html\">by country</a>.</li>
+    <li>View the <a href=\"" . URL_BASE . "user_profile/user_gallery_1.html\">User Picture Gallery</a>.</li>
+    <li>Browse profiles <a href=\"" . URL_BASE . "user_profile/profile_country.html\">by country</a>.</li>
     <li>Browse profiles <a href=\"?cmd=rand&pic=-1\">at random</a>,
     <a href=\"?cmd=rand&pic=1\">at random with pictures</a>, or 
     <a href=\"?cmd=rand&pic=0\">at random without pictures</a>.</li>
@@ -95,7 +95,7 @@ function select_profile($cmd) {
 
         shuffle($profiles);
         $userid = $profiles[0]->userid;
-        header("Location: ".URL_BASE."/view_profile.php?userid=$userid");
+        header("Location: ".URL_BASE."view_profile.php?userid=$userid");
         exit();
     }
 }

@@ -68,7 +68,7 @@ if ($caching) {
 
 $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
-$rsslink = URL_BASE . "/rss_main.php";
+$rsslink = URL_BASE . "rss_main.php";
 
 if (defined("CHARSET")) {
     header("Content-type: text/html; charset=".tr(CHARSET));

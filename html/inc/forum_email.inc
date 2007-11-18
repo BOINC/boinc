@@ -52,7 +52,7 @@ function send_moderation_email($forum, $post, $thread, $message, $action) {
 This email is to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->title." 
     Post:           ".$post->id." by ".$user->id." (".$user->name.")
-    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->id."
+    Link:           ".URL_BASE."forum_thread.php?id=".$thread->id."
     Moderator:      ".$moderator->name." (".$moderator->id.")
     Action:         ".$action."
 
@@ -102,7 +102,7 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 //
 function send_reply_notification_email($thread, $user){
     $title = PROJECT . ": A user has posted to '". stripslashes($thread->title) ."'";
-    $link = URL_BASE . "/forum_thread.php?id=" . $thread->id;
+    $link = URL_BASE . "forum_thread.php?id=" . $thread->id;
     $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
            ."To view the updated thread, visit the following URL:\n\n$link";
     return send_email($user, $title, $body);
@@ -122,7 +122,7 @@ This email is sent to inform you that one of the posts in the forum was reported
     Thread:         ".$thread->title."
     Post:           ".$post->id." by ".$owner->id." (".$owner->name.")
     Reporting User: ".$user->id." (".$user->name.")
-    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->id."#".$post->id."
+    Link:           ".URL_BASE."forum_thread.php?id=".$thread->id."#".$post->id."
     
 The reporting user gave this explanation to why the post was reported:
 ".$message."
