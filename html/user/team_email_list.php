@@ -19,9 +19,6 @@ if ($xml) {
     }
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);
-    if (!$user) {
-        xml_error(-136);
-    }
     $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
     $users = BoincUser::enum("teamid=$team->id");

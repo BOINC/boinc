@@ -11262,3 +11262,9 @@ David  18 Nov 2007
 
     html/inc/
         forum_banishment_vote.inc
+
+David  18 Nov 2007
+    - user web: fix bug in user list XML display
+
+    html/user/
+        team_email_list.php
