@@ -132,7 +132,16 @@ This was the contents of the post:
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 
-    return mail_report_list($forum, $subject, $body, true);
+    $success = mail_report_list($forum, $subject, $body, true);
+
+    // if it's a forum board, send to project admins too
+    //
+    if ($forum->parent_type != 0) {
+        $forum = new BoincForum;
+        $forum->parent_type = 0;
+        $success &= mail_report_list($forum, $subject, $body, true);
+    }
+    return $success;
 }
 
 function send_banish_email($forum, $user, $duration, $reason) {
