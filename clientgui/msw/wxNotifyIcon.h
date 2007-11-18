@@ -22,11 +22,6 @@
 #ifndef _MSW_NOTIFYICON_H_
 #define _MSW_NOTIFYICON_H_
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "wxNotifyIcon.cpp"
-#endif
-
-
 class wxNotifyIcon: public wxNotifyIconBase {
 
     DECLARE_DYNAMIC_CLASS(wxNotifyIcon)

@@ -40,24 +40,26 @@ class wxNotifyIconBase: public wxTaskBarIconNative {
 
 public:
     wxNotifyIconBase() {}
-    wxNotifyIconBase(const wxString& title) {}
+    wxNotifyIconBase(const wxString& WXUNUSED(title)) {}
 
     virtual ~wxNotifyIconBase() {}
 
 // Operations
 
     virtual bool ShowBalloon(
-        const wxIcon& icon, 
-        const wxString& title = wxEmptyString,
-        const wxString& message = wxEmptyString,
-        unsigned int timeout = 10000,
-        unsigned int iconballoon = NIIF_INFO
+        const wxIcon& WXUNUSED(icon), 
+        const wxString& WXUNUSED(title = wxEmptyString),
+        const wxString& WXUNUSED(message = wxEmptyString),
+        unsigned int WXUNUSED(timeout = 10000),
+        unsigned int WXUNUSED(iconballoon = NIIF_INFO)
     ) { return false; }
 
     virtual bool HideBalloon() { return false; }
-	virtual bool SetTooltip(const wxString& tip) { return false; }
+	virtual bool SetTooltip(const wxString& WXUNUSED(tip)) { return false; }
 
-    virtual bool PopupMenu(wxMenu* menu) { return false; }
+    virtual bool PopupMenu(wxMenu* WXUNUSED(menu)) { return false; }
+
+    virtual bool ProcessEvent(wxEvent& event);
 
 protected:
     virtual bool ShowTooltipWindow() { return false; }

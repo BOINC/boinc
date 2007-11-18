@@ -17,13 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-#ifdef __GNUG__
-#pragma implementation "taskbarex.h"
-#endif
-
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
-//#include "msw/taskbarex.h"
 #include "BOINCTaskBar.h"
 
 
@@ -431,7 +426,8 @@ long wxNotifyIcon::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wPara
 
     if (eventType) {
         wxNotifyIconEvent event(eventType, this);
-        ProcessEvent(event);
+        // Bypass NotifyIconBase special case handling.
+        wxTaskBarIconBase::ProcessEvent(event);
 
         lReturnValue = 0;
     }
