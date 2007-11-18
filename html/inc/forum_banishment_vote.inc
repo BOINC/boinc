@@ -1,5 +1,10 @@
 <?php
 
+// TODO: convert to new DB interface
+// TODO: merge vote_yes() and vote_no()  (??????)
+
+db_init();
+
 function current_tally($voteid) {
     $query="select sum(yes) as ayes,count(id)-sum(yes) as nays from banishment_votes where voteid=".$voteid;
     $result = mysql_query($query);
@@ -15,6 +20,7 @@ function vote_is_in_progress($userid) {
     $result = mysql_query($query);
     if (!$result) {
         echo "Database error attempting to read banishment_vote table 1.<p>";
+        echo "query: $query";
         return -1;
     }
     $foobar = mysql_fetch_object($result);

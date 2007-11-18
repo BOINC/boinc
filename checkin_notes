@@ -11256,3 +11256,9 @@ David  18 Nov 2007
             pm.inc
         languages/translations/
             en.po
+
+David  18 Nov 2007
+    - user web: init DB in banishment vote page
+
+    html/inc/
+        forum_banishment_vote.inc

@@ -547,3 +547,5 @@ msgstr ""
 msgid "Used in URLs"
 msgstr ""
 
+msgid "unread" 
+msgstr ""
