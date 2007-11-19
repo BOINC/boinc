@@ -32,11 +32,11 @@
 //const UINT WM_TASKBARSHUTDOWN  = ::RegisterWindowMessage(wxT("TaskbarShutdown"));
 //
 // initialized on demand
-//UINT wxNotifyIcon::s_msgTaskbar = 0;
-//UINT wxNotifyIcon::s_msgRestartTaskbar = 0;
+UINT wxNotifyIcon::s_msgTaskbar = 0;
+UINT wxNotifyIcon::s_msgRestartTaskbar = 0;
 
-UINT s_msgTaskbar = 0;
-UINT s_msgRestartTaskbar = 0;
+//UINT s_msgTaskbar = 0;
+//UINT s_msgRestartTaskbar = 0;
 //
 //DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_CREATED )
 //DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_SHUTDOWN )
@@ -51,56 +51,45 @@ IMPLEMENT_DYNAMIC_CLASS(wxNotifyIcon, wxNotifyIconBase)
 // wxTaskBarIconWindow: helper window
 // ----------------------------------------------------------------------------
 
-// NB: this class serves two purposes:
-//     1. win32 needs a HWND associated with taskbar icon, this provides it
-//     2. we need wxTopLevelWindow so that the app doesn't exit when
-//        last frame is closed but there still is a taskbar icon
-class wxNotifyIconWindow : public wxFrame
+
+wxNotifyIcon::wxNotifyIconWindow::wxNotifyIconWindow(wxNotifyIcon *icon)
+    : wxFrame(NULL, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0),
+      m_icon(icon)
 {
-public:
-    wxNotifyIconWindow(wxNotifyIcon *icon)
-        : wxFrame(NULL, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0),
-          m_icon(icon)
-    {
-    }
+}
 
-    WXLRESULT MSWWindowProc(WXUINT msg,
-                            WXWPARAM wParam, WXLPARAM lParam)
+WXLRESULT wxNotifyIcon::wxNotifyIconWindow::MSWWindowProc(WXUINT msg,
+                        WXWPARAM wParam, WXLPARAM lParam)
+{
+    if (msg == s_msgRestartTaskbar || msg == s_msgTaskbar)
     {
-        if (msg == s_msgRestartTaskbar || msg == s_msgTaskbar)
-        {
-            return m_icon->WindowProc(msg, wParam, lParam);
-        }
-        else
-        {
-            return wxFrame::MSWWindowProc(msg, wParam, lParam);
-        }
+        return m_icon->WindowProc(msg, wParam, lParam);
     }
-
-private:
-    wxNotifyIcon *m_icon;
-};
+    else
+    {
+        return wxFrame::MSWWindowProc(msg, wParam, lParam);
+    }
+}
 
 
 // ----------------------------------------------------------------------------
 // NotifyIconData: wrapper around NOTIFYICONDATA
 // ----------------------------------------------------------------------------
 
-struct NotifyIconData : public NOTIFYICONDATA
-{
-    NotifyIconData(WXHWND hwnd)
-    {
-        memset(this, 0, sizeof(NOTIFYICONDATA));
-        cbSize = sizeof(NOTIFYICONDATA);
-        hWnd = (HWND) hwnd;
-        uCallbackMessage = s_msgTaskbar;
-        uFlags = NIF_MESSAGE;
 
-        // we use the same id for all taskbar icons as we don't need it to
-        // distinguish between them
-        uID = 99;
-    }
-};
+wxNotifyIcon::NotifyIconData::NotifyIconData(WXHWND hwnd)
+{
+    memset(this, 0, sizeof(NOTIFYICONDATA));
+    cbSize = sizeof(NOTIFYICONDATA);
+    hWnd = (HWND) hwnd;
+    uCallbackMessage = s_msgTaskbar;
+    uFlags = NIF_MESSAGE;
+
+    // we use the same id for all taskbar icons as we don't need it to
+    // distinguish between them
+    uID = 99;
+}
+
 
 // ----------------------------------------------------------------------------
 // wxTaskBarIcon

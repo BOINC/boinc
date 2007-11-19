@@ -57,7 +57,28 @@ public:
 
 // Data members
 protected:
-    friend class wxNotifyIconWindow;
+
+    struct NotifyIconData : public NOTIFYICONDATA
+    {
+        NotifyIconData(WXHWND hwnd);
+    };
+
+    // NB: this class serves two purposes:
+    //     1. win32 needs a HWND associated with taskbar icon, this provides it
+    //     2. we need wxTopLevelWindow so that the app doesn't exit when
+    //        last frame is closed but there still is a taskbar icon
+    class wxNotifyIconWindow : public wxFrame {
+
+    public:
+        wxNotifyIconWindow(wxNotifyIcon *icon);
+
+        WXLRESULT MSWWindowProc(WXUINT msg,
+                                WXWPARAM wParam, WXLPARAM lParam);
+
+    private:
+        wxNotifyIcon *m_icon;
+    };
+
     long WindowProc(unsigned int msg, unsigned int wParam, long lParam);
     void RegisterWindowMessages();
 // Data members
@@ -66,8 +87,8 @@ protected:
     wxIcon               m_icon;
     wxString             m_strTooltip;
 
-    //static UINT   s_msgTaskbar;
-    //static UINT   s_msgRestartTaskbar;
+    static UINT   s_msgTaskbar;
+    static UINT   s_msgRestartTaskbar;
 
 private:
     //bool UpdateIcon();
