@@ -11309,3 +11309,21 @@ David  18 Nov 2007
             sample_rss_main.php
             team_founder_transfer_action.php
             uotd_gadget.php
+
+David  18 Nov 2007
+    - user web: the "private-message notification by email" flag
+        should default to off.
+        Note: it's necessary to clear everyone's flag.
+        Projects will need to notify users (e.g. via a news item)
+        that they need to explicitly set this pref if they want email
+        notification of PMs
+
+    db/
+        schema.sql
+    html/
+        inc/
+            forum_db.inc
+        ops/
+            db_update.php
+        user/
+            edit_forum_preferences_action.php

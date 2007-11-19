@@ -15,7 +15,8 @@ if (post_str("account_key", true) != null) {
 }
 BoincForumPrefs::lookup($user);
 
-// If the user has requested a total reset of preferences:
+// If the user has requested a reset of preferences;
+// preserve a few fields.
 //
 if (post_str("action", true)=="reset"){
     $posts = $user->prefs->posts;

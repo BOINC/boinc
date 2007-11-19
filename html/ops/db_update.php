@@ -495,6 +495,16 @@ function update_11_14_2007() {
     do_query("alter table forum add unique pct (parent_type, category, title)");
 }
 
+// pm_notification should be 0 by default.
+// We don't know who really wants it to be 1, so set everyone to 0;
+// projects might want to run a news item notifying user
+// that they need to explicitly set this if they want PM notification
+//
+function update_11_18_2007() {
+    do_query("update forum_preferences set pm_notification=0");
+    do_query("alter table forum_preferences change pm_notification pm_notification tinyint not null default 0");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

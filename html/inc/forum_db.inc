@@ -118,7 +118,7 @@ class BoincForumPrefs {
         } else {
             $prefs = self::lookup_userid($user->id);
             if (!$prefs) {
-                self::insert("(userid, thread_sorting) values ($user->id, 8)");
+                self::insert("(userid, thread_sorting, pm_notification) values ($user->id, 8, 0)");
                 $prefs = new BoincForumPrefs();
                 $prefs->userid = $user->id;
                 $prefs->thread_sorting = 6;
