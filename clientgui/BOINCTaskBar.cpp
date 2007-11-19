@@ -320,7 +320,6 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strBuffer.Printf(
                     _("Computation is suspended.\n")
                 );
-                iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
             }
 

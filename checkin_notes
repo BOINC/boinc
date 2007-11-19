@@ -11337,3 +11337,12 @@ David  18 Nov 2007
         user/
             forum_banishment_vote_action.php
             edit_forum_preferences_form.php
+
+Rom    19 Nov 2007
+    - MGR: Don't display the snooze icon when CPU benchmarks are
+        running or when computation has been suspended due to
+        preferences.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        
