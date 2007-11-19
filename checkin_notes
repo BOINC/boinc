@@ -11346,3 +11346,12 @@ Rom    19 Nov 2007
     clientgui/
         BOINCTaskBar.cpp
         
+David  19 Nov 2007
+    - user web: tweak PM-related text
+
+    html/
+        inc/
+            pm.inc
+            forum.inc
+        user/
+            white.css

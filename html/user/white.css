@@ -254,6 +254,10 @@ span.news_date {
     font-size: 0.9em;
 }
 
+span.inboxunread {
+    font-weight: bold;
+}
+
 .code {
     font-family: "Consolas", "Courier New", courier, monospace;
     display: block;

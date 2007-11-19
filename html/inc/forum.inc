@@ -109,7 +109,7 @@ function show_forum_header($user) {
     
     if ($user) {
         echo "<td align=\"right\">\n";
-        echo "<p>", pm_notification($user);
+        echo "<p>Private messages: ", pm_notification($user);
         echo "</td>\n";
     }
     echo "</tr>\n";
