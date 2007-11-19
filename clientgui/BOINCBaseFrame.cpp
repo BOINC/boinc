@@ -130,6 +130,16 @@ CBOINCBaseFrame::~CBOINCBaseFrame() {
     if (m_pDialupManager)
         delete m_pDialupManager;
 
+    // Only delete icon if the actual icon has already been removed. We
+    // have to delete it here because icon window prevents app from shutting down.
+#if defined(__WXMSW__) || defined(__WXMAC__)
+    CTaskBarIcon* pTBI = wxGetApp().GetTaskBarIcon();
+    if (pTBI && !pTBI->IsIconInstalled()) {
+        delete pTBI;
+        pTBI = 0;
+    }
+#endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function End"));
 }
 
@@ -305,14 +315,14 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         if (pMSM)
             delete pMSM;
 #endif
-
-        // TaskBarIcon isn't used in Linux
+                // TaskBarIcon isn't used in Linux
 #if defined(__WXMSW__) || defined(__WXMAC__)
         CTaskBarIcon* pTBI = wxGetApp().GetTaskBarIcon();
-        if (pTBI && !pTBI->m_bTaskbarInitiatedShutdown) {
-            delete pTBI;
+        if (pTBI) {
+            pTBI->RemoveIcon();
         }
 #endif
+
         Close(true);
 
     }

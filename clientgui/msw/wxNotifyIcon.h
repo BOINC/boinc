@@ -24,30 +24,21 @@
 
 class wxNotifyIcon: public wxNotifyIconBase {
 
-    DECLARE_DYNAMIC_CLASS(wxNotifyIcon)
-    DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS_NO_COPY(wxNotifyIcon)
+//    DECLARE_EVENT_TABLE()
 
 public:
     wxNotifyIcon();
-    wxNotifyIcon(const wxString& title);
-
     virtual ~wxNotifyIcon();
 
-// Events
-    virtual void OnClose( wxCloseEvent& event );
-    virtual void OnTaskBarCreated( wxNotifyIconEvent& event );
-
 // Accessors
-    inline WXHWND GetHWND() const { return m_hWnd; }
-    inline bool IsOK() const { return (m_hWnd != 0) ; }
+    inline bool IsOk() const { return true; }
     inline bool IsIconInstalled() const { return m_iconAdded; }
 
 // Operations
-
-    bool SetIcon(
-        const wxIcon& icon,
-        const wxString& tooltip = wxEmptyString
-    );
+    bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString);
+    bool RemoveIcon();
+    bool PopupMenu(wxMenu* menu);
 
     bool SetBalloon(
         const wxIcon& icon, 
@@ -61,36 +52,32 @@ public:
 
 	bool SetTooltip(const wxString tip);
 
-    bool RemoveIcon();
 
-    bool PopupMenu(wxMenu *menu);
-
-    // temp stuff
-    void ShowPopupTooltip() {}
-
-// Implementation
-    static bool RegisterWindowClass();
-    static WXHWND CreateTaskBarWindow(const wxChar* szWindowTitle );
     static bool IsBalloonsSupported();
-    long WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam );
 
 // Data members
 protected:
-    WXHWND          m_hWnd;
-    bool            m_iconAdded;
-    NOTIFYICONDATA  notifyData;
-    static bool     sm_registeredClass;
-    static unsigned int sm_taskbarMsg;
+    friend class wxNotifyIconWindow;
+    long WindowProc(unsigned int msg, unsigned int wParam, long lParam);
+    void RegisterWindowMessages();
+// Data members
+    wxNotifyIconWindow*  m_win;
+    bool                 m_iconAdded;
+    wxIcon               m_icon;
+    wxString             m_strTooltip;
+
+    //static UINT   s_msgTaskbar;
+    //static UINT   s_msgRestartTaskbar;
 
 private:
-    bool UpdateIcon();
+    //bool UpdateIcon();
 };
 
 // Additional events
-DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_CREATED, 1590 )
-DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_SHUTDOWN, 1591 )
-
-#define EVT_NOTIFYICON_TASKBAR_CREATED(fn)      wx__DECLARE_NOTIFYICONEVT(TASKBAR_CREATED, fn)
-#define EVT_NOTIFYICON_TASKBAR_SHUTDOWN(fn)     wx__DECLARE_NOTIFYICONEVT(TASKBAR_SHUTDOWN, fn)
+//DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_CREATED, 1590 )
+//DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_SHUTDOWN, 1591 )
+//
+//#define EVT_NOTIFYICON_TASKBAR_CREATED(fn)      wx__DECLARE_NOTIFYICONEVT(TASKBAR_CREATED, fn)
+//#define EVT_NOTIFYICON_TASKBAR_SHUTDOWN(fn)     wx__DECLARE_NOTIFYICONEVT(TASKBAR_SHUTDOWN, fn)
 
 #endif // _MSW_NOTIFYICON_H_

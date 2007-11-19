@@ -23,9 +23,9 @@
 
 #include "common/wxNotifyIcon.h"
 
-DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_CONTEXT_MENU )
-DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_SELECT )
-DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_KEY_SELECT )
+//DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_CONTEXT_MENU )
+//DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_SELECT )
+//DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_KEY_SELECT )
 DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_BALLOON_SHOW )
 DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_BALLOON_HIDE )
 DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_BALLOON_TIMEOUT )
@@ -33,25 +33,35 @@ DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_BALLOON_USERCLICK )
 DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_POPUP_SHOW )
 DEFINE_EVENT_TYPE( wxEVT_NOTIFYICON_POPUP_HIDE )
 
-// Catch wxTaskBarIcon events and re-emit them as wxNotifyIconEvent.
-bool wxNotifyIconBase::ProcessEvent(wxEvent& event) {
-
-    wxEventType eventType = event.GetEventType();
-
-    if (eventType == wxEVT_TASKBAR_MOVE
-        || eventType == wxEVT_TASKBAR_LEFT_DOWN
-        || eventType == wxEVT_TASKBAR_LEFT_UP
-        || eventType == wxEVT_TASKBAR_RIGHT_DOWN
-        || eventType == wxEVT_TASKBAR_RIGHT_UP
-        || eventType == wxEVT_TASKBAR_LEFT_DCLICK
-        || eventType == wxEVT_TASKBAR_RIGHT_DCLICK)
-    {
-        //wxASSERT(this->IsKindOf(wxNotifyIcon));
-        wxNotifyIcon* notify = wxDynamicCast(this, wxNotifyIcon);
-
-        wxNotifyIconEvent newEvent(eventType, notify);
-        return wxTaskBarIconBase::ProcessEvent(newEvent);
-    } else {
-        return wxTaskBarIconBase::ProcessEvent(event);
-    }
-}
+//// Catch wxTaskBarIcon events and re-emit them as wxNotifyIconEvent.
+//bool wxNotifyIconBase::ProcessEvent(wxEvent& event) {
+//
+//    wxEventType eventType = event.GetEventType();
+//
+//    if (eventType == wxEVT_TASKBAR_MOVE
+//        || eventType == wxEVT_TASKBAR_LEFT_DOWN
+//        || eventType == wxEVT_TASKBAR_LEFT_UP
+//        || eventType == wxEVT_TASKBAR_RIGHT_DOWN
+//        || eventType == wxEVT_TASKBAR_RIGHT_UP
+//        || eventType == wxEVT_TASKBAR_LEFT_DCLICK
+//        || eventType == wxEVT_TASKBAR_RIGHT_DCLICK)
+//    {
+//        //wxASSERT(this->IsKindOf(wxNotifyIcon));
+//        wxNotifyIcon* notify = wxDynamicCast(this, wxNotifyIcon);
+//
+//        wxNotifyIconEvent newEvent(eventType, notify);
+//        return wxTaskBarIconBase::ProcessEvent(newEvent);
+//    } else {
+//        return wxTaskBarIconBase::ProcessEvent(event);
+//    }
+//}
+//
+//void wxNotifyIconBase::OnRightButtonDown(wxNotifyIconEvent& WXUNUSED(event))
+//{
+//    wxMenu *menu = CreatePopupMenu();
+//    if (menu)
+//    {
+//        PopupMenu(menu);
+//        delete menu;
+//    }
+//}

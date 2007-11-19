@@ -24,12 +24,12 @@
 #pragma interface "wxNotifyIcon.cpp"
 #endif
 
-// msw provides a complete native implementation, so we derive from wxTaskBarIconBase instead.
-#ifdef __WXMSW__
-    #define wxTaskBarIconNative wxTaskBarIconBase
-#else
+//// msw provides a complete native implementation, so we derive from wxTaskBarIconBase instead.
+//#ifdef __WXMSW__
+//    #define wxTaskBarIconNative wxTaskBarIconBase
+//#else
     #define wxTaskBarIconNative wxTaskBarIcon
-#endif
+//#endif
 
 class wxNotifyIconEvent;
 class wxNotifyIcon;
@@ -40,7 +40,7 @@ class wxNotifyIconBase: public wxTaskBarIconNative {
 
 public:
     wxNotifyIconBase() {}
-    wxNotifyIconBase(const wxString& WXUNUSED(title)) {}
+//    wxNotifyIconBase(const wxString& title) : wxTaskBarIcon(title) {}
 
     virtual ~wxNotifyIconBase() {}
 
@@ -57,9 +57,9 @@ public:
     virtual bool HideBalloon() { return false; }
 	virtual bool SetTooltip(const wxString& WXUNUSED(tip)) { return false; }
 
-    virtual bool PopupMenu(wxMenu* WXUNUSED(menu)) { return false; }
+//    virtual bool PopupMenu(wxMenu* WXUNUSED(menu)) { return false; }
 
-    virtual bool ProcessEvent(wxEvent& event);
+//    virtual bool ProcessEvent(wxEvent& event);
 
 protected:
     virtual bool ShowTooltipWindow() { return false; }
@@ -75,12 +75,11 @@ private:
     typedef wxNotifyIcon wxNotifyIconBase;
 #endif
 
-// Can't use wxTaskBarIconEvent because we don't guarantee derivation from wxTaskBarIcon.
-class wxNotifyIconEvent : public wxEvent
+class wxNotifyIconEvent : public wxTaskBarIconEvent
 {
 public:
     wxNotifyIconEvent(wxEventType evtType, wxNotifyIcon* tbIcon)
-        : wxEvent(wxID_ANY, evtType) {
+        : wxTaskBarIconEvent(evtType, NULL) {
             SetEventObject(wxDynamicCast(tbIcon, wxObject));
         }
 
@@ -92,11 +91,11 @@ typedef void (wxEvtHandler::*wxNotifyIconEventFunction)(wxNotifyIconEvent&);
 #define wxNotifyIconEventHandler(func) \
     (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxNotifyIconEventFunction, &func)
 
-// From standard (old) TaskBarIcon. Adapt for compatability with new TaskBarIcon.
-DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_CREATED, 1570 )
-DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_CONTEXT_MENU, 1571 )
-DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_SELECT, 1572 )
-DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_KEY_SELECT, 1573 )
+//// From standard (old) TaskBarIcon. Adapt for compatability with new TaskBarIcon.
+//DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_TASKBAR_CREATED, 1570 )
+//DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_CONTEXT_MENU, 1571 )
+//DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_SELECT, 1572 )
+//DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_KEY_SELECT, 1573 )
 // New events extending TaskBarIcon.
 DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_BALLOON_SHOW, 1580 )
 DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_BALLOON_HIDE, 1581 )
@@ -109,10 +108,10 @@ DECLARE_EVENT_TYPE( wxEVT_NOTIFYICON_POPUP_HIDE, 1585 )
 #define wx__DECLARE_NOTIFYICONEVT(evt, fn) \
     wx__DECLARE_EVT0(wxEVT_NOTIFYICON_ ## evt, wxNotifyIconEventHandler(fn))
 
-#define EVT_NOTIFYICON_TASKBAR_CREATED(fn)      wx__DECLARE_NOTIFYICONEVT(TASKBAR_CREATED, fn)
-#define EVT_NOTIFYICON_CONTEXT_MENU(fn)         wx__DECLARE_NOTIFYICONEVT(CONTEXT_MENU, fn)
-#define EVT_NOTIFYICON_SELECT(fn)               wx__DECLARE_NOTIFYICONEVT(SELECT, fn)
-#define EVT_NOTIFYICON_KEY_SELECT(fn)           wx__DECLARE_NOTIFYICONEVT(KEY_SELECT, fn)
+//#define EVT_NOTIFYICON_TASKBAR_CREATED(fn)      wx__DECLARE_NOTIFYICONEVT(TASKBAR_CREATED, fn)
+//#define EVT_NOTIFYICON_CONTEXT_MENU(fn)         wx__DECLARE_NOTIFYICONEVT(CONTEXT_MENU, fn)
+//#define EVT_NOTIFYICON_SELECT(fn)               wx__DECLARE_NOTIFYICONEVT(SELECT, fn)
+//#define EVT_NOTIFYICON_KEY_SELECT(fn)           wx__DECLARE_NOTIFYICONEVT(KEY_SELECT, fn)
 
 #define EVT_NOTIFYICON_BALLOON_SHOW(fn)         wx__DECLARE_NOTIFYICONEVT(BALLOON_SHOW, fn)
 #define EVT_NOTIFYICON_BALLOON_HIDE(fn)         wx__DECLARE_NOTIFYICONEVT(BALLOON_HIDE, fn)

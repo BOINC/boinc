@@ -55,11 +55,10 @@ public:
 
     void FireReloadSkin();
 
-    wxMenu *BuildContextMenu();
     void AdjustMenuItems(wxMenu* menu);
 
+    wxMenu* CreatePopupMenu();
 #ifdef __APPLE__
-    wxMenu *CreatePopupMenu();
     bool SetIcon(const wxIcon& icon, const wxString& tooltip);
 #endif
 
@@ -73,7 +72,6 @@ public:
     wxIcon     m_iconTaskBarDisconnected;
     wxIcon     m_iconTaskBarSnooze;
     wxString   m_strDefaultTitle;
-    bool       m_bTaskbarInitiatedShutdown;
 
 private:
     wxDateTime m_dtLastHoverDetected;
@@ -84,6 +82,7 @@ private:
 
     void       ResetTaskBar();
     void       DisplayContextMenu();
+    wxMenu* BuildContextMenu();
     void GetRunningTasks(CMainDocument* pDoc, std::vector<RESULT*>& results);
     
     DECLARE_EVENT_TABLE()
@@ -111,10 +110,7 @@ public:
     wxString                m_message;
 };
 
-
-BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE( wxEVT_TASKBAR_RELOADSKIN, 10100 )
-END_DECLARE_EVENT_TYPES()
 
 #define EVT_TASKBAR_RELOADSKIN(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 

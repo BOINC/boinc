@@ -58,11 +58,11 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxNotifyIcon)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
 #ifdef __WXMSW__
-    EVT_NOTIFYICON_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
+//    EVT_NOTIFYICON_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
-    EVT_NOTIFYICON_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
-    EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
-    EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
+//    EVT_NOTIFYICON_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
+//    EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
+//    EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 #endif
 #ifdef __WXMAC__
     // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
@@ -76,14 +76,13 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
 #if defined(__WXMAC__)
     wxNotifyIcon(DOCK)
 #else
-     wxNotifyIcon(wxT("BOINCManagerSystray"))
+     wxNotifyIcon()
 #endif
 {
     m_iconTaskBarNormal = *icon;
     m_iconTaskBarDisconnected = *iconDisconnected;
     m_iconTaskBarSnooze = *iconSnooze;
     m_strDefaultTitle = title;
-    m_bTaskbarInitiatedShutdown = false;
 
     m_dtLastHoverDetected = wxDateTime((time_t)0);
 
@@ -114,7 +113,7 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
 
     RemoveIcon();
-    m_bTaskbarInitiatedShutdown = true;
+    //m_bTaskbarInitiatedShutdown = true;
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
@@ -476,24 +475,24 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 }
 
 void CTaskBarIcon::OnContextMenu(wxNotifyIconEvent& WXUNUSED(event)) {
-    DisplayContextMenu();
+    //DisplayContextMenu();
 }
 
 
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
-    if (!IsBalloonsSupported()) {
-        m_bMouseButtonPressed = true;
-    }
+    //if (!IsBalloonsSupported()) {
+    //    m_bMouseButtonPressed = true;
+    //}
 }
 
 
 void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
-    if (!IsBalloonsSupported()) {
-        if (m_bMouseButtonPressed) {
-            DisplayContextMenu();
-            m_bMouseButtonPressed = false;
-        }
-    }
+    //if (!IsBalloonsSupported()) {
+    //    if (m_bMouseButtonPressed) {
+    //        DisplayContextMenu();
+    //        m_bMouseButtonPressed = false;
+    //    }
+    //}
 }
 #endif
 
@@ -525,19 +524,13 @@ void CTaskBarIcon::ResetTaskBar() {
 }
 
 
-#ifdef __WXMAC__
-
-// The mac version of WxWidgets will delete this menu when 
-//  done with it; we must not delete it.  See the comments
-//  in wxTaskBarIcon::PopupMenu() and DoCreatePopupMenu() 
-//  in WxMac/src/mac/carbon/taskbar.cpp for details
-
 // Overridables
-wxMenu *CTaskBarIcon::CreatePopupMenu() {
+wxMenu* CTaskBarIcon::CreatePopupMenu() {
     wxMenu *menu = BuildContextMenu();
     return menu;
 }
 
+#ifdef __WXMAC__
 
 // Override the standard wxTaskBarIcon::SetIcon() because we are only providing a 
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
