@@ -155,7 +155,7 @@ because your postings have not followed our guidelines.
         $body .= "\n\nThe moderator gave the following explanation about your suspension:\n";
         $body .= $reason;
     }
-    $success = send_report_list($forum, $user->name." has been banished.", $body);
+    $success = mail_report_list($forum, $user->name." has been banished.", $body);
     $success &= send_email($user, $subject, $body);
     return $success;
 }
@@ -189,7 +189,7 @@ able to resume posting at that time.
 
     $forum = new BoincForum;
     $forum->parent_type = 0;
-    $success &= send_report_list($forum, "A banishment vote for ".$user->name." has been started.", $body);
+    $success &= mail_report_list($forum, "A banishment vote for ".$user->name." has been started.", $body);
     return $success;
 }
 
