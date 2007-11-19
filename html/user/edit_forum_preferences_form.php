@@ -91,7 +91,7 @@ if ($user->prefs->pm_notification){
 }
 row2("Private message email notification",
     "<input type=\"checkbox\" id=\"pm_notification\" name=\"pm_notification\" ".$pm_notification.">
-        <label for=\"pm_notification\">Notify about new private messages by email</label>"
+        <label for=\"pm_notification\">Send email notification of new private messages </label>"
 );
 
 if ($user->prefs->hide_avatars){

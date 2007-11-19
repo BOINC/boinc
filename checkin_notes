@@ -11327,3 +11327,13 @@ David  18 Nov 2007
             db_update.php
         user/
             edit_forum_preferences_action.php
+
+David  18 Nov 2007
+    - user web: fix forum banishment vote stuff
+
+    html/
+        inc/
+            forum_banishment_vote.inc
+        user/
+            forum_banishment_vote_action.php
+            edit_forum_preferences_form.php
