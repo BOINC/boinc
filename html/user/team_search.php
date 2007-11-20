@@ -1,41 +1,19 @@
 <?php
 
-include_once("../inc/db.inc");
+include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/team.inc");
 include_once("../inc/team_types.inc");
-
-db_init();
-
-function print_form($user) {
-    echo "
-        <form name=form action=team_search.php>
-    ";
-    start_table();
-    row2("Key words<br><span class=note>Find teams with these words in their names or descriptions</span>", "<input name=keywords>");
-    row2_init("Country", "");
-    echo "<select name=country><option value=\"\" selected>---</option>";
-    $country = $user->country;
-    if (!$country || $country == 'None') $country = "XXX";
-    print_country_select($country);
-    echo "</select></td></tr>\n";
-    row2("Type of team", team_type_select(0, true));
-    row2("Show only active teams", "<input type=checkbox name=active checked>");
-    row2("", "<input type=submit name=submit value=Search>");
-    end_table();
-    echo "
-        </form>
-    ";
-}
 
 // Merge list1 into list2.
 // list entries are of the form id => team,
 // where team includes a field "refcnt".
 // 
-function merge_lists($list1, &$list2) {
-    foreach($list1 as $id=>$team) {
+function merge_lists($list1, &$list2, $weight) {
+    foreach($list1 as $team) {
+        $id = $team->id;
         if (array_key_exists($id, $list2)) {
-            $list2[$id]->refcnt++;
+            $list2[$id]->refcnt += $weight;
         } else {
             $list2[$id] = $team;
             $list2[$id]->refcnt = 0;
@@ -46,8 +24,8 @@ function merge_lists($list1, &$list2) {
 function compare($t1, $t2) {
     if ($t1->refcnt > $t2->refcnt) return -1;
     if ($t1->refcnt < $t2->refcnt) return 1;
-    if ($t1->expavg_credit > $t2->rnd) return -1;
-    if ($t1->expavg_credit < $t2->rnd) return 1;
+    if ($t1->rnd > $t2->rnd) return -1;
+    if ($t1->rnd < $t2->rnd) return 1;
     return 0;
 }
 
@@ -89,35 +67,38 @@ function show_list($list) {
     echo "</table>";
 }
 
-function search($user) {
-    $keywords = $_GET['keywords'];
-    $country = $_GET['country'];
-    $type = $_GET['type'];
-    $active = get_str('active', true);
-
+function search($params) {
     $list = array();
     $tried = false;
-    if (strlen($keywords)) {
-        $list2 = get_teams("match(name, description) against ('$keywords')", $active);
+    if (strlen($params->keywords)) {
+        $name_lc = strtolower($params->keywords);
+        $name_lc = escape_pattern($name_lc);
+        $clause = "name like '%".boinc_real_escape_string($name_lc)."%' order by expavg_credit desc limit 100";
+        $list2 = BoincTeam::enum($clause);
+        merge_lists($list2, $list, 5);
+
+        $list2 = get_teams("match(name) against ('$params->keywords')", $params->active);
+        merge_lists($list2, $list, 5);
+        $list2 = get_teams("match(name, description) against ('$params->keywords')", $params->active);
         //echo "<br>keyword matches: ",sizeof($list2);
-        merge_lists($list2, $list);
+        merge_lists($list2, $list, 3);
         $tried = true;
     }
-    if (strlen($country) && $country!='None') {
-        $list2 = get_teams("country = '$country'", $active);
+    if (strlen($params->country) && $params->country!='None') {
+        $list2 = get_teams("country = '$params->country'", $params->active);
         //echo "<br>country matches: ",sizeof($list2);
-        merge_lists($list2, $list);
+        merge_lists($list2, $list, 1);
         $tried = true;
     }
-    if ($type and $type>1) {
-        $list2 = get_teams("type=$type", $active);
+    if ($params->type and $params->type>1) {
+        $list2 = get_teams("type=$params->type", $params->active);
         //echo "<br>type matches: ",sizeof($list2);
-        merge_lists($list2, $list);
+        merge_lists($list2, $list, 2);
         $tried = true;
     }
 
     if (!$tried) {
-        $list = get_teams("id>0", $active);
+        $list = get_teams("id>0", $params->active);
     }
 
     if (sizeof($list) == 0) {
@@ -128,7 +109,7 @@ function search($user) {
             Or you can <a href=team_create_form.php>create a new team</a>.
             <p>
         ";
-        print_form($user);
+        team_search_form($params);
     } else {
         echo "
             The following teams match your search criteria.
@@ -138,13 +119,20 @@ function search($user) {
         ";
         sort_list($list);
         show_list($list);
+        echo "<h2>Change your search</h2>";
+        team_search_form($params);
     }
 }
 
 $user = get_logged_in_user(false);
 if (isset($_GET['submit'])) {
+    $params = null;
+    $params->keywords = $_GET['keywords'];
+    $params->country = $_GET['country'];
+    $params->type = $_GET['type'];
+    $params->active = get_str('active', true);
     page_head("Team search results");
-    search($user);
+    search($params);
 } else {
     page_head("Find a team", 'document.form.keywords.focus()');
     echo "
@@ -154,7 +142,7 @@ if (isset($_GET['submit'])) {
         Use this form to find teams that might be right for you.
         <p>
     ";
-    print_form($user);
+    team_search_form($params);
     if (isset($_COOKIE['init'])) {
         echo "
             <p>

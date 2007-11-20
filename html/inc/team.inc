@@ -9,10 +9,37 @@ require_once("../inc/credit.inc");
 require_once("../inc/team_types.inc");
 require_once("../inc/time.inc");
 
+function team_search_form($params) {
+    echo "
+        <form name=form action=team_search.php>
+    ";
+    start_table();
+    row2("<b>Search criteria (use one or more)</b>", "");
+    row2("Key words<br><span class=note>Find teams with these words in their names or descriptions</span>", "<input name=keywords value=\"$params->keywords\">");
+    row2_init("Country", "");
+    echo "<select name=country><option value=\"\" selected>---</option>";
+    $country = $params->country;
+    if (!$country || $country == 'None') $country = "XXX";
+    print_country_select($country);
+    echo "</select></td></tr>\n";
+    row2("Type of team", team_type_select($params->type, true));
+    $checked = $params->active?"checked":"";
+    row2("Show only active teams", "<input type=checkbox name=active $checked>");
+    row2("", "<input type=submit name=submit value=Search>");
+    end_table();
+    echo "
+        </form>
+    ";
+}
+
 function foundership_transfer_link($user, $team) {
     $now = time();
     if (new_transfer_request_ok($team, $now)) {
-        return "<a href=\"team_founder_transfer_form.php\">Initiate request</a>";
+        if ($team->userid == $user->id) {
+            return "None";
+        } else {
+            return "<a href=\"team_founder_transfer_form.php\">Initiate request</a>";
+        }
     }
     if ($team->ping_user == $user->id) {
         if (transfer_ok($team, now)) {
@@ -259,7 +286,7 @@ function admin_list($teamid) {
     return $u;
 }
 
-function team_table_start($sort_by,$type_url) {
+function team_table_start($sort_by, $type_url) {
     echo "<tr>
         <th>".tra("Rank")."</th>
         <th>".tra("Name")."</th>
@@ -278,6 +305,7 @@ function team_table_start($sort_by,$type_url) {
     }
     echo "
         <th>".tra("Country")."</th>
+        <th>Type</th>
         </tr>
     ";
 }
@@ -292,6 +320,7 @@ function show_team_row($team, $i) {
         <td align=right>$team_expavg_credit</td>
         <td align=right>$team_total_credit</td>
         <td>$team->country</td>
+        <td>".team_type_name($team->type)."</td>
         </tr>\n";
 }
 
@@ -353,7 +382,7 @@ function team_edit_form($team, $label, $url) {
         "<textarea name=description cols=60 rows=10>$team->description</textarea>"
     );
 
-    row2("Type of team:", team_type_select($team));
+    row2("Type of team:", team_type_select($team->type));
 
     row2_init("Country",
         "<select name=country>"

@@ -68,7 +68,6 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define STDERR_FILE_NAME            "stderr.txt"
 #define STDOUT_FILE_NAME            "stdout.txt"
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
-#define LOCK_FILE_NAME              "lockfile"
 #define APP_INFO_FILE_NAME			"app_info.xml"
 #define REMOTEHOST_FILE_NAME        "remote_hosts.cfg"
 #define ACCT_MGR_REQUEST_FILENAME   "acct_mgr_request.xml"

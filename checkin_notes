@@ -11436,3 +11436,30 @@ David  20 Nov 2007
             forum_user_posts.php
             html.php
             white.css
+
+David  20 Nov 2007
+    - DB: add fulltext index on team.name
+    - user web: improve "team search" function,
+        and get rid of the superceded "search by name" function
+    - user web: don't show team founder link to initiate transfer
+    - user web: show team types
+    - user web: fix "top teams by type" function
+    - client: tread NOT_FOUND error on file upload as transient;
+        it means the project is missing its file_upload_handler
+
+    client/
+        file_names.h
+        pers_file_xfer.C
+    db/
+        constraints.sql
+        schema.sql
+    html/
+        inc/
+            team.inc
+            team_types.inc
+        ops/
+            db_update.php
+        user/
+            team.php
+            team_search.php
+            top_teams.php

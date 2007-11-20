@@ -505,6 +505,10 @@ function update_11_18_2007() {
     do_query("alter table forum_preferences change pm_notification pm_notification tinyint not null default 0");
 }
 
+function update_11_20_2007() {
+    do_query("alter table team add fulltext index team_name(name)");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

@@ -239,7 +239,18 @@ bool PERS_FILE_XFER::poll() {
         case ERR_NOT_FOUND:
         case ERR_FILE_NOT_FOUND:
         case HTTP_STATUS_NOT_FOUND:     // won't happen - converted in http_curl.C
-            permanent_failure(fxp->file_xfer_retval);
+            if (is_upload) {
+                // if we get a "not found" on an upload,
+                // the project must not have a file_upload_handler.
+                // Treat this as a transient error.
+                //
+                msg_printf(fip->project, MSG_INFO,
+                    "Project file upload handler is missing"
+                );
+                transient_failure(fxp->file_xfer_retval);
+            } else {
+                permanent_failure(fxp->file_xfer_retval);
+            }
             break;
         default:
             if (log_flags.file_xfer) {
