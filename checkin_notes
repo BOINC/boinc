@@ -11463,3 +11463,12 @@ David  20 Nov 2007
             team.php
             team_search.php
             top_teams.php
+
+David  20 Nov 2007
+    - user web: team search tweaks
+
+    html/
+        inc/
+            forum_banishment_vote.inc
+        user/
+            team_search.php

@@ -73,8 +73,11 @@ function search($params) {
     if (strlen($params->keywords)) {
         $name_lc = strtolower($params->keywords);
         $name_lc = escape_pattern($name_lc);
-        $clause = "name like '%".boinc_real_escape_string($name_lc)."%' order by expavg_credit desc limit 100";
-        $list2 = BoincTeam::enum($clause);
+
+        $list2 = get_teams("name='$name_lc'", $params->active);
+        merge_lists($list2, $list, 20);
+
+        $list2 = get_teams("name like '".boinc_real_escape_string($name_lc)."%'", $params->active);
         merge_lists($list2, $list, 5);
 
         $list2 = get_teams("match(name) against ('$params->keywords')", $params->active);

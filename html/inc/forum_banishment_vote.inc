@@ -5,6 +5,8 @@
 
 // TODO: merge vote_yes() and vote_no()  (??????)
 
+require_once("../inc/forum_email.inc");
+
 db_init();
 
 function current_tally($voteid) {
