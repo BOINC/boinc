@@ -11465,7 +11465,7 @@ David  20 Nov 2007
             top_teams.php
 
 David  20 Nov 2007
-    - user web: team search tweaks
+    - user web: team search tweaks.  Fixes #183
 
     html/
         inc/
