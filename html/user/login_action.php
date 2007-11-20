@@ -6,13 +6,12 @@ require_once("../inc/user.inc");
 
 init_session();
 
-$mode = post_str("mode", true);
-
 // First check for email/password case
 //
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
 $passwd = stripslashes(post_str("passwd", true));
-if ($mode == "Log in with email/password") {
+
+if ($email_addr && $passwd) {
     $user = lookup_user_email_addr($email_addr);
     if (!$user) {
         error_page("No account found with email address $email_addr");

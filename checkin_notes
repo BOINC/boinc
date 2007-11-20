@@ -11361,3 +11361,24 @@ David  19 Nov 2007
 
     html/user/
         forum_user_posts.php
+
+David  19 Nov 2007
+    - user web: clean up logic for dealing with forgotten password:
+        - login form now has ONLY email/passwd
+            ("login with account key" is gone)
+        - "forgot password?" takes you to a page with two options:
+            1) type in email address, get an email with login link
+            2) instructions for recovering account key from BOINC account file
+        - email is stripped-down, has login link and not much else
+
+        fixes #190
+
+    html/
+        inc/
+            email.inc
+            util.inc
+        user/
+            get_passwd.php
+            login_action.php
+            mail_passwd.php
+            white.css

@@ -65,54 +65,30 @@ function send_auth_email($user, $is_new) {
     $body = "";
 
     if ($is_new) {
-        $subject = PROJECT." account confirmation for $user->name";
+        $subject = PROJECT." account confirmation";
         $body = "Welcome to ".PROJECT.".
 
 This email confirms your account with ".PROJECT.":
     Project URL:         $master_url
     User name:           $user->name
     E-mail:              $user->email_addr
-    Account Key:         $user->authenticator
-    (use this to log in if you forget your password)
 ";
     } else {
-        $subject = PROJECT." information for $user->name";
-        $body = "Your ".PROJECT." account information is:
+        $subject = PROJECT." account information";
+        $body = "This email was sent in reponse to a request on the ".PROJECT." web site.
 
-    Project URL:         $master_url
-    User name:           $user->name
-    E-mail:              $user->email_addr
-    Account Key:         $user->authenticator
-    (use this to log in if you forget your password)
+To log in to your ".PROJECT." account, visit:
+".$master_url."login_action.php?key=$user->authenticator
+
+After logging in, you can change your account's password or email address.
 ";
     }
 
 $body .= "
-
-For further information and assistance with ".PROJECT." go to
+For further information and assistance with ".PROJECT.", visit
 $master_url
 ";
     return send_email($user, $subject, $body);
-}
-
-// Function simply outputs some text letting the user know
-// their authenticator was emailed to them.
-//
-function email_sent_message($email_addr) {
-    if (defined('EMAIL_FROM')) {
-        $email_from = EMAIL_FROM;
-    } else {
-        $email_from = URL_BASE;
-    }
-
-    echo "
-        Your Account Key has been emailed to $email_addr.
-        <p>
-        If the email doesn't arrive in a few minutes,
-        your ISP may be blocking it as spam.
-        In this case please contact your ISP and
-        ask them to not block email from $email_from.
-    ";
 }
 
 // a valid email address is of the form A@B.C
