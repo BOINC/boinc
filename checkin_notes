@@ -11382,3 +11382,13 @@ David  19 Nov 2007
             login_action.php
             mail_passwd.php
             white.css
+
+David  19 Nov 2007
+    - user web: use forum prefs (e.g. display images as links)
+        when displaying PMs.  fixes #497
+
+    html/
+        inc/
+            text_transform.inc
+        user/
+            pm.php

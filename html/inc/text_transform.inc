@@ -1,31 +1,26 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once('../inc/sanitize_html.inc');
 
-/**
- * This file holds options and functions relating to outputted text.
- * It does things like clean out HTML, convert newlines to <br> tags,
- * and other such niceties.
- **/
-class output_options {
-	var $bb2html;			// BBCode as HTML? (on)
-	var $boincdoc;			// Transform [[Wikiwords]] in to BoincDoc links (on)
-	var $images_as_links;	// Images as hyperlinks? (off)
-	var $link_popup;		// Links in new windows? (off)
-	var $closeTags;			// Close extra HTML tags? (on)
-	var $nl2br;				// Convert newlines to <br>'s? (on)
-	var $htmlitems;			// Convert special chars to HTML entities? (on)
-	var $htmlscrub;			// Scrub "bad" HTML tags? (off)
-	var $stripslashes;		// Strip slashes (depends)
-	var $highlight_terms;// Array of terms to be highlighted (off)	
+// This file holds options and functions relating to outputted text.
+// It does things like clean out HTML, convert newlines to <br> tags,
+// and other such niceties.
 
-        /**
-         * Constructor - set the defaults.
-         **/ 
+class output_options {
+    var $bb2html;			// BBCode as HTML? (on)
+    var $images_as_links;	// Images as hyperlinks? (off)
+    var $link_popup;		// Links in new windows? (off)
+    var $closeTags;			// Close extra HTML tags? (on)
+    var $nl2br;				// Convert newlines to <br>'s? (on)
+    var $htmlitems;			// Convert special chars to HTML entities? (on)
+    var $htmlscrub;			// Scrub "bad" HTML tags? (off)
+    var $stripslashes;		// Strip slashes (depends)
+    var $highlight_terms;// Array of terms to be highlighted (off)	
+
+    // Constructor - set the defaults.
+
 	function output_options() {
 	    $this->bb2html = 1;
-	    $this->boincdoc = 1;
 	    $this->images_as_links = 0;
 	    $this->link_popup = 0;
 	    $this->closeTags = 1;
@@ -39,10 +34,8 @@ class output_options {
 	    return true;
 	}
 
-        /**
-         * Define the terms to be highlighted (for use with searches
-         * and such)
-         */
+    // Define the terms to be highlighted (for use with searches and such)
+
 	function setHighlightTerms($terms) {
 	    if (is_array($terms)) {
                 $this->highlight_terms = $terms;
@@ -53,10 +46,9 @@ class output_options {
 	}
 }
 
-/**
- * Do the actual transformation of the text.
- * TODO: Make this part of the above class.
- **/
+// Do the actual transformation of the text.
+// TODO: Make this part of the above class.
+
 function output_transform($text, $options = NULL) {
 	// Options is a output_options object, defined above
 	if (!$options) {
@@ -79,9 +71,6 @@ function output_transform($text, $options = NULL) {
 	if ($options->bb2html) {
 		$text = bb2html($text);
 	}
-	if ($options->boincdoc) {
-		$text = boincdoc($text);
-	}
 	if ($options->images_as_links) {
 		$text = image_as_link($text);
 	}
@@ -94,10 +83,9 @@ function output_transform($text, $options = NULL) {
 	return $text;
 }
 
-/**
- * Take a user object and get their settings to create an output_options
- * object from them.
- **/
+// Take a user object and get their settings to create an output_options
+// object from them.
+
 function get_transform_settings_from_user($user, $options = '') {
 	// $user - a user object
 	// $options - a output_options object (optional)
@@ -113,9 +101,8 @@ function get_transform_settings_from_user($user, $options = '') {
 	return $options;
 }
 
-/**
- * Converts bbcode to proper HTML
- **/
+// Converts bbcode to proper HTML
+
 function bb2html($text) {
     $urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
@@ -190,38 +177,8 @@ function bb2html($text) {
     return $text;
 }
 
-/**
- * Converts wiki words [[Like This]] in to links to the Boinc Wiki
- **/
-function boincdoc ($text) {
-	$wikimatch = "@\[\[(.[a-zA-Z\@\ \_\-]+)\]\]@ise";
-	$wikititlematch = "@\[\[(.[a-zA-Z\@\ \_\-]+)([|])([a-zA-Z\_\-\ ]+)\]\]@ise";
-	$wikichange = "boincdoc_linkcreate('\\1')";
-	$wikititlechange = "boincdoc_linkcreate('\\1', '\\3')";
-	$text = preg_replace($wikititlematch, $wikititlechange, $text);
-	$text = preg_replace($wikimatch, $wikichange, $text);
-	return $text;
-}
+// Make links open in new windows.
 
-/**
- * Callback function for the above.
- **/
-function boincdoc_linkcreate ($wikitext,$title = '') {
-	/* This function is only called from boincdoc() */
-	$hyperlink = str_replace(' ', '_', $wikitext); // Spaces to underscores
-	$hyperlink = urlencode($hyperlink);
-	$hyperlink = "<a href=\"http://boinc-wiki.ath.cx/index.php?title=$hyperlink\">";
-	if ($title != '') {
-		$hyperlink .= "$title</a>";
-	} else {
-		$hyperlink .= "$wikitext</a>";
-	}
-	return $hyperlink;
-}
-
-/**
- * Make links open in new windows.
- **/
 function externalize_links($text) {
     // TODO:  Convert this to PCRE
     $i=0;$linkpos=true;
@@ -235,9 +192,8 @@ function externalize_links($text) {
     return $out;
 }
 
-/**
- * Converts image tags to links to the images.
- **/
+// Converts image tags to links to the images.
+
 function image_as_link($text){
 	/* This function depends on sanitized HTML */
     // Build some regex (should be a *lot* faster)
@@ -247,9 +203,8 @@ function image_as_link($text){
     return $text;
 }
 
-/**
- * Coses open HTML tags.  Not quite perfect...
- **/
+// Closes open HTML tags.  Not quite perfect...
+
 function closeTags($str = null) {
 	// Function from http://episteme.arstechnica.com/eve/ubb.x/a/tpc/f/6330927813/m/139006252731/r/287008552731#287008552731
 	// (thanks Ageless for finding it)
@@ -298,24 +253,14 @@ function closeTags($str = null) {
 }
 
 
-/**
- * Deprecated function used to clean up post content for display inside
- * a text box.  Use htmlentities() now.
- **/
-function cleanTextBox($content) {
-	$answer = preg_replace('/&lt;/','&amp;lt;',preg_replace('/&gt;/','&amp;gt;',$content));
-	return $answer;
-}
+// Highlight terms in text (most likely used with searches)
 
-/**
- * Highlight terms in text (most likely used with searches)
- **/
 function highlight_terms($text, $terms) {
     $search = $terms;
     $replace = array();
 
     foreach ($search as $key => $value) {
-	$replace[$key] = "<span class=\"highlight\">".$value."</span>";
+        $replace[$key] = "<span class=\"highlight\">".$value."</span>";
     }
     if (substr(phpversion(), 0, 1) > 4) {   // PHP 4.x doesn't support str_ireplace
         return str_ireplace($search, $replace, $text);
@@ -324,4 +269,5 @@ function highlight_terms($text, $terms) {
     }
 }
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

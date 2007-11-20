@@ -26,6 +26,7 @@ if ($action == "select_") {
 }
 
 $logged_in_user = get_logged_in_user();
+BoincForumPrefs::lookup($logged_in_user);
 
 function make_script() {
     echo "
@@ -51,7 +52,7 @@ function do_inbox($logged_in_user) {
     if (get_int("sent", true) == 1) {
         echo "<div class=\"notice\">".tra("Your message has been sent.")."</div>\n";
     }
-    $options = new output_options;
+    $options = get_output_options($logged_in_user);
     
     $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id ORDER BY date DESC"
