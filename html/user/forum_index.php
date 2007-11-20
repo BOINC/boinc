@@ -68,6 +68,7 @@ foreach ($categories as $category) {
     if ($first) {
         $first = false;
         show_forum_title($category, NULL, NULL);
+        echo "<p>";
         start_forum_table(
             array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post"))
         );

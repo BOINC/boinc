@@ -11405,3 +11405,34 @@ David  19 Nov 2007
             email.inc
         user/
             login_action.php
+
+David  20 Nov 2007
+    - user web: clean up funky search result formatting.
+        For thread titles, show links to forum/category also
+        For posts, show complete post, with search terms highlighted.
+    - user web: in display of posts for a user,
+        show links to thread and forum also
+    - user web: posts/threads can become "orphaned" if their forum
+        disappears, e.g. team message board is deleted.
+        Handle this gracefully in search results and user post list
+    - user web: where HTML tags are allowed, say so
+    - user web: fix bug where wrap_postcounts weren't being shown in form
+    - DB: use "tinyint" instead of "tinyint(1) unsigned" etc.
+
+    db/
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc
+            forum.inc
+            team.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            forum_forum.php
+            forum_index.php
+            forum_search_action.php
+            forum_thread.php
+            forum_user_posts.php
+            html.php
+            white.css

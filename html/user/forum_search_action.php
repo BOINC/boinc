@@ -115,7 +115,7 @@ if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)){
     $show_hidden_posts = false;
 }
 
-page_head(tra("Forum search"));
+page_head(tra("Forum search results"));
 
 $search_keywords = post_str("search_keywords", true);
 $search_author = post_str("search_author", true);
@@ -143,23 +143,30 @@ $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, rou
 
 // Display the threads while we search for posts
 if (count($threads)){
-    echo "<p><a href=\"forum_search.php\">Perform another search</a></p>";
-    echo "<h2>Threads found matching your search query:</h2>";
-    start_forum_table(array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
+    echo "<h2>Thread titles matching your query:</h2>";
+    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
     foreach ($threads as $thread){
         if ($thread->hidden) continue;
         $thread_forum = BoincForum::lookup_id($thread->forum);
+        if (!$thread_forum) continue;
         $owner = BoincUser::lookup_id($thread->owner);
+        echo "<tr><td>\n";
+        switch($thread_forum->parent_type) {
+        case 0:
+            $category = BoincCategory::lookup_id($thread_forum->parent);
+            show_forum_title($category, $thread_forum, $thread);
+            break;
+        case 1:
+            show_team_forum_title($thread_forum, $thread);
+            break;
+        }
         echo '
-            <tr>
-            <td>'.cleanup_title($thread_forum->title).'</td>
-            <td class="threadline"><a href="forum_thread.php?id='.$thread->id.'"><b>'.cleanup_title($thread->title).'</b></a></td>';
-        echo '
-                <td>'.($thread->replies+1).'</td>
-                <td align="left"><div class="authorcol">'.user_links($owner).'</div></td>
-                <td>'.$thread->views.'</td>
-                <td style="text-align:right">'.time_diff_str($thread->timestamp, time()).'</td>
-        </tr>';
+            </td><td>'.($thread->replies+1).'</td>
+            <td align="left"><div class="authorcol">'.user_links($owner).'</div></td>
+            <td>'.$thread->views.'</td>
+            <td style="text-align:right">'.time_diff_str($thread->timestamp, time()).'</td>
+            </tr>
+        ';
     }
     end_table();
     echo "<br /><br />";
@@ -174,37 +181,21 @@ $posts = search_post_content(
 );
 
 if (count($posts)){
-    echo "<h2>Posts found matching your search query:</h2>";
-    start_forum_table(array(tra("Topic"), tra("Threads"), tra("Author"),"<nobr>".tra("Last post")."</nobr>"));
-    if ($logged_in_user){
-        $options = get_output_options($logged_in_user);
-    } else {
-        $options = new output_options();
-    }
-    foreach ($posts as $post){
+    echo "<h2>Messages matching your query:</h2>";
+    start_table();
+    $n = 1;
+    $options = get_output_options($logged_in_user);
+    $options->setHighlightTerms($search_list);
+    foreach ($posts as $post) {
         $thread = BoincThread::lookup_id($post->thread);
+        if (!$thread) continue;
+        $forum = BoincForum::lookup_id($thread->forum);
+        if (!$forum) continue;
+
         if (($show_hidden_posts == false) && ($thread->hidden)) continue;
         if (($show_hidden_posts == false) && ($post->hidden)) continue;
-        $options->setHighlightTerms($search_list);
-        $contents = output_transform($post->content, $options);
-        $thread_forum = BoincForum::lookup_id($thread->forum);
-        $owner = BoincUser::lookup_id($post->user);
-        echo '
-            <tr>
-            <th>'.cleanup_title($thread_forum->title).'</th>
-            <th class="threadline"><a href="forum_thread.php?id='.$thread->id.'"><b>'.cleanup_title($thread->title).'</b></a></th>
-                <th align="left"><div class="authorcol">'.user_links($owner).'</div></th>
-                <th style="text-align:right">'.time_diff_str($post->timestamp, time()).'</th>
-        </tr>
-        <tr>
-            <td colspan=4>'.substr($contents,0,200).'...
-            </td>
-        </tr>
-        <tr><td colspan=4 class="postfooter">
-                <a href="forum_thread.php?id='.$thread->id.'&nowrap=true#'.$post->id.'"><b>[Read the rest of this post]</b></a>
-        </td></tr>
-        <tr class="postseperator"><td colspan=4>&nbsp;</td></tr>
-        ';
+        show_post_and_context($post, $thread, $forum, $options, $n);
+        $n++;
     }
     end_table();
 }

@@ -130,7 +130,8 @@ for ($i=0;$i<sizeof($ignored_users);$i++){
 
 if ($rpc == false) {
     // If we get down here everything went ok
-    // so  redirect the user to the setup page again
+    // redirect the user to the setup page again
+    //
     Header("Location: edit_forum_preferences_form.php");
 } else {
     echo "<status>\n";

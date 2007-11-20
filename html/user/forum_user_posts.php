@@ -29,10 +29,14 @@ if($hide) {
 }
 $n = 0;
 start_table();
+$options = get_output_options($logged_in_user);
+
 foreach ($posts as $post) {
     $thread = BoincThread::lookup_id($post->thread);
+    if (!$thread) continue;
     $forum = BoincForum::lookup_id($thread->forum);
-    show_post($post, $thread, $forum, $logged_in_user, 0, $n+$offset+1, false);
+    if (!$forum) continue;
+    show_post_and_context($post, $thread, $forum, $options, $n+$offset+1);
     $n++;
 }
 echo "</table>\n";

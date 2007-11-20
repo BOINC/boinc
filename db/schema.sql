@@ -384,7 +384,7 @@ create table post (
         -- post that was replied to, if any
     score               double      not null,
     votes               integer     not null,
-    signature           tinyint(1) unsigned not null default 0,
+    signature           tinyint     not null default 0,
     hidden              integer     not null,
         -- nonzero if hidden by moderators
     primary key (id)
@@ -404,23 +404,23 @@ create table forum_preferences (
     posts               integer     not null default 0,
     last_post           integer     not null,
     avatar              varchar(254) not null default '',
-    hide_avatars        tinyint(1) unsigned not null default 0,
+    hide_avatars        tinyint     not null default 0,
     forum_sorting       integer     not null,
     thread_sorting      integer     not null,
-    no_signature_by_default tinyint(1) unsigned not null default 1,
-    images_as_links     tinyint(1)  unsigned not null default 0,
-    link_popup          tinyint(1)  unsigned not null default 0,
+    no_signature_by_default tinyint not null default 1,
+    images_as_links     tinyint     not null default 0,
+    link_popup          tinyint     not null default 0,
     mark_as_read_timestamp integer  not null default 0,
     special_user        char(12)    not null default '0',
-    jump_to_unread      tinyint(1)  unsigned not null default 1,
-    hide_signatures     tinyint(1)  unsigned not null default 0,
+    jump_to_unread      tinyint     not null default 1,
+    hide_signatures     tinyint     not null default 0,
     rated_posts         varchar(254) not null,
     low_rating_threshold integer not null default -25,
     high_rating_threshold integer not null default 5,
-    minimum_wrap_postcount INT DEFAULT 100 NOT NULL,
-    display_wrap_postcount INT DEFAULT 75 NOT NULL,
+    minimum_wrap_postcount integer  DEFAULT 100 NOT NULL,
+    display_wrap_postcount integer  DEFAULT 75 NOT NULL,
     ignorelist          varchar(254) not null,
-    ignore_sticky_posts tinyint(1)  unsigned not null,
+    ignore_sticky_posts tinyint     not null default 0,
     banished_until      integer     not null default 0,
     pm_notification     tinyint    not null default 0,
     primary key (userid)
@@ -460,9 +460,9 @@ create table private_messages (
     userid              integer     not null,
     senderid            integer     not null,
     date                integer     not null,
-    opened              tinyint(1)  unsigned    not null default '0',
-    subject             varchar(255)            not null,
-    content             text                    not null,
+    opened              tinyint     not null default 0,
+    subject             varchar(255)  not null,
+    content             text        not null,
     primary key(id),
     key userid (userid)
 ) TYPE=MyISAM;
@@ -473,22 +473,22 @@ create table credited_job (
 ) TYPE=MyISAM;
 
 create table donation_items (
-    id                  integer     unsigned    not null auto_increment,
-    item_name           varchar(32)             not null,
-    title               varchar(255)            not null,
-    description         varchar(255)            not null,
-    required            double      unsigned    not null default '0',
+    id                  integer         not null auto_increment,
+    item_name           varchar(32)     not null,
+    title               varchar(255)    not null,
+    description         varchar(255)    not null,
+    required            double          not null default '0',
     PRIMARY KEY(id)
 ) TYPE=MyISAM;
 
 create table donation_paypal (
-    id                  integer                 not null auto_increment,
-    order_time          integer     unsigned    not null,
-    userid              integer                 not null,
-    email_addr          varchar(255)            not null,
-    order_amount        double(6,2)             not null,
-    processed           tinyint(1)              not null default '0',
-    payment_time        integer     unsigned    not null,
+    id                  integer         not null auto_increment,
+    order_time          integer         not null,
+    userid              integer         not null,
+    email_addr          varchar(255)    not null,
+    order_amount        double(6,2)     not null,
+    processed           tinyint         not null default '0',
+    payment_time        integer         not null,
     item_name           varchar(255)            not null,
     item_number         varchar(255)            not null,
     payment_status      varchar(255)            not null,
@@ -504,33 +504,33 @@ create table donation_paypal (
 
 -- record changes in team membership
 create table team_delta (
-    userid              integer                 not null,
-    teamid              integer                 not null,
-    timestamp           integer                 not null,
-    joining             tinyint(1)              not null,
-    total_credit        double                  not null
+    userid              integer         not null,
+    teamid              integer         not null,
+    timestamp           integer         not null,
+    joining             tinyint         not null,
+    total_credit        double          not null
 ) TYPE=MyISAM;
 
 -- tables for moderator banishment votes
 create table banishment_vote (
-    id                  serial                  primary key,
-    userid              integer                 not null,
-    modid               integer                 not null,
-    start_time          integer                 not null,
-    end_time            integer                 not null
+    id                  serial          primary key,
+    userid              integer         not null,
+    modid               integer         not null,
+    start_time          integer         not null,
+    end_time            integer         not null
 ) TYPE=MyISAM;
 
 create table banishment_votes (
-    id                  serial                  primary key,
-    voteid              integer                 not null,
-    modid               integer                 not null,
-    time                integer                 not null,
-    yes                 tinyint(1)              not null
+    id                  serial          primary key,
+    voteid              integer         not null,
+    modid               integer         not null,
+    time                integer         not null,
+    yes                 tinyint         not null
 ) TYPE=MyISAM;
 
 create table team_admin (
-    teamid              integer                 not null,
-    userid              integer                 not null,
-    create_time         integer                 not null,
-    rights              integer                 not null
+    teamid              integer         not null,
+    userid              integer         not null,
+    create_time         integer         not null,
+    rights              integer         not null
 ) type=MyISAM;

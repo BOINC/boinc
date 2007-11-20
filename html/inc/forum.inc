@@ -119,7 +119,6 @@ function show_forum_header($user) {
 // Output the forum/thread title.
 //
 function show_forum_title($category, $forum, $thread) {
-    echo "<p>\n";
     if ($category) {
         $is_helpdesk = $category->is_helpdesk;
     } else {
@@ -128,31 +127,34 @@ function show_forum_title($category, $forum, $thread) {
     $where = $is_helpdesk?tra("Questions and Answers"):tra("Message boards");
     $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
     if (!$forum && !$thread) {
-        echo "<p class=\"title\">";
-        echo $where;
+        echo "<span class=\"title\">$where</span>";
 
     } else if ($forum && !$thread) {
         echo "<span class=title>";
         echo "<a href=\"$top_url\">$where</a> : ";
         echo $forum->title;
-        echo "</span><br>";
+        echo "</span>";
     } else if ($forum && $thread) {
         echo "<span class=title>";
         echo "<a href=\"$top_url\">$where</a> : ";
 
         echo "<a href=\"forum_forum.php?id=".$forum->id."\">", $forum->title, "</a> : ";
         echo cleanup_title($thread->title);
-        echo "</span><br>";
+        echo "</span>";
     } else {
-        echo "Invalid input to show_forum_title<br>"; // TODO: handle this condition gracefully 
+        echo "Invalid input to show_forum_title<br>";
+        echo "threadid $thread->id";
+        // TODO: handle this condition gracefully 
     }
-    echo "</p>\n";
 }
 
-function show_team_forum_title($forum) {
+function show_team_forum_title($forum, $thread=null) {
     $team = BoincTeam::lookup_id($forum->category);
-    echo "<p><a href=team_forum.php?teamid=$team->id><span class=title>$team->name message board</span></a><p>
+    echo "<a href=team_forum.php?teamid=$team->id><span class=title>$team->name message board</span></a>
     ";
+    if ($thread) {
+        echo " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
+    }
 }
 
 // Start the forum table, output the proper headings and such.
@@ -408,6 +410,7 @@ function is_ignoring($user, $other_user) {
 }
 
 function get_output_options($user) {
+    if (!$user) return null;
     $options = new output_options();
     if ($user->prefs->images_as_links) $options->images_as_links = 1;
     if ($user->prefs->link_popup) $options->link_popup = 1;
@@ -428,6 +431,7 @@ function show_post(
     $tokens = "";
     $rated_below_threshold = false;
     $rated_above_threshold = false;
+    $options = get_output_options($logged_in_user);
 
     //If the user that made this post is on the list of people to ignore,
     // change thresholds to be much more strict
@@ -553,7 +557,6 @@ function show_post(
     echo "</td></tr></form>";
     echo "<tr class=\"row$n\"><td class=\"postbody\" colspan=\"2\">";
 
-    //If either filtering is turned off or this post is not below the threshold
     if (!$filter || !$rated_below_threshold){
         $posttext = $post->content;
 
@@ -565,12 +568,7 @@ function show_post(
             $posttext.="\n____________\n".$user->prefs->signature;
         }
 
-        if ($logged_in_user){
-            $options = get_output_options($logged_in_user);
-        } else {
-            $options = null;
-        }
-        $posttext = output_transform($posttext,$options);
+        $posttext = output_transform($posttext, $options);
         
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
@@ -603,6 +601,46 @@ function show_post(
         echo "</td></tr><tr><td class=\"postfooter\" colspan=\"2\">";
     }
     echo "<tr class=\"postseperator\"><td colspan=3></td></tr>";
+}
+
+// Show a post and its context (e.g. for search results, user posts)
+//
+function show_post_and_context($post, $thread, $forum, $options, $n) {
+    $thread = BoincThread::lookup_id($post->thread);
+    $forum = BoincForum::lookup_id($thread->forum);
+
+    $content = output_transform($post->content, $options);
+    $when = time_diff_str($post->timestamp, time());
+    $user = lookup_user_id($post->user);
+    $title = cleanup_title($thread->title);
+    $m = $n%2;
+    if ($post->hidden) {
+        $deleted = "<br><font color=red>[Hidden by a moderator]</font>";
+    } else {
+        $deleted = "";
+    }
+    echo "
+        <tr class=row$m>
+        <td>
+            $n)
+    ";
+    switch ($forum->parent_type) {
+    case 0:
+        $category = BoincCategory::lookup_id($forum->category);
+        show_forum_title($category, $forum, $thread);
+        break;
+    case 1:
+        show_team_forum_title($forum);
+        break;
+    }
+    echo "
+        (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">Message ".$post->id."</a>)
+        <br>
+        Posted $when by ".user_links($user)." $deleted
+        <hr>
+        $content
+        </td></tr>
+    ";
 }
 
 function check_banished($user) {

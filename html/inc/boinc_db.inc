@@ -217,7 +217,7 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
     }
-    function delete_aux() {
+    function delete_aux($clause) {
         $db = BoincDb::get();
         return $db->delete_aux('profile', $clause);
     }

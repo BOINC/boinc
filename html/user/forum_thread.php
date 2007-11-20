@@ -98,6 +98,7 @@ if ($forum->parent_type == 0) {
 }
 
 echo "
+    <p>
     <table width=\"100%\" cellspacing=0 cellpadding=0>
     <tr>
     <td align=\"left\">
@@ -164,6 +165,7 @@ if ($reply_url) {
     show_button($reply_url, tra("Post to thread"), "Add a new message to this thread");
 }
 
+echo "<p>";
 switch ($forum->parent_type) {
 case 0:
     show_forum_title($category, $forum, $thread);

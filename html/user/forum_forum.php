@@ -58,6 +58,7 @@ case 1:
 }
 
 echo '
+    <p>
     <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="top">
     <td colspan=2>

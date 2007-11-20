@@ -52,7 +52,6 @@ td.fieldname {
 
 td.fieldvalue {
     vertical-align: top;
-#font-weight: bold;
 }
 
 td.fieldname_error {
@@ -256,9 +255,12 @@ span.news_date {
 span.inboxunread {
     font-weight: bold;
 }
+span.highlight {
+    background-color: #ffffcc;
+}
 
 .code {
-    font-family: "Consolas", "Courier New", courier, monospace;
+    font-family: "Courier New", courier, monospace;
     display: block;
     margin-left: 5em;
     border-left: 3px solid #ccaaaa; 
