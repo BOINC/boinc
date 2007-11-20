@@ -11392,3 +11392,16 @@ David  19 Nov 2007
             text_transform.inc
         user/
             pm.php
+
+David  19 Nov 2007
+    - user web: when send an email with login URL,
+        don't include the account key in the URL.
+        Rather, include the user ID, the time, and
+        a have of the ID, time, and account key.
+        Honor this for 1 day.
+
+    html/
+        inc/
+            email.inc
+        user/
+            login_action.php

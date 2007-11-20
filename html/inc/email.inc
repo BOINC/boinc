@@ -74,12 +74,15 @@ This email confirms your account with ".PROJECT.":
     E-mail:              $user->email_addr
 ";
     } else {
+        $now = time();
+        $x = md5($user->id.$user->authenticator.$now);
+        $x = substr($x, 0, 16);
         $subject = PROJECT." account information";
         $body = "This email was sent in reponse to a request on the ".PROJECT." web site.
 
 To log in to your ".PROJECT." account, visit:
-".$master_url."login_action.php?key=$user->authenticator
-
+".$master_url."login_action.php?id=$user->id&t=$now&h=$x
+(This link is valid for 1 day).
 After logging in, you can change your account's password or email address.
 ";
     }

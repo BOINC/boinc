@@ -6,7 +6,7 @@ require_once("../inc/user.inc");
 
 init_session();
 
-// First check for email/password case
+// check for email/password case
 //
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
 $passwd = stripslashes(post_str("passwd", true));
@@ -48,7 +48,32 @@ if ($email_addr && $passwd) {
     }
     exit();
 }
-// Now check for account key case.
+
+// check for time/id/hash case.
+
+$id = get_int('id', true);
+$t = get_int('t', true);
+$h = get_str('h', true);
+if ($id && $t && $h) {
+    $user = BoincUser::lookup_id($id);
+    if (!$user) error_page("no such user");
+    $x = $id.$user->authenticator.$t;
+    $x = md5($x);
+    $x = substr($x, 0, 16);
+    if ($x != $h) error_page("bad hash");
+    if (time() - $t > 86400) {
+        error_page("Link has expired;
+            go <a href=get_passwd.php>here</a> to
+            get a new login link by email."
+        );
+    }
+    $_SESSION["authenticator"] = $user->authenticator;
+    Header("Location: home.php");
+    setcookie('auth', $authenticator, time()+3600*24*365);
+    exit();
+}
+
+// check for account key case.
 // see if key is in URL; if not then check for POST data
 //
 $authenticator = process_user_text(get_str("key", true));
@@ -65,11 +90,8 @@ if (substr($user->authenticator, 0, 1) == 'x'){
 }
 $user = lookup_user_auth($authenticator);
 if (!$user) {
-    page_head("Log in");
-    echo "
-        We have no account with the key '$authenticator'.
-        <br>Click <b>Back</b> to try again.
-    ";
+    page_head("Login failed");
+    echo "No such account.";
     page_tail();
 } else {
     $_SESSION["authenticator"] = $authenticator;
