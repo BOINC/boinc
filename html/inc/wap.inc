@@ -2,8 +2,7 @@
 
 // BOINC WAP functions
 
-function wap_begin()
-{
+function wap_begin() {
     header("Content-type: text/vnd.wap.wml");
     header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
 
@@ -13,13 +12,11 @@ function wap_begin()
      . "<wml><card id=\"cd1\"><p>";
 }
 
-function wap_end()
-{
+function wap_end() {
     echo "</p></card></wml>";
 }
 
-function wap_timestamp()
-{
+function wap_timestamp() {
   return strftime("%d %b %Y %H:%M:%S UTC", mktime());
 }
 ?>

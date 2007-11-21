@@ -11487,3 +11487,12 @@ David  20 Nov 2007
 
     html/user/
         forum_forum.php
+
+David  20 Nov 2007
+    - user web: fix WAP function
+
+    html/
+        inc/
+            wap.inc
+        user/
+            userw.php
