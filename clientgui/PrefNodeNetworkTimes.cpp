@@ -76,7 +76,7 @@ CPrefNodeNetworkTimes::CPrefNodeNetworkTimes(wxWindow* parent, GLOBAL_PREFS* pre
 }
 
 // Handler for copy button.
-void CPrefNodeNetworkTimes::OnCopyTimes(wxCommandEvent& event) {
+void CPrefNodeNetworkTimes::OnCopyTimes(wxCommandEvent& WXUNUSED(event)) {
 
     m_preferences->net_times = m_preferences->cpu_times;
 

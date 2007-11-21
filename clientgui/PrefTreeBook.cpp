@@ -119,7 +119,7 @@ void CPrefTreeBook::OnTimer(wxTimerEvent& WXUNUSED(event)) {
         wxRect r = m_content->GetRect();
         wxPoint p1 = ScreenToClient(p);
 
-        if (r.Inside(p1)) {
+        if (r.Contains(p1)) {
             wxPoint p2 = m_content->ScreenToClient(p);
 
             // Iterate through children of m_content.

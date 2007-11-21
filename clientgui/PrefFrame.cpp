@@ -146,7 +146,7 @@ void CPrefFrame::OnHelp(wxCommandEvent& ev) {
 }
 
 
-void CPrefFrame::OnLocationManager(wxCommandEvent& ev) {
+void CPrefFrame::OnLocationManager(wxCommandEvent& WXUNUSED(event)) {
 	CPrefLocationManager dlg(this);
 	dlg.ShowModal();
 }

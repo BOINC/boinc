@@ -149,7 +149,7 @@ bool CValidateNumber<T>::TransferFromWindow() {
 
     if (m_validatorWindow->IsKindOf(CLASSINFO(wxTextCtrl))) {
         wxTextCtrl* pControl = (wxTextCtrl*) m_validatorWindow;
-        T val;
+        T val = 0;
         if (m_value && Parse(pControl->GetValue(), val)) {
 
             *m_value = val;

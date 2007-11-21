@@ -83,7 +83,7 @@ wxWindow* CPrefNodeBase::GetHelpAtPoint(const wxPoint& p) {
 
         r = group->GetStaticBox()->GetRect();
 
-        if (r.Inside(p1)) {
+        if (r.Contains(p1)) {
             source = this;
         }
         i++;
@@ -98,7 +98,7 @@ wxWindow* CPrefNodeBase::GetHelpAtPoint(const wxPoint& p) {
         wxWindow* win = *j;
         r = win->GetRect();
 
-        if (win->IsEnabled() && r.Inside(p1)) {
+        if (win->IsEnabled() && r.Contains(p1)) {
             return win;
         }
         j++;
@@ -182,7 +182,7 @@ CPrefNodeBase::CPrefValueBase::CPrefValueBase(
 
 // TODO: Enter/Leave events are unreliable. Augment events with mouse polling.
 // We keep the events because they make the response more snappy, the 90% of the time when they work.
-void CPrefNodeBase::CPrefValueBase::OnMouseLeave(wxMouseEvent& event) {
+void CPrefNodeBase::CPrefValueBase::OnMouseLeave(wxMouseEvent& WXUNUSED(event)) {
 
     // One method does the heavy lifting for both enter and leave events. We determine whether
     // to treat it as an enter or leave depending on the mouse position, NOT the event type.
@@ -202,7 +202,7 @@ void CPrefNodeBase::CPrefValueBase::OnMouseLeave(wxMouseEvent& event) {
 }
 
 
-void CPrefNodeBase::CPrefValueBase::OnFocus(wxChildFocusEvent& event) {
+void CPrefNodeBase::CPrefValueBase::OnFocus(wxChildFocusEvent& WXUNUSED(event)) {
 
     PrefHelpEvent e(PREF_EVT_HELP_CMD, GetId());
     e.SetTrigger(PrefHelpEvent::Focus);
@@ -478,7 +478,7 @@ void CPrefNodeBase::CPrefValueWeek::Update() {
     }
 }
 
-void CPrefNodeBase::CPrefValueWeek::OnUpdateUI(wxCommandEvent& event) {
+void CPrefNodeBase::CPrefValueWeek::OnUpdateUI(wxCommandEvent& WXUNUSED(event)) {
 
     for (int i = 0; i < 7; i++) {
         
