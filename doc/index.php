@@ -100,7 +100,11 @@ function show_create() {
         <li> <b>Companies</b>:
             use BOINC for <a href=dg.php>desktop Grid computing</a>.
         </ul>
-        Current projects: check for <a href=trac/wiki/ServerUpdates>server software updates</a>.
+        Current projects:
+        <ul>
+        <li> check for <a href=trac/wiki/ServerUpdates>server software updates</a>.
+        <li> consider publishing in <a href=trac/wiki/ConferenceList>conferences related to volunteer computing</a>.
+        </ul>
         </td></tr>
     ";
 }

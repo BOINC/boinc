@@ -100,6 +100,7 @@ struct CONFIG {
     std::vector<std::string> alt_platforms;
     int max_stdout_file_size;
     int max_stderr_file_size;
+    bool report_results_immediately;
 
     CONFIG();
     void defaults();

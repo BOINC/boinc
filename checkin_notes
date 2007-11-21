@@ -11496,3 +11496,17 @@ David  20 Nov 2007
             wap.inc
         user/
             userw.php
+
+David  21 Nov 2007
+    - client: removed -return_results_immediately cmdline option
+        (wasn't implemented anyway)
+    - client: added <report_results_immediately> configuration flag;
+        causes results to be reported as soon as done.
+        Needed for some WCG machines that are reformatted often.
+        Should NOT be used in general, since it increases server load.
+
+    client/
+        client_state.h
+        cs_cmdline.C
+        log_flags.C,h
+        work_fetch.C
