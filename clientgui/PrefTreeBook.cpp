@@ -114,15 +114,9 @@ void CPrefTreeBook::OnTimer(wxTimerEvent& WXUNUSED(event)) {
     wxPoint p = wxGetMousePosition();
     if (p != m_mouse) {
         m_mouse = p;
+        wxRect r = m_content->GetScreenRect();
 
-        // TODO: improves with wxWidgets 2.8
-        wxRect r = m_content->GetRect();
-        wxPoint p1 = ScreenToClient(p);
-
-        if (r.Contains(p1)) {
-            wxPoint p2 = m_content->ScreenToClient(p);
-
-            // Iterate through children of m_content.
+        if (r.Contains(p)) {
             if (m_content->IsKindOf(CLASSINFO(CPrefNodeBase))) {
                 CPrefNodeBase* page = (CPrefNodeBase*) m_content;
                 win = page->GetHelpAtPoint(p);
@@ -154,10 +148,8 @@ void CPrefTreeBook::OnTreeSelectionChanging(wxTreeEvent& event) {
             if (page && m_content) {
                 // Swap pages
                 wxSizer* s = m_content->GetContainingSizer();
-                // TODO: improves with wxWidgets 2.8: s->Replace(m_content, page);
-                s->Detach(m_content);
+                s->Replace(m_content, page);
                 m_content->Destroy();
-                s->Insert(0, page, 4, wxEXPAND);
                 TransferDataToWindow();
                 s->Layout();
 
