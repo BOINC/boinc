@@ -82,6 +82,13 @@ function show_profile_creation_page($user) {
                 );
             }
         }
+
+        $min_credit = parse_config($config, "<profile_min_credit>");
+        if ($min_credit && $user->expavg_credit < $min_credit) {
+            error_page(
+                "To prevent spam, an average credit of $min_credit or greater is required to create or edit a profile."
+            );
+        }
     
         process_create_profile($user, $profile);
         exit();

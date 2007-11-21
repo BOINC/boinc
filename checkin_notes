@@ -11472,3 +11472,11 @@ David  20 Nov 2007
             forum_banishment_vote.inc
         user/
             team_search.php
+
+David  20 Nov 2007
+    - user web: add a <profile_min_credit> config file option.
+        This specifies min average credit needed to create or edit a profile.
+
+    html/inc/
+        forum.inc
+        profile.inc

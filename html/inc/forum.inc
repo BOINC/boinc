@@ -496,7 +496,7 @@ function show_post(
     $url = "pm.php?action=new&userid=".$user->id;
     $name = $user->name;
     show_button($url, "Send message", "Send $name a private message");
-    echo "Joined: ", gmdate('M j y', $user->create_time), "<br>";
+    echo "<br>Joined: ", gmdate('M j y', $user->create_time), "<br>";
 
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
