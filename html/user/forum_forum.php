@@ -114,7 +114,8 @@ function show_forum($forum, $start, $sort_style, $user) {
         $owner = BoincUser::lookup_id($thread->owner);
         $unread = thread_is_unread($user, $thread);
         
-        if ($thread->status==1){
+        //if ($thread->status==1){
+        if (0) {
             // This is an answered helpdesk thread
             echo '<tr class="row_hd'.$n.'">';
         } else {

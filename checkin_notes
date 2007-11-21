@@ -11480,3 +11480,10 @@ David  20 Nov 2007
     html/inc/
         forum.inc
         profile.inc
+
+David  20 Nov 2007
+    - user web: disable feature where answered questions are
+        shown in green - not ready for prime time.
+
+    html/user/
+        forum_forum.php
