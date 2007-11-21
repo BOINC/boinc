@@ -65,12 +65,19 @@ function get_profile($userid) {
 }
 
 function show_profile_creation_page($user) {
+    $config = get_config();
+    $min_credit = parse_config($config, "<profile_min_credit>");
+    if ($min_credit && $user->expavg_credit < $min_credit) {
+        error_page(
+            "To prevent spam, an average credit of $min_credit or greater is required to create or edit a profile.  We apologize for this inconvenience."
+        );
+    }
+
     // If the user already has a profile,
     // fill in the fields with their current values.
     //
     $profile = get_profile($user->id);
     if (post_str("submit", true)) {
-        $config = get_config();
         $privatekey = parse_config($config, "<recaptcha_private_key>");
         if ($privatekey) {
             $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
@@ -83,13 +90,6 @@ function show_profile_creation_page($user) {
             }
         }
 
-        $min_credit = parse_config($config, "<profile_min_credit>");
-        if ($min_credit && $user->expavg_credit < $min_credit) {
-            error_page(
-                "To prevent spam, an average credit of $min_credit or greater is required to create or edit a profile."
-            );
-        }
-    
         process_create_profile($user, $profile);
         exit();
     }
