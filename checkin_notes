@@ -11512,7 +11512,7 @@ David  21 Nov 2007
         work_fetch.C
 
 David  21 Nov 2007
-    - user web: send UOTD email using PHPMailer if available
+    - user web: send UOTD email using PHPMailer if available; fixes #503
     - user web: don't show team forum in Q&A page
     - scheduler: code (commented out) to recognize when
         a sched request is from an existing host
