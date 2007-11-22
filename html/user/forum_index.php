@@ -92,8 +92,22 @@ if ($user && $user->teamid) {
         show_forum_summary($forum);
     }
 }
-
 end_table();
+
+if ($user) {
+    $subs = BoincSubscription::enum("userid=$user->id");
+    if (count($subs)) {
+        echo "<h3>Subscribed threads</h2>";
+        show_thread_and_context_header();
+        foreach ($subs as $sub) {
+            $thread = BoincThread::lookup_id($sub->threadid);
+            if ($thread->hidden) continue;
+            show_thread_and_context($thread);
+        }
+        end_table();
+    }
+}
+
 page_tail();
 flush();
 BoincForumLogging::cleanup();

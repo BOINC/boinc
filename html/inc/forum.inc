@@ -118,7 +118,7 @@ function show_forum_header($user) {
 
 // Output the forum/thread title.
 //
-function show_forum_title($category, $forum, $thread) {
+function show_forum_title($category, $forum, $thread, $link_thread=false) {
     if ($category) {
         $is_helpdesk = $category->is_helpdesk;
     } else {
@@ -135,11 +135,17 @@ function show_forum_title($category, $forum, $thread) {
         echo $forum->title;
         echo "</span>";
     } else if ($forum && $thread) {
-        echo "<span class=title>";
-        echo "<a href=\"$top_url\">$where</a> : ";
-
-        echo "<a href=\"forum_forum.php?id=".$forum->id."\">", $forum->title, "</a> : ";
+        echo "<span class=title>
+            <a href=\"$top_url\">$where</a> : 
+            <a href=\"forum_forum.php?id=".$forum->id."\">", $forum->title, "</a> : 
+        ";
+        if ($link_thread) {
+            echo "<a href=forum_thread?id=$thread->id>";
+        }
         echo cleanup_title($thread->title);
+        if ($link_thread) {
+            echo "</a>";
+        }
         echo "</span>";
     } else {
         echo "Invalid input to show_forum_title<br>";
@@ -967,6 +973,45 @@ function is_moderator($user, $forum) {
         $team = BoincTeam::lookup_id($forum->category);
         return is_team_admin($user, $team);
         break;
+    }
+    return false;
+}
+
+function show_thread_and_context_header() {
+    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
+}
+
+// show a 1-line summary of thread and its forum.
+// Used for search results and subscription list
+//
+function show_thread_and_context($thread) {
+    $thread_forum = BoincForum::lookup_id($thread->forum);
+    if (!$thread_forum) continue;
+    $owner = BoincUser::lookup_id($thread->owner);
+    echo "<tr><td>\n";
+    switch($thread_forum->parent_type) {
+    case 0:
+        $category = BoincCategory::lookup_id($thread_forum->category);
+        show_forum_title($category, $thread_forum, $thread, true);
+        break;
+    case 1:
+        show_team_forum_title($thread_forum, $thread);
+        break;
+    }
+    echo '
+        </td><td>'.($thread->replies+1).'</td>
+        <td align="left"><div class="authorcol">'.user_links($owner).'</div></td>
+        <td>'.$thread->views.'</td>
+        <td style="text-align:right">'.time_diff_str($thread->timestamp, time()).'</td>
+        </tr>
+    ';
+}
+
+// see if thread is in subscription list
+//
+function is_subscribed($thread, $subs) {
+    foreach ($subs as $sub) {
+        if ($sub->threadid == $thread->id) return true;
     }
     return false;
 }

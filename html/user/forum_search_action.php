@@ -144,29 +144,10 @@ $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, rou
 // Display the threads while we search for posts
 if (count($threads)){
     echo "<h2>Thread titles matching your query:</h2>";
-    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
+    show_thread_and_context_header();
     foreach ($threads as $thread){
         if ($thread->hidden) continue;
-        $thread_forum = BoincForum::lookup_id($thread->forum);
-        if (!$thread_forum) continue;
-        $owner = BoincUser::lookup_id($thread->owner);
-        echo "<tr><td>\n";
-        switch($thread_forum->parent_type) {
-        case 0:
-            $category = BoincCategory::lookup_id($thread_forum->parent);
-            show_forum_title($category, $thread_forum, $thread);
-            break;
-        case 1:
-            show_team_forum_title($thread_forum, $thread);
-            break;
-        }
-        echo '
-            </td><td>'.($thread->replies+1).'</td>
-            <td align="left"><div class="authorcol">'.user_links($owner).'</div></td>
-            <td>'.$thread->views.'</td>
-            <td style="text-align:right">'.time_diff_str($thread->timestamp, time()).'</td>
-            </tr>
-        ';
+        show_thread_and_context($thread);
     }
     end_table();
     echo "<br /><br />";

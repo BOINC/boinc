@@ -11540,3 +11540,16 @@ David  21 Nov 2007
         user/
             team_delta.php
             team_admins.php
+
+David  21 Nov 2007
+    - user web: show list of subscribed threads on forum index page
+    - user web: highlight subscribed threads using green background
+    - user web: hyperlink thread titles in search results
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
+            forum_index.php
+            forum_search_action.php

@@ -100,6 +100,7 @@ function show_forum($forum, $start, $sort_style, $user) {
     start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
     
     $sticky_first = !$user || !$user->prefs->ignore_sticky_posts;
+
     // Show hidden threads if logged in user is a moderator
     //
     $show_hidden = is_moderator($user, $forum);
@@ -107,6 +108,10 @@ function show_forum($forum, $start, $sort_style, $user) {
         $forum->id, $start, THREADS_PER_PAGE,
         $sort_style, $show_hidden, $sticky_first
     );
+
+    if ($user) {
+        $subs = BoincSubscription::enum("userid=$user->id");
+    }
     
     // Run through the list of threads, displaying each of them
     $n = 0; $i=0;
@@ -115,8 +120,8 @@ function show_forum($forum, $start, $sort_style, $user) {
         $unread = thread_is_unread($user, $thread);
         
         //if ($thread->status==1){
-        if (0) {
             // This is an answered helpdesk thread
+        if ($user && is_subscribed($thread, $subs)) {
             echo '<tr class="row_hd'.$n.'">';
         } else {
             // Just a standard thread.
