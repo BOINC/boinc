@@ -1,11 +1,12 @@
 ##########################################
-# Language: English (International)
+# Language: Czech
 # FileID  : $Id$
+# Author  : Martin Suchan
+# Email   : martin.suchan@email.cz
 ##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
-
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -627,7 +628,8 @@ msgstr "BOINC online pomoc je založena na programu %sSkype%s pro telefonování
 msgid "HELP_P1_3"
 msgstr "Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, "
 "pro kterou budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset pro Váš počítač. "
-"Pro komunikaci s dobrovolnými pomocníky je též možné použít textovového rozhovoru přes Skype."
+"Pro komunikaci s dobrovolnými pomocníky lze též použít textovového rozhovoru přes Skype, "
+"nebo klasický email (pokud nepoužíváte Skype)."
 
 msgid "HELP_P1_4"
 msgstr "Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. "
