@@ -11553,3 +11553,9 @@ David  21 Nov 2007
             forum_forum.php
             forum_index.php
             forum_search_action.php
+
+David  21 Nov 2007
+    - user web: URL fix
+
+    html/inc/
+        forum.inc

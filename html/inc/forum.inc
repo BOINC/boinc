@@ -140,7 +140,7 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
             <a href=\"forum_forum.php?id=".$forum->id."\">", $forum->title, "</a> : 
         ";
         if ($link_thread) {
-            echo "<a href=forum_thread?id=$thread->id>";
+            echo "<a href=forum_thread.php?id=$thread->id>";
         }
         echo cleanup_title($thread->title);
         if ($link_thread) {
