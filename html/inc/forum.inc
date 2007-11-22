@@ -156,11 +156,13 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
 
 function show_team_forum_title($forum, $thread=null) {
     $team = BoincTeam::lookup_id($forum->category);
-    echo "<a href=team_forum.php?teamid=$team->id><span class=title>$team->name message board</span></a>
+    echo "<span class=title>
+        <a href=team_forum.php?teamid=$team->id>$team->name message board</a>
     ";
     if ($thread) {
         echo " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
     }
+    echo "</span>";
 }
 
 // Start the forum table, output the proper headings and such.
