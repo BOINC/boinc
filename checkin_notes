@@ -11510,3 +11510,19 @@ David  21 Nov 2007
         cs_cmdline.C
         log_flags.C,h
         work_fetch.C
+
+David  21 Nov 2007
+    - user web: send UOTD email using PHPMailer if available
+    - user web: don't show team forum in Q&A page
+    - scheduler: code (commented out) to recognize when
+        a sched request is from an existing host
+        (same IP/domain/RAM size) and reuse the host record;
+        from Kevin Reed
+
+    html/
+        inc/
+            uotd.inc
+        user/
+            forum_help_desk.php
+    sched/
+        handle_request.C

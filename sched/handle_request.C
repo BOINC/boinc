@@ -171,6 +171,29 @@ static void mark_results_over(DB_HOST& host) {
     }
 }
 
+// find the user's most recently-created host with given
+// various characteristics
+//
+static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
+    char buf[256];
+
+    sprintf(buf,
+        "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and p_model = '%s' and m_nbytes = %lf order by id desc",
+        user.id, req_host.id, req_host.domain_name, req_host.last_ip_addr,
+        req_host.p_model, req_host.m_nbytes
+    );
+    if (!host.enumerate(buf)) {
+        host.end_enumerate();
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[HOST#%d] [USER#%d] Found similar existing host for this user.\n",
+            host.id, host.userid
+        );
+        return true;
+    }
+    return false;
+}
+
 // Based on the info in the request message,
 // look up the host and its user, and make sure the authenticator matches.
 // Some special cases:
@@ -324,6 +347,20 @@ lookup_user_and_make_new_host:
         }
 
 make_new_host:
+        // One final attempt to locate an existing host record:
+        // scan backwards through this user's hosts,
+        // looking for one with the same host name,
+        // IP address, processor and amount of RAM.
+        // If found, use the existing host record,
+        // and mark in-progress results as over.
+        //
+#if 0
+        if (find_host_by_other(user, sreq.host, host)) {
+            mark_results_over(host);
+            goto got_host;
+        }
+#endif
+
         // either of the above cases,
         // or host ID didn't match user ID,
         // or RPC seqno was too low.

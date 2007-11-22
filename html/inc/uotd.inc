@@ -1,5 +1,6 @@
 <?php
 
+require_once('../inc/email.inc');
 require_once('../inc/profile.inc');
 
 define('UOTD_THRESHOLD', 7);
@@ -68,7 +69,10 @@ function select_uotd() {
     // email the sys admin every time we pick a new one.
     //
     if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
-        mail(UOTD_ADMIN_EMAIL,
+        $u = new BoincUser;
+        $u->email_addr - UOTD_ADMIN_EMAIL;
+        $u->name = "UOTD admin";
+        send_email($u,
             PROJECT . ": User of the Day pool is running low!",
             "The pool of approved candidates for User of the Day has".
             " reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n".
@@ -95,7 +99,7 @@ function select_uotd() {
     $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
     mysql_query($sql);
 
-    mail($user->email_addr,
+    send_email($user,
         "You're the " . PROJECT . " user of the day!",
         "Congratulations!\n\nYou've been chosen as the "
         . PROJECT . " user of the day!
