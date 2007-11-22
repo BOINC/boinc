@@ -11526,3 +11526,17 @@ David  21 Nov 2007
             forum_help_desk.php
     sched/
         handle_request.C
+
+David  21 Nov 2007
+    - user web: team admins receive email notification of
+        moderation and red-X events, as well as team founder
+    - user web: admins can view team join/quit history
+        (which no longer contains email addresses)
+    - user web: update text describing admin privileges
+
+    html/
+        inc/
+            forum_email.inc
+        user/
+            team_delta.php
+            team_admins.php

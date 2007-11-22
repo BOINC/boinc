@@ -25,8 +25,9 @@ function show_admins($user, $teamid) {
         Team Admins can:
         <ul>
         <li> Edit team information (name, URL, description, country).
-        <li> View the member list (including email addresses).
         <li> View the team's join/quit history.
+        <li> Moderate the team forum, if any (admins get emails notification
+            of moderation events and red X reports).
         </ul>
         Team Admins cannot:
         <ul>

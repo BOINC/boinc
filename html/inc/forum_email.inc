@@ -8,7 +8,7 @@ define('MASTER_URL', $master_url);
 
 // send an email to admins:
 // - project forums: everyone in POST_REPORT_EMAILS
-// - team message board: team founder
+// - team message board: team founder and admins
 //
 function mail_report_list($forum, $subject, $body, $must_send=false) {
     $success = true;
@@ -33,6 +33,11 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
         $team = BoincTeam::lookup_id($forum->category);
         $founder = BoincUser::lookup_id($team->userid);
         $success = send_email($founder, $subject, $body);
+        $admins = BoincTeamAdmin::enum("teamid=$team->id");
+        foreach ($admins as $admin) {
+            $u = BoincUser::lookup_id($admin->userid);
+            $success &= send_email($u, $subject, $body);
+        }
         break;
     }
     return $success;

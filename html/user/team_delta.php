@@ -38,11 +38,11 @@ if ($xml) {
     xml_header();
 }
 
-if (!$team || !is_team_founder($user, $team)) {
+if (!$team || !is_team_admin($user, $team)) {
     if ($xml) {
-        xml_error("-1", "Not founder");
+        xml_error("-1", "Not founder or admin");
     } else {
-        error_page("Not founder");
+        error_page("Not founder or admin");
     }
 }
 
