@@ -16,7 +16,7 @@ function merge_lists($list1, &$list2, $weight) {
             $list2[$id]->refcnt += $weight;
         } else {
             $list2[$id] = $team;
-            $list2[$id]->refcnt = 0;
+            $list2[$id]->refcnt = $weight;
         }
     }
 }
@@ -115,7 +115,7 @@ function search($params) {
         team_search_form($params);
     } else {
         echo "
-            The following teams match your search criteria.
+            The following teams match one or more of your search criteria.
             To join a team, click its name to go to the team page,
                then click <b>Join this team</b>.
             <p>
