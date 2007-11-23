@@ -26,6 +26,10 @@ function create_confirm($user, $team) {
 }
 
 function create_forum($user, $team) {
+    $f = BoincForum::lookup("parent_type=1 and category=$team->id");
+    if ($f) {
+        error_page("Team already has a forum");
+    }
     $id = BoincForum::insert("(category, parent_type) values ($team->id, 1)");
     $forum = BoincForum::lookup_id($id);
     if (!$forum) {

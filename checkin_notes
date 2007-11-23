@@ -11576,3 +11576,9 @@ David  21 Nov 2007
             forum_db.inc
         user/
             forum_edit.php
+
+David  23 Nov 2007
+    - prevent 2 forums for 1 team
+
+    html/user/
+        team_forum.php
