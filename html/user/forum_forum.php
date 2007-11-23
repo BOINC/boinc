@@ -130,10 +130,10 @@ function show_forum($forum, $start, $sort_style, $user) {
         
         echo "<td width=\"1%\" align=\"right\"><nobr>";
         if ($user && ($thread->rating()>$user->prefs->high_rating_threshold)) {
-            show_image(EMPHASIZE_IMAGE, "This message has a high average rating");
+            show_image(EMPHASIZE_IMAGE, "This message has a high average rating", "Highly rated");
         }
         if ($user && ($thread->rating()<$user->prefs->low_rating_threshold)) {
-            show_image(FILTER_IMAGE, "This message has a low average rating");
+            show_image(FILTER_IMAGE, "This message has a low average rating", "Low rated");
         }
         if ($thread->hidden) {
             echo "[hidden]";
@@ -141,27 +141,27 @@ function show_forum($forum, $start, $sort_style, $user) {
         if ($unread) {
             if ($thread->sticky) {
                 if ($thread->locked) {
-                    show_image(NEW_IMAGE_STICKY_LOCKED, "This thread is sticky and locked, and you haven't read it yet");
+                    show_image(NEW_IMAGE_STICKY_LOCKED, "This thread is sticky and locked, and you haven't read it yet", "sticky/locked/unread");
                 } else {
-                    show_image(NEW_IMAGE_STICKY, "This thread is sticky and you haven't read it yet");
+                    show_image(NEW_IMAGE_STICKY, "This thread is sticky and you haven't read it yet", "sticky/unread");
                 }
             } else {
                 if ($thread->locked) {
-                    show_image(NEW_IMAGE_LOCKED, "You haven't read this thread yet, and it's locked");
+                    show_image(NEW_IMAGE_LOCKED, "You haven't read this thread yet, and it's locked", "unread/locked");
                 } else {
-                    show_image(NEW_IMAGE, "You haven't read this thread yet");
+                    show_image(NEW_IMAGE, "You haven't read this thread yet", "unread");
                 }
             }
         } else {
             if ($thread->sticky) {
                 if ($thread->locked) {
-                    show_image(IMAGE_STICKY_LOCKED, "This thread is sticky and locked");
+                    show_image(IMAGE_STICKY_LOCKED, "This thread is sticky and locked", "sticky/locked");
                 } else {
-                    show_image(IMAGE_STICKY, "This thread is sticky");
+                    show_image(IMAGE_STICKY, "This thread is sticky", "sticky");
                 }
             } else {
                 if ($thread->locked) {
-                    show_image(IMAGE_LOCKED, "This thread is locked");
+                    show_image(IMAGE_LOCKED, "This thread is locked", "locked");
                 }
             }
         }

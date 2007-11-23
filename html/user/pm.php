@@ -8,7 +8,7 @@ require_once("../inc/akismet.inc");
 
 function show_block_link($userid) {
     echo " <a href=\"pm.php?action=block&id=$userid\">";
-    show_image(REPORT_POST_IMAGE, "Block messages from this user",  REPORT_POST_IMAGE_HEIGHT);
+    show_image(REPORT_POST_IMAGE, "Block messages from this user",  "Block user", REPORT_POST_IMAGE_HEIGHT);
     echo "</a>";
 }
 

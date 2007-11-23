@@ -20,12 +20,9 @@ function show_uotd() {
     $profile = get_current_uotd();
     if ($profile) {
         $user = lookup_user_id($profile->userid);
-        echo "<br><table cellpadding=4 cellspacing=0><tr><td>";
         echo uotd_thumbnail($profile, $user);
-        echo "</td><td>";
         echo user_links($user)."<br>";
-        echo sub_sentence(output_transform(strip_bbcode(no_pres(strip_tags($profile->response1)))), ' ', 150, true);
-        echo "</td></tr></table><br>\n";
+        echo sub_sentence(strip_tags(output_transform($profile->response1)), ' ', 150, true);
     }
 }
 

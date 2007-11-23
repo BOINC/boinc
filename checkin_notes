@@ -11592,3 +11592,22 @@ David  23 Nov 2007
             translation.inc
         user/
             team_search.php
+
+David  23 Nov 2007
+    - user web: when showing UOTD on front page,
+        strip HTML tags from text (e.g. to remove photos)
+    - user web: show_image(): separate title (tooltip text)
+        from "alt" (replaces image if images disabled).
+        The latter must be terse.
+    - user web: show_button(): make it work even if Javascript disabled
+
+    html/
+        inc/
+            forum.inc
+            uotd.inc
+            util.inc
+        user/
+            forum_forum.php
+            forum_reply.php
+            pm.php
+            sample_index.php

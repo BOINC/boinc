@@ -110,10 +110,7 @@ if (!$stopped) {
             <td id=\"uotd\">
             <h2>User of the day</h2>
         ";
-        $user = lookup_user_id($profile->userid);
-        echo uotd_thumbnail($profile, $user);
-        echo user_links($user)."<br>";
-        echo sub_sentence(output_transform(strip_tags($profile->response1)), ' ', 150, true);
+        show_uotd($profile);
         echo "</td></tr>\n";
     }
 }

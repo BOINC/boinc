@@ -68,6 +68,7 @@ case 1:
     show_team_forum_title($forum);
     break;
 }
+echo "<p>";
 
 if ($preview == tra("Preview")) {
     $options = new output_options;

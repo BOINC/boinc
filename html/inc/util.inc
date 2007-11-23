@@ -544,7 +544,7 @@ function sched_stopped() {
 function user_links($user) {
     $x = "<a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->has_profile) {
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" src="'.URL_BASE.'img/head_20.png" alt="User profile image"></a>';
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" src="'.URL_BASE.'img/head_20.png" alt="Profile"></a>';
     }
     // Does this project accept donations?
     // If so, do you want to have a link next to user name as it appears on the web site?
@@ -757,15 +757,22 @@ function current_url() {
 }
 
 function show_button($url, $text, $desc) {
-    echo "<a href=$url><input onClick=\"document.location.href='$url'\" class=btn type=button value=\"$text\" title=\"$desc\"></a>\n";
+    echo "
+        <script>
+        document.write('<input onClick=\"document.location.href=\'$url\'\" class=btn type=button value=\"$text\" title=\"$desc\">')
+        </script>
+        <noscript>
+        <a href=$url title=$title>$text</a>
+        </noscript>
+    ";
 }
 
-function show_image($src, $title, $height=null) {
+function show_image($src, $title, $alt, $height=null) {
     $h = "";
     if ($height) {
         $h = "height=\"$height\"";
     }
-    echo "<img border=0 title=\"$title\" alt=\"$title\" src=\"$src\" $h>";
+    echo "<img border=0 title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

@@ -531,10 +531,10 @@ function show_post(
     }
 
     if ($logged_in_user && $post->timestamp>$last_visit){
-        show_image(NEW_IMAGE, "You haven't read this message yet", NEW_IMAGE_HEIGHT);
+        show_image(NEW_IMAGE, "You haven't read this message yet", "Unread", NEW_IMAGE_HEIGHT);
     }
     if ($rated_above_threshold){
-        show_image(EMPHASIZE_IMAGE, "This message has a high average rating", EMPHASIZE_IMAGE_HEIGHT);
+        show_image(EMPHASIZE_IMAGE, "This message has a high average rating", "Highly rated", EMPHASIZE_IMAGE_HEIGHT);
     }
 
     echo " <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#$post->id\">Message ".$post->id."</a> - ";
@@ -582,18 +582,18 @@ function show_post(
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
         if ($no_forum_rating != NULL) { 
             echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
-            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
+            show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
             echo "</td>";
         } else {
             $rating = $post->rating();
             echo " | Rating: ", $rating, "</i> | rate: 
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
-            show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", RATE_POSITIVE_IMAGE_HEIGHT);
+            show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", "Rate +", RATE_POSITIVE_IMAGE_HEIGHT);
             echo "</a> / <a href=\"forum_rate.php?post=".$post->id."&choice=n$tokens\">";
-            show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", RATE_NEGATIVE_IMAGE_HEIGHT);
+            show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", "Rate -", RATE_NEGATIVE_IMAGE_HEIGHT);
             echo "</a> <a href=\"forum_report_post.php?post=".$post->id."\">";
-            show_image(REPORT_POST_IMAGE, "Report this post as offensive", REPORT_POST_IMAGE_HEIGHT);
+            show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
             echo "</a></td> ";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
@@ -680,7 +680,7 @@ function post_rules() {
 
 function post_warning() {
     return "<br><br>
-        <table><tr><td>
+        <table><tr><td align=left>
         <font size=-2>
         Rules:
     ".post_rules()."
