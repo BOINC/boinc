@@ -118,7 +118,7 @@ if ($add_user_to_filter){
 $ignored_users = get_ignored_list($user);
 for ($i=0;$i<sizeof($ignored_users);$i++){
     if ($_POST["remove".trim($ignored_users[$i])]!=""){
-        $other_user = BoincUser::lookup_id($user_to_add);
+        $other_user = BoincUser::lookup_id($ignored_users[$i]);
         if (!$other_user) {
             echo "No such user: $other_user";
         } else {

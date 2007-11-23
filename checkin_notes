@@ -11559,3 +11559,10 @@ David  21 Nov 2007
 
     html/inc/
         forum.inc
+
+David  21 Nov 2007
+    - user web: fix bug in user filter; fixes #505
+
+    html/user
+        forum_edit_forum_preferences_action.php
+        forum_edit_forum_preferences_form.php

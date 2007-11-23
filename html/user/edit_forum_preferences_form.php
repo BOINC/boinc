@@ -120,10 +120,11 @@ row2(
 
 $filtered_userlist = get_ignored_list($user);
 for ($i=0; $i<sizeof($filtered_userlist); $i++){
-    if ($filtered_userlist[$i] != ""){
-        $filtered_user = BoincUser::lookup_id($filtered_userlist[$i]);
-        if ($filtered_user) {
-            echo "missing user $filtered_userlist[$i]";
+    $id = (int)$filtered_userlist[$i];
+    if ($id) {
+        $filtered_user = BoincUser::lookup_id($id);
+        if (!$filtered_user) {
+            echo "Missing user $id";
             continue;
         }
         $forum_filtered_userlist .= "<input type =\"submit\" name=\"remove".$filtered_user->id."\" value=\"Remove\"> ".$filtered_user->id." - ".user_links($filtered_user)."<br>";
