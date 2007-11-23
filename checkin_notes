@@ -11566,3 +11566,13 @@ David  21 Nov 2007
     html/user
         forum_edit_forum_preferences_action.php
         forum_edit_forum_preferences_form.php
+
+David  21 Nov 2007
+    - user web: if user edits posts and content is empty, delete; fixes #504
+
+    html/
+        inc/
+            forum.inc
+            forum_db.inc
+        user/
+            forum_edit.php

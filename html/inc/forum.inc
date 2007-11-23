@@ -744,6 +744,17 @@ function unhide_post($post, $thread, $forum) {
     return $forum->update("posts=posts+1, timestamp=$now");
 }
 
+function delete_post($post, $thread, $forum) {
+    $post->delete();
+    $thread->update("replies=replies-1");
+    $forum->update("posts=posts-1");
+    $count = BoincPost::count("thread=$thread->id");
+    if ($count == 0) {
+        $forum->update("threads=threads-1");
+        $thread->delete();
+    }
+}
+
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
     $now = time();
     $post->update("thread=$new_thread->id");

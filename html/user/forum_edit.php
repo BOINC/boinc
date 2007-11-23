@@ -31,6 +31,11 @@ if (($logged_in_user->id != $post_owner->id) || (can_reply($thread, $forum, $log
 }
 
 $thread_owner = BoincUser::lookup_id($thread->owner);
+
+// If this post belongs to the creator of the thread and is at top-level 
+// (ie. not a response to another post)
+// allow the user to modify the thread title
+//
 $can_edit_title = ($post->parent_post==0 and $thread_owner->id==$logged_in_user->id);
 
 $content = post_str("content", true);
@@ -40,28 +45,25 @@ $preview = post_str("preview", true);
 if (post_str('submit',true) && (!$preview)) {
     check_tokens($logged_in_user->authenticator);
     
-    if (post_str('add_signature', true) == "1") {
-        $add_signature = 1;
-    }  else {
-        $add_signature = 0;
-    }
+    $add_signature = (post_str('add_signature', true) == "1")?1:0;
     $content = substr($content, 0, 64000);
-    $content = BoincDb::escape_string($content);
-    $now = time();
-    $post->update("signature=$add_signature, content='$content', modified=$now");
+    $content = trim($content);
+    if (strlen($content)) {
+        $content = BoincDb::escape_string($content);
+        $now = time();
+        $post->update("signature=$add_signature, content='$content', modified=$now");
     
-    // If this post belongs to the creator of the thread and is at top-level 
-    // (ie. not a response to another post)
-    // allow the user to modify the thread title
-    //
-    if ($can_edit_title){
-        $title = trim($title);
-        $title = strip_tags($title);
-        $title = BoincDb::escape_string($title);
-        $thread->update("title='$title'");
+        if ($can_edit_title){
+            $title = trim($title);
+            $title = strip_tags($title);
+            $title = BoincDb::escape_string($title);
+            $thread->update("title='$title'");
+        }
+        header("Location: forum_thread.php?id=$thread->id");
+    } else {
+        delete_post($post, $thread, $forum);
+        header("Location: forum_forum.php?id=$forum->id");
     }
-
-    header("Location: forum_thread.php?id=$thread->id");
 }
 
 page_head('Forum');

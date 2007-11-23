@@ -66,6 +66,10 @@ class BoincThread {
     function rating() {
         return $this->score*$this->votes;
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'thread');
+    }
 }
 
 class BoincPost {
@@ -97,6 +101,10 @@ class BoincPost {
     }
     function rating() {
         return $this->score*$this->votes;
+    }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'post');
     }
 }
 
