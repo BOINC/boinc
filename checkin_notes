@@ -11611,3 +11611,15 @@ David  23 Nov 2007
             forum_reply.php
             pm.php
             sample_index.php
+
+David  23 Nov 2007
+    - team import: fix string-escaping bugs
+    - user web: don't show links to sched logs if they don't exist
+    - user web: add new team types
+
+    html/
+        inc/
+            host.inc
+            team_types.inc
+        ops/
+            team_import.php

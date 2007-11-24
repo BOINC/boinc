@@ -8,12 +8,17 @@ $team_types = array(
     "Secondary school",
     "Junior college",
     "University or department",
-    "Government agency"
+    "Government agency",
+    "Non-profit organization",
+    "National",
+    "Local/regional",
+    "Computer type",
+    "Social/political/religious"
 );
 
 function team_type_name($num) {
     global $team_types;
-    if ($num>0 && $num<8) {
+    if ($num>0 && $num<count($team_types)) {
         return $team_types[$num];
     }
     return "None";

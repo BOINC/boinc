@@ -18,7 +18,11 @@ function sched_log_name($x) {
 }
 
 function sched_log_link($x) {
-    return "<a href=\"../sched_logs/" . sched_log_name($x) . "\">" . time_str($x) . "</a>";
+    if (file_exists("../sched_logs")) {
+        return "<a href=\"../sched_logs/" . sched_log_name($x) . "\">" . time_str($x) . "</a>";
+    } else {
+        return time_str($x);
+    }
 }
 
 function location_form($host) {

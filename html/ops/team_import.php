@@ -106,7 +106,7 @@ function insert_case($t, $user) {
     }
     if (!$user) {
         echo "   making user $t->user_email\n";
-        $user = make_user($t->user_email, $t->user_name, random_string());
+        $user = make_user(mysql_real_escape_string($t->user_email), mysql_real_escape_string($t->user_name), random_string());
         if (!$user) {
             echo "   Can't make user $t->user_email\n";
             echo mysql_error();
@@ -176,8 +176,8 @@ function handle_team($f) {
     }
 
     echo "Processing $t->name $t->user_email\n";
-    $user = lookup_user_email_addr($t->user_email);
-    $team = lookup_team_name($t->name);
+    $user = lookup_user_email_addr(mysql_real_escape_string($t->user_email));
+    $team = lookup_team_name(mysql_real_escape_string($t->name));
     if ($team) {
         if (!$user) {
             echo "   team exists but user $t->user_email doesn't\n";
