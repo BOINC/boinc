@@ -102,7 +102,7 @@ if ($user) {
         foreach ($subs as $sub) {
             $thread = BoincThread::lookup_id($sub->threadid);
             if ($thread->hidden) continue;
-            show_thread_and_context($thread);
+            show_thread_and_context($thread, $user);
         }
         end_table();
     }
