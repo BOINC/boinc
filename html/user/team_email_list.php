@@ -21,7 +21,8 @@ if ($xml) {
     $user = lookup_user_auth($account_key);
     $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
-    $users = BoincUser::enum("teamid=$team->id");
+    $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
+    //$users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
         show_team_member($user, $show_email);
     } 
@@ -44,7 +45,7 @@ if ($plain) {
     table_header(array("Member list of ".$team->name, "colspan=\"6\""));
     table_header("Name", "Email address", "Total credit", "Recent average credit", "Country");
 }
-$users = BoincUser::enum("teamid=$team->id");
+$users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
 foreach($users as $user) {
     if ($plain) {
         $e = $user->send_email?"<$user->email_addr>":"";

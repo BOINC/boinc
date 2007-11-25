@@ -13,7 +13,7 @@ function show_admin_page($user, $team) {
         <li>
             Member list:
         <a href=team_email_list.php?teamid=$team->id>HTML</a>
-        | <a href=team_email_list.php?teamid=$team->id>text</a>
+        | <a href=team_email_list.php?teamid=$team->id&plain=1>text</a>
             <br><span class=note> View member names and email addresses </span>
         <li>View change history:
             <a href=team_delta.php?teamid=$team->id>HTML</a>

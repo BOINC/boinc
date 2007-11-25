@@ -11637,3 +11637,11 @@ David  24 Nov 2007
             forum_thread.php
             forum_forum.php
             forum_search_action.php
+
+David  25 Nov 2007
+    - user web: use enum_fields() when enumerating team members;
+        hopefully this will prevent running out of memory on large teams
+
+    html/user/
+        team_email_list.php
+        team_manage.php
