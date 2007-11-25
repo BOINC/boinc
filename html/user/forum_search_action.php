@@ -147,7 +147,7 @@ if (count($threads)){
     show_thread_and_context_header();
     foreach ($threads as $thread){
         if ($thread->hidden) continue;
-        show_thread_and_context($thread);
+        show_thread_and_context($thread, $logged_in_user);
     }
     end_table();
     echo "<br /><br />";
@@ -172,6 +172,7 @@ if (count($posts)){
         if (!$thread) continue;
         $forum = BoincForum::lookup_id($thread->forum);
         if (!$forum) continue;
+        if (!is_forum_visible_to_user($forum, $logged_in_user)) continue;
 
         if (($show_hidden_posts == false) && ($thread->hidden)) continue;
         if (($show_hidden_posts == false) && ($post->hidden)) continue;

@@ -14,6 +14,11 @@ if (!$start) $start = 0;
 
 $forum = BoincForum::lookup_id($id);
 $user = get_logged_in_user(false);
+
+if (!is_forum_visible_to_user($forum, $user)) {
+    error_page("Not visible");
+}
+
 BoincForumPrefs::lookup($user);
 
 if (!$sort_style) {

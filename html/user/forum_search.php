@@ -39,7 +39,7 @@ if (get_str("forumid",true)){
 $forumlist="<option value=\"-1\">All</option>";
 $categories = BoincCategory::enum();
 foreach ($categories as $category) {
-    $forums = BoincForum::enum("category=$category->id");
+    $forums = BoincForum::enum("parent_type=0 and category=$category->id");
     foreach ($forums as $forum) {
         if ($forum->id==$forumid){
             $forumlist.="<option selected value=\"".$forum->id."\">".$forum->title."</option>";

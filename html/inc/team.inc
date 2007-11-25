@@ -3,6 +3,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/forum_db.inc");
+require_once("../inc/forum.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
@@ -75,7 +76,8 @@ function display_team_page($team, $user) {
     row2("Recent average credit", format_credit_large($team->expavg_credit));
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
-    if ($team->forum) {
+
+    if ($team->forum && is_forum_visible_to_user($team->forum, $user)) {
         $f = $team->forum;
         row2("<a href=team_forum.php?teamid=$team->id>Message board</a>",
             "Threads: $f->threads<br>Posts: $f->posts<br>Last post: ".time_diff_str($f->timestamp, time())

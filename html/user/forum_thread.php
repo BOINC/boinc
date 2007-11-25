@@ -24,6 +24,10 @@ if ($logged_in_user) {
 $thread = BoincThread::lookup_id($threadid);
 $forum = BoincForum::lookup_id($thread->forum);
 
+if (!is_forum_visible_to_user($forum, $logged_in_user)) {
+    error_page("Not visible");
+}
+
 if ($thread->hidden) {
     if (!is_moderator($logged_in_user, $forum)) {
         error_page(

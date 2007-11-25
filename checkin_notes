@@ -11623,3 +11623,17 @@ David  23 Nov 2007
             team_types.inc
         ops/
             team_import.php
+
+David  24 Nov 2007
+    - user web: add <team_forums_members_only> config option.
+        If set, only team members can see team forums
+
+    html/
+        inc/
+            forum.inc
+            team.inc
+        user/
+            forum_search.php
+            forum_thread.php
+            forum_forum.php
+            forum_search_action.php

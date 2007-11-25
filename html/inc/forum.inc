@@ -997,9 +997,10 @@ function show_thread_and_context_header() {
 // show a 1-line summary of thread and its forum.
 // Used for search results and subscription list
 //
-function show_thread_and_context($thread) {
+function show_thread_and_context($thread, $user) {
     $thread_forum = BoincForum::lookup_id($thread->forum);
-    if (!$thread_forum) continue;
+    if (!$thread_forum) return;
+    if (!is_forum_visible_to_user($thread_forum, $user)) return;
     $owner = BoincUser::lookup_id($thread->owner);
     echo "<tr><td>\n";
     switch($thread_forum->parent_type) {
@@ -1028,5 +1029,16 @@ function is_subscribed($thread, $subs) {
     }
     return false;
 }
+
+function is_forum_visible_to_user($forum, $user) {
+    if ($forum->parent_type == 1) {
+        if (parse_config(get_config(), "<team_forums_members_only>")) {
+            if (!$user) return false;
+            if ($user->teamid != $forum->category) return false;
+        }
+    }
+    return true;
+}
+
 
 ?>
