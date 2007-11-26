@@ -18,7 +18,7 @@ function show_title($forum, $thread) {
         show_forum_title($category, $forum, $thread);
         break;
     case 1:
-        show_team_forum_title($forum);
+        show_team_forum_title($forum, $thread);
         break;
     }
 }

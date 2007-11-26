@@ -154,13 +154,22 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
     }
 }
 
-function show_team_forum_title($forum, $thread=null) {
+function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     $team = BoincTeam::lookup_id($forum->category);
     echo "<span class=title>
-        <a href=team_forum.php?teamid=$team->id>$team->name message board</a>
+        <a href=forum_index.php>Message boards</a> :
     ";
     if ($thread) {
-        echo " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
+        echo "
+            <a href=team_forum.php?teamid=$team->id>$team->name message board</a>
+        ";
+        if ($link_thread) {
+            echo " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
+        } else {
+            echo " : $thread->title";
+        }
+    } else {
+        echo "$team->name message board";
     }
     echo "</span>";
 }

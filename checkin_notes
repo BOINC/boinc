@@ -11682,3 +11682,16 @@ David  25 Nov 2007
             edit_forum_preferences_forum.php
             team_display.php
             user_search.php
+
+David  25 Nov 2007
+    - web: when showing team forums, give link back to forum index
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_edit.php
+            forum_forum.php
+            forum_reply.php
+            forum_subscribe.php
+            forum_thread.php
