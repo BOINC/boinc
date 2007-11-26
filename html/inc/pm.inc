@@ -123,5 +123,15 @@ function pm_notification($user) {
     return $output;
 }
 
+function pm_email_remind($user) {
+    if (!$user->prefs->pm_notification) {
+        return "
+            <br><span class=note>For email notification,
+            <a href=edit_forum_preferences_form.php>edit community prefs</a></span>
+        ";
+    }
+    return "";
+}
+
 $cvs_version_tracker[]="\$Id: pm.inc 14019 2007-11-01 23:04:39Z davea $";
 ?>

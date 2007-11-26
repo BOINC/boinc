@@ -56,6 +56,9 @@ start_table();
 
 echo "<form action=login_action.php method=post>\n";
 row2("Log in with authenticator", "<input name=authenticator size=40>");
+row2("Stay logged in on this computer",
+    "<input type=checkbox name=send_cookie checked>"
+);
 row2("", "<input type=submit value=OK>");
 echo "</form>";
 

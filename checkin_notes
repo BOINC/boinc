@@ -11645,3 +11645,23 @@ David  25 Nov 2007
     html/user/
         team_email_list.php
         team_manage.php
+
+David  25 Nov 2007
+    - web: reorder and reword Your Account page and Forum prefs page;
+        rename General Prefs to Computing Prefs;
+        rename Forum Prefs to Community Prefs
+        add Prefs link if user doesn't have email PM notification
+    - remove forum low/high rating theshold stuff.
+        Message rating was a failed experiment.
+
+    html/
+        inc/
+            pm.inc
+            prefs.inc
+            user.inc
+        languages/translations/
+            en.po
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            get_passwd.phph

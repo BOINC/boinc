@@ -478,6 +478,9 @@ msgstr ""
 msgid "Team"
 msgstr ""
 
+msgid "Member of team"
+msgstr ""
+
 msgid "None"
 msgstr ""
 
@@ -493,28 +496,25 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-msgid "General preferences"
+msgid "Computing preferences"
 msgstr ""
 
-msgid "specify when and how BOINC uses your computer"
-msgstr ""
-
-msgid "View or edit"
+msgid "When and how BOINC uses your computer"
 msgstr ""
 
 msgid "%1 preferences"
 msgstr ""
 
-msgid "control resource share and customize graphics"
+msgid "Resource share and graphics"
 msgstr ""
 
 msgid "Message board preferences"
 msgstr ""
 
-msgid "configure features and appearance of message boards"
+msgid "Message boards and private messages"
 msgstr ""
 
-msgid "Work done"
+msgid "Computing and credit"
 msgstr ""
 
 msgid "%1 member since"

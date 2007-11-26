@@ -124,8 +124,7 @@ require_once("../inc/stats_sites.inc");
 //
 function show_user_stats_private($user) {
     global $cpid_stats_sites;
-    row1(tra("Work done"));
-    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
+    row1(tra("Computing and credit"));
     show_credit($user);
     $config = get_config();
     if (parse_bool($config, "show_results")) {
@@ -146,7 +145,6 @@ function show_user_stats_private($user) {
     $x .= "<br><span class=\"smalltext\">".tra("Cross-project ID").": $cpid</span>\n";
     row2(tra("Cross-project statistics"), $x);
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
-    row2(tra("Account number")."<br><span class=\"smalltext\">".tra("Used in URLs")."</span>", $user->id);
 }
 
 // show static user info (private)
@@ -159,6 +157,7 @@ function show_user_info_private($user) {
     }
 
     row1(tra("Account information"));
+    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     row2(tra("Email address"), $email_text);
     row2(tra("Name"), $user->name);
     if (strlen($user->url)) {
@@ -169,8 +168,21 @@ function show_user_info_private($user) {
     row2(tra("URL"), $x);
     row2(tra("Country"), $user->country);
     row2(tra("Postal code"), $user->postal_code);
+    row2(tra("Account number")."<br><span class=\"smalltext\">".tra("Used in URLs")."</span>", $user->id);
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a> | <a href=\"edit_passwd_form.php\">".tra("password")."</a> | <a href=\"edit_user_info_form.php\">".tra("other account info")."</a>");
     row2("", "<a href=\"logout.php?".url_tokens($user->authenticator)."\">".tra("Log out")."</a>");
+
+    row1("<a name=\"prefs\"></a>".tra("Preferences"));
+    row2(
+        tra("When and how BOINC uses your computer"),
+        "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
+    );
+    row2(tra("Message boards and private messages"),
+        "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
+    );
+    row2(tra("Resource share and graphics"),
+        "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
+    );
 
     row1(tra("Community"));
 
@@ -185,9 +197,8 @@ function show_user_info_private($user) {
         row2(tra("Message boards"), "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>".tra("%1 posts", $tot)."</a>");
     }
     
-    row2(tra("Private messages"), pm_notification($user));
+    row2(tra("Private messages"), pm_notification($user).pm_email_remind($user));
 
-    row1(tra("Teams"));
     if ($user->teamid) {
         $team = lookup_team($user->teamid);
         $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
@@ -201,7 +212,7 @@ function show_user_info_private($user) {
         if ($user->id==$team->userid && $team->ping_user >0) {
             $x .= " <font color=red>(foundership change request pending)</font>";
         }
-        row2(tra("Team"), $x);
+        row2(tra("Member of team"), $x);
     } else {
         row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
     }
@@ -218,17 +229,6 @@ function show_user_info_private($user) {
         }
     }
 
-    row1("<a name=\"prefs\"></a>".tra("Preferences"));
-    row2(
-        tra("General preferences")."<br><span class=\"smalltext\">".tra("specify when and how BOINC uses your computer")."</span>",
-        "<a href=\"prefs.php?subset=global\">".tra("View or edit")."</a>"
-    );
-    row2(tra("%1 preferences", PROJECT)."<br><span class=\"smalltext\">".tra("control resource share and customize graphics")."</span>",
-        "<a href=\"prefs.php?subset=project\">".tra("View or edit")."</a>"
-    );
-    row2(tra("Message board preferences")."<br><span class=\"smalltext\">".tra("configure features and appearance of message boards")."</span>",
-        "<a href=\"edit_forum_preferences_form.php\">".tra("View or edit")."</a>"
-    );
 }
 
 // show summary of dynamic and static info (public)

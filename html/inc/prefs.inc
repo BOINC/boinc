@@ -792,7 +792,7 @@ function prefs_show_project($prefs, $columns=false) {
 }
 
 function subset_name($subset) {
-    if ($subset == "global") return "General";
+    if ($subset == "global") return "Computing";
     return PROJECT;
 }
 

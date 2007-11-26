@@ -77,8 +77,8 @@ $jump_to_unread = ($_POST["forum_jump_to_unread"]!="")?1:0;
 $ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="")?1:0;
 $no_signature_by_default = ($_POST["signature_by_default"]!="")?0:1;
 $pm_notification = ($_POST["pm_notification"]!="")?1:0;
-$low_rating_threshold = post_int("forum_low_rating_threshold");
-$high_rating_threshold = post_int("forum_high_rating_threshold");
+//$low_rating_threshold = post_int("forum_low_rating_threshold");
+//$high_rating_threshold = post_int("forum_high_rating_threshold");
 $signature = stripslashes($_POST["signature"]);
 if (strlen($signature)>250) {
     error_page(
@@ -97,7 +97,7 @@ if ($display_wrap_postcount<5) $display_wrap_postcount=5;
 
 $signature = BoincDb::escape_string($signature);
 
-$user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, hide_avatars=$hide_avatars, hide_signatures=$hide_signatures, jump_to_unread=$jump_to_unread, ignore_sticky_posts=$ignore_sticky_posts, no_signature_by_default=$no_signature_by_default, pm_notification=$pm_notification, avatar='$avatar_url', low_rating_threshold=$low_rating_threshold, high_rating_threshold=$high_rating_threshold, signature='$signature', forum_sorting=$forum_sort, thread_sorting=$thread_sort, minimum_wrap_postcount=$minimum_wrap_postcount, display_wrap_postcount=$display_wrap_postcount");
+$user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, hide_avatars=$hide_avatars, hide_signatures=$hide_signatures, jump_to_unread=$jump_to_unread, ignore_sticky_posts=$ignore_sticky_posts, no_signature_by_default=$no_signature_by_default, pm_notification=$pm_notification, avatar='$avatar_url', signature='$signature', forum_sorting=$forum_sort, thread_sorting=$thread_sort, minimum_wrap_postcount=$minimum_wrap_postcount, display_wrap_postcount=$display_wrap_postcount");
 
 
 $add_user_to_filter = ($_POST["add_user_to_filter"]!="");
