@@ -622,6 +622,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\procinfo_win.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\proxy_info.C"
 				>
 			</File>
@@ -761,6 +765,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\prefs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\procinfo.h"
 				>
 			</File>
 			<File

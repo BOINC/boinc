@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
+				AdditionalManifestFiles="vistaadminrequired.xml"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
