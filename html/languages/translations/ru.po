@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-14 07:46+0100\n"
+"PO-Revision-Date: 2007-11-26 19:03+0100\n"
 "Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 ##########################################
-# Language: Russian (Russian Federation) (based on en.po SVN rev.14108)
+# Language: Russian (Russian Federation) (based on en.po SVN rev.14250)
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
 # Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
@@ -262,6 +262,9 @@ msgstr "Добавить мою подпись к этому сообщению"
 
 msgid "Message"
 msgstr "Сообщение"
+
+msgid "Edit message"
+msgstr "Редактировать сообщение"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Используйте тэги BBCode для форматирования Вашего текста"
@@ -558,4 +561,7 @@ msgstr "Номер учетной записи"
 
 msgid "Used in URLs"
 msgstr "Используется в ссылках URL"
+
+msgid "unread"
+msgstr "непрочтенных"
 

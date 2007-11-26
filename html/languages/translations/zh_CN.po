@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.14108\n"
+"Project-Id-Version: rev.14302\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-08 22:56+0800\n"
+"PO-Revision-Date: 2007-11-26 14:17+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -224,6 +224,9 @@ msgstr "贴数"
 msgid "Topic"
 msgstr "主题"
 
+msgid "Thread"
+msgstr "主题"
+
 msgid "Threads"
 msgstr "主题"
 
@@ -253,6 +256,9 @@ msgstr "在帖子后附上我的个性签名"
 
 msgid "Message"
 msgstr "消息"
+
+msgid "Edit message"
+msgstr "编辑消息"
 
 msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 标记来格式化您的正文"
@@ -305,8 +311,8 @@ msgstr "写信"
 msgid "Forum index"
 msgstr "论坛索引"
 
-msgid "Create new"
-msgstr "创建新消息"
+msgid "Send private message"
+msgstr "发送私人消息"
 
 msgid "Preview"
 msgstr "预览"
@@ -389,11 +395,8 @@ msgstr "用户 %1 已被阻止向您发送私人消息。"
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
 
-msgid "Sender"
-msgstr "发送人"
-
-msgid "Date"
-msgstr "日期"
+msgid "Sender and date"
+msgstr "发送人及日期"
 
 msgid "Delete"
 msgstr "删除"
@@ -464,6 +467,9 @@ msgstr "注销"
 msgid "Community"
 msgstr "社区"
 
+msgid "Community preferences"
+msgstr "社区参数设置"
+
 msgid "Create"
 msgstr "创建"
 
@@ -476,8 +482,20 @@ msgstr "团队"
 msgid "Team"
 msgstr "团队"
 
+msgid "Member of team"
+msgstr "团队成员"
+
+msgid "%1 posts"
+msgstr "%1 个帖子"
+
 msgid "None"
 msgstr "未加入团队"
+
+msgid "Administer"
+msgstr "管理"
+
+msgid "Founder but not member of"
+msgstr "创建人(目前非该团队成员)"
 
 msgid "administrative functions"
 msgstr "管理功能"
@@ -491,29 +509,26 @@ msgstr "寻找团队"
 msgid "Preferences"
 msgstr "参数设置"
 
-msgid "General preferences"
-msgstr "全局参数"
+msgid "Computing preferences"
+msgstr "计算参数设置"
 
-msgid "specify when and how BOINC uses your computer"
-msgstr "指定 BOINC 该如何使用您的计算机"
-
-msgid "View or edit"
-msgstr "查看或编辑"
+msgid "When and how BOINC uses your computer"
+msgstr "BOINC 如何使用您的计算机"
 
 msgid "%1 preferences"
 msgstr "%1 参数设置"
 
-msgid "control resource share and customize graphics"
-msgstr "调整项目的资源分享率及定制项目图形"
+msgid "Resource share and graphics"
+msgstr "资源分享和项目图形"
 
 msgid "Message board preferences"
 msgstr "留言板参数设置"
 
-msgid "configure features and appearance of message boards"
-msgstr "配置留言板的特性和外观"
+msgid "Message boards and private messages"
+msgstr "留言板和私人消息"
 
-msgid "Work done"
-msgstr "任务完成情况"
+msgid "Computing and credit"
+msgstr "计算和积分情况"
 
 msgid "%1 member since"
 msgstr "加入 %1 的日期"
@@ -544,4 +559,7 @@ msgstr "帐户编号"
 
 msgid "Used in URLs"
 msgstr "在网址(URL)中使用"
+
+msgid "unread"
+msgstr "未读"
 
