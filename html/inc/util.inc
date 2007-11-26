@@ -762,7 +762,7 @@ function show_button($url, $text, $desc) {
         document.write('<input onClick=\"document.location.href=\'$url\'\" class=btn type=button value=\"$text\" title=\"$desc\">')
         </script>
         <noscript>
-        <a href=$url title=$title>$text</a>
+        <a href=$url title=$desc>$text</a>
         </noscript>
     ";
 }

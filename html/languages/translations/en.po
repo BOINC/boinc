@@ -310,7 +310,7 @@ msgstr ""
 msgid "Forum index"
 msgstr ""
 
-msgid "Create new"
+msgid "Send private message"
 msgstr ""
 
 msgid "Preview"
@@ -394,10 +394,7 @@ msgstr ""
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
-msgid "Sender"
-msgstr ""
-
-msgid "Date"
+msgid "Sender and date"
 msgstr ""
 
 msgid "Delete"
@@ -469,6 +466,9 @@ msgstr ""
 msgid "Community"
 msgstr ""
 
+msgid "Community preferences"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -484,7 +484,16 @@ msgstr ""
 msgid "Member of team"
 msgstr ""
 
+msgid "%1 posts"
+msgstr ""
+
 msgid "None"
+msgstr ""
+
+msgid "Administer"
+msgstr ""
+
+msgid "Founder but not member of"
 msgstr ""
 
 msgid "administrative functions"

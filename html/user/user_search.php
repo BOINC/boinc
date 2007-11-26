@@ -42,16 +42,19 @@ function filter_user($user, $filter) {
 }
 
 function show_user($user) {
-    if ($user->teamid) {
-        $team = BoincTeam::lookup_id($user->teamid);
-        $team_name = $team->name;
-    } else {
-        $team_name = "";
-    }
     echo "
         <tr class=row1>
         <td>", user_links($user), "</td>
-        <td> <a href=team_display.php?teamid=$team->id>$team_name</a> </td>
+    ";
+    if ($user->teamid) {
+        $team = BoincTeam::lookup_id($user->teamid);
+        echo "
+            <td> <a href=team_display.php?teamid=$team->id>$team->name</a> </td>
+        ";
+    } else {
+        echo "<td><br></td>";
+    }
+    echo "
         <td align=right>", format_credit($user->expavg_credit), "</td>
         <td align=right>", format_credit_large($user->total_credit), "</td>
         <td>", $user->country, "</td>
@@ -63,7 +66,7 @@ function show_user($user) {
 function do_search($order, $filter) {
     $filtered_list = array();
     $nrows_scanned = 0;
-    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile";
+    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
     while (1) {
         if (count($filtered_list) > 500) break;
         $limit_clause = " limit $nrows_scanned, 1000";
@@ -163,6 +166,9 @@ function main() {
         }
 
         $filter = null;
+        $filter->do_country = false;
+        $filter->do_profile = false;
+        $filter->do_team = false;
         $country = get_str('country');
         if ($country != 'any') {
             $filter->do_country = true;

@@ -11665,3 +11665,20 @@ David  25 Nov 2007
             edit_forum_preferences_action.php
             edit_forum_preferences_form.php
             get_passwd.phph
+
+David  25 Nov 2007
+    - web: fix PHP errors, add translations strings
+
+    html/
+        inc/
+            forum.inc
+            pm.inc
+            team.inc
+            user.inc
+            util.inc
+        languages/translations/
+            en.po
+        user/
+            edit_forum_preferences_forum.php
+            team_display.php
+            user_search.php

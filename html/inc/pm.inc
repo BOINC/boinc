@@ -10,7 +10,7 @@ function pm_header() {
 }
 
 function pm_create_new($error = null) {
-    page_head(tra("Private messages")." : ".tra("Create new"));
+    page_head(tra("Send private message"));
     
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
@@ -63,11 +63,13 @@ function pm_create_new($error = null) {
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo form_tokens($logged_in_user->authenticator);
     start_table();
-    echo "<tr><th>".tra("To")."<br /><span class=\"smalltext\">".tra("User IDs or unique usernames, separated with commas")."</span></th>\n";
-    echo "<td><input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>".tra("Subject")."</th><td><input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>".tra("Message")."<br /><span class=\"smalltext\">".html_info()."</span></th>\n";
-    echo "<td><textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea></td></tr>\n";
+    row2(tra("To")."<br /><span class=\"smalltext\">".tra("User IDs or unique usernames, separated with commas")."</span>",
+        "<input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\">"
+    );
+    row2(tra("Subject"), "<input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\">");
+    row2(tra("Message")."<span class=\"smalltext\">".html_info()."</span>",
+        "<textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea>"
+    );
     echo "<tr><td></td><td><input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
     end_table();
     

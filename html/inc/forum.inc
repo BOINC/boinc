@@ -452,7 +452,7 @@ function show_post(
             $rated_above_threshold = ($logged_in_user->prefs->high_rating_threshold+abs($logged_in_user->prefs->low_rating_threshold)<($post->rating));
         } else {                //Use normal threshold values
             $rated_below_threshold = ($logged_in_user->prefs->low_rating_threshold>($post->rating()));
-            $rated_above_threshold = ($logged_in_user->prefs->high_rating_threshold<($post->rating));
+            $rated_above_threshold = ($logged_in_user->prefs->high_rating_threshold<($post->rating()));
         }
     }
 

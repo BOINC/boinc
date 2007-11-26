@@ -92,7 +92,7 @@ function display_team_page($team, $user) {
             );
         }
         if (($user->teamid == $team->id)) {
-            if (($user->id == $founder->id)) {
+            if (($user->id == $team->userid)) {
                 if ($team->ping_user) {
                     $deadline = date_str(transfer_ok_time($team));
                     row2("Foundership change requested",

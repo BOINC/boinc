@@ -20,7 +20,7 @@ if (is_team_admin($user, $team)) {
 // Cache the team record, its forum record, its new members,
 // its admins, and its member counts
 
-$cache_args = "teamid=$teamid&sort_by=$sort_by&offset=$offset";
+$cache_args = "teamid=$teamid";
 if (!$get_from_db) {
     $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
     if ($cached_data) {

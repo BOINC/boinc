@@ -26,6 +26,8 @@ echo "<script type=\"text/javascript\">
 
 start_table();
 echo "<form method=\"post\" action=\"edit_forum_preferences_action.php\" enctype=\"multipart/form-data\">";
+
+$zero_select = $two_select = "";
 if (strlen($user->prefs->avatar)){
     $two_select="checked=\"true\"";
 } else {
@@ -145,6 +147,7 @@ row2(
     //<br>Messages rated lower than the filter threshold will be filtered and messages rated higher than the emphasize threshold will be emphasized."
 
 $filtered_userlist = get_ignored_list($user);
+$forum_filtered_userlist = "";
 for ($i=0; $i<sizeof($filtered_userlist); $i++){
     $id = (int)$filtered_userlist[$i];
     if ($id) {

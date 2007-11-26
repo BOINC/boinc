@@ -187,7 +187,7 @@ function show_user_info_private($user) {
     row1(tra("Community"));
 
     if ($user->has_profile) {
-        $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View or edit")."</a> | <a href=\"delete_profile.php\">".tra("Delete")."</a>";
+        $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> | <a href=\"delete_profile.php\">".tra("Delete")."</a>";
     } else {
         $x = "<a href=\"create_profile.php\">".tra("Create")."</a>";
     }
