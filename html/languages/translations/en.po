@@ -223,6 +223,9 @@ msgstr ""
 msgid "Topic"
 msgstr ""
 
+msgid "Thread"
+msgstr ""
+
 msgid "Threads"
 msgstr ""
 
