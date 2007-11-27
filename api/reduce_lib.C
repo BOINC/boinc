@@ -41,8 +41,6 @@ void REDUCED_ARRAY_RENDER::init_display(
 ) {
     memcpy(draw_pos, p, sizeof(draw_pos));
     memcpy(draw_size, s, sizeof(draw_size));
-    draw_deltax = draw_size[0]/rdimx;
-    draw_deltaz = draw_size[2]/rdimy;
     hue0 = h0;
     dhue = dh;
     alpha = trans;
@@ -50,6 +48,11 @@ void REDUCED_ARRAY_RENDER::init_display(
 	xlabel=xl;
 	ylabel=yl;
 	zlabel=zl;
+}
+
+void REDUCED_ARRAY_RENDER::new_array() {
+    draw_deltax = draw_size[0]/rdimx;
+    draw_deltaz = draw_size[2]/rdimy;
 }
 
 void REDUCED_ARRAY_RENDER::draw_row_quad(int row) {

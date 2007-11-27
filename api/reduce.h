@@ -88,6 +88,7 @@ struct REDUCED_ARRAY_RENDER: REDUCED_ARRAY_DATA {
     void init_display(
         GRAPH_STYLE, float*, float*, double, double, float, char*, char*, char*
     );
+    void new_array();
     void draw_row_quad(int);
 	void draw_row_rect_x(int);
     void draw_row_rect_y(int);

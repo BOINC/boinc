@@ -1524,7 +1524,7 @@ int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
 
     fprintf(
         stderr, 
-        "*** Dump of the %s thread (%x): ***\n\n"
+        "*** Dump of thread ID %d (state: %s): ***\n\n"
         "- Information -\n"
         "Status: %s, "
         "%s"

@@ -11695,3 +11695,14 @@ David  25 Nov 2007
             forum_reply.php
             forum_subscribe.php
             forum_thread.php
+
+David  27 Nov 2007
+	- API graphics: changes to REDUCED_ARRAY to support new S@h graphics
+	- API: fix format codes in stack trace printf
+
+	api/
+		reduce.h
+		reduce_lib.C
+		reduce_main.C
+	lib/
+		diagnostics_win.C
