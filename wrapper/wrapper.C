@@ -56,6 +56,8 @@
 #define JOB_FILENAME "job.xml"
 #define CHECKPOINT_FILENAME "checkpoint.txt"
 
+#define POLL_PERIOD 1.0
+
 using std::vector;
 using std::string;
 
@@ -69,11 +71,15 @@ struct TASK {
     double starting_cpu;
         // how much CPU time was used by tasks before this in the job file
 #ifdef _WIN32
+    bool suspended;
+    double wall_cpu_time;
+        // for estimating CPU time on Win98/ME
     HANDLE pid_handle;
     HANDLE thread_handle;
 #else
     int pid;
 #endif
+    void init();
     int parse(XML_PARSER&);
     bool poll(int& status);
     int run(int argc, char** argv);
@@ -122,7 +128,6 @@ int parse_job_file() {
     }
     mf.init_file(f);
     XML_PARSER xp(&mf);
-
 
     if (!xp.parse_start("job_desc")) return ERR_XML_PARSE;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -254,6 +259,8 @@ int TASK::run(int argct, char** argvt) {
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
     SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
+    suspended = false;
+    wall_cpu_time = 0;
 #else
     int retval, argc;
     char progname[256], buf[256];
@@ -316,6 +323,7 @@ bool TASK::poll(int& status) {
             return true;
         }
     }
+    if (!suspended) wall_cpu_time += POLL_PERIOD;
 #else
     int wpid, stat;
     struct rusage ru;
@@ -340,6 +348,7 @@ void TASK::kill() {
 void TASK::stop() {
 #ifdef _WIN32
     SuspendThread(thread_handle);
+    suspended = true;
 #else
     ::kill(pid, SIGSTOP);
 #endif
@@ -348,6 +357,7 @@ void TASK::stop() {
 void TASK::resume() {
 #ifdef _WIN32
     ResumeThread(thread_handle);
+    suspended = false;
 #else
     ::kill(pid, SIGCONT);
 #endif
@@ -390,7 +400,9 @@ double TASK::cpu_time() {
     int retval = GetProcessTimes(
         pid_handle, &creation_time, &exit_time, &kernel_time, &user_time
     );
-    if (retval == 0) return 0;
+    if (retval == 0) {
+        return wall_cpu_time;
+    }
 
     tKernel.LowPart  = kernel_time.dwLowDateTime;
     tKernel.HighPart = kernel_time.dwHighDateTime;
@@ -485,7 +497,7 @@ int main(int argc, char** argv) {
             }
             poll_boinc_messages(task);
             send_status_message(task, frac_done);
-            boinc_sleep(1.);
+            boinc_sleep(POLL_PERIOD);
         }
         cpu += task.final_cpu_time;
         write_checkpoint(i+1, cpu);

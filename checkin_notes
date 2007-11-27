@@ -496,4 +496,10 @@ Charlie 27 Sep 2007
     mac_build/
         UpperCase2.xcodeproj/
             project.pbxproj
-    
+
+David  27 Nov 2007
+    - wrapper, Win: if GetProcessTimes() fails (which it does on Win 98/ME),
+        use wall CPU time as estimate of CPU time
+
+    wrapper/
+        wrapper.C
