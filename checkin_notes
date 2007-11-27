@@ -11706,3 +11706,11 @@ David  27 Nov 2007
 		reduce_main.C
 	lib/
 		diagnostics_win.C
+
+David  27 Nov 2007
+    - client: clean up logic of handling DLL_INIT_FAILED exits on Win.
+        Shouldn't cause any functional change
+
+    client/
+        app.h
+        app_control.C
