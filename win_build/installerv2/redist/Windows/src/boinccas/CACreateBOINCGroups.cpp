@@ -147,7 +147,7 @@ UINT CACreateBOINCGroups::OnExecution()
             1
         );
 
-        if (NERR_Success != nasReturnValue) {
+        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
@@ -186,7 +186,7 @@ UINT CACreateBOINCGroups::OnExecution()
             1
         );
 
-        if (NERR_Success != nasReturnValue) {
+        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
@@ -225,7 +225,7 @@ UINT CACreateBOINCGroups::OnExecution()
             1
         );
 
-        if (NERR_Success != nasReturnValue) {
+        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
@@ -305,7 +305,7 @@ UINT CACreateBOINCGroups::OnExecution()
             1
         );
 
-        if (NERR_Success != nasReturnValue) {
+        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
