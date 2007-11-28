@@ -18,20 +18,18 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#ifndef _CREATEVBSSHORTCUT_H_
-#define _CREATEVBSSHORTCUT_H_
+#ifndef _CAGRANTBOINCMASTERRIGHTS_H_
+#define _CAGRANTBOINCMASTERRIGHTS_H_
 
 
-class CACreateVBSShortcut : public BOINCCABase
+class CAGrantBOINCMasterRights : public BOINCCABase
 {
 public:
 
-    CACreateVBSShortcut(MSIHANDLE hMSIHandle);
-    ~CACreateVBSShortcut();
+    CAGrantBOINCMasterRights(MSIHANDLE hMSIHandle);
+    ~CAGrantBOINCMasterRights();
     virtual UINT OnExecution();
-    virtual UINT OnUninstall();
-    virtual UINT OnRollbackUninstall();
-    virtual UINT OnCommitUninstall();
+
 };
 
 

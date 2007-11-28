@@ -61,6 +61,7 @@ CARestoreSetupState::~CARestoreSetupState()
 UINT CARestoreSetupState::OnExecution()
 {
     tstring     strInstallDirectory;
+    tstring     strDataDirectory;
     tstring     strSetupType;
     tstring     strLaunchProgram;
     tstring     strEnableLaunchAtLogon;
@@ -73,6 +74,7 @@ UINT CARestoreSetupState::OnExecution()
     if (strSetupStateStored == _T("TRUE")) {
 
         GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
+        GetRegistryValue( _T("DATADIR"), strDataDirectory );
         GetRegistryValue( _T("SETUPTYPE"), strSetupType );
         GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
         GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
@@ -81,6 +83,7 @@ UINT CARestoreSetupState::OnExecution()
         GetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
 
         SetProperty( _T("INSTALLDIR"), strInstallDirectory );
+        SetProperty( _T("DATADIR"), strDataDirectory );
         SetProperty( _T("SETUPTYPE"), strSetupType );
         SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
         SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
@@ -88,6 +91,21 @@ UINT CARestoreSetupState::OnExecution()
         SetProperty( _T("SERVICE_DOMAIN"), strServiceDomain );
         SetProperty( _T("SERVICE_USERNAME"), strServiceUsername );
 
+    }
+
+    // If the Data Directory entry is empty then that means we need
+    //   to populate it with the default value.
+    GetProperty( _T("DATADIR"), strDataDirectory );
+    if (strDataDirectory.empty()) {
+        tstring strCommonApplicationDataFolder;
+
+        // MSI already has this figured out, so lets get it.
+        GetProperty( _T("CommonAppDataFolder"), strCommonApplicationDataFolder );
+
+        // Construct the default value
+        strDataDirectory = strCommonApplicationDataFolder + _T("BOINC\\");
+
+        SetProperty( _T("DATADIR"), strDataDirectory );
     }
 
     return ERROR_SUCCESS;

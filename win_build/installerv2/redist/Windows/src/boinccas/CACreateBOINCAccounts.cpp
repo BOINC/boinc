@@ -62,8 +62,8 @@ CACreateBOINCAccounts::~CACreateBOINCAccounts()
 /////////////////////////////////////////////////////////////////////
 UINT CACreateBOINCAccounts::OnExecution()
 {
-    tstring          strBOINCAccountUsername;
-    tstring          strBOINCAccountPassword;
+    tstring          strBOINCMasterAccountUsername;
+    tstring          strBOINCMasterAccountPassword;
     tstring          strBOINCProjectAccountUsername;
     tstring          strBOINCProjectAccountPassword;
     tstring          strComputerName;
@@ -72,10 +72,10 @@ UINT CACreateBOINCAccounts::OnExecution()
     NET_API_STATUS   nasReturnValue;
     UINT             uiReturnValue = -1;
 
-    uiReturnValue = GetProperty( _T("BOINC_USERNAME"), strBOINCAccountUsername );
+    uiReturnValue = GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("BOINC_PASSWORD"), strBOINCAccountPassword );
+    uiReturnValue = GetProperty( _T("BOINC_MASTER_PASSWORD"), strBOINCMasterAccountPassword );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
@@ -95,15 +95,15 @@ UINT CACreateBOINCAccounts::OnExecution()
     //   of the inputs
     //
     if (strProductType == tstring(_T("2"))) {                    // Domain Controller
-        if (strBOINCAccountUsername.empty()) {
-            strBOINCAccountUsername = _T("boinc_") + strComputerName;
+        if (strBOINCMasterAccountUsername.empty()) {
+            strBOINCMasterAccountUsername = _T("boinc_master_") + strComputerName;
         }
         if (strBOINCProjectAccountUsername.empty()) {
             strBOINCProjectAccountUsername = _T("boinc_project_") + strComputerName;
         }
     } else {
-        if (strBOINCAccountUsername.empty()) {
-            strBOINCAccountUsername = _T("boinc");
+        if (strBOINCMasterAccountUsername.empty()) {
+            strBOINCMasterAccountUsername = _T("boinc_master");
         }
         if (strBOINCProjectAccountUsername.empty()) {
             strBOINCProjectAccountUsername = _T("boinc_project");
@@ -113,29 +113,29 @@ UINT CACreateBOINCAccounts::OnExecution()
 
     // Generate random passwords if needed
     //
-    if (strBOINCAccountPassword.empty()) {
-        strBOINCAccountPassword = _T("boinc");
+    if (strBOINCMasterAccountPassword.empty()) {
+        strBOINCMasterAccountPassword = _T("!zz77934334z");
     }
     if (strBOINCProjectAccountPassword.empty()) {
-        strBOINCProjectAccountPassword = _T("boinc_project");
+        strBOINCProjectAccountPassword = _T("!zz77934334z");
     }
 
 
-    // Create the 'boinc' account if needed, otherwise just update the password.
+    // Create the 'boinc_master' account if needed, otherwise just update the password.
     //
-    if(GetAccountSid(NULL, strBOINCAccountUsername.c_str(), &pSid)) {   // Check if user exists
+    if(GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(), &pSid)) {   // Check if user exists
         // Account already exists, just change the password
         //
-        USER_INFO_1003 ui1003;
+        USER_INFO_1003 ui;
         DWORD          dwParameterError;
 
-        ui1003.usri1003_password = (LPWSTR)strBOINCAccountPassword.c_str();
+        ui.usri1003_password = (LPWSTR)strBOINCMasterAccountPassword.c_str();
 
         nasReturnValue = NetUserSetInfo(
             NULL,
-            strBOINCAccountUsername.c_str(),
+            strBOINCMasterAccountUsername.c_str(),
             1003,
-            (LPBYTE)&ui1003,
+            (LPBYTE)&ui,
             &dwParameterError
         );
 
@@ -146,41 +146,56 @@ UINT CACreateBOINCAccounts::OnExecution()
                 NULL,
                 NULL,
                 nasReturnValue,
-                _T("Failed to reset password on the 'boinc' account.")
+                _T("Failed to reset password on the 'boinc_master' account.")
             );
             return ERROR_INSTALL_FAILURE;
         }
     } else {
         // Account does not exist, create it
         //
-        USER_INFO_1 ui1;
+        USER_INFO_1 ui;
         DWORD       dwParameterError;
 
-        ui1.usri1_name = (LPWSTR)strBOINCAccountUsername.c_str();
-        ui1.usri1_password = (LPWSTR)strBOINCAccountPassword.c_str();
-        ui1.usri1_comment = _T("Account used to execute BOINC as a system service");
-        ui1.usri1_priv = USER_PRIV_USER;
-        ui1.usri1_flags = UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
+        ui.usri1_name = (LPWSTR)strBOINCMasterAccountUsername.c_str();
+        ui.usri1_password = (LPWSTR)strBOINCMasterAccountPassword.c_str();
+        ui.usri1_comment = _T("Account used to execute BOINC as a system service");
+        ui.usri1_priv = USER_PRIV_USER;
+        ui.usri1_flags = UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
 
         nasReturnValue = NetUserAdd(
             NULL,
             1,
-            (LPBYTE)&ui1,
+            (LPBYTE)&ui,
             &dwParameterError
         );
 
         if (NERR_Success != nasReturnValue) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("NetUserAdd retval")
+            );
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                dwParameterError,
+                _T("NetUserAdd dwParameterError")
+            );
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
                 NULL,
                 NULL,
                 nasReturnValue,
-                _T("Failed to create the 'boinc' account.")
+                _T("Failed to create the 'boinc_master' account.")
             );
             return ERROR_INSTALL_FAILURE;
         }
-
     }
     if(pSid != NULL) HeapFree(GetProcessHeap(), 0, pSid);
 
@@ -190,16 +205,16 @@ UINT CACreateBOINCAccounts::OnExecution()
     if(GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(), &pSid)) {   // Check if user exists
         // Account already exists, just change the password
         //
-        USER_INFO_1003 ui1003;
+        USER_INFO_1003 ui;
         DWORD          dwParameterError;
 
-        ui1003.usri1003_password = (LPWSTR)strBOINCProjectAccountPassword.c_str();
+        ui.usri1003_password = (LPWSTR)strBOINCProjectAccountPassword.c_str();
 
         nasReturnValue = NetUserSetInfo(
             NULL,
             strBOINCProjectAccountUsername.c_str(),
             1003,
-            (LPBYTE)&ui1003,
+            (LPBYTE)&ui,
             &dwParameterError
         );
 
@@ -217,23 +232,39 @@ UINT CACreateBOINCAccounts::OnExecution()
     } else {
         // Account does not exist, create it
         //
-        USER_INFO_1 ui1;
+        USER_INFO_1 ui;
         DWORD       dwParameterError;
 
-        ui1.usri1_name = (LPWSTR)strBOINCProjectAccountUsername.c_str();
-        ui1.usri1_password = (LPWSTR)strBOINCProjectAccountPassword.c_str();
-        ui1.usri1_comment = _T("Account used to execute BOINC applications");
-        ui1.usri1_priv = USER_PRIV_USER;
-        ui1.usri1_flags = UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
+        ui.usri1_name = (LPWSTR)strBOINCProjectAccountUsername.c_str();
+        ui.usri1_password = (LPWSTR)strBOINCProjectAccountPassword.c_str();
+        ui.usri1_comment = _T("Account used to execute BOINC applications");
+        ui.usri1_priv = USER_PRIV_USER;
+        ui.usri1_flags = UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
 
         nasReturnValue = NetUserAdd(
             NULL,
             1,
-            (LPBYTE)&ui1,
+            (LPBYTE)&ui,
             &dwParameterError
         );
 
         if (NERR_Success != nasReturnValue) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                nasReturnValue,
+                _T("NetUserAdd retval")
+            );
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                dwParameterError,
+                _T("NetUserAdd dwParameterError")
+            );
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
@@ -247,6 +278,10 @@ UINT CACreateBOINCAccounts::OnExecution()
 
     }
     if(pSid != NULL) HeapFree(GetProcessHeap(), 0, pSid);
+
+
+    SetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    SetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
 
     return ERROR_SUCCESS;
 }

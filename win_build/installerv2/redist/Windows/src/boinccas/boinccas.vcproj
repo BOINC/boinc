@@ -380,6 +380,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACreateBOINCGroups.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGetAdministratorsGroupName.cpp"
 				>
 			</File>
@@ -388,11 +392,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CAGrantServiceExecutionRight.cpp"
+				RelativePath=".\CAGrantBOINCMasterRights.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CAPopulateServiceAccount.cpp"
+				RelativePath=".\CAGrantBOINCProjectRights.cpp"
 				>
 			</File>
 			<File
@@ -409,18 +413,6 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CAValidateServiceAccount.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CAVerifyServiceExecutionRight.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CAVerifyServicePassword.cpp"
 				>
 			</File>
 			<File
@@ -489,6 +481,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACreateBOINCGroups.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGetAdministratorsGroupName.h"
 				>
 			</File>
@@ -497,11 +493,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CAGrantServiceExecutionRight.h"
+				RelativePath=".\CAGrantBOINCMasterRights.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CAPopulateServiceAccount.h"
+				RelativePath=".\CAGrantBOINCProjectRights.h"
 				>
 			</File>
 			<File
@@ -518,18 +514,6 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CAValidateServiceAccount.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CAVerifyServiceExecutionRight.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CAVerifyServicePassword.h"
 				>
 			</File>
 			<File

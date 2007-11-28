@@ -11714,3 +11714,35 @@ David  27 Nov 2007
     client/
         app.h
         app_control.C
+
+Rom    28 Nov 2007
+    - WINSETUP: Update CACreateBOINCUsers.
+    - WINSETUP: Create CACreateBOINCGroups.
+    - WINSETUP: Create CAGrantBOINCMasterRights.
+    - WINSETUP: Create CAGrantBOINCProjectRights.
+    - WINSETUP: Remove CACreateVBSShortcut.
+    - WINSETUP: Remove CAGrantServiceExecutionRight.
+    - WINSETUP: Remove CAMigrateCPDNBBC.
+    - WINSETUP: Remove CAPopulateServiceAccount.
+    - WINSETUP: Remove CAValidateServiceAccount.
+    - WINSETUP: Remove CAVerifyServiceExecutionRight.
+    - WINSETUP: Remove CAVerifyServicePassword.
+    - WINSETUP: Hookup new custom actions
+    
+    NOTE: For some reason the advanced configuration screen
+      checkboxes are not working, so the CA's are setup to run
+      always to test them out.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAGrantServiceExecutionRight.cpp, .h (removed)
+        CAMigrateCPDNBBC.cpp, .h (removed)
+        CAPopulateServiceAccount.cpp, .h (removed)
+        CAValidateServiceAccount.cpp, .h (removed)
+        CAVerifyServiceExecutionRight.cpp, .h (removed)
+        CAVerifyServicePassword.cpp, .h (removed)
+        CACreateBOINCUsers.cpp
+        CACreateBOINCGroups.cpp, .h (added)
+        CAGrantBOINCMasterRights.cpp, .h (added)
+        CAGrantBOINCProjectRights.cpp, .h (added)

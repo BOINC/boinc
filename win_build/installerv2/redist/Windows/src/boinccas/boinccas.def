@@ -6,13 +6,12 @@ LIBRARY    boinccas
 
 EXPORTS
 	DllMain
+	CreateBOINCAccounts
+	CreateBOINCGroups
 	GetAdministratorsGroupName
 	GetUsersGroupName
-	GrantServiceExecutionRight
-	PopulateServiceAccount
-	ValidateServiceAccount
-	VerifyServiceExecutionRight
-	VerifyServicePassword
+	GrantBOINCMasterRights
+	GrantBOINCProjectRights
 	ShutdownBOINC
 	ShutdownBOINCManager
 	ShutdownBOINCScreensaver

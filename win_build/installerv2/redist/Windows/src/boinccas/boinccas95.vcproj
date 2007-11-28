@@ -380,14 +380,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CACreateVBSShortcut.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CAMigrateCPDNBBC.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\CAMigratex86x64.cpp"
 				>
 			</File>
@@ -458,14 +450,6 @@
 			</File>
 			<File
 				RelativePath=".\CACleanupOldBinaries.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CACreateVBSShortcut.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CAMigrateCPDNBBC.h"
 				>
 			</File>
 			<File

@@ -158,6 +158,7 @@ UINT CAShutdownBOINC::OnExecution()
     }
 
     TerminateProcessEx( tstring(_T("boinc.exe")) );
+    TerminateProcessEx( tstring(_T("boinctray.exe")) );
     return ERROR_SUCCESS;
 }
 
