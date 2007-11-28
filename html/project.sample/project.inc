@@ -87,4 +87,10 @@ function project_user_credit($user){
     //echo "Whatever is here is added to the private account page";
 }
 
+function project_forum_post_rules() {
+    // Add <li> entries for additional forum post rules
+    return "
+    ";
+}
+
 ?>

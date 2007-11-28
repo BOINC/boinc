@@ -670,6 +670,11 @@ function check_banished($user) {
 }
 
 function post_rules() {
+    if (function_exists("project_forum_post_rules")) {
+      $project_rules=project_forum_post_rules();
+    } else {
+      $project_rules="";
+    }
     return "
         <ul>
         <li> Posts must be 'kid friendly': they may not contain
@@ -683,6 +688,7 @@ function post_rules() {
         <li> No messages that are deliberately hostile or insulting.
         <li> No abusive comments involving race, religion,
             nationality, gender, class or sexuality.
+	".$project_rules."
         </ul>
     ";
 }
