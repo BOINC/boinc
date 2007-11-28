@@ -62,12 +62,11 @@ UINT CARestoreSetupState::OnExecution()
 {
     tstring     strInstallDirectory;
     tstring     strDataDirectory;
-    tstring     strSetupType;
     tstring     strLaunchProgram;
     tstring     strEnableLaunchAtLogon;
     tstring     strEnableScreensaver;
-    tstring     strServiceDomain;
-    tstring     strServiceUsername;
+    tstring     strEnableProtectedApplicationExecution;
+    tstring     strEnableUseByAllUsers;
     tstring     strSetupStateStored;
 
     GetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
@@ -75,21 +74,19 @@ UINT CARestoreSetupState::OnExecution()
 
         GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
         GetRegistryValue( _T("DATADIR"), strDataDirectory );
-        GetRegistryValue( _T("SETUPTYPE"), strSetupType );
         GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
         GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
         GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-        GetRegistryValue( _T("SERVICE_DOMAIN"), strServiceDomain );
-        GetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
+        GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+        GetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
         SetProperty( _T("INSTALLDIR"), strInstallDirectory );
         SetProperty( _T("DATADIR"), strDataDirectory );
-        SetProperty( _T("SETUPTYPE"), strSetupType );
         SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
         SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
         SetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-        SetProperty( _T("SERVICE_DOMAIN"), strServiceDomain );
-        SetProperty( _T("SERVICE_USERNAME"), strServiceUsername );
+        SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+        SetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
     }
 

@@ -11760,3 +11760,24 @@ David  28 Nov 2007
             host_edit_form.php
             forum_moderate_post.php
             forum_moderate_post_action.php
+
+Rom    28 Nov 2007
+    - WINSETUP: Fix the various checkboxes
+    - WINSETUP: Fix the data directory stuff so if the user
+        changes the default location it cascades down to the
+        projects and slots directories as well.
+    - WINSETUP: Fix the permissions on the install directory
+    - WINSETUP: Add new public properties to the Save/Restore
+        state custom actions.
+    
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CARestoreSetupState.cpp
+        CASaveSetupState.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
