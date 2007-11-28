@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-26 19:03+0100\n"
+"PO-Revision-Date: 2007-11-28 07:18+0100\n"
 "Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 ##########################################
-# Language: Russian (Russian Federation) (based on en.po SVN rev.14250)
+# Language: Russian (Russian Federation) (based on en.po SVN rev.14302)
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
 # Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
@@ -233,6 +233,9 @@ msgstr "Сообщения"
 msgid "Topic"
 msgstr "Тема"
 
+msgid "Thread"
+msgstr "Обсуждение"
+
 msgid "Threads"
 msgstr "Обсуждения"
 
@@ -320,8 +323,8 @@ msgstr "Написать"
 msgid "Forum index"
 msgstr "Доска сообщений"
 
-msgid "Create new"
-msgstr "Создать новое"
+msgid "Send private message"
+msgstr "Отправить личное сообщение"
 
 msgid "Preview"
 msgstr "Предварительный просмотр"
@@ -404,11 +407,8 @@ msgstr "Отправка Вам личных сообщений от польз�
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Чтобы разблокировать, посетите %1настройки доски сообщений%2"
 
-msgid "Sender"
-msgstr "Отправитель"
-
-msgid "Date"
-msgstr "Дата"
+msgid "Sender and date"
+msgstr "Отправитель и дата"
 
 msgid "Delete"
 msgstr "Удалить"
@@ -481,6 +481,9 @@ msgstr "Выйти"
 msgid "Community"
 msgstr "Сообщество"
 
+msgid "Community preferences"
+msgstr "Настройки сообщества"
+
 msgid "Create"
 msgstr "Создать"
 
@@ -493,11 +496,23 @@ msgstr "Команды"
 msgid "Team"
 msgstr "Команда"
 
+msgid "Member of team"
+msgstr "Член команды"
+
+msgid "%1 posts"
+msgstr "%1 сообщений"
+
 msgid "None"
 msgstr "Нет"
 
+msgid "Administer"
+msgstr "Управление"
+
+msgid "Founder but not member of"
+msgstr "Основатель, но не участник"
+
 msgid "administrative functions"
-msgstr "администрирование"
+msgstr "функции управления"
 
 msgid "Quit team"
 msgstr "Выйти из команды"
@@ -508,29 +523,26 @@ msgstr "найти команду"
 msgid "Preferences"
 msgstr "Настройки"
 
-msgid "General preferences"
-msgstr "Общие настройки"
+msgid "Computing preferences"
+msgstr "Настройки вычислений"
 
-msgid "specify when and how BOINC uses your computer"
-msgstr "укажите, как и когда BOINC будет использовать Ваш компьютер"
-
-msgid "View or edit"
-msgstr "Просмотр или редактирование"
+msgid "When and how BOINC uses your computer"
+msgstr "Как и когда BOINC использует Ваш компьютер"
 
 msgid "%1 preferences"
 msgstr "Настройки %1"
 
-msgid "control resource share and customize graphics"
-msgstr "управляйте выделенными ресурсами и графикой"
+msgid "Resource share and graphics"
+msgstr "Выделенные ресурсы и графика"
 
 msgid "Message board preferences"
 msgstr "Настройки доски сообщений"
 
-msgid "configure features and appearance of message boards"
-msgstr "настройте возможности и внешний вид доски сообщений"
+msgid "Message boards and private messages"
+msgstr "Доска сообщений или личные сообщения"
 
-msgid "Work done"
-msgstr "Выполненная работа"
+msgid "Computing and credit"
+msgstr "Вычисления и вознаграждение"
 
 msgid "%1 member since"
 msgstr "Участник %1 с"
