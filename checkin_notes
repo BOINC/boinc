@@ -503,3 +503,12 @@ David  27 Nov 2007
 
     wrapper/
         wrapper.C
+
+Charlie 28 Nov 2007
+    Mac: Add x86_64_Deployment build configuration to XCode project for use 
+        with V6 Clients running under OS 10.5 on 64-bit capable Intel Macs.
+    
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
+
