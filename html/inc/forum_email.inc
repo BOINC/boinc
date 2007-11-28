@@ -43,39 +43,41 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
     return $success;
 }
 
-// If a post is hidden, this function emails the author
-// to let them know what happened.
+//////////////////// post hidden/unhidden ///////////
 //
-function send_moderation_email($forum, $post, $thread, $message, $action) {
+function send_moderation_email($forum, $post, $thread, $explanation, $action) {
     $moderator=get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
-    $subject = PROJECT." forum ".$action." notice";
-    $body = PROJECT." notification:
-    $ownerid = $user->id;
 
-This email is to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
-    Thread:         ".$thread->title." 
-    Post:           ".$post->id." by ".$user->id." (".$user->name.")
-    Link:           ".URL_BASE."forum_thread.php?id=".$thread->id."
-    Moderator:      ".$moderator->name." (".$moderator->id.")
-    Action:         ".$action."
+    $subject = PROJECT." moderation notice";
 
-The moderator gave this explanation to why your post was moderated:
-".$message;
-$body .= "
+    $body = "Your post [ID $post->id] in thread \"$thread->title\"
+".URL_BASE."forum_thread.php?id=$thread->id#$post->id
+has been $action by moderator $moderator->name (ID $moderator->id).
+$explanation
 
-This was the content of your post:
+The content of your post:
 ".$post->content."
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 
-    $success = mail_report_list($forum, "POST ".$action." REPORT: ".$thread->title, $body);
-    $success &= send_email($user, $subject, $body);
+    $success = send_email($user, $subject, $body);
+
+    $body = "Because of moderation by $moderator->name (ID $moderator->id),
+The following email was sent to $user->name (ID $user->id)
+".URL_BASE."forum_user_posts.php?userid=$user->id
+------------------------------
+Subject: $subject
+
+$body
+";
+    $subject = PROJECT." moderation: post $action_name";
+    $success &= mail_report_list($forum, $subject, $body);
     return $success;
 }
 
-// If a thread is hidden, email the owner
+//////////////////// thread hidden/unhidden ///////////
 //
 function send_thread_moderation_email($forum, $thread, $message, $action) {
     $moderator=get_logged_in_user();
@@ -113,8 +115,7 @@ function send_reply_notification_email($thread, $user){
     return send_email($user, $title, $body);
 }
 
-// When a user clicks the red "x" to notify moderators about a post,
-// this function generates the email to let the moderators know about it.
+//////////////////// a user clicks the red "x" to report a post ///////////
 //
 function send_report_post_email($user, $forum, $thread,  $post, $message) {
     $body = "";
@@ -149,6 +150,8 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
     return $success;
 }
 
+//////////////////// a user has been banished ///////////
+//
 function send_banish_email($forum, $user, $duration, $reason) {
     $subject = PROJECT." posting privileges suspended";
     $body = "
@@ -165,6 +168,8 @@ because your postings have not followed our guidelines.
     return $success;
 }
 
+//////////////////// a banishment vote has been started  ///////////
+//
 function send_banish_vote_email($user, $duration, $reason, $end_time) {
     $now=time();
     $subject = PROJECT." banishment vote underway";

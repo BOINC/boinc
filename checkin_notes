@@ -11746,3 +11746,17 @@ Rom    28 Nov 2007
         CACreateBOINCGroups.cpp, .h (added)
         CAGrantBOINCMasterRights.cpp, .h (added)
         CAGrantBOINCProjectRights.cpp, .h (added)
+
+David  28 Nov 2007
+    - web: clean up moderation emails for post hide/unhide.
+        TODO: other moderation emails
+    - web: fix small bug in host merge function
+
+    html/
+        inc/
+            forum_email.inc
+            host.inc
+        user/
+            host_edit_form.php
+            forum_moderate_post.php
+            forum_moderate_post_action.php

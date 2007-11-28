@@ -1,10 +1,32 @@
 <?php
 
-// When a moderator does something to a post, this page actually
-// commits those changes to the database.
-
 require_once("../inc/forum.inc");
 require_once("../inc/forum_email.inc");
+
+function mod_comment() {
+    $x = "";
+    $reason = post_str('reason', true);
+    if ($reason){
+        $x .= "
+Moderator comment: $reason
+";
+    }
+    return $x;
+}
+
+function hide_explanation() {
+    $x = "\nYour post was categorized as ";
+    switch (post_int("category", true)) {
+    case 1: $x .= "Obscene"; break;
+    case 2: $x .= "Flame/Hate mail"; break;
+    case 3: $x .= "Commercial spam"; break;
+    case 4: $x .= "Double post"; break;
+    case 5: $x .= "User Request"; break;
+    default: $x .= "Other"; break;
+    }
+    $x .= mod_comment();
+    return $x;
+}
 
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
@@ -28,10 +50,14 @@ if (!post_str('action', true)) {
     $action = post_str('action');
 }
 
+$explanation = null;
 if ($action=="hide"){
     $result = hide_post($post, $thread, $forum);
+    $action_name = "hidden";
+    $explanation = hide_explanation();
 } elseif ($action=="unhide"){
     $result = unhide_post($post, $thread, $forum);
+    $action_name = "unhidden";
 } elseif ($action=="move"){
     $destid = post_int('threadid');
     $new_thread = BoincThread::lookup_id($destid);
@@ -45,10 +71,17 @@ if ($action=="hide"){
         }
     }
     $result = move_post($post, $thread, $forum, $new_thread, $new_forum);
+    $explanation = "Old thread: $thread->title
+".URL_BASE."forum_thread.php?id=$thread->id
+New thread: $new_thread->title
+".URL_BASE."forum_thread.php?id=$new_thread->id#$post->id
+";
+    $explanation .= mod_comment();
+    $action_name = "moved to another thread";
 } elseif ($action=="banish_user"){
     if (!$user->prefs->privilege(S_ADMIN)) {
       // Can't banish without being administrator
-        error_page("You are not authorized to banish this user.");
+        error_page("Not admin");
     }
     $userid = post_int('userid');
     $user = BoincUser::lookup_id($userid);
@@ -77,37 +110,13 @@ if ($action=="hide"){
     error_page("Unknown action ");
 }
 
-switch (post_int("category", true)) {
-case 1:
-    $mod_category = "Obscene";
-    break;
-case 2:
-    $mod_category = "Flame/Hate mail";
-    break;
-case 3:
-    $mod_category = "Commercial spam";
-    break;
-case 4:
-    $mod_category = "Doublepost";
-    break;
-case 5:
-    $mod_category = "User Request";
-    break;
-default:
-    $mod_category = "Other";
-    break;
+if (!$result) {
+    error_page("Action failed: possible database problem");
 }
 
-if ($result) {
-    if (post_str('reason', true)){
-        send_moderation_email($forum, $post, $thread, "Category: ".$mod_category."\n".post_str("reason"), $action);
-    } else { 
-        send_moderation_email($forum, $post, $thread, "Category: ".$mod_category."\n"."None given", $action);
-    }
-    header('Location: forum_thread.php?id='.$thread->id);
-} else {
-    error_page("Moderation failed");
-}
+send_moderation_email($forum, $post, $thread, $explanation, $action_name);
+
+header('Location: forum_thread.php?id='.$thread->id);
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

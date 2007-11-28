@@ -273,7 +273,7 @@ function cpus_compatible($host1, $host2) {
         $host2pm = trim(substr($host2->p_model, 0, $pos));
     }
     $p1 = "$host1->p_vendor $host1pm";
-    $p1 = "$host2->p_vendor $host2pm";
+    $p2 = "$host2->p_vendor $host2pm";
     
     if (strstr($p1, "Pentium") && strstr($p1, "Intel")
         && strstr($p2, "Pentium") && strstr($p2, "Intel")

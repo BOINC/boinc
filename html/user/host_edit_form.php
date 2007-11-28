@@ -12,7 +12,7 @@ if (!$host || $host->userid != $user->id) {
     error_page("We have no record of that computer");
 }
 
-page_head("Merge host");
+page_head("Merge computers");
 
 $t = time_str($host->create_time);
 echo "
