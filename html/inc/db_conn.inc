@@ -22,10 +22,10 @@ class DbConn {
 
     function do_query($query) {
         $q = str_replace('DBNAME', $this->db_name, $query);
-        //echo "query: $q<br>";
+        //echo "query: $q<br>\n";
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
-            echo "Database Error<br>";
+            echo "Database Error<br>\n";
             //echo ": ", mysql_error(), "\n<pre>";
             //var_dump(debug_backtrace());
             //echo "</pre>query: $q\n";

@@ -62,22 +62,26 @@ class BoltIter {
 
     // get current item
     //
-    function at(&$frac_done) {
+    function at() {
         $new_stack = array();
         $this->top->walk($this->stack, $new_stack, false, $item, $frac_done);
         $this->stack = $new_stack;
-        return $item;
+        $x->item = $item;
+        $x->frac_done = $frac_done;
+        return $x;
     }
 
     // move to the next item (and return it)
     // return true if we're off the end
     //
-    function next(&$frac_done) {
+    function next() {
         $item = null;
         $new_stack = array();
         $this->top->walk($this->stack, $new_stack, true, $item, $frac_done);
         $this->stack = $new_stack;
-        return $item;
+        $x->item = $item;
+        $x->frac_done = $frac-done;
+        return $x;
     }
 }
 
@@ -182,9 +186,15 @@ class BoltItem extends BoltUnit {
 }
 
 class BoltLesson extends BoltItem {
+    function is_exercise() {
+        return false;
+    }
 }
 
 class BoltExercise extends BoltItem {
+    function is_exercise() {
+        return true;
+    }
 }
 
 function enum_course($course) {

@@ -36,7 +36,7 @@ if (post_str("action", true)=="reset"){
     $special_user = $user->prefs->special_user;
     $user->prefs->delete();
     BoincForumPrefs::lookup($user);
-    $user->prefs->update("posts=$posts, banished_until=$banished_until, special_user=$special_user");
+    $user->prefs->update("posts=$posts, banished_until=$banished_until, special_user='$special_user'");
     Header("Location: edit_forum_preferences_form.php");
     exit;
 }

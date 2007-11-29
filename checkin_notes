@@ -11832,3 +11832,13 @@ David  29 Nov 2007
         app_start.C
     lib/
         app_ipc.h
+
+David  29 Nov 2007
+    - web: updating forum prefs would undo banishment,
+        reset #posts, and clear moderator flags.  Fixed.
+
+    html/
+        inc/
+            db_conn.inc
+        user/
+            edit_forum_preferences_action.php
