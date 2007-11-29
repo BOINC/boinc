@@ -26,7 +26,9 @@ class BoltFrame {
 abstract class BoltUnit {
     public $name;   // logical name.
 
-    abstract function walk($old_stack, &$new_stack, $next, &$item);
+    abstract function walk(
+        $old_stack, &$new_stack, $next, &$item, &$frac_done
+    );
         // multi-purpose function for traversing a course.
         // if $old_stack is null
         //      set up initial state for this unit.
@@ -40,6 +42,7 @@ abstract class BoltUnit {
         //      Append frames to $new_stack for this unit and descendants
         //      if $next, the bottom-level non-item unit should increment.
         //      return value: true if the caller should increment
+        // frac_done: Fraction done (of this unit and any subunits)
     abstract function is_item();
 }
 
@@ -59,9 +62,9 @@ class BoltIter {
 
     // get current item
     //
-    function at() {
+    function at(&$frac_done) {
         $new_stack = array();
-        $this->top->walk($this->stack, $new_stack, false, $item);
+        $this->top->walk($this->stack, $new_stack, false, $item, $frac_done);
         $this->stack = $new_stack;
         return $item;
     }
@@ -69,10 +72,10 @@ class BoltIter {
     // move to the next item (and return it)
     // return true if we're off the end
     //
-    function next() {
+    function next(&$frac_done) {
         $item = null;
         $new_stack = array();
-        $this->top->walk($this->stack, $new_stack, true, $item);
+        $this->top->walk($this->stack, $new_stack, true, $item, $frac_done);
         $this->stack = $new_stack;
         return $item;
     }
@@ -85,8 +88,9 @@ class BoltSeq extends BoltUnit {
         $this->units = $u;
     }
 
-    function walk($old_stack, &$new_stack, $next, &$item) {
+    function walk($old_stack, &$new_stack, $next, &$item, &$frac_done) {
         //echo "call to walk() for $this->name: next: $next\n";
+        $n = count($this->units);
         if ($old_stack) {
             //echo "old stack: \n";
             //var_dump($old_stack);
@@ -94,39 +98,52 @@ class BoltSeq extends BoltUnit {
             $frame = $old_stack[0];
             $state = $frame->state;
             $i = $state->i;
-            $restart = false;
-            if ($i >= count($this->units)) {
-                echo "index too large - restarting\n";
-                $restart = true;
+
+            // first, look up unit by name
+            // 
+            $child = null;
+            for ($j=0; $j<$n; $j++) {
+                $c = $this->units[$j];
+                if ($c->name == $state->child_name) {
+                    $child = $c;
+                    break;
+                }
             }
-            $child = $this->units[$i];
-            if ($state->child_name != $child->name) {
-                echo "bad name - restarting\n";
-                $restart = true;
+            // if not there, look up by index
+            //
+            if (!$child) {
+                if ($i >= $n) {
+                    // and if index is too big, use last unit
+                    //
+                    $i = $n-1;
+                }
+                $child = $this->units[$i];
             }
-            if (!$restart) {
-                if ($next) {
-                    $inc = false;
-                    if ($child->is_item()) {
-                        $inc = true;
-                    } else {
-                        array_shift($old_stack);
-                        $inc = $child->walk($old_stack, $new_stack, true, &$item);
-                    }
-                    if ($inc) {
-                        $i++;
-                        if ($i == count($this->units)) {
-                            return true;
-                        }
+
+            // at this point, $child is the right unit
+            //
+            if ($next) {
+                $inc = false;
+                if ($child->is_item()) {
+                    $inc = true;
+                } else {
+                    array_shift($old_stack);
+                    $inc = $child->walk(
+                        $old_stack, $new_stack, true, $item, $frac_done
+                    );
+                }
+                if ($inc) {
+                    $i++;
+                    if ($i == $n) {
+                        $frac_done = 1;
+                        return true;
                     }
                 }
             }
         } else {
-            $restart = true;
-        }
-        if ($restart) {
             $i = 0;
         }
+        $frac_done = $i/$n;
         $child = $this->units[$i];
         $state->i = $i;
         $state->child_name = $child->name;
@@ -135,7 +152,8 @@ class BoltSeq extends BoltUnit {
         if ($child->is_item()) {
             $item = $child;
         } else {
-            $child->walk(null, $new_stack, false, $item);
+            $child->walk(null, $new_stack, false, $item, $f);
+            $frac_done += $f*(1/$n);
         }
     }
     function is_item() {
@@ -158,7 +176,7 @@ class BoltItem extends BoltUnit {
     function is_item() {
         return true;
     }
-    function walk($old_stack, &$new_stack, $next, &$item) {
+    function walk($old_stack, &$new_stack, $next, &$item, &$frac_done) {
         echo "SHOULDN'T BE HERE\n";
     }
 }
@@ -180,6 +198,52 @@ function enum_course($course) {
         echo "next: $x->filename\n";
     }
     echo "course over\n";
+}
+
+function info_incomplete($user) {
+    if (!$user->bolt->birth_year) return true;
+    if (!$user->bolt->sex) return true;
+    return false;
+}
+
+function birth_year_select($user) {
+    $this_year = date("Y");
+    $x = "<select name=birth_year>\n";
+    for ($i=$this_year-100; $i<$this_year; $i++) {
+        $s = ($i == $user->bolt->birth_year)?"selected":"";
+        $x .= "<option value=$i $s>$i</option>\n";
+    }
+    $s = (!$user->bolt->birth_year)?"selected":"";
+        $x .= "<option value=$0 $s>Unspecified</option>\n";
+    $x .= "</select>\n";
+    return $x;
+}
+
+function sex_select($user) {
+    $x = "<select name=sex>\n";
+    $s = ($user->bolt->sex == 0)?"selected":"";
+    $x .= "<option value=0 $s>Unspecified</option>\n";
+    $s = ($user->bolt->sex == 1)?"selected":"";
+    $x .= "<option value=1 $s>Male</option>\n";
+    $s = ($user->bolt->sex == 2)?"selected":"";
+    $x .= "<option value=2 $s>Female</option>\n";
+    $x .= "</select>\n";
+    return $x;
+}
+
+function request_info($user, $course) {
+    page_head("Student info");
+    echo "<form action=bolt_sched.php>
+        <input type=hidden name=action value=update_info>
+        <input type=hidden name=course_id value=$course->id>
+    ";
+    start_table();
+    row2("Birth year", birth_year_select($user));
+    row2("Sex", sex_select($user));
+    row2("", "<input type=submit value=OK>");
+    end_table();
+    echo "</form>\n";
+    page_tail();
 }
 
 ?>

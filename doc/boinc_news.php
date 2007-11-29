@@ -2,6 +2,12 @@
 
 $project_news = array(
 
+array("November 28, 2007",
+    "Live in Washington DC?  Get together with other BOINC users via
+    <a href=http://opensource.meetup.com/84/?gj=sj2>Meetup</a>
+    (or <a href=http://opensource.meetup.com/>create a Meetup
+     in your own city</a>)."
+),
 array("November 16, 2007",
     "<a href=http://boinc.gorlaeus.net/>Leiden Classical</a> allows students (and the public)
     to submit particle-system simulation jobs,

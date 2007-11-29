@@ -4,9 +4,22 @@ require_once("../inc/db_conn.inc");
 require_once("../inc/util.inc");
 
 class BoltDb extends DbConn {
-    public static $instance;
+    static $instance;
 
     static function get() {
+        if (web_stopped()) {
+            if ($generating_xml) {
+                xml_error(-183);
+            } else {
+                page_head("Page not available");
+                echo "This page requires database access.
+                    Our database server is temporarily shut down for maintenance.
+                    Please try again later.
+                ";
+                page_tail();
+            }
+            exit();
+        }
         if (!isset($instance)) {
             $config = get_config();
             $user = parse_config($config, '<bolt_db_user>');
@@ -24,22 +37,47 @@ class BoltDb extends DbConn {
     }
 }
 
-class BoltCourse {
-    function insert() {
-        $db = BoltDb::get();
-        $now = time();
-        $query = "insert into DBNAME.bolt_course (create_time, short_name, name, description, doc_file) values ($now, '$this->short_name', '$this->name', '$this->description', '$this->doc_file')";
-        $result = $db->do_query($query);
-        if (!$result) return false;
-        $this->id = $db->insert_id();
-        return true;
+class BoltUser {
+    static $cache;
+    static function lookup_userid($id) {
+        $db = BoincDb::get();
+        return $db->lookup('bolt_user', 'BoltUser', "user_id=$id");
     }
+    static function insert($clause) {
+        $db = BoltDb::get();
+        return $db->insert('bolt_user', $clause);
+    }
+    static function lookup(&$user) {
+        if (!$user) return;
+        if (isset($user->bolt)) return;
+        if (isset(self::$cache[$user->id])) {
+            $bolt = self::$cache[$user->id];
+        } else {
+            $bolt = self::lookup_userid($user->id);
+            if (!$bolt) {
+                self::insert("(user_id) values ($user->id)");
+                $bolt = self::lookup_userid($user->id);
+            }
+            self::$cache[$user->id] = $bolt;
+        }
+        $user->bolt = $bolt;
+    }
+    function update($clause) {
+        $db = BoltDb::get();
+        $clause = "$clause where user_id=$this->user_id";
+        return $db->update_aux('bolt_user', $clause);
+    }
+}
 
+class BoltCourse {
+    static function insert($clause) {
+        $db = BoltDb::get();
+        return $db->insert('bolt_course', $clause);
+    }
     static function lookup_id($id) {
         $db = BoltDb::get();
         return $db->lookup_id($id, 'bolt_course', 'BoltCourse');
     }
-
     static function enum() {
         $db = BoltDb::get();
         return $db->enum('bolt_course', 'BoltCourse');
@@ -47,31 +85,26 @@ class BoltCourse {
 }
 
 class BoltEnrollment {
-    function insert() {
+    function insert($clause) {
         $db = BoltDb::get();
-        $now = time();
-        $query = "insert into DBNAME.bolt_enrollment (create_time, user_id, course_id) values ($now, $this->user_id, $this->course_id)";
-        return $db->do_query($query);
+        return $db->insert('bolt_enrollment', $clause);
     }
-    function lookup($userid, $courseid) {
+    function lookup($user_id, $course_id) {
         $db = BoltDb::get();
-        return $db->lookup('bolt_enrollment', 'BoltEnrollment', "user_id=$userid and course_id=$courseid");
+        return $db->lookup('bolt_enrollment', 'BoltEnrollment', "user_id=$user_id and course_id=$course_id");
     }
-    function update_aux($clause) {
+    function update($clause) {
         $db = BoltDb::get();
-        $db->update_aux('bolt_enrollment', $clause);
+        $db->update_aux('bolt_enrollment', "$clause where user_id=$this->user_id and course_id=$this->course_id");
     }
 }
 
 class BoltView {
-    function insert() {
+    static function insert($clause) {
         $db = BoltDb::get();
-        $now = time();
-        $query = "insert into DBNAME.bolt_view (user_id, course_id, item_name, start_time) values ($this->user_id, $this->course_id, '$this->item_name', $now)";
-        $result = $db->do_query($query);
-        if (!$result) return false;
-        $this->id = $db->insert_id();
-        return true;
+        $ret = $db->insert('bolt_view', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
     }
     static function lookup_id($id) {
         $db = BoltDb::get();

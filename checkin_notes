@@ -11781,3 +11781,18 @@ Rom    28 Nov 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David 288 2007
+    - Bolt development
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt.inc
+            bolt_db.inc
+        ops/
+            bolt_setup_sample.php
+        user/
+            bolt.php
+            bolt_sched.php
