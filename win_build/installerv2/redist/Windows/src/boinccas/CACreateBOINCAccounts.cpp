@@ -114,10 +114,10 @@ UINT CACreateBOINCAccounts::OnExecution()
     // Generate random passwords if needed
     //
     if (strBOINCMasterAccountPassword.empty()) {
-        strBOINCMasterAccountPassword = _T("!zz77934334z");
+        strBOINCMasterAccountPassword = _T("password");
     }
     if (strBOINCProjectAccountPassword.empty()) {
-        strBOINCProjectAccountPassword = _T("!zz77934334z");
+        strBOINCProjectAccountPassword = _T("password");
     }
 
 
@@ -281,7 +281,9 @@ UINT CACreateBOINCAccounts::OnExecution()
 
 
     SetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    SetProperty( _T("BOINC_MASTER_PASSWORD"), strBOINCMasterAccountPassword );
     SetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
+    SetProperty( _T("BOINC_PROJECT_PASSWORD"), strBOINCProjectAccountPassword );
 
     return ERROR_SUCCESS;
 }
