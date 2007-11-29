@@ -82,9 +82,9 @@ struct SHARED_MEM {
         // same as above
     MSG_CHANNEL heartbeat;
         // core->app
-        // <heartbeat/>             sent every second, even while app is suspended
-        // <disable_heartbeat/>     disables heartbeat mechanism
-        // <enable_heartbeat/>      enable heartbeat mechanism (default)
+        // <heartbeat/>         sent every second, even while app is suspended
+        // <wss>                app's current working set size
+        // <max_wss>            max working set size
     MSG_CHANNEL app_status;
         // app->core
         // status message every second, of the form
@@ -183,12 +183,11 @@ struct APP_INIT_DATA {
     double rsc_disk_bound;
 
     // the following are used for compound apps,
-    // where each stage of the computation is a fixed
-    // fraction of the total.
+    // where each stage of the computation is a fixed fraction of the total.
     double fraction_done_start;
     double fraction_done_end;
 
-    // Items below here are for implementation only
+    // Items below here are for BOINC runtime system
     // (not used by app developers)
     //
     double checkpoint_period;     // recommended checkpoint period

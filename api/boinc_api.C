@@ -17,9 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-// Code that's in the BOINC app library (but NOT in the core client)
-// graphics-related code goes in graphics_api.C, not here
-
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
@@ -60,20 +57,19 @@ using namespace std;
 #include "mac_backtrace.h"
 #endif
 
-// The BOINC API has various functions:
-// - check heartbeat from core client, exit if none
-// - handle trickle up/down messages
-// - report CPU time and fraction done to the core client.
-
 // Implementation notes:
-// Unix: getting CPU time and suspend/resume have to be done
-// in the worker thread, so we use a SIGALRM signal handler.
-// However, many library functions and system calls
-// are not "asynch signal safe": see, e.g.
-// http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html#tag_02_04_03
-// (e.g. sprintf() in a signal handler hangs Mac OS X)
-// so we do as little as possible in the signal handler,
-// and do the rest in a separate "timer thread".
+// 1) Thread structure, Unix:
+//  getting CPU time and suspend/resume have to be done
+//  in the worker thread, so we use a SIGALRM signal handler.
+//  However, many library functions and system calls
+//  are not "asynch signal safe": see, e.g.
+//  http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html#tag_02_04_03
+//  (e.g. sprintf() in a signal handler hangs Mac OS X)
+//  so we do as little as possible in the signal handler,
+//  and do the rest in a separate "timer thread".
+// 2) All variables that are accessed by two threads (i.e. worker and timer)
+//  MUST be declared volatile.
+// 3) For compatibility with C, we use int instead of bool various places
 
 // Terminology:
 // The processing of a result can be divided
@@ -81,9 +77,6 @@ using namespace std;
 // each of which resumes from the checkpointed state of the previous episode.
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
-
-// All variables that are accessed by two threads (i.e. worker and timer)
-// MUST be declared volatile.
 
 const char* api_version="API_VERSION_"PACKAGE_VERSION;
 static APP_INIT_DATA aid;
@@ -105,8 +98,6 @@ static volatile bool have_trickle_down = true;
     // on first call, scan slot dir for msgs
 static volatile int heartbeat_giveup_time;
     // interrupt count value at which to give up on core client
-static volatile bool heartbeat_active;
-    // if false, suppress heartbeat mechanism
 #ifdef _WIN32
 static volatile int nrunning_ticks = 0;
 #endif
@@ -114,7 +105,7 @@ static volatile int interrupt_count = 0;
     // number of timer interrupts
     // used to measure elapsed time in a way that's
     // not affected by user changing system clock,
-    // and that doesn't have big jumps around hibernation
+    // and doesn't have big jump after hibernation
 static double fpops_per_cpu_sec = 0;
 static double fpops_cumulative = 0;
 static double intops_per_cpu_sec = 0;
@@ -291,8 +282,6 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }
 
-// the following 2 functions are used for apps without graphics
-//
 int boinc_init() {
     int retval;
     if (!diagnostics_is_initialized()) {
@@ -315,8 +304,6 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
     return retval;
 }
 
-// the following can be called by either graphics or worker thread
-//
 int boinc_init_options_general(BOINC_OPTIONS& opt) {
     int retval;
     options = opt;
@@ -362,15 +349,15 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     //
     initial_wu_cpu_time = aid.wu_cpu_time;
 
-    // the following may not be needed, but do it anyway
-    //
     fraction_done = -1;
     time_until_checkpoint = (int)aid.checkpoint_period;
     last_checkpoint_cpu_time = aid.wu_cpu_time;
     time_until_fraction_done_update = (int)aid.fraction_done_update_period;
     last_wu_cpu_time = aid.wu_cpu_time;
 
-    heartbeat_active = !standalone;
+    if (standalone) {
+        options.check_heartbeat = false;
+    }
     heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
 
     return 0;
@@ -407,7 +394,6 @@ static void send_trickle_up_msg() {
         }
     }
 }
-
 
 // NOTE: a non-zero status tells the core client that we're exiting with 
 // an "unrecoverable error", which will be reported back to server. 
@@ -447,33 +433,24 @@ int boinc_finish(int status) {
     return 0;   // never reached
 }
 
-
 // unlock the lockfile and call the appropriate exit function
-// This is called from the worker, timer, and graphics threads.
+// This is called from the worker and timer threads.
 //
 void boinc_exit(int status) {
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
     }
     
-    // Unlock the lock file
-    //
     file_lock.unlock(LOCKFILE);
 
-    // flush all the output buffers
-    //
     fflush(NULL);
 
-    // Cleanup the diagnostics allocations and stuff. Dump any memory
-    // leaks if it is a debug build.
-    //
     boinc_finish_diag();
 
-    // various platforms have various issues with shutting down
-    // a process while an unspecified number of threads are still
-    // executing or triggering endless exit()/atexit() loops. Use
-    // alternate methods to shutdown the application on those
-    // platforms.
+    // various platforms have problems shutting down a process
+    // while other threads are still executing,
+    // or triggering endless exit()/atexit() loops.
+    //
     BOINCINFO("Exit Status: %d", status);
 #if   defined(_WIN32)
     // Halts all the threads and then cleans up.
@@ -569,48 +546,31 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     return 0;
 }
 
-
-// this can be called from the graphics thread
-//
 int boinc_wu_cpu_time(double& cpu_t) {
     cpu_t = last_wu_cpu_time;
     return 0;
 }
 
-// this can be called from the graphics thread
-//
 int suspend_activities() {
     BOINCINFO("Received Suspend Message");
-    //fprintf(stderr, "suspending; %f %d\n", last_wu_cpu_time, options.direct_process_action);
 #ifdef _WIN32
     if (options.direct_process_action) {
-        // in Windows this is called from a separate "timer thread",
-        // and Windows lets us suspend the worker thread
-        //
         SuspendThread(worker_thread_handle);
     }
 #endif
     return 0;
 }
 
-// this can be called from the graphics thread
-//
 int resume_activities() {
     BOINCINFO("Received Resume Message");
 #ifdef _WIN32
-    //fprintf(stderr, "resuming; %f %d\n", last_wu_cpu_time, options.direct_process_action);
     if (options.direct_process_action) {
-        // in Windows this is called from a separate "timer thread",
-        // and Windows lets us resume the worker thread
-        //
         ResumeThread(worker_thread_handle);
     }
 #endif
     return 0;
 }
 
-// this can be called from the graphics thread
-//
 int restore_activities() {
     int retval;
     if (boinc_status.suspended) {
@@ -628,14 +588,6 @@ static void handle_heartbeat_msg() {
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
             heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
-        }
-        if (match_tag(buf, "<enable_heartbeat/>")) {
-            BOINCINFO("Enabling heartbeat");
-            heartbeat_active = true;
-        }
-        if (match_tag(buf, "<disable_heartbeat/>")) {
-            BOINCINFO("Disabling heartbeat");
-            heartbeat_active = false;
         }
         if (parse_double(buf, "<wss>", dtemp)) {
             boinc_status.working_set_size = dtemp;
@@ -734,6 +686,11 @@ static void handle_process_control_msg() {
     }
 }
 
+// The following is used by V6 apps so that graphics
+// will work with pre-V6 clients.
+// If we get a graphics message, run/kill the (separate) graphics app
+//
+//
 struct GRAPHICS_APP {
     bool fullscreen;
 #ifdef _WIN32
@@ -781,10 +738,6 @@ struct GRAPHICS_APP {
 static GRAPHICS_APP ga_win(false), ga_full(true);
 static bool have_graphics_app;
 
-// The following is used by V6 apps so that graphics
-// will work with pre-V6 clients.
-// If we get a graphics message, run/kill the (separate) graphics app
-//
 static inline void handle_graphics_messages() {
     static char graphics_app_path[1024];
     char buf[MSG_CHANNEL_SIZE];
@@ -860,9 +813,7 @@ static void timer_handler() {
     // handle messages from the core client
     //
     if (app_client_shm) {
-        if (options.check_heartbeat) {
-            handle_heartbeat_msg();
-        }
+        handle_heartbeat_msg();
         if (options.handle_trickle_downs) {
             handle_trickle_down_msg();
         }
@@ -877,7 +828,7 @@ static void timer_handler() {
     // see if the core client has died, which means we need to die too
     // (unless we're in a critical section)
     //
-    if (!in_critical_section && options.check_heartbeat && heartbeat_active) {
+    if (!in_critical_section && options.check_heartbeat) {
         if (heartbeat_giveup_time < interrupt_count) {
             fprintf(stderr,
                 "No heartbeat from core client for %d sec - exiting\n",
@@ -912,8 +863,6 @@ static void timer_handler() {
 }
 
 #ifdef _WIN32
-
-static HANDLE timer_quit_event;
 
 UINT WINAPI timer_thread(void *) {
      
@@ -956,8 +905,7 @@ void worker_signal_handler(int) {
 #endif
 
 
-// Called from the worker thread;
-// create a thread to do timer-related things.
+// Called from the worker thread; create the timer thread
 //
 int set_worker_timer() {
     int retval=0;
@@ -1045,9 +993,6 @@ int boinc_send_trickle_up(char* variety, char* p) {
     return 0;
 }
 
-// logically this should be a bool.
-// But it needs to be an int to be compatible with C
-//
 int boinc_time_to_checkpoint() {
     if (ready_to_checkpoint) {
         in_critical_section = true;
@@ -1082,14 +1027,6 @@ void boinc_end_critical_section() {
 int boinc_fraction_done(double x) {
     fraction_done = x;
     return 0;
-}
-
-// for use by graphics code.
-// Caller should check for values outside [0..1];
-// that means undefined (no information available).
-//
-double boinc_get_fraction_done() {
-    return fraction_done;
 }
 
 int boinc_receive_trickle_down(char* buf, int len) {

@@ -11813,3 +11813,22 @@ David  29 Nov 2007
 
     html/user/
         pm.php
+
+David  29 Nov 2007
+    - API: code cleanup
+        removed references to "graphics thread"
+        removed HANDLE timer_quit_event
+        removed enable_heartbeat/disable_heartbeat messages
+            (not sure what the ideas was, but no longer exists)
+        removed heartbeat_active flag (use options.check_heartbeat instead)
+        read heartbeat-channel messages even if heartbeat disabled
+            (since we use that channel for WSS messages too)
+    - client: remove ACTIVE_TASK::thread_handle (not used)
+
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+        app_start.C
+    lib/
+        app_ipc.h

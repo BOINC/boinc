@@ -55,7 +55,7 @@ class ACTIVE_TASK {
     int _task_state;
 public:
 #ifdef _WIN32
-    HANDLE pid_handle, thread_handle, shm_handle;
+    HANDLE pid_handle, shm_handle;
     bool kill_all_children();
 #endif
     SHMEM_SEG_NAME shmem_seg_name;
