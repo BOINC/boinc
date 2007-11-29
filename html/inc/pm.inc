@@ -88,16 +88,24 @@ function pm_send($to, $subject, $content) {
     $send_email = false;
     if ($to_user->prefs->pm_notification) $send_email = true;
     BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
-    if ($send_email) { // Send email notification
-        $message  = "Dear ".$to->name.",\n\n";
-        $message .= "You have received a new private message at ".PROJECT." from ".$logged_in_user->name.", entitled \"".$subject."\".\n\n";
-        $message .= "To read the original version, respond to, or delete this message, you must log in here:\n";
-        $message .= URL_BASE."pm.php\n\n";
-        $message .= "Do not reply to this message. To disable email notification, go to\n";
-        $message .= URL_BASE."prefs.php?subset=project\n";
-        $message .= "and change email notification settings.\n";
-        
-        send_email($to, "[".PROJECT."] Private message notification", $message);
+    if ($send_email) {
+        $message  = "
+You have received a new private message at ".PROJECT.".
+
+From: $logged_in_user->name (ID $logged_in_user->id)
+Subject: $subject
+
+$content
+
+--------------------------
+To delete or respond to this message, visit:
+".URL_BASE."pm.php
+
+To disable email delivery of private messages, visit:
+".URL_BASE."edit_forum_preferences_form.php
+Do not reply to this message.
+" ;
+        send_email($to, "[".PROJECT."] private message", $message);
     }
 }
 

@@ -11807,3 +11807,9 @@ David  29 Nov 2007
         user/
             edit_forum_preferences_action.php
             edit_forum_preferences_form.php
+
+David  29 Nov 2007
+    - web: include private message content in email notification
+
+    html/user/
+        pm.php
