@@ -11782,7 +11782,7 @@ Rom    28 Nov 2007
         boinccas.dll
         boinccas95.dll
 
-David 288 2007
+David  28 Nov 2007
     - Bolt development
 
     db/
@@ -11796,3 +11796,14 @@ David 288 2007
         user/
             bolt.php
             bolt_sched.php
+
+David  29 Nov 2007
+    - web: clean up forum prefs forum, and add a Confirm when reset
+
+    html/
+        inc/
+            bolt_ex.inc
+            forum_db.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php

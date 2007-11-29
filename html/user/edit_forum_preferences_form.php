@@ -35,12 +35,12 @@ if (strlen($user->prefs->avatar)){
 }
 row1("Identity");
 row2("Avatar
-    <br><font size=-2>An image representing you.
-    <br>Format: JPG or /PNG.  Size: at most 4 KB, 100x100 pixels</font>",
+    <br><span class=note>An image representing you.
+    <br>Format: JPG or /PNG.  Size: at most 4 KB, 100x100 pixels</span>",
     "<input type=\"radio\" name=\"avatar_select\" value=\"0\" ".$zero_select.">Don't use an avatar <br><input type=\"radio\" name=\"avatar_select\" value=\"2\" ".$two_select.">Use this uploaded avatar: <input type=\"file\" name=\"picture\">"
 );
 if (strlen($user->prefs->avatar)){
-    row2("Avatar preview<br><font size=-2>This is how your avatar will look</font>",
+    row2("Avatar preview<br><span class=note>This is how your avatar will look</span>",
     "<img src=\"".$user->prefs->avatar."\" width=\"100\" height=\"100\">");
 }
 
@@ -53,7 +53,7 @@ $signature=stripslashes($user->prefs->signature);
 $maxlen=250;
 row2(
     "Signature<br>
-    <font size=-2>Max length (including newlines) is $maxlen chars.</font>".
+    <span class=note>Max length is $maxlen chars.</span>".
     html_info(),
     "<textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
     onkeyup=\"textCounter(this.form.signature, this.form.remLen,250);\">".$signature."</textarea>
@@ -62,7 +62,7 @@ row2(
 );
 if ($user->prefs->signature!=""){
     row2("Signature preview".
-        "<br><font size=-2>This is how your signature will look in the forums</font>",
+        "<br><span class=note>This is how your signature will look in the forums</span>",
         output_transform($user->prefs->signature)
     );
 }
@@ -78,11 +78,16 @@ row2(
     "<input type=\"checkbox\" id=\"pm_notification\" name=\"pm_notification\" ".$pm_notification.">"
 );
 
-
-row1("Message display");
-row2("<font size=-2>How to sort threads and posts</font>",
-    "Threads: ".select_from_array("forum_sort", $forum_sort_styles, $user->prefs->forum_sorting)."<br>Posts: ".select_from_array("thread_sort", $thread_sort_styles, $user->prefs->thread_sorting)
-);
+if ($user->prefs->hide_avatars){
+    $forum_hide_avatars = "checked=\"checked\"";
+} else {
+    $forum_hide_avatars = "";
+}
+if ($user->prefs->hide_signatures){
+    $forum_hide_signatures = "checked=\"checked\"";
+} else {
+    $forum_hide_signatures = "";
+}
 
 if ($user->prefs->link_popup){
     $forum_link_popup="checked=\"checked\"";
@@ -108,43 +113,26 @@ if ($user->prefs->ignore_sticky_posts){
 $forum_minimum_wrap_postcount = intval($user->prefs->minimum_wrap_postcount);
 $forum_display_wrap_postcount = intval($user->prefs->display_wrap_postcount);
 
+row1("Message display");
 row2(
-    "<br><font size=-2>How to treat links and images in the forum<br>and how to act on unread posts</font>",
-    "<input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
-    <input type=\"checkbox\" name=\"forum_link_popup\" ".$forum_link_popup."> Open links in new window/tab<br>
-    <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> Jump to first new post in thread automatically<br>
-    <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">Do not reorder sticky posts<br>
-    <br>
-    <input type=\"text\" name=\"forum_minimum_wrap_postcount\" size=3 value=\"".$forum_minimum_wrap_postcount."\"> If a thread contains more than this number of posts<br />
-    <input type=\"text\" name=\"forum_display_wrap_postcount\" size=3 value=\"".$forum_display_wrap_postcount."\"> only display the first one and this many of the last ones<br /> "
-);
-if ($user->prefs->hide_avatars){
-    $forum_hide_avatars = "checked=\"checked\"";
-} else {
-    $forum_hide_avatars = "";
-}
-if ($user->prefs->hide_signatures){
-    $forum_hide_signatures = "checked=\"checked\"";
-} else {
-    $forum_hide_signatures = "";
-}
-$forum_low_rating_threshold = $user->prefs->low_rating_threshold;
-$forum_high_rating_threshold = $user->prefs->high_rating_threshold;
-
-row1("Message filtering");
-row2(
-    "<br><font size=-2>What to display<br>If you set both your high and low thresholds to 0 or<br>empty they will reset to the default values</font>",
+    "What to display",
     "<input type=\"checkbox\" name=\"forum_hide_avatars\" ".$forum_hide_avatars."> Hide avatar images<br>
     <input type=\"checkbox\" name=\"forum_hide_signatures\" ".$forum_hide_signatures."> Hide signatures<br>
+    <input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
+    <input type=\"checkbox\" name=\"forum_link_popup\" ".$forum_link_popup."> Open links in new window/tab<br>
     "
 );
 
-// the following deprecated
-    //<input type=\"text\" name=\"forum_low_rating_threshold\" value=\"".$forum_low_rating_threshold."\" size=3>
-    //Filter threshold (default: ".DEFAULT_LOW_RATING_THRESHOLD.")
-    //<br><input type=\"text\" name=\"forum_high_rating_threshold\" value=\"".$forum_high_rating_threshold."\" size=3>
-    //Emphasize threshold (default: ".DEFAULT_HIGH_RATING_THRESHOLD.")
-    //<br>Messages rated lower than the filter threshold will be filtered and messages rated higher than the emphasize threshold will be emphasized."
+row2("How to sort",
+    "Threads: ".select_from_array("forum_sort", $forum_sort_styles, $user->prefs->forum_sorting)."<br>Posts: ".select_from_array("thread_sort", $thread_sort_styles, $user->prefs->thread_sorting)."<br>
+    <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> Jump to first new post in thread automatically<br>
+    <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">Do not reorder sticky posts<br>
+    <input type=\"text\" name=\"forum_minimum_wrap_postcount\" size=3 value=\"".$forum_minimum_wrap_postcount."\"> If a thread contains more than this number of posts<br />
+    <input type=\"text\" name=\"forum_display_wrap_postcount\" size=3 value=\"".$forum_display_wrap_postcount."\"> only display the first one and this many of the last ones<br />
+    "
+);
+
+row1("Message filtering");
 
 $filtered_userlist = get_ignored_list($user);
 $forum_filtered_userlist = "";
@@ -160,20 +148,20 @@ for ($i=0; $i<sizeof($filtered_userlist); $i++){
     }
 }
 row2("Filtered users".
-    "<br><font size=-2>Ignore specific users<br>You can define a list of users to ignore.</font>",
+    "<br><span class=note>Ignore message board posts and private messages from these  users.</span>",
     "$forum_filtered_userlist
     <br>
         <input type=\"text\" name=\"forum_filter_user\" size=12> User ID (For instance: 123456789)
         <br><input type=\"submit\" name=\"add_user_to_filter\" value=\"Add user to filter\">
-        <br>Please note that you can only filter a limited number of users.
     "
 );
 
 row1("Update");
-row2("Click here to update message board preferences", "<input type=submit value='Update'>");
+row2("Click here to update message board preferences", "<input type=submit value=\"Update\">");
 echo "</form>\n";
+row1("Reset");
 row2("Or click here to reset preferences to the defaults",
-    "<form method=\"post\" action=\"edit_forum_preferences_action.php\"><input type=\"submit\" value=\"Reset preferences\"><input type=\"hidden\" name=\"action\" value=\"reset\"></form>"
+    "<form method=\"post\" action=\"edit_forum_preferences_action.php\"><input type=\"submit\" value=\"Reset\"><input type=\"hidden\" name=\"action\" value=\"reset_confirm\"></form>"
 );
 end_table();
 page_tail();

@@ -1,8 +1,5 @@
 <?php
 
-// commit the chanegs made in edit_forum_preferences_form.php to the database.
-
-
 require_once("../inc/forum.inc");
 require_once("../inc/image.inc"); // Avatar scaling
 
@@ -14,6 +11,21 @@ if (post_str("account_key", true) != null) {
     $rpc = false;
 }
 BoincForumPrefs::lookup($user);
+
+if (post_str("action", true)=="reset_confirm"){
+    page_head("Confirm reset");
+    echo "This action will erase any changes you have made
+        in your community preferences.
+        To cancel, click your browser's Back button.
+        <p>
+        <form action=edit_forum_preferences_action.php method=post>
+        <input type=hidden name=action value=reset>
+        <input type=submit value=\"Reset preferences\">
+        </form>
+    ";
+    page_tail();
+    exit();
+}
 
 // If the user has requested a reset of preferences;
 // preserve a few fields.
