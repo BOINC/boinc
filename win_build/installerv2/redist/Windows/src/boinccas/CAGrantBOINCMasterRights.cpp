@@ -119,6 +119,29 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         // most cases.
 
         //
+        // Grant the SeCreateGlobalPrivilege to users represented by pSid.
+        //
+        Status = SetPrivilegeOnAccount(
+                    PolicyHandle,                   // policy handle
+                    pSid,                           // SID to grant privilege
+                    L"SeCreateGlobalPrivilege", // Unicode privilege
+                    TRUE                            // enable the privilege
+                    );
+
+        if(Status != STATUS_SUCCESS)
+        {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                Status,
+                _T("Failed call to SetPrivilegeOnAccount - SeCreateGlobalPrivilege")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        //
         // Grant the SeDenyInteractiveLogonRight to users represented by pSid.
         //
         Status = SetPrivilegeOnAccount(

@@ -11864,3 +11864,45 @@ David  29 Nov 2007
             forum_db.inc
         user/
             edit_forum_preferences_action.php
+
+Rom    30 Nov 2007
+    - WINSETUP: Randomly generate boinc_master and boinc_project passwords
+    - WINSETUP: Fix permission problems with newly created directories.
+        (Was an Installshield bug)
+    - WINSETUP: Add CAMigrateBOINCData
+    - WINSETUP: Fix long standing bug with the LAUNCHPROGRAM stuff showing
+        up on removes and admin installs
+    - Remove the admin required flag from all application manifests for
+        all executables.
+    - Fix a possible AV when the CC was launched without admin privs on
+        Windows.
+
+    clientlib/win/
+        IdleTracker.cpp
+    win_build/
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        sim.vcproj
+        updater.vcproj
+        vistaadminrequired.xml (removed)
+        vistaadminrequiredui.xml (removed)
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.vcproj
+        boinccas95.def
+        boinccas95.vcproj
+        CACreateBOINCAccounts.cpp
+        CAGrantBOINCMasterRights.cpp
+        CAMigrateBOINCData.cpp, .h (Added)
+        dirops.cpp, .h (Added)
+        password.cpp, .h (Added)
+        stdafx.h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

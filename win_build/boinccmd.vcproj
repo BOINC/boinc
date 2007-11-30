@@ -104,7 +104,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequired.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -213,7 +212,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequired.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -323,7 +321,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequired.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -433,7 +430,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequired.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -543,7 +539,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequired.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -563,7 +558,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -655,7 +649,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequired.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -675,7 +668,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>

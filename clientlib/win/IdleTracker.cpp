@@ -222,7 +222,7 @@ BOOL IdleTrackerStartup()
             _ASSERT( g_pSystemWideIdleData );
         }
 
- 	    if( !bExists )
+ 	    if( !bExists && g_pSystemWideIdleData )
  	    {
  		    g_pSystemWideIdleData->dwLastTick = GetTickCount();
  	    }

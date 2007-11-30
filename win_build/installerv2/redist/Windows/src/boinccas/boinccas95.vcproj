@@ -194,6 +194,8 @@
 			IntermediateDirectory="Release95"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfATL="1"
+			ATLMinimizesCRunTimeLibraryUsage="true"
 			CharacterSet="2"
 			>
 			<Tool
@@ -380,6 +382,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAMigrateBOINCData.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAMigratex86x64.cpp"
 				>
 			</File>
@@ -397,6 +403,10 @@
 			</File>
 			<File
 				RelativePath=".\CAValidateSetupType.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\dirops.cpp"
 				>
 			</File>
 			<File
@@ -453,6 +463,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAMigrateBOINCData.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CAMigratex86x64.h"
 				>
 			</File>
@@ -470,6 +484,10 @@
 			</File>
 			<File
 				RelativePath=".\CAValidateSetupType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\dirops.h"
 				>
 			</File>
 			<File

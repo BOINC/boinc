@@ -64,6 +64,10 @@
 #endif
 
 
+// ATL Headers Files:
+#include <atlbase.h>
+#include <atlenc.h>
+
 // Windows Header Files:
 #include <windows.h>
 #include <crtdbg.h>
@@ -74,6 +78,14 @@
 #include <lm.h>
 #include <shlobj.h>
 #include <sddl.h>
+#include <wincrypt.h>
+
+// CRT Header Files:
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <errno.h>
 
 // STL Header Files:
 #include <cassert>
