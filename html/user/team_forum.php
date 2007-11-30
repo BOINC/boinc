@@ -91,9 +91,18 @@ function remove_confirm($user, $team) {
 function remove($team) {
     $forum = BoincForum::lookup("parent_type=1 and category=$team->id");
     if (!$forum) error_page("not found");
+    
+    // delete threads and posts
+    //
+    $threads = BoincThread::enum("forum=$forum->id");
+    foreach ($threads as $thread) {
+        $posts = BoincPost::enum("thread=$thread->id");
+        foreach ($posts as $post) {
+            $post->delete();
+        }
+        $thread->delete();
+    }
     $forum->delete();
-
-    // don't bother deleting threads/posts etc.
 
     page_head("Message board removed");
     page_tail();

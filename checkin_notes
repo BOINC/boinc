@@ -11842,3 +11842,16 @@ David  29 Nov 2007
             db_conn.inc
         user/
             edit_forum_preferences_action.php
+
+David  29 Nov 2007
+    - web: if a team forum is deleted, delete all the threads and posts
+        beneath it.
+        Otherwise you get "zombie" posts, and e.g. when we should a user's
+        posts, they might all be hidden.
+        Also added a script to retroactively clean up these.
+
+    html/
+        ops/
+            repair_forums.php
+        user/
+            team_forum.php
