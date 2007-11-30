@@ -66,4 +66,4 @@ extern int update_wu_transition_time(WORKUNIT wu, time_t x);
 
 extern void lock_sema();
 extern void unlock_sema();
-
+extern const char* infeasible_string(int);

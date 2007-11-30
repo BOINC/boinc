@@ -11964,3 +11964,18 @@ Rom    30 Nov 2007
         boinctray.vcproj
     win_build/installerv2/
         BOINC.ism
+
+David  30 Nov 2007
+    - scheduler:
+        - if WU is infeasible, print message instead of number
+        - remove useless messages
+        - remove EDF simulations printfs
+        - don't update nresults_on_host in resend_lost_work()
+            (it's already done in add_result_to_reply())
+
+    sched/
+        edf_sim.C
+        handle_request.C
+        sched_array.C
+        sched_resend.C
+        sched_send.C,h

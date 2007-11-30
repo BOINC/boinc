@@ -530,7 +530,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     return 0;
 }
 
-// Figure out which of the results the user currently has
+// Figure out which of the results the host currently has
 // should be aborted outright, or aborted if not started yet
 //
 int send_result_abort(
@@ -556,10 +556,6 @@ int send_result_abort(
         result_names.append("'");
         result_names.append(orp.name);
         result_names.append("'");
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-            "Result is on [HOST#%d]: %s\n",
-            reply.host.id, orp.name.c_str()
-        );
     }
 
     // query the db for the results and set the appropriate flag
@@ -1426,14 +1422,15 @@ void process_request(
     handle_results(sreq, reply);
 
     reply.wreq.nresults_on_host = sreq.other_results.size();
-    if (config.resend_lost_results && sreq.have_other_results_list) {
-        if (resend_lost_work(sreq, reply, platforms, ss)) {
-            ok_to_send_work = false;
+    if (sreq.have_other_results_list) {
+        if (config.resend_lost_results) {
+            if (resend_lost_work(sreq, reply, platforms, ss)) {
+                ok_to_send_work = false;
+            }
         }
-    }
-
-    if (config.send_result_abort && sreq.have_other_results_list) {
-        send_result_abort(sreq, reply, ss);
+        if (config.send_result_abort) {
+            send_result_abort(sreq, reply, ss);
+        }
     }
     
     // if last RPC was within config.min_sendwork_interval, don't send work

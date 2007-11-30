@@ -116,8 +116,8 @@ void scan_work_array(
         retval = wu_is_infeasible(wu, sreq, reply, *app);
         if (retval) {
                log_messages.printf(
-                   SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible: %d\n",
-                   reply.host.id, wu.id, wu.name, retval
+                   SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+                   reply.host.id, wu.id, wu.name, infeasible_string(retval)
                );
             continue;
         }
