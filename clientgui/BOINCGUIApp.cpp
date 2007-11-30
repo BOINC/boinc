@@ -133,19 +133,55 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef __WXMSW__
 
-    TCHAR   szPath[MAX_PATH-1];
+	LONG    lReturnValue;
+	HKEY    hkSetupHive;
+    LPTSTR  lpszRegistryValue = NULL;
+	DWORD   dwSize = 0;
 
-    // change the current directory to the boinc install directory
-    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
-    TCHAR *pszProg = strrchr(szPath, '\\');
-    if (pszProg) {
-        szPath[pszProg - szPath + 1] = 0;
-        SetCurrentDirectory(szPath);
+    // change the current directory to the boinc data directory if it exists
+	lReturnValue = RegOpenKeyEx(
+        HKEY_LOCAL_MACHINE, 
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+		0, 
+        KEY_READ,
+        &hkSetupHive
+    );
+    if (lReturnValue == ERROR_SUCCESS) {
+        // How large does our buffer need to be?
+        lReturnValue = RegQueryValueEx(
+            hkSetupHive,
+            _T("DATADIR"),
+            NULL,
+            NULL,
+            NULL,
+            &dwSize
+        );
+        if (lReturnValue != ERROR_FILE_NOT_FOUND) {
+            // Allocate the buffer space.
+            lpszRegistryValue = (LPTSTR) malloc(dwSize);
+            (*lpszRegistryValue) = NULL;
+
+            // Now get the data
+            lReturnValue = RegQueryValueEx( 
+                hkSetupHive,
+                _T("DATADIR"),
+                NULL,
+                NULL,
+                (LPBYTE)lpszRegistryValue,
+                &dwSize
+            );
+
+            SetCurrentDirectory(lpszRegistryValue);
+
+            // Store the root directory for later use.
+            m_strBOINCMGRRootDirectory = lpszRegistryValue;
+        }
     }
 
-    // Store the root directory for later use.
-    m_strBOINCMGRRootDirectory = szPath;
+    // Cleanup
+	if (hkSetupHive) RegCloseKey(hkSetupHive);
+    if (lpszRegistryValue) free(lpszRegistryValue);
+
 
 #endif
 

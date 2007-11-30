@@ -11917,13 +11917,16 @@ Rom    30 Nov 2007
     - WINSETUP: Updated CAMigrateBOINCData
     - WINSETUP: Created CAMigrateBOINCDataTemp
     - WINSETUP: Created CAStartupBOINCService
-    - CC: Change the current working directory on startup to the DATADIR.
+    - CC: Change the current working directory on startup to the DATADIR. (Windows Only)
+    - MGR: Change the current working directory on startup to the DATADIR. (Windows Only)
     - CC: Change the logic for pointing to the CA Certificate Bundle on
         Windows.
         
     client/
         http_curl.C
         main.C
+    clientgui/
+        BOINCGUIApp.cpp
     win_build/installerv2/
         BOINC.ism
     win_build/installerv2/redist/Windows/src/boinccas/
