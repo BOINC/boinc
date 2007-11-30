@@ -1392,7 +1392,17 @@ wxString CSkinManager::GetSkinFileName() {
 
 wxString CSkinManager::GetSkinsLocation() {
     // Construct path to skins directory
-    return wxString(wxGetCwd() + wxString(wxFileName::GetPathSeparator()) + wxT("skins"));
+    wxString strSkinLocation = wxEmptyString;
+
+#ifdef __WXMSW__
+    strSkinLocation  = wxGetApp().GetRootDirectory();
+    strSkinLocation += wxFileName::GetPathSeparator();
+    strSkinLocation += wxT("skins");
+#else
+    strSkinLocation = wxString(wxGetCwd() + wxString(wxFileName::GetPathSeparator()) + wxT("skins"));
+#endif
+
+    return strSkinLocation;
 }
 
 

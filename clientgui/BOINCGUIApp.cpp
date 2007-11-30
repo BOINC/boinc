@@ -133,6 +133,9 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef __WXMSW__
 
+    //
+    // Determine BOINCMgr Data Directory
+    //
 	LONG    lReturnValue;
 	HKEY    hkSetupHive;
     LPTSTR  lpszRegistryValue = NULL;
@@ -174,7 +177,7 @@ bool CBOINCGUIApp::OnInit() {
             SetCurrentDirectory(lpszRegistryValue);
 
             // Store the root directory for later use.
-            m_strBOINCMGRRootDirectory = lpszRegistryValue;
+            m_strBOINCMGRDataDirectory = lpszRegistryValue;
         }
     }
 
@@ -182,6 +185,22 @@ bool CBOINCGUIApp::OnInit() {
 	if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
 
+
+    //
+    // Determine BOINCMgr Root Directory
+    //
+    TCHAR   szPath[MAX_PATH-1];
+
+    // change the current directory to the boinc install directory
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+		
+    TCHAR *pszProg = strrchr(szPath, '\\');
+    if (pszProg) {
+        szPath[pszProg - szPath + 1] = 0;
+    }
+
+    // Store the root directory for later use.
+    m_strBOINCMGRRootDirectory = szPath;
 
 #endif
 

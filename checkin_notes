@@ -11946,3 +11946,21 @@ Rom    30 Nov 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    30 Nov 2007
+    - MGR: Add the ability for the manager to know the difference
+        between the executable directory and the data directory.
+        (Windows Only)
+    - TRAY: Update the tray code to what was used in 5.10.x
+    - WINSETUP: Update for BOINCTray.exe
+    
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        SkinManager.cpp
+    clienttray/
+        tray_win.cpp, .h
+    win_build/
+        boinc.sln
+        boinctray.vcproj
+    win_build/installerv2/
+        BOINC.ism
