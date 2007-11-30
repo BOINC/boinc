@@ -1114,4 +1114,8 @@ void boinc_register_timer_callback(FUNC_PTR p) {
     timer_callback = p;
 }
 
+double boinc_get_fraction_done() {
+    return fraction_done;
+}
+
 const char *BOINC_RCSID_0fa0410386 = "$Id$";
