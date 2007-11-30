@@ -136,8 +136,13 @@ case 'answer':          // submit answer in exercise
     $bolt_ex_mode = BOLT_MODE_SCORE;
     $bolt_ex_index = 0;
     $bolt_ex_score = 0;
+    ob_start();     // turn on output buffering
     require($item->filename);
+    ob_end_clean();
     echo "score: $bolt_ex_score";
+    $bolt_ex_mode = BOLT_MODE_ANSWER;
+    $bolt_ex_index = 0;
+    require($item->filename);
     break;
 }
 
