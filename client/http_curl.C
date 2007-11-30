@@ -317,12 +317,35 @@ The checking this option controls is of the identity that the server claims. The
 
     // if the above is nonzero, you need the following:
     //
+#ifdef _WIN32
+    TCHAR   szPath[MAX_PATH-1];
+    std::string strCABundlePath;
+
+    // Where is BOINC executed from?
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+
+    TCHAR *pszProg = strrchr(szPath, '\\');
+    if (pszProg) {
+        szPath[pszProg - szPath + 1] = 0;
+
+        strCABundlePath  = szPath;
+        strCABundlePath += CA_BUNDLE_FILENAME;
+
+        if (boinc_file_exists(strCABundlePath.c_str())) {
+            // call this only if a local copy of ca-bundle.crt exists;
+            // otherwise, let's hope that it exists in the default place
+            //
+            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, strCABundlePath.c_str());
+        }
+    }
+#else
     if (boinc_file_exists(CA_BUNDLE_FILENAME)) {
         // call this only if a local copy of ca-bundle.crt exists;
         // otherwise, let's hope that it exists in the default place
         //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
     }
+#endif
 
     // set the user agent as this boinc client & version
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);

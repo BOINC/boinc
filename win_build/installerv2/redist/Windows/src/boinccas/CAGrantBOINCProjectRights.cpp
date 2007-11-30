@@ -85,11 +85,19 @@ UINT CAGrantBOINCProjectRights::OnExecution()
 
     if(Status != STATUS_SUCCESS) {
         LogMessage(
-            INSTALLMESSAGE_ERROR,
+            INSTALLMESSAGE_INFO,
             NULL, 
             NULL,
             NULL,
             Status,
+            _T("OpenPolicy failed.")
+        );
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
             _T("Failed to be able to open a policy to the localhost")
         );
         return ERROR_INSTALL_FAILURE;
@@ -131,11 +139,19 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeDenyInteractiveLogonRight")
             );
             return ERROR_INSTALL_FAILURE;
@@ -154,11 +170,19 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeDenyNetworkLogonRight")
             );
             return ERROR_INSTALL_FAILURE;
@@ -177,11 +201,19 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeChangeNotifyPrivilege")
             );
             return ERROR_INSTALL_FAILURE;

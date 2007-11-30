@@ -92,59 +92,36 @@ UINT CAShutdownBOINC::OnExecution()
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
-    tOSCM pOSCM = NULL;
-    tOS pOS = NULL;
-    tCS pCS = NULL;
-    tQSS pQSS = NULL;
 
+    schSCManager = OpenSCManager( 
+        NULL,                    // local machine 
+        NULL,                    // ServicesActive database 
+        GENERIC_READ);           // full access rights 
 
-    HMODULE hAdvapi32 = LoadLibrary(_T("advapi32.dll"));
-    if (hAdvapi32) {
-        pOSCM = (tOSCM)GetProcAddress(hAdvapi32, "OpenSCManagerW");
-        pOS = (tOS)GetProcAddress(hAdvapi32, "OpenServiceW");
-        pCS = (tCS)GetProcAddress(hAdvapi32, "ControlService");
-        pQSS = (tQSS)GetProcAddress(hAdvapi32, "QueryServiceStatus");
-        if (!pOSCM && !pOS && !pCS && !pQSS) {
-            FreeLibrary(hAdvapi32);
-            hAdvapi32 = NULL;
-            pOSCM = NULL;
-            pOS = NULL;
-            pCS = NULL;
-            pQSS = NULL;
-        }
-    }
-
-    if (pOSCM && pOS && pCS && pQSS) {
-        schSCManager = pOSCM( 
-            NULL,                    // local machine 
-            NULL,                    // ServicesActive database 
-            GENERIC_READ);           // full access rights 
-
-        if (schSCManager)
+    if (schSCManager)
+    {
+        schService = OpenService( 
+            schSCManager,            // SCM database 
+            _T("BOINC"),             // service name
+            GENERIC_READ | GENERIC_EXECUTE); 
+     
+        if (schService) 
         {
-            schService = pOS( 
-                schSCManager,            // SCM database 
-                _T("BOINC"),             // service name
-                GENERIC_READ | GENERIC_EXECUTE); 
-         
-            if (schService) 
+            if (QueryServiceStatus(schService, &ssStatus))
             {
-                if (pQSS(schService, &ssStatus))
+                if (!((SERVICE_STOPPED == ssStatus.dwCurrentState) && 
+                      (SERVICE_STOP_PENDING == ssStatus.dwCurrentState)))
                 {
-                    if (!((SERVICE_STOPPED == ssStatus.dwCurrentState) && 
-                          (SERVICE_STOP_PENDING == ssStatus.dwCurrentState)))
+                    if (!ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus))
                     {
-                        if (!pCS(schService, SERVICE_CONTROL_STOP, &ssStatus))
-                        {
-                            LogMessage(
-                                INSTALLMESSAGE_INFO,
-                                NULL, 
-                                NULL,
-                                NULL,
-                                (int)GetLastError(),
-                                _T("Setup was unable to shutdown the BOINC Service.")
-                            );
-                        }
+                        LogMessage(
+                            INSTALLMESSAGE_ERROR,
+                            NULL, 
+                            NULL,
+                            NULL,
+                            GetLastError(),
+                            _T("Setup was unable to shutdown the BOINC System Service.")
+                        );
                     }
                 }
             }

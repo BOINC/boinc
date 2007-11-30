@@ -20,11 +20,11 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CAMigrateBOINCData.h"
+#include "CAMigrateBOINCDataTemp.h"
 #include "dirops.h"
 
-#define CUSTOMACTION_NAME               _T("CAMigrateBOINCData")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Migrate application data to the data directory.")
+#define CUSTOMACTION_NAME               _T("CAMigrateBOINCDataTemp")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Store existing application data in a temporary location.")
 
 
 /////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAMigrateBOINCData::CAMigrateBOINCData(MSIHANDLE hMSIHandle) :
+CAMigrateBOINCDataTemp::CAMigrateBOINCDataTemp(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
 {}
 
@@ -46,7 +46,7 @@ CAMigrateBOINCData::CAMigrateBOINCData(MSIHANDLE hMSIHandle) :
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAMigrateBOINCData::~CAMigrateBOINCData()
+CAMigrateBOINCDataTemp::~CAMigrateBOINCDataTemp()
 {
     BOINCCABase::~BOINCCABase();
 }
@@ -59,32 +59,38 @@ CAMigrateBOINCData::~CAMigrateBOINCData()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT CAMigrateBOINCData::OnExecution()
+UINT CAMigrateBOINCDataTemp::OnExecution()
 {
-    tstring     strTempDirectory;
+    tstring     strInstallDirectory;
     tstring     strDataDirectory;
+    tstring     strTempDirectory;
     struct stat buf;
     UINT        uiReturnValue = -1;
 
-    uiReturnValue = GetProperty( _T("TEMPDIR"), strTempDirectory );
+    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
+    uiReturnValue = GetProperty( _T("TempFolder"), strTempDirectory );
+    if ( uiReturnValue ) return uiReturnValue;
+
     if ( stat(strDataDirectory.c_str(), &buf) )
     {
-        if ( MoveFolder( strTempDirectory, strDataDirectory ) )
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("BOINC files have been migrated to the data directory.")
-            );
-        }
+        strTempDirectory = strTempDirectory + _T("\\boincdata.tmp");
+
+        MoveFolder( strInstallDirectory, strTempDirectory );
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("BOINC files have been migrated to the temp directory.")
+        );
+
+        SetProperty( _T("TEMPDIR"), strTempDirectory );
     }
 
     return ERROR_SUCCESS;
@@ -98,11 +104,11 @@ UINT CAMigrateBOINCData::OnExecution()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT __stdcall MigrateBOINCData(MSIHANDLE hInstall)
+UINT __stdcall MigrateBOINCDataTemp(MSIHANDLE hInstall)
 {
     UINT uiReturnValue = 0;
 
-    CAMigrateBOINCData* pCA = new CAMigrateBOINCData(hInstall);
+    CAMigrateBOINCDataTemp* pCA = new CAMigrateBOINCDataTemp(hInstall);
     uiReturnValue = pCA->Execute();
     delete pCA;
 
@@ -110,4 +116,4 @@ UINT __stdcall MigrateBOINCData(MSIHANDLE hInstall)
 }
 
 
-const char *BOINC_RCSID_8dca879ada="$Id: CAMigrateBOINCData.cpp 11773 2007-01-05 08:49:02Z rwalton $";
+const char *BOINC_RCSID_8dcb879ada="$Id: CAMigrateBOINCDataTemp.cpp 11773 2007-01-05 08:49:02Z rwalton $";

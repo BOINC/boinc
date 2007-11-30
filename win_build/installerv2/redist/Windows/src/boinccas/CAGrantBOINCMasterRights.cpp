@@ -85,11 +85,19 @@ UINT CAGrantBOINCMasterRights::OnExecution()
 
     if(Status != STATUS_SUCCESS) {
         LogMessage(
-            INSTALLMESSAGE_ERROR,
+            INSTALLMESSAGE_INFO,
             NULL, 
             NULL,
             NULL,
             Status,
+            _T("OpenPolicy failed.")
+        );
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
             _T("Failed to be able to open a policy to the localhost")
         );
         return ERROR_INSTALL_FAILURE;
@@ -124,18 +132,26 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         Status = SetPrivilegeOnAccount(
                     PolicyHandle,                   // policy handle
                     pSid,                           // SID to grant privilege
-                    L"SeCreateGlobalPrivilege", // Unicode privilege
+                    L"SeCreateGlobalPrivilege",     // Unicode privilege
                     TRUE                            // enable the privilege
                     );
 
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeCreateGlobalPrivilege")
             );
             return ERROR_INSTALL_FAILURE;
@@ -154,11 +170,19 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeDenyInteractiveLogonRight")
             );
             return ERROR_INSTALL_FAILURE;
@@ -177,11 +201,19 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeDenyNetworkLogonRight")
             );
             return ERROR_INSTALL_FAILURE;
@@ -200,11 +232,19 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeDebugPrivilege")
             );
             return ERROR_INSTALL_FAILURE;
@@ -223,11 +263,19 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeServiceLogonRight")
             );
             return ERROR_INSTALL_FAILURE;
@@ -246,11 +294,19 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         if(Status != STATUS_SUCCESS)
         {
             LogMessage(
-                INSTALLMESSAGE_ERROR,
+                INSTALLMESSAGE_INFO,
                 NULL, 
                 NULL,
                 NULL,
                 Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
                 _T("Failed call to SetPrivilegeOnAccount - SeChangeNotifyPrivilege")
             );
             return ERROR_INSTALL_FAILURE;

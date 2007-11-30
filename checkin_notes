@@ -11906,3 +11906,40 @@ Rom    30 Nov 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    30 Nov 2007
+    - WINSETUP: Policy change, the migration of the data files happens in
+        two stages. The first stage happens before InstallInitialize and the
+        second stage happens after InstallFinalize. Everything between
+        InstallInitialize and InstallFinalize just generates a script
+        and doesn't actually change the file system, so the permission trees
+        just get screwed up.
+    - WINSETUP: Updated CAMigrateBOINCData
+    - WINSETUP: Created CAMigrateBOINCDataTemp
+    - WINSETUP: Created CAStartupBOINCService
+    - CC: Change the current working directory on startup to the DATADIR.
+    - CC: Change the logic for pointing to the CA Certificate Bundle on
+        Windows.
+        
+    client/
+        http_curl.C
+        main.C
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.def
+        boinccas.vcproj
+        boinccas95.def
+        boinccas95.vcproj
+        CAGrantBOINCMasterRights.cpp
+        CAGrantBOINCProjectRights.cpp
+        CAMigrateBOINCData.cpp
+        CAMigrateBOINCDataTemp.cpp, .h (Added)
+        CAShutdownBOINC.cpp
+        CAStartupBOINCService.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
