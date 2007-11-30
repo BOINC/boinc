@@ -72,7 +72,7 @@ Subject: $subject
 
 $body
 ";
-    $subject = PROJECT.": post $action_name in $thread->title";
+    $subject = PROJECT.": post $action in \"$thread->title\"";
     $success &= mail_report_list($forum, $subject, $body);
     return $success;
 }
