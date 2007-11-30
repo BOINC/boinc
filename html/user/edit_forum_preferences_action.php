@@ -32,11 +32,14 @@ if (post_str("action", true)=="reset_confirm"){
 //
 if (post_str("action", true)=="reset"){
     $posts = $user->prefs->posts;
+    $last_post = $user->prefs->last_post;
+    $rated_posts = $user->prefs->rated_posts;
     $banished_until = $user->prefs->banished_until;
     $special_user = $user->prefs->special_user;
     $user->prefs->delete();
-    BoincForumPrefs::lookup($user);
-    $user->prefs->update("posts=$posts, banished_until=$banished_until, special_user='$special_user'");
+    unset($user->prefs);
+    BoincForumPrefs::lookup($user, true);
+    $user->prefs->update("posts=$posts, last_post=$last_post, rated_posts='$rated_posts', banished_until=$banished_until, special_user='$special_user'");
     Header("Location: edit_forum_preferences_form.php");
     exit;
 }

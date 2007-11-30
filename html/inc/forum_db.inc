@@ -118,10 +118,10 @@ class BoincForumPrefs {
         $db = BoincDb::get();
         $ret = $db->insert('forum_preferences', $clause);
     }
-    static function lookup(&$user) {
+    static function lookup(&$user, $nocache=false) {
         if (!$user) return;
         if (isset($user->prefs)) return;
-        if (isset(self::$cache[$user->id])) {
+        if (!$nocache && isset(self::$cache[$user->id])) {
             $prefs = self::$cache[$user->id];
         } else {
             $prefs = self::lookup_userid($user->id);

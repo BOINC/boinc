@@ -11855,3 +11855,12 @@ David  29 Nov 2007
             repair_forums.php
         user/
             team_forum.php
+
+David  29 Nov 2007
+    - web: fix this forum prefs reset problem again; this time for sure
+
+    html/
+        inc/
+            forum_db.inc
+        user/
+            edit_forum_preferences_action.php
