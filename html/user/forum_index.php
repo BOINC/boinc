@@ -7,11 +7,11 @@ require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 require_once('../inc/time.inc');
 
-// Process request to mark all posts as read
-// ???? uh, why is this here ????
 
 $user = get_logged_in_user(false);
 
+// Process request to mark all posts as read
+//
 if ((get_int("read", true) == 1)) {
     if ($user) {
         check_tokens($user->authenticator);
@@ -68,6 +68,13 @@ foreach ($categories as $category) {
     if ($first) {
         $first = false;
         show_forum_title($category, NULL, NULL);
+        if ($user) {
+            $return = urlencode(current_url());
+            $tokens = url_tokens($user->authenticator);
+            $url = "forum_index.php?read=1$tokens&return=$return";
+            show_button($url, "Mark all threads as read", "Mark all threads in all message boards as 'read'.");
+        }
+
         echo "<p>";
         start_forum_table(
             array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post"))

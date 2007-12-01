@@ -11985,3 +11985,11 @@ David  30 Nov 2007
 
     html/inc/
         util.inc
+
+David  30 Nov 2007
+    - web: put "mark all threads as unread" on the forum index,
+        since it applies to all forums.
+
+    html/user/
+        forum_index.php
+        forum_forum.php

@@ -72,13 +72,6 @@ echo '
 
 show_button("forum_post.php?id=$id", "New thread", "Add a new thread to this forum");
 
-if ($user) {
-    $return = urlencode(current_url());
-    $tokens = url_tokens($user->authenticator);
-    $url = "forum_index.php?read=1$tokens&return=$return";
-    show_button($url, "Mark all threads as read", "Mark all threads in this forum as 'read'.");
-}
-
 echo " <br><br></td>";
 echo '<td valign=top align="right">';
 echo '    <form action="forum_forum.php" method="get">
