@@ -11993,3 +11993,10 @@ David  30 Nov 2007
     html/user/
         forum_index.php
         forum_forum.php
+
+David  1 Dec 2007
+    - web: show explanation if try to change team name to one in use
+    - web: don't allow bad tags in team name HTML
+
+    html/user/
+        team_edit_action.php

@@ -19,7 +19,6 @@ function bolt_exclusive_choice($choices) {
     global $bolt_ex_state;  // output if SHOW, else input
     global $bolt_ex_score;  // output if SCORE
 
-        echo "BLAH";
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:
         // Shuffle the answers;
@@ -65,4 +64,18 @@ function bolt_exclusive_choice($choices) {
     }
     $bolt_ex_index++;
 }
+
+function bolt_image_rect($img, $rect) {
+    global $bolt_ex_mode;   // input
+    global $bolt_ex_index;  // input
+    global $bolt_ex_state;  // output if SHOW, else input
+    global $bolt_ex_score;  // output if SCORE
+
+    switch ($bolt_ex_mode) {
+    case BOLT_MODE_SHOW:
+        echo "<img src=$img";
+        break;
+    }
+}
+
 ?>
