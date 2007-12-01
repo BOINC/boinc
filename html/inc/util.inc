@@ -757,9 +757,11 @@ function current_url() {
 }
 
 function show_button($url, $text, $desc) {
+    $text_esc = addslashes($text);      // for javascript
+    $desc_esc = addslashes($desc);
     echo "
         <script>
-        document.write('<input onClick=\"document.location.href=\'$url\'\" class=btn type=button value=\"$text\" title=\"$desc\">')
+        document.write('<input onClick=\"document.location.href=\'$url\'\" class=btn type=button value=\"$text_esc\" title=\"$desc_esc\">')
         </script>
         <noscript>
         <a href=$url title=$desc>$text</a>

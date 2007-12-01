@@ -11979,3 +11979,9 @@ David  30 Nov 2007
         sched_array.C
         sched_resend.C
         sched_send.C,h
+
+David  30 Nov 2007
+    - web: escape single-quotes in javascript strings
+
+    html/inc/
+        util.inc
