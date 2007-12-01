@@ -12000,3 +12000,10 @@ David  1 Dec 2007
 
     html/user/
         team_edit_action.php
+
+David  1 Dec 2007
+    - client: don't fetch project list from boinc.berkeley.edu
+        if the <dont_contact_ref_site> config flag is set
+
+    client/
+        acct_setup.C
