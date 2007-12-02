@@ -12007,3 +12007,25 @@ David  1 Dec 2007
 
     client/
         acct_setup.C
+
+Rom    2 Dec 2007
+    - WINSETUP: Fix a few more permission problems with how 
+        InstallShield does things.
+    - WINSETUP: Don't attempt to create accounts or set rights
+        on Win9x based systems.
+    - WINSETUP: Add additional trace messages to
+        CACreateBOINCAccounts.
+    - WINSETUP: Add entries for a null script when creating
+        user accounts, apparently it is a requirement for
+        creating accounts on Win2k and WinXP.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CACreateBOINCAccounts.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

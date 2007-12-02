@@ -98,15 +98,30 @@ UINT CACreateBOINCAccounts::OnExecution()
     //   if the user hasn't explicitly defined an account
     if (strBOINCMasterAccountUsername.empty() && strBOINCMasterAccountPassword.empty()) {
 
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Using automatic account creation and management of 'boinc_master' account")
+        );
+
         // Determine what the real values of the usernames should be based off
         //   of the inputs
         //
-        if (strProductType == tstring(_T("2"))) {                    // Domain Controller
-            if (strBOINCMasterAccountUsername.empty()) {
+        if (strBOINCMasterAccountUsername.empty()) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Generating 'boinc_master' account name")
+            );
+            if (strProductType == tstring(_T("2"))) {                    // Domain Controller
                 strBOINCMasterAccountUsername = _T("boinc_master_") + strComputerName;
-            }
-        } else {
-            if (strBOINCMasterAccountUsername.empty()) {
+            } else {
                 strBOINCMasterAccountUsername = _T("boinc_master");
             }
         }
@@ -115,6 +130,14 @@ UINT CACreateBOINCAccounts::OnExecution()
         // Generate random passwords if needed
         //
         if (strBOINCMasterAccountPassword.empty()) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Generating 'boinc_master' password")
+            );
             GenerateRandomPassword(strBOINCMasterAccountPassword, 12);
             strBOINCMasterAccountPassword = _T("!") + strBOINCMasterAccountPassword;
         }
@@ -123,6 +146,16 @@ UINT CACreateBOINCAccounts::OnExecution()
         // Create the 'boinc_master' account if needed, otherwise just update the password.
         //
         if(GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(), &pSid)) {   // Check if user exists
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Resetting 'boinc_master' password")
+            );
+
             // Account already exists, just change the password
             //
             USER_INFO_1003 ui;
@@ -150,6 +183,16 @@ UINT CACreateBOINCAccounts::OnExecution()
                 return ERROR_INSTALL_FAILURE;
             }
         } else {
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Creating 'boinc_master' account")
+            );
+
             // Account does not exist, create it
             //
             USER_INFO_1 ui;
@@ -159,7 +202,10 @@ UINT CACreateBOINCAccounts::OnExecution()
             ui.usri1_password = (LPWSTR)strBOINCMasterAccountPassword.c_str();
             ui.usri1_comment = _T("Account used to execute BOINC as a system service");
             ui.usri1_priv = USER_PRIV_USER;
-            ui.usri1_flags = UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
+            ui.usri1_home_dir = NULL;
+            ui.usri1_comment = NULL;
+            ui.usri1_flags = UF_SCRIPT | UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
+            ui.usri1_script_path = NULL;
 
             nasReturnValue = NetUserAdd(
                 NULL,
@@ -196,7 +242,10 @@ UINT CACreateBOINCAccounts::OnExecution()
                 return ERROR_INSTALL_FAILURE;
             }
         }
-        if(pSid != NULL) HeapFree(GetProcessHeap(), 0, pSid);
+        if(pSid != NULL) {
+            HeapFree(GetProcessHeap(), 0, pSid);
+            pSid = NULL;
+        }
 
         bBOINCMasterAccountModified = TRUE;
     }
@@ -205,15 +254,30 @@ UINT CACreateBOINCAccounts::OnExecution()
     //   if the user hasn't explicitly defined an account
     if (strBOINCProjectAccountUsername.empty() && strBOINCProjectAccountPassword.empty()) {
 
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Using automatic account creation and management of 'boinc_project' account")
+        );
+
         // Determine what the real values of the usernames should be based off
         //   of the inputs
         //
-        if (strProductType == tstring(_T("2"))) {                    // Domain Controller
-            if (strBOINCProjectAccountUsername.empty()) {
+        if (strBOINCProjectAccountUsername.empty()) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Generating 'boinc_project' account name")
+            );
+            if (strProductType == tstring(_T("2"))) {                    // Domain Controller
                 strBOINCProjectAccountUsername = _T("boinc_project_") + strComputerName;
-            }
-        } else {
-            if (strBOINCProjectAccountUsername.empty()) {
+            } else {
                 strBOINCProjectAccountUsername = _T("boinc_project");
             }
         }
@@ -222,6 +286,14 @@ UINT CACreateBOINCAccounts::OnExecution()
         // Generate random passwords if needed
         //
         if (strBOINCProjectAccountPassword.empty()) {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Generating 'boinc_project' password")
+            );
             GenerateRandomPassword(strBOINCProjectAccountPassword, 12);
             strBOINCProjectAccountPassword = _T("!") + strBOINCProjectAccountPassword;
         }
@@ -230,6 +302,16 @@ UINT CACreateBOINCAccounts::OnExecution()
         // Create the 'boinc_project' account if needed, otherwise just update the password.
         //
         if(GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(), &pSid)) {   // Check if user exists
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Resetting 'boinc_project' password")
+            );
+
             // Account already exists, just change the password
             //
             USER_INFO_1003 ui;
@@ -257,6 +339,16 @@ UINT CACreateBOINCAccounts::OnExecution()
                 return ERROR_INSTALL_FAILURE;
             }
         } else {
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Creating 'boinc_project' account")
+            );
+
             // Account does not exist, create it
             //
             USER_INFO_1 ui;
@@ -266,7 +358,10 @@ UINT CACreateBOINCAccounts::OnExecution()
             ui.usri1_password = (LPWSTR)strBOINCProjectAccountPassword.c_str();
             ui.usri1_comment = _T("Account used to execute BOINC applications");
             ui.usri1_priv = USER_PRIV_USER;
-            ui.usri1_flags = UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
+            ui.usri1_home_dir = NULL;
+            ui.usri1_comment = NULL;
+            ui.usri1_flags = UF_SCRIPT | UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
+            ui.usri1_script_path = NULL;
 
             nasReturnValue = NetUserAdd(
                 NULL,
@@ -304,7 +399,10 @@ UINT CACreateBOINCAccounts::OnExecution()
             }
 
         }
-        if(pSid != NULL) HeapFree(GetProcessHeap(), 0, pSid);
+        if(pSid != NULL) {
+            HeapFree(GetProcessHeap(), 0, pSid);
+            pSid = NULL;
+        }
 
         bBOINCProjectAccountModified = TRUE;
     }
