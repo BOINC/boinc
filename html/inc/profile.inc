@@ -26,14 +26,6 @@ function profile_screening() {
     return parse_bool($config, "profile_screening");
 }
 
-function profile_error_page($str) {
-    page_head("Profile error");
-    echo "$str<br>\n";
-    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
-    page_tail();
-    exit();
-}
-
 // output a select form item with the given name,
 // from a list of newline-delineated items from the text file.
 // If $selection is provided, and if it matches one of the entries in the file,
@@ -273,7 +265,7 @@ function process_create_profile($user, $profile) {
         $delete_pic != "on" &&
         !is_uploaded_file($_FILES['picture']['tmp_name'])
     ) {
-        profile_error_page("Your profile submission was empty.");
+        error_page("Your profile submission was empty.");
         exit();
     }
 
@@ -312,7 +304,7 @@ function process_create_profile($user, $profile) {
             ." WHERE userid = '$user->id'";
         $result = BoincProfile::update_aux($query);
         if (!$result) {
-            profile_error_page("Couldn't update profile: database error");
+            error_page("Couldn't update profile: database error");
         }
     } else {
         $query = 'SET '
@@ -324,7 +316,7 @@ function process_create_profile($user, $profile) {
             ." verification=0";
         $result = BoincProfile::insert($query);
         if (!$result) {
-            profile_error_page("Couldn't create profile: database error");
+            error_page("Couldn't create profile: database error");
         }
         $user->update("has_profile=1");
     }
@@ -351,7 +343,7 @@ function getImages($fileName) {
             $image = imageCreateFromPNG($fileName);
             break;
         default:
-            profile_error_page("The format of your uploaded image is not supported by our system.");
+            error_page("The format of your uploaded image is not supported by our system.");
     }
 
     $width = $size[0];
@@ -520,11 +512,15 @@ function show_profile($userid, $verify_mode = FALSE) {
     $user = get_user_from_id($userid);
 
     if (!$user) {
-        profile_error_page("No user exists for that ID, or there was a database error.<p>");
+        error_page("No such user");
+    }
+    BoincForumPrefs::lookup($user);
+    if (is_banished($user)) {
+        error_page("User is banished");
     }
     $profile = get_profile($userid);
     if (!$profile) {
-        profile_error_page("No user profile exists for that user ID.");
+        error_page("No user profile exists for that user ID.");
     }
     if (!$verify_mode) {
         $logged_in_user = get_logged_in_user(false);

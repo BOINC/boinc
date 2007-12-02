@@ -12039,3 +12039,16 @@ Rom    2 Dec 2007
     client/
         client_state.C
         time_stats.C, .h
+
+David  2 Dec 2007
+    - web: if user is banished, don't show their posts except to mods,
+        don't show their name in thread headers,
+        and don't show their profile
+
+    html/
+        inc/
+            forum.inc
+            profile.inc
+            util.inc
+        user/
+            forum_edit.php

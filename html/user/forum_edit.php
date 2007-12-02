@@ -36,7 +36,7 @@ $thread_owner = BoincUser::lookup_id($thread->owner);
 // (ie. not a response to another post)
 // allow the user to modify the thread title
 //
-$can_edit_title = ($post->parent_post==0 and $thread_owner->id==$logged_in_user->id);
+$can_edit_title = ($post->parent_post==0 && $thread_owner->id==$logged_in_user->id && !is_banished($logged_in_user));
 
 $content = post_str("content", true);
 $title = post_str("title", true);

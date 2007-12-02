@@ -197,6 +197,24 @@ class BoltExercise extends BoltItem {
     }
 }
 
+function Sequence() {
+    $args = func_get_args();
+    $units = array();
+    $name = "";
+    foreach ($args as $arg) {
+        if (is_object($arg) {
+            if (is_subclass_of($arg, "BoltUnit")) {
+                $units[] = $arg;
+            } else if (get_class($arg) == "BoltName")) {
+                $name = $arg->name;
+            } else {
+                echo "Unrecognized arg";
+            }
+        }
+    }
+    return new BoltSequence($name, $units);
+}
+
 function enum_course($course) {
     $iter = new BoltIter($course);
     while (1) {

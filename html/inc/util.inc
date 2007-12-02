@@ -5,6 +5,7 @@ require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
+require_once("../inc/forum.inc");
 
 ini_set("memory_limit", "64M");
 
@@ -542,13 +543,14 @@ function sched_stopped() {
 }
 
 function user_links($user) {
+    BoincForumPrefs::lookup($user);
+    if (is_banished($user)) {
+        return "(banished: ID $user->id)";
+    }
     $x = "<a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->has_profile) {
         $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" src="'.URL_BASE.'img/head_20.png" alt="Profile"></a>';
     }
-    // Does this project accept donations?
-    // If so, do you want to have a link next to user name as it appears on the web site?
-    //
     if ($user->donated == 1) { 
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;

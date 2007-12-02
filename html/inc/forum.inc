@@ -441,6 +441,9 @@ function show_post(
 ) {
     $user = BoincUser::lookup_id($post->user);
     BoincForumPrefs::lookup($user);
+    if (is_banished($user) && !is_moderator($logged_in_user, $forum)) {
+        return;
+    }
 
     $config = get_config();
     $no_forum_rating = parse_bool($config, "no_forum_rating");
@@ -660,11 +663,14 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     ";
 }
 
+function is_banished($user) {
+    return ($user->prefs->banished_until > time());
+}
+
 function check_banished($user) {
-    $x = $user->prefs->banished_until;
-    if ($x>time()) {
+    if (is_banished($user)) {
         error_page(
-            "You may not post or rate messages until ".gmdate('M j, Y', $x)
+            "You may not post or rate messages until ".gmdate('M j, Y', $user->prefs->banished_until)
         );
     }
 }
