@@ -115,7 +115,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
     pid_handle = 0;
-    thread_handle = 0;
     shm_handle = 0;
 #endif
     premature_exit_count = 0;
@@ -157,10 +156,6 @@ void ACTIVE_TASK::close_process_handles() {
     if (pid_handle) {
         CloseHandle(pid_handle);
         pid_handle = NULL;
-    }
-    if (thread_handle) {
-        CloseHandle(thread_handle);
-        thread_handle = NULL;
     }
 }
 #endif

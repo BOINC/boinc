@@ -4,7 +4,7 @@ require_once("../inc/util.inc");
 page_head("Allowed HTML tags");
 
 echo "
-The following HTML tags are allowed in profiles, messages,
+The following HTML tags are allowed in profiles, team descriptions,
 signatures, etc.:
 <ul>
 <li> &lt;b> or &lt;strong> (bold)

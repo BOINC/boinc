@@ -56,6 +56,19 @@ using namespace std;
 #define FCGI_ToFILE(x) (x)
 #endif
 
+const char* infeasible_string(int code) {
+    switch (code) {
+    case INFEASIBLE_MEM: return "Not enough memory";
+    case INFEASIBLE_DISK: return "Not enough disk";
+    case INFEASIBLE_CPU: return "CPU too slow";
+    case INFEASIBLE_APP_SETTING: return "App not selected";
+    case INFEASIBLE_WORKLOAD: return "Existing workload";
+    case INFEASIBLE_DUP: return "Already in reply";
+    case INFEASIBLE_HR: return "Homogeneous redundancy";
+    }
+    return "Unknown";
+}
+
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 const int MAX_CPUS = 8;
@@ -784,6 +797,8 @@ int add_result_to_reply(
 
     int delay_bound = wu.delay_bound;
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
+        // We are sending this result for the first time
+        //
         // If the workunit needs reliable and is being sent to a reliable host,
         // then shorten the delay bound by the percent specified
         //
@@ -793,18 +808,16 @@ int add_result_to_reply(
             }
         }
 
-        // We are sending this result for the first time
-        //
         result.report_deadline = result.sent_time + delay_bound;
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
     } else {
-        // Result was ALREADY sent to this host but never arrived.
-        // So we are resending it.
-        // result.report_deadline and time_sent
-        // have already been updated before this function was called.
+        // Result was already sent to this host but was lost,
+        // so we are resending it.
         //
         resent_result = true;
  
+        // TODO: explain the following
+        //
         if (result.report_deadline < result.sent_time) {
             result.report_deadline = result.sent_time + 10;
         }

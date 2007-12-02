@@ -22,6 +22,7 @@ foreach ($categories as $category) {
     if ($first) {
         $first = false;
         show_forum_title($category, null, null);
+        echo "<p>";
         start_forum_table(array("Topic", "# Questions", "Last post"));
     }
     if (strlen($category->name)) {
@@ -32,7 +33,7 @@ foreach ($categories as $category) {
         ";
     }
 
-    $forums = BoincForum::enum("category=$category->id order by orderID");
+    $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
     foreach ($forums as $forum) {
         echo "
         <tr class=\"row1\">

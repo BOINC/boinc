@@ -2,15 +2,45 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/forum_db.inc");
+require_once("../inc/forum.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
 require_once("../inc/team_types.inc");
+require_once("../inc/time.inc");
+
+function team_search_form($params) {
+    echo "
+        <form name=form action=team_search.php>
+    ";
+    start_table();
+    row2("<b>Search criteria (use one or more)</b>", "");
+    row2("Key words<br><span class=note>Find teams with these words in their names or descriptions</span>", "<input name=keywords value=\"$params->keywords\">");
+    row2_init("Country", "");
+    echo "<select name=country><option value=\"\" selected>---</option>";
+    $country = $params->country;
+    if (!$country || $country == 'None') $country = "XXX";
+    print_country_select($country);
+    echo "</select></td></tr>\n";
+    row2("Type of team", team_type_select($params->type, true));
+    $checked = $params->active?"checked":"";
+    row2("Show only active teams", "<input type=checkbox name=active $checked>");
+    row2("", "<input type=submit name=submit value=Search>");
+    end_table();
+    echo "
+        </form>
+    ";
+}
 
 function foundership_transfer_link($user, $team) {
     $now = time();
     if (new_transfer_request_ok($team, $now)) {
-        return "<a href=\"team_founder_transfer_form.php\">Initiate request</a>";
+        if ($team->userid == $user->id) {
+            return "None";
+        } else {
+            return "<a href=\"team_founder_transfer_form.php\">Initiate request</a>";
+        }
     }
     if ($team->ping_user == $user->id) {
         if (transfer_ok($team, now)) {
@@ -23,21 +53,7 @@ function foundership_transfer_link($user, $team) {
     return "<a href=\"team_founder_transfer_form.php\">Deferred</a>";
 }
 
-function display_team_page($team, $offset, $sort_by) {
-    $n = 20;
-
-    // there aren't indices to support sorting by credit.
-    // set the following variable to disable sorted output.
-    // (though since caching is generally used this shouldn't needed)
-    //
-    $nosort = false;
-
-    if ($sort_by == "total_credit") {
-        $sort_clause = "total_credit desc";
-    } else {
-        $sort_clause = "expavg_credit desc";
-    }
-    
+function display_team_page($team, $user) {
     page_head("$team->name");
 
     echo sanitize_html($team->name_html);
@@ -55,34 +71,28 @@ function display_team_page($team, $offset, $sort_by) {
         }
         row2("Web site", "<a href=$x>$x</a>");
     }
-    row2("Members", $team->nusers);
     
-    $cache_args = "teamid=".$team->id."&founderid=".$team->userid;
-    $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
-    if ($cached_data){
-        $founder = unserialize($cached_data);
-    } else {
-        $founder = lookup_user_id($team->userid);
-        set_cache_data(serialize($founder),$cache_args);
-    }
-    
-
     row2("Total credit", format_credit_large($team->total_credit));
     row2("Recent average credit", format_credit_large($team->expavg_credit));
-    row2("Founder", user_links($founder));
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
-    $user = get_logged_in_user(false);
+
+    if ($team->forum && is_forum_visible_to_user($team->forum, $user)) {
+        $f = $team->forum;
+        row2("<a href=team_forum.php?teamid=$team->id>Message board</a>",
+            "Threads: $f->threads<br>Posts: $f->posts<br>Last post: ".time_diff_str($f->timestamp, time())
+        );
+    }
     if ($user) {
         if ($user->teamid != $team->id) {
             $tokens = url_tokens($user->authenticator);
             row2("",
                 "<a href='team_join.php?$tokens&teamid=$team->id'>Join this team</a>
-                <br><span class=note>Note: joining a team gives its administrators access to your email address.</span>"
+                <br><span class=note>Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address.</span>"
             );
         }
         if (($user->teamid == $team->id)) {
-            if (($user->id == $founder->id)) {
+            if (($user->id == $team->userid)) {
                 if ($team->ping_user) {
                     $deadline = date_str(transfer_ok_time($team));
                     row2("Foundership change requested",
@@ -90,14 +100,63 @@ function display_team_page($team, $offset, $sort_by) {
                     );
                 }
             } else {
-                row2("Team foundership", foundership_transfer_link($user, $team));
+                row2("Team foundership change", foundership_transfer_link($user, $team));
             }
         }
     }
-    echo "</table>";
-    echo "<p>";
+    row1("Members");
+    row2("Founder", user_links($team->founder));
+    if (count($team->admins)) {
+        $first = true;
+        $x = "";
+        foreach ($team->admins as $a) {
+            if ($first) {
+                $first = false;
+            } else {
+                $x .= " | ";
+            }
+            $x .= user_links($a);
+        }
+        row2("Admins", $x);
+    }
+    $x = "0";
+    if (count($team->new_members)) {
+        $first = true;
+        $x = "";
+        foreach ($team->new_members as $a) {
+            if ($first) {
+                $first = false;
+            } else {
+                $x .= " | ";
+            }
+            $x .= user_links($a);
+        }
+    }
+    row2("New members in last day", $x);
+    row2("Total members", "$team->nusers (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=expavg_credit>view</a>)");
+    row2("Active members", "$team->nusers_active (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=expavg_credit>view</a>)");
+    row2("Members with credit", "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=total_credit>view</a>)");
+    end_table();
+}
+
+function display_team_members($team, $offset, $sort_by) {
+    $n = 20;
+
+    $admins = BoincTeamAdmin::enum("teamid=$team->id");
+
+    // there aren't indices to support sorting by credit.
+    // set the following variable to disable sorted output.
+    // (though since caching is generally used this shouldn't needed)
+    //
+    $nosort = false;
+
+    if ($sort_by == "total_credit") {
+        $sort_clause = "total_credit desc";
+    } else {
+        $sort_clause = "expavg_credit desc";
+    }
+    
     start_table();
-    row1("Members", 4);
     echo "<tr>
         <th>Name</th>
     ";
@@ -110,12 +169,12 @@ function display_team_page($team, $offset, $sort_by) {
         if ($sort_by == "total_credit") {
             echo "<th>Total credit</th>";
         } else {
-            echo "<th><a href=team_display.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
+            echo "<th><a href=team_members.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
         }
         if ($sort_by == "expavg_credit") {
             echo "<th>Recent average credit</th>";
         } else {
-            echo "<th><a href=team_display.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
+            echo "<th><a href=team_members.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
         }
     }
 
@@ -137,7 +196,7 @@ function display_team_page($team, $offset, $sort_by) {
         $x = user_links($user);
         if ($user->id == $team->userid) {
             $x .= " [Founder]";
-        } else if (is_admin($user, $team)) {
+        } else if (is_team_admin_aux($user, $admins)) {
             $x .= " [Admin]";
         }
         echo "<tr class=row1>
@@ -153,11 +212,11 @@ function display_team_page($team, $offset, $sort_by) {
 
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=team_display.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
+        echo "<a href=team_members.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
     }
     if ($j == $offset + $n + 1) {
         $new_offset = $offset + $n;
-        echo "<a href=team_display.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Next $n</a>";
+        echo "<a href=team_members.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Next $n</a>";
     }
 }
 
@@ -169,6 +228,10 @@ function require_team($team) {
     }
 }
 
+function is_team_founder($user, $team) {
+    return $user->id == $team->userid;
+}
+
 // check that the user is founder of the team
 //
 function require_founder_login($user, $team) {
@@ -178,20 +241,54 @@ function require_founder_login($user, $team) {
     }
 }
 
-function is_admin($user, $team) {
+function is_team_admin($user, $team) {
+    if (!$user) return false;
     if ($user->id == $team->userid) return true;
     $admin = BoincTeamAdmin::lookup($team->id, $user->id);
     if ($admin) return true;
     return false;
 }
 
+// use this when you're displaying a long list of users
+// and don't want to do a lookup for each one
+//
+function is_team_admin_aux($user, $admins) {
+    foreach ($admins as $a) {
+        if ($a->userid == $user->id) return true;
+    }
+    return false;
+}
+
 function require_admin($user, $team) {
-    if (!is_admin($user, $team)) {
+    if (!is_team_admin($user, $team)) {
         error_page("This operation requires team admin privileges");
     }
 }
 
-function team_table_start($sort_by,$type_url) {
+function new_member_list($teamid) {
+    $new_members = array();
+    $yesterday = time() - 86400;
+    $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1 group by userid");
+    foreach ($deltas as $delta) {
+        $u = BoincUser::lookup_id($delta->userid);
+        if ($u->teamid == $teamid) {
+            $new_members[] = $u;  // they might have later quit
+        }
+    }
+    return $new_members;
+}
+
+function admin_list($teamid) {
+    $u = array();
+    $admins = BoincTeamAdmin::enum("teamid=$teamid");
+    foreach ($admins as $admin) {
+        $user = BoincUser::lookup_id($admin->userid);
+        $u[] = $user;
+    }
+    return $u;
+}
+
+function team_table_start($sort_by, $type_url) {
     echo "<tr>
         <th>".tra("Rank")."</th>
         <th>".tra("Name")."</th>
@@ -210,6 +307,7 @@ function team_table_start($sort_by,$type_url) {
     }
     echo "
         <th>".tra("Country")."</th>
+        <th>Type</th>
         </tr>
     ";
 }
@@ -224,10 +322,12 @@ function show_team_row($team, $i) {
         <td align=right>$team_expavg_credit</td>
         <td align=right>$team_total_credit</td>
         <td>$team->country</td>
+        <td>".team_type_name($team->type)."</td>
         </tr>\n";
 }
 
 function user_join_team($team, $user) {
+    user_quit_team($user);
     $res = $user->update("teamid=$team->id");
     if ($res) {
         $now = time();
@@ -264,26 +364,27 @@ function team_edit_form($team, $label, $url) {
     ";
     start_table();
     row2( "Team name, text version
-        <br><font size=-2>
-        Don't use any HTML tags.
-        This name will be used in the searchable team list.",
+        <br><span class=note> Don't use HTML tags.  </span>",
         "<input name=name type=text size=50 value='$team->name'>"
     );
     row2("Team name, HTML version
-        <br><font size=-2>
-        You may include HTML formatting, link, and image tags.
-        If you don't know HTML, just leave this box blank.",
+        <br><span class=note>
+        You may use <a href=html.php target=_new>limited HTML tags</a>.
+        If you don't know HTML, leave this box blank.</span>",
         "<input name=name_html type=text size=50 value=\"".str_replace('"',"'",$team->name_html)."\">"
     );
     row2("URL of team web page, if any:<br><font size=-2>(without \"http://\")
         This URL will be linked to from the team's page on this site.",
         "<input name=url size=60 value='$team->url'>"
     );
-    row2("Description of team:",
+    row2("Description of team:
+        <br><span class=note>
+        You may use <a href=html.php target=_new>limited HTML tags</a>.
+        </span>",
         "<textarea name=description cols=60 rows=10>$team->description</textarea>"
     );
 
-    row2("Type of team:", team_type_select($team));
+    row2("Type of team:", team_type_select($team->type));
 
     row2_init("Country",
         "<select name=country>"

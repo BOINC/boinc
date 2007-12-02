@@ -24,8 +24,11 @@
 #include "tray_win.h"
 
 
+         BOOL           IdleTrackerStartup();
 EXTERN_C DWORD          BOINCGetIdleTickCount();
-static CBOINCTray*      gspBOINCTray = NULL;
+         void           IdleTrackerShutdown();
+         HMODULE        g_hModule = NULL;
+static   CBOINCTray*    gspBOINCTray = NULL;
 
 
 INT WINAPI WinMain(
@@ -39,12 +42,17 @@ INT WINAPI WinMain(
 CBOINCTray::CBOINCTray() {
     gspBOINCTray = this;
     m_hDataManagementThread = NULL;
+    m_bClientLibraryInitialized = FALSE;
 }
 
 
 // Starts main execution of BOINC Tray.
 //
 INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) {
+
+    // Initialize the BOINC client library to setup the idle tracking system.
+    m_bClientLibraryInitialized = IdleTrackerStartup();
+
     if (!hPrevInstance) {
         // Register an appropriate window class for the primary window
         WNDCLASS cls;
@@ -78,6 +86,10 @@ INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         TranslateMessage( &msg );
         DispatchMessage( &msg );
     }
+
+
+    // Cleanup and shutdown the BOINC client library idle tracking system.
+    IdleTrackerShutdown();
 
     return msg.wParam;
 }
@@ -122,6 +134,14 @@ BOOL CBOINCTray::DestroyDataManagementThread() {
 //
 DWORD WINAPI CBOINCTray::DataManagementProc() {
     while (true) {
+        if (!m_bClientLibraryInitialized) {
+            // On Vista systems, only elevated processes can create shared memory
+            //   area's across various user sessions. In this case we need to wait
+            //   for BOINC to create the shared memory area and then boinctray can
+            //   successfully attach to it. What a PITA.
+            m_bClientLibraryInitialized = IdleTrackerStartup();
+        }
+
         BOINCGetIdleTickCount();
         Sleep(5000);
     }

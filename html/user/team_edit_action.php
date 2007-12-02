@@ -2,6 +2,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+require_once("../inc/sanitize_html.inc");
 require_once("../inc/boinc_db.inc");
 
 $user = get_logged_in_user();
@@ -18,8 +19,13 @@ if ($x) {
 }
 $team_name = process_user_text(strip_tags(post_str("name")));
 $team_name_lc = strtolower($team_name);
-$team_name_html = process_user_text(post_str("name_html", true));
-//Do we really not want to scrub out bad HTML tags?
+$tnh = post_str("name_html", true);
+$team_name_html = sanitize_html($tnh);
+
+if ($team_name_html != $tnh) {
+    error_page("HTML name contains disallowed tags: ".htmlspecialchars($tnh));
+}
+$team_name_html = process_user_text($team_name_html);
 
 $team_description = process_user_text(post_str("description", true));
 $type = process_user_text(post_str("type", true));
@@ -31,12 +37,14 @@ if (!is_valid_country($country)) {
     error_page("bad country");
 }
 
-if (! is_numeric($teamid)) {
-    error_page("Team ID must be numeric.");
+$t = BoincTeam::lookup("name='$team_name'");
+if ($t && $t->id != $teamid) {
+    error_page("The name '$team_name' is being used by another team.");
 }
-
-if (strlen($team_name) == 0) { // Should be caught up with the post_str("name"),
-    error_page("Must specify team name"); // but you can never be too safe.
+if (strlen($team_name) == 0) {
+    error_page("Must specify team name");
+    // Should be caught up with the post_str("name"),
+    // but you can never be too safe.
 }
 
 $clause = sprintf(
@@ -55,6 +63,7 @@ $clause = sprintf(
     $type,
     $country
 );
+
 $ret = $team->update($clause);
 if ($ret) {
     Header("Location: team_display.php?teamid=$team->id");

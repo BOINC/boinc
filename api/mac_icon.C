@@ -57,31 +57,38 @@ char MacPListData[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize, 
                             OSType rsrcType, int rsrcID, StringPtr rsrcName) {
     OSErr oserr;                    /* stores an OS error code */
-    FSSpec fsspec;                  /* FileSpec */
+//    FSSpec fsspec;                  /* FileSpec */
+    HFSUniStr255 forkName;          /* Unicode name of resource fork "RESOURCE_FORK" */
     FSRef fsref;                    /* File Reference */
     FSCatalogInfo catalogInfo;      /* For setting custom icon bit in Finder Info */
     short rref;                     /* Resource Reference */
     Handle hand;
     int retry;
-
+    
     /* get finder spec for this file */
     CHECK_OSERR((int)FSPathMakeRef((StringPtr)filename, &fsref, NULL));
-    CHECK_OSERR(FSGetCatalogInfo(&fsref, nil, NULL, NULL, &fsspec, NULL));
+//    CHECK_OSERR(FSGetCatalogInfo(&fsref, nil, NULL, NULL, &fsspec, NULL));
 
     /* Open the resource fork for writing, create it if it does not exist.
         On a dual-processor system, the other cpu may have the resource fork 
         open for writing, so if we fail we wait and retry.
     */
     for (retry=0;retry<5;retry++) {
-        rref = FSpOpenResFile(&fsspec, fsRdWrPerm);
+//        rref = FSpOpenResFile(&fsspec, fsRdWrPerm);
+        rref = FSOpenResFile(&fsref, fsRdWrPerm);
         oserr = ResError();
         if (oserr == eofErr) { /* EOF, resource fork/file not found */
             // If we set file type and signature to non-NULL, it makes OS mistakenly
             // identify file as a classic application instead of a UNIX executable.
-            FSpCreateResFile(&fsspec, 0, 0, smRoman);
+//            FSpCreateResFile(&fsref, 0, 0, smRoman);
+            oserr = FSGetResourceForkName(&forkName);
+            if (oserr == noErr) {
+                oserr = FSCreateResourceFork(&fsref, forkName.length, forkName.unicode, 0);
+            }
             oserr = ResError();
             if (oserr == noErr) {
-                rref = FSpOpenResFile(&fsspec, fsRdWrPerm);
+//                rref = FSpOpenResFile(&fsspec, fsRdWrPerm);
+                rref = FSOpenResFile(&fsref, fsRdWrPerm);
                 oserr = ResError();
             }
         }

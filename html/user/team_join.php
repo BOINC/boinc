@@ -11,7 +11,7 @@ $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 require_team($team);
 if ($user->teamid == $team->id) {
-    page_head("Unable to add $user->name");
+    page_head("Already a member");
     echo "You are already a member of $team->name.";
 } else {
     $success = user_join_team($team, $user);

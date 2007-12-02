@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-02 16:36+0200\n"
+"PO-Revision-Date: 2007-11-16 17:05+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgid "Applications"
 msgstr "Programos"
 
 msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr ""
+msgstr "%1 šiuo metu naudoja šias programas. Kai dalyvaujate %1, užduotys vienai ar daugiau šių programų priskiriamos jūsų kompiuteriui, ir naujausia programos versija bus parsiųsta į jūsų kompiuterį. Tai vyksta automatiškai; jums nereikės daryti nieko."
 
 msgid "Platform"
 msgstr "Platforma"
@@ -57,13 +57,13 @@ msgid "Read our rules and policies"
 msgstr "Perskaitykite mūsų taisykles"
 
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "Vykdykite %1 tik kompiuteriuose, kuriuose turite leidimą tai daryti"
 
 msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
 msgstr ""
 
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "Kaip %1 naudos jūsų kompiuterį"
 
 msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
 msgstr ""
@@ -84,7 +84,7 @@ msgid "To participate in %1, you must give an address where you receive email. T
 msgstr ""
 
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "Ar saugu vykdyti %1?"
 
 msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
 msgstr ""
@@ -93,7 +93,7 @@ msgid "The applications run by %1 may cause some computers to overheat. If this 
 msgstr ""
 
 msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
+msgstr "%1 buvo sukurtas %2. BOINC buvo sukurtas Kalifornijos Universitete."
 
 msgid "Liability"
 msgstr "Atsakomybė"
@@ -102,7 +102,7 @@ msgid "%1 and %2 assume no liability for damage to your computer, loss of data, 
 msgstr ""
 
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "Kiti BOINC projektai"
 
 msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
 msgstr ""
@@ -132,7 +132,7 @@ msgid "Country"
 msgstr "Valstybė"
 
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "Pasirinkite valstybę, kuriai norite atstovauti."
 
 msgid "Postal or ZIP Code"
 msgstr "Pašto kodas"
@@ -168,13 +168,13 @@ msgid "Invitation Code"
 msgstr "Pakvietimo kodas"
 
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "Reikia pateikti teisingą pakvietimo kodą, kad sukurtumėte abonementą."
 
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "Privalote pateikti pakvietimo kodą, kad sukurtumėte abonementą."
 
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "Pateiktas pakvietimo kodas neteisingas."
 
 msgid "%1 Message boards"
 msgstr "%1 forumai"
@@ -207,7 +207,7 @@ msgid "Participant since"
 msgstr "Dalyvis nuo"
 
 msgid "Top %1 teams"
-msgstr ""
+msgstr "Geriausios %1 komandos"
 
 msgid "Members"
 msgstr "Dalyviai"
@@ -240,7 +240,7 @@ msgid "In order to create a new thread in %1 you must have a certain amount of c
 msgstr ""
 
 msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr ""
+msgstr "Negalite dabar sukurti daugiau temų. Šiek tiek palaukite prieš bandydami dar kartą. Šis laukimas naudojamas dėl apsaugos nuo neteisėto sistemos išnaudojimo."
 
 msgid "Create a new thread"
 msgstr "Sukurti naują temą"
@@ -249,37 +249,37 @@ msgid "Title"
 msgstr "Pavadinimas"
 
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "Pridėti mano parašą"
 
 msgid "Message"
 msgstr "Žinutė"
 
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "Naudokite BBCode žymes teksto formatavimui"
 
 # ########################################
 # Forum thread
 # ########################################
 msgid "This thread has been hidden for administrative purposes"
-msgstr ""
+msgstr "Ši tema buvo paslėpta administratorių"
 
 msgid "Post to thread"
-msgstr ""
+msgstr "Rašyti į temą"
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Nebepranešti apie naujas žinutes"
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Pranešti apie naujas žinutes"
 
 msgid "Forum search"
 msgstr "Paieška forumuose"
 
 msgid "Titles containing '%1'"
-msgstr ""
+msgstr "Pavadinimai, turintys '%1'"
 
 msgid "Posts containing '%1'"
-msgstr ""
+msgstr "Žinutės, turinčios '%1'"
 
 msgid "No titles containing '%1' could be found."
 msgstr ""

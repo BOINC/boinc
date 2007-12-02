@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-09 14:57-0000\n"
+"PO-Revision-Date: 2007-11-24 10:42-0000\n"
 "Last-Translator: David <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -253,6 +253,9 @@ msgstr "Añadir mi firma a éste mensaje"
 
 msgid "Message"
 msgstr "Mensaje"
+
+msgid "Edit message"
+msgstr "Editar mensaje"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Use etiquetas BBCode para formatear su texto"
@@ -541,4 +544,7 @@ msgstr "Número de cuenta"
 
 msgid "Used in URLs"
 msgstr "Se usa en los URL"
+
+msgid "unread"
+msgstr "no leído"
 

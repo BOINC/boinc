@@ -116,7 +116,7 @@ First checked in.
 #include <TargetConditionals.h>
 
 #include <assert.h>
-#include <c.h>
+#include <sys/param.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>

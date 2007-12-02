@@ -23,18 +23,12 @@ echo "<p>".PROJECT." participants may form <b>teams</b>.
     </ul>
     <p>
     To join a team, visit its team page and click <b>Join this team</b>.
-    <hr>
-    <ul>
-    <li> <a href=team_search.php>Find a team</a> based on your interests and country
-    <li> <a href=team_create_form.php>Create a team</a>
-    <li> <form method=get action=team_lookup.php>
-    Show teams whose names contains:
-    <input name=team_name>
-    <input type=submit name=search value=Search>
-    </form>
-    </ul>
-    <hr>
-    Show top teams:
+    <h3>Find a team</h3>
+";
+team_search_form(null);
+echo "
+
+    <h3>Top teams</h3>
     <ul>
     <li> <a href=top_teams.php>All teams</a>
 ";
@@ -46,6 +40,9 @@ for ($i=1; $i<8; $i++) {
 
 echo "
     </ul>
+    <h3>Create a new team</h3>
+    If you can't find a team that's right for you, you can
+    <a href=team_create_form.php>create a team</a>.
 ";
 page_tail();
 

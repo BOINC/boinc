@@ -11000,3 +11000,1055 @@ Rom    15 Nov 2007
         ProjectListCtrl.cpp
     clientgui/msw
         taskbarex.cpp, .h
+
+David  15 Nov 2007
+    - user web: allow teams to create their own "team message board".
+        Team founder and admins have moderator power.
+        Anyone can view a team message board,
+        but only team members can write to it.
+        Users cannot be banished from team message boards
+        (due to database limitations).
+
+    html/
+        inc/
+            boinc_db.inc
+            forum.inc
+            forum_db.inc
+            team.inc
+            user.inc
+        languages/translations/
+            en.po
+        user/
+            forum*.php
+            team_admins.php
+            team_delta.php
+            team_email_list.php
+            team_forum.php (new)
+
+David  15 Nov 2007
+    - user web: in the various interfaces that show team member's
+        email addresses to team admins,
+        also show the user's "send_email" flag,
+        indicating whether the agreed to get "email newsletters"
+        from the project.
+        If this is set, teams should NOT send email to that user.
+
+        Ideally, we should have a separate preference for whether
+        to get email from team
+        (or show email address to team admins at all)
+        
+        Fixes (more or less) #479
+
+
+    html/
+        inc/
+            xml.inc
+        user/
+            team_delta.php
+            team_email_list.php
+
+David  15 Nov 2007
+    - user web: fix #478
+
+    html/inc/
+        forum_db.inc
+
+David  15 Nov 2007
+    - user web: only team founders can see member email addresses
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_delta.php
+            team_email_list.php
+
+David  15 Nov 2007
+    - user web:
+        show team message board on main Message Boards page
+
+    html/user/
+        forum_index.php
+        team_forum.php
+
+Charlie 16 Nov 2007
+    MGR: Fix bug which showed Snooze task bar icon when it shouldn't.
+    Mac: Add 64-bit Intel support to Client and libraries.
+    
+    api/
+        mac_icon.C
+    client/
+        hostinfo_unix.C
+    clientgui/
+        BOINCTaskBar.cpp
+    clientgui/
+            SetupSecurity.cpp
+    lib/
+        mac/
+            QBacktrace.c
+            QCrashReport.c
+            QMachOImageList.c
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        BuildMacBOINC.sh
+
+David  16 Nov 2007
+    - added optional code for user-submitted jobs (from M.F. Somers)
+    - added some scripts in ops/ for managing HR, and for blocking hosts.
+        (from M.F. Somers; these should be documented in the WIki
+        and perhaps added to ops/index.php)
+
+    html/
+        ops/
+            hrclass_summary.php
+            reset_hrclass.php
+            block_host.php
+        queue/*
+
+David  16 Nov 2007
+    - user web: change Team page:
+        - add more info about team message board (if it exists)
+        - show list of admins
+        - show list of new members (in last 24 hours)
+        - show number of members total, with credit, and with average credit
+        - move actual list of members to new page (team_members.php)
+
+    html/
+        inc/
+            prefs.inc
+            team.inc
+            util.inc
+        user/
+            team_display.php
+            team_members.php (new)
+
+David  16 Nov 2007
+    - user web: fixes #482
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_thread.php
+
+David  16 Nov 2007
+    - user web: if user unchecked "OK to send email" pref,
+        don't show his email address to team founder
+    - user web: change wording on project prefs page to clarify
+        that emails may come from project OR team
+    - user web: let team founder delete message board
+
+    html/
+        inc/
+            forum_db.inc
+            prefs.inc
+            xml.inc
+        user/
+            team_delta.php
+            team_email_list.php
+            team_forum.phhp
+
+David  16 Nov 2007
+    - user web: on team message board pages,
+        put a link to the top-level message board
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_post.php
+            forum_thread.php
+            forum_subscribe.php
+            forum_reply.php
+            forum_edit.php
+
+David  16 Nov 2007
+    - user web: let team founder edit title/description
+        of team message board
+
+    html/user/
+        forum_forum.php
+        forum_index.php
+        team_forum.php
+        team_display.php
+        team_email_list.php
+
+David  16 Nov 2007
+    - manager: compile fix
+
+	clientgui/
+		BOINCTaskBar.cpp
+
+Rytis  17 Nov 2007
+    - user web: add "Powered by BOINC" logo to the repository and update
+        sample_index.php (fix #460).
+    
+    html/user/
+        img/
+            pb_boinc.gif
+        sample_index.php
+
+David  17 Nov 2007
+    - user web: bug fix in moderation email send (fixes #485)
+    - BOINC-wide teams: HTML-escape user-supplied text (fixes #487)
+
+    html/
+        ops/
+            team_import.php
+            team_export.php
+        user/
+            forum_moderator_post_action.php
+
+David  17 Nov 2007
+    - user web: fix bug in edit forum prefs
+
+    html/user/
+        edit_forum_preferences_action.php
+
+David  17 Nov 2007
+    - user web: if join team while already in a team,
+        create outgoing delta also
+
+    html/
+        inc/
+            host.inc
+            team.inc
+        user/
+            team_join.php
+
+David  17 Nov 2007
+    - user web: for moderation actions on team forums,
+        send email notifications to team founder (not project admin)
+    - user web: let project admins (S_ADMIN) moderate team forums
+
+    html/
+        inc/
+            forum.inc
+            forum_email.inc
+        user/
+            forum_moderate_post_action.php
+            forum_moderate_thread_action.php
+            forum_report_post.php
+            team_create_form.php
+
+David  17 Nov 2007
+    - user web: send "red X" notifications on team boards
+        to project admins as well as team founder
+
+    html/
+        inc/
+            forum_email.inc
+        user/
+            forum_user_posts.php
+
+David  18 Nov 2007
+    - user web: update post.modified when edit post (fixes #491)
+
+    html/user/
+        forum_edit.php
+
+David  18 Nov 2007
+    - user web: text tweak, fixes #492
+
+    html/
+        inc/
+            pm.inc
+        languages/translations/
+            en.po
+
+David  18 Nov 2007
+    - user web: init DB in banishment vote page
+
+    html/inc/
+        forum_banishment_vote.inc
+
+David  18 Nov 2007
+    - user web: fix bug in user list XML display
+
+    html/user/
+        team_email_list.php
+
+David  18 Nov 2007
+    - user web: fix PM mass deletion; fixes #493
+
+    html/
+        inc/
+            forum_banishment_vote.inc
+        user/
+            pm.php
+
+David  18 Nov 2007
+    - user web: don't append "/" to URL_BASE.
+        URL_BASE is assumed to end with a /.
+        If you put another /, you end up with // in URLs.
+        This leads to a situation where you can have
+        one cookie for // and another for / - bad.
+
+        If this causes problems for any projects,
+        they should edit their project.inc accordingly
+
+    html/
+        inc/
+            forum_email.inc
+            gallery.inc
+            pm.inc
+            profile.inc
+            uotd.inc
+            user.inc
+            util.inc
+        ops/
+            mass_email.php
+            mass_email_script.php
+            remind.php
+        user/
+            donate.php
+            opt_out.php
+            profile_menu.php
+            sample_index.php
+            sample_rss_main.php
+            team_founder_transfer_action.php
+            uotd_gadget.php
+
+David  18 Nov 2007
+    - user web: the "private-message notification by email" flag
+        should default to off.
+        Note: it's necessary to clear everyone's flag.
+        Projects will need to notify users (e.g. via a news item)
+        that they need to explicitly set this pref if they want email
+        notification of PMs
+
+    db/
+        schema.sql
+    html/
+        inc/
+            forum_db.inc
+        ops/
+            db_update.php
+        user/
+            edit_forum_preferences_action.php
+
+David  18 Nov 2007
+    - user web: fix forum banishment vote stuff
+
+    html/
+        inc/
+            forum_banishment_vote.inc
+        user/
+            forum_banishment_vote_action.php
+            edit_forum_preferences_form.php
+
+Rom    19 Nov 2007
+    - MGR: Don't display the snooze icon when CPU benchmarks are
+        running or when computation has been suspended due to
+        preferences.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        
+David  19 Nov 2007
+    - user web: tweak PM-related text
+
+    html/
+        inc/
+            pm.inc
+            forum.inc
+        user/
+            white.css
+
+David  19 Nov 2007
+    - user web: don't show controls in user post list; fixes #494
+
+    html/user/
+        forum_user_posts.php
+
+David  19 Nov 2007
+    - user web: clean up logic for dealing with forgotten password:
+        - login form now has ONLY email/passwd
+            ("login with account key" is gone)
+        - "forgot password?" takes you to a page with two options:
+            1) type in email address, get an email with login link
+            2) instructions for recovering account key from BOINC account file
+        - email is stripped-down, has login link and not much else
+
+        fixes #190
+
+    html/
+        inc/
+            email.inc
+            util.inc
+        user/
+            get_passwd.php
+            login_action.php
+            mail_passwd.php
+            white.css
+
+David  19 Nov 2007
+    - user web: use forum prefs (e.g. display images as links)
+        when displaying PMs.  fixes #497
+
+    html/
+        inc/
+            text_transform.inc
+        user/
+            pm.php
+
+David  19 Nov 2007
+    - user web: when send an email with login URL,
+        don't include the account key in the URL.
+        Rather, include the user ID, the time, and
+        a have of the ID, time, and account key.
+        Honor this for 1 day.
+
+    html/
+        inc/
+            email.inc
+        user/
+            login_action.php
+
+David  20 Nov 2007
+    - user web: clean up funky search result formatting.
+        For thread titles, show links to forum/category also
+        For posts, show complete post, with search terms highlighted.
+    - user web: in display of posts for a user,
+        show links to thread and forum also
+    - user web: posts/threads can become "orphaned" if their forum
+        disappears, e.g. team message board is deleted.
+        Handle this gracefully in search results and user post list
+    - user web: where HTML tags are allowed, say so
+    - user web: fix bug where wrap_postcounts weren't being shown in form
+    - DB: use "tinyint" instead of "tinyint(1) unsigned" etc.
+
+    db/
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc
+            forum.inc
+            team.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            forum_forum.php
+            forum_index.php
+            forum_search_action.php
+            forum_thread.php
+            forum_user_posts.php
+            html.php
+            white.css
+
+David  20 Nov 2007
+    - DB: add fulltext index on team.name
+    - user web: improve "team search" function,
+        and get rid of the superceded "search by name" function
+    - user web: don't show team founder link to initiate transfer
+    - user web: show team types
+    - user web: fix "top teams by type" function
+    - client: tread NOT_FOUND error on file upload as transient;
+        it means the project is missing its file_upload_handler
+
+    client/
+        file_names.h
+        pers_file_xfer.C
+    db/
+        constraints.sql
+        schema.sql
+    html/
+        inc/
+            team.inc
+            team_types.inc
+        ops/
+            db_update.php
+        user/
+            team.php
+            team_search.php
+            top_teams.php
+
+David  20 Nov 2007
+    - user web: team search tweaks.  Fixes #183
+
+    html/
+        inc/
+            forum_banishment_vote.inc
+        user/
+            team_search.php
+
+David  20 Nov 2007
+    - user web: add a <profile_min_credit> config file option.
+        This specifies min average credit needed to create or edit a profile.
+
+    html/inc/
+        forum.inc
+        profile.inc
+
+David  20 Nov 2007
+    - user web: disable feature where answered questions are
+        shown in green - not ready for prime time.
+
+    html/user/
+        forum_forum.php
+
+David  20 Nov 2007
+    - user web: fix WAP function
+
+    html/
+        inc/
+            wap.inc
+        user/
+            userw.php
+
+David  21 Nov 2007
+    - client: removed -return_results_immediately cmdline option
+        (wasn't implemented anyway)
+    - client: added <report_results_immediately> configuration flag;
+        causes results to be reported as soon as done.
+        Needed for some WCG machines that are reformatted often.
+        Should NOT be used in general, since it increases server load.
+
+    client/
+        client_state.h
+        cs_cmdline.C
+        log_flags.C,h
+        work_fetch.C
+
+David  21 Nov 2007
+    - user web: send UOTD email using PHPMailer if available; fixes #503
+    - user web: don't show team forum in Q&A page
+    - scheduler: code (commented out) to recognize when
+        a sched request is from an existing host
+        (same IP/domain/RAM size) and reuse the host record;
+        from Kevin Reed
+
+    html/
+        inc/
+            uotd.inc
+        user/
+            forum_help_desk.php
+    sched/
+        handle_request.C
+
+David  21 Nov 2007
+    - user web: team admins receive email notification of
+        moderation and red-X events, as well as team founder
+    - user web: admins can view team join/quit history
+        (which no longer contains email addresses)
+    - user web: update text describing admin privileges
+
+    html/
+        inc/
+            forum_email.inc
+        user/
+            team_delta.php
+            team_admins.php
+
+David  21 Nov 2007
+    - user web: show list of subscribed threads on forum index page
+    - user web: highlight subscribed threads using green background
+    - user web: hyperlink thread titles in search results
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
+            forum_index.php
+            forum_search_action.php
+
+David  21 Nov 2007
+    - user web: URL fix
+
+    html/inc/
+        forum.inc
+
+David  21 Nov 2007
+    - user web: fix bug in user filter; fixes #505
+
+    html/user
+        forum_edit_forum_preferences_action.php
+        forum_edit_forum_preferences_form.php
+
+David  21 Nov 2007
+    - user web: if user edits posts and content is empty, delete; fixes #504
+
+    html/
+        inc/
+            forum.inc
+            forum_db.inc
+        user/
+            forum_edit.php
+
+David  23 Nov 2007
+    - prevent 2 forums for 1 team
+
+    html/user/
+        team_forum.php
+
+David  23 Nov 2007
+    - user web: fix translation bug (from Nicolas Alvarez)
+    - user web: fix small bug in team search
+
+    html/
+        inc/
+            translation.inc
+        user/
+            team_search.php
+
+David  23 Nov 2007
+    - user web: when showing UOTD on front page,
+        strip HTML tags from text (e.g. to remove photos)
+    - user web: show_image(): separate title (tooltip text)
+        from "alt" (replaces image if images disabled).
+        The latter must be terse.
+    - user web: show_button(): make it work even if Javascript disabled
+
+    html/
+        inc/
+            forum.inc
+            uotd.inc
+            util.inc
+        user/
+            forum_forum.php
+            forum_reply.php
+            pm.php
+            sample_index.php
+
+David  23 Nov 2007
+    - team import: fix string-escaping bugs
+    - user web: don't show links to sched logs if they don't exist
+    - user web: add new team types
+
+    html/
+        inc/
+            host.inc
+            team_types.inc
+        ops/
+            team_import.php
+
+David  24 Nov 2007
+    - user web: add <team_forums_members_only> config option.
+        If set, only team members can see team forums
+
+    html/
+        inc/
+            forum.inc
+            team.inc
+        user/
+            forum_search.php
+            forum_thread.php
+            forum_forum.php
+            forum_search_action.php
+
+David  25 Nov 2007
+    - user web: use enum_fields() when enumerating team members;
+        hopefully this will prevent running out of memory on large teams
+
+    html/user/
+        team_email_list.php
+        team_manage.php
+
+David  25 Nov 2007
+    - web: reorder and reword Your Account page and Forum prefs page;
+        rename General Prefs to Computing Prefs;
+        rename Forum Prefs to Community Prefs
+        add Prefs link if user doesn't have email PM notification
+    - remove forum low/high rating theshold stuff.
+        Message rating was a failed experiment.
+
+    html/
+        inc/
+            pm.inc
+            prefs.inc
+            user.inc
+        languages/translations/
+            en.po
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            get_passwd.phph
+
+David  25 Nov 2007
+    - web: fix PHP errors, add translations strings
+
+    html/
+        inc/
+            forum.inc
+            pm.inc
+            team.inc
+            user.inc
+            util.inc
+        languages/translations/
+            en.po
+        user/
+            edit_forum_preferences_forum.php
+            team_display.php
+            user_search.php
+
+David  25 Nov 2007
+    - web: when showing team forums, give link back to forum index
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_edit.php
+            forum_forum.php
+            forum_reply.php
+            forum_subscribe.php
+            forum_thread.php
+
+David  27 Nov 2007
+	- API graphics: changes to REDUCED_ARRAY to support new S@h graphics
+	- API: fix format codes in stack trace printf
+
+	api/
+		reduce.h
+		reduce_lib.C
+		reduce_main.C
+	lib/
+		diagnostics_win.C
+
+David  27 Nov 2007
+    - client: clean up logic of handling DLL_INIT_FAILED exits on Win.
+        Shouldn't cause any functional change
+
+    client/
+        app.h
+        app_control.C
+
+Rom    28 Nov 2007
+    - WINSETUP: Update CACreateBOINCUsers.
+    - WINSETUP: Create CACreateBOINCGroups.
+    - WINSETUP: Create CAGrantBOINCMasterRights.
+    - WINSETUP: Create CAGrantBOINCProjectRights.
+    - WINSETUP: Remove CACreateVBSShortcut.
+    - WINSETUP: Remove CAGrantServiceExecutionRight.
+    - WINSETUP: Remove CAMigrateCPDNBBC.
+    - WINSETUP: Remove CAPopulateServiceAccount.
+    - WINSETUP: Remove CAValidateServiceAccount.
+    - WINSETUP: Remove CAVerifyServiceExecutionRight.
+    - WINSETUP: Remove CAVerifyServicePassword.
+    - WINSETUP: Hookup new custom actions
+    
+    NOTE: For some reason the advanced configuration screen
+      checkboxes are not working, so the CA's are setup to run
+      always to test them out.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAGrantServiceExecutionRight.cpp, .h (removed)
+        CAMigrateCPDNBBC.cpp, .h (removed)
+        CAPopulateServiceAccount.cpp, .h (removed)
+        CAValidateServiceAccount.cpp, .h (removed)
+        CAVerifyServiceExecutionRight.cpp, .h (removed)
+        CAVerifyServicePassword.cpp, .h (removed)
+        CACreateBOINCUsers.cpp
+        CACreateBOINCGroups.cpp, .h (added)
+        CAGrantBOINCMasterRights.cpp, .h (added)
+        CAGrantBOINCProjectRights.cpp, .h (added)
+
+David  28 Nov 2007
+    - web: clean up moderation emails for post hide/unhide.
+        TODO: other moderation emails
+    - web: fix small bug in host merge function
+
+    html/
+        inc/
+            forum_email.inc
+            host.inc
+        user/
+            host_edit_form.php
+            forum_moderate_post.php
+            forum_moderate_post_action.php
+
+Rom    28 Nov 2007
+    - WINSETUP: Fix the various checkboxes
+    - WINSETUP: Fix the data directory stuff so if the user
+        changes the default location it cascades down to the
+        projects and slots directories as well.
+    - WINSETUP: Fix the permissions on the install directory
+    - WINSETUP: Add new public properties to the Save/Restore
+        state custom actions.
+    
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CARestoreSetupState.cpp
+        CASaveSetupState.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
+David  28 Nov 2007
+    - Bolt development
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt.inc
+            bolt_db.inc
+        ops/
+            bolt_setup_sample.php
+        user/
+            bolt.php
+            bolt_sched.php
+
+David  29 Nov 2007
+    - web: clean up forum prefs forum, and add a Confirm when reset
+
+    html/
+        inc/
+            bolt_ex.inc
+            forum_db.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+
+David  29 Nov 2007
+    - web: include private message content in email notification
+
+    html/user/
+        pm.php
+
+David  29 Nov 2007
+    - API: code cleanup
+        removed references to "graphics thread"
+        removed HANDLE timer_quit_event
+        removed enable_heartbeat/disable_heartbeat messages
+            (not sure what the ideas was, but no longer exists)
+        removed heartbeat_active flag (use options.check_heartbeat instead)
+        read heartbeat-channel messages even if heartbeat disabled
+            (since we use that channel for WSS messages too)
+    - client: remove ACTIVE_TASK::thread_handle (not used)
+
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+        app_start.C
+    lib/
+        app_ipc.h
+
+David  29 Nov 2007
+    - web: updating forum prefs would undo banishment,
+        reset #posts, and clear moderator flags.  Fixed.
+
+    html/
+        inc/
+            db_conn.inc
+        user/
+            edit_forum_preferences_action.php
+
+David  29 Nov 2007
+    - web: if a team forum is deleted, delete all the threads and posts
+        beneath it.
+        Otherwise you get "zombie" posts, and e.g. when we should a user's
+        posts, they might all be hidden.
+        Also added a script to retroactively clean up these.
+
+    html/
+        ops/
+            repair_forums.php
+        user/
+            team_forum.php
+
+David  29 Nov 2007
+    - web: fix this forum prefs reset problem again; this time for sure
+
+    html/
+        inc/
+            forum_db.inc
+        user/
+            edit_forum_preferences_action.php
+
+Rom    30 Nov 2007
+    - WINSETUP: Randomly generate boinc_master and boinc_project passwords
+    - WINSETUP: Fix permission problems with newly created directories.
+        (Was an Installshield bug)
+    - WINSETUP: Add CAMigrateBOINCData
+    - WINSETUP: Fix long standing bug with the LAUNCHPROGRAM stuff showing
+        up on removes and admin installs
+    - Remove the admin required flag from all application manifests for
+        all executables.
+    - Fix a possible AV when the CC was launched without admin privs on
+        Windows.
+
+    clientlib/win/
+        IdleTracker.cpp
+    win_build/
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        sim.vcproj
+        updater.vcproj
+        vistaadminrequired.xml (removed)
+        vistaadminrequiredui.xml (removed)
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.vcproj
+        boinccas95.def
+        boinccas95.vcproj
+        CACreateBOINCAccounts.cpp
+        CAGrantBOINCMasterRights.cpp
+        CAMigrateBOINCData.cpp, .h (Added)
+        dirops.cpp, .h (Added)
+        password.cpp, .h (Added)
+        stdafx.h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    30 Nov 2007
+    - WINSETUP: Policy change, the migration of the data files happens in
+        two stages. The first stage happens before InstallInitialize and the
+        second stage happens after InstallFinalize. Everything between
+        InstallInitialize and InstallFinalize just generates a script
+        and doesn't actually change the file system, so the permission trees
+        just get screwed up.
+    - WINSETUP: Updated CAMigrateBOINCData
+    - WINSETUP: Created CAMigrateBOINCDataTemp
+    - WINSETUP: Created CAStartupBOINCService
+    - CC: Change the current working directory on startup to the DATADIR. (Windows Only)
+    - MGR: Change the current working directory on startup to the DATADIR. (Windows Only)
+    - CC: Change the logic for pointing to the CA Certificate Bundle on
+        Windows.
+        
+    client/
+        http_curl.C
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.def
+        boinccas.vcproj
+        boinccas95.def
+        boinccas95.vcproj
+        CAGrantBOINCMasterRights.cpp
+        CAGrantBOINCProjectRights.cpp
+        CAMigrateBOINCData.cpp
+        CAMigrateBOINCDataTemp.cpp, .h (Added)
+        CAShutdownBOINC.cpp
+        CAStartupBOINCService.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    30 Nov 2007
+    - MGR: Add the ability for the manager to know the difference
+        between the executable directory and the data directory.
+        (Windows Only)
+    - TRAY: Update the tray code to what was used in 5.10.x
+    - WINSETUP: Update for BOINCTray.exe
+    
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        SkinManager.cpp
+    clienttray/
+        tray_win.cpp, .h
+    win_build/
+        boinc.sln
+        boinctray.vcproj
+    win_build/installerv2/
+        BOINC.ism
+
+David  30 Nov 2007
+    - scheduler:
+        - if WU is infeasible, print message instead of number
+        - remove useless messages
+        - remove EDF simulations printfs
+        - don't update nresults_on_host in resend_lost_work()
+            (it's already done in add_result_to_reply())
+
+    sched/
+        edf_sim.C
+        handle_request.C
+        sched_array.C
+        sched_resend.C
+        sched_send.C,h
+
+David  30 Nov 2007
+    - web: escape single-quotes in javascript strings
+
+    html/inc/
+        util.inc
+
+David  30 Nov 2007
+    - web: put "mark all threads as unread" on the forum index,
+        since it applies to all forums.
+
+    html/user/
+        forum_index.php
+        forum_forum.php
+
+David  1 Dec 2007
+    - web: show explanation if try to change team name to one in use
+    - web: don't allow bad tags in team name HTML
+
+    html/user/
+        team_edit_action.php
+
+David  1 Dec 2007
+    - client: don't fetch project list from boinc.berkeley.edu
+        if the <dont_contact_ref_site> config flag is set
+
+    client/
+        acct_setup.C
+
+Rom    2 Dec 2007
+    - WINSETUP: Fix a few more permission problems with how 
+        InstallShield does things.
+    - WINSETUP: Don't attempt to create accounts or set rights
+        on Win9x based systems.
+    - WINSETUP: Add additional trace messages to
+        CACreateBOINCAccounts.
+    - WINSETUP: Add entries for a null script when creating
+        user accounts, apparently it is a requirement for
+        creating accounts on Win2k and WinXP.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CACreateBOINCAccounts.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    2 Dec 2007
+    - CC: Move time_stats file creatio logic so that it is
+        created during gstate.init() instead of at class
+        creation time. This way time_stats.log ends up in
+        the data directory.
+        
+    client/
+        client_state.C
+        time_stats.C, .h
+
+David  2 Dec 2007
+    - web: if user is banished, don't show their posts except to mods,
+        don't show their name in thread headers,
+        and don't show their profile
+
+    html/
+        inc/
+            forum.inc
+            profile.inc
+            util.inc
+        user/
+            forum_edit.php

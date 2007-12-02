@@ -61,31 +61,31 @@ CASaveSetupState::~CASaveSetupState()
 UINT CASaveSetupState::OnExecution()
 {
     tstring     strInstallDirectory;
-    tstring     strSetupType;
+    tstring     strDataDirectory;
     tstring     strLaunchProgram;
     tstring     strEnableLaunchAtLogon;
     tstring     strEnableScreensaver;
-    tstring     strServiceDomain;
-    tstring     strServiceUsername;
+    tstring     strEnableProtectedApplicationExecution;
+    tstring     strEnableUseByAllUsers;
     tstring     strSetupStateStored;
 
     strSetupStateStored = _T("TRUE");
 
     GetProperty( _T("INSTALLDIR"), strInstallDirectory );
-    GetProperty( _T("SETUPTYPE"), strSetupType );
+    GetProperty( _T("DATADIR"), strDataDirectory );
     GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
     GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
     GetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    GetProperty( _T("SERVICE_DOMAIN"), strServiceDomain );
-    GetProperty( _T("SERVICE_USERNAME"), strServiceUsername );
+    GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+    GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
     SetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
-    SetRegistryValue( _T("SETUPTYPE"), strSetupType );
+    SetRegistryValue( _T("DATADIR"), strDataDirectory );
     SetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
     SetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
     SetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    SetRegistryValue( _T("SERVICE_DOMAIN"), strServiceDomain );
-    SetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
+    SetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+    SetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
     SetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
 
     return ERROR_SUCCESS;

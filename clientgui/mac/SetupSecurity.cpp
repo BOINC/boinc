@@ -37,7 +37,9 @@
 static OSStatus UpdateNestedDirectories(char * basepath);
 static OSStatus GetAuthorization(void);
 OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
+#ifndef __x86_64__
 static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
+#endif
 static void SleepTicks(UInt32 ticksToSleep);
 #ifdef _DEBUG
 static OSStatus SetFakeMasterNames(void);
@@ -739,7 +741,7 @@ int AddAdminUserToGroups(char *user_name) {
 
 
 static OSStatus ResynchSystem() {
-    long            response;
+    SInt32          response;
     OSStatus        err = noErr;
    
     err = Gestalt(gestaltSystemVersion, &response);
@@ -933,6 +935,12 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
 
 void ShowSecurityError(const char *format, ...) {
     va_list                 args;
+
+#ifdef __x86_64__
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+#else
     char                    s[1024];
     short                   itemHit;
     AlertStdAlertParamRec   alertParams;
@@ -962,9 +970,11 @@ void ShowSecurityError(const char *format, ...) {
     StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
 
     DisposeModalFilterUPP(ErrorDlgFilterProcUPP);
+#endif
 }
 
 
+#ifndef __x86_64__
 static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit) {
     // We need this because this is a command-line application so it does not get normal events
     if (Button()) {
@@ -974,6 +984,7 @@ static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEv
     
     return StdFilterProc(theDialog, theEvent, theItemHit);
 }
+#endif
 
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepTicks(UInt32 ticksToSleep) {

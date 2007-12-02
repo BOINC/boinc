@@ -7,10 +7,10 @@ LIBRARY    boinccas95
 EXPORTS
 	DllMain
 	ValidateSetupType
-	MigrateCPDNBBC
+	MigrateBOINCData
+	MigrateBOINCDataTemp
 	MigrateX86X64
 	RestoreSetupState
 	SaveSetupState
 	ShutdownBOINCManager
 	CleanupOldBinaries
-    CreateVBSShortcut

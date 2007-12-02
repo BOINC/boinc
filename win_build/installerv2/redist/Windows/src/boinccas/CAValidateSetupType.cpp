@@ -63,6 +63,7 @@ UINT CAValidateSetupType::OnExecution()
     tstring strSetupType;
     tstring strAllUsers;
     tstring strIsAdminPackage;
+    tstring strDataDirectory;
     UINT    uiReturnValue = 0;
 
     uiReturnValue = GetProperty( _T("SETUPTYPE"), strSetupType );
@@ -78,7 +79,7 @@ UINT CAValidateSetupType::OnExecution()
 
     if ( !strSetupType.empty() )
     {
-        if ( ( _T("Single") == strSetupType ) || ( _T("Service") == strSetupType ) )
+        if ( ( _T("Single") == strSetupType ) )
         {
             if ( ( !strAllUsers.empty() ) && ( _T("1") != strIsAdminPackage ) )
             {
@@ -88,7 +89,7 @@ UINT CAValidateSetupType::OnExecution()
                     NULL,
                     NULL,
                     NULL,
-                    _T("An invalid SETUPTYPE combination has been detected, If SETUPTYPE is 'Single' or 'Service' then ALLUSERS has to be empty.")
+                    _T("An invalid SETUPTYPE combination has been detected, If SETUPTYPE is 'Single' then ALLUSERS has to be empty.")
                     );
                 return ERROR_INSTALL_FAILURE;
             }
@@ -103,12 +104,29 @@ UINT CAValidateSetupType::OnExecution()
                     NULL,
                     NULL,
                     NULL,
-                    _T("An invalid SETUPTYPE combination has been detected, If SETUPTYPE is not 'Shared' then ALLUSERS has to equal '1'.")
+                    _T("An invalid SETUPTYPE combination has been detected, If SETUPTYPE is not 'Shared' or 'Service' then ALLUSERS has to equal '1'.")
                     );
                 return ERROR_INSTALL_FAILURE;
             }
         }
     }
+
+
+    // If the Data Directory entry is empty then that means we need
+    //   to populate it with the default value.
+    GetProperty( _T("DATADIR"), strDataDirectory );
+    if (strDataDirectory.empty()) {
+        tstring strCommonApplicationDataFolder;
+
+        // MSI already has this figured out, so lets get it.
+        GetProperty( _T("CommonAppDataFolder"), strCommonApplicationDataFolder );
+
+        // Construct the default value
+        strDataDirectory = strCommonApplicationDataFolder + _T("BOINC\\");
+
+        SetProperty( _T("DATADIR"), strDataDirectory );
+    }
+
 
     return ERROR_SUCCESS;
 }

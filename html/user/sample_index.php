@@ -68,7 +68,7 @@ if ($caching) {
 
 $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
-$rsslink = URL_BASE . "/rss_main.php";
+$rsslink = URL_BASE . "rss_main.php";
 
 if (defined("CHARSET")) {
     header("Content-type: text/html; charset=".tr(CHARSET));
@@ -98,7 +98,8 @@ if ($stopped) {
 
 echo "
     <p>
-    <a href=http://boinc.berkeley.edu/><img align=middle border=0 src=img/pb_boinc.gif alt=\"BOINC Logo\"></a>
+    <a href=\"http://boinc.berkeley.edu/\"><img align=\"middle\" border=\"0\" src=\"img/pb_boinc.gif\" alt=\"BOINC Logo\"></a>
+    </p>
     </td>
 ";
 
@@ -109,10 +110,7 @@ if (!$stopped) {
             <td id=\"uotd\">
             <h2>User of the day</h2>
         ";
-        $user = lookup_user_id($profile->userid);
-        echo uotd_thumbnail($profile, $user);
-        echo user_links($user)."<br>";
-        echo sub_sentence(output_transform(strip_tags($profile->response1)), ' ', 150, true);
+        show_uotd($profile);
         echo "</td></tr>\n";
     }
 }

@@ -12,7 +12,6 @@ function show_delta($delta) {
     $what = $delta->joining?"joined":"quit";
     if ($xml) {
         echo "    <action>
-        <user_email>$user->email_addr</user_email>
         <id>$user->id</id>
         <name>$user->name</name>
         <action>$what</action>
@@ -23,7 +22,7 @@ function show_delta($delta) {
     } else {
         echo "<tr>
            <td>$when</td>
-            <td>",user_links($user)," ($user->email_addr)</td>
+           <td>",user_links($user)," (ID $user->id)</td>
            <td>$what</td>
            <td>$delta->total_credit</td>
            </tr>
@@ -39,11 +38,11 @@ if ($xml) {
     xml_header();
 }
 
-if (!$team || !is_admin($user, $team)) {
+if (!$team || !is_team_admin($user, $team)) {
     if ($xml) {
-        xml_error("-1", "Not admin");
+        xml_error("-1", "Not founder or admin");
     } else {
-        error_page("No admin privileges");
+        error_page("Not founder or admin");
     }
 }
 

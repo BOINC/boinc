@@ -14,6 +14,11 @@ if (!$start) $start = 0;
 
 $forum = BoincForum::lookup_id($id);
 $user = get_logged_in_user(false);
+
+if (!is_forum_visible_to_user($forum, $user)) {
+    error_page("Not visible");
+}
+
 BoincForumPrefs::lookup($user);
 
 if (!$sort_style) {
@@ -36,41 +41,44 @@ if (!$sort_style) {
     }
 }
 
-$category = BoincCategory::lookup_id($forum->category); 
-if ($category->is_helpdesk){
-    page_head(tra("Questions and Answers").' : '.$forum->title);
-} else {
-    page_head(tra("Message boards").' : '.$forum->title);
+
+switch ($forum->parent_type) {
+case 0:
+    $category = BoincCategory::lookup_id($forum->category); 
+    if ($category->is_helpdesk){
+        page_head(tra("Questions and Answers").' : '.$forum->title);
+        echo '<link href="forum_help_desk.php" rel="up" title="Forum Index">';
+    } else {
+        page_head(tra("Message boards").' : '.$forum->title);
+        echo '<link href="forum_index.php" rel="up" title="Forum Index">';
+    }
+    show_forum_header($user);
+    show_forum_title($category, $forum, NULL);
+    break;
+case 1:
+    $team = BoincTeam::lookup_id($forum->category); 
+    page_head("Team message board for <a href=team_display.php?teamid=$team->id>$team->name</a>");
+    show_forum_header($user);
+    show_team_forum_title($forum);
+    break;
 }
 
-// Allow users with a linktab-browser to get some useful links
-echo '<link href="forum_index.php" rel="up" title="Forum Index">';
-
-show_forum_header($user);
-show_forum_title($category, $forum, NULL);
-
 echo '
+    <p>
     <table width="100%" cellspacing="0" cellpadding="0">
-    <tr valign="bottom">
+    <tr valign="top">
     <td colspan=2>
 ';
 
 show_button("forum_post.php?id=$id", "New thread", "Add a new thread to this forum");
 
-if ($user) {
-    $return = urlencode(current_url());
-    $tokens = url_tokens($user->authenticator);
-    $url = "forum_index.php?read=1$tokens&return=$return";
-    show_button($url, "Mark all threads as read", "Mark all threads in this forum as 'read'.");
-}
-
 echo " <br><br></td>";
+echo '<td valign=top align="right">';
 echo '    <form action="forum_forum.php" method="get">
     <input type="hidden" name="id" value="'.$forum->id.'">';
-echo '<td align="right">';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '<input type="submit" value="Sort"><br><br></td>';
-echo "</tr>\n</table>\n</form>";
+echo '<input type="submit" value="Sort"></form></td>';
+echo "</tr></table>";
 
 show_forum($forum, $start, $sort_style, $user);
 
@@ -82,17 +90,27 @@ page_tail();
 // and using the features for the logged in user in $user.
 //
 function show_forum($forum, $start, $sort_style, $user) {
-    $gotoStr = "<div align=\"right\">".show_page_nav($forum,$start)."</div><br>";
+    $gotoStr = "";
+    $nav = show_page_nav($forum, $start);
+    if ($nav) {
+        $gotoStr = "<div align=\"right\">$nav</div><br>";
+    }
     echo $gotoStr; // Display the navbar
     start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
     
     $sticky_first = !$user || !$user->prefs->ignore_sticky_posts;
+
     // Show hidden threads if logged in user is a moderator
-    $show_hidden = $user && $user->prefs->privilege(S_MODERATOR); 
+    //
+    $show_hidden = is_moderator($user, $forum);
     $threads = get_forum_threads(
         $forum->id, $start, THREADS_PER_PAGE,
         $sort_style, $show_hidden, $sticky_first
     );
+
+    if ($user) {
+        $subs = BoincSubscription::enum("userid=$user->id");
+    }
     
     // Run through the list of threads, displaying each of them
     $n = 0; $i=0;
@@ -100,8 +118,9 @@ function show_forum($forum, $start, $sort_style, $user) {
         $owner = BoincUser::lookup_id($thread->owner);
         $unread = thread_is_unread($user, $thread);
         
-        if ($thread->status==1){
+        //if ($thread->status==1){
             // This is an answered helpdesk thread
+        if ($user && is_subscribed($thread, $subs)) {
             echo '<tr class="row_hd'.$n.'">';
         } else {
             // Just a standard thread.
@@ -110,10 +129,10 @@ function show_forum($forum, $start, $sort_style, $user) {
         
         echo "<td width=\"1%\" align=\"right\"><nobr>";
         if ($user && ($thread->rating()>$user->prefs->high_rating_threshold)) {
-            show_image(EMPHASIZE_IMAGE, "This message has a high average rating");
+            show_image(EMPHASIZE_IMAGE, "This message has a high average rating", "Highly rated");
         }
         if ($user && ($thread->rating()<$user->prefs->low_rating_threshold)) {
-            show_image(FILTER_IMAGE, "This message has a low average rating");
+            show_image(FILTER_IMAGE, "This message has a low average rating", "Low rated");
         }
         if ($thread->hidden) {
             echo "[hidden]";
@@ -121,27 +140,27 @@ function show_forum($forum, $start, $sort_style, $user) {
         if ($unread) {
             if ($thread->sticky) {
                 if ($thread->locked) {
-                    show_image(NEW_IMAGE_STICKY_LOCKED, "This thread is sticky and locked, and you haven't read it yet");
+                    show_image(NEW_IMAGE_STICKY_LOCKED, "This thread is sticky and locked, and you haven't read it yet", "sticky/locked/unread");
                 } else {
-                    show_image(NEW_IMAGE_STICKY, "This thread is sticky and you haven't read it yet");
+                    show_image(NEW_IMAGE_STICKY, "This thread is sticky and you haven't read it yet", "sticky/unread");
                 }
             } else {
                 if ($thread->locked) {
-                    show_image(NEW_IMAGE_LOCKED, "You haven't read this thread yet, and it's locked");
+                    show_image(NEW_IMAGE_LOCKED, "You haven't read this thread yet, and it's locked", "unread/locked");
                 } else {
-                    show_image(NEW_IMAGE, "You haven't read this thread yet");
+                    show_image(NEW_IMAGE, "You haven't read this thread yet", "unread");
                 }
             }
         } else {
             if ($thread->sticky) {
                 if ($thread->locked) {
-                    show_image(IMAGE_STICKY_LOCKED, "This thread is sticky and locked");
+                    show_image(IMAGE_STICKY_LOCKED, "This thread is sticky and locked", "sticky/locked");
                 } else {
-                    show_image(IMAGE_STICKY, "This thread is sticky");
+                    show_image(IMAGE_STICKY, "This thread is sticky", "sticky");
                 }
             } else {
                 if ($thread->locked) {
-                    show_image(IMAGE_LOCKED, "This thread is locked");
+                    show_image(IMAGE_LOCKED, "This thread is locked", "locked");
                 }
             }
         }

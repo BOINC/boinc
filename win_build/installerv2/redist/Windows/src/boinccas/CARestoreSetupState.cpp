@@ -61,33 +61,48 @@ CARestoreSetupState::~CARestoreSetupState()
 UINT CARestoreSetupState::OnExecution()
 {
     tstring     strInstallDirectory;
-    tstring     strSetupType;
+    tstring     strDataDirectory;
     tstring     strLaunchProgram;
     tstring     strEnableLaunchAtLogon;
     tstring     strEnableScreensaver;
-    tstring     strServiceDomain;
-    tstring     strServiceUsername;
+    tstring     strEnableProtectedApplicationExecution;
+    tstring     strEnableUseByAllUsers;
     tstring     strSetupStateStored;
 
     GetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
     if (strSetupStateStored == _T("TRUE")) {
 
         GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
-        GetRegistryValue( _T("SETUPTYPE"), strSetupType );
+        GetRegistryValue( _T("DATADIR"), strDataDirectory );
         GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
         GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
         GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-        GetRegistryValue( _T("SERVICE_DOMAIN"), strServiceDomain );
-        GetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
+        GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+        GetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
         SetProperty( _T("INSTALLDIR"), strInstallDirectory );
-        SetProperty( _T("SETUPTYPE"), strSetupType );
+        SetProperty( _T("DATADIR"), strDataDirectory );
         SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
         SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
         SetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-        SetProperty( _T("SERVICE_DOMAIN"), strServiceDomain );
-        SetProperty( _T("SERVICE_USERNAME"), strServiceUsername );
+        SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+        SetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
+    }
+
+    // If the Data Directory entry is empty then that means we need
+    //   to populate it with the default value.
+    GetProperty( _T("DATADIR"), strDataDirectory );
+    if (strDataDirectory.empty()) {
+        tstring strCommonApplicationDataFolder;
+
+        // MSI already has this figured out, so lets get it.
+        GetProperty( _T("CommonAppDataFolder"), strCommonApplicationDataFolder );
+
+        // Construct the default value
+        strDataDirectory = strCommonApplicationDataFolder + _T("BOINC\\");
+
+        SetProperty( _T("DATADIR"), strDataDirectory );
     }
 
     return ERROR_SUCCESS;

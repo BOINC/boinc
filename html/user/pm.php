@@ -8,7 +8,7 @@ require_once("../inc/akismet.inc");
 
 function show_block_link($userid) {
     echo " <a href=\"pm.php?action=block&id=$userid\">";
-    show_image(REPORT_POST_IMAGE, "Block messages from this user",  REPORT_POST_IMAGE_HEIGHT);
+    show_image(REPORT_POST_IMAGE, "Block messages from this user",  "Block user", REPORT_POST_IMAGE_HEIGHT);
     echo "</a>";
 }
 
@@ -26,6 +26,7 @@ if ($action == "select_") {
 }
 
 $logged_in_user = get_logged_in_user();
+BoincForumPrefs::lookup($logged_in_user);
 
 function make_script() {
     echo "
@@ -51,7 +52,7 @@ function do_inbox($logged_in_user) {
     if (get_int("sent", true) == 1) {
         echo "<div class=\"notice\">".tra("Your message has been sent.")."</div>\n";
     }
-    $options = new output_options;
+    $options = get_output_options($logged_in_user);
     
     $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id ORDER BY date DESC"
@@ -68,7 +69,7 @@ function do_inbox($logged_in_user) {
             $i++;
             $class = ($i%2)? "row0": "row1";
             echo "<tr class=$class>\n";
-            $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$row->id."\">";
+            $checkbox = "<input type=\"checkbox\" name=\"pm_select[]\" value=\"".$msg->id."\">";
             if (!$msg->opened) {
                 $msg->update("opened=1");
             }

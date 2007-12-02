@@ -19,7 +19,7 @@ function send_founder_transfer_email($team, $user) {
     $body = "Team member ".$user->name." has asked that you
 transfer foundership of $team->name in ".PROJECT.".
 Please visit
-".URL_BASE."/team_change_founder_form.php?teamid=".$team->id."
+".URL_BASE."team_change_founder_form.php?teamid=".$team->id."
 to transfer foundership or decline the request.
     
 If you do not respond to this request within two months, ".$user->name." will
@@ -72,7 +72,7 @@ if ($action == "transfer") {
                 if (transfer_ok($team, $now)) {
                     $team->update("userid=$user->id");
                     echo "<p>Congratulations, you are now the new founder of team ".$team->name."
-                    Go to <a href=\"".URL_BASE."/home.php\">Your Account page</a>
+                    Go to <a href=\"".URL_BASE."home.php\">Your Account page</a>
                     to find the Team Admin options.";
                 } else {
                     echo "<p>

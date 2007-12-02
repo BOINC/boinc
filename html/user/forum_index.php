@@ -7,11 +7,11 @@ require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 require_once('../inc/time.inc');
 
-// Process request to mark all posts as read
-// ???? uh, why is this here ????
 
 $user = get_logged_in_user(false);
 
+// Process request to mark all posts as read
+//
 if ((get_int("read", true) == 1)) {
     if ($user) {
         check_tokens($user->authenticator);
@@ -22,14 +22,27 @@ if ((get_int("read", true) == 1)) {
     }
 }
 
-function forum_summary($forum) {
+function show_forum_summary($forum) {
+    switch ($forum->parent_type) {
+    case 0:
+        $t = $forum->title;
+        $d = $forum->description;
+        break;
+    case 1:
+        $team = BoincTeam::lookup_id($forum->category);
+        $t = $forum->title;
+        if (!strlen($t)) $t = $team->name;
+        $d = $forum->description;
+        if (!strlen($d)) $d = "Discussion among members of $team->name";
+        break;
+    }
     echo "
         <tr class=\"row1\">
         <td>
             <em>
-            <a href=\"forum_forum.php?id=$forum->id\">$forum->title
+            <a href=\"forum_forum.php?id=$forum->id\">$t
             </a></em>
-            <br><span class=\"smalltext\">$forum->description</span>
+            <br><span class=\"smalltext\">$d</span>
         </td>
         <td>$forum->threads</td>
         <td>$forum->posts</td>
@@ -55,6 +68,14 @@ foreach ($categories as $category) {
     if ($first) {
         $first = false;
         show_forum_title($category, NULL, NULL);
+        if ($user) {
+            $return = urlencode(current_url());
+            $tokens = url_tokens($user->authenticator);
+            $url = "forum_index.php?read=1$tokens&return=$return";
+            show_button($url, "Mark all threads as read", "Mark all threads in all message boards as 'read'.");
+        }
+
+        echo "<p>";
         start_forum_table(
             array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post"))
         );
@@ -68,11 +89,32 @@ foreach ($categories as $category) {
     }
     $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
     foreach ($forums as $forum) {
-        echo forum_summary($forum);
+        show_forum_summary($forum);
     }
 }
 
+if ($user && $user->teamid) {
+    $forum = BoincForum::lookup("parent_type=1 and category=$user->teamid");
+    if ($forum) {
+        show_forum_summary($forum);
+    }
+}
 end_table();
+
+if ($user) {
+    $subs = BoincSubscription::enum("userid=$user->id");
+    if (count($subs)) {
+        echo "<h3>Subscribed threads</h2>";
+        show_thread_and_context_header();
+        foreach ($subs as $sub) {
+            $thread = BoincThread::lookup_id($sub->threadid);
+            if ($thread->hidden) continue;
+            show_thread_and_context($thread, $user);
+        }
+        end_table();
+    }
+}
+
 page_tail();
 flush();
 BoincForumLogging::cleanup();

@@ -60,6 +60,7 @@ public:
     void log_append_net(int);
     void trim_stats_log();
     void get_log_after(double, MIOFILE&);
+    void start();
     void quit();
 };
 

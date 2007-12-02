@@ -45,7 +45,6 @@ static void print_options(char* prog) {
         "    --version                       show version info\n"
         "    --exit_when_idle                exit when there are no results\n"
         "    --show_projects                 show attached projects\n"
-        "    --return_results_immediately    contact server when have results\n"
         "    --detach_project <URL>          detach from a project\n"
         "    --reset_project <URL>           reset (clear) a project\n"
         "    --attach_project <URL> <key>    attach to a project\n"
@@ -95,8 +94,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
             executing_as_daemon = true;
-        } else if (ARG(return_results_immediately)) {
-            return_results_immediately = true;
         } else if (ARG(skip_cpu_benchmarks)) {
             skip_cpu_benchmarks = true;
         } else if (ARG(exit_after_app_start)) {

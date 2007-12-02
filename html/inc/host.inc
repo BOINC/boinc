@@ -18,7 +18,11 @@ function sched_log_name($x) {
 }
 
 function sched_log_link($x) {
-    return "<a href=\"../sched_logs/" . sched_log_name($x) . "\">" . time_str($x) . "</a>";
+    if (file_exists("../sched_logs")) {
+        return "<a href=\"../sched_logs/" . sched_log_name($x) . "\">" . time_str($x) . "</a>";
+    } else {
+        return time_str($x);
+    }
 }
 
 function location_form($host) {
@@ -269,7 +273,7 @@ function cpus_compatible($host1, $host2) {
         $host2pm = trim(substr($host2->p_model, 0, $pos));
     }
     $p1 = "$host1->p_vendor $host1pm";
-    $p1 = "$host2->p_vendor $host2pm";
+    $p2 = "$host2->p_vendor $host2pm";
     
     if (strstr($p1, "Pentium") && strstr($p1, "Intel")
         && strstr($p2, "Pentium") && strstr($p2, "Intel")
@@ -321,7 +325,7 @@ function hosts_compatible($host1, $host2) {
     //
     if ($host1->total_credit && $host2->total_credit) {
         if (!times_disjoint($host1, $host2)) {
-            echo "<br>h2 $host2->create_time $host2->rpc_time";
+            //echo "<br>h2 $host2->create_time $host2->rpc_time";
             return false;
         }
     }

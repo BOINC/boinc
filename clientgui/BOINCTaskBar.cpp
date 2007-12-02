@@ -143,7 +143,7 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
     } else {
-        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+        if (RUN_MODE_NEVER == status.task_mode) {
             SetIcon(m_iconTaskBarSnooze, wxEmptyString);
         } else {
             SetIcon(m_iconTaskBarNormal, wxEmptyString);
@@ -307,10 +307,7 @@ void CTaskBarIcon::OnMouseMove(wxNotifyIconEvent& WXUNUSED(event)) {
         CC_STATUS      status;
 
         wxASSERT(pDoc);
-        wxASSERT(pSkinAdvanced);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
 
         if (pDoc->IsConnected()) {
             iconIcon = m_iconTaskBarNormal;
@@ -320,7 +317,6 @@ void CTaskBarIcon::OnMouseMove(wxNotifyIconEvent& WXUNUSED(event)) {
                 strBuffer.Printf(
                     _("Computation is suspended.\n")
                 );
-                iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
             }
 

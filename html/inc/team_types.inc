@@ -2,21 +2,26 @@
 
 $team_types = array(
     "",
-    "Unclassified",
+    "None",
     "Company",
     "Primary school",
     "Secondary school",
     "Junior college",
     "University or department",
-    "Government agency"
+    "Government agency",
+    "Non-profit organization",
+    "National",
+    "Local/regional",
+    "Computer type",
+    "Social/political/religious"
 );
 
 function team_type_name($num) {
     global $team_types;
-    if ($num>0 && $num<8) {
+    if ($num>0 && $num<count($team_types)) {
         return $team_types[$num];
     }
-    return "Unknown";
+    return "None";
 }
 
 function is_valid_team_type($name) {
@@ -35,20 +40,15 @@ function team_type_num($name) {
     return 0;
 }
 
-function team_type_select($team, $allow_none=false){
+function team_type_select($selected_type, $allow_none=false){
     global $team_types;
 
-    if (!empty($team)) {
-        $type = $team->type;
-    } else {
-        $type = 1;
-    }
     $types = $team_types;
     if ($allow_none) {
         $types[0] = '---';
         $type = 0;
     }
-    return select_from_array('type', $types, $type);
+    return select_from_array('type', $types, $selected_type);
 }
 
 ?>

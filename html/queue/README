@@ -1,0 +1,8 @@
+// This directory contains a system that allows
+// users to submit jobs to a BOINC project.
+//
+// Major revisions may be required to make this work
+// (and to make it secure) on your project.
+// Please read and understand all the code before using it.
+//
+// Contributed by Dr. M.F. Somers, Leiden University

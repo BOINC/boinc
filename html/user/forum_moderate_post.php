@@ -7,33 +7,29 @@ require_once('../inc/forum.inc');
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
-
-if (!get_str('action')) {
-    error_page("You must specify an action...");
-}
-if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
-    // Can't moderate without being moderator
-    error_page("You are not authorized to moderate this post.");
-}    
-
 $postid = get_int('id');
 $post = BoincPost::lookup_id($postid);
 $thread = BoincThread::lookup_id($post->thread);
+$forum = BoincForum::lookup_id($thread->forum);
 
-page_head('Forum');
+if (!get_str('action')) {
+    error_page("No action specified");
+}
+if (!is_moderator($logged_in_user, $forum)) {
+    error_page("You are not authorized to moderate this post.");
+}    
 
-//start form
+page_head('Moderate post');
+
 echo "<form action=\"forum_moderate_post_action.php?id=".$post->id."\" method=\"POST\">\n";
 echo form_tokens($logged_in_user->authenticator);
 start_table();
-row1("Moderate post");
 
 if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
-    row2("",
-    "Select the reason category, optionally write a longer description of why you delete the post and then press ok to hide it.");
-    row2("Category",
+    row1("Hide post");
+    row2("Reason",
     "<select name=\"category\">
     <option value=\"1\">Obscene</option>
     <option value=\"2\">Flame/Hate mail</option>
@@ -43,6 +39,7 @@ if (get_str('action')=="hide") {
     <option value=\"6\">Other</option>
 </select>");
 } elseif (get_str('action')=="move") {
+    row1("Move post");
     echo "<input type=hidden name=action value=move>";
     row2("Destination thread ID:", "<input name=\"threadid\">");
     //todo display where to move the post as a dropdown instead of having to get ID    
@@ -57,6 +54,7 @@ if (get_str('action')=="hide") {
     if ($x>time()) {
         error_page("User is already banished");
     }
+    row1("Banish user");
     row1("Are you sure you want to banish ".$user->name."?
         This will prevent ".$user->name." from posting for chosen time period.<br />
         It should be done only if ".$user->name."
@@ -77,12 +75,13 @@ if (get_str('action')=="hide") {
     error_page( "Unknown action");
 }
 
-row2("Reason<br>Mailed if nonempty",
+row2("Optional explanation
+    <br><span class=note>This is included in email to user</span>",
     "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>");
 
 row2(
     "",
-    "<input type=\"submit\" name=\"submit\" value=\"Proceed with moderation\">"
+    "<input type=\"submit\" name=\"submit\" value=\"OK\">"
 );
 
 end_table();

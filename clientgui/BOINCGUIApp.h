@@ -77,6 +77,7 @@ protected:
 
     bool                m_bBOINCStartedByManager;
     wxString            m_strBOINCMGRRootDirectory;
+    wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strBOINCArguments;
 
     int                 m_iDisplayExitWarning;
@@ -113,6 +114,8 @@ public:
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
+    wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
+    wxString            GetDataDirectory()          { return m_strBOINCMGRDataDirectory; }
 #if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
 #endif

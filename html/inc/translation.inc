@@ -140,9 +140,13 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                     fwrite($fh, '$s = \'$s\''.";\n"); // Quick Kludge
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
-                        if (isset($keys[$i]) && isset($language[$keys[$i]]) && $language[$keys[$i]]!="") {
-                            //Translate to PHP
-                            fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($language[$keys[$i]])."\";\n");
+                        if (isset($keys[$i]) && isset($language[$keys[$i]])) {
+                            if ($language[$keys[$i]] == "") {
+                                //If the msgstr is empty, use the msgid instead
+                                fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($interface[$keys[$i]])."\";\n");
+                            } else {
+                                fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($language[$keys[$i]])."\";\n");
+                            }
                         }
                     }
                     fwrite($fh, '?>');

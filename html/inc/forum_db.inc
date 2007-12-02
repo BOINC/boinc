@@ -7,7 +7,7 @@ class BoincCategory {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'category', 'BoincCategory');
     }
-    static function enum($clause) {
+    static function enum($clause=null) {
         $db = BoincDb::get();
         return $db->enum('category', 'BoincCategory', $clause);
     }
@@ -36,6 +36,10 @@ class BoincForum {
         $db = BoincDb::get();
         return $db->update($this, 'forum', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'forum');
+    }
 }
 
 class BoincThread {
@@ -61,6 +65,10 @@ class BoincThread {
 
     function rating() {
         return $this->score*$this->votes;
+    }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'thread');
     }
 }
 
@@ -94,6 +102,10 @@ class BoincPost {
     function rating() {
         return $this->score*$this->votes;
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'post');
+    }
 }
 
 class BoincForumPrefs {
@@ -106,20 +118,20 @@ class BoincForumPrefs {
         $db = BoincDb::get();
         $ret = $db->insert('forum_preferences', $clause);
     }
-    static function lookup(&$user) {
+    static function lookup(&$user, $nocache=false) {
         if (!$user) return;
         if (isset($user->prefs)) return;
-        if (isset($cache[$user->id])) {
-            $prefs = $cache[$user->id];
+        if (!$nocache && isset(self::$cache[$user->id])) {
+            $prefs = self::$cache[$user->id];
         } else {
             $prefs = self::lookup_userid($user->id);
             if (!$prefs) {
-                self::insert("(userid, thread_sorting) values ($user->id, 8)");
-                $prefs = new BoincForumPrefs();
+                self::insert("(userid, thread_sorting, pm_notification) values ($user->id, 8, 0)");
+                $prefs = self::lookup_userid($user->id);
                 $prefs->userid = $user->id;
                 $prefs->thread_sorting = 6;
             }
-            $cache[$user->id] = $prefs;
+            self::$cache[$user->id] = $prefs;
         }
         $user->prefs = $prefs;
     }
@@ -148,15 +160,15 @@ class BoincForumLogging {
         return $db->lookup('forum_logging', 'BoincForumLogging', "userid=$userid and threadid=$threadid");
     }
     static function lookup_cached($userid, $threadid) {
-        if (isset($cache[$threadid])) {
-            return $cache[$threadid];
+        if (isset(self::$cache[$threadid])) {
+            return self::$cache[$threadid];
         }
         $x = self::lookup($userid, $threadid);
         if (!$x) {
             $x = new BoincForumLogging();
             $x->timestamp = 0;
         }
-        $cache[$threadid] = $x;
+        self::$cache[$threadid] = $x;
     }
     static function cleanup() {
         // TODO - clean this up

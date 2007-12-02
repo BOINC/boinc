@@ -5,6 +5,7 @@ require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
+require_once("../inc/forum.inc");
 
 ini_set("memory_limit", "64M");
 
@@ -108,9 +109,9 @@ function show_login($user) {
 //
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
-    $styleSheet = URL_BASE . "/".STYLESHEET;
+    $styleSheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
-    $rsslink = URL_BASE . "/rss_main.php";
+    $rsslink = URL_BASE."rss_main.php";
     
     if (defined("CHARSET")) {
         header("Content-type: text/html; charset=".tra("CHARSET"));
@@ -368,25 +369,14 @@ function print_login_form_aux($next_url, $user) {
         <input type=hidden name=next_url value='$next_url'>
     ";
     start_table();
-    row1("Log in with email/password");
     row2("Email address:", '<input name="email_addr" size="40" tabindex="1">');
-    row2("Password:<br><font size=-2><a href=edit_passwd_form.php>Forgot password?</a>",
+    row2("Password:<br><font size=-2><a href=get_passwd.php>Forgot password?</a>",
         '<input type="password" name="passwd" size="40" tabindex="2">'
     );
-    row2("", '<input type="submit" name="mode" value="Log in with email/password" tabindex="3">');
-    row1("Log in with account key");
-    row2("Your account key:
-        <br><font size=-2>
-        If you don't know your account key,
-        <a href=get_passwd.php>click here</a>.
-        </font>",
-        "<input name=authenticator size=40>"
-    );
-    row2("", "<input type=submit name=mode value='Log in with account key'>");
-    row1("Stay logged in");
     row2("Stay logged in on this computer",
         "<input type=checkbox name=send_cookie checked>"
     );
+    row2("", '<input type="submit" name="mode" value="Log in" tabindex="3">');
     if ($user) {
         row1("Log out");
         row2("You are logged in as $user->name",
@@ -553,13 +543,14 @@ function sched_stopped() {
 }
 
 function user_links($user) {
-    $x = "<a href=\"".URL_BASE."/show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->has_profile) {
-        $x .= ' <a href="'.URL_BASE.'/view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" vspace=2 border="0" src="'.URL_BASE.'/img/head_20.png" alt="User profile image"></a>';
+    BoincForumPrefs::lookup($user);
+    if (is_banished($user)) {
+        return "(banished: ID $user->id)";
     }
-    // Does this project accept donations?
-    // If so, do you want to have a link next to user name as it appears on the web site?
-    //
+    $x = "<a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    if ($user->has_profile) {
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" src="'.URL_BASE.'img/head_20.png" alt="Profile"></a>';
+    }
     if ($user->donated == 1) { 
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
@@ -768,15 +759,24 @@ function current_url() {
 }
 
 function show_button($url, $text, $desc) {
-    echo "<a href=$url><input onClick=\"document.location.href='$url'\" class=btn type=button value=\"$text\" title=\"$desc\"></a>\n";
+    $text_esc = addslashes($text);      // for javascript
+    $desc_esc = addslashes($desc);
+    echo "
+        <script>
+        document.write('<input onClick=\"document.location.href=\'$url\'\" class=btn type=button value=\"$text_esc\" title=\"$desc_esc\">')
+        </script>
+        <noscript>
+        <a href=$url title=$desc>$text</a>
+        </noscript>
+    ";
 }
 
-function show_image($src, $title, $height=null) {
+function show_image($src, $title, $alt, $height=null) {
     $h = "";
     if ($height) {
         $h = "height=\"$height\"";
     }
-    echo "<img border=0 title=\"$title\" alt=\"$title\" src=\"$src\" $h>";
+    echo "<img border=0 title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

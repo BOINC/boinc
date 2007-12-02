@@ -223,6 +223,9 @@ msgstr ""
 msgid "Topic"
 msgstr ""
 
+msgid "Thread"
+msgstr ""
+
 msgid "Threads"
 msgstr ""
 
@@ -251,6 +254,9 @@ msgid "Add my signature to this post"
 msgstr ""
 
 msgid "Message"
+msgstr ""
+
+msgid "Edit message"
 msgstr ""
 
 msgid "Use BBCode tags to format your text"
@@ -304,7 +310,7 @@ msgstr ""
 msgid "Forum index"
 msgstr ""
 
-msgid "Create new"
+msgid "Send private message"
 msgstr ""
 
 msgid "Preview"
@@ -388,10 +394,7 @@ msgstr ""
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
-msgid "Sender"
-msgstr ""
-
-msgid "Date"
+msgid "Sender and date"
 msgstr ""
 
 msgid "Delete"
@@ -463,6 +466,9 @@ msgstr ""
 msgid "Community"
 msgstr ""
 
+msgid "Community preferences"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -475,7 +481,19 @@ msgstr ""
 msgid "Team"
 msgstr ""
 
+msgid "Member of team"
+msgstr ""
+
+msgid "%1 posts"
+msgstr ""
+
 msgid "None"
+msgstr ""
+
+msgid "Administer"
+msgstr ""
+
+msgid "Founder but not member of"
 msgstr ""
 
 msgid "administrative functions"
@@ -490,28 +508,25 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-msgid "General preferences"
+msgid "Computing preferences"
 msgstr ""
 
-msgid "specify when and how BOINC uses your computer"
-msgstr ""
-
-msgid "View or edit"
+msgid "When and how BOINC uses your computer"
 msgstr ""
 
 msgid "%1 preferences"
 msgstr ""
 
-msgid "control resource share and customize graphics"
+msgid "Resource share and graphics"
 msgstr ""
 
 msgid "Message board preferences"
 msgstr ""
 
-msgid "configure features and appearance of message boards"
+msgid "Message boards and private messages"
 msgstr ""
 
-msgid "Work done"
+msgid "Computing and credit"
 msgstr ""
 
 msgid "%1 member since"
@@ -544,3 +559,5 @@ msgstr ""
 msgid "Used in URLs"
 msgstr ""
 
+msgid "unread" 
+msgstr ""

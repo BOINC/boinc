@@ -1,5 +1,6 @@
 <?php
 
+require_once('../inc/email.inc');
 require_once('../inc/profile.inc');
 
 define('UOTD_THRESHOLD', 7);
@@ -7,7 +8,7 @@ define('UOTD_THRESHOLD', 7);
 
 function uotd_thumbnail($profile, $user) {
     if ($profile->has_picture) {
-        return "<a href=".URL_BASE."/view_profile.php?userid=$user->id><img border=0 vspace=4 hspace=8 align=left src=".URL_BASE."/".IMAGE_URL.$user->id."_sm.jpg></a>";
+        return "<a href=".URL_BASE."view_profile.php?userid=$user->id><img border=0 vspace=4 hspace=8 align=left src=".URL_BASE.IMAGE_URL.$user->id."_sm.jpg></a>";
     } else {
         return "";
     }
@@ -19,12 +20,9 @@ function show_uotd() {
     $profile = get_current_uotd();
     if ($profile) {
         $user = lookup_user_id($profile->userid);
-        echo "<br><table cellpadding=4 cellspacing=0><tr><td>";
         echo uotd_thumbnail($profile, $user);
-        echo "</td><td>";
         echo user_links($user)."<br>";
-        echo sub_sentence(output_transform(strip_bbcode(no_pres(strip_tags($profile->response1)))), ' ', 150, true);
-        echo "</td></tr></table><br>\n";
+        echo sub_sentence(strip_tags(output_transform($profile->response1)), ' ', 150, true);
     }
 }
 
@@ -68,7 +66,10 @@ function select_uotd() {
     // email the sys admin every time we pick a new one.
     //
     if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
-        mail(UOTD_ADMIN_EMAIL,
+        $u = new BoincUser;
+        $u->email_addr - UOTD_ADMIN_EMAIL;
+        $u->name = "UOTD admin";
+        send_email($u,
             PROJECT . ": User of the Day pool is running low!",
             "The pool of approved candidates for User of the Day has".
             " reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n".
@@ -95,7 +96,7 @@ function select_uotd() {
     $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
     mysql_query($sql);
 
-    mail($user->email_addr,
+    send_email($user,
         "You're the " . PROJECT . " user of the day!",
         "Congratulations!\n\nYou've been chosen as the "
         . PROJECT . " user of the day!

@@ -2,6 +2,19 @@
 
 $project_news = array(
 
+array("November 28, 2007",
+    "Live in Washington DC?  Get together with other BOINC users via
+    <a href=http://opensource.meetup.com/84/?gj=sj2>Meetup</a>
+    (or <a href=http://opensource.meetup.com/>create a Meetup
+     in your own city</a>)."
+),
+array("November 16, 2007",
+    "<a href=http://boinc.gorlaeus.net/>Leiden Classical</a> allows students (and the public)
+    to submit particle-system simulation jobs,
+    and is thus a resource for both education and research.
+    The job-submission system used by Leiden Classical is now
+    <a href=http://boinc.berkeley.edu/trac/wiki/UserJobs>included in the BOINC source code distribution</a>."
+),
 array("November 2, 2007",
     "BOINC needs more volunteer programmers!
     If you're proficient in PHP and MySQL, C++ and WxWidgets,

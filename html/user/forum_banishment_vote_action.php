@@ -3,6 +3,7 @@ $cvs_version_tracker[]="\$Id: forum_moderate_post_action.php 13718 2007-09-30 11
 
 
 require_once("../inc/forum_db.inc");
+require_once("../inc/forum_banishment_vote.inc");
 
 $config = get_config();
 

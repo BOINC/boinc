@@ -21,7 +21,7 @@ if ($result) {
     echo "
         No further emails will be sent to $user->email_addr.
         To resume getting emails,
-        go <a href=".URL_BASE."/prefs_edit.php?subset=project>here</a>
+        go <a href=".URL_BASE."prefs_edit.php?subset=project>here</a>
     ";
     page_tail();
 }

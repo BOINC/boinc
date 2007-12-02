@@ -54,19 +54,19 @@ static int possibly_give_result_new_deadline(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply
 ) {
     const double resend_frac = 0.5;  // range [0, 1)
-    int result_sent_time = time(0);
-    int result_report_deadline = result_sent_time + (int)(resend_frac*(result.report_deadline - result.sent_time));
+    int now = time(0);
+    int result_report_deadline = now + (int)(resend_frac*(result.report_deadline - result.sent_time));
 
     if (result_report_deadline < result.report_deadline) {
         result_report_deadline = result.report_deadline;
     }
-    if (result_report_deadline > result_sent_time + wu.delay_bound) {
-        result_report_deadline = result_sent_time + wu.delay_bound;
+    if (result_report_deadline > now + wu.delay_bound) {
+        result_report_deadline = now + wu.delay_bound;
     }
 
     // If infeasible, return without modifying result
     //
-    if (estimate_cpu_duration(wu, reply) > result_report_deadline-result_sent_time) {
+    if (estimate_cpu_duration(wu, reply) > result_report_deadline-now) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_DEBUG,
             "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
@@ -83,11 +83,17 @@ static int possibly_give_result_new_deadline(
         result.id, reply.host.id,
         result_report_deadline==result.report_deadline?"NO update to":"Updated"
     );
-    result.sent_time = result_sent_time;
+    result.sent_time = now;
     result.report_deadline = result_report_deadline;
     return 0;
 }
 
+// resend any jobs that:
+// 1) we already sent to this host;
+// 2) are still in progress (i.e. haven't timed out) and
+// 3) aren't present on the host
+// Return true if there were any such jobs
+//
 bool resend_lost_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
     PLATFORM_LIST& platforms, SCHED_SHMEM& ss
@@ -96,116 +102,99 @@ bool resend_lost_work(
     std::vector<DB_RESULT>results;
     unsigned int i;
     char buf[256];
+    char warning_msg[256];
     bool did_any = false;
-    int num_to_resend=0;
+    int num_eligible_to_resend=0;
     int num_resent=0;
-    int num_on_host=0;
     APP* app;
     APP_VERSION* avp;
     int retval;
-
-    // print list of results on host
-    //
-    for (i=0; i<sreq.other_results.size(); i++) {
-        OTHER_RESULT& orp=sreq.other_results[i];
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-            "Result is on [HOST#%d]: %s\n",
-            reply.host.id, orp.name.c_str()
-        );
-    }
 
     sprintf(buf, " where hostid=%d and server_state=%d ",
         reply.host.id, RESULT_SERVER_STATE_IN_PROGRESS
     );
     while (!result.enumerate(buf)) {
         bool found = false;
-        num_on_host++;
         for (i=0; i<sreq.other_results.size(); i++) {
             OTHER_RESULT& orp = sreq.other_results[i];
             if (!strcmp(orp.name.c_str(), result.name)) {
                 found = true;
+                break;
             }
         }
-        if (!found) {
-            num_to_resend++;
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_DEBUG,
-                "[HOST#%d] found lost [RESULT#%d]: %s\n",
-                reply.host.id, result.id, result.name
+        if (found) continue;
+
+        num_eligible_to_resend++;
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "[HOST#%d] found lost [RESULT#%d]: %s\n",
+            reply.host.id, result.id, result.name
+        );
+
+        DB_WORKUNIT wu;
+        retval = wu.lookup_id(result.workunitid);
+        if (retval) {
+            log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
+                "[HOST#%d] WU not found for [RESULT#%d]\n",
+                reply.host.id, result.id
             );
+            continue;
+        }
 
-            DB_WORKUNIT wu;
-            retval = wu.lookup_id(result.workunitid);
-            if (retval) {
-                log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
-                    "[HOST#%d] WU not found for [RESULT#%d]\n",
-                    reply.host.id, result.id
-                );
-                continue;
-            }
+        reply.wreq.core_client_version =
+            sreq.core_client_major_version*100 + sreq.core_client_minor_version;
 
-            reply.wreq.core_client_version =
-                sreq.core_client_major_version*100 + sreq.core_client_minor_version;
-
-            retval = get_app_version(
-                wu, app, avp, sreq, reply, platforms, ss
+        retval = get_app_version(
+            wu, app, avp, sreq, reply, platforms, ss
+        );
+        if (retval) {
+            log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
+                "[HOST#%d] no app version [RESULT#%d]\n",
+                reply.host.id, result.id
             );
+            continue;
+        }
+
+        // If time is too close to the deadline,
+        // or we already have a canonical result,
+        // or WU error flag is set,
+        // then don't bother to resend this result.
+        // Instead make it time out right away
+        // so that the transitioner does 'the right thing'.
+        //
+        if (
+            wu.error_mask ||
+            wu.canonical_resultid ||
+            possibly_give_result_new_deadline(result, wu, reply)
+        ) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
+                reply.host.id, result.id
+            );
+            result.report_deadline = time(0)-1;
+            retval = result.mark_as_sent(result.server_state);
             if (retval) {
-                log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
-                    "[HOST#%d] no app version [RESULT#%d]\n",
-                    reply.host.id, result.id
-                );
-                continue;
-            }
-
-            // If time is too close to the deadline,
-            // or we already have a canonical result,
-            // or WU error flag is set,
-            // then don't bother to resend this result.
-            // Instead make it time out right away
-            // so that the transitioner does 'the right thing'.
-            //
-            char warning_msg[256];
-            if (
-                wu.error_mask ||
-                wu.canonical_resultid ||
-                possibly_give_result_new_deadline(result, wu, reply)
-            ) {
-                result.report_deadline = time(0);
-                retval = result.mark_as_sent(result.server_state);
-                if (retval==ERR_DB_NOT_FOUND) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_CRITICAL,
-                        "[RESULT#%d] [HOST#%d]: CAN'T SEND, already sent to another host\n",
-                        result.id, reply.host.id
-                    );
-                } else if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_CRITICAL,
-                        "resend_lost_result: can't update result deadline: %d\n", retval
-                    );
-                }
-                if (retval) continue;
-
-                retval = update_wu_transition_time(wu, result.report_deadline);
-                if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_CRITICAL,
-                        "resend_lost_result: can't update WU transition time: %d\n", retval
-                    );
-                    continue;
-                }
                 log_messages.printf(
-                    SCHED_MSG_LOG::MSG_DEBUG,
-                    "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
-                    reply.host.id, result.id
+                    SCHED_MSG_LOG::MSG_CRITICAL,
+                    "resend_lost_work: can't update result deadline: %d\n", retval
                 );
-                sprintf(warning_msg, "Didn't resend lost result %s (expired)", result.name);
-                USER_MESSAGE um(warning_msg, "high");
-                reply.insert_message(um);
                 continue;
             }
 
+            retval = update_wu_transition_time(wu, result.report_deadline);
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::MSG_CRITICAL,
+                    "resend_lost_result: can't update WU transition time: %d\n", retval
+                );
+                continue;
+            }
+            sprintf(warning_msg,
+                "Didn't resend lost result %s (expired)", result.name
+            );
+            USER_MESSAGE um(warning_msg, "high");
+            reply.insert_message(um);
+        } else {
             retval = add_result_to_reply(
                 result, wu, sreq, reply, platforms, app, avp
             );
@@ -224,15 +213,9 @@ bool resend_lost_work(
         }
     }
 
-    reply.wreq.nresults_on_host = num_on_host;
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-        "[HOST#%d] %d results in progress, set for later checking\n",
-        reply.host.id, num_on_host
-    );
-
-    if (num_to_resend) {
+    if (num_eligible_to_resend) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-            "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_to_resend, num_resent 
+            "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_eligible_to_resend, num_resent 
         );
     }
 

@@ -10,7 +10,7 @@ function pm_header() {
 }
 
 function pm_create_new($error = null) {
-    page_head(tra("Private messages")." : ".tra("Create new"));
+    page_head(tra("Send private message"));
     
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
@@ -63,11 +63,13 @@ function pm_create_new($error = null) {
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo form_tokens($logged_in_user->authenticator);
     start_table();
-    echo "<tr><th>".tra("To")."<br /><span class=\"smalltext\">".tra("User IDs or unique usernames, separated with commas")."</span></th>\n";
-    echo "<td><input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>".tra("Subject")."</th><td><input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\"></td></tr>\n";
-    echo "<tr><th>".tra("Message")."<br /><span class=\"smalltext\">".html_info()."</span></th>\n";
-    echo "<td><textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea></td></tr>\n";
+    row2(tra("To")."<br /><span class=\"smalltext\">".tra("User IDs or unique usernames, separated with commas")."</span>",
+        "<input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\">"
+    );
+    row2(tra("Subject"), "<input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\">");
+    row2(tra("Message")."<span class=\"smalltext\">".html_info()."</span>",
+        "<textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea>"
+    );
     echo "<tr><td></td><td><input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
     end_table();
     
@@ -86,16 +88,24 @@ function pm_send($to, $subject, $content) {
     $send_email = false;
     if ($to_user->prefs->pm_notification) $send_email = true;
     BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
-    if ($send_email) { // Send email notification
-        $message  = "Dear ".$to->name.",\n\n";
-        $message .= "You have received a new private message at ".PROJECT." from ".$logged_in_user->name.", entitled \"".$subject."\".\n\n";
-        $message .= "To read the original version, respond to, or delete this message, you must log in here:\n";
-        $message .= URL_BASE."/pm.php\n\n";
-        $message .= "Do not reply to this message. To disable email notification, go to\n";
-        $message .= URL_BASE."/prefs.php?subset=project\n";
-        $message .= "and change email notification settings.\n";
-        
-        send_email($to, "[".PROJECT."] Private message notification", $message);
+    if ($send_email) {
+        $message  = "
+You have received a new private message at ".PROJECT.".
+
+From: $logged_in_user->name (ID $logged_in_user->id)
+Subject: $subject
+
+$content
+
+--------------------------
+To delete or respond to this message, visit:
+".URL_BASE."pm.php
+
+To disable email delivery of private messages, visit:
+".URL_BASE."edit_forum_preferences_form.php
+Do not reply to this message.
+" ;
+        send_email($to, "[".PROJECT."] private message", $message);
     }
 }
 
@@ -115,9 +125,22 @@ function pm_notification($user) {
     $output = "";
     $unread = BoincPrivateMessage::count("userid=$user->id AND opened=0");
     
-    $output .= "Private messages: <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a> ($unread unread)\n";
-    $output .= "| <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
+    $output .= "<a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>";
+    if ($unread) {
+        $output .= "<span class=\"inboxunread\"> ($unread ".tra("unread").")</span>\n";
+    }
+    $output .= " | <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
     return $output;
+}
+
+function pm_email_remind($user) {
+    if (!$user->prefs->pm_notification) {
+        return "
+            <br><span class=note>For email notification,
+            <a href=edit_forum_preferences_form.php>edit community prefs</a></span>
+        ";
+    }
+    return "";
 }
 
 $cvs_version_tracker[]="\$Id: pm.inc 14019 2007-11-01 23:04:39Z davea $";

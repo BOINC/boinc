@@ -94,7 +94,6 @@ public:
     bool exit_after_finish;
     bool check_all_logins;
     bool user_active;       // there has been recent mouse/kbd input
-    bool return_results_immediately;
     bool allow_remote_gui_rpc;
     int cmdline_gui_rpc_port;
     bool show_projects;

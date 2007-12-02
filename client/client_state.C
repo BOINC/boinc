@@ -166,6 +166,7 @@ int CLIENT_STATE::init() {
     scheduler_op->url_random = drand();
 
     detect_platforms();
+    time_stats.start();
 
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",

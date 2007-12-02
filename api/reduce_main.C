@@ -48,6 +48,8 @@ void REDUCED_ARRAY_GEN::init_data(int sx, int sy) {
     sdimy = sy;
     rdimx = sx;
     rdimy = sy;
+    if (rdimx > 256) rdimx = 256;
+    if (rdimy > 128) rdimy = 128;
     while (rdimx*rdimy > MAX_DATA) {
         if (rdimx>1) rdimx /= 2;
         if (rdimy>1) rdimy /= 2;

@@ -1,11 +1,10 @@
 <?php
 require_once("../inc/util.inc");
-require_once("../inc/userw.inc");
 require_once("../inc/db.inc");
 require_once("../inc/wap.inc");
 require_once("../inc/cache.inc");
 
-function show_credit($user) {
+function show_credit_wap($user) {
     $retstr = "<br/>User TotCred: " . format_credit($user->total_credit) . "<br/>";
     $retstr .= "User AvgCred: " . format_credit($user->expavg_credit) . "<br/>";
     return $retstr;
@@ -22,7 +21,7 @@ function show_user_wap($user) {
     // keep a 'running tab' in wapstr in case exceeds 1K WAP limit
 
     $wapstr = PROJECT . "<br/>Account Data<br/>for $user->name<br/>Time: " . wap_timestamp();
-    $wapstr .= show_credit($user);
+    $wapstr .= show_credit_wap($user);
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
         $wapstr .= "<br/>Team: $team->name<br/>";

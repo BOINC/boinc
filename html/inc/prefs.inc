@@ -773,7 +773,7 @@ function prefs_show_privacy($user) {
         $x = "<br><span class=note>Emails will be sent from ".EMAIL_FROM.";
             make sure your spam filter accepts this address.</span>";
     }
-    row2("Should ".PROJECT." send you email newsletters? $x",
+    row2("Is it OK for ".PROJECT." and your team (if any) to email you? $x",
         $user->send_email?"yes":"no"
     );
     row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");
@@ -792,7 +792,7 @@ function prefs_show_project($prefs, $columns=false) {
 }
 
 function subset_name($subset) {
-    if ($subset == "global") return "General";
+    if ($subset == "global") return "Computing";
     return PROJECT;
 }
 
@@ -1161,7 +1161,7 @@ function prefs_form_privacy($user) {
         .($user->send_email?"":"checked")
         .">
     ";
-    row2("Should ".PROJECT." send you email newsletters?", $y);
+    row2("Is it OK for ".PROJECT." and your team (if any) to email you?", $y);
 
     $y = "yes <input type=radio name=show_hosts value=yes "
         .($user->show_hosts?"checked":"")

@@ -19,9 +19,10 @@ if ($xml) {
     }
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);
-    $show_email = ($user && is_admin($user, $team));
+    $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
-    $users = BoincUser::enum("teamid=$team->id");
+    $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
+    //$users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
         show_team_member($user, $show_email);
     } 
@@ -34,22 +35,24 @@ $teamid = get_int("teamid");
 $plain = get_int("plain", true);
 $team = BoincTeam::lookup_id($teamid);
 if (!$team) error_page("no such team");
-require_admin($user, $team);
+require_founder_login($user, $team);
 
 if ($plain) {
     header("Content-type: text/plain");
 } else {
     page_head("$team->name Email List");
     start_table();
-    table_header(array("Member list of ".$team->name, "colspan=\"5\""));
+    table_header(array("Member list of ".$team->name, "colspan=\"6\""));
     table_header("Name", "Email address", "Total credit", "Recent average credit", "Country");
 }
-$users = BoincUser::enum("teamid=$team->id");
+$users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
 foreach($users as $user) {
     if ($plain) {
-        echo "$user->name <$user->email_addr>\n";
+        $e = $user->send_email?"<$user->email_addr>":"";
+        echo "$user->name $e\n";
     } else {
-        table_row(user_links($user), $user->email_addr, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
+        $e = $user->send_email?"$user->email_addr":"";
+        table_row(user_links($user), $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
     }
 } 
 if (!$plain) {
