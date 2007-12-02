@@ -65,10 +65,7 @@ TIME_STATS::TIME_STATS() {
     previous_connected_state = CONNECTED_STATE_UNINITIALIZED;
     inactive_start = 0;
     trim_stats_log();
-    time_stats_log = fopen(TIME_STATS_LOG, "a");
-    if (time_stats_log) {
-        setbuf(time_stats_log, 0);
-    }
+    time_stats_log = NULL;
 }
 
 // if log file is over a meg, discard everything older than a year
@@ -274,6 +271,13 @@ int TIME_STATS::parse(MIOFILE& in) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+void TIME_STATS::start() {
+    time_stats_log = fopen(TIME_STATS_LOG, "a");
+    if (time_stats_log) {
+        setbuf(time_stats_log, 0);
+    }
 }
 
 void TIME_STATS::quit() {

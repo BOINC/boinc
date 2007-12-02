@@ -12029,3 +12029,13 @@ Rom    2 Dec 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    2 Dec 2007
+    - CC: Move time_stats file creatio logic so that it is
+        created during gstate.init() instead of at class
+        creation time. This way time_stats.log ends up in
+        the data directory.
+        
+    client/
+        client_state.C
+        time_stats.C, .h
