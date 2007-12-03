@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-24 10:42-0000\n"
+"PO-Revision-Date: 2007-12-01 09:45-0000\n"
 "Last-Translator: David <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -224,6 +224,9 @@ msgstr "Mensajes"
 msgid "Topic"
 msgstr "Tema"
 
+msgid "Thread"
+msgstr "Hilo"
+
 msgid "Threads"
 msgstr "Hilos"
 
@@ -305,8 +308,11 @@ msgstr "Escribir"
 msgid "Forum index"
 msgstr "Índice del foro"
 
-msgid "Create new"
-msgstr "Crear nuevo"
+# ########################################
+# Private messages
+# ########################################
+msgid "Send private message"
+msgstr "Enviar mensaje privado"
 
 msgid "Preview"
 msgstr "Previsualizar"
@@ -389,11 +395,8 @@ msgstr "El usuario %1 ha sido bloqueado para que no le pueda enviar mensajes  pr
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Para desbloquearlo, visite las %1preferencias del foro%2"
 
-msgid "Sender"
-msgstr "Remitente"
-
-msgid "Date"
-msgstr "Fecha"
+msgid "Sender and date"
+msgstr "Remitente y fecha"
 
 msgid "Delete"
 msgstr "Borrar"
@@ -464,6 +467,9 @@ msgstr "Salir"
 msgid "Community"
 msgstr "Comunidad"
 
+msgid "Community preferences"
+msgstr "Preferencias de la comunidad"
+
 msgid "Create"
 msgstr "Crear"
 
@@ -476,8 +482,23 @@ msgstr "Equipos"
 msgid "Team"
 msgstr "Equipo"
 
+msgid "Member of team"
+msgstr "Miembro del equipo"
+
+# ########################################
+# Forum
+# ########################################
+msgid "%1 posts"
+msgstr "%1 mensajes"
+
 msgid "None"
 msgstr "Ninguno"
+
+msgid "Administer"
+msgstr "Administrar"
+
+msgid "Founder but not member of"
+msgstr "Fundador pero no miembro de"
 
 msgid "administrative functions"
 msgstr "funciones administrativas"
@@ -491,29 +512,26 @@ msgstr "buscar un equipo"
 msgid "Preferences"
 msgstr "Preferencias"
 
-msgid "General preferences"
-msgstr "Preferencias generales"
+msgid "Computing preferences"
+msgstr "Preferencias de cálculo computacional"
 
-msgid "specify when and how BOINC uses your computer"
-msgstr "especifique cuándo y cómo BOINC usa su ordenador"
-
-msgid "View or edit"
-msgstr "Ver o editar"
+msgid "When and how BOINC uses your computer"
+msgstr "Cuándo y cómo BOINC usa su ordenador"
 
 msgid "%1 preferences"
 msgstr "Preferencias de %1"
 
-msgid "control resource share and customize graphics"
-msgstr "controle los recursos usados y modifique los gráficos a su gusto"
+msgid "Resource share and graphics"
+msgstr "Recursos usados y gráficos"
 
 msgid "Message board preferences"
 msgstr "Preferencias del foro"
 
-msgid "configure features and appearance of message boards"
-msgstr "configure las propiedades y apariencia de los foros"
+msgid "Message boards and private messages"
+msgstr "Foros y mensajes privados"
 
-msgid "Work done"
-msgstr "Trabajo hecho"
+msgid "Computing and credit"
+msgstr "Trabajo  computacional y crédito"
 
 msgid "%1 member since"
 msgstr "miembro de %1 desde"

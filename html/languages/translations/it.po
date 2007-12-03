@@ -2,309 +2,766 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-09-07 11:15+0100\n"
-"Last-Translator: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Andrea Savioli <alieni@jhonnyellen.it>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
 
-# ########################################
-# Language: Italian
+##########################################
+# Language: Italian (International)
 # FileID  : $Id$
-# Author: Massimo Saiani
-# Email: saiani@itc.it
-# ########################################
+##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-# ########################################
+##########################################
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
-
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Italiano"
-
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Italian"
 
-#########################################
-# Apps page (apps.php)
-#########################################
-msgid "APPS_TITLE"
-msgstr "Applicazioni"
+########################################
+# poll-related stuff
+########################################
 
-msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT attualmente ha le seguenti applicazioni. Quando partecipi a $PROJECT, del lavoro da una o più di queste applicazioni verrà assegnato al tuo computer. La versione corrente dell'applicazione verrà scaricata sul tuo computer. Questo avviene automaticamente; tu non devi fare nulla."
+msgid "POLL_TITLE"
+msgstr "Questionario BOINC"
 
-msgid "APPS_PLATFORM"
-msgstr "Piattaforma"
+msgid "POLL_INTRO"
+msgstr "Diversi progetti basati sul calcolo volontario, "
+"incluso Climateprediction.net, Einstein@home, "
+"e SETI@home, usano un programma chiamato BOINC. "
+"Se vuoi partecipare ad un progetto come questi, "
+"ti chiediamo, per cortesia, di rispondere alle domande del seguente questionario. "
+"Questo aiuterà i progetti che utilizzano il BOINC-based ad aumentare "
+"la participazione ed a realizzare un grande risultato scientifico. "
+"<p> "
+"Rispondi pure alle domande che vuoi, "
+"quindi vai in fondo e clicca su OK. "
+"Se per caso hai già compilato il questionario ma nel frattempo le risposte alle domande sono cambiate, "
+"ricompilalo di nuovo - "
+"le vecchie risposte verranno rimpiazzate dalle nuove. "
+"<p> "
+"Il risultato corrente del questionario è "
+"<a href=poll_results.php>here</a>. "
 
-msgid "APPS_VERSION"
-msgstr "Versione corrente"
+msgid "POLL_RUN"
+msgstr "Utilizzi il BOINC?"
 
-msgid "APPS_INSTALLTIME"
-msgstr "Installato"
+msgid "POLL_PARTICIPATION"
+msgstr "La tua partecipazione"
 
-#########################################
-# Rules and Policies page (info.php)
-#########################################
-msgid "RULES_TITLE"
-msgstr "Regole ed comportamenti"
+msgid "POLL_COMPUTERS"
+msgstr "Il tuo computer"
 
-msgid "RULES_ONLY_AUTH"
-msgstr "Avvia $PROJECT solo su computer autorizzati"
+msgid "POLL_YOU"
+msgstr "Tu"
 
-msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Avvia $PROJECT solo su computers di cui sei il proprietario, o per i quali hai ottenuto il permesso dal proprietario. Alcune compagnie e scuole hanno regole che proibiscono di usare i loro computers per progetti come $PROJECT"
+msgid "POLL_NATIONALITY"
+msgstr "Nazionalità"
 
-msgid "RULES_COMPUTER_USE"
-msgstr "Come $PROJECT userà il tuo computer"
+msgid "POLL_COMMENTS"
+msgstr "Commenti"
 
-msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Quando avvii $PROJECT sul tuo computer, userà una parte della potenza della CPU, dello spazio su disco e del traffico internet del tuo computer. Puoi controllare quante risorse sono usate da $PROJECT, e quando le usa."
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "Suggerimenti per migliorare il BOINC e i progetti che lo utilizzano:"
 
-msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "Il lavoro svolto dal tuo computer contribuisce al raggiungimento degli obiettivi del $PROJECT, come descritto nel suo sito web. I programmi possono cambiare da un periodo all'altro."
+msgid "POLL_OTHER"
+msgstr "Altro:"
 
-msgid "RULES_PRIVACY"
-msgstr "Regole sulla privacy"
+msgid "POLL_CHECK_ALL"
+msgstr "[controllare che tutto sia stato inserito]"
 
-msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Il tuo account sul $PROJECT è identificato da un nome che tu scegli. Questo nome può essere visualizzato sul sito web del $PROJECT, assieme ad un sommario del lavoro che il tuo computer ha compiuto per il  $PROJECT. Se vuoi rimanere anonimo, scegli un nome che non riveli la tua reale identità."
+msgid "POLL_DONE"
+msgstr "Cliccare quando pronti:"
 
-msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Se partecipi nel $PROJECT, informazioni riguardo al tuo computer (come il tipo di processore, l'ammontare della memoria etc.) sarà registrato dal $PROJECT ed usate per decidere quale tipo di lavoro assegnare al tuo computer. Queste informazioni saranno anche visualizzate sul sito web del $PROJECT. Nulla che riveli la locazione del tuo computer (ad esempio il nome del dominio o l'indirizzo IP) sarà visualizzato."
+msgid "POLL_CURRENT"
+msgstr "Sì - io utilizzo il BOINC sul mio computer da..."
 
-msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Per partecipare nel $PROJECT, devi prima indicare un indirizzo e-mail dove poter essere contattato. Questo indirizzo non sarà mostrato nel sito web $PROJECT o condiviso con altre organizzazioni. $PROJECT potrà inviarti delle newsletter periodiche; tuttavia puoi scegliere di non riceverle più in qualsiasi momento."
+msgid "POLL_TWEEK"
+msgstr "meno di una settimana"
 
-msgid "RULES_SAFE"
-msgstr "E'sicuro avviare $PROJECT ?"
+msgid "POLL_TMONTH"
+msgstr "meno di un mese"
 
-msgid "RULES_SAFE_TEXT_A"
-msgstr "Ogni volta che scarichi un programma attraverso internet c'è una possibiltà: il programma potrebbe avere pericolosi errori o il server da dove lo scarichi potrebbe essere stato violato. $PROJECT ha fatto degli sforzi per minimizzare questi rischi. Abbiamo testato la nostra applicazione in maniera intensiva. I nostri server sono coperti da un firewall e sono configurati per avere un'alta sicurezza. Per assicurare l'integrità del scaricamento dei programmi, tutti i files eseguibili sono firmati digitalmente su un computer sicuro, non connesso ad internet."
+msgid "POLL_TYEAR"
+msgstr "meno di un anno"
 
-msgid "RULES_SAFE_TEXT_B"
-msgstr "Le applicazioni avviate da $PROJECT potrebbe causare il sovrariscaldamento di alcuni computer. Se questo accate, ferma $PROJECT oppure usa una %s che limiti l'uso della CPU."
+msgid "POLL_TMOREYEAR"
+msgstr "più di un anno"
 
-msgid "RULES_UTILITY_PROGRAM"
-msgstr "Programma di utilità"
+msgid "POLL_LAPSED"
+msgstr "No - lo utilizzavo ma ho smesso perché..."
 
-msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT è stato sviluppato da %s. BOINC è stato sviluppato all'Università della California."
+msgid "POLL_LINTEREST"
+msgstr "ho perso interesse"
 
-msgid "RULES_LIABILITY"
-msgstr "Responsabilità"
+msgid "POLL_LCOMPLICATED"
+msgstr "era troppo complicato"
 
-msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT e %s non si assumono responsabilità per danni al computer, perdita di dati o qualsiasi altro evento o condizione che potrebbe accadare come risultato della partecipazione al $PROJECT."
+msgid "POLL_LSTOPPED"
+msgstr "l'avevo fermato e poi mi sono dimenticato di farlo ripartire"
 
-msgid "RULES_OTHER"
-msgstr "Altri progetti BOINC"
+msgid "POLL_LPROBLEMS"
+msgstr "causava problemi al mio computer"
 
-msgid "RULES_OTHER_TEXT_A"
-msgstr "Altri progetti usano la stessa piattaforma, BOINC, come $PROJECT. Potresti considerare l'opportunità di partecipare in uno più di questi altri progetti. Facendo questo, il tuo computer svolgerà un lavoro utile anche quando $PROJECT non ha lavoro disponibile per lui."
+msgid "POLL_LPOWER"
+msgstr "mi consumava troppa corrente"
 
-msgid "RULES_OTHER_TEXT_B"
-msgstr "Questi altri progetti non sono associati con $PROJECT, e noi non possiamo garantire per le loro pratiche di sicurezza o la natura delle loro ricerche. Usali a tuo stesso rischio."
+msgid "POLL_LNONBOINC"
+msgstr "ho optato per un progetto che non utilizza il BOINC"
 
-#########################################
-# Create account form (create_account_form.php)
-#########################################
-msgid "CREATE_AC_TITLE"
-msgstr "Crea un account"
+msgid "POLL_FAILED"
+msgstr "No - ho provato ad utilizzarlo, ma..."
 
-msgid "CREATE_AC_READ_RULES"
-msgstr "Leggi le %s prima di creare un account."
+msgid "POLL_FINSTALL"
+msgstr "il programma non si installava correttamente"
 
-msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Se hai già ricevuto una chiave per il tuo account, non inviare questo modulo. Invece, %s ."
+msgid "POLL_FFIGURE"
+msgstr "non riesco proprio ad utilizzarlo"
 
-msgid "CREATE_AC_NAME"
-msgstr "Nome"
+msgid "POLL_FNETWORK"
+msgstr "ho avuto dei problemi di comunicazione alla rete"
 
-msgid "CREATE_AC_NAME_DESC"
-msgstr "Ti identifica sul nostro sito web. Usa il tuo nome reale o un soprannome."
+msgid "POLL_FATTACH"
+msgstr "non riuscivo ad attaccarmi a nessun progetto"
 
-msgid "CREATE_AC_EMAIL"
-msgstr "Indirizzo e-mail"
+msgid "POLL_FWORK"
+msgstr "mi sono attaccato ad un progetto ma non ho ricevuto alcun lavoro"
 
-msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Deve essere un indirizzo valido, del tipo 'nome@dominio'."
+msgid "POLL_NEVER"
+msgstr "No - non ho mai provato ad utilizzare il BOINC perché..."
 
-msgid "CREATE_AC_COUNTRY"
-msgstr "Paese"
+msgid "POLL_NSECURITY"
+msgstr "non ne sono sicuro riguardo alla sicurezza"
 
-msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Seleziona il paese che vuoi rappresentare, se vuoi."
+msgid "POLL_NPROJECT"
+msgstr "non sono interessato ad alcun progetto"
 
-msgid "CREATE_AC_ZIP"
-msgstr "Codice Postale"
+msgid "POLL_NPERMISSION"
+msgstr "non ho i permessi per poterlo utilizzare sul mio computer"
 
-msgid "CREATE_AC_CREATE"
-msgstr "Crea account"
+msgid "POLL_NVERSION"
+msgstr "non c'è una versione idonea al mio computer"
 
-msgid "CREATE_AC_DISABLED"
-msgstr "La creazione di account è disabilitata."
+msgid "POLL_KIND"
+msgstr "Che tipo di computer devo avere per utilizzare il BOINC?"
 
-msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "La creazione di account è temporaneamente disabilitata per $PROJECT . Per cortesia prova in seguito."
+msgid "POLL_WHERE"
+msgstr "Dove sono loro?"
 
-msgid "CREATE_AC_TEAM"
-msgstr "Questo account apparterrà al gruppo %s e avrà le personalizzazioni del suo fondatore."
+msgid "POLL_HOME"
+msgstr "Casa"
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "Account creato."
+msgid "POLL_WORK"
+msgstr "Lavoro"
 
-msgid "AC_READY_WELCOME"
-msgstr "Congratulazioni - il tuo account $PROJECT è stato creato!"
+msgid "POLL_SCHOOL"
+msgstr "Scuola"
 
-msgid "AC_READY_PASTE"
-msgstr "Per continuare, incolla la chiave del tuo account qui:"
+msgid "POLL_HOW_MANY"
+msgstr "Quanti computer?"
 
-msgid "AC_READY_CLICK"
-msgstr "e clicca"
+msgid "POLL_TURNED_ON"
+msgstr "In media, per quante ore al giorno sono in funzione?"
 
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "Impostazioni dell'account"
+msgid "POLL_AGE"
+msgstr "Età"
 
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT utilizza il programma BOINC."
+msgid "POLL_SEX"
+msgstr "Sesso"
 
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC ti permette di dividere il tempo di lavoro del tuo computer tra diversi progetti di calcolo distribuito."
+msgid "POLL_MALE"
+msgstr "Uomo"
 
-msgid "AC_SETUP_ISFIRST"
-msgstr "E' questo il tuo primo progetto BOINC?"
+msgid "POLL_FEMALE"
+msgstr "Donna"
 
-msgid "AC_SETUP_FIRST"
-msgstr "Si - questo è il mio primo progetto BOINC "
+msgid "POLL_EXPERTISE"
+msgstr "Nell'uso del computer, ti ritieni"
 
-msgid "AC_SETUP_NONFIRST"
-msgstr "No - Sto già partecipando ad almeno un altro progetto BOINC "
+msgid "POLL_LEVB"
+msgstr "Principiante"
 
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "Personalizza account"
+msgid "POLL_LEVI"
+msgstr "Normale"
 
-msgid "AC_FIRST_CONTROL"
-msgstr "Puoi controllare quando e come il tuo computer è usato da $PROJECT"
+msgid "POLL_LEVA"
+msgstr "Esperto"
 
-msgid "AC_FIRST_DEFAULT"
-msgstr "Per usare le impostazioni standard, scendi verso la fine della pagina e clicca su OK."
+msgid "POLL_LEARN_WHERE"
+msgstr "Come sei venuto a conoscenza del BOINC e dei relativi progetti?"
 
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "Impostazione account: completata"
+msgid "POLL_WTV"
+msgstr "TV/radio/giornali"
 
-msgid "AC_DONE_COMPLETE"
-msgstr "L'impostazione del tuo account è completata."
+msgid "POLL_WPERS"
+msgstr "Da amici, parenti, colleghi"
 
-msgid "AC_DONE_BOINC"
-msgstr "Il prossimo passaggio è scaricare ed installare il programma BOINC e dire al tuo computer di usare questo account."
+msgid "POLL_WTEAM"
+msgstr "Blog, forum o siti web specifici"
 
-msgid "AC_DONE_URL"
-msgstr "Quando il software BOINC viene eseguito per la prima volta, ti chiederà un <b>URL del progetto</b> e la <b>chiave del tuo account</b>."
+msgid "POLL_WBOINC"
+msgstr "Dal sito web del BOINC"
 
-msgid "AC_DONE_COPYPASTE"
-msgstr "Copiali e incollali da qui:"
+msgid "POLL_WWEB"
+msgstr "altri siti web"
 
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Ora puoi %s per completare l'installazione di $PROJECT."
+msgid "POLL_FACTOR"
+msgstr "Qual è il fattore decisivo che ti ha fatto decidere di partecipare ad un progetto che utilizza il BOINC?"
 
-msgid "AC_DONE_DL_BOINC"
-msgstr "scarica il programma BOINC"
+msgid "POLL_GRAPHICS"
+msgstr "Una buona interfaccia grafica del programma"
 
-msgid "AC_DONE_THANKS"
-msgstr "Grazie per la tua partecipazione in $PROJECT"
+msgid "POLL_CREDIT_FAIR"
+msgstr "Una giusta e veloce assegnazione del credito per il lavoro svolto"
 
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "Impostazione dell'account: condivisione risorse"
+msgid "POLL_CREDIT_MORE"
+msgstr "Si ottengono molti più crediti rispetto ad altri progetti"
 
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "Ora devi dire al tuo computer di usare questo account."
+msgid "POLL_MB_FRIENDLY"
+msgstr "Lista dei messaggi completa e amichevole"
 
-msgid "AC_DONE_WIN"
-msgstr "Utenti Windows:"
+msgid "POLL_MB_STAFF"
+msgstr "Partecipazione dei responsabili alla lista dei messaggi"
 
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Apri la finestra dell'applicazione BOINC cliccando due volte sull'icona BOINC presente nella barra di sistema. Scegli 'Legati al Progetto' nel menu Progetti. Ti chiederà un URL del progetto e la chiave del tuo account."
+msgid "POLL_WEB_SITE"
+msgstr "Presenza di un sito web del progetto"
 
-msgid "AC_DONE_UNIX"
-msgstr "Utenti Mac, Unix e Linux:"
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "La scienza è una cosa importante ed opera per il bene collettivo"
 
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Esci dal programma BOINC. Avvia poi il programma BOINC con l'opzione -attach_project. Ti chiederà quindi un URL del progetto e la chiave del tuo account."
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "Progetto senza scopo di lucro e i risultati sono pubblici"
 
-msgid "AC_DONE_ANYCASE"
-msgstr "In ogni caso, copia ed incolla le seguenti informazioni:"
+msgid "POLL_RECOGNIZE"
+msgstr "Soddisfazione personale nel caso in cuo il proprio computer dovesse trovare qualcosa"
 
-msgid "AC_DONE_INSTALLED"
-msgstr "Questo completa l'installazione di $PROJECT."
+msgid "POLL_PUBLISH"
+msgstr "Pubblicazione del progetto in giornali scientifici"
 
-#########################################
-# Forum sample index page
-#########################################
-msgid "FORUM_TITLE"
-msgstr "Bacheca Messaggi $PROJECT "
+msgid "POLL_EMAIL"
+msgstr "Un'attiva newsletter del progetto"
 
-#########################################
-# Different strange places:
-#########################################
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "Configura il tuo account"
+msgid "POLL_NPROJECTS"
+msgstr "A quanti progetti che utizzano il BOINC stai partecipando?"
 
-#########################################
-# General stuff (create_account_form.php and others)
-#########################################
-msgid "OPTIONAL"
-msgstr "Opzionale"
+msgid "POLL_SSAVER"
+msgstr "Utilizzi il BOINC come screensaver?"
 
-#########################################
-# Various top table pages (top users, computers, teams)
-#########################################
-msgid "TOP_PARTICIPANT_TITLE"
-msgstr "Migliori partecipanti"
+msgid "POLL_YES"
+msgstr "Sì"
 
-msgid "USER_TABLE_RANK"
-msgstr "Posizione"
+msgid "POLL_NO"
+msgstr "No"
 
-msgid "USER_TABLE_NAME"
-msgstr "Nome"
+msgid "POLL_MBOARDS"
+msgstr "Il tuo utilizzo della lista dei messaggi:"
 
-msgid "USER_TABLE_TOTAL_CREDIT"
-msgstr "Credito totale"
+msgid "POLL_MBR"
+msgstr "per ottenere informazioni"
 
-msgid "USER_TABLE_EXPAVG"
-msgstr "Credito medio recente"
+msgid "POLL_MBRW"
+msgstr "per ottenere e postare informazioni"
 
-msgid "USER_TABLE_COUNTRY"
-msgstr "Paese"
+msgid "POLL_NONE"
+msgstr "Nessuno"
 
-msgid "USER_TABLE_PTIME"
-msgstr "Partecipante dal"
+msgid "POLL_HELP"
+msgstr "Dove recuperi le informazioni per risolvere i problemi che incontri con il BOINC o con i relativi progetti?"
 
-msgid "TOP_TEAMS_TITLE"
-msgstr "Migliori %s squadre"
+msgid "POLL_HELP_PMB"
+msgstr "Tramite la lista dei messaggi del progetto"
 
+msgid "POLL_HELP_BMB"
+msgstr "Tramite la lista dei messaggi del BOINC"
+
+msgid "POLL_HELP_BDOC"
+msgstr "Dal sito web del BOINC"
+
+msgid "POLL_HELP_BMLIST"
+msgstr "Dalla mailing list delBOINC"
+
+msgid "POLL_HELP_WIKI"
+msgstr "Dal wiki non ufficiale del BOINC"
+
+msgid "POLL_HELP_TEAM"
+msgstr "Da siti web specifici"
+
+msgid "POLL_HELP_GOOGLE"
+msgstr "Da Google o altri motori di ricerca"
+
+msgid "POLL_ERROR_TITLE"
+msgstr "Errorw - risultati non registrati"
+
+msgid "POLL_ERROR_TEXT"
+msgstr "Un errore interno ha impedito la registrazione delle risposte all questionario. Per favore riprovare più tardi."
+
+msgid "POLL_RECORDED"
+msgstr "Risposte registrate correttamente."
+
+msgid "POLL_THANKS"
+msgstr "Grazie per aver risposto alle domande del questionario del BOINC."
+
+msgid "POLL_RESULTS_TITLE"
+msgstr "Risultati al questionario"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "Questi sono i risultati correnti del <a href=poll.php>questionario del BOINC</a>.  Questa pagina viene aggiornata ogni ora."
+
+
+########################################
+# download.php 2006/08/03 by je2bwm
+########################################
+
+msgid "DL_DOWNLOAD"
+msgstr "Scaricati il BOINC"
+
+msgid "DL_VERSION_LNAME_SIZE"
+msgstr "%s per %s (%s MB)"
+
+
+msgid "DL_WHATS_BOINC"
+msgstr " Il BOINC è un programma che ti permette di donare"
+"        i tempi morti del tuo computer a progetti scientifici come"
+"        SETI@home, Climateprediction.net, Rosetta@home,"
+"        World Community Grid, e molti altri."
+"        <p>"
+"        Dopo aver installato il BOINC sul tuo computer,"
+"        potrai connetterlo ai tuoi progetti preferiti."
+"        <p>"
+
+msgid "DL_SYSTEMREQ"
+msgstr "Requisiti di sistema"
+
+msgid "DL_RELNOTES"
+msgstr "Note di rilascio"
+
+msgid "DL_TROUBLE"
+msgstr "Analisi dei guasti"
+
+msgid "DL_OTHERSYS"
+msgstr "Altri sistemi"
+
+msgid "DL_ALLVERSIONS"
+msgstr "Tutte le versioni"
+
+msgid "DL_IF_OTHERTYPES"
+msgstr "Se il tuo computer non è tra quelli elencati, puoi"
+
+msgid "DL_MAKEYOUROWN"
+msgstr "%s fare il tuo programma personale %s o"
+
+msgid "DL_DL_FROM3RDP"
+msgstr "%s scaricare l'esecutibile da un terzo sito %s"
+    " (per Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD ed altri)."
+
+msgid "DL_DOWNLOAD_TITLE"
+msgstr "BOINC: calcolo per la scienza"
+
+msgid "DL_MIRRORS"
+msgstr "Nota: i file vengono scaricati dai server "
+    "di boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, "
+    "einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu e einstein.aset.psu.edu "
+    "(un grazie a queste istituzioni). "
+    "Il server viene scelto casualmente - "
+    "se un download dovesse fallire, ricaricate la pagina (basta cliccare sul tasto aggiorna del browser web) e riprovate a scaricare. "
+
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+##############################################
+msgid "SRQ_PAGE_TITLE"
+msgstr "Requisiti di sistema"
+
+msgid "SRQ_INTRO"
+msgstr "Il tuo computer deve soddisfare i seguenti requisiti per far funzionare il BOINC."
+    "Alcuni progetti che utilizzano il BOINC possono richiedere ulteriori requisiti."
+
+msgid "SRQ_MSWIN"
+msgstr "Windows"
+
+msgid "SRQ_OS"
+msgstr "Sistema operativo"
+
+msgid "SRQ_MSWIN_REQ_OS"
+msgstr "Windows 98 o successivi"
+
+msgid "SRQ_MIN_HARDWARE"
+msgstr "Hardware minimo"
+
+msgid "SRQ_MSWIN_REQ_CPU"
+msgstr "Pentium 233 MHz (Raccomandato: Pentium 500 MHz o superiore)"
+
+msgid "SRQ_MSWIN_REQ_RAM"
+msgstr "64 MB RAM (Reccomandato: 128 MB RAM o superiore)"
+
+msgid "SRQ_MSWIN_REQ_DISK"
+msgstr "20 MB di spazio sul disco fisso"
+
+msgid "SRQ_APPLMAC"
+msgstr "Macintosh"
+
+msgid "SRQ_APPLMAC_REQ_OS"
+msgstr "Mac OS X 10.3 o successivi"
+
+msgid "SRQ_APPLMAC_REQ_CPU"
+msgstr "Macintosh con  processori Intel x86 o PowerPC G3, G4, o G5"
+
+msgid "SRQ_APPLMAC_REQ_RAM"
+msgstr "128 MB RAM (Reccomandato: 256 MB RAM o superiore)"
+
+msgid "SRQ_APPLMAC_REQ_DISK"
+msgstr "200 MB di spazio sul disco fisso"
+
+msgid "SRQ_LINUX"
+msgstr "Linux"
+
+msgid "SRQ_LINUX_REQ_KERNEL"
+msgstr "Linux kernel 2.2.14 o superiore"
+
+msgid "SRQ_LINUX_REQ_GLIBC"
+msgstr "glibc 2.3.2 o successivi"
+
+msgid "SRQ_LINUX_REQ_XFREE86"
+msgstr "XFree86-3.3.6 o successivi"
+
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+msgstr "gtk+2.0 o successivi"
+
+msgid "SRQ_LINUX_REQ_CPU"
+msgstr "Pentium 500 MHz o superiore"
+
+msgid "SRQ_LINUX_REQ_RAM"
+msgstr "64 MB RAM"
+
+msgid "SRQ_LINUX_REQ_DISK"
+msgstr "50 MB di spazio sul disco fisso"
+
+##############################################
+# release_notes.php
+##############################################
+msgid "RLN_PAGE_TITLE"
+msgstr "Note di rilascio"
+
+msgid "RLN_WHATS_NEW"
+msgstr "Novità in %s"
+
+msgid "RLN_INSTALLING"
+msgstr "Installazione"
+
+msgid "RLN_UNINSTALLING"
+msgstr "Disinstallazione"
+
+msgid "RLN_KNOWN_ISSUES"
+msgstr "Problemi noti"
+
+msgid "RLN_WIN_INSTALL_PROBLEMS"
+msgstr "(Windows) In casi rari, l'installazione può fallire poiché "
+    "è presente una vecchia versione del BOINC.  In questo caso: "
+    "%s Uscite dal BOINC se è attivo e disinstallate la vecchia versione "
+    "usando %s Start/Pannello di controllo/aggiungi e rimuovi programmi%s. "
+    "Quindi installare la nuova versione. "
+    "%s Se anche in questo caso dovesse fallire, reinstallate la versione "
+    "che avevate prima "
+    "(potete trovarla %squi%s). "
+    "Disinstallatela di nuovo e quindi installate la nuova versione. "
+    "%s Se dovesse fallire ancora, scaricatevi il %sWindows Install Clean Up%s "
+    "dalla Microsoft e avviatelo. "
+    "La vecchia versione del boinc vi mostrerà un BOINC.msi o una cosa come "
+    "un icona corrotta .msi (questa è la massima opzione). "
+    "Cliccateci sopra e selezionatela, quindi cliccate Rimuovi ed Esci. "
+    "Riavviate il computer. "
+    "Ora potete installare la nuova versione. "
+    "(Attenzione: lasciate stare tutti gli altri file .msi che ci sono, "
+     "altrimenti potreste causare seri problemi relativi alla disinstallazione degli altri programmi). "
+    "%s "
+
+msgid "RLN_TROUBLESHOOT"
+msgstr "Analisi dei guasti al BOINC"
+
+msgid "RLN_NEWF_5_4_AM"
+msgstr "Supporto per la gestione dell'account (Account managers) - siti web che mostrano "
+    "i progetti BOINC, attacco/distacco, cambiamento delle risorse e delle preferenze, "
+    "tutto con una semplice interfaccia grafica punta e clicca. "
+    "La gestione degli account è oltremodo molto semplice anche se si posseggono diversi computer - "
+    "basta un solo ed unico cambiamento."
+
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+msgstr "Le preferenze generali vengono memorizzate in un file locale; "
+    "maggiori dettagli %s qui %s."
+
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+msgstr "Ora il BOINC ti avverte quando è necessario connettersi."
+
+msgid "RLN_5_8_SIMPLE_GUI"
+msgstr "Il BOINC Manager offre due differenti interfacce: "
+    " 'Semplice' (piccola, grafica, mostrinabile) "
+    " e 'Avanzata' (massima informazione). "
+    " L'interfaccia semplice concede l'impostazione locale delle preferenze. "
+    " Puoi cambiare a piacimento tra Semplice ed Avanzato. "
+msgid "RLN_5_8_THROTTLE"
+msgstr " impiccamento della CPU: puoi ridurre il picco della CPU limitando "
+    " la frazione di tempo che il Boinc utilizza. "
+msgid "RLN_5_8_SCHED"
+msgstr " Con le migliorate politiche di programmazione si evitano di superare "
+    " le scadenze anche su computer lenti. "
+msgid "RLN_5_8_MEM"
+msgstr " Puoi limitare l'ammontare di memoria ustata dal BOINC; "
+    " questo permette al tuo computer di continuare il calcolo senza perderci in prestazione. "
+msgid "RLN_5_8_SANDBOX"
+msgstr " Con il Mac OS X sono possibili le applicazioni anche con account senza privilegi, "
+    " incremento di sicurezza. "
+msgid "RLN_5_8_SNOOZE"
+msgstr " L'icona Snooze (nel pannello delle applicazioni di sistema) ti permette "
+    " di fermare il calcolo per un ora. "
+
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgstr "Raccomandiamo a tutti gli utenti l'aggiornamento a %s."
+
+msgid "RLN_LINK2_VERSION_HISTORY"
+msgstr "Una dettagliata cronologia delle versioni la trovate qui %squi%s."
+
+msgid "RLN_MSWIN"
+msgstr "Windows"
+
+msgid "RLN_APPLMAC"
+msgstr "Macintosh"
+
+msgid "RLN_LINUX"
+msgstr "Linux"
+
+msgid "RLN_MSWIN_INSTALL_MODES"
+msgstr "Il BOINC può essere installato in diverse modalità:"
+
+msgid "RLN_SINGLE_USER_INSTALL"
+msgstr "Installazione per singolo utente"
+
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+msgstr "Questa è la modalità raccomandata. "
+    "Il BOINC verrà avviato ogni qualvolta l'utente 'installante' accederà al computer. "
+    "La presenza del BOINC nel menu Start è limitata all'utente 'installante', non agli altri utenti. "
+    "Lo stesso vale per il comando 'mostra il grafico' "
+    " e per il salva schermo "
+    "(anche gli altri utenti possono avviare il salva schermo, ma vedranno  "
+    "solamente informazioni testuali)."
+
+msgid "RLN_SHARED_INSTALL"
+msgstr "Installazione condivisa"
+
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+msgstr "Il BOINC si avvia indiferrentemente dall'utente attivo. "
+    "La presenza del BOINC nel menu Start è visibile a tutti gli utenti. "
+    "Il BOINC si avvia con un particolare utente "
+    "(in pratica, con il primo utente che accede al computer il BOINC si avvia come quel utente). "
+    "Il comando 'mostra il grafico' funzionerà solo per quel utente. "
+    "Lo stesso vale per il salvaschermo "
+    "(gli altri utenti lo possono avviare, ma vedranno  "
+    "solamente informazioni testuali)."
+
+msgid "RLN_WIN_SERVICE_INSTALL"
+msgstr "Servizio d'installazione"
+
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+msgstr "Il BOINC si avvia tutte le volte (escluso quando nessun utente è attivo). "
+    "Il BOINC appare nel menu Start dell'utente che cura l'installazione "
+    "ma non agli altri utenti.  "
+    "Il comando 'mostra il grafico' "
+    "non comparirà a nessun utente. "
+    "Il salva schermo mostrerà solo le informazioni testuali."
+
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+msgstr "Il BOINC per Linux è distribuito in archivio autoestraente. "
+    "Questo tipo di installazione richiede familiarità con i sistemi Unix. "
+    "Comunque è sempre meglio verificarne la disponibilità nella propria distro, "
+    " ad esempio Debian Etch nei suoi archivi ha il BOINC 5.4.11"
+msgid "RLN_LINUX_DL_FILENAME"
+msgstr "Il file che si andrà a scaricare avrà un nome tipo <code>%s</code>."
+
+msgid "RLN_LINUX_RUN_SEA"
+msgstr "Dopo aver scaricato il file, type<pre>%s</pre>"
+
+msgid "RLN_LINUX_RESULTOF_SEA"
+msgstr "Questo creerà la directory BOINC/ con i seguenti file:"
+
+msgid "RLN_BOINC_CORE_CL"
+msgstr "Il BOINC core client"
+
+msgid "RLN_BOINC_MANAGER"
+msgstr "Il BOINC manager"
+
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+msgstr "Uno script che porta nella directory del BOINC e avvia il client - la parte che gestisce il calcolo vero e proprio."
+
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+msgstr "Uno script che porta nella directory del BOINC ed avvia il manager - la parte che si occupa 'dell'amministrazione'."
+
+msgid "RLN_LINUX_AUTOSTART"
+msgstr "Molto probabilmente vorrai%s avviare automaticamente il client %sall'avvio del sistema."
+
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+msgstr "Seleziona Start/Pannello di Controllo/Aggiungi e Rimuoni Programmi. "
+    "Seleziona BOINC, quindi clicca Cancella. "
+    "Questo cancella solo il programma del BOINC. "
+    "Per rimuovere completamente il BOINC, bisogna cancellare anche la directory che contiene di dati "
+    "(normalmente C:/Programmi/BOINC). "
+
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+msgstr "If you use a proxy server, please hold off upgrading for now. "
+    "Per i lavori utilizziamo l'autenticazione NTLM."
+
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+msgstr "(Windows) Se le applicazioni del BOINC continuano a crashare, "
+    "è possibile che tu bedda "
+    "%saggiornare la tua versione di DirectX (9.0c o sucessivi) %s."
+
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+msgstr "(Windows) Se il BOINC è in funzione insieme aun un salva schermo tridimensionale si Windows XP, "
+    "il sistema potrebbe diventare pigro ed insensibile."
+
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+msgstr "(Windows) Le applicazioni sviluppate prima dell'ottobre 2004 "
+    "non mostrano il salva schermo in modalità grafica sia come singolo utente, "
+    "servizio d'installazione, "
+    "macchina condivisa "
+    "se il salva schermo è protetto da password sui sistemi NT."
+
+msgid "RLN_TROUBLESHOOT_INTRO"
+msgstr "Se hai dei problemi con il BOINC, qui ci sono alcuni punti che puoi seguire:"
+
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+msgstr "Se hai un problema con un particolare progetto, "
+    "vai alle faq sul sito web del relativo progetto. "
+    "Dovresti trovare la soluzione al tuo problema. "
+    "Se non lo trovi, posta qui, qualche altro utente potrebbe aiutarti. "
+    "Se il problema persiste, "
+    "usa il BOINC Manager e 'resetta' il relativo progetto. "
+    "Questo eliminerà i lavori in progresso tirandoti fuori dal problema. "
+
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+msgstr "se invece hai dei problemi proprio con il BOINC, "
+    "cerca aiuto dalla nostra %s lista dei messaggi %s."
+
+##############################################
+# help.php
+##############################################
+msgid "HELP_TITLE"
+msgstr "Ricevere aiuto con il BOINC"
+
+msgid "HELP_HEADING1"
+msgstr "Aiuto online"
+
+msgid "HELP_P1_1"
+msgstr "L'aiuto online ti permette di parlare a quattr'occhi "
+    "con un utente esperto, che può: "
+    "%s risponderti a domande relative al BOINC ed al calcolo volontario; "
+    "%s parlarti dei processi di installazione ed utilizzo del BOINC; "
+    "%s analizzare guasti e problemi vari che potresti ritrovarti. "
+
+msgid "HELP_P1_2"
+msgstr "L'aiuto online si basa su "
+    "%sSkype%s, "
+    "un sistema telefonico che utilizza internet. "
+    "Skype è libero (sia il programma che le chiamate). "
+    "Se non hai ancora, per farvore "
+    "%sscaricatelo e installalo subito%s. "
+    "Quando hai finito, ritorna a questa pagina. "
+
+msgid "HELP_P1_3"
+msgstr "Il miglior modo per ricevere aiuto è con la voce, "
+    "per questo hai bisogno di un microfono e delle cuffie "
+    "o una roba simile. "
+    "Puoi inoltre usare Skype come una chat "
+    "o con regolari email (se non hai Skype) "
+    "per comunicare con i salvavolontari."
+
+msgid "HELP_P1_4"
+msgstr "I salvavolontari parlano diverse lingue. "
+    "Scegli quella che più ti aggrada: "
+
+msgid "HELP_HEADING2"
+msgstr "Altre risorse d'aiuto"
+
+msgid "HELP_P2_ITEM1"
+msgstr "Avviare il BOINC "
+
+msgid "HELP_P2_ITEM2"
+msgstr "Analisi dei guasti del BOINC "
+
+msgid "HELP_P2_ITEM3"
+msgstr "Relativo al sito web del BOINC "
+
+msgid "HELP_P2_ITEM4"
+msgstr "La lista dei messaggi del BOINC "
+
+msgid "HELP_P2_ITEM5"
+msgstr "La lista dei messaggi dei vari progetti che utilizzano il BOINC "
+
+msgid "HELP_HEADING3"
+msgstr "Diventa un salvavolontario"
+
+msgid "HELP_P3_1"
+msgstr "Se hai una certa esperienza del BOINC, ti incoraggiamo a "
+    "%sdiventare un salvavolontario%s. "
+    "E' una buona strada per aiutare la causa della ricerca scientifica "
+    "e del calcolo volonario - "
+    "ed è divertente!  "
+
+msgid "HELP_P3_2"
+msgstr "Se sei già un salvavolontario: inserisci le tue preferenze, "
+    "%sclicca qui%s. "
+
+##############################################
+# index.php
+##############################################
+
+msgid "HOME_HEADING1"
+msgstr "Volontari"
+
+msgid "HOME_P1"
+msgstr " Usa i tempi morti del tuo computer "
+    " (Windows, Mac o Linux) "
+    " per curare malattie, studiare gli allarmi globali, "
+    " scoprire nuove stelle e molti altri progetti di ricerca scientifica. "
+    " Il programma è stabile, sicuro e facile da usare: "
+    " %sScegli%s i progetti "
+    " %sScaricati%s ed avvia il BOINC "
+    " %sEntra%s l'indirizzo del progetto, il tuo indirizzo di posta elettronica, e la password. "
+
+msgid "HOME_P2"
+msgstr "O, se partecipi a più progetti, prova "
+    "un %saccount manager%s oppure %sGridRepublic%s o %sBAM!%s. "
+
+msgid "HOME_P3"
+msgstr "Se hai qualche domanda, o hai bisogno d'aiuto per iniziare, puoi "
+    "%schiedere ad un Salvavolontari%s. "
+
+msgid "HOME_MORE_INFO"
+msgstr "Avviare il BOINC"
+
+msgid "HOME_DOWNLOAD"
+msgstr "Scaricati il BOINC"
+
+msgid "HOME_WEB_SITES"
+msgstr "Siti web"
+
+msgid "HOME_ADD_ONS"
+msgstr "Programmi aggiuntivi"
+
+msgid "HOME_SURVEY"
+msgstr "Questionario"
+
+msgid "HOME_BOINC"
+msgstr "Berkeley Open Infrastructure for Network Computing "
+    " Infrastruttura libera per il calcolo condiviso in rete"
+    " della Università di Berkeley, California
+
+msgid "HOME_BOINC_DESC"
+msgstr "Programma libero per il %scalcolo volontario%s ed il %scalcolo condiviso in rete%s.
