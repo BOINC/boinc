@@ -10719,11 +10719,11 @@ Charlie 9 Nov 2007
     clientgui/
         sg_DlgPreferences.cpp
 
-Janus	11 Nov 2007
+Janus    11 Nov 2007
     - User web: Factored out the supermassive if-sentence in forum.inc:show_post()
         It is now a seperate function called should_show_post() and it returns a 
-	boolean.
-	
+    boolean.
+    
     html/inc/
         forum.inc
 
@@ -11177,8 +11177,8 @@ David  16 Nov 2007
 David  16 Nov 2007
     - manager: compile fix
 
-	clientgui/
-		BOINCTaskBar.cpp
+    clientgui/
+        BOINCTaskBar.cpp
 
 Rytis  17 Nov 2007
     - user web: add "Powered by BOINC" logo to the repository and update
@@ -11697,15 +11697,15 @@ David  25 Nov 2007
             forum_thread.php
 
 David  27 Nov 2007
-	- API graphics: changes to REDUCED_ARRAY to support new S@h graphics
-	- API: fix format codes in stack trace printf
+    - API graphics: changes to REDUCED_ARRAY to support new S@h graphics
+    - API: fix format codes in stack trace printf
 
-	api/
-		reduce.h
-		reduce_lib.C
-		reduce_main.C
-	lib/
-		diagnostics_win.C
+    api/
+        reduce.h
+        reduce_lib.C
+        reduce_main.C
+    lib/
+        diagnostics_win.C
 
 David  27 Nov 2007
     - client: clean up logic of handling DLL_INIT_FAILED exits on Win.
@@ -12058,3 +12058,14 @@ David  2 Dec 2007
 
     client/
         hostinfo_unix.C
+
+David  3 Dec 2007
+    - client: fix bug that would falsely report DLL init errors
+    - client: don't crash when detach a project using anonymous platform
+        (fixes #511)
+
+    client/
+        app_control.C
+        client_state.C,h
+        cs_cmdline.C
+        gui_rpc_server_ops.C

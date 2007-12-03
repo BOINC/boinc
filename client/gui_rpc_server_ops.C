@@ -235,7 +235,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     if (!strcmp(op, "reset")) {
         gstate.request_schedule_cpus("project reset by user");
         gstate.request_work_fetch("project reset by user");
-        gstate.reset_project(p);
+        gstate.reset_project(p, false);
     } else if (!strcmp(op, "suspend")) {
         p->suspended_via_gui = true;
         gstate.request_schedule_cpus("project suspended by user");

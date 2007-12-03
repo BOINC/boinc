@@ -1346,7 +1346,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
 // Note: does NOT delete persistent files or user-supplied files;
 // does not delete project dir
 //
-int CLIENT_STATE::reset_project(PROJECT* project) {
+int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     unsigned int i;
     APP_VERSION* avp;
     APP* app;
@@ -1394,7 +1394,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     // forcibly remove apps and app_versions
     // (but not if anonymous platform)
     //
-    if (!project->anonymous_platform) {
+    if (!project->anonymous_platform || detaching) {
         avp_iter = app_versions.begin();
         while (avp_iter != app_versions.end()) {
             avp = *avp_iter;
@@ -1439,7 +1439,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     char path[256];
     int retval;
 
-    reset_project(project);
+    reset_project(project, true);
 
     msg_printf(project, MSG_INFO, "Detaching from project");
 

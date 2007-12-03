@@ -178,7 +178,7 @@ bool ACTIVE_TASK::has_task_exited() {
 
 static void limbo_message(ACTIVE_TASK& at) {
 #ifdef _WIN32
-    if (at.result->exit_status = STATUS_DLL_INIT_FAILED) {
+    if (at.result->exit_status == STATUS_DLL_INIT_FAILED) {
         msg_printf(at.result->project, MSG_INFO,
             "Task %s exited with a DLL initialization error.",
             at.result->name

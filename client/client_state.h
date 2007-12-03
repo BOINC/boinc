@@ -222,7 +222,7 @@ public:
     APP_VERSION* lookup_app_version(APP*, char* platform, int ver);
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
-    int reset_project(PROJECT*);
+    int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
 private:
     int link_app(PROJECT*, APP*);
