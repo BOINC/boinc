@@ -12069,3 +12069,11 @@ David  3 Dec 2007
         client_state.C,h
         cs_cmdline.C
         gui_rpc_server_ops.C
+
+Rom    3 Dec 2007
+    - client: Use a buffer scoped to the HTTP_OP object instead of
+        a std::string scoped to the stack when passing the CABundle
+        location to libcurl.
+        
+    client/
+        http_curl.C, .h

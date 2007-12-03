@@ -147,6 +147,7 @@ void get_user_agent_string() {
 
 HTTP_OP::HTTP_OP() {
     strcpy(m_url, "");
+    strcpy(m_curl_ca_bundle_location, "");
     content_length = 0;
     file_offset = 0;
     strcpy(request_header, "");
@@ -328,14 +329,22 @@ The checking this option controls is of the identity that the server claims. The
     if (pszProg) {
         szPath[pszProg - szPath + 1] = 0;
 
-        strCABundlePath  = szPath;
-        strCABundlePath += CA_BUNDLE_FILENAME;
+        strncat(
+            m_curl_ca_bundle_location,
+            szPath, 
+            sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
+        );
+        strncat(
+            m_curl_ca_bundle_location,
+            CA_BUNDLE_FILENAME, 
+            sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
+        );
 
-        if (boinc_file_exists(strCABundlePath.c_str())) {
+        if (boinc_file_exists(m_curl_ca_bundle_location)) {
             // call this only if a local copy of ca-bundle.crt exists;
             // otherwise, let's hope that it exists in the default place
             //
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, strCABundlePath.c_str());
+            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
         }
     }
 #else

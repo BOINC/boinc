@@ -63,6 +63,7 @@ public:
     PROXY_INFO pi;
 
 	char m_url[256];  
+	char m_curl_ca_bundle_location[256]; // string needed for ssl support
 	char szCurlProxyUserPwd[128]; // string needed for proxy username/password
 
     int content_length;
