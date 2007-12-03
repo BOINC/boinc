@@ -8,38 +8,35 @@ ini_set('display_startup_errors', true);
 // - Each unit has a logical name.
 // - The members of a set must have distinct logical names
 // - Different units may have the same logical name;
-//   however, such units should be identical.
+//   however, such units must be identical.
 
-class BoltFrame {
-    public $state;
-        // a data structure that's specific to the unit type,
-        // e.g. a loop counter
-        // Typically this includes the logical name of the current child.
-        // Normally this is implied by the state;
-        // however, it may differ if the course structure has changed.
-        // In general the unit should restart in this case
-    function __construct($state=null) {
-        $this->state = $state;
-    }
-}
+// A position in a course (i.e. the last item viewed) is described by
+// 1) a "path" - a list of names.
+// 2) an associative array mapping name to state structures.
+//  e.g. a loop counter
+//  Typically this includes the logical name of the current child.
+//  Normally this is implied by the state;
+//  however, it may differ if the course structure has changed.
+//  In general the unit should restart in this case
 
 abstract class BoltUnit {
     public $name;   // logical name.
 
     abstract function walk(
-        $old_stack, &$new_stack, $next, &$item, &$frac_done
+        $state, $old_path, &$new_path, $next, &$item, &$frac_done
     );
         // multi-purpose function for traversing a course.
-        // if $old_stack is null
-        //      set up initial state for this unit.
-        //      append frames to $new_stack for this unit and descendants
+        // if $old_path is null
+        //      This unit is being started;
+        //      append names to $new_path for this unit and descendants
         //      $next is ignored
         //      $item is the initial item
         //      return is ignored
         // else
-        //      The first frame of $old_stack is for this unit.
+        //      This unis is being resumed in the middle.
+        //      The first entry in $old_path is for this unit.
         //      Check for name mismatch (if changed course).
-        //      Append frames to $new_stack for this unit and descendants
+        //      Append names to $new_path for this unit and descendants
         //      if $next, the bottom-level non-item unit should increment.
         //      return value: true if the caller should increment
         // frac_done: Fraction done (of this unit and any subunits)
@@ -50,8 +47,11 @@ abstract class BoltUnit {
 // It is stored in the database, and the course may change underneath it.
 //
 class BoltIter {
-    public $stack;      // array of BoltFrame
-    public $top;
+    public $path;       // array of names
+    public $top;        // topmost unit
+    public $state;      // state array
+    public $item;       // current item
+    public $frac_done   // fraction done
 
     // point to the start of a course; set up stack.
     //
@@ -63,12 +63,11 @@ class BoltIter {
     // get current item
     //
     function at() {
-        $new_stack = array();
-        $this->top->walk($this->stack, $new_stack, false, $item, $frac_done);
-        $this->stack = $new_stack;
-        $x->item = $item;
-        $x->frac_done = $frac_done;
-        return $x;
+        $new_path = array();
+        $this->top->walk($this->state, $this->path, $new_path, false, $item, $frac_done);
+        $this->path = $new_path;
+        $this->item = $item;
+        $this->frac_done = $frac_done;
     }
 
     // move to the next item (and return it)
@@ -76,12 +75,11 @@ class BoltIter {
     //
     function next() {
         $item = null;
-        $new_stack = array();
-        $this->top->walk($this->stack, $new_stack, true, $item, $frac_done);
-        $this->stack = $new_stack;
-        $x->item = $item;
-        $x->frac_done = $frac-done;
-        return $x;
+        $new_path = array();
+        $this->top->walk($this->state, $this->path, $new_path, true, $item, $frac_done);
+        $this->path = $new_path;
+        $this->item = $item;
+        $this->frac_done = $frac-done;
     }
 }
 
@@ -92,27 +90,28 @@ class BoltSeq extends BoltUnit {
         $this->units = $u;
     }
 
-    function walk($old_stack, &$new_stack, $next, &$item, &$frac_done) {
+    function walk($state, $old_stack, &$new_stack, $next, &$item, &$frac_done) {
         //echo "call to walk() for $this->name: next: $next\n";
         $n = count($this->units);
         if ($old_stack) {
             //echo "old stack: \n";
             //var_dump($old_stack);
             //echo "------------\n";
-            $frame = $old_stack[0];
-            $state = $frame->state;
-            $i = $state->i;
+            $child_name = $old_stack[0];
+            $state_rec = $state[$this->name];
+            $i = $state_rec->i;
 
             // first, look up unit by name
             // 
             $child = null;
             for ($j=0; $j<$n; $j++) {
                 $c = $this->units[$j];
-                if ($c->name == $state->child_name) {
+                if ($c->name == $child_name) {
                     $child = $c;
                     break;
                 }
             }
+
             // if not there, look up by index
             //
             if (!$child) {
@@ -133,7 +132,7 @@ class BoltSeq extends BoltUnit {
                 } else {
                     array_shift($old_stack);
                     $inc = $child->walk(
-                        $old_stack, $new_stack, true, $item, $frac_done
+                        $state, $old_stack, $new_stack, true, $item, $frac_done
                     );
                 }
                 if ($inc) {

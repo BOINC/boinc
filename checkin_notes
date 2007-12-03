@@ -12052,3 +12052,9 @@ David  2 Dec 2007
             util.inc
         user/
             forum_edit.php
+
+David  2 Dec 2007
+    - client: hopefully fix keyboard input detection on Linux
+
+    client/
+        hostinfo_unix.C
