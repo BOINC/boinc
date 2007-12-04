@@ -46,33 +46,32 @@ function finalize_view($user, $view_id) {
 
 function start_course($user, $course, $course_doc) {
     $iter = new BoltIter($course_doc);
-    $x = $iter->at();
+    $iter->at();
 
     $now = time();
-    $state = json_encode($iter->stack);
+    print_r($iter->state);
+    $state = $iter->encode_state();
     BoltEnrollment::insert("(create_time, user_id, course_id, state) values ($now, $user->id, $course->id, '$state')");
     $e = BoltEnrollment::lookup($user->id, $course->id);
-    $e->update("state='$state'");
-    show_item($x->item, 0, $user, $course, $e);
+    show_item($iter->item, 0, $user, $course, $e);
 }
 
 function get_current_item($e, $course_doc) {
     $frac_done = 0;
     $iter = new BoltIter($course_doc);
-    $iter->stack = json_decode($e->state);
-    return $iter->at();
+    $iter->decode_state($e->state);
+    $iter->at();
+    return $iter;
 }
 
 function get_next_item($e, $course_doc) {
-    $frac_done = 0;
     $iter = new BoltIter($course_doc);
-    $iter->stack = json_decode($e->state);
-    $ret = $iter->next();
-    $state = json_encode($iter->stack);
+    $iter->decode_state($e->state);
+    $iter->next();
+    $state = $iter->encode_state();
     $e->update("state='$state'");
-    return $ret;
+    return $iter;
 }
-
 
 function show_item($item, $frac_done, $user, $course, $e) {
     $now = time();
@@ -99,12 +98,27 @@ function show_item($item, $frac_done, $user, $course, $e) {
     echo "<p>Fraction done: $frac_done";
 }
 
+$e = BoltEnrollment::lookup($user->id, $course_id);
 switch ($action) {
 case 'start':
     if (info_incomplete($user)) {
         request_info($user, $course);
         exit();
     }
+    if ($e) {
+        page_head("Confirm start");
+        echo "You are already enrolled in $course->name.
+            Are you sure you want to start from the beginning?
+        ";
+        show_button(
+            "bolt_sched.php?action=start_confirm&course_id=$course->id",
+            "Yes",
+            "Start this course from the beginning"
+        );
+        page_tail();
+        exit();
+    }
+case 'start_confirm':
     start_course($user, $course, $course_doc);
     break;
 case 'update_info':
@@ -113,20 +127,19 @@ case 'update_info':
 case 'next':            // "next" button in lesson or exercise answer page
     $view = finalize_view($user, $view_id);
     $e = BoltEnrollment::lookup($user->id, $course_id);
-    $x = get_next_item($e, $course_doc);
-    if (!$x->item) {
+    $iter = get_next_item($e, $course_doc);
+    if (!$iter->item) {
         page_head("Done with course");
         echo "All done!";
         page_tail();
         exit();
     }
-    show_item($x->item, $x->frac_done, $user, $course, $e);
+    show_item($iter->item, $iter->frac_done, $user, $course, $e);
     break;
 case 'answer':          // submit answer in exercise
-    $e = BoltEnrollment::lookup($user->id, $course_id);
     $view = finalize_view($user, $view_id);
-    $x = get_current_item($e, $course_doc);
-    $item = $x->item;
+    $iter = get_current_item($e, $course_doc);
+    $item = $iter->item;
     if (!$item->is_exercise()) {
         error_page("expected an exercise");
     }

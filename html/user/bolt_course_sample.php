@@ -1,61 +1,60 @@
 <?php
 
+require_once("../inc/bolt.inc");
+
 function part2() {
-    return Sequence(
+    return sequence(
         name('inner seq'),
-        Lesson(
+        lesson(
             name('lesson 3'),
-            file('bolt_sample_lesson3.php')
+            filename('bolt_sample_lesson3.php')
         )
-    )
+    );
 }
 
-function refresh($n) {
-    switch ($n) {
-    case 0: return 7;
-    case 1: return 14;
-    }
-    return 28;
+function refresh() {
+    return array(0, 14, 28);
 }
 
 function basic_review() {
-    return Sequence(
-        Lesson(
+    return sequence(
+        lesson(
             name('lesson 1'),
-            file('bolt_sample_lesson1.php')
+            filename('bolt_sample_lesson1.php')
         ),
-        Lesson(
+        lesson(
             name('lesson 2'),
-            file('bolt_sample_lesson2.php')
+            filename('bolt_sample_lesson2.php')
         )
     );
 }
 
 function int_review() {
-    return Lesson(
+    return lesson(
         name('lesson 2'),
-        file('bolt_sample_lesson2.php')
-    )
+        filename('bolt_sample_lesson2.php')
+    );
 }
 
-return Sequence(
+return sequence(
     name('course'),
-    Lesson(
+    lesson(
         name('lesson 1'),
-        file('bolt_sample_lesson1.php')
+        filename('bolt_sample_lesson1.php')
     ),
-    Lesson(
+    lesson(
         name('lesson 2'),
-        file('bolt_sample_lesson2.php')
-    )
-    Exercise(
-        name('exercise 1'),
-        refresh_interval(refresh),
-        review(.3, basic_review),
-        review(.7, int_review),
-        file('bolt_sample_exercise1.php')
-
-    )
+        filename('bolt_sample_lesson2.php')
+    ),
+    reviewed_exercise(
+        exercise(
+            name('exercise 1'),
+            filename('bolt_sample_exercise1.php')
+        ),
+        refresh_interval(refresh()),
+        review(.3, basic_review()),
+        review(.7, int_review()),
+    ),
     part2()
 );
 

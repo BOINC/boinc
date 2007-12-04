@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("Dec 3, 2007",
+    "This web site will be down for 8 hours starting
+    at 9 PM PST, Dec 6."
+),
 array("November 28, 2007",
     "Live in Washington DC?  Get together with other BOINC users via
     <a href=http://opensource.meetup.com/84/?gj=sj2>Meetup</a>

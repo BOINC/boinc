@@ -1,6 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
+ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 // rules about course structures:
@@ -23,7 +24,7 @@ abstract class BoltUnit {
     public $name;   // logical name.
 
     abstract function walk(
-        $state, $old_path, &$new_path, $next, &$item, &$frac_done
+        &$state, $old_path, &$new_path, $next, &$item, &$frac_done
     );
         // multi-purpose function for traversing a course.
         // if $old_path is null
@@ -44,20 +45,34 @@ abstract class BoltUnit {
 }
 
 // An iterator represents a user's position in a course.
-// It is stored in the database, and the course may change underneath it.
+// Its state is stored in the database,
+// and the course may change underneath it.
 //
 class BoltIter {
     public $path;       // array of names
     public $top;        // topmost unit
     public $state;      // state array
     public $item;       // current item
-    public $frac_done   // fraction done
+    public $frac_done;  // fraction done
 
-    // point to the start of a course; set up stack.
+    // point to the start of a course; set up path.
     //
     function __construct($top) {
         $this->top = $top;
-        $this->stack = null;
+        $this->path = null;
+        $this->state = array();
+    }
+
+    function decode_state($encoded_state) {
+        $this->state = json_decode($encoded_state, true);
+        print_r($this->state);
+        $this->path = $this->state['path'];
+    }
+
+    function encode_state() {
+        $this->state['path'] = $this->path;
+        print_r($this->state);
+        return json_encode($this->state);
     }
 
     // get current item
@@ -79,27 +94,27 @@ class BoltIter {
         $this->top->walk($this->state, $this->path, $new_path, true, $item, $frac_done);
         $this->path = $new_path;
         $this->item = $item;
-        $this->frac_done = $frac-done;
+        $this->frac_done = $frac_done;
     }
 }
 
-class BoltSeq extends BoltUnit {
+class BoltSequence extends BoltUnit {
     public $units;
     function __construct($n, $u) {
         $this->name = $n;
         $this->units = $u;
     }
 
-    function walk($state, $old_stack, &$new_stack, $next, &$item, &$frac_done) {
+    function walk(&$state, $old_path, &$new_path, $next, &$item, &$frac_done) {
         //echo "call to walk() for $this->name: next: $next\n";
         $n = count($this->units);
-        if ($old_stack) {
-            //echo "old stack: \n";
-            //var_dump($old_stack);
+        if ($old_path) {
+            //echo "old path: \n";
+            //var_dump($old_path);
             //echo "------------\n";
-            $child_name = $old_stack[0];
+            $child_name = $old_path[0];
             $state_rec = $state[$this->name];
-            $i = $state_rec->i;
+            $i = $state_rec['i'];
 
             // first, look up unit by name
             // 
@@ -130,9 +145,9 @@ class BoltSeq extends BoltUnit {
                 if ($child->is_item()) {
                     $inc = true;
                 } else {
-                    array_shift($old_stack);
+                    array_shift($old_path);
                     $inc = $child->walk(
-                        $state, $old_stack, $new_stack, true, $item, $frac_done
+                        $state, $old_path, $new_path, true, $item, $frac_done
                     );
                 }
                 if ($inc) {
@@ -148,14 +163,15 @@ class BoltSeq extends BoltUnit {
         }
         $frac_done = $i/$n;
         $child = $this->units[$i];
-        $state->i = $i;
-        $state->child_name = $child->name;
-        $frame = new BoltFrame($state);
-        $new_stack[] = $frame;
+        $state_rec = null;
+        $state_rec->i = $i;
+        $state_rec->child_name = $child->name;
+        $new_path[] = $child->name;
+        $state[$this->name] = $state_rec;
         if ($child->is_item()) {
             $item = $child;
         } else {
-            $child->walk(null, $new_stack, false, $item, $f);
+            $child->walk($state, null, $new_stack, false, $item, $f);
             $frac_done += $f*(1/$n);
         }
     }
@@ -179,7 +195,7 @@ class BoltItem extends BoltUnit {
     function is_item() {
         return true;
     }
-    function walk($old_stack, &$new_stack, $next, &$item, &$frac_done) {
+    function walk(&$state, $old_stack, &$new_stack, $next, &$item, &$frac_done) {
         echo "SHOULDN'T BE HERE\n";
     }
 }
@@ -196,15 +212,104 @@ class BoltExercise extends BoltItem {
     }
 }
 
-function Sequence() {
+class BoltName {
+    public $name;
+    function __construct($n) {
+        $this->name = $n;
+    }
+}
+
+class BoltFileName {
+    public $fname;
+    function __construct($n) {
+        $this->fname = $n;
+    }
+}
+
+class BoltRefreshInterval {
+    public $intervals;
+    function __construct($i) {
+        $this->intervals = $i;
+    }
+}
+
+class BoltReview {
+    public $score;
+    public $unit;
+    function __construct($s, $u) {
+        $this->score = $s;
+        $this->unit = $u;
+    }
+}
+
+function name($n) {
+    return new BoltName($n);
+}
+
+function filename($n) {
+    return new BoltFileName($n);
+}
+
+function refresh_interval($i) {
+    return new BoltRefreshInterval($i);
+}
+
+function review($s, $u) {
+    return new BoltReview($s, $u);
+}
+
+function lesson() {
+    $name = "";
+    $file = "";
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        if (is_object($arg)) {
+            if (get_class($arg) == 'BoltName') {
+                $name = $arg->name;
+            } else if (get_class($arg) == 'BoltFileName') {
+                $fname = $arg->fname;
+            } else {
+                echo "unprocessed arg of class ".get_class($arg);
+            }
+        }
+    }
+    if (!$name) {
+        error_page("Missing name in lesson");
+    }
+    if (!$fname) {
+        error_page("Missing filename in lesson");
+    }
+    return new BoltLesson($name, $fname);
+}
+
+function exercise() {
+    $name = "";
+    $file = "";
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        if (is_object($arg)) {
+            if (get_class($arg) == 'BoltName') {
+                $name = $arg->name;
+            } else if (get_class($arg) == 'BoltFileName') {
+                $fname = $arg->fname;
+            }
+        }
+    }
+    if (!$name || !$fname) {
+        error_page("Missing name or filename in exercise");
+    }
+    return new BoltExercise($name, $fname);
+}
+
+function sequence() {
     $args = func_get_args();
     $units = array();
     $name = "";
     foreach ($args as $arg) {
-        if (is_object($arg) {
+        if (is_object($arg)) {
             if (is_subclass_of($arg, "BoltUnit")) {
                 $units[] = $arg;
-            } else if (get_class($arg) == "BoltName")) {
+            } else if (get_class($arg) == "BoltName") {
                 $name = $arg->name;
             } else {
                 echo "Unrecognized arg";

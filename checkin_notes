@@ -12086,3 +12086,14 @@ Charlie 4 Dec 2007
         buildjpeg.sh
         BuildMacBOINC.sh
         HowToBuildBOINC_XCode copy.rtf
+
+David  4 Dec 2007
+    - ops: in team import script, send email to team founder
+        when creating team
+    - web: if user changes email addr, clear email_validated
+
+    html/
+        ops/
+            team_import.php
+        user/
+            edit_email_action.php
