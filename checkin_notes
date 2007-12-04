@@ -12077,3 +12077,12 @@ Rom    3 Dec 2007
         
     client/
         http_curl.C, .h
+
+Charlie 4 Dec 2007
+    Mac: Update build scripts and documentation for x86_64 support.
+
+    mac_build/
+        buildcurl.sh
+        buildjpeg.sh
+        BuildMacBOINC.sh
+        HowToBuildBOINC_XCode copy.rtf

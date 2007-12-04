@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated for curl-7.17.1 11/15/07
+# Updated 12/4/07
 #
 ## In Terminal, CD to the curl-7.17.1 directory.
 ##     cd [path]/curl-7.17.1/
@@ -42,18 +42,6 @@
 ## Build with gcc-4.0 to link with the BOINC client 
 #
 
-DarwinVersion=`uname -r`;
-DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
-# DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
-#
-# echo "major = $DarwinMajorVersion"
-# echo "minor = $DarwinMinorVersion"
-#
-# Darwin version 9.x.y corresponds to OS 10.5.x
-# Darwin version 8.x.y corresponds to OS 10.4.x
-# Darwin version 7.x.y corresponds to OS 10.3.x
-# Darwin version 6.x corresponds to OS 10.2.x
-
 AlreadyBuilt=0
 
 if [ "$1" != "-clean" ]; then
@@ -62,14 +50,13 @@ if [ "$1" != "-clean" ]; then
     fi
 fi
     
- if [ "$DarwinMajorVersion" = "9" ]; then
-    # OS 10.5
+ if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    # Build for x86_64 architecture if OS 10.5 SDK is present
     if [ ! -f lib/.libs/libcurl_x86_64.a ]; then
         AlreadyBuilt=0
     fi
 fi
 
-   
 if [ $AlreadyBuilt -ne 0 ]; then
     echo "curl-7.17.1 already built"
     return 0
@@ -151,7 +138,7 @@ export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 
-if [ "$DarwinMajorVersion" != "9" ]; then
+if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
     mv -f lib/.libs/libcurl.a lib/.libs/libcurl_i386.a
     mv -f lib/libcurl_ppc.a lib/.libs/
     lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
@@ -160,7 +147,7 @@ if [ "$DarwinMajorVersion" != "9" ]; then
 fi
 
 
-# OS 10.5
+# Build for x86_64 architecture if OS 10.5 SDK is present
 
 mv -f lib/.libs/libcurl.a lib/libcurl_i386.a
 

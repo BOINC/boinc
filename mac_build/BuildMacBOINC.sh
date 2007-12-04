@@ -22,7 +22,7 @@
 #
 ##
 # Script for building Macintosh BOINC Manager, Core Client and libraries
-# by Charlie Fenton 2/17/06
+# by Charlie Fenton 12/4/07
 # with thanks to Reinhard Prix for his assistance
 ##
 
@@ -31,10 +31,10 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version (native architecture only). 
@@ -42,6 +42,8 @@
 ##
 ## -noclean     don't do a "clean" of each target before building.
 ##              default is to clean all first.
+##
+## -no64bit     build 32-bit binaries only, no x86_64 architecture
 ##
 ##  The following arguments determine which targets to build
 ##
@@ -60,26 +62,8 @@ doclean="clean"
 buildall=0
 buildlibs=0
 buildclient=0
-
-DarwinVersion=`uname -r`;
-DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
-# DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
-#
-# echo "major = $DarwinMajorVersion"
-# echo "minor = $DarwinMinorVersion"
-#
-# Darwin version 9.x.y corresponds to OS 10.5.x
-# Darwin version 8.x.y corresponds to OS 10.4.x
-# Darwin version 7.x.y corresponds to OS 10.3.x
-# Darwin version 6.x corresponds to OS 10.2.x
-
-if [ "$DarwinMajorVersion" = "9" ]; then
-    # OS 10.5
-    style="Deployment"
-else
-    style="Deployment-no64"
-    fi
-fi
+no64bit=0
+style="Deployment"
 
 while [ $# -gt 0 ]; do
   case "$1" in 
@@ -88,15 +72,10 @@ while [ $# -gt 0 ]; do
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
-    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]" ; return 1 ;;
+    -no64bit ) no64bit=1 ; shift 1 ;;
+    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]" ; return 1 ;;
   esac
 done
-
-if [ "${style}" = "Development" ]; then
-    echo "Development (debug) build"
-else
-    echo "Deployment (release) build"
-fi
 
 if [ "${doclean}" = "clean" ]; then
     echo "Clean each target before building"
@@ -118,27 +97,53 @@ fi
 version=`uname -r`;
 
 major=`echo $version | sed 's/\([0-9]*\)[.].*/\1/' `;
-minor=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
+# minor=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
 
 # echo "major = $major"
 # echo "minor = $minor"
 #
+# Darwin version 9.x.y corresponds to OS 10.5.x
 # Darwin version 8.x.y corresponds to OS 10.4.x
 # Darwin version 7.x.y corresponds to OS 10.3.x
 # Darwin version 6.x corresponds to OS 10.2.x
 
-if [ "$major" = "8" ]; then
-echo "Building BOINC under System 10.4"
+if [ "$major" -lt "8" ]; then
+    echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at "
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
+    return 1
+fi
+    
+if [ "$major" -gt "8" ]; then
+    echo "Building BOINC under System 10.5"
+else
+    echo "Building BOINC under System 10.4"
+fi
+
 if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
     echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at "
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
     return 1
 fi
+
+if [ "${style}" = "Development" ]; then
+    echo "Development (debug) build"
+elif [ "${no64bit}" = "1" ]; then
+    style="Deployment-no64"
+    echo "Deployment (release) build for architectures ppc, i386"
+elif [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    echo "************************************************************************"
+    echo "**                                                                    **"
+    echo "** WARNING: System 10.5 SDK not found.  Building 32-bit binaries only **"
+    echo "**                                                                    **"
+    echo "************************************************************************"
+    style="Deployment-no64"
+    echo "Deployment (release) build for architectures: i386, ppc"
 else
-    echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at "
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
-    return 1
+    style="Deployment"
+    echo "Deployment (release) build for architectures: i386, ppc, x86_64"
 fi
+
+echo ""
 
 xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} ${doclean} build
 

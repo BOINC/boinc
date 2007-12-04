@@ -23,7 +23,7 @@
 # Script to build Macintosh Universal Binary library of jpeg-6b for
 # use in building BOINC.
 #
-# by Charlie Fenton 7/21/06
+# by Charlie Fenton 12/4/07
 #
 ## In Terminal, CD to the jpeg-6b directory.
 ##     cd [path]/jpeg-6b/
@@ -33,11 +33,24 @@
 # the -clean argument will force a full rebuild.
 #
 
+AlreadyBuilt=0
+
 if [ "$1" != "-clean" ]; then
-  if [ -f libjpeg_ppc.a ] && [ -f libjpeg_i386.a ] && [ -f libjpeg.a ]; then
+    if [ -f libjpeg_ppc.a ] && [ -f libjpeg_i386.a ] && [ -f libjpeg.a ]; then
+        AlreadyBuilt=1
+    fi
+fi
+    
+if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    # Build for x86_64 architecture if OS 10.5 SDK is present
+    if [ ! -f libjpeg_x86_64.a ]; then
+        AlreadyBuilt=0
+    fi
+fi
+
+if [ $AlreadyBuilt -ne 0 ]; then
     echo "jpeg-6b already built"
     return 0
-  fi
 fi
 
 export PATH=/usr/local/bin:$PATH
@@ -51,6 +64,7 @@ if [  $? -ne 0 ]; then return 1; fi
 
 rm -f libjpeg_ppc.a
 rm -f libjpeg_i386.a
+rm -f libjpeg_x86_64.a
 rm -f libjpeg.a
 make clean
 
@@ -70,13 +84,53 @@ export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 ./configure --disable-shared --host=i386
 if [  $? -ne 0 ]; then return 1; fi
 
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -L/Developer/SDKs/MacOSX10.4u.sdk/ -L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -arch i386"
+else
+    export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+fi
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
 make -e
 if [  $? -ne 0 ]; then return 1; fi
 mv libjpeg.a libjpeg_i386.a
-lipo -create libjpeg_i386.a libjpeg_ppc.a -output libjpeg.a
+
+if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    lipo -create libjpeg_i386.a libjpeg_ppc.a -output libjpeg.a
+
+    if [  $? -ne 0 ]; then return 1; fi
+
+    export CC="";export CXX=""
+    export LDFLAGS=""
+    export CPPFLAGS=""
+    export SDKROOT=""
+
+    return 0
+fi
+
+# Build for x86_64 architecture if OS 10.5 SDK is present
+make clean
+if [  $? -ne 0 ]; then return 1; fi
+
+export PATH=/usr/local/bin:$PATH
+export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
+export LDFLAGS=""
+export CPPFLAGS=""
+export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+
+./configure --disable-shared --host=x86_64
+if [  $? -ne 0 ]; then return 1; fi
+
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+
+make -e
+if [  $? -ne 0 ]; then return 1; fi
+
+mv libjpeg.a libjpeg_x86_64.a
+
+
+lipo -create libjpeg_i386.a libjpeg_ppc.a libjpeg_x86_64.a -output libjpeg.a
 
 if [  $? -ne 0 ]; then return 1; fi
 
