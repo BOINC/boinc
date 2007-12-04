@@ -22,9 +22,6 @@ $team_name_lc = strtolower($team_name);
 $tnh = post_str("name_html", true);
 $team_name_html = sanitize_html($tnh);
 
-if ($team_name_html != $tnh) {
-    error_page("HTML name contains disallowed tags: ".htmlspecialchars($tnh));
-}
 $team_name_html = process_user_text($team_name_html);
 
 $team_description = process_user_text(post_str("description", true));
