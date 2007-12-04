@@ -12103,3 +12103,10 @@ David  4 Dec 2007
 
     html/user/
         team_edit_action.php
+
+David  4 Dec 2007
+    - client: CPU sched bug fixes when project has huge DCF.
+        Also prevent switching between two jobs with same deadline.
+
+    client/
+        cpu_sched.C

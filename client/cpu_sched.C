@@ -205,13 +205,12 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
-        if (!rp->project->deadlines_missed) continue;
+        if (!rp->project->deadlines_missed && rp->project->duration_correction_factor < 90.0) continue;
+            // treat projects with DCF>90 as if they had deadline misses
 
         bool new_best = false;
         if (best_result) {
             if (rp->report_deadline < best_result->report_deadline) {
-                new_best = true;
-            } else if (rp->project->duration_correction_factor > 90.0) {
                 new_best = true;
             }
         } else {
@@ -233,6 +232,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (best_atp && !atp) continue;
         if (rp->estimated_cpu_time_remaining(false)
             < best_result->estimated_cpu_time_remaining(false)
+            || (!best_atp && atp)
         ) {
             best_result = rp;
             best_atp = atp;
