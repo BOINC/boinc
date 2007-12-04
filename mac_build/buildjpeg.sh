@@ -85,7 +85,7 @@ export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -L/Developer/SDKs/MacOSX10.4u.sdk/ -L/Developer/SDKs/MacOSX10.5.sdk/usr/lib/ -arch i386"
+    export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -nostartfiles -lcrt1.o -arch i386"
 else
     export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 fi
