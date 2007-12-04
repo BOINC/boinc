@@ -11,10 +11,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 11/14/07\
+Last updated 12/4/07\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-This document applies to BOINC version 5.10.30 and later.  It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX.  \
+This document applies to BOINC version 6.1.0 and later.  It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -30,7 +30,8 @@ Contents of this document:\
 \'95 Building BOINC Manager Installer.\
 \'95 Debugging and BOINC security.\
 \'95 Building project applications.\
-\'95 Upgrading applications for Macs with Intel processors.\
+\'95 Upgrading applications for Macs with 32-bit and 64-bit Intel processors.\
+\'95 Upgrading applications for version 6 graphics\
 \'95 Adding a Finder icon to your application\
 \
 \
@@ -41,31 +42,27 @@ Contents of this document:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 All BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  
-\b This includes not only BOINC itself, but also the WxWidgets, JPEG and cURL libraries, as well as all project applications
-\b0 .\
+\cf0 BOINC version 6.1.0 supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued.  This allows us to build the BOINC Client and Manager using only GCC 4.0, which offers a number of advantages.  \
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 Beware of using the wrong compiler!  Apple's release notes for GCC 4.0 say:\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+BOINC version 6.1.0 Client and libraries include support for the x86_64 (64-bit Intel) architecture.\
+\
+All BOINC software for Power PC Macs must be built using MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.9.  \
+All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  \
+All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.  \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\i \cf0 If your application must support versions of Mac OS X prior to 10.3.9, you must not use the GCC 4.0 compiler. Instead, build your project using the GCC 3.3 compiler\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
-
-\i0 \cf0 \
-Elsewhere on Apple's web site is the warning:\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
-
-\i \cf0 Do not link C++ modules compiled with one of these compilers against modules compiled with the other. Even if the modules appear to link correctly, C++ ABI differences may still cause problems that will not manifest themselves until run time.
-\i0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\b \cf0 The above requirements apply not only BOINC itself, but also the WxWidgets, JPEG and cURL libraries, as well as all project applications
+\b0 . The BOINC Client does not use WxWidgets or JPEG, so only the cURL library must be built for  the x86_64 architecture.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
-Be sure to follow the directions in this document to ensure that these requirements are met.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\b \cf0 Building BOINC now requires XCode Tools version 2.4.1 or later.
-\b0   (Version 2.3 may work; this has not been tested.)\
+\b \cf0 Building BOINC now requires XCode Tools version 2.4.1 or later; XCode 3.0 or later is recommended.
+\b0 \
 \
 Source files are now archived using Subversion.  You can download svnX, a free GUI application for running Subversion from either\
 	{\field{\*\fldinst{HYPERLINK "http://www.apple.com/downloads/macosx/development_tools/svnx.html"}}{\fldrslt http://www.apple.com/downloads/macosx/development_tools/svnx.html}}\
@@ -83,17 +80,38 @@ You also need to install Subversion itself.  One place to get it is:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 If you are building a project application to be run by BOINC, you only need to build the boinc libraries libboinc_api.a, ibboinc.a, and (if you want graphics) libboinc_graphics_api.a.  There are two ways to do this:\
+\cf0 BOINC version 6.1.0 supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued.  This allows us to build the BOINC Client and Manager using only GCC 4.0.  However, to ensure that science projects are compatible with older versions of BOINC running under OS 10.3.0 through 10.3.8, the PowerPC builds of the libraries are still built using GCC 3.3.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 Beware of using the wrong compiler!  Apple's release notes for GCC 4.0 say:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\i \cf0 If your application must support versions of Mac OS X prior to 10.3.9, you must not use the GCC 4.0 compiler. Instead, build your project using the GCC 3.3 compiler\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\i0 \cf0 \
+Elsewhere on Apple's web site is the warning:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\i \cf0 Do not link C++ modules compiled with one of these compilers against modules compiled with the other. Even if the modules appear to link correctly, C++ ABI differences may still cause problems that will not manifest themselves until run time.
+\i0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+\cf0 \
+If you are building a project application to be run by BOINC, you only need to build the boinc libraries libboinc_api.a, ibboinc.a, and (if you want graphics) libboinc_graphics_api.a.  There are two ways to do this:\
 \
 (1) Use the BOINC autoconf / automake scripts to build these libraries and the jpeg and curl libraries on which they depend.  You must do all of this twice: once on a PowerPC Mac running OS 10.3.x (do NOT use OS 10.4), and once on an Intel Mac running OS 10.4.x.\
 \
-(If you wish, you can combine separate Intel and PowerPC builds in a single Universal Binary mach-O file using the command-line utility lipo.  For details on lipo, type "man lipo" in Terminal; it is available on all Macs running OS10.4.x.)\
+(If you wish, you can combine separate Intel and PowerPC builds in a single Universal Binary mach-O file using the command-line utility lipo.  For details on lipo, type "man lipo" in Terminal; it is available on all Macs running OS10.4.x or later.)\
 \
-(2) Use scripts setupForBOINC.sh and BuildMacBOINC.sh.  You do this once on any Macintosh (PowerPC or Intel) running OS 10.4.x and with XCode 2.4.1 (or later) installed.  This will produce Universal Binaries of all the libraries.  These can then be linked with both PowerPC applications and Mac Intel applications.\
+At the time this is written, the BOINC autoconf / automake scripts do not build 64-bit binaries.\
+\
+(2) Use scripts setupForBOINC.sh and BuildMacBOINC.sh.  You do this once on any Macintosh (PowerPC or Intel) running either OS 10.4.x and XCode 2.4.1, or OS 10.5.x and XCode 3.0 (or later) installed.  This will produce Universal Binaries of all the libraries.  These can then be linked with PowerPC, 32-bit Intel and 64-bit Intel Mac applications.\
 \
 This document gives instructions only for the second method.\
 \
-After building the libraries as Universal Binaries using the second method, you probably still want to build your actual application separately on the two architectures: on a PowerPC Mac running OS 10.3.x (do NOT use OS 10.4), and also on an Intel Mac running OS 10.4.x.  Or you can look at the scripts buildcurl.sh and buildjpeg.sh for examples of environment settings which can cross-compile on one Mac running OS 10.4.x.\
+After building the libraries as Universal Binaries using the second method, you may still want to build your actual application separately on the two architectures: on a PowerPC Mac running OS 10.3.x (do NOT use OS 10.4), and also on an Intel Mac running OS 10.4.x.  To build for the x86_64 architecture, use a Mac running either OS 10.4 or OS 10.5 and specify the -arch x86_64 option to the compiler and linker.\
+\
+If you prefer, you can cross-compile on one Mac running OS 10.4.x or OS 10.5.x.  Look at the scripts buildcurl.sh and buildjpeg.sh for examples of environment settings which allow you to do this. \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \
@@ -134,17 +152,19 @@ jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a libr
 \f0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\i \cf0 XCode 2.4.1 installs autoconf 2.59 and automake 1.63.
+\i \cf0 XCode 2.4.1 installs autoconf 2.59 and automake 1.6.3.
 \i0   
-\i To determine the version number, type "autoconf --version" or "automake --version" .  Building curl-7.17.1 require autoconf 2.59 and automake 1.93 or later.  \
+\i XCode 3.0 installs autoconf 2.61 and automake 1.10.
+\i0   
+\i To determine the version number, type "autoconf --version" or "automake --version" .  Building curl-7.17.1 require autoconf 2.59 and automake 1.9.3 or later.  \
 \
 Upgrades for autoconf and automake are available from www.gnu.org:  \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz"}}{\fldrslt 
-\f1\i0\fs26 \cf0 http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz}}
+{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/autoconf/autoconf-2.61.tar.gz"}}{\fldrslt 
+\f1\i0\fs26 \cf0 http://ftp.gnu.org/gnu/autoconf/autoconf-2.61.tar.gz}}
 \f1\i0\fs26 \cf2 \ul \ulc2 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz"}}{\fldrslt \cf0 \ulnone http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz}}\cf0 \ulnone \
+{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/automake/automake-1.10.tar.gz"}}{\fldrslt \cf0 \ulnone http://ftp.gnu.org/gnu/automake/automake-1.10.tar.gz}}\cf0 \ulnone \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0\i\fs24 \cf0 \
@@ -153,11 +173,11 @@ XCode installed these utilities in the /usr/bin/ directory, but the upgrades by 
 
 \i0 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 As stated above, all BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  \
+\cf0 As stated above, all BOINC software for Power PC Macs must be built using MacOS10.3.9 SDK and (for libraries) GCC 3.3 to assure backward compatibility with OS 10.3.  All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  And all 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK. \
 \
 These are not done by either the XCode projects which come with wxMac-2.6.3, nor  the AutoMake scripts supplied with wxMac-2.6.3, curl-7.17.1, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \
-Building BOINC and the library packages on which it depends requires OS 10.4.4 and XCode 2.4.1 (or greater).  It may be possible to use XCode 2.3 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.\
+Building BOINC and the library packages on which it depends requires OS 10.4.4 (or later) and XCode 2.4.1 (or later).  It may be possible to use XCode 2.3 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
@@ -182,7 +202,7 @@ Important: do not change the names of any of these 3 directories.\
 \cf0 \
 (You may change the name of the boinc directory to anything you wish.)\
 \
-The command above retrieves the source code from the HEAD or development branch of the CVS repository.  For more information on getting the BOINC source code, see:\
+The command above retrieves the source code from the HEAD (TRUNK) or development branch of the CVS repository.  For more information on getting the BOINC source code, see:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCode"}}{\fldrslt 
 \f1\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/SourceCode}}\
@@ -198,7 +218,7 @@ source setupForBoinc.sh -clean
 If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-Note: this script builds curl first, followed by jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build curl and jpeg.  Likewise, if you only downloaded curl because you need neither graphics nor the BOINC Manager, the script will build curl before quitting.\
+Note: this script builds curl first, followed by jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build curl and jpeg.  Likewise, if you downloaded only curl because you need neither graphics nor the BOINC Manager, the script will build curl before quitting.\
 \
 [5] Build BOINC as follows:\
 \
@@ -212,7 +232,7 @@ source BuildMacBOINC.sh
 The complete syntax for this script is\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]
+\f1\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]
 \f0\fs24 \
 \
 The options for BuildMacBOINC.sh are:\
@@ -221,6 +241,8 @@ The options for BuildMacBOINC.sh are:\
 \
 	-noclean	don't do a "clean" of each target before building.\
 			default is to clean all first.\
+\
+	-no64bit	build 32-bit binaries only, no x86_64 architecture.\
 \
   The following arguments determine which targets to build\
 	-all		build all targets (i.e. target "Build_All" -- this is the default)\
@@ -257,7 +279,7 @@ The options for BuildMacBOINC.sh are:\
 \b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-To build the Installer for the BOINC Manager, if the BOINC version number is x.y.z, you must be logged in as an administrator.  Type the following in Terminal, then enter your administrator password when prompted by the script:\
+To build the Installer for the BOINC Manager, you must be logged in as an administrator.  If you are building BOINC version number x.y.z, type the following in Terminal, then enter your administrator password when prompted by the script:\
 \
 \pard\pardeftab720\ql\qnatural
 
@@ -320,30 +342,28 @@ To restore the standard ownerships and permissions, run the installer.\
 
 \b\fs28 \cf0 Building project applications\
 \
-Upgrading applications for Macs with Intel processors
+Upgrading applications for Macs with 32-bit and 64-bit Intel processors
 \b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 Apple began shipping Macs with Intel processors on January 10, and Apple expects to convert all its lines of computers to Intel by the end of 2006.  \
+\cf0 Apple converted all its lines of computers to Intel processors during 2006.  The early Intel Macs used the Core Duo processor, which is a 32-bit CPU.  Later Intel processors, including the Core 2 Duo, can run both 32-bit and 64-bit applications.  However, BOINC will run in 64-bit mode only under OS 10.5 and later.\
 \
-All future releases of BOINC will include "universal binary" builds for the Macintosh of BOINC Manager, command-line BOINC client and the boinc_cmd command-line tool.  (Universal binaries contain both PowerPC and Intel executables in one file; the Macintosh OS automatically selects the appropriate one for that computer.)\
+All current releases of BOINC include "universal binary" builds for the Macintosh of BOINC Manager, command-line BOINC client and the boinc_cmd command-line tool.  (Universal binaries contain both PowerPC and Intel executables in one file; the Macintosh OS automatically selects the appropriate one for that computer.)  Beginning with version 6.1, the BOINC Client and libraries also include the 64-bit Intel architecture as part of the universal binaries.\
 \
 The advantage of "universal binaries" is that you only need to have one copy of the application, and it will run on either PowerPC or Intel Macs, so users don't need to choose between two options.  Since BOINC participants manually download BOINC from the web site, we will be providing BOINC in  "universal binary" form.\
 \
 However, participants do not manually download project applications; this is done automatically by BOINC.  So there would be no advantage to combining the Intel and PowerPC versions in a single "universal binary" file, but doing so would double the size of the download.\
 \
-So BOINC treats Intel Macs as a new, separate platform.  BOINC previously directly supported four platforms: PowerPC Macs (powerpc-apple-darwin), Intel Linux (i686-pc-linux-gnu), Windows (windows-intelx86) and Solaris (sparc-sun-solaris2.7).   \
+So BOINC treats Intel Macs as 2 new, separate platforms: i686-apple-darwin and x86_64-apple-darwin, in addition to the PowerPC Mac platform (powerpc-apple-darwin).   \
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-
-\b \cf0 We have now added a fifth platform for Intel Macs (i686-apple-darwin).
-\b0 \
+Starting with BOINC 5.9.7, the Intel BOINC Client accepts powerpc-apple-darwin applications if no i686-apple-darwin is available.   The OS will run it in compatibility mode, emulating a PowerPC.  (Apple calls this compatibility mode Rosetta, which of course has nothing to do with the Rosetta BOINC project.)  \
 \
-As a 
+The x86_64 BOINC Client requests x86_64-apple-darwin applications from BOINC servers as its first choice, i686-apple-darwin as a second choice, and finally powerpc-apple-darwin if no Intel applications are available.\
+\
+However, older Intel Mac clients will not get any work unless the server offers i686-apple-darwin applications.  As a 
 \b temporary
-\b0  measure, projects can set their servers to deliver a copy of their current PowerPC application (renamed for the new platform) under the new i686-apple-darwin platform.  The OS will run it in compatibility mode, emulating a PowerPC.  (Apple calls this compatibility mode Rosetta, which of course has nothing to do with the Rosetta BOINC project.)  \
+\b0  measure, projects can set their servers to deliver a copy of their current PowerPC application (renamed for the new platform) under the i686-apple-darwin platform for older BOINC Clients. \
 \
 If you do this, be sure to give your native Intel application a higher version number when you do release it, so that clients will download it.\
 \
@@ -366,19 +386,21 @@ It is very easy to add a new platform to your server with the xadd utility.  For
 \f0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
-BOINC supports all PowerPC Macs running OS 10.3.0 or later, and all Intel Macs.  (The Intel Macs themselves require OS 10.4.4 or later.)\
+BOINC 6.1 supports all PowerPC Macs running OS 10.3.9 or later, and all Intel Macs, but older versions of BOINC supported OS 10.3.0 or later for PowerPC Macs.  (The Intel Macs themselves require OS 10.4.4 or later.)  \
 \
 The easiest way to build your application for these two platforms is to build each one on its native platform.  In other words, do your powerpc-apple-darwin build on a PowerPC Mac running OS 10.3.9, and your i686-apple-darwin build on an Intel Mac.\
 \
 But Apple provides the tools to allow you to cross-compile your application on any Mac (PowerPC or Intel) running OS 10.4 or later.  Here is how:\
 \
-All BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  If building a PowerPC application on an Intel Mac, you must also specify "-arch ppc" in the compiler and linker flags.\
+All BOINC project applications for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  If building a PowerPC application on an Intel Mac, you must also specify "-arch ppc" in the compiler and linker flags.\
 \
-All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  If building an Intel application on a PowerPC Mac, you must also specify "-arch i386" in the compiler and linker flags.\
+All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  If building an Intel application on a PowerPC Mac, you must also specify "-arch i386" in the compiler and linker flags.\
 \
-You can find examples of how to do this for two different kinds of configure / make scripts in the HEAD branch of the BOINC CVS tree at boinc/mac_build/buildcurl.sh and boinc/mac_build/buildjpeg.sh.  \
+All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.  To build for the x86_64 architecture, use a Mac running either OS 10.4 or OS 10.5 and specify the -arch x86_64 option to the compiler and linker.\
 \
-The lipo utility is used at the end of each of these scripts to combine the two binaries into a single "Universal Binary" file.  You won't need to do that with you project applications, since you will be distributing them separately under the two platforms.  But if you prefer, you can create a Universal Binary and distribute the same file for both i686-apple-darwin and powerpc-apple-darwin platforms.\
+If you prefer, you can cross-compile on one Mac running OS 10.4.x or OS 10.5.x.  You can find examples of how to do this for two different kinds of configure / make scripts in the HEAD branch of the BOINC CVS tree at boinc/mac_build/buildcurl.sh and boinc/mac_build/buildjpeg.sh.  \
+\
+The lipo utility is used at the end of each of these scripts to combine the two binaries into a single "Universal Binary" file.  You won't need to do that with you project applications, since you will be distributing them separately under the two platforms.  But if you prefer, you can create a Universal Binary and distribute the same file for both i686-apple-darwin and powerpc-apple-darwin platforms (and also the x86_64-apple-darwin platform if you wish).\
 \
 Note that the BOINC libraries (and any third-party libraries) which you link with your applications must be built with the same configuration as the application itself.  Follow the instructions earlier in this document to build the needed libraries.\
 \
@@ -406,6 +428,23 @@ Note that the BOINC libraries (and any third-party libraries) which you link wit
 \pard\pardeftab720\ql\qnatural
 
 \f0\fs24 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\b\fs28 \cf0 Upgrading applications for version 6 graphics
+\b0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+One of the major changes in BOINC for version 6 is that applications are now expected to generate graphics in a separate executable. The graphics application typically communicates with the worker application using shared memory.\
+\
+For additional information, please see:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+{\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/milestone/6.0"}}{\fldrslt 
+\f1\fs26 \cf0 http://boinc.berkeley.edu/trac/milestone/6.0}}\
+{\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/GraphicsApi"}}{\fldrslt 
+\f1\fs26 http://boinc.berkeley.edu/trac/wiki/GraphicsApi}}\
+\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \b\fs28 \cf0 Adding a Finder icon to your application
