@@ -69,18 +69,24 @@ else
 fi
 
 export PATH=/usr/local/bin:$PATH
-export LDFLAGS="-arch ppc"
-export CFLAGS="-arch ppc"
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.3
 
 rm -fR macfix
+
+rm -f lib/.libs/libcurl.a
+rm -f lib/.libs/libcurl_ppc.a
+rm -f lib/.libs/libcurl_i386.a
+rm -f lib/.libs/libcurl_x86_64.a
 
 if [ $usegcc33 -ne 0 ]; then
 
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
+export LDFLAGS="-arch ppc -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+export CPPFLAGS="-arch ppc -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+export CFLAGS="-arch ppc -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 
-## ./configure --enable-shared=NO --host=ppc
-./configure --enable-shared=NO --host=ppc CPPFLAGS="-arch ppc -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3 -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++ -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++/ppc-darwin -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
+./configure --enable-shared=NO --host=ppc
 if [  $? -ne 0 ]; then return 1; fi
 
 else
@@ -90,21 +96,17 @@ mkdir macfix
 echo "#include <gcc/darwin/3.3/stdarg.h>" >> ./macfix/stdarg.h
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc -I${PWD}/macfix"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc -I${PWD}/macfix"
 
-## ./configure --enable-shared=NO --host=ppc
-./configure --enable-shared=NO --host=ppc CPPFLAGS="-arch ppc -I${PWD}/macfix -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
+./configure --enable-shared=NO --host=ppc
 fi
 
 if [  $? -ne 0 ]; then return 1; fi
 
 
 make clean
-
-rm -f lib/.libs/libcurl.a
-rm -f lib/.libs/libcurl_ppc.a
-rm -f lib/.libs/libcurl_i386.a
-
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
 
 make
 if [  $? -ne 0 ]; then return 1; fi
@@ -115,19 +117,16 @@ rm -fR macfix
 make clean
 if [  $? -ne 0 ]; then return 1; fi
 
-export PATH=/usr/local/bin:$PATH
+##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS=""
-export CPPFLAGS=""
-export CFLAGS=""
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
-
-## ./configure --enable-shared=NO --host=i386
-./configure --enable-shared=NO --host=i386 CPPFLAGS="-arch i386 -I/Developer/SDKs/MacOSX10.4u.sdk/Developer/Headers/FlatCarbon -isystem /Developer/SDKs/MacOSX10.4u.sdk/usr/include"
-if [  $? -ne 0 ]; then return 1; fi
-
 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.4
+
+./configure --enable-shared=NO --host=i386
+if [  $? -ne 0 ]; then return 1; fi
 
 make
 if [  $? -ne 0 ]; then return 1; fi
@@ -154,19 +153,16 @@ mv -f lib/.libs/libcurl.a lib/libcurl_i386.a
 make clean
 if [  $? -ne 0 ]; then return 1; fi
 
-export PATH=/usr/local/bin:$PATH
+##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS=""
-export CPPFLAGS=""
-export CFLAGS=""
-export SDKROOT="/Developer/SDKs/MacOSX10.5u.sdk"
-
-## ./configure --enable-shared=NO --host=i386
-./configure --enable-shared=NO --host=x86_64 --without-random CFLAGS="-arch x86_64" CPPFLAGS="-arch x86_64 -DHAVE_POSIX_STRERROR_R=1 -I/Developer/SDKs/MacOSX10.5.sdk/Developer/Headers/FlatCarbon -isystem /Developer/SDKs/MacOSX10.5.sdk/usr/include"
-if [  $? -ne 0 ]; then return 1; fi
-
 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.5
+
+./configure --enable-shared=NO --host=x86_64 --without-random CFLAGS="-arch x86_64"
+if [  $? -ne 0 ]; then return 1; fi
 
 make
 if [  $? -ne 0 ]; then return 1; fi

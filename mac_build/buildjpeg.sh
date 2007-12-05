@@ -57,7 +57,9 @@ export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
 export LDFLAGS="-arch ppc"
 export CPPFLAGS="-arch ppc"
+export CFLAGS="-arch ppc"
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.3
 
 ./configure --disable-shared --host=ppc
 if [  $? -ne 0 ]; then return 1; fi
@@ -75,21 +77,17 @@ mv -f libjpeg.a libjpeg_ppc.a
 make clean
 if [  $? -ne 0 ]; then return 1; fi
 
-export PATH=/usr/local/bin:$PATH
+##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS=""
-export CPPFLAGS=""
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.4
 
 ./configure --disable-shared --host=i386
 if [  $? -ne 0 ]; then return 1; fi
 
-if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -nostartfiles -lcrt1.o -arch i386"
-else
-    export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-fi
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
 make -e
 if [  $? -ne 0 ]; then return 1; fi
@@ -112,17 +110,17 @@ fi
 make clean
 if [  $? -ne 0 ]; then return 1; fi
 
-export PATH=/usr/local/bin:$PATH
+##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS=""
-export CPPFLAGS=""
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.5
 
 ./configure --disable-shared --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
 
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 
 make -e
 if [  $? -ne 0 ]; then return 1; fi
@@ -137,6 +135,7 @@ if [  $? -ne 0 ]; then return 1; fi
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
+export CFLAGS=""
 export SDKROOT=""
 
 return 0
