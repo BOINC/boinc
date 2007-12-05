@@ -11,37 +11,24 @@ ini_set('display_startup_errors', true);
 // - Different units may have the same logical name;
 //   however, such units must be identical.
 
-// A position in a course (i.e. the last item viewed) is described by
-// 1) a "path" - a list of names.
-// 2) an associative array mapping name to state structures.
-//  e.g. a loop counter
-//  Typically this includes the logical name of the current child.
-//  Normally this is implied by the state;
-//  however, it may differ if the course structure has changed.
-//  In general the unit should restart in this case
+// A state in a course is described by an associative array
+// mapping logical names to state structures.
+// Typically this includes the logical name of the current child
+// and info such as a sequence index.
 
 abstract class BoltUnit {
     public $name;   // logical name.
+    public $is_item;
 
-    abstract function walk(
-        &$state, $old_path, &$new_path, $next, &$item, &$frac_done
-    );
+    abstract function walk(&$iter, $incr, &$frac_done);
         // multi-purpose function for traversing a course.
-        // if $old_path is null
-        //      This unit is being started;
-        //      append names to $new_path for this unit and descendants
-        //      $next is ignored
-        //      $item is the initial item
-        //      return is ignored
-        // else
-        //      This unis is being resumed in the middle.
-        //      The first entry in $old_path is for this unit.
-        //      Check for name mismatch (if changed course).
-        //      Append names to $new_path for this unit and descendants
-        //      if $next, the bottom-level non-item unit should increment.
-        //      return value: true if the caller should increment
+        // Create entry in $iter->state if not there.
+        // Recurse to first child.
+        // If first child is an item, set $iter->item
+        // If incr is set
+        //     the bottom-level non-item unit should increment.
+        //     return value: true if the caller should increment
         // frac_done: Fraction done (of this unit and any subunits)
-    abstract function is_item();
 }
 
 // An iterator represents a user's position in a course.
@@ -49,52 +36,37 @@ abstract class BoltUnit {
 // and the course may change underneath it.
 //
 class BoltIter {
-    public $path;       // array of names
     public $top;        // topmost unit
     public $state;      // state array
+
+    // the following are temps
     public $item;       // current item
     public $frac_done;  // fraction done
 
-    // point to the start of a course; set up path.
-    //
     function __construct($top) {
         $this->top = $top;
-        $this->path = null;
         $this->state = array();
     }
 
     function decode_state($encoded_state) {
         $this->state = json_decode($encoded_state, true);
-        print_r($this->state);
-        $this->path = $this->state['path'];
     }
 
     function encode_state() {
-        $this->state['path'] = $this->path;
-        print_r($this->state);
         return json_encode($this->state);
     }
 
-    // get current item
+    // get current item and fraction done
     //
     function at() {
-        $new_path = array();
-        $this->top->walk($this->state, $this->path, $new_path, false, $item, $frac_done);
-        $this->path = $new_path;
-        $this->item = $item;
-        $this->frac_done = $frac_done;
+        $this->top->walk($this, false, $this->frac_done);
     }
 
-    // move to the next item (and return it)
-    // return true if we're off the end
+    // move to the next item, and return it in $this->item
+    // (null if course finished)
     //
     function next() {
-        $item = null;
-        $new_path = array();
-        $this->top->walk($this->state, $this->path, $new_path, true, $item, $frac_done);
-        $this->path = $new_path;
-        $this->item = $item;
-        $this->frac_done = $frac_done;
+        $this->top->walk($this, true, $this->frac_done);
     }
 }
 
@@ -103,24 +75,21 @@ class BoltSequence extends BoltUnit {
     function __construct($n, $u) {
         $this->name = $n;
         $this->units = $u;
+        $this->is_item = false;
     }
 
-    function walk(&$state, $old_path, &$new_path, $next, &$item, &$frac_done) {
+    function walk(&$iter, $incr, &$frac_done) {
         //echo "call to walk() for $this->name: next: $next\n";
         $n = count($this->units);
-        if ($old_path) {
-            //echo "old path: \n";
-            //var_dump($old_path);
-            //echo "------------\n";
-            $child_name = $old_path[0];
-            $state_rec = $state[$this->name];
-            $i = $state_rec['i'];
+        if (array_key_exists($this->name, $iter->state)) {
+            $state_rec = $iter->state[$this->name];
+            $child_name = $state_rec['child_name'];
 
-            // first, look up unit by name
+            // look up unit by name
             // 
             $child = null;
-            for ($j=0; $j<$n; $j++) {
-                $c = $this->units[$j];
+            for ($i=0; $i<$n; $i++) {
+                $c = $this->units[$i];
                 if ($c->name == $child_name) {
                     $child = $c;
                     break;
@@ -130,6 +99,7 @@ class BoltSequence extends BoltUnit {
             // if not there, look up by index
             //
             if (!$child) {
+                $i = $state_rec['i'];
                 if ($i >= $n) {
                     // and if index is too big, use last unit
                     //
@@ -138,22 +108,21 @@ class BoltSequence extends BoltUnit {
                 $child = $this->units[$i];
             }
 
-            // at this point, $child is the right unit
+            // at this point, $child is the current unit, and $i is its index
             //
-            if ($next) {
-                $inc = false;
-                if ($child->is_item()) {
-                    $inc = true;
+            if ($incr) {
+                $my_inc = false;
+                if ($child->is_item) {
+                    $my_inc = true;
                 } else {
-                    array_shift($old_path);
-                    $inc = $child->walk(
-                        $state, $old_path, $new_path, true, $item, $frac_done
-                    );
+                    $my_inc = $child->walk($iter, $incr, $frac_done);
                 }
-                if ($inc) {
+                if ($my_inc) {
                     $i++;
                     if ($i == $n) {
                         $frac_done = 1;
+                        $state_rec['i'] = 0;
+                        $iter->state[$this->name] = $state_rec;
                         return true;
                     }
                 }
@@ -161,22 +130,18 @@ class BoltSequence extends BoltUnit {
         } else {
             $i = 0;
         }
-        $frac_done = $i/$n;
         $child = $this->units[$i];
+        $frac_done = $i/$n;
         $state_rec = null;
         $state_rec->i = $i;
         $state_rec->child_name = $child->name;
-        $new_path[] = $child->name;
-        $state[$this->name] = $state_rec;
-        if ($child->is_item()) {
-            $item = $child;
+        $iter->state[$this->name] = $state_rec;
+        if ($child->is_item) {
+            $iter->item = $child;
         } else {
-            $child->walk($state, null, $new_stack, false, $item, $f);
+            $child->walk($iter, false, $f);
             $frac_done += $f*(1/$n);
         }
-    }
-    function is_item() {
-        return false;
     }
 }
 
@@ -185,6 +150,7 @@ class BoltItem extends BoltUnit {
     function __construct($name, $filename) {
         $this->filename = $filename;
         $this->name = $name;
+        $this->is_item = true;
     }
     function begin() {
         return array(new BoltFrame($this));
@@ -192,10 +158,7 @@ class BoltItem extends BoltUnit {
     function unit_list() {
         return array(&$this);
     }
-    function is_item() {
-        return true;
-    }
-    function walk(&$state, $old_stack, &$new_stack, $next, &$item, &$frac_done) {
+    function walk(&$iter, $incr, &$frac_done) {
         echo "SHOULDN'T BE HERE\n";
     }
 }
