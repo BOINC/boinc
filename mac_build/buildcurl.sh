@@ -72,8 +72,6 @@ export PATH=/usr/local/bin:$PATH
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.3
 
-rm -fR macfix
-
 rm -f lib/.libs/libcurl.a
 rm -f lib/.libs/libcurl_ppc.a
 rm -f lib/.libs/libcurl_i386.a
@@ -91,14 +89,10 @@ if [  $? -ne 0 ]; then return 1; fi
 
 else
 
-## workaround for header problem
-mkdir macfix
-echo "#include <gcc/darwin/3.3/stdarg.h>" >> ./macfix/stdarg.h
-
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc -I${PWD}/macfix"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc -I${PWD}/macfix"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 
 ./configure --enable-shared=NO --host=ppc
 fi
@@ -111,8 +105,6 @@ make clean
 make
 if [  $? -ne 0 ]; then return 1; fi
 mv -f lib/.libs/libcurl.a lib/libcurl_ppc.a
-
-rm -fR macfix
 
 make clean
 if [  $? -ne 0 ]; then return 1; fi
