@@ -12117,3 +12117,16 @@ Charlie 4 Dec 2007
     lib/
         mac/
             QCrashReport.c
+
+Rom     5 Dec 2007
+    - client: Update client libraries and add debug libraries.
+        zlib 1.2.3
+        OpenSSL 0.9.8g
+        LibCurl 7.17.1
+        
+    curl/
+        <Many Files>
+    openssl/
+        <Many Files>
+    zlib/
+        <Many Files>

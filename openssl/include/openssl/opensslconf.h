@@ -25,6 +25,12 @@
 #ifndef OPENSSL_NO_RFC3779
 # define OPENSSL_NO_RFC3779
 #endif
+#ifndef OPENSSL_NO_SEED
+# define OPENSSL_NO_SEED
+#endif
+#ifndef OPENSSL_NO_TLSEXT
+# define OPENSSL_NO_TLSEXT
+#endif
 
 #endif /* OPENSSL_DOING_MAKEDEPEND */
 #ifndef OPENSSL_THREADS
@@ -54,6 +60,12 @@
 # if defined(OPENSSL_NO_RFC3779) && !defined(NO_RFC3779)
 #  define NO_RFC3779
 # endif
+# if defined(OPENSSL_NO_SEED) && !defined(NO_SEED)
+#  define NO_SEED
+# endif
+# if defined(OPENSSL_NO_TLSEXT) && !defined(NO_TLSEXT)
+#  define NO_TLSEXT
+# endif
 #endif
 
 /* crypto/opensslconf.h.in */
@@ -63,8 +75,8 @@
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "c:/Src/BOINC/SDKs/openssl-0.9.8e/lib/engines"
-#define OPENSSLDIR "c:/Src/BOINC/SDKs/openssl-0.9.8e/ssl"
+#define ENGINESDIR "C:/Src/SDKs/openssl-0.9.8g/lib/engines"
+#define OPENSSLDIR "C:/Src/SDKs/openssl-0.9.8g/ssl"
 #endif
 #endif
 
