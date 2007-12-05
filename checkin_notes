@@ -12110,3 +12110,10 @@ David  4 Dec 2007
 
     client/
         cpu_sched.C
+
+Charlie 4 Dec 2007
+    Mac: Fix compiler warnings.
+
+    lib/
+        mac/
+            QCrashReport.c
