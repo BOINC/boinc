@@ -12130,3 +12130,9 @@ Rom     5 Dec 2007
         <Many Files>
     zlib/
         <Many Files>
+
+Rom     5 Dec 2007
+    - WIN: Update project files to account for new directory structure.
+        
+    win_buld/
+        <Many Files>

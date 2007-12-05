@@ -85,11 +85,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
+				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -123,7 +123,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -194,11 +194,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
+				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -232,7 +232,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -307,7 +307,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -342,7 +342,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -417,7 +417,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -452,7 +452,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -528,7 +528,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -562,8 +562,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Checking Dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;&#x0D;&#x0A;"
+				Description="Checking boinc.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -638,7 +638,7 @@
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../curl/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;&quot;../zlib/mswin/$(PlatformName)/$(ConfigurationName)/lib&quot;;../../;&quot;$(OutDir)&quot;"
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -672,8 +672,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Checking Dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot;&#x0D;&#x0A;"
+				Description="Checking boinc.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
