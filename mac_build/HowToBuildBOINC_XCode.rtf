@@ -11,7 +11,7 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 12/4/07\
+Last updated 12/6/07\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 6.1.0 and later.  It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX.  \
@@ -80,7 +80,7 @@ You also need to install Subversion itself.  One place to get it is:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 BOINC version 6.1.0 supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued.  This allows us to build the BOINC Client and Manager using only GCC 4.0.  However, to ensure that science projects are compatible with older versions of BOINC running under OS 10.3.0 through 10.3.8, the PowerPC builds of the libraries are still built using GCC 3.3.\
+\cf0 BOINC version 6.1.0 supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued.  This allows us to build the BOINC Client and Manager using only GCC 4.0.  However, to ensure that science projects are compatible with older versions of BOINC running under OS 10.3.0 through 10.3.8, the PowerPC builds of the libraries and science applications are still built using GCC 3.3.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 Beware of using the wrong compiler!  Apple's release notes for GCC 4.0 say:\
@@ -97,9 +97,11 @@ Elsewhere on Apple's web site is the warning:\
 \i0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
-If you are building a project application to be run by BOINC, you only need to build the boinc libraries libboinc_api.a, ibboinc.a, and (if you want graphics) libboinc_graphics_api.a.  There are two ways to do this:\
+If you are building a project application to be run by BOINC, you only need to build the boinc libraries libboinc_api.a, ibboinc.a, and (if you want graphics) either libboinc_graphics_api.a or libboinc_graphics2.a.  (libboinc_graphics2.a is used for version 6 graphics, which is the method recommended for all applications.)  There are two ways to do this:\
 \
-(1) Use the BOINC autoconf / automake scripts to build these libraries and the jpeg and curl libraries on which they depend.  You must do all of this twice: once on a PowerPC Mac running OS 10.3.x (do NOT use OS 10.4), and once on an Intel Mac running OS 10.4.x.\
+(1) Use the BOINC autoconf / automake scripts to build these libraries and the jpeg and curl libraries on which they depend.  You must do all of this twice: once on a PowerPC Mac running OS 10.3.x (do 
+\b not
+\b0  use OS 10.4), and once on an Intel Mac running OS 10.4.x.\
 \
 (If you wish, you can combine separate Intel and PowerPC builds in a single Universal Binary mach-O file using the command-line utility lipo.  For details on lipo, type "man lipo" in Terminal; it is available on all Macs running OS10.4.x or later.)\
 \
@@ -111,10 +113,11 @@ This document gives instructions only for the second method.\
 \
 After building the libraries as Universal Binaries using the second method, you may still want to build your actual application separately on the two architectures: on a PowerPC Mac running OS 10.3.x (do NOT use OS 10.4), and also on an Intel Mac running OS 10.4.x.  To build for the x86_64 architecture, use a Mac running either OS 10.4 or OS 10.5 and specify the -arch x86_64 option to the compiler and linker.\
 \
-If you prefer, you can cross-compile on one Mac running OS 10.4.x or OS 10.5.x.  Look at the scripts buildcurl.sh and buildjpeg.sh for examples of environment settings which allow you to do this. \
+If you prefer, you can cross-compile on one Mac running OS 10.4.x or OS 10.5.x.  See the 
+\i Building project applications
+\i0  section below.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \b\fs28 \cf0 Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a\
@@ -237,7 +240,7 @@ The complete syntax for this script is\
 \
 The options for BuildMacBOINC.sh are:\
 	-dev		build the development (debug) version (native architecture only). \
-			default is deployment (release) version (universal binaries: ppc and i386).\
+			default is deployment (release) version (universal binaries: ppc, i386 and x86_64).\
 \
 	-noclean	don't do a "clean" of each target before building.\
 			default is to clean all first.\
@@ -266,7 +269,7 @@ The options for BuildMacBOINC.sh are:\
 \b0  was needed for building older versions of the wxMac library in conjunction with the older versions of the setupForBoinc.sh or buildWxMac.sh scripts.  It is not used for BOINC 5.9.2 or later.  \
   \'95 
 \b boinc.xcodeproj
-\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.\
+\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has three extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture, and Deployment-no64 which builds only 32-bit products.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f2 \cf0 \
@@ -349,17 +352,33 @@ Upgrading applications for Macs with 32-bit and 64-bit Intel processors
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 Apple converted all its lines of computers to Intel processors during 2006.  The early Intel Macs used the Core Duo processor, which is a 32-bit CPU.  Later Intel processors, including the Core 2 Duo, can run both 32-bit and 64-bit applications.  However, BOINC will run in 64-bit mode only under OS 10.5 and later.\
 \
-All current releases of BOINC include "universal binary" builds for the Macintosh of BOINC Manager, command-line BOINC client and the boinc_cmd command-line tool.  (Universal binaries contain both PowerPC and Intel executables in one file; the Macintosh OS automatically selects the appropriate one for that computer.)  Beginning with version 6.1, the BOINC Client and libraries also include the 64-bit Intel architecture as part of the universal binaries.\
+All current releases of BOINC include "universal binary" builds for the Macintosh of BOINC Manager, command-line BOINC Client and the boinc_cmd command-line tool.  (Universal binaries contain both PowerPC and Intel executables in one file; the Macintosh OS automatically selects the appropriate one for that computer.)  Beginning with version 6.1, the BOINC Client and libraries also include the 64-bit Intel architecture as part of the universal binaries.\
 \
 The advantage of "universal binaries" is that you only need to have one copy of the application, and it will run on either PowerPC or Intel Macs, so users don't need to choose between two options.  Since BOINC participants manually download BOINC from the web site, we will be providing BOINC in  "universal binary" form.\
 \
-However, participants do not manually download project applications; this is done automatically by BOINC.  So there would be no advantage to combining the Intel and PowerPC versions in a single "universal binary" file, but doing so would double the size of the download.\
+However, participants do not manually download project applications; this is done automatically by BOINC.  So there would be no advantage to combining the 32-bit Intel, 64-bit Intel and PowerPC versions in a single "universal binary" file, but doing so would triple the size of the download.\
 \
-So BOINC treats Intel Macs as 2 new, separate platforms: i686-apple-darwin and x86_64-apple-darwin, in addition to the PowerPC Mac platform (powerpc-apple-darwin).   \
+So BOINC treats Intel Macs as 2 new, separate platforms: 
+\f1\fs26 i686-apple-darwin
+\f0\fs24  and 
+\f1\fs26 x86_64-apple-darwin
+\f0\fs24 , in addition to the PowerPC Mac platform (
+\f1\fs26 powerpc-apple-darwin
+\f0\fs24 ).   \
 \
-Starting with BOINC 5.9.7, the Intel BOINC Client accepts powerpc-apple-darwin applications if no i686-apple-darwin is available.   The OS will run it in compatibility mode, emulating a PowerPC.  (Apple calls this compatibility mode Rosetta, which of course has nothing to do with the Rosetta BOINC project.)  \
+Starting with BOINC 5.9.7, the Intel BOINC Client accepts 
+\f1\fs26 powerpc-apple-darwin
+\f0\fs24  applications if no 
+\f1\fs26 i686-apple-darwin
+\f0\fs24  is available.   The OS will run it in compatibility mode, emulating a PowerPC.  (Apple calls this compatibility mode Rosetta, which of course has nothing to do with the Rosetta BOINC project.)  \
 \
-The x86_64 BOINC Client requests x86_64-apple-darwin applications from BOINC servers as its first choice, i686-apple-darwin as a second choice, and finally powerpc-apple-darwin if no Intel applications are available.\
+The x86_64 BOINC Client requests 
+\f1\fs26 x86_64-apple-darwin
+\f0\fs24  applications from BOINC servers as its first choice, 
+\f1\fs26 i686-apple-darwin
+\f0\fs24  as a second choice, and finally 
+\f1\fs26 powerpc-apple-darwin
+\f0\fs24  if no Intel applications are available.\
 \
 However, older Intel Mac clients will not get any work unless the server offers i686-apple-darwin applications.  As a 
 \b temporary
@@ -371,7 +390,7 @@ However, running a PowerPC application  in compatibility mode has two significan
 \
 (1) Screensaver graphics do not work.\
 \
-(2) Since it is running under emulation, your application will run at reduced efficiency.  But the benchmarks are based on running native Intel applications.  This may cause scheduler problems, such as uncompleted deadlines and inadequate credit for participants.  \
+(2) Since it is running under emulation, your application will run at reduced efficiency.  But the benchmarks are based on running native Intel applications.  This may cause scheduler problems, such as missed deadlines and inadequate credit for participants.  \
 \
 So it is important to make a native Intel application available as soon as possible.\
 \
@@ -392,11 +411,17 @@ The easiest way to build your application for these two platforms is to build ea
 \
 But Apple provides the tools to allow you to cross-compile your application on any Mac (PowerPC or Intel) running OS 10.4 or later.  Here is how:\
 \
-All BOINC project applications for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  If building a PowerPC application on an Intel Mac, you must also specify "-arch ppc" in the compiler and linker flags.\
+All BOINC project applications for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  If building a PowerPC application on an Intel Mac, you must also specify 
+\f1\fs26 -arch ppc
+\f0\fs24  in the compiler and linker flags.\
 \
-All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  If building an Intel application on a PowerPC Mac, you must also specify "-arch i386" in the compiler and linker flags.\
+All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  If building an Intel application on a PowerPC Mac, you must also specify 
+\f1\fs26 -arch i386
+\f0\fs24  in the compiler and linker flags.\
 \
-All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.  To build for the x86_64 architecture, use a Mac running either OS 10.4 or OS 10.5 and specify the -arch x86_64 option to the compiler and linker.\
+All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.  To build for the x86_64 architecture, use a Mac running either OS 10.4 or OS 10.5 and specify the 
+\f1\fs26 -arch x86_64
+\f0\fs24  option to the compiler and linker.\
 \
 If you prefer, you can cross-compile on one Mac running OS 10.4.x or OS 10.5.x.  You can find examples of how to do this for two different kinds of configure / make scripts in the HEAD branch of the BOINC CVS tree at boinc/mac_build/buildcurl.sh and boinc/mac_build/buildjpeg.sh.  \
 \
@@ -405,7 +430,7 @@ The lipo utility is used at the end of each of these scripts to combine the two 
 Note that the BOINC libraries (and any third-party libraries) which you link with your applications must be built with the same configuration as the application itself.  Follow the instructions earlier in this document to build the needed libraries.\
 \
 \pard\pardeftab720\ql\qnatural
-\cf0 Additional information on building Unix applications universal can  be found here:\
+\cf0 Additional information on building Unix applications universal can be found here:\
 \pard\pardeftab720\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html"}}{\fldrslt 
 \f1\fs26 \cf0 http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html}}\
@@ -441,8 +466,9 @@ For additional information, please see:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/milestone/6.0"}}{\fldrslt 
 \f1\fs26 \cf0 http://boinc.berkeley.edu/trac/milestone/6.0}}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/GraphicsApi"}}{\fldrslt 
-\f1\fs26 http://boinc.berkeley.edu/trac/wiki/GraphicsApi}}\
+\f1\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/GraphicsApi}}\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
