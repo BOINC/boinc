@@ -203,7 +203,6 @@ BOOL IdleTrackerStartup()
 			    4096,
 			    "Global\\BoincIdleTracker"
             );
-	    _ASSERT( g_hMemoryMappedData );
 
  	    if( NULL != g_hMemoryMappedData )
  	    {
