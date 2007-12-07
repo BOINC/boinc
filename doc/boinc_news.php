@@ -2,9 +2,17 @@
 
 $project_news = array(
 
+array("Dec 5, 2007",
+    "Watch a <a href=http://www.youtube.com/watch?v=GzATbET3g54>YouTube video</a> about the science behind <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home</a>."
+),
+array("Dec 5, 2007",
+    "The <a href=http://bob.myisland.as/tsp/>TSP</a>
+    (Traveling Salesman Problem) project is using BOINC to
+    find the shortest path between the capitals of the lower 48 states."
+),
 array("Dec 3, 2007",
-    "This web site will be down for 8 hours starting
-    at 9 PM PST, Dec 6."
+    "This web site, and the BOINC-Wide Teams site,
+    will be down for about 18 hours starting at 3 PM PST, Dec 6."
 ),
 array("November 28, 2007",
     "Live in Washington DC?  Get together with other BOINC users via

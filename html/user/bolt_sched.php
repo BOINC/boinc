@@ -12,6 +12,7 @@
 require_once("../inc/bolt.inc");
 require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_ex.inc");
+require_once("../inc/bolt_util.inc");
 require_once("../inc/util.inc");
 
 $user = get_logged_in_user();
@@ -34,26 +35,24 @@ function update_info() {
 
 $course_doc = require_once($course->doc_file);
 
-function finalize_view($user, $view_id) {
+function finalize_view($user, $view_id, $action) {
     if (!$view_id) return null;
     $view = BoltView::lookup_id($view_id);
     if ($view && $view->user_id == $user->id && !$view->end_time) {
         $now = time();
-        $view->update("end_time=$now");
+        $view->update("end_time=$now, action=$action");
+        return $view;
     }
-    return $view;
+    return null;
 }
 
-function start_course($user, $course, $course_doc) {
-    $iter = new BoltIter($course_doc);
-    $iter->at();
+function default_mode($item) {
+    return $item->is_exercise()?BOLT_MODE_SHOW:BOLT_MODE_LESSON;
+}
 
+function create_view($user, $course, $item, $mode) {
     $now = time();
-    print_r($iter->state);
-    $state = $iter->encode_state();
-    BoltEnrollment::insert("(create_time, user_id, course_id, state) values ($now, $user->id, $course->id, '$state')");
-    $e = BoltEnrollment::lookup($user->id, $course->id);
-    show_item($iter->item, 0, $user, $course, $e);
+    return BoltView::insert("(user_id, course_id, item_name, start_time, mode) values ($user->id, $course->id, '$item->name', $now, $mode)");
 }
 
 function get_current_item($e, $course_doc) {
@@ -73,29 +72,58 @@ function get_next_item($e, $course_doc) {
     return $iter;
 }
 
-function show_item($item, $frac_done, $user, $course, $e) {
+function show_item(
+    $item, $frac_done, $user, $course, $e, $view_id, $mode
+) {
+    global $bolt_ex_mode;
+    global $bolt_ex_index;
+
     $now = time();
     $e->update("last_view=$now, fraction_done=$frac_done");
-    $view_id = BoltView::insert("(user_id, course_id, item_name, start_time) values ($user->id, $course->id, '$item->name', $now)");
 
     if ($item->is_exercise()) {
-        $bolt_ex_mode = BOLT_MODE_SHOW;
+        $bolt_ex_mode = $mode;
         $bolt_ex_index = 0;
-        echo "
-            <form action=bolt_sched.php>
-            <input type=hidden name=view_id value=$view_id>
-            <input type=hidden name=course_id value=$course->id>
-            <input type=hidden name=action value=answer>
-        ";
-        require($item->filename);
-        echo "<p><input type=submit value=OK>
-        ";
+        switch ($mode) {
+        case BOLT_MODE_SHOW:
+            echo "
+                <form action=bolt_sched.php>
+                <input type=hidden name=view_id value=$view_id>
+                <input type=hidden name=course_id value=$course->id>
+                <input type=hidden name=action value=answer>
+            ";
+            srand($view_id);
+            require($item->filename);
+            echo "<p><input type=submit value=OK>";
+            break;
+        case BOLT_MODE_ANSWER:
+            require($item->filename);
+            echo "<p><a href=bolt_sched.php?course_id=$course->id&action=next&view_id=$view_id>Next</a>";
+            break;
+        }
     } else {
         require_once($item->filename);
         echo "<p><a href=bolt_sched.php?course_id=$course->id&action=next&view_id=$view_id>Next</a>";
     }
 
-    echo "<p>Fraction done: $frac_done";
+    echo "<p>Fraction done: $frac_done
+        <a href=bolt_course.php?course_id=$course->id>Course history</a>
+    ";
+}
+
+function start_course($user, $course, $course_doc) {
+    BoltEnrollment::delete($user->id, $course->id);
+    $iter = new BoltIter($course_doc);
+    $iter->at();
+
+    $now = time();
+    print_r($iter->state);
+    $state = $iter->encode_state();
+    BoltEnrollment::insert("(create_time, user_id, course_id, state) values ($now, $user->id, $course->id, '$state')");
+    $e = BoltEnrollment::lookup($user->id, $course->id);
+    $mode = default_mode($iter->item);
+    $view_id = create_view($user, $course, $iter->item, $mode);
+    show_item($iter->item, 0, $user, $course, $e, $view_id, $mode);
 }
 
 $e = BoltEnrollment::lookup($user->id, $course_id);
@@ -125,8 +153,7 @@ case 'update_info':
     update_info();
     start_course($user, $course, $course_doc);
 case 'next':            // "next" button in lesson or exercise answer page
-    $view = finalize_view($user, $view_id);
-    $e = BoltEnrollment::lookup($user->id, $course_id);
+    $view = finalize_view($user, $view_id, BOLT_ACTION_NEXT);
     $iter = get_next_item($e, $course_doc);
     if (!$iter->item) {
         page_head("Done with course");
@@ -134,10 +161,12 @@ case 'next':            // "next" button in lesson or exercise answer page
         page_tail();
         exit();
     }
-    show_item($iter->item, $iter->frac_done, $user, $course, $e);
+    $mode = default_mode($iter->item);
+    $view_id = create_view($user, $course, $iter->item, $mode);
+    show_item($iter->item, $iter->frac_done, $user, $course, $e, $view_id, $mode);
     break;
 case 'answer':          // submit answer in exercise
-    $view = finalize_view($user, $view_id);
+    $view = finalize_view($user, $view_id, BOLT_ACTION_SUBMIT);
     $iter = get_current_item($e, $course_doc);
     $item = $iter->item;
     if (!$item->is_exercise()) {
@@ -149,13 +178,29 @@ case 'answer':          // submit answer in exercise
     $bolt_ex_mode = BOLT_MODE_SCORE;
     $bolt_ex_index = 0;
     $bolt_ex_score = 0;
+    $bolt_ex_response = "";
+    srand($view_id);
     ob_start();     // turn on output buffering
     require($item->filename);
     ob_end_clean();
-    echo "score: $bolt_ex_score";
-    $bolt_ex_mode = BOLT_MODE_ANSWER;
-    $bolt_ex_index = 0;
-    require($item->filename);
+
+    $result_id = BoltResult::insert(
+        "(view_id, score, response)
+        values ($view->id, $bolt_ex_score, '$bolt_ex_response')"
+    );
+    $view->update("result_id=$result_id");
+    srand($view_id);
+    $view_id = create_view($user, $course, $item, BOLT_MODE_ANSWER);
+    show_item(
+        $iter->item, $iter->frac_done, $user, $course, $e,
+        $view_id, BOLT_MODE_ANSWER
+    );
+    break;
+default:
+    $iter = get_current_item($e, $course_doc);
+    $mode = default_mode($iter->item);
+    $view_id = create_view($user, $course, $iter->item, $mode);
+    show_item($iter->item, $iter->frac_done, $user, $course, $e, $view_id, $mode);
     break;
 }
 

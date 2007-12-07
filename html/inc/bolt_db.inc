@@ -3,6 +3,16 @@
 require_once("../inc/db_conn.inc");
 require_once("../inc/util.inc");
 
+define('BOLT_MODE_LESSON', 1);
+define('BOLT_MODE_SHOW', 2);
+define('BOLT_MODE_SCORE', 3);
+define('BOLT_MODE_ANSWER', 4);
+
+define('BOLT_ACTION_NONE', 0);
+define('BOLT_ACTION_NEXT', 1);
+define('BOLT_ACTION_SUBMIT', 2);
+define('BOLT_ACTION_QUESTION', 3);
+
 class BoltDb extends DbConn {
     static $instance;
 
@@ -97,6 +107,10 @@ class BoltEnrollment {
         $db = BoltDb::get();
         $db->update_aux('bolt_enrollment', "$clause where user_id=$this->user_id and course_id=$this->course_id");
     }
+    function delete($user_id, $course_id) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_enrollment', "user_id=$user_id and course_id=$course_id");
+    }
 }
 
 class BoltView {
@@ -113,6 +127,27 @@ class BoltView {
     function update($clause) {
         $db = BoltDb::get();
         $db->update($this, 'bolt_view', $clause);
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_view', 'BoltView', $clause);
+    }
+}
+
+class BoltResult {
+    static function insert($clause) {
+        $db = BoltDb::get();
+        $ret = $db->insert('bolt_result', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
+    }
+    static function lookup_id($id) {
+        $db = BoltDb::get();
+        return $db->lookup_id($id, 'bolt_result', 'BoltResult');
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_view', 'BoltResult', $clause);
     }
 }
 

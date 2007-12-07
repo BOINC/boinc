@@ -1,0 +1,69 @@
+<?php
+
+require_once("../inc/util.inc");
+
+$user = get_logged_in_user();
+
+function mode_name($mode) {
+    switch ($mode) {
+    case BOLT_MODE_LESSON: return "lesson";
+    case BOLT_MODE_SHOW: return "exercise";
+    case BOLT_MODE_ANSWER: return "exercise answer";
+    default: return "unknown";
+    }
+}
+
+function action_name($action) {
+    switch ($action) {
+    case BOLT_ACTION_NONE: return "None";
+    case BOLT_ACTION_NEXT: return "Next";
+    case BOLT_ACTION_SUBMIT: return "Submit";
+    case BOLT_ACTION_QUESTION: return "Question";
+    default: return "unknown";
+    }
+}
+
+function show_view($view) {
+    if ($view->end_time) {
+        $d = $view->end_time - $view->start_time;
+        $dur = "$d seconds";
+    } else {
+        $dur = "---";
+    }
+
+    if ($view->result_id) {
+        $result = BoltResult::lookup_id($view->result_id);
+        $x = "Score: $result->score
+            <br>Answer: $result->response";
+    }
+    echo "<tr>
+        <td>".time_str($view->start_time)."</td>
+        <td>$dur</td>
+        <td>$view->item_name</td>
+        <td>".mode_name($view->mode)." $x</td>
+        <td>".action_name($view->action)."</td>
+        </tr>
+    ";
+}
+
+require_once("../inc/bolt_db.inc");
+
+$course_id = get_int('course_id');
+$course = BoltCourse::lookup_id($course_id);
+page_head("Your history in $course->name");
+
+$views = BoltView::enum("user_id=$user->id and course_id=$course_id order by id");
+start_table();
+
+table_header("Time", "Duration", "Name", "Type", "Action");
+foreach ($views as $view) {
+    show_view($view);
+}
+end_table();
+echo "
+    <a href=bolt_sched.php?course_id=$course_id>Resume course</a>
+    <p>
+";
+
+page_tail();
+?>

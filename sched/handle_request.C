@@ -194,6 +194,16 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     return false;
 }
 
+void get_weak_authenticator(USER& user, char* out) {
+    char buf[256];
+    sprintf(buf, "%s%s", user.authenticator, user.passwd_hash);
+    md5_block((unsigned char*)buf, strlen(buf), out);
+    log_messages.printf(
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "buf: %s md5: %s\n"
+    );
+}
+
 // Based on the info in the request message,
 // look up the host and its user, and make sure the authenticator matches.
 // Some special cases:
@@ -250,25 +260,49 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.hostid, host.id, sreq.rpc_seqno, host.rpc_seqno
         );
 
-        strlcpy(
-            user.authenticator, sreq.authenticator, sizeof(user.authenticator)
-        );
-        sprintf(buf, "where authenticator='%s'", user.authenticator);
+        // look up user based on the ID in host record,
+        // and see if the authenticator matches (regular or weak)
+        //
+        sprintf(buf, "where id=%d", host.userid);
         retval = user.lookup(buf);
-        if (retval) {
-            USER_MESSAGE um("Invalid or missing account key.  "
-                "Visit this project's web site to get an account key.",
-                "high"
-            );
-            reply.insert_message(um);
-            reply.set_delay(DELAY_MISSING_KEY);
-            reply.nucleus_only = true;
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
-                "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
-                host.id, user.id, sreq.authenticator
-            );
-            return ERR_AUTHENTICATOR;
+        if (!retval && !strcmp(user.authenticator, sreq.authenticator)) {
+            // req auth matches user auth - go on
+        } else {
+            bool weak_auth = false;
+            if (!retval) {
+                // user for host.userid exists - check weak auth
+                get_weak_authenticator(user, buf);
+                if (!strcmp(buf, sreq.authenticator)) {
+                    weak_auth = true;
+                    log_messages.printf(
+                        SCHED_MSG_LOG::MSG_DEBUG,
+                        "[HOST#%d] accepting weak authenticator\n"
+                    );
+                }
+            }
+            if (!weak_auth) {
+                // weak auth failed - look up user based on authenticator
+                strlcpy(
+                    user.authenticator, sreq.authenticator, sizeof(user.authenticator)
+                );
+                sprintf(buf, "where authenticator='%s'", user.authenticator);
+                retval = user.lookup(buf);
+                if (retval) {
+                    USER_MESSAGE um("Invalid or missing account key.  "
+                        "Visit this project's web site to get an account key.",
+                        "high"
+                    );
+                    reply.insert_message(um);
+                    reply.set_delay(DELAY_MISSING_KEY);
+                    reply.nucleus_only = true;
+                    log_messages.printf(
+                        SCHED_MSG_LOG::MSG_CRITICAL,
+                        "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
+                        host.id, user.id, sreq.authenticator
+                    );
+                    return ERR_AUTHENTICATOR;
+                }
+            }
         }
 
         reply.user = user;

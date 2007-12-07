@@ -1,42 +1,29 @@
 <?php
 
-define('BOLT_MODE_SHOW', 0);
-define('BOLT_MODE_SCORE', 1);
-define('BOLT_MODE_ANSWER', 2);
-
 $bolt_ex_mode = 0;
 $bolt_ex_index = 0;
 $bolt_ex_state = 0;
 $bolt_ex_score = 0;
 
-function bolt_new_seed() {
-    return (float)microtime() * 1000000;
-}
-
 function bolt_exclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
-    global $bolt_ex_state;  // output if SHOW, else input
     global $bolt_ex_score;  // output if SCORE
+    global $bolt_ex_response;   // output if SCORE
 
+    echo "mode: $bolt_ex_mode";
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:
-        // Shuffle the answers;
-        // record the RNG seed so that we can do the same shuffle later
-        //
-        $seed = bolt_new_seed();
-        srand($seed);
         shuffle($choices);
         $i = 0;
+        start_table();
         foreach ($choices as $choice) {
-            echo "<br><input name=q_$bolt_ex_index type=radio value=$i> $choice\n";
+            row2($choice, "<input name=q_$bolt_ex_index type=radio value=$i>");
             $i++;
         }
-        $bolt_ex_state = $seed;
+        end_table();
         break;
     case BOLT_MODE_SCORE:
-        $seed = $bolt_ex_state;
-        srand($seed);
         $right_ans = $choices[0];
         shuffle($choices);
         $response = $_GET["q_$bolt_ex_index"];
@@ -45,21 +32,23 @@ function bolt_exclusive_choice($choices) {
         } else {
             $bolt_ex_score = 0;
         }
-        echo "FOO";
+        $bolt_ex_response = "$bolt_ex_index: $choices[$response]";
         break;
     case BOLT_MODE_ANSWER:
-        $seed = $bolt_ex_state;
-        srand($seed);
         $right_ans = $choices[0];
         shuffle($choices);
         $response = $_GET["q_$bolt_ex_index"];
         $i = 0;
+        echo "response: $response";
+        start_table();
         foreach ($choices as $choice) {
-            echo "<br>$choice";
-            if ($response == $i) echo "You chose this";
-            if ($choice == $right_ans) echo "Right answer";
+            $x = "";
+            if ($response == $i) $x .= "(You chose this) ";
+            if ($choice == $right_ans) $x .=  "(Right answer)";
+            row2($choice, $x);
             $i++;
         }
+        end_table();
         break;
     }
     $bolt_ex_index++;

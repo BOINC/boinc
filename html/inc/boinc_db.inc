@@ -90,6 +90,10 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->insert('user', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'user');
+    }
 }
 
 class BoincTeam {

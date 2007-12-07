@@ -12136,3 +12136,23 @@ Rom     5 Dec 2007
         
     win_buld/
         <Many Files>
+
+David  7 Jan 2007
+    - Add weak account key mechanism.
+        Each account has an associated weak account key.
+        The user can see it by visiting weak_auth.php.
+        If you put the weak account key in the account file on a computer
+        (instead of the regular account key)
+        the computer will attach to the account.
+        But the weak account key cannot be used to log in
+        to the account on the web, or to do web RPCs, or anything else.
+
+        Note: this involves a scheduler change.
+
+    html/
+        ops/
+            team_export.php
+        user/
+            weak_auth.php
+    sched/
+        handle_request.C

@@ -12,10 +12,6 @@ function part2() {
     );
 }
 
-function refresh() {
-    return array(0, 14, 28);
-}
-
 function basic_review() {
     return sequence(
         lesson(
@@ -46,14 +42,14 @@ return sequence(
         name('lesson 2'),
         filename('bolt_sample_lesson2.php')
     ),
-    reviewed_exercise(
+    exercise_set(
         exercise(
             name('exercise 1'),
             filename('bolt_sample_exercise1.php')
         ),
-        refresh_interval(refresh()),
+        refresh(array(7, 14, 28)),
         review(.3, basic_review()),
-        review(.7, int_review()),
+        review(.7, int_review())
     ),
     part2()
 );

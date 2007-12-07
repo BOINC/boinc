@@ -15,6 +15,10 @@ function handle_team($team, $f) {
         echo "no user for team $team->id\n";
         exit(1);
     }
+    if ($user->teamid != $team->userid) {
+        echo "Founder is not member of $team->name\n";
+        return;
+    }
     if (!$user->email_validated) {
         echo "the founder of $team->name, $user->email_addr, is not validated\n";
         return;
