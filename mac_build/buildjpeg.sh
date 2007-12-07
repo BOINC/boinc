@@ -55,9 +55,9 @@ fi
 
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
-export LDFLAGS="-arch ppc"
-export CPPFLAGS="-arch ppc"
-export CFLAGS="-arch ppc"
+export LDFLAGS="-arch ppc -D_NONSTD_SOURCE"
+export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE"
+export CFLAGS="-arch ppc -D_NONSTD_SOURCE"
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.3
 
