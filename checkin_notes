@@ -12156,3 +12156,16 @@ David  7 Jan 2007
             weak_auth.php
     sched/
         handle_request.C
+
+Charlie 7 Dec 07
+    - Mac: Fix visibility linker warnings when linking BOINC libraries with 
+        project applications, boinc_cmd, etc.
+    - Mac: Fix jpeg library build problem when building under OS 10.5 and 
+        XCode 3.0 (compatibility settings issue, enter "man compat" in Terminal 
+        for more info).
+    
+    mac_build/
+        buildjpeg.sh
+        boinc.xcodeproj/
+            project.pbxproj
+ 
