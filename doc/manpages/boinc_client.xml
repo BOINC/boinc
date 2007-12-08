@@ -100,13 +100,6 @@
       </varlistentry>
 
       <varlistentry>
-        <term><option>--return_results_immediately</option></term>
-        <listitem>
-          <para>contact server when have results</para>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry>
         <term>
           <option>--detach_project <replaceable>URL</replaceable></option>
         </term>
