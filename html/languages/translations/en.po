@@ -561,3 +561,26 @@ msgstr ""
 
 msgid "unread" 
 msgstr ""
+
+
+#########################################
+# "Weak account key" page (weak_auth.php)
+#########################################
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr ""
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr ""
+
+msgid "Your weak account key for this project is:"
+msgstr ""
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr ""
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr ""
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr ""
