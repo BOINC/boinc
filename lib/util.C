@@ -461,6 +461,8 @@ void boinc_crash() {
 #endif
 }
 
+#ifndef _USING_FCGI_
+
 // read file (at most max_len chars, if nonzero) into malloc'd buf
 //
 int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
@@ -487,6 +489,8 @@ int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
     fclose(f);
     return 0;
 }
+
+#endif
 
 // read file (at most max_len chars, if nonzero) into string
 //

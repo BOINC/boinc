@@ -123,6 +123,8 @@ function show_other() {
             <li> <a href=http://boinc.berkeley.edu/trac/wiki/BoincPapers>Papers and talks</a> on BOINC
             <li> <a href=logo.php>Logos and graphics</a>
             <li> <a href=trac/wiki/BoincEvents>Events</a>
+            <li> <a href=trac/wiki/BoltIntro>Bolt</a> (software for web-based education and training)</a>
+            <li> <a href=trac/wiki/BossaIntro>Bossa</a> (software for distributed thinking projects)</a>
             </ul>
             <br>
         </td></tr>

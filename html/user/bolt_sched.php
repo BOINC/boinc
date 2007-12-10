@@ -183,6 +183,7 @@ case 'answer':          // submit answer in exercise
     ob_start();     // turn on output buffering
     require($item->filename);
     ob_end_clean();
+    $bolt_ex_response = BoltDb::escape_string($bolt_ex_response);
 
     $result_id = BoltResult::insert(
         "(view_id, score, response)

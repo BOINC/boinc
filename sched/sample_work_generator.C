@@ -29,6 +29,8 @@
 //   the file (and the workunit names) contain a timestamp
 //   and sequence number, so that they're unique.
 
+#include <unistd.h>
+
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "backend_lib.h"

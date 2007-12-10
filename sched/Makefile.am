@@ -209,7 +209,7 @@ fcgi_SOURCES = \
 
 fcgi_DEPENDENCIES = $(LIB_SCHED)
 fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
+fcgi_LDADD = $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.C \

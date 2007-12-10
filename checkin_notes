@@ -12177,3 +12177,17 @@ David  8 Dec 07
             en.po
         user/
             weak_auth.php
+
+David  10 Dec 07
+    - compile fixes
+
+    sched/
+        Makefile.am
+        wample_work_generator.C
+    html/
+        inc/
+            uotd.inc
+        user/
+            account_finish_action.php
+    lib/
+        util.C

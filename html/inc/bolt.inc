@@ -20,6 +20,7 @@ ini_set('display_startup_errors', true);
 
 abstract class BoltUnit {
     public $name;   // logical name.
+    public $title;
     public $is_item;
 
     abstract function walk(&$iter, $incr, &$frac_done);
@@ -149,16 +150,14 @@ class BoltSequence extends BoltUnit {
 
 class BoltItem extends BoltUnit {
     public $filename;
-    function __construct($name, $filename) {
+    function __construct($name, $title, $filename) {
         $this->filename = $filename;
         $this->name = $name;
+        $this->title = $title;
         $this->is_item = true;
     }
     function begin() {
         return array(new BoltFrame($this));
-    }
-    function unit_list() {
-        return array(&$this);
     }
     function walk(&$iter, $incr, &$frac_done) {
         echo "SHOULDN'T BE HERE\n";
@@ -174,20 +173,6 @@ class BoltLesson extends BoltItem {
 class BoltExercise extends BoltItem {
     function is_exercise() {
         return true;
-    }
-}
-
-class BoltName {
-    public $name;
-    function __construct($n) {
-        $this->name = $n;
-    }
-}
-
-class BoltFileName {
-    public $fname;
-    function __construct($n) {
-        $this->fname = $n;
     }
 }
 
@@ -208,15 +193,19 @@ class BoltReview {
 }
 
 function name($n) {
-    return new BoltName($n);
+    return array('name', $n);
+}
+
+function title($n) {
+    return array('title', $n);
 }
 
 function filename($n) {
-    return new BoltFileName($n);
+    return array('filename', $n);
 }
 
 function refresh_interval($i) {
-    return new BoltRefreshInterval($i);
+    return array('refresh_interval', $i);
 }
 
 function review($s, $u) {
@@ -236,44 +225,57 @@ function refresh() {
 function lesson() {
     $name = "";
     $file = "";
+    $title = "";
     $args = func_get_args();
     foreach ($args as $arg) {
-        if (is_object($arg)) {
-            if (get_class($arg) == 'BoltName') {
-                $name = $arg->name;
-            } else if (get_class($arg) == 'BoltFileName') {
-                $fname = $arg->fname;
-            } else {
-                echo "unprocessed arg of class ".get_class($arg);
+        if (is_array($arg)) {
+            switch ($arg[0]) {
+            case 'name': $name = $arg[1]; break;
+            case 'title': $title = $arg[1]; break;
+            case 'filename': $file = $arg[1]; break;
+            default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
+            }
+        } else {
+            echo "unprocessed arg of class ".get_class($arg);
+        }
+    }
+    if (!$name) {
+        error_page("Missing name in lesson");
+    }
+    if (!$title) {
+        $title = $name;
+    }
+    if (!$file) {
+        error_page("Missing filename in lesson");
+    }
+    return new BoltLesson($name, $title, $file);
+}
+
+function exercise() {
+    $name = "";
+    $file = "";
+    $title = "";
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        if (is_array($arg)) {
+            switch ($arg[0]) {
+            case 'name': $name = $arg[1]; break;
+            case 'title': $title = $arg[1]; break;
+            case 'filename': $file = $arg[1]; break;
+            default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
             }
         }
     }
     if (!$name) {
         error_page("Missing name in lesson");
     }
-    if (!$fname) {
+    if (!$title) {
+        $title = $name;
+    }
+    if (!$file) {
         error_page("Missing filename in lesson");
     }
-    return new BoltLesson($name, $fname);
-}
-
-function exercise() {
-    $name = "";
-    $file = "";
-    $args = func_get_args();
-    foreach ($args as $arg) {
-        if (is_object($arg)) {
-            if (get_class($arg) == 'BoltName') {
-                $name = $arg->name;
-            } else if (get_class($arg) == 'BoltFileName') {
-                $fname = $arg->fname;
-            }
-        }
-    }
-    if (!$name || !$fname) {
-        error_page("Missing name or filename in exercise");
-    }
-    return new BoltExercise($name, $fname);
+    return new BoltExercise($name, $title, $file);
 }
 
 function sequence() {
@@ -281,11 +283,15 @@ function sequence() {
     $units = array();
     $name = "";
     foreach ($args as $arg) {
-        if (is_object($arg)) {
+        if (is_array($arg)) {
+            switch ($arg[0]) {
+            case 'name': $name = $arg[1]; break;
+            case 'title': $title = $arg[1]; break;
+            default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
+            }
+        } else if (is_object($arg)) {
             if (is_subclass_of($arg, "BoltUnit")) {
                 $units[] = $arg;
-            } else if (get_class($arg) == "BoltName") {
-                $name = $arg->name;
             } else {
                 echo "Unrecognized arg";
             }

@@ -2,7 +2,6 @@
 
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
-include_once("../inc/email.inc");
 
 function show_error($str) {
     page_head("Can't update account");

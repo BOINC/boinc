@@ -67,7 +67,7 @@ function select_uotd() {
     //
     if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
         $u = new BoincUser;
-        $u->email_addr - UOTD_ADMIN_EMAIL;
+        $u->email_addr = UOTD_ADMIN_EMAIL;
         $u->name = "UOTD admin";
         send_email($u,
             PROJECT . ": User of the Day pool is running low!",
