@@ -10,8 +10,9 @@ define('BOLT_MODE_ANSWER', 4);
 
 define('BOLT_ACTION_NONE', 0);
 define('BOLT_ACTION_NEXT', 1);
-define('BOLT_ACTION_SUBMIT', 2);
-define('BOLT_ACTION_QUESTION', 3);
+define('BOLT_ACTION_PREV', 2);
+define('BOLT_ACTION_SUBMIT', 3);
+define('BOLT_ACTION_QUESTION', 4);
 
 class BoltDb extends DbConn {
     static $instance;
@@ -44,6 +45,10 @@ class BoltDb extends DbConn {
             if (!$retval) return null;
         }
         return $instance;
+    }
+    static function escape_string($string) {
+        $db = self::get();
+        return $db->base_escape_string($string);
     }
 }
 

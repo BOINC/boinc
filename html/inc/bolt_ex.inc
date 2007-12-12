@@ -76,7 +76,8 @@ function bolt_inclusive_choice($choices) {
         $score = 0;
         shuffle($choices);
         foreach ($choices as $choice) {
-            $response = $_GET["q_".$bolt_ex_index."_$i"];
+            $key = "q_".$bolt_ex_index."_$i";
+            $response = array_key_exists($key, $_GET);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
             if ($correct) $score += 1./$n;
@@ -88,12 +89,14 @@ function bolt_inclusive_choice($choices) {
         $n = count($choices);
         shuffle($choices);
         start_table();
+        table_header("", "correct?", "your answer");
         foreach ($choices as $choice) {
             $c = $choice[0];
-            $response = $_GET["q_$bolt_ex_index_$i"];
+            $key = "q_".$bolt_ex_index."_$i";
+            $response = array_key_exists($key, $_GET);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
-            row2($c, $x);
+            table_row($c, $r?"X":"<br>", $response?"X":"<br>");
             $i++;
         }
         end_table();

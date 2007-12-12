@@ -50,37 +50,18 @@ function default_mode($item) {
     return $item->is_exercise()?BOLT_MODE_SHOW:BOLT_MODE_LESSON;
 }
 
-function create_view($user, $course, $item, $mode) {
+function create_view($user, $course, $iter, $mode) {
     $now = time();
-    return BoltView::insert("(user_id, course_id, item_name, start_time, mode) values ($user->id, $course->id, '$item->name', $now, $mode)");
-}
-
-function get_current_item($e, $course_doc) {
-    $frac_done = 0;
-    $iter = new BoltIter($course_doc);
-    $iter->decode_state($e->state);
-    $iter->at();
-    return $iter;
-}
-
-function get_next_item($e, $course_doc) {
-    $iter = new BoltIter($course_doc);
-    $iter->decode_state($e->state);
-    $iter->next();
+    $item = $iter->item;
     $state = $iter->encode_state();
-    $e->update("state='$state'");
-    return $iter;
+    return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done)");
 }
 
-function show_item(
-    $item, $frac_done, $user, $course, $e, $view_id, $mode
-) {
+function show_item($iter, $user, $course, $view_id, $mode) {
     global $bolt_ex_mode;
     global $bolt_ex_index;
 
-    $now = time();
-    $e->update("last_view=$now, fraction_done=$frac_done");
-
+    $item = $iter->item;
     if ($item->is_exercise()) {
         $bolt_ex_mode = $mode;
         $bolt_ex_index = 0;
@@ -106,8 +87,9 @@ function show_item(
         echo "<p><a href=bolt_sched.php?course_id=$course->id&action=next&view_id=$view_id>Next</a>";
     }
 
-    echo "<p>Fraction done: $frac_done
-        <a href=bolt_course.php?course_id=$course->id>Course history</a>
+    echo "<p>Fraction done: $iter->frac_done
+        <p><a href=bolt_course.php?course_id=$course->id>Course history</a>
+        <p><a href=bolt_sched.php?course_id=$course->id&action=prev&view_id=$view_id>Prev</a>
     ";
 }
 
@@ -117,13 +99,10 @@ function start_course($user, $course, $course_doc) {
     $iter->at();
 
     $now = time();
-    print_r($iter->state);
-    $state = $iter->encode_state();
-    BoltEnrollment::insert("(create_time, user_id, course_id, state) values ($now, $user->id, $course->id, '$state')");
-    $e = BoltEnrollment::lookup($user->id, $course->id);
     $mode = default_mode($iter->item);
-    $view_id = create_view($user, $course, $iter->item, $mode);
-    show_item($iter->item, 0, $user, $course, $e, $view_id, $mode);
+    $view_id = create_view($user, $course, $iter, $mode);
+    BoltEnrollment::insert("(create_time, user_id, course_id, last_view_id) values ($now, $user->id, $course->id, $view_id)");
+    show_item($iter, $user, $course, $view_id, $mode);
 }
 
 $e = BoltEnrollment::lookup($user->id, $course_id);
@@ -152,22 +131,33 @@ case 'start_confirm':
 case 'update_info':
     update_info();
     start_course($user, $course, $course_doc);
+case 'prev':
+    $view = finalize_view($user, $view_id, BOLT_ACTION_NEXT);
+    break;
 case 'next':            // "next" button in lesson or exercise answer page
     $view = finalize_view($user, $view_id, BOLT_ACTION_NEXT);
-    $iter = get_next_item($e, $course_doc);
+
+    $iter = new BoltIter($course_doc);
+    $iter->decode_state($view->state);
+    $iter->next();
+
     if (!$iter->item) {
         page_head("Done with course");
         echo "All done!";
         page_tail();
         exit();
     }
+    $state = $iter->encode_state();
     $mode = default_mode($iter->item);
-    $view_id = create_view($user, $course, $iter->item, $mode);
-    show_item($iter->item, $iter->frac_done, $user, $course, $e, $view_id, $mode);
+    $view_id = create_view($user, $course, $iter, $mode);
+    show_item($iter, $user, $course, $view_id, $mode);
     break;
 case 'answer':          // submit answer in exercise
     $view = finalize_view($user, $view_id, BOLT_ACTION_SUBMIT);
-    $iter = get_current_item($e, $course_doc);
+    $iter = new BoltIter($course_doc);
+    $iter->decode_state($view->state);
+    $iter->at();
+
     $item = $iter->item;
     if (!$item->is_exercise()) {
         error_page("expected an exercise");
@@ -191,17 +181,16 @@ case 'answer':          // submit answer in exercise
     );
     $view->update("result_id=$result_id");
     srand($view_id);
-    $view_id = create_view($user, $course, $item, BOLT_MODE_ANSWER);
-    show_item(
-        $iter->item, $iter->frac_done, $user, $course, $e,
-        $view_id, BOLT_MODE_ANSWER
-    );
+    $view_id = create_view($user, $course, $iter, BOLT_MODE_ANSWER);
+    show_item($iter, $user, $course, $view_id, BOLT_MODE_ANSWER);
     break;
 default:
-    $iter = get_current_item($e, $course_doc);
+    $iter = new BoltIter($course_doc);
+    $iter->decode_state($view->state);
+    $iter->at();
     $mode = default_mode($iter->item);
-    $view_id = create_view($user, $course, $iter->item, $mode);
-    show_item($iter->item, $iter->frac_done, $user, $course, $e, $view_id, $mode);
+    $view_id = create_view($user, $course, $iter, $mode);
+    show_item($iter, $user, $course, $view_id, $mode);
     break;
 }
 
