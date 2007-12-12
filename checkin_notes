@@ -12200,7 +12200,7 @@ David  12 Dec 07
 	html/user/
 		account_finish_action.php
 
-Rom    2 Dec 2007
+Rom    12 Dec 2007
     - WINSETUP: Replace two stage migration with a single stage
         defered custom action, implement rollback functionality,
         and increase trace output in case of failure.
@@ -12218,3 +12218,11 @@ Rom    2 Dec 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    12 Dec 2007
+    - MGR: Remove extra call to SetWorkingDirectory() since it
+        is causing authentication errors.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp

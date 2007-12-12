@@ -672,9 +672,11 @@ void CBOINCGUIApp::StartupBOINCCore() {
         // We are only interested in the path component of the fully qualified path.
         wxFileName::SplitPath(szExecutableDirectory, &strDirectory, NULL, NULL);
 
+#ifndef __WXMSW__
         // Set the current directory ahead of the application launch so the core
         //   client can find its files
         ::wxSetWorkingDirectory(strDirectory);
+#endif
 
 #endif  // ! __WXMAC__
 

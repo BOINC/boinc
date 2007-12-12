@@ -67,10 +67,10 @@ CNetworkConnection::~CNetworkConnection() {
 
 void CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
+    strcpy(buf, "");
 
     FILE* f = fopen("gui_rpc_auth.cfg", "r");
     if (!f) return;
-    strcpy(buf, "");
     fgets(buf, 256, f);
     fclose(f);
     int n = (int)strlen(buf);
@@ -80,6 +80,7 @@ void CNetworkConnection::GetLocalPassword(wxString& strPassword){
             buf[n] = 0;
         }
     }
+
     strPassword = wxString(buf, wxConvUTF8);
 }
 
