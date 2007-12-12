@@ -115,10 +115,10 @@ int make_project_dir(PROJECT& p) {
 #ifndef _WIN32
     if (g_use_sandbox) {
         chmod(PROJECTS_DIR,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
     }
 #endif
     get_project_dir(&p, buf, sizeof(buf));
@@ -126,10 +126,10 @@ int make_project_dir(PROJECT& p) {
 #ifndef _WIN32
     if (g_use_sandbox) {
         chmod(buf,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
         set_to_project_group(buf);
     }
 #endif
@@ -161,10 +161,10 @@ int make_slot_dir(int slot) {
 #ifndef _WIN32
     if (g_use_sandbox) {
         chmod(SLOTS_DIR,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
     }
 #endif
     get_slot_dir(slot, buf, sizeof(buf));
@@ -172,10 +172,10 @@ int make_slot_dir(int slot) {
 #ifndef _WIN32
     if (g_use_sandbox) {
         chmod(buf,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
         set_to_project_group(buf);
     }
 #endif
@@ -203,9 +203,10 @@ void delete_old_slot_dirs() {
 
             // If BOINC crashes or exits suddenly (e.g., due to 
             // being called with --exit_after_finish) it may leave 
-            // orphan shared memory segments in the system.  Clean 
-            // these up here. (We must do this before deleting the
+            // orphan shared memory segments in the system.
+            // Clean these up here. (We must do this before deleting the
             // INIT_DATA_FILE, if any, from each slot directory.)
+            //
             snprintf(init_data_path, sizeof(init_data_path), "%s/%s", path, INIT_DATA_FILE);
             shmem_seg_name = ftok(init_data_path, 1);
             if (shmem_seg_name != -1) {

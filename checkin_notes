@@ -12191,3 +12191,11 @@ David  10 Dec 07
             account_finish_action.php
     lib/
         util.C
+
+David  12 Dec 07
+	- code cleanup
+
+	client/
+		file_names.C
+	html/user/
+		account_finish_action.php
