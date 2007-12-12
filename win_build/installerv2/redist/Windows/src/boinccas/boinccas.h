@@ -43,14 +43,8 @@ public:
     virtual UINT OnCleanup();
     // Called when we are being executed from the InstallExecutionSequence
     virtual UINT OnInstall();
-    virtual UINT OnReinstall();
-    virtual UINT OnUninstall();
-    virtual UINT OnRollbackInstall();
-    virtual UINT OnRollbackReinstall();
-    virtual UINT OnRollbackUninstall();
-    virtual UINT OnCommitInstall();
-    virtual UINT OnCommitReinstall();
-    virtual UINT OnCommitUninstall();
+    virtual UINT OnRollback();
+    virtual UINT OnCommit();
     // Called when we are being executed from the InstallUISequence
     virtual UINT OnExecution();
 

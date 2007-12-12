@@ -12199,3 +12199,22 @@ David  12 Dec 07
 		file_names.C
 	html/user/
 		account_finish_action.php
+
+Rom    2 Dec 2007
+    - WINSETUP: Replace two stage migration with a single stage
+        defered custom action, implement rollback functionality,
+        and increase trace output in case of failure.
+    - WINSETUP: Let MSI start the BOINC Service now.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAMigrateBOINCData.cpp, .h
+        CAMigrateBOINCDataTemp.cpp, .h (deleted)
+        CAStartupBOINCService.cpp, .h (deleted)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

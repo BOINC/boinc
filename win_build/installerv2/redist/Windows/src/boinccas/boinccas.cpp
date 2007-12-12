@@ -100,57 +100,22 @@ BOINCCABase::~BOINCCABase()
 UINT BOINCCABase::Execute()
 {
     UINT    uiReturnValue = 0;
-    tstring strMaintenanceMode;
 
     OnInitialize();
 
-    uiReturnValue = GetProperty( _T("_IsMaintenance"), strMaintenanceMode );
-    if ( uiReturnValue ) return uiReturnValue;
+
 
     if      ( TRUE == MsiGetMode( m_hMSIHandle, MSIRUNMODE_SCHEDULED ) )
     {
-        if      ( _T("Install") == strMaintenanceMode )
-        {
-            uiReturnValue = OnInstall();;
-        }
-        else if ( _T("Reinstall") == strMaintenanceMode )
-        {
-            uiReturnValue = OnReinstall();
-        }
-        else if ( _T("Remove") == strMaintenanceMode )
-        {
-            uiReturnValue = OnUninstall();
-        }
-    }
-    else if ( TRUE == MsiGetMode( m_hMSIHandle, MSIRUNMODE_ROLLBACK ) )
-    {
-        if      ( _T("Install") == strMaintenanceMode )
-        {
-            uiReturnValue = OnRollbackInstall();;
-        }
-        else if ( _T("Reinstall") == strMaintenanceMode )
-        {
-            uiReturnValue = OnRollbackReinstall();
-        }
-        else if ( _T("Remove") == strMaintenanceMode )
-        {
-            uiReturnValue = OnRollbackUninstall();
-        }
+        uiReturnValue = OnInstall();
     }
     else if ( TRUE == MsiGetMode( m_hMSIHandle, MSIRUNMODE_COMMIT ) )
     {
-        if      ( _T("Install") == strMaintenanceMode )
-        {
-            uiReturnValue = OnCommitInstall();;
-        }
-        else if ( _T("Reinstall") == strMaintenanceMode )
-        {
-            uiReturnValue = OnCommitReinstall();
-        }
-        else if ( _T("Remove") == strMaintenanceMode )
-        {
-            uiReturnValue = OnCommitUninstall();
-        }
+        uiReturnValue = OnCommit();
+    }
+    else if ( TRUE == MsiGetMode( m_hMSIHandle, MSIRUNMODE_ROLLBACK ) )
+    {
+        uiReturnValue = OnRollback();
     }
     else
     {
@@ -251,12 +216,12 @@ UINT BOINCCABase::OnInstall()
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    OnReinstall
+// Function:    OnRollback
 //
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnReinstall()
+UINT BOINCCABase::OnRollback()
 {
     return ERROR_SUCCESS;
 }
@@ -264,90 +229,12 @@ UINT BOINCCABase::OnReinstall()
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    OnUninstall
+// Function:    OnCommit
 //
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnUninstall()
-{
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
-// Function:    OnRollbackInstall
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnRollbackInstall()
-{
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
-// Function:    OnRollbackReinstall
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnRollbackReinstall()
-{
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
-// Function:    OnRollbackUninstall
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnRollbackUninstall()
-{
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
-// Function:    OnCommitInstall
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnCommitInstall()
-{
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
-// Function:    OnCommitReinstall
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnCommitReinstall()
-{
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
-// Function:    OnCommitUninstall
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::OnCommitUninstall()
+UINT BOINCCABase::OnCommit()
 {
     return ERROR_SUCCESS;
 }

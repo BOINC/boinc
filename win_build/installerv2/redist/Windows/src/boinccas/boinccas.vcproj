@@ -418,10 +418,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CAStartupBOINCService.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\lkuprid.cpp"
 				>
 			</File>
@@ -524,10 +520,6 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CAStartupBOINCService.h"
 				>
 			</File>
 			<File

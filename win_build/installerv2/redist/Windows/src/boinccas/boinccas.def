@@ -16,5 +16,4 @@ EXPORTS
 	ShutdownBOINCManager
 	ShutdownBOINCScreensaver
 	ShutdownUD
-	StartupBOINCService
 	

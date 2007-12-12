@@ -28,8 +28,14 @@ public:
 
     CAMigrateBOINCData(MSIHANDLE hMSIHandle);
     ~CAMigrateBOINCData();
+
+    virtual UINT OnInstall();
+    virtual UINT OnRollback();
     virtual UINT OnExecution();
 
+    BOOL GetFileDirectorySizes( tstring strDirectory, ULONGLONG& ullFileSize, ULONGLONG& ullDirectorySize );
+    BOOL GetFreeDiskSpace( tstring strDirectory, ULONGLONG& ullFreeSpace );
+    BOOL MoveFiles( tstring strSourceDirectory, tstring strDestinationDirectory, ULONGLONG& ullBytesTransfered );
 };
 
 
