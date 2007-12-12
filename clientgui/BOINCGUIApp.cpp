@@ -144,7 +144,7 @@ bool CBOINCGUIApp::OnInit() {
     // change the current directory to the boinc data directory if it exists
 	lReturnValue = RegOpenKeyEx(
         HKEY_LOCAL_MACHINE, 
-        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
 		0, 
         KEY_READ,
         &hkSetupHive
