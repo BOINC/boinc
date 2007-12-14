@@ -12263,3 +12263,12 @@ Rom    14 Dec 07
         
     clientscr/
         screensaver_win.cpp
+
+Rom    14 Dec 2007
+    - Tag for 6.1.5 release, all platforms
+      boinc_core_release_6_1_5
+    
+    client/
+        configure.ac
+        version.h
+
