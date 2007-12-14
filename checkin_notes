@@ -12226,3 +12226,12 @@ Rom    12 Dec 2007
     clientgui/
         BOINCGUIApp.cpp
         MainDocument.cpp
+
+Charlie 14 Dec 07
+    - MGR: Fix bug determining whether Client is already running; try 
+        rpc.get_host_info() in addition to rpc.init().  This takes the
+        place of the old rpc.get_screensaver_mode() test in V5 Manager 
+        and is needed if some security or firewall software is present.
+        
+    clientgui/
+        BOINCGUIApp.cpp

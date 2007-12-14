@@ -553,6 +553,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
 
     int retval;
     bool running = false;
+    HOST_INFO hostinfo;
     RPC_CLIENT rpc;
 
 #ifdef __WXMSW__
@@ -562,6 +563,8 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     } else {
         retval = rpc.init("localhost");  // synchronous is OK since local
         wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
+        retval = rpc.get_host_info(hostinfo);
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Requesting host info... retval '%d'"), retval);
         running = (retval == 0);
         rpc.close();
     }
@@ -572,6 +575,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
                         (TickCount() < (120*60));     // If system has been up for less than 2 minutes
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
+        retval = rpc.get_host_info(hostinfo);
         running = (retval == 0);
         rpc.close();
         if (running) break;
@@ -580,6 +584,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     }
 #else
     retval = rpc.init("localhost");  // synchronous is OK since local
+    retval = rpc.get_host_info(hostinfo);
     running = (retval == 0);
     rpc.close();
 #endif
