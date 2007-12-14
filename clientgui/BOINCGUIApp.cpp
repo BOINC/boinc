@@ -591,32 +591,46 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
 
 void CBOINCGUIApp::StartupBOINCCore() {
     if (!IsBOINCCoreRunning()) {
-#ifndef __WXMAC__
-        wxString strDirectory = wxEmptyString;
-#endif  // ! __WXMAC__
-
         wxString strExecute = wxEmptyString;
-        wxChar   szExecutableDirectory[4096];
 
-        memset(szExecutableDirectory, 0, sizeof(szExecutableDirectory));
+#if   defined(__WXMSW__)
 
-#ifdef __WXMSW__
-
-        // On the surface it would seem that GetCurrentDirectory would be a better choice
-        //   for determing which directory we should prepend to the execution string before
-        //   starting BOINC, except that we cannot depend on any shortcuts being configured
-        //   to startup in the correct directory, since the user may have created the
-        //   shortcut themselves.  So determine where boinc.exe is based off of our
-        //   current execution location and then execute it.
-        GetModuleFileName(
-            NULL, 
-            szExecutableDirectory,
-            (sizeof(szExecutableDirectory) / sizeof(wxChar))
+        // Append boinc.exe to the end of the strExecute string and get ready to rock
+        strExecute.Printf(
+            wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
+            GetRootDirectory().c_str(),
+            m_strBOINCArguments.c_str()
         );
 
-#endif
+        PROCESS_INFORMATION pi;
+        STARTUPINFO         si;
+        BOOL                bProcessStarted;
 
-#ifdef __WXMAC__
+        memset(&pi, 0, sizeof(pi));
+        memset(&si, 0, sizeof(si));
+ 
+        si.cb = sizeof(si);
+        si.dwFlags = STARTF_USESHOWWINDOW;
+        si.wShowWindow = SW_HIDE;
+
+        bProcessStarted = CreateProcess(
+            NULL,
+            (LPTSTR)strExecute.c_str(),
+            NULL,
+            NULL,
+            FALSE,
+            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
+            NULL,
+            (LPTSTR)GetDataDirectory().c_str(),
+            &si,
+            &pi
+        );
+        if (bProcessStarted) {
+            m_lBOINCCoreProcessId = pi.dwProcessId;
+            m_hBOINCCoreProcess = pi.hProcess;
+        }
+
+#elif defined(__WXMAC__)
 
         {
             wxChar buf[1024];
@@ -662,74 +676,18 @@ void CBOINCGUIApp::StartupBOINCCore() {
             }
         }
 
-#else   // ! __WXMAC__
+#else   // Unix based systems
 
-#ifndef __WXMSW__
         // copy the path to the boinmgr from argv[0]
-        strncpy((char*)szExecutableDirectory, (const char*)wxGetApp().argv[0], sizeof(szExecutableDirectory));
-#endif 
-
-        // We are only interested in the path component of the fully qualified path.
-        wxFileName::SplitPath(szExecutableDirectory, &strDirectory, NULL, NULL);
-
-#ifndef __WXMSW__
-        // Set the current directory ahead of the application launch so the core
-        //   client can find its files
-        ::wxSetWorkingDirectory(strDirectory);
-#endif
-
-#endif  // ! __WXMAC__
-
-#ifdef __WXMSW__
+        strExecute  = (const char*)wxGetApp().argv[0];
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute.Printf(
-            wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
-            strDirectory.c_str(),
-            m_strBOINCArguments.c_str()
-        );
-
-        PROCESS_INFORMATION pi;
-        STARTUPINFO         si;
-        BOOL                bProcessStarted;
-
-        memset(&pi, 0, sizeof(pi));
-        memset(&si, 0, sizeof(si));
- 
-        si.cb = sizeof(si);
-        si.dwFlags = STARTF_USESHOWWINDOW;
-        si.wShowWindow = SW_HIDE;
-
-        bProcessStarted = CreateProcess(
-            NULL,
-            (LPTSTR)strExecute.c_str(),
-            NULL,
-            NULL,
-            FALSE,
-            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
-            NULL,
-            (LPTSTR)strDirectory.c_str(),
-            &si,
-            &pi
-        );
-        if (bProcessStarted) {
-            m_lBOINCCoreProcessId = pi.dwProcessId;
-            m_hBOINCCoreProcess = pi.hProcess;
-        }
-
-#else
-
-#ifndef __WXMAC__
-
-        // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute = wxT("./boinc -redirectio -launched_by_manager");
+        strExecute += wxT("/boinc -redirectio -launched_by_manager");
         if (! g_use_sandbox)
             strExecute += wxT(" -insecure");
         m_lBOINCCoreProcessId = ::wxExecute(strExecute);
         
-#endif  // ! __WXMAC__
-
-#endif  // ! __WXMSW__
+#endif
 
         if (0 != m_lBOINCCoreProcessId) {
             m_bBOINCStartedByManager = true;
