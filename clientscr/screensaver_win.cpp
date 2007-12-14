@@ -317,6 +317,7 @@ INT CScreensaver::Run() {
         }
         break;
     case sm_test:
+        RPC_CLIENT rpc;
         HOST_INFO hostinfo;
         rpc.init(NULL);
         rpc.get_host_info(hostinfo);
