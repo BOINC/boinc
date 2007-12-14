@@ -305,6 +305,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 // Starts main execution of the screen saver.
 //
 INT CScreensaver::Run() {
+    HOST_INFO hostinfo;
     HRESULT hr;
 
     // Parse the command line and do the appropriate thing
@@ -317,11 +318,9 @@ INT CScreensaver::Run() {
         }
         break;
     case sm_test:
-        RPC_CLIENT rpc;
-        HOST_INFO hostinfo;
-        rpc.init(NULL);
-        rpc.get_host_info(hostinfo);
-        rpc.close();
+        rpc->init(NULL);
+        rpc->get_host_info(hostinfo);
+        rpc->close();
         break;
     case sm_preview:
     case sm_full:
