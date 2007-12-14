@@ -12227,6 +12227,26 @@ Rom    12 Dec 2007
         BOINCGUIApp.cpp
         MainDocument.cpp
 
+Rom    13 Dec 2007
+    - WINSETUP: Fix a couple permission problems when protected
+        mode isn't defined.
+    - WINSETUP: Streamline the CC startup procedure when
+        the manager launches the CC.
+
+    clientgui/
+        BOINCGUIApp.cpp
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CACreateBOINCGroups.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
+
 Charlie 14 Dec 07
     - MGR: Fix bug determining whether Client is already running; try 
         rpc.get_host_info() in addition to rpc.init().  This takes the
@@ -12235,3 +12255,11 @@ Charlie 14 Dec 07
         
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    14 Dec 07
+    - SCR: Reimplement the screensaver rpc test for v6 so that the
+        screensaver can trip the firewall while the user is at the
+        terminal.
+        
+    clientscr/
+        screensaver_win.cpp

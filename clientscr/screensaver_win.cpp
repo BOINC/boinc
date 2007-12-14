@@ -316,6 +316,12 @@ INT CScreensaver::Run() {
             DoConfig();
         }
         break;
+    case sm_test:
+        HOST_INFO hostinfo;
+        rpc.init(NULL);
+        rpc.get_host_info(hostinfo);
+        rpc.close();
+        break;
     case sm_preview:
     case sm_full:
         // Create the data management thread to talk with the daemon
