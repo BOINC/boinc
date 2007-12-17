@@ -349,10 +349,15 @@ UINT CAMigrateBOINCData::OnExecution()
 
     strClientStateFile = strDataDirectory + _T("\\client_state.xml");
 
-    // If the client state file exists in the data directry then a valid
-    //   data set should already exist there. Don't migrate anything
-    //   there.
-    if ( stat(strClientStateFile.c_str(), &buf) )
+    // Perform some basic sanity tests to see if we need to migrate
+    //   anything.
+    BOOL bClientStateExists =
+        (BOOL)stat(strClientStateFile.c_str(), &buf);
+    BOOL bInstallDataSameDirectory = 
+        (BOOL)(strInstallDirectory == strDataDirectory);
+    BOOL bDataDirExistsWithinInstallDir = 
+        (BOOL)strDataDirectory.find(strInstallDirectory);
+    if ( !bClientStateExists && !bInstallDataSameDirectory && !bDataDirExistsWithinInstallDir )
     {
         bMigratingData = TRUE;
         LogMessage(

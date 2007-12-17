@@ -12282,3 +12282,25 @@ Charlie 17 Dec 07
         HowToBuildBOINC_XCode.rtf
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    17 Dec 2007
+    - WINSETUP: Attempt to shutdown any BOINC processes much earlier
+        in the execution cycle. Originally did this in the 5.10 branch.
+    - WINSETUP: Add some more checks to safe guard the migration process.
+        1.  Check to see if the install directory and the data directory are
+            the same, if so, abort migration.
+        2.  Check to see if the data directory is under the install directory,
+            if so, abort migration.
+        3.  If the client_state.xml file already exists in the data directory,
+            abort migration.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAMigrateBOINCData.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
