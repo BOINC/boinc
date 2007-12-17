@@ -188,7 +188,7 @@
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
-		DD63F7510B64EECE0053037F /* libwx_mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac.a */; };
+		DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DD64DF0509DCC5E000668B3A /* gutil_text.C in Sources */ = {isa = PBXBuildFile; fileRef = DD64DF0409DCC5E000668B3A /* gutil_text.C */; };
 		DD65020A09F599B9008E8A3A /* texfont.c in Sources */ = {isa = PBXBuildFile; fileRef = DD65020609F599B9008E8A3A /* texfont.c */; };
 		DD65020B09F599B9008E8A3A /* txf_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.C */; };
@@ -219,6 +219,7 @@
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
+		DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA546600D16964E008CC69A /* QuickTime.framework */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.C */; };
 		DDA6BD130BD4551F008F7921 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD060BD4551F008F7921 /* QBacktrace.c */; };
 		DDA6BD140BD4551F008F7921 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD080BD4551F008F7921 /* QCrashReport.c */; };
@@ -394,26 +395,26 @@
 			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
 			remoteInfo = setprojectgrp;
 		};
-		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD3E14D30A774397007E0084;
-			remoteInfo = mgr_boinc;
-		};
-		DD5DDAE50CD2AF200075461A /* PBXContainerItemProxy */ = {
+		DD5457700D1692570046EDBD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
 			remoteInfo = static;
 		};
-		DD5DDAE70CD2AF200075461A /* PBXContainerItemProxy */ = {
+		DD5457720D1692570046EDBD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
 			remoteInfo = dynamic;
+		};
+		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3E14D30A774397007E0084;
+			remoteInfo = mgr_boinc;
 		};
 		DD664F18084321A2009BFB11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -710,7 +711,7 @@
 		DD58C46808F334EA00C1DF66 /* WizardAttachProject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WizardAttachProject.h; path = ../clientgui/WizardAttachProject.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
-		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.6.3/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.7/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hyperlink.cpp; sourceTree = "<group>"; };
 		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = whetstone.C; path = ../client/whetstone.C; sourceTree = SOURCE_ROOT; };
@@ -792,6 +793,7 @@
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
+		DDA546600D16964E008CC69A /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.C; path = ../lib/mac/mac_backtrace.C; sourceTree = SOURCE_ROOT; };
 		DDA6BD050BD4551F008F7921 /* mac_backtrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mac_backtrace.h; path = ../lib/mac/mac_backtrace.h; sourceTree = SOURCE_ROOT; };
@@ -807,7 +809,7 @@
 		DDA6BD0F0BD4551F008F7921 /* QSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QSymbols.h; path = ../lib/mac/QSymbols.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD100BD4551F008F7921 /* QTaskMemory.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../lib/mac/QTaskMemory.c; sourceTree = SOURCE_ROOT; };
 		DDA6BD110BD4551F008F7921 /* QTaskMemory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTaskMemory.h; path = ../lib/mac/QTaskMemory.h; sourceTree = SOURCE_ROOT; };
-		DDA90F260B64673D008F2E87 /* libwx_mac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac.a; path = "../../wxMac-2.6.3/src/build/Deployment/libwx_mac.a"; sourceTree = SOURCE_ROOT; };
+		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.7/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.C; path = ../clientgui/mac/SetVersion.C; sourceTree = SOURCE_ROOT; };
@@ -953,7 +955,8 @@
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
 				DDFE854B0B60CFD0009B43D9 /* AppKit.framework in Frameworks */,
-				DD63F7510B64EECE0053037F /* libwx_mac.a in Frameworks */,
+				DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */,
+				DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1136,9 +1139,10 @@
 				DDFE854A0B60CFD0009B43D9 /* AppKit.framework */,
 				DDE2552B07C62F3E008E7D6E /* IOKit.framework */,
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+				DDA546600D16964E008CC69A /* QuickTime.framework */,
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
-				DDA90F260B64673D008F2E87 /* libwx_mac.a */,
+				DDA90F260B64673D008F2E87 /* libwx_mac_static.a */,
 				DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */,
 			);
 			name = "External Frameworks and Libraries";
@@ -1159,11 +1163,11 @@
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD5DDADD0CD2AF200075461A /* Products */ = {
+		DD54576B0D1692570046EDBD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DD5DDAE60CD2AF200075461A /* libwx_mac_static.a */,
-				DD5DDAE80CD2AF200075461A /* libwx_mac.dylib */,
+				DD5457710D1692570046EDBD /* libwx_mac_static.a */,
+				DD5457730D1692570046EDBD /* libwx_mac.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1900,7 +1904,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DD5DDADD0CD2AF200075461A /* Products */;
+					ProductGroup = DD54576B0D1692570046EDBD /* Products */;
 					ProjectRef = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 				},
 			);
@@ -1930,18 +1934,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		DD5DDAE60CD2AF200075461A /* libwx_mac_static.a */ = {
+		DD5457710D1692570046EDBD /* libwx_mac_static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libwx_mac_static.a;
-			remoteRef = DD5DDAE50CD2AF200075461A /* PBXContainerItemProxy */;
+			remoteRef = DD5457700D1692570046EDBD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DD5DDAE80CD2AF200075461A /* libwx_mac.dylib */ = {
+		DD5457730D1692570046EDBD /* libwx_mac.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = libwx_mac.dylib;
-			remoteRef = DD5DDAE70CD2AF200075461A /* PBXContainerItemProxy */;
+			remoteRef = DD5457720D1692570046EDBD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2751,8 +2755,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2760,7 +2764,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -2799,8 +2803,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2808,7 +2812,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -2848,8 +2852,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2857,7 +2861,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -2897,8 +2901,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2906,7 +2910,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3396,8 +3400,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3405,7 +3409,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3443,8 +3447,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3452,7 +3456,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3848,8 +3852,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3857,7 +3861,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
