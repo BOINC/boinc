@@ -12085,7 +12085,7 @@ Charlie 4 Dec 2007
         buildcurl.sh
         buildjpeg.sh
         BuildMacBOINC.sh
-        HowToBuildBOINC_XCode copy.rtf
+        HowToBuildBOINC_XCode.rtf
 
 David  4 Dec 2007
     - ops: in team import script, send email to team founder
@@ -12272,3 +12272,13 @@ Rom    14 Dec 2007
         configure.ac
         version.h
 
+Charlie 17 Dec 07
+    - Mac MGR: Fix serious memory leak under OS 10.5 by upgrading to 
+        wxMac 2.8.7.  This causes a minor cosmetic bug in SimpleGUI which 
+        needs fixing.
+
+    mac_build/
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        boinc.xcodeproj/
+            project.pbxproj
