@@ -8117,3 +8117,14 @@ Charlie 14 Nov 2007
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 17 Dec 07
+    - Mac MGR: Fix serious memory leak under OS 10.5 by upgrading to 
+        wxMac 2.8.7.  This causes a minor cosmetic bug in SimpleGUI which 
+        needs fixing.
+
+    mac_build/
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        boinc.xcodeproj/
+            project.pbxproj

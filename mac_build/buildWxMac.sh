@@ -17,16 +17,17 @@
 # To view the GNU Lesser General Public License visit
 # http://www.gnu.org/copyleft/lesser.html
 # or write to the Free Software Foundation, Inc.,
-# 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
-# Script to build the wxMac-2.6.3 library for BOINC as a Universal Binary
+# Script to build the wxMac-2.8.7 library for BOINC as a Universal Binary
 #
-# by Charlie Fenton   10/26/07
+# by Charlie Fenton    7/21/06
+# Updated for wx-Mac 2.8.7 12/17/07
+
 #
-#
-## In Terminal, CD to the wxMac-2.6.3 directory.
-##    cd [path]/wxMac-2.6.3/
+## In Terminal, CD to the wxMac-2.8.7 directory.
+##    cd [path]/wxMac-2.8.7/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ]
 ##
@@ -40,77 +41,21 @@ else
   doclean=""
 fi
 
-mv -n include/wx/mac/setup.h include/wx/mac/setup_obs.h
-cp -np include/wx/mac/setup0.h include/wx/mac/setup.h
-
-# Create wx include directory if necessary
-if [ ! -d src/build/include/wx ]; then
-    mkdir -p src/build/include/wx
-fi
-
-cp -n include/wx/mac/setup0.h src/build/include/wx/setup.h
-
-
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_ppc.a ]; then
-    echo "libwx_mac_ppc.a already built"
+if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
+    echo "Deployment libwx_mac_static.a already built"
 else
-
-rm -f src/build/Deployment/libwx_mac.a
-
-xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_mac_ppc.a"
+     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS[arch=i386]="-fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
 
-
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_i386.a ]; then
-    echo "libwx_mac_i386.a already built"
+if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
+    echo "Development libwx_mac_static.a already built"
 else
-
-rm -f src/build/Deployment/libwx_mac.a
-
-xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_mac_i386.a" OTHER_CFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
-
-if [  $? -ne 0 ]; then return 1; fi
-fi
-
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac.a ]; then
-    echo "libwx_mac.a already built"
-else
-
-lipo -create src/build/Deployment/libwx_mac_ppc.a src/build/Deployment/libwx_mac_i386.a -output src/build/Deployment/libwx_mac.a
-
-if [  $? -ne 0 ]; then return 1; fi
-fi
-
-
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_macd_ppc.a ]; then
-    echo "libwx_macd_ppc.a already built"
-else
-
-rm -f src/build/Deployment/libwx_macd.a
-
-xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_macd_ppc.a"
-
-if [  $? -ne 0 ]; then return 1; fi
-fi
-
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_macd_i386.a ]; then
-    echo "libwx_macd_i386.a already built"
-else
-
-rm -f src/build/Deployment/libwx_macd.a
-
-xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_macd_i386.a" OTHER_CFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
-
-if [  $? -ne 0 ]; then return 1; fi
-fi
-
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_macd.a ]; then
-    echo "libwx_macd.a already built"
-else
-
-lipo -create src/build/Deployment/libwx_macd_ppc.a src/build/Deployment/libwx_macd_i386.a -output src/build/Deployment/libwx_macd.a
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS[arch=i386]="-fvisibility=hidden -fvisibility-inlines-hidden"
+## The above line does Development build for only the native architecture.  
+## Use line below instead for Universal Binary Development build
+##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS[arch=i386]="-fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
