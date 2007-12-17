@@ -89,7 +89,7 @@ $m549 = array(
 
 $m51030c = array(
     "num"=>"5.10.30",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.10.30_universal-apple-darwin.zip",
     "date"=>"14 Nov 2007",
     "type"=>"bare_core",
