@@ -9,7 +9,7 @@ function mode_name($mode) {
     case BOLT_MODE_LESSON: return "lesson";
     case BOLT_MODE_SHOW: return "exercise";
     case BOLT_MODE_ANSWER: return "exercise answer";
-    default: return "unknown";
+    default: return "unknown: $mode";
     }
 }
 
@@ -17,9 +17,10 @@ function action_name($action) {
     switch ($action) {
     case BOLT_ACTION_NONE: return "None";
     case BOLT_ACTION_NEXT: return "Next";
+    case BOLT_ACTION_PREV: return "Previous";
     case BOLT_ACTION_SUBMIT: return "Submit";
     case BOLT_ACTION_QUESTION: return "Question";
-    default: return "unknown";
+    default: return "unknown: $action";
     }
 }
 

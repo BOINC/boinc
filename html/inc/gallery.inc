@@ -11,6 +11,60 @@ require_once("../inc/uotd.inc");
 $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
 
 
+// Builds a summary table of user profiles.
+//
+//   $members is an array of userIDs;
+//   $offset indicates which entry to begin the table with
+//   $numToDisplay indicates how many profiles to display in this table
+//   $cols indicates how many profile summaries should be written per row
+//   $descriptor is an optional file descriptor to write the table to.
+
+function show_user_table($members, $offset, $numToDisplay, $cols) {
+    echo "<table class=bordered border=1 cellpadding=5>\n";
+
+    $rows = ceil($numToDisplay / $cols);
+    $count = $offset;
+    $numMembers = count($members);
+
+    for ($row = 0; $row < $rows; $row++) {
+        if ($count >= $numMembers) {
+            break;
+        }
+
+        echo "<tr>\n";
+
+        for ($col = 0; $col < $cols; $col++) {
+            if ($count < $numMembers) {
+                $profile = get_profile($members[$count]);
+                if (!$profile) {
+                    $numMembers--;
+                    continue;
+                }
+
+                echo "<td class=bordered width=7% height=64><center>";
+
+                $show_picture = $profile->has_picture;
+                if (profile_screening() && $profile->verification != 1) {
+                    $show_picture = false;
+                }
+                if ($show_picture) {
+                    echo "<a href=\"".URL_BASE."view_profile.php?userid={$members[$count]}\"><img src=\"".URL_BASE.IMAGE_URL."{$members[$count]}_sm.jpg\"></a>";
+                } else {
+                    echo "&nbsp;";
+                }
+
+                echo "</center></td><td class=bordered width=33% height=64>\n", get_profile_summary($profile), "</td>";
+                $count++;
+            } else {
+                echo "<td width=7% height=64></td><td width=33% height=64></td>";
+            }
+        }
+        echo "</tr>\n";
+    }
+    echo "</table>\n";
+
+}
+
 // Generates a standard set of links between associated multi-page documents.
 //  All linked files must be of the form "$filename_<page number>.html".
 
@@ -54,10 +108,6 @@ function write_page_links($filename, $currPageNum, $numPages) {
 function build_picture_pages($width, $height) {
 
     // TODO: Add support for a computer image gallery.
-
-    // TODO: Should we eliminate the has_picture flag?  Doesn't really
-    // seem necessary when we're building static pages- could just use
-    // file_exists on the username...
 
     // TODO: Standardize "Last modified" string to a function call (util.inc).
 

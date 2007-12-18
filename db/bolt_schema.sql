@@ -51,11 +51,21 @@ create table bolt_view (
     primary key (id)
 );
 
-create table bolt_result (
+-- represents the result of an exercise
+--
+create table bolt_exercise_result (
     id              integer         not null auto_increment,
     view_id         integer         not null,
     score           double          not null,
     response        text            not null,
+    primary key(id)
+);
+
+-- represents the result of an exercise set
+--
+create table bolt_exercise_set_result (
+    id              integer         not null auto_increment,
+    score           double          not null,
     primary key(id)
 );
 

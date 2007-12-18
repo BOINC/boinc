@@ -269,10 +269,12 @@ function new_member_list($teamid) {
     $new_members = array();
     $yesterday = time() - 86400;
     $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1 group by userid");
-    foreach ($deltas as $delta) {
-        $u = BoincUser::lookup_id($delta->userid);
-        if ($u->teamid == $teamid) {
-            $new_members[] = $u;  // they might have later quit
+    if (count($deltas)) {
+        foreach ($deltas as $delta) {
+            $u = BoincUser::lookup_id($delta->userid);
+            if ($u->teamid == $teamid) {
+                $new_members[] = $u;  // they might have later quit
+            }
         }
     }
     return $new_members;

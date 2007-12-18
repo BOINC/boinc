@@ -147,6 +147,25 @@ function show_user_stats_private($user) {
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
 }
 
+function notify_description($notify) {
+    switch ($notify->type) {
+    case NOTIFY_FRIEND_REQ:
+        $user = BoincUser::lookup_id($notify->opaque);
+        return "
+            <a href=friend.php?action=query&userid=$notify->opaque>Friend request from $user->name</a>
+            <br>
+        ";
+        break;
+    case NOTIFY_FRIEND_ACCEPT:
+        $user = BoincUser::lookup_id($notify->opaque);
+        return "
+            <a href=friend.php?action=accepted&userid=$notify->opaque>$user->name confirmed as friend</a>
+            <br>
+        ";
+        break;
+    }
+}
+
 // show static user info (private)
 //
 function show_user_info_private($user) {
@@ -199,6 +218,25 @@ function show_user_info_private($user) {
     
     row2(tra("Private messages"), pm_notification($user).pm_email_remind($user));
 
+    $notifies = BoincNotify::enum("userid=$user->id");
+    if (count($notifies)) {
+        $x = "";
+        foreach ($notifies as $notify) {
+            $x .= notify_description($notify);
+        }
+        row2("Notifications", $x);
+    }
+
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    if (count($friends)) {
+        $x = "";
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+            $x .= user_links($fuser);
+        }
+        row2("Friends", $x);
+    }
+
     if ($user->teamid) {
         $team = lookup_team($user->teamid);
         $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
@@ -234,6 +272,7 @@ function show_user_info_private($user) {
 // show summary of dynamic and static info (public)
 //
 function show_user_summary_public($user) {
+    global $g_logged_in_user;
     row2(PROJECT." member since", date_str($user->create_time));
     row2("Country", $user->country);
     if (strlen($user->url)) {
@@ -264,7 +303,23 @@ function show_user_summary_public($user) {
         }
     }
     
-    row2("Contact", "<a href=\"pm.php?action=new&amp;userid=".$user->id."\">Send private message</a>");
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    if (count($friends)) {
+        $x = "";
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+            $x .= user_links($fuser);
+        }
+        row2("Friends", $x);
+    }
+
+    if ($g_logged_in_user && $g_logged_in_user->id != $user->id) {
+        row2("Contact", "<a href=\"pm.php?action=new&userid=".$user->id."\">Send private message</a>");
+        $friend = BoincFriend::lookup($g_logged_in_user->id, $user->id);
+        if (!$friend) {
+            row2("Community", "<a href=friend.php?action=add&userid=".$user->id.">Add as friend</a>");
+        }
+    }
 }
 
 function show_profile_link($user) {

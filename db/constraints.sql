@@ -117,3 +117,9 @@ alter table team_delta
 
 alter table team_admin
     add unique (teamid, userid);
+
+alter table friend
+    add unique friend_u (user_src, user_dest);
+
+alter table notify
+    add index notify_u (userid);

@@ -536,3 +536,31 @@ create table team_admin (
     create_time         integer         not null,
     rights              integer         not null
 ) type=MyISAM;
+
+-- A friendship request.
+-- The friendship exists if (x,y) and (y,x)
+create table friend (
+    user_src            integer         not null,
+        -- initiator
+    user_dest           integer         not null,
+        -- target
+    message             varchar(255)    not null,
+    create_time         integer         not null,
+    reciprocated        tinyint         not null
+        -- whether the reciprocal exists
+);
+
+-- a notification of something, e.g.
+--   a friend request or confirmation
+--   a post in a subscribed thread
+--   a personal message
+-- These records are deleted when the user acts on them
+create table notify (
+    id                  serial          primary key,
+    userid              integer         not null,
+        -- destination of notification
+    create_time         integer         not null,
+    type                integer         not null,
+    opaque              integer         not null
+        -- some other ID, e.g. that of the thread, user or PM record
+);

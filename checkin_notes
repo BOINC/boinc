@@ -12304,3 +12304,27 @@ Rom    17 Dec 2007
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  18 Dec 2007
+    - user web: add "friend" and "notification" features
+    - user web: code cleanup in Profile area
+    - GUI RPC: add missing "/" in auth2 RPC
+
+    db/
+        constraints.sql
+        schema.sql
+    html/
+        inc/
+            forum_db.inc
+            gallery.inc
+            profile.inc
+            team.inc
+            user.inc
+        ops/
+            db_update.php
+        user/
+            create_profile.php
+            friend.php (new)
+            show_user.php
+    lib/
+        gui_rpc_client.C

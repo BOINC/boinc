@@ -8,7 +8,7 @@ $bolt_ex_score = 0;
 function bolt_exclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
-    global $bolt_ex_score;  // output if SCORE
+    global $bolt_ex_score;  // incremental output if SCORE
     global $bolt_ex_response;   // output if SCORE
 
     switch ($bolt_ex_mode) {
@@ -25,18 +25,26 @@ function bolt_exclusive_choice($choices) {
     case BOLT_MODE_SCORE:
         $right_ans = $choices[0];
         shuffle($choices);
-        $response = $_GET["q_$bolt_ex_index"];
-        if ($choices[$response] == $right_ans) {
-            $bolt_ex_score = 1;
+        $key = "q_$bolt_ex_index";
+        if (array_key_exists($key, $_GET)) {
+            $response = $_GET[$key];
+            if ($choices[$response] == $right_ans) {
+                $bolt_ex_score += 1;
+            }
+            $bolt_ex_response = "$bolt_ex_index: $choices[$response]";
         } else {
-            $bolt_ex_score = 0;
+            $bolt_ex_response = "";
         }
-        $bolt_ex_response = "$bolt_ex_index: $choices[$response]";
         break;
     case BOLT_MODE_ANSWER:
         $right_ans = $choices[0];
         shuffle($choices);
-        $response = $_GET["q_$bolt_ex_index"];
+        $key = "q_$bolt_ex_index";
+        if (array_key_exists($key, $_GET)) {
+            $response = $_GET[$key];
+        } else {
+            $response = -1;
+        }
         $i = 0;
         start_table();
         foreach ($choices as $choice) {
@@ -55,7 +63,7 @@ function bolt_exclusive_choice($choices) {
 function bolt_inclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
-    global $bolt_ex_score;  // output if SCORE
+    global $bolt_ex_score;  // incremental output if SCORE
     global $bolt_ex_response;   // output if SCORE
 
     switch ($bolt_ex_mode) {
@@ -65,7 +73,7 @@ function bolt_inclusive_choice($choices) {
         start_table();
         foreach ($choices as $choice) {
             $c = $choice[0];
-            row2($c, "<input name=q_".$bolt_ex_index."_$i type=checkbox>");
+            row2("<input name=q_".$bolt_ex_index."_$i type=checkbox>", $c);
             $i++;
         }
         end_table();
@@ -81,22 +89,24 @@ function bolt_inclusive_choice($choices) {
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
             if ($correct) $score += 1./$n;
+            $i++;
         }
         $bolt_ex_response = "$bolt_ex_index: $choices[$response]";
+        $bolt_ex_score += $score;
         break;
     case BOLT_MODE_ANSWER:
         $i = 0;
         $n = count($choices);
         shuffle($choices);
         start_table();
-        table_header("", "correct?", "your answer");
+        table_header("Choice", "Correct?", "Your answer");
         foreach ($choices as $choice) {
             $c = $choice[0];
             $key = "q_".$bolt_ex_index."_$i";
             $response = array_key_exists($key, $_GET);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
-            table_row($c, $r?"X":"<br>", $response?"X":"<br>");
+            table_row($c, $r?"yes":"no", $response?"yes":"no");
             $i++;
         }
         end_table();
@@ -109,7 +119,7 @@ function bolt_image_rect($img, $rect) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_state;  // output if SHOW, else input
-    global $bolt_ex_score;  // output if SCORE
+    global $bolt_ex_score;  // incremental output if SCORE
 
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:

@@ -224,4 +224,47 @@ class BoincPostRating {
     }
 }
 
+class BoincFriend {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('friend', $clause);
+    }
+    static function lookup($uid1, $uid2) {
+        $db = BoincDb::get();
+        return $db->lookup('friend', 'BoincFriend', "user_src=$uid1 and user_dest=$uid2");
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('friend', "$clause where user_src=$this->user_src and user_dest=$this->user_dest");
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('friend', 'BoincFriend', $clause);
+    }
+}
+
+class BoincNotify {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('notify', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('notify', 'BoincNotify', $clause);
+    }
+    static function lookup($userid, $type, $opaque) {
+        $db = BoincDb::get();
+        return $db->lookup('notify', 'BoincNotify', "userid=$userid and type=$type and opaque=$opaque");
+    }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'notify');
+    }
+}
+
+define ('NOTIFY_FRIEND_REQ', 1);
+define ('NOTIFY_FRIEND_ACCEPT', 2);
+
 ?>
