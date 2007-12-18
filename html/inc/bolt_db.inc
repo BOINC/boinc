@@ -7,6 +7,7 @@ define('BOLT_MODE_LESSON', 1);
 define('BOLT_MODE_SHOW', 2);
 define('BOLT_MODE_SCORE', 3);
 define('BOLT_MODE_ANSWER', 4);
+define('BOLT_MODE_FINISHED', 5);
 
 define('BOLT_ACTION_NONE', 0);
 define('BOLT_ACTION_NEXT', 1);

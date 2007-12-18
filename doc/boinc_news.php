@@ -2,6 +2,19 @@
 
 $project_news = array(
 
+array("Dec 18, 2007",
+    "<a href=http://boinc.umiacs.umd.edu/>The Lattice Project</a>,
+    based at the University of Maryland
+    Center for Bioinformatics and Computational Biology,
+    is now open to volunteers.
+    Lattice runs several applications, and supplies computing power to
+    a number of Life Sciences researchers.
+    Current areas of study include
+    evolutionary relationships based on DNA sequence data;
+    bacterial, plasmid, and virus protein sequences;
+    and biological diversity in nature reserves. "
+),
+
 array("Dec 5, 2007",
     "Watch a <a href=http://www.youtube.com/watch?v=GzATbET3g54>YouTube video</a> about the science behind <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home</a>."
 ),

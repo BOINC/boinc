@@ -9,6 +9,7 @@ function mode_name($mode) {
     case BOLT_MODE_LESSON: return "lesson";
     case BOLT_MODE_SHOW: return "exercise";
     case BOLT_MODE_ANSWER: return "exercise answer";
+    case BOLT_MODE_FINISHED: return "course completed";
     default: return "unknown: $mode";
     }
 }
@@ -53,7 +54,7 @@ $course_id = get_int('course_id');
 $course = BoltCourse::lookup_id($course_id);
 page_head("Your history in $course->name");
 
-$views = BoltView::enum("user_id=$user->id and course_id=$course_id order by id");
+$views = BoltView::enum("user_id=$user->id and course_id=$course_id order by id desc");
 start_table();
 
 table_header("Time", "Duration", "Name", "Type", "Action");

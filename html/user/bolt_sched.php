@@ -59,8 +59,30 @@ function default_mode($item) {
 function create_view($user, $course, $iter, $mode, $prev_view_id) {
     $now = time();
     $item = $iter->item;
+    if (!$item) {
+        $item = null;
+        $item->name = '--end--';
+    }
     $state = $iter->encode_state();
     return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done, prev_view_id) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done, $prev_view_id)");
+}
+
+function show_finished_page($course, $view_id, $prev_view_id) {
+    page_head(null);
+    if (function_exists('bolt_header')) bolt_header("Course completed");
+    echo "Congratulation - you have completed this course.";
+    $prev = "<a href=bolt_sched.php?course_id=$course->id&action=prev&view_id=$view_id><< Prev</a>";
+    echo "
+        <p>
+        <center>
+        <table width=60%><tr>
+            <td width=33% align=left>$prev</td>
+            <td width=33% align=center><a href=bolt.php>Up</a></td>
+            <td width=33% align=right></td>
+        </table>
+        </center>
+    ";
+    if (function_exists('bolt_footer')) bolt_footer();
 }
 
 function show_item($iter, $user, $course, $view_id, $prev_view_id, $mode) {
@@ -70,14 +92,9 @@ function show_item($iter, $user, $course, $view_id, $prev_view_id, $mode) {
 
     $item = $iter->item;
     page_head(null);
-    if ($item) {
-        $title = $item->title;
-    } else {
-        $title = "Course completed";
-    }
-    if (function_exists('bolt_header')) bolt_header($title);
+    if (function_exists('bolt_header')) bolt_header($item->title);
 
-    if ($item && $item->is_exercise()) {
+    if ($item->is_exercise()) {
         $bolt_ex_mode = $mode;
         $bolt_ex_index = 0;
         switch ($mode) {
@@ -101,13 +118,10 @@ function show_item($iter, $user, $course, $view_id, $prev_view_id, $mode) {
             echo "Score: $score_pct%";
             break;
         }
-    } else if ($item) {
+    } else {
         require_once($item->filename);
         if (function_exists('bolt_divide')) bolt_divide();
         $next = "<a href=bolt_sched.php?course_id=$course->id&action=next&view_id=$view_id>Next >></a>";
-    } else {
-        echo "Congratulation - you have completed this course.";
-        $next = "";
     }
 
     if ($prev_view_id) {
@@ -201,7 +215,10 @@ case 'next':            // "next" button in lesson or exercise answer page
         $view_id = create_view($user, $course, $iter, $mode, $view->id);
         show_item($iter, $user, $course, $view_id, $view->id, $mode);
     } else {
-        show_item($iter, $user, $course, 0, $view->id, 0);
+        $iter->frac_done = 1;
+        $fin_view_id = create_view($user, $course, $iter, BOLT_MODE_FINISHED, $view_id);
+        $e->update("last_view_id=$fin_view_id");
+        show_finished_page($course, $fin_view_id, $view->id);
     }
     break;
 case 'answer':          // submit answer in exercise
@@ -242,6 +259,10 @@ default:
     $view = $e?BoltView::lookup_id($e->last_view_id):null;
     if (!$view) {
         start_course($user, $course, $course_doc);
+        break;
+    }
+    if ($view->mode == BOLT_MODE_FINISHED) {
+        show_finished_page($course, $view->id, $view->prev_view_id);
         break;
     }
     $iter = new BoltIter($course_doc);
