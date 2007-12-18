@@ -9,7 +9,6 @@ function bolt_exclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_score;  // incremental output if SCORE
-    global $bolt_ex_response;   // output if SCORE
 
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:
@@ -31,9 +30,6 @@ function bolt_exclusive_choice($choices) {
             if ($choices[$response] == $right_ans) {
                 $bolt_ex_score += 1;
             }
-            $bolt_ex_response = "$bolt_ex_index: $choices[$response]";
-        } else {
-            $bolt_ex_response = "";
         }
         break;
     case BOLT_MODE_ANSWER:
@@ -64,7 +60,6 @@ function bolt_inclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_score;  // incremental output if SCORE
-    global $bolt_ex_response;   // output if SCORE
 
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:
@@ -91,7 +86,6 @@ function bolt_inclusive_choice($choices) {
             if ($correct) $score += 1./$n;
             $i++;
         }
-        $bolt_ex_response = "$bolt_ex_index: $choices[$response]";
         $bolt_ex_score += $score;
         break;
     case BOLT_MODE_ANSWER:

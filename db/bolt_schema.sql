@@ -24,9 +24,11 @@ create table bolt_enrollment (
     mastery         double          not null
 );
 
--- represents a view of an item;
+-- Represents a view of an item;
 -- created when we show the item,
 -- and finalized when the user clicks on something to leave the page
+-- A special view is used to represent the end of a course;
+-- its mode is BOLT_MODE_FINISHED.
 --
 create table bolt_view (
     id              integer         not null auto_increment,
@@ -37,7 +39,7 @@ create table bolt_view (
     state           text            not null,
         -- course state
     mode            integer         not null,
-        -- distnguishes exercise show/answer
+        -- distinguishes exercise show/answer
     action          integer         not null,
         -- what the user clicked
     start_time      integer         not null,

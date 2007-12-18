@@ -148,6 +148,25 @@ function show_item($iter, $user, $course, $view_id, $prev_view_id, $mode) {
     $e->update("last_view_id=$view_id");
 }
 
+// Show the student the results of an old exercise; no navigation items
+//
+function show_answer_page($iter, $score) {
+    global $bolt_ex_mode;
+    global $bolt_ex_index;
+
+    $bolt_ex_mode = BOLT_MODE_ANSWER;
+    $bolt_ex_index = 0;
+
+    $item = $iter->item;
+    page_head(null);
+    if (function_exists('bolt_header')) bolt_header($item->title);
+    require_once($item->filename);
+    if (function_exists('bolt_divide')) bolt_divide();
+    $score_pct = number_format($score*100);
+    echo "Score: $score_pct%";
+    if (function_exists('bolt_footer')) bolt_footer();
+}
+
 function start_course($user, $course, $course_doc) {
     BoltEnrollment::delete($user->id, $course->id);
     $iter = new BoltIter($course_doc);
@@ -237,23 +256,34 @@ case 'answer':          // submit answer in exercise
     $bolt_ex_mode = BOLT_MODE_SCORE;
     $bolt_ex_index = 0;
     $bolt_ex_score = 0;
-    $bolt_ex_response = "";
     srand($view_id);
     ob_start();     // turn on output buffering
     require($item->filename);
     ob_end_clean();
-    $bolt_ex_response = BoltDb::escape_string($bolt_ex_response);
 
     $bolt_ex_score /= $bolt_ex_index;
 
+    $qs = BoltDb::escape_string($_SERVER['QUERY_STRING']);
     $result_id = BoltResult::insert(
         "(view_id, score, response)
-        values ($view->id, $bolt_ex_score, '$bolt_ex_response')"
+        values ($view->id, $bolt_ex_score, '$qs')"
     );
     $view->update("result_id=$result_id");
     srand($view_id);
     $view_id = create_view($user, $course, $iter, BOLT_MODE_ANSWER, $view->id);
     show_item($iter, $user, $course, $view_id, $view->id, BOLT_MODE_ANSWER);
+    break;
+case 'answer_page':
+    $view = BoltView::lookup_id($view_id);
+    $iter = new BoltIter($course_doc);
+    $iter->decode_state($view->state);
+    $iter->at();
+    if ($iter->item->name != $view->item_name) {
+        error_page("Exercise no longer exists in course");
+    }
+    $result = BoltResult::lookup_id($view->result_id);
+    srand($view_id);
+    show_answer_page($iter, $result->score);
     break;
 default:
     $view = $e?BoltView::lookup_id($e->last_view_id):null;

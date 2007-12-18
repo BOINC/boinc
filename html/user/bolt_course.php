@@ -35,15 +35,16 @@ function show_view($view) {
 
     if ($view->result_id) {
         $result = BoltResult::lookup_id($view->result_id);
-        $x = "Score: $result->score
-            <br>Answer: $result->response";
+        $qs = str_replace("action=answer", "action=answer_page", $result->response);
+        $x = "<br>Score: $result->score
+            <br><a href=bolt_sched.php?$qs>Answer page</a>";
     }
     echo "<tr>
-        <td>".time_str($view->start_time)."</td>
-        <td>$dur</td>
-        <td>$view->item_name</td>
-        <td>".mode_name($view->mode)." $x</td>
-        <td>".action_name($view->action)."</td>
+        <td valign=top>".time_str($view->start_time)."</td>
+        <td valign=top>$dur</td>
+        <td valign=top>$view->item_name</td>
+        <td valign=top>".mode_name($view->mode)." $x</td>
+        <td valign=top>".action_name($view->action)."</td>
         </tr>
     ";
 }
@@ -57,7 +58,7 @@ page_head("Your history in $course->name");
 $views = BoltView::enum("user_id=$user->id and course_id=$course_id order by id desc");
 start_table();
 
-table_header("Time", "Duration", "Name", "Type", "Action");
+table_header("Time", "Duration", "Item", "Type", "Action");
 foreach ($views as $view) {
     show_view($view);
 }
