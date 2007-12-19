@@ -12328,3 +12328,13 @@ David  18 Dec 2007
             show_user.php
     lib/
         gui_rpc_client.C
+
+Charlie 18 Dec 07
+    - MGR: Work around long-standing cosmetic bug in SimpleGUI with 
+        newer versions of wxwidgets.  For unknown reasons, the size of
+        the ClientStateIndicator panel was reduced from (343,314) to
+        (336,300) before it is updated in CViewTabPage::DrawText().  
+        This hack simply sets the size back to its original value.
+
+    clientgui/
+        sg_ViewTabPage.cpp
