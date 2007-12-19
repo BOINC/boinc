@@ -23,7 +23,7 @@
 # Script to build Macintosh Universal Binary library of jpeg-6b for
 # use in building BOINC.
 #
-# by Charlie Fenton 12/4/07
+# by Charlie Fenton 12/19/07
 #
 ## In Terminal, CD to the jpeg-6b directory.
 ##     cd [path]/jpeg-6b/
@@ -55,9 +55,9 @@ fi
 
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
-export LDFLAGS="-arch ppc -D_NONSTD_SOURCE"
-export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE"
-export CFLAGS="-arch ppc -D_NONSTD_SOURCE"
+export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
+export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.3
 
@@ -79,7 +79,7 @@ if [  $? -ne 0 ]; then return 1; fi
 
 ##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"

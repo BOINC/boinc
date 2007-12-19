@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 12/18/07
+# Updated 12/19/07
 #
 ## In Terminal, CD to the curl-7.17.1 directory.
 ##     cd [path]/curl-7.17.1/
@@ -80,7 +80,7 @@ rm -f lib/.libs/libcurl_x86_64.a
 if [ $usegcc33 -ne 0 ]; then
 
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
-export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
 export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 
@@ -90,7 +90,7 @@ if [  $? -ne 0 ]; then return 1; fi
 else
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 
@@ -111,7 +111,7 @@ if [  $? -ne 0 ]; then return 1; fi
 
 ##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
@@ -147,7 +147,7 @@ if [  $? -ne 0 ]; then return 1; fi
 
 ##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
