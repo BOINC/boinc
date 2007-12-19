@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 12/4/07
+# Updated 12/18/07
 #
 ## In Terminal, CD to the curl-7.17.1 directory.
 ##     cd [path]/curl-7.17.1/
@@ -80,9 +80,9 @@ rm -f lib/.libs/libcurl_x86_64.a
 if [ $usegcc33 -ne 0 ]; then
 
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
-export LDFLAGS="-arch ppc -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
-export CPPFLAGS="-arch ppc -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
-export CFLAGS="-arch ppc -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 
 ./configure --enable-shared=NO --host=ppc
 if [  $? -ne 0 ]; then return 1; fi
