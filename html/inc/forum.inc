@@ -974,7 +974,7 @@ function check_post_access($user, $forum) {
     // If the user is posting faster than forum regulations allow
     // Tell the user to wait a while before creating any more posts
     //
-    if (time()-$user->last_post <$forum->min_post_interval) {
+    if (time()-$user->prefs->last_post <$forum->post_min_interval) {
         error_page(tra("You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."));
     }
 }

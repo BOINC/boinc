@@ -211,7 +211,7 @@ if( isset($_POST['delete_user']) && !empty($user)){
 // Now update from whatever might have been set above
 
 if( !empty($user) ) {
-    $user=getForumPreferences($user);
+    BoincForumPrefs::lookup($user);
 }
 
 /********************************
@@ -292,7 +292,7 @@ row1("Special User Status: $user->name", $Nbf );
 
 echo "<tr>\n";
 for($i=0;$i<$Nbf;$i++) {
-    $bit = substr($user->special_user, $i, 1);
+    $bit = substr($user->prefs->special_user, $i, 1);
     echo "<tr><td><input type='checkbox'' name='special_user_".$i."' value='1'";
     if ($bit == 1) {
         echo " checked='checked'";

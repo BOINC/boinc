@@ -57,7 +57,8 @@ $cache_period = 600;
 start_cache($cache_period, $cache_args);
 
 $xmlout = "";
-if ($argv[1] == "-f") { $xmlout = $argv[2];
+if ($argc>0 && $argv[1] == "-f") {
+    $xmlout = $argv[2];
     $xmloutfile = fopen($xmlout,"w+");
     if (!$xmloutfile) {
         die( "failed to open file: $xmlout");

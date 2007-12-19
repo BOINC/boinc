@@ -12365,3 +12365,15 @@ David  19 Dec 2007
     client/
         main.C
         hostinfo_unix.C
+
+David  19 Dec 2007
+    - user web: bug fix in code to limit posting rate
+    - admin web bug fixes
+
+    html/
+        inc/
+            forum.inc
+        ops/
+            list_new_users.php
+            manage_user.php
+            sample_server_status.php

@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/util_ops.inc");
 require_once("../inc/forum.inc");
@@ -59,8 +58,9 @@ while ($row = mysql_fetch_object($result)) {
     
     // Special Users:
     $roles = "";
-    $user = getForumPreferences($row);
-    $special_bits = $user->special_user;
+    $user = $row;
+    BoincForumPrefs::lookup($user);
+    $special_bits = $user->prefs->special_user;
     if ($special_bits != "0") {
         for ($i = 0; $i < 7; $i++) {
             $bit = substr($special_bits, $i, 1);
@@ -101,4 +101,5 @@ end_table();
 
 admin_page_tail();
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>
