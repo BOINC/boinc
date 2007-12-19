@@ -8128,3 +8128,19 @@ Charlie 17 Dec 07
         HowToBuildBOINC_XCode.rtf
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 18 Dec 07
+    - MGR: Work around long-standing cosmetic bug in SimpleGUI with 
+        newer versions of wxwidgets.  For unknown reasons, the size of
+        the ClientStateIndicator panel was reduced from (343,314) to
+        (336,300) before it is updated in CViewTabPage::DrawText().  
+        This hack simply sets the size back to its original value.
+    - Update version number to 5.10.31.
+    - Tag for 5.10.31 release, all platforms (only Mac relase is needed)
+      boinc_core_release_5_10_31
+    
+    /
+        configure.ac
+        version.h
+    clientgui/
+        sg_ViewTabPage.cpp
