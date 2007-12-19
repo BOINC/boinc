@@ -600,6 +600,8 @@ int finalize() {
 int main(int argc, char** argv) {
     int retval = 0;
 
+    // TODO: clean up the following
+    //
 #ifdef _WIN32
     int i, len;
     char *commandLine;
@@ -663,13 +665,20 @@ int main(int argc, char** argv) {
             break;
         }
     }
-#elif defined linux
+#elif defined(__APPLE__)
+    // If the real user ID is root, we are executing as a daemon
+    if (getuid() == (uid_t)0) {
+        gstate.executing_as_daemon = true;
+    }
+#elif defined __EMX__
+#else
+    // non-Apple Unix
     int i;
     
     for (i=1; i<argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
             syslog(LOG_DAEMON|LOG_INFO,
-                "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT
+                "Starting BOINC as daemon, listening on port %d.", GUI_RPC_PORT
             );
             // from <unistd.h>:
             // Detach from the controlling terminal and run in the background as system daemon.
@@ -679,9 +688,6 @@ int main(int argc, char** argv) {
             break;
         }
     }
-#elif defined(__APPLE__)
-    if (getuid() == (uid_t)0)       // If the real user ID is root, we are executing as a daemon
-        gstate.executing_as_daemon = true;
 #endif
 
     init_core_client(argc, argv);
@@ -756,7 +762,7 @@ int main(int argc, char** argv) {
             "To change ownership/permission, reinstall BOINC"
 #ifdef __APPLE__
             " or run\n the shell script Mac_SA_Secure.sh"
-#elif defined linux
+#else
             " or run\n the shell script secure.sh"
 #endif
             ". (Error code %d)\n", i

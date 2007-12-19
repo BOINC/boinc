@@ -12354,3 +12354,14 @@ Charlie 19 Dec 07
         buildcurl.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  19 Dec 2007
+    - client: changes to make the client work on "Debian GNU/kFreeBSD",
+        a hybrid system that acts like Linux at the user
+        level but has a FreeBSD kernel.
+        Fixes #521
+
+    configure.ac
+    client/
+        main.C
+        hostinfo_unix.C

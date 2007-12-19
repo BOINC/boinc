@@ -105,6 +105,11 @@ extern "C" {
 #include <machine/cpuconf.h>
 #endif
 
+// The following is intended to be true both on Linux
+// and Debian GNU/kFreeBSD (see trac #521)
+//
+#define LINUX_LIKE_SYSTEM defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)
+
 // functions to get name/addr of local host
 
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")
@@ -132,7 +137,7 @@ int get_timezone() {
     time_data = localtime( &cur_time );
     // tm_gmtoff is already adjusted for daylight savings time
     return time_data->tm_gmtoff;
-#elif defined(linux)
+#elif LINUX_LIKE_SYSTEM
     return -1*(__timezone);
 #elif defined(__CYGWIN32__)
     return -1*(_timezone);
@@ -173,7 +178,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
   CFRelease(list);
   return(retval);
 
-#elif defined(linux)
+#elif LINUX_LIKE_SYSTEM
     bool    retval = false;
 
     FILE* fapm = fopen("/proc/apm", "r");
@@ -237,7 +242,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
 #endif
 }
 
-#ifdef linux
+#if LINUX_LIKE_SYSTEM
 static void parse_meminfo_linux(HOST_INFO& host) {
     char buf[256];
     double x;
@@ -449,7 +454,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     strlcpy(host.p_model, model_buf, sizeof(host.p_model));
     fclose(f);
 }
-#endif  // linux
+#endif  // LINUX_LIKE_SYSTEM
 
 #ifdef __APPLE__
 static void get_cpu_info_maxosx(HOST_INFO& host) {
@@ -520,7 +525,7 @@ int HOST_INFO::get_host_info() {
     get_filesystem_info(d_total, d_free);
 
 ///////////// p_vendor, p_model, p_features /////////////////
-#ifdef linux
+#if LINUX_LIKE_SYSTEM
     parse_cpuinfo_linux(*this);
 #elif defined( __APPLE__)
     int mib[2];
@@ -604,7 +609,7 @@ int HOST_INFO::get_host_info() {
         DosQuerySysInfo( QSV_TOTAVAILMEM, QSV_TOTAVAILMEM, &ulMem, sizeof(ulMem));
         m_swap = ulMem;
     }
-#elif defined(linux)
+#elif LINUX_LIKE_SYSTEM
     parse_meminfo_linux(*this);
 #elif defined(_SC_USEABLE_MEMORY)
     // UnixWare

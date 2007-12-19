@@ -237,7 +237,7 @@ dnl Special rules for specific targets go here:  It's easier to add static libs
 dnl than subtract them.  If you need to remove something from the list above,
 dnl please add it to the lists below...
 case ${target} in
-	*-linux*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl"
+	*-linux*|*-k*bsd*-gnu)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl"
 	;;
 	*-solaris*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} X* ssl crypto"
 	;;
