@@ -8135,6 +8135,9 @@ Charlie 18 Dec 07
         the ClientStateIndicator panel was reduced from (343,314) to
         (336,300) before it is updated in CViewTabPage::DrawText().  
         This hack simply sets the size back to its original value.
+    - Mac: Fix curl library build problem when building under OS 10.5 and 
+        XCode 3.0 (compatibility settings issue, enter "man compat" in Terminal 
+        for more info).
     - Update version number to 5.10.31.
     - Tag for 5.10.31 release, all platforms (only Mac relase is needed)
       boinc_core_release_5_10_31
@@ -8144,3 +8147,5 @@ Charlie 18 Dec 07
         version.h
     clientgui/
         sg_ViewTabPage.cpp
+    mac_build/
+        buildcurl.sh
