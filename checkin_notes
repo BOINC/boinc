@@ -12342,8 +12342,15 @@ Charlie 18 Dec 07
 Charlie 19 Dec 07
     - Mac MGR: Fix code which draws menubar icon to properly use alpha 
         channel with newer versions of wxwidgets.
+    - Mac: Fix curl library build problem when building under OS 10.5 and 
+        XCode 3.0 (compatibility settings issue, enter "man compat" in Terminal 
+        for more info).
         
     clientgui/
         mac/
             SystemMenu.m
             MacSysMenu.cpp,h
+    mac_build/
+        buildcurl.sh
+        boinc.xcodeproj/
+            project.pbxproj
