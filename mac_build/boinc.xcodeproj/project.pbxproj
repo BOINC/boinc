@@ -3161,6 +3161,7 @@
 		DD62C3890A801FB500B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/;
 				OTHER_LDFLAGS = (
@@ -3176,6 +3177,7 @@
 		DD62C38A0A801FB500B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
@@ -3737,6 +3739,7 @@
 		DD96706F0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
@@ -4015,6 +4018,7 @@
 		DD9843DF09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
@@ -4299,6 +4303,7 @@
 		DD9E236A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/;
 				OTHER_LDFLAGS = (
@@ -4314,6 +4319,7 @@
 		DD9E236B091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				OTHER_LDFLAGS = (
@@ -4606,6 +4612,7 @@
 		DDA2D15D0952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/4.0;
 				OTHER_LDFLAGS = (
