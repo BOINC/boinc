@@ -45,6 +45,8 @@ create table bolt_view (
     start_time      integer         not null,
     end_time        integer         not null,
     prev_view_id    integer         not null,
+        -- for exercise answer views,
+        -- this always refers to the original exercise show
     fraction_done   double          not null,
     result_id       integer         not null,
         -- if this was an exercise show, link to result record
@@ -58,8 +60,10 @@ create table bolt_view (
 create table bolt_exercise_result (
     id              integer         not null auto_increment,
     view_id         integer         not null,
+        -- the original display of exercise
     score           double          not null,
     response        text            not null,
+        -- the query string containing user's responses
     primary key(id)
 );
 

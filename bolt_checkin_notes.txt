@@ -1,0 +1,24 @@
+David  Dec 19 2007
+    - May as well start keeping checkin notes for Bolt.
+        At this point the fundamental structure of Bolt is
+        more or less complete, I hope; many features are missing.
+
+    Items for this particular checkin:
+
+    - Make things work right when you resume a course at an
+        exercise answer page.
+        This creates a new View, whose prev_view_id link points
+        to the exercise view, not the answer page view
+    - When leave a page using "Up", terminate the view accordingly.
+    - Rather than using $_GET, Form vars are now passed to exercise primitives
+        in a global variable $bolt_ex_query_string, which they must parse.
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_ex.inc
+        user/
+            bolt_course.php
+            bolt_sched.php

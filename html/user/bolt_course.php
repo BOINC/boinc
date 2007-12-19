@@ -21,6 +21,7 @@ function action_name($action) {
     case BOLT_ACTION_PREV: return "Previous";
     case BOLT_ACTION_SUBMIT: return "Submit";
     case BOLT_ACTION_QUESTION: return "Question";
+    case BOLT_ACTION_COURSE_HOME: return "Course home";
     default: return "unknown: $action";
     }
 }

@@ -4,11 +4,15 @@ $bolt_ex_mode = 0;
 $bolt_ex_index = 0;
 $bolt_ex_state = 0;
 $bolt_ex_score = 0;
+$bolt_ex_query_string = "";
 
 function bolt_exclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_score;  // incremental output if SCORE
+    global $bolt_ex_query_string;
+
+    parse_str($bolt_ex_query_string);
 
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:
@@ -25,8 +29,8 @@ function bolt_exclusive_choice($choices) {
         $right_ans = $choices[0];
         shuffle($choices);
         $key = "q_$bolt_ex_index";
-        if (array_key_exists($key, $_GET)) {
-            $response = $_GET[$key];
+        if (isset($$key)) {
+            $response = $$key;
             if ($choices[$response] == $right_ans) {
                 $bolt_ex_score += 1;
             }
@@ -36,8 +40,8 @@ function bolt_exclusive_choice($choices) {
         $right_ans = $choices[0];
         shuffle($choices);
         $key = "q_$bolt_ex_index";
-        if (array_key_exists($key, $_GET)) {
-            $response = $_GET[$key];
+        if (isset($$key)) {
+            $response = $$key;
         } else {
             $response = -1;
         }
@@ -60,6 +64,9 @@ function bolt_inclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_score;  // incremental output if SCORE
+    global $bolt_ex_query_string;
+
+    parse_str($bolt_ex_query_string);
 
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:
@@ -80,7 +87,7 @@ function bolt_inclusive_choice($choices) {
         shuffle($choices);
         foreach ($choices as $choice) {
             $key = "q_".$bolt_ex_index."_$i";
-            $response = array_key_exists($key, $_GET);
+            $response = isset($$key);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
             if ($correct) $score += 1./$n;
@@ -97,7 +104,7 @@ function bolt_inclusive_choice($choices) {
         foreach ($choices as $choice) {
             $c = $choice[0];
             $key = "q_".$bolt_ex_index."_$i";
-            $response = array_key_exists($key, $_GET);
+            $response = isset($$key);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
             table_row($c, $r?"yes":"no", $response?"yes":"no");
@@ -114,6 +121,8 @@ function bolt_image_rect($img, $rect) {
     global $bolt_ex_index;  // input
     global $bolt_ex_state;  // output if SHOW, else input
     global $bolt_ex_score;  // incremental output if SCORE
+
+    parse_str($bolt_ex_query_string);
 
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:

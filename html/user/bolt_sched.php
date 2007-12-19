@@ -135,7 +135,7 @@ function show_item($iter, $user, $course, $view_id, $prev_view_id, $mode) {
         <center>
         <table width=60%><tr>
             <td width=33% align=left>$prev</td>
-            <td width=33% align=center><a href=bolt.php>Up</a></td>
+            <td width=33% align=center><a href=bolt_sched.php?course_id=$course->id&action=course_home&view_id=$view_id>Up</a></td>
             <td width=33% align=right>$next</td>
         </table>
         </center>
@@ -253,6 +253,7 @@ case 'answer':          // submit answer in exercise
     if ($view->item_name != $item->name) {
         error_page("unexpected name");
     }
+    $bolt_ex_query_string = $_SERVER['QUERY_STRING'];
     $bolt_ex_mode = BOLT_MODE_SCORE;
     $bolt_ex_index = 0;
     $bolt_ex_score = 0;
@@ -283,7 +284,12 @@ case 'answer_page':
     }
     $result = BoltResult::lookup_id($view->result_id);
     srand($view_id);
+    $bolt_ex_query_string = $result->response;
     show_answer_page($iter, $result->score);
+    break;
+case 'course_home':
+    $view = finalize_view($user, $view_id, BOLT_ACTION_COURSE_HOME);
+    Header("Location: bolt.php");
     break;
 default:
     $view = $e?BoltView::lookup_id($e->last_view_id):null;
@@ -298,9 +304,24 @@ default:
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
     $iter->at();
-    $mode = default_mode($iter->item);
-    $view_id = create_view($user, $course, $iter, $mode, $view->id);
-    show_item($iter, $user, $course, $view_id, $view->id, $mode);
+    $mode = $view->mode;
+    if ($view->item_name == $iter->item->name && ($mode == BOLT_MODE_ANSWER)) {
+        // if we're returning to an answer page,
+        // we need to look up the user's responses and the score.
+        //
+        $view_orig = BoltView::lookup_id($view->prev_view_id);
+        $result = BoltResult::lookup_id($view_orig->result_id);
+        srand($view_orig->id);
+        echo "reshow: $result->response";
+        $bolt_ex_query_string = $result->response;
+        $bolt_ex_score = $result->score;
+        $bolt_ex_index = 0;
+        $view_id = create_view($user, $course, $iter, $mode, $view_orig->id);
+        show_item($iter, $user, $course, $view_id, $view_orig->id, $mode);
+    } else {
+        $view_id = create_view($user, $course, $iter, $mode, $view->id);
+        show_item($iter, $user, $course, $view_id, $view->id, $mode);
+    }
     break;
 }
 

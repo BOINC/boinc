@@ -14,6 +14,7 @@ define('BOLT_ACTION_NEXT', 1);
 define('BOLT_ACTION_PREV', 2);
 define('BOLT_ACTION_SUBMIT', 3);
 define('BOLT_ACTION_QUESTION', 4);
+define('BOLT_ACTION_COURSE_HOME', 5);
 
 class BoltDb extends DbConn {
     static $instance;
