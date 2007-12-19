@@ -12338,3 +12338,12 @@ Charlie 18 Dec 07
 
     clientgui/
         sg_ViewTabPage.cpp
+        
+Charlie 19 Dec 07
+    - Mac MGR: Fix code which draws menubar icon to properly use alpha 
+        channel with newer versions of wxwidgets.
+        
+    clientgui/
+        mac/
+            SystemMenu.m
+            MacSysMenu.cpp,h

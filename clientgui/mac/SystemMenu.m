@@ -42,7 +42,7 @@
 SystemMenu *gSystemMenu = NULL;
 NSStatusItem *gStatusItem = NULL;
 
-void SetSystemMenuIcon(PicHandle theIcon);
+void SetSystemMenuIcon(CGImageRef theIcon);
 static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePtr);
 
 /*
@@ -83,7 +83,7 @@ FallbackMethod:
 
 /*
 */
-void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon) {
+void	SetUpSystemMenu(MenuRef menuToCopy, CGImageRef theIcon) {
     NSAutoreleasePool* pool;
     
     if (gSystemMenu == NULL)
@@ -199,7 +199,7 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon) {
 }
 
 
-void SetSystemMenuIcon(PicHandle theIcon)
+void SetSystemMenuIcon(CGImageRef theIcon)
 {
     if (theIcon == NULL) 
     {
@@ -213,14 +213,26 @@ void SetSystemMenuIcon(PicHandle theIcon)
         return;
     }
         
-    unsigned theLength  = GetHandleSize((Handle)theIcon);
-    NSData* theData = [[NSData alloc] initWithBytes:*theIcon length:theLength];
-    NSImage* theImage = [[NSImage alloc] initWithData:theData];
+    NSRect imageRect = NSMakeRect(0.0, 0.0, 0.0, 0.0);
+    CGContextRef imageContext = nil;
+    NSImage* theImage = nil;
+ 
+    // Get the image dimensions.
+    imageRect.size.height = CGImageGetHeight(theIcon);
+    imageRect.size.width = CGImageGetWidth(theIcon);
+ 
+    // Create a new image to receive the Quartz image data.
+    theImage = [[NSImage alloc] initWithSize:imageRect.size];
+    [theImage lockFocus];
+ 
+    // Get the Quartz context and draw.
+    imageContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+    CGContextDrawImage(imageContext, *(CGRect*)&imageRect, theIcon);
+    [theImage unlockFocus];
 
     [gStatusItem setImage:theImage];
     
     [theImage release];
-    [theData release];
     
     return;
 }
