@@ -8149,3 +8149,13 @@ Charlie 18 Dec 07
         sg_ViewTabPage.cpp
     mac_build/
         buildcurl.sh
+
+Charlie 19 Dec 07
+    - Mac MGR: Fix code which draws menubar icon to properly use alpha 
+        channel with newer versions of wxwidgets (checked into tag 
+        boinc_core_release_5_10_31).
+        
+    clientgui/
+        mac/
+            SystemMenu.m
+            MacSysMenu.cpp,h
