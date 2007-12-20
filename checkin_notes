@@ -8161,8 +8161,13 @@ Charlie 19 Dec 07
             MacSysMenu.cpp,h
 
 Charlie 19 Dec 07
+    - Mac: Work around bug in wxMac-2.8.7 implementation of wxListCtrl::RefreshItem() 
+         which does not update the display.  The default wxListCtrl in wxMac-2.8.7 
+         uses DataBrowser, but allows us to select the traditional generic implementation 
+         with a wxSystemOptions::SetOption() call.
     - Mac MGR: Fix minor cosmetic bug in Pie Control.
 
     clientgui/
+        BOINCGUIApp.cpp
         common/
-            wxPieCtrl.cpp, h
+            wxPieCtrl.cpp,h
