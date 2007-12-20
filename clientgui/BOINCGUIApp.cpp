@@ -206,6 +206,12 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef __WXMAC__
 
+#if wxCHECK_VERSION(2,8,0)
+// In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
+// so use traditional generic implementation.
+    wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+#endif
+	
     wxString strDirectory = wxEmptyString;
     bool success;
 
