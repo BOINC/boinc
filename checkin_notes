@@ -12379,9 +12379,20 @@ David  19 Dec 2007
             sample_server_status.php
 
 Charlie 19 Dec 07
+    - Mac: Use localtime_r and fmtime_r in wxWidgets and eliminate 
+        compiler warnings
     - Mac: make build scripts more robust.
- 
+    - Mac: Work around bug in wxMac-2.8.7 implementation of wxListCtrl::RefreshItem() 
+         which does not update the display.  The default wxListCtrl in wxMac-2.8.7 
+         uses DataBrowser, but allows us to select the traditional generic implementation 
+         with a wxSystemOptions::SetOption() call.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        stdwx.h
     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
         buildcurl.sh
         buildjpeg.sh
         BuildMacBOINC.sh
