@@ -8159,3 +8159,10 @@ Charlie 19 Dec 07
         mac/
             SystemMenu.m
             MacSysMenu.cpp,h
+
+Charlie 19 Dec 07
+    - Mac MGR: Fix minor cosmetic bug in Pie Control.
+
+    clientgui/
+        common/
+            wxPieCtrl.cpp, h
