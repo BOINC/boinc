@@ -22,7 +22,7 @@
 #
 ##
 # Script for building Macintosh BOINC Manager, Core Client and libraries
-# by Charlie Fenton 12/4/07
+# by Charlie Fenton 12/19/07
 # with thanks to Reinhard Prix for his assistance
 ##
 
@@ -144,6 +144,8 @@ else
 fi
 
 echo ""
+
+export DEVELOPER_SDK_DIR="/Developer/SDKs"
 
 xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} ${doclean} build
 

@@ -23,7 +23,7 @@
 # Script to build the wxMac-2.8.7 library for BOINC as a Universal Binary
 #
 # by Charlie Fenton    7/21/06
-# Updated for wx-Mac 2.8.7 12/17/07
+# Updated for wx-Mac 2.8.7 12/19/07
 
 #
 ## In Terminal, CD to the wxMac-2.8.7 directory.
@@ -44,6 +44,7 @@ fi
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else
+     export DEVELOPER_SDK_DIR="/Developer/SDKs"
      xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
@@ -52,7 +53,8 @@ fi
 if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
     echo "Development libwx_mac_static.a already built"
 else
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
+     export DEVELOPER_SDK_DIR="/Developer/SDKs"
+     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"
 ## The above line does Development build for only the native architecture.  
 ## Use line below instead for Universal Binary Development build
 ##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-fvisibility=hidden -fvisibility-inlines-hidden"

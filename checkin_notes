@@ -12377,3 +12377,13 @@ David  19 Dec 2007
             list_new_users.php
             manage_user.php
             sample_server_status.php
+
+Charlie 19 Dec 07
+    - Mac: make build scripts more robust.
+ 
+    mac_build/
+        buildcurl.sh
+        buildjpeg.sh
+        BuildMacBOINC.sh
+        buildWxMac.sh
+   
