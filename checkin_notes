@@ -8171,3 +8171,11 @@ Charlie 19 Dec 07
         BOINCGUIApp.cpp
         common/
             wxPieCtrl.cpp,h
+
+Charlie 20 Dec 07
+    - Tag for 5.10.32 release, all platforms (only Mac relase is needed)
+      boinc_core_release_5_10_32
+    
+    /
+        configure.ac
+        version.h
