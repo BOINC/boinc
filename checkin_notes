@@ -12397,4 +12397,10 @@ Charlie 19 Dec 07
         buildjpeg.sh
         BuildMacBOINC.sh
         buildWxMac.sh
-   
+
+David  21 Dec 2007
+    - compile fixes (remove comma after last element of enum)
+
+    lib/
+        prefs.h
+        common_defs.h

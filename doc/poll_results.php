@@ -36,7 +36,7 @@ function parse_xml($resp, &$sums) {
         $tag = $matches[1];
         $val = $matches[2];
         if (strstr($tag, 'text')) {
-            if ($val) {
+            if ($val && $resp->update_time > 1197202264) {
                 $val = str_replace("\\r\\n", "\n", urldecode($val));
                 $val = str_replace('\\\\\\', '', $val);
                 $d = gmdate("g:i A \U\T\C, F d Y", $resp->update_time);
@@ -67,6 +67,8 @@ function other_link($sums, $other_name, $link_text, $ntotal) {
         $b = bar($n, $ntotal);
         $y .= "$b <a href=$fname>$link_text</a>";
         $f = fopen($fname, "w");
+        $old_name = str_replace(".html", ".old.html", $fname);
+        fwrite($f, "<a href=$old_name>Old responses</a><hr>\n");
         foreach ($sums[$other_name] as $text) {
             if (!strstr($text, '<a')) {
                 fwrite($f, $text);

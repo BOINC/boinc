@@ -80,7 +80,7 @@ public:
     enum TimeMode {
         Always = 7000,
         Never,
-        Between,
+        Between
     };
     TIME_SPAN()
         : start_hour(0), end_hour(0) {}

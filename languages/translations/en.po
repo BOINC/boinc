@@ -751,4 +751,4 @@ msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgid "HOME_BOINC_DESC"
-msgstr "Open-source software for %svolunteer computing%s and %sdesktop grid computing%s.
+msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s.

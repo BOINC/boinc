@@ -5,15 +5,15 @@ find_translation("dg.html");
 
 require_once("docutil.php");
 
-page_head("Desktop grid computing with BOINC");
+page_head("Grid computing with BOINC");
 
 echo "
-<h2>Desktop grid versus volunteer computing</h2>
+<h2>Grid versus volunteer computing</h2>
 <p>
-<b>Desktop grid computing</b>
+<b>Grid computing</b>
 is a form of distributed computing in which
 an organization (such as a business)
-uses its existing desktop PCs to handle its own
+uses its existing computers to handle its own
 long-running computational tasks.
 This differs from volunteer computing in several ways:
 <ul>
@@ -28,11 +28,11 @@ be completely invisible and out of the control of the PC user.
 <li> Client deployment is typically automated.
 </ul>
 
-<h2>BOINC as a desktop grid computing platform</h2>
+<h2>BOINC as a grid computing platform</h2>
 <p>
 Although it was originally designed for volunteer computing,
-BOINC works very well for desktop grid computing.
-The steps in creating a desktop grid are:
+BOINC works very well for grid computing.
+The steps in creating a grid are:
 <ul>
 <li>
 <a href=trac/wiki/CreateProjectOutline>Set up a BOINC server</a>,
@@ -64,7 +64,7 @@ or access its files,
 configure your firewall to prevent HTTP access to your BOINC server.
 
 <p>
-For more information on desktop grid computing using BOINC,
+For more information on grid computing using BOINC,
 and some useful pre-compiled software, visit
 <a href=http://desktopgrid.hu/>Desktopgrid.hu</a>.
 
