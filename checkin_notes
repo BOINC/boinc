@@ -12438,3 +12438,11 @@ David  21 Dec 2007
         boinc_api.C
     sched/
         delete_file.C
+
+David  21 Dec 2007
+    - user web: when creating cache dir, chmod() so that
+        protections are right regardless of umask.
+        From Nicolas Alvarez; fixes #344
+
+    html/inc/
+        cache.inc
