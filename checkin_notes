@@ -12404,3 +12404,9 @@ David  21 Dec 2007
     lib/
         prefs.h
         common_defs.h
+
+David  21 Dec 2007
+    - fix PHP warning in forums
+
+    html/inc/
+        forum.inc
