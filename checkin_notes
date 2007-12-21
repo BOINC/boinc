@@ -12410,3 +12410,21 @@ David  21 Dec 2007
 
     html/inc/
         forum.inc
+
+David  21 Dec 2007
+    - API: switch back to structure where the worker thread
+        calls getrusage() in a signal handler to find its CPU time.
+        Apparently there are some kernels and/or thread libraries
+        where getrusage() does NOT return the total CPU time of
+        all threads in the process,
+        so in these cases calling it from the timer thread doesn't work.
+        
+        This was originally changed because of concerns that
+        calling getrusage() in a signal handler was dangerous;
+        we'll see if any problems re-emerge.
+
+        The alternative of reading /proc/PID/stats doesn't seem viable;
+        format may not be standardized.
+
+    api/
+        boinc_api.C
