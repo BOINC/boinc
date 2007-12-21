@@ -37,6 +37,7 @@ using namespace std;
 
 #include "config.h"
 #include <unistd.h>
+#include <climits>
 #include <cmath>
 #include <vector>
 

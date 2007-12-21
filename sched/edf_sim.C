@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <cstdio>
 
 #include "edf_sim.h"
 

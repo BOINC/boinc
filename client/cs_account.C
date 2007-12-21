@@ -23,6 +23,7 @@
 
 #ifndef _WIN32
 #include "config.h"
+#include <algorithm>
 #include <cstdio>
 #include <cassert>
 #ifdef HAVE_SYS_STAT_H

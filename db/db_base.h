@@ -20,6 +20,8 @@
 #ifndef _DB_BASE_
 #define _DB_BASE_
 
+#include <cstdlib>
+#include <string>
 #include <mysql.h>
 
 // if SQL columns are not 'not null', you must use these safe_atoi, safe_atof

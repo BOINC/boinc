@@ -12446,3 +12446,9 @@ David  21 Dec 2007
 
     html/inc/
         cache.inc
+
+David  21 Dec 2007
+    - compile fixes for gcc 4.3 (from Frank Thomas)
+        Fixes #514
+
+    various files

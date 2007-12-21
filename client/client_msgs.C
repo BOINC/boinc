@@ -22,6 +22,7 @@
 #else
 #include "config.h"
 #include <cstdarg>
+#include <cstring>
 #include <deque>
 #endif
 

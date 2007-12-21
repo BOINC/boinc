@@ -25,6 +25,7 @@
 #else
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <string>
 #include <math.h>
 #ifdef solaris

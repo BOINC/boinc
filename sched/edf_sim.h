@@ -20,6 +20,7 @@
 #ifndef _EDF_SIM_H
 #define _EDF_SIM_H
 
+#include <cstring>
 #include <vector>
 
 struct IP_RESULT {
