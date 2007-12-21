@@ -1,5 +1,5 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
 // Place your version in project_specific/project_specific_prefs.inc
 
 // Functions to display and edit project-specific prefs go here
@@ -82,3 +82,7 @@ function project_specific_prefs_parse($prefs_xml) {
     $prefs->max_frames_sec = parse_element($prefs_xml, "<max_frames_sec>");
     return $prefs;
 }
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
+?>

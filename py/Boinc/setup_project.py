@@ -310,7 +310,7 @@ def create_project_dirs(dest_dir):
             'html/user_profile/images'
         ])
 
-def install_boinc_files(dest_dir):
+def install_boinc_files(dest_dir, web_only):
     """Copy files from source dir to project dir.
         Used by the upgrade script, so don't copy sample files to real name."""
 
@@ -336,7 +336,21 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/img/*.*'), dir('html/user/img'))
     install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
 
-    # copy all the backend programs
+    # copy Python stuff
+    map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
+        [ 'start' ])
+    force_symlink(dir('bin', 'start'), dir('bin', 'stop'))
+    force_symlink(dir('bin', 'start'), dir('bin', 'status'))
+    map(lambda (s): install(srcdir('py/Boinc',s), dir('bin',s)),
+        [ 'add_util.py', 'boinc_db.py', 'boinc_project_path.py',
+          'boincxml.py', 'configxml.py', 'database.py',
+          'db_base.py', 'db_mid.py', 'projectxml.py',
+          'sched_messages.py', 'tools.py', 'util.py' ])
+
+    if web_only:
+        return
+
+    # copy backend (C++) programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
         [ 'cgi', 'file_upload_handler'])
     map(lambda (s): install(builddir('sched',s), dir('bin',s)),
@@ -344,20 +358,11 @@ def install_boinc_files(dest_dir):
           'sample_bitwise_validator', 'sample_trivial_validator',
           'file_deleter', 'sample_dummy_assimilator',
           'sample_assimilator', 'sample_work_generator',
-          'update_stats', 'db_dump', 'db_purge' ])
-    map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
-        [ 'start', 'show_shmem' ])
-    force_symlink(dir('bin', 'start'), dir('bin', 'stop'))
-    force_symlink(dir('bin', 'start'), dir('bin', 'status'))
+          'update_stats', 'db_dump', 'db_purge', 'show_shmem' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
         [ 'create_work', 'xadd', 'dbcheck_files_exist', 'run_in_ops',
           'update_versions', 'parse_config', 'grep_logs', 'db_query',
           'watch_tcp', 'sign_executable', 'dir_hier_move', 'dir_hier_path' ])
-    map(lambda (s): install(srcdir('py/Boinc',s), dir('bin',s)),
-        [ 'add_util.py', 'boinc_db.py', 'boinc_project_path.py',
-          'boincxml.py', 'configxml.py', 'database.py',
-          'db_base.py', 'db_mid.py', 'projectxml.py',
-          'sched_messages.py', 'tools.py', 'util.py' ])
     map(lambda (s): install(srcdir('sched',s), dir('',s)),
         [ 'db_dump_spec.xml' ])
 
@@ -368,11 +373,13 @@ class Project:
                  project_dir=None, key_dir=None,
                  master_url=None, cgi_url=None,
                  db_name=None,
+                 web_only=False,
                  production=False
                  ):
         init()
 
-        self.production = production
+        self.production     = production
+        self.web_only       = web_only
         self.short_name     = short_name
         self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
 
@@ -450,10 +457,11 @@ class Project:
 
         create_project_dirs(self.project_dir);
 
-        if not self.keys_exist():
-            if self.query_create_keys():
-                verbose_echo(1, "Setting up server files: generating keys");
-                self.create_keys()
+        if not self.web_only:
+            if not self.keys_exist():
+                if self.query_create_keys():
+                    verbose_echo(1, "Setting up server files: generating keys");
+                    self.create_keys()
 
         # copy the user and administrative PHP files to the project dir,
         verbose_echo(1, "Setting up server files: copying files")
@@ -461,7 +469,7 @@ class Project:
         # Create the project log directory
         self.create_logdir()
 
-        install_boinc_files(self.dir())
+        install_boinc_files(self.dir(), self.web_only)
 
         # copy sample web files to final names
         install(srcdir('html/user/sample_index.php'),

@@ -12452,3 +12452,18 @@ David  21 Dec 2007
         Fixes #514
 
     various files
+
+David  21 Dec 2007
+    - make_project: add --web_only option.
+        This lets you create a project for Bossa or Bolt
+        without compiling the C++ stuff, which is not used by Bossa or Bolt.
+    - DB schema: change type= to engine= to avoid MySQL warning messages
+
+    db/
+        schema.sql
+    html/project.sample/
+        project_spe
+    py/Boinc
+        setup_project.py
+    tools/
+        make_project
