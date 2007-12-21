@@ -45,13 +45,13 @@ SCHED_CONFIG config;
 
 int delete_host_file(int host_id, const char* file_name) {
     DB_MSG_TO_HOST mth;
-    sprintf(mth.xml, "<delete_file_info>%s</delete_file_info>\n", file_name);
-    sprintf(mth.variety, "delete_file");
     int retval;
     mth.clear();
     mth.create_time = time(0);
     mth.hostid = host_id;
     mth.handled = false;
+    sprintf(mth.xml, "<delete_file_info>%s</delete_file_info>\n", file_name);
+    sprintf(mth.variety, "delete_file");
     retval = mth.insert();
     if (retval) {
         fprintf(stderr, "msg_to_host.insert(): %d\n", retval);
@@ -73,11 +73,7 @@ int main(int argc, char** argv) {
     // get arguments
     for(i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
-            if(!strcmp(argv[++i], "all")) {
-                host_id = 0;
-            } else {
-                host_id = atoi(argv[i]);
-            }
+            host_id = atoi(argv[++i]);
         } else if(!strcmp(argv[i], "-file_name")) {
             strcpy(file_name, argv[i++]);
         } else if (!strcmp(argv[i], "-help")) {

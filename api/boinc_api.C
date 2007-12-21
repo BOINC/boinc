@@ -116,15 +116,17 @@ bool g_sleep = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
 
-#define TIMER_PERIOD 1
+#define TIMER_PERIOD 0.1
     // period of worker-thread timer interrupts.
+    // Determines rate of handlling messages from client.
+#define TIMERS_PER_SEC 10
     // This determines the resolution of fraction done and CPU time reporting
     // to the core client, and of checkpoint enabling.
     // It doesn't influence graphics, so 1 sec is enough.
-#define HEARTBEAT_GIVEUP_PERIOD (30/TIMER_PERIOD)
+#define HEARTBEAT_GIVEUP_PERIOD ((int)(30/TIMER_PERIOD))
     // quit if no heartbeat from core in this #interrupts
-#define HEARTBEAT_TIMEOUT_PERIOD 35
-    // quit if we cannot aquire slot resource in this #secs
+#define LOCKFILE_TIMEOUT_PERIOD 35
+    // quit if we cannot aquire slot lock file in this #secs after startup
 
 #ifdef _WIN32
 static HANDLE hSharedMem;
@@ -318,7 +320,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         if (retval) {
             // give any previous occupant a chance to timeout and exit
             //
-            boinc_sleep(HEARTBEAT_TIMEOUT_PERIOD);
+            boinc_sleep(LOCKFILE_TIMEOUT_PERIOD);
             retval = file_lock.lock(LOCKFILE);
         }
         if (retval) {
@@ -801,12 +803,6 @@ void graphics_cleanup() {
 static void timer_handler() {
     if (g_sleep) return;
     interrupt_count++;
-    if (!ready_to_checkpoint) {
-        time_until_checkpoint -= TIMER_PERIOD;
-        if (time_until_checkpoint <= 0) {
-            ready_to_checkpoint = true;
-        }
-    }
 
     // handle messages from the core client
     //
@@ -820,6 +816,18 @@ static void timer_handler() {
         }
         if (options.backwards_compatible_graphics) {
             handle_graphics_messages();
+        }
+    }
+
+    if (interrupt_count % TIMERS_PER_SEC) return;
+
+    // here it we're at a one-second boundary; do slow stuff
+    //
+
+    if (!ready_to_checkpoint) {
+        time_until_checkpoint -= 1;
+        if (time_until_checkpoint <= 0) {
+            ready_to_checkpoint = true;
         }
     }
 
@@ -843,7 +851,7 @@ static void timer_handler() {
     // don't bother reporting CPU time etc. if we're suspended
     //
     if (options.send_status_msgs && !boinc_status.suspended) {
-        time_until_fraction_done_update -= TIMER_PERIOD;
+        time_until_fraction_done_update -= 1;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
             cur_cpu = boinc_worker_thread_cpu_time();
@@ -968,8 +976,8 @@ int set_worker_timer() {
         perror("boinc set_worker_timer() sigaction");
         return retval;
     }
-    value.it_value.tv_sec = TIMER_PERIOD;
-    value.it_value.tv_usec = 0;
+    value.it_value.tv_sec = 0;
+    value.it_value.tv_usec = (int)(TIMER_PERIOD*1e6);
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {

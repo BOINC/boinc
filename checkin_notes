@@ -12428,3 +12428,13 @@ David  21 Dec 2007
 
     api/
         boinc_api.C
+
+David  21 Dec 2007
+    - API: check for messages from client 10X a second;
+        this will allow smoother CPU throttling
+    - delete_file: bug fixes (from Nicolas Alvarez).  Fixes #78
+
+    api/
+        boinc_api.C
+    sched/
+        delete_file.C
