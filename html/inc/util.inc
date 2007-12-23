@@ -6,6 +6,7 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/forum.inc");
+require_once("../inc/profile.inc");
 
 ini_set("memory_limit", "64M");
 
@@ -549,7 +550,13 @@ function user_links($user) {
     }
     $x = "<a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->has_profile) {
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" src="'.URL_BASE.'img/head_20.png" alt="Profile"></a>';
+        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
+        if ($profile && $profile->has_picture) {
+            $img_url = profile_thumb_url($user->id);
+        } else {
+            $img_url = URL_BASE."img/head_20.png";
+        }
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a>';
     }
     if ($user->donated == 1) { 
         require_once("../project/donations.inc");

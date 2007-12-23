@@ -12467,3 +12467,15 @@ David  21 Dec 2007
         setup_project.py
     tools/
         make_project
+
+David  23 Dec 2007
+    - web: if user has profile photo, use it instead of head_20.
+
+    html/
+        inc/
+            boinc_db.inc
+            db_conn.inc
+            user.inc
+            util.inc
+        user/
+            forum_moderate_thread.php

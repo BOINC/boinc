@@ -34,6 +34,17 @@ class DbConn {
         return $ret;
     }
 
+    function lookup_fields($table, $classname, $fields, $clause) {
+        $query = "select $fields from DBNAME.$table where $clause";
+        $result = $this->do_query($query);
+        if (!$result) {
+            return null;
+        }
+        $obj = mysql_fetch_object($result, $classname);
+        mysql_free_result($result);
+        return $obj;
+    }
+
     function lookup($table, $classname, $clause) {
         $query = "select * from DBNAME.$table where $clause";
         $result = $this->do_query($query);

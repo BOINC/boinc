@@ -232,7 +232,7 @@ function show_user_info_private($user) {
         $x = "";
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= user_links($fuser);
+            $x .= " ". user_links($fuser);
         }
         row2("Friends", $x);
     }
@@ -308,7 +308,7 @@ function show_user_summary_public($user) {
         $x = "";
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= user_links($fuser);
+            $x .= " ".user_links($fuser);
         }
         row2("Friends", $x);
     }

@@ -205,6 +205,10 @@ class BoincAppVersion {
 }
 
 class BoincProfile {
+    static function lookup_fields($fields, $clause) {
+        $db = BoincDb::get();
+        return $db->lookup_fields('profile', 'BoincProfile', $fields, $clause);
+    }
     static function lookup($clause) {
         $db = BoincDb::get();
         return $db->lookup('profile', 'BoincProfile', $clause);

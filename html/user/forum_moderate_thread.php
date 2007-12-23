@@ -61,7 +61,7 @@ if (get_str('action')=="hide") {
 }
 
 row2("Reason<br>Mailed if nonempty",
-    "<textarea name=\"reason\"></textarea>");
+    "<textarea rows=10 cols=80 name=\"reason\"></textarea>");
 
 row2(
     "",
