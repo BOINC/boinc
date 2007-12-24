@@ -12487,3 +12487,14 @@ David  24 Dec 2007
     html/inc/
         forum.inc
         util.inc
+
+David  24 Dec 2007
+    - make_project: don't create symbolic link html/user_profiles/user_profiles.
+        If there was ever a need for this, it has disappeared.
+        Fixes #524
+    - fix bug in BOINC-wide team export script
+
+    html/ops/
+        team_export.php
+    py/Boinc/
+        setup_project.py

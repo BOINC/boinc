@@ -494,8 +494,6 @@ class Project:
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
         my_symlink('../stats', self.dir('html/user/stats'))
-        my_symlink('../user_profile', self.dir('html/user/user_profile'))
-        my_symlink('../user_profile', self.dir('html/user_profile/user_profile'))
 
         # Copy the sched server in the cgi directory with the cgi names given
         # source_dir/html/user/schedulers.txt
