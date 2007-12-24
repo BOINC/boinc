@@ -12479,3 +12479,11 @@ David  23 Dec 2007
             util.inc
         user/
             forum_moderate_thread.php
+
+David  24 Dec 2007
+    - web: don't show profile pics in forums,
+        since we already show avatars there.
+
+    html/inc/
+        forum.inc
+        util.inc

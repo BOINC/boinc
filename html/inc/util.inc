@@ -543,16 +543,20 @@ function sched_stopped() {
     return file_exists("../../stop_sched");
 }
 
-function user_links($user) {
+function user_links($user, $show_profile_pic=true) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
     }
     $x = "";
     if ($user->has_profile) {
-        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
-        if ($profile && $profile->has_picture) {
-            $img_url = profile_thumb_url($user->id);
+        if ($show_profile_pic) {
+            $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
+            if ($profile && $profile->has_picture) {
+                $img_url = profile_thumb_url($user->id);
+            } else {
+                $img_url = URL_BASE."img/head_20.png";
+            }
         } else {
             $img_url = URL_BASE."img/head_20.png";
         }
