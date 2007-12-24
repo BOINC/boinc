@@ -12498,3 +12498,25 @@ David  24 Dec 2007
         team_export.php
     py/Boinc/
         setup_project.py
+
+David  24 Dec 2007
+    - web: don't require login for show_user.php
+    - web: add app selection to example project-specific prefs
+        (commented out by default)
+    - web: in prefs, flag too-low numeric values as errors,
+        rather than just setting to min value
+    - web: fix bug when add new venue from "columns" view
+
+    html/
+        inc/
+            prefs.inc
+            uotd.inc
+            util.inc
+        ops/
+            sample_server_status.php
+        project.sample/
+            project_specific_prefs.php
+        user/
+            show_user.php
+    sched/
+        sched_send.C

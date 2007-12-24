@@ -122,7 +122,7 @@ define("ALLOW_BETA_WORK",
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
 define("PREFS_FORM_DESC1", "These preferences apply to all the BOINC projects in which you participate.<br><br>");
-define("PREFS_FORM_ERROR_DESC", "<b>Unable to update preferences.</b> Some values (marked in red below) were out of range or not numeric.<br><br>");
+define("PREFS_FORM_ERROR_DESC", "<b>Unable to update preferences.</b> The values marked in red below were out of range or not numeric.<br><br>");
 
 global $text;
 global $parse_result;
@@ -613,7 +613,7 @@ function row_field($value, $type) {
 function row_links($subset, $prefs) {
     global $g_logged_in_user;
     $tokens = url_tokens($g_logged_in_user->authenticator);
-    $pre_add  = "<a href=add_venue.php?$venue=";
+    $pre_add  = "<a href=add_venue.php?venue=";
     $pre_edit  = "<a href=prefs_edit.php?venue=";
     $pre_remove = "<a href=prefs_remove.php?venue=";
     $post_add = "&subset=$subset&cols=1$tokens>Add</a>";

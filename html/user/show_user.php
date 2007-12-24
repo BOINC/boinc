@@ -66,7 +66,7 @@ if ($format=="xml"){
         error_page("No such user found - please check the ID and try again.");
     }
 
-    get_logged_in_user(true);
+    get_logged_in_user(false);
 
     page_head("Account data for $user->name");
     start_table();

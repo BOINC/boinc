@@ -268,11 +268,12 @@ static double estimate_wallclock_duration(
 //
 static int get_host_info(SCHEDULER_REPLY& reply) {
     char buf[8096];
-       std::string str;
-       extract_venue(reply.user.project_prefs, reply.host.venue, buf);
-       str = buf;
+    std::string str;
     unsigned int pos = 0;
     int temp_int;
+
+    extract_venue(reply.user.project_prefs, reply.host.venue, buf);
+    str = buf;
 
     // scan user's project prefs for elements of the form <app_id>N</app_id>,
     // indicating the apps they want to run.

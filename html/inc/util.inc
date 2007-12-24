@@ -700,7 +700,8 @@ function link_with_GET_variables($text, $baseurl, $variable_name, $variable_valu
 // @param string &$value reference to the value that should be verified
 // @param double $low the lowest number of value if verified
 // @param double $high the highest number of value if verified
-// @return bool true if $value is numeric and within the defined borders, false if $value is not numeric, no changes were made in this case
+// @return bool true if $value is numeric and within the defined borders,
+//   false if $value is not numeric, no changes were made in this case
 //
 function verify_numeric(&$value, $low, $high = false) {
     $number = trim($value);
@@ -714,9 +715,12 @@ function verify_numeric(&$value, $low, $high = false) {
     // the supplied value contains alphabetic characters
     if (!is_numeric($number)) return false;
 
-    if ($number < $low) $number = $low;
+    //if ($number < $low) $number = $low;
+    if ($number < $low) return false;
+
     if ($high) {
-        if ($number > $high) $number = $high;
+        //if ($number > $high) $number = $high;
+        if ($number > $high) return false;
     }
     $value = (double)$number;
     return true;

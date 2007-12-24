@@ -16,13 +16,10 @@ function uotd_thumbnail($profile, $user) {
 
 // show UOTD in a small box
 //
-function show_uotd() {
-    $profile = get_current_uotd();
-    if ($profile) {
-        $user = lookup_user_id($profile->userid);
-        echo user_links($user)."<br>";
-        echo sub_sentence(strip_tags(output_transform($profile->response1)), ' ', 150, true);
-    }
+function show_uotd($profile) {
+    $user = lookup_user_id($profile->userid);
+    echo user_links($user)."<br>";
+    echo sub_sentence(strip_tags(output_transform($profile->response1)), ' ', 150, true);
 }
 
 // return the last UOTD profile, or null
