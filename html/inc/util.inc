@@ -548,7 +548,7 @@ function user_links($user) {
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
     }
-    $x = "<a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $x = "";
     if ($user->has_profile) {
         $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
         if ($profile && $profile->has_picture) {
@@ -558,6 +558,7 @@ function user_links($user) {
         }
         $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a>';
     }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) { 
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;

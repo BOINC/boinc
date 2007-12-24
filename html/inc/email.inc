@@ -39,7 +39,12 @@ function send_email($user, $subject, $body, $body_html=null) {
         $mail->FromName = EMAIL_FROM_NAME;
         $mail->Host = $PHPMAILER_HOST;
         $mail->Mailer = $PHPMAILER_MAILER;
-        return $mail->Send();
+        if (!$mail->Send()) {
+            echo $mail->ErrorInfo;
+            return false;
+        } else {
+            return true;
+        }
     } else {
         if (defined('EMAIL_FROM')) {
             $headers = "From: ". EMAIL_FROM;

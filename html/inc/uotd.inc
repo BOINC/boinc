@@ -20,7 +20,6 @@ function show_uotd() {
     $profile = get_current_uotd();
     if ($profile) {
         $user = lookup_user_id($profile->userid);
-        echo uotd_thumbnail($profile, $user);
         echo user_links($user)."<br>";
         echo sub_sentence(strip_tags(output_transform($profile->response1)), ' ', 150, true);
     }
