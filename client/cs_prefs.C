@@ -105,15 +105,15 @@ int CLIENT_STATE::allowed_project_disk_usage(double& size) {
 }
 #endif
 
-// See if (on the basis of user run request and prefs)
-// we should suspend processing
+// See if we should suspend processing
 //
 int CLIENT_STATE::check_suspend_processing() {
-
-    // Don't work while we're running CPU benchmarks
-    //
     if (are_cpu_benchmarks_running()) {
         return SUSPEND_REASON_BENCHMARKS;
+    }
+
+    if (config.start_delay && now < client_start_time + config.start_delay) {
+        return SUSPEND_REASON_INITIAL_DELAY;
     }
 
     switch(run_mode.get_current()) {

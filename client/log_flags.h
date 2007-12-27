@@ -101,6 +101,7 @@ struct CONFIG {
     int max_stdout_file_size;
     int max_stderr_file_size;
     bool report_results_immediately;
+    double start_delay;
 
     CONFIG();
     void defaults();

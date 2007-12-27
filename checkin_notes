@@ -12521,7 +12521,7 @@ David  24 Dec 2007
     sched/
         sched_send.C
 
-David  24 Dec 2007
+David  27 Dec 2007
     - web: default for user_links() is to not show profile pic.
         Show the pic only in the context of friends list.
 
@@ -12532,3 +12532,20 @@ David  24 Dec 2007
             user.inc
         user/
             friend.php
+
+David  27 Dec 2007
+    - client: add --start_delay cmdline option and <start_delay> config option.
+        Specifies an amount of time to delay starting apps
+        (e.g. so that BOINC doesn't slow down boot process)
+
+        Note: mechanisms that start BOINC at boot time
+        need to figure out how to set this flag.
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        cs_prefs.C
+        hostinfo_network.C
+        log_flags.C,h
+    lib/
+        common_defs.h

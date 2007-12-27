@@ -163,6 +163,7 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
+    client_start_time = now;
     scheduler_op->url_random = drand();
 
     detect_platforms();

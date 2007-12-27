@@ -63,6 +63,10 @@ int HOST_INFO::get_local_network_info() {
     
     strcpy(domain_name, "");
     strcpy(ip_addr, "");
+
+    // it seems like we should use getdomainname() instead of gethostname(),
+    // but on FC6 it returns "(none)".
+    //
     if (gethostname(domain_name, 256)) return ERR_GETHOSTBYNAME;
     he = gethostbyname(domain_name);
     if (!he || !he->h_addr_list[0]) {

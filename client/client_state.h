@@ -156,6 +156,7 @@ public:
         // this affects auto-update
     bool run_by_updater;
     double now;
+    double client_start_time;
     double last_wakeup_time;
     bool initialized;
     bool cant_write_state_file;

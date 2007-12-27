@@ -204,6 +204,7 @@ void CONFIG::defaults() {
     max_stderr_file_size = 0;
     alt_platforms.clear();
     report_results_immediately = false;
+    start_delay = 0;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -247,6 +248,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int(tag, "max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int(tag, "max_stderr_file_size", max_stderr_file_size)) continue;
         if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
+        if (xp.parse_double(tag, "start_delay", start_delay)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
