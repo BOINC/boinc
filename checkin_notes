@@ -12520,3 +12520,15 @@ David  24 Dec 2007
             show_user.php
     sched/
         sched_send.C
+
+David  24 Dec 2007
+    - web: default for user_links() is to not show profile pic.
+        Show the pic only in the context of friends list.
+
+    html/
+        inc/
+            forum.inc
+            util.inc
+            user.inc
+        user/
+            friend.php

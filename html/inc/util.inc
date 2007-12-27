@@ -543,7 +543,7 @@ function sched_stopped() {
     return file_exists("../../stop_sched");
 }
 
-function user_links($user, $show_profile_pic=true) {
+function user_links($user, $show_profile_pic=false) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";

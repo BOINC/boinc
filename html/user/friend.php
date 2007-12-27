@@ -102,7 +102,7 @@ function handle_query($user) {
     $friend = BoincFriend::lookup($srcid, $user->id);
     if (!$friend) error_page("Request not found");
     page_head("Friend request");
-    $x = user_links($srcuser);
+    $x = user_links($srcuser, true);
     echo "
         $x has added you as a friend.
         If $srcuser->name is in fact your friend, please click Accept.

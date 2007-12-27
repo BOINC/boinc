@@ -87,6 +87,7 @@ echo "
 <li> <a href=#skins>Skins for the BOINC Manager</a>
 <li> <a href=#sites>Other BOINC-related sites</a>
 (Information, message boards, and teams)
+<li> <a href=#video>BOINC-related videos</a>
 </ul>
 <a name=info></a>
 <h3>Help and Information</h3>
@@ -312,6 +313,14 @@ echo "
 <p>
 If you'd like to add a web site to this list, please
 <a href=mailto:davea@ssl.berkeley.edu>contact us</a>.
+
+<a name=video>
+<h2>BOINC-related videos</h2>
+
+<ul>
+<li> <a href=http://www.youtube.com/watch?v=8iSRLIK-x6A>David Anderson talks about BOINC</a>
+<li> <a href=http://www.youtube.com/watch?v=GzATbET3g54>David Baker talks about Rosetta@home</a>
+</ul>
 ";
 page_tail();
 ?>

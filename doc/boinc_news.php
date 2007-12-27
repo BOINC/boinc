@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("Dec 26, 2007",
+    "A story in the Chicago Tribune, \"<a href=http://www.chicagotribune.com/services/newspaper/printedition/tuesday/chi-computer_25dec25,0,2528641.story>Bit by bit, home computers aid science</a>\",
+    highlights <a href=http://www.cosmologyathome.org/>Cosmology@home</a>."
+),
 array("Dec 18, 2007",
     "<a href=http://boinc.umiacs.umd.edu/>The Lattice Project</a>,
     based at the University of Maryland

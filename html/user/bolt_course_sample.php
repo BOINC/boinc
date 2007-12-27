@@ -34,13 +34,21 @@ function int_review() {
 
 return sequence(
     name('course'),
-    lesson(
-        name('lesson 1'),
-        filename('bolt_sample_lesson1.php')
-    ),
-    lesson(
-        name('lesson 2'),
-        filename('bolt_sample_lesson2.php')
+    random(
+        name('first lessons'),
+        number(2),
+        lesson(
+            name('lesson 1'),
+            filename('bolt_sample_lesson1.php')
+        ),
+        lesson(
+            name('lesson 2'),
+            filename('bolt_sample_lesson2.php')
+        ),
+        lesson(
+            name('lesson 3'),
+            filename('bolt_sample_lesson3.php')
+        )
     ),
     exercise_set(
         exercise(

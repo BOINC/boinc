@@ -490,7 +490,7 @@ function show_post(
         <td rowspan=\"3\"><a name=\"".$post->id."\"></a><div class=\"authorcol\">
     ";
 
-    echo user_links($user, false);
+    echo user_links($user);
     echo "<br>";
 
     // Print the special user lines, if any
@@ -655,7 +655,7 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     echo "
         (<a href=\"forum_thread.php?id=".$thread->id."&amp;nowrap=true#".$post->id."\">Message ".$post->id."</a>)
         <br>
-        Posted $when by ".user_links($user, false)." $deleted
+        Posted $when by ".user_links($user)." $deleted
         <hr>
         $content
         </td></tr>
@@ -1034,7 +1034,7 @@ function show_thread_and_context($thread, $user) {
     }
     echo '
         </td><td>'.($thread->replies+1).'</td>
-        <td align="left"><div class="authorcol">'.user_links($owner, false).'</div></td>
+        <td align="left"><div class="authorcol">'.user_links($owner).'</div></td>
         <td>'.$thread->views.'</td>
         <td style="text-align:right">'.time_diff_str($thread->timestamp, time()).'</td>
         </tr>

@@ -72,14 +72,18 @@ create table bolt_exercise_result (
 create table bolt_exercise_set_result (
     id              integer         not null auto_increment,
     score           double          not null,
+    view_id         integer         not null,
+        -- the answer page of last exercise in set
+    name            varchar(255)    not null,
+        -- logical name of result set unit
     primary key(id)
 );
 
 create table bolt_refresh (
     id              integer         not null auto_increment,
-    view_id         integer         not null,
+    set_result_id   integer         not null,
+        -- most recent result for this set
     due_time        integer         not null,
-    name            varchar(255)    not null,
-    state           text            not null,
+        -- when to trigger review
     primary key (id)
 );
