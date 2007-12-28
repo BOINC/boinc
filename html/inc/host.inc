@@ -142,7 +142,7 @@ function show_host($host, $private, $ipprivate, $user) {
             row2("Average CPU efficiency", $host->cpu_efficiency);
         }
         if ($host->duration_correction_factor) {
-            row2("Result duration correction factor", $host->duration_correction_factor);
+            row2("Task duration correction factor", $host->duration_correction_factor);
         }
         row2("Location", location_form($host));
         if ($nresults == 0) {

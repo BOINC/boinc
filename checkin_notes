@@ -12549,3 +12549,15 @@ David  27 Dec 2007
         log_flags.C,h
     lib/
         common_defs.h
+
+David  27 Dec 2007
+    - upgrade script: fix it, and add --web_only option (fixes #527)
+    - web: replace "Result" by "Task" a couple of places
+
+    html/
+        inc/
+            host.inc
+        user/
+            hosts_user.php
+    tools/
+        upgrade

@@ -34,7 +34,7 @@ function user_host_table_start($private) {
         <th>".link_with_GET_variables("Operating system", "hosts_user.php", 'sort', 'os')."</th>
     ";
     $config = get_config();
-    if (parse_bool($config, "show_results")) echo "<th>Results</th>";
+    if (parse_bool($config, "show_results")) echo "<th>Tasks</th>";
     echo "<th>".link_with_GET_variables("Last contact", "hosts_user.php", 'sort', 'rpc_time')."</th>";
 }
 
