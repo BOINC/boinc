@@ -965,12 +965,15 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
 
 #ifdef HAVE_UTMP_H
-    if (check_all_logins) {
+    if (!check_all_logins) {
         if (!all_logins_idle(idle_time)) return false;
     }
 #endif
 
     if (!all_tty_idle(idle_time, "/dev/tty1", '1', 7)) return false;
+
+    // According to Frank Thomas (#463) the following may be pointless
+    //
     if (!device_idle(idle_time, "/dev/mouse")) return false;
         // solaris, linux
     if (!device_idle(idle_time, "/dev/kbd")) return false;

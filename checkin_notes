@@ -12604,3 +12604,13 @@ David  30 Dec 2007
             pm.php
     tools/
         make_project
+
+David  30 Dec 2007
+    - Partly fix keyboard detection on Linux.
+        With this change, we detect opening a terminal
+        or typing into a terminal;
+        we don't detect typing into other applications.
+        (from Frank Thomas).  Partly fixes #463
+
+    client/
+        hostinfo_unix.C
