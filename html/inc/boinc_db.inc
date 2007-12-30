@@ -265,7 +265,9 @@ class BoincPrivateMessage {
     }
     static function insert($clause) {
         $db = BoincDb::get();
-        return $db->insert('private_messages', $clause);
+        $ret = $db->insert('private_messages', $clause);
+        if (!$ret) return $ret;
+        return $db->insert_id();
     }
     static function count($clause) {
         $db = BoincDb::get();

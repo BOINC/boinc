@@ -7,7 +7,7 @@
 require_once("../inc/util.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
-define("PROJECT", "Test Project");
+define("PROJECT", "REPLACE WITH PROJECT NAME");
 define("URL_BASE", $master_url);
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
@@ -15,9 +15,10 @@ define("PROFILE_PATH", "../user_profile/");
 define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
 define("STYLESHEET", "white.css");
-define("COPYRIGHT_HOLDER", "Test Group");
+define("COPYRIGHT_HOLDER", "REPLACE WITH COPYRIGHT HOLDER");
 define("SYS_ADMIN_EMAIL", "admin@$master_url");
-define("UOTD_ADMIN_EMAIL", "admin@$master_url"); # who gets user of the day pool running low e-mails?
+define("UOTD_ADMIN_EMAIL", "admin@$master_url");
+    // who gets user of the day pool running low e-mails?
 
 // Email addresses separated by pipe ( | ) that will receive user reported 
 // offensive forum posts.
@@ -37,7 +38,7 @@ function project_banner($title) {
 function project_footer($show_return, $show_date) {
     echo "<br><hr noshade size=1><center>";
     if ($show_return) {
-        echo "<a href=\"".URL_BASE."\">Return to ".PROJECT." main page</a><br>\n";
+        echo "<a href=index.php>Home</a> | <a href=home.php>My Account</a> | <a href=forum_index.php>Message Boards</a><br>\n";
     }
     echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {

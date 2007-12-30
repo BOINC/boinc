@@ -77,19 +77,10 @@ function pm_create_new($error = null) {
     exit();
 }
 
-function pm_send($to, $subject, $content) {
-    global $logged_in_user;
-    $userid = $to->id;
-    $senderid = $logged_in_user->id;
-    $sql_subject = mysql_real_escape_string($subject);
-    $sql_content = mysql_real_escape_string($content);
-    $to_user = BoincUser::lookup_id($userid);
-    BoincForumPrefs::lookup($to_user);
-    $send_email = false;
-    if ($to_user->prefs->pm_notification) $send_email = true;
-    BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($userid, $senderid, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
-    if ($send_email) {
-        $message  = "
+function send_pm_notification_email(
+    $logged_in_user, $to_user, $subject, $content
+) {
+    $message  = "
 You have received a new private message at ".PROJECT.".
 
 From: $logged_in_user->name (ID $logged_in_user->id)
@@ -101,12 +92,50 @@ $content
 To delete or respond to this message, visit:
 ".URL_BASE."pm.php
 
-To disable email delivery of private messages, visit:
+To change email preferences, visit:
 ".URL_BASE."edit_forum_preferences_form.php
 Do not reply to this message.
 " ;
-        send_email($to, "[".PROJECT."] private message", $message);
+    send_email($to_user, "[".PROJECT."] private message", $message);
+}
+
+function pm_email_line($notify) {
+    $pm = BoincPrivateMessage::lookup_id($notify->opaque);
+    $from_user = BoincUser::lookup_id($pm->senderid);
+    return "$from_user->name sent you a private message; subject: '$pm->subject'";
+}
+
+function pm_web_line($notify) {
+    $pm = BoincPrivateMessage::lookup_id($notify->opaque);
+    $from_user = BoincUser::lookup_id($pm->senderid);
+    return "<a href=pm.php>Private message</a> from $from_user->name, subject: $pm->subject";
+}
+
+function pm_send($to_user, $subject, $content) {
+    global $logged_in_user;
+    $sql_subject = mysql_real_escape_string($subject);
+    $sql_content = mysql_real_escape_string($content);
+    $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $logged_in_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
+    if (!$mid) {
+        error_page("Couldn't create message");
     }
+    // send email notification if needed
+    //
+    BoincForumPrefs::lookup($to_user);
+    switch ($to_user->prefs->pm_notification) {
+    case 0:
+    case 2:
+        break;
+    case 1:
+        send_pm_notification_email(
+            $logged_in_user, $to_user, $subject, $content
+        );
+        break;
+    }
+
+    // create notification in any case
+    //
+    BoincNotify::insert("(userid, create_time, type, opaque) values ($to_user->id, ".time().", ".NOTIFY_PM.", $mid)");
 }
 
 function pm_count($userid, $duration) {

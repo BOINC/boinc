@@ -258,6 +258,11 @@ t.period = '24 hours'
 t.output = 'team_import.out'
 t.cmd = 'run_in_ops team_import.php'
 
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'notify.out'
+t.cmd = 'run_in_ops notify.php'
+
 project.config.write()
 
 svn_version_file = proot+'/local.revision'

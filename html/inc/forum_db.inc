@@ -241,6 +241,15 @@ class BoincFriend {
         $db = BoincDb::get();
         return $db->enum('friend', 'BoincFriend', $clause);
     }
+    static function delete($id1, $id2) {
+        $db = BoincDb::get();
+        $db->delete_aux('friend', "user_src=$id1 and user_dest=$id2");
+        $db->delete_aux('friend', "user_src=$id2 and user_dest=$id1");
+    }
+    static function replace($clause) {
+        $db = BoincDb::get();
+        return $db->replace('friend', $clause);
+    }
 }
 
 class BoincNotify {
@@ -249,6 +258,10 @@ class BoincNotify {
         $ret = $db->insert('notify', $clause);
         if (!$ret) return null;
         return $db->insert_id();
+    }
+    static function replace($clause) {
+        $db = BoincDb::get();
+        return $db->replace('notify', $clause);
     }
     static function enum($clause) {
         $db = BoincDb::get();
@@ -262,9 +275,19 @@ class BoincNotify {
         $db = BoincDb::get();
         return $db->delete($this, 'notify');
     }
+    function delete_aux($clause) {
+        $db = BoincDb::get();
+        $db->delete_aux('notify', $clause);
+    }
+    static function enum_general($query) {
+        $db = BoincDb::get();
+        return $db->enum_general('BoincNotify', $query);
+    }
 }
 
 define ('NOTIFY_FRIEND_REQ', 1);
 define ('NOTIFY_FRIEND_ACCEPT', 2);
+define ('NOTIFY_PM', 3);
+define ('NOTIFY_SUBSCRIBED_POST', 4);
 
 ?>

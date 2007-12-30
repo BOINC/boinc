@@ -398,8 +398,11 @@ create table subscriptions (
     userid              integer     not null,
     threadid            integer     not null,
     notified_time       integer     not null default 0
+        -- deprecated
 ) engine=InnoDB;
 
+-- actually: prefs for all community features
+--
 create table forum_preferences (
     userid              integer     not null default 0,
     signature           varchar(254) not null default '',
@@ -425,6 +428,10 @@ create table forum_preferences (
     ignore_sticky_posts tinyint     not null default 0,
     banished_until      integer     not null default 0,
     pm_notification     tinyint    not null default 0,
+        -- actually controls all notifications.
+        -- 0 = no email
+        -- 1 = email per event
+        -- 2 = digest email
     primary key (userid)
 ) engine=MyISAM; 
 

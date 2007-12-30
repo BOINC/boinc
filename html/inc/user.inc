@@ -4,6 +4,7 @@ require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
 
 function parse_project($f) {
@@ -150,20 +151,15 @@ function show_user_stats_private($user) {
 function notify_description($notify) {
     switch ($notify->type) {
     case NOTIFY_FRIEND_REQ:
-        $user = BoincUser::lookup_id($notify->opaque);
-        return "
-            <a href=friend.php?action=query&userid=$notify->opaque>Friend request from $user->name</a>
-            <br>
-        ";
-        break;
+        return friend_notify_req_web_line($notify);
     case NOTIFY_FRIEND_ACCEPT:
-        $user = BoincUser::lookup_id($notify->opaque);
-        return "
-            <a href=friend.php?action=accepted&userid=$notify->opaque>$user->name confirmed as friend</a>
-            <br>
-        ";
-        break;
+        return friend_notify_accept_web_line($notify);
+    case NOTIFY_PM:
+        return pm_web_line($notify);
+    case NOTIFY_SUBSCRIBED_POST:
+        return subscribed_post_web_line($notify);
     }
+    return "Unknown notification type: $notify->type";
 }
 
 // show static user info (private)
@@ -222,17 +218,18 @@ function show_user_info_private($user) {
     if (count($notifies)) {
         $x = "";
         foreach ($notifies as $notify) {
-            $x .= notify_description($notify);
+            $x .= notify_description($notify)."<br>";
         }
         row2("Notifications", $x);
     }
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
     if (count($friends)) {
-        $x = "";
+        $x = null;
         foreach($friends as $friend) {
+            if ($x) $x .= " | ";
             $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= " ". user_links($fuser);
+            $x .= user_links($fuser, true);
         }
         row2("Friends", $x);
     }
@@ -305,10 +302,11 @@ function show_user_summary_public($user) {
     
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
     if (count($friends)) {
-        $x = "";
+        $x = null;
         foreach($friends as $friend) {
+            if ($x) $x .= " | ";
             $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= " ".user_links($fuser, true);
+            $x .= user_links($fuser, true);
         }
         row2("Friends", $x);
     }
@@ -316,8 +314,12 @@ function show_user_summary_public($user) {
     if ($g_logged_in_user && $g_logged_in_user->id != $user->id) {
         row2("Contact", "<a href=\"pm.php?action=new&userid=".$user->id."\">Send private message</a>");
         $friend = BoincFriend::lookup($g_logged_in_user->id, $user->id);
-        if (!$friend) {
-            row2("Community", "<a href=friend.php?action=add&userid=".$user->id.">Add as friend</a>");
+        if ($friend && $friend->reciprocated) {
+            row2("This person is a friend", 
+                "<a href=friend.php?action=cancel_confirm&userid=$user->id>Cancel friendship</a>"
+            );
+        } else {
+            row2("Community", "<a href=friend.php?action=add&userid=$user->id>Add as friend</a>");
         }
     }
 }

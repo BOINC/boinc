@@ -115,6 +115,8 @@ if (can_reply($thread, $forum, $logged_in_user)) {
 }
 
 if ($is_subscribed) {
+    $type = NOTIFY_SUBSCRIBED_POST;
+    BoincNotify::delete_aux("userid=$logged_in_user->id and type=$type and opaque=$thread->id");
     $url = "forum_subscribe.php?action=unsubscribe&thread=".$thread->id."$tokens";
     show_button($url, tra("Unsubscribe"), "You are subscribed to this thread.  Click here to unsubscribe.");
 } else {

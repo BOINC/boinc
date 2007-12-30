@@ -29,7 +29,7 @@ function subscribe($forum, $thread, $user) {
         show_forum_header($user);
         show_title($forum, $thread);
         echo "<p>You are now subscribed to <b>", cleanup_title($thread->title), "</b>.
-        You will receive an email whenever someone posts to the thread.";
+        You will be notified whenever there is a new post.";
     } else {
         page_head("Subscription failed");
         echo "<p>We are currently unable to subscribe you to this thread (<b>", cleanup_title($thread->title), "</b>).

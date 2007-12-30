@@ -22,3 +22,8 @@ David  Dec 19 2007
         user/
             bolt_course.php
             bolt_sched.php
+
+David  Dec 27 2007
+    - preliminary implementation of exercise_set
+
+    inc/bolt.inc

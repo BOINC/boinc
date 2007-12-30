@@ -710,6 +710,16 @@ function post_warning() {
     ";
 }
 
+function notify_subscriber($thread, $user) {
+    BoincForumPrefs::lookup($user);
+    if ($user->prefs->pm_notification == 1) {
+        send_reply_notification_email($thread, $user);
+    }
+    $now = time();
+    $type = NOTIFY_SUBSCRIBED_POST;
+    BoincNotify::replace("userid=$user->id, create_time=$now, type=$type, opaque=$thread->id");
+}
+
 // Various functions for adding/hiding/unhiding stuff.
 // These take care of counts and timestamps.
 // Don't do these things directly - use these functions
@@ -722,16 +732,13 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $id = BoincPost::insert("(thread, user, timestamp, content, parent_post, signature) values ($thread->id, $user->id, $now, '$content', $parent_id, $sig)");
     if (!$id) return null;
 
-    // send emails to subscribed users
+    // notify subscribed users
     //
     $subs = BoincSubscription::enum("threadid=$thread->id");
     foreach ($subs as $sub) {
         if ($user->id == $sub->userid) continue;
         $user2 = BoincUser::lookup_id($sub->userid);
-        $visit_time = thread_last_visit($user2, $thread);
-        if ($visit_time > $sub->notified_time) {
-            send_reply_notification_email($thread, $user2);
-        }
+        notify_subscriber($thread, $user2);
     }
     $user->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
@@ -1058,6 +1065,16 @@ function is_forum_visible_to_user($forum, $user) {
         }
     }
     return true;
+}
+
+function subscribed_post_email_line($notify) {
+    $thread = BoincThread::lookup_id($notify->opaque);
+    return "There are new posts in the thread '$thread->title'";
+}
+
+function subscribed_post_web_line($notify) {
+    $thread = BoincThread::lookup_id($notify->opaque);
+    return "New posts in the thread <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
 }
 
 

@@ -12561,3 +12561,46 @@ David  27 Dec 2007
             hosts_user.php
     tools/
         upgrade
+
+David  30 Dec 2007
+    - web: add general-purpose notification mechanism.
+        Users can choose whether to get 1 email per notification,
+        a daily "digest" email, or no email.
+        (All notifications are shown on the Account page).
+        Currently used for:
+        - Friend requests and confirmations
+        - Posts to subscribed threads
+        - Private messages
+
+        NOTE: To implement the "daily digest" feature, projects must add
+        a periodic task for html/ops/notify.php to config.xml
+    - web: have project_footer() generate links for
+        Account Page and Message Boards as well as Home
+        NOTE: projects that want this change
+        will have to modify their own project.inc.
+
+    db/
+        constraints.sql
+        schema.sql
+    html/
+        inc/
+            boinc_db.inc
+            friend.inc (new)
+            forum.inc
+            forum_db.inc
+            forum_email.inc
+            pm.inc
+            user.inc
+        ops/
+            db_update.php
+            notify.php
+        project.sample/
+            project.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            forum_subscribe.php
+            forum_thread.php
+            pm.php
+    tools/
+        make_project

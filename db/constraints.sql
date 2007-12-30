@@ -122,4 +122,4 @@ alter table friend
     add unique friend_u (user_src, user_dest);
 
 alter table notify
-    add index notify_u (userid);
+    add unique notify_un (userid, type, opaque);
