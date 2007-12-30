@@ -3,7 +3,7 @@
 // The following two are what gets put into notification email digests
 //
 function friend_notify_req_email_line($notify) {
-    $src_user = BoincUser::lookup($notify->opaque);
+    $src_user = BoincUser::lookup_id($notify->opaque);
     if (!$src_user) return "";
     return "$src_user->name has added you as a friend; please confirm";
 }
