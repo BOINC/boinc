@@ -18,7 +18,7 @@ function uotd_thumbnail($profile, $user) {
 //
 function show_uotd($profile) {
     $user = lookup_user_id($profile->userid);
-    echo user_links($user)."<br>";
+    echo user_links($user, true)."<br>";
     echo sub_sentence(strip_tags(output_transform($profile->response1)), ' ', 150, true);
 }
 
