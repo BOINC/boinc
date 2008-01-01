@@ -4,3 +4,24 @@ David  Jan 1 2008
     checkin_notes_2007 (new)
     tools/
         upgrade
+
+David  Jan 1 2008
+    - web: My Account page, other user account page, and profile pages
+        now have community info in a 2nd column on the right.
+        This accomplishes two things:
+        1) it puts community info in more places;
+        2) it provides a reasonable way to format long lists of friends;
+            they just continue down the right column.
+
+    html/
+        inc/
+            profile.inc
+            user.inc
+            util.inc
+        ops/
+            profile_screen_form.php
+        user/
+            home.php
+            profile_rate.php
+            show_user.php
+            view_profile.php

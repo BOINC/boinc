@@ -167,35 +167,17 @@ function get_profile_summary($profile) {
 // $screen_mode is set if we're in the administrative profile-screening page,
 // in which case we show everything
 
-function show_profile($userid, $screen_mode = false) {
-    $user = get_user_from_id($userid);
-
-    if (!$user) {
-        error_page("No such user");
-    }
+function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         error_page("User is banished");
     }
-    $profile = get_profile($userid);
+    $profile = get_profile($user->id);
     if (!$profile) {
         error_page("No user profile exists for that user ID.");
     }
-    if (!$screen_mode) {
-        $logged_in_user = get_logged_in_user(false);
-        if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
-            $caching = true;
-            $cache_args = "userid=$userid";
-            start_cache(USER_PROFILE_TTL,$cache_args);
-        }
-    }
 
     $can_edit = isset($logged_in_user) && $logged_in_user && $user->id == $logged_in_user->id;
-    if (!$screen_mode) {
-        page_head("Profile: ".$user->name);
-    }
-
-    start_table();
 
     if ($can_edit) {
         row1("<a href=create_profile.php>Edit your profile</a>");
@@ -225,13 +207,11 @@ function show_profile($userid, $screen_mode = false) {
         row1(offensive_profile_warning($profile->verification));
     }
 
-    show_user_summary_public($user);
-
     // Setup text output options based on logged in user forum settings
     //
     if (!$screen_mode) {
         $logged_in_user = get_logged_in_user(false);
-        $logged_in_user = BoincForumPrefs::lookup($logged_in_user);
+        BoincForumPrefs::lookup($logged_in_user);
         $options = get_transform_settings_from_user($logged_in_user);
     }
         
@@ -251,14 +231,6 @@ function show_profile($userid, $screen_mode = false) {
             "I <a href=profile_rate.php?userid=$userid&vote=reject>don't like</a> this profile"
         );
     }
-
-    end_table();
-    if (!$screen_mode) {
-        page_tail();
-    } else {
-        echo "<hr>";
-    }
-    if (isset($caching) && $caching) end_cache(USER_PROFILE_TTL,$cache_args);
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

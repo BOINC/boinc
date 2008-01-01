@@ -543,23 +543,37 @@ function sched_stopped() {
     return file_exists("../../stop_sched");
 }
 
-function user_links($user, $show_profile_pic=false) {
+function friend_links($user) {
+    if (is_banished($user)) {
+        return "";
+    }
+    $x = "<table height=100 width=150 border=0 cellpadding=4><tr><td bgcolor=#e8e8e8>";
+    if ($user->has_profile) {
+        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
+        if ($profile && $profile->has_picture) {
+            $img_url = profile_thumb_url($user->id);
+        } else {
+            $img_url = URL_BASE."img/head_20.png";
+        }
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a><br>';
+    }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    if ($user->donated == 1) { 
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK;
+    }
+    $x .= "</td></tr></table>\n";
+    return $x;
+}
+
+function user_links($user) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
     }
     $x = "";
     if ($user->has_profile) {
-        if ($show_profile_pic) {
-            $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
-            if ($profile && $profile->has_picture) {
-                $img_url = profile_thumb_url($user->id);
-            } else {
-                $img_url = URL_BASE."img/head_20.png";
-            }
-        } else {
-            $img_url = URL_BASE."img/head_20.png";
-        }
+        $img_url = URL_BASE."img/head_20.png";
         $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";

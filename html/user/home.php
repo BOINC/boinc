@@ -31,9 +31,28 @@ if ($init) {
     page_head("Your account");
 }
 
-show_user_page_private($user);
+start_table();
+echo "<tr><td valign=top>";
+start_table();
+show_user_info_private($user);
+show_user_stats_private($user);
+
+// Does this project accept donations? Then put in a project specific
+// function to show user donation information in ../project/donations.inc
+//
+if (file_exists("../project/donations.inc")) {
+    require_once("../project/donations.inc");
+    show_user_donations_private($user);
+}
+end_table();
 show_other_projects($user, true);
 project_user_page_private($user);
+echo "</td><td valign=top>";
+start_table();
+show_community_private($user);
+end_table();
+
+echo "</td></tr></table>";
 
 page_tail();
 

@@ -1,5 +1,7 @@
 <?php
  
+// HUH??? both types of of votes are handled the same!!
+
 require_once("../inc/boinc_db.inc");
 
 $userid = $_GET['userid'];

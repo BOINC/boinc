@@ -55,8 +55,8 @@ while ($profile = mysql_fetch_object($result)) {
         <br>Name: $profile->name
         <br>
     ";
-    show_profile($profile->userid, true);
-    echo "</td></tr>\n";
+    show_profile($profile, true);
+    echo "<hr></td></tr>\n";
     echo "<input type=\"hidden\" name=\"userid$n\" value=\"$profile->userid\">\n";
     $n++;
 }

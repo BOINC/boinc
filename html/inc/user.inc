@@ -198,7 +198,9 @@ function show_user_info_private($user) {
     row2(tra("Resource share and graphics"),
         "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
     );
+}
 
+function show_community_private($user) {
     row1(tra("Community"));
 
     if ($user->has_profile) {
@@ -221,17 +223,6 @@ function show_user_info_private($user) {
             $x .= notify_description($notify)."<br>";
         }
         row2("Notifications", $x);
-    }
-
-    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    if (count($friends)) {
-        $x = null;
-        foreach($friends as $friend) {
-            if ($x) $x .= " | ";
-            $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= user_links($fuser, true);
-        }
-        row2("Friends", $x);
     }
 
     if ($user->teamid) {
@@ -264,6 +255,16 @@ function show_user_info_private($user) {
         }
     }
 
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    if (count($friends)) {
+        $x = null;
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+            $x .= friend_links($fuser);
+        }
+        row2("Friends", $x);
+    }
+
 }
 
 // show summary of dynamic and static info (public)
@@ -277,21 +278,11 @@ function show_user_summary_public($user) {
     }
     show_credit($user);
 
-    if ($user->teamid && ($team = lookup_team($user->teamid))) {
-        row2("Team", "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
-    } else {
-        row2("Team", "None");
-    }
     if ($user->show_hosts) {
         row2("Computers", "<a href=\"".URL_BASE."hosts_user.php?userid=$user->id\">View</a>");
     } else {
         row2("Computers", "hidden");
     }
-    $tot = total_posts($user);
-    if ($tot) {
-        row2("Message boards", "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">$tot posts</a>");
-    }
-
     if ($user->donated == 1) { 
         if (file_exists("../project/donations.inc")) {
             require_once("../project/donations.inc");
@@ -300,15 +291,18 @@ function show_user_summary_public($user) {
         }
     }
     
-    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    if (count($friends)) {
-        $x = null;
-        foreach($friends as $friend) {
-            if ($x) $x .= " | ";
-            $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= user_links($fuser, true);
-        }
-        row2("Friends", $x);
+}
+
+function community_links($user) {
+    global $g_logged_in_user;
+    if ($user->teamid && ($team = lookup_team($user->teamid))) {
+        row2("Team", "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
+    } else {
+        row2("Team", "None");
+    }
+    $tot = total_posts($user);
+    if ($tot) {
+        row2("Message boards", "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">$tot posts</a>");
     }
 
     if ($g_logged_in_user && $g_logged_in_user->id != $user->id) {
@@ -319,37 +313,25 @@ function show_user_summary_public($user) {
                 "<a href=friend.php?action=cancel_confirm&userid=$user->id>Cancel friendship</a>"
             );
         } else {
-            row2("Community", "<a href=friend.php?action=add&userid=$user->id>Add as friend</a>");
+            row2("Friends", "<a href=friend.php?action=add&userid=$user->id>Add as friend</a>");
         }
     }
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    if (count($friends)) {
+        $x = null;
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+            $x .= friend_links($fuser);
+        }
+        row2("Friends", $x);
+    }
+
 }
 
 function show_profile_link($user) {
     if ($user->has_profile) {
         row2("Profile", "<a href=\"view_profile.php?userid=$user->id\">View</a>");
     }
-}
-
-// show a summary of the user.
-// NOTE: This is intended to be shown only to that user.
-// it has info that other users aren't supposed to see
-
-function show_user_page_private($user) {
-    $config = get_config();
-    start_table("width=\"100%\"");
-    show_user_info_private($user);
-    show_user_stats_private($user);
-
-    // Does this project accept donations? Then put in a project specific
-    // function to show user donation information in ../project/donations.inc
-    //
-    if (parse_bool($config, "donations_accepted")) {
-        if (file_exists("../project/donations.inc")) {
-            require_once("../project/donations.inc");
-            show_user_donations_private($user);
-        }
-    }
-    end_table();
 }
 
 function make_user(
