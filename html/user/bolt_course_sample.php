@@ -7,7 +7,7 @@ function part2() {
         name('inner seq'),
         lesson(
             name('lesson 3'),
-            filename('bolt_sample_lesson3.php')
+            filename('bolt_sample_lesson.php?n=3')
         )
     );
 }
@@ -16,11 +16,11 @@ function basic_review() {
     return sequence(
         lesson(
             name('lesson 1'),
-            filename('bolt_sample_lesson1.php')
+            filename('bolt_sample_lesson.php?n=1')
         ),
         lesson(
             name('lesson 2'),
-            filename('bolt_sample_lesson2.php')
+            filename('bolt_sample_lesson.php?n=2')
         )
     );
 }
@@ -28,7 +28,7 @@ function basic_review() {
 function int_review() {
     return lesson(
         name('lesson 2'),
-        filename('bolt_sample_lesson2.php')
+        filename('bolt_sample_lesson.php?n=2')
     );
 }
 
@@ -39,25 +39,36 @@ return sequence(
         number(2),
         lesson(
             name('lesson 1'),
-            filename('bolt_sample_lesson1.php')
+            filename('bolt_sample_lesson.php?n=1')
         ),
         lesson(
             name('lesson 2'),
-            filename('bolt_sample_lesson2.php')
+            filename('bolt_sample_lesson.php?n=2')
         ),
         lesson(
             name('lesson 3'),
-            filename('bolt_sample_lesson3.php')
+            filename('bolt_sample_lesson.php?n=3')
         )
     ),
     exercise_set(
+        name('exercise set 1'),
+        number(2),
         exercise(
             name('exercise 1'),
-            filename('bolt_sample_exercise1.php')
+            filename('bolt_sample_exercise.php?n=1')
         ),
-        refresh(array(7, 14, 28)),
-        review(.3, basic_review()),
-        review(.7, int_review())
+        exercise(
+            name('exercise 2'),
+            filename('bolt_sample_exercise.php?n=2')
+        ),
+        exercise(
+            name('exercise 3'),
+            filename('bolt_sample_exercise.php?n=3')
+        ),
+        repeat(.3, basic_review(), REVIEW),
+        repeat(.7, int_review(), REVIEW|REPEAT),
+        repeat(1, null, REPEAT|NEXT),
+        refresh(array(7, 14, 28))
     ),
     part2()
 );

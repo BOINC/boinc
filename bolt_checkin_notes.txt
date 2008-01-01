@@ -27,3 +27,19 @@ David  Dec 27 2007
     - preliminary implementation of exercise_set
 
     inc/bolt.inc
+
+David  Jan 1 2008
+    - split control structure into separate files
+    - allow passing query strings to items
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt.inc
+            bolt_rnd.inc
+            bolt_seq.inc
+            bolt_xset.inc
+        user/
+            bolt_course_sample.php
+            bolt_sched.php

@@ -33,6 +33,7 @@ except getopt.GetoptError, e:
 home = os.path.expanduser('~')
 
 options.project_root = os.path.join(home, 'projects')
+options.web_only = False
 
 for o,a in opts:
     if o == '--help':   usage()

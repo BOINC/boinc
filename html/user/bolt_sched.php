@@ -1,13 +1,9 @@
 <?php
 
-// Bolt scheduler.  GET args:
-// course_id: course ID
-// action:
-//      'start' or none: show current (or first) item,
-//          and prompt for user info if any missing
-//      'next': go to next lesson
-// answers:
-//      JSON represenation of exercise answers
+// Bolt scheduler.
+// GET args:
+//   course_id: course ID
+//   action: see commands below
 
 require_once("../inc/bolt.inc");
 require_once("../inc/bolt_db.inc");
@@ -33,9 +29,11 @@ function update_info() {
     $user->bolt->update("sex=$sex, birth_year=$birth_year");
 }
 
-
 $course_doc = require_once($course->doc_file);
 
+// The user clicked something on a view page.
+// Make a record of it, and of the time
+//
 function finalize_view($user, $view_id, $action) {
     if (!$view_id) return null;
     $view = BoltView::lookup_id($view_id);
@@ -56,6 +54,8 @@ function default_mode($item) {
     return $item->is_exercise()?BOLT_MODE_SHOW:BOLT_MODE_LESSON;
 }
 
+// A page is being shown to the user; make a record of it
+//
 function create_view($user, $course, $iter, $mode, $prev_view_id) {
     $now = time();
     $item = $iter->item;
@@ -64,9 +64,14 @@ function create_view($user, $course, $iter, $mode, $prev_view_id) {
         $item->name = '--end--';
     }
     $state = $iter->encode_state();
+    if ($user->bolt->debug) {
+        echo "<pre>Ending state: "; print_r($iter->state); echo "</pre>\n";
+    }
     return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done, prev_view_id) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done, $prev_view_id)");
 }
 
+// show a page saying the course has been completed
+//
 function show_finished_page($course, $view_id, $prev_view_id) {
     page_head(null);
     if (function_exists('bolt_header')) bolt_header("Course completed");
@@ -85,14 +90,18 @@ function show_finished_page($course, $view_id, $prev_view_id) {
     if (function_exists('bolt_footer')) bolt_footer();
 }
 
+// show an item (lesson, exercise, answer page)
+//
 function show_item($iter, $user, $course, $view_id, $prev_view_id, $mode) {
     global $bolt_ex_mode;
     global $bolt_ex_index;
     global $bolt_ex_score;
+    global $bolt_query_string;
 
     $item = $iter->item;
     page_head(null);
     if (function_exists('bolt_header')) bolt_header($item->title);
+    $bolt_query_string = $item->query_string;
 
     if ($item->is_exercise()) {
         $bolt_ex_mode = $mode;
@@ -153,6 +162,7 @@ function show_item($iter, $user, $course, $view_id, $prev_view_id, $mode) {
 function show_answer_page($iter, $score) {
     global $bolt_ex_mode;
     global $bolt_ex_index;
+    global $bolt_query_string;
 
     $bolt_ex_mode = BOLT_MODE_ANSWER;
     $bolt_ex_index = 0;
@@ -160,6 +170,7 @@ function show_answer_page($iter, $score) {
     $item = $iter->item;
     page_head(null);
     if (function_exists('bolt_header')) bolt_header($item->title);
+    $bolt_query_string = $item->query_string;
     require_once($item->filename);
     if (function_exists('bolt_divide')) bolt_divide();
     $score_pct = number_format($score*100);
@@ -226,8 +237,16 @@ case 'next':            // "next" button in lesson or exercise answer page
 
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
+
+    if ($user->bolt->debug) {
+        echo "<pre>Initial state: "; print_r($iter->state); echo "</pre>\n";
+    }
+
     $iter->next();
 
+    if ($user->bolt->debug) {
+        echo "<pre>Item: "; print_r($iter->item); echo "</pre>\n";
+    }
     if ($iter->item) {
         $state = $iter->encode_state();
         $mode = default_mode($iter->item);
@@ -242,21 +261,32 @@ case 'next':            // "next" button in lesson or exercise answer page
     break;
 case 'answer':          // submit answer in exercise
     $view = finalize_view($user, $view_id, BOLT_ACTION_SUBMIT);
+    if ($user->bolt->debug) {
+        echo "<pre>State: $view->state</pre>\n";
+    }
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
     $iter->at();
 
+    if ($user->bolt->debug) {
+        echo "<pre>Item: "; print_r($iter->item); echo "</pre>\n";
+    }
     $item = $iter->item;
     if (!$item->is_exercise()) {
+        print_r($item);
         error_page("expected an exercise");
     }
     if ($view->item_name != $item->name) {
         error_page("unexpected name");
     }
+
+    // compute the score
+
     $bolt_ex_query_string = $_SERVER['QUERY_STRING'];
     $bolt_ex_mode = BOLT_MODE_SCORE;
     $bolt_ex_index = 0;
     $bolt_ex_score = 0;
+    $bolt_query_string = $item->query_string;
     srand($view_id);
     ob_start();     // turn on output buffering
     require($item->filename);
@@ -264,12 +294,17 @@ case 'answer':          // submit answer in exercise
 
     $bolt_ex_score /= $bolt_ex_index;
 
+    // make a record of the result
+
     $qs = BoltDb::escape_string($_SERVER['QUERY_STRING']);
     $result_id = BoltResult::insert(
         "(view_id, score, response)
         values ($view->id, $bolt_ex_score, '$qs')"
     );
     $view->update("result_id=$result_id");
+
+    // show the answer page
+
     srand($view_id);
     $view_id = create_view($user, $course, $iter, BOLT_MODE_ANSWER, $view->id);
     show_item($iter, $user, $course, $view_id, $view->id, BOLT_MODE_ANSWER);

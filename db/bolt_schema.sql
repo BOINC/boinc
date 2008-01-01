@@ -1,7 +1,9 @@
 create table bolt_user (
-    user_id          integer         not null,
+    user_id         integer         not null,
     birth_year      integer         not null,
-    sex             smallint        not null,
+    sex             tinyint         not null,
+    debug           tinyint         not null,
+        -- if nonzero, print debug info everywhere
     attrs           text            not null,
     primary key (user_id)
 );
