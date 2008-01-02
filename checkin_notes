@@ -25,3 +25,16 @@ David  Jan 1 2008
             profile_rate.php
             show_user.php
             view_profile.php
+
+Charlie Jan 2 2008
+    - Mac Client: revert to using older API NXIdleTime() to get user 
+        idle time because the newer APIs CGSSecondsSinceLastInputEvent() 
+        and CGEventSourceSecondsSinceLastEventType() don't work properly 
+        when running as a daemon.
+        
+    client/
+        hostinf_unix.C
+        main.C
+    lib/
+        hostinfo.h
+        

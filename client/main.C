@@ -771,6 +771,11 @@ int main(int argc, char** argv) {
     }
 #endif  // SANDBOX
 
+#ifdef __APPLE__
+        // Initialize Mac OS X idle time measurement / idle detection
+        gEventHandle = NXOpenEventStatus();
+#endif  // __APPLE__
+
     retval = boinc_main_loop();
 #endif
 
