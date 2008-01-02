@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-01-19 17:29+0800\n"
+"PO-Revision-Date: 2008-01-01 00:33+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,339 +32,552 @@ msgstr "Chinese (Traditional)"
 # ########################################
 # Apps page (apps.php)
 # ########################################
-msgid "APPS_TITLE"
+msgid "Applications"
 msgstr "應用程式"
 
-msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT 目前有下面這些應用程式。當你參與了 $PROJECT 後，你的電腦將會被分配運行下面所列出的其中一個或多個應用程式的工作。應用程式的最新版本會被下載到你的電腦。下載的動作是全自動的；你不需要做任何動作。"
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "%1 目前有下面這些應用程式。當你參與了 %1 後，你的電腦將會被分配運行下面所列出的其中一個或多個程式的工作。程式的最新版本會被下載到你的電腦。下載的動作是全自動的；你不需要做任何動作。"
 
-msgid "APPS_PLATFORM"
+msgid "Platform"
 msgstr "平台"
 
-msgid "APPS_VERSION"
+msgid "Current version"
 msgstr "目前版本"
 
-msgid "APPS_INSTALLTIME"
-msgstr "已安裝"
+msgid "Installation time"
+msgstr "安裝時間"
 
 # ########################################
 # Rules and Policies page (info.php)
 # ########################################
-msgid "RULES_TITLE"
-msgstr "規定與政策"
+msgid "Read our rules and policies"
+msgstr "閱讀規定與政策"
 
-msgid "RULES_ONLY_AUTH"
-msgstr "只在經批准的電腦運行 $PROJECT"
+msgid "Run %1 only on authorized computers"
+msgstr "只在經批准的電腦運行 %1"
 
-msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "只在你自己擁有或是得到擁有者同意的電腦上運行 $PROJECT。有些公司及學校的政策禁止在所屬的電腦上運行像 $PROJECT 這一類的專案。"
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr "只在你自己擁有或是得到擁有者同意的電腦上運行 %1。有些公司及學校的政策禁止在所屬的電腦上運行像 %1 這類的計畫。"
 
-msgid "RULES_COMPUTER_USE"
-msgstr "$PROJECT 如何運用你的電腦"
+msgid "How %1 will use your computer"
+msgstr "%1 如何運用你的電腦"
 
-msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "當你在你的電腦上運行 $PROJECT 時，它會將一部份的電腦 CPU 運算能力、磁碟空間和網路頻寬拿來運用。你可以自己控制要分配給 $PROJECT 使用多少資源及時間長短 。"
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr "當你在你的電腦上運行 %1 時，它會將一部份的電腦 CPU 運算能力、磁碟空間和網路頻寬拿來運用。你可以自己控制要分配給 %1 使用多少資源及時間長短。"
 
-msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "你電腦完成的每項工作都幫助了 $PROJECT 早一步達成網站上所敘述的目標。而應用程式也會隨目標的改變而不時的變化。"
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr "你電腦完成的每項工作都幫助了 %1 早一步達成網站上所敘述的目標。而程式也會隨目標的改變而不時的變化。"
 
-msgid "RULES_PRIVACY"
+msgid "Privacy policy"
 msgstr "隱私權政策"
 
-msgid "RULES_PRIVACY_TEXT_A"
-msgstr "你在 $PROJECT 的帳號是以你自己選擇的名稱作為識別的依據。你的名稱會與你電腦所完成的 $PROJECT 工作摘要一起顯示在 $PROJECT 網站上。如果你不想表示身分的話，請選擇一個不會洩露你真實身分的名稱。"
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "你在 %1 的帳號是以你自己選擇的名稱作為識別的依據。你的名稱會與你電腦所完成的 %1 工作摘要一起顯示在 %1 網站上。如果你不想表示身分的話，請選擇一個不會洩露你真實身分的名稱。"
 
-msgid "RULES_PRIVACY_TEXT_B"
-msgstr "如果你參與了 $PROJECT，有關於你電腦的資訊 (像是處理器類型、記憶體容量等等) 都會被 $PROJECT 所記錄並用來決定要分配那種類型的工作給你的電腦。這些資訊同樣也會顯示在 $PROJECT' 的網站上。但是有關於會洩露你電腦位置的資訊 (例如網域名稱或是網路位址) 將不會被顯示。"
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "如果你參與了 %1，有關於你電腦的資訊（像是處理器類型、記憶體容量等等）都會被 %1 所記錄並用來決定要分配那種類型的工作給你的電腦。這些資訊同樣也會顯示在 %1 的網站上。但是有關於會洩露你電腦位置的資訊（例如網域名稱或是網路位址）將不會被顯示。"
 
-msgid "RULES_PRIVACY_TEXT_C"
-msgstr "要參與 $PROJECT 專案，你必須提供一個可以收取郵件的電子郵件位址。這個位址不會顯示在 $PROJECT 網站上或是分享給其他組織。$PROJECT 會定期寄送電子報； 可是你可以隨時退出。"
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "要參與 %1 計畫，你必須提供一個可以收取郵件的電子郵件位址。這個位址不會顯示在 %1 網站上或是分享給其他組織。%1 會定期寄送電子報； 可是你可以隨時退出。"
 
-msgid "RULES_SAFE"
-msgstr "運行 $PROJECT 安全嗎？"
+msgid "Is it safe to run %1?"
+msgstr "運行 %1 安全嗎？"
 
-msgid "RULES_SAFE_TEXT_A"
-msgstr "任何時候從網路上下載程式都是個冒險的行為：程式可能有著危險的錯誤或是下載伺服器已經被入侵。$PROJECT 盡力將下載程式的風險降到最低。我們的應用程式都經過謹慎的測試。我們的伺服器位於防火牆之後並且調校成高度安全性。為了確保程式下載的完整性，所有可執行檔案都經過了一台未連線到網路的安全電腦的數位簽署。"
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "任何時候從網路上下載程式都是個冒險的行為：程式可能有著危險的錯誤或是下載伺服器已經被入侵。%1 盡力將下載程式的風險降到最低。我們的應用程式都經過謹慎的測試。我們的伺服器位於防火牆之後並且調校成高度安全性。為了確保程式下載的完整性，所有可執行檔案都經過了一台未連線到網路的安全電腦的數位簽署。"
 
-msgid "RULES_SAFE_TEXT_B"
-msgstr "$PROJECT 運行的應用程式可能會導致一些電腦產生過熱的現象。如果真的發生了這種情況，請停止運行 $PROJECT 或是使用 %s 限制 CPU 的使用。"
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "%1 運行的應用程式可能會導致一些電腦產生過熱的現象。如果真的發生了這種情況，請停止運行 %1 或是使用 %2工具程式%3 限制 CPU 的使用。"
 
-msgid "RULES_UTILITY_PROGRAM"
-msgstr "公用程式"
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 是由 %2 所開發。BOINC 則是在美國加州大學開發。"
 
-msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT 是由 %s 所開發。BOINC 則是在美國加州大學開發。"
-
-msgid "RULES_LIABILITY"
+msgid "Liability"
 msgstr "責任"
 
-msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT 和其 %s 對你電腦的損壞、資料遺失或因參與了 $PROJECT 而導致的任何事件或情況均不負任何責任。"
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr "%1 和其 %2 對你電腦的損壞、資料遺失或因參與了 %1 而導致的任何事件或情況均不負任何責任。"
 
-msgid "RULES_OTHER"
-msgstr "其他的 BOINC 專案"
+msgid "Other BOINC projects"
+msgstr "其他 BOINC 計畫"
 
-msgid "RULES_OTHER_TEXT_A"
-msgstr "其他的專案也使用像 $PROJECT 一樣的平台 - BONIC。也許你可以考慮參與一個以上其他的專案。這樣一來，即使當 $PROJECT 沒有可分配的工作時，你的電腦仍然能有效的運行其他專案的工作。"
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "其他的計畫也使用像 %1 一樣的平台 - BONIC。也許你可以考慮參與一個以上其他的計畫。這樣一來，即使當 %1 沒有可分配的工作時，你的電腦仍然能有效的運行其他計畫的工作。"
 
-msgid "RULES_OTHER_TEXT_B"
-msgstr "其他的專案與 $PROJECT 並無任何關聯，同時我們對其他專案的安全性和研究性質不做任何擔保。加入這些專案的風險請自行承擔。"
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr "其他的計畫與 %1 並無任何關聯，同時我們對其他計畫的安全性和研究性質不做任何擔保。加入這些計畫的風險請自行承擔。"
 
 # ########################################
 # Create account form (create_account_form.php)
 # ########################################
-msgid "CREATE_AC_TITLE"
+msgid "Create an account"
 msgstr "建立帳號"
 
-msgid "CREATE_AC_READ_RULES"
-msgstr "建立帳號前請先閱讀 %s。"
-
-msgid "CREATE_AC_ALREADY_GOT"
-msgstr "如果你已經收到帳號金鑰，請不要填寫這份表單。而應該點選 %s。"
-
-msgid "CREATE_AC_NAME"
+msgid "Name"
 msgstr "名稱"
 
-msgid "CREATE_AC_NAME_DESC"
+msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "讓我們的網站認出你。你可以使用真名或是暱稱。"
 
-msgid "CREATE_AC_EMAIL"
-msgstr "電子郵件地址"
+msgid "Email Address"
+msgstr "Email 地址"
 
-msgid "CREATE_AC_EMAIL_DESC"
-msgstr "必須是像 'name@domain' 這樣的有效電子郵件格式。"
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "必須是像 'name@domain' 這樣的有效郵件格式。"
 
-msgid "CREATE_AC_COUNTRY"
+msgid "Country"
 msgstr "國家"
 
-msgid "CREATE_AC_COUNTRY_DESC"
+msgid "Select the country you want to represent, if any."
 msgstr "若有的話選擇你代表的國家。"
 
-msgid "CREATE_AC_ZIP"
+msgid "Postal or ZIP Code"
 msgstr "郵遞區號"
 
-msgid "CREATE_AC_CREATE"
+msgid "Create account"
 msgstr "建立帳號"
 
-msgid "CREATE_AC_DISABLED"
-msgstr "帳號建立已經停止。"
+msgid "Account creation is disabled"
+msgstr "帳號建立已停止。"
 
-msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "目前 $PROJECT 的帳號建立已經停止。請稍後再試一遍。"
+msgid "Account creation is disabled for %1 at the moment. Please try again later."
+msgstr "目前 %1 的帳號建立已經停止。請稍後再試一次。"
 
-msgid "CREATE_AC_TEAM"
-msgstr "這個帳號屬於 %s  團隊並且有團隊創立者自己的專案偏好設定。"
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "這個帳號屬於 %1 團隊並且有團隊創立者自己的計畫偏好設定。"
 
-msgid "CREATE_AC_USE_CLIENT"
-msgstr "備註：從 BOINC 5.2 版開始，你不再需要填寫此表單，可以直接從 BOINC 程式裡建立新帳號。只要執行 BOINC，選擇「加入專案」後，輸入你的電子郵件地址和密碼即可。"
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "備註：從 BOINC 5.2 版開始，你不再需要填寫此表單，可以直接從 BOINC 程式裡建立新帳號。只要執行 BOINC，選擇「加入計畫」後，輸入你的電子郵件地址和密碼即可。"
 
-msgid "CREATE_AC_PASSWORD"
+msgid "Password"
 msgstr "密碼"
 
-msgid "CREATE_AC_PASSWORD_DESC"
+msgid "Must be at least %1 characters"
 msgstr "必須大於 %s 個字元"
 
-msgid "CREATE_AC_CONFIRM_PASSWORD"
-msgstr "密碼確認"
+msgid "Confirm password"
+msgstr "確認密碼"
 
-msgid "AC_INVITE_REQUIRED"
+msgid "Invitation Code"
+msgstr "邀請碼"
+
+msgid "A valid invitation code is required to create an account."
+msgstr "要建立帳號需要有效的邀請碼。"
+
+msgid "You must supply an invitation code to create an account."
 msgstr "你必須輸入邀請碼才能建立帳號。"
 
-msgid "AC_INVITE_INVALID"
+msgid "The invitation code you gave is not valid."
 msgstr "你輸入的邀請碼無效。"
 
 # ########################################
-# Rules and Policies page (info.php)
+# Forum sample index page
 # ########################################
-msgid "FORUM_TITLE"
-msgstr "$PROJECT 留言板"
+msgid "%1 Message boards"
+msgstr "%1 留言板"
 
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_TITLE_SHORT"
+msgid "Message boards"
 msgstr "留言板"
 
 # ########################################
 # General stuff (create_account_form.php and others)
 # ########################################
-msgid "OPTIONAL"
+msgid "Optional"
 msgstr "非必要"
 
 # ########################################
 # Various top table pages (top users, computers, teams)
 # ########################################
-msgid "TOP_PARTICIPANT_TITLE"
+msgid "Top participants"
 msgstr "參與者排名"
 
-msgid "USER_TABLE_RANK"
+msgid "Rank"
 msgstr "排名"
 
-msgid "USER_TABLE_NAME"
-msgstr "姓名"
-
-msgid "TOTAL_CREDIT"
+msgid "Total credit"
 msgstr "總積分"
 
-msgid "EXPAVG_CREDIT"
+msgid "Recent average credit"
 msgstr "最近平均積分"
 
-msgid "USER_TABLE_COUNTRY"
-msgstr "國家"
-
-msgid "USER_TABLE_PTIME"
+msgid "Participant since"
 msgstr "參與日期"
 
-# ########################################
-# Apps page (apps.php)
-# ########################################
-msgid "TOP_TEAMS_TITLE"
-msgstr "%s 團隊排名"
+msgid "Top %1 teams"
+msgstr "%1 團隊排名"
 
-msgid "TEAM_TABLE_MEMBERS"
+msgid "Members"
 msgstr "成員"
 
-msgid "FORUM_POSTS"
-msgstr "篇數"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_TOPIC"
-msgstr "主題"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_THREADS"
-msgstr "討論串"
-
-msgid "FORUM_LAST_POST"
-msgstr "最後發表時間"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_AUTHOR"
-msgstr "發表者"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_VIEWS"
-msgstr "觀看次數"
+msgid "Top hosts"
+msgstr "主機排名"
 
 # ########################################
 # Forum
 # ########################################
-msgid "FORUM_ERR_NOT_FOUND"
-msgstr "無此討論區"
+msgid "Posts"
+msgstr "篇數"
 
-msgid "FORUM_ERR_EXPAVG"
-msgstr "你必須要有一定的積分才能於 %s 建立新討論串。這是為了避免有人濫用此系統。"
+msgid "Topic"
+msgstr "主題"
 
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_ERR_INTERVAL"
+msgid "Thread"
+msgstr "討論串"
+
+msgid "Threads"
+msgstr "討論串"
+
+msgid "Last post"
+msgstr "最後發表時間"
+
+msgid "Author"
+msgstr "作者"
+
+msgid "Views"
+msgstr "觀看次數"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "你必須要有一定的積分才能於 %1 建立新討論串。這是為了避免有人濫用此系統。"
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
 msgstr "你現在無法建立任何新主題。請稍後再試一次。這是為了防止系統被濫用所作的保護措施。"
 
-msgid "FORUM_QA_POST_MESSAGE"
-msgstr "%s 能讓你獲得來自其他使用者的幫助。 如果你有問題的話："
+msgid "Create a new thread"
+msgstr "建立新討論"
 
-msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "請先閱讀已存在的問題清單。如果你的問題已經出現在清單中，請按一下「%s」按鈕。如果你的問題已經有人提供解答可直接閱讀。假如此解答確實解決的你的問題，請按「%s」按鈕。"
-
-msgid "FORUM_QA_POST_MESSAGE3"
-msgstr "如果你的問題還沒被問過，請在下面的表單中填入相關資訊。"
-
-msgid "FORUM_QA_POST_MESSAGE4"
-msgstr "這是為了避免問題一直被重複詢問所作的限制。"
-
-msgid "FORUM_QA_SUBMIT_NEW"
-msgstr "送出新的問題"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_SUBMIT_NEW"
-msgstr "建立新討論串"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_SUBMIT_NEW_TITLE"
+msgid "Title"
 msgstr "標題"
 
-msgid "FORUM_QA_SUBMIT_NEW_HELP"
-msgstr "請簡單描述你的問題。一個簡潔、清楚的問題敘述能讓其他有相同問題的人能更容易找到。"
-
-msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "如果你遇到軟體上的問題，請留下你所使用的軟體版本、電腦的配備和所使用的作業系統。"
-
-msgid "FORUM_ADD_MY_SIG"
+msgid "Add my signature to this post"
 msgstr "於文章中加入我的簽名"
 
-msgid "FORUM_MESSAGE"
+msgid "Message"
 msgstr "留言"
 
-msgid "FORUM_QA_GOT_PROBLEM_TOO"
-msgstr "我也有此問題"
+msgid "Edit message"
+msgstr "編輯留言"
 
-msgid "FORUM_QA_QUESTION_ANSWERED"
-msgstr "此文章解答了我的問題"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_HTML_INFO"
+msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 標籤為文字加上格式"
 
 # ########################################
 # Forum thread
 # ########################################
-msgid "FORUM_THREAD_HIDDEN"
+msgid "This thread has been hidden for administrative purposes"
 msgstr "因管理之故，此討論串已被隱藏"
 
-msgid "FORUM_THREAD_REPLY"
-msgstr "回覆此討論串"
+msgid "Post to thread"
+msgstr "回覆此討論"
 
-msgid "FORUM_THREAD_SUBSCRIBED"
-msgstr "你已訂閱此討論串。"
+msgid "Unsubscribe"
+msgstr "取消訂閱"
 
-msgid "FORUM_THREAD_UNSUBSCRIBE"
-msgstr "按這裡取消訂閱"
-
-msgid "FORUM_THREAD_SUBSCRIBE"
-msgstr "訂閱此討論串"
+msgid "Subscribe"
+msgstr "訂閱"
 
 # ########################################
-# Rules and Policies page (info.php)
+# Forum search features
 # ########################################
-msgid "FORUM_SEARCH"
+msgid "Forum search"
 msgstr "討論區搜尋"
 
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "FORUM_SEARCH_TITLES"
-msgstr "文章包含「%s」"
+msgid "Titles containing '%1'"
+msgstr "標題含「%1」"
 
-msgid "FORUM_SEARCH_BODIES"
-msgstr "文章包含「%s」"
+msgid "Posts containing '%1'"
+msgstr "文章含「%1」"
+
+msgid "No titles containing '%1' could be found."
+msgstr "找不到含「%1」的標題。"
+
+msgid "No posts containing '%1' could be found."
+msgstr "找不到內含「%1」的文章。"
 
 # ########################################
-# Rules and Policies page (info.php)
+# Private messages
 # ########################################
-msgid "FORUM_SEARCH_TITLES_NO"
-msgstr "找不到包含「%s」的標題。"
+msgid "Private messages"
+msgstr "私人訊息"
 
-msgid "FORUM_SEARCH_BODIES_NO"
-msgstr "找不到包含「%s」的文章。"
+msgid "Inbox"
+msgstr "收件匣"
+
+msgid "Write"
+msgstr "撰寫"
+
+msgid "Forum index"
+msgstr "討論區索引"
+
+msgid "Send private message"
+msgstr "送出私人訊息"
+
+msgid "Preview"
+msgstr "預覽"
+
+msgid "To"
+msgstr "收件者"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "輸入 ID 或使用者名稱，用逗號分隔"
+
+msgid "Subject"
+msgstr "主旨"
+
+msgid "Send message"
+msgstr "送出訊息"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "你目前不允許傳送私人訊息，在傳送更多訊息前請稍等一陣子。"
+
+msgid "Your message has been sent."
+msgstr "你的訊息已送出。"
+
+msgid "You have no private messages."
+msgstr "你沒有私人訊息。"
+
+msgid "No such message"
+msgstr "沒有這類訊息"
+
+msgid "Really delete?"
+msgstr "真的要刪除嗎？"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "你確定要刪除主旨為 &quot;%1&quot;（由 %2 於 %3 送來）的訊息？"
+
+msgid "Yes, delete"
+msgstr "是，刪除"
+
+msgid "No, cancel"
+msgstr "不，取消"
+
+msgid "You need to fill all fields to send a private message"
+msgstr "要送出私人訊息必須填寫所有欄位"
+
+msgid "Could not find user with id %1"
+msgstr "找不到 ID 為 %1 的使用者"
+
+msgid "Could not find user with username %1"
+msgstr "找不到使用者名稱為 %1 的使用者"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 不是使用者名稱；或許你可以試試輸入使用者 ID"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "使用者 %1 (ID: %2) 不接受你的私人訊息。"
+
+msgid "Really block %1?"
+msgstr "確定要封鎖 %1？"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "你確定要封鎖使用者 %1 寄來的私人訊息？"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "請注意你只能封鎖一定數量的使用者。"
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "一旦你封鎖此使用者，還可以從討論區的偏好設定頁面解除封鎖。"
+
+msgid "Add user to filter"
+msgstr "新增使用者到過濾清單"
+
+msgid "No such user"
+msgstr "無此使用者"
+
+msgid "User %1 blocked"
+msgstr "使用者 %1 已封鎖"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "使用者 %1 寄來的私人訊息已封鎖。"
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "要解除封鎖，請到 %1留言板偏好設定%2"
+
+msgid "Sender and date"
+msgstr "寄件者及日期"
+
+msgid "Delete"
+msgstr "刪除"
+
+msgid "Reply"
+msgstr "回覆"
+
+msgid "Block user"
+msgstr "封鎖使用者"
+
+msgid "With selected messages"
+msgstr "以所選的訊息"
+
+msgid "Mark as read"
+msgstr "標示為已閱讀"
+
+msgid "Mark as unread"
+msgstr "標示為未閱讀"
 
 # ########################################
 # Links from the main page
 # ########################################
-msgid "LINKS_QA"
-msgstr "常見問題集 (Q&A)"
+msgid "Questions and Answers"
+msgstr "問題與回答"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "Your account"
+msgstr "你的帳號"
+
+msgid "Welcome to %1"
+msgstr "歡迎來到 %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "請用下面的連結檢視或編輯你的帳號設定。"
+
+msgid "If you have not already done so, %1download BOINC client software%2."
+msgstr "若你還沒有帳號，請 %1下載 BOINC 用戶端軟體%2 。"
+
+msgid "Account information"
+msgstr "帳號資訊"
+
+msgid "Email address"
+msgstr "Email 位址"
+
+msgid "URL"
+msgstr "網址"
+
+msgid "Postal code"
+msgstr "郵遞區號"
+
+msgid "Change"
+msgstr "變更"
+
+msgid "email address"
+msgstr "Email 位址"
+
+msgid "password"
+msgstr "密碼"
+
+msgid "other account info"
+msgstr "其他帳號資訊"
+
+msgid "Log out"
+msgstr "登出"
+
+msgid "Community"
+msgstr "社群"
+
+msgid "Community preferences"
+msgstr "社群偏好設定"
+
+msgid "Create"
+msgstr "建立"
+
+msgid "Profile"
+msgstr "個人資料"
+
+msgid "Teams"
+msgstr "團隊"
+
+msgid "Team"
+msgstr "團隊"
+
+msgid "Member of team"
+msgstr "團隊成員"
+
+msgid "%1 posts"
+msgstr "%1 篇文章"
+
+msgid "None"
+msgstr "無"
+
+msgid "Administer"
+msgstr "管理員"
+
+msgid "Founder but not member of"
+msgstr "創立者但不是成員於"
+
+msgid "administrative functions"
+msgstr "管理功能"
+
+msgid "Quit team"
+msgstr "離開團隊"
+
+msgid "find a team"
+msgstr "尋找團隊"
+
+msgid "Preferences"
+msgstr "偏好設定"
+
+msgid "Computing preferences"
+msgstr "運算偏好設定"
+
+msgid "When and how BOINC uses your computer"
+msgstr "設定 BOINC 何時、如何使用你的電腦"
+
+msgid "%1 preferences"
+msgstr "%1 偏好設定"
+
+msgid "Resource share and graphics"
+msgstr "資源分享及圖形"
+
+msgid "Message board preferences"
+msgstr "留言板偏好設定"
+
+msgid "Message boards and private messages"
+msgstr "留言板及私人訊息"
+
+msgid "Computing and credit"
+msgstr "運算及積分"
+
+msgid "%1 member since"
+msgstr "%1 成員加入日期"
+
+msgid "Pending credit"
+msgstr "待處理積分"
+
+msgid "View"
+msgstr "檢視"
+
+msgid "Computers on this account"
+msgstr "此帳號的電腦"
+
+msgid "Tasks"
+msgstr "工作"
+
+msgid "Cross-project ID"
+msgstr "跨計畫 ID"
+
+msgid "Cross-project statistics"
+msgstr "跨計畫統計資料"
+
+msgid "Stats on your cell phone"
+msgstr "於手機檢視你的統計資料"
+
+msgid "Account number"
+msgstr "帳號編號"
+
+msgid "Used in URLs"
+msgstr "用於網址中"
+
+msgid "unread"
+msgstr "未讀"
+
+# ########################################
+# "Weak account key" page (weak_auth.php)
+# ########################################
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "你的「簡單帳號金鑰」能讓你加入其他電腦到你的本計畫帳號。其他電腦不需登入就能使用你的帳號或變更設定。"
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "此機制只對伺服器升級到 2007 年 12 月 7 日或更新的計畫有效。"
+
+msgid "Your weak account key for this project is:"
+msgstr "你本計畫的簡易帳號金鑰為："
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "要在其他主機使用你的簡易帳號金鑰，請尋找或建立此計畫的「帳號檔案」。此檔案檔名類似 <b>account_PROJECT_URL.xml</b>，%1 的帳號檔案為 <b>%2</b>。"
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "若你需要的話請建立此檔案，內容請見："
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "你的簡易帳號金鑰作用就像你的密碼一樣。若你變更了密碼，你的簡易帳號金鑰也會跟著改變，而你舊的金鑰將會無效。"
 

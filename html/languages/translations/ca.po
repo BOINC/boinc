@@ -2,23 +2,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-17 02:02+0100\n"
+"PO-Revision-Date: 2007-12-30 02:51+0100\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Catalan\n"
-"X-Poedit-Country: SPAIN\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-# ########################################
+##########################################
 # Language: Catalan
-# FileID  : cat.po,v 1.0, based on en.po Rev. 13921 (cvs).
-# Author  : boincadm
-# ########################################
+# FileID  : $Id$
+# Author  : Xavier Mor-Mur, based on en.po svn rev. 14372
+# Email   : xmormur@telepolis.com
+##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-# ########################################
+##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -31,610 +31,555 @@ msgstr "Català"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
 
-########################################
-# poll-related stuff
-########################################
-msgid "POLL_TITLE"
-msgstr "BOINC user survey *** Enquesta per a usuaris de BOINC"
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "Applications"
+msgstr "Aplicacions"
 
-msgid "POLL_INTRO"
-msgstr "Diversos projectes de computació distribuïda, incloent Climateprediction.net, Einstein@home, i SETI@home, utilitzen un programari anomenat BOINC. Si participa en projectes com aquests, li demanem que respongui a les següents qüestions. Això ajudarà els projectes basats en BOINC a incrementar la participació i a assolir majors fites científiques. <p> Si us plau respongui tantes preguntes com vulgui, llavors dirigeixis a la part inferior i premi el botó OK. Si ha respost amb anterioritat a l'enquesta però les seves repostes han canviat, si us plau completi-la un altra cop - les seves noves respostes substituiran les antigues. <p> Els resultats actuals de l'enquesta són <a href=poll_results.php>aquí</a>. "
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "%1 actualment te les següents aplicacions. Quan participeu a %1, feina per una o mes d'aquestes aplicacions es assignada al vostre ordinador. La versió actual de l’aplicació es descarregat al vostre ordinador. Això succeeix de manera automàtica; no necessita fer res."
 
-msgid "POLL_RUN"
-msgstr "Executa BOINC?"
+msgid "Platform"
+msgstr "Plataforma"
 
-msgid "POLL_PARTICIPATION"
-msgstr "La seva participació"
+msgid "Current version"
+msgstr "Versió actual"
 
-msgid "POLL_COMPUTERS"
-msgstr "Els seus ordinadors"
+msgid "Installation time"
+msgstr "Temps d'instal·lació"
 
-msgid "POLL_YOU"
-msgstr "Vostè"
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "Read our rules and policies"
+msgstr "Llegiu les regles i normes nostres"
 
-msgid "POLL_NATIONALITY"
-msgstr "Nacionalitat"
+msgid "Run %1 only on authorized computers"
+msgstr "Executeu %1 només en ordinadors autoritzats"
 
-msgid "POLL_COMMENTS"
-msgstr "Comentaris"
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr "Executeu %1 només en els ordinadors propis, o per els que heu obtingut autorització del propietari. Algunes companyies i escoles tenen normes que prohibeixen la utilització dels seus ordinadors per projectes com %1."
 
-msgid "POLL_COMMENTS_QUESTION"
-msgstr "Si us plau, suggereixi maneres en les que BOINC, i els projectes que en fan ús, podrien millorar:"
+msgid "How %1 will use your computer"
+msgstr "Com %1 utilitza el seu ordinador"
 
-msgid "POLL_OTHER"
-msgstr "Altres:"
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr "Quan executeu %1 en el vostre ordinador, utilitzarà part de la potència de la CPU, espai en disc, i ampla de banda de la xarxa. Podeu controlar la quantitat de recursos utilitzats per %1, i quan els utilitza."
 
-msgid "POLL_CHECK_ALL"
-msgstr "[marqui totes les opcions pertinents]"
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr "El treball realitzat per el vostre ordinador contribueix a assolir les fites de %1, tal i com es descrit a la seva pàgina web. L’aplicació pot canviar en el temps."
 
-msgid "POLL_DONE"
-msgstr "Quan hagi acabat, premi:"
+msgid "Privacy policy"
+msgstr "Normes de privadesa"
 
-msgid "POLL_CURRENT"
-msgstr "Sí - He fet executar BOINC en el meu ordinador durant..."
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "El vostre compte a %1 s'identifica per el nom que escolliu. Aquest nom es pot mostrar a la pàgina web de %1, amb un resum de la feina que vostre ordinador ha realitzat per a %1. Si voleu romandre anònim, escolliu un nom que reveli la vostre identitat."
 
-msgid "POLL_TWEEK"
-msgstr "menys d'una setmana"
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "Si participeu a %1, informació respecte el vostre ordinador (com el tipus de processador, quantitat de memòria, etc.) serà registrada per %1 i utilitzada per decidir el tipus de feina a assignar al vostre ordinador. Aquesta informació també es mostrarà a les pàgines web de %1. No es mostrarà res que pugui revelar la localització del vostre ordinador (per exemple el seu nom de domini o adreça de xarxa)."
 
-msgid "POLL_TMONTH"
-msgstr "menys d'un mes"
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "Per participar a %1, heu de subministrar una adreça on rebre correu electrònic. Aquesta adreça de correu no es mostrarà a la pàgina web de %1 o d'organitzacions associades. %1 podrà enviar-vos noticies periòdicament; en qualsevol cas, podeu optar per cancel·lar-ho."
 
-msgid "POLL_TYEAR"
-msgstr "menys d'un any"
+msgid "Is it safe to run %1?"
+msgstr "Es segura l'execució de %1?"
 
-msgid "POLL_TMOREYEAR"
-msgstr "més d'un any"
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "Sempre que descarregueu un programa d'Internet pot passar que: el programa tingui errors perillosos, o que el servidor de descàrrega hagi estat manipulat. %1 ha treballat per minimitzar aquests riscos. Hem verificat amb cura les nostres aplicacions. Els nostres servidors estan protegits per tallafocs que estan configurats per alta seguretat. Per assegurar la descàrrega de programes, tots els programes disposen d'una signatura digital en un ordinador que no està connectat a Internet."
 
-msgid "POLL_LAPSED"
-msgstr "No - He fet executar BOINC en alguna ocasió, però ho he deixat perquè..."
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "Les aplicacions executades per %1 poden causar l’escalfament d'alguns ordinadors. Si passes això, atureu l'execució de %1 o utilitzeu un %2programa%3 que limiti la utilització de la CPU."
 
-msgid "POLL_LINTEREST"
-msgstr "he perdut interès"
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 ha estat desenvolupada per %2. BOINC ha estat desenvolupada a la Universitat de Califòrnia."
 
-msgid "POLL_LCOMPLICATED"
-msgstr "era massa complicat"
+msgid "Liability"
+msgstr "Responsabilitats"
 
-msgid "POLL_LSTOPPED"
-msgstr "vaig aturar-lo i he oblidat reiniciar-lo altra vegada"
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr "%1 i %2 no assumeixen responsabilitats per danys al vostre ordinador, pèrdua de informació, o qualsevol altre incidència deguda a la participació a %1."
 
-msgid "POLL_LPROBLEMS"
-msgstr "causava problemes al meu ordinador"
+msgid "Other BOINC projects"
+msgstr "Altres projectes BOINC"
 
-msgid "POLL_LPOWER"
-msgstr "consumia massa electricitat"
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "Altres projectes utilitzen la mateixa plataforma, BOINC, com %1. Podeu considerar la participació a un o mes d'aquests projectes. Fent això, el vostre ordinador executarà feina útil encara que %1 no en disposi de pròpia."
 
-msgid "POLL_LNONBOINC"
-msgstr "he passat a participar en un projecte de computació no basat en BOINC"
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr "Aquests altres projectes no estan associats amb %1, i no podem garantir la seva seguretat o la naturalesa de la seva recerca. Uniu-vos-hi sota la vostra responsabilitat."
 
-msgid "POLL_FAILED"
-msgstr "No - Vaig intentar executar BOINC, però..."
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "Create an account"
+msgstr "Crear un compte"
 
-msgid "POLL_FINSTALL"
-msgstr "el programari no s'instal·lava correctament"
+msgid "Name"
+msgstr "Nom"
 
-msgid "POLL_FFIGURE"
-msgstr "no vaig poder imaginar com utilitzar el programari"
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
 
-msgid "POLL_FNETWORK"
-msgstr "vaig tenir problemes de comunicació amb la xarxa"
+msgid "Email Address"
+msgstr "Adreça de correu"
 
-msgid "POLL_FATTACH"
-msgstr "no em vaig poder unir a cap projecte"
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'."
 
-msgid "POLL_FWORK"
-msgstr "em vaig unir a un projecte, però no vaig arribar rebre feina"
+msgid "Country"
+msgstr "País"
 
-msgid "POLL_NEVER"
-msgstr "No - Mai he provat d'executar BOINC, perquè..."
+msgid "Select the country you want to represent, if any."
+msgstr "Seleccioneu el país que voleu representar, si ho desitgeu."
 
-msgid "POLL_NSECURITY"
-msgstr "em preocupava la seguretat"
+msgid "Postal or ZIP Code"
+msgstr "Codi postal o ZIP"
 
-msgid "POLL_NPROJECT"
-msgstr "no m’interessava cap dels projectes"
+msgid "Create account"
+msgstr "Crear un compte"
 
-msgid "POLL_NPERMISSION"
-msgstr "no tinc permís per executar BOINC en el meu ordinador"
+msgid "Account creation is disabled"
+msgstr "La creació de comptes està desactivada"
 
-msgid "POLL_NVERSION"
-msgstr "no hi ha cap versió disponible per al meu ordinador"
+msgid "Account creation is disabled for %1 at the moment. Please try again later."
+msgstr "La creació de comptes per %1 de moment està desactivada. Si us plau provi-ho mes tard."
 
-msgid "POLL_KIND"
-msgstr "En quin tipus d'ordinadors fa executar BOINC?"
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "Aquest compte formarà part del grup %1 i tindrà les preferències del creador del projecte."
 
-msgid "POLL_WHERE"
-msgstr "On estan situats?"
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "NOTA: Si utilitzeu la versió BOINC 5.2+ amb el gestor BOINC, no utilitzeu aquest formulari. Senzillament executeu BOINC, seleccioneu Unir-vos a un Projecte, i introduïu una adreça de correu i contrasenya."
 
-msgid "POLL_HOME"
-msgstr "A casa"
+msgid "Password"
+msgstr "Contrasenya"
 
-msgid "POLL_WORK"
-msgstr "Al lloc de treball"
+msgid "Must be at least %1 characters"
+msgstr "Ha de tenir al menys %1 caràcters"
 
-msgid "POLL_SCHOOL"
-msgstr "A l'escola"
+msgid "Confirm password"
+msgstr "Introduïu de nou la contrasenya"
 
-msgid "POLL_HOW_MANY"
-msgstr "Quants ordinadors?"
+msgid "Invitation Code"
+msgstr "Codi d'alta"
 
-msgid "POLL_TURNED_ON"
-msgstr "De mitjana, quantes hores al dia estan encesos?"
+msgid "A valid invitation code is required to create an account."
+msgstr "Un codi d'alta es necessari per crear un compte."
 
-msgid "POLL_AGE"
-msgstr "Edat"
+msgid "You must supply an invitation code to create an account."
+msgstr "Heu d'introduir un codi d'alta per la creació d'un compte."
 
-msgid "POLL_SEX"
-msgstr "Sexe"
+msgid "The invitation code you gave is not valid."
+msgstr "El codi d'alta que introduït no es vàlid."
 
-msgid "POLL_MALE"
-msgstr "Mascle"
+#########################################
+# Forum sample index page
+#########################################
+msgid "%1 Message boards"
+msgstr "Pannell de missatges de %1"
 
-msgid "POLL_FEMALE"
-msgstr "Femella"
+msgid "Message boards"
+msgstr "Pannells de missatges"
 
-msgid "POLL_EXPERTISE"
-msgstr "El seu nivell de coneixements informàtics"
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "Optional"
+msgstr "Opcional"
 
-msgid "POLL_LEVB"
-msgstr "Principiant"
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+msgid "Top participants"
+msgstr "Participants principals"
 
-msgid "POLL_LEVI"
-msgstr "Intermedi"
+msgid "Rank"
+msgstr "Categoria"
 
-msgid "POLL_LEVA"
-msgstr "Avançat"
+msgid "Total credit"
+msgstr "Crèdit total"
 
-msgid "POLL_LEARN_WHERE"
-msgstr "A través de quins mitjans ha conegut projectes BOINC?"
+msgid "Recent average credit"
+msgstr "Crèdit promig mes recent"
 
-msgid "POLL_WTV"
-msgstr "Televisió/radio/premsa escrita"
+msgid "Participant since"
+msgstr "Participant des de"
 
-msgid "POLL_WPERS"
-msgstr "Amics, familiars, companys de feina"
+msgid "Top %1 teams"
+msgstr "Els %1 Grups principals"
 
-msgid "POLL_WTEAM"
-msgstr "Fòrums, taulells de missatges o pàgines web d'algun equip"
+msgid "Members"
+msgstr "Membres"
 
-msgid "POLL_WBOINC"
-msgstr "La pàgina web de BOINC"
+msgid "Top hosts"
+msgstr "Servidors principals"
 
-msgid "POLL_WWEB"
-msgstr "Altres pàgines web"
+#########################################
+# Forum
+#########################################
+msgid "Posts"
+msgstr "Correu"
 
-msgid "POLL_FACTOR"
-msgstr "Quins són els factors més importants que té en compte quan decideix si participar o no en un projecte BOINC?"
+msgid "Topic"
+msgstr "Tema"
 
-msgid "POLL_GRAPHICS"
-msgstr "Gràfics atractius al salva pantalles"
+msgid "Thread"
+msgstr "Fil"
 
-msgid "POLL_CREDIT_FAIR"
-msgstr "Retribució justa i ràpida de crèdit per la feina feta"
+msgid "Threads"
+msgstr "Fils"
 
-msgid "POLL_CREDIT_MORE"
-msgstr "Obtenció de més crèdit del projecte en qüestió, que dels altres"
+msgid "Last post"
+msgstr "Últim correu"
 
-msgid "POLL_MB_FRIENDLY"
-msgstr "Taulells de missatges o fòrums on s'ajudi i hi hagi ambient amigable"
+msgid "Author"
+msgstr "Autor"
 
-msgid "POLL_MB_STAFF"
-msgstr "Participació de responsables del projecte als taulells de missatges"
+msgid "Views"
+msgstr "Opinions"
 
-msgid "POLL_WEB_SITE"
-msgstr "Pàgina web del projecte informativa"
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "Per tal de crear un nou fil a %1 ha de disposar un cert nombre de crèdits. Això es per prevenir i protegir contra l'abús del sistema."
 
-msgid "POLL_SCIENCE_IMPORTANT"
-msgstr "Que la investigació sigui important i beneficiosa"
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "De moment no pot crear mes fils. Si us plau esperi abans de intentar-ho de nou. Aquesta espera es imposada per protegir contra abusos els sistema."
 
-msgid "POLL_SCIENCE_PUBLIC"
-msgstr "Sense ànim de lucre, i resultats públics"
+msgid "Create a new thread"
+msgstr "Crear un nou fil"
 
-msgid "POLL_RECOGNIZE"
-msgstr "Reconeixement personal si el meu ordinador troba alguna cosa"
+msgid "Title"
+msgstr "Títol"
 
-msgid "POLL_PUBLISH"
-msgstr "Publicacions per part del projecte en revistes científiques"
+msgid "Add my signature to this post"
+msgstr "Afegir la meva firma a aquest correu"
 
-msgid "POLL_EMAIL"
-msgstr "Distribució periòdica d'informació sobre el projecte per correu electrònic"
+msgid "Message"
+msgstr "Missatge"
 
-msgid "POLL_NPROJECTS"
-msgstr "En quants projectes participa?"
+msgid "Edit message"
+msgstr "Editar el missatge"
 
-msgid "POLL_SSAVER"
-msgstr "Utilitza BOINC com a salva pantalles?"
+msgid "Use BBCode tags to format your text"
+msgstr "Utilitzar les marques BBCode per formatar el text"
 
-msgid "POLL_YES"
-msgstr "Sí"
+#########################################
+# Forum thread
+#########################################
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Aquest fil ha estat ocultat amb propòsits administratius"
 
-msgid "POLL_NO"
-msgstr "No"
+msgid "Post to thread"
+msgstr "Correu del fil"
 
-msgid "POLL_MBOARDS"
-msgstr "El seu ús dels taulells de missatges o fòrums:"
+msgid "Unsubscribe"
+msgstr "Finalitzar subscripció"
 
-msgid "POLL_MBR"
-msgstr "per llegir informació"
+msgid "Subscribe"
+msgstr "Subscriure"
 
-msgid "POLL_MBRW"
-msgstr "per llegir i publicar informació"
+#########################################
+# Forum search features
+#########################################
+msgid "Forum search"
+msgstr "Recerca al fòrum"
 
-msgid "POLL_NONE"
-msgstr "cap"
+msgid "Titles containing '%1'"
+msgstr "Títols que contenen '%1'"
 
-msgid "POLL_HELP"
-msgstr "D'on obté informació per ajudar a resoldre problemes relacionats amb BOINC i/o amb projectes basats en BOINC?"
+msgid "Posts containing '%1'"
+msgstr "Correus que contenen '%1'"
 
-msgid "POLL_HELP_PMB"
-msgstr "Taulells de missatges del projecte"
+msgid "No titles containing '%1' could be found."
+msgstr "No s'han trobat títols que continguin '%1'."
 
-msgid "POLL_HELP_BMB"
-msgstr "Taulells de missatges de BOINC"
+msgid "No posts containing '%1' could be found."
+msgstr "No s'han trobat correus que continguin '%1'."
 
-msgid "POLL_HELP_BDOC"
-msgstr "Pàgina web de BOINC"
+#########################################
+# Private messages
+#########################################
+msgid "Private messages"
+msgstr "Missatges privats"
 
-msgid "POLL_HELP_BMLIST"
-msgstr "Llistes de correu de BOINC"
+msgid "Inbox"
+msgstr "Bústia d'entrada"
 
-msgid "POLL_HELP_WIKI"
-msgstr "Enciclopèdia Wiki no oficial de BOINC"
+msgid "Write"
+msgstr "Escriure"
 
-msgid "POLL_HELP_TEAM"
-msgstr "Pàgines web de l'equip"
+msgid "Forum index"
+msgstr "Índex del fòrum"
 
-msgid "POLL_HELP_GOOGLE"
-msgstr "Google o altres motors de recerca"
+msgid "Send private message"
+msgstr "Enviar un missatge privat"
 
-msgid "POLL_ERROR_TITLE"
-msgstr "Error - no s'han desat els resultats"
+msgid "Preview"
+msgstr "Vista prèvia"
 
-msgid "POLL_ERROR_TEXT"
-msgstr "Un error intern ens ha impedit desar les seves respostes a l'enquesta. Si us plau torni a intentar-ho més tard."
+msgid "To"
+msgstr "Per"
 
-msgid "POLL_RECORDED"
-msgstr "Respostes de l'enquesta desades"
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "El identificadors son noms d'usuari únics, separats per comes"
 
-msgid "POLL_THANKS"
-msgstr "Gràcies per respondre les preguntes de l'enquesta per a usuaris de BOINC."
+msgid "Subject"
+msgstr "Assumpte"
 
-msgid "POLL_RESULTS_TITLE"
-msgstr "Resultats de l'enquesta"
+msgid "Send message"
+msgstr "Enviar missatge"
 
-msgid "POLL_RESULTS_TEXT"
-msgstr "Aquests són els resultats de l'<a href=poll.php>enquesta per a usuaris de BOINC</a>. Aquesta pàgina s'actualitza cada hora."
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "No teniu permès enviar missatges privats tant sovint. Si us plau espereu una estona abans d'enviar mes missatges."
 
-########################################
-# download.php 2006/08/03 by je2bwm
-########################################
-msgid "DL_DOWNLOAD"
-msgstr "Descarregar BOINC"
+msgid "Your message has been sent."
+msgstr "El seu missatge ha estat lliurat."
 
-msgid "DL_VERSION_LNAME_SIZE"
-msgstr "%s for %s (%s MB)"
+msgid "You have no private messages."
+msgstr "No te missatges privats."
 
-msgid "DL_WHATS_BOINC"
-msgstr " BOINC és un programa que li permet donar la capacitat de càlcul no aprofitada del seu ordinador a projectes científics com SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, i molts altres.<p>        Després d'intal·lar BOINC al seu ordinador,         el pot connectar a tants projectes com vostè vulgui.        <p>"
+msgid "No such message"
+msgstr "No hi ha el missatge"
 
-msgid "DL_SYSTEMREQ"
-msgstr "Requiriments del sistema"
+msgid "Really delete?"
+msgstr "Segur d'esborrar-lo?"
 
-msgid "DL_RELNOTES"
-msgstr "Notes de llançament"
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "Està segur que vol esborrar el missatge amb l'assumpte &quot;%1&quot; (enviat per %2 el %3)?"
 
-msgid "DL_TROUBLE"
-msgstr "Localització i resolució de problemes"
+msgid "Yes, delete"
+msgstr "Si, esborrar"
 
-msgid "DL_OTHERSYS"
-msgstr "Altres sistemes"
+msgid "No, cancel"
+msgstr "No, cancel·lar"
 
-msgid "DL_ALLVERSIONS"
-msgstr "Totes les versions"
+msgid "You need to fill all fields to send a private message"
+msgstr "Necessita omplir tots els camps per enviar un missatge privat"
 
-msgid "DL_IF_OTHERTYPES"
-msgstr "Si el seu ordinador no és de cap dels tipus indicats aquí dalt, pot"
+msgid "Could not find user with id %1"
+msgstr "No pot trobar l'usuari amb l'identificador %1"
 
-msgid "DL_MAKEYOUROWN"
-msgstr "%s crear els seu propi client %s o bé"
+msgid "Could not find user with username %1"
+msgstr "No es pot trobar l'usuari de nom %1"
 
-msgid "DL_DL_FROM3RDP"
-msgstr "%s descarregar executables des de pàgines de tercers %s (disponible per a Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, i FreeBSD, i altres)."
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 no es un nom d'usuari únic; teniu que utilitzar el vostre identificador (ID)"
 
-msgid "DL_DOWNLOAD_TITLE"
-msgstr "BOINC: computació per a la ciència"
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "L'usuari %1 (ID: %2) no accepta missatges privats de vostè."
 
-msgid "DL_MIRRORS"
-msgstr "Nota: els fitxers es descarreguen des de servidors alternatius a boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, i einstein.aset.psu.edu (gràcies a aquestes institucions). El servidor es escollit aleatòriament - si la descàrrega falla, actualitzeu la pàgina i torneu a provar-ho. "
+msgid "Really block %1?"
+msgstr "Segur de bloquejar %1?"
 
-##############################################
-# system_requirements.php by je2bwm 2006/08/07
-##############################################
-msgid "SRQ_PAGE_TITLE"
-msgstr "Requeriments del sistema"
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "Està segur que vol bloquejar que l'usuari %1 li enviï missatges privats?"
 
-msgid "SRQ_INTRO"
-msgstr "Cal que el seu ordinador satisfaci els següents requeriments per poder executar el client BOINC. Els projectes basats en BOINC-based poden tenir requeriments adicionals."
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Si us plau, tingui en compte que només pot bloquejar un nombre limitat d'usuaris."
 
-msgid "SRQ_MSWIN"
-msgstr "Windows"
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Un cop bloquejat un usuari el podeu desbloquejar utilitzant la pàgina de preferències del fòrum."
 
-msgid "SRQ_OS"
-msgstr "Sistemes operatius"
+msgid "Add user to filter"
+msgstr "Afegir l'usuari al filtre"
 
-msgid "SRQ_MSWIN_REQ_OS"
-msgstr "Windows 98 o posterior"
+msgid "No such user"
+msgstr "No existeix l'usuari"
 
-msgid "SRQ_MIN_HARDWARE"
-msgstr "Maquinari mínim"
+msgid "User %1 blocked"
+msgstr "L'usuari %1 està bloquejat"
 
-msgid "SRQ_MSWIN_REQ_CPU"
-msgstr "Pentium 233 MHz (Recomanat: Pentium 500 MHz o superior)"
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "L'usuari %1 te bloquejat el lliurament de missatges privats a vostè."
 
-msgid "SRQ_MSWIN_REQ_RAM"
-msgstr "64 MB RAM (Recomanat: 128 MB RAM o més)"
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Per desbloquejar, visiti les %1preferències del pannell de missatges%2"
 
-msgid "SRQ_MSWIN_REQ_DISK"
-msgstr "20 MB d'espai de disc"
+msgid "Sender and date"
+msgstr "Remitent i data"
 
-msgid "SRQ_APPLMAC"
-msgstr "Macintosh"
+msgid "Delete"
+msgstr "Esborrar"
 
-msgid "SRQ_APPLMAC_REQ_OS"
-msgstr "Mac OS X 10.3 o posterior"
+msgid "Reply"
+msgstr "Contestar"
 
-msgid "SRQ_APPLMAC_REQ_CPU"
-msgstr "Ordinador Macintosh amb prossessador Intel x86 o PowerPC G3, G4, o G5"
+msgid "Block user"
+msgstr "Bloquejar usuari"
 
-msgid "SRQ_APPLMAC_REQ_RAM"
-msgstr "128 MB RAM (Recomanat: 256 MB RAM o més)"
+msgid "With selected messages"
+msgstr "Amb els missatges seleccionats"
 
-msgid "SRQ_APPLMAC_REQ_DISK"
-msgstr "200 MB d'espai de disc"
+msgid "Mark as read"
+msgstr "Marcar com llegit"
 
-msgid "SRQ_LINUX"
-msgstr "Linux"
+msgid "Mark as unread"
+msgstr "Marcar com no llegit"
 
-msgid "SRQ_LINUX_REQ_KERNEL"
-msgstr "Linux amb kernel 2.2.14 o posterior"
+#########################################
+# Links from the main page
+#########################################
+msgid "Questions and Answers"
+msgstr "Preguntes i respostes"
 
-msgid "SRQ_LINUX_REQ_GLIBC"
-msgstr "glibc 2.3.2 o posterior"
+#########################################
+# "Your account" page (home.php)
+#########################################
+msgid "Your account"
+msgstr "El seu compte"
 
-msgid "SRQ_LINUX_REQ_XFREE86"
-msgstr "XFree86-3.3.6 o posterior"
+msgid "Welcome to %1"
+msgstr "Benvingut a %1"
 
-msgid "SRQ_LINUX_REQ_GTKPLUS"
-msgstr "gtk+2.0 o posterior"
+msgid "View and edit your account preferences using the links below."
+msgstr "Revisi i editi les preferències del seu compte utilitzant els links següents."
 
-msgid "SRQ_LINUX_REQ_CPU"
-msgstr "Pentium 500 MHz o superior"
+msgid "If you have not already done so, %1download BOINC client software%2."
+msgstr "Si no ho heu fet ja, %1descarregueu el client BOINC%2."
 
-msgid "SRQ_LINUX_REQ_RAM"
-msgstr "64 MB RAM"
+msgid "Account information"
+msgstr "Informació del compte"
 
-msgid "SRQ_LINUX_REQ_DISK"
-msgstr "50 MB d'espai de disc"
+msgid "Email address"
+msgstr "Adreça de correu electrònic"
 
-##############################################
-# release notes
-##############################################
-msgid "RLN_PAGE_TITLE"
-msgstr "Notes de llançament"
+msgid "URL"
+msgstr "URL"
 
-msgid "RLN_WHATS_NEW"
-msgstr "Què hi ha de nou a %s"
+msgid "Postal code"
+msgstr "Codi postal"
 
-msgid "RLN_INSTALLING"
-msgstr "Instal·lant"
+msgid "Change"
+msgstr "Canviar"
 
-msgid "RLN_UNINSTALLING"
-msgstr "Desinstal·lant"
+msgid "email address"
+msgstr "adreça de correu electrònic"
 
-msgid "RLN_KNOWN_ISSUES"
-msgstr "Problemes coneguts"
+msgid "password"
+msgstr "contrasenya"
 
-msgid "RLN_WIN_INSTALL_PROBLEMS"
-msgstr "(Windows) Esporàdicament, la instal·lació pot falla degut a una instal·lació anterior de BOINC. Si passa això: %s Finalitzeu BOINC si està en execució, i desintal·leu BOINC utilitzant %s Inici/Pannell de Control/Afegir i treure programes%s. Instal·lar la nova versió de nou. %s Si això falla, torneu a instal·lar la the versió de BOINC que s'estava executant inicialment (les versions anteriors es poden trobar %saquí%s). Desinstal·lar com abans, desprès instal·lar la nova nova versió. %s Si això falla, descarregar la utilitat %sWindows Install Clean Up%s des de Microsoft i executar-la. La versió BOINC anterior es mostra com BOINC.msi o com una icona .msi malmesa (serà la primera l'opció). Seleccioneu-la, premeu Eliminar i Sortir. Re-iniciar l'ordinador. Instal·lar la nova versió. (Atenció: deixeu tots els altres fitxers .msi tal i com estan, o podríeu tenir problemes desinstal·lant altres programes). %s "
+msgid "other account info"
+msgstr "altre informació del compte"
 
-msgid "RLN_TROUBLESHOOT"
-msgstr "Resolució de problemes"
+msgid "Log out"
+msgstr "Finalitzar la sessió"
 
-msgid "RLN_NEWF_5_4_AM"
-msgstr "Suport per 'Gestors de comptes' - pàgines web que permeten seleccionar projectes BOINC, adherir-s’hi o no, canviar recursos i configuracions, tot amb senzillesa d'un clic. Els Gestors de comptes son també ajuden en el cas de disposar de mes d'un ordinador - només cal fer els canvis un sol cop."
+msgid "Community"
+msgstr "Comunitat"
 
-msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-msgstr "Les Preferències generals es poden superar a través d'un arxiu local; els detalls els trobara %s aquí %s."
+msgid "Community preferences"
+msgstr "Preferències de la comunitat"
 
-msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-msgstr "BOINC l'avisarà si requereix de l'usuari per establir una connexió de xarxa."
+msgid "Create"
+msgstr "Crear"
 
-msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "El client BOINC ofereix dues interfícies: 'Senzilla' (petitta, gràfica, aspecte modificable) i 'Avançada' (màxima informació). La interfície Senzilla permet l'edició local de les preferències. Podeu canviar entre les dues interfícies tantes vegades com desitgeu. "
+msgid "Profile"
+msgstr "Perfil"
 
-msgid "RLN_5_8_THROTTLE"
-msgstr " limitar la CPU: podeu reduir la temperatura de la CPU limitant el temps d'execució de BOINC. "
+msgid "Teams"
+msgstr "Grups"
 
-msgid "RLN_5_8_SCHED"
-msgstr " Una millor planificació de les tasques permet evitar que finalitzin les tasques fora de temps inclusiu en ordinadors lents amb molts projectes. "
+msgid "Team"
+msgstr "Grup"
 
-msgid "RLN_5_8_MEM"
-msgstr " Pot limitar la quantitat de memòria utilitzada per BOINC; això permet l'execució permanent sense pèrdua de rendiment. "
+msgid "Member of team"
+msgstr "Membre de l'equip"
 
-msgid "RLN_5_8_SANDBOX"
-msgstr " La versió per Mac OS X executa les aplicacions en un compte sense privilegis, incrementant la seguretat. "
+msgid "%1 posts"
+msgstr "%1 correus"
 
-msgid "RLN_5_8_SNOOZE"
-msgstr " El botó Aturar (a la icona de barra de tasques) li permet aturar el l'execució durant una hora. "
+msgid "None"
+msgstr "Cap"
 
-msgid "RLN_RECOMMEND_LATEST_VERSION"
-msgstr "Recomanem a tots els usuaris de BOINC que actualitzin a %s."
+msgid "Administer"
+msgstr "Administrador"
 
-msgid "RLN_LINK2_VERSION_HISTORY"
-msgstr "L'historial detallat de revisions és %s aquí %s."
+msgid "Founder but not member of"
+msgstr "Fundador però no membre de "
 
-msgid "RLN_MSWIN"
-msgstr "Windows"
+msgid "administrative functions"
+msgstr "funcions administratives"
 
-msgid "RLN_APPLMAC"
-msgstr "Macintosh"
+msgid "Quit team"
+msgstr "Deixar el grup"
 
-msgid "RLN_LINUX"
-msgstr "Linux"
+msgid "find a team"
+msgstr "Trobar un grup"
 
-msgid "RLN_MSWIN_INSTALL_MODES"
-msgstr "El client BOINC té diferents tipus d'instal·lació:"
+msgid "Preferences"
+msgstr "Preferències"
 
-msgid "RLN_SINGLE_USER_INSTALL"
-msgstr "Instal·lació com a usuari únic (Single-user installation)"
+msgid "Computing preferences"
+msgstr "Preferències de computació"
 
-msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "Aquest és el tipus d'instal·lació recomanat. BOINC s'executarà mentre l'usuari d'instal·lació està actiu. BOINC is declarat en el menú d'inici d'aquest usuari però no en el dels altres. The 'Show graphics' command in the BOINC manager works only for you. El salva pantalla de BOINC li mostra una aplicació gràfica (els altres usuaris poden executar el salva pantalles però només informacició en modo text)."
+msgid "When and how BOINC uses your computer"
+msgstr "Quan i com BOINC utilitza el seu ordinador"
 
-msgid "RLN_SHARED_INSTALL"
-msgstr "Instal·lació compartida (Shared installation)"
+msgid "%1 preferences"
+msgstr "Preferències de %1"
 
-msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-msgstr "El client BOINC és executat mentre qualsevol usuari tingui una sessió oberta. BOINC is declarat en el menú d'inici de tots els usuaris. L'execució de BOINC es per l'usuari que l'inicia. (el primer en activar-se o el primer en executar BOINC). La visualització dels gràfics en el client BOINC només es per aquest usuari. El salva pantalles mostra els gràfics només es per aquest usuari (els altres usuaris poden executar el salva pantalles però només informacició en modo text)."
+msgid "Resource share and graphics"
+msgstr "Compartició de recursos i gràfics"
 
-msgid "RLN_WIN_SERVICE_INSTALL"
-msgstr "Instal·lació com a Servei (Service installation)"
+msgid "Message board preferences"
+msgstr "Preferències del pannell de missatges"
 
-msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "El client BOINC és executat sempre (encara que no hi hagi cap sessió oberta). BOINC es declarat en el menú d'inici de l'usuaro que fa la instal·lació, i no en el dels altres. La visualització de gràfics en el client BOINC no es operativa per a cap usuari. El salva pantalles mostrarà, només, informacició en modo text."
+msgid "Message boards and private messages"
+msgstr "Pannell de missatges i missatges privats"
 
-msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "El client BOINC per Linux és distribuït com a arxiu autoextraïble. Aquest tipus d'instal3lació requereix que l'usuari el coneixement de la interficie de línia de comandes del UNIX."
+msgid "Computing and credit"
+msgstr "Computació i crèdits"
 
-msgid "RLN_LINUX_DL_FILENAME"
-msgstr "Els arxius que cal descarregar tenen noms com <code>%s</code>."
+msgid "%1 member since"
+msgstr "%1 membre des de"
 
-msgid "RLN_LINUX_RUN_SEA"
-msgstr "Després de descarregar els arxius, executar la comanda<pre>%s</pre>"
+msgid "Pending credit"
+msgstr "Crèdits pendents"
 
-msgid "RLN_LINUX_RESULTOF_SEA"
-msgstr "Així es crearà un directori BOINC/ amb els següents arxius:"
+msgid "View"
+msgstr "Mirar"
 
-msgid "RLN_BOINC_CORE_CL"
-msgstr "El <i>core</i> del client BOINC"
+msgid "Computers on this account"
+msgstr "Ordinadors d'aquest compte"
 
-msgid "RLN_BOINC_MANAGER"
-msgstr "El gestor del client BOINC (BOINC manager)"
+msgid "Tasks"
+msgstr "Feines"
 
-msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
-msgstr "Un procediment que porta al directori de BOINC i executa el client BOINC."
+msgid "Cross-project ID"
+msgstr "Identificador del Cross-project"
 
-msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
-msgstr "Un procediment que porta al directori de BOINC i executa el gestor."
+msgid "Cross-project statistics"
+msgstr "Estadístiques del Cross-project"
 
-msgid "RLN_LINUX_AUTOSTART"
-msgstr "Pot voler%s executar automaticament el client %sen el moment d'iniciar l'ordinador."
+msgid "Stats on your cell phone"
+msgstr "Estadístiques en el seu mòbil"
 
-msgid "RLN_MSWIN_UNINSTALL_DESC"
-msgstr "Seleccioni Inici / Panell de control / Afegir o Treuere Programes. Seleccionar BOINC, premer Treure. Aixó només elimina el programari BOINC. Per eliminar totalment BOINC, eliminar el directori BOINC (normalment C:/Arxius de Programa/BOINC). "
+msgid "Account number"
+msgstr "Número de compte"
 
-msgid "RLN_ISSUE_PROXY_NTLMAUTH"
-msgstr "Si utilitza un servidor proxy, si us plau, de moment no actualitzi el programari.Està procés una actualització per proxis que utilitzen autenticació NTLM."
+msgid "Used in URLs"
+msgstr "Utilitzat en les URL"
 
-msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-msgstr "(Windows) Si les aplicacions BOINC fallen sistemàticament en el seu ordinador, es possible que necessiti %sactualitzar DirectX a la darrera versió (9.0c o posterior) %s."
+msgid "unread"
+msgstr "no llegit"
 
-msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-msgstr "(Windows) Si BOINC s'executa al mateix temps que salva pantalles 3D de Windows XP, el sistema pot esdevenir lent i sense resposta."
+#########################################
+# "Weak account key" page (weak_auth.php)
+#########################################
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "La seva 'clau de compte reduïda' li permet associar ordinadors al seu compte en aquest projecte, sense necessitat d'iniciar una sessió amb el seu compte o canviar-lo."
 
-msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-msgstr "(Windows) Les aplicacions creades amb anterioritat a Octubre de 2004 no mostren els gràfics del salva pantalles en la instal·lació del tipus Servei o Compartit, o en el tipus Usuari amb la contrasenya del salva pantalles activada en equipw basats en NT."
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Això només funciona amb projectes que tenen el seu software servidor actualitzat a la versió del 7 de Dec 2007 o posterior."
 
-msgid "RLN_TROUBLESHOOT_INTRO"
-msgstr "Si experimenta problemes amb BOINC, hi ha alguns passos que pot seguir:"
+msgid "Your weak account key for this project is:"
+msgstr "La clau de compte reduïda per aquest projecte es:"
 
-msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-msgstr "Si el problema és amb algun projecte en particular, "
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "Per utilitzar la clau de compte reduïda en un servidor, trobeu o creeu 'el fitxer del compte' per aquest projecte. El nom d'aquest fitxer es de la forma <b>compte_URL_DEL_PROJECTE.xml</b>. El fitxer del compte per %1 es <b>%2</b>."
 
-msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
-msgstr "Si experimenta problemes amb el propi BOINC, obtingui ajuda de %s BOINC message boards %s."
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Crear aquest fitxer si es necessari. Configureu el seu contingut com:"
 
-##############################################
-# help.php
-##############################################
-msgid "HELP_TITLE"
-msgstr "Obtenint ajuda amb BOINC"
-
-msgid "HELP_HEADING1"
-msgstr "Ajuda en línia"
-
-msgid "HELP_P1_1"
-msgstr "Ajuda en línia BOINC li permeten converses directes amb usuaris experts, que poden: %s respondre preguntes respecte BOINC i la computació assistida; %s proporcionar informació respecte el procés d'instal·lació i utilització de BOINC; %s resolució de qualsevol problema que pugui tenir. "
-
-msgid "HELP_P1_2"
-msgstr "La Ajuda en línia BOINC està basada en %sSkype%s, un sistema telefónic basat en Internet. Skype is lliure (ambdós programari i trucades). Si no te instal·lat Skype, si us plau %sel descarregui i instal·li ara%s. Quan hagi finalitzat, torni a aquesta pàgina. "
-
-msgid "HELP_P1_3"
-msgstr "El millor sistema per obtenir ajuda es de paraula, per la qual cosa necessita un sistema intern o extern de micròfon i altaveus per el seu ordinador. També pot utilitzar el sistema de conversa basat en text de Skype o per correu electrònic (si no disposa de Skype) per comunicar-se amb els Voluntaris que ofereixen ajuda."
-
-msgid "HELP_P1_4"
-msgstr "El Voluntaris parlen diversos idiomes. Si us plau seleccioni in idioma: "
-
-msgid "HELP_HEADING2"
-msgstr "Altres llocs d'ajuda"
-
-msgid "HELP_P2_ITEM1"
-msgstr "Executant BOINC "
-
-msgid "HELP_P2_ITEM2"
-msgstr "Resolució de problemes BOINC "
-
-msgid "HELP_P2_ITEM3"
-msgstr "Llocs web a propòsit de BOINC "
-
-msgid "HELP_P2_ITEM4"
-msgstr "'message boards' de BOINC "
-
-msgid "HELP_P2_ITEM5"
-msgstr "'message boards' en qualsevol projecte BOINC "
-
-msgid "HELP_HEADING3"
-msgstr "Facis Voluntari per ajudar"
-
-msgid "HELP_P3_1"
-msgstr "Si es un usuari avançat de BOINC, l'animem %sa fer-se Voluntari%s. Es una manera d'ajudar a la recerca científica i la computació assistida - i es divertit! "
-
-msgid "HELP_P3_2"
-msgstr "Si ja es un Voluntari: per editar la seva configuració, %spremi aquí%s. "
-
-##############################################
-# index.php
-##############################################
-msgid "HOME_HEADING1"
-msgstr "Voluntari"
-
-msgid "HOME_P1"
-msgstr " Utilitzar el temps d'inactivitat del del seu ordinador (Windows, Mac, o Linux) per curar malalties, estudiar el calentament global, descobrir pulsars, i realitzar molts altres tipus de recerca científica. Es segur i fàcil: %sEculli%s els projectes %sDescarregui%s i executi el programari BOINC %sEntri%s l'adreça URL del projecte, el vostre correu electrònic, i contrasenya. "
-
-msgid "HOME_P2"
-msgstr "O, si executa mes d'un projecte, provi un %sgestor de comptes%s tal com %sGridRepublic%s o %sBAM!%s. "
-
-msgid "HOME_P3"
-msgstr "Si te preguntes, o necessita ajuda per començar, pot %sdemanar-ho als Voluntaris%s. "
-
-msgid "HOME_MORE_INFO"
-msgstr "Executant BOINC"
-
-msgid "HOME_DOWNLOAD"
-msgstr "Descarregar"
-
-msgid "HOME_WEB_SITES"
-msgstr "Pàgines Web"
-
-msgid "HOME_ADD_ONS"
-msgstr "Suplements (Add-ons)"
-
-msgid "HOME_SURVEY"
-msgstr "Enquesta"
-
-msgid "HOME_BOINC"
-msgstr "Berkeley Open Infrastructure for Network Computing"
-
-msgid "HOME_BOINC_DESC"
-msgstr "Programari lliure per la %scomputació assistida%s i la %scomputació en xarxa%s"
-
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "La seva clau de compte reduïda es una funció del la seva contrasenya. Si canvia la contrasenya, la clau de compte reduïda canvia, i la clau de compte reduïda anterior deixa de ser vàlida."
 
