@@ -91,7 +91,7 @@ function do_search($order, $filter) {
 
 function search_form() {
     page_head("User search");
-    echo "<form method=get action=user_search.php>";
+    echo "<form name=f method=get action=user_search.php>";
     start_table();
     row1("Search type", 2, "heading");
     row2("User name starts with <input name=search_string>", "<input type=radio name=search_type value=\"name_prefix\" checked >");
@@ -114,6 +114,10 @@ function search_form() {
     ");
     row2("", "<input type=submit name=action value=Search>");
     end_table();
+    echo "
+        <script>document.f.search_string.focus()</script>
+    ";
+            
     page_tail();
 }
 

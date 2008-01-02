@@ -42,3 +42,12 @@ Charlie Jan 2 2008
     mac_build/
         Make_BOINC_Service.sh
         
+David  Jan 1 2008
+    - web: add "Find friends" link to private friends list
+    - web: in user search form, give input focus to name field
+
+    html/
+        inc/
+            user.inc
+        user/
+            user_search.php

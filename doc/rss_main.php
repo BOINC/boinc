@@ -30,7 +30,7 @@ require_once("boinc_news.php");
 // Create channel header and open XML content
 //
 $description = "BOINC project ".PROJECT.": Main page News";
-$channel_image = "http://boinc.berkeley.edu/boinc.gif";
+$channel_image = "http://boinc.berkeley.edu/www_logo.gif";
 $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
 $language = "en-us";
 echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
@@ -38,7 +38,11 @@ echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
     <channel>
         <title>BOINC</title>
         <link>http://boinc.berkeley.edu</link>
-        <description>Berkeley Open Infrastructure for Network Computing</description>
+        <description>
+            News and announcements related to
+            BOINC (Berkeley Open Infrastructure for Network Computing),
+            an open-source platform for volunteer and grid commputing.
+        </description>
         <copyright>U.C. Berkeley</copyright>
         <lastBuildDate>$create_date</lastBuildDate>
         <language>$language</language>
@@ -60,7 +64,7 @@ for( $item=0; $item < $news; $item++ ) {
         $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
         $unique_url="http://boinc.berkeley.edu/all_news.php#$j";
         echo "<item>
-            <title>Project News ".strip_tags($project_news[$item][0])."</title>
+            <title>BOINC news ".strip_tags($project_news[$item][0])."</title>
             <link>http://boinc.berkeley.edu/all_news.php#$j</link>
             <guid isPermaLink=\"true\">$unique_url</guid>
             <description><![CDATA[".strip_tags($project_news[$item][1])."]]></description>

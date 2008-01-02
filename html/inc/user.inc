@@ -256,15 +256,14 @@ function show_community_private($user) {
     }
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    $x = "<a href=user_search.php>Find friends</a><br>\n";
     if (count($friends)) {
-        $x = null;
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
             $x .= friend_links($fuser);
         }
-        row2("Friends", $x);
     }
-
+    row2("Friends", $x);
 }
 
 // show summary of dynamic and static info (public)
@@ -312,6 +311,8 @@ function community_links($user) {
             row2("This person is a friend", 
                 "<a href=friend.php?action=cancel_confirm&userid=$user->id>Cancel friendship</a>"
             );
+        } else if ($friend) {
+            row2("Friends", "<a href=friend.php?action=add&userid=$user->id>Request pending</a>");
         } else {
             row2("Friends", "<a href=friend.php?action=add&userid=$user->id>Add as friend</a>");
         }
@@ -323,7 +324,7 @@ function community_links($user) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
             $x .= friend_links($fuser);
         }
-        row2("Friends", $x);
+        row2("", $x);
     }
 
 }
