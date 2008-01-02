@@ -23,7 +23,7 @@
 ##
 # Script to set up Macintosh to run BOINC client as a daemon / service
 # by Charlie Fenton 7/26/06 
-# revised 9/2/07
+# revised 1/2/08
 ##
 
 ## Usage:
@@ -197,7 +197,7 @@ cat >> ~/boincStartupTemp/StartupParameters.plist << ENDOFFILE
 {
   Description     = "BOINC client daemon";
   Provides        = ("BOINC client daemon");
-  Requires        = ("NFS");
+  Requires        = ("Network");
   OrderPreference = "Last";
 }
 ENDOFFILE
