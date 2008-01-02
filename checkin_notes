@@ -31,10 +31,14 @@ Charlie Jan 2 2008
         idle time because the newer APIs CGSSecondsSinceLastInputEvent() 
         and CGEventSourceSecondsSinceLastEventType() don't work properly 
         when running as a daemon.
+    - Mac: Update script which sets BOINC up to run as a daemon so it 
+        works properly under OS 10.5.
         
     client/
         hostinf_unix.C
         main.C
     lib/
         hostinfo.h
+    mac_build/
+        Make_BOINC_Service.sh
         
