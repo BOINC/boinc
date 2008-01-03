@@ -69,23 +69,41 @@ create table bolt_exercise_result (
     primary key(id)
 );
 
--- represents the result of an exercise set
+-- represents the result of a completed exercise set,
+-- where "completed" means the student clicked Next on the final answer page.
+-- This is slightly redundant -
+-- it could be reconstructed from the individual exercise results -
+-- but this way makes it easier for analytics to treat exercise sets as units.
 --
-create table bolt_exercise_set_result (
+create table bolt_xset_result (
     id              integer         not null auto_increment,
+    create_time     integer         not null,
+    user_id         integer         not null,
+    course_id       integer         not null,
+    name            varchar(255)    not null,
+        -- logical name of result set unit
     score           double          not null,
     view_id         integer         not null,
         -- the answer page of last exercise in set
-    name            varchar(255)    not null,
-        -- logical name of result set unit
     primary key(id)
 );
 
+-- represents a refresh/repeat of an exercise set,
+-- either pending (not due yet),
+-- due but not started, or in progress.
+--
 create table bolt_refresh (
     id              integer         not null auto_increment,
+    create_time     integer         not null,
+    user_id         integer         not null,
+    course_id       integer         not null,
+    name            varchar(255)    not null,
+        -- logical name of result set unit
+    last_view_id    integer         not null,
+        -- if refresh is in progress, the last view
     set_result_id   integer         not null,
         -- most recent result for this set
     due_time        integer         not null,
-        -- when to trigger review
+        -- when refresh will be due
     primary key (id)
 );

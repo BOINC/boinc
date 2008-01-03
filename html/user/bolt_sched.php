@@ -75,7 +75,7 @@ function create_view($user, $course, $iter, $mode, $prev_view_id) {
 function show_finished_page($course, $view_id, $prev_view_id) {
     page_head(null);
     if (function_exists('bolt_header')) bolt_header("Course completed");
-    echo "Congratulation - you have completed this course.";
+    echo "Congratulations - you have completed this course.";
     $prev = "<a href=bolt_sched.php?course_id=$course->id&action=prev&view_id=$view_id><< Prev</a>";
     echo "
         <p>

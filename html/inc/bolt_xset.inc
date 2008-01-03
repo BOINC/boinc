@@ -15,10 +15,7 @@ class BoltExerciseSet extends BoltUnit {
 
     // the scheduler calls this when an exercise in this set
     // has just been graded.
-    // - record the score
-    // - if this is the last exercise in the set,
-    //   create exercise_set_result record
-    //   and optionally create or update bolt_refresh record
+    // - record the score in our state structure
     // - return a structure saying what navigation info to show:
     //   - review
     //   - repeat now
@@ -28,13 +25,22 @@ class BoltExerciseSet extends BoltUnit {
         $state_rec = $iter->state[$this->name];
         $number_shown = $state_rec['number_shown'];
         $state_rec['scores'][$number_shown] = $score;
-        if ($number_shown == $this->number) {
-            $is_last = false;
-            return;
+        $is_last = ($number_shown == $this->number);
+        if ($is_last) {
+        } else {
         }
-        $is_last = true;
-        BoincResult::insert("");
-        BoincRefresh::replace("");
+    }
+
+    // The user clicked "Next" on last answer page,
+    // so this exercise set is now "completed".
+    //   - create exercise_set_result record
+    //   - optionally create or update bolt_refresh record
+    //
+    function completed($score, $view_id) {
+        $now = time();
+        $id = BoincXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$this->name', $score, $view_id)");
+        $due_time = $now + 100000;
+        BoincRefresh::replace("create_time=$now, user_id=$user->id, course_id=$course->id, name='$this->name', set_result_id=$id, due_time=$due_time");
     }
 
     function walk(&$iter, $incr, &$frac_done) {

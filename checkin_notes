@@ -69,3 +69,10 @@ David  Jan 3 2008
             update_profile_pages.php
     tools/
         make_project
+
+David  Jan 3 2008
+    - web: fix broken link for profile like/don't like.
+        TODO: currently these don't do anything useful.  Fix this.
+
+    html/inc/
+        profile.inc

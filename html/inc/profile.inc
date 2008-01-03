@@ -228,11 +228,11 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
         row1("Your feedback on this profile");
         row2(
             "Recommend this profile for User of the Day:",
-            "I <a href=profile_rate.php?userid=$userid&vote=recommend>like</a> this profile"
+            "I <a href=profile_rate.php?userid=$user->id&vote=recommend>like</a> this profile"
         );
         row2(
             "Alert administrators to an offensive profile:",
-            "I <a href=profile_rate.php?userid=$userid&vote=reject>don't like</a> this profile"
+            "I <a href=profile_rate.php?userid=$user->id&vote=reject>don't like</a> this profile"
         );
     }
 }
