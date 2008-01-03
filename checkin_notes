@@ -76,3 +76,15 @@ David  Jan 3 2008
 
     html/inc/
         profile.inc
+
+David  Jan 3 2008
+    - API: on Mac, call getrusage() from timer thread
+        (since calling it from worker thread causes crashes).
+        On Linux, call getrusage() from the worker thread
+        (since calling it from the timer thread returns zero on some systems).
+    - stripcharts: make it work even if Perl is not in path (from Eric Myers)
+
+    api/
+        boinc_api.C
+    stripchart/
+        stripchart

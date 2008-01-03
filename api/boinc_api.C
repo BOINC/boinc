@@ -134,7 +134,9 @@ HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 #else
 static pthread_t timer_thread_handle;
+#ifndef __APPLE__
 static struct rusage worker_thread_ru;
+#endif
 #endif
 
 static BOINC_OPTIONS options;
@@ -200,6 +202,10 @@ double boinc_worker_thread_cpu_time() {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
+#ifdef __APPLE__
+    struct rusage worker_thread_ru;
+    getrusage(RUSAGE_SELF, &worker_thread_ru);
+#endif
     cpu = (double)worker_thread_ru.ru_utime.tv_sec
       + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
     cpu += (double)worker_thread_ru.ru_stime.tv_sec
@@ -891,7 +897,9 @@ void* timer_thread(void*) {
     block_sigalrm();
     while(1) {
         boinc_sleep(TIMER_PERIOD);
+#ifndef __APPLE__
         getrusage(RUSAGE_SELF, &worker_thread_ru);
+#endif
         timer_handler();
     }
     return 0;
