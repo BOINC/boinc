@@ -22,8 +22,12 @@ define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
 
 function profile_screening() {
-    $config = get_config();
-    return parse_bool($config, "profile_screening");
+    static $val;
+    if (!isset($val)) {
+        $config = get_config();
+        $val = parse_bool($config, "profile_screening");
+    }
+    return $val;
 }
 
 function get_profile($userid) {

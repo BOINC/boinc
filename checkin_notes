@@ -51,3 +51,21 @@ David  Jan 1 2008
             user.inc
         user/
             user_search.php
+
+David  Jan 3 2008
+    - make_project: prepend "./" to config.xml script names in case "." is not
+        in Apache's search path
+    - web: show UOTD text correctly
+    - web: memoize profile_screening() in attempt to fix out-of-memory error
+        when building profile pages on S@h
+    - web: move gallery.inc into update_profile_pages and remove it
+
+    html/
+        inc/
+            gallery.inc (removed)
+            profile.inc
+            uotd.inc
+        ops/
+            update_profile_pages.php
+    tools/
+        make_project
