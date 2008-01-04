@@ -35,7 +35,7 @@ Charlie Jan 2 2008
         works properly under OS 10.5.
         
     client/
-        hostinf_unix.C
+        hostinfo_unix.C
         main.C
     lib/
         hostinfo.h
