@@ -75,4 +75,18 @@ Do not reply to this message.
     send_email($src_user, "[".PROJECT."] friend confirmed", $message);
 }
 
+function friend_req_rss($notify, &$title, &$msg, &$url) {
+    $src_user = BoincUser::lookup_id($notify->opaque);
+    $title = "Friend request";
+    $msg = "$src_user->name has added you as a friend; please confirm or decline";
+    $url = URL_BASE."friend.php?action=query&userid=$notify->opaque";
+}
+
+function friend_accept_rss($notify, &$title, &$msg, &$url) {
+    $src_user = BoincUser::lookup_id($notify->opaque);
+    $title = "Friendship confirmation";
+    $msg = "$src_user->name has confirmed you as a friend";
+    $url = URL_BASE."home.php";
+}
+
 ?>

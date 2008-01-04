@@ -172,5 +172,13 @@ function pm_email_remind($user) {
     return "";
 }
 
+function pm_rss($notify, &$title, &$msg, &$url) {
+    $pm = BoincPrivateMessage::lookup_id($notify->opaque);
+    $from_user = BoincUser::lookup_id($pm->senderid);
+    $title = "New private message";
+    $msg = "$from_user->name sent you a private message; subject: $pm->subject";
+    $url = URL_BASE."pm.php";
+}
+
 $cvs_version_tracker[]="\$Id: pm.inc 14019 2007-11-01 23:04:39Z davea $";
 ?>

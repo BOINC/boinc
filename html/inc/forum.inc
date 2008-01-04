@@ -1077,5 +1077,11 @@ function subscribed_post_web_line($notify) {
     return "New posts in the thread <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
 }
 
+function subscribe_rss($notify, &$title, &$msg, &$url) {
+    $thread = BoincThread::lookup_id($notify->opaque);
+    $title = "New posts in subscribed thread";
+    $msg = "There are new posts in the thread '$thread->title'";
+    $url = URL_BASE."forum_thread.php?id=$thread->id";
+}
 
 ?>

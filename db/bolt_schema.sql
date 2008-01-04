@@ -57,10 +57,13 @@ create table bolt_view (
     primary key (id)
 );
 
--- represents the result of an exercise
+-- represents the result of a single exercise
 --
-create table bolt_exercise_result (
+create table bolt_result (
     id              integer         not null auto_increment,
+    create_time     integer         not null,
+    user_id         integer         not null,
+    course_id       integer         not null,
     view_id         integer         not null,
         -- the original display of exercise
     score           double          not null,

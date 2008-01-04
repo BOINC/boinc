@@ -6,6 +6,7 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
+require_once("../inc/notify.inc");
 
 function parse_project($f) {
     $p->total_credit = 0.0;
@@ -220,8 +221,9 @@ function show_community_private($user) {
     if (count($notifies)) {
         $x = "";
         foreach ($notifies as $notify) {
-            $x .= notify_description($notify)."<br>";
+            $x .= "&bull; ".notify_description($notify)."<br>";
         }
+        $x .= "<a href=".notify_rss_url($user)."><img vspace=4 border=0 src=img/rss_icon.gif alt=RSS></a>";
         row2("Notifications", $x);
     }
 

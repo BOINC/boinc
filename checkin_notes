@@ -88,3 +88,22 @@ David  Jan 3 2008
         boinc_api.C
     stripchart/
         stripchart
+
+David  Jan 4 2008
+    - web: add RSS feed for notifications
+    - make_project: disable community-related periodic tasks
+        for newly-created projects
+
+    html/
+        inc/
+            forum.inc
+            friend.inc
+            notify.inc (new)
+            pm.inc
+            user.inc
+        user/
+            img/
+                rss_icon.gif
+            sample_index.php
+    tools/
+        make_project
