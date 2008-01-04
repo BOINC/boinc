@@ -14,3 +14,11 @@ Charlie Jan 2 2008
     mac_build/
         Make_BOINC_Service.sh
         
+
+Charlie Jan 4 2008
+    - Tag for 5.10.33 release, all platforms (only Mac relase is needed)
+      boinc_core_release_5_10_33
+    
+    /
+        configure.ac
+        version.h
