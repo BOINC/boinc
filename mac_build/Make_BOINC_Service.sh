@@ -17,7 +17,7 @@
 # To view the GNU Lesser General Public License visit
 # http://www.gnu.org/copyleft/lesser.html
 # or write to the Free Software Foundation, Inc.,
-# 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
 ##
@@ -91,8 +91,9 @@
 
 ## REMOVAL:
 ## To undo the effects of this script (i.e., to permanently stop running BOINC 
-## as a daemon / service), enter the following 2 commands in Terminal (you will 
+## as a daemon / service), enter the following 3 commands in Terminal (you will 
 ## be asked to enter your administrator password) and then restart the computer:
+##   sudo launchctl stop edu.berkeley.boinc
 ##   sudo rm /Library/LaunchDaemons/edu.berkeley.boinc.plist
 ##   sudo rm /usr/local/bin/boinc
 ## The system will no longer start BOINC client as a daemon / service 
