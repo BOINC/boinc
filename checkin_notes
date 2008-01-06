@@ -108,7 +108,6 @@ David  Jan 4 2008
     tools/
         make_project
 
-
 Charlie Jan 6 2008
     - Mac Client: more idle time tweaks to allow running as a daemon by 
         using Mac OS X's launchd mechanism.  
