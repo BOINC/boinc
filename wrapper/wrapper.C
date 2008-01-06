@@ -460,8 +460,8 @@ int main(int argc, char** argv) {
     options.check_heartbeat = true;
     options.handle_process_control = true;
 
-    fprintf(stderr, "wrapper: starting\n");
     boinc_init_options(&options);
+    fprintf(stderr, "wrapper: starting\n");
     retval = parse_job_file();
     if (retval) {
         fprintf(stderr, "can't parse job file: %d\n", retval);
