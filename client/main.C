@@ -643,9 +643,6 @@ int main(int argc, char** argv) {
             break;
         }
     }
-#elif defined(__APPLE__)
-    if (getuid() == (uid_t)0)       // If the real user ID is root, we are executing as a daemon
-        gstate.executing_as_daemon = true;
 #endif
 
     init_core_client(argc, argv);
@@ -728,11 +725,6 @@ int main(int argc, char** argv) {
         return ERR_USER_PERMISSION;
     }
 #endif  // SANDBOX
-
-#ifdef __APPLE__
-        // Initialize Mac OS X idle time measurement / idle detection
-        gEventHandle = NXOpenEventStatus();
-#endif  // __APPLE__
 
     retval = boinc_main_loop();
 #endif
