@@ -300,8 +300,8 @@ language("Spanish", array(
     //site("http://boincspain.shyper.com/", "BOINC España</a>")
 ));
 language("Turkish", array(
-    site("http://www.turksetiteam.org/",
-        "www.turksetiteam.org")
+    site("http://www.turksetiteam.org/", "www.turksetiteam.org"),
+    site("http://www.boinctr.com/", "www.boinctr.com")
 ));
 language("Ukrainian", array(
     site("http://distributed.org.ua/", "Ukraine - Distributed Computing"),

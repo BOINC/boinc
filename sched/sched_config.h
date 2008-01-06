@@ -45,6 +45,7 @@ public:
     int min_sendwork_interval;
     int max_wus_to_send;
     int max_wus_in_progress;
+        // max jobs in progress on a given host (per CPU)
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
     int homogeneous_redundancy;

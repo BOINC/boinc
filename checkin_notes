@@ -125,3 +125,10 @@ David  Jan 6 2007
             util.inc
         ops/
             update_profile_pages.php
+
+David  Jan 6 2007
+    - scheduler: change <max_wus_in_progress> to be per CPU, not per host
+
+    sched/
+        sched.send.C
+        sched_config.h

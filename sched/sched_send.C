@@ -740,11 +740,11 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
 
     if (config.max_wus_in_progress) {
-        if (wreq.nresults_on_host >= config.max_wus_in_progress) {
+        if (wreq.nresults_on_host >= config.max_wus_in_progress*host.p_ncpus) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
-                "cache limit exceeded; %d > %d\n",
-                wreq.nresults_on_host, config.max_wus_in_progress
+                "cache limit exceeded; %d > %d*%d\n",
+                wreq.nresults_on_host, config.max_wus_in_progress, host.p_ncpus
             );
             wreq.cache_size_exceeded = true;
             return false;
