@@ -116,3 +116,12 @@ Charlie Jan 6 2008
     client/
         hostinfo_unix.C
         main.C
+
+David  Jan 6 2007
+    - web: bug fixes
+
+    html/
+        inc/
+            util.inc
+        ops/
+            update_profile_pages.php

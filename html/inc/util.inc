@@ -9,6 +9,7 @@ require_once("../inc/forum.inc");
 require_once("../inc/profile.inc");
 
 ini_set("memory_limit", "64M");
+date_default_timezone_set("UTC");
 
 $generating_xml = false;
 
