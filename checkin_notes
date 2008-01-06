@@ -107,3 +107,13 @@ David  Jan 4 2008
             sample_index.php
     tools/
         make_project
+
+
+Charlie Jan 6 2008
+    - Mac Client: more idle time tweaks to allow running as a daemon by 
+        using Mac OS X's launchd mechanism.  
+   - Mac: Update script which sets BOINC up to run as a daemon so it 
+
+    client/
+        hostinfo_unix.C
+        main.C

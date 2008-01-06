@@ -92,7 +92,7 @@ extern "C" {
 }    // extern "C"
 #endif
 
-NXEventHandle gEventHandle;
+NXEventHandle gEventHandle = NULL;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -861,7 +861,16 @@ inline bool all_logins_idle(time_t t) {
 bool HOST_INFO::users_idle(
     bool check_all_logins, double idle_time_to_run, double *actual_idle_time
 ) {
-    double idleTime = NXIdleTime(gEventHandle);
+    double idleTime = 0;
+    
+    if (gEventHandle) {
+       idleTime = NXIdleTime(gEventHandle);    
+    } else {
+        // Initialize Mac OS X idle time measurement / idle detection
+        // Do this here because NXOpenEventStatus() may not be available 
+        // immediately on system startup when running as a deaemon.
+        gEventHandle = NXOpenEventStatus();
+    }
     
     if (actual_idle_time) {
         *actual_idle_time = idleTime;

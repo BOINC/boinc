@@ -665,11 +665,6 @@ int main(int argc, char** argv) {
             break;
         }
     }
-#elif defined(__APPLE__)
-    // If the real user ID is root, we are executing as a daemon
-    if (getuid() == (uid_t)0) {
-        gstate.executing_as_daemon = true;
-    }
 #elif defined __EMX__
 #else
     // non-Apple Unix
@@ -753,7 +748,7 @@ int main(int argc, char** argv) {
         SetBOINCDataOwnersGroupsAndPermissions();
     }
 #endif  // _DEBUG && __APPLE__
-    int i = check_security(g_use_sandbox, false);
+    i = check_security(g_use_sandbox, false);
     if (i) {
         printf(
             "File ownership or permissions are set in a way that\n"
