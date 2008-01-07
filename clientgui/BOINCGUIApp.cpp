@@ -605,6 +605,8 @@ void CBOINCGUIApp::StartupBOINCCore() {
         wxString strExecute = wxEmptyString;
 
 #if   defined(__WXMSW__)
+        LPTSTR  szExecute = NULL;
+        LPTSTR  szDataDirectory = NULL;
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute.Printf(
@@ -624,15 +626,22 @@ void CBOINCGUIApp::StartupBOINCCore() {
         si.dwFlags = STARTF_USESHOWWINDOW;
         si.wShowWindow = SW_HIDE;
 
+        szExecute = (LPTSTR)strExecute.c_str();
+        if (GetDataDirectory().empty()) {
+            szDataDirectory = NULL;
+        } else {
+            szDataDirectory = (LPTSTR)GetDataDirectory().c_str();
+        }
+
         bProcessStarted = CreateProcess(
             NULL,
-            (LPTSTR)strExecute.c_str(),
+            szExecute,
             NULL,
             NULL,
             FALSE,
             CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
             NULL,
-            (LPTSTR)GetDataDirectory().c_str(),
+            szDataDirectory,
             &si,
             &pi
         );

@@ -148,3 +148,9 @@ David  Jan 7 2007
 
     tools/
         backend_lib.C
+
+Rom    Jan 7 2007
+    - Empty strings cause CreateProcess to fail on parameter checks.
+    
+    clientgui/
+        BOINCGUIApp.cpp
