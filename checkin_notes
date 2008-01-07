@@ -111,11 +111,15 @@ David  Jan 4 2008
 Charlie Jan 6 2008
     - Mac Client: more idle time tweaks to allow running as a daemon by 
         using Mac OS X's launchd mechanism.  
-   - Mac: Update script which sets BOINC up to run as a daemon so it 
+    - Mac Installer: if system is set up to run BOINC Client as a daemon 
+        using launchd, use launchctl to launch newly installed Client as 
+        a daemon.
 
     client/
         hostinfo_unix.C
         main.C
+    mac_installer/
+        PostInstall.cpp
 
 David  Jan 6 2007
     - web: bug fixes

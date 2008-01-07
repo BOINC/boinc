@@ -352,9 +352,16 @@ int DeleteReceipt()
         err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
     }
 
-    if (finalInstallAction == launchWhenDone)
-        if (err_fsref == noErr)
+    if (finalInstallAction == launchWhenDone) {
+        if (err_fsref == noErr) {
+            // If system is set up to run BOINC Client as a daemon using launchd, launch it 
+            //  as a daemon and allow time for client to start before launching BOINC Manager.
+            system("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist");
+            i = system("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
+            if (i == 0) sleep (2);
             err = LSOpenFSRef(&fileRef, NULL);
+        }
+    }
 
     return 0;
 }
