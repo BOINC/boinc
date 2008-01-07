@@ -8,18 +8,18 @@ if (!$log_dir) {
     exit("Error: couldn't get log_dir from config file.");
 }
 
-if( isset($_GET!["f"]) ){
-   $f = $_GET!["f"];
+if( isset($_GET["f"]) ){
+   $f = $_GET["f"];
 } else {
    $f = "";
 }
-if( isset($_GET!["s"]) ){
-    $s = $_GET!["s"];
+if( isset($_GET["s"]) ){
+    $s = $_GET["s"];
 } else {
     $s = "";
 }
-if( isset($_GET!["l"]) ){
-    $l = (int)$_GET!["l"];
+if( isset($_GET["l"]) ){
+    $l = (int)$_GET["l"];
 } else {
     $l = 0;
 }

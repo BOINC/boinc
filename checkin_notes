@@ -159,3 +159,12 @@ David  Jan 7 2007
     - API: fix to changeset 14462: I put the getrusage() in the wrong place
     api/
         boinc_api.C
+
+David  Jan 7 2007
+    - small web fixes; fixes #421
+    html/
+        ops/
+            show_log.php
+            manage_user.php
+        inc/
+            util_ops.inc

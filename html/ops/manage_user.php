@@ -265,7 +265,7 @@ if($delete_problem){
 }
 
 show_user_summary_public($user);
-show_profile_link($user);
+show_profile_link_ops($user);
 if( $is_admin ) {
     row2("E-mail:", "$user->email_addr");
 }

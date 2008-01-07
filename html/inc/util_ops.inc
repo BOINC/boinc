@@ -63,4 +63,12 @@ function c_row2($color, $x, $y) {
     echo "<tr bgcolor=\"$color\"><td align=\"right\">$x</td><td>$y</td></tr>\n";
 }
 
+function show_profile_link_ops($user) {
+    if ($user->has_profile) { 
+        row2("Profile",
+            "<a href=\"".URL_BASE."view_profile.php?userid=$user->id\">View</a>"
+        );
+    }
+}
+
 ?>
