@@ -39,4 +39,4 @@ Charlie Jan 6 2008
     mac_build/
         Make_BOINC_Service.sh
     mac_installer/
-        PostInstal.cpp
+        PostInstall.cpp
