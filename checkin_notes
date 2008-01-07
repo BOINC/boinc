@@ -142,3 +142,9 @@ David  Jan 7 2007
 
     html/inc/
         countries.inc
+
+David  Jan 7 2007
+    - XML fix in backend lib
+
+    tools/
+        backend_lib.C

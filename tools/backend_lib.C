@@ -206,7 +206,7 @@ static int process_wu_template(
                         sprintf(buf,
                             "    <name>%s</name>\n"
                             "    <generated_locally/>\n"
-                            "</file_info>/n",
+                            "</file_info>\n",
                             infiles[file_number]
                         );
                     } else {
