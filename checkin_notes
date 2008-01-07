@@ -136,3 +136,9 @@ David  Jan 6 2007
     sched/
         sched.send.C
         sched_config.h
+
+David  Jan 7 2007
+    - Added Isle of Man to country list
+
+    html/inc/
+        countries.inc
