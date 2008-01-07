@@ -897,9 +897,6 @@ void* timer_thread(void*) {
     block_sigalrm();
     while(1) {
         boinc_sleep(TIMER_PERIOD);
-#ifndef __APPLE__
-        getrusage(RUSAGE_SELF, &worker_thread_ru);
-#endif
         timer_handler();
     }
     return 0;
@@ -910,6 +907,9 @@ void* timer_thread(void*) {
 // It must call only signal-safe functions, and must not do FP math
 //
 void worker_signal_handler(int) {
+#ifndef __APPLE__
+    getrusage(RUSAGE_SELF, &worker_thread_ru);
+#endif
     if (options.direct_process_action) {
         while (boinc_status.suspended && !in_critical_section) {
             sleep(1);   // don't use boinc_sleep() because it does FP math
