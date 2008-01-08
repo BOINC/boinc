@@ -23,12 +23,15 @@
 ##
 # Script to set up Macintosh to run BOINC client as a daemon / service
 # by Charlie Fenton 7/26/06 
-# revised 1/2/08
+# revised 1/6/08 to use launchd
+##
+## Note: this version of this script requires BOINC 5.10.34 or later 
+## and OS 10.4 or later.  
 ##
 
 ## Usage:
 ##
-## source Make_BOINC_Service.sh [path_to_client_dir/] [path_to_data_dir/]
+## source Make_BOINC_Service.sh [path_to_client_dir] [path_to_data_dir]
 ##
 ## path_to_client_dir is needed only for stand-alone client or if Manager
 ##  is at non-standard location.
@@ -46,12 +49,12 @@
 ## (4) In the Terminal window, type "source" and a space.
 ## (5) Drag this script file from the Finder into the Terminal window.
 ## (6) If using the stand-alone client, or if the Manager is in a non-
-##     standard location, drag the folder containing the client  from 
-##     the Finder into the Terminal window (or type the path including 
+##     standard location, drag the folder containing the client from 
+##     the Finder into the Terminal window (or type the path excluding 
 ##     the trailing slash).
 ## (7) If using the stand-alone client, but the client is not in the data 
 ##     directory, drag the BOINC data folder from the Finder into the 
-##     Terminal window (or type the path including the trailing slash).
+##     Terminal window (or type the path excluding the trailing slash).
 ## (8) Press the return key.
 ## (9) When prompted, enter your administrator password.
 ## (10) Restart the computer.
@@ -63,26 +66,44 @@
 ## no user is logged in.
 ##
 ## Note: the BOINC ScreenSaver may not display graphics for some users 
-## when BOINC Client is running as a daemon / service.  We hope to fix 
-## this in the near future.
+## when BOINC Client is running as a daemon / service.  Thus will be 
+## fixed with the release of BOINC 6.0 and project applications updated
+## to use the BOINC 6 graphics API.
 ##
 
-## Removal (to stop running BOINC as a daemon / service):
-## (1) In the Finder, browse to the /Library/StartupItems folder.
-## (2) Drag the boinc directory to the trash.  (Finder will ask for 
-##     your administrator user name and password).
+##
+## When the system has launched BOINC Client as a daemon, you can stop the 
+## BOINC Client from the Terminal by typing:
+##   sudo launchctl stop edu.berkeley.boinc
+## and you can restart the BOINC Client from the Terminal by typing:
+##   sudo launchctl start edu.berkeley.boinc
+##
+## Note: The BOINC Client will quit immediately after launch if it detects 
+## another instance of BOINC Client already running.  So these launchctl 
+## commands will fail if the BOINC Client was started by the BOINC Manager 
+## or ScreenSaver.
+##
+## If BOINC Client is not already running when the BOINC Manager is launched, 
+## the Manager will start BOINC Client.  This will happen automatically at 
+## login if you have BOINC Manager set as a login item for that user.  If 
+## it was started by the Manager, then BOINC Client will quit when the BOINC 
+## Manager quits.
+##
+## If BOINC Client is not already running when the BOINC ScreenSaver starts, 
+## the ScreenSaver will start BOINC Client and will quit BOINC Client when 
+## the ScreenSaver is dismissed.
+##
+
+## REMOVAL:
+## To undo the effects of this script (i.e., to permanently stop running BOINC 
+## as a daemon / service):
+## (1) In the Finder, browse to the /Library/LaunchDaemons folder.
+## (2) Drag the file edu.berkeley.boinc.plist to the trash.  (Finder will ask 
+##     for your administrator user name and password).
 ## (3) Restart the computer.
 ##
 ## The system will no longer start BOINC client as a daemon / service 
-## at system startup.  
-##
-## Running BOINC Manager will star BOINC Client.  This will happen 
-## automatically at login if you have BOINC Manager set as a login item 
-## for that user.  BOINC Client will quit when the BOINC Manager quits.
-##
-## If BOINC Client is not already running when the BOINC ScreenSaver 
-## starts, the ScreenSaver will start BOINC Client and will quit 
-## BOINC Client when the ScreenSaver is dismissed.
+## at system startup.   
 ##
 ## If you wish to completely remove BOINC from your computer, first 
 ## complete the above steps, then follow the directions in the web 
@@ -91,10 +112,10 @@
 ##
 
 if [ $# -eq 0 ] ; then
-    PATH_TO_CLIENT="/Applications/BOINCManager.app/Contents/Resources/"
-    PATH_TO_DATA="/Library/Application Support/BOINC Data/"
+    PATH_TO_CLIENT="/Applications/BOINCManager.app/Contents/Resources"
+    PATH_TO_DATA="/Library/Application Support/BOINC Data"
     # Check for BOINC Manager with embedded BOINC Client
-    if [ ! -f "${PATH_TO_CLIENT}boinc" ]; then
+    if [ ! -f "${PATH_TO_CLIENT}/boinc" ]; then
         echo "  ***************************** ERROR ***************************"
         echo "  *                                                             *"
         echo "  *   Could not find BOINC Manager with embedded BOINC client   *"
@@ -109,7 +130,7 @@ else
     PATH_TO_CLIENT="$1"
     PATH_TO_DATA="$1"
     # Check for stand-alone BOINC Client
-    if [ ! -f "${PATH_TO_CLIENT}boinc" ]; then
+    if [ ! -f "${PATH_TO_CLIENT}/boinc" ]; then
         echo "  ***************************** ERROR ***************************"
         echo "  *                                                             *"
         echo "  *   Could not find BOINC client at specified directory        *"
@@ -135,82 +156,51 @@ if [ ! -d "${PATH_TO_DATA}" ]; then
     return 1
 fi
 
-# Create /Library/StartupItems/boinc/ directory if necessary
-if [ ! -d /Library/StartupItems/boinc ]; then
-    sudo mkdir -p /Library/StartupItems/boinc
-fi
+# Delete the old-style boinc daemon StartupItem if present
+sudo rm -fR /Library/StartupItems/boinc
 
 # Delete old temporary working directory and files if present
-rm -f ~/boincStartupTemp/
+rm -fR ~/boincStartupTemp
 # Create new temporary working directory
 mkdir -p ~/boincStartupTemp/
 
-# Create the shell script to start BOINC client in temporary directory
-# (For some reason, we can't create the files directly in the final 
-# destination directory, so we create them here and them move them.)
-cat >> ~/boincStartupTemp/boinc << ENDOFFILE
-#!/bin/sh
-
-##
-# Start BOINC client as a daemon
-##
-
-. /etc/rc.common
-
-StartService ()
-{
-    if [ -x "${PATH_TO_CLIENT}boinc" ]; then
-       if [ -d "/Library/Application Support/BOINC Data" ]; then 
-            ConsoleMessage "Starting BOINC client"
-            "${PATH_TO_CLIENT}boinc" -redirectio -daemon -dir "${PATH_TO_DATA}" &
-            echo \$! > /var/run/boinc.pid
-        fi
-    fi
-}
-
-StopService ()
-{
-    if pid=\$(GetPID boinc); then
-	echo  PID = "\${pid}"
-        ConsoleMessage "Stopping BOINC client"
-	kill -TERM "\${pid}"
-    fi
-
-    if [ -e /var/run/boinc.pid ]; then
-	rm /var/run/boinc.pid
-    fi
-    return 0
-}
-
-RestartService ()
-{
-    return 0
-}
-
-RunService "\$1"
-
+# Create file edu.berkeley.boinc.plist in temporary directory.
+# (For some reason, we can't create the file directly in the final 
+# destination directory, so we create it here and then move it.)
+cat >> ~/boincStartupTemp/edu.berkeley.boinc.plist << ENDOFFILE
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GroupName</key>
+	<string>boinc_master</string>
+	<key>Label</key>
+	<string>edu.berkeley.boinc</string>
+	<key>Program</key>
+	<string>${PATH_TO_CLIENT}/boinc</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>${PATH_TO_CLIENT}/boinc</string>
+		<string>-redirectio</string>
+		<string>-daemon</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>UserName</key>
+	<string>boinc_master</string>
+	<key>WorkingDirectory</key>
+	<string>${PATH_TO_DATA}/</string>
+</dict>
+</plist>
 ENDOFFILE
 
-
-# Create the BOINC StartupParameters.plist file in temporary directory
-cat >> ~/boincStartupTemp/StartupParameters.plist << ENDOFFILE
-{
-  Description     = "BOINC client daemon";
-  Provides        = ("BOINC client daemon");
-  Requires        = ("Network");
-  OrderPreference = "Last";
-}
-ENDOFFILE
-
-sudo mv -f ~/boincStartupTemp/boinc /Library/StartupItems/boinc/boinc
-
-sudo mv -f ~/boincStartupTemp/StartupParameters.plist /Library/StartupItems/boinc/StartupParameters.plist
+sudo mv -f ~/boincStartupTemp/edu.berkeley.boinc.plist /Library/LaunchDaemons/
 
 # Delete temporary working directory
-rm -fR ~/boincStartupTemp/
+rm -fR ~/boincStartupTemp
 
-# Set ownership and permissions as needed
-sudo chmod +x /Library/StartupItems/boinc/boinc
-sudo chown -R root:wheel /Library/StartupItems/boinc
+# Set ownership and permissions for our plist
+sudo chown root:wheel /Library/LaunchDaemons/edu.berkeley.boinc.plist
+sudo chmod 0444 /Library/LaunchDaemons/edu.berkeley.boinc.plist
 
 return 0

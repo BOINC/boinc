@@ -197,6 +197,11 @@ David  Jan 7 2007
 Charlie Jan 7 2008
     - Mac MGR: if using Mac OS X's launchd mechanism to run Client as a daemon,
         allow time for daemon to launch.  
+    - Mac: Update script which sets BOINC up to run as a daemon so it 
+        uses Mac OS X's launchd mechanism.  This requires BOINC version 
+        5.10.34 or later and Mac OS 10.4 or later.
 
     clientgui/
         BOINCGUIApp.cpp,h
+    mac_build/
+        Make_BOINC_Service.sh
