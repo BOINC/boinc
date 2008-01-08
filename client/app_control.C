@@ -24,6 +24,13 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#ifndef STATUS_SUCCESS
+#define STATUS_SUCCESS 0x0                 // may be in ntstatus.h
+#endif
+#ifndef STATUS_DLL_INIT_FAILED
+#define STATUS_DLL_INIT_FAILED 0xC0000142  // may be in ntstatus.h
+#endif
+
 #else
 #include "config.h"
 
@@ -48,14 +55,6 @@
 #include <sys/wait.h>
 #endif
 
-#endif
-
-#ifndef STATUS_SUCCESS
-#define STATUS_SUCCESS 0x0                             // ntstatus.h: STATUS_SUCCESS
-#endif
-
-#ifndef STATUS_DLL_INIT_FAILED
-#define STATUS_DLL_INIT_FAILED 0xC0000142              // ntstatus.h: STATUS_DLL_INIT_FAILED
 #endif
 
 using std::vector;
@@ -270,37 +269,47 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         close_process_handles();
         result->exit_status = exit_code;
         switch(exit_code) {
-            case STATUS_SUCCESS:
-            case STATUS_DLL_INIT_FAILED:
-                // These conditions can happen for a number of reasons.
-                //   1. External application terminated the science applicaton
-                //   2. The OS is shutting down and so attempting to start
-                //      any new application fails automatically.
-                //   3. The OS has run out of desktop heap and needs to be
-                //      rebooted.
-                handle_exit_external(will_restart);
-                break;
-            default:
-                char szError[1024];
+        case STATUS_SUCCESS:
+            // if another process killed the app, it looks like exit(0).
+            // So check for the finish file
+            //
+            if (finish_file_present()) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
-                gstate.report_result_error(
-                    *result,
-                    "%s - exit code %d (0x%x)",
-                    windows_format_error_string(exit_code, szError, sizeof(szError)),
-                    exit_code, exit_code
-                );
-			    if (log_flags.task_debug) {
-				    msg_printf(result->project, MSG_INFO,
-					    "[task_debug] Process for %s exited",
-                        result->name
-                    );
-				    msg_printf(result->project, MSG_INFO,
-					    "[task_debug] exit code %d (0x%x): %s",
-					    exit_code, exit_code,
-					    windows_format_error_string(exit_code, szError, sizeof(szError))
-				    );
-			    }
                 break;
+            }
+            handle_premature_exit(will_restart);
+            break;
+        case 0xc000013a:        // control-C??
+        case 0x40010004:        // vista shutdown?? can someone explain this?
+        case STATUS_DLL_INIT_FAILED:
+            // This can happen because:
+            // - The OS is shutting down, so attempting to start
+            // any new application fails automatically.
+            // - The OS has run out of desktop heap
+            //
+            handle_premature_exit(will_restart);
+            break;
+        default:
+            char szError[1024];
+            set_task_state(PROCESS_EXITED, "handle_exited_app");
+            gstate.report_result_error(
+                *result,
+                "%s - exit code %d (0x%x)",
+                windows_format_error_string(exit_code, szError, sizeof(szError)),
+                exit_code, exit_code
+            );
+		    if (log_flags.task_debug) {
+			    msg_printf(result->project, MSG_INFO,
+				    "[task_debug] Process for %s exited",
+                    result->name
+                );
+			    msg_printf(result->project, MSG_INFO,
+				    "[task_debug] exit code %d (0x%x): %s",
+				    exit_code, exit_code,
+				    windows_format_error_string(exit_code, szError, sizeof(szError))
+			    );
+		    }
+            break;
         }
 #else
         if (WIFEXITED(stat)) {
