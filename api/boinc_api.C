@@ -55,6 +55,12 @@ using namespace std;
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
+#define GETRUSAGE_IN_TIMER_THREAD
+    // call getrusage() in the timer thread,
+    // rather than in the worker thread's signal handler
+    // (which can cause crashes on Mac)
+    // If you want, you can set this for Linux too:
+    // CPPFLAGS=-DGETRUSAGE_IN_TIMER_THREAD
 #endif
 
 // Implementation notes:
@@ -134,7 +140,7 @@ HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 #else
 static pthread_t timer_thread_handle;
-#ifndef __APPLE__
+#ifndef GETRUSAGE_IN_TIMER_THREAD
 static struct rusage worker_thread_ru;
 #endif
 #endif
@@ -202,7 +208,7 @@ double boinc_worker_thread_cpu_time() {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
-#ifdef __APPLE__
+#ifdef GETRUSAGE_IN_TIMER_THREAD
     struct rusage worker_thread_ru;
     getrusage(RUSAGE_SELF, &worker_thread_ru);
 #endif
@@ -244,11 +250,13 @@ double boinc_worker_thread_cpu_time() {
     return cpu;
 }
 
-// communicate to the core client (via shared mem)
-// the current CPU time and fraction done
+// Communicate to the core client (via shared mem)
+// the current CPU time and fraction done.
 // NOTE: various bugs could cause some of these FP numbers to be enormous,
 // possibly overflowing the buffer.
 // So use strlcat() instead of strcat()
+//
+// This is called only from the timer thread (so no need for synch)
 //
 static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
@@ -405,26 +413,11 @@ static void send_trickle_up_msg() {
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
-// This function can be called from any thread. (Timer, Worker, and Graphics)
-//
 int boinc_finish(int status) {
-    if (options.send_status_msgs) {
-        double total_cpu;
-        total_cpu = boinc_worker_thread_cpu_time();
-        total_cpu += initial_wu_cpu_time;
-        fraction_done = 1;
+    fraction_done = 1;
+    boinc_sleep(2.0);   // let the timer thread send final messages
+    g_sleep = true;     // then disable it
 
-        // NOTE: the app_status slot may already contain a message.
-        // So retry a couple of times.
-        //
-        for (int i=0; i<3; i++) {
-            if (update_app_progress(total_cpu, total_cpu)) break;
-            boinc_sleep(1.0);
-        }
-    }
-    if (options.handle_trickle_ups) {
-        send_trickle_up_msg();
-    }
     if (options.main_program && status==0) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
         if (f) fclose(f);
@@ -803,8 +796,7 @@ void graphics_cleanup() {
     if (ga_win.is_running()) ga_win.kill();
 }
 
-// once-a-second timer.
-// Runs in a separate thread (not the worker thread)
+// timer handler; runs in the timer thread
 //
 static void timer_handler() {
     if (g_sleep) return;
@@ -907,7 +899,7 @@ void* timer_thread(void*) {
 // It must call only signal-safe functions, and must not do FP math
 //
 void worker_signal_handler(int) {
-#ifndef __APPLE__
+#ifndef GETRUSAGE_IN_TIMER_THREAD
     getrusage(RUSAGE_SELF, &worker_thread_ru);
 #endif
     if (options.direct_process_action) {
@@ -1021,9 +1013,6 @@ int boinc_checkpoint_completed() {
     cur_cpu = boinc_worker_thread_cpu_time();
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
-    if (options.send_status_msgs) {
-        update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);
-    }
     time_until_checkpoint = (int)aid.checkpoint_period;
     in_critical_section = false;
     ready_to_checkpoint = false;

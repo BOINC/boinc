@@ -121,7 +121,7 @@ Charlie Jan 6 2008
     mac_installer/
         PostInstall.cpp
 
-David  Jan 6 2007
+David  Jan 6 2008
     - web: bug fixes
 
     html/
@@ -130,37 +130,37 @@ David  Jan 6 2007
         ops/
             update_profile_pages.php
 
-David  Jan 6 2007
+David  Jan 6 2008
     - scheduler: change <max_wus_in_progress> to be per CPU, not per host
 
     sched/
         sched.send.C
         sched_config.h
 
-David  Jan 7 2007
+David  Jan 7 2008
     - Added Isle of Man to country list
 
     html/inc/
         countries.inc
 
-David  Jan 7 2007
+David  Jan 7 2008
     - XML fix in backend lib
 
     tools/
         backend_lib.C
 
-Rom    Jan 7 2007
+Rom    Jan 7 2008
     - Empty strings cause CreateProcess to fail on parameter checks.
     
     clientgui/
         BOINCGUIApp.cpp
 
-David  Jan 7 2007
+David  Jan 7 2008
     - API: fix to changeset 14462: I put the getrusage() in the wrong place
     api/
         boinc_api.C
 
-David  Jan 7 2007
+David  Jan 7 2008
     - small web fixes; fixes #421
     html/
         ops/
@@ -169,7 +169,7 @@ David  Jan 7 2007
         inc/
             util_ops.inc
 
-David  Jan 7 2007
+David  Jan 7 2008
     - web: if user A is ignoring user B,
         don't accept a friend request from B to A
     - boinc_cmd: --help fix
@@ -179,7 +179,19 @@ David  Jan 7 2007
     lib/
         boinc_cmd.C
 
-David  Jan 7 2007
+Charlie Jan 7 2008
+    - Mac MGR: if using Mac OS X's launchd mechanism to run Client as a daemon,
+        allow time for daemon to launch.  
+    - Mac: Update script which sets BOINC up to run as a daemon so it 
+        uses Mac OS X's launchd mechanism.  This requires BOINC version 
+        5.10.34 or later and Mac OS 10.4 or later.
+
+    clientgui/
+        BOINCGUIApp.cpp,h
+    mac_build/
+        Make_BOINC_Service.sh
+
+David  Jan 7 2008
     - web: add "Mark all threads as read" button to Help Desk (fixes #531)
     - add "self" link to RSS notify feed
     - web: if fail to send email, don't show error message
@@ -194,14 +206,17 @@ David  Jan 7 2007
             forum_index.php
             notify_rss.php
 
-Charlie Jan 7 2008
-    - Mac MGR: if using Mac OS X's launchd mechanism to run Client as a daemon,
-        allow time for daemon to launch.  
-    - Mac: Update script which sets BOINC up to run as a daemon so it 
-        uses Mac OS X's launchd mechanism.  This requires BOINC version 
-        5.10.34 or later and Mac OS 10.4 or later.
+David  Jan 8 2008
+    - API: call update_app_progress() only from the timer thread.
+        Previously it was called from both timer and worker thread,
+        with no synchronization.  Bad.
+        boinc_finish(): sleep for 2 seconds, enough to ensure that
+        the timer thread sends the final messages.
+    - API: a compile flag GETRUSAGE_IN_TIMER_THREAD selects
+        how to get CPU time; by default set only for Mac OS X
+    - scheduler: cap #CPUs scaling for <max_wus_per_host> at 8
 
-    clientgui/
-        BOINCGUIApp.cpp,h
-    mac_build/
-        Make_BOINC_Service.sh
+    api/
+        boinc_api.C
+    sched/
+        sched_send.C

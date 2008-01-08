@@ -72,7 +72,7 @@ const char* infeasible_string(int code) {
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 const int MAX_CPUS = 8;
-    // max multiplier for daily_result_quota;
+    // max multiplier for daily_result_quota and max_wus_in_progress;
     // need to change as multicore processors expand
 
 const double DEFAULT_RAM_SIZE = 64000000;
@@ -720,18 +720,21 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
 
-    // config.daily_result_quota is PER CPU (up to max of MAX_CPUS CPUs)
+    // daily quota and max jobs per host are scaled by #CPUs,
+    // but only up to MAX_CPUs (currently 8)
+    //
+    int ncpus = host.p_ncpus;
+    if (ncpus > MAX_CPUS) ncpus = MAX_CPUS;
+    if (ncpus < 1) ncpus = 1;
+
     // host.max_results_day is between 1 and config.daily_result_quota inclusive
-    // wreq.daily_result_quota is between ncpus and ncpus*host.max_results_day inclusive
+    // wreq.daily_result_quota is between ncpus
+    // and ncpus*host.max_results_day inclusive
+    //
     if (config.daily_result_quota) {
         if (host.max_results_day == 0 || host.max_results_day>config.daily_result_quota) {
             host.max_results_day = config.daily_result_quota;
         }
-        // scale daily quota by #CPUs, up to a limit of MAX_CPUS 4
-        //
-        int ncpus = host.p_ncpus;
-        if (ncpus > MAX_CPUS) ncpus = MAX_CPUS;
-        if (ncpus < 1) ncpus = 1;
         wreq.daily_result_quota = ncpus*host.max_results_day;
         if (host.nresults_today >= wreq.daily_result_quota) {
             wreq.daily_result_quota_exceeded = true;
@@ -740,11 +743,11 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
 
     if (config.max_wus_in_progress) {
-        if (wreq.nresults_on_host >= config.max_wus_in_progress*host.p_ncpus) {
+        if (wreq.nresults_on_host >= config.max_wus_in_progress*ncpus) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "cache limit exceeded; %d > %d*%d\n",
-                wreq.nresults_on_host, config.max_wus_in_progress, host.p_ncpus
+                wreq.nresults_on_host, config.max_wus_in_progress, ncpus
             );
             wreq.cache_size_exceeded = true;
             return false;
