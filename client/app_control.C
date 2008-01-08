@@ -24,6 +24,13 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#ifndef STATUS_SUCCESS
+#define STATUS_SUCCESS 0x0                 // may be in ntstatus.h
+#endif
+#ifndef STATUS_DLL_INIT_FAILED
+#define STATUS_DLL_INIT_FAILED 0xC0000142  // may be in ntstatus.h
+#endif
+
 #else
 #include "config.h"
 
@@ -48,14 +55,6 @@
 #include <sys/wait.h>
 #endif
 
-#endif
-
-#ifndef STATUS_SUCCESS
-#define STATUS_SUCCESS 0x0                             // ntstatus.h: STATUS_SUCCESS
-#endif
-
-#ifndef STATUS_DLL_INIT_FAILED
-#define STATUS_DLL_INIT_FAILED 0xC0000142              // ntstatus.h: STATUS_DLL_INIT_FAILED
 #endif
 
 using std::vector;
@@ -266,6 +265,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
             handle_premature_exit(will_restart);
             break;
+        case 0xc000013a:        // control-C??
+        case 0x40010004:        // vista shutdown?? can someone explain this?
         case STATUS_DLL_INIT_FAILED:
             // This can happen because:
             // - The OS is shutting down, so attempting to start

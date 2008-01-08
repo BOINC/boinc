@@ -220,3 +220,11 @@ David  Jan 8 2008
         boinc_api.C
     sched/
         sched_send.C
+
+David  Jan 8 2008
+    - client, Win: check for two process exit codes (0x40010004 and 0xc000013a)
+        that appear to happen when the process is killed externally;
+        seems to happen mostly or entirely on Vista
+        
+    client/
+        app_control.C
