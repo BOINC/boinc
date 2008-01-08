@@ -168,3 +168,13 @@ David  Jan 7 2007
             manage_user.php
         inc/
             util_ops.inc
+
+David  Jan 7 2007
+    - web: if user A is ignoring user B,
+        don't accept a friend request from B to A
+    - boinc_cmd: --help fix
+
+    html/user
+        friend.php
+    lib/
+        boinc_cmd.C

@@ -29,6 +29,13 @@ function check_pending($user, $destuser) {
     }
 }
 
+function check_ignoring($srcuser, $destuser) {
+    BoincForumPrefs::lookup($destuser);
+    if (is_ignoring($destuser, $srcuser)) {
+        error_page("$destuser->name is not accepting friendship requests from you");
+    }
+}
+
 // user has clicked "add to friends".  Ask them if they really mean it.
 //
 function handle_add($user) {
@@ -40,6 +47,7 @@ function handle_add($user) {
     if (!$destuser) error_page("No such user");
 
     check_pending($user, $destuser);
+    check_ignoring($user, $destuser);
 
     page_head("Add friend");
     echo "
@@ -68,6 +76,7 @@ function handle_add_confirm($user) {
     if (!$destuser) error_page("No such user");
 
     check_pending($user, $destuser);
+    check_ignoring($user, $destuser);
 
     $msg = post_str('message', true);
     if ($msg) $msg = strip_tags(process_user_text($msg));

@@ -96,7 +96,6 @@ Commands:\n\
  --quit\n\
  --read_cc_config\n\
  --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
- --acct_mgr_rpc URL name password   communicate with current account manager\n\
  --get_project_config URL\n\
  --get_project_config_poll\n\
  --network_available\n\
