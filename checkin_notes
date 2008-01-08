@@ -40,3 +40,10 @@ Charlie Jan 6 2008
         Make_BOINC_Service.sh
     mac_installer/
         PostInstall.cpp
+
+Charlie Jan 7 2008
+    - Mac MGR: if using Mac OS X's launchd mechanism to run Client as a daemon,
+        allow time for daemon to launch.  
+
+    clientgui/
+        BOINCGUIApp.cpp,h
