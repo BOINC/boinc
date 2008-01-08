@@ -66,3 +66,12 @@ David  Jan 8 2008
         
     client/
         app_control.C
+
+Rom    Jan 8 2008
+    - Tag for 5.10.35 release, all platforms
+      boinc_core_release_5_10_35
+
+    /
+        configure.ac
+        version.h
+
