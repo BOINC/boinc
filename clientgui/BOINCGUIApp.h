@@ -73,6 +73,7 @@ protected:
     CTaskBarIcon*       m_pTaskBarIcon;
 #ifdef __WXMAC__
     CMacSystemMenu*     m_pMacSystemMenu;
+    bool                m_bClientRunningAsDaemon;
 #endif
 
     bool                m_bBOINCStartedByManager;

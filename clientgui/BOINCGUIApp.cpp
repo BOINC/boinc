@@ -86,6 +86,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pTaskBarIcon = NULL;
 #ifdef __WXMAC__
     m_pMacSystemMenu = NULL;
+    m_bClientRunningAsDaemon = false;
     printf("Using %s.\n", wxVERSION_STRING);    // For debugging
 #endif
     m_bGUIVisible = true;
@@ -360,10 +361,11 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
     // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
     // unresponsive to mouse clicks if we create it before connecting to the Client.
-    bool running_as_daemon = boinc_file_exists("/Library/StartupItems/boinc/boinc") && 
-                        (TickCount() < (120*60));     // If system has been up for less than 2 minutes
-
-    if (running_as_daemon) StartupBOINCCore();
+    bool m_bClientRunningAsDaemon = (TickCount() < (120*60)) &&    // If system has been up for less than 2 minutes 
+         ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist") ||  // New-style daemon uses launchd
+            boinc_file_exists("/Library/StartupItems/boinc/boinc") );           // Old-style daemon uses StartupItem
+ 
+    if (m_bClientRunningAsDaemon) StartupBOINCCore();
 #endif
 
     // Initialize the task bar icon
@@ -384,7 +386,7 @@ bool CBOINCGUIApp::OnInit() {
     ClientLibraryStartup();
 
 #ifdef __WXMAC__
-    if (! running_as_daemon)
+    if (! m_bClientRunningAsDaemon)
 #endif
         StartupBOINCCore();
 
@@ -577,15 +579,13 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     
 #elif defined __WXMAC__
     // If set up to run as a daemon, allow time for daemon to start up
-    bool waitfordaemon = boinc_file_exists("/Library/StartupItems/boinc/boinc") && 
-                        (TickCount() < (120*60));     // If system has been up for less than 2 minutes
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
         retval = rpc.get_host_info(hostinfo);
         running = (retval == 0);
         rpc.close();
         if (running) break;
-        if (! waitfordaemon) break;
+        if (! m_bClientRunningAsDaemon) break;
         sleep(1);
     }
 #else
