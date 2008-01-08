@@ -94,9 +94,10 @@ Commands:\n\
  --create_account url email passwd name\n\
  --read_global_prefs_override\n\
  --read_cc_config\n\
+ --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
+ --acct_mgr_rpc URL name password   communicate with current account manager\n\
  --network_available\n\
  --get_cc_status\n\
- --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
  --quit\n"
 );
     exit(1);

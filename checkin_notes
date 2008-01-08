@@ -52,3 +52,9 @@ Charlie Jan 7 2008
     /
         configure.ac
         version.h
+
+David  Jan 7 2007
+    - boinc_cmd: --help fix
+
+    lib/
+        boinc_cmd.C
