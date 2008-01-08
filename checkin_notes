@@ -178,3 +178,18 @@ David  Jan 7 2007
         friend.php
     lib/
         boinc_cmd.C
+
+David  Jan 7 2007
+    - web: add "Mark all threads as read" button to Help Desk (fixes #531)
+    - add "self" link to RSS notify feed
+    - web: if fail to send email, don't show error message
+        (might reveal recipient's email addr)
+
+    html/
+        inc/
+            email.inc
+            forum.inc
+        user/
+            forum_help_desk.php
+            forum_index.php
+            notify_rss.php

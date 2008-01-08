@@ -1084,4 +1084,13 @@ function subscribe_rss($notify, &$title, &$msg, &$url) {
     $url = URL_BASE."forum_thread.php?id=$thread->id";
 }
 
+function show_mark_as_read_button($user) {
+    if ($user) {
+        $return = urlencode(current_url());
+        $tokens = url_tokens($user->authenticator);
+        $url = "forum_index.php?read=1$tokens&return=$return";
+        show_button($url, "Mark all threads as read", "Mark all threads in all message boards as 'read'.");
+    }
+}
+
 ?>

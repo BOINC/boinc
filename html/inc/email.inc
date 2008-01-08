@@ -40,7 +40,7 @@ function send_email($user, $subject, $body, $body_html=null) {
         $mail->Host = $PHPMAILER_HOST;
         $mail->Mailer = $PHPMAILER_MAILER;
         if (!$mail->Send()) {
-            echo $mail->ErrorInfo;
+            //echo $mail->ErrorInfo;
             return false;
         } else {
             return true;
