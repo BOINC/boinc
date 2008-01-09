@@ -49,7 +49,7 @@ $w51030= array(
 
 $w51035x64= array(
     "num"=>"5.10.35",
-    "status"=>"Recommended version (WinXP64+)",
+    "status"=>"Development version (WinXP64+)",
     "file"=>"boinc_5.10.35_windows_x86_64.exe",
     "date"=>"9 Jan 2008",
     "type"=>"win_new",
