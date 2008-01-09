@@ -253,3 +253,10 @@ David  Jan 9 2008
             donations.inc
         user/
             home.php
+
+David  Jan 9 2008
+    - Fix the credit_study.php script to 1) be correct and
+        2) explain its output
+
+    html/ops/
+        credit_study.php

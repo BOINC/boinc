@@ -1,7 +1,12 @@
 <?php
 
-// Use this script to find an optimal value for fp_benchmark_weight.
-// This evaluates the variation for weights 0, .1, ... 1.
+// Use this script to find an optimal value for fp_benchmark_weight,
+// i.e. the weight which minimizes the variation between
+// claimed credit and granted credit
+// over the validated WUs currently in the database.
+//
+// Evaluates the variation for weights 0, .1, ... 1.
+//
 
 require_once("../inc/db.inc");
 
@@ -16,7 +21,7 @@ function mean($x) {
     return $sum/$n;
 }
 
-function spread($x) {
+function normalized_variance($x) {
     $sum = 0;
     $n = count($x);
     $m = mean($x);
@@ -24,48 +29,40 @@ function spread($x) {
         $d = $x[$i] - $m;
         $sum += $d*$d;
     }
-    return sqrt($sum)/$n;
+    //echo "nresults $n mean $m sum $sum $n\n";
+    return $sum/($n*$m);
 }
 
+// returns the claimed credit for a given result/host and FP weight
+//
 function cc($x, $fpw) {
     $cps = $x->p_fpops*$fpw + $x->p_iops*(1-$fpw);
     $cps /= 1e9;
     $cps /= 864;
     $cc = $x->cpu_time * $cps;
-    //if ($x->duration_correction_factor) {
-    //    $cc /= $x->duration_correction_factor;
-    //}
     return $cc;
 }
 
-// $x is a vector of objects
+// $x is an array of result/host objects;
+// return the variance among claimed credits given an FP weight
 //
-function handle_wu($x) {
+function fpw_var($results, $fpw) {
     $cc = array();
-    for ($i=0; $i<=12; $i++) {
-        array_push($cc, array());
+    foreach ($results as $r) {
+        $cc[] = cc($r, $fpw);
     }
-    for ($j=0; $j<count($x); $j++) {
-        $y = $x[$j];
-        for ($i=0; $i<=12; $i++) {
-            $r = $i/10.;
-            array_push($cc[$i], cc($y, $r));
-        }
-    }
-    $res = array();
-    for ($i=0; $i<=12; $i++) {
-        $c = $cc[$i];
-        $m = mean($c);
-        $s = spread($c);
-        $rs = $s/$m;
-        array_push($res, $rs);
-    }
-    return $res;
+    return normalized_variance($cc);
 }
 
+// scan WUs for which credit has been granted,
+// and for which there at least 2 valid results.
+// For each of these, compute the variance among claimed credits
+// given various FP weights (0, .1, ... 1).
+// Maintain the sum of these in an array
+//
 function get_data() {
     $sum = array();
-    for ($i=0; $i<=12; $i++) {
+    for ($i=0; $i<=10; $i++) {
         array_push($sum, 0);
     }
     $r1 = mysql_query(
@@ -73,36 +70,52 @@ function get_data() {
     );
     $n = 0;
     while ($wu = mysql_fetch_object($r1)) {
-        $x = array();
+        $results = array();
         $r2 = mysql_query("select * from result where workunitid=$wu->id");
         $found_zero = false;
         while ($result = mysql_fetch_object($r2)) {
-            if ($result->granted_credit==0) continue;
-            if ($result->claimed_credit==0) $found_zero = true;
+            if ($result->granted_credit==0) continue;   // skip invalid
             $host = lookup_host($result->hostid);
-            $y->claimed_credit = $result->claimed_credit;
-            $y->granted_credit = $result->granted_credit;
-            $y->cpu_time = $result->cpu_time;
-            $y->p_fpops = $host->p_fpops;
-            $y->p_iops = $host->p_iops;
-            $y->duration_correction_factor = $host->duration_correction_factor;
-            $y->id = $result->id;
-            array_push($x, $y);
+            $r = null;
+            $r->cpu_time = $result->cpu_time;
+            $r->p_fpops = $host->p_fpops;
+            $r->p_iops = $host->p_iops;
+            $results[] = $r;
         }
-        if (count($x)==0) continue;
-        if ($found_zero) continue;
-        $res = handle_wu($x);
-        for ($i=0; $i<=12; $i++) {
-            $sum[$i] += $res[$i];
+        if (count($results)<2) continue;
+        for ($i=0; $i<=10; $i++) {
+            $fpw = $i/10.;
+            $sum[$i] += fpw_var($results, $fpw);
         }
         $n++;
     }
-    for ($i=0; $i<=12; $i++) {
-        $r = $sum[$i]/$n;
-        echo "$i $r\n";
-    }
-}
+    echo "This script recommends value for <fp_benchmark_weight> in config.xml.
+It does this by finding the value that minimizes the variance
+among claimed credit for workunits currently in your database.
+It examines at most 10,000 WUs (edit the script to change this).
 
+Number of workunits analyzed: $n
+
+";
+    for ($i=0; $i<=10; $i++) {
+        $fpw = $i/10.;
+        $r = $sum[$i]/$n;
+        echo "FP weight $fpw: variance is $r\n";
+        if ($i == 0) {
+            $best = $r;
+            $fbest = $fpw;
+        } else {
+            if ($r < $best) {
+                $best = $r;
+                $fbest = $fpw;
+            }
+        }
+    }
+
+    echo "
+Recommended value: $fbest
+";
+}
 
 get_data();
 
