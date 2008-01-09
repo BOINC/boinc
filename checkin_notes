@@ -27,7 +27,7 @@ Charlie Jan 6 2008
     - Mac Client: more idle time tweaks to allow running as a daemon by 
         using Mac OS X's launchd mechanism.  
     - Mac: Update script which sets BOINC up to run as a daemon so it 
-        uses Mac OS X's launchd mechanism.  This requires BOOINC version 
+        uses Mac OS X's launchd mechanism.  This requires BOINC version 
         5.10.34 or later and Mac OS 10.4 or later.
     - Mac Installer: if system is set up to run BOINC Client as a daemon 
         using launchd, use launchctl to launch newly installed Client as 
@@ -52,3 +52,9 @@ Charlie Jan 7 2008
     /
         configure.ac
         version.h
+
+Charlie Jan 8 2008
+    - Mac: update build script for OS 10.5.
+    
+    mac_build/
+        BuildMacBOINC.sh
