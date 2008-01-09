@@ -28,9 +28,12 @@ function normalized_variance($x) {
     for ($i=0; $i<$n; $i++) {
         $d = $x[$i] - $m;
         $sum += $d*$d;
+        //echo "$x[$i] ";
     }
-    //echo "nresults $n mean $m sum $sum $n\n";
-    return $sum/($n*$m);
+    //echo "\n";
+    $nv = sqrt($sum)/($n*$m);
+    //echo "nresults $n mean $m sum $sum nv $nv\n";
+    return $nv;
 }
 
 // returns the claimed credit for a given result/host and FP weight
@@ -61,12 +64,14 @@ function fpw_var($results, $fpw) {
 // Maintain the sum of these in an array
 //
 function get_data() {
+    $nwus = 4000;
+
     $sum = array();
     for ($i=0; $i<=10; $i++) {
-        array_push($sum, 0);
+        $sum[] = 0;
     }
     $r1 = mysql_query(
-        "select id from workunit where canonical_resultid>0 limit 10000"
+        "select id from workunit where canonical_resultid>0 limit $nwus"
     );
     $n = 0;
     while ($wu = mysql_fetch_object($r1)) {
@@ -82,6 +87,7 @@ function get_data() {
             $r->p_iops = $host->p_iops;
             $results[] = $r;
         }
+        //echo "Wu $wu->id -------------\n";
         if (count($results)<2) continue;
         for ($i=0; $i<=10; $i++) {
             $fpw = $i/10.;
@@ -92,7 +98,7 @@ function get_data() {
     echo "This script recommends value for <fp_benchmark_weight> in config.xml.
 It does this by finding the value that minimizes the variance
 among claimed credit for workunits currently in your database.
-It examines at most 10,000 WUs (edit the script to change this).
+It examines at most $nwus WUs (edit the script to change this).
 
 Number of workunits analyzed: $n
 

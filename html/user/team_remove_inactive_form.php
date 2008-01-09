@@ -4,6 +4,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+ini_set("memory_limit", "1024M");
+
 $logged_in_user = get_logged_in_user();
 $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);

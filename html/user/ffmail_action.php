@@ -2,8 +2,6 @@
 
 require_once("../project/project.inc");
 require_once("../inc/email.inc");
-//$email_addr = get_str('email_addr');
-
 
 function replace($toname, $comment, $fromname, $template) {
     $pat = array(
