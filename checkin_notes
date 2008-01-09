@@ -228,3 +228,9 @@ David  Jan 8 2008
         
     client/
         app_control.C
+
+Charlie Jan 8 2008
+    - Mac: additional error checking in build script.
+    
+    mac_build/
+        BuildMacBOINC.sh

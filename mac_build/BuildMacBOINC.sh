@@ -108,19 +108,25 @@ major=`echo $version | sed 's/\([0-9]*\)[.].*/\1/' `;
 # Darwin version 6.x corresponds to OS 10.2.x
 
 if [ "$major" -lt "8" ]; then
-    echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at "
+    echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
     return 1
 fi
     
 if [ "$major" -gt "8" ]; then
-    echo "Building BOINC under System 10.5"
+    echo "Building BOINC under System 10.5 or later"
 else
     echo "Building BOINC under System 10.4"
 fi
 
 if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
-    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at "
+    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
+    return 1
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
+    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
     return 1
 fi
