@@ -277,7 +277,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 break;
             }
-            handle_premature_exit(will_restart);
+            handle_exit_external(will_restart);
             break;
         case 0xc000013a:        // control-C??
         case 0x40010004:        // vista shutdown?? can someone explain this?
@@ -287,7 +287,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             // any new application fails automatically.
             // - The OS has run out of desktop heap
             //
-            handle_premature_exit(will_restart);
+            handle_exit_external(will_restart);
             break;
         default:
             char szError[1024];
