@@ -54,7 +54,7 @@ Charlie Jan 7 2008
         version.h
 
 Charlie Jan 8 2008
-    - Mac: update build script for OS 10.5.
+    - Mac: additional error checking in build script; fix url in error message.
     
     mac_build/
         BuildMacBOINC.sh
