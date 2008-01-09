@@ -260,3 +260,13 @@ David  Jan 9 2008
 
     html/ops/
         credit_study.php
+
+David  Jan 9 2008
+    - client: patches to make it work on FreeBSD
+    - client: fix bug where attaching to a project with existing
+        app_info.xml would fail to parse the app_info.xml
+    (both from Pav Lucistnik)
+
+    client/
+        cs_account.C
+        hostinfo_unix.C

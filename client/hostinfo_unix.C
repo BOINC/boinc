@@ -457,6 +457,49 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     fclose(f);
 }
 #endif  // LINUX_LIKE_SYSTEM
+#ifdef __FreeBSD__
+#if defined(__i386__) || defined(__amd64__)
+#include <sys/types.h>
+#include <sys/cdefs.h>
+#include <machine/cpufunc.h>
+
+void use_cpuid(HOST_INFO& host) {
+	u_int p[4];
+	int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt = 0;
+	char capabilities[256];
+
+	do_cpuid(0x0, p);
+
+	if (p[0] >= 0x1) {
+
+		do_cpuid(0x1, p);
+
+		hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
+		hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
+		hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
+		hasSSE3 = (p[2] & (1 << 0 )) >> 0;
+	}
+
+	do_cpuid(0x80000000, p);
+	if (p[0]>=0x80000001) {
+		do_cpuid(0x80000001, p);
+		hasMMX  |= (p[3] & (1 << 23 )) >> 23; // 0x0800000
+		has3DNow    = (p[3] & (1 << 31 )) >> 31; //0x80000000
+		has3DNowExt = (p[3] & (1 << 30 )) >> 30;
+	}
+
+	capabilities[0] = '\0';
+	if (hasSSE) strncat(capabilities, "sse ", 4);
+	if (hasSSE2) strncat(capabilities, "sse2 ", 5);
+	if (hasSSE3) strncat(capabilities, "sse3 ", 5);
+	if (has3DNow) strncat(capabilities, "3dnow ", 6);
+	if (has3DNowExt) strncat(capabilities, "3dnowext ", 9);
+	if (hasMMX) strncat(capabilities, "mmx ", 4);
+	strip_whitespace(capabilities);
+	snprintf(host.p_model, sizeof(host.p_model), "%s [] [%s]", host.p_model, capabilities);
+}
+#endif
+#endif
 
 #ifdef __APPLE__
 static void get_cpu_info_maxosx(HOST_INFO& host) {
@@ -580,6 +623,12 @@ int HOST_INFO::get_host_info() {
 #error Need to specify a method to get p_vendor, p_model
 #endif
 
+#if defined(__FreeBSD__)
+#if defined(__i386__) || defined(__amd64__)
+    use_cpuid(*this);
+#endif
+#endif
+
 ///////////// p_ncpus /////////////////
 
 // sysconf not working on OS2
@@ -654,6 +703,13 @@ int HOST_INFO::get_host_info() {
     len = sizeof(mem_size); 
     sysctl(mib, 2, &mem_size, &len, NULL, 0); 
     m_nbytes = mem_size; 
+#elif defined(__FreeBSD__)
+    unsigned int mem_size;
+    mib[0] = CTL_HW;
+    mib[1] = HW_PHYSMEM;
+    len = sizeof(mem_size);
+    sysctl(mib, 2, &mem_size, &len, NULL, 0);
+    m_nbytes = mem_size;
 #else
 #error Need to specify a method to get memory size
 #endif

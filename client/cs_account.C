@@ -456,7 +456,14 @@ int CLIENT_STATE::add_project(
     //
     get_project_dir(project, dir, sizeof(dir));
     sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
-    if (!boinc_file_exists(path)) {
+    if (boinc_file_exists(path)) {
+        project->anonymous_platform = true;
+        f = fopen(path, "r");
+        if (f) {
+            parse_app_info(project, f);
+            fclose(f);
+        }
+    } else {
         retval = remove_project_dir(*project);
     }
 
