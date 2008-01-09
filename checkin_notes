@@ -230,7 +230,7 @@ David  Jan 8 2008
         app_control.C
 
 Charlie Jan 8 2008
-    - Mac: additional error checking in build script.
+    - Mac: additional error checking in build script; fix url in error message.
     
     mac_build/
         BuildMacBOINC.sh
