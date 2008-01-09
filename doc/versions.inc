@@ -34,7 +34,7 @@ function type_text($type) {
 $w51035= array(
     "num"=>"5.10.35",
     "status"=>"Development version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.30_windows_intelx86.exe",
+    "file"=>"boinc_5.10.35_windows_intelx86.exe",
     "date"=>"9 Jan 2008",
     "type"=>"win_new",
 );
