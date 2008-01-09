@@ -156,7 +156,14 @@ struct UPLOAD_FILE_STATUS {
 static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
-void graphics_cleanup();
+static void graphics_cleanup();
+static int start_timer_thread();
+static int suspend_activities();
+static int resume_activities();
+static int restore_activities();
+static void boinc_exit(int);
+static void block_sigalrm();
+static int start_worker_signals();
 
 static int setup_shared_mem() {
     if (standalone) {
@@ -314,8 +321,13 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
     }
     retval = boinc_init_options_general(*opt);
     if (retval) return retval;
-    retval = set_worker_timer();
-    return retval;
+    retval = start_timer_thread();
+    if (retval) return retval;
+#ifndef _WIN32
+    retval = start_worker_signals();
+    if (retval) return retval;
+#endif
+    return 0;
 }
 
 int boinc_init_options_general(BOINC_OPTIONS& opt) {
@@ -415,6 +427,7 @@ static void send_trickle_up_msg() {
 //
 int boinc_finish(int status) {
     fraction_done = 1;
+    fprintf(stderr, "called boinc_finish\n");
     boinc_sleep(2.0);   // let the timer thread send final messages
     g_sleep = true;     // then disable it
 
@@ -435,7 +448,7 @@ int boinc_finish(int status) {
 // unlock the lockfile and call the appropriate exit function
 // This is called from the worker and timer threads.
 //
-void boinc_exit(int status) {
+static void boinc_exit(int status) {
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
     }
@@ -550,7 +563,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
-int suspend_activities() {
+static int suspend_activities() {
     BOINCINFO("Received Suspend Message");
 #ifdef _WIN32
     if (options.direct_process_action) {
@@ -560,7 +573,7 @@ int suspend_activities() {
     return 0;
 }
 
-int resume_activities() {
+static int resume_activities() {
     BOINCINFO("Received Resume Message");
 #ifdef _WIN32
     if (options.direct_process_action) {
@@ -570,7 +583,7 @@ int resume_activities() {
     return 0;
 }
 
-int restore_activities() {
+static int restore_activities() {
     int retval;
     if (boinc_status.suspended) {
         retval = suspend_activities();
@@ -790,7 +803,7 @@ static inline void handle_graphics_messages() {
     }
 }
 
-void graphics_cleanup() {
+static void graphics_cleanup() {
     if (!have_graphics_app) return;
     if (ga_full.is_running()) ga_full.kill();
     if (ga_win.is_running()) ga_win.kill();
@@ -885,7 +898,7 @@ UINT WINAPI timer_thread(void *) {
 
 #else
 
-void* timer_thread(void*) {
+static void* timer_thread(void*) {
     block_sigalrm();
     while(1) {
         boinc_sleep(TIMER_PERIOD);
@@ -898,7 +911,7 @@ void* timer_thread(void*) {
 // It gets CPU time and implements sleeping.
 // It must call only signal-safe functions, and must not do FP math
 //
-void worker_signal_handler(int) {
+static void worker_signal_handler(int) {
 #ifndef GETRUSAGE_IN_TIMER_THREAD
     getrusage(RUSAGE_SELF, &worker_thread_ru);
 #endif
@@ -914,7 +927,7 @@ void worker_signal_handler(int) {
 
 // Called from the worker thread; create the timer thread
 //
-int set_worker_timer() {
+static int start_timer_thread() {
     int retval=0;
 
 #ifdef _WIN32
@@ -945,27 +958,31 @@ int set_worker_timer() {
     );
 
     if (!thread) {
-        fprintf(stderr, "set_worker_timer(): _beginthreadex() failed, errno %d\n", errno);
-        retval = errno;
-        return retval;
+        fprintf(stderr, "start_timer_thread(): _beginthreadex() failed, errno %d\n", errno);
+        return errno;
     }
     
-    // lower our priority
+    // lower our (worker thread) priority
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
-
 #else
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
     pthread_attr_setstacksize(&thread_attrs, 16384);
     retval = pthread_create(&timer_thread_handle, &thread_attrs, timer_thread, NULL);
     if (retval) {
-        fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
+        fprintf(stderr, "start_timer_thread(): pthread_create(): %d", retval);
         return retval;
     }
+#endif
+    return 0;
+}
 
-    // set up a periodic SIGALRM, to be handled by the worker thread
-    //
+#ifndef _WIN32
+// set up a periodic SIGALRM, to be handled by the worker thread
+//
+static int start_worker_signals() {
+    int retval;
     struct sigaction sa;
     itimerval value;
     sa.sa_handler = worker_signal_handler;
@@ -973,7 +990,7 @@ int set_worker_timer() {
     sigemptyset(&sa.sa_mask);
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
-        perror("boinc set_worker_timer() sigaction");
+        perror("boinc start_timer_thread() sigaction");
         return retval;
     }
     value.it_value.tv_sec = 0;
@@ -981,12 +998,12 @@ int set_worker_timer() {
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {
-        perror("boinc set_worker_timer() setitimer");
+        perror("boinc start_timer_thread() setitimer");
+        return retval;
     }
-
-#endif
-    return retval;
+    return 0;
 }
+#endif
 
 int boinc_send_trickle_up(char* variety, char* p) {
     if (!options.handle_trickle_ups) return ERR_NO_OPTION;
@@ -1106,7 +1123,7 @@ void boinc_network_done() {
 #ifndef _WIN32
 // block SIGALRM, so that the worker thread will be forced to handle it
 //
-void block_sigalrm() {
+static void block_sigalrm() {
     sigset_t mask;
     sigemptyset(&mask);
     sigaddset(&mask, SIGALRM);

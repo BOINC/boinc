@@ -105,10 +105,13 @@ void boinc_sleep(double seconds) {
     ::Sleep((int)(1000*seconds));
 #else
     unsigned int rem = (int) seconds;
+    double end_time = dtime() + seconds;
     while (1) {
         rem = sleep(rem);
         if (rem == 0) break;
-        if (rem > seconds) break;   // paranoia
+        if (dtime() > end_time) return;
+            // safety net in case this process is getting SIGALRMS
+            // and the sleep() never returns zero
     }
     int x = (int)fmod(seconds*1000000, 1000000);
     if (x) usleep(x);

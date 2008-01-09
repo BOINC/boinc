@@ -131,15 +131,8 @@ extern void options_defaults(BOINC_OPTIONS&);
 extern APP_CLIENT_SHM *app_client_shm;
 #ifdef _WIN32
 extern HANDLE worker_thread_handle;
-#else
-extern void block_sigalrm();
 #endif
-extern int suspend_activities(void);
-extern int resume_activities(void);
-extern int restore_activities(void);
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
-extern void boinc_exit(int status);
-extern int set_worker_timer(void);
 extern bool g_sleep;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {

@@ -234,3 +234,22 @@ Charlie Jan 8 2008
     
     mac_build/
         BuildMacBOINC.sh
+
+David  Jan 9 2008
+    - API, Unix: fix bug where boinc_sleep() hangs forever.
+        This was because SIGALRM always interrupts sleep()
+        and keeps boinc_sleep() stuck in its while loop.
+        Solution: change boinc_sleep() so that it works even if
+        rapid signals (e.g. interval timer) are happening
+    - API: remove deprecated graphics files from Makefile.
+        Old-style graphics are no longer supported.
+    - web: add empty show_user_donations_private() to donations.inc
+
+    api/
+        Makefile.am
+        boinc_api.C,h
+    html/
+        project.sample/
+            donations.inc
+        user/
+            home.php

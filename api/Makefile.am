@@ -10,44 +10,6 @@ api_files= \
 	boinc_api.C \
     graphics2_util.C
 
-# graphics library for monolithic apps
-graphics_api_files = 	\
-	graphics_api.C 		\
-	graphics_data.C 	\
-    graphics_impl.C     \
-	gutil.C	            \
-	gutil_text.C	    \
-	reduce_main.C		\
-    reduce_lib.C        \
-    texfont.C           \
-    texture.C           \
-    txf_util.C          \
-	x_opengl.C
-
-if OS_DARWIN
-  graphics_api_files += macglutfix.m \
-	mac_icon.C
-endif
-
-# library for main-program part of split apps
-graphics_lib_files =    \
-    graphics_lib.C      \
-    graphics_data.C     \
-    reduce_main.C
-
-# library for shared-library part of split apps
-graphics_impl_files =   \
-	graphics_data.C 	\
-    graphics_impl.C     \
-    graphics_impl_lib.C \
-	gutil.C	            \
-	gutil_text.C	    \
-	reduce_lib.C		\
-    texfont.C           \
-    texture.C           \
-    txf_util.C          \
-	x_opengl.C
-
 graphics2_files = \
 	gutil.C	            \
 	gutil_text.C	    \
@@ -62,9 +24,6 @@ EXTRA_DIST = *.h
 
 if BUILD_GRAPHICS_API
 graphics_libs = \
-    libboinc_graphics_api.a \
-    libboinc_graphics_lib.a \
-    libboinc_graphics_impl.a \
     libboinc_graphics2.a
 else
 graphics_libs = 
@@ -72,16 +31,8 @@ endif
 
 lib_LIBRARIES = libboinc_api.a $(graphics_libs)
 
-#EXTRA_LIBRARIES = libboinc_graphics_api.a
-
 libboinc_api_a_SOURCES = $(api_files)
 
-libboinc_graphics_api_a_SOURCES = $(graphics_api_files)
-libboinc_graphics_api_a_CPPFLAGS = -I$(top_srcdir)/lib 
-libboinc_graphics_lib_a_SOURCES = $(graphics_lib_files)
-libboinc_graphics_lib_a_CPPFLAGS = -I$(top_srcdir)/lib 
-libboinc_graphics_impl_a_SOURCES = $(graphics_impl_files)
-libboinc_graphics_impl_a_CPPFLAGS = -I$(top_srcdir)/lib 
 libboinc_graphics2_a_SOURCES = $(graphics2_files)
 libboinc_graphics2_a_CPPFLAGS = -I$(top_srcdir)/lib 
 
@@ -91,15 +42,11 @@ includedir = ${prefix}/include/BOINC/
 ## install only headers that are meant for exporting the API !!
 include_HEADERS = 	\
 	boinc_api.h   	\
-	graphics_api.h	\
-	gutil.h         \
-	graphics_lib.h  \
-    graphics_impl.h
+	graphics2.h	\
+	gutil.h
 
 
-.PHONY: nographics
-nographics:
-	touch libboinc_graphics_api.a $(libboinc_graphics_api_a_OBJECTS)
+.PHONY:
 
 EXTRA_PROGRAMS = api_app api_test
 
