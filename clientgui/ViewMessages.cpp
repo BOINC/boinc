@@ -273,7 +273,6 @@ wxString CViewMessages::OnListGetItemText(long item, long column) const {
 wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
     MESSAGE*        message     = wxGetApp().GetDocument()->message(item);
-    wxString        strBuffer   = wxEmptyString;
 
     if (message) {
         switch(message->priority) {
@@ -290,6 +289,15 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
 
 
 bool CViewMessages::EnsureLastItemVisible() {
+    int numVisible = m_pListPane->GetCountPerPage();
+
+    // Auto-scroll only if already at bottom of list
+    if ((m_iPreviousDocCount > numVisible)
+         && ((m_pListPane->GetTopItem() + numVisible) < (m_iPreviousDocCount-1)) 
+    ) {
+        return false;
+    }
+    
     return true;
 }
 

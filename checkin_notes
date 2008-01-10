@@ -270,3 +270,14 @@ David  Jan 9 2008
     client/
         cs_account.C
         hostinfo_unix.C
+
+Charlie Jan 10 2008
+    - MGR: display MSG_USER_ERROR messages in red, all others in black 
+        in both SimpleGUI and Advanced GUI message dialogs; eliminate 
+        unused FormatPriority method.  
+        NOTE: this may need to be fixed in CViewMessagesGrid class 
+            if we implement that in teh future.
+        
+    clientgui/
+        sg_DlgMessages.cpp,h
+        ViewMessages.cpp

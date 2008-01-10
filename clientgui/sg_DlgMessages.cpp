@@ -566,14 +566,16 @@ wxString CPanelMessages::OnListGetItemText(long item, long column) const {
 
 wxListItemAttr* CPanelMessages::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
-    wxString        strBuffer   = wxEmptyString;
+    MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
-	FormatPriority(item, strBuffer);
-
-    if (wxT("E") == strBuffer) {
-        pAttribute = m_pMessageErrorAttr;
-    } else {
-        pAttribute = m_pMessageInfoAttr;
+    if (message) {
+        switch(message->priority) {
+        case MSG_USER_ERROR:
+            pAttribute = m_pMessageErrorAttr;
+            break;
+        default:
+            break;
+        }
     }
 
     return pAttribute;
@@ -582,6 +584,15 @@ wxListItemAttr* CPanelMessages::OnListGetItemAttr(long item) const {
 
 
 bool CPanelMessages::EnsureLastItemVisible() {
+    int numVisible = m_pList->GetCountPerPage();
+
+    // Auto-scroll only if already at bottom of list
+    if ((m_iPreviousDocCount > numVisible)
+         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousDocCount-1)) 
+    ) {
+        return false;
+    }
+    
     return true;
 }
 
@@ -591,24 +602,6 @@ wxInt32 CPanelMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) con
 
     if (message) {
         strBuffer = wxString(message->project.c_str(), wxConvUTF8);
-    }
-
-    return 0;
-}
-
-
-wxInt32 CPanelMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
-    MESSAGE* message = wxGetApp().GetDocument()->message(item);
-
-    if (message) {
-        switch(message->priority) {
-        case MSG_INFO:
-            strBuffer = wxT("I");
-            break;
-        default:
-            strBuffer = wxT("E");
-            break;
-        }
     }
 
     return 0;
