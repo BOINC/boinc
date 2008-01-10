@@ -279,14 +279,16 @@ wxString CViewMessages::OnListGetItemText(long item, long column) const {
 
 wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
-    wxString        strBuffer   = wxEmptyString;
+    MESSAGE*        message     = wxGetApp().GetDocument()->message(item);
 
-    FormatPriority(item, strBuffer);
-
-    if (wxT("E") == strBuffer) {
-        pAttribute = m_pMessageErrorAttr;
-    } else {
-        pAttribute = m_pMessageInfoAttr;
+    if (message) {
+        switch(message->priority) {
+        case MSG_USER_ERROR:
+            pAttribute = m_pMessageErrorAttr;
+            break;
+        default:
+            break;
+        }
     }
 
     return pAttribute;
@@ -294,6 +296,15 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
 
 
 bool CViewMessages::EnsureLastItemVisible() {
+    int numVisible = m_pListPane->GetCountPerPage();
+
+    // Auto-scroll only if already at bottom of list
+    if ((m_iPreviousDocCount > numVisible)
+         && ((m_pListPane->GetTopItem() + numVisible) < (m_iPreviousDocCount-1)) 
+    ) {
+        return false;
+    }
+    
     return true;
 }
 
@@ -319,28 +330,6 @@ wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 
     if (message) {
         strBuffer = HtmlEntityDecode(wxString(message->project.c_str(), wxConvUTF8));
-    }
-
-    return 0;
-}
-
-
-wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
-    MESSAGE* message = wxGetApp().GetDocument()->message(item);
-
-    if (message) {
-        switch(message->priority) {
-        case MSG_INFO:
-            strBuffer = wxT("I");
-            break;
-        case MSG_USER_ERROR:
-            strBuffer = wxT("W");
-            break;
-        case MSG_INTERNAL_ERROR:
-        default:
-            strBuffer = wxT("E");
-            break;
-        }
     }
 
     return 0;
