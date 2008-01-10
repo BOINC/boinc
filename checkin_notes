@@ -275,8 +275,10 @@ Charlie Jan 10 2008
     - MGR: display MSG_USER_ERROR messages in red, all others in black 
         in both SimpleGUI and Advanced GUI message dialogs; eliminate 
         unused FormatPriority method.  
-        NOTE: this may need to be fixed in CViewMessagesGrid class 
-            if we implement that in teh future.
+    - MGR: Auto-scroll messages only if already at bottom of list (don't 
+        jump to bottom while examining earlier messages.)
+    NOTE: these changes may need to be applied in CViewMessagesGrid class 
+            if we implement that in the future.
         
     clientgui/
         sg_DlgMessages.cpp,h
