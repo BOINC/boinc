@@ -104,17 +104,19 @@ void boinc_sleep(double seconds) {
 #ifdef _WIN32
     ::Sleep((int)(1000*seconds));
 #else
-    unsigned int rem = (int) seconds;
-    double end_time = dtime() + seconds;
+    double end_time = dtime() + seconds - 0.01;
+    // sleep() and usleep() can be interrupted by SIGALRM,
+    // so we may need multiple calls
+    //
     while (1) {
-        rem = sleep(rem);
-        if (rem == 0) break;
-        if (dtime() > end_time) return;
-            // safety net in case this process is getting SIGALRMS
-            // and the sleep() never returns zero
+        if (seconds >= 1) {
+            sleep((unsigned int) seconds);
+        } else {
+            usleep((int)fmod(seconds*1000000, 1000000));
+        }
+        seconds = end_time - dtime();
+        if (seconds <= 0) break;
     }
-    int x = (int)fmod(seconds*1000000, 1000000);
-    if (x) usleep(x);
 #endif
 }
 

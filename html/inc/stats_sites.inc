@@ -26,6 +26,12 @@ $cpid_stats_sites = array(
 
 $stats_sites = array(
     array(
+        "http://www.myboinc.com/FormulaBoinc/",
+        "Formula BOINC",
+        "(Team ranking based on position within projects,
+        as in Formula 1 racing, rather than total points)"
+    ),
+    array(
         "http://statsnstones.tswb.org/",
         "Team Starfire World BOINC Stats 'N Stones",
         ""

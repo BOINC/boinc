@@ -283,3 +283,17 @@ Charlie Jan 10 2008
     clientgui/
         sg_DlgMessages.cpp,h
         ViewMessages.cpp
+
+David Jan 10 2008
+    - client: don't count header in bytes_xferred for file uploads
+        (this causes confusing output in the Manager,
+        bytes xferred greater than file size)
+    - API and client: make boinc_sleep() work regardless of signals
+    - some code cleanup in http_curl.C
+
+    client/
+        http_curl.C,h
+    html/inc/
+        stats_sites.inc
+    lib/
+        util.C

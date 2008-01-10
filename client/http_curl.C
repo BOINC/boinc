@@ -60,28 +60,8 @@ using std::vector;
 static CURLM* g_curlMulti = NULL;
 
 static char g_user_agent_string[256] = {""};
-//static const char g_content_type[] = {"Content-Type: application/octet-stream"};
-// CMC Note: old BOINC used the above, but libcurl seems to like the following:
 static const char g_content_type[] = {"Content-Type: application/x-www-form-urlencoded"};
 
-
-/** as an example of usage of http_op -- the scheduler typically requires 
-    just the following:
-
-http_op
-
-http_op_state flag
-http_op_retval 
-
-set_proxy     (g_state.proxy_info)
-init_get()
-init_post()
-
-http_ops
-   -> insert
-      remove
-
-*/
 
 // Breaks a HTTP URL down into its server, port and file components
 // format of url:
@@ -145,6 +125,30 @@ void get_user_agent_string() {
     );
 }
 
+void HTTP_OP::init() {
+    reset();
+    start_time = gstate.now;
+	start_bytes_xferred = 0;
+}
+
+void HTTP_OP::reset() {
+    req1 = NULL;
+    strcpy(infile, "");
+    strcpy(outfile, "");
+    strcpy(error_msg, "");
+    CurlResult = CURLE_OK;
+    bTempOutfile = true;
+    want_download = false;
+    want_upload = false;
+    fileIn = NULL;
+    fileOut = NULL;
+    connect_error = 0;
+    bytes_xferred = 0;
+    bSentHeader = false;
+    close_socket();
+}
+
+
 HTTP_OP::HTTP_OP() {
     strcpy(m_url, "");
     strcpy(m_curl_ca_bundle_location, "");
@@ -172,13 +176,12 @@ HTTP_OP::~HTTP_OP() {
     close_file();
 }
 
-// Initialize HTTP GET operation
+// Initialize HTTP GET operation;
+// output goes to the given file, starting at given offset
 //
 int HTTP_OP::init_get(
     const char* url, const char* out, bool del_old_file, double off
 ) {
-    //char proxy_buf[256];
-
     if (del_old_file) {
         unlink(out);
     }
@@ -198,7 +201,10 @@ int HTTP_OP::init_get(
     return HTTP_OP::libcurl_exec(url, NULL, out, off, false);
 }
 
-// Initialize HTTP POST operation
+// Initialize HTTP POST operation where
+// the input is a file, and the output is a file,
+// and both are read/written from the beginning (no resumption of partial ops)
+// This is used for scheduler requests and account mgr RPCs.
 //
 int HTTP_OP::init_post(
     const char* url, const char* in, const char* out
@@ -209,7 +215,6 @@ int HTTP_OP::init_post(
     req1 = NULL;  // not using req1, but init_post2 uses it
 
     if (in) {
-        // we should pretty much always have an in file for _post, optional in _post2
         strcpy(infile, in);
         retval = file_size(infile, size);
         if (retval) return retval;  // this will return 0 or ERR_NOT_FOUND
@@ -221,7 +226,37 @@ int HTTP_OP::init_post(
     if (log_flags.http_debug) {
         msg_printf(0, MSG_INFO, "[http_debug] HTTP_OP::init_post(): %s", url);
     }
-    return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);  // note that no offset for this, for resumable uploads use post2!
+    return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);
+}
+
+// Initialize an HTTP POST operation,
+// where the input is a memory string (r1) followed by an optional file (in)
+// with optional offset,
+// and the output goes to memory (also r1)
+// This is used for file upload (both get_file_size and file_upload)
+//
+int HTTP_OP::init_post2(
+    const char* url, char* r1, const char* in, double offset
+) {
+    int retval;
+    double size;
+
+    init();
+    req1 = r1;
+    if (in) {
+        safe_strcpy(infile, in);
+        file_offset = offset;
+        retval = file_size(infile, size);
+        if (retval) {
+            printf("HTTP::init_post2: couldn't get file size\n");
+            return retval; // this will be 0 or ERR_NOT_FOUND
+        }
+        content_length = (int)size - (int)offset;
+    }
+    content_length += (int)strlen(req1);
+    http_op_type = HTTP_OP_POST2;
+    http_op_state = HTTP_STATE_CONNECTING;
+    return HTTP_OP::libcurl_exec(url, in, NULL, offset, true);
 }
 
 // the following will do an HTTP GET or POST using libcurl
@@ -246,7 +281,7 @@ int HTTP_OP::libcurl_exec(
         bTempOutfile = false;
         strcpy(outfile, out);
     } else {
-        //CMC -- I always want an outfile for the server response, delete when op done
+        // always want an outfile for the server response, delete when op done
         bTempOutfile = true;
         strcpy(outfile, "");
 #if defined(_WIN32) && !defined(__CYGWIN32__)
@@ -266,11 +301,6 @@ int HTTP_OP::libcurl_exec(
 #endif
     }
 
-    // setup libcurl handle
-
-    // CMC -- init the curlEasy handle and setup options
-    //   the polling will do the actual start of the HTTP/S transaction
-
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
     if (!curlEasy) {
         msg_printf(0, MSG_INTERNAL_ERROR, "Couldn't create curlEasy handle");
@@ -280,32 +310,29 @@ int HTTP_OP::libcurl_exec(
 	// the following seems to be a no-op
 	//curlErr = curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
 
-    // OK, we have a handle, now open an asynchronous libcurl connection
-
-    // set the URL to use
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_URL, m_url);
 
-    /*
-    CURLOPT_SSL_VERIFYHOST
 
-Pass a long as parameter.
-
-This option determines whether curl verifies that the server claims to be who you want it to be.
-
-When negotiating an SSL connection, the server sends a certificate indicating its identity.
-
-When CURLOPT_SSL_VERIFYHOST is 2, that certificate must indicate that the server is the server to which you meant to connect, or the connection fails.
-
-Curl considers the server the intended one when the Common Name field or a Subject Alternate Name field in the certificate matches the host name in the URL to which you told Curl to connect.
-
-When the value is 1, the certificate must contain a Common Name field, but it doesn't matter what name it says. (This is not ordinarily a useful setting).
-
-When the value is 0, the connection succeeds regardless of the names in the certificate.
-
-The default, since 7.10, is 2.
-
-The checking this option controls is of the identity that the server claims. The server could be lying. To control lying, see CURLOPT_SSL_VERIFYPEER. 
-    */
+    // This option determines whether curl verifies that the server
+    // claims to be who you want it to be.
+    // When negotiating an SSL connection,
+    // the server sends a certificate indicating its identity.
+    // When CURLOPT_SSL_VERIFYHOST is 2,
+    // that certificate must indicate that the server is the server
+    // to which you meant to connect, or the connection fails.
+    // Curl considers the server the intended one when the
+    // Common Name field or a Subject Alternate Name field in the certificate
+    // matches the host name in the URL to which you told Curl to connect.
+    // When the value is 1, the certificate must contain a Common Name field,
+    // but it doesn't matter what name it says.
+    // (This is not ordinarily a useful setting).
+    // When the value is 0, the connection succeeds
+    // regardless of the names in the certificate.
+    // The default, since 7.10, is 2.
+    // The checking this option controls is of the identity that
+    // the server claims. The server could be lying.
+    // To control lying, see CURLOPT_SSL_VERIFYPEER. 
+    //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
 
     // the following sets "tough" certificate checking
@@ -357,14 +384,18 @@ The checking this option controls is of the identity that the server claims. The
 #endif
 
     // set the user agent as this boinc client & version
+    //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
 
     // bypass any signal handlers that curl may want to install
+    //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_NOSIGNAL, 1L);
     // bypass progress meter
+    //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 1L);
 
     // setup timeouts
+    //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, 10L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, 300L);
@@ -395,19 +426,23 @@ The checking this option controls is of the identity that the server claims. The
     }
 
     // setup any proxy they may need
+    //
     setupProxyCurl();
 
-    // set the content type in the header (defined at the top -- app/octect-stream)
+    // set the content type in the header
+    //
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
 	// set the file offset for resumable downloads
+    //
 	if (!bPost && offset>0.0f) {
         file_offset = offset;
         sprintf(strTmp, "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, strTmp);
     }
 
-    // we'll need to setup an output file for the reply
+    // set up an output file for the reply
+    //
     if (outfile && strlen(outfile)>0) {  
 		// if offset>0 don't truncate!
 		char szType[3] = "wb";
@@ -421,14 +456,17 @@ The checking this option controls is of the identity that the server claims. The
             http_op_state = HTTP_STATE_DONE;
             return ERR_FOPEN;
         }
-        // CMC Note: we can make the libcurl_write "fancier" in the future,
+        // we can make the libcurl_write "fancier" in the future,
         // for now it just fwrite's to the file request, which is sufficient
+        //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_WRITEFUNCTION, libcurl_write);
-        // note that in my lib_write I'm sending in a pointer to this instance of HTTP_OP
+        // note that in my lib_write I'm sending in a pointer
+        // to this instance of HTTP_OP
+        //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_WRITEDATA, this);
     }
 
-    if (bPost) {  // POST
+    if (bPost) {
         want_upload = true;
         want_download = false;
         if (infile && strlen(infile)>0) {
@@ -448,21 +486,24 @@ The checking this option controls is of the identity that the server claims. The
         // set the data file info to read for the PUT/POST
         // note the use of this curl typedef for large filesizes
 
-        /* HTTP PUT method
+#if 0
+        // HTTP PUT method
         curl_off_t fs = (curl_off_t) content_length; 
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE, content_length);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, fileIn);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE_LARGE, fs);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PUT, 1L);
-        */
+#endif
 
         // HTTP POST method
-        // set the multipart form for the file -- boinc just has the one section (file)
+        // set the multipart form for the file --
+        // boinc just has the one section (file)
         
-        /*  CMC -- if we ever want to do POST as multipart forms someday 
-                   // (many seem to prefer it that way, i.e. libcurl)
-                   
+#if 0
+        //  if we ever want to do POST as multipart forms someday 
+        // (many seem to prefer it that way, i.e. libcurl)
+        //
         pcurlFormStart = pcurlFormEnd = NULL;
         curl_formadd(&pcurlFormStart, &pcurlFormEnd, 
                CURLFORM_FILECONTENT, infile,
@@ -472,23 +513,26 @@ The checking this option controls is of the identity that the server claims. The
         curl_formadd(&post, &last,
                CURLFORM_COPYNAME, "logotype-image",
                CURLFORM_FILECONTENT, "curl.png", CURLFORM_END);
-        */
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPPOST, pcurlFormStart);
+#endif
 
-        //curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPPOST, pcurlFormStart);
         curl_off_t fs = (curl_off_t) content_length; 
 
         pByte = NULL;
         lSeek = 0;    // initialize the vars we're going to use for byte transfers
 
-        // CMC Note: we can make the libcurl_read "fancier" in the future,
+        // we can make the libcurl_read "fancier" in the future,
         // for now it just fwrite's to the file request, which is sufficient
+        //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDSIZE_LARGE, fs);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_READFUNCTION, libcurl_read);
-        // note that in my lib_write I'm sending in a pointer to this instance of HTTP_OP
+        // in my lib_write I'm sending in a pointer to this instance of HTTP_OP
+        //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
 
         // callback function to rewind input file 
+        //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION, libcurl_ioctl);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLDATA, this);
 
@@ -498,15 +542,18 @@ The checking this option controls is of the identity that the server claims. The
         want_download = true;
 
         // now write the header, pcurlList gets freed in net_xfer_curl
+        //
         if (pcurlList) { // send custom headers if required
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
         }
 
         // setup the GET!
+        //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPGET, 1L);
     }
 
     // turn on debug info if tracing enabled
+    //
     if (log_flags.http_debug) {
         static int trace_count = 0;
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
@@ -518,40 +565,16 @@ The checking this option controls is of the identity that the server claims. The
     // last but not least, add this to the curl_multi
 
     curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
-    if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) { // bad error, couldn't attach easy curl handle
-        msg_printf(0, MSG_INTERNAL_ERROR, "Couldn't add curlEasy handle to curlMulti");
-        return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
+    if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) {
+        // bad error, couldn't attach easy curl handle
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "Couldn't add curlEasy handle to curlMulti"
+        );
+        return ERR_HTTP_ERROR;
+        // returns 0 (CURLM_OK) on successful handle creation
     }
 
     return 0;
-}
-
-
-// Initialize HTTP POST operation
-//
-int HTTP_OP::init_post2(
-    const char* url, char* r1, const char* in, double offset
-) {
-    int retval;
-    double size;
-    //char proxy_buf[256];
-
-    init();
-    req1 = r1;
-    if (in) {
-        safe_strcpy(infile, in);
-        file_offset = offset;
-        retval = file_size(infile, size);
-        if (retval) {
-            printf("HTTP::init_post2: couldn't get file size\n");
-            return retval; // this will be 0 or ERR_NOT_FOUND
-        }
-        content_length = (int)size - (int)offset;
-    }
-    content_length += (int)strlen(req1);
-    http_op_type = HTTP_OP_POST2;
-    http_op_state = HTTP_STATE_CONNECTING;
-    return HTTP_OP::libcurl_exec(url, in, NULL, offset, true);
 }
 
 // Returns true if the HTTP operation is complete
@@ -614,11 +637,15 @@ int HTTP_OP::set_proxy(PROXY_INFO *new_pi) {
 
 size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     // take the stream param as a FILE* and write to disk
-    //CMC TODO: maybe assert stRead == size*nmemb, add exception handling on phop members
+    // TODO: maybe assert stRead == size*nmemb,
+    // add exception handling on phop members
+    //
     size_t stWrite = fwrite(ptr, size, nmemb, (FILE*) phop->fileOut);
 #if 1
     if (log_flags.http_xfer_debug) {
-        msg_printf(NULL, MSG_INFO, "[http_xfer_debug] HTTP: wrote %d bytes", (int)stWrite);
+        msg_printf(NULL, MSG_INFO,
+            "[http_xfer_debug] HTTP: wrote %d bytes", (int)stWrite
+        );
     }
 #endif
     phop->bytes_xferred += (double)(stWrite);
@@ -633,29 +660,27 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     // write out size*nmemb # of bytes to ptr
 
     // take the stream param as a FILE* and write to disk
-    //if (pByte) delete [] pByte;
-    //pByte = new unsigned char[content_length];
-    //memset(pByte, 0x00, content_length); // may as will initialize it!
+    // if (pByte) delete [] pByte;
+    // pByte = new unsigned char[content_length];
+    // memset(pByte, 0x00, content_length); // may as will initialize it!
 
-    // note that fileIn was opened earlier, go to lSeek from the top and read from there
+    // note that fileIn was opened earlier,
+    // go to lSeek from the top and read from there
+    //
     size_t stSend = size * nmemb;
     int stRead = 0;
 
-//    if (phop->http_op_type == HTTP_OP_POST2) {
-    if (phop->req1 && ! phop->bSentHeader) { // need to send headers first, then data file
-        // uck -- the way 'post2' is done, you have to read the
-        // header bytes, and then cram on the file upload bytes
-
+    if (phop->req1 && !phop->bSentHeader) {
+        // need to send headers first, then data file
         // so requests from 0 to strlen(req1)-1 are from memory,
         // and from strlen(req1) to content_length are from the file
-
-        // just send the headers from htp->req1 if needed
         if (phop->lSeek < (long) strlen(phop->req1)) {  
-            // need to read header, either just starting to read (i.e.
-            // this is the first time in this function for this phop)
+            // need to read header, either just starting to read
+            // (i.e. this is the first time in this function for this phop)
             // or the last read didn't ask for the entire header
 
-            stRead = (int)strlen(phop->req1) - phop->lSeek;  // how much of header left to read
+            stRead = (int)strlen(phop->req1) - phop->lSeek;
+                // how much of header left to read
 
             // only memcpy if request isn't out of bounds
             if (stRead < 0) {
@@ -664,41 +689,33 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
                 memcpy(ptr, (void*)(phop->req1 + phop->lSeek), stRead);
             }
             phop->lSeek += (long) stRead;  // increment lSeek to new position
-            phop->bytes_xferred += (double)(stRead);
+
+            // Don't count header in bytes transferred.
+            // Otherwise the GUI will show e.g. "400 out of 300 bytes xferred"
+            //phop->bytes_xferred += (double)(stRead);
+
             // see if we're done with headers
-            phop->bSentHeader = (bool)(phop->lSeek >= (long) strlen(phop->req1));
-            // reset lSeek if done to make it easier for file operations
-            if (phop->bSentHeader) phop->lSeek = 0; 
-            return stRead;  // 
+            if (phop->lSeek >= (long) strlen(phop->req1)) {
+                phop->bSentHeader = true;
+                phop->lSeek = 0; 
+            }
+            return stRead;
+        } else {
+            // shouldn't happen
+            phop->bSentHeader = true;
+            phop->lSeek = 0; 
         }
     }
-    // now for file to read in (if any), also don't bother if this request
-    // was just enough for the header (which was taken care of above)
     if (phop->fileIn) { 
-        // note we'll have to fudge lSeek a little if there was
-        // also a header, just use a temp var
-        //size_t stOld = stRead; // we'll want to save the ptr location of last stRead
-
-        // keep a separate pointer to "bump ahead" the pointer for the file data
-        // as ptr may have been used above for the header info
-        //unsigned char *ptr2;
-        // get the file seek offset, both from the offset requested (added)
-        // as well as the size of the header above discounted
-        //    - ((phop->req1 && stRead>0) ? stRead : 
-        //            (phop->req1 ? strlen(phop->req1) : 0L)) 
         long lFileSeek = phop->lSeek + (long) phop->file_offset;
         fseek(phop->fileIn, lFileSeek, SEEK_SET);
-        if (!feof(phop->fileIn)) { // CMC TODO: better error checking for size*nmemb
-            // i.e. that we don't go overbounds of the file etc, we can check against
-            // content_length (which includes the strlen(req1) also)
-            // note the use of stOld to get to the right position in case the header was read in above
-            //ptr2 = (unsigned char*)ptr +(int)stOld;
+        if (!feof(phop->fileIn)) {
             stRead = (int)fread(ptr, 1, stSend, phop->fileIn); 
         }    
-        phop->lSeek += (long) stRead;  // increment lSeek to new position
+        phop->lSeek += (long) stRead;
         phop->bytes_xferred += (double)(stRead);
     }
-    phop->update_speed();  // this should update the transfer speed
+    phop->update_speed();
     return stRead;
 }
 
@@ -800,11 +817,6 @@ void HTTP_OP::setupProxyCurl() {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-/* testing!
-            fprintf(stdout, "Using httpauth for proxy: %s:%d %s:%s\n",
-                pi.http_server_name, pi.http_server_port,
-                pi.http_user_name, pi.http_user_passwd);
-*/
             auth_flag = true;
             if (auth_type) {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
@@ -855,24 +867,6 @@ int curl_cleanup() {
     return 0;
 }
 
-void HTTP_OP::reset() {
-    req1 = NULL;
-    strcpy(infile, "");
-    strcpy(outfile, "");
-    strcpy(error_msg, "");
-    CurlResult = CURLE_OK;
-    bTempOutfile = true;
-    want_download = false;
-    want_upload = false;
-    fileIn = NULL;
-    fileOut = NULL;
-    connect_error = 0;
-    bytes_xferred = 0;
-    bSentHeader = false;
-    close_socket();
-}
-
-
 void HTTP_OP::close_socket() {
     // this cleans up the curlEasy, and "spoofs" the old close_socket
     //
@@ -907,25 +901,16 @@ void HTTP_OP::close_file() {
     }
 }
 
-void HTTP_OP::init() {
-    reset();
-    start_time = gstate.now;
-	start_bytes_xferred = 0;
-}
-
-
 void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
     CURLMcode curlMErr;
     curlMErr = curl_multi_fdset(
         g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd
     );
-    //printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
 }
 
 void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
     int iNumMsg;
     HTTP_OP* hop = NULL;
-    //bool time_passed = false;
     CURLMsg *pcurlMsg = NULL;
 
     int iRunning = 0;  // curl flags for max # of fds & # running queries

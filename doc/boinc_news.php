@@ -1,7 +1,13 @@
 <?
 
 $project_news = array(
-
+array("Jan 10, 2008",
+    "A new competition for BOINC teams,
+    <a href=http://www.myboinc.com/FormulaBoinc/>Formula BOINC</a>,
+    is based on their position with projects (as in Formula 1 racing)
+    rather than overall credit.
+    This rewards teams that are diversified across many projects."
+),
 array("Dec 26, 2007",
     "A story in the Chicago Tribune, \"<a href=http://www.chicagotribune.com/services/newspaper/printedition/tuesday/chi-computer_25dec25,0,2528641.story>Bit by bit, home computers aid science</a>\",
     highlights <a href=http://www.cosmologyathome.org/>Cosmology@home</a>."
