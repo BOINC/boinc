@@ -87,8 +87,8 @@ Charlie Jan 10 2008
         unused FormatPriority method.  
     - MGR: Auto-scroll messages only if already at bottom of list (don't 
         jump to bottom while examining earlier messages.)
-    NOTE: these changes may need to be fixed in CViewMessagesGrid class 
-            if we implement that in teh future.
+    NOTE: these changes may need to be applied in CViewMessagesGrid class 
+            if we implement that in the future.
         
     clientgui/
         sg_DlgMessages.cpp,h
