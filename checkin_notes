@@ -308,3 +308,9 @@ Charlie Jan 10 2008
         boinc.xcodeproj/
             project.pbxproj
         BuildMacBOINC.sh
+
+David  Jan 10 2008
+    - Fix long-standing bug in CPU throttling
+
+    client/
+        cs_prefs.C
