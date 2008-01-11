@@ -146,18 +146,16 @@ int CLIENT_STATE::check_suspend_processing() {
 
     if (global_prefs.cpu_usage_limit != 100) {
         static double last_time=0, debt=0;
-        if (last_time) {
-            double diff = now - last_time;
-            if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
-                debt += diff*global_prefs.cpu_usage_limit/100;
-                if (debt < 0) {
-                    return SUSPEND_REASON_CPU_USAGE_LIMIT;
-                } else {
-                    debt -= diff;
-                }
+        double diff = now - last_time;
+        last_time = now;
+        if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
+            debt += diff*global_prefs.cpu_usage_limit/100;
+            if (debt < 0) {
+                return SUSPEND_REASON_CPU_USAGE_LIMIT;
+            } else {
+                debt -= diff;
             }
         }
-        last_time = now;
     }
     return 0;
 }

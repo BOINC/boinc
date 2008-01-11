@@ -92,4 +92,10 @@ Charlie Jan 10 2008
         
     clientgui/
         sg_DlgMessages.cpp,h
-        ViewMessages.cpp,h
+        ViewMessages.cpp
+
+David  Jan 10 2008
+    - Fix long-standing bug in CPU throttling
+
+    client/
+        cs_prefs.C
