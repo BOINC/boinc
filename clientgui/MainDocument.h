@@ -57,7 +57,7 @@ public:
     int            GetConnectedComputerVersion(wxString& strVersion);
     int            GetConnectingComputerName(wxString& strMachine);
     bool           IsComputerNameLocal(const wxString& strMachine);
-    void           GetLocalPassword(wxString& strPassword);
+    int            GetLocalPassword(wxString& strPassword);
     int            SetComputer(const wxChar* szComputer, const wxChar* szPassword, const bool bUseDefaultPassword);
     void           SetStateError();
     void           SetStateErrorAuthentication();
@@ -78,6 +78,7 @@ private:
     bool           m_bReconnecting;
     bool           m_bUseDefaultPassword;
     bool           m_bUsedDefaultPassword;
+    int            m_iReadGUIRPCAuthFailure;
     bool           m_bNewConnection;
     wxString       m_strNewComputerName;
     wxString       m_strNewComputerPassword;

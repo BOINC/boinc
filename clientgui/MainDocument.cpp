@@ -58,6 +58,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bReconnectOnError = false;
     m_bNewConnection = false;
     m_bUsedDefaultPassword = false;
+    m_iReadGUIRPCAuthFailure = 0;
 }
 
 
@@ -65,12 +66,12 @@ CNetworkConnection::~CNetworkConnection() {
 }
 
 
-void CNetworkConnection::GetLocalPassword(wxString& strPassword){
+int CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
     strcpy(buf, "");
 
     FILE* f = fopen("gui_rpc_auth.cfg", "r");
-    if (!f) return;
+    if (!f) return errno;
     fgets(buf, 256, f);
     fclose(f);
     int n = (int)strlen(buf);
@@ -82,6 +83,7 @@ void CNetworkConnection::GetLocalPassword(wxString& strPassword){
     }
 
     strPassword = wxString(buf, wxConvUTF8);
+    return 0;
 }
 
 
@@ -99,9 +101,11 @@ void CNetworkConnection::Poll() {
             // Wait until we can establish a connection to the core client before reading
             //   the password so that the client has time to create one when it needs to.
             if (m_bUseDefaultPassword) {
-                GetLocalPassword(m_strNewComputerPassword);
+                m_iReadGUIRPCAuthFailure = 0;
                 m_bUseDefaultPassword = FALSE;
                 m_bUsedDefaultPassword = true;
+
+                m_iReadGUIRPCAuthFailure = GetLocalPassword(m_strNewComputerPassword);
             }
 
             retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.mb_str());
@@ -230,7 +234,7 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
         m_bConnectEvent = false;
 
-        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword);
+        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword, m_iReadGUIRPCAuthFailure);
     }
 }
 

@@ -344,7 +344,7 @@ void CBOINCBaseFrame::FireReloadSkin() {
 }
 
 
-void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword ) {
+void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure ) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
 
@@ -363,12 +363,21 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword 
     );
 
     if ( bUsedDefaultPassword ) {
-        ShowAlert(
-            strDialogTitle,
-            _("Authorization failed connecting to running client.\n"
-              "Make sure you start this program in the same directory as the client."),
-            wxOK | wxICON_ERROR
-        );
+        if ( EACCES == m_iReadGUIRPCAuthFailure || ENOENT == m_iReadGUIRPCAuthFailure ) {
+            ShowAlert(
+                strDialogTitle,
+                _("You currently are not authorized to manage the client.\n"
+                  "Please contact your administrator to add you to the 'boinc_users' local user group."),
+                wxOK | wxICON_ERROR
+            );
+        } else {
+            ShowAlert(
+                strDialogTitle,
+                _("Authorization failed connecting to running client.\n"
+                  "Make sure you start this program in the same directory as the client."),
+                wxOK | wxICON_ERROR
+            );
+        }
     } else {
         ShowAlert(
             strDialogTitle,

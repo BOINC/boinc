@@ -316,6 +316,8 @@ David  Jan 10 2008
         cs_prefs.C
 
 Rom    Jan 11 2008
+    - MGR: Inform the user that they'll need to be added to the boinc_users
+        group if access to gui_rpc_auth.cfg is denied.
     - Fix a crash condition when BOINC is started as a standard user account
         without the 'create global named objects' user right on Vista.
     - WINSETUP: Make sure that BOINC Tray is started for all users on the
@@ -323,7 +325,10 @@ Rom    Jan 11 2008
     - WINSETUP: If the 'All users can control BOINC' checkbox is checked then
         put the BOINC Manager startup short cut in the 'all users' startup directory
         otherwise put it in the 'users' startup directory.
-        
+
+    clientgui/
+        BOINCBaseFrame.cpp, .h
+        MainDocument.cpp, .h
     clientlib/win/
         IdleTracker.cpp
     win_build/installerv2/
@@ -336,3 +341,7 @@ Rom    Jan 11 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    Jan 11 2008 (HEAD)
+    - Tag for 6.1.6 release, all platforms
+      boinc_core_release_6_1_6
