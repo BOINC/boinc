@@ -297,3 +297,14 @@ David Jan 10 2008
         stats_sites.inc
     lib/
         util.C
+
+Charlie Jan 10 2008
+    - Mac API: Delete old target gfxlibboinc and obsolete source files 
+        from XCode project.
+    - Mac: Update build script to build libboinc_graphics2.a instead of 
+        libboinc_graphics_api.a.  Fixes #536.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        BuildMacBOINC.sh
