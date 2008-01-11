@@ -104,26 +104,29 @@ EXTERN_C __declspec(dllexport) DWORD BOINCGetIdleTickCount()
 
     if ( g_bIsWindows2000Compatible )
     {
-        LASTINPUTINFO lii;
-        ZeroMemory( &lii, sizeof(lii) );
-        lii.cbSize = sizeof(lii);
-        g_fnGetLastInputInfo( &lii );
-
-        /**
-         * If both values are greater than the system tick count then
-         *   the system must have looped back to the begining.
-         **/
-        if ( ( dwCurrentTickCount < lii.dwTime ) &&
-             ( dwCurrentTickCount < g_pSystemWideIdleData->dwLastTick ) )
+        if ( g_pSystemWideIdleData )
         {
-            lii.dwTime = dwCurrentTickCount;
-            g_pSystemWideIdleData->dwLastTick = dwCurrentTickCount;
+            LASTINPUTINFO lii;
+            ZeroMemory( &lii, sizeof(lii) );
+            lii.cbSize = sizeof(lii);
+            g_fnGetLastInputInfo( &lii );
+
+            /**
+             * If both values are greater than the system tick count then
+             *   the system must have looped back to the beginning.
+             **/
+            if ( ( dwCurrentTickCount < lii.dwTime ) &&
+                 ( dwCurrentTickCount < g_pSystemWideIdleData->dwLastTick ) )
+            {
+                lii.dwTime = dwCurrentTickCount;
+                g_pSystemWideIdleData->dwLastTick = dwCurrentTickCount;
+            }
+
+            if ( lii.dwTime > g_pSystemWideIdleData->dwLastTick )
+                g_pSystemWideIdleData->dwLastTick = lii.dwTime;
+
+            dwLastTickCount = g_pSystemWideIdleData->dwLastTick;
         }
-
-        if ( lii.dwTime > g_pSystemWideIdleData->dwLastTick )
-            g_pSystemWideIdleData->dwLastTick = lii.dwTime;
-
-        dwLastTickCount = g_pSystemWideIdleData->dwLastTick;
     }
     else
     {
