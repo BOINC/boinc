@@ -73,7 +73,7 @@ function search_post_content(
     if ($forum!="" && $forum!="all"){
         $optional_join = " LEFT JOIN DBNAME.thread ON post.thread = thread.id";
     }
-    $query = "select *,post.id as postid from DBNAME.post".$optional_join." where content like '".$search_string."'";
+    $query = "select *, DBNAME.post.id as postid from DBNAME.post".$optional_join." where content like '".$search_string."'";
     if ($forum!="" && $forum!="all"){
         $query.=" and forum = ".intval($forum->id);
     }
@@ -168,14 +168,17 @@ if (count($posts)){
     $options = get_output_options($logged_in_user);
     $options->setHighlightTerms($search_list);
     foreach ($posts as $post) {
+        $post->id = $post->postid;
         $thread = BoincThread::lookup_id($post->thread);
         if (!$thread) continue;
         $forum = BoincForum::lookup_id($thread->forum);
         if (!$forum) continue;
         if (!is_forum_visible_to_user($forum, $logged_in_user)) continue;
 
-        if (($show_hidden_posts == false) && ($thread->hidden)) continue;
-        if (($show_hidden_posts == false) && ($post->hidden)) continue;
+        if (!$show_hidden_posts) {
+            if ($thread->hidden) continue;
+            if ($post->hidden) continue;
+        }
         show_post_and_context($post, $thread, $forum, $options, $n);
         $n++;
     }

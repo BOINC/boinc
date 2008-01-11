@@ -345,3 +345,10 @@ Rom    Jan 11 2008
 Rom    Jan 11 2008 (HEAD)
     - Tag for 6.1.6 release, all platforms
       boinc_core_release_6_1_6
+
+David  Jan 11 2008
+    - web: fix bug there message link not correct in search results
+        fixes #539
+
+    html/user/
+        forum_search_action.php
