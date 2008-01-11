@@ -352,3 +352,16 @@ David  Jan 11 2008
 
     html/user/
         forum_search_action.php
+
+David  Jan 11 2008
+    - client, Win: check for network connectivity (for time stats log file)
+    - client: add platform/version lines to time stats log file
+
+    client/
+        http_curl.C
+        sim_util.C
+        time_stats.C
+    lib/
+        network.C,h
+    win_build/
+        boinc_cli_curl.vcproj

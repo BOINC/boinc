@@ -57,7 +57,7 @@ void CLIENT_STATE::set_client_state_dirty(char const*) {
 
 void HOST_INFO::generate_host_cpid() {}
 
-int get_connected_state() {return CONNECTED_STATE_CONNECTED;}
+//int get_connected_state() {return 1;}
 
 int CLIENT_STATE::report_result_error(RESULT& , const char* , ...) {return 0;}
 

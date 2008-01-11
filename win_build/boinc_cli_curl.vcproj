@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
+				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib sensapi.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
