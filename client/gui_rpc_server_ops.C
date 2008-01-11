@@ -880,7 +880,7 @@ static void read_all_projects_list_file(MIOFILE& fout) {
 static int set_debt(XML_PARSER& xp) {
     bool is_tag;
     char tag[256], url[256];
-    double short_term_debt, long_term_debt;
+    double short_term_debt = 0.0, long_term_debt = 0.0;
     bool got_std=false, got_ltd=false;
     strcpy(url, "");
     while (!xp.get(tag, sizeof(tag), is_tag)) {
