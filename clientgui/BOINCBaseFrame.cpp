@@ -363,6 +363,7 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
     );
 
     if ( bUsedDefaultPassword ) {
+#ifdef __WXMSW__
         if ( EACCES == m_iReadGUIRPCAuthFailure || ENOENT == m_iReadGUIRPCAuthFailure ) {
             ShowAlert(
                 strDialogTitle,
@@ -370,7 +371,9 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
                   "Please contact your administrator to add you to the 'boinc_users' local user group."),
                 wxOK | wxICON_ERROR
             );
-        } else {
+        } else 
+#endif
+        {
             ShowAlert(
                 strDialogTitle,
                 _("Authorization failed connecting to running client.\n"

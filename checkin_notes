@@ -376,3 +376,15 @@ David  Jan 11 2008
             host.inc
         user/
             host_edit_form.php
+
+Charlie Jan 11 2008
+    - Mac: Fix compile error on some Macs by changing XCode Project reference 
+        "texfont.c" to "texfont.C".
+    - MGR: New message about needing to be added to the boinc_users group 
+        applies only to Windows.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    clientgui/
+        BOINCBaseFrame.cpp

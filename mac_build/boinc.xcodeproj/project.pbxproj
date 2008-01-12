@@ -177,6 +177,7 @@
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
+		DD635A420D384FA500BAC1A5 /* texfont.C in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.C */; };
 		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
 		DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
@@ -237,7 +238,6 @@
 		DDB873F10C850BC800E0DE1F /* reduce_main.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.C */; };
 		DDB873F20C850BC800E0DE1F /* texture.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.C */; };
 		DDB873F40C850BC800E0DE1F /* gutil_text.C in Sources */ = {isa = PBXBuildFile; fileRef = DD64DF0409DCC5E000668B3A /* gutil_text.C */; };
-		DDB873F50C850BC800E0DE1F /* texfont.c in Sources */ = {isa = PBXBuildFile; fileRef = DD65020609F599B9008E8A3A /* texfont.c */; };
 		DDB873F60C850BC800E0DE1F /* txf_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.C */; };
 		DDB873F70C850BC800E0DE1F /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DDB874470C850D3000E0DE1F /* graphics2_unix.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB874450C850D3000E0DE1F /* graphics2_unix.C */; };
@@ -688,12 +688,12 @@
 		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = whetstone.C; path = ../client/whetstone.C; sourceTree = SOURCE_ROOT; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
+		DD635A410D384FA500BAC1A5 /* texfont.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texfont.C; path = ../api/texfont.C; sourceTree = SOURCE_ROOT; };
 		DD6381450870DB78007A2F8E /* mac_icon.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_icon.C; path = ../api/mac_icon.C; sourceTree = SOURCE_ROOT; };
 		DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MakeAppIcon_h; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD6381F80870DD83007A2F8E /* make_app_icon_h.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = make_app_icon_h.C; sourceTree = "<group>"; };
 		DD64DF0409DCC5E000668B3A /* gutil_text.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gutil_text.C; path = ../api/gutil_text.C; sourceTree = SOURCE_ROOT; };
 		DD64E7D507D89DB800B176C8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		DD65020609F599B9008E8A3A /* texfont.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = texfont.c; path = ../api/texfont.c; sourceTree = SOURCE_ROOT; };
 		DD65020709F599B9008E8A3A /* texfont.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texfont.h; path = ../api/texfont.h; sourceTree = SOURCE_ROOT; };
 		DD65020809F599B9008E8A3A /* txf_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.C; path = ../api/txf_util.C; sourceTree = SOURCE_ROOT; };
 		DD65020909F599B9008E8A3A /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../api/txf_util.h; sourceTree = SOURCE_ROOT; };
@@ -1500,7 +1500,7 @@
 				DD40825707D3076400163EF5 /* reduce_lib.C */,
 				DD40825807D3076400163EF5 /* reduce_main.C */,
 				DD40825907D3076400163EF5 /* reduce.h */,
-				DD65020609F599B9008E8A3A /* texfont.c */,
+				DD635A410D384FA500BAC1A5 /* texfont.C */,
 				DD65020709F599B9008E8A3A /* texfont.h */,
 				DD4EC60F08A0A083009AA08F /* texture.C */,
 				DD4EC61008A0A083009AA08F /* texture.h */,
@@ -2356,9 +2356,9 @@
 				DDB873F00C850BC800E0DE1F /* reduce_lib.C in Sources */,
 				DDB873F10C850BC800E0DE1F /* reduce_main.C in Sources */,
 				DDB873F20C850BC800E0DE1F /* texture.C in Sources */,
-				DDB873F50C850BC800E0DE1F /* texfont.c in Sources */,
 				DDB873F60C850BC800E0DE1F /* txf_util.C in Sources */,
 				DDB873F70C850BC800E0DE1F /* str_util.C in Sources */,
+				DD635A420D384FA500BAC1A5 /* texfont.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
