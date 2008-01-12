@@ -699,7 +699,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #else   // Unix based systems
 
         // copy the path to the boinmgr from argv[0]
-        strExecute  = (const char*)wxGetApp().argv[0];
+        strExecute = wxString((const char*)wxGetApp().argv[0], wxConvUTF8);
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute += wxT("/boinc -redirectio -launched_by_manager");
