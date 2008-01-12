@@ -12,6 +12,8 @@ if (!$host || $host->userid != $user->id) {
     error_page("We have no record of that computer");
 }
 
+$detail = get_int('detail', true);
+
 page_head("Merge computers");
 
 $t = time_str($host->create_time);
@@ -29,13 +31,17 @@ $nhosts = 1;
 $hosts = array();
 foreach ($all_hosts as $host2) {
     if ($host->id == $host2->id) continue;
-    if (!hosts_compatible($host, $host2)) continue;
+    if (!hosts_compatible($host, $host2, $detail)) continue;
     $hosts[] = $host2;
     $nhosts++;
     if ($nhosts==500) break;
 }
 if ($nhosts == 1) {
     echo "<br>No hosts are eligible for merging with this one.";
+    if (!$detail) {
+        echo "<p><a href=host_edit_form.php?hostid=$hostid&detail=1>Show details</a>
+        ";
+    }
     page_tail();
     exit();
 }
@@ -88,6 +94,11 @@ echo "
     <p><input type=submit value='Merge hosts'>
     </form>
 ";
+
+if (!$detail) {
+    echo "<p><a href=host_edit_form.php?hostid=$hostid&detail=1>Show details</a>
+    ";
+}
 
 page_tail();
 

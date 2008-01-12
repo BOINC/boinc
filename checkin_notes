@@ -365,3 +365,14 @@ David  Jan 11 2008
         network.C,h
     win_build/
         boinc_cli_curl.vcproj
+
+David  Jan 11 2008
+    - web: in host merge pages, provide "Show details" button,
+        which shows the reasons why pairs of hosts
+        were not eligible for merging
+
+    html/
+        inc/
+            host.inc
+        user/
+            host_edit_form.php
