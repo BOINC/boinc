@@ -951,6 +951,7 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     //
     if (!device_idle(idle_time, "/dev/mouse")) return false;
         // solaris, linux
+    if (!device_idle(idle_time, "/dev/input/mice")) return false;
     if (!device_idle(idle_time, "/dev/kbd")) return false;
         // solaris
     return true;

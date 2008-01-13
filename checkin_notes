@@ -432,3 +432,19 @@ David  Jan 12 2008
         handle_request.C
         sched_config.C,h
         server_types.C,h
+
+David  Jan 12 2008
+    - client: implement <start_apps_manually> for Windows too
+    - client: check /dev/input/mice/ for idle detection;
+        apparently that's replaced /dev/mouse in Linux
+        (from Toby Murray)
+    - API: make old-style graphics compile again
+
+    api/
+        boinc_api.C,h
+        graphics_api.C
+        graphics_impl.C
+        graphics_lib.C
+    client/
+        app_start.C
+        hostinfo_unix.C

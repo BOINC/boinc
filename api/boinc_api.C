@@ -163,7 +163,6 @@ static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
 static void graphics_cleanup();
-static int start_timer_thread();
 static int suspend_activities();
 static int resume_activities();
 static int restore_activities();
@@ -953,7 +952,7 @@ static void worker_signal_handler(int) {
 
 // Called from the worker thread; create the timer thread
 //
-static int start_timer_thread() {
+int start_timer_thread() {
     int retval=0;
 
 #ifdef _WIN32

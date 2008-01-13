@@ -469,11 +469,7 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.dwFlags=STARTF_FORCEOFFFEEDBACK;
     // suppress 2-sec rotating hourglass cursor on startup
 
-    //startup_info.cb = sizeof(startup_info);
-    //startup_info.dwFlags = STARTF_USESHOWWINDOW;
-    //startup_info.wShowWindow = SW_HIDE;
-
-    // create core/app share mem segment if needed
+    // create shared mem segment if needed
     //
     if (!app_client_shm.shm) {
         sprintf(buf, "%s%s", SHM_PREFIX, shmem_seg_name);
@@ -488,6 +484,12 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     app_client_shm.reset_msgs();
 
+    if (config.run_apps_manually) {
+        pid = GetCurrentProcessId();
+        pid_handle = GetCurrentProcess();
+        set_task_state(PROCESS_EXECUTING, "start");
+        return 0;
+    }
     // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
     cmd_line = exec_path + std::string(" ") + wup->command_line;

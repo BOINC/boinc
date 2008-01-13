@@ -135,6 +135,7 @@ extern APP_CLIENT_SHM *app_client_shm;
 extern HANDLE worker_thread_handle;
 #endif
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
+extern int start_timer_thread();
 extern bool g_sleep;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
