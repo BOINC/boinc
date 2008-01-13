@@ -895,6 +895,18 @@ bool ACTIVE_TASK::get_app_status_msg() {
         );
         return false;
     }
+#if 0
+    if (app_client_shm.shm->process_control_reply.get_msg(msg_buf)) {
+        int n;
+        if (parse_int(msg_buf, "<nthreads>", n)) {
+            if (n < 1) n = 1;
+            if (n != nthreads) {
+                gstate.request_schedule_cpus("nthreads changed");
+                nthreads = n;
+            }
+        }
+    }
+#endif
     if (!app_client_shm.shm->app_status.get_msg(msg_buf)) {
         return false;
     }

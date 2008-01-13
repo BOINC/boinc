@@ -76,6 +76,7 @@ cgi_SOURCES = \
     sched_locality.C \
     sched_timezone.C \
     server_types.C \
+	time_stats_log.C \
     ../lib/synch.C
 
 census_SOURCES = \
@@ -190,6 +191,7 @@ fcgi_SOURCES = \
     sched_msgs.C \
     sched_locality.C \
     sched_timezone.C \
+	time_stats_log.C \
     edf_sim.C \
     ../db/boinc_db.C \
     ../db/db_base.C \

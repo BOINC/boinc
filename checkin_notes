@@ -388,3 +388,47 @@ Charlie Jan 11 2008
             project.pbxproj
     clientgui/
         BOINCBaseFrame.cpp
+
+David  Jan 12 2008
+    - Client: add <run_apps_manually> config flag.
+        This is for debugging apps (currently works only in Unix).
+        What it does: when running an app,
+        the client does everything except actually fork/exec the app,
+        i.e. it sets up the slot dir, creates shared mem segment etc.
+        It then continues as if the app were actually running,
+        and you can then manually run your app under a debugger
+        in the slot directory.
+        Note: the client won't notice the termination of your app.
+    - API, Unix: in situations where the timer thread wants to exit
+        (e.g. it notices a missing heartbeat).
+        don't directly call boinc_exit(),
+        since this touches data structures that the worker thread
+        may be using concurrently.
+        Instead, set a flag telling the worker thread to call boinc_exit()
+        (which it will do from its signal handler)
+        This is an attempt to fix problems reported by Bernd;
+        I haven't tested it.
+    - scheduler: add config flag for uploading usage data
+    - web: show account key and weak account key on user page
+    - added some code for multithread support (not finished)
+
+    api/
+        boinc_api.C,h
+    client/
+        app.h
+        app_control.C
+        app_start.C
+        cpu_sched.C
+        log_flags.C,h
+    html/
+        inc/
+            user.inc
+        user/
+            white.css
+    lib/
+        app_ipc.C,h
+    sched/
+        Makefile.am
+        handle_request.C
+        sched_config.C,h
+        server_types.C,h

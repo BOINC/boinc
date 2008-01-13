@@ -617,7 +617,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
             if (retval) {
                 needs_shmem = true;
-                destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment
+                destroy_shmem(shmem_seg_name);
                 return retval;
             }
         }
@@ -629,7 +629,11 @@ int ACTIVE_TASK::start(bool first_time) {
     // PowerPC apps emulated on i386 Macs crash if running graphics
     powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
 #endif
-
+    if (config.run_apps_manually) {
+        pid = getpid();     // use the client's PID
+        set_task_state(PROCESS_EXECUTING, "start");
+        return 0;
+    }
     pid = fork();
     if (pid == -1) {
         sprintf(buf, "fork() failed: %s", strerror(errno));

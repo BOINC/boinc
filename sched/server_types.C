@@ -29,6 +29,7 @@ using namespace std;
 #include "main.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "time_stats_log.h"
 #include "server_types.h"
 
 #ifdef _USING_FCGI_
@@ -145,6 +146,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     memset(&host, 0, sizeof(host));
     have_other_results_list = false;
     have_ip_results_list = false;
+    have_time_stats_log = false;
 
     char* unused = fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
@@ -209,6 +211,11 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (match_tag(buf, "<time_stats>")) {
             host.parse_time_stats(fin);
+            continue;
+        }
+        if (match_tag(buf, "<time_stats_log>")) {
+            handle_time_stats_log(fin);
+            have_time_stats_log = true;
             continue;
         }
         if (match_tag(buf, "<net_stats>")) {
@@ -559,6 +566,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     );
 
     if (nucleus_only) goto end;
+
+    if (config.request_time_stats_log) {
+        if (!have_time_stats_log(*this)) {
+            fprintf(fout, "<send_time_stats_log>1</send_time_stats_log>\n");
+        }
+    }
 
     if (strlen(config.symstore)) {
         fprintf(fout, "<symstore>%s</symstore>\n", config.symstore);

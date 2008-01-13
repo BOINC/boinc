@@ -52,6 +52,7 @@ using namespace std;
 #include "sched_send.h"
 #include "sched_config.h"
 #include "sched_locality.h"
+#include "time_stats_log.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -1430,6 +1431,12 @@ void process_request(
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
+
+    // write time stats to disk if present
+    //
+    if (sreq.have_time_stats_log) {
+        write_time_stats_log(reply);
+    }
 
     // look up the client's platform(s) in the DB
     //

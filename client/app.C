@@ -112,6 +112,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     too_large = false;
     needs_shmem = false;
     want_network = 0;
+    nthreads = 1;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
     pid_handle = 0;

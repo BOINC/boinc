@@ -109,6 +109,7 @@ public:
         // user name under which web server runs (default: apache)
     int file_deletion_strategy;
         // select method of automatically deleting files from host
+    bool request_time_stats_log;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

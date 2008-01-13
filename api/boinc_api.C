@@ -118,6 +118,8 @@ static double intops_per_cpu_sec = 0;
 static double intops_cumulative = 0;
 static int want_network = 0;
 static int have_network = 1;
+static int ncpus_available;
+static int nthreads;
 bool g_sleep = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
@@ -129,7 +131,7 @@ static FUNC_PTR timer_callback = 0;
     // This determines the resolution of fraction done and CPU time reporting
     // to the core client, and of checkpoint enabling.
     // It doesn't influence graphics, so 1 sec is enough.
-#define HEARTBEAT_GIVEUP_PERIOD ((int)(30/TIMER_PERIOD))
+#define HEARTBEAT_GIVEUP_COUNT ((int)(30/TIMER_PERIOD))
     // quit if no heartbeat from core in this #interrupts
 #define LOCKFILE_TIMEOUT_PERIOD 35
     // quit if we cannot aquire slot lock file in this #secs after startup
@@ -139,6 +141,10 @@ static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 #else
+static volatile bool worker_thread_exit_flag = false;
+static volatile int worker_thread_exit_status;
+    // the above are used by the timer thread to tell
+    // the worker thread to exit
 static pthread_t timer_thread_handle;
 #ifndef GETRUSAGE_IN_TIMER_THREAD
 static struct rusage worker_thread_ru;
@@ -384,7 +390,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     if (standalone) {
         options.check_heartbeat = false;
     }
-    heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
+    heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
 
     return 0;
 }
@@ -446,7 +452,8 @@ int boinc_finish(int status) {
 }
 
 // unlock the lockfile and call the appropriate exit function
-// This is called from the worker and timer threads.
+// Unix: called only from the worker thread.
+// Win: called from the worker or timer thread.
 //
 static void boinc_exit(int status) {
     if (options.backwards_compatible_graphics) {
@@ -481,6 +488,20 @@ int boinc_is_standalone() {
     return 0;
 }
 
+static void exit_from_timer_thread(int status) {
+#ifdef _WIN32
+    // this seems to work OK on Windows
+    //
+    boinc_exit(status);
+#else
+    // but on Unix there are synchronization problems;
+    // set a flag telling the worker thread to exit
+    //
+    worker_thread_exit_status = status;
+    worker_thread_exit_flag = true;
+    pthread_exit(NULL);
+#endif
+}
 
 // parse the init data file.
 // This is done at startup, and also if a "reread prefs" message is received
@@ -599,7 +620,7 @@ static void handle_heartbeat_msg() {
 
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
-            heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
+            heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
         }
         if (parse_double(buf, "<wss>", dtemp)) {
             boinc_status.working_set_size = dtemp;
@@ -654,6 +675,8 @@ static void handle_trickle_down_msg() {
     }
 }
 
+// runs in timer thread
+//
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
@@ -672,7 +695,7 @@ static void handle_process_control_msg() {
             BOINCINFO("Received quit message");
             boinc_status.quit_request = true;
             if (options.direct_process_action) {
-                boinc_exit(0);
+                exit_from_timer_thread(0);
             }
         }
         if (match_tag(buf, "<abort/>")) {
@@ -686,7 +709,7 @@ static void handle_process_control_msg() {
 #elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
-                boinc_exit(EXIT_ABORTED_VIA_GUI);
+                exit_from_timer_thread(EXIT_ABORTED_VIA_GUI);
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {
@@ -695,6 +718,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<network_available/>")) {
             have_network = 1;
         }
+        parse_int(buf, "<ncpus_available>", ncpus_available);
     }
 }
 
@@ -848,11 +872,10 @@ static void timer_handler() {
     if (!in_critical_section && options.check_heartbeat) {
         if (heartbeat_giveup_time < interrupt_count) {
             fprintf(stderr,
-                "No heartbeat from core client for %d sec - exiting\n",
-                interrupt_count - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
+                "No heartbeat from core client for 30 sec - exiting\n"
             );
             if (options.direct_process_action) {
-                boinc_exit(0);
+                exit_from_timer_thread(0);
             } else {
                 boinc_status.no_heartbeat = true;
             }
@@ -915,6 +938,9 @@ static void worker_signal_handler(int) {
 #ifndef GETRUSAGE_IN_TIMER_THREAD
     getrusage(RUSAGE_SELF, &worker_thread_ru);
 #endif
+    if (worker_thread_exit_flag) {
+        boinc_exit(worker_thread_exit_status);
+    }
     if (options.direct_process_action) {
         while (boinc_status.suspended && !in_critical_section) {
             sleep(1);   // don't use boinc_sleep() because it does FP math
@@ -1137,6 +1163,19 @@ void boinc_register_timer_callback(FUNC_PTR p) {
 
 double boinc_get_fraction_done() {
     return fraction_done;
+}
+
+int boinc_ncpus_available() {
+    return ncpus_available;
+}
+
+void boinc_nthreads(int n) {
+    char msg_buf[MSG_CHANNEL_SIZE];
+
+    nthreads = n;
+    if (standalone) return;
+    sprintf(msg_buf, "<nthreads>%d</nthreads>", n);
+    return app_client_shm->shm->process_control_reply.send_msg_overwrite(msg_buf);
 }
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

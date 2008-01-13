@@ -226,6 +226,7 @@ struct SCHEDULER_REQUEST {
         // in-progress results from all projects
     bool have_other_results_list;
     bool have_ip_results_list;
+    bool have_time_stats_log;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();

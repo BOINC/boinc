@@ -406,7 +406,8 @@ void CLIENT_STATE::adjust_debts() {
 
 // Decide whether to run the CPU scheduler.
 // This is called periodically.
-// Scheduled tasks are placed in order of urgency for scheduling in the ordered_scheduled_results vector
+// Scheduled tasks are placed in order of urgency for scheduling
+// in the ordered_scheduled_results vector
 //
 bool CLIENT_STATE::possibly_schedule_cpus() {
     double elapsed_time;
@@ -509,15 +510,17 @@ void CLIENT_STATE::schedule_cpus() {
 #ifdef SIM
     if (!cpu_sched_rr_only) {
 #endif
+    int ncpus_used = 0;
+    //while (ncpus_used < ncpus) {
     while ((int)ordered_scheduled_results.size() < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
         rp->already_selected = true;
 
-		// see if it fits in available RAM
-		//
 		atp = lookup_active_task_by_result(rp);
 		if (atp) {
+            // see if it fits in available RAM
+            //
 			if (atp->procinfo.working_set_size_smoothed > ram_left) {
 				if (log_flags.cpu_sched_debug) {
 					msg_printf(rp->project, MSG_INFO,
@@ -539,7 +542,12 @@ void CLIENT_STATE::schedule_cpus() {
                 atp->needs_shmem = false;
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
-		}
+            ncpus_used += atp->nthreads;
+		} else {
+            // if we haven't run the app yet, assume it has one thread
+            //
+            ncpus_used++;
+        }
 
         rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
@@ -681,7 +689,7 @@ bool CLIENT_STATE::enforce_schedule() {
         }
     }
 
-    // make list of currently running tasks
+    // make heap of currently running tasks, ordered by preemptibility
     //
     make_running_task_heap(running_tasks);
 
@@ -713,7 +721,6 @@ bool CLIENT_STATE::enforce_schedule() {
     int nrunning = (int)running_tasks.size();
 
     // Loop through the scheduled results
-    // to see if they should preempt a running task
     //
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT* rp = ordered_scheduled_results[i];
@@ -723,7 +730,7 @@ bool CLIENT_STATE::enforce_schedule() {
             );
         }
 
-        // See if the result is already running.
+        // See if it's already running.
         //
         atp = NULL;
         for (vector<ACTIVE_TASK*>::iterator it = running_tasks.begin(); it != running_tasks.end(); it++) {
@@ -741,6 +748,10 @@ bool CLIENT_STATE::enforce_schedule() {
                 break;
             }
         }
+
+        // if it's already running, see if it fits in mem;
+        // If not, flag for preemption
+        //
         if (atp) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
@@ -748,9 +759,6 @@ bool CLIENT_STATE::enforce_schedule() {
                 );
             }
 
-            // the scheduled result is already running.
-            // see if it fits in mem
-            //
             if (atp->procinfo.working_set_size_smoothed > ram_left) {
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 atp->too_large = true;
@@ -769,8 +777,7 @@ bool CLIENT_STATE::enforce_schedule() {
         }
 
         // Here if the result is not already running.
-        // If it already has a (non-running) active task,
-        // see if it fits in mem
+        // If it already has an active task and won't fit in mem, skip it
         //
         atp = lookup_active_task_by_result(rp);
         if (atp) {
@@ -788,8 +795,7 @@ bool CLIENT_STATE::enforce_schedule() {
             }
         }
 
-        // The scheduled result is not already running.  
-        // Preempt something if needed and possible.
+        // Preempt something if needed (and possible).
         //
         bool run_task = false;
         bool need_to_preempt = (nrunning==ncpus) && running_tasks.size();

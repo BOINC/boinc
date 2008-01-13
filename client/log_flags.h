@@ -102,6 +102,7 @@ struct CONFIG {
     int max_stderr_file_size;
     bool report_results_immediately;
     double start_delay;
+    bool run_apps_manually;
 
     CONFIG();
     void defaults();

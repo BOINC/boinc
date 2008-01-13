@@ -173,9 +173,8 @@ function show_user_info_private($user) {
     }
 
     row1(tra("Account information"));
-    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    row2(tra("Email address"), $email_text);
     row2(tra("Name"), $user->name);
+    row2(tra("Email address"), $email_text);
     if (strlen($user->url)) {
         $x = "http://$user->url";
     } else {
@@ -184,9 +183,13 @@ function show_user_info_private($user) {
     row2(tra("URL"), $x);
     row2(tra("Country"), $user->country);
     row2(tra("Postal code"), $user->postal_code);
-    row2(tra("Account number")."<br><span class=\"smalltext\">".tra("Used in URLs")."</span>", $user->id);
+    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a> | <a href=\"edit_passwd_form.php\">".tra("password")."</a> | <a href=\"edit_user_info_form.php\">".tra("other account info")."</a>");
     row2("", "<a href=\"logout.php?".url_tokens($user->authenticator)."\">".tra("Log out")."</a>");
+    row2("User ID<br><span class=note>Used in community functions</span>", $user->id);
+    row2("Account key<br><span class=note>Provides full access to your account</span>", $user->authenticator);
+    $weak_auth = md5($user->authenticator.$user->passwd_hash);
+    row2("Weak account key<br><span class=note>Provides <a href=weak_auth.php> limited access</a> to your account</span>", $weak_auth);
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
     row2(
