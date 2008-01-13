@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  This is the manual page for boinc_cmd, a command tool that provides an
@@ -12,11 +12,11 @@
  Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 -->
 
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
-"file:///usr/share/xml/docbook/schema/dtd/4.2/docbookx.dtd" [
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
   <!ENTITY dhbinary    "boinc_cmd">
-  <!ENTITY dhdate      "<date>January 11, 2008</date>">
+  <!ENTITY dhdate      "<date>11 January 2008</date>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
 ]>
 
@@ -64,7 +64,7 @@
       </cmdsynopsis>
       <cmdsynopsis>
         <command>&dhbinary;</command>
-        <arg>-hV</arg>
+        <arg><option>-hV</option></arg>
       </cmdsynopsis>
     </para>
     <para>Notice that the order of the options is important. The <option
@@ -524,12 +524,10 @@
             <replaceable>URL1</replaceable>
             <replaceable>STD1</replaceable>
             <replaceable>LTD1</replaceable>
-            <optional>
-              <replaceable>URL2</replaceable>
+            <optional><replaceable>URL2</replaceable>
               <replaceable>STD2</replaceable>
               <replaceable>LTD2</replaceable>
-              ...
-            </optional>
+              ...</optional>
           </term>
           <listitem>
             <para>Set the short- and long-term debts of one or more projects.

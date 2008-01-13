@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  This is the manual page for the BOINC manager (boincmgr), a monitor
  and control utility for the core client.
 
- Copyright © 2007 University of California
+ Copyright © 2007-2008 University of California
 
  Permission is granted to copy, distribute and/or modify this document
  under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -12,11 +12,11 @@
  Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 -->
 
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
-"file:///usr/share/xml/docbook/schema/dtd/4.2/docbookx.dtd" [
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
   <!ENTITY dhbinary    "boincmgr">
-  <!ENTITY dhdate      "<date>October 06, 2007</date>">
+  <!ENTITY dhdate      "<date>13 January 2008</date>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
 ]>
 
@@ -29,6 +29,7 @@
     </author>
     <copyright>
       <year>2007</year>
+      <year>2008</year>
       <holder>University of California</holder>
     </copyright>
     &dhdate;
@@ -47,13 +48,28 @@
   <refsynopsisdiv>
     <cmdsynopsis>
       <command>&dhbinary;</command>
+      <arg><option>--verbose</option></arg>
+      <arg><option>-s</option></arg>
+      <arg><option>-b</option> <replaceable>BOINC_ARGS</replaceable></arg>
+      <arg><option>-i</option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      <command>&dhbinary;</command>
+      <group>
+        <arg><option>-h</option></arg>
+        <arg><option>--help</option></arg>
+      </group>
     </cmdsynopsis>
   </refsynopsisdiv>
 
   <refsect1>
     <title>DESCRIPTION</title>
     <para>The BOINC manager (<command>&dhbinary;</command>) is a controling
-      and monitoring utility for the BOINC core client.</para>
+      and monitoring utility for the BOINC core client
+      (<citerefentry>
+        <refentrytitle>boinc</refentrytitle>
+        <manvolnum>1</manvolnum>
+      </citerefentry>).</para>
   </refsect1>
 
   <refsect1>
@@ -62,7 +78,7 @@
 
     <variablelist>
       <varlistentry>
-        <term><option>-h, --help</option></term>
+        <term><option>-h</option>, <option>--help</option></term>
         <listitem>
           <para>Show all options.</para>
         </listitem>
@@ -76,7 +92,7 @@
       </varlistentry>
 
       <varlistentry>
-        <term><option>-s, --systray</option></term>
+        <term><option>-s</option>, <option>--systray</option></term>
         <listitem>
           <para>Startup BOINC Manager so only the system tray icon is
             visible.</para>
@@ -84,14 +100,17 @@
       </varlistentry>
 
       <varlistentry>
-        <term><option>-b, --boincargs</option></term>
+        <term>
+          <option>-b</option> <replaceable>BOINC_ARGS</replaceable>,
+          <option>--boincargs=</option><replaceable>BOINC_ARGS</replaceable>
+        </term>
         <listitem>
           <para>Startup BOINC with these optional arguments.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
-        <term><option>-i, --insecure</option></term>
+        <term><option>-i</option>, <option>--insecure</option></term>
         <listitem>
           <para>Disable BOINC security users and permissions.</para>
         </listitem>
@@ -108,10 +127,11 @@
 
   <refsect1>
     <title>COPYRIGHT</title>
-    <para>Copyright © 2007 University of California. Permission is granted to
-      copy, distribute and/or modify this document under the terms of the
-      &gnu; Free Documentation License, Version 1.2 or any later version
-      published by the Free Software Foundation; with no Invariant Sections,
-      no Front-Cover Texts, and no Back-Cover Texts.</para>
+    <para>Copyright © 2007-2008 University of California. Permission is
+      granted to copy, distribute and/or modify this document under the
+      terms of the &gnu; Free Documentation License, Version 1.2 or any
+      later version published by the Free Software Foundation; with no
+      Invariant Sections, no Front-Cover Texts, and no Back-Cover
+      Texts.</para>
   </refsect1>
 </refentry>
