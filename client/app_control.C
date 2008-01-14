@@ -269,9 +269,10 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         case 0x40010004:        // vista shutdown?? can someone explain this?
         case STATUS_DLL_INIT_FAILED:
             // This can happen because:
-            // - The OS is shutting down, so attempting to start
-            // any new application fails automatically.
+            // - The OS is shutting down, and attempting to start
+            //   any new application fails automatically.
             // - The OS has run out of desktop heap
+            // - (reportedly) The computer has just come out of hibernation
             //
             handle_premature_exit(will_restart);
             break;

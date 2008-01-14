@@ -496,3 +496,9 @@ Rom    Jan 14 2008
     clientgui/
         AccountInfoPage.cpp, .h
         BOINCWizards.h
+
+David  Jan 14 2008
+    - scheduler: fix weak auth bug
+
+    sched/
+        handle_request.C

@@ -61,7 +61,7 @@ using namespace std;
 static void get_weak_auth(USER& user, char* buf) {
     char buf2[256], out[256];
     sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
-    md5_block((unsigned char*)buf, strlen(buf), out);
+    md5_block((unsigned char*)buf2, strlen(buf2), out);
     sprintf(buf, "%d_%s", user.id, out);
 }
 
@@ -269,6 +269,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             bool weak_auth = false;
             if (!retval) {
                 // user for host.userid exists - check weak auth
+                //
                 get_weak_auth(user, buf);
                 if (!strcmp(buf, sreq.authenticator)) {
                     weak_auth = true;
@@ -280,6 +281,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             }
             if (!weak_auth) {
                 // weak auth failed - look up user based on authenticator
+                //
                 strlcpy(
                     user.authenticator, sreq.authenticator, sizeof(user.authenticator)
                 );
@@ -341,6 +343,12 @@ lookup_user_and_make_new_host:
         if (strchr(sreq.authenticator, '_')) {
             int userid = atoi(sreq.authenticator);
             retval = user.lookup_id(userid);
+            if (!retval) {
+                get_weak_auth(user, buf);
+                if (strcmp(buf, sreq.authenticator)) {
+                    retval = ERR_AUTHENTICATOR;
+                }
+            }
         } else {
             strlcpy(
                 user.authenticator, sreq.authenticator,
@@ -359,8 +367,8 @@ lookup_user_and_make_new_host:
             reply.set_delay(DELAY_MISSING_KEY);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,
-                "[HOST#<none>] Bad authenticator '%s'\n",
-                sreq.authenticator
+                "[HOST#<none>] Bad authenticator '%s': %d\n",
+                sreq.authenticator, retval
             );
             return ERR_AUTHENTICATOR;
         }
