@@ -471,3 +471,15 @@ David  Jan 14 2008
 
     sched/
         time_stats_log.C,h
+
+David  Jan 14 2008
+    - renamed clean_out_dir() to client_clean_out_dir(),
+        and put the original clean_out_dir() back in lib/filesys.C
+
+    client/
+        app.C
+        app_control.C
+        file_names.C
+        sandbox.C,h
+    lib/
+        filesys.C,h

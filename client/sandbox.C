@@ -167,7 +167,7 @@ int delete_project_owned_file(const char* path) {
 // (but not the directory itself).
 // If an error occurs, delete as much as you can.
 //
-int clean_out_dir(const char* dirpath) {
+int client_clean_out_dir(const char* dirpath) {
     char filename[256], path[256];
     int retval, final_retval = 0;
     DIRREF dirp;
@@ -189,7 +189,7 @@ int clean_out_dir(const char* dirpath) {
         if (retval) break;
         sprintf(path, "%s/%s", dirpath,  filename);
         if (is_dir(path)) {
-            retval = clean_out_dir(path);
+            retval = client_clean_out_dir(path);
             if (retval) final_retval = retval;
             retval = remove_project_owned_dir(path);
             if (retval) final_retval = retval;

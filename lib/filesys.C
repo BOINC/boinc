@@ -309,6 +309,31 @@ int boinc_truncate(const char* path, double size) {
     return 0;
 }
 
+// remove everything from specified directory
+//
+int clean_out_dir(const char* dirpath) {
+    char filename[256], path[256];
+    int retval;
+    DIRREF dirp;
+
+    dirp = dir_open(dirpath);
+    if (!dirp) return 0;    // if dir doesn't exist, it's empty
+    while (1) {
+        strcpy(filename, "");
+        retval = dir_scan(filename, dirp, sizeof(filename));
+        if (retval) break;
+        sprintf(path, "%s/%s", dirpath,  filename);
+        clean_out_dir(path);
+        boinc_rmdir(path);
+        retval = boinc_delete_file(path);
+        if (retval) {
+            dir_close(dirp);
+            return retval;
+        }
+    }
+    dir_close(dirp);
+    return 0;
+}
 
 // return total size of files in directory and its subdirectories
 // Special version for Win because stat() is slow, can be avoided

@@ -406,7 +406,7 @@ int ACTIVE_TASK_SET::get_free_slot() {
         get_slot_dir(j, path, sizeof(path));
         if (boinc_file_exists(path)) {
             if (is_dir(path)) {
-                retval = clean_out_dir(path);
+                retval = client_clean_out_dir(path);
                 if (!retval) return j;
             }
         } else {
