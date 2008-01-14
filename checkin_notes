@@ -448,3 +448,20 @@ David  Jan 12 2008
     client/
         app_start.C
         hostinfo_unix.C
+
+David  Jan 14 2008
+    - server/web: the weak auth scheme had a major flaw:
+        It didn't work on a host's first scheduler RPC
+        (when it passes an auth but no host ID).
+        How do we look up user in this case?
+        The weak auth is not stored explicitly in the DB.
+        Solution: include the user ID in the weak auth.
+        (this invalidates existing weak auths)
+
+    html/
+        inc/
+            user.inc
+        user/
+            weak_auth.php
+    sched/
+        handle_request.C

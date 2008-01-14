@@ -1,13 +1,14 @@
 <?php
 
 require_once("../inc/util.inc");
+require_once("../inc/user.inc");
 
 $url = parse_config(get_config(), "<master_url>");
 
 $user = get_logged_in_user();
 page_head("Weak account key");
 
-$weak_auth = md5($user->authenticator.$user->passwd_hash);
+$weak_auth = weak_auth($user);
 
 //this is somewhat a rewrite of escape_url_readable from str_util.C - maybe it 
 //should be moved into its own function instead of inline here

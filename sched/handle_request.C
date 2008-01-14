@@ -58,6 +58,13 @@ using namespace std;
 #include "fcgi_stdio.h"
 #endif
 
+static void get_weak_auth(USER& user, char* buf) {
+    char buf2[256], out[256];
+    sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
+    md5_block((unsigned char*)buf, strlen(buf), out);
+    sprintf(buf, "%d_%s", user.id, out);
+}
+
 static void send_error_message(SCHEDULER_REPLY& reply, char* msg, int delay) {
     USER_MESSAGE um(msg, "low");
     reply.insert_message(um);
@@ -195,16 +202,6 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     return false;
 }
 
-void get_weak_authenticator(USER& user, char* out) {
-    char buf[256];
-    sprintf(buf, "%s%s", user.authenticator, user.passwd_hash);
-    md5_block((unsigned char*)buf, strlen(buf), out);
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
-        "buf: %s md5: %s\n"
-    );
-}
-
 // Based on the info in the request message,
 // look up the host and its user, and make sure the authenticator matches.
 // Some special cases:
@@ -222,7 +219,7 @@ void get_weak_authenticator(USER& user, char* out) {
 //
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
-    char buf[256];
+    char buf[256], buf2[256];
     DB_HOST host;
     DB_USER user;
     DB_TEAM team;
@@ -272,7 +269,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             bool weak_auth = false;
             if (!retval) {
                 // user for host.userid exists - check weak auth
-                get_weak_authenticator(user, buf);
+                get_weak_auth(user, buf);
                 if (!strcmp(buf, sreq.authenticator)) {
                     weak_auth = true;
                     log_messages.printf(
@@ -339,12 +336,19 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // Look up the user, then create a new host record
         //
 lookup_user_and_make_new_host:
-        strlcpy(
-            user.authenticator, sreq.authenticator,
-            sizeof(user.authenticator)
-        );
-        sprintf(buf, "where authenticator='%s'", user.authenticator);
-        retval = user.lookup(buf);
+        // if authenticator contains _, it's a weak auth
+        //
+        if (strchr(sreq.authenticator, '_')) {
+            int userid = atoi(sreq.authenticator);
+            retval = user.lookup_id(userid);
+        } else {
+            strlcpy(
+                user.authenticator, sreq.authenticator,
+                sizeof(user.authenticator)
+            );
+            sprintf(buf, "where authenticator='%s'", user.authenticator);
+            retval = user.lookup(buf);
+        }
         if (retval) {
             USER_MESSAGE um(
                 "Invalid or missing account key.  "

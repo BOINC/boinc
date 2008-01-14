@@ -163,6 +163,11 @@ function notify_description($notify) {
     return "Unknown notification type: $notify->type";
 }
 
+function weak_auth($user) {
+    $x = md5($user->authenticator.$user->passwd_hash);
+    return "{$user->id}_$x";
+}
+
 // show static user info (private)
 //
 function show_user_info_private($user) {
@@ -188,8 +193,7 @@ function show_user_info_private($user) {
     row2("", "<a href=\"logout.php?".url_tokens($user->authenticator)."\">".tra("Log out")."</a>");
     row2("User ID<br><span class=note>Used in community functions</span>", $user->id);
     row2("Account key<br><span class=note>Provides full access to your account</span>", $user->authenticator);
-    $weak_auth = md5($user->authenticator.$user->passwd_hash);
-    row2("Weak account key<br><span class=note>Provides <a href=weak_auth.php> limited access</a> to your account</span>", $weak_auth);
+    row2("Weak account key<br><span class=note>Provides <a href=weak_auth.php> limited access</a> to your account</span>", weak_auth($user));
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
     row2(
