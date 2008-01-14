@@ -465,3 +465,9 @@ David  Jan 14 2008
             weak_auth.php
     sched/
         handle_request.C
+
+David  Jan 14 2008
+    - scheduler: forgot to add a couple of files
+
+    sched/
+        time_stats_log.C,h
