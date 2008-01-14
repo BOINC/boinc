@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-01-01 00:33+0800\n"
+"PO-Revision-Date: 2008-01-01 00:32+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -10,574 +10,627 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 # #########################################
-# Language: Chiense (Traditional)
+# Language: English (International)
 # FileID  : $Id$
-# Author  : Jose Sun
-# Email   : josesun@cpatch.org
 # #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 # #########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
-msgstr "中文 (繁體)"
+msgstr "繁體中文"
 
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Chinese (Traditional)"
+msgstr "Traditional Chinese"
 
-# ########################################
-# Apps page (apps.php)
-# ########################################
-msgid "Applications"
-msgstr "應用程式"
+# #######################################
+# poll-related stuff
+# #######################################
+msgid "POLL_TITLE"
+msgstr "BOINC 使用者調查"
 
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr "%1 目前有下面這些應用程式。當你參與了 %1 後，你的電腦將會被分配運行下面所列出的其中一個或多個程式的工作。程式的最新版本會被下載到你的電腦。下載的動作是全自動的；你不需要做任何動作。"
+msgid "POLL_INTRO"
+msgstr "包含 Climateprediction.net, Einstein@home 和 SETI@home 等許多自願運算計畫都使用 BOINC 作為運算平台。如果你正參與與上述類似的計畫，請抽空回答下列問題，這能幫助我們提高以 BOINC 基礎的計畫參與度並完成相關的科學研究。<p> 你可以只回答你想回答的問題，然後按最下面的「OK」鈕。如果你之前已經回答過，但是你的答案改變了，請再回答一次，新的答案會蓋掉舊的答案。<p> 目前調查的結果請見 <a href=poll_results.php>這裡</a>。"
 
-msgid "Platform"
-msgstr "平台"
+msgid "POLL_RUN"
+msgstr "你正在執行 BOINC 嗎？"
 
-msgid "Current version"
-msgstr "目前版本"
+msgid "POLL_PARTICIPATION"
+msgstr "你的參與程度"
 
-msgid "Installation time"
-msgstr "安裝時間"
+msgid "POLL_COMPUTERS"
+msgstr "你的電腦狀況"
 
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "Read our rules and policies"
-msgstr "閱讀規定與政策"
+msgid "POLL_YOU"
+msgstr "你的基本資料"
 
-msgid "Run %1 only on authorized computers"
-msgstr "只在經批准的電腦運行 %1"
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "只在你自己擁有或是得到擁有者同意的電腦上運行 %1。有些公司及學校的政策禁止在所屬的電腦上運行像 %1 這類的計畫。"
-
-msgid "How %1 will use your computer"
-msgstr "%1 如何運用你的電腦"
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "當你在你的電腦上運行 %1 時，它會將一部份的電腦 CPU 運算能力、磁碟空間和網路頻寬拿來運用。你可以自己控制要分配給 %1 使用多少資源及時間長短。"
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "你電腦完成的每項工作都幫助了 %1 早一步達成網站上所敘述的目標。而程式也會隨目標的改變而不時的變化。"
-
-msgid "Privacy policy"
-msgstr "隱私權政策"
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr "你在 %1 的帳號是以你自己選擇的名稱作為識別的依據。你的名稱會與你電腦所完成的 %1 工作摘要一起顯示在 %1 網站上。如果你不想表示身分的話，請選擇一個不會洩露你真實身分的名稱。"
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr "如果你參與了 %1，有關於你電腦的資訊（像是處理器類型、記憶體容量等等）都會被 %1 所記錄並用來決定要分配那種類型的工作給你的電腦。這些資訊同樣也會顯示在 %1 的網站上。但是有關於會洩露你電腦位置的資訊（例如網域名稱或是網路位址）將不會被顯示。"
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "要參與 %1 計畫，你必須提供一個可以收取郵件的電子郵件位址。這個位址不會顯示在 %1 網站上或是分享給其他組織。%1 會定期寄送電子報； 可是你可以隨時退出。"
-
-msgid "Is it safe to run %1?"
-msgstr "運行 %1 安全嗎？"
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "任何時候從網路上下載程式都是個冒險的行為：程式可能有著危險的錯誤或是下載伺服器已經被入侵。%1 盡力將下載程式的風險降到最低。我們的應用程式都經過謹慎的測試。我們的伺服器位於防火牆之後並且調校成高度安全性。為了確保程式下載的完整性，所有可執行檔案都經過了一台未連線到網路的安全電腦的數位簽署。"
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "%1 運行的應用程式可能會導致一些電腦產生過熱的現象。如果真的發生了這種情況，請停止運行 %1 或是使用 %2工具程式%3 限制 CPU 的使用。"
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 是由 %2 所開發。BOINC 則是在美國加州大學開發。"
-
-msgid "Liability"
-msgstr "責任"
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr "%1 和其 %2 對你電腦的損壞、資料遺失或因參與了 %1 而導致的任何事件或情況均不負任何責任。"
-
-msgid "Other BOINC projects"
-msgstr "其他 BOINC 計畫"
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr "其他的計畫也使用像 %1 一樣的平台 - BONIC。也許你可以考慮參與一個以上其他的計畫。這樣一來，即使當 %1 沒有可分配的工作時，你的電腦仍然能有效的運行其他計畫的工作。"
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "其他的計畫與 %1 並無任何關聯，同時我們對其他計畫的安全性和研究性質不做任何擔保。加入這些計畫的風險請自行承擔。"
-
-# ########################################
-# Create account form (create_account_form.php)
-# ########################################
-msgid "Create an account"
-msgstr "建立帳號"
-
-msgid "Name"
-msgstr "名稱"
-
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "讓我們的網站認出你。你可以使用真名或是暱稱。"
-
-msgid "Email Address"
-msgstr "Email 地址"
-
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "必須是像 'name@domain' 這樣的有效郵件格式。"
-
-msgid "Country"
+msgid "POLL_NATIONALITY"
 msgstr "國家"
 
-msgid "Select the country you want to represent, if any."
-msgstr "若有的話選擇你代表的國家。"
-
-msgid "Postal or ZIP Code"
-msgstr "郵遞區號"
-
-msgid "Create account"
-msgstr "建立帳號"
-
-msgid "Account creation is disabled"
-msgstr "帳號建立已停止。"
-
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "目前 %1 的帳號建立已經停止。請稍後再試一次。"
-
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "這個帳號屬於 %1 團隊並且有團隊創立者自己的計畫偏好設定。"
-
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "備註：從 BOINC 5.2 版開始，你不再需要填寫此表單，可以直接從 BOINC 程式裡建立新帳號。只要執行 BOINC，選擇「加入計畫」後，輸入你的電子郵件地址和密碼即可。"
-
-msgid "Password"
-msgstr "密碼"
-
-msgid "Must be at least %1 characters"
-msgstr "必須大於 %s 個字元"
-
-msgid "Confirm password"
-msgstr "確認密碼"
-
-msgid "Invitation Code"
-msgstr "邀請碼"
-
-msgid "A valid invitation code is required to create an account."
-msgstr "要建立帳號需要有效的邀請碼。"
-
-msgid "You must supply an invitation code to create an account."
-msgstr "你必須輸入邀請碼才能建立帳號。"
-
-msgid "The invitation code you gave is not valid."
-msgstr "你輸入的邀請碼無效。"
-
-# ########################################
-# Forum sample index page
-# ########################################
-msgid "%1 Message boards"
-msgstr "%1 留言板"
-
-msgid "Message boards"
-msgstr "留言板"
-
-# ########################################
-# General stuff (create_account_form.php and others)
-# ########################################
-msgid "Optional"
-msgstr "非必要"
-
-# ########################################
-# Various top table pages (top users, computers, teams)
-# ########################################
-msgid "Top participants"
-msgstr "參與者排名"
-
-msgid "Rank"
-msgstr "排名"
-
-msgid "Total credit"
-msgstr "總積分"
-
-msgid "Recent average credit"
-msgstr "最近平均積分"
-
-msgid "Participant since"
-msgstr "參與日期"
-
-msgid "Top %1 teams"
-msgstr "%1 團隊排名"
-
-msgid "Members"
-msgstr "成員"
-
-msgid "Top hosts"
-msgstr "主機排名"
-
-# ########################################
-# Forum
-# ########################################
-msgid "Posts"
-msgstr "篇數"
-
-msgid "Topic"
-msgstr "主題"
-
-msgid "Thread"
-msgstr "討論串"
-
-msgid "Threads"
-msgstr "討論串"
-
-msgid "Last post"
-msgstr "最後發表時間"
-
-msgid "Author"
-msgstr "作者"
-
-msgid "Views"
-msgstr "觀看次數"
-
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "你必須要有一定的積分才能於 %1 建立新討論串。這是為了避免有人濫用此系統。"
-
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "你現在無法建立任何新主題。請稍後再試一次。這是為了防止系統被濫用所作的保護措施。"
-
-msgid "Create a new thread"
-msgstr "建立新討論"
-
-msgid "Title"
-msgstr "標題"
-
-msgid "Add my signature to this post"
-msgstr "於文章中加入我的簽名"
-
-msgid "Message"
+msgid "POLL_COMMENTS"
 msgstr "留言"
 
-msgid "Edit message"
-msgstr "編輯留言"
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "請建議我們 BOINC 和其計畫還能夠用於哪方面，或是如何改進等問題："
 
-msgid "Use BBCode tags to format your text"
-msgstr "使用 BBCode 標籤為文字加上格式"
+msgid "POLL_OTHER"
+msgstr "其他："
 
-# ########################################
-# Forum thread
-# ########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr "因管理之故，此討論串已被隱藏"
+msgid "POLL_CHECK_ALL"
+msgstr "[不限勾選一項]"
 
-msgid "Post to thread"
-msgstr "回覆此討論"
+msgid "POLL_DONE"
+msgstr "填寫完成後請按："
 
-msgid "Unsubscribe"
-msgstr "取消訂閱"
+msgid "POLL_CURRENT"
+msgstr "是 - 我一直在我的電腦上執行 BOINC ..."
 
-msgid "Subscribe"
-msgstr "訂閱"
+msgid "POLL_TWEEK"
+msgstr "不到一週"
 
-# ########################################
-# Forum search features
-# ########################################
-msgid "Forum search"
-msgstr "討論區搜尋"
+msgid "POLL_TMONTH"
+msgstr "不到一個月"
 
-msgid "Titles containing '%1'"
-msgstr "標題含「%1」"
+msgid "POLL_TYEAR"
+msgstr "不到一年"
 
-msgid "Posts containing '%1'"
-msgstr "文章含「%1」"
+msgid "POLL_TMOREYEAR"
+msgstr "超過一年"
 
-msgid "No titles containing '%1' could be found."
-msgstr "找不到含「%1」的標題。"
+msgid "POLL_LAPSED"
+msgstr "否 - 我執行過 BOINC 但是停止了，因為..."
 
-msgid "No posts containing '%1' could be found."
-msgstr "找不到內含「%1」的文章。"
+msgid "POLL_LINTEREST"
+msgstr "我沒興趣了"
 
-# ########################################
-# Private messages
-# ########################################
-msgid "Private messages"
-msgstr "私人訊息"
+msgid "POLL_LCOMPLICATED"
+msgstr "太複雜了"
 
-msgid "Inbox"
-msgstr "收件匣"
+msgid "POLL_LSTOPPED"
+msgstr "我停了之後忘了再次開始"
 
-msgid "Write"
-msgstr "撰寫"
+msgid "POLL_LPROBLEMS"
+msgstr "執行時我的電腦會有問題"
 
-msgid "Forum index"
-msgstr "討論區索引"
+msgid "POLL_LPOWER"
+msgstr "耗太多電了"
 
-msgid "Send private message"
-msgstr "送出私人訊息"
+msgid "POLL_LNONBOINC"
+msgstr "我改成執行非 BOINC 的運算計畫"
 
-msgid "Preview"
-msgstr "預覽"
+msgid "POLL_FAILED"
+msgstr "否 - 我試著執行 BOINC，但是..."
 
-msgid "To"
-msgstr "收件者"
+msgid "POLL_FINSTALL"
+msgstr "程式無法正確安裝"
 
-msgid "User IDs or unique usernames, separated with commas"
-msgstr "輸入 ID 或使用者名稱，用逗號分隔"
+msgid "POLL_FFIGURE"
+msgstr "我不懂如何操作這個程式"
 
-msgid "Subject"
-msgstr "主旨"
+msgid "POLL_FNETWORK"
+msgstr "我無法連上網路"
 
-msgid "Send message"
-msgstr "送出訊息"
+msgid "POLL_FATTACH"
+msgstr "我無法加入計畫"
 
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "你目前不允許傳送私人訊息，在傳送更多訊息前請稍等一陣子。"
+msgid "POLL_FWORK"
+msgstr "我已經加入計畫，但是從沒有取得任何工作"
 
-msgid "Your message has been sent."
-msgstr "你的訊息已送出。"
+msgid "POLL_NEVER"
+msgstr "否 - 我從未執行過 BOINC，因為.."
 
-msgid "You have no private messages."
-msgstr "你沒有私人訊息。"
+msgid "POLL_NSECURITY"
+msgstr "我對安全性有疑慮"
 
-msgid "No such message"
-msgstr "沒有這類訊息"
+msgid "POLL_NPROJECT"
+msgstr "這些計畫我都不感興趣"
 
-msgid "Really delete?"
-msgstr "真的要刪除嗎？"
+msgid "POLL_NPERMISSION"
+msgstr "我沒有權限在電腦上執行 BOINC"
 
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "你確定要刪除主旨為 &quot;%1&quot;（由 %2 於 %3 送來）的訊息？"
+msgid "POLL_NVERSION"
+msgstr "沒有我的電腦可以用的版本"
 
-msgid "Yes, delete"
-msgstr "是，刪除"
+msgid "POLL_KIND"
+msgstr "你執行 BOINC 的電腦是那一種作業系統？"
 
-msgid "No, cancel"
-msgstr "不，取消"
+msgid "POLL_WHERE"
+msgstr "執行 BOINC 的電腦放在哪裡？"
 
-msgid "You need to fill all fields to send a private message"
-msgstr "要送出私人訊息必須填寫所有欄位"
+msgid "POLL_HOME"
+msgstr "家裡"
 
-msgid "Could not find user with id %1"
-msgstr "找不到 ID 為 %1 的使用者"
+msgid "POLL_WORK"
+msgstr "公司"
 
-msgid "Could not find user with username %1"
-msgstr "找不到使用者名稱為 %1 的使用者"
+msgid "POLL_SCHOOL"
+msgstr "學校"
 
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 不是使用者名稱；或許你可以試試輸入使用者 ID"
+msgid "POLL_HOW_MANY"
+msgstr "有幾台電腦執行 BOINC？"
 
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "使用者 %1 (ID: %2) 不接受你的私人訊息。"
+msgid "POLL_TURNED_ON"
+msgstr "平均而言，電腦一天有幾小時是開機的？"
 
-msgid "Really block %1?"
-msgstr "確定要封鎖 %1？"
+msgid "POLL_AGE"
+msgstr "年齡"
 
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "你確定要封鎖使用者 %1 寄來的私人訊息？"
+msgid "POLL_SEX"
+msgstr "性別"
 
-msgid "Please note that you can only block a limited amount of users."
-msgstr "請注意你只能封鎖一定數量的使用者。"
+msgid "POLL_MALE"
+msgstr "男"
 
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "一旦你封鎖此使用者，還可以從討論區的偏好設定頁面解除封鎖。"
+msgid "POLL_FEMALE"
+msgstr "女"
 
-msgid "Add user to filter"
-msgstr "新增使用者到過濾清單"
+msgid "POLL_EXPERTISE"
+msgstr "你對電腦的了解程度"
 
-msgid "No such user"
-msgstr "無此使用者"
+msgid "POLL_LEVB"
+msgstr "初學程度"
 
-msgid "User %1 blocked"
-msgstr "使用者 %1 已封鎖"
+msgid "POLL_LEVI"
+msgstr "中等程度"
 
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "使用者 %1 寄來的私人訊息已封鎖。"
+msgid "POLL_LEVA"
+msgstr "進階程度"
 
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "要解除封鎖，請到 %1留言板偏好設定%2"
+msgid "POLL_LEARN_WHERE"
+msgstr "你從哪裡學到有關 BOINC 的計畫？"
 
-msgid "Sender and date"
-msgstr "寄件者及日期"
+msgid "POLL_WTV"
+msgstr "電視、廣播、報紙"
 
-msgid "Delete"
-msgstr "刪除"
+msgid "POLL_WPERS"
+msgstr "朋友、家人或同事"
 
-msgid "Reply"
-msgstr "回覆"
+msgid "POLL_WTEAM"
+msgstr "團隊留言板或網站"
 
-msgid "Block user"
-msgstr "封鎖使用者"
+msgid "POLL_WBOINC"
+msgstr "BOINC 網站"
 
-msgid "With selected messages"
-msgstr "以所選的訊息"
+msgid "POLL_WWEB"
+msgstr "其他網站"
 
-msgid "Mark as read"
-msgstr "標示為已閱讀"
+msgid "POLL_FACTOR"
+msgstr "下列何者是你選擇參與何項 BOINC 計畫的重要因素？"
 
-msgid "Mark as unread"
-msgstr "標示為未閱讀"
+msgid "POLL_GRAPHICS"
+msgstr "有無好看的螢幕保護程式"
 
-# ########################################
-# Links from the main page
-# ########################################
-msgid "Questions and Answers"
-msgstr "問題與回答"
+msgid "POLL_CREDIT_FAIR"
+msgstr "完成工作時能公平且快速的獲得積分"
 
-# ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "Your account"
-msgstr "你的帳號"
+msgid "POLL_CREDIT_MORE"
+msgstr "此計畫比其他計畫能獲得更多積分"
 
-msgid "Welcome to %1"
-msgstr "歡迎來到 %1"
+msgid "POLL_MB_FRIENDLY"
+msgstr "有用並友善的留言板"
 
-msgid "View and edit your account preferences using the links below."
-msgstr "請用下面的連結檢視或編輯你的帳號設定。"
+msgid "POLL_MB_STAFF"
+msgstr "留言版有計畫團隊參與討論"
 
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "若你還沒有帳號，請 %1下載 BOINC 用戶端軟體%2 。"
+msgid "POLL_WEB_SITE"
+msgstr "資訊充足的計畫網站"
 
-msgid "Account information"
-msgstr "帳號資訊"
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "研究領域重要且對人們有益"
 
-msgid "Email address"
-msgstr "Email 位址"
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "非營利性且研究結果公開"
 
-msgid "URL"
-msgstr "網址"
+msgid "POLL_RECOGNIZE"
+msgstr "若我的電腦發現重要資訊時的認同感"
 
-msgid "Postal code"
-msgstr "郵遞區號"
+msgid "POLL_PUBLISH"
+msgstr "計畫有在科學期刊發表論文"
 
-msgid "Change"
-msgstr "變更"
+msgid "POLL_EMAIL"
+msgstr "該計畫有定期的電子報"
 
-msgid "email address"
-msgstr "Email 位址"
+msgid "POLL_NPROJECTS"
+msgstr "你參與了多少 BOINC 計畫？"
 
-msgid "password"
-msgstr "密碼"
+msgid "POLL_SSAVER"
+msgstr "你有將 BOINC 作為螢幕保護程式嗎？"
 
-msgid "other account info"
-msgstr "其他帳號資訊"
+msgid "POLL_YES"
+msgstr "有"
 
-msgid "Log out"
-msgstr "登出"
-
-msgid "Community"
-msgstr "社群"
-
-msgid "Community preferences"
-msgstr "社群偏好設定"
-
-msgid "Create"
-msgstr "建立"
-
-msgid "Profile"
-msgstr "個人資料"
-
-msgid "Teams"
-msgstr "團隊"
-
-msgid "Team"
-msgstr "團隊"
-
-msgid "Member of team"
-msgstr "團隊成員"
-
-msgid "%1 posts"
-msgstr "%1 篇文章"
-
-msgid "None"
+msgid "POLL_NO"
 msgstr "無"
 
-msgid "Administer"
-msgstr "管理員"
+msgid "POLL_MBOARDS"
+msgstr "你利用計畫網站留言版的用途為："
 
-msgid "Founder but not member of"
-msgstr "創立者但不是成員於"
+msgid "POLL_MBR"
+msgstr "閱讀資訊"
 
-msgid "administrative functions"
-msgstr "管理功能"
+msgid "POLL_MBRW"
+msgstr "閱讀並張貼資訊"
 
-msgid "Quit team"
-msgstr "離開團隊"
+msgid "POLL_NONE"
+msgstr "無"
 
-msgid "find a team"
-msgstr "尋找團隊"
+msgid "POLL_HELP"
+msgstr "你遇到 BOINC 及其計畫的問題會從何處獲得解決方法？"
 
-msgid "Preferences"
-msgstr "偏好設定"
+msgid "POLL_HELP_PMB"
+msgstr "計畫網站留言板"
 
-msgid "Computing preferences"
-msgstr "運算偏好設定"
+msgid "POLL_HELP_BMB"
+msgstr "BOINC 網站留言板"
 
-msgid "When and how BOINC uses your computer"
-msgstr "設定 BOINC 何時、如何使用你的電腦"
+msgid "POLL_HELP_BDOC"
+msgstr "BOINC 網站"
 
-msgid "%1 preferences"
-msgstr "%1 偏好設定"
+msgid "POLL_HELP_BMLIST"
+msgstr "BOINC 郵件論壇"
 
-msgid "Resource share and graphics"
-msgstr "資源分享及圖形"
+msgid "POLL_HELP_WIKI"
+msgstr "非官方 BOINC Wiki"
 
-msgid "Message board preferences"
-msgstr "留言板偏好設定"
+msgid "POLL_HELP_TEAM"
+msgstr "團隊網站"
 
-msgid "Message boards and private messages"
-msgstr "留言板及私人訊息"
+msgid "POLL_HELP_GOOGLE"
+msgstr "Google 或其他搜尋引擎"
 
-msgid "Computing and credit"
-msgstr "運算及積分"
+msgid "POLL_ERROR_TITLE"
+msgstr "錯誤 - 結果未記錄"
 
-msgid "%1 member since"
-msgstr "%1 成員加入日期"
+msgid "POLL_ERROR_TEXT"
+msgstr "發生了內部錯誤阻止我們記錄您的調查回答，請稍後再試一次。"
 
-msgid "Pending credit"
-msgstr "待處理積分"
+msgid "POLL_RECORDED"
+msgstr "調查回答已記錄"
 
-msgid "View"
-msgstr "檢視"
+msgid "POLL_THANKS"
+msgstr "感謝您完成 BOINC 使用者調查。"
 
-msgid "Computers on this account"
-msgstr "此帳號的電腦"
+msgid "POLL_RESULTS_TITLE"
+msgstr "調查結果"
 
-msgid "Tasks"
-msgstr "工作"
+msgid "POLL_RESULTS_TEXT"
+msgstr "下面是目前 <a href=poll.php>BOINC 使用者調查</a> 的結果。此頁每小時更新一次。"
 
-msgid "Cross-project ID"
-msgstr "跨計畫 ID"
+# #######################################
+# download.php 2006/08/03 by je2bwm
+# #######################################
+msgid "DL_DOWNLOAD"
+msgstr "下載 BOINC"
 
-msgid "Cross-project statistics"
-msgstr "跨計畫統計資料"
+msgid "DL_VERSION_LNAME_SIZE"
+msgstr "%s %s 版 (%s MB)"
 
-msgid "Stats on your cell phone"
-msgstr "於手機檢視你的統計資料"
+msgid "DL_WHATS_BOINC"
+msgstr " BOINC 是一個能讓你貢獻出電腦的空閒時間來參與像 SETI@home, Climateprediction.net, Rosetta@home, World Community Grid 及其他種種科學研究計畫的程式。<p>安裝 BOINC 到你的電腦上之後，你可以將其連到任何你想加入的計畫並參與其中。<p>"
 
-msgid "Account number"
-msgstr "帳號編號"
+msgid "DL_SYSTEMREQ"
+msgstr "系統需求"
 
-msgid "Used in URLs"
-msgstr "用於網址中"
+msgid "DL_RELNOTES"
+msgstr "發行資訊"
 
-msgid "unread"
-msgstr "未讀"
+msgid "DL_TROUBLE"
+msgstr "疑難排解"
 
-# ########################################
-# "Weak account key" page (weak_auth.php)
-# ########################################
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "你的「簡單帳號金鑰」能讓你加入其他電腦到你的本計畫帳號。其他電腦不需登入就能使用你的帳號或變更設定。"
+msgid "DL_OTHERSYS"
+msgstr "其他系統"
 
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "此機制只對伺服器升級到 2007 年 12 月 7 日或更新的計畫有效。"
+msgid "DL_ALLVERSIONS"
+msgstr "所有版本"
 
-msgid "Your weak account key for this project is:"
-msgstr "你本計畫的簡易帳號金鑰為："
+msgid "DL_IF_OTHERTYPES"
+msgstr "若你的電腦不在上面列出的類型中，你可以"
 
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "要在其他主機使用你的簡易帳號金鑰，請尋找或建立此計畫的「帳號檔案」。此檔案檔名類似 <b>account_PROJECT_URL.xml</b>，%1 的帳號檔案為 <b>%2</b>。"
+msgid "DL_MAKEYOUROWN"
+msgstr "%s 編譯你自己的用戶端軟體 %s 或"
 
-msgid "Create this file if needed. Set its contents to:"
-msgstr "若你需要的話請建立此檔案，內容請見："
+msgid "DL_DL_FROM3RDP"
+msgstr "%s 從第三方網站下載可執行檔 %s（目前有 Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX 及 FreeBSD 等其他平台）。"
 
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "你的簡易帳號金鑰作用就像你的密碼一樣。若你變更了密碼，你的簡易帳號金鑰也會跟著改變，而你舊的金鑰將會無效。"
+msgid "DL_DOWNLOAD_TITLE"
+msgstr "BOINC: 為科學運算"
+
+msgid "DL_MIRRORS"
+msgstr "提示: 檔案可以從下列鏡像站下載: boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu 及 einstein.aset.psu.edu（感謝上述機構）。伺服器會隨機選擇 - 若你下載失敗，只要重新載入此頁面後再試一次。"
+
+# #############################################
+# system_requirements.php by je2bwm 2006/08/07
+# #############################################
+msgid "SRQ_PAGE_TITLE"
+msgstr "系統需求"
+
+msgid "SRQ_INTRO"
+msgstr "你的電腦必須滿足下列最低需求才可執行 BOINC。基於 BOINC 的專案可能會有額外的需求。"
+
+msgid "SRQ_MSWIN"
+msgstr "Windows"
+
+msgid "SRQ_OS"
+msgstr "作業系統"
+
+msgid "SRQ_MSWIN_REQ_OS"
+msgstr "Windows 98 或更新版"
+
+msgid "SRQ_MIN_HARDWARE"
+msgstr "最低硬體需求"
+
+msgid "SRQ_MSWIN_REQ_CPU"
+msgstr "Pentium 233 MHz（建議：Pentium 500 MHz 或更快處理器）"
+
+msgid "SRQ_MSWIN_REQ_RAM"
+msgstr "64 MB RAM（建議：128 MB RAM 或更大記憶體）"
+
+msgid "SRQ_MSWIN_REQ_DISK"
+msgstr "20 MB 磁碟空間"
+
+msgid "SRQ_APPLMAC"
+msgstr "Macintosh"
+
+msgid "SRQ_APPLMAC_REQ_OS"
+msgstr "Mac OS X 10.3 或更新版"
+
+msgid "SRQ_APPLMAC_REQ_CPU"
+msgstr "採用 Intel x86 或 PowerPC G3, G4 或 G5 處理器的 Macintosh 電腦"
+
+msgid "SRQ_APPLMAC_REQ_RAM"
+msgstr "128 MB RAM（建議：256 MB RAM 或更大記憶體）"
+
+msgid "SRQ_APPLMAC_REQ_DISK"
+msgstr "200 MB 磁碟空間"
+
+msgid "SRQ_LINUX"
+msgstr "Linux"
+
+msgid "SRQ_LINUX_REQ_KERNEL"
+msgstr "Linux kernel 2.2.14 或更新版"
+
+msgid "SRQ_LINUX_REQ_GLIBC"
+msgstr "glibc 2.3.2 或更新版"
+
+msgid "SRQ_LINUX_REQ_XFREE86"
+msgstr "XFree86-3.3.6 或更新版"
+
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+msgstr "gtk+2.0 或更新版"
+
+msgid "SRQ_LINUX_REQ_CPU"
+msgstr "Pentium 500 MHz 或更快處理器"
+
+msgid "SRQ_LINUX_REQ_RAM"
+msgstr "64 MB RAM"
+
+msgid "SRQ_LINUX_REQ_DISK"
+msgstr "50 MB 磁碟空間"
+
+# #############################################
+# release_notes.php
+# #############################################
+msgid "RLN_PAGE_TITLE"
+msgstr "發行資訊"
+
+msgid "RLN_WHATS_NEW"
+msgstr "%s 的新鮮事"
+
+msgid "RLN_INSTALLING"
+msgstr "安裝"
+
+msgid "RLN_UNINSTALLING"
+msgstr "解除安裝"
+
+msgid "RLN_KNOWN_ISSUES"
+msgstr "已知問題"
+
+msgid "RLN_WIN_INSTALL_PROBLEMS"
+msgstr "(Windows) 在極少的情形下，安裝會因為存在原本的 BOINC 安裝程式而導致失敗。如果發生此問題：%s 若執行中就離開 BOINC，並從「開始＞控制台＞新增或移除程式」移除 BOINC %s，然後再次安裝新版本。%s 若此法失敗，試試重新安裝你目前正執行版本的 BOINC（舊版本可以在 %s這裡%s 找到。）然後完整移除此舊版，再安裝新版程式。%s 若還是失敗，請從 Microsoft 下載 %sWindows Install Clean Up%s 公用程式並執行。舊版的 BOINC 會顯示為 BOINC.msi 或是有毀損圖示的 .msi（它會出現在第一個選項。）按一下選擇它，然後按「移除」後「離開」。重新啟動電腦，再安裝新版程式。（警告：不要動其他的 .msi 檔案，除非其他你想移除的程式也有問題。）%s "
+
+msgid "RLN_TROUBLESHOOT"
+msgstr "BOINC 疑難排解"
+
+msgid "RLN_NEWF_5_4_AM"
+msgstr "「帳號管理」的支援 - 帳號管理網站能讓你瀏覽 BOINC 計畫、加入或離開計畫、變更資源分享及設定等，只需要簡單的點點滑鼠即可。帳號管理也對有多台電腦的使用者很有用 - 只需要變更一次設定即可。"
+
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+msgstr "一般偏好設定會覆蓋本機檔案；詳細資訊請見 %s 這裡 %s。"
+
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+msgstr "BOINC 現在會在需要建立網路連線時提示你。"
+
+msgid "RLN_5_8_SIMPLE_GUI"
+msgstr "BOINC 管理員現在有兩種不同的介面：「簡易介面」（視窗較小、圖形化、可變換面板）及「進階介面」（提供最多資訊。）簡易介面允許你編輯本機偏好設定。你可以隨時在「簡易介面」及「進階介面」間切換。"
+
+msgid "RLN_5_8_THROTTLE"
+msgstr " CPU 調節：你可以透過限制 BOINC 運算的次數降低 CPU 產熱。"
+
+msgid "RLN_5_8_SCHED"
+msgstr " 改進的排程政策能讓許多計畫中速度較慢的電腦也不會錯過工作的截止期限。"
+
+msgid "RLN_5_8_MEM"
+msgstr " 你可以限制 BOINC 的記憶體用量；這能讓你一直運算且不會降低效能。"
+
+msgid "RLN_5_8_SANDBOX"
+msgstr " Mac OS X 版本現可於無特權帳號執行程式，提升安全性。"
+
+msgid "RLN_5_8_SNOOZE"
+msgstr " 「暫停運算」鈕（於系統列）可以暫停運算一小時。"
+
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgstr "我們建議所有 BOINC 使用者升級到 %s。"
+
+msgid "RLN_LINK2_VERSION_HISTORY"
+msgstr "詳細的變動記錄請見 %s這裡%s。"
+
+msgid "RLN_MSWIN"
+msgstr "Windows"
+
+msgid "RLN_APPLMAC"
+msgstr "Macintosh"
+
+msgid "RLN_LINUX"
+msgstr "Linux"
+
+msgid "RLN_MSWIN_INSTALL_MODES"
+msgstr "BOINC 可以安裝為下列幾種模式："
+
+msgid "RLN_SINGLE_USER_INSTALL"
+msgstr "單一使用者安裝"
+
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+msgstr "這是我們推薦的模式。BOINC 會以你（安裝的使用者）的身份登入。BOINC 會出現在你的開始功能表，但其他使用者不會看到。BOINC 管理員中的「顯示圖形」命令也只有你才能用。BOINC 螢幕保護程式只有你才看得到（其他使用者可以執行螢幕保護程式，但他們只看的到文字資訊。）"
+
+msgid "RLN_SHARED_INSTALL"
+msgstr "共享模式安裝"
+
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+msgstr "BOINC 會以任何使用者的身份登入。BOINC 會出現在所有使用者的開始功能表中，當 BOINC 執行時，會以特定的使用者身份執行（第一位登入或第一位執行 BOINC 的使用者。）BOINC 管理員中的「顯示圖形」命令只對該使用者有用。BOINC 螢幕保護程式也只有該使用者看得到（其他使用者可以執行螢幕保護程式，但他們只看的到文字資訊。）"
+
+msgid "RLN_WIN_SERVICE_INSTALL"
+msgstr "服務模式安裝"
+
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+msgstr "BOINC 會一直執行（甚至在有人登入前就會執行。）BOINC 會出現在安裝使用者的開始功能表中，但其他使用者看不到。BOINC 管理員中的「顯示圖形」命令對任何使用者都無效。BOINC 螢幕保護程式只會顯示文字資訊。"
+
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+msgstr "BOINC 的 Linux 版是以自解壓縮檔發行。這類安裝方式需要你對 UNIX 命令列介面很熟悉。"
+
+msgid "RLN_LINUX_DL_FILENAME"
+msgstr "下載檔名會類似 <code>%s</code>。"
+
+msgid "RLN_LINUX_RUN_SEA"
+msgstr "下載檔案完成後，輸入<pre>%s</pre>"
+
+msgid "RLN_LINUX_RESULTOF_SEA"
+msgstr "這會建立目錄 BOINC/ 內含下列檔案："
+
+msgid "RLN_BOINC_CORE_CL"
+msgstr "BOINC 核心用戶端"
+
+msgid "RLN_BOINC_MANAGER"
+msgstr "BOINC 管理員"
+
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+msgstr "一個 script 會切換到 BOINC 目錄並執行核心用戶端。"
+
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+msgstr "一個 script 會切換到 BOINC 目錄並執行管理員。"
+
+msgid "RLN_LINUX_AUTOSTART"
+msgstr "你可能會想要在開機時 %s 自動啟動核心用戶端 %s。"
+
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+msgstr "選擇「開始＞控制台＞新增或移除程式」，再選擇 BOINC 然後按「移除」。這只會移除BOINC 軟體。要完整移除 BOINC，請一併刪除 BOINC 資料目錄（通常是 C:/Program Files/BOINC）"
+
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+msgstr "若你使用 Proxy 伺服器，請在升級前關閉。我們正在修正 Proxy NTLM 認證方面的問題。"
+
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+msgstr "(Windows) 若你的電腦執行 BOINC 應用程式時一直當機，你有可能需要 %s升級 DirectX 到最新版 (9.0c 或更新版) %s。"
+
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+msgstr "(Windows) 若 BOINC 執行時同時啟動 Windows XP 3D 螢幕保護程式，系統可能會變慢且無回應。"
+
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+msgstr "(Windows) 於 2004 年八月前編譯的應用程式在 NT 基礎的機器上以服務或共享模式安裝或是單一使用者模式安裝但開啟密碼保護時不會顯示螢幕保護程式圖形。"
+
+msgid "RLN_TROUBLESHOOT_INTRO"
+msgstr "如果你執行 BOINC 遇到問題，這裡有幾個步驟可以跟著做："
+
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+msgstr "若你遇到的問題和特定計畫有關，請到該計畫網站的「問題與回答」區獲得協助，可能會找到問題的解決方式。如果找不到，請在那裡張貼文章，然後等候其他使用者的幫助。如果問題還是存在，請按 BOINC 管理員中該計畫的「重設」鈕，這會抹除所有進行中工作並重新開始。"
+
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+msgstr "若你遇到的是 BOINC 本身的問題，請到 %s BOINC 留言板 %s 獲得協助。"
+
+# #############################################
+# help.php
+# #############################################
+msgid "HELP_TITLE"
+msgstr "取得 BOINC 的幫助"
+
+msgid "HELP_HEADING1"
+msgstr "線上協助"
+
+msgid "HELP_P1_1"
+msgstr "BOINC 線上協助能讓你和經驗豐富的 BOINC 使用者一對一對談。他們可以：%s 解答關於 BOIMC 及自願運算的相關問題；%s 帶著你一步步安裝及使用 BOINC；%s 協助排除你遇到的任何問題。"
+
+msgid "HELP_P1_2"
+msgstr "BOINC 線上協助採用 %sSkype%s - 網路電話系統。Skype 是免費的（不論程式本身或通話。）若你還沒有 Skype，請 %s立刻下載並安裝%s。 安裝完成後，請回到此頁。"
+
+msgid "HELP_P1_3"
+msgstr "獲得協助最佳的方式就是透過聲音，但是你的電腦需要內建的麥克風及喇叭或外接的耳麥組。否則你也可以透過 Skype 的文字聊天系統和客服義工交談。"
+
+msgid "HELP_P1_4"
+msgstr "目前有操下列數種語言的義工，請選擇你說的語言："
+
+msgid "HELP_HEADING2"
+msgstr "其他幫助來源"
+
+msgid "HELP_P2_ITEM1"
+msgstr "執行 BOINC"
+
+msgid "HELP_P2_ITEM2"
+msgstr "疑難排解 BOINC"
+
+msgid "HELP_P2_ITEM3"
+msgstr "BOINC 相關網站"
+
+msgid "HELP_P2_ITEM4"
+msgstr "BOINC 留言板"
+
+msgid "HELP_P2_ITEM5"
+msgstr "任何基於 BOINC 計畫的留言板"
+
+msgid "HELP_HEADING3"
+msgstr "如何成為客服義工"
+
+msgid "HELP_P3_1"
+msgstr "如果你是經驗豐富的 BOINC 使用者，我們鼓勵你 %s成為客服義工%s。 這是協助科學研究及自願運算的極佳方式而且 - 它很有趣！"
+
+msgid "HELP_P3_2"
+msgstr "如果你已經是客服義工：%s按這裡%s 編輯你的設定。"
+
+# #############################################
+# index.php
+# #############################################
+msgid "HOME_HEADING1"
+msgstr "自願參與科學運算"
+
+msgid "HOME_P1"
+msgstr " 利用你電腦 (Windows, Mac 或 Linux) 的閒置時間協助像治療疾病、全球暖化研究、尋找脈衝星等各式各樣的科學研究計畫。加入我們安全、保密而且簡單：  %s選擇%s 參與計畫  %s下載%s 並執行 BOINC 程式  %s輸入%s 計畫網址、你的電子郵件地址及密碼。"
+
+msgid "HOME_P2"
+msgstr "如果你同時執行數個計畫，也可以試試 %s帳號管理員%s 管理你的帳號，例如： %sGridRepublic%s 或 %sBAM!%s。"
+
+msgid "HOME_P3"
+msgstr "若你還有任何問題，或不知道如何開始，可以 %s和客服義工對談%s。"
+
+msgid "HOME_MORE_INFO"
+msgstr "執行 BOINC"
+
+msgid "HOME_DOWNLOAD"
+msgstr "下載"
+
+msgid "HOME_WEB_SITES"
+msgstr "網站"
+
+msgid "HOME_ADD_ONS"
+msgstr "附加程式"
+
+msgid "HOME_SURVEY"
+msgstr "使用者調查"
+
+msgid "HOME_BOINC"
+msgstr "柏克萊開放式網路運算平台"
+
+msgid "HOME_BOINC_DESC"
+msgstr "%s自願運算%s 及 %s網格運算%s 的開放原始碼程式"
 
