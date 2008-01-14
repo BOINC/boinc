@@ -488,3 +488,11 @@ David  Jan 14 2008
     - updated INSTALL
 
     INSTALL
+
+Rom    Jan 14 2008
+    - Add a "Forgot your password" hyperlink to the wizards
+        account info page.
+        
+    clientgui/
+        AccountInfoPage.cpp, .h
+        BOINCWizards.h
