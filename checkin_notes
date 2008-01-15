@@ -502,3 +502,9 @@ David  Jan 14 2008
 
     sched/
         handle_request.C
+
+Charlie Jan 14 2008
+    Fix Compiler warning.
+
+    api/
+        boinc_api.C

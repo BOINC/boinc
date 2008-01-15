@@ -165,7 +165,6 @@ static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 static void graphics_cleanup();
 static int suspend_activities();
 static int resume_activities();
-static int restore_activities();
 static void boinc_exit(int);
 static void block_sigalrm();
 static int start_worker_signals();
@@ -601,16 +600,6 @@ static int resume_activities() {
     }
 #endif
     return 0;
-}
-
-static int restore_activities() {
-    int retval;
-    if (boinc_status.suspended) {
-        retval = suspend_activities();
-    } else {
-        retval = resume_activities();
-    }
-    return retval;
 }
 
 static void handle_heartbeat_msg() {
