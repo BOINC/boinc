@@ -530,3 +530,17 @@ David  Jan 15 2008
         cs_trickle.C
         file_names.C
         sandbox.C,h
+
+Rom     Jan 15 2008
+    - WINSETUP: Add some additional comments to the setup log when
+        we know we cannot do a migration and why.
+    
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CAMigrateBOINCData.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

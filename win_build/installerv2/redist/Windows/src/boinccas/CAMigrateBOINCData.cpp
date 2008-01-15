@@ -352,12 +352,48 @@ UINT CAMigrateBOINCData::OnExecution()
     // Perform some basic sanity tests to see if we need to migrate
     //   anything.
     BOOL bClientStateExists =
-        (BOOL)stat(strClientStateFile.c_str(), &buf);
+        (BOOL)(0 == stat(strClientStateFile.c_str(), &buf));
     BOOL bInstallDataSameDirectory = 
         (BOOL)(strInstallDirectory == strDataDirectory);
     BOOL bDataDirExistsWithinInstallDir = 
         (BOOL)strDataDirectory.find(strInstallDirectory);
-    if ( !bClientStateExists && !bInstallDataSameDirectory && !bDataDirExistsWithinInstallDir )
+    if      ( bClientStateExists )
+    {
+        bMigratingData = FALSE;
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Data files already exists, skipping migration.")
+        );
+    }
+    else if ( bInstallDataSameDirectory ) 
+    {
+        bMigratingData = FALSE;
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Install directory and data directory are the same, skipping migration.")
+        );
+    }
+    else if ( bDataDirExistsWithinInstallDir )
+    {
+        bMigratingData = FALSE;
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Data drectory exists within the install directory, skipping migration.")
+        );
+    }
+    else
     {
         bMigratingData = TRUE;
         LogMessage(
@@ -417,18 +453,6 @@ UINT CAMigrateBOINCData::OnExecution()
                 }
             }
         }
-    }
-    else
-    {
-        bMigratingData = FALSE;
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Data files already exists, skipping migration.")
-        );
     }
 
 
