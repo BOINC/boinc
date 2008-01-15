@@ -218,14 +218,21 @@ $mac = array(
     )
 );
 
-$linux = array(
+$linuxcompat = array(
     "name"=>"Linux/x86",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l51028,
-        $l51028ubuntu,
         $l5816,
         $l5411,
+    )
+);
+
+$linux = array(
+    "name"=>"Linux/x86",
+    "dbname" => "i686-pc-linux-gnu",
+    "versions"=>array(
+        $l51028ubuntu,
     )
 );
 
@@ -241,6 +248,7 @@ $platforms = array(
     "win"=>$windows,
     "winx64"=>$windowsx64,
     "mac"=>$mac,
+    "linuxcompat"=>$linuxcompat,
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
 );

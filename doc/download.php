@@ -24,11 +24,15 @@ function download_link($pname) {
     global $url_base;
     $p = $platforms[$pname];
     $v = latest_version($p);
+    $pcompat = $platforms["linuxcompat"];
+    $vcompat = latest_version($pcompat);
     $file = $v['file'];
+    $filecompat = $vcompat['file'];
     $long_name = $p['name'];
     $num = $v['num'];
     $path = "dl/$file";
     $url = $url_base.$file;
+    $urlcompat = $url_base.$filecompat;
     $dlink = "<a href=$url>$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
 
@@ -39,8 +43,16 @@ function download_link($pname) {
         sprintf(tr(DL_VERSION_LNAME_SIZE), $num, $long_name, $s )."
         </td></tr> </table>
     ";
-    if ($pname == 'linux') {
+    if ($pname == 'linux'||$pname == 'linuxx64') {
         echo "
+            <p>
+            This Linux application is known to work with these
+            distributions:
+            <ul>
+            <li> Fedora Core 7/8
+            <li> Debian 4.1
+            <li> Ubuntu 7.10
+            </ul>
             <p>
             Note: BOINC may be available as a package for
             for your particular Linux distribution.
@@ -52,6 +64,9 @@ function download_link($pname) {
                 (more info <a href=http://wiki.debian.org/BOINC>here</a>).
                 Also boinc-dev (for project developers).
             </ul>
+            <p>
+            If your distrubution doesn't contain the latest BOINC packages
+            you can download the latest <a href=$urlcompat>here</a>
         ";
     }
 }
@@ -113,6 +128,8 @@ function show_download($pname) {
         link_row('winx64');
         link_row('mac');
         link_row('linux');
+        link_row('linuxx64');
+        link_row('linuxcompat');
         echo "</table>
         ";
     }
@@ -166,10 +183,15 @@ if ($_GET['all_platforms']) {
 } else if (strstr($client_info, 'Mac')) {
     show_download('mac');
 } else if (strstr($client_info, 'Linux')) {
-    show_download('linux');
+    if (strstr($client_info, 'x86_64')) {
+        show_download('linuxx64');
+    } else {
+        show_download('linux');
+    }
 } else {
     show_download(null);
 }
+
 page_tail(true);
 
 ?>
