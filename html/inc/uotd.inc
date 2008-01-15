@@ -18,6 +18,7 @@ function uotd_thumbnail($profile, $user) {
 //
 function show_uotd($profile) {
     $user = lookup_user_id($profile->userid);
+    echo uotd_thumbnail($profile, $user);
     echo user_links($user, true)."<br>";
     echo sub_sentence(output_transform(strip_tags($profile->response1)), ' ', 150, true);
 }
@@ -103,23 +104,16 @@ function select_uotd() {
     generate_uotd_gadget($profile, $user);
 }
 
-// This is the default policy for choosing the UOTD on any BOINC project.
+// This query defines the set of users eligible to be UOTD.
 // To override this with your own policy, create a similar function in
 // your own project.inc called uotd_candidates_query()
 //
 function default_uotd_candidates_query(){
-    if (profile_screening()) {
-        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
-        $query .= " AND verification=1 ";
-        $query .= " AND expavg_credit>1 ";
-        $query .= " AND uotd_time IS NULL ";
-        $query .= "ORDER BY RAND()";
-    } else {
-        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
-        $query .= "AND expavg_credit>1 ";
-        $query .= "AND uotd_time IS NULL ";
-        $query .= "ORDER BY RAND()";
-    }
+    $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
+    $query .= " AND verification=1 ";
+    $query .= " AND expavg_credit>1 ";
+    $query .= " AND uotd_time IS NULL ";
+    $query .= "ORDER BY RAND()";
     return $query;
 }
 

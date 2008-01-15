@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/forum.inc");
 require_once("../inc/text_transform.inc");
@@ -8,6 +7,8 @@ require_once("../inc/util_ops.inc");
 require_once("../project/project.inc");
 
 db_init();
+
+$logged_in_user = get_logged_in_user();
 
 function buttons($i) {
     echo "
@@ -55,7 +56,7 @@ while ($profile = mysql_fetch_object($result)) {
         <br>Name: $profile->name
         <br>
     ";
-    show_profile($profile, true);
+    show_profile($profile, $logged_in_user, true);
     echo "<hr></td></tr>\n";
     echo "<input type=\"hidden\" name=\"userid$n\" value=\"$profile->userid\">\n";
     $n++;
@@ -77,4 +78,5 @@ echo "
 ";
 
 admin_page_tail();
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

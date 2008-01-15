@@ -554,3 +554,27 @@ David  Jan 15 2008
         AccountInfoPage.cpp
     lib/
         diagnostics_win.cpp
+
+David  Jan 15 2008
+    - web: fixed screwed-up UOTD logic.
+        The meaning of the <screen_profiles> config flag is:
+        If set:
+            profiles must be screened by admins before their photo is shown.
+            When this is done, profile.verification is set to 1
+            (and they become eligible to be UOTD)
+        If not set:
+            profile photos are always shown.
+            Profiles must be screened by admins before
+            they are eligible for UOTD.
+            When this is done, profile.verification is set to 1
+        So default_uotd_candidates_query() is the same in either case.
+    - web: fix profile_screen_form.php
+        (admin page for screening profiles)
+    - web: make a copy of login_action.php in ops/
+
+    html/
+        inc/
+            uotd.inc
+        ops/
+            login_action.php (new)
+            profile_screen_form.php
