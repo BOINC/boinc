@@ -219,7 +219,7 @@ $mac = array(
 );
 
 $linuxcompat = array(
-    "name"=>"Linux/x86",
+    "name"=>"Linux/x86/compatible",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l51028,
