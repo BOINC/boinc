@@ -143,9 +143,9 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                         if (isset($keys[$i]) && isset($language[$keys[$i]])) {
                             if ($language[$keys[$i]] == "") {
                                 //If the msgstr is empty, use the msgid instead
-                                fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($interface[$keys[$i]])."\";\n");
+                                fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".$interface[$keys[$i]]."\";\n");
                             } else {
-                                fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($language[$keys[$i]])."\";\n");
+                                fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".$language[$keys[$i]]."\";\n");
                             }
                         }
                     }
@@ -198,7 +198,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
                         if ($language[$keys[$i]]!="") {
-                            fwrite($fh, "\$language_lookup_array[".($real_interface_size+$keys[$i])."] = \"".addslashes($language[$keys[$i]])."\";\n");                //Translate to PHP
+                            fwrite($fh, "\$language_lookup_array[".($real_interface_size+$keys[$i])."] = \"".$language[$keys[$i]]."\";\n");                //Translate to PHP
                         }
                     }
                     fwrite($fh, '?>');

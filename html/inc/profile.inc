@@ -13,8 +13,8 @@ require_once("../inc/recaptchalib.php");
 define('SMALL_IMG_WIDTH', 64);
 define('SMALL_IMG_HEIGHT', 64);
 
-define('MAX_IMG_WIDTH', 800);
-define('MAX_IMG_HEIGHT', 600);
+define('MAX_IMG_WIDTH', 640);
+define('MAX_IMG_HEIGHT', 480);
 
 define('MAX_DESC_LENGTH', 90);
 

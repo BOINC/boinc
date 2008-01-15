@@ -55,7 +55,7 @@ function download_link($pname) {
             </ul>
             <p>
             Note: BOINC may be available as a package for
-            for your particular Linux distribution.
+            your particular Linux distribution.
             Check this first before downloading from this page.
             Example package names:
             <ul>

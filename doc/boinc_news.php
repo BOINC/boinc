@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("Jan 14, 2008",
+    "The cross-project statistics site
+    <a href=http://www.allprojectstats.com/>All Project Stats.com</a>
+    has many improvements and new features,
+    include <a href=http://www.allprojectstats.com/signature.php>credit-based signature images</a> for users and teams."
+),
 array("Jan 10, 2008",
     "A new competition for BOINC teams,
     <a href=http://www.myboinc.com/FormulaBoinc/>Formula BOINC</a>,

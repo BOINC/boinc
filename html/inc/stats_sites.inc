@@ -38,7 +38,7 @@ $stats_sites = array(
     ),
     array(
         "http://www.allprojectstats.com/",
-        "BOINC all Project Stats",
+        "BOINC All Project Stats",
         ""
     ),
     array(
@@ -130,6 +130,11 @@ $sig_sites = array(
     array("http://www.boincstats.com/page/faq.php#3",
         "BOINCstats",
         "by Willy de Zutter"
+    ),
+    array(
+        "http://www.allprojectstats.com/signature.php",
+        "BOINC All Project Stats",
+        "Signature files for both users and teams"
     ),
 );
 

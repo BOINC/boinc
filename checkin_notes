@@ -578,3 +578,24 @@ David  Jan 15 2008
         ops/
             login_action.php (new)
             profile_screen_form.php
+
+David  Jan 15 2008
+    - client: restore proper sense of --check_all_logins
+        (should this be set by default?)
+    - web: removed addslashes() when building language translation arrays.
+        These caused 's to be displayed as \' everywhere.
+        They may serve some purpose, but I can't think of what it is.
+    - web: changed max profile image dimensions from 800x600 to 640x480.
+        The new profile page puts a column to the right
+        of the image, so it shouldn't be quite that wide.
+    client/
+        hostinfo_unix.C
+    html/
+        inc/
+            profile.inc
+            translation.inc
+            stats_sites.inc
+        user/
+            create_profile.php
+    lib/
+        filesys.C

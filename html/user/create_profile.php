@@ -88,7 +88,7 @@ function show_language_selection($profile) {
 
 function show_submit() {
     row1("Submit profile");
-    echo "<script>var RecaptchaOptions = { theme : 'white' };</script>"; // White looks better :)
+    echo "<script>var RecaptchaOptions = { theme : 'white' };</script>";
     $config = get_config();
     $publickey = parse_config($config, "<recaptcha_public_key>");
     if ($publickey) {

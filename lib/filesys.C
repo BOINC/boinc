@@ -335,7 +335,7 @@ int clean_out_dir(const char* dirpath) {
     return 0;
 }
 
-// return total size of files in directory and its subdirectories
+// return total size of files in directory and optionally its subdirectories
 // Special version for Win because stat() is slow, can be avoided
 //
 int dir_size(const char* dirpath, double& size, bool recurse) {
