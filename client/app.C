@@ -345,7 +345,7 @@ int ACTIVE_TASK::move_trickle_file() {
     // if can't move it, remove
     //
     if (retval) {
-        delete_project_owned_file(old_path);
+        delete_project_owned_file(old_path, true);
         return ERR_RENAME;
     }
     return 0;
@@ -772,7 +772,7 @@ int ACTIVE_TASK::handle_upload_files() {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Can't find uploadable file %s", p);
             }
             sprintf(path, "%s/%s", slot_dir, buf);
-            delete_project_owned_file(path);
+            delete_project_owned_file(path, true);  // delete the link file
         }
     }
     return 0;

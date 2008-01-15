@@ -218,7 +218,7 @@ void delete_old_slot_dirs() {
                 remove_project_owned_dir(path);
             }
         } else {
-            delete_project_owned_file(path);
+            delete_project_owned_file(path, false);
         }
     }
     dir_close(dirp);

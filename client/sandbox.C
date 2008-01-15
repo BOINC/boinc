@@ -128,7 +128,12 @@ int remove_project_owned_file_or_dir(const char* path) {
 static int delete_project_owned_file_aux(const char* path) {
 #ifdef _WIN32
     if (DeleteFile(path)) return 0;
-    return GetLastError();
+    int error = GetLastError();
+    if (error == ERROR_ACCESS_DENIED) {
+        SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
+        if (DeleteFile(path)) return 0;
+    }
+    return ERR_UNLINK;
 #else
     int retval = unlink(path);
     if (retval && g_use_sandbox && (errno == EACCES)) {
@@ -139,16 +144,19 @@ static int delete_project_owned_file_aux(const char* path) {
 #endif
 }
 
-// Delete the file located at path
+// Delete the file located at path.
+// If "retry" is set, do retries for 5 sec in case some
+// other program (e.g. virus checker) has the file locked.
+// Don't do this if deleting directories - it can lock up Manager.
 //
-int delete_project_owned_file(const char* path) {
+int delete_project_owned_file(const char* path, bool retry) {
     int retval = 0;
 
     if (!boinc_file_exists(path)) {
         return 0;
     }
     retval = delete_project_owned_file_aux(path);
-    if (retval) {
+    if (retval && retry) {
         double start = dtime();
         do {
             boinc_sleep(drand()*2);       // avoid lockstep
@@ -165,7 +173,7 @@ int delete_project_owned_file(const char* path) {
 
 // recursively delete everything in the specified directory
 // (but not the directory itself).
-// If an error occurs, delete as much as you can.
+// If an error occurs, delete as much as possible.
 //
 int client_clean_out_dir(const char* dirpath) {
     char filename[256], path[256];
@@ -194,7 +202,7 @@ int client_clean_out_dir(const char* dirpath) {
             retval = remove_project_owned_dir(path);
             if (retval) final_retval = retval;
         } else {
-            retval = delete_project_owned_file(path);
+            retval = delete_project_owned_file(path, false);
             if (retval) final_retval = retval;
         }
     }

@@ -508,3 +508,25 @@ Charlie Jan 14 2008
 
     api/
         boinc_api.C
+
+David  Jan 15 2008
+    - client: a project (Ralph) had accidentally included a .svn directory in a zip archive,
+        resulting in a lot of read-only files in its slot directories.
+        When the client attempts to delete these files,
+        each delete fails and the client retries for about 5 seconds.
+        This adds up to a delay of about 20 minutes,
+        during which the client (and Manager) appear to be hung.
+
+        Solution:
+        1) if a file delete fails with error ERROR_ACCESS_DENIED,
+            use SetFileAttributes() to clear the read-only flag, then try again.
+        2) Don't use the 5-second retry mechanism when clearing out
+            slot directories.  These can contain unbounded numbers of files,
+            and this can lead to long periods where the client appears hung.
+
+    client/
+        app.C
+        client_types.C
+        cs_trickle.C
+        file_names.C
+        sandbox.C,h
