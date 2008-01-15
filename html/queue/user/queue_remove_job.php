@@ -36,25 +36,10 @@ row2( "Job submit time: ", $jobsubmittime );
 row2( "Job name: ", $jobname );
 row2( "Old job status: ", $jobstatusstring );
 
-$allresults = mysql_query( "SELECT * FROM result WHERE workunitid=".$workunitid );
-$nrofresults = mysql_num_rows( $allresults );
-
-for( $resultindex = 0; $resultindex < $nrofresults; ++$resultindex )
-{
- $result = mysql_fetch_object( $allresults );
- $result -> xml_doc_in = remove_tags( $result -> xml_doc_in, "<queue_tag/>" );
- $query = "UPDATE result SET xml_doc_in='".$result -> xml_doc_in."' WHERE id=".$result -> id;
- mysql_query( $query );
-}
-
 $query = "UPDATE result SET server_state=5,outcome=5 WHERE server_state=2 AND workunitid=".$workunit -> id;
 mysql_query( $query );
 
-$workunit -> xml_doc = remove_tags( $workunit -> xml_doc, "<queue_tag/>" );
-$query = "UPDATE workunit SET xml_doc='".$workunit -> xml_doc."' WHERE id=".$workunit -> id;
-mysql_query( $query );
-
-$query = "UPDATE workunit SET error_mask=error_mask|16,transition_time=".time(0)." WHERE id=".$workunit -> id;
+$query = "UPDATE workunit SET error_mask=error_mask|16,transition_time=".time(0).",batch=0 WHERE id=".$workunit -> id;
 mysql_query( $query );
 
 $query = "DELETE FROM q_list WHERE id=".$job -> id;

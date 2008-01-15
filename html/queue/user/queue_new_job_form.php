@@ -43,6 +43,12 @@ if( $nrofapps )
   row2( "Name of job (no spaces, quotes or slashes): ", '<input type="text" size="65" name="name" value="" maxlength="128" >' );
   row2( "Input: ", '<textarea wrap="off" rows="20" cols="74" name="input"></textarea>' );
 
+  // These numbers have been based on running our app on our pool of 10000 desktops at that time
+  // for about 10000 WU's. For each successfull result the 'cpu_time' was multiplied with the hosts
+  // 'p_fpops' to get an estimate for the WU number of fops (which sould be fairly constant). This
+  // number was the devided by the average of all hosts 'cpu_time'. If your pool is bigger/different
+  // you might check these numbers first with your app, but they should be fairly okay...
+
   $selection = '<option value="461274818700"> 5 min. </option>';
   $selection .= '<option value="1383824456100"> 15 min. </option>';
   $selection .= '<option value="2767648912200"> 30 min. </option>';
@@ -72,7 +78,6 @@ if( $nrofapps )
   row2( "", '<input type="submit" value="     Submit Job     ">' );
 
   row1( "Commands" );
-  row2( "", '<a href="download/DownLoads/ClassicalBuilder/webstart_ClassicalBuilder.jnlp">Run Classical-Builder</a>' );
   row2( "", '<a href="queue_show_queue.php">Go back to your queue</a>' );
   row2( "", '<a href="logout.php">Log out</a>' );
 

@@ -97,20 +97,24 @@ if( !fwrite( $filehandle, $jobinput ) )
 
 fclose( $filehandle );
 
-if( strpos( $jobapplicationname, "classical" ) !== false )
-{
- $testinputcommand = $bin_dir."/verify_classical_input ".$temporaryinputfile." /dev/null /dev/stdout /dev/stdout";
- $testinputcommand = escapeshellcmd( $testinputcommand );
- $testinputcommand = "cd ".$config_dir."; ".$testinputcommand;
- $errorline = 0;
- exec( $testinputcommand, &$outputoftest, &$errorline );
- if( $errorline != 0 )
- {
-  $errorstring = "Your input had an error on line ".$errorline." ! The job was not submitted !";
-  unlink( $temporaryinputfile );
-  exit_with_text( $errorstring ); 
- }
-}
+// We at Leiden Classical have a special mode for our app, it can verify the user supplied 
+// input and return an exit code signaling an error. We tend to parse the input before let
+// it run on our desktop pool ;-)... Here's how...
+//
+// if( strpos( $jobapplicationname, "classical" ) !== false )
+// {
+//  $testinputcommand = $bin_dir."/verify_classical_input ".$temporaryinputfile." /dev/null /dev/stdout /dev/stdout";
+//  $testinputcommand = escapeshellcmd( $testinputcommand );
+//  $testinputcommand = "cd ".$config_dir."; ".$testinputcommand;
+//  $errorline = 0;
+//  exec( $testinputcommand, &$outputoftest, &$errorline );
+//  if( $errorline != 0 )
+//  {
+//   $errorstring = "Your input had an error on line ".$errorline." ! The job was not submitted !";
+//   unlink( $temporaryinputfile );
+//   exit_with_text( $errorstring ); 
+//  }
+// }
 
 system( $command_to_submit );
 
