@@ -401,26 +401,24 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     }
 
 
+    pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        pAMWizard = new CWizardAccountManager(this);
-
         if (!IsShown()) {
             Show();
         }
 
-        if (pAMWizard->Run()) {
+       pAMWizard = new CWizardAccountManager(this);
+       if (pAMWizard->Run()) {
             // If successful, hide the main window
             Hide();
         }
-    } else if (0 >= pDoc->GetProjectCount() && !status.disallow_attach) {
-        pAPWizard = new CWizardAttachProject(this);
-
+    } else if (pis.url.size() && !status.disallow_attach) {
         if (!IsShown()) {
             Show();
         }
 
-        pDoc->rpc.get_project_init_status(pis);
+        pAPWizard = new CWizardAttachProject(this);
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;

@@ -224,8 +224,6 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 
 
 static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
-    int retval;
-
     PROJECT* p = get_project(buf, fout);
     if (!p) {
         fout.printf("<error>no such project</error>\n");
@@ -252,20 +250,6 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             fout.printf("<error>must detach using account manager</error>");
             return;
         }
-
-        // if project_init.xml refers to this project,
-        // delete the file, otherwise we'll just
-        // reattach the next time the core client starts
-        //
-        if (!strcmp(p->master_url, gstate.project_init.url)) {
-            retval = gstate.project_init.remove();
-            if (retval) {
-                msg_printf(p, MSG_INTERNAL_ERROR,
-                    "Can't delete project init file: %s", boincerror(retval)
-                );
-            }
-        }
-
         gstate.detach_project(p);
         gstate.request_schedule_cpus("project detached by user");
         gstate.request_work_fetch("project detached by user");
@@ -668,6 +652,7 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
     bool use_config_file = false;
     bool already_attached = false;
     unsigned int i;
+    int retval;
 
     // Get URL/auth from project_init.xml?
     //
@@ -717,6 +702,20 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
     gstate.project_attach.error_num = gstate.add_project(
         url.c_str(), authenticator.c_str(), project_name.c_str(), false
     );
+
+    // if project_init.xml refers to this project,
+    // delete the file, otherwise we'll just
+    // reattach the next time the core client starts
+    //
+    if (!strcmp(url.c_str(), gstate.project_init.url)) {
+        retval = gstate.project_init.remove();
+        if (retval) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Can't delete project init file: %s", boincerror(retval)
+            );
+        }
+    }
+
     fout.printf("<success/>\n");
 }
 

@@ -109,11 +109,11 @@ void get_slot_dir(int slot, char* path, int len) {
 //
 int make_project_dir(PROJECT& p) {
     char buf[1024];
-    mode_t old_mask;
     int retval;
 
     boinc_mkdir(PROJECTS_DIR);
 #ifndef _WIN32
+    mode_t old_mask;
     if (g_use_sandbox) {
         old_mask = umask(2);     // Project directories must be world-readable
          chmod(PROJECTS_DIR,
@@ -158,7 +158,6 @@ int remove_project_dir(PROJECT& p) {
 //
 int make_slot_dir(int slot) {
     char buf[1024];
-    mode_t old_mask;
 
     if (slot<0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR, "Bad slot number %d", slot);
@@ -166,6 +165,7 @@ int make_slot_dir(int slot) {
     }
     boinc_mkdir(SLOTS_DIR);
 #ifndef _WIN32
+    mode_t old_mask;
     if (g_use_sandbox) {
         old_mask = umask(2);     // Slot directories must be world-readable
         chmod(SLOTS_DIR,

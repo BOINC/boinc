@@ -632,3 +632,16 @@ Charlie Jan 16 2008
             SetupSecurity.cpp
     doc/
         sandbox.php
+
+Rom    Jan 16 2008
+    - MGR: If the project_init.xml file suggests a project to attach too
+        attempt to attach to it.
+    - CLIENT: Move the code that deletes the project_init.xml from detach
+        project to attach project.  It is only needed for as long as
+        it takes to attach to a project.
+        
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
