@@ -25,16 +25,18 @@ function prot($user, $group, $perm) {
     &nbsp;&nbsp; protection: $perm";
 }
 
+$pp06600771 = prot('boinc_project', 'boinc_project', '0660 or 0771');
 $pp06640775 = prot('boinc_project', 'boinc_project', '0664 or 0775');
 $mp2500 = prot('boinc_master', 'boinc_project', '0500+setgid');
 $rm4050 = prot('root', 'boinc_master', '0050+setuid');
-$rm4055 = prot('root', 'boinc_master', '0055+setuid');
+$rm4555 = prot('root', 'boinc_master', '0555+setuid');
 $mm0550 = prot('boinc_master', 'boinc_master', '0550');
 $mm0440 = prot('boinc_master', 'boinc_master', '0440');
 $mm0660 = prot('boinc_master', 'boinc_master', '0660');
+$mm0771 = prot('boinc_master', 'boinc_master', '0771');
 $mm0775 = prot('boinc_master', 'boinc_master', '0775');
-$mm0664 = prot('boinc_master', 'boinc_master', '0664');
 $mp0775 = prot('boinc_master', 'boinc_project', '0775');
+$mp06600771 = prot('boinc_master', 'boinc_project', '0660 or 0771');
 $mp06640775 = prot('boinc_master', 'boinc_project', '0664 or 0775');
 $mm2555 = prot('boinc_master', 'boinc_master', '0555+setgid');
 $mm6555 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
@@ -99,17 +101,17 @@ for the BOINC file and directory tree:
 ";
 
 echo
-    show_dir(0, 'BOINC data', $mm0775, array(
+    show_dir(0, 'BOINC data', $mm0771, array(
         show_dir(1, 'projects', $mm0775, array(
             show_dir(2, 'setiathome.berkeley.edu', $mp0775, array(
-                show_file('files created by BOINC Client', $mp06640775),
-                show_file('files created by project apps', $pp06640775)
+                show_file('files created by BOINC Client', $mp06600771),
+                show_file('files created by project apps', $pp06600771)
             ))
         )),
         show_dir(1, 'slots', $mm0775, array(
             show_dir(2, '0', $mp0775, array(
-                show_file('files created by BOINC Client', $mp06640775),
-                show_file('files created by project apps', $pp06640775)
+                show_file('files created by BOINC Client', $mp06600771),
+                show_file('files created by project apps', $pp06600771)
             ))
         )),
         show_dir(1, 'switcher (directory)', $mm0550, array(
@@ -122,12 +124,12 @@ echo
                 show_file('wxstd.mo', $mm0440)
             ))
         )),
-        show_file('account_*.xml', $mm0664),
-        show_file('acct_mgr_login.xml', $mm0664),
-        show_file('client_state.xml', $mm0664),
+        show_file('account_*.xml', $mm0660),
+        show_file('acct_mgr_login.xml', $mm0660),
+        show_file('client_state.xml', $mm0660),
         show_file('gui_rpc_auth.cfg', $mm0660),
-        show_file('sched_reply*', $mm0664),
-        show_file('sched_request*', $mm0664)
+        show_file('sched_reply*', $mm0660),
+        show_file('sched_request*', $mm0660)
     ));
 
 echo "<br><br>";
@@ -137,7 +139,7 @@ echo
         show_file('BOINC Manager', $mm2555),
         show_file('BOINC Client', $mm6555),
         show_dir(1, 'screensaver (directory)', $ua0555, array(
-            show_file('gfx_switcher (executable)', $rm4055)
+            show_file('gfx_switcher (executable)', $rm4555)
         )),
     ));
     

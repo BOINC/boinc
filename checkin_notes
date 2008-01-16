@@ -630,3 +630,5 @@ Charlie Jan 16 2008
     clientgui/
         mac/
             SetupSecurity.cpp
+    doc/
+        sandbox.php
