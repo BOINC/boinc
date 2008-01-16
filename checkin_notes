@@ -119,3 +119,13 @@ Rom    Jan 14 2008
     clientgui/
         AccountInfoPage.cpp, .h
         BOINCWizards.h
+
+David  Jan 15 2008
+    - Manager: "Forgot your password" needs a question mark
+    - Win diagnostics: diagnostics_dump_thread_information() had a printf
+         with bad format string, caused a crash, not what diagnostics should do
+
+    clientgui/
+        AccountInfoPage.cpp
+    lib/
+        diagnostics_win.cpp

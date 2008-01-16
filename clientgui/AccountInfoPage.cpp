@@ -430,7 +430,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     m_pAccountForgotPasswordCtrl->SetLabel(
-        _("Forgot your password")
+        _("Forgot your password?")
     );
 
     if (!IS_ACCOUNTMANAGERWIZARD()) {

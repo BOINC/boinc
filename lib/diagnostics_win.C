@@ -1615,7 +1615,6 @@ int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
         "*** Dump of the %s thread (%x): ***\n\n"
         "- Information -\n"
         "Status: %s, "
-        "%s"
         "Kernel Time: %f, "
         "User Time: %f, "
         "Wait Time: %f\n"
