@@ -111,3 +111,11 @@ Charlie Jan 15 2008
     clientgui/
         sg_DlgMessages.cpp
         ViewMessages.cpp
+
+Rom    Jan 14 2008
+    - Add a "Forgot your password" hyperlink to the wizards
+        account info page.
+        
+    clientgui/
+        AccountInfoPage.cpp, .h
+        BOINCWizards.h

@@ -35,9 +35,14 @@
 #include "MainDocument.h"
 #include "wx/valgen.h"
 #include "wx/valtext.h"
+#include "hyperlink.h"
 #include "ValidateEmailAddress.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttachProject.h"
+#include "WizardAccountManager.h"
+#include "ProjectInfoPage.h"
+#include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
 
 
@@ -97,6 +102,7 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
     m_pAccountConfirmPasswordStaticCtrl = NULL;
     m_pAccountConfirmPasswordCtrl = NULL;
     m_pAccountPasswordRequirmentsStaticCtrl = NULL;
+    m_pAccountForgotPasswordCtrl = NULL;
 ////@end CAccountInfoPage member initialisation
  
 ////@begin CAccountInfoPage creation
@@ -185,6 +191,10 @@ void CAccountInfoPage::CreateControls()
     m_pAccountPasswordRequirmentsStaticCtrl->SetFont(wxFont(7, wxDEFAULT, wxNORMAL, wxNORMAL, FALSE));
     itemFlexGridSizer64->Add(m_pAccountPasswordRequirmentsStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+    m_pAccountForgotPasswordCtrl = new wxHyperLink;
+    m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer64->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
     // Set validators
     // m_pAccountEmailAddressCtrl is setup when the OnPageChange event is fired since
     //   it can be a username or an email address.
@@ -260,10 +270,11 @@ wxIcon CAccountInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-	PROJECT_CONFIG&  pc = ((CBOINCBaseWizard*)GetParent())->project_config;
-    CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    CSkinWizardATAM* pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
-
+	PROJECT_CONFIG&        pc = ((CBOINCBaseWizard*)GetParent())->project_config;
+    CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CSkinWizardATAM*       pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
+    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATAM);
@@ -279,6 +290,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pAccountConfirmPasswordStaticCtrl);
     wxASSERT(m_pAccountConfirmPasswordCtrl);
     wxASSERT(m_pAccountPasswordRequirmentsStaticCtrl);
+    wxASSERT(m_pAccountForgotPasswordCtrl);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
@@ -416,7 +428,23 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         str.Printf(_("minimum length %d"), ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length);
         m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
     }
- 
+
+    m_pAccountForgotPasswordCtrl->SetLabel(
+        _("Forgot your password")
+    );
+
+    if (!IS_ACCOUNTMANAGERWIZARD()) {
+        wxASSERT(pWAP);
+        m_pAccountForgotPasswordCtrl->SetURL(
+            wxString(pWAP->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
+        );
+    } else {
+        wxASSERT(pWAM);
+        m_pAccountForgotPasswordCtrl->SetURL(
+            wxString(pWAM->m_AccountManagerInfoPage->GetProjectURL() + _T("get_passwd.php"))
+        );
+    }
+
     Fit();
     m_pAccountEmailAddressCtrl->SetFocus();
 }
