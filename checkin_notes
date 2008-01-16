@@ -175,3 +175,11 @@ Rom    Jan 16 2008
     /
         configure.ac
         version.h
+
+Rom    Jan 16 2008
+    - CLI: Move the code that deletes the project_init.xml from detach
+        project to attach project.  It is only needed for as long as
+        it takes to attach to a project.
+        
+    client/
+        gui_rpc_server_ops.C
