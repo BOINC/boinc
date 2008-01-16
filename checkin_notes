@@ -599,3 +599,9 @@ David  Jan 15 2008
             create_profile.php
     lib/
         filesys.C
+
+David  Jan 15 2008
+    - API: fix to zip code (from Carl C)
+
+    zip/zip/
+        z_fileio.c
