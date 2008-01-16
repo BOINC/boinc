@@ -151,3 +151,12 @@ David  Jan 15 2008
         AccountInfoPage.cpp
     lib/
         diagnostics_win.cpp
+
+Rom    Jan 16 2008
+    - Tag for 5.10.36 release, all platforms
+      boinc_core_release_5_10_36
+
+    /
+        configure.ac
+        version.h
+
