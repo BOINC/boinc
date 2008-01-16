@@ -167,4 +167,11 @@ Rom    Jan 16 2008
     clientgui/
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
-        
+
+Rom    Jan 16 2008
+    - Tag for 5.10.37 release, all platforms
+      boinc_core_release_5_10_37
+
+    /
+        configure.ac
+        version.h
