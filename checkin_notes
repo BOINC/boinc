@@ -183,3 +183,11 @@ Rom    Jan 16 2008
         
     client/
         gui_rpc_server_ops.C
+
+Rom    Jan 16 2008
+    - Tag for 5.10.38 release, all platforms
+      boinc_core_release_5_10_38
+
+    /
+        configure.ac
+        version.h
