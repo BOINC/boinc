@@ -223,6 +223,9 @@ wxInt32 CViewMessages::GetDocCount() {
 
 
 void CViewMessages::OnListRender (wxTimerEvent& event) {
+    bool isConnected;
+    static bool was_connected = false;
+    
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
@@ -232,6 +235,22 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
         if (0 >= iDocCount) {
             m_pListPane->DeleteAllItems();
         } else {
+            // If connection status changed, adjust color of messages display
+            isConnected = wxGetApp().GetDocument()->IsConnected();
+            if (was_connected != isConnected) {
+                was_connected = isConnected;
+                if (isConnected) {
+                    m_pMessageInfoAttr->SetTextColour(*wxBLACK);
+                    m_pMessageErrorAttr->SetTextColour(*wxRED);
+                } else {
+                    wxColourDatabase colorBase;
+                    m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
+                    m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
+                }
+                // Force an update
+                m_pListPane->SetItemCount(iDocCount);
+           }
+            
             if (m_iPreviousDocCount != iDocCount)
                 m_pListPane->SetItemCount(iDocCount);
         }
@@ -280,6 +299,7 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
             pAttribute = m_pMessageErrorAttr;
             break;
         default:
+            pAttribute = m_pMessageInfoAttr;
             break;
         }
     }

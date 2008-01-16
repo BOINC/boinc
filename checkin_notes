@@ -605,3 +605,15 @@ David  Jan 15 2008
 
     zip/zip/
         z_fileio.c
+
+Charlie Jan 15 2008
+    MGR: When connection to Client is lost, don't clear message window; show 
+        messages grayed out instead.
+    NOTE: these changes may need to be applied in CViewMessagesGrid class 
+        if we implement that in the future.
+        
+    clientgui/
+        MainDocument.cpp
+    clientgui/
+        sg_DlgMessages.cpp
+        ViewMessages.cpp

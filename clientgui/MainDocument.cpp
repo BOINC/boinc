@@ -334,7 +334,7 @@ CMainDocument::CMainDocument() {
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
-	m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
+    m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
 }
 
 
@@ -434,14 +434,11 @@ int CMainDocument::ResetState() {
     state.clear();
     host.clear_host_info();
     results.clear();
-    messages.clear();
     ft.clear();
     disk_usage.clear();
     proxy_info.clear();
 
     ForceCacheUpdate();
-
-    m_iMessageSequenceNumber = 0;
     return 0;
 }
 
@@ -1223,11 +1220,16 @@ int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
 int CMainDocument::CachedMessageUpdate() {
     int retval;
     static bool in_this_func = false;
+    static bool was_connected = false;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
+        if (! was_connected) {
+            ResetMessageState();
+            was_connected = true;
+        }
         retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (retval) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'"), retval);
@@ -1238,6 +1240,8 @@ int CMainDocument::CachedMessageUpdate() {
             int last_ind = messages.messages.size()-1;
             m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
+    } else {
+        was_connected = false;
     }
 done:
     in_this_func = false;
