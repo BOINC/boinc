@@ -244,7 +244,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
             return err;
 
         // chmod u=rsx,g=rx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-        // 04055 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  setuid-on-execution plus read and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
         if (err)
@@ -287,9 +287,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set permissions of BOINC Data directory's contents
     // chmod -R u+rw,g+rw,o-rw "/Library/Application Support/BOINC Data"
-    // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+    // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
     // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o-rw", fullpath, NULL, NULL);
     if (err)
         return err;
 
@@ -303,13 +303,16 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 #endif
 
     // Set permissions of BOINC Data directory itself
-    // chmod u=rwx,g=rwx,o=rx "/Library/Application Support/BOINC Data"
-    // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+    // chmod u=rwx,g=rwx,o=x "/Library/Application Support/BOINC Data"
+    // 0771 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IXOTH
     //  read, write and execute permission for user & group;  read and execute permission for others
-    err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=x", fullpath, NULL, NULL, NULL);
     if (err)
         return err;
-
+    
+    // Since we no longer allow read access for others (S_IROTH), setting ownership 
+    // and permissions for gui_rpc_auth.cfg file is probably now redundant
+    
     // Does gui_rpc_auth.cfg file exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/gui_rpc_auth.cfg", MAXPATHLEN);
@@ -504,13 +507,13 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     if ((result == noErr) && (! isDirectory)) {
         // Set owner and group of AppStats application (must be setuid root)
         sprintf(buf1, "root:%s", boinc_master_group_name);
-        // chown root:boinc_project "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
+        // chown root:boinc_project "/Library/Application Support/BOINC Data/switcher/AppStats"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
         // Set permissions of AppStats application
-        // chmod u=rsx,g=rx,o= "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
+        // chmod u=rsx,g=rx,o= "/Library/Application Support/BOINC Data/switcher/AppStats"
         // 04550 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
         //  setuid-on-execution plus read and execute permission for user and group
         err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=", fullpath, NULL, NULL, NULL);
@@ -555,7 +558,7 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
         isDirectory = S_ISDIR(sbuf.st_mode);
 
         if (isDirectory) {
-            // chmod u+x,g+x,o+x fullpath
+            // chmod u=rwx,g=rwx,o=rx fullpath
             // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
             //  read, write and execute permission for user & group;  read and execute permission for others
             retval = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);

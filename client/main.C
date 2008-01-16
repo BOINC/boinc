@@ -324,10 +324,11 @@ static void init_core_client(int argc, char** argv) {
 
 #ifndef _WIN32
     if (g_use_sandbox)
-        // Set file creation mask to be writable by both user and group
+        // Set file creation mask to be writable by both user and group and
+        // world-executable but neither world-readable nor world-writable
         // Our umask will be inherited by all our child processes
         //
-        umask (2);
+        umask (6);
 #endif
 
     // Initialize the BOINC Diagnostics Framework
