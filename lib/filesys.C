@@ -284,6 +284,52 @@ int boinc_delete_file(const char* path) {
     return 0;
 }
 
+static int delete_project_owned_file_aux(const char* path) {
+#ifdef _WIN32
+    if (DeleteFile(path)) return 0;
+    int error = GetLastError();
+    if (error == ERROR_ACCESS_DENIED) {
+        SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
+        if (DeleteFile(path)) return 0;
+    }
+    return ERR_UNLINK;
+#else
+    int retval = unlink(path);
+    if (retval && g_use_sandbox && (errno == EACCES)) {
+        // We may not have permission to read subdirectories created by projects
+        return remove_project_owned_file_or_dir(path);
+    }
+    return retval;
+#endif
+}
+
+// Delete the file located at path.
+// If "retry" is set, do retries for 5 sec in case some
+// other program (e.g. virus checker) has the file locked.
+// Don't do this if deleting directories - it can lock up Manager.
+//
+int delete_project_owned_file(const char* path, bool retry) {
+    int retval = 0;
+
+    if (!boinc_file_exists(path)) {
+        return 0;
+    }
+    retval = delete_project_owned_file_aux(path);
+    if (retval && retry) {
+        double start = dtime();
+        do {
+            boinc_sleep(drand()*2);       // avoid lockstep
+            retval = delete_project_owned_file_aux(path);
+            if (!retval) break;
+        } while (dtime() < start + FILE_RETRY_INTERVAL);
+    }
+    if (retval) {
+        safe_strcpy(boinc_failed_file, path);
+        return ERR_UNLINK;
+    }
+    return 0;
+}
+
 // get file size
 //
 int file_size(const char* path, double& size) {
@@ -345,6 +391,62 @@ int clean_out_dir(const char* dirpath) {
             if (retval) final_retval = retval;
         } else {
             retval = boinc_delete_file(path);
+            if (retval) final_retval = retval;
+        }
+    }
+    dir_close(dirp);
+    return final_retval;
+}
+
+int remove_project_owned_dir(const char* name) {
+#ifdef _WIN32
+    if (!RemoveDirectory(name)) {
+        return GetLastError();
+    }
+    return 0;
+#else
+    int retval;
+    retval = rmdir(name);
+    // We may not have permission to read subdirectories created by projects
+    if (retval && g_use_sandbox && (errno == EACCES)) {
+        retval = remove_project_owned_file_or_dir(name);
+    }
+    return retval;
+#endif
+}
+
+// recursively delete everything in the specified directory
+// (but not the directory itself).
+// If an error occurs, delete as much as possible.
+//
+int client_clean_out_dir(const char* dirpath) {
+    char filename[256], path[256];
+    int retval, final_retval = 0;
+    DIRREF dirp;
+
+    dirp = dir_open(dirpath);
+    if (!dirp) {
+#ifndef _WIN32
+        if (g_use_sandbox && (errno == EACCES)) {
+            // dir may be owned by boinc_apps
+            return remove_project_owned_file_or_dir(dirpath);
+        }
+#endif
+        return 0;    // if dir doesn't exist, it's empty
+    }
+
+    while (1) {
+        strcpy(filename, "");
+        retval = dir_scan(filename, dirp, sizeof(filename));
+        if (retval) break;
+        sprintf(path, "%s/%s", dirpath,  filename);
+        if (is_dir(path)) {
+            retval = client_clean_out_dir(path);
+            if (retval) final_retval = retval;
+            retval = remove_project_owned_dir(path);
+            if (retval) final_retval = retval;
+        } else {
+            retval = delete_project_owned_file(path, false);
             if (retval) final_retval = retval;
         }
     }

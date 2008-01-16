@@ -102,7 +102,7 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
         if (!starts_with(fname, "trickle_up")) continue;
         if (!ends_with(fname, ".sent")) continue;
         sprintf(path, "%s/%s", project_dir, fname);
-        boinc_delete_file(path);
+        delete_project_owned_file(path, true);
     }
     return 0;
 }

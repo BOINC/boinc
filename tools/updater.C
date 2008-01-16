@@ -70,7 +70,7 @@ int prepare_prev_dir() {
     int retval;
 
     if (is_dir(prev_dir)) {
-        retval = clean_out_dir(prev_dir);
+        retval = client_clean_out_dir(prev_dir);
         if (retval) return retval;
     } else {
         retval = boinc_mkdir(prev_dir);
