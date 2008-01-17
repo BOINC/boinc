@@ -291,7 +291,7 @@ static void init_core_client(int argc, char** argv) {
         // Set file creation mask to be writable by both user and group
         // Our umask will be inherited by all our child processes
         //
-        umask (2);
+        umask (6);
 #endif
 
     // Initialize the BOINC Diagnostics Framework
