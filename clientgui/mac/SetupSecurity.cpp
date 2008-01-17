@@ -92,6 +92,12 @@ int CreateBOINCUsersAndGroups() {
     err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
     if (err != noErr)
         return err;
+        
+    // Add user boinc_master to group boinc_project
+    // "dscl . -merge /groups/boinc_project users user_name"
+    err = DoPrivilegedExec(dsclPath, ".", "-merge", "/groups/" REAL_BOINC_PROJECT_NAME, "users", REAL_BOINC_MASTER_NAME);
+    if (err)
+        return err;
     
     err = ResynchSystem();
     if (err != noErr)

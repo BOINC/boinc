@@ -645,3 +645,14 @@ Rom    Jan 16 2008
     clientgui/
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
+
+Charlie Jan 17 2008
+    Mac Sandbox: make user boinc_master part of group boinc_project.
+        
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php

@@ -81,11 +81,9 @@ int use_sandbox, int isManager
     ProcessSerialNumber ourPSN;
     ProcessInfoRec      pInfo;
     FSRef               ourFSRef;
-    char                *p;
 #endif
-#ifdef _MAC_INSTALLER
+    int                 i;
     char                *p;
-#endif
 
     useFakeProjectUserAndGroup = ! use_sandbox;
 #ifdef _DEBUG
@@ -203,6 +201,17 @@ int use_sandbox, int isManager
         if (grp == NULL)
             return -1011;                // Group boinc_project does not exist
         boinc_project_gid = grp->gr_gid;
+
+        i = 0;
+        while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group admin
+            if (strcmp(p, boinc_master_user_name) == 0) {
+                // User boinc_master is a member of group boinc_project
+                break;
+            }
+            ++i;
+        }
+        if (p == NULL)
+            return -1012;       // user boinc_master is not a member of group boinc_project
     }
 
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer

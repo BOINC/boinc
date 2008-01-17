@@ -82,7 +82,7 @@ These users and groups are created by the installation process.
 <li>User: <b>boinc_master</b>
 <ul>
 <li>Primary group: <b>boinc_master</b>
-<li>Supplementary groups: none
+<li>Supplementary groups: <b>boinc_project</b>
 </ul>
 <li>User: <b>boinc_project</b>
 <ul>
