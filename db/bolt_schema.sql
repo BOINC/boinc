@@ -43,17 +43,18 @@ create table bolt_view (
     mode            integer         not null,
         -- distinguishes exercise show/answer
     action          integer         not null,
-        -- what the user clicked
+        -- what the user clicked to leave page
     start_time      integer         not null,
     end_time        integer         not null,
     prev_view_id    integer         not null,
-        -- for exercise answer views,
-        -- this always refers to the original exercise show
+        -- for exercise answer views;
+        -- refers to the original exercise view
     fraction_done   double          not null,
     result_id       integer         not null,
         -- if this was an exercise show, link to result record
     refresh_id      integer         not null,
         -- if unit was flagged for review, link to review record
+		-- ?? remove?
     primary key (id)
 );
 
@@ -65,7 +66,7 @@ create table bolt_result (
     user_id         integer         not null,
     course_id       integer         not null,
     view_id         integer         not null,
-        -- the original display of exercise
+        -- the display of exercise
     score           double          not null,
     response        text            not null,
         -- the query string containing user's responses
@@ -74,20 +75,36 @@ create table bolt_result (
 
 -- represents the result of a completed exercise set,
 -- where "completed" means the student clicked Next on the final answer page.
--- This is slightly redundant -
--- it could be reconstructed from the individual exercise results -
--- but this way makes it easier for analytics to treat exercise sets as units.
+-- In theory this could be reconstructed from the individual exercise results,
+-- but this table makes it easier for analytics
 --
 create table bolt_xset_result (
     id              integer         not null auto_increment,
-    create_time     integer         not null,
     user_id         integer         not null,
     course_id       integer         not null,
+    start_time      integer         not null,
+    end_time        integer         not null,
     name            varchar(255)    not null,
         -- logical name of result set unit
     score           double          not null,
+		-- weighted average score
     view_id         integer         not null,
-        -- the answer page of last exercise in set
+        -- the view of the answer page of last exercise in set
+    primary key(id)
+);
+
+-- represents the completion of a select structure
+--
+create table bolt_select_complete (
+    id              integer         not null auto_increment,
+    user_id         integer         not null,
+    course_id       integer         not null,
+    start_time      integer         not null,
+    end_time        integer         not null,
+    name            varchar(255)    not null,
+        -- logical name of the select unit
+    view_id         integer         not null,
+        -- the view of the last item
     primary key(id)
 );
 
@@ -108,5 +125,18 @@ create table bolt_refresh (
         -- most recent result for this set
     due_time        integer         not null,
         -- when refresh will be due
+    primary key (id)
+);
+
+create table bolt_question (
+    id              integer         not null auto_increment,
+    create_time     integer         not null,
+    user_id         integer         not null,
+    course_id       integer         not null,
+    name            varchar(255)    not null,
+		-- logical name of item where question was asked
+	question		text			not null,
+	state			integer			not null,
+		-- whether question has been handled
     primary key (id)
 );

@@ -3,6 +3,11 @@
 require_once("../inc/db_conn.inc");
 require_once("../inc/util.inc");
 
+define('BOLT_PHASE_STUDY');
+define('BOLT_PHASE_REVIEW');
+	// review and repeat of an exercise set
+define('BOLT_PHASE_REFRESH');
+
 define('BOLT_MODE_LESSON', 1);
 define('BOLT_MODE_SHOW', 2);
 define('BOLT_MODE_SCORE', 3);
@@ -155,6 +160,39 @@ class BoltResult {
     static function enum($clause) {
         $db = BoltDb::get();
         return $db->enum('bolt_view', 'BoltResult', $clause);
+    }
+}
+
+class BoltXsetResult {
+    function insert($clause) {
+        $db = BoltDb::get();
+        return $db->insert('bolt_xset_result', $clause);
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_xset_result', 'BoltXsetResult', $clause);
+    }
+}
+
+class BoltSelectCompleted {
+    function insert($clause) {
+        $db = BoltDb::get();
+        return $db->insert('bolt_select_completed', $clause);
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_select_completed', 'BoltSelectCompleted', $clause);
+    }
+}
+
+class BoltQuestion {
+    function insert($clause) {
+        $db = BoltDb::get();
+        return $db->insert('bolt_question', $clause);
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_question', 'BoltQuestion', $clause);
     }
 }
 

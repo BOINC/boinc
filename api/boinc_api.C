@@ -163,9 +163,9 @@ static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
 static void graphics_cleanup();
-static int suspend_activities();
-static int resume_activities();
-static void boinc_exit(int);
+//static int suspend_activities();
+//static int resume_activities();
+//static void boinc_exit(int);
 static void block_sigalrm();
 static int start_worker_signals();
 
@@ -453,7 +453,8 @@ int boinc_finish(int status) {
 // Unix: called only from the worker thread.
 // Win: called from the worker or timer thread.
 //
-static void boinc_exit(int status) {
+// make static eventually
+void boinc_exit(int status) {
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
     }
@@ -582,7 +583,8 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
-static int suspend_activities() {
+// make static eventually
+int suspend_activities() {
     BOINCINFO("Received Suspend Message");
 #ifdef _WIN32
     if (options.direct_process_action) {
@@ -592,7 +594,8 @@ static int suspend_activities() {
     return 0;
 }
 
-static int resume_activities() {
+// make static eventually
+int resume_activities() {
     BOINCINFO("Received Resume Message");
 #ifdef _WIN32
     if (options.direct_process_action) {
@@ -600,6 +603,15 @@ static int resume_activities() {
     }
 #endif
     return 0;
+}
+int restore_activities() {
+ int retval;
+    if (boinc_status.suspended) {
+	    retval = suspend_activities();
+	    } else {
+	        retval = resume_activities();
+	    }
+    return retval;
 }
 
 static void handle_heartbeat_msg() {

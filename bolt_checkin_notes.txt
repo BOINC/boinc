@@ -43,3 +43,11 @@ David  Jan 1 2008
         user/
             bolt_course_sample.php
             bolt_sched.php
+
+David  Jan 17 2008
+    -  Add table for selects
+
+    db/
+        bolt_schema.sql
+    html/inc/
+        bolt_db.inc

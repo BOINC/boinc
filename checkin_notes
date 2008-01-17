@@ -660,3 +660,12 @@ Charlie Jan 17 2008
 Rom    Jan 17 2008 (HEAD)
     - Tag for 6.1.7 release, all platforms
       boinc_core_release_6_1_7
+
+David  Jan 17 2008
+    - API: make the libraries for old-style graphics compile again
+        (these are no longer supported, but they probably still work)
+    api/
+        boinc_api.C,h
+        graphics_impl.h
+    client/
+        acct_mgr.C
