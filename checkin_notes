@@ -656,3 +656,7 @@ Charlie Jan 17 2008
             SetupSecurity.cpp
     doc/
         sandbox.php
+
+Rom    Jan 17 2008 (HEAD)
+    - Tag for 6.1.7 release, all platforms
+      boinc_core_release_6_1_7
