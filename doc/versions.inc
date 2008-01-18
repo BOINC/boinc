@@ -35,7 +35,7 @@ $w51038= array(
     "num"=>"5.10.38",
     "status"=>"Development version (Win98+, Win2000+)",
     "file"=>"boinc_5.10.38_windows_intelx86.exe",
-    "date"=>"9 Jan 2008",
+    "date"=>"16 Jan 2008",
     "type"=>"win_new",
 );
 
@@ -79,19 +79,19 @@ $w5411= array(
     "type"=>"win_new",
 );
 
-$m51034 = array(
-    "num"=>"5.10.34",
+$m51038 = array(
+    "num"=>"5.10.38",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.34_macOSX_universal.zip",
-    "date"=>"8 Jan 2008",
+    "file"=>"boinc_5.10.38_macOSX_universal.zip",
+    "date"=>"17 Jan 2008",
     "type"=>"mac_advanced",
 );
 
-$m51032 = array(
-    "num"=>"5.10.32",
+$m51034 = array(
+    "num"=>"5.10.34",
     "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.10.32_macOSX_universal.zip",
-    "date"=>"20 Dec 2007",
+    "file"=>"boinc_5.10.34_macOSX_universal.zip",
+    "date"=>"8 Jan 2008",
     "type"=>"mac_advanced",
 );
 
@@ -111,19 +111,19 @@ $m549 = array(
     "type"=>"mac_advanced",
 );
 
-$m51034c = array(
-    "num"=>"5.10.34",
+$m51038c = array(
+    "num"=>"5.10.38",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.10.34_universal-apple-darwin.zip",
-    "date"=>"8 Jan 2008",
+    "file"=>"boinc_5.10.38_universal-apple-darwin.zip",
+    "date"=>"17 Jan 2008",
     "type"=>"bare_core",
 );
 
-$m51032c = array(
-    "num"=>"5.10.32",
+$m51034c = array(
+    "num"=>"5.10.34",
     "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_5.10.32_universal-apple-darwin.zip",
-    "date"=>"20 Dec 2007",
+    "file"=>"boinc_5.10.34_universal-apple-darwin.zip",
+    "date"=>"8 Jan 2008",
     "type"=>"bare_core",
 );
 
@@ -207,10 +207,10 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m51038,
+        $m51038c,
         $m51034,
         $m51034c,
-        $m51032,
-        $m51032c,
         $m5817,
         $m5817c,
         $m549,
