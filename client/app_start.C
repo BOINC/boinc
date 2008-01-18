@@ -39,6 +39,7 @@
 #endif
 #include <unistd.h>
 #include <cerrno>
+#include <sys/stat.h>
 #endif
 
 #ifdef __EMX__
@@ -703,6 +704,9 @@ int ACTIVE_TASK::start(bool first_time) {
             if (log_flags.task_debug) {
                 debug_print_argv(argv);
             }
+            // Files written by projects have user boinc_project and group boinc_project, 
+            // so they must be world-readable so BOINC CLient can read them 
+            umask(2);
             retval = execv(switcher_path, argv);
         } else {
             argv[0] = exec_name;
