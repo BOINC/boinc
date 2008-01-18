@@ -58,6 +58,33 @@ using namespace std;
 #include "fcgi_stdio.h"
 #endif
 
+// find the user's most recently-created host with given various characteristics
+//
+static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
+    char buf[2048];
+    char dn[512], ip[512], os[512], pm[512];
+
+    // Only check if the fields are populated
+    if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
+        strcpy(dn, req_host.domain_name);
+        escape_string(dn, 512);
+        strcpy(ip, req_host.last_ip_addr);
+        escape_string(ip, 512);
+        strcpy(os, req_host.os_name);
+        escape_string(os, 512);
+        strcpy(pm, req_host.p_model);
+        escape_string(pm, 512);
+
+        sprintf(buf,
+            "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s' and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
+        );
+        if (!host.enumerate(buf)) {
+            host.end_enumerate();
+            return true;
+        }
+    }
+    return false;
+}
 static void get_weak_auth(USER& user, char* buf) {
     char buf2[256], out[256];
     sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
@@ -177,29 +204,6 @@ static void mark_results_over(DB_HOST& host) {
             host.id, result.id, result.workunitid, result.name
         );
     }
-}
-
-// find the user's most recently-created host with given
-// various characteristics
-//
-static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
-    char buf[256];
-
-    sprintf(buf,
-        "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and p_model = '%s' and m_nbytes = %lf order by id desc",
-        user.id, req_host.id, req_host.domain_name, req_host.last_ip_addr,
-        req_host.p_model, req_host.m_nbytes
-    );
-    if (!host.enumerate(buf)) {
-        host.end_enumerate();
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "[HOST#%d] [USER#%d] Found similar existing host for this user.\n",
-            host.id, host.userid
-        );
-        return true;
-    }
-    return false;
 }
 
 // Based on the info in the request message,
@@ -401,12 +405,15 @@ make_new_host:
         // If found, use the existing host record,
         // and mark in-progress results as over.
         //
-#if 0
         if (find_host_by_other(user, sreq.host, host)) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
+                host.id, host.userid
+            );
             mark_results_over(host);
             goto got_host;
         }
-#endif
 
         // either of the above cases,
         // or host ID didn't match user ID,

@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("Jan 15, 2008",
+    "A new article from the <a href=http://www.planetary.org>Planetary Society</a>: 
+    <a href=http://www.planetary.org/programs/projects/setiathome/setiathome_20080115.html>From SETI@home to Hominid Fossils: Citizen Cyberscience Reshapes Research Landscape</a>."
+),
+
 array("Jan 14, 2008",
     "The cross-project statistics site
     <a href=http://www.allprojectstats.com/>All Project Stats.com</a>

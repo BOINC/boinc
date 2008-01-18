@@ -691,3 +691,12 @@ Charlie Jan 17 2008
             SetupSecurity.cpp
     doc/
         sandbox.php
+
+David  Jan 18 2008
+    - scheduler: if get request w/o host ID,
+        use most recently created host with same domain name,
+        IP addr, OS name, and CPU model, if one exists.
+        (from Kevin Reed)
+
+    sched/
+        handle_request.C
