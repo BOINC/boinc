@@ -17,7 +17,7 @@
 # To view the GNU Lesser General Public License visit
 # http://www.gnu.org/copyleft/lesser.html
 # or write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+# 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Make a BOINC installation "secure" on a Macintosh with stand-alone BOINC Client
 # The BOINC installer does this for a Macintosh installation with BOINC Manager; 
@@ -64,7 +64,7 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 10/2/07 for BOINC version 5.10.21 and later
+# Last updated 1/17/08 for BOINC version 5.10.38
 # WARNING: do not use this script with older versions of BOINC
 
 function make_boinc_user() {
@@ -182,7 +182,7 @@ dscl . -merge /groups/boinc_master users "$(LOGNAME)"
 dscl . -merge /groups/boinc_project users "$(LOGNAME)"
 
 set_perm_recursive . boinc_master boinc_master u+rw,g+rw,o+r-w
-set_perm . boinc_master boinc_master 0775
+set_perm . boinc_master boinc_master 0771
 if [ -f gui_rpc_auth.cfg ] ; then
     set_perm gui_rpc_auth.cfg boinc_master boinc_master 0660
 fi
@@ -226,14 +226,6 @@ fi
 
 if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ] ; then 
     set_perm /Applications/BOINCManager.app/Contents/Resources/boinc boinc_master boinc_master 6555
-fi
-
-# Version 6 screensaver has its own embedded switcher application, but older versions don't.
-# We don't allow unauthorized users to run the switcher application in the BOINC Data directory 
-# because they could use it to run as user & group boinc_project and damage project files.
-# The screensaver's switcher application has very limited functionality to avoid this risk.
-if [ -x "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher" ] ; then 
-    set_perm "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher" root boinc_master 4555
 fi
 
 

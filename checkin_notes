@@ -687,6 +687,7 @@ Charlie Jan 17 2008
         check_security.C
     clientgui/
         mac/
+            Mac_SA_Secure.sh
             SetupSecurity.cpp
     doc/
         sandbox.php
