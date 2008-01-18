@@ -88,8 +88,16 @@ typedef struct _SYSTEM_PROCESSES {
     LARGE_INTEGER  KernelTime;
     UNICODE_STRING ProcessName;
     KPRIORITY      BasePriority;
+#ifdef _WIN64
+	ULONG pad1;
+    ULONG          ProcessId;
+	ULONG pad2;
+    ULONG          InheritedFromProcessId;
+	ULONG pad3, pad4, pad5;
+#else
     ULONG          ProcessId;
     ULONG          InheritedFromProcessId;
+#endif
     ULONG          HandleCount;
     ULONG          Reserved2[2];
     VM_COUNTERS    VmCounters;

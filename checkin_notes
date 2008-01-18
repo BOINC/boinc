@@ -700,3 +700,18 @@ David  Jan 18 2008
 
     sched/
         handle_request.C
+
+Rom    Jan 18 2008
+    - WINSETUP: Fix failed termination attempts on Win64
+    
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        terminate.h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
