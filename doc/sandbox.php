@@ -25,7 +25,7 @@ function prot($user, $group, $perm) {
     &nbsp;&nbsp; protection: $perm";
 }
 
-$pp06600771 = prot('boinc_project', 'boinc_project', '0660 or 0771');
+$pp06610771 = prot('boinc_project', 'boinc_project', '0661 or 0771');
 $pp06640775 = prot('boinc_project', 'boinc_project', '0664 or 0775');
 $mp2500 = prot('boinc_master', 'boinc_project', '0500+setgid');
 $rm4050 = prot('root', 'boinc_master', '0050+setuid');
@@ -36,7 +36,7 @@ $mm0660 = prot('boinc_master', 'boinc_master', '0660');
 $mm0771 = prot('boinc_master', 'boinc_master', '0771');
 $mm0775 = prot('boinc_master', 'boinc_master', '0775');
 $mp0775 = prot('boinc_master', 'boinc_project', '0775');
-$mp06600771 = prot('boinc_master', 'boinc_project', '0660 or 0771');
+$mp06610771 = prot('boinc_master', 'boinc_project', '0661 or 0771');
 $mp06640775 = prot('boinc_master', 'boinc_project', '0664 or 0775');
 $mm2555 = prot('boinc_master', 'boinc_master', '0555+setgid');
 $mm6555 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
@@ -82,7 +82,7 @@ These users and groups are created by the installation process.
 <li>User: <b>boinc_master</b>
 <ul>
 <li>Primary group: <b>boinc_master</b>
-<li>Supplementary groups: <b>boinc_project</b>
+<li>Supplementary groups: none
 </ul>
 <li>User: <b>boinc_project</b>
 <ul>
@@ -104,14 +104,14 @@ echo
     show_dir(0, 'BOINC data', $mm0771, array(
         show_dir(1, 'projects', $mm0775, array(
             show_dir(2, 'setiathome.berkeley.edu', $mp0775, array(
-                show_file('files created by BOINC Client', $mp06600771),
-                show_file('files created by project apps', $pp06600771)
+                show_file('files created by BOINC Client', $mp06610771),
+                show_file('files created by project apps', $pp06610771)
             ))
         )),
         show_dir(1, 'slots', $mm0775, array(
             show_dir(2, '0', $mp0775, array(
-                show_file('files created by BOINC Client', $mp06600771),
-                show_file('files created by project apps', $pp06600771)
+                show_file('files created by BOINC Client', $mp06610771),
+                show_file('files created by project apps', $pp06610771)
             ))
         )),
         show_dir(1, 'switcher (directory)', $mm0550, array(
@@ -218,12 +218,13 @@ application with the process ID; since it is running as user and group
 <b>boinc_project</b>, it can affect only processes belonging to that user.
 </ul>
 </ul>
-<li>BOINC Manager and BOINC Client set their umasks to 002,
-which is inherited by all child applications.
-The default permissions for all files and directories they create prevent
-modification outside the user and group.
-Because files are world-readable, BOINC Client can read files written by projects.
-Third-party add-ons can also read BOINC data files.
+<li>BOINC Client sets its umask to 006 to hide account keys from unauthorized 
+users.  This means that third-party add-ons cannot read BOINC data files; they 
+must use GUI RPCs to access BOINC Data.  
+<li>BOINC sets the umask for project applications to 002; the default permissions 
+for all files and directories they create prevent modification outside the 
+<b>boinc_project</b> user and group.  Files written by projects are world-readable so 
+that the BOINC Client can read them.
 <li>Non-admin users cannot directly modify BOINC or project files.
 They can modify these files only by running the BOINC Manager and Client.  
 <li>Users with admin access are members of groups <b>boinc_master</b>

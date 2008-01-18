@@ -90,12 +90,6 @@ int CreateBOINCUsersAndGroups() {
     err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
     if (err != noErr)
         return err;
-        
-    // Add user boinc_master to group boinc_project
-    // "dscl . -merge /groups/boinc_project users user_name"
-    err = DoPrivilegedExec(dsclPath, ".", "-merge", "/groups/" REAL_BOINC_PROJECT_NAME, "users", REAL_BOINC_MASTER_NAME);
-    if (err)
-        return err;
     
     err = ResynchSystem();
     if (err != noErr)
@@ -330,6 +324,16 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
 
+        // Set permissions of projects directory's contents
+        // Contents of project directories must be world-readable so BOINC Client can read 
+        // files written by projects whcih have user boinc_project and group boinc_project
+        // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/projects"
+        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+        // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
+        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
+        if (err)
+            return err;
+
         // Set execute permissions for project subdirectories
         err = UpdateNestedDirectories(fullpath);    // Sets execute for user, group and others
         if (err)
@@ -362,6 +366,16 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  read, write and execute permission for user & group;  read and execute permission for others
         err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions of slots directory's contents
+        // Contents of slot directories must be world-readable so BOINC Client can read 
+        // files written by projects whcih have user boinc_project and group boinc_project
+        // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/slots"
+        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+        // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
+        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
         if (err)
             return err;
 
