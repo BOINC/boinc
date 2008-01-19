@@ -153,10 +153,8 @@ static void make_window() {
     }
 }
 
-static void boinc_glut_init() {
-    const char* args[2] = {"BOINC", NULL};
-    int one=1;
-
+static void boinc_glut_init(int argc, char** argv) {
+    int arg_count = argc;
     win = 0;
 
     FILE *f = boinc_fopen("gfx_info", "r");
@@ -166,7 +164,7 @@ static void boinc_glut_init() {
         fclose(f);
     }
 
-    glutInit (&one, (char**)args);
+    glutInit (&arg_count, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_ALPHA); 
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(width, height); 
@@ -187,7 +185,7 @@ void boinc_graphics_loop(int argc, char** argv) {
             fullscreen = true;
         }
     }
-    boinc_glut_init();
+    boinc_glut_init(argc, argv);
     make_window();
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
 #ifdef __APPLE__
