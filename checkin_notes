@@ -722,3 +722,9 @@ Charlie Jan 18 2008
 
     api/
         graphics2_unix.C
+
+David  Jan 19 2008
+    - web: fixed extremely minor bug in forum search; fixes #539
+
+    html/user/
+        forum_search_action.php

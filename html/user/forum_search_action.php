@@ -62,28 +62,30 @@ function search_thread_titles(
 // optionally filters by forum, time, hidden, or user if specified.
 //
 function search_post_content(
-    $keyword_list, $forum="", $user="", $time="", $limit=200,
-    $sort_style=CREATE_TIME_NEW, $show_hidden = false
+    $keyword_list, $forum, $user, $time, $limit, $sort_style, $show_hidden
 ){
     $search_string="%";
     foreach ($keyword_list as $key => $word){
         $search_string.=mysql_escape_string($word)."%";
     }
     $optional_join = "";
-    if ($forum!="" && $forum!="all"){
+    // if looking in a single forum, need to join w/ thread table
+    // because that's where the link to forum is
+    //
+    if ($forum) {
         $optional_join = " LEFT JOIN DBNAME.thread ON post.thread = thread.id";
     }
-    $query = "select *, DBNAME.post.id as postid from DBNAME.post".$optional_join." where content like '".$search_string."'";
-    if ($forum!="" && $forum!="all"){
-        $query.=" and forum = ".intval($forum->id);
+    $query = "select post.* from DBNAME.post".$optional_join." where content like '".$search_string."'";
+    if ($forum) {
+        $query.=" and forum = $forum->id";
     }
-    if ($user!="" && $user!="all"){
-        $query.=" and post.user = ".intval($user->id );
+    if ($user) {
+        $query.=" and post.user = $user->id ";
     }
-    if ($time!="" && $user!="all"){
-        $query.=" and post.timestamp > ".intval($time);
+    if ($time) {
+        $query.=" and post.timestamp > $time";
     }
-    if ($show_hidden == false) {
+    if (!$show_hidden) {
         $query .= " AND post.hidden = 0";
     }
     switch($sort_style) {
@@ -103,7 +105,7 @@ function search_post_content(
         $query .= ' ORDER BY post.timestamp DESC';
         break;
     }
-    $query.= " limit ".intval($limit);
+    $query.= " limit $limit";
     return BoincPost::enum_general($query);
 }
 
@@ -127,7 +129,7 @@ $min_timestamp = time() - ($search_max_time*3600*24);
 $limit = 100;
 
 if ($search_forum==-1){
-    $forum = "";
+    $forum = null;
 } else if ($search_forum) {
     $forum = BoincForum::lookup_id($search_forum);
 }
@@ -168,7 +170,6 @@ if (count($posts)){
     $options = get_output_options($logged_in_user);
     $options->setHighlightTerms($search_list);
     foreach ($posts as $post) {
-        $post->id = $post->postid;
         $thread = BoincThread::lookup_id($post->thread);
         if (!$thread) continue;
         $forum = BoincForum::lookup_id($thread->forum);
