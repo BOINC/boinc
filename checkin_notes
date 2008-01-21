@@ -743,3 +743,11 @@ Rom    Jan 21 2008
         
     clientgui/
         ProjectListCtrl.cpp
+
+Rom    Jan 21 2008
+    - MGR: Make sure the attach to project wizard launches if BOINC
+        is not attached to any projects.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp

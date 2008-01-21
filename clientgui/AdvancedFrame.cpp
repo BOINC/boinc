@@ -1847,7 +1847,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // If failure, display the messages tab
             m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
         }
-    } else if (pis.url.size() && !status.disallow_attach) {
+    } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
         if (!IsShown()) {
             Show();
         }
