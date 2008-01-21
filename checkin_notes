@@ -736,3 +736,10 @@ David  Jan 21 2008
         log_flags.C
     tools/
         create_work.C
+
+Rom    Jan 21 2008
+    - MGR: Shrink the amount of space between the different projects
+        in the project list.
+        
+    clientgui/
+        ProjectListCtrl.cpp
