@@ -156,6 +156,7 @@ echo "
 <h3>Skins for the BOINC Manager</h3>
 <ul>
 <li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
+<li> <a href=http://www.grid-france.fr/tutoriaux/comment-personnaliser-boinc-au-couleur-de-l-equipe-france/>Skin for Equipe France (WCG)</a>
 </ul>
 <a name=sites></a>
 <h3>Other BOINC-related web sites</h3>

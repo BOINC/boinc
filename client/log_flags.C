@@ -251,7 +251,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
         if (xp.parse_double(tag, "start_delay", start_delay)) continue;
         if (xp.parse_bool(tag, "run_apps_manually", run_apps_manually)) continue;
-        msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
+        msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
         xp.skip_unexpected(tag, true, "CONFIG::parse_options");
