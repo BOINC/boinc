@@ -765,3 +765,9 @@ David  Jan 23 2008
 
     py/Boinc/
         setup_project.py
+
+Charlie Jan 23 2008
+    GFX API: Fix to makefile for Macintosh (from Bernd Machenschalk).
+    
+    api/
+        makefile.am

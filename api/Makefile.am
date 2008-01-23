@@ -19,6 +19,9 @@ graphics2_files = \
     txf_util.C          \
     graphics2.C \
     graphics2_unix.C
+if OS_DARWIN
+   graphics2_files += macglutfix.m
+endif
 
 EXTRA_DIST = *.h
 
