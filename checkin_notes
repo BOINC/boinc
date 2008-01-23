@@ -757,3 +757,11 @@ Rytis   Jan 22 2008
     
     html/user/
         donation_ipn.php
+
+David  Jan 23 2008
+    - upgrade script: rename cgi and file_upload_handler
+        before trying to copy new ones,
+        in case there's an instance currently running
+
+    py/Boinc/
+        setup_project.py

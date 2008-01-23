@@ -350,7 +350,14 @@ def install_boinc_files(dest_dir, web_only):
     if web_only:
         return
 
-    # copy backend (C++) programs
+    # copy backend (C++) programs;
+    # rename current web daemons in case they're in use
+
+    if os.path.isfile(dir('cgi-bin', 'cgi')):
+        os.rename(dir('cgi-bin', 'cgi'), dir('cgi-bin', 'cgi.old'))
+    if os.path.isfile(dir('cgi-bin', 'file_upload_handler')):
+        os.rename(dir('cgi-bin', 'file_upload_handler'), dir('cgi-bin', 'file_upload_handler.old'))
+
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
         [ 'cgi', 'file_upload_handler'])
     map(lambda (s): install(builddir('sched',s), dir('bin',s)),
