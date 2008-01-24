@@ -787,3 +787,9 @@ David  Jan 24 2008
         util.C
     sched/
         Makefile.am
+
+David  Jan 24 2008
+    - Manager: make email input field bigger
+
+    clientgui/
+        AccountInfoPage.cpp

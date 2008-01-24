@@ -165,7 +165,7 @@ void CAccountInfoPage::CreateControls()
     itemFlexGridSizer64->Add(m_pAccountEmailAddressStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountEmailAddressCtrl = new wxTextCtrl;
-    m_pAccountEmailAddressCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pAccountEmailAddressCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, 22), 0 );
     itemFlexGridSizer64->Add(m_pAccountEmailAddressCtrl, 0, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountPasswordStaticCtrl = new wxStaticText;
