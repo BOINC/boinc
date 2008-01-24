@@ -771,3 +771,10 @@ Charlie Jan 23 2008
     
     api/
         makefile.am
+
+Rom    Jan 24 2008
+    - LIB: Make sure that the worker and graphics processes are created
+        using the idle process priority class.
+
+    lib/
+        util.C
