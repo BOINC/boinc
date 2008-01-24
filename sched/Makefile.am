@@ -205,6 +205,7 @@ fcgi_SOURCES = \
     ../lib/parse.C \
     ../lib/shmem.C \
     ../lib/synch.C \
+    ../lib/str_util.C \
     ../lib/util.C \
     ../tools/process_result_template.C \
     ../tools/backend_lib.C

@@ -778,3 +778,12 @@ Rom    Jan 24 2008
 
     lib/
         util.C
+
+David  Jan 24 2008
+    - scheduler: get FCGI version to compile
+
+    lib/
+        miofile.C
+        util.C
+    sched/
+        Makefile.am

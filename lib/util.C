@@ -466,8 +466,6 @@ void boinc_crash() {
 #endif
 }
 
-#ifndef _USING_FCGI_
-
 // read file (at most max_len chars, if nonzero) into malloc'd buf
 //
 int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
@@ -481,12 +479,14 @@ int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
     f = fopen(path, "r");
     if (!f) return ERR_FOPEN;
 
+#ifndef _USING_FCGI_
     if (max_len && size > max_len) {
         if (tail) {
             fseek(f, (long)size-max_len, SEEK_SET);
         }
         size = max_len;
     }
+#endif
     isize = (int) size;
     buf = (char*)malloc(isize+1);
     size_t n = fread(buf, 1, isize, f);
@@ -494,8 +494,6 @@ int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
     fclose(f);
     return 0;
 }
-
-#endif
 
 // read file (at most max_len chars, if nonzero) into string
 //

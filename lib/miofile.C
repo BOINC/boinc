@@ -60,6 +60,8 @@ void MIOFILE::init_buf_write(char* _buf, int _len) {
 	wbuf[0] = 0;
 }
 
+#ifndef _USING_FCGI_
+
 int MIOFILE::printf(const char* format, ...) {
     int retval;
 
@@ -77,6 +79,8 @@ int MIOFILE::printf(const char* format, ...) {
     va_end(ap);
     return retval;
 }
+
+#endif
 
 char* MIOFILE::fgets(char* dst, int dst_len) {
     if (f) {
