@@ -361,9 +361,9 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
     // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
     // unresponsive to mouse clicks if we create it before connecting to the Client.
-    bool m_bClientRunningAsDaemon = (TickCount() < (120*60)) &&    // If system has been up for less than 2 minutes 
+    bool m_bClientRunningAsDaemon = (TickCount() < (120*60)) &&                     // If system has been up for less than 2 minutes 
          ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist") ||  // New-style daemon uses launchd
-            boinc_file_exists("/Library/StartupItems/boinc/boinc") );           // Old-style daemon uses StartupItem
+           boinc_file_exists("/Library/StartupItems/boinc/boinc") );                // Old-style daemon uses StartupItem
  
     if (m_bClientRunningAsDaemon) StartupBOINCCore();
 #endif
