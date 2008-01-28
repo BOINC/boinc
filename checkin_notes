@@ -811,3 +811,14 @@ David  Jan 28 2008
             user.inc
         user/
             login_action.php
+
+David  Jan 28 2008
+    - client: add <force_ntlm> config flag.
+        Causes client to use NTLM auth and HTTP 1.0
+    - client: we weren't doing exponential backoff if scheduler
+        requests failed at initialization; fix this
+
+    client/
+        http_curl.C
+        log_flags.C,h
+        scheduler_op.C

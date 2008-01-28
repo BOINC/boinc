@@ -398,7 +398,7 @@ int HTTP_OP::libcurl_exec(
     // force curl to use HTTP/1.0 if config specifies it
 	// (curl uses 1.1 by default)
 	//
-	if (config.http_1_0) {
+	if (config.http_1_0 || config.force_ntlm) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 	}
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
@@ -770,32 +770,29 @@ int libcurl_debugfunction(
 
 
 void HTTP_OP::setupProxyCurl() {
-    // CMC: use the libcurl proxy routines with this object's proxy information struct 
-    /* PROXY_INFO pi useful members:
-        pi.http_server_name
-        pi.http_server_port
-        pi.http_user_name
-        pi.http_user_passwd
-        pi.socks5_user_name
-        pi.socks5_user_passwd
-        pi.socks_server_name
-        pi.socks_server_port
-        pi.socks_version
-        pi.use_http_auth
-        pi.use_http_proxy
-        pi.use_socks_proxy
-
-        Curl self-explanatory setopt params for proxies:
-            CURLOPT_HTTPPROXYTUNNEL
-            CURLOPT_PROXYTYPE  (pass in CURLPROXY_HTTP or CURLPROXY_SOCKS5)
-            CURLOPT_PROXYPORT  -- a long port #
-            CURLOPT_PROXY - pass in char* of the proxy url
-            CURLOPT_PROXYUSERPWD -- a char* in the format username:password
-            CURLOPT_HTTPAUTH -- pass in one of CURLAUTH_BASIC, CURLAUTH_DIGEST, 
-                CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
-            CURLOPT_PROXYAUTH -- "or" | the above bitmasks -- only basic, digest, ntlm work
-            
-        */
+// PROXY_INFO pi useful members:
+//  pi.http_server_name
+//  pi.http_server_port
+//  pi.http_user_name
+//  pi.http_user_passwd
+//  pi.socks5_user_name
+//  pi.socks5_user_passwd
+//  pi.socks_server_name
+//  pi.socks_server_port
+//  pi.socks_version
+//  pi.use_http_auth
+//  pi.use_http_proxy
+//  pi.use_socks_proxy
+//
+// Curl self-explanatory setopt params for proxies:
+//    CURLOPT_HTTPPROXYTUNNEL
+//    CURLOPT_PROXYTYPE  (pass in CURLPROXY_HTTP or CURLPROXY_SOCKS5)
+//    CURLOPT_PROXYPORT  -- a long port #
+//    CURLOPT_PROXY - pass in char* of the proxy url
+//    CURLOPT_PROXYUSERPWD -- a char* in the format username:password
+//    CURLOPT_HTTPAUTH -- pass in one of CURLAUTH_BASIC, CURLAUTH_DIGEST, 
+//        CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
+//    CURLOPT_PROXYAUTH -- "or" | the above bitmasks -- only basic, digest, ntlm work
 
     CURLcode curlErr;
 
@@ -815,7 +812,11 @@ void HTTP_OP::setupProxyCurl() {
             if (auth_type) {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
             } else {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
+                if (config.force_ntlm) {
+                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
+                } else {
+                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+                }
             }       
             sprintf(szCurlProxyUserPwd, "%s:%s", pi.http_user_name, pi.http_user_passwd);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
@@ -991,9 +992,11 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
 
         // if proxy/socks server uses authentication and its not set yet,
         // get what last transfer used
+        //
         if (hop->auth_flag && !hop->auth_type) {
             curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_PROXYAUTH_AVAIL, &hop->auth_type);
+                CURLINFO_PROXYAUTH_AVAIL, &hop->auth_type
+            );
         }
 
         // the op is done if curl_multi_msg_read gave us a msg for this http_op

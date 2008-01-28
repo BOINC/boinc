@@ -103,6 +103,7 @@ struct CONFIG {
     bool report_results_immediately;
     double start_delay;
     bool run_apps_manually;
+    bool force_ntlm;
 
     CONFIG();
     void defaults();
