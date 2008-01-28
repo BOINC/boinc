@@ -801,3 +801,13 @@ David  Jan 28 2008
         Makefile.am
         graphics2.h
         graphics2_win.C
+
+David  Jan 28 2008
+    - web: fix bug in handling of links on "forget password?" emails
+    - web: show number of friends
+
+    html/
+        inc/
+            user.inc
+        user/
+            login_action.php

@@ -67,9 +67,12 @@ if ($id && $t && $h) {
             get a new login link by email."
         );
     }
+    if (session_id() == "") {
+        session_start();
+    }
     $_SESSION["authenticator"] = $user->authenticator;
+    setcookie('auth', $user->authenticator, time()+3600*24*365);
     Header("Location: home.php");
-    setcookie('auth', $authenticator, time()+3600*24*365);
     exit();
 }
 
