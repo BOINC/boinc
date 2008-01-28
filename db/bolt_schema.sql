@@ -76,7 +76,7 @@ create table bolt_result (
 );
 
 -- represents the result of a completed exercise set,
--- where "completed" means the student clicked Next on the final answer page.
+-- where "completed" means the last exercise was scored.
 -- In theory this could be reconstructed from the individual exercise results,
 -- but this table makes it easier for analytics
 --

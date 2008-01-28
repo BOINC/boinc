@@ -6,6 +6,7 @@
 //   action: see commands below
 
 require_once("../inc/bolt.inc");
+require_once("../inc/bolt_sched.inc");
 require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_ex.inc");
 require_once("../inc/bolt_util.inc");
@@ -261,11 +262,11 @@ case 'next':            // "next" button in lesson or exercise answer page
     break;
 case 'answer':          // submit answer in exercise
     $view = finalize_view($user, $view_id, BOLT_ACTION_SUBMIT);
-    if ($user->bolt->debug) {
-        echo "<pre>State: $view->state</pre>\n";
-    }
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
+    if ($user->bolt->debug) {
+        echo "<pre>Initial state:"; print_r($iter->state); echo "</pre>\n";
+    }
     $iter->at();
 
     if ($user->bolt->debug) {
@@ -302,6 +303,12 @@ case 'answer':          // submit answer in exercise
         values ($view->id, $bolt_ex_score, '$qs')"
     );
     $view->update("result_id=$result_id");
+
+    // If this is part of an exercise set, call its callback function
+    //
+    if ($iter->xset) {
+        $iter->xset->xset_callback($iter, $bolt_ex_score, $view->id, $is_last, $nav_info);
+    }
 
     // show the answer page
 

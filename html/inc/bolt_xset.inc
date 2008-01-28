@@ -1,128 +1,48 @@
 <?php
 
-class BoltExerciseSet extends BoltUnit {
-    public $units;
+class BoltExerciseSet extends BoltRandom {
     public $repeats;
-    public $state_rec;
     function __construct($name, $units, $number, $repeats) {
-        $this->name = $name;
-        $this->units = $units;
-        $this->number = $number;
+        parent::__construct($name, $units, $number);
         $this->repeats = $repeats;
-        $this->is_item = false;
-        $this->shuffled = false;
     }
 
-    // the scheduler calls this when an exercise in this set
-    // has just been graded.
+    // called when an exercise in this set has just been graded.
     // - record the score in our state structure
     // - return a structure saying what navigation info to show:
     //   - review
     //   - repeat now
     //   - next
     //
-    function xset_callback($iter, $score, &$is_last, &$nav_info) {
+    function xset_callback(&$iter, $score, $view_id, &$is_last, &$nav_info) {
+        echo "XSET_CALLBACK: $score";
+        $nav_info = null;
         $state_rec = $iter->state[$this->name];
-        $number_shown = $state_rec['number_shown'];
-        $state_rec['scores'][$number_shown] = $score;
-        $is_last = ($number_shown == $this->number);
-        if ($is_last) {
-        } else {
-        }
-    }
+        $nshown = $state_rec['nshown'];
+        $state_rec['scores'][$nshown] = $score;
+        $iter->state[$this->name] = $state_rec;
+        $is_last = ($nshown == $this->ntoshow);
+        if (!$is_last) return;
 
-    // The user clicked "Next" on last answer page,
-    // so this exercise set is now "completed".
-    //   - create exercise_set_result record
-    //   - optionally create or update bolt_refresh record
-    //
-    function completed($score, $view_id) {
+        // this exercise set is now "completed".
+        //   - create exercise_set_result record
+        //   - optionally create or update bolt_refresh record
+        //
+        $total_score = 0;
+        for ($i=0; $i<$nshown; $i++) {
+            $total_score += $state_rec['score'][$i];
+        }
+        $avg_score = $total_score/$nshown;
+
         $now = time();
-        $id = BoincXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$this->name', $score, $view_id)");
+        $id = BoincXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$this->name', $avg_score, $view_id)");
         $due_time = $now + 100000;
         BoincRefresh::replace("create_time=$now, user_id=$user->id, course_id=$course->id, name='$this->name', set_result_id=$id, due_time=$due_time");
     }
 
     function walk(&$iter, $incr, &$frac_done) {
         $iter->xset = $this;
-        $n = count($this->units);
-        if (array_key_exists($this->name, $iter->state)) {
-            $state_rec = $iter->state[$this->name];
-            $this->state_rec = $state_rec;
-            $child_name = $state_rec['child_name'];
-            $number_shown = $state_rec['number_shown'];
-            if (!$this->shuffled) {
-                srand($state_rec['seed']);
-                shuffle($this->units);
-                $this->shuffled = true;
-            }
-
-            // look up unit by name
-            // 
-            $child = null;
-            for ($i=0; $i<$n; $i++) {
-                $c = $this->units[$i];
-                if ($c->name == $child_name) {
-                    $child = $c;
-                    break;
-                }
-            }
-
-            // if not there, look up by index
-            //
-            if (!$child) {
-                $i = $state_rec['i'];
-                if ($i >= $n) {
-                    // and if index is too big, use last unit
-                    //
-                    $i = $n-1;
-                }
-                $child = $this->units[$i];
-            }
-
-            // at this point, $child is the current unit, and $i is its index
-            //
-            if ($incr) {
-                $my_inc = false;
-                if ($child->is_item) {
-                    $my_inc = true;
-                } else {
-                    $my_inc = $child->walk($iter, $incr, $frac_done);
-                }
-                if ($my_inc) {
-                    $i = ($i+1)%$n;
-                    $number_shown++;
-                    if ($number_shown >= $this->number) {
-                        $frac_done = 1;
-                        $state_rec['i'] = $i;
-                        $state_rec['number_shown'] = 0;
-                        $state_rec['child_name'] = null;
-                        $iter->state[$this->name] = $state_rec;
-                        return true;
-                    }
-                }
-            }
-        } else {
-            $i = 0;
-            $number_shown = 0;
-            $state_rec = null;
-            $seed = ((double)microtime()*1000000);
-            srand($seed);
-            shuffle($this->units);
-            $state_rec['seed'] = $seed;
-        }
-        $child = $this->units[$i];
-        $frac_done = $number_shown/$this->number;
-        $state_rec['i'] = $i;
-        $state_rec['number_shown'] = $number_shown;
-        $state_rec['child_name'] = $child->name;
-        $iter->state[$this->name] = $state_rec;
-        if ($child->is_item) {
-            $iter->item = $child;
-        } else {
-            $child->walk($iter, false, $f);
-            $frac_done += $f*(1/$number);
-        }
+        return parent::walk($iter, $incr, $frac_done);
     }
 }
 

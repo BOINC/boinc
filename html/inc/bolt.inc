@@ -1,24 +1,10 @@
 <?php
 
+// Bolt course document API
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
-
-// stuff needed in Bolt course documents
-
-// rules about course structures:
-//
-// - Each unit has a logical name.
-// - The members of a set must have distinct logical names
-// - Different units may have the same logical name;
-//   however, such units must be identical.
-
-// A state in a course is described by:
-// - an associative array mapping logical names to state structures.
-//   Typically this includes the logical name of the current child
-//   and info such as a sequence index.
-//   This is kind of like a "call stack",
-//   except that it can contain units not currently active.
 
 abstract class BoltUnit {
     public $name;   // logical name.
@@ -36,47 +22,8 @@ abstract class BoltUnit {
         // frac_done: Fraction done (of this unit and any subunits)
 }
 
-// An iterator represents a user's position in a course.
-// Its state is stored in the database,
-// and the course may change underneath it.
+// base class for exercise and lesson
 //
-class BoltIter {
-    public $top;        // topmost unit
-    public $state;
-    public $xset;       // exercise set, if any
-
-    // the following are temps
-    public $item;       // current item
-    public $frac_done;  // fraction done
-
-    function __construct($top) {
-        $this->top = $top;
-        $this->state = array();
-    }
-
-    function decode_state($encoded_state) {
-        $this->state = json_decode($encoded_state, true);
-    }
-
-    function encode_state() {
-        return json_encode($this->state);
-    }
-
-    // get current item and fraction done
-    //
-    function at() {
-        $this->xset = null;
-        $this->top->walk($this, false, $this->frac_done);
-    }
-
-    // move to the next item, and return it in $this->item
-    // (null if course finished)
-    //
-    function next() {
-        $this->top->walk($this, true, $this->frac_done);
-    }
-}
-
 class BoltItem extends BoltUnit {
     public $filename;
     public $query_string;
@@ -110,6 +57,106 @@ class BoltLesson extends BoltItem {
 class BoltExercise extends BoltItem {
     function is_exercise() {
         return true;
+    }
+}
+
+// Base class for control structures (i.e. all units that are not items).
+// These have the following properties:
+// - a set of units
+// - an ordering of this set, defined in the derived class
+//   (i.e., random, student-specific, or identity)
+// - an index (state_rec::index) for where we are in this list
+// - an index (state_rec::nshown) for how many units completed so far
+// - a number "ntoshow" for how many to show
+//
+class BoltSet extends BoltUnit {
+    public $units;
+    function __construct($name, $units, $ntoshow) {
+        $this->name = $name;
+        $this->is_item = false;
+        $this->units = $units;
+        $this->ntoshow = $ntoshow;
+        $this->ordered = false;
+    }
+    function walk(&$iter, $incr, &$frac_done) {
+        $n = count($this->units);
+        if (array_key_exists($this->name, $iter->state)) {
+            $state_rec = $iter->state[$this->name];
+            $child_name = $state_rec['child_name'];
+            $nshown = $state_rec['nshown'];
+            if (!$this->ordered) {
+                $this->order($state_rec);
+                $this->ordered = true;
+            }
+
+            // look up unit by name
+            // 
+            $child = null;
+            for ($i=0; $i<$n; $i++) {
+                $c = $this->units[$i];
+                if ($c->name == $child_name) {
+                    $child = $c;
+                    break;
+                }
+            }
+
+            // if not there, look up by index
+            //
+            if (!$child) {
+                $i = $state_rec['index'];
+                if ($i >= $n) {
+                    // and if index is too big, use last unit
+                    //
+                    $i = $n-1;
+                }
+                $child = $this->units[$i];
+            }
+
+            // at this point, $child is the current unit, and $i is its index
+            //
+            if ($incr) {
+                if ($child->is_item) {
+                    $my_inc = true;
+                } else {
+                    $my_inc = $child->walk($iter, $incr, $frac_done);
+                }
+                if ($my_inc) {
+                    $nshown++;
+                    if ($nshown == $this->ntoshow) {
+                        $frac_done = 1;
+                        $state_rec['nshown'] = 0;
+                        $state_rec['child_name'] = null;
+                        $iter->state[$this->name] = $state_rec;
+                        return true;
+                    } else {
+                        $i = ($i+1)%$n;
+                    }
+                }
+            }
+        } else {
+            // here if no state record; initialize
+            //
+            $i = 0;
+            $nshown = 0;
+            $state_rec = null;
+            $this->order($state_rec);
+        }
+
+        // at this point, $i is index of current child
+        //
+        $child = $this->units[$i];
+        $frac_done = $nshown/$n;
+        $state_rec['index'] = $i;
+        $state_rec['nshown'] = $nshown;
+        $state_rec['child_name'] = $child->name;
+        $iter->state[$this->name] = $state_rec;
+        if ($child->is_item) {
+            $iter->item = $child;
+        } else {
+            $child->walk($iter, false, $f);
+            $frac_done += $f*(1/$n);
+        }
+        return false;
     }
 }
 
@@ -183,19 +230,6 @@ function exercise() {
         error_page("Missing filename in lesson");
     }
     return new BoltExercise($name, $title, $file);
-}
-
-function enum_course($course) {
-    $iter = new BoltIter($course);
-    while (1) {
-        $x = $iter->at();
-        if (!$x) break;
-        echo "at: $x->url\n";
-        $x = $iter->next();
-        if (!$x) break;
-        echo "next: $x->filename\n";
-    }
-    echo "course over\n";
 }
 
 require_once('../inc/bolt_seq.inc');

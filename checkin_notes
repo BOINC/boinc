@@ -822,3 +822,16 @@ David  Jan 28 2008
         http_curl.C
         log_flags.C,h
         scheduler_op.C
+
+David  Jan 28 2008
+    - API: fix Win build error
+    - API: fix Makefile.am
+    - add LGPL license on some files
+
+    api/
+        Makefile.am
+        graphics_api.C
+        graphics2_win.C
+        graphics2_unix.C
+        graphics2_util.C
+        graphics2.C

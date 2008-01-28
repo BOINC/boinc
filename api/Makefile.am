@@ -6,10 +6,12 @@ include $(top_srcdir)/Makefile.incl
 AM_CFLAGS += @GLUT_CFLAGS@
 AM_LDFLAGS += @GLUT_LIBS@
 
+# stuff linked into both main app and graphics app
 api_files= \
 	boinc_api.C \
     graphics2_util.C
 
+# stuff linked into graphics app
 graphics2_files = \
 	gutil.C	            \
 	gutil_text.C	    \
@@ -21,8 +23,8 @@ graphics2_files = \
     graphics2_unix.C
 
 if OS_DARWIN
-	api_files += mac_icon.C
-	graphics2_files += macglutfix.m
+    graphics2_files += mac_icon.C
+    graphics2_files += macglutfix.m
 endif
 
 EXTRA_DIST = *.h

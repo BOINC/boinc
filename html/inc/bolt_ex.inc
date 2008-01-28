@@ -1,5 +1,7 @@
 <?php
 
+// Bolt exercise API
+
 $bolt_ex_mode = 0;
 $bolt_ex_index = 0;
 $bolt_ex_state = 0;
