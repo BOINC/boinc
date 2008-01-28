@@ -375,13 +375,29 @@ void boinc_graphics_loop(int argc, char** argv) {
 
 extern int main(int, char**);
 
+static HINSTANCE hInstance = NULL;
+
+// call this with the resource names you compiled the icons with
+// (16x16 and 48x48 pixel)
+//
+void boinc_set_windows_icon(const char*icon16,const char*icon48) {
+    LONG ic;
+    HWND hWnd=FindWindow("BOINC_app",NULL);
+    if (ic=(LONG)LoadIcon(hInstance,icon48)) {
+        SetClassLongPtr(hWnd,GCLP_HICON,ic);
+    }
+    if (ic=(LONG)LoadImage(hInstance,icon16, IMAGE_ICON, 16, 16, 0)) {
+        SetClassLongPtr(hWnd,GCLP_HICONSM,ic);
+    }
+}
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
     LPSTR command_line;
     char* argv[100];
     int argc;
 
+    hInstance = hInst;
     command_line = GetCommandLine();
     argc = parse_command_line(command_line, argv);
     main(argc, argv);
 }
-

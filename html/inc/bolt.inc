@@ -13,10 +13,12 @@ ini_set('display_startup_errors', true);
 // - Different units may have the same logical name;
 //   however, such units must be identical.
 
-// A state in a course is described by an associative array
-// mapping logical names to state structures.
-// Typically this includes the logical name of the current child
-// and info such as a sequence index.
+// A state in a course is described by:
+// - an associative array mapping logical names to state structures.
+//   Typically this includes the logical name of the current child
+//   and info such as a sequence index.
+//   This is kind of like a "call stack",
+//   except that it can contain units not currently active.
 
 abstract class BoltUnit {
     public $name;   // logical name.
@@ -40,7 +42,7 @@ abstract class BoltUnit {
 //
 class BoltIter {
     public $top;        // topmost unit
-    public $state;      // state array
+    public $state;
     public $xset;       // exercise set, if any
 
     // the following are temps

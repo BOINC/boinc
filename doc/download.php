@@ -24,15 +24,11 @@ function download_link($pname) {
     global $url_base;
     $p = $platforms[$pname];
     $v = latest_version($p);
-    $pcompat = $platforms["linuxcompat"];
-    $vcompat = latest_version($pcompat);
     $file = $v['file'];
-    $filecompat = $vcompat['file'];
     $long_name = $p['name'];
     $num = $v['num'];
     $path = "dl/$file";
     $url = $url_base.$file;
-    $urlcompat = $url_base.$filecompat;
     $dlink = "<a href=$url>$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
 
@@ -44,19 +40,24 @@ function download_link($pname) {
         </td></tr> </table>
     ";
     if ($pname == 'linux'||$pname == 'linuxx64') {
+        $pcompat = $platforms["linuxcompat"];
+        $vcompat = latest_version($pcompat);
+        $numcompat = $vcompat['num'];
+        $filecompat = $vcompat['file'];
+        $urlcompat = $url_base.$filecompat;
+        $pathcompat = "dl/$filecompat";
+        $scompat = number_format(filesize($pathcompat)/1000000, 2);
         echo "
             <p>
-            This Linux application is known to work with these
-            distributions:
+            This release is known to work with these Linux versions:
             <ul>
-            <li> Fedora Core 7/8
+            <li> Fedora Core 7 and 8
             <li> Debian 4.1
             <li> Ubuntu 7.10
             </ul>
             <p>
-            Note: BOINC may be available as a package for
-            your particular Linux distribution.
-            Check this first before downloading from this page.
+            For other Linux versions,
+            check if a BOINC package is offered by your Linux distribution.
             Example package names:
             <ul>
             <li> Gentoo: sci-misc/boinc
@@ -65,8 +66,12 @@ function download_link($pname) {
                 Also boinc-dev (for project developers).
             </ul>
             <p>
-            If your distrubution doesn't contain the latest BOINC packages
-            you can download the latest <a href=$urlcompat>here</a>
+            Alternatively, download the
+            <a href=$urlcompat>BOINC client for older Linux versions</a>
+            (version $numcompat, $scompat MB).
+            This doesn't have a graphical interface,
+            but it should work on all Linux systems,
+            both x86 and x64.
         ";
     }
 }

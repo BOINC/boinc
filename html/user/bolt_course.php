@@ -4,13 +4,22 @@ require_once("../inc/util.inc");
 
 $user = get_logged_in_user();
 
+function phase_name($phase) {
+    switch ($phase) {
+    case BOLT_PHASE_STUDY: return "study";
+    case BOLT_PHASE_REVIEW: return "review";
+    case BOLT_PHASE_REFRESH: return "refresh";
+    default: return "unknown phase: $phase";
+    }
+}
+
 function mode_name($mode) {
     switch ($mode) {
     case BOLT_MODE_LESSON: return "lesson";
     case BOLT_MODE_SHOW: return "exercise";
     case BOLT_MODE_ANSWER: return "exercise answer";
     case BOLT_MODE_FINISHED: return "course completed";
-    default: return "unknown: $mode";
+    default: return "unknown mode: $mode";
     }
 }
 
@@ -45,6 +54,7 @@ function show_view($view) {
         <td valign=top>$dur</td>
         <td valign=top>$view->item_name</td>
         <td valign=top>".mode_name($view->mode)." $x</td>
+        <td valign=top>".phase_name($view->phase)."</td>
         <td valign=top>".action_name($view->action)."</td>
         </tr>
     ";
@@ -59,7 +69,7 @@ page_head("Your history in $course->name");
 $views = BoltView::enum("user_id=$user->id and course_id=$course_id order by id desc");
 start_table();
 
-table_header("Time", "Duration", "Item", "Type", "Action");
+table_header("Time", "Duration", "Item", "Mode", "Phase", "Action");
 foreach ($views as $view) {
     show_view($view);
 }

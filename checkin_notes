@@ -793,3 +793,11 @@ David  Jan 24 2008
 
     clientgui/
         AccountInfoPage.cpp
+
+David  Jan 28 2008
+    - API: allow Win apps to have icon
+
+    api/
+        Makefile.am
+        graphics2.h
+        graphics2_win.C

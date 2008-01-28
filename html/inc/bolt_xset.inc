@@ -179,8 +179,7 @@ function exercise_set() {
             } else if (get_class($arg) == "BoltRefresh") {
                 $refresh= $arg;
             } else {
-                echo "Unrecognized object arg: ";
-                print_r($arg);
+                echo "Can't include object of type ".get_class($arg)." within an exercise set.";
             }
         }
     }

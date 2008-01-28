@@ -3,10 +3,10 @@
 require_once("../inc/db_conn.inc");
 require_once("../inc/util.inc");
 
-define('BOLT_PHASE_STUDY');
-define('BOLT_PHASE_REVIEW');
+define('BOLT_PHASE_STUDY', 1);
+define('BOLT_PHASE_REVIEW', 2);
 	// review and repeat of an exercise set
-define('BOLT_PHASE_REFRESH');
+define('BOLT_PHASE_REFRESH', 3);
 
 define('BOLT_MODE_LESSON', 1);
 define('BOLT_MODE_SHOW', 2);

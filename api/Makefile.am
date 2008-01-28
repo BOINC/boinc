@@ -21,7 +21,8 @@ graphics2_files = \
     graphics2_unix.C
 
 if OS_DARWIN
-   graphics2_files += macglutfix.m
+	api_files += mac_icon.C
+	graphics2_files += macglutfix.m
 endif
 
 EXTRA_DIST = *.h

@@ -123,11 +123,12 @@ function show_platform($short_name, $p, $dev) {
     global $min_version;
     global $max_version;
     $long_name = $p["name"];
+    $description = $p["description"];
     if ($p["url"]) {
         $url = $p["url"];
         $long_name .= " <a href=$url><font size=-2>details</a>";
     }
-    list_bar($long_name);
+    list_bar($long_name, $description);
     foreach ($p["versions"] as $i=>$v) {
         if ($min_version && version_compare($v['num'], $min_version, "<")) continue;
         if ($max_version && version_compare($v['num'], $max_version, ">")) continue;

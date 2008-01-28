@@ -42,6 +42,8 @@ create table bolt_view (
         -- course state
     mode            integer         not null,
         -- distinguishes exercise show/answer
+    phase           integer         not null,
+        -- distinguishes study/review/refresh
     action          integer         not null,
         -- what the user clicked to leave page
     start_time      integer         not null,

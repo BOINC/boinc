@@ -53,8 +53,13 @@ function init_session() {
     if (strlen($path)) {
         session_set_cookie_params(0, $path);
     }
-    if (session_id() == "") session_start(); // first check if there is a session
-// NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
+
+    // check if there is a session
+    //
+    if (session_id() == "") {
+        session_start();
+    }
+    // NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
     if (array_key_exists('authenticator', $_SESSION)) {
         return $_SESSION["authenticator"];
     } else {
@@ -81,9 +86,15 @@ $g_logged_in_user = null;
 function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user;
     $g_logged_in_user = null;
+    $login_request = false;
+
     $authenticator = init_session();
     if (!$authenticator) {
         if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
+    }
+    if (!$authenticator) {
+        $authenticator = get_str('login_auth', true);
+        if ($authenticator) $login_request = true;
     }
     $authenticator = process_user_text($authenticator);
     if ($authenticator) {
@@ -91,6 +102,10 @@ function get_logged_in_user($must_be_logged_in=true) {
     }
     if ($must_be_logged_in) {
         require_login($g_logged_in_user);
+    }
+    if ($g_logged_in_user && $login_request) {
+        session_start();
+        $_SESSION["authenticator"] = $authenticator;
     }
     return $g_logged_in_user;
 }

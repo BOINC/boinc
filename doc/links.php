@@ -196,6 +196,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://z15.invisionfree.com/The_Boinc_Bar/index.php?act=idx", "The BOINC Bar"),
     site("http://www.s15.invisionfree.com/Crunchers_Inc/index.php?act=idx", "Crunchers Inc."),
     site("http://www.calmchaosonline.com/", "Calm Chaos"),
     site("http://www.teamphoenixrising.net/", "Team Phoenix Rising"),

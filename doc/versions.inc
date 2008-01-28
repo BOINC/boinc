@@ -33,7 +33,7 @@ function type_text($type) {
 
 $w51039= array(
     "num"=>"5.10.39",
-    "status"=>"Development version (Win98+, Win2000+)",
+    "status"=>"Development version",
     "file"=>"boinc_5.10.39_windows_intelx86.exe",
     "date"=>"24 Jan 2008",
     "type"=>"win_new",
@@ -41,7 +41,7 @@ $w51039= array(
 
 $w51030= array(
     "num"=>"5.10.30",
-    "status"=>"Recommended version (Win98+, Win2000+)",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.30_windows_intelx86.exe",
     "date"=>"13 Nov 2007",
     "type"=>"win_new",
@@ -49,7 +49,7 @@ $w51030= array(
 
 $w51039x64= array(
     "num"=>"5.10.39",
-    "status"=>"Development version (WinXP64+)",
+    "status"=>"Development version",
     "file"=>"boinc_5.10.39_windows_x86_64.exe",
     "date"=>"24 Jan 2008",
     "type"=>"win_new",
@@ -57,7 +57,7 @@ $w51039x64= array(
 
 $w51030x64= array(
     "num"=>"5.10.30",
-    "status"=>"Recommended version (WinXP64+)",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.30_windows_x86_64.exe",
     "date"=>"13 Nov 2007",
     "type"=>"win_new",
@@ -65,7 +65,7 @@ $w51030x64= array(
 
 $w5816= array(
     "num"=>"5.8.16",
-    "status"=>"Recommended version (Win95+, WinNT40+)",
+    "status"=>"Older version (also works on Windows 95 and NT 4.0)",
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
     "date"=>"1 Mar 2007",
     "type"=>"win_new",
@@ -97,7 +97,7 @@ $m51034 = array(
 
 $m5817 = array(
     "num"=>"5.8.17",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_5.8.17_macOSX_universal.zip",
     "date"=>"3 Apr 2007",
     "type"=>"mac_advanced",
@@ -129,7 +129,7 @@ $m51034c = array(
 
 $m5817c = array(
     "num"=>"5.8.17",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_5.8.17_universal-apple-darwin.zip",
     "date"=>"3 Apr 2007",
     "type"=>"bare_core",
@@ -145,7 +145,7 @@ $m549c = array(
 
 $l51028 = array(
     "num"=>"5.10.28",
-    "status"=>"Recommended version (command line interface only)",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.28_i686-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
@@ -153,7 +153,7 @@ $l51028 = array(
 
 $l51028ubuntu = array(
     "num"=>"5.10.28",
-    "status"=>"Recommended version (Ubuntu Release - standard GUI)",
+    "status"=>"Recommended version",
     "file"=>"boinc_ubuntu_5.10.28_i686-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
@@ -161,7 +161,7 @@ $l51028ubuntu = array(
 
 $l51028x64 = array(
     "num"=>"5.10.28",
-    "status"=>"Recommended version (Ubuntu Release - standard GUI)",
+    "status"=>"Recommended version",
     "file"=>"boinc_ubuntu_5.10.28_x86_64-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
@@ -169,7 +169,7 @@ $l51028x64 = array(
 
 $l5816 = array(
     "num"=>"5.8.16",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (includes GUI)",
     "file"=>"boinc_5.8.16_i686-pc-linux-gnu.sh",
     "date"=>"7 March 2007",
     "type"=>"sea",
@@ -185,17 +185,18 @@ $l5411 = array(
 
 $windows = array(
     "name"=>"Windows",
+    "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w51039,
         $w51030,
         $w5816,
-        $w5411,
     )
 );
 
 $windowsx64 = array(
-    "name"=>"Windows x64",
+    "name"=>"Windows 64-bit",
+    "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w51039x64,
@@ -205,6 +206,7 @@ $windowsx64 = array(
 
 $mac = array(
     "name"=>"Mac OS X",
+    "description"=>"Version 10.3+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
         $m51039,
@@ -213,23 +215,22 @@ $mac = array(
         $m51034c,
         $m5817,
         $m5817c,
-        $m549,
-        $m549c,
     )
 );
 
 $linuxcompat = array(
-    "name"=>"Linux/x86/compatible",
+    "name"=>"Older Linux x86 and x64",
+    "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l51028,
         $l5816,
-        $l5411,
     )
 );
 
 $linux = array(
-    "name"=>"Linux/x86",
+    "name"=>"Linux x86",
+    "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l51028ubuntu,
@@ -237,7 +238,8 @@ $linux = array(
 );
 
 $linuxx64 = array(
-    "name"=>"Linux/x64",
+    "name"=>"Linux x64",
+    "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
         $l51028x64,
@@ -248,9 +250,9 @@ $platforms = array(
     "win"=>$windows,
     "winx64"=>$windowsx64,
     "mac"=>$mac,
-    "linuxcompat"=>$linuxcompat,
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
+    "linuxcompat"=>$linuxcompat,
 );
 
 function is_dev($v) {

@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("Jan 24, 2008",
+    "A paper describing results of the <a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a> project recently appeared in the
+    <a href=http://pubs.acs.org/cgi-bin/abstract.cgi/jpcafh/asap/abs/jp077592t.html>Journal of Physical Chemistry A (JPCA)</a>."
+),
 array("Jan 15, 2008",
     "A new article from the <a href=http://www.planetary.org>Planetary Society</a>: 
     <a href=http://www.planetary.org/programs/projects/setiathome/setiathome_20080115.html>From SETI@home to Hominid Fossils: Citizen Cyberscience Reshapes Research Landscape</a>."
