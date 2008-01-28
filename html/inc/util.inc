@@ -92,10 +92,11 @@ function get_logged_in_user($must_be_logged_in=true) {
     if (!$authenticator) {
         if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
     }
-    if (!$authenticator) {
-        $authenticator = get_str('login_auth', true);
-        if ($authenticator) $login_request = true;
-    }
+// leave this out for now
+//    if (!$authenticator) {
+//        $authenticator = get_str('login_auth', true);
+//        if ($authenticator) $login_request = true;
+//    }
     $authenticator = process_user_text($authenticator);
     if ($authenticator) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
