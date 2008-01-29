@@ -862,3 +862,11 @@ Charlie Jan 29 2008
         ViewProjectsGrid.cpp
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+David  Jan 20 2008
+    - graphics API: default max graphics CPU fraction is 0.2
+        (see accompanying changes in example app;
+        app should parse project-specific prefs)
+
+    api/
+        graphics2.C

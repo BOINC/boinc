@@ -26,7 +26,9 @@
 #include "graphics2.h"
 
 double boinc_max_fps = 30.;
-double boinc_max_gfx_cpu_frac;
+double boinc_max_gfx_cpu_frac = 0.2;
+    // needs to be fairly low.  Graphics apps run at normal priority,
+    // so they can prevent main app from getting any time
 
 bool throttled_app_render(int x, int y, double t) {
     static double total_render_time = 0;
