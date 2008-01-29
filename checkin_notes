@@ -851,3 +851,14 @@ Charlie Jan 29 2008
         boinc.xcodeproj/
             project.pbxproj
 
+Charlie Jan 29 2008
+    - MGR: Delete web site buttons when disconnected; this was causing 
+        crashes when a user connected to a different computer.
+        
+    clientgui/
+        BOINCBaseView.cpp
+        MainDocument.cpp
+        ViewProjects.cpp
+        ViewProjectsGrid.cpp
+        ViewWork.cpp
+        ViewWorkGrid.cpp

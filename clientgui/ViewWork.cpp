@@ -533,6 +533,13 @@ void CViewWork::UpdateSelection() {
         }
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
+        if (GetDocCount() <= 0) {
+            if ( m_TaskGroups.size() > 1) {
+                pGroup = m_TaskGroups[GRP_WEBSITES];
+                m_pTaskPane->DeleteTaskGroupAndTasks(pGroup);
+                pGroup->m_Tasks.clear();
+            }
+        }
     }
 
     CBOINCBaseView::PostUpdateSelection();
