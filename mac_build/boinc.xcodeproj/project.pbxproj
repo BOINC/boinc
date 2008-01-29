@@ -176,9 +176,9 @@
 		DD52C81408B5D484008D9AA4 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
+		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD635A420D384FA500BAC1A5 /* texfont.C in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.C */; };
-		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
 		DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
@@ -2116,7 +2116,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD35353607E1E13F00C4718D /* boinc_api.C in Sources */,
-				DD6381460870DB78007A2F8E /* mac_icon.C in Sources */,
 				DDE41C260C1FCA8F00CA1F86 /* graphics2_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2359,6 +2358,7 @@
 				DDB873F60C850BC800E0DE1F /* txf_util.C in Sources */,
 				DDB873F70C850BC800E0DE1F /* str_util.C in Sources */,
 				DD635A420D384FA500BAC1A5 /* texfont.C in Sources */,
+				DD5BF77D0D4F3D0C00EDF980 /* mac_icon.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3023,7 +3023,8 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3042,7 +3043,8 @@
 				);
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3575,7 +3577,8 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3865,9 +3868,10 @@
 					ppc,
 					x86_64,
 				);
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.18.0/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4119,7 +4123,8 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4135,7 +4140,8 @@
 				ARCHS = ppc;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4435,7 +4441,8 @@
 				ARCHS = i386;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",

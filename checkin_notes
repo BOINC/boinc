@@ -835,3 +835,19 @@ David  Jan 28 2008
         graphics2_unix.C
         graphics2_util.C
         graphics2.C
+
+
+Charlie Jan 29 2008
+    - Mac: Update libCurl to 7.18.0, build with c-ares-1.5.1 to enable 
+        async DNS name resolving.
+    - Mac API: move mac_icon.C from target api_libboinc to gfx2libboinc
+        (link it into libboinc_graphics2.a instead of libboinc_api.a).
+        
+    mac_build/
+        buildc-ares.sh (new)
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
+

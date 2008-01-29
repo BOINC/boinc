@@ -11,7 +11,7 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 1/10/08\
+Last updated 1/29/08\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 6.1.0 and later.  It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX.  \
@@ -130,7 +130,7 @@ If you prefer, you can cross-compile on one Mac running OS 10.4.x or OS 10.5.x. 
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 BOINC depends on three third-party libraries: wxMac-2.8.7, curl-7.17.1, and jpeg-6b.  You can obtain these from the following URLs:\
+\cf0 BOINC depends on four third-party libraries: wxMac-2.8.7, c-ares-1.5.1, curl-7.18.0, and jpeg-6b.  You can obtain these from the following URLs:\
 \
 wxMac-2.8.7 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -142,11 +142,19 @@ wxMac-2.8.7 (needed  only if you are building the BOINC Manager):\
 \f1\fs26 \
 
 \f0\fs24 \
-curl-7.17.1:\
+curl-7.18.0:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.17.1.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.17.1.tar.gz}}\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf0 c-ares-1.5.1 (used by curl):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/}}\
+	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/c-ares-1.5.1.tar.gz"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/c-ares-1.5.1.tar.gz}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f0\fs24 \cf0 \
@@ -164,7 +172,9 @@ jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a libr
 \i0   
 \i XCode 3.0 installs autoconf 2.61 and automake 1.10.
 \i0   
-\i To determine the version number, type "autoconf --version" or "automake --version" .  Building curl-7.17.1 require autoconf 2.59 and automake 1.9.3 or later.  \
+\i To determine the version number, type "autoconf --version" or "automake --version" .  Building curl-
+\i0 7.18.0
+\i  requires autoconf 2.59 and automake 1.9.3 or later.  \
 \
 Upgrades for autoconf and automake are available from www.gnu.org:  \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -183,7 +193,7 @@ XCode installed these utilities in the /usr/bin/ directory, but the upgrades by 
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 As stated above, all BOINC software for Power PC Macs must be built using MacOS10.3.9 SDK and (for libraries) GCC 3.3 to assure backward compatibility with OS 10.3.  All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  And all 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK. \
 \
-These are not done by either the XCode projects which come with wxMac-2.8.7, nor  the AutoMake scripts supplied with wxMac-2.8.7, curl-7.17.1, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
+These are not done by either the XCode projects which come with wxMac-2.8.7, nor  the AutoMake scripts supplied with wxMac-2.8.7, c-ares-1.5.1, curl-7.18.0, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \
 Building BOINC and the library packages on which it depends requires OS 10.4.4 (or later) and XCode 2.4.1 (or later).  It may be possible to use XCode 2.3 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -191,7 +201,9 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 (
 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
 [2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):\
-    curl-7.17.1\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0     c-ares-1.5.1\
+    curl-7.18.0\
     jpeg-6b\
     wxMac-2.8.7\
 \
