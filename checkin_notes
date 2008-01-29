@@ -863,10 +863,29 @@ Charlie Jan 29 2008
         ViewWork.cpp
         ViewWorkGrid.cpp
 
-David  Jan 20 2008
+David  Jan 29 2008
     - graphics API: default max graphics CPU fraction is 0.2
         (see accompanying changes in example app;
         app should parse project-specific prefs)
 
     api/
         graphics2.C
+
+David  Jan 29 2008
+    - web: add "max CPU % for graphics" project-specific preference.
+        Projects should copy or merge
+        project.sample/project_specific_prefs.inc
+    - screensaver: change
+            Running research for PROJECT
+            Workunit: X
+        to
+            Computing for PROJECT
+            Task: X
+
+    clientscr/
+        screensaver_win.cpp
+    html/
+        project.sample/
+            project_specific_prefs.inc
+        inc/
+            prefs.inc

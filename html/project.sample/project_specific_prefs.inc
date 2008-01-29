@@ -38,6 +38,7 @@ function option($name, $val) {
 
 define('COLOR_DESC', 'Color scheme for graphics');
 define('FRAME_RATE_DESC', 'Max frames/second for graphics<br><span class=note>0 or blank if no limit</span>');
+define("MAX_GFX_CPU_PCT_DESC", "Maximum CPU % for graphics<br><span class=note>0 ... 100</span>");
 define('APP_SELECT_DESC', 'Run only the selected applications');
 
 // The following array is for app filtering; uncomment if you want it.
@@ -77,6 +78,7 @@ function project_specific_prefs_default() {
     return "
         <color_scheme>Tahiti Sunset</color_scheme>
         <max_frames_sec>30</max_frames_sec>
+        <max_gfx_cpu_pct>20</max_gfx_cpu_pct>
     ";
 }
 
@@ -92,6 +94,8 @@ function project_specific_prefs_edit($prefs, $error=false) {
 
     $y = "<input size=5 name=max_frames_sec value='$prefs->max_frames_sec'>";
     row2(FRAME_RATE_DESC, $y, isset($error->max_frames_sec));
+    $y = "<input size=5 name=max_gfx_cpu_pct value='$prefs->max_gfx_cpu_pct'>";
+    row2(MAX_GFX_CPU_PCT_DESC, $y, isset($error->max_gfx_cpu_pct));
     if ($app_array) {
         $x = "";
         foreach ($app_array as $app) {
@@ -113,13 +117,16 @@ function project_specific_prefs_parse_form(&$error) {
     global $app_array;
     $color_scheme = $_GET["color_scheme"];
     $max_frames_sec = $_GET["max_frames_sec"];
+    $max_gfx_cpu_pct = $_GET["max_gfx_cpu_pct"];
 
     // Error-check preferences
     //
     if (!verify_numeric($max_frames_sec, 0)) $error->max_frames_sec = true;
+    if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) $error->max_gfx_cpu_pct = true;
 
     $x = "<color_scheme>$color_scheme</color_scheme>
         <max_frames_sec>$max_frames_sec</max_frames_sec>
+        <max_gfx_cpu_pct>$max_gfx_cpu_pct</max_gfx_cpu_pct>
 ";
 
     if ($app_array) {
@@ -147,6 +154,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
     if ($columns) {
         row_defs(COLOR_DESC,"color_scheme", "", "", $prefs);
         row_defs(FRAME_RATE_DESC, "max_frames_sec", "", "", $prefs);
+        row_defs(MAX_GFX_CPU_PCT_DESC, "max_gfx_cpu_pct", "", "", $prefs);
         if ($app_array) {
             $prefs->app_id_text = selected_app_text($prefs);
             if ($prefs->home) $prefs->home->app_id_text = selected_app_text($prefs->home);
@@ -157,6 +165,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
     } else {
         row2(COLOR_DESC, $prefs->color_scheme);
         row2(FRAME_RATE_DESC, $prefs->max_frames_sec);
+        row2(MAX_GFX_CPU_PCT_DESC, $prefs->max_gfx_cpu_pct);
         if ($app_array) {
             row2(APP_SELECT_DESC, selected_app_text($prefs));
         }
@@ -166,6 +175,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
 function project_specific_prefs_parse($prefs_xml) {
     $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
     $prefs->max_frames_sec = parse_element($prefs_xml, "<max_frames_sec>");
+    $prefs->max_gfx_cpu_pct = parse_element($prefs_xml, "<max_gfx_cpu_pct>");
     $cursor = 0;
     while ($thisxml = parse_next_element($prefs_xml, "<app_id>", $cursor)) {
         if (is_numeric($thisxml)) {

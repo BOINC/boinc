@@ -903,7 +903,7 @@ VOID CScreensaver::UpdateErrorBoxText() {
 				if ( pResult != NULL ) {
 					BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Display result. iIndex=%d, iModIndex=%d, lastResult=%d\n"), iIndex, iModIndex, m_iLastResultShown);
 					StringCbPrintf(m_szError, sizeof(m_szError) / sizeof(TCHAR),
-						_T("\nRunning research for %s\nApplication: %s\nWorkunit: %s\n%.2f%% complete\n"),
+						_T("\nComputing for %s\nApplication: %s\nTask: %s\n%.2f%% complete\n"),
 						pProject->project_name.c_str(),
 						pResult->app->user_friendly_name.c_str(),
 						pResult->wu_name.c_str(),

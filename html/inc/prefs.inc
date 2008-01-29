@@ -1177,11 +1177,10 @@ function prefs_form_resource($prefs, $error=false) {
     if (isset($error->resource_share)) $show_error= true;
     row2(
         "<b>Resource share:</b>
-        <span class=note><br>The proportion of your computer's resources
-        allocated to ".PROJECT."
-        relative to the other BOINC projects in which you participate.
-        For example, if you participate in two projects and
-        give them resource shares of 100 and 200,
+        <span class=note><br>Determines the proportion of your computer's resources
+        allocated to this project.
+        Example: if you participate in two BOINC projects with
+        resource shares of 100 and 200,
         the first will get 1/3 of your resources and the second will get 2/3.
         </span>",
         "<input name=resource_share value='$prefs->resource_share'>",
