@@ -52,8 +52,8 @@ All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\b \cf0 The above requirements apply not only BOINC itself, but also the WxWidgets, JPEG and cURL libraries, as well as all project applications
-\b0 . The BOINC Client does not use WxWidgets or JPEG, so only the cURL library must be built for  the x86_64 architecture.\
+\b \cf0 The above requirements apply not only BOINC itself, but also the WxWidgets, JPEG, c-ares and cURL libraries, as well as all project applications
+\b0 . The BOINC Client does not use WxWidgets or JPEG, so only the c-ares and cURL libraries must be built for  the x86_64 architecture.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -104,7 +104,7 @@ Elsewhere on Apple's web site is the warning:\
 \cf0 \
 If you are building a project application to be run by BOINC, you only need to build the boinc libraries libboinc_api.a, ibboinc.a, and (if you want graphics) either libboinc_graphics_api.a or libboinc_graphics2.a.  (libboinc_graphics2.a is used for version 6 graphics, which is the method recommended for all applications.)  There are two ways to do this:\
 \
-(1) Use the BOINC autoconf / automake scripts to build these libraries and the jpeg and curl libraries on which they depend.  You must do all of this twice: once on a PowerPC Mac running OS 10.3.x (do 
+(1) Use the BOINC autoconf / automake scripts to build these libraries and any libraries on which they depend.  You must do all of this twice: once on a PowerPC Mac running OS 10.3.x (do 
 \b not
 \b0  use OS 10.4), and once on an Intel Mac running OS 10.4.x.\
 \
@@ -201,8 +201,7 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 (
 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
 [2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0     c-ares-1.5.1\
+    c-ares-1.5.1\
     curl-7.18.0\
     jpeg-6b\
     wxMac-2.8.7\
@@ -227,7 +226,7 @@ The command above retrieves the source code from the HEAD (TRUNK) or development
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCode"}}{\fldrslt 
 \f1\fs26 \cf0 http://boinc.berkeley.edu/trac/wiki/SourceCode}}\
 \
-[4] Run the script to build the curl, jpeg and wxMac libraries as follows:\
+[4] Run the script to build the c-ares, curl, jpeg and wxMac libraries as follows:\
 \
 \pard\pardeftab720\ql\qnatural
 
@@ -238,7 +237,7 @@ source setupForBoinc.sh -clean
 If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-Note: this script builds curl first, followed by jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build curl and jpeg.  Likewise, if you downloaded only curl because you need neither graphics nor the BOINC Manager, the script will build curl before quitting.\
+Note: this script builds c-ares and curl first, followed by jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build c-ares, curl and jpeg.  Likewise, if you downloaded only c-ares and curl because you need neither graphics nor the BOINC Manager, the script will build c-ares and curl before quitting.\
 \
 [5] Build BOINC as follows:\
 \
