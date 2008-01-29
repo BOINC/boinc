@@ -21,11 +21,11 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.17.1, jpeg-6b and wxMac-2.6.3
+# curl-7.18.0 with c-ares-1.5.1, jpeg-6b and wxMac-2.8.7
 #
 # by Charlie Fenton 7/21/06
 # Bug fix for wxMac-2.6.3 7/26/07
-# Updated for curl-7.17.1 11/13/07
+# Updated for curl-7.18.0, c-ares-1.5.1 and wxMac-2.8.7 1/29/08
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -47,16 +47,28 @@ else
   doclean=""
 fi
 
-
-echo ""
-echo "----------------------------------"
-echo "------- BUILD CURL-7.17.1 --------"
-echo "----------------------------------"
-echo ""
-
 SCRIPT_DIR=`pwd`
 
-cd ../../curl-7.17.1/
+echo ""
+echo "----------------------------------"
+echo "------- BUILD C-ARES-1.5.1 -------"
+echo "----------------------------------"
+echo ""
+
+cd ../../c-ares-1.15.1/
+if [  $? -ne 0 ]; then return 1; fi
+source "${SCRIPT_DIR}/buildc-ares.sh" ${doclean}
+if [  $? -ne 0 ]; then return 1; fi
+
+echo ""
+echo "----------------------------------"
+echo "------- BUILD CURL-7.18.0 --------"
+echo "----------------------------------"
+echo ""
+
+cd "${SCRIPT_DIR}"
+
+cd ../../curl-7.18.0/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
@@ -76,13 +88,13 @@ if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD wxMac-2.6.3 --------"
+echo "------- BUILD wxMac-2.8.7 --------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../wxMac-2.6.3/
+cd ../../wxMac-2.8.7/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi

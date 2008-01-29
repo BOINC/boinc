@@ -3840,7 +3840,8 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3889,7 +3890,8 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4836,7 +4838,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.18.0/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4851,7 +4853,8 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -5395,7 +5398,8 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -5441,7 +5445,8 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -5972,7 +5977,8 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
