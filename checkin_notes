@@ -889,3 +889,14 @@ David  Jan 29 2008
             project_specific_prefs.inc
         inc/
             prefs.inc
+
+David  Jan 29 2008
+    - web: add "% of CPUs to use on multiprocessors" pref
+    - client: enforce the above pref; remove the max_cpus pref.
+
+    client/
+        cpu_sched.C
+    html/inc/
+        prefs.inc
+    lib/
+        prefs.C,h

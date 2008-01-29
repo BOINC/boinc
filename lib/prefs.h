@@ -51,7 +51,7 @@ struct GLOBAL_PREFS_MASK {
     bool dont_verify_images;
     bool work_buf_min_days;
     bool work_buf_additional_days;
-    bool max_cpus;
+    bool max_ncpus_pct;
     bool cpu_scheduling_period_minutes;
     bool disk_interval;
     bool disk_max_used_gb;
@@ -145,7 +145,7 @@ struct GLOBAL_PREFS {
     TIME_PREFS net_times;
     double work_buf_min_days;
     double work_buf_additional_days;
-    int max_cpus;
+    double max_ncpus_pct;
     double cpu_scheduling_period_minutes;
     double disk_interval;
     double disk_max_used_gb;

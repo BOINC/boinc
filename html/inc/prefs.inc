@@ -82,10 +82,12 @@ define("WORK_BUF_ADDITIONAL_DAYS_DESC",
     <br><span class=note>Enforced by version 5.10+</span>
     "
 );
-define("MAX_CPUS_DESC", "On multiprocessors, use at most");
+define("MAX_NCPUS_PCT_DESC", "On multiprocessors, use at most<span class=note><br>Enforced by version 6.1+</span>");
+define("MAX_NCPUS_PCT_DESC2", "% of the processors");
+define("MAX_CPUS_DESC", "On multiprocessors, use at most<span class=note><br>Enforced by version 5.10 and earlier</span>");
 define("MAX_CPUS_DESC2", "processors");
 define("USE_AT_MOST", "Use at most");
-define("USE_AT_MOST2", "Use at most<br><span class=note>Enforced by version 5.6+</span>");
+define("USE_AT_MOST2", "Use at most<span class=note><br>(Can be used to reduce CPU heat)<br>Enforced by version 5.6+</span>");
 define("USE_AT_MOST3", "Use at most<br><span class=note>Enforced by version 5.8+</span>");
 define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
@@ -345,6 +347,9 @@ function element_end_global($parser, $name) {
     case "max_cpus":
         $parse_result->max_cpus = $text;
         break;
+    case "max_ncpus_pct":
+        $parse_result->max_ncpus_pct = $text;
+        break;
     case "cpu_usage_limit":
         if (!$text) $text=100;
         $parse_result->cpu_usage_limit = $text;
@@ -418,6 +423,7 @@ function default_prefs_global() {
     $p->work_buf_min_days = 0;
     $p->work_buf_additional_days = 0.25;
     $p->max_cpus = 16;
+    $p->max_ncpus_pct = 100;
     $p->cpu_usage_limit = 100;
     $p->disk_interval = 60;
     $dp = get_disk_space_config();
@@ -661,6 +667,7 @@ function prefs_show_columns_global($prefs) {
     row_defs(LEAVE_APPS_IN_MEMORY_DESC, "leave_apps_in_memory", "", "yesno", $prefs);
     row_defs(CPU_SCHEDULING_DESC, "cpu_scheduling_period_minutes", " minutes", "", $prefs);
     row_defs(MAX_CPUS_DESC, "max_cpus", MAX_CPUS_DESC2, "", $prefs);
+    row_defs(MAX_NCPUS_PCT_DESC, "max_ncpus_pct", MAX_NCPUS_PCT_DESC2, "", $prefs);
     row_defs(USE_AT_MOST2, "cpu_usage_limit", CPU_USAGE_LIMIT_DESC2, "", $prefs);
 
     row_top(DISK_LIMIT_DESC);
@@ -710,6 +717,7 @@ function prefs_show_global($prefs) {
     row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
     row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
+    row2(MAX_NCPUS_PCT_DESC, "$prefs->max_ncpus_pct ".MAX_NCPUS_PCT_DESC2);
     row2(USE_AT_MOST2, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
     row1(DISK_LIMIT_DESC);
     row2(USE_AT_MOST, "$prefs->disk_max_used_gb GB disk space");
@@ -1026,6 +1034,13 @@ function prefs_form_global($user, $prefs, $error=false) {
     );
 
     $show_error = false;
+    if (isset($error->max_ncpus_pct)) $show_error= true;
+    row2(MAX_NCPUS_PCT_DESC,
+        "<input size=4 name=max_ncpus_pct value=$prefs->max_ncpus_pct> ".MAX_NCPUS_PCT_DESC2,
+        $show_error
+    );
+
+    $show_error = false;
     if (isset($error->cpu_usage_limit)) $show_error= true;
     row2(USE_AT_MOST2,
         "<input size=4 name=cpu_usage_limit value=$prefs->cpu_usage_limit> ".CPU_USAGE_LIMIT_DESC2,
@@ -1250,6 +1265,7 @@ function prefs_global_parse_form(&$prefs) {
     $leave_apps_in_memory = $_GET["leave_apps_in_memory"];
     $cpu_scheduling_period_minutes = $_GET["cpu_scheduling_period_minutes"];
     $max_cpus = $_GET["max_cpus"];
+    $max_ncpus_pct = $_GET["max_ncpus_pct"];
     $cpu_usage_limit = $_GET["cpu_usage_limit"];
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
     $disk_min_free_gb = $_GET["disk_min_free_gb"];
@@ -1274,6 +1290,7 @@ function prefs_global_parse_form(&$prefs) {
     if (!verify_numeric($end_hour, 0)) $error->end_hour = true;
     if (!verify_numeric($cpu_scheduling_period_minutes, 1)) $error->cpu_scheduling_period_minutes = true;;
     if (!verify_numeric($max_cpus, 1)) $error->max_cpus = true;
+    if (!verify_numeric($max_ncpus_pct, 0, 100)) $error->max_ncpus_pct = true;
     if (!verify_numeric($cpu_usage_limit, 0, 100)) $error->cpu_usage_limit = true;
     if (!verify_numeric($disk_max_used_gb, 0)) $error->disk_max_used_gb = true;
     if (!verify_numeric($disk_min_free_gb, 0.001)) $error->disk_min_free_gb = true;
@@ -1298,6 +1315,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->leave_apps_in_memory = ($leave_apps_in_memory == "yes");
     $prefs->cpu_scheduling_period_minutes = $cpu_scheduling_period_minutes;
     $prefs->max_cpus = $max_cpus;
+    $prefs->max_ncpus_pct = $max_ncpus_pct;
     $prefs->cpu_usage_limit = $cpu_usage_limit;
     $prefs->disk_max_used_gb = $disk_max_used_gb;
     $prefs->disk_min_free_gb = $disk_min_free_gb;
@@ -1397,6 +1415,7 @@ function global_prefs_make_xml($prefs, $primary=true) {
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
         ."<work_buf_additional_days>$prefs->work_buf_additional_days</work_buf_additional_days>\n"
         ."<max_cpus>$prefs->max_cpus</max_cpus>\n"
+        ."<max_ncpus_pct>$prefs->max_ncpus_pct</max_ncpus_pct>\n"
         ."<cpu_usage_limit>$prefs->cpu_usage_limit</cpu_usage_limit>\n"
         ."<disk_interval>$prefs->disk_interval</disk_interval>\n";
     $xml = $xml

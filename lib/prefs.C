@@ -58,7 +58,7 @@ void GLOBAL_PREFS_MASK::set_all() {
     dont_verify_images = true;
     work_buf_min_days = true;
     work_buf_additional_days = true;
-    max_cpus = true;
+    max_ncpus_pct = true;
     cpu_scheduling_period_minutes = true;
     disk_interval = true;
     disk_max_used_gb = true;
@@ -88,7 +88,7 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (dont_verify_images) return true;
     if (work_buf_min_days) return true;
     if (work_buf_additional_days) return true;
-    if (max_cpus) return true;
+    if (max_ncpus_pct) return true;
     if (cpu_scheduling_period_minutes) return true;
     if (disk_interval) return true;
     if (disk_max_used_gb) return true;
@@ -279,7 +279,7 @@ void GLOBAL_PREFS::defaults() {
     dont_verify_images = false;
     work_buf_min_days = 0.1;
     work_buf_additional_days = 0.25;
-    max_cpus = 16;
+    max_ncpus_pct = 100;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;
     disk_max_used_gb = 10;
@@ -497,9 +497,10 @@ int GLOBAL_PREFS::parse_override(
             mask.work_buf_additional_days = true;
             continue;
         }
-        if (xp.parse_int(tag, "max_cpus", max_cpus)) {
-            if (max_cpus < 1) max_cpus = 1;
-            mask.max_cpus = true;
+        if (xp.parse_double(tag, "max_ncpus_pct", max_ncpus_pct)) {
+            if (max_ncpus_pct <= 0) max_ncpus_pct = 100;
+            if (max_ncpus_pct > 100) max_ncpus_pct = 100;
+            mask.max_ncpus_pct = true;
             continue;
         }
         if (xp.parse_double(tag, "disk_interval", disk_interval)) {
@@ -607,7 +608,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <work_buf_additional_days>%f</work_buf_additional_days>\n"
-        "   <max_cpus>%d</max_cpus>\n"
+        "   <max_ncpus_pct>%f</max_ncpus_pct>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
         "   <disk_interval>%f</disk_interval>\n"
         "   <disk_max_used_gb>%f</disk_max_used_gb>\n"
@@ -634,7 +635,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         dont_verify_images?"   <dont_verify_images/>\n":"",
         work_buf_min_days,
         work_buf_additional_days,
-        max_cpus,
+        max_ncpus_pct,
         cpu_scheduling_period_minutes,
         disk_interval,
         disk_max_used_gb,
@@ -737,8 +738,8 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (mask.work_buf_additional_days) {
         f.printf("   <work_buf_additional_days>%f</work_buf_additional_days>\n", work_buf_additional_days);
     }
-    if (mask.max_cpus) {
-        f.printf("   <max_cpus>%d</max_cpus>\n", max_cpus);
+    if (mask.max_ncpus_pct) {
+        f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
     }
     if (mask.cpu_scheduling_period_minutes) {
         f.printf("   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n", cpu_scheduling_period_minutes);
