@@ -17,19 +17,21 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// This program serves as both
+// - An example BOINC application, illustrating the use of the BOINC API
+// - A program for testing various features of BOINC
+//
 // NOTE: this file exists as both
 // boinc/apps/upper_case.C
 // and
 // boinc_samples/example_app/uc2.C
 // If you update one, please update the other!
 
-// This is the primary sample BOINC application;
-// it shows most of the features of the BOINC API.
-//
+// The program converts a mixed-case file to upper case:
 // read "in", convert to upper case, write to "out"
 //
-// command line options (use for debugging various scenarios):
-// -run_slow: sleep 1 second after each character; useful for debugging
+// command line options
+// -run_slow: sleep 1 second after each character
 // -cpu_time N: use about N CPU seconds after copying files
 // -early_exit: exit(10) after 30 chars
 // -early_crash: crash after 30 chars
@@ -54,8 +56,6 @@
 #include "boinc_api.h"
 #include "mfile.h"
 #include "graphics2.h"
-
-#define APP_GRAPHICS
 
 #ifdef APP_GRAPHICS
 #include "uc2.h"
@@ -93,16 +93,12 @@ int do_checkpoint(MFILE& mf, int nchars) {
     fprintf(f, "%d", nchars);
     fclose(f);
 
-    fprintf(stderr, "APP: upper_case checkpointing\n");
-
     retval = mf.flush();
     if (retval) return retval;
     boinc_resolve_filename_s(CHECKPOINT_FILE, resolved_name);
     retval = boinc_rename("temp", resolved_name.c_str());
     if (retval) return retval;
 
-	//use_some_cpu();
-    fprintf(stderr, "APP: upper_case checkpoint done\n");
     return 0;
 }
 

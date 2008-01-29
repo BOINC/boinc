@@ -53,7 +53,7 @@
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/lib;../image_libs;../jpeglib;../glut"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;APP_GRAPHICS"
 				StringPooling="false"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"

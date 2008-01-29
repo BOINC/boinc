@@ -49,6 +49,8 @@ bool mouse_down = false;
 int mouse_x, mouse_y;
 double pitch_angle, roll_angle, viewpoint_distance=10;
 float color[4] = {.7, .2, .5, 1};
+    // the color of the 3D object.
+    // Can be changed using preferences
 UC_SHMEM* shmem = NULL;
 
 // set up lighting model
@@ -234,6 +236,7 @@ static void parse_project_prefs(char* buf) {
     char cs[256];
     COLOR c;
     double hue;
+    double max_frames_sec, max_gfx_cpu_pct;
     if (!buf) return;
     if (parse_str(buf, "<color_scheme>", cs, 256)) {
         if (!strcmp(cs, "Tahiti Sunset")) {
@@ -248,6 +251,12 @@ static void parse_project_prefs(char* buf) {
         color[1] = c.g;
         color[2] = c.b;
         color[3] = 1;
+    }
+    if (parse_double(buf, "<max_frames_sec>", max_frames_sec)) {
+        boinc_max_fps = max_frames_sec;
+    }
+    if (parse_double(buf, "<max_gfx_cpu_pct>", max_gfx_cpu_pct)) {
+        boinc_max_gfx_cpu_frac = max_gfx_cpu_pct/100;
     }
 }
 

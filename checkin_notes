@@ -512,8 +512,18 @@ Charlie 28 Nov 2007
         UpperCase2.xcodeproj/
             project.pbxproj
 
-David  6 Jan 2007
+David  6 Jan 2008
     - small bug fix
 
     wrapper/
         wrapper.C
+
+David  28 Jan 2008
+    - example app: parse <max_frames_sec> and <max_gfx_cpu_pct>
+        from project-specific prefs.  This gives the user a couple
+        of ways of limiting CPU usage for graphics.
+    - example app: define APP_GRAPHICS in project file, not source
+
+    example_app/
+        uc2.C
+        uc2_graphics.C
