@@ -900,3 +900,10 @@ David  Jan 29 2008
         prefs.inc
     lib/
         prefs.C,h
+
+David  Jan 29 2008
+    - manager: change advanced preferences to handle the above pref
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferencesBase.cpp
