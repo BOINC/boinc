@@ -131,7 +131,10 @@ int main(int argc, char **argv) {
     }
 
     retval = boinc_init();
-    if (retval) exit(retval);
+    if (retval) {
+        fprintf(stderr, "boinc_init returned %d\n", retval);
+        exit(retval);
+    }
 
     // open the input file (resolve logical name first)
     //
