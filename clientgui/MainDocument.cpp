@@ -29,8 +29,9 @@
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
-#ifdef _WIN32
-#else
+#include "BOINCClientManager.h"
+
+#ifndef _WIN32
 #include <sys/wait.h>
 #endif
 
@@ -313,6 +314,7 @@ IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)
 
 
 CMainDocument::CMainDocument() {
+
 #ifdef __WIN32__
     int retval;
     WSADATA wsdata;
@@ -322,6 +324,8 @@ CMainDocument::CMainDocument() {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CMainDocument - Winsock Initialization Failure '%d'"), retval);
     }
 #endif
+
+    m_bClientStartCheckCompleted = false;
 
     m_fProjectTotalResourceShare = 0.0;
 
@@ -344,6 +348,86 @@ CMainDocument::~CMainDocument() {
 #ifdef __WIN32__
     WSACleanup();
 #endif
+}
+
+
+int CMainDocument::OnInit() {
+    int iRetVal = -1;
+
+    m_pNetworkConnection = new CNetworkConnection(this);
+    wxASSERT(m_pNetworkConnection);
+
+    m_pClientManager = new CBOINCClientManager();
+    wxASSERT(m_pClientManager);
+
+    return iRetVal;
+}
+
+
+int CMainDocument::OnExit() {
+    int iRetVal = 0;
+
+    if (m_pClientManager) {
+        m_pClientManager->ShutdownBOINCCore();
+
+        delete m_pClientManager;
+        m_pClientManager = NULL;
+    }
+
+    if (m_pNetworkConnection) {
+        delete m_pNetworkConnection;
+        m_pNetworkConnection = NULL;
+    }
+
+    return iRetVal;
+}
+
+
+int CMainDocument::OnPoll() {
+    int iRetVal = 0;
+
+    wxASSERT(wxDynamicCast(m_pClientManager, CBOINCClientManager));
+    wxASSERT(wxDynamicCast(m_pNetworkConnection, CNetworkConnection));
+
+    if (!m_bClientStartCheckCompleted) {
+        m_bClientStartCheckCompleted = true;
+
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+
+        pFrame->UpdateStatusText(_("Starting client services; please wait..."));
+
+        if (m_pClientManager->StartupBOINCCore()) {
+            Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
+        } else {
+            m_pNetworkConnection->ForceDisconnect();
+            pFrame->ShowDaemonStartFailedAlert();
+        }
+
+        pFrame->UpdateStatusText(wxEmptyString);
+    }
+
+    // Check connection state, connect if needed.
+    m_pNetworkConnection->Poll();
+
+    // Every 10 seconds, kill any running graphics apps 
+    // whose associated worker tasks are no longer running
+    wxTimeSpan ts(wxDateTime::Now() - m_dtKillInactiveGfxTimestamp);
+    if (ts.GetSeconds() > 10) {
+        m_dtKillInactiveGfxTimestamp = wxDateTime::Now();
+        KillInactiveGraphicsApps();
+    }
+
+    return iRetVal;
+}
+
+
+int CMainDocument::OnRefreshState() {
+    if (IsConnected()) {
+        CachedStateUpdate();
+    }
+
+    return 0;
 }
 
 
@@ -377,56 +461,6 @@ int CMainDocument::CachedStateUpdate() {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function End"));
     return retval;
-}
-
-
-int CMainDocument::OnInit() {
-    int iRetVal = -1;
-
-    // start the connect management thread
-    m_pNetworkConnection = new CNetworkConnection(this);
-
-    return iRetVal;
-}
-
-
-int CMainDocument::OnExit() {
-    int iRetVal = 0;
-
-    if (m_pNetworkConnection) {
-        delete m_pNetworkConnection;
-        m_pNetworkConnection = NULL;
-    }
-
-    return iRetVal;
-}
-
-
-int CMainDocument::OnPoll() {
-    int iRetVal = 0;
-
-    if (m_pNetworkConnection) {
-        m_pNetworkConnection->Poll();
-    }
-
-    // Every 10 seconds, kill any running graphics apps 
-    // whose associated worker tasks are no longer running
-    wxTimeSpan ts(wxDateTime::Now() - m_dtKillInactiveGfxTimestamp);
-    if (ts.GetSeconds() > 10) {
-        m_dtKillInactiveGfxTimestamp = wxDateTime::Now();
-        KillInactiveGraphicsApps();
-    }
-
-    return iRetVal;
-}
-
-
-int CMainDocument::OnRefreshState() {
-    if (IsConnected()) {
-        CachedStateUpdate();
-    }
-
-    return 0;
 }
 
 
@@ -1083,7 +1117,7 @@ void CMainDocument::KillInactiveGraphicsApps()
 
 void CMainDocument::KillAllRunningGraphicsApps()
 {
-    int i, n;
+    size_t i, n;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
 
     n = m_running_gfx_apps.size();
@@ -1238,7 +1272,7 @@ int CMainDocument::CachedMessageUpdate() {
             goto done;
         }
         if (messages.messages.size() != 0) {
-            int last_ind = messages.messages.size()-1;
+            size_t last_ind = messages.messages.size()-1;
             m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
     } else {

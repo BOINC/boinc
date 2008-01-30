@@ -1915,6 +1915,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\BOINCClientManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCClientManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\BOINCDialupManager.cpp"
 				>
 			</File>

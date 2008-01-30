@@ -307,7 +307,7 @@ int run_program(
         NULL,
         NULL,
         FALSE,
-        IDLE_PRIORITY_CLASS,
+        0,
         NULL,
         dir,
         &startup_info,

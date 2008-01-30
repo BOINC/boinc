@@ -52,11 +52,7 @@ protected:
 
     void                InitSupportedLanguages();
 
-    bool                IsBOINCCoreRunning();
-    void                StartupBOINCCore();
-    void                ShutdownBOINCCore();
 #ifdef __WXMAC__
-    bool                ProcessExists(pid_t thePID);
     static OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
 #endif
 
@@ -73,10 +69,8 @@ protected:
     CTaskBarIcon*       m_pTaskBarIcon;
 #ifdef __WXMAC__
     CMacSystemMenu*     m_pMacSystemMenu;
-    bool                m_bClientRunningAsDaemon;
 #endif
 
-    bool                m_bBOINCStartedByManager;
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strBOINCArguments;
@@ -86,10 +80,7 @@ protected:
     bool                m_bGUIVisible;
     int                 m_iGUISelected;
 
-    int                 m_lBOINCCoreProcessId;
-
 #ifdef __WXMSW__
-    HANDLE              m_hBOINCCoreProcess;
     HINSTANCE           m_hClientLibraryDll;
 #endif
 
@@ -105,8 +96,6 @@ public:
 
     bool                OnInit();
 
-    bool                AutoRestartBOINC();
-
     int                 UpdateSystemIdleDetection();
 
     int                 StartBOINCScreensaverTest();
@@ -115,6 +104,7 @@ public:
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
+    wxString            GetArguments()              { return m_strBOINCArguments; }
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
     wxString            GetDataDirectory()          { return m_strBOINCMGRDataDirectory; }
 #if defined(__WXMSW__) || defined(__WXMAC__)

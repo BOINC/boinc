@@ -43,6 +43,7 @@ typedef struct {
 extern bool g_use_sandbox;
 
 class CMainDocument;
+class CBOINCClientManager;
 
 class CNetworkConnection : public wxObject {
 public:
@@ -51,6 +52,7 @@ public:
 
     void           Poll();
     void           FireReconnectEvent() { m_bConnectEvent = true; };
+    void           ForceDisconnect() { m_bForceReconnect = false; m_bReconnectOnError = false; m_bConnectEvent = false; SetStateDisconnected(); };
     void           ForceReconnect() { m_bForceReconnect = true; SetStateDisconnected(); };
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
@@ -101,18 +103,16 @@ public:
 private:
 
     wxDateTime                  m_dtCachedCCStatusTimestamp;
+    bool                        m_bClientStartCheckCompleted;
 
 
 public:
-    int                         CachedStateUpdate();
-
-    CNetworkConnection*         m_pNetworkConnection;
-
     int                         OnInit();
     int                         OnExit();
     int                         OnPoll();
 
     int                         OnRefreshState();
+    int                         CachedStateUpdate();
     int                         ResetState();
 
     int                         Connect(
@@ -145,6 +145,8 @@ public:
 
     bool                        IsUserAuthorized();
 
+    CNetworkConnection*         m_pNetworkConnection;
+    CBOINCClientManager*        m_pClientManager;
     RPC_CLIENT                  rpc;
     CC_STATE                    state;
     CC_STATUS                   status;

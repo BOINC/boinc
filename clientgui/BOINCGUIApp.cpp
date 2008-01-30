@@ -44,6 +44,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
+#include "BOINCClientManager.h"
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
@@ -55,19 +56,11 @@
 static bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMSW__
-EXTERN_C BOOL  IsBOINCServiceInstalled();
-EXTERN_C BOOL  IsBOINCServiceStarting();
-EXTERN_C BOOL  IsBOINCServiceRunning();
-EXTERN_C BOOL  IsBOINCServiceStopping();
-EXTERN_C BOOL  IsBOINCServiceStopped();
-EXTERN_C BOOL  StartBOINCService();
-EXTERN_C BOOL  StopBOINCService();
 EXTERN_C BOOL  ClientLibraryStartup();
 EXTERN_C void  ClientLibraryShutdown();
-EXTERN_C int   BOINCIsNetworkAlive(long* lpdwFlags);
-EXTERN_C int   BOINCIsNetworkAlwaysOnline();
 EXTERN_C DWORD BOINCGetIdleTickCount();
 #endif
+
 
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
@@ -76,7 +69,6 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 bool CBOINCGUIApp::OnInit() {
 
     // Setup variables with default values
-    m_bBOINCStartedByManager = false;
     m_strBOINCArguments = wxEmptyString;
     m_strBOINCMGRRootDirectory = wxEmptyString;
     m_pLocale = NULL;
@@ -86,17 +78,14 @@ bool CBOINCGUIApp::OnInit() {
     m_pTaskBarIcon = NULL;
 #ifdef __WXMAC__
     m_pMacSystemMenu = NULL;
-    m_bClientRunningAsDaemon = false;
     printf("Using %s.\n", wxVERSION_STRING);    // For debugging
 #endif
     m_bGUIVisible = true;
     m_strDefaultWindowStation = wxEmptyString;
     m_strDefaultDesktop = wxEmptyString;
     m_strDefaultDisplay = wxEmptyString;
-    m_lBOINCCoreProcessId = 0;
     m_iGUISelected = BOINC_SIMPLEGUI;
 #ifdef __WXMSW__
-    m_hBOINCCoreProcess = NULL;
     m_hClientLibraryDll = NULL;
 #endif
 
@@ -358,16 +347,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     }
 
-#ifdef __WXMAC__
-    // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
-    // unresponsive to mouse clicks if we create it before connecting to the Client.
-    bool m_bClientRunningAsDaemon = (TickCount() < (120*60)) &&                     // If system has been up for less than 2 minutes 
-         ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist") ||  // New-style daemon uses launchd
-           boinc_file_exists("/Library/StartupItems/boinc/boinc") );                // Old-style daemon uses StartupItem
- 
-    if (m_bClientRunningAsDaemon) StartupBOINCCore();
-#endif
-
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	m_pTaskBarIcon = new CTaskBarIcon(
@@ -384,11 +363,6 @@ bool CBOINCGUIApp::OnInit() {
 
     // Startup the System Idle Detection code
     ClientLibraryStartup();
-
-#ifdef __WXMAC__
-    if (! m_bClientRunningAsDaemon)
-#endif
-        StartupBOINCCore();
 
 #ifdef __WXMAC__
     s_bSkipExitConfirmation = false;
@@ -442,9 +416,6 @@ bool CBOINCGUIApp::OnInit() {
 
 
 int CBOINCGUIApp::OnExit() {
-    // Detect if we need to stop the BOINC Core Client due to configuration
-    ShutdownBOINCCore();
-
     // Shutdown the System Idle Detection code
     ClientLibraryShutdown();
 
@@ -548,320 +519,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 }
 
 
-bool CBOINCGUIApp::AutoRestartBOINC() {
-    if (!IsBOINCCoreRunning() && m_bBOINCStartedByManager) {
-        StartupBOINCCore();
-    }
-    return true;
-}
-
-
-bool CBOINCGUIApp::IsBOINCCoreRunning() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function Begin"));
-
-    int retval;
-    bool running = false;
-    HOST_INFO hostinfo;
-    RPC_CLIENT rpc;
-
-#ifdef __WXMSW__
-
-    if (IsBOINCServiceInstalled()) {
-        running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
-    } else {
-        retval = rpc.init("localhost");  // synchronous is OK since local
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
-        retval = rpc.get_host_info(hostinfo);
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Requesting host info... retval '%d'"), retval);
-        running = (retval == 0);
-        rpc.close();
-    }
-    
-#elif defined __WXMAC__
-    // If set up to run as a daemon, allow time for daemon to start up
-    for (int i=0; i<10; i++) {
-        retval = rpc.init("localhost");  // synchronous is OK since local
-        retval = rpc.get_host_info(hostinfo);
-        running = (retval == 0);
-        rpc.close();
-        if (running) break;
-        if (! m_bClientRunningAsDaemon) break;
-        sleep(1);
-    }
-#else
-    retval = rpc.init("localhost");  // synchronous is OK since local
-    retval = rpc.get_host_info(hostinfo);
-    running = (retval == 0);
-    rpc.close();
-#endif
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function End"));
-    return running;
-}
-
-
-void CBOINCGUIApp::StartupBOINCCore() {
-    if (!IsBOINCCoreRunning()) {
-        wxString strExecute = wxEmptyString;
-
-#if   defined(__WXMSW__)
-        LPTSTR  szExecute = NULL;
-        LPTSTR  szDataDirectory = NULL;
-
-        // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute.Printf(
-            wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
-            GetRootDirectory().c_str(),
-            m_strBOINCArguments.c_str()
-        );
-
-        PROCESS_INFORMATION pi;
-        STARTUPINFO         si;
-        BOOL                bProcessStarted;
-
-        memset(&pi, 0, sizeof(pi));
-        memset(&si, 0, sizeof(si));
- 
-        si.cb = sizeof(si);
-        si.dwFlags = STARTF_USESHOWWINDOW;
-        si.wShowWindow = SW_HIDE;
-
-        szExecute = (LPTSTR)strExecute.c_str();
-        if (GetDataDirectory().empty()) {
-            szDataDirectory = NULL;
-        } else {
-            szDataDirectory = (LPTSTR)GetDataDirectory().c_str();
-        }
-
-        bProcessStarted = CreateProcess(
-            NULL,
-            szExecute,
-            NULL,
-            NULL,
-            FALSE,
-            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
-            NULL,
-            szDataDirectory,
-            &si,
-            &pi
-        );
-        if (bProcessStarted) {
-            m_lBOINCCoreProcessId = pi.dwProcessId;
-            m_hBOINCCoreProcess = pi.hProcess;
-        }
-
-#elif defined(__WXMAC__)
-
-        {
-            wxChar buf[1024];
-            wxChar *argv[5];
-            ProcessSerialNumber ourPSN;
-            FSRef ourFSRef;
-            OSErr err;
-
-            // Get the full path to core client inside this application's bundle
-            err = GetCurrentProcess (&ourPSN);
-            if (err == noErr) {
-                err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-            }
-            if (err == noErr) {
-                err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
-            }
-            if (err == noErr) {
-#if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
-                strExecute = wxT("\"");            
-                strExecute += wxT(buf);
-                strExecute += wxT("/Contents/Resources/boinc\" -redirectio -launched_by_manager");
-                m_lBOINCCoreProcessId = ::wxExecute(strExecute);
-#else   // Use wxExecute(wxChar **argv ...) instead of wxExecute(wxString& ...)
-                strcat(buf, "/Contents/Resources/boinc");
-                argv[0] = buf;
-                argv[1] = "-redirectio";
-                argv[2] = "-launched_by_manager";
-                argv[3] = NULL;
-#ifdef SANDBOX
-                if (! g_use_sandbox) {
-                    argv[3] = "-insecure";
-                    argv[4] = NULL;
-                }
-#endif
-                // Under wxMac-2.8.0, wxExecute starts a separate thread to wait for child's termination.
-                // That wxProcessTerminationThread uses a huge amount of processor time (about 11% of one 
-                // CPU on 2GHz Intel Dual-Core Mac).
-//                m_lBOINCCoreProcessId = ::wxExecute(argv);
-                run_program("/Library/Application Support/BOINC Data", buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId);
-#endif
-            } else {
-                buf[0] = '\0';
-            }
-        }
-
-#else   // Unix based systems
-
-        // copy the path to the boinmgr from argv[0]
-        strExecute = wxString((const char*)wxGetApp().argv[0], wxConvUTF8);
-
-        // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute += wxT("/boinc -redirectio -launched_by_manager");
-        if (! g_use_sandbox)
-            strExecute += wxT(" -insecure");
-        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
-        
-#endif
-
-        if (0 != m_lBOINCCoreProcessId) {
-            m_bBOINCStartedByManager = true;
-        }
-    }
-}
-
-
-#if defined(__WXMSW__)
-
-void CBOINCGUIApp::ShutdownBOINCCore() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Function Begin"));
-
-    wxInt32    iCount = 0;
-    DWORD      dwExitCode = 0;
-    bool       bClientQuit = false;
-    wxString   strConnectedCompter = wxEmptyString;
-    wxString   strPassword = wxEmptyString;
-
-    if (m_bBOINCStartedByManager) {
-        m_pDocument->GetConnectedComputerName(strConnectedCompter);
-        if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
-            RPC_CLIENT rpc;
-            if (!rpc.init("localhost")) {
-                m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
-                rpc.authorize((const char*)strPassword.mb_str());
-                if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                    if (STILL_ACTIVE == dwExitCode) {
-                        rpc.quit();
-                        for (iCount = 0; iCount <= 10; iCount++) {
-                            if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                                if (STILL_ACTIVE != dwExitCode) {
-                                    wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - (localhost) Application Exit Detected"));
-                                    bClientQuit = true;
-                                    break;
-                                }
-                            }
-                            wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
-                            ::wxSleep(1);
-                        }
-                    }
-                }
-            }
-            rpc.close();
-        } else {
-            if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                if (STILL_ACTIVE == dwExitCode) {
-                    m_pDocument->CoreClientQuit();
-                    for (iCount = 0; iCount <= 10; iCount++) {
-                        if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                            if (STILL_ACTIVE != dwExitCode) {
-                                wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Application Exit Detected"));
-                                bClientQuit = true;
-                                break;
-                            }
-                        }
-                        wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
-                        ::wxSleep(1);
-                    }
-                }
-            }
-        }
-
-        if (!bClientQuit) {
-            ::wxKill(m_lBOINCCoreProcessId);
-        }
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Function End"));
-}
-
-#elif defined(__WXMAC__)
-
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
-    char *p = buf;
-    size_t len = buflen;
-    size_t datalen = 0;
-
-    *buf = '\0';
-    while (datalen < (buflen - 1)) {
-        fgets(p, len, f);
-        if (feof(f)) break;
-        if (ferror(f) && (errno != EINTR)) break;
-        if (strchr(buf, '\n')) break;
-        datalen = strlen(buf);
-        p = buf + datalen;
-        len -= datalen;
-    }
-    return (buf[0] ? buf : NULL);
-}
-
-bool CBOINCGUIApp::ProcessExists(pid_t thePID)
-{
-    FILE *f;
-    char buf[256];
-    pid_t aPID;
-
-    f = popen("ps -a -x -c -o pid,state", "r");
-    if (f == NULL)
-        return false;
-    
-    while (PersistentFGets(buf, sizeof(buf), f)) {
-        aPID = atol(buf);
-        if (aPID == thePID) {
-            if (strchr(buf, 'Z'))   // A 'zombie', stopped but waiting
-                break;              // for us (its parent) to quit
-            pclose(f);
-            return true;
-        }
-    }
-    pclose(f);
-    return false;
-}
-
-// wxProcess::Exists and wxKill are unimplemented in WxMac-2.6.0
-void CBOINCGUIApp::ShutdownBOINCCore() {
-    wxInt32    iCount = 0;
-    wxString   strConnectedCompter = wxEmptyString;
-    wxString   strPassword = wxEmptyString;
-
-    if (m_bBOINCStartedByManager) {
-        m_pDocument->GetConnectedComputerName(strConnectedCompter);
-        if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
-            RPC_CLIENT rpc;
-            if (!rpc.init("localhost")) {
-                m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
-                rpc.authorize((const char*)strPassword.mb_str());
-                if (ProcessExists(m_lBOINCCoreProcessId)) {
-                    rpc.quit();
-                    for (iCount = 0; iCount <= 10; iCount++) {
-                        if (!ProcessExists(m_lBOINCCoreProcessId))
-                            return;
-                        ::wxSleep(1);
-                    }
-                }
-            }
-            rpc.close();
-        } else {
-            if (ProcessExists(m_lBOINCCoreProcessId)) {
-                m_pDocument->CoreClientQuit();
-                for (iCount = 0; iCount <= 10; iCount++) {
-                    if (!ProcessExists(m_lBOINCCoreProcessId))
-                        return;
-
-                    ::wxSleep(1);
-                }
-            }
-        }
-        
-        // Client did not quit after 10 seconds so kill it
-        kill(m_lBOINCCoreProcessId, SIGKILL);
-    }
-}
-
+#ifdef __WXMAC__
 
 // Set s_bSkipExitConfirmation to true if cancelled because of logging out or shutting down
 OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon ) {
@@ -909,52 +567,6 @@ OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEven
     }
     
     return wxGetApp().MacHandleAEQuit((AppleEvent*)appleEvt, reply);
-}
-
-#else
-
-void CBOINCGUIApp::ShutdownBOINCCore() {
-    wxInt32    iCount = 0;
-    bool       bClientQuit = false;
-    wxString   strConnectedCompter = wxEmptyString;
-    wxString   strPassword = wxEmptyString;
-
-    if (m_bBOINCStartedByManager) {
-        m_pDocument->GetConnectedComputerName(strConnectedCompter);
-        if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
-            RPC_CLIENT rpc;
-            if (!rpc.init("localhost")) {
-                m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
-                rpc.authorize((const char*)strPassword.mb_str());
-                if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
-                    rpc.quit();
-                    for (iCount = 0; iCount <= 10; iCount++) {
-                        if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
-                            bClientQuit = true;
-                            break;
-                        }
-                        ::wxSleep(1);
-                    }
-                }
-            }
-            rpc.close();
-        } else {
-            if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
-                m_pDocument->CoreClientQuit();
-                for (iCount = 0; iCount <= 10; iCount++) {
-                    if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
-                        bClientQuit = true;
-                        break;
-                    }
-                    ::wxSleep(1);
-                }
-            }
-        }
-
-        if (!bClientQuit) {
-            ::wxKill(m_lBOINCCoreProcessId);
-        }
-    }
 }
 
 #endif
@@ -1068,12 +680,15 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 int CBOINCGUIApp::ConfirmExit() {
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString strTitle;
-    
+
+    wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     
-    if (!m_bBOINCStartedByManager)
+    if (pDoc->m_pClientManager->IsBOINCDaemon())
         return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
         
     if (!m_iDisplayExitWarning)
