@@ -939,7 +939,7 @@ Rom    Jan 30 2008
         or daemon manager should start BOINC, not the BOINC Manager.
         (Windows Only for right now, should eventually be applied
          to all platforms)
-    - LIB: Undue my previous change that launched graphics apps as
+    - LIB: Revert my previous change that launched graphics apps as
         an idle process.
     - LIB: Take care of some warnings.
         
