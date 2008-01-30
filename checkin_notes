@@ -962,3 +962,8 @@ Charlie Jan 30 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    Jan 30 2008 (HEAD)
+    - Tag for 6.1.8 release, all platforms
+      boinc_core_release_6_1_8
+
