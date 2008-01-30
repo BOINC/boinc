@@ -259,6 +259,7 @@ void CNetworkConnection::SetStateReconnecting() {
             m_strNewComputerName = m_strConnectedComputerName;
             m_strNewComputerPassword = m_strConnectedComputerPassword;
         }
+        pFrame->FireRefreshView();
     }
 }
 
