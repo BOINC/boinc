@@ -215,6 +215,7 @@ public:
                                     std::string& strProjectURL,
                                     std::string& strName
                                 );
+    CC_STATE*                   GetState() { return &state; };
 
 
     //

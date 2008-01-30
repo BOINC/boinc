@@ -912,9 +912,15 @@ Charlie Jan 29 2008
     - SCR: When running V5 GFX applications as a service / daemon, display 
         appropriate error message instead of trying to display graphics.
     - API: Add executing_as_daemon bool to get_state rpc.
+    - MGR: Disable Show Grapics button for V5 GFX applications when BOINC 
+        is running as a service / daemon.
 
     client/
         cs_statefile.C
+    clientgui/
+        MainDocument.h
+        ViewWork.cpp
+        ViewWorkGrid.cpp
     clientscr/
         boinc_ss.rc
         mac_saver_module.cpp,h
