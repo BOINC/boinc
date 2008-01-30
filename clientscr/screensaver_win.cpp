@@ -885,7 +885,9 @@ VOID CScreensaver::UpdateErrorBoxText() {
     size_t   iIndex          = 0;
 
 
-    if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
+    if ((SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError)
+        || (SCRAPPERR_DAEMONALLOWSNOGRAPHICS == m_hrError) 
+    ) {
         if (m_updating_results) return;     // results vector is currently being updated by rpc
         
         iResultCount = results.results.size();
