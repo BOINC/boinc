@@ -30,6 +30,15 @@
 #include "AdvancedFrame.h"
 #include "BOINCClientManager.h"
 
+#ifdef __WXMAC__
+#include "filesys.h"
+#include "util.h"
+
+enum {
+    NewStyleDaemon = 1,
+    OldStyleDaemon
+};
+#endif
 
 #ifdef __WXMSW__
 EXTERN_C BOOL  IsBOINCServiceInstalled();
@@ -41,12 +50,10 @@ EXTERN_C BOOL  StartBOINCService();
 EXTERN_C BOOL  StopBOINCService();
 #endif
 
-
 CBOINCClientManager::CBOINCClientManager() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::CBOINCClientManager - Function Begin"));
 
     m_bBOINCStartedByManager = false;
-    m_bClientRunningAsDaemon = false;
     m_lBOINCCoreProcessId = 0;
 
 #ifdef __WXMSW__
@@ -65,9 +72,12 @@ CBOINCClientManager::~CBOINCClientManager() {
 
 
 bool CBOINCClientManager::AutoRestart() {
-    if (!IsBOINCCoreRunning() && m_bBOINCStartedByManager) {
-        StartupBOINCCore();
-    }
+    if (IsBOINCCoreRunning()) return true;
+#ifndef __WXMAC__       // Mac can restart Client as a daemon
+    if (! m_bBOINCStartedByManager) return false;
+#endif
+    m_lBOINCCoreProcessId = 0;
+    StartupBOINCCore();
     return true;
 }
 
@@ -83,14 +93,16 @@ bool CBOINCClientManager::IsSystemBooting() {
 }
 
 
-bool CBOINCClientManager::IsBOINCDaemon() {
+int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
     bool bReturnValue = false;
 #if   defined(__WXMSW__)
-    if (IsBOINCServiceInstalled()) bReturnValue = true;
+    if (IsBOINCServiceInstalled()) bReturnValue = 1;
 #elif defined(__WXMAC__)
-    if ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist") ||  // New-style daemon uses launchd
-         boinc_file_exists("/Library/StartupItems/boinc/boinc") ) {               // Old-style daemon uses StartupItem
-        bReturnValue = true;
+    if ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist")) {
+        bReturnValue = NewStyleDaemon;                      // New-style daemon uses launchd
+    }
+    if (boinc_file_exists("/Library/StartupItems/boinc/boinc") ) {
+        bReturnValue = OldStyleDaemon;                      // Old-style daemon uses StartupItem
     }
 #endif
     return bReturnValue;
@@ -119,7 +131,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         running = (retval == 0);
         rpc.close();
         if (running) break;
-        if (!IsBOINCDaemon()) break;
+        if (!IsBOINCConfiguredAsDaemon()) break;
         wxSleep(1);
     }
 #ifdef __WXMSW__
@@ -132,129 +144,128 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 
 
 bool CBOINCClientManager::StartupBOINCCore() {
-    bool bReturnValue = false;
+    bool                bReturnValue = false;
+    wxString            strExecute = wxEmptyString;
 
-#ifdef __WXMSW__
-    if (IsBOINCDaemon()) {
-        bReturnValue = (StartBOINCService() == TRUE);
-    }
-#endif
-    if (!IsBOINCCoreRunning()
-#ifdef __WXMSW__
-        && !IsBOINCDaemon()
-#endif
-        ) {
-        wxString           strExecute = wxEmptyString;
+    if (IsBOINCCoreRunning()) return true;
 
 #if   defined(__WXMSW__)
-        LPTSTR  szExecute = NULL;
-        LPTSTR  szDataDirectory = NULL;
+    LPTSTR  szExecute = NULL;
+    LPTSTR  szDataDirectory = NULL;
 
-        // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute.Printf(
-            wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
-            wxGetApp().GetRootDirectory().c_str(),
-            wxGetApp().GetArguments().c_str()
-        );
+    if (IsBOINCConfiguredAsDaemon()) {
+        return (StartBOINCService());
+    }
 
-        PROCESS_INFORMATION pi;
-        STARTUPINFO         si;
-        BOOL                bProcessStarted;
+    // Append boinc.exe to the end of the strExecute string and get ready to rock
+    strExecute.Printf(
+        wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
+        wxGetApp().GetRootDirectory().c_str(),
+        wxGetApp().GetArguments().c_str()
+    );
 
-        memset(&pi, 0, sizeof(pi));
-        memset(&si, 0, sizeof(si));
- 
-        si.cb = sizeof(si);
-        si.dwFlags = STARTF_USESHOWWINDOW;
-        si.wShowWindow = SW_HIDE;
+    PROCESS_INFORMATION pi;
+    STARTUPINFO         si;
+    BOOL                bProcessStarted;
 
-        szExecute = (LPTSTR)strExecute.c_str();
-        if (wxGetApp().GetDataDirectory().empty()) {
-            szDataDirectory = NULL;
-        } else {
-            szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
-        }
+    memset(&pi, 0, sizeof(pi));
+    memset(&si, 0, sizeof(si));
 
-        bProcessStarted = CreateProcess(
-            NULL,
-            szExecute,
-            NULL,
-            NULL,
-            FALSE,
-            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
-            NULL,
-            szDataDirectory,
-            &si,
-            &pi
-        );
-        if (bProcessStarted) {
-            m_lBOINCCoreProcessId = pi.dwProcessId;
-            m_hBOINCCoreProcess = pi.hProcess;
-        }
+    si.cb = sizeof(si);
+    si.dwFlags = STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+
+    szExecute = (LPTSTR)strExecute.c_str();
+    if (wxGetApp().GetDataDirectory().empty()) {
+        szDataDirectory = NULL;
+    } else {
+        szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
+    }
+
+    bProcessStarted = CreateProcess(
+        NULL,
+        szExecute,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
+        NULL,
+        szDataDirectory,
+        &si,
+        &pi
+    );
+    if (bProcessStarted) {
+        m_lBOINCCoreProcessId = pi.dwProcessId;
+        m_hBOINCCoreProcess = pi.hProcess;
+    }
 
 #elif defined(__WXMAC__)
 
-        {
-            wxChar buf[1024];
-            wxChar *argv[5];
-            ProcessSerialNumber ourPSN;
-            FSRef ourFSRef;
-            OSErr err;
+    wxChar buf[1024];
+    wxChar *argv[5];
+    ProcessSerialNumber ourPSN;
+    FSRef ourFSRef;
+    OSErr err;
 
-            // Get the full path to core client inside this application's bundle
-            err = GetCurrentProcess (&ourPSN);
-            if (err == noErr) {
-                err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-            }
-            if (err == noErr) {
-                err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
-            }
-            if (err == noErr) {
-#if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
-                strExecute = wxT("\"");            
-                strExecute += wxT(buf);
-                strExecute += wxT("/Contents/Resources/boinc\" -redirectio -launched_by_manager");
-                m_lBOINCCoreProcessId = ::wxExecute(strExecute);
-#else   // Use wxExecute(wxChar **argv ...) instead of wxExecute(wxString& ...)
-                strcat(buf, "/Contents/Resources/boinc");
-                argv[0] = buf;
-                argv[1] = "-redirectio";
-                argv[2] = "-launched_by_manager";
-                argv[3] = NULL;
-#ifdef SANDBOX
-                if (! g_use_sandbox) {
-                    argv[3] = "-insecure";
-                    argv[4] = NULL;
-                }
-#endif
-                // Under wxMac-2.8.0, wxExecute starts a separate thread to wait for child's termination.
-                // That wxProcessTerminationThread uses a huge amount of processor time (about 11% of one 
-                // CPU on 2GHz Intel Dual-Core Mac).
-//                m_lBOINCCoreProcessId = ::wxExecute(argv);
-                run_program("/Library/Application Support/BOINC Data", buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId);
-#endif
-            } else {
-                buf[0] = '\0';
-            }
+    if (IsBOINCConfiguredAsDaemon() == NewStyleDaemon) {
+        system ("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
+        system ("launchctl start edu.berkeley.boinc");
+        bReturnValue = IsBOINCCoreRunning();
+    } else {
+        
+        // Get the full path to core client inside this application's bundle
+        err = GetCurrentProcess (&ourPSN);
+        if (err == noErr) {
+            err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
         }
+        if (err == noErr) {
+            err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
+        }
+        if (err == noErr) {
+#if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
+            strExecute = wxT("\"");            
+            strExecute += wxT(buf);
+            strExecute += wxT("/Contents/Resources/boinc\" -redirectio -launched_by_manager");
+            m_lBOINCCoreProcessId = ::wxExecute(strExecute);
+#else   // Use wxExecute(wxChar **argv ...) instead of wxExecute(wxString& ...)
+            strcat(buf, "/Contents/Resources/boinc");
+            argv[0] = buf;
+            argv[1] = "-redirectio";
+            argv[2] = "-launched_by_manager";
+            argv[3] = NULL;
+#ifdef SANDBOX
+            if (! g_use_sandbox) {
+                argv[3] = "-insecure";
+                argv[4] = NULL;
+            }
+#endif
+            // Under wxMac-2.8.0, wxExecute starts a separate thread to wait for child's termination.
+            // That wxProcessTerminationThread uses a huge amount of processor time (about 11% of one 
+            // CPU on 2GHz Intel Dual-Core Mac).
+//                m_lBOINCCoreProcessId = ::wxExecute(argv);
+            run_program("/Library/Application Support/BOINC Data", buf, argv[3] ? 4 : 3, argv, 0.0, m_lBOINCCoreProcessId);
+#endif
+        } else {
+            buf[0] = '\0';
+        }
+    }
 
 #else   // Unix based systems
 
-        // copy the path to the boinmgr from argv[0]
-        strExecute = wxString((const char*)wxGetApp().argv[0], wxConvUTF8);
+    // copy the path to the boinmgr from argv[0]
+    strExecute = wxString((const char*)wxGetApp().argv[0], wxConvUTF8);
 
-        // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute += wxT("/boinc -redirectio -launched_by_manager");
-        if (! g_use_sandbox)
-            strExecute += wxT(" -insecure");
-        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
-        
+    // Append boinc.exe to the end of the strExecute string and get ready to rock
+    strExecute += wxT("/boinc -redirectio -launched_by_manager");
+    if (! g_use_sandbox)
+        strExecute += wxT(" -insecure");
+    m_lBOINCCoreProcessId = ::wxExecute(strExecute);
+    
 #endif
 
-        if (0 != m_lBOINCCoreProcessId) {
-            m_bBOINCStartedByManager = true;
-            bReturnValue = true;
-        }
+    if (0 != m_lBOINCCoreProcessId) {
+        m_bBOINCStartedByManager = true;
+        bReturnValue = true;
     }
 
     return bReturnValue;
@@ -323,6 +334,7 @@ void CBOINCClientManager::ShutdownBOINCCore() {
         if (!bClientQuit) {
             ::wxKill(m_lBOINCCoreProcessId);
         }
+        m_lBOINCCoreProcessId = 0;
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::ShutdownBOINCCore - Function End"));
@@ -413,6 +425,7 @@ void CBOINCClientManager::ShutdownBOINCCore() {
         // Client did not quit after 10 seconds so kill it
         kill(m_lBOINCCoreProcessId, SIGKILL);
     }
+    m_lBOINCCoreProcessId = 0;
 }
 
 #else

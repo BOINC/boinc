@@ -950,3 +950,15 @@ Rom    Jan 30 2008
         MainDocument.cpp, .h
     lib/
         util.C
+
+Charlie Jan 30 2008
+    - MGR: Fix a few bugs in the new CC startup logic; if configured to 
+        run client as a daemon on the Mac, then start / restart it as a 
+        daemon when necessary.  Add new source files to XCode project.
+
+    clientgui/
+        BOINCClientManager.cpp,.h
+        BOINCGUIApp.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

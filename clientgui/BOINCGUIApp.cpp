@@ -347,6 +347,17 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     }
 
+#ifdef __WXMAC__
+#if 0       // We may still need this code; don't remove it yet -- CAF 1/30/08
+    // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
+    // unresponsive to mouse clicks if we create it before connecting to the Client.
+    CBOINCClientManager* pcm = m_pDocument->m_pClientManager;
+    if (pcm->IsSystemBooting() && pcm->IsBOINCConfiguredAsDaemon()) {
+        pcm->StartupBOINCCore();
+    }
+#endif
+#endif
+
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	m_pTaskBarIcon = new CTaskBarIcon(
@@ -688,7 +699,7 @@ int CBOINCGUIApp::ConfirmExit() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     
-    if (pDoc->m_pClientManager->IsBOINCDaemon())
+    if (! (pDoc->m_pClientManager->WasBOINCStartedByManager()))
         return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
         
     if (!m_iDisplayExitWarning)

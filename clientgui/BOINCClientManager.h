@@ -35,7 +35,8 @@ public:
     bool                AutoRestart();
 
     bool                IsSystemBooting();
-    bool                IsBOINCDaemon();
+    int                 IsBOINCConfiguredAsDaemon();
+    bool                WasBOINCStartedByManager() { return m_bBOINCStartedByManager; };
 
     bool                IsBOINCCoreRunning();
     bool                StartupBOINCCore();
@@ -48,7 +49,6 @@ public:
 protected:
 
     bool                m_bBOINCStartedByManager;
-    bool                m_bClientRunningAsDaemon;
     int                 m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
