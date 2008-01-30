@@ -14,36 +14,107 @@ class BoltExerciseSet extends BoltRandom {
     //   - repeat now
     //   - next
     //
-    function xset_callback(&$iter, $score, $view_id, &$is_last, &$nav_info) {
+    function xset_callback(&$iter, $score, $view_id, &$is_last, &$repeat) {
+        global $course;
+        global $user;
+
         echo "XSET_CALLBACK: $score";
         $nav_info = null;
         $state_rec = $iter->state[$this->name];
         $nshown = $state_rec['nshown'];
         $state_rec['scores'][$nshown] = $score;
         $iter->state[$this->name] = $state_rec;
-        $is_last = ($nshown == $this->ntoshow);
-        if (!$is_last) return;
+        $is_last = ($nshown+1 == $this->ntoshow);
+        if (!$is_last) {
+            echo "XSET_CALLBACK: not done";
+            return;
+        }
 
         // this exercise set is now "completed".
         //   - create exercise_set_result record
         //   - optionally create or update bolt_refresh record
         //
         $total_score = 0;
-        for ($i=0; $i<$nshown; $i++) {
-            $total_score += $state_rec['score'][$i];
+        for ($i=0; $i<$nshown+1; $i++) {
+            $total_score += $state_rec['scores'][$i];
         }
-        $avg_score = $total_score/$nshown;
+        $avg_score = $total_score/($nshown+1);
+
+        echo "XSET_CALLBACK: avg $avg_score";
+        $repeat = null;
+        $least = 1;
+        foreach ($this->repeats as $r) {
+            if ($avg_score < $r->score && $r->score<$least) {
+                $repeat = $r;
+                $least = $r->score;
+            }
+        }
 
         $now = time();
-        $id = BoincXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$this->name', $avg_score, $view_id)");
+        $id = BoltXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$this->name', $avg_score, $view_id)");
         $due_time = $now + 100000;
-        BoincRefresh::replace("create_time=$now, user_id=$user->id, course_id=$course->id, name='$this->name', set_result_id=$id, due_time=$due_time");
+        BoltRefreshRec::replace("create_time=$now, user_id=$user->id, course_id=$course->id, name='$this->name', set_result_id=$id, due_time=$due_time");
     }
 
     function walk(&$iter, $incr, &$frac_done) {
         $iter->xset = $this;
+        // see if we're doing a review
+        //
+        if (array_key_exists($this->name, $iter->state)) {
+            $state_rec = $iter->state[$this->name];
+            $child_name = $state_rec['child_name'];
+            foreach ($this->repeats as $r) {
+                if ($r->unit && ($r->unit->name == $child_name)) {
+                    // we're doing a review
+                    //
+                    $child = $r->unit;
+                    if ($incr) {
+                        if ($child->is_item) {
+                            $my_inc = true;
+                        } else {
+                            $my_inc = $child->walk($iter, $incr, $frac_done);
+                        }
+                        if ($my_inc) {
+                            // we're done with review.  do exercises again
+                            //
+                            $state_rec['child_name'] = null;
+                            $state_rec['nshown'] = 0;
+                            $iter->state[$this->name] = $state_rec;
+                        }
+                    } else {
+                        if ($child->is_item) {
+                            $iter->item = $child;
+                        } else {
+                            $child->walk($iter, false, $f);
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+
         return parent::walk($iter, $incr, $frac_done);
     }
+
+    function start_review(&$iter, $unit_name) {
+        foreach ($this->repeats as $r) {
+            if ($r->unit->name == $unit_name) {
+                $state_rec = $iter->state[$this->name];
+                $state_rec['child_name'] = $unit_name;
+                $iter->state[$this->name] = $state_rec;
+                echo "start_review: unit $unit_name";
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function start_repeat(&$iter) {
+        $state_rec = $iter->state[$this->name];
+        $state_rec['child_name'] = null;
+        $state_rec['nshown'] = 0;
+    }
+
 }
 
 class BoltRefresh{

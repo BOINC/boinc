@@ -20,6 +20,8 @@ define('BOLT_ACTION_PREV', 2);
 define('BOLT_ACTION_SUBMIT', 3);
 define('BOLT_ACTION_QUESTION', 4);
 define('BOLT_ACTION_COURSE_HOME', 5);
+define('BOLT_ACTION_REVIEW', 6);
+define('BOLT_ACTION_REPEAT', 7);
 
 class BoltDb extends DbConn {
     static $instance;
@@ -166,11 +168,20 @@ class BoltResult {
 class BoltXsetResult {
     function insert($clause) {
         $db = BoltDb::get();
-        return $db->insert('bolt_xset_result', $clause);
+        $ret = $db->insert('bolt_xset_result', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
     }
     static function enum($clause) {
         $db = BoltDb::get();
         return $db->enum('bolt_xset_result', 'BoltXsetResult', $clause);
+    }
+}
+
+class BoltRefreshRec {
+    static function replace($clause) {
+        $db = BoltDb::get();
+        return $db->replace('bolt_refresh', $clause);
     }
 }
 

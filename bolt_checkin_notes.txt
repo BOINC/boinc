@@ -51,3 +51,16 @@ David  Jan 17 2008
         bolt_schema.sql
     html/inc/
         bolt_db.inc
+
+David  Jan 30 2008
+    - implement the review mechanism
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_xset.inc
+        user/
+            bolt_sched.php
+        

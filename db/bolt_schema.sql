@@ -82,6 +82,7 @@ create table bolt_result (
 --
 create table bolt_xset_result (
     id              integer         not null auto_increment,
+    create_time     integer         not null,
     user_id         integer         not null,
     course_id       integer         not null,
     start_time      integer         not null,
