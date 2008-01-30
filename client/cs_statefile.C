@@ -779,11 +779,13 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
+        "%s"
         "%s",
         get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
+        executing_as_daemon?"<executing_as_daemon/>\n":"",
         work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":""
     );
 

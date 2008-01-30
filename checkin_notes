@@ -907,3 +907,20 @@ David  Jan 29 2008
     clientgui/
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp
+
+Charlie Jan 29 2008
+    - SCR: When running V5 GFX applications as a service / daemon, display 
+        appropriate error message instead of trying to display graphics.
+    - API: Add executing_as_daemon bool to get_state rpc.
+
+    client/
+        cs_statefile.C
+    clientscr/
+        boinc_ss.rc
+        mac_saver_module.cpp,h
+        Mac_Saver_Module.h
+        screensaver.cpp
+        screensaver_win.h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
