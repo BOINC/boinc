@@ -81,7 +81,7 @@ UINT CACreateBOINCGroups::OnExecution()
     uiReturnValue = GetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableUseByAllUsers );
+    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
@@ -404,7 +404,7 @@ UINT CACreateBOINCGroups::OnExecution()
 
     SetProperty( _T("BOINC_ADMINS_GROUPNAME"), _T("boinc_admins") );
     SetProperty( _T("BOINC_USERS_GROUPNAME"), _T("boinc_users") );
-    SetProperty( _T("BOINC_PROJECT_GROUPNAME"), _T("boinc_projects") );
+    SetProperty( _T("BOINC_PROJECTS_GROUPNAME"), _T("boinc_projects") );
 
     return ERROR_SUCCESS;
 }

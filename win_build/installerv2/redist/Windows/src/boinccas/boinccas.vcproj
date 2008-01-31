@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -151,7 +151,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -238,7 +238,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -326,7 +326,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -383,6 +383,10 @@
 			</File>
 			<File
 				RelativePath=".\CACreateBOINCGroups.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CACreateClientAuthFile.cpp"
 				>
 			</File>
 			<File
@@ -488,6 +492,10 @@
 			</File>
 			<File
 				RelativePath=".\CACreateBOINCGroups.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CACreateClientAuthFile.h"
 				>
 			</File>
 			<File

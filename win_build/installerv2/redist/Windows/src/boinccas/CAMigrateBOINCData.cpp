@@ -320,17 +320,17 @@ UINT CAMigrateBOINCData::OnRollback()
 /////////////////////////////////////////////////////////////////////
 UINT CAMigrateBOINCData::OnExecution()
 {
-    tstring     strCustomActionData;
-    tstring     strInstallDirectory;
-    tstring     strDataDirectory;
-    tstring     strClientStateFile;
-    tstring     strTemp;
-    struct stat buf;
-    BOOL        bMigratingData = FALSE;
-    ULONGLONG   ullFileSize = 0;
-    ULONGLONG   ullDirectorySize = 0;
-    ULONGLONG   ullFreeDiskSpace = 0;
-    UINT        uiReturnValue = -1;
+    tstring      strCustomActionData;
+    tstring      strInstallDirectory;
+    tstring      strDataDirectory;
+    tstring      strClientStateFile;
+    tstring      strTemp;
+    struct _stat buf;
+    BOOL         bMigratingData = FALSE;
+    ULONGLONG    ullFileSize = 0;
+    ULONGLONG    ullDirectorySize = 0;
+    ULONGLONG    ullFreeDiskSpace = 0;
+    UINT         uiReturnValue = -1;
 
     LogMessage(
         INSTALLMESSAGE_INFO,
@@ -352,7 +352,7 @@ UINT CAMigrateBOINCData::OnExecution()
     // Perform some basic sanity tests to see if we need to migrate
     //   anything.
     BOOL bClientStateExists =
-        (BOOL)(0 == stat(strClientStateFile.c_str(), &buf));
+        (BOOL)(0 == _stat(strClientStateFile.c_str(), &buf));
     BOOL bInstallDataSameDirectory = 
         (BOOL)(strInstallDirectory == strDataDirectory);
     BOOL bDataDirExistsWithinInstallDir = 

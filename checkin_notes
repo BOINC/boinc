@@ -994,5 +994,29 @@ Eric K  Jan 31 2008
         procinfo_win.C
         stackwalker_win.cpp
 
+Rom    Jan 31 2008
+    - WINSETUP: Don't configure MSI so that it'll attempt to stop the
+        BOINC service, we already do it much earlier in the install
+        process
+    - WINSETUP: Fix two typos in the CACreateBOINCGroups custom
+        action.
+    - WINSETUP: Include CACreateClientAuthFile in the build now.
 
-    
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.def
+        boinccas.vcproj
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CACreateBOINCAccounts.cpp
+        CACreateBOINCGroups.cpp
+        CACreateClientAuthFile.cpp, .h (Added)
+        CAMigrateBOINCData.cpp
+        stdafx.h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+

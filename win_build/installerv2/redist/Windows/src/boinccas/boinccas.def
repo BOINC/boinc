@@ -8,6 +8,7 @@ EXPORTS
 	DllMain
 	CreateBOINCAccounts
 	CreateBOINCGroups
+	CreateClientAuthFile
 	GetAdministratorsGroupName
 	GetUsersGroupName
 	GrantBOINCMasterRights
