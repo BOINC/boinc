@@ -981,3 +981,18 @@ Rom    Jan 31 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Eric K  Jan 31 2008
+    - Fixed missing symbols in MINGW32 application builds.
+    - Fixed some type warnings.
+
+    lib/
+        boinc_win.h
+        diagnostics_win.h
+        md5_file.C
+        miofile.C
+        procinfo_win.C
+        stackwalker_win.cpp
+
+
+    
