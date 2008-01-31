@@ -356,7 +356,8 @@ UINT CAMigrateBOINCData::OnExecution()
     BOOL bInstallDataSameDirectory = 
         (BOOL)(strInstallDirectory == strDataDirectory);
     BOOL bDataDirExistsWithinInstallDir = 
-        (BOOL)strDataDirectory.find(strInstallDirectory);
+        (BOOL)(tstring::npos != strDataDirectory.find(strInstallDirectory));
+
     if      ( bClientStateExists )
     {
         bMigratingData = FALSE;
