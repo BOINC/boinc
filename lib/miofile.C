@@ -72,8 +72,8 @@ int MIOFILE::printf(const char* format, ...) {
     } else if (f) {
         retval = vfprintf(f, format, ap);
     } else {
-        int cursize = strlen(wbuf);
-        int remaining_len = len - cursize;
+        size_t cursize = strlen(wbuf);
+        size_t remaining_len = len - cursize;
         retval = vsnprintf(wbuf+cursize, remaining_len, format, ap);
     }
     va_end(ap);

@@ -594,7 +594,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         free( tt );
 
     // Setting symbol options to the WinDbg defaults.
-    symOptions = NULL;
+    symOptions = (DWORD)NULL;
     symOptions |= SYMOPT_CASE_INSENSITIVE;
     symOptions |= SYMOPT_LOAD_LINES;
     symOptions |= SYMOPT_OMAP_FIND_NEAREST;
@@ -937,10 +937,10 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 
 
         // Zero out params so we have fresh parameters through the next interation
-        StackFrame.Params[0] = NULL;
-        StackFrame.Params[1] = NULL;
-        StackFrame.Params[2] = NULL;
-        StackFrame.Params[3] = NULL;
+        StackFrame.Params[0] = (DWORD64)NULL;
+        StackFrame.Params[1] = (DWORD64)NULL;
+        StackFrame.Params[2] = (DWORD64)NULL;
+        StackFrame.Params[3] = (DWORD64)NULL;
 
 
         // no return address means no deeper stackframe

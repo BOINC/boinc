@@ -35,6 +35,7 @@
 #include "str_util.h"
 #include "util.h"
 
+#define BOINC_VERSION_STRING "5.10.0"
 
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(
@@ -72,7 +73,7 @@ BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lp
 		lRetVal = RegOpenKeyEx(
             HKEY_LOCAL_MACHINE, 
             _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics"),  
-			NULL, 
+			(DWORD)NULL, 
             KEY_READ,
             &hKey
         );
@@ -81,7 +82,7 @@ BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lp
 		lRetVal = RegOpenKeyEx(
             HKEY_CURRENT_USER,
             _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics"),  
-			NULL,
+			(DWORD)NULL,
             KEY_READ,
             &hKey
         );
@@ -336,10 +337,10 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         );
 
         if (Status == STATUS_INFO_LENGTH_MISMATCH) {
-            HeapFree(hHeap, NULL, *ppBuffer);
+            HeapFree(hHeap, (DWORD)NULL, *ppBuffer);
             *pcbBuffer *= 2;
         } else if (!NT_SUCCESS(Status)) {
-            HeapFree(hHeap, NULL, *ppBuffer);
+            HeapFree(hHeap, (DWORD)NULL, *ppBuffer);
             retval = Status;
         }
     } while (Status == STATUS_INFO_LENGTH_MISMATCH);
@@ -433,7 +434,7 @@ int diagnostics_update_thread_list_NT() {
 
     // Release resources
     if (hThreadListSync) ReleaseMutex(hThreadListSync);
-    if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
+    if (pBuffer) HeapFree(GetProcessHeap(), (DWORD)NULL, pBuffer);
 
     return 0;
 }
@@ -525,7 +526,7 @@ int diagnostics_update_thread_list_XP() {
 
     // Release resources
     if (hThreadListSync) ReleaseMutex(hThreadListSync);
-    if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
+    if (pBuffer) HeapFree(GetProcessHeap(), (DWORD)NULL, pBuffer);
 
     return 0;
 }
@@ -1050,8 +1051,8 @@ int diagnostics_message_monitor_dump() {
 // See: http://support.microsoft.com/kb/q173260/
 //
 UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
-    DWORD       dwEvent = NULL;
-    DWORD       dwCurrentProcessId = NULL;
+    DWORD       dwEvent = (DWORD)NULL;
+    DWORD       dwCurrentProcessId = (DWORD)NULL;
     BOOL        bContinue = TRUE;
     DWORD       dwRepeatMessageCounter = 0;
     DWORD       dwRepeatMessageProcessId = 0;
@@ -1216,7 +1217,7 @@ typedef struct _BOINC_WINDOWCAPTURE {
     DWORD        window_thread_id;
 } BOINC_WINDOWCAPTURE, *PBOINC_WINDOWCAPTURE;
 
-static UINT   uiExceptionMonitorThreadId = NULL;
+static UINT   uiExceptionMonitorThreadId = (UINT)NULL;
 static HANDLE hExceptionMonitorThread = NULL;
 static HANDLE hExceptionMonitorHalt = NULL;
 static HANDLE hExceptionMonitorStartedEvent = NULL;
@@ -1707,7 +1708,7 @@ UINT diagnostics_determine_exit_code() {
 
 
 UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
-    DWORD        dwEvent = NULL;
+    DWORD        dwEvent = (DWORD)NULL;
     BOOL         bContinue = TRUE;
     BOOL         bDebuggerInitialized = FALSE;
     HANDLE       hEvents[2];
