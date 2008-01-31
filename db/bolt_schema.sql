@@ -23,6 +23,7 @@ create table bolt_enrollment (
     user_id         integer         not null,
     course_id       integer         not null,
     last_view_id    integer         not null,
+        -- ID of last study phase view
     mastery         double          not null
 );
 
@@ -98,11 +99,10 @@ create table bolt_xset_result (
 
 -- represents the completion of a select structure
 --
-create table bolt_select_complete (
+create table bolt_select_finished (
     id              integer         not null auto_increment,
     user_id         integer         not null,
     course_id       integer         not null,
-    start_time      integer         not null,
     end_time        integer         not null,
     name            varchar(255)    not null,
         -- logical name of the select unit
@@ -124,8 +124,8 @@ create table bolt_refresh (
         -- logical name of result set unit
     last_view_id    integer         not null,
         -- if refresh is in progress, the last view
-    set_result_id   integer         not null,
-        -- most recent result for this set
+    xset_result_id   integer         not null,
+        -- most recent result for this exercise set
     due_time        integer         not null,
         -- when refresh will be due
     primary key (id)

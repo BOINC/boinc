@@ -1,6 +1,17 @@
 <?
 
 $project_news = array(
+array("Jan 31, 2008",
+    "The <a href=http://bob.myisland.as/tsp/>TSP project</a>
+    is featured in International Science Grid This Week: <a href=http://www.isgtw.org/?pid=1000844>Traveling salesman meets distributed computing</a>."
+),
+array("Jan 31, 2008",
+    "BOINC has broken the PetaFLOP barrier!
+    According to <a href=http://boincstats.com/>BOINCStats</a>,
+    106 million units of credit were granted yesterday,
+    which translates to 1.06 PetaFLOP/sec.
+    Congratulations to all projects and participants."
+),
 array("Jan 24, 2008",
     "A paper describing results of the <a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a> project recently appeared in the
     <a href=http://pubs.acs.org/cgi-bin/abstract.cgi/jpcafh/asap/abs/jp077592t.html>Journal of Physical Chemistry A (JPCA)</a>."

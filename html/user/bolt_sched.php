@@ -12,25 +12,12 @@ require_once("../inc/bolt_ex.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/util.inc");
 
-$user = get_logged_in_user();
-BoltUser::lookup($user);
-$course_id = get_int('course_id');
-$view_id = get_int('view_id', true);
-$action = get_str('action', true);
-
-$course = BoltCourse::lookup_id($course_id);
-if (!$course) {
-    error_page("no such course");
-}
-
 function update_info() {
     global $user;
     $sex = get_int('sex');
     $birth_year = get_int('birth_year');
     $user->bolt->update("sex=$sex, birth_year=$birth_year");
 }
-
-$course_doc = require_once($course->doc_file);
 
 // The user clicked something on a view page.
 // Make a record of it, and of the time
@@ -79,11 +66,12 @@ function create_view($iter, $mode, $prev_view_id) {
 //
 function show_finished_page($view_id, $prev_view_id) {
     global $course;
+    global $url_args;
 
     page_head(null);
     if (function_exists('bolt_header')) bolt_header("Course completed");
     echo "Congratulations - you have completed this course.";
-    $prev = "<a href=bolt_sched.php?course_id=$course->id&action=prev&view_id=$view_id><< Prev</a>";
+    $prev = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><< Prev</a>";
     echo "
         <p>
         <center>
@@ -94,6 +82,13 @@ function show_finished_page($view_id, $prev_view_id) {
         </table>
         </center>
     ";
+    if (function_exists('bolt_footer')) bolt_footer();
+}
+
+function show_refresh_finished() {
+    page_head(null);
+    if (function_exists('bolt_header')) bolt_header("Refresh completed");
+    echo "Refresh finished";
     if (function_exists('bolt_footer')) bolt_footer();
 }
 
@@ -121,6 +116,8 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     global $bolt_ex_index;
     global $bolt_ex_score;
     global $bolt_query_string;
+    global $refresh;
+    global $url_args;
 
     $item = $iter->item;
     page_head(null);
@@ -129,10 +126,10 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
 
     $links = array();
     if ($prev_view_id) {
-        $links[] = "<a href=bolt_sched.php?course_id=$course->id&action=prev&view_id=$view_id><< Prev</a>";
+        $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><< Prev</a>";
     }
 
-    $next = "<a href=bolt_sched.php?course_id=$course->id&action=next&view_id=$view_id>Next >></a>";
+    $next = "<a href=bolt_sched.php?$url_args&action=next&view_id=$view_id>Next >></a>";
 
     if ($item->is_exercise()) {
         $bolt_ex_mode = $mode;
@@ -145,6 +142,11 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
                 <input type=hidden name=course_id value=$course->id>
                 <input type=hidden name=action value=answer>
             ";
+            if ($refresh) {
+                echo "
+                    <input type=hidden name=refresh_id value=$refresh->id>
+                ";
+            }
             srand($view_id);
             require($item->filename);
             if (function_exists('bolt_divide')) bolt_divide();
@@ -168,11 +170,11 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
             print_r($repeat);
             echo "</pre>";
             $name = urlencode($repeat->unit->name);
-            $r = "<a href=bolt_sched.php?course_id=$course->id&action=review&view_id=$view_id&unit_name=$name>Review</a>";
+            $r = "<a href=bolt_sched.php?$url_args&action=review&view_id=$view_id&unit_name=$name>Review</a>";
             $links[] = $r;
         }
         if ($repeat->flags & REPEAT) {
-            $r = "<a href=bolt_sched.php?course_id=$course->id&action=repeat&view_id=$view_id>Repeat</a>";
+            $r = "<a href=bolt_sched.php?$url_args&action=repeat&view_id=$view_id>Repeat</a>";
             $links[] = $r;
         }
         if ($repeat->flags & NEXT) {
@@ -182,15 +184,19 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
         $links[] = $next;
     }
 
-    $up_link = "<a href=bolt_sched.php?course_id=$course->id&action=course_home&view_id=$view_id>Up</a>";
+    $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Up</a>";
     show_nav($links, $up_link);
 
     if (function_exists('bolt_footer')) bolt_footer();
 
-    $e = new BoltEnrollment();
-    $e->user_id = $user->id;
-    $e->course_id = $course->id;
-    $e->update("last_view_id=$view_id");
+    if ($refresh) {
+        $refresh->update("last_view_id=$view_id");
+    } else {
+        $e = new BoltEnrollment();
+        $e->user_id = $user->id;
+        $e->course_id = $course->id;
+        $e->update("last_view_id=$view_id");
+    }
 }
 
 // Show the student the results of an old exercise; no navigation items
@@ -214,9 +220,10 @@ function show_answer_page($iter, $score) {
     if (function_exists('bolt_footer')) bolt_footer();
 }
 
-function start_course($course_doc) {
+function start_course() {
     global $user;
     global $course;
+    global $course_doc;
 
     BoltEnrollment::delete($user->id, $course->id);
     $iter = new BoltIter($course_doc);
@@ -229,32 +236,80 @@ function start_course($course_doc) {
     show_item($iter, $view_id, 0, $mode);
 }
 
-$e = BoltEnrollment::lookup($user->id, $course_id);
+function start_repeat() {
+    global $course_doc;
+    global $refresh;
+
+    $xset_result = BoltXsetResult::lookup_id($refresh->xset_result_id);
+    if (!$xset_result) error_page("result not found");
+    $view = BoltView::lookup_id($xset_result->view_id);
+    if (!$view) error_page("view not found");
+    $iter = new BoltIter($course_doc);
+    $iter->decode_state($view->state);
+    $iter->at();
+    $xset = $iter->xset;
+    if (!$xset || $xset->name != $xset_result->name) {
+        error_page("missing exercise set");
+    }
+    $xset->start_repeat($iter);
+    $iter->at();
+    $mode = default_mode($iter->item);
+    $view_id = create_view($iter, $mode, 0);
+    show_item($iter, $view_id, 0, $mode);
+}
+
+$user = get_logged_in_user();
+BoltUser::lookup($user);
+$course_id = get_int('course_id');
+$refresh_id = get_int('refresh_id', true);
+$refresh = null;
+$url_args = "course_id=$course_id";
+if ($refresh_id) {
+    $refresh = BoltRefreshRec::lookup_id($refresh_id);
+    if (!$refresh) error_page("No such refresh");
+    if ($refresh->user_id != $user->id) error_page("Wrong user");
+    if ($refresh->course_id != $course_id) error_page("Wrong course");
+    $url_args .= "&refresh_id=$refresh_id";
+}
+$course = BoltCourse::lookup_id($course_id);
+if (!$course) {
+    error_page("no such course");
+}
+$view_id = get_int('view_id', true);
+$action = get_str('action', true);
+$course_doc = require_once($course->doc_file);
+
 switch ($action) {
 case 'start':
     if (info_incomplete($user)) {
         request_info($user, $course);
         exit();
     }
+    if ($refresh) {
+        start_repeat();
+        exit();
+    }
+    $e = BoltEnrollment::lookup($user->id, $course_id);
     if ($e) {
         page_head("Confirm start");
         echo "You are already enrolled in $course->name.
             Are you sure you want to start from the beginning?
         ";
         show_button(
-            "bolt_sched.php?action=start_confirm&course_id=$course->id",
+            "bolt_sched.php?action=start_confirm&$url_args",
             "Yes",
             "Start this course from the beginning"
         );
         page_tail();
         exit();
     }
+    // fall through
 case 'start_confirm':
-    start_course($course_doc);
+    start_course();
     break;
 case 'update_info':
     update_info();
-    start_course($course_doc);
+    start_course();
 case 'prev':
     $view = finalize_view($view_id, BOLT_ACTION_PREV);
     if ($view->prev_view_id) {
@@ -289,10 +344,17 @@ case 'next':            // "next" button in lesson or exercise answer page
         $view_id = create_view($iter, $mode, $view->id);
         show_item($iter, $view_id, $view->id, $mode);
     } else {
-        $iter->frac_done = 1;
-        $fin_view_id = create_view($iter, BOLT_MODE_FINISHED, $view_id);
-        $e->update("last_view_id=$fin_view_id");
-        show_finished_page($fin_view_id, $view->id);
+        if ($refresh) {
+            show_refresh_finished();
+        } else {
+            $iter->frac_done = 1;
+            $fin_view_id = create_view($iter, BOLT_MODE_FINISHED, $view_id);
+            $e = new BoltEnrollment();
+            $e->user_id = $user->id;
+            $e->course_id = $course->id;
+            $e->update("last_view_id=$fin_view_id");
+            show_finished_page($fin_view_id, $view->id);
+        }
     }
     break;
 case 'answer':          // submit answer in exercise
@@ -342,7 +404,25 @@ case 'answer':          // submit answer in exercise
     // If this is part of an exercise set, call its callback function
     //
     if ($iter->xset) {
-        $iter->xset->xset_callback($iter, $bolt_ex_score, $view->id, $is_last, $repeat);
+        $is_last = $iter->xset->xset_callback($iter, $bolt_ex_score, $view->id, $avg_score, $repeat);
+        if ($is_last) {
+            // if the exercise set if finished, make or update DB records
+            //
+            $now = time();
+            $xset = $iter->xset;
+            $id = BoltXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$xset->name', $avg_score, $view_id)");
+            $due_time = $now + 100000;
+            $refresh = BoltRefreshRec::lookup(
+                "user_id=$user->id and course_id=$course->id and name='$xset->name'"
+            );
+            if ($refresh) {
+                $refresh->update("create_time=$now, xset_result_id=$id, due_time=$due_time");
+            } else {
+                BoltRefreshRec::insert(
+                    "user_id=$user->id, course_id=$course->id, name='$this->name', create_time=$now, xset_result_id=$id, due_time=$due_time"
+                );
+            }
+        }
     }
 
     // show the answer page
@@ -402,11 +482,29 @@ case 'repeat':
     $view_id = create_view($iter, $mode, $view->id);
     show_item($iter, $view_id, $view->id, $mode);
     break;
-default:
-    $view = $e?BoltView::lookup_id($e->last_view_id):null;
-    if (!$view) {
-        start_course($course_doc);
-        break;
+case 'refresh':
+    $refresh_id = get_int('refresh_id');
+    $refresh = BoltRefreshRec::lookup_id($refresh_id);
+    if (!$refresh) error_page("refresh not found");
+
+case 'resume':
+    if ($refresh) {
+        if ($refresh->last_view_id) {
+            $view = BoltView::lookup_id($refresh->last_view_id);
+        } else {
+            start_repeat();
+            exit();
+        }
+    } else {
+        $view = null;
+        $e = BoltEnrollment::lookup($user->id, $course_id);
+        if ($e) {
+            $view = BoltView::lookup_id($e->last_view_id);
+        }
+        if (!$view) {
+            start_course();
+            break;
+        }
     }
     if ($view->mode == BOLT_MODE_FINISHED) {
         show_finished_page($view->id, $view->prev_view_id);
@@ -434,6 +532,8 @@ default:
         show_item($iter, $view_id, $view->id, $mode);
     }
     break;
+default:
+    error_page("unknown action: $action");
 }
 
 ?>

@@ -4,9 +4,11 @@ require_once("../inc/db_conn.inc");
 require_once("../inc/util.inc");
 
 define('BOLT_PHASE_STUDY', 1);
+    // sequential progress through course
 define('BOLT_PHASE_REVIEW', 2);
 	// review and repeat of an exercise set
 define('BOLT_PHASE_REFRESH', 3);
+    // timed repeat of exercise set, and possibly review and repeat
 
 define('BOLT_MODE_LESSON', 1);
 define('BOLT_MODE_SHOW', 2);
@@ -166,6 +168,10 @@ class BoltResult {
 }
 
 class BoltXsetResult {
+    static function lookup_id($id) {
+        $db = BoltDb::get();
+        return $db->lookup_id($id, 'bolt_xset_result', 'BoltXsetResult');
+    }
     function insert($clause) {
         $db = BoltDb::get();
         $ret = $db->insert('bolt_xset_result', $clause);
@@ -179,20 +185,36 @@ class BoltXsetResult {
 }
 
 class BoltRefreshRec {
+    static function lookup_id($id) {
+        $db = BoltDb::get();
+        return $db->lookup_id($id, 'bolt_refresh', 'BoltRefreshRec');
+    }
+    function lookup($clause) {
+        $db = BoltDb::get();
+        return $db->lookup('bolt_refresh', 'BoltRefreshRec', $clause);
+    }
     static function replace($clause) {
         $db = BoltDb::get();
         return $db->replace('bolt_refresh', $clause);
     }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_refresh', 'BoltRefreshRec', $clause);
+    }
+    function update($clause) {
+        $db = BoltDb::get();
+        $db->update($this, 'bolt_refresh', $clause);
+    }
 }
 
-class BoltSelectCompleted {
+class BoltSelectFinished {
     function insert($clause) {
         $db = BoltDb::get();
-        return $db->insert('bolt_select_completed', $clause);
+        return $db->insert('bolt_select_finished', $clause);
     }
     static function enum($clause) {
         $db = BoltDb::get();
-        return $db->enum('bolt_select_completed', 'BoltSelectCompleted', $clause);
+        return $db->enum('bolt_select_finished', 'BoltSelectFinished', $clause);
     }
 }
 

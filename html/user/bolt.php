@@ -22,7 +22,7 @@ foreach ($courses as $course) {
         $status = "Started $start
             <br>Last visit: $ago ago
             <br>$pct% done
-            <br><a href=bolt_sched.php?course_id=$course->id>Resume</a>
+            <br><a href=bolt_sched.php?course_id=$course->id&action=resume>Resume</a>
             <br><a href=bolt_course.php?course_id=$course->id>History</a>
             <br><a href=bolt_sched.php?course_id=$course->id&action=start>Restart</a>
         ";

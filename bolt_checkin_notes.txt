@@ -64,3 +64,20 @@ David  Jan 30 2008
         user/
             bolt_sched.php
         
+David  Jan 31 2008
+    - finished and mostly debugged the refresh mechanism
+
+    db/
+        bolt_constraints.sql
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_select.inc
+            bolt.inc
+            bolt_db.inc
+            bolt_xset.inc
+        user/
+            bolt_map.php
+            bolt_sched.php
+            bolt.phph
+            bolt_compare.php

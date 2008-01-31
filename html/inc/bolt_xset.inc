@@ -14,9 +14,10 @@ class BoltExerciseSet extends BoltRandom {
     //   - repeat now
     //   - next
     //
-    function xset_callback(&$iter, $score, $view_id, &$is_last, &$repeat) {
+    function xset_callback(&$iter, $score, $view_id, &$avg_score, &$repeat) {
         global $course;
         global $user;
+        global $refresh;
 
         echo "XSET_CALLBACK: $score";
         $nav_info = null;
@@ -27,7 +28,7 @@ class BoltExerciseSet extends BoltRandom {
         $is_last = ($nshown+1 == $this->ntoshow);
         if (!$is_last) {
             echo "XSET_CALLBACK: not done";
-            return;
+            return false;
         }
 
         // this exercise set is now "completed".
@@ -49,11 +50,7 @@ class BoltExerciseSet extends BoltRandom {
                 $least = $r->score;
             }
         }
-
-        $now = time();
-        $id = BoltXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$this->name', $avg_score, $view_id)");
-        $due_time = $now + 100000;
-        BoltRefreshRec::replace("create_time=$now, user_id=$user->id, course_id=$course->id, name='$this->name', set_result_id=$id, due_time=$due_time");
+        return true;
     }
 
     function walk(&$iter, $incr, &$frac_done) {

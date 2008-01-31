@@ -78,6 +78,10 @@ class BoltSet extends BoltUnit {
         $this->ntoshow = $ntoshow;
         $this->ordered = false;
     }
+
+    function finished() {
+    }
+
     function walk(&$iter, $incr, &$frac_done) {
         $n = count($this->units);
         if (array_key_exists($this->name, $iter->state)) {
@@ -127,6 +131,7 @@ class BoltSet extends BoltUnit {
                         $state_rec['nshown'] = 0;
                         $state_rec['child_name'] = null;
                         $iter->state[$this->name] = $state_rec;
+                        $this->finished();
                         return true;
                     } else {
                         $i = ($i+1)%$n;
@@ -235,5 +240,6 @@ function exercise() {
 require_once('../inc/bolt_seq.inc');
 require_once('../inc/bolt_rnd.inc');
 require_once('../inc/bolt_xset.inc');
+require_once('../inc/bolt_select.inc');
 
 ?>

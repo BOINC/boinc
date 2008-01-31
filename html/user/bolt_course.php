@@ -17,7 +17,7 @@ function mode_name($mode) {
     switch ($mode) {
     case BOLT_MODE_LESSON: return "lesson";
     case BOLT_MODE_SHOW: return "exercise";
-    case BOLT_MODE_ANSWER: return "exercise answer";
+    case BOLT_MODE_ANSWER: return "answer page";
     case BOLT_MODE_FINISHED: return "course completed";
     default: return "unknown mode: $mode";
     }
@@ -60,22 +60,57 @@ function show_view($view) {
     ";
 }
 
+function show_views() {
+    global $user;
+    global $course;
+
+    $views = BoltView::enum("user_id=$user->id and course_id=$course->id order by id desc");
+    start_table();
+
+    table_header("Time", "Duration", "Item", "Mode", "Phase", "Action");
+    foreach ($views as $view) {
+        show_view($view);
+    }
+    end_table();
+}
+
+function show_refresh($r) {
+    echo "<tr>
+        <td>".time_str($r->create_time)."</td>
+        <td>$r->name
+            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Start</a>
+            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=resume>Resume</a>
+        </td>
+        <td>".time_str($r->due_time)."</td>
+        </tr>
+    ";
+}
+
+function show_refreshes() {
+    global $user;
+    global $course;
+
+    $refreshes = BoltRefreshRec::enum("user_id=$user->id and course_id=$course->id");
+    start_table();
+    table_header("Created", "Unit", "Due");
+    foreach ($refreshes as $r) {
+        show_refresh($r);
+    }
+    end_table();
+}
+
 require_once("../inc/bolt_db.inc");
 
 $course_id = get_int('course_id');
 $course = BoltCourse::lookup_id($course_id);
+if (!$course) error_page("No such course");
 page_head("Your history in $course->name");
 
-$views = BoltView::enum("user_id=$user->id and course_id=$course_id order by id desc");
-start_table();
+show_views();
+show_refreshes();
 
-table_header("Time", "Duration", "Item", "Mode", "Phase", "Action");
-foreach ($views as $view) {
-    show_view($view);
-}
-end_table();
 echo "
-    <a href=bolt_sched.php?course_id=$course_id>Resume course</a>
+    <a href=bolt_sched.php?course_id=$course_id&action=resume>Resume course</a>
     <p>
 ";
 
