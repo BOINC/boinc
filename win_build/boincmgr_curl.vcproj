@@ -1075,6 +1075,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\base64.C"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\base64.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\common_defs.h"
 				>
 			</File>

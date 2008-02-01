@@ -66,6 +66,7 @@ UINT CACreateClientAuthFile::OnExecution()
     tstring          strBOINCProjectAccountUsername;
     tstring          strBOINCProjectAccountPassword;
     tstring          strClientAuthFile;
+    tstring          strVersionNT;
     struct _stat     buf;
     UINT             uiReturnValue = -1;
 
@@ -82,6 +83,9 @@ UINT CACreateClientAuthFile::OnExecution()
     uiReturnValue = GetProperty( _T("BOINC_PROJECT_PASSWORD"), strBOINCProjectAccountPassword );
     if ( uiReturnValue ) return uiReturnValue;
 
+    uiReturnValue = GetProperty( _T("VersionNT"), strVersionNT );
+    if ( uiReturnValue ) return uiReturnValue;
+
 
     // The client_auth.xml file is stored in the data directory.
     //
@@ -91,7 +95,12 @@ UINT CACreateClientAuthFile::OnExecution()
     //   be a valid 'boinc_project' account, so delete the
     //   client_auth.xml file if it exists.
     //
-    if (_T("1") != strEnableProtectedApplicationExecution)
+    // NOTE: Windows 2000 or older requires the SeTcbPrivilege
+    //   user right, which makes the account the equiv of an
+    //   administrator on the system. Disable the use of
+    //   'boinc_project' on Windows 2000 or older
+    //
+    if ((_T("1") != strEnableProtectedApplicationExecution) || _T("500") >= strVersionNT)
     {
         if (0 == _tstat(strClientAuthFile.c_str(), &buf))
         {

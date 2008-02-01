@@ -412,9 +412,9 @@ UINT CACreateBOINCGroups::OnExecution()
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    CreateBOINCAccounts
+// Function:    CreateBOINCGroups
 //
-// Description: This custom action creates the two user accounts that'll
+// Description: This custom action creates the three user groups that'll
 //              be used to enfore the account based sandboxing scheme
 //              on Windows.
 //

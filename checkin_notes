@@ -1024,3 +1024,44 @@ David  Jan 31 2008
 
     clientgui/
         Makefile.am
+
+Rom    Feb 1 2008
+    - WINSETUP: disable creation of client_auth.xml on Win2k.
+        Win2k requires any user account that is going to attempt
+        to logon as another account to have admin privs.
+    - WINSETUP: Give 'boinc_project' the right to be able to
+        logon as a service, we denied the right to logon
+        interactively.
+    - WINSETUP: Disable the 'failed to shutdown BOINC service'
+        dialog box.
+    - CC: Use the client_auth.xml file if present to launch
+        boinc applications as boinc_project if it exists.
+    - LIB: Use the client_auth.xml file if present to launch
+        boinc graphics applications as boinc_project if it
+        exists.
+        
+    client/
+        app_start.C
+    lib/
+        diagnostics_win.C
+    lib/
+        util.C, .h
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CACreateBOINCGroups.cpp
+        CACreateClientAuthFile.cpp
+        CAGrantBOINCMasterRights.cpp
+        CAGrantBOINCProjectRights.cpp
+        CAShutdownBOINC.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+    win_build/
+        boinc_ss.vcproj
+        boincmgr_curl.vcproj
+        libboinc.vcproj
+
+

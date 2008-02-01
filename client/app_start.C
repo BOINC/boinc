@@ -67,6 +67,7 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "base64.h"
 #include "sandbox.h"
 
 #include "app.h"
@@ -328,6 +329,7 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_INFO* fip;
     int retval;
 #ifdef _WIN32
+    CLIENT_AUTHORIZATION ca;
     std::string cmd_line;
 #endif
 
@@ -496,20 +498,57 @@ int ACTIVE_TASK::start(bool first_time) {
     cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
+    ca.init();
     for (i=0; i<5; i++) {
-        if (CreateProcess(exec_path,
-            (LPSTR)cmd_line.c_str(),
-            NULL,
-            NULL,
-            FALSE,
-            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-            NULL,
-            slotdirpath,
-            &startup_info,
-            &process_info
-        )) {
-            success = true;
-            break;
+        if (ca.use_authorizations) {
+            HANDLE hToken;
+            std::string username = ca.boinc_project.username;
+            std::string password = r_base64_decode(ca.boinc_project.password);
+            if (!LogonUser( username.c_str(), NULL, password.c_str(), 
+                            LOGON32_LOGON_SERVICE, LOGON32_PROVIDER_DEFAULT,
+                            &hToken ) )
+            {
+                windows_error_string(error_msg, sizeof(error_msg));
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "LogonUser failed: %s", error_msg
+                );
+            }
+
+            if (CreateProcessAsUser(
+                hToken,
+                exec_path,
+                (LPSTR)cmd_line.c_str(),
+                NULL,
+                NULL,
+                FALSE,
+                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+                NULL,
+                slotdirpath,
+                &startup_info,
+                &process_info
+            )) {
+                success = true;
+                break;
+            }
+
+            CloseHandle(hToken);
+
+        } else {
+            if (CreateProcess(
+                exec_path,
+                (LPSTR)cmd_line.c_str(),
+                NULL,
+                NULL,
+                FALSE,
+                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+                NULL,
+                slotdirpath,
+                &startup_info,
+                &process_info
+            )) {
+                success = true;
+                break;
+            }
         }
         windows_error_string(error_msg, sizeof(error_msg));
         msg_printf(wup->project, MSG_INTERNAL_ERROR,

@@ -189,6 +189,37 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         }
 
         //
+        // Grant the SeServiceLogonRight to users represented by pSid.
+        //
+        Status = SetPrivilegeOnAccount(
+                    PolicyHandle,                   // policy handle
+                    pSid,                           // SID to grant privilege
+                    L"SeServiceLogonRight",         // Unicode privilege
+                    TRUE                            // enable the privilege
+                    );
+
+        if(Status != STATUS_SUCCESS)
+        {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Failed call to SetPrivilegeOnAccount - SeServiceLogonRight")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        //
         // Grant the SeChangeNotifyPrivilege to users represented by pSid.
         //
         Status = SetPrivilegeOnAccount(

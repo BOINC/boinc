@@ -474,6 +474,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\base64.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\crypt.C"
 				>
 			</File>
@@ -701,6 +705,10 @@
 			>
 			<File
 				RelativePath="..\lib\app_ipc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\base64.h"
 				>
 			</File>
 			<File

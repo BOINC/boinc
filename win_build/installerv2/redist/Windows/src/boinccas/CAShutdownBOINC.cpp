@@ -112,17 +112,7 @@ UINT CAShutdownBOINC::OnExecution()
                 if (!((SERVICE_STOPPED == ssStatus.dwCurrentState) && 
                       (SERVICE_STOP_PENDING == ssStatus.dwCurrentState)))
                 {
-                    if (!ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus))
-                    {
-                        LogMessage(
-                            INSTALLMESSAGE_ERROR,
-                            NULL, 
-                            NULL,
-                            NULL,
-                            GetLastError(),
-                            _T("Setup was unable to shutdown the BOINC System Service.")
-                        );
-                    }
+                    ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus);
                 }
             }
         }

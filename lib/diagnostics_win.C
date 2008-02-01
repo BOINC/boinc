@@ -35,8 +35,6 @@
 #include "str_util.h"
 #include "util.h"
 
-#define BOINC_VERSION_STRING "5.10.0"
-
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(
     ULONG SystemInformationClass,
