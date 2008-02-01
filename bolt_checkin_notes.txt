@@ -81,3 +81,21 @@ David  Jan 31 2008
             bolt_sched.php
             bolt.phph
             bolt_compare.php
+
+David  Feb 1 2008
+    - Add Bolt admin page
+    - added "hidden" flag to courses
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_ex.inc
+            util.inc
+            util_ops.inc
+        ops/
+            bolt_ops.php
+        user/
+            bolt.php
+            bolt_sched.php

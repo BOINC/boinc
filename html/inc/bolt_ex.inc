@@ -50,10 +50,19 @@ function bolt_exclusive_choice($choices) {
         $i = 0;
         start_table();
         foreach ($choices as $choice) {
-            $x = "";
-            if ($response == $i) $x .= "(You chose this) ";
-            if ($choice == $right_ans) $x .=  "(Right answer)";
-            row2($choice, $x);
+            $x = "<td><br></td>";
+            if ($response == $i) {
+                if ($choice == $right_ans) {
+                    $x = "<td bgcolor=#88ff88>Right</a>";
+                } else {
+                    $x = "<td bgcolor=#ff8888>You chose this answer</a>";
+                }
+            } else {
+                if ($choice == $right_ans) {
+                    $x = "<td>Right answer</td>";
+                }
+            }
+            echo "<tr><td width=50% class=fieldname>$choice $x </tr>";
             $i++;
         }
         end_table();
@@ -109,7 +118,10 @@ function bolt_inclusive_choice($choices) {
             $response = isset($$key);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
-            table_row($c, $r?"yes":"no", $response?"yes":"no");
+            $color = $correct?"#88ff88":"#ff8888";
+            table_row($c, $r?"yes":"no",
+                array($response?"yes":"no", "bgcolor=$color")
+            );
             $i++;
         }
         end_table();

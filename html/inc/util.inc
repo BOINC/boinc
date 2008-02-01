@@ -127,7 +127,7 @@ function show_login($user) {
 //
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
-    $styleSheet = URL_BASE.STYLESHEET;
+    $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
     
@@ -142,7 +142,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\">
         <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";

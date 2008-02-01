@@ -19,7 +19,6 @@ class BoltExerciseSet extends BoltRandom {
         global $user;
         global $refresh;
 
-        echo "XSET_CALLBACK: $score";
         $nav_info = null;
         $state_rec = $iter->state[$this->name];
         $nshown = $state_rec['nshown'];
@@ -27,7 +26,6 @@ class BoltExerciseSet extends BoltRandom {
         $iter->state[$this->name] = $state_rec;
         $is_last = ($nshown+1 == $this->ntoshow);
         if (!$is_last) {
-            echo "XSET_CALLBACK: not done";
             return false;
         }
 
@@ -41,7 +39,6 @@ class BoltExerciseSet extends BoltRandom {
         }
         $avg_score = $total_score/($nshown+1);
 
-        echo "XSET_CALLBACK: avg $avg_score";
         $repeat = null;
         $least = 1;
         foreach ($this->repeats as $r) {

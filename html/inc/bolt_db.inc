@@ -25,6 +25,10 @@ define('BOLT_ACTION_COURSE_HOME', 5);
 define('BOLT_ACTION_REVIEW', 6);
 define('BOLT_ACTION_REPEAT', 7);
 
+// bits in bolt_user.flags
+define('BOLT_FLAGS_DEBUG', 1);   // print debugging info in output pages
+define('BOLT_FLAGS_SHOW_ALL', 2);    // show hidden courses
+
 class BoltDb extends DbConn {
     static $instance;
 
@@ -107,6 +111,10 @@ class BoltCourse {
     static function enum() {
         $db = BoltDb::get();
         return $db->enum('bolt_course', 'BoltCourse');
+    }
+    function update($clause) {
+        $db = BoltDb::get();
+        return $db->update($this, 'bolt_course', $clause);
     }
 }
 
@@ -196,6 +204,12 @@ class BoltRefreshRec {
     static function replace($clause) {
         $db = BoltDb::get();
         return $db->replace('bolt_refresh', $clause);
+    }
+    function insert($clause) {
+        $db = BoltDb::get();
+        $ret = $db->insert('bolt_refresh', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
     }
     static function enum($clause) {
         $db = BoltDb::get();

@@ -2,9 +2,9 @@ create table bolt_user (
     user_id         integer         not null,
     birth_year      integer         not null,
     sex             tinyint         not null,
-    debug           tinyint         not null,
-        -- if nonzero, print debug info everywhere
+    flags           integer         not null,
     attrs           text            not null,
+        -- project-defined.  Use JSON.
     primary key (user_id)
 );
 
@@ -15,6 +15,7 @@ create table bolt_course (
     name            varchar(255)    not null,
     description     text            not null,
     doc_file        varchar(255)    not null,
+    hidden          tinyint         not null,
     primary key (id)
 );
 

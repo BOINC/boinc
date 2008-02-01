@@ -56,7 +56,7 @@ function create_view($iter, $mode, $prev_view_id) {
         $item->name = '--end--';
     }
     $state = $iter->encode_state();
-    if ($user->bolt->debug) {
+    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
         echo "<pre>Ending state: "; print_r($iter->state); echo "</pre>\n";
     }
     return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done, prev_view_id) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done, $prev_view_id)");
@@ -71,17 +71,9 @@ function show_finished_page($view_id, $prev_view_id) {
     page_head(null);
     if (function_exists('bolt_header')) bolt_header("Course completed");
     echo "Congratulations - you have completed this course.";
-    $prev = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><< Prev</a>";
-    echo "
-        <p>
-        <center>
-        <table width=60%><tr>
-            <td width=33% align=left>$prev</td>
-            <td width=33% align=center><a href=bolt.php>Up</a></td>
-            <td width=33% align=right></td>
-        </table>
-        </center>
-    ";
+    $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><img src=img/prev.gif></a>";
+    $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Course home page</a>";
+    show_nav($links, $up_link);
     if (function_exists('bolt_footer')) bolt_footer();
 }
 
@@ -101,9 +93,14 @@ function show_nav($links, $up_link) {
         echo "<td align=center>$link</td>";
     }
     echo "</tr></table> </center>
-        $up_link
+        <hr>
+        Question or comment?
+        <br>
+        <textarea cols=60></textarea>
+        <br>
+        <input type=submit value=Ask>
         <p>
-        question link
+        $up_link
     ";
 }
 
@@ -126,10 +123,10 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
 
     $links = array();
     if ($prev_view_id) {
-        $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><< Prev</a>";
+        $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><img src=img/prev.gif></a>";
     }
 
-    $next = "<a href=bolt_sched.php?$url_args&action=next&view_id=$view_id>Next >></a>";
+    $next = "<a href=bolt_sched.php?$url_args&action=next&view_id=$view_id><img src=img/next.gif></a>";
 
     if ($item->is_exercise()) {
         $bolt_ex_mode = $mode;
@@ -150,13 +147,13 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
             srand($view_id);
             require($item->filename);
             if (function_exists('bolt_divide')) bolt_divide();
-            $next = "<input type=submit value=OK></form>";
+            $next = "<input type=image src=img/next.gif value=OK></form>";
             break;
         case BOLT_MODE_ANSWER:
             require($item->filename);
             if (function_exists('bolt_divide')) bolt_divide();
             $score_pct = number_format($bolt_ex_score*100);
-            echo "Score: $score_pct%";
+            echo "Your score: $score_pct%";
             break;
         }
     } else {
@@ -184,7 +181,7 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
         $links[] = $next;
     }
 
-    $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Up</a>";
+    $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Course home page</a>";
     show_nav($links, $up_link);
 
     if (function_exists('bolt_footer')) bolt_footer();
@@ -310,6 +307,7 @@ case 'start_confirm':
 case 'update_info':
     update_info();
     start_course();
+    break;
 case 'prev':
     $view = finalize_view($view_id, BOLT_ACTION_PREV);
     if ($view->prev_view_id) {
@@ -329,13 +327,13 @@ case 'next':            // "next" button in lesson or exercise answer page
 
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
-    if ($user->bolt->debug) {
+    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
         echo "<pre>Initial state: "; print_r($iter->state); echo "</pre>\n";
     }
 
     $iter->next();
 
-    if ($user->bolt->debug) {
+    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
         echo "<pre>Item: "; print_r($iter->item); echo "</pre>\n";
     }
     if ($iter->item) {
@@ -361,12 +359,12 @@ case 'answer':          // submit answer in exercise
     $view = finalize_view($view_id, BOLT_ACTION_SUBMIT);
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
-    if ($user->bolt->debug) {
+    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
         echo "<pre>Initial state:"; print_r($iter->state); echo "</pre>\n";
     }
     $iter->at();
 
-    if ($user->bolt->debug) {
+    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
         echo "<pre>Item: "; print_r($iter->item); echo "</pre>\n";
     }
     $item = $iter->item;
@@ -419,7 +417,7 @@ case 'answer':          // submit answer in exercise
                 $refresh->update("create_time=$now, xset_result_id=$id, due_time=$due_time");
             } else {
                 BoltRefreshRec::insert(
-                    "user_id=$user->id, course_id=$course->id, name='$this->name', create_time=$now, xset_result_id=$id, due_time=$due_time"
+                    "(user_id, course_id, name, create_time, xset_result_id, due_time) values ($user->id, $course->id, '$xset->name', $now, $id, $due_time)"
                 );
             }
         }
@@ -429,6 +427,7 @@ case 'answer':          // submit answer in exercise
 
     srand($view_id);
     $view_id = create_view($iter, BOLT_MODE_ANSWER, $view->id);
+    $repeat = null;
     show_item($iter, $view_id, $view->id, BOLT_MODE_ANSWER, $repeat);
     break;
 case 'answer_page':
