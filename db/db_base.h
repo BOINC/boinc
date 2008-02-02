@@ -33,7 +33,7 @@ inline int safe_atoi(const char* s) {
     return atoi(s);
 }
 
-inline float safe_atof(const char* s) {
+inline double safe_atof(const char* s) {
     if (!s) return 0;
     return atof(s);
 }

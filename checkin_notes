@@ -1069,3 +1069,16 @@ David  Feb 2 2008
 
     html/user/
         am_get_info.php
+
+David  Feb 2 2008
+    - DB code: safe_atof() was returning a float,
+        causing a potential loss of precision.
+        Change it to double (same as atof())
+    - When moderator locks a thread, let them specify reason
+
+    db/
+        db_base.h
+    html/user/
+        forum_moderate_thread.php
+        forum_moderate_thread_action.php
+        forum_thread.php

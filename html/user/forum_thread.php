@@ -140,7 +140,7 @@ if (is_moderator($logged_in_user, $forum)) {
     if ($thread->locked) {
         show_button("forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens", "Unlock", "Unlock this thread");
     } else {
-        show_button("forum_moderate_thread_action.php?action=lock&thread=".$thread->id."$tokens", "Lock", "Lock this thread");
+        show_button("forum_moderate_thread.php?action=lock&thread=".$thread->id."$tokens", "Lock", "Lock this thread");
     }
     if ($forum->parent_type == 0) {
         show_button("forum_moderate_thread.php?action=move&thread=".$thread->id."$tokens", "Move", "Move this thread to a different forum");
