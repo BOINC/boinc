@@ -19,10 +19,12 @@ $name = urlencode($user->name);
 $country = urlencode($user->country);
 $postal_code = urlencode($user->postal_code);
 $url = urlencode($user->url);
+$weak_auth = weak_auth($user);
 
 $ret = "<id>$user->id</id>
 <name>$name</name>
 <country>$country</country>
+<weak_auth>$weak_auth</weak_auth>
 <postal_code>$postal_code</postal_code>
 <global_prefs>
 $user->global_prefs
@@ -43,7 +45,7 @@ if ($user->teamid) {
     }
 }
 
-    echo "<am_get_info_reply>
+echo "<am_get_info_reply>
     <success/>
     $ret
 </am_get_info_reply>

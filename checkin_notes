@@ -1064,4 +1064,8 @@ Rom    Feb 1 2008
         boincmgr_curl.vcproj
         libboinc.vcproj
 
+David  Feb 2 2008
+    - add weak auth to am_get_info web RPC (from Nicolas)
 
+    html/user/
+        am_get_info.php
