@@ -30,6 +30,7 @@
 #endif
 
 #include "parse.h"
+#include "util.h"
 
 #include "error_numbers.h"
 #include "prefs.h"
@@ -434,7 +435,13 @@ int GLOBAL_PREFS::parse_override(
         if (xp.parse_str(tag, "source_scheduler", source_scheduler, sizeof(source_scheduler))) {
             continue;
         }
-        if (xp.parse_int(tag, "mod_time", mod_time)) continue;
+        if (xp.parse_double(tag, "mod_time", mod_time)) {
+            double now = dtime();
+            if (mod_time > now) {
+                mod_time = now;
+            }
+            continue;
+        }
         if (xp.parse_bool(tag, "run_on_batteries", run_on_batteries)) {
             mask.run_on_batteries = true;
             continue;
@@ -598,7 +605,7 @@ int GLOBAL_PREFS::parse_file(
 int GLOBAL_PREFS::write(MIOFILE& f) {
     f.printf(
         "<global_preferences>\n"
-        "   <mod_time>%d</mod_time>\n"
+        "   <mod_time>%f</mod_time>\n"
         "%s%s"
         "   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n"
         "   <start_hour>%f</start_hour>\n"

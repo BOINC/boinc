@@ -345,7 +345,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     if (wup->project->verify_files_on_app_start) {
-        FILE_INFO* fip=0;
+        fip=0;
         retval = gstate.input_files_available(result, true, &fip);
         if (retval) {
             if (fip) {

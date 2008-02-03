@@ -130,7 +130,7 @@ public:
 
 
 struct GLOBAL_PREFS {
-    int mod_time;
+    double mod_time;
     bool run_on_batteries;
         // poorly named; what it really means is:
         // if false, suspend while on batteries

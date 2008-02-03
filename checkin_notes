@@ -1082,3 +1082,19 @@ David  Feb 2 2008
         forum_moderate_thread.php
         forum_moderate_thread_action.php
         forum_thread.php
+
+David  Feb 3 2008
+    - client: limit global prefs mod time to now
+    - server: limit global prefs mod time to now
+        These changes address the situation where a server
+        sends out prefs with mod time far in the future,
+        and there's no way to undo them
+
+    client/
+        app_start.C
+    lib/
+        prefs.C,h
+    sched/
+        handle_request.C
+        server_types.C,h
+        show_shmem.C

@@ -1029,7 +1029,10 @@ void GLOBAL_PREFS::parse(const char* buf, const char* venue) {
 
     defaults();
 
-    parse_int(buf, "<mod_time>", mod_time);     // mod_time is outside of venue
+    if (parse_double(buf, "<mod_time>", mod_time)) {
+        // mod_time is outside of venue
+        if (mod_time > dtime()) mod_time = dtime();
+    }
     extract_venue(buf, venue, buf2);
     parse_double(buf2, "<disk_max_used_gb>", disk_max_used_gb);
     parse_double(buf2, "<disk_max_used_pct>", disk_max_used_pct);

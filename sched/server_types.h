@@ -123,7 +123,7 @@ struct CLIENT_APP_VERSION {
 // subset of global prefs used by scheduler
 //
 struct GLOBAL_PREFS {
-    int mod_time;
+    double mod_time;
     double disk_max_used_gb;
     double disk_max_used_pct;
     double disk_min_free_gb;

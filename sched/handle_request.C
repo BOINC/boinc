@@ -689,12 +689,14 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool same_account = !strcmp(
         sreq.global_prefs_source_email_hash, reply.email_hash
     );
-    int master_mod_time=0, db_mod_time=0;
+    double master_mod_time=0, db_mod_time=0;
     if (have_master_prefs) {
-        parse_int(sreq.global_prefs_xml, "<mod_time>", master_mod_time);
+        parse_double(sreq.global_prefs_xml, "<mod_time>", master_mod_time);
+        if (master_mod_time > dtime()) master_mod_time = dtime();
     }
     if (have_db_prefs) {
-        parse_int(reply.user.global_prefs, "<mod_time>", db_mod_time);
+        parse_double(reply.user.global_prefs, "<mod_time>", db_mod_time);
+        if (db_mod_time > dtime()) db_mod_time = dtime();
     }
 
     //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have_master:%d have_working: %d have_db: %d\n", have_master_prefs, have_working_prefs, have_db_prefs);
@@ -755,7 +757,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     // decide whether to send DB prefs in reply msg
     //
-    //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have db %d; dbmod %d; global mod %d\n", have_db_prefs, db_mod_time, sreq.global_prefs.mod_time);
+    //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have db %d; dbmod %f; global mod %f\n", have_db_prefs, db_mod_time, sreq.global_prefs.mod_time);
     if (have_db_prefs && db_mod_time > master_mod_time) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "sending db prefs in reply\n");
         reply.send_global_prefs = true;
