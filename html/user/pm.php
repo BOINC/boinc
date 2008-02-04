@@ -45,6 +45,9 @@ function make_script() {
     ";
 }
 
+// show all private messages,
+// and delete notifications of new messages
+//
 function do_inbox($logged_in_user) {
     page_head(tra("Private messages").": ".tra("Inbox"));
     
@@ -54,6 +57,8 @@ function do_inbox($logged_in_user) {
     }
     $options = get_output_options($logged_in_user);
     
+    BoincNotify::delete_aux("userid=$logged_in_user->id and type=".NOTIFY_PM);
+
     $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id ORDER BY date DESC"
     );

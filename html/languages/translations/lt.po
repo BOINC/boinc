@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-16 17:05+0200\n"
+"PO-Revision-Date: 2007-12-20 15:09+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -60,37 +60,37 @@ msgid "Run %1 only on authorized computers"
 msgstr "Vykdykite %1 tik kompiuteriuose, kuriuose turite leidimą tai daryti"
 
 msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr ""
+msgstr "Projektą %1 vykdykite tik su tais kompiuteriais, kurių savininkas esate pats arba esate gavęs savininko leidimą. Kai kurios kompanijos ar mokyklos laikosi politikos, kuri draudžia naudoti kompiuterius projektams kaip %1."
 
 msgid "How %1 will use your computer"
 msgstr "Kaip %1 naudos jūsų kompiuterį"
 
 msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr ""
+msgstr "Kai jūsų kompiuteryje bus vykdomas %1 projektas, jis naudos dalį kompiuterio procesoriaus galios, disko vietos ir interneto ryšio. Jūs galite kontroliuoti kiek savo resursų skirsite %1 projektui ir kada juos galima naudoti."
 
 msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr ""
+msgstr "Darbas, kuri atliks Jūsų kompiuteris, padės įgyvendinti %1 projekto tikslus, kurie surašyti šioje interneto svetainėje. Projekto programos laikui bėgant gali keistis."
 
 msgid "Privacy policy"
 msgstr "Privatumo politika"
 
 msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr ""
+msgstr "Jūsų abonementas %1 projekte yra nustatomas pagal jūsų pasirinktą vardą. Šis vardas gali būti rodomas %1 projekto interneto svetainėje kartu su apibendrintais duomenimis apie kompiuterio atliktą darbą %1 projektui. Jei norite likti anonimiškas - pasirinkite vardą, kuris neatskleistų jūsų tapatybės."
 
 msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr ""
+msgstr "Jei dalyvaujate %1 projekte, informacija apie jūsų kompiuterį (tokia kaip procesoriaus tipas, atminties kiekis ir kt.) bus įrašyta %1 projekto duomenų bazėje ir pagal ją bus sprendžiama, kokį darbą skirti jūsų kompiuteriui. Ši informacija taip pat bus rodoma %1 projekto interneto svetainėje. Jokia informacija, kuri galėtų atskleisti jūsų kompiuterio buvimo vietą (domeno pavadinima ar tinklo adresą) nebus rodoma."
 
 msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
+msgstr "Norint dalyvauti %1 projekte, jums reikėtų turėti elektroninio pašto dėžutę. Jūsų elektroninio pašto adresas nebus rodomas %1 projekto interneto svetainėje ar perduotas kitoms organizacijoms.%1 projektas gali jums atsiųsti periodinius naujienių biuletenius, tačiau jų galima atsisakyti bet kuriuo metu."
 
 msgid "Is it safe to run %1?"
 msgstr "Ar saugu vykdyti %1?"
 
 msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr ""
+msgstr "Kiekvieną kartą, kai siunčiatės programą per internetą, gali būti kad: programa turi pavojingų klaidų ar serveris gali būti \"nulaužtas\". %1 projektas deda visas pastangas sumažinti šią riziką. Mes atidžiai išbandėme savo programas. Mūsų serveriai yra saugomi ugniasienių ir nustatyti aukščiausiam saugumo lygiui. Visos vykdomosios bylos yra pasirašytos skaitmeniniu parašu kompiuteryje, kuris nėra prijungtas prie interneto."
 
 msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
+msgstr "%1 projekto vykdomos programos gali perkaitinti kai kuriuos kompiuterius. Jei taip atsitinka, nustokite vykdyti %1 projektą arba naudokite %2papildomas programas%3, kurios riboja kompiuterio procesoriaus naudojimą."
 
 msgid "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr "%1 buvo sukurtas %2. BOINC buvo sukurtas Kalifornijos Universitete."
@@ -99,16 +99,16 @@ msgid "Liability"
 msgstr "Atsakomybė"
 
 msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr ""
+msgstr "%1 projektas ir %2 neprisiima atsakomybės už žalą padarytą Jūsų kompiuteriui, duomenų praradinimą ar kokį kitą įvykį ar sąlygą, kuri galėjo kilti dėl dalyvavimo %1 projekte."
 
 msgid "Other BOINC projects"
 msgstr "Kiti BOINC projektai"
 
 msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr ""
+msgstr "Kiti projektai, kaip ir %1, naudoja BOINC. Jūs galite nuspręsti prisijungti prie vieno ar kelių projektų. Tokiu atveju, Jūsų kompiuteris atliks naudingą darbą kai %1 projektas užduočių neturės."
 
 msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr ""
+msgstr "Šie projektai nėra susiję su %1, ir dėl to mes negalime garantuoti už jų projekto saugumą ar tyrimo tikslus. Jūs patys sprendžiate ar prisijungti prie kitų projektų."
 
 # ########################################
 # "Your account" page (home.php)
@@ -120,13 +120,13 @@ msgid "Name"
 msgstr "Vardas"
 
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
+msgstr "Identifikuoja jus mūsų internetinėje svetainėje. Galite naudoti savo tikrą vardą ar slapyvardį."
 
 msgid "Email Address"
 msgstr "El. pašto adresas"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "Turi būti galiojantis elektroninio pašto adresas formoje \"vardas@domenas\"."
 
 msgid "Country"
 msgstr "Valstybė"
@@ -147,13 +147,13 @@ msgid "Account creation is disabled"
 msgstr "Abonementų kūrimas yra išjungtas"
 
 msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr ""
+msgstr "Abonementų kūrimas %1 šiuo metu yra išjungtas. Pabandykite dar kartą vėliau."
 
 msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr ""
+msgstr "Šis abonementas priklausys %1 komandai ir turės komandos įkurėjo projekto nustatymus."
 
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr ""
+msgstr "PASTABA: jei naudojate BOINC 5.2 ar naujesnę versiją su BOINC valdikliu, nenaudokite šios formos. Tiesiog paleiskite BOINC, pasirinkite \"Prisijungti prie projekto\" ir įveskite savo elektroninio pašto adresą bei slaptažodį."
 
 msgid "Password"
 msgstr "Slaptažodis"
@@ -224,6 +224,9 @@ msgstr "Žinutės"
 msgid "Topic"
 msgstr "Tema"
 
+msgid "Thread"
+msgstr "Tema"
+
 msgid "Threads"
 msgstr "Temos"
 
@@ -237,7 +240,7 @@ msgid "Views"
 msgstr "Peržiūros"
 
 msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr ""
+msgstr "Kad galėtume sukurti naują temą %1 turite turėti tam tikrą kreditų kiekį. Tai reikalinga norint apsisaugoti nuo neteisėto sistemos išnaudojimo."
 
 msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
 msgstr "Negalite dabar sukurti daugiau temų. Šiek tiek palaukite prieš bandydami dar kartą. Šis laukimas naudojamas dėl apsaugos nuo neteisėto sistemos išnaudojimo."
@@ -253,6 +256,9 @@ msgstr "Pridėti mano parašą"
 
 msgid "Message"
 msgstr "Žinutė"
+
+msgid "Edit message"
+msgstr "Taisyti žinutę"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Naudokite BBCode žymes teksto formatavimui"
@@ -282,10 +288,10 @@ msgid "Posts containing '%1'"
 msgstr "Žinutės, turinčios '%1'"
 
 msgid "No titles containing '%1' could be found."
-msgstr ""
+msgstr "Nerasta pavadinimų, turinčių \"%1\"."
 
 msgid "No posts containing '%1' could be found."
-msgstr ""
+msgstr "Nerasta įrašų, turinčių \"%1\"."
 
 # ########################################
 # Private messages
@@ -302,8 +308,11 @@ msgstr "Rašyti"
 msgid "Forum index"
 msgstr "Forumų pradžios puslapis"
 
-msgid "Create new"
-msgstr "Sukurti naują"
+# ########################################
+# Private messages
+# ########################################
+msgid "Send private message"
+msgstr "Siųsti asmeninę žinutę"
 
 msgid "Preview"
 msgstr "Peržiūra"
@@ -386,11 +395,8 @@ msgstr "Vartotojui %1 uždrausta jums siųsti asmenines žinutes."
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Kad atblokuotumėte, apsilankykite %1diskusijų lentos nustatymuose%2"
 
-msgid "Sender"
-msgstr "Siuntėjas"
-
-msgid "Date"
-msgstr "Data"
+msgid "Sender and date"
+msgstr "Siuntėjas ir data"
 
 msgid "Delete"
 msgstr "Ištrinti"
@@ -464,6 +470,9 @@ msgstr "Atsijungti"
 msgid "Community"
 msgstr "Bendruomenė"
 
+msgid "Community preferences"
+msgstr "Bendruomenės nustatymai"
+
 msgid "Create"
 msgstr "Sukurti"
 
@@ -476,10 +485,25 @@ msgstr "Komandos"
 msgid "Team"
 msgstr "Komanda"
 
+msgid "Member of team"
+msgstr "Komandos narys"
+
+# ########################################
+# Forum
+# ########################################
+msgid "%1 posts"
+msgstr "%1 žinučių"
+
 msgid "None"
 msgstr "Nėra"
 
-msgid "management functions"
+msgid "Administer"
+msgstr "Administruoti"
+
+msgid "Founder but not member of"
+msgstr "Įkūrėjas, tačiau ne narys"
+
+msgid "administrative functions"
 msgstr "valdymo funkcijos"
 
 msgid "Quit team"
@@ -491,29 +515,26 @@ msgstr "raskite komandą"
 msgid "Preferences"
 msgstr "Nustatymai"
 
-msgid "General preferences"
-msgstr "Bendrieji nustatymai"
+msgid "Computing preferences"
+msgstr "Skaičiavimų nustatymai"
 
-msgid "specify when and how BOINC uses your computer"
-msgstr "nurodykite, kada ir kaip BOINC naudos jūsų kompiuterį"
-
-msgid "View or edit"
-msgstr "Peržiūrėti arba pakeisti"
+msgid "When and how BOINC uses your computer"
+msgstr "Kaip ir kada BOINC naudoja jūsų kompiuterį"
 
 msgid "%1 preferences"
 msgstr "%1 nustatymai"
 
-msgid "control resource share and customize graphics"
-msgstr "valdykite resursų padalijimą ir keiskite grafikos nustatymus"
+msgid "Resource share and graphics"
+msgstr "Resursų padalijimas ir grafika"
 
 msgid "Message board preferences"
 msgstr "Diskusijų lentos nustatymai"
 
-msgid "configure features and appearance of message boards"
-msgstr "nustatykite diskusijų lentos funkcijas ir išvaizdą"
+msgid "Message boards and private messages"
+msgstr "Forumai ir asmeninės žinutės"
 
-msgid "Work done"
-msgstr "Atlikta darbo"
+msgid "Computing and credit"
+msgstr "Skaičiavimai ir kreditai"
 
 msgid "%1 member since"
 msgstr "%1 narys nuo"
@@ -544,4 +565,28 @@ msgstr "Abonemento numeris"
 
 msgid "Used in URLs"
 msgstr "Naudojamas internetiniuose adresuose"
+
+msgid "unread"
+msgstr "neskaityta"
+
+# ########################################
+# "Weak account key" page (weak_auth.php)
+# ########################################
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "Jūsų paprastas abonemento raktas leidžia prijungti kompiuterius prie šio projekto nepaliekant galimybės prisijungti prie jūsų abonemento ar jį kaip nors pakeisti."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Šis mechanizmas veikia tik su projektais, kurie atnaujino serverio programinę įrangą 2007 gruodžio 7 ar vėliau."
+
+msgid "Your weak account key for this project is:"
+msgstr "Jūsų paprastas abonemento raktas šiam projektui yra:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "Kad naudotumėte paprastą abonemento raktą tam tikrame kompiuteryje, suraskite ar sukurkite abonemento rinkmeną šiam projektui. Šios rinkmenos vardas turi formą <b>account_PROJEKTO_ADRESAS.xml</b>. Abonemento rinkmena %1 yra <b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Sukurkite šią rinkmeną, jei reikia. Jos turinį pakeiskite į:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "Jūsų paprastas abonemento raktas sukuriamas pagal jūsų slaptažodį. Jei pakeičiate savo slaptažodį, jūsų paprastas abonemento raktas pasikeičia, ir jūsų senas paprastas abonemento raktas tampa nebegaliojančiu."
 

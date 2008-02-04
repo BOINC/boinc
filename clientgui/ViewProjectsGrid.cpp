@@ -739,6 +739,9 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     if ( docCount <= 0 ) {
         if ( m_pGridPane->GetNumberRows() ) {
             m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
+            m_bForceUpdateSelection = true;
+            UpdateSelection();
+            UpdateWebsiteSelection(GRP_WEBSITES, NULL);
         }
         return;
     }

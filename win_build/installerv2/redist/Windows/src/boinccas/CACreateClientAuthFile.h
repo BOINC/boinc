@@ -15,19 +15,19 @@
 // To view the GNU Lesser General Public License visit
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef _CAMIGRATEBOINCDATATEMP_H_
-#define _CAMIGRATEBOINCDATATEMP_H_
+#ifndef _CACREATECLIENTAUTHFILE_H_
+#define _CACREATECLIENTAUTHFILE_H_
 
 
-class CAMigrateBOINCDataTemp : public BOINCCABase
+class CACreateClientAuthFile : public BOINCCABase
 {
 public:
 
-    CAMigrateBOINCDataTemp(MSIHANDLE hMSIHandle);
-    ~CAMigrateBOINCDataTemp();
+    CACreateClientAuthFile(MSIHANDLE hMSIHandle);
+    ~CACreateClientAuthFile();
     virtual UINT OnExecution();
 
 };

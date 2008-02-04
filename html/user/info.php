@@ -32,7 +32,7 @@ echo "
     <p>".tra("The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage.", PROJECT, "<a href=\"download_network.php\">", "</a>")."
     <p>".tra("%1 was developed by %2. BOINC was developed at the University of California.", PROJECT, COPYRIGHT_HOLDER)."
 
-<h3>".tra("Liability")."/<h3>
+<h3>".tra("Liability")."</h3>
     <p>".tra("%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1.", PROJECT, COPYRIGHT_HOLDER)."
 
 <h3>".tra("Other BOINC projects")."</h3>

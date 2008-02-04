@@ -1,5 +1,7 @@
-BOINC documentation is kept online at
-http://boinc.berkeley.edu/create_project.php
+To build the BOINC client software:
+    ./_autosetup
+    ./configure --disable_server
 
-The documentation is also part of the source tree
-(in the doc/ directory).
+For more information, visit:
+http://boinc.berkeley.edu/trac/wiki/CompileClient
+http://boinc.berkeley.edu/trac/wiki/BuildSystem

@@ -119,7 +119,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "Copyright © 2003-2007 University of California"
+            VALUE "LegalCopyright", "Copyright ï¿½ 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -154,7 +154,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "LegalCopyright", "ï¿½ 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -189,7 +189,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "LegalCopyright", "ï¿½ 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -224,7 +224,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "LegalCopyright", "ï¿½ 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -309,7 +309,7 @@ BEGIN
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "Gridrepublic screensaver shutting down."
     IDS_ERR_DAEMONALLOWSNOGRAPHICS
-                            "Gridrepublic screensaver graphics\ndisabled.\n\nGraphics cannot be displayed when configured to run\nas a Windows service."
+                            "Gridrepublic screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
 END
 
 #elif defined(_WCG)
@@ -334,6 +334,8 @@ BEGIN
                             "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "World Community Grid\nscreensaver shutting down."
+    IDS_ERR_DAEMONALLOWSNOGRAPHICS
+                            "World Community Grid screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
 END
 
 #elif defined(_SEED)
@@ -358,6 +360,8 @@ BEGIN
                             "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "seedmagazine\nscreensaver shutting down."
+    IDS_ERR_DAEMONALLOWSNOGRAPHICS
+                            "seedmagazine screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
 END
 
 #else
@@ -383,7 +387,7 @@ BEGIN
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "BOINC screensaver shutting down."
     IDS_ERR_DAEMONALLOWSNOGRAPHICS
-                            "BOINC screensaver graphics disabled.\n\nGraphics cannot be displayed when configured to run\nas a Windows service."
+                            "BOINC screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
 END
 
 #endif

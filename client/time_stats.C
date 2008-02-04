@@ -48,6 +48,29 @@
 
 #include "time_stats.h"
 
+#define CONNECTED_STATE_UNINITIALIZED   -1
+#define CONNECTED_STATE_NOT_CONNECTED   0
+#define CONNECTED_STATE_CONNECTED       1
+#define CONNECTED_STATE_UNKNOWN         2
+
+#ifndef SIM
+#ifdef _WIN32
+#include <sensapi.h>
+
+int get_connected_state() {
+    DWORD flags;
+    return IsNetworkAlive(&flags)?CONNECTED_STATE_CONNECTED:CONNECTED_STATE_NOT_CONNECTED;
+}
+#else
+
+// anyone know how to see if this host has physical network connection?
+//
+int get_connected_state() {
+    return CONNECTED_STATE_UNKNOWN;
+}
+#endif
+#endif
+
 // exponential decay constant.
 // The last 10 days have a weight of 1/e;
 // everything before that has a weight of (1-1/e)
@@ -147,11 +170,11 @@ void TIME_STATS::update(int suspend_reason) {
         w2 = 1 - w1;                // weight for everything before that
                                     // (close to zero if long gap)
 
-        // the following always returns UNKNOWN,
-        // but leave it here for now
-        //
-        int connected_state = get_connected_state();
-#ifndef SIM
+        int connected_state;
+#ifdef SIM
+        connected_state = CONNECTED_STATE_NOT_CONNECTED;
+#else
+        connected_state = get_connected_state();
         if (gstate.network_suspend_reason) {
             connected_state = CONNECTED_STATE_NOT_CONNECTED;
         }
@@ -163,6 +186,13 @@ void TIME_STATS::update(int suspend_reason) {
             on_frac *= w2;
             first = false;
             log_append("power_off", last_update);
+            char buf[256];
+#ifndef SIM
+            sprintf(buf, "platform %s", gstate.get_primary_platform());
+            log_append(buf, gstate.now);
+#endif
+            sprintf(buf, "version %d.%d.%d", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE);
+            log_append(buf, gstate.now);
             log_append("power_on", gstate.now);
         } else {
             on_frac = w1 + w2*on_frac;

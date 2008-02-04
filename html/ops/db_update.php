@@ -509,6 +509,38 @@ function update_11_20_2007() {
     do_query("alter table team add fulltext index team_name(name)");
 }
 
+function update_12_18_2007() {
+    do_query("create table friend (
+        user_src            integer         not null,
+        user_dest           integer         not null,
+        message             varchar(255)    not null,
+        create_time         integer         not null,
+        reciprocated        tinyint         not null
+        )
+    ");
+    do_query("create table notify (
+        id                  serial          primary key,
+        userid              integer         not null,
+        create_time         integer         not null,
+        type                integer         not null,
+        opaque              integer         not null
+        )
+    ");
+    do_query("alter table friend
+        add unique friend_u (user_src, user_dest)
+    ");
+    do_query("alter table notify
+        add index notify_u (userid)
+    ");
+}
+
+function update_12_28_2007() {
+    do_query("alter table notify drop index notify_u");
+    do_query("alter table notify
+        add unique notify_un (userid, type, opaque)
+    ");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

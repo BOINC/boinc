@@ -45,6 +45,10 @@
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
+
+// Use localtime_r and fmtime_r in wxWidgets and eliminate compiler warnings
+#define HAVE_LOCALTIME_R 1
+#define HAVE_GMTIME_R 1
 #endif
 
 #include <wx/wx.h>

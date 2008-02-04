@@ -37,6 +37,7 @@ boinc_gui_SOURCES = \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCBaseWizard.cpp \
+    BOINCClientManager.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
     BOINCListCtrl.cpp \

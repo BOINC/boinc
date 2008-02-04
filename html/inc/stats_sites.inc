@@ -26,13 +26,19 @@ $cpid_stats_sites = array(
 
 $stats_sites = array(
     array(
+        "http://www.myboinc.com/FormulaBoinc/",
+        "Formula BOINC",
+        "(Team ranking based on position within projects,
+        as in Formula 1 racing, rather than total points)"
+    ),
+    array(
         "http://statsnstones.tswb.org/",
         "Team Starfire World BOINC Stats 'N Stones",
         ""
     ),
     array(
         "http://www.allprojectstats.com/",
-        "BOINC all Project Stats",
+        "BOINC All Project Stats",
         ""
     ),
     array(
@@ -124,6 +130,11 @@ $sig_sites = array(
     array("http://www.boincstats.com/page/faq.php#3",
         "BOINCstats",
         "by Willy de Zutter"
+    ),
+    array(
+        "http://www.allprojectstats.com/signature.php",
+        "BOINC All Project Stats",
+        "Signature files for both users and teams"
     ),
 );
 

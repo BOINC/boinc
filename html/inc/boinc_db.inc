@@ -90,6 +90,10 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->insert('user', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'user');
+    }
 }
 
 class BoincTeam {
@@ -201,6 +205,10 @@ class BoincAppVersion {
 }
 
 class BoincProfile {
+    static function lookup_fields($fields, $clause) {
+        $db = BoincDb::get();
+        return $db->lookup_fields('profile', 'BoincProfile', $fields, $clause);
+    }
     static function lookup($clause) {
         $db = BoincDb::get();
         return $db->lookup('profile', 'BoincProfile', $clause);
@@ -257,7 +265,9 @@ class BoincPrivateMessage {
     }
     static function insert($clause) {
         $db = BoincDb::get();
-        return $db->insert('private_messages', $clause);
+        $ret = $db->insert('private_messages', $clause);
+        if (!$ret) return $ret;
+        return $db->insert_id();
     }
     static function count($clause) {
         $db = BoincDb::get();

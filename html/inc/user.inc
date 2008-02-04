@@ -4,7 +4,9 @@ require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
+require_once("../inc/notify.inc");
 
 function parse_project($f) {
     $p->total_credit = 0.0;
@@ -147,6 +149,25 @@ function show_user_stats_private($user) {
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
 }
 
+function notify_description($notify) {
+    switch ($notify->type) {
+    case NOTIFY_FRIEND_REQ:
+        return friend_notify_req_web_line($notify);
+    case NOTIFY_FRIEND_ACCEPT:
+        return friend_notify_accept_web_line($notify);
+    case NOTIFY_PM:
+        return pm_web_line($notify);
+    case NOTIFY_SUBSCRIBED_POST:
+        return subscribed_post_web_line($notify);
+    }
+    return "Unknown notification type: $notify->type";
+}
+
+function weak_auth($user) {
+    $x = md5($user->authenticator.$user->passwd_hash);
+    return "{$user->id}_$x";
+}
+
 // show static user info (private)
 //
 function show_user_info_private($user) {
@@ -157,9 +178,8 @@ function show_user_info_private($user) {
     }
 
     row1(tra("Account information"));
-    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    row2(tra("Email address"), $email_text);
     row2(tra("Name"), $user->name);
+    row2(tra("Email address"), $email_text);
     if (strlen($user->url)) {
         $x = "http://$user->url";
     } else {
@@ -168,9 +188,12 @@ function show_user_info_private($user) {
     row2(tra("URL"), $x);
     row2(tra("Country"), $user->country);
     row2(tra("Postal code"), $user->postal_code);
-    row2(tra("Account number")."<br><span class=\"smalltext\">".tra("Used in URLs")."</span>", $user->id);
+    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a> | <a href=\"edit_passwd_form.php\">".tra("password")."</a> | <a href=\"edit_user_info_form.php\">".tra("other account info")."</a>");
     row2("", "<a href=\"logout.php?".url_tokens($user->authenticator)."\">".tra("Log out")."</a>");
+    row2("User ID<br><span class=note>Used in community functions</span>", $user->id);
+    row2("Account key<br><span class=note>Provides full access to your account</span>", $user->authenticator);
+    row2("Weak account key<br><span class=note>Provides <a href=weak_auth.php> limited access</a> to your account</span>", weak_auth($user));
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
     row2(
@@ -183,7 +206,9 @@ function show_user_info_private($user) {
     row2(tra("Resource share and graphics"),
         "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
     );
+}
 
+function show_community_private($user) {
     row1(tra("Community"));
 
     if ($user->has_profile) {
@@ -198,6 +223,16 @@ function show_user_info_private($user) {
     }
     
     row2(tra("Private messages"), pm_notification($user).pm_email_remind($user));
+
+    $notifies = BoincNotify::enum("userid=$user->id");
+    if (count($notifies)) {
+        $x = "";
+        foreach ($notifies as $notify) {
+            $x .= "&bull; ".notify_description($notify)."<br>";
+        }
+        $x .= "<a href=".notify_rss_url($user)."><img vspace=4 border=0 src=img/rss_icon.gif alt=RSS></a>";
+        row2("Notifications", $x);
+    }
 
     if ($user->teamid) {
         $team = lookup_team($user->teamid);
@@ -229,11 +264,24 @@ function show_user_info_private($user) {
         }
     }
 
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    $x = "<a href=user_search.php>Find friends</a><br>\n";
+    $n = count($friends);
+    if ($n) {
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+            $x .= friend_links($fuser);
+        }
+        row2("Friends ($n)", $x);
+    } else {
+        row2("Friends", $x);
+    }
 }
 
 // show summary of dynamic and static info (public)
 //
 function show_user_summary_public($user) {
+    global $g_logged_in_user;
     row2(PROJECT." member since", date_str($user->create_time));
     row2("Country", $user->country);
     if (strlen($user->url)) {
@@ -241,21 +289,11 @@ function show_user_summary_public($user) {
     }
     show_credit($user);
 
-    if ($user->teamid && ($team = lookup_team($user->teamid))) {
-        row2("Team", "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
-    } else {
-        row2("Team", "None");
-    }
     if ($user->show_hosts) {
         row2("Computers", "<a href=\"".URL_BASE."hosts_user.php?userid=$user->id\">View</a>");
     } else {
         row2("Computers", "hidden");
     }
-    $tot = total_posts($user);
-    if ($tot) {
-        row2("Message boards", "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">$tot posts</a>");
-    }
-
     if ($user->donated == 1) { 
         if (file_exists("../project/donations.inc")) {
             require_once("../project/donations.inc");
@@ -264,35 +302,50 @@ function show_user_summary_public($user) {
         }
     }
     
-    row2("Contact", "<a href=\"pm.php?action=new&amp;userid=".$user->id."\">Send private message</a>");
+}
+
+function community_links($user) {
+    global $g_logged_in_user;
+    if ($user->teamid && ($team = lookup_team($user->teamid))) {
+        row2("Team", "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
+    } else {
+        row2("Team", "None");
+    }
+    $tot = total_posts($user);
+    if ($tot) {
+        row2("Message boards", "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">$tot posts</a>");
+    }
+
+    if ($g_logged_in_user && $g_logged_in_user->id != $user->id) {
+        row2("Contact", "<a href=\"pm.php?action=new&userid=".$user->id."\">Send private message</a>");
+        $friend = BoincFriend::lookup($g_logged_in_user->id, $user->id);
+        if ($friend && $friend->reciprocated) {
+            row2("This person is a friend", 
+                "<a href=friend.php?action=cancel_confirm&userid=$user->id>Cancel friendship</a>"
+            );
+        } else if ($friend) {
+            row2("Friends", "<a href=friend.php?action=add&userid=$user->id>Request pending</a>");
+        } else {
+            row2("Friends", "<a href=friend.php?action=add&userid=$user->id>Add as friend</a>");
+        }
+    }
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    $n = count($friends);
+    if ($n) {
+        $x = null;
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+            $x .= friend_links($fuser);
+        }
+        row2("Friends ($n)", $x);
+    }
+
 }
 
 function show_profile_link($user) {
     if ($user->has_profile) {
         row2("Profile", "<a href=\"view_profile.php?userid=$user->id\">View</a>");
     }
-}
-
-// show a summary of the user.
-// NOTE: This is intended to be shown only to that user.
-// it has info that other users aren't supposed to see
-
-function show_user_page_private($user) {
-    $config = get_config();
-    start_table("width=\"100%\"");
-    show_user_info_private($user);
-    show_user_stats_private($user);
-
-    // Does this project accept donations? Then put in a project specific
-    // function to show user donation information in ../project/donations.inc
-    //
-    if (parse_bool($config, "donations_accepted")) {
-        if (file_exists("../project/donations.inc")) {
-            require_once("../project/donations.inc");
-            show_user_donations_private($user);
-        }
-    }
-    end_table();
 }
 
 function make_user(

@@ -27,15 +27,31 @@ echo "<script type=\"text/javascript\">
 start_table();
 echo "<form method=\"post\" action=\"edit_forum_preferences_action.php\" enctype=\"multipart/form-data\">";
 
+// ------------ Notification -----------
+
+row1("Notifications");
+$ch0 = $user->prefs->pm_notification==0?"checked":"";
+$ch1 = $user->prefs->pm_notification==1?"checked":"";
+$ch2 = $user->prefs->pm_notification==2?"checked":"";
+row2(
+    "How should we notify you of new private messages, friend requests, posts in subscribed threads, and other events?",
+    "<input type=radio name=pm_notification value=0 $ch0> On my Account page (no email)
+    <br><input type=radio name=pm_notification value=1 $ch1> Immediately, by email
+    <br><input type=radio name=pm_notification value=2 $ch2> In a single daily email
+    "
+);
+
+// ------------ Forum identity -----------
+
 $zero_select = $two_select = "";
 if (strlen($user->prefs->avatar)){
     $two_select="checked=\"true\"";
 } else {
     $zero_select="checked=\"true\"";
 }
-row1("Identity");
+row1("Message-board identity");
 row2("Avatar
-    <br><span class=note>An image representing you.
+    <br><span class=note>An image representing you on the message boards.
     <br>Format: JPG or /PNG.  Size: at most 4 KB, 100x100 pixels</span>",
     "<input type=\"radio\" name=\"avatar_select\" value=\"0\" ".$zero_select.">Don't use an avatar <br><input type=\"radio\" name=\"avatar_select\" value=\"2\" ".$two_select.">Use this uploaded avatar: <input type=\"file\" name=\"picture\">"
 );
@@ -52,7 +68,7 @@ if (!$user->prefs->no_signature_by_default){
 $signature=stripslashes($user->prefs->signature);
 $maxlen=250;
 row2(
-    "Signature<br>
+    "Signature for message board posts<br>
     <span class=note>Max length is $maxlen chars.</span>".
     html_info(),
     "<textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
@@ -67,16 +83,7 @@ if ($user->prefs->signature!=""){
     );
 }
 
-row1("Private message notification");
-if ($user->prefs->pm_notification){
-    $pm_notification="checked=\"checked\"";
-} else {
-    $pm_notification="";
-}
-row2(
-    "Send email notification of new private messages",
-    "<input type=\"checkbox\" id=\"pm_notification\" name=\"pm_notification\" ".$pm_notification.">"
-);
+// ------------ Message display  -----------
 
 if ($user->prefs->hide_avatars){
     $forum_hide_avatars = "checked=\"checked\"";
@@ -131,6 +138,8 @@ row2("How to sort",
     <input type=\"text\" name=\"forum_display_wrap_postcount\" size=3 value=\"".$forum_display_wrap_postcount."\"> only display the first one and this many of the last ones<br />
     "
 );
+
+// ------------ Message filtering  -----------
 
 row1("Message filtering");
 

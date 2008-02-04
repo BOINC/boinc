@@ -58,6 +58,11 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "util.h"
+#include "base64.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -104,14 +109,19 @@ void boinc_sleep(double seconds) {
 #ifdef _WIN32
     ::Sleep((int)(1000*seconds));
 #else
-    unsigned int rem = (int) seconds;
+    double end_time = dtime() + seconds - 0.01;
+    // sleep() and usleep() can be interrupted by SIGALRM,
+    // so we may need multiple calls
+    //
     while (1) {
-        rem = sleep(rem);
-        if (rem == 0) break;
-        if (rem > seconds) break;   // paranoia
+        if (seconds >= 1) {
+            sleep((unsigned int) seconds);
+        } else {
+            usleep((int)fmod(seconds*1000000, 1000000));
+        }
+        seconds = end_time - dtime();
+        if (seconds <= 0) break;
     }
-    int x = (int)fmod(seconds*1000000, 1000000);
-    if (x) usleep(x);
 #endif
 }
 
@@ -275,12 +285,63 @@ void update_average(
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
 #ifdef _WIN32
+
+void BOINC_PROJECT_ACCOUNT::clear() {
+    username.clear();
+    password.clear();
+}
+
+int BOINC_PROJECT_ACCOUNT::parse(MIOFILE& in) {
+    char buf[256];
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</boinc_project>")) return 0;
+        if (parse_str(buf, "<username>", username)) continue;
+        if (parse_str(buf, "<password>", password)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+
+void CLIENT_AUTHORIZATION::clear() {
+    use_authorizations = false;
+    boinc_project.clear();
+}
+
+int CLIENT_AUTHORIZATION::parse(MIOFILE& in) {
+    char buf[256];
+    use_authorizations = true;
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</client_authorization>")) return 0;
+        if (match_tag(buf, "<boinc_project>")) {
+            boinc_project.parse(in);
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int CLIENT_AUTHORIZATION::init() {
+    MIOFILE mf;
+    FILE*   p;
+
+    clear();
+    p = fopen("client_auth.xml", "r");
+    if (p) {
+        mf.init_file(p);
+        parse(mf);
+        fclose(p);
+    }
+    return 0;
+}
+
 int run_program(
     const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
+    CLIENT_AUTHORIZATION ca;
     char cmdline[1024];
     unsigned long status;
 
@@ -296,21 +357,59 @@ int run_program(
         }
     }
 
-    retval = CreateProcess(
-        file,
-        cmdline,
-        NULL,
-        NULL,
-        FALSE,
-        0,
-        NULL,
-        dir,
-        &startup_info,
-        &process_info
-    );
+    ca.init();
+    if (ca.use_authorizations) {
+        HANDLE hToken;
+        std::string username = ca.boinc_project.username;
+        std::string password = r_base64_decode(ca.boinc_project.password);
+        retval = LogonUser(
+            username.c_str(),
+            NULL,
+            password.c_str(),
+            LOGON32_LOGON_SERVICE,
+            LOGON32_PROVIDER_DEFAULT,
+            &hToken
+        );
+        if (!retval) {
+            return -1; // LogonUser returns 1 if successful, false if it failed.
+        }
+
+        retval = CreateProcessAsUser(
+            hToken,
+            file,
+            cmdline,
+            NULL,
+            NULL,
+            FALSE,
+            0,
+            NULL,
+            dir,
+            &startup_info,
+            &process_info
+        );
+
+        CloseHandle(hToken);
+
+    } else {
+
+        retval = CreateProcess(
+            file,
+            cmdline,
+            NULL,
+            NULL,
+            FALSE,
+            0,
+            NULL,
+            dir,
+            &startup_info,
+            &process_info
+        );
+
+    }
     if (!retval) {
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
+
     if (nsecs) {
         boinc_sleep(nsecs);
         if (GetExitCodeProcess(process_info.hProcess, &status)) {
@@ -474,12 +573,14 @@ int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
     f = fopen(path, "r");
     if (!f) return ERR_FOPEN;
 
+#ifndef _USING_FCGI_
     if (max_len && size > max_len) {
         if (tail) {
             fseek(f, (long)size-max_len, SEEK_SET);
         }
         size = max_len;
     }
+#endif
     isize = (int) size;
     buf = (char*)malloc(isize+1);
     size_t n = fread(buf, 1, isize, f);

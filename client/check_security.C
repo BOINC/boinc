@@ -313,8 +313,8 @@ int use_sandbox, int isManager
         if (sbuf.st_gid != boinc_master_gid)
             return -1022;
         
-        // The top-level BOINC Data directory should have permission 775 or 575
-        if ((sbuf.st_mode & 0577) != 0575)
+        // The top-level BOINC Data directory should have permission 771 or 571
+        if ((sbuf.st_mode & 0577) != 0571)
             return -1023;
             
     } else {

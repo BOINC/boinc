@@ -46,7 +46,7 @@ if (!$fp) {
             if ($num_rows == 1) {
                 $row = mysql_fetch_object($result);
                 $userid = $row->userid;
-                mysql_query("UPDATE donation_paypal SET processed = '1', payment_time = '".time()."', item_name = '$item_name', item_number = '$item_number', payment_status = '$payment_status', payment_amount = '$payment_amount', payment_fee = '$payment_fee', payment_currency = '$payment_currency', txn_id = '$txn_id', receiver_email = '$receiver_email', payer_email = '$payer_email', payer_name = '$payer_name' WHERE id = '$payment_id'");
+                mysql_query("UPDATE donation_paypal SET processed = '1', payment_time = '".time()."', item_name = '$item_name', payment_status = '$payment_status', payment_amount = '$payment_amount', payment_fee = '$payment_fee', payment_currency = '$payment_currency', txn_id = '$txn_id', receiver_email = '$receiver_email', payer_email = '$payer_email', payer_name = '$payer_name' WHERE id = '$payment_id'");
                 if ($userid > 0) {
                     mysql_query("UPDATE user SET donated = '1' WHERE id = '$userid'");
                 }

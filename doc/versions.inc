@@ -31,41 +31,41 @@ function type_text($type) {
     }
 }
 
+$w51039= array(
+    "num"=>"5.10.39",
+    "status"=>"Development version",
+    "file"=>"boinc_5.10.39_windows_intelx86.exe",
+    "date"=>"24 Jan 2008",
+    "type"=>"win_new",
+);
+
 $w51030= array(
     "num"=>"5.10.30",
-    "status"=>"Development version (Win98+, Win2000+)",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.30_windows_intelx86.exe",
     "date"=>"13 Nov 2007",
     "type"=>"win_new",
 );
 
-$w51028= array(
-    "num"=>"5.10.28",
-    "status"=>"Recommended version (Win98+, Win2000+)",
-    "file"=>"boinc_5.10.28_windows_intelx86.exe",
-    "date"=>"29 Oct 2007",
+$w51039x64= array(
+    "num"=>"5.10.39",
+    "status"=>"Development version",
+    "file"=>"boinc_5.10.39_windows_x86_64.exe",
+    "date"=>"24 Jan 2008",
     "type"=>"win_new",
 );
 
 $w51030x64= array(
     "num"=>"5.10.30",
-    "status"=>"Development version (WinXP64+)",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.30_windows_x86_64.exe",
     "date"=>"13 Nov 2007",
     "type"=>"win_new",
 );
 
-$w51028x64= array(
-    "num"=>"5.10.28",
-    "status"=>"Recommended version (WinXP64+)",
-    "file"=>"boinc_5.10.28_windows_x86_64.exe",
-    "date"=>"29 Oct 2007",
-    "type"=>"win_new",
-);
-
 $w5816= array(
     "num"=>"5.8.16",
-    "status"=>"Recommended version (Win95+, WinNT40+)",
+    "status"=>"Older version (also works on Windows 95 and NT 4.0)",
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
     "date"=>"1 Mar 2007",
     "type"=>"win_new",
@@ -79,33 +79,25 @@ $w5411= array(
     "type"=>"win_new",
 );
 
-$m51030 = array(
-    "num"=>"5.10.30",
+$m51039 = array(
+    "num"=>"5.10.39",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.30_macOSX_universal.zip",
-    "date"=>"14 Nov 2007",
+    "file"=>"boinc_5.10.39_macOSX_universal.zip",
+    "date"=>"24 Jan 2008",
     "type"=>"mac_advanced",
 );
 
-$m51028 = array(
-    "num"=>"5.10.28",
+$m51034 = array(
+    "num"=>"5.10.34",
     "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.10.28_macOSX_universal.zip",
-    "date"=>"31 Oct 2007",
-    "type"=>"mac_advanced",
-);
-
-$m51029 = array(
-    "num"=>"5.10.29",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.10.29_macOSX_universal.zip",
-    "date"=>"8 Nov 2007",
+    "file"=>"boinc_5.10.34_macOSX_universal.zip",
+    "date"=>"8 Jan 2008",
     "type"=>"mac_advanced",
 );
 
 $m5817 = array(
     "num"=>"5.8.17",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_5.8.17_macOSX_universal.zip",
     "date"=>"3 Apr 2007",
     "type"=>"mac_advanced",
@@ -119,33 +111,25 @@ $m549 = array(
     "type"=>"mac_advanced",
 );
 
-$m51030c = array(
-    "num"=>"5.10.30",
+$m51039c = array(
+    "num"=>"5.10.39",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.10.30_universal-apple-darwin.zip",
-    "date"=>"14 Nov 2007",
+    "file"=>"boinc_5.10.39_universal-apple-darwin.zip",
+    "date"=>"24 Jan 2008",
     "type"=>"bare_core",
 );
 
-$m51028c = array(
-    "num"=>"5.10.28",
+$m51034c = array(
+    "num"=>"5.10.34",
     "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_5.10.28_universal-apple-darwin.zip",
-    "date"=>"31 Oct 2007",
-    "type"=>"bare_core",
-);
-
-$m51029c = array(
-    "num"=>"5.10.29",
-    "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_5.10.29_universal-apple-darwin.zip",
-    "date"=>"8 Nov 2007",
+    "file"=>"boinc_5.10.34_universal-apple-darwin.zip",
+    "date"=>"8 Jan 2008",
     "type"=>"bare_core",
 );
 
 $m5817c = array(
     "num"=>"5.8.17",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_5.8.17_universal-apple-darwin.zip",
     "date"=>"3 Apr 2007",
     "type"=>"bare_core",
@@ -159,17 +143,9 @@ $m549c = array(
     "type"=>"bare_core",
 );
 
-$l51021 = array(
-    "num"=>"5.10.21",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.10.21_i686-pc-linux-gnu.sh",
-    "date"=>"2 Oct 2007",
-    "type"=>"sea",
-);
-
 $l51028 = array(
     "num"=>"5.10.28",
-    "status"=>"Development version (command line interface only)",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.28_i686-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
@@ -177,23 +153,15 @@ $l51028 = array(
 
 $l51028ubuntu = array(
     "num"=>"5.10.28",
-    "status"=>"Development version (Ubuntu Release - standard GUI)",
+    "status"=>"Recommended version",
     "file"=>"boinc_ubuntu_5.10.28_i686-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
 );
 
-$l51021x64 = array(
-    "num"=>"5.10.21",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.10.21_x86_64-pc-linux-gnu.sh",
-    "date"=>"2 Oct 2007",
-    "type"=>"sea",
-);
-
 $l51028x64 = array(
     "num"=>"5.10.28",
-    "status"=>"Development version (Ubuntu Release - standard GUI)",
+    "status"=>"Recommended version",
     "file"=>"boinc_ubuntu_5.10.28_x86_64-pc-linux-gnu.sh",
     "date"=>"31 Oct 2007",
     "type"=>"sea",
@@ -201,7 +169,7 @@ $l51028x64 = array(
 
 $l5816 = array(
     "num"=>"5.8.16",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (includes GUI)",
     "file"=>"boinc_5.8.16_i686-pc-linux-gnu.sh",
     "date"=>"7 March 2007",
     "type"=>"sea",
@@ -217,59 +185,64 @@ $l5411 = array(
 
 $windows = array(
     "name"=>"Windows",
+    "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w51039,
         $w51030,
-        $w51028,
         $w5816,
-        $w5411,
     )
 );
 
 $windowsx64 = array(
-    "name"=>"Windows x64",
+    "name"=>"Windows 64-bit",
+    "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+        $w51039x64,
         $w51030x64,
-        $w51028x64,
     )
 );
 
 $mac = array(
     "name"=>"Mac OS X",
+    "description"=>"Version 10.3+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m51030,
-        $m51030c,
-        $m51029,
-        $m51029c,
-        $m51028,
-        $m51028c,
+        $m51039,
+        $m51039c,
+        $m51034,
+        $m51034c,
         $m5817,
         $m5817c,
-        $m549,
-        $m549c,
+    )
+);
+
+$linuxcompat = array(
+    "name"=>"Older Linux x86 and x64",
+    "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
+    "dbname" => "i686-pc-linux-gnu",
+    "versions"=>array(
+        $l51028,
+        $l5816,
     )
 );
 
 $linux = array(
-    "name"=>"Linux/x86",
+    "name"=>"Linux x86",
+    "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l51028,
         $l51028ubuntu,
-        $l51021,
-        $l5816,
-        $l5411,
     )
 );
 
 $linuxx64 = array(
-    "name"=>"Linux/x64",
+    "name"=>"Linux x64",
+    "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
         $l51028x64,
-        $l51021x64,
     )
 );
 
@@ -279,6 +252,7 @@ $platforms = array(
     "mac"=>$mac,
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
+    "linuxcompat"=>$linuxcompat,
 );
 
 function is_dev($v) {

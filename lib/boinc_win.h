@@ -236,6 +236,9 @@ extern "C" {
 #endif
 void __cdecl _fpreset (void);
 void __cdecl fpreset (void);
+#define SetClassLongPtr SetClassLong
+#define GCLP_HICON GCL_HICON
+#define GCLP_HICONSM GCL_HICONSM
 #ifdef __cplusplus
 }
 #endif

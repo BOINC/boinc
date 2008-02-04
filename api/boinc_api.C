@@ -55,6 +55,12 @@ using namespace std;
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
+#define GETRUSAGE_IN_TIMER_THREAD
+    // call getrusage() in the timer thread,
+    // rather than in the worker thread's signal handler
+    // (which can cause crashes on Mac)
+    // If you want, you can set this for Linux too:
+    // CPPFLAGS=-DGETRUSAGE_IN_TIMER_THREAD
 #endif
 
 // Implementation notes:
@@ -112,26 +118,37 @@ static double intops_per_cpu_sec = 0;
 static double intops_cumulative = 0;
 static int want_network = 0;
 static int have_network = 1;
+static int ncpus_available;
+static int nthreads;
 bool g_sleep = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
 
-#define TIMER_PERIOD 1
+#define TIMER_PERIOD 0.1
     // period of worker-thread timer interrupts.
+    // Determines rate of handlling messages from client.
+#define TIMERS_PER_SEC 10
     // This determines the resolution of fraction done and CPU time reporting
     // to the core client, and of checkpoint enabling.
     // It doesn't influence graphics, so 1 sec is enough.
-#define HEARTBEAT_GIVEUP_PERIOD (30/TIMER_PERIOD)
+#define HEARTBEAT_GIVEUP_COUNT ((int)(30/TIMER_PERIOD))
     // quit if no heartbeat from core in this #interrupts
-#define HEARTBEAT_TIMEOUT_PERIOD 35
-    // quit if we cannot aquire slot resource in this #secs
+#define LOCKFILE_TIMEOUT_PERIOD 35
+    // quit if we cannot aquire slot lock file in this #secs after startup
 
 #ifdef _WIN32
 static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 #else
+static volatile bool worker_thread_exit_flag = false;
+static volatile int worker_thread_exit_status;
+    // the above are used by the timer thread to tell
+    // the worker thread to exit
 static pthread_t timer_thread_handle;
+#ifndef GETRUSAGE_IN_TIMER_THREAD
+static struct rusage worker_thread_ru;
+#endif
 #endif
 
 static BOINC_OPTIONS options;
@@ -145,7 +162,12 @@ struct UPLOAD_FILE_STATUS {
 static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
-void graphics_cleanup();
+static void graphics_cleanup();
+//static int suspend_activities();
+//static int resume_activities();
+//static void boinc_exit(int);
+static void block_sigalrm();
+static int start_worker_signals();
 
 static int setup_shared_mem() {
     if (standalone) {
@@ -197,9 +219,10 @@ double boinc_worker_thread_cpu_time() {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
+#ifdef GETRUSAGE_IN_TIMER_THREAD
     struct rusage worker_thread_ru;
-    
     getrusage(RUSAGE_SELF, &worker_thread_ru);
+#endif
     cpu = (double)worker_thread_ru.ru_utime.tv_sec
       + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
     cpu += (double)worker_thread_ru.ru_stime.tv_sec
@@ -238,11 +261,13 @@ double boinc_worker_thread_cpu_time() {
     return cpu;
 }
 
-// communicate to the core client (via shared mem)
-// the current CPU time and fraction done
+// Communicate to the core client (via shared mem)
+// the current CPU time and fraction done.
 // NOTE: various bugs could cause some of these FP numbers to be enormous,
 // possibly overflowing the buffer.
 // So use strlcat() instead of strcat()
+//
+// This is called only from the timer thread (so no need for synch)
 //
 static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
@@ -300,8 +325,13 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
     }
     retval = boinc_init_options_general(*opt);
     if (retval) return retval;
-    retval = set_worker_timer();
-    return retval;
+    retval = start_timer_thread();
+    if (retval) return retval;
+#ifndef _WIN32
+    retval = start_worker_signals();
+    if (retval) return retval;
+#endif
+    return 0;
 }
 
 int boinc_init_options_general(BOINC_OPTIONS& opt) {
@@ -320,7 +350,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         if (retval) {
             // give any previous occupant a chance to timeout and exit
             //
-            boinc_sleep(HEARTBEAT_TIMEOUT_PERIOD);
+            boinc_sleep(LOCKFILE_TIMEOUT_PERIOD);
             retval = file_lock.lock(LOCKFILE);
         }
         if (retval) {
@@ -358,7 +388,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     if (standalone) {
         options.check_heartbeat = false;
     }
-    heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
+    heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
 
     return 0;
 }
@@ -399,26 +429,12 @@ static void send_trickle_up_msg() {
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
-// This function can be called from any thread. (Timer, Worker, and Graphics)
-//
 int boinc_finish(int status) {
-    if (options.send_status_msgs) {
-        double total_cpu;
-        total_cpu = boinc_worker_thread_cpu_time();
-        total_cpu += initial_wu_cpu_time;
-        fraction_done = 1;
+    fraction_done = 1;
+    fprintf(stderr, "called boinc_finish\n");
+    boinc_sleep(2.0);   // let the timer thread send final messages
+    g_sleep = true;     // then disable it
 
-        // NOTE: the app_status slot may already contain a message.
-        // So retry a couple of times.
-        //
-        for (int i=0; i<3; i++) {
-            if (update_app_progress(total_cpu, total_cpu)) break;
-            boinc_sleep(1.0);
-        }
-    }
-    if (options.handle_trickle_ups) {
-        send_trickle_up_msg();
-    }
     if (options.main_program && status==0) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
         if (f) fclose(f);
@@ -434,8 +450,10 @@ int boinc_finish(int status) {
 }
 
 // unlock the lockfile and call the appropriate exit function
-// This is called from the worker and timer threads.
+// Unix: called only from the worker thread.
+// Win: called from the worker or timer thread.
 //
+// make static eventually
 void boinc_exit(int status) {
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
@@ -469,6 +487,20 @@ int boinc_is_standalone() {
     return 0;
 }
 
+static void exit_from_timer_thread(int status) {
+#ifdef _WIN32
+    // this seems to work OK on Windows
+    //
+    boinc_exit(status);
+#else
+    // but on Unix there are synchronization problems;
+    // set a flag telling the worker thread to exit
+    //
+    worker_thread_exit_status = status;
+    worker_thread_exit_flag = true;
+    pthread_exit(NULL);
+#endif
+}
 
 // parse the init data file.
 // This is done at startup, and also if a "reread prefs" message is received
@@ -551,6 +583,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
+// make static eventually
 int suspend_activities() {
     BOINCINFO("Received Suspend Message");
 #ifdef _WIN32
@@ -561,6 +594,7 @@ int suspend_activities() {
     return 0;
 }
 
+// make static eventually
 int resume_activities() {
     BOINCINFO("Received Resume Message");
 #ifdef _WIN32
@@ -570,14 +604,13 @@ int resume_activities() {
 #endif
     return 0;
 }
-
 int restore_activities() {
-    int retval;
+ int retval;
     if (boinc_status.suspended) {
-        retval = suspend_activities();
-    } else {
-        retval = resume_activities();
-    }
+	    retval = suspend_activities();
+	    } else {
+	        retval = resume_activities();
+	    }
     return retval;
 }
 
@@ -587,7 +620,7 @@ static void handle_heartbeat_msg() {
 
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
-            heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
+            heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_COUNT;
         }
         if (parse_double(buf, "<wss>", dtemp)) {
             boinc_status.working_set_size = dtemp;
@@ -642,6 +675,8 @@ static void handle_trickle_down_msg() {
     }
 }
 
+// runs in timer thread
+//
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
@@ -660,7 +695,7 @@ static void handle_process_control_msg() {
             BOINCINFO("Received quit message");
             boinc_status.quit_request = true;
             if (options.direct_process_action) {
-                boinc_exit(0);
+                exit_from_timer_thread(0);
             }
         }
         if (match_tag(buf, "<abort/>")) {
@@ -674,7 +709,7 @@ static void handle_process_control_msg() {
 #elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
-                boinc_exit(EXIT_ABORTED_VIA_GUI);
+                exit_from_timer_thread(EXIT_ABORTED_VIA_GUI);
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {
@@ -683,6 +718,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<network_available/>")) {
             have_network = 1;
         }
+        parse_int(buf, "<ncpus_available>", ncpus_available);
     }
 }
 
@@ -791,24 +827,17 @@ static inline void handle_graphics_messages() {
     }
 }
 
-void graphics_cleanup() {
+static void graphics_cleanup() {
     if (!have_graphics_app) return;
     if (ga_full.is_running()) ga_full.kill();
     if (ga_win.is_running()) ga_win.kill();
 }
 
-// once-a-second timer.
-// Runs in a separate thread (not the worker thread)
+// timer handler; runs in the timer thread
 //
 static void timer_handler() {
     if (g_sleep) return;
     interrupt_count++;
-    if (!ready_to_checkpoint) {
-        time_until_checkpoint -= TIMER_PERIOD;
-        if (time_until_checkpoint <= 0) {
-            ready_to_checkpoint = true;
-        }
-    }
 
     // handle messages from the core client
     //
@@ -825,17 +854,28 @@ static void timer_handler() {
         }
     }
 
+    if (interrupt_count % TIMERS_PER_SEC) return;
+
+    // here it we're at a one-second boundary; do slow stuff
+    //
+
+    if (!ready_to_checkpoint) {
+        time_until_checkpoint -= 1;
+        if (time_until_checkpoint <= 0) {
+            ready_to_checkpoint = true;
+        }
+    }
+
     // see if the core client has died, which means we need to die too
     // (unless we're in a critical section)
     //
     if (!in_critical_section && options.check_heartbeat) {
         if (heartbeat_giveup_time < interrupt_count) {
             fprintf(stderr,
-                "No heartbeat from core client for %d sec - exiting\n",
-                interrupt_count - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
+                "No heartbeat from core client for 30 sec - exiting\n"
             );
             if (options.direct_process_action) {
-                boinc_exit(0);
+                exit_from_timer_thread(0);
             } else {
                 boinc_status.no_heartbeat = true;
             }
@@ -845,7 +885,7 @@ static void timer_handler() {
     // don't bother reporting CPU time etc. if we're suspended
     //
     if (options.send_status_msgs && !boinc_status.suspended) {
-        time_until_fraction_done_update -= TIMER_PERIOD;
+        time_until_fraction_done_update -= 1;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
             cur_cpu = boinc_worker_thread_cpu_time();
@@ -881,7 +921,7 @@ UINT WINAPI timer_thread(void *) {
 
 #else
 
-void* timer_thread(void*) {
+static void* timer_thread(void*) {
     block_sigalrm();
     while(1) {
         boinc_sleep(TIMER_PERIOD);
@@ -894,7 +934,13 @@ void* timer_thread(void*) {
 // It gets CPU time and implements sleeping.
 // It must call only signal-safe functions, and must not do FP math
 //
-void worker_signal_handler(int) {
+static void worker_signal_handler(int) {
+#ifndef GETRUSAGE_IN_TIMER_THREAD
+    getrusage(RUSAGE_SELF, &worker_thread_ru);
+#endif
+    if (worker_thread_exit_flag) {
+        boinc_exit(worker_thread_exit_status);
+    }
     if (options.direct_process_action) {
         while (boinc_status.suspended && !in_critical_section) {
             sleep(1);   // don't use boinc_sleep() because it does FP math
@@ -907,7 +953,7 @@ void worker_signal_handler(int) {
 
 // Called from the worker thread; create the timer thread
 //
-int set_worker_timer() {
+int start_timer_thread() {
     int retval=0;
 
 #ifdef _WIN32
@@ -938,27 +984,31 @@ int set_worker_timer() {
     );
 
     if (!thread) {
-        fprintf(stderr, "set_worker_timer(): _beginthreadex() failed, errno %d\n", errno);
-        retval = errno;
-        return retval;
+        fprintf(stderr, "start_timer_thread(): _beginthreadex() failed, errno %d\n", errno);
+        return errno;
     }
     
-    // lower our priority
+    // lower our (worker thread) priority
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
-
 #else
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
     pthread_attr_setstacksize(&thread_attrs, 16384);
     retval = pthread_create(&timer_thread_handle, &thread_attrs, timer_thread, NULL);
     if (retval) {
-        fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
+        fprintf(stderr, "start_timer_thread(): pthread_create(): %d", retval);
         return retval;
     }
+#endif
+    return 0;
+}
 
-    // set up a periodic SIGALRM, to be handled by the worker thread
-    //
+#ifndef _WIN32
+// set up a periodic SIGALRM, to be handled by the worker thread
+//
+static int start_worker_signals() {
+    int retval;
     struct sigaction sa;
     itimerval value;
     sa.sa_handler = worker_signal_handler;
@@ -966,20 +1016,20 @@ int set_worker_timer() {
     sigemptyset(&sa.sa_mask);
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
-        perror("boinc set_worker_timer() sigaction");
+        perror("boinc start_timer_thread() sigaction");
         return retval;
     }
-    value.it_value.tv_sec = TIMER_PERIOD;
-    value.it_value.tv_usec = 0;
+    value.it_value.tv_sec = 0;
+    value.it_value.tv_usec = (int)(TIMER_PERIOD*1e6);
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {
-        perror("boinc set_worker_timer() setitimer");
+        perror("boinc start_timer_thread() setitimer");
+        return retval;
     }
-
-#endif
-    return retval;
+    return 0;
 }
+#endif
 
 int boinc_send_trickle_up(char* variety, char* p) {
     if (!options.handle_trickle_ups) return ERR_NO_OPTION;
@@ -1006,9 +1056,6 @@ int boinc_checkpoint_completed() {
     cur_cpu = boinc_worker_thread_cpu_time();
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
-    if (options.send_status_msgs) {
-        update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);
-    }
     time_until_checkpoint = (int)aid.checkpoint_period;
     in_critical_section = false;
     ready_to_checkpoint = false;
@@ -1102,7 +1149,7 @@ void boinc_network_done() {
 #ifndef _WIN32
 // block SIGALRM, so that the worker thread will be forced to handle it
 //
-void block_sigalrm() {
+static void block_sigalrm() {
     sigset_t mask;
     sigemptyset(&mask);
     sigaddset(&mask, SIGALRM);
@@ -1116,6 +1163,19 @@ void boinc_register_timer_callback(FUNC_PTR p) {
 
 double boinc_get_fraction_done() {
     return fraction_done;
+}
+
+int boinc_ncpus_available() {
+    return ncpus_available;
+}
+
+void boinc_nthreads(int n) {
+    char msg_buf[MSG_CHANNEL_SIZE];
+
+    nthreads = n;
+    if (standalone) return;
+    sprintf(msg_buf, "<nthreads>%d</nthreads>", n);
+    return app_client_shm->shm->process_control_reply.send_msg_overwrite(msg_buf);
 }
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

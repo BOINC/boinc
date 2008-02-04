@@ -115,6 +115,8 @@ if (can_reply($thread, $forum, $logged_in_user)) {
 }
 
 if ($is_subscribed) {
+    $type = NOTIFY_SUBSCRIBED_POST;
+    BoincNotify::delete_aux("userid=$logged_in_user->id and type=$type and opaque=$thread->id");
     $url = "forum_subscribe.php?action=unsubscribe&thread=".$thread->id."$tokens";
     show_button($url, tra("Unsubscribe"), "You are subscribed to this thread.  Click here to unsubscribe.");
 } else {
@@ -138,7 +140,7 @@ if (is_moderator($logged_in_user, $forum)) {
     if ($thread->locked) {
         show_button("forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens", "Unlock", "Unlock this thread");
     } else {
-        show_button("forum_moderate_thread_action.php?action=lock&thread=".$thread->id."$tokens", "Lock", "Lock this thread");
+        show_button("forum_moderate_thread.php?action=lock&thread=".$thread->id."$tokens", "Lock", "Lock this thread");
     }
     if ($forum->parent_type == 0) {
         show_button("forum_moderate_thread.php?action=move&thread=".$thread->id."$tokens", "Move", "Move this thread to a different forum");

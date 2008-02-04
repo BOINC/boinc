@@ -69,6 +69,8 @@ UINT CACreateBOINCAccounts::OnExecution()
     tstring          strBOINCProjectAccountPassword;
     tstring          strComputerName;
     tstring          strProductType;
+    tstring          strDataDirectory;
+    tstring          strEnableProtectedApplicationExecution;
     PSID             pSid;
     NET_API_STATUS   nasReturnValue;
     BOOL             bBOINCMasterAccountModified = FALSE;
@@ -91,6 +93,9 @@ UINT CACreateBOINCAccounts::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("MsiNTProductType"), strProductType );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
     if ( uiReturnValue ) return uiReturnValue;
 
 

@@ -469,7 +469,7 @@ void txfGetStringMetrics(
 		} 
 		else {
 			tgvi = getTCVI(txf, string[i]);
-			w += tgvi->advance;
+			w += (int)tgvi->advance;
 		}
 	}
 	*width = w;

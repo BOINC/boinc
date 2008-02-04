@@ -16,6 +16,7 @@ extern void boinc_app_key_release(int, int);
 extern void boinc_graphics_loop(int, char**);
 extern void* boinc_graphics_make_shmem(char*, int);
 extern void* boinc_graphics_get_shmem(char*);
+extern void boinc_set_windows_icon(const char* icon16,const char* icon48);
 
 // Implementation stuff
 //

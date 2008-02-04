@@ -45,6 +45,7 @@ public:
     int min_sendwork_interval;
     int max_wus_to_send;
     int max_wus_in_progress;
+        // max jobs in progress on a given host (per CPU)
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
     int homogeneous_redundancy;
@@ -108,6 +109,7 @@ public:
         // user name under which web server runs (default: apache)
     int file_deletion_strategy;
         // select method of automatically deleting files from host
+    bool request_time_stats_log;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

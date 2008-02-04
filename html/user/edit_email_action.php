@@ -34,7 +34,7 @@ if (!is_valid_email_addr($email_addr)) {
             echo "Invalid password.";
         } else {
             $passwd_hash = md5($passwd.$email_addr);
-            $result = $user->update("email_addr='$email_addr', passwd_hash='$passwd_hash'");
+            $result = $user->update("email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0");
             if ($result) {
                 echo "
                     The email address of your account is now $email_addr.

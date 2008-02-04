@@ -19,9 +19,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #endif
 
@@ -44,7 +42,7 @@ ACCT_MGR_OP::ACCT_MGR_OP() {
 }
 
 // do an account manager RPC;
-// if url is null, defect from current account manager
+// if URL is null, detach from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
     std::string _url, std::string name, std::string password_hash,

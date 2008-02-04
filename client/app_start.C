@@ -39,6 +39,7 @@
 #endif
 #include <unistd.h>
 #include <cerrno>
+#include <sys/stat.h>
 #endif
 
 #ifdef __EMX__
@@ -66,6 +67,7 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "base64.h"
 #include "sandbox.h"
 
 #include "app.h"
@@ -327,6 +329,7 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_INFO* fip;
     int retval;
 #ifdef _WIN32
+    CLIENT_AUTHORIZATION ca;
     std::string cmd_line;
 #endif
 
@@ -342,7 +345,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     if (wup->project->verify_files_on_app_start) {
-        FILE_INFO* fip=0;
+        fip=0;
         retval = gstate.input_files_available(result, true, &fip);
         if (retval) {
             if (fip) {
@@ -469,11 +472,7 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.dwFlags=STARTF_FORCEOFFFEEDBACK;
     // suppress 2-sec rotating hourglass cursor on startup
 
-    //startup_info.cb = sizeof(startup_info);
-    //startup_info.dwFlags = STARTF_USESHOWWINDOW;
-    //startup_info.wShowWindow = SW_HIDE;
-
-    // create core/app share mem segment if needed
+    // create shared mem segment if needed
     //
     if (!app_client_shm.shm) {
         sprintf(buf, "%s%s", SHM_PREFIX, shmem_seg_name);
@@ -488,25 +487,68 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     app_client_shm.reset_msgs();
 
+    if (config.run_apps_manually) {
+        pid = GetCurrentProcessId();
+        pid_handle = GetCurrentProcess();
+        set_task_state(PROCESS_EXECUTING, "start");
+        return 0;
+    }
     // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
     cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
+    ca.init();
     for (i=0; i<5; i++) {
-        if (CreateProcess(exec_path,
-            (LPSTR)cmd_line.c_str(),
-            NULL,
-            NULL,
-            FALSE,
-            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-            NULL,
-            slotdirpath,
-            &startup_info,
-            &process_info
-        )) {
-            success = true;
-            break;
+        if (ca.use_authorizations) {
+            HANDLE hToken;
+            std::string username = ca.boinc_project.username;
+            std::string password = r_base64_decode(ca.boinc_project.password);
+            if (!LogonUser( username.c_str(), NULL, password.c_str(), 
+                            LOGON32_LOGON_SERVICE, LOGON32_PROVIDER_DEFAULT,
+                            &hToken ) )
+            {
+                windows_error_string(error_msg, sizeof(error_msg));
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "LogonUser failed: %s", error_msg
+                );
+            }
+
+            if (CreateProcessAsUser(
+                hToken,
+                exec_path,
+                (LPSTR)cmd_line.c_str(),
+                NULL,
+                NULL,
+                FALSE,
+                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+                NULL,
+                slotdirpath,
+                &startup_info,
+                &process_info
+            )) {
+                success = true;
+                break;
+            }
+
+            CloseHandle(hToken);
+
+        } else {
+            if (CreateProcess(
+                exec_path,
+                (LPSTR)cmd_line.c_str(),
+                NULL,
+                NULL,
+                FALSE,
+                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+                NULL,
+                slotdirpath,
+                &startup_info,
+                &process_info
+            )) {
+                success = true;
+                break;
+            }
         }
         windows_error_string(error_msg, sizeof(error_msg));
         msg_printf(wup->project, MSG_INTERNAL_ERROR,
@@ -617,7 +659,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
             if (retval) {
                 needs_shmem = true;
-                destroy_shmem(shmem_seg_name);  // Don't leave an orphan shmem segment
+                destroy_shmem(shmem_seg_name);
                 return retval;
             }
         }
@@ -629,7 +671,11 @@ int ACTIVE_TASK::start(bool first_time) {
     // PowerPC apps emulated on i386 Macs crash if running graphics
     powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
 #endif
-
+    if (config.run_apps_manually) {
+        pid = getpid();     // use the client's PID
+        set_task_state(PROCESS_EXECUTING, "start");
+        return 0;
+    }
     pid = fork();
     if (pid == -1) {
         sprintf(buf, "fork() failed: %s", strerror(errno));
@@ -697,6 +743,9 @@ int ACTIVE_TASK::start(bool first_time) {
             if (log_flags.task_debug) {
                 debug_print_argv(argv);
             }
+            // Files written by projects have user boinc_project and group boinc_project, 
+            // so they must be world-readable so BOINC CLient can read them 
+            umask(2);
             retval = execv(switcher_path, argv);
         } else {
             argv[0] = exec_name;

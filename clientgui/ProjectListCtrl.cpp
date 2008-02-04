@@ -252,7 +252,7 @@ void CProjectListItemCtrl::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer8 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer8->AddGrowableRow(0);
     itemFlexGridSizer8->AddGrowableCol(0);
-    itemBoxSizer7->Add(itemFlexGridSizer8, 0, wxGROW|wxALL, 5);
+    itemBoxSizer7->Add(itemFlexGridSizer8, 0, wxGROW|wxALL, 1);
 
     m_pTitleStaticCtrl = new CProjectListItemStaticCtrl;
     m_pTitleStaticCtrl->Create( this, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );

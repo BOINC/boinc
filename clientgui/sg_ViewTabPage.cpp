@@ -510,6 +510,13 @@ CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
+    
+#if wxCHECK_VERSION(2,8,0)
+    // Workaround for unknown problem with newer versions of wxWidgets
+    // At this point, the size of the panel has been reduced to 336,300
+    this->SetSize(343,314);
+#endif
+
 #if (defined(__WXMAC__) && (! wxCHECK_VERSION(2,8,0)))
     // wxBufferedDC.GetTextExtent() fails with wxMac-2.6.3, causing Manager to hang
     wxClientDC dc(this);

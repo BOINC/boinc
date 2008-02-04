@@ -130,6 +130,8 @@ int main(int argc, const char** argv) {
             wu.max_total_results = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-max_success_results")) {
             wu.max_success_results = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-opaque")) {
+            wu.opaque = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-command_line")) {
             command_line= argv[++i];
         } else if (!strcmp(argv[i], "-additional_xml")) {

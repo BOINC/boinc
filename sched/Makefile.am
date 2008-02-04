@@ -76,6 +76,7 @@ cgi_SOURCES = \
     sched_locality.C \
     sched_timezone.C \
     server_types.C \
+	time_stats_log.C \
     ../lib/synch.C
 
 census_SOURCES = \
@@ -190,6 +191,7 @@ fcgi_SOURCES = \
     sched_msgs.C \
     sched_locality.C \
     sched_timezone.C \
+	time_stats_log.C \
     edf_sim.C \
     ../db/boinc_db.C \
     ../db/db_base.C \
@@ -203,13 +205,14 @@ fcgi_SOURCES = \
     ../lib/parse.C \
     ../lib/shmem.C \
     ../lib/synch.C \
+    ../lib/str_util.C \
     ../lib/util.C \
     ../tools/process_result_template.C \
     ../tools/backend_lib.C
 
 fcgi_DEPENDENCIES = $(LIB_SCHED)
 fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
+fcgi_LDADD = $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.C \

@@ -112,6 +112,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     too_large = false;
     needs_shmem = false;
     want_network = 0;
+    nthreads = 1;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
     pid_handle = 0;
@@ -344,7 +345,7 @@ int ACTIVE_TASK::move_trickle_file() {
     // if can't move it, remove
     //
     if (retval) {
-        delete_project_owned_file(old_path);
+        delete_project_owned_file(old_path, true);
         return ERR_RENAME;
     }
     return 0;
@@ -405,7 +406,7 @@ int ACTIVE_TASK_SET::get_free_slot() {
         get_slot_dir(j, path, sizeof(path));
         if (boinc_file_exists(path)) {
             if (is_dir(path)) {
-                retval = clean_out_dir(path);
+                retval = client_clean_out_dir(path);
                 if (!retval) return j;
             }
         } else {
@@ -771,7 +772,7 @@ int ACTIVE_TASK::handle_upload_files() {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Can't find uploadable file %s", p);
             }
             sprintf(path, "%s/%s", slot_dir, buf);
-            delete_project_owned_file(path);
+            delete_project_owned_file(path, true);  // delete the link file
         }
     }
     return 0;

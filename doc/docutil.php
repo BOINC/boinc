@@ -165,9 +165,12 @@ function list_item_func($x, $y) {
     list_item(html_text($x), $y);
 }
 
-function list_bar($x) {
+function list_bar($x, $note="") {
+    if ($note) {
+        $note = "<br><span class=note>$note</span>";
+    }
     echo "
-        <tr><td colspan=8 class=heading><center><b>$x</b></center></td></tr>
+        <tr><td colspan=8 class=heading><center><b>$x</b>$note</center></td></tr>
     ";
 }
 

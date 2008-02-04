@@ -30,7 +30,7 @@
 
 int main() {
     SCHED_SHMEM* ssp;
-    int retval, i;
+    int retval;
     void* p;
     SCHED_CONFIG config;
 

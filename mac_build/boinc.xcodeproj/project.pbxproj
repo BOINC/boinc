@@ -14,7 +14,6 @@
 			);
 			dependencies = (
 				DDBD681107FA830E0082C20D /* PBXTargetDependency */,
-				DDBD681307FA830E0082C20D /* PBXTargetDependency */,
 				DDB874670C850DB600E0DE1F /* PBXTargetDependency */,
 				DDBD681507FA830E0082C20D /* PBXTargetDependency */,
 				DD791FF10819063C00BE2906 /* PBXTargetDependency */,
@@ -157,13 +156,6 @@
 		DD407A6B07D2FBC700163EF5 /* shmem.C in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.C */; };
 		DD407A6D07D2FBD100163EF5 /* util.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.C */; };
 		DD407ABB07D2FC7D00163EF5 /* mem_usage.C in Sources */ = {isa = PBXBuildFile; fileRef = DD407AB707D2FC7D00163EF5 /* mem_usage.C */; };
-		DD40824807D3068A00163EF5 /* graphics_api.C in Sources */ = {isa = PBXBuildFile; fileRef = F59DD6F7032FF0AF01A80164 /* graphics_api.C */; };
-		DD40825C07D3076400163EF5 /* graphics_data.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825107D3076400163EF5 /* graphics_data.C */; };
-		DD40825E07D3076400163EF5 /* graphics_impl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825307D3076400163EF5 /* graphics_impl.C */; };
-		DD40826007D3076400163EF5 /* gutil.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825507D3076400163EF5 /* gutil.C */; };
-		DD40826207D3076400163EF5 /* reduce_lib.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825707D3076400163EF5 /* reduce_lib.C */; };
-		DD40826307D3076400163EF5 /* reduce_main.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.C */; };
-		DD40826507D3076400163EF5 /* x_opengl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825A07D3076400163EF5 /* x_opengl.C */; };
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD4329910BA63DEC007CDF2A /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
@@ -175,7 +167,6 @@
 		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
 		DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */; };
 		DD4E704C0BCDAC360010A522 /* browser.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.C */; };
-		DD4EC61108A0A083009AA08F /* texture.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.C */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.C */; };
 		DD51DC8F0A4943A300BD24E6 /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
@@ -185,13 +176,11 @@
 		DD52C81408B5D484008D9AA4 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
+		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
-		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
+		DD635A420D384FA500BAC1A5 /* texfont.C in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
-		DD63F7510B64EECE0053037F /* libwx_mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac.a */; };
-		DD64DF0509DCC5E000668B3A /* gutil_text.C in Sources */ = {isa = PBXBuildFile; fileRef = DD64DF0409DCC5E000668B3A /* gutil_text.C */; };
-		DD65020A09F599B9008E8A3A /* texfont.c in Sources */ = {isa = PBXBuildFile; fileRef = DD65020609F599B9008E8A3A /* texfont.c */; };
-		DD65020B09F599B9008E8A3A /* txf_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.C */; };
+		DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD69FEF508416C6B00C01361 /* gui_rpc_client.C in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */; };
@@ -199,14 +188,12 @@
 		DD69FF0C084171CF00C01361 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
 		DD6D0A8707E9A61E007F882B /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
-		DD6D82DE08131B72008F7200 /* macglutfix.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6D82DA08131AB1008F7200 /* macglutfix.m */; };
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */; };
 		DD73E3A708A07CA600656EB1 /* hostinfo.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.C */; };
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; };
-		DD7BF7D90B8E7A9800A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DD7BF7DA0B8E7A9800A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DD7BF7E10B8E7B3700A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DD7BF7E40B8E7B5000A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
@@ -219,6 +206,7 @@
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
+		DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA546600D16964E008CC69A /* QuickTime.framework */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.C */; };
 		DDA6BD130BD4551F008F7921 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD060BD4551F008F7921 /* QBacktrace.c */; };
 		DDA6BD140BD4551F008F7921 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD080BD4551F008F7921 /* QCrashReport.c */; };
@@ -250,13 +238,13 @@
 		DDB873F10C850BC800E0DE1F /* reduce_main.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.C */; };
 		DDB873F20C850BC800E0DE1F /* texture.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.C */; };
 		DDB873F40C850BC800E0DE1F /* gutil_text.C in Sources */ = {isa = PBXBuildFile; fileRef = DD64DF0409DCC5E000668B3A /* gutil_text.C */; };
-		DDB873F50C850BC800E0DE1F /* texfont.c in Sources */ = {isa = PBXBuildFile; fileRef = DD65020609F599B9008E8A3A /* texfont.c */; };
 		DDB873F60C850BC800E0DE1F /* txf_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.C */; };
 		DDB873F70C850BC800E0DE1F /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DDB874470C850D3000E0DE1F /* graphics2_unix.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB874450C850D3000E0DE1F /* graphics2_unix.C */; };
 		DDB874480C850D3000E0DE1F /* graphics2.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB874460C850D3000E0DE1F /* graphics2.C */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.C in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.C */; };
+		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
 		DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
@@ -394,26 +382,26 @@
 			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
 			remoteInfo = setprojectgrp;
 		};
-		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD3E14D30A774397007E0084;
-			remoteInfo = mgr_boinc;
-		};
-		DD5DDAE50CD2AF200075461A /* PBXContainerItemProxy */ = {
+		DD5457700D1692570046EDBD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
 			remoteInfo = static;
 		};
-		DD5DDAE70CD2AF200075461A /* PBXContainerItemProxy */ = {
+		DD5457720D1692570046EDBD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
 			remoteInfo = dynamic;
+		};
+		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3E14D30A774397007E0084;
+			remoteInfo = mgr_boinc;
 		};
 		DD664F18084321A2009BFB11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -491,13 +479,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
 			remoteInfo = libboinc;
-		};
-		DDBD681207FA830E0082C20D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD40823907D304F000163EF5;
-			remoteInfo = gfxlibboinc;
 		};
 		DDBD681407FA830E0082C20D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -626,18 +607,11 @@
 		DD407ADC07D2FDF700163EF5 /* std_fixes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = std_fixes.h; path = ../lib/std_fixes.h; sourceTree = SOURCE_ROOT; };
 		DD407AEA07D2FE6500163EF5 /* synch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = synch.h; path = ../lib/synch.h; sourceTree = SOURCE_ROOT; };
 		DD407AED07D2FE7200163EF5 /* synch.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = synch.C; path = ../lib/synch.C; sourceTree = SOURCE_ROOT; };
-		DD40823A07D304F000163EF5 /* libboinc_graphics_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_graphics_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD40825107D3076400163EF5 /* graphics_data.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_data.C; path = ../api/graphics_data.C; sourceTree = SOURCE_ROOT; };
-		DD40825207D3076400163EF5 /* graphics_data.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = graphics_data.h; path = ../api/graphics_data.h; sourceTree = SOURCE_ROOT; };
-		DD40825307D3076400163EF5 /* graphics_impl.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_impl.C; path = ../api/graphics_impl.C; sourceTree = SOURCE_ROOT; };
-		DD40825407D3076400163EF5 /* graphics_impl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = graphics_impl.h; path = ../api/graphics_impl.h; sourceTree = SOURCE_ROOT; };
 		DD40825507D3076400163EF5 /* gutil.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gutil.C; path = ../api/gutil.C; sourceTree = SOURCE_ROOT; };
 		DD40825607D3076400163EF5 /* gutil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gutil.h; path = ../api/gutil.h; sourceTree = SOURCE_ROOT; };
 		DD40825707D3076400163EF5 /* reduce_lib.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = reduce_lib.C; path = ../api/reduce_lib.C; sourceTree = SOURCE_ROOT; };
 		DD40825807D3076400163EF5 /* reduce_main.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = reduce_main.C; path = ../api/reduce_main.C; sourceTree = SOURCE_ROOT; };
 		DD40825907D3076400163EF5 /* reduce.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = reduce.h; path = ../api/reduce.h; sourceTree = SOURCE_ROOT; };
-		DD40825A07D3076400163EF5 /* x_opengl.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = x_opengl.C; path = ../api/x_opengl.C; sourceTree = SOURCE_ROOT; };
-		DD40825B07D3076400163EF5 /* x_opengl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = x_opengl.h; path = ../api/x_opengl.h; sourceTree = SOURCE_ROOT; };
 		DD40827D07D30AA800163EF5 /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = jpeglib.h; path = "../../jpeg-6b/jpeglib.h"; sourceTree = SOURCE_ROOT; };
 		DD40CDF907F0386A0096C645 /* SystemMenu.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SystemMenu.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD40CDFA07F0386B0096C645 /* SystemMenu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "SystemMenu-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -710,17 +684,17 @@
 		DD58C46808F334EA00C1DF66 /* WizardAttachProject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WizardAttachProject.h; path = ../clientgui/WizardAttachProject.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
-		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.6.3/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.7/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hyperlink.cpp; sourceTree = "<group>"; };
 		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = whetstone.C; path = ../client/whetstone.C; sourceTree = SOURCE_ROOT; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
+		DD635A410D384FA500BAC1A5 /* texfont.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texfont.C; path = ../api/texfont.C; sourceTree = SOURCE_ROOT; };
 		DD6381450870DB78007A2F8E /* mac_icon.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_icon.C; path = ../api/mac_icon.C; sourceTree = SOURCE_ROOT; };
 		DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MakeAppIcon_h; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD6381F80870DD83007A2F8E /* make_app_icon_h.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = make_app_icon_h.C; sourceTree = "<group>"; };
 		DD64DF0409DCC5E000668B3A /* gutil_text.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gutil_text.C; path = ../api/gutil_text.C; sourceTree = SOURCE_ROOT; };
 		DD64E7D507D89DB800B176C8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		DD65020609F599B9008E8A3A /* texfont.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = texfont.c; path = ../api/texfont.c; sourceTree = SOURCE_ROOT; };
 		DD65020709F599B9008E8A3A /* texfont.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texfont.h; path = ../api/texfont.h; sourceTree = SOURCE_ROOT; };
 		DD65020809F599B9008E8A3A /* txf_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.C; path = ../api/txf_util.C; sourceTree = SOURCE_ROOT; };
 		DD65020909F599B9008E8A3A /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../api/txf_util.h; sourceTree = SOURCE_ROOT; };
@@ -792,6 +766,7 @@
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
+		DDA546600D16964E008CC69A /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.C; path = ../lib/mac/mac_backtrace.C; sourceTree = SOURCE_ROOT; };
 		DDA6BD050BD4551F008F7921 /* mac_backtrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mac_backtrace.h; path = ../lib/mac/mac_backtrace.h; sourceTree = SOURCE_ROOT; };
@@ -807,7 +782,7 @@
 		DDA6BD0F0BD4551F008F7921 /* QSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QSymbols.h; path = ../lib/mac/QSymbols.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD100BD4551F008F7921 /* QTaskMemory.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../lib/mac/QTaskMemory.c; sourceTree = SOURCE_ROOT; };
 		DDA6BD110BD4551F008F7921 /* QTaskMemory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTaskMemory.h; path = ../lib/mac/QTaskMemory.h; sourceTree = SOURCE_ROOT; };
-		DDA90F260B64673D008F2E87 /* libwx_mac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac.a; path = "../../wxMac-2.6.3/src/build/Deployment/libwx_mac.a"; sourceTree = SOURCE_ROOT; };
+		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.7/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.C; path = ../clientgui/mac/SetVersion.C; sourceTree = SOURCE_ROOT; };
@@ -824,6 +799,8 @@
 		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDBE74380C03B1C600453BB8 /* cs_platforms.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_platforms.C; path = ../client/cs_platforms.C; sourceTree = SOURCE_ROOT; };
+		DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCClientManager.cpp; path = ../clientgui/BOINCClientManager.cpp; sourceTree = SOURCE_ROOT; };
+		DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCClientManager.h; path = ../clientgui/BOINCClientManager.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
 		DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_BoincSimpleGUI.cpp; path = ../clientgui/sg_BoincSimpleGUI.cpp; sourceTree = SOURCE_ROOT; };
@@ -911,8 +888,6 @@
 		F54B901602AC0A2201FB7237 /* parse.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = parse.C; path = ../lib/parse.C; sourceTree = SOURCE_ROOT; };
 		F5755AD302FE063A012012A7 /* boinc_api.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = boinc_api.C; path = ../api/boinc_api.C; sourceTree = SOURCE_ROOT; };
 		F5755AD402FE063A012012A7 /* boinc_api.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_api.h; path = ../api/boinc_api.h; sourceTree = SOURCE_ROOT; };
-		F59DD6F6032FF0AF01A80164 /* graphics_api.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = graphics_api.h; path = ../api/graphics_api.h; sourceTree = SOURCE_ROOT; };
-		F59DD6F7032FF0AF01A80164 /* graphics_api.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = graphics_api.C; path = ../api/graphics_api.C; sourceTree = SOURCE_ROOT; };
 		F5EAD474031AEFF8018E201A /* filesys.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = filesys.h; path = ../lib/filesys.h; sourceTree = SOURCE_ROOT; };
 		F5EAD475031AEFF8018E201A /* filesys.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = filesys.C; path = ../lib/filesys.C; sourceTree = SOURCE_ROOT; };
 		F5EAD478031AF001018E201A /* util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../lib/util.h; sourceTree = SOURCE_ROOT; };
@@ -953,18 +928,12 @@
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
 				DDFE854B0B60CFD0009B43D9 /* AppKit.framework in Frameworks */,
-				DD63F7510B64EECE0053037F /* libwx_mac.a in Frameworks */,
+				DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */,
+				DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DD407A4807D2FB1200163EF5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD40823807D304F000163EF5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1070,7 +1039,6 @@
 			children = (
 				DDD74D8707CF482E0065AC9D /* boinc */,
 				DD407A4A07D2FB1200163EF5 /* libboinc.a */,
-				DD40823A07D304F000163EF5 /* libboinc_graphics_api.a */,
 				DD35353107E1E05C00C4718D /* libboinc_api.a */,
 				DD40CDF907F0386A0096C645 /* SystemMenu.bundle */,
 				DDAEC9E107FA583B00A7BC36 /* SetVersion */,
@@ -1136,9 +1104,10 @@
 				DDFE854A0B60CFD0009B43D9 /* AppKit.framework */,
 				DDE2552B07C62F3E008E7D6E /* IOKit.framework */,
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+				DDA546600D16964E008CC69A /* QuickTime.framework */,
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
-				DDA90F260B64673D008F2E87 /* libwx_mac.a */,
+				DDA90F260B64673D008F2E87 /* libwx_mac_static.a */,
 				DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */,
 			);
 			name = "External Frameworks and Libraries";
@@ -1159,11 +1128,11 @@
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD5DDADD0CD2AF200075461A /* Products */ = {
+		DD54576B0D1692570046EDBD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DD5DDAE60CD2AF200075461A /* libwx_mac_static.a */,
-				DD5DDAE80CD2AF200075461A /* libwx_mac.dylib */,
+				DD5457710D1692570046EDBD /* libwx_mac_static.a */,
+				DD5457730D1692570046EDBD /* libwx_mac.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1193,6 +1162,8 @@
 				DD81C43407C5D2240098A04D /* BOINCBaseView.h */,
 				DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */,
 				DD58C43508F3347D00C1DF66 /* BOINCBaseWizard.h */,
+				DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */,
+				DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */,
 				DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */,
 				DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */,
 				DD2EA0830B4B22010073B1AA /* BOINCGridCtrl.cpp */,
@@ -1521,12 +1492,6 @@
 			children = (
 				F5755AD302FE063A012012A7 /* boinc_api.C */,
 				F5755AD402FE063A012012A7 /* boinc_api.h */,
-				F59DD6F7032FF0AF01A80164 /* graphics_api.C */,
-				F59DD6F6032FF0AF01A80164 /* graphics_api.h */,
-				DD40825107D3076400163EF5 /* graphics_data.C */,
-				DD40825207D3076400163EF5 /* graphics_data.h */,
-				DD40825307D3076400163EF5 /* graphics_impl.C */,
-				DD40825407D3076400163EF5 /* graphics_impl.h */,
 				DDE41C250C1FCA8F00CA1F86 /* graphics2_util.C */,
 				DDB874450C850D3000E0DE1F /* graphics2_unix.C */,
 				DDB874460C850D3000E0DE1F /* graphics2.C */,
@@ -1540,14 +1505,12 @@
 				DD40825707D3076400163EF5 /* reduce_lib.C */,
 				DD40825807D3076400163EF5 /* reduce_main.C */,
 				DD40825907D3076400163EF5 /* reduce.h */,
-				DD65020609F599B9008E8A3A /* texfont.c */,
+				DD635A410D384FA500BAC1A5 /* texfont.C */,
 				DD65020709F599B9008E8A3A /* texfont.h */,
 				DD4EC60F08A0A083009AA08F /* texture.C */,
 				DD4EC61008A0A083009AA08F /* texture.h */,
 				DD65020809F599B9008E8A3A /* txf_util.C */,
 				DD65020909F599B9008E8A3A /* txf_util.h */,
-				DD40825A07D3076400163EF5 /* x_opengl.C */,
-				DD40825B07D3076400163EF5 /* x_opengl.h */,
 			);
 			name = api;
 			path = ../api;
@@ -1665,22 +1628,6 @@
 			name = libboinc;
 			productName = libboinc;
 			productReference = DD407A4A07D2FB1200163EF5 /* libboinc.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		DD40823907D304F000163EF5 /* gfxlibboinc */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DD9E2355091CBDAE0048316E /* Build configuration list for PBXNativeTarget "gfxlibboinc" */;
-			buildPhases = (
-				DD40823707D304F000163EF5 /* Sources */,
-				DD40823807D304F000163EF5 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = gfxlibboinc;
-			productName = libboincgfx;
-			productReference = DD40823A07D304F000163EF5 /* libboinc_graphics_api.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		DD40CDF807F0386A0096C645 /* SystemMenu */ = {
@@ -1900,7 +1847,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DD5DDADD0CD2AF200075461A /* Products */;
+					ProductGroup = DD54576B0D1692570046EDBD /* Products */;
 					ProjectRef = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 				},
 			);
@@ -1910,7 +1857,6 @@
 				DDD74D8607CF482E0065AC9D /* BOINC_Client */,
 				DD69FEE708416C1300C01361 /* cmd_boinc */,
 				DD407A4907D2FB1200163EF5 /* libboinc */,
-				DD40823907D304F000163EF5 /* gfxlibboinc */,
 				DDB873E90C850BC800E0DE1F /* gfx2libboinc */,
 				DD35353007E1E05C00C4718D /* api_libboinc */,
 				DD40CDF807F0386A0096C645 /* SystemMenu */,
@@ -1930,18 +1876,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		DD5DDAE60CD2AF200075461A /* libwx_mac_static.a */ = {
+		DD5457710D1692570046EDBD /* libwx_mac_static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libwx_mac_static.a;
-			remoteRef = DD5DDAE50CD2AF200075461A /* PBXContainerItemProxy */;
+			remoteRef = DD5457700D1692570046EDBD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DD5DDAE80CD2AF200075461A /* libwx_mac.dylib */ = {
+		DD5457730D1692570046EDBD /* libwx_mac.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = libwx_mac.dylib;
-			remoteRef = DD5DDAE70CD2AF200075461A /* PBXContainerItemProxy */;
+			remoteRef = DD5457720D1692570046EDBD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2175,7 +2121,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD35353607E1E13F00C4718D /* boinc_api.C in Sources */,
-				DD6381460870DB78007A2F8E /* mac_icon.C in Sources */,
 				DDE41C260C1FCA8F00CA1F86 /* graphics2_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2286,6 +2231,7 @@
 				DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */,
 				DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */,
 				DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */,
+				DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2322,26 +2268,6 @@
 				DDA6BD1D0BD4551F008F7921 /* QMachOImageList.c in Sources */,
 				DDA6BD1E0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD40823707D304F000163EF5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD40824807D3068A00163EF5 /* graphics_api.C in Sources */,
-				DD40825C07D3076400163EF5 /* graphics_data.C in Sources */,
-				DD40825E07D3076400163EF5 /* graphics_impl.C in Sources */,
-				DD40826007D3076400163EF5 /* gutil.C in Sources */,
-				DD6D82DE08131B72008F7200 /* macglutfix.m in Sources */,
-				DD40826207D3076400163EF5 /* reduce_lib.C in Sources */,
-				DD40826307D3076400163EF5 /* reduce_main.C in Sources */,
-				DD4EC61108A0A083009AA08F /* texture.C in Sources */,
-				DD40826507D3076400163EF5 /* x_opengl.C in Sources */,
-				DD64DF0509DCC5E000668B3A /* gutil_text.C in Sources */,
-				DD65020A09F599B9008E8A3A /* texfont.c in Sources */,
-				DD65020B09F599B9008E8A3A /* txf_util.C in Sources */,
-				DD7BF7D90B8E7A9800A009F7 /* str_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2435,9 +2361,10 @@
 				DDB873F00C850BC800E0DE1F /* reduce_lib.C in Sources */,
 				DDB873F10C850BC800E0DE1F /* reduce_main.C in Sources */,
 				DDB873F20C850BC800E0DE1F /* texture.C in Sources */,
-				DDB873F50C850BC800E0DE1F /* texfont.c in Sources */,
 				DDB873F60C850BC800E0DE1F /* txf_util.C in Sources */,
 				DDB873F70C850BC800E0DE1F /* str_util.C in Sources */,
+				DD635A420D384FA500BAC1A5 /* texfont.C in Sources */,
+				DD5BF77D0D4F3D0C00EDF980 /* mac_icon.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2651,11 +2578,6 @@
 			target = DD407A4907D2FB1200163EF5 /* libboinc */;
 			targetProxy = DDBD681007FA830E0082C20D /* PBXContainerItemProxy */;
 		};
-		DDBD681307FA830E0082C20D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD40823907D304F000163EF5 /* gfxlibboinc */;
-			targetProxy = DDBD681207FA830E0082C20D /* PBXContainerItemProxy */;
-		};
 		DDBD681507FA830E0082C20D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD35353007E1E05C00C4718D /* api_libboinc */;
@@ -2751,8 +2673,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2760,7 +2682,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -2799,8 +2721,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2808,7 +2730,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -2848,8 +2770,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2857,7 +2779,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -2897,8 +2819,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2906,7 +2828,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3032,24 +2954,6 @@
 			};
 			name = Deploy_noSandbox;
 		};
-		DD62C37F0A801FB400B3D68A /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics_api;
-			};
-			name = Dev_noSandbox;
-		};
-		DD62C3800A801FB400B3D68A /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics_api;
-			};
-			name = Deploy_noSandbox;
-		};
 		DD62C3810A801FB400B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3125,7 +3029,8 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3144,7 +3049,8 @@
 				);
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3157,6 +3063,7 @@
 		DD62C3890A801FB500B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/;
 				OTHER_LDFLAGS = (
@@ -3172,6 +3079,7 @@
 		DD62C38A0A801FB500B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
@@ -3236,8 +3144,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -3248,8 +3154,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -3400,8 +3304,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3409,7 +3313,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3447,8 +3351,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3456,7 +3360,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3493,7 +3397,9 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -3533,6 +3439,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_FAST_MATH = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3616,6 +3524,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_FAST_MATH = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3673,7 +3583,8 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3688,8 +3599,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -3701,15 +3610,6 @@
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
-			};
-			name = "Deployment-no64";
-		};
-		DD96706C0CED9A800009D32B /* Deployment-no64 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics_api;
 			};
 			name = "Deployment-no64";
 		};
@@ -3733,6 +3633,7 @@
 		DD96706F0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
@@ -3848,8 +3749,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.3/src/build/include/",
-					"../../wxMac-2.6.3/include",
+					"../../wxMac-2.8.7/src/build/include/",
+					"../../wxMac-2.8.7/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3857,7 +3758,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.6.3/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3922,28 +3823,6 @@
 			};
 			name = Deployment;
 		};
-		DD9843DA09920F220090855B /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
-				GCC_VERSION_ppc = 3.3;
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				PRODUCT_NAME = boinc_graphics_api;
-			};
-			name = Deployment;
-		};
 		DD9843DB09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3995,9 +3874,10 @@
 					ppc,
 					x86_64,
 				);
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.18.0/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4011,6 +3891,7 @@
 		DD9843DF09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
@@ -4053,8 +3934,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4101,6 +3980,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_FAST_MATH = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4169,24 +4050,6 @@
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
-			};
-			name = ppc_Deployment;
-		};
-		DD9E2356091CBDAE0048316E /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics_api;
-			};
-			name = Development;
-		};
-		DD9E2357091CBDAE0048316E /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics_api;
 			};
 			name = ppc_Deployment;
 		};
@@ -4266,7 +4129,8 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4282,7 +4146,8 @@
 				ARCHS = ppc;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4295,6 +4160,7 @@
 		DD9E236A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/;
 				OTHER_LDFLAGS = (
@@ -4310,6 +4176,7 @@
 		DD9E236B091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				OTHER_LDFLAGS = (
@@ -4376,8 +4243,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4388,8 +4253,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4460,7 +4323,9 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -4508,6 +4373,8 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -4541,15 +4408,6 @@
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
-			};
-			name = i386_Deployment;
-		};
-		DDA2D1580952A93E00D0B538 /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_VERSION_ppc = 3.3;
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				PRODUCT_NAME = boinc_graphics_api;
 			};
 			name = i386_Deployment;
 		};
@@ -4589,7 +4447,8 @@
 				ARCHS = i386;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.17.1/lib/.libs/libcurl.a",
+					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4602,6 +4461,7 @@
 		DDA2D15D0952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/4.0;
 				OTHER_LDFLAGS = (
@@ -4643,8 +4503,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinc_cmd;
@@ -4688,6 +4546,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_FAST_MATH = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4950,20 +4810,6 @@
 				DD9843D909920F220090855B /* Deployment */,
 				DD96706B0CED9A800009D32B /* Deployment-no64 */,
 				DD62C37E0A801FB400B3D68A /* Deploy_noSandbox */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
-		};
-		DD9E2355091CBDAE0048316E /* Build configuration list for PBXNativeTarget "gfxlibboinc" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DD9E2356091CBDAE0048316E /* Development */,
-				DD62C37F0A801FB400B3D68A /* Dev_noSandbox */,
-				DD9E2357091CBDAE0048316E /* ppc_Deployment */,
-				DDA2D1580952A93E00D0B538 /* i386_Deployment */,
-				DD9843DA09920F220090855B /* Deployment */,
-				DD96706C0CED9A800009D32B /* Deployment-no64 */,
-				DD62C3800A801FB400B3D68A /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;

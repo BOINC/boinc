@@ -1,3 +1,24 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+// unix-specific graphics stuff
+//
 #include "config.h"
 #include <stdlib.h>
 #include <stdio.h>    
@@ -153,10 +174,7 @@ static void make_window() {
     }
 }
 
-static void boinc_glut_init() {
-    const char* args[2] = {"BOINC", NULL};
-    int one=1;
-
+static void boinc_glut_init(int *argc, char** argv) {
     win = 0;
 
     FILE *f = boinc_fopen("gfx_info", "r");
@@ -166,7 +184,7 @@ static void boinc_glut_init() {
         fclose(f);
     }
 
-    glutInit (&one, (char**)args);
+    glutInit (argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_ALPHA); 
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(width, height); 
@@ -187,7 +205,7 @@ void boinc_graphics_loop(int argc, char** argv) {
             fullscreen = true;
         }
     }
-    boinc_glut_init();
+    boinc_glut_init(&argc, argv);
     make_window();
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
 #ifdef __APPLE__

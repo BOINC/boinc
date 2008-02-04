@@ -482,7 +482,7 @@ void CViewWork::UpdateSelection() {
     RESULT*             result = NULL;
     PROJECT*            project = NULL;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-
+ 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
@@ -510,7 +510,9 @@ void CViewWork::UpdateSelection() {
                 );
             }
 
-            if (result->supports_graphics || !result->graphics_exec_path.empty()) {
+            if ((result->supports_graphics && (! pDoc->GetState()->executing_as_daemon)) 
+                    || !result->graphics_exec_path.empty()
+            ) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
             } else {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
@@ -533,6 +535,13 @@ void CViewWork::UpdateSelection() {
         }
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
+        if (GetDocCount() <= 0) {
+            if ( m_TaskGroups.size() > 1) {
+                pGroup = m_TaskGroups[GRP_WEBSITES];
+                m_pTaskPane->DeleteTaskGroupAndTasks(pGroup);
+                pGroup->m_Tasks.clear();
+            }
+        }
     }
 
     CBOINCBaseView::PostUpdateSelection();

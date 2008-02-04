@@ -57,7 +57,8 @@ $cache_period = 600;
 start_cache($cache_period, $cache_args);
 
 $xmlout = "";
-if ($argv[1] == "-f") { $xmlout = $argv[2];
+if ($argc>0 && $argv[1] == "-f") {
+    $xmlout = $argv[2];
     $xmloutfile = fopen($xmlout,"w+");
     if (!$xmloutfile) {
         die( "failed to open file: $xmlout");
@@ -226,14 +227,20 @@ show_status($sched_host, "scheduler", $sched_running);
 $cursor = 0;
 while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",$cursor))) {
     $host = parse_element($thisxml,"<host>");
-    if ($host == "") { $host = $project_host; }
+    if ($host == "") {
+        $host = $project_host;
+    }
     $cmd = parse_element($thisxml,"<cmd>");
     list($ncmd) = explode(" ",$cmd);
     $log = parse_element($thisxml,"<output>");
-    if (!$log) { $log = $ncmd . ".log"; }
+    if (!$log) {
+        $log = $ncmd . ".log";
+    }
     list($nlog) = explode(".log",$log);
     $pid = parse_element($thisxml,"<pid_file>");
-    if (!$pid) { $pid = $ncmd . ".pid"; }
+    if (!$pid) {
+        $pid = $ncmd . ".pid";
+    }
     $disabled = parse_element($thisxml,"<disabled>");
     show_daemon_status($host, $nlog, $ncmd, $disabled);
 }

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-10-12 18:59+0800\n"
+"PO-Revision-Date: 2008-01-12 12:20+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -172,8 +172,8 @@ msgid "Please wait..."
 msgstr "请稍候..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:314
-#: clientgui/ProjectProcessingPage.cpp:488
-#: clientgui/ProjectProcessingPage.cpp:546
+#: clientgui/ProjectProcessingPage.cpp:491
+#: clientgui/ProjectProcessingPage.cpp:549
 msgid "An internal server error has occurred.\n"
 msgstr "服务器上产生了一个内部错误。\n"
 
@@ -201,8 +201,8 @@ msgid "Exit the %s"
 msgstr "退出 %s"
 
 #: clientgui/AdvancedFrame.cpp:347
-#: clientgui/BOINCTaskBar.cpp:629
-#: clientgui/mac/MacSysMenu.cpp:223
+#: clientgui/BOINCTaskBar.cpp:581
+#: clientgui/mac/MacSysMenu.cpp:220
 msgid "E&xit"
 msgstr "退出(&X)"
 
@@ -420,7 +420,7 @@ msgid "Show information about BOINC and %s"
 msgstr "查看 BOINC 和 %s 的信息"
 
 #: clientgui/AdvancedFrame.cpp:590
-#: clientgui/BOINCTaskBar.cpp:619
+#: clientgui/BOINCTaskBar.cpp:571
 #, c-format
 msgid "&About %s..."
 msgstr "关于 %s(&A)..."
@@ -580,7 +580,15 @@ msgstr ""
 msgid "%s - Connection Error"
 msgstr "%s - 连接错误"
 
-#: clientgui/BOINCBaseFrame.cpp:368
+#: clientgui/BOINCBaseFrame.cpp:369
+msgid ""
+"You currently are not authorized to manage the client.\n"
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr ""
+"您当前未被授权管理本客户端。\n"
+"请联系系统管理员将您添加到名称为 boinc_users 的本地用户组。"
+
+#: clientgui/BOINCBaseFrame.cpp:376
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
@@ -588,16 +596,16 @@ msgstr ""
 "连接运行中的客户端时发生验证错误。\n"
 "请务必在该客户端所在的文件目录中运行本程序。"
 
-#: clientgui/BOINCBaseFrame.cpp:375
+#: clientgui/BOINCBaseFrame.cpp:384
 msgid "The password you have provided is incorrect, please try again."
 msgstr "您提供的密码不正确，请重试。"
 
-#: clientgui/BOINCBaseFrame.cpp:404
+#: clientgui/BOINCBaseFrame.cpp:413
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - 连接失败"
 
-#: clientgui/BOINCBaseFrame.cpp:413
+#: clientgui/BOINCBaseFrame.cpp:422
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -606,12 +614,12 @@ msgstr ""
 "%s 无法连接至 %s 客户端。\n"
 "您想再连接一次吗？"
 
-#: clientgui/BOINCBaseFrame.cpp:451
+#: clientgui/BOINCBaseFrame.cpp:460
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - 连接状态"
 
-#: clientgui/BOINCBaseFrame.cpp:462
+#: clientgui/BOINCBaseFrame.cpp:471
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -700,7 +708,7 @@ msgstr "%s 已经成功地断开至互联网的连接。"
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s 断开至互联网的连接失败。"
 
-#: clientgui/BOINCGUIApp.cpp:199
+#: clientgui/BOINCGUIApp.cpp:261
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
@@ -709,62 +717,67 @@ msgstr ""
 "BOINC 的所有者或权限设置错误，请重新安装 BOINC。\n"
 "(错误代码 %d)"
 
-#: clientgui/BOINCGUIApp.cpp:409
+#: clientgui/BOINCGUIApp.cpp:472
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "启动 BOINC 时仅显示在系统托盘区"
 
-#: clientgui/BOINCGUIApp.cpp:410
+#: clientgui/BOINCGUIApp.cpp:473
 msgid "Startup BOINC with these optional arguments"
 msgstr "使用可选参数来启动 BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:411
+#: clientgui/BOINCGUIApp.cpp:474
 msgid "disable BOINC security users and permissions"
 msgstr "禁用 BOINC 中用户和权限相关的安全选项"
 
-#: clientgui/BOINCGUIApp.cpp:475
+#: clientgui/BOINCGUIApp.cpp:538
 msgid "(Automatic Detection)"
 msgstr "(自动检测)"
 
-#: clientgui/BOINCGUIApp.cpp:476
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "(Unknown)"
 msgstr "(未知)"
 
-#: clientgui/BOINCGUIApp.cpp:477
+#: clientgui/BOINCGUIApp.cpp:540
 msgid "(User Defined)"
 msgstr "(用户自定义)"
 
-#: clientgui/BOINCGUIApp.cpp:1060
+#: clientgui/BOINCGUIApp.cpp:1095
 #, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - 退出确认"
 
-#: clientgui/BOINCTaskBar.cpp:349
+#: clientgui/BOINCTaskBar.cpp:321
 msgid "Computation is suspended.\n"
 msgstr "计算被暂停。\n"
 
-#: clientgui/BOINCTaskBar.cpp:360
+#: clientgui/BOINCTaskBar.cpp:328
 msgid "Network activity is suspended.\n"
 msgstr "网络被暂停。\n"
 
-#: clientgui/BOINCTaskBar.cpp:399
+#: clientgui/BOINCTaskBar.cpp:357
+#, c-format
+msgid "%s: %.2f%% completed\n"
+msgstr "%s: 已完成 %.2f%%\n"
+
+#: clientgui/BOINCTaskBar.cpp:362
 msgid "Reconnecting to client.\n"
 msgstr "正在重新连接至客户端。\n"
 
-#: clientgui/BOINCTaskBar.cpp:409
+#: clientgui/BOINCTaskBar.cpp:367
 msgid "Not connected to a client.\n"
 msgstr "当前没有连接到任何客户端。\n"
 
-#: clientgui/BOINCTaskBar.cpp:600
+#: clientgui/BOINCTaskBar.cpp:552
 #, c-format
 msgid "Open %s Web..."
 msgstr "打开 %s 的网站..."
 
-#: clientgui/BOINCTaskBar.cpp:607
+#: clientgui/BOINCTaskBar.cpp:559
 #, c-format
 msgid "Open %s..."
 msgstr "打开 %s..."
 
-#: clientgui/BOINCTaskBar.cpp:614
+#: clientgui/BOINCTaskBar.cpp:566
 msgid "Snooze"
 msgstr "休息一下"
 
@@ -931,7 +944,7 @@ msgid "Confirmation"
 msgstr "确认"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
-#: clientgui/sg_DlgPreferences.cpp:1030
+#: clientgui/sg_DlgPreferences.cpp:1032
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - 参数设置"
@@ -1609,11 +1622,11 @@ msgstr "研究"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "了解WCG平台上的项目"
 
-#: clientgui/MainDocument.cpp:353
+#: clientgui/MainDocument.cpp:358
 msgid "Retrieving system state; please wait..."
 msgstr "正在读取系统状态，请稍候..."
 
-#: clientgui/MainDocument.cpp:361
+#: clientgui/MainDocument.cpp:366
 msgid "Retrieving host information; please wait..."
 msgstr "正在读取主机信息，请稍候..."
 
@@ -1671,26 +1684,17 @@ msgid "Choose a project"
 msgstr "选择一个项目"
 
 #: clientgui/ProjectInfoPage.cpp:245
-msgid ""
-"To choose a project, click its name\n"
-"or type its URL below.\n"
-"Click 'www' to visit a project's web site."
-msgstr ""
-"要选择一个项目，点击它的项目名称\n"
-"或者在下方的编辑框中输入它的项目网址。\n"
-"点击“网站”可以访问指定项目的项目网站。"
+msgid "To choose a project, click its name or type its URL below."
+msgstr "要选择一个项目，请点击它的项目名称或在下方输入它的项目网址。"
 
-#: clientgui/ProjectInfoPage.cpp:251
+#: clientgui/ProjectInfoPage.cpp:248
 msgid "Project &URL:"
 msgstr "项目网址(&U)："
 
-#: clientgui/ProjectListCtrl.cpp:294
-msgid "  "
-msgstr "  "
-
-#: clientgui/ProjectListCtrl.cpp:302
-msgid "www"
-msgstr "网站"
+#: clientgui/ProjectListCtrl.cpp:335
+#, c-format
+msgid "Click here to go to %s's website."
+msgstr "点击可访问 %s 的项目网站。"
 
 #: clientgui/ProjectProcessingPage.cpp:326
 #: clientgui/ProjectPropertiesPage.cpp:327
@@ -1701,7 +1705,7 @@ msgstr ""
 "正在与项目通讯。\n"
 "请稍候..."
 
-#: clientgui/ProjectProcessingPage.cpp:484
+#: clientgui/ProjectProcessingPage.cpp:487
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
@@ -1870,7 +1874,7 @@ msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按
 msgid "Get help with BOINC"
 msgstr "从 BOINC 得到帮助"
 
-#: clientgui/sg_DlgMessages.cpp:758
+#: clientgui/sg_DlgMessages.cpp:751
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - 消息"
@@ -2034,35 +2038,35 @@ msgstr "闲置一定时间后开始计算："
 
 #: clientgui/sg_DlgPreferences.cpp:674
 #: clientgui/sg_DlgPreferences.cpp:677
-#: clientgui/sg_DlgPreferences.cpp:743
-#: clientgui/sg_DlgPreferences.cpp:747
-#: clientgui/sg_DlgPreferences.cpp:759
-#: clientgui/sg_DlgPreferences.cpp:763
-#: clientgui/sg_DlgPreferences.cpp:921
-#: clientgui/sg_DlgPreferences.cpp:932
+#: clientgui/sg_DlgPreferences.cpp:745
+#: clientgui/sg_DlgPreferences.cpp:749
+#: clientgui/sg_DlgPreferences.cpp:761
+#: clientgui/sg_DlgPreferences.cpp:765
+#: clientgui/sg_DlgPreferences.cpp:923
+#: clientgui/sg_DlgPreferences.cpp:934
 msgid "Anytime"
 msgstr "任何时候"
 
-#: clientgui/sg_DlgPreferences.cpp:779
+#: clientgui/sg_DlgPreferences.cpp:781
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: clientgui/sg_DlgPreferences.cpp:781
+#: clientgui/sg_DlgPreferences.cpp:783
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: clientgui/sg_DlgPreferences.cpp:822
+#: clientgui/sg_DlgPreferences.cpp:824
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: clientgui/sg_DlgPreferences.cpp:858
+#: clientgui/sg_DlgPreferences.cpp:860
 msgid "0 (Run Always)"
 msgstr "0 (一直运行)"
 
-#: clientgui/sg_DlgPreferences.cpp:861
+#: clientgui/sg_DlgPreferences.cpp:863
 #, c-format
 msgid "%d"
 msgstr "%d"
@@ -2633,32 +2637,32 @@ msgstr "通讯被延迟 "
 msgid "ProjectsGrid"
 msgstr "项目网格"
 
-#: clientgui/ViewResources.cpp:84
+#: clientgui/ViewResources.cpp:63
 msgid "total disk usage"
 msgstr "总磁盘占用"
 
-#: clientgui/ViewResources.cpp:94
+#: clientgui/ViewResources.cpp:73
 msgid "disk usage by BOINC projects"
 msgstr "BOINC 项目的磁盘占用"
 
-#: clientgui/ViewResources.cpp:113
-#: clientgui/ViewResources.cpp:119
+#: clientgui/ViewResources.cpp:92
+#: clientgui/ViewResources.cpp:98
 msgid "Disk"
 msgstr "磁盘"
 
-#: clientgui/ViewResources.cpp:240
+#: clientgui/ViewResources.cpp:222
 msgid "not attached to any BOINC project - 0 bytes"
 msgstr "未加入到任何 BOINC 项目 - 0字节"
 
-#: clientgui/ViewResources.cpp:274
+#: clientgui/ViewResources.cpp:256
 msgid "free disk space - "
 msgstr "剩余磁盘空间 - "
 
-#: clientgui/ViewResources.cpp:281
+#: clientgui/ViewResources.cpp:263
 msgid "used by BOINC - "
 msgstr "BOINC使用 - "
 
-#: clientgui/ViewResources.cpp:287
+#: clientgui/ViewResources.cpp:269
 msgid "used by other programs - "
 msgstr "其它程序使用 - "
 

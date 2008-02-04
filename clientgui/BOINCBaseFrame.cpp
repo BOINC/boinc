@@ -32,6 +32,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
+#include "BOINCClientManager.h"
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
@@ -187,16 +188,6 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
 
 void CBOINCBaseFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function Begin"));
-
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if (!pDoc->IsConnected()) {
-        pDoc->Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
-    }
-
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function End"));
 }
 
@@ -354,7 +345,7 @@ void CBOINCBaseFrame::FireReloadSkin() {
 }
 
 
-void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword ) {
+void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure ) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
 
@@ -373,12 +364,24 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword 
     );
 
     if ( bUsedDefaultPassword ) {
-        ShowAlert(
-            strDialogTitle,
-            _("Authorization failed connecting to running client.\n"
-              "Make sure you start this program in the same directory as the client."),
-            wxOK | wxICON_ERROR
-        );
+#ifdef __WXMSW__
+        if ( EACCES == m_iReadGUIRPCAuthFailure || ENOENT == m_iReadGUIRPCAuthFailure ) {
+            ShowAlert(
+                strDialogTitle,
+                _("You currently are not authorized to manage the client.\n"
+                  "Please contact your administrator to add you to the 'boinc_users' local user group."),
+                wxOK | wxICON_ERROR
+            );
+        } else 
+#endif
+        {
+            ShowAlert(
+                strDialogTitle,
+                _("Authorization failed connecting to running client.\n"
+                  "Make sure you start this program in the same directory as the client."),
+                wxOK | wxICON_ERROR
+            );
+        }
     } else {
         ShowAlert(
             strDialogTitle,
@@ -405,7 +408,7 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
 
 
     // Did BOINC crash? If so restart it.
-    wxGetApp().AutoRestartBOINC();
+    wxGetApp().GetDocument()->m_pClientManager->AutoRestart();
 
 
     // %s is the application name
@@ -438,6 +441,57 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
 }
 
 
+void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxString            strDialogTitle = wxEmptyString;
+    wxString            strDialogMessage = wxEmptyString;
+
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowDaemonStartFailedAlert - Function Begin"));
+
+
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("%s - Daemon Start Failed"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    // 1st %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    // 2st %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+#ifdef __WXMSW__
+    strDialogMessage.Printf(
+        _("%s is not able to start a %s client.\n"
+          "Please launch the Control Panel->Administative Tools->Services "
+          "applet and start the BOINC service."),
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+#else
+    strDialogMessage.Printf(
+        _("%s is not able to start a %s client.\n"
+          "Please start the daemon and try again."),
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+#endif
+
+    ShowAlert(
+        strDialogTitle,
+        strDialogMessage,
+        wxOK | wxICON_ERROR
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowDaemonStartFailedAlert - Function End"));
+}
+
+
 void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
@@ -452,7 +506,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
 
 
     // Did BOINC crash? If so restart it.
-    wxGetApp().AutoRestartBOINC();
+    wxGetApp().GetDocument()->m_pClientManager->AutoRestart();
 
 
     // %s is the application name

@@ -55,7 +55,7 @@ CPrefNodeProcessor::CPrefNodeProcessor(wxWindow* parent, GLOBAL_PREFS* preferenc
         _("This limit specifies the number of processors or individual "
         "processor cores that BOINC will use. Many projects will run one "
         "process on each permitted core. Default 16."),
-        CValidateNumber<int>(&m_preferences->max_cpus, 1, 0xFFFF, false))
+        CValidateNumber<double>(&m_preferences->max_ncpus_pct, 1, 0xFFFF, false))
     );
 
     CPrefGroup* restrict = AddGroup(_("Processing Restrictions"));

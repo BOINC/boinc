@@ -305,6 +305,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 // Starts main execution of the screen saver.
 //
 INT CScreensaver::Run() {
+    HOST_INFO hostinfo;
     HRESULT hr;
 
     // Parse the command line and do the appropriate thing
@@ -315,6 +316,11 @@ INT CScreensaver::Run() {
         } else {
             DoConfig();
         }
+        break;
+    case sm_test:
+        rpc->init(NULL);
+        rpc->get_host_info(hostinfo);
+        rpc->close();
         break;
     case sm_preview:
     case sm_full:
@@ -879,7 +885,9 @@ VOID CScreensaver::UpdateErrorBoxText() {
     size_t   iIndex          = 0;
 
 
-    if (SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) {
+    if ((SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError)
+        || (SCRAPPERR_DAEMONALLOWSNOGRAPHICS == m_hrError) 
+    ) {
         if (m_updating_results) return;     // results vector is currently being updated by rpc
         
         iResultCount = results.results.size();
@@ -897,7 +905,7 @@ VOID CScreensaver::UpdateErrorBoxText() {
 				if ( pResult != NULL ) {
 					BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Display result. iIndex=%d, iModIndex=%d, lastResult=%d\n"), iIndex, iModIndex, m_iLastResultShown);
 					StringCbPrintf(m_szError, sizeof(m_szError) / sizeof(TCHAR),
-						_T("\nRunning research for %s\nApplication: %s\nWorkunit: %s\n%.2f%% complete\n"),
+						_T("\nComputing for %s\nApplication: %s\nTask: %s\n%.2f%% complete\n"),
 						pProject->project_name.c_str(),
 						pResult->app->user_friendly_name.c_str(),
 						pResult->wu_name.c_str(),

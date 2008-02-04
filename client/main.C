@@ -324,10 +324,11 @@ static void init_core_client(int argc, char** argv) {
 
 #ifndef _WIN32
     if (g_use_sandbox)
-        // Set file creation mask to be writable by both user and group
+        // Set file creation mask to be writable by both user and group and
+        // world-executable but neither world-readable nor world-writable
         // Our umask will be inherited by all our child processes
         //
-        umask (2);
+        umask (6);
 #endif
 
     // Initialize the BOINC Diagnostics Framework
@@ -600,6 +601,8 @@ int finalize() {
 int main(int argc, char** argv) {
     int retval = 0;
 
+    // TODO: clean up the following
+    //
 #ifdef _WIN32
     int i, len;
     char *commandLine;
@@ -663,13 +666,15 @@ int main(int argc, char** argv) {
             break;
         }
     }
-#elif defined linux
+#elif defined __EMX__
+#else
+    // non-Apple Unix
     int i;
     
     for (i=1; i<argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
             syslog(LOG_DAEMON|LOG_INFO,
-                "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT
+                "Starting BOINC as daemon, listening on port %d.", GUI_RPC_PORT
             );
             // from <unistd.h>:
             // Detach from the controlling terminal and run in the background as system daemon.
@@ -679,9 +684,6 @@ int main(int argc, char** argv) {
             break;
         }
     }
-#elif defined(__APPLE__)
-    if (getuid() == (uid_t)0)       // If the real user ID is root, we are executing as a daemon
-        gstate.executing_as_daemon = true;
 #endif
 
     init_core_client(argc, argv);
@@ -747,7 +749,7 @@ int main(int argc, char** argv) {
         SetBOINCDataOwnersGroupsAndPermissions();
     }
 #endif  // _DEBUG && __APPLE__
-    int i = check_security(g_use_sandbox, false);
+    i = check_security(g_use_sandbox, false);
     if (i) {
         printf(
             "File ownership or permissions are set in a way that\n"
@@ -756,7 +758,7 @@ int main(int argc, char** argv) {
             "To change ownership/permission, reinstall BOINC"
 #ifdef __APPLE__
             " or run\n the shell script Mac_SA_Secure.sh"
-#elif defined linux
+#else
             " or run\n the shell script secure.sh"
 #endif
             ". (Error code %d)\n", i

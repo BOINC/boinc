@@ -123,14 +123,15 @@ function show_platform($short_name, $p, $dev) {
     global $min_version;
     global $max_version;
     $long_name = $p["name"];
+    $description = $p["description"];
     if ($p["url"]) {
         $url = $p["url"];
         $long_name .= " <a href=$url><font size=-2>details</a>";
     }
-    list_bar($long_name);
+    list_bar($long_name, $description);
     foreach ($p["versions"] as $i=>$v) {
-        if ($min_version && strcmp($v['num'], $min_version)<0) continue;
-        if ($max_version && strcmp($v['num'], $max_version)>0) continue;
+        if ($min_version && version_compare($v['num'], $min_version, "<")) continue;
+        if ($max_version && version_compare($v['num'], $max_version, ">")) continue;
         if (!$dev && is_dev($v)) continue;
         show_version($short_name, $i, $v);
     }
@@ -208,7 +209,7 @@ if ($xml) {
     echo "
         <p>
         Download information can be restricted by
-        platform and/or version number, 
+        platform and/or version number,
         and can be obtained in XML format.
         <a href=trac/wiki/DownloadInfo>Details</a>.
     ";

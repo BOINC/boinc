@@ -463,7 +463,7 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
         for (i=0; i<project_files.size(); i++) {
             FILE_REF& fref = project_files[i];
             sprintf(path, "%s/%s", project_dir, fref.open_name);
-            delete_project_owned_file(path);
+            delete_project_owned_file(path, false);
         }
     }
 
@@ -656,26 +656,26 @@ int FILE_INFO::set_permissions() {
     char pathname[256];
     get_pathname(this, pathname, sizeof(pathname));
 
-    // give read/exec permissions for user, group and others
-    // in case someone runs BOINC from different user
-
     if (g_use_sandbox) {
+        // give exec permissions for user, group and others but give 
+        // read permissions only for user and group to protect account keys
         retval = set_to_project_group(pathname);
         if (retval) return retval;
         if (executable) {
             retval = chmod(pathname,
                 S_IRUSR|S_IWUSR|S_IXUSR
                 |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
+                |S_IXOTH
             );
         } else {
             retval = chmod(pathname,
                 S_IRUSR|S_IWUSR
                 |S_IRGRP|S_IWGRP
-                |S_IROTH
             );
         }
     } else {
+        // give read/exec permissions for user, group and others
+        // in case someone runs BOINC from different user
         if (executable) {
             retval = chmod(pathname,
                 S_IRUSR|S_IWUSR|S_IXUSR
@@ -889,7 +889,7 @@ int FILE_INFO::delete_file() {
     char path[256];
 
     get_pathname(this, path, sizeof(path));
-    int retval = delete_project_owned_file(path);
+    int retval = delete_project_owned_file(path, true);
     if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't delete file %s", path);
     }
@@ -1065,7 +1065,7 @@ int FILE_INFO::gzip() {
     }
     fclose(in);
     gzclose(out);
-    delete_project_owned_file(inpath);
+    delete_project_owned_file(inpath, true);
     boinc_rename(outpath, inpath);
     return 0;
 }

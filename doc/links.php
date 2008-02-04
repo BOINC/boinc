@@ -87,6 +87,7 @@ echo "
 <li> <a href=#skins>Skins for the BOINC Manager</a>
 <li> <a href=#sites>Other BOINC-related sites</a>
 (Information, message boards, and teams)
+<li> <a href=#video>BOINC-related videos</a>
 </ul>
 <a name=info></a>
 <h3>Help and Information</h3>
@@ -155,6 +156,7 @@ echo "
 <h3>Skins for the BOINC Manager</h3>
 <ul>
 <li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
+<li> <a href=http://www.grid-france.fr/tutoriaux/comment-personnaliser-boinc-au-couleur-de-l-equipe-france/>Skin for Equipe France (WCG)</a>
 </ul>
 <a name=sites></a>
 <h3>Other BOINC-related web sites</h3>
@@ -194,6 +196,8 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://z15.invisionfree.com/The_Boinc_Bar/index.php?act=idx", "The BOINC Bar"),
+    site("http://www.s15.invisionfree.com/Crunchers_Inc/index.php?act=idx", "Crunchers Inc."),
     site("http://www.calmchaosonline.com/", "Calm Chaos"),
     site("http://www.teamphoenixrising.net/", "Team Phoenix Rising"),
     site("http://www.unitedmacs.com/", "United Macs"),
@@ -230,7 +234,6 @@ language("French", array(
     site("http://wwww.boinc-2tf.org", "2TF Asso"),
     site("http://boincfrance.org", "BOINCFRANCE.ORG"),
     site("http://www.boinc-af.org", "L'Alliance Francophone"),
-    site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
     site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
@@ -300,8 +303,8 @@ language("Spanish", array(
     //site("http://boincspain.shyper.com/", "BOINC España</a>")
 ));
 language("Turkish", array(
-    site("http://www.turksetiteam.org/",
-        "www.turksetiteam.org")
+    site("http://www.turksetiteam.org/", "www.turksetiteam.org"),
+    site("http://www.boinctr.com/", "www.boinctr.com")
 ));
 language("Ukrainian", array(
     site("http://distributed.org.ua/", "Ukraine - Distributed Computing"),
@@ -312,6 +315,14 @@ echo "
 <p>
 If you'd like to add a web site to this list, please
 <a href=mailto:davea@ssl.berkeley.edu>contact us</a>.
+
+<a name=video>
+<h2>BOINC-related videos</h2>
+
+<ul>
+<li> <a href=http://www.youtube.com/watch?v=8iSRLIK-x6A>David Anderson talks about BOINC</a>
+<li> <a href=http://www.youtube.com/watch?v=GzATbET3g54>David Baker talks about Rosetta@home</a>
+</ul>
 ";
 page_tail();
 ?>

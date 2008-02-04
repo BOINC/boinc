@@ -69,8 +69,9 @@ public:
     void                FireRefreshView();
     void                FireConnect();
     void                FireReloadSkin();
-    void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword );
+    void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure );
     void                ShowConnectionFailedAlert();
+    void                ShowDaemonStartFailedAlert();
     void                ShowNotCurrentlyConnectedAlert();
 
     virtual void        StartTimers();

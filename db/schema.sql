@@ -36,7 +36,7 @@ create table platform (
     user_friendly_name  varchar(254) not null,
     deprecated          tinyint     not null default 0,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table app (
     id                  integer     not null auto_increment,
@@ -49,7 +49,7 @@ create table app (
     weight              double      not null default 1,
     beta                smallint    not null default 0,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table app_version (
     id                  integer     not null auto_increment,
@@ -62,7 +62,7 @@ create table app_version (
     max_core_version    integer     not null default 0,
     deprecated          tinyint     not null default 0,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table user (
     id                  integer     not null auto_increment,
@@ -96,7 +96,7 @@ create table user (
     email_validated     smallint    not null,
     donated             smallint    not null,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table team (
     id                  integer     not null auto_increment,
@@ -117,7 +117,7 @@ create table team (
     ping_user           integer     not null default 0,
     ping_time           integer unsigned not null default 0,
     primary key (id)
-) type=MyISAM;  
+) engine=MyISAM;  
 
 create table host (
     id                  integer     not null auto_increment,
@@ -173,7 +173,7 @@ create table host (
     error_rate          double      not null default 0,
 
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 /*
  * Only information needed by the server or other backend components
@@ -211,7 +211,7 @@ create table workunit (
     priority            integer     not null,
     mod_time            timestamp,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table result (
     id                  integer     not null auto_increment,
@@ -244,7 +244,7 @@ create table result (
     priority            integer     not null,
     mod_time            timestamp,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table msg_from_host (
     id                  integer     not null auto_increment,
@@ -254,7 +254,7 @@ create table msg_from_host (
     handled             smallint    not null,
     xml                 mediumtext,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table msg_to_host (
     id                  integer     not null auto_increment,
@@ -264,7 +264,7 @@ create table msg_to_host (
     handled             smallint    not null,
     xml                 mediumtext,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 create table workseq (
     id                  integer     not null auto_increment,
@@ -275,7 +275,7 @@ create table workseq (
     wuid_last_sent      integer     not null,
     workseqid_master    integer     not null,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 -- EVERYTHING FROM HERE ON IS USED ONLY FROM PHP,
 -- SO NOT IN BOINC_DB.H ETC.
@@ -309,7 +309,7 @@ create table category (
     name                varchar(254) binary,
     is_helpdesk         smallint    not null,
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 -- message board topic
 --
@@ -338,7 +338,7 @@ create table forum (
         -- 1 == team
         -- 2 == group
     primary key (id)
-) type=InnoDB;
+) engine=InnoDB;
 
 -- threads in a topic (or questions)
 --
@@ -398,8 +398,11 @@ create table subscriptions (
     userid              integer     not null,
     threadid            integer     not null,
     notified_time       integer     not null default 0
-) type=InnoDB;
+        -- deprecated
+) engine=InnoDB;
 
+-- actually: prefs for all community features
+--
 create table forum_preferences (
     userid              integer     not null default 0,
     signature           varchar(254) not null default '',
@@ -425,8 +428,12 @@ create table forum_preferences (
     ignore_sticky_posts tinyint     not null default 0,
     banished_until      integer     not null default 0,
     pm_notification     tinyint    not null default 0,
+        -- actually controls all notifications.
+        -- 0 = no email
+        -- 1 = email per event
+        -- 2 = digest email
     primary key (userid)
-) type=MyISAM; 
+) engine=MyISAM; 
 
 -- keep track of last time a user read a thread
 create table forum_logging (
@@ -434,14 +441,14 @@ create table forum_logging (
     threadid            integer     not null default 0,
     timestamp           integer     not null default 0,
     primary key (userid,threadid)
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table post_ratings (
     post                integer     not null,
     user                integer     not null,
     rating              tinyint     not null,
     primary key(post, user)
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table sent_email (
     userid              integer     not null,
@@ -455,7 +462,7 @@ create table sent_email (
         -- 5 = forum ban
         -- 6 = fundraising appeal
     primary key(userid)
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table private_messages (
     id                  integer     not null auto_increment,
@@ -467,12 +474,12 @@ create table private_messages (
     content             text        not null,
     primary key(id),
     key userid (userid)
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table credited_job (
     userid              integer     not null,
     workunitid          bigint      not null
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table donation_items (
     id                  integer         not null auto_increment,
@@ -481,7 +488,7 @@ create table donation_items (
     description         varchar(255)    not null,
     required            double          not null default '0',
     PRIMARY KEY(id)
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table donation_paypal (
     id                  integer         not null auto_increment,
@@ -502,7 +509,7 @@ create table donation_paypal (
     payer_email         varchar(255)            not null,
     payer_name          varchar(255)            not null,
     PRIMARY KEY(id)
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 -- record changes in team membership
 create table team_delta (
@@ -511,7 +518,7 @@ create table team_delta (
     timestamp           integer         not null,
     joining             tinyint         not null,
     total_credit        double          not null
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 -- tables for moderator banishment votes
 create table banishment_vote (
@@ -520,7 +527,7 @@ create table banishment_vote (
     modid               integer         not null,
     start_time          integer         not null,
     end_time            integer         not null
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table banishment_votes (
     id                  serial          primary key,
@@ -528,11 +535,39 @@ create table banishment_votes (
     modid               integer         not null,
     time                integer         not null,
     yes                 tinyint         not null
-) TYPE=MyISAM;
+) engine=MyISAM;
 
 create table team_admin (
     teamid              integer         not null,
     userid              integer         not null,
     create_time         integer         not null,
     rights              integer         not null
-) type=MyISAM;
+) engine=MyISAM;
+
+-- A friendship request.
+-- The friendship exists if (x,y) and (y,x)
+create table friend (
+    user_src            integer         not null,
+        -- initiator
+    user_dest           integer         not null,
+        -- target
+    message             varchar(255)    not null,
+    create_time         integer         not null,
+    reciprocated        tinyint         not null
+        -- whether the reciprocal exists
+);
+
+-- a notification of something, e.g.
+--   a friend request or confirmation
+--   a post in a subscribed thread
+--   a personal message
+-- These records are deleted when the user acts on them
+create table notify (
+    id                  serial          primary key,
+    userid              integer         not null,
+        -- destination of notification
+    create_time         integer         not null,
+    type                integer         not null,
+    opaque              integer         not null
+        -- some other ID, e.g. that of the thread, user or PM record
+);

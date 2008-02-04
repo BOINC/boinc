@@ -20,6 +20,8 @@
 #ifndef _DB_BASE_
 #define _DB_BASE_
 
+#include <cstdlib>
+#include <string>
 #include <mysql.h>
 
 // if SQL columns are not 'not null', you must use these safe_atoi, safe_atof
@@ -31,7 +33,7 @@ inline int safe_atoi(const char* s) {
     return atoi(s);
 }
 
-inline float safe_atof(const char* s) {
+inline double safe_atof(const char* s) {
     if (!s) return 0;
     return atof(s);
 }

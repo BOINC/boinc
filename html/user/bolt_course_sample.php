@@ -1,61 +1,75 @@
 <?php
 
-function part2() {
-    return Sequence(
-        name('inner seq'),
-        Lesson(
-            name('lesson 3'),
-            file('bolt_sample_lesson3.php')
-        )
-    )
-}
+require_once("../inc/bolt.inc");
 
-function refresh($n) {
-    switch ($n) {
-    case 0: return 7;
-    case 1: return 14;
-    }
-    return 28;
+function part2() {
+    return sequence(
+        name('inner seq'),
+        lesson(
+            name('lesson 3'),
+            filename('bolt_sample_lesson.php?n=3')
+        )
+    );
 }
 
 function basic_review() {
-    return Sequence(
-        Lesson(
+    return sequence(
+        lesson(
             name('lesson 1'),
-            file('bolt_sample_lesson1.php')
+            filename('bolt_sample_lesson.php?n=1')
         ),
-        Lesson(
+        lesson(
             name('lesson 2'),
-            file('bolt_sample_lesson2.php')
+            filename('bolt_sample_lesson.php?n=2')
         )
     );
 }
 
 function int_review() {
-    return Lesson(
+    return lesson(
         name('lesson 2'),
-        file('bolt_sample_lesson2.php')
-    )
+        filename('bolt_sample_lesson.php?n=2')
+    );
 }
 
-return Sequence(
+return sequence(
     name('course'),
-    Lesson(
-        name('lesson 1'),
-        file('bolt_sample_lesson1.php')
+    random(
+        name('first lessons'),
+        number(2),
+        lesson(
+            name('lesson 1'),
+            filename('bolt_sample_lesson.php?n=1')
+        ),
+        lesson(
+            name('lesson 2'),
+            filename('bolt_sample_lesson.php?n=2')
+        ),
+        lesson(
+            name('lesson 3'),
+            filename('bolt_sample_lesson.php?n=3')
+        )
     ),
-    Lesson(
-        name('lesson 2'),
-        file('bolt_sample_lesson2.php')
-    )
-    Exercise(
-        name('exercise 1'),
-        refresh_interval(refresh),
-        review(.3, basic_review),
-        review(.7, int_review),
-        file('bolt_sample_exercise1.php')
-
-    )
+    exercise_set(
+        name('exercise set 1'),
+        number(2),
+        exercise(
+            name('exercise 1'),
+            filename('bolt_sample_exercise.php?n=1')
+        ),
+        exercise(
+            name('exercise 2'),
+            filename('bolt_sample_exercise.php?n=2')
+        ),
+        exercise(
+            name('exercise 3'),
+            filename('bolt_sample_exercise.php?n=3')
+        ),
+        repeat(.3, basic_review(), REVIEW),
+        repeat(.7, int_review(), REVIEW|REPEAT),
+        repeat(1, null, REPEAT|NEXT),
+        refresh(array(7, 14, 28))
+    ),
     part2()
 );
 

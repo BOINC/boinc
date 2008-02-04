@@ -106,9 +106,11 @@ public:
     int want_network;
         // This task wants to do network comm (for F@h)
         // this is passed via share-memory message (app_status channel)
-    double abort_time;      // when we sent an abort message to this app
-                            // kill it 5 seconds later if it doesn't exit
-
+    double abort_time;
+        // when we sent an abort message to this app
+        // kill it 5 seconds later if it doesn't exit
+    int nthreads;
+        // current # of threads in app (assumed to be 1 by default)
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     MSG_QUEUE graphics_request_queue;
     MSG_QUEUE process_control_queue;

@@ -91,6 +91,8 @@ extern "C" {
 #ifdef __cplusplus
 }    // extern "C"
 #endif
+
+NXEventHandle gEventHandle = NULL;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -104,6 +106,11 @@ extern "C" {
 #include <machine/hal_sysinfo.h>
 #include <machine/cpuconf.h>
 #endif
+
+// The following is intended to be true both on Linux
+// and Debian GNU/kFreeBSD (see trac #521)
+//
+#define LINUX_LIKE_SYSTEM defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)
 
 // functions to get name/addr of local host
 
@@ -132,7 +139,7 @@ int get_timezone() {
     time_data = localtime( &cur_time );
     // tm_gmtoff is already adjusted for daylight savings time
     return time_data->tm_gmtoff;
-#elif defined(linux)
+#elif LINUX_LIKE_SYSTEM
     return -1*(__timezone);
 #elif defined(__CYGWIN32__)
     return -1*(_timezone);
@@ -173,7 +180,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
   CFRelease(list);
   return(retval);
 
-#elif defined(linux)
+#elif LINUX_LIKE_SYSTEM
     bool    retval = false;
 
     FILE* fapm = fopen("/proc/apm", "r");
@@ -237,7 +244,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
 #endif
 }
 
-#ifdef linux
+#if LINUX_LIKE_SYSTEM
 static void parse_meminfo_linux(HOST_INFO& host) {
     char buf[256];
     double x;
@@ -449,7 +456,50 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     strlcpy(host.p_model, model_buf, sizeof(host.p_model));
     fclose(f);
 }
-#endif  // linux
+#endif  // LINUX_LIKE_SYSTEM
+#ifdef __FreeBSD__
+#if defined(__i386__) || defined(__amd64__)
+#include <sys/types.h>
+#include <sys/cdefs.h>
+#include <machine/cpufunc.h>
+
+void use_cpuid(HOST_INFO& host) {
+	u_int p[4];
+	int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt = 0;
+	char capabilities[256];
+
+	do_cpuid(0x0, p);
+
+	if (p[0] >= 0x1) {
+
+		do_cpuid(0x1, p);
+
+		hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
+		hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
+		hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
+		hasSSE3 = (p[2] & (1 << 0 )) >> 0;
+	}
+
+	do_cpuid(0x80000000, p);
+	if (p[0]>=0x80000001) {
+		do_cpuid(0x80000001, p);
+		hasMMX  |= (p[3] & (1 << 23 )) >> 23; // 0x0800000
+		has3DNow    = (p[3] & (1 << 31 )) >> 31; //0x80000000
+		has3DNowExt = (p[3] & (1 << 30 )) >> 30;
+	}
+
+	capabilities[0] = '\0';
+	if (hasSSE) strncat(capabilities, "sse ", 4);
+	if (hasSSE2) strncat(capabilities, "sse2 ", 5);
+	if (hasSSE3) strncat(capabilities, "sse3 ", 5);
+	if (has3DNow) strncat(capabilities, "3dnow ", 6);
+	if (has3DNowExt) strncat(capabilities, "3dnowext ", 9);
+	if (hasMMX) strncat(capabilities, "mmx ", 4);
+	strip_whitespace(capabilities);
+	snprintf(host.p_model, sizeof(host.p_model), "%s [] [%s]", host.p_model, capabilities);
+}
+#endif
+#endif
 
 #ifdef __APPLE__
 static void get_cpu_info_maxosx(HOST_INFO& host) {
@@ -520,7 +570,7 @@ int HOST_INFO::get_host_info() {
     get_filesystem_info(d_total, d_free);
 
 ///////////// p_vendor, p_model, p_features /////////////////
-#ifdef linux
+#if LINUX_LIKE_SYSTEM
     parse_cpuinfo_linux(*this);
 #elif defined( __APPLE__)
     int mib[2];
@@ -573,6 +623,12 @@ int HOST_INFO::get_host_info() {
 #error Need to specify a method to get p_vendor, p_model
 #endif
 
+#if defined(__FreeBSD__)
+#if defined(__i386__) || defined(__amd64__)
+    use_cpuid(*this);
+#endif
+#endif
+
 ///////////// p_ncpus /////////////////
 
 // sysconf not working on OS2
@@ -604,7 +660,7 @@ int HOST_INFO::get_host_info() {
         DosQuerySysInfo( QSV_TOTAVAILMEM, QSV_TOTAVAILMEM, &ulMem, sizeof(ulMem));
         m_swap = ulMem;
     }
-#elif defined(linux)
+#elif LINUX_LIKE_SYSTEM
     parse_meminfo_linux(*this);
 #elif defined(_SC_USEABLE_MEMORY)
     // UnixWare
@@ -647,6 +703,13 @@ int HOST_INFO::get_host_info() {
     len = sizeof(mem_size); 
     sysctl(mib, 2, &mem_size, &len, NULL, 0); 
     m_nbytes = mem_size; 
+#elif defined(__FreeBSD__)
+    unsigned int mem_size;
+    mib[0] = CTL_HW;
+    mib[1] = HW_PHYSMEM;
+    len = sizeof(mem_size);
+    sysctl(mib, 2, &mem_size, &len, NULL, 0);
+    m_nbytes = mem_size;
 #else
 #error Need to specify a method to get memory size
 #endif
@@ -847,106 +910,23 @@ inline bool all_logins_idle(time_t t) {
     }
     return true;
 }
-#endif
+#endif  // HAVE_UTMP_H
 
 #ifdef __APPLE__
-#include <Carbon/Carbon.h>
-
-#if defined(__i386__) || defined(__x86_64__)
-
-#include <ApplicationServices/ApplicationServices.h>
-
-// Returns the system idle time in seconds
-static double GetOSXIdleTime(void) {
-    return (double)CGEventSourceSecondsSinceLastEventType (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-}
-
-#else
-
-// CGEventSourceSecondsSinceLastEventType() is available only in OS 10.4 and later.  
-// Since the OS10.3.9 SDK doesn't have this function, the PowerPC build would fail 
-// with a link error even with weak linking.  So we have to do this the hard way.
-
-extern "C" {
-    extern double CGSSecondsSinceLastInputEvent(long evType); //  private API for pre-10.4 systems
-}
-
-enum {
-    kCGEventSourceStatePrivate = -1,
-    kCGEventSourceStateCombinedSessionState = 0,
-    kCGEventSourceStateHIDSystemState = 1
-};
-
-#define kCGAnyInputEventType ((CGEventType)(~0))
-typedef uint32_t CGEventSourceStateID;
-typedef uint32_t CGEventType;
-
-CG_EXTERN CFTimeInterval CGEventSourceSecondsSinceLastEventType( CGEventSourceStateID source, CGEventType eventType );
-
-typedef CFTimeInterval (*GetIdleTimeProc)( CGEventSourceStateID source, CGEventType eventType );
-
-// Returns the system idle time in seconds
-static double GetOSXIdleTime(void) {
-    static CFBundleRef bundleRef = NULL;
-    static GetIdleTimeProc GetSysIdleTime = NULL;
-    CFURLRef frameworkURL = NULL;
-    double idleTime = 0;
-    static bool tryNewAPI = true;
-
-    if (tryNewAPI) {
-        if (bundleRef == NULL) {
-            frameworkURL = CFURLCreateWithFileSystemPath(
-                kCFAllocatorSystemDefault, 
-                CFSTR("/System/Library/Frameworks/ApplicationServices.framework"),
-                kCFURLPOSIXPathStyle, true
-            );
-            if (frameworkURL) {
-                bundleRef = CFBundleCreate(kCFAllocatorSystemDefault, frameworkURL);
-                CFRelease( frameworkURL );
-            }
-        }
-        
-        if (bundleRef) {
-            if ((GetSysIdleTime == NULL) || !CFBundleIsExecutableLoaded(bundleRef)
-            ) {
-                    // Is this test necessary ?
-                GetSysIdleTime = (GetIdleTimeProc) CFBundleGetFunctionPointerForName(
-                    bundleRef, CFSTR("CGEventSourceSecondsSinceLastEventType")
-                );
-            }
-        }
-        
-        if (GetSysIdleTime) {
-            idleTime = (double)GetSysIdleTime (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
-        } else {
-            CFRelease( bundleRef );
-            bundleRef = NULL;
-            tryNewAPI = false;
-            // CGEventSourceSecondsSinceLastEventType() API is not available on this system
-        }
-           
-        if (GetSysIdleTime) {
-            return idleTime;
-        }
-    }   // if (tryNewAPI)
-    
-    // On 10.3 use this SPI
-    // From Adium:
-    // On MDD Powermacs, the above function will return a large value when the machine 
-    // is active (-1?).  18446744073.0 is the lowest I've seen on my MDD -ai
-    // Here we check for that value and correctly return a 0 idle time.
-    //
-    idleTime = CGSSecondsSinceLastInputEvent (-1);
-    if (idleTime >= 18446744000.0) idleTime = 0.0;
-    return idleTime;
-//    return (double)NXIdleTime(gEventHandle);      // Very old and very slow API
-}
-#endif  // ! (__i386__ || __x86_64__)
 
 bool HOST_INFO::users_idle(
     bool check_all_logins, double idle_time_to_run, double *actual_idle_time
 ) {
-    double idleTime = GetOSXIdleTime();
+    double idleTime = 0;
+    
+    if (gEventHandle) {
+       idleTime = NXIdleTime(gEventHandle);    
+    } else {
+        // Initialize Mac OS X idle time measurement / idle detection
+        // Do this here because NXOpenEventStatus() may not be available 
+        // immediately on system startup when running as a deaemon.
+        gEventHandle = NXOpenEventStatus();
+    }
     
     if (actual_idle_time) {
         *actual_idle_time = idleTime;
@@ -959,14 +939,19 @@ bool HOST_INFO::users_idle(
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
 
-    if (check_all_logins) {
 #ifdef HAVE_UTMP_H
+    if (check_all_logins) {
         if (!all_logins_idle(idle_time)) return false;
-#endif
-        if (!all_tty_idle(idle_time, "/dev/tty1", '1', 7)) return false;
     }
+#endif
+
+    if (!all_tty_idle(idle_time, "/dev/tty1", '1', 7)) return false;
+
+    // According to Frank Thomas (#463) the following may be pointless
+    //
     if (!device_idle(idle_time, "/dev/mouse")) return false;
         // solaris, linux
+    if (!device_idle(idle_time, "/dev/input/mice")) return false;
     if (!device_idle(idle_time, "/dev/kbd")) return false;
         // solaris
     return true;

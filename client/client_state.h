@@ -156,6 +156,7 @@ public:
         // this affects auto-update
     bool run_by_updater;
     double now;
+    double client_start_time;
     double last_wakeup_time;
     bool initialized;
     bool cant_write_state_file;
@@ -222,7 +223,7 @@ public:
     APP_VERSION* lookup_app_version(APP*, char* platform, int ver);
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
-    int reset_project(PROJECT*);
+    int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
 private:
     int link_app(PROJECT*, APP*);

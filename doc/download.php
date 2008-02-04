@@ -39,12 +39,25 @@ function download_link($pname) {
         sprintf(tr(DL_VERSION_LNAME_SIZE), $num, $long_name, $s )."
         </td></tr> </table>
     ";
-    if ($pname == 'linux') {
+    if ($pname == 'linux'||$pname == 'linuxx64') {
+        $pcompat = $platforms["linuxcompat"];
+        $vcompat = latest_version($pcompat);
+        $numcompat = $vcompat['num'];
+        $filecompat = $vcompat['file'];
+        $urlcompat = $url_base.$filecompat;
+        $pathcompat = "dl/$filecompat";
+        $scompat = number_format(filesize($pathcompat)/1000000, 2);
         echo "
             <p>
-            Note: BOINC may be available as a package for
-            for your particular Linux distribution.
-            Check this first before downloading from this page.
+            This release is known to work with these Linux versions:
+            <ul>
+            <li> Fedora Core 7 and 8
+            <li> Debian 4.1
+            <li> Ubuntu 7.10
+            </ul>
+            <p>
+            For other Linux versions,
+            check if a BOINC package is offered by your Linux distribution.
             Example package names:
             <ul>
             <li> Gentoo: sci-misc/boinc
@@ -52,6 +65,13 @@ function download_link($pname) {
                 (more info <a href=http://wiki.debian.org/BOINC>here</a>).
                 Also boinc-dev (for project developers).
             </ul>
+            <p>
+            Alternatively, download the
+            <a href=$urlcompat>BOINC client for older Linux versions</a>
+            (version $numcompat, $scompat MB).
+            This doesn't have a graphical interface,
+            but it should work on all Linux systems,
+            both x86 and x64.
         ";
     }
 }
@@ -113,6 +133,8 @@ function show_download($pname) {
         link_row('winx64');
         link_row('mac');
         link_row('linux');
+        link_row('linuxx64');
+        link_row('linuxcompat');
         echo "</table>
         ";
     }
@@ -166,10 +188,15 @@ if ($_GET['all_platforms']) {
 } else if (strstr($client_info, 'Mac')) {
     show_download('mac');
 } else if (strstr($client_info, 'Linux')) {
-    show_download('linux');
+    if (strstr($client_info, 'x86_64')) {
+        show_download('linuxx64');
+    } else {
+        show_download('linux');
+    }
 } else {
     show_download(null);
 }
+
 page_tail(true);
 
 ?>

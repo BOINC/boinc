@@ -1,0 +1,101 @@
+David  Dec 19 2007
+    - May as well start keeping checkin notes for Bolt.
+        At this point the fundamental structure of Bolt is
+        more or less complete, I hope; many features are missing.
+
+    Items for this particular checkin:
+
+    - Make things work right when you resume a course at an
+        exercise answer page.
+        This creates a new View, whose prev_view_id link points
+        to the exercise view, not the answer page view
+    - When leave a page using "Up", terminate the view accordingly.
+    - Rather than using $_GET, Form vars are now passed to exercise primitives
+        in a global variable $bolt_ex_query_string, which they must parse.
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_ex.inc
+        user/
+            bolt_course.php
+            bolt_sched.php
+
+David  Dec 27 2007
+    - preliminary implementation of exercise_set
+
+    inc/bolt.inc
+
+David  Jan 1 2008
+    - split control structure into separate files
+    - allow passing query strings to items
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt.inc
+            bolt_rnd.inc
+            bolt_seq.inc
+            bolt_xset.inc
+        user/
+            bolt_course_sample.php
+            bolt_sched.php
+
+David  Jan 17 2008
+    -  Add table for selects
+
+    db/
+        bolt_schema.sql
+    html/inc/
+        bolt_db.inc
+
+David  Jan 30 2008
+    - implement the review mechanism
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_xset.inc
+        user/
+            bolt_sched.php
+        
+David  Jan 31 2008
+    - finished and mostly debugged the refresh mechanism
+
+    db/
+        bolt_constraints.sql
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_select.inc
+            bolt.inc
+            bolt_db.inc
+            bolt_xset.inc
+        user/
+            bolt_map.php
+            bolt_sched.php
+            bolt.phph
+            bolt_compare.php
+
+David  Feb 1 2008
+    - Add Bolt admin page
+    - added "hidden" flag to courses
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_db.inc
+            bolt_ex.inc
+            util.inc
+            util_ops.inc
+        ops/
+            bolt_ops.php
+        user/
+            bolt.php
+            bolt_sched.php

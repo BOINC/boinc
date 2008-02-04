@@ -5,15 +5,18 @@
 // This script for use ONLY by the BOINC-teams project.
 // It generates an XML file with team and user info
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
-db_init();
 
 function handle_team($team, $f) {
-    $user = lookup_user_id($team->userid);
+    $user = BoincUser::lookup_id($team->userid);
     if (!$user) {
         echo "no user for team $team->id\n";
         exit(1);
+    }
+    if ($user->teamid != $team->id) {
+        echo "Founder is not member of $team->name\n";
+        return;
     }
     if (!$user->email_validated) {
         echo "the founder of $team->name, $user->email_addr, is not validated\n";
@@ -43,9 +46,9 @@ function handle_team($team, $f) {
 
 function main() {
     $f = fopen("temp.xml", "w");
-    $result = mysql_query("select * from team");
+    $teams = BoincTeam::enum();
     fwrite($f, "<teams>\n");
-    while ($team=mysql_fetch_object($result)) {
+    foreach($teams as $team) {
         handle_team($team, $f);
     }
     fwrite($f, "</teams>\n");

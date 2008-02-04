@@ -253,9 +253,9 @@ function thread_last_visit($user, $thread) {
 
 function thread_is_unread($user, $thread) {
     if (!$user) return false;
-    $log = BoincForumLogging::lookup($user->id, $thread->id);
-    if ($thread->timestamp < $log->timestamp) return false;
     if ($thread->timestamp < $user->prefs->mark_as_read_timestamp) return false;
+    $log = BoincForumLogging::lookup($user->id, $thread->id);
+    if ($log && ($thread->timestamp < $log->timestamp)) return false;
     return true;
 }
 
@@ -490,8 +490,7 @@ function show_post(
         <td rowspan=\"3\"><a name=\"".$post->id."\"></a><div class=\"authorcol\">
     ";
 
-    // Print the user links
-    echo user_links($user, URL_BASE);
+    echo user_links($user);
     echo "<br>";
 
     // Print the special user lines, if any
@@ -711,6 +710,16 @@ function post_warning() {
     ";
 }
 
+function notify_subscriber($thread, $user) {
+    BoincForumPrefs::lookup($user);
+    if ($user->prefs->pm_notification == 1) {
+        send_reply_notification_email($thread, $user);
+    }
+    $now = time();
+    $type = NOTIFY_SUBSCRIBED_POST;
+    BoincNotify::replace("userid=$user->id, create_time=$now, type=$type, opaque=$thread->id");
+}
+
 // Various functions for adding/hiding/unhiding stuff.
 // These take care of counts and timestamps.
 // Don't do these things directly - use these functions
@@ -723,16 +732,13 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $id = BoincPost::insert("(thread, user, timestamp, content, parent_post, signature) values ($thread->id, $user->id, $now, '$content', $parent_id, $sig)");
     if (!$id) return null;
 
-    // send emails to subscribed users
+    // notify subscribed users
     //
     $subs = BoincSubscription::enum("threadid=$thread->id");
     foreach ($subs as $sub) {
         if ($user->id == $sub->userid) continue;
         $user2 = BoincUser::lookup_id($sub->userid);
-        $visit_time = thread_last_visit($user2, $thread);
-        if ($visit_time > $sub->notified_time) {
-            send_reply_notification_email($thread, $user2);
-        }
+        notify_subscriber($thread, $user2);
     }
     $user->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
@@ -974,7 +980,7 @@ function check_post_access($user, $forum) {
     // If the user is posting faster than forum regulations allow
     // Tell the user to wait a while before creating any more posts
     //
-    if (time()-$user->last_post <$forum->min_post_interval) {
+    if (time()-$user->prefs->last_post <$forum->post_min_interval) {
         error_page(tra("You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."));
     }
 }
@@ -1061,5 +1067,30 @@ function is_forum_visible_to_user($forum, $user) {
     return true;
 }
 
+function subscribed_post_email_line($notify) {
+    $thread = BoincThread::lookup_id($notify->opaque);
+    return "There are new posts in the thread '$thread->title'";
+}
+
+function subscribed_post_web_line($notify) {
+    $thread = BoincThread::lookup_id($notify->opaque);
+    return "New posts in the thread <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
+}
+
+function subscribe_rss($notify, &$title, &$msg, &$url) {
+    $thread = BoincThread::lookup_id($notify->opaque);
+    $title = "New posts in subscribed thread";
+    $msg = "There are new posts in the thread '$thread->title'";
+    $url = URL_BASE."forum_thread.php?id=$thread->id";
+}
+
+function show_mark_as_read_button($user) {
+    if ($user) {
+        $return = urlencode(current_url());
+        $tokens = url_tokens($user->authenticator);
+        $url = "forum_index.php?read=1$tokens&return=$return";
+        show_button($url, "Mark all threads as read", "Mark all threads in all message boards as 'read'.");
+    }
+}
 
 ?>

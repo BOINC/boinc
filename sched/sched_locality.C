@@ -39,6 +39,8 @@
 #include "sched_locality.h"
 #include "sched_util.h"
 
+#include <algorithm>
+#include <climits>
 #include <vector>
 #include <string>
 #include <cstring>

@@ -12,6 +12,14 @@ $biomed = array(
 //            "proteinsathome.gif"
 //        ),
         array(
+            "The Lattice Project",
+            "http://boinc.umiacs.umd.edu/",
+            "University of Maryland Center for Bioinformatics and Computational Biology",
+            "Life science research",
+            "The Lattice Project supplies computing power to scientists at the University of Maryland studying evolutionary relationships based on DNA sequence data; bacterial, plasmid, and virus protein sequences; and biological diversity in nature reserves. ",
+            "lattice.gif"
+        ),
+        array(
             "Malariacontrol.net",
             "http://www.malariacontrol.net",
             "The Swiss Tropical Institute",

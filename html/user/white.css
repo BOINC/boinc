@@ -245,6 +245,7 @@ td.disabled {
 span.note {
     font-weight: normal;
     font-size: 0.9em;
+    font-style: italic;
 }
 
 span.news_date {

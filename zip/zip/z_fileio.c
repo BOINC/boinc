@@ -862,10 +862,13 @@ char *zip;              /* path name of zip file to generate temp name for */
 #ifdef _WIN32
   return mktemp(t);
 #else
-  if (mkstemp(t))
-    return t;
-  else
-    return NULL;
+    int fd = mkstemp(t);
+    if (fd) {
+        close(fd);
+        return t;
+    } else {
+        return NULL; 
+    }
 #endif /* MKSTEMP */
 #endif /* NO_MKTEMP */
 #endif /* TANDEM */

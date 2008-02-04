@@ -1,7 +1,68 @@
 <?
 
 $project_news = array(
+array("Jan 31, 2008",
+    "The <a href=http://bob.myisland.as/tsp/>TSP project</a>
+    is featured in International Science Grid This Week: <a href=http://www.isgtw.org/?pid=1000844>Traveling salesman meets distributed computing</a>."
+),
+array("Jan 31, 2008",
+    "BOINC has broken the PetaFLOP barrier!
+    According to <a href=http://boincstats.com/>BOINCStats</a>,
+    106 million units of credit were granted yesterday,
+    which translates to 1.06 PetaFLOP/sec.
+    Congratulations to all projects and participants."
+),
+array("Jan 24, 2008",
+    "A paper describing results of the <a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a> project recently appeared in the
+    <a href=http://pubs.acs.org/cgi-bin/abstract.cgi/jpcafh/asap/abs/jp077592t.html>Journal of Physical Chemistry A (JPCA)</a>."
+),
+array("Jan 15, 2008",
+    "A new article from the <a href=http://www.planetary.org>Planetary Society</a>: 
+    <a href=http://www.planetary.org/programs/projects/setiathome/setiathome_20080115.html>From SETI@home to Hominid Fossils: Citizen Cyberscience Reshapes Research Landscape</a>."
+),
 
+array("Jan 14, 2008",
+    "The cross-project statistics site
+    <a href=http://www.allprojectstats.com/>All Project Stats.com</a>
+    has many improvements and new features,
+    include <a href=http://www.allprojectstats.com/signature.php>credit-based signature images</a> for users and teams."
+),
+array("Jan 10, 2008",
+    "A new competition for BOINC teams,
+    <a href=http://www.myboinc.com/FormulaBoinc/>Formula BOINC</a>,
+    is based on their position with projects (as in Formula 1 racing)
+    rather than overall credit.
+    This rewards teams that are diversified across many projects."
+),
+array("Dec 26, 2007",
+    "A story in the Chicago Tribune, \"<a href=http://www.chicagotribune.com/services/newspaper/printedition/tuesday/chi-computer_25dec25,0,2528641.story>Bit by bit, home computers aid science</a>\",
+    highlights <a href=http://www.cosmologyathome.org/>Cosmology@home</a>."
+),
+array("Dec 18, 2007",
+    "<a href=http://boinc.umiacs.umd.edu/>The Lattice Project</a>,
+    based at the University of Maryland
+    Center for Bioinformatics and Computational Biology,
+    is now open to volunteers.
+    Lattice runs several applications, and supplies computing power to
+    a number of Life Sciences researchers.
+    Current areas of study include
+    evolutionary relationships based on DNA sequence data;
+    bacterial, plasmid, and virus protein sequences;
+    and biological diversity in nature reserves. "
+),
+
+array("Dec 5, 2007",
+    "Watch a <a href=http://www.youtube.com/watch?v=GzATbET3g54>YouTube video</a> about the science behind <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home</a>."
+),
+array("Dec 5, 2007",
+    "The <a href=http://bob.myisland.as/tsp/>TSP</a>
+    (Traveling Salesman Problem) project is using BOINC to
+    find the shortest path between the capitals of the lower 48 states."
+),
+array("Dec 3, 2007",
+    "This web site, and the BOINC-Wide Teams site,
+    will be down for about 18 hours starting at 3 PM PST, Dec 6."
+),
 array("November 28, 2007",
     "Live in Washington DC?  Get together with other BOINC users via
     <a href=http://opensource.meetup.com/84/?gj=sj2>Meetup</a>

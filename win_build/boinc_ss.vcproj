@@ -213,7 +213,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -427,7 +426,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -642,7 +640,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -673,6 +670,10 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			<File
+				RelativePath="..\lib\base64.C"
+				>
+			</File>
 			<File
 				RelativePath="..\lib\diagnostics.C"
 				>
@@ -754,6 +755,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath="..\lib\base64.h"
+				>
+			</File>
 			<File
 				RelativePath="..\clientscr\boinc_ss.h"
 				>

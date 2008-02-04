@@ -38,8 +38,8 @@ public:
 
     void LoadPrivateFrameworkBundle( CFStringRef framework, CFBundleRef *bundlePtr );
     //	Function pointer prototypes to the Mach-O Cocoa wrappers
-    typedef void	(*SetUpSystemMenuProc)(MenuRef menuToCopy, PicHandle theIcon);
-    typedef void	(*SetSystemMenuIconProc)(PicHandle theIcon);
+    typedef void	(*SetUpSystemMenuProc)(MenuRef menuToCopy, CGImageRef theIcon);
+    typedef void	(*SetSystemMenuIconProc)(CGImageRef theIcon);
 
     SetUpSystemMenuProc         SetUpSystemMenu;
     SetSystemMenuIconProc       SetSystemMenuIcon;

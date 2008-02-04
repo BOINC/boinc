@@ -178,34 +178,6 @@ int get_socket_error(int fd) {
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
 
-typedef int  (*pfnBOINCIsNetworkAlive)(LPDWORD lpdwFlags);
-
-int get_connected_state() {
-    // The following is commented out because it causes
-    // hangs in some situations.
-    int online = 0;
-    static bool first=true;
-    static HMODULE lib_boinc_module;
-    static pfnBOINCIsNetworkAlive BOINCIsNetworkAlive;
-    DWORD connectionFlags;
-
-    if (first) {
-        lib_boinc_module = LoadLibrary("boinc.dll");
-        if (lib_boinc_module) {
-            BOINCIsNetworkAlive = (pfnBOINCIsNetworkAlive) GetProcAddress(lib_boinc_module, "BOINCIsNetworkAlive");
-        }
-        first = false;
-    }
-    if (lib_boinc_module && BOINCIsNetworkAlive) {
-        connectionFlags = NETWORK_ALIVE_LAN | NETWORK_ALIVE_WAN | NETWORK_ALIVE_AOL;
-        online = BOINCIsNetworkAlive(&connectionFlags);
-        if (online) {
-            return CONNECTED_STATE_CONNECTED;
-        }
-    }
-    return CONNECTED_STATE_UNKNOWN;
-}
-
 int WinsockInitialize() {
     WSADATA wsdata;
     return WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -215,13 +187,6 @@ int WinsockCleanup() {
     return WSACleanup();
 }
 
-#else
-
-// anyone know how to see if this host has physical network connection?
-//
-int get_connected_state() {
-    return CONNECTED_STATE_UNKNOWN;
-}
 
 #endif
 const char *BOINC_RCSID_557bf0741f="$Id$";

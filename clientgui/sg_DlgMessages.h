@@ -135,7 +135,6 @@ private:
 
     bool                    EnsureLastItemVisible();
 	wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatPriority( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
 

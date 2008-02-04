@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -151,7 +151,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -238,7 +238,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -326,7 +326,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
+				AdditionalDependencies="atls.lib msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
 				OutputFile="$(OutDir)/boinccas.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -386,6 +386,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACreateClientAuthFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGetAdministratorsGroupName.cpp"
 				>
 			</File>
@@ -415,10 +419,6 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CAStartupBOINCService.cpp"
 				>
 			</File>
 			<File
@@ -495,6 +495,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACreateClientAuthFile.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGetAdministratorsGroupName.h"
 				>
 			</File>
@@ -524,10 +528,6 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CAStartupBOINCService.h"
 				>
 			</File>
 			<File

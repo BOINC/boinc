@@ -8,6 +8,7 @@ EXPORTS
 	DllMain
 	CreateBOINCAccounts
 	CreateBOINCGroups
+	CreateClientAuthFile
 	GetAdministratorsGroupName
 	GetUsersGroupName
 	GrantBOINCMasterRights
@@ -16,5 +17,4 @@ EXPORTS
 	ShutdownBOINCManager
 	ShutdownBOINCScreensaver
 	ShutdownUD
-	StartupBOINCService
 	

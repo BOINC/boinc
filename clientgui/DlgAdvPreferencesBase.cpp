@@ -229,7 +229,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_txtProcUseProcessors = new wxTextCtrl( m_panelProcessor, ID_TXTPROCUSEPROCESSORS, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizer3->Add( m_txtProcUseProcessors, 0, wxALL, 1 );
 
-	m_staticText21 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("processors"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("% of the processors"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer3->Add( m_staticText21, 0, wxALL, 5 );
 
 	m_staticText22 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );

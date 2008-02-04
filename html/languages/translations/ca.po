@@ -1,353 +1,585 @@
-# ########################################
-# Language: Català
-# FileID  : $Id$
-# Author  : Xavier Mor-Mur
-# Email   : xmormur@telepolis.com
-# ########################################
-# Per a mes informació consulteu:
-# http://boinc.berkeley.edu/web_translation.php
-# ########################################
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-01-05 19:09+0100\n"
+"Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
+##########################################
+# Language: Catalan
+# FileID  : $Id$
+# Author  : Xavier Mor-Mur, based on en.po svn rev. 14372
+# Email   : xmormur@telepolis.com
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Català"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
 
-
 #########################################
 # Apps page (apps.php)
 #########################################
-msgid "APPS_TITLE"
+msgid "Applications"
 msgstr "Aplicacions"
 
-msgid "APPS_DESCRIPTION"
-msgstr "El $PROJECT actual te les següents aplicacions. "
-"Quan participes a $PROJECT, s'assigna feina per una o mes "
-"d'aquestes aplicacions en el teu ordinador. "
-"La versió actual de l'aplicatiu es descarrega al teu ordinador. "
-"Aixó passa automàticament, no tens que fer res. "
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "%1 actualment te les següents aplicacions. Quan participeu a %1, feina per una o mes d'aquestes aplicacions es assignada al vostre ordinador. La versió actual de l’aplicació es descarregat al vostre ordinador. Això succeeix de manera automàtica; no necessita fer res."
 
-msgid "APPS_PLATFORM"
-msgstr "Sistema base"
+msgid "Platform"
+msgstr "Plataforma"
 
-msgid "APPS_VERSION"
+msgid "Current version"
 msgstr "Versió actual"
 
-msgid "APPS_INSTALLTIME"
-msgstr "Instal·lat"
+msgid "Installation time"
+msgstr "Temps d'instal·lació"
 
 #########################################
 # Rules and Policies page (info.php)
 #########################################
-msgid "RULES_TITLE"
-msgstr "Regles i Normes"
+msgid "Read our rules and policies"
+msgstr "Llegiu les regles i normes nostres"
 
-msgid "RULES_ONLY_AUTH"
-msgstr "Executeu $PROJECT tan sols en ordinadors autoritzats"
+msgid "Run %1 only on authorized computers"
+msgstr "Executeu %1 només en ordinadors autoritzats"
 
-msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Executa $PROJECT tan sols en ordinadors de la teva propietat, "
-"o d'aquells per els que has obtingut permís del seu propietari. "
-"Algunes empreses i escoles tenen regles que prohibeixen la utilització "
-"dels seus ordinadors per projectes com $PROJECT"
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr "Executeu %1 només en els ordinadors propis, o per els que heu obtingut autorització del propietari. Algunes companyies i escoles tenen normes que prohibeixen la utilització dels seus ordinadors per projectes com %1."
 
-msgid "RULES_COMPUTER_USE"
-msgstr "Com $PROJECT utilitzarà el teu ordinador"
+msgid "How %1 will use your computer"
+msgstr "Com %1 utilitza el seu ordinador"
 
-msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Quan executes $PROJECT en el teu ordinador, "
-"aquest utilitzarà part de la capacitat de la CPU, espai en disc, i ampla de banda de xarxa. "
-"Pots modificar la quantitat de recursos que seran utilitzats per $PROJECT, "
-"i quan els utilitzarà. "
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr "Quan executeu %1 en el vostre ordinador, utilitzarà part de la potència de la CPU, espai en disc, i ampla de banda de la xarxa. Podeu controlar la quantitat de recursos utilitzats per %1, i quan els utilitza."
 
-msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "La feina realitzada per el teu ordinador contribueix a "
-"l'objectiu de $PROJECT, tal com es descriu a la seva web. "
-"L'objectiu dels programes poden canviar en el temps."
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr "El treball realitzat per el vostre ordinador contribueix a assolir les fites de %1, tal i com es descrit a la seva pàgina web. L’aplicació pot canviar en el temps."
 
-msgid "RULES_PRIVACY"
+msgid "Privacy policy"
 msgstr "Normes de privadesa"
 
-msgid "RULES_PRIVACY_TEXT_A"
-msgstr "La teva compta a $PROJECT es identificada per el nom que esculls. "
-"Aquest nom es pot mostrar a la web de $PROJECT, amb un sumari de "
-"la feina realitzada per el teu ordinador per a $PROJECT. "
-"Si vols mantenir-te anónim, escull un nom que bo t'identifiqui."
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "El vostre compte a %1 s'identifica per el nom que escolliu. Aquest nom es pot mostrar a la pàgina web de %1, amb un resum de la feina que vostre ordinador ha realitzat per a %1. Si voleu romandre anònim, escolliu un nom que reveli la vostre identitat."
 
-msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Si participes a $PROJECT, informació respecte al teu ordinador "
-"(com tipus de processador, memòria total, etc.) "
-"es registrada per $PROJECT i utilitzada per decidir el tipus de feina "
-"que s'assignarà al teu ordinador. Aquesta informació també es pot mostrar a "
-"la web de $PROJECT. "
-"Res que identifiqui el teu ordinador (com nom del domini o "
-"direcció de xarxa) es mostrarà."
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "Si participeu a %1, informació respecte el vostre ordinador (com el tipus de processador, quantitat de memòria, etc.) serà registrada per %1 i utilitzada per decidir el tipus de feina a assignar al vostre ordinador. Aquesta informació també es mostrarà a les pàgines web de %1. No es mostrarà res que pugui revelar la localització del vostre ordinador (per exemple el seu nom de domini o adreça de xarxa)."
 
-msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Per participar a $PROJECT, has de subministrar una adreça on rebs el teu correu electrònic. "
-"Aquesta adreça no es mostrarà a la web de $PROJECT o organitzacions associades. "
-"$PROJECT pot enviar-te periodicament noticies; en qualsevol cas podeu optar per no rebren en qualsevol moment."
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "Per participar a %1, heu de subministrar una adreça on rebre correu electrònic. Aquesta adreça de correu no es mostrarà a la pàgina web de %1 o d'organitzacions associades. %1 podrà enviar-vos noticies periòdicament; en qualsevol cas, podeu optar per cancel·lar-ho."
 
-msgid "RULES_SAFE"
-msgstr "Es segur executar $PROJECT ?"
+msgid "Is it safe to run %1?"
+msgstr "Es segura l'execució de %1?"
 
-msgid "RULES_SAFE_TEXT_A"
-msgstr "Sempre que descarreguis un programa des de internet pots trobar-te amb que: "
-"el programa contingui errors greus, "
-"o que el servidor de descàrrega hagi estat manipulat. "
-"$PROJECT ha realitzat esforsos per minimitzar aquests riscos. "
-"Hem verificat les nostres aplicacions amb cura. "
-"Els nostres servidors estan protegits per tallafocs i configurats per alta seguretat. "
-"Per assegurar la integritat de les descàrregues , tots els fitxers executables tene signatura "
-"digital en un ordinador de seguretat no connectat a internet."
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "Sempre que descarregueu un programa d'Internet pot passar que: el programa tingui errors perillosos, o que el servidor de descàrrega hagi estat manipulat. %1 ha treballat per minimitzar aquests riscos. Hem verificat amb cura les nostres aplicacions. Els nostres servidors estan protegits per tallafocs que estan configurats per alta seguretat. Per assegurar la descàrrega de programes, tots els programes disposen d'una signatura digital en un ordinador que no està connectat a Internet."
 
-msgid "RULES_SAFE_TEXT_B"
-msgstr "Les aplicacions executades per $PROJECT poden provocar la sobrecàrrega d'alguns ordinadors. "
-"Si passes això, atura l'execució de $PROJECT o utilitza un %s  que limiti la utilització de la CPU."
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "Les aplicacions executades per %1 poden causar l’escalfament d'alguns ordinadors. Si passes això, atureu l'execució de %1 o utilitzeu un %2programa%3 que limiti la utilització de la CPU."
 
-msgid "RULES_UTILITY_PROGRAM"
-msgstr "programa de utilitats"
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 ha estat desenvolupada per %2. BOINC ha estat desenvolupada a la Universitat de Califòrnia."
 
-msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT ha estat desenvolupat per %s. BOINC ha estat desenvolupat a la Universitat de "
-"Califòrnia."
-
-msgid "RULES_LIABILITY"
+msgid "Liability"
 msgstr "Responsabilitats"
 
-msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT i %s no assumeixen cap responsabilitat per danys al teu ordinador, "
-"pèrdua de informació, o qualsevol altre succes que pugui se degut a la "
-"participació a $PROJECT."
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr "%1 i %2 no assumeixen responsabilitats per danys al vostre ordinador, pèrdua de informació, o qualsevol altre incidència deguda a la participació a %1."
 
-msgid "RULES_OTHER"
-msgstr "Altres projectes BOINC "
+msgid "Other BOINC projects"
+msgstr "Altres projectes BOINC"
 
-msgid "RULES_OTHER_TEXT_A"
-msgstr "Altres projectes utilitzen la mateixa base, BOINC, com $PROJECT. Pots considerar "
-"la possibilitat de participar a un o mès d'aquests projectes. "
-"Amb aixó, el teu ordinador pot realitzar feina util encara que $PROJECT no tingui feina "
-"disponible per ell."
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "Altres projectes utilitzen la mateixa plataforma, BOINC, com %1. Podeu considerar la participació a un o mes d'aquests projectes. Fent això, el vostre ordinador executarà feina útil encara que %1 no en disposi de pròpia."
 
-msgid "RULES_OTHER_TEXT_B"
-msgstr "Aquests altres projectes no estan associats amb $PROJECT, i no podem "
-"responsabilitzar-nos de la seva seguretat o la naturaleza de la seva recerca. Participa-hi "
-"sota la teva responsavilitat."
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr "Aquests altres projectes no estan associats amb %1, i no podem garantir la seva seguretat o la naturalesa de la seva recerca. Uniu-vos-hi sota la vostra responsabilitat."
 
 #########################################
 # Create account form (create_account_form.php)
 #########################################
-msgid "CREATE_AC_TITLE"
-msgstr "Crear una compta"
+msgid "Create an account"
+msgstr "Crear un compte"
 
-msgid "CREATE_AC_READ_RULES"
-msgstr "Llegeix %s abans de crear una compta."
-
-msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Si ja has rebut una clau per el compte, no envieu aquest formulari. "
-"%s en el seu lloc."
-
-msgid "CREATE_AC_NAME"
+msgid "Name"
 msgstr "Nom"
 
-msgid "CREATE_AC_NAME_DESC"
-msgstr "T'identifica a la nostra web. Utilitza el teu nom real o un àlies."
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
 
-msgid "CREATE_AC_EMAIL"
-msgstr "Adreça de correu electrònic "
+msgid "Email Address"
+msgstr "Adreça de correu"
 
-msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Ha de ser una adreça vàlida en el format 'nom@domini'."
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'."
 
-msgid "CREATE_AC_COUNTRY"
+msgid "Country"
 msgstr "País"
 
-msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Selecciona el país que vols representar, si ho desitges."
+msgid "Select the country you want to represent, if any."
+msgstr "Seleccioneu el país que voleu representar, si ho desitgeu."
 
-msgid "CREATE_AC_ZIP"
-msgstr "Codi postal "
+msgid "Postal or ZIP Code"
+msgstr "Codi postal o ZIP"
 
-msgid "CREATE_AC_CREATE"
-msgstr "Crear Compte"
+msgid "Create account"
+msgstr "Crear un compte"
 
-msgid "CREATE_AC_DISABLED"
-msgstr "La Creació de Comptes està Desactivada"
+msgid "Account creation is disabled"
+msgstr "La creació de comptes està desactivada"
 
-msgid "CREATE_AC_DISABLED_TEXT"
-msgstr " La creació de comptes està desactivada momentàniament per a $PROJECT. "
-"Si us plau prova-ho mes tard."
+msgid "Account creation is disabled for %1 at the moment. Please try again later."
+msgstr "La creació de comptes per %1 de moment està desactivada. Si us plau provi-ho mes tard."
 
-msgid "CREATE_AC_TEAM"
-msgstr "Aquest compte formarà part del grup %s i tindrà les mateixes preferències del seu fundador."
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "Aquest compte formarà part del grup %1 i tindrà les preferències del creador del projecte."
 
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "NOTA: Si utilitzeu la versió BOINC 5.2+ amb el gestor BOINC, no utilitzeu aquest formulari. Senzillament executeu BOINC, seleccioneu Unir-vos a un Projecte, i introduïu una adreça de correu i contrasenya."
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "Compte creat "
+msgid "Password"
+msgstr "Contrasenya"
 
-msgid "AC_READY_WELCOME"
-msgstr "Felicitats - el teu compte per a $PROJECT ha estat creat"
+msgid "Must be at least %1 characters"
+msgstr "Ha de tenir al menys %1 caràcters"
 
-msgid "AC_READY_PASTE"
-msgstr "Per continuar, enganxa la teva clau de compte aquí:"
+msgid "Confirm password"
+msgstr "Introduïu de nou la contrasenya"
 
-msgid "AC_READY_CLICK"
-msgstr "i prem "
+msgid "Invitation Code"
+msgstr "Codi d'alta"
 
+msgid "A valid invitation code is required to create an account."
+msgstr "Un codi d'alta es necessari per crear un compte."
 
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "Configuració compte "
+msgid "You must supply an invitation code to create an account."
+msgstr "Heu d'introduir un codi d'alta per la creació d'un compte."
 
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT utilitza el programari de BOINC."
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC et permet repartir el temps del teu ordinador entre diversos projectes de computació distribuïda."
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "Es aquest el teu primer projecte BOINC?"
-
-msgid "AC_SETUP_FIRST"
-msgstr "Si - es el meu primer projecte BOINC "
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "No - Ja estic participant al menys en un altre projecte BOINC"
-
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "Preferències del compte "
-
-msgid "AC_FIRST_CONTROL"
-msgstr "Pots controlar quan i com el teu ordinador es utilitzat per $PROJECT"
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "Per utilitzar la configuració per defecte, desplazat fins al final i premeu OK."
-
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "Configuració compte: realitzada"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "La configuració del vostre compte ha estat completada."
-
-msgid "AC_DONE_BOINC"
-msgstr "Ara has de descarregar i instal·lar el programari de BOINC i permetre al(s) vostre(s) ordinador(s) "
-"la utilització d'aquest compte."
-
-msgid "AC_DONE_URL"
-msgstr "Quan el programa BOINC s'executa per primera vegada, et demanarà per una <b>URL d'un projecte</b> i "
-"per una <b>Clau de compte</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr " Copia-les i enganxa-les aquí:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Ara pots %s per completar la instal·lació de $PROJECT."
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "descarregar el programari BOINC"
-
-msgid "AC_DONE_THANKS"
-msgstr "Mercès per participar a $PROJECT"
-
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "Configuració del compte: recursos compartits"
-
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "Ara has de permetre el(s) teu(s) ordinador(s) la utilització d'aquest compte."
-
-msgid "AC_DONE_WIN"
-msgstr "Usuaris de Windows:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Obra la finestra de l'aplicació BOINC prement dues vegades a la icona de BOINC a barra de tasques."
-"Escull 'Ajuntar-se a un Projecte' en el menu de Configuració. Et demanarà per la URL d'un projecte "
-"i una clau de compte."
-
-msgid "AC_DONE_UNIX"
-msgstr "Usuaris de Mac, Unix i Linux:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Finalitzar l'execució del programa BOINC. Executa el programa BOINC amb l'opció -attach_project. "
-"Et demanarà per la URL d'un projecte i una clau de compte."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "En cada cas copieu i enganxeu el següent:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "Això finalitza la instal·lació de $PROJECT."
+msgid "The invitation code you gave is not valid."
+msgstr "El codi d'alta que introduït no es vàlid."
 
 #########################################
 # Forum sample index page
 #########################################
+msgid "%1 Message boards"
+msgstr "Pannell de missatges de %1"
 
-msgid "FORUM_TITLE"
-msgstr "$PROJECT Emplaçament de missatges "
-
-
-#########################################
-# Different strange places:
-#########################################
-
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "Configura el teu compte "
-
+msgid "Message boards"
+msgstr "Pannells de missatges"
 
 #########################################
 # General stuff (create_account_form.php and others)
 #########################################
-msgid "OPTIONAL"
+msgid "Optional"
 msgstr "Opcional"
 
 #########################################
 # Various top table pages (top users, computers, teams)
 #########################################
-
-msgid "TOP_PARTICIPANT_TITLE"
+msgid "Top participants"
 msgstr "Participants principals"
 
-msgid "USER_TABLE_RANK"
-msgstr "Rang"
+msgid "Rank"
+msgstr "Categoria"
 
-msgid "USER_TABLE_NAME"
-msgstr "Nom"
+msgid "Total credit"
+msgstr "Crèdit total"
 
-msgid "USER_TABLE_TOTAL_CREDIT"
-msgstr "Crèdit Total"
+msgid "Recent average credit"
+msgstr "Crèdit promig mes recent"
 
-msgid "USER_TABLE_EXPAVG"
-msgstr "Crèdit promitg actual"
-
-msgid "USER_TABLE_COUNTRY"
-msgstr "Pais"
-
-msgid "USER_TABLE_PTIME"
+msgid "Participant since"
 msgstr "Participant des de"
+
+msgid "Top %1 teams"
+msgstr "Els %1 Grups principals"
+
+msgid "Members"
+msgstr "Membres"
+
+msgid "Top hosts"
+msgstr "Servidors principals"
+
+#########################################
+# Forum
+#########################################
+msgid "Posts"
+msgstr "Correu"
+
+msgid "Topic"
+msgstr "Tema"
+
+msgid "Thread"
+msgstr "Fil"
+
+msgid "Threads"
+msgstr "Fils"
+
+msgid "Last post"
+msgstr "Últim correu"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Views"
+msgstr "Opinions"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "Per tal de crear un nou fil a %1 ha de disposar un cert nombre de crèdits. Això es per prevenir i protegir contra l'abús del sistema."
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "De moment no pot crear mes fils. Si us plau esperi abans de intentar-ho de nou. Aquesta espera es imposada per protegir contra abusos els sistema."
+
+msgid "Create a new thread"
+msgstr "Crear un nou fil"
+
+msgid "Title"
+msgstr "Títol"
+
+msgid "Add my signature to this post"
+msgstr "Afegir la meva firma a aquest correu"
+
+msgid "Message"
+msgstr "Missatge"
+
+msgid "Edit message"
+msgstr "Editar el missatge"
+
+msgid "Use BBCode tags to format your text"
+msgstr "Utilitzar les marques BBCode per formatar el text"
+
+#########################################
+# Forum thread
+#########################################
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Aquest fil ha estat ocultat amb propòsits administratius"
+
+msgid "Post to thread"
+msgstr "Correu del fil"
+
+msgid "Unsubscribe"
+msgstr "Finalitzar subscripció"
+
+msgid "Subscribe"
+msgstr "Subscriure"
+
+#########################################
+# Forum search features
+#########################################
+msgid "Forum search"
+msgstr "Recerca al fòrum"
+
+msgid "Titles containing '%1'"
+msgstr "Títols que contenen '%1'"
+
+msgid "Posts containing '%1'"
+msgstr "Correus que contenen '%1'"
+
+msgid "No titles containing '%1' could be found."
+msgstr "No s'han trobat títols que continguin '%1'."
+
+msgid "No posts containing '%1' could be found."
+msgstr "No s'han trobat correus que continguin '%1'."
+
+#########################################
+# Private messages
+#########################################
+msgid "Private messages"
+msgstr "Missatges privats"
+
+msgid "Inbox"
+msgstr "Bústia d'entrada"
+
+msgid "Write"
+msgstr "Escriure"
+
+msgid "Forum index"
+msgstr "Índex del fòrum"
+
+msgid "Send private message"
+msgstr "Enviar un missatge privat"
+
+msgid "Preview"
+msgstr "Vista prèvia"
+
+msgid "To"
+msgstr "Per"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "El identificadors son noms d'usuari únics, separats per comes"
+
+msgid "Subject"
+msgstr "Assumpte"
+
+msgid "Send message"
+msgstr "Enviar missatge"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "No teniu permès enviar missatges privats tant sovint. Si us plau espereu una estona abans d'enviar mes missatges."
+
+msgid "Your message has been sent."
+msgstr "El seu missatge ha estat lliurat."
+
+msgid "You have no private messages."
+msgstr "No te missatges privats."
+
+msgid "No such message"
+msgstr "No hi ha el missatge"
+
+msgid "Really delete?"
+msgstr "Segur d'esborrar-lo?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "Està segur que vol esborrar el missatge amb l'assumpte &quot;%1&quot; (enviat per %2 el %3)?"
+
+msgid "Yes, delete"
+msgstr "Si, esborrar"
+
+msgid "No, cancel"
+msgstr "No, cancel·lar"
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Necessita omplir tots els camps per enviar un missatge privat"
+
+msgid "Could not find user with id %1"
+msgstr "No pot trobar l'usuari amb l'identificador %1"
+
+msgid "Could not find user with username %1"
+msgstr "No es pot trobar l'usuari de nom %1"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 no es un nom d'usuari únic; teniu que utilitzar el vostre identificador (ID)"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "L'usuari %1 (ID: %2) no accepta missatges privats de vostè."
+
+msgid "Really block %1?"
+msgstr "Segur de bloquejar %1?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "Està segur que vol bloquejar que l'usuari %1 li enviï missatges privats?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Si us plau, tingui en compte que només pot bloquejar un nombre limitat d'usuaris."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Un cop bloquejat un usuari el podeu desbloquejar utilitzant la pàgina de preferències del fòrum."
+
+msgid "Add user to filter"
+msgstr "Afegir l'usuari al filtre"
+
+msgid "No such user"
+msgstr "No existeix l'usuari"
+
+msgid "User %1 blocked"
+msgstr "L'usuari %1 està bloquejat"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "L'usuari %1 te bloquejat el lliurament de missatges privats a vostè."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Per desbloquejar, visiti les %1preferències del pannell de missatges%2"
+
+msgid "Sender and date"
+msgstr "Remitent i data"
+
+msgid "Delete"
+msgstr "Esborrar"
+
+msgid "Reply"
+msgstr "Contestar"
+
+msgid "Block user"
+msgstr "Bloquejar usuari"
+
+msgid "With selected messages"
+msgstr "Amb els missatges seleccionats"
+
+msgid "Mark as read"
+msgstr "Marcar com llegit"
+
+msgid "Mark as unread"
+msgstr "Marcar com no llegit"
+
+#########################################
+# Links from the main page
+#########################################
+msgid "Questions and Answers"
+msgstr "Preguntes i respostes"
+
+#########################################
+# "Your account" page (home.php)
+#########################################
+msgid "Your account"
+msgstr "El seu compte"
+
+msgid "Welcome to %1"
+msgstr "Benvingut a %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "Revisi i editi les preferències del seu compte utilitzant els links següents."
+
+msgid "If you have not already done so, %1download BOINC client software%2."
+msgstr "Si no ho heu fet ja, %1descarregueu el client BOINC%2."
+
+msgid "Account information"
+msgstr "Informació del compte"
+
+msgid "Email address"
+msgstr "Adreça de correu electrònic"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Postal code"
+msgstr "Codi postal"
+
+msgid "Change"
+msgstr "Canviar"
+
+msgid "email address"
+msgstr "adreça de correu electrònic"
+
+msgid "password"
+msgstr "contrasenya"
+
+msgid "other account info"
+msgstr "altre informació del compte"
+
+msgid "Log out"
+msgstr "Finalitzar la sessió"
+
+msgid "Community"
+msgstr "Comunitat"
+
+msgid "Community preferences"
+msgstr "Preferències de la comunitat"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Profile"
+msgstr "Perfil"
+
+msgid "Teams"
+msgstr "Grups"
+
+msgid "Team"
+msgstr "Grup"
+
+msgid "Member of team"
+msgstr "Membre de l'equip"
+
+msgid "%1 posts"
+msgstr "%1 correus"
+
+msgid "None"
+msgstr "Cap"
+
+msgid "Administer"
+msgstr "Administrador"
+
+msgid "Founder but not member of"
+msgstr "Fundador però no membre de "
+
+msgid "administrative functions"
+msgstr "funcions administratives"
+
+msgid "Quit team"
+msgstr "Deixar el grup"
+
+msgid "find a team"
+msgstr "Trobar un grup"
+
+msgid "Preferences"
+msgstr "Preferències"
+
+msgid "Computing preferences"
+msgstr "Preferències de computació"
+
+msgid "When and how BOINC uses your computer"
+msgstr "Quan i com BOINC utilitza el seu ordinador"
+
+msgid "%1 preferences"
+msgstr "Preferències de %1"
+
+msgid "Resource share and graphics"
+msgstr "Compartició de recursos i gràfics"
+
+msgid "Message board preferences"
+msgstr "Preferències del pannell de missatges"
+
+msgid "Message boards and private messages"
+msgstr "Pannell de missatges i missatges privats"
+
+msgid "Computing and credit"
+msgstr "Computació i crèdits"
+
+msgid "%1 member since"
+msgstr "%1 membre des de"
+
+msgid "Pending credit"
+msgstr "Crèdits pendents"
+
+msgid "View"
+msgstr "Mirar"
+
+msgid "Computers on this account"
+msgstr "Ordinadors d'aquest compte"
+
+msgid "Tasks"
+msgstr "Feines"
+
+msgid "Cross-project ID"
+msgstr "Identificador del Cross-project"
+
+msgid "Cross-project statistics"
+msgstr "Estadístiques del Cross-project"
+
+msgid "Stats on your cell phone"
+msgstr "Estadístiques en el seu mòbil"
+
+msgid "Account number"
+msgstr "Número de compte"
+
+msgid "Used in URLs"
+msgstr "Utilitzat en les URL"
+
+msgid "unread"
+msgstr "no llegit"
+
+#########################################
+# "Weak account key" page (weak_auth.php)
+#########################################
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "La seva 'clau de compte reduïda' li permet associar ordinadors al seu compte en aquest projecte, sense necessitat d'iniciar una sessió amb el seu compte o canviar-lo."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Això només funciona amb projectes que tenen el seu software servidor actualitzat a la versió del 7 de Dec 2007 o posterior."
+
+msgid "Your weak account key for this project is:"
+msgstr "La clau de compte reduïda per aquest projecte es:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "Per utilitzar la clau de compte reduïda en un servidor, trobeu o creeu 'el fitxer del compte' per aquest projecte. El nom d'aquest fitxer es de la forma <b>compte_URL_DEL_PROJECTE.xml</b>. El fitxer del compte per %1 es <b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Crear aquest fitxer si es necessari. Configureu el seu contingut com:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "La seva clau de compte reduïda es una funció del la seva contrasenya. Si canvia la contrasenya, la clau de compte reduïda canvia, i la clau de compte reduïda anterior deixa de ser vàlida."
+

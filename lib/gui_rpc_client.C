@@ -220,7 +220,7 @@ int RPC_CLIENT::authorize(const char* passwd) {
     n = snprintf(buf, sizeof(buf), "%s%s", nonce, passwd);
     if (n >= (int)sizeof(buf)) return ERR_AUTHENTICATOR;
     md5_block((const unsigned char*)buf, (int)strlen(buf), nonce_hash);
-    sprintf(buf, "<auth2>\n<nonce_hash>%s</nonce_hash>\n<auth2>\n", nonce_hash);
+    sprintf(buf, "<auth2>\n<nonce_hash>%s</nonce_hash>\n</auth2>\n", nonce_hash);
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {

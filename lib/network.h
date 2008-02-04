@@ -70,13 +70,6 @@ typedef BOINC_SOCKLEN_T boinc_socklen_t;
 #endif
 
 
-#define CONNECTED_STATE_UNINITIALIZED   -1
-#define CONNECTED_STATE_NOT_CONNECTED   0
-#define CONNECTED_STATE_CONNECTED       1
-#define CONNECTED_STATE_UNKNOWN         2
-
-extern int get_connected_state();
-
 #if defined(_WIN32) && defined(USE_WINSOCK)
 extern int WinsockInitialize();
 extern int WinsockCleanup();

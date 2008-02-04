@@ -110,8 +110,15 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 function send_reply_notification_email($thread, $user){
     $title = PROJECT . ": A user has posted to '". stripslashes($thread->title) ."'";
     $link = URL_BASE . "forum_thread.php?id=" . $thread->id;
-    $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
-           ."To view the updated thread, visit the following URL:\n\n$link";
+    $body = "Another " . PROJECT . " user has posted to the thread
+\"" . stripslashes($thread->title) . "\".\n"
+           ."To view the updated thread, visit:\n$link
+
+--------------------------
+To change email preferences, visit:
+".URL_BASE."edit_forum_preferences_form.php
+Do not reply to this message.
+";
     return send_email($user, $title, $body);
 }
 

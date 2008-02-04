@@ -110,6 +110,8 @@ const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any project
 const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support screensaver graphics: ";
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
 const char *  BOINCTestmodeMsg = "BOINC screensaver is running, but cannot display graphics in test mode.";
+const char *  BOINCV5GFXDaemonMsg = "BOINC can't display graphics from older applications when running as a daemon.";
+
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
 
@@ -368,6 +370,7 @@ int CScreensaver::drawGraphics(GrafPtr aPort) {
             break;
 #endif
         case SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING:
+        case SCRAPPERR_DAEMONALLOWSNOGRAPHICS:
             if (m_StatusMessageUpdated) {
                 setBannerText(m_MsgBuf, aPort);
                 updateBannerText(m_MsgBuf, aPort);
@@ -508,17 +511,18 @@ bool CScreensaver::SetError(bool bErrorMode, unsigned int hrError) {
     m_bErrorMode = bErrorMode;
     m_hrError = hrError;
     if ((hrError == SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING)
+            || (hrError == SCRAPPERR_DAEMONALLOWSNOGRAPHICS)
 #if ALWAYS_DISPLAY_PROGRESS_TEXT
             || (hrError == SCRAPPERR_SCREENSAVERRUNNING)
 #endif
             )
     {
-        UpdateProgressText();
+        UpdateProgressText(hrError);
     }
     return true;
 }
 
-void CScreensaver::UpdateProgressText() {
+void CScreensaver::UpdateProgressText(unsigned int hrError) {
     int iResultCount;
     int iIndex;
     unsigned int len;
@@ -530,7 +534,9 @@ void CScreensaver::UpdateProgressText() {
      if ( (m_statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) && !m_updating_results ) {
         if (! m_StatusMessageUpdated) {
             m_statusUpdateCounter = 0;
-            strcpy(m_MsgBuf, BOINCNoGraphicAppsExecutingMsg);
+            strcpy(m_MsgBuf, hrError == SCRAPPERR_DAEMONALLOWSNOGRAPHICS ? 
+                    BOINCV5GFXDaemonMsg : BOINCNoGraphicAppsExecutingMsg
+            );
 
         iResultCount = results.results.size();
         theResult = NULL;

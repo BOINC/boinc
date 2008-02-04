@@ -165,8 +165,6 @@ CMacSystemMenu::~CMacSystemMenu() {
 
 // Set the System Menu Icon from XPM data
 bool CMacSystemMenu::SetIcon(const wxIcon& icon, const wxString&) {
-    wxBitmapRefData * theBitsRefData;
-    PicHandle thePICT;
     wxBitmap theBits;
 
     if (&icon == currentIcon)
@@ -175,19 +173,20 @@ bool CMacSystemMenu::SetIcon(const wxIcon& icon, const wxString&) {
     currentIcon = &icon;
 
     theBits.CopyFromIcon(icon);
-    theBitsRefData = theBits.GetBitmapData();
-    thePICT = theBitsRefData->GetPictHandle();
-    if ( (SetSystemMenuIcon != NULL ) && (thePICT != NULL) ) {
-        SetSystemMenuIcon(thePICT);
+    CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();
+    if ( (SetSystemMenuIcon != NULL ) && (imageRef != NULL) ) {
+        SetSystemMenuIcon(imageRef);
+        CGImageRelease( imageRef );
         return true;
     }
+    
+    if(imageRef != NULL) CGImageRelease( imageRef );
+                
     return false;
 }
 
 
 void CMacSystemMenu::BuildMenu() {
-    wxBitmapRefData * theBitsRefData;
-    PicHandle thePICT;
     wxBitmap theBits;
     wxMenu *themenu;
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -200,10 +199,8 @@ void CMacSystemMenu::BuildMenu() {
     m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
 
     theBits.CopyFromIcon(m_iconTaskBarNormal);
-    theBitsRefData = theBits.GetBitmapData();
-    thePICT = theBitsRefData->GetPictHandle();
-
-    if ( (SetUpSystemMenu != NULL ) && (thePICT != NULL) ) {
+    CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();                
+    if ( (SetUpSystemMenu != NULL ) && (imageRef != NULL) ) {
         // Currently, the system menu is the same as the Dock menu with the addition of 
         // the Quit menu item.  If in the future you wish to make the system menu different 
         // from the Dock menu, override CTaskBarIcon::BuildContextMenu() and 
@@ -224,10 +221,11 @@ void CMacSystemMenu::BuildMenu() {
         
         themenu->SetEventHandler(this);
 
-        SetUpSystemMenu((MenuRef)(themenu->GetHMenu()), thePICT);
+        SetUpSystemMenu((MenuRef)(themenu->GetHMenu()), imageRef);
         
         currentIcon = NULL;
     }
+    if(imageRef != NULL) CGImageRelease( imageRef );
 }
 
 

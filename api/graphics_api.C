@@ -17,6 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+// DEPRECATED - DO NOT USE
+
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #else
@@ -34,7 +36,7 @@ static void init_main_state() {
     boinc_main_state.boinc_init_options_general_hook = boinc_init_options_general;
     boinc_main_state.boinc_is_standalone_hook = boinc_is_standalone;
     boinc_main_state.boinc_get_init_data_hook = boinc_get_init_data;
-    boinc_main_state.set_worker_timer_hook = set_worker_timer;
+    boinc_main_state.start_timer_thread_hook = start_timer_thread;
     boinc_main_state.app_client_shmp = &app_client_shm;
 #ifdef _WIN32
     boinc_main_state.gfx_timer_id = (UINT_PTR)NULL;

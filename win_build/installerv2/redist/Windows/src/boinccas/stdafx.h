@@ -73,7 +73,6 @@
 #include <crtdbg.h>
 #include <delayimp.h>
 #include <msiquery.h>
-#include <tchar.h>
 #include <ntsecapi.h>
 #include <lm.h>
 #include <shlobj.h>
@@ -94,6 +93,9 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+
+// Misc Includes
+#include <tchar.h>
 
 #ifdef _UNICODE
 #define tstring std::wstring

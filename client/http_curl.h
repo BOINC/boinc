@@ -63,6 +63,7 @@ public:
     PROXY_INFO pi;
 
 	char m_url[256];  
+	char m_curl_ca_bundle_location[256]; // string needed for ssl support
 	char szCurlProxyUserPwd[128]; // string needed for proxy username/password
 
     int content_length;
@@ -78,7 +79,8 @@ public:
 	struct curl_httppost *pcurlFormEnd; // a pointer to a form item for POST
 	unsigned char* pByte;  // pointer to bytes for reading via libcurl_read function
 
-	long lSeek;  // this is a pointer within the file we're reading
+	long lSeek;
+        // offset within the file or memory buffer we're reading,
     char infile[256];
     char outfile[256];
     char error_msg[256];    // put Curl error message here
@@ -95,8 +97,13 @@ public:
         // otherwise breaks on 64-bit machines
     double start_time;
     double bytes_xferred;
-        // uncompressed bytes transferred in this session
+        // Uncompressed bytes transferred.
+        // In the case of "post2" this includes only the file part
+        // In the case of restartable ops (file upload/download)
+        // this includes previous count (i.e. file offset)
 	double start_bytes_xferred;
+        // bytes_xferred at the start of this operation;
+        // used to compute transfer speed
     double xfer_speed;
         // tranfer rate based on elapsed time and bytes_xferred
         // (hence doesn't reflect compression; used only for GUI)

@@ -3,6 +3,32 @@
 require_once("../inc/db_conn.inc");
 require_once("../inc/util.inc");
 
+define('BOLT_PHASE_STUDY', 1);
+    // sequential progress through course
+define('BOLT_PHASE_REVIEW', 2);
+	// review and repeat of an exercise set
+define('BOLT_PHASE_REFRESH', 3);
+    // timed repeat of exercise set, and possibly review and repeat
+
+define('BOLT_MODE_LESSON', 1);
+define('BOLT_MODE_SHOW', 2);
+define('BOLT_MODE_SCORE', 3);
+define('BOLT_MODE_ANSWER', 4);
+define('BOLT_MODE_FINISHED', 5);
+
+define('BOLT_ACTION_NONE', 0);
+define('BOLT_ACTION_NEXT', 1);
+define('BOLT_ACTION_PREV', 2);
+define('BOLT_ACTION_SUBMIT', 3);
+define('BOLT_ACTION_QUESTION', 4);
+define('BOLT_ACTION_COURSE_HOME', 5);
+define('BOLT_ACTION_REVIEW', 6);
+define('BOLT_ACTION_REPEAT', 7);
+
+// bits in bolt_user.flags
+define('BOLT_FLAGS_DEBUG', 1);   // print debugging info in output pages
+define('BOLT_FLAGS_SHOW_ALL', 2);    // show hidden courses
+
 class BoltDb extends DbConn {
     static $instance;
 
@@ -34,6 +60,10 @@ class BoltDb extends DbConn {
             if (!$retval) return null;
         }
         return $instance;
+    }
+    static function escape_string($string) {
+        $db = self::get();
+        return $db->base_escape_string($string);
     }
 }
 
@@ -82,6 +112,10 @@ class BoltCourse {
         $db = BoltDb::get();
         return $db->enum('bolt_course', 'BoltCourse');
     }
+    function update($clause) {
+        $db = BoltDb::get();
+        return $db->update($this, 'bolt_course', $clause);
+    }
 }
 
 class BoltEnrollment {
@@ -96,6 +130,10 @@ class BoltEnrollment {
     function update($clause) {
         $db = BoltDb::get();
         $db->update_aux('bolt_enrollment', "$clause where user_id=$this->user_id and course_id=$this->course_id");
+    }
+    function delete($user_id, $course_id) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_enrollment', "user_id=$user_id and course_id=$course_id");
     }
 }
 
@@ -113,6 +151,95 @@ class BoltView {
     function update($clause) {
         $db = BoltDb::get();
         $db->update($this, 'bolt_view', $clause);
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_view', 'BoltView', $clause);
+    }
+}
+
+class BoltResult {
+    static function insert($clause) {
+        $db = BoltDb::get();
+        $ret = $db->insert('bolt_result', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
+    }
+    static function lookup_id($id) {
+        $db = BoltDb::get();
+        return $db->lookup_id($id, 'bolt_result', 'BoltResult');
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_view', 'BoltResult', $clause);
+    }
+}
+
+class BoltXsetResult {
+    static function lookup_id($id) {
+        $db = BoltDb::get();
+        return $db->lookup_id($id, 'bolt_xset_result', 'BoltXsetResult');
+    }
+    function insert($clause) {
+        $db = BoltDb::get();
+        $ret = $db->insert('bolt_xset_result', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_xset_result', 'BoltXsetResult', $clause);
+    }
+}
+
+class BoltRefreshRec {
+    static function lookup_id($id) {
+        $db = BoltDb::get();
+        return $db->lookup_id($id, 'bolt_refresh', 'BoltRefreshRec');
+    }
+    function lookup($clause) {
+        $db = BoltDb::get();
+        return $db->lookup('bolt_refresh', 'BoltRefreshRec', $clause);
+    }
+    static function replace($clause) {
+        $db = BoltDb::get();
+        return $db->replace('bolt_refresh', $clause);
+    }
+    function insert($clause) {
+        $db = BoltDb::get();
+        $ret = $db->insert('bolt_refresh', $clause);
+        if (!$ret) return null;
+        return $db->insert_id();
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_refresh', 'BoltRefreshRec', $clause);
+    }
+    function update($clause) {
+        $db = BoltDb::get();
+        $db->update($this, 'bolt_refresh', $clause);
+    }
+}
+
+class BoltSelectFinished {
+    function insert($clause) {
+        $db = BoltDb::get();
+        return $db->insert('bolt_select_finished', $clause);
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_select_finished', 'BoltSelectFinished', $clause);
+    }
+}
+
+class BoltQuestion {
+    function insert($clause) {
+        $db = BoltDb::get();
+        return $db->insert('bolt_question', $clause);
+    }
+    static function enum($clause) {
+        $db = BoltDb::get();
+        return $db->enum('bolt_question', 'BoltQuestion', $clause);
     }
 }
 

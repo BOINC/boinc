@@ -91,13 +91,13 @@ function do_search($order, $filter) {
 
 function search_form() {
     page_head("User search");
-    echo "<form method=get action=user_search.php>";
+    echo "<form name=f method=get action=user_search.php>";
     start_table();
     row1("Search type", 2, "heading");
-    row2("Decreasing sign-up time", "<input type=radio name=search_type value=\"date\" checked>");
+    row2("User name starts with <input name=search_string>", "<input type=radio name=search_type value=\"name_prefix\" checked >");
+    row2("Decreasing sign-up time", "<input type=radio name=search_type value=\"date\">");
     row2("Decreasing average credit", "<input type=radio name=search_type value=\"rac\">");
     row2("Decreasing total credit", "<input type=radio name=search_type value=\"total\">");
-    row2("User name starts with <input name=search_string>", "<input type=radio name=search_type value=\"name_prefix\">");
     row1("Filters", 2, "heading");
     row2_init("Country", "<select name=country><option value=\"any\" selected>Any</option>");
     print_country_select("asdf");
@@ -114,6 +114,10 @@ function search_form() {
     ");
     row2("", "<input type=submit name=action value=Search>");
     end_table();
+    echo "
+        <script>document.f.search_string.focus()</script>
+    ";
+            
     page_tail();
 }
 

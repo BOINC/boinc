@@ -876,6 +876,11 @@ Thread 0 crashed with PPC Thread State:
         fprintf(f, "   xer: 0x%08x   lr: 0x%08x  ctr: 0x%08x   mq: 0x%08x\n", state->xer, state->lr, state->ctr, state->mq);
 
         regBase = (const unsigned int *) &state->r0;
+#else
+        fprintf(f, "  srr0: 0x%08x srr1: 0x%08x                vrsave: 0x%08x\n", state->__srr0, state->__srr1, state->__vrsave);
+        fprintf(f, "   xer: 0x%08x   lr: 0x%08x  ctr: 0x%08x   mq: 0x%08x\n", state->__xer, state->__lr, state->__ctr, state->__mq);
+
+        regBase = (const unsigned int *) &state->__r0;
 #endif
         for (reg = 0; reg < 32; reg++) {
             if ((reg % 4) == 0) {
@@ -935,6 +940,11 @@ Thread 0 crashed with PPC Thread State 64:
         fprintf(f, "    cr: 0x%08x          xer: 0x%016llx   lr: 0x%016llx  ctr: 0x%016llx\n", state->cr, state->xer, state->lr, state->ctr);
 
         regBase = (const unsigned long long *) &state->r0;
+#else
+        fprintf(f, "  srr0: 0x%016llx srr1: 0x%016llx                        vrsave: 0x%016x\n", state->__srr0, state->__srr1, state->__vrsave);
+        fprintf(f, "    cr: 0x%08x          xer: 0x%016llx   lr: 0x%016llx  ctr: 0x%016llx\n", state->__cr, state->__xer, state->__lr, state->__ctr);
+
+        regBase = (const unsigned long long *) &state->__r0;
 #endif
         for (reg = 0; reg < 32; reg++) {
             if ((reg % 4) == 0) {

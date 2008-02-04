@@ -68,9 +68,10 @@ struct SHARED_MEM {
         // <quit/>
         // <suspend/>
         // <resume/>
+        // <ncpus_available>
     MSG_CHANNEL process_control_reply;
         // app->core
-        // same as above
+        // <nthreads>
     MSG_CHANNEL graphics_request;
         // core->app
         // request a graphics mode:
@@ -92,7 +93,6 @@ struct SHARED_MEM {
         // <checkpoint_cpu_time>...
         // <working_set_size>...
         // <fraction_done> ...
-        // <non_cpu_intensive>x</non_cpu_intensive>
     MSG_CHANNEL trickle_up;
         // app->core
         // <have_new_trickle_up/>
@@ -187,13 +187,14 @@ struct APP_INIT_DATA {
     double fraction_done_start;
     double fraction_done_end;
 
-    // Items below here are for BOINC runtime system
-    // (not used by app developers)
+    // Items below here are for BOINC runtime system,
+    // and should not be directly accessed by apps
     //
     double checkpoint_period;     // recommended checkpoint period
     SHMEM_SEG_NAME shmem_seg_name;
     double wu_cpu_time;       // cpu time from previous episodes
     double fraction_done_update_period;
+    int ncpus_available;
 
     APP_INIT_DATA();
     APP_INIT_DATA(const APP_INIT_DATA&);  // copy constructor

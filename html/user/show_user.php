@@ -66,14 +66,22 @@ if ($format=="xml"){
         error_page("No such user found - please check the ID and try again.");
     }
 
-    // Output:
+    get_logged_in_user(false);
+
     page_head("Account data for $user->name");
     start_table();
+    echo "<tr><td valign=top>";
+    start_table();
     show_user_summary_public($user);
-    show_profile_link($user);
     end_table();
     project_user_summary($user);
     show_other_projects($user, false);
+    echo "</td><td valign=top>";
+    start_table();
+    show_profile_link($user);
+    community_links($user);
+    end_table();
+    echo "</td></tr></table>";
     page_tail(true);
 }
 

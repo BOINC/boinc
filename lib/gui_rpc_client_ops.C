@@ -608,6 +608,7 @@ void CC_STATE::clear() {
         delete results[i];
     }
     results.clear();
+    executing_as_daemon = false;
 }
 
 PROJECT* CC_STATE::lookup_project(string& str) {
@@ -1065,6 +1066,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             if (parse_int(buf, "<major_version>", state.version_info.major)) continue;
             if (parse_int(buf, "<minor_version>", state.version_info.minor)) continue;
             if (parse_int(buf, "<release>", state.version_info.release)) continue;
+            if (parse_bool(buf, "executing_as_daemon", state.executing_as_daemon)) continue;
             if (match_tag(buf, "<project>")) {
                 project = new PROJECT();
                 project->parse(rpc.fin);

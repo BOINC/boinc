@@ -101,6 +101,9 @@ extern int boinc_get_status(BOINC_STATUS*);
 extern double boinc_get_fraction_done();
 extern void boinc_register_timer_callback(FUNC_PTR);
 extern double boinc_worker_thread_cpu_time();
+extern int boinc_ncpus_available();
+extern void boinc_nthreads(int);
+extern void boinc_exit(int);    // deprecated
 
 #ifdef __APPLE__
 extern int setMacPList(void);
@@ -122,6 +125,9 @@ extern int boinc_wu_cpu_time(double&);
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
 extern int boinc_write_init_data_file(APP_INIT_DATA&);
+extern int suspend_activities();   // deprecated
+extern int resume_activities();    // deprecated
+extern int restore_activities();    //deprecated
 
 /////////// API ENDS HERE
 
@@ -131,15 +137,9 @@ extern void options_defaults(BOINC_OPTIONS&);
 extern APP_CLIENT_SHM *app_client_shm;
 #ifdef _WIN32
 extern HANDLE worker_thread_handle;
-#else
-extern void block_sigalrm();
 #endif
-extern int suspend_activities(void);
-extern int resume_activities(void);
-extern int restore_activities(void);
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
-extern void boinc_exit(int status);
-extern int set_worker_timer(void);
+extern int start_timer_thread();
 extern bool g_sleep;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {

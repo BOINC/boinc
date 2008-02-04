@@ -7,6 +7,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/team.inc");
+require_once("../inc/email.inc");
 
 // set the following to 1 to print queries but not do anything
 
@@ -98,6 +99,7 @@ function update_team($t, $team, $user) {
 }
 
 function insert_case($t, $user) {
+    global $master_url;
     global $dry_run;
     if ($dry_run) {
         if (!$user) echo "   making user $t->user_email\n";
@@ -126,6 +128,14 @@ function insert_case($t, $user) {
     }
     mysql_query("update team set seti_id=$t->id where id=$team->id");
     mysql_query("update user set teamid=$team->id where id=$user->id");
+
+    send_email($user, "Team created on ".PROJECT,
+"An instance of the BOINC-wide team '$t->name'
+has been created on the project:
+name: ".PROJECT."
+URL: $master_url
+"
+    );
 }
 
 // There are several cases for a given record:

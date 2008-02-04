@@ -309,6 +309,7 @@ public:
 
     GLOBAL_PREFS global_prefs;  // working prefs, i.e. network + override
     VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
+    bool executing_as_daemon;   // true if Client is running as a service / daemon
 
     CC_STATE();
     ~CC_STATE();

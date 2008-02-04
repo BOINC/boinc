@@ -52,10 +52,45 @@ using namespace std;
 #include "sched_send.h"
 #include "sched_config.h"
 #include "sched_locality.h"
+#include "time_stats_log.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+// find the user's most recently-created host with given various characteristics
+//
+static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
+    char buf[2048];
+    char dn[512], ip[512], os[512], pm[512];
+
+    // Only check if the fields are populated
+    if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
+        strcpy(dn, req_host.domain_name);
+        escape_string(dn, 512);
+        strcpy(ip, req_host.last_ip_addr);
+        escape_string(ip, 512);
+        strcpy(os, req_host.os_name);
+        escape_string(os, 512);
+        strcpy(pm, req_host.p_model);
+        escape_string(pm, 512);
+
+        sprintf(buf,
+            "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s' and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
+        );
+        if (!host.enumerate(buf)) {
+            host.end_enumerate();
+            return true;
+        }
+    }
+    return false;
+}
+static void get_weak_auth(USER& user, char* buf) {
+    char buf2[256], out[256];
+    sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
+    md5_block((unsigned char*)buf2, strlen(buf2), out);
+    sprintf(buf, "%d_%s", user.id, out);
+}
 
 static void send_error_message(SCHEDULER_REPLY& reply, char* msg, int delay) {
     USER_MESSAGE um(msg, "low");
@@ -171,29 +206,6 @@ static void mark_results_over(DB_HOST& host) {
     }
 }
 
-// find the user's most recently-created host with given
-// various characteristics
-//
-static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
-    char buf[256];
-
-    sprintf(buf,
-        "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and p_model = '%s' and m_nbytes = %lf order by id desc",
-        user.id, req_host.id, req_host.domain_name, req_host.last_ip_addr,
-        req_host.p_model, req_host.m_nbytes
-    );
-    if (!host.enumerate(buf)) {
-        host.end_enumerate();
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "[HOST#%d] [USER#%d] Found similar existing host for this user.\n",
-            host.id, host.userid
-        );
-        return true;
-    }
-    return false;
-}
-
 // Based on the info in the request message,
 // look up the host and its user, and make sure the authenticator matches.
 // Some special cases:
@@ -211,7 +223,7 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
 //
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
-    char buf[256];
+    char buf[256], buf2[256];
     DB_HOST host;
     DB_USER user;
     DB_TEAM team;
@@ -250,25 +262,51 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.hostid, host.id, sreq.rpc_seqno, host.rpc_seqno
         );
 
-        strlcpy(
-            user.authenticator, sreq.authenticator, sizeof(user.authenticator)
-        );
-        sprintf(buf, "where authenticator='%s'", user.authenticator);
+        // look up user based on the ID in host record,
+        // and see if the authenticator matches (regular or weak)
+        //
+        sprintf(buf, "where id=%d", host.userid);
         retval = user.lookup(buf);
-        if (retval) {
-            USER_MESSAGE um("Invalid or missing account key.  "
-                "Visit this project's web site to get an account key.",
-                "high"
-            );
-            reply.insert_message(um);
-            reply.set_delay(DELAY_MISSING_KEY);
-            reply.nucleus_only = true;
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
-                "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
-                host.id, user.id, sreq.authenticator
-            );
-            return ERR_AUTHENTICATOR;
+        if (!retval && !strcmp(user.authenticator, sreq.authenticator)) {
+            // req auth matches user auth - go on
+        } else {
+            bool weak_auth = false;
+            if (!retval) {
+                // user for host.userid exists - check weak auth
+                //
+                get_weak_auth(user, buf);
+                if (!strcmp(buf, sreq.authenticator)) {
+                    weak_auth = true;
+                    log_messages.printf(
+                        SCHED_MSG_LOG::MSG_DEBUG,
+                        "[HOST#%d] accepting weak authenticator\n"
+                    );
+                }
+            }
+            if (!weak_auth) {
+                // weak auth failed - look up user based on authenticator
+                //
+                strlcpy(
+                    user.authenticator, sreq.authenticator, sizeof(user.authenticator)
+                );
+                sprintf(buf, "where authenticator='%s'", user.authenticator);
+                retval = user.lookup(buf);
+                if (retval) {
+                    USER_MESSAGE um("Invalid or missing account key.  "
+                        "Visit this project's web site to get an account key.",
+                        "high"
+                    );
+                    reply.insert_message(um);
+                    reply.set_delay(DELAY_MISSING_KEY);
+                    reply.nucleus_only = true;
+                    log_messages.printf(
+                        SCHED_MSG_LOG::MSG_CRITICAL,
+                        "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
+                        host.id, user.id, sreq.authenticator
+                    );
+                    return ERR_AUTHENTICATOR;
+                }
+            }
         }
 
         reply.user = user;
@@ -304,12 +342,25 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // Look up the user, then create a new host record
         //
 lookup_user_and_make_new_host:
-        strlcpy(
-            user.authenticator, sreq.authenticator,
-            sizeof(user.authenticator)
-        );
-        sprintf(buf, "where authenticator='%s'", user.authenticator);
-        retval = user.lookup(buf);
+        // if authenticator contains _, it's a weak auth
+        //
+        if (strchr(sreq.authenticator, '_')) {
+            int userid = atoi(sreq.authenticator);
+            retval = user.lookup_id(userid);
+            if (!retval) {
+                get_weak_auth(user, buf);
+                if (strcmp(buf, sreq.authenticator)) {
+                    retval = ERR_AUTHENTICATOR;
+                }
+            }
+        } else {
+            strlcpy(
+                user.authenticator, sreq.authenticator,
+                sizeof(user.authenticator)
+            );
+            sprintf(buf, "where authenticator='%s'", user.authenticator);
+            retval = user.lookup(buf);
+        }
         if (retval) {
             USER_MESSAGE um(
                 "Invalid or missing account key.  "
@@ -320,8 +371,8 @@ lookup_user_and_make_new_host:
             reply.set_delay(DELAY_MISSING_KEY);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,
-                "[HOST#<none>] Bad authenticator '%s'\n",
-                sreq.authenticator
+                "[HOST#<none>] Bad authenticator '%s': %d\n",
+                sreq.authenticator, retval
             );
             return ERR_AUTHENTICATOR;
         }
@@ -354,12 +405,15 @@ make_new_host:
         // If found, use the existing host record,
         // and mark in-progress results as over.
         //
-#if 0
         if (find_host_by_other(user, sreq.host, host)) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
+                host.id, host.userid
+            );
             mark_results_over(host);
             goto got_host;
         }
-#endif
 
         // either of the above cases,
         // or host ID didn't match user ID,
@@ -635,12 +689,14 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool same_account = !strcmp(
         sreq.global_prefs_source_email_hash, reply.email_hash
     );
-    int master_mod_time=0, db_mod_time=0;
+    double master_mod_time=0, db_mod_time=0;
     if (have_master_prefs) {
-        parse_int(sreq.global_prefs_xml, "<mod_time>", master_mod_time);
+        parse_double(sreq.global_prefs_xml, "<mod_time>", master_mod_time);
+        if (master_mod_time > dtime()) master_mod_time = dtime();
     }
     if (have_db_prefs) {
-        parse_int(reply.user.global_prefs, "<mod_time>", db_mod_time);
+        parse_double(reply.user.global_prefs, "<mod_time>", db_mod_time);
+        if (db_mod_time > dtime()) db_mod_time = dtime();
     }
 
     //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have_master:%d have_working: %d have_db: %d\n", have_master_prefs, have_working_prefs, have_db_prefs);
@@ -701,7 +757,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     // decide whether to send DB prefs in reply msg
     //
-    //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have db %d; dbmod %d; global mod %d\n", have_db_prefs, db_mod_time, sreq.global_prefs.mod_time);
+    //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have db %d; dbmod %f; global mod %f\n", have_db_prefs, db_mod_time, sreq.global_prefs.mod_time);
     if (have_db_prefs && db_mod_time > master_mod_time) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "sending db prefs in reply\n");
         reply.send_global_prefs = true;
@@ -1396,6 +1452,12 @@ void process_request(
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
+
+    // write time stats to disk if present
+    //
+    if (sreq.have_time_stats_log) {
+        write_time_stats_log(reply);
+    }
 
     // look up the client's platform(s) in the DB
     //

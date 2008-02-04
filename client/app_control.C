@@ -24,6 +24,13 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#ifndef STATUS_SUCCESS
+#define STATUS_SUCCESS 0x0                 // may be in ntstatus.h
+#endif
+#ifndef STATUS_DLL_INIT_FAILED
+#define STATUS_DLL_INIT_FAILED 0xC0000142  // may be in ntstatus.h
+#endif
+
 #else
 #include "config.h"
 
@@ -48,14 +55,6 @@
 #include <sys/wait.h>
 #endif
 
-#endif
-
-#ifndef STATUS_SUCCESS
-#define STATUS_SUCCESS 0x0                             // ntstatus.h: STATUS_SUCCESS
-#endif
-
-#ifndef STATUS_DLL_INIT_FAILED
-#define STATUS_DLL_INIT_FAILED 0xC0000142              // ntstatus.h: STATUS_DLL_INIT_FAILED
 #endif
 
 using std::vector;
@@ -178,7 +177,7 @@ bool ACTIVE_TASK::has_task_exited() {
 
 static void limbo_message(ACTIVE_TASK& at) {
 #ifdef _WIN32
-    if (at.result->exit_status = STATUS_DLL_INIT_FAILED) {
+    if (at.result->exit_status == STATUS_DLL_INIT_FAILED) {
         msg_printf(at.result->project, MSG_INFO,
             "Task %s exited with a DLL initialization error.",
             at.result->name
@@ -266,11 +265,14 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
             handle_premature_exit(will_restart);
             break;
+        case 0xc000013a:        // control-C??
+        case 0x40010004:        // vista shutdown?? can someone explain this?
         case STATUS_DLL_INIT_FAILED:
             // This can happen because:
-            // - The OS is shutting down, so attempting to start
-            // any new application fails automatically.
+            // - The OS is shutting down, and attempting to start
+            //   any new application fails automatically.
             // - The OS has run out of desktop heap
+            // - (reportedly) The computer has just come out of hibernation
             //
             handle_premature_exit(will_restart);
             break;
@@ -366,7 +368,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     if (!will_restart) {
         copy_output_files();
         read_stderr_file();
-        clean_out_dir(slot_dir);
+        client_clean_out_dir(slot_dir);
     }
     gstate.request_schedule_cpus("application exited");
     gstate.request_work_fetch("application exited");
@@ -894,6 +896,18 @@ bool ACTIVE_TASK::get_app_status_msg() {
         );
         return false;
     }
+#if 0
+    if (app_client_shm.shm->process_control_reply.get_msg(msg_buf)) {
+        int n;
+        if (parse_int(msg_buf, "<nthreads>", n)) {
+            if (n < 1) n = 1;
+            if (n != nthreads) {
+                gstate.request_schedule_cpus("nthreads changed");
+                nthreads = n;
+            }
+        }
+    }
+#endif
     if (!app_client_shm.shm->app_status.get_msg(msg_buf)) {
         return false;
     }

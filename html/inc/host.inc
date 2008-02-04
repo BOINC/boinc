@@ -142,7 +142,7 @@ function show_host($host, $private, $ipprivate, $user) {
             row2("Average CPU efficiency", $host->cpu_efficiency);
         }
         if ($host->duration_correction_factor) {
-            row2("Result duration correction factor", $host->duration_correction_factor);
+            row2("Task duration correction factor", $host->duration_correction_factor);
         }
         row2("Location", location_form($host));
         if ($nresults == 0) {
@@ -320,21 +320,31 @@ function os_compatible($host1, $host2) {
 // that their time intervals are disjoint.
 // So the CPU/OS checks don't have to be very strict.
 //
-function hosts_compatible($host1, $host2) {
+function hosts_compatible($host1, $host2, $detail) {
     // skip disjoint-time check if one host or other has no credit
     //
     if ($host1->total_credit && $host2->total_credit) {
         if (!times_disjoint($host1, $host2)) {
-            //echo "<br>h2 $host2->create_time $host2->rpc_time";
+            if ($detail) {
+                $c1 = date_str($host1->create_time);
+                $r1 = date_str($host1->rpc_time);
+                $c2 = date_str($host2->create_time);
+                $r2 = date_str($host2->rpc_time);
+                echo "<br>Host $host2->id has overlapping lifetime ($c1 - $r1), ($c2 - $r2)";
+            }
             return false;
         }
     }
     if (!os_compatible($host1, $host2)) {
-        //echo "<br>$host1->id $host2->id: OS not compatible: ($host1->os_name, $host2->os_name)\n";
+        if ($detail) {
+            echo "<br>Host $host2->id has incompatible OS: ($host1->os_name, $host2->os_name)\n";
+        }
         return false;
     }
     if (!cpus_compatible($host1, $host2)) {
-        //echo "<br>$host1->id $host2->id: CPU not compatible ($host1->p_vendor $host1->p_model, $host2->p_vendor $host2->p_model)\n";
+        if ($detail) {
+            echo "<br>Host $host2->id: CPU not compatible ($host1->p_vendor $host1->p_model, $host2->p_vendor $host2->p_model)\n";
+        }
         return false;
     }
     return true;

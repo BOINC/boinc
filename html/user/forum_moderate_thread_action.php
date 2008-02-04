@@ -6,18 +6,15 @@ require_once("../inc/forum_email.inc");
 $logged_in_user = get_logged_in_user();
 check_tokens($logged_in_user->authenticator);
 BoincForumPrefs::lookup($logged_in_user);
-if (!post_str('action', true)) {
-    if (!get_str('action', true)){
-	    error_page("You must specify an action...");
-    } else {
-        $action = get_str('action');
-    }
-} else {
-    $action = post_str('action');
+$action = post_str('action', true);
+if (!$action) {
+    $action = get_str('action');
 }
 
 $thread = BoincThread::lookup_id(get_int('thread'));
+if (!$thread) error_page("no thread");
 $forum = BoincForum::lookup_id($thread->forum);
+if (!$forum) error_page("no forum");
 
 if (!is_moderator($logged_in_user, $forum)) {
     error_page("You are not authorized to moderate this post.");
@@ -49,11 +46,9 @@ if ($action=="hide") {
 }
 
 if ($result) {
-    if (post_str('reason', true)){
-        send_thread_moderation_email($forum, $thread, post_str("reason"),$action);
-    } else {
-        send_thread_moderation_email($forum, $thread, "None Given",$action);
-    }
+    $reason = post_str('reason', true);
+    if (!$reason) $reason = "None given";
+    send_thread_moderation_email($forum, $thread, $reason, $action);
     header('Location: forum_thread.php?id='.$thread->id);
 } else {
     error_page("Moderation failed");

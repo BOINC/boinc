@@ -29,8 +29,9 @@
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
-#ifdef _WIN32
-#else
+#include "BOINCClientManager.h"
+
+#ifndef _WIN32
 #include <sys/wait.h>
 #endif
 
@@ -58,6 +59,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bReconnectOnError = false;
     m_bNewConnection = false;
     m_bUsedDefaultPassword = false;
+    m_iReadGUIRPCAuthFailure = 0;
 }
 
 
@@ -65,12 +67,12 @@ CNetworkConnection::~CNetworkConnection() {
 }
 
 
-void CNetworkConnection::GetLocalPassword(wxString& strPassword){
+int CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
+    strcpy(buf, "");
 
     FILE* f = fopen("gui_rpc_auth.cfg", "r");
-    if (!f) return;
-    strcpy(buf, "");
+    if (!f) return errno;
     fgets(buf, 256, f);
     fclose(f);
     int n = (int)strlen(buf);
@@ -80,7 +82,9 @@ void CNetworkConnection::GetLocalPassword(wxString& strPassword){
             buf[n] = 0;
         }
     }
+
     strPassword = wxString(buf, wxConvUTF8);
+    return 0;
 }
 
 
@@ -98,9 +102,11 @@ void CNetworkConnection::Poll() {
             // Wait until we can establish a connection to the core client before reading
             //   the password so that the client has time to create one when it needs to.
             if (m_bUseDefaultPassword) {
-                GetLocalPassword(m_strNewComputerPassword);
+                m_iReadGUIRPCAuthFailure = 0;
                 m_bUseDefaultPassword = FALSE;
                 m_bUsedDefaultPassword = true;
+
+                m_iReadGUIRPCAuthFailure = GetLocalPassword(m_strNewComputerPassword);
             }
 
             retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.mb_str());
@@ -229,7 +235,7 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
         m_bConnectEvent = false;
 
-        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword);
+        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword, m_iReadGUIRPCAuthFailure);
     }
 }
 
@@ -261,6 +267,7 @@ void CNetworkConnection::SetStateReconnecting() {
             m_strNewComputerName = m_strConnectedComputerName;
             m_strNewComputerPassword = m_strConnectedComputerPassword;
         }
+        pFrame->FireRefreshView();
     }
 }
 
@@ -307,6 +314,7 @@ IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)
 
 
 CMainDocument::CMainDocument() {
+
 #ifdef __WIN32__
     int retval;
     WSADATA wsdata;
@@ -316,6 +324,8 @@ CMainDocument::CMainDocument() {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CMainDocument - Winsock Initialization Failure '%d'"), retval);
     }
 #endif
+
+    m_bClientStartCheckCompleted = false;
 
     m_fProjectTotalResourceShare = 0.0;
 
@@ -329,7 +339,7 @@ CMainDocument::CMainDocument() {
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
-	m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
+    m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
 }
 
 
@@ -338,6 +348,86 @@ CMainDocument::~CMainDocument() {
 #ifdef __WIN32__
     WSACleanup();
 #endif
+}
+
+
+int CMainDocument::OnInit() {
+    int iRetVal = -1;
+
+    m_pNetworkConnection = new CNetworkConnection(this);
+    wxASSERT(m_pNetworkConnection);
+
+    m_pClientManager = new CBOINCClientManager();
+    wxASSERT(m_pClientManager);
+
+    return iRetVal;
+}
+
+
+int CMainDocument::OnExit() {
+    int iRetVal = 0;
+
+    if (m_pClientManager) {
+        m_pClientManager->ShutdownBOINCCore();
+
+        delete m_pClientManager;
+        m_pClientManager = NULL;
+    }
+
+    if (m_pNetworkConnection) {
+        delete m_pNetworkConnection;
+        m_pNetworkConnection = NULL;
+    }
+
+    return iRetVal;
+}
+
+
+int CMainDocument::OnPoll() {
+    int iRetVal = 0;
+
+    wxASSERT(wxDynamicCast(m_pClientManager, CBOINCClientManager));
+    wxASSERT(wxDynamicCast(m_pNetworkConnection, CNetworkConnection));
+
+    if (!m_bClientStartCheckCompleted) {
+        m_bClientStartCheckCompleted = true;
+
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+
+        pFrame->UpdateStatusText(_("Starting client services; please wait..."));
+
+        if (m_pClientManager->StartupBOINCCore()) {
+            Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
+        } else {
+            m_pNetworkConnection->ForceDisconnect();
+            pFrame->ShowDaemonStartFailedAlert();
+        }
+
+        pFrame->UpdateStatusText(wxEmptyString);
+    }
+
+    // Check connection state, connect if needed.
+    m_pNetworkConnection->Poll();
+
+    // Every 10 seconds, kill any running graphics apps 
+    // whose associated worker tasks are no longer running
+    wxTimeSpan ts(wxDateTime::Now() - m_dtKillInactiveGfxTimestamp);
+    if (ts.GetSeconds() > 10) {
+        m_dtKillInactiveGfxTimestamp = wxDateTime::Now();
+        KillInactiveGraphicsApps();
+    }
+
+    return iRetVal;
+}
+
+
+int CMainDocument::OnRefreshState() {
+    if (IsConnected()) {
+        CachedStateUpdate();
+    }
+
+    return 0;
 }
 
 
@@ -361,13 +451,6 @@ int CMainDocument::CachedStateUpdate() {
         pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
 
         retval = rpc.get_host_info(host);
-        // Treat venue as part of host info for status purposes.
-        if (!retval) { 
-            retval = rpc.get_venue(venue);
-            if (venue.empty()) {
-                venue = _("none");
-            }
-        }
         if (retval) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();
@@ -381,69 +464,16 @@ int CMainDocument::CachedStateUpdate() {
 }
 
 
-int CMainDocument::OnInit() {
-    int iRetVal = -1;
-
-    // start the connect management thread
-    m_pNetworkConnection = new CNetworkConnection(this);
-
-    return iRetVal;
-}
-
-
-int CMainDocument::OnExit() {
-    int iRetVal = 0;
-
-    if (m_pNetworkConnection) {
-        delete m_pNetworkConnection;
-        m_pNetworkConnection = NULL;
-    }
-
-    return iRetVal;
-}
-
-
-int CMainDocument::OnPoll() {
-    int iRetVal = 0;
-
-    if (m_pNetworkConnection) {
-        m_pNetworkConnection->Poll();
-    }
-
-    // Every 10 seconds, kill any running graphics apps 
-    // whose associated worker tasks are no longer running
-    wxTimeSpan ts(wxDateTime::Now() - m_dtKillInactiveGfxTimestamp);
-    if (ts.GetSeconds() > 10) {
-        m_dtKillInactiveGfxTimestamp = wxDateTime::Now();
-        KillInactiveGraphicsApps();
-    }
-
-    return iRetVal;
-}
-
-
-int CMainDocument::OnRefreshState() {
-    if (IsConnected()) {
-        CachedStateUpdate();
-    }
-
-    return 0;
-}
-
-
 int CMainDocument::ResetState() {
     rpc.close();
     state.clear();
     host.clear_host_info();
     results.clear();
-    messages.clear();
     ft.clear();
     disk_usage.clear();
     proxy_info.clear();
 
     ForceCacheUpdate();
-
-    m_iMessageSequenceNumber = 0;
     return 0;
 }
 
@@ -1087,7 +1117,7 @@ void CMainDocument::KillInactiveGraphicsApps()
 
 void CMainDocument::KillAllRunningGraphicsApps()
 {
-    int i, n;
+    size_t i, n;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
 
     n = m_running_gfx_apps.size();
@@ -1225,11 +1255,16 @@ int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
 int CMainDocument::CachedMessageUpdate() {
     int retval;
     static bool in_this_func = false;
+    static bool was_connected = false;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
+        if (! was_connected) {
+            ResetMessageState();
+            was_connected = true;
+        }
         retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (retval) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'"), retval);
@@ -1237,9 +1272,11 @@ int CMainDocument::CachedMessageUpdate() {
             goto done;
         }
         if (messages.messages.size() != 0) {
-            int last_ind = messages.messages.size()-1;
+            size_t last_ind = messages.messages.size()-1;
             m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
+    } else {
+        was_connected = false;
     }
 done:
     in_this_func = false;

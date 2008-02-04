@@ -1,0 +1,35 @@
+<?php
+
+class BoltSequence extends BoltSet {
+    function __construct($name, $units) {
+        parent::__construct($name, $units, count($units));
+    }
+
+    function order() {
+    }
+}
+
+function sequence() {
+    $args = func_get_args();
+    $units = array();
+    $name = "";
+    foreach ($args as $arg) {
+        if (is_array($arg)) {
+            switch ($arg[0]) {
+            case 'name': $name = $arg[1]; break;
+            case 'title': $title = $arg[1]; break;
+            default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
+            }
+        } else if (is_object($arg)) {
+            if (is_subclass_of($arg, "BoltUnit")) {
+                $units[] = $arg;
+            } else {
+                echo "Unrecognized arg: ";
+                print_r($arg);
+            }
+        }
+    }
+    return new BoltSequence($name, $units);
+}
+
+?>

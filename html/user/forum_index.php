@@ -68,13 +68,7 @@ foreach ($categories as $category) {
     if ($first) {
         $first = false;
         show_forum_title($category, NULL, NULL);
-        if ($user) {
-            $return = urlencode(current_url());
-            $tokens = url_tokens($user->authenticator);
-            $url = "forum_index.php?read=1$tokens&return=$return";
-            show_button($url, "Mark all threads as read", "Mark all threads in all message boards as 'read'.");
-        }
-
+        show_mark_as_read_button($user);
         echo "<p>";
         start_forum_table(
             array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post"))

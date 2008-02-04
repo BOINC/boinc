@@ -63,6 +63,7 @@ static void print_options(char* prog) {
         "    --insecure                      disable app sandboxing (Unix)\n"
         "    --launched_by_manager           core client was launched by Manager\n"
         "    --run_by_updater                set by updater\n"
+        "    --start_delay X                 delay starting apps for X secs\n"
         ,
         prog, prog, prog
     );
@@ -86,6 +87,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (ARG(exit_when_idle)) {
             exit_when_idle = true;
+            config.report_results_immediately = true;
         } else if (ARG(exit_before_start)) {
             exit_before_start = true;
         } else if (ARG(exit_after_finish)) {
@@ -196,6 +198,9 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             launched_by_manager = true;
         } else if (ARG(run_by_updater)) {
             run_by_updater = true;
+        } else if (ARG(start_delay)) {
+            if (i == argc-1) show_options = true;
+            else config.start_delay = atof(argv[++i]);
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;
@@ -289,7 +294,7 @@ void CLIENT_STATE::do_cmdline_actions() {
         canonicalize_master_url(reset_project_url);
         PROJECT* project = lookup_project(reset_project_url);
         if (project) {
-            reset_project(project);
+            reset_project(project, false);
             msg_printf(project, MSG_INFO, "Project %s has been reset", reset_project_url);
         } else {
             msg_printf(NULL, MSG_USER_ERROR, "project %s not found\n", reset_project_url);

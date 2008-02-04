@@ -1,9 +1,9 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-28 07:18+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"PO-Revision-Date: 2008-01-13 15:00+0300\n"
+"Last-Translator: Nikolay Saharov <saharovna@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 ##########################################
-# Language: Russian (Russian Federation) (based on en.po SVN rev.14302)
+# Language: Russian (Russian Federation) (based on en.po SVN rev.14372)
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
 # Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
@@ -19,6 +19,8 @@ msgstr ""
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
+
+
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 # Кодовая страница для текста в этом файле (пожалуйста, используйте UTF-8 по возможности)
 msgid "CHARSET"
@@ -34,10 +36,12 @@ msgstr "Русский"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Russian"
 
+
 #########################################
 # Apps page (apps.php)
 # Страница приложений
 #########################################
+
 msgid "Applications"
 msgstr "Приложения"
 
@@ -53,10 +57,12 @@ msgstr "Текущая версия"
 msgid "Installation time"
 msgstr "Время сборки"
 
+
 #########################################
 # Rules and Policies page (info.php)
 # Страница Правил и Политик
 #########################################
+
 msgid "Read our rules and policies"
 msgstr "Прочтите наши правила и политику"
 
@@ -114,10 +120,12 @@ msgstr "Другие проекты используют ту же платфо�
 msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
 msgstr "Другие проекты не связаны с %1, и мы не можем поручиться за их безопасность или природу их исследований. Присоединяйтесь к ним на свой страх и риск."
 
+
 #########################################
 # Create account form (create_account_form.php)
 # Форма создания учетной записи
 #########################################
+
 msgid "Create an account"
 msgstr "Создание учетной записи"
 
@@ -178,27 +186,33 @@ msgstr "Чтобы создать учетную запись, Вы должны
 msgid "The invitation code you gave is not valid."
 msgstr "Указанный Вами пригласительный код не действителен."
 
+
 #########################################
 # Forum sample index page
 # Пример главной страницы форума
 #########################################
+
 msgid "%1 Message boards"
 msgstr "Доска сообщений %1"
 
 msgid "Message boards"
 msgstr "Доска сообщений"
 
+
 #########################################
 # General stuff (create_account_form.php and others)
 # Общий материал
 #########################################
+
 msgid "Optional"
 msgstr "Необязательно"
+
 
 #########################################
 # Various top table pages (top users, computers, teams)
 # Различные страницы топов
 #########################################
+
 msgid "Top participants"
 msgstr "Лучшие участники"
 
@@ -227,6 +241,7 @@ msgstr "Лучшие компьютеры"
 # Forum
 # Форум
 #########################################
+
 msgid "Posts"
 msgstr "Сообщения"
 
@@ -272,10 +287,12 @@ msgstr "Редактировать сообщение"
 msgid "Use BBCode tags to format your text"
 msgstr "Используйте тэги BBCode для форматирования Вашего текста"
 
+
 #########################################
 # Forum thread
 # Обсуждение на форуме
 #########################################
+
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Это обсуждение было скрыто в административных целях"
 
@@ -288,10 +305,12 @@ msgstr "Отписаться"
 msgid "Subscribe"
 msgstr "Подписаться"
 
+
 #########################################
 # Forum search features
 # Особенности поиска на форуме
 #########################################
+
 msgid "Forum search"
 msgstr "Поиск в форуме"
 
@@ -307,10 +326,12 @@ msgstr "Темы, содержащие '%1', не были найдены."
 msgid "No posts containing '%1' could be found."
 msgstr "Сообщения, содержащие '%1', не были найдены."
 
+
 #########################################
 # Private messages
 # Личные сообщения
 #########################################
+
 msgid "Private messages"
 msgstr "Личные сообщения"
 
@@ -428,17 +449,21 @@ msgstr "Пометить прочтенным"
 msgid "Mark as unread"
 msgstr "Пометить непрочтенным"
 
+
 #########################################
 # Links from the main page
 # Ссылки с главной страницы
 #########################################
+
 msgid "Questions and Answers"
 msgstr "Вопросы и ответы"
+
 
 #########################################
 # "Your account" page (home.php)
 # Страница "Ваша учетная запись"
 #########################################
+
 msgid "Your account"
 msgstr "Ваша учетная запись"
 
@@ -577,3 +602,26 @@ msgstr "Используется в ссылках URL"
 msgid "unread"
 msgstr "непрочтенных"
 
+
+#########################################
+# "Weak account key" page (weak_auth.php)
+# Страница "слабый (облегченный, упрощенный) ключ учетной записи"
+#########################################
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "Ваш 'слабый учетный ключ' позволяет Вам подключать компьютеры к Вашей учетной записи в этом проекте, без предоставления возможности доступа к Вашей учетной записи или ее изменения тем или иным образом."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Данный механизм работает только в тех проектах, которые обновили свое серверное программное обеспечение после 7 декабря 2007 г."
+
+msgid "Your weak account key for this project is:"
+msgstr "Ваш слабый учетный ключ в этом проекте:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "Для использования Вашего слабого учетного ключа на заданном компьютере найдите или создайте 'учетный файл' для этого проекта. Имя этого файла имеет вид: <b>account_PROJECT_URL.xml</b>. Учетный файл для %1: <b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Создайте этот файл, если необходимо. Его содержимое должно быть:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "Ваш слабый учетный ключ является функцией Вашего пароля. Если Вы измените свой пароль, Ваш слабый учетный ключ изменится, и Ваш предыдущий слабый учетный ключ станет недействительным."

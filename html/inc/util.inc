@@ -6,8 +6,10 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/forum.inc");
+require_once("../inc/profile.inc");
 
 ini_set("memory_limit", "64M");
+date_default_timezone_set("UTC");
 
 $generating_xml = false;
 
@@ -51,8 +53,13 @@ function init_session() {
     if (strlen($path)) {
         session_set_cookie_params(0, $path);
     }
-    if (session_id() == "") session_start(); // first check if there is a session
-// NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
+
+    // check if there is a session
+    //
+    if (session_id() == "") {
+        session_start();
+    }
+    // NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
     if (array_key_exists('authenticator', $_SESSION)) {
         return $_SESSION["authenticator"];
     } else {
@@ -79,16 +86,27 @@ $g_logged_in_user = null;
 function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user;
     $g_logged_in_user = null;
+    $login_request = false;
+
     $authenticator = init_session();
     if (!$authenticator) {
         if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
     }
+// leave this out for now
+//    if (!$authenticator) {
+//        $authenticator = get_str('login_auth', true);
+//        if ($authenticator) $login_request = true;
+//    }
     $authenticator = process_user_text($authenticator);
     if ($authenticator) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
     if ($must_be_logged_in) {
         require_login($g_logged_in_user);
+    }
+    if ($g_logged_in_user && $login_request) {
+        session_start();
+        $_SESSION["authenticator"] = $authenticator;
     }
     return $g_logged_in_user;
 }
@@ -109,7 +127,7 @@ function show_login($user) {
 //
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
-    $styleSheet = URL_BASE.STYLESHEET;
+    $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
     
@@ -124,7 +142,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\">
         <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";
@@ -542,15 +560,40 @@ function sched_stopped() {
     return file_exists("../../stop_sched");
 }
 
+function friend_links($user) {
+    if (is_banished($user)) {
+        return "";
+    }
+    $x = "<table height=100 width=150 border=0 cellpadding=4><tr><td bgcolor=#e8e8e8>";
+    if ($user->has_profile) {
+        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
+        if ($profile && $profile->has_picture) {
+            $img_url = profile_thumb_url($user->id);
+        } else {
+            $img_url = URL_BASE."img/head_20.png";
+        }
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a><br>';
+    }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    if ($user->donated == 1) { 
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK;
+    }
+    $x .= "</td></tr></table>\n";
+    return $x;
+}
+
 function user_links($user) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
     }
-    $x = "<a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $x = "";
     if ($user->has_profile) {
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" src="'.URL_BASE.'img/head_20.png" alt="Profile"></a>';
+        $img_url = URL_BASE."img/head_20.png";
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a>';
     }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) { 
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
@@ -688,7 +731,8 @@ function link_with_GET_variables($text, $baseurl, $variable_name, $variable_valu
 // @param string &$value reference to the value that should be verified
 // @param double $low the lowest number of value if verified
 // @param double $high the highest number of value if verified
-// @return bool true if $value is numeric and within the defined borders, false if $value is not numeric, no changes were made in this case
+// @return bool true if $value is numeric and within the defined borders,
+//   false if $value is not numeric, no changes were made in this case
 //
 function verify_numeric(&$value, $low, $high = false) {
     $number = trim($value);
@@ -702,9 +746,12 @@ function verify_numeric(&$value, $low, $high = false) {
     // the supplied value contains alphabetic characters
     if (!is_numeric($number)) return false;
 
-    if ($number < $low) $number = $low;
+    //if ($number < $low) $number = $low;
+    if ($number < $low) return false;
+
     if ($high) {
-        if ($number > $high) $number = $high;
+        //if ($number > $high) $number = $high;
+        if ($number > $high) return false;
     }
     $value = (double)$number;
     return true;

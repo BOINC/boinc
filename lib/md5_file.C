@@ -107,7 +107,7 @@ int make_random_string(char* out) {
     if (!f) {
         return -1;
     }
-    int n = fread(buf, 32, 1, f);
+    size_t n = fread(buf, 32, 1, f);
     fclose(f);
     if (n != 1) return -1;
 #endif

@@ -311,6 +311,8 @@ UINT CAGrantBOINCMasterRights::OnExecution()
             );
             return ERROR_INSTALL_FAILURE;
         }
+
+
     }
     else
     {

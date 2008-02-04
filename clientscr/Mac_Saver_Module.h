@@ -65,7 +65,7 @@ protected:
     pid_t           FindProcessPID(char* name, pid_t thePID);
     OSErr           GetpathToBOINCManagerApp(char* path, int maxLen);
     bool            SetError( bool bErrorMode, unsigned int hrError );
-    void            UpdateProgressText();
+    void            UpdateProgressText(unsigned int hrError);
     void            setBannerText(const char *msg, GrafPtr aPort);
     void            updateBannerText(char *msg, GrafPtr aPort);
     void            drawBanner(GrafPtr aPort);
@@ -119,6 +119,7 @@ protected:
 
     bool            m_bResetCoreState;
     bool            m_QuitDataManagementProc;
+    bool            m_bV5_GFX_app_is_running;
 
 
     //

@@ -113,23 +113,28 @@ int make_project_dir(PROJECT& p) {
 
     boinc_mkdir(PROJECTS_DIR);
 #ifndef _WIN32
+    mode_t old_mask;
     if (g_use_sandbox) {
-        chmod(PROJECTS_DIR,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+        old_mask = umask(2);     // Project directories must be world-readable
+         chmod(PROJECTS_DIR,
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
+        umask(old_mask);
     }
 #endif
     get_project_dir(&p, buf, sizeof(buf));
     retval = boinc_mkdir(buf);
 #ifndef _WIN32
     if (g_use_sandbox) {
+        old_mask = umask(2);     // Project directories must be world-readable
         chmod(buf,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
+        umask(old_mask);
         set_to_project_group(buf);
     }
 #endif
@@ -141,7 +146,7 @@ int remove_project_dir(PROJECT& p) {
     int retval;
 
     get_project_dir(&p, buf, sizeof(buf));
-    retval = clean_out_dir(buf);
+    retval = client_clean_out_dir(buf);
     if (retval) {
         msg_printf(&p, MSG_INTERNAL_ERROR, "Can't delete file %s", boinc_failed_file);
         return retval;
@@ -153,29 +158,35 @@ int remove_project_dir(PROJECT& p) {
 //
 int make_slot_dir(int slot) {
     char buf[1024];
+
     if (slot<0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR, "Bad slot number %d", slot);
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);
 #ifndef _WIN32
+    mode_t old_mask;
     if (g_use_sandbox) {
+        old_mask = umask(2);     // Slot directories must be world-readable
         chmod(SLOTS_DIR,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
+        umask(old_mask);
     }
 #endif
     get_slot_dir(slot, buf, sizeof(buf));
     int retval = boinc_mkdir(buf);
 #ifndef _WIN32
     if (g_use_sandbox) {
+        old_mask = umask(2);     // Slot directories must be world-readable
         chmod(buf,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-                |S_IROTH|S_IXOTH
-            );
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
+        umask(old_mask);
         set_to_project_group(buf);
     }
 #endif
@@ -203,9 +214,10 @@ void delete_old_slot_dirs() {
 
             // If BOINC crashes or exits suddenly (e.g., due to 
             // being called with --exit_after_finish) it may leave 
-            // orphan shared memory segments in the system.  Clean 
-            // these up here. (We must do this before deleting the
+            // orphan shared memory segments in the system.
+            // Clean these up here. (We must do this before deleting the
             // INIT_DATA_FILE, if any, from each slot directory.)
+            //
             snprintf(init_data_path, sizeof(init_data_path), "%s/%s", path, INIT_DATA_FILE);
             shmem_seg_name = ftok(init_data_path, 1);
             if (shmem_seg_name != -1) {
@@ -213,11 +225,11 @@ void delete_old_slot_dirs() {
             }
 #endif
             if (!gstate.active_tasks.is_slot_dir_in_use(path)) {
-                clean_out_dir(path);
+                client_clean_out_dir(path);
                 remove_project_owned_dir(path);
             }
         } else {
-            delete_project_owned_file(path);
+            delete_project_owned_file(path, false);
         }
     }
     dir_close(dirp);
