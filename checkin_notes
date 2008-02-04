@@ -1105,3 +1105,9 @@ Rom    Feb 3 2008
         
     client/
         http_curl.C, .h
+
+Rom    Feb 3 2008
+    - WIN: Update libcurl to 7.18.0
+    
+    curl/
+        <Various Files>
