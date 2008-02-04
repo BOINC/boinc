@@ -1098,3 +1098,9 @@ David  Feb 3 2008
         handle_request.C
         server_types.C,h
         show_shmem.C
+
+Rom    Feb 3 2008
+    - client: remove the auth_type and auth_flag code.
+        
+    client/
+        http_curl.C, .h

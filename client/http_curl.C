@@ -159,8 +159,6 @@ HTTP_OP::HTTP_OP() {
     pcurlFormEnd = NULL;
     pByte = NULL;
     lSeek = 0;
-    auth_flag = false;
-    auth_type = 0;
     xfer_speed = 0;
     reset();
 }
@@ -808,16 +806,11 @@ void HTTP_OP::setupProxyCurl() {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-            auth_flag = true;
-            if (auth_type) {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
+            if (config.force_ntlm) {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
             } else {
-                if (config.force_ntlm) {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
-                } else {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
-                }
-            }       
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+            }
             sprintf(szCurlProxyUserPwd, "%s:%s", pi.http_user_name, pi.http_user_passwd);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
         }
@@ -834,7 +827,6 @@ void HTTP_OP::setupProxyCurl() {
             if (
                 strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
             ) {
-                auth_flag = false;
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
@@ -988,15 +980,6 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             if (dt > 0) {
                 gstate.net_stats.up.update(size_upload, dt);
             }
-        }
-
-        // if proxy/socks server uses authentication and its not set yet,
-        // get what last transfer used
-        //
-        if (hop->auth_flag && !hop->auth_type) {
-            curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_PROXYAUTH_AVAIL, &hop->auth_type
-            );
         }
 
         // the op is done if curl_multi_msg_read gave us a msg for this http_op
