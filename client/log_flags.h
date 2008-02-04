@@ -98,8 +98,10 @@ struct CONFIG {
     bool simple_gui_only;
     bool dont_contact_ref_site;
     std::vector<std::string> alt_platforms;
+    bool report_results_immediately;
     int max_stdout_file_size;
     int max_stderr_file_size;
+    bool force_ntlm;
 
     CONFIG();
     void defaults();

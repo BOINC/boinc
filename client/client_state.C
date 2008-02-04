@@ -329,7 +329,7 @@ int CLIENT_STATE::init() {
     //
     set_client_state_dirty("init");
 
-    // initialize GUI RPC data structures before we start accepting
+    // Initialize GUI RPC data structures before we start accepting
     // GUI RPC's.
     //
     acct_mgr_info.init();

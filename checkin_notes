@@ -249,3 +249,29 @@ Charlie Jan 29 2008
         ViewProjectsGrid.cpp
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+David  Jan 28 2008
+    - client: add <force_ntlm> config flag.
+        Causes client to use NTLM auth and HTTP 1.0
+    - client: we weren't doing exponential backoff if scheduler
+        requests failed at initialization; fix this
+    - client: removed -return_results_immediately cmdline option
+        (wasn't implemented anyway)
+    - client: added <report_results_immediately> configuration flag;
+        causes results to be reported as soon as done.
+        Needed for some WCG machines that are reformatted often.
+        Should NOT be used in general, since it increases server load.
+
+    client/
+        cs_cmdline.C
+        http_curl.C
+        log_flags.C,h
+        scheduler_op.C
+        work_fetch.C
+
+Rom    Feb 3 2008
+    - client: If we are already atteched to the project specified
+        in the project_init.xml file, go ahead and delete the file.
+        
+    client/
+        gui_rpc_server_ops.C
