@@ -403,11 +403,6 @@ int HTTP_OP::libcurl_exec(
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
 
-    // disable connection caching; if a file upload handler connection
-    // is interrupted, the file will stay locked indefinitely
-    //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_FORBID_REUSE, 1L);
-
     // if we tell Curl to accept any encoding (e.g. deflate)
     // it seems to accept them all, which screws up projects that
     // use gzip at the application level.

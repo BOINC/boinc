@@ -1101,6 +1101,7 @@ David  Feb 3 2008
 
 Rom    Feb 3 2008
     - client: remove the auth_type and auth_flag code.
+    - client: remove forbid reuse flag.
         
     client/
         http_curl.C, .h
