@@ -272,6 +272,8 @@ David  Jan 28 2008
 Rom    Feb 3 2008
     - client: If we are already atteched to the project specified
         in the project_init.xml file, go ahead and delete the file.
+    - client: remove the auth_type and auth_flag code.
         
     client/
         gui_rpc_server_ops.C
+        http_curl.C, .h
