@@ -1111,3 +1111,17 @@ Rom    Feb 3 2008
     
     curl/
         <Various Files>
+
+Charlie Feb 5 2008
+    - MGR: Set disconnected state when appropriate even when minimized (if 
+        GetCoreClientStatus() call from CTaskBarIcon timer routine fails.)
+    - MGR: Auto-restart Client only if last connection was to local host.
+    - MGR: Test if Client is running after auto-restart, if so reconnect 
+        automatically and skip dialog asking user.
+    - Mac MGR: Don't skip notifications on Mac when mimimized; show them 
+        when user opens Manager window.  Remove incorrect alert text on Mac 
+        (telling user to start Manager in same directory as Client.)
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        MainDocument.cpp

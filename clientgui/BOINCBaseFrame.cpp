@@ -231,24 +231,21 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
                 icon_type
             );
         }
-#else
-        // Notification only events on platforms other than Windows are currently
-        //   discarded.  On the Mac a model dialog box for a hidden window causes
-        //   the menus to be locked and the application to become unresponsive. On
-        //   Linux the application is restored and input focus is set on the
-        //   notification which interrupts whatever the user was up to.
-        if (IsShown() && !event.m_notification_only) {
-            if (!event.m_notification_only) {
-                int retval = 0;
+#elif defined (__WXMAC__)
+        // Notification only events on platforms other than Windows and Mac are 
+        //   currently discarded.  On Linux the application is restored and 
+        //   input focus is set on the notification which interrupts whatever 
+        //   the user was up to.
+        if (!event.m_notification_only) {
+            int retval = 0;
 
-                if (!IsShown()) {
-                    Show();
-                }
+//            if (!IsShown()) {
+//                Show();
+//            }
 
-                retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
-                if (event.m_alert_event_type == AlertProcessResponse) {
-                    event.ProcessResponse(retval);
-                }
+            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+            if (event.m_alert_event_type == AlertProcessResponse) {
+                event.ProcessResponse(retval);
             }
         }
 #endif
@@ -367,8 +364,11 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
         {
             ShowAlert(
                 strDialogTitle,
-                _("Authorization failed connecting to running client.\n"
-                  "Make sure you start this program in the same directory as the client."),
+                _("Authorization failed connecting to running client."
+#ifndef __WXMAC__
+                  "\nMake sure you start this program in the same directory as the client."
+#endif
+                ),
                 wxOK | wxICON_ERROR
             );
         }
@@ -386,20 +386,30 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
 
 void CBOINCBaseFrame::ShowConnectionFailedAlert() {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    wxString            strConnectedCompter = wxEmptyString;
     wxString            strDialogTitle = wxEmptyString;
     wxString            strDialogMessage = wxEmptyString;
-
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionFailedAlert - Function Begin"));
 
-
-    // Did BOINC crash? If so restart it.
-    wxGetApp().GetDocument()->m_pClientManager->AutoRestart();
-
+    // Did BOINC crash on local computer? If so restart it and reconnect.
+    pDoc->GetConnectedComputerName(strConnectedCompter);
+    if (pDoc->IsComputerNameLocal(strConnectedCompter)) {
+        if (pDoc->m_pClientManager->AutoRestart()) {
+            boinc_sleep(0.5);       // Allow time for Client to restart
+            if (pDoc->m_pClientManager->IsBOINCCoreRunning()) {
+                pDoc->Reconnect();        
+                return;
+            }
+        }
+    }
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -484,21 +494,31 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
 
 void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    wxString            strConnectedCompter = wxEmptyString;
     wxString            strDialogTitle = wxEmptyString;
     wxString            strDialogMessage = wxEmptyString;
-
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
 
-
-    // Did BOINC crash? If so restart it.
-    wxGetApp().GetDocument()->m_pClientManager->AutoRestart();
-
-
+    // Did BOINC crash on local computer? If so restart it and reconnect.
+    pDoc->GetConnectedComputerName(strConnectedCompter);
+    if (pDoc->IsComputerNameLocal(strConnectedCompter)) {
+        if (pDoc->m_pClientManager->AutoRestart()) {
+            boinc_sleep(0.5);       // Allow time for Client to restart
+            if (pDoc->m_pClientManager->IsBOINCCoreRunning()) {
+                pDoc->Reconnect();        
+                return;
+            }
+        }
+    }
+    
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
