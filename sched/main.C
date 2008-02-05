@@ -401,8 +401,8 @@ int main(int argc, char** argv) {
 #ifdef _USING_FCGI_
     //while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
     while(FCGI_Accept() >= 0) {
-      counter++;
-      log_messages.set_indent_level(0);
+        counter++;
+        log_messages.set_indent_level(0);
 #endif
     log_request_info(length);
 
@@ -494,9 +494,10 @@ int main(int argc, char** argv) {
     }
 done:
 #ifdef _USING_FCGI_
-      // fprintf(stderr, "FCGI: counter: %d\n", counter);
-      log_messages.flush();
-      continue;
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "FCGI: counter: %d\n", counter
+        );
+        log_messages.flush();
     }   // do()
     if (counter == MAX_FCGI_COUNT) {
         fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");

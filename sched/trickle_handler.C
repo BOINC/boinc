@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2008 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -15,8 +15,8 @@
 // To view the GNU Lesser General Public License visit
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
 // trickle_handler - framework for trickle-up message handler
 //
 //  -variety variety
@@ -36,6 +36,7 @@ using namespace std;
 
 #include "boinc_db.h"
 #include "util.h"
+#include "str_util.h"
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
@@ -103,7 +104,7 @@ int main_loop(bool one_pass) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "boinc_db.open failed: %d\n", retval);
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
@@ -133,19 +134,23 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "unrecognized arg: %s\n", argv[i]
+            );
         }
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting trickle handler\n");
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        "Starting trickle handler\n"
+    );
 
     install_stop_signal_handler();
 

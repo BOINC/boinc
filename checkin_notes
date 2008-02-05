@@ -1157,3 +1157,11 @@ David  Feb 5 2008
         sched_util.C,h
     tools/
         Makefile.am
+
+David  Feb 5 2008
+    - trickle handler: make it compile, and add to Makefile.am
+        (from Eric Myers)
+
+    sched/
+        Makefile.am
+        trickle_handler.C

@@ -24,6 +24,7 @@ noinst_PROGRAMS = \
     send_file \
     show_shmem \
     transitioner \
+    trickle_handler \
     update_stats \
     wu_check
 
@@ -135,6 +136,9 @@ db_dump_DEPENDENCIES = $(LIB_SCHED)
 
 db_purge_SOURCES = db_purge.C
 db_purge_DEPENDENCIES = $(LIB_SCHED)
+
+trickle_handler_SOURCES = trickle_handler.C
+trickle_handler_DEPENDENCIES = $(LIB_SCHED)
 
 update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
