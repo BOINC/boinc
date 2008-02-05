@@ -1140,3 +1140,20 @@ David  Feb 5 2008
         sched_util.C,h
     tools/
         Makefile.am
+
+David  Feb 5 2008
+    - scheduler: simplified Carl's checkin (avoid virtual destructors)
+    - API: small tweak for standalone
+
+    api/
+        graphics2_util.C
+    lib/
+        msg_log.C,h
+    sched/
+        Makefile.am
+        edf_sim.C
+        handle_request.C
+        sched_msgs.C,h
+        sched_util.C,h
+    tools/
+        Makefile.am

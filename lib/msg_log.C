@@ -74,44 +74,6 @@ MSG_LOG::MSG_LOG(FILE* output_) {
     strcpy(spaces+1, "                                                                              ");
 }
 
-MSG_LOG::~MSG_LOG() {
-   close();
-}
-
-void MSG_LOG::set_indent_level(const int new_indent_level) {
-    if (new_indent_level < 0) indent_level = 0;
-    else if (new_indent_level > 39) indent_level = 39;
-    else indent_level = new_indent_level;
-
-    memset(spaces, 0, sizeof(spaces));
-    for (int i=0; indent_level && i < (indent_level*2); i++) {
-        spaces[i] = ' ';
-    }
-}
-
-void MSG_LOG::close() {
-    if (output) {
-	   flush();
-	   fclose(output);
-	   output = NULL;
-    }
-}
-
-void MSG_LOG::redirect(FILE* f) {
-    close();
-    output = f;
-}
-
-void MSG_LOG::flush() {
-    if (output) 
-#ifdef _USING_FCGI_
-        fflush(output->stdio_stream);
-#else
-        fflush(output);
-#endif
-    }
-}
-
 void MSG_LOG::enter_level(int diff) {
     assert (indent_level >= 0);
 

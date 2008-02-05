@@ -68,7 +68,6 @@ function show_finished_page($view_id, $prev_view_id) {
     global $course;
     global $url_args;
 
-    page_head(null);
     if (function_exists('bolt_header')) bolt_header("Course completed");
     echo "Congratulations - you have completed this course.";
     $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><img src=img/prev.gif></a>";
@@ -78,7 +77,6 @@ function show_finished_page($view_id, $prev_view_id) {
 }
 
 function show_refresh_finished() {
-    page_head(null);
     if (function_exists('bolt_header')) bolt_header("Refresh completed");
     echo "Refresh finished";
     if (function_exists('bolt_footer')) bolt_footer();
@@ -94,11 +92,10 @@ function show_nav($links, $up_link) {
     }
     echo "</tr></table> </center>
         <hr>
-        Question or comment?
         <br>
-        <textarea cols=60></textarea>
+        <textarea cols=60>Enter question or comment here</textarea>
         <br>
-        <input type=submit value=Ask>
+        <input type=submit value=Submit>
         <p>
         $up_link
     ";
@@ -117,7 +114,6 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     global $url_args;
 
     $item = $iter->item;
-    page_head(null);
     if (function_exists('bolt_header')) bolt_header($item->title);
     $bolt_query_string = $item->query_string;
 

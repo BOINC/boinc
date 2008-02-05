@@ -72,9 +72,9 @@ BoltUser::lookup($user);
 
 $submit = get_str('submit', true);
 if ($submit == 'Create course') {
-    $short_name = get_str('short_name');
-    $name = get_str('course_name');
-    $description = get_str('description');
+    $short_name = BoltDb::escape_string(get_str('short_name'));
+    $name = BoltDb::escape_string(get_str('course_name'));
+    $description = BoltDb::escape_string(get_str('description'));
     $doc_file = get_str('doc_file');
     $now = time();
     BoltCourse::insert("(create_time, short_name, name, description, doc_file) values ($now, '$short_name', '$name', '$description', '$doc_file')");

@@ -39,24 +39,18 @@
 #endif
 
 class MSG_LOG {
+public:
     int debug_level;
-    int indent_level;
     char spaces[80];
     FILE* output;
-public:
+    int indent_level;
     int pid;
 
     MSG_LOG(FILE* output);
-    virtual ~MSG_LOG();
     void enter_level(int = 1);
     void leave_level() { enter_level(-1); }
     MSG_LOG& operator++() { enter_level(); return *this; }
     MSG_LOG& operator--() { leave_level(); return *this; }
-
-    virtual void set_indent_level(const int new_indent_level);
-    virtual void redirect(FILE* f);
-    virtual void close();
-    virtual void flush();
 
     void printf(int kind, const char* format, ...) __attribute__ ((format (printf, 3, 4)));
     void printf_multiline(int kind, const char* str, const char* prefix_format, ...) __attribute__ ((format (printf, 4, 5)));

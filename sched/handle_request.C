@@ -133,7 +133,7 @@ int lock_sched(SCHEDULER_REPLY& reply) {
     // write PID into the CGI_<HOSTID> file and flush to disk
     //
     count = sprintf(pid_string, "%d\n", getpid());
-    int unused = write(fd, pid_string, count);
+    write(fd, pid_string, count);
     fsync(fd);
 
     reply.lockfile_fd = fd;
@@ -223,7 +223,7 @@ static void mark_results_over(DB_HOST& host) {
 //
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
-    char buf[256], buf2[256];
+    char buf[256];
     DB_HOST host;
     DB_USER user;
     DB_TEAM team;
@@ -279,7 +279,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     weak_auth = true;
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_DEBUG,
-                        "[HOST#%d] accepting weak authenticator\n"
+                        "[HOST#%d] accepting weak authenticator\n",
+                        host.id
                     );
                 }
             }
