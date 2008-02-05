@@ -554,6 +554,8 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
                         pFrame->Close(true);
                     }
                 }
+            } else {
+                m_pNetworkConnection->SetStateDisconnected();
             }
         } else {
             ccs = status;
