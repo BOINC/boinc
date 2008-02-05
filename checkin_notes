@@ -1125,3 +1125,18 @@ Charlie Feb 5 2008
     clientgui/
         BOINCBaseFrame.cpp
         MainDocument.cpp
+
+David  Feb 5 2008
+    - scheduler: send log messages to file, rather than httpd error log,
+        when using FCGI (from Carl Christensen)
+
+    lib/
+        msg_log.C,h
+    sched/
+        Makefile.am
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        sched_util.C,h
+    tools/
+        Makefile.am

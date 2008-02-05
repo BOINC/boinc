@@ -43,10 +43,8 @@ libsched_a_SOURCES = \
     sched_shmem.C \
     sched_util.C \
     sched_config.C \
-    sched_msgs.C \
     ../db/boinc_db.C \
     ../db/db_base.C \
-    ../lib/msg_log.C \
     ../tools/process_result_template.C \
     ../tools/backend_lib.C 
 
@@ -76,13 +74,15 @@ cgi_SOURCES = \
     sched_locality.C \
     sched_timezone.C \
     server_types.C \
+    sched_msgs.C \
 	time_stats_log.C \
     ../lib/synch.C
 
 census_SOURCES = \
     census.C \
     hr.C \
-    hr_info.C
+    hr_info.C \
+    sched_msgs.C
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
@@ -102,76 +102,77 @@ feeder_SOURCES = \
     feeder.C \
     hr.C \
     hr_info.C \
+    sched_msgs.C \
     ../lib/synch.C
 
 feeder_DEPENDENCIES = $(LIB_SCHED)
 
-wu_check_SOURCES = wu_check.C
+wu_check_SOURCES = wu_check.C sched_msgs.C
 wu_check_DEPENDENCIES = $(LIB_SCHED)
 
-show_shmem_SOURCES = show_shmem.C
+show_shmem_SOURCES = show_shmem.C sched_msgs.C
 show_shmem_DEPENDENCIES = $(LIB_SCHED)
 
-file_deleter_SOURCES = file_deleter.C
+file_deleter_SOURCES = file_deleter.C sched_msgs.C
 file_deleter_DEPENDENCIES = $(LIB_SCHED)
 
-sample_bitwise_validator_SOURCES = validator.C sample_bitwise_validator.C validate_util.C validate_util.h validate_util2.C
+sample_bitwise_validator_SOURCES = validator.C sample_bitwise_validator.C validate_util.C validate_util.h validate_util2.C sched_msgs.C
 sample_bitwise_validator_DEPENDENCIES = $(LIB_SCHED)
 
-sample_trivial_validator_SOURCES = validator.C sample_trivial_validator.C validate_util.C validate_util.h validate_util2.C
+sample_trivial_validator_SOURCES = validator.C sample_trivial_validator.C validate_util.C validate_util.h validate_util2.C sched_msgs.C
 sample_trivial_validator_DEPENDENCIES = $(LIB_SCHED)
 
-sample_dummy_assimilator_SOURCES = assimilator.C sample_dummy_assimilator.C validate_util.C validate_util.h
+sample_dummy_assimilator_SOURCES = assimilator.C sample_dummy_assimilator.C validate_util.C validate_util.h sched_msgs.C
 sample_dummy_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
-sample_assimilator_SOURCES = assimilator.C sample_assimilator.C validate_util.C validate_util.h
+sample_assimilator_SOURCES = assimilator.C sample_assimilator.C validate_util.C validate_util.h sched_msgs.C
 sample_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
-sample_work_generator_SOURCES = sample_work_generator.C
+sample_work_generator_SOURCES = sample_work_generator.C sched_msgs.C
 sample_work_generator_DEPENDENCIES = $(LIB_SCHED)
 
-db_dump_SOURCES = db_dump.C
+db_dump_SOURCES = db_dump.C sched_msgs.C
 db_dump_DEPENDENCIES = $(LIB_SCHED)
 
-db_purge_SOURCES = db_purge.C
+db_purge_SOURCES = db_purge.C sched_msgs.C
 db_purge_DEPENDENCIES = $(LIB_SCHED)
 
-update_stats_SOURCES = update_stats.C
+update_stats_SOURCES = update_stats.C sched_msgs.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
 
-file_upload_handler_SOURCES = file_upload_handler.C
+file_upload_handler_SOURCES = file_upload_handler.C sched_msgs.C
 file_upload_handler_DEPENDENCIES = $(LIB_SCHED)
 file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
-make_work_SOURCES = make_work.C
+make_work_SOURCES = make_work.C sched_msgs.C
 make_work_DEPENDENCIES = $(LIB_SCHED)
 make_work_LDADD = $(LDADD) $(RSA_LIBS)
 
-transitioner_SOURCES = transitioner.C
+transitioner_SOURCES = transitioner.C sched_msgs.C
 transitioner_DEPENDENCIES = $(LIB_SCHED)
 transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
-message_handler_SOURCES = message_handler.C
+message_handler_SOURCES = message_handler.C sched_msgs.C
 message_handler_DEPENDENCIES = $(LIB_SCHED)
 message_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
-request_file_list_SOURCES = request_file_list.C
+request_file_list_SOURCES = request_file_list.C sched_msgs.C
 request_file_list_DEPENDENCIES = $(LIB_SCHED)
 request_file_list_LDADD = $(LDADD) $(RSA_LIBS)
 
-get_file_SOURCES = get_file.C
+get_file_SOURCES = get_file.C sched_msgs.C
 get_file_DEPENDENCIES = $(LIB_SCHED)
 get_file_LDADD = $(LDADD) $(RSA_LIBS)
 
-send_file_SOURCES = send_file.C
+send_file_SOURCES = send_file.C sched_msgs.C
 send_file_DEPENDENCIES = $(LIB_SCHED)
 send_file_LDADD = $(LDADD) $(RSA_LIBS)
 
-delete_file_SOURCES = delete_file.C
+delete_file_SOURCES = delete_file.C sched_msgs.C
 delete_file_DEPENDENCIES = $(LIB_SCHED)
 delete_file_LDADD = $(LDADD) $(RSA_LIBS)
 
-sched_driver_SOURCES = sched_driver.C
+sched_driver_SOURCES = sched_driver.C sched_msgs.C
 sched_driver_DEPENDENCIES = $(LIB_SCHED)
 sched_driver_LDADD = $(LDADD)
 
@@ -217,12 +218,21 @@ fcgi_LDADD = $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.C \
     sched_config.C \
+    sched_msgs.C \
+    sched_util.C \
+    ../lib/util.C \
+    ../lib/str_util.C \
+    ../lib/md5.c \
+    ../lib/md5_file.C \
+    ../lib/filesys.C \
+    ../lib/msg_log.C \
     ../lib/miofile.C \
     ../lib/parse.C \
     ../lib/crypt.C
+
 fcgi_file_upload_handler_DEPENDENCIES = $(LIB_SCHED)
-fcgi_file_upload_handler_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi
+fcgi_file_upload_handler_CPPFLAGS = -D_NO_DB_REQ_ -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
+fcgi_file_upload_handler_LDADD = $(RSA_LIBS) -lfcgi
 
 .PHONY: PHONY-start
 

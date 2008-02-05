@@ -327,14 +327,14 @@ int main(int argc, char** argv) {
     //
     signal(SIGTERM, sigterm_handler);
 
-#ifndef _USING_FCGI_
     char *stderr_buffer, buf[256];
     get_log_path(path, "cgi.log");
+#ifndef _USING_FCGI_
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
         sprintf(buf, "Server can't open log file (%s)", path);
         send_message(buf, 3600);
-        exit(0);
+        exit(1);
     }
     // install a larger buffer for stderr.  This ensures that
     // log information from different scheduler requests running
@@ -343,6 +343,24 @@ int main(int argc, char** argv) {
     if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "Unable to change stderr buffering preferences\n"
+        );
+    }
+#else
+    FILE* f;
+    f = fopen(path, "a");
+    if (f) {
+       log_messages.redirect(f);
+    } else {
+        char buf[256];
+        fprintf(stderr, "Can't redirect FCGI log messages\n");
+        sprintf(buf, "Server can't open log file for FCGI (%s)", path);
+        send_message(buf, 3600);
+        exit(1);
+    }
+    // set buffer as above, note that f is really a struct from fcgi_stdio.h
+    if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(f->stdio_stream, stderr_buffer, _IOFBF, 32768)) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "Unable to change stderr FCGI buffering preferences\n"
         );
     }
 #endif
@@ -383,7 +401,8 @@ int main(int argc, char** argv) {
 #ifdef _USING_FCGI_
     //while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
     while(FCGI_Accept() >= 0) {
-    counter++;
+      counter++;
+      log_messages.set_indent_level(0);
 #endif
     log_request_info(length);
 
@@ -475,8 +494,9 @@ int main(int argc, char** argv) {
     }
 done:
 #ifdef _USING_FCGI_
-    fprintf(stderr, "FCGI: counter: %d\n", counter);
-    continue;
+      // fprintf(stderr, "FCGI: counter: %d\n", counter);
+      log_messages.flush();
+      continue;
     }   // do()
     if (counter == MAX_FCGI_COUNT) {
         fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");

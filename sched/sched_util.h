@@ -76,7 +76,8 @@ extern int mylockf(int fd);
 //
 extern double fpops_to_credit(double fpops, double intops); 
 
-extern int count_unsent_results(int&, int appid);
+#ifndef _NO_DB_REQ_
 extern int count_workunits(int&, const char* query);
-
+extern int count_unsent_results(int&, int appid);
+#endif
 #endif

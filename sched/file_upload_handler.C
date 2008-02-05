@@ -41,11 +41,11 @@
 
 #include "sched_config.h"
 #include "sched_util.h"
-#include "sched_msgs.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+#include "sched_msgs.h"
 
 SCHED_CONFIG config;
 
@@ -514,6 +514,9 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool got_version = true;
     bool did_something = false;
 
+#ifdef _USING_FCGI_
+    log_messages.set_indent_level(1);
+#endif
     while (fgets(buf, 256, in)) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "handle_request: %s", buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
@@ -617,11 +620,21 @@ int main() {
 
     installer();
 
-#ifndef _USING_FCGI_
     get_log_path(log_path, "file_upload_handler.log");
+#ifndef _USING_FCGI_
     if (!freopen(log_path, "a", stderr)) {
         fprintf(stderr, "Can't open log file\n");
         return_error(ERR_TRANSIENT, "can't open log file");
+        exit(1);
+    }
+#else
+    FILE* f;
+    f = fopen(log_path, "a");
+    if (f) {
+       log_messages.redirect(f);
+    } else {
+        fprintf(stderr, "Can't redirect FCGI log messages\n");
+        return_error(ERR_TRANSIENT, "can't open log file (FCGI)");
         exit(1);
     }
 #endif
@@ -650,10 +663,13 @@ int main() {
 #ifdef _USING_FCGI_
   while(FCGI_Accept() >= 0) {
     counter++;
-    fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
+    //fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
+    log_messages.set_indent_level(0);
 #endif
     handle_request(stdin, key);
 #ifdef _USING_FCGI_
+    // flush log for FCGI, otherwise it just buffers a lot
+    log_messages.flush();
   }
   // when exiting, write headers back to apache so it won't complain
   // about "incomplete headers"

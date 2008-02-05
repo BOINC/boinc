@@ -248,7 +248,7 @@ double fpops_to_credit(double fpops, double intops) {
     return std::max(fpc, intc);
 }
 
-
+#ifndef _NO_DB_REQ_ 
 int count_results(char* query, int& n) {
     DB_RESULT result;
     int retval = result.count(n, query);
@@ -275,5 +275,6 @@ int count_unsent_results(int& n, int appid) {
     return count_results(buf, n);
 
 }
+#endif
 
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

@@ -1546,6 +1546,10 @@ void handle_request(
 
     memset(&sreq, 0, sizeof(sreq));
 
+#ifdef _USING_FCGI_
+    log_messages.set_indent_level(1);
+#endif
+
     if (sreq.parse(fin) == 0){
         log_messages.printf(
              SCHED_MSG_LOG::MSG_NORMAL,
@@ -1555,6 +1559,11 @@ void handle_request(
              sreq.core_client_release
         );
         process_request(sreq, sreply, ss, code_sign_key);
+
+#ifdef _USING_FCGI_
+		log_messages.set_indent_level(2);
+#endif
+
     } else {
         // BOINC scheduler requests use method POST.
         // So method GET means that someone is trying a browser.
@@ -1563,6 +1572,10 @@ void handle_request(
         if (rm && !strcmp(rm, "GET")) {
             sreply.probable_user_browser=true;
         }
+
+#ifdef _USING_FCGI_
+		log_messages.set_indent_level(2);
+#endif
 
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
