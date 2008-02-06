@@ -356,7 +356,7 @@ struct DISK_USAGE {
     double d_free;
     double d_boinc;     // amount used by BOINC itself, not projects
 
-    DISK_USAGE(){}
+    DISK_USAGE(){clear();}
     ~DISK_USAGE();
 
     void print();

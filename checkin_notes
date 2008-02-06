@@ -1186,3 +1186,11 @@ David  Feb 5 2008
         gui_rpc_server_ops.C
     lib/
         gui_rpc_client_ops.C
+
+David  Feb 5 2008
+    - GUI RPC: initialize disk usage structure
+        to avoid wacky pie charts at startup
+        Fixes #549 (from Der Meister)
+
+    lib/
+        gui_rpc_client.h
