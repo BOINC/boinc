@@ -198,15 +198,25 @@ int CNetworkConnection::GetConnectingComputerName(wxString& strMachine) {
 
 
 bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
+    static wxString strHostName = wxEmptyString;
+    static wxString strFullHostName = wxEmptyString;
+
+    if (strHostName.empty()) {
+        strHostName = ::wxGetHostName().Lower();
+    }
+    if (strFullHostName.empty()) {
+        strFullHostName = ::wxGetFullHostName().Lower();
+    }
+
     if (strMachine.empty()) {
         return true;
     } else if (wxT("localhost") == strMachine.Lower()) {
         return true;
     } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
         return true;
-    } else if (::wxGetHostName().Lower() == strMachine.Lower()) {
+    } else if (strHostName == strMachine.Lower()) {
         return true;
-    } else if (::wxGetFullHostName().Lower() == strMachine.Lower()) {
+    } else if (strFullHostName == strMachine.Lower()) {
         return true;
     }
     return false;
