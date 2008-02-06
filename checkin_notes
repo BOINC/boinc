@@ -1194,3 +1194,10 @@ David  Feb 5 2008
 
     lib/
         gui_rpc_client.h
+
+David  Feb 5 2008
+    - delete_file: fix bugs and info text
+        Fixes #551 (from Nicolas)
+
+    sched/
+        delete_file.C
