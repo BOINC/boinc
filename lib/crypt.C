@@ -152,7 +152,6 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     int num_bits;
 
 #if _USING_FCGI_
-#if 0
     char *p, buf[256];
     int j = 0, b;
     fgets(buf, 256, f);
@@ -161,18 +160,16 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     len = size - sizeof(key->bits);
     while (1) {
         p = fgets(buf, 256, f);
-        if (!p) return ERR_GETS;
-        n = strlen(p)/2;
+        if (!p) break;
+        n = (strlen(p)-1)/2;
         if (n == 0) break;
         for (i=0; i<n; i++) {
             sscanf(buf+i*2, "%2x", &b);
-            if (j >= len) return ERR_SCANF;
+            if (j == len) break;
             key->data[j++] = b;
         }
     }
-    fgets(buf, size, f);
-    sscanf(buf, ".");
-#endif
+    if (j != len) return ERR_NULL;
 #else
     fscanf(f, "%d", &num_bits);
     key->bits = num_bits;

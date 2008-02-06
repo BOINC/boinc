@@ -1235,3 +1235,18 @@ Rom    Feb 6 2008
     
     clientgui/
         BOINCTaskBar.cpp
+
+David  Feb 6 2008
+    - file upload handler: the FCGI version wasn't handling signatures,
+        because the code to read keys in FCGI was commented out
+        (and was in fact wrong).
+        I fixed it and uncommented it.
+    - make_project and upgrade: copy lib/crypt_prog to project/bin/
+
+    lib/
+        crypt.C
+        crypt_prog.C
+    py/Boinc/
+        setup_project.py
+    tools/
+        sign_executable.C

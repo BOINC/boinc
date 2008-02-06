@@ -17,7 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-// syntax: sign_executable <exectuable_path> <code_sign_file>
+// syntax: sign_executable data_file private_key_file
 
 #include "config.h"
 #include "crypt.h"
@@ -41,9 +41,10 @@ int sign_executable(char* path, char* code_sign_keyfile, char* signature_text) {
 
 int main(int argc, char** argv) {
     if (argc != 3) {
-        fprintf(stderr, "syntax: sign_executable <path> <code_sign_file>\n"
-                "\n"
-                "Outputs to stdout.\n");
+        fprintf(stderr, "syntax: sign_executable data_file private_key_file\n"
+            "\n"
+            "Writes signature to stdout.\n"
+        );
         return 1;
     }
 

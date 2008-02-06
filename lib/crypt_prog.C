@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
         if (!fpub) die("fopen");
         retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
         if (retval) die("read_public_key");
-        strcpy((char*)buf2, "foobar");
+        strcpy((char*)buf2, "encryption test successful");
         in.data = buf2;
         in.len = strlen((char*)in.data);
         out.data = buf;
