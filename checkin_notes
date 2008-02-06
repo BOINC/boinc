@@ -1250,3 +1250,10 @@ David  Feb 6 2008
         setup_project.py
     tools/
         sign_executable.C
+
+David  Feb 6 2008
+    - API: critical section begin/end calls can be nested
+        Fixes #508 (from Nicolas)
+
+    api/
+        boinc_api.C
