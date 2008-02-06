@@ -1229,3 +1229,9 @@ Charlie Feb 5 2008
 
     clientgui/
         DlgAdvPreferences.cpp
+
+Rom    Feb 6 2008
+    - MGR: Fix a refresh bug when opening BOINC Manager from the taskbar.
+    
+    clientgui/
+        BOINCTaskBar.cpp
