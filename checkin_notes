@@ -1177,3 +1177,12 @@ David  Feb 5 2008
         MainDocument.cpp,h
     lib/
         gui_rpc_client.C,h
+
+David  Feb 5 2008
+    - GUI RPC: fix some XML errors (missing / in single-tag elements)
+        Fixes #524 (from Nicolas)
+
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client_ops.C

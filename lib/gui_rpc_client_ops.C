@@ -1173,7 +1173,7 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& sgi) {
     sgi.projects.clear();
     sgi.results.clear();
 
-    retval = rpc.do_rpc("<get_simple_gui_info>\n");
+    retval = rpc.do_rpc("<get_simple_gui_info/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</simple_gui_info>")) break;
@@ -1209,7 +1209,7 @@ int RPC_CLIENT::get_simple_gui_info(CC_STATE& state, RESULTS& results) {
 
     results.clear();
 
-    retval = rpc.do_rpc("<get_simple_gui_info>\n");
+    retval = rpc.do_rpc("<get_simple_gui_info/>\n");
     if (!retval) {
 
         // mark all projects for deletion (undo if client still has them)
