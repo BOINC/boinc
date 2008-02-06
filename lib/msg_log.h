@@ -47,6 +47,8 @@ public:
     int pid;
 
     MSG_LOG(FILE* output);
+    virtual ~MSG_LOG(){}
+
     void enter_level(int = 1);
     void leave_level() { enter_level(-1); }
     MSG_LOG& operator++() { enter_level(); return *this; }

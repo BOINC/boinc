@@ -1217,3 +1217,9 @@ Rom    Feb 5 2008
         
     clientgui/
         MainDocument.cpp
+
+David  Feb 5 2008
+    - client: fix compile warning
+
+    lib/
+        msg_log.h

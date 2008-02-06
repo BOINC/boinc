@@ -317,8 +317,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	mask.run_if_user_active=true;
 	//
 	if(m_txtProcIdleFor->IsEnabled()) {
-		m_txtProcIdleFor->GetValue().ToLong(&tl);
-		prefs.idle_time_to_run=tl;
+		m_txtProcIdleFor->GetValue().ToLong(&td);
+		prefs.idle_time_to_run=td;
 		mask.idle_time_to_run=true;
 	}
 	//
