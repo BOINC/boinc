@@ -1223,3 +1223,9 @@ David  Feb 5 2008
 
     lib/
         msg_log.h
+
+Charlie Feb 5 2008
+    - MGR: fix compile warning
+
+    clientgui/
+        DlgAdvPreferences.cpp

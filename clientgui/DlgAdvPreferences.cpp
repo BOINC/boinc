@@ -303,7 +303,6 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 /* write overridden preferences to disk (global_prefs_override.xml) */
 bool CDlgAdvPreferences::SavePreferencesSettings() {
 	double td;
-	long tl;
 
 	mask.clear();
 	//clear special times settings
