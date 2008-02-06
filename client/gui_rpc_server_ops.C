@@ -801,6 +801,22 @@ static void handle_get_venue(MIOFILE& fout) {
     );
 }
 
+static void handle_set_venue(char* buf, MIOFILE& fout) {
+
+}
+
+static void handle_get_venue_list(MIOFILE& fout) {
+
+}
+
+static void handle_get_prefs_for_venue(char* buf, MIOFILE& fout) {
+
+}
+
+static void handle_set_prefs_for_venue(char* buf, MIOFILE& fout) {
+
+}
+
 static void handle_get_global_prefs_file(MIOFILE& fout) {
     GLOBAL_PREFS p;
     bool found;
@@ -1131,6 +1147,12 @@ int GUI_RPC_CONN::handle_rpc() {
         read_all_projects_list_file(mf);
     } else if (match_tag(request_msg, "<set_debts")) {
         handle_set_debts(request_msg, mf);
+    } else if (match_tag(request_msg, "<set_venue")) {
+        handle_set_venue(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_venue_list")) {
+        handle_get_venue_list(mf);
+    } else if (match_tag(request_msg, "<get_prefs_for_venue")) {
+        handle_get_prefs_for_venue(request_msg, mf);
     } else {
 
         // RPCs after this point require authentication,
@@ -1167,6 +1189,8 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_acct_mgr_rpc(request_msg, mf);
         } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
             handle_acct_mgr_rpc_poll(request_msg, mf);
+        } else if (match_tag(request_msg, "<set_prefs_for_venue")) {
+            handle_set_prefs_for_venue(request_msg, mf);
 
         // DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
         // AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
