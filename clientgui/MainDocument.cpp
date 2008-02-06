@@ -403,7 +403,7 @@ int CMainDocument::OnPoll() {
         pFrame->UpdateStatusText(_("Starting client services; please wait..."));
 
         if (m_pClientManager->StartupBOINCCore()) {
-            Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
+            Connect(wxT("localhost"), GUI_RPC_PORT, wxEmptyString, TRUE, TRUE);
         } else {
             m_pNetworkConnection->ForceDisconnect();
             pFrame->ShowDaemonStartFailedAlert();

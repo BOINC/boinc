@@ -1201,3 +1201,12 @@ David  Feb 5 2008
 
     sched/
         delete_file.C
+
+David  Feb 5 2008
+	- win compile fixes
+
+	client/
+		sim_util.C
+	clientgui/
+		BOINCBaseFrame.cpp
+		MainDocument.cpp

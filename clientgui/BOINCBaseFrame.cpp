@@ -364,11 +364,13 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
         {
             ShowAlert(
                 strDialogTitle,
-                _("Authorization failed connecting to running client."
 #ifndef __WXMAC__
+                _("Authorization failed connecting to running client."
                   "\nMake sure you start this program in the same directory as the client."
-#endif
                 ),
+#else
+                _("Authorization failed connecting to running client."),
+#endif
                 wxOK | wxICON_ERROR
             );
         }

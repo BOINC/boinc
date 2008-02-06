@@ -43,6 +43,10 @@
 
 //////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
 
+double dtime() {
+    return 0;
+}
+
 CLIENT_STATE::CLIENT_STATE() {
     initialized = false;
     retry_shmem_time = 0;
