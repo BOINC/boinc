@@ -59,6 +59,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bReconnectOnError = false;
     m_bNewConnection = false;
     m_bUsedDefaultPassword = false;
+    m_iPort = GUI_RPC_PORT,
     m_iReadGUIRPCAuthFailure = 0;
 }
 
@@ -157,9 +158,9 @@ void CNetworkConnection::Poll() {
             //   timeout event right after boot-up.
             //
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpc.init_asynch(NULL, 60.0, true);
+                retval = m_pDocument->rpc.init_asynch(NULL, 60.0, true, m_iPort);
             } else {
-                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60.0, false);
+                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60.0, false, m_iPort);
             }
 
             if (!retval) {
@@ -212,13 +213,17 @@ bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
 }
 
 
-int CNetworkConnection::SetComputer(const wxChar* szComputer, const wxChar* szPassword,  const bool bUseDefaultPassword) {
+int CNetworkConnection::SetComputer(
+    const wxChar* szComputer, const int iPort, const wxChar* szPassword,
+    const bool bUseDefaultPassword
+) {
     m_strNewComputerName.Empty();
     m_strNewComputerPassword.Empty();
     m_bUseDefaultPassword = FALSE;
 
     m_bNewConnection = true;
     m_strNewComputerName = szComputer;
+    m_iPort = iPort;
     m_strNewComputerPassword = szPassword;
     m_bUseDefaultPassword = bUseDefaultPassword;
     return 0;
@@ -478,12 +483,12 @@ int CMainDocument::ResetState() {
 }
 
 
-int CMainDocument::Connect(const wxChar* szComputer, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
+int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
     if (bDisconnect) {
         m_pNetworkConnection->ForceReconnect();
     }
 
-    m_pNetworkConnection->SetComputer(szComputer, szComputerPassword, bUseDefaultPassword);
+    m_pNetworkConnection->SetComputer(szComputer, iPort, szComputerPassword, bUseDefaultPassword);
     m_pNetworkConnection->FireReconnectEvent();
     return 0;
 }

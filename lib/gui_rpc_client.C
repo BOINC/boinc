@@ -109,11 +109,13 @@ int RPC_CLIENT::init(const char* host, int port) {
     return 0;
 }
 
-int RPC_CLIENT::init_asynch(const char* host, double _timeout, bool _retry) {
+int RPC_CLIENT::init_asynch(
+    const char* host, double _timeout, bool _retry, int port
+) {
     int retval;
 	memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(GUI_RPC_PORT);
+    addr.sin_port = htons(port);
     retry = _retry;
     timeout = _timeout;
 

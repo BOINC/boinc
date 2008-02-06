@@ -1165,3 +1165,15 @@ David  Feb 5 2008
     sched/
         Makefile.am
         trickle_handler.C
+
+David  Feb 5 2008
+    - Manager/client: add the ability to specify a port
+        in the manager's "select host" dialog.
+        Lets you connect over an SSH tunnel.
+        From Der Meister.
+
+    clientgui/
+        AdvancedFrame.cpp
+        MainDocument.cpp,h
+    lib/
+        gui_rpc_client.C,h
