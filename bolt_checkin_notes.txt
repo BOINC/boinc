@@ -109,3 +109,16 @@ David  Feb 6 2008
         user/
             bolt_course.php
             bolt_sched.php
+
+David  Feb 7 2008
+    - fixed bugs in review and repeat
+
+    html/
+        inc/
+            bolt.inc
+            bolt_rnd.inc
+            bolt_select.inc
+            bolt_seq.inc
+            bolt_xset.inc
+        user/
+            bolt_sched.php

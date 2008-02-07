@@ -6,15 +6,25 @@ class BoltRandom extends BoltSet {
         parent::__construct($name, $units, $number);
     }
 
-    function order(&$state_rec) {
+    function order(&$iter) {
+        $state_rec = $iter->state[$this->name];
         if ($state_rec) {
-            $seed = $state_rec['seed'];
+            if (array_key_exists('seed', $state_rec)) {
+                $seed = $state_rec['seed'];
+            } else {
+                $seed = ((double)microtime()*1000000);
+                $state_rec['seed'] = $seed;
+                $iter->state[$this->name] = $state_rec;
+            }
         } else {
+            $state_rec = $this->init();
             $seed = ((double)microtime()*1000000);
             $state_rec['seed'] = $seed;
+            $iter->state[$this->name] = $state_rec;
         }
         srand($seed);
         shuffle($this->units);
+        $this->ordered = true;
     }
 }
 

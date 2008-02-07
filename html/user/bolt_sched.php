@@ -168,7 +168,7 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
             require($item->filename);
             if (function_exists('bolt_divide')) bolt_divide();
             $score_pct = number_format($bolt_ex_score*100);
-            echo "Your score: $score_pct%";
+            echo "Score: $score_pct%";
             break;
         }
     } else {
@@ -177,7 +177,8 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     }
 
     if ($repeat) {
-        echo "<p>Your average score on this group of exercises: $repeat->avg_score";
+        $avg = number_format($repeat->avg_score*100, 0);
+        echo "<p>Score on this exercise set: $avg%";
         if ($repeat->flags & REVIEW) {
             //echo "<pre>";
             //print_r($repeat);
@@ -303,16 +304,23 @@ case 'start':
     }
     $e = BoltEnrollment::lookup($user->id, $course_id);
     if ($e) {
-        page_head("Confirm start");
+        page_header("Confirm restart");
         echo "You are already enrolled in $course->name.
-            Are you sure you want to start from the beginning?
+            <p>
+            Are you sure you want to start over from the beginning?
+            <p>
         ";
         show_button(
             "bolt_sched.php?action=start_confirm&$url_args",
             "Yes",
             "Start this course from the beginning"
         );
-        page_tail();
+        show_button(
+            "bolt_sched.php?action=resume&$url_args",
+            "Resume",
+            "Resume course from current position"
+        );
+        page_footer();
         exit();
     }
     // fall through

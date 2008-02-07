@@ -60,14 +60,25 @@ class BoltExercise extends BoltItem {
     }
 }
 
-// Base class for control structures (i.e. all units that are not items).
-// These have the following properties:
+// Base class for control structures (all units other than items).
+// The state of a control structure has two parts:
+// 1) a transient PHP object
+// 2) a persistent "state record" (stored in JSON in the DB)
+//
+// The PHP object has the following properties:
 // - a set of units
-// - an ordering of this set, defined in the derived class
+// - ordered: a flag for whether the set has been ordered yet
+// - order($state_rec): a function for ordering this set,
+//   defined in the derived class
 //   (i.e., random, student-specific, or identity)
-// - an index (state_rec::index) for where we are in this list
-// - an index (state_rec::nshown) for how many units completed so far
-// - a number "ntoshow" for how many to show
+//   This orders the set, sets "ordered", and adds info to the state rec
+//   saying how the ordering was done (e.g. RNG seed)
+// - a number "ntoshow" for how many units to show
+//
+// The state record has the following items:
+// - index: index into the unit array
+// - nshown: for how many units completed so far
+// - child_name: name of current child, or null
 //
 class BoltSet extends BoltUnit {
     public $units;
@@ -79,7 +90,27 @@ class BoltSet extends BoltUnit {
         $this->ordered = false;
     }
 
-    function finished() {
+    // restart this unit
+    //
+    function restart(&$iter) {
+        $state_rec = $iter->state[$this->name];
+        if (!$state_rec) $state_rec = $this->init();
+        $state_rec['nshown'] = 0;
+        $state_rec['child_name'] = null;
+        $iter->state[$this->name] = $state_rec;
+    }
+
+    // initialize this unit (once per course)
+    //
+    function init(&$iter) {
+        $state_rec = array();
+        $state_rec['index'] = 0;
+        $iter->state[$this->name] = $state_rec;
+        return $state_rec;
+    }
+
+    function finished(&$iter) {
+        $this->restart($iter);
     }
 
     function walk(&$iter, $incr, &$frac_done) {
@@ -89,8 +120,7 @@ class BoltSet extends BoltUnit {
             $child_name = $state_rec['child_name'];
             $nshown = $state_rec['nshown'];
             if (!$this->ordered) {
-                $this->order($state_rec);
-                $this->ordered = true;
+                $this->order($iter);
             }
 
             // look up unit by name
@@ -128,10 +158,7 @@ class BoltSet extends BoltUnit {
                     $nshown++;
                     if ($nshown == $this->ntoshow) {
                         $frac_done = 1;
-                        $state_rec['nshown'] = 0;
-                        $state_rec['child_name'] = null;
-                        $iter->state[$this->name] = $state_rec;
-                        $this->finished();
+                        $this->finished($iter);
                         return true;
                     } else {
                         $i = ($i+1)%$n;
@@ -143,14 +170,16 @@ class BoltSet extends BoltUnit {
             //
             $i = 0;
             $nshown = 0;
-            $state_rec = null;
-            $this->order($state_rec);
+            $this->init($iter);
+            $this->order($iter);
         }
 
-        // at this point, $i is index of current child
+        // at this point, $i is index of current child, $nshown is valid,
+        // and this unit has a record in the state array
         //
         $child = $this->units[$i];
         $frac_done = $nshown/$n;
+        $state_rec = $iter->state[$this->name];
         $state_rec['index'] = $i;
         $state_rec['nshown'] = $nshown;
         $state_rec['child_name'] = $child->name;

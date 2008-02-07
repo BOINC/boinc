@@ -20,7 +20,9 @@ class BoltSelect extends BoltSet {
             $u->value = $func($student, $u);
         }
         usort($this->units, 'select_cmp');
+        $this->ordered = true;
     }
+
     function finished() {
         global $user;
         global $course;
