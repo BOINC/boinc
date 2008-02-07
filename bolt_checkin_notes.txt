@@ -99,3 +99,13 @@ David  Feb 1 2008
         user/
             bolt.php
             bolt_sched.php
+
+David  Feb 6 2008
+    - implemented question mechanism
+
+    html/
+        inc/
+            bolt.inc
+        user/
+            bolt_course.php
+            bolt_sched.php

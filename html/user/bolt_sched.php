@@ -62,28 +62,42 @@ function create_view($iter, $mode, $prev_view_id) {
     return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done, prev_view_id) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done, $prev_view_id)");
 }
 
+function page_header($title) {
+    echo "<html><head><title>$title</title>
+        <link rel=stylesheet type=text/css href=white.css>
+        </head><body>
+    ";
+    if (function_exists('bolt_header')) bolt_header($title);
+}
+
+function page_footer() {
+    if (function_exists('bolt_footer')) bolt_footer();
+    echo "</body></html>";
+}
+
 // show a page saying the course has been completed
 //
 function show_finished_page($view_id, $prev_view_id) {
     global $course;
     global $url_args;
 
-    if (function_exists('bolt_header')) bolt_header("Course completed");
+    page_header("Course completed");
     echo "Congratulations - you have completed this course.";
     $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><img src=img/prev.gif></a>";
     $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Course home page</a>";
-    show_nav($links, $up_link);
-    if (function_exists('bolt_footer')) bolt_footer();
+    show_nav($links, $up_link, $view_id);
+    page_footer();
 }
 
 function show_refresh_finished() {
-    if (function_exists('bolt_header')) bolt_header("Refresh completed");
+    page_header("Refresh completed");
     echo "Refresh finished";
-    if (function_exists('bolt_footer')) bolt_footer();
+    page_footer();
 }
 
-function show_nav($links, $up_link) {
+function show_nav($links, $up_link, $view_id) {
     global $course;
+
     echo "<p><center>
         <table width=60%><tr>
     ";
@@ -93,9 +107,14 @@ function show_nav($links, $up_link) {
     echo "</tr></table> </center>
         <hr>
         <br>
-        <textarea cols=60>Enter question or comment here</textarea>
+        <form action=bolt_sched.php>
+        <input type=hidden name=course_id value=$course->id>
+        <input type=hidden name=action value=question>
+        <input type=hidden name=view_id value=$view_id>
+        <textarea name=question cols=60>Enter question or comment here</textarea>
         <br>
         <input type=submit value=Submit>
+        </form>
         <p>
         $up_link
     ";
@@ -114,7 +133,7 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     global $url_args;
 
     $item = $iter->item;
-    if (function_exists('bolt_header')) bolt_header($item->title);
+    page_header($item->title);
     $bolt_query_string = $item->query_string;
 
     $links = array();
@@ -158,16 +177,17 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     }
 
     if ($repeat) {
+        echo "<p>Your average score on this group of exercises: $repeat->avg_score";
         if ($repeat->flags & REVIEW) {
-            echo "<pre>";
-            print_r($repeat);
-            echo "</pre>";
+            //echo "<pre>";
+            //print_r($repeat);
+            //echo "</pre>";
             $name = urlencode($repeat->unit->name);
-            $r = "<a href=bolt_sched.php?$url_args&action=review&view_id=$view_id&unit_name=$name>Review</a>";
+            $r = "<a href=bolt_sched.php?$url_args&action=review&view_id=$view_id&unit_name=$name>Review, then repeat exercises</a>";
             $links[] = $r;
         }
         if ($repeat->flags & REPEAT) {
-            $r = "<a href=bolt_sched.php?$url_args&action=repeat&view_id=$view_id>Repeat</a>";
+            $r = "<a href=bolt_sched.php?$url_args&action=repeat&view_id=$view_id>Repeat exercises</a>";
             $links[] = $r;
         }
         if ($repeat->flags & NEXT) {
@@ -178,9 +198,9 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     }
 
     $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Course home page</a>";
-    show_nav($links, $up_link);
+    show_nav($links, $up_link, $view_id);
 
-    if (function_exists('bolt_footer')) bolt_footer();
+    page_footer();
 
     if ($refresh) {
         $refresh->update("last_view_id=$view_id");
@@ -203,14 +223,13 @@ function show_answer_page($iter, $score) {
     $bolt_ex_index = 0;
 
     $item = $iter->item;
-    page_head(null);
-    if (function_exists('bolt_header')) bolt_header($item->title);
+    page_header($item->title);
     $bolt_query_string = $item->query_string;
     require_once($item->filename);
     if (function_exists('bolt_divide')) bolt_divide();
     $score_pct = number_format($score*100);
     echo "Score: $score_pct%";
-    if (function_exists('bolt_footer')) bolt_footer();
+    page_footer();
 }
 
 function start_course() {
@@ -397,8 +416,10 @@ case 'answer':          // submit answer in exercise
 
     // If this is part of an exercise set, call its callback function
     //
+    $repeat = null;
     if ($iter->xset) {
         $is_last = $iter->xset->xset_callback($iter, $bolt_ex_score, $view->id, $avg_score, $repeat);
+        if ($repeat) $repeat->avg_score = $avg_score;
         if ($is_last) {
             // if the exercise set if finished, make or update DB records
             //
@@ -423,7 +444,6 @@ case 'answer':          // submit answer in exercise
 
     srand($view_id);
     $view_id = create_view($iter, BOLT_MODE_ANSWER, $view->id);
-    $repeat = null;
     show_item($iter, $view_id, $view->id, BOLT_MODE_ANSWER, $repeat);
     break;
 case 'answer_page':
@@ -481,7 +501,7 @@ case 'refresh':
     $refresh_id = get_int('refresh_id');
     $refresh = BoltRefreshRec::lookup_id($refresh_id);
     if (!$refresh) error_page("refresh not found");
-
+    // fall through
 case 'resume':
     if ($refresh) {
         if ($refresh->last_view_id) {
@@ -516,7 +536,6 @@ case 'resume':
         $view_orig = BoltView::lookup_id($view->prev_view_id);
         $result = BoltResult::lookup_id($view_orig->result_id);
         srand($view_orig->id);
-        echo "reshow: $result->response";
         $bolt_ex_query_string = $result->response;
         $bolt_ex_score = $result->score;
         $bolt_ex_index = 0;
@@ -526,6 +545,22 @@ case 'resume':
         $view_id = create_view($iter, $mode, $view->id);
         show_item($iter, $view_id, $view->id, $mode);
     }
+    break;
+case 'question':
+    $view = finalize_view($view_id, BOLT_ACTION_QUESTION);
+    $now = time();
+    $question = BoltDb::escape_string(get_str('question'));
+    BoltQuestion::insert("(create_time, user_id, course_id, name, question, state) values ($now, $user->id, $course->id, '$view->item_name', '$question', 0)");
+    page_header("Question recorded");
+    echo "
+        Thanks; we have recorded your question.
+        Questions help us improve this course.
+        We aren't able to individually respond to all questions.
+        Responses are delivered as private messages.
+        <p>
+        <a href=bolt_sched.php?$url_args&action=resume>Resume course</a>
+    ";
+    page_footer();
     break;
 default:
     error_page("unknown action: $action");

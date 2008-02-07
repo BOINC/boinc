@@ -199,7 +199,7 @@ function lesson() {
         }
     }
     if (!$name) {
-        error_page("Missing name in lesson");
+        $name = $file;
     }
     if (!$title) {
         $title = $name;
@@ -226,10 +226,7 @@ function exercise() {
         }
     }
     if (!$name) {
-        error_page("Missing name in lesson");
-    }
-    if (!$title) {
-        $title = $name;
+        $name = $file;
     }
     if (!$file) {
         error_page("Missing filename in lesson");
