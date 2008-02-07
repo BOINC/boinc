@@ -1257,3 +1257,14 @@ David  Feb 6 2008
 
     api/
         boinc_api.C
+
+Rom    Feb 7 2008
+    - client: expand the <force_ntlm> functionality so that we can
+        force any authentication type. The new tag is called
+        <force_auth> whihc can contain basic, digest, ntlm, and
+        gss-negotiate.
+        
+    client/
+        http_curl.C
+        log_flags.C, .h
+

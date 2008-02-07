@@ -103,7 +103,7 @@ struct CONFIG {
     bool report_results_immediately;
     double start_delay;
     bool run_apps_manually;
-    bool force_ntlm;
+    std::string force_auth;
 
     CONFIG();
     void defaults();

@@ -396,7 +396,7 @@ int HTTP_OP::libcurl_exec(
     // force curl to use HTTP/1.0 if config specifies it
 	// (curl uses 1.1 by default)
 	//
-	if (config.http_1_0 || config.force_ntlm) {
+	if (config.http_1_0 || (config.force_auth == "ntlm")) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 	}
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
@@ -801,7 +801,13 @@ void HTTP_OP::setupProxyCurl() {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-            if (config.force_ntlm) {
+            if        (config.force_auth == "basic") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
+            } else if (config.force_auth == "digest") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
+            } else if (config.force_auth == "gss-negotiate") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_GSSNEGOTIATE);
+            } else if (config.force_auth == "ntlm") {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
             } else {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);

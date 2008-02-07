@@ -206,7 +206,7 @@ void CONFIG::defaults() {
     report_results_immediately = false;
     start_delay = 0;
     run_apps_manually = false;
-    force_ntlm = false;
+    force_auth = "default";
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -252,7 +252,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
         if (xp.parse_double(tag, "start_delay", start_delay)) continue;
         if (xp.parse_bool(tag, "run_apps_manually", run_apps_manually)) continue;
-        if (xp.parse_bool(tag, "force_ntlm", force_ntlm)) continue;
+        if (xp.parse_string(tag, "force_auth", force_auth)) {
+            downcase_string(force_auth);
+            continue;
+        }
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
