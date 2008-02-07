@@ -35,6 +35,7 @@
 #include "file_names.h"
 #include "client_msgs.h"
 #include "parse.h"
+#include "str_util.h"
 #include "filesys.h"
 
 using std::string;
