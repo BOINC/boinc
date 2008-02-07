@@ -101,7 +101,7 @@ struct CONFIG {
     bool report_results_immediately;
     int max_stdout_file_size;
     int max_stderr_file_size;
-    bool force_ntlm;
+    std::string force_auth;
 
     CONFIG();
     void defaults();

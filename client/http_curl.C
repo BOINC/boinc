@@ -339,7 +339,7 @@ The checking this option controls is of the identity that the server claims. The
     // force curl to use HTTP/1.0 if config specifies it
 	// (curl uses 1.1 by default)
 	//
-	if (config.http_1_0 || config.force_ntlm) {
+	if (config.http_1_0 || (config.force_auth == "ntlm")) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 	}
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
@@ -758,12 +758,13 @@ void HTTP_OP::setupProxyCurl() {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-/* testing!
-            fprintf(stdout, "Using httpauth for proxy: %s:%d %s:%s\n",
-                pi.http_server_name, pi.http_server_port,
-                pi.http_user_name, pi.http_user_passwd);
-*/
-            if (config.force_ntlm) {
+            if        (config.force_auth == "basic") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
+            } else if (config.force_auth == "digest") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
+            } else if (config.force_auth == "gss-negotiate") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_GSSNEGOTIATE);
+            } else if (config.force_auth == "ntlm") {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
             } else {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
@@ -777,16 +778,12 @@ void HTTP_OP::setupProxyCurl() {
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
-            // libcurl uses blocking sockets with socks proxy, so limit timeout.
-            // - imlemented with local patch to libcurl
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
-
             if (
                 strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
             ) {
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             }
         }
     }
