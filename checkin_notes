@@ -1268,3 +1268,9 @@ Rom    Feb 7 2008
         http_curl.C
         log_flags.C, .h
 
+Charlie Feb 7 2008
+    - MGR: If use shuts down connected client, don't auto-relaunch it.
+    
+    clientgui/
+        MainDocument.cpp,h
+        AdvancedFrame.cpp

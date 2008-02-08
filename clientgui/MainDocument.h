@@ -131,6 +131,7 @@ public:
     int                         CachedStateLock();
     int                         CachedStateUnlock();
 
+    void                        ForceDisconnect();
     int                         FrameShutdownDetected();
     int                         CoreClientQuit();
 

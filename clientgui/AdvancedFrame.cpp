@@ -1267,7 +1267,8 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
         }
 
         pDoc->CoreClientQuit();
-
+        pDoc->ForceDisconnect();
+        
         // Since the core cliet we were connected to just shutdown, prompt for a new one.
         ProcessEvent(evtSelectNewComputer);
     }
