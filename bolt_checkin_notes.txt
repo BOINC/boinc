@@ -122,3 +122,11 @@ David  Feb 7 2008
             bolt_xset.inc
         user/
             bolt_sched.php
+
+David  Feb 8 2008
+    - removed "bolt_" from API functions.
+        I don't think this prefix is useful;
+        Bolt isn't going to be used within large existing PHP code
+
+    html/inc
+        bolt_ex.inc

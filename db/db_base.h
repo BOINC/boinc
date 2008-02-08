@@ -93,7 +93,7 @@ public:
     int insert();
     int insert_batch(std::string&);
     int update();
-    int update_field(const char*);
+    int update_field(const char*, const char* where_clause=NULL);
     int delete_from_db();
     int get_field_int(const char*, int&);
     int get_field_str(const char*, char*, int);

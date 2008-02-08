@@ -1274,3 +1274,17 @@ Charlie Feb 7 2008
     clientgui/
         MainDocument.cpp,h
         AdvancedFrame.cpp
+
+David  Feb 8 2008
+    - scheduler: do "careful update" of workunit.hr_class
+        in case someone else changed since we read it.
+        Hopefully this will fix a race condition
+        where WU results get sent to different HR classes.
+        (Alternatively we could use transactions,
+        or acquire the semaphore during read/update,
+        but this could impact performance).
+
+    db/
+        db_base.C,h
+    sched/
+        sched_hr.C

@@ -96,8 +96,12 @@ bool already_sent_to_different_platform_careful(
             wreq.hr_reject_temp = true;
         }
     } else {
-        sprintf(buf, "hr_class=%d", host_hr_class);
-        db_wu.update_field(buf);
+        // do a "careful update" to make sure the WU's hr_class hasn't
+        // changed since we read it earlier
+        //
+        sprintf(buf, "hr_class=%d", "hr_class=%d", host_hr_class, wu_hr_class);
+        retval = db_wu.update_field(buf);
+        if (retval) return true;
     }
     return wreq.hr_reject_temp;
 }
