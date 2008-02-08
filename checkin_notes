@@ -309,3 +309,10 @@ Rom    Feb 4 2008
     /
         configure.ac
         version.h
+
+Charlie Feb 7 2008
+    - MGR: If use shuts down connected client, don't auto-relaunch it.
+    
+    clientgui/
+        MainDocument.cpp,h
+        AdvancedFrame.cpp

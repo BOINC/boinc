@@ -36,6 +36,7 @@ public:
 
     void           Poll();
     void           FireReconnectEvent() { m_bConnectEvent = true; };
+    void           ForceDisconnect() { m_bForceReconnect = false; m_bReconnectOnError = false; m_bConnectEvent = false; SetStateDisconnected(); };
     void           ForceReconnect() { m_bForceReconnect = true; SetStateDisconnected(); };
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
@@ -110,6 +111,7 @@ public:
     int                         CachedStateLock();
     int                         CachedStateUnlock();
 
+    void                        ForceDisconnect();
     int                         FrameShutdownDetected();
     int                         CoreClientQuit();
 

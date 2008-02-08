@@ -478,6 +478,11 @@ bool CMainDocument::IsReconnecting() {
 }
 
 
+void CMainDocument::ForceDisconnect() {
+    return m_pNetworkConnection->ForceDisconnect();
+}
+
+
 int CMainDocument::FrameShutdownDetected() {
     return m_pNetworkConnection->FrameShutdownDetected();
 }
