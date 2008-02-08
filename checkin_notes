@@ -1288,3 +1288,9 @@ David  Feb 8 2008
         db_base.C,h
     sched/
         sched_hr.C
+
+Rom    Feb 9 2008
+    - client: only construct the path to ca-bundle.crt once.
+    
+    client/
+        http_curl.C
