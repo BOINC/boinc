@@ -309,3 +309,10 @@ Rom    Feb 4 2008
     /
         configure.ac
         version.h
+
+Charlie Feb 8 2008
+    - client: fix compile error (checked into tag 
+        boinc_core_release_5_10_41).
+
+    client/
+        log_flags.C
