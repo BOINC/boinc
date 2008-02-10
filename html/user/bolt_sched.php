@@ -338,7 +338,12 @@ case 'prev':
         $iter = new BoltIter($course_doc);
         $iter->decode_state($view->state);
         $iter->at();
-        $mode = default_mode($iter->item);
+        $mode = $view->mode;
+        if ($mode == BOLT_MODE_ANSWER) {
+            $v2 = BoltView::lookup_id($view->prev_view_id);
+            $result = BoltResult::lookup_id($v2->result_id);
+            $bolt_ex_query_string = $result->response;
+        }
         $view_id = create_view($iter, $mode, $view->prev_view_id);
         show_item($iter, $view_id, $view->prev_view_id, $mode);
     } else {

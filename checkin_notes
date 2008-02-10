@@ -1294,3 +1294,11 @@ Rom    Feb 9 2008
     
     client/
         http_curl.C
+
+David  Feb 9 2008
+    - scheduler: fix bone-head mistake in HR code
+
+    client/
+        app_control.C
+    sched/
+        sched_hr.C

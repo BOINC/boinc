@@ -76,7 +76,7 @@ bool already_sent_to_different_platform_careful(
 ) {
     DB_WORKUNIT db_wu;
     int retval, wu_hr_class;
-    char buf[256];
+    char buf[256], buf2[256];
 
     // reread hr_class field from DB in case it's changed
     //
@@ -99,8 +99,9 @@ bool already_sent_to_different_platform_careful(
         // do a "careful update" to make sure the WU's hr_class hasn't
         // changed since we read it earlier
         //
-        sprintf(buf, "hr_class=%d", "hr_class=%d", host_hr_class, wu_hr_class);
-        retval = db_wu.update_field(buf);
+        sprintf(buf, "hr_class=%d", host_hr_class);
+        sprintf(buf2, "hr_class=%d", wu_hr_class);
+        retval = db_wu.update_field(buf, buf2);
         if (retval) return true;
     }
     return wreq.hr_reject_temp;
