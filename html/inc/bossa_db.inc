@@ -22,18 +22,16 @@ class BossaDb extends DbConn {
         }
         return $instance;
     }
+    static function escape_string($string) {
+        $db = self::get();
+        return $db->base_escape_string($string);
+    }
 }
 
 class BossaApp {
-    function insert() {
+    function insert($clause) {
         $db = BossaDb::get();
-        if (!isset($this->long_jobs)) $this->long_jobs = 0;
-        $now = time();
-        $query = "insert into DBNAME.bossa_app (create_time, name, user_friendly_name, long_jobs, start_url) values ($now, '$this->name', '$this->user_friendly_name', $this->long_jobs, '$this->start_url')";
-        $result = $db->do_query($query);
-        if (!$result) return false;
-        $this->id = $db->insert_id();
-        return true;
+        return $db->insert('bossa_app', $clause);
     }
 
     static function lookup_name($name) {
@@ -56,7 +54,7 @@ class BossaJob {
     function insert() {
         $db = BossaDb::get();
         $now = time();
-        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, more_needed, npending, nsuccess, nsuccess_needed) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, 1, 0, 0, $this->nsuccess_needed)";
+        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, nneeded) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, $this->nneeded)";
         $result = $db->do_query($query);
         if (!$result) {
             echo "$query\n";
@@ -114,8 +112,9 @@ class BossaJobInst {
         // this query skips jobs for which this user
         // has already been assigned an instance
         //
+        // TODO: put the following in a transaction
         $db = BossaDb::get();
-        $query = "select bossa_job.* from DBNAME.bossa_job left join DBNAME.bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.more_needed<>0 and bossa_job_inst.user_id is null limit 1";
+        $query = "select bossa_job.* from DBNAME.bossa_job left join DBNAME.bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.nneeded>0 and bossa_job_inst.user_id is null limit 1";
         $result = $db->do_query($query);
         if (!$result) return null;
         $job = mysql_fetch_object($result, 'BossaJob');
@@ -130,6 +129,8 @@ class BossaJobInst {
             echo mysql_error();
             return null;
         }
+
+        $job->update("nneeded=nneeded-1");
         return $ji;
     }
 

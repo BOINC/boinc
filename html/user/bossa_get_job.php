@@ -17,7 +17,7 @@ if (!$app) {
 
 $ji = BossaJobInst::assign($app, $user);
 if ($ji) {
-    $url = $app->start_url."?bji=$ji->id";
+    $url = $app->display_script."?bji=$ji->id";
     Header("Location: $url");
 } else {
     page_head("No jobs available");

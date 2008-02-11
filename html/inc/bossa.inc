@@ -15,6 +15,9 @@ class Bossa {
         if ($bji->user_id != $user->id) {
             error_page("Bad user ID");
         }
+        if ($bji->finish_time) {
+            error_page("You already finished this job");
+        }
         $bj = BossaJob::lookup_id($bji->job_id);
         if (!$bj) {
             error_page("No such job");

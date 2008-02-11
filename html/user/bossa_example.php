@@ -3,42 +3,43 @@
 require_once("../inc/bossa.inc");
 
 // Bossa example.
-// Show the user an image and ask them whether it's a zero or one.
+// Show the user an image and ask them to click on the ellipse
 
 function show_job($bj, $bji) {
-    if ($bji->finish_time) {
-        error_page("You already finished this job");
-    }
     $info = json_decode($bj->info);
-    $img_url = "http://boinc.berkeley.edu/images/number_".$info->number.".jpg";
+    print_r($info);
+    $img_url = $info->url;
     echo "
         <form method=get action=bossa_example.php>
-        <input type=hidden name=bji value=$bji->id>
-        <img src=$img_url>
+        Click on the center of the ellipse.
+        If you don't see one, click here:
+        <input type=submit name=submit value=None>
         <br>
-        The picture shows a
-        <br><input type=radio name=response value=0> zero
-        <br><input type=radio name=response value=1> one
-        <br><input type=radio name=response value=2 checked> not sure
-        <br><br><input type=submit name=submit value=OK>
+        <input type=hidden name=bji value=$bji->id>
+        <input type=hidden name=completion value=1>
+        <input type=image name=pic src=$img_url>
         </form>
     ";
 }
 
 function handle_job_completion($bj, $bji) {
     $response = null;
-    $response->number = get_int('response');
+    if (get_str('submit', true)) {
+        $response->have_ellipse = 0;
+    } else {
+        $response->have_ellipse = 1;
+        $pic = $_GET['pic'];
+        $response->cx = $pic.x;
+        $response->cy = $pic.y;
+    }
     $bji->info = json_encode($response);
     $bji->completed($bj);
-
-    // show another job immediately
-    //
-    Bossa::show_next_job($bj);
+    Bossa::show_next_job($bj);    // show another job immediately
 }
 
 Bossa::script_init($user, $bj, $bji);
 
-if (isset($_GET['submit'])) {
+if (isset($_GET['completion'])) {
     handle_job_completion($bj, $bji);
 } else {
     show_job($bj, $bji);

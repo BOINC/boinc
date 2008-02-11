@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("Feb 11, 2008",
+    "Bulgarian BOINC users:
+    find forums and information in your language at
+    <a href=http://www.boinc-bulgaria.net>BOINC Bulgaria</a>."
+),
 array("Feb 7, 2008",
     "<a href=http://biology.polytechnique.fr/proteinsathome>Proteins@Home</a>
     has resumed operations.
