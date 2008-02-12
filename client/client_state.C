@@ -118,6 +118,10 @@ CLIENT_STATE::CLIENT_STATE():
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
     detach_console = false;
+#ifdef _WIN32
+    strcpy(sandbox_account_name, "");
+    strcpy(sandbox_account_password, "");
+#endif
 #ifdef SANDBOX
     g_use_sandbox = true; // User can override with -insecure command-line arg
 #endif
@@ -207,6 +211,7 @@ int CLIENT_STATE::init() {
             "BOINC is running as a service and as a non-system user."
         );
     }
+    read_client_auth_file();
 #endif
 
 #ifdef __APPLE__

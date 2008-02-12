@@ -65,7 +65,7 @@ class BossaJob {
     }
     function update($clause) {
         $db = BossaDb::get();
-        return $db->update('bossa_job', $clause);
+        return $db->update($this, 'bossa_job', $clause);
     }
     static function lookup_id($id) {
         $db = BossaDb::get();
@@ -140,10 +140,8 @@ class BossaJobInst {
         $this->finish_time = time();
         $this->update("finish_time=$this->finish_time, info='$this->info'");
 
-        $job->npending--;
-        $job->nsuccess++;
-        $job->more_needed = ($job->npending+$job->nsuccess < $job->nsuccess_needed);
-        return $job->update("npending=$job->npending, nsuccess=$job->nsuccess, more_needed=$job->more_needed");
+        $now = time();
+        return $job->update("transition_time=$now");
     }
 
     // The given job instance has timed out.

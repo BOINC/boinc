@@ -71,42 +71,9 @@ extern int boinc_calling_thread_cpu_time(double&);
 //
 extern void mysql_timestamp(double, char*);
 
-// C++ API follows 
-#ifdef __cplusplus
-
-class MIOFILE;
-
-class BOINC_PROJECT_ACCOUNT {
-public:
-    std::string username;
-    std::string password;
-
-    BOINC_PROJECT_ACCOUNT() { clear(); }
-    ~BOINC_PROJECT_ACCOUNT() { clear(); }
-
-    int parse(MIOFILE&);
-    void clear();
-};
-
-class CLIENT_AUTHORIZATION {
-public:
-    bool use_authorizations;
-    BOINC_PROJECT_ACCOUNT boinc_project;
-
-    CLIENT_AUTHORIZATION() { clear(); }
-    ~CLIENT_AUTHORIZATION() { clear(); }
-
-    int parse(MIOFILE&);
-    int init();
-    void clear();
-};
-
-#endif // C++ part
-
-
 #ifdef _WIN32
 extern int run_program(
-    const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&
+    const char* path, const char* cdir, int argc, char *const argv[], double
 );
 extern void kill_program(HANDLE);
 extern int get_exit_status(HANDLE);

@@ -286,62 +286,12 @@ void update_average(
 //
 #ifdef _WIN32
 
-void BOINC_PROJECT_ACCOUNT::clear() {
-    username.clear();
-    password.clear();
-}
-
-int BOINC_PROJECT_ACCOUNT::parse(MIOFILE& in) {
-    char buf[256];
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</boinc_project>")) return 0;
-        if (parse_str(buf, "<username>", username)) continue;
-        if (parse_str(buf, "<password>", password)) continue;
-    }
-    return ERR_XML_PARSE;
-}
-
-
-void CLIENT_AUTHORIZATION::clear() {
-    use_authorizations = false;
-    boinc_project.clear();
-}
-
-int CLIENT_AUTHORIZATION::parse(MIOFILE& in) {
-    char buf[256];
-    use_authorizations = true;
-
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</client_authorization>")) return 0;
-        if (match_tag(buf, "<boinc_project>")) {
-            boinc_project.parse(in);
-            continue;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int CLIENT_AUTHORIZATION::init() {
-    MIOFILE mf;
-    FILE*   p;
-
-    clear();
-    p = fopen("client_auth.xml", "r");
-    if (p) {
-        mf.init_file(p);
-        parse(mf);
-        fclose(p);
-    }
-    return 0;
-}
-
 int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    CLIENT_AUTHORIZATION ca;
     char cmdline[1024];
     unsigned long status;
 
@@ -357,55 +307,19 @@ int run_program(
         }
     }
 
-    ca.init();
-    if (ca.use_authorizations) {
-        HANDLE hToken;
-        std::string username = ca.boinc_project.username;
-        std::string password = r_base64_decode(ca.boinc_project.password);
-        retval = LogonUser(
-            username.c_str(),
-            NULL,
-            password.c_str(),
-            LOGON32_LOGON_SERVICE,
-            LOGON32_PROVIDER_DEFAULT,
-            &hToken
-        );
-        if (!retval) {
-            return -1; // LogonUser returns 1 if successful, false if it failed.
-        }
+    retval = CreateProcess(
+        file,
+        cmdline,
+        NULL,
+        NULL,
+        FALSE,
+        0,
+        NULL,
+        dir,
+        &startup_info,
+        &process_info
+    );
 
-        retval = CreateProcessAsUser(
-            hToken,
-            file,
-            cmdline,
-            NULL,
-            NULL,
-            FALSE,
-            0,
-            NULL,
-            dir,
-            &startup_info,
-            &process_info
-        );
-
-        CloseHandle(hToken);
-
-    } else {
-
-        retval = CreateProcess(
-            file,
-            cmdline,
-            NULL,
-            NULL,
-            FALSE,
-            0,
-            NULL,
-            dir,
-            &startup_info,
-            &process_info
-        );
-
-    }
     if (!retval) {
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }

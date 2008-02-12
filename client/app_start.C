@@ -328,10 +328,6 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF fref;
     FILE_INFO* fip;
     int retval;
-#ifdef _WIN32
-    CLIENT_AUTHORIZATION ca;
-    std::string cmd_line;
-#endif
 
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
@@ -465,6 +461,7 @@ int ACTIVE_TASK::start(bool first_time) {
     STARTUPINFO startup_info;
     char slotdirpath[256];
     char error_msg[1024];
+    std::string cmd_line;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -498,16 +495,15 @@ int ACTIVE_TASK::start(bool first_time) {
     cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
-    ca.init();
     for (i=0; i<5; i++) {
-        if (ca.use_authorizations) {
+        if (strlen(gstate.sandbox_user_account_name) {
             HANDLE hToken;
-            std::string username = ca.boinc_project.username;
-            std::string password = r_base64_decode(ca.boinc_project.password);
+            std::string username = gstate.sandbox_user_account_name;
+            std::string password = r_base64_decode(gstate.sandbox_user_account_password);
             if (!LogonUser( username.c_str(), NULL, password.c_str(), 
-                            LOGON32_LOGON_SERVICE, LOGON32_PROVIDER_DEFAULT,
-                            &hToken ) )
-            {
+                LOGON32_LOGON_SERVICE, LOGON32_PROVIDER_DEFAULT,
+                &hToken)
+            ) {
                 windows_error_string(error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "LogonUser failed: %s", error_msg

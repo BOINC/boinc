@@ -28,9 +28,8 @@ function handle_job_completion($bj, $bji) {
         $response->have_ellipse = 0;
     } else {
         $response->have_ellipse = 1;
-        $pic = $_GET['pic'];
-        $response->cx = $pic.x;
-        $response->cy = $pic.y;
+        $response->cx = get_int('pic_x');
+        $response->cy = get_int('pic_y');
     }
     $bji->info = json_encode($response);
     $bji->completed($bj);
