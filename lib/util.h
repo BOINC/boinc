@@ -72,7 +72,8 @@ extern int boinc_calling_thread_cpu_time(double&);
 extern void mysql_timestamp(double, char*);
 
 #ifdef _WIN32
-extern HANDLE sandbox_account_token = NULL;
+extern HANDLE sandbox_account_token;
+extern void get_sandbox_account_token();
 extern int run_program(
     const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&
 );

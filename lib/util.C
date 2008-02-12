@@ -75,6 +75,10 @@ using std::vector;
 #define EPOCHFILETIME_SEC (11644473600.)
 #define TEN_MILLION 10000000.
 
+#ifdef _WIN32
+HANDLE sandbox_account_token = NULL;
+#endif
+
 // return time of day (seconds since 1970) as a double
 //
 double dtime() {
@@ -294,8 +298,8 @@ void get_sandbox_account_token() {
         if (parse_str(buf, "<password>", password, sizeof(password))) continue;
     }
     fclose(f);
-    std::string password_str = r_base64_decode(ca.boinc_project.password); 
-    retval = LogonUser( 
+    std::string password_str = r_base64_decode(password); 
+    int retval = LogonUser( 
         username,
         NULL, 
         password_str.c_str(), 

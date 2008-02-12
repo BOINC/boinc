@@ -515,9 +515,6 @@ int ACTIVE_TASK::start(bool first_time) {
                 success = true;
                 break;
             }
-
-            CloseHandle(hToken);
-
         } else {
             if (CreateProcess(
                 exec_path,
