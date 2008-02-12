@@ -418,7 +418,7 @@ bool CLIENT_STATE::compute_work_requests() {
     for (i=0; i< projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->non_cpu_intensive) {
-            if (p->runnable() || !p->contactable()) {
+            if (p->nearly_runnable() || !p->contactable() || p->some_result_suspended()) {
                 p->work_request = 0;
                 p->work_request_urgency = WORK_FETCH_DONT_NEED;
             } else {
