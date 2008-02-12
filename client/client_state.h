@@ -111,11 +111,7 @@ public:
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
-#ifdef _WIN32
-    char sandbox_account_name[256];
-    char sandbox_account_password[256];
-    void read_client_auth_file();
-#else
+#ifndef _WIN32
     gid_t boinc_project_gid;
 #endif
 

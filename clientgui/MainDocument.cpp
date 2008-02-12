@@ -1181,7 +1181,9 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         char* argv[5];
 
         if (previous_gfx_app) {
-            // If this graphics app is already running, just bring it to the front
+            // If this graphics app is already running,
+            // just bring it to the front
+            //
             if (! GetProcessForPID(previous_gfx_app->pid, &gfx_app_psn)) {
                 SetFrontProcess(&gfx_app_psn);
             }
@@ -1190,6 +1192,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         // For unknown reasons, the graphics application exits with 
         // "RegisterProcess failed (error = -50)" unless we pass its 
         // full path twice in the argument list to execv.
+        //
         argv[0] = "switcher";
         argv[1] = (char *)result->graphics_exec_path.c_str();
         argv[2] = (char *)result->graphics_exec_path.c_str();
@@ -1219,6 +1222,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         char* argv[2];
 
         // If graphics app is already running, don't launch a second instance
+        //
         if (previous_gfx_app) return 0;
         argv[0] = "--graphics";
         argv[1] = 0;

@@ -5,9 +5,11 @@ require_once("../inc/util_ops.inc");
 
 function show_bapp($app) {
     echo "<tr>
-        <td>Name: $app->name<br>Description: $app->description<br>Created: ".date_str($app->create_time)."</td>
-        <td>$app->display_script</td>
-        <td>$app->backend_script</td>
+        <td>Name: $app->name<br>
+            Short name: $app->short_name<br>
+            Description: $app->description<br>
+            Created: ".date_str($app->create_time)."
+        </td>
         <td>
     ";
     if ($app->hidden) {
@@ -35,12 +37,11 @@ function add_app_form() {
     start_table();
     row1("Add app");
     row2("Name<span class=note><br>Visible to users</span>", "<input name=app_name>");
+    row2("Short name<span class=note><br>Used in file and function names - no spaces or special characters</span>", "<input name=short_name>");
     row2("Description<span class=note><br>Visible to users</span>", "<textarea name=description cols=60></textarea>");
-    row2("Display script filename", "<input name=display_script>");
-    row2("Backend script filename", "<input name=backend_script>");
-    row2("Min confidence sum for consensus", "<input name=min_conf_sum>");
-    row2("Min confidence fraction for consensus", "<input name=min_conf_frac>");
-    row2("Max instances", "<input name=max_instances>");
+    row2("Min confidence sum for consensus", "<input name=min_conf_sum value=2>");
+    row2("Min confidence fraction for consensus", "<input name=min_conf_frac value=\"0.5\">");
+    row2("Max job instances", "<input name=max_instances value=5>");
     row2("", "<input type=submit name=submit value=\"Create app\">");
     end_table();
     echo "</form>";

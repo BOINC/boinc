@@ -279,13 +279,41 @@ void update_average(
     avg_time = now;
 }
 
+#ifdef _WIN32
+void get_sandbox_account_token() {
+    FILE* f;
+    char buf[256], username[256], password[256];
+    static bool first=true;
+
+    if (!first) return;
+    first = true;
+    f = fopen(CLIENT_AUTH_FILENAME, "r");
+    if (!f) return;
+    while (fgets(buf, 256, f)) {
+        if (parse_str(buf, "<username>", username, sizeof(username))) continue;
+        if (parse_str(buf, "<password>", password, sizeof(password))) continue;
+    }
+    fclose(f);
+    std::string password_str = r_base64_decode(ca.boinc_project.password); 
+    retval = LogonUser( 
+        username,
+        NULL, 
+        password_str.c_str(), 
+        LOGON32_LOGON_SERVICE, 
+        LOGON32_PROVIDER_DEFAULT, 
+        &sandbox_account_token
+    );
+    if (!retval) sandbox_account_token = NULL;
+}
+#endif
+
 // chdir into the given directory, and run a program there.
 // If nsecs is nonzero, make sure it's still running after that many seconds.
 //
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
-#ifdef _WIN32
 
+#ifdef _WIN32
 int run_program(
     const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
@@ -307,18 +335,35 @@ int run_program(
         }
     }
 
-    retval = CreateProcess(
-        file,
-        cmdline,
-        NULL,
-        NULL,
-        FALSE,
-        0,
-        NULL,
-        dir,
-        &startup_info,
-        &process_info
-    );
+    get_sandbox_account_token();
+    if (sandbox_account_token != NULL) {
+        retval = CreateProcessAsUser( 
+            sandbox_account_token, 
+            file, 
+            cmdline, 
+            NULL, 
+            NULL, 
+            FALSE, 
+            0, 
+            NULL, 
+            dir, 
+            &startup_info, 
+            &process_info 
+        ); 
+    } else {
+        retval = CreateProcess(
+            file,
+            cmdline,
+            NULL,
+            NULL,
+            FALSE,
+            0,
+            NULL,
+            dir,
+            &startup_info,
+            &process_info
+        );
+    }
 
     if (!retval) {
         return -1; // CreateProcess returns 1 if successful, false if it failed.

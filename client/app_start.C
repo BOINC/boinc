@@ -496,23 +496,11 @@ int ACTIVE_TASK::start(bool first_time) {
     cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
+    get_sandbox_account_token();
     for (i=0; i<5; i++) {
-        if (strlen(gstate.sandbox_account_name)) {
-            HANDLE hToken;
-            std::string username = gstate.sandbox_account_name;
-            std::string password = r_base64_decode(gstate.sandbox_account_password);
-            if (!LogonUser( username.c_str(), NULL, password.c_str(), 
-                LOGON32_LOGON_SERVICE, LOGON32_PROVIDER_DEFAULT,
-                &hToken)
-            ) {
-                windows_error_string(error_msg, sizeof(error_msg));
-                msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "LogonUser failed: %s", error_msg
-                );
-            }
-
+        if (sandbox_account_token != NULL) {
             if (CreateProcessAsUser(
-                hToken,
+                sandbox_account_token,
                 exec_path,
                 (LPSTR)cmd_line.c_str(),
                 NULL,

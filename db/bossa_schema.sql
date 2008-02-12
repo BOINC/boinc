@@ -2,6 +2,7 @@ create table bossa_app (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
     name                varchar(255) not null,
+    short_name          varchar(255) not null,
     description         varchar(255) not null,
     long_jobs           tinyint     not null,
     display_script      varchar(255) not null,
@@ -25,7 +26,8 @@ create table bossa_job (
     time_estimate       integer     not null,
     time_limit          integer     not null,
     transition_time     double      not null,
-    nneeded             integer     not null,
+    conf_needed         double      not null,
+    canonical_inst_id   integer     not null,
     primary key(id)
 ) engine=InnoDB;
 
@@ -35,12 +37,15 @@ create table bossa_job_inst (
     job_id              integer     not null,
     user_id             integer     not null,
     finish_time         integer     not null,
+    validate_state      integer     not null,
+        -- 0 init, 1 valid, 2 invalid
     info                text,
     primary key(id)
 ) engine=InnoDB;
 
-create table bossa_app_user (
-    app_id              integer     not null,
+create table bossa_user (
     user_id             integer     not null,
     info                text
+        -- Info about skill.
+        -- May depend on app; may be scalar or something else
 );

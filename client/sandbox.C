@@ -38,22 +38,7 @@
 
 bool g_use_sandbox = false;
 
-#ifdef _WIN32
-
-void CLIENT_STATE::read_client_auth_file() {
-    FILE* f;
-    char buf[256];
-
-    f = fopen(CLIENT_AUTH_FILENAME, "r");
-    if (!f) return;
-    while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<username>", sandbox_account_name, sizeof(sandbox_account_name))) continue;
-        if (parse_str(buf, "<password>", sandbox_account_password, sizeof(sandbox_account_name))) continue;
-    }
-    fclose(f);
-}
-
-#else
+#ifndef _WIN32
 #ifndef _DEBUG
 static int lookup_group(char* name, gid_t& gid) {
     struct group* gp = getgrnam(name);

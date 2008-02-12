@@ -187,6 +187,7 @@ struct VERSION_INFO {
 #define REG_BLANK_NAME      "Blank"
 #define REG_BLANK_TIME      "Blank Time"
 #define REG_STARTUP_NAME    "BOINC"
+#define CLIENT_AUTH_FILENAME    "client_auth.xml"
 #else
 #define LOCK_FILE_NAME      "lockfile"
 #endif

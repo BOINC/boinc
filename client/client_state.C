@@ -211,7 +211,6 @@ int CLIENT_STATE::init() {
             "BOINC is running as a service and as a non-system user."
         );
     }
-    read_client_auth_file();
 #endif
 
 #ifdef __APPLE__
