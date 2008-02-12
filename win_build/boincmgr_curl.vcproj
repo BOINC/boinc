@@ -966,14 +966,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\sg_DlgPreferences.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgPreferences.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\sg_ImageButton.cpp"
 					>
 				</File>
@@ -2243,22 +2235,6 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\DlgAbout.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAdvPreferences.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAdvPreferences.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAdvPreferencesBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAdvPreferencesBase.h"
 					>
 				</File>
 				<File

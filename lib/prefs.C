@@ -35,90 +35,6 @@
 #include "error_numbers.h"
 #include "prefs.h"
 
-
-GLOBAL_PREFS_MASK::GLOBAL_PREFS_MASK() {
-    clear();
-}
-
-void GLOBAL_PREFS_MASK::clear() {
-    memset(this, 0, sizeof(GLOBAL_PREFS_MASK));
-}
-
-void GLOBAL_PREFS_MASK::set_all() {
-    run_on_batteries = true;
-    run_if_user_active = true;
-    idle_time_to_run = true;
-    suspend_if_no_recent_input = true;
-    start_hour = true;
-    end_hour = true;
-    net_start_hour = true;
-    net_end_hour = true;
-    leave_apps_in_memory = true;
-    confirm_before_connecting = true;
-    hangup_if_dialed = true;
-    dont_verify_images = true;
-    work_buf_min_days = true;
-    work_buf_additional_days = true;
-    max_ncpus_pct = true;
-    cpu_scheduling_period_minutes = true;
-    disk_interval = true;
-    disk_max_used_gb = true;
-    disk_max_used_pct = true;
-    disk_min_free_gb = true;
-    vm_max_used_frac = true;
-    ram_max_used_busy_frac = true;
-    ram_max_used_idle_frac = true;
-    idle_time_to_run = true;
-    max_bytes_sec_up = true;
-    max_bytes_sec_down = true;
-    cpu_usage_limit = true;
-}
-
-bool GLOBAL_PREFS_MASK::are_prefs_set() {
-    if (run_on_batteries) return true;
-    if (run_if_user_active) return true;
-    if (idle_time_to_run) return true;
-    if (suspend_if_no_recent_input) return true;
-    if (start_hour) return true;
-    if (end_hour) return true;
-    if (net_start_hour) return true;
-    if (net_end_hour) return true;
-    if (leave_apps_in_memory) return true;
-    if (confirm_before_connecting) return true;
-    if (hangup_if_dialed) return true;
-    if (dont_verify_images) return true;
-    if (work_buf_min_days) return true;
-    if (work_buf_additional_days) return true;
-    if (max_ncpus_pct) return true;
-    if (cpu_scheduling_period_minutes) return true;
-    if (disk_interval) return true;
-    if (disk_max_used_gb) return true;
-    if (disk_max_used_pct) return true;
-    if (disk_min_free_gb) return true;
-    if (vm_max_used_frac) return true;
-    if (ram_max_used_busy_frac) return true;
-    if (ram_max_used_idle_frac) return true;
-    if (idle_time_to_run) return true;
-    if (max_bytes_sec_up) return true;
-    if (max_bytes_sec_down) return true;
-    if (cpu_usage_limit) return true;
-    return false;
-}
-
-bool GLOBAL_PREFS_MASK::are_simple_prefs_set() {
-    if (start_hour) return true;
-    if (end_hour) return true;
-    if (net_start_hour) return true;
-    if (net_end_hour) return true;
-    if (disk_max_used_gb) return true;
-    if (cpu_usage_limit) return true;
-    if (run_on_batteries) return true;
-    if (run_if_user_active) return true;
-    if (idle_time_to_run) return true;
-    return false;
-}
-
-
 // TIME_SPAN implementation
 
 bool TIME_SPAN::suspended(double hour) const {
@@ -262,6 +178,46 @@ void WEEK_PREFS::unset(int day) {
     }
 }
 
+// Parses all venues (including the default nameless venue) into the supplied vector.
+// Also returns the requested venue, or the default venue if it isn't found.
+static int parse_global_prefs(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues, GLOBAL_PREFS* host_venue,
+                              const char* host_venue_name, bool& found_venue)
+{
+
+    char tag[256], venue_name[32];
+    bool is_tag;
+
+    found_venue = false;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "global_preferences")) {
+            // parse default venue
+            GLOBAL_PREFS* default_venue = new GLOBAL_PREFS();
+            host_venue = default_venue;
+            default_venue->parse_preference_tags(xp);
+            venues.push_back(default_venue);
+            continue;
+        }
+        if (!strcmp(tag, "/global_preferences")) {
+            return 0;
+        }
+        if (strstr(tag, "venue")) {
+            GLOBAL_PREFS* venue = new GLOBAL_PREFS();
+            parse_attr(tag, "name", venue_name, sizeof(venue_name));
+            if (!strcmp(venue_name, host_venue_name)) {
+                found_venue = true;
+                host_venue = venue;
+            }
+            strncpy(venue->venue_name, venue_name, sizeof(venue->venue_name));
+            venue->parse_preference_tags(xp);
+            venues.push_back(venue);
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 // The following values determine how the client behaves
 // if there are no global prefs (e.g. on our very first RPC).
 // These should impose minimal restrictions,
@@ -311,13 +267,15 @@ void GLOBAL_PREFS::clear_bools() {
 }
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
+    strcpy(venue_name, "");
+    strcpy(venue_description, "");
     defaults();
 }
 
 // Parse XML global prefs, setting defaults first.
 //
 int GLOBAL_PREFS::parse(
-    XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
+    XML_PARSER& xp, const char* host_venue, bool& found_venue
 ) {
     defaults();
     clear_bools();
@@ -327,7 +285,7 @@ int GLOBAL_PREFS::parse(
     mod_time = 0;
     host_specific = false;
 
-    return parse_override(xp, host_venue, found_venue, mask);
+    return parse_override(xp, host_venue, found_venue);
 }
 
 int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
@@ -389,14 +347,12 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
 // The start tag may or may not have already been parsed
 //
 int GLOBAL_PREFS::parse_override(
-    XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
+    XML_PARSER& xp, const char* host_venue, bool& found_venue
 ) {
     char tag[256], buf2[256];
     bool in_venue = false, in_correct_venue=false, is_tag;
-    double dtemp;
 
     found_venue = false;
-    mask.clear();
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
@@ -422,7 +378,6 @@ int GLOBAL_PREFS::parse_override(
                 if (!strcmp(buf2, host_venue)) {
                     defaults();
                     clear_bools();
-                    mask.clear();
                     in_correct_venue = true;
                     found_venue = true;
                 } else {
@@ -430,6 +385,30 @@ int GLOBAL_PREFS::parse_override(
                 }
                 continue;
             }
+        }
+        parse_preference_tags(xp);
+    }
+    return ERR_XML_PARSE;
+}
+
+// Parse global prefs, overriding whatever is currently in the structure.
+// xp must be positioned at the start of the structure to parse.
+// The opening tag is already consumed.
+//
+int GLOBAL_PREFS::parse_preference_tags(
+    XML_PARSER& xp
+) {
+    char tag[256];
+    bool is_tag;
+    double dtemp;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/global_preferences")) {
+            return 0;
+        }
+        if (!strcmp(tag, "/venue")) {
+            return 0;
         }
         if (xp.parse_str(tag, "source_project", source_project, sizeof(source_project))) continue;
         if (xp.parse_str(tag, "source_scheduler", source_scheduler, sizeof(source_scheduler))) {
@@ -443,35 +422,27 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_bool(tag, "run_on_batteries", run_on_batteries)) {
-            mask.run_on_batteries = true;
             continue;
         }
         if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) {
-            mask.run_if_user_active = true;
             continue;
         }
         if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
-            mask.idle_time_to_run = true;
             continue;
         }
         if (xp.parse_double(tag, "suspend_if_no_recent_input", suspend_if_no_recent_input)) {
-            mask.suspend_if_no_recent_input = true;
             continue;
         }
         if (xp.parse_double(tag, "start_hour", cpu_times.start_hour)) {
-            mask.start_hour = true;
             continue;
         }
         if (xp.parse_double(tag, "end_hour", cpu_times.end_hour)) {
-            mask.end_hour = true;
             continue;
         }
         if (xp.parse_double(tag, "net_start_hour", net_times.start_hour)) {
-            mask.net_start_hour = true;
             continue;
         }
         if (xp.parse_double(tag, "net_end_hour", net_times.end_hour)) {
-            mask.net_end_hour = true;
             continue;
         }
         if (!strcmp(tag, "day_prefs")) {
@@ -479,90 +450,72 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_bool(tag, "leave_apps_in_memory", leave_apps_in_memory)) {
-            mask.leave_apps_in_memory = true;
             continue;
         }
         if (xp.parse_bool(tag, "confirm_before_connecting", confirm_before_connecting)) {
-            mask.confirm_before_connecting = true;
             continue;
         }
         if (xp.parse_bool(tag, "hangup_if_dialed", hangup_if_dialed)) {
-            mask.hangup_if_dialed = true;
             continue;
         }
         if (xp.parse_bool(tag, "dont_verify_images", dont_verify_images)) {
-            mask.dont_verify_images = true;
             continue;
         }
         if (xp.parse_double(tag, "work_buf_min_days", work_buf_min_days)) {
             if (work_buf_min_days < 0.00001) work_buf_min_days = 0.00001;
-            mask.work_buf_min_days = true;
             continue;
         }
         if (xp.parse_double(tag, "work_buf_additional_days", work_buf_additional_days)) {
             if (work_buf_additional_days < 0) work_buf_additional_days = 0;
-            mask.work_buf_additional_days = true;
             continue;
         }
         if (xp.parse_double(tag, "max_ncpus_pct", max_ncpus_pct)) {
             if (max_ncpus_pct <= 0) max_ncpus_pct = 100;
             if (max_ncpus_pct > 100) max_ncpus_pct = 100;
-            mask.max_ncpus_pct = true;
             continue;
         }
         if (xp.parse_double(tag, "disk_interval", disk_interval)) {
             if (disk_interval<0) disk_interval = 0;
-            mask.disk_interval = true;
             continue;
         }
         if (xp.parse_double(tag, "cpu_scheduling_period_minutes", cpu_scheduling_period_minutes)) {
             if (cpu_scheduling_period_minutes < 0.0001) cpu_scheduling_period_minutes = 60;
-            mask.cpu_scheduling_period_minutes = true;
             continue;
         }
         if (xp.parse_double(tag, "disk_max_used_gb", disk_max_used_gb)) {
-            mask.disk_max_used_gb = true;
             continue;
         }
         if (xp.parse_double(tag, "disk_max_used_pct", disk_max_used_pct)) {
-            mask.disk_max_used_pct = true;
             continue;
         }
         if (xp.parse_double(tag, "disk_min_free_gb", disk_min_free_gb)) {
-            mask.disk_min_free_gb = true;
             continue;
         }
         if (xp.parse_double(tag, "vm_max_used_pct", dtemp)) {
             vm_max_used_frac = dtemp/100;
-            mask.vm_max_used_frac = true;
             continue;
         }
         if (xp.parse_double(tag, "ram_max_used_busy_pct", dtemp)) {
             if (!dtemp) dtemp = 100;
             ram_max_used_busy_frac = dtemp/100;
-            mask.ram_max_used_busy_frac = true;
             continue;
         }
         if (xp.parse_double(tag, "ram_max_used_idle_pct", dtemp)) {
             if (!dtemp) dtemp = 100;
             ram_max_used_idle_frac = dtemp/100;
-            mask.ram_max_used_idle_frac = true;
             continue;
         }
         if (xp.parse_double(tag, "max_bytes_sec_up", max_bytes_sec_up)) {
             if (max_bytes_sec_up < 0) max_bytes_sec_up = 0;
-            mask.max_bytes_sec_up = true;
             continue;
         }
         if (xp.parse_double(tag, "max_bytes_sec_down", max_bytes_sec_down)) {
             if (max_bytes_sec_down < 0) max_bytes_sec_down = 0;
-            mask.max_bytes_sec_down = true;
             continue;
         }
         if (xp.parse_double(tag, "cpu_usage_limit", dtemp)) {
             if (dtemp > 0 && dtemp <= 100) {
                 cpu_usage_limit = dtemp;
-                mask.cpu_usage_limit = true;
             }
             continue;
         }
@@ -581,7 +534,6 @@ int GLOBAL_PREFS::parse_file(
     const char* filename, const char* host_venue, bool& found_venue
 ) {
     FILE* f;
-    GLOBAL_PREFS_MASK mask;
     int retval;
 
     f = fopen(filename, "r");
@@ -589,7 +541,7 @@ int GLOBAL_PREFS::parse_file(
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);
-    retval = parse(xp, host_venue, found_venue, mask);
+    retval = parse(xp, host_venue, found_venue);
     fclose(f);
     return retval;
 }
@@ -678,129 +630,6 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
     }
     f.printf("</global_preferences>\n");
 
-    return 0;
-}
-
-// write a subset of the global preferences,
-// as selected by the mask of bools
-//
-int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
-    if (!mask.are_prefs_set()) return 0;
-    
-    f.printf("<global_preferences>\n");
-    if (mask.run_on_batteries) {
-        f.printf("   <run_on_batteries>%d</run_on_batteries>\n",
-            run_on_batteries?1:0
-        );
-    }
-    if (mask.run_if_user_active) {
-        f.printf("   <run_if_user_active>%d</run_if_user_active>\n",
-            run_if_user_active?1:0
-        );
-    }
-    if (mask.idle_time_to_run) {
-        f.printf("   <idle_time_to_run>%f</idle_time_to_run>\n", idle_time_to_run);
-    }
-    if (mask.suspend_if_no_recent_input) {
-
-        f.printf("   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n",
-            suspend_if_no_recent_input
-        );
-    }
-    if (mask.start_hour) {
-        f.printf("   <start_hour>%f</start_hour>\n", cpu_times.start_hour);
-    }
-    if (mask.end_hour) {
-        f.printf("   <end_hour>%f</end_hour>\n", cpu_times.end_hour);
-    }
-    if (mask.net_start_hour) {
-        f.printf("   <net_start_hour>%f</net_start_hour>\n", net_times.start_hour);
-    }
-    if (mask.net_end_hour) {
-        f.printf("   <net_end_hour>%f</net_end_hour>\n", net_times.end_hour);
-    }
-    if (mask.leave_apps_in_memory) {
-        f.printf("   <leave_apps_in_memory>%d</leave_apps_in_memory>\n",
-            leave_apps_in_memory?1:0
-        );
-    }
-    if (mask.confirm_before_connecting) {
-        f.printf("   <confirm_before_connecting>%d</confirm_before_connecting>\n",
-            confirm_before_connecting?1:0
-        );
-    }
-    if (mask.hangup_if_dialed) {
-        f.printf("   <hangup_if_dialed>%d</hangup_if_dialed>\n",
-            hangup_if_dialed?1:0
-        );
-    }
-    if (mask.dont_verify_images) {
-        f.printf("   <dont_verify_images>%d</dont_verify_images>\n",
-            dont_verify_images?1:0
-        );
-    }
-    if (mask.work_buf_min_days) {
-        f.printf("   <work_buf_min_days>%f</work_buf_min_days>\n", work_buf_min_days);
-    }
-    if (mask.work_buf_additional_days) {
-        f.printf("   <work_buf_additional_days>%f</work_buf_additional_days>\n", work_buf_additional_days);
-    }
-    if (mask.max_ncpus_pct) {
-        f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
-    }
-    if (mask.cpu_scheduling_period_minutes) {
-        f.printf("   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n", cpu_scheduling_period_minutes);
-    }
-    if (mask.disk_interval) {
-        f.printf("   <disk_interval>%f</disk_interval>\n", disk_interval);
-    }
-    if (mask.disk_max_used_gb) {
-        f.printf("   <disk_max_used_gb>%f</disk_max_used_gb>\n", disk_max_used_gb);
-    }
-    if (mask.disk_max_used_pct) {
-        f.printf("   <disk_max_used_pct>%f</disk_max_used_pct>\n", disk_max_used_pct);
-    }
-    if (mask.disk_min_free_gb) {
-        f.printf("   <disk_min_free_gb>%f</disk_min_free_gb>\n", disk_min_free_gb);
-    }
-    if (mask.vm_max_used_frac) {
-        f.printf("   <vm_max_used_pct>%f</vm_max_used_pct>\n", vm_max_used_frac*100);
-    }
-    if (mask.ram_max_used_busy_frac) {
-        f.printf("   <ram_max_used_busy_pct>%f</ram_max_used_busy_pct>\n", ram_max_used_busy_frac*100);
-    }
-    if (mask.ram_max_used_idle_frac) {
-        f.printf("   <ram_max_used_idle_pct>%f</ram_max_used_idle_pct>\n", ram_max_used_idle_frac*100);
-    }
-    if (mask.max_bytes_sec_up) {
-        f.printf("   <max_bytes_sec_up>%f</max_bytes_sec_up>\n", max_bytes_sec_up);
-    }
-    if (mask.max_bytes_sec_down) {
-        f.printf("   <max_bytes_sec_down>%f</max_bytes_sec_down>\n", max_bytes_sec_down);
-    }
-    if (mask.cpu_usage_limit) {
-        f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit);
-    }
-
-    for (int i=0; i<7; i++) {
-        TIME_SPAN* cpu = cpu_times.week.get(i);
-        TIME_SPAN* net = net_times.week.get(i);
-        //write only when needed
-        if (net || cpu) {
-            f.printf("   <day_prefs>\n");                
-            f.printf("      <day_of_week>%d</day_of_week>\n", i);
-            if (cpu) {
-                f.printf("      <start_hour>%.02f</start_hour>\n", cpu->start_hour);
-                f.printf("      <end_hour>%.02f</end_hour>\n", cpu->end_hour);
-            }
-            if (net) {
-                f.printf("      <net_start_hour>%.02f</net_start_hour>\n", net->start_hour);
-                f.printf("      <net_end_hour>%.02f</net_end_hour>\n", net->end_hour);
-            }
-            f.printf("   </day_prefs>\n");
-        }
-    }
-    f.printf("</global_preferences>\n");
     return 0;
 }
 

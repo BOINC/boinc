@@ -39,7 +39,6 @@
 #include "sg_CustomControls.h" 
 #include "sg_StatImageLoader.h" 
 #include "sg_DlgMessages.h"
-#include "sg_DlgPreferences.h"
 #include "sg_ProjectsComponent.h"
 #include "wizardex.h"
 #include "BOINCWizards.h"
@@ -47,6 +46,7 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "app_ipc.h"
+#include "PrefFrame.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
@@ -476,8 +476,8 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
 
 	pPanel->SetDlgOpen(true);
 
-	CDlgPreferences dlg(GetParent());
-    dlg.ShowModal();
+    CPrefFrame dlg(GetParent());
+	dlg.ShowModal();
 
     pPanel->SetDlgOpen(false);
 

@@ -337,13 +337,14 @@ int PROJECT::parse_preferences_for_user_files() {
 void CLIENT_STATE::read_global_prefs() {
     bool found_venue;
     int retval;
-	FILE* f;
+    FILE* f;
     string foo;
 
-    retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, foo);
-    if (!retval) {
-		parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
-	}
+    // no need for this daftness!
+    //retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, foo);
+    //if (!retval) {
+    //    parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
+    //}
 
     retval = global_prefs.parse_file(
         GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
@@ -353,15 +354,15 @@ void CLIENT_STATE::read_global_prefs() {
             "No general preferences found - using BOINC defaults"
         );
     } else {
-		// check that the source project's venue matches main_host_venue.
-		// If not, read file again.
-		// This is a fix for cases where main_host_venue is out of synch
-		//
-		PROJECT* p = global_prefs_source_project();
-		if (p && strcmp(main_host_venue, p->host_venue)) {
-			strcpy(main_host_venue, p->host_venue);
-			global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
-		}
+        // check that the source project's venue matches main_host_venue.
+        // If not, read file again.
+        // This is a fix for cases where main_host_venue is out of synch
+        //
+        PROJECT* p = global_prefs_source_project();
+        if (p && strcmp(main_host_venue, p->host_venue)) {
+            strcpy(main_host_venue, p->host_venue);
+            global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
+        }
         show_global_prefs_source(found_venue);
     }
 
@@ -370,33 +371,32 @@ void CLIENT_STATE::read_global_prefs() {
     f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
     if (f) {
         MIOFILE mf;
-        GLOBAL_PREFS_MASK mask;
         mf.init_file(f);
         XML_PARSER xp(&mf);
-        global_prefs.parse_override(xp, "", found_venue, mask);
+        global_prefs.parse_override(xp, "", found_venue);
         msg_printf(NULL, MSG_INFO, "Reading preferences override file");
         fclose(f);
     }
 
     msg_printf(NULL, MSG_INFO,
-		"Preferences limit memory usage when active to %.2fMB",
+        "Preferences limit memory usage when active to %.2fMB",
         (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
-		"Preferences limit memory usage when idle to %.2fMB",
-		(host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
+        "Preferences limit memory usage when idle to %.2fMB",
+        (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
-		"Preferences limit disk usage to %.2fGB",
+        "Preferences limit disk usage to %.2fGB",
         allowed_disk_usage()/GIGA
     );
     // max_cpus, bandwidth limits may have changed
     //
     set_ncpus();
-	file_xfers->set_bandwidth_limits(true);
-	file_xfers->set_bandwidth_limits(false);
-	request_schedule_cpus("Prefs update");
-	request_work_fetch("Prefs update");
+    file_xfers->set_bandwidth_limits(true);
+    file_xfers->set_bandwidth_limits(false);
+    request_schedule_cpus("Prefs update");
+    request_work_fetch("Prefs update");
 }
 
 int CLIENT_STATE::save_global_prefs(

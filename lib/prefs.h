@@ -29,47 +29,8 @@
 //      it's maintained by communication with scheduling servers
 //      or project managers
 // 2) a "global_prefs_override.xml" file, which can be edited manually
-//      or via a GUI.
+//      (it should be used for testing only, but older (<6) clients rely on it).
 //      For the prefs that it specifies, it overrides the network prefs.
-
-// A struct with one bool per pref.
-// This is passed in GUI RPCs (get/set_global_prefs_override_struct)
-// to indicate which prefs are (or should be) specified in the override file
-//
-struct GLOBAL_PREFS_MASK {
-    bool run_on_batteries;
-    bool run_if_user_active;
-    bool idle_time_to_run;
-    bool suspend_if_no_recent_input;
-    bool start_hour;
-    bool end_hour;
-    bool net_start_hour;
-    bool net_end_hour;
-    bool leave_apps_in_memory;
-    bool confirm_before_connecting;
-    bool hangup_if_dialed;
-    bool dont_verify_images;
-    bool work_buf_min_days;
-    bool work_buf_additional_days;
-    bool max_ncpus_pct;
-    bool cpu_scheduling_period_minutes;
-    bool disk_interval;
-    bool disk_max_used_gb;
-    bool disk_max_used_pct;
-    bool disk_min_free_gb;
-    bool vm_max_used_frac;
-	bool ram_max_used_busy_frac;
-	bool ram_max_used_idle_frac;
-    bool max_bytes_sec_up;
-    bool max_bytes_sec_down;
-    bool cpu_usage_limit;
-
-    GLOBAL_PREFS_MASK();
-    void clear();
-    bool are_prefs_set();
-    bool are_simple_prefs_set();
-    void set_all();
-};
 
 
 // 0..24
@@ -129,7 +90,8 @@ public:
 };
 
 
-struct GLOBAL_PREFS {
+class GLOBAL_PREFS {
+public:
     double mod_time;
     bool run_on_batteries;
         // poorly named; what it really means is:
@@ -160,16 +122,18 @@ struct GLOBAL_PREFS {
     char source_project[256];
     char source_scheduler[256];
     bool host_specific;
+    char venue_name[32]; // immutable
+    char venue_description[256]; // localisable, renamable, UTF-8?
 
     GLOBAL_PREFS();
     void defaults();
     void clear_bools();
-    int parse(XML_PARSER&, const char* venue, bool& found_venue, GLOBAL_PREFS_MASK& mask);
+    int parse(XML_PARSER&, const char* venue, bool& found_venue);
     int parse_day(XML_PARSER&);
-    int parse_override(XML_PARSER&, const char* venue, bool& found_venue, GLOBAL_PREFS_MASK& mask);
+    int parse_override(XML_PARSER&, const char* venue, bool& found_venue);
     int parse_file(const char* filename, const char* venue, bool& found_venue);
+    int parse_preference_tags(XML_PARSER&);
     int write(MIOFILE&);
-    int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);
     inline double cpu_scheduling_period() {
         return cpu_scheduling_period_minutes*60;
     }

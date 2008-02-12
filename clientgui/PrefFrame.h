@@ -50,7 +50,6 @@ protected:
 
 private:
     GLOBAL_PREFS        prefs;
-    GLOBAL_PREFS_MASK   mask;
 
     CPrefTreeBook*      m_treeBook;
 

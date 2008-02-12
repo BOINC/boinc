@@ -614,11 +614,11 @@ public:
     int get_cc_status(CC_STATUS&);
     int get_global_prefs_file(std::string&);
     int get_global_prefs_working(std::string&);
-    int get_global_prefs_working_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
+    int get_global_prefs_working_struct(GLOBAL_PREFS&);
     int get_global_prefs_override(std::string&);
     int set_global_prefs_override(std::string&);
-    int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
-    int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
+    int get_global_prefs_override_struct(GLOBAL_PREFS&);
+    int set_global_prefs_override_struct(GLOBAL_PREFS&);
     int set_debts(std::vector<PROJECT>);
 };
 

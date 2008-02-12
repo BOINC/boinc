@@ -1108,9 +1108,8 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             }
             if (match_tag(buf, "<global_preferences>")) {
                 bool flag = false;
-                GLOBAL_PREFS_MASK mask;
                 XML_PARSER xp(&rpc.fin);
-                state.global_prefs.parse(xp, "", flag, mask);
+                state.global_prefs.parse(xp, "", flag);
                 continue;
             }
         }
@@ -2134,7 +2133,7 @@ int RPC_CLIENT::get_global_prefs_working(string& s) {
 }
 
 
-int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs) {
     int retval;
     SET_LOCALE sl;
     string s;
@@ -2145,11 +2144,8 @@ int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs, GLOBAL_PREF
     if (retval) return retval;
     mf.init_buf_read(s.c_str());
     XML_PARSER xp(&mf);
-    prefs.parse(xp, "", found_venue, mask);
+    prefs.parse(xp, "", found_venue);
 
-    if (!mask.are_prefs_set()) {
-        return ERR_FILE_NOT_FOUND;
-    }
     return 0;
 }
 
@@ -2197,7 +2193,7 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
     return retval;
 }
 
-int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
     int retval;
     SET_LOCALE sl;
     string s;
@@ -2208,22 +2204,19 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     if (retval) return retval;
     mf.init_buf_read(s.c_str());
     XML_PARSER xp(&mf);
-    prefs.parse(xp, "", found_venue, mask);
+    prefs.parse(xp, "", found_venue);
 
-    if (!mask.are_prefs_set()) {
-        return ERR_FILE_NOT_FOUND;
-    }
     return 0;
 }
 
-int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;
     string s;
 
     mf.init_buf_write(buf, sizeof(buf));
-    prefs.write_subset(mf, mask);
+    prefs.write(mf);
     s = buf;
     return set_global_prefs_override(s);
 }

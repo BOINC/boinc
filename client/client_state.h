@@ -70,6 +70,7 @@ public:
     vector<APP_VERSION*> app_versions;
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
+    vector<GLOBAL_PREFS*> venues;
 
     PERS_FILE_XFER_SET* pers_file_xfers;
     HTTP_OP_SET* http_ops;

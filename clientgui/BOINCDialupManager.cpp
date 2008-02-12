@@ -293,7 +293,6 @@ int CBOINCDialUpManager::Connect() {
     wxTimeSpan          tsLastDialupRequest;
     int                 iAnswer;
     wxString            strDialogMessage = wxEmptyString;
-    GLOBAL_PREFS_MASK   mask;
 
 
     wxASSERT(pDoc);
@@ -312,7 +311,7 @@ int CBOINCDialUpManager::Connect() {
         if(pFrame->GetDialupConnectionName().size()) {
             // We have a valid connection name that we can dial.
             // Update current working preferences (including any overrides) from client
-            pDoc->rpc.get_global_prefs_working_struct(pDoc->state.global_prefs, mask);
+            pDoc->rpc.get_global_prefs_working_struct(pDoc->state.global_prefs);
             if(pDoc->state.global_prefs.confirm_before_connecting) {
                 // %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
@@ -488,7 +487,6 @@ int CBOINCDialUpManager::Disconnect() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogMessage = wxEmptyString;
-    GLOBAL_PREFS_MASK   mask;
 
 
     wxASSERT(pDoc);
@@ -502,7 +500,7 @@ int CBOINCDialUpManager::Disconnect() {
     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Disconnect - Connection Detected, disconnect requested via the CC."));
 
     // Update current working preferences (including any overrides) from client
-    pDoc->rpc.get_global_prefs_working_struct(pDoc->state.global_prefs, mask);
+    pDoc->rpc.get_global_prefs_working_struct(pDoc->state.global_prefs);
     if (pDoc->state.global_prefs.hangup_if_dialed) {
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Disconnect - Connection Detected, Don't need the network, Hanging up."));
         if (m_pDialupManager->HangUp()) {
