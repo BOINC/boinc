@@ -1313,3 +1313,11 @@ David  Feb 12 2008
         sandbox.C
     lib/
         util.C,h
+
+David  Feb 12 2008
+    - client: if a non-CPU-intensive project already has a job
+        (even if suspended or downloading) don't ask for another one
+        (from John McLeod)
+
+    client/
+        work_fetch.C
