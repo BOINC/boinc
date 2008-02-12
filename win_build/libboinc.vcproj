@@ -315,6 +315,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\boinc\lib\base64.C"
+				>
+			</File>
+			<File
 				RelativePath="..\..\boinc\lib\diagnostics.C"
 				>
 				<FileConfiguration
