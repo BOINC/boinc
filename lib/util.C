@@ -287,7 +287,7 @@ void update_average(
 #ifdef _WIN32
 
 int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double nsecs
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;

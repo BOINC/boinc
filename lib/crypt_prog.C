@@ -56,7 +56,7 @@ unsigned int random_int() {
 #if defined(__CYGWIN32__)
     HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
 #else
-    HMODULE hLib=LoadLibrary((LPCWSTR)"ADVAPI32.DLL");
+    HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
 #endif
     if (!hLib) {
         die("Can't load ADVAPI32.DLL");

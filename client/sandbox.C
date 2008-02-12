@@ -23,7 +23,6 @@
 #include <sys/wait.h>
 #include <grp.h>
 #include <errno.h>
-#include "client_state.h"
 #endif
 
 #include "error_numbers.h"
@@ -31,6 +30,9 @@
 #include "util.h"
 #include "str_util.h"
 #include "filesys.h"
+#include "parse.h"
+
+#include "client_state.h"
 
 #include "sandbox.h"
 
@@ -38,14 +40,15 @@ bool g_use_sandbox = false;
 
 #ifdef _WIN32
 
-int CLIENT_STATE::read_client_auth_file() {
+void CLIENT_STATE::read_client_auth_file() {
     FILE* f;
+    char buf[256];
 
     f = fopen(CLIENT_AUTH_FILENAME, "r");
-    if (!r) return;
+    if (!f) return;
     while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<username>", sandbox_account_name)) continue;
-        if (parse_str(buf, "<username>", sandbox_account_password)) continue;
+        if (parse_str(buf, "<username>", sandbox_account_name, sizeof(sandbox_account_name))) continue;
+        if (parse_str(buf, "<password>", sandbox_account_password, sizeof(sandbox_account_name))) continue;
     }
     fclose(f);
 }

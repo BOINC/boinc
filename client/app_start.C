@@ -328,7 +328,9 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF fref;
     FILE_INFO* fip;
     int retval;
-
+#ifdef _WIN32
+    std::string cmd_line;
+#endif
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
             "Starting %s", result->name
@@ -461,7 +463,6 @@ int ACTIVE_TASK::start(bool first_time) {
     STARTUPINFO startup_info;
     char slotdirpath[256];
     char error_msg[1024];
-    std::string cmd_line;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -496,10 +497,10 @@ int ACTIVE_TASK::start(bool first_time) {
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
     for (i=0; i<5; i++) {
-        if (strlen(gstate.sandbox_user_account_name) {
+        if (strlen(gstate.sandbox_account_name)) {
             HANDLE hToken;
-            std::string username = gstate.sandbox_user_account_name;
-            std::string password = r_base64_decode(gstate.sandbox_user_account_password);
+            std::string username = gstate.sandbox_account_name;
+            std::string password = r_base64_decode(gstate.sandbox_account_password);
             if (!LogonUser( username.c_str(), NULL, password.c_str(), 
                 LOGON32_LOGON_SERVICE, LOGON32_PROVIDER_DEFAULT,
                 &hToken)

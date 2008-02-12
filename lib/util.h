@@ -73,7 +73,7 @@ extern void mysql_timestamp(double, char*);
 
 #ifdef _WIN32
 extern int run_program(
-    const char* path, const char* cdir, int argc, char *const argv[], double
+    const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&
 );
 extern void kill_program(HANDLE);
 extern int get_exit_status(HANDLE);
