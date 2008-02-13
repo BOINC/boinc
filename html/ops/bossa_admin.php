@@ -13,17 +13,19 @@ function show_bapp($app) {
         <td>
     ";
     if ($app->hidden) {
-        show_button("bossa_ops.php?action=unhide&app_id=$app->id", "Unhide", "Unhide this app");
+        show_button("bossa_admin.php?action=unhide&app_id=$app->id", "Unhide", "Unhide this app");
     } else {
-        show_button("bossa_ops.php?action=hide&app_id=$app->id", "Hide", "Hide this app");
+        show_button("bossa_admin.php?action=hide&app_id=$app->id", "Hide", "Hide this app");
+        echo "<br>";
+        show_button($app->short_name."_workgen.php?njobs=10", "Create jobs", "Create 10 new jobs");
     }
 }
 
 function show_apps() {
     $apps = BossaApp::enum();
     start_table();
-    row1("Existing apps", 4);
-    table_header("Name/description", "Display script", "Backend script", "");
+    row1("Existing apps", 2);
+    table_header("Name/description", "");
     foreach ($apps as $app) {
         show_bapp($app);
     }
@@ -32,7 +34,7 @@ function show_apps() {
 
 function add_app_form() {
     echo "
-        <form action=bossa_ops.php method=get>
+        <form action=bossa_admin.php method=get>
     ";
     start_table();
     row1("Add app");
@@ -50,7 +52,7 @@ function add_app_form() {
 function user_settings() {
     global $user;
     $flags = $user->bossa->flags;
-    echo "<form action=bossa_ops.php method=get>";
+    echo "<form action=bossa_admin.php method=get>";
     start_table();
     row1("User settings");
     $x = ($flags&BOLT_FLAGS_SHOW_ALL)?"checked":"";
@@ -72,20 +74,45 @@ function show_all() {
     admin_page_tail();
 }
 
+function show_jobs($app_id) {
+    $app = BossaApp::lookup_id($app_id);
+    echo "<h2>Jobs for $app->user_friendly_name</h2>";
+    $jobs = BossaJob::enum("app_id=$app_id");
+    foreach ($jobs as $job) {
+        echo "<pre>\n";
+        print_r($job);
+        echo "</pre>\n";
+        echo "
+            <a href=bossa_admin.php?cmd=show_insts&job_id=$job->id>Show instances</a>
+            <hr>
+        ";
+    }
+}
+
+function show_insts($job_id) {
+    echo "<h2>Job instances</h2>";
+    $jis = BossaJobInst::enum("job_id=$job_id");
+    foreach ($jis as $ji) {
+        echo "<pre>\n";
+        print_r($ji);
+        echo "</pre><hr>\n";
+    }
+}
+
+
 $user = get_logged_in_user();
 
 $submit = get_str('submit', true);
 if ($submit == 'Create app') {
     $name = BossaDb::escape_string(get_str('app_name'));
+    $short_name = get_str('short_name');
     $description = BossaDb::escape_string(get_str('description'));
-    $display_script = get_str('display_script');
-    $backend_script = get_str('backend_script');
     $min_conf_sum = get_str('min_conf_sum');
     $min_conf_frac = get_str('min_conf_frac');
     $max_instances = get_str('max_instances');
     $now = time();
-    BossaApp::insert("(create_time, name, description, display_script, backend_script, min_conf_sum, min_conf_frac, max_instances) values ($now, '$name', '$description', '$display_script', '$backend_script', $min_conf_sum, $min_conf_frac, $max_instances)");
-    Header('Location: bossa_ops.php');
+    BossaApp::insert("(create_time, name, short_name, description, min_conf_sum, min_conf_frac, max_instances) values ($now, '$name', '$short_name', '$description', $min_conf_sum, $min_conf_frac, $max_instances)");
+    Header('Location: bossa_admin.php');
     exit();
 } else if ($submit == 'Update user') {
     $flags = 0;
@@ -93,8 +120,14 @@ if ($submit == 'Create app') {
     if (get_str('debug', true)) $flags |= BOLT_FLAGS_DEBUG;
     $user->bossa->update("flags=$flags");
     $user->bossa->flags = $flags;
-    Header('Location: bossa_ops.php');
+    Header('Location: bossa_admin.php');
     exit();
+} else if ($cmd == 'show_jobs') {
+    $app_id = $_GET['app_id'];
+    show_jobs($app_id);
+} else if ($cmd == 'show_insts') {
+    $job_id = $_GET['job_id'];
+    show_insts($job_id);
 } else {
     $action = get_str('action', true);
     if ($action) {
@@ -111,7 +144,7 @@ if ($submit == 'Create app') {
         default:
             error_page("unknown action $action");
         }
-        Header('Location: bossa_ops.php');
+        Header('Location: bossa_admin.php');
         exit();
     }
 }

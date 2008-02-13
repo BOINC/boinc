@@ -3,6 +3,10 @@
 require_once("../inc/db_conn.inc");
 require_once("../inc/util.inc");
 
+define ('VALIDATE_STATE_INIT', 0);
+define ('VALIDATE_STATE_VALID', 1);
+define ('VALIDATE_STATE_INVALID', 2);
+
 class BossaDb extends DbConn {
     public static $instance;
 
@@ -28,15 +32,47 @@ class BossaDb extends DbConn {
     }
 }
 
+class BossaUser {
+    static $cache;
+    static function lookup_userid($id) {
+        $db = BossaDb::get();
+        return $db->lookup('bossa_user', 'BossaUser', "user_id=$id");
+    }
+    static function insert($clause) {
+        $db = BossaDb::get();
+        return $db->insert('bossa_user', $clause);
+    }
+    static function lookup(&$user) {
+        if (!$user) return;
+        if (isset($user->bossa)) return;
+        if (isset(self::$cache[$user->id])) {
+            $bossa = self::$cache[$user->id];
+        } else {
+            $bossa = self::lookup_userid($user->id);
+            if (!$bossa) {
+                self::insert("(user_id) values ($user->id)");
+                $bossa = self::lookup_userid($user->id);
+            }
+            self::$cache[$user->id] = $bossa;
+        }
+        $user->bossa = $bossa;
+    }
+    function update($clause) {
+        $db = BossaDb::get();
+        $clause = "$clause where user_id=$this->user_id";
+        return $db->update_aux('bossa_user', $clause);
+    }
+}
+
 class BossaApp {
     function insert($clause) {
         $db = BossaDb::get();
         return $db->insert('bossa_app', $clause);
     }
 
-    static function lookup_name($name) {
+    static function lookup_short_name($name) {
         $db = BossaDb::get();
-        return $db->lookup('bossa_app', 'BossaApp', "name='$name'");
+        return $db->lookup('bossa_app', 'BossaApp', "short_name='$name'");
     }
 
     static function lookup_id($id) {
@@ -54,7 +90,7 @@ class BossaJob {
     function insert() {
         $db = BossaDb::get();
         $now = time();
-        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, nneeded) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, $this->nneeded)";
+        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, conf_needed) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, $this->conf_needed)";
         $result = $db->do_query($query);
         if (!$result) {
             echo "$query\n";
@@ -114,7 +150,7 @@ class BossaJobInst {
         //
         // TODO: put the following in a transaction
         $db = BossaDb::get();
-        $query = "select bossa_job.* from DBNAME.bossa_job left join DBNAME.bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.nneeded>0 and bossa_job_inst.user_id is null limit 1";
+        $query = "select bossa_job.* from DBNAME.bossa_job left join DBNAME.bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.conf_needed>0 and bossa_job_inst.user_id is null limit 1";
         $result = $db->do_query($query);
         if (!$result) return null;
         $job = mysql_fetch_object($result, 'BossaJob');
@@ -130,7 +166,8 @@ class BossaJobInst {
             return null;
         }
 
-        $job->update("nneeded=nneeded-1");
+        // TODO: replace "1"
+        $job->update("conf_needed=conf_needed-1");
         return $ji;
     }
 

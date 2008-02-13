@@ -70,13 +70,9 @@ inline bool starts_with(std::string const& s, std::string const& prefix) {
 }
 
 inline void downcase_string(std::string& w) {
-    char buf[1024];
-    strlcpy(buf, w.c_str(), sizeof(buf));
-    size_t n = strlen(buf);
-    for (size_t i=0; i<n; i++) {
-        buf[i] = tolower(buf[i]);
+    for (std::string::iterator p = w.begin(); p != w.end(); ++p) {
+        *p = tolower(*p);
     }
-    w = buf;
 }
 
 // convert UNIX time to MySQL timestamp (yyyymmddhhmmss)

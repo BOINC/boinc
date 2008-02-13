@@ -296,6 +296,7 @@ language("Slovak", array(
     site("http://www.boinc.sk/", "www.boinc.sk")
 ));
 language("Spanish", array(
+    site("http://foro.noticias3d.com/vbulletin/showthread.php?t=192297", "Noticias3D"),
     site("http://elmajo.blogspot.com", "Computación Distribuida"),
     site("http://efren-canarias.blogcindario.com/", "El Pais De La Computacion"),
     site("http://www.canalboinc.org/modules/news/", "Canal BOINC"),

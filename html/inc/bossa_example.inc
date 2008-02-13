@@ -31,7 +31,7 @@ function ellipse_handle($bj, $c) {
         $res->cy /= count($c);
     }
 
-    $info = json_decode[$bj->info);
+    $info = json_decode($bj->info);
     $info->result = $res;
     $i = json_encode($info);
     $bj->update("info='$i'");

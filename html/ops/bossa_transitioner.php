@@ -2,9 +2,7 @@
 
 require_once("../inc/bossa_db.inc");
 
-var $apps;
-
-function lookup_app($id) {
+function lookup_bapp($id) {
     global $apps;
     foreach ($apps as $app) {
         if ($app->id == $id) return $app;
@@ -33,6 +31,7 @@ function total_confidence($instances) {
         if (!$i->finished_time) continue;
         $sum += $i->conf;
     }
+    return $sum;
 }
 
 // See if there's a canonical instance.
@@ -55,7 +54,7 @@ function find_canonical($instances, $total_conf, &$max_conf) {
     return $best;
 }
 
-function get_confidence(&$instances) {
+function get_confidences(&$instances) {
     foreach ($instances as $inst) {
         $user = BoincUser::lookup_id($inst->user_id);
         BossaUser::lookup($user);
@@ -68,7 +67,7 @@ function get_confidence(&$instances) {
 // 2) an instance has timed out
 //
 function handle_job($job) {
-    $app = lookup_app($job->app_id);
+    $app = lookup_bapp($job->app_id);
     if (!$app) {
         echo "Missing app: $job->app_id\n";
         return;
@@ -95,7 +94,7 @@ function handle_job($job) {
         // If we have enough total confidence, check for consensus
         //
         get_confidences($instances);
-        $total_conf = total_confidence(instances);
+        $total_conf = total_confidence($instances);
         if ($total_conf >= $app->min_conf_sum) {
             $inst = find_canonical($instances, $total_conf, $max_conf);
         }
@@ -114,7 +113,7 @@ function main() {
     global $apps;
     $apps = BossaApp::enum();
     foreach ($apps as $app) {
-        $bs = "../lib/".$app->short_name."_backend.inc";
+        $bs = "../inc/".$app->short_name.".inc";
         require_once($bs);
     }
     while (1) {
@@ -123,4 +122,5 @@ function main() {
 }
 
 main();
+echo "foo";
 ?>

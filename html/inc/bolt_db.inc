@@ -70,7 +70,7 @@ class BoltDb extends DbConn {
 class BoltUser {
     static $cache;
     static function lookup_userid($id) {
-        $db = BoincDb::get();
+        $db = BoltDb::get();
         return $db->lookup('bolt_user', 'BoltUser', "user_id=$id");
     }
     static function insert($clause) {
