@@ -32,8 +32,13 @@ function sex_select($user) {
 }
 
 function request_info($user, $course) {
-    page_head("Student info");
-    echo "<form action=bolt_sched.php>
+    page_head("About you");
+    echo "
+        You may optionally tell us some facts about yourself.
+        This information will help us improve this course,
+        and will be kept private.
+        <p>
+        <form action=bolt_sched.php>
         <input type=hidden name=action value=update_info>
         <input type=hidden name=course_id value=$course->id>
     ";

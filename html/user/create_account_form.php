@@ -5,13 +5,6 @@ require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
 
-// Web-based interface for account creation.
-// This isn't needed for people who use the version 5 Manager's
-// "attach project wizard".
-// But (for the time being at least)
-// it's needed for pre-version 5 clients,
-// and clients that don't use the account manager
-
 page_head(tra("Create an account"));
 
 $config = get_config();
@@ -23,6 +16,9 @@ if (parse_bool($config, "disable_account_creation")) {
     page_tail();
     exit();
 }
+
+$next_url = get_str('next_url', true);
+
 $wac = parse_bool($config, "web_account_creation");
 if (!$wac) {
     echo "<p>
@@ -33,6 +29,7 @@ if (!$wac) {
 echo "
     <p>
     <form action=\"create_account_action.php\" method=\"post\">
+    <input type=hidden name=next_url value=\"$next_url\">
 ";
 $teamid = get_int("teamid", true);
 if ($teamid) {

@@ -385,8 +385,9 @@ function print_login_form_aux($next_url, $user) {
     row2("Stay logged in on this computer",
         "<input type=checkbox name=stay_logged_in checked>"
     );
+    $x = urlencode($next_url);
     row2("",
-        "<input type=submit name=mode value=\"Log in\" tabindex=\"3\"><br><br>or <a href=create_account_form.php>create an account</a>"
+        "<input type=submit name=mode value=\"Log in\" tabindex=\"3\"><br><br>or <a href=create_account_form.php?next_url=$x>create an account</a>"
     );
     if ($user) {
         row1("Log out");

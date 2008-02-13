@@ -43,7 +43,7 @@ if ($teamid) {
 }
 
 if(defined('INVITE_CODES')) {
-    $invite_code = process_user_text($_POST["invite_code"]);
+    $invite_code = process_user_text(post_str("invite_code"));
     if (strlen($invite_code)==0) {
         show_error(tra("You must supply an invitation code to create an account."));
     }
@@ -52,7 +52,7 @@ if(defined('INVITE_CODES')) {
     }
 } 
 
-$new_name = process_user_text($_POST["new_name"]);
+$new_name = process_user_text(post_str("new_name"));
 if (strlen($new_name)==0) {
     show_error("You must supply a name for your account");
 }
@@ -60,7 +60,7 @@ if ($new_name != strip_tags($new_name)) {
     show_error("HTML tags not allowed in name");
 }
 
-$new_email_addr = process_user_text($_POST["new_email_addr"]);
+$new_email_addr = process_user_text(post_str("new_email_addr"));
 $new_email_addr = strtolower($new_email_addr);
 if (!is_valid_email_addr($new_email_addr)) {
     show_error("Invalid email address:
@@ -104,7 +104,7 @@ if (!is_valid_country($country)) {
     exit();
 }
 
-$postal_code = $_POST["postal_code"];
+$postal_code = post_str("postal_code", true);
 
 $user = make_user(
     $new_email_addr, $new_name, $passwd_hash,
@@ -123,9 +123,14 @@ if(defined('INVITE_CODES')) {
     error_log("Account '$new_email_addr' created using invitation code '$invite_code'");
 }
 
-Header("Location: home.php");
+$next_url = post_str('next_url', true);
+if ($next_url) {
+    Header("Location: $next_url");
+} else {
+    Header("Location: home.php");
+    send_cookie('init', "1", true);
+    send_cookie('via_web', "1", true);
+}
 send_cookie('auth', $user->authenticator, true);
-send_cookie('init', "1", true);
-send_cookie('via_web', "1", true);
 
 ?>
