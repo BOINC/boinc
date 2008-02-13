@@ -322,3 +322,11 @@ Rom    Feb 13 2008
     
     curl/
         <Various Files>
+
+Rom    Feb 4 2008
+    - Tag for 5.10.42 release, all platforms
+      boinc_core_release_5_10_42
+
+    /
+        configure.ac
+        version.h
