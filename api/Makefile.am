@@ -9,6 +9,7 @@ AM_LDFLAGS += @GLUT_LIBS@
 # stuff linked into both main app and graphics app
 api_files= \
 	boinc_api.C \
+	reduce_main.C \
     graphics2_util.C
 
 # stuff linked into graphics app
