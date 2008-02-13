@@ -806,22 +806,19 @@ static void handle_set_venue(char* buf, MIOFILE& fout) {
     XML_PARSER xp(&in);
     bool is_tag;
     char tag[256], venue[32];
-    int retval = ERR_XML_PARSE;
 
     in.init_buf_read(buf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (xp.parse_str(tag, "venue", venue, sizeof(venue))) {
 
-            // TODO: tentative!
-            strncpy(gstate.main_host_venue, venue, sizeof(gstate.main_host_venue));
-            gstate.read_global_prefs();
+            gstate.change_global_prefs(venue);
 
             fout.printf("<success/>\n");
             return;
         }
     }
-    fout.printf("<error>%d</error>\n", retval);
+    fout.printf("<error>Venue not specified</error>\n");
 }
 
 static void handle_get_venue_list(MIOFILE& fout) {
@@ -840,13 +837,71 @@ static void handle_get_venue_list(MIOFILE& fout) {
 }
 
 static void handle_get_prefs_for_venue(char* buf, MIOFILE& fout) {
+    MIOFILE in;
+    XML_PARSER xp(&in);
+    bool is_tag;
+    char tag[256], venue[32];
 
+    in.init_buf_read(buf);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (xp.parse_str(tag, "venue", venue, sizeof(venue))) {
+
+            GLOBAL_PREFS* p_venue = gstate.lookup_venue(venue);
+            if (p_venue) {
+                p_venue->write(fout);
+            } else {
+                fout.printf("<error>Venue not found</error>\n");
+            }
+            return;
+        }
+    }
+    fout.printf("<error>Venue not specified</error>\n");
 }
 
 static void handle_set_prefs_for_venue(char* buf, MIOFILE& fout) {
+    MIOFILE in;
+    XML_PARSER xp(&in);
+    bool is_tag;
+    char tag[256], venue_name[32];
+    bool new_venue = false;
+    int retval;
 
+    in.init_buf_read(buf);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (strstr(tag, "venue")) {
+            
+            parse_attr(tag, "name", venue_name, sizeof(venue_name));
+            
+            GLOBAL_PREFS venue;
+
+            strncpy(venue->venue_name, venue_name, sizeof(venue->venue_name));
+            retval = venue->parse_preference_tags(xp);
+            if (retval) {
+                fout.printf("<error>%d</error>\n", retval);
+                return;
+            }
+            GLOBAL_PREFS* p_venue = gstate.lookup_venue(venue_name);
+            if (!p_venue) {
+                p_venue = new GLOBAL_PREFS();
+                venues.push_back(p_venue);
+            }
+            *p_venue = venue;
+
+            // TODO: Persist and kick back to project servers.
+
+            // Change active preferences if venue is in use:
+            if (!strcmp(gstate.main_host_venue, venue_name)) {
+                gstate.change_global_prefs(venue_name);
+            }
+            return;
+        }
+    }
+    fout.printf("<error>Venue not specified</error>\n");
 }
 
+// This doesn't do what it says on the tin.
 static void handle_get_global_prefs_file(MIOFILE& fout) {
     GLOBAL_PREFS p;
     bool found;
