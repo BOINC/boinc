@@ -178,23 +178,31 @@ void WEEK_PREFS::unset(int day) {
     }
 }
 
+int GLOBAL_PREFS::parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& venues) {
+    FILE* f;
+    int retval;
+
+    f = fopen(filename, "r");
+    if (!f) return ERR_FOPEN;
+    MIOFILE mf;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    retval = parse_venues(xp, venues);
+    fclose(f);
+    return retval;
+}
+
 // Parses all venues (including the default nameless venue) into the supplied vector.
 // Also returns the requested venue, or the default venue if it isn't found.
-static int parse_global_prefs(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues, GLOBAL_PREFS* host_venue,
-                              const char* host_venue_name, bool& found_venue)
-{
-
+int GLOBAL_PREFS::parse_venues(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues) {
     char tag[256], venue_name[32];
     bool is_tag;
-
-    found_venue = false;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "global_preferences")) {
             // parse default venue
             GLOBAL_PREFS* default_venue = new GLOBAL_PREFS();
-            host_venue = default_venue;
             default_venue->parse_preference_tags(xp);
             venues.push_back(default_venue);
             continue;
@@ -205,10 +213,6 @@ static int parse_global_prefs(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues
         if (strstr(tag, "venue")) {
             GLOBAL_PREFS* venue = new GLOBAL_PREFS();
             parse_attr(tag, "name", venue_name, sizeof(venue_name));
-            if (!strcmp(venue_name, host_venue_name)) {
-                found_venue = true;
-                host_venue = venue;
-            }
             strncpy(venue->venue_name, venue_name, sizeof(venue->venue_name));
             venue->parse_preference_tags(xp);
             venues.push_back(venue);
@@ -335,6 +339,7 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
 }
 
 
+// DEPRECATED
 // Parse global prefs, overriding whatever is currently in the structure.
 //
 // If host_venue is nonempty and we find an element of the form
@@ -395,9 +400,7 @@ int GLOBAL_PREFS::parse_override(
 // xp must be positioned at the start of the structure to parse.
 // The opening tag is already consumed.
 //
-int GLOBAL_PREFS::parse_preference_tags(
-    XML_PARSER& xp
-) {
+int GLOBAL_PREFS::parse_preference_tags(XML_PARSER& xp) {
     char tag[256];
     bool is_tag;
     double dtemp;
@@ -410,6 +413,7 @@ int GLOBAL_PREFS::parse_preference_tags(
         if (!strcmp(tag, "/venue")) {
             return 0;
         }
+        if (xp.parse_str(tag, "venue_description", venue_description, sizeof(venue_description))) continue;
         if (xp.parse_str(tag, "source_project", source_project, sizeof(source_project))) continue;
         if (xp.parse_str(tag, "source_scheduler", source_scheduler, sizeof(source_scheduler))) {
             continue;
@@ -421,46 +425,24 @@ int GLOBAL_PREFS::parse_preference_tags(
             }
             continue;
         }
-        if (xp.parse_bool(tag, "run_on_batteries", run_on_batteries)) {
-            continue;
-        }
-        if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "suspend_if_no_recent_input", suspend_if_no_recent_input)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "start_hour", cpu_times.start_hour)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "end_hour", cpu_times.end_hour)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "net_start_hour", net_times.start_hour)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "net_end_hour", net_times.end_hour)) {
-            continue;
-        }
+        if (xp.parse_bool(tag, "run_on_batteries", run_on_batteries)) continue;
+        if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) continue;
+        if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) continue;
+        if (xp.parse_double(tag, "suspend_if_no_recent_input", suspend_if_no_recent_input)) continue;
+        if (xp.parse_double(tag, "start_hour", cpu_times.start_hour)) continue;
+        if (xp.parse_double(tag, "end_hour", cpu_times.end_hour)) continue;
+        if (xp.parse_double(tag, "net_start_hour", net_times.start_hour)) continue;
+        if (xp.parse_double(tag, "net_end_hour", net_times.end_hour)) continue;
+
         if (!strcmp(tag, "day_prefs")) {
             parse_day(xp);
             continue;
         }
-        if (xp.parse_bool(tag, "leave_apps_in_memory", leave_apps_in_memory)) {
-            continue;
-        }
-        if (xp.parse_bool(tag, "confirm_before_connecting", confirm_before_connecting)) {
-            continue;
-        }
-        if (xp.parse_bool(tag, "hangup_if_dialed", hangup_if_dialed)) {
-            continue;
-        }
-        if (xp.parse_bool(tag, "dont_verify_images", dont_verify_images)) {
-            continue;
-        }
+        if (xp.parse_bool(tag, "leave_apps_in_memory", leave_apps_in_memory)) continue;
+        if (xp.parse_bool(tag, "confirm_before_connecting", confirm_before_connecting)) continue;
+        if (xp.parse_bool(tag, "hangup_if_dialed", hangup_if_dialed)) continue;
+        if (xp.parse_bool(tag, "dont_verify_images", dont_verify_images)) continue;
+
         if (xp.parse_double(tag, "work_buf_min_days", work_buf_min_days)) {
             if (work_buf_min_days < 0.00001) work_buf_min_days = 0.00001;
             continue;
@@ -482,15 +464,10 @@ int GLOBAL_PREFS::parse_preference_tags(
             if (cpu_scheduling_period_minutes < 0.0001) cpu_scheduling_period_minutes = 60;
             continue;
         }
-        if (xp.parse_double(tag, "disk_max_used_gb", disk_max_used_gb)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "disk_max_used_pct", disk_max_used_pct)) {
-            continue;
-        }
-        if (xp.parse_double(tag, "disk_min_free_gb", disk_min_free_gb)) {
-            continue;
-        }
+        if (xp.parse_double(tag, "disk_max_used_gb", disk_max_used_gb)) continue;
+        if (xp.parse_double(tag, "disk_max_used_pct", disk_max_used_pct)) continue;
+        if (xp.parse_double(tag, "disk_min_free_gb", disk_min_free_gb)) continue;
+
         if (xp.parse_double(tag, "vm_max_used_pct", dtemp)) {
             vm_max_used_frac = dtemp/100;
             continue;
@@ -558,6 +535,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
     f.printf(
         "<global_preferences>\n"
         "   <mod_time>%f</mod_time>\n"
+        "   <venue_description>%s</venue_description>\n"
         "%s%s"
         "   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n"
         "   <start_hour>%f</start_hour>\n"
@@ -581,6 +559,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
         "   <cpu_usage_limit>%f</cpu_usage_limit>\n",
         mod_time,
+        venue_description,
         run_on_batteries?"   <run_on_batteries/>\n":"",
         run_if_user_active?"   <run_if_user_active/>\n":"",
         suspend_if_no_recent_input,

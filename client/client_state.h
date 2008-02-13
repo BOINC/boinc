@@ -383,7 +383,9 @@ public:
     int suspend_network(int reason);
     int resume_network();
     void read_global_prefs();
+    void change_global_prefs(const char* venue);
     int save_global_prefs(char* prefs, char* url, char* sched);
+    GLOBAL_PREFS* lookup_venue(const char* venue);
 	double available_ram();
 	double max_available_ram();
 private:

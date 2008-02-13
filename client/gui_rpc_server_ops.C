@@ -802,11 +802,41 @@ static void handle_get_venue(MIOFILE& fout) {
 }
 
 static void handle_set_venue(char* buf, MIOFILE& fout) {
+    MIOFILE in;
+    XML_PARSER xp(&in);
+    bool is_tag;
+    char tag[256], venue[32];
+    int retval = ERR_XML_PARSE;
 
+    in.init_buf_read(buf);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (xp.parse_str(tag, "venue", venue, sizeof(venue))) {
+
+            // TODO: tentative!
+            strncpy(gstate.main_host_venue, venue, sizeof(gstate.main_host_venue));
+            gstate.read_global_prefs();
+
+            fout.printf("<success/>\n");
+            return;
+        }
+    }
+    fout.printf("<error>%d</error>\n", retval);
 }
 
 static void handle_get_venue_list(MIOFILE& fout) {
 
+    fout.printf("<venue_list>\n");
+    std::vector<GLOBAL_PREFS*>::iterator i = gstate.venues.begin();
+    while (i != gstate.venues.end()) {
+
+        fout.printf("  <venue>\n");
+        fout.printf("    <name>%s</name>\n", (*i)->venue_name);
+        fout.printf("    <description>%s</description>\n", (*i)->venue_description);
+        fout.printf("  </venue>\n");
+        i++;
+    }
+    fout.printf("</venue_list>\n");
 }
 
 static void handle_get_prefs_for_venue(char* buf, MIOFILE& fout) {

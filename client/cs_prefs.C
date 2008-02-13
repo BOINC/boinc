@@ -324,50 +324,48 @@ int PROJECT::parse_preferences_for_user_files() {
     return 0;
 }
 
-// Read global preferences into the global_prefs structure.
-// 1) read the override file to get venue in case it's there
-// 2) read global_prefs.xml
-// 3) read the override file again
-//
+// Read global preferences into the venues vector.
 // This is called:
 // - on startup
 // - on completion of a scheduler or AMS RPC, if they sent prefs
 // - in response to read_global_prefs_override GUI RPC
-//
+
 void CLIENT_STATE::read_global_prefs() {
-    bool found_venue;
-    int retval;
+
+    GLOBAL_PREFS::parse_file(GLOBAL_PREFS_FILE_NAME, venues); 
+    change_global_prefs(main_host_venue);
+}
+
+// Changes the active global preferences.
+// 1. Copy the global preferences for the specified venue
+// 2. Apply override file (if any)
+// 3. Log new preferences and update state
+
+void CLIENT_STATE::change_global_prefs(const char* venue) {
+
     FILE* f;
-    string foo;
+    bool found_venue;
 
-    // no need for this daftness!
-    //retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, foo);
-    //if (!retval) {
-    //    parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
-    //}
-
-    retval = global_prefs.parse_file(
-        GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
-    );
-    if (retval) {
+    if (venues.size() == 0) {
+        global_prefs.defaults();
         msg_printf(NULL, MSG_INFO,
             "No general preferences found - using BOINC defaults"
         );
     } else {
-        // check that the source project's venue matches main_host_venue.
-        // If not, read file again.
-        // This is a fix for cases where main_host_venue is out of synch
-        //
-        PROJECT* p = global_prefs_source_project();
-        if (p && strcmp(main_host_venue, p->host_venue)) {
-            strcpy(main_host_venue, p->host_venue);
-            global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
+        GLOBAL_PREFS* p_venue = lookup_venue(venue);
+        if (p_venue) {
+            // copy assignment
+            global_prefs = *(lookup_venue(venue));
+        } else {
+            // Use first venue - should be the "none" venue, but is
+            // a safe fallback even if the prefs format is unexpected.
+            global_prefs = **(venues.begin());
         }
-        show_global_prefs_source(found_venue);
+
+        show_global_prefs_source(p_venue != 0);
     }
 
-    // read the override file
-    //
+    // Read the override file
     f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
     if (f) {
         MIOFILE mf;
@@ -425,6 +423,18 @@ int CLIENT_STATE::save_global_prefs(
         global_prefs_xml
     );
     fclose(f);
+    return 0;
+}
+
+GLOBAL_PREFS* CLIENT_STATE::lookup_venue(const char* venue) {
+
+    std::vector<GLOBAL_PREFS*>::iterator i = venues.begin();
+
+    while (i != venues.end()) {
+        if (!strcmp(venue, (*i)->venue_name)) {
+            return *i;
+        }
+    }
     return 0;
 }
 

@@ -128,6 +128,7 @@ public:
     GLOBAL_PREFS();
     void defaults();
     void clear_bools();
+
     int parse(XML_PARSER&, const char* venue, bool& found_venue);
     int parse_day(XML_PARSER&);
     int parse_override(XML_PARSER&, const char* venue, bool& found_venue);
@@ -137,6 +138,9 @@ public:
     inline double cpu_scheduling_period() {
         return cpu_scheduling_period_minutes*60;
     }
+
+    static int parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& venues);
+    static int parse_venues(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues);
 };
 
 #endif
