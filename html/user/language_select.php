@@ -12,7 +12,7 @@ if ($set_lang){
     if (!in_array($set_lang, $languages) && $set_lang!="auto"){
         error_page("Language $set_lang is not supported");
     } else {
-        setcookie('lang', $set_lang, time()+3600*24*365);
+        send_cookie('lang', $set_lang, true);
         header("Location: index.php");
         exit;
     }

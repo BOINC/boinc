@@ -12,9 +12,6 @@ if ($team_id || ($format == 'xml')) {
     xml_header();
     $retval = db_init_xml();
     if ($retval) xml_error($retval);
-} else {
-    db_init();
-    init_session();
 }
 
 if ($team_id) {

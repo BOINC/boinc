@@ -4,9 +4,6 @@ include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/team.inc");
 
-init_session();
-db_init();
-
 page_head("Teams");
 
 echo "<p>".PROJECT." participants may form <b>teams</b>.

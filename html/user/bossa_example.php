@@ -7,14 +7,14 @@ require_once("../inc/bossa.inc");
 
 function show_job($bj, $bji) {
     $info = json_decode($bj->info);
-    print_r($info);
     $img_url = $info->url;
     echo "
+        <h2>Find the Ellipse!</h2>
         <form method=get action=bossa_example.php>
         Click on the center of the ellipse.
         If you don't see one, click here:
         <input type=submit name=submit value=None>
-        <br>
+        <br><br>
         <input type=hidden name=bji value=$bji->id>
         <input type=hidden name=completion value=1>
         <input type=image name=pic src=$img_url>

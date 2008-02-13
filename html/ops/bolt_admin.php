@@ -10,9 +10,9 @@ function show_course($course) {
         <td>
     ";
     if ($course->hidden) {
-        show_button("bolt_ops.php?action=unhide&course_id=$course->id", "Unhide", "Unhide this course");
+        show_button("bolt_admin.php?action=unhide&course_id=$course->id", "Unhide", "Unhide this course");
     } else {
-        show_button("bolt_ops.php?action=hide&course_id=$course->id", "Hide", "Hide this course");
+        show_button("bolt_admin.php?action=hide&course_id=$course->id", "Hide", "Hide this course");
     }
 }
 
@@ -29,7 +29,7 @@ function show_courses() {
 
 function add_course_form() {
     echo "
-        <form action=bolt_ops.php method=get>
+        <form action=bolt_admin.php method=get>
     ";
     start_table();
     row1("Add course");
@@ -45,7 +45,7 @@ function add_course_form() {
 function user_settings() {
     global $user;
     $flags = $user->bolt->flags;
-    echo "<form action=bolt_ops.php method=get>";
+    echo "<form action=bolt_admin.php method=get>";
     start_table();
     row1("User settings");
     $x = ($flags&BOLT_FLAGS_SHOW_ALL)?"checked":"";
@@ -78,7 +78,7 @@ if ($submit == 'Create course') {
     $doc_file = get_str('doc_file');
     $now = time();
     BoltCourse::insert("(create_time, short_name, name, description, doc_file) values ($now, '$short_name', '$name', '$description', '$doc_file')");
-    Header('Location: bolt_ops.php');
+    Header('Location: bolt_admin.php');
     exit();
 } else if ($submit == 'Update user') {
     $flags = 0;
@@ -86,7 +86,7 @@ if ($submit == 'Create course') {
     if (get_str('debug', true)) $flags |= BOLT_FLAGS_DEBUG;
     $user->bolt->update("flags=$flags");
     $user->bolt->flags = $flags;
-    Header('Location: bolt_ops.php');
+    Header('Location: bolt_admin.php');
     exit();
 } else {
     $action = get_str('action', true);
@@ -104,7 +104,7 @@ if ($submit == 'Create course') {
         default:
             error_page("unknown action $action");
         }
-        Header('Location: bolt_ops.php');
+        Header('Location: bolt_admin.php');
         exit();
     }
 }

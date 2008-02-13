@@ -25,8 +25,6 @@ if (parse_bool($config, "disable_account_creation")) {
     exit();
 }
 
-init_session();
-
 // see whether the new account should be pre-enrolled in a team,
 // and initialized with its founder's project prefs
 //
@@ -125,12 +123,9 @@ if(defined('INVITE_CODES')) {
     error_log("Account '$new_email_addr' created using invitation code '$invite_code'");
 }
 
-session_start();
-$_SESSION["authenticator"] = $user->authenticator;
 Header("Location: home.php");
-setcookie('auth', $user->authenticator, time()+3600*24*365);
-setcookie('init', "1", time()+3600*24*365);
-setcookie('via_web', "1", time()+3600*24*365);
-
+send_cookie('auth', $user->authenticator, true);
+send_cookie('init', "1", true);
+send_cookie('via_web', "1", true);
 
 ?>

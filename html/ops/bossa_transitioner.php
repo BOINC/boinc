@@ -13,11 +13,11 @@ function lookup_bapp($id) {
 // return the confidence of the instances that agree with the given one
 //
 function agree_conf($instances, $inst) {
-    $sum = $inst->conf;
+    $sum = $inst->confidence;
     foreach ($instances as $i) {
         if ($i->id == $inst->id) continue;
         if (compatible($i, $inst)) {
-            $sum += $i->conf;
+            $sum += $i->confidence;
         }
     }
     return $sum;
@@ -29,7 +29,7 @@ function total_confidence($instances) {
     $sum = 0;
     foreach ($instances as $i) {
         if (!$i->finished_time) continue;
-        $sum += $i->conf;
+        $sum += $i->confidence;
     }
     return $sum;
 }
@@ -52,14 +52,6 @@ function find_canonical($instances, $total_conf, &$max_conf) {
     if ($best_conf < $app->min_conf_sum) return;
     if ($best_conf/$total_conf < $app->min_conf_frac) return;
     return $best;
-}
-
-function get_confidences(&$instances) {
-    foreach ($instances as $inst) {
-        $user = BoincUser::lookup_id($inst->user_id);
-        BossaUser::lookup($user);
-        $inst->conf = 1;
-    }
 }
 
 // this gets invoked when
@@ -93,7 +85,6 @@ function handle_job($job) {
         // No canonical instance yet.
         // If we have enough total confidence, check for consensus
         //
-        get_confidences($instances);
         $total_conf = total_confidence($instances);
         if ($total_conf >= $app->min_conf_sum) {
             $inst = find_canonical($instances, $total_conf, $max_conf);

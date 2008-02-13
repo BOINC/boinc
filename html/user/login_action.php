@@ -4,8 +4,6 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
-init_session();
-
 // check for email/password case
 //
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
@@ -39,13 +37,11 @@ if ($email_addr && $passwd) {
         exit();
     }
     $authenticator = $user->authenticator;
-    $_SESSION["authenticator"] = $authenticator;
     $next_url = $_POST["next_url"];
     if (strlen($next_url) == 0) $next_url = "home.php";
     Header("Location: $next_url");
-    if ($_POST['send_cookie']) {
-        setcookie('auth', $authenticator, time()+3600*24*365);
-    }
+    $perm = $_POST['stay_logged_in'];
+    send_cookie('auth', $authenticator, $perm);
     exit();
 }
 
@@ -67,11 +63,7 @@ if ($id && $t && $h) {
             get a new login link by email."
         );
     }
-    if (session_id() == "") {
-        session_start();
-    }
-    $_SESSION["authenticator"] = $user->authenticator;
-    setcookie('auth', $user->authenticator, time()+3600*24*365);
+    send_cookie('auth', $user->authenticator, true);
     Header("Location: home.php");
     exit();
 }
@@ -97,12 +89,10 @@ if (!$user) {
     echo "No such account.";
     page_tail();
 } else {
-    $_SESSION["authenticator"] = $authenticator;
     $next_url = $_POST["next_url"];
     if (strlen($next_url) == 0) $next_url = "home.php";
     Header("Location: $next_url");
-    if ($_POST['send_cookie']) {
-        setcookie('auth', $authenticator, time()+3600*24*365);
-    }
+    $perm = $_POST['stay_logged_in'];
+    send_cookie('auth', $authenticator, $perm);
 }
 ?>

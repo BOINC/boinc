@@ -4,8 +4,6 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
 
-init_session();
-
 $platforms = BoincPlatform::enum("deprecated=0");
 
 $xml = $_GET['xml'];

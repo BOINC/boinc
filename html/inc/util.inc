@@ -43,28 +43,21 @@ function db_init($try_replica=false) {
     return 0;
 }
 
-// Initializes the session and returns the authenticator
-// for the session (if any)
-//
-function init_session() {
+function send_cookie($name, $value, $permanent) {
+    // the following allows independent login for projects on the same server
+    //
     $master_url = parse_config(get_config(), "<master_url>");
     $url = parse_url($master_url);
     $path = $url['path'];
-    if (strlen($path)) {
-        session_set_cookie_params(0, $path);
-    }
+    $expire = $permanent?time()+3600*24*365:0;
+    setcookie($name, $value, $expire, $path);
+}
 
-    // check if there is a session
-    //
-    if (session_id() == "") {
-        session_start();
-    }
-    // NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
-    if (array_key_exists('authenticator', $_SESSION)) {
-        return $_SESSION["authenticator"];
-    } else {
-        return NULL;
-    }
+function clear_cookie($name) {
+    $master_url = parse_config(get_config(), "<master_url>");
+    $url = parse_url($master_url);
+    $path = $url['path'];
+    setcookie($name, '', time()-3600, $path);
 }
 
 // if not logged in, put up login form and exit
@@ -88,10 +81,9 @@ function get_logged_in_user($must_be_logged_in=true) {
     $g_logged_in_user = null;
     $login_request = false;
 
-    $authenticator = init_session();
-    if (!$authenticator) {
-        if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
-    }
+    $authenticator = null;
+    if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
+
 // leave this out for now
 //    if (!$authenticator) {
 //        $authenticator = get_str('login_auth', true);
@@ -105,8 +97,7 @@ function get_logged_in_user($must_be_logged_in=true) {
         require_login($g_logged_in_user);
     }
     if ($g_logged_in_user && $login_request) {
-        session_start();
-        $_SESSION["authenticator"] = $authenticator;
+        send_cookie('auth', $authenticator, true);
     }
     return $g_logged_in_user;
 }
@@ -392,9 +383,11 @@ function print_login_form_aux($next_url, $user) {
         '<input type="password" name="passwd" size="40" tabindex="2">'
     );
     row2("Stay logged in on this computer",
-        "<input type=checkbox name=send_cookie checked>"
+        "<input type=checkbox name=stay_logged_in checked>"
     );
-    row2("", '<input type="submit" name="mode" value="Log in" tabindex="3">');
+    row2("",
+        "<input type=submit name=mode value=\"Log in\" tabindex=\"3\"><br><br>or <a href=create_account_form.php>create an account</a>"
+    );
     if ($user) {
         row1("Log out");
         row2("You are logged in as $user->name",
@@ -412,10 +405,6 @@ function print_login_form_aux($next_url, $user) {
 
 function print_login_form() {
     page_head("Please log in");
-    echo "
-        This function requires that you log in.
-        <p>
-    ";
     $next_url = $_SERVER['REQUEST_URI'];
     print_login_form_aux($next_url, null);
     page_tail();

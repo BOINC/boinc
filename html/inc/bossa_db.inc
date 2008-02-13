@@ -117,7 +117,7 @@ class BossaJobInst {
     function insert() {
         $db = BossaDb::get();
         $now = time();
-        $query = "insert into DBNAME.bossa_job_inst (create_time, job_id, user_id) values ($now, $this->job_id, $this->user_id)";
+        $query = "insert into DBNAME.bossa_job_inst (create_time, job_id, user_id, confidence) values ($now, $this->job_id, $this->user_id, $this->confidence)";
         $result = $db->do_query($query);
         if (!$result) {
             echo "$query\n";
@@ -160,14 +160,14 @@ class BossaJobInst {
         $ji = new BossaJobInst();
         $ji->user_id = $user->id;
         $ji->job_id = $job->id;
+        $hi->confidence = $user->conf;
 
         if (!$ji->insert()) {
             echo mysql_error();
             return null;
         }
 
-        // TODO: replace "1"
-        $job->update("conf_needed=conf_needed-1");
+        $job->update("conf_needed=conf_needed-$user->conf");
         return $ji;
     }
 

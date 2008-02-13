@@ -30,10 +30,8 @@ if (!$retval) {
     error_page("database error");
 }
 
-session_start();
-$_SESSION["authenticator"] = $auth;
 Header("Location: team_search.php");
-setcookie('auth', $auth, time()+3600*24*365);
-setcookie('init', "1", time()+3600*24*365);
+send_cookie('auth', $auth, true);
+send_cookie('init', "1", true);
 
 ?>

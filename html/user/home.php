@@ -14,11 +14,11 @@ $user = get_other_projects($user);
 $init = isset($_COOKIE['init']);
 $via_web = isset($_COOKIE['via_web']);
 if ($via_web) {
-    setcookie('via_web', '', time()-3600);
+    clear_cookie('via_web');
 }
 
 if ($init) {
-    setcookie('init', '', time()-3600);
+    clear_cookie('init');
     page_head(tra("Welcome to %1", PROJECT));
     echo "<p>".tra("View and edit your account preferences using the links below.")."</p>\n";
     if ($via_web) {

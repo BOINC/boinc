@@ -50,7 +50,7 @@ if (!$sort_style) {
         $logged_in_user->prefs->update("thread_sorting=$sort_style");
     } else {
         list($forum_style,$old_style)=explode("|",$_COOKIE['sorting']);
-        setcookie('sorting', implode("|",array($forum_style,$sort_style)), time()+3600*24*365);
+        send_cookie('sorting', implode("|",array($forum_style,$sort_style)), true);
     }
 }
 

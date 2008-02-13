@@ -5,8 +5,10 @@ require_once("../inc/util.inc");
 
 page_head("Courses");
 
-$user = get_logged_in_user(true);
-BoltUser::lookup($user);
+$user = get_logged_in_user(false);
+if ($user) {
+    BoltUser::lookup($user);
+}
 
 $courses = BoltCourse::enum();
 start_table();

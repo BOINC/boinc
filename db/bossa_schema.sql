@@ -8,9 +8,10 @@ create table bossa_app (
     display_script      varchar(255) not null,
     backend_script      varchar(255) not null,
     hidden              tinyint     not null,
-    min_conf_sum        double      not null,
-    min_conf_frac       double      not null,
+    min_conf_sum        float       not null,
+    min_conf_frac       float       not null,
     max_instances       integer     not null,
+    bolt_course_id      integer     not null,
     info                text,
         -- app-specific info, JSON
     primary key(id)
@@ -25,8 +26,8 @@ create table bossa_job (
     batch               integer     not null,
     time_estimate       integer     not null,
     time_limit          integer     not null,
-    transition_time     double      not null,
-    conf_needed         double      not null,
+    transition_time     integer     not null,
+    conf_needed         float       not null,
     canonical_inst_id   integer     not null,
     primary key(id)
 ) engine=InnoDB;
@@ -39,6 +40,7 @@ create table bossa_job_inst (
     finish_time         integer     not null,
     validate_state      integer     not null,
         -- 0 init, 1 valid, 2 invalid
+    confidence          float       not null,
     info                text,
     primary key(id)
 ) engine=InnoDB;

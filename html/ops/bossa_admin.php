@@ -38,12 +38,28 @@ function add_app_form() {
     ";
     start_table();
     row1("Add app");
-    row2("Name<span class=note><br>Visible to users</span>", "<input name=app_name>");
-    row2("Short name<span class=note><br>Used in file and function names - no spaces or special characters</span>", "<input name=short_name>");
-    row2("Description<span class=note><br>Visible to users</span>", "<textarea name=description cols=60></textarea>");
-    row2("Min confidence sum for consensus", "<input name=min_conf_sum value=2>");
-    row2("Min confidence fraction for consensus", "<input name=min_conf_frac value=\"0.5\">");
+    row2(
+        "Name<span class=note><br>Visible to users</span>",
+        "<input name=app_name>"
+    );
+    row2(
+        "Short name<span class=note><br>Used in file and function names - no spaces or special characters</span>",
+        "<input name=short_name>"
+    );
+    row2(
+        "Description<span class=note><br>Visible to users</span>",
+        "<textarea name=description cols=60></textarea>"
+    );
+    row2(
+        "Min confidence sum for consensus",
+        "<input name=min_conf_sum value=2>"
+    );
+    row2(
+        "Min confidence fraction for consensus",
+        "<input name=min_conf_frac value=\"0.5\">"
+    );
     row2("Max job instances", "<input name=max_instances value=5>");
+    row2("Name of Bolt training course", "<input name=training_course>");
     row2("", "<input type=submit name=submit value=\"Create app\">");
     end_table();
     echo "</form>";
@@ -110,8 +126,21 @@ if ($submit == 'Create app') {
     $min_conf_sum = get_str('min_conf_sum');
     $min_conf_frac = get_str('min_conf_frac');
     $max_instances = get_str('max_instances');
+    $training_course = get_str('training_course');
+    if (strlen($training_course)) {
+        $course = BoltCourse::lookup_name($training_course);
+        if (!$course) {
+            error_page("No course named $training_course");
+        }
+        $courseid = $course->id;
+    } else {
+        $courseid = 0;
+    }
     $now = time();
-    BossaApp::insert("(create_time, name, short_name, description, min_conf_sum, min_conf_frac, max_instances) values ($now, '$name', '$short_name', '$description', $min_conf_sum, $min_conf_frac, $max_instances)");
+    $app_id = BossaApp::insert("(create_time, name, short_name, description, min_conf_sum, min_conf_frac, max_instances, bolt_course_id) values ($now, '$name', '$short_name', '$description', $min_conf_sum, $min_conf_frac, $max_instances, $courseid)");
+    if ($courseid) {
+        $course->update("bossa_app_id=$app_id");
+    }
     Header('Location: bossa_admin.php');
     exit();
 } else if ($submit == 'Update user') {

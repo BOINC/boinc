@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once('../inc/db.inc');
 require_once('../inc/util.inc');
@@ -13,21 +12,24 @@ require_once('../inc/translation.inc');
 // it's needed for pre-version 5 clients,
 // and clients that don't use the account manager
 
-db_init();
 page_head(tra("Create an account"));
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
     echo "
         <h1>".tra("Account creation is disabled")."</h1>
-        <p>".tra("Account creation is disabled for %1 at the moment. Please try again later.", PROJECT)."</p>
+        <p>".tra("Account creation is currently disabled. Please try again later.")."</p>
     ";
     page_tail();
     exit();
 }
-echo "<p>
-    <b>".tra("NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password.")."</b></p>
-";
+$wac = parse_bool($config, "web_account_creation");
+if (!$wac) {
+    echo "<p>
+        <b>".tra("NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password.")."</b></p>
+    ";
+}
+
 echo "
     <p>
     <form action=\"create_account_action.php\" method=\"post\">
@@ -93,5 +95,6 @@ echo "
     </form>
 ";
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 page_tail();
 ?>

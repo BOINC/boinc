@@ -102,7 +102,9 @@ class BoltUser {
 class BoltCourse {
     static function insert($clause) {
         $db = BoltDb::get();
-        return $db->insert('bolt_course', $clause);
+        $ret = $db->insert('bolt_course', $clause);
+        if (!$ret) return $ret;
+        return $db->insert_id();
     }
     static function lookup_id($id) {
         $db = BoltDb::get();

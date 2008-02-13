@@ -16,6 +16,8 @@ create table bolt_course (
     description     text            not null,
     doc_file        varchar(255)    not null,
     hidden          tinyint         not null,
+    bossa_app_id    integer         not null,
+        -- on completion, go to this Bossa app
     primary key (id)
 );
 

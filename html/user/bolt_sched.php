@@ -82,10 +82,21 @@ function show_finished_page($view_id, $prev_view_id) {
     global $url_args;
 
     page_header("Course completed");
-    echo "Congratulations - you have completed this course.";
-    $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><img src=img/prev.gif></a>";
-    $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Course home page</a>";
-    show_nav($links, $up_link, $view_id);
+    if ($course->bossa_app_id) {
+        require_once("../inc/bossa_db.inc");
+        $app = BossaApp::lookup_id($course->bossa_app_id);
+        echo "
+            Congratulations - you have completed the training for $course->name.
+            <p>
+            You may now
+            <a href=bossa_get_job.php?app_id=$course->bossa_app_id>do work</a>.
+        ";
+    } else {
+        echo "Congratulations - you have completed this course.";
+        $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><img src=img/prev.gif></a>";
+        $up_link = "<a href=bolt_sched.php?$url_args&action=course_home&view_id=$view_id>Course home page</a>";
+        show_nav($links, $up_link, $view_id);
+    }
     page_footer();
 }
 
