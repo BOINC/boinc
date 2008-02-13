@@ -43,6 +43,7 @@ The colors are based on U.C. Berkeley's blue-and-gold colors.
 <li> <a href=logo/boinc_logo.ai>Adobe Illustrator (.ai)</a>
 <li> <a href=logo/boinc_logo.cdr>Vector graphics (.cdr)</a>
 <li> <a href=logo/boinc_logo.pdf>Adobe PDF (.cdr)</a>
+<li> <a href=logo/boinc_logo.svg>Scalable Vector Graphics (.svg)</a>
 <li> <a href=logo/boinc_logo.png>1280x535, transparent background (.png)</a>
 <li> <a href=logo/boinc_logo.wmf>Windows meta-file (.wmf)</a>
 <li> <a href=logo/favicon.gif>Favicon (GIFF)</a>

@@ -22,6 +22,10 @@
 
 #include "msg_log.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 class SCHED_MSG_LOG : public MSG_LOG {
     const char* v_format_kind(int kind) const;
     bool v_message_wanted(int kind) const;
@@ -34,6 +38,13 @@ public:
     };
     SCHED_MSG_LOG(): MSG_LOG(stderr) { debug_level = MSG_NORMAL; }
     void set_debug_level(int new_level) { debug_level = new_level; }
+#ifdef _USING_FCGI_
+    ~SCHED_MSG_LOG();
+    void set_indent_level(const int new_indent_level);
+    void redirect(FILE* f);
+    void close();
+    void flush();
+#endif
 };
 
 extern SCHED_MSG_LOG log_messages;

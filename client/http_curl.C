@@ -159,8 +159,6 @@ HTTP_OP::HTTP_OP() {
     pcurlFormEnd = NULL;
     pByte = NULL;
     lSeek = 0;
-    auth_flag = false;
-    auth_type = 0;
     xfer_speed = 0;
     reset();
 }
@@ -340,32 +338,46 @@ int HTTP_OP::libcurl_exec(
     // if the above is nonzero, you need the following:
     //
 #ifdef _WIN32
-    TCHAR   szPath[MAX_PATH-1];
-    std::string strCABundlePath;
+    if (strlen(m_curl_ca_bundle_location) == 0) {
+        TCHAR szPath[MAX_PATH-1];
+        GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
 
-    // Where is BOINC executed from?
-    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+        TCHAR *pszProg = strrchr(szPath, '\\');
+        if (pszProg) {
+            szPath[pszProg - szPath + 1] = 0;
 
-    TCHAR *pszProg = strrchr(szPath, '\\');
-    if (pszProg) {
-        szPath[pszProg - szPath + 1] = 0;
+            strncat(
+                m_curl_ca_bundle_location,
+                szPath, 
+                sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
+            );
+            strncat(
+                m_curl_ca_bundle_location,
+                CA_BUNDLE_FILENAME, 
+                sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
+            );
 
-        strncat(
-            m_curl_ca_bundle_location,
-            szPath, 
-            sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
-        );
-        strncat(
-            m_curl_ca_bundle_location,
-            CA_BUNDLE_FILENAME, 
-            sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
-        );
-
-        if (boinc_file_exists(m_curl_ca_bundle_location)) {
-            // call this only if a local copy of ca-bundle.crt exists;
-            // otherwise, let's hope that it exists in the default place
-            //
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
+            if (log_flags.http_debug) {
+                msg_printf(
+                    0,
+                    MSG_INFO,
+                    "[http_debug] HTTP_OP::libcurl_exec(): ca-bundle '%s'",
+                    m_curl_ca_bundle_location
+                );
+            }
+        }
+    }
+    if (boinc_file_exists(m_curl_ca_bundle_location)) {
+        // call this only if a local copy of ca-bundle.crt exists;
+        // otherwise, let's hope that it exists in the default place
+        //
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
+        if (log_flags.http_debug) {
+            msg_printf(
+                0,
+                MSG_INFO,
+                "[http_debug] HTTP_OP::libcurl_exec(): ca-bundle set"
+            );
         }
     }
 #else
@@ -398,17 +410,12 @@ int HTTP_OP::libcurl_exec(
     // force curl to use HTTP/1.0 if config specifies it
 	// (curl uses 1.1 by default)
 	//
-	if (config.http_1_0 || config.force_ntlm) {
+	if (config.http_1_0 || (config.force_auth == "ntlm")) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 	}
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
-
-    // disable connection caching; if a file upload handler connection
-    // is interrupted, the file will stay locked indefinitely
-    //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_FORBID_REUSE, 1L);
 
     // if we tell Curl to accept any encoding (e.g. deflate)
     // it seems to accept them all, which screws up projects that
@@ -808,16 +815,17 @@ void HTTP_OP::setupProxyCurl() {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-            auth_flag = true;
-            if (auth_type) {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
+            if        (config.force_auth == "basic") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
+            } else if (config.force_auth == "digest") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
+            } else if (config.force_auth == "gss-negotiate") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_GSSNEGOTIATE);
+            } else if (config.force_auth == "ntlm") {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
             } else {
-                if (config.force_ntlm) {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
-                } else {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
-                }
-            }       
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+            }
             sprintf(szCurlProxyUserPwd, "%s:%s", pi.http_user_name, pi.http_user_passwd);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
         }
@@ -834,7 +842,6 @@ void HTTP_OP::setupProxyCurl() {
             if (
                 strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
             ) {
-                auth_flag = false;
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
@@ -988,15 +995,6 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             if (dt > 0) {
                 gstate.net_stats.up.update(size_upload, dt);
             }
-        }
-
-        // if proxy/socks server uses authentication and its not set yet,
-        // get what last transfer used
-        //
-        if (hop->auth_flag && !hop->auth_type) {
-            curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_PROXYAUTH_AVAIL, &hop->auth_type
-            );
         }
 
         // the op is done if curl_multi_msg_read gave us a msg for this http_op

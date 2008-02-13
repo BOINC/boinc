@@ -133,7 +133,7 @@ int lock_sched(SCHEDULER_REPLY& reply) {
     // write PID into the CGI_<HOSTID> file and flush to disk
     //
     count = sprintf(pid_string, "%d\n", getpid());
-    int unused = write(fd, pid_string, count);
+    write(fd, pid_string, count);
     fsync(fd);
 
     reply.lockfile_fd = fd;
@@ -223,7 +223,7 @@ static void mark_results_over(DB_HOST& host) {
 //
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
-    char buf[256], buf2[256];
+    char buf[256];
     DB_HOST host;
     DB_USER user;
     DB_TEAM team;
@@ -279,7 +279,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     weak_auth = true;
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_DEBUG,
-                        "[HOST#%d] accepting weak authenticator\n"
+                        "[HOST#%d] accepting weak authenticator\n",
+                        host.id
                     );
                 }
             }
@@ -1546,6 +1547,10 @@ void handle_request(
 
     memset(&sreq, 0, sizeof(sreq));
 
+#ifdef _USING_FCGI_
+    log_messages.set_indent_level(1);
+#endif
+
     if (sreq.parse(fin) == 0){
         log_messages.printf(
              SCHED_MSG_LOG::MSG_NORMAL,
@@ -1555,6 +1560,11 @@ void handle_request(
              sreq.core_client_release
         );
         process_request(sreq, sreply, ss, code_sign_key);
+
+#ifdef _USING_FCGI_
+		log_messages.set_indent_level(2);
+#endif
+
     } else {
         // BOINC scheduler requests use method POST.
         // So method GET means that someone is trying a browser.
@@ -1563,6 +1573,10 @@ void handle_request(
         if (rm && !strcmp(rm, "GET")) {
             sreply.probable_user_browser=true;
         }
+
+#ifdef _USING_FCGI_
+		log_messages.set_indent_level(2);
+#endif
 
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,

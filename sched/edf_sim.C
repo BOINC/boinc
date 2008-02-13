@@ -21,11 +21,16 @@
 #include <algorithm>
 #include <cstdio>
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 #include "edf_sim.h"
 
 using std::vector;
 
 //#define TEST
+//#define DEBUG
 
 // 0 shows initial workload and candidate decisions
 // 1 shows function calls results of sim: make/miss deadline
@@ -237,8 +242,8 @@ bool check_candidate (
             && !r.misses_deadline
         ) {
 #ifdef DEBUG
-	        fprintf(stderr, "  cand. fails; %s now misses deadline: %f\n",
-                r.name, booked_to[lowest_booked_cpu]
+	        fprintf(stderr, "  cand. fails; %s now misses deadline: %f > %f\n",
+                r.name, booked_to[lowest_booked_cpu], r.computation_deadline
             );
 #endif
             return false;

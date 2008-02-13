@@ -40,7 +40,7 @@ class BoltExerciseSet extends BoltRandom {
         $avg_score = $total_score/($nshown+1);
 
         $repeat = null;
-        $least = 1;
+        $least = 2;
         foreach ($this->repeats as $r) {
             if ($avg_score < $r->score && $r->score<$least) {
                 $repeat = $r;
@@ -96,7 +96,9 @@ class BoltExerciseSet extends BoltRandom {
                 $state_rec = $iter->state[$this->name];
                 $state_rec['child_name'] = $unit_name;
                 $iter->state[$this->name] = $state_rec;
-                echo "start_review: unit $unit_name";
+                if (!$r->unit->is_item) {
+                    $r->unit->restart($iter);
+                }
                 return true;
             }
         }
@@ -104,9 +106,7 @@ class BoltExerciseSet extends BoltRandom {
     }
 
     function start_repeat(&$iter) {
-        $state_rec = $iter->state[$this->name];
-        $state_rec['child_name'] = null;
-        $state_rec['nshown'] = 0;
+        $this->restart($iter);
     }
 
 }

@@ -31,11 +31,11 @@ function type_text($type) {
     }
 }
 
-$w51039= array(
-    "num"=>"5.10.39",
+$w51041= array(
+    "num"=>"5.10.41",
     "status"=>"Development version",
-    "file"=>"boinc_5.10.39_windows_intelx86.exe",
-    "date"=>"24 Jan 2008",
+    "file"=>"boinc_5.10.41_windows_intelx86.exe",
+    "date"=>"7 Feb 2008",
     "type"=>"win_new",
 );
 
@@ -47,11 +47,11 @@ $w51030= array(
     "type"=>"win_new",
 );
 
-$w51039x64= array(
-    "num"=>"5.10.39",
+$w51041x64= array(
+    "num"=>"5.10.41",
     "status"=>"Development version",
-    "file"=>"boinc_5.10.39_windows_x86_64.exe",
-    "date"=>"24 Jan 2008",
+    "file"=>"boinc_5.10.41_windows_x86_64.exe",
+    "date"=>"7 Feb 2008",
     "type"=>"win_new",
 );
 
@@ -79,11 +79,11 @@ $w5411= array(
     "type"=>"win_new",
 );
 
-$m51039 = array(
-    "num"=>"5.10.39",
+$m51041 = array(
+    "num"=>"5.10.41",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.10.39_macOSX_universal.zip",
-    "date"=>"24 Jan 2008",
+    "file"=>"boinc_5.10.41_macOSX_universal.zip",
+    "date"=>"8 Feb 2008",
     "type"=>"mac_advanced",
 );
 
@@ -111,11 +111,11 @@ $m549 = array(
     "type"=>"mac_advanced",
 );
 
-$m51039c = array(
-    "num"=>"5.10.39",
+$m51041c = array(
+    "num"=>"5.10.41",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.10.39_universal-apple-darwin.zip",
-    "date"=>"24 Jan 2008",
+    "file"=>"boinc_5.10.41_universal-apple-darwin.zip",
+    "date"=>"8 Feb 2008",
     "type"=>"bare_core",
 );
 
@@ -188,7 +188,7 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w51039,
+        $w51041,
         $w51030,
         $w5816,
     )
@@ -199,7 +199,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w51039x64,
+        $w51041x64,
         $w51030x64,
     )
 );
@@ -209,8 +209,8 @@ $mac = array(
     "description"=>"Version 10.3+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m51039,
-        $m51039c,
+        $m51041,
+        $m51041c,
         $m51034,
         $m51034c,
         $m5817,

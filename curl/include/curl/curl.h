@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2007, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2008, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -29,6 +29,14 @@
 
 #include "curlver.h" /* the libcurl version defines */
 
+/*
+ * Define WIN32 when build target is Win32 API
+ */
+
+#if (defined(_WIN32) || defined(__WIN32__)) && !defined(WIN32)
+#define WIN32
+#endif
+
 #include <stdio.h>
 #include <limits.h>
 
@@ -41,11 +49,41 @@
 # include <time.h>
 #endif /* defined (vms) */
 
-typedef void CURL;
+#if defined(WIN32) && !defined(_WIN32_WCE) && !defined(__GNUC__) && \
+  !defined(__CYGWIN__) || defined(__MINGW32__)
+#if !(defined(_WINSOCKAPI_) || defined(_WINSOCK_H))
+/* The check above prevents the winsock2 inclusion if winsock.h already was
+   included, since they can't co-exist without problems */
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+#else
+
+/* HP-UX systems version 9, 10 and 11 lack sys/select.h and so does oldish
+   libc5-based Linux systems. Only include it on system that are known to
+   require it! */
+#if defined(_AIX) || defined(__NOVELL_LIBC__) || defined(__NetBSD__) || defined(__minix)
+#include <sys/select.h>
+#endif
+
+#ifndef _WIN32_WCE
+#include <sys/socket.h>
+#endif
+#ifndef __WATCOMC__
+#include <sys/time.h>
+#endif
+#include <sys/types.h>
+#endif
+
+#ifdef __BEOS__
+#include <support/SupportDefs.h>
+#endif
 
 #ifdef  __cplusplus
 extern "C" {
 #endif
+
+typedef void CURL;
 
 /*
  * Decorate exportable functions for Win32 DLL linking.
@@ -139,38 +177,6 @@ extern "C" {
 #undef FILESIZEBITS
 #endif
 
-#if defined(_WIN32) && !defined(WIN32)
-/* Chris Lewis mentioned that he doesn't get WIN32 defined, only _WIN32 so we
-   make this adjustment to catch this. */
-#define WIN32 1
-#endif
-
-#if defined(WIN32) && !defined(_WIN32_WCE) && !defined(__GNUC__) && \
-  !defined(__CYGWIN__) || defined(__MINGW32__)
-#if !(defined(_WINSOCKAPI_) || defined(_WINSOCK_H))
-/* The check above prevents the winsock2 inclusion if winsock.h already was
-   included, since they can't co-exist without problems */
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#endif
-#else
-
-/* HP-UX systems version 9, 10 and 11 lack sys/select.h and so does oldish
-   libc5-based Linux systems. Only include it on system that are known to
-   require it! */
-#if defined(_AIX) || defined(__NOVELL_LIBC__) || defined(__NetBSD__) || defined(__minix)
-#include <sys/select.h>
-#endif
-
-#ifndef _WIN32_WCE
-#include <sys/socket.h>
-#endif
-#ifndef __WATCOMC__
-#include <sys/time.h>
-#endif
-#include <sys/types.h>
-#endif
-
 #ifndef curl_socket_typedef
 /* socket typedef */
 #ifdef WIN32
@@ -224,7 +230,9 @@ typedef int (*curl_progress_callback)(void *clientp,
      time for those who feel adventurous. */
 #define CURL_MAX_WRITE_SIZE 16384
 #endif
-
+/* This is a magic return code for the write callback that, when returned,
+   will signal libcurl to pause receving on the current transfer. */
+#define CURL_WRITEFUNC_PAUSE 0x10000001
 typedef size_t (*curl_write_callback)(char *buffer,
                                       size_t size,
                                       size_t nitems,
@@ -233,6 +241,13 @@ typedef size_t (*curl_write_callback)(char *buffer,
 /* This is a return code for the read callback that, when returned, will
    signal libcurl to immediately abort the current transfer. */
 #define CURL_READFUNC_ABORT 0x10000000
+/* This is a return code for the read callback that, when returned, will
+   signal libcurl to pause sending data on the current transfer. */
+#define CURL_READFUNC_PAUSE 0x10000001
+typedef int (*curl_seek_callback)(void *instream,
+                                  curl_off_t offset,
+				  int origin); /* 'whence' */
+
 typedef size_t (*curl_read_callback)(char *buffer,
                                       size_t size,
                                       size_t nitems,
@@ -251,7 +266,9 @@ struct curl_sockaddr {
   int family;
   int socktype;
   int protocol;
-  socklen_t addrlen;
+  unsigned int addrlen; /* addrlen was a socklen_t type before 7.18.0 but it
+                           turned really ugly and painful on the systems that
+                           lack this type */
   struct sockaddr addr;
 };
 
@@ -487,10 +504,15 @@ typedef CURLcode (*curl_ssl_ctx_callback)(CURL *curl,    /* easy handle */
                                           void *userptr);
 
 typedef enum {
-  CURLPROXY_HTTP = 0,
-  CURLPROXY_SOCKS4 = 4,
-  CURLPROXY_SOCKS5 = 5
-} curl_proxytype;
+  CURLPROXY_HTTP = 0,   /* added in 7.10 */
+  CURLPROXY_SOCKS4 = 4, /* support added in 7.15.2, enum existed already
+                           in 7.10 */
+  CURLPROXY_SOCKS5 = 5, /* added in 7.10 */
+  CURLPROXY_SOCKS4A = 6, /* added in 7.18.0 */
+  CURLPROXY_SOCKS5_HOSTNAME = 7 /* Use the SOCKS5 protocol but pass along the
+                                   host name rather than the IP address. added
+                                   in 7.18.0 */
+} curl_proxytype;  /* this enum was added in 7.10 */
 
 #define CURLAUTH_NONE         0       /* nothing */
 #define CURLAUTH_BASIC        (1<<0)  /* Basic (default) */
@@ -935,7 +957,7 @@ typedef enum {
   CINIT(SHARE, OBJECTPOINT, 100),
 
   /* indicates type of proxy. accepted values are CURLPROXY_HTTP (default),
-     CURLPROXY_SOCKS4 and CURLPROXY_SOCKS5. */
+     CURLPROXY_SOCKS4, CURLPROXY_SOCKS4A and CURLPROXY_SOCKS5. */
   CINIT(PROXYTYPE, LONG, 101),
 
   /* Set the Accept-Encoding string. Use this to tell a server you would like
@@ -1159,6 +1181,13 @@ typedef enum {
   /* POST volatile input fields. */
   CINIT(COPYPOSTFIELDS, OBJECTPOINT, 165),
 
+  /* set transfer mode (;type=<a|i>) when doing FTP via an HTTP proxy */
+  CINIT(PROXY_TRANSFER_MODE, LONG, 166),
+
+  /* Callback function for seeking in the input stream */
+  CINIT(SEEKFUNCTION, FUNCTIONPOINT, 167),
+  CINIT(SEEKDATA, OBJECTPOINT, 168),
+
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
 
@@ -1240,10 +1269,6 @@ typedef enum {
 
   CURL_TIMECOND_LAST
 } curl_TimeCond;
-
-#ifdef __BEOS__
-#include <support/SupportDefs.h>
-#endif
 
 
 /* curl_strequal() and curl_strnequal() are subject for removal in a future
@@ -1736,6 +1761,26 @@ CURL_EXTERN const char *curl_easy_strerror(CURLcode);
  * for printing meaningful error messages.
  */
 CURL_EXTERN const char *curl_share_strerror(CURLSHcode);
+
+/*
+ * NAME curl_easy_pause()
+ *
+ * DESCRIPTION
+ *
+ * The curl_easy_pause function pauses or unpauses transfers. Select the new
+ * state by setting the bitmask, use the convenience defines below.
+ *
+ */
+CURL_EXTERN CURLcode curl_easy_pause(CURL *handle, int bitmask);
+
+#define CURLPAUSE_RECV      (1<<0)
+#define CURLPAUSE_RECV_CONT (0)
+
+#define CURLPAUSE_SEND      (1<<2)
+#define CURLPAUSE_SEND_CONT (0)
+
+#define CURLPAUSE_ALL       (CURLPAUSE_RECV|CURLPAUSE_SEND)
+#define CURLPAUSE_CONT      (CURLPAUSE_RECV_CONT|CURLPAUSE_SEND_CONT)
 
 #ifdef  __cplusplus
 }

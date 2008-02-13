@@ -170,6 +170,9 @@ language("Belgium (Dutch/French/English)", array(
     site("http://www.boinc.be", "www.boinc.be"),
     site("http://icewolves.plid.be", "IceWolves"),
 ));
+language("Bulgarian", array(
+    site("http://www.boinc-bulgaria.net", "BOINC Bulgaria")
+));
 language("Catalan", array(
     site("http://www.boinc.cat", "BOINC.cat"),
 ));

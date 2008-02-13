@@ -56,7 +56,7 @@ unsigned int random_int() {
 #if defined(__CYGWIN32__)
     HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
 #else
-    HMODULE hLib=LoadLibrary((LPCWSTR)"ADVAPI32.DLL");
+    HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
 #endif
     if (!hLib) {
         die("Can't load ADVAPI32.DLL");
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
         if (!fpub) die("fopen");
         retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
         if (retval) die("read_public_key");
-        strcpy((char*)buf2, "foobar");
+        strcpy((char*)buf2, "encryption test successful");
         in.data = buf2;
         in.len = strlen((char*)in.data);
         out.data = buf;

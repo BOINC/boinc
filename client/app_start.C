@@ -329,10 +329,8 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_INFO* fip;
     int retval;
 #ifdef _WIN32
-    CLIENT_AUTHORIZATION ca;
     std::string cmd_line;
 #endif
-
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
             "Starting %s", result->name
@@ -498,24 +496,11 @@ int ACTIVE_TASK::start(bool first_time) {
     cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
-    ca.init();
+    get_sandbox_account_token();
     for (i=0; i<5; i++) {
-        if (ca.use_authorizations) {
-            HANDLE hToken;
-            std::string username = ca.boinc_project.username;
-            std::string password = r_base64_decode(ca.boinc_project.password);
-            if (!LogonUser( username.c_str(), NULL, password.c_str(), 
-                            LOGON32_LOGON_SERVICE, LOGON32_PROVIDER_DEFAULT,
-                            &hToken ) )
-            {
-                windows_error_string(error_msg, sizeof(error_msg));
-                msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "LogonUser failed: %s", error_msg
-                );
-            }
-
+        if (sandbox_account_token != NULL) {
             if (CreateProcessAsUser(
-                hToken,
+                sandbox_account_token,
                 exec_path,
                 (LPSTR)cmd_line.c_str(),
                 NULL,
@@ -530,9 +515,6 @@ int ACTIVE_TASK::start(bool first_time) {
                 success = true;
                 break;
             }
-
-            CloseHandle(hToken);
-
         } else {
             if (CreateProcess(
                 exec_path,

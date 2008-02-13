@@ -1,6 +1,21 @@
 <?
 
 $project_news = array(
+array("Feb 12, 2008",
+    "Where is BOINC headed?  Marcin Cieslak's vision:
+    <a href=http://boinc.berkeley.edu/cieslak.pdf>BOINC on JXTA</a>."
+),
+array("Feb 11, 2008",
+    "Bulgarian BOINC users:
+    find forums and information in your language at
+    <a href=http://www.boinc-bulgaria.net>BOINC Bulgaria</a>."
+),
+array("Feb 7, 2008",
+    "<a href=http://biology.polytechnique.fr/proteinsathome>Proteins@Home</a>
+    has resumed operations.
+    Check out their <a href=http://www3.interscience.wiley.com/cgi-bin/abstract/117860966/ABSTRACT?CRETRY=1&SRETRY=0>paper on computational protein design</a>
+    in the Journal of Computational Chemistry."
+),
 array("Jan 31, 2008",
     "The <a href=http://bob.myisland.as/tsp/>TSP project</a>
     is featured in International Science Grid This Week: <a href=http://www.isgtw.org/?pid=1000844>Traveling salesman meets distributed computing</a>."

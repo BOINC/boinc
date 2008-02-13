@@ -1098,3 +1098,240 @@ David  Feb 3 2008
         handle_request.C
         server_types.C,h
         show_shmem.C
+
+Rom    Feb 3 2008
+    - client: remove the auth_type and auth_flag code.
+    - client: remove forbid reuse flag.
+        
+    client/
+        http_curl.C, .h
+
+Rom    Feb 3 2008
+    - WIN: Update libcurl to 7.18.0
+    
+    curl/
+        <Various Files>
+
+Charlie Feb 5 2008
+    - MGR: Set disconnected state when appropriate even when minimized (if 
+        GetCoreClientStatus() call from CTaskBarIcon timer routine fails.)
+    - MGR: Auto-restart Client only if last connection was to local host.
+    - MGR: Test if Client is running after auto-restart, if so reconnect 
+        automatically and skip dialog asking user.
+    - Mac MGR: Don't skip notifications on Mac when mimimized; show them 
+        when user opens Manager window.  Remove incorrect alert text on Mac 
+        (telling user to start Manager in same directory as Client.)
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        MainDocument.cpp
+
+David  Feb 5 2008
+    - scheduler: send log messages to file, rather than httpd error log,
+        when using FCGI (from Carl Christensen)
+
+    lib/
+        msg_log.C,h
+    sched/
+        Makefile.am
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        sched_util.C,h
+    tools/
+        Makefile.am
+
+David  Feb 5 2008
+    - scheduler: simplified Carl's checkin (avoid virtual destructors)
+    - API: small tweak for standalone
+
+    api/
+        graphics2_util.C
+    lib/
+        msg_log.C,h
+    sched/
+        Makefile.am
+        edf_sim.C
+        handle_request.C
+        sched_msgs.C,h
+        sched_util.C,h
+    tools/
+        Makefile.am
+
+David  Feb 5 2008
+    - trickle handler: make it compile, and add to Makefile.am
+        (from Eric Myers)
+
+    sched/
+        Makefile.am
+        trickle_handler.C
+
+David  Feb 5 2008
+    - Manager/client: add the ability to specify a port
+        in the manager's "select host" dialog.
+        Lets you connect over an SSH tunnel.
+        From Der Meister.
+
+    clientgui/
+        AdvancedFrame.cpp
+        MainDocument.cpp,h
+    lib/
+        gui_rpc_client.C,h
+
+David  Feb 5 2008
+    - GUI RPC: fix some XML errors (missing / in single-tag elements)
+        Fixes #524 (from Nicolas)
+
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client_ops.C
+
+David  Feb 5 2008
+    - GUI RPC: initialize disk usage structure
+        to avoid wacky pie charts at startup
+        Fixes #549 (from Der Meister)
+
+    lib/
+        gui_rpc_client.h
+
+David  Feb 5 2008
+    - delete_file: fix bugs and info text
+        Fixes #551 (from Nicolas)
+
+    sched/
+        delete_file.C
+
+David  Feb 5 2008
+	- win compile fixes
+
+	client/
+		sim_util.C
+	clientgui/
+		BOINCBaseFrame.cpp
+		MainDocument.cpp
+
+Rom    Feb 5 2008
+    - MGR: Cache the local computer name in statics to avoid functions
+        that take awhile to execute.
+        
+    clientgui/
+        MainDocument.cpp
+
+David  Feb 5 2008
+    - client: fix compile warning
+
+    lib/
+        msg_log.h
+
+Charlie Feb 5 2008
+    - MGR: fix compile warning
+
+    clientgui/
+        DlgAdvPreferences.cpp
+
+Rom    Feb 6 2008
+    - MGR: Fix a refresh bug when opening BOINC Manager from the taskbar.
+    
+    clientgui/
+        BOINCTaskBar.cpp
+
+David  Feb 6 2008
+    - file upload handler: the FCGI version wasn't handling signatures,
+        because the code to read keys in FCGI was commented out
+        (and was in fact wrong).
+        I fixed it and uncommented it.
+    - make_project and upgrade: copy lib/crypt_prog to project/bin/
+
+    lib/
+        crypt.C
+        crypt_prog.C
+    py/Boinc/
+        setup_project.py
+    tools/
+        sign_executable.C
+
+David  Feb 6 2008
+    - API: critical section begin/end calls can be nested
+        Fixes #508 (from Nicolas)
+
+    api/
+        boinc_api.C
+
+Rom    Feb 7 2008
+    - client: expand the <force_ntlm> functionality so that we can
+        force any authentication type. The new tag is called
+        <force_auth> whihc can contain basic, digest, ntlm, and
+        gss-negotiate.
+        
+    client/
+        http_curl.C
+        log_flags.C, .h
+
+Charlie Feb 7 2008
+    - MGR: If use shuts down connected client, don't auto-relaunch it.
+    
+    clientgui/
+        MainDocument.cpp,h
+        AdvancedFrame.cpp
+
+David  Feb 8 2008
+    - scheduler: do "careful update" of workunit.hr_class
+        in case someone else changed since we read it.
+        Hopefully this will fix a race condition
+        where WU results get sent to different HR classes.
+        (Alternatively we could use transactions,
+        or acquire the semaphore during read/update,
+        but this could impact performance).
+
+    db/
+        db_base.C,h
+    sched/
+        sched_hr.C
+
+Rom    Feb 9 2008
+    - client: only construct the path to ca-bundle.crt once.
+    
+    client/
+        http_curl.C
+
+David  Feb 9 2008
+    - scheduler: fix bone-head mistake in HR code
+
+    client/
+        app_control.C
+    sched/
+        sched_hr.C
+
+David  Feb 12 2008
+    - client: removed sprawl
+
+    client/
+        app_start.C
+        client_state.C,h
+        file_names.h
+        sandbox.C
+    lib/
+        util.C,h
+
+David  Feb 12 2008
+    - client: if a non-CPU-intensive project already has a job
+        (even if suspended or downloading) don't ask for another one
+        (from John McLeod)
+
+    client/
+        work_fetch.C
+
+David  Feb 12 2008
+    - client code: my next-to-last checkin was flawed
+
+    client/
+        app_start.C
+        client_state.C,h
+        sandbox.C
+    clientgui/
+        BOINCClientManager.cpp
+        MainDocument.cpp
+    lib/
+        common_defs.h
+        util.C,h

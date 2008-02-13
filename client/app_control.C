@@ -217,7 +217,7 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     if (premature_exit_count > 100) {
         set_task_state(PROCESS_ABORTED, "handle_premature_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
-        gstate.report_result_error(*result, "too many normally harmless exit(s)");
+        gstate.report_result_error(*result, "too many exit(0)s");
         result->set_state(RESULT_ABORTED, "handle_premature_exit");
     } else {
         will_restart = true;

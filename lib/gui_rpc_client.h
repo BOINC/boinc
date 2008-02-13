@@ -356,7 +356,7 @@ struct DISK_USAGE {
     double d_free;
     double d_boinc;     // amount used by BOINC itself, not projects
 
-    DISK_USAGE(){}
+    DISK_USAGE(){clear();}
     ~DISK_USAGE();
 
     void print();
@@ -537,7 +537,9 @@ public:
     RPC_CLIENT();
     ~RPC_CLIENT();
     int init(const char* host, int port=0);
-    int init_asynch(const char* host, double timeout, bool retry);
+    int init_asynch(
+        const char* host, double timeout, bool retry, int port=GUI_RPC_PORT
+    );
         // timeout == how long to wait until give up
         //    If the caller (i.e. BOINC Manager) just launched the core client,
         //    this should be large enough to allow the process to

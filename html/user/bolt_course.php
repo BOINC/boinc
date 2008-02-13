@@ -50,11 +50,14 @@ function show_view($view) {
             <br><a href=bolt_sched.php?$qs>Answer page</a>";
     }
     echo "<tr>
+        <td valign=top>$view->id</td>
         <td valign=top>".time_str($view->start_time)."</td>
         <td valign=top>$dur</td>
         <td valign=top>$view->item_name</td>
         <td valign=top>".mode_name($view->mode)." $x</td>
-        <td valign=top>".phase_name($view->phase)."</td>
+    ";
+        //<td valign=top>".phase_name($view->phase)."</td>
+    echo "
         <td valign=top>".action_name($view->action)."</td>
         </tr>
     ";
@@ -67,7 +70,9 @@ function show_views() {
     $views = BoltView::enum("user_id=$user->id and course_id=$course->id order by id desc");
     start_table();
 
-    table_header("Time", "Duration", "Item", "Mode", "Phase", "Action");
+    table_header("ID", "Time", "Duration", "Item", "Mode",
+            // "Phase",
+            "Action");
     foreach ($views as $view) {
         show_view($view);
     }

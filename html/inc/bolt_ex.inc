@@ -8,7 +8,7 @@ $bolt_ex_state = 0;
 $bolt_ex_score = 0;
 $bolt_ex_query_string = "";
 
-function bolt_exclusive_choice($choices) {
+function exclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_score;  // incremental output if SCORE
@@ -71,7 +71,7 @@ function bolt_exclusive_choice($choices) {
     $bolt_ex_index++;
 }
 
-function bolt_inclusive_choice($choices) {
+function inclusive_choice($choices) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_score;  // incremental output if SCORE
@@ -130,7 +130,7 @@ function bolt_inclusive_choice($choices) {
     $bolt_ex_index++;
 }
 
-function bolt_image_rect($img, $rect) {
+function image_rect($img, $rect) {
     global $bolt_ex_mode;   // input
     global $bolt_ex_index;  // input
     global $bolt_ex_state;  // output if SHOW, else input

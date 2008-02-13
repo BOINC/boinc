@@ -7,7 +7,7 @@ EXTRA_DIST = make_project add xadd update_versions dbcheck_files_exist upgrade m
 # TODO: use libboinc for these:
 
 create_work_SOURCES =           \
-    create_work.C 
+    create_work.C
 
 create_work_LDADD = $(SCHED_LIB) $(BOINC_LIB) $(RSA_LIBS) $(MYSQL_LIBS)
 

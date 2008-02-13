@@ -40,10 +40,12 @@ static key_t get_shmem_name(char* prog_name) {
     return ftok(path, 2);
 }
 #else
-// V6 Unix/Linux/Mac applications always use mmap() shared memory for gfx communication
+// Unix/Linux/Mac applications always use mmap() for gfx communication
+//
 static void get_shmem_name(char* prog_name, char* shmem_name) {
     APP_INIT_DATA aid;
-    boinc_get_init_data(aid);
+    int retval = boinc_get_init_data(aid);
+    if (retval) aid.slot = 0;
     sprintf(shmem_name, "boinc_%s_%d", prog_name, aid.slot);
 }
 #endif

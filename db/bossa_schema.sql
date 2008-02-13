@@ -2,11 +2,17 @@ create table bossa_app (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
     name                varchar(255) not null,
-    user_friendly_name  varchar(255) not null,
+    short_name          varchar(255) not null,
+    description         varchar(255) not null,
     long_jobs           tinyint     not null,
-    start_url           varchar(255) not null,
-    deprecated          tinyint     not null,
+    display_script      varchar(255) not null,
+    backend_script      varchar(255) not null,
+    hidden              tinyint     not null,
+    min_conf_sum        double      not null,
+    min_conf_frac       double      not null,
+    max_instances       integer     not null,
     info                text,
+        -- app-specific info, JSON
     primary key(id)
 );
 
@@ -19,12 +25,11 @@ create table bossa_job (
     batch               integer     not null,
     time_estimate       integer     not null,
     time_limit          integer     not null,
-    more_needed         tinyint     not null,
-    npending            smallint    not null,
-    nsuccess            smallint    not null,
-    nsuccess_needed     smallint    not null,
+    transition_time     double      not null,
+    conf_needed         double      not null,
+    canonical_inst_id   integer     not null,
     primary key(id)
-);
+) engine=InnoDB;
 
 create table bossa_job_inst (
     id                  integer     not null auto_increment,
@@ -32,12 +37,15 @@ create table bossa_job_inst (
     job_id              integer     not null,
     user_id             integer     not null,
     finish_time         integer     not null,
+    validate_state      integer     not null,
+        -- 0 init, 1 valid, 2 invalid
     info                text,
     primary key(id)
-);
+) engine=InnoDB;
 
-create table bossa_app_user (
-    app_id              integer     not null,
+create table bossa_user (
     user_id             integer     not null,
     info                text
+        -- Info about skill.
+        -- May depend on app; may be scalar or something else
 );

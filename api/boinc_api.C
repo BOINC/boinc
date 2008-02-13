@@ -95,7 +95,7 @@ static volatile int time_until_fraction_done_update;
 static volatile double fraction_done;
 static volatile double last_checkpoint_cpu_time;
 static volatile bool ready_to_checkpoint = false;
-static volatile bool in_critical_section;
+static volatile int in_critical_section=0;
 static volatile double last_wu_cpu_time;
 static volatile bool standalone          = false;
 static volatile double initial_wu_cpu_time;
@@ -846,7 +846,7 @@ static void timer_handler() {
         if (options.handle_trickle_downs) {
             handle_trickle_down_msg();
         }
-        if (!in_critical_section && options.handle_process_control) {
+        if (in_critical_section==0 && options.handle_process_control) {
             handle_process_control_msg();
         }
         if (options.backwards_compatible_graphics) {
@@ -869,7 +869,7 @@ static void timer_handler() {
     // see if the core client has died, which means we need to die too
     // (unless we're in a critical section)
     //
-    if (!in_critical_section && options.check_heartbeat) {
+    if (in_critical_section==0 && options.check_heartbeat) {
         if (heartbeat_giveup_time < interrupt_count) {
             fprintf(stderr,
                 "No heartbeat from core client for 30 sec - exiting\n"
@@ -942,7 +942,7 @@ static void worker_signal_handler(int) {
         boinc_exit(worker_thread_exit_status);
     }
     if (options.direct_process_action) {
-        while (boinc_status.suspended && !in_critical_section) {
+        while (boinc_status.suspended && in_critical_section==0) {
             sleep(1);   // don't use boinc_sleep() because it does FP math
         }
     }
@@ -1045,7 +1045,7 @@ int boinc_send_trickle_up(char* variety, char* p) {
 
 int boinc_time_to_checkpoint() {
     if (ready_to_checkpoint) {
-        in_critical_section = true;
+        boinc_begin_critical_section();
         return 1;
     }
     return 0;
@@ -1057,18 +1057,21 @@ int boinc_checkpoint_completed() {
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
     time_until_checkpoint = (int)aid.checkpoint_period;
-    in_critical_section = false;
+    boinc_end_critical_section();
     ready_to_checkpoint = false;
 
     return 0;
 }
 
 void boinc_begin_critical_section() {
-    in_critical_section = true;
+    in_critical_section++;
 }
 
 void boinc_end_critical_section() {
-    in_critical_section = false;
+    in_critical_section--;
+    if (in_critical_section < 0) {
+        in_critical_section = 0;        // just in case
+    }
 }
 
 int boinc_fraction_done(double x) {

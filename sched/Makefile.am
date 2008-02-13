@@ -24,6 +24,7 @@ noinst_PROGRAMS = \
     send_file \
     show_shmem \
     transitioner \
+    trickle_handler \
     update_stats \
     wu_check
 
@@ -43,10 +44,10 @@ libsched_a_SOURCES = \
     sched_shmem.C \
     sched_util.C \
     sched_config.C \
-    sched_msgs.C \
+	sched_msgs.C \
     ../db/boinc_db.C \
     ../db/db_base.C \
-    ../lib/msg_log.C \
+	../lib/msg_log.C \
     ../tools/process_result_template.C \
     ../tools/backend_lib.C 
 
@@ -76,7 +77,7 @@ cgi_SOURCES = \
     sched_locality.C \
     sched_timezone.C \
     server_types.C \
-	time_stats_log.C \
+    time_stats_log.C \
     ../lib/synch.C
 
 census_SOURCES = \
@@ -135,6 +136,9 @@ db_dump_DEPENDENCIES = $(LIB_SCHED)
 
 db_purge_SOURCES = db_purge.C
 db_purge_DEPENDENCIES = $(LIB_SCHED)
+
+trickle_handler_SOURCES = trickle_handler.C
+trickle_handler_DEPENDENCIES = $(LIB_SCHED)
 
 update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
@@ -217,9 +221,12 @@ fcgi_LDADD = $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.C \
     sched_config.C \
+    sched_msgs.C \
     ../lib/miofile.C \
+    ../lib/msg_log.C \
     ../lib/parse.C \
     ../lib/crypt.C
+
 fcgi_file_upload_handler_DEPENDENCIES = $(LIB_SCHED)
 fcgi_file_upload_handler_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi

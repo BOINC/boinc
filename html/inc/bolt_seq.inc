@@ -6,6 +6,16 @@ class BoltSequence extends BoltSet {
     }
 
     function order() {
+        $this->ordered = true;
+    }
+
+    function restart(&$iter) {
+        $state_rec = $iter->state[$this->name];
+        if (!$state_rec) $state_rec = $this->init();
+        $state_rec['nshown'] = 0;
+        $state_rec['index'] = 0;
+        $state_rec['child_name'] = null;
+        $iter->state[$this->name] = $state_rec;
     }
 }
 

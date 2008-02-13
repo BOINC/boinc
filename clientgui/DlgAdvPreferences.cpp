@@ -303,7 +303,6 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 /* write overridden preferences to disk (global_prefs_override.xml) */
 bool CDlgAdvPreferences::SavePreferencesSettings() {
 	double td;
-	long tl;
 
 	mask.clear();
 	//clear special times settings
@@ -317,8 +316,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	mask.run_if_user_active=true;
 	//
 	if(m_txtProcIdleFor->IsEnabled()) {
-		m_txtProcIdleFor->GetValue().ToLong(&tl);
-		prefs.idle_time_to_run=tl;
+		m_txtProcIdleFor->GetValue().ToDouble(&td);
+		prefs.idle_time_to_run=td;
 		mask.idle_time_to_run=true;
 	}
 	//

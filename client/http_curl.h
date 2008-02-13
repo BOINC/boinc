@@ -116,9 +116,6 @@ public:
         // ERR_CONNECT (if server down)
         // ERR_FILE_NOT_FOUND (if 404)
         // ERR_HTTP_ERROR (other failures)
-    // save authorization types supported by proxy/socks server
-    bool auth_flag;       // TRUE = server uses authorization
-    long auth_type;       // 0 = haven't contacted server yet.
 
     void reset();
     void init();

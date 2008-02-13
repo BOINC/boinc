@@ -70,53 +70,48 @@ int main(int argc, char** argv) {
 
     check_stop_daemons();
 
-    // get arguments
     for(i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
             host_id = atoi(argv[++i]);
         } else if(!strcmp(argv[i], "-file_name")) {
-            strcpy(file_name, argv[i++]);
+            strcpy(file_name, argv[++i]);
         } else if (!strcmp(argv[i], "-help")) {
             fprintf(stdout,
                     "delete_file: deletes a file on a specific host\n\n"
                     "It takes the following arguments and types:\n"
-                    "-hostid (int); the number of the host\n"
-                    "-file_name (string); the name of the file to get\n");
+                    "-host_id (int); the number of the host\n"
+                    "-file_name (string); the name of the file to delete\n");
             exit(0);
         } else {
             if (!strncmp("-",argv[i],1)) {
-                fprintf(stderr, "request_file_list: bad argument '%s'\n", argv[i]);
-                fprintf(stderr, "type get_file -help for more information\n");
+                fprintf(stderr, "delete_file: bad argument '%s'\n", argv[i]);
+                fprintf(stderr, "type delete_file -help for more information\n");
                 exit(1);
             }
         }
     }
 
-    // if no arguments are given, error and exit
     if (!strlen(file_name) || host_id == 0) {
-        fprintf(stderr, "request_file_list: bad command line, requires a valid host_id and file_name\n");
+        fprintf(stderr, "delete_file: bad command line, requires a valid host_id and file_name\n");
         exit(1);
     }
 
-    // parse the configuration file to get database information
     retval = config.parse_file(".");
     if (retval) {
         fprintf(stderr, "Can't parse ../config.xml: %s\n", boincerror(retval));
         exit(1);
     }
 
-    // open the database
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         fprintf(stderr, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
-    // run the get file routine
     retval = delete_host_file(host_id, file_name);
-    // close the database
     boinc_db.close();
-    // return with error code if any
     return retval;
 }
 

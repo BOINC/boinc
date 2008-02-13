@@ -248,7 +248,6 @@ double fpops_to_credit(double fpops, double intops) {
     return std::max(fpc, intc);
 }
 
-
 int count_results(char* query, int& n) {
     DB_RESULT result;
     int retval = result.count(n, query);

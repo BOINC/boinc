@@ -183,6 +183,7 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
         }
 #endif
         pFrame->SendSizeEvent();
+        pFrame->Update();
 
 #ifdef __WXMSW__
         ::SetForegroundWindow((HWND)pFrame->GetHandle());

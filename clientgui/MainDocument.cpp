@@ -59,6 +59,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bReconnectOnError = false;
     m_bNewConnection = false;
     m_bUsedDefaultPassword = false;
+    m_iPort = GUI_RPC_PORT,
     m_iReadGUIRPCAuthFailure = 0;
 }
 
@@ -157,9 +158,9 @@ void CNetworkConnection::Poll() {
             //   timeout event right after boot-up.
             //
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpc.init_asynch(NULL, 60.0, true);
+                retval = m_pDocument->rpc.init_asynch(NULL, 60.0, true, m_iPort);
             } else {
-                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60.0, false);
+                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60.0, false, m_iPort);
             }
 
             if (!retval) {
@@ -197,28 +198,42 @@ int CNetworkConnection::GetConnectingComputerName(wxString& strMachine) {
 
 
 bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
+    static wxString strHostName = wxEmptyString;
+    static wxString strFullHostName = wxEmptyString;
+
+    if (strHostName.empty()) {
+        strHostName = ::wxGetHostName().Lower();
+    }
+    if (strFullHostName.empty()) {
+        strFullHostName = ::wxGetFullHostName().Lower();
+    }
+
     if (strMachine.empty()) {
         return true;
     } else if (wxT("localhost") == strMachine.Lower()) {
         return true;
     } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
         return true;
-    } else if (::wxGetHostName().Lower() == strMachine.Lower()) {
+    } else if (strHostName == strMachine.Lower()) {
         return true;
-    } else if (::wxGetFullHostName().Lower() == strMachine.Lower()) {
+    } else if (strFullHostName == strMachine.Lower()) {
         return true;
     }
     return false;
 }
 
 
-int CNetworkConnection::SetComputer(const wxChar* szComputer, const wxChar* szPassword,  const bool bUseDefaultPassword) {
+int CNetworkConnection::SetComputer(
+    const wxChar* szComputer, const int iPort, const wxChar* szPassword,
+    const bool bUseDefaultPassword
+) {
     m_strNewComputerName.Empty();
     m_strNewComputerPassword.Empty();
     m_bUseDefaultPassword = FALSE;
 
     m_bNewConnection = true;
     m_strNewComputerName = szComputer;
+    m_iPort = iPort;
     m_strNewComputerPassword = szPassword;
     m_bUseDefaultPassword = bUseDefaultPassword;
     return 0;
@@ -398,7 +413,7 @@ int CMainDocument::OnPoll() {
         pFrame->UpdateStatusText(_("Starting client services; please wait..."));
 
         if (m_pClientManager->StartupBOINCCore()) {
-            Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
+            Connect(wxT("localhost"), GUI_RPC_PORT, wxEmptyString, TRUE, TRUE);
         } else {
             m_pNetworkConnection->ForceDisconnect();
             pFrame->ShowDaemonStartFailedAlert();
@@ -478,12 +493,12 @@ int CMainDocument::ResetState() {
 }
 
 
-int CMainDocument::Connect(const wxChar* szComputer, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
+int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
     if (bDisconnect) {
         m_pNetworkConnection->ForceReconnect();
     }
 
-    m_pNetworkConnection->SetComputer(szComputer, szComputerPassword, bUseDefaultPassword);
+    m_pNetworkConnection->SetComputer(szComputer, iPort, szComputerPassword, bUseDefaultPassword);
     m_pNetworkConnection->FireReconnectEvent();
     return 0;
 }
@@ -529,6 +544,11 @@ bool CMainDocument::IsReconnecting() {
 }
 
 
+void CMainDocument::ForceDisconnect() {
+    return m_pNetworkConnection->ForceDisconnect();
+}
+
+
 int CMainDocument::FrameShutdownDetected() {
     return m_pNetworkConnection->FrameShutdownDetected();
 }
@@ -554,6 +574,8 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
                         pFrame->Close(true);
                     }
                 }
+            } else {
+                m_pNetworkConnection->SetStateDisconnected();
             }
         } else {
             ccs = status;
@@ -1159,7 +1181,9 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         char* argv[5];
 
         if (previous_gfx_app) {
-            // If this graphics app is already running, just bring it to the front
+            // If this graphics app is already running,
+            // just bring it to the front
+            //
             if (! GetProcessForPID(previous_gfx_app->pid, &gfx_app_psn)) {
                 SetFrontProcess(&gfx_app_psn);
             }
@@ -1168,6 +1192,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         // For unknown reasons, the graphics application exits with 
         // "RegisterProcess failed (error = -50)" unless we pass its 
         // full path twice in the argument list to execv.
+        //
         argv[0] = "switcher";
         argv[1] = (char *)result->graphics_exec_path.c_str();
         argv[2] = (char *)result->graphics_exec_path.c_str();
@@ -1197,6 +1222,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         char* argv[2];
 
         // If graphics app is already running, don't launch a second instance
+        //
         if (previous_gfx_app) return 0;
         argv[0] = "--graphics";
         argv[1] = 0;

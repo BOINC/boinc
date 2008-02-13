@@ -23,7 +23,6 @@
 #include <sys/wait.h>
 #include <grp.h>
 #include <errno.h>
-#include "client_state.h"
 #endif
 
 #include "error_numbers.h"
@@ -31,6 +30,9 @@
 #include "util.h"
 #include "str_util.h"
 #include "filesys.h"
+#include "parse.h"
+
+#include "client_state.h"
 
 #include "sandbox.h"
 

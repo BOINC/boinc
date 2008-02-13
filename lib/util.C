@@ -75,6 +75,10 @@ using std::vector;
 #define EPOCHFILETIME_SEC (11644473600.)
 #define TEN_MILLION 10000000.
 
+#ifdef _WIN32
+HANDLE sandbox_account_token = NULL;
+#endif
+
 // return time of day (seconds since 1970) as a double
 //
 double dtime() {
@@ -279,69 +283,47 @@ void update_average(
     avg_time = now;
 }
 
+#ifdef _WIN32
+void get_sandbox_account_token() {
+    FILE* f;
+    char buf[256], username[256], password[256];
+    static bool first=true;
+
+    if (!first) return;
+    first = true;
+    f = fopen(CLIENT_AUTH_FILENAME, "r");
+    if (!f) return;
+    while (fgets(buf, 256, f)) {
+        if (parse_str(buf, "<username>", username, sizeof(username))) continue;
+        if (parse_str(buf, "<password>", password, sizeof(password))) continue;
+    }
+    fclose(f);
+    std::string password_str = r_base64_decode(password); 
+    int retval = LogonUser( 
+        username,
+        NULL, 
+        password_str.c_str(), 
+        LOGON32_LOGON_SERVICE, 
+        LOGON32_PROVIDER_DEFAULT, 
+        &sandbox_account_token
+    );
+    if (!retval) sandbox_account_token = NULL;
+}
+#endif
+
 // chdir into the given directory, and run a program there.
 // If nsecs is nonzero, make sure it's still running after that many seconds.
 //
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
+
 #ifdef _WIN32
-
-void BOINC_PROJECT_ACCOUNT::clear() {
-    username.clear();
-    password.clear();
-}
-
-int BOINC_PROJECT_ACCOUNT::parse(MIOFILE& in) {
-    char buf[256];
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</boinc_project>")) return 0;
-        if (parse_str(buf, "<username>", username)) continue;
-        if (parse_str(buf, "<password>", password)) continue;
-    }
-    return ERR_XML_PARSE;
-}
-
-
-void CLIENT_AUTHORIZATION::clear() {
-    use_authorizations = false;
-    boinc_project.clear();
-}
-
-int CLIENT_AUTHORIZATION::parse(MIOFILE& in) {
-    char buf[256];
-    use_authorizations = true;
-
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</client_authorization>")) return 0;
-        if (match_tag(buf, "<boinc_project>")) {
-            boinc_project.parse(in);
-            continue;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int CLIENT_AUTHORIZATION::init() {
-    MIOFILE mf;
-    FILE*   p;
-
-    clear();
-    p = fopen("client_auth.xml", "r");
-    if (p) {
-        mf.init_file(p);
-        parse(mf);
-        fclose(p);
-    }
-    return 0;
-}
-
 int run_program(
     const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    CLIENT_AUTHORIZATION ca;
     char cmdline[1024];
     unsigned long status;
 
@@ -357,41 +339,22 @@ int run_program(
         }
     }
 
-    ca.init();
-    if (ca.use_authorizations) {
-        HANDLE hToken;
-        std::string username = ca.boinc_project.username;
-        std::string password = r_base64_decode(ca.boinc_project.password);
-        retval = LogonUser(
-            username.c_str(),
-            NULL,
-            password.c_str(),
-            LOGON32_LOGON_SERVICE,
-            LOGON32_PROVIDER_DEFAULT,
-            &hToken
-        );
-        if (!retval) {
-            return -1; // LogonUser returns 1 if successful, false if it failed.
-        }
-
-        retval = CreateProcessAsUser(
-            hToken,
-            file,
-            cmdline,
-            NULL,
-            NULL,
-            FALSE,
-            0,
-            NULL,
-            dir,
-            &startup_info,
-            &process_info
-        );
-
-        CloseHandle(hToken);
-
+    get_sandbox_account_token();
+    if (sandbox_account_token != NULL) {
+        retval = CreateProcessAsUser( 
+            sandbox_account_token, 
+            file, 
+            cmdline, 
+            NULL, 
+            NULL, 
+            FALSE, 
+            0, 
+            NULL, 
+            dir, 
+            &startup_info, 
+            &process_info 
+        ); 
     } else {
-
         retval = CreateProcess(
             file,
             cmdline,
@@ -404,8 +367,8 @@ int run_program(
             &startup_info,
             &process_info
         );
-
     }
+
     if (!retval) {
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }

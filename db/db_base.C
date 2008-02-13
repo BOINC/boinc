@@ -157,9 +157,13 @@ int DB_BASE::update() {
 // update one or more fields
 // "clause" is something like "foo=5, blah='xxx'" or "foo=foo+5"
 //
-int DB_BASE::update_field(const char* clause) {
+int DB_BASE::update_field(const char* clause, const char* where_clause) {
     char query[MAX_QUERY_LEN];
-    sprintf(query, "update %s set %s where id=%d", table_name, clause, get_id());
+    if (where_clause) {
+        sprintf(query, "update %s set %s where id=%d and %s", table_name, clause, get_id(), where_clause);
+    } else {
+        sprintf(query, "update %s set %s where id=%d", table_name, clause, get_id());
+    }
     return db->do_query(query);
 }
 

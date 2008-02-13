@@ -1180,14 +1180,24 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         if (wxEmptyString == dlg.m_ComputerNameCtrl->GetValue()) {
             lRetVal = pDoc->Connect(
                 wxT("localhost"),
+                GUI_RPC_PORT,
                 wxEmptyString,
                 TRUE,
                 TRUE
             );
         } else {
-            // Connect up to the remote machine
+            // Connect to the remote machine
+            wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
+            long lPort = GUI_RPC_PORT; 
+            int iPos = sHost.find(_(":")); 
+            if (iPos != -1) { 
+                wxString sPort = sHost.substr(iPos + 1); 
+                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
+                sHost.erase(iPos); 
+            } 
             lRetVal = pDoc->Connect(
-                dlg.m_ComputerNameCtrl->GetValue(), 
+                sHost,
+                (int)lPort,
                 dlg.m_ComputerPasswordCtrl->GetValue(),
                 TRUE,
                 FALSE
@@ -1267,7 +1277,8 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
         }
 
         pDoc->CoreClientQuit();
-
+        pDoc->ForceDisconnect();
+        
         // Since the core cliet we were connected to just shutdown, prompt for a new one.
         ProcessEvent(evtSelectNewComputer);
     }

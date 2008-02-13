@@ -35,19 +35,20 @@
 #endif
 
 #ifdef _USING_FCGI_
-#define __attribute__(x) /*nothing*/
+#define __attribute__(x) //nothing
 #endif
 
 class MSG_LOG {
+public:
     int debug_level;
-    int indent_level;
     char spaces[80];
     FILE* output;
-public:
+    int indent_level;
     int pid;
 
     MSG_LOG(FILE* output);
     virtual ~MSG_LOG(){}
+
     void enter_level(int = 1);
     void leave_level() { enter_level(-1); }
     MSG_LOG& operator++() { enter_level(); return *this; }
