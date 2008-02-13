@@ -316,3 +316,9 @@ Charlie Feb 7 2008
     clientgui/
         MainDocument.cpp,h
         AdvancedFrame.cpp
+
+Rom    Feb 13 2008
+    - Update libcurl to include the c-ares library on Windows
+    
+    curl/
+        <Various Files>
