@@ -311,7 +311,7 @@ Rom    Feb 4 2008
         version.h
 
 Charlie Feb 7 2008
-    - MGR: If use shuts down connected client, don't auto-relaunch it.
+    - MGR: If user shuts down connected client, don't auto-relaunch it.
     
     clientgui/
         MainDocument.cpp,h
