@@ -41,13 +41,6 @@
 #include "screensaver.h"
  
 //#include <drivers/event_status_driver.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifdef __cplusplus
-}	// extern "C"
-#endif
 
 // It would be nice to always display the scrolled progress info in case the 
 // graphics application fails to show its window, but displaying the scrolled 
@@ -57,19 +50,9 @@ extern "C" {
 // Flags for testing & debugging
 #define CREATE_LOG 1
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-void print_to_log_file(const char *format, ...);
-#ifdef __cplusplus
-}
-
-void strip_cr(char *buf);
-#endif
-
 #define BANNER_GAP 30	/* Space between repeats of banner text */
 #define BANNERDELTA 2   /* Number of pixels to move banner each frame */
-#define BANNERFREQUENCY 90 /* Number of times per second to scroll banner */
+#define BANNERFREQUENCY 30 /* Number of times per second to update text and logo */
 #define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
 #define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
@@ -125,8 +108,8 @@ int initBOINCSaver(Boolean ispreview) {
     return gspScreensaver->Create();
 }
 
-int drawGraphics(GrafPtr aPort) {
-    return gspScreensaver->drawGraphics(aPort);
+int drawGraphics(char **theMessage) {
+    return gspScreensaver->drawGraphics(theMessage);
 };
 
 
@@ -300,9 +283,10 @@ OSStatus CScreensaver::initBOINCApp() {
 
 
 // Returns new desired Animation Frequency (per second) or 0 for no change
-int CScreensaver::drawGraphics(GrafPtr aPort) {
-    CGrafPtr savePort;
-    GDHandle saveGDH;
+int CScreensaver::drawGraphics(char **theMessage) {
+    CGrafPtr aPort = NULL;
+//    CGrafPtr savePort;
+ //   GDHandle saveGDH;
     int newFrequency = 15;
     pid_t myPid;
     OSStatus err;
@@ -407,14 +391,17 @@ int CScreensaver::drawGraphics(GrafPtr aPort) {
     }           // end switch (saverState)
 
     if (m_BannerText[0]) {
+#if 0
         GetGWorld(&savePort, &saveGDH);
         SetPort(aPort);
         drawBanner(aPort);
         SetGWorld(savePort, saveGDH);
+#endif
         newFrequency = BANNERFREQUENCY;
     } else
         newFrequency = NOBANNERFREQUENCY;
     
+    *theMessage = m_BannerText;
     return newFrequency;
 }
 
@@ -570,19 +557,20 @@ void CScreensaver::setBannerText(const char * msg, GrafPtr aPort) {
     if (msg == 0)
         m_BannerText[0] = 0;
     
-    if ((char *)m_CurrentBannerMessage != msg)
+    if (m_CurrentBannerMessage != msg)
         updateBannerText((char *)msg, aPort);
 }
 
 
 void CScreensaver::updateBannerText(char *msg, GrafPtr aPort) {
-    CGrafPtr savePort;
-    RGBColor saveBackColor;
-    Rect wRect;
+//    CGrafPtr savePort;
+//    RGBColor saveBackColor;
+//    Rect wRect;
     char *p, *s;
     
-    m_CurrentBannerMessage = (StringPtr)msg;
+    m_CurrentBannerMessage = msg;
 
+#if 0
     if (aPort == NULL)
         return;
         
@@ -595,10 +583,13 @@ void CScreensaver::updateBannerText(char *msg, GrafPtr aPort) {
     BackColor ( blackColor );
     EraseRect(&wRect);
     RGBBackColor(&saveBackColor);
+ #endif
    
    if (msg) {
+#if 0
         TextSize(24);
         TextFace(bold);
+#endif
         s = msg;
         m_BannerText[0] = '\0';
         do {
@@ -612,12 +603,15 @@ void CScreensaver::updateBannerText(char *msg, GrafPtr aPort) {
             }
         } while (p);
         
+#if 0
         m_BannerWidth = TextWidth(m_BannerText, 0, strlen(m_BannerText)) + BANNER_GAP;
         // Round up m_BannerWidth to an integral multiple of BANNERDELTA
         m_BannerWidth = ((m_BannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
+#endif
     }
     
-    SetPort(savePort);
+//    SetPort(savePort);
+
 }
 
 
@@ -791,7 +785,7 @@ OSErr CScreensaver::KillScreenSaver() {
 }
 
 
-void CScreensaver::print_to_log_file(const char *format, ...) {
+void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
     FILE *f;
     va_list args;
@@ -823,7 +817,7 @@ void CScreensaver::print_to_log_file(const char *format, ...) {
 }
 
 #if CREATE_LOG
-void CScreensaver::strip_cr(char *buf)
+void strip_cr(char *buf)
 {
     char *theCR;
 

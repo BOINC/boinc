@@ -23,66 +23,123 @@
 //
 
 #import "Mac_Saver_ModuleView.h"
+#include <Carbon/Carbon.h>
+
+void print_to_log_file(const char *format, ...);
+void strip_cr(char *buf);
 
 int gGoToBlank;      // True if we are to blank the screen
 int gBlankingTime;   // Delay in minutes before blanking the screen
 NSString *gPathToBundleResources;
+NSImage *gBOINC_Logo;
+
+NSRect gMovingRect;
+float gImageXIndent;
+float gTextBoxHeight;
+NSPoint gCurrentPosition;
+NSPoint gCurrentDelta;
+
+ATSUStyle  theStyle;
+ATSUFontID theFontID;
+Fixed   atsuSize;
+char myFontName[] = "Helvetica";
+//char myFontName[] = "Lucida Blackletter";
+    
+ATSUAttributeTag  theTags[] =  { kATSUFontTag, kATSUSizeTag };
+ByteCount        theSizes[] = { sizeof (ATSUFontID), sizeof(Fixed) };
+ATSUAttributeValuePtr theValues[] = { &theFontID, &atsuSize };
+
+CGContextRef myContext;
+bool isErased;
+
+#define TEXTBOXMINWIDTH 400.0
+#define MINTEXTBOXHEIGHT 40.0
+#define MAXTEXTBOXHEIGHT 300.0
+#define TEXTBOXTOPBORDER 10
+#define SAFETYBORDER 20.0
+#define MINDELTA 8
+#define MAXDELTA 20
+
+int signof(float x) {
+    return (x > 0.0 ? 1 : -1);
+}
 
 @implementation BOINC_Saver_ModuleView
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
-    NSQuickDrawView * myQDView;
     NSBundle * myBundle;
+    OSStatus err;
 
     self = [ super initWithFrame:frame isPreview:isPreview ];
-    if (self) {
-        myBundle = [ NSBundle bundleForClass:[self class]];
-        // grab the screensaver defaults
-        mBundleID = [ myBundle bundleIdentifier ];
+    if (gBOINC_Logo == NULL) {
+        if (self) {
+            myBundle = [ NSBundle bundleForClass:[self class]];
+            // grab the screensaver defaults
+            mBundleID = [ myBundle bundleIdentifier ];
 
-        // Path to our copy of switcher utility application in this screensaver bundle
-        gPathToBundleResources = [ myBundle resourcePath ];
-        
-        ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
-        
-        // try to load the version key, used to see if we have any saved settings
-        mVersion = [defaults floatForKey:@"version"];
-        if (!mVersion) {
-            // no previous settings so define our defaults
-            mVersion = 1;
-            gGoToBlank = NO;
-            gBlankingTime = 1;
+            // Path to our copy of switcher utility application in this screensaver bundle
+            gPathToBundleResources = [ myBundle resourcePath ];
             
-            // write out the defaults
-            [ defaults setInteger:mVersion forKey:@"version" ];
-            [ defaults setInteger:gGoToBlank forKey:@"GoToBlank" ];
-            [ defaults setInteger:gBlankingTime forKey:@"BlankingTime" ];
+            ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
             
-            // synchronize
-            [defaults synchronize];
+            // try to load the version key, used to see if we have any saved settings
+            mVersion = [defaults floatForKey:@"version"];
+            if (!mVersion) {
+                // no previous settings so define our defaults
+                mVersion = 1;
+                gGoToBlank = NO;
+                gBlankingTime = 1;
+                
+                // write out the defaults
+                [ defaults setInteger:mVersion forKey:@"version" ];
+                [ defaults setInteger:gGoToBlank forKey:@"GoToBlank" ];
+                [ defaults setInteger:gBlankingTime forKey:@"BlankingTime" ];
+                
+                // synchronize
+                [defaults synchronize];
+            }
+
+            // set defaults...
+            gGoToBlank = [ defaults integerForKey:@"GoToBlank" ];
+            gBlankingTime = [ defaults integerForKey:@"BlankingTime" ];
+
+           [ self setAutoresizesSubviews:YES ];	// make sure the subview resizes.
+
+            NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc_ss_logo" ];
+            if (! fileName) {
+                // What should we do in this case?
+                return self;
+            }
+            
+            gBOINC_Logo = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
+            gMovingRect.origin.x = 0.0;
+            gMovingRect.origin.y = 0.0;
+            gMovingRect.size = [gBOINC_Logo size];
+            
+            if (gMovingRect.size.width < TEXTBOXMINWIDTH) {
+                gImageXIndent = (TEXTBOXMINWIDTH - gMovingRect.size.width) / 2;
+                gMovingRect.size.width = TEXTBOXMINWIDTH;
+            } else {
+                gImageXIndent = 0.0;
+            }
+            gTextBoxHeight = MINTEXTBOXHEIGHT;
+            gMovingRect.size.height += gTextBoxHeight;
+            gCurrentPosition.x = SAFETYBORDER + 1;
+            gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
+            gCurrentDelta.x = 1.0;
+            gCurrentDelta.y = 1.0;
+            
+            [ self setAnimationTimeInterval:1/8.0 ];
+
+            ATSUFindFontFromName(myFontName, strlen(myFontName), kFontFamilyName, kFontMacintoshPlatform, 
+                                    kFontNoScriptCode, kFontNoLanguageCode, &theFontID);
+                                
+            err = ATSUCreateStyle(&theStyle);
+            atsuSize = Long2Fix (24);
+            err = ATSUSetAttributes(theStyle, 2, theTags, theSizes, theValues);
         }
-
-        // set defaults...
-        gGoToBlank = [ defaults integerForKey:@"GoToBlank" ];
-        gBlankingTime = [ defaults integerForKey:@"BlankingTime" ];
-
-        myQDView = [[ NSQuickDrawView alloc ] initWithFrame:frame ];
-        if (!myQDView) {
-            [ self autorelease ];
-            return nil;
-        }
-        
-        [ self setAutoresizesSubviews:YES ];	// make sure the subview resizes.
-        [ self addSubview:myQDView ];
-        [ myQDView release ];
-        if (isPreview)
-            previewQDView = myQDView;
-        else
-            mainQDView = myQDView;
-            
-        [ self setAnimationTimeInterval:1/8.0 ];
     }
-
+    
     return self;
 }
 
@@ -115,12 +172,17 @@ NSString *gPathToBundleResources;
 }
 
 - (void)animateOneFrame {
-    int newFrequency;
+    int newFrequency = 0;
     NSRect theFrame = [ self frame ];
-    Point p = { 0, 0 };
+    NSRect currentDrawingRect, eraseRect;
+    NSPoint imagePosition;
+    Rect r;
+    char *msg;
+    CFStringRef cf_msg;
     AbsoluteTime timeToUnblock, frameStartTime = UpTime();
+    OSStatus err;
 
-    if ([ self isPreview ]) {
+   if ([ self isPreview ]) {
 #if 1   // Currently drawRect just draws our logo in the preview window
         NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
         if (fileName) {
@@ -132,36 +194,147 @@ NSString *gPathToBundleResources;
         }
         [ self setAnimationTimeInterval:1/1.0 ];
 #else   // Code for possible future use if we want to draw more in preview
-        [ previewQDView lockFocus ];
-        drawPreview([ previewQDView qdPort ]);        
-        [ previewQDView unlockFocus ];
-        QDFlushPortBuffer([ previewQDView qdPort ], nil);
+        myContext = [[NSGraphicsContext currentContext] graphicsPort];
+        drawPreview(myContext);        
         [ self setAnimationTimeInterval:1/30.0 ];
 #endif
         return;
     }
-        
-    [ mainQDView lockFocus ];
-    LocalToGlobal(&p);
-    if ((p.h != 0) || (p.v != 0)) {
-        [ mainQDView unlockFocus ];
-        
+ 
+   myContext = [[NSGraphicsContext currentContext] graphicsPort];
+//    [myContext retain];
+
+    NSWindow *myWindow = [ self window ];
+    NSRect windowFrame = [ myWindow frame ];
+    if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
-//      [[[ NSView focusView] window ] setLevel:kCGMinimumWindowLevel ];
+      [[[ NSView focusView] window ] setLevel:kCGMinimumWindowLevel ];
         return;         // We draw only to main screen
     }
+
+    NSRect viewBounds = [self bounds];
+
+    newFrequency = drawGraphics(&msg);
     
-    newFrequency = drawGraphics([ mainQDView qdPort ]);
-    [ mainQDView unlockFocus ];
-    QDFlushPortBuffer([ mainQDView qdPort ], nil);
+    // Clear the previous drawing area
+    currentDrawingRect = gMovingRect;
+    currentDrawingRect.origin.x = (float) ((int)gCurrentPosition.x);
+    currentDrawingRect.origin.y += (float) ((int)gCurrentPosition.y - gTextBoxHeight);
+
+    if ( (msg != NULL) && (msg[0] != '\0') ) {
+
+        // Set direction of motion to "bounce" off edges of screen
+       if (currentDrawingRect.origin.x <= SAFETYBORDER) {
+            gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
+            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 8.;
+        }
+        if ( (currentDrawingRect.origin.x + currentDrawingRect.size.width) >= 
+                    (viewBounds.origin.x + viewBounds.size.width - SAFETYBORDER) ) {
+            gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
+            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 8.;
+        }
+        if (currentDrawingRect.origin.y <= SAFETYBORDER) {
+            gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
+            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 8.;
+        }
+        if ( (currentDrawingRect.origin.y + currentDrawingRect.size.height) >= 
+                   (viewBounds.origin.y + viewBounds.size.height - SAFETYBORDER) ) {
+            gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
+            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 8.;
+        }
+
+#if 0
+        // For testing
+        gCurrentDelta.x = 0;
+        gCurrentDelta.y = 0;
+#endif
+
+    if (!isErased) {
+        [[NSColor blackColor] set];
+        
+        imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
+        imagePosition.y = (float) (int)gCurrentPosition.y;
+        eraseRect.origin.y = imagePosition.y;
+        eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
+        
+        if (gCurrentDelta.x > 0) {
+            eraseRect.origin.x = imagePosition.x - 1;
+            eraseRect.size.width = gCurrentDelta.x + 1;
+        } else {
+            eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
+            eraseRect.size.width = -gCurrentDelta.x + 1;
+        }
+        
+        eraseRect = NSInsetRect(eraseRect, -1, -1);
+        NSRectFill(eraseRect);
+        
+        eraseRect.origin.x = imagePosition.x;
+        eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
+
+        if (gCurrentDelta.y > 0) {
+            eraseRect.origin.y = imagePosition.y;
+            eraseRect.size.height = gCurrentDelta.y + 1;
+        } else {
+            eraseRect.origin.y = imagePosition.y + currentDrawingRect.size.height - gTextBoxHeight - 1;
+            eraseRect.size.height = -gCurrentDelta.y + 1;
+        }
+        eraseRect = NSInsetRect(eraseRect, -1, -1);
+        NSRectFill(eraseRect);
+        
+        eraseRect = currentDrawingRect;
+        eraseRect.size.height = gTextBoxHeight;
+        NSRectFill(eraseRect);
+
+        isErased  = true;
+    }
+
+        // Get the new drawing area
+        gCurrentPosition.x += gCurrentDelta.x;
+        gCurrentPosition.y += gCurrentDelta.y;
+        
+        imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
+        imagePosition.y = (float) (int)gCurrentPosition.y;
+    
+        // Calculate QuickDraw Rect for current text box
+        r.left = (float) ((int)gCurrentPosition.x);
+        r.right = r.left + gMovingRect.size.width;
+        r.top = viewBounds.size.height - imagePosition.y;
+        r.bottom = r.top + (int)MAXTEXTBOXHEIGHT;
+        r.top += TEXTBOXTOPBORDER;        // Add a few pixels space below image
+        
+        TXNTextBoxOptionsData theOptions = {kTXNUseCGContextRefMask, kATSUStartAlignment, 
+                                                kATSUNoJustification, 0, myContext };
+
+        cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+
+        [[NSColor whiteColor] set];
+
+        [ gBOINC_Logo compositeToPoint:imagePosition operation:NSCompositeCopy ];
+
+        err = TXNDrawCFStringTextBox ( cf_msg, &r, theStyle, &theOptions);
+        gTextBoxHeight = r.bottom - r.top + TEXTBOXTOPBORDER;
+        gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
+        
+        CFRelease(cf_msg);
+        isErased  = false;
+        
+    } else {        // Empty or NULL message
+        if (!isErased) {
+            eraseRect = NSInsetRect(currentDrawingRect, -1, -1);
+            [[NSColor blackColor] set];
+            isErased  = true;
+            NSRectFill(eraseRect);
+            gTextBoxHeight = MAXTEXTBOXHEIGHT;
+            gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
+        }
+    }
+    
     if (newFrequency)
         [ self setAnimationTimeInterval:(1.0/newFrequency) ];
     // setAnimationTimeInterval does not seem to be working, so we 
     // throttle the screensaver directly here.
-        timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, 
-                                                        frameStartTime);
-        MPDelayUntil(&timeToUnblock);
-    
+    timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, frameStartTime);
+    MPDelayUntil(&timeToUnblock);
 }
 
 - (BOOL)hasConfigureSheet {
@@ -210,6 +383,5 @@ NSString *gPathToBundleResources;
 	// nothing to configure
     [ NSApp endSheet:mConfigureSheet ];
 }
-
 
 @end

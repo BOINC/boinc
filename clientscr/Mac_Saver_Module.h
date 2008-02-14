@@ -33,9 +33,11 @@ extern "C" {
 #endif
 
 int initBOINCSaver(Boolean ispreview);
-int drawGraphics(GrafPtr aPort);
+int drawGraphics(char **theMessage);
 void drawPreview(GrafPtr aPort);
 void closeBOINCSaver(void);
+void print_to_log_file(const char *format, ...);
+void strip_cr(char *buf);
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -69,7 +71,6 @@ protected:
     void            setBannerText(const char *msg, GrafPtr aPort);
     void            updateBannerText(char *msg, GrafPtr aPort);
     void            drawBanner(GrafPtr aPort);
-    void            print_to_log_file(const char *format, ...);
     void            strip_cr(char *buf);
     char            m_gfx_Switcher_Path[MAXPATHLEN];
     bool            m_bErrorMode;        // Whether to display an error
@@ -129,10 +130,10 @@ protected:
     char            m_MsgBuf[2048];
     char            m_BannerText[2048];
     int             m_BannerWidth;
-    StringPtr       m_CurrentBannerMessage;
+    char*           m_CurrentBannerMessage;
     char*           m_BrandText;
 public:
-    int             drawGraphics(GrafPtr aPort);
+    int             drawGraphics(char **theMessage);
     void            drawPreview(GrafPtr aPort);
     void            ShutdownSaver();
 

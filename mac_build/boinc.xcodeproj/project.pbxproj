@@ -230,6 +230,7 @@
 		DDA6BD2D0BD4551F008F7921 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD100BD4551F008F7921 /* QTaskMemory.c */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.C */; };
+		DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDB873990C85072500E0DE1F /* mac_saver_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB873960C85072500E0DE1F /* mac_saver_module.cpp */; };
 		DDB8739A0C85072500E0DE1F /* Mac_Saver_ModuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB873980C85072500E0DE1F /* Mac_Saver_ModuleView.m */; };
 		DDB873EE0C850BC800E0DE1F /* gutil.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825507D3076400163EF5 /* gutil.C */; };
@@ -242,6 +243,7 @@
 		DDB873F70C850BC800E0DE1F /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DDB874470C850D3000E0DE1F /* graphics2_unix.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB874450C850D3000E0DE1F /* graphics2_unix.C */; };
 		DDB874480C850D3000E0DE1F /* graphics2.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB874460C850D3000E0DE1F /* graphics2.C */; };
+		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.C in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.C */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
@@ -796,6 +798,7 @@
 		DDB874450C850D3000E0DE1F /* graphics2_unix.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2_unix.C; path = ../api/graphics2_unix.C; sourceTree = SOURCE_ROOT; };
 		DDB874460C850D3000E0DE1F /* graphics2.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = graphics2.C; path = ../api/graphics2.C; sourceTree = SOURCE_ROOT; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
+		DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boinc_ss_logo.png; path = ../clientscr/res/boinc_ss_logo.png; sourceTree = SOURCE_ROOT; };
 		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDBE74380C03B1C600453BB8 /* cs_platforms.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_platforms.C; path = ../client/cs_platforms.C; sourceTree = SOURCE_ROOT; };
@@ -984,6 +987,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */,
+				DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1085,6 +1089,7 @@
 			isa = PBXGroup;
 			children = (
 				DD0C5A8A0816711400CEC5D7 /* boinc.jpg */,
+				DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
 				DD531BC70C193D5200742E50 /* MacUninstaller.icns */,
@@ -1944,6 +1949,7 @@
 				DD616A3008150050006981C1 /* InfoPlist.strings in Resources */,
 				DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */,
 				DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */,
+				DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

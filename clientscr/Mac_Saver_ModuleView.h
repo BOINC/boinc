@@ -45,7 +45,7 @@
 
 void setFrame(Rect *frame);
 int initBOINCSaver(Boolean ispreview);
-int drawGraphics(GrafPtr aPort);
+int drawGraphics(char **theMessage);
 void drawPreview(GrafPtr aPort);
 void closeBOINCSaver(void);
 void displayText(const unsigned char *s, GrafPtr aPort);
