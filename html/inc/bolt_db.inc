@@ -25,6 +25,10 @@ define('BOLT_ACTION_COURSE_HOME', 5);
 define('BOLT_ACTION_REVIEW', 6);
 define('BOLT_ACTION_REPEAT', 7);
 
+define('BOLT_COURSE_NOT_STARTED', 1);
+define('BOLT_COURSE_STARTED', 2);
+define('BOLT_COURSE_FINISHED', 3);
+
 // bits in bolt_user.flags
 define('BOLT_FLAGS_DEBUG', 1);   // print debugging info in output pages
 define('BOLT_FLAGS_SHOW_ALL', 2);    // show hidden courses
@@ -109,6 +113,10 @@ class BoltCourse {
     static function lookup_id($id) {
         $db = BoltDb::get();
         return $db->lookup_id($id, 'bolt_course', 'BoltCourse');
+    }
+    static function lookup_name($name) {
+        $db = BoltDb::get();
+        return $db->lookup('bolt_course', 'BoltCourse', "short_name='$name'");
     }
     static function enum() {
         $db = BoltDb::get();
@@ -243,6 +251,16 @@ class BoltQuestion {
         $db = BoltDb::get();
         return $db->enum('bolt_question', 'BoltQuestion', $clause);
     }
+}
+
+// TODO: move this somewhere else, and think about whether it's correct
+//
+function bolt_course_status($course_id, $user_id) {
+    $e = BoltEnrollment::lookup($user_id, $course_id);
+    if (!$e) return BOLT_COURSE_NOT_STARTED;
+    $view = BoltView::lookup_id($e->last_view_id);
+    if ($view->fraction_done == 1) return BOLT_COURSE_FINISHED;
+    return BOLT_COURSE_STARTED;
 }
 
 ?>

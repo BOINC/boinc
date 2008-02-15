@@ -43,12 +43,13 @@ function db_init($try_replica=false) {
     return 0;
 }
 
-function send_cookie($name, $value, $permanent) {
+function send_cookie($name, $value, $permanent, $ops=false) {
     // the following allows independent login for projects on the same server
     //
     $master_url = parse_config(get_config(), "<master_url>");
     $url = parse_url($master_url);
     $path = $url['path'];
+    if ($ops) $path = "$path_ops";
     $expire = $permanent?time()+3600*24*365:0;
     setcookie($name, $value, $expire, $path);
 }

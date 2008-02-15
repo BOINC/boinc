@@ -34,25 +34,33 @@ The colors are based on U.C. Berkeley's blue-and-gold colors.
 <ul>
 <li> <a href=logo/www_logo.gif>164x73 version (GIFF)</a>
 <li> <a href=logo/boinc_600.jpg>600x305 version (JPEG)</a>
-<li> Bitmaps (.bmp):
-    <a href=logo/boinc16.bmp>16x16</a>
-    <a href=logo/boinc32.bmp>32x32</a>
-    <a href=logo/boinc48.bmp>48x48</a>
-    <a href=logo/boinc128.bmp>128x128</a>
-    <a href=logo/boinc256.bmp>256x256</a>
 <li> <a href=logo/boinc_logo.ai>Adobe Illustrator (.ai)</a>
 <li> <a href=logo/boinc_logo.cdr>Vector graphics (.cdr)</a>
 <li> <a href=logo/boinc_logo.pdf>Adobe PDF (.cdr)</a>
 <li> <a href=logo/boinc_logo_ai.svg>Scalable Vector Graphics (.svg)</a>
 <li> <a href=logo/boinc_logo.png>1280x535, transparent background (.png)</a>
 <li> <a href=logo/boinc_logo.wmf>Windows meta-file (.wmf)</a>
+</ul>
+Icon:
+<ul>
+<li> Bitmaps (.bmp):
+    <a href=logo/boinc16.bmp>16x16</a>
+    <a href=logo/boinc32.bmp>32x32</a>
+    <a href=logo/boinc48.bmp>48x48</a>
+    <a href=logo/boinc128.bmp>128x128</a>
+    <a href=logo/boinc256.bmp>256x256</a>
+    <a href=logo/boinc_glossy2_512_F.tif>512x512</a> (.tif)
 <li> <a href=logo/favicon.gif>Favicon (GIFF)</a>
+</ul>
+Installer splash screen:
+<ul>
 <li> <a href=logo/splash_8bit.png>Splash screen, 8-bit PNG</a>
 <li> <a href=logo/splash_24bit.png>Splash screen, 24-bit PNG</a>
-<li> <a href=logo/pb_boinc.gif>'Powered by BOINC' image</a>
-<br>
-<img src=logo/pb_boinc.gif>
 </ul>
+'Powered by BOINC' image:
+<p>
+<img src=logo/pb_boinc.gif>
+<p>
 
 Wallpaper:
 <p>

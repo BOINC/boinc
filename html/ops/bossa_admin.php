@@ -1,6 +1,7 @@
 <?php
 
 require_once("../inc/bossa_db.inc");
+require_once("../inc/bolt_db.inc");
 require_once("../inc/util_ops.inc");
 
 function show_bapp($app) {
@@ -16,9 +17,16 @@ function show_bapp($app) {
         show_button("bossa_admin.php?action=unhide&app_id=$app->id", "Unhide", "Unhide this app");
     } else {
         show_button("bossa_admin.php?action=hide&app_id=$app->id", "Hide", "Hide this app");
-        echo "<br>";
-        show_button($app->short_name."_workgen.php?njobs=10", "Create jobs", "Create 10 new jobs");
     }
+    echo "<br>";
+    show_button($app->short_name."_workgen.php?njobs=10", "Create jobs", "Create 10 new jobs");
+    echo "<br>";
+    show_button("bossa_admin.php?action=show_jobs&app_id=$app->id", "Show jobs", "Show jobs");
+    echo "<br><form action=".$app->short_name."_workgen.php>
+        Create <input name=njobs size=5> new jobs
+        <input type=submit value=OK>
+        </form>
+    ";
 }
 
 function show_apps() {
@@ -75,13 +83,13 @@ function user_settings() {
     row2("Show hidden apps?", "<input type=checkbox name=show_all $x>");
     $x = ($flags&BOLT_FLAGS_DEBUG)?"checked":"";
     row2("Show debugging output?", "<input type=checkbox name=debug $x>");
-    row2("", "<input type=submit name=submit value=\"Update user\">");
+    row2("", "<input type=submit name=action value=\"Update user\">");
     end_table();
     echo "</form>";
 }
 
 function show_all() {
-    admin_page_head("Bossa app administration");
+    admin_page_head("Bossa administration");
     show_apps();
     echo "<p>";
     add_app_form();
@@ -92,14 +100,14 @@ function show_all() {
 
 function show_jobs($app_id) {
     $app = BossaApp::lookup_id($app_id);
-    echo "<h2>Jobs for $app->user_friendly_name</h2>";
+    echo "<h2>Jobs for $app->name</h2>";
     $jobs = BossaJob::enum("app_id=$app_id");
     foreach ($jobs as $job) {
         echo "<pre>\n";
         print_r($job);
         echo "</pre>\n";
         echo "
-            <a href=bossa_admin.php?cmd=show_insts&job_id=$job->id>Show instances</a>
+            <a href=bossa_admin.php?action=show_insts&job_id=$job->id>Show instances</a>
             <hr>
         ";
     }
@@ -118,8 +126,9 @@ function show_insts($job_id) {
 
 $user = get_logged_in_user();
 
-$submit = get_str('submit', true);
-if ($submit == 'Create app') {
+$action = get_str('action', true);
+switch ($action) {
+case 'Create app':
     $name = BossaDb::escape_string(get_str('app_name'));
     $short_name = get_str('short_name');
     $description = BossaDb::escape_string(get_str('description'));
@@ -143,7 +152,7 @@ if ($submit == 'Create app') {
     }
     Header('Location: bossa_admin.php');
     exit();
-} else if ($submit == 'Update user') {
+case 'Update user':
     $flags = 0;
     if (get_str('show_all', true)) $flags |= BOLT_FLAGS_SHOW_ALL;
     if (get_str('debug', true)) $flags |= BOLT_FLAGS_DEBUG;
@@ -151,33 +160,33 @@ if ($submit == 'Create app') {
     $user->bossa->flags = $flags;
     Header('Location: bossa_admin.php');
     exit();
-} else if ($cmd == 'show_jobs') {
+case 'show_jobs':
     $app_id = $_GET['app_id'];
     show_jobs($app_id);
-} else if ($cmd == 'show_insts') {
+    exit();
+case 'show_insts':
     $job_id = $_GET['job_id'];
     show_insts($job_id);
-} else {
-    $action = get_str('action', true);
-    if ($action) {
-        $app_id = get_int('app_id');
-        $app = BoltApp::lookup_id($app_id);
-        if (!$app) error_page("no such app");
-        switch ($action) {
-        case 'hide':
-            $app->update("hidden=1");
-            break;
-        case 'unhide':
-            $app->update("hidden=0");
-            break;
-        default:
-            error_page("unknown action $action");
-        }
-        Header('Location: bossa_admin.php');
-        exit();
-    }
+    exit();
+case 'hide':
+    $app_id = get_int('app_id');
+    $app = BossaApp::lookup_id($app_id);
+    if (!$app) error_page("no such app");
+    $app->update("hidden=1");
+    break;
+case 'unhide':
+    $app_id = get_int('app_id');
+    $app = BossaApp::lookup_id($app_id);
+    if (!$app) error_page("no such app");
+    $app->update("hidden=0");
+    break;
+case '':
+    show_all();
+    exit();
+default:
+    error_page("unknown action $action");
 }
+Header('Location: bossa_admin.php');
 
-show_all();
 
 ?>

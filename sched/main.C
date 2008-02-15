@@ -328,7 +328,7 @@ int main(int argc, char** argv) {
     signal(SIGTERM, sigterm_handler);
 
     char *stderr_buffer, buf[256];
-    get_log_path(path, "cgi.log");
+    get_log_path(path, "scheduler.log");
 #ifndef _USING_FCGI_
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");

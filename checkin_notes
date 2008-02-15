@@ -1396,3 +1396,12 @@ Charlie Feb 14 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  Feb 15 2008
+    - rename cgi.log to scheduler.log
+    - fix ops login
+
+    sched/
+        main.C
+    html/
+        login_action.php

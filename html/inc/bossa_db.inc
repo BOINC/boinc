@@ -84,13 +84,18 @@ class BossaApp {
         $db = BossaDb::get();
         return $db->enum('bossa_app', 'BossaApp');
     }
+    function update($clause) {
+        $db = BossaDb::get();
+        return $db->update($this, 'bossa_app', $clause);
+    }
 }
 
 class BossaJob {
     function insert() {
         $db = BossaDb::get();
         $now = time();
-        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, conf_needed) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, $this->conf_needed)";
+        $int_max = 2147483647;
+        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, conf_needed, transition_time) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, $this->conf_needed, $int_max)";
         $result = $db->do_query($query);
         if (!$result) {
             echo "$query\n";
@@ -150,7 +155,7 @@ class BossaJobInst {
         //
         // TODO: put the following in a transaction
         $db = BossaDb::get();
-        $query = "select bossa_job.* from DBNAME.bossa_job left join DBNAME.bossa_job_inst on bossa_job_inst.job_id = bossa_job.id where bossa_job.conf_needed>0 and bossa_job_inst.user_id is null limit 1";
+        $query = "select * from DBNAME.bossa_job where (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 limit 1";
         $result = $db->do_query($query);
         if (!$result) return null;
         $job = mysql_fetch_object($result, 'BossaJob');
@@ -160,7 +165,7 @@ class BossaJobInst {
         $ji = new BossaJobInst();
         $ji->user_id = $user->id;
         $ji->job_id = $job->id;
-        $hi->confidence = $user->conf;
+        $ji->confidence = $user->conf;
 
         if (!$ji->insert()) {
             echo mysql_error();

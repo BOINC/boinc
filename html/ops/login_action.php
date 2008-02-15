@@ -41,7 +41,7 @@ if ($email_addr && $passwd) {
     if (strlen($next_url) == 0) $next_url = "home.php";
     Header("Location: $next_url");
     $perm = $_POST['stay_logged_in'];
-    send_cookie('auth', $authenticator, $perm);
+    send_cookie('auth', $authenticator, $perm, true);
     exit();
 }
 
@@ -91,8 +91,9 @@ if (!$user) {
 } else {
     $next_url = $_POST["next_url"];
     if (strlen($next_url) == 0) $next_url = "home.php";
+    exit;
     Header("Location: $next_url");
     $perm = $_POST['stay_logged_in'];
-    send_cookie('auth', $authenticator, $perm);
+    send_cookie('auth', $authenticator, $perm, true);
 }
 ?>

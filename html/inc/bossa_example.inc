@@ -3,7 +3,7 @@
 // two results are compatible if neither found an ellipse,
 // or they both did and centers are within 20 pixels
 //
-function ellipse_compare($r1, $r2) {
+function bossa_example_compare($r1, $r2) {
     if ($r1->have_ellipse) {
         if ($r2->have_ellipse) {
             $dx = ($r1->cx - $r2->cx);
@@ -18,7 +18,7 @@ function ellipse_compare($r1, $r2) {
 
 // handle a completed job with the given consensus set
 //
-function ellipse_handle($bj, $c) {
+function bossa_example_handle($bj, $c) {
     $res = $c[0];
     if ($res->have_ellipse) {
         $res->cx = 0;

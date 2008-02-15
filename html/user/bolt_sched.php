@@ -89,7 +89,7 @@ function show_finished_page($view_id, $prev_view_id) {
             Congratulations - you have completed the training for $course->name.
             <p>
             You may now
-            <a href=bossa_get_job.php?app_id=$course->bossa_app_id>do work</a>.
+            <a href=bossa_get_job.php?bossa_app_id=$course->bossa_app_id>do work</a>.
         ";
     } else {
         echo "Congratulations - you have completed this course.";
