@@ -77,6 +77,7 @@ using std::vector;
 
 #ifdef _WIN32
 HANDLE sandbox_account_token = NULL;
+PSID sandbox_account_sid = NULL;
 #endif
 
 // return time of day (seconds since 1970) as a double
@@ -286,7 +287,16 @@ void update_average(
 #ifdef _WIN32
 void get_sandbox_account_token() {
     FILE* f;
-    char buf[256], username[256], password[256];
+    char buf[256];
+    std::string encoded_username_str;
+    std::string encoded_password_str;
+    std::string username_str;
+    std::string domainname_str; 
+    std::string password_str; 
+    PVOID pProfileBuffer = NULL;
+    DWORD dwProfileLength = 0;
+    QUOTA_LIMITS ql;
+    int retval = 0;
     static bool first=true;
 
     if (!first) return;
@@ -294,20 +304,58 @@ void get_sandbox_account_token() {
     f = fopen(CLIENT_AUTH_FILENAME, "r");
     if (!f) return;
     while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<username>", username, sizeof(username))) continue;
-        if (parse_str(buf, "<password>", password, sizeof(password))) continue;
+        if (parse_str(buf, "<username>", encoded_username_str)) continue;
+        if (parse_str(buf, "<password>", encoded_password_str)) continue;
     }
     fclose(f);
-    std::string password_str = r_base64_decode(password); 
-    int retval = LogonUser( 
-        username,
-        NULL, 
-        password_str.c_str(), 
-        LOGON32_LOGON_SERVICE, 
-        LOGON32_PROVIDER_DEFAULT, 
-        &sandbox_account_token
-    );
-    if (!retval) sandbox_account_token = NULL;
+
+    password_str = r_base64_decode(encoded_password_str); 
+
+    if (string::npos != encoded_username_str.find('\\')) {
+        domainname_str = 
+            encoded_username_str.substr(
+                0,
+                encoded_username_str.find('\\')
+            );
+        username_str = 
+            encoded_username_str.substr(
+                encoded_username_str.rfind(_T('\\')) + 1,
+                encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
+            );
+
+        retval = LogonUserEx( 
+            username_str.c_str(),
+            domainname_str.c_str(), 
+            password_str.c_str(), 
+            LOGON32_LOGON_SERVICE, 
+            LOGON32_PROVIDER_DEFAULT, 
+            &sandbox_account_token,
+            &sandbox_account_sid,
+            &pProfileBuffer,
+            &dwProfileLength,
+            &ql
+        );
+    } else {
+        username_str = encoded_username_str;
+
+        retval = LogonUserEx( 
+            username_str.c_str(),
+            NULL, 
+            password_str.c_str(), 
+            LOGON32_LOGON_SERVICE, 
+            LOGON32_PROVIDER_DEFAULT, 
+            &sandbox_account_token,
+            &sandbox_account_sid,
+            &pProfileBuffer,
+            &dwProfileLength,
+            &ql
+        );
+    }
+
+    if (!retval) {
+        sandbox_account_token = NULL;
+        sandbox_account_sid = NULL;
+    }
 }
 #endif
 
@@ -330,7 +378,7 @@ int run_program(
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
-             
+
     strcpy(cmdline, "");
     for (int i=0; i<argc; i++) {
         strcat(cmdline, argv[i]);
@@ -341,6 +389,11 @@ int run_program(
 
     get_sandbox_account_token();
     if (sandbox_account_token != NULL) {
+        // Forces system to create a new desktop and windowstation to host
+        // the application.
+        //
+        startup_info.lpDesktop = "";
+                 
         retval = CreateProcessAsUser( 
             sandbox_account_token, 
             file, 
@@ -381,7 +434,9 @@ int run_program(
             }
         }
     }
+
     id = process_info.hProcess;
+
     return 0;
 }
 #else

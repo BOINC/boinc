@@ -23,6 +23,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #else
 #include "config.h"
 #if HAVE_SYS_TIME_H
@@ -461,14 +462,17 @@ int ACTIVE_TASK::start(bool first_time) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
+    LPVOID environment_block = NULL;
     char slotdirpath[256];
     char error_msg[1024];
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
-    startup_info.dwFlags=STARTF_FORCEOFFFEEDBACK;
+
     // suppress 2-sec rotating hourglass cursor on startup
+    //
+    startup_info.dwFlags = STARTF_FORCEOFFFEEDBACK;
 
     // create shared mem segment if needed
     //
@@ -499,6 +503,20 @@ int ACTIVE_TASK::start(bool first_time) {
     get_sandbox_account_token();
     for (i=0; i<5; i++) {
         if (sandbox_account_token != NULL) {
+            // Forces system to create a new desktop and windowstation to host
+            // the application.
+            //
+            startup_info.lpDesktop = "";
+
+            if (!CreateEnvironmentBlock(&environment_block, sandbox_account_token, FALSE)) {
+                if (log_flags.task) {
+                    windows_error_string(error_msg, sizeof(error_msg));
+                    msg_printf(result->project, MSG_INFO,
+                        "Process environment block creation failed: %s", error_msg
+                    );
+                }
+            }
+
             if (CreateProcessAsUser(
                 sandbox_account_token,
                 exec_path,
@@ -507,14 +525,29 @@ int ACTIVE_TASK::start(bool first_time) {
                 NULL,
                 FALSE,
                 CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-                NULL,
+                environment_block,
                 slotdirpath,
                 &startup_info,
                 &process_info
             )) {
                 success = true;
                 break;
+            } else {
+                windows_error_string(error_msg, sizeof(error_msg));
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "Process creation failed: %s", error_msg
+                );
             }
+
+            if (!DestroyEnvironmentBlock(environment_block)) {
+                if (log_flags.task) {
+                    windows_error_string(error_msg, sizeof(error_msg));
+                    msg_printf(result->project, MSG_INFO,
+                        "Process environment block cleanup failed: %s", error_msg
+                    );
+                }
+            }
+
         } else {
             if (CreateProcess(
                 exec_path,
@@ -530,12 +563,13 @@ int ACTIVE_TASK::start(bool first_time) {
             )) {
                 success = true;
                 break;
+            } else {
+                windows_error_string(error_msg, sizeof(error_msg));
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "Process creation failed: %s", error_msg
+                );
             }
         }
-        windows_error_string(error_msg, sizeof(error_msg));
-        msg_printf(wup->project, MSG_INTERNAL_ERROR,
-            "Process creation failed: %s", error_msg
-        );
         boinc_sleep(drand());
     }
     if (!success) {

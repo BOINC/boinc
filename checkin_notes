@@ -1405,3 +1405,29 @@ David  Feb 15 2008
         main.C
     html/
         login_action.php
+
+Rom    Feb 15 2008
+    - client: prevent information disclosure by creating a new environment
+        block for applications launched using the 'boinc_project' account.
+        
+        Windows contains environment variables that describe username,
+        domain name, profile directory and even logon server.
+        
+    - client: correctly parse domain name information from the
+        client_auth.xml file when a different account is used for
+        'boinc_master'.
+    - SCR/MGR: Add two API's to adjust the ACLs on the current users
+        desktop and windowstation so that graphics applications can
+        properly create controls and dialogs for applications
+        launched using 'boinc_project'.
+        
+    client/
+        app_start.C
+    lib/
+        boinc_win.h
+        util.C, .h
+    lib/
+        win_util.C, .h
+    win_build/
+        boinc_cli_curl.vcproj
+ 

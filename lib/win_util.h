@@ -23,3 +23,6 @@ extern BOOL IsWindows2000Compatible();
 extern BOOL IsTerminalServicesEnabled();
 extern BOOL ValidateProductSuite (LPSTR SuiteName);
 extern BOOL TerminateProcessById (DWORD dwProcessId);
+extern BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid);
+extern BOOL AddAceToDesktop(HDESK hdesk, PSID psid);
+

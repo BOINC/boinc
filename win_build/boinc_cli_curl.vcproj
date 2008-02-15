@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib sensapi.lib"
+				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib sensapi.lib userenv.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -194,7 +194,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib sensapi.lib"
+				AdditionalDependencies="zlib1d.lib ssleay32.lib libeay32.lib libcurld_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib sensapi.lib userenv.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -302,7 +302,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib userenv.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
@@ -412,7 +412,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib userenv.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
@@ -523,7 +523,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib userenv.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
@@ -633,7 +633,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib sensapi.lib userenv.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.exe"
 				LinkIncremental="1"
@@ -2313,10 +2313,6 @@
 			</File>
 			<File
 				RelativePath="..\client\time_stats.h"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\util.h"
 				>
 			</File>
 			<File
