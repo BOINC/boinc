@@ -41,7 +41,6 @@ OBJ = \
     net_stats.o \
     pers_file_xfer.o \
     scheduler_op.o \
-    ss_logic.o \
     time_stats.o  \
     whetstone.o
 

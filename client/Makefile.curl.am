@@ -52,7 +52,6 @@ boinc_client_SOURCES = \
     net_xfer_curl.C \
     pers_file_xfer.C \
     scheduler_op.C \
-    ss_logic.C \
     time_stats.C \
     whetstone.C
 
