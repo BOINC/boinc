@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-02-14 19:21+0100\n"
+"PO-Revision-Date: 2008-02-17 13:01+0100\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -226,7 +226,7 @@ msgstr "Sorteerbaar"
 
 #: clientgui/AdvancedFrame.cpp:364
 msgid "Grid views allow you to sort various columns and displays graphical progress bars."
-msgstr "De sorteerbare weergave geeft de mogelijkheid om de kolommen ten sorteren "
+msgstr "De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren."
 
 #: clientgui/AdvancedFrame.cpp:370
 msgid "&Simple View..."
@@ -1070,7 +1070,7 @@ msgstr "Zondag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:209
 msgid "Other options"
-msgstr "ander opties"
+msgstr "extra opties"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:217
 msgid "Switch between applications between every"
