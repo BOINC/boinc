@@ -19,7 +19,9 @@ if ($x) {
 }
 $team_name = process_user_text(strip_tags(post_str("name")));
 $team_name_lc = strtolower($team_name);
+
 $tnh = post_str("name_html", true);
+if (get_magic_quotes_gpc()) $tnh = stripslashes($tnh);
 $team_name_html = sanitize_html($tnh);
 
 $team_name_html = process_user_text($team_name_html);

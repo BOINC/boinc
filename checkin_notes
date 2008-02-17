@@ -1432,4 +1432,9 @@ Rom    Feb 15 2008
         boinc_cli_curl.vcproj
  
  
- 
+David  Feb 17 2008
+    - web: single quotes in team name HTML didn't work
+        because of magic quotes (need stripslashes()).
+
+    html/user/
+        team_edit_action.php
