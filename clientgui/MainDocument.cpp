@@ -472,6 +472,9 @@ int CMainDocument::CachedStateUpdate() {
         }
 
         pFrame->UpdateStatusText(wxEmptyString);
+
+        // Get the venue here. It's not a great place for it, but it's the best I can do for now.
+        rpc.get_venue(venue);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function End"));

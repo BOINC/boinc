@@ -864,7 +864,6 @@ static void handle_set_prefs_for_venue(char* buf, MIOFILE& fout) {
     XML_PARSER xp(&in);
     bool is_tag;
     char tag[256], venue_name[32];
-    bool new_venue = false;
     int retval;
 
     in.init_buf_read(buf);
@@ -876,8 +875,8 @@ static void handle_set_prefs_for_venue(char* buf, MIOFILE& fout) {
             
             GLOBAL_PREFS venue;
 
-            strncpy(venue->venue_name, venue_name, sizeof(venue->venue_name));
-            retval = venue->parse_preference_tags(xp);
+            strncpy(venue.venue_name, venue_name, sizeof(venue.venue_name));
+            retval = venue.parse(xp);
             if (retval) {
                 fout.printf("<error>%d</error>\n", retval);
                 return;
@@ -885,7 +884,7 @@ static void handle_set_prefs_for_venue(char* buf, MIOFILE& fout) {
             GLOBAL_PREFS* p_venue = gstate.lookup_venue(venue_name);
             if (!p_venue) {
                 p_venue = new GLOBAL_PREFS();
-                venues.push_back(p_venue);
+                gstate.venues.push_back(p_venue);
             }
             *p_venue = venue;
 
@@ -901,12 +900,37 @@ static void handle_set_prefs_for_venue(char* buf, MIOFILE& fout) {
     fout.printf("<error>Venue not specified</error>\n");
 }
 
+static void handle_delete_prefs_for_venue(char* buf, MIOFILE& fout) {
+    MIOFILE in;
+    XML_PARSER xp(&in);
+    bool is_tag;
+    char tag[256], venue_name[32];
+
+    in.init_buf_read(buf);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (xp.parse_str(tag, "venue", venue_name, sizeof(venue_name))) {
+
+            // TODO
+
+            // Change active preferences if venue is in use:
+            if (!strcmp(gstate.main_host_venue, venue_name)) {
+                gstate.change_global_prefs(venue_name);
+            }
+
+            fout.printf("<success/>\n");
+            return;
+        }
+    }
+    fout.printf("<error>Venue not specified</error>\n");
+}
+
 // This doesn't do what it says on the tin.
 static void handle_get_global_prefs_file(MIOFILE& fout) {
     GLOBAL_PREFS p;
     bool found;
     int retval = p.parse_file(
-        GLOBAL_PREFS_FILE_NAME, gstate.main_host_venue, found
+        GLOBAL_PREFS_FILE_NAME
     );
     if (retval) {
         fout.printf("<error>%d</error>\n", retval);
@@ -1156,7 +1180,7 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_statistics(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
-    } else if (match_tag(request_msg, "<get_venue>")) {
+    } else if (match_tag(request_msg, "<get_venue/>")) {
         handle_get_venue(mf);
     } else if (match_tag(request_msg, "<get_cc_status")) {
         handle_get_cc_status(this, mf);
@@ -1276,6 +1300,8 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_acct_mgr_rpc_poll(request_msg, mf);
         } else if (match_tag(request_msg, "<set_prefs_for_venue")) {
             handle_set_prefs_for_venue(request_msg, mf);
+        } else if (match_tag(request_msg, "<delete_prefs_for_venue")) {
+            handle_delete_prefs_for_venue(request_msg, mf);
 
         // DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
         // AUTHENTICATION AND NETWORK REQUIREMENTS FIRST

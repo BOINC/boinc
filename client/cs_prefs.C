@@ -359,9 +359,9 @@ void CLIENT_STATE::change_global_prefs(const char* venue) {
             // copy assignment
             global_prefs = *(lookup_venue(venue));
         } else {
-            // Use first venue - should be the "none" venue, but is
+            // Use last venue - should be the "none" venue, but is
             // a safe fallback even if the prefs format is unexpected.
-            global_prefs = **(venues.begin());
+            global_prefs = **(venues.end());
         }
 
         show_global_prefs_source(p_venue != 0);
@@ -373,7 +373,7 @@ void CLIENT_STATE::change_global_prefs(const char* venue) {
         MIOFILE mf;
         mf.init_file(f);
         XML_PARSER xp(&mf);
-        global_prefs.parse_override(xp, "", found_venue);
+        global_prefs.parse_override(xp);
         msg_printf(NULL, MSG_INFO, "Reading preferences override file");
         fclose(f);
     }
@@ -436,6 +436,7 @@ GLOBAL_PREFS* CLIENT_STATE::lookup_venue(const char* venue) {
         if (!strcmp(venue, (*i)->venue_name)) {
             return *i;
         }
+        i++;
     }
     return 0;
 }

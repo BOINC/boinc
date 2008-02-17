@@ -1109,7 +1109,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             if (match_tag(buf, "<global_preferences>")) {
                 bool flag = false;
                 XML_PARSER xp(&rpc.fin);
-                state.global_prefs.parse(xp, "", flag);
+                state.global_prefs.parse(xp);
                 continue;
             }
         }
@@ -2144,7 +2144,7 @@ int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs) {
     if (retval) return retval;
     mf.init_buf_read(s.c_str());
     XML_PARSER xp(&mf);
-    prefs.parse(xp, "", found_venue);
+    prefs.parse(xp);
 
     return 0;
 }
@@ -2204,7 +2204,7 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
     if (retval) return retval;
     mf.init_buf_read(s.c_str());
     XML_PARSER xp(&mf);
-    prefs.parse(xp, "", found_venue);
+    prefs.parse(xp);
 
     return 0;
 }
