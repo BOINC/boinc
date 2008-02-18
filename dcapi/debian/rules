@@ -45,6 +45,8 @@ config.status: configure
 		--enable-backend-local \
 		--with-condor-headers=/usr/include/condor \
 		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
+		--disable-shared \
+		--disable-java \
 		CFLAGS="$(CFLAGS)" \
 		CXXFLAGS="$(CXXFLAGS)"
 
