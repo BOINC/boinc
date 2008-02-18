@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 // Show results with pending credit for a user
 
@@ -17,7 +16,8 @@ $format = get_str("format", true);
 if ($format == "xml") {
     xml_header();
     
-    $user = get_user_from_auth(get_str("authenticator"));
+    $auth = process_user_text(get_str('authenticator'));
+    $user = BoincUser::lookup("authenticator='$auth'");
     if (!$user) {
         echo "<error>".xml_error(-136)."</error>\n";
         exit();
@@ -60,4 +60,5 @@ if ($format == "xml") {
     page_tail();
 }
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>
