@@ -224,6 +224,22 @@ void DC_setMasterCb(DC_ResultCallback resultcb,
 	_dc_messagecb = msgcb;
 }
 
+void DC_setResultCb(DC_ResultCallback cb)
+{
+	_dc_resultcb = cb;
+}
+
+void DC_setSubresultCb(DC_SubresultCallback cb)
+{
+	_dc_subresultcb = cb;
+}
+
+void DC_setMessageCb(DC_MessageCallback cb)
+{
+	_dc_messagecb = cb;
+}
+
+
 /********************************************************************
  * XML file definition parser
  */
