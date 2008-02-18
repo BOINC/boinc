@@ -97,6 +97,11 @@ int DC_initMaster(const char *configFile);
 void DC_setMasterCb(DC_ResultCallback resultcb,
 	DC_SubresultCallback subresultcb, DC_MessageCallback msgcb);
 
+/* Set the callback functions for particular events */
+void DC_setResultCb(DC_ResultCallback cb);
+void DC_setSubresultCb(DC_SubresultCallback cb);
+void DC_setMessageCb(DC_MessageCallback cb);
+
 /* Queries the number of WUs known to the API in the given state. */
 int DC_getWUNumber(DC_WUState state);
 

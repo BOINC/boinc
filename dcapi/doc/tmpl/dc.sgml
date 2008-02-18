@@ -120,10 +120,39 @@ Sets the callback functions to be used for event reporting. One or more of the
 callbacks may be %NULL if the master does not wish to receive the specific
 event.
 </para>
+<para>
+This function is deprecated, use the separate DC_setMessageCb(), DC_setResultCb()
+and DC_setSubresultCb() functions instead.
+</para>
 
 @resultcb: the callback to be used to report results.
 @subresultcb: the callback to be used to report subresults.
 @msgcb: the callback for reporting messages.
+
+
+<!-- ##### FUNCTION DC_setMessageCb ##### -->
+<para>
+Sets the callback function that will be called when the master receives a
+new message from one of the running workunits.
+</para>
+
+@cb: the callback to be used to report messages.
+
+
+<!-- ##### FUNCTION DC_setResultCb ##### -->
+<para>
+Sets the callback function that will be called when a workunit finishes.
+</para>
+
+@cb: the callback to be used to report results.
+
+
+<!-- ##### FUNCTION DC_setSubresultCb ##### -->
+<para>
+Sets the callback function that will be called when a subresult becomes available.
+</para>
+
+@cb: the callback to be used to report subresults.
 
 
 <!-- ##### FUNCTION DC_processMasterEvents ##### -->

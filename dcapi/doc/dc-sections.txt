@@ -58,7 +58,6 @@ DC_MasterEvent
 DC_ResultCallback
 DC_SubresultCallback
 DC_MessageCallback
-DC_SuspendCallback
 
 <SUBSECTION>
 DC_initMaster
@@ -66,7 +65,6 @@ DC_setMasterCb
 DC_setMessageCb
 DC_setResultCb
 DC_setSubresultCb
-DC_setSuspendCb
 
 <SUBSECTION>
 DC_processMasterEvents
