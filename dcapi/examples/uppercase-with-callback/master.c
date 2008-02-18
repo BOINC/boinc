@@ -131,6 +131,7 @@ static void process_result(DC_Workunit *wu, DC_Result *result)
 	/* We no longer need the work unit */
 	DC_destroyWU(wu);
 
+	free(output_filename);
 	free(tag);
 }
 
