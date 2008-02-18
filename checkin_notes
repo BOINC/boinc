@@ -1438,3 +1438,11 @@ David  Feb 17 2008
 
     html/user/
         team_edit_action.php
+
+David  Feb 17 2008
+    - scheduler: fix earlier fix to HR race condition.
+        I was doing "careful update" but not checking
+        that the # of affected rows is 1
+        
+    sched/
+        sched_hr.C

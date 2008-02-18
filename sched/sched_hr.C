@@ -103,6 +103,7 @@ bool already_sent_to_different_platform_careful(
         sprintf(buf2, "hr_class=%d", wu_hr_class);
         retval = db_wu.update_field(buf, buf2);
         if (retval) return true;
+        if (boinc_db.affected_rows() != 1) return true;
     }
     return wreq.hr_reject_temp;
 }
