@@ -237,7 +237,6 @@ int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *wo
 int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app)
 #endif
 {
-
     if (graphics_application) {
         // V6 Graphics
         kill_program(graphics_application);
@@ -281,6 +280,7 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
         // V5 and Older
         DISPLAY_INFO di;
 
+        if (worker_app == NULL) return 0;
         if (worker_app->name.empty()) return 0;
 
         memset(di.window_station, 0, sizeof(di.window_station));
@@ -372,8 +372,9 @@ void *CScreensaver::DataManagementProc() {
 
 	if (suspend_reason != 0) {
             SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
-            if (m_hGraphicsApplication || graphics_app_result_ptr) {
-                terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+            if (m_hGraphicsApplication || previous_result_ptr) {
+                // use previous_result_ptr because graphics_app_result_ptr may no longer be valid
+                terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
                 if (m_hGraphicsApplication == 0) {
                     graphics_app_result_ptr = NULL;
                 } else {
@@ -383,11 +384,11 @@ void *CScreensaver::DataManagementProc() {
             }
             continue;
         }
-                
+
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
 
         SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
-        
+
 #else                   /* NORMAL OPERATION */
 
         // Is the current graphics app's associated task still running?
@@ -444,7 +445,7 @@ void *CScreensaver::DataManagementProc() {
                 last_change_time = dtime();
             }
         }
-
+                
         // If no current graphics app, pick an active task at random and launch its graphics app
         if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL)) {
             graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);

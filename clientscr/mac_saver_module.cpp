@@ -50,11 +50,10 @@
 // Flags for testing & debugging
 #define CREATE_LOG 1
 
-#define BANNER_GAP 30	/* Space between repeats of banner text */
-#define BANNERDELTA 2   /* Number of pixels to move banner each frame */
-#define BANNERFREQUENCY 30 /* Number of times per second to update text and logo */
-#define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
+#define TEXTLOGOFREQUENCY 30 /* Number of times per second to update moving logo with text */
+#define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
+#define STATUSRESULTCHANGETIME 10 /* seconds to show status display for each task */
 #define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
 
 enum SaverState {
@@ -78,11 +77,6 @@ extern CFStringRef gPathToBundleResources;
 
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
-RGBColor gBrandColor = {0xFFFF, 0xFFFF, 0xFFFF};
-RGBColor gTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
-RGBColor gWhiteTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
-RGBColor gOrangeTextColor = {0xFFFF, 0x6262, 0x0000};
-RGBColor gGrayTextColor = {0x9999, 0x9999, 0x9999};
 
 const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
@@ -90,9 +84,9 @@ const char *  ConnectingCCMsg = "Connecting to BOINC application.";
 const char *  BOINCSuspendedMsg = "BOINC is currently suspended.";
 const char *  BOINCNoAppsExecutingMsg = "BOINC is currently idle.";
 const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
-const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support screensaver graphics: ";
+const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support graphics:";
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
-const char *  BOINCTestmodeMsg = "BOINC screensaver is running, but cannot display graphics in test mode.";
+const char *  BOINCTestmodeMsg = "BOINC screensaver test: success.";
 const char *  BOINCV5GFXDaemonMsg = "BOINC can't display graphics from older applications when running as a daemon.";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
@@ -108,13 +102,13 @@ int initBOINCSaver(Boolean ispreview) {
     return gspScreensaver->Create();
 }
 
-int drawGraphics(char **theMessage) {
-    return gspScreensaver->drawGraphics(theMessage);
+int getSSMessage(char **theMessage) {
+    return gspScreensaver->getSSMessage(theMessage);
 };
 
 
-void drawPreview(GrafPtr aPort) {
-    gspScreensaver->drawPreview(aPort);
+void drawPreview(CGContextRef myContext) {
+    gspScreensaver->drawPreview(myContext);
 };
 
 
@@ -130,14 +124,14 @@ CScreensaver::CScreensaver() {
     m_hrError = 0;
     m_StatusMessageUpdated = false;
     // Display first status update after 5 seconds
-    m_statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
-    
+    m_statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * TEXTLOGOFREQUENCY);
+    m_iLastResultShown = 0;
+    m_tLastResultChangeCounter = ((STATUSRESULTCHANGETIME-5) * TEXTLOGOFREQUENCY);
     saverState = SaverState_Idle;
     m_wasAlreadyRunning = false;
     m_CoreClientPID = nil;
     m_MsgBuf[0] = 0;
-    setBannerText(0, NULL);
-    m_BannerWidth = 0;
+    setSSMessageText(0);
     m_CurrentBannerMessage = 0;
     m_QuitDataManagementProc = false;
     m_BrandText = "BOINC";
@@ -151,7 +145,6 @@ CScreensaver::CScreensaver() {
 
 
 int CScreensaver::Create() {
-    int newFrequency = 15;
     ProcessSerialNumber psn;
     ProcessInfoRec pInfo;
     OSStatus err;
@@ -190,16 +183,18 @@ int CScreensaver::Create() {
 
         err = initBOINCApp();
 
+        CGDisplayHideCursor(kCGNullDirectDisplay);
+    
         if (saverState == SaverState_LaunchingCoreClient)
         {
             SetError(FALSE, 0);
             m_QuitDataManagementProc = false;
-            if (rpc == NULL)
+            if (rpc == NULL) {
                 rpc = new RPC_CLIENT;
-            newFrequency = NOBANNERFREQUENCY;
+            }
         }
     }
-    return newFrequency;
+    return TEXTLOGOFREQUENCY;
 }
 
 
@@ -217,13 +212,9 @@ OSStatus CScreensaver::initBOINCApp() {
     switch(brandId) {
     case 1:
         m_BrandText = "GridRepublic";
-        gBrandColor = gOrangeTextColor; // Orange
-        gTextColor = gGrayTextColor;  // Gray
-        break;
+         break;
     default:
         m_BrandText = "BOINC";
-        gBrandColor = gWhiteTextColor; // White
-        gTextColor = gWhiteTextColor; // White
         break;
     }
 
@@ -283,17 +274,13 @@ OSStatus CScreensaver::initBOINCApp() {
 
 
 // Returns new desired Animation Frequency (per second) or 0 for no change
-int CScreensaver::drawGraphics(char **theMessage) {
-    CGrafPtr aPort = NULL;
-//    CGrafPtr savePort;
- //   GDHandle saveGDH;
-    int newFrequency = 15;
+int CScreensaver::getSSMessage(char **theMessage) {
+    int newFrequency = TEXTLOGOFREQUENCY;
     pid_t myPid;
     OSStatus err;
     
-    ObscureCursor();
-    
     m_statusUpdateCounter++;
+    m_tLastResultChangeCounter++;
 
     switch (saverState) {
     case SaverState_RelaunchCoreClient:
@@ -302,9 +289,9 @@ int CScreensaver::drawGraphics(char **theMessage) {
     
     case  SaverState_LaunchingCoreClient:
         if (m_wasAlreadyRunning)
-            setBannerText(ConnectingCCMsg, aPort);
+            setSSMessageText(ConnectingCCMsg);
         else
-            setBannerText(LaunchingCCMsg, aPort);
+            setSSMessageText(LaunchingCCMsg);
        
         myPid = FindProcessPID(NULL, m_CoreClientPID);
         if (myPid) {
@@ -324,7 +311,7 @@ int CScreensaver::drawGraphics(char **theMessage) {
 
     case SaverState_CoreClientRunning:
             // RPC called in DataManagementProc()
-            setBannerText(ConnectingCCMsg, aPort);
+            setSSMessageText(ConnectingCCMsg);
             if (! m_bResetCoreState) {
                 saverState = SaverState_ConnectedToCoreClient;
             }
@@ -336,36 +323,36 @@ int CScreensaver::drawGraphics(char **theMessage) {
             break;  // No status response yet from DataManagementProc
         case SCRAPPERR_SCREENSAVERBLANKED:
         default:
-            setBannerText(0, aPort);   // No text message
+            setSSMessageText(0);   // No text message
             break;
         case SCRAPPERR_BOINCSUSPENDED:
-            setBannerText(BOINCSuspendedMsg, aPort);
+            setSSMessageText(BOINCSuspendedMsg);
             break;
         case SCRAPPERR_BOINCNOAPPSEXECUTING:
-            setBannerText(BOINCNoAppsExecutingMsg, aPort);
+            setSSMessageText(BOINCNoAppsExecutingMsg);
             break;
         case SCRAPPERR_BOINCNOPROJECTSDETECTED:
-            setBannerText(BOINCNoProjectsDetectedMsg, aPort);
+            setSSMessageText(BOINCNoProjectsDetectedMsg);
             break;
         case SCRAPPERR_SCREENSAVERRUNNING:
 #if ! ALWAYS_DISPLAY_PROGRESS_TEXT
-            setBannerText(0, aPort);   // No text message
+            setSSMessageText(0);   // No text message
             // Let the science app draw over our window
             break;
 #endif
         case SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING:
         case SCRAPPERR_DAEMONALLOWSNOGRAPHICS:
             if (m_StatusMessageUpdated) {
-                setBannerText(m_MsgBuf, aPort);
-                updateBannerText(m_MsgBuf, aPort);
+                setSSMessageText(m_MsgBuf);
+                updateSSMessageText(m_MsgBuf);
                 m_StatusMessageUpdated = false;
             }
             break;
 #if 0
         case SCRAPPERR_QUITSCREENSAVERREQUESTED:
-//            setBannerText(BOINCExitedSaverMode, aPort);
+//            setSSMessageText(BOINCExitedSaverMode);
             // Wait 1 second to allow ScreenSaver engine to close us down
-            if (++gQuitCounter > (bannerText[0] ? BANNERFREQUENCY : NOBANNERFREQUENCY)) {
+            if (++gQuitCounter > (m_MessageText[0] ? TEXTLOGOFREQUENCY : NOTEXTLOGOFREQUENCY)) {
                 closeBOINCSaver();
                 KillScreenSaver(); // Stop the ScreenSaver Engine
             }
@@ -375,41 +362,33 @@ int CScreensaver::drawGraphics(char **theMessage) {
         break;
 
     case SaverState_ControlPanelTestMode:
-        setBannerText(BOINCTestmodeMsg, aPort);
+        setSSMessageText(BOINCTestmodeMsg);
         break;
 
     case SaverState_UnrecoverableError:
-        setBannerText(BOINCUnrecoverableErrorMsg, aPort);
+        setSSMessageText(BOINCUnrecoverableErrorMsg);
         break;
 
     case SaverState_CantLaunchCoreClient:
-        setBannerText(CantLaunchCCMsg, aPort);
+        setSSMessageText(CantLaunchCCMsg);
         break;
 
     case SaverState_Idle:
         break;      // Should never get here; fixes compiler warning
     }           // end switch (saverState)
 
-    if (m_BannerText[0]) {
-#if 0
-        GetGWorld(&savePort, &saveGDH);
-        SetPort(aPort);
-        drawBanner(aPort);
-        SetGWorld(savePort, saveGDH);
-#endif
-        newFrequency = BANNERFREQUENCY;
+    if (m_MessageText[0]) {
+        newFrequency = TEXTLOGOFREQUENCY;
     } else
-        newFrequency = NOBANNERFREQUENCY;
+        newFrequency = NOTEXTLOGOFREQUENCY;
     
-    *theMessage = m_BannerText;
+    *theMessage = m_MessageText;
     return newFrequency;
 }
 
 
-void CScreensaver::drawPreview(GrafPtr aPort) {
-    SetPort(aPort);
-    setBannerText(" BOINC", aPort);
-    drawBanner(aPort);
+void CScreensaver::drawPreview(CGContextRef myContext) {
+    // For possible future use
 }
 
 
@@ -435,7 +414,7 @@ void CScreensaver::ShutdownSaver() {
         rpc = NULL;
     }
 
-    setBannerText(0, NULL);
+    setSSMessageText(0);
 
     m_CoreClientPID = 0;
 //    gQuitCounter = 0;
@@ -512,13 +491,13 @@ bool CScreensaver::SetError(bool bErrorMode, unsigned int hrError) {
 void CScreensaver::UpdateProgressText(unsigned int hrError) {
     int iResultCount;
     int iIndex;
+    int iModIndex;
     unsigned int len;
     RESULT* theResult;
     PROJECT* pProject;
-    char  statusBuf[256];
-    double percent_done;
+    char  statusBuf[2048];
 
-     if ( (m_statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) && !m_updating_results ) {
+     if ( (m_statusUpdateCounter >= (STATUSUPDATEINTERVAL * TEXTLOGOFREQUENCY) ) && !m_updating_results ) {
         if (! m_StatusMessageUpdated) {
             m_statusUpdateCounter = 0;
             strcpy(m_MsgBuf, hrError == SCRAPPERR_DAEMONALLOWSNOGRAPHICS ? 
@@ -528,20 +507,33 @@ void CScreensaver::UpdateProgressText(unsigned int hrError) {
         iResultCount = results.results.size();
         theResult = NULL;
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-            theResult = results.results.at(iIndex);
-
+            // cycle through the active results starting from the last one
+            iModIndex = (iIndex + m_iLastResultShown+1) % iResultCount;
+            theResult = results.results.at(iModIndex);
             // The get_state rpc is time-consuming, so we assume the list of 
             // attached projects does not change while the screensaver is active.
             pProject = state.lookup_project(theResult->project_url);
             if (pProject != NULL) {
-                percent_done = theResult->fraction_done * 100;
-                if (percent_done < 0.01)
-                    len = sprintf(statusBuf, ("    %s"), pProject->project_name.c_str());
-                 else    // Display percent_done only after we have a valid value
-                   len = sprintf(statusBuf, ("    %s: %.2f%%"), 
-                        pProject->project_name.c_str(), percent_done);
-
-                strlcat(m_MsgBuf, statusBuf, sizeof(m_MsgBuf));
+                RESULT* pResult = state.lookup_result(pProject, results.results.at(iModIndex)->name);
+                if ( pResult != NULL ) {
+                    len = snprintf(statusBuf, sizeof(statusBuf), 
+                        "\nComputing for %s\nApplication: %s\nTask: %s\n%.2f%% complete\n",
+                        pProject->project_name.c_str(),
+                        pResult->app->user_friendly_name.c_str(),
+                        pResult->wu_name.c_str(),
+                        results.results.at(iModIndex)->fraction_done*100 
+                    );
+                    
+                    strlcat(m_MsgBuf, statusBuf, sizeof(m_MsgBuf));
+                    if (m_tLastResultChangeCounter >= (STATUSRESULTCHANGETIME * TEXTLOGOFREQUENCY)) {
+                        m_iLastResultShown = iModIndex;
+                        m_tLastResultChangeCounter = 0;
+                    }
+                    break;
+                } else {
+                    HandleRPCError();
+                    return;
+                }
             } else {          // (pProject == NULL): re-synch with client
                  HandleRPCError();
                  return;
@@ -553,125 +545,35 @@ void CScreensaver::UpdateProgressText(unsigned int hrError) {
 }
 
 
-void CScreensaver::setBannerText(const char * msg, GrafPtr aPort) {
+void CScreensaver::setSSMessageText(const char * msg) {
     if (msg == 0)
-        m_BannerText[0] = 0;
+        m_MessageText[0] = 0;
     
     if (m_CurrentBannerMessage != msg)
-        updateBannerText((char *)msg, aPort);
+        updateSSMessageText((char *)msg);
 }
 
 
-void CScreensaver::updateBannerText(char *msg, GrafPtr aPort) {
-//    CGrafPtr savePort;
-//    RGBColor saveBackColor;
-//    Rect wRect;
+void CScreensaver::updateSSMessageText(char *msg) {
     char *p, *s;
     
     m_CurrentBannerMessage = msg;
 
-#if 0
-    if (aPort == NULL)
-        return;
-        
-    GetPort(&savePort);
-    SetPort(aPort);
-
-    GetPortBounds(aPort, &wRect);
-
-    GetBackColor(&saveBackColor);
-    BackColor ( blackColor );
-    EraseRect(&wRect);
-    RGBBackColor(&saveBackColor);
- #endif
-   
    if (msg) {
-#if 0
-        TextSize(24);
-        TextFace(bold);
-#endif
         s = msg;
-        m_BannerText[0] = '\0';
+        m_MessageText[0] = '\0';
         do {
             p = strstr(s, "BOINC");
             if (p == NULL) {
-                strcat(m_BannerText, s);
+                strcat(m_MessageText, s);
             } else {
-                strncat(m_BannerText, s, p - s);
-                strcat(m_BannerText, m_BrandText);
+                strncat(m_MessageText, s, p - s);
+                strcat(m_MessageText, m_BrandText);
                 s = p + 5;  // s = p + strlen("BOINC");
             }
         } while (p);
         
-#if 0
-        m_BannerWidth = TextWidth(m_BannerText, 0, strlen(m_BannerText)) + BANNER_GAP;
-        // Round up m_BannerWidth to an integral multiple of BANNERDELTA
-        m_BannerWidth = ((m_BannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
-#endif
     }
-    
-//    SetPort(savePort);
-
-}
-
-
-void CScreensaver::drawBanner(GrafPtr aPort) {
-    CGrafPtr savePort;
-    GDHandle saveGDH;
-    RGBColor saveForeColor, saveBackColor;
-    short x, y;
-    Rect wRect;
-    FontInfo fInfo;
-    static short bannerPos;
-    char *p, *s;
-    
-    if (aPort == NULL)
-        return;
-        
-    GetGWorld(&savePort, &saveGDH);
-    SetPort(aPort);
-    
-    GetForeColor(&saveForeColor);
-    GetBackColor(&saveBackColor);
-    RGBForeColor(&gTextColor);
-    BackColor(blackColor);
-    GetPortBounds(aPort, &wRect);
-    if ( (bannerPos + m_BannerWidth) <= (wRect.left + BANNERDELTA) )
-        bannerPos = wRect.left;
-    else
-        bannerPos -= BANNERDELTA;
-
-   x = bannerPos;
-   y = (wRect.bottom - wRect.top) / 3 + wRect.top;
-   
-    GetFontInfo(&fInfo);
-    wRect.top = y - fInfo.ascent;
-    wRect.bottom = y + fInfo.descent;
-    EraseRect(&wRect);
-       
-    do { 
-        MoveTo(x, y);
-        s = m_BannerText;
-        do {
-            p = strstr(s, m_BrandText);
-            if (p == NULL) {
-                DrawText(s, 0, strlen(s));
-            } else {
-                DrawText(s, 0, p - s);
-                RGBForeColor(&gBrandColor);
-                DrawText(m_BrandText, 0, strlen(m_BrandText));
-                s = p + strlen(m_BrandText);
-                RGBForeColor(&gTextColor);
-            }
-        } while (p);
-        
-        x+= m_BannerWidth;
-    } while (x < wRect.right);
-    
-    RGBForeColor(&saveForeColor);
-    RGBBackColor(&saveBackColor);
-
-    SetGWorld(savePort, saveGDH);
 }
 
 

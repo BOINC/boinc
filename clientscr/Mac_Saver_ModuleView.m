@@ -135,7 +135,7 @@ int signof(float x) {
                                     kFontNoScriptCode, kFontNoLanguageCode, &theFontID);
                                 
             err = ATSUCreateStyle(&theStyle);
-            atsuSize = Long2Fix (24);
+            atsuSize = Long2Fix (20);
             err = ATSUSetAttributes(theStyle, 2, theTags, theSizes, theValues);
         }
     }
@@ -200,7 +200,7 @@ int signof(float x) {
 #endif
         return;
     }
- 
+
    myContext = [[NSGraphicsContext currentContext] graphicsPort];
 //    [myContext retain];
 
@@ -208,13 +208,13 @@ int signof(float x) {
     NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
-      [[[ NSView focusView] window ] setLevel:kCGMinimumWindowLevel ];
+//      [[[ NSView focusView] window ] setLevel:kCGMinimumWindowLevel ];
         return;         // We draw only to main screen
     }
 
     NSRect viewBounds = [self bounds];
 
-    newFrequency = drawGraphics(&msg);
+    newFrequency = getSSMessage(&msg);
     
     // Clear the previous drawing area
     currentDrawingRect = gMovingRect;
@@ -252,6 +252,7 @@ int signof(float x) {
     if (!isErased) {
         [[NSColor blackColor] set];
         
+        // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
         imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
         imagePosition.y = (float) (int)gCurrentPosition.y;
         eraseRect.origin.y = imagePosition.y;
@@ -283,6 +284,7 @@ int signof(float x) {
         
         eraseRect = currentDrawingRect;
         eraseRect.size.height = gTextBoxHeight;
+        eraseRect = NSInsetRect(eraseRect, -1, -1);
         NSRectFill(eraseRect);
 
         isErased  = true;

@@ -26,8 +26,6 @@
 
 @interface BOINC_Saver_ModuleView : ScreenSaverView 
 {
-    NSQuickDrawView * mainQDView;
-    NSQuickDrawView * previewQDView;
     NSString *mBundleID;                        // our bundle ID
     
     IBOutlet id mConfigureSheet;		// our configuration sheet
@@ -43,10 +41,8 @@
 
 @end
 
-void setFrame(Rect *frame);
 int initBOINCSaver(Boolean ispreview);
-int drawGraphics(char **theMessage);
-void drawPreview(GrafPtr aPort);
+int getSSMessage(char **theMessage);
+void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);
-void displayText(const unsigned char *s, GrafPtr aPort);
 extern void print_to_log_file(const char *format, ...);

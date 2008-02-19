@@ -33,8 +33,8 @@ extern "C" {
 #endif
 
 int initBOINCSaver(Boolean ispreview);
-int drawGraphics(char **theMessage);
-void drawPreview(GrafPtr aPort);
+int getSSMessage(char **theMessage);
+void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -68,9 +68,8 @@ protected:
     OSErr           GetpathToBOINCManagerApp(char* path, int maxLen);
     bool            SetError( bool bErrorMode, unsigned int hrError );
     void            UpdateProgressText(unsigned int hrError);
-    void            setBannerText(const char *msg, GrafPtr aPort);
-    void            updateBannerText(char *msg, GrafPtr aPort);
-    void            drawBanner(GrafPtr aPort);
+    void            setSSMessageText(const char *msg);
+    void            updateSSMessageText(char *msg);
     void            strip_cr(char *buf);
     char            m_gfx_Switcher_Path[MAXPATHLEN];
     bool            m_bErrorMode;        // Whether to display an error
@@ -81,6 +80,8 @@ protected:
     int             m_dwBlankScreen;
     time_t          m_dwBlankTime;
     int             m_statusUpdateCounter;
+    int             m_iLastResultShown;
+    int             m_tLastResultChangeCounter;
     bool            m_StatusMessageUpdated;
 
     //
@@ -115,8 +116,6 @@ protected:
     RESULTS         results;
     RESULT          m_running_result;
     bool            m_updating_results;
-    int             m_iLastResultShown;
-    time_t          m_tLastResultChangeTime;
 
     bool            m_bResetCoreState;
     bool            m_QuitDataManagementProc;
@@ -128,13 +127,12 @@ protected:
     //
 protected:
     char            m_MsgBuf[2048];
-    char            m_BannerText[2048];
-    int             m_BannerWidth;
+    char            m_MessageText[2048];
     char*           m_CurrentBannerMessage;
     char*           m_BrandText;
 public:
-    int             drawGraphics(char **theMessage);
-    void            drawPreview(GrafPtr aPort);
+    int             getSSMessage(char **theMessage);
+    void            drawPreview(CGContextRef myContext);
     void            ShutdownSaver();
 
 protected:
