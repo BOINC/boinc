@@ -16,10 +16,10 @@ row2_plain("[u]Underline[/u]", "<u>Underline</u>");
 row2_plain("[size=15]Big text[/size]", "<span style=\"font-size: 15px\">Big text</span>");
 row2_plain("[color=red]Red text[/color]", "<font color=\"red\">Red text</font></li>");
 row2_plain("[url=http://google.com/]Google[/url]", "<a href=\"http://google.com/\">Google</a>");
-row2_plain("[quote]Quoted[/quoted]", "use for quoted blocks of text");
+row2_plain("[quote]Quoted text[/quote]", "use for quoted blocks of text");
 row2_plain("[img]http://example.com/pic.jpg[/img]", "use to display an image");
 row2_plain("[code]Code snippet here[/code]", "use to display some code");
-row2_plain("[pre]Pre-formatted text here[/pre]", "use to display pre-formatted (usually monospaced) text");
+row2_plain("[pre]Pre-formatted text[/pre]", "use to display pre-formatted (usually monospaced) text");
 row2_plain("[list]<br>* Item 1<br>*Item2<br>[/list]", "<ul><li>Item 1</li><li>Item 2</li></ul>");
 row2_plain("[trac]#1[/trac] or [trac]ticket:1[/trac]",
     "use to link to Trac ticket on BOINC website: <a href=\"http://boinc.berkeley.edu/trac/ticket/1\">#1</a>");
