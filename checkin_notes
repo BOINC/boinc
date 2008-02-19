@@ -912,7 +912,7 @@ Charlie Jan 29 2008
     - SCR: When running V5 GFX applications as a service / daemon, display 
         appropriate error message instead of trying to display graphics.
     - API: Add executing_as_daemon bool to get_state rpc.
-    - MGR: Disable Show Grapics button for V5 GFX applications when BOINC 
+    - MGR: Disable Show Graphics button for V5 GFX applications when BOINC 
         is running as a service / daemon.
 
     client/
@@ -923,7 +923,7 @@ Charlie Jan 29 2008
         ViewWorkGrid.cpp
     clientscr/
         boinc_ss.rc
-        mac_saver_module.cpp,h
+        mac_saver_module.cpp
         Mac_Saver_Module.h
         screensaver.cpp
         screensaver_win.h
@@ -1387,8 +1387,10 @@ Charlie Feb 14 2008
         instead of horizontally scrolling banner text.
         
     clientscr/
-        mac_saver_module.cpp,h
+        mac_saver_module.cpp
         Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m
+        Mac_Saver_ModuleView.h
         screensaver.cpp
         res/
             boinc_ss_logo.png (new)
@@ -1452,3 +1454,19 @@ David  Feb 18 2008
 
     html/user/
         pending.php
+
+Charlie Feb 19 2008
+    - MAC SCR: Further changes and cleanup of new Mac screensaver; when 
+        applications don't support graphics, cycle progress text through 
+        tasks like Windows screensaver. Fix crash bug when activity is 
+        suspended from a remote host.
+    - WIN SCR: Fix bug in Windows code which cycles progress text.
+        
+    clientscr/
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m
+        Mac_Saver_ModuleView.h
+        screensaver.cpp
+        screensaver_win.cpp

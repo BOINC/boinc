@@ -899,7 +899,7 @@ VOID CScreensaver::UpdateErrorBoxText() {
             bIsActive     = (results.results.at(iModIndex)->active_task);
             bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iModIndex)->scheduler_state);
             if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
-            pProject = state.lookup_project(results.results.at(iIndex)->project_url);
+            pProject = state.lookup_project(results.results.at(iModIndex)->project_url);
             if (NULL != pProject) {
 				RESULT* pResult = state.lookup_result(pProject, results.results.at(iModIndex)->name);
 				if ( pResult != NULL ) {
