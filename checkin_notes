@@ -1463,7 +1463,6 @@ Charlie Feb 19 2008
     - WIN SCR: Fix bug in Windows code which cycles progress text.
         
     clientscr/
-    clientscr/
         mac_saver_module.cpp
         Mac_Saver_Module.h
         Mac_Saver_ModuleView.m
