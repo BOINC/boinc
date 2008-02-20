@@ -860,7 +860,7 @@ union headeru {
 
 // Read the mach-o headers to determine the architectures
 // supported by executable file.
-// Returns 1 if application can run natively on i386 Macs, else returns 0.
+// Returns 1 if application can run natively on i386 / x86_64 Macs, else returns 0.
 //
 int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     FILE *f;
@@ -870,6 +870,8 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     fat_arch fatHeader;
     
     uint32_t n, i, len;
+    uint32_t theMagic;
+    integer_t theType;
     
     f = boinc_fopen(exec_path, "rb");
     if (!f) {
@@ -880,21 +882,37 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     myHeader.fat.nfat_arch = 0;
     
     fread(&myHeader, 1, sizeof(fat_header), f);
-    switch (myHeader.mach.magic) {
+    theMagic = myHeader.mach.magic;
+    switch (theMagic) {
+    case MH_CIGAM:
     case MH_MAGIC:
-        if (myHeader.mach.cputype == CPU_TYPE_I386) {
-            result = 1;        // Single-architecture i386 file
+    case MH_MAGIC_64:
+    case MH_CIGAM_64:
+       theType = myHeader.mach.cputype;
+        if ((theMagic == MH_CIGAM) || (theMagic == MH_CIGAM_64)) {
+            theType = OSSwapInt32(theType);
+        }
+        if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
+            result = 1;        // Single-architecture i386or x86_64 file
         }
         break;
+    case FAT_MAGIC:
     case FAT_CIGAM:
-        n = _OSSwapInt32(myHeader.fat.nfat_arch);
+        n = myHeader.fat.nfat_arch;
+        if (theMagic == FAT_CIGAM) {
+            n = OSSwapInt32(myHeader.fat.nfat_arch);
+        }
            // Multiple architecture (fat) file
         for (i=0; i<n; i++) {
             len = fread(&fatHeader, 1, sizeof(fat_arch), f);
             if (len < sizeof(fat_arch)) {
                 break;          // Should never happen
             }
-            if (fatHeader.cputype == OSSwapConstInt32(CPU_TYPE_I386)) {
+            theType = fatHeader.cputype;
+            if (theMagic == FAT_CIGAM) {
+                theType = OSSwapInt32(theType);
+            }
+            if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
                 result = 1;
                 break;
             }

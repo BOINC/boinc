@@ -1469,3 +1469,10 @@ Charlie Feb 19 2008
         Mac_Saver_ModuleView.h
         screensaver.cpp
         screensaver_win.cpp
+
+Charlie Feb 20 2008
+    - Mac client: Fix bug which erroneously set powerpc_emulated_on_i386 
+        true for X86_64 native applications.  
+        
+    client/
+        app_graphics.C
