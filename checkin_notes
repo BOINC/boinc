@@ -330,3 +330,16 @@ Rom    Feb 4 2008
     /
         configure.ac
         version.h
+
+Charlie Feb 20 2008
+    - Mac client: Fix bug which set powerpc_emulated_on_i386 true for
+        X86_64 native applications.  This sometimes prevented V6 
+        applications from showing graphics. If user downgrades from V6 
+        client, the V5 client continues to use existing X86_64 
+        applications which were previously downloaded by the V6 client
+        (which is another bug).  Since they weren't i386/i686 native, 
+        the V5 client treated them as emulated PowerPC apps (which might
+        crash if graphics were attempted).
+        
+    client/
+        app_graphics.C
