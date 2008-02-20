@@ -527,3 +527,10 @@ David  28 Jan 2008
     example_app/
         uc2.C
         uc2_graphics.C
+
+Charlie 19 Feb 2008
+    Mac: Restore "-DAPP_GRAPHICS" to XCode project C flags.
+    
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj
