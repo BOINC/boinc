@@ -146,7 +146,7 @@ function name_search($filter) {
     }
     end_table();
     if (!$n) {
-        echo "<h2>No user names found starting with '".htmlspecialchars($search_string)."'</h2>\n";
+        echo "No users matching your search criteria.";
     }
 }
 

@@ -1530,3 +1530,9 @@ Charlie Feb 20 2008
         graphics2_unix.C
     clientgui/
         MainDocument.cpp
+
+David  Feb 21 2008
+    - web: fix message
+
+    html/user/
+        user_search.php
