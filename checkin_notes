@@ -1536,3 +1536,10 @@ David  Feb 21 2008
 
     html/user/
         user_search.php
+
+Rom    Feb 21 2008
+    - Update release libcurl to include the c-ares library on Windows
+    
+    curl/
+        <Various Files>
+
