@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
     check_stop_daemons();
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
     boinc_db.set_isolation_level(READ_UNCOMMITTED);

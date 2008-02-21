@@ -52,8 +52,8 @@ int SCHED_CONFIG::parse(FILE* f) {
     default_disk_max_used_gb = 100.;
     default_disk_max_used_pct = 50.;
     default_disk_min_free_gb = .001;
-    sched_debug_level = SCHED_MSG_LOG::MSG_NORMAL;
-    fuh_debug_level = SCHED_MSG_LOG::MSG_NORMAL;
+    sched_debug_level = MSG_NORMAL;
+    fuh_debug_level = MSG_NORMAL;
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
 

@@ -1550,3 +1550,8 @@ David  Feb 21 2008
     sched/
         sched_config.C,h
         sched_send.C
+
+David  Feb 21 2008
+    - scheduler: code cleanup, remove "SCHED_MSG_LOG::" from a zillion places
+
+    sched/*.C

@@ -62,7 +62,7 @@ int update_users() {
         );
         retval = user.update_field(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't update user %d\n", user.id);
+            log_messages.printf(MSG_CRITICAL, "Can't update user %d\n", user.id);
             return retval;
         }
     }
@@ -84,7 +84,7 @@ int update_hosts() {
         );
         retval = host.update_field(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't update host %d\n", host.id);
+            log_messages.printf(MSG_CRITICAL, "Can't update host %d\n", host.id);
             return retval;
         }
     }
@@ -105,8 +105,7 @@ int get_team_totals(TEAM& team) {
     if (retval) return retval;
 
     if (team.nusers != nusers) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "updating member count for [TEAM#%d]: database has %d users, count shows %d\n",
             team.id, team.nusers, nusers
         );
@@ -128,8 +127,7 @@ int update_teams() {
     while (!team.enumerate("where expavg_credit>0.1")) {
         retval = get_team_totals(team);
         if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "update_teams: get_team_credit([TEAM#%d]) failed: %d\n",
                 team.id,
                 retval
@@ -145,7 +143,7 @@ int update_teams() {
         );
         retval = team.update_field(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't update team %d\n", team.id);
+            log_messages.printf(MSG_CRITICAL, "Can't update team %d\n", team.id);
             return retval;
         }
     }
@@ -172,27 +170,27 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
+    log_messages.printf(MSG_NORMAL, "Starting\n");
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
         );
     }
@@ -200,7 +198,7 @@ int main(int argc, char** argv) {
     if (do_update_users) {
         retval = update_users();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "update_users failed: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL, "update_users failed: %d\n", retval);
             exit(1);
         }
     }
@@ -208,7 +206,7 @@ int main(int argc, char** argv) {
     if (do_update_hosts) {
         retval = update_hosts();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "update_hosts failed: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL, "update_hosts failed: %d\n", retval);
             exit(1);
         }
     }
@@ -216,12 +214,12 @@ int main(int argc, char** argv) {
     if (do_update_teams) {
         retval = update_teams();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "update_teams failed: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL, "update_teams failed: %d\n", retval);
             exit(1);
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Finished\n");
+    log_messages.printf(MSG_NORMAL, "Finished\n");
     return 0;
 }
 

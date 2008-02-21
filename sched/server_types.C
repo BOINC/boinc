@@ -320,7 +320,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         if (match_tag(buf, "<scheduler_url>")) continue;
         if (match_tag(buf, "</project>")) continue;
 
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
         );
         MIOFILE mf;
@@ -522,7 +522,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             request_delay=min_delay_needed; 
         }
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "sending delay request %f\n", request_delay
         );
     }
@@ -894,8 +894,7 @@ int RESULT::parse_from_client(FILE* fin) {
         if (match_tag(buf, "<report_deadline>")) continue;
         if (match_tag(buf, "<wu_name>")) continue;
 
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "RESULT::parse_from_client(): unrecognized: %s\n",
             buf
         );
@@ -953,7 +952,7 @@ int HOST::parse(FILE* fin) {
         if (match_tag(buf, "<cache_l3>")) continue;
 #endif
 
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "HOST::parse(): unrecognized: %s\n", buf
         );
     }
@@ -974,8 +973,7 @@ int HOST::parse_time_stats(FILE* fin) {
         if (match_tag(buf, "<outage>")) continue;
         if (match_tag(buf, "<start>")) continue;
         if (match_tag(buf, "<end>")) continue;
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "HOST::parse_time_stats(): unrecognized: %s\n",
             buf
         );
@@ -998,8 +996,7 @@ int HOST::parse_net_stats(FILE* fin) {
         if (match_tag(buf, "<avg_time_down>")) continue;
         if (match_tag(buf, "<avg_down>")) continue;
 
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "HOST::parse_net_stats(): unrecognized: %s\n",
             buf
         );
@@ -1014,8 +1011,7 @@ int HOST::parse_disk_usage(FILE* fin) {
         if (match_tag(buf, "</disk_usage>")) return 0;
         if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
         if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "HOST::parse_disk_usage(): unrecognized: %s\n",
             buf
         );

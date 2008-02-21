@@ -156,16 +156,14 @@ int check_reread_trigger() {
     f = fopen(REREAD_DB_FILENAME, "r");
     if (f) {
         fclose(f);
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "Found trigger file %s; re-scanning database tables.\n",
             REREAD_DB_FILENAME
         );
         ssp->init(num_work_items);
         ssp->scan_tables();
         unlink(REREAD_DB_FILENAME);
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "Done re-scanning: trigger file removed.\n"
         );
     }
@@ -194,7 +192,7 @@ void hr_count_slots() {
         if (wu_result.state == WR_STATE_PRESENT) {
             int hrc = wu_result.workunit.hr_class;
             if (hrc < 0 || hrc >= hr_nclasses[hrt]) {
-                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "HR class %d is out of range\n", hrc
                 );
                 continue;
@@ -249,7 +247,7 @@ static bool get_job_from_db(
                 enum_phase = ENUM_OVER;
                 return false;
             }
-			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+			log_messages.printf(MSG_NORMAL,
             	"restarted enumeration for appid %d\n",
                 ssp->apps[app_index].id
             );
@@ -257,8 +255,7 @@ static bool get_job_from_db(
         	// Check for invalid application ID
             //
             if (!ssp->lookup_app(wi.wu.appid)) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "result [RESULT#%d] has bad appid %d; clean up your DB!\n",
                     wi.res_id, wi.wu.appid
                 );
@@ -282,8 +279,7 @@ static bool get_job_from_db(
                 	}
                     ncollisions++;
                     collision = true;
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_DEBUG,
+                    log_messages.printf(MSG_DEBUG,
                         "result [RESULT#%d] already in array\n", wi.res_id
                     );
                     break;
@@ -297,8 +293,7 @@ static bool get_job_from_db(
             //
             if (hrt) {
                 if (!hr_info.accept(hrt, wi.wu.hr_class)) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_DEBUG,
+                    log_messages.printf(MSG_DEBUG,
                         "rejecting [RESULT#%d] because HR class %d/%d over quota\n",
                         wi.res_id, hrt, wi.wu.hr_class
                     );
@@ -373,7 +368,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         case WR_STATE_PRESENT:
        	  	if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
     			wu_result.state = WR_STATE_EMPTY;
-				log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+				log_messages.printf(MSG_NORMAL,
                     "remove result [RESULT#%d] from slot %d because it is stale\n",
                     wu_result.resultid, i
                 );
@@ -386,8 +381,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
                 wi, app_index, enum_phase[app_index], ncollisions
             );
             if (found) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_NORMAL,
+                log_messages.printf(MSG_NORMAL,
                     "adding result [RESULT#%d] in slot %d\n",
                     wi.res_id, i
                 );
@@ -430,19 +424,16 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
             sprintf(buf, "/proc/%d", pid);
             if (stat(buf, &s)) {
                 wu_result.state = WR_STATE_PRESENT;
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_NORMAL,
+                log_messages.printf(MSG_NORMAL,
                     "Result reserved by non-existent process PID %d; resetting\n",
                     pid
                 );
             }
         }
     }
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-        "Added %d results to array\n", nadditions
-    );
+    log_messages.printf(MSG_DEBUG, "Added %d results to array\n", nadditions);
     if (ncollisions) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "%d results already in array\n", ncollisions
         );
         return false;
@@ -465,7 +456,7 @@ void feeder_loop() {
         bool action = scan_work_array(work_items);
         ssp->ready = true;
         if (!action) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "No action; sleeping %.2f sec\n", sleep_interval
             );
             boinc_sleep(sleep_interval);
@@ -490,7 +481,7 @@ void hr_init() {
     for (i=0; i<ssp->napps; i++) {
         hrt = ssp->apps[i].homogeneous_redundancy;
         if (hrt <0 || hrt >= HR_NTYPES) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "HR type %d out of range for app %d\n", hrt, i
             );
             exit(1);
@@ -502,13 +493,13 @@ void hr_init() {
         fprintf(stderr, "config HR is %d\n", config.homogeneous_redundancy);
         hrt = config.homogeneous_redundancy;
         if (hrt < 0 || hrt >= HR_NTYPES) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "Main HR type %d out of range\n", hrt
             );
             exit(1);
         }
         if (some_app_uses_hr) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "You can specify HR at global or app level, but not both\n"
             );
             exit(1);
@@ -521,7 +512,7 @@ void hr_init() {
     } else {
         if (some_app_uses_hr) {
             if (apps_differ && !all_apps) {
-                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "You must use -allapps if apps have different HR\n"
                 );
                 exit(1);
@@ -534,7 +525,7 @@ void hr_init() {
     hr_info.init();
     retval = hr_info.read_file();
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't read HR info file: %d\n", retval
         );
         exit(1);
@@ -570,7 +561,7 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
@@ -600,14 +591,14 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_interval = atof(argv[++i]);
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s\n", argv[i]
             );
             exit(1);
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
+    log_messages.printf(MSG_NORMAL, "Starting\n");
 
     if (config.feeder_query_size) {
         enum_limit = config.feeder_query_size;
@@ -622,14 +613,14 @@ int main(int argc, char** argv) {
 
     retval = destroy_shmem(config.shmem_key);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't destroy shmem\n");
+        log_messages.printf(MSG_CRITICAL, "can't destroy shmem\n");
         exit(1);
     }
 
     int shmem_size = sizeof(SCHED_SHMEM) + num_work_items*sizeof(WU_RESULT);
     retval = create_shmem(config.shmem_key, shmem_size, 0 /* don't set GID */, &p);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't create shmem\n");
+        log_messages.printf(MSG_CRITICAL, "can't create shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
@@ -642,20 +633,20 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
         );
         exit(1);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
         );
     }
     ssp->scan_tables();
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+    log_messages.printf(MSG_NORMAL,
         "read "
         "%d platforms, "
         "%d apps, "
@@ -666,7 +657,7 @@ int main(int argc, char** argv) {
         ssp->napp_versions,
         ssp->nassignments
     );
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+    log_messages.printf(MSG_NORMAL,
         "Using %d job slots\n", ssp->max_wu_results
     );
 

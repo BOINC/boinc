@@ -134,13 +134,13 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
     wu.assimilate_state = ASSIMILATE_INIT;
     retval = wu.insert();
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Failed to created WU, error %d; exiting\n", retval
         );
         exit(retval);
     }
     wu.id = boinc_db.insert_id();
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+    log_messages.printf(MSG_DEBUG,
         "Created %s, clone of %s\n", wu.name, original_wu.name
     );
 }
@@ -158,13 +158,13 @@ void make_work(vector<string> &wu_names) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read config file\n");
+        log_messages.printf(MSG_CRITICAL, "can't read config file\n");
         exit(1);
     }
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't open db\n");
+        log_messages.printf(MSG_CRITICAL, "can't open db\n");
         exit(1);
     }
 
@@ -173,7 +173,7 @@ void make_work(vector<string> &wu_names) {
         sprintf(buf, "where name='%s'", wu_names[i].c_str());
         retval = wu.lookup(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "can't find wu %s\n", wu_names[i].c_str()
             );
             exit(1);
@@ -183,7 +183,7 @@ void make_work(vector<string> &wu_names) {
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read key\n");
+        log_messages.printf(MSG_CRITICAL, "can't read key\n");
         exit(1);
     }
 
@@ -193,7 +193,7 @@ void make_work(vector<string> &wu_names) {
 
         retval = count_unsent_results(unsent_results, wus[0].appid);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "can't get result count\n"
             );
             exit(1);
@@ -202,14 +202,14 @@ void make_work(vector<string> &wu_names) {
         if (max_wus) {
             retval = count_workunits(total_wus, "");
             if (retval) {
-                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "can't get wu count\n"
                 );
                 exit(1);
             }
         }
         log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG, "unsent: %d cushion: %d\n",
+            MSG_DEBUG, "unsent: %d cushion: %d\n",
             unsent_results, cushion
         );
         if (unsent_results > cushion) {
@@ -223,7 +223,7 @@ void make_work(vector<string> &wu_names) {
             DB_WORKUNIT& wu = wus[index++];
             if (index == nwu_names) index=0;
             if (max_wus && total_wus >= max_wus) {
-                log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                log_messages.printf(MSG_NORMAL,
                     "Reached max_wus = %d\n", max_wus
                 );
                 exit(0);
@@ -258,7 +258,7 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else {
             log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL, "unknown argument: %s\n", argv[i]
+                MSG_CRITICAL, "unknown argument: %s\n", argv[i]
             );
         }
     }
@@ -270,8 +270,7 @@ int main(int argc, char** argv) {
 
     }
 
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_NORMAL,
+    log_messages.printf(MSG_NORMAL,
         "Starting: cushion %d, max_wus %d\n",
         cushion, max_wus
     );

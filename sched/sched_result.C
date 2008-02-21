@@ -58,8 +58,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     //
     retval = result_handler.enumerate();
     if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] Batch query failed\n",
             reply.host.id
         );
@@ -78,8 +77,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] [RESULT#? %s] can't find result\n",
                 reply.host.id, rp->name
             );
@@ -88,9 +86,11 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
 
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL, "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
-            reply.host.id, srip->id, srip->name, srip->server_state, srip->outcome, srip->client_state, srip->validate_state, srip->file_delete_state
+        log_messages.printf(MSG_NORMAL,
+            "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
+            reply.host.id, srip->id, srip->name, srip->server_state,
+            srip->outcome, srip->client_state, srip->validate_state,
+            srip->file_delete_state
         );
 
         // Do various sanity checks.
@@ -140,10 +140,10 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             }
             if (dont_replace_result) {
                 char buf[256];
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] result already over [outcome=%d validate_state=%d]: %s\n",
-                    reply.host.id, srip->id, srip->name, srip->outcome, srip->validate_state, dont_replace_result
+                    reply.host.id, srip->id, srip->name, srip->outcome,
+                    srip->validate_state, dont_replace_result
                 );
                 sprintf(buf, "Completed result %s refused: %s", srip->name, dont_replace_result);
                 USER_MESSAGE um(buf, "high");
@@ -155,8 +155,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
                 reply.host.id, srip->id, srip->name, srip->server_state
             );
@@ -166,8 +165,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         if (srip->received_time) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result twice\n",
                 reply.host.id, srip->id, srip->name
             );
@@ -177,8 +175,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         if (srip->hostid != reply.host.id) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
                 reply.host.id, srip->id, srip->name, srip->hostid
             );
@@ -186,8 +183,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             retval = result_host.lookup_id(srip->hostid);
 
             if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
                     srip->id, srip->name, srip->hostid
                 );
@@ -195,8 +191,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 reply.result_acks.push_back(std::string(rp->name));
                 continue;
             } else if (result_host.userid != reply.host.userid) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
                     reply.host.userid, reply.host.id, srip->id, srip->name, result_host.userid
                 );
@@ -204,8 +199,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 reply.result_acks.push_back(std::string(rp->name));
                 continue;
             } else {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
                     reply.host.id, srip->id, srip->name, reply.host.userid
                 );
@@ -227,12 +221,12 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         //
         double elapsed_time = srip->received_time - srip->sent_time;
         if (elapsed_time < 0) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [RESULT#%d] inconsistent sent/received times\n", srip->hostid, srip->id
             );
         } else {
             if (srip->cpu_time > elapsed_time) {
-                log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                log_messages.printf(MSG_NORMAL,
                     "[HOST#%d] [RESULT#%d] excessive CPU time: reported %f > elapsed %f%s\n",
                     srip->hostid, srip->id, srip->cpu_time, elapsed_time, changed_host?" [OK: HOST changed]":""
                 );
@@ -252,7 +246,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         } else {
             srip->claimed_credit = srip->cpu_time * reply.host.claimed_credit_per_cpu_sec;
         }
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.claimed_credit_per_cpu_sec, srip->claimed_credit
         );
         srip->server_state = RESULT_SERVER_STATE_OVER;
@@ -268,13 +262,13 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         if ((srip->client_state == RESULT_FILES_UPLOADED) && (srip->exit_status == 0)) {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "[RESULT#%d %s]: setting outcome SUCCESS\n",
                 srip->id, srip->name
             );
             reply.got_good_result();
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
                 srip->id, srip->name, srip->client_state, srip->exit_status
             );
@@ -292,8 +286,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (sri.id == 0) continue;
         retval = result_handler.update_result(sri);
         if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
                 reply.host.id, sri.id, sri.name, boinc_db.error_string()
             );
@@ -306,8 +299,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     //
     retval = result_handler.update_workunits();
     if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] can't update WUs: %d\n",
             reply.host.id, retval
         );

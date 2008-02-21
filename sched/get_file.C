@@ -70,14 +70,15 @@ int create_upload_result(DB_RESULT& result, int host_id, const char * file_name)
     int retval;
     char result_xml[LARGE_BLOB_SIZE];
     sprintf(result_xml,
-            "<result>\n"
-            "    <wu_name>%s</wu_name>\n"
-            "    <name>%s</wu_name>\n"
-            "    <file_ref>\n"
-            "      <file_name>%s</file_name>\n"
-            "    </file_ref>\n"
-            "</result>\n",
-            result.name, result.name, file_name);
+        "<result>\n"
+        "    <wu_name>%s</wu_name>\n"
+        "    <name>%s</wu_name>\n"
+        "    <file_ref>\n"
+        "      <file_name>%s</file_name>\n"
+        "    </file_ref>\n"
+        "</result>\n",
+        result.name, result.name, file_name
+    );
     strcpy(result.xml_doc_in, result_xml);
     result.sent_time = time(0);
     result.report_deadline = 0;
@@ -99,26 +100,28 @@ int create_upload_message(DB_RESULT& result, int host_id, const char* file_name)
     strcpy(mth.variety, "file_xfer");
     mth.handled = false;
     sprintf(mth.xml,
-            "<app>\n"
-            "    <name>%s</name>\n"
-            "</app>\n"
-            "<app_version>\n"
-            "    <app_name>%s</app_name>\n"
-            "    <version_num>%d00</version_num>\n"
-            "</app_version>\n"
-            "<file_info>\n"
-            "    <name>%s</name>\n"
-            "    <url>%s</url>\n"
-            "    <max_nbytes>%.0f</max_nbytes>\n"
-            "    <upload_when_present/>\n"
-            "</file_info>\n"
-            "%s"
-            "<workunit>\n"
-            "    <name>%s</name>\n"
-            "    <app_name>%s</app_name>\n"
-            "</workunit>",
-            FILE_MOVER, FILE_MOVER, BOINC_MAJOR_VERSION, file_name, config.upload_url,
-            1e10, result.xml_doc_in, result.name, FILE_MOVER);
+        "<app>\n"
+        "    <name>%s</name>\n"
+        "</app>\n"
+        "<app_version>\n"
+        "    <app_name>%s</app_name>\n"
+        "    <version_num>%d00</version_num>\n"
+        "</app_version>\n"
+        "<file_info>\n"
+        "    <name>%s</name>\n"
+        "    <url>%s</url>\n"
+        "    <max_nbytes>%.0f</max_nbytes>\n"
+        "    <upload_when_present/>\n"
+        "</file_info>\n"
+        "%s"
+        "<workunit>\n"
+        "    <name>%s</name>\n"
+        "    <app_name>%s</app_name>\n"
+        "</workunit>",
+        FILE_MOVER, FILE_MOVER, BOINC_MAJOR_VERSION,
+        file_name, config.upload_url,
+        1e10, result.xml_doc_in, result.name, FILE_MOVER
+    );
     retval = mth.insert();
     if (retval) {
         fprintf(stderr, "msg_to_host.insert(): %d\n", retval);
@@ -158,10 +161,11 @@ int main(int argc, char** argv) {
             strcpy(file_name, argv[++i]);
         } else if (!strcmp(argv[i], "-help")) {
             fprintf(stdout,
-                    "get_file: gets a file to a specific host\n\n"
-                    "It takes the following arguments and types:\n"
-                    "-hostid (int); the number of the host\n"
-                    "-file_name (string); the name of the file to get\n");
+                "get_file: gets a file to a specific host\n\n"
+                "It takes the following arguments and types:\n"
+                "-hostid (int); the number of the host\n"
+                "-file_name (string); the name of the file to get\n"
+            );
             exit(0);
         } else {
             if (!strncmp("-",argv[i],1)) {

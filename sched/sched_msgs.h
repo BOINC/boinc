@@ -26,16 +26,15 @@
 #include "fcgi_stdio.h"
 #endif
 
+#define MSG_CRITICAL    1
+#define MSG_NORMAL      2
+#define MSG_DEBUG       3
+
 class SCHED_MSG_LOG : public MSG_LOG {
     const char* v_format_kind(int kind) const;
     bool v_message_wanted(int kind) const;
 public:
     int debug_level;
-    enum Kind {
-        MSG_CRITICAL=1,
-        MSG_NORMAL=2,
-        MSG_DEBUG=3
-    };
     SCHED_MSG_LOG(): MSG_LOG(stderr) { debug_level = MSG_NORMAL; }
     void set_debug_level(int new_level) { debug_level = new_level; }
 #ifdef _USING_FCGI_

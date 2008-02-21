@@ -67,15 +67,13 @@ int check_set(
     for (i=0; i<n; i++) {
         retval = init_result(results[i], data[i]);
         if (retval == ERR_OPENDIR) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "check_set: init_result([RESULT#%d %s]) transient failure\n",
                 results[i].id, results[i].name
             );
             had_error[i] = true;
         } else if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "check_set: init_result([RESULT#%d %s]) failed: %d\n",
                 results[i].id, results[i].name, retval
             );
@@ -102,8 +100,7 @@ int check_set(
                 ++neq;
                 matches[j] = true;
             } else if (compare_results(results[i], data[i], results[j], data[j], match)) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "generic_check_set: check_pair_with_data([RESULT#%d %s], [RESULT#%d %s]) failed\n",
                     results[i].id, results[i].name, results[j].id, results[j].name
                 );
@@ -149,16 +146,14 @@ void check_pair(RESULT& r1, RESULT const& r2, bool& retry) {
     retry = false;
     retval = init_result(r1, data1);
     if (retval == ERR_OPENDIR) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%d %s]) transient failure 1\n",
             r1.id, r1.name
         );
         retry = true;
         return;
     } else if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%d %s]) perm failure 1\n",
             r1.id, r1.name
         );
@@ -169,8 +164,7 @@ void check_pair(RESULT& r1, RESULT const& r2, bool& retry) {
 
     retval = init_result(r2, data2);
     if (retval == ERR_OPENDIR) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%d %s]) transient failure 2\n",
             r2.id, r2.name
         );
@@ -178,8 +172,7 @@ void check_pair(RESULT& r1, RESULT const& r2, bool& retry) {
         retry = true;
         return;
     } else if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%d %s]) perm failure2\n",
             r2.id, r2.name
         );

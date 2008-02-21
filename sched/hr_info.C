@@ -108,10 +108,10 @@ void HR_INFO::allocate(int total_slots) {
     for (i=1; i<HR_NTYPES; i++) {
         int nuncom = slots_per_type[i]/2;
         int ncom = slots_per_type[i] - nuncom;
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "type %d: %d total slots\n", i, slots_per_type[i]
         );
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "type %d uncommitted: allocating %d slots\n", i, nuncom
         );
 
@@ -130,7 +130,7 @@ void HR_INFO::allocate(int total_slots) {
             if (n == 0) n = 1;
             max_slots[i][j] = n;
             if (n > 1) {
-                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                log_messages.printf(MSG_DEBUG,
                     "type %d class %d: allocating %d slots\n", i, j, n
                 );
             }
@@ -146,7 +146,7 @@ void HR_INFO::allocate(int total_slots) {
 //
 bool HR_INFO::accept(int hrt, int hrc) {
     if (cur_slots[hrt][hrc] >= max_slots[hrt][hrc]) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "skipping job because HR class (%d, %d) full\n", hrt, hrc
         );
         return false;

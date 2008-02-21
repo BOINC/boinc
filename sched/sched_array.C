@@ -80,7 +80,7 @@ void scan_work_array(
             if (!app->beta) {
                 continue;
             }
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "[HOST#%d] beta work found.  [RESULT#%d]\n",
                 reply.host.id, wu_result.resultid
             );
@@ -114,8 +114,8 @@ void scan_work_array(
         wu = wu_result.workunit;
         retval = wu_is_infeasible(wu, sreq, reply, *app);
         if (retval) {
-               log_messages.printf(
-                   SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+               log_messages.printf(MSG_DEBUG,
+                   "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
                    reply.host.id, wu.id, wu.name, infeasible_string(retval)
                );
             continue;
@@ -167,15 +167,13 @@ void scan_work_array(
             );
             retval = result.count(n, buf);
             if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "send_work: can't get result count (%d)\n", retval
                 );
                 goto dont_send;
             } else {
                 if (n>0) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_DEBUG,
+                    log_messages.printf(MSG_DEBUG,
                         "send_work: user %d already has %d result(s) for WU %d\n",
                         reply.user.id, n, wu_result.workunit.id
                     );
@@ -194,15 +192,13 @@ void scan_work_array(
             );
             retval = result.count(n, buf);
             if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "send_work: can't get result count (%d)\n", retval
                 );
                 goto dont_send;
             } else {
                 if (n>0) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_DEBUG,
+                    log_messages.printf(MSG_DEBUG,
                         "send_work: host %d already has %d result(s) for WU %d\n",
                         reply.host.id, n, wu_result.workunit.id
                     );
@@ -215,7 +211,7 @@ void scan_work_array(
             if (already_sent_to_different_platform_careful(
                 sreq, reply.wreq, wu_result.workunit, *app
             )) {
-                 log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
                     reply.host.id, wu.id, wu.name
                 );
@@ -241,21 +237,21 @@ void scan_work_array(
         //
         retval = result.lookup_id(result.id);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[RESULT#%d] result.lookup_id() failed %d\n",
                 result.id, retval
             );
             goto done;
         }
         if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "[RESULT#%d] expected to be unsent; instead, state is %d\n",
                 result.id, result.server_state
             );
             goto done;
         }
         if (result.workunitid != wu.id) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[RESULT#%d] wrong WU ID: wanted %d, got %d\n",
                 result.id, wu.id, result.workunitid
             );

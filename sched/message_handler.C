@@ -93,7 +93,7 @@ int main_loop(bool one_pass) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "boinc_db.open failed: %d\n", retval
         );
         exit(1);
@@ -102,7 +102,7 @@ int main_loop(bool one_pass) {
     sprintf(buf, "where name='%s'", app_name);
     retval = app.lookup(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "can't find app %s\n", app_name
         );
         exit(1);
@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "unrecognized arg: %s\n", argv[i]
             );
         }
@@ -140,13 +140,13 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting message handler\n");
+    log_messages.printf(MSG_NORMAL, "Starting message handler\n");
 
     install_stop_signal_handler();
 

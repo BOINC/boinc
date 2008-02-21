@@ -46,24 +46,24 @@ static int send_assigned_job(
         sprintf(path, "%s/upload_private", config.key_dir);
         retval = read_key_file(path, key);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read key\n");
+            log_messages.printf(MSG_CRITICAL, "can't read key\n");
             return -1;
         }
 
     }
     retval = wu.lookup_id(asg.workunitid);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: WU NOT FOUND\n");
+        log_messages.printf(MSG_CRITICAL, "ERROR: WU NOT FOUND\n");
         return retval;
     }
     app = ssp->lookup_app(wu.appid);
     if (!app) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: APP NOT FOUND\n");
+        log_messages.printf(MSG_CRITICAL, "ERROR: APP NOT FOUND\n");
         return ERR_NOT_FOUND;
     }
     bool found = find_app_version(request, reply.wreq, wu, *ssp, app, avp);
     if (!found) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: APP VERSION NOT FOUND\n");
+        log_messages.printf(MSG_CRITICAL, "ERROR: APP VERSION NOT FOUND\n");
         return ERR_NOT_FOUND;
     }
 
@@ -71,7 +71,7 @@ static int send_assigned_job(
     sprintf(suffix, "%d_%d_%d", getpid(), time(0), seqno++);
     retval = create_result(wu, rtfpath, suffix, key, config, 0, 0);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "[WU#%d %s] create_result() %d\n", wu.id, wu.name, retval
         );
         return retval;
@@ -90,12 +90,12 @@ static int send_assigned_job(
         sprintf(buf, "resultid=%d", result_id);
         retval = db_asg.update_field(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: ASGN UPDATE\n");
+            log_messages.printf(MSG_CRITICAL, "ERROR: ASGN UPDATE\n");
             return retval;
         }
         asg.resultid = result_id;
     }
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+    log_messages.printf(MSG_DEBUG,
         "[WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
         wu.id, result_id, reply.host.id
     );

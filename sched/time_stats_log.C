@@ -50,7 +50,7 @@ void write_time_stats_log(SCHEDULER_REPLY& reply) {
     if (!is_dir(dirname)) {
         int retval = boinc_mkdir(dirname);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "Can't make time stats log dir %s: %d\n", dirname, retval
             );
             perror("mkdir");
@@ -60,7 +60,7 @@ void write_time_stats_log(SCHEDULER_REPLY& reply) {
     sprintf(filename, "../time_stats_log/%d/%d", dirnum, hostid);
     FILE* f = fopen(filename, "w");
     if (!f) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't create time stats file %s\n", filename
         );
         return;

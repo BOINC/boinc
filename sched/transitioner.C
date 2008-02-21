@@ -135,8 +135,7 @@ int handle_wu(
     }
 
     if (wu_item.canonical_resultid && (canonical_result_index == -1)) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "[WU#%d %s] can't find canonical result\n",
             wu_item.id, wu_item.name
         );
@@ -174,8 +173,7 @@ int handle_wu(
             break;
         case RESULT_SERVER_STATE_IN_PROGRESS:
             if (res_item.res_report_deadline < now) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_NORMAL,
+                log_messages.printf(MSG_NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
                     wu_item.id, wu_item.name, res_item.res_id, res_item.res_name,
                     res_item.res_report_deadline, (int)now
@@ -184,8 +182,7 @@ int handle_wu(
                 res_item.res_outcome = RESULT_OUTCOME_NO_REPLY;
                 retval = transitioner.update_result(res_item);
                 if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_CRITICAL,
+                    log_messages.printf(MSG_CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] update_result(): %d\n",
                         wu_item.id, wu_item.name, res_item.res_id,
                         res_item.res_name, retval
@@ -202,8 +199,7 @@ int handle_wu(
             nover++;
             switch (res_item.res_outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_NORMAL,
+                log_messages.printf(MSG_NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
                     wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
                 );
@@ -214,8 +210,7 @@ int handle_wu(
                     if (canonical_result_files_deleted) {
                         res_item.res_validate_state = VALIDATE_STATE_TOO_LATE;
                         retval = transitioner.update_result(res_item);
-                        log_messages.printf(
-                            SCHED_MSG_LOG::MSG_NORMAL,
+                        log_messages.printf(MSG_NORMAL,
                             "[WU#%d %s] [RESULT#%d %s] validate_state:INIT=>TOO_LATE retval %d\n",
                             wu_item.id, wu_item.name, res_item.res_id,
                             res_item.res_name, retval
@@ -242,8 +237,7 @@ int handle_wu(
         }
     }
 
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
+    log_messages.printf(MSG_DEBUG,
         "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d, no_reply %d, didnt_need %d)\n",
         wu_item.id, wu_item.name, ntotal, nunsent, ninprogress, nover,
         nsuccess, nerrors, ncouldnt_send, nno_reply, ndidnt_need
@@ -253,8 +247,7 @@ int handle_wu(
     //
     if (have_new_result_to_validate && (nsuccess >= wu_item.min_quorum)) {
         wu_item.need_validate = true;
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] need_validate:=>true\n", wu_item.id, wu_item.name
         );
     }
@@ -274,16 +267,14 @@ int handle_wu(
     }
 
     if (nerrors > wu_item.max_error_results) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] WU has too many errors (%d errors for %d results)\n",
             wu_item.id, wu_item.name, nerrors, (int)items.size()
         );
         wu_item.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
     }
     if ((int)items.size() > wu_item.max_total_results) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] WU has too many total results (%d)\n",
             wu_item.id, wu_item.name, (int)items.size()
         );
@@ -300,8 +291,7 @@ int handle_wu(
                 bool update_result = false;
                 switch(res_item.res_server_state) {
                 case RESULT_SERVER_STATE_UNSENT:
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_NORMAL,
+                    log_messages.printf(MSG_NORMAL,
                         "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",
                         wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
                     );
@@ -324,8 +314,7 @@ int handle_wu(
                 if (update_result) {
                     retval = transitioner.update_result(res_item);
                     if (retval) {
-                        log_messages.printf(
-                            SCHED_MSG_LOG::MSG_CRITICAL,
+                        log_messages.printf(MSG_CRITICAL,
                             "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                             wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
                         );
@@ -335,8 +324,7 @@ int handle_wu(
         }
         if (wu_item.assimilate_state == ASSIMILATE_INIT) {
             wu_item.assimilate_state = ASSIMILATE_READY;
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_NORMAL,
+            log_messages.printf(MSG_NORMAL,
                 "[WU#%d %s] error_mask:%d assimilate_state:INIT=>READY\n",
                 wu_item.id, wu_item.name, wu_item.error_mask
             );
@@ -350,8 +338,7 @@ int handle_wu(
         string values;
         char value_buf[MAX_QUERY_LEN];
         if (n > 0) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_NORMAL,
+            log_messages.printf(MSG_NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
                 wu_item.id, wu_item.name, n, wu_item.target_nresults, nunsent, ninprogress, nsuccess
             );
@@ -369,8 +356,7 @@ int handle_wu(
                     wu_item, rtfpath, suffix, key, config, value_buf, priority_increase
                 );
                 if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_CRITICAL,
+                    log_messages.printf(MSG_CRITICAL,
                         "[WU#%d %s] create_result_ti() %d\n",
                         wu_item.id, wu_item.name, retval
                     );
@@ -386,8 +372,7 @@ int handle_wu(
             DB_RESULT r;
             retval = r.insert_batch(values);
             if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "[WU#%d %s] insert_batch() %d\n",
                     wu_item.id, wu_item.name, retval
                 );
@@ -430,8 +415,7 @@ int handle_wu(
         //
         if (all_over_and_validated && wu_item.file_delete_state == FILE_DELETE_INIT) {
             wu_item.file_delete_state = FILE_DELETE_READY;
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "[WU#%d %s] ASSIMILATE_DONE: file_delete_state:=>READY\n",
                 wu_item.id, wu_item.name
             );
@@ -461,8 +445,7 @@ int handle_wu(
                     break;
                 }
                 if (do_delete && res_item.res_file_delete_state == FILE_DELETE_INIT) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::MSG_NORMAL,
+                    log_messages.printf(MSG_NORMAL,
                         "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
                         wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
                     );
@@ -470,8 +453,7 @@ int handle_wu(
 
                     retval = transitioner.update_result(res_item);
                     if (retval) {
-                        log_messages.printf(
-                            SCHED_MSG_LOG::MSG_CRITICAL,
+                        log_messages.printf(MSG_CRITICAL,
                             "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                             wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
                         );
@@ -480,7 +462,7 @@ int handle_wu(
             }
         }
     } else if ( wu_item.assimilate_state == ASSIMILATE_DONE ) {
-		log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+		log_messages.printf(MSG_DEBUG,
             "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n",
             wu_item.id,
             wu_item.name,
@@ -542,7 +524,10 @@ int handle_wu(
     // If either of the grace period or delete delay is less then the next transition time then use that value
     if ( max_grace_or_delay_time < wu_item.transition_time && max_grace_or_delay_time > now && ninprogress == 0) {
         wu_item.transition_time = max_grace_or_delay_time;
-        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,"[WU#%d %s] Delaying transition due to grace period or delete day.  New transition time = %d sec\n",wu_item.id, wu_item.name, wu_item.transition_time);    
+        log_messages.printf(MSG_NORMAL,
+            "[WU#%d %s] Delaying transition due to grace period or delete day.  New transition time = %d sec\n",
+            wu_item.id, wu_item.name, wu_item.transition_time
+        );
     }
     
     // If transition time is in the past,
@@ -554,24 +539,21 @@ int handle_wu(
         int extra_delay = 2*(now - wu_item.transition_time);
         if (extra_delay < 60) extra_delay = 60;
         if (extra_delay > 86400) extra_delay = 86400;
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "[WU#%d %s] transition time in past: adding extra delay %d sec\n",
             wu_item.id, wu_item.name, extra_delay
         );
         wu_item.transition_time = now + extra_delay;
     }
 
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
+    log_messages.printf(MSG_DEBUG,
         "[WU#%d %s] setting transition_time to %d\n",
         wu_item.id, wu_item.name, wu_item.transition_time
     );
 
     retval = transitioner.update_workunit(wu_item, wu_item_original);
     if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "[WU#%d %s] workunit.update() == %d\n",
             wu_item.id, wu_item.name, retval
         );
@@ -597,8 +579,7 @@ bool do_pass() {
 
         retval = handle_wu(transitioner, items);
         if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[WU#%d %s] handle_wu: %d; quitting\n",
                 wu_item.id, wu_item.name, retval
             );
@@ -615,7 +596,7 @@ void main_loop() {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "boinc_db.open: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL, "boinc_db.open: %d\n", retval);
         exit(1);
     }
 
@@ -647,18 +628,18 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read config file\n");
+        log_messages.printf(MSG_CRITICAL, "can't read config file\n");
         exit(1);
     }
 
     sprintf(path, "%s/upload_private", config.key_dir);
     retval = read_key_file(path, key);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read key\n");
+        log_messages.printf(MSG_CRITICAL, "can't read key\n");
         exit(1);
     }
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
+    log_messages.printf(MSG_NORMAL, "Starting\n");
 
     install_stop_signal_handler();
 

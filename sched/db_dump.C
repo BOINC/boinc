@@ -146,15 +146,13 @@ int OUTPUT::parse(FILE* in) {
             } else if (!strcmp(buf2, "zip")) {
                 compression = COMPRESSION_ZIP;
             } else {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "unrecognized compression type: %s", buf
                 );
             }
             continue;
         }
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "OUTPUT::parse: unrecognized: %s", buf
         );
     }
@@ -248,8 +246,7 @@ public:
 
         f = fopen(filename, "w");
         if (!f) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "Couldn't open %s for output\n", filename
             );
         }
@@ -276,7 +273,7 @@ public:
                 sprintf(buf, "zip -q %s", current_path);
                 retval = system(buf);
                 if (retval) {
-                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    log_messages.printf(MSG_CRITICAL,
                         "%s failed: %d\n", buf, retval
                     );
                     exit(retval);
@@ -286,7 +283,7 @@ public:
                 sprintf(buf, "gzip -fq %s", current_path);
                 retval = system(buf);
                 if (retval) {
-                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    log_messages.printf(MSG_CRITICAL,
                         "%s failed: %d\n", buf, retval
                     );
                     exit(retval);
@@ -341,7 +338,7 @@ void write_host(HOST& host, FILE* f, bool detail) {
         DB_USER user;
         retval = user.lookup_id(host.userid);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "user lookup of user %d for host %d: %d\n",
                 host.userid, host.id, retval
             );
@@ -563,7 +560,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
             write_user(user, f, false);
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "user enum: %d", retval
             );
             exit(retval);
@@ -693,7 +690,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "user enum: %d", retval
             );
             exit(retval);
@@ -719,7 +716,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "host enum: %d", retval
             );
             exit(retval);
@@ -744,7 +741,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "team enum: %d", retval
             );
             exit(retval);
@@ -778,7 +775,7 @@ int main(int argc, char** argv) {
     check_stop_daemons();
     setbuf(stderr, 0);
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "db_dump starting\n");
+    log_messages.printf(MSG_NORMAL, "db_dump starting\n");
     strcpy(spec_filename, "");
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dump_spec")) {
@@ -791,39 +788,39 @@ int main(int argc, char** argv) {
             show_help();
             exit(0);
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Bad arg: %s\n", argv[i]);
+            log_messages.printf(MSG_CRITICAL, "Bad arg: %s\n", argv[i]);
             exit(1);
         }
     }
 
     if (!strlen(spec_filename)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "no spec file given\n");
+        log_messages.printf(MSG_CRITICAL, "no spec file given\n");
         exit(1);
     }
 
     FILE* f = fopen(spec_filename, "r");
     if (!f) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "spec file missing\n");
+        log_messages.printf(MSG_CRITICAL, "spec file missing\n");
         exit(1);
     }
 
     retval = spec.parse(f);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't parse spec file\n");
+        log_messages.printf(MSG_CRITICAL, "can't parse spec file\n");
         exit(1);
     }
 
     fclose(f);
 
     if (file_lock.lock(LOCKFILE)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Another copy of db_dump is already running\n");
+        log_messages.printf(MSG_CRITICAL, "Another copy of db_dump is already running\n");
         exit(1);
     }
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
+    log_messages.printf(MSG_NORMAL, "Starting\n");
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         exit(1);
@@ -835,12 +832,12 @@ int main(int argc, char** argv) {
         config.db_passwd
     );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
         );
     }
@@ -858,7 +855,7 @@ int main(int argc, char** argv) {
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     retval = system(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "%s failed: %d\n", buf, retval
         );
         exit(retval);
@@ -888,16 +885,16 @@ int main(int argc, char** argv) {
     );
     retval = system(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't rename old stats\n");
+        log_messages.printf(MSG_CRITICAL, "Can't rename old stats\n");
         exit(1);
     }
     sprintf(buf, "mv %s %s", spec.output_dir, spec.final_output_dir);
     retval = system(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't rename new stats\n");
+        log_messages.printf(MSG_CRITICAL, "Can't rename new stats\n");
         exit(1);
     }
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "db_dump finished\n");
+    log_messages.printf(MSG_NORMAL, "db_dump finished\n");
 }
 
 const char *BOINC_RCSID_500089bde6 = "$Id$";

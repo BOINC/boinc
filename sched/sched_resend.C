@@ -67,8 +67,7 @@ static int possibly_give_result_new_deadline(
     // If infeasible, return without modifying result
     //
     if (estimate_cpu_duration(wu, reply) > result_report_deadline-now) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
             result.id, reply.host.id
         );
@@ -77,8 +76,7 @@ static int possibly_give_result_new_deadline(
     
     // update result with new report time and sent time
     //
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
+    log_messages.printf(MSG_DEBUG,
         "[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
         result.id, reply.host.id,
         result_report_deadline==result.report_deadline?"NO update to":"Updated"
@@ -124,8 +122,7 @@ bool resend_lost_work(
         if (found) continue;
 
         num_eligible_to_resend++;
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "[HOST#%d] found lost [RESULT#%d]: %s\n",
             reply.host.id, result.id, result.name
         );
@@ -133,7 +130,7 @@ bool resend_lost_work(
         DB_WORKUNIT wu;
         retval = wu.lookup_id(result.workunitid);
         if (retval) {
-            log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] WU not found for [RESULT#%d]\n",
                 reply.host.id, result.id
             );
@@ -145,7 +142,7 @@ bool resend_lost_work(
 
         retval = get_app_version(wu, app, avp, sreq, reply, ss);
         if (retval) {
-            log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] no app version [RESULT#%d]\n",
                 reply.host.id, result.id
             );
@@ -164,15 +161,14 @@ bool resend_lost_work(
             wu.canonical_resultid ||
             possibly_give_result_new_deadline(result, wu, reply)
         ) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
                 reply.host.id, result.id
             );
             result.report_deadline = time(0)-1;
             retval = result.mark_as_sent(result.server_state);
             if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "resend_lost_work: can't update result deadline: %d\n", retval
                 );
                 continue;
@@ -180,8 +176,7 @@ bool resend_lost_work(
 
             retval = update_wu_transition_time(wu, result.report_deadline);
             if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "resend_lost_result: can't update WU transition time: %d\n", retval
                 );
                 continue;
@@ -196,7 +191,7 @@ bool resend_lost_work(
                 result, wu, sreq, reply, app, avp
             );
             if (retval) {
-                log_messages.printf( SCHED_MSG_LOG::MSG_CRITICAL,
+                log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] failed to send [RESULT#%d]\n",
                     reply.host.id, result.id
                 );
@@ -211,7 +206,7 @@ bool resend_lost_work(
     }
 
     if (num_eligible_to_resend) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_eligible_to_resend, num_resent 
         );
     }

@@ -116,13 +116,13 @@ void main_loop() {
             sleep(60);
         } else {
             int njobs = (CUSHION-n)/REPLICATION_FACTOR;
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "Making %d jobs\n", njobs
             );
             for (int i=0; i<njobs; i++) {
                 retval = make_job();
                 if (retval) {
-                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    log_messages.printf(MSG_CRITICAL,
                         "can't make job: %d\n", retval
                     );
                     exit(retval);
@@ -143,14 +143,14 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s", argv[i]
             );
         }
     }
 
     if (config.parse_file("..")) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "can't read config file\n"
         );
         exit(1);
@@ -160,22 +160,22 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't open db\n");
+        log_messages.printf(MSG_CRITICAL, "can't open db\n");
         exit(1);
     }
     if (app.lookup("where name='uppercase'")) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't find app\n");
+        log_messages.printf(MSG_CRITICAL, "can't find app\n");
         exit(1);
     }
     if (read_file_malloc("../templates/uc_wu", wu_template)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read WU template\n");
+        log_messages.printf(MSG_CRITICAL, "can't read WU template\n");
         exit(1);
     }
 
     start_time = time(0);
     seqno = 0;
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
+    log_messages.printf(MSG_NORMAL, "Starting\n");
 
     main_loop();
 }

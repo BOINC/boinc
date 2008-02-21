@@ -104,15 +104,13 @@ void debug_sched(
     fp=fopen(tmpfilename, "w");
 
     if (!fp) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Found %s, but can't open %s\n", trigger, tmpfilename
         );
         return;
     }
 
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
+    log_messages.printf(MSG_DEBUG,
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
 
@@ -123,15 +121,13 @@ void debug_sched(
     fp=fopen(tmpfilename, "w");
 
     if (!fp) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Found %s, but can't open %s\n", trigger, tmpfilename
         );
         return;
     }
 
-    log_messages.printf(
-        SCHED_MSG_LOG::MSG_DEBUG,
+    log_messages.printf(MSG_DEBUG,
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
 
@@ -165,7 +161,7 @@ int open_database() {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "can't open database\n"
         );
         return retval;
@@ -180,7 +176,7 @@ int open_database() {
 // the cgi process will leave behind some record in the log file.
 //
 void sigterm_handler(int signo) {
-   log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
+   log_messages.printf(MSG_CRITICAL, 
        "Caught signal %d [scheduler ran %f seconds].  Exit(1)ing\n",
        signo, elapsed_wallclock_time()
     );
@@ -197,9 +193,8 @@ void log_request_info(int& length) {
     char *ha=getenv("HTTP_ACCEPT");
     char *hu=getenv("HTTP_USER_AGENT");
 
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "\n");
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-        "REQUEST_METHOD=%s "
+    log_messages.printf(MSG_DEBUG,
+        "\nREQUEST_METHOD=%s "
         "CONTENT_TYPE=%s "
         "HTTP_ACCEPT=%s "
         "HTTP_USER_AGENT=%s\n",
@@ -207,11 +202,11 @@ void log_request_info(int& length) {
     );
 
     if (!cl) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "CONTENT_LENGTH environment variable not set\n");
+        log_messages.printf(MSG_CRITICAL, "CONTENT_LENGTH environment variable not set\n");
     }
     else {
         length=atoi(cl);
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "CONTENT_LENGTH=%d from %s\n", length, ri?ri:"[Unknown]");
+        log_messages.printf(MSG_DEBUG, "CONTENT_LENGTH=%d from %s\n", length, ri?ri:"[Unknown]");
     }
 }
 
@@ -219,7 +214,7 @@ void log_request_info(int& length) {
 void set_core_dump_size_limit() {
     struct rlimit limit;
     if (getrlimit(RLIMIT_CORE, &limit)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Unable to read resource limit for core dump size.\n"
         );
     } else {
@@ -236,16 +231,16 @@ void set_core_dump_size_limit() {
         else
             short_message += sprintf(short_message,"%d\n", (int)limit.rlim_max);
       
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "%s", short_string);
+        log_messages.printf(MSG_DEBUG, "%s", short_string);
         
         // now set limit to the maximum allowed value
         limit.rlim_cur=limit.rlim_max;
         if (setrlimit(RLIMIT_CORE, &limit)) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "Unable to set current resource limit for core dump size to max value.\n"
             );
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "Set limit for core dump size to max value.\n"
             );
         }   
@@ -262,11 +257,11 @@ void attach_to_feeder_shmem() {
 
     retval = attach_shmem(config.shmem_key, &p);
     if (retval || p==0) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't attach shmem: %d (feeder not running?)\n",
             retval
         );
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "uid %d euid %d gid %d eguid%d\n",
             getuid(), geteuid(), getgid(), getegid()
         );
@@ -274,7 +269,7 @@ void attach_to_feeder_shmem() {
         ssp = (SCHED_SHMEM*)p;
         retval = ssp->verify();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "shmem has wrong struct sizes - recompile\n"
             );
             send_message("Server error: recompile needed", 3600);
@@ -283,13 +278,13 @@ void attach_to_feeder_shmem() {
 
         for (i=0; i<10; i++) {
             if (ssp->ready) break;
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            log_messages.printf(MSG_DEBUG,
                 "waiting for ready flag\n"
             );
             sleep(1);
         }
         if (!ssp->ready) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "feeder doesn't seem to be running\n"
             );
             send_message(
@@ -341,7 +336,7 @@ int main(int argc, char** argv) {
     // in parallel don't collide in the log file and appear intermingled.
     //
     if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Unable to change stderr buffering preferences\n"
         );
     }
@@ -359,7 +354,7 @@ int main(int argc, char** argv) {
     }
     // set buffer as above, note that f is really a struct from fcgi_stdio.h
     if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(f->stdio_stream, stderr_buffer, _IOFBF, 32768)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Unable to change stderr FCGI buffering preferences\n"
         );
     }
@@ -374,7 +369,7 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't parse ../config.xml: %s\n", boincerror(retval)
         );
         send_message("Server can't parse configuration file", 3600);
@@ -389,7 +384,7 @@ int main(int argc, char** argv) {
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        log_messages.printf(MSG_CRITICAL,
             "Can't read code sign key file (%s)\n", path
         );
         send_message("Server can't find key file", 3600);
@@ -433,7 +428,7 @@ int main(int argc, char** argv) {
         sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
         fout = fopen(req_path, "w");
         if (!fout) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "can't write request file\n"
             );
             exit(1);
@@ -442,7 +437,7 @@ int main(int argc, char** argv) {
         fclose(fout);
         stat(req_path, &statbuf);
         if (length>=0 && (statbuf.st_size != length)) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "Request length %d != CONTENT_LENGTH %d\n",
                 (int)statbuf.st_size, length
             );
@@ -450,14 +445,14 @@ int main(int argc, char** argv) {
 
         fin = fopen(req_path, "r");
         if (!fin) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "can't read request file\n"
             );
             exit(1);
         }
         fout = fopen(reply_path, "w");
         if (!fout) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "can't write reply file\n"
             );
             exit(1);
@@ -468,7 +463,7 @@ int main(int argc, char** argv) {
         fclose(fout);
         fin = fopen(reply_path, "r");
         if (!fin) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            log_messages.printf(MSG_CRITICAL,
                 "can't read reply file\n"
             );
             exit(1);
@@ -494,7 +489,7 @@ int main(int argc, char** argv) {
     }
 done:
 #ifdef _USING_FCGI_
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "FCGI: counter: %d\n", counter
         );
         log_messages.flush();
