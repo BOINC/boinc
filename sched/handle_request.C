@@ -1170,7 +1170,6 @@ void process_request(
         write_time_stats_log(reply);
     }
 
-    fprintf(stderr, "FOO\n");
     // look up the client's platform(s) in the DB
     //
     platform = ss.lookup_platform(sreq.platform.name);
@@ -1207,7 +1206,6 @@ void process_request(
         }
     }
     
-    fprintf(stderr, "FOO 1\n");
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
     if (!have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
@@ -1231,7 +1229,6 @@ void process_request(
                 reply.set_delay(1.01*config.min_sendwork_interval);
             }
         }
-        fprintf(stderr, "FOO 2 %d\n", ok_to_send_work);
         if (ok_to_send_work) {
             send_work(sreq, reply, ss);
         }
