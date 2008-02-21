@@ -534,3 +534,12 @@ Charlie 19 Feb 2008
     mac_build/
         UpperCase2.xcodeproj/
             project.pbxproj
+
+Charlie 21 Feb 2008
+    Mac: Add an application icon to example_app graphics application.
+    
+    example_app/
+        uc2_graphics.C
+        mac/
+            uc2_graphics.icns
+            app_icon.h    

@@ -41,6 +41,10 @@
 #include "txf_util.h"
 #include "uc2.h"
 
+#ifdef __APPLE__
+#include "mac/app_icon.h"
+#endif
+
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
 int width, height;      // window dimensions
@@ -261,11 +265,14 @@ static void parse_project_prefs(char* buf) {
 }
 
 int main(int argc, char** argv) {
-#if (defined(__APPLE__) && defined(_DEBUG))
+#ifdef __APPLE__
+#ifdef _DEBUG
     // Provide a way to get error messages from system in Debug builds only. 
     // In Deployment builds, ownership violates sandbox security (unless we 
     // gave it an explicit path outside the BOINC Data directory). 
     freopen("gfx_stderr.txt", "w", stderr);
+#endif
+    setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));
 #endif
     boinc_parse_init_data_file();
     boinc_get_init_data(uc_aid);
