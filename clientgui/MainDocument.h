@@ -202,6 +202,11 @@ private:
     RUNNING_GFX_APP*            GetRunningGraphicsApp(RESULT* result, int slot);
     void                        KillAllRunningGraphicsApps();
     void                        KillInactiveGraphicsApps();
+#ifdef _WIN32
+    void                        KillGraphicsApp(HANDLE pid);
+#else
+    void                        KillGraphicsApp(int tpid);
+#endif
 
 public:
     RESULTS                     results;

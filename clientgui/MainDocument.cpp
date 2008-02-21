@@ -1086,7 +1086,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
             }
     
             // Graphics app is still running but the slot now has a different task
-            kill_program((*gfx_app_iter).pid);
+            KillGraphicsApp((*gfx_app_iter).pid);
         }
 
         // Either the graphics app had already exited or we just killed it
@@ -1128,7 +1128,7 @@ void CMainDocument::KillInactiveGraphicsApps()
         }
         
         if (!bStillRunning) {
-            kill_program((*gfx_app_iter).pid);
+            KillGraphicsApp((*gfx_app_iter).pid);
             gfx_app_iter = m_running_gfx_apps.erase(gfx_app_iter);
         } else {
             gfx_app_iter++;
@@ -1145,13 +1145,48 @@ void CMainDocument::KillAllRunningGraphicsApps()
     n = m_running_gfx_apps.size();
     for (i=0; i<n; i++) {
         gfx_app_iter = m_running_gfx_apps.begin(); 
-        kill_program((*gfx_app_iter).pid);
+        KillGraphicsApp((*gfx_app_iter).pid);
         (*gfx_app_iter).name.clear();
         (*gfx_app_iter).project_url.clear();
         m_running_gfx_apps.erase(gfx_app_iter);
     }
 }
 
+
+#ifdef _WIN32
+void CMainDocument::KillGraphicsApp(HANDLE pid) {
+    kill_program(pid);
+}
+#else
+void CMainDocument::KillGraphicsApp(int pid) {
+    char* argv[6];
+    char currentDir[MAXPATHLEN];
+    char thePIDbuf[10];
+    int id, iRetVal;
+    
+
+    if (g_use_sandbox) {
+        snprintf(thePIDbuf, sizeof(thePIDbuf), "%d", pid);
+        argv[0] = "switcher";
+        argv[1] = "/bin/kill";
+        argv[2] =  "kill";
+        argv[3] = "-KILL";
+        argv[4] = thePIDbuf;
+        argv[5] = 0;
+    
+         iRetVal = run_program(
+                getcwd(currentDir, sizeof(currentDir)),
+                "./switcher/switcher",
+                5,
+                argv,
+                0,
+                id
+            );
+    } else {
+        kill_program(pid);
+    }
+}
+#endif
 
 int CMainDocument::WorkShowGraphics(RESULT* result)
 {

@@ -1513,3 +1513,20 @@ David  Feb 20 2008
         Makefile.am
         backend_lib.C,h
         create_work.C
+
+Charlie Feb 20 2008
+    - V6 GFX API: exit if parent application is no longer running. When running 
+        under a V5 client, the worker app launches the graphics app so this code 
+        kills the graphics when the worker application exits.
+        Under a V6 client, the Manager or Screensaver launched the graphics app
+        so this code kills the graphics when the Manager or Screensaver exits.
+    - V6 GFX API: If running under V5 client, notify the client if the graphics 
+        app exits (e.g., if user clicked in the graphics window's close box.)
+    - Mac V6 GFX: Under sandbox, use switcher to kill graphics app when worker 
+        app has exited.
+
+    api/
+        boinc_api.C
+        graphics2_unix.C
+    clientgui/
+        MainDocument.cpp

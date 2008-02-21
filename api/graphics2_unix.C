@@ -42,6 +42,7 @@
 static int xpos = 100, ypos = 100, width = 600, height = 400;
 static int clicked_button;
 static int win=0;
+static int checkparentcounter=0;
 
 #ifdef __APPLE__
 #include <sys/param.h>  // for MAXPATHLEN
@@ -192,6 +193,18 @@ static void boinc_glut_init(int *argc, char** argv) {
 
 static void timer_handler(int) {
     maybe_render();
+    // When running under a V5 client, the worker app launches the graphics app
+    // so this code kills the graphics when the worker application exits.
+    // Under a V6 client, the Manager or Screensaver launched the graphics app
+    // so this code kills the graphics when the Manager or Screensaver exits.
+    if (--checkparentcounter < 0) {
+        // Check approximately twice per second if parent process still running
+        checkparentcounter = 500 / TIMER_INTERVAL_MSEC;
+        if (getppid() == 1) {
+            // Quit graphics application if parent process no longer running
+            close_window();
+        }
+    }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
 }
 

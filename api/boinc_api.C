@@ -899,6 +899,17 @@ static void timer_handler() {
             time_until_fraction_done_update = (int)aid.fraction_done_update_period;
         }
     }
+    
+    // If running under V5 client, notify the client if the graphics app 
+    //    exits (e.g., if user clicked in the graphics window's close box.)
+    if (ga_win.pid) {
+        if (! ga_win.is_running()) {
+            app_client_shm->shm->graphics_reply.send_msg(
+                xml_graphics_modes[MODE_HIDE_GRAPHICS]
+            );
+        }
+    }
+    
     if (options.handle_trickle_ups) {
         send_trickle_up_msg();
     }
