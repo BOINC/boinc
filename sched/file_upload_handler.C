@@ -553,7 +553,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     }
     if (!did_something) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "handle_request: no command\n");
-        return return_error(ERR_PERMANENT, "no command");
+        return return_error(ERR_TRANSIENT, "no command");
     }
 
     log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "elapsed time %f seconds\n", elapsed_wallclock_time());

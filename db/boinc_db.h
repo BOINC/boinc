@@ -430,6 +430,12 @@ struct CREDITED_JOB {
     // The result arrived after the canonical result's files were deleted,
     // so we can't determine if it's valid
 
+// values for ASSIGNMENT.target_type
+#define ASSIGN_NONE     0
+#define ASSIGN_HOST     1
+#define ASSIGN_USER     2
+#define ASSIGN_TEAM     3
+
 struct RESULT {
     int id;
     int create_time;
@@ -496,6 +502,17 @@ struct MSG_TO_HOST {
     char variety[256];              // project-defined; what kind of msg
     bool handled;                   // scheduler has sent this
     char xml[MSG_TO_HOST_BLOB_SIZE];      // text to include in sched reply
+    void clear();
+};
+
+struct ASSIGNMENT {
+    int id;
+    int create_time;
+    int target_id;
+    int target_type;
+    int multi;
+    int workunitid;
+    int resultid;
     void clear();
 };
 
@@ -634,6 +651,14 @@ public:
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+};
+
+class DB_ASSIGNMENT : public DB_BASE, public ASSIGNMENT {
+public:
+    DB_ASSIGNMENT(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW& row);
 };
 
 // The transitioner uses this to get (WU, result) pairs efficiently.

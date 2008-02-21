@@ -40,6 +40,16 @@ extern int read_filename(const char* path, char* buf, int len);
 extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 
 extern int create_result(
+    WORKUNIT&,
+    char* result_template_filename, 
+    char* suffix,
+    R_RSA_PRIVATE_KEY& key, 
+    SCHED_CONFIG& config,
+    char* query_string=0,
+    int priority_increase=0
+);
+
+extern int create_result_ti(
     TRANSITIONER_ITEM&,
     char* result_template_filename, 
     char* suffix,

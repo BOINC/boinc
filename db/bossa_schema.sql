@@ -48,6 +48,5 @@ create table bossa_job_inst (
 create table bossa_user (
     user_id             integer     not null,
     info                text
-        -- Info about skill.
-        -- May depend on app; may be scalar or something else
+        -- Project-dependent info about user's ability and performance.
 );

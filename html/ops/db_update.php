@@ -541,11 +541,25 @@ function update_12_28_2007() {
     ");
 }
 
+function update_2_18_2008() {
+    do_query("create table assignment (
+        id                  integer     not null auto_increment,
+        create_time         integer     not null,
+        target_id           integer     not null,
+        target_type         integer     not null,
+        multi               tinyint     not null,
+        workunitid          integer     not null,
+        resultid            integer     not null,
+        primary key (id)
+        ) engine = InnoDB
+    ");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_11_14_2007();
+//update_2_18_2008();
 
 ?>

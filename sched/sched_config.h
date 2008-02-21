@@ -110,6 +110,7 @@ public:
     int file_deletion_strategy;
         // select method of automatically deleting files from host
     bool request_time_stats_log;
+    bool enable_assignment;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

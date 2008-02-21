@@ -47,6 +47,7 @@ using namespace std;
 #include "hr.h"
 #include "sched_locality.h"
 #include "sched_timezone.h"
+#include "sched_assign.h"
 
 #include "sched_send.h"
 
@@ -98,11 +99,11 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
 //
 int get_app_version(
     WORKUNIT& wu, APP* &app, APP_VERSION* &avp,
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
     SCHED_SHMEM& ss
 ) {
     bool found;
-    if (anonymous(platforms.list[0])) {
+    if (anonymous(sreq.platforms.list[0])) {
         app = ss.lookup_app(wu.appid);
         found = sreq.has_version(*app);
         if (!found) {
@@ -113,7 +114,7 @@ int get_app_version(
         }
         avp = NULL;
     } else {
-        found = find_app_version(reply.wreq, wu, platforms, ss, app, avp);
+        found = find_app_version(sreq, reply.wreq, wu, ss, app, avp);
         if (!found) {
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Didn't find app version\n");
             return ERR_NO_APP_VERSION;
@@ -550,7 +551,7 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
 // return false if none
 //
 bool find_app_version(
-    WORK_REQ& wreq, WORKUNIT& wu, PLATFORM_LIST& platforms, SCHED_SHMEM& ss,
+    SCHEDULER_REQUEST& sreq, WORK_REQ& wreq, WORKUNIT& wu, SCHED_SHMEM& ss,
     APP*& app, APP_VERSION*& avp
 ) {
     app = ss.lookup_app(wu.appid);
@@ -561,15 +562,15 @@ bool find_app_version(
         return false;
     }
     unsigned int i;
-    for (i=0; i<platforms.list.size(); i++) {
-        PLATFORM* p = platforms.list[i];
+    for (i=0; i<sreq.platforms.list.size(); i++) {
+        PLATFORM* p = sreq.platforms.list[i];
         avp = ss.lookup_app_version(app->id, p->id, app->min_version);
         if (avp) return true;
     }
     log_messages.printf(
         SCHED_MSG_LOG::MSG_DEBUG,
         "no app version available: APP#%d PLATFORM#%d min_version %d\n",
-        app->id, platforms.list[0]->id, app->min_version
+        app->id, sreq.platforms.list[0]->id, app->min_version
     );
     wreq.no_app_version = true;
     return false;
@@ -593,12 +594,10 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
 }
 
 // add the given workunit to a reply.
-// look up its app, and make sure there's a version for this platform.
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM_LIST& ,
-    APP* app, APP_VERSION* avp
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, APP* app, APP_VERSION* avp
 ) {
     int retval;
     WORKUNIT wu2, wu3;
@@ -772,14 +771,13 @@ void SCHEDULER_REPLY::got_bad_result() {
 
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
-    SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
-    APP* app, APP_VERSION* avp
+    SCHEDULER_REPLY& reply, APP* app, APP_VERSION* avp
 ) {
     int retval;
     double wu_seconds_filled;
     bool resent_result = false;
 
-    retval = add_wu_to_reply(wu, reply, platforms, app, avp);
+    retval = add_wu_to_reply(wu, reply, app, avp);
     if (retval) return retval;
 
     // in the scheduling locality case,
@@ -927,8 +925,7 @@ int add_result_to_reply(
 }
 
 void send_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM_LIST& platforms,
-    SCHED_SHMEM& ss
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
 ) {
     char helpful[512];
 
@@ -945,7 +942,7 @@ void send_work(
     reply.wreq.beta_only = false;
 
     log_messages.printf(
-        SCHED_MSG_LOG::MSG_NORMAL,
+        SCHED_MSG_LOG::MSG_DEBUG,
         "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
         reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
     );
@@ -960,6 +957,12 @@ void send_work(
         reply.wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
+    if (config.enable_assignment) {
+        if (send_assigned_jobs(sreq, reply)) {
+            return;
+        }
+    }
+
     if (config.workload_sim && sreq.have_other_results_list) {
         init_ip_results(
             sreq.global_prefs.work_buf_min(), reply.host.p_ncpus, sreq.ip_results
@@ -968,14 +971,14 @@ void send_work(
 
     if (config.locality_scheduling) {
         reply.wreq.infeasible_only = false;
-        send_work_locality(sreq, reply, platforms, ss);
+        send_work_locality(sreq, reply, ss);
     } else {
         // give top priority to results that require a 'reliable host'
         //
         if (reply.wreq.host_info.reliable) {
             reply.wreq.reliable_only = true;
             reply.wreq.infeasible_only = false;
-            scan_work_array(sreq, reply, platforms, ss);
+            scan_work_array(sreq, reply, ss);
         }
         reply.wreq.reliable_only = false;
 
@@ -990,17 +993,17 @@ void send_work(
                 "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
                 reply.host.id
             );
-            scan_work_array(sreq, reply, platforms, ss);
+            scan_work_array(sreq, reply, ss);
         }
         reply.wreq.beta_only = false;
 
         // give next priority to results that were infeasible for some other host
         //
         reply.wreq.infeasible_only = true;
-        scan_work_array(sreq, reply, platforms, ss);
+        scan_work_array(sreq, reply, ss);
 
         reply.wreq.infeasible_only = false;
-        scan_work_array(sreq, reply, platforms, ss);
+        scan_work_array(sreq, reply, ss);
     }
 
     log_messages.printf(

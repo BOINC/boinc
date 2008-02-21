@@ -35,6 +35,7 @@
 #define MAX_PLATFORMS       50
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    50
+#define MAX_ASSIGNMENTS     10
 
 // Default number of work items in shared mem.
 // You can configure this in config.xml (<shmem_work_items>)
@@ -71,20 +72,22 @@ struct SCHED_SHMEM {
     int platform_size;      // sizeof(PLATFORM)
     int app_size;           // sizeof(APP)
     int app_version_size;   // sizeof(APP_VERSION)
+    int assignment_size;    // sizeof(ASSIGNMENT))
     int wu_result_size;     // sizeof(WU_RESULT)
     int nplatforms;
     int napps;
     double app_weights;
     int napp_versions;
-    int ncore_versions;
+    int nassignments;
     int max_platforms;
     int max_apps;
     int max_app_versions;
-    int max_core_versions;
+    int max_assignments;
     int max_wu_results;
     PLATFORM platforms[MAX_PLATFORMS];
     APP apps[MAX_APPS];
     APP_VERSION app_versions[MAX_APP_VERSIONS];
+    ASSIGNMENT assignments[MAX_ASSIGNMENTS];
     WU_RESULT wu_results[0];
 
     void init(int nwu_results);

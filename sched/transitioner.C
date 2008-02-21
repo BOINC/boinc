@@ -99,6 +99,13 @@ int handle_wu(
     bool all_over_and_validated, have_new_result_to_validate, do_delete;
     unsigned int i;
 
+    TRANSITIONER_ITEM& wu_item = items[0];
+    TRANSITIONER_ITEM wu_item_original = wu_item;
+
+    if (config.enable_assignment && strstr(wu_item.name, "asgn")) {
+        return 0;
+    }
+
     // count up the number of results in various states,
     // and check for timed-out results
     //
@@ -113,9 +120,6 @@ int handle_wu(
     ndidnt_need = 0;
     have_new_result_to_validate = false;
     int rs, max_result_suffix = -1;
-
-    TRANSITIONER_ITEM& wu_item = items[0];
-    TRANSITIONER_ITEM wu_item_original = wu_item;
 
     // Scan the WU's results, and find the canonical result if there is one
     //
@@ -356,18 +360,18 @@ int handle_wu(
                 char rtfpath[256];
                 sprintf(rtfpath, "../%s", wu_item.result_template_file);
                 int priority_increase = 0;
-                if ( nover && config.reliable_priority_on_over ) {
-                    priority_increase = priority_increase + config.reliable_priority_on_over;
+                if (nover && config.reliable_priority_on_over) {
+                    priority_increase += config.reliable_priority_on_over;
                 } else if (nover && !nerrors && config.reliable_priority_on_over_except_error) {
-                    priority_increase = priority_increase + config.reliable_priority_on_over_except_error;
+                    priority_increase += config.reliable_priority_on_over_except_error;
                 }
-                retval = create_result(
+                retval = create_result_ti(
                     wu_item, rtfpath, suffix, key, config, value_buf, priority_increase
                 );
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_CRITICAL,
-                        "[WU#%d %s] create_result() %d\n",
+                        "[WU#%d %s] create_result_ti() %d\n",
                         wu_item.id, wu_item.name, retval
                     );
                     return retval;

@@ -71,10 +71,12 @@ cgi_SOURCES = \
     hr_info.C \
     main.C \
     sched_array.C \
+    sched_assign.C \
     sched_hr.C \
     sched_resend.C \
-    sched_send.C \
     sched_locality.C \
+    sched_result.C \
+    sched_send.C \
     sched_timezone.C \
     server_types.C \
     time_stats_log.C \
@@ -184,17 +186,19 @@ fcgi_SOURCES = \
     hr.C \
     hr_info.C \
     main.C \
-    sched_send.C \
-    sched_resend.C \
     sched_array.C \
-    sched_hr.C \
-    server_types.C \
-    sched_shmem.C \
-    sched_util.C \
+    sched_assign.C \
     sched_config.C \
-    sched_msgs.C \
+    sched_hr.C \
     sched_locality.C \
+    sched_msgs.C \
+    sched_resend.C \
+    sched_result.C \
+    sched_send.C \
+    sched_shmem.C \
     sched_timezone.C \
+    sched_util.C \
+    server_types.C \
 	time_stats_log.C \
     edf_sim.C \
     ../db/boinc_db.C \

@@ -246,6 +246,8 @@ create table result (
     primary key (id)
 ) engine=InnoDB;
 
+-- the following are used to implement trickle messages
+
 create table msg_from_host (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
@@ -266,16 +268,22 @@ create table msg_to_host (
     primary key (id)
 ) engine=InnoDB;
 
-create table workseq (
+-- An assignment of a WU to a specific host, user, or team, or to all hosts
+--
+create table assignment (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
-    state               integer     not null,
-    hostid              integer     not null,
-    wuid_last_done      integer     not null,
-    wuid_last_sent      integer     not null,
-    workseqid_master    integer     not null,
+    target_id           integer     not null,
+        -- ID of target entity (see below)
+    target_type         integer     not null,
+        -- 0=none, 1=host, 2=user, 3=team
+    multi               tinyint     not null,
+        -- 0=single host, 1=all hosts in set
+    workunitid          integer     not null,
+    resultid            integer     not null,
+        -- if not multi, the result
     primary key (id)
-) engine=InnoDB;
+) engine = InnoDB;
 
 -- EVERYTHING FROM HERE ON IS USED ONLY FROM PHP,
 -- SO NOT IN BOINC_DB.H ETC.

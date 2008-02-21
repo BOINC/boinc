@@ -1476,3 +1476,40 @@ Charlie Feb 20 2008
         
     client/
         app_graphics.C
+
+David  Feb 20 2008
+    - Server: add "job assignment" feature.
+        Lets you assign a WU to a particular host,
+        to one or all hosts belonging to a user or team, or to all hosts.
+        See http://boinc.berkeley.edu/trac/wiki/AssignedWork
+        Disabled unless you include <enable_assignment> in config.xml
+        Uses a new DB table.
+        Tested but only a little.
+    - Server: code cleanup; moved result-handling to a new file,
+        and removed the PLATFORM_LIST arg to everything
+        (put it in SCHEDULER_REQUEST instead)
+
+    api/
+        boinc_api.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/
+        inc/
+            db_ops.inc
+        ops/
+            assign.php (new)
+            db_update.php
+    sched/
+        Makefile.am
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+        sched_assign.C,h (new)
+        sched_result.C,h (new)
+        sched_*
+        transitioner.C
+    tools/
+        Makefile.am
+        backend_lib.C,h
+        create_work.C

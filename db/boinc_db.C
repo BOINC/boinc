@@ -64,6 +64,7 @@ void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
 void CREDITED_JOB::clear() {memset(this, 0, sizeof(*this));}
 void MSG_FROM_HOST::clear() {memset(this, 0, sizeof(*this));}
 void MSG_TO_HOST::clear() {memset(this, 0, sizeof(*this));}
+void ASSIGNMENT::clear() {memset(this, 0, sizeof(*this));}
 void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void VALIDATOR_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
@@ -90,6 +91,8 @@ DB_MSG_FROM_HOST::DB_MSG_FROM_HOST(DB_CONN* dc) :
     DB_BASE("msg_from_host", dc?dc:&boinc_db){}
 DB_MSG_TO_HOST::DB_MSG_TO_HOST(DB_CONN* dc) :
     DB_BASE("msg_to_host", dc?dc:&boinc_db){}
+DB_ASSIGNMENT::DB_ASSIGNMENT(DB_CONN* dc) :
+    DB_BASE("assignment", dc?dc:&boinc_db){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
@@ -114,6 +117,7 @@ int DB_WORKUNIT::get_id() {return id;}
 int DB_RESULT::get_id() {return id;}
 int DB_MSG_FROM_HOST::get_id() {return id;}
 int DB_MSG_TO_HOST::get_id() {return id;}
+int DB_ASSIGNMENT::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
@@ -873,6 +877,36 @@ void DB_MSG_TO_HOST::db_parse(MYSQL_ROW& r) {
     strcpy2(xml, r[i++]);
 }
 
+void DB_ASSIGNMENT::db_print(char* buf) {
+    sprintf(buf,
+        "create_time=%d, "
+        "target_id=%d, "
+        "target_type=%d, "
+        "multi=%d, "
+        "workunitid=%d, "
+        "resultid=%d",
+        create_time,
+        target_id,
+        target_type,
+        multi,
+        workunitid,
+        resultid
+    );
+}
+
+void DB_ASSIGNMENT::db_parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    create_time = atoi(r[i++]);
+    target_id = atoi(r[i++]);
+    target_type = atoi(r[i++]);
+    multi = atoi(r[i++]);
+    workunitid = atoi(r[i++]);
+    resultid = atoi(r[i++]);
+}
+
+
 void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     clear();
@@ -1595,6 +1629,7 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
     );
     for (i=0; i<results.size(); i++) {
         if (results[i].id == 0) continue;   // skip non-updated results
+        if (strstr(results[i].name, "asgn")) continue;  // skip assigned jobs
         if (!first) strcat(query, ",");
         first = false;
         sprintf(buf, "%d", results[i].workunitid);

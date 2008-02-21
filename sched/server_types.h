@@ -182,6 +182,7 @@ struct SCHEDULER_REQUEST {
     char authenticator[256];
     CLIENT_PLATFORM platform;
     std::vector<CLIENT_PLATFORM> alt_platforms;
+    PLATFORM_LIST platforms;
     char cross_project_id[256];
     int hostid;                 // zero if first RPC
     int core_client_major_version;

@@ -24,24 +24,30 @@
 // and there must be a valid config.xml file there
 //
 // create_work
-//  -appname name
-//  -wu_name name
-//  -wu_template filename       relative to project root; usually in templates/
-//  -result_template filename   relative to project root; usually in templates/
-//  [ -config_dir path ]
-//  [ -batch n ]
+//  --appname name
+//  --wu_name name
+//  --wu_template filename       relative to project root; usually in templates/
+//  --result_template filename   relative to project root; usually in templates/
+//  [ --config_dir path ]
+//  [ --batch n ]
 //            the following can be supplied in WU template; see defaults below
-//  [ -rsc_fpops_est n ]
-//  [ -rsc_fpops_bound n ]
-//  [ -rsc_memory_bound n ]
-//  [ -rsc_disk_bound n ]
-//  [ -delay_bound x ]
-//  [ -min_quorum x ]
-//  [ -target_nresults x ]
-//  [ -max_error_results x ]
-//  [ -max_total_results x ]
-//  [ -max_success_results x ]
-//  [ -additional_xml x ]
+//  [ --rsc_fpops_est n ]
+//  [ --rsc_fpops_bound n ]
+//  [ --rsc_memory_bound n ]
+//  [ --rsc_disk_bound n ]
+//  [ --delay_bound x ]
+//  [ --min_quorum x ]
+//  [ --target_nresults x ]
+//  [ --max_error_results x ]
+//  [ --max_total_results x ]
+//  [ --max_success_results x ]
+//  [ --additional_xml x ]
+//  [ --assign_all ]
+//  [ --assign_host ID ]
+//  [ --assign_user_one ID ]
+//  [ --assign_user_all ID ]
+//  [ --assign_team_one ID ]
+//  [ --assign_team_all ID ]
 //  infile1 infile2 ...
 //
 
@@ -55,6 +61,15 @@
 #include "crypt.h"
 #include "backend_lib.h"
 #include "sched_config.h"
+
+bool arg(const char** argv, int i, const char* name) {
+    char buf[256];
+    sprintf(buf, "-%s", name);
+    if (!strcmp(argv[i], buf)) return true;
+    sprintf(buf, "--%s", name);
+    if (!strcmp(argv[i], buf)) return true;
+    return false;
+}
 
 int main(int argc, const char** argv) {
     DB_APP app;
@@ -70,6 +85,10 @@ int main(int argc, const char** argv) {
     char buf[256];
     char additional_xml[256];
     SCHED_CONFIG config;
+    bool assign_flag = false;
+    bool assign_multi = false;
+    int assign_id = 0;
+    int assign_type;
 
     strcpy(result_template_file, "");
     strcpy(app.name, "");
@@ -94,50 +113,75 @@ int main(int argc, const char** argv) {
     wu.delay_bound = 100000;
 
     while (i < argc) {
-        if (!strcmp(argv[i], "-appname")) {
+        if (arg(argv, i, "appname")) {
             strcpy(app.name, argv[++i]);
-        } else if (!strcmp(argv[i], "-wu_name")) {
+        } else if (arg(argv, i, "wu_name")) {
             strcpy(wu.name, argv[++i]);
-        } else if (!strcmp(argv[i], "-wu_template")) {
+        } else if (arg(argv, i, "wu_template")) {
             strcpy(wu_template_file, argv[++i]);
-        } else if (!strcmp(argv[i], "-result_template")) {
+        } else if (arg(argv, i, "result_template")) {
             strcpy(result_template_file, argv[++i]);
-        } else if (!strcmp(argv[i], "-batch")) {
+        } else if (arg(argv, i, "batch")) {
             wu.batch = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-config_dir")) {
+        } else if (arg(argv, i, "config_dir")) {
             config_dir = argv[++i];
-        } else if (!strcmp(argv[i], "-batch")) {
+        } else if (arg(argv, i, "batch")) {
             wu.batch = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-priority")) {
+        } else if (arg(argv, i, "priority")) {
             wu.priority = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_fpops_est")) {
+        } else if (arg(argv, i, "rsc_fpops_est")) {
             wu.rsc_fpops_est = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_fpops_bound")) {
+        } else if (arg(argv, i, "rsc_fpops_bound")) {
             wu.rsc_fpops_bound = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_memory_bound")) {
+        } else if (arg(argv, i, "rsc_memory_bound")) {
             wu.rsc_memory_bound = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-rsc_disk_bound")) {
+        } else if (arg(argv, i, "rsc_disk_bound")) {
             wu.rsc_disk_bound = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-delay_bound")) {
+        } else if (arg(argv, i, "delay_bound")) {
             wu.delay_bound = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-min_quorum")) {
+        } else if (arg(argv, i, "min_quorum")) {
             wu.min_quorum = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-target_nresults")) {
+        } else if (arg(argv, i, "target_nresults")) {
             wu.target_nresults = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_error_results")) {
+        } else if (arg(argv, i, "max_error_results")) {
             wu.max_error_results = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_total_results")) {
+        } else if (arg(argv, i, "max_total_results")) {
             wu.max_total_results = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_success_results")) {
+        } else if (arg(argv, i, "max_success_results")) {
             wu.max_success_results = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-opaque")) {
+        } else if (arg(argv, i, "opaque")) {
             wu.opaque = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-command_line")) {
+        } else if (arg(argv, i, "command_line")) {
             command_line= argv[++i];
-        } else if (!strcmp(argv[i], "-additional_xml")) {
+        } else if (arg(argv, i, "additional_xml")) {
             strcpy(additional_xml, argv[++i]);
+        } else if (arg(argv, i, "assign_all")) {
+            assign_flag = true;
+            assign_type = ASSIGN_NONE;
+        } else if (arg(argv, i, "assign_host")) {
+            assign_flag = true;
+            assign_type = ASSIGN_HOST;
+            assign_id = atoi(argv[++i]);
+        } else if (arg(argv, i, "assign_user_one")) {
+            assign_flag = true;
+            assign_type = ASSIGN_USER;
+            assign_id = atoi(argv[++i]);
+        } else if (arg(argv, i, "assign_user_all")) {
+            assign_flag = true;
+            assign_type = ASSIGN_USER;
+            assign_multi = true;
+            assign_id = atoi(argv[++i]);
+        } else if (arg(argv, i, "assign_team_one")) {
+            assign_flag = true;
+            assign_type = ASSIGN_TEAM;
+            assign_id = atoi(argv[++i]);
+        } else if (arg(argv, i, "assign_team_all")) {
+            assign_flag = true;
+            assign_type = ASSIGN_TEAM;
+            assign_multi = true;
+            assign_id = atoi(argv[++i]);
         } else {
-            if (!strncmp("-",argv[i],1)) {
+            if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
                 exit(1);
             }
@@ -158,6 +202,12 @@ int main(int argc, const char** argv) {
 #undef CHKARG
 #undef CHKARG_STR
 
+    if (assign_flag) {
+        if (!strstr(wu.name, "asgn")) {
+            fprintf(stderr, "Assigned WU names must contain 'asgn'\n");
+            exit(1);
+        }
+    }
     retval = config.parse_file(config_dir);
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
@@ -206,6 +256,20 @@ int main(int argc, const char** argv) {
     if (retval) {
         fprintf(stderr, "create_work: %d\n", retval);
         exit(1);
+    }
+    if (assign_flag) {
+        DB_ASSIGNMENT assignment;
+        assignment.clear();
+        assignment.create_time = time(0);
+        assignment.target_id = assign_id;
+        assignment.target_type = assign_type;
+        assignment.multi = assign_multi;
+        assignment.workunitid = wu.id;
+        retval = assignment.insert();
+        if (retval) {
+            fprintf(stderr, "assignment.insert() failed: %d\n", retval);
+            exit(1);
+        }
     }
     boinc_db.close();
 }

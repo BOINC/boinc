@@ -659,10 +659,12 @@ int main(int argc, char** argv) {
         "read "
         "%d platforms, "
         "%d apps, "
-        "%d app_versions\n",
+        "%d app_versions, "
+        "%d assignments\n",
         ssp->nplatforms,
         ssp->napps,
-        ssp->napp_versions
+        ssp->napp_versions,
+        ssp->nassignments
     );
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
         "Using %d job slots\n", ssp->max_wu_results

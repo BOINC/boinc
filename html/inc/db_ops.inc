@@ -1,5 +1,11 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
+class BoincAssignment {
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('assignment', 'BoincAssignment', $where_clause);
+    }
+}
 
 define("NVALIDATE_STATES", 6);
 
@@ -1386,4 +1392,5 @@ function host_name_by_id($hostid) {
     }
 }
 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

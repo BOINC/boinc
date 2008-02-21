@@ -1,0 +1,169 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+#include "boinc_db.h"
+#include "crypt.h"
+#include "backend_lib.h"
+#include "error_numbers.h"
+
+#include "server_types.h"
+#include "main.h"
+#include "sched_msgs.h"
+#include "sched_send.h"
+
+#include "sched_assign.h"
+
+static int send_assigned_job(
+    ASSIGNMENT& asg, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+) {
+    int retval;
+    DB_WORKUNIT wu;
+    char rtfpath[256], suffix[256], path[256], buf[256];
+    static bool first=true;
+    static int seqno=0;
+    static R_RSA_PRIVATE_KEY key;
+    APP* app;
+    APP_VERSION* avp;
+                                 
+    if (first) {
+        first = false;
+        sprintf(path, "%s/upload_private", config.key_dir);
+        retval = read_key_file(path, key);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read key\n");
+            return -1;
+        }
+
+    }
+    retval = wu.lookup_id(asg.workunitid);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: WU NOT FOUND\n");
+        return retval;
+    }
+    app = ssp->lookup_app(wu.appid);
+    if (!app) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: APP NOT FOUND\n");
+        return ERR_NOT_FOUND;
+    }
+    bool found = find_app_version(request, reply.wreq, wu, *ssp, app, avp);
+    if (!found) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: APP VERSION NOT FOUND\n");
+        return ERR_NOT_FOUND;
+    }
+
+    sprintf(rtfpath, "../%s", wu.result_template_file);
+    sprintf(suffix, "%d_%d_%d", getpid(), time(0), seqno++);
+    retval = create_result(wu, rtfpath, suffix, key, config, 0, 0);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "[WU#%d %s] create_result() %d\n", wu.id, wu.name, retval
+        );
+        return retval;
+    }
+    int result_id = boinc_db.insert_id();
+    DB_RESULT result;
+    retval = result.lookup_id(result_id);
+    add_result_to_reply(result, wu, request, reply, app, avp);
+
+    // if this is a one-job assignment, fill in assignment.resultid
+    // so that it doesn't get sent again
+    //
+    if (!asg.multi) {
+        DB_ASSIGNMENT db_asg;
+        db_asg.id = asg.id;
+        sprintf(buf, "resultid=%d", result_id);
+        retval = db_asg.update_field(buf);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "ERROR: ASGN UPDATE\n");
+            return retval;
+        }
+        asg.resultid = result_id;
+    }
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        "[WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
+        wu.id, result_id, reply.host.id
+    );
+    return 0;
+}
+
+// Send this host any jobs assigned to it, or to its user/team
+// Return true iff we sent anything
+//
+bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
+    DB_RESULT result;
+    int retval;
+    char buf[256];
+    bool sent_something = false;
+
+    for (int i=0; i<ssp->nassignments; i++) {
+        ASSIGNMENT& asg = ssp->assignments[i];
+
+        // see if this assignment applies to this host
+        //
+        if (asg.resultid) continue;
+        switch (asg.target_type) {
+        case ASSIGN_NONE:
+            sprintf(buf, "hostid=%d and workunitid=%d",
+                reply.host.id, asg.workunitid
+            );
+            retval = result.lookup(buf);
+            if (retval == ERR_NOT_FOUND) {
+                retval = send_assigned_job(asg, request, reply);
+                if (!retval) sent_something = true;
+            }
+            break;
+        case ASSIGN_HOST:
+            if (reply.host.id != asg.target_id) continue;
+            sprintf(buf, "workunitid=%d", asg.workunitid);
+            retval = result.lookup(buf);
+            if (retval == ERR_NOT_FOUND) {
+                retval = send_assigned_job(asg, request, reply);
+                if (!retval) sent_something = true;
+            }
+            break;
+        case ASSIGN_USER:
+            if (reply.user.id != asg.target_id) continue;
+            if (asg.multi) {
+                sprintf(buf, "workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
+            } else {
+                sprintf(buf, "workunitid=%d", asg.workunitid);
+            }
+            retval = result.lookup(buf);
+            if (retval == ERR_NOT_FOUND) {
+                retval = send_assigned_job(asg, request, reply);
+                if (!retval) sent_something = true;
+            }
+            break;
+        case ASSIGN_TEAM:
+            if (reply.team.id != asg.target_id) continue;
+            if (asg.multi) {
+                sprintf(buf, "workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
+            } else {
+                sprintf(buf, "workunitid=%d", asg.workunitid);
+            }
+            retval = result.lookup(buf);
+            if (retval == ERR_NOT_FOUND) {
+                retval = send_assigned_job(asg, request, reply);
+                if (!retval) sent_something = true;
+            }
+            break;
+        }
+    }
+    return sent_something;
+}

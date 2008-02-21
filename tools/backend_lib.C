@@ -158,7 +158,9 @@ static void write_md5_info(
     return;
 }
 
-// process WU template
+// fill in the workunit's XML document (wu.xml_doc)
+// by scanning the WU template, macro-substituting the input files,
+// and putting in the command line element and additional XML
 //
 static int process_wu_template(
     WORKUNIT& wu,
@@ -176,6 +178,7 @@ static int process_wu_template(
     double nbytes;
     char open_name[256];
     bool found=false;
+    int nfiles_parsed = 0;
 
     out = "";
     for (p=strtok(tmplate, "\n"); p; p=strtok(0, "\n")) {
@@ -202,6 +205,7 @@ static int process_wu_template(
                         );
                         return ERR_XML_PARSE;
                     }
+                    nfiles_parsed++;
                     if (generated_locally) {
                         sprintf(buf,
                             "    <name>%s</name>\n"
@@ -345,7 +349,14 @@ static int process_wu_template(
         }
     }
     if (!found) {
-        fprintf(stderr, "create_work: bad WU template - no <workunit>\n");
+        fprintf(stderr, "process_wu_template: bad WU template - no <workunit>\n");
+        return -1;
+    }
+    if (nfiles_parsed != ninfiles) {
+        fprintf(stderr,
+            "process_wu_template: %d input files listed, but template has %d\n",
+            ninfiles, nfiles_parsed
+        );
         return -1;
     }
     if (out.size() > sizeof(wu.xml_doc)-1) {
@@ -361,7 +372,7 @@ static int process_wu_template(
 
 // initialize an about-to-be-created result, given its WU
 //
-static void initialize_result(DB_RESULT& result, TRANSITIONER_ITEM& wu) {
+static void initialize_result(DB_RESULT& result, WORKUNIT& wu) {
     result.id = 0;
     result.create_time = time(0);
     result.workunitid = wu.id;
@@ -384,18 +395,48 @@ static void initialize_result(DB_RESULT& result, TRANSITIONER_ITEM& wu) {
     result.batch = wu.batch;
 }
 
-// Create a new result for the given WU.
-// This is called ONLY from the transitioner
-//
-int create_result(
-    TRANSITIONER_ITEM& wu,
+int create_result_ti(
+    TRANSITIONER_ITEM& ti,
     char* result_template_filename,
     char* result_name_suffix,
     R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config,
     char* query_string,
-    int priority_increase
         // if nonzero, write value list here; else do insert
+    int priority_increase
+) {
+    WORKUNIT wu;
+
+    // copy relevant fields from TRANSITIONER_ITEM to WORKUNIT
+    //
+    strcpy(wu.name, ti.name);
+    wu.id = ti.id;
+    wu.appid = ti.appid;
+    wu.priority = ti.priority;
+    wu.batch = ti.batch;
+    return create_result(
+        wu,
+        result_template_filename,
+        result_name_suffix,
+        key,
+        config,
+        query_string,
+        priority_increase
+    );
+}
+
+// Create a new result for the given WU.
+// This is called ONLY from the transitioner
+//
+int create_result(
+    WORKUNIT& wu,
+    char* result_template_filename,
+    char* result_name_suffix,
+    R_RSA_PRIVATE_KEY& key,
+    SCHED_CONFIG& config,
+    char* query_string,
+        // if nonzero, write value list here; else do insert
+    int priority_increase
 ) {
     DB_RESULT result;
     char base_outfile_name[256];
@@ -562,7 +603,11 @@ int create_work(
         fprintf(stderr, "no max_success_results given; can't create job\n");
         return ERR_NO_OPTION;
     }
-    wu.transition_time = time(0);
+    if (strstr(wu.name, "asgn")) {
+        wu.transition_time = INT_MAX;
+    } else {
+        wu.transition_time = time(0);
+    }
     retval = wu.insert();
     if (retval) {
         fprintf(stderr, "create_work: workunit.insert() %d\n", retval);

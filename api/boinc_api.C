@@ -774,6 +774,8 @@ struct GRAPHICS_APP {
 static GRAPHICS_APP ga_win(false), ga_full(true);
 static bool have_graphics_app;
 
+// The following is for backwards compatibility with version 5 clients.
+//
 static inline void handle_graphics_messages() {
     static char graphics_app_path[1024];
     char buf[MSG_CHANNEL_SIZE];
@@ -785,6 +787,9 @@ static inline void handle_graphics_messages() {
             GRAPHICS_APP_FILENAME, graphics_app_path,
             sizeof(graphics_app_path)
         );
+        // if the above returns "graphics_app", there was no link file,
+        // so there's no graphics app
+        //
         if (!strcmp(graphics_app_path, GRAPHICS_APP_FILENAME)) {
             have_graphics_app = false;
         } else {

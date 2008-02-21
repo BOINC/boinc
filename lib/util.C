@@ -312,17 +312,13 @@ void get_sandbox_account_token() {
     password_str = r_base64_decode(encoded_password_str); 
 
     if (string::npos != encoded_username_str.find('\\')) {
-        domainname_str = 
-            encoded_username_str.substr(
-                0,
-                encoded_username_str.find('\\')
-            );
-        username_str = 
-            encoded_username_str.substr(
-                encoded_username_str.rfind(_T('\\')) + 1,
-                encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
-            );
-
+        domainname_str = encoded_username_str.substr(
+            0, encoded_username_str.find('\\')
+        );
+        username_str = encoded_username_str.substr(
+            encoded_username_str.rfind(_T('\\')) + 1,
+            encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
+        );
         retval = LogonUserEx( 
             username_str.c_str(),
             domainname_str.c_str(), 
@@ -337,7 +333,6 @@ void get_sandbox_account_token() {
         );
     } else {
         username_str = encoded_username_str;
-
         retval = LogonUserEx( 
             username_str.c_str(),
             NULL, 

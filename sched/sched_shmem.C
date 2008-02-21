@@ -43,10 +43,12 @@ void SCHED_SHMEM::init(int nwu_results) {
     platform_size = sizeof(PLATFORM);
     app_size = sizeof(APP);
     app_version_size = sizeof(APP_VERSION);
+    assignment_size = sizeof(ASSIGNMENT);
     wu_result_size = sizeof(WU_RESULT);
     max_platforms = MAX_PLATFORMS;
     max_apps = MAX_APPS;
     max_app_versions = MAX_APP_VERSIONS;
+    max_assignments = MAX_ASSIGNMENTS;
     max_wu_results = nwu_results;
 }
 
@@ -61,10 +63,12 @@ int SCHED_SHMEM::verify() {
     if (platform_size != sizeof(PLATFORM)) return error_return("platform");
     if (app_size != sizeof(APP)) return error_return("app");
     if (app_version_size != sizeof(APP_VERSION)) return error_return("app_version");
+    if (assignment_size != sizeof(ASSIGNMENT)) return error_return("assignment");
     if (wu_result_size != sizeof(WU_RESULT)) return error_return("wu_result");
     if (max_platforms != MAX_PLATFORMS) return error_return("max platform");
     if (max_apps != MAX_APPS) return error_return("max apps");
-    if (max_app_versions != MAX_APP_VERSIONS) return error_return("max app version");
+    if (max_app_versions != MAX_APP_VERSIONS) return error_return("max app versions");
+    if (max_assignments != MAX_ASSIGNMENTS) return error_return("max assignments");
     return 0;
 }
 
@@ -84,6 +88,7 @@ int SCHED_SHMEM::scan_tables() {
     DB_PLATFORM platform;
     DB_APP app;
     DB_APP_VERSION app_version;
+    DB_ASSIGNMENT assignment;
     int n;
 
     n = 0;
@@ -125,6 +130,15 @@ int SCHED_SHMEM::scan_tables() {
         }
     }
     napp_versions = n;
+
+    n = 0;
+    while (!assignment.enumerate()) {
+        assignments[n++] = assignment;
+        if (n == MAX_ASSIGNMENTS) {
+            overflow("assignments", "MAX_ASSIGNMENTS");
+        }
+    }
+    nassignments = n;
 
     return 0;
 }

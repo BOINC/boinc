@@ -140,6 +140,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_str(tag, "httpd_user", httpd_user, sizeof(httpd_user))) continue;
         if (xp.parse_int(tag, "file_deletion_strategy", file_deletion_strategy)) continue;
         if (xp.parse_bool(tag, "request_time_stats_log", request_time_stats_log)) continue;
+        if (xp.parse_bool(tag, "enable_assignment", enable_assignment)) continue;
 
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about
