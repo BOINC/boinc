@@ -1543,3 +1543,10 @@ Rom    Feb 21 2008
     curl/
         <Various Files>
 
+David  Feb 21 2008
+    - scheduler: add <max_ncpus> config option.
+        Use this with N=1 if your application primarily uses a coprocessor
+
+    sched/
+        sched_config.C,h
+        sched_send.C

@@ -36,6 +36,10 @@
 
 const char* CONFIG_FILE = "config.xml";
 
+const int MAX_NCPUS = 8;
+    // max multiplier for daily_result_quota and max_wus_in_progress;
+    // need to change as multicore processors expand
+
 int SCHED_CONFIG::parse(FILE* f) {
     char tag[1024], temp[1024];
     bool is_tag;
@@ -51,7 +55,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     sched_debug_level = SCHED_MSG_LOG::MSG_NORMAL;
     fuh_debug_level = SCHED_MSG_LOG::MSG_NORMAL;
     strcpy(httpd_user, "apache");
-
+    max_ncpus = MAX_NCPUS;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
@@ -141,6 +145,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "file_deletion_strategy", file_deletion_strategy)) continue;
         if (xp.parse_bool(tag, "request_time_stats_log", request_time_stats_log)) continue;
         if (xp.parse_bool(tag, "enable_assignment", enable_assignment)) continue;
+        if (xp.parse_int(tag, "max_ncpus", max_ncpus)) continue;
 
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about

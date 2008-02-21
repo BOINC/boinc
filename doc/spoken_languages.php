@@ -21,6 +21,7 @@ $spoken_languages = array(
     'English',
     'French',
     'German',
+    'Greek',
     'Gujarati',
     'Hausa',
     'Hindi',

@@ -72,9 +72,13 @@ const char* infeasible_string(int code) {
 
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
-const int MAX_CPUS = 8;
-    // max multiplier for daily_result_quota and max_wus_in_progress;
-    // need to change as multicore processors expand
+
+inline int effective_ncpus(HOST& host) {
+    int ncpus = host.p_ncpus;
+    if (ncpus > config.max_ncpus) ncpus = config.max_ncpus;
+    if (ncpus < 1) ncpus = 1;
+    return ncpus;
+}
 
 const double DEFAULT_RAM_SIZE = 64000000;
     // if host sends us an impossible RAM size, use this instead
@@ -297,6 +301,9 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     double avg_turnaround = reply.host.avg_turnaround;
     update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
     double credit_scale, turnaround_scale;
+
+    // TODO: is the following still needed?  Why?
+    //
     if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux")
     ) {
         credit_scale = 1;
@@ -306,7 +313,8 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
         turnaround_scale = 1.25;
     }
 
-    if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit*credit_scale || config.reliable_min_avg_credit == 0)
+    int ncpus = effective_ncpus(reply.host);
+    if (((expavg_credit/ncpus) > config.reliable_min_avg_credit*credit_scale || config.reliable_min_avg_credit == 0)
             && (avg_turnaround < config.reliable_max_avg_turnaround*turnaround_scale || config.reliable_max_avg_turnaround == 0)
     ){
         reply.wreq.host_info.reliable = true;
@@ -481,7 +489,7 @@ int wu_is_infeasible(
         double est_cpu = estimate_cpu_duration(wu, reply);
         IP_RESULT candidate("", wu.delay_bound, est_cpu);
         strcpy(candidate.name, wu.name);
-        if (check_candidate(candidate, reply.host.p_ncpus, request.ip_results)) {
+        if (check_candidate(candidate, effective_ncpus(reply.host), request.ip_results)) {
             // it passed the feasibility test,
             // but don't add it the the workload yet;
             // wait until we commit to sending it
@@ -719,12 +727,7 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
 
-    // daily quota and max jobs per host are scaled by #CPUs,
-    // but only up to MAX_CPUs (currently 8)
-    //
-    int ncpus = host.p_ncpus;
-    if (ncpus > MAX_CPUS) ncpus = MAX_CPUS;
-    if (ncpus < 1) ncpus = 1;
+    int ncpus = effective_ncpus(host);
 
     // host.max_results_day is between 1 and config.daily_result_quota inclusive
     // wreq.daily_result_quota is between ncpus
@@ -892,7 +895,7 @@ int add_result_to_reply(
     }
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
-    request.estimated_delay += wu_seconds_filled/reply.host.p_ncpus;
+    request.estimated_delay += wu_seconds_filled/effective_ncpus(reply.host);
     reply.wreq.nresults++;
     reply.wreq.nresults_on_host++;
     if (!resent_result) reply.host.nresults_today++;
@@ -965,7 +968,7 @@ void send_work(
 
     if (config.workload_sim && sreq.have_other_results_list) {
         init_ip_results(
-            sreq.global_prefs.work_buf_min(), reply.host.p_ncpus, sreq.ip_results
+            sreq.global_prefs.work_buf_min(), effective_ncpus(reply.host), sreq.ip_results
         );
     }
 

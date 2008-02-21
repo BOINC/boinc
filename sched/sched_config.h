@@ -111,6 +111,7 @@ public:
         // select method of automatically deleting files from host
     bool request_time_stats_log;
     bool enable_assignment;
+    int max_ncpus;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");
