@@ -1555,3 +1555,12 @@ David  Feb 21 2008
     - scheduler: code cleanup, remove "SCHED_MSG_LOG::" from a zillion places
 
     sched/*.C
+
+Charlie Feb 21 2008
+    - Mac: Update GridRepublic branding scripts for new screensaver and to 
+        fix bugs when building under OS 10.5 and/or using PackageMaker V3
+        (XCode Tools V3).
+    
+    mac_installer/
+        make_GridRepublic.sh
+        release_GridRepublic.sh

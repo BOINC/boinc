@@ -20,8 +20,14 @@
 ## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 ##
-# Release Script for Macintosh GridRepublic Desktop 10/31/07 by Charlie Fenton
+# Release Script for Macintosh GridRepublic Desktop by Charlie Fenton
+## updated 2/21/08 by Charlie Fenton
 ##
+
+## NOTE: This script is deprecated.
+## It does not put the branded skin into the installer package.
+##
+## Use the make_GridRepublic.sh script instead!
 
 ## Usage:
 ## cd to the root directory of the boinc tree, for example:
@@ -49,6 +55,7 @@ ICNS_FILE="gridrepublic.icns"
 INSTALLER_ICNS_FILE="GR_install.icns"
 UNINSTALLER_ICNS_FILE="GR_uninstall.icns"
 SAVER_SYSPREF_ICON_PATH="clientgui/mac/gridrepublic.tiff"
+SAVER_LOGO_PATH="clientscr/res/gridrepublic_ss_logo.png"
 BRAND_NAME="GridRepublic"
 MANAGER_NAME="GridRepublic Desktop"
 LC_BRAND_NAME="gridrepublic"
@@ -177,6 +184,10 @@ sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NA
 # Replace screensaver's boinc.tiff or boinc.jpg file
 rm -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.jpg"
 cp -fp "${SAVER_SYSPREF_ICON_PATH}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.tiff"
+
+# Replace screensaver's boinc_ss_logo.png file
+rm -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc_ss_logo.png"
+cp -fp "${SAVER_LOGO_PATH}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc_ss_logo.png"
 
 ## Fix up ownership and permissions
 sudo chown -R root:admin "${PR_PATH}"/*
