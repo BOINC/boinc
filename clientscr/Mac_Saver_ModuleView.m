@@ -55,7 +55,7 @@ bool isErased;
 #define TEXTBOXMINWIDTH 400.0
 #define MINTEXTBOXHEIGHT 40.0
 #define MAXTEXTBOXHEIGHT 300.0
-#define TEXTBOXTOPBORDER 10
+#define TEXTBOXTOPBORDER 15
 #define SAFETYBORDER 20.0
 #define MINDELTA 8
 #define MAXDELTA 20
@@ -304,8 +304,8 @@ int signof(float x) {
         r.bottom = r.top + (int)MAXTEXTBOXHEIGHT;
         r.top += TEXTBOXTOPBORDER;        // Add a few pixels space below image
         
-        TXNTextBoxOptionsData theOptions = {kTXNUseCGContextRefMask, kATSUStartAlignment, 
-                                                kATSUNoJustification, 0, myContext };
+        TXNTextBoxOptionsData theOptions = {kTXNUseCGContextRefMask | kTXNSetFlushnessMask, 
+                                            kATSUCenterAlignment, kATSUNoJustification, 0, myContext };
 
         cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
 

@@ -1557,10 +1557,13 @@ David  Feb 21 2008
     sched/*.C
 
 Charlie Feb 21 2008
+    - Mac SCR: Horizontaly center the text under the logo in screensaver.
     - Mac: Update GridRepublic branding scripts for new screensaver and to 
         fix bugs when building under OS 10.5 and/or using PackageMaker V3
         (XCode Tools V3).
-    
+
+    clientscr/
+        Mac_Saver_ModuleView.m
     mac_installer/
         make_GridRepublic.sh
         release_GridRepublic.sh
