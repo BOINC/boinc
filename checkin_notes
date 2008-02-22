@@ -1567,3 +1567,11 @@ Charlie Feb 21 2008
     mac_installer/
         make_GridRepublic.sh
         release_GridRepublic.sh
+
+Charlie Feb 22 2008
+    - Mac SCR: Faster screensaver frame rate, slower maximum logo slew rate 
+        (when not displaying application graphics) for smoother motion.
+
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_ModuleView.m

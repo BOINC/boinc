@@ -58,7 +58,7 @@ bool isErased;
 #define TEXTBOXTOPBORDER 15
 #define SAFETYBORDER 20.0
 #define MINDELTA 8
-#define MAXDELTA 20
+#define MAXDELTA 16
 
 int signof(float x) {
     return (x > 0.0 ? 1 : -1);
@@ -225,24 +225,23 @@ int signof(float x) {
 
         // Set direction of motion to "bounce" off edges of screen
        if (currentDrawingRect.origin.x <= SAFETYBORDER) {
-            gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
-            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 8.;
+            gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
         }
         if ( (currentDrawingRect.origin.x + currentDrawingRect.size.width) >= 
                     (viewBounds.origin.x + viewBounds.size.width - SAFETYBORDER) ) {
-            gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
-            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 8.;
+            gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+            gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
         }
         if (currentDrawingRect.origin.y <= SAFETYBORDER) {
-            gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
-            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 8.;
+            gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
         }
         if ( (currentDrawingRect.origin.y + currentDrawingRect.size.height) >= 
                    (viewBounds.origin.y + viewBounds.size.height - SAFETYBORDER) ) {
-            gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 8.;
-            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 8.;
+            gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+            gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
         }
-
 #if 0
         // For testing
         gCurrentDelta.x = 0;

@@ -50,7 +50,7 @@
 // Flags for testing & debugging
 #define CREATE_LOG 1
 
-#define TEXTLOGOFREQUENCY 30 /* Number of times per second to update moving logo with text */
+#define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
 #define STATUSRESULTCHANGETIME 10 /* seconds to show status display for each task */
