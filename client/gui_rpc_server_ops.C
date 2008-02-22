@@ -795,10 +795,19 @@ static void handle_get_newer_version(MIOFILE& fout) {
     );
 }
 
+// Returns the venue name whether it exists or not, and the description if
+// there are preferences for the venue.
 static void handle_get_venue(MIOFILE& fout) {
-    fout.printf("<venue>%s</venue>\n",
-        gstate.main_host_venue
-    );
+
+    fout.printf("  <venue>\n");
+
+    if (!strcmp(gstate.main_host_venue, gstate.global_prefs.venue_name)) {
+        fout.printf("    <name>%s</name>\n", gstate.global_prefs.venue_name);
+        fout.printf("    <description>%s</description>\n", gstate.global_prefs.get_venue_description());
+    } else {
+        fout.printf("    <name>%s</name>\n", gstate.main_host_venue);
+    }
+    fout.printf("  </venue>\n");
 }
 
 static void handle_set_venue(char* buf, MIOFILE& fout) {
@@ -829,7 +838,7 @@ static void handle_get_venue_list(MIOFILE& fout) {
 
         fout.printf("  <venue>\n");
         fout.printf("    <name>%s</name>\n", (*i)->venue_name);
-        fout.printf("    <description>%s</description>\n", (*i)->venue_description);
+        fout.printf("    <description>%s</description>\n", (*i)->get_venue_description());
         fout.printf("  </venue>\n");
         i++;
     }
@@ -928,7 +937,6 @@ static void handle_delete_prefs_for_venue(char* buf, MIOFILE& fout) {
 // This doesn't do what it says on the tin.
 static void handle_get_global_prefs_file(MIOFILE& fout) {
     GLOBAL_PREFS p;
-    bool found;
     int retval = p.parse_file(
         GLOBAL_PREFS_FILE_NAME
     );

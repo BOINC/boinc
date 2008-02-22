@@ -344,7 +344,6 @@ void CLIENT_STATE::read_global_prefs() {
 void CLIENT_STATE::change_global_prefs(const char* venue) {
 
     FILE* f;
-    bool found_venue;
 
     strncpy(main_host_venue, venue, sizeof(main_host_venue));
 

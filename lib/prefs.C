@@ -182,6 +182,15 @@ int GLOBAL_PREFS::parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& v
     FILE* f;
     int retval;
 
+    // Clear out previous venues
+    std::vector<GLOBAL_PREFS*>::iterator i = venues.begin();
+
+    while (i != venues.end()) {
+        delete *i;
+        i++;
+    }
+    venues.clear();
+
     f = fopen(filename, "r");
     if (!f) return ERR_FOPEN;
     MIOFILE mf;
@@ -195,10 +204,8 @@ int GLOBAL_PREFS::parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& v
 // Parses all venues (including the default nameless venue) into the supplied vector.
 // Also returns the requested venue, or the default venue if it isn't found.
 int GLOBAL_PREFS::parse_venues(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues) {
-    char tag[256], venue_name[32];
+    char tag[256];
     bool is_tag;
-
-    // TODO: clear out previous venues!
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
@@ -261,9 +268,8 @@ void GLOBAL_PREFS::clear_bools() {
     dont_verify_images = false;
 }
 
-GLOBAL_PREFS::GLOBAL_PREFS() {
-    strcpy(venue_name, "");
-    strcpy(venue_description, "");
+GLOBAL_PREFS::GLOBAL_PREFS() : VENUE() {
+
     strcpy(source_project, "");
     strcpy(source_scheduler, "");
     defaults();
@@ -595,10 +601,17 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
     return 0;
 }
 
+
+VENUE::VENUE(char* name, char* description) {
+    strncpy(venue_name, name, sizeof(venue_name));
+    strncpy(venue_description, description, sizeof(venue_description));
+}
+
+
 // Get localised venue description, suitable for displaying to the user.
 // Note that this mechanism also allows venues to be renamed without affecting
 // the original name.
-std::string GLOBAL_PREFS::get_venue_description() {
+std::string VENUE::get_venue_description() {
 
     if (strcmp(venue_description, "")) {
         return venue_description;

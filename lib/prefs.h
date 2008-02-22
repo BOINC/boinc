@@ -90,8 +90,21 @@ public:
 };
 
 
-class GLOBAL_PREFS {
+class VENUE {
 public:
+    VENUE(char* name = "", char* description = "");
+
+    char venue_name[32]; // immutable
+    char venue_description[256]; // localisable, renamable, UTF-8?
+
+    std::string get_venue_description();
+};
+
+
+class GLOBAL_PREFS : public VENUE {
+public:
+    GLOBAL_PREFS();
+
     double mod_time;
     bool run_on_batteries;
         // poorly named; what it really means is:
@@ -122,10 +135,7 @@ public:
     char source_project[256];
     char source_scheduler[256];
     bool host_specific;
-    char venue_name[32]; // immutable
-    char venue_description[256]; // localisable, renamable, UTF-8?
 
-    GLOBAL_PREFS();
     void defaults();
     void clear_bools();
 
@@ -138,7 +148,6 @@ public:
     inline double cpu_scheduling_period() {
         return cpu_scheduling_period_minutes*60;
     }
-    std::string GLOBAL_PREFS::get_venue_description();
 
     static int parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& venues);
     static int parse_venues(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues);
