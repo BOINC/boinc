@@ -130,3 +130,12 @@ David  Feb 8 2008
 
     html/inc
         bolt_ex.inc
+
+David  Feb 22 2008
+    - added sketchy implementation of Maps
+
+    html/
+        inc/
+            bolt.inc
+        ops/
+            bolt_map.php

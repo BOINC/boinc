@@ -192,6 +192,22 @@ class BoltSet extends BoltUnit {
         }
         return false;
     }
+
+    // return the name of our child, if we exist in the state
+    //
+    function get_child($state) {
+        if (array_key_exists($this->name, $state)) {
+            $state_rec = $state[$this->name];
+            $child_name = $state_rec['child_name'];
+            foreach($this->units as $c) {
+                if ($c->name == $child_name) {
+                    return $c;
+                }
+            }
+        }
+        return null;
+    }
+
 }
 
 function name($n) {
