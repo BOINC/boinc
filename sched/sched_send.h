@@ -19,13 +19,10 @@
 
 extern int get_app_version(
     WORKUNIT& wu, APP* &app, APP_VERSION* &avp,
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
-    SCHED_SHMEM& ss
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 );
 
-extern void send_work(
-    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, SCHED_SHMEM&
-);
+extern void send_work(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST&, SCHEDULER_REPLY&,
@@ -35,7 +32,7 @@ extern int add_result_to_reply(
 extern bool anonymous(PLATFORM*);
 
 extern bool find_app_version(
-    SCHEDULER_REQUEST&, WORK_REQ& wreq, WORKUNIT& wu, SCHED_SHMEM& ss,
+    SCHEDULER_REQUEST&, WORK_REQ& wreq, WORKUNIT& wu,
     APP*& app, APP_VERSION*& avp
 );
 

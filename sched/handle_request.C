@@ -578,9 +578,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
 // Figure out which of the results the host currently has
 // should be aborted outright, or aborted if not started yet
 //
-int send_result_abort(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& 
-) {
+int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int aborts_sent = 0;
     int retval = 0;
     DB_IN_PROGRESS_RESULT result;
@@ -1000,8 +998,7 @@ void handle_msgs_to_host(SCHEDULER_REPLY& reply) {
 }
 
 void process_request(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
-    char* code_sign_key
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key
 ) {
     PLATFORM* platform;
     int retval;
@@ -1038,7 +1035,7 @@ void process_request(
         have_no_work = false;
     } else {
         lock_sema();
-        have_no_work = ss.no_work(g_pid);
+        have_no_work = ssp->no_work(g_pid);
         unlock_sema();
     }
 
@@ -1152,10 +1149,10 @@ void process_request(
 
     // look up the client's platform(s) in the DB
     //
-    platform = ss.lookup_platform(sreq.platform.name);
+    platform = ssp->lookup_platform(sreq.platform.name);
     if (platform) sreq.platforms.list.push_back(platform);
     for (i=0; i<sreq.alt_platforms.size(); i++) {
-        platform = ss.lookup_platform(sreq.alt_platforms[i].name);
+        platform = ssp->lookup_platform(sreq.alt_platforms[i].name);
         if (platform) sreq.platforms.list.push_back(platform);
     }
     if (sreq.platforms.list.size() == 0) {
@@ -1177,12 +1174,12 @@ void process_request(
     reply.wreq.nresults_on_host = sreq.other_results.size();
     if (sreq.have_other_results_list) {
         if (config.resend_lost_results) {
-            if (resend_lost_work(sreq, reply, ss)) {
+            if (resend_lost_work(sreq, reply)) {
                 ok_to_send_work = false;
             }
         }
         if (config.send_result_abort) {
-            send_result_abort(sreq, reply, ss);
+            send_result_abort(sreq, reply);
         }
     }
     
@@ -1209,7 +1206,7 @@ void process_request(
             }
         }
         if (ok_to_send_work) {
-            send_work(sreq, reply, ss);
+            send_work(sreq, reply);
         }
     }
 
@@ -1224,13 +1221,11 @@ void process_request(
 
 leave:
     if (!have_no_work) {
-        ss.restore_work(g_pid);
+        ssp->restore_work(g_pid);
     }
 }
 
-void handle_request(
-    FILE* fin, FILE* fout, SCHED_SHMEM& ss, char* code_sign_key
-) {
+void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
 
@@ -1248,7 +1243,7 @@ void handle_request(
              sreq.core_client_release,
              (int)sreq.work_req_seconds
         );
-        process_request(sreq, sreply, ss, code_sign_key);
+        process_request(sreq, sreply, code_sign_key);
 
 #ifdef _USING_FCGI_
 		log_messages.set_indent_level(2);

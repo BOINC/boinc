@@ -43,9 +43,7 @@
 // If reply.wreq.infeasible_only is true,
 // send only results that were previously infeasible for some host
 //
-void scan_work_array(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
-) {
+void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int i, j, retval, n, rnd_off;
     WORKUNIT wu;
     DB_RESULT result;
@@ -56,12 +54,12 @@ void scan_work_array(
 
     lock_sema();
     
-    rnd_off = rand() % ss.max_wu_results;
-    for (j=0; j<ss.max_wu_results; j++) {
-        i = (j+rnd_off) % ss.max_wu_results;
+    rnd_off = rand() % ssp->max_wu_results;
+    for (j=0; j<ssp->max_wu_results; j++) {
+        i = (j+rnd_off) % ssp->max_wu_results;
         if (!reply.work_needed()) break;
 
-        WU_RESULT& wu_result = ss.wu_results[i];
+        WU_RESULT& wu_result = ssp->wu_results[i];
 
         // do fast checks on this wu_result;
         // i.e. ones that don't require DB access
@@ -74,7 +72,7 @@ void scan_work_array(
         // If we are looking for beta results and result is not a beta result
         // then move on
         //
-        app = ss.lookup_app(wu_result.workunit.appid);
+        app = ssp->lookup_app(wu_result.workunit.appid);
         if (app == NULL) continue; // this should never happen
         if (reply.wreq.beta_only) {
             if (!app->beta) {
@@ -125,14 +123,14 @@ void scan_work_array(
         // If none, treat the WU as infeasible
         //
         if (anonymous(sreq.platforms.list[0])) {
-            app = ss.lookup_app(wu.appid);
+            app = ssp->lookup_app(wu.appid);
             found = sreq.has_version(*app);
             if (!found) {
                 continue;
             }
             avp = NULL;
         } else {
-            found = find_app_version(sreq, reply.wreq, wu, ss, app, avp);
+            found = find_app_version(sreq, reply.wreq, wu, app, avp);
             if (!found) {
                 continue;
             }

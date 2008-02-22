@@ -17,9 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-extern void send_work_locality(
-    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, SCHED_SHMEM&
-);
+extern void send_work_locality(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern int decrement_disk_space_locality(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply

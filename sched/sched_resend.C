@@ -92,9 +92,7 @@ static int possibly_give_result_new_deadline(
 // 3) aren't present on the host
 // Return true if there were any such jobs
 //
-bool resend_lost_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
-) {
+bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_RESULT result;
     std::vector<DB_RESULT>results;
     unsigned int i;
@@ -140,7 +138,7 @@ bool resend_lost_work(
         reply.wreq.core_client_version =
             sreq.core_client_major_version*100 + sreq.core_client_minor_version;
 
-        retval = get_app_version(wu, app, avp, sreq, reply, ss);
+        retval = get_app_version(wu, app, avp, sreq, reply);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] no app version [RESULT#%d]\n",

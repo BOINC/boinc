@@ -61,7 +61,7 @@ static int send_assigned_job(
         log_messages.printf(MSG_CRITICAL, "ERROR: APP NOT FOUND\n");
         return ERR_NOT_FOUND;
     }
-    bool found = find_app_version(request, reply.wreq, wu, *ssp, app, avp);
+    bool found = find_app_version(request, reply.wreq, wu, app, avp);
     if (!found) {
         log_messages.printf(MSG_CRITICAL, "ERROR: APP VERSION NOT FOUND\n");
         return ERR_NOT_FOUND;

@@ -458,7 +458,7 @@ int main(int argc, char** argv) {
             exit(1);
         }
 
-        handle_request(fin, fout, *ssp, code_sign_key);
+        handle_request(fin, fout, code_sign_key);
         fclose(fin);
         fclose(fout);
         fin = fopen(reply_path, "r");
@@ -480,12 +480,12 @@ int main(int argc, char** argv) {
 #ifndef _USING_FCGI_
     } else if (batch) {
         while (!feof(stdin)) {
-            handle_request(stdin, stdout, *ssp, code_sign_key);
+            handle_request(stdin, stdout, code_sign_key);
             fflush(stdout);
         }
 #endif
     } else {
-        handle_request(stdin, stdout, *ssp, code_sign_key);
+        handle_request(stdin, stdout, code_sign_key);
     }
 done:
 #ifdef _USING_FCGI_

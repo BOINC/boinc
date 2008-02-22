@@ -262,7 +262,7 @@ int handle_wu(
     // if WU has results with errors and no success yet,
     // reset homogeneous redundancy class to give other platforms a try
     //
-    if (nerrors & !(nsuccess | ninprogress)) {
+    if (nerrors & !(nsuccess || ninprogress)) {
         wu_item.hr_class = 0;
     }
 

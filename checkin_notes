@@ -1575,3 +1575,10 @@ Charlie Feb 22 2008
     clientscr/
         mac_saver_module.cpp
         Mac_Saver_ModuleView.m
+
+David  Feb 22 2008
+    - scheduler: code cleanup: use global var for SCHED_SHMEM
+        instead of passing it around as argument
+        (should do same for request and reply at some point)
+
+    sched/sched_*

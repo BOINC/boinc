@@ -23,5 +23,5 @@
 #include "server_types.h"
 
 extern void handle_request(
-    FILE* fin, FILE* fout, SCHED_SHMEM&, char* code_sign_key
+    FILE* fin, FILE* fout, char* code_sign_key
 );
