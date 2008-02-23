@@ -1582,3 +1582,10 @@ David  Feb 22 2008
         (should do same for request and reply at some point)
 
     sched/sched_*
+
+David  Feb 23 2008
+    - client: fix crashing bug in SCHEDULER_OP::backoff().
+        Was using cur_proj (which is potentially NULL) instead of p
+
+	client/
+		scheduler_op.C
