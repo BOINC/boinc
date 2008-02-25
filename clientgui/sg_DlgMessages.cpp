@@ -368,7 +368,8 @@ void CPanelMessages::OnRefresh(wxTimerEvent& event) {
                     m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
                     m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
                 }
-                // Force an update
+                // Force a complete update
+                m_pList->DeleteAllItems();
                 m_pList->SetItemCount(iDocCount);
            }
             

@@ -1626,3 +1626,12 @@ Rom    Feb 25 2008
         
     clientgui/
         AdvancedFrame.cpp
+
+Charlie Feb 25 2008
+    - MGR: When connecting to a different host, delete all old messages in 
+        message pane (from previously connected client) before getting new 
+        messages.
+        
+    clientgui/
+        sg_DlgMessages.cpp
+        ViewMessages.cpp
