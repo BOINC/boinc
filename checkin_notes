@@ -1606,3 +1606,10 @@ David  Feb 25 2008
         not an automatic)
 
     sched/*.C
+
+Rom    Feb 25 2008
+    - Update release libcurl to include the c-ares library on Windows
+        (debug)
+    
+    curl/
+        <Various Files>
