@@ -358,9 +358,9 @@ void CLIENT_STATE::change_global_prefs(const char* venue) {
             // copy assignment
             global_prefs = *(lookup_venue(venue));
         } else {
-            // Use last venue - should be the "none" venue, but is
+            // Use first venue - should be the "none" venue, but is
             // a safe fallback even if the prefs format is unexpected.
-            global_prefs = **(venues.end());
+            global_prefs = **(venues.begin());
         }
 
         show_global_prefs_source(p_venue != 0);
@@ -429,7 +429,7 @@ int CLIENT_STATE::save_global_prefs(
 
 GLOBAL_PREFS* CLIENT_STATE::lookup_venue(const char* venue) {
 
-    std::vector<GLOBAL_PREFS*>::iterator i = venues.begin();
+    std::deque<GLOBAL_PREFS*>::iterator i = venues.begin();
 
     while (i != venues.end()) {
         if (!strcmp(venue, (*i)->venue_name)) {

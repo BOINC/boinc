@@ -100,7 +100,7 @@ CStatusBar::CStatusBar(wxWindow *parent) :
     const int widths[] = {-1, 150, 200, 20};
     SetFieldsCount(WXSIZEOF(widths), widths);
  
-    m_ptxtLocation = new wxStaticText(this, -1, _("Computer location: "), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
+    m_ptxtLocation = new wxStaticText(this, -1, _(""), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
     wxASSERT(m_ptxtLocation);
 
     m_pbmpConnected = new wxStaticBitmap(this, -1, wxIcon(connect_xpm));
@@ -2016,12 +2016,14 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     // Location status field
                     m_pStatusbar->m_ptxtLocation->Show();
 
-                    wxString strLocation = _("Computer location: ");
-                    strLocation << pDoc->venue;
-
-                    if (strLocation != strCachedLocation) {
-                        strCachedLocation = strLocation;
-                        m_pStatusbar->m_ptxtLocation->SetLabel(strLocation);
+                    if (pDoc->IsConnected()) {
+                        wxString strLocation = _("Computer location: ");
+                        strLocation << pDoc->venue.get_venue_description();
+                   
+                        if (strLocation != strCachedLocation) {
+                            strCachedLocation = strLocation;
+                            m_pStatusbar->m_ptxtLocation->SetLabel(strLocation);
+                        }
                     }
 
                 } else {

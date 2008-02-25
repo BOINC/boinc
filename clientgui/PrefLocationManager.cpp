@@ -23,8 +23,8 @@
 
 #include "stdwx.h"
 #include "PrefLocationManager.h"
-//#include "BOINCGUIApp.h"
-//#include "MainDocument.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 //#include "SkinManager.h"
 //#include "hyperlink.h"
 #include "Events.h"
@@ -45,10 +45,16 @@ CPrefLocationManager::CPrefLocationManager(wxWindow* parent) : wxDialog(parent, 
 
     wxListBox* list = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxSize(150, 200));
     
-    list->Append(_("Default"));
-    list->Append(_("home"));
-    list->Append(_("work"));
-    list->Append(_("school"));
+    std::vector<VENUE> m_venues;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    pDoc->rpc.get_venue_list(m_venues);
+
+    std::vector<VENUE>::iterator i = m_venues.begin();
+    while (i != m_venues.end()) {
+        list->Append((*i).get_venue_description());
+        i++;
+    }
 
     wxBoxSizer* tasks = new wxBoxSizer(wxVERTICAL);
     wxButton* add = new wxButton(this, wxID_ANY, _("Add"));

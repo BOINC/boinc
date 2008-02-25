@@ -50,8 +50,18 @@ CPrefFrame::CPrefFrame(wxWindow* parent) : wxDialog(parent, ID_ANYDIALOG, _("Pre
 
     wxStaticText* locationText = new wxStaticText(this, wxID_ANY, _("Location:"));
 
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    pDoc->rpc.get_venue_list(m_venues);
+
     wxChoice* locationChoice = new wxChoice(this, wxID_ANY);
-    locationChoice->AppendString(_("Default"));
+    std::vector<VENUE>::iterator i = m_venues.begin();
+    while (i != m_venues.end()) {
+        locationChoice->AppendString((*i).get_venue_description());
+        i++;
+    }
+
     locationChoice->SetSelection(0);
 
     wxButton* locationManager = new wxButton(this, ID_LOCATIONMANAGER, _("Manage locations..."));

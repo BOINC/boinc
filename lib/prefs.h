@@ -97,7 +97,8 @@ public:
     char venue_name[32]; // immutable
     char venue_description[256]; // localisable, renamable, UTF-8?
 
-    std::string get_venue_description();
+    int parse(XML_PARSER& xp);
+    std::string get_venue_description() const;
 };
 
 
@@ -144,16 +145,16 @@ public:
     int parse_override(XML_PARSER&);
     int parse_file(const char* filename);
     int parse_preference_tags(XML_PARSER&);
-    int write(MIOFILE&);
+    int write(MIOFILE&) const;
     inline double cpu_scheduling_period() {
         return cpu_scheduling_period_minutes*60;
     }
 
-    static int parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& venues);
-    static int parse_venues(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues);
+    static int parse_file(const char* filename, std::deque<GLOBAL_PREFS*>& venues);
+    static int parse_venues(XML_PARSER& xp, std::deque<GLOBAL_PREFS*>& venues);
 
 private:
-    static int recursive_parse_venue(XML_PARSER& xp, GLOBAL_PREFS* const prefs, std::vector<GLOBAL_PREFS*>* venues);
+    static int recursive_parse_venue(XML_PARSER& xp, GLOBAL_PREFS* const prefs, std::deque<GLOBAL_PREFS*>* venues);
 };
 
 #endif

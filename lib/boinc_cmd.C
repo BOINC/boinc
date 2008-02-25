@@ -100,6 +100,8 @@ Commands:\n\
  --get_project_config_poll\n\
  --network_available\n\
  --get_cc_status\n\
+ --get_venue\n\
+ --set_venue [venue]\n\
 "
 );
     exit(1);
@@ -252,6 +254,18 @@ int main(int argc, char** argv) {
         DISK_USAGE du;
         retval = rpc.get_disk_usage(du);
         if (!retval) du.print();
+    } else if (!strcmp(cmd, "--get_venue")) {
+        VENUE venue;
+        retval = rpc.get_venue(venue);
+        if (!retval) print_venue(venue);
+    } else if (!strcmp(cmd, "--set_venue")) {
+        char venue[32];
+        if (i < argc) {
+            strncpy(venue, next_arg(argc, argv, i), sizeof(venue));
+        } else {
+            strcpy(venue, "");
+        }
+        retval = rpc.set_venue(venue);
     } else if (!strcmp(cmd, "--result")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);

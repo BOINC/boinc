@@ -56,6 +56,8 @@ private:
     wxButton*           m_buttonOkay;
     wxButton*           m_buttonCancel;
     wxButton*           m_buttonHelp;
+
+    std::vector<VENUE>       m_venues;
 };
 
 #endif // _PREFFRAME_H_

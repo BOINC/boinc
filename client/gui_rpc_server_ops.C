@@ -803,7 +803,7 @@ static void handle_get_venue(MIOFILE& fout) {
 
     if (!strcmp(gstate.main_host_venue, gstate.global_prefs.venue_name)) {
         fout.printf("    <name>%s</name>\n", gstate.global_prefs.venue_name);
-        fout.printf("    <description>%s</description>\n", gstate.global_prefs.get_venue_description());
+        fout.printf("    <description>%s</description>\n", gstate.global_prefs.venue_description);
     } else {
         fout.printf("    <name>%s</name>\n", gstate.main_host_venue);
     }
@@ -814,14 +814,14 @@ static void handle_set_venue(char* buf, MIOFILE& fout) {
     MIOFILE in;
     XML_PARSER xp(&in);
     bool is_tag;
-    char tag[256], venue[32];
+    char tag[256], venue_name[32];
 
     in.init_buf_read(buf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (xp.parse_str(tag, "venue", venue, sizeof(venue))) {
+        if (xp.parse_str(tag, "name", venue_name, sizeof(venue_name))) {
 
-            gstate.change_global_prefs(venue);
+            gstate.change_global_prefs(venue_name);
 
             fout.printf("<success/>\n");
             return;
@@ -833,12 +833,12 @@ static void handle_set_venue(char* buf, MIOFILE& fout) {
 static void handle_get_venue_list(MIOFILE& fout) {
 
     fout.printf("<venue_list>\n");
-    std::vector<GLOBAL_PREFS*>::iterator i = gstate.venues.begin();
+    std::deque<GLOBAL_PREFS*>::iterator i = gstate.venues.begin();
     while (i != gstate.venues.end()) {
 
         fout.printf("  <venue>\n");
         fout.printf("    <name>%s</name>\n", (*i)->venue_name);
-        fout.printf("    <description>%s</description>\n", (*i)->get_venue_description());
+        fout.printf("    <description>%s</description>\n", (*i)->venue_description);
         fout.printf("  </venue>\n");
         i++;
     }
@@ -849,14 +849,14 @@ static void handle_get_prefs_for_venue(char* buf, MIOFILE& fout) {
     MIOFILE in;
     XML_PARSER xp(&in);
     bool is_tag;
-    char tag[256], venue[32];
+    char tag[256], venue_name[32];
 
     in.init_buf_read(buf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (xp.parse_str(tag, "venue", venue, sizeof(venue))) {
+        if (xp.parse_str(tag, "name", venue_name, sizeof(venue_name))) {
 
-            GLOBAL_PREFS* p_venue = gstate.lookup_venue(venue);
+            GLOBAL_PREFS* p_venue = gstate.lookup_venue(venue_name);
             if (p_venue) {
                 p_venue->write(fout);
             } else {
@@ -878,10 +878,8 @@ static void handle_set_prefs_for_venue(char* buf, MIOFILE& fout) {
     in.init_buf_read(buf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (strstr(tag, "venue")) {
-            
-            parse_attr(tag, "name", venue_name, sizeof(venue_name));
-            
+        if (xp.parse_str(tag, "name", venue_name, sizeof(venue_name))) {
+                      
             GLOBAL_PREFS venue;
 
             strncpy(venue.venue_name, venue_name, sizeof(venue.venue_name));
@@ -918,7 +916,7 @@ static void handle_delete_prefs_for_venue(char* buf, MIOFILE& fout) {
     in.init_buf_read(buf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (xp.parse_str(tag, "venue", venue_name, sizeof(venue_name))) {
+        if (xp.parse_str(tag, "name", venue_name, sizeof(venue_name))) {
 
             // TODO
 

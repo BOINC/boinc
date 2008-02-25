@@ -46,6 +46,7 @@
 #include "md5_file.h"
 #include "network.h"
 #include "gui_rpc_client.h"
+#include "prefs.h"
 
 using std::string;
 using std::vector;
@@ -282,6 +283,14 @@ void ACCOUNT_OUT::print() {
     } else {
         printf("account key: %s\n", authenticator.c_str());
     }
+}
+
+void print_venue(const VENUE& venue) {
+    printf("Computer location: %s", venue.get_venue_description().c_str());
+    if (strcmp(venue.venue_name, "")) {
+        printf(" (%s)", venue.venue_name);
+    }
+    printf("\n");
 }
 
 const char *BOINC_RCSID_2bed1889d8="$Id$";

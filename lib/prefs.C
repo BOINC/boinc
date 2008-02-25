@@ -178,12 +178,12 @@ void WEEK_PREFS::unset(int day) {
     }
 }
 
-int GLOBAL_PREFS::parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& venues) {
+int GLOBAL_PREFS::parse_file(const char* filename, std::deque<GLOBAL_PREFS*>& venues) {
     FILE* f;
     int retval;
 
     // Clear out previous venues
-    std::vector<GLOBAL_PREFS*>::iterator i = venues.begin();
+    std::deque<GLOBAL_PREFS*>::iterator i = venues.begin();
 
     while (i != venues.end()) {
         delete *i;
@@ -203,7 +203,7 @@ int GLOBAL_PREFS::parse_file(const char* filename, std::vector<GLOBAL_PREFS*>& v
 
 // Parses all venues (including the default nameless venue) into the supplied vector.
 // Also returns the requested venue, or the default venue if it isn't found.
-int GLOBAL_PREFS::parse_venues(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venues) {
+int GLOBAL_PREFS::parse_venues(XML_PARSER& xp, std::deque<GLOBAL_PREFS*>& venues) {
     char tag[256];
     bool is_tag;
 
@@ -213,7 +213,7 @@ int GLOBAL_PREFS::parse_venues(XML_PARSER& xp, std::vector<GLOBAL_PREFS*>& venue
             // parse default venue
             GLOBAL_PREFS* default_venue = new GLOBAL_PREFS();
             recursive_parse_venue(xp, default_venue, &venues);
-            venues.push_back(default_venue);
+            venues.push_front(default_venue);
             return 0;
         }
     }
@@ -371,7 +371,7 @@ int GLOBAL_PREFS::parse_override(XML_PARSER& xp) {
 // xp must be positioned at the start of the structure to parse.
 // The opening tag is already consumed.
 //
-int GLOBAL_PREFS::recursive_parse_venue(XML_PARSER& xp, GLOBAL_PREFS* const prefs, std::vector<GLOBAL_PREFS*>* venues) {
+int GLOBAL_PREFS::recursive_parse_venue(XML_PARSER& xp, GLOBAL_PREFS* const prefs, std::deque<GLOBAL_PREFS*>* venues) {
     char tag[256];
     bool is_tag;
     double dtemp;
@@ -404,7 +404,7 @@ int GLOBAL_PREFS::recursive_parse_venue(XML_PARSER& xp, GLOBAL_PREFS* const pref
             }
             continue;
         }
-        if (xp.parse_str(tag, "venue_description", prefs->venue_description, sizeof(prefs->venue_description))) continue;
+        if (xp.parse_str(tag, "description", prefs->venue_description, sizeof(prefs->venue_description))) continue;
         if (xp.parse_str(tag, "source_project", prefs->source_project, sizeof(prefs->source_project))) continue;
         if (xp.parse_str(tag, "source_scheduler", prefs->source_scheduler, sizeof(prefs->source_scheduler))) {
             continue;
@@ -520,11 +520,11 @@ int GLOBAL_PREFS::parse_file(const char* filename) {
 // Not used for scheduler request; there, we just copy the
 // global_prefs.xml file (which includes all venues).
 //
-int GLOBAL_PREFS::write(MIOFILE& f) {
+int GLOBAL_PREFS::write(MIOFILE& f) const {
     f.printf(
         "<global_preferences>\n"
         "   <mod_time>%f</mod_time>\n"
-        "   <venue_description>%s</venue_description>\n"
+        "   <description>%s</description>\n"
         "%s%s"
         "   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n"
         "   <start_hour>%f</start_hour>\n"
@@ -611,7 +611,7 @@ VENUE::VENUE(char* name, char* description) {
 // Get localised venue description, suitable for displaying to the user.
 // Note that this mechanism also allows venues to be renamed without affecting
 // the original name.
-std::string VENUE::get_venue_description() {
+std::string VENUE::get_venue_description() const {
 
     if (strcmp(venue_description, "")) {
         return venue_description;
@@ -633,6 +633,29 @@ std::string VENUE::get_venue_description() {
     }
 }
 
+
+int VENUE::parse(XML_PARSER& xp) {
+    char tag[256];
+    bool is_tag;
+    bool in_venue = false;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!in_venue) {
+            if (!strcmp(tag, "venue")) {
+                in_venue = true;
+                continue;
+            }
+        } else {
+            if (!strcmp(tag, "/venue")) {
+                return 0;
+            }
+            if (xp.parse_str(tag, "name", venue_name, sizeof(venue_name))) continue;
+            if (xp.parse_str(tag, "description", venue_description, sizeof(venue_description))) continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
 
 const char *BOINC_RCSID_3fb442bb02 = "$Id$";
 
