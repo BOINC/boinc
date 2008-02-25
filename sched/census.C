@@ -44,7 +44,6 @@ void show_help() {
 int main(int argc, char** argv) {
     HR_INFO hri;
     int retval;
-    SCHED_CONFIG config;
     
     for (int i=0; i<argc; i++) {
         if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {

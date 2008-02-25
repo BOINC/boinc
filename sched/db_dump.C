@@ -765,7 +765,6 @@ void show_help() {
 }
 
 int main(int argc, char** argv) {
-    SCHED_CONFIG config;
     int retval, i;
     DUMP_SPEC spec;
     char* db_host = 0;

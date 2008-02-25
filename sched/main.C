@@ -73,7 +73,6 @@ using namespace std;
 #define REPLY_FILE_PREFIX "../boinc_reply/"
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
-SCHED_CONFIG config;
 GUI_URLS gui_urls;
 PROJECT_FILES project_files;
 key_t sema_key;

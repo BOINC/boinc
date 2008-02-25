@@ -41,8 +41,6 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-SCHED_CONFIG config;
-
 int delete_host_file(int host_id, const char* file_name) {
     DB_MSG_TO_HOST mth;
     int retval;

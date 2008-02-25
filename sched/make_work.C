@@ -146,7 +146,6 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
 }
 
 void make_work(vector<string> &wu_names) {
-    SCHED_CONFIG config;
     int retval, start_time=time(0);
     char keypath[256];
     char buf[LARGE_BLOB_SIZE];

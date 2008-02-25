@@ -871,25 +871,23 @@ void warn_user_if_core_client_upgrade_scheduled(
 bool unacceptable_os(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
-    if (config.no_darwin_6) {
-        log_messages.printf(MSG_DEBUG,
-            "OS version %s %s\n",
-            sreq.host.os_name, sreq.host.os_version
-        );
+    unsigned int i;
+    char buf[1024];
 
-        if (!strcmp(sreq.host.os_name, "Darwin") &&
-               (!strncmp(sreq.host.os_version, "5.", 2) ||
-                !strncmp(sreq.host.os_version, "6.", 2)
-               )
-            ) {
+    for (i=0; i<config.ban_os.size(); i++) {
+        regex_t& re = config.ban_os[i];
+        strcpy(buf, sreq.host.os_name);
+        strcat(buf, "\t");
+        strcat(buf, sreq.host.os_version);
+        if (!regexec(&re, buf, 0, NULL, 0)) {
             log_messages.printf(MSG_NORMAL,
                 "Unacceptable OS %s %s\n",
                 sreq.host.os_name, sreq.host.os_version
             );
-            USER_MESSAGE um(
-                "Project only supports MacOS Darwin versions 7.X and above",
-                "low"
+            sprintf(buf, "This project doesn't support OS type %s %s",
+                sreq.host.os_name, sreq.host.os_version
             );
+            USER_MESSAGE um(buf, "low");
             reply.insert_message(um);
             reply.set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
@@ -901,13 +899,23 @@ bool unacceptable_os(
 bool unacceptable_cpu(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
-    if (config.no_amd_k6) {
-        if (strstr(sreq.host.p_vendor, "AMD") && strstr(sreq.host.p_model, "Family 5 Model 8 Stepping 0")) {
+    unsigned int i;
+    char buf[1024];
+
+    for (i=0; i<config.ban_cpu.size(); i++) {
+        regex_t& re = config.ban_cpu[i];
+        strcpy(buf, sreq.host.p_vendor);
+        strcat(buf, "\t");
+        strcat(buf, sreq.host.p_model);
+        if (!regexec(&re, buf, 0, NULL, 0)) {
             log_messages.printf(MSG_NORMAL,
                 "Unacceptable CPU %s %s\n",
                 sreq.host.p_vendor, sreq.host.p_model
             );
-            USER_MESSAGE um("Project doesn't support AMD K6 CPUs", "low");
+            sprintf(buf, "This project doesn't support CPU type %s %s",
+                sreq.host.p_vendor, sreq.host.p_model
+            );
+            USER_MESSAGE um(buf, "low");
             reply.insert_message(um);
             reply.set_delay(DELAY_UNACCEPTABLE_OS);
             return true;

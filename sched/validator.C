@@ -74,7 +74,6 @@ extern int check_pair(
     RESULT & new_result, RESULT const& canonical_result, bool& retry
 );
 
-SCHED_CONFIG config;
 char app_name[256];
 int wu_id_modulus=0;
 int wu_id_remainder=0;

@@ -36,18 +36,21 @@
 
 const char* CONFIG_FILE = "config.xml";
 
+SCHED_CONFIG config;
+
 const int MAX_NCPUS = 8;
     // max multiplier for daily_result_quota and max_wus_in_progress;
     // need to change as multicore processors expand
 
 int SCHED_CONFIG::parse(FILE* f) {
-    char tag[1024], temp[1024];
+    char tag[1024], buf[256];
     bool is_tag;
     MIOFILE mf;
     XML_PARSER xp(&mf);
+    int retval;
+    regex_t re;
 
     mf.init_file(f);
-    memset(this, 0, sizeof(SCHED_CONFIG));
     max_wus_to_send = 10;
     default_disk_max_used_gb = 100.;
     default_disk_max_used_pct = 50.;
@@ -139,13 +142,43 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "ended", ended)) continue;
         if (xp.parse_int(tag, "shmem_work_items", shmem_work_items)) continue;
         if (xp.parse_int(tag, "feeder_query_size", feeder_query_size)) continue;
-        if (xp.parse_bool(tag, "no_darwin_6", no_darwin_6)) continue;
-        if (xp.parse_bool(tag, "no_amd_k6", no_amd_k6)) continue;
+        if (xp.parse_bool(tag, "no_darwin_6", no_darwin_6)) {
+            if (no_darwin_6) {
+                regcomp(&re, ".*Darwin.*\t.*(5\\.|6\\.).*", REG_EXTENDED|REG_NOSUB);
+                ban_os.push_back(re);
+            }
+            continue;
+        }
+        if (xp.parse_bool(tag, "no_amd_k6", no_amd_k6)) {
+            if (no_amd_k6) {
+                regcomp(&re, ".*AMD.*\t.*Family 5 Model 8 Stepping 0.*", REG_EXTENDED|REG_NOSUB);
+                ban_cpu.push_back(re);
+            }
+            continue;
+        }
         if (xp.parse_str(tag, "httpd_user", httpd_user, sizeof(httpd_user))) continue;
         if (xp.parse_int(tag, "file_deletion_strategy", file_deletion_strategy)) continue;
         if (xp.parse_bool(tag, "request_time_stats_log", request_time_stats_log)) continue;
         if (xp.parse_bool(tag, "enable_assignment", enable_assignment)) continue;
         if (xp.parse_int(tag, "max_ncpus", max_ncpus)) continue;
+        if (xp.parse_str(tag, "ban_os", buf, sizeof(buf))) {
+            retval = regcomp(&re, buf, REG_EXTENDED|REG_NOSUB);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+            } else {
+                ban_os.push_back(re);
+            }
+            continue;
+        }
+        if (xp.parse_str(tag, "ban_cpu", buf, sizeof(buf))) {
+            retval = regcomp(&re, buf, REG_EXTENDED|REG_NOSUB);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+            } else {
+                ban_cpu.push_back(re);
+            }
+            continue;
+        }
 
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about

@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include <vector>
+#include <list>
 #include <string>
 #include <ctime>
 #include <cstdio>
@@ -56,6 +57,8 @@ using namespace std;
 #else
 #define FCGI_ToFILE(x) (x)
 #endif
+
+void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply);
 
 const char* infeasible_string(int code) {
     switch (code) {
@@ -953,6 +956,9 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.wreq.infeasible_only = false;
         send_work_locality(sreq, reply);
     } else {
+#if 0
+        send_work_matchmaker(sreq, reply);
+#else
         // give top priority to results that require a 'reliable host'
         //
         if (reply.wreq.host_info.reliable) {
@@ -983,6 +989,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         reply.wreq.infeasible_only = false;
         scan_work_array(sreq, reply);
+#endif
     }
 
     log_messages.printf(MSG_NORMAL,
@@ -1126,5 +1133,261 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }        
     }
 }
+
+#if 0
+
+// compute a "value" for sending this WU to this host.
+// return 0 if the WU is infeasible
+//
+double value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, WU_RESULT& wu_result) {
+    bool found;
+    APP* app;
+    APP_VERSION* avp;
+    WORKUNIT wu;
+    int retval;
+
+    wu = wu_result.workunit;
+
+    // Find the app and app_version for the client's platform.
+    //
+    if (anonymous(sreq.platforms.list[0])) {
+        app = ssp->lookup_app(wu.appid);
+        found = sreq.has_version(*app);
+        if (!found) return 0;
+        avp = NULL;
+    } else {
+        found = find_app_version(sreq, reply.wreq, wu, app, avp);
+        if (!found) return 0;
+
+        // see if the core client is too old.
+        // don't bump the infeasible count because this
+        // isn't the result's fault
+        //
+        if (!app_core_compatible(reply.wreq, *avp)) return 0;
+    }
+    if (app == NULL) return 0; // this should never happen
+
+    retval = wu_is_infeasible(wu, sreq, reply, *app);
+    if (retval) {
+        log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+            reply.host.id, wu.id, wu.name, infeasible_string(retval)
+        );
+        return 0;
+    }
+
+    double val = 1;
+    if (app->beta) {
+        if (reply.wreq.host_info.allow_beta_work) {
+            val += 1;
+        } else {
+            return 0;
+        }
+    } else {
+        if (reply.wreq.host_info.reliable && (wu_result.need_reliable)) {
+            val += 1;
+        }
+    }
+    
+    if (wu_result.infeasible_count) {
+        val += 1;
+    }
+    return val;
+}
+
+bool wu_is_infeasible_slow(WU_RESULT& wu_result, SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    char buf[256];
+    int retval;
+    int n;
+    DB_RESULT result;
+
+    // Don't send if we've already sent a result of this WU to this user.
+    //
+    if (config.one_result_per_user_per_wu) {
+        sprintf(buf,
+            "where workunitid=%d and userid=%d",
+            wu_result.workunit.id, reply.user.id
+        );
+        retval = result.count(n, buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "send_work: can't get result count (%d)\n", retval
+            );
+            return true;
+        } else {
+            if (n>0) {
+                log_messages.printf(MSG_DEBUG,
+                    "send_work: user %d already has %d result(s) for WU %d\n",
+                    reply.user.id, n, wu_result.workunit.id
+                );
+                return true;
+            }
+        }
+    } else if (config.one_result_per_host_per_wu) {
+        // Don't send if we've already sent a result
+        // of this WU to this host.
+        // We only have to check this
+        // if we don't send one result per user.
+        //
+        sprintf(buf,
+            "where workunitid=%d and hostid=%d",
+            wu_result.workunit.id, reply.host.id
+        );
+        retval = result.count(n, buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "send_work: can't get result count (%d)\n", retval
+            );
+            return true;
+        } else {
+            if (n>0) {
+                log_messages.printf(MSG_DEBUG,
+                    "send_work: host %d already has %d result(s) for WU %d\n",
+                    reply.host.id, n, wu_result.workunit.id
+                );
+            return true;
+            }
+        }
+    }
+
+    APP* app = ssp->lookup_app(wu_result.workunit.appid);
+    WORKUNIT wu = wu_result.workunit;
+    if (app_hr_type(*app)) {
+        if (already_sent_to_different_platform_careful(
+            sreq, reply.wreq, wu, *app
+        )) {
+             log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
+                reply.host.id, wu.id, wu.name
+            );
+            // Mark the workunit as infeasible.
+            // This ensures that jobs already assigned to a platform
+            // are processed first.
+            //
+            wu_result.infeasible_count++;
+            return true;
+        }
+    }
+    return false;
+}
+
+struct JOB{
+    int index;
+    double value;
+    double est_time;
+    double disk_usage;
+};
+
+struct JOB_SET {
+    double work_req;
+    double est_time;
+    double disk_usage;
+    double disk_limit;
+    std::list<JOB> jobs;     // sorted
+
+    void add_job(JOB&);
+    double higher_value_disk_usage(double);
+};
+
+// add the given job, and remove lowest-value jobs
+// that are in excess of work request
+// or that cause the disk limit to be exceeded
+//
+void JOB_SET::add_job(JOB& job) {
+    while (!jobs.empty()) {
+        JOB& worst_job = jobs.back();
+        if (est_time + job.est_time - worst_job.est_time > work_req) {
+            est_time -= worst_job.est_time;
+            disk_usage -= worst_job.disk_usage;
+            jobs.pop_back();
+        }
+    }
+    while (!jobs.empty()) {
+        JOB& worst_job = jobs.back();
+        if (disk_usage + job.disk_usage > disk_limit) {
+            est_time -= worst_job.est_time;
+            disk_usage -= worst_job.disk_usage;
+            jobs.pop_back();
+        }
+    }
+    list<JOB>::iterator i = jobs.begin();
+    while (i != jobs.end()) {
+        if (i->value < job.value) {
+            jobs.insert(i, job);
+            break;
+        }
+        i++;
+    }
+    if (i == jobs.end()) {
+        jobs.push_back(job);
+    }
+    est_time += job.est_time;
+    disk_usage += job.disk_usage;
+}
+
+// return the disk usage of jobs above the given value
+//
+double JOB_SET::higher_value_disk_usage(double v) {
+    double sum = 0;
+    list<JOB>::iterator i = jobs.begin();
+    while (i != jobs.end()) {
+        if (i->value < v) break;
+        sum += i->disk_usage;
+        i++;
+    }
+    return sum;
+}
+
+void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    int i, slots_scanned=0, slots_locked=0;
+    JOB_SET jobs;
+    int min_slots = 20;
+    int max_slots = 50;
+    int max_locked = 10;
+    int pid = getpid();
+
+    lock_sema();
+    i = rand() % ssp->max_wu_results;
+    while (1) {
+        i = (i+1) % ssp->max_wu_results;
+        slots_scanned++;
+        if (slots_scanned >= max_slots) break;
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        switch (wu_result.state) {
+        case WR_STATE_EMPTY:
+            continue;
+        case WR_STATE_PRESENT:
+            break;
+        default:
+            slots_locked++;
+            continue;
+        }
+
+        double v = value(sreq, reply, ssp->wu_results[i]);
+        if (v > jobs.lowest_value) {
+            ssp->wu_results[i] = pid;
+            unlock_sema();
+            if (wu_is_infeasible_slow(wu_result, sreq, reply)) {
+                lock_sema();
+                ssp->wu_results[i] = WR_STATE_EMPTY;
+                continue;
+            }
+            lock_sema();
+            jobs->add(i);
+        }
+
+        if (jobs->request_satisfied && slots_scanned>=MIN_SLOTS) break;
+    }
+
+    jobs->send();
+    unlock_sema();
+    if (slots_locked > max_locked) {
+        log_messages.printf(MSG_CRITICAL,
+            "Found too many locked slots (%d>%d) - increase array size",
+            slots_locked, max_locked
+        );
+    }
+}
+#endif
 
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

@@ -42,8 +42,6 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-SCHED_CONFIG config;
-
 void init_xfer_result(DB_RESULT& result) {
     result.id = 0;
     result.create_time = time(0);

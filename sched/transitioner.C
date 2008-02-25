@@ -52,7 +52,6 @@ using namespace std;
 #endif
 
 int startup_time;
-SCHED_CONFIG config;
 R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;

@@ -40,7 +40,6 @@ using namespace std;
 #include "sched_util.h"
 #include "sched_msgs.h"
 
-SCHED_CONFIG config;
 char app_name[256];
 
 extern int handle_message(MSG_FROM_HOST&);

@@ -119,7 +119,7 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
         if (asg.resultid) continue;
         switch (asg.target_type) {
         case ASSIGN_NONE:
-            sprintf(buf, "hostid=%d and workunitid=%d",
+            sprintf(buf, "where hostid=%d and workunitid=%d",
                 reply.host.id, asg.workunitid
             );
             retval = result.lookup(buf);
@@ -130,7 +130,7 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
             break;
         case ASSIGN_HOST:
             if (reply.host.id != asg.target_id) continue;
-            sprintf(buf, "workunitid=%d", asg.workunitid);
+            sprintf(buf, "where workunitid=%d", asg.workunitid);
             retval = result.lookup(buf);
             if (retval == ERR_NOT_FOUND) {
                 retval = send_assigned_job(asg, request, reply);
@@ -140,9 +140,9 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
         case ASSIGN_USER:
             if (reply.user.id != asg.target_id) continue;
             if (asg.multi) {
-                sprintf(buf, "workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
+                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
             } else {
-                sprintf(buf, "workunitid=%d", asg.workunitid);
+                sprintf(buf, "where workunitid=%d", asg.workunitid);
             }
             retval = result.lookup(buf);
             if (retval == ERR_NOT_FOUND) {
@@ -153,9 +153,9 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
         case ASSIGN_TEAM:
             if (reply.team.id != asg.target_id) continue;
             if (asg.multi) {
-                sprintf(buf, "workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
+                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
             } else {
-                sprintf(buf, "workunitid=%d", asg.workunitid);
+                sprintf(buf, "where workunitid=%d", asg.workunitid);
             }
             retval = result.lookup(buf);
             if (retval == ERR_NOT_FOUND) {

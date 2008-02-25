@@ -41,7 +41,6 @@ using namespace std;
 #include "sched_util.h"
 #include "sched_msgs.h"
 
-SCHED_CONFIG config;
 char variety[256];
 
 extern int handle_trickle(MSG_FROM_HOST&);

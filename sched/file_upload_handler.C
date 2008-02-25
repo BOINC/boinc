@@ -47,8 +47,6 @@
 #endif
 #include "sched_msgs.h"
 
-SCHED_CONFIG config;
-
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 

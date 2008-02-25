@@ -1589,3 +1589,20 @@ David  Feb 23 2008
 
 	client/
 		scheduler_op.C
+
+David  Feb 25 2008
+    - scheduler: add a general method for excluding hosts from job distribution.
+        config.xml has optional <ban_os> and <ban_cpu> elements,
+        which contain regular expressions matched against
+        os_name\tos_version and p_vendor\tp_model.
+        If a host matches either one, it's not sent jobs.
+    - scheduler: fix bug in job assignment
+    - scheduler: initial (incompleted, commented-out) code for
+        matchmaker scheduling
+    - server programs: declare "SCHED_CONFIG config" in sched_config.C;
+        remove declarations of it from all other .C files
+        (because I added a vector to it, I can no longer use memset
+        to initialize it to zero; instead, it must be a global variable,
+        not an automatic)
+
+    sched/*.C

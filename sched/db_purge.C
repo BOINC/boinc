@@ -92,7 +92,6 @@ using namespace std;
 #define COMPRESSION_GZIP    1
 #define COMPRESSION_ZIP     2
 
-SCHED_CONFIG config;
 FILE *wu_stream=NULL;
 FILE *re_stream=NULL;
 FILE *wu_index_stream=NULL;

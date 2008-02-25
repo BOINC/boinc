@@ -104,8 +104,6 @@ using namespace std;
 #define SLEEP_INTERVAL 5
 #define RESULTS_PER_WU 4        // an estimate of redundancy 
 
-SCHED_CONFIG config;
-
 int id_modulus=0, id_remainder=0;
 bool dont_retry_errors = false;
 bool dont_delete_antiques = false;

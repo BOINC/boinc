@@ -32,7 +32,6 @@ int main() {
     SCHED_SHMEM* ssp;
     int retval;
     void* p;
-    SCHED_CONFIG config;
 
     retval = config.parse_file(".");
     if (retval) {

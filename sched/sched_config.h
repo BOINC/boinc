@@ -20,6 +20,10 @@
 #ifndef _SCHED_CONFIG_
 #define _SCHED_CONFIG_
 
+#include "regex.h"
+#include <vector>
+using std::vector;
+
 // parsed version of server configuration file
 //
 class SCHED_CONFIG {
@@ -112,6 +116,8 @@ public:
     bool request_time_stats_log;
     bool enable_assignment;
     int max_ncpus;
+    vector<regex_t> ban_os;
+    vector<regex_t> ban_cpu;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");
@@ -119,6 +125,8 @@ public:
     int upload_path(const char*, char*);
     int download_path(const char*, char*);
 };
+
+extern SCHED_CONFIG config;
 
 // get the project's home directory
 // (assumed to be the parent of the CWD)

@@ -45,7 +45,6 @@ using std::vector;
 #define LOCKFILE "assimilator.out"
 #define PIDFILE  "assimilator.pid"
 
-SCHED_CONFIG config;
 bool update_db = true;
 bool noinsert = false;
 

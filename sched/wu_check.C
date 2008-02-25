@@ -38,8 +38,6 @@ bool repair = false;
 // wu_checker
 // See whether input files that should be present, are
 
-SCHED_CONFIG config;
-
 // get the path a WU's input file
 //
 int get_file_path(WORKUNIT& wu, char* path) {

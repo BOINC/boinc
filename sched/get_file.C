@@ -43,8 +43,6 @@
 #include "sched_util.h"
 #include "md5_file.h"
 
-SCHED_CONFIG config;
-
 void init_xfer_result(DB_RESULT& result) {
     result.id = 0;
     result.create_time = time(0);

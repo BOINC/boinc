@@ -151,7 +151,6 @@ int update_teams() {
 }
 
 int main(int argc, char** argv) {
-    SCHED_CONFIG config;
     int retval, i;
     bool do_update_teams = false, do_update_users = false;
     bool do_update_hosts = false;

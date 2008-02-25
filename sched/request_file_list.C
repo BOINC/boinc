@@ -38,8 +38,6 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-SCHED_CONFIG config;
-
 int request_file_list(int host_id) {
     DB_MSG_TO_HOST mth;
     int retval;

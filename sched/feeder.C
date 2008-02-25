@@ -123,7 +123,6 @@ using std::vector;
 #define ENUM_SECOND_PASS    1
 #define ENUM_OVER           2
 
-SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
 key_t sema_key;
 const char* order_clause="";

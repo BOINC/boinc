@@ -51,7 +51,6 @@ char* wu_template;
 DB_APP app;
 int start_time;
 int seqno;
-SCHED_CONFIG config;
 
 // create one new job
 //
