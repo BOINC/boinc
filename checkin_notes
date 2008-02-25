@@ -1619,3 +1619,10 @@ David  Feb 25 2008
 
     clientgui/
         MainDocument.cpp
+
+Rom    Feb 25 2008
+    - MGR: Fix the crash on linux when BOINC Manager is shut down.
+        (Patch from Michael Roberts)
+        
+    clientgui/
+        AdvancedFrame.cpp

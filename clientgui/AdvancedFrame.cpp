@@ -283,16 +283,19 @@ CAdvancedFrame::~CAdvancedFrame() {
     if (m_pRefreshStateTimer) {
         m_pRefreshStateTimer->Stop();
         delete m_pRefreshStateTimer;
+        m_pRefreshStateTimer = NULL;
     }
 
     if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
         delete m_pFrameRenderTimer;
+        m_pFrameRenderTimer = NULL;
     }
 
     if (m_pFrameListPanelRenderTimer) {
         m_pFrameListPanelRenderTimer->Stop();
         delete m_pFrameListPanelRenderTimer;
+        m_pFrameListPanelRenderTimer = NULL;
     }
 
     if (m_pStatusbar)
@@ -2120,7 +2123,7 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(pView);
 
-        if (m_pFrameListPanelRenderTimer->IsRunning()) {
+        if (m_pFrameListPanelRenderTimer && m_pFrameListPanelRenderTimer->IsRunning()) {
             m_pFrameListPanelRenderTimer->Stop();
 
             // View specific refresh rates only apply when a connection to the core
