@@ -17,6 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// DEPRECATED!!!  Use example_app/ instead
+//
 // This is the primary sample BOINC application;
 // it shows most of the features of the BOINC API.
 //

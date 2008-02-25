@@ -1,3 +1,7 @@
+NOTE: this app is deprecated and won't build.
+Use boinc_samples/example_app/ instead.
+----------------------
+
 The graphics should show a bouncing ball.
 
 If you want a logo, put a file "logo.jpg" in this directory.
