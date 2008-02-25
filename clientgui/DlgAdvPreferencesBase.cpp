@@ -238,7 +238,8 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_txtProcUseCPUTime = new wxTextCtrl( m_panelProcessor, ID_TXTPOCUSECPUTIME, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizer3->Add( m_txtProcUseCPUTime, 0, wxALL, 1 );
 
-	m_staticText23 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("% CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
+    /*xgettext:no-c-format*/
+    m_staticText23 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("% CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer3->Add( m_staticText23, 0, wxALL, 5 );
 
 	sbSizer3->Add( fgSizer3, 0, wxEXPAND, 1 );
@@ -477,6 +478,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 	fgSizerDiskUsage->Add( m_txtDiskMaxOfTotal, 0, wxALL, 1 );
 
+    /*xgettext:no-c-format*/
 	m_staticText45 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("% of total disk space"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizerDiskUsage->Add( m_staticText45, 0, wxALL, 5 );
 
@@ -495,6 +497,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_txtDiskMaxSwap = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizerDiskUsage->Add( m_txtDiskMaxSwap, 0, wxALL, 1 );
 
+    /*xgettext:no-c-format*/
 	m_staticText49 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("% of page file (swap space)"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizerDiskUsage->Add( m_staticText49, 0, wxALL, 5 );
 
