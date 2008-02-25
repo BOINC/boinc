@@ -1613,3 +1613,9 @@ Rom    Feb 25 2008
     
     curl/
         <Various Files>
+
+David  Feb 25 2008
+    - Manager: compile fix for linux
+
+    clientgui/
+        MainDocument.cpp

@@ -1,13 +1,10 @@
-# color scheme:
-# light background (for <pre>)
-# d5f0ff (213, 240, 255)
-# medium background (for table headings)
-# (157, 221, 255)
+/* color scheme:
+ * light background (for <pre>)
+ * d5f0ff (213, 240, 255)
+ * medium background (for table headings)
+ * (157, 221, 255)
+ */
 
-h1 {
-    font-variant: small-caps;
-    font-size: 20pt;
-}
 
 pre {
     font-size: medium;
@@ -30,7 +27,7 @@ a:hover {
 
 body , table , input , select {
 	font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
-#font-size: 16px;
+    font-size: 16px;
 }
 
 table.box {
@@ -42,6 +39,15 @@ body {
 	background-color: white;
     color: black;
 }
+
+span.title{
+    font-variant: small-caps;
+    font-size: 2em;
+}
+span.subtitle{
+    font-size: 1.3em;
+}
+
 
 span.note{
 	font-weight: normal;
@@ -121,7 +127,7 @@ input.small {
     height:22px;
 }
 
-# testing for button style
+/* testing for button style */
 input.btn {
     padding:0px 2px;
 	font-size: 80%;

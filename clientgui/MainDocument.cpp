@@ -728,12 +728,6 @@ int CMainDocument::CachedProjectStatusUpdate() {
 PROJECT* CMainDocument::project(unsigned int i) {
     PROJECT* pProject = NULL;
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
         if (!state.projects.empty())
             pProject = state.projects.at(i);
@@ -967,12 +961,6 @@ int CMainDocument::CachedResultsStatusUpdate() {
 RESULT* CMainDocument::result(unsigned int i) {
     RESULT* pResult = NULL;
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
         if (!results.results.empty())
             pResult = results.results.at(i);
@@ -988,12 +976,6 @@ RESULT* CMainDocument::result(unsigned int i) {
 RESULT* CMainDocument::result(const wxString& name) {
     RESULT* pResult = NULL;
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
         if (!results.results.empty())
 			//iterating over the vector and find the right result
@@ -1160,7 +1142,7 @@ void CMainDocument::KillGraphicsApp(HANDLE pid) {
 #else
 void CMainDocument::KillGraphicsApp(int pid) {
     char* argv[6];
-    char currentDir[MAXPATHLEN];
+    char currentDir[1024];
     char thePIDbuf[10];
     int id, iRetVal;
     
@@ -1174,14 +1156,14 @@ void CMainDocument::KillGraphicsApp(int pid) {
         argv[4] = thePIDbuf;
         argv[5] = 0;
     
-         iRetVal = run_program(
-                getcwd(currentDir, sizeof(currentDir)),
-                "./switcher/switcher",
-                5,
-                argv,
-                0,
-                id
-            );
+        iRetVal = run_program(
+            getcwd(currentDir, sizeof(currentDir)),
+            "./switcher/switcher",
+            5,
+            argv,
+            0,
+            id
+        );
     } else {
         kill_program(pid);
     }
@@ -1219,7 +1201,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             // If this graphics app is already running,
             // just bring it to the front
             //
-            if (! GetProcessForPID(previous_gfx_app->pid, &gfx_app_psn)) {
+            if (!GetProcessForPID(previous_gfx_app->pid, &gfx_app_psn)) {
                 SetFrontProcess(&gfx_app_psn);
             }
             return 0;
@@ -1271,7 +1253,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             id
         );
 #endif
-        if (! iRetVal) {
+        if (!iRetVal) {
             gfx_app.slot = slot;
             gfx_app.project_url = result->project_url;
             gfx_app.name = result->name;
@@ -1348,12 +1330,6 @@ done:
 MESSAGE* CMainDocument::message(unsigned int i) {
     MESSAGE* pMessage = NULL;
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
         if (!messages.messages.empty())
             pMessage = messages.messages.at(i);
@@ -1411,12 +1387,6 @@ int CMainDocument::CachedFileTransfersUpdate() {
 FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
     FILE_TRANSFER* pFT = NULL;
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
         if (!ft.file_transfers.empty())
             pFT = ft.file_transfers.at(i);
@@ -1431,12 +1401,6 @@ FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
 FILE_TRANSFER* CMainDocument::file_transfer(const wxString& fileName) {
     FILE_TRANSFER* pFT = NULL;
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
 		if (!ft.file_transfers.empty()) {
 			for(unsigned int i=0; i< ft.file_transfers.size();i++) {
@@ -1548,12 +1512,6 @@ int CMainDocument::CachedDiskUsageUpdate() {
 PROJECT* CMainDocument::DiskUsageProject(unsigned int i) {
     PROJECT* pProject = NULL;
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
         if (!disk_usage.projects.empty()) {
             pProject = disk_usage.projects.at(i);
@@ -1592,12 +1550,6 @@ PROJECT* CMainDocument::statistic(unsigned int i) {
     PROJECT* pProject = NULL;
 
 
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
     try {
         if (!statistics_status.projects.empty())
             pProject = statistics_status.projects.at(i);

@@ -67,7 +67,7 @@ function show_participate() {
         </td></tr>
         <tr><td>
         <p>
-        ".sprintf(tr(HOME_P1), "<ol> <li> <a href=projects.php><font size=+1>", "</font></a>", "<li> <a href=download.php><font size=+1>", "</font></a>", "<li> <font size=+1>", "</font>")."
+        ".sprintf(tr(HOME_P1), "<ol> <li> <a href=projects.php><b>", "</b></a>", "<li> <a href=download.php><b>", "</b></a>", "<li> <b>", "</b>")."
         </ol>
         <p>
         ".sprintf(tr(HOME_P2), "<a href=trac/wiki/AccountManagers>", "</a>", "<a href=http://www.gridrepublic.org>", "</a>", "<a href=http://bam.boincstats.com/>", "</a>")."
@@ -150,6 +150,7 @@ function show_nsf() {
 
 function language_form() {
     echo "
+        <table><tr><td>
         <form name=language method=get action=set_language.php>
         <select class=selectbox name=lang onchange=\"javascript: submit()\">
         <option value=auto selected=\"selected\">-- language --
@@ -176,6 +177,7 @@ function language_form() {
         <script>
         document.language.lang.selectedIndex=0;
         </script>
+            </td></tr></table>
     ";
 }
 
@@ -196,14 +198,14 @@ echo "
 <table border=0><tr><td valign=top>
 <img hspace=40 vspace=10 align=left src=logo/www_logo.gif>
 </td><td>
-<h1>
+<span class=title>
 ".tr(HOME_BOINC)."
-</h1>
+</span>
 </td></tr>
 <tr><td colspan=2>
-<font size=+1> &nbsp;
+<span class=subtitle> &nbsp;
 ".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php>', '</a>', '<a href=dg.php>', '</a>')."
-</font>
+</span>
 </td></tr></table>
 <br clear=all>
 <table width=100% border=0 cellpadding=8 cellspacing=0><tr><td valign=center>
