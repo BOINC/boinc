@@ -366,3 +366,9 @@ Charlie Feb 25 2008
     clientgui/
         sg_DlgMessages.cpp
         ViewMessages.cpp
+
+Rom    Feb 26 2008
+    - MGR: Update localization files from trunk.
+    
+    locale/client
+        <Various Files>
