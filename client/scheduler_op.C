@@ -234,7 +234,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
                 "Scheduler request failed: %s", boincerror(retval)
             );
         }
-        backoff(cur_proj, "scheduler request failed");
+        backoff(p, "scheduler request failed");
         return retval;
     }
     retval = http_ops->insert(&http_op);
@@ -244,7 +244,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
                 "Scheduler request failed: %s", boincerror(retval)
             );
         }
-        backoff(cur_proj, "scheduler request failed");
+        backoff(p, "scheduler request failed");
         return retval;
     }
     p->rpc_seqno++;

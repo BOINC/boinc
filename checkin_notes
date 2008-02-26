@@ -344,6 +344,13 @@ Charlie Feb 20 2008
     client/
         app_graphics.C
 
+David  Feb 23 2008
+    - client: fix crashing bug in SCHEDULER_OP::backoff().
+        Was using cur_proj (which is potentially NULL) instead of p
+
+	client/
+		scheduler_op.C
+
 Rom    Feb 25 2008
     - MGR: Fix the crash on linux when BOINC Manager is shut down.
         (Patch from Michael Roberts)
