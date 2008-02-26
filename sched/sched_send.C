@@ -199,17 +199,17 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
     }
 
     if (x < 0) {
-        log_messages.printf(MSG_NORMAL,
-            "disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
+        log_messages.printf(MSG_DEBUG,
+            "Insufficient disk: disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
             prefs.disk_max_used_gb, prefs.disk_max_used_pct,
             prefs.disk_min_free_gb
         );
-        log_messages.printf(MSG_NORMAL,
-            "host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
+        log_messages.printf(MSG_DEBUG,
+            "Insufficient disk: host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
             host.d_total, host.d_free, host.d_boinc_used_total
         );
-        log_messages.printf(MSG_NORMAL,
-            "x1 %f x2 %f x3 %f x %f\n",
+        log_messages.printf(MSG_DEBUG,
+            "Insufficient disk: x1 %f x2 %f x3 %f x %f\n",
             x1, x2, x3, x
         );
         reply.wreq.disk.set_insufficient(-x);

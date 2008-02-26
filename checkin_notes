@@ -1646,3 +1646,20 @@ Charlie Feb 25 2008
         mac_saver_module.cpp
         Mac_Saver_Module.h
         screensaver.cpp
+
+David  Feb 26 2008
+    - server: make the special substring for assigned WUs
+        into a #define's symbol (ASSIGNED_WU_STR)
+    - scheduler: when send client command to abort a WU,
+        include a reason code in the scheduler log
+
+    lib/
+        common_defs.h
+    sched/
+        handle_request.C
+        sched_send.C
+        server_types.h
+        transitioner.C
+    tools/
+        backend_lib.C
+        create_work.C

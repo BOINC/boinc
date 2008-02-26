@@ -193,5 +193,6 @@ struct VERSION_INFO {
 #endif
 
 #define GRAPHICS_APP_FILENAME "graphics_app"
+#define ASSIGNED_WU_STR "asgn"
 
 #endif

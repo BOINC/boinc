@@ -589,45 +589,56 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         return 0;
     }
 
-    // initially mark all results for abort and build list of results to query
+    // build list of result names
     //
     for (i=0; i<sreq.other_results.size(); i++) {
         OTHER_RESULT& orp=sreq.other_results[i];
         orp.abort = true;
         orp.abort_if_not_started = false;
+        orp.reason = ABORT_REASON_NOT_FOUND;
         if (i > 0) result_names.append(", ");
         result_names.append("'");
         result_names.append(orp.name);
         result_names.append("'");
     }
 
-    // query the db for the results and set the appropriate flag
+    // look up selected fields from the results and their WUs,
+    // and decide if they should be aborted
     //
     while (!(retval = result.enumerate(reply.host.id, result_names.c_str()))) {
         for (i=0; i<sreq.other_results.size(); i++) {
             OTHER_RESULT& orp = sreq.other_results[i];
             if (!strcmp(orp.name.c_str(), result.result_name)) {
-                if ( result.error_mask&WU_ERROR_CANCELLED ) {
-                    // do nothing, it should be aborted
+                if (result.error_mask&WU_ERROR_CANCELLED ) {
+                    // if the WU has been canceled, abort the result
+                    //
+                    orp.abort = true;
+                    orp.abort_if_not_started = false;
+                    orp.reason = ABORT_REASON_WU_CANCELLED;
                 } else if ( result.assimilate_state == ASSIMILATE_DONE ) {
-                    // only send abort if not started
+                    // if the WU has been assimilated, abort if not started
+                    //
                     orp.abort = false;
                     orp.abort_if_not_started = true;
+                    orp.reason = ABORT_REASON_ASSIMILATED;
                 } else if (result.server_state == RESULT_SERVER_STATE_OVER
                     && result.outcome == RESULT_OUTCOME_NO_REPLY
                 ) {
-                    // the result is late so abort it if it hasn't been started
-                    orp.abort=false;
+                    // if timed out, abort if not started
+                    //
+                    orp.abort = false;
                     orp.abort_if_not_started = true;
+                    orp.reason = ABORT_REASON_TIMED_OUT;
                 } else {
                     // all is good with the result - let it process
-                    orp.abort=false;
+                    orp.abort = false;
+                    orp.abort_if_not_started = false;
                 }
                 break;
             }
         }
     }
-    
+
     // If enumeration returned an error, don't send any aborts
     //
     if (retval && (retval != ERR_DB_NOT_FOUND)) {
@@ -641,8 +652,8 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (orp.abort) {
             reply.result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d]: Send result_abort for result %s\n",
-                reply.host.id, orp.name.c_str()
+                "[HOST#%d]: Send result_abort for result %s; reason %d\n",
+                reply.host.id, orp.name.c_str(), orp.reason
             ); 
             // send user message 
             char buf[256];
@@ -652,8 +663,8 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         } else if (orp.abort_if_not_started) {
             reply.result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d]: Send result_abort_if_unstarted for result %s\n",
-                reply.host.id, orp.name.c_str()
+                "[HOST#%d]: Send result_abort_if_unstarted for result %s; reason %d\n",
+                reply.host.id, orp.name.c_str(), orp.reason
             ); 
         }
     }

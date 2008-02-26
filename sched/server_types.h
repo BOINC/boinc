@@ -147,15 +147,6 @@ struct PROJECT_FILES {
     void init();
 };
 
-#if 0
-struct IP_RESULT {
-    double report_deadline;
-    double cpu_time_remaining;
-
-    int parse(FILE*);
-};
-#endif
-
 // Represents a result from this project that the client has.
 // The request message has a list of these.
 // The reply message may include a list of those to be aborted
@@ -165,9 +156,15 @@ struct OTHER_RESULT {
     std::string name;
     bool abort;
     bool abort_if_not_started;
+    int reason;     // see codes below
 
     int parse(FILE*);
 };
+
+#define ABORT_REASON_NOT_FOUND      1
+#define ABORT_REASON_WU_CANCELLED   2
+#define ABORT_REASON_ASSIMILATED    3
+#define ABORT_REASON_TIMED_OUT      4
 
 struct CLIENT_PLATFORM {
     char name[256];

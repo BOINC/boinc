@@ -33,6 +33,7 @@
 #include "md5_file.h"
 #include "parse.h"
 #include "str_util.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "sched_util.h"
 
@@ -603,7 +604,7 @@ int create_work(
         fprintf(stderr, "no max_success_results given; can't create job\n");
         return ERR_NO_OPTION;
     }
-    if (strstr(wu.name, "asgn")) {
+    if (strstr(wu.name, ASSIGNED_WU_STR)) {
         wu.transition_time = INT_MAX;
     } else {
         wu.transition_time = time(0);

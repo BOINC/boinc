@@ -37,6 +37,8 @@ using namespace std;
 #include "boinc_db.h"
 #include "util.h"
 #include "backend_lib.h"
+#include "common_defs.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
@@ -101,7 +103,7 @@ int handle_wu(
     TRANSITIONER_ITEM& wu_item = items[0];
     TRANSITIONER_ITEM wu_item_original = wu_item;
 
-    if (config.enable_assignment && strstr(wu_item.name, "asgn")) {
+    if (config.enable_assignment && strstr(wu_item.name, ASSIGNED_WU_STR)) {
         return 0;
     }
 

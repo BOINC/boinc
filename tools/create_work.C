@@ -60,6 +60,7 @@
 #include "boinc_db.h"
 #include "crypt.h"
 #include "backend_lib.h"
+#include "common_defs.h"
 #include "sched_config.h"
 
 bool arg(const char** argv, int i, const char* name) {
@@ -203,8 +204,10 @@ int main(int argc, const char** argv) {
 #undef CHKARG_STR
 
     if (assign_flag) {
-        if (!strstr(wu.name, "asgn")) {
-            fprintf(stderr, "Assigned WU names must contain 'asgn'\n");
+        if (!strstr(wu.name, ASSIGNED_WU_STR)) {
+            fprintf(stderr,
+                "Assigned WU names must contain '%s'\n", ASSIGNED_WU_STR
+            );
             exit(1);
         }
     }
