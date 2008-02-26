@@ -53,6 +53,7 @@
 #define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
 #define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
+#define GFX_STARTING_MSG_DURATION 45 /* seconds to show ScreenSaverAppStartingMsg */
 #define STATUSRESULTCHANGETIME 10 /* seconds to show status display for each task */
 #define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
 
@@ -88,6 +89,7 @@ const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support graphic
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
 const char *  BOINCTestmodeMsg = "BOINC screensaver test: success.";
 const char *  BOINCV5GFXDaemonMsg = "BOINC can't display graphics from older applications when running as a daemon.";
+const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics. Please wait ...";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
@@ -124,7 +126,8 @@ CScreensaver::CScreensaver() {
     m_hrError = 0;
     m_StatusMessageUpdated = false;
     // Display first status update after 5 seconds
-    m_statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * TEXTLOGOFREQUENCY);
+    m_iStatusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * TEXTLOGOFREQUENCY);
+    m_iGraphicsStartingMsgCounter = 0;
     m_iLastResultShown = 0;
     m_tLastResultChangeCounter = ((STATUSRESULTCHANGETIME-5) * TEXTLOGOFREQUENCY);
     saverState = SaverState_Idle;
@@ -279,7 +282,7 @@ int CScreensaver::getSSMessage(char **theMessage) {
     pid_t myPid;
     OSStatus err;
     
-    m_statusUpdateCounter++;
+    m_iStatusUpdateCounter++;
     m_tLastResultChangeCounter++;
 
     switch (saverState) {
@@ -334,10 +337,17 @@ int CScreensaver::getSSMessage(char **theMessage) {
         case SCRAPPERR_BOINCNOPROJECTSDETECTED:
             setSSMessageText(BOINCNoProjectsDetectedMsg);
             break;
+        case SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING:
         case SCRAPPERR_SCREENSAVERRUNNING:
 #if ! ALWAYS_DISPLAY_PROGRESS_TEXT
-            setSSMessageText(0);   // No text message
-            // Let the science app draw over our window
+            if (m_iGraphicsStartingMsgCounter > 0) {
+                // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
+                setSSMessageText(ScreenSaverAppStartingMsg);
+                m_iGraphicsStartingMsgCounter--;
+            } else {
+                // Don't waste CPU cycles when the science app is drawing over our window
+                setSSMessageText(0);   // No text message
+            }
             break;
 #endif
         case SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING:
@@ -476,6 +486,12 @@ bool CScreensaver::DestroyDataManagementThread() {
 bool CScreensaver::SetError(bool bErrorMode, unsigned int hrError) {
     m_bErrorMode = bErrorMode;
     m_hrError = hrError;
+
+    if (hrError == SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING) {
+        // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
+        m_iGraphicsStartingMsgCounter = GFX_STARTING_MSG_DURATION * TEXTLOGOFREQUENCY;
+    }
+
     if ((hrError == SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING)
             || (hrError == SCRAPPERR_DAEMONALLOWSNOGRAPHICS)
 #if ALWAYS_DISPLAY_PROGRESS_TEXT
@@ -497,9 +513,9 @@ void CScreensaver::UpdateProgressText(unsigned int hrError) {
     PROJECT* pProject;
     char  statusBuf[2048];
 
-     if ( (m_statusUpdateCounter >= (STATUSUPDATEINTERVAL * TEXTLOGOFREQUENCY) ) && !m_updating_results ) {
+     if ( (m_iStatusUpdateCounter >= (STATUSUPDATEINTERVAL * TEXTLOGOFREQUENCY) ) && !m_updating_results ) {
         if (! m_StatusMessageUpdated) {
-            m_statusUpdateCounter = 0;
+            m_iStatusUpdateCounter = 0;
             strcpy(m_MsgBuf, hrError == SCRAPPERR_DAEMONALLOWSNOGRAPHICS ? 
                     BOINCV5GFXDaemonMsg : BOINCNoGraphicAppsExecutingMsg
             );
@@ -541,7 +557,7 @@ void CScreensaver::UpdateProgressText(unsigned int hrError) {
         }           // end for() loop
                 m_StatusMessageUpdated = true;
         }   // end if (! m_StatusMessageUpdated)
-    }                   // end if (m_statusUpdateCounter > time to update)
+    }                   // end if (m_iStatusUpdateCounter > time to update)
 }
 
 

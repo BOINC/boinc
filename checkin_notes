@@ -1635,3 +1635,14 @@ Charlie Feb 25 2008
     clientgui/
         sg_DlgMessages.cpp
         ViewMessages.cpp
+
+Charlie Feb 25 2008
+    - Mac SCR: Display "Starting screensaver graphics. Please wait ..." 
+        for 45 seconds each time we start graphics from a different application.
+        The application graphics window will hode this when it opens, so we 
+        stop showing it after 45 seconds to avoid wasting CPU cycles. 
+        
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        screensaver.cpp

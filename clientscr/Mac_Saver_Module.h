@@ -79,7 +79,8 @@ protected:
     pid_t           m_CoreClientPID;
     int             m_dwBlankScreen;
     time_t          m_dwBlankTime;
-    int             m_statusUpdateCounter;
+    int             m_iStatusUpdateCounter;
+    int             m_iGraphicsStartingMsgCounter;
     int             m_iLastResultShown;
     int             m_tLastResultChangeCounter;
     bool            m_StatusMessageUpdated;

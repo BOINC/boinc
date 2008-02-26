@@ -458,6 +458,9 @@ void *CScreensaver::DataManagementProc() {
                     previous_result_ptr = NULL;
                     graphics_app_result_ptr = NULL;
                 } else {
+#ifdef __APPLE__
+                    SetError(FALSE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
+#endif
                     SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
                     launch_time = dtime();
                     last_change_time = launch_time;
