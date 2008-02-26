@@ -372,3 +372,11 @@ Rom    Feb 26 2008
     
     locale/client
         <Various Files>
+
+Rom    Feb 26 2008
+    - Tag for 5.10.43 release, all platforms
+      boinc_core_release_5_10_43
+
+    /
+        configure.ac
+        version.h
