@@ -676,7 +676,7 @@ msgstr "Volunteers speaking several languages are available. "
     "Please select a language: "
 
 msgid "HELP_HEADING2"
-msgstr "Other sources of help"
+msgstr "BOINC help on the web"
 
 msgid "HELP_P2_ITEM1"
 msgstr "Running BOINC "
@@ -722,7 +722,7 @@ msgstr " Use the idle time on your computer "
     " It's safe, secure, and easy: "
     " %sChoose%s projects "
     " %sDownload%s and run BOINC software "
-    " %sEnter%s the project URLs, your email address, and password. "
+    " %sEnter%s an email address and password. "
 
 msgid "HOME_P2"
 msgstr "Or, if you run several projects, try "
@@ -732,14 +732,14 @@ msgid "HOME_P3"
 msgstr "If you have any questions, or need help getting started, you can "
     "%stalk to a Volunteer Helper%s. "
 
-msgid "HOME_MORE_INFO"
-msgstr "Running BOINC"
+msgid "HOME_HELP"
+msgstr "Help"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Download"
 
 msgid "HOME_WEB_SITES"
-msgstr "Web sites"
+msgstr "Web"
 
 msgid "HOME_ADD_ONS"
 msgstr "Add-ons"

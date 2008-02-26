@@ -7,6 +7,15 @@ require_once("../html/inc/translation.inc");
 page_head(tr(HELP_TITLE));
 
 echo "
+<h2>".tr(HELP_HEADING2)."</h2>
+<p>
+<ul>
+<li> <a href=trac/wiki/RunningBoinc>".tr(HELP_P2_ITEM1)."</a>
+<li> <a href=trac/wiki/TroubleshootClient>".tr(HELP_P2_ITEM2)."</a>
+<li> <a href=links.php>".tr(HELP_P2_ITEM3)."</a>
+<li> <a href=dev/>".tr(HELP_P2_ITEM4)."</a>
+<li> ".tr(HELP_P2_ITEM5)."
+</ul>
 <h2>".tr(HELP_HEADING1)."</h2>
 <p>
 ".sprintf(tr(HELP_P1_1), "<ul><li>", "<li>", "<li>", "<li>")."
@@ -36,15 +45,6 @@ foreach ($langs as $lang) {
     echo "<a href=help_lang.php?lang=$lang_enc><b>$lang</b></a>";
 }
 echo "
-<h2>".tr(HELP_HEADING2)."</h2>
-<p>
-<ul>
-<li> <a href=trac/wiki/RunningBoinc>".tr(HELP_P2_ITEM1)."</a>
-<li> <a href=trac/wiki/TroubleshootClient>".tr(HELP_P2_ITEM2)."</a>
-<li> <a href=links.php>".tr(HELP_P2_ITEM3)."</a>
-<li> <a href=dev/>".tr(HELP_P2_ITEM4)."</a>
-<li> ".tr(HELP_P2_ITEM5)."
-</ul>
 <h2>".tr(HELP_HEADING3)."</h2>
 <p>
 ".sprintf(tr(HELP_P3_1), "<a href=trac/wiki/HelpVolunteer>", "</a>")."

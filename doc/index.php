@@ -17,33 +17,34 @@ function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
     echo "
-        <tr><td>
+        <table cellpadding=8>
+        <tr><td class=fieldname>
         <center>
-        <hr width=80% size=1>
-        <table border=0 cellpadding=6><tr><td>
+        <span class=section_title>Featured volunteer</span>
+        <br>
+        <a class=heading href=chart_list.php><b>Top 100</a>
+        &middot; <a class=heading href=http://boinc.netsoft-online.com/e107_plugins/boinc/u_rank.php?list=tc_p1c1><b>Single-computer</a>
+        &middot; <a class=heading href=http://boinc.netsoft-online.com/e107_plugins/boinc/bu_rankselect.php><b>Other lists</a>
+        </center>
+        </td></tr>
+        <tr><td>
     ";
     include("piecharts/$i.html");
-    echo "
-        <br>
-        <center>
-        <a href=chart_list.php><b>Top 100</a> |
-        <a href=http://boinc.netsoft-online.com/e107_plugins/boinc/u_rank.php?list=tc_p1c1><b>Single-computer</a> |
-        <a href=http://boinc.netsoft-online.com/e107_plugins/boinc/bu_rankselect.php><b>Other lists</a>
-        </center>
-        </td></tr></table>
-        </td></tr>
-    ";
+    echo "</td></tr></table>";
 }
 
 function show_news_items() {
     require_once("boinc_news.php");
     require_once("../html/inc/news.inc");
     echo "
-        <table border=0 cellpadding=8><tr><td class=fieldname>
-        <font size=4>News</font>
+        <table border=0 cellpadding=8>
+        <tr><td class=fieldname>
+        <center>
+        <span class=section_title>News</span>
+        </center>
         <br>
     ";
-    $nnews_items = 8;
+    $nnews_items = 6;
     show_news($project_news, $nnews_items);
     if (count($project_news) > $nnews_items) {
         echo "<a href=old_news.php>... more</a>\n";
@@ -52,18 +53,22 @@ function show_news_items() {
     echo "
         <p><font size=-2>News is available as an
         <a href=rss_main.php>RSS feed</a> <img src=xml.gif></font>
-        <br>
-        <font size=-2>You can help
-        <a href=trac/wiki/WorldWideLexicon>translate these news items to other languages</a>.
         </td></tr></table>
-        <p>
     ";
 }
 
 function show_participate() {
     echo "
         <tr><td class=fieldname>
-            <font size=4>&nbsp;".tr(HOME_HEADING1)."</font>
+        <center>
+        <span class=section_title>".tr(HOME_HEADING1)."</span>
+        <br>
+        <a class=heading href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
+        &middot; <a class=heading href=help.php><b><nobr>".tr(HOME_HELP)."</nobr></b></a> 
+        &middot; <a class=heading href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
+        &middot; <a class=heading href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
+        &middot; <a class=heading href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
+        </center>
         </td></tr>
         <tr><td>
         <p>
@@ -71,47 +76,48 @@ function show_participate() {
         </ol>
         <p>
         ".sprintf(tr(HOME_P2), "<a href=trac/wiki/AccountManagers>", "</a>", "<a href=http://www.gridrepublic.org>", "</a>", "<a href=http://bam.boincstats.com/>", "</a>")."
-        <p>
-        ".sprintf(tr(HOME_P3), "<a href=help.php>", "</a>")."
         </td></tr>
     ";
 }
 
 function show_create() {
     echo "
-        <tr><td class=fieldname><font size=4>Compute with BOINC</font></td></tr>
+        <tr><td class=fieldname>
+        <center>
+        <span class=section_title>Compute with BOINC</span>
+        <br>
+        <a class=heading href=trac/wiki/CreateProjectOutline>Documentation</a>
+        &middot; <a class=heading href=trac/wiki/ServerUpdates>Updates</a>
+        &middot; <a class=heading href=trac/wiki/ConferenceList>Conferences</a>
+        </center>
+        </td></tr>
         <tr><td>
-        Learn how to <a href=trac/wiki/CreateProjectOutline>create
-        and operate a BOINC project</a>.
-        <ul>
-        <li> <b>Scientists</b>: if your group has moderate
+        <b>Scientists</b>: if your group has moderate
         programming, web, sysadmin, and hardware resources,
         you can use BOINC to create a
         <a href=volunteer.php>volunteer computing project</a>.
-        A BOINC project with a single Linux server
-        can provide computing power equivalent
-        to a cluster with tens of thousands of CPUs.
-        <li>
+        With a single Linux server you can get
+        the computing power of thousands of CPUs.
         Organizations such as IBM World Community Grid may be able
         to host your project
         (please <a href=trac/wiki/ProjectPeople>contact us</a> for information).
-        <li> <b>Universities</b>: use BOINC to create a
-            <a href=trac/wiki/VirtualCampusSupercomputerCenter>Virtual Campus Supercomputing Center</a>.
-        <li> <b>Companies</b>:
-            use BOINC for <a href=dg.php>desktop Grid computing</a>.
-        </ul>
-        Current projects:
-        <ul>
-        <li> check for <a href=trac/wiki/ServerUpdates>server software updates</a>.
-        <li> consider publishing in <a href=trac/wiki/ConferenceList>conferences related to volunteer computing</a>.
-        </ul>
+        <br>
+        <b>Universities</b>: use BOINC to create a
+        <a href=trac/wiki/VirtualCampusSupercomputerCenter>Virtual Campus Supercomputing Center</a>.
+        <br>
+        <b>Companies</b>:
+        use BOINC for <a href=dg.php>desktop Grid computing</a>.
         </td></tr>
     ";
 }
 
 function show_other() {
     echo "
-        <tr><td class=fieldname><font size=4>Other info</font></td></tr>
+        <tr><td class=fieldname>
+        <center>
+        <span class=section_title>The BOINC project</span>
+        </center>
+        </td></tr>
         <tr><td>
             <ul>
             <li> <a href=trac/wiki/BoincIntro/>Overview</a>
@@ -195,39 +201,26 @@ echo "
 <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
 <body bgcolor=#ffffff>
-<table border=0><tr><td valign=top>
-<img hspace=40 vspace=10 align=left src=logo/www_logo.gif>
-</td><td>
-<span class=title>
-".tr(HOME_BOINC)."
+<table width=100% border=0><tr><td valign=top>
+<img hspace=20 vspace=6 align=left src=logo/www_logo.gif>
+</td><td align=center>
+<span class=subtitle>
+".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php><nobr>', '</nobr></a>', '<a href=dg.php><nobr>', '</nobr></a>')."
 </span>
-</td></tr>
-<tr><td colspan=2>
-<span class=subtitle> &nbsp;
-".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php>', '</a>', '<a href=dg.php>', '</a>')."
-</span>
-</td></tr></table>
-<br clear=all>
-<table width=100% border=0 cellpadding=8 cellspacing=0><tr><td valign=center>
-<a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-| <a href=trac/wiki/RunningBoinc><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
-| <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
-| <a href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
-| <a href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
-</td><td align=right>
+<table><tr><td>
 ";
 language_form();
+echo "</td><td>";
 search_form();
 echo "
 </td></tr></table>
-
+</td></tr></table>
 <table width=100% border=0 cellspacing=0 cellpadding=4>
 <tr>
 <td valign=top>
 <table width=100% border=0 cellspacing=0 cellpadding=8>
 ";
 show_participate();
-show_participant();
 show_create();
 show_other();
 show_nsf();
@@ -238,9 +231,8 @@ echo "
 echo " <td valign=top width=390>
 ";
 
+show_participant();
 show_news_items();
-echo "<table>";
-echo "</table>";
 
 echo "
 </td></tr>
