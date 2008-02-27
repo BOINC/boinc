@@ -1670,7 +1670,7 @@ Charlie Feb 26 2008
     mac_build/
         Mac_SA_Secure.sh
 
-Charlie Feb 25 2008
+Charlie Feb 26 2008
     - Mac SCR: Add a test to directly determine when a graphics application window 
         obscures our moving logo animation; if so, stop showing moving logo to avoid 
         wasting CPU cycles. 
@@ -1682,3 +1682,15 @@ Charlie Feb 25 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie Feb 27 2008
+    Mac: In build scripts: fix bug, add checks for needed SDKs; update build 
+        documentation (from Bernd Machenschalk.)
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        buildc-ares.sh
+        buildcurl.sh
+        buildjpeg.sh
+        buildWxMac.sh
+        setupForBOINC.sh
