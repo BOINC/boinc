@@ -51,6 +51,7 @@
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
 		DD1C82310AF372D900F709AC /* sg_CustomControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */; };
 		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
+		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
 		DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */; };
 		DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */; };
@@ -331,7 +332,6 @@
 		DDFD5F2E0818F3A1002B23D4 /* util.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.C */; };
 		DDFE84E50B60CD66009B43D9 /* DlgAdvPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFE84E10B60CD66009B43D9 /* DlgAdvPreferences.cpp */; };
 		DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */; };
-		DDFE854B0B60CFD0009B43D9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DDFF2AE90A53D599002BC19D /* setprojectgrp.C in Sources */ = {isa = PBXBuildFile; fileRef = DDFF2AE80A53D599002BC19D /* setprojectgrp.C */; };
 /* End PBXBuildFile section */
 
@@ -931,9 +931,9 @@
 				DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */,
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
-				DDFE854B0B60CFD0009B43D9 /* AppKit.framework in Frameworks */,
 				DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */,
 				DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */,
+				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
