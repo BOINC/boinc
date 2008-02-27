@@ -25,7 +25,7 @@
 #
 # by Charlie Fenton 7/21/06
 # Bug fix for wxMac-2.6.3 7/26/07
-# Updated for curl-7.18.0, c-ares-1.5.1 and wxMac-2.8.7 1/29/08
+# Updated for curl-7.18.0, c-ares-1.5.1 and wxMac-2.8.7 2/27/08
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -55,7 +55,7 @@ echo "------- BUILD C-ARES-1.5.1 -------"
 echo "----------------------------------"
 echo ""
 
-cd ../../c-ares-1.15.1/
+cd ../../c-ares-1.5.1/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildc-ares.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi

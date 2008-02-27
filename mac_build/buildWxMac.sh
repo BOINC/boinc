@@ -23,7 +23,7 @@
 # Script to build the wxMac-2.8.7 library for BOINC as a Universal Binary
 #
 # by Charlie Fenton    7/21/06
-# Updated for wx-Mac 2.8.7 12/19/07
+# Updated for wx-Mac 2.8.7 2/27/08
 
 #
 ## In Terminal, CD to the wxMac-2.8.7 directory.
@@ -39,6 +39,18 @@ if [ "$1" = "-clean" ]; then
   doclean="clean "
 else
   doclean=""
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
+    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
+    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
 fi
 
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then

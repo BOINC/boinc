@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 1/29/08
+# Updated 2/27/08
 #
 ## In Terminal, CD to the curl-7.18.0 directory.
 ##     cd [path]/curl-7.18.0/
@@ -66,6 +66,18 @@ if [ "$1" = "-gcc33" ] || [ "$2" = "-gcc33" ]; then
     usegcc33=1
 else
     usegcc33=0
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
+    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
+    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
 fi
 
 export PATH=/usr/local/bin:$PATH

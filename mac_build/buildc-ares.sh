@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 1/29/08
+# Updated 2/27/08
 #
 ## In Terminal, CD to the c-ares-1.5.1 directory.
 ##     cd [path]/c-ares-1.5.1/
@@ -60,6 +60,18 @@ fi
 if [ $AlreadyBuilt -ne 0 ]; then
     echo "c-ares-1.5.1 already built"
     return 0
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
+    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
+    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
 fi
 
 if [ "$1" = "-gcc33" ] || [ "$2" = "-gcc33" ]; then
