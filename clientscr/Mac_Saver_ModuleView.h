@@ -42,7 +42,7 @@
 @end
 
 int initBOINCSaver(Boolean ispreview);
-int getSSMessage(char **theMessage);
+int getSSMessage(char **theMessage, int* coveredFreq);
 void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);
 extern void print_to_log_file(const char *format, ...);

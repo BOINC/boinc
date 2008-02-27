@@ -24,6 +24,7 @@
 
 #import "Mac_Saver_ModuleView.h"
 #include <Carbon/Carbon.h>
+#include <AppKit/AppKit.h>
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -161,7 +162,6 @@ int signof(float x) {
 
     if ( [ self isPreview ] )
         return;
-
     closeBOINCSaver();
 }
 
@@ -173,7 +173,10 @@ int signof(float x) {
 
 - (void)animateOneFrame {
     int newFrequency = 0;
+    int coveredFreq = 0;
     NSRect theFrame = [ self frame ];
+    int myWindowNumber;
+    int windowList[1];
     NSRect currentDrawingRect, eraseRect;
     NSPoint imagePosition;
     Rect r;
@@ -214,7 +217,32 @@ int signof(float x) {
 
     NSRect viewBounds = [self bounds];
 
-    newFrequency = getSSMessage(&msg);
+    newFrequency = getSSMessage(&msg, &coveredFreq);
+
+    // NOTE: My tests seem to confirm that the first window returned by NSWindowList
+    // is always the top window.  However, Apple's documentation is unclear whether 
+    // we can depend on this.  So I am adding some safety by doing two things:
+    // [1] Only use the NSWindowList test when we have started project graphics.
+    // [2] Assume that our window is covered 45 seconds after starting project 
+    //     graphics even if the NSWindowList test did not indicate that is so.
+    //
+    // getSSMessage() returns a non-zero value for coveredFreq only if we have started 
+    // project graphics.
+    //
+    // If we should use a different frequency when our window is covered by another 
+    // window, then check whether there is a window at a higher z-level than ours.
+    if (coveredFreq) {
+        myWindowNumber = [ myWindow windowNumber ];
+
+        windowList[0] = 0;
+        NSWindowList(1, windowList);
+        if (windowList[0] != myWindowNumber) {
+            // Project graphics application has a window open above ours
+            // Don't waste CPU cycles since our window is obscured by application graphics
+            newFrequency = coveredFreq;
+            msg = NULL;
+        }
+    }
     
     // Clear the previous drawing area
     currentDrawingRect = gMovingRect;

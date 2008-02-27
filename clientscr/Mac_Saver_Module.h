@@ -33,7 +33,7 @@ extern "C" {
 #endif
 
 int initBOINCSaver(Boolean ispreview);
-int getSSMessage(char **theMessage);
+int getSSMessage(char **theMessage, int* coveredFreq);
 void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);
 void print_to_log_file(const char *format, ...);
@@ -132,7 +132,7 @@ protected:
     char*           m_CurrentBannerMessage;
     char*           m_BrandText;
 public:
-    int             getSSMessage(char **theMessage);
+    int             getSSMessage(char **theMessage, int* coveredFreq);
     void            drawPreview(CGContextRef myContext);
     void            ShutdownSaver();
 

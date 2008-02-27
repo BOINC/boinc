@@ -1390,8 +1390,7 @@ Charlie Feb 14 2008
     clientscr/
         mac_saver_module.cpp
         Mac_Saver_Module.h
-        Mac_Saver_ModuleView.m
-        Mac_Saver_ModuleView.h
+        Mac_Saver_ModuleView.m,h
         screensaver.cpp
         res/
             boinc_ss_logo.png (new)
@@ -1466,9 +1465,8 @@ Charlie Feb 19 2008
     clientscr/
         mac_saver_module.cpp
         Mac_Saver_Module.h
-        Mac_Saver_ModuleView.m
-        Mac_Saver_ModuleView.h
-        screensaver.cpp
+        Mac_Saver_ModuleView.m,h
+         screensaver.cpp
         screensaver_win.cpp
 
 Charlie Feb 20 2008
@@ -1640,7 +1638,7 @@ Charlie Feb 25 2008
 Charlie Feb 25 2008
     - Mac SCR: Display "Starting screensaver graphics. Please wait ..." 
         for 45 seconds each time we start graphics from a different application.
-        The application graphics window will hode this when it opens, so we 
+        The application graphics window will hide this when it opens, so we 
         stop showing it after 45 seconds to avoid wasting CPU cycles. 
         
     clientscr/
@@ -1671,3 +1669,13 @@ Charlie Feb 26 2008
         
     mac_build/
         Mac_SA_Secure.sh
+
+Charlie Feb 25 2008
+    - Mac SCR: Add a test to directly determine when a graphics application window 
+        obscures our moving logo animation; if so, stop showing moving logo to avoid 
+        wasting CPU cycles. 
+
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m,h

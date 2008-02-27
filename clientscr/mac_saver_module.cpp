@@ -89,7 +89,7 @@ const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support graphic
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
 const char *  BOINCTestmodeMsg = "BOINC screensaver test: success.";
 const char *  BOINCV5GFXDaemonMsg = "BOINC can't display graphics from older applications when running as a daemon.";
-const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics. Please wait ...";
+const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics.\nPlease wait ...";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
@@ -104,8 +104,8 @@ int initBOINCSaver(Boolean ispreview) {
     return gspScreensaver->Create();
 }
 
-int getSSMessage(char **theMessage) {
-    return gspScreensaver->getSSMessage(theMessage);
+int getSSMessage(char **theMessage, int* coveredFreq) {
+    return gspScreensaver->getSSMessage(theMessage, coveredFreq);
 };
 
 
@@ -277,8 +277,9 @@ OSStatus CScreensaver::initBOINCApp() {
 
 
 // Returns new desired Animation Frequency (per second) or 0 for no change
-int CScreensaver::getSSMessage(char **theMessage) {
+int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     int newFrequency = TEXTLOGOFREQUENCY;
+    *coveredFreq = 0;
     pid_t myPid;
     OSStatus err;
     
@@ -340,8 +341,22 @@ int CScreensaver::getSSMessage(char **theMessage) {
         case SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING:
         case SCRAPPERR_SCREENSAVERRUNNING:
 #if ! ALWAYS_DISPLAY_PROGRESS_TEXT
+            // NOTE: My tests seem to confirm that the first window returned by NSWindowList
+            // is always the top window.  However, Apple's documentation is unclear whether 
+            // we can depend on this.  So I am adding some safety by doing two things:
+            // [1] Only use the NSWindowList test when we have started project graphics.
+            // [2] Assume that our window is covered 45 seconds after starting project 
+            //     graphics even if the NSWindowList test did not indicate that is so.
+            //
+            // The -animateOneFrame method in Mac_SaverModuleView.m does the NSWindowList test 
+            // only if we return a non-zero value for coveredFreq.
+            //
+            // Tell the calling routine to set the frame rate to NOTEXTLOGOFREQUENCY if 
+            // NSWindowList indicates that science app graphics window has covered our window.
+            *coveredFreq = NOTEXTLOGOFREQUENCY;
             if (m_iGraphicsStartingMsgCounter > 0) {
-                // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
+                // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds or until 
+                // NSWindowList indicates that science app graphics window has covered our window
                 setSSMessageText(ScreenSaverAppStartingMsg);
                 m_iGraphicsStartingMsgCounter--;
             } else {
@@ -389,8 +404,9 @@ int CScreensaver::getSSMessage(char **theMessage) {
 
     if (m_MessageText[0]) {
         newFrequency = TEXTLOGOFREQUENCY;
-    } else
+    } else {
         newFrequency = NOTEXTLOGOFREQUENCY;
+    }
     
     *theMessage = m_MessageText;
     return newFrequency;
