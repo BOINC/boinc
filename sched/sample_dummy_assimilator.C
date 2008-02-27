@@ -21,6 +21,8 @@
 
 #include "config.h"
 #include <cstdio>
+#include <cstdlib>
+#include <string>
 
 #include "boinc_db.h"
 #include "sched_msgs.h"

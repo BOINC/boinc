@@ -24,6 +24,8 @@
 
 #include "config.h"
 #include <vector>
+#include <cstdlib>
+#include <string>
 
 #include "boinc_db.h"
 #include "error_numbers.h"

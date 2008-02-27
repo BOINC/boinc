@@ -23,7 +23,9 @@
 
 #include "config.h"
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <string>
 
 #include "boinc_db.h"
 #include "error_numbers.h"

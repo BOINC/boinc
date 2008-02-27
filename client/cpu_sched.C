@@ -41,16 +41,19 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef SIM
-#include "sim.h"
-#else
-#include "client_state.h"
-#endif
+#include <string>
+#include <cstring>
 #include "client_msgs.h"
 #include "str_util.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "log_flags.h"
+
+#ifdef SIM
+#include "sim.h"
+#else
+#include "client_state.h"
+#endif
 
 using std::vector;
 

@@ -22,6 +22,7 @@
 #include "config.h"
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 #include <unistd.h>
 
 #include "shmem.h"

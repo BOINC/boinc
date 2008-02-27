@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 
+#include <cstring>
 #include "parse.h"
 #include "error_numbers.h"
 #include "client_msgs.h"

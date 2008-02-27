@@ -31,7 +31,7 @@
 #include <unistd.h>
 #endif
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <time.h>
 
 #include "boinc_db.h"

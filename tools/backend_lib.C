@@ -20,6 +20,7 @@
 #include "config.h"
 #include <cstdlib>
 #include <cstring>
+#include <string>
 #include <ctime>
 #include <cassert>
 #include <unistd.h>

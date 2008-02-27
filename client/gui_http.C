@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 
+#include <cstring>
 #include "client_state.h"
 #include "filesys.h"
 #include "error_numbers.h"

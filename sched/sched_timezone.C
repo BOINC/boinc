@@ -23,6 +23,7 @@
 #include "config.h"
 #include <string>
 #include <stdio.h>
+#include <cstring>
 
 #include "parse.h"
 

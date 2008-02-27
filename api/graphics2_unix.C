@@ -26,6 +26,7 @@
 #include <unistd.h> 
 #include <pthread.h> 
 #include <signal.h>
+#include <cstring>
 #include "x_opengl.h"
 
 #include "app_ipc.h"

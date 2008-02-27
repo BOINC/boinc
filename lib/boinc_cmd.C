@@ -31,6 +31,7 @@
 #ifndef _WIN32
 #include "config.h"
 #include <cstdio>
+#include <cstring>
 #include <unistd.h>
 #endif
 

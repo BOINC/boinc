@@ -26,6 +26,7 @@
 #else
 #include "config.h"
 #include <cstdlib>
+#include <cstring>
 #include <cstdio>
 #include <cstdarg>
 #include <sys/types.h>

@@ -31,6 +31,8 @@ using namespace std;
 
 #include "config.h"
 #include <unistd.h>
+#include <cstdlib>
+#include <string>
 
 #include "boinc_db.h"
 #include "util.h"

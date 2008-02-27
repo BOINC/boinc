@@ -94,6 +94,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <string>
 #include <ctime>
 #include <csignal>
 #include <unistd.h>

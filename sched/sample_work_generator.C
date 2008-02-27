@@ -30,6 +30,9 @@
 //   and sequence number, so that they're unique.
 
 #include <unistd.h>
+#include <cstdlib>
+#include <string>
+#include <cstring>
 
 #include "boinc_db.h"
 #include "error_numbers.h"

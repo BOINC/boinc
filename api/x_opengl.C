@@ -22,7 +22,8 @@
 #include <stdio.h>    
 #include <setjmp.h>    
 #include <unistd.h> 
-#include <pthread.h> 
+#include <pthread.h>
+#include <cstring>
 #include <signal.h>
 #include "x_opengl.h"
 
@@ -69,13 +70,13 @@ static bool suspend_render = false;
 
 // glutGet(GLUT_INIT_STATE) returns freegluts state.  Determines
 // when to call glutInit again to reinitialize it.
-// 
+//
 #ifndef GLUT_INIT_STATE
 #define GLUT_INIT_STATE 0x007C
 #endif
 
 // Simple defines for checking freeglut states
-// 
+//
 
 // Check whether freeglut is initialized.  Necessary
 // since it deinitializes itself when the window is
@@ -89,7 +90,7 @@ static bool suspend_render = false;
 // causes SIGABRT, so we hide and reshow windows instead
 // of creating and deleting them.  (Talking freeglut here)
 // note - make sure glutInit is called before checking,
-// otherwise freeglut will SIGABRT. 
+// otherwise freeglut will SIGABRT.
 //
 #define GLUT_HAVE_WINDOW ((bool)(glutGetWindow()!=0))
 
@@ -98,7 +99,7 @@ static bool suspend_render = false;
 // and avoid SIGABRTs.  Initialize the flag to 'true' and the
 // init code in boinc_glut_init() will check whether we have
 // openglut or freeglut, resetting the variable as necessary.
-// 
+//
 // Linux systems ship with freeglut, so default is 'true' and
 // its checked.
 //

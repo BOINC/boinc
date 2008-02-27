@@ -19,6 +19,9 @@
 
 // scheduler code related to sending work
 
+#include <cstdlib>
+#include <string>
+#include <cstring>
 
 #include "config.h"
 #include "main.h"

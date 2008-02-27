@@ -47,6 +47,7 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #endif
 #include <sys/stat.h>
 #include <syslog.h>
+#include <cstdlib>
 #include <unistd.h>
 #include <csignal>
 #endif

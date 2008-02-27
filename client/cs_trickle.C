@@ -24,6 +24,7 @@
 #include "config.h"
 #endif
 
+#include <cstring>
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"

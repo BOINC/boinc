@@ -26,6 +26,7 @@
 #include <string>
 #include <ctime>
 #include <cstdio>
+#include <cstring>
 #include <stdlib.h>
 
 using namespace std;

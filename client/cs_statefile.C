@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 
+#include <cstring>
 #include "parse.h"
 #include "str_util.h"
 #include "util.h"

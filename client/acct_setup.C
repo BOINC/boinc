@@ -25,6 +25,7 @@
 #include "config.h"
 #endif
 
+#include <cstring>
 #include "client_state.h"
 #include "file_names.h"
 #include "parse.h"

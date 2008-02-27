@@ -23,6 +23,7 @@
 
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 #include "boinc_db.h"
 #include "error_numbers.h"

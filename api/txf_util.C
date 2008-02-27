@@ -24,6 +24,7 @@
 #include "boinc_win.h"
 #endif
 
+#include <cstring>
 #include "filesys.h"
 #include "boinc_api.h"
 

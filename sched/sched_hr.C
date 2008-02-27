@@ -23,6 +23,8 @@
 #include <ctime>
 #include <cstdio>
 #include <stdlib.h>
+#include <cstring>
+#include <string>
 
 #include "error_numbers.h"
 

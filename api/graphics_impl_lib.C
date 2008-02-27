@@ -24,6 +24,7 @@
 #include "boinc_win.h"
 #endif
 
+#include <cstring>
 #include "config.h"
 #include "app_ipc.h"
 #include "graphics_impl.h"

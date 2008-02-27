@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <cstring>
 #include <cstdio>
 
 #ifdef _USING_FCGI_

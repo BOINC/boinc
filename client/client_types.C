@@ -27,6 +27,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <zlib.h>
+#include <cstring>
 #endif
 
 #include "error_numbers.h"

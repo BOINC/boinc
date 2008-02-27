@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+#include <cstring>
 #include "parse.h"
 #include "error_numbers.h"
 #include "filesys.h"

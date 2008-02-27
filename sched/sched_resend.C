@@ -26,6 +26,10 @@
 //   this result may have been the cause of reset
 //   (need to pass last reset time from client)
 
+#include <cstdlib>
+#include <cstring>
+#include <string>
+
 #include "config.h"
 #include "error_numbers.h"
 

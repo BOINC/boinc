@@ -23,6 +23,7 @@
 // or that requires strict equality (see sample_bitwise_validator.C)
 // or that uses fuzzy comparison.
 
+#include <cstring>
 #include "config.h"
 
 #include "error_numbers.h"

@@ -22,8 +22,10 @@
 #include "config.h"
 #include <cassert>
 #include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <ctime>
 #include <cmath>
 using namespace std;

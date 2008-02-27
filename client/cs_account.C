@@ -31,6 +31,8 @@
 #endif
 #endif
 
+#include <algorithm>
+#include <cstring>
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"

@@ -26,6 +26,7 @@
 #include <sys/stat.h>
 #endif
 
+#include <cstring>
 #include "shmem.h"
 #include "filesys.h"
 #include "app_ipc.h"

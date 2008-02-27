@@ -31,7 +31,10 @@ using namespace std;
 #include "config.h"
 #include <vector>
 #include <unistd.h>
+#include <cstring>
 #include <climits>
+#include <cstdlib>
+#include <string>
 #include <sys/time.h>
 
 #include "boinc_db.h"

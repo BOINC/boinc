@@ -20,6 +20,7 @@
 #include <cassert>
 #include <vector>
 #include <string>
+#include <cstring>
 using namespace std;
 
 #include "parse.h"

@@ -33,7 +33,7 @@
 #include <unistd.h>
 #endif
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 
 #include "boinc_db.h"
 #include "str_util.h"

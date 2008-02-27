@@ -30,6 +30,7 @@
 #include "config.h"
 #include <cstdio>
 #include <cstring>
+#include <string>
 #include <cstdlib>
 #include <unistd.h>
 

@@ -56,6 +56,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <string>
 
 #include "boinc_db.h"
 #include "crypt.h"

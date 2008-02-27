@@ -19,6 +19,10 @@
 
 // syntax: sign_executable data_file private_key_file
 
+#include <cstdlib>
+#include <string>
+#include <cstring>
+
 #include "config.h"
 #include "crypt.h"
 #include "backend_lib.h"

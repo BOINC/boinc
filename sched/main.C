@@ -30,8 +30,10 @@
 #include "config.h"
 #include <cassert>
 #include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <string>
+#include <cstring>
 using namespace std;
 
 #include <unistd.h>

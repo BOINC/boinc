@@ -32,6 +32,7 @@
 #include <sys/socket.h>
 #endif
 
+#include <cstring>
 #include "parse.h"
 #include "util.h"
 #include "filesys.h"

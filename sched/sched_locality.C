@@ -22,6 +22,7 @@
 #include "config.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <cstdlib>
 #include <strings.h>
 #include <glob.h>
 #include <sys/stat.h>

@@ -25,6 +25,7 @@
 #include "config.h"
 #endif
 
+#include <cstring>
 #include "diagnostics.h"
 #include "boinc_api.h"
 #include "graphics_impl.h"

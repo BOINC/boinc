@@ -23,6 +23,7 @@
 
 #ifndef _WIN32
 #include "config.h"
+#include <cstring>
 #include <string>
 #endif
 

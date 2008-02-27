@@ -29,6 +29,7 @@
 #endif
 
 #include "config.h"
+#include <cstring>
 #include <dlfcn.h>
 
 #include "boinc_api.h"  

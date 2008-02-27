@@ -40,6 +40,8 @@ using namespace std;
 #include <climits>
 #include <cmath>
 #include <vector>
+#include <cstdlib>
+#include <string>
 
 #include "boinc_db.h"
 #include "util.h"
