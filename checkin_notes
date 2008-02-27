@@ -1679,3 +1679,6 @@ Charlie Feb 25 2008
         mac_saver_module.cpp
         Mac_Saver_Module.h
         Mac_Saver_ModuleView.m,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
