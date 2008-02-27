@@ -157,6 +157,7 @@ int main(int argc, const char** argv) {
         } else if (arg(argv, i, "additional_xml")) {
             strcpy(additional_xml, argv[++i]);
         } else if (arg(argv, i, "assign_all")) {
+            assign_multi = true;
             assign_flag = true;
             assign_type = ASSIGN_NONE;
         } else if (arg(argv, i, "assign_host")) {

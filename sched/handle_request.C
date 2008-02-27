@@ -1103,7 +1103,6 @@ void process_request(
         sreq.core_client_major_version, sreq.core_client_minor_version,
         sreq.core_client_release
     );
-    ++log_messages;
 
     // is host blacklisted?
     //
@@ -1250,9 +1249,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
 
     memset(&sreq, 0, sizeof(sreq));
 
-#ifdef _USING_FCGI_
     log_messages.set_indent_level(1);
-#endif
 
     if (sreq.parse(fin) == 0){
         log_messages.printf(MSG_NORMAL,
@@ -1263,11 +1260,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
              (int)sreq.work_req_seconds
         );
         process_request(sreq, sreply, code_sign_key);
-
-#ifdef _USING_FCGI_
 		log_messages.set_indent_level(2);
-#endif
-
     } else {
         // BOINC scheduler requests use method POST.
         // So method GET means that someone is trying a browser.
@@ -1276,11 +1269,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         if (rm && !strcmp(rm, "GET")) {
             sreply.probable_user_browser=true;
         }
-
-#ifdef _USING_FCGI_
 		log_messages.set_indent_level(2);
-#endif
-
         log_messages.printf(MSG_NORMAL,
             "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%d.%d\n",
             sreply.probable_user_browser?"(probably a browser) ":"",

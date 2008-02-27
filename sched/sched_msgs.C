@@ -36,11 +36,6 @@ bool SCHED_MSG_LOG::v_message_wanted(int kind) const {
     return ( kind <= debug_level );
 }
 
-#ifdef _USING_FCGI_
-SCHED_MSG_LOG::~SCHED_MSG_LOG() {
-   close();
-}
-
 void SCHED_MSG_LOG::set_indent_level(const int new_indent_level) {
     if (new_indent_level < 0) indent_level = 0;
     else if (new_indent_level > 39) indent_level = 39;
@@ -48,6 +43,12 @@ void SCHED_MSG_LOG::set_indent_level(const int new_indent_level) {
 
     memset(spaces, ' ', sizeof(spaces));
     spaces[indent_level] = 0;
+}
+
+#ifdef _USING_FCGI_
+
+SCHED_MSG_LOG::~SCHED_MSG_LOG() {
+   close();
 }
 
 void SCHED_MSG_LOG::close() {
@@ -69,6 +70,5 @@ void SCHED_MSG_LOG::flush() {
     }
 }
 #endif
-
 
 const char *BOINC_RCSID_b40ff9bb53 = "$Id$";

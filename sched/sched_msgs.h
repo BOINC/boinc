@@ -37,9 +37,9 @@ public:
     int debug_level;
     SCHED_MSG_LOG(): MSG_LOG(stderr) { debug_level = MSG_NORMAL; }
     void set_debug_level(int new_level) { debug_level = new_level; }
+    void set_indent_level(const int new_indent_level);
 #ifdef _USING_FCGI_
     ~SCHED_MSG_LOG();
-    void set_indent_level(const int new_indent_level);
     void redirect(FILE* f);
     void close();
     void flush();

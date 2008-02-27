@@ -1671,9 +1671,9 @@ Charlie Feb 26 2008
         Mac_SA_Secure.sh
 
 Charlie Feb 26 2008
-    - Mac SCR: Add a test to directly determine when a graphics application window 
-        obscures our moving logo animation; if so, stop showing moving logo to avoid 
-        wasting CPU cycles. 
+    - Mac SCR: Add a test to directly determine when a graphics application
+        window obscures our moving logo animation;
+        if so, stop showing moving logo to avoid wasting CPU cycles. 
 
     clientscr/
         mac_saver_module.cpp
@@ -1694,3 +1694,17 @@ Charlie Feb 27 2008
         buildjpeg.sh
         buildWxMac.sh
         setupForBOINC.sh
+
+David  Feb 27 2008
+    - Scheduler: fix bugs in work assignment feature
+
+    html/ops/
+        assign.php
+    sched/
+        handle_request.C
+        main.C
+        sched_assign.C
+        sched_msgs.C,h
+        sched_send.C
+    tools/
+        create_work.C

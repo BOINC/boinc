@@ -42,12 +42,16 @@ function show_assign($asgn) {
 function show_assigns() {
     admin_page_head("Assignments");
     $asgns = BoincAssignment::enum();
-    start_table();
-    table_header("Assignment ID/time", "target", "workunit", "result");
-    foreach ($asgns as $asgn) {
-        show_assign($asgn);
+    if (count($asgns)) {
+        start_table();
+        table_header("Assignment ID/time", "target", "workunit", "result");
+        foreach ($asgns as $asgn) {
+            show_assign($asgn);
+        }
+        end_table();
+    } else {
+        echo "No assignments";
     }
-    end_table();
     admin_page_tail();
 }
 

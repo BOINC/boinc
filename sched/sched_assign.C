@@ -53,17 +53,24 @@ static int send_assigned_job(
     }
     retval = wu.lookup_id(asg.workunitid);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "ERROR: WU NOT FOUND\n");
+        log_messages.printf(MSG_CRITICAL,
+            "assigned WU %d not found\n", asg.workunitid
+        );
         return retval;
     }
     app = ssp->lookup_app(wu.appid);
     if (!app) {
-        log_messages.printf(MSG_CRITICAL, "ERROR: APP NOT FOUND\n");
+        log_messages.printf(MSG_CRITICAL,
+            "app %d for assigned WU %d not found\n",
+            wu.appid, wu.id
+        );
         return ERR_NOT_FOUND;
     }
     bool found = find_app_version(request, reply.wreq, wu, app, avp);
     if (!found) {
-        log_messages.printf(MSG_CRITICAL, "ERROR: APP VERSION NOT FOUND\n");
+        log_messages.printf(MSG_CRITICAL,
+            "App version for assigned WU not found\n"
+        );
         return ERR_NOT_FOUND;
     }
 
@@ -84,13 +91,15 @@ static int send_assigned_job(
     // if this is a one-job assignment, fill in assignment.resultid
     // so that it doesn't get sent again
     //
-    if (!asg.multi) {
+    if (!asg.multi && asg.target_type!=ASSIGN_NONE) {
         DB_ASSIGNMENT db_asg;
         db_asg.id = asg.id;
         sprintf(buf, "resultid=%d", result_id);
         retval = db_asg.update_field(buf);
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "ERROR: ASGN UPDATE\n");
+            log_messages.printf(MSG_CRITICAL,
+                "assign update failed: %d\n", retval
+            );
             return retval;
         }
         asg.resultid = result_id;
@@ -114,6 +123,9 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
     for (int i=0; i<ssp->nassignments; i++) {
         ASSIGNMENT& asg = ssp->assignments[i];
 
+        log_messages.printf(MSG_NORMAL,
+            "processing assignment type %d\n", asg.target_type
+        );
         // see if this assignment applies to this host
         //
         if (asg.resultid) continue;
@@ -123,7 +135,7 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
                 reply.host.id, asg.workunitid
             );
             retval = result.lookup(buf);
-            if (retval == ERR_NOT_FOUND) {
+            if (retval == ERR_DB_NOT_FOUND) {
                 retval = send_assigned_job(asg, request, reply);
                 if (!retval) sent_something = true;
             }
@@ -132,7 +144,7 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
             if (reply.host.id != asg.target_id) continue;
             sprintf(buf, "where workunitid=%d", asg.workunitid);
             retval = result.lookup(buf);
-            if (retval == ERR_NOT_FOUND) {
+            if (retval == ERR_DB_NOT_FOUND) {
                 retval = send_assigned_job(asg, request, reply);
                 if (!retval) sent_something = true;
             }
@@ -145,7 +157,7 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
                 sprintf(buf, "where workunitid=%d", asg.workunitid);
             }
             retval = result.lookup(buf);
-            if (retval == ERR_NOT_FOUND) {
+            if (retval == ERR_DB_NOT_FOUND) {
                 retval = send_assigned_job(asg, request, reply);
                 if (!retval) sent_something = true;
             }
@@ -158,7 +170,7 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
                 sprintf(buf, "where workunitid=%d", asg.workunitid);
             }
             retval = result.lookup(buf);
-            if (retval == ERR_NOT_FOUND) {
+            if (retval == ERR_DB_NOT_FOUND) {
                 retval = send_assigned_job(asg, request, reply);
                 if (!retval) sent_something = true;
             }

@@ -58,7 +58,11 @@ using namespace std;
 #define FCGI_ToFILE(x) (x)
 #endif
 
+//#define MATCHMAKER
+
+#ifdef MATCHMAKER
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply);
+#endif
 
 const char* infeasible_string(int code) {
     switch (code) {
@@ -956,7 +960,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.wreq.infeasible_only = false;
         send_work_locality(sreq, reply);
     } else {
-#if 0
+#ifdef MATCHMAKER
         send_work_matchmaker(sreq, reply);
 #else
         // give top priority to results that require a 'reliable host'
@@ -1134,38 +1138,91 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 }
 
-#if 0
+#ifdef MATCHMAKER
+
+struct JOB{
+    int index;
+    double value;
+    double est_time;
+    double disk_usage;
+    APP* app;
+    APP_VERSION* avp;
+
+    void get_value(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+};
+
+struct JOB_SET {
+    double work_req;
+    double est_time;
+    double disk_usage;
+    double disk_limit;
+    std::list<JOB> jobs;     // sorted high to low
+
+    void add_job(JOB&);
+    double higher_value_disk_usage(double);
+    double lowest_value();
+    inline bool request_satisfied() {
+        return est_time >= work_req;
+    }
+    void send(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+};
+
+// reread result from DB, make sure it's still unsent
+// TODO: from here to add_result_to_reply()
+// (which updates the DB record) should be a transaction
+//
+int read_sendable_result(DB_RESULT& result) {
+    int retval = result.lookup_id(result.id);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "[RESULT#%d] result.lookup_id() failed %d\n",
+            result.id, retval
+        );
+        return ERR_NOT_FOUND;
+    }
+    if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
+        log_messages.printf(MSG_DEBUG,
+            "[RESULT#%d] expected to be unsent; instead, state is %d\n",
+            result.id, result.server_state
+        );
+        return ERR_BAD_RESULT_STATE;
+    }
+    return 0;
+}
 
 // compute a "value" for sending this WU to this host.
 // return 0 if the WU is infeasible
 //
-double value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, WU_RESULT& wu_result) {
+void JOB::get_value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool found;
-    APP* app;
-    APP_VERSION* avp;
     WORKUNIT wu;
     int retval;
 
+    WU_RESULT& wu_result = ssp->wu_results[index];
     wu = wu_result.workunit;
+
+    value = 0;
 
     // Find the app and app_version for the client's platform.
     //
     if (anonymous(sreq.platforms.list[0])) {
         app = ssp->lookup_app(wu.appid);
         found = sreq.has_version(*app);
-        if (!found) return 0;
+        if (!found) return;
         avp = NULL;
     } else {
         found = find_app_version(sreq, reply.wreq, wu, app, avp);
-        if (!found) return 0;
+        if (!found) return;
 
         // see if the core client is too old.
         // don't bump the infeasible count because this
         // isn't the result's fault
         //
-        if (!app_core_compatible(reply.wreq, *avp)) return 0;
+        if (!app_core_compatible(reply.wreq, *avp)) {
+            return;
+        }
     }
-    if (app == NULL) return 0; // this should never happen
+    if (app == NULL) return; // this should never happen
 
     retval = wu_is_infeasible(wu, sreq, reply, *app);
     if (retval) {
@@ -1173,29 +1230,32 @@ double value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, WU_RESULT& wu_resu
             "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
             reply.host.id, wu.id, wu.name, infeasible_string(retval)
         );
-        return 0;
+        return;
     }
 
+    value = 1;
     double val = 1;
     if (app->beta) {
         if (reply.wreq.host_info.allow_beta_work) {
-            val += 1;
+            value += 1;
         } else {
-            return 0;
+            value = 0;
+            return;
         }
     } else {
         if (reply.wreq.host_info.reliable && (wu_result.need_reliable)) {
-            val += 1;
+            value += 1;
         }
     }
     
     if (wu_result.infeasible_count) {
-        val += 1;
+        value += 1;
     }
-    return val;
 }
 
-bool wu_is_infeasible_slow(WU_RESULT& wu_result, SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+bool wu_is_infeasible_slow(
+    WU_RESULT& wu_result, SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+) {
     char buf[256];
     int retval;
     int n;
@@ -1271,23 +1331,10 @@ bool wu_is_infeasible_slow(WU_RESULT& wu_result, SCHEDULER_REQUEST& sreq, SCHEDU
     return false;
 }
 
-struct JOB{
-    int index;
-    double value;
-    double est_time;
-    double disk_usage;
-};
-
-struct JOB_SET {
-    double work_req;
-    double est_time;
-    double disk_usage;
-    double disk_limit;
-    std::list<JOB> jobs;     // sorted
-
-    void add_job(JOB&);
-    double higher_value_disk_usage(double);
-};
+double JOB_SET::lowest_value() {
+    if (jobs.empty()) return 0;
+    return jobs.back().value;
+}
 
 // add the given job, and remove lowest-value jobs
 // that are in excess of work request
@@ -1338,6 +1385,25 @@ double JOB_SET::higher_value_disk_usage(double v) {
     return sum;
 }
 
+void JOB_SET::send(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    WORKUNIT wu;
+    DB_RESULT result;
+    int retval;
+
+    list<JOB>::iterator i = jobs.begin();
+    while (i != jobs.end()) {
+        JOB& job = *i;
+        WU_RESULT wu_result = ssp->wu_results[job.index];
+        ssp->wu_results[job.index].state = WR_STATE_EMPTY;
+        wu = wu_result.workunit;
+        result.id = wu_result.resultid;
+        retval = read_sendable_result(result);
+        if (retval) continue;
+        add_result_to_reply(result, wu, sreq, reply, job.app, job.avp);
+        i++;
+    }
+}
+
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int i, slots_scanned=0, slots_locked=0;
     JOB_SET jobs;
@@ -1363,23 +1429,25 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
 
-        double v = value(sreq, reply, ssp->wu_results[i]);
-        if (v > jobs.lowest_value) {
-            ssp->wu_results[i] = pid;
+        JOB job;
+        job.index = i;
+        job.get_value(sreq, reply);
+        if (job.value > jobs.lowest_value()) {
+            ssp->wu_results[i].state = pid;
             unlock_sema();
             if (wu_is_infeasible_slow(wu_result, sreq, reply)) {
                 lock_sema();
-                ssp->wu_results[i] = WR_STATE_EMPTY;
+                ssp->wu_results[i].state = WR_STATE_EMPTY;
                 continue;
             }
             lock_sema();
-            jobs->add(i);
+            jobs.add_job(job);
         }
 
-        if (jobs->request_satisfied && slots_scanned>=MIN_SLOTS) break;
+        if (jobs.request_satisfied() && slots_scanned>=min_slots) break;
     }
 
-    jobs->send();
+    jobs.send(sreq, reply);
     unlock_sema();
     if (slots_locked > max_locked) {
         log_messages.printf(MSG_CRITICAL,

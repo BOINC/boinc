@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("Feb 27, 2008",
+    "Scientific progress goes BOINC!  Read about the
+    <a href=http://boinc.berkeley.edu/trac/wiki/ProjectPapers>Scientific
+    publications of BOINC-based projects</a>."
+),
 array("Feb 12, 2008",
     "Where is BOINC headed?  Marcin Cieslak's vision:
     <a href=http://boinc.berkeley.edu/cieslak.pdf>BOINC on JXTA</a>."

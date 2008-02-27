@@ -193,7 +193,7 @@ void log_request_info(int& length) {
     char *hu=getenv("HTTP_USER_AGENT");
 
     log_messages.printf(MSG_DEBUG,
-        "\nREQUEST_METHOD=%s "
+        "REQUEST_METHOD=%s "
         "CONTENT_TYPE=%s "
         "HTTP_ACCEPT=%s "
         "HTTP_USER_AGENT=%s\n",
@@ -202,8 +202,7 @@ void log_request_info(int& length) {
 
     if (!cl) {
         log_messages.printf(MSG_CRITICAL, "CONTENT_LENGTH environment variable not set\n");
-    }
-    else {
+    } else {
         length=atoi(cl);
         log_messages.printf(MSG_DEBUG, "CONTENT_LENGTH=%d from %s\n", length, ri?ri:"[Unknown]");
     }
