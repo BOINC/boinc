@@ -220,8 +220,9 @@ int signof(float x) {
     newFrequency = getSSMessage(&msg, &coveredFreq);
 
     // NOTE: My tests seem to confirm that the first window returned by NSWindowList
-    // is always the top window.  However, Apple's documentation is unclear whether 
-    // we can depend on this.  So I am adding some safety by doing two things:
+    // is always the top window under OS 10.5, but not under earlier systems.  However, 
+    // Apple's documentation is unclear whether we can depend on this.  So I have added 
+    // some safety by doing two things:
     // [1] Only use the NSWindowList test when we have started project graphics.
     // [2] Assume that our window is covered 45 seconds after starting project 
     //     graphics even if the NSWindowList test did not indicate that is so.

@@ -78,6 +78,8 @@ extern CFStringRef gPathToBundleResources;
 
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
+static long gSystemVersion = 0;
+
 
 const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
@@ -119,6 +121,7 @@ void closeBOINCSaver() {
 }
 
 CScreensaver::CScreensaver() {
+    OSStatus err;
     
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
@@ -144,6 +147,11 @@ CScreensaver::CScreensaver() {
     m_hGraphicsApplication = NULL;
     m_bResetCoreState = TRUE;
     rpc = 0;
+    
+    err = Gestalt(gestaltSystemVersion, &gSystemVersion);
+    if (err != noErr) {
+        gSystemVersion = 0;
+    }
 }
 
 
@@ -342,8 +350,9 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         case SCRAPPERR_SCREENSAVERRUNNING:
 #if ! ALWAYS_DISPLAY_PROGRESS_TEXT
             // NOTE: My tests seem to confirm that the first window returned by NSWindowList
-            // is always the top window.  However, Apple's documentation is unclear whether 
-            // we can depend on this.  So I am adding some safety by doing two things:
+            // is always the top window under OS 10.5, but not under earlier systems.  However, 
+            // Apple's documentation is unclear whether we can depend on this.  So I have added 
+            // some safety by doing two things:
             // [1] Only use the NSWindowList test when we have started project graphics.
             // [2] Assume that our window is covered 45 seconds after starting project 
             //     graphics even if the NSWindowList test did not indicate that is so.
@@ -353,7 +362,10 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             //
             // Tell the calling routine to set the frame rate to NOTEXTLOGOFREQUENCY if 
             // NSWindowList indicates that science app graphics window has covered our window.
-            *coveredFreq = NOTEXTLOGOFREQUENCY;
+
+            if (gSystemVersion >= 0x1050) {
+                *coveredFreq = NOTEXTLOGOFREQUENCY;
+            }
             if (m_iGraphicsStartingMsgCounter > 0) {
                 // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds or until 
                 // NSWindowList indicates that science app graphics window has covered our window
