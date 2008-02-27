@@ -687,10 +687,11 @@ Charlie Jan 17 2008
         check_security.C
     clientgui/
         mac/
-            Mac_SA_Secure.sh
             SetupSecurity.cpp
     doc/
         sandbox.php
+    mac_build/
+        Mac_SA_Secure.sh
 
 David  Jan 18 2008
     - scheduler: if get request w/o host ID,
@@ -1663,3 +1664,10 @@ David  Feb 26 2008
     tools/
         backend_lib.C
         create_work.C
+
+Charlie Feb 26 2008
+    - Mac sandbox: set ownership and permissions for gfx_switcher in screensaver 
+        if it exists.
+        
+    mac_build/
+        Mac_SA_Secure.sh
