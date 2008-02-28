@@ -232,18 +232,23 @@ wxInt32 CViewMessages::GetDocCount() {
 void CViewMessages::OnListRender (wxTimerEvent& event) {
     bool isConnected;
     static bool was_connected = false;
-    
+    static wxString strLastMachineName = wxEmptyString;
+    wxString strNewMachineName = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
         wxASSERT(m_pListPane);
 
+        isConnected = pDoc->IsConnected();
         wxInt32 iDocCount = GetDocCount();
         if (0 >= iDocCount) {
             m_pListPane->DeleteAllItems();
         } else {
             // If connection status changed, adjust color of messages display
-            isConnected = wxGetApp().GetDocument()->IsConnected();
             if (was_connected != isConnected) {
                 was_connected = isConnected;
                 if (isConnected) {
@@ -265,6 +270,16 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
 
         if ((iDocCount) && (_EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
             m_pListPane->EnsureVisible(iDocCount - 1);
+        }
+
+        if (isConnected) {
+            pDoc->GetConnectedComputerName(strNewMachineName);
+            if (strLastMachineName != strNewMachineName) {
+                strLastMachineName = strNewMachineName;
+                if (iDocCount) {
+                    m_pListPane->EnsureVisible(iDocCount - 1);
+                }
+            }
         }
 
         if (m_iPreviousDocCount != iDocCount) {

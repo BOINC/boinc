@@ -108,7 +108,6 @@ Charlie Jan 15 2008
         
     clientgui/
         MainDocument.cpp
-    clientgui/
         sg_DlgMessages.cpp
         ViewMessages.cpp
 
@@ -380,3 +379,11 @@ Rom    Feb 26 2008
     /
         configure.ac
         version.h
+
+Charlie Feb 28 2008
+    - MGR: When connected host has changed, clear all cached messages and 
+        resume auto-scrolling messages.
+        
+    clientgui/
+        MainDocument.cpp
+        ViewMessages.cpp
