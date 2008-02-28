@@ -1721,3 +1721,11 @@ Rom    Feb 27 2008
         
     lib/
         util.C
+
+Charlie Feb 28 2008
+    - MGR: When connected host has changed, clear all cached messages and 
+        resume auto-scrolling messages.
+        
+    clientgui/
+        MainDocument.cpp
+        ViewMessages.cpp

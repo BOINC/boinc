@@ -1299,11 +1299,20 @@ int CMainDocument::CachedMessageUpdate() {
     int retval;
     static bool in_this_func = false;
     static bool was_connected = false;
+    static wxString strLastMachineName = wxEmptyString;
+    wxString strNewMachineName = wxEmptyString;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
+        // If user changed the connected host while the messages tab was 
+        // not selected, we may not have registered the disconnect.
+        GetConnectedComputerName(strNewMachineName);
+        if (strLastMachineName != strNewMachineName) {
+            strLastMachineName = strNewMachineName;
+            was_connected = false;
+        }
         if (! was_connected) {
             ResetMessageState();
             was_connected = true;
