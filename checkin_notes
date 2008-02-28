@@ -1736,10 +1736,6 @@ Rytis   Feb 28 2008
     html/inc/
         forum.inc
 
-Rom    FEB 28 2008 (HEAD)
-    - Tag for 6.1.9 release, all platforms
-      boinc_core_release_6_1_9
-
 Charlie Feb 28 2008
     - MGR: When connected connecting to a different host, clear all cached 
         messages (a more efficient implementation).
@@ -1747,3 +1743,22 @@ Charlie Feb 28 2008
     clientgui/
         MainDocument.cpp
  
+Rom    Feb 28 2008
+    - CLI: CreateEnvironmentBlock always creates a Unicode Environment block.
+    - MGR: CreateProcessAsUser doesn't always error out when the ACLs haven't
+        been changed for a specific Desktop and WindowStation so go ahead
+        and Modify the ACLs with every call. It appears the ACLs revert
+        themselves after CreateProcessAsUser is called anyway.
+        
+    client/
+        app_start.C
+    lib/
+        util.C
+
+Rom    FEB 28 2008 (HEAD)
+    - Tag for 6.1.9 release, all platforms
+      boinc_core_release_6_1_9
+
+    /
+        configure.ac
+        version.h

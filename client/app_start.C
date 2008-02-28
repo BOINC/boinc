@@ -503,10 +503,6 @@ int ACTIVE_TASK::start(bool first_time) {
     get_sandbox_account_token();
     for (i=0; i<5; i++) {
         if (sandbox_account_token != NULL) {
-            // Forces system to create a new desktop and windowstation to host
-            // the application.
-            //
-            startup_info.lpDesktop = "";
 
             if (!CreateEnvironmentBlock(&environment_block, sandbox_account_token, FALSE)) {
                 if (log_flags.task) {
@@ -524,7 +520,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 NULL,
                 NULL,
                 FALSE,
-                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS|CREATE_UNICODE_ENVIRONMENT,
                 environment_block,
                 slotdirpath,
                 &startup_info,

@@ -367,7 +367,9 @@ int run_program(
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
+    LPVOID environment_block = NULL;
     char cmdline[1024];
+    char error_msg[1024];
     unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
@@ -392,20 +394,14 @@ int run_program(
         memset(szDesktopName, 0, sizeof(szDesktopName));
 
         // Retrieve the current window station and desktop names
-        GetUserObjectInformation(
-            GetProcessWindowStation(), 
-            UOI_NAME, 
-            szWindowStation,
-            sizeof(szWindowStation),
-            NULL
-        );
-        GetUserObjectInformation(
-            GetThreadDesktop(GetCurrentThreadId()), 
-            UOI_NAME, 
-            szDesktop,
-            sizeof(szDesktop),
-            NULL
-        );
+        if (!GetUserObjectInformation(GetProcessWindowStation(), UOI_NAME, szWindowStation, sizeof(szWindowStation), NULL)) {
+            windows_error_string(error_msg, sizeof(error_msg));
+            fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
+        }
+        if (!GetUserObjectInformation(GetThreadDesktop(GetCurrentThreadId()), UOI_NAME, szDesktop, sizeof(szDesktop), NULL)) {
+            windows_error_string(error_msg, sizeof(error_msg));
+            fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
+        }
 
         // Construct the destination desktop name
         strncat(szDesktopName, szWindowStation, sizeof(szDesktopName) - strlen(szDesktopName));
@@ -417,6 +413,21 @@ int run_program(
         //
         startup_info.lpDesktop = szDesktopName;
                  
+        // Add ACEs to the WindowStation and Desktop
+        if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
+            fprintf(stderr, "Failed to add ACE to current WindowStation\n");
+        }
+        if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
+            fprintf(stderr, "Failed to add ACE to current Desktop\n");
+        }
+
+        // Construct an environment block that contains environment variables that don't
+        //   describe the current user.
+        if (!CreateEnvironmentBlock(&environment_block, sandbox_account_token, FALSE)) {
+            windows_error_string(error_msg, sizeof(error_msg));
+            fprintf(stderr, "CreateEnvironmentBlock failed: %s\n", error_msg);
+        }
+
         retval = CreateProcessAsUser( 
             sandbox_account_token, 
             file, 
@@ -424,32 +435,16 @@ int run_program(
             NULL, 
             NULL, 
             FALSE, 
-            0, 
-            NULL, 
+            CREATE_NEW_PROCESS_GROUP|CREATE_UNICODE_ENVIRONMENT, 
+            environment_block, 
             dir, 
             &startup_info, 
             &process_info 
         );
-        if (!retval && GetLastError() == ERROR_ACCESS_DENIED) {
-            if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
-                fprintf(stderr, "Failed to add ACE to current WindowStation\n");
-            }
-            if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
-                fprintf(stderr, "Failed to add ACE to current Desktop\n");
-            }
-            retval = CreateProcessAsUser( 
-                sandbox_account_token, 
-                file, 
-                cmdline, 
-                NULL, 
-                NULL, 
-                FALSE, 
-                0, 
-                NULL, 
-                dir, 
-                &startup_info, 
-                &process_info 
-            );
+
+        if (!DestroyEnvironmentBlock(environment_block)) {
+            windows_error_string(error_msg, sizeof(error_msg));
+            fprintf(stderr, "DestroyEnvironmentBlock failed: %s\n", error_msg);
         }
     } else {
         retval = CreateProcess(
@@ -467,6 +462,8 @@ int run_program(
     }
 
     if (!retval) {
+        windows_error_string(error_msg, sizeof(error_msg));
+        fprintf(stderr, "CreateProcessAsUser failed: '%s'\n", error_msg);
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 
