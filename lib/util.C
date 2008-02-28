@@ -384,10 +384,38 @@ int run_program(
 
     get_sandbox_account_token();
     if (sandbox_account_token != NULL) {
-        // Forces system to create a new desktop and windowstation to host
-        // the application.
+        char szWindowStation[256];
+        char szDesktop[256];
+        char szDesktopName[512];
+        memset(szWindowStation, 0, sizeof(szWindowStation));
+        memset(szDesktop, 0, sizeof(szDesktop));
+        memset(szDesktopName, 0, sizeof(szDesktopName));
+
+        // Retrieve the current window station and desktop names
+        GetUserObjectInformation(
+            GetProcessWindowStation(), 
+            UOI_NAME, 
+            szWindowStation,
+            sizeof(szWindowStation),
+            NULL
+        );
+        GetUserObjectInformation(
+            GetThreadDesktop(GetCurrentThreadId()), 
+            UOI_NAME, 
+            szDesktop,
+            sizeof(szDesktop),
+            NULL
+        );
+
+        // Construct the destination desktop name
+        strncat(szDesktopName, szWindowStation, sizeof(szDesktopName) - strlen(szDesktopName));
+        strncat(szDesktopName, "\\", sizeof(szDesktopName) - strlen(szDesktopName));
+        strncat(szDesktopName, szDesktop, sizeof(szDesktopName) - strlen(szDesktopName));
+
+        // Tell CreateProcessAsUser which desktop to use explicitly. If the ACLs haven't
+        //   been configured to allow the sandbox account to run an access denied.
         //
-        startup_info.lpDesktop = "";
+        startup_info.lpDesktop = szDesktopName;
                  
         retval = CreateProcessAsUser( 
             sandbox_account_token, 
@@ -401,7 +429,28 @@ int run_program(
             dir, 
             &startup_info, 
             &process_info 
-        ); 
+        );
+        if (!retval && GetLastError() == ERROR_ACCESS_DENIED) {
+            if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
+                fprintf(stderr, "Failed to add ACE to current WindowStation\n");
+            }
+            if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
+                fprintf(stderr, "Failed to add ACE to current Desktop\n");
+            }
+            retval = CreateProcessAsUser( 
+                sandbox_account_token, 
+                file, 
+                cmdline, 
+                NULL, 
+                NULL, 
+                FALSE, 
+                0, 
+                NULL, 
+                dir, 
+                &startup_info, 
+                &process_info 
+            );
+        }
     } else {
         retval = CreateProcess(
             file,

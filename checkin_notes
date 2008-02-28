@@ -1711,3 +1711,13 @@ David  Feb 27 2008
 
 David  Feb 27 2008
     - changes to many files to fix gcc4.3 compile
+
+Rom    Feb 27 2008
+    - MGR/SCR: run_program should explicitly set the desktop
+        and window station to whichever desktop and window station
+        the app launching it belongs. If access is denied then
+        change the ACLs on the current desktop and window station
+        then attempt to relaunch the application.
+        
+    lib/
+        util.C
