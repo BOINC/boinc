@@ -947,6 +947,9 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     if (config.enable_assignment) {
         if (send_assigned_jobs(sreq, reply)) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] sent assigned jobs\n", reply.host.id
+            );
             return;
         }
     }

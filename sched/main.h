@@ -52,9 +52,12 @@
     // client asked for work but we didn't send any,
     // because of a reason not easily changed
     // (like wrong kind of computer)
-#define DELAY_NO_WORK_CACHE         20*60
+#define DELAY_NO_WORK_CACHE         0
     // client asked for work but we didn't send any,
     // because user had too many results in cache.
+    // Rely on client's exponential backoff
+#define DELAY_MAX (2*86400)
+    // maximum delay request
 
 extern SCHED_CONFIG config;
 extern GUI_URLS gui_urls;

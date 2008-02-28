@@ -1762,3 +1762,22 @@ Rom    Feb 28 2008 (HEAD)
     /
         configure.ac
         version.h
+
+David  Feb 28 2008
+    - make_project: initialize send_result_abort=1 in config file
+    - web: "least recent" => "oldest", "most recent" => "newest"
+    - scheduler: change DELAY_NO_WORK_CACHE from 20 min to 0.
+        Otherwise, a host that has max_wus_in_progress,
+        completes one, and sends a work request before the upload is finished
+        will delay (and maybe sit idle) for 20 min.
+        Better to have a few extra scheduler requests
+        and let the client's backoff take care of things.
+
+    html/inc/
+        forum.inc
+    py/Boinc/
+        setup_project.py
+    sched/
+        main.h
+        sched_send.C
+        server_types.C

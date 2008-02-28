@@ -754,10 +754,9 @@ void SCHEDULER_REPLY::set_delay(double delay) {
     if (request_delay < delay) {
         request_delay = delay;
     }
-    if (request_delay > 2*24*3600) {
-        request_delay = 2*24*3600;
+    if (request_delay > DELAY_MAX) {
+        request_delay = DELAY_MAX;
     }
-    return;
 } 
 
 
