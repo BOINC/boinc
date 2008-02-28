@@ -381,8 +381,8 @@ Rom    Feb 26 2008
         version.h
 
 Charlie Feb 28 2008
-    - MGR: When connected host has changed, clear all cached messages and 
-        resume auto-scrolling messages.
+    - MGR: When connected connecting to a different host, clear all cached 
+        messages and resume auto-scrolling messages.
         
     clientgui/
         MainDocument.cpp
