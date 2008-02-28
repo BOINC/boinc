@@ -307,9 +307,9 @@ function should_show_post(
     // The user can choose to display the last X posts in a thread only,
     // "last" here depends on sorting criteria:
     //
-    if ($sort_style==CREATE_TIME_OLD){
+    if ($sort_style == CREATE_TIME_OLD){
         if ($postnumber > $postcount+1-$logged_in_user->prefs->display_wrap_postcount) return true;
-    } else if (CREATE_TIME_NEW){
+    } else if ($sort_style == CREATE_TIME_NEW){
         if ($postnumber <= $logged_in_user->prefs->display_wrap_postcount) return true;
     } else {
         // For other sorting criteria we do not know how to define "last"
@@ -317,7 +317,7 @@ function should_show_post(
         //
         return true;
     }
-													
+    
     // In all other cases we should not show this particular post
     return false;
 }

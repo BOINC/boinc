@@ -1730,7 +1730,12 @@ Charlie Feb 28 2008
         MainDocument.cpp
         ViewMessages.cpp
 
+Rytis   Feb 28 2008
+    - User web: fix (at least part of) long threads issue.
+    
+    html/inc/
+        forum.inc
+
 Rom    Jan 30 2008 (HEAD)
     - Tag for 6.1.9 release, all platforms
       boinc_core_release_6_1_9
-
