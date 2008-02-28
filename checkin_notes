@@ -1736,6 +1736,14 @@ Rytis   Feb 28 2008
     html/inc/
         forum.inc
 
-Rom    Jan 30 2008 (HEAD)
+Rom    FEB 28 2008 (HEAD)
     - Tag for 6.1.9 release, all platforms
       boinc_core_release_6_1_9
+
+Charlie Feb 28 2008
+    - MGR: When connected connecting to a different host, clear all cached 
+        messages (a more efficient implementation).
+        
+    clientgui/
+        MainDocument.cpp
+ 
