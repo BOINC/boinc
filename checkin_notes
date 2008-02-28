@@ -1729,3 +1729,8 @@ Charlie Feb 28 2008
     clientgui/
         MainDocument.cpp
         ViewMessages.cpp
+
+Rom    Jan 30 2008 (HEAD)
+    - Tag for 6.1.9 release, all platforms
+      boinc_core_release_6_1_9
+

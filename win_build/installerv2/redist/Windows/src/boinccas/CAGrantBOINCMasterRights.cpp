@@ -158,6 +158,68 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         }
 
         //
+        // Grant the SeAssignPrimaryTokenPrivilege to users represented by pSid.
+        //
+        Status = SetPrivilegeOnAccount(
+                    PolicyHandle,                         // policy handle
+                    pSid,                                 // SID to grant privilege
+                    L"SeAssignPrimaryTokenPrivilege",     // Unicode privilege
+                    TRUE                                  // enable the privilege
+                    );
+
+        if(Status != STATUS_SUCCESS)
+        {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Failed call to SetPrivilegeOnAccount - SeAssignPrimaryTokenPrivilege")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        //
+        // Grant the SeIncreaseQuotaPrivilege to users represented by pSid.
+        //
+        Status = SetPrivilegeOnAccount(
+                    PolicyHandle,                   // policy handle
+                    pSid,                           // SID to grant privilege
+                    L"SeIncreaseQuotaPrivilege",    // Unicode privilege
+                    TRUE                            // enable the privilege
+                    );
+
+        if(Status != STATUS_SUCCESS)
+        {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                Status,
+                _T("SetPrivilegeOnAccount failed.")
+            );
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Failed call to SetPrivilegeOnAccount - SeIncreaseQuotaPrivilege")
+            );
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        //
         // Grant the SeDenyInteractiveLogonRight to users represented by pSid.
         //
         Status = SetPrivilegeOnAccount(

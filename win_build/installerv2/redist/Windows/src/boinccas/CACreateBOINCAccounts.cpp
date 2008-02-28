@@ -246,6 +246,8 @@ UINT CACreateBOINCAccounts::OnExecution()
                 );
                 return ERROR_INSTALL_FAILURE;
             }
+
+            SetProperty( _T("BOINC_MASTER_CREATED"), _T("1") );
         }
         if(pSid != NULL) {
             HeapFree(GetProcessHeap(), 0, pSid);
@@ -403,6 +405,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 return ERROR_INSTALL_FAILURE;
             }
 
+            SetProperty( _T("BOINC_PROJECT_CREATED"), _T("1") );
         }
         if(pSid != NULL) {
             HeapFree(GetProcessHeap(), 0, pSid);
