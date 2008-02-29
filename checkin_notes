@@ -1781,3 +1781,13 @@ David  Feb 28 2008
         main.h
         sched_send.C
         server_types.C
+
+Rom    Feb 29 2008
+    - lib: remove references to LogonUserEx which does not exist on Win2k or
+        older machines.
+    - lib: comment out the CreateProcessAsUser code for graphics apps.
+        (this is temporary)
+        
+    lib/
+        util.C
+        win_util.C, .h

@@ -660,3 +660,110 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
    return bSuccess;
 }
 
+
+/*++
+This function attempts to obtain a SID representing the supplied
+account on the supplied system.
+
+If the function succeeds, the return value is TRUE. A buffer is
+allocated which contains the SID representing the supplied account.
+This buffer should be freed when it is no longer needed by calling
+HeapFree(GetProcessHeap(), 0, buffer)
+
+If the function fails, the return value is FALSE. Call GetLastError()
+to obtain extended error information.
+
+Scott Field (sfield)    12-Jul-95
+--*/
+
+BOOL
+GetAccountSid(
+    LPCTSTR SystemName,
+    LPCTSTR AccountName,
+    PSID *Sid
+    )
+{
+    LPTSTR ReferencedDomain=NULL;
+    DWORD cbSid=128;    // initial allocation attempt
+    DWORD cchReferencedDomain=16; // initial allocation size
+    SID_NAME_USE peUse;
+    BOOL bSuccess=FALSE; // assume this function will fail
+
+    __try {
+
+    //
+    // initial memory allocations
+    //
+    *Sid = (PSID)HeapAlloc(GetProcessHeap(), 0, cbSid);
+
+    if(*Sid == NULL) __leave;
+
+    ReferencedDomain = (LPTSTR)HeapAlloc(
+                    GetProcessHeap(),
+                    0,
+                    cchReferencedDomain * sizeof(TCHAR)
+                    );
+
+    if(ReferencedDomain == NULL) __leave;
+
+    //
+    // Obtain the SID of the specified account on the specified system.
+    //
+    while(!LookupAccountName(
+                    SystemName,         // machine to lookup account on
+                    AccountName,        // account to lookup
+                    *Sid,               // SID of interest
+                    &cbSid,             // size of SID
+                    ReferencedDomain,   // domain account was found on
+                    &cchReferencedDomain,
+                    &peUse
+                    )) {
+        if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+            //
+            // reallocate memory
+            //
+            *Sid = (PSID)HeapReAlloc(
+                        GetProcessHeap(),
+                        0,
+                        *Sid,
+                        cbSid
+                        );
+            if(*Sid == NULL) __leave;
+
+            ReferencedDomain = (LPTSTR)HeapReAlloc(
+                        GetProcessHeap(),
+                        0,
+                        ReferencedDomain,
+                        cchReferencedDomain * sizeof(TCHAR)
+                        );
+            if(ReferencedDomain == NULL) __leave;
+        }
+        else __leave;
+    }
+
+    //
+    // Indicate success.
+    //
+    bSuccess = TRUE;
+
+    } // try
+    __finally {
+
+    //
+    // Cleanup and indicate failure, if appropriate.
+    //
+
+    HeapFree(GetProcessHeap(), 0, ReferencedDomain);
+
+    if(!bSuccess) {
+        if(*Sid != NULL) {
+            HeapFree(GetProcessHeap(), 0, *Sid);
+            *Sid = NULL;
+        }
+    }
+
+    } // finally
+
+    return bSuccess;
+}
+

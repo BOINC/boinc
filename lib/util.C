@@ -319,32 +319,30 @@ void get_sandbox_account_token() {
             encoded_username_str.rfind(_T('\\')) + 1,
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
-        retval = LogonUserEx( 
+        retval = LogonUser( 
             username_str.c_str(),
             domainname_str.c_str(), 
             password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
-            &sandbox_account_token,
-            &sandbox_account_sid,
-            &pProfileBuffer,
-            &dwProfileLength,
-            &ql
+            &sandbox_account_token
         );
+        if (!retval) {
+            GetAccountSid(domainname_str.c_str(), username_str.c_str(), &sandbox_account_sid);
+        }
     } else {
         username_str = encoded_username_str;
-        retval = LogonUserEx( 
+        retval = LogonUser( 
             username_str.c_str(),
             NULL, 
             password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
-            &sandbox_account_token,
-            &sandbox_account_sid,
-            &pProfileBuffer,
-            &dwProfileLength,
-            &ql
+            &sandbox_account_token
         );
+        if (!retval) {
+            GetAccountSid(NULL, username_str.c_str(), &sandbox_account_sid);
+        }
     }
 
     if (!retval) {
@@ -384,6 +382,7 @@ int run_program(
         }
     }
 
+/*
     get_sandbox_account_token();
     if (sandbox_account_token != NULL) {
         char szWindowStation[256];
@@ -447,6 +446,7 @@ int run_program(
             fprintf(stderr, "DestroyEnvironmentBlock failed: %s\n", error_msg);
         }
     } else {
+*/
         retval = CreateProcess(
             file,
             cmdline,
@@ -459,8 +459,9 @@ int run_program(
             &startup_info,
             &process_info
         );
+/*
     }
-
+*/
     if (!retval) {
         windows_error_string(error_msg, sizeof(error_msg));
         fprintf(stderr, "CreateProcessAsUser failed: '%s'\n", error_msg);

@@ -21,8 +21,15 @@
 
 extern BOOL IsWindows2000Compatible();
 extern BOOL IsTerminalServicesEnabled();
-extern BOOL ValidateProductSuite (LPSTR SuiteName);
-extern BOOL TerminateProcessById (DWORD dwProcessId);
+extern BOOL ValidateProductSuite(LPSTR SuiteName);
+extern BOOL TerminateProcessById(DWORD dwProcessId);
 extern BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid);
 extern BOOL AddAceToDesktop(HDESK hdesk, PSID psid);
+
+extern BOOL
+GetAccountSid(
+    LPCTSTR SystemName,         // where to lookup account
+    LPCTSTR AccountName,        // account of interest
+    PSID *Sid                   // resultant buffer containing SID
+    );
 
