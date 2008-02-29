@@ -387,3 +387,10 @@ Charlie Feb 28 2008
     clientgui/
         MainDocument.cpp
         ViewMessages.cpp
+
+Rom    Feb 29 2008
+    - Change libcurl to use sync DNS on Windows
+    
+    curl/
+        <Various Files>
+
