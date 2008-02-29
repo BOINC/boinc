@@ -293,9 +293,6 @@ void get_sandbox_account_token() {
     std::string username_str;
     std::string domainname_str; 
     std::string password_str; 
-    PVOID pProfileBuffer = NULL;
-    DWORD dwProfileLength = 0;
-    QUOTA_LIMITS ql;
     int retval = 0;
     static bool first=true;
 
