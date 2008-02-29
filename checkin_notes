@@ -1791,3 +1791,11 @@ Rom    Feb 29 2008
     lib/
         util.C
         win_util.C, .h
+
+
+Rom    Feb 29 2008
+    - Change libcurl to use sync DNS on Windows (Release version only)
+    
+    curl/
+        <Various Files>
+
