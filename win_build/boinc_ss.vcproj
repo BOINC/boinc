@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib userenv.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -301,7 +301,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib userenv.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"
@@ -514,7 +514,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib userenv.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"
