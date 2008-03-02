@@ -331,6 +331,7 @@ def install_boinc_files(dest_dir, web_only):
     install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
+    install_glob(srcdir('html/user/*.js'), dir('html/user/'))
     install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
     install_glob(srcdir('html/user/*.gif'), dir('html/user/img'))
     install_glob(srcdir('html/user/img/*.*'), dir('html/user/img'))

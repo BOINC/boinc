@@ -1799,3 +1799,8 @@ Rom    Feb 29 2008
     curl/
         <Various Files>
 
+Rytis  Mar 2 2008
+    - make_project: copy javascript files to html/user.
+    
+    py/Boinc/
+        setup_project.py
