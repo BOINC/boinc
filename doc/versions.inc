@@ -143,11 +143,11 @@ $m549c = array(
     "type"=>"bare_core",
 );
 
-$l51043 = array(
-    "num"=>"5.10.43",
+$l51044 = array(
+    "num"=>"5.10.44",
     "status"=>"Development version",
-    "file"=>"boinc_5.10.43_i686-pc-linux-gnu.sh",
-    "date"=>"26 Feb 2008",
+    "file"=>"boinc_5.10.44_i686-pc-linux-gnu.sh",
+    "date"=>"3 Mar 2008",
     "type"=>"sea",
 );
 
@@ -159,11 +159,11 @@ $l51028 = array(
     "type"=>"sea",
 );
 
-$l51043ubuntu = array(
-    "num"=>"5.10.43",
+$l51044ubuntu = array(
+    "num"=>"5.10.44",
     "status"=>"Development version",
-    "file"=>"boinc_ubuntu_5.10.43_i686-pc-linux-gnu.sh",
-    "date"=>"26 Feb 2008",
+    "file"=>"boinc_ubuntu_5.10.44_i686-pc-linux-gnu.sh",
+    "date"=>"3 Mar 2008",
     "type"=>"sea",
 );
 
@@ -175,11 +175,11 @@ $l51028ubuntu = array(
     "type"=>"sea",
 );
 
-$l51043ubuntux64 = array(
-    "num"=>"5.10.43",
+$l51044ubuntux64 = array(
+    "num"=>"5.10.44",
     "status"=>"Development version",
-    "file"=>"boinc_ubuntu_5.10.43_x86_64-pc-linux-gnu.sh",
-    "date"=>"26 Feb 2008",
+    "file"=>"boinc_ubuntu_5.10.44_x86_64-pc-linux-gnu.sh",
+    "date"=>"3 Mar 2008",
     "type"=>"sea",
 );
 
@@ -247,7 +247,7 @@ $linuxcompat = array(
     "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l51043,
+        $l51044,
         $l51028,
         $l5816,
     )
@@ -258,7 +258,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l51043ubuntu,
+        $l51044ubuntu,
         $l51028ubuntu,
     )
 );
@@ -268,7 +268,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-        $l51043ubuntux64,
+        $l51044ubuntux64,
         $l51028ubuntux64,
     )
 );
