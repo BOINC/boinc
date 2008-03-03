@@ -106,7 +106,24 @@ int handle_wu(
     TRANSITIONER_ITEM& wu_item = items[0];
     TRANSITIONER_ITEM wu_item_original = wu_item;
 
+    // "assigned" WUs aren't supposed to pass through the transitioner.
+    // If we get one, it's an error
+    //
     if (config.enable_assignment && strstr(wu_item.name, ASSIGNED_WU_STR)) {
+        DB_WORKUNIT wu;
+        char buf[256];
+
+        wu.id = wu_item.id;
+        log_messages.printf(MSG_CRITICAL,
+            "Assigned WU %d unexpectedly found by transitioner\n", wu.id
+        );
+        sprintf(buf, "transition_time=%d", INT_MAX);
+        retval = wu.update_field(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "update_field failed %d\n", retval
+            );
+        }
         return 0;
     }
 
@@ -525,7 +542,9 @@ int handle_wu(
             }
         }
     }
-    // If either of the grace period or delete delay is less then the next transition time then use that value
+    // If either of the grace period or delete delay is less than
+    // the next transition time then use that value
+    //
     if ( max_grace_or_delay_time < wu_item.transition_time && max_grace_or_delay_time > now && ninprogress == 0) {
         wu_item.transition_time = max_grace_or_delay_time;
         log_messages.printf(MSG_NORMAL,
@@ -536,9 +555,9 @@ int handle_wu(
     
     // If transition time is in the past,
     // the system is bogged down and behind schedule.
-    // Delay processing of the WU by an amount DOUBLE the amount
-    // we are behind, but not less than 60 secs or more than
-    // one day.
+    // Delay processing of the WU by an amount DOUBLE the amount we are behind,
+    // but not less than 60 secs or more than one day.
+    //
     if (wu_item.transition_time < now) {
         int extra_delay = 2*(now - wu_item.transition_time);
         if (extra_delay < 60) extra_delay = 60;
@@ -605,8 +624,10 @@ void main_loop() {
     }
 
     while (1) {
+        log_messages.printf(MSG_DEBUG, "doing a pass\n");
         if (!do_pass()) {
             if (one_pass) break;
+            log_messages.printf(MSG_DEBUG, "sleeping %d\n", SLEEP_INTERVAL);
             sleep(SLEEP_INTERVAL);
         }
     }

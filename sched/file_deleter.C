@@ -400,7 +400,8 @@ int add_antiques_to_list(int days) {
 
     if (!apache_info) {
         log_messages.printf(MSG_CRITICAL,
-            "no user named '%s' found!\n", config.httpd_user
+            "httpd_user'%s' found - add <httpd_user> entry in config.xml\n",
+            config.httpd_user
         );
         return -1;
     }

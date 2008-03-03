@@ -49,7 +49,6 @@
 //  [ --assign_team_one ID ]
 //  [ --assign_team_all ID ]
 //  infile1 infile2 ...
-//
 
 #include "config.h"
 #include <cstdio>
@@ -101,7 +100,7 @@ int main(int argc, const char** argv) {
     ninfiles = 0;
     wu.clear();
 
-    // defaults (in case not in WU template)
+    // defaults (in case they're not in WU template)
 
     wu.min_quorum = 2;
     wu.target_nresults = 5;

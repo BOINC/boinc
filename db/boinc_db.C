@@ -950,15 +950,12 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
 ) {
     int retval;
     char query[MAX_QUERY_LEN];
-    char priority[256], mod_clause[256];;
+    char mod_clause[256];;
     MYSQL_ROW row;
     TRANSITIONER_ITEM new_item;
 
     if (!cursor.active) {
-        strcpy(priority, "");
-        if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
-
-    if (wu_id_modulus) {
+        if (wu_id_modulus) {
             sprintf(mod_clause,
                 " and wu.id %% %d = %d ",
                 wu_id_modulus, wu_id_remainder
@@ -969,7 +966,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
 
 
         sprintf(query,
-            "SELECT %s "
+            "SELECT "
             "   wu.id, "
             "   wu.name, "
             "   wu.appid, "
@@ -1005,7 +1002,8 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.transition_time < %d %s "
             "LIMIT "
             "   %d ",
-            priority, transition_time, mod_clause, nresult_limit);
+            transition_time, mod_clause, nresult_limit
+        );
 
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
@@ -1158,14 +1156,10 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
 ) {
     int retval;
     char query[MAX_QUERY_LEN], mod_clause[256];
-    char priority[256];
     MYSQL_ROW row;
     VALIDATOR_ITEM new_item;
 
     if (!cursor.active) {
-        strcpy(priority, "");
-        if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
-
         if (wu_id_modulus) {
             sprintf(mod_clause,
                 " and wu.id %% %d = %d ",
@@ -1176,7 +1170,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
         }
 
         sprintf(query,
-            "SELECT %s "
+            "SELECT "
             "   wu.id, "
             "   wu.name, "
             "   wu.canonical_resultid, "
@@ -1212,7 +1206,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   and wu.appid = %d and wu.need_validate > 0 %s "
             "LIMIT "
             "   %d ",
-            priority, appid, mod_clause, nresult_limit
+            appid, mod_clause, nresult_limit
         );
 
         retval = db->do_query(query);

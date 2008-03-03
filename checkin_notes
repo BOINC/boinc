@@ -1804,3 +1804,21 @@ Rytis  Mar 2 2008
     
     py/Boinc/
         setup_project.py
+
+David  Mar 3 2008
+    - transitioner: we're not supposed to ever see "assigned" WUs.
+        But if we do, set their transitioner time to plus infinity
+        so that we don't see them again.
+        (otherwise we go into an infinite loop)
+    - DB code: remove "high_priority" from queries not from scheduler
+        (should probably remove them from there too)
+    - file_deleter: print error msg if apache user doesn't exist
+
+    db/
+        boinc_db.C
+    sched/
+        feeder.C
+        file_deleter.C
+        transitioner.C
+    tools/
+        create_work.C

@@ -165,14 +165,15 @@ function handle_job($job) {
         if ($finished_conf >= $app->min_conf_sum) {
             $inst = find_canonical($app, $instances, $finished_conf, $max_conf);
             if ($inst) {
-                debug("  Found CI ($inst->id); max conf $max_conf finisehd conf $finished_conf");
+                debug("  Found CI ($inst->id); max conf $max_conf finished conf $finished_conf");
                 handle_canonical($app, $job, $inst, $instances);
+                $conf_needed = 0;
             } else {
                 debug("  No CI found; max conf $max_conf finished conf $finished_conf");
+                $f = $app->min_conf_frac;
+                $conf_needed = ($f*$vc - $max_conf)/(1-$f);
+                debug("  f $f vc $vc max_conf $max_conf -> conf_needed $conf_needed");
             }
-            $f = $app->min_conf_frac;
-            $conf_needed = ($f*$vc - $max_conf)/(1-$f);
-            debug("  f $f vc $vc max_conf $max_conf -> conf_needed $conf_needed");
         } else {
             $conf_needed = $app->min_conf_sum - $vc;
         }

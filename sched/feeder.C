@@ -234,7 +234,6 @@ static bool get_job_from_db(
             retval = wi.enumerate(enum_size, select_clause, order_clause);
         }
     	if (retval) {
-            printf("Reached end of enum for app %d\n", app_index);
             // we've reach the end of the result set
             //
             switch (enum_phase) {
@@ -490,7 +489,9 @@ void hr_init() {
         if (hrt != hr_type0) apps_differ = true;
     }
     if (config.homogeneous_redundancy) {
-        fprintf(stderr, "config HR is %d\n", config.homogeneous_redundancy);
+        log_msgs.printf(MSG_NORMAL,
+            "config HR is %d\n", config.homogeneous_redundancy
+        );
         hrt = config.homogeneous_redundancy;
         if (hrt < 0 || hrt >= HR_NTYPES) {
             log_messages.printf(MSG_CRITICAL,

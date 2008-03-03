@@ -19,8 +19,6 @@ function show_bapp($app) {
         show_button("bossa_admin.php?action=hide&app_id=$app->id", "Hide", "Hide this app");
     }
     echo "<br>";
-    show_button($app->short_name."_workgen.php?njobs=10", "Create jobs", "Create 10 new jobs");
-    echo "<br>";
     show_button("bossa_admin.php?action=show_jobs&app_id=$app->id", "Show jobs", "Show jobs");
     echo "<br><form action=".$app->short_name."_workgen.php>
         Create <input name=njobs size=5> new jobs
@@ -43,6 +41,7 @@ function show_apps() {
 function add_app_form() {
     echo "
         <form action=bossa_admin.php method=get>
+        <input type=hidden name=action value=add_app>
     ";
     start_table();
     row1("Add app");
@@ -68,7 +67,7 @@ function add_app_form() {
     );
     row2("Max job instances", "<input name=max_instances value=5>");
     row2("Name of Bolt training course", "<input name=training_course>");
-    row2("", "<input type=submit name=submit value=\"Create app\">");
+    row2("", "<input type=submit submit value=\"Create app\">");
     end_table();
     echo "</form>";
 }
@@ -76,14 +75,16 @@ function add_app_form() {
 function user_settings() {
     global $user;
     $flags = $user->bossa->flags;
-    echo "<form action=bossa_admin.php method=get>";
+    echo "<form action=bossa_admin.php method=get>
+        <input type=hidden name=action value=update_user>
+    ";
     start_table();
     row1("User settings");
     $x = ($flags&BOLT_FLAGS_SHOW_ALL)?"checked":"";
     row2("Show hidden apps?", "<input type=checkbox name=show_all $x>");
     $x = ($flags&BOLT_FLAGS_DEBUG)?"checked":"";
     row2("Show debugging output?", "<input type=checkbox name=debug $x>");
-    row2("", "<input type=submit name=action value=\"Update user\">");
+    row2("", "<input type=submit value=\"Update user\">");
     end_table();
     echo "</form>";
 }
@@ -125,10 +126,11 @@ function show_insts($job_id) {
 
 
 $user = get_logged_in_user();
+BossaUser::lookup($user);
 
 $action = get_str('action', true);
 switch ($action) {
-case 'Create app':
+case 'add_app':
     $name = BossaDb::escape_string(get_str('app_name'));
     $short_name = get_str('short_name');
     $description = BossaDb::escape_string(get_str('description'));
@@ -152,7 +154,7 @@ case 'Create app':
     }
     Header('Location: bossa_admin.php');
     exit();
-case 'Update user':
+case 'update_user':
     $flags = 0;
     if (get_str('show_all', true)) $flags |= BOLT_FLAGS_SHOW_ALL;
     if (get_str('debug', true)) $flags |= BOLT_FLAGS_DEBUG;

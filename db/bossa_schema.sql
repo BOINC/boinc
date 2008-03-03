@@ -47,6 +47,7 @@ create table bossa_job_inst (
 
 create table bossa_user (
     user_id             integer     not null,
+    flags               integer     not null,
     info                text
         -- Project-dependent info about user's ability and performance.
 );

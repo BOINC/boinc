@@ -140,7 +140,7 @@ function show_other() {
 function show_nsf() {
     echo "
         <tr><td>
-        <img align=left src=nsf.gif>
+        <img align=left hspace=8 src=nsf.gif>
         BOINC is supported by the
         <a href=http://nsf.gov>National Science Foundation</a>
         through awards SCI-0221529, SCI-0438443, SCI-0506411,
