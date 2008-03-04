@@ -1822,3 +1822,11 @@ David  Mar 3 2008
         transitioner.C
     tools/
         create_work.C
+
+Charlie Mar 4 2008
+    - MGR: Disallow multiple selections in grid views.
+
+    clientgui/
+        ViewProjectsGrid.cpp,h
+        ViewTransfersGrid.cpp,h
+        ViewWorkGrid.cpp,h

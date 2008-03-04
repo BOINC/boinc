@@ -53,6 +53,8 @@ public:
     void                    OnProjectWebsiteClicked( wxEvent& event );
 
 protected:
+    virtual void            OnCellLeftClick( wxGridEvent& event );
+    virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
     virtual void            UpdateSelection();
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );

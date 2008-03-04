@@ -67,6 +67,7 @@ BEGIN_EVENT_TABLE (CViewProjectsGrid, CBOINCBaseView)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjectsGrid::OnProjectWebsiteClicked)
 	EVT_GRID_SELECT_CELL(CViewProjectsGrid::OnGridSelectCell)
 	EVT_GRID_RANGE_SELECT(CViewProjectsGrid::OnGridSelectRange)
+        EVT_GRID_CELL_LEFT_CLICK(CViewProjectsGrid::OnCellLeftClick)
 END_EVENT_TABLE ()
 
 
@@ -438,6 +439,25 @@ void CViewProjectsGrid::OnProjectWebsiteClicked( wxEvent& event ) {
 wxInt32 CViewProjectsGrid::GetDocCount() {
     return wxGetApp().GetDocument()->GetProjectCount();
 }
+
+void CViewProjectsGrid::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
+    // Disallow multiple selections
+    if (m_pGridPane->GetSelectedRows2().size() > 1) {
+        int theRow = event.GetBottomRow();
+        m_pGridPane->ClearSelection();
+        m_pGridPane->SelectRow(theRow);
+    }
+
+    CBOINCBaseView::OnGridSelectRange(event);
+}
+
+void CViewProjectsGrid::OnCellLeftClick( wxGridEvent& event ) {
+    // Disallow multiple selections
+    int theRow = event.GetRow();
+    m_pGridPane->ClearSelection();
+    m_pGridPane->SelectRow(theRow);
+}
+
 
 void CViewProjectsGrid::UpdateSelection() {
     wxString        strProjectName = wxEmptyString;

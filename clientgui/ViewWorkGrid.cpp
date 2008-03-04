@@ -66,6 +66,7 @@ BEGIN_EVENT_TABLE (CViewWorkGrid, CBOINCBaseView)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWorkGrid::OnProjectWebsiteClicked)
 	EVT_GRID_SELECT_CELL(CViewWorkGrid::OnGridSelectCell)
 	EVT_GRID_RANGE_SELECT(CViewWorkGrid::OnGridSelectRange)
+        EVT_GRID_CELL_LEFT_CLICK(CViewWorkGrid::OnCellLeftClick)
 END_EVENT_TABLE ()
 
 
@@ -355,6 +356,24 @@ void CViewWorkGrid::OnProjectWebsiteClicked( wxEvent& event ) {
     pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWorkGrid::OnProjectWebsiteClicked - Function End"));
+}
+
+void CViewWorkGrid::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
+    // Disallow multiple selections
+    if (m_pGridPane->GetSelectedRows2().size() > 1) {
+        int theRow = event.GetBottomRow();
+        m_pGridPane->ClearSelection();
+        m_pGridPane->SelectRow(theRow);
+    }
+
+    CBOINCBaseView::OnGridSelectRange(event);
+}
+
+void CViewWorkGrid::OnCellLeftClick( wxGridEvent& event ) {
+    // Disallow multiple selections
+    int theRow = event.GetRow();
+    m_pGridPane->ClearSelection();
+    m_pGridPane->SelectRow(theRow);
 }
 
 void CViewWorkGrid::UpdateSelection() {
