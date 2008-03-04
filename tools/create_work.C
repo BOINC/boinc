@@ -102,6 +102,7 @@ int main(int argc, const char** argv) {
 
     // defaults (in case they're not in WU template)
 
+    wu.id = 0;
     wu.min_quorum = 2;
     wu.target_nresults = 5;
     wu.max_error_results = 10;
@@ -156,6 +157,8 @@ int main(int argc, const char** argv) {
             command_line= argv[++i];
         } else if (arg(argv, i, "additional_xml")) {
             strcpy(additional_xml, argv[++i]);
+        } else if (arg(argv, i, "wu_id")) {
+            wu.id = atoi(argv[++i]);
         } else if (arg(argv, i, "assign_all")) {
             assign_multi = true;
             assign_flag = true;

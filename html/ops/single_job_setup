@@ -1,0 +1,128 @@
+#! /usr/bin/env php
+<?
+// configure a BOINC server to run single jobs;
+// see http://boinc.berkeley.edu/trac/wiki/SingleJob
+//
+// Run this from project home dir.
+// usage: html/ops/single_job_setup path-to-boinc_samples
+
+
+$platform = 'i686-pc-linux-gnu';
+
+function error($x) {
+    echo "$x\n";
+    exit(1);
+}
+
+function check_dirs() {
+    if (!file_exists('config.xml')) {
+        error("Run this from project home dir");
+    }
+}
+
+function usage() {
+    error("Usage: single_job_setup path-to-boinc_samples");
+}
+
+function get_includes() {
+    $c = getcwd();
+    chdir('html/ops');
+    require_once('../inc/boinc_db.inc');
+    BoincDb::get();
+    chdir($c);
+}
+
+if ($argc != 2) usage();
+$boinc_samples_dir = $argv[1];
+
+// check for existence of wrapper, get its checksum
+
+$wrapper_filename = "$boinc_samples_dir/wrapper/wrapper";
+if (!file_exists($wrapper_filename)) {
+    echo "$wrapper_filename doesn't exist.\n";
+    error("Make sure you've built boinc_samples.");
+}
+$wrapper_md5 = md5_file($wrapper_filename);
+if (!$wrapper_md5) {
+    error("Can't read wrapper");
+}
+echo "MD5 of $wrapper_filename is $wrapper_md5\n";
+
+get_includes();
+
+$app_name = "single_job_$platform";
+$app = BoincApp::lookup("name='$app_name'");
+if (!$app) {
+    $now = time();
+    $retval = BoincApp::insert("(create_time, name, user_friendly_name) values ($now, '$app_name','Jobs for $platform')");
+    if (!$retval) {
+        error("Couldn't add application");
+    }
+}
+
+// create apps/appname
+
+$app_dir = "apps/$app_name";
+if (!is_dir($app_dir)) {
+    if (!mkdir($app_dir)) {
+        error("Couldn't make app dir");
+    }
+}
+
+// check for apps/appname/appname_platform_N,
+// find the largest such N; see if have new wrapper
+// If needed, create new version, copy wrapper
+
+$i = 0;
+$latest_i = -1;
+$have_latest_wrapper = false;
+while (1) {
+    $app_dir = "apps/$app_name/".$app_name."_1.".$i."_$platform";
+    echo "checking $app_dir\n";
+    if (!file_exists($app_dir)) break;
+    $latest_i = $i;
+    $i++;
+}
+
+if ($latest_i >= 0) {
+    $i = $latest_i;
+    $app_dir = "apps/$app_name/".$app_name."_1.".$i."_$platform";
+    $file = "$app_dir/".$app_name."_1.".$i."_$platform";
+    $latest_md5 = md5_file($file);
+    if ($latest_md5 == $wrapper_md5) {
+        $have_latest_wrapper = true;
+        echo "App version is current.\n";
+    } else {
+        echo "$latest_md5 != $wrapper_md5\n";
+    }
+}
+
+if (!$have_latest_wrapper) {
+    $i = $latest_i + 1;
+    $app_dir = "apps/$app_name/".$app_name."_1.".$i."_$platform";
+    $file = "$app_dir/".$app_name."_1.".$i."_$platform";
+    if (!mkdir($app_dir)) {
+        error("Couldn't created dir: $app_dir");
+    }
+    if (!copy($wrapper_filename, $file)) {
+        error("Couldn't copy $wrapper_filename to $file");
+    }
+    chmod($file, 0750);
+    echo "- type 'update_versions', and answer 'y' to all questions.\n";
+}
+
+$config = file_get_contents('config.xml');
+if (!strstr($config, "single_job_assimilator")) {
+    echo "- Add the following to the <daemons> section of config.xml:\n
+    <daemon>
+      <cmd>single_job_assimilator -app $app_name</cmd>
+      <output>single_job_assimilator_$platform.out</output>
+      <pid>single_job_assimilator_$platform.pid</pid>
+    </daemon>
+Then restart your project by typing
+bin/stop
+bin/start
+";
+}
+
+?>

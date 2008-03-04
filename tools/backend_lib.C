@@ -610,12 +610,20 @@ int create_work(
     } else {
         wu.transition_time = time(0);
     }
-    retval = wu.insert();
-    if (retval) {
-        fprintf(stderr, "create_work: workunit.insert() %d\n", retval);
-        return retval;
+    if (wu.id) {
+        retval = wu.update();
+        if (retval) {
+            fprintf(stderr, "create_work: workunit.update() %d\n", retval);
+            return retval;
+        }
+    } else {
+        retval = wu.insert();
+        if (retval) {
+            fprintf(stderr, "create_work: workunit.insert() %d\n", retval);
+            return retval;
+        }
+        wu.id = boinc_db.insert_id();
     }
-    wu.id = boinc_db.insert_id();
 
     return 0;
 }

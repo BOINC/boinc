@@ -184,6 +184,12 @@ class BoincWorkunit {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'workunit', 'BoincWorkunit');
     }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('workunit', $clause);
+        if (!$ret) return $ret;
+        return $db->insert_id();
+    }
 }
 
 class BoincApp {
@@ -191,9 +197,17 @@ class BoincApp {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'app', 'BoincApp');
     }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('app', 'BoincApp', $clause);
+    }
     static function enum($clause) {
         $db = BoincDb::get();
         return $db->enum('app', 'BoincApp', $clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('app', $clause);
     }
 }
 

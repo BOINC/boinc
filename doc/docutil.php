@@ -1,10 +1,12 @@
 <?php
 
-$x = $_SERVER['PHP_SELF'];
-$path = "/tmp/php_pids/".getmypid();
-$f = fopen($path, "w");
-fwrite($f, $x);
-fclose($f);
+if (0) {
+    $x = $_SERVER['PHP_SELF'];
+    $path = "/tmp/php_pids/".getmypid();
+    $f = fopen($path, "w");
+    fwrite($f, $x);
+    fclose($f);
+}
 
 function search_form() {
     echo "

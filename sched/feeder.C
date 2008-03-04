@@ -489,7 +489,7 @@ void hr_init() {
         if (hrt != hr_type0) apps_differ = true;
     }
     if (config.homogeneous_redundancy) {
-        log_msgs.printf(MSG_NORMAL,
+        log_messages.printf(MSG_NORMAL,
             "config HR is %d\n", config.homogeneous_redundancy
         );
         hrt = config.homogeneous_redundancy;

@@ -20,6 +20,7 @@ noinst_PROGRAMS = \
     sample_bitwise_validator \
     sample_trivial_validator \
     sample_work_generator \
+    single_job_assimilator \
     sched_driver \
     send_file \
     show_shmem \
@@ -129,6 +130,9 @@ sample_dummy_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
 sample_assimilator_SOURCES = assimilator.C sample_assimilator.C validate_util.C validate_util.h
 sample_assimilator_DEPENDENCIES = $(LIB_SCHED)
+
+single_job_assimilator_SOURCES = assimilator.C single_job_assimilator.C validate_util.C validate_util.h
+single_job_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
 sample_work_generator_SOURCES = sample_work_generator.C
 sample_work_generator_DEPENDENCIES = $(LIB_SCHED)

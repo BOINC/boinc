@@ -47,7 +47,6 @@ function show_detail($v) {
     $path = "dl/$file";
     $url = version_url($v);
     $dlink = "<a href=$url>$file</a>";
-    //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
     $type = type_text($v["type"]);
@@ -56,7 +55,6 @@ function show_detail($v) {
     dl_item("File (click to download)", "$dlink ($s MB)");
     dl_item("Version number", $num);
     dl_item("Release date", $date);
-    //dl_item("MD5 checksum of download file", $md);
     list_end();
 }
 
@@ -70,7 +68,6 @@ function show_version_xml($v, $p) {
     $path = "dl/$file";
     $url = version_url($v);
     $dlink = "<a href=$url>$file</a>";
-    //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
     $type = type_text($v["type"]);
@@ -87,7 +84,6 @@ function show_version_xml($v, $p) {
     <installer>$type</installer>
 </version>
 ";
-//    <md5>$md</md5>
 }
 
 function show_version($pname, $i, $v) {

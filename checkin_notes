@@ -1837,3 +1837,30 @@ David  Mar 4 2008
 
     html/inc
         friend.inc
+
+David  Mar 4 2008
+    - server: added a mechanism for submitting jobs as:
+        > boinc_submit --infile foo --outfile blah program --args
+        This will run "program" on a remote host,
+        with the given input, output files, and command-line args
+
+        It manages everything for you.
+        You don't have to worry about apps, app_versions,
+        template files, wrapper job files, etc.
+        See: http://boinc.berkeley.edu/trac/wiki/SingleJob
+
+        Initial checkin - not debugged yet.
+
+    html/
+        inc/
+            boinc_db.inc
+        ops/
+            single_job_setup (new)
+    sched/
+        Makefile.am
+        feeder.C
+        single_job_assimilator.C (new)
+    tools/
+        backend_lib.C
+        boinc_submit (new)
+        create_work.C
