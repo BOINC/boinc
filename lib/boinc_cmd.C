@@ -15,7 +15,7 @@
 // To view the GNU Lesser General Public License visit
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
-// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 // boinc_cmd: command-line interface to a BOINC core client,
 // using GUI RPCs.
@@ -31,6 +31,7 @@
 #ifndef _WIN32
 #include "config.h"
 #include <cstdio>
+#include <cstring>
 #include <unistd.h>
 #endif
 
@@ -64,41 +65,43 @@ void help() {
     fprintf(stderr, "\n\
 usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
+ --lookup_account URL email passwd\n\
+ --create_account URL email passwd name\n\
+ --project_attach URL auth          attach to project\n\
+ --join_acct_mgr URL name passwd    attach account manager\n\
+ --quit_acct_mgr                    quit current account manager\n\
+\n\
  --get_state                        show entire state\n\
  --get_results                      show results\n\
+ --get_simple_gui_info              show status of projects and active results\n\
  --get_file_transfers               show file transfers\n\
  --get_project_status               show status of all attached projects\n\
- --get_simple_gui_info              show status of projects and active results\n\
  --get_disk_usage                   show disk usage\n\
+ --get_proxy_settings\n\
+ --get_messages seqno               show messages > seqno\n\
+ --get_host_info\n\
+ --version, -V                      show core client version\n\
+ \n\
  --result url result_name op        job operation\n\
    op = suspend | resume | abort | graphics_window | graphics_fullscreen\n\
- --project url op                   project operation\n\
+ --project URL op                   project operation\n\
    op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
- --project_attach url auth          attach to project\n\
- --file_transfer url filename op    file transfer operation\n\
+ --file_transfer URL filename op    file transfer operation\n\
    op = retry | abort\n\
  --set_run_mode mode duration       set run mode for given duration\n\
    mode = always | auto | never\n\
  --set_network_mode mode duration\n\
- --get_proxy_settings\n\
  --set_proxy_settings\n\
- --get_messages seqno               show messages > seqno\n\
- --get_host_info\n\
- --acct_mgr_rpc url name password\n\
  --run_benchmarks\n\
- --get_screensaver_mode\n\
- --set_screensaver_mode on|off blank_time [desktop window_station]\n\
- --get_project_config url\n\
- --get_project_config_poll\n\
- --lookup_account url email passwd\n\
- --create_account url email passwd name\n\
  --read_global_prefs_override\n\
+ --quit\n\
  --read_cc_config\n\
  --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
- --acct_mgr_rpc URL name password   communicate with current account manager\n\
+ --get_project_config URL\n\
+ --get_project_config_poll\n\
  --network_available\n\
  --get_cc_status\n\
- --quit\n"
+"
 );
     exit(1);
 }
@@ -157,8 +160,6 @@ int main(int argc, char** argv) {
     MESSAGES messages;
 	char passwd_buf[256], hostname_buf[256], *hostname=0;
     char* passwd = passwd_buf, *p;
-
-    g_use_sandbox = false;
 
 	strcpy(passwd_buf, "");
 	read_password_from_file(passwd_buf);
@@ -425,20 +426,6 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
-    } else if (!strcmp(cmd, "--get_screensaver_mode")) {
-        int status;
-        retval = rpc.get_screensaver_mode(status);
-        if (!retval) printf("screensaver mode: %d\n", status);
-    } else if (!strcmp(cmd, "--set_screensaver_mode")) {
-        double blank_time;
-        bool enabled = false;
-        DISPLAY_INFO di;
-
-        char* op = next_arg(argc, argv, i);
-        if (!strcmp(op, "on")) enabled = true;
-        blank_time = atof(next_arg(argc, argv, i));
-        parse_display_args(argv, i, di);
-        retval = rpc.set_screensaver_mode(enabled, blank_time, di);
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));

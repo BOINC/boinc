@@ -402,3 +402,24 @@ Rom    Feb 29 2008
         configure.ac
         version.h
 
+Charlie Mar 4 2008
+    - MGR: Disallow multiple selections in grid views.
+
+    clientgui/
+        ViewProjectsGrid.cpp,h
+        ViewTransfersGrid.cpp,h
+        ViewWorkGrid.cpp,h
+
+Rom    Mar 4 2008
+    - CMD: Update boinc_cmd using what is checked into head.
+    
+    lib/
+        boinc_cmd.C
+
+Rom    Mar 4 2008
+    - Tag for 5.10.45 release, all platforms
+      boinc_core_release_5_10_45
+
+    /
+        configure.ac
+        version.h
