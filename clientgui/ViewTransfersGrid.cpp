@@ -56,7 +56,6 @@ BEGIN_EVENT_TABLE (CViewTransfersGrid, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfersGrid::OnTransfersAbort)
 	EVT_GRID_SELECT_CELL(CViewTransfersGrid::OnGridSelectCell)
 	EVT_GRID_RANGE_SELECT(CViewTransfersGrid::OnGridSelectRange)
-        EVT_GRID_CELL_LEFT_CLICK(CViewTransfersGrid::OnCellLeftClick)
 END_EVENT_TABLE ()
 
 
@@ -243,24 +242,6 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
 
 wxInt32 CViewTransfersGrid::GetDocCount() {
     return wxGetApp().GetDocument()->GetTransferCount();
-}
-
-void CViewTransfersGrid::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
-    // Disallow multiple selections
-    if (m_pGridPane->GetSelectedRows2().size() > 1) {
-        int theRow = event.GetBottomRow();
-        m_pGridPane->ClearSelection();
-        m_pGridPane->SelectRow(theRow);
-    }
-
-    CBOINCBaseView::OnGridSelectRange(event);
-}
-
-void CViewTransfersGrid::OnCellLeftClick( wxGridEvent& event ) {
-    // Disallow multiple selections
-    int theRow = event.GetRow();
-    m_pGridPane->ClearSelection();
-    m_pGridPane->SelectRow(theRow);
 }
 
 void CViewTransfersGrid::UpdateSelection() {

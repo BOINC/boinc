@@ -1864,3 +1864,15 @@ David  Mar 4 2008
         backend_lib.C
         boinc_submit (new)
         create_work.C
+
+Charlie Mar 4 2008
+    - MGR: Allow multiple selections in Transfers grid view only 
+        (requested by Jorden van der Elst).  The Transfers tab is 
+        the only grid view where the buttons did work properly with 
+        multiple selections, so there is no reason to disable it.
+        The other tabs disabled all buttons when multiple items were 
+        selected, so allowing multiple selections was confusing to 
+        users.
+
+    clientgui/
+        ViewTransfersGrid.cpp,h
