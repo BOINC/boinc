@@ -1830,3 +1830,10 @@ Charlie Mar 4 2008
         ViewProjectsGrid.cpp,h
         ViewTransfersGrid.cpp,h
         ViewWorkGrid.cpp,h
+
+David  Mar 4 2008
+    - web: fixed typo that cause bad (and slow) query
+        when notifying user of friend acceptance on web
+
+    html/inc
+        friend.inc

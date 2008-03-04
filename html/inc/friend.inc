@@ -9,7 +9,7 @@ function friend_notify_req_email_line($notify) {
 }
 
 function friend_notify_accept_email_line($notify) {
-    $src_user = BoincUser::lookup($notify->opaque);
+    $src_user = BoincUser::lookup_id($notify->opaque);
     if (!$src_user) return "";
     return "$src_user->name has confirmed you as a friend";
 }
