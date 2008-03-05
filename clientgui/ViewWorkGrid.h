@@ -44,7 +44,7 @@ public:
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
 
-	virtual wxInt32         GetDocCount();
+    virtual wxInt32         GetDocCount();
 
     void                    OnWorkSuspend( wxCommandEvent& event );
     void                    OnWorkShowGraphics( wxCommandEvent& event );
@@ -59,7 +59,7 @@ protected:
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
-	virtual void            OnListRender( wxTimerEvent& event );	
+    virtual void            OnListRender( wxTimerEvent& event );	
 
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatApplicationName( wxInt32 item, wxString& strBuffer ) const;
@@ -69,8 +69,9 @@ protected:
     wxInt32                 FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatProjectURL( wxInt32 item, wxString& strBuffer ) const;
 
-	void					UpdateWebsiteSelection(long lControlGroup, PROJECT* project);
+    void                    UpdateWebsiteSelection(long lControlGroup, PROJECT* project);
 	
 	CBOINCGridCtrl*			m_pGridPane;
 };

@@ -1891,3 +1891,21 @@ Charlie Mar 4 2008
         ViewProjectsGrid.cpp
         ViewTransfersGrid.cpp
         ViewWorkGrid.cpp
+
+Charlie Mar 5 2008
+    - MGR: Add hidden project URL column to Tasks, Projects and Tansfers 
+        Grid Views; use the project URL instead of the project name to 
+        identify items.  The criteria for identifying an entry and its 
+        underlying data are now:
+            Projects tab: project URL only
+            Tasks tab: project URL and work unit (task) name
+            Transfers tab: project URL and file name
+            Messages tab: sequence number only.
+
+    clientgui/
+        BOINCGridGtrl.cpp
+        MainDocument.cpp,h
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp,h
+        ViewTransfersGrid.cpp,h
+        ViewWorkGrid.cpp,h

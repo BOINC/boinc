@@ -34,6 +34,7 @@
 
 #include "res/result.xpm"
 
+using std::string;
 
 #define COLUMN_PROJECT              0
 #define COLUMN_APPLICATION          1
@@ -43,7 +44,8 @@
 #define COLUMN_TOCOMPLETION         5
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
-#define COLUMN_RESULTS_INDEX        8
+#define COLUMN_HIDDEN_URL           8
+#define COLUMN_RESULTS_INDEX        9
 #define NUM_COLUMNS                 (COLUMN_RESULTS_INDEX+1)
 
 // groups that contain buttons
@@ -141,11 +143,14 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
 
 	// init grid columns
-	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135, 0};
-	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),_("Progress"),_("To completion"),_("Report deadline"),_("Status"),wxEmptyString};
+	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135,0,0};
+	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),
+                                _("Progress"),_("To completion"),_("Report deadline"),
+                                _("Status"),wxEmptyString,wxEmptyString
+                                };
 	for(int i=0; i< NUM_COLUMNS;i++){
-		m_pGridPane->SetColLabelValue(i,colTitles[i]);
-		m_pGridPane->SetColSize(i,colSizes[i]);		
+            m_pGridPane->SetColLabelValue(i,colTitles[i]);
+            m_pGridPane->SetColSize(i,colSizes[i]);		
 	}
 	// set alignment for cpu time column to right
 	m_pGridPane->SetColAlignment(COLUMN_CPUTIME,wxALIGN_RIGHT,wxALIGN_CENTER);
@@ -160,10 +165,11 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColumnSortType(COLUMN_REPORTDEADLINE,CST_DATETIME);
 	m_pGridPane->SetColumnSortType(COLUMN_RESULTS_INDEX,CST_LONG);
 	//set primary key column index
-	m_pGridPane->SetPrimaryKeyColumns(COLUMN_NAME,COLUMN_PROJECT);
-        // Hide the Index column
+	m_pGridPane->SetPrimaryKeyColumns(COLUMN_NAME,COLUMN_HIDDEN_URL);
+        // Hide the Index and URL columns
         int min_width = m_pGridPane->GetColMinimalAcceptableWidth();
 	m_pGridPane->SetColMinimalAcceptableWidth(0);
+        m_pGridPane->SetColSize(COLUMN_HIDDEN_URL,0);
         m_pGridPane->SetColSize(COLUMN_RESULTS_INDEX,0);
 	m_pGridPane->SetColMinimalAcceptableWidth(min_width);
 
@@ -202,11 +208,11 @@ void CViewWorkGrid::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
-    RESULT* result = pDoc->result(searchName);
+    wxString resultName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+    wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
+    RESULT* result = pDoc->result(resultName, projectURL);
     if (result->suspended_via_gui) {
         pFrame->UpdateStatusText(_("Resuming task..."));
         pDoc->WorkResume(result->project_url, result->name);
@@ -258,8 +264,9 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
-        wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
-        RESULT* result = pDoc->result(searchName);
+        wxString resultName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+        wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
+        RESULT* result = pDoc->result(resultName, projectURL);
         pDoc->WorkShowGraphics(result);
     }
 
@@ -320,8 +327,10 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     );
 
     if (wxYES == iAnswer) {
-        RESULT* result = pDoc->result(strName);
-        pDoc->WorkAbort(result->project_url, result->name);
+        wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
+        string resultNameStr = (char*)strName.char_str();
+        string projectURLStr = (char*)projectURL.char_str();
+        pDoc->WorkAbort(projectURLStr, resultNameStr);
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -390,9 +399,10 @@ void CViewWorkGrid::UpdateSelection() {
     CBOINCBaseView::PreUpdateSelection();
 
     pGroup = m_TaskGroups[0];
-	if (m_pGridPane->GetSelectedRows2().size() == 1) {
-		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
-		result = pDoc->result(searchName);
+    if (m_pGridPane->GetSelectedRows2().size() == 1) {
+        wxString resultName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+        wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
+        result = pDoc->result(resultName, projectURL);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
         if (result) {
             if (result->suspended_via_gui) {
@@ -791,6 +801,20 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     return 0;
 }
 
+
+wxInt32 CViewWorkGrid::FormatProjectURL(wxInt32 item, wxString& strBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+
+    wxASSERT(result);
+
+    if (result) {
+        strBuffer = wxString(result->project_url.c_str(), wxConvUTF8);
+    }
+
+    return 0;
+}
+
+
 bool CViewWorkGrid::OnSaveState(wxConfigBase* pConfig) {
     bool bReturnValue = true;
 
@@ -927,6 +951,12 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
             m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
             arrColumnDataChanged[COLUMN_STATUS]=1;
+        }
+
+        FormatProjectURL(results_index, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_HIDDEN_URL) != strBuffer) {
+            m_pGridPane->SetCellValue(iRow, COLUMN_HIDDEN_URL, strBuffer);
+            arrColumnDataChanged[COLUMN_HIDDEN_URL]=1;
         }
     }
 

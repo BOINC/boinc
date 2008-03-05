@@ -63,6 +63,7 @@ protected:
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatSpeed( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatProjectURL( wxInt32 item, wxString& strBuffer ) const;
 
 	CBOINCGridCtrl*			m_pGridPane;
 };

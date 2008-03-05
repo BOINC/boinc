@@ -43,6 +43,8 @@
 #define COLUMN_AVGCREDIT            4
 #define COLUMN_RESOURCESHARE        5
 #define COLUMN_STATUS               6
+#define COLUMN_HIDDEN_URL           7
+#define NUM_COLUMNS                 (COLUMN_HIDDEN_URL+1)
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -158,25 +160,32 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
-	// Create Grid
-	m_pGridPane->Setup();
-	m_pGridPane->SetTable(new CBOINCGridTable(1,7));
-	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
-	// init grid columns
-	wxInt32 colSizes[] = {150,80,80,80,80,85,150};
-	wxString colTitles[] = {_("Project"),_("Account"),_("Team"),_("Work done"),_("Avg. work done"),_("Resource share"),_("Status")};
-	for(int i=0; i<= COLUMN_STATUS;i++){
-		m_pGridPane->SetColLabelValue(i,colTitles[i]);
-		m_pGridPane->SetColSize(i,colSizes[i]);
-	}
-	//change the default cell renderer
-	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_RESOURCESHARE,false));
-	//set column sort types
-	m_pGridPane->SetColumnSortType(COLUMN_TOTALCREDIT,CST_FLOAT);
-	m_pGridPane->SetColumnSortType(COLUMN_RESOURCESHARE,CST_FLOAT);
-	m_pGridPane->SetColumnSortType(COLUMN_AVGCREDIT,CST_FLOAT);
-	//
-	m_pGridPane->SetPrimaryKeyColumns(COLUMN_PROJECT,-1);
+    // Create Grid
+    m_pGridPane->Setup();
+    m_pGridPane->SetTable(new CBOINCGridTable(1,NUM_COLUMNS));
+    m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
+    // init grid columns
+    wxInt32 colSizes[] = {150,80,80,80,80,85,150,0};
+    wxString colTitles[] = {_("Project"),_("Account"),_("Team"),_("Work done"),
+                            _("Avg. work done"),_("Resource share"),_("Status"),wxEmptyString
+                            };
+    for(int i=0; i<NUM_COLUMNS;i++){
+            m_pGridPane->SetColLabelValue(i,colTitles[i]);
+            m_pGridPane->SetColSize(i,colSizes[i]);
+    }
+    //change the default cell renderer
+    m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_RESOURCESHARE,false));
+    //set column sort types
+    m_pGridPane->SetColumnSortType(COLUMN_TOTALCREDIT,CST_FLOAT);
+    m_pGridPane->SetColumnSortType(COLUMN_RESOURCESHARE,CST_FLOAT);
+    m_pGridPane->SetColumnSortType(COLUMN_AVGCREDIT,CST_FLOAT);
+    //
+    m_pGridPane->SetPrimaryKeyColumns(COLUMN_HIDDEN_URL,-1);
+    // Hide the URL column
+    int min_width = m_pGridPane->GetColMinimalAcceptableWidth();
+    m_pGridPane->SetColMinimalAcceptableWidth(0);
+    m_pGridPane->SetColSize(COLUMN_HIDDEN_URL,0);
+    m_pGridPane->SetColMinimalAcceptableWidth(min_width);
     UpdateSelection();
 }
 
@@ -206,7 +215,7 @@ const char** CViewProjectsGrid::GetViewIcon() {
 void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnProjectUpdate - Function Begin"));
 
-    wxString        strProjectName = wxEmptyString;
+    wxString        strProjectURL  = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
@@ -218,9 +227,9 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Updating project..."));
 
-    strProjectName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_PROJECT);
+    strProjectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_HIDDEN_URL);
 
-    pDoc->ProjectUpdate(HtmlEntityEncode(strProjectName).Trim(false));
+    pDoc->ProjectUpdate(HtmlEntityEncode(strProjectURL).Trim(false));
 
     pFrame->UpdateStatusText(wxT(""));
 
@@ -236,7 +245,7 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnProjectSuspend - Function Begin"));
 
-    wxString        strProjectName = wxEmptyString;
+    wxString        strProjectURL  = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
@@ -246,22 +255,22 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pGridPane);
 
-    strProjectName = 
+    strProjectURL = 
         HtmlEntityEncode(
             m_pGridPane->GetCellValue(
                 m_pGridPane->GetFirstSelectedRow(),
-                COLUMN_PROJECT
+                COLUMN_HIDDEN_URL
             ).Trim(false)
         );
-    PROJECT* project = pDoc->project(strProjectName);
+    PROJECT* project = pDoc->project(strProjectURL);
 
     if (project->suspended_via_gui) {
         pFrame->UpdateStatusText(_("Resuming project..."));
-        pDoc->ProjectResume(strProjectName);
+        pDoc->ProjectResume(strProjectURL);
         pFrame->UpdateStatusText(wxT(""));
     } else {
         pFrame->UpdateStatusText(_("Suspending project..."));
-        pDoc->ProjectSuspend(strProjectName);
+        pDoc->ProjectSuspend(strProjectURL);
         pFrame->UpdateStatusText(wxT(""));
     }
 	
@@ -276,7 +285,7 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnProjectNoNewWork - Function Begin"));
 
-    wxString        strProjectName = wxEmptyString;
+    wxString        strProjectURL = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
@@ -286,22 +295,22 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pGridPane);
 
-    strProjectName = 
+    strProjectURL = 
         HtmlEntityEncode(
             m_pGridPane->GetCellValue(
                 m_pGridPane->GetFirstSelectedRow(),
-                COLUMN_PROJECT
+                COLUMN_HIDDEN_URL
             ).Trim(false)
         );
-    PROJECT* project = pDoc->project(strProjectName);
+    PROJECT* project = pDoc->project(strProjectURL);
 
     if (project->dont_request_more_work) {
         pFrame->UpdateStatusText(_("Telling project to allow additional task downloads..."));
-        pDoc->ProjectAllowMoreWork(strProjectName);
+        pDoc->ProjectAllowMoreWork(strProjectURL);
         pFrame->UpdateStatusText(wxT(""));
     } else {
         pFrame->UpdateStatusText(_("Telling project to not fetch any additional tasks..."));
-        pDoc->ProjectNoMoreWork(strProjectName);
+        pDoc->ProjectNoMoreWork(strProjectURL);
         pFrame->UpdateStatusText(wxT(""));
     }
 
@@ -320,6 +329,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 
     wxInt32         iAnswer        = 0;
     wxString        strProjectName = wxEmptyString;
+    wxString        strProjectURL  = wxEmptyString;
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -336,6 +346,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Resetting project..."));
 
     strProjectName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_PROJECT);
+    strProjectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_HIDDEN_URL);
 
     strMessage.Printf(
         _("Are you sure you want to reset project '%s'?"),
@@ -350,7 +361,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     );
 
     if (wxYES == iAnswer) {
-        pDoc->ProjectReset(HtmlEntityEncode(strProjectName.Trim(false)));
+        pDoc->ProjectReset(HtmlEntityEncode(strProjectURL.Trim(false)));
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -368,6 +379,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 
     wxInt32         iAnswer        = 0;
     wxString        strProjectName = wxEmptyString;
+    wxString        strProjectURL  = wxEmptyString;
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -384,6 +396,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Detaching from project..."));
 
     strProjectName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_PROJECT);
+    strProjectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_HIDDEN_URL);
 
     strMessage.Printf(
         _("Are you sure you want to detach from project '%s'?"),
@@ -398,7 +411,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     );
 
     if (wxYES == iAnswer) {
-        pDoc->ProjectDetach(HtmlEntityEncode(strProjectName.Trim(false)));
+        pDoc->ProjectDetach(HtmlEntityEncode(strProjectURL.Trim(false)));
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -460,7 +473,7 @@ void CViewProjectsGrid::OnCellLeftClick( wxGridEvent& event ) {
 
 
 void CViewProjectsGrid::UpdateSelection() {
-    wxString        strProjectName = wxEmptyString;
+    wxString        strProjectURL = wxEmptyString;
     CTaskItemGroup* pGroup = NULL;
     PROJECT*        project = NULL;
     CMainDocument*  pDoc = wxGetApp().GetDocument();
@@ -482,14 +495,14 @@ void CViewProjectsGrid::UpdateSelection() {
     pGroup = m_TaskGroups[0];
 
 	if (m_pGridPane->GetSelectedRows2().size() == 1) {
-        strProjectName = 
+        strProjectURL = 
             HtmlEntityEncode(
                 m_pGridPane->GetCellValue(
                     m_pGridPane->GetFirstSelectedRow(),
-                    COLUMN_PROJECT
+                    COLUMN_HIDDEN_URL
                 ).Trim(false)
             );
-        project = pDoc->project(strProjectName);
+        project = pDoc->project(strProjectURL);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
         if (project) {
@@ -673,10 +686,18 @@ void CViewProjectsGrid::FormatStatus(wxInt32 item, wxString& strBuffer) {
             append_to_status(strBuffer, _("Communication deferred ") + tsNextRPC.Format());
         }
     }
-	if(wxEmptyString == strBuffer)
-	{
-		append_to_status(strBuffer, wxT("---"));
-	}
+    
+    if(wxEmptyString == strBuffer) {
+        append_to_status(strBuffer, wxT("---"));
+    }
+}
+
+
+void CViewProjectsGrid::FormatProjectURL(wxInt32 item, wxString& strBuffer) {
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
+    if (project) {
+         strBuffer = wxString(project->master_url.c_str(), wxConvUTF8);
+    }
 }
 
 
@@ -780,45 +801,50 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     m_pGridPane->SaveSelection();
 
-	wxString strBuffer;
-	int iMax = m_pGridPane->GetNumberRows();
-	for(int iRow = 0; iRow < iMax; iRow++) {
+    wxString strBuffer;
+    int iMax = m_pGridPane->GetNumberRows();
+    for(int iRow = 0; iRow < iMax; iRow++) {
 		
         FormatProjectName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
-		    m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
+            m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
         }
 
-		FormatAccountName(iRow, strBuffer);
+        FormatAccountName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_ACCOUNTNAME) != strBuffer) {
-		    m_pGridPane->SetCellValue(iRow, COLUMN_ACCOUNTNAME, strBuffer);
+            m_pGridPane->SetCellValue(iRow, COLUMN_ACCOUNTNAME, strBuffer);
         }
 
-		FormatTeamName(iRow, strBuffer);
+        FormatTeamName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_TEAMNAME) != strBuffer) {
-	    	m_pGridPane->SetCellValue(iRow, COLUMN_TEAMNAME, strBuffer);
+            m_pGridPane->SetCellValue(iRow, COLUMN_TEAMNAME, strBuffer);
         }
 
-		FormatTotalCredit(iRow, strBuffer);
+        FormatTotalCredit(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_TOTALCREDIT) != strBuffer) {
-    		m_pGridPane->SetCellValue(iRow, COLUMN_TOTALCREDIT, strBuffer);
+            m_pGridPane->SetCellValue(iRow, COLUMN_TOTALCREDIT, strBuffer);
         }
 
-		FormatAVGCredit(iRow, strBuffer);
+        FormatAVGCredit(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_AVGCREDIT) != strBuffer) {
-		    m_pGridPane->SetCellValue(iRow, COLUMN_AVGCREDIT, strBuffer);
+            m_pGridPane->SetCellValue(iRow, COLUMN_AVGCREDIT, strBuffer);
         }
 
-		FormatResourceShare(iRow, strBuffer);
+        FormatResourceShare(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_RESOURCESHARE) != strBuffer) {
-	    	m_pGridPane->SetCellValue(iRow, COLUMN_RESOURCESHARE, strBuffer);
-		    m_pGridPane->SetCellAlignment(iRow, COLUMN_RESOURCESHARE, wxALIGN_CENTRE, wxALIGN_CENTRE);
+            m_pGridPane->SetCellValue(iRow, COLUMN_RESOURCESHARE, strBuffer);
+            m_pGridPane->SetCellAlignment(iRow, COLUMN_RESOURCESHARE, wxALIGN_CENTRE, wxALIGN_CENTRE);
+    }
+
+        strBuffer = wxEmptyString;
+        FormatStatus(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
+            m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
         }
 
-		strBuffer = wxEmptyString;
-		FormatStatus(iRow, strBuffer);
-        if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
-    		m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
+        FormatProjectURL(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_HIDDEN_URL) != strBuffer) {
+            m_pGridPane->SetCellValue(iRow, COLUMN_HIDDEN_URL, strBuffer);
         }
     }
 

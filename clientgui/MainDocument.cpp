@@ -981,20 +981,24 @@ RESULT* CMainDocument::result(unsigned int i) {
 }
 
 /* get the result not by index, but by name */
-RESULT* CMainDocument::result(const wxString& name) {
+RESULT* CMainDocument::result(const wxString& name, const wxString& project_url) {
     RESULT* pResult = NULL;
 
     try {
-        if (!results.results.empty())
-			//iterating over the vector and find the right result
-			for(unsigned int i=0; i< results.results.size();i++) {
-				RESULT* tResult = results.results.at(i);
-				wxString resname(tResult->name.c_str(),wxConvUTF8);
-				if(resname.IsSameAs(name)){
-					pResult = tResult;
-					break;
-				}
-			}
+        if (!results.results.empty()) {
+            //iterating over the vector and find the right result
+            for(unsigned int i=0; i< results.results.size();i++) {
+                RESULT* tResult = results.results.at(i);
+                wxString resname(tResult->name.c_str(),wxConvUTF8);
+                if(resname.IsSameAs(name)){
+                    wxString resurl(tResult->project_url.c_str(),wxConvUTF8);
+                    if(resurl.IsSameAs(project_url)){
+                        pResult = tResult;
+                        break;
+                    }
+                }
+            }
+        }
     }
     catch (std::out_of_range e) {
         pResult = NULL;
@@ -1406,20 +1410,23 @@ FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
     return pFT;
 }
 
-FILE_TRANSFER* CMainDocument::file_transfer(const wxString& fileName) {
+FILE_TRANSFER* CMainDocument::file_transfer(const wxString& fileName, const wxString& project_url) {
     FILE_TRANSFER* pFT = NULL;
 
     try {
-		if (!ft.file_transfers.empty()) {
-			for(unsigned int i=0; i< ft.file_transfers.size();i++) {
-				FILE_TRANSFER* tFT = ft.file_transfers.at(i);
-				wxString fname(tFT->name.c_str(),wxConvUTF8);
-				if(fname.IsSameAs(fileName)) {
-					pFT = tFT;
-					break;
-				}
-			}
-		}
+        if (!ft.file_transfers.empty()) {
+            for(unsigned int i=0; i< ft.file_transfers.size();i++) {
+                FILE_TRANSFER* tFT = ft.file_transfers.at(i);
+                wxString fname(tFT->name.c_str(),wxConvUTF8);
+                if(fname.IsSameAs(fileName)) {
+                    wxString furl(tFT->project_url.c_str(),wxConvUTF8);
+                    if(furl.IsSameAs(project_url)){
+                        pFT = tFT;
+                        break;
+                    }
+                }
+            }
+        }
     }
     catch (std::out_of_range e) {
         pFT = NULL;
@@ -1454,11 +1461,11 @@ int CMainDocument::TransferRetryNow(int iIndex) {
     return iRetVal;
 }
 
-int CMainDocument::TransferRetryNow(const wxString& fileName) {
+int CMainDocument::TransferRetryNow(const wxString& fileName, const wxString& project_url) {
     FILE_TRANSFER* pFT = NULL;
     int iRetVal = 0;
 
-    pFT = file_transfer(fileName);
+    pFT = file_transfer(fileName, project_url);
 
     if (pFT)
         iRetVal = rpc.file_transfer_op((*pFT), "retry");
@@ -1479,11 +1486,11 @@ int CMainDocument::TransferAbort(int iIndex) {
     return iRetVal;
 }
 
-int CMainDocument::TransferAbort(const wxString& fileName) {
+int CMainDocument::TransferAbort(const wxString& fileName, const wxString& project_url) {
     FILE_TRANSFER* pFT = NULL;
     int iRetVal = 0;
 
-    pFT = file_transfer(fileName);
+    pFT = file_transfer(fileName, project_url);
 
     if (pFT)
         iRetVal = rpc.file_transfer_op((*pFT), "abort");

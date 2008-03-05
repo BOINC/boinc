@@ -42,6 +42,8 @@
 #define COLUMN_TIME                 4
 #define COLUMN_SPEED                5
 #define COLUMN_STATUS               6
+#define COLUMN_HIDDEN_URL           7
+#define NUM_COLUMNS                 (COLUMN_HIDDEN_URL+1)
 
 // buttons in the "tasks" area
 #define BTN_RETRY       0
@@ -109,7 +111,7 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Abort Transfer"),
         _("Click 'Abort transfer' to delete the file from the transfer queue. "
           "This will prevent you from being granted credit for this result."),
@@ -121,26 +123,34 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
-	// Create Grid
-	m_pGridPane->Setup();
-	m_pGridPane->SetTable(new CBOINCGridTable(1,7));
-	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
-	// init grid columns
-	wxInt32 colSizes[] = {125,205,60,80,80,80,150};
-	wxString colTitles[] = {_("Project"),_("File"),_("Progress"),_("Size"),_("Elapsed Time"),_("Speed"),_("Status")};
-	for(int i=0; i<= COLUMN_STATUS;i++){
-		m_pGridPane->SetColLabelValue(i,colTitles[i]);
-		m_pGridPane->SetColSize(i,colSizes[i]);
-	}
-	//change the default cell renderer
-	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS,false));
-	//set column sort types
-	m_pGridPane->SetColumnSortType(COLUMN_PROGRESS,CST_FLOAT);
-	m_pGridPane->SetColumnSortType(COLUMN_TIME,CST_TIME);
-	//m_pGridPane->SetColumnSortType(COLUMN_SIZE,CST_FLOAT);
-	m_pGridPane->SetColumnSortType(COLUMN_SPEED,CST_FLOAT);
-	//set primary key column index
-	m_pGridPane->SetPrimaryKeyColumns(COLUMN_FILE,COLUMN_PROJECT);
+    // Create Grid
+    m_pGridPane->Setup();
+    m_pGridPane->SetTable(new CBOINCGridTable(1,NUM_COLUMNS));
+    m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
+    // init grid columns
+    wxInt32 colSizes[] = {125,205,60,80,80,80,150,0};
+    wxString colTitles[] = {_("Project"),_("File"),_("Progress"),_("Size"),
+                            _("Elapsed Time"),_("Speed"),_("Status"),wxEmptyString
+                            };
+    for(int i=0; i<NUM_COLUMNS;i++){
+        m_pGridPane->SetColLabelValue(i,colTitles[i]);
+        m_pGridPane->SetColSize(i,colSizes[i]);
+    }
+    
+    //change the default cell renderer
+    m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS,false));
+    //set column sort types
+    m_pGridPane->SetColumnSortType(COLUMN_PROGRESS,CST_FLOAT);
+    m_pGridPane->SetColumnSortType(COLUMN_TIME,CST_TIME);
+    //m_pGridPane->SetColumnSortType(COLUMN_SIZE,CST_FLOAT);
+    m_pGridPane->SetColumnSortType(COLUMN_SPEED,CST_FLOAT);
+    //set primary key column index
+    m_pGridPane->SetPrimaryKeyColumns(COLUMN_FILE,COLUMN_HIDDEN_URL);
+    // Hide the URL column
+    int min_width = m_pGridPane->GetColMinimalAcceptableWidth();
+    m_pGridPane->SetColMinimalAcceptableWidth(0);
+    m_pGridPane->SetColSize(COLUMN_HIDDEN_URL,0);
+    m_pGridPane->SetColMinimalAcceptableWidth(min_width);
     UpdateSelection();
 }
 
@@ -184,9 +194,10 @@ void CViewTransfersGrid::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) 
     
 	wxArrayInt aRows = m_pGridPane->GetSelectedRows2();
 	for(unsigned int i=0; i< aRows.Count();i++) {
-		int row = aRows.Item(i);
-		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_FILE).Trim(false);
-		pDoc->TransferRetryNow(searchName);		
+            int row = aRows.Item(i);
+            wxString fileName = m_pGridPane->GetCellValue(row,COLUMN_FILE).Trim(false);
+            wxString projectURL = m_pGridPane->GetCellValue(row,COLUMN_HIDDEN_URL).Trim(false);
+            pDoc->TransferRetryNow(fileName, projectURL);		
 	}
 
     pFrame->UpdateStatusText(wxT(""));
@@ -206,7 +217,7 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxString strName        = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -223,14 +234,15 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
           "NOTE: Aborting a transfer will invalidate a task and you\n"
           "will not receive credit for it."));
     iAnswer = ::wxMessageBox(strMessage,_("Abort File Transfer(s)"),wxYES_NO | wxICON_QUESTION,this);
-	if (wxYES == iAnswer) {
-		wxArrayInt aRows = m_pGridPane->GetSelectedRows2();
-		for(unsigned int i=0; i< aRows.Count();i++) {
-			int row = aRows.Item(i);
-			wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_FILE).Trim(false);
-			pDoc->TransferAbort(searchName);
-		}		
-	}
+    if (wxYES == iAnswer) {
+        wxArrayInt aRows = m_pGridPane->GetSelectedRows2();
+        for(unsigned int i=0; i< aRows.Count();i++) {
+            int row = aRows.Item(i);
+            wxString fileName = m_pGridPane->GetCellValue(row,COLUMN_FILE).Trim(false);
+            wxString projectURL = m_pGridPane->GetCellValue(row,COLUMN_HIDDEN_URL).Trim(false);
+            pDoc->TransferAbort(fileName, projectURL);		
+        }		
+    }
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -432,6 +444,19 @@ wxInt32 CViewTransfersGrid::FormatStatus(wxInt32 item, wxString& strBuffer) cons
     return 0;
 }
 
+
+wxInt32 CViewTransfersGrid::FormatProjectURL(wxInt32 item, wxString& strBuffer) const {
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+
+    wxASSERT(transfer);
+
+    if (transfer) {
+        strBuffer = wxString(transfer->project_url.c_str(), wxConvUTF8);
+    }
+
+    return 0;
+}
+
 bool CViewTransfersGrid::OnSaveState(wxConfigBase* pConfig) {
     bool bReturnValue = true;
 
@@ -496,9 +521,9 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//update cell values
 	wxString strBuffer;
     int iMax = m_pGridPane->GetNumberRows();
-	for(int iRow = 0; iRow < iMax; iRow++) {
+    for(int iRow = 0; iRow < iMax; iRow++) {
 
-		FormatProjectName(iRow, strBuffer);
+        FormatProjectName(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
         }
@@ -508,37 +533,42 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_FILE, strBuffer);
         }
 
-		FormatProgress(iRow, strBuffer);
+        FormatProgress(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_PROGRESS) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_PROGRESS, strBuffer);
 		    m_pGridPane->SetCellAlignment(iRow, COLUMN_PROGRESS, wxALIGN_CENTRE, wxALIGN_CENTRE);
         }
 
-		FormatSize(iRow, strBuffer);
+        FormatSize(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_SIZE) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_SIZE, strBuffer);
         }
 
-		FormatTime(iRow, strBuffer);
+        FormatTime(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_TIME) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_TIME, strBuffer);
         }
 		
-		FormatSpeed(iRow, strBuffer);
+        FormatSpeed(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_SPEED) != strBuffer) {
 		    m_pGridPane->SetCellValue(iRow, COLUMN_SPEED, strBuffer);
         }
 
-	    strBuffer = wxEmptyString;
-		FormatStatus(iRow, strBuffer);
+        strBuffer = wxEmptyString;
+        FormatStatus(iRow, strBuffer);
         if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
     		m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
         }
-	}
 
-	m_pGridPane->SortData();
+        FormatProjectURL(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_HIDDEN_URL) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_HIDDEN_URL, strBuffer);
+        }
+    }
 
-        m_pGridPane->RestoreSelection();
-	UpdateSelection();
+    m_pGridPane->SortData();
+
+    m_pGridPane->RestoreSelection();
+    UpdateSelection();
 }
 

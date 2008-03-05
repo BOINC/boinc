@@ -59,15 +59,16 @@ protected:
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
-	virtual void            OnListRender( wxTimerEvent& event );
+    virtual void            OnListRender( wxTimerEvent& event );
 
-    void	                FormatProjectName( wxInt32 item, wxString& strBuffer );
-    void					FormatAccountName( wxInt32 item, wxString& strBuffer );
-    void					FormatTeamName( wxInt32 item, wxString& strBuffer );
-    void					FormatTotalCredit( wxInt32 item, wxString& strBuffer );
-    void					FormatAVGCredit( wxInt32 item, wxString& strBuffer );
-    void					FormatResourceShare( wxInt32 item, wxString& strBuffer );
-    void					FormatStatus( wxInt32 item, wxString& strBuffer );
+    void                    FormatProjectName( wxInt32 item, wxString& strBuffer );
+    void                    FormatAccountName( wxInt32 item, wxString& strBuffer );
+    void                    FormatTeamName( wxInt32 item, wxString& strBuffer );
+    void                    FormatTotalCredit( wxInt32 item, wxString& strBuffer );
+    void                    FormatAVGCredit( wxInt32 item, wxString& strBuffer );
+    void                    FormatResourceShare( wxInt32 item, wxString& strBuffer );
+    void                    FormatStatus( wxInt32 item, wxString& strBuffer );
+    void                    FormatProjectURL( wxInt32 item, wxString& strBuffer );
 
     bool                    IsWebsiteLink( const wxString& strLink );
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );

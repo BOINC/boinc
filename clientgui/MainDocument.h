@@ -211,7 +211,7 @@ private:
 public:
     RESULTS                     results;
     RESULT*                     result(unsigned int);
-	RESULT*						result(const wxString& name);
+    RESULT*                     result(const wxString& name, const wxString& project_url);
 
     int                         GetWorkCount();
 
@@ -259,14 +259,14 @@ private:
 public:
     FILE_TRANSFERS              ft;
     FILE_TRANSFER*              file_transfer(unsigned int);
-	FILE_TRANSFER*              file_transfer(const wxString& fileName);
+    FILE_TRANSFER*              file_transfer(const wxString& fileName, const wxString& project_url);
 
     int                         GetTransferCount();
 
     int                         TransferRetryNow(int iIndex);
-	int                         TransferRetryNow(const wxString& fileName);
+    int                         TransferRetryNow(const wxString& fileName, const wxString& project_url);
     int                         TransferAbort(int iIndex);
-	int                         TransferAbort(const wxString& fileName);
+    int                         TransferAbort(const wxString& fileName, const wxString& project_url);
 
 
     //
