@@ -31,11 +31,11 @@ function type_text($type) {
     }
 }
 
-$w51044= array(
-    "num"=>"5.10.44",
+$w51045= array(
+    "num"=>"5.10.45",
     "status"=>"Development version",
-    "file"=>"boinc_5.10.44_windows_intelx86.exe",
-    "date"=>"29 Feb 2008",
+    "file"=>"boinc_5.10.45_windows_intelx86.exe",
+    "date"=>"5 Mar 2008",
     "type"=>"win_new",
 );
 
@@ -47,11 +47,11 @@ $w51030= array(
     "type"=>"win_new",
 );
 
-$w51044x64= array(
-    "num"=>"5.10.44",
+$w51045x64= array(
+    "num"=>"5.10.45",
     "status"=>"Development version",
-    "file"=>"boinc_5.10.44_windows_x86_64.exe",
-    "date"=>"29 Feb 2008",
+    "file"=>"boinc_5.10.45_windows_x86_64.exe",
+    "date"=>"5 Mar 2008",
     "type"=>"win_new",
 );
 
@@ -143,11 +143,11 @@ $m549c = array(
     "type"=>"bare_core",
 );
 
-$l51044 = array(
-    "num"=>"5.10.44",
+$l51045 = array(
+    "num"=>"5.10.45",
     "status"=>"Development version",
-    "file"=>"boinc_5.10.44_i686-pc-linux-gnu.sh",
-    "date"=>"3 Mar 2008",
+    "file"=>"boinc_5.10.45_i686-pc-linux-gnu.sh",
+    "date"=>"5 Mar 2008",
     "type"=>"sea",
 );
 
@@ -159,11 +159,11 @@ $l51028 = array(
     "type"=>"sea",
 );
 
-$l51044ubuntu = array(
-    "num"=>"5.10.44",
+$l51045ubuntu = array(
+    "num"=>"5.10.45",
     "status"=>"Development version",
-    "file"=>"boinc_ubuntu_5.10.44_i686-pc-linux-gnu.sh",
-    "date"=>"3 Mar 2008",
+    "file"=>"boinc_ubuntu_5.10.45_i686-pc-linux-gnu.sh",
+    "date"=>"5 Mar 2008",
     "type"=>"sea",
 );
 
@@ -175,11 +175,11 @@ $l51028ubuntu = array(
     "type"=>"sea",
 );
 
-$l51044ubuntux64 = array(
-    "num"=>"5.10.44",
+$l51045ubuntux64 = array(
+    "num"=>"5.10.45",
     "status"=>"Development version",
-    "file"=>"boinc_ubuntu_5.10.44_x86_64-pc-linux-gnu.sh",
-    "date"=>"3 Mar 2008",
+    "file"=>"boinc_ubuntu_5.10.45_x86_64-pc-linux-gnu.sh",
+    "date"=>"5 Mar 2008",
     "type"=>"sea",
 );
 
@@ -212,7 +212,7 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w51044,
+        $w51045,
         $w51030,
         $w5816,
     )
@@ -223,7 +223,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w51044x64,
+        $w51045x64,
         $w51030x64,
     )
 );
@@ -247,7 +247,7 @@ $linuxcompat = array(
     "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l51044,
+        $l51045,
         $l51028,
         $l5816,
     )
@@ -258,7 +258,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l51044ubuntu,
+        $l51045ubuntu,
         $l51028ubuntu,
     )
 );
@@ -268,7 +268,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-        $l51044ubuntux64,
+        $l51045ubuntux64,
         $l51028ubuntux64,
     )
 );
