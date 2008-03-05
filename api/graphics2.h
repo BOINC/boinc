@@ -1,6 +1,12 @@
 #ifndef _GRAPHICS2_H_
 #define _GRAPHICS2_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
 // Functions that must be supplied by the app
 //
 extern void app_graphics_render(int xs, int ys, double time_of_day);
@@ -18,11 +24,16 @@ extern void* boinc_graphics_make_shmem(char*, int);
 extern void* boinc_graphics_get_shmem(char*);
 extern void boinc_set_windows_icon(const char* icon16,const char* icon48);
 
+#ifdef __cplusplus
+}
+#endif
+
 // Implementation stuff
 //
 extern double boinc_max_fps;
 extern double boinc_max_gfx_cpu_frac;
 extern void get_window_title(char* buf, int len);
 extern bool throttled_app_render(int, int, double);
+
 
 #endif
