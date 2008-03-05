@@ -1940,3 +1940,11 @@ David  Mar 5 2008
     tools/
         boinc_submit
         create_work.C
+
+Eric K  5 Mar 08
+    - Matched function linkage in api/graphics2.h to those in 
+      api/graphics_api.h
+
+    api/
+      graphics2.h
+
