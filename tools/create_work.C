@@ -104,10 +104,10 @@ int main(int argc, const char** argv) {
 
     wu.id = 0;
     wu.min_quorum = 2;
-    wu.target_nresults = 5;
-    wu.max_error_results = 10;
-    wu.max_total_results = 20;
-    wu.max_success_results = 10;
+    wu.target_nresults = 2;
+    wu.max_error_results = 3;
+    wu.max_total_results = 10;
+    wu.max_success_results = 6;
     wu.rsc_fpops_est = 1e9;
     wu.rsc_fpops_bound =  1e10;
     wu.rsc_memory_bound = 1e8;

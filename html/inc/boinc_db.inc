@@ -207,7 +207,9 @@ class BoincApp {
     }
     static function insert($clause) {
         $db = BoincDb::get();
-        return $db->insert('app', $clause);
+        $ret = $db->insert('app', $clause);
+        if (!$ret) return $ret;
+        return $db->insert_id();
     }
 }
 
@@ -215,6 +217,10 @@ class BoincAppVersion {
     static function enum($clause) {
         $db = BoincDb::get();
         return $db->enum('app_version', 'BoincAppVersion', $clause);
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('app_version', 'BoincAppVersion', $clause);
     }
 }
 

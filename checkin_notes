@@ -1909,3 +1909,34 @@ Charlie Mar 5 2008
         ViewProjectsGrid.cpp,h
         ViewTransfersGrid.cpp,h
         ViewWorkGrid.cpp,h
+
+David  Mar 5 2008
+    - server: debugged single-job submission feature.
+        It works, at least in my test case.
+    - boinc_submit script:
+        show status every 10 seconds until completed
+        add --wait option to show status for previous submission
+    - Added get_logical_name() in validate_util.C
+    - create_work: change default target_nresults from 5 to 2,
+        max_error_results from 10 to 3,
+        max_total_results from 20 to 10,
+        max_success_results from 10 to 6
+    - boinc_cmd: show full usage if no args
+    - project setup: copy single_job_assimilator
+
+    html/
+        inc/
+            boinc_db.inc
+        ops/
+            single_job_setup
+    lib/
+        boinc_cmd.C
+        error_numbers.h
+    py/Boinc/
+        setup_project.py
+    sched/
+        single_job_assimilator.C
+        validate_util.C,h
+    tools/
+        boinc_submit
+        create_work.C

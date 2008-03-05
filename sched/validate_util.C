@@ -95,6 +95,62 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
     return 0;
 }
 
+struct FILE_REF {
+    char file_name[256];
+    char open_name[256];
+    int parse(XML_PARSER& xp) {
+        char tag[256], path[1024];
+        bool is_tag;
+
+        strcpy(file_name, "");
+        strcpy(open_name, "");
+        while (!xp.get(tag, sizeof(tag), is_tag)) {
+            if (!is_tag) continue;
+            if (!strcmp(tag, "/file_ref")) {
+                return 0;
+            }
+            if (xp.parse_str(tag, "file_name", file_name, sizeof(file_name))) continue;
+            if (xp.parse_str(tag, "open_name", open_name, sizeof(open_name))) continue;
+        }
+        return ERR_XML_PARSE;
+    }
+};
+
+// given a path returned by the above, get the corresponding logical name
+//
+int get_logical_name(RESULT const& result, string const& path, string& name) {
+    char phys_name[1024];
+    char tag[256];
+    bool is_tag;
+    MIOFILE mf;
+    int retval;
+
+    mf.init_buf_read(result.xml_doc_in);
+    XML_PARSER xp(&mf);
+
+    strcpy(phys_name, path.c_str());
+    char* p = strrchr(phys_name, '/');
+    if (!p) return ERR_NOT_FOUND;
+    strcpy(phys_name, p+1);
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "result")) continue;
+        if (!strcmp(tag, "file_ref")) {
+            FILE_REF fr;
+            retval = fr.parse(xp);
+            if (retval) continue;
+            if (!strcmp(phys_name, fr.file_name)) {
+                name = fr.open_name;
+                return 0;
+            }
+            continue;
+        }
+        xp.skip_unexpected( tag, false, 0);
+    }
+    return ERR_XML_PARSE;
+}
+
 #define CREDIT_EPSILON .001
 
 // If we have N correct results with nonzero claimed credit,

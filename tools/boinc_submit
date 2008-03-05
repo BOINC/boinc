@@ -27,16 +27,23 @@ $project_dir = null;
 $job_dir = getcwd();
 $platform = 'i686-pc-linux-gnu';
 $infiles = array();
+$infiles_phys = array();
+    // input filename with _WUID appended
 $outfiles = array();
 $stdin_file = null;
 $stdout_file = null;
 $program = null;
+$program_phys = null;
+    // the physical name of the program
 $cmdline_args = null;
 $app_name = null;
 $wu_template_filename = null;
     // relative to project dir
 $result_template_filename = null;
     // relative to project dir
+$wrapper_job_filename = null;
+$verbose = false;
+$wuid = null;
 
 function get_project_dir() {
     global $project_dir;
@@ -53,7 +60,10 @@ to the path of a BOINC project, e.g.:
 }
 
 function usage() {
-    echo "Usage: boinc_job [options] program
+    echo "Usage: boinc_job [boinc-options] program [program-options]
+
+boinc-options:
+
 --platform p
     Run the program on platform p
 --infile f
@@ -64,6 +74,8 @@ function usage() {
     Direct f to the program's stdin
 --stdout f
     Direct the program's stdout to f
+--help
+    Print this
 ";
     exit(1);
 }
@@ -103,12 +115,12 @@ function check_app_version() {
 // make the job.xml file used by the wrapper
 //
 function make_wrapper_job_file() {
-    global $program, $stdin_file, $stdout_file, $cmdline_args, $wuid;
-    global $project_dir;
+    global $program_phys, $stdin_file, $stdout_file, $cmdline_args, $wuid;
+    global $project_dir, $wrapper_job_filename;
 
     chdir($project_dir);
-    $filename = "sj_$wuid.xml";
-    $path = download_path($filename);
+    $wrapper_job_filename = "sj_$wuid.xml";
+    $path = download_path($wrapper_job_filename);
     $f = fopen($path, "w");
     if (!$f) {
         error("Can't open $path");
@@ -116,7 +128,7 @@ function make_wrapper_job_file() {
     fwrite($f,
 "<job_desc>
     <task>
-        <application>$program</application>
+        <application>$program_phys</application>
 ");
     if ($stdin_file) {
         fwrite($f, "        <stdin_filename>$stdin_file</stdin_filename>\n");
@@ -132,7 +144,7 @@ function make_wrapper_job_file() {
 }
 
 function make_wu_template() {
-    global $wuid, $infiles, $stdin_file, $program, $wu_template_filename;
+    global $wuid, $infiles, $stdin_file, $program_phys, $wu_template_filename;
     global $project_dir;
 
     chdir($project_dir);
@@ -141,13 +153,30 @@ function make_wu_template() {
     if (!$f) {
         error("Can't open $wu_template_filename");
     }
-    for ($i=0; $i<count($infiles)+2; $i++) {
+    $n = count($infiles);
+    $n++;   // for job file
+    if ($stdin_file) {
+        $n++;
+    }
+    for ($i=0; $i<$n; $i++) {
         fwrite($f,
 "<file_info>
-   <number>$i</number>
+    <number>$i</number>
 </file_info>
 ");
     }
+
+    // The program file needs to be executable.
+    // Make it sticky too.
+    //
+    fwrite($f,
+"<file_info>
+    <number>$i</number>
+    <executable/>
+    <sticky/>
+</file_info>
+");
+
     fwrite($f, "<workunit>\n");
     $i = 0;
     foreach($infiles as $infile) {
@@ -164,7 +193,7 @@ function make_wu_template() {
         fwrite($f,
 "    <file_ref>
         <file_number>$i</file_number>
-        <open_name>stdin</open_name>
+        <open_name>$stdin_file</open_name>
     </file_ref>
 ");
         $i++;
@@ -172,8 +201,14 @@ function make_wu_template() {
     fwrite($f,
 "    <file_ref>
         <file_number>$i</file_number>
-        <open_name>$program</open_name>
-        <copy_file/>
+        <open_name>job.xml</open_name>
+    </file_ref>
+");
+    $i++;
+    fwrite($f,
+"    <file_ref>
+        <file_number>$i</file_number>
+        <open_name>$program_phys</open_name>
     </file_ref>
 ");
     fwrite($f,
@@ -205,6 +240,18 @@ function make_result_template() {
     <url><UPLOAD_URL/></url>
 </file_info>
 ");
+        $i++;
+    }
+    if ($stdout_file) {
+        fwrite($f,
+"<file_info>
+    <name><OUTFILE_$i/></name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>1e12</max_nbytes>
+    <url><UPLOAD_URL/></url>
+</file_info>
+");
     }
 
     fwrite($f, "<result>\n");
@@ -225,7 +272,7 @@ function make_result_template() {
         fwrite($f,
 "    <file_ref>
         <file_name><OUTFILE_$i/></file_name>
-        <open_name>stdout</open_name>
+        <open_name>$stdout_file</open_name>
     </file_ref>
 ");
     }
@@ -259,44 +306,70 @@ function create_wu() {
 }
 
 function create_job() {
-    global $wuid, $app_name, $infiles, $program, $project_dir;
+    global $wuid, $app_name, $infiles_phys, $program_phys, $project_dir;
     global $result_template_filename, $wu_template_filename;
+    global $wrapper_job_filename, $verbose;
 
     chdir($project_dir);
-    $cmd = "bin/create_work --appname $app_name --wu_name sj_$wuid --wu_id $wuid --wu_template $wu_template_filename --result_template $result_template_filename";
-    foreach ($infiles as $infile) {
+    $cmd = "bin/create_work --min_quorum 1 --target_nresults 1 --appname $app_name --wu_name sj_$wuid --wu_id $wuid --wu_template $wu_template_filename --result_template $result_template_filename";
+    foreach ($infiles_phys as $infile) {
         $cmd .= " $infile";
     }
-    $cmd .= " sj_$wuid.xml";
-    $cmd .= " $program";
-    echo "Executing command: $cmd\n";
+    $cmd .= " $wrapper_job_filename";
+    $cmd .= " $program_phys";
+
+    if ($verbose) {
+        echo "Executing command: $cmd\n";
+    }
     system($cmd);
 }
 
 // copy input files and program file to the download hierarchy
 //
 function copy_files() {
-    global $infiles, $wuid, $job_dir, $program;
+    global $infiles, $infiles_phys, $wuid, $job_dir, $program, $program_phys;
+    global $verbose;
 
     chdir($job_dir);
     foreach ($infiles as $infile) {
-        $filename = "$infile_$wuid";
+        $filename = $infile.'_'.$wuid;
+        $infiles_phys[] = $filename;
         $path = download_path($filename);
-        echo "copying $infile to $path\n";
+        if ($verbose) {
+            echo "copying $infile to $path\n";
+        }
         copy($infile, $path);
     }
-    $path = download_path($program);
-    echo "copying $program to $path\n";
+    $path = download_path($program_phys);
+    if ($verbose) {
+        echo "copying $program to $path\n";
+    }
     copy($program, $path);
 
 }
 
+// make sure the program is there, MD5 it, and get physical name
+//
+function check_program() {
+    global $program, $job_dir, $program_phys, $platform;
+
+    chdir($job_dir);
+    if (!is_file($program)) {
+        error("Program file $program not found");
+    }
+    $m = md5_file($program);
+    $m = substr($m, 0, 8);
+    $program_phys = $program.'_'.$platform.'_'.$m;
+}
+
 function parse_args($argc, $argv) {
     global $platform, $infiles, $outfiles, $stdin_file, $stdout_file;
-    global $program, $cmdline_args;
+    global $program, $cmdline_args, $wuid;
 
     for ($i=1; $i<$argc; $i++) {
         switch ($argv[$i]) {
+        case '--help':
+            usage();
         case '--platform':
             $platform = $argv[++$i];
             break;
@@ -312,6 +385,12 @@ function parse_args($argc, $argv) {
         case '--stdout':
             $stdout_file = $argv[++$i];
             break;
+        case '--verbose':
+            $verbose = true;
+            break;
+        case '--wait':
+            $wuid = $argv[++$i];
+            wait();
         default:
             if ($program) {
                 $cmdline_args .= ''.$argv[$i];
@@ -324,10 +403,65 @@ function parse_args($argc, $argv) {
     if (!$program) usage();
 }
 
+function show_result($result, $i) {
+    switch ($result->server_state) {
+    case 2:
+        echo "  Instance $i: unsent\n";
+        break;
+    case 4:
+        echo "  Instance $i: in progress on host $result->hostid\n";
+        break;
+    case 5:
+        echo "  Instance $i: completed on host $result->hostid\n";
+        break;
+    }
+}
+
+function show_wu_status($wu) {
+    $now = date("F j, Y, g:i a e");
+    switch ($wu->assimilate_state) {
+    case 0:
+        echo "$now: job $wu->id is in progress\n";
+        $results = BoincResult::enum("workunitid=$wu->id");
+        $n = count($results);
+        if ($n) {
+            $i = 0;
+            foreach ($results as $result) {
+                show_result($result, $i);
+                $i++;
+            }
+        } else {
+            echo "  (no instances yet)\n";
+        }
+        break;
+    case 1:
+        echo "$now: job $wu->id is being assimilated\n";
+        break;
+    case 2:
+        echo "$now: job $wu->id completed\n";
+        exit;
+    }
+}
+
+function wait() {
+    global $wuid;
+
+    while (1) {
+        $wu = BoincWorkunit::lookup_id($wuid);
+        if (!$wu) {
+            echo "Job $wuid is not in the database\n";
+            exit;
+        }
+        show_wu_status($wu);
+        sleep(10);
+    }
+}
+
 get_project_dir();
-parse_args($argc, $argv);
 do_includes();
+parse_args($argc, $argv);
 check_app_version();
+check_program();
 create_wu();
 make_wrapper_job_file();
 make_job_file();
@@ -335,5 +469,6 @@ make_wu_template();
 make_result_template();
 copy_files();
 create_job();
+wait();
 
 ?>

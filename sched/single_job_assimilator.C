@@ -63,19 +63,23 @@ int assimilate_handler(
         log_messages.printf(MSG_CRITICAL, "garbage in job file: %s\n", buf);
         return 0;
     }
+    *p = 0;
     if (wu.canonical_resultid) {
         vector<string> output_file_paths;
         char copy_path[256];
         get_output_file_paths(canonical_result, output_file_paths);
         unsigned int n = output_file_paths.size();
         for (i=0; i<n; i++) {
-            string path = output_file_paths[i];
-            strcpy(buf, path.c_str());
-            p = strrchr(buf, '/');
-            strcpy(filename, p+1);
-            p = strrchr(filename, '_');
-            *p = 0;
-            sprintf(copy_path, "%s/%s", job_dir, filename);
+            string path = output_file_paths[i], logical_name;
+            retval = get_logical_name(canonical_result, path, logical_name);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Couldn't get logical name for %s: %d\n",
+                    path.c_str(), retval
+                );
+                return retval;
+            }
+            sprintf(copy_path, "%s/%s", job_dir, logical_name.c_str());
             retval = boinc_copy(path.c_str() , copy_path);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,

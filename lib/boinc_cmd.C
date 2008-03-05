@@ -21,8 +21,6 @@
 // using GUI RPCs.
 //
 // usage: boinc_cmd [--host hostname] [--passwd passwd] command
-//
-// See help() below for a list of commands.
 
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
@@ -47,21 +45,12 @@ using std::string;
 #include "version.h"
 #include "common_defs.h"
 
-
-void usage() {
-    fprintf(stderr, "\
-Usage:  boinc_cmd [--host hostname] [--passwd passwd] command\n\
-Give --help as a command for a list of commands\n\
-");
-    exit(1);
-}
-
 void version(){
     printf("boinc_cmd,  built from %s \n", PACKAGE_STRING );
     exit(0);
 }
 
-void help() {
+void usage() {
     fprintf(stderr, "\n\
 usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
@@ -129,7 +118,7 @@ void show_error(int retval) {
 char* next_arg(int argc, char** argv, int& i) {
     if (i >= argc) {
         fprintf(stderr, "Missing command-line argument\n");
-        help();
+        usage();
         exit(1);
     }
     return argv[i++];
@@ -174,8 +163,8 @@ int main(int argc, char** argv) {
 #endif
     if (argc < 2) usage();
     i = 1;
-    if (!strcmp(argv[i], "--help")) help();
-    if (!strcmp(argv[i], "-h"))     help();
+    if (!strcmp(argv[i], "--help")) usage();
+    if (!strcmp(argv[i], "-h"))     usage();
     if (!strcmp(argv[i], "--version")) version();
     if (!strcmp(argv[i], "-V"))     version();
 
