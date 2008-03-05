@@ -258,3 +258,4 @@ DLLAPI int        FCGI_pclose(FCGI_FILE *);
 #define	fread    FCGI_fread
 #define fwrite   FCGI_fwrite
 #define vfprintf FCGI_vfprintf
+#define fseek    FCGI_fseek
