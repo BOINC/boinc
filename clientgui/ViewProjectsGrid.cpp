@@ -176,7 +176,7 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColumnSortType(COLUMN_RESOURCESHARE,CST_FLOAT);
 	m_pGridPane->SetColumnSortType(COLUMN_AVGCREDIT,CST_FLOAT);
 	//
-	m_pGridPane->SetPrimaryKeyColumn(COLUMN_PROJECT);
+	m_pGridPane->SetPrimaryKeyColumns(COLUMN_PROJECT,-1);
     UpdateSelection();
 }
 
@@ -771,11 +771,14 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     if(docCount != m_pGridPane->GetNumberRows()) {
         if (docCount > m_pGridPane->GetNumberRows()) {
     	    m_pGridPane->AppendRows(docCount - m_pGridPane->GetNumberRows());
-        } else {
-		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
+         } else {
+            m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
+            m_bForceUpdateSelection = true;
         }
         wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
+
+    m_pGridPane->SaveSelection();
 
 	wxString strBuffer;
 	int iMax = m_pGridPane->GetNumberRows();
@@ -821,7 +824,8 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     m_pGridPane->SortData();
 
-	UpdateSelection();
+    m_pGridPane->RestoreSelection();
+    UpdateSelection();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function End"));
 }

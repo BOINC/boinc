@@ -1873,6 +1873,21 @@ Charlie Mar 4 2008
         The other tabs disabled all buttons when multiple items were 
         selected, so allowing multiple selections was confusing to 
         users.
+    - MGR: When order of rows in grid views changes (due to sorting or 
+        changes in data), reselect the same data in the rearranged rows
+        using:
+            Projects tab: project name only
+            Tasks tab: project name and work unit (task) name
+            Transfers tab: project name and file name
+            Messages tab: sequence number only.
+    - MGR: set m_bForceUpdateSelection=true when deleting rows from grid 
+        views.  Fixes bug: if the last row was selected and is deleted, 
+        the new last row is automatically selected but the buttons were 
+        not updated to reflect the new selection.
 
     clientgui/
-        ViewTransfersGrid.cpp,h
+        BOINCGridGtrl.cpp,h
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp

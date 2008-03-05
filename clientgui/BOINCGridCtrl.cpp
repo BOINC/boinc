@@ -130,9 +130,13 @@ CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxG
 	sortColumn=-1;
 	sortAscending=true;
 	sortNeededByLabelClick=false;
-	m_pkColumnIndex=-1;
+	m_pkColumnIndex1=-1;
+	m_pkColumnIndex2=-1;
 	m_cursorcol=-1;
-	m_cursorrow=-1;		
+	m_cursorrow=-1;
+	m_arrSelectedKeys1.Clear();
+	m_arrSelectedKeys2.Clear();
+	
 	//load sorting bitmaps
 	ascBitmap = wxBitmap(sortascending_xpm);
 	descBitmap = wxBitmap(sortdescending_xpm);
@@ -185,8 +189,9 @@ wxArrayInt CBOINCGridCtrl::GetSelectedRows2() {
 }
 
 /* sets the column with unique values */
-void CBOINCGridCtrl::SetPrimaryKeyColumn(int col) {
-	m_pkColumnIndex = col;
+void CBOINCGridCtrl::SetPrimaryKeyColumns(int col1,int col2) {
+	m_pkColumnIndex1 = col1;
+	m_pkColumnIndex2 = col2;
 }
 
 /* If the user clicked inside the grid, the former selected cells must be deselected.
@@ -195,16 +200,22 @@ void CBOINCGridCtrl::SetPrimaryKeyColumn(int col) {
  */
 void CBOINCGridCtrl::ClearSavedSelection() {
 	if(this->GetBatchCount()<=0) {
-		m_arrSelectedKeys.Empty();
+		m_arrSelectedKeys1.Empty();
+		m_arrSelectedKeys2.Empty();
 	}
 }
 
 /* save the key values of the currently selected rows for later restore */
 void CBOINCGridCtrl::SaveSelection() {
-	if(m_pkColumnIndex>=0) {
+	if(m_pkColumnIndex1>=0) {
 		wxArrayInt arrSelRows = GetSelectedRows2();	
+		m_arrSelectedKeys1.Empty();
+		m_arrSelectedKeys2.Empty();
 		for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
-			m_arrSelectedKeys.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex));
+			m_arrSelectedKeys1.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex1));
+			if (m_pkColumnIndex2 >= 0) {
+                            m_arrSelectedKeys2.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex2));
+                        }
 		}
 	}
 }
@@ -212,9 +223,11 @@ void CBOINCGridCtrl::SaveSelection() {
 /* select all rows, that were formerly selected
    this raises selection events without user interaction */
 void CBOINCGridCtrl::RestoreSelection() {
-	ClearSelection();
-	for(unsigned int i=0;i < m_arrSelectedKeys.size();i++) {
-		int index = GetTable()->FindRowIndexByColValue(m_pkColumnIndex,m_arrSelectedKeys[i]);
+//	ClearSelection();
+	for(unsigned int i=0;i < m_arrSelectedKeys1.size();i++) {
+		int index = GetTable()->FindRowIndexByColValue(
+                    m_pkColumnIndex1,m_arrSelectedKeys1[i],m_pkColumnIndex2,m_arrSelectedKeys2[i]
+                );
 		if(index >=0) {
 			SelectRow(index,true);
 		}
@@ -225,12 +238,15 @@ void CBOINCGridCtrl::SaveGridCursorPosition() {
 	m_cursorcol = GetGridCursorCol();
 	m_cursorrow = GetGridCursorRow();	
 	if(m_cursorrow>=0 && m_cursorcol >=0) {
-		m_szCursorKey = GetCellValue(m_cursorrow,m_pkColumnIndex);
+		m_szCursorKey1 = GetCellValue(m_cursorrow,m_pkColumnIndex1);
+                if (m_pkColumnIndex2 >= 0) {
+                    m_szCursorKey2 = GetCellValue(m_cursorrow,m_pkColumnIndex2);
+                }
 	}
 }
 
 void CBOINCGridCtrl::RestoreGridCursorPosition() {
-	int index = GetTable()->FindRowIndexByColValue(m_pkColumnIndex,m_szCursorKey);
+	int index = GetTable()->FindRowIndexByColValue(m_pkColumnIndex1,m_szCursorKey1,m_pkColumnIndex2,m_szCursorKey2);
 	if(index >=0) {		
 		SetGridCursor(index,m_cursorcol);		
 	}
@@ -571,8 +587,7 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 		wxTimerEvent tEvent;
 		wxDynamicCast(GetParent(),CBOINCBaseView)->FireOnListRender(tEvent);
 	}
-
-	ev.Skip();
+        // The base class calls ClearSelection(), so do NOT call ev.Skip();
 }
 
 void CBOINCGridCtrl::SortData() {
@@ -869,7 +884,7 @@ void CBOINCGridTable::SortData(int col,bool ascending) {
 	wxGridStringArray newArray;
 	for(unsigned int i=0; i< arColValues.GetCount();i++) {
 		//find the original row index
-		int indexold = FindRowIndexByColValue(col,arColValues[i]);
+		int indexold = FindRowIndexByColValue(col,arColValues[i],-1,arColValues[i]);
 		wxArrayString rowArray;
 		for(int j=0; j < this->GetNumberCols(); j++) {
 			rowArray.Add(this->GetValue(indexold,j));
@@ -888,16 +903,16 @@ void CBOINCGridTable::SortData(int col,bool ascending) {
 	}
 }
 
-/* finds the first row index for the cell value value in column col
-   !! only use this (outside sorting method) with a column, that has unique values !!
+/* finds the first row index for the cell with value value1 in column col1 and value2 in col2
+   ignores col2 and value2 if col2 < 0
+   !! only use this (outside sorting method) with a pair of columns, that have unique value pairs !!
 */
-int CBOINCGridTable::FindRowIndexByColValue(int col,wxString& value) {
+int CBOINCGridTable::FindRowIndexByColValue(int col1,wxString& value1,int col2,wxString& value2) {
 
 	for(int i=0; i < this->GetNumberRows(); i++) {
-		wxString curr = GetValue(i,col);
-		if(this->GetValue(i,col).IsSameAs(value)) {
-			return i;
-		}
+            if(! this->GetValue(i,col1).IsSameAs(value1)) continue;
+            if (col2 < 0) return i;
+            if(this->GetValue(i,col2).IsSameAs(value2)) return i;
 	}
 	return -1;
 }

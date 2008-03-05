@@ -160,7 +160,7 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColumnSortType(COLUMN_REPORTDEADLINE,CST_DATETIME);
 	m_pGridPane->SetColumnSortType(COLUMN_RESULTS_INDEX,CST_LONG);
 	//set primary key column index
-	m_pGridPane->SetPrimaryKeyColumn(COLUMN_NAME);
+	m_pGridPane->SetPrimaryKeyColumns(COLUMN_NAME,COLUMN_PROJECT);
         // Hide the Index column
         int min_width = m_pGridPane->GetColMinimalAcceptableWidth();
 	m_pGridPane->SetColMinimalAcceptableWidth(0);
@@ -845,8 +845,8 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         return;
     }
     
-	// flag for row count changes 
-	bool rowCountChanged=false;
+    // flag for row count changes 
+    bool rowCountChanged=false;
     // Right-size the grid so that the number of rows matches
     //   the document state.
     if(docCount != m_pGridPane->GetNumberRows()) {
@@ -854,8 +854,9 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     	    m_pGridPane->AppendRows(docCount - m_pGridPane->GetNumberRows());
     	    rowCountChanged=true;
         } else {
-		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
+    	    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
     	    rowCountChanged=true;
+    	    m_bForceUpdateSelection = true;
         }
         wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
@@ -938,7 +939,8 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         m_pGridPane->sortNeededByLabelClick) 
     {
         wxArrayString ordered_indexes;
-        for(int iRow = 0; iRow < iMax; iRow++) {
+        m_pGridPane->SaveSelection();
+         for(int iRow = 0; iRow < iMax; iRow++) {
             ordered_indexes.Add(m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX));
         }
         
@@ -947,6 +949,7 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         for(int iRow = 0; iRow < iMax; iRow++) {
             if (ordered_indexes[iRow] != m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX)) {
                 // Refresh entire grid if sort order has changed
+                m_pGridPane->RestoreSelection();
                 m_pGridPane->ForceRefresh();
                 break;
             }

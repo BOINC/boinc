@@ -142,7 +142,7 @@ CViewMessagesGrid::CViewMessagesGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColumnSortType(COLUMN_TIME,CST_TIME);
 	m_pGridPane->SetColumnSortType(COLUMN_SEQNO,CST_LONG);
 	//set primary key column index
-	m_pGridPane->SetPrimaryKeyColumn(COLUMN_SEQNO);
+	m_pGridPane->SetPrimaryKeyColumns(COLUMN_SEQNO,-1);
 
     UpdateSelection();
 }

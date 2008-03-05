@@ -140,7 +140,7 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
 	//m_pGridPane->SetColumnSortType(COLUMN_SIZE,CST_FLOAT);
 	m_pGridPane->SetColumnSortType(COLUMN_SPEED,CST_FLOAT);
 	//set primary key column index
-	m_pGridPane->SetPrimaryKeyColumn(COLUMN_FILE);
+	m_pGridPane->SetPrimaryKeyColumns(COLUMN_FILE,COLUMN_PROJECT);
     UpdateSelection();
 }
 
@@ -485,10 +485,13 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         if (docCount > m_pGridPane->GetNumberRows()) {
     	    m_pGridPane->AppendRows(docCount - m_pGridPane->GetNumberRows());
         } else {
-		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
+            m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - docCount);
+    	    m_bForceUpdateSelection = true;
         }
         wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
+
+    m_pGridPane->SaveSelection();
 
 	//update cell values
 	wxString strBuffer;
@@ -535,6 +538,7 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
 	m_pGridPane->SortData();
 
+        m_pGridPane->RestoreSelection();
 	UpdateSelection();
 }
 

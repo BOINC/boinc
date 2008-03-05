@@ -67,7 +67,7 @@ public:
 	CBOINCGridTable(int rows,int cols);
 	virtual ~CBOINCGridTable();	
 	void SortData(int col,bool ascending);
-	int FindRowIndexByColValue(int col,wxString& value);
+	int FindRowIndexByColValue(int col1,wxString& value1,int col2,wxString& value2);
 	void SetColumnSortType(int col,int sortType=CST_STRING);
 private:
 	wxArrayInt arrColumnSortTypes;
@@ -98,7 +98,7 @@ public:
 	wxArrayInt GetSelectedRows2();
 	CBOINCGridTable* GetTable();
 	//methods to handle selection and grid cursor positions correct with sorting 
-	void SetPrimaryKeyColumn(int col);
+	void SetPrimaryKeyColumns(int col1,int col2);
 	void SaveSelection();
 	void RestoreSelection();
 	void SaveGridCursorPosition();
@@ -117,11 +117,14 @@ private:
 	int ccollast,crowlast;
 	wxBitmap ascBitmap;
 	wxBitmap descBitmap;
-	int m_pkColumnIndex;//col index act as a primary key
-	wxArrayString m_arrSelectedKeys;//array for remembering the current selected rows by primary key column value
+	int m_pkColumnIndex1; //col index to use as a primary key
+        int m_pkColumnIndex2; //col index to use as secondary key
+	wxArrayString m_arrSelectedKeys1;//array for remembering the current selected rows by primary key column value
+	wxArrayString m_arrSelectedKeys2;//array for remembering the current selected rows by secondary key column value
 	int m_cursorcol; //saved grid cursor column index
 	int m_cursorrow; //saved grid cursor row index
-	wxString m_szCursorKey;//key value for grid cursor cell	
+	wxString m_szCursorKey1;//primary key value for grid cursor cell	
+	wxString m_szCursorKey2;//secondary key value for grid cursor cell	
 };
 
 #endif //_BOINCGRIDCTRL_H_
