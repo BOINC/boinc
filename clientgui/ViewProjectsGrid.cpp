@@ -69,7 +69,9 @@ BEGIN_EVENT_TABLE (CViewProjectsGrid, CBOINCBaseView)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjectsGrid::OnProjectWebsiteClicked)
 	EVT_GRID_SELECT_CELL(CViewProjectsGrid::OnGridSelectCell)
 	EVT_GRID_RANGE_SELECT(CViewProjectsGrid::OnGridSelectRange)
+#if PREVENT_MULTIPLE_PROJECT_SELECTIONS
         EVT_GRID_CELL_LEFT_CLICK(CViewProjectsGrid::OnCellLeftClick)
+#endif
 END_EVENT_TABLE ()
 
 
@@ -218,6 +220,7 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxString        strProjectURL  = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, n;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -227,10 +230,14 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Updating project..."));
 
-    strProjectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_HIDDEN_URL);
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    for(i=0; i<n; i++) {
+        strProjectURL = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_HIDDEN_URL);
 
-    pDoc->ProjectUpdate(HtmlEntityEncode(strProjectURL).Trim(false));
-
+        pDoc->ProjectUpdate(HtmlEntityEncode(strProjectURL).Trim(false));
+    }
+    
     pFrame->UpdateStatusText(wxT(""));
 
     m_bForceUpdateSelection = true;
@@ -248,6 +255,7 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxString        strProjectURL  = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, n;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -255,24 +263,27 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pGridPane);
 
-    strProjectURL = 
-        HtmlEntityEncode(
-            m_pGridPane->GetCellValue(
-                m_pGridPane->GetFirstSelectedRow(),
-                COLUMN_HIDDEN_URL
-            ).Trim(false)
-        );
-    PROJECT* project = pDoc->project(strProjectURL);
-
-    if (project->suspended_via_gui) {
-        pFrame->UpdateStatusText(_("Resuming project..."));
-        pDoc->ProjectResume(strProjectURL);
-        pFrame->UpdateStatusText(wxT(""));
-    } else {
-        pFrame->UpdateStatusText(_("Suspending project..."));
-        pDoc->ProjectSuspend(strProjectURL);
-        pFrame->UpdateStatusText(wxT(""));
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    for(i=0; i<n; i++) {
+        strProjectURL = 
+            HtmlEntityEncode(
+                m_pGridPane->GetCellValue(
+                    arrSelRows[i],
+                    COLUMN_HIDDEN_URL
+                ).Trim(false)
+            );
+        PROJECT* project = pDoc->project(strProjectURL);
+        
+        if (project->suspended_via_gui) {
+            pFrame->UpdateStatusText(_("Resuming project..."));
+            pDoc->ProjectResume(strProjectURL);
+        } else {
+            pFrame->UpdateStatusText(_("Suspending project..."));
+            pDoc->ProjectSuspend(strProjectURL);
+        }
     }
+    pFrame->UpdateStatusText(wxT(""));
 	
     m_bForceUpdateSelection = true;
     UpdateSelection();
@@ -288,6 +299,7 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxString        strProjectURL = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, n;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -295,25 +307,28 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pGridPane);
 
-    strProjectURL = 
-        HtmlEntityEncode(
-            m_pGridPane->GetCellValue(
-                m_pGridPane->GetFirstSelectedRow(),
-                COLUMN_HIDDEN_URL
-            ).Trim(false)
-        );
-    PROJECT* project = pDoc->project(strProjectURL);
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    for(i=0; i<n; i++) {
+        strProjectURL = 
+            HtmlEntityEncode(
+                m_pGridPane->GetCellValue(
+                    arrSelRows[i],
+                    COLUMN_HIDDEN_URL
+                ).Trim(false)
+            );
+        PROJECT* project = pDoc->project(strProjectURL);
 
-    if (project->dont_request_more_work) {
-        pFrame->UpdateStatusText(_("Telling project to allow additional task downloads..."));
-        pDoc->ProjectAllowMoreWork(strProjectURL);
-        pFrame->UpdateStatusText(wxT(""));
-    } else {
-        pFrame->UpdateStatusText(_("Telling project to not fetch any additional tasks..."));
-        pDoc->ProjectNoMoreWork(strProjectURL);
-        pFrame->UpdateStatusText(wxT(""));
+        if (project->dont_request_more_work) {
+            pFrame->UpdateStatusText(_("Telling project to allow additional task downloads..."));
+            pDoc->ProjectAllowMoreWork(strProjectURL);
+        } else {
+            pFrame->UpdateStatusText(_("Telling project to not fetch any additional tasks..."));
+            pDoc->ProjectNoMoreWork(strProjectURL);
+        }
     }
-
+    pFrame->UpdateStatusText(wxT(""));
+    
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -333,6 +348,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, n;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -345,25 +361,29 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Resetting project..."));
 
-    strProjectName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_PROJECT);
-    strProjectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_HIDDEN_URL);
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    for(i=0; i<n; i++) {
+        strProjectName = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_PROJECT);
+        strProjectURL = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_HIDDEN_URL);
 
-    strMessage.Printf(
-        _("Are you sure you want to reset project '%s'?"),
-        strProjectName.c_str()    
-    );
+        strMessage.Printf(
+            _("Are you sure you want to reset project '%s'?"),
+            strProjectName.c_str()    
+        );
 
-    iAnswer = ::wxMessageBox(
-        strMessage,
-        _("Reset Project"),
-        wxYES_NO | wxICON_QUESTION,
-        this
-    );
+        iAnswer = ::wxMessageBox(
+            strMessage,
+            _("Reset Project"),
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
 
-    if (wxYES == iAnswer) {
-        pDoc->ProjectReset(HtmlEntityEncode(strProjectURL.Trim(false)));
+        if (wxYES == iAnswer) {
+            pDoc->ProjectReset(HtmlEntityEncode(strProjectURL.Trim(false)));
+        }
     }
-
+    
     pFrame->UpdateStatusText(wxT(""));
 
     m_bForceUpdateSelection = true;
@@ -383,6 +403,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc           = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame         = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, n;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -395,25 +416,29 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Detaching from project..."));
 
-    strProjectName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_PROJECT);
-    strProjectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(), COLUMN_HIDDEN_URL);
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    for(i=0; i<n; i++) {
+        strProjectName = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_PROJECT);
+        strProjectURL = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_HIDDEN_URL);
 
-    strMessage.Printf(
-        _("Are you sure you want to detach from project '%s'?"),
-        strProjectName.c_str()
-    );
+        strMessage.Printf(
+            _("Are you sure you want to detach from project '%s'?"),
+            strProjectName.c_str()
+        );
 
-    iAnswer = ::wxMessageBox(
-        strMessage,
-        _("Detach from Project"),
-        wxYES_NO | wxICON_QUESTION,
-        this
-    );
+        iAnswer = ::wxMessageBox(
+            strMessage,
+            _("Detach from Project"),
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
 
-    if (wxYES == iAnswer) {
-        pDoc->ProjectDetach(HtmlEntityEncode(strProjectURL.Trim(false)));
+        if (wxYES == iAnswer) {
+            pDoc->ProjectDetach(HtmlEntityEncode(strProjectURL.Trim(false)));
+        }
     }
-
+    
     pFrame->UpdateStatusText(wxT(""));
 
     m_bForceUpdateSelection = true;
@@ -453,6 +478,7 @@ wxInt32 CViewProjectsGrid::GetDocCount() {
     return wxGetApp().GetDocument()->GetProjectCount();
 }
 
+#if PREVENT_MULTIPLE_PROJECT_SELECTIONS
 void CViewProjectsGrid::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
     // Disallow multiple selections
     if (m_pGridPane->GetSelectedRows2().size() > 1) {
@@ -470,13 +496,15 @@ void CViewProjectsGrid::OnCellLeftClick( wxGridEvent& event ) {
     m_pGridPane->ClearSelection();
     m_pGridPane->SelectRow(theRow);
 }
-
+#endif
 
 void CViewProjectsGrid::UpdateSelection() {
     wxString        strProjectURL = wxEmptyString;
     CTaskItemGroup* pGroup = NULL;
     PROJECT*        project = NULL;
     CMainDocument*  pDoc = wxGetApp().GetDocument();
+    int             i, n;
+    bool            wasSuspended, wasNoNewWork;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -494,19 +522,43 @@ void CViewProjectsGrid::UpdateSelection() {
     //
     pGroup = m_TaskGroups[0];
 
-	if (m_pGridPane->GetSelectedRows2().size() == 1) {
-        strProjectURL = 
-            HtmlEntityEncode(
-                m_pGridPane->GetCellValue(
-                    m_pGridPane->GetFirstSelectedRow(),
-                    COLUMN_HIDDEN_URL
-                ).Trim(false)
-            );
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    
+    if (n > 0) {
+        m_pTaskPane->EnableTaskGroupTasks(pGroup);
+    } else {
+        m_pTaskPane->DisableTaskGroupTasks(pGroup);
+    }
+   
+    if (n == 1) {
+        UpdateWebsiteSelection(GRP_WEBSITES, project);
+        if(m_TaskGroups.size()>1) {
+            m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
+        }
+    } else {
+        UpdateWebsiteSelection(GRP_WEBSITES, NULL);
+        if(m_TaskGroups.size()>1) {
+            m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+        }
+    }
+
+    for(i=0; i<n; i++) {
+        strProjectURL = HtmlEntityEncode(
+            m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false)
+        );
         project = pDoc->project(strProjectURL);
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
-        if (project) {
-            if (project->suspended_via_gui) {
+        if (!project) {
+            m_pTaskPane->DisableTaskGroupTasks(pGroup);
+            if(m_TaskGroups.size()>1) {
+                m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+            }
+            return;
+        }
+
+        if (i == 0) {
+            wasSuspended = project->suspended_via_gui;
+             if (project->suspended_via_gui) {
                 m_pTaskPane->UpdateTask(
                     pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume tasks for this project.")
                 );
@@ -515,9 +567,16 @@ void CViewProjectsGrid::UpdateSelection() {
                     pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend tasks for this project.")
                 );
             }
+        } else {
+            if (wasSuspended != project->suspended_via_gui) {
+                // Disable Suspend / Resume button if the multiple selection
+                // has a mix of suspended and not suspended projects
+                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_SUSPEND]);
+            }
         }
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_NOWORK]);
-        if (project) {
+
+        if (i == 0) {
+            wasNoNewWork = project->dont_request_more_work;
             if (project->dont_request_more_work) {
                 m_pTaskPane->UpdateTask(
                     pGroup->m_Tasks[BTN_NOWORK], _("Allow new tasks"), _("Allow fetching new tasks for this project.")
@@ -527,26 +586,21 @@ void CViewProjectsGrid::UpdateSelection() {
                     pGroup->m_Tasks[BTN_NOWORK], _("No new tasks"), _("Don't fetch new tasks for this project.")
                 );
             }
-        }
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
-        if (project && project->attached_via_acct_mgr) {
-            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
         } else {
-            m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
+            if (wasNoNewWork != project->dont_request_more_work) {
+                // Disable Allow New Work / No New Work button if the multiple 
+                // selection has a mix of Allow New Work and No New Work projects
+                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_NOWORK]);
+            }
         }
-
-        UpdateWebsiteSelection(GRP_WEBSITES, project);
-
-    } else {
-        m_pTaskPane->DisableTaskGroupTasks(pGroup);
-		//disable website buttons if they exist
-		if(m_TaskGroups.size()>1) {
-			m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
-		}
+        
+        if (project->attached_via_acct_mgr) {
+            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
+        }
     }
 
     CBOINCBaseView::PostUpdateSelection();
-	m_bForceUpdateSelection=false;
+    m_bForceUpdateSelection=false;
 }
 
 void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* project){

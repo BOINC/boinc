@@ -25,9 +25,10 @@
 #endif
 
 
+#define PREVENT_MULTIPLE_TASK_SELECTIONS false
+
 #include "BOINCBaseView.h"
 #include "BOINCGridCtrl.h"
-
 
 class CViewWorkGrid : public CBOINCBaseView
 {
@@ -53,8 +54,10 @@ public:
     void                    OnProjectWebsiteClicked( wxEvent& event );
 
 protected:
+#if PREVENT_MULTIPLE_TASK_SELECTIONS
     virtual void            OnCellLeftClick( wxGridEvent& event );
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
+#endif
     virtual void            UpdateSelection();
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );

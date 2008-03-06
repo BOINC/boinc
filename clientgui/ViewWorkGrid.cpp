@@ -68,7 +68,9 @@ BEGIN_EVENT_TABLE (CViewWorkGrid, CBOINCBaseView)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWorkGrid::OnProjectWebsiteClicked)
 	EVT_GRID_SELECT_CELL(CViewWorkGrid::OnGridSelectCell)
 	EVT_GRID_RANGE_SELECT(CViewWorkGrid::OnGridSelectRange)
+#if PREVENT_MULTIPLE_TASK_SELECTIONS
         EVT_GRID_CELL_LEFT_CLICK(CViewWorkGrid::OnCellLeftClick)
+#endif
 END_EVENT_TABLE ()
 
 
@@ -203,26 +205,30 @@ void CViewWorkGrid::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
-
+    int i, n;
+    
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pGridPane);
 
-    wxString resultName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
-    wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
-    RESULT* result = pDoc->result(resultName, projectURL);
-    if (result->suspended_via_gui) {
-        pFrame->UpdateStatusText(_("Resuming task..."));
-        pDoc->WorkResume(result->project_url, result->name);
-        pFrame->UpdateStatusText(wxT(""));
-    } else {
-        pFrame->UpdateStatusText(_("Suspending task..."));
-        pDoc->WorkSuspend(result->project_url, result->name);
-        pFrame->UpdateStatusText(wxT(""));
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    for(i=0; i<n; i++) {
+        wxString resultName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
+        wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
+        RESULT* result = pDoc->result(resultName, projectURL);
+        if (result->suspended_via_gui) {
+            pFrame->UpdateStatusText(_("Resuming task..."));
+            pDoc->WorkResume(result->project_url, result->name);
+        } else {
+            pFrame->UpdateStatusText(_("Suspending task..."));
+            pDoc->WorkSuspend(result->project_url, result->name);
+         }
     }
-
+    pFrame->UpdateStatusText(wxT(""));
+    
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -237,6 +243,7 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxString strMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, n;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -264,12 +271,16 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
-        wxString resultName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
-        wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
-        RESULT* result = pDoc->result(resultName, projectURL);
-        pDoc->WorkShowGraphics(result);
+        wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+        n = arrSelRows.GetCount();
+        for(i=0; i<n; i++) {
+            wxString resultName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
+            wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
+            RESULT* result = pDoc->result(resultName, projectURL);
+            pDoc->WorkShowGraphics(result);
+        }
     }
-
+    
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -290,6 +301,7 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxString strStatus      = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, n;
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
@@ -303,36 +315,40 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Aborting result..."));
 
-	strName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
-	strProgress = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROGRESS).Trim(false);
-	strStatus = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_STATUS).Trim(false);
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    for(i=0; i<n; i++) {
+	strName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
+	strProgress = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_PROGRESS).Trim(false);
+	strStatus = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_STATUS).Trim(false);
 	
-    //FormatName(iResult, strName);
-    //FormatProgress(iResult, strProgress);
-    //FormatStatus(iResult, strStatus);
+        //FormatName(iResult, strName);
+        //FormatProgress(iResult, strProgress);
+        //FormatStatus(iResult, strStatus);
 
-    strMessage.Printf(
-        _("Are you sure you want to abort this task '%s'?\n"
-          "(Progress: %s %%, Status: %s)"), 
-        strName.c_str(),
-        strProgress.c_str(),
-        strStatus.c_str()
-    );
+        strMessage.Printf(
+            _("Are you sure you want to abort this task '%s'?\n"
+              "(Progress: %s %%, Status: %s)"), 
+            strName.c_str(),
+            strProgress.c_str(),
+            strStatus.c_str()
+        );
 
-    iAnswer = ::wxMessageBox(
-        strMessage,
-        _("Abort task"),
-        wxYES_NO | wxICON_QUESTION,
-        this
-    );
+        iAnswer = ::wxMessageBox(
+            strMessage,
+            _("Abort task"),
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
 
-    if (wxYES == iAnswer) {
-        wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
-        string resultNameStr = (char*)strName.char_str();
-        string projectURLStr = (char*)projectURL.char_str();
-        pDoc->WorkAbort(projectURLStr, resultNameStr);
+        if (wxYES == iAnswer) {
+            wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
+            string resultNameStr = (char*)strName.char_str();
+            string projectURLStr = (char*)projectURL.char_str();
+            pDoc->WorkAbort(projectURLStr, resultNameStr);
+        }
     }
-
+    
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -367,6 +383,7 @@ void CViewWorkGrid::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWorkGrid::OnProjectWebsiteClicked - Function End"));
 }
 
+#if PREVENT_MULTIPLE_TASK_SELECTIONS 
 void CViewWorkGrid::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
     // Disallow multiple selections
     if (m_pGridPane->GetSelectedRows2().size() > 1) {
@@ -384,13 +401,17 @@ void CViewWorkGrid::OnCellLeftClick( wxGridEvent& event ) {
     m_pGridPane->ClearSelection();
     m_pGridPane->SelectRow(theRow);
 }
+#endif
 
 void CViewWorkGrid::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
     RESULT*             result = NULL;
     PROJECT*            project = NULL;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-
+    int                 i, n;
+    bool                wasSuspended, all_same_project=false;
+    string              first_project_url;
+    
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
@@ -399,60 +420,86 @@ void CViewWorkGrid::UpdateSelection() {
     CBOINCBaseView::PreUpdateSelection();
 
     pGroup = m_TaskGroups[0];
-    if (m_pGridPane->GetSelectedRows2().size() == 1) {
-        wxString resultName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
-        wxString projectURL = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_HIDDEN_URL).Trim(false);
-        result = pDoc->result(resultName, projectURL);
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
-        if (result) {
-            if (result->suspended_via_gui) {
-                m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND],
-                    _("Resume"),
-                    _("Resume work for this task.")
-                );
-            } else {
-                m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND],
-                    _("Suspend"),
-                    _("Suspend work for this task.")
-                );
-            }
-            if ((result->supports_graphics && (! pDoc->GetState()->executing_as_daemon)) 
-                    || !result->graphics_exec_path.empty()
-            ) {
-               m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
-            } else {
-                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
-            }
 
-            if (
-                result->active_task_state != PROCESS_ABORT_PENDING &&
-                result->active_task_state != PROCESS_ABORTED &&
-                result->state != RESULT_ABORTED 
-            ) {
-                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = arrSelRows.GetCount();
+    
+    if (n > 0) {
+        m_pTaskPane->EnableTaskGroupTasks(pGroup);
+    } else {
+        m_pTaskPane->DisableTaskGroupTasks(pGroup);
+    }
+   
+    for(i=0; i<n; i++) {
+        wxString resultName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
+        wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
+        result = pDoc->result(resultName, projectURL);
+        if (result) {
+            if (i == 0) {
+                wasSuspended = result->suspended_via_gui;
+                if (result->suspended_via_gui) {
+                    m_pTaskPane->UpdateTask(
+                        pGroup->m_Tasks[BTN_SUSPEND],
+                        _("Resume"),
+                        _("Resume work for this task.")
+                    );
+                } else {
+                    m_pTaskPane->UpdateTask(
+                        pGroup->m_Tasks[BTN_SUSPEND],
+                        _("Suspend"),
+                        _("Suspend work for this task.")
+                    );
+                }
             } else {
+                if (wasSuspended != result->suspended_via_gui) {
+                    // Disable Suspend / Resume button if the multiple selection
+                    // has a mix of suspended and not suspended tasks
+                    m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_SUSPEND]);
+                }
+            }
+            
+            // Disable Show Graphics button if any selected task can't display graphics
+            if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
+                        && result->graphics_exec_path.empty()
+                ) {
+                     m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+                }
+            
+            // Disable Abort button if any selected task already aborted
+            if (
+                result->active_task_state == PROCESS_ABORT_PENDING ||
+                result->active_task_state == PROCESS_ABORTED ||
+                result->state == RESULT_ABORTED 
+            ) {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_ABORT]);
             }
 
-            project = pDoc->state.lookup_project(result->project_url);
-            UpdateWebsiteSelection(GRP_WEBSITES, project);
-        } else {
-            UpdateWebsiteSelection(GRP_WEBSITES, NULL);
+           if (i == 0) {
+                first_project_url = result->project_url;
+                all_same_project = true;
+            } else {
+                if (first_project_url != result->project_url) {
+                    all_same_project = false;
+                }
+            }
         }
-
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
-    } else {
-        m_pTaskPane->DisableTaskGroupTasks(pGroup);
-		//disable website buttons if they exist
-		if(m_TaskGroups.size()>1) {
-			m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
-		}
     }
 
-    CBOINCBaseView::PostUpdateSelection();
+    if (all_same_project) {
+        project = pDoc->state.lookup_project(result->project_url);
+        UpdateWebsiteSelection(GRP_WEBSITES, project);
+        if(m_TaskGroups.size()>1) {
+            m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
+        }
+    } else {
+        UpdateWebsiteSelection(GRP_WEBSITES, NULL);
+        if(m_TaskGroups.size()>1) {
+            m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+        }
+    }
 
+    
+    CBOINCBaseView::PostUpdateSelection();
 }
 
 void CViewWorkGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* project){

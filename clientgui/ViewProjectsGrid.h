@@ -24,6 +24,9 @@
 #pragma interface "ViewProjectsGrid.cpp"
 #endif
 
+
+#define PREVENT_MULTIPLE_PROJECT_SELECTIONS false
+
 class CBOINCGridCtrl;
 
 
@@ -53,8 +56,10 @@ public:
 protected:
     virtual wxInt32         GetDocCount();
 
+#if PREVENT_MULTIPLE_PROJECT_SELECTIONS
     virtual void            OnCellLeftClick( wxGridEvent& event );
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
+#endif
     virtual void            UpdateSelection();
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );

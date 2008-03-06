@@ -1886,7 +1886,7 @@ Charlie Mar 4 2008
         not updated to reflect the new selection.
 
     clientgui/
-        BOINCGridGtrl.cpp,h
+        BOINCGridCtrl.cpp,h
         ViewMessagesGrid.cpp
         ViewProjectsGrid.cpp
         ViewTransfersGrid.cpp
@@ -1903,7 +1903,7 @@ Charlie Mar 5 2008
             Messages tab: sequence number only.
 
     clientgui/
-        BOINCGridGtrl.cpp
+        BOINCGridtrl.cpp
         MainDocument.cpp,h
         ViewMessagesGrid.cpp
         ViewProjectsGrid.cpp,h
@@ -1957,3 +1957,26 @@ David  5 Mar 2008
         user/
             hosts_user.php
             white.css
+
+Charlie Mar 6 2008
+    - MGR: Fully implement support for multiple selections in Tasks 
+        and Projects grid views.  Handles conflicts as follows:
+          - Disables buttons which change functions (Suspend / Resume, 
+            No New Tasks / Allow New Tasks) if user selects a mix of 
+            items inconsistent with either function.  
+          - Disables any buttons (Show Graphics, Abort) which would be 
+            disabled for any one of the selected items.
+          - Disables and hides project web site buttons if items from 
+            more than one project are selected.
+          - For operations which require confirmation (Abort, Reset,
+            Detach) asks in a separate dialog for each selected item. 
+            User can answer NO to some and YES to others and it will 
+            perform the operation only on those with a YES response.
+        - Added two defines: PREVENT_MULTIPLE_TASK_SELECTIONS and 
+            PREVENT_MULTIPLE_PROJECT_SELECTIONS in the corresponding 
+            header files.  Both are currently defined false.  Define 
+            these as true to restrict that tab to single-selections.
+    
+    clientgui/
+        ViewProjectsGrid.cpp,h
+        ViewWorkGrid.cpp,h
