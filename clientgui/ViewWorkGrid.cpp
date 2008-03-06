@@ -343,8 +343,8 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 
         if (wxYES == iAnswer) {
             wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
-            string resultNameStr = (char*)strName.char_str();
-            string projectURLStr = (char*)projectURL.char_str();
+            std::string resultNameStr = (char*)strName.mb_str();
+            std::string projectURLStr = (char*)projectURL.mb_str();
             pDoc->WorkAbort(projectURLStr, resultNameStr);
         }
     }

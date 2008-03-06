@@ -25,7 +25,7 @@
 #endif
 
 
-#define PREVENT_MULTIPLE_TASK_SELECTIONS false
+#define PREVENT_MULTIPLE_TASK_SELECTIONS 1
 
 #include "BOINCBaseView.h"
 #include "BOINCGridCtrl.h"
@@ -54,7 +54,7 @@ public:
     void                    OnProjectWebsiteClicked( wxEvent& event );
 
 protected:
-#if PREVENT_MULTIPLE_TASK_SELECTIONS
+#ifdef PREVENT_MULTIPLE_TASK_SELECTIONS
     virtual void            OnCellLeftClick( wxGridEvent& event );
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
 #endif

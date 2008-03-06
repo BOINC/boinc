@@ -1989,3 +1989,12 @@ Rom    6 Mar 2008
         app_start.C        
     lib/
         util.C
+
+Rom    6 Mar 2008
+    - MGR: Fix build breaks on Windows
+    
+    clientgui/
+        ViewProjectsGrid.h
+        ViewWorkGrid.cpp, .h
+    win_build/
+        boincmgr_curl.vcproj
