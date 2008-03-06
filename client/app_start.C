@@ -500,7 +500,9 @@ int ACTIVE_TASK::start(bool first_time) {
     cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
+
     get_sandbox_account_token();
+
     for (i=0; i<5; i++) {
         if (sandbox_account_token != NULL) {
 
@@ -568,6 +570,7 @@ int ACTIVE_TASK::start(bool first_time) {
         }
         boinc_sleep(drand());
     }
+
     if (!success) {
         sprintf(buf, "CreateProcess() failed - %s", error_msg);
         retval = ERR_EXEC;

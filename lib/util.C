@@ -324,7 +324,7 @@ void get_sandbox_account_token() {
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_token
         );
-        if (!retval) {
+        if (retval) {
             GetAccountSid(domainname_str.c_str(), username_str.c_str(), &sandbox_account_sid);
         }
     } else {
@@ -337,7 +337,7 @@ void get_sandbox_account_token() {
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_token
         );
-        if (!retval) {
+        if (retval) {
             GetAccountSid(NULL, username_str.c_str(), &sandbox_account_sid);
         }
     }
@@ -461,7 +461,7 @@ int run_program(
 */
     if (!retval) {
         windows_error_string(error_msg, sizeof(error_msg));
-        fprintf(stderr, "CreateProcessAsUser failed: '%s'\n", error_msg);
+        fprintf(stderr, "CreateProcess failed: '%s'\n", error_msg);
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 

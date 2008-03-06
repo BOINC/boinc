@@ -1980,3 +1980,12 @@ Charlie Mar 6 2008
     clientgui/
         ViewProjectsGrid.cpp,h
         ViewWorkGrid.cpp,h
+
+Rom    6 Mar 2008
+    - CLI: Make the CreateProcessAsUser process work again on Wndows.
+        It broke after the change of removing the call to LogonUserEx.
+
+    client/
+        app_start.C        
+    lib/
+        util.C
