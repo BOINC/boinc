@@ -434,4 +434,4 @@ Charlie Mar 4 2008
         users.
 
     clientgui/
-        ViewTransfersGrid.cpp
+        ViewTransfersGrid.cpp,h
