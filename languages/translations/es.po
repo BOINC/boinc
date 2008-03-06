@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-29 14:07-0000\n"
+"PO-Revision-Date: 2008-03-01 20:09-0000\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -342,7 +342,7 @@ msgid "DL_DOWNLOAD_TITLE"
 msgstr "BOINC: computar para la ciencia"
 
 msgid "DL_MIRRORS"
-msgstr "Nota: los archivos son descargados de servidores espejo en boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (gracias a estas instituciones). El servidor es elegido aleatoriamente - si la descarga falla, recargue esta página e inténtelo de nuevo."
+msgstr "Nota: los archivos son descargados de servidores espejo en boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, y einstein.aset.psu.edu (gracias a estas instituciones). El servidor es elegido aleatoriamente - si la descarga falla, recargue esta página e inténtelo de nuevo."
 
 # #############################################
 # system_requirements.php by je2bwm 2006/08/07
@@ -573,7 +573,7 @@ msgid "HELP_P1_4"
 msgstr "Hay disponibles Voluntarios que hablan distintos idiomas. Por favor, seleccione un idioma:"
 
 msgid "HELP_HEADING2"
-msgstr "Otras fuentes de ayuda"
+msgstr "Ayuda para BOINC en la web"
 
 msgid "HELP_P2_ITEM1"
 msgstr "Ejecutando BOINC"
@@ -606,7 +606,7 @@ msgid "HOME_HEADING1"
 msgstr "Voluntario"
 
 msgid "HOME_P1"
-msgstr "Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) para curar enfermedades, estudiar el calentamiento global, descubra pulsars, y haga muchos otros tipos de investigación científica. Es seguro, asegurado, y fácil: %sElija%s proyectos %sDescargue%s y ejecute el programa BOINC %sIntroduzca%s la dirección URL del proyecto, su dirección de correo electrónico, y su contraseña del proyecto."
+msgstr "Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) para curar enfermedades, estudiar el calentamiento global, descubra pulsars, y haga muchos otros tipos de investigación científica. Es seguro, protegido, y fácil: %sElija%s proyectos %sDescargue%s y ejecute el programa BOINC %sIntroduzca%s una dirección de correo electrónico y una contraseña."
 
 msgid "HOME_P2"
 msgstr "O, si usted ejecuta varios proyectos, pruebe un %sadministrador de cuentas%s tales como %sGridRepublic%s o %sBAM!%s."
@@ -614,14 +614,14 @@ msgstr "O, si usted ejecuta varios proyectos, pruebe un %sadministrador de cuent
 msgid "HOME_P3"
 msgstr "Si tiene alguna pregunta, o necesita ayuda para comenzar, puede %shablar con un Voluntario para Ayuda%s."
 
-msgid "HOME_MORE_INFO"
-msgstr "Ejecutando BOINC"
+msgid "HOME_HELP"
+msgstr "Ayuda"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Descargar"
 
 msgid "HOME_WEB_SITES"
-msgstr "Sitios web"
+msgstr "La web"
 
 msgid "HOME_ADD_ONS"
 msgstr "Complementos"

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 14430\n"
+"Project-Id-Version: 14801\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-28 12:51+0800\n"
+"PO-Revision-Date: 2008-03-04 10:02+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: www.EQUN.com <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -439,7 +439,7 @@ msgid "RLN_TROUBLESHOOT"
 msgstr "BOINC 疑难解答"
 
 msgid "RLN_NEWF_5_4_AM"
-msgstr "支持“帐号管理器” － 通过相应的网站，您将只需几次点击即可完成浏览 BOINC 项目、加入或退出 BOINC 项目、调整资源分享率及修改其它参数等各种操作。如果您拥有多台计算机，帐号管理器也是相当有用的 － 很多操作您将只需要修改一次就可以了。"
+msgstr "支持“帐户管理器” － 通过相应的网站，您将只需几次点击即可完成浏览 BOINC 项目、加入或退出 BOINC 项目、调整资源分享率及修改其它参数等各种操作。如果您拥有多台计算机，帐户管理器也是相当有用的 － 很多操作您将只需要修改一次就可以了。"
 
 msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
 msgstr "可以通过在本地设置一个文件来替代通用的参数设置，详细信息请看 %s这里%s。"
@@ -460,7 +460,7 @@ msgid "RLN_5_8_MEM"
 msgstr "您可以限制 BOINC 使用的内存量，这样即使您一直运行计算程序，也不会有性能方面的损失。"
 
 msgid "RLN_5_8_SANDBOX"
-msgstr "Mac OS X 版本将在非特权帐号下运行计算程序以提高安全性。"
+msgstr "Mac OS X 版本将在非特权帐户下运行计算程序以提高安全性。"
 
 msgid "RLN_5_8_SNOOZE"
 msgstr "在系统托盘区的 BOINC 图标上右键选择“休息一下”可以让您的计算机停止计算一个小时。"
@@ -574,7 +574,7 @@ msgid "HELP_P1_4"
 msgstr "志愿帮助者们使用的语言有如下几种，请选择一种："
 
 msgid "HELP_HEADING2"
-msgstr "其它获取帮助的来源"
+msgstr "网站上的 BOINC 帮助信息"
 
 msgid "HELP_P2_ITEM1"
 msgstr "运行 BOINC"
@@ -607,16 +607,16 @@ msgid "HOME_HEADING1"
 msgstr "志愿者"
 
 msgid "HOME_P1"
-msgstr "只需要简单并且安全的几个操作，就可以将计算机 (包括 Windows、Mac 以及Linux) 的闲置时间用来帮助治疗疾病、研究全球变暖、发现脉冲星以及其它多种类型的科学研究：%s选择%s 项目%s下载%s 并运行 BOINC 软件%s输入%s 项目网址、您的电子邮件地址以及项目密码。"
+msgstr "只需要简单并且安全的几个操作，就可以将计算机 (包括 Windows、Mac 以及Linux) 的闲置时间用来帮助治疗疾病、研究全球变暖、发现脉冲星以及其它多种类型的科学研究：%s选择%s 项目%s下载%s 并运行 BOINC 软件%s输入%s 您的电子邮件地址以及项目密码。"
 
 msgid "HOME_P2"
-msgstr "如果参加了多个项目，您可以使用 %s帐号管理器%s 来简化您的日常操作，比如 %sGridRepublic%s 或者 %sBAM!%s。"
+msgstr "如果参加了多个项目，您可以使用 %s帐户管理器%s 来简化您的日常操作，比如 %sGridRepublic%s 或者 %sBAM!%s。"
 
 msgid "HOME_P3"
 msgstr "如果有任何相关问题，或者需要一些帮助，您还可以 %s和很乐意帮忙的志愿者们进行交谈%s。"
 
-msgid "HOME_MORE_INFO"
-msgstr "更多信息"
+msgid "HOME_HELP"
+msgstr "帮助"
 
 msgid "HOME_DOWNLOAD"
 msgstr "下载"
