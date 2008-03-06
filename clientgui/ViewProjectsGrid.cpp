@@ -531,18 +531,6 @@ void CViewProjectsGrid::UpdateSelection() {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
    
-    if (n == 1) {
-        UpdateWebsiteSelection(GRP_WEBSITES, project);
-        if(m_TaskGroups.size()>1) {
-            m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
-        }
-    } else {
-        UpdateWebsiteSelection(GRP_WEBSITES, NULL);
-        if(m_TaskGroups.size()>1) {
-            m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
-        }
-    }
-
     for(i=0; i<n; i++) {
         strProjectURL = HtmlEntityEncode(
             m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false)
@@ -596,6 +584,18 @@ void CViewProjectsGrid::UpdateSelection() {
         
         if (project->attached_via_acct_mgr) {
             m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
+        }
+        
+        if (n == 1) {
+            UpdateWebsiteSelection(GRP_WEBSITES, project);
+            if(m_TaskGroups.size()>1) {
+                m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
+            }
+        } else {
+            UpdateWebsiteSelection(GRP_WEBSITES, NULL);
+            if(m_TaskGroups.size()>1) {
+                m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+            }
         }
     }
 
