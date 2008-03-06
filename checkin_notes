@@ -1986,7 +1986,7 @@ Rom    6 Mar 2008
         It broke after the change of removing the call to LogonUserEx.
 
     client/
-        app_start.C        
+        app_start.C
     lib/
         util.C
 
@@ -1998,3 +1998,12 @@ Rom    6 Mar 2008
         ViewWorkGrid.cpp, .h
     win_build/
         boincmgr_curl.vcproj
+
+Rytis   6 Mar 2008
+    - User web: translate some strings in forum.inc (fix #496).
+    
+    html/
+        inc/
+            forum.inc
+        languages/
+            en.po

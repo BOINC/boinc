@@ -262,6 +262,15 @@ msgstr ""
 msgid "Use BBCode tags to format your text"
 msgstr ""
 
+msgid "%1 message board"
+msgstr ""
+
+msgid "Mark all threads as read"
+msgstr ""
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr ""
+
 #########################################
 # Forum thread
 #########################################
@@ -293,6 +302,15 @@ msgid "No titles containing '%1' could be found."
 msgstr ""
 
 msgid "No posts containing '%1' could be found."
+msgstr ""
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Search for words in forum messages"
+msgstr ""
+
+msgid "Search forums"
 msgstr ""
 
 #########################################

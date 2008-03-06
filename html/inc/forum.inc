@@ -101,15 +101,15 @@ function show_forum_header($user) {
         <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
         <input type=\"hidden\" name=\"search_sort\" value=\"5\">
         <input type=\"text\" name=\"search_keywords\">
-        <input class=\"btn\" title=\"Search for words in forum messages\" type=\"submit\" value=\"Search forums\"><br>
-        <span class=\"smalltext\"><a href=\"forum_search.php\">Advanced search</a></span>
+        <input class=\"btn\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
+        <span class=\"smalltext\"><a href=\"forum_search.php\">".tra("Advanced search")."</a></span>
         </form>
     ";
     echo "</td>\n";
     
     if ($user) {
         echo "<td align=\"right\">\n";
-        echo "<p>Private messages: ", pm_notification($user);
+        echo "<p>".tra("Private messages").": ", pm_notification($user);
         echo "</td>\n";
     }
     echo "</tr>\n";
@@ -157,11 +157,11 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
 function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     $team = BoincTeam::lookup_id($forum->category);
     echo "<span class=title>
-        <a href=forum_index.php>Message boards</a> :
+        <a href=\"forum_index.php\">".tra("Message boards")."</a> :
     ";
     if ($thread) {
         echo "
-            <a href=team_forum.php?teamid=$team->id>$team->name message board</a>
+            <a href=team_forum.php?teamid=$team->id>".tra("%1 message board", $team->name)."</a>
         ";
         if ($link_thread) {
             echo " : <a href=forum_thread.php?id=$thread->id>$thread->title</a>";
@@ -169,7 +169,7 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
             echo " : $thread->title";
         }
     } else {
-        echo "$team->name message board";
+        echo tra("%1 message board", $team->name);
     }
     echo "</span>";
 }
@@ -1089,7 +1089,7 @@ function show_mark_as_read_button($user) {
         $return = urlencode(current_url());
         $tokens = url_tokens($user->authenticator);
         $url = "forum_index.php?read=1$tokens&return=$return";
-        show_button($url, "Mark all threads as read", "Mark all threads in all message boards as 'read'.");
+        show_button($url, tra("Mark all threads as read"), tra("Mark all threads in all message boards as 'read'."));
     }
 }
 
