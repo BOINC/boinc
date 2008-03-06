@@ -2007,3 +2007,9 @@ Rytis   6 Mar 2008
             forum.inc
         languages/
             en.po
+
+David  6 Mar 2008
+    - lib: add Win function to suspend or resume all threads in a process
+
+    lib
+        win_util.C,h

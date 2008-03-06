@@ -25,11 +25,9 @@ extern BOOL ValidateProductSuite(LPSTR SuiteName);
 extern BOOL TerminateProcessById(DWORD dwProcessId);
 extern BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid);
 extern BOOL AddAceToDesktop(HDESK hdesk, PSID psid);
-
-extern BOOL
-GetAccountSid(
+extern BOOL GetAccountSid(
     LPCTSTR SystemName,         // where to lookup account
     LPCTSTR AccountName,        // account of interest
     PSID *Sid                   // resultant buffer containing SID
-    );
-
+);
+extern int suspend_or_resume_threads(DWORD pid, bool resume);
