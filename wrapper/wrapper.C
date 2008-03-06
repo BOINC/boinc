@@ -39,6 +39,7 @@
 #include <string>
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #else
 #include <unistd.h>
 #include <sys/wait.h>
