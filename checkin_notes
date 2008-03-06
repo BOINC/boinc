@@ -553,3 +553,11 @@ David  6 Mar 2008
 
     wrapper/
         wrapper.C
+
+David  6 Mar 2008
+    - wrapper (Win): suspend or resume all the threads in an app,
+        not just the initial one.
+    - wrapper: merge app_suspended and TASK::suspended variables
+
+    wrapper/
+        wrapper.C

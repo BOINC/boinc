@@ -70,11 +70,12 @@ struct TASK {
     double final_cpu_time;
     double starting_cpu;
         // how much CPU time was used by tasks before this in the job file
-#ifdef _WIN32
     bool suspended;
+#ifdef _WIN32
     double wall_cpu_time;
         // for estimating CPU time on Win98/ME
     HANDLE pid_handle;
+    DWORD pid;
     HANDLE thread_handle;
 #else
     int pid;
@@ -90,8 +91,6 @@ struct TASK {
 };
 
 vector<TASK> tasks;
-
-bool app_suspended = false;
 
 int TASK::parse(XML_PARSER& xp) {
     char tag[1024];
@@ -257,9 +256,9 @@ int TASK::run(int argct, char** argvt) {
         return ERR_EXEC;
     }
     pid_handle = process_info.hProcess;
+    pid = process_info.dwProcessId;
     thread_handle = process_info.hThread;
     SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
-    suspended = false;
     wall_cpu_time = 0;
 #else
     int retval, argc;
@@ -310,6 +309,7 @@ int TASK::run(int argct, char** argvt) {
         exit(ERR_EXEC);
     }
 #endif
+    suspended = false;
     return 0;
 }
 
@@ -347,20 +347,20 @@ void TASK::kill() {
 
 void TASK::stop() {
 #ifdef _WIN32
-    SuspendThread(thread_handle);
-    suspended = true;
+    suspend_or_resume_threads(pid, false);
 #else
     ::kill(pid, SIGSTOP);
 #endif
+    suspended = true;
 }
 
 void TASK::resume() {
 #ifdef _WIN32
-    ResumeThread(thread_handle);
-    suspended = false;
+    suspend_or_resume_threads(pid, true);
 #else
     ::kill(pid, SIGCONT);
 #endif
+    suspended = false;
 }
 
 void poll_boinc_messages(TASK& task) {
@@ -379,14 +379,12 @@ void poll_boinc_messages(TASK& task) {
         exit(0);
     }
     if (status.suspended) {
-        if (!app_suspended) {
+        if (!task.suspended) {
             task.stop();
-            app_suspended = true;
         }
     } else {
-        if (app_suspended) {
+        if (task.suspended) {
             task.resume();
-            app_suspended = false;
         }
     }
 }
