@@ -490,8 +490,14 @@ int main(int argc, char** argv) {
             int status;
             if (task.poll(status)) {
                 if (status) {
-                    fprintf(stderr, "app error: 0x%x\n", status);
-                    boinc_finish(status);
+                    fprintf(stderr, "app exit status: 0x%x\n", status);
+                    // On Unix, if the app is non-executable,
+                    // the child status will be 0x6c00.
+                    // If we return this the client will treat it
+                    // as recoverable, and restart us.
+                    // We don't want this, so return an 8-bit error code.
+                    //
+                    boinc_finish(ERR_CHILD_FAILED);
                 }
                 break;
             }

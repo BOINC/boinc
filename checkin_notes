@@ -543,3 +543,13 @@ Charlie 21 Feb 2008
         mac/
             uc2_graphics.icns
             app_icon.h    
+
+David  6 Mar 2008
+    - wrapper: if a child exits with nonzero status X,
+        call boinc_finish() with ERR_CHILD_FAILED rather than X.
+        If X is zero in the low-order byte
+        (e.g. if the program isn't executable)
+        the BOINC client will restart us, which isn't what we want.
+
+    wrapper/
+        wrapper.C
