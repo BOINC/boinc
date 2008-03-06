@@ -1,4 +1,5 @@
 <?php
+
 // show all the hosts for a user.
 // if $userid is absent, show hosts of logged-in user
 
@@ -7,11 +8,48 @@ require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 require_once("../inc/cache.inc");
 
+// This function takes as input a GET variable name X and value Y.
+// It returns the corresponding text GET variable string, appended with
+// any existing GET variable names and values, with &X=Y.
+//
+// This is useful for constructing urls for sorting a table by different
+// columns.
+//
+function make_GET_list($variable_name, $variable_value) {
+    $retval="";
+    $sepchar='?';
+    $modified=false;
+    foreach ($_GET as $key => $value) {
+        $retval .= "$sepchar"."$key=";
+        $sepchar='&';
+        if ($key==$variable_name) {
+            $modified=true;
+            if ($value!=$variable_value) {
+                $retval .= "$variable_value";
+            } else {
+                $retval .= "$variable_value"."_reversed";
+            }
+        }
+        else {
+            $retval .= "$value";
+        }
+    }
+    if (!$modified) $retval .= "$sepchar$variable_name=$variable_value";
+    return $retval;
+}
+
+function link_with_GET_variables(
+    $text, $baseurl, $variable_name, $variable_value
+) {
+    $list=make_GET_list($variable_name, $variable_value);
+    return "<a href=\"$baseurl$list\">$text</a>";
+}
+
 function more_or_less($show_all) {
     if ($show_all) {
-        echo "<p>Show: All computers  |  ".link_with_GET_variables("Only computers active in past 30 days<p>", "hosts_user.php", 'show_all', '0');
+        echo "<p>Show: All computers | ".link_with_GET_variables("Only computers active in past 30 days<p>", "hosts_user.php", 'show_all', '0');
     } else {
-        echo "<p>Show: ".link_with_GET_variables("All computers", "hosts_user.php", 'show_all', '1')."  |  Only computers active in past 30 days<p>";;
+        echo "<p>Show: ".link_with_GET_variables("All computers", "hosts_user.php", 'show_all', '1')." | Only computers active in past 30 days<p>";;
     }
 }
 
@@ -48,22 +86,23 @@ if ($show_all != 1) {
 }
 
 $sort = get_str("sort", true);
-if ($sort == "total_credit") $sort_clause = "total_credit desc";
-else if ($sort == "total_credit_reversed") $sort_clause = "total_credit";
-else if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";
-else if ($sort == "expavg_credit_reversed") $sort_clause = "expavg_credit";
-else if ($sort == "name") $sort_clause = "domain_name";
-else if ($sort == "name_reversed") $sort_clause = "domain_name desc";
-else if ($sort == "id") $sort_clause = "id";
-else if ($sort == "id_reversed") $sort_clause = "id desc";
-else if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";
-else if ($sort == "expavg_credit_reversed") $sort_clause = "expavg_credit ";
-else if ($sort == "cpu") $sort_clause = "p_model";
-else if ($sort == "cpu_reversed") $sort_clause = "p_model desc";
-else if ($sort == "os") $sort_clause = "os_name, os_version";
-else if ($sort == "os_reversed") $sort_clause = "os_name desc, os_version";
-else if ($sort == "rpc_time_reversed") $sort_clause = "rpc_time";
-else {
+switch ($sort) {
+case "total_credit": $sort_clause = "total_credit desc"; break;
+case "total_credit_reversed": $sort_clause = "total_credit"; break;
+case "expavg_credit": $sort_clause = "expavg_credit desc"; break;
+case "expavg_credit_reversed": $sort_clause = "expavg_credit"; break;
+case "name": $sort_clause = "domain_name"; break;
+case "name_reversed": $sort_clause = "domain_name desc"; break;
+case "id": $sort_clause = "id"; break;
+case "id_reversed": $sort_clause = "id desc"; break;
+case "expavg_credit": $sort_clause = "expavg_credit desc"; break;
+case "expavg_credit_reversed": $sort_clause = "expavg_credit "; break;
+case "cpu": $sort_clause = "p_model"; break;
+case "cpu_reversed": $sort_clause = "p_model desc"; break;
+case "os": $sort_clause = "os_name, os_version"; break;
+case "os_reversed": $sort_clause = "os_name desc, os_version"; break;
+case "rpc_time_reversed": $sort_clause = "rpc_time"; break;
+default:
     // default value -- sort by RPC time
     $sort = "rpc_time";
     $sort_clause = "rpc_time desc"; 
@@ -142,4 +181,5 @@ if ($caching) {
 } else {
     page_tail();
 }
+
 ?>

@@ -20,6 +20,7 @@ th{
 
 td {
     border: 1px solid white;
+    vertical-align: top;
 }
 
 td.bordered {
@@ -47,22 +48,18 @@ td.heading2 {
 td.fieldname {
     background-color: #eeeeee;
     text-align: right;
-    vertical-align: top;
 }
 
 td.fieldvalue {
-    vertical-align: top;
 }
 
 td.fieldname_error {
     background-color: #ff8888;
     text-align: right;
-    vertical-align: top;
 }
 
 td.fieldvalue_error {
     background-color: #ff8888;
-    vertical-align: top;
     font-weight: bold;
 }
 

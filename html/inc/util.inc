@@ -681,41 +681,6 @@ function is_ascii($str) {
     return true;
 }
 
-// This function takes as input a GET variable name X and value Y.
-// It returns the corresponding text GET variable string, appended with
-// any existing GET variable names and values, with &X=Y.
-//
-// This is useful for constructing urls for sorting a table by different
-// columns.
-//
-function make_GET_list($variable_name, $variable_value) {
-    $retval="";
-    $sepchar='?';
-    $modified=false;
-    foreach ($_GET as $key => $value) {
-        $retval .= "$sepchar"."$key=";
-        $sepchar='&';
-        if ($key==$variable_name) {
-            $modified=true;
-            if ($value!=$variable_value) {
-                $retval .= "$variable_value";
-            } else {
-                $retval .= "$variable_value"."_reversed";
-            }
-        }
-        else {
-            $retval .= "$value";
-        }
-    }
-    if (!$modified) $retval .= "$sepchar$variable_name=$variable_value";
-    return $retval;
-}
-
-function link_with_GET_variables($text, $baseurl, $variable_name, $variable_value) {
-        $list=make_GET_list($variable_name, $variable_value);
-        return "<a href=\"$baseurl$list\">$text</a>";
-}
-
 // This function replaces some often made mistakes while entering numbers
 // and gives back an error if there are false characters
 // It will also be checked if the value is within certain borders

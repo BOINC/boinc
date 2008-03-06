@@ -1948,3 +1948,12 @@ Eric K  5 Mar 08
     api/
       graphics2.h
 
+David  5 Mar 2008
+    - web: minor code cleanup
+
+    html/
+        inc/
+            util.inc
+        user/
+            hosts_user.php
+            white.css

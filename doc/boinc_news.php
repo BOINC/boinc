@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("Mar 5, 2008",
+    "Read <a href=http://www.linuxinsider.com/story/Volunteer-Computing-and-the-Search-for-Big-Answers-61943.html>Volunteer Computing and the Search for Big Answers</a>, an article about BOINC and volunteer computing  on LinuxInsider.com."
+),
 array("Feb 27, 2008",
     "Scientific progress goes BOINC!  Read about the
     <a href=http://boinc.berkeley.edu/trac/wiki/ProjectPapers>Scientific
