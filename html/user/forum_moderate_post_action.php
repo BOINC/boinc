@@ -32,6 +32,7 @@ $user = get_logged_in_user();
 check_tokens($user->authenticator);
 BoincForumPrefs::lookup($user);
 $post = BoincPost::lookup_id(get_int('id'));
+if (!$post) error_page("no such post");
 $thread = BoincThread::lookup_id($post->thread);
 $forum = BoincForum::lookup_id($thread->forum);
 
@@ -61,6 +62,7 @@ if ($action=="hide"){
 } elseif ($action=="move"){
     $destid = post_int('threadid');
     $new_thread = BoincThread::lookup_id($destid);
+    if (!$new_thread) error_page("No such thread");
     $new_forum = BoincForum::lookup_id($new_thread->forum);
     if ($forum->parent_type != $new_forum->parent_type) {
         error_page("Can't move to different category type");

@@ -2040,3 +2040,9 @@ David  6 Mar 2008
             profile_screen_form.php
         user/
             uotd.php
+
+David  6 Mar 2008
+    - web: error-check the destination thread for moderation moves
+
+    html/user/
+        forum_moderate_post_action.php
