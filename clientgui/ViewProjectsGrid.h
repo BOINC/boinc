@@ -25,7 +25,8 @@
 #endif
 
 
-#define PREVENT_MULTIPLE_PROJECT_SELECTIONS 1
+// Set to 1 to prevent mutliple selections
+#define PREVENT_MULTIPLE_PROJECT_SELECTIONS 0
 
 class CBOINCGridCtrl;
 
@@ -56,7 +57,7 @@ public:
 protected:
     virtual wxInt32         GetDocCount();
 
-#ifdef PREVENT_MULTIPLE_PROJECT_SELECTIONS
+#if PREVENT_MULTIPLE_PROJECT_SELECTIONS
     virtual void            OnCellLeftClick( wxGridEvent& event );
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
 #endif

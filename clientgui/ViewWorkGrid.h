@@ -24,8 +24,8 @@
 #pragma interface "ViewWorkGrid.cpp"
 #endif
 
-
-#define PREVENT_MULTIPLE_TASK_SELECTIONS 1
+// Set to 1 to prevent mutliple selections
+#define PREVENT_MULTIPLE_TASK_SELECTIONS 0
 
 #include "BOINCBaseView.h"
 #include "BOINCGridCtrl.h"
@@ -54,7 +54,7 @@ public:
     void                    OnProjectWebsiteClicked( wxEvent& event );
 
 protected:
-#ifdef PREVENT_MULTIPLE_TASK_SELECTIONS
+#if PREVENT_MULTIPLE_TASK_SELECTIONS
     virtual void            OnCellLeftClick( wxGridEvent& event );
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
 #endif

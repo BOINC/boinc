@@ -1982,7 +1982,7 @@ Charlie Mar 6 2008
         ViewWorkGrid.cpp,h
 
 Rom    6 Mar 2008
-    - CLI: Make the CreateProcessAsUser process work again on Wndows.
+    - CLI: Make the CreateProcessAsUser process work again on Windows.
         It broke after the change of removing the call to LogonUserEx.
 
     client/
@@ -2106,3 +2106,11 @@ David  7 Mar 2008
         validate_util.C,h
         backend_lib.C
         create_work.C
+
+Charlie Mar 7 2008
+    - MGR: restore intended sense of #defines and #if which were incorrectly 
+        changed to fix Windows build breaks.
+        
+    clientgui/
+        ViewProjectsGrid.h
+        ViewWorkGrid.h
