@@ -561,3 +561,10 @@ David  6 Mar 2008
 
     wrapper/
         wrapper.C
+
+David  6 Mar 2008
+    - Wrapper (Mac): use elapse wall time as CPU time;
+        there's no easy way to get another process's CPU time in Mac OS X
+
+    wrapper/
+        wrapper.C

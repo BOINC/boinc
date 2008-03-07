@@ -410,6 +410,10 @@ double TASK::cpu_time() {
     totTime = tKernel.QuadPart + tUser.QuadPart;
 
     return totTime / 1.e7;
+#else if defined(__APPLE__)
+    // There's no easy way to get another process's CPU time in Mac OS X
+    //
+    return wall_cpu_time;
 #else
     return  linux_cpu_time(pid);
 #endif
