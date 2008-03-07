@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 
+#define KILO (1024.0)
 #define MEGA (1048576.0)
 #define GIGA (1024.*1048576.0)
 

@@ -123,6 +123,10 @@ int DB_CONN::commit_transaction() {
     return do_query("COMMIT");
 }
 
+int DB_CONN::rollback_transaction() {
+	return do_query("ROLLBACK");
+}
+
 DB_BASE::DB_BASE(const char *tn, DB_CONN* p) : db(p), table_name(tn) {
     is_high_priority = false;
 }
@@ -143,6 +147,10 @@ int DB_BASE::insert_batch(std::string& values) {
     std::string query;
     query = "insert into " + std::string(table_name) + " values " + values;
     return db->do_query(query.c_str());
+}
+
+int DB_BASE::affected_rows() {
+    return db->affected_rows();
 }
 
 // update an entire record

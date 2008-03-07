@@ -34,11 +34,13 @@
 //
 struct APP_INFO {
 	int appid;
+	int work_available;
 };
 
 // Details concerning a host
 //
 struct HOST_INFO {
+	int allow_non_preferred_apps;
 	int allow_beta_work;
 	bool reliable;
 	std::vector<APP_INFO> preferred_apps;
@@ -60,11 +62,20 @@ struct RESOURCE {
     }
 };
 
+// message intended for human eyes
+//
+struct USER_MESSAGE {
+    std::string message;
+    std::string priority;
+    USER_MESSAGE(const char* m, const char*p);
+};
+
 // summary of a client's request for work, and our response to it
 //
 struct WORK_REQ {
     bool infeasible_only;
     bool reliable_only;
+    bool user_apps_only;
     bool beta_only;
     HOST_INFO host_info;
     double seconds_to_fill;
@@ -77,6 +88,9 @@ struct WORK_REQ {
     RESOURCE disk;
     RESOURCE mem;
     RESOURCE speed;
+    RESOURCE bandwidth;
+
+    std::vector<USER_MESSAGE> no_work_messages;
 
     bool no_allowed_apps_available;
     bool excessive_work_buf;
@@ -96,12 +110,14 @@ struct WORK_REQ {
         // (those that were lost are resent).
         // As new results are sent, it's incremented.
     void update_for_result(double seconds_filled);
+    void insert_no_work_message(USER_MESSAGE&);
 };
 
 // a description of a sticky file on host.
 //
 struct FILE_INFO {
     char name[256];
+
     int parse(FILE*);
 };
 
@@ -231,14 +247,6 @@ struct SCHEDULER_REQUEST {
     int parse(FILE*);
     bool has_version(APP& app);
     int write(FILE*); // write request info to file: not complete
-};
-
-// message intended for human eyes
-//
-struct USER_MESSAGE {
-    std::string message;
-    std::string priority;
-    USER_MESSAGE(const char* m, const char*p);
 };
 
 // keep track of bottleneck disk preference

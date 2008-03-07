@@ -74,6 +74,7 @@ const char* infeasible_string(int code) {
     case INFEASIBLE_WORKLOAD: return "Existing workload";
     case INFEASIBLE_DUP: return "Already in reply";
     case INFEASIBLE_HR: return "Homogeneous redundancy";
+    case INFEASIBLE_BANDWIDTH: return "Download bandwidth too low";
     }
     return "Unknown";
 }
@@ -140,6 +141,13 @@ int get_app_version(
     }
     return 0;
 }
+
+static char* find_user_friendly_name(int appid) {
+	APP* app = ssp->lookup_app(appid);
+	if (app) return app->user_friendly_name;
+    return "deprecated application";
+}
+
 
 // Compute the max additional disk usage we can impose on the host.
 // Depending on the client version, it can either send us
@@ -290,12 +298,17 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
         APP_INFO ai;
         ai.appid = temp_int;
+        ai.work_available = false;
         reply.wreq.host_info.preferred_apps.push_back(ai);
 
         pos = str.find("<app_id>", pos) + 1;
     }
-    temp_int = parse_int(buf,"<allow_beta_work>", temp_int);
-    reply.wreq.host_info.allow_beta_work = temp_int;
+	if (parse_int(buf,"<allow_non_preferred_apps>", temp_int)) {
+	    reply.wreq.host_info.allow_non_preferred_apps = true;
+    }
+	if (parse_int(buf,"<allow_beta_work>", temp_int)) {
+        reply.wreq.host_info.allow_beta_work = true;
+	}
  
     // Decide whether or not this computer is a 'reliable' computer
     //
@@ -303,28 +316,37 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     double expavg_time = reply.host.expavg_time;
     double avg_turnaround = reply.host.avg_turnaround;
     update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
-    double credit_scale, turnaround_scale;
-
-    // TODO: is the following still needed?  Why?
+    // A computer is reliable if the following conditions are true
+    // (for those that are set in the config file)
+    // 1) The host average turnaround is less than the config
+    // max average turnaround
+    // 2) The host error rate is less then the config max error rate
+    // 3) The host results per day is equal to the config file value
     //
-    if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux")
-    ) {
-        credit_scale = 1;
-        turnaround_scale = 1;
+    log_messages.printf(MSG_DEBUG, "[HOST#%d] Checking if it is reliable (OS = %s) error_rate = %.3f avg_turnaround(hours) = %.0f \n",
+        reply.host.id, reply.host.os_name, reply.host.error_rate,
+        reply.host.avg_turnaround/3600
+    );
+
+	// Platforms other then Windows, Linux and Intel Macs need a
+    // larger set of computers to be marked reliable
+    //
+    double multiplier = 1.0;
+    if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux") || (strstr(reply.host.os_name,"Darwin") && !(strstr(reply.host.p_vendor,"Power Macintosh")))) {
+    	multiplier = 1.0;
     } else {
-        credit_scale = .75;
-        turnaround_scale = 1.25;
+    	multiplier = 1.8;
     }
 
-    int ncpus = effective_ncpus(reply.host);
-    if (((expavg_credit/ncpus) > config.reliable_min_avg_credit*credit_scale || config.reliable_min_avg_credit == 0)
-            && (avg_turnaround < config.reliable_max_avg_turnaround*turnaround_scale || config.reliable_max_avg_turnaround == 0)
-    ){
+    if ((config.reliable_max_avg_turnaround == 0 || reply.host.avg_turnaround < config.reliable_max_avg_turnaround*multiplier)
+        && (config.reliable_max_error_rate == 0 || reply.host.error_rate < config.reliable_max_error_rate*multiplier)
+        && (config.daily_result_quota == 0 || reply.host.max_results_day >= config.daily_result_quota)
+     ) {
         reply.wreq.host_info.reliable = true;
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
-            reply.host.id, reply.host.os_name, expavg_credit,
-            avg_turnaround/3600
+            "[HOST#%d] is reliable (OS = %s) error_rate = %.3f avg_turnaround(hours) = %.0f \n",
+            reply.host.id, reply.host.os_name, reply.host.error_rate,
+            reply.host.avg_turnaround/3600
         );
     }
     return 0;
@@ -333,6 +355,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 // Check to see if the user has set application preferences.
 // If they have, then only send work for the allowed applications
 //
+
 static inline int check_app_filter(
     WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
 ) {
@@ -343,12 +366,13 @@ static inline int check_app_filter(
     for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
         if (wu.appid==reply.wreq.host_info.preferred_apps[i].appid) {
             app_allowed = true;
+    	    reply.wreq.host_info.preferred_apps[i].work_available = true;
             break;
         }
     }
     // TODO: select between the following via config
     //if (!app_allowed) {
-    if (!app_allowed && !reply.wreq.beta_only) {
+    if (!app_allowed && reply.wreq.user_apps_only && !reply.wreq.beta_only) {
         reply.wreq.no_allowed_apps_available = true;
         log_messages.printf(MSG_DEBUG,
             "[USER#%d] [WU#%d] user doesn't want work for this application\n",
@@ -387,6 +411,15 @@ static inline int check_memory(
 
     double diff = wu.rsc_memory_bound - usable_ram;
     if (diff > 0) {
+        char message[256];
+        sprintf(message,
+            "%s needs %0.2f MB RAM but only %0.2f MB is available for use.",
+            find_user_friendly_name(wu.appid),
+            wu.rsc_memory_bound/MEGA, usable_ram/MEGA
+        );
+        USER_MESSAGE um(message,"high");
+        reply.wreq.insert_no_work_message(um);
+        
         log_messages.printf(MSG_DEBUG,
             "[WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
             wu.id, wu.name, wu.rsc_memory_bound/MEGA,
@@ -404,8 +437,38 @@ static inline int check_disk(
 ) {
     double diff = wu.rsc_disk_bound - reply.wreq.disk_available;
     if (diff > 0) {
+        char message[256];
+        sprintf(message,
+            "%s needs %0.2fMB more disk space.  You currently have %0.2f MB available and it needs %0.2f MB.",
+            find_user_friendly_name(wu.appid),
+            diff/MEGA, reply.wreq.disk_available/MEGA, wu.rsc_disk_bound/MEGA
+        );
+        USER_MESSAGE um(message,"high");
+        reply.wreq.insert_no_work_message(um);
+
         reply.wreq.disk.set_insufficient(diff);
         return INFEASIBLE_DISK;
+    }
+    return 0;
+}
+
+static inline int check_bandwidth(
+    WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
+) {
+    if (wu.rsc_bandwidth_bound == 0) return 0;
+    double diff = wu.rsc_bandwidth_bound - reply.host.n_bwdown;
+    if (diff > 0) {
+        char message[256];
+        sprintf(message,
+            "%s requires %0.2f kbps download bandwidth.  Your computer has been measured at %0.2f kbps.",
+            find_user_friendly_name(wu.appid),
+            wu.rsc_bandwidth_bound/KILO, reply.host.n_bwdown/KILO
+        );
+        USER_MESSAGE um(message,"high");
+        reply.wreq.insert_no_work_message(um);
+
+        reply.wreq.bandwidth.set_insufficient(diff);
+        return INFEASIBLE_BANDWIDTH;
     }
     return 0;
 }
@@ -480,6 +543,8 @@ int wu_is_infeasible(
     retval = check_memory(wu, request, reply);
     if (retval) return retval;
     retval = check_disk(wu, request, reply);
+    if (retval) return retval;
+    retval = check_bandwidth(wu, request, reply);
     if (retval) return retval;
 
     // do this last because EDF sim uses some CPU
@@ -578,6 +643,13 @@ bool find_app_version(
         "no app version available: APP#%d PLATFORM#%d min_version %d\n",
         app->id, sreq.platforms.list[0]->id, app->min_version
     );
+    char message[256];
+    sprintf(message,
+        "%s is not available for your type of computer.",
+        app->user_friendly_name
+    );
+    USER_MESSAGE um(message, "high");
+    wreq.insert_no_work_message(um);
     wreq.no_app_version = true;
     return false;
 }
@@ -802,10 +874,20 @@ int add_result_to_reply(
         // If the workunit needs reliable and is being sent to a reliable host,
         // then shorten the delay bound by the percent specified
         //
-        if (config.reliable_time && reply.wreq.host_info.reliable && config.reliable_reduced_delay_bound > 0.01) {
-            if ((wu.create_time + config.reliable_time) <= time(0)) {
-                delay_bound = (int) (delay_bound * config.reliable_reduced_delay_bound);
+        if (config.reliable_on_priority && result.priority >= config.reliable_on_priority && config.reliable_reduced_delay_bound > 0.01
+        ) {
+			double reduced_delay_bound = delay_bound*config.reliable_reduced_delay_bound;
+			double est_wallclock_duration = estimate_wallclock_duration(wu, request, reply);
+			// Check to see how reasonable this reduced time is.
+            // Increase it to twice the estimated delay bound
+            // if all the following apply:
+			// 1) Twice the estimate is longer then the reduced delay bound
+			// 2) Twice the estimate is less then the original delay bound
+			// 3) Twice the estimate is less then the twice the reduced delay bound
+			if (est_wallclock_duration*2 > reduced_delay_bound && est_wallclock_duration*2 < delay_bound && est_wallclock_duration*2 < delay_bound*config.reliable_reduced_delay_bound*2 ) {
+        		reduced_delay_bound = est_wallclock_duration*2;
             }
+			delay_bound = (int) reduced_delay_bound;
         }
 
         result.report_deadline = result.sent_time + delay_bound;
@@ -917,6 +999,7 @@ int add_result_to_reply(
 
 void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     char helpful[512];
+    int preferred_app_message_index=0;
 
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
     reply.wreq.core_client_version = sreq.core_client_major_version*100
@@ -929,6 +1012,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     get_host_info(reply); // parse project prefs for app details
     reply.wreq.beta_only = false;
+    reply.wreq.user_apps_only=true;
 
     log_messages.printf(MSG_DEBUG,
         "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
@@ -997,6 +1081,19 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         reply.wreq.infeasible_only = false;
         scan_work_array(sreq, reply);
+        
+       	// If the user has said they prefer to only receive work
+       	// from certain apps
+       	//
+       	if (!reply.wreq.nresults && reply.wreq.host_info.allow_non_preferred_apps ) {
+       		reply.wreq.user_apps_only = false;
+       		preferred_app_message_index = reply.wreq.no_work_messages.size();
+           	log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] is looking for work from a non-preferred application\n",
+                reply.host.id
+            );
+       		scan_work_array(sreq, reply);
+       	}
 #endif
     }
 
@@ -1005,54 +1102,72 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.host.id, reply.wreq.nresults, elapsed_wallclock_time() 
     );
 
+    // Send messages explaining why work was sent from apps
+    // the user did not check on the website
+    //
+    if (reply.wreq.nresults && !reply.wreq.user_apps_only) {
+        USER_MESSAGE um("No work can be sent for the applications you have selected", "high");
+        reply.insert_message(um);
+
+        // Inform the user about applications with no work
+        for (int i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
+         	if (!reply.wreq.host_info.preferred_apps[i].work_available) {
+         		APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
+         		// don't write message if the app is deprecated
+         		if (app) {
+           			char explanation[256];
+           			sprintf(explanation,
+                        "No work is available for %s",
+                        find_user_friendly_name(reply.wreq.host_info.preferred_apps[i].appid)
+                    );
+        			USER_MESSAGE um(explanation, "high");
+           			reply.insert_message(um);
+         		}
+           	}
+        }
+
+        // Inform the user about applications they didn't qualify for
+        //
+        for(int i=0;i<preferred_app_message_index;i++){
+            reply.insert_message(reply.wreq.no_work_messages.at(i));
+        }
+        USER_MESSAGE um1("You have selected to receive work from other applications if no work is available for the applications you selected", "high");
+        reply.insert_message(um1);
+        USER_MESSAGE um2("Sending work from other applications", "high");
+        reply.insert_message(um2);
+     }
+
     // if client asked for work and we're not sending any, explain why
     //
     if (reply.wreq.nresults == 0) {
         reply.set_delay(DELAY_NO_WORK_TEMP);
         USER_MESSAGE um2("No work sent", "high");
         reply.insert_message(um2);
+        // Inform the user about applications with no work
+        for(int i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
+         	if ( !reply.wreq.host_info.preferred_apps[i].work_available ) {
+         		APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
+         		// don't write message if the app is deprecated
+         		if ( app != NULL ) {
+           			char explanation[256];
+           			sprintf(explanation,"No work is available for %s",find_user_friendly_name(reply.wreq.host_info.preferred_apps[i].appid));
+        			USER_MESSAGE um(explanation, "high");
+           			reply.insert_message(um);
+         		}
+           	}
+        }
+        // Inform the user about applications they didn't qualify for
+        for(int i=0;i<reply.wreq.no_work_messages.size();i++){
+        	reply.insert_message(reply.wreq.no_work_messages.at(i));
+        }
         if (reply.wreq.no_app_version) {
-            USER_MESSAGE um("(there was work for other platforms)", "high");
-            reply.insert_message(um);
             reply.set_delay(DELAY_NO_WORK_PERM);
         }
         if (reply.wreq.no_allowed_apps_available) {
             USER_MESSAGE um(
-                "(There was work but not for the applications you have allowed.  Please check your settings on the website.)",
+                "No work available for the applications you have selected.  Please check your settings on the website.",
                 "high"
             );
-            reply.insert_message(um);
-        }
-        if (reply.wreq.disk.insufficient) {
-            USER_MESSAGE um(
-                "There was work but you don't have enough disk space allocated.",
-                "high"
-            );
-            reply.insert_message(um);
-            if (reply.wreq.disk.needed) {
-                sprintf(helpful,
-                    "An additional %.0f MB is needed.",
-                    reply.wreq.disk.needed/MEGA
-                );
-                USER_MESSAGE um2(helpful, "high");
-                reply.insert_message(um2);
-            }
-        }
-        if (reply.wreq.mem.insufficient) {
-            double ram, usable_ram;
-            get_mem_sizes(sreq, reply, ram, usable_ram);
-            if (reply.wreq.mem.needed > ram) {
-                sprintf(helpful,
-                    "Your computer has %.0f MB of memory, and %.0f MB is needed",
-                    ram/MEGA, reply.wreq.mem.needed/MEGA
-                );
-            } else {
-                sprintf(helpful,
-                    "Your preferences limit memory usage to %.0f MB, and %.0f MB is needed",
-                    usable_ram/MEGA, reply.wreq.mem.needed/MEGA
-                );
-            }
-            USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
         }
         if (reply.wreq.speed.insufficient) {

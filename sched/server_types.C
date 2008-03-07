@@ -115,6 +115,19 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
+
+void WORK_REQ::insert_no_work_message(USER_MESSAGE& um) {
+    bool found = false;
+    for (int i=0; i<no_work_messages.size(); i++) {
+        if (!strcmp(um.message.c_str(), no_work_messages.at(i).message.c_str())){
+            found = true;
+            break;
+        }
+    }
+    if (!found) no_work_messages.push_back(um);
+}
+
+
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
 }
 

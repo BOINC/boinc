@@ -119,8 +119,6 @@ static double intops_per_cpu_sec = 0;
 static double intops_cumulative = 0;
 static int want_network = 0;
 static int have_network = 1;
-static int ncpus_available;
-static int nthreads;
 bool g_sleep = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
@@ -719,7 +717,6 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<network_available/>")) {
             have_network = 1;
         }
-        parse_int(buf, "<ncpus_available>", ncpus_available);
     }
 }
 
@@ -990,7 +987,7 @@ int start_timer_thread() {
     // Create the timer thread
     //
     uintptr_t thread;
-    UINT      uiThreadId;
+    UINT uiThreadId;
     thread = _beginthreadex(
         NULL,
         16384,       // stack size
@@ -1183,19 +1180,6 @@ void boinc_register_timer_callback(FUNC_PTR p) {
 
 double boinc_get_fraction_done() {
     return fraction_done;
-}
-
-int boinc_ncpus_available() {
-    return ncpus_available;
-}
-
-void boinc_nthreads(int n) {
-    char msg_buf[MSG_CHANNEL_SIZE];
-
-    nthreads = n;
-    if (standalone) return;
-    sprintf(msg_buf, "<nthreads>%d</nthreads>", n);
-    return app_client_shm->shm->process_control_reply.send_msg_overwrite(msg_buf);
 }
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

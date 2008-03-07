@@ -555,6 +555,10 @@ function update_2_18_2008() {
     ");
 }
 
+function update_3_7_2008() {
+    do_query("alter table workunit add column rsc_bandwidth_bound double not null after rsc_disk_bound");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

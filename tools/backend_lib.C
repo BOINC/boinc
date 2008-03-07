@@ -233,7 +233,6 @@ static int process_wu_template(
                         }
 
                         if (!config.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
-
                             retval = md5_file(path, md5, nbytes);
                             if (retval) {
                                 fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
@@ -328,6 +327,8 @@ static int process_wu_template(
         } else if (parse_double(p, "<rsc_fpops_bound>", wu.rsc_fpops_bound)) {
             continue;
         } else if (parse_double(p, "<rsc_memory_bound>", wu.rsc_memory_bound)) {
+            continue;
+        } else if (parse_double(p, "<rsc_bandwidth_bound>", wu.rsc_bandwidth_bound)) {
             continue;
         } else if (parse_double(p, "<rsc_disk_bound>", wu.rsc_disk_bound)) {
             continue;
@@ -450,7 +451,6 @@ int create_result(
     result.priority = result.priority + priority_increase;
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", result.name);
-
     retval = read_filename(
         result_template_filename, result_template, sizeof(result_template)
     );

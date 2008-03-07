@@ -358,8 +358,9 @@ int handle_wu(
         int n = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
         string values;
         char value_buf[MAX_QUERY_LEN];
-        if (n > 0) {
-            log_messages.printf(MSG_NORMAL,
+        if (n > 0  && wu_item.canonical_resultid == 0) {
+            log_messages.printf(
+                MSG_NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
                 wu_item.id, wu_item.name, n, wu_item.target_nresults, nunsent, ninprogress, nsuccess
             );
@@ -406,6 +407,7 @@ int handle_wu(
     //  - see if all over and validated
     //
     all_over_and_validated = true;
+    bool all_over_and_ready_to_assimilate = true; // used for the defer assmilation
 	int most_recently_returned = 0;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
@@ -417,6 +419,7 @@ int handle_wu(
                 if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS) {
                     if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
                         all_over_and_validated = false;
+                        all_over_and_ready_to_assimilate = false;
                     }
                 } else if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
                 	if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
@@ -425,10 +428,24 @@ int handle_wu(
                 }
             } else {
                 all_over_and_validated = false;
+                all_over_and_ready_to_assimilate = false;
             }
         }
     }
 
+    // If we are defefring assimilation until all results are over
+    // and validated then when that happens we need to make sure
+    // that it gets advanced to assimilate ready
+    // the items.size is a kludge
+    //
+    if (all_over_and_ready_to_assimilate == true && wu_item.assimilate_state == ASSIMILATE_INIT && items.size() > 0 && wu_item.canonical_resultid > 0
+    ) {
+    	wu_item.assimilate_state = ASSIMILATE_READY;
+        log_messages.printf(MSG_NORMAL,
+            "[WU#%d %s] Deferred assimililation now set to ASSIMILATE_STATE_READY\n",
+            wu_item.id, wu_item.name
+        );
+    }
     // if WU is assimilated, trigger file deletion
     //
     if (wu_item.assimilate_state == ASSIMILATE_DONE && ((most_recently_returned + config.delete_delay_hours*60*60) < now)) {

@@ -346,6 +346,8 @@ struct WORKUNIT {
         // used for 2 purposes:
         // 1) for scheduling (don't send this WU to a host w/ insuff. disk)
         // 2) abort task if it uses more than this disk
+    double rsc_bandwidth_bound;
+        // send only to hosts with at least this much download bandwidth
     bool need_validate;         // this WU has at least 1 result in
                                 // validate state = NEED_CHECK
     int canonical_resultid;     // ID of canonical result, or zero
@@ -478,6 +480,7 @@ struct RESULT {
     double fpops_cumulative;
     double intops_per_cpu_sec;
     double intops_cumulative;
+    int units;      // used for granting credit by # of units processed
     int parse_from_client(FILE*);
     char platform_name[256];
     int version_num;

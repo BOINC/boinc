@@ -402,11 +402,6 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
                 // as needing a reliable host
                 //
                 wu_result.need_reliable = 0;
-                if (config.reliable_time) {
-                	if ((wu_result.workunit.create_time + config.reliable_time) <= time(0)) {
-                		wu_result.need_reliable = true;
-                	}
-                }
                 if (config.reliable_on_priority && wu_result.result_priority >= config.reliable_on_priority) {
                     wu_result.need_reliable = true;
                 }

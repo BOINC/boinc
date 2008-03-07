@@ -80,9 +80,7 @@ public:
     double next_rpc_delay;
     int sched_debug_level;
     int fuh_debug_level;
-    int reliable_time; // age of workunit before requiring reliable
-    int reliable_min_avg_credit;
-        // min average credit for a host to be declared reliable
+    double reliable_max_error_rate;  // max error rate for a host to be declared reliable
     int reliable_max_avg_turnaround;
         // max average turnaround for a host to be declared reliable
     int reliable_priority_on_over;
@@ -97,6 +95,8 @@ public:
         // will be sent to reliable hosts
     double reliable_reduced_delay_bound;
         // Reduce the delay bounds for reliable hosts by this percent
+	int granted_credit_ramp_up; 
+	double granted_credit_weight;
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
     bool ended;

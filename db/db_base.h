@@ -80,6 +80,7 @@ public:
 
     MYSQL* mysql;
     int start_transaction();
+    int rollback_transaction();
     int commit_transaction();
 };
 
@@ -106,6 +107,7 @@ public:
     int sum(double&, const char* field, const char* clause="");
     int get_double(const char* query, double&);
     int get_integer(const char* query, int&);
+    int affected_rows();
     bool is_high_priority;
 
     DB_CONN* db;

@@ -48,6 +48,7 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 #define INFEASIBLE_WORKLOAD 6
 #define INFEASIBLE_DUP      7
 #define INFEASIBLE_HR       8
+#define INFEASIBLE_BANDWIDTH 9
 
 extern int wu_is_infeasible(
     WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&, APP&

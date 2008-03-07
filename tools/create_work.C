@@ -112,6 +112,7 @@ int main(int argc, const char** argv) {
     wu.rsc_fpops_bound =  1e10;
     wu.rsc_memory_bound = 1e8;
     wu.rsc_disk_bound = 1e8;
+    wu.rsc_bandwidth_bound = 0.0;
     wu.delay_bound = 100000;
 
     while (i < argc) {

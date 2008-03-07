@@ -129,9 +129,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_double(tag, "next_rpc_delay", next_rpc_delay)) continue;
         if (xp.parse_int(tag, "sched_debug_level", sched_debug_level)) continue;
         if (xp.parse_int(tag, "fuh_debug_level", fuh_debug_level)) continue;
-        if (xp.parse_int(tag, "reliable_min_avg_credit", reliable_min_avg_credit)) continue;
         if (xp.parse_int(tag, "reliable_max_avg_turnaround", reliable_max_avg_turnaround)) continue;
-        if (xp.parse_int(tag, "reliable_time", reliable_time)) continue;
+        if (xp.parse_double(tag, "reliable_max_error_rate", reliable_max_error_rate)) continue;
         if (xp.parse_int(tag, "reliable_priority_on_over", reliable_priority_on_over)) continue;
         if (xp.parse_int(tag, "reliable_priority_on_over_except_error", reliable_priority_on_over_except_error)) continue;
         if (xp.parse_int(tag, "reliable_on_priority", reliable_on_priority)) continue;
@@ -142,6 +141,9 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "ended", ended)) continue;
         if (xp.parse_int(tag, "shmem_work_items", shmem_work_items)) continue;
         if (xp.parse_int(tag, "feeder_query_size", feeder_query_size)) continue;
+        if (xp.parse_int(tag, "granted_credit_ramp_up", granted_credit_ramp_up)) continue;
+        if (xp.parse_double(tag, "granted_credit_weight", granted_credit_weight)) continue;
+		
         if (xp.parse_bool(tag, "no_darwin_6", no_darwin_6)) {
             if (no_darwin_6) {
                 regcomp(&re, ".*Darwin.*\t.*(5\\.|6\\.).*", REG_EXTENDED|REG_NOSUB);

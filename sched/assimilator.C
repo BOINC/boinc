@@ -122,10 +122,7 @@ bool do_pass(APP& app) {
         }
 
         retval = assimilate_handler(wu, results, canonical_result);
-        if (retval) {
-            // If handler failed, there's probably a volume offline
-            // or something like that.  Better to quit.
-            //
+        if (retval && retval != DEFER_ASSIMILATION) {
             log_messages.printf(MSG_CRITICAL,
                 "[%s] handler returned error %d; exiting\n", wu.name, retval
             );
@@ -133,9 +130,14 @@ bool do_pass(APP& app) {
         }
 
         if (update_db) {
+            // Defer assimilation until next result is returned
+            int assimilate_state = ASSIMILATE_DONE;
+            if ( retval == DEFER_ASSIMILATION ) {
+                assimilate_state = ASSIMILATE_INIT;
+            }
             sprintf(
                 buf, "assimilate_state=%d, transition_time=%d", 
-                ASSIMILATE_DONE, (int)time(0)
+                assimilate_state, (int)time(0)
             );
             retval = wu.update_field(buf);
             if (retval) {

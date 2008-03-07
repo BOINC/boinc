@@ -648,7 +648,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "min_quorum=%d, target_nresults=%d, max_error_results=%d, "
         "max_total_results=%d, max_success_results=%d, "
         "result_template_file='%s', "
-        "priority=%d",
+        "priority=%d, "
+     	"rsc_bandwidth_bound=%.15e ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -663,7 +664,8 @@ void DB_WORKUNIT::db_print(char* buf){
         max_total_results,
         max_success_results,
         result_template_file,
-        priority
+        priority,
+        rsc_bandwidth_bound
     );
 }
 
@@ -698,6 +700,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     strcpy2(result_template_file, r[i++]);
     priority = atoi(r[i++]);
     strcpy2(mod_time, r[i++]);
+    rsc_bandwidth_bound = atof(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -905,7 +908,6 @@ void DB_ASSIGNMENT::db_parse(MYSQL_ROW& r) {
     workunitid = atoi(r[i++]);
     resultid = atoi(r[i++]);
 }
-
 
 void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
@@ -1326,6 +1328,9 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.max_total_results = atoi(r[i++]);
     wu.max_success_results = atoi(r[i++]);
     strcpy2(wu.result_template_file, r[i++]);
+    wu.priority = atoi(r[i++]);
+    strcpy2(wu.mod_time, r[i++]);
+    wu.rsc_bandwidth_bound = atof(r[i++]);
 }
 
 int DB_WORK_ITEM::enumerate(

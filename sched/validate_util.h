@@ -30,6 +30,8 @@ extern int get_output_file_paths(RESULT const& result, std::vector<std::string>&
 extern int get_logical_name(RESULT const& result, std::string const& path, std::string& name);
 extern double median_mean_credit(WORKUNIT&, std::vector<RESULT>& results);
 extern double get_credit_from_wu(WORKUNIT&, std::vector<RESULT>& results);
+extern double stddev_credit(WORKUNIT&, std::vector<RESULT>& results);
+extern double two_credit(WORKUNIT&, std::vector<RESULT>& results);
 extern int update_credit_per_cpu_sec(
     double credit, double cpu_time, double& credit_per_cpu_sec
 );

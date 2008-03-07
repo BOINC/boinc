@@ -2046,3 +2046,63 @@ David  6 Mar 2008
 
     html/user/
         forum_moderate_post_action.php
+
+David  7 Mar 2008
+    - removed boinc_ncpus_available() and boinc_nthreads() calls.
+        The design has been changed to constant #threads per app version
+
+    api/
+        boinc_api.C,h
+    client/
+        app_control.C
+    html/inc/
+        stats_sites.inc
+
+David  7 Mar 2008
+    Various changes from Kevin Reed/WCG:
+    - server: add workunit.rsc_bandwidth_bound: if nonzero,
+        send this WU only to hosts with that much download bandwidth
+    - assimilators: if a handler returns DEFER_ASSIMILATION,
+        the WU remains in INIT state and will be handled when the
+        next instance completes.
+        Useful if you want the assimilator to see all instances.
+    - scheduler: when setting result.outcome = DETACHED,
+        set received_time to now
+    - scheduler: removed the reliable_time and reliable_min_avg_credit
+        options
+    - scheduler/web: add optional <allow_non_preferred_projects>
+        in project preferences.
+        If present, user will accept work from non-selected apps
+        if no work is available for selected apps
+    - scheduler: improved messages for projects with multiple apps
+    - scheduler: added config options
+        <granted_credit_weight> and <granted_credit_ramp_up>.
+        Used in calculating host.claimed_credit_per_cpu_sec,
+        but I'm not sure how.
+    - Added two new credit-granting formulas (validate_util.C):
+        stddev_credit() and two_credit()
+    - server DB: add rollback_transaction() and affected_rows() to DB_CONN
+
+    NOTE: DB update required
+
+    db/
+        boinc_db.C,h
+        db_base.C,h
+        schema.sql
+    html/ops/
+        db_update.php
+    lib/
+        str_util.h
+    sched/
+        assimilate_handler.h
+        assimilator.C
+        feeder.C
+        handle_request.C
+        sched_assign.C
+        sched_config.C,h
+        sched_send.C,h
+        server_types.C,h
+        transitioner.C
+        validate_util.C,h
+        backend_lib.C
+        create_work.C

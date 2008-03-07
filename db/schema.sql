@@ -192,6 +192,7 @@ create table workunit (
     rsc_fpops_bound     double      not null,
     rsc_memory_bound    double      not null,
     rsc_disk_bound      double      not null,
+    rsc_bandwidth_bound double      not null,
     need_validate       smallint    not null,
     canonical_resultid  integer     not null,
     canonical_credit    double      not null,

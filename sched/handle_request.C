@@ -154,6 +154,7 @@ void unlock_sched(SCHEDULER_REPLY& reply) {
     close(reply.lockfile_fd);
 }
 
+
 // find the user's most recently-created host with given host CPID
 //
 static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
@@ -188,9 +189,10 @@ static void mark_results_over(DB_HOST& host) {
     );
     while (!result.enumerate(buf)) {
         sprintf(buf2,
-            "server_state=%d, outcome=%d",
+            "server_state=%d, outcome=%d, received_time = %d",
             RESULT_SERVER_STATE_OVER,
-            RESULT_OUTCOME_CLIENT_DETACHED
+            RESULT_OUTCOME_CLIENT_DETACHED,
+            time(0)
         );
         result.update_field(buf2);
 
@@ -333,6 +335,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             goto make_new_host;
         }
+        
     } else {
         // Here no hostid was given, or the ID was bad.
         // Look up the user, then create a new host record
@@ -407,7 +410,6 @@ make_new_host:
             mark_results_over(host);
             goto got_host;
         }
-
         // either of the above cases,
         // or host ID didn't match user ID,
         // or RPC seqno was too low.
@@ -471,7 +473,67 @@ got_host:
             user.update_field(buf);
         }
     }
+    
     return 0;
+}
+
+// Modify claimed credit based on the historical granted credit if
+// the project is configured to do this and if the values make sense
+//
+static void modify_credit_rating(HOST& host) {
+    double x;
+
+    double min = 39.0/86400.0;
+        // 2 standard deviations below the average for credit_per_cpu_sec
+        // (as of 3/6/2008)
+    double max = 643.0/86400.0;
+        // 4 standard deviations above the average for credit_per_cpu_sec
+        // (as of 3/6/2008)
+    double high_range = 1.0;    // The limit of % above the historical average
+    double low_range = 1.0;     // The limit of % below the historical average
+    
+    // only modify if the host.credit_per_cpu_sec is within a reasonable range
+    if ( host.credit_per_cpu_sec > min && host.credit_per_cpu_sec < max ) {
+        // only modify if the feature is enabled
+        if ( config.granted_credit_weight > 0.0 && config.granted_credit_weight <= 1.0 ) {
+            // Allow the weight to become stronger as the more credit
+            // has been granted to the host
+            //
+    	    double ramp_weight = 1;
+    	    if ( config.granted_credit_ramp_up ) {
+    		    ramp_weight = (config.granted_credit_ramp_up - host.total_credit)/config.granted_credit_ramp_up;
+    		    if ( ramp_weight < 0) ramp_weight = 0;
+    	   	    ramp_weight = 1 - ramp_weight;
+}
+
+    	    // As the deviantion of the claimed credit is larger
+            // it is more suspect so increase the weight
+            //
+    	    double variance_weight;
+    	    if ( x > host.credit_per_cpu_sec ) {
+    	        variance_weight = (x-host.credit_per_cpu_sec)/host.credit_per_cpu_sec;
+    	        variance_weight = variance_weight/high_range; // scale 
+    	        if ( variance_weight > 1 ) variance_weight = 1;
+    	    } else { 
+    	        variance_weight = (host.credit_per_cpu_sec-x)/host.credit_per_cpu_sec;
+    	        variance_weight = variance_weight/low_range; // scale 
+    	        if ( variance_weight > 1 ) variance_weight = 1;
+    	    }
+    	    
+    	    double weight = ramp_weight*variance_weight*config.granted_credit_weight;  // merge them all together
+    	    x = (1-weight)*x + weight*host.credit_per_cpu_sec;
+    	    
+    	    if ( x < host.claimed_credit_per_cpu_sec && weight>0.25 ) {
+     		    log_messages.printf(MSG_NORMAL, "[HOSTID:%d] Former host.compute_credit_rating() - Lowered claimed credit - old: %.1lf granted: %.1lf weighted: %.1lf weight: %.1lf percent\n", host.id, host.claimed_credit_per_cpu_sec*3600*24, host.credit_per_cpu_sec*3600*24, x*3600*24, weight*100);
+    	    } else if ( x > host.claimed_credit_per_cpu_sec  && weight>0.25 ) {
+     		    log_messages.printf(MSG_NORMAL, "[HOSTID:%d] Former host.compute_credit_rating() - Increased claimed credit - old: %.1lf granted: %.1lf weighted: %.1lf weight: %.1lf percent\n", host.id, host.claimed_credit_per_cpu_sec*3600*24, host.credit_per_cpu_sec*3600*24, x*3600*24, weight*100);
+    	    }
+            host.claimed_credit_per_cpu_sec  = x;
+    	    
+        }
+    } else {
+        log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Out of range host.credit_per_cpu_sec %.1lf, min %.1lf max %.1lf \n", host.id, host.credit_per_cpu_sec*24*3600, min*24*3600, max*24*3600);
+    }
 }
 
 // somewhat arbitrary formula for credit as a function of CPU time.
@@ -500,6 +562,10 @@ static void compute_credit_rating(HOST& host) {
     x /= SECONDS_PER_DAY;
     x *= scale;
     host.claimed_credit_per_cpu_sec  = x;
+    
+    if (config.granted_credit_weight) {
+        modify_credit_rating(host);
+    }
 }
 
 // modify host struct based on request.
@@ -845,9 +911,11 @@ void warn_user_if_core_client_upgrade_scheduled(
         remaining /= 3600;
 
         if (0 < remaining) {
+            
             char msg[512];
             int days  = remaining / 24;
             int hours = remaining % 24;
+      
             sprintf(msg,
                 "Starting in %d days and %d hours, project will require a minimum "
                 "BOINC core client version of %d.%d.0.  You are currently using "
