@@ -87,7 +87,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib userenv.lib oldnames.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -302,7 +302,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
+				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib userenv.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -520,7 +520,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
+				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib userenv.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"

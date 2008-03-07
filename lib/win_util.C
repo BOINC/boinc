@@ -250,7 +250,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
    SECURITY_INFORMATION si = DACL_SECURITY_INFORMATION;
    unsigned int         i;
 
-   __try
+   try
    {
       // Obtain the DACL for the window station.
 
@@ -269,7 +269,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
                dwSdSizeNeeded);
 
          if (psd == NULL)
-            __leave;
+            throw;
 
          psdNew = (PSECURITY_DESCRIPTOR)HeapAlloc(
                GetProcessHeap(),
@@ -277,7 +277,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
                dwSdSizeNeeded);
 
          if (psdNew == NULL)
-            __leave;
+            throw;
 
          dwSidSize = dwSdSizeNeeded;
 
@@ -288,10 +288,10 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
                dwSidSize,
                &dwSdSizeNeeded)
          )
-            __leave;
+            throw;
       }
       else
-         __leave;
+         throw;
 
       // Create a new DACL.
 
@@ -299,7 +299,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
             psdNew,
             SECURITY_DESCRIPTOR_REVISION)
       )
-         __leave;
+         throw;
 
       // Get the DACL from the security descriptor.
 
@@ -309,7 +309,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
             &pacl,
             &bDaclExist)
       )
-         __leave;
+         throw;
 
       // Initialize the ACL.
 
@@ -327,7 +327,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
                sizeof(ACL_SIZE_INFORMATION),
                AclSizeInformation)
          )
-            __leave;
+            throw;
       }
 
       // Compute the size of the new ACL.
@@ -344,12 +344,12 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
             dwNewAclSize);
 
       if (pNewAcl == NULL)
-         __leave;
+         throw;
 
       // Initialize the new DACL.
 
       if (!InitializeAcl(pNewAcl, dwNewAclSize, ACL_REVISION))
-         __leave;
+         throw;
 
       // If DACL is present, copy it to a new DACL.
 
@@ -362,7 +362,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
             {
                // Get an ACE.
                if (!GetAce(pacl, i, &pTempAce))
-                  __leave;
+                  throw;
 
                // Add the ACE to the new ACL.
                if (!AddAce(
@@ -372,7 +372,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
                      pTempAce,
                     ((PACE_HEADER)pTempAce)->AceSize)
                )
-                  __leave;
+                  throw;
             }
          }
       }
@@ -386,7 +386,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
                   sizeof(DWORD));
 
       if (pace == NULL)
-         __leave;
+         throw;
 
       pace->Header.AceType  = ACCESS_ALLOWED_ACE_TYPE;
       pace->Header.AceFlags = CONTAINER_INHERIT_ACE |
@@ -396,7 +396,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
       pace->Mask            = GENERIC_ACCESS;
 
       if (!CopySid(GetLengthSid(psid), &pace->SidStart, psid))
-         __leave;
+         throw;
 
       if (!AddAce(
             pNewAcl,
@@ -405,7 +405,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
             (LPVOID)pace,
             pace->Header.AceSize)
       )
-         __leave;
+         throw;
 
       // Add the second ACE to the window station.
 
@@ -419,7 +419,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
             (LPVOID)pace,
             pace->Header.AceSize)
       )
-         __leave;
+         throw;
 
       // Set a new DACL for the security descriptor.
 
@@ -429,18 +429,18 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
             pNewAcl,
             FALSE)
       )
-         __leave;
+         throw;
 
       // Set the new security descriptor for the window station.
 
       if (!SetUserObjectSecurity(hwinsta, &si, psdNew))
-         __leave;
+         throw;
 
       // Indicate success.
 
       bSuccess = TRUE;
    }
-   __finally
+   catch(...)
    {
       // Free the allocated buffers.
 
@@ -485,7 +485,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
    SECURITY_INFORMATION si = DACL_SECURITY_INFORMATION;
    unsigned int         i;
 
-   __try
+   try
    {
       // Obtain the security descriptor for the desktop object.
 
@@ -504,7 +504,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
                   dwSdSizeNeeded );
 
             if (psd == NULL)
-               __leave;
+               throw;
 
             psdNew = (PSECURITY_DESCRIPTOR)HeapAlloc(
                   GetProcessHeap(),
@@ -512,7 +512,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
                   dwSdSizeNeeded);
 
             if (psdNew == NULL)
-               __leave;
+               throw;
 
             dwSidSize = dwSdSizeNeeded;
 
@@ -523,10 +523,10 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
                   dwSidSize,
                   &dwSdSizeNeeded)
             )
-               __leave;
+               throw;
          }
          else
-            __leave;
+            throw;
       }
 
       // Create a new security descriptor.
@@ -535,7 +535,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
             psdNew,
             SECURITY_DESCRIPTOR_REVISION)
       )
-         __leave;
+         throw;
 
       // Obtain the DACL from the security descriptor.
 
@@ -545,7 +545,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
             &pacl,
             &bDaclExist)
       )
-         __leave;
+         throw;
 
       // Initialize.
 
@@ -564,7 +564,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
                sizeof(ACL_SIZE_INFORMATION),
                AclSizeInformation)
          )
-            __leave;
+            throw;
       }
 
       // Compute the size of the new ACL.
@@ -581,12 +581,12 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
             dwNewAclSize);
 
       if (pNewAcl == NULL)
-         __leave;
+         throw;
 
       // Initialize the new ACL.
 
       if (!InitializeAcl(pNewAcl, dwNewAclSize, ACL_REVISION))
-         __leave;
+         throw;
 
       // If DACL is present, copy it to a new DACL.
 
@@ -599,7 +599,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
             {
                // Get an ACE.
                if (!GetAce(pacl, i, &pTempAce))
-                  __leave;
+                  throw;
 
                // Add the ACE to the new ACL.
                if (!AddAce(
@@ -609,7 +609,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
                   pTempAce,
                   ((PACE_HEADER)pTempAce)->AceSize)
                )
-                  __leave;
+                  throw;
             }
          }
       }
@@ -622,7 +622,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
             DESKTOP_ALL,
             psid)
       )
-         __leave;
+         throw;
 
       // Set new DACL to the new security descriptor.
 
@@ -632,18 +632,18 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
             pNewAcl,
             FALSE)
       )
-         __leave;
+         throw;
 
       // Set the new security descriptor for the desktop object.
 
       if (!SetUserObjectSecurity(hdesk, &si, psdNew))
-         __leave;
+         throw;
 
       // Indicate success.
 
       bSuccess = TRUE;
    }
-   __finally
+   catch(...)
    {
       // Free buffers.
 
@@ -689,79 +689,78 @@ GetAccountSid(
     SID_NAME_USE peUse;
     BOOL bSuccess=FALSE; // assume this function will fail
 
-    __try {
+    try
+    {
+        //
+        // initial memory allocations
+        //
+        *Sid = (PSID)HeapAlloc(GetProcessHeap(), 0, cbSid);
 
-    //
-    // initial memory allocations
-    //
-    *Sid = (PSID)HeapAlloc(GetProcessHeap(), 0, cbSid);
+        if(*Sid == NULL) throw;
 
-    if(*Sid == NULL) __leave;
-
-    ReferencedDomain = (LPTSTR)HeapAlloc(
-                    GetProcessHeap(),
-                    0,
-                    cchReferencedDomain * sizeof(TCHAR)
-                    );
-
-    if(ReferencedDomain == NULL) __leave;
-
-    //
-    // Obtain the SID of the specified account on the specified system.
-    //
-    while(!LookupAccountName(
-                    SystemName,         // machine to lookup account on
-                    AccountName,        // account to lookup
-                    *Sid,               // SID of interest
-                    &cbSid,             // size of SID
-                    ReferencedDomain,   // domain account was found on
-                    &cchReferencedDomain,
-                    &peUse
-                    )) {
-        if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
-            //
-            // reallocate memory
-            //
-            *Sid = (PSID)HeapReAlloc(
+        ReferencedDomain = (LPTSTR)HeapAlloc(
                         GetProcessHeap(),
                         0,
-                        *Sid,
-                        cbSid
-                        );
-            if(*Sid == NULL) __leave;
-
-            ReferencedDomain = (LPTSTR)HeapReAlloc(
-                        GetProcessHeap(),
-                        0,
-                        ReferencedDomain,
                         cchReferencedDomain * sizeof(TCHAR)
                         );
-            if(ReferencedDomain == NULL) __leave;
-        }
-        else __leave;
-    }
 
-    //
-    // Indicate success.
-    //
-    bSuccess = TRUE;
+        if(ReferencedDomain == NULL) throw;
+
+        //
+        // Obtain the SID of the specified account on the specified system.
+        //
+        while(!LookupAccountName(
+                        SystemName,         // machine to lookup account on
+                        AccountName,        // account to lookup
+                        *Sid,               // SID of interest
+                        &cbSid,             // size of SID
+                        ReferencedDomain,   // domain account was found on
+                        &cchReferencedDomain,
+                        &peUse
+                        )) {
+            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                //
+                // reallocate memory
+                //
+                *Sid = (PSID)HeapReAlloc(
+                            GetProcessHeap(),
+                            0,
+                            *Sid,
+                            cbSid
+                            );
+                if(*Sid == NULL) throw;
+
+                ReferencedDomain = (LPTSTR)HeapReAlloc(
+                            GetProcessHeap(),
+                            0,
+                            ReferencedDomain,
+                            cchReferencedDomain * sizeof(TCHAR)
+                            );
+                if(ReferencedDomain == NULL) throw;
+            }
+            else throw;
+        }
+
+        //
+        // Indicate success.
+        //
+        bSuccess = TRUE;
 
     } // try
-    __finally {
+    catch(...)
+    {
+        //
+        // Cleanup and indicate failure, if appropriate.
+        //
 
-    //
-    // Cleanup and indicate failure, if appropriate.
-    //
+        HeapFree(GetProcessHeap(), 0, ReferencedDomain);
 
-    HeapFree(GetProcessHeap(), 0, ReferencedDomain);
-
-    if(!bSuccess) {
-        if(*Sid != NULL) {
-            HeapFree(GetProcessHeap(), 0, *Sid);
-            *Sid = NULL;
+        if(!bSuccess) {
+            if(*Sid != NULL) {
+                HeapFree(GetProcessHeap(), 0, *Sid);
+                *Sid = NULL;
+            }
         }
-    }
-
     } // finally
 
     return bSuccess;

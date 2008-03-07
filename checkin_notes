@@ -2013,3 +2013,10 @@ David  6 Mar 2008
 
     lib
         win_util.C,h
+
+Rom    6 Mar 2008
+    - lib: Remove SEH exception handling from MS sample code.
+    
+    lib/
+        win_util.C
+    

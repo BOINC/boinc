@@ -345,6 +345,16 @@ void get_sandbox_account_token() {
     if (!retval) {
         sandbox_account_token = NULL;
         sandbox_account_sid = NULL;
+    } else {
+        // Adjust the permissions on the current desktop and window station
+        //   to allow the sandbox user account to create windows and such.
+        //
+        if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
+            fprintf(stderr, "Failed to add ACE to current WindowStation\n");
+        }
+        if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
+            fprintf(stderr, "Failed to add ACE to current Desktop\n");
+        }
     }
 }
 #endif
@@ -379,22 +389,34 @@ int run_program(
         }
     }
 
-/*
     get_sandbox_account_token();
     if (sandbox_account_token != NULL) {
-        char szWindowStation[256];
-        char szDesktop[256];
-        char szDesktopName[512];
-        memset(szWindowStation, 0, sizeof(szWindowStation));
-        memset(szDesktop, 0, sizeof(szDesktop));
-        memset(szDesktopName, 0, sizeof(szDesktopName));
 
         // Retrieve the current window station and desktop names
-        if (!GetUserObjectInformation(GetProcessWindowStation(), UOI_NAME, szWindowStation, sizeof(szWindowStation), NULL)) {
+        char szWindowStation[256];
+        memset(szWindowStation, 0, sizeof(szWindowStation));
+        char szDesktop[256];
+        memset(szDesktop, 0, sizeof(szDesktop));
+        char szDesktopName[512];
+        memset(szDesktopName, 0, sizeof(szDesktopName));
+
+        if (!GetUserObjectInformation(
+                GetProcessWindowStation(),
+                UOI_NAME,
+                &szWindowStation,
+                sizeof(szWindowStation),
+                NULL)
+            ) {
             windows_error_string(error_msg, sizeof(error_msg));
             fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
         }
-        if (!GetUserObjectInformation(GetThreadDesktop(GetCurrentThreadId()), UOI_NAME, szDesktop, sizeof(szDesktop), NULL)) {
+        if (!GetUserObjectInformation(
+                GetThreadDesktop(GetCurrentThreadId()),
+                UOI_NAME,
+                &szDesktop,
+                sizeof(szDesktop),
+                NULL)
+            ) {
             windows_error_string(error_msg, sizeof(error_msg));
             fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
         }
@@ -404,19 +426,9 @@ int run_program(
         strncat(szDesktopName, "\\", sizeof(szDesktopName) - strlen(szDesktopName));
         strncat(szDesktopName, szDesktop, sizeof(szDesktopName) - strlen(szDesktopName));
 
-        // Tell CreateProcessAsUser which desktop to use explicitly. If the ACLs haven't
-        //   been configured to allow the sandbox account to run an access denied.
-        //
+        // Tell CreateProcessAsUser which desktop to use explicitly.
         startup_info.lpDesktop = szDesktopName;
                  
-        // Add ACEs to the WindowStation and Desktop
-        if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
-            fprintf(stderr, "Failed to add ACE to current WindowStation\n");
-        }
-        if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
-            fprintf(stderr, "Failed to add ACE to current Desktop\n");
-        }
-
         // Construct an environment block that contains environment variables that don't
         //   describe the current user.
         if (!CreateEnvironmentBlock(&environment_block, sandbox_account_token, FALSE)) {
@@ -443,7 +455,6 @@ int run_program(
             fprintf(stderr, "DestroyEnvironmentBlock failed: %s\n", error_msg);
         }
     } else {
-*/
         retval = CreateProcess(
             file,
             cmdline,
@@ -456,9 +467,7 @@ int run_program(
             &startup_info,
             &process_info
         );
-/*
     }
-*/
     if (!retval) {
         windows_error_string(error_msg, sizeof(error_msg));
         fprintf(stderr, "CreateProcess failed: '%s'\n", error_msg);
