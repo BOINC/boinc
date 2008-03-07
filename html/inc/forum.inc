@@ -426,14 +426,6 @@ function is_ignoring($user, $other_user) {
     return in_array($other_user->id, $list);
 }
 
-function get_output_options($user) {
-    if (!$user) return null;
-    $options = new output_options();
-    if ($user->prefs->images_as_links) $options->images_as_links = 1;
-    if ($user->prefs->link_popup) $options->link_popup = 1;
-    return $options;
-}
-
 // Display an individual post
 //
 function show_post(

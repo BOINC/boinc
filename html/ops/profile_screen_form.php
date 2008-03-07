@@ -34,30 +34,31 @@ if (function_exists('profile_screen_query')) {
         ." and verification=0 "
         ." and uotd_time is null "
         ." and expavg_credit>1 "
+        ." and (response1 <> '' or response2 <> '') "
         ." order by recommend desc limit 20"
     ;
 }
 $result = mysql_query($query);
 
 $n = 0;
-echo "<form method=\"get\" action=\"profile_screen_action.php\">\n";
+echo "<form action=profile_screen_action.php>
+";
 start_table();
 $found = false;
 while ($profile = mysql_fetch_object($result)) {
     $found = true;
-    echo "<tr><td>
-    ";
+    echo "<tr><td valign=top>";
     buttons($n);
     echo "
-        </td><td>
-    ";
-    echo "recommends: $profile->recommend
-        <br>rejects: $profile->reject
         <br>Name: $profile->name
+        <br>recommends: $profile->recommend
+        <br>rejects: $profile->reject
+        <br>RAC: $profile->expavg_credit
         <br>
     ";
+    echo "</td><td><table border=2> ";
     show_profile($profile, $logged_in_user, true);
-    echo "<hr></td></tr>\n";
+    echo "</table></td></tr>\n";
     echo "<input type=\"hidden\" name=\"userid$n\" value=\"$profile->userid\">\n";
     $n++;
 }

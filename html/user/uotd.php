@@ -13,7 +13,9 @@ if (!$profile) {
     $d = date("d F Y", time());
     $user = lookup_user_id($profile->userid);
     page_head("User of the Day for $d: $user->name");
-    show_profile($profile->userid);
+    start_table();
+    show_profile($user, get_logged_in_user(false));
+    end_table();
 }
 
 page_tail();

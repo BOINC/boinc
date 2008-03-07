@@ -2019,4 +2019,24 @@ Rom    6 Mar 2008
     
     lib/
         win_util.C
-    
+
+David  6 Mar 2008
+    - admin web: fix profile screen form formatting
+    - web: remove get_transform_settings_from_user().
+        There's only get_output_options()
+
+        NOTE: why is text_transform() doing stripslashes()?
+        The slashes shouldn't be in the DB in the first place.
+        There's some fundamental confusion here.
+
+    - web: fix uotd.php
+
+    html/
+        inc/
+            forum.inc
+            profile.inc
+            text_transform.inc
+        ops/
+            profile_screen_form.php
+        user/
+            uotd.php

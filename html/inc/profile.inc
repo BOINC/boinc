@@ -170,7 +170,8 @@ function get_profile_summary($profile) {
 // Displays a user's profile (if they have one);
 // $screen_mode is set if we're in the administrative profile-screening page,
 // in which case we show everything
-
+// This assumes we're inside a table; it generates table rows
+//
 function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
@@ -186,7 +187,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     if ($can_edit) {
         row1("<a href=create_profile.php>Edit your profile</a>");
     }
-    
+
     // If screening is enabled, only show picture in certain situations
     //
     $show_picture = $profile->has_picture;
@@ -213,12 +214,9 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
 
     // Setup text output options based on logged in user forum settings
     //
-    if (!$screen_mode) {
-        $logged_in_user = get_logged_in_user(false);
-        BoincForumPrefs::lookup($logged_in_user);
-        $options = get_transform_settings_from_user($logged_in_user);
-    }
-        
+    BoincForumPrefs::lookup($logged_in_user);
+    $options = get_output_options($logged_in_user);
+
     row1(show_profile_heading1());
     row1(output_transform($profile->response1,$options), 2, "foobar");
     row1(show_profile_heading2());
