@@ -25,8 +25,8 @@
 #endif
 
 
-// Set to 1 to prevent mutliple selections
-#define PREVENT_MULTIPLE_PROJECT_SELECTIONS 0
+// Set to TRUE to prevent mutliple selections
+#define PREVENT_MULTIPLE_PROJECT_SELECTIONS FALSE
 
 class CBOINCGridCtrl;
 
