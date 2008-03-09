@@ -317,9 +317,9 @@ void get_sandbox_account_token() {
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
         retval = LogonUser( 
-            username_str.c_str(),
-            domainname_str.c_str(), 
-            password_str.c_str(), 
+            (char*) username_str.c_str(),
+            (char*) domainname_str.c_str(), 
+            (char*) password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_token
@@ -330,9 +330,9 @@ void get_sandbox_account_token() {
     } else {
         username_str = encoded_username_str;
         retval = LogonUser( 
-            username_str.c_str(),
+            (char*) username_str.c_str(),
             NULL, 
-            password_str.c_str(), 
+            (char*) password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_token

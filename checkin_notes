@@ -2114,3 +2114,12 @@ Charlie Mar 7 2008
     clientgui/
         ViewProjectsGrid.h
         ViewWorkGrid.h
+
+David  Mar 9 2008
+    - Manager: avoid asserts on Linux
+    - Lib: compile fixes for MinGW
+
+    clientgui/
+        AdvancedFrame.cpp
+    lib/
+        util.C

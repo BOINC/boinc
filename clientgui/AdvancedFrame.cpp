@@ -435,12 +435,19 @@ bool CAdvancedFrame::CreateMenu() {
 #if defined(__WXMSW__) || defined(__WXMAC__)
     menuActivity->AppendSeparator();
 #else
-    menuActivity->Append(
+    // for some reason, the above radio items do not display the active
+    // selection on linux (wxGtk library) with the separator here,
+    // so we add a blank disabled menu item instead
+    //
+    wxMenuItem* pItem = menuActivity->Append(
         ID_ACTIVITYMENUSEPARATOR,
+        (const wxChar *) " ",
+            // wxEmptyString here causes a wxWidgets assertion when debugging
         wxEmptyString,
-        wxEmptyString,
-        wxITEM_SEPARATOR
+        wxITEM_NORMAL
+            // wxITEM_SEPARATOR here causes a wxWidgets assertion when debugging
     );
+    pItem->Enable(false); // disable this menu item
 #endif
 
     menuActivity->AppendRadioItem(
