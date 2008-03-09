@@ -72,9 +72,9 @@ struct TASK {
     double starting_cpu;
         // how much CPU time was used by tasks before this in the job file
     bool suspended;
-#ifdef _WIN32
     double wall_cpu_time;
-        // for estimating CPU time on Win98/ME
+        // for estimating CPU time on Win98/ME and Mac
+#ifdef _WIN32
     HANDLE pid_handle;
     DWORD pid;
     HANDLE thread_handle;
@@ -260,7 +260,6 @@ int TASK::run(int argct, char** argvt) {
     pid = process_info.dwProcessId;
     thread_handle = process_info.hThread;
     SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
-    wall_cpu_time = 0;
 #else
     int retval, argc;
     char progname[256], buf[256];
@@ -310,11 +309,13 @@ int TASK::run(int argct, char** argvt) {
         exit(ERR_EXEC);
     }
 #endif
+    wall_cpu_time = 0;
     suspended = false;
     return 0;
 }
 
 bool TASK::poll(int& status) {
+    if (!suspended) wall_cpu_time += POLL_PERIOD;
 #ifdef _WIN32
     unsigned long exit_code;
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
@@ -324,7 +325,6 @@ bool TASK::poll(int& status) {
             return true;
         }
     }
-    if (!suspended) wall_cpu_time += POLL_PERIOD;
 #else
     int wpid, stat;
     struct rusage ru;

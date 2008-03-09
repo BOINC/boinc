@@ -568,3 +568,9 @@ David  6 Mar 2008
 
     wrapper/
         wrapper.C
+
+David  9 Mar 2008
+    - wrapper: compile fixes for Mac
+
+    wrapper/
+        wrapper.C
