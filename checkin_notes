@@ -2194,3 +2194,11 @@ David  Mar 10 2008
         Makefile.am
         proc_control.C,h
         util.C,h
+
+David  Mar 10 2008
+    - Added API makefile for MinGW (from Pasquale Tricarico)
+
+    api/
+        Makefile.mingw
+    lilb/
+        proc_control.h
