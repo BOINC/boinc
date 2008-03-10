@@ -1543,6 +1543,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\proc_control.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\proxy_info.C"
 				>
 				<FileConfiguration

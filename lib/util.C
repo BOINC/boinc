@@ -60,11 +60,6 @@ using std::vector;
 #define EPOCHFILETIME_SEC (11644473600.)
 #define TEN_MILLION 10000000.
 
-#ifdef _WIN32
-HANDLE sandbox_account_token = NULL;
-PSID sandbox_account_sid = NULL;
-#endif
-
 // return time of day (seconds since 1970) as a double
 //
 double dtime() {

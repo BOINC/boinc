@@ -189,6 +189,7 @@ int COPROC_CUDA::parse(FILE* fin) {
         if (parse_int(buf, "<clockRate`>", prop.clockRate)) continue;
         if (parse_int(buf, "<textureAlignment`>", (int&)prop.textureAlignment)) continue;
     }
+    return ERR_XML_PARSE;
 }
 
 void COPROC_CELL_SPE::get(COPROCS&) {

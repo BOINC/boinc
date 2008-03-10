@@ -23,13 +23,17 @@
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
-
+#include <string>
 #include "win_util.h"
 
 #include "filesys.h"
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "util.h"
+#include "parse.h"
+#include "base64.h"
+
+using std::string;
 
 HANDLE sandbox_account_token = NULL;
 PSID sandbox_account_sid = NULL;
@@ -120,7 +124,6 @@ int run_app_windows(
     LPVOID environment_block = NULL;
     char cmdline[1024];
     char error_msg[1024];
-    unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
