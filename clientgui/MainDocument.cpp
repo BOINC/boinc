@@ -1257,12 +1257,11 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         argv[0] = "--graphics";
         argv[1] = 0;
         
-        iRetVal = run_program(
+        iRetVal = run_app_windows(
             result->slot_path.c_str(),
             result->graphics_exec_path.c_str(),
             1,
             argv,
-            0,
             id
         );
 #endif

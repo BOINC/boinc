@@ -175,6 +175,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
         argv[0] = "app_graphics";   // not used
         argv[1] = "--fullscreen";
         argv[2] = 0;
+#ifdef _WIN32
         retval = run_program(
             rp->slot_path.c_str(),
             rp->graphics_exec_path.c_str(),
@@ -183,6 +184,15 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
             0,
             graphics_application
         );
+#else
+        retval = run_app_windows(
+            rp->slot_path.c_str(),
+            rp->graphics_exec_path.c_str(),
+            2,
+            argv,
+            graphics_application
+        );
+#endif
 #endif
     } else {
         // V5 and Older

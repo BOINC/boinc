@@ -2179,3 +2179,18 @@ David  Mar 10 2008
         util.C,h
     sched/
         server_types.C,h
+
+David  Mar 10 2008
+    - Second pass at the above.  We still need run_program() in util.C.
+        The problem was that there's a lot of extra stuff needed
+        for running apps on Windows (e.g. related to sandboxing).
+        This needed to be a new function.
+
+    clientgui/
+        MainDocument.cpp
+    clientscr/
+        screensaver.cpp
+    lib/
+        Makefile.am
+        proc_control.C,h
+        util.C,h

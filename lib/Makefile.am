@@ -74,7 +74,6 @@ libboinc_a_SOURCES = \
     parse.C \
     prefs.C \
     procinfo_unix.C \
-	proc_control.C \
     proxy_info.C \
     shmem.C \
     str_util.C \

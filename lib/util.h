@@ -75,4 +75,24 @@ extern void boinc_crash();
 extern int read_file_malloc(const char* path, char*&, int max_len=0, bool tail=false);
 extern int read_file_string(const char* path, std::string&, int max_len=0, bool tail=false);
 
+#ifdef _WIN32
+
+extern int run_program(
+    const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&
+);
+
+extern void kill_program(HANDLE);
+extern int get_exit_status(HANDLE);
+extern bool process_exists(HANDLE);
+
+#else
+extern int run_program(
+    const char* path, const char* cdir, int argc, char *const argv[], double, int&
+);
+extern void kill_program(int);
+extern int get_exit_status(int);
+extern bool process_exists(int);
+#endif
+
+extern int wait_client_mutex(const char* dir, double timeout);
 #endif

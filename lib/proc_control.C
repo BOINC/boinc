@@ -17,35 +17,23 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// Code used by BOINC components (screensaver, manager, updater)
-// Don't include this in libboinc
+// Code to run a BOINC application (main or graphics) under Windows
+// Don't include this in applications
 
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
 
-#ifdef _WIN32
 #include "win_util.h"
-#else
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#endif
 
 #include "filesys.h"
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "util.h"
 
-#ifdef _WIN32
 HANDLE sandbox_account_token = NULL;
 PSID sandbox_account_sid = NULL;
-#endif
 
-#ifdef _WIN32
 void get_sandbox_account_token() {
     FILE* f;
     char buf[256];
@@ -118,17 +106,13 @@ void get_sandbox_account_token() {
         }
     }
 }
-#endif
 
+// Run application, Windows.
 // chdir into the given directory, and run a program there.
-// If nsecs is nonzero, make sure it's still running after that many seconds.
-//
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
-
-#ifdef _WIN32
-int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
+int run_app_windows(
+    const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -235,125 +219,6 @@ int run_program(
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 
-    if (nsecs) {
-        boinc_sleep(nsecs);
-        if (GetExitCodeProcess(process_info.hProcess, &status)) {
-            if (status != STILL_ACTIVE) {
-                return -1;
-            }
-        }
-    }
-
     id = process_info.hProcess;
-
     return 0;
-}
-#else
-int run_program(
-    const char* dir, const char* file, int , char *const argv[], double nsecs, int& id
-) {
-    int retval;
-    int pid = fork();
-    if (pid == 0) {
-        if (dir) {
-            retval = chdir(dir);
-            if (retval) return retval;
-        }
-        execv(file, argv);
-        perror("execv");
-        exit(errno);
-    }
-
-    if (nsecs) {
-        boinc_sleep(3);
-        if (waitpid(pid, 0, WNOHANG) == pid) {
-            return -1;
-        }
-    }
-    id = pid;
-    return 0;
-}
-#endif
-
-#ifdef _WIN32
-void kill_program(HANDLE pid) {
-    TerminateProcess(pid, 0);
-}
-#else
-void kill_program(int pid) {
-    kill(pid, SIGKILL);
-}
-#endif
-
-#ifdef _WIN32
-int get_exit_status(HANDLE pid_handle) {
-    unsigned long status=1;
-    while (1) {
-        if (GetExitCodeProcess(pid_handle, &status)) {
-            if (status == STILL_ACTIVE) {
-                boinc_sleep(1);
-            }
-        }
-    }
-    return (int) status;
-}
-bool process_exists(HANDLE h) {
-    unsigned long status=1;
-    if (GetExitCodeProcess(h, &status)) {
-        if (status == STILL_ACTIVE) return true;
-    }
-    return false;
-}
-
-#else
-int get_exit_status(int pid) {
-    int status;
-    waitpid(pid, &status, 0);
-    return status;
-}
-bool process_exists(int pid) {
-    int p = waitpid(pid, 0, WNOHANG);
-    if (p == pid) return false;     // process has exited
-    if (p == -1) return false;      // PID doesn't exist
-    return true;
-}
-#endif
-
-#ifdef _WIN32
-static int get_client_mutex(const char*) {
-    char buf[MAX_PATH] = "";
-    
-    // Global mutex on Win2k and later
-    //
-    if (IsWindows2000Compatible()) {
-        strcpy(buf, "Global\\");
-    }
-    strcat( buf, RUN_MUTEX);
-
-    HANDLE h = CreateMutex(NULL, true, buf);
-    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#else
-static int get_client_mutex(const char* dir) {
-    char path[1024];
-    static FILE_LOCK file_lock;
-
-    sprintf(path, "%s/%s", dir, LOCK_FILE_NAME);
-    if (file_lock.lock(path)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#endif
-    return 0;
-}
-
-int wait_client_mutex(const char* dir, double timeout) {
-    double start = dtime();
-    while (1) {
-        int retval = get_client_mutex(dir);
-        if (!retval) return 0;
-        boinc_sleep(1);
-        if (dtime() - start > timeout) break;
-    }
-    return ERR_ALREADY_RUNNING;
 }
