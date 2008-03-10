@@ -36,7 +36,6 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    void (*__cudaGetDeviceCount)( int * );
    void (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
    int count;
-   cudaDeviceProp prop;
 
 #ifdef _WIN32
    HMODULE cudalib = GetModuleHandle("cudart.dll");
@@ -76,8 +75,8 @@ void COPROC_CUDA::write_xml(FILE* f) {
         "   <warpSize>%d</warpSize>\n"
         "   <memPitch>%u</memPitch>\n"
         "   <maxThreadsPerBlock>%d</maxThreadsPerBlock>\n"
-        "   <maxThreadsDim>%d</maxThreadsDim>\n"
-        "   <maxGridSize>%d</maxGridSize>\n"
+        "   <maxThreadsDim>%d %d %d</maxThreadsDim>\n"
+        "   <maxGridSize>%d %d %d</maxGridSize>\n"
         "   <totalConstMem>%u</totalConstMem>\n"
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
@@ -91,8 +90,8 @@ void COPROC_CUDA::write_xml(FILE* f) {
         prop.warpSize,
         prop.memPitch,
         prop.maxThreadsPerBlock,
-        prop.maxThreadsDim,
-        prop.maxGridSize,
+        prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2],
+        prop.maxGridSize[0], prop.maxGridSize[1], prop.maxGridSize[2],
         prop.totalConstMem,
         prop.major,
         prop.minor,

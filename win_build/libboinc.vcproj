@@ -478,6 +478,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\coproc.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\crypt.C"
 				>
 			</File>
@@ -713,6 +717,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\boinc_win.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\coproc.h"
 				>
 			</File>
 			<File
