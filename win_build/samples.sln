@@ -1,42 +1,69 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj", "{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi", "libboincapi.vcproj", "{0BC1DB36-030A-4321-B387-1CEE2611E329}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "image_libs", "image_libs.vcproj", "{D3D21F11-A7E7-4EA2-8518-E24695133BFF}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jpeglib", "jpeglib.vcproj", "{5F065EAC-B881-4E9A-9E34-7A21D7A01D98}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glut", "glut.vcproj", "{C4165626-F68F-4F66-A126-3B82DDBB7480}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "upper_case", "upper_case.vcproj", "{8281D898-0E64-44EB-8356-4F0336F19A35}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5F065EAC-B881-4E9A-9E34-7A21D7A01D98} = {5F065EAC-B881-4E9A-9E34-7A21D7A01D98}
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-		{0BC1DB36-030A-4321-B387-1CEE2611E329} = {0BC1DB36-030A-4321-B387-1CEE2611E329}
-		{C4165626-F68F-4F66-A126-3B82DDBB7480} = {C4165626-F68F-4F66-A126-3B82DDBB7480}
-		{D3D21F11-A7E7-4EA2-8518-E24695133BFF} = {D3D21F11-A7E7-4EA2-8518-E24695133BFF}
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wrapper", "wrapper.vcproj", "{F243B93C-73CB-44E7-9BDC-847BB95A27CA}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 		{0BC1DB36-030A-4321-B387-1CEE2611E329} = {0BC1DB36-030A-4321-B387-1CEE2611E329}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sleeper", "sleeper.vcproj", "{A9647CEA-644D-4C0A-8733-D916CD344859}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 		{0BC1DB36-030A-4321-B387-1CEE2611E329} = {0BC1DB36-030A-4321-B387-1CEE2611E329}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "worker", "worker.vcproj", "{F1BE6109-586D-448E-8C5B-D5C2CB874EA2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uc2", "uc2.vcproj", "{CCB9A37C-7AD8-4FC1-ABEC-1A6ED2268F83}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{0BC1DB36-030A-4321-B387-1CEE2611E329} = {0BC1DB36-030A-4321-B387-1CEE2611E329}
 		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
@@ -44,6 +71,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uc2", "uc2.vcproj", "{CCB9A
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uc2_graphics", "uc2_graphics.vcproj", "{3CF31288-A44D-4C78-A3AA-B05B6E32DF11}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
 		{5F065EAC-B881-4E9A-9E34-7A21D7A01D98} = {5F065EAC-B881-4E9A-9E34-7A21D7A01D98}
@@ -53,6 +84,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uc2_graphics", "uc2_graphic
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgraphics2", "libgraphics2.vcproj", "{814EBFD3-3CE6-4933-A580-C1FE3147ACB4}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,14 +137,6 @@ Global
 		{C4165626-F68F-4F66-A126-3B82DDBB7480}.Release|Win32.Build.0 = Release|Win32
 		{C4165626-F68F-4F66-A126-3B82DDBB7480}.Release|x64.ActiveCfg = Release|x64
 		{C4165626-F68F-4F66-A126-3B82DDBB7480}.Release|x64.Build.0 = Release|x64
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Debug|Win32.ActiveCfg = Debug|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Debug|Win32.Build.0 = Debug|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Debug|x64.ActiveCfg = Debug|x64
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Debug|x64.Build.0 = Debug|x64
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release|Win32.ActiveCfg = Release|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release|Win32.Build.0 = Release|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release|x64.ActiveCfg = Release|x64
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release|x64.Build.0 = Release|x64
 		{F243B93C-73CB-44E7-9BDC-847BB95A27CA}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F243B93C-73CB-44E7-9BDC-847BB95A27CA}.Debug|Win32.Build.0 = Debug|Win32
 		{F243B93C-73CB-44E7-9BDC-847BB95A27CA}.Debug|x64.ActiveCfg = Debug|x64
