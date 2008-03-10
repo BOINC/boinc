@@ -22,7 +22,6 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
-#include "proc_control.h"
 
 #include "client_msgs.h"
 #include "file_names.h"
