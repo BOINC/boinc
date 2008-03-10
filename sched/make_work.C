@@ -145,6 +145,27 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
     );
 }
 
+// wait for the transitioner to create a result for the given WU.
+// This keeps us from getting infinitely far ahead of the transitioner
+// (e.g. if the transitioner isn't running)
+//
+void wait_for_results(int wu_id) {
+    DB_RESULT result;
+    int count, retval;
+    char buf[256];
+
+    sprintf(buf, "where workunitid=%d", wu_id);
+    while (1) {
+        retval = result.count(count, buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "result.count: %d\n", retval);
+            exit(1);
+        }
+        if (count > 0) return;
+        sleep(10);
+    }
+}
+
 void make_work(vector<string> &wu_names) {
     int retval, start_time=time(0);
     char keypath[256];
@@ -218,6 +239,7 @@ void make_work(vector<string> &wu_names) {
 
         int results_needed = cushion - unsent_results;
 
+        int new_wu_id = 0;
         while (1) {
             DB_WORKUNIT& wu = wus[index++];
             if (index == nwu_names) index=0;
@@ -229,14 +251,14 @@ void make_work(vector<string> &wu_names) {
                 total_wus++;
             }
             make_new_wu(wu, wu.xml_doc, start_time);
+            new_wu_id = wu.id;
             results_needed -= wu.target_nresults;
             if (results_needed <= 0) break;
         }
 
         if (one_pass) break;
-        // wait a while for the transitioner to make results
-        //
-        sleep(60);
+
+        wait_for_results(new_wu_id);
     }
 }
 

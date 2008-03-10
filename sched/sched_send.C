@@ -287,6 +287,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     std::string str;
     unsigned int pos = 0;
     int temp_int;
+    bool flag;
 
     extract_venue(reply.user.project_prefs, reply.host.venue, buf);
     str = buf;
@@ -303,11 +304,11 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 
         pos = str.find("<app_id>", pos) + 1;
     }
-	if (parse_int(buf,"<allow_non_preferred_apps>", temp_int)) {
-	    reply.wreq.host_info.allow_non_preferred_apps = true;
+	if (parse_bool(buf,"<allow_non_preferred_apps>", flag)) {
+	    reply.wreq.host_info.allow_non_preferred_apps = flag;
     }
-	if (parse_int(buf,"<allow_beta_work>", temp_int)) {
-        reply.wreq.host_info.allow_beta_work = true;
+	if (parse_bool(buf,"<allow_beta_work>", flag)) {
+        reply.wreq.host_info.allow_beta_work = flag;
 	}
  
     // Decide whether or not this computer is a 'reliable' computer

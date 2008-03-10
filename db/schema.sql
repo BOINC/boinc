@@ -192,7 +192,6 @@ create table workunit (
     rsc_fpops_bound     double      not null,
     rsc_memory_bound    double      not null,
     rsc_disk_bound      double      not null,
-    rsc_bandwidth_bound double      not null,
     need_validate       smallint    not null,
     canonical_resultid  integer     not null,
     canonical_credit    double      not null,
@@ -210,6 +209,7 @@ create table workunit (
     max_success_results integer     not null,
     result_template_file varchar(63) not null,
     priority            integer     not null,
+    rsc_bandwidth_bound double      not null,
     mod_time            timestamp,
     primary key (id)
 ) engine=InnoDB;

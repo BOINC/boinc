@@ -2123,3 +2123,28 @@ David  Mar 9 2008
         AdvancedFrame.cpp
     lib/
         util.C
+
+David  Mar 10 2008
+    - server: fix botched checkin from 7 March.
+        The new field (workunit.rsc_bandwidth_bound)
+        goes at the END of the record.
+        Always do it this way!
+    - make_work: after creating a batch of new WUs,
+        we were waiting 60 sec for the transitioner to
+        create the results for them
+        (so that our next count of unsent results would be correct).
+        This is bogus; if e.g. the transitioner isn't running,
+        we'll never get the results, and we'll keep creating WUs forever.
+
+        Instead: explicitly wait for there to be results for
+        the last WU from the batch just created.
+
+    - scheduler: parse <allow_non_preferred_apps>, <allow_beta_work> correctly.
+
+    db/
+        schema.sql
+    html/ops/
+        db_update.php
+    sched/
+        make_work.C
+        send.C

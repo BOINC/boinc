@@ -555,8 +555,17 @@ function update_2_18_2008() {
     ");
 }
 
+// If you haven't done 3_7, skip both of the following:
+//
 function update_3_7_2008() {
     do_query("alter table workunit add column rsc_bandwidth_bound double not null after rsc_disk_bound");
+}
+function update_3_7_undo_2008() {
+    do_query("alter table workunit drop column rsc_bandwidth_bound");
+}
+
+function update_3_10_2008() {
+    do_query("alter table workunit add column rsc_bandwidth_bound double not null");
 }
 
 // modify the following to call the function you want.
@@ -564,6 +573,6 @@ function update_3_7_2008() {
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_2_18_2008();
+update_3_10_2008();
 
 ?>
