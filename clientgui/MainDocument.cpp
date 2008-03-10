@@ -25,6 +25,7 @@
 
 #include "error_numbers.h"
 #include "util.h"
+#include "proc_control.h"
 
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"

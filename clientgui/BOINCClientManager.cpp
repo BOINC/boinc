@@ -33,6 +33,7 @@
 #ifdef __WXMAC__
 #include "filesys.h"
 #include "util.h"
+#include "proc_control.h"
 
 enum {
     NewStyleDaemon = 1,

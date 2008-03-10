@@ -2160,3 +2160,22 @@ David  Mar 10 2008
     lib/
         Makefile.am
         coproc.C,h (new)
+
+David  Mar 10 2008
+    - lib: moved "run program as user" stuff to a separate file,
+        so it doesn't screw up the linkage of apps that don't use it
+    - start of server-side support for coprocessors
+
+    client/
+        auto_update.C
+        main.C
+    clientgui/
+        BOINCClientManager.cpp
+        MainDocument.cpp
+    lib/
+        Makefile.am
+        coproc.C,h
+        proc_control.C,h (new)
+        util.C,h
+    sched/
+        server_types.C,h

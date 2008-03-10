@@ -302,6 +302,10 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         }
+        if (match_tag(buf, "coprocs")) {
+            coprocs.parse(fin);
+            continue;
+        }
 
         if (match_tag(buf, "<active_task_set>")) continue;
         if (match_tag(buf, "<app>")) continue;

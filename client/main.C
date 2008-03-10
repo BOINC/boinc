@@ -68,6 +68,7 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "prefs.h"
 #include "filesys.h"
 #include "network.h"
+#include "proc_control.h"
 
 #include "client_state.h"
 #include "file_names.h"

@@ -26,6 +26,7 @@
 #include "boinc_db.h"
 #include "common_defs.h"
 #include "md5_file.h"
+#include "coproc.h"
 
 #include "edf_sim.h"
 
@@ -225,6 +226,7 @@ struct SCHEDULER_REQUEST {
 
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
+    COPROCS coprocs;
     std::vector<RESULT> results;
         // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;

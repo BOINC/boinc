@@ -35,6 +35,7 @@ struct COPROCS {
 
     COPROCS(){}
     void get();
+    int parse(FILE*);
 };
 
 // the following copied from /usr/local/cuda/include/driver_types.h
@@ -62,6 +63,8 @@ struct COPROC_CUDA : public COPROC {
     virtual void write_xml(FILE*);
     virtual ~COPROC_CUDA(){}
     static void get(COPROCS&);
+    void clear();
+    int parse(FILE*);
 };
 
 
