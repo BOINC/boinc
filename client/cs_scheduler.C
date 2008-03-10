@@ -220,6 +220,15 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         disk_total, disk_project
     );
 
+    if (coprocs.coprocs.size()) {
+        fprintf(f, "    <coprocs>\n");
+        for (i=0; i<coprocs.coprocs.size(); i++) {
+            COPROC& c = coprocs.coprocs[i];
+            c.write_xml(f);
+        }
+        fprintf(f, "    </coprocs>\n");
+    }
+
     // report results
     //
     p->nresults_returned = 0;

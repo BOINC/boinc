@@ -2148,3 +2148,15 @@ David  Mar 10 2008
     sched/
         make_work.C
         send.C
+
+David  Mar 10 2008
+    - client: preliminary support for detecting and reporting coprocessors
+        (for now, CUDA devices)
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+        procinfo_unix.C (deleted)
+    lib/
+        Makefile.am
+        coproc.C,h (new)

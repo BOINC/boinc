@@ -44,6 +44,7 @@ using std::vector;
 #include "scheduler_op.h"
 #include "time_stats.h"
 #include "http_curl.h"
+#include "coproc.h"
 
 #define WORK_FETCH_DONT_NEED 0
     // project: suspended, deferred, or no new work (can't ask for more work)
@@ -82,6 +83,7 @@ public:
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
     GUI_HTTP gui_http;
+    COPROCS coprocs;
 
     VERSION_INFO core_client_version;
     string statefile_platform_name;

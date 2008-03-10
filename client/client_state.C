@@ -238,6 +238,12 @@ int CLIENT_STATE::init() {
     set_ncpus();
     show_host_info();
 
+    coprocs.get();
+    for (i=0; i<coprocs.coprocs.size(); i++) {
+        COPROC& c = coprocs.coprocs[i];
+        msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c.name, c.count);
+    }
+
     // Check to see if we can write the state file.
     //
     retval = write_state_file();
