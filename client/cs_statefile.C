@@ -511,6 +511,10 @@ int CLIENT_STATE::write_state_file() {
             if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
             return ret2;
         }
+    }
+
+    for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
+        if (attempt > 1) boinc_sleep(1.0);
 
         // only attempt to rename the current state file if it exists.
         //
@@ -535,7 +539,11 @@ int CLIENT_STATE::write_state_file() {
                 }
             }
         }
-            
+    }
+
+    for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
+        if (attempt > 1) boinc_sleep(1.0);
+
         retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
         if (retval) {
             if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
@@ -553,6 +561,11 @@ int CLIENT_STATE::write_state_file() {
             }
             if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
         }
+
+    }
+
+    for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
+        if (attempt > 1) boinc_sleep(1.0);
 
         retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
         if (log_flags.state_debug) {
