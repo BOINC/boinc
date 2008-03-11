@@ -466,7 +466,7 @@ int CLIENT_STATE::parse_state_file() {
 //
 int CLIENT_STATE::write_state_file() {
     MFILE mf;
-    int retval, ret1, ret2, attempt;
+    int retval, ret1=0, ret2=0, attempt;
 #ifdef _WIN32
     char win_error_msg[4096];
 #endif
@@ -563,7 +563,7 @@ int CLIENT_STATE::write_state_file() {
             );
         }
         if (!retval) return 0;
-         if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
+        if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
 #ifdef _WIN32
             if (retval == ERROR_ACCESS_DENIED) {
                 msg_printf(0, MSG_USER_ERROR,
@@ -585,10 +585,10 @@ int CLIENT_STATE::write_state_file() {
                 system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
             }
 #else
-        msg_printf(0, MSG_USER_ERROR,
-            "Can't rename %s to %s; check file and directory permissions",
-            STATE_FILE_NEXT, STATE_FILE_NAME
-        );
+            msg_printf(0, MSG_USER_ERROR,
+                "Can't rename %s to %s; check file and directory permissions",
+                STATE_FILE_NEXT, STATE_FILE_NAME
+            );
 #endif
         }
     }
