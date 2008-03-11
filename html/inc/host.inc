@@ -45,13 +45,19 @@ function location_form($host) {
     return $x;
 }
 
-function show_host($host, $private, $ipprivate, $user) {
+// Show full-page description of $host.
+// If $user is non-null, it's both the owner of the host
+// and the logged in user (so show some extra fields)
+//
+function show_host($host, $user, $ipprivate) {
     start_table();
     row1("Computer information");
-    if ($private) {
+    if ($user) {
         if ($ipprivate) {
             row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
-            if (strcmp($host->last_ip_addr, $host->external_ip_addr)) row2("External IP address", $host->external_ip_addr);
+            if (strcmp($host->last_ip_addr, $host->external_ip_addr)) {
+                row2("External IP address", $host->external_ip_addr);
+            }
         } else { 
             row2("IP address", "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>Show IP address</a>");
         }
@@ -59,14 +65,11 @@ function show_host($host, $private, $ipprivate, $user) {
         $x = $host->timezone/3600;
         if ($x >= 0) $x="+$x";
         row2("Local Standard Time", "UTC $x hours");
-    }
-    if ($private) {
         row2("Name", $host->domain_name);
-    }
-    if (!$private) {
-        $user = lookup_user_id($host->userid);
-        if ($user && $user->show_hosts) {
-            row2("Owner", user_links($user));
+    } else {
+        $owner = lookup_user_id($host->userid);
+        if ($owner && $owner->show_hosts) {
+            row2("Owner", user_links($owner));
         } else {
             row2("Owner", "Anonymous");
         }
@@ -84,7 +87,7 @@ function show_host($host, $private, $ipprivate, $user) {
     $y = round($x, 2);
     row2("Cache", "$y KB");
 
-    if ($private) {
+    if ($user) {
         $x = $host->m_swap/(1024*1024);
         $y = round($x, 2);
         row2("Swap space", "$y MB");
@@ -130,7 +133,7 @@ function show_host($host, $private, $ipprivate, $user) {
         row2("Tasks", $results);
     }
 
-    if ($private) {
+    if ($user) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
         row2("Last time contacted server", sched_log_link($host->rpc_time));
         row2("% of time BOINC client is running", 100*$host->on_frac." %");
@@ -196,10 +199,10 @@ function show_host_row($host, $i, $private, $show_owner) {
 
     echo "<tr><td>", host_link($host->id), "</td>\n";
     if ($private) {
-        echo "<td> $host->domain_name";
+        echo "<td>$host->domain_name</td>\n";
+        echo "<td>$host->venue</td>\n";
     } else {
-        echo "<td>$i</td>\n
-        ";
+        echo "<td>$i</td>\n";
         if ($show_owner) {
             if ($user && $user->show_hosts) {
                 echo "<td>", user_links($user), "</td>\n";
@@ -223,23 +226,11 @@ function show_host_row($host, $i, $private, $show_owner) {
     } else {
         // This is used in constructing list of computers for a given user
         //
-        $config = get_config();
-        if (parse_bool($config, "show_results")) {
-            $ltr="<td>".link_to_results($host)."</td>";
-        } else {
-            $ltr="";
-        }
-        printf("
-            <td>%s</td>
-            <td>%s</td>
-            <td>%s <br> %s</td>
-            <td>%s <br> %s</td>
-            %s
-            <td>%s</td>",
-               format_credit($host->expavg_credit), format_credit_large($host->total_credit),
-               $host->p_vendor, $host->p_model,
-               $host->os_name, $host->os_version, $ltr, sched_log_link($host->rpc_time)
-        );
+        echo "<td align=right>", format_credit($host->expavg_credit), "</td>\n";
+        echo "<td align=right>", format_credit_large($host->total_credit), "</td>\n";
+        echo "<td>$host->p_vendor</td>\n";
+        echo "<td>$host->os_name</td>\n";
+        echo "<td>".sched_log_link($host->rpc_time)."</td>\n";
     }
 
     echo "</tr>\n";

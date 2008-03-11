@@ -2227,3 +2227,18 @@ Charlie Mar 10 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  Mar 11 2008
+    - web: show venues in private host list
+    - compile fixes
+
+    client/
+        cs_statefile.C
+    clientgui/
+        MainDocument.cpp
+    html/
+        inc/
+            host.inc
+        user/
+            show_host_detail.php
+            hosts_user.php

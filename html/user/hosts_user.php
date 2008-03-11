@@ -60,19 +60,17 @@ function user_host_table_start($private) {
     echo "<tr>";
     echo "<th>".link_with_GET_variables("Computer ID", "hosts_user.php", 'sort', 'id')."<br><font size=-2>Click for more info</font></th>\n";
     if ($private) {
-        echo "<th>".link_with_GET_variables("Name", "hosts_user.php", 'sort', 'name')."</th>\n
-        ";
+        echo "<th>".link_with_GET_variables("Name", "hosts_user.php", 'sort', 'name')."</th>\n";
+        echo "<th>".link_with_GET_variables("Location", "hosts_user.php", 'sort', 'venue')."</th>\n";
     } else {
         echo "<th>Rank</th>";
     }
     echo "
-        <th>".link_with_GET_variables("Recent average credit", "hosts_user.php", 'sort', 'expavg_credit')."</th>
+        <th>".link_with_GET_variables("Avg. credit", "hosts_user.php", 'sort', 'expavg_credit')."</th>
         <th>".link_with_GET_variables("Total credit", "hosts_user.php", 'sort', 'total_credit')."</th>
         <th>".link_with_GET_variables("CPU type", "hosts_user.php", 'sort', 'cpu')."</th>
         <th>".link_with_GET_variables("Operating system", "hosts_user.php", 'sort', 'os')."</th>
     ";
-    $config = get_config();
-    if (parse_bool($config, "show_results")) echo "<th>Tasks</th>";
     echo "<th>".link_with_GET_variables("Last contact", "hosts_user.php", 'sort', 'rpc_time')."</th>";
 }
 
@@ -97,10 +95,12 @@ case "id": $sort_clause = "id"; break;
 case "id_reversed": $sort_clause = "id desc"; break;
 case "expavg_credit": $sort_clause = "expavg_credit desc"; break;
 case "expavg_credit_reversed": $sort_clause = "expavg_credit "; break;
-case "cpu": $sort_clause = "p_model"; break;
-case "cpu_reversed": $sort_clause = "p_model desc"; break;
-case "os": $sort_clause = "os_name, os_version"; break;
-case "os_reversed": $sort_clause = "os_name desc, os_version"; break;
+case "cpu": $sort_clause = "p_vendor"; break;
+case "cpu_reversed": $sort_clause = "p_vendor desc"; break;
+case "os": $sort_clause = "os_name"; break;
+case "os_reversed": $sort_clause = "os_name desc"; break;
+case "venue": $sort_clause = "venue"; break;
+case "venue_reversed": $sort_clause = "venue desc"; break;
 case "rpc_time_reversed": $sort_clause = "rpc_time"; break;
 default:
     // default value -- sort by RPC time

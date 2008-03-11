@@ -24,6 +24,8 @@
 #endif
 
 #include <cstring>
+#include <errno.h>
+
 #include "parse.h"
 #include "str_util.h"
 #include "util.h"

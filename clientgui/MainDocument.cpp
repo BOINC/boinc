@@ -1259,6 +1259,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         argv[0] = "--graphics";
         argv[1] = 0;
         
+#ifdef _WIN32
         iRetVal = run_app_windows(
             result->slot_path.c_str(),
             result->graphics_exec_path.c_str(),
@@ -1266,6 +1267,16 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             argv,
             id
         );
+#else
+        iRetVal = run_program(
+            result->slot_path.c_str(),
+            result->graphics_exec_path.c_str(),
+            1,
+            argv,
+            0,
+            id
+        );
+#endif  // _WIN32
 #endif
         if (!iRetVal) {
             gfx_app.slot = slot;
