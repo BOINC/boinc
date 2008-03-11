@@ -2217,6 +2217,8 @@ Charlie Mar 10 2008
         app_start.C
         client_state.C
         cs_statefile.C
+    clientgui/
+        MainDocument.cpp
     lib/
         coproc.C
     mac_build/

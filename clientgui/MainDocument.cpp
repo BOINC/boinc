@@ -25,7 +25,9 @@
 
 #include "error_numbers.h"
 #include "util.h"
+#ifdef _WIN32
 #include "proc_control.h"
+#endif
 
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"

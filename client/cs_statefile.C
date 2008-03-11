@@ -511,6 +511,7 @@ int CLIENT_STATE::write_state_file() {
             if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
             return ret2;
         }
+        break;
     }
 
     for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
@@ -539,6 +540,7 @@ int CLIENT_STATE::write_state_file() {
                 }
             }
         }
+        break;
     }
 
     for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
@@ -561,7 +563,7 @@ int CLIENT_STATE::write_state_file() {
             }
             if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
         }
-
+        break;
     }
 
     for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
@@ -605,6 +607,7 @@ int CLIENT_STATE::write_state_file() {
             if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
             return ERR_RENAME;
         }
+        break;
     }
     return 0;
 }
