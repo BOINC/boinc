@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdlib.h>
 #ifdef _WIN32
+#elif defined(__APPLE__)
 #else
 #include <dlfcn.h>
 #endif
@@ -62,7 +63,8 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    if(!__cudaGetDeviceCount) return;
    __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
-
+#elif defined(__APPLE__)
+    return;
 #else
    void *cudalib = dlopen ("libcudart.so", RTLD_NOW );
    if(!cudalib) return;

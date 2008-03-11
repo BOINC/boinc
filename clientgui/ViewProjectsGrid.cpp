@@ -504,7 +504,7 @@ void CViewProjectsGrid::UpdateSelection() {
     PROJECT*        project = NULL;
     CMainDocument*  pDoc = wxGetApp().GetDocument();
     int             i, n;
-    bool            wasSuspended, wasNoNewWork;
+    bool            wasSuspended=false, wasNoNewWork=false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));

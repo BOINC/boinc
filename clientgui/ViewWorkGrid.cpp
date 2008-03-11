@@ -409,7 +409,7 @@ void CViewWorkGrid::UpdateSelection() {
     PROJECT*            project = NULL;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     int                 i, n;
-    bool                wasSuspended, all_same_project=false;
+    bool                wasSuspended=false, all_same_project=false;
     string              first_project_url;
     
     wxASSERT(NULL != pDoc);

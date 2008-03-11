@@ -2219,8 +2219,11 @@ Charlie Mar 10 2008
         cs_statefile.C
     clientgui/
         MainDocument.cpp
+        ViewProjectsGrid.cpp
+        ViewWorkGrid.cpp
     lib/
         coproc.C
+        util.C
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
