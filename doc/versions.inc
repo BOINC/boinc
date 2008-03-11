@@ -33,33 +33,17 @@ function type_text($type) {
 
 $w51045= array(
     "num"=>"5.10.45",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.45_windows_intelx86.exe",
     "date"=>"5 Mar 2008",
     "type"=>"win_new",
 );
 
-$w51030= array(
-    "num"=>"5.10.30",
-    "status"=>"Recommended version",
-    "file"=>"boinc_5.10.30_windows_intelx86.exe",
-    "date"=>"13 Nov 2007",
-    "type"=>"win_new",
-);
-
 $w51045x64= array(
     "num"=>"5.10.45",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.45_windows_x86_64.exe",
     "date"=>"5 Mar 2008",
-    "type"=>"win_new",
-);
-
-$w51030x64= array(
-    "num"=>"5.10.30",
-    "status"=>"Recommended version",
-    "file"=>"boinc_5.10.30_windows_x86_64.exe",
-    "date"=>"13 Nov 2007",
     "type"=>"win_new",
 );
 
@@ -81,17 +65,9 @@ $w5411= array(
 
 $m51045 = array(
     "num"=>"5.10.45",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.10.45_macOSX_universal.zip",
     "date"=>"5 Mar 2008",
-    "type"=>"mac_advanced",
-);
-
-$m51034 = array(
-    "num"=>"5.10.34",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.10.34_macOSX_universal.zip",
-    "date"=>"8 Jan 2008",
     "type"=>"mac_advanced",
 );
 
@@ -113,17 +89,9 @@ $m549 = array(
 
 $m51045c = array(
     "num"=>"5.10.45",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.10.45_universal-apple-darwin.zip",
     "date"=>"5 Mar 2008",
-    "type"=>"bare_core",
-);
-
-$m51034c = array(
-    "num"=>"5.10.34",
-    "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_5.10.34_universal-apple-darwin.zip",
-    "date"=>"8 Jan 2008",
     "type"=>"bare_core",
 );
 
@@ -145,49 +113,25 @@ $m549c = array(
 
 $l51045 = array(
     "num"=>"5.10.45",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.10.45_i686-pc-linux-gnu.sh",
     "date"=>"5 Mar 2008",
     "type"=>"sea",
 );
 
-$l51028 = array(
-    "num"=>"5.10.28",
-    "status"=>"Recommended version",
-    "file"=>"boinc_5.10.28_i686-pc-linux-gnu.sh",
-    "date"=>"31 Oct 2007",
-    "type"=>"sea",
-);
-
 $l51045ubuntu = array(
     "num"=>"5.10.45",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_ubuntu_5.10.45_i686-pc-linux-gnu.sh",
     "date"=>"5 Mar 2008",
     "type"=>"sea",
 );
 
-$l51028ubuntu = array(
-    "num"=>"5.10.28",
-    "status"=>"Recommended version",
-    "file"=>"boinc_ubuntu_5.10.28_i686-pc-linux-gnu.sh",
-    "date"=>"31 Oct 2007",
-    "type"=>"sea",
-);
-
 $l51045ubuntux64 = array(
     "num"=>"5.10.45",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_ubuntu_5.10.45_x86_64-pc-linux-gnu.sh",
     "date"=>"5 Mar 2008",
-    "type"=>"sea",
-);
-
-$l51028ubuntux64 = array(
-    "num"=>"5.10.28",
-    "status"=>"Recommended version",
-    "file"=>"boinc_ubuntu_5.10.28_x86_64-pc-linux-gnu.sh",
-    "date"=>"31 Oct 2007",
     "type"=>"sea",
 );
 
@@ -213,7 +157,6 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w51045,
-        $w51030,
         $w5816,
     )
 );
@@ -224,7 +167,6 @@ $windowsx64 = array(
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w51045x64,
-        $w51030x64,
     )
 );
 
@@ -235,8 +177,6 @@ $mac = array(
     "versions"=>array(
         $m51045,
         $m51045c,
-        $m51034,
-        $m51034c,
         $m5817,
         $m5817c,
     )
@@ -248,7 +188,6 @@ $linuxcompat = array(
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l51045,
-        $l51028,
         $l5816,
     )
 );
@@ -259,7 +198,6 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l51045ubuntu,
-        $l51028ubuntu,
     )
 );
 
@@ -269,7 +207,6 @@ $linuxx64 = array(
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
         $l51045ubuntux64,
-        $l51028ubuntux64,
     )
 );
 
