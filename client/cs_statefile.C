@@ -546,22 +546,24 @@ int CLIENT_STATE::write_state_file() {
     for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
         if (attempt > 1) boinc_sleep(1.0);
 
-        retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
-        if (retval) {
-            if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
+        if (boinc_file_exists(STATE_FILE_NAME)) {
+            retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
+            if (retval) {
+                if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
 #ifdef _WIN32
-                msg_printf(0, MSG_USER_ERROR,
-                    "Can't rename current state file to previous state file; %s",
-                    windows_error_string(win_error_msg, sizeof(win_error_msg))
-                );
+                    msg_printf(0, MSG_USER_ERROR,
+                        "Can't rename current state file to previous state file; %s",
+                        windows_error_string(win_error_msg, sizeof(win_error_msg))
+                    );
 #else
-                msg_printf(0, MSG_USER_ERROR, 
-                    "rename current state file to previous state file returned error %d: %s", 
-                    errno, strerror(errno)
-                );
+                    msg_printf(0, MSG_USER_ERROR, 
+                        "rename current state file to previous state file returned error %d: %s", 
+                        errno, strerror(errno)
+                    );
 #endif
+                }
+                if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
             }
-            if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
         }
         break;
     }
