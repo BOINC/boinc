@@ -574,3 +574,10 @@ David  9 Mar 2008
 
     wrapper/
         wrapper.C
+
+Charlie 11 Mar 2008
+    - UpperCase: delete XCode project for deprecated uppercase application.
+    
+    mac_build/
+        UpperCase.xcodeproj/ (removed)
+            project.pbxproj  (removed)
