@@ -192,6 +192,8 @@
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */; };
 		DD73E3A708A07CA600656EB1 /* hostinfo.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.C */; };
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
+		DD7475510D86273300860636 /* coproc.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.C */; };
+		DD7475520D86273300860636 /* coproc.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.C */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; };
@@ -541,6 +543,7 @@
 		DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_CustomControls.cpp; path = ../clientgui/sg_CustomControls.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C82300AF372D900F709AC /* sg_CustomControls.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_CustomControls.h; path = ../clientgui/sg_CustomControls.h; sourceTree = SOURCE_ROOT; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
+		DD2049DC0D862516009EEE7A /* coproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coproc.h; path = ../lib/coproc.h; sourceTree = SOURCE_ROOT; };
 		DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectListCtrl.cpp; path = ../clientgui/ProjectListCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD205A190BAF596E0008D473 /* ProjectListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProjectListCtrl.h; path = ../clientgui/ProjectListCtrl.h; sourceTree = SOURCE_ROOT; };
 		DD247AF70AEA308A0034104A /* SkinManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SkinManager.cpp; path = ../clientgui/SkinManager.cpp; sourceTree = SOURCE_ROOT; };
@@ -714,6 +717,7 @@
 		DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_server_ops.C; path = ../client/gui_rpc_server_ops.C; sourceTree = SOURCE_ROOT; };
 		DD73E3A308A078AF00656EB1 /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Localization.cpp; path = ../clientgui/Localization.cpp; sourceTree = SOURCE_ROOT; };
 		DD73E3A408A078AF00656EB1 /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Localization.h; path = ../clientgui/Localization.h; sourceTree = SOURCE_ROOT; };
+		DD7475500D86273300860636 /* coproc.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc.C; path = ../lib/coproc.C; sourceTree = SOURCE_ROOT; };
 		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
 		DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = screensaver.cpp; path = ../clientscr/screensaver.cpp; sourceTree = SOURCE_ROOT; };
@@ -1369,6 +1373,8 @@
 				DD69FEF608416C9A00C01361 /* boinc_cmd.C */,
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
 				DD7168360AAD72040051642B /* common_defs.h */,
+				DD7475500D86273300860636 /* coproc.C */,
+				DD2049DC0D862516009EEE7A /* coproc.h */,
 				F51DA64D02DB97FF010E292A /* crypt.C */,
 				F51DA64E02DB97FF010E292A /* crypt.h */,
 				DD344BA207C5AE5A0043025C /* diagnostics.C */,
@@ -2276,6 +2282,7 @@
 				DDA6BD1D0BD4551F008F7921 /* QMachOImageList.c in Sources */,
 				DDA6BD1E0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
+				DD7475510D86273300860636 /* coproc.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2457,6 +2464,7 @@
 				DDA6BD180BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDBE74390C03B1C600453BB8 /* cs_platforms.C in Sources */,
 				DD80C83F0CBAEB4F00F1121D /* sandbox.C in Sources */,
+				DD7475520D86273300860636 /* coproc.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

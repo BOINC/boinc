@@ -2211,6 +2211,7 @@ Charlie Mar 10 2008
         time to time and worry users, but they never seemed to signal any real 
         problems, probably because the subsequent retry succeeded.       
     - Client: Fix build breaks and compiler warnings on Mac.
+    - Client: Add new source files to XCode project.
     
     client/
         app_start.C
@@ -2218,3 +2219,6 @@ Charlie Mar 10 2008
         cs_statefile.C
     lib/
         coproc.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
