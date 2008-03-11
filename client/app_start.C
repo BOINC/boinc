@@ -70,7 +70,10 @@ using std::vector;
 #include "file_names.h"
 #include "base64.h"
 #include "sandbox.h"
+
+#ifdef _WIN32
 #include "proc_control.h"
+#endif
 
 #include "app.h"
 

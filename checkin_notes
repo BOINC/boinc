@@ -2202,3 +2202,19 @@ David  Mar 10 2008
         Makefile.mingw
     lilb/
         proc_control.h
+
+Charlie Mar 10 2008
+    - Client: Rework write_state_file logic to always retry if there is an 
+        error writing or renaming the state file, and to show warning messages 
+        Can't rename / can't write state file only if it failed all retries or 
+        if the state_debug log flag is set.  These messages have appeared from 
+        time to time and worry users, but they never seemed to signal any real 
+        problems, probably because the subsequent retry succeeded.       
+    - Client: Fix build breaks and compiler warnings on Mac.
+    
+    client/
+        app_start.C
+        client_state.C
+        cs_statefile.C
+    lib/
+        coproc.C

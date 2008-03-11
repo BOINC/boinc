@@ -594,20 +594,9 @@ bool CLIENT_STATE::poll_slow_events() {
     retval = write_state_file_if_needed();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Couldn't write state file: %s", boincerror(retval)
+            "Couldn't write state file: %s; giving up", boincerror(retval)
         );
-        boinc_sleep(1.0);
-
-        // if we can't write the state file twice in a row, something's hosed;
-        // better to not keep trying
-        //
-        retval = write_state_file_if_needed();
-        if (retval) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Couldn't write state file: %s; giving up", boincerror(retval)
-            );
-            exit(EXIT_STATEFILE_WRITE);
-        }
+        exit(EXIT_STATEFILE_WRITE);
     }
     if (log_flags.poll_debug) {
         msg_printf(0, MSG_INFO,

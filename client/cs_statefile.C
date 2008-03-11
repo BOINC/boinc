@@ -36,6 +36,8 @@
 #include <cerrno>
 #endif
 
+#define MAX_STATE_FILE_WRITE_ATTEMPTS 2
+
 void CLIENT_STATE::set_client_state_dirty(const char* source) {
     if (log_flags.state_debug) {
         msg_printf(0, MSG_INFO, "[state_debug] set dirty: %s\n", source);
@@ -464,103 +466,132 @@ int CLIENT_STATE::parse_state_file() {
 //
 int CLIENT_STATE::write_state_file() {
     MFILE mf;
-    int retval, ret1, ret2;
+    int retval, ret1, ret2, attempt;
 #ifdef _WIN32
     char win_error_msg[4096];
 #endif
 
-    if (log_flags.state_debug) {
-        msg_printf(0, MSG_INFO,
-            "[status_debug] CLIENT_STATE::write_state_file(): Writing state file"
-        );
-    }
+    for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
+        if (attempt > 1) boinc_sleep(1.0);
+            
+        if (log_flags.state_debug) {
+            msg_printf(0, MSG_INFO,
+                "[status_debug] CLIENT_STATE::write_state_file(): Writing state file"
+            );
+        }
 #ifdef _WIN32
-    retval = mf.open(STATE_FILE_NEXT, "wc");
+        retval = mf.open(STATE_FILE_NEXT, "wc");
 #else
-    retval = mf.open(STATE_FILE_NEXT, "w");
+        retval = mf.open(STATE_FILE_NEXT, "w");
 #endif
-    if (retval) {
-        msg_printf(0, MSG_INTERNAL_ERROR,
-            "Can't open %s: %s",
-            STATE_FILE_NEXT, boincerror(retval)
-        );
-        return ERR_FOPEN;
-    }
-    MIOFILE miof;
-    miof.init_mfile(&mf);
-    ret1 = write_state(miof);
-    ret2 = mf.close();
-    if (ret1) return ret1;
-    if (ret2) return ret2;
-
-    // only attempt to rename the current state file if it exists.
-    //
-    if (boinc_file_exists(STATE_FILE_NAME)) {
-        if (boinc_file_exists(STATE_FILE_PREV)) {
-            retval = boinc_delete_file(STATE_FILE_PREV);
-#ifdef _WIN32
-            if (retval) {
-                msg_printf(0, MSG_USER_ERROR,
-                    "Can't delete previous state file; %s",
-                    windows_error_string(win_error_msg, sizeof(win_error_msg))
+        if (retval) {
+            if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "Can't open %s: %s",
+                    STATE_FILE_NEXT, boincerror(retval)
                 );
             }
-#endif
+            if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
+            return ERR_FOPEN;
         }
-        
-        retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
-#ifdef _WIN32
-        if (retval) {
-            msg_printf(0, MSG_USER_ERROR,
-                "Can't rename current state file to previous state file; %s",
-                windows_error_string(win_error_msg, sizeof(win_error_msg))
-            );
+        MIOFILE miof;
+        miof.init_mfile(&mf);
+        ret1 = write_state(miof);
+        ret2 = mf.close();
+        if (ret1) {
+            if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "Couldn't write state file: %s", boincerror(retval)
+                );
+            }
+            if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
+            return ret1;
         }
-#endif
-#ifdef __APPLE__
-        if (retval) {
-            msg_printf(0, MSG_USER_ERROR, 
-                "rename current state file to previous state file returned error %d: %s", 
-                errno, strerror(errno)
-            );
+        if (ret2) {
+            if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
+            return ret2;
         }
-#endif
-    }
 
-    retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
-    if (log_flags.state_debug) {
-        msg_printf(0, MSG_INFO,
-            "[status_debug] CLIENT_STATE::write_state_file(): Done writing state file"
-        );
-    }
-    if (retval) {
+        // only attempt to rename the current state file if it exists.
+        //
+        if (boinc_file_exists(STATE_FILE_NAME)) {
+            if (boinc_file_exists(STATE_FILE_PREV)) {
+                retval = boinc_delete_file(STATE_FILE_PREV);
+                if (retval) {
+                    if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
 #ifdef _WIN32
-        if (retval == ERROR_ACCESS_DENIED) {
-            msg_printf(0, MSG_USER_ERROR,
-                "Can't rename state file; access denied; check file and directory permissions"
-            );
-        } else {
-            msg_printf(0, MSG_USER_ERROR,
-                "Can't rename state file; %s",
-                windows_error_string(win_error_msg, sizeof(win_error_msg))
-            );
-        }
+                        msg_printf(0, MSG_USER_ERROR,
+                            "Can't delete previous state file; %s",
+                            windows_error_string(win_error_msg, sizeof(win_error_msg))
+                        );
 #else
-        msg_printf(0, MSG_USER_ERROR,
-            "Can't rename %s to %s; check file and directory permissions",
-            STATE_FILE_NEXT, STATE_FILE_NAME
-        );
+                        msg_printf(0, MSG_USER_ERROR,
+                            "Can't delete previous state file; error %d: %s",
+                            errno, strerror(errno)
+                        );
 #endif
-#ifdef __APPLE__
-        msg_printf(0, MSG_USER_ERROR, 
-            "rename %s to %s returned error %d: %s", 
-            STATE_FILE_NEXT, STATE_FILE_NAME, errno, strerror(errno)
-        );
-        if (log_flags.state_debug) {
-            system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
+                    }
+                    if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
+                }
+            }
         }
+            
+        retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
+        if (retval) {
+            if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
+#ifdef _WIN32
+                msg_printf(0, MSG_USER_ERROR,
+                    "Can't rename current state file to previous state file; %s",
+                    windows_error_string(win_error_msg, sizeof(win_error_msg))
+                );
+#else
+                msg_printf(0, MSG_USER_ERROR, 
+                    "rename current state file to previous state file returned error %d: %s", 
+                    errno, strerror(errno)
+                );
 #endif
-        return ERR_RENAME;
+            }
+            if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
+        }
+
+        retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
+        if (log_flags.state_debug) {
+            msg_printf(0, MSG_INFO,
+                "[status_debug] CLIENT_STATE::write_state_file(): Done writing state file"
+            );
+        }
+        if (retval) {
+             if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.state_debug) {
+#ifdef _WIN32
+                if (retval == ERROR_ACCESS_DENIED) {
+                    msg_printf(0, MSG_USER_ERROR,
+                        "Can't rename state file; access denied; check file and directory permissions"
+                    );
+                } else {
+                    msg_printf(0, MSG_USER_ERROR,
+                        "Can't rename state file; %s",
+                        windows_error_string(win_error_msg, sizeof(win_error_msg))
+                    );
+                }
+#elif defined (__APPLE__)
+                msg_printf(0, MSG_USER_ERROR, 
+                    "Can't rename %s to %s; check file and directory permissions\n"
+                    "rename returned error %d: %s", 
+                    STATE_FILE_NEXT, STATE_FILE_NAME, errno, strerror(errno)
+                );
+                if (log_flags.state_debug) {
+                    system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
+                }
+#else
+            msg_printf(0, MSG_USER_ERROR,
+                "Can't rename %s to %s; check file and directory permissions",
+                STATE_FILE_NEXT, STATE_FILE_NAME
+            );
+#endif
+            }
+            if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
+            return ERR_RENAME;
+        }
     }
     return 0;
 }

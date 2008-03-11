@@ -103,19 +103,19 @@ void COPROC_CUDA::write_xml(FILE* f) {
         "   <textureAlignment>%u</textureAlignment>\n",
         count,
         prop.name,
-        prop.totalGlobalMem,
-        prop.sharedMemPerBlock,
+        (unsigned int)prop.totalGlobalMem,
+        (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
         prop.warpSize,
-        prop.memPitch,
+        (unsigned int)prop.memPitch,
         prop.maxThreadsPerBlock,
         prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2],
         prop.maxGridSize[0], prop.maxGridSize[1], prop.maxGridSize[2],
-        prop.totalConstMem,
+        (unsigned int)prop.totalConstMem,
         prop.major,
         prop.minor,
         prop.clockRate,
-        prop.textureAlignment
+        (unsigned int)prop.textureAlignment
     );
 }
 
