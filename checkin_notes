@@ -2249,3 +2249,11 @@ Charlie Mar 11 2008
 
     client/
         cs_statefile.C
+
+Charlie Mar 11 2008 (HEAD)
+    - Tag for 6.1.10 release, all platforms
+      boinc_core_release_6_1_10
+
+    /
+        configure.ac
+        version.h
