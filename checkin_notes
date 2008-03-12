@@ -2242,3 +2242,10 @@ David  Mar 11 2008
         user/
             show_host_detail.php
             hosts_user.php
+
+Charlie Mar 11 2008
+    - Client: Retry entire write_state_file routine from the beginning if there is 
+        an error writing or renaming the state file, not just the step that failed.
+
+    client/
+        cs_statefile.C
