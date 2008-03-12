@@ -73,6 +73,7 @@
 #include <share.h>
 #include <shlobj.h>
 #include <userenv.h>
+#include <aclapi.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 

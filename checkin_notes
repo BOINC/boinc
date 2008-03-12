@@ -2257,3 +2257,12 @@ Charlie Mar 11 2008 (HEAD)
     /
         configure.ac
         version.h
+
+Rom    Mar 11 2008
+    - CLI: Adjust the shared memory ACLs so that everybody can read/write to
+        them, the default ACL limits read/write access to SYSTEM and boinc_master
+        when run in secure mode.
+        
+    lib/
+        boinc_win.h
+        shmem.C
