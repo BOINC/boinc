@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.14372\n"
+"Project-Id-Version: rev.14861\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-20 21:24+0800\n"
+"PO-Revision-Date: 2008-03-07 11:18+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -263,6 +263,15 @@ msgstr "编辑消息"
 msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 标记来格式化您的正文"
 
+msgid "%1 message board"
+msgstr "%1 留言板"
+
+msgid "Mark all threads as read"
+msgstr "标记所有主题为已读"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "标记所有留言板块的所有主题为已读。"
+
 # ########################################
 # Forum thread
 # ########################################
@@ -295,6 +304,15 @@ msgstr "没有找到标题中包含 '%1' 的主题"
 
 msgid "No posts containing '%1' could be found."
 msgstr "没有找到正文中包含 '%1' 的帖子"
+
+msgid "Advanced search"
+msgstr "高级搜索"
+
+msgid "Search for words in forum messages"
+msgstr "在论坛的所有帖子中搜索关键字"
+
+msgid "Search forums"
+msgstr "搜索论坛"
 
 # ########################################
 # Private messages

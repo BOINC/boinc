@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-16 20:04-0000\n"
+"PO-Revision-Date: 2008-03-08 13:39-0000\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -264,6 +264,18 @@ msgid "Use BBCode tags to format your text"
 msgstr "Use etiquetas BBCode para formatear su texto"
 
 # ########################################
+# Forum sample index page
+# ########################################
+msgid "%1 message board"
+msgstr "foro de %1"
+
+msgid "Mark all threads as read"
+msgstr "Marcar todos los hilos como leídos"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Marcar todos los hilos en todos los foros como 'leídos'."
+
+# ########################################
 # Forum thread
 # ########################################
 msgid "This thread has been hidden for administrative purposes"
@@ -292,6 +304,15 @@ msgstr "No se ha podido encontrar ningún encabezado que contenga '%1'."
 
 msgid "No posts containing '%1' could be found."
 msgstr "No se ha podido encontrar ningún mensaje que contenga '%1'."
+
+msgid "Advanced search"
+msgstr "Busqueda avanzada"
+
+msgid "Search for words in forum messages"
+msgstr "Buscar palabras en los mensajes del foro"
+
+msgid "Search forums"
+msgstr "Buscar en los foros"
 
 # ########################################
 # Private messages
