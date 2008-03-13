@@ -55,7 +55,7 @@ bool files_match(FILE_CACHE const& f1, FILE_CACHE const& f2) {
 
 // read file into memory
 //
-int init_result(RESULT const & result, void*& data) {
+int init_result(RESULT& result, void*& data) {
     int retval;
     string path;
 

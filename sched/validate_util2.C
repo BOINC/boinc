@@ -139,7 +139,7 @@ cleanup:
 
 // r1 is the new result; r2 is canonical result
 //
-void check_pair(RESULT& r1, RESULT const& r2, bool& retry) {
+void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
     void* data1;
     void* data2;
     int retval;

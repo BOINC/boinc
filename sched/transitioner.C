@@ -350,7 +350,7 @@ int handle_wu(
                 wu_item.id, wu_item.name, wu_item.error_mask
             );
         }
-    } else if (wu_item.assimilate_state == ASSIMILATE_INIT) {
+    } else if (wu_item.canonical_resultid == 0) {
         // Here if no WU-level error.
         // Generate new results if needed.
         // NOTE: n must be signed
@@ -358,7 +358,7 @@ int handle_wu(
         int n = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
         string values;
         char value_buf[MAX_QUERY_LEN];
-        if (n > 0  && wu_item.canonical_resultid == 0) {
+        if (n > 0) {
             log_messages.printf(
                 MSG_NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
@@ -433,7 +433,7 @@ int handle_wu(
         }
     }
 
-    // If we are defefring assimilation until all results are over
+    // If we are defering assimilation until all results are over
     // and validated then when that happens we need to make sure
     // that it gets advanced to assimilate ready
     // the items.size is a kludge

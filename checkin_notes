@@ -2340,3 +2340,25 @@ Charlie Mar 13 2008
     
     clientgui/
         BOINCGridCtrl.cpp
+
+David  Mar 13 2008
+    - Validator framework: remove some consts, and other changes,
+        to allow validator to assign different credit
+        to different instances of a job
+    - Scheduler: if can't open DB, return <project_is_down/>
+        (fixes #578)
+    - clean up logic of modify_claimed_credit
+    - feeder: for -priority_order_create_time, use workunitid
+        rather than create time (faster for the DB)
+    from Kevin Reed
+
+    sched/
+        feeder.C
+        handle_request.C
+        sample_bitwise_validator.C
+        sample_trivial_validator.C
+        sched_send.C
+        server_types.C,h
+        transitioner.C
+        validate_util2.C,h
+        validator.C

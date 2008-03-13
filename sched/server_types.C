@@ -493,6 +493,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     memset(&host, 0, sizeof(host));
     memset(&team, 0, sizeof(team));
     nucleus_only = false;
+    project_is_down = false;
     probable_user_browser = false;
     send_msg_ack = false;
     strcpy(email_hash, "");
@@ -582,6 +583,10 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         "<project_name>%s</project_name>\n",
         config.long_name
     );
+
+    if (project_is_down) {
+        fprintf(fout,"<project_is_down/>\n");
+    }
 
     if (nucleus_only) goto end;
 

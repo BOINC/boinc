@@ -304,6 +304,7 @@ struct SCHEDULER_REPLY {
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_msg_ack;
+    bool project_is_down;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

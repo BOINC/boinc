@@ -73,7 +73,7 @@ extern int check_set(
     bool& retry
 );
 extern int check_pair(
-    RESULT & new_result, RESULT const& canonical_result, bool& retry
+    RESULT & new_result, RESULT & canonical_result, bool& retry
 );
 
 char app_name[256];
@@ -116,6 +116,7 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
         );
         return retval;
     }
+
     retval = user.lookup_id(host.userid);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -149,6 +150,7 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
 
+        
     // compute new credit per CPU time
     //
     retval = update_credit_per_cpu_sec(
@@ -330,15 +332,17 @@ int handle_wu(
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
-                result.granted_credit = grant_claimed_credit ? result.claimed_credit : wu.canonical_credit;
-                if (max_granted_credit && result.granted_credit > max_granted_credit) {
-                    result.granted_credit = max_granted_credit;
+                if (result.granted_credit == 0) {
+                    result.granted_credit = grant_claimed_credit ? result.claimed_credit : wu.canonical_credit;
+                    if (max_granted_credit && result.granted_credit > max_granted_credit) {
+                        result.granted_credit = max_granted_credit;
+                    }
                 }
                 log_messages.printf(MSG_NORMAL,
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
                     result.id, result.name, result.granted_credit
                 );
-                retval = is_valid(result,wu);
+                retval = is_valid(result, wu);
                 if (retval) {
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] Can't grant credit: %d\n",
@@ -440,11 +444,13 @@ int handle_wu(
                     // grant credit for valid results
                     //
                     update_result = true;
-                    result.granted_credit = grant_claimed_credit ? result.claimed_credit : credit;
-                    if (max_granted_credit && result.granted_credit > max_granted_credit) {
-                        result.granted_credit = max_granted_credit;
+                    if (result.granted_credit == 0) {
+                        result.granted_credit = grant_claimed_credit ? result.claimed_credit : credit;
+                        if (max_granted_credit && result.granted_credit > max_granted_credit) {
+                            result.granted_credit = max_granted_credit;
+                        }
                     }
-                    retval = is_valid(result,wu);
+                    retval = is_valid(result, wu);
                     if (retval) {
                         log_messages.printf(MSG_DEBUG,
                             "[RESULT#%d %s] is_valid() failed: %d\n",
@@ -647,7 +653,7 @@ int main(int argc, char** argv) {
       "  -sleep_interval n      Set sleep-interval to n\n"
       "  -d level               Set debug-level\n\n";
 
-    if ( (argc > 1) && ( !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help") ) ) {
+    if ((argc > 1) && (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))) {
       printf (usage, argv[0] );
       exit(1);
     }
@@ -689,7 +695,7 @@ int main(int argc, char** argv) {
     }
 
     // -app is required
-    if ( app_name[0] == 0 ) {
+    if (app_name[0] == 0) {
       fprintf (stderr, "\nERROR: use '-app' to specify the application to run the validator for.\n");
       printf (usage, argv[0] );
       exit(1);      

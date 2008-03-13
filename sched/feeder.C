@@ -573,7 +573,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-priority_order")) {
             order_clause = "order by r1.priority desc ";
         } else if (!strcmp(argv[i], "-priority_order_create_time")) {
-            order_clause = "order by r1.priority desc, workunit.create_time ";
+            order_clause = "order by r1.priority desc, r1.workunitid";
         } else if (!strcmp(argv[i], "-purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
         } else if (!strcmp(argv[i], "-mod")) {

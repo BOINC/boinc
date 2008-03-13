@@ -478,63 +478,100 @@ got_host:
 }
 
 // Modify claimed credit based on the historical granted credit if
-// the project is configured to do this and if the values make sense
+// the project is configured to do this
 //
 static void modify_credit_rating(HOST& host) {
-    double x;
+    double new_claimed_credit = 0;
+    double percent_difference = 0;
+    // The percent difference between claim and history
+    double difference_weight = 1;
+    // The weight to be applied based on the difference between claim and 
+    // history
+    double credit_weight = 1;
+    // The weight to be applied based on how much credit the host has earned
+    // (hosts that are new do not have accurate histories so they shouldn't
+    // have much weight)
+    double combined_weight = 1;
 
-    double min = 39.0/86400.0;
-        // 2 standard deviations below the average for credit_per_cpu_sec
-        // (as of 3/6/2008)
-    double max = 643.0/86400.0;
-        // 4 standard deviations above the average for credit_per_cpu_sec
-        // (as of 3/6/2008)
-    double high_range = 1.0;    // The limit of % above the historical average
-    double low_range = 1.0;     // The limit of % below the historical average
+    // Only modify if the credit_per_cpu_sec is established
+    // and the option is enabled
+    if ( host.credit_per_cpu_sec > 0 
+        && config.granted_credit_weight > 0.0 
+        && config.granted_credit_weight <= 1.0 ) {
     
-    // only modify if the host.credit_per_cpu_sec is within a reasonable range
-    if ( host.credit_per_cpu_sec > min && host.credit_per_cpu_sec < max ) {
-        // only modify if the feature is enabled
-        if ( config.granted_credit_weight > 0.0 && config.granted_credit_weight <= 1.0 ) {
-            // Allow the weight to become stronger as the more credit
-            // has been granted to the host
-            //
-    	    double ramp_weight = 1;
-    	    if ( config.granted_credit_ramp_up ) {
-    		    ramp_weight = (config.granted_credit_ramp_up - host.total_credit)/config.granted_credit_ramp_up;
-    		    if ( ramp_weight < 0) ramp_weight = 0;
-    	   	    ramp_weight = 1 - ramp_weight;
+        // Calculate the difference between claimed credit and the hosts
+        // historical granted credit history
+        percent_difference=host.claimed_credit_per_cpu_sec-host.credit_per_cpu_sec;
+        percent_difference=abs(percent_difference/host.credit_per_cpu_sec);
+
+        // A study on World Community Grid determined that 50% of hosts
+        // claimed within 10% of their historical credit per cpu sec.  
+        // These hosts should not have their credit modified.
+        if ( percent_difference < 0.1000 ) {
+     		log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Claimed credit %.1lf not "
+     		    "modified.  Percent Difference %.4lf\n", host.id, 
+     		    host.claimed_credit_per_cpu_sec*86400, percent_difference
+     		);
+            return;
 }
 
-    	    // As the deviantion of the claimed credit is larger
-            // it is more suspect so increase the weight
-            //
-    	    double variance_weight;
-    	    if ( x > host.credit_per_cpu_sec ) {
-    	        variance_weight = (x-host.credit_per_cpu_sec)/host.credit_per_cpu_sec;
-    	        variance_weight = variance_weight/high_range; // scale 
-    	        if ( variance_weight > 1 ) variance_weight = 1;
+        // The study also determined that 95% of hosts claim within 
+        // 50% of their historical credit per cpu sec.
+        // Computers claiming above 10% but below 50% should have their 
+        // credit adjusted based on their history
+        // Computers claiming more than 50% above should use their 
+        // historical value.
+        if ( percent_difference < .5 ) {
+            // weight based on variance from historical credit
+            difference_weight=1-(0.5-percent_difference)/0.4;
     	    } else { 
-    	        variance_weight = (host.credit_per_cpu_sec-x)/host.credit_per_cpu_sec;
-    	        variance_weight = variance_weight/low_range; // scale 
-    	        if ( variance_weight > 1 ) variance_weight = 1;
+            difference_weight=1;
     	    }
     	    
-    	    double weight = ramp_weight*variance_weight*config.granted_credit_weight;  // merge them all together
-    	    x = (1-weight)*x + weight*host.credit_per_cpu_sec;
-    	    
-    	    if ( x < host.claimed_credit_per_cpu_sec && weight>0.25 ) {
-     		    log_messages.printf(MSG_NORMAL, "[HOSTID:%d] Former host.compute_credit_rating() - Lowered claimed credit - old: %.1lf granted: %.1lf weighted: %.1lf weight: %.1lf percent\n", host.id, host.claimed_credit_per_cpu_sec*3600*24, host.credit_per_cpu_sec*3600*24, x*3600*24, weight*100);
-    	    } else if ( x > host.claimed_credit_per_cpu_sec  && weight>0.25 ) {
-     		    log_messages.printf(MSG_NORMAL, "[HOSTID:%d] Former host.compute_credit_rating() - Increased claimed credit - old: %.1lf granted: %.1lf weighted: %.1lf weight: %.1lf percent\n", host.id, host.claimed_credit_per_cpu_sec*3600*24, host.credit_per_cpu_sec*3600*24, x*3600*24, weight*100);
-    	    }
-            host.claimed_credit_per_cpu_sec  = x;
-    	    
+        // A weight also needs to be calculated based upon the amount of
+        // credit awarded to a host.  This is becuase hosts without much
+        // credit awarded do not yet have an accurate history so the weight
+        // should be limited for these hosts.
+        if ( config.granted_credit_ramp_up ) {
+    	    credit_weight=config.granted_credit_ramp_up - host.total_credit;
+    	    credit_weight=credit_weight/config.granted_credit_ramp_up;
+    		if ( credit_weight < 0) credit_weight = 0;
+    	   	credit_weight = 1 - credit_weight;
         }
-    } else {
-        log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Out of range host.credit_per_cpu_sec %.1lf, min %.1lf max %.1lf \n", host.id, host.credit_per_cpu_sec*24*3600, min*24*3600, max*24*3600);
+    	    
+        // Compute the combined weight
+        combined_weight=credit_weight*difference_weight*config.granted_credit_weight;    
+     	log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Weight details: "
+     	     "diff_weight=%.4lf credit_weight=%.4lf config_weight=%.4lf\n",
+     	     host.id, difference_weight, credit_weight, 
+     	     config.granted_credit_weight
+     	);
+            
+        // Compute the new value for claimed credit
+        new_claimed_credit=(1-combined_weight)*host.claimed_credit_per_cpu_sec;
+        new_claimed_credit=new_claimed_credit+combined_weight*host.credit_per_cpu_sec;
+        
+        if ( new_claimed_credit < host.claimed_credit_per_cpu_sec ) {
+     	    log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Modified claimed credit "
+     	        "(lowered) original: %.1lf new: %.1lf historical: %.1lf "
+     	        "combined weight: %.4lf\n", host.id, 
+     	        host.claimed_credit_per_cpu_sec*86400, 
+     	        new_claimed_credit*86400, host.credit_per_cpu_sec*86400, 
+     	        combined_weight
+     	    );
+        } else {
+     	    log_messages.printf(MSG_DEBUG, "[HOSTID:%d] Modified claimed credit "
+     	        "(increased) original: %.1lf new: %.1lf historical: %.1lf " 
+     	        "combined weight: %.4lf\n", host.id, 
+     	        host.claimed_credit_per_cpu_sec*86400, 
+     	        new_claimed_credit*86400, host.credit_per_cpu_sec*86400, 
+     	        combined_weight
+     	    );
+    	    }
+    	    
+        host.claimed_credit_per_cpu_sec=new_claimed_credit;
+        }
     }
-}
 
 // somewhat arbitrary formula for credit as a function of CPU time.
 // Could also include terms for RAM size, network speed etc.
@@ -1156,6 +1193,7 @@ void process_request(
     retval = open_database();
     if (retval) {
         send_error_message(reply, "Server can't open database", 3600);
+        reply.project_is_down = true;
         goto leave;
     }
 

@@ -910,9 +910,10 @@ int add_result_to_reply(
         ) {
 			double reduced_delay_bound = delay_bound*config.reliable_reduced_delay_bound;
 			double est_wallclock_duration = estimate_wallclock_duration(wu, request, reply);
-			// Check to see how reasonable this reduced time is.
+            // Check to see how reasonable this reduced time is.
             // Increase it to twice the estimated delay bound
             // if all the following apply:
+            //
 			// 1) Twice the estimate is longer then the reduced delay bound
 			// 2) Twice the estimate is less then the original delay bound
 			// 3) Twice the estimate is less then the twice the reduced delay bound
