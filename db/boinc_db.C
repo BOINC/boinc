@@ -166,10 +166,12 @@ void DB_APP_VERSION::db_print(char* buf){
     sprintf(buf,
         "create_time=%d, appid=%d, version_num=%d, platformid=%d, "
         "xml_doc='%s', "
-        "min_core_version=%d, max_core_version=%d, deprecated=%d",
+        "min_core_version=%d, max_core_version=%d, deprecated=%d, "
+        "plan_class='%s' ",
         create_time, appid, version_num, platformid,
         xml_doc,
-        min_core_version, max_core_version, deprecated
+        min_core_version, max_core_version, deprecated,
+        plan_class
     );
 }
 
@@ -185,6 +187,7 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     min_core_version = atoi(r[i++]);
     max_core_version = atoi(r[i++]);
     deprecated = atoi(r[i++]);
+    strcpy2(plan_class, r[i++]);
 }
 
 void DB_USER::db_print(char* buf){

@@ -68,7 +68,7 @@ static int send_assigned_job(
         );
         return ERR_NOT_FOUND;
     }
-    bool found = find_app_version(request, reply.wreq, wu, app, avp);
+    bool found = find_app_version(request, reply, wu, app, avp);
     if (!found) {
         log_messages.printf(MSG_CRITICAL,
             "App version for assigned WU not found\n"

@@ -71,6 +71,19 @@ struct USER_MESSAGE {
     USER_MESSAGE(const char* m, const char*p);
 };
 
+// keep track of the best app_version for each app for this host
+//
+struct BEST_APP_VERSION {
+    int appid;
+    APP_VERSION* avp;       // NULL if none exists
+#if 0
+    COPROCS coprocs;
+    double ncpus;
+    double flops;
+    char opaque[256];
+#endif
+};
+
 // summary of a client's request for work, and our response to it
 //
 struct WORK_REQ {
@@ -92,6 +105,7 @@ struct WORK_REQ {
     RESOURCE bandwidth;
 
     std::vector<USER_MESSAGE> no_work_messages;
+    std::vector<BEST_APP_VERSION> best_app_versions;
 
     bool no_allowed_apps_available;
     bool excessive_work_buf;

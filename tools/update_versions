@@ -65,7 +65,9 @@ def add_files(
     '''
     assert(match)
     assert(exec_files[0])
-    version_major, version_minor, platform_name = match.groups()
+    version_major, version_minor, platform_name, plan_class = match.groups()
+    if plan_class:
+        plan_class = plan_class[1:]      # drop leading :
     version_num = int(version_major) * 100 + int(version_minor)
 
     file_base = os.path.basename(exec_files[0])
@@ -76,36 +78,37 @@ def add_files(
     platform = platforms[0]
 
     api_version = get_api_version(exec_files[0])
-    if app:         # ?? this 'if' shouldn't be needed
-        existing_versions = database.AppVersions.find(app=app, platform=platform, version_num=version_num)
-        if existing_versions:
-            if verbose:
-                print "  Skipping existing %s %3d: %s" %(app.name, version_num, file_base)
-            return
 
-        print "  Found %s version %s for %s: %s" %(app, version_num, platform, file_base),
-        if non_exec_files:
-            print "(+ %d bundled file(s))"%len(non_exec_files)
-        else:
-            print
+    existing_versions = database.AppVersions.find(app=app, platform=platform, version_num=version_num, plan_class=plan_class)
+    if existing_versions:
+        if verbose:
+            print "  Skipping existing %s %3d: %s" %(app.name, version_num, file_base)
+        return
 
-        xml_doc = tools.process_app_version(
-            app = app,
-            version_num = version_num,
-            exec_files = exec_files,
-            non_exec_files = non_exec_files,
-            signature_files = signature_files,
-            file_ref_infos = file_ref_infos,
-            api_version = api_version
-            )
+    print "  Found %s version %s for %s: %s" %(app, version_num, platform, file_base),
+    if non_exec_files:
+        print "(+ %d bundled file(s))"%len(non_exec_files)
+    else:
+        print
 
-        object = database.AppVersion(
-            create_time = create_time,
-            app = app,
-            platform = platform,
-            version_num = version_num,
-            xml_doc = xml_doc
-            )
+    xml_doc = tools.process_app_version(
+        app = app,
+        version_num = version_num,
+        exec_files = exec_files,
+        non_exec_files = non_exec_files,
+        signature_files = signature_files,
+        file_ref_infos = file_ref_infos,
+        api_version = api_version
+        )
+
+    object = database.AppVersion(
+        create_time = create_time,
+        app = app,
+        platform = platform,
+        version_num = version_num,
+        xml_doc = xml_doc,
+        plan_class = plan_class
+        )
 
     objects_to_commit.append(object)
 
@@ -113,7 +116,7 @@ def add_files(
 
 def re_match_exec_filename(filepath):
     file = os.path.basename(filepath)
-    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(?:[.]gz|[.]exe|[.]sit|[.]msi)?$', file)
+    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)([:][^.]+)?(?:[.]gz|[.]exe|[.]sit|[.]msi)?$', file)
 
 def find_versions(app, dir):
     """Find application versions in DIR.

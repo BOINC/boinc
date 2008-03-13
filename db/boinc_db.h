@@ -105,6 +105,7 @@ struct APP_VERSION {
     int min_core_version;   // min core version this app will run with
     int max_core_version;   // if <>0, max core version this will run with
     bool deprecated;
+    char plan_class[256];
 
     int write(FILE*);
     void clear();

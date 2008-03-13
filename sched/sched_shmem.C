@@ -90,7 +90,7 @@ int SCHED_SHMEM::scan_tables() {
     DB_APP app;
     DB_APP_VERSION app_version;
     DB_ASSIGNMENT assignment;
-    int n;
+    int i, j, n, retval;
 
     n = 0;
     while (!platform.enumerate()) {
@@ -115,19 +115,35 @@ int SCHED_SHMEM::scan_tables() {
     napps = n;
 
     n = 0;
-    while (!app_version.enumerate()) {
-        if (app_version.deprecated) continue;
-        if (!lookup_app(app_version.appid)) continue;
-        PLATFORM* pp= lookup_platform_id(app_version.platformid);
-        if (!pp) {
-            fprintf(stderr, "app version %d refers to nonexistent platform %d",
-                app_version.id, app_version.platformid
+
+    // for each (app, platform) pair,
+    // find the greatest version num of a non-deprecated version
+    // greater than app.min_version, if any.
+    // Then get all versions with that number.
+    //
+    for (i=0; i<nplatforms; i++) {
+        PLATFORM& splatform = platforms[i];
+        for (j=0; j<napps; j++) {
+            char query[1024];
+            int max_version;
+            APP& sapp = apps[j];
+            sprintf(query,
+                "select max(version_num) from app_version where appid=%d and platformid=%d and version_num>=%d and deprecated=0",
+                sapp.id, splatform.id, sapp.min_version
             );
-            continue;
-        }
-        app_versions[n++] = app_version;
-        if (n == MAX_APP_VERSIONS) {
-            overflow("app_versions", "MAX_APP_VERSIONS");
+            retval = app_version.get_integer(query, max_version);
+            if (!retval) {
+                sprintf(query,
+                    "where appid=%d and platformid=%d and version_num=%d and deprecated=0",
+                    sapp.id, splatform.id, max_version
+                );
+                while (!app_version.enumerate(query)) {
+                    app_versions[n++] = app_version;
+                    if (n == MAX_APP_VERSIONS) {
+                        overflow("app_versions", "MAX_APP_VERSIONS");
+                    }
+                }
+            }
         }
     }
     napp_versions = n;
@@ -167,24 +183,21 @@ APP* SCHED_SHMEM::lookup_app(int id) {
     return 0;
 }
 
-// find the latest app version for a given platform
+// find an app version for a given platform
 //
 APP_VERSION* SCHED_SHMEM::lookup_app_version(
-    int appid, int platformid, int min_version
+    int appid, int platformid
 ) {
-    int i, best_version=-1;
-    APP_VERSION* avp, *best_avp = 0;
+    int i;
+    APP_VERSION* avp;
     for (i=0; i<napp_versions; i++) {
         avp = &app_versions[i];
         if (avp->appid == appid && avp->platformid == platformid) {
-            if (avp->version_num >= min_version && avp->version_num > best_version) {
-                best_avp = avp;
-                best_version = avp->version_num;
-            }
+            return avp;
         }
     }
 
-    return best_avp;
+    return NULL;
 }
 
 // see if there's any work.
@@ -217,8 +230,15 @@ void SCHED_SHMEM::restore_work(int pid) {
 }
 
 void SCHED_SHMEM::show(FILE* f) {
+    fprintf(f, "app versions:\n");
+    for (int i=0; i<napp_versions; i++) {
+        APP_VERSION av = app_versions[i];
+        fprintf(f, "appid: %d platformid: %d version_num: %d plan_class: %s\n",
+            av.appid, av.platformid, av.version_num, av.plan_class
+        );
+    }
     fprintf(f,
-        "key:\n"
+        "Jobs; key:\n"
         "ap: app ID\n"
         "ic: infeasible count\n"
         "wu: workunit ID\n"

@@ -61,6 +61,7 @@ create table app_version (
     min_core_version    integer     not null default 0,
     max_core_version    integer     not null default 0,
     deprecated          tinyint     not null default 0,
+    plan_class          varchar(254) not null default '',
     primary key (id)
 ) engine=InnoDB;
 

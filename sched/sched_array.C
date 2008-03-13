@@ -133,7 +133,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             }
             avp = NULL;
         } else {
-            found = find_app_version(sreq, reply.wreq, wu, app, avp);
+            found = find_app_version(sreq, reply, wu, app, avp);
             if (!found) {
                 continue;
             }

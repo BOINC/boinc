@@ -2294,3 +2294,43 @@ Rom    Mar 13 2008
         proc_control.C, .h
     win_build/
         boincmgr_curl.vcproj
+
+David  Mar 13 2008
+    Various preparation for handling multithreaded apps
+    and apps that use coprocessors.
+    There now can be several app_versions for the same
+    (app, platform, version_num) combination.
+    This changes a number of things.
+
+    - Added app_version.plan_class field to DB
+    - update_versions now looks for a :plan-class in the
+        file or directory name, and puts it in the app_version's DB record
+    - Change uniqueness constraint to include plan_class
+    - Feeder: the feeder was putting non-deprecated app_versions
+        in shared mem, and leaving it to the scheduler to
+        find the latest version for a given platform.
+        This is dumb.
+        Instead, for each app/platform pair the feeder now
+        finds the highest version number of a non-deprecated app version,
+        and enumerates all non-deprecated app_versions with that
+        app/platform/version
+    - Scheduler: add a BEST_APP_VERSION data structure that keeps track,
+        for each app, what the best app_version is for this host.
+        This saves the work of recomputing it for each job.
+
+    db/
+        boinc_db.C,h
+        constraints.sql
+        schema.sql
+    html/ops/
+        db_update.php
+    py/Boinc/
+        database.py
+    sched/
+        sched_array.C
+        sched_assign.C
+        sched_send.C,h
+        sched_shmem.C,h
+        server_types.h
+    tools/
+        update_versions

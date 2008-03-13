@@ -98,7 +98,7 @@ struct SCHED_SHMEM {
     void show(FILE*);
 
     APP* lookup_app(int);
-    APP_VERSION* lookup_app_version(int appid, int platform, int version);
+    APP_VERSION* lookup_app_version(int appid, int platform);
     PLATFORM* lookup_platform_id(int);
     PLATFORM* lookup_platform(char*);
 };

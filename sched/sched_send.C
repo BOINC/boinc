@@ -126,7 +126,7 @@ int get_app_version(
         }
         avp = NULL;
     } else {
-        found = find_app_version(sreq, reply.wreq, wu, app, avp);
+        found = find_app_version(sreq, reply, wu, app, avp);
         if (!found) {
             log_messages.printf(MSG_DEBUG, "Didn't find app version\n");
             return ERR_NO_APP_VERSION;
@@ -620,12 +620,12 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
-// return the APP and APP_VERSION for the given WU, for the given platform.
+// return the APP and the best APP_VERSION for the given host.
 // return false if none
 //
 bool find_app_version(
-    SCHEDULER_REQUEST& sreq, WORK_REQ& wreq, WORKUNIT& wu,
-    APP*& app, APP_VERSION*& avp
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
+    WORKUNIT& wu, APP*& app, APP_VERSION*& avp
 ) {
     app = ssp->lookup_app(wu.appid);
     if (!app) {
@@ -635,11 +635,42 @@ bool find_app_version(
         return false;
     }
     unsigned int i;
+
+    // first look up in memoized array
+    //
+    for (i=0; i<reply.wreq.best_app_versions.size(); i++) {
+        BEST_APP_VERSION& bav = reply.wreq.best_app_versions[i];
+        if (bav.appid == wu.appid) {
+            if (bav.avp) {
+                avp = bav.avp;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    // now go through the client's platforms.
+    //
     for (i=0; i<sreq.platforms.list.size(); i++) {
         PLATFORM* p = sreq.platforms.list[i];
-        avp = ssp->lookup_app_version(app->id, p->id, app->min_version);
-        if (avp) return true;
+        avp = ssp->lookup_app_version(app->id, p->id);
+        if (avp) {
+            BEST_APP_VERSION bav;
+            bav.appid = wu.appid;
+            bav.avp = avp;
+            reply.wreq.best_app_versions.push_back(bav);
+            return true;
+        }
     }
+
+    // here if no app version exists
+    //
+    BEST_APP_VERSION bav;
+    bav.appid = wu.appid;
+    bav.avp = NULL;
+    reply.wreq.best_app_versions.push_back(bav);
+
     log_messages.printf(MSG_DEBUG,
         "no app version available: APP#%d PLATFORM#%d min_version %d\n",
         app->id, sreq.platforms.list[0]->id, app->min_version
@@ -650,8 +681,8 @@ bool find_app_version(
         app->user_friendly_name
     );
     USER_MESSAGE um(message, "high");
-    wreq.insert_no_work_message(um);
-    wreq.no_app_version = true;
+    reply.wreq.insert_no_work_message(um);
+    reply.wreq.no_app_version = true;
     return false;
 }
 
@@ -1331,7 +1362,7 @@ void JOB::get_value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (!found) return;
         avp = NULL;
     } else {
-        found = find_app_version(sreq, reply.wreq, wu, app, avp);
+        found = find_app_version(sreq, reply, wu, app, avp);
         if (!found) return;
 
         // see if the core client is too old.

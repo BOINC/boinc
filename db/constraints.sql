@@ -6,7 +6,7 @@ alter table app
     add unique(name);
 
 alter table app_version
-    add unique(appid, platformid, version_num);
+    add unique apvp (appid, platformid, version_num, plan_class);
 
 alter table user
     add unique(email_addr),

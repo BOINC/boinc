@@ -568,11 +568,17 @@ function update_3_10_2008() {
     do_query("alter table workunit add column rsc_bandwidth_bound double not null");
 }
 
+function update_3_13_2008() {
+    do_query("alter table app_version drop index appid");
+    do_query("alter table app_version add column plan_class varchar(254) not null default ''");
+    do_query("alter table app_version add unique apvp (appid, platformid, version_num, plan_class)");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-update_3_10_2008();
+//update_3_13_2008();
 
 ?>

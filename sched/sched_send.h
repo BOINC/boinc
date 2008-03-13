@@ -32,8 +32,7 @@ extern int add_result_to_reply(
 extern bool anonymous(PLATFORM*);
 
 extern bool find_app_version(
-    SCHEDULER_REQUEST&, WORK_REQ& wreq, WORKUNIT& wu,
-    APP*& app, APP_VERSION*& avp
+    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, WORKUNIT&, APP*&, APP_VERSION*&
 );
 
 extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
