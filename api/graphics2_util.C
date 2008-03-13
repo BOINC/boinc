@@ -47,7 +47,15 @@ static void get_shmem_name(char* prog_name, char* shmem_name) {
     APP_INIT_DATA aid;
     int retval = boinc_get_init_data(aid);
     if (retval) aid.slot = 0;
+#ifdef _WIN32
+    // The 'Global' prefix must be included in the shared memory
+    // name if the shared memory segment is going to cross
+    // terminal server session boundries.
+    //
+    sprintf(shmem_name, "Global\\boinc_%s_%d", prog_name, aid.slot);
+#else
     sprintf(shmem_name, "boinc_%s_%d", prog_name, aid.slot);
+#endif
 }
 #endif
 

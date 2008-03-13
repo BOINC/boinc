@@ -866,21 +866,37 @@ int TEXTURE_DESC::load_image_file(const char* filename) {
     present = true;
 #ifndef SANS_JPEGLIB
 	retval = CreateTextureJPG(filename);
-    if (!retval) return 0;
+    if (!retval) {
+        fprintf(stderr, "Successfully loaded '%s'.\n", filename);
+        return 0;
+    }
 #endif
 #ifdef _WIN32
     retval = CreateTexturePPM(filename);
-    if (!retval) return 0;
+    if (!retval) {
+        fprintf(stderr, "Successfully loaded '%s'.\n", filename);
+        return 0;
+    }
     retval = CreateTextureBMP(filename);
-    if (!retval) return 0;
+    if (!retval) {
+        fprintf(stderr, "Successfully loaded '%s'.\n", filename);
+        return 0;
+    }
     retval = CreateTextureTGA(filename);
-    if (!retval) return 0;
+    if (!retval) {
+        fprintf(stderr, "Successfully loaded '%s'.\n", filename);
+        return 0;
+    }
 #endif
 	retval = CreateTextureRGB(filename);
-	if (!retval) return 0;
+    if (!retval) {
+        fprintf(stderr, "Successfully loaded '%s'.\n", filename);
+        return 0;
+    }
 
 done:
     present = false;
+    fprintf(stderr, "Failed to load '%s'.\n", filename);
     return -1;
 }
 

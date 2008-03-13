@@ -17,9 +17,11 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-extern HANDLE sandbox_account_token;
-extern PSID sandbox_account_sid;
-extern void get_sandbox_account_token();
+extern HANDLE sandbox_account_interactive_token;
+extern HANDLE sandbox_account_service_token;
+
+extern void get_sandbox_account_interactive_token();
+extern void get_sandbox_account_service_token();
 
 extern int run_app_windows(
     const char* path, const char* cdir, int argc, char *const argv[], HANDLE&

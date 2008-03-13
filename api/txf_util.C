@@ -46,7 +46,12 @@ void txf_load_fonts(char* dir) {
         boinc_resolve_filename(vpath, phys_path, sizeof(phys_path));
 		if (is_file(phys_path)) {
 			txf[i] = txfLoadFont(phys_path);
-			if(txf[i]) CreateTexFont(txf[i], 0, GL_TRUE);
+            if(txf[i]) {
+                fprintf(stderr, "Successfully loaded '%s'...\n", phys_path);
+                CreateTexFont(txf[i], 0, GL_TRUE);
+            } else {
+                fprintf(stderr, "Failed to load '%s' error message: '%s'...\n", phys_path, txfErrorString);
+            }
 		}
     }	
 }

@@ -35,10 +35,85 @@
 
 using std::string;
 
-HANDLE sandbox_account_token = NULL;
-PSID sandbox_account_sid = NULL;
+HANDLE sandbox_account_interactive_token = NULL;
+HANDLE sandbox_account_service_token = NULL;
 
-void get_sandbox_account_token() {
+void get_sandbox_account_interactive_token() {
+    FILE* f;
+    char buf[256];
+    std::string encoded_username_str;
+    std::string encoded_password_str;
+    std::string username_str;
+    std::string domainname_str; 
+    std::string password_str; 
+    int retval = 0;
+    static bool first=true;
+    PSID sandbox_account_sid = NULL;
+
+    if (!first) return;
+    first = false;
+
+    f = fopen(CLIENT_AUTH_FILENAME, "r");
+    if (!f) return;
+    while (fgets(buf, 256, f)) {
+        if (parse_str(buf, "<username>", encoded_username_str)) continue;
+        if (parse_str(buf, "<password>", encoded_password_str)) continue;
+    }
+    fclose(f);
+
+    password_str = r_base64_decode(encoded_password_str); 
+
+    if (string::npos != encoded_username_str.find('\\')) {
+        domainname_str = encoded_username_str.substr(
+            0, encoded_username_str.find('\\')
+        );
+        username_str = encoded_username_str.substr(
+            encoded_username_str.rfind(_T('\\')) + 1,
+            encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
+        );
+        retval = LogonUser( 
+            (char*) username_str.c_str(),
+            (char*) domainname_str.c_str(), 
+            (char*) password_str.c_str(), 
+            LOGON32_LOGON_INTERACTIVE, 
+            LOGON32_PROVIDER_DEFAULT, 
+            &sandbox_account_interactive_token
+        );
+        if (retval) {
+            GetAccountSid(domainname_str.c_str(), username_str.c_str(), &sandbox_account_sid);
+        }
+    } else {
+        username_str = encoded_username_str;
+        retval = LogonUser( 
+            (char*) username_str.c_str(),
+            NULL, 
+            (char*) password_str.c_str(), 
+            LOGON32_LOGON_INTERACTIVE, 
+            LOGON32_PROVIDER_DEFAULT, 
+            &sandbox_account_interactive_token
+        );
+        if (retval) {
+            GetAccountSid(NULL, username_str.c_str(), &sandbox_account_sid);
+        }
+    }
+
+    if (!retval) {
+        sandbox_account_interactive_token = NULL;
+        sandbox_account_sid = NULL;
+    } else {
+        // Adjust the permissions on the current desktop and window station
+        //   to allow the sandbox user account to create windows and such.
+        //
+        if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
+            fprintf(stderr, "Failed to add ACE to current WindowStation\n");
+        }
+        if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
+            fprintf(stderr, "Failed to add ACE to current Desktop\n");
+        }
+    }
+}
+
+void get_sandbox_account_service_token() {
     FILE* f;
     char buf[256];
     std::string encoded_username_str;
@@ -50,7 +125,8 @@ void get_sandbox_account_token() {
     static bool first=true;
 
     if (!first) return;
-    first = true;
+    first = false;
+
     f = fopen(CLIENT_AUTH_FILENAME, "r");
     if (!f) return;
     while (fgets(buf, 256, f)) {
@@ -75,11 +151,8 @@ void get_sandbox_account_token() {
             (char*) password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
-            &sandbox_account_token
+            &sandbox_account_service_token
         );
-        if (retval) {
-            GetAccountSid(domainname_str.c_str(), username_str.c_str(), &sandbox_account_sid);
-        }
     } else {
         username_str = encoded_username_str;
         retval = LogonUser( 
@@ -88,26 +161,12 @@ void get_sandbox_account_token() {
             (char*) password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
-            &sandbox_account_token
+            &sandbox_account_service_token
         );
-        if (retval) {
-            GetAccountSid(NULL, username_str.c_str(), &sandbox_account_sid);
-        }
     }
 
     if (!retval) {
-        sandbox_account_token = NULL;
-        sandbox_account_sid = NULL;
-    } else {
-        // Adjust the permissions on the current desktop and window station
-        //   to allow the sandbox user account to create windows and such.
-        //
-        if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
-            fprintf(stderr, "Failed to add ACE to current WindowStation\n");
-        }
-        if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
-            fprintf(stderr, "Failed to add ACE to current Desktop\n");
-        }
+        sandbox_account_service_token = NULL;
     }
 }
 
@@ -137,8 +196,8 @@ int run_app_windows(
         }
     }
 
-    get_sandbox_account_token();
-    if (sandbox_account_token != NULL) {
+    get_sandbox_account_interactive_token();
+    if (sandbox_account_interactive_token != NULL) {
 
         // Retrieve the current window station and desktop names
         char szWindowStation[256];
@@ -179,13 +238,13 @@ int run_app_windows(
                  
         // Construct an environment block that contains environment variables that don't
         //   describe the current user.
-        if (!CreateEnvironmentBlock(&environment_block, sandbox_account_token, FALSE)) {
+        if (!CreateEnvironmentBlock(&environment_block, sandbox_account_interactive_token, FALSE)) {
             windows_error_string(error_msg, sizeof(error_msg));
             fprintf(stderr, "CreateEnvironmentBlock failed: %s\n", error_msg);
         }
 
         retval = CreateProcessAsUser( 
-            sandbox_account_token, 
+            sandbox_account_interactive_token, 
             file, 
             cmdline, 
             NULL, 

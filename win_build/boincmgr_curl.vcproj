@@ -1595,6 +1595,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\proc_control.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\proxy_info.C"
 				>
 				<FileConfiguration

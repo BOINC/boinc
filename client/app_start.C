@@ -505,12 +505,12 @@ int ACTIVE_TASK::start(bool first_time) {
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
 
-    get_sandbox_account_token();
+    get_sandbox_account_service_token();
 
     for (i=0; i<5; i++) {
-        if (sandbox_account_token != NULL) {
+        if (sandbox_account_service_token != NULL) {
 
-            if (!CreateEnvironmentBlock(&environment_block, sandbox_account_token, FALSE)) {
+            if (!CreateEnvironmentBlock(&environment_block, sandbox_account_service_token, FALSE)) {
                 if (log_flags.task) {
                     windows_error_string(error_msg, sizeof(error_msg));
                     msg_printf(result->project, MSG_INFO,
@@ -520,7 +520,7 @@ int ACTIVE_TASK::start(bool first_time) {
             }
 
             if (CreateProcessAsUser(
-                sandbox_account_token,
+                sandbox_account_service_token,
                 exec_path,
                 (LPSTR)cmd_line.c_str(),
                 NULL,

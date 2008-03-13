@@ -1099,6 +1099,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot)
 // Kill any running graphics apps whose worker tasks aren't running
 void CMainDocument::KillInactiveGraphicsApps()
 {
+/*
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
     unsigned int i;
     bool bStillRunning;
@@ -1131,6 +1132,7 @@ void CMainDocument::KillInactiveGraphicsApps()
             gfx_app_iter++;
         }
     }
+*/
 }
 
 

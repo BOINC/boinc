@@ -2266,3 +2266,31 @@ Rom    Mar 11 2008
     lib/
         boinc_win.h
         shmem.C
+
+Rom    Mar 13 2008
+    - API: Include 'Global\' in the shared memory segment name for worker and
+        graphics applications so that the memory can be shared across terminal
+        server sessions.
+    - API: Add some trace messages to window creation and shutdown events, it
+        is all logged to stderr.
+    - API: Add some trace messages for loading graphic files.
+    - API: Add some trace messages for loading font files.
+    - API: There can be only one hInstance and it is assigned to the app at
+        startup via winmain(). Use it throughout the graphics2 impl.
+    - CC: Use the service security token to startup worker applications.
+    - MGR: Use the interactive security token to startup graphics
+        applications.
+    - LIB: Create two different logon methods, one for logging on interactively
+        (graphics applications) and one for services (worker application).
+
+    api/
+        graphics2_util.C
+        graphics2_win.C
+        gutil.C
+        txf_util.C
+    client/
+        app_start.C
+    lib/
+        proc_control.C, .h
+    win_build/
+        boincmgr_curl.vcproj
