@@ -215,6 +215,8 @@ void CBOINCGridCtrl::SaveSelection() {
 			m_arrSelectedKeys1.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex1));
 			if (m_pkColumnIndex2 >= 0) {
                             m_arrSelectedKeys2.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex2));
+                        } else {
+                           m_arrSelectedKeys2.Add(wxEmptyString);
                         }
 		}
 	}

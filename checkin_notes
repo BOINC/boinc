@@ -2334,3 +2334,9 @@ David  Mar 13 2008
         server_types.h
     tools/
         update_versions
+
+Charlie Mar 13 2008
+    MGR: Hopefully fix a crash bug.
+    
+    clientgui/
+        BOINCGridCtrl.cpp
