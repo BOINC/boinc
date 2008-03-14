@@ -1204,13 +1204,13 @@ David  Feb 5 2008
         delete_file.C
 
 David  Feb 5 2008
-	- win compile fixes
+    - win compile fixes
 
-	client/
-		sim_util.C
-	clientgui/
-		BOINCBaseFrame.cpp
-		MainDocument.cpp
+    client/
+        sim_util.C
+    clientgui/
+        BOINCBaseFrame.cpp
+        MainDocument.cpp
 
 Rom    Feb 5 2008
     - MGR: Cache the local computer name in statics to avoid functions
@@ -1586,8 +1586,8 @@ David  Feb 23 2008
     - client: fix crashing bug in SCHEDULER_OP::backoff().
         Was using cur_proj (which is potentially NULL) instead of p
 
-	client/
-		scheduler_op.C
+    client/
+        scheduler_op.C
 
 David  Feb 25 2008
     - scheduler: add a general method for excluding hosts from job distribution.
@@ -2381,3 +2381,9 @@ Rom    Mar 13 2008
         graphics2_util.C
     lib/
         shmem.C
+
+David  Mar 14 2008
+    - Add "opaque" field to APP_INIT_DATA (for passing #threads, etc.)
+
+    lib/
+        app_ipc.C,h
