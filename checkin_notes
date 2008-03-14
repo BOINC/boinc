@@ -2395,3 +2395,12 @@ David  Mar 14 2008
         translation.inc
     languages/translations/
         bg.po
+
+Rom    Mar 14 2008
+    - SS: Launch the graphics app as the user instead of 'boinc_project'.
+    - MGR: Launch the graphics app as the user instead of 'boinc_project'.
+    
+    clientgui/
+        MainDocument.cpp
+    clientscr/
+        screensaver.cpp
