@@ -17,24 +17,42 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// Example multi-thread BOINC application
-// The main thread spawns N threads, each of which computers for X seconds
-// It handles BOINC's process control messages itself.
+// Example multi-thread BOINC application.
+// It does 64 "blocks" of computation, where each block is about 1 GFLOP.
+// It divides this among a number N of "worker" threads.
+// N is passed in through init_data.xml, and defaults to 4.
+//
+// The main issue is how to suspend/resume the threads.
+// The standard BOINC API doesn't work - it assumes that
+// the initial thread is the only one.
+// What we do instead is to have our initial thread launch the worker threads,
+// then go into a polling loop where it checks for suspend/resume messages
+// from the BOINC client, and handles them itself.
 
 #include <stdio.h>
 #include <vector>
+#ifdef _WIN32
+#else
 #include <signal.h>
 #include <pthread.h>
+#endif
 
+#include "util.h"
+#include "str_util.h"
 #include "boinc_api.h"
 
 using std::vector;
 
-int ngflops = 10;
+#define DEFAULT_NTHREADS 4
+#define TOTAL_GFLOPS 64
+
+int gflops_per_thread;
 
 #ifdef _WIN32
-typedef UINT THREAD_ID;
+typedef HANDLE THREAD_ID;
+typedef UINT (__stdcall *THREAD_FUNC)(void*);
 #else
+typedef void* (*THREAD_FUNC)(void*);
 typedef pthread_t THREAD_ID;
 #endif
 #define THREAD_ID_NULL  0
@@ -43,7 +61,6 @@ typedef pthread_t THREAD_ID;
 // A thread function is passed a pointer to its own object,
 // and sets its ID to THREAD_ID_NULL when it's finished.
 //
-typedef void* (*THREAD_FUNC)(void*);
 
 struct THREAD {
     THREAD_ID id;
@@ -71,19 +88,26 @@ struct THREAD_SET {
 };
 
 #ifdef _WIN32
-THREAD_ID create_thread(void *func()) {
-    uintptr_t thread;
-    UINT thread_id;
-    thread = _beginthreadex(
+void THREAD::start(THREAD_FUNC func) {
+    id = (HANDLE) _beginthreadex(
         NULL,
         16384,
         func,
+        this,
         0,
-        0,
-        &thread_id
+        NULL
     );
-    if (!thread) return THREAD_ID_NULL;
-    return thread_id;
+    if (!id) {
+        fprintf(stderr, "Can't start thread\n");
+        exit(1);
+    }
+}
+void THREAD::suspend(bool if_susp) {
+    if (if_susp) {
+        SuspendThread(id);
+    } else {
+        ResumeThread(id);
+    }
 }
 #else
 void THREAD::start(THREAD_FUNC func) {
@@ -99,6 +123,8 @@ void THREAD::suspend(bool if_susp) {
 }
 #endif
 
+// do a billion floating-point ops
+//
 static void giga_flop() {
     double j = 3.14159;
     int i;
@@ -108,27 +134,39 @@ static void giga_flop() {
     }
 }
 
+#ifdef _WIN32
+UINT WINAPI worker(void* p) {
+#else
 void* worker(void* p) {
+#endif
     THREAD* t = (THREAD*)p;
-    for (int i=0; i<ngflops; i++) {
+    for (int i=0; i<gflops_per_thread; i++) {
         giga_flop();
         fprintf(stderr, "thread %d finished %d\n", t->index, i);
     }
     t->id = THREAD_ID_NULL;
+#ifdef _WIN32
+    return 0;
+#endif
 }
 
-int main() {
+int main(int argc, char** argv) {
     int i;
     THREAD_SET thread_set;
     BOINC_OPTIONS options;
     BOINC_STATUS status;
     APP_INIT_DATA aid;
-    int nthreads = 4;
+    int nthreads = DEFAULT_NTHREADS;
 
+    boinc_options_defaults(options);
     options.direct_process_action = false;
     boinc_init_options(&options);
     boinc_get_status(&status);
     boinc_get_init_data(aid);
+    if (strlen(aid.opaque)) {
+        parse_int(aid.opaque, "<nthreads>", nthreads);
+    }
+    gflops_per_thread = TOTAL_GFLOPS/nthreads;
 
     for (i=0; i<nthreads; i++) {
         THREAD* t = new THREAD;
@@ -144,6 +182,20 @@ int main() {
         if (status.suspended != old_susp) {
             thread_set.suspend(status.suspended);
         }
+        boinc_sleep(0.1);
     }
     printf("All done.\n");
+    boinc_finish(0);
 }
+
+#ifdef _WIN32
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+    LPSTR command_line;
+    char* argv[100];
+    int argc;
+
+    command_line = GetCommandLine();
+    argc = parse_command_line( command_line, argv );
+    return main(argc, argv);
+}
+#endif

@@ -24,9 +24,9 @@ David  12 Apr 2006
 
     uppercase/
         uc_graphics.C (new)
-		upper_case.C
-	win_build/
-		upper_case.vcproj
+        upper_case.C
+    win_build/
+        upper_case.vcproj
 
 David  13 Apr 2006
     - got graphics to work under Linux; added a Makefile
@@ -37,10 +37,10 @@ David  13 Apr 2006
         upper_case.C
 
 David  13 Apr 2006
-	- handle mouse events
+    - handle mouse events
 
-	uppercase/
-		uc_graphics.C
+    uppercase/
+        uc_graphics.C
 
 David  21 Apr 2006
     - resolve logo filename
@@ -62,17 +62,17 @@ Charlie 27 April 2006
             project.pbxproj
 
 David  29 Apr 2006
-	- use project preferences (<color_scheme>) for graphics color
-	- remove -exit, -signal options from upper_case
+    - use project preferences (<color_scheme>) for graphics color
+    - remove -exit, -signal options from upper_case
 
-	uppercase/
+    uppercase/
         uc_graphics.C
-		upper_case.C
+        upper_case.C
 
 David  1 May 2006
-	- implement boinc_reread_prefs()
+    - implement boinc_reread_prefs()
 
-	uppercase/
+    uppercase/
         uc_graphics.C
 
 David  26 May 2006
@@ -85,9 +85,9 @@ David  26 May 2006
 David  29 May 2006
     - moved wrapper application here from boinc/apps
 
-	win_build
-		sleeper.vcproj
-		wrapper.vcproj
+    win_build
+        sleeper.vcproj
+        wrapper.vcproj
     wrapper/
         wrapper.C
         Makefile
@@ -95,7 +95,7 @@ David  29 May 2006
 Rom    31 May 2006
     - Demonstrate delay load functionality on graphics libraries for Windows.
     
-	uppercase/
+    uppercase/
         uc_graphics.C
 
 David  13 June 2006
@@ -106,33 +106,33 @@ David  13 June 2006
         worker.C
 
 David  13 June 2006
-	- added Win project file for worker,
-		fixed names in project files, got stuff to compile
+    - added Win project file for worker,
+        fixed names in project files, got stuff to compile
 
-	uppercase/
-		upper_case.C
-	win_build/
-		samples.sln
-		sleeper.vcproj
-		worker.vcproj (new)
-	worker/
-		worker.C
-	wrapper/
-		wrapper.C
+    uppercase/
+        upper_case.C
+    win_build/
+        samples.sln
+        sleeper.vcproj
+        worker.vcproj (new)
+    worker/
+        worker.C
+    wrapper/
+        wrapper.C
 
 David  14 June 2006
-	- debugged and updated "wrapper" program.
-		It works now, more or less, on Windows.
-		- wrapper no longer copies input/output files.
-			You must use the <copy_file/> attribute
-			in the file reference instead.
-		- attempted to have wrapper pass stderr handle to worker
-			(Windows).  Doesn't work yet.
+    - debugged and updated "wrapper" program.
+        It works now, more or less, on Windows.
+        - wrapper no longer copies input/output files.
+            You must use the <copy_file/> attribute
+            in the file reference instead.
+        - attempted to have wrapper pass stderr handle to worker
+            (Windows).  Doesn't work yet.
 
-	worker/
-		worker.C
-	wrapper/
-		wrapper.C
+    worker/
+        worker.C
+    wrapper/
+        wrapper.C
 
 David  16 June 2006
     - generalized wrapper.C so task descriptions are kept in structs;
@@ -144,20 +144,20 @@ David  16 June 2006
         wrapper.C
 
 David  12 Aug 2006
-	- wrapper: add support for stdin/stdout files
-		(adapted from Eric Myers)
-	- changed project files to VS 2005
+    - wrapper: add support for stdin/stdout files
+        (adapted from Eric Myers)
+    - changed project files to VS 2005
 
-	win_build/
-		*.vcproj
-	wrapper/
-		wrapper.C
+    win_build/
+        *.vcproj
+    wrapper/
+        wrapper.C
 
 David  16 Aug 2006
-	- wrapper: get it to compile on Win, and fix XML parsing
+    - wrapper: get it to compile on Win, and fix XML parsing
 
-	wrapper/
-		wrapper.C
+    wrapper/
+        wrapper.C
 
 David  9 Sept 2006
     - change wrapper to use new XML parser
@@ -176,9 +176,9 @@ David  11 Sept 2006
     wrapper/Makefile
 
 David  11 Sept 2006
-	- include all apps in VS solution
+    - include all apps in VS solution
 
-	win_build/samples.sln
+    win_build/samples.sln
 
 David  26 Sept 2006
     - close state file in uppercase (from Ian/Tigher)
@@ -198,17 +198,17 @@ Rom    6 Nov 2006
     - Checkin VS 2003 project files.
 
 David  8 Nov 2006
-	- The upper_case project file (but not the others)
-		needs GDI32.DLL;OPENGL32.DLL;GLU32.DLL in its list
-		of Delay Loaded DLLs (Linker properties),
-		and delayimp.lib in its Additional Dependencies
+    - The upper_case project file (but not the others)
+        needs GDI32.DLL;OPENGL32.DLL;GLU32.DLL in its list
+        of Delay Loaded DLLs (Linker properties),
+        and delayimp.lib in its Additional Dependencies
 
-	uppercase/
-		logo.jpg (new)
+    uppercase/
+        logo.jpg (new)
 
 David  23 Nov 2006
     - don't include util.h in worker.C!
-	- fix win compile
+    - fix win compile
 
     worker/
         worker.C
@@ -224,61 +224,61 @@ David  24 Nov 2006
         job.xml
 
 David  25 Nov 2006
-	- wrapper: redirection of stdin/stdout wasn't
-		working correctly on Windows.
-		Need to open files with CreateFile().
+    - wrapper: redirection of stdin/stdout wasn't
+        working correctly on Windows.
+        Need to open files with CreateFile().
 
-	win_build/
-		samples.sln
-	wrapper/
-		wrapper.C
+    win_build/
+        samples.sln
+    wrapper/
+        wrapper.C
 
 David  5 Dec 2006
-	- changed upper_case options to -early_crash
-		-early_exit
+    - changed upper_case options to -early_crash
+        -early_exit
 
-	uppercase/
-		upper_case.C
+    uppercase/
+        upper_case.C
 
 David  8 Dec 2006
-	- added -early_sleep option to upper_case
-		(for debugging core client)
+    - added -early_sleep option to upper_case
+        (for debugging core client)
 
-	uppercase/
-		uc_graphics.C
-		upper_case.C
+    uppercase/
+        uc_graphics.C
+        upper_case.C
 
 David  18 Dec 2006
-	- compile fix
+    - compile fix
 
-	win_build/
-		libboinc_vcproj
+    win_build/
+        libboinc_vcproj
 
 David  27 Dec 2006
     - comment out boinc_graphics_possible() call
     
-	uppercase/
-		upper_case.C
+    uppercase/
+        upper_case.C
 
 David  11 Jan 2007
     - upper_case: if checkpoint found,
         truncate the output file to the indicated size.
         Otherwise a checkpoint/restart generally produces a bad result.
 
-	uppercase/
-		upper_case.C
+    uppercase/
+        upper_case.C
 
 David  21 Feb 2007
-	- compile fixes
+    - compile fixes
 
-	sleeper/
-		sleeper.C
-	uppercase/
-		upper_case.C
-	win_build/
-		libboinc.vcproj
-	wrapper/
-		wrapper.C
+    sleeper/
+        sleeper.C
+    uppercase/
+        upper_case.C
+    win_build/
+        libboinc.vcproj
+    wrapper/
+        wrapper.C
 
 David  20 Mar 2007
     - wrapper (Unix) get actual CPU time of child (not wall time)
@@ -318,38 +318,38 @@ Rom    9 May 2007
         *.vcproj
 
 David  22 May 2007
-	- add version 6-style app
+    - add version 6-style app
 
-	example_app/
-		Makefile
-		uc2.C
-		uc2_graphics.C
+    example_app/
+        Makefile
+        uc2.C
+        uc2_graphics.C
 
 David  22 May 2007
-	- first stab at getting it to work on Win
+    - first stab at getting it to work on Win
 
-	win_build/
-		libboincapi.vcproj
-		libgraphics2.vcproj (new)
-		samples.sln
-		uc2.vcproj (new)
-		uc2_graphics.vcproj (new)
-
-David  23 May 2007
-	- version 6 example app works on Win
-
-	example_app/
-		uc2.C
-		uc2.h (new)
-		uc2_graphics.C
-		win_build/
-			libgraphics2.vcproj
-			samples.sln
-			uc2.vcproj
-			uc2_graphics.vcproj
+    win_build/
+        libboincapi.vcproj
+        libgraphics2.vcproj (new)
+        samples.sln
+        uc2.vcproj (new)
+        uc2_graphics.vcproj (new)
 
 David  23 May 2007
-	- version 6 example app works on Linux
+    - version 6 example app works on Win
+
+    example_app/
+        uc2.C
+        uc2.h (new)
+        uc2_graphics.C
+        win_build/
+            libgraphics2.vcproj
+            samples.sln
+            uc2.vcproj
+            uc2_graphics.vcproj
+
+David  23 May 2007
+    - version 6 example app works on Linux
 
     example_app/
         uc2.h
@@ -370,23 +370,23 @@ David  8 June 2007
         wrapper.C
 
 David  8 June 2007
-	example_app/
-		uc2.C,h
-		uc2_graphics.C
+    example_app/
+        uc2.C,h
+        uc2_graphics.C
 
 David  13 June 2007
-	- wrapper: set thread priority of worker processes
-		to IDLE class (Win);
-		set prior of worker processes to PROCESS_IDLE_PRIORITY (Unix)
+    - wrapper: set thread priority of worker processes
+        to IDLE class (Win);
+        set prior of worker processes to PROCESS_IDLE_PRIORITY (Unix)
 
-	uppercase/
-		upper_case.C
-	wrapper/
-		wrapper.C
+    uppercase/
+        upper_case.C
+    wrapper/
+        wrapper.C
 
 David  19 June 2007
-	example_app/
-		uc2_graphics.C
+    example_app/
+        uc2_graphics.C
 
 David  28 June 2007
     - wrapper: report CPU time correctly when >1 job
@@ -416,10 +416,10 @@ Charlie 29 Aug 2007
             project.pbxproj
 
 David  17 Aug 2007
-	- project file fix
+    - project file fix
 
-	win_build/
-		libgraphics2.vcproj
+    win_build/
+        libgraphics2.vcproj
 
 Charlie 29 Aug 2007
     - Mac: new XCode project for version 6 example_app.
@@ -483,11 +483,11 @@ David  26 Sept 2007
         uc2.C
 
 David  26 Sept 2007
-	- minor stuff
+    - minor stuff
 
-	example_app
-		uc2.C
-		uc2_graphics.C
+    example_app
+        uc2.C
+        uc2_graphics.C
 
 Charlie 27 Sep 2007
     Mac: remove "-DAPP_GRAPHICS" from XCode project C flags to fix a 
@@ -595,3 +595,12 @@ David  14 Mar 2008
     multi_thread/
         Makefile
         multi_thread.C
+
+David  14 Mar 2008
+    - get multi_thread to work on Windows, and fix it up
+
+    multi_thread/
+        multi_thread.C
+    win_build/
+        multi_thread.vcproj (new)
+        samples.sln
