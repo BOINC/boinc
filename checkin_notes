@@ -581,3 +581,10 @@ Charlie 11 Mar 2008
     mac_build/
         UpperCase.xcodeproj/ (removed)
             project.pbxproj  (removed)
+
+Rom    13 Mar 2008
+    - Uppercase: Initialize the diagnostics framework for graphics
+        application.
+
+    example_app/
+        uc2_graphics.C

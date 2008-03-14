@@ -40,6 +40,7 @@
 #include "graphics2.h"
 #include "txf_util.h"
 #include "uc2.h"
+#include "diagnostics.h"
 
 #ifdef __APPLE__
 #include "mac/app_icon.h"
@@ -230,9 +231,12 @@ void app_graphics_init() {
     char path[256];
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
     txf_load_fonts(".");
+
     boinc_resolve_filename("logo.jpg", path, sizeof(path));
     logo.load_image_file(path);
+
     init_lights();
 }
 
@@ -265,19 +269,23 @@ static void parse_project_prefs(char* buf) {
 }
 
 int main(int argc, char** argv) {
+    // Provide a way to get error messages from system. 
+    // Graphics applications are launched from the slot directory
+    // and so the graphics application should have read/write
+    // permissions there.
+    //
+    diagnostics_init(BOINC_DIAG_DEFAULTS, "stdoutgfx", "stderrgfx");
+
 #ifdef __APPLE__
-#ifdef _DEBUG
-    // Provide a way to get error messages from system in Debug builds only. 
-    // In Deployment builds, ownership violates sandbox security (unless we 
-    // gave it an explicit path outside the BOINC Data directory). 
-    freopen("gfx_stderr.txt", "w", stderr);
-#endif
     setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));
 #endif
+
     boinc_parse_init_data_file();
     boinc_get_init_data(uc_aid);
     if (uc_aid.project_preferences) {
         parse_project_prefs(uc_aid.project_preferences);
     }
     boinc_graphics_loop(argc, argv);
+
+    diagnostics_finish();
 }
