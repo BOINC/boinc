@@ -50,7 +50,7 @@ void txf_load_fonts(char* dir) {
                 fprintf(stderr, "Successfully loaded '%s'...\n", phys_path);
                 CreateTexFont(txf[i], 0, GL_TRUE);
             } else {
-                fprintf(stderr, "Failed to load '%s' error message: '%s'...\n", phys_path, txfErrorString);
+                fprintf(stderr, "Failed to load '%s' error message: '%s'...\n", phys_path, txfErrorString());
             }
 		}
     }	

@@ -613,51 +613,55 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
 
     // Update the websites list
     //
-    if (m_TaskGroups.size() > 1) {
+    if (m_bForceUpdateSelection) {
+        if (m_TaskGroups.size() > 1) {
 
-        // Delete task group, objects, and controls.
-        pGroup = m_TaskGroups[lControlGroup];
+            // Delete task group, objects, and controls.
+            pGroup = m_TaskGroups[lControlGroup];
 
-        m_pTaskPane->DeleteTaskGroupAndTasks(pGroup);
-        for (i=0; i<pGroup->m_Tasks.size(); i++) {
-            delete pGroup->m_Tasks[i];
+            m_pTaskPane->DeleteTaskGroupAndTasks(pGroup);
+            for (i=0; i<pGroup->m_Tasks.size(); i++) {
+                delete pGroup->m_Tasks[i];
+            }
+            pGroup->m_Tasks.clear();
+            delete pGroup;
+
+            pGroup = NULL;
+
+            m_TaskGroups.erase( m_TaskGroups.begin() + 1 );
         }
-        pGroup->m_Tasks.clear();
-        delete pGroup;
 
-        pGroup = NULL;
+        // If something is selected create the tasks and controls
+            if (m_pGridPane->GetSelectedRows2().size()==1) {
+            if (project) {
+                // Create the web sites task group
+                pGroup = new CTaskItemGroup( _("Web sites") );
+                m_TaskGroups.push_back( pGroup );
 
-        m_TaskGroups.erase( m_TaskGroups.begin() + 1 );
-    }
-
-    // If something is selected create the tasks and controls
-	if (m_pGridPane->GetSelectedRows2().size()==1) {
-        if (project) {
-            // Create the web sites task group
-            pGroup = new CTaskItemGroup( _("Web sites") );
-            m_TaskGroups.push_back( pGroup );
-
-            // Default project url
-            pItem = new CTaskItem(
-                wxString(project->project_name.c_str(), wxConvUTF8),
-                wxT(""),
-                wxString(project->master_url.c_str(), wxConvUTF8),
-                ID_TASK_PROJECT_WEB_PROJDEF_MIN
-            );
-            pGroup->m_Tasks.push_back(pItem);
-
-
-            // Project defined urls
-            for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
+                // Default project url
                 pItem = new CTaskItem(
-                    wxGetTranslation(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)),
-                    wxGetTranslation(wxString(project->gui_urls[i].description.c_str(), wxConvUTF8)),
-                    wxString(project->gui_urls[i].url.c_str(), wxConvUTF8),
-                    ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
+                    wxString(project->project_name.c_str(), wxConvUTF8),
+                    wxT(""),
+                    wxString(project->master_url.c_str(), wxConvUTF8),
+                    ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
                 pGroup->m_Tasks.push_back(pItem);
+
+
+                // Project defined urls
+                for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
+                    pItem = new CTaskItem(
+                        wxGetTranslation(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)),
+                        wxGetTranslation(wxString(project->gui_urls[i].description.c_str(), wxConvUTF8)),
+                        wxString(project->gui_urls[i].url.c_str(), wxConvUTF8),
+                        ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
+                    );
+                    pGroup->m_Tasks.push_back(pItem);
+                }
             }
         }
+
+        m_bForceUpdateSelection = false;
     }
 }
 

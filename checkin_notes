@@ -2362,3 +2362,12 @@ David  Mar 13 2008
         transitioner.C
         validate_util2.C,h
         validator.C
+
+Charlie Mar 13 2008
+    MGR: Fix flicker in projects tab website buttons.
+    API: fix a compiler warning which was an actual logic error.
+    
+    clientgui/
+        ViewProjectsGrid.cpp
+    api/
+        texfont.C
