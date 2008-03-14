@@ -20,7 +20,7 @@ function show_participant() {
         <table cellpadding=8>
         <tr><td class=fieldname>
         <center>
-        <span class=section_title>Featured volunteer</span>
+        <span class=section_title>Computing power</span>
         <br>
         <a class=heading href=chart_list.php><b>Top 100</a>
         &middot; <a class=heading href=http://boinc.netsoft-online.com/e107_plugins/boinc/u_rank.php?list=tc_p1c1><b>Single-computer</a>
@@ -29,8 +29,32 @@ function show_participant() {
         </td></tr>
         <tr><td>
     ";
+    show_totals();
     include("piecharts/$i.html");
     echo "</td></tr></table>";
+}
+
+function show_totals() {
+    $fn = "boinc_state.xml";
+    if (!file_exists($fn) || filemtime($fn) < time()-86400) {
+        $x = file_get_contents("http://www.boincstats.com/xml/boinc_state.php");
+        if ($x) {
+            $f = fopen($fn, "w");
+            fwrite($f, $x);
+        } else return;
+    }
+    $x = file_get_contents($fn);
+    $users = parse_element($x, "<participants_active>");
+    $hosts = parse_element($x, "<hosts_active>");
+    $credit_day = parse_element($x, "<credit_day>");
+    $users = number_format($users);
+    $hosts = number_format($hosts);
+
+    $teraflops = number_format($credit_day/100000, 2);
+    echo "Active: $users volunteers, $hosts computers.
+        <br>Average: $teraflops TeraFLOPS over last 24 hours.
+        <hr size=1 width=80%>
+    ";
 }
 
 function show_news_items() {

@@ -2387,3 +2387,11 @@ David  Mar 14 2008
 
     lib/
         app_ipc.C,h
+
+David  Mar 14 2008
+    - web: fixed bugs in Bulgarian translation file
+
+    html/inc/
+        translation.inc
+    languages/translations/
+        bg.po

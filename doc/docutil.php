@@ -212,4 +212,18 @@ function show_link($url) {
     echo "<br><a href=$url>$url</a>";
 }
 
+function parse_element($xml, $tag) {
+    $element = null;
+    $closetag = "</" . substr($tag,1);
+    $x = strstr($xml, $tag);
+    if ($x) {
+        if (strstr($tag, "/>")) return $tag;
+        $y = substr($x, strlen($tag));
+        $n = strpos($y, $closetag);
+        if ($n) {
+            $element = substr($y, 0, $n);
+        }
+    }
+    return trim($element);
+}
 ?>

@@ -37,8 +37,8 @@ $biomed = array(
         ),
         array(
             "Predictor@home",
-            "http://predictor.scripps.edu/",
-            "Scripps Research Institute",
+            "http://predictor.chem.lsa.umich.edu/",
+            "University of Michigan",
             "Biology",
             "Protein structure prediction starts from a sequence of amino acids and attempts to predict the folded, functioning, form of the protein.  Predicting the structure of an unknown protein is a critical problem in enabling structure-based drug design to treat new and existing diseases.",
             "predictor.jpg"

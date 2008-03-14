@@ -416,7 +416,9 @@ function language_log($message, $loglevel=0){
     }
 }
 
-if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_translations_dir, $lang_compiled_dir) || get_str("compile_languages",true)){
+$compile_languages = false;
+if (isset($_GET['compile_languages'])) $compile_languages = true;
+if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_translations_dir, $lang_compiled_dir) || $compile_languages){
     buildLanguages($lang_language_dir,$lang_translations_dir,$lang_prj_translations_dir, $lang_compiled_dir);
 }
 
