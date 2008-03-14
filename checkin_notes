@@ -588,3 +588,10 @@ Rom    13 Mar 2008
 
     example_app/
         uc2_graphics.C
+
+David  14 Mar 2008
+    - added example multi-thread application
+
+    multi_thread/
+        Makefile
+        multi_thread.C
