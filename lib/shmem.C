@@ -66,14 +66,15 @@ extern "C" int debug_printf(const char *fmt, ...);
 
 HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview) {
     HANDLE hMap = NULL;
-    DWORD  dwError = 0;
-    DWORD dwRes;
+    DWORD dwError = 0;
+    DWORD dwRes = 0;
     PSID pEveryoneSID = NULL;
     PACL pACL = NULL;
     PSECURITY_DESCRIPTOR pSD = NULL;
     EXPLICIT_ACCESS ea;
     SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
     SECURITY_ATTRIBUTES sa;
+    char global_shmem_name[256];
 
     // Create a well-known SID for the Everyone group.
     if(!AllocateAndInitializeSid(&SIDAuthWorld, 1,
@@ -134,8 +135,25 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
 
     // Use the security attributes to set the security descriptor
     // when you create a shared file mapping.
-    hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, seg_name);
+
+    // The 'Global' prefix must be included in the shared memory
+    // name if the shared memory segment is going to cross
+    // terminal server session boundries.
+    //
+    sprintf(global_shmem_name, "Global\\%s", shmem_name);
+
+    // Try using 'Global' so that it can cross terminal server sessions
+    //
+    hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, global_shmem_name);
     dwError = GetLastError();
+    if (!hMap && (ERROR_ACCESS_DENIED == dwError)) {
+        // Couldn't use the 'Global' tag, so just attempt to use the original
+        // name.
+        //
+        hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, shmem_name);
+        dwError = GetLastError();
+    }
+
     if (disable_mapview && (NULL != hMap) && (ERROR_ALREADY_EXISTS == dwError)) {
         CloseHandle(hMap);
         hMap = NULL;
@@ -159,8 +177,23 @@ Cleanup:
 
 HANDLE attach_shmem(LPCTSTR seg_name, void** pp) {
     HANDLE hMap;
+    char global_shmem_name[256];
 
-    hMap = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, seg_name);
+    // The 'Global' prefix must be included in the shared memory
+    // name if the shared memory segment is going to cross
+    // terminal server session boundries.
+    //
+    sprintf(global_shmem_name, "Global\\%s", shmem_name);
+
+    // Try using 'Global' so that it can cross terminal server sessions
+    //
+    hMap = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, global_seg_name);
+    if (!hMap) {
+        // Couldn't use the 'Global' tag, so just attempt to use the original
+        // name.
+        //
+        hMap = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, seg_name);
+    }
     if (!hMap) return NULL;
 
     if (pp) *pp = MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);

@@ -2371,3 +2371,13 @@ Charlie Mar 13 2008
         ViewProjectsGrid.cpp
     api/
         texfont.C
+
+Rom    Mar 13 2008
+    - API: Attempt to use the 'Global' tag first, if the API
+        returns an ERROR_ACCESS_DENIED error code fallback
+        to the original shmem_name.
+        
+    api/
+        graphics2_util.C
+    lib/
+        shmem.C
