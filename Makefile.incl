@@ -9,8 +9,6 @@ PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 
 RSA_LIBS = -lcrypto
-SCHED_LIB = -L$(top_builddir)/sched -lsched
-BOINC_LIB = -L$(top_builddir)/lib -lboinc
 
 AM_CPPFLAGS =					\
         -I$(top_srcdir)/lib			\
@@ -19,22 +17,19 @@ AM_CPPFLAGS =					\
         -I$(top_srcdir)/client			\
         -I$(top_srcdir)/tools			\
         -I$(top_srcdir)/sched			\
-        -I$(top_srcdir)/lib/mac			\
-        $(MYSQL_CFLAGS)				\
-        $(PTHREAD_CFLAGS)
-
-AM_CFLAGS = $(AM_CPPFLAGS)
-AM_CXXFLAGS = $(AM_CPPFLAGS)
-AM_LDFLAGS = -L../lib
+        -I$(top_srcdir)/lib/mac
 
 # dependencies to make sure libs gets compiled before
 # programs linking to them:
 
-LIBSCHED = $(top_builddir)/libsched.a
+LIBSCHED = $(top_builddir)/sched/libsched.a
 $(LIBSCHED):
 	cd $(top_builddir)/sched; ${MAKE} libsched.a
 
-LIBBOINC = $(top_builddir)/libboinc.a
+LIBBOINC = $(top_builddir)/lib/libboinc.a
 $(LIBBOINC):
 	cd $(top_builddir)/lib; ${MAKE} libboinc.a
 
+LIBAPI = = $(top_builddir)/api/libboinc_api.a
+$(LIBAPI):
+	cd $(top_builddir)/api; ${MAKE} libboinc_api.a

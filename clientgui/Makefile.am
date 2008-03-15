@@ -110,7 +110,7 @@ EXTRA_DIST = *.h \
 
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
-boinc_gui_LDADD = -L../lib -lboinc $(CLIENTGUILIBS)
+boinc_gui_LDADD = $(LIBBOINC) $(CLIENTGUILIBS)
 
 all-local: client_gui-bin
 client_gui-bin: @CLIENT_GUI_BIN_FILENAME@

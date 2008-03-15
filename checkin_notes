@@ -2404,3 +2404,20 @@ Rom    Mar 14 2008
         MainDocument.cpp
     clientscr/
         screensaver.cpp
+
+Reinhard Mar 15 2008
+     - fixed internal library dependencies in Makefile.am's
+
+     Makefile.incl
+     clientgui/
+        Makefile.am
+     tools/
+        Makefile.am
+     apps/
+        Makefile.am
+     client/
+        Makefile.am
+     sched/
+        Makefile.am
+     api/
+        Makefile.am
