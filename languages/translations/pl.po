@@ -464,7 +464,7 @@ msgstr "W Windowsie czasami się zdarza, że instalacja Menadżera BOINC kończy
     "ze strony Microsoftu i uruchom go. "
     "Stara wersja BOINC będzie pokazana jako BOINC [wersja] lub jako "
     "uszkodzona instalacja (na samej górze okna). "
-    "Wybierz starą wersję, następnie kliknij "Remove" i "Exit". "
+    "Wybierz starą wersję, następnie kliknij 'Remove' i 'Exit'. "
     "Zrestartuj swój komputer. "
     "Zainstaluj nową wersję. "
     "(Uwaga: zostaw wszystkie informacje o pozostałych programach, "

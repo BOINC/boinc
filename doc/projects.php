@@ -25,6 +25,9 @@ read its web site and consider the following questions:
   Will they be freely available to the public
   or will they belong to a for-profit business?
 </ul>
+A list of scientific publications of BOINC-based projects is
+<a href=http://boinc.berkeley.edu/trac/wiki/ProjectPapers>here</a>.
+<p>
 
 The following list of projects is provided for your information;
 they are not endorsed by BOINC or U.C. Berkeley.

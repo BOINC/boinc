@@ -2421,3 +2421,9 @@ Reinhard Mar 15 2008
         Makefile.am
      api/
         Makefile.am
+
+David  Mar 16 2008
+    - compile fix
+
+    clientgui/
+        ViewWorkGrid.cpp

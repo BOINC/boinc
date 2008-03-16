@@ -52,7 +52,7 @@ function show_totals() {
 
     $teraflops = number_format($credit_day/100000, 2);
     echo "Active: $users volunteers, $hosts computers.
-        <br>Average: $teraflops TeraFLOPS over last 24 hours.
+        <br>24-hour average: $teraflops TeraFLOPS.
         <hr size=1 width=80%>
     ";
 }
