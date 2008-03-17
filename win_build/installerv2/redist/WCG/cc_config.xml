@@ -5,3 +5,5 @@
         <dont_contact_ref_site>1</dont_contact_ref_site>
     </options>
 </cc_config>
+<!-- View http://boinc.berkeley.edu/trac/wiki/ClientMessages for full set of
+   options and some explanations -->
