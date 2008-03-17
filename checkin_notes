@@ -2427,3 +2427,9 @@ David  Mar 16 2008
 
     clientgui/
         ViewWorkGrid.cpp
+
+Charlie Mar 17 2008
+    - compile fix
+
+    clientscr/
+        screensaver.cpp

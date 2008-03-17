@@ -183,10 +183,10 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
             0,
             graphics_application
         );
+#endif
     } else {
         // V5 and Older
         DISPLAY_INFO di;
-
 #ifdef _WIN32
         graphics_application = NULL;
 
