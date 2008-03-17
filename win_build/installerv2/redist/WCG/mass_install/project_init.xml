@@ -1,0 +1,8 @@
+<project_init>
+    <url>http://www.worldcommunitygrid.org/</url>
+    <name>World Community Grid</name>
+    <account_key>place your account key here</account_key>
+</project_init>
+<!-- Make sure you put your account key in the spot for it above.  You can find
+   your account key at: https://secure.worldcommunitygrid.org/ms/viewMyProfile.do
+   towards the bottom of the page -->
