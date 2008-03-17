@@ -22,7 +22,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -104,7 +104,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -132,7 +131,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -185,7 +184,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_WCG"
+				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
@@ -212,7 +211,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -240,7 +238,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -293,7 +291,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_WCG"
+				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
@@ -320,7 +318,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -349,7 +346,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -431,7 +428,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -459,7 +455,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -539,7 +535,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -567,7 +562,7 @@
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -647,7 +642,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="vistaadminrequiredui.xml"
 				EmbedManifest="true"
 			/>
 			<Tool
@@ -667,7 +661,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -898,7 +891,7 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp"
+				RelativePath="..\clientscr\res\boinc.bmp"
 				>
 			</File>
 			<File
@@ -960,19 +953,15 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\res\cpdnbbc.bmp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\win\res\cpdnbbc.ico"
-				>
-			</File>
-			<File
 				RelativePath="..\client\win\res\gridrepublic.bmp"
 				>
 			</File>
 			<File
 				RelativePath="..\client\win\res\gridrepublic.ico"
+				>
+			</File>
+			<File
+				RelativePath="..\clientscr\res\icon.ico"
 				>
 			</File>
 			<File
