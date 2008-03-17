@@ -258,7 +258,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;_WCG"
 				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."
 			/>
 			<Tool

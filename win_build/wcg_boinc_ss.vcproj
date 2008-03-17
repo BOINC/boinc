@@ -291,7 +291,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;_WCG"
 				Culture="1033"
 				AdditionalIncludeDirectories=".."
 			/>
