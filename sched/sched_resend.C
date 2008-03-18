@@ -142,8 +142,8 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.wreq.core_client_version =
             sreq.core_client_major_version*100 + sreq.core_client_minor_version;
 
-        retval = get_app_version(wu, app, avp, sreq, reply);
-        if (retval) {
+        found = get_app_version(sreq, reply, wu, app, avp);
+        if (!found) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] no app version [RESULT#%d]\n",
                 reply.host.id, result.id

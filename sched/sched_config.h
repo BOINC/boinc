@@ -118,6 +118,10 @@ public:
     int max_ncpus;
     vector<regex_t> ban_os;
     vector<regex_t> ban_cpu;
+    // log flags
+    //
+    bool debug_version_select;
+    bool debug_assignment;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

@@ -14,6 +14,8 @@
  * @(#) $Id$
 \***********************************************************************/
 
+// TODO: rewrite this using the new DB interface
+
 require_once('../inc/util_ops.inc');
 
 db_init();
@@ -27,7 +29,7 @@ for($i=0;$i<=$Nplatform;$i++){
     $id=$item->id;
     $plat_off[$id]=$item->deprecated; 
     $platform[$id]=$item->user_friendly_name;
- }
+}
 mysql_free_result($result);
 
 
@@ -38,7 +40,7 @@ for($i=0;$i<=$Napp;$i++){
     $id=$item->id;
     $app_off[$id]=$item->deprecated; 
     $app[$id]=$item->name;
- }
+}
 mysql_free_result($result);
 
 $commands="";
@@ -58,7 +60,7 @@ if( !empty($_POST) ) {
 
         /* Delete this entry? */
         $field="delete_".$id; 
-        if( $_POST[$field]=='DELETE' ) {
+        if ($_POST[$field]=='DELETE' ) {
             $cmd =  "DELETE FROM app_version WHERE id=$id";
             $commands .= "<P><pre>$cmd</pre>\n";
             mysql_query($cmd);
@@ -69,7 +71,7 @@ if( !empty($_POST) ) {
         $field="deprecated_".$id;
         $new_v= ($_POST[$field]=='on') ? 1 : 0;
         $old_v=$item->deprecated;
-        if($new_v != $old_v ) {
+        if ($new_v != $old_v ) {
             $cmd =  "UPDATE app_version SET deprecated=$new_v WHERE id=$id";
             $commands .= "<P><pre>$cmd</pre>\n";
             mysql_query($cmd);
@@ -79,7 +81,7 @@ if( !empty($_POST) ) {
         $field="min_core_version_".$id;
         $new_v= $_POST[$field];
         $old_v=$item->min_core_version;
-        if($new_v != $old_v ) {
+        if ($new_v != $old_v ) {
             $cmd =  "UPDATE app_version SET min_core_version=$new_v WHERE id=$id";
             $commands .= "<P><pre>$cmd</pre>\n";
             mysql_query($cmd);
@@ -96,7 +98,8 @@ if( !empty($_POST) ) {
         }
     }
     mysql_free_result($result);
- }
+    touch("../../reread_db");
+}
 
 
 /***************************************************\
@@ -174,16 +177,17 @@ for($j=1;$j<=$Nrow;$j++){
     echo "  <TD align='center'>
     <input type='text' size='6' name='$field' value=''></TD>\n";
     echo "</tr> "; 
- }
+}
 mysql_free_result($result);
 
 
 echo "<tr><td colspan=6><font color='RED'><sup>*</sup>
-              To delete an entry you must enter 'DELETE' in this field.
-              </font></td>
-          <td align='center' colspan=2 bgcolor='#FFFF88'>
-              <input type='submit' value='Update'></td>
-    </tr>\n";
+    To delete an entry you must enter 'DELETE' in this field.
+    </font></td>
+    <td align='center' colspan=2 bgcolor='#FFFF88'>
+    <input type='submit' value='Update'></td>
+    </tr>
+";
 
 end_table();
 

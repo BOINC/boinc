@@ -2457,3 +2457,24 @@ Rom    Mar 18 2008
         ViewProjectsGrid.cpp
         ViewTransfersGrid.cpp
         ViewWorkGrid.cpp
+
+David  Mar 18 2008
+    - admin web: touch reread_db in manage_app_versions.php
+    - DB code: remove "is_high_priority" stuff.
+    - scheduler: merge find_app_version() into get_app_version().
+        Have the latter memoize its results (both positive and negative).
+        Have it call app_plan() for apps with nonempty plan_class.
+    - scheduler: first steps towards improved selectability of log messages.
+        It will eventually be like the client,
+        where you can select among various types of messages.
+    - feeder: if can't unlink the reread_db trigger file, exit
+        (else we'd go into an infinite loop)
+        
+    db/
+        db_base.C,h
+    html/ops/
+        manage_app_versions.php
+    sched/
+        Makefile.am
+        feeder.C
+        sched_*.C

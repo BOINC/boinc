@@ -282,17 +282,20 @@ static int possibly_send_result(
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    retval = get_app_version(wu, app, avp, sreq, reply);
+    bool found = get_app_version(sreq, reply, wu, app, avp);
 
-    if (retval==ERR_NO_APP_VERSION && anonymous(sreq.platforms.list[0])) {
+    if (!found && anonymous(sreq.platforms.list[0])) {
         char help_msg_buf[512];
-        sprintf(help_msg_buf, "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.", config.long_name);
+        sprintf(help_msg_buf,
+            "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.",
+            config.long_name
+        );
         USER_MESSAGE um(help_msg_buf, "high");
         reply.insert_message(um);
         reply.set_delay(DELAY_ANONYMOUS);
     }
 
-    if (retval) return ERR_NO_APP_VERSION;
+    if (!found) return ERR_NO_APP_VERSION;
 
     // wu_is_infeasible() returns the reason why the WU is not feasible;
     // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.

@@ -76,6 +76,7 @@ cgi_SOURCES = \
     sched_resend.C \
     sched_locality.C \
     sched_result.C \
+    sched_plan.C \
     sched_send.C \
     sched_timezone.C \
     server_types.C \
@@ -162,6 +163,7 @@ fcgi_SOURCES = \
     sched_msgs.C \
     sched_resend.C \
     sched_result.C \
+    sched_plan.C \
     sched_send.C \
     sched_shmem.C \
     sched_timezone.C \

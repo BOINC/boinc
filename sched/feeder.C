@@ -162,7 +162,14 @@ int check_reread_trigger() {
         );
         ssp->init(num_work_items);
         ssp->scan_tables();
-        unlink(REREAD_DB_FILENAME);
+        int retval = unlink(REREAD_DB_FILENAME);
+        if (retval) {
+            // if we can't remove trigger file, exit to avoid infinite loop
+            //
+            log_messages.printf(MSG_CRITICAL,
+                "Can't unlink trigger file; exiting\n"
+            );
+        }
         log_messages.printf(MSG_NORMAL,
             "Done re-scanning: trigger file removed.\n"
         );

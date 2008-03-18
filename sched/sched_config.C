@@ -59,6 +59,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     fuh_debug_level = MSG_NORMAL;
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
+    debug_version_select = false;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
@@ -181,6 +182,8 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
+        if (xp.parse_bool(tag, "debug_version_select", debug_version_select)) continue;
+        if (xp.parse_bool(tag, "debug_assignment", debug_assignment)) continue;
 
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about

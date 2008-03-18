@@ -122,29 +122,11 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
 
-        // Find the app and app_version for the client's platform.
-        // If none, treat the WU as infeasible
+        // Find the app and best app_version for this host.
         //
-        if (anonymous(sreq.platforms.list[0])) {
-            app = ssp->lookup_app(wu.appid);
-            found = sreq.has_version(*app);
-            if (!found) {
-                continue;
-            }
-            avp = NULL;
-        } else {
-            found = find_app_version(sreq, reply, wu, app, avp);
-            if (!found) {
-                continue;
-            }
-
-            // see if the core client is too old.
-            // don't bump the infeasible count because this
-            // isn't the result's fault
-            //
-            if (!app_core_compatible(reply.wreq, *avp)) {
-                continue;
-            }
+        found = get_app_version(sreq, reply, wu, app, avp);
+        if (!found) {
+            continue;
         }
 
         // End of fast checks;

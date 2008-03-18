@@ -71,17 +71,19 @@ struct USER_MESSAGE {
     USER_MESSAGE(const char* m, const char*p);
 };
 
+struct HOST_USAGE {
+    COPROCS coprocs;
+    double ncpus;
+    double flops;
+    char opaque[256];
+};
+
 // keep track of the best app_version for each app for this host
 //
 struct BEST_APP_VERSION {
     int appid;
     APP_VERSION* avp;       // NULL if none exists
-#if 0
-    COPROCS coprocs;
-    double ncpus;
-    double flops;
-    char opaque[256];
-#endif
+    HOST_USAGE host_usage;
 };
 
 // summary of a client's request for work, and our response to it

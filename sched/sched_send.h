@@ -17,11 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-extern int get_app_version(
-    WORKUNIT& wu, APP* &app, APP_VERSION* &avp,
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
-);
-
 extern void send_work(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern int add_result_to_reply(
@@ -31,7 +26,7 @@ extern int add_result_to_reply(
 
 extern bool anonymous(PLATFORM*);
 
-extern bool find_app_version(
+extern bool get_app_version(
     SCHEDULER_REQUEST&, SCHEDULER_REPLY&, WORKUNIT&, APP*&, APP_VERSION*&
 );
 

@@ -68,7 +68,7 @@ static int send_assigned_job(
         );
         return ERR_NOT_FOUND;
     }
-    bool found = find_app_version(request, reply, wu, app, avp);
+    bool found = get_app_version(request, reply, wu, app, avp);
     if (!found) {
         log_messages.printf(MSG_CRITICAL,
             "App version for assigned WU not found\n"
@@ -125,9 +125,11 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
     for (int i=0; i<ssp->nassignments; i++) {
         ASSIGNMENT& asg = ssp->assignments[i];
 
-        log_messages.printf(MSG_NORMAL,
-            "processing assignment type %d\n", asg.target_type
-        );
+        if (config.debug_assignment) {
+            log_messages.printf(MSG_DEBUG,
+                "processing assignment type %d\n", asg.target_type
+            );
+        }
         // see if this assignment applies to this host
         //
         if (asg.resultid) continue;

@@ -128,7 +128,6 @@ int DB_CONN::rollback_transaction() {
 }
 
 DB_BASE::DB_BASE(const char *tn, DB_CONN* p) : db(p), table_name(tn) {
-    is_high_priority = false;
 }
 
 int DB_BASE::get_id() { return 0;}
@@ -228,11 +227,7 @@ int DB_BASE::lookup(const char* clause) {
     MYSQL_ROW row;
     MYSQL_RES* rp;
 
-    if (is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY * from %s %s", table_name, clause);
-    } else {
-        sprintf(query, "select * from %s %s", table_name, clause);
-    }
+    sprintf(query, "select * from %s %s", table_name, clause);
 
     retval = db->do_query(query);
     if (retval) return retval;
@@ -251,11 +246,7 @@ int DB_BASE::lookup_id(int id) {
     MYSQL_ROW row;
     MYSQL_RES* rp;
 
-    if (is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY * from %s where id=%d", table_name, id);
-    } else {
-        sprintf(query, "select * from %s where id=%d", table_name, id);
-    }
+    sprintf(query, "select * from %s where id=%d", table_name, id);
 
     retval = db->do_query(query);
     if (retval) return retval;
@@ -278,11 +269,7 @@ int DB_BASE::enumerate(const char* clause, bool use_use_result) {
     if (!cursor.active) {
         cursor.active = true;
 
-        if (is_high_priority) {
-            sprintf(query, "select HIGH_PRIORITY * from %s %s", table_name, clause);
-        } else {
-            sprintf(query, "select * from %s %s", table_name, clause);
-        }
+        sprintf(query, "select * from %s %s", table_name, clause);
 
         x = db->do_query(query);
         if (x) return mysql_errno(db->mysql);
@@ -357,11 +344,7 @@ int DB_BASE::get_double(const char* query, double& x) {
 int DB_BASE::count(int& n, const char* clause) {
     char query[MAX_QUERY_LEN];
 
-    if (is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY count(*) from %s %s", table_name, clause);
-    } else {
-        sprintf(query, "select count(*) from %s %s", table_name, clause);
-    }
+    sprintf(query, "select count(*) from %s %s", table_name, clause);
 
     return get_integer(query, n);
 }
@@ -375,11 +358,7 @@ int DB_BASE::max_id(int& n, const char* clause) {
 int DB_BASE::sum(double& x, const char* field, const char* clause) {
     char query[MAX_QUERY_LEN];
 
-    if (is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY sum(%s) from %s %s", field, table_name, clause);
-    } else {
-        sprintf(query, "select sum(%s) from %s %s", field, table_name, clause);
-    }
+    sprintf(query, "select sum(%s) from %s %s", field, table_name, clause);
 
     return get_double(query, x);
 }

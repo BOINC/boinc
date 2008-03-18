@@ -108,7 +108,6 @@ public:
     int get_double(const char* query, double&);
     int get_integer(const char* query, int&);
     int affected_rows();
-    bool is_high_priority;
 
     DB_CONN* db;
     const char *table_name;
