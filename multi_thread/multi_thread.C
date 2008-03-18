@@ -43,7 +43,7 @@
 
 using std::vector;
 
-#define DEFAULT_NTHREADS 4
+#define DEFAULT_NTHREADS 1
 #define TOTAL_GFLOPS 64
 
 int gflops_per_thread;
@@ -157,6 +157,7 @@ int main(int argc, char** argv) {
     BOINC_STATUS status;
     APP_INIT_DATA aid;
     int nthreads = DEFAULT_NTHREADS;
+    double start_time = dtime();
 
     boinc_options_defaults(options);
     options.direct_process_action = false;
@@ -184,7 +185,11 @@ int main(int argc, char** argv) {
         }
         boinc_sleep(0.1);
     }
-    printf("All done.\n");
+    double elapsed_time = dtime()-start_time;
+    fprintf(stderr,
+        "All done.  Used %d threads.  Elapsed time %f\n",
+        nthreads, elapsed_time
+    );
     boinc_finish(0);
 }
 

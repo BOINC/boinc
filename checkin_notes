@@ -604,3 +604,9 @@ David  14 Mar 2008
     win_build/
         multi_thread.vcproj (new)
         samples.sln
+
+David  17 Mar 2007
+    - multi_thread: default to 1 thread; print to stderr at end
+
+    multi_thread/
+        multi_thread.C
