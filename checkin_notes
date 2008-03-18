@@ -2433,3 +2433,14 @@ Charlie Mar 17 2008
 
     clientscr/
         screensaver.cpp
+
+Rom    Mar 18 2008
+    - MGR: Fix a crash in the simple GUI.
+        NOTE: Do not use the at() function on a vector unless you
+        also use a try/catch handler.
+    - MGR: Remove code duplication 
+      
+    clientgui/
+        sg_ClientStateIndicator.h
+        sg_ProgressBar.cpp, .h
+        sg_ViewTabPage.cpp

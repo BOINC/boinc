@@ -31,14 +31,13 @@ class CProgressBar : public wxPanel
 public: 
 		int indicatorWidth;
 		int indicatorHeight;
-		double numOfIndic;
+		int numOfIndic;
 		int rightPosition;
 	    int topPosition;
 		std::vector<ImageLoader*> m_progInd;
 	    /// Constructors
 	    CProgressBar(wxPanel* parent, wxPoint coord); 
 		void SetValue(double progress);
-		void UpdateValue(double progress);
 		void ReskinInterface();
 		void LoadIndicators();
 private: 

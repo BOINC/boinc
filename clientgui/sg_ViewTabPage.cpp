@@ -265,7 +265,7 @@ void CViewTabPage::UpdateInterface()
 
 	wxString strBuffer = wxEmptyString;
 	//Gauge
-	gaugeWUMain->UpdateValue(floor(resultWU->fraction_done * 100000)/1000);
+	gaugeWUMain->SetValue(floor(resultWU->fraction_done * 100000)/1000);
 	//percent
 	percNum = (wxFloat64)(floor(resultWU->fraction_done * 100000)/1000);
     percStr.Printf(_("%.1lf"), percNum);

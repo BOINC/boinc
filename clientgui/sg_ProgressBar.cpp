@@ -52,16 +52,19 @@ CProgressBar::CProgressBar(wxPanel* parent,wxPoint coord) : wxPanel(parent, wxID
 
 void CProgressBar::LoadIndicators() {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+	int indIndex = 0;
+    int indSize = 0;
+	int x_pos;
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
-	// Remove any currently loaded
-	int indIndex = 0;
-	int x_pos;
     wxLogTrace(wxT("Function Start/End"), wxT("CProgressBar::LoadIndicators - Function Start"));
-	for(indIndex = (int) m_progInd.size()-1; indIndex >= 0; indIndex--){
-		delete m_progInd.at(indIndex);
+
+	// Remove any currently loaded
+    indSize = (int)m_progInd.size();
+	for(indIndex = 0; indIndex < indSize; indIndex++){
+		delete m_progInd[indIndex];
 	}
     m_progInd.clear();
 
@@ -79,34 +82,17 @@ void CProgressBar::LoadIndicators() {
 }
 void CProgressBar::SetValue(double progress)
 {
-	int numOfProgressInd = (int)(progress /(100/numOfIndic));
 	int indIndex = 0;
-	
+	int numOfProgressInd = (int)(progress/(100/numOfIndic));
+
+    if (numOfProgressInd < 0) numOfProgressInd = 0;
+    if (numOfProgressInd > numOfIndic) numOfProgressInd = numOfIndic;
+
 	for(indIndex = 0; indIndex < numOfIndic; indIndex++){
-		ImageLoader *i_ind = m_progInd.at(indIndex);
+		ImageLoader *i_ind = m_progInd[indIndex];
 		if ( indIndex + 1 <= numOfProgressInd ) {
 			i_ind->Show(true);
 		} else {
-			i_ind->Show(false);
-		}
-	}
-
-	m_progress = progress;
-	m_numOfProgressInd = numOfProgressInd;
-}
-void CProgressBar::UpdateValue(double progress)
-{	
-	int indIndex = 0;
-	int numOfProgressInd = (int)(progress /(100./(double)numOfIndic));
-
-	if ( numOfProgressInd > m_numOfProgressInd ) {
-		for(indIndex=m_numOfProgressInd; indIndex < numOfProgressInd; indIndex++) {
-			ImageLoader *i_ind = m_progInd.at(indIndex);
-			i_ind->Show(true);
-		}
-	} else if ( numOfProgressInd < m_numOfProgressInd ) {
-		for(indIndex=m_numOfProgressInd - 1; indIndex > numOfProgressInd - 1; indIndex--) {
-			ImageLoader *i_ind = m_progInd.at(indIndex);
 			i_ind->Show(false);
 		}
 	}

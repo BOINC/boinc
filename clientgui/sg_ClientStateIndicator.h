@@ -32,7 +32,7 @@ class ClientStateIndicator : public wxPanel{
 public: 
 		int connIndicatorWidth;
 		int connIndicatorHeight;
-		double numOfIndic;
+		int numOfIndic;
 		int rightPosition;
 	    int topPosition;
 		int indexIndVis;
