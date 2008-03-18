@@ -225,7 +225,7 @@ void CBOINCGridCtrl::SaveSelection() {
 /* select all rows, that were formerly selected
    this raises selection events without user interaction */
 void CBOINCGridCtrl::RestoreSelection() {
-        BeginBatch();       // To prevent flicker
+    BeginBatch();       // To prevent flicker
 	ClearSelection();
 	for(unsigned int i=0;i < m_arrSelectedKeys1.size();i++) {
 		int index = GetTable()->FindRowIndexByColValue(
@@ -235,7 +235,7 @@ void CBOINCGridCtrl::RestoreSelection() {
 			SelectRow(index,true);
 		}
 	}
-        EndBatch();
+    EndBatch();
 }
 
 void CBOINCGridCtrl::SaveGridCursorPosition() {

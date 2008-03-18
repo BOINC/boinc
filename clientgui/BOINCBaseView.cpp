@@ -46,6 +46,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_bProcessingListRenderEvent = false;
 
     m_bForceUpdateSelection = true;
+    m_bIgnoreUIEvents = false;
 
     //
     // Setup View
@@ -69,6 +70,7 @@ CBOINCBaseView::CBOINCBaseView(
     m_bProcessingListRenderEvent = false;
 
     m_bForceUpdateSelection = true;
+    m_bIgnoreUIEvents = false;
 
     //
     // Setup View
@@ -290,9 +292,11 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
 
-    m_bForceUpdateSelection = true;
-    UpdateSelection();
-    event.Skip();
+    if (!m_bIgnoreUIEvents) {
+        m_bForceUpdateSelection = true;
+        UpdateSelection();
+        event.Skip();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function End"));
 }
@@ -301,9 +305,11 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
 
-    m_bForceUpdateSelection = true;
-    UpdateSelection();
-    event.Skip();
+    if (!m_bIgnoreUIEvents) {
+        m_bForceUpdateSelection = true;
+        UpdateSelection();
+        event.Skip();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function End"));
 }
@@ -327,9 +333,11 @@ wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long WXUNUSED(item)) const {
 void CBOINCBaseView::OnGridSelectCell( wxGridEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectCell - Function Begin"));
 
-	m_bForceUpdateSelection = true;
-    UpdateSelection();
-    event.Skip();
+    if (!m_bIgnoreUIEvents) {
+	    m_bForceUpdateSelection = true;
+        UpdateSelection();
+        event.Skip();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectCell - Function End"));
 }
@@ -337,9 +345,11 @@ void CBOINCBaseView::OnGridSelectCell( wxGridEvent& event ) {
 void CBOINCBaseView::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectRange - Function Begin"));
 
-    m_bForceUpdateSelection = true;
-    UpdateSelection();
-	event.Skip();
+    if (!m_bIgnoreUIEvents) {
+        m_bForceUpdateSelection = true;
+        UpdateSelection();
+	    event.Skip();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectRange - Function End"));
 }

@@ -295,7 +295,9 @@ void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
         wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
 
+    m_bIgnoreUIEvents = true;
     m_pGridPane->SaveSelection();
+    m_bIgnoreUIEvents = false;
 
 	//update cell values (unsorted, like delivered from core client)
 	wxString strBuffer;
@@ -331,7 +333,10 @@ void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
     //sorting
 	m_pGridPane->SortData();
 
+    m_bIgnoreUIEvents = true;
     m_pGridPane->RestoreSelection();
+    m_bIgnoreUIEvents = false;
+
     UpdateSelection();
 }
 

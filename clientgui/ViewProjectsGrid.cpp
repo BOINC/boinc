@@ -231,7 +231,7 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Updating project..."));
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     for(i=0; i<n; i++) {
         strProjectURL = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_HIDDEN_URL);
 
@@ -264,7 +264,7 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pGridPane);
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     for(i=0; i<n; i++) {
         strProjectURL = 
             HtmlEntityEncode(
@@ -308,7 +308,7 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pGridPane);
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     for(i=0; i<n; i++) {
         strProjectURL = 
             HtmlEntityEncode(
@@ -362,7 +362,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Resetting project..."));
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     for(i=0; i<n; i++) {
         strProjectName = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_PROJECT);
         strProjectURL = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_HIDDEN_URL);
@@ -417,7 +417,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Detaching from project..."));
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     for(i=0; i<n; i++) {
         strProjectName = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_PROJECT);
         strProjectURL = m_pGridPane->GetCellValue(arrSelRows[i], COLUMN_HIDDEN_URL);
@@ -523,7 +523,7 @@ void CViewProjectsGrid::UpdateSelection() {
     pGroup = m_TaskGroups[0];
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     
     if (n > 0) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
@@ -600,6 +600,7 @@ void CViewProjectsGrid::UpdateSelection() {
     }
 
     CBOINCBaseView::PostUpdateSelection();
+
     m_bForceUpdateSelection=false;
 }
 
@@ -632,7 +633,7 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
         }
 
         // If something is selected create the tasks and controls
-            if (m_pGridPane->GetSelectedRows2().size()==1) {
+        if (m_pGridPane->GetSelectedRows2().size() == 1) {
             if (project) {
                 // Create the web sites task group
                 pGroup = new CTaskItemGroup( _("Web sites") );
@@ -857,7 +858,9 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
 
+    m_bIgnoreUIEvents = true;
     m_pGridPane->SaveSelection();
+    m_bIgnoreUIEvents = false;
 
     wxString strBuffer;
     int iMax = m_pGridPane->GetNumberRows();
@@ -908,7 +911,10 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     m_pGridPane->SortData();
 
+    m_bIgnoreUIEvents = true;
     m_pGridPane->RestoreSelection();
+    m_bIgnoreUIEvents = false;
+
     UpdateSelection();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function End"));

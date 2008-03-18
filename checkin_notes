@@ -2444,3 +2444,16 @@ Rom    Mar 18 2008
         sg_ClientStateIndicator.h
         sg_ProgressBar.cpp, .h
         sg_ViewTabPage.cpp
+
+Rom    Mar 18 2008
+    - MGR: For Grid enabled views, ignore selection events when
+        saving and restoring selections.
+    - MGR: Cleanup warnings in Grid views.
+    
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCGridCtrl.cpp
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp

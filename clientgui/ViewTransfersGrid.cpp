@@ -516,7 +516,9 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         wxASSERT(docCount == m_pGridPane->GetNumberRows());
     }
 
+    m_bIgnoreUIEvents = true;
     m_pGridPane->SaveSelection();
+    m_bIgnoreUIEvents = false;
 
 	//update cell values
 	wxString strBuffer;
@@ -568,7 +570,10 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     m_pGridPane->SortData();
 
+    m_bIgnoreUIEvents = true;
     m_pGridPane->RestoreSelection();
+    m_bIgnoreUIEvents = false;
+
     UpdateSelection();
 }
 

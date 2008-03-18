@@ -154,6 +154,7 @@ protected:
     bool                    m_bProcessingListRenderEvent;
 
     bool                    m_bForceUpdateSelection;
+    bool                    m_bIgnoreUIEvents;
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;

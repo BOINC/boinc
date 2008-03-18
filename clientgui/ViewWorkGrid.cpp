@@ -214,7 +214,7 @@ void CViewWorkGrid::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pGridPane);
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     for(i=0; i<n; i++) {
         wxString resultName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
         wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
@@ -272,7 +272,7 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 
     if (wxYES == iAnswer) {
         wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-        n = arrSelRows.GetCount();
+        n = (int)arrSelRows.GetCount();
         for(i=0; i<n; i++) {
             wxString resultName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
             wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
@@ -316,7 +316,7 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Aborting result..."));
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     for(i=0; i<n; i++) {
 	strName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
 	strProgress = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_PROGRESS).Trim(false);
@@ -422,7 +422,7 @@ void CViewWorkGrid::UpdateSelection() {
     pGroup = m_TaskGroups[0];
 
     wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = arrSelRows.GetCount();
+    n = (int)arrSelRows.GetCount();
     
     if (n > 0) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
@@ -1016,8 +1016,12 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         m_pGridPane->sortNeededByLabelClick) 
     {
         wxArrayString ordered_indexes;
+
+        m_bIgnoreUIEvents = true;
         m_pGridPane->SaveSelection();
-         for(int iRow = 0; iRow < iMax; iRow++) {
+        m_bIgnoreUIEvents = false;
+
+        for(int iRow = 0; iRow < iMax; iRow++) {
             ordered_indexes.Add(m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX));
         }
         
@@ -1026,7 +1030,10 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         for(int iRow = 0; iRow < iMax; iRow++) {
             if (ordered_indexes[iRow] != m_pGridPane->GetCellValue(iRow, COLUMN_RESULTS_INDEX)) {
                 // Refresh entire grid if sort order has changed
+                m_bIgnoreUIEvents = true;
                 m_pGridPane->RestoreSelection();
+                m_bIgnoreUIEvents = false;
+
                 m_pGridPane->ForceRefresh();
                 break;
             }
