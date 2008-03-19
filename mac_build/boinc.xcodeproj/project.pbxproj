@@ -1612,8 +1612,10 @@
 				DD3E14DE0A774397007E0084 /* Sources */,
 				DD3E15300A774397007E0084 /* Frameworks */,
 				DD3E15350A774397007E0084 /* CopyFiles */,
+				DD73550C0D91105F0006A9D1 /* ShellScript */,
 				DD3E15380A774397007E0084 /* ShellScript */,
 				DD3E15390A774397007E0084 /* ShellScript */,
+				DDEE5E8E0D9112AF0056A99E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1805,7 +1807,9 @@
 			buildPhases = (
 				DDD74D8407CF482E0065AC9D /* Sources */,
 				DDD74D8507CF482E0065AC9D /* Frameworks */,
+				DD7355180D9110AE0006A9D1 /* ShellScript */,
 				DD1B90070A954C9A00FF5591 /* ShellScript */,
+				DD73551E0D9111150006A9D1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2044,7 +2048,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" != \"Deploy_noSandbox\" ] && [ \"$BUILD_STYLE\" != \"Dev_noSandbox\" ]; then\n    chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/BOINCManager.app\"\n    chmod g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n    chmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Resources/boinc\"\nfi";
+			shellScript = "if [ \"$BUILD_STYLE\" != \"Deploy_noSandbox\" ] && [ \"$BUILD_STYLE\" != \"Dev_noSandbox\" ]; then\n    chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/BOINCManager.app\"\n    chmod g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n    chmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Resources/boinc\"\nfi\n";
 		};
 		DD5FD5830A0232F30093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2091,6 +2095,51 @@
 			shellPath = /bin/sh;
 			shellScript = "cp -fpv \"${SRCROOT}/PostInstall-Info.plist\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist\"";
 		};
+		DD73550C0D91105F0006A9D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager_i386",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  fi\nfi\n";
+		};
+		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment-no64\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -nt \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin x86_64 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  fi\nfi";
+		};
+		DD73551E0D9111150006A9D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment-no64\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\nfi";
+		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2105,6 +2154,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
+		};
+		DDEE5E8E0D9112AF0056A99E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n\ttouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2685,9 +2749,15 @@
 		DD3E153E0A774397007E0084 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -2726,16 +2796,23 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Development;
 		};
 		DD3E153F0A774397007E0084 /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -2774,17 +2851,23 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				STRIP_INSTALLED_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = ppc_Deployment;
 		};
 		DD3E15400A774397007E0084 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -2823,17 +2906,23 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				STRIP_INSTALLED_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = i386_Deployment;
 		};
 		DD3E15410A774397007E0084 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -2872,7 +2961,8 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				STRIP_INSTALLED_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deployment;
 		};
@@ -3041,6 +3131,11 @@
 		DD62C3870A801FB500B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3053,6 +3148,8 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Dev_noSandbox;
 		};
@@ -3063,6 +3160,11 @@
 					i386,
 					ppc,
 				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.18.0/lib/.libs/libcurl.a",
@@ -3073,6 +3175,8 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deploy_noSandbox;
 		};
@@ -3316,9 +3420,15 @@
 		DD62C39D0A801FB500B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -3356,16 +3466,23 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Dev_noSandbox;
 		};
 		DD62C39E0A801FB500B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -3403,7 +3520,8 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				STRIP_INSTALLED_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deploy_noSandbox;
 		};
@@ -3597,6 +3715,11 @@
 		DD9670690CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.18.0/lib/.libs/libcurl.a",
@@ -3607,7 +3730,8 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				STRIP_INSTALLED_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = "Deployment-no64";
 		};
@@ -3760,10 +3884,15 @@
 		DD9670780CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -3802,7 +3931,8 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				STRIP_INSTALLED_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = "Deployment-no64";
 		};
@@ -3890,6 +4020,11 @@
 					ppc,
 					x86_64,
 				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../../curl-7.18.0/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.18.0/lib/.libs/libcurl.a",
@@ -3900,7 +4035,8 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				STRIP_INSTALLED_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deployment;
 		};
@@ -4141,6 +4277,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4153,6 +4294,8 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Development;
 		};
@@ -4160,6 +4303,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.18.0/lib/.libs/libcurl.a",
@@ -4170,6 +4318,8 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = ppc_Deployment;
 		};
@@ -4461,6 +4611,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.18.0/lib/.libs/libcurl.a",
@@ -4471,6 +4626,8 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = i386_Deployment;
 		};

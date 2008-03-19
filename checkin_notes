@@ -2485,8 +2485,22 @@ Charlie Mar 19 2008
         officially supported APIs backtrace() and backtrace_symbols_fd() 
         under OS 10.5 or later, continue to use older code on earlier 
         systems without these APIs.
+    - Mac: Change back to saving unstripped Client and Manager executables for 
+        symbol tables rather than separate .dSYM files, which cannot be loaded 
+        by atos command-line utility.  This also lets user substitute the 
+        unstripped executable into application bundle to get backtraces with 
+        symbols when debugging a crash in the field.  Set visibility of all 
+        variables in Client and Manager to not be hidden so they appear in 
+        crash dumps.
     
-lib/
-    coproc.C
-    mac/
-        mac_backtrace.C
+    lib/
+        coproc.C
+        mac/
+            mac_backtrace.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildWxMac.sh
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
