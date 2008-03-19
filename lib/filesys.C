@@ -74,6 +74,9 @@ using std::string;
 
 char boinc_failed_file[256];
 
+#ifdef _WIN32
+#define lstat(x,y) stat(x,y)
+#endif
 // routines for enumerating the entries in a directory
 
 int is_file(const char* path) {
