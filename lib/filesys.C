@@ -78,13 +78,13 @@ char boinc_failed_file[256];
 
 int is_file(const char* path) {
     struct stat sbuf;
-    int retval = stat(path, &sbuf);
+    int retval = lstat(path, &sbuf);
     return (!retval && (sbuf.st_mode & S_IFREG));
 }
 
 int is_dir(const char* path) {
     struct stat sbuf;
-    int retval = stat(path, &sbuf);
+    int retval = lstat(path, &sbuf);
     return (!retval && (sbuf.st_mode & S_IFDIR));
 }
 
@@ -284,7 +284,7 @@ int file_size(const char* path, double& size) {
     struct stat sbuf;
     int retval;
 
-    retval = stat(path, &sbuf);
+    retval = lstat(path, &sbuf);
     if (retval) return ERR_NOT_FOUND;
     size = (double)sbuf.st_size;
     return 0;
@@ -443,7 +443,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 int boinc_file_exists(const char* path) {
    struct stat buf;
 
-   if (stat(path, &buf)) {
+   if (lstat(path, &buf)) {
        return false;     // stat() returns zero on success
    }
    return true;

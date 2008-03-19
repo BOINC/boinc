@@ -2534,3 +2534,12 @@ David  Mar 19 2008
         tools.py
     tools/
         update_versions
+
+David  Mar 19 2008
+    - client: fixes to the above.  Need to use lstat() instead of stat()
+        so that we see the symlink, not what it's pointing to
+
+    client/
+        app_start.C
+    lib/
+        filesys.C

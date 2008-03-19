@@ -221,14 +221,14 @@ static int setup_file(
     PROJECT* project, FILE_INFO* fip, FILE_REF& fref,
     char* file_path, char* slot_dir, bool input
 ) {
-    char link_path[256], buf[256];
+    char link_path[256], rel_file_path[256];
     int retval;
 
     sprintf(link_path,
         "%s/%s",
         slot_dir, strlen(fref.open_name)?fref.open_name:fip->name
     );
-    sprintf(buf, "../../%s", file_path );
+    sprintf(rel_file_path, "../../%s", file_path );
 
     // if anonymous platform, this is called even if not first time,
     // so link may already be there
@@ -258,14 +258,15 @@ static int setup_file(
         );
         return ERR_FOPEN;
     }
-    fprintf(fp, "<soft_link>%s</soft_link>\n", file_path);
+    fprintf(fp, "<soft_link>%s</soft_link>\n", rel_file_path);
     fclose(fp);
 #else
-    retval = symlink(file_path, link_path);
+    retval = symlink(rel_file_path, link_path);
     if (retval) {
         msg_printf(project, MSG_INTERNAL_ERROR,
-            "Can't symlink %s to %s", file_path, link_path
+            "Can't symlink %s to %s: %d", rel_file_path, link_path, retval
         );
+        perror("symlink");
         return ERR_SYMLINK;
     }
 #endif
