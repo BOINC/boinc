@@ -2478,3 +2478,15 @@ David  Mar 18 2008
         Makefile.am
         feeder.C
         sched_*.C
+
+Charlie Mar 19 2008
+    - Client: Update coprocessor CUDA library code for Mac (not yet tested.)
+    - Fix Mac crash backtrace code to work with OS 10.5. Use the new 
+        officially supported APIs backtrace() and backtrace_symbols_fd() 
+        under OS 10.5 or later, continue to use older code on earlier 
+        systems without these APIs.
+    
+lib/
+    coproc.C
+    mac/
+        mac_backtrace.C

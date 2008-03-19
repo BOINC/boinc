@@ -65,6 +65,15 @@
 #include "QCrashReport.h"
 #include "mac_backtrace.h"
 
+// Suppress obsolete warning when building for OS 10.3.9
+#define DLOPEN_NO_WARN
+#include <dlfcn.h>
+
+// Functions available only in OS 10.5 and later
+    typedef int     (*backtraceProc)(void**,int);
+    typedef void    (*backtrace_symbols_fdProc)(void* const*,int,int);
+#define CALL_STACK_SIZE 128
+
 extern void * _sigtramp;
 
 enum {
@@ -84,6 +93,11 @@ void PrintBacktrace(void) {
     const NXArchInfo            *localArch;
     char                        OSMinorVersion;
     time_t                      t;
+    void                        *callstack[CALL_STACK_SIZE];
+    int                         frames;
+    void                        *systemlib = NULL;
+    backtraceProc               myBacktraceProc = NULL;
+    backtrace_symbols_fdProc    myBacktrace_symbols_fdProc = NULL;
 
 #if 0
 // To debug backtrace logic:
@@ -114,7 +128,12 @@ void PrintBacktrace(void) {
 #endif
 
     localArch = NXGetLocalArchInfo();
-    fprintf(stderr, "Machine type %s\n", localArch->description);
+    fprintf(stderr, "Machine type %s", localArch->description);
+#ifdef __LP64__
+    fprintf(stderr, " (64-bit executable)\n");
+#else
+    fprintf(stderr, " (32-bit executable)\n");
+#endif
 
     PrintOSVersion(&OSMinorVersion);
 
@@ -123,7 +142,24 @@ void PrintBacktrace(void) {
     
    err = QCRCreateFromSelf(&crRef);
 
-    QCRPrintBacktraces(crRef, stderr);
+// Use new backtrace functions if available (only in OS 10.5 and later)
+    systemlib = dlopen ("libSystem.dylib", RTLD_NOW );
+    if (systemlib) {
+        myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
+        myBacktrace_symbols_fdProc = (backtrace_symbols_fdProc)dlsym(systemlib, "backtrace_symbols_fd");
+    }
+    if (myBacktraceProc && myBacktrace_symbols_fdProc) {
+        frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
+        myBacktrace_symbols_fdProc(callstack, frames, STDERR_FILENO);
+        fprintf(stderr, "\n");
+    } else {
+        QCRPrintBacktraces(crRef, stderr);
+    }
+
+    // make sure this much gets written to file in case future 
+    // versions of OS break our crash dump code beyond this point.
+    fflush(stderr);
+    
     QCRPrintThreadState(crRef, stderr);
     QCRPrintImages(crRef, stderr);
 }

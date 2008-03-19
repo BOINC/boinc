@@ -21,8 +21,11 @@
 #include <string.h>
 #include <stdlib.h>
 #ifdef _WIN32
-#elif defined(__APPLE__)
 #else
+#ifdef __APPLE__
+// Suppress obsolete warning when building for OS 10.3.9
+#define DLOPEN_NO_WARN
+#endif
 #include <dlfcn.h>
 #endif
 
@@ -63,10 +66,12 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    if(!__cudaGetDeviceCount) return;
    __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
-#elif defined(__APPLE__)
-    return;
 #else
+#ifdef __APPLE__
+   void *cudalib = dlopen ("libcudart.dylib", RTLD_NOW );
+   #else
    void *cudalib = dlopen ("libcudart.so", RTLD_NOW );
+#endif
    if(!cudalib) return;
    __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
    if(!__cudaGetDeviceCount) return;
