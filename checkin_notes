@@ -2519,6 +2519,10 @@ David  Mar 19 2008
         to be a no-op if the client is 6.2+
     - client (Unix):
         Append the slot dir to LD_LIBRARY_PATH.
+    - update_versions: added a feature where you can put a file
+        "extra_xml" in the app dir, and it will get included in
+        the app versions's xml_doc.
+        Turns out I don't need this right now, but may as well leave it in.
 
     client/
         app_start.C
