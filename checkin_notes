@@ -2504,3 +2504,29 @@ Charlie Mar 19 2008
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+David  Mar 19 2008
+    - client (Unix): use symbolic links instead of XML link files.
+        This will allow applications to access shared libraries
+        by their logical names,
+        which simplifies things when you have multiple platforms,
+        and the apps (or libraries) refer to shared libraries
+        by names that don't include the platform.
+        This shouldn't impact the API - boinc_resolve_filename()
+        will open the file, see that it's not an XML link file,
+        and the symbolic link will be used directly.
+        At some point we can change boinc_resolve_filename() on Unix
+        to be a no-op if the client is 6.2+
+    - client (Unix):
+        Append the slot dir to LD_LIBRARY_PATH.
+
+    client/
+        app_start.C
+        client_types.C,h
+    lib/
+        boinc_cmd.C
+        error_numbers.h
+    py/Boinc/
+        tools.py
+    tools/
+        update_versions

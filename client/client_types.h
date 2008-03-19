@@ -122,9 +122,8 @@ public:
 // or the app will be connected by the given fd (in which case fd is nonzero)
 //
 struct FILE_REF {
-    char file_name[256];
-    char open_name[256];
-    int fd;
+    char file_name[256];    // physical name
+    char open_name[256];    // logical name
     bool main_program;
     FILE_INFO* file_info;
     bool copy_file;

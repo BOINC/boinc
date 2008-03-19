@@ -1177,7 +1177,6 @@ int FILE_REF::parse(MIOFILE& in) {
 
     strcpy(file_name, "");
     strcpy(open_name, "");
-    fd = -1;
     main_program = false;
     copy_file = false;
 	optional = false;
@@ -1185,7 +1184,6 @@ int FILE_REF::parse(MIOFILE& in) {
         if (match_tag(buf, "</file_ref>")) return 0;
         if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
         if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
-        if (parse_int(buf, "<fd>", fd)) continue;
         if (parse_bool(buf, "main_program", main_program)) continue;
         if (parse_bool(buf, "copy_file", copy_file)) continue;
 		if (parse_bool(buf, "optional", optional)) continue;
@@ -1207,9 +1205,6 @@ int FILE_REF::write(MIOFILE& out) {
     );
     if (strlen(open_name)) {
         out.printf("        <open_name>%s</open_name>\n", open_name);
-    }
-    if (fd >= 0) {
-        out.printf("        <fd>%d</fd>\n", fd);
     }
     if (main_program) {
         out.printf("        <main_program/>\n");

@@ -59,7 +59,8 @@ def add_files(
     exec_files,         # executable files; entry 0 is the main program
     non_exec_files=[],  # non-executable files
     signature_files={},
-    file_ref_infos = {}
+    file_ref_infos = {},
+    extra_xml = ''
     ):
     ''' add files to app.
     '''
@@ -98,7 +99,8 @@ def add_files(
         non_exec_files = non_exec_files,
         signature_files = signature_files,
         file_ref_infos = file_ref_infos,
-        api_version = api_version
+        api_version = api_version,
+        extra_xml = extra_xml
         )
 
     object = database.AppVersion(
@@ -120,12 +122,8 @@ def re_match_exec_filename(filepath):
 
 def find_versions(app, dir):
     """Find application versions in DIR.
-
-    If directory contains sub-directories, those are scanned (non-recursively)
-    for files.  If an executable is found, the first one found
-    (alphabetically) is the main program and other files bundled as
-    non-executables.
-
+    If directory contains sub-directories,
+    those are scanned (non-recursively) for files.
     """
 
     for filepath in xlistdir(dir):
@@ -184,6 +182,7 @@ def find_versions__process_bundle(app, match, dir):
     non_exec_files = []
     signature_files = {}
     file_ref_infos = {}
+    extra_xml = ''
     dirname = os.path.basename(dir)
     found_main = False
     for filepath in xlistdir(dir):
@@ -199,6 +198,9 @@ def find_versions__process_bundle(app, match, dir):
         if filepath.endswith('.sig'):
             s = filepath[:-4]
             signature_files[s] = filepath
+            continue
+        if os.path.basename(filepath) == 'extra_xml':
+            extra_xml = open(filepath).read()
             continue
         if filepath.endswith('.file_ref_info'):
             s = filepath[:-len('.file_ref_info')]
@@ -228,6 +230,7 @@ def find_versions__process_bundle(app, match, dir):
         non_exec_files   = non_exec_files,
         signature_files  = signature_files,
         file_ref_infos   = file_ref_infos,
+        extra_xml        = extra_xml,
         )
 
 ####################

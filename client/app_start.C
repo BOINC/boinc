@@ -81,53 +81,14 @@ using std::vector;
 //
 #ifndef _WIN32
 static void debug_print_argv(char** argv) {
-    int i;
-
     msg_printf(0, MSG_INFO, "[task_debug] Arguments:");
-    for (i=0; argv[i]; i++) {
+    for (int i=0; argv[i]; i++) {
         msg_printf(0, MSG_INFO,
             "[task_debug]    argv[%d]: %s\n", i, argv[i]
         );
     }
 }
 #endif
-
-// create a file (new_link) which contains an XML
-// reference to existing file.
-//
-static int make_link(const char *existing, const char *new_link) {
-    FILE *fp;
-
-    fp = boinc_fopen(new_link, "w");
-    if (!fp) return ERR_FOPEN;
-    fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
-    fclose(fp);
-#ifdef SANDBOX
-    return set_to_project_group(new_link);
-#endif
-    return 0;
-}
-
-int ACTIVE_TASK::link_user_files() {
-    PROJECT* project = wup->project;
-    unsigned int i;
-    FILE_REF fref;
-    FILE_INFO* fip;
-    char link_path[1024], buf[256], file_path[1024];
-    int retval;
-
-    for (i=0; i<project->user_files.size(); i++) {
-        fref = project->user_files[i];
-        fip = fref.file_info;
-        if (fip->status != FILE_PRESENT) continue;
-        get_pathname(fip, file_path, sizeof(file_path));
-        sprintf(link_path, "%s/%s", slot_dir, strlen(fref.open_name)?fref.open_name:fip->name);
-        sprintf(buf, "../../%s", file_path);
-        retval = make_link(buf, link_path);
-        if (retval) return retval;
-    }
-    return 0;
-}
 
 // make a unique key for core/app shared memory segment
 //
@@ -250,11 +211,14 @@ int ACTIVE_TASK::write_app_init_file() {
     return retval;
 }
 
-// set up a 'symbolic link' in the slot dir to the given file
-// (or copy the file to slot dir)
+// set up a file reference, given a slot dir and project dir.
+// This means:
+// 1) copy the file to slot dir, if reference is by copy
+// 2) (Unix) make a symbolic link
+// 3) (Windows) make a 
 //
 static int setup_file(
-    WORKUNIT* wup, FILE_INFO* fip, FILE_REF& fref,
+    PROJECT* project, FILE_INFO* fip, FILE_REF& fref,
     char* file_path, char* slot_dir, bool input
 ) {
     char link_path[256], buf[256];
@@ -266,11 +230,18 @@ static int setup_file(
     );
     sprintf(buf, "../../%s", file_path );
 
+    // if anonymous platform, this is called even if not first time,
+    // so link may already be there
+    //
+    if (input && project->anonymous_platform && boinc_file_exists(link_path)) {
+        return 0;
+    }
+
     if (fref.copy_file) {
         if (input) {
             retval = boinc_copy(file_path, link_path);
             if (retval) {
-                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't copy %s to %s", file_path, link_path
                 );
                 return retval;
@@ -279,18 +250,46 @@ static int setup_file(
         return 0;
     }
 
-    // if anonymous platform, link may already be there
-    //
-    if (input && wup->project->anonymous_platform && boinc_file_exists(link_path)) {
-        return 0;
-    }
-
-    retval = make_link(buf, link_path);
-    if (retval) {
-        msg_printf(wup->project, MSG_INTERNAL_ERROR,
-            "Can't link %s to %s", file_path, link_path
+#ifdef _WIN32
+    FILE *fp = boinc_fopen(link_path, "w");
+    if (!fp) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "Can't open link file %s", link_path
         );
-        return retval;
+        return ERR_FOPEN;
+    }
+    fprintf(fp, "<soft_link>%s</soft_link>\n", file_path);
+    fclose(fp);
+#else
+    retval = symlink(file_path, link_path);
+    if (retval) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "Can't symlink %s to %s", file_path, link_path
+        );
+        return ERR_SYMLINK;
+    }
+#endif
+#ifdef SANDBOX
+    return set_to_project_group(link_path);
+#endif
+    return 0;
+}
+
+int ACTIVE_TASK::link_user_files() {
+    PROJECT* project = wup->project;
+    unsigned int i;
+    FILE_REF fref;
+    FILE_INFO* fip;
+    char file_path[1024];
+    int retval;
+
+    for (i=0; i<project->user_files.size(); i++) {
+        fref = project->user_files[i];
+        fip = fref.file_info;
+        if (fip->status != FILE_PRESENT) continue;
+        get_pathname(fip, file_path, sizeof(file_path));
+        setup_file(project, fip, fref, file_path, slot_dir, true);
+        if (retval) return retval;
     }
     return 0;
 }
@@ -415,10 +414,10 @@ int ACTIVE_TASK::start(bool first_time) {
             safe_strcpy(exec_path, file_path);
         }
         // anonymous platform may use different files than
-        // when the result was started
+        // when the result was started, so link files even if not first time
         //
         if (first_time || wup->project->anonymous_platform) {
-            retval = setup_file(wup, fip, fref, file_path, slot_dir, true);
+            retval = setup_file(result->project, fip, fref, file_path, slot_dir, true);
             if (retval) {
                 strcpy(buf, "Can't link input file");
                 goto error;
@@ -438,7 +437,7 @@ int ACTIVE_TASK::start(bool first_time) {
             fref = wup->input_files[i];
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path, sizeof(file_path));
-            retval = setup_file(wup, fip, fref, file_path, slot_dir, true);
+            retval = setup_file(result->project, fip, fref, file_path, slot_dir, true);
             if (retval) {
                 strcpy(buf, "Can't link input file");
                 goto error;
@@ -449,7 +448,7 @@ int ACTIVE_TASK::start(bool first_time) {
             if (fref.copy_file) continue;
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path, sizeof(file_path));
-            retval = setup_file(wup, fip, fref, file_path, slot_dir, false);
+            retval = setup_file(result->project, fip, fref, file_path, slot_dir, false);
             if (retval) {
                 strcpy(buf, "Can't link output file");
                 goto error;
@@ -710,7 +709,7 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         char libpath[8192];
         get_project_dir(wup->project, buf, sizeof(buf));
-        sprintf(libpath, "%s:%s", getenv("LD_LIBRARY_PATH"), buf);
+        sprintf(libpath, "%s:%s:%s", getenv("LD_LIBRARY_PATH"), buf, slot_dir);
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
         retval = chdir(slot_dir);

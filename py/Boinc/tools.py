@@ -132,6 +132,7 @@ def process_app_version(
     signature_files={},
     file_ref_infos={},
     api_version='',
+    extra_xml='',
     quiet=False
     ):
     """Return xml for application version
@@ -157,10 +158,11 @@ def process_app_version(
     file_ref_infos  is a dictionary mapping exec_file -> extra XML strings to
                     include in <file_info>, e.g. '<copy_file/>'
 
-    exec_files[1:] and non_exec_files should be named like 'open_name=url_filename'.
-                    (url_filename is the basename of file as copied to
-                    download/) If there is no '=', then the entire filename is
-                    used as both the open_name and the filename.
+    exec_files[1:] and non_exec_files should be named like
+    'open_name=url_filename'.
+    (url_filename is the basename of file as copied to download/)
+    If there is no '=', then the entire filename is used as
+    both the open_name and the filename.
 
     """
     assert(exec_files)
@@ -191,7 +193,9 @@ def process_app_version(
         app.name, version_num)
 
     if (len(api_version)):
-        xml_doc += '    <api_version>'+api_version+'</api_version>\n';
+        xml_doc += '    <api_version>'+api_version+'</api_version>\n'
+    if (len(extra_xml)):
+        xml_doc += extra_xml
 
     first = True
     for exec_file in exec_files + non_exec_files:

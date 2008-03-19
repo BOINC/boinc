@@ -59,7 +59,6 @@ Commands:\n\
  --project_attach URL auth          attach to project\n\
  --join_acct_mgr URL name passwd    attach account manager\n\
  --quit_acct_mgr                    quit current account manager\n\
-\n\
  --get_state                        show entire state\n\
  --get_results                      show results\n\
  --get_simple_gui_info              show status of projects and active results\n\
@@ -70,7 +69,6 @@ Commands:\n\
  --get_messages seqno               show messages > seqno\n\
  --get_host_info\n\
  --version, -V                      show core client version\n\
- \n\
  --result url result_name op        job operation\n\
    op = suspend | resume | abort | graphics_window | graphics_fullscreen\n\
  --project URL op                   project operation\n\
