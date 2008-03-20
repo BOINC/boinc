@@ -2573,3 +2573,10 @@ Charlie Mar 20 2008
         boinc.xcodeproj/
             project.pbxproj
         buildWxMac.sh
+
+David  Mar 20 2008
+	- updated GeoIP stuff
+
+	html/inc/
+		GeoIP.dat
+		geoip.inc
