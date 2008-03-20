@@ -282,7 +282,6 @@ int ACTIVE_TASK::link_user_files() {
     FILE_REF fref;
     FILE_INFO* fip;
     char file_path[1024];
-    int retval;
 
     for (i=0; i<project->user_files.size(); i++) {
         fref = project->user_files[i];
@@ -290,7 +289,6 @@ int ACTIVE_TASK::link_user_files() {
         if (fip->status != FILE_PRESENT) continue;
         get_pathname(fip, file_path, sizeof(file_path));
         setup_file(project, fip, fref, file_path, slot_dir, true);
-        if (retval) return retval;
     }
     return 0;
 }

@@ -71,7 +71,6 @@
 
 // Functions available only in OS 10.5 and later
     typedef int     (*backtraceProc)(void**,int);
-    typedef void    (*backtrace_symbols_fdProc)(void* const*,int,int);
 #define CALL_STACK_SIZE 128
 
 extern void * _sigtramp;
@@ -82,6 +81,7 @@ enum {
 
 #define SKIPFRAME 4 /* Number frames overhead for signal handler and backtrace */
 
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void GetNameOfThisApp(char *nameBuf, int buflen);
 static void PrintOSVersion(char *minorVersion);
 
@@ -94,10 +94,11 @@ void PrintBacktrace(void) {
     char                        OSMinorVersion;
     time_t                      t;
     void                        *callstack[CALL_STACK_SIZE];
-    int                         frames;
+    int                         frames, i;
     void                        *systemlib = NULL;
+    FILE                        *f;
     backtraceProc               myBacktraceProc = NULL;
-    backtrace_symbols_fdProc    myBacktrace_symbols_fdProc = NULL;
+    char                        saved_env[128], *env;
 
 #if 0
 // To debug backtrace logic:
@@ -139,19 +140,54 @@ void PrintBacktrace(void) {
 
     time(&t);
     fputs(asctime(localtime(&t)), stderr);
+    fputc('\n', stderr);
     
    err = QCRCreateFromSelf(&crRef);
 
-// Use new backtrace functions if available (only in OS 10.5 and later)
+    // Use new backtrace functions if available (only in OS 10.5 and later)
     systemlib = dlopen ("libSystem.dylib", RTLD_NOW );
     if (systemlib) {
         myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
-        myBacktrace_symbols_fdProc = (backtrace_symbols_fdProc)dlsym(systemlib, "backtrace_symbols_fd");
-    }
-    if (myBacktraceProc && myBacktrace_symbols_fdProc) {
+     }
+    if (myBacktraceProc) {
         frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
-        myBacktrace_symbols_fdProc(callstack, frames, STDERR_FILENO);
+        
+        // The backtrace_symbols() and backtrace_symbols_fd() APIs are limited to 
+        // external symbols only, so we use the atos command-line utility which 
+        // checks all symbols and gives us debugging symbols when available.
+        //
+        // The bidirectional popen only works if the NSUnbufferedIO environment 
+        // variable is set, so we save and restore its current value.
+        env = getenv("NSUnbufferedIO");
+        if (env) {
+            strlcpy(saved_env, env, sizeof(saved_env));
+        } else {
+            saved_env[0] = '\0';
+        }
+        setenv("NSUnbufferedIO", "YES", 1);
+           
+        snprintf(nameBuf, sizeof(nameBuf), "/usr/bin/atos -p %d", getpid());
+        f = popen(nameBuf, "r+");
+        if (f) {
+            setbuf(f, 0);
+            for (i=0; i<frames; i++) {
+               fprintf(f, "%#lx\n", (long)callstack[i]);
+                PersistentFGets(nameBuf, sizeof(nameBuf), f);
+#ifdef __LP64__
+                fprintf(stderr, "%3d  0x%016llx  %s", i, (unsigned long long)callstack[i], nameBuf);
+#else
+                fprintf(stderr, "%3d  0x%08lx  %s", i, (unsigned long)callstack[i], nameBuf);
+#endif
+           }
+        }
         fprintf(stderr, "\n");
+        pclose(f);
+        
+        if (saved_env[0]) {
+            setenv("NSUnbufferedIO", saved_env, 1);
+        } else {
+            unsetenv("NSUnbufferedIO");
+        }
     } else {
         QCRPrintBacktraces(crRef, stderr);
     }

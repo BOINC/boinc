@@ -2554,3 +2554,22 @@ David  Mar 19 2008
         sched_plan.C,h (new)
         sched_resend.C
         sched_send.C
+
+Charlie Mar 20 2008
+    - Client: fix  a compiler warning which indicated a real logic error (variable
+        used uninitialized).
+    - Mac: More work on backtrace code: run atos utility via a bidirectional pipe 
+        instead of backtrace_symbols_fd() API to get better symbols in backtrace.  
+        Set visibility of all variables in Client and Manager back to hidden (as 
+        before) to reduce size of executables, since atos utility can use hidden 
+        symbols.  This also involves return to previous wxWidgets build script.
+       
+    client/
+        app_start.C
+    lib/
+        mac/
+            mac_backtrace.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildWxMac.sh
