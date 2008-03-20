@@ -572,9 +572,15 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
         strlcat(fullpath, dp->d_name, sizeof(fullpath));
 
         retval = stat(fullpath, &sbuf);
-        if (retval)
+        if (retval) {
+            if (lstat(fullpath, &sbuf) == 0) {
+                // A broken symlink in a slot directory may be OK if slot is no longer in use
+                if (S_ISLNK(sbuf.st_mode)) {
+                    continue;
+                }
+            }
             break;              // Should never happen
-            
+        }
         isDirectory = S_ISDIR(sbuf.st_mode);
 
         if (isDirectory) {

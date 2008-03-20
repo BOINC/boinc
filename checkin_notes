@@ -2580,3 +2580,12 @@ David  Mar 20 2008
 	html/inc/
 		GeoIP.dat
 		geoip.inc
+
+Charlie Mar 20 2008
+    - Mac: Update sandbox security for symlinks replacing xml soft links.
+    
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp

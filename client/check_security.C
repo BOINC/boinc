@@ -218,7 +218,7 @@ int use_sandbox, int isManager
         if (p)
             *p = '\0'; 
 
-        retval = stat(full_path, &sbuf);
+        retval = lstat(full_path, &sbuf);
         if (retval)
             return -1013;          // Should never happen
         
@@ -491,61 +491,63 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox) {
         strlcat(full_path, "/", sizeof(full_path));
         strlcat(full_path, dp->d_name, sizeof(full_path));
 
-        retval = stat(full_path, &sbuf);
+        retval = lstat(full_path, &sbuf);
         if (retval)
             break;              // Should never happen
 
         isDirectory = S_ISDIR(sbuf.st_mode);
 
-        if (depth > 1) {
-            // files and subdirectories created by projects may have owner boinc_master or boinc_project
-            if ( (sbuf.st_uid != boinc_master_uid) && (sbuf.st_uid != boinc_project_uid) ) {
-                retval = -1202;
-                break;
-            }
-        } else {
-            // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.) 
-            // must have owner boinc_master
-            if (sbuf.st_uid != boinc_master_uid) {
-                retval = -1202;
-                break;
-            }
-        }
-        
-        if (use_sandbox) {
-                if (sbuf.st_gid != boinc_project_gid) {
-                    retval = -1201;
+        if (!S_ISLNK(sbuf.st_mode)) {
+            if (depth > 1)  {
+                // files and subdirectories created by projects may have owner boinc_master or boinc_project
+                if ( (sbuf.st_uid != boinc_master_uid) && (sbuf.st_uid != boinc_project_uid) ) {
+                    retval = -1202;
                     break;
                 }
-            
-            if (isDirectory) {
-                if (depth == 1) {
+            } else {
                 // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.) 
-                // must be readable & executable by other
-                    if ((sbuf.st_mode & 0777) != 0775) {
-                        retval = -1203;
-                        break;
-                    }
-#if 0       // We may enforce permissions later for subdirectories written by project applications
-                } else {
-                    // subdirectories created by projects may be executable by other or not
-                    if ((sbuf.st_mode & 0770) != 0770) {
-                        retval = -1203;
-                        break;
-                    }
-#endif
-                }
-#if 0       // We may enforce permissions later for files written by project applications
-            } else {    // ! isDirectory
-                if ((sbuf.st_mode & 0666) != 0660) {
-                    retval = -1204;
+                // must have owner boinc_master
+                if (sbuf.st_uid != boinc_master_uid) {
+                    retval = -1202;
                     break;
                 }
-#endif
             }
-        }       // if (use_sandbox)
-
-        if (isDirectory) {
+        
+            if (use_sandbox) {
+                    if (sbuf.st_gid != boinc_project_gid) {
+                        retval = -1201;
+                        break;
+                    }
+                
+                if (isDirectory) {
+                    if (depth == 1) {
+                    // project & slot directories (projects/setiathome.berkeley.edu, slots/0 etc.) 
+                    // must be readable & executable by other
+                        if ((sbuf.st_mode & 0777) != 0775) {
+                            retval = -1203;
+                            break;
+                        }
+#if 0               // We may enforce permissions later for subdirectories written by project applications
+                    } else {
+                        // subdirectories created by projects may be executable by other or not
+                        if ((sbuf.st_mode & 0770) != 0770) {
+                            retval = -1203;
+                            break;
+                        }
+#endif
+                }
+#if 0           // We may enforce permissions later for files written by project applications
+                } else {    // ! isDirectory
+                    if ((sbuf.st_mode & 0666) != 0660) {
+                        retval = -1204;
+                        break;
+                    }
+#endif
+                }
+            }       // if (use_sandbox)
+        }           // if (!S_ISLNK(sbuf.st_mode))
+        
+        if (isDirectory && !S_ISLNK(sbuf.st_mode)) {
             if (use_sandbox && (depth > 1))
                 if ((sbuf.st_uid != boinc_master_uid) && (sbuf.st_gid != boinc_master_gid))
                     continue;       // We can't check subdirectories owned by boinc_project
