@@ -2543,3 +2543,14 @@ David  Mar 19 2008
         app_start.C
     lib/
         filesys.C
+
+David  Mar 19 2008
+    - forgot to add new files
+    - scheduler: wreq.core_client_version was being computed in
+        resend_lost_results() (which isn't necessarily called)
+        but its value was used elsewhere.
+
+    sched/
+        sched_plan.C,h (new)
+        sched_resend.C
+        sched_send.C

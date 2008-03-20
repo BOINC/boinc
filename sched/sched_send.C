@@ -1039,6 +1039,8 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     char helpful[512];
     int preferred_app_message_index=0;
 
+    reply.wreq.core_client_version =
+        sreq.core_client_major_version*100 + sreq.core_client_minor_version;
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;

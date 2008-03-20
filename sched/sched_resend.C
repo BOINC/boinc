@@ -139,9 +139,6 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
 
-        reply.wreq.core_client_version =
-            sreq.core_client_major_version*100 + sreq.core_client_minor_version;
-
         found = get_app_version(sreq, reply, wu, app, avp);
         if (!found) {
             log_messages.printf(MSG_CRITICAL,
