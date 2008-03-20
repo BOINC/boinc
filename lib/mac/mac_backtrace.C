@@ -161,8 +161,6 @@ void PrintBacktrace(void) {
         env = getenv("NSUnbufferedIO");
         if (env) {
             strlcpy(saved_env, env, sizeof(saved_env));
-        } else {
-            saved_env[0] = '\0';
         }
         setenv("NSUnbufferedIO", "YES", 1);
            
@@ -183,7 +181,7 @@ void PrintBacktrace(void) {
         fprintf(stderr, "\n");
         pclose(f);
         
-        if (saved_env[0]) {
+        if (env) {
             setenv("NSUnbufferedIO", saved_env, 1);
         } else {
             unsetenv("NSUnbufferedIO");
