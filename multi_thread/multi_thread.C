@@ -124,14 +124,18 @@ void THREAD::suspend(bool if_susp) {
 #endif
 
 // do a billion floating-point ops
+// (note: I needed to add an arg to this;
+// otherwise the MS C++ compiler optimizes away
+// all but the first call to it!)
 //
-static void giga_flop() {
-    double j = 3.14159;
+static double giga_flop(int foo) {
+    double x = 3.14159*foo;
     int i;
     for (i=0; i<500000000; i++) {
-        j += 5.12313123;
-        j *= 0.5398394834;
+        x += 5.12313123;
+        x *= 0.5398394834;
     }
+    return x;
 }
 
 #ifdef _WIN32
@@ -141,8 +145,8 @@ void* worker(void* p) {
 #endif
     THREAD* t = (THREAD*)p;
     for (int i=0; i<gflops_per_thread; i++) {
-        giga_flop();
-        fprintf(stderr, "thread %d finished %d\n", t->index, i);
+        double x = giga_flop(i);
+        fprintf(stderr, "thread %d finished %d: %f\n", t->index, i, x);
     }
     t->id = THREAD_ID_NULL;
 #ifdef _WIN32

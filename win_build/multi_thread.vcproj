@@ -80,7 +80,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
-				OutputFile="Release/uppercase_6.7_windows_intelx86.exe"
+				OutputFile="Release/multi_thread_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"

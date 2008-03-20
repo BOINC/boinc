@@ -605,8 +605,20 @@ David  14 Mar 2008
         multi_thread.vcproj (new)
         samples.sln
 
-David  17 Mar 2007
+David  17 Mar 2008
     - multi_thread: default to 1 thread; print to stderr at end
 
     multi_thread/
         multi_thread.C
+
+David  20 Mar 2008
+	- multi-thread: the Windows version was running unexpectedly fast.
+		It turned out that the VS2005 C++ compiler was noticing
+		that giga_flop() didn't use any inputs or globals,
+		so it was caching its value after the first run.
+		Very impressive!
+
+    multi_thread/
+        multi_thread.C
+	win_build/
+		multi_thread.vcproj
