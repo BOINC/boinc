@@ -2589,3 +2589,10 @@ Charlie Mar 20 2008
     clientgui/
         mac/
             SetupSecurity.cpp
+
+Charlie Mar 20 2008
+    - Mac: Another sandbox security update for symlinks: setprojectgrp calls 
+        lchown() instead of chown().
+    
+    client/
+        setprojectgrp.C

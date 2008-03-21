@@ -41,9 +41,9 @@ int main(int argc, char** argv) {
     fflush(stderr);
 #endif
 
-    retval = chown(argv[1], (uid_t)-1, project_gid);
+    retval = lchown(argv[1], (uid_t)-1, project_gid);
     if (retval)
-        fprintf(stderr, "chown(%s, -1, %d) failed: errno=%d\n", argv[1], project_gid, errno);
+        fprintf(stderr, "lchown(%s, -1, %d) failed: errno=%d\n", argv[1], project_gid, errno);
 
     return retval;
 }
