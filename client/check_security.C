@@ -497,7 +497,7 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox) {
 
         isDirectory = S_ISDIR(sbuf.st_mode);
 
-        if (!S_ISLNK(sbuf.st_mode)) {
+        if (!S_ISLNK(sbuf.st_mode)) {   // The system ignores ownership & permissions of symbolic links
             if (depth > 1)  {
                 // files and subdirectories created by projects may have owner boinc_master or boinc_project
                 if ( (sbuf.st_uid != boinc_master_uid) && (sbuf.st_uid != boinc_project_uid) ) {

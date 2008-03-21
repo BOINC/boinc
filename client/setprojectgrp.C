@@ -29,10 +29,12 @@
 #include <grp.h>
 #include <stdio.h>
 #include <cerrno>
+#include <sys/stat.h>
 
 int main(int argc, char** argv) {
     gid_t       project_gid;
-    int         retval;
+    int         retval = 0;
+    struct stat sbuf;
     
     project_gid = getegid();
 
@@ -41,9 +43,21 @@ int main(int argc, char** argv) {
     fflush(stderr);
 #endif
 
-    retval = lchown(argv[1], (uid_t)-1, project_gid);
-    if (retval)
-        fprintf(stderr, "lchown(%s, -1, %d) failed: errno=%d\n", argv[1], project_gid, errno);
-
+    // chown() doesn't change ownershp of symbolic links; it follows the link and 
+    // changes the file is not available in OS 10.3.9.
+    //
+    // But we don't really need to worry about this, because the system ignores 
+    // ownership & permissions of symbolic links anyway.
+    //
+    // Also, the target of a symbolic link may not be present if the slot containing 
+    // the link is no longer in use.
+    //
+    if (lstat(argv[1], &sbuf) == 0) {
+        if (!S_ISLNK(sbuf.st_mode)) {
+            retval = chown(argv[1], (uid_t)-1, project_gid);
+            if (retval)
+                fprintf(stderr, "chown(%s, -1, %d) failed: errno=%d\n", argv[1], project_gid, errno);
+        }
+    }
     return retval;
 }

@@ -2590,9 +2590,23 @@ Charlie Mar 20 2008
         mac/
             SetupSecurity.cpp
 
-Charlie Mar 20 2008
+Charlie Mar 21 2008
     - Mac: Another sandbox security update for symlinks: setprojectgrp calls 
         lchown() instead of chown().
     
     client/
         setprojectgrp.C
+
+Charlie Mar 21 2008
+    - Mac: More sandbox security changes for symlinks: lchown is not available 
+        under OS 10.3.9, so don't use it.  The system ignores ownership and 
+        permissions of symbolic links, so setprojectgrp does nothing if it is  
+        called for a symbolic link.  
+        Also make additional changes to check_security and SetupSecurity.
+    
+    client/
+        check_security.C
+        setprojectgrp.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp

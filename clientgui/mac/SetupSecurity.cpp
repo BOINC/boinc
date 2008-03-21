@@ -346,7 +346,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of projects directory's contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/projects"
-        err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
@@ -391,7 +391,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of slots directory's contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/slots"
-        err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
