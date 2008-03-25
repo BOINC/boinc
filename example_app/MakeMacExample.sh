@@ -27,7 +27,7 @@
 ## In Terminal, CD to the example_app/Mac directory.
 ##     cd [path]/example_app/Mac/
 ## then run this script:
-##     source [path]/MakeMacExample.sh [ -clean ]
+##     sh [path]/MakeMacExample.sh [ -clean ]
 ##
 ## the -clean argument will force a full rebuild.
 #
@@ -37,13 +37,13 @@ rm -fR ppc i386 x86_64
 if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
     echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
+    exit 1
 fi
 
 if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
     echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
+    exit 1
 fi
 
 echo
@@ -59,14 +59,14 @@ export MACOSX_DEPLOYMENT_TARGET=10.3
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
-## export LDFLAGS="-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
+## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 ##export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3"
 
 make -f Makefile_mac clean
 make -f Makefile_mac all
 
-if [  $? -ne 0 ]; then return 1; fi
+if [  $? -ne 0 ]; then exit 1; fi
 
 mkdir ppc
 mv uc2 ppc/
@@ -85,14 +85,14 @@ export MACOSX_DEPLOYMENT_TARGET=10.4
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
-## export LDFLAGS="-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch i386"
+## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch i386"
 export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
 make -f Makefile_mac clean
 make -f Makefile_mac all
 
-if [  $? -ne 0 ]; then return 1; fi
+if [  $? -ne 0 ]; then exit 1; fi
 
 mkdir i386
 mv uc2 i386/
@@ -114,14 +114,14 @@ if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
     export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
     export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
     ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
-    ## export LDFLAGS="-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch x86_64"
+    ## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch x86_64"
     export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
     export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 
     make -f Makefile_mac clean
     make -f Makefile_mac all
 
-    if [  $? -ne 0 ]; then return 1; fi
+    if [  $? -ne 0 ]; then exit 1; fi
 
     mkdir x86_64
     mv uc2 x86_64/
@@ -141,5 +141,5 @@ export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 
-return 0
+exit 0
 
