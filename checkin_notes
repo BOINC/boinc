@@ -622,3 +622,11 @@ David  20 Mar 2008
         multi_thread.C
 	win_build/
 		multi_thread.vcproj
+
+Charlie 25 Mar 2008
+    - example_app: Create Mac makefile and build script to demonstrate 
+        building project applications for the Mac using makefiles.
+    
+    example_app/
+        Makefile_mac (new)
+        MakeMacExample.sh (new)
