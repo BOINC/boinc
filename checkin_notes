@@ -630,3 +630,13 @@ Charlie 25 Mar 2008
     example_app/
         Makefile_mac (new)
         MakeMacExample.sh (new)
+
+Charlie 26 Mar 2008
+    - example_app: Update Mac makefile and build script, create second 
+        stand-alone makefile to demonstrate another way to build Mac 
+        applications.
+    
+    example_app/
+        Makefile_mac
+        Makefile_mac2 (new)
+        MakeMacExample.sh

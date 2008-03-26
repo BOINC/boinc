@@ -22,7 +22,7 @@
 #
 # Script to build Macintosh example_app using Makefile
 #
-# by Charlie Fenton 3/25/08
+# by Charlie Fenton 3/26/08
 #
 ## In Terminal, CD to the example_app/Mac directory.
 ##     cd [path]/example_app/Mac/
@@ -54,14 +54,13 @@ echo
 
 ## PowerPC build for OS 10.3.0 must use GCC-3.3 and MacOSX10.3.9 SDK
 export PATH=/usr/local/bin:$PATH
-export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
-export MACOSX_DEPLOYMENT_TARGET=10.3
+##export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
+##export MACOSX_DEPLOYMENT_TARGET=10.3
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
 ## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
-export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
-##export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3"
+export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sd -DMACOSX_DEPLOYMENT_TARGET"
 
 make -f Makefile_mac clean
 make -f Makefile_mac all
@@ -80,13 +79,13 @@ echo
 
 ## 32-bit Intel build for OS 10.4 must use GCC-4.0 and MacOSX10.4u SDK
 
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
-export MACOSX_DEPLOYMENT_TARGET=10.4
+##export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+##export MACOSX_DEPLOYMENT_TARGET=10.4
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
 ## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch i386"
-export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -mmacosx-version-min=10.4"
 export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
 make -f Makefile_mac clean
@@ -109,13 +108,13 @@ if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
     echo "***************************************************"
     echo
 
-    export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
-    export MACOSX_DEPLOYMENT_TARGET=10.5
+    ##export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+    ##export MACOSX_DEPLOYMENT_TARGET=10.5
     export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
     export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
     ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
     ## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch x86_64"
-    export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
+    export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -mmacosx-version-min=10.5 -fvisibility=hidden -fvisibility-inlines-hidden"
     export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 
     make -f Makefile_mac clean
