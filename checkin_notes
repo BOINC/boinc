@@ -632,7 +632,7 @@ Charlie 25 Mar 2008
         MakeMacExample.sh (new)
 
 Charlie 26 Mar 2008
-    - example_app: Update Mac makefile and build script, create second 
+    - example_app: Update Mac makefile and build script, create second, 
         stand-alone makefile to demonstrate another way to build Mac 
         applications.
     
