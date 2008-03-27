@@ -210,8 +210,8 @@ create table workunit (
     max_success_results integer     not null,
     result_template_file varchar(63) not null,
     priority            integer     not null,
-    rsc_bandwidth_bound double      not null,
     mod_time            timestamp,
+    rsc_bandwidth_bound double      not null,
     primary key (id)
 ) engine=InnoDB;
 
