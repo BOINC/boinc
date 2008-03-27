@@ -74,3 +74,9 @@ InitLsaString(
     LPWSTR String                  // source (Unicode)
     );
 
+BOOL
+GrantUserRight(
+    PSID    psidAccountSid,
+    LPWSTR  pszUserRight,
+    BOOL    bEnable
+    );

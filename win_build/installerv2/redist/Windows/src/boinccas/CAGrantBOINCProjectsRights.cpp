@@ -20,12 +20,12 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CAGrantBOINCProjectRights.h"
+#include "CAGrantBOINCProjectsRights.h"
 #include "lsaprivs.h"
 
 
-#define CUSTOMACTION_NAME               _T("CAGrantBOINCProjectRights")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Granting the BOINC Project user account required privileges")
+#define CUSTOMACTION_NAME               _T("CAGrantBOINCProjectsRights")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Granting the BOINC Projects required privileges")
 
 
 /////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAGrantBOINCProjectRights::CAGrantBOINCProjectRights(MSIHANDLE hMSIHandle) :
+CAGrantBOINCProjectsRights::CAGrantBOINCProjectsRights(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
 {}
 
@@ -47,7 +47,7 @@ CAGrantBOINCProjectRights::CAGrantBOINCProjectRights(MSIHANDLE hMSIHandle) :
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAGrantBOINCProjectRights::~CAGrantBOINCProjectRights()
+CAGrantBOINCProjectsRights::~CAGrantBOINCProjectsRights()
 {
     BOINCCABase::~BOINCCABase();
 }
@@ -60,16 +60,10 @@ CAGrantBOINCProjectRights::~CAGrantBOINCProjectRights()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT CAGrantBOINCProjectRights::OnExecution()
+UINT CAGrantBOINCProjectsRights::OnExecution()
 {
     PSID        pSid;
-    tstring     strBOINCProjectAccountUsername;
     UINT        uiReturnValue = -1;
-
-
-    uiReturnValue = GetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
-    if ( uiReturnValue ) return uiReturnValue;
-
 
     //
     // Obtain the SID of the user/group.
@@ -80,9 +74,9 @@ UINT CAGrantBOINCProjectRights::OnExecution()
     //
     if(
         GetAccountSid(
-            NULL,                                     // default lookup logic
-            strBOINCProjectAccountUsername.c_str(),   // account to obtain SID
-            &pSid                                     // buffer to allocate to contain resultant SID
+            NULL,                                    // default lookup logic
+            tstring(L"boinc_projects").c_str(),      // account to obtain SID
+            &pSid                                    // buffer to allocate to contain resultant SID
             )
     ) 
     {
@@ -98,43 +92,9 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         GrantUserRight(pSid, L"SeRemoteInteractiveLogonRight", FALSE);
         GrantUserRight(pSid, L"SeBatchLogonRight", FALSE);
         GrantUserRight(pSid, L"SeInteractiveLogonRight", FALSE);
-
-        if (!GrantUserRight(pSid, L"SeServiceLogonRight", TRUE))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to GrantUserRight - SeServiceLogonRight")
-            );
-        }
-
-        if (!GrantUserRight(pSid, L"SeDenyNetworkLogonRight", TRUE))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to GrantUserRight - SeDenyNetworkLogonRight")
-            );
-        }
-
-        if (!GrantUserRight(pSid, L"SeDenyInteractiveLogonRight", TRUE))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to GrantUserRight - SeDenyInteractiveLogonRight")
-            );
-        }
-
+        GrantUserRight(pSid, L"SeServiceLogonRight", FALSE);
+        GrantUserRight(pSid, L"SeDenyNetworkLogonRight", FALSE);
+        GrantUserRight(pSid, L"SeDenyInteractiveLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
@@ -144,7 +104,19 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         GrantUserRight(pSid, L"SeMachineAccountPrivilege", FALSE);
         GrantUserRight(pSid, L"SeIncreaseQuotaPrivilege", FALSE);
         GrantUserRight(pSid, L"SeBackupPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeChangeNotifyPrivilege", FALSE);
+
+        if (!GrantUserRight(pSid, L"SeChangeNotifyPrivilege", TRUE))
+        {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Failed call to GrantUserRight - SeChangeNotifyPrivilege")
+            );
+        }
+
         GrantUserRight(pSid, L"SeSystemTimePrivilege", FALSE);
         GrantUserRight(pSid, L"SeCreateTokenPrivilege", FALSE);
         GrantUserRight(pSid, L"SeCreatePagefilePrivilege", FALSE);
@@ -168,6 +140,7 @@ UINT CAGrantBOINCProjectRights::OnExecution()
         GrantUserRight(pSid, L"SeShutdownPrivilege", FALSE);
         GrantUserRight(pSid, L"SeSynchAgentPrivilege", FALSE);
         GrantUserRight(pSid, L"SeTakeOwnershipPrivilege", FALSE);
+
     }
     else
     {
@@ -194,22 +167,19 @@ UINT CAGrantBOINCProjectRights::OnExecution()
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    GrantBOINCProjectRights
+// Function:    GrantBOINCProjectsRights
 //
-// Description: This custom action reads the BOINC_PROJECT_USERNAME
-//              public property and grants that user the
+// Description: This custom action grants the 'boinc_projects' group the
 //              required rights.
 //
 /////////////////////////////////////////////////////////////////////
-UINT __stdcall GrantBOINCProjectRights(MSIHANDLE hInstall)
+UINT __stdcall GrantBOINCProjectsRights(MSIHANDLE hInstall)
 {
     UINT uiReturnValue = 0;
 
-    CAGrantBOINCProjectRights* pCA = new CAGrantBOINCProjectRights(hInstall);
+    CAGrantBOINCProjectsRights* pCA = new CAGrantBOINCProjectsRights(hInstall);
     uiReturnValue = pCA->Execute();
     delete pCA;
 
     return uiReturnValue;
 }
-
-const char *BOINC_RCSID_00ed9696df="$Id: CAGrantBOINCProjectRights.cpp 13804 2007-10-09 11:35:47Z fthomas $";

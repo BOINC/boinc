@@ -62,46 +62,13 @@ CAGrantBOINCMasterRights::~CAGrantBOINCMasterRights()
 /////////////////////////////////////////////////////////////////////
 UINT CAGrantBOINCMasterRights::OnExecution()
 {
-    LSA_HANDLE  PolicyHandle = NULL;
     PSID        pSid;
-    NTSTATUS    Status;
     tstring     strBOINCMasterAccountUsername;
     UINT        uiReturnValue = -1;
 
 
     uiReturnValue = GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
     if ( uiReturnValue ) return uiReturnValue;
-
-
-    //
-    // Open the policy on the local host.
-    //
-    Status = OpenPolicy(
-                _T(""),
-                POLICY_CREATE_ACCOUNT | POLICY_LOOKUP_NAMES,
-                &PolicyHandle
-                );
-
-
-    if(Status != STATUS_SUCCESS) {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            Status,
-            _T("OpenPolicy failed.")
-        );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Failed to be able to open a policy to the localhost")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
 
 
     //
@@ -126,255 +93,72 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         // looking up the SID is a good sanity check which is suitable for
         // most cases.
 
-        //
-        // Grant the SeCreateGlobalPrivilege to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                   // policy handle
-                    pSid,                           // SID to grant privilege
-                    L"SeCreateGlobalPrivilege",     // Unicode privilege
-                    TRUE                            // enable the privilege
-                    );
+        // User Rights
+        GrantUserRight(pSid, L"SeNetworkLogonRight", FALSE);
+        GrantUserRight(pSid, L"SeRemoteInteractiveLogonRight", FALSE);
+        GrantUserRight(pSid, L"SeBatchLogonRight", FALSE);
+        GrantUserRight(pSid, L"SeInteractiveLogonRight", FALSE);
 
-        if(Status != STATUS_SUCCESS)
+        if (!GrantUserRight(pSid, L"SeServiceLogonRight", TRUE))
         {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
                 NULL,
                 NULL,
                 NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeCreateGlobalPrivilege")
+                _T("Failed call to GrantUserRight - SeServiceLogonRight")
             );
-            return ERROR_INSTALL_FAILURE;
         }
 
-        //
-        // Grant the SeAssignPrimaryTokenPrivilege to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                         // policy handle
-                    pSid,                                 // SID to grant privilege
-                    L"SeAssignPrimaryTokenPrivilege",     // Unicode privilege
-                    TRUE                                  // enable the privilege
-                    );
+        GrantUserRight(pSid, L"SeDenyNetworkLogonRight", FALSE);
 
-        if(Status != STATUS_SUCCESS)
+        if (!GrantUserRight(pSid, L"SeDenyInteractiveLogonRight", TRUE))
         {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
                 NULL,
                 NULL,
                 NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeAssignPrimaryTokenPrivilege")
+                _T("Failed call to GrantUserRight - SeDenyInteractiveLogonRight")
             );
-            return ERROR_INSTALL_FAILURE;
         }
 
-        //
-        // Grant the SeIncreaseQuotaPrivilege to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                   // policy handle
-                    pSid,                           // SID to grant privilege
-                    L"SeIncreaseQuotaPrivilege",    // Unicode privilege
-                    TRUE                            // enable the privilege
-                    );
-
-        if(Status != STATUS_SUCCESS)
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeIncreaseQuotaPrivilege")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        //
-        // Grant the SeDenyInteractiveLogonRight to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                   // policy handle
-                    pSid,                           // SID to grant privilege
-                    L"SeDenyInteractiveLogonRight", // Unicode privilege
-                    TRUE                            // enable the privilege
-                    );
-
-        if(Status != STATUS_SUCCESS)
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeDenyInteractiveLogonRight")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        //
-        // Grant the SeDenyNetworkLogonRight to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                   // policy handle
-                    pSid,                           // SID to grant privilege
-                    L"SeDenyNetworkLogonRight",     // Unicode privilege
-                    TRUE                            // enable the privilege
-                    );
-
-        if(Status != STATUS_SUCCESS)
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeDenyNetworkLogonRight")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        //
-        // Grant the SeDebugPrivilege to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                   // policy handle
-                    pSid,                           // SID to grant privilege
-                    L"SeDebugPrivilege",            // Unicode privilege
-                    TRUE                            // enable the privilege
-                    );
-
-        if(Status != STATUS_SUCCESS)
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeDebugPrivilege")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        //
-        // Grant the SeServiceLogonRight to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                   // policy handle
-                    pSid,                           // SID to grant privilege
-                    L"SeServiceLogonRight",         // Unicode privilege
-                    TRUE                            // enable the privilege
-                    );
-
-        if(Status != STATUS_SUCCESS)
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeServiceLogonRight")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        //
-        // Grant the SeChangeNotifyPrivilege to users represented by pSid.
-        //
-        Status = SetPrivilegeOnAccount(
-                    PolicyHandle,                   // policy handle
-                    pSid,                           // SID to grant privilege
-                    L"SeChangeNotifyPrivilege",     // Unicode privilege
-                    TRUE                            // enable the privilege
-                    );
-
-        if(Status != STATUS_SUCCESS)
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                Status,
-                _T("SetPrivilegeOnAccount failed.")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to SetPrivilegeOnAccount - SeChangeNotifyPrivilege")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
+        GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
+        GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
+        GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
 
 
+        // Privileges
+        GrantUserRight(pSid, L"SeTcbPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeMachineAccountPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeIncreaseQuotaPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeBackupPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeChangeNotifyPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeSystemTimePrivilege", FALSE);
+        GrantUserRight(pSid, L"SeCreateTokenPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeCreatePagefilePrivilege", FALSE);
+        GrantUserRight(pSid, L"SeCreateGlobalPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeDebugPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeEnableDelegationPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeRemoteShutdownPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeAuditPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeImpersonatePrivilege", FALSE);
+        GrantUserRight(pSid, L"SeIncreaseBasePriorityPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeLoadDriverPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeLockMemoryPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeSecurityPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeSystemEnvironmentPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeManageVolumePrivilege", FALSE);
+        GrantUserRight(pSid, L"SeProfileSingleProcessPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeSystemProfilePrivilege", FALSE);
+        GrantUserRight(pSid, L"SeUndockPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeAssignPrimaryTokenPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeRestorePrivilege", FALSE);
+        GrantUserRight(pSid, L"SeShutdownPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeSynchAgentPrivilege", FALSE);
+        GrantUserRight(pSid, L"SeTakeOwnershipPrivilege", FALSE);
     }
     else
     {
@@ -393,7 +177,6 @@ UINT CAGrantBOINCMasterRights::OnExecution()
     //
     // Cleanup any handles and memory allocated during the custom action
     //
-    LsaClose(PolicyHandle);
     if(pSid != NULL) HeapFree(GetProcessHeap(), 0, pSid);
 
     return ERROR_SUCCESS;

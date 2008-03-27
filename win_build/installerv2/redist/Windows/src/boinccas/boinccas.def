@@ -17,4 +17,9 @@ EXPORTS
 	ShutdownBOINCManager
 	ShutdownBOINCScreensaver
 	ShutdownUD
+	GrantBOINCAdminsRights
+	GrantBOINCUsersRights
+	GrantBOINCProjectsRights
+	HideBOINCMasterProfile
+	HideBOINCProjectProfile
 	

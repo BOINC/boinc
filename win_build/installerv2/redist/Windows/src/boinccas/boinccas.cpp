@@ -276,6 +276,17 @@ UINT BOINCCABase::GetProperty(
     {
     case ERROR_INVALID_HANDLE:
     case ERROR_INVALID_PARAMETER:
+        strMessage  = _T("Failed to get '") + strPropertyName;
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
         return ERROR_INSTALL_FAILURE;
     }
 
@@ -286,6 +297,17 @@ UINT BOINCCABase::GetProperty(
     {
     case ERROR_INVALID_HANDLE:
     case ERROR_INVALID_PARAMETER:
+        strMessage  = _T("Failed to get '") + strPropertyName;
+        strMessage += _T("' after allocating the buffer");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
         if ( lpszBuffer ) free( lpszBuffer );
         return ERROR_INSTALL_FAILURE;
     }
@@ -340,6 +362,22 @@ UINT BOINCCABase::SetProperty(
     case ERROR_FUNCTION_FAILED:
     case ERROR_INVALID_HANDLE:
     case ERROR_INVALID_PARAMETER:
+        strMessage  = _T("Failed to set '") + strPropertyName;
+        strMessage += _T("' to a value of '");
+        if (bDisplayValue)
+            strMessage += strPropertyValue;
+        else
+            strMessage += _T("<Value Hidden>");
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
         return ERROR_INSTALL_FAILURE;
     }
 

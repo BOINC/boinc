@@ -2618,3 +2618,26 @@ Charlie Mar 27 2008
 
     mac_build/
         BuildMacBOINC.sh
+
+Rom    Mar 27 2008
+    - WINSETUP: Hide the 'boinc_master' and 'boinc_project' user profiles after
+        the accounts have been created.
+    - WINSETUP: Return the user rights to a known good state for 'boinc_master',
+        'boinc_project', 'boinc_admins', 'boinc_users', and 'boinc_projects'.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.cpp
+        boinccas.def
+        boinccas.vcproj
+        CAGrantBOINCAdminsRights.cpp, .h (Added)
+        CAGrantBOINCMasterRights.cpp
+        CAGrantBOINCProjectRights.cpp
+        CAGrantBOINCProjectsRights.cpp, .h (Added)
+        CAGrantBOINCUsersRights.cpp, .h (Added)
+        CAHideBOINCMasterProfile.cpp, .h (Added)
+        CAHideBOINCProjectProfile.cpp, .h (Added)
+        lsaprivs.cpp, .h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+

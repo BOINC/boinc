@@ -398,11 +398,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAGrantBOINCAdminsRights.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGrantBOINCMasterRights.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\CAGrantBOINCProjectRights.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CAGrantBOINCProjectsRights.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CAGrantBOINCUsersRights.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CAHideBOINCMasterProfile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CAHideBOINCProjectProfile.cpp"
 				>
 			</File>
 			<File
@@ -507,11 +527,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAGrantBOINCAdminsRights.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CAGrantBOINCMasterRights.h"
 				>
 			</File>
 			<File
 				RelativePath=".\CAGrantBOINCProjectRights.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAGrantBOINCProjectsRights.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAGrantBOINCUsersRights.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAHideBOINCMasterProfile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAHideBOINCProjectProfile.h"
 				>
 			</File>
 			<File
