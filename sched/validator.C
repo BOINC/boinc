@@ -586,7 +586,15 @@ bool do_validate_scan(APP& app) {
             wu_id_modulus, wu_id_remainder,
             items
         );
-        if (retval) break;
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_DEBUG,
+                    "DB connection lost, exiting\n"
+                );
+                exit(0);
+            }
+            break;
+        }
         retval = handle_wu(validator, items);
         if (!retval) found = true;
     }

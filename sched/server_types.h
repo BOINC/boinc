@@ -73,9 +73,18 @@ struct USER_MESSAGE {
 
 struct HOST_USAGE {
     COPROCS coprocs;
-    double ncpus;
+    double avg_ncpus;
+    double max_ncpus;
     double flops;
-    char opaque[256];
+    char cmdline[256];
+
+    void init_seq(double x) {
+        coprocs.coprocs.clear();
+        avg_ncpus = 1;
+        max_ncpus = 1;
+        flops = x;
+        strcpy(cmdline, "");
+    }
 };
 
 // keep track of the best app_version for each app for this host
@@ -107,7 +116,7 @@ struct WORK_REQ {
     RESOURCE bandwidth;
 
     std::vector<USER_MESSAGE> no_work_messages;
-    std::vector<BEST_APP_VERSION> best_app_versions;
+    std::vector<BEST_APP_VERSION*> best_app_versions;
 
     bool no_allowed_apps_available;
     bool excessive_work_buf;
@@ -163,6 +172,7 @@ struct GLOBAL_PREFS {
     double work_buf_min_days;
     double ram_max_used_busy_frac;
     double ram_max_used_idle_frac;
+    double max_ncpus_pct;
 
     void parse(const char* buf, const char* venue);
     void defaults();

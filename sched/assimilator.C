@@ -33,6 +33,7 @@
 #include "boinc_db.h"
 #include "parse.h"
 #include "util.h"
+#include "error_numbers.h"
 #include "str_util.h"
 
 #include "sched_config.h"
@@ -83,7 +84,17 @@ bool do_pass(APP& app) {
         app.id, ASSIMILATE_READY, mod_clause,
         one_pass_N_WU ? one_pass_N_WU : 1000
     );
-    while (!wu.enumerate(buf)) {
+    while (1) {
+        retval = wu.enumerate(buf);
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_DEBUG,
+                    "DB connection lost, exiting\n"
+                );
+                exit(0);
+            }
+            break;
+        }
         vector<RESULT> results;     // must be inside while()!
 
         // for testing purposes, pretend we did nothing

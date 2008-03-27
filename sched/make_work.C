@@ -139,7 +139,7 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
         );
         exit(retval);
     }
-    wu.id = boinc_db.insert_id();
+    original_wu.id = boinc_db.insert_id();
     log_messages.printf(MSG_DEBUG,
         "Created %s, clone of %s\n", wu.name, original_wu.name
     );
@@ -157,6 +157,9 @@ void wait_for_results(int wu_id) {
     sprintf(buf, "where workunitid=%d", wu_id);
     while (1) {
         retval = result.count(count, buf);
+        log_messages.printf(MSG_DEBUG, "result.count for %d returned %d, %d\n",
+            wu_id, count, retval
+        );
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "result.count: %d\n", retval);
             exit(1);

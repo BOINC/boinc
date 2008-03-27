@@ -272,7 +272,17 @@ bool do_pass(bool retry_error) {
         clause, WUS_PER_ENUM
     );
 
-    while (!wu.enumerate(buf)) {
+    while (1) {
+        retval = wu.enumerate(buf);
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_DEBUG,
+                    "DB connection lost, exiting\n"
+                );
+                exit(0);
+            }
+            break;
+        }
         did_something = true;
 
         retval = 0;

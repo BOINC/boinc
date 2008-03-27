@@ -36,6 +36,7 @@ using namespace std;
 
 #include "boinc_db.h"
 #include "util.h"
+#include "error_numbers.h"
 #include "str_util.h"
 
 #include "sched_config.h"
@@ -76,7 +77,17 @@ bool do_message_scan() {
     int retval;
 
     sprintf(buf, "where handled=0");
-    while (!mfh.enumerate(buf)) {
+    while (1) {
+        retval = mfh.enumerate(buf);
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_DEBUG,
+                    "DB connection lost, exiting\n"
+                );
+                exit(0);
+            }
+            break;
+        }
         retval = handle_message(mfh);
         if (!retval) {
             mfh.handled = true;

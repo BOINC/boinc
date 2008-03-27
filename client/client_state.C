@@ -665,7 +665,7 @@ WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
 }
 
 APP_VERSION* CLIENT_STATE::lookup_app_version(
-    APP* app, char* platform, int version_num
+    APP* app, char* platform, int version_num, char* plan_class
 ) {
     for (unsigned int i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
@@ -675,6 +675,7 @@ APP_VERSION* CLIENT_STATE::lookup_app_version(
             return avp;
         }
         if (strcmp(avp->platform, platform)) continue;
+        if (strcmp(avp->plan_class, plan_class)) continue;
         return avp;
     }
     return 0;
@@ -722,10 +723,10 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     }
     avp->app = app;
 
-    if (lookup_app_version(app, avp->platform, avp->version_num)) {
+    if (lookup_app_version(app, avp->platform, avp->version_num, avp->plan_class)) {
         msg_printf(p, MSG_INTERNAL_ERROR,
-            "State file error: duplicate app version: %s %s %d",
-            avp->app_name, avp->platform, avp->version_num
+            "State file error: duplicate app version: %s %s %d %s",
+            avp->app_name, avp->platform, avp->version_num, avp->plan_class
         );
         return ERR_NOT_UNIQUE;
     }

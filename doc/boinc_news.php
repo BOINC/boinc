@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("Mar 20, 2008",
+    "Watch an excellent talk by CERN's Francois Grey,
+    <a href=http://www.liftconference.com/distributed-computing-distributed-thinking>From distributed computing to distributed thinking</a>."
+),
 array("Mar 5, 2008",
     "Read <a href=http://www.linuxinsider.com/story/Volunteer-Computing-and-the-Search-for-Big-Answers-61943.html>Volunteer Computing and the Search for Big Answers</a>, an article about BOINC and volunteer computing  on LinuxInsider.com."
 ),

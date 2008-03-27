@@ -112,7 +112,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     too_large = false;
     needs_shmem = false;
     want_network = 0;
-    nthreads = 1;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
     pid_handle = 0;
@@ -554,7 +553,8 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
 
             wup = result->wup;
             app_version = gstate.lookup_app_version(
-                result->app, result->platform, result->version_num
+                result->app, result->platform, result->version_num,
+                result->plan_class
             );
             if (!app_version) {
                 msg_printf(

@@ -21,13 +21,13 @@ extern void send_work(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST&, SCHEDULER_REPLY&,
-    APP* app, APP_VERSION* avp
+    BEST_APP_VERSION* bavp
 );
 
 extern bool anonymous(PLATFORM*);
 
-extern bool get_app_version(
-    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, WORKUNIT&, APP*&, APP_VERSION*&
+extern BEST_APP_VERSION* get_app_version(
+    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, WORKUNIT&
 );
 
 extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);

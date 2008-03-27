@@ -323,11 +323,13 @@ int CLIENT_STATE::parse_state_file() {
                 strcpy(rp->platform, get_primary_platform());
                 rp->version_num = latest_version(rp->wup->app, rp->platform);
             }
-            rp->avp = lookup_app_version(rp->wup->app, rp->platform, rp->version_num);
+            rp->avp = lookup_app_version(
+                rp->wup->app, rp->platform, rp->version_num, rp->plan_class
+            );
             if (!rp->avp) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "No app version for result: %s %d",
-                    rp->platform, rp->version_num
+                    "No app version for result: %s %d %s",
+                    rp->platform, rp->version_num, rp->plan_class
                 );
                 delete rp;
                 continue;

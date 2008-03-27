@@ -68,10 +68,8 @@ struct SHARED_MEM {
         // <quit/>
         // <suspend/>
         // <resume/>
-        // <ncpus_available>
     MSG_CHANNEL process_control_reply;
         // app->core
-        // <nthreads>
     MSG_CHANNEL graphics_request;
         // core->app
         // request a graphics mode:
@@ -166,7 +164,6 @@ struct APP_INIT_DATA {
     char boinc_dir[256];
     char wu_name[256];
     char authenticator[256];
-    char opaque[256];
     int slot;
     double user_total_credit;
     double user_expavg_credit;
@@ -195,7 +192,6 @@ struct APP_INIT_DATA {
     SHMEM_SEG_NAME shmem_seg_name;
     double wu_cpu_time;       // cpu time from previous episodes
     double fraction_done_update_period;
-    int ncpus_available;
 
     APP_INIT_DATA();
     APP_INIT_DATA(const APP_INIT_DATA&);  // copy constructor

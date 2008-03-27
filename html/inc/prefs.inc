@@ -716,8 +716,10 @@ function prefs_show_global($prefs) {
     row2(START_END_DESC, $x);
     row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
     row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
-    row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
-    row2(MAX_NCPUS_PCT_DESC, "$prefs->max_ncpus_pct ".MAX_NCPUS_PCT_DESC2);
+    $x = $prefs->max_cpus?$prefs->max_cpus:'---';
+    row2(MAX_CPUS_DESC, "$x ".MAX_CPUS_DESC2);
+    $x = $prefs->max_ncpus_pct?$prefs->max_ncpus_pct:'---';
+    row2(MAX_NCPUS_PCT_DESC, "$x ".MAX_NCPUS_PCT_DESC2);
     row2(USE_AT_MOST2, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
     row1(DISK_LIMIT_DESC);
     row2(USE_AT_MOST, "$prefs->disk_max_used_gb GB disk space");
@@ -1289,7 +1291,7 @@ function prefs_global_parse_form(&$prefs) {
     if (!verify_numeric($start_hour, 0)) $error->start_hour = true;
     if (!verify_numeric($end_hour, 0)) $error->end_hour = true;
     if (!verify_numeric($cpu_scheduling_period_minutes, 1)) $error->cpu_scheduling_period_minutes = true;;
-    if (!verify_numeric($max_cpus, 1)) $error->max_cpus = true;
+    if (!verify_numeric($max_cpus, 0)) $error->max_cpus = true;
     if (!verify_numeric($max_ncpus_pct, 0, 100)) $error->max_ncpus_pct = true;
     if (!verify_numeric($cpu_usage_limit, 0, 100)) $error->cpu_usage_limit = true;
     if (!verify_numeric($disk_max_used_gb, 0)) $error->disk_max_used_gb = true;

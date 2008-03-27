@@ -34,6 +34,7 @@
 
 #include "md5_file.h"
 #include "hostinfo.h"
+#include "coproc.h"
 #include "miofile.h"
 
 #define P_LOW 1
@@ -404,6 +405,7 @@ struct APP_VERSION {
     char app_name[256];
     int version_num;
     char platform[256];
+    char plan_class[64];
     char api_version[16];
     APP* app;
     PROJECT* project;
@@ -452,8 +454,14 @@ struct RESULT {
     char wu_name[256];
     double report_deadline;
     int version_num;        // identifies the app used
+    char plan_class[64];
     char platform[256];
+    char cmdline[256];      // additional cmdline args
     APP_VERSION* avp;
+    double avg_ncpus;
+    double max_ncpus;
+    double flops;
+    COPROCS coprocs;
     std::vector<FILE_REF> output_files;
     bool ready_to_report;
         // we're ready to report this result to the server;

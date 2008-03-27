@@ -1024,7 +1024,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             mysql_free_result(cursor.rp);
             cursor.active = false;
             retval = mysql_errno(db->mysql);
-            if (retval) return retval;
+            if (retval) return ERR_DB_CONN_LOST;
             return ERR_DB_NOT_FOUND;
         }
         last_item.parse(row);
@@ -1227,7 +1227,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             mysql_free_result(cursor.rp);
             cursor.active = false;
             retval = mysql_errno(db->mysql);
-            if (retval) return retval;
+            if (retval) return ERR_DB_CONN_LOST;
             return ERR_DB_NOT_FOUND;
         }
         last_item.parse(row);
@@ -1368,7 +1368,7 @@ int DB_WORK_ITEM::enumerate(
         mysql_free_result(cursor.rp);
         cursor.active = false;
         retval = mysql_errno(db->mysql);
-        if (retval) return retval;
+        if (retval) return ERR_DB_CONN_LOST;
         return ERR_DB_NOT_FOUND;
     } else {
         parse(row);
@@ -1415,7 +1415,7 @@ int DB_WORK_ITEM::enumerate_all(
         mysql_free_result(cursor.rp);
         cursor.active = false;
         retval = mysql_errno(db->mysql);
-        if (retval) return retval;
+        if (retval) return ERR_DB_CONN_LOST;
         return ERR_DB_NOT_FOUND;
     } else {
         parse(row);
@@ -1463,7 +1463,7 @@ int DB_IN_PROGRESS_RESULT::enumerate(int hostid, const char* result_names) {
         mysql_free_result(cursor.rp);
         cursor.active = false;
         retval = mysql_errno(db->mysql);
-        if (retval) return retval;
+        if (retval) return ERR_DB_CONN_LOST;
         return ERR_DB_NOT_FOUND;
     } else {
         parse(row);

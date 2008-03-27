@@ -234,7 +234,13 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_double(tag, "resource_share", dtemp)) {
-            resource_share.set(dtemp);
+            if (dtemp > 0) {
+                resource_share.set(dtemp);
+            } else {
+                msg_printf(NULL, MSG_INFO,
+                    "Resource share out of range: %f", dtemp
+                );
+            }
             continue;
         }
         if (log_flags.unparsed_xml) {

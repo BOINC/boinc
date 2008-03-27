@@ -2556,13 +2556,15 @@ David  Mar 19 2008
         sched_send.C
 
 Charlie Mar 20 2008
-    - Client: fix  a compiler warning which indicated a real logic error (variable
-        used uninitialized).
-    - Mac: More work on backtrace code: run atos utility via a bidirectional pipe 
-        instead of backtrace_symbols_fd() API to get better symbols in backtrace.  
-        Set visibility of all variables in Client and Manager back to hidden (as 
-        before) to reduce size of executables, since atos utility can use hidden 
-        symbols.  This also involves return to previous wxWidgets build script.
+    - Client: fix  a compiler warning which indicated a real logic error
+        (variable used uninitialized).
+    - Mac: More work on backtrace code: run atos utility via a bidirectional
+        pipe instead of backtrace_symbols_fd() API to get better symbols
+        in backtrace.  
+        Set visibility of all variables in Client and Manager back to hidden
+        (as before) to reduce size of executables,
+        since atos utility can use hidden symbols.
+        This also involves return to previous wxWidgets build script.
        
     client/
         app_start.C
@@ -2641,3 +2643,65 @@ Rom    Mar 27 2008
         boinccas.dll
         boinccas95.dll
 
+David  Mar 27 2008
+    Changes for multithread app support:
+
+    - update_versions: use __ (not :) as separator for plan class
+    - client: add plan_class to APP_VERSION;
+        an app version is now identified by platform/version/plan_class
+    - client CPU scheduler: don't assume apps use 1 CPU
+    - client: add avg_ncpus, max_cpus, flops, cmdline to RESULT
+    - scheduler: implement app planning scheme
+
+    Other changes:
+
+    - client: if symlink() fails, make a XML soft link instead
+        (for Unix running off a FAT32 FS)
+    - client: don't accept nonpositive resource share from AMS
+    - daemons and DB: check for error returns from enumerations,
+        and exit if so.  Thus, if the MySQL server goes down,
+        all the daemons will soon exit.
+        The cron script will restart them every 5 min,
+        so when the DB server comes back up so will the project.
+    - web: show empty max CPU % as ---
+    - API: get rid of all_threads_cpu_time option (always the case now)
+
+    api/
+        boinc_api.C,h
+    client/
+        acct_mgr.C
+        app.C,h
+        app_start.C
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C
+        cs_statefile.C
+    configure.ac
+    db/
+        boinc_db.C,h
+    html/inc/
+        countries.inc
+        prefs.inc
+    lib/
+        app_ipc.C,h
+        error_numbers.h
+        shmem.C
+    sched/
+        assimilator.C
+        db_purge.C
+        feeder.C
+        file_deleter.C
+        make_work.C
+        message_handler.C
+        sched_array.C
+        sched_assign.C
+        sched_locality.C
+        sched_plan.C,h
+        sched_resend.C
+        sched_send.C,h
+        server_types.C,h
+        validator.C
+    tools/
+        update_versions
+    version.h

@@ -27,8 +27,48 @@
 //    (you need to prevent that from being overwritten too)
 // In either case, put your version under source-code control, e.g. SVN
 
+#include "sched_msgs.h"
 #include "sched_plan.h"
 
-bool app_plan(HOST& host, char* plan_class, HOST_USAGE& hu) {
+// return the number of usable CPUs, taking prefs into account.
+// If prefs limit apply, set bounded to true.
+//
+static void get_ncpus(SCHEDULER_REQUEST& sreq, int& ncpus, bool& bounded) {
+    ncpus = sreq.host.p_ncpus;
+    bounded = false;
+    if (sreq.global_prefs.max_ncpus_pct && sreq.global_prefs.max_ncpus_pct < 100) {
+        bounded = true;
+        ncpus = (int)((ncpus*sreq.global_prefs.max_ncpus_pct)/100.);
+    }
+}
+
+bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+    // clients before 6.1.11 don't understand plan_class
+    //
+    int v = sreq.core_client_major_version*10000
+        + sreq.core_client_minor_version*100
+        + sreq.core_client_release;
+    if (v < 60111) return false;
+    if (!strcmp(plan_class, "mt")) {
+        // the following is for an app that can use anywhere
+        // from 1 to 64 threads, can control this exactly,
+        // and whose speedup is .95N
+        // (so a sequential app will be used if one is available)
+        //
+        int ncpus, nthreads;
+        bool bounded;
+
+        get_ncpus(sreq, ncpus, bounded);
+        nthreads = ncpus;
+        if (nthreads > 64) nthreads = 64;
+        hu.avg_ncpus = nthreads;
+        hu.max_ncpus = nthreads;
+        sprintf(hu.cmdline, "--nthreads %d", nthreads);
+        hu.flops = 0.95*sreq.host.p_fpops*nthreads;
+        return true;
+    }
+    log_messages.printf(MSG_CRITICAL,
+        "Unknown plan class: %s\n", plan_class
+    );
     return false;
 }

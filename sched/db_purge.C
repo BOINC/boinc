@@ -475,7 +475,17 @@ bool do_pass() {
     }
 
     int n=0;
-    while (!wu.enumerate(buf)) {
+    while (1) {
+        retval = wu.enumerate(buf);
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_DEBUG,
+                    "DB connection lost, exiting\n"
+                );
+                exit(0);
+            }
+            break;
+        }
         if (strstr(wu.name, "nodelete")) continue;
         did_something = true;
         

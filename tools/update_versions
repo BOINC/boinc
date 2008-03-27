@@ -68,7 +68,7 @@ def add_files(
     assert(exec_files[0])
     version_major, version_minor, platform_name, plan_class = match.groups()
     if plan_class:
-        plan_class = plan_class[1:]      # drop leading :
+        plan_class = plan_class[2:]      # drop leading __
     version_num = int(version_major) * 100 + int(version_minor)
 
     file_base = os.path.basename(exec_files[0])
@@ -118,7 +118,7 @@ def add_files(
 
 def re_match_exec_filename(filepath):
     file = os.path.basename(filepath)
-    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)([:][^.]+)?(?:[.]gz|[.]exe|[.]sit|[.]msi)?$', file)
+    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(__[^.]+)?(?:[.]gz|[.]exe|[.]sit|[.]msi)?$', file)
 
 def find_versions(app, dir):
     """Find application versions in DIR.

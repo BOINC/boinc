@@ -41,7 +41,7 @@ static int send_assigned_job(
     static int seqno=0;
     static R_RSA_PRIVATE_KEY key;
     APP* app;
-    APP_VERSION* avp;
+    BEST_APP_VERSION* bavp;
                                  
     if (first) {
         first = false;
@@ -60,16 +60,9 @@ static int send_assigned_job(
         );
         return retval;
     }
-    app = ssp->lookup_app(wu.appid);
-    if (!app) {
-        log_messages.printf(MSG_CRITICAL,
-            "app %d for assigned WU %d not found\n",
-            wu.appid, wu.id
-        );
-        return ERR_NOT_FOUND;
-    }
-    bool found = get_app_version(request, reply, wu, app, avp);
-    if (!found) {
+
+    bavp = get_app_version(request, reply, wu);
+    if (!bavp) {
         log_messages.printf(MSG_CRITICAL,
             "App version for assigned WU not found\n"
         );
@@ -88,7 +81,7 @@ static int send_assigned_job(
     int result_id = boinc_db.insert_id();
     DB_RESULT result;
     retval = result.lookup_id(result_id);
-    add_result_to_reply(result, wu, request, reply, app, avp);
+    add_result_to_reply(result, wu, request, reply, bavp);
 
     // if this is a one-job assignment, fill in assignment.resultid
     // so that it doesn't get sent again

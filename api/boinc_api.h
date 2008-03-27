@@ -50,9 +50,6 @@ typedef struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
-    int all_threads_cpu_time;
-        // count the CPU time of all threads
-        // (for apps that have multiple worker threads)
     int worker_thread_stack_size;
         // if nonzero, the worker thread stack size limit
     int backwards_compatible_graphics;
@@ -148,7 +145,6 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.handle_process_control = 1;
     b.send_status_msgs = 1;
     b.direct_process_action = 1;
-    b.all_threads_cpu_time = 0;
     b.worker_thread_stack_size = 0;
     b.backwards_compatible_graphics = 1;
 }

@@ -241,6 +241,16 @@ static bool get_job_from_db(
             retval = wi.enumerate(enum_size, select_clause, order_clause);
         }
     	if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                // If DB server dies, exit;
+                // so /start (run from crontab) will restart us eventually.
+                //
+                log_messages.printf(MSG_CRITICAL,
+                    "DB connection lost, exiting\n"
+                );
+                exit(0);
+            }
+
             // we've reach the end of the result set
             //
             switch (enum_phase) {

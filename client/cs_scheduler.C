@@ -660,7 +660,9 @@ int CLIENT_STATE::handle_scheduler_reply(
             }
         }
         APP* app = lookup_app(project, avpp.app_name);
-        APP_VERSION* avp = lookup_app_version(app, avpp.platform, avpp.version_num);
+        APP_VERSION* avp = lookup_app_version(
+            app, avpp.platform, avpp.version_num, avpp.plan_class
+        );
         if (avp) {
             // if we had download failures, clear them
             //
@@ -713,7 +715,9 @@ int CLIENT_STATE::handle_scheduler_reply(
             strcpy(rp->platform, get_primary_platform());
             rp->version_num = latest_version(rp->wup->app, rp->platform);
         }
-        rp->avp = lookup_app_version(rp->wup->app, rp->platform, rp->version_num);
+        rp->avp = lookup_app_version(
+            rp->wup->app, rp->platform, rp->version_num, rp->plan_class
+        );
         if (!rp->avp) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "No app version for result: %s %d",

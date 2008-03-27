@@ -439,6 +439,8 @@ struct CREDITED_JOB {
 #define ASSIGN_USER     2
 #define ASSIGN_TEAM     3
 
+struct BEST_APP_VERSION;
+
 struct RESULT {
     int id;
     int create_time;
@@ -484,7 +486,7 @@ struct RESULT {
     int units;      // used for granting credit by # of units processed
     int parse_from_client(FILE*);
     char platform_name[256];
-    int version_num;
+    BEST_APP_VERSION* bavp;
     void clear();
     int write_to_client(FILE*);
 };

@@ -831,7 +831,7 @@ int APP::write(FILE* fout) {
 }
 
 int APP_VERSION::write(FILE* fout) {
-    char buf[LARGE_BLOB_SIZE], buf2[256];
+    char buf[LARGE_BLOB_SIZE];
     strcpy(buf, xml_doc);
     char* p = strstr(buf, "</app_version>");
     if (!p) {
@@ -841,14 +841,18 @@ int APP_VERSION::write(FILE* fout) {
     *p = 0;
     fputs(buf, fout);
     PLATFORM* pp = ssp->lookup_platform_id(platformid);
-    sprintf(buf2, "    <platform>%s</platform>\n", pp->name);
-    fputs(buf2, fout);
+    fprintf(fout, "    <platform>%s</platform>\n", pp->name);
+    if (strlen(plan_class)) {
+        fprintf(fout, "    <plan_class>%s</plan_class>\n", plan_class);
+    }
     fputs("</app_version>\n", fout);
     return 0;
 }
 
 int RESULT::write_to_client(FILE* fout) {
-    char buf[LARGE_BLOB_SIZE], buf2[256];
+    char buf[LARGE_BLOB_SIZE];
+    unsigned int i;
+
     strcpy(buf, xml_doc_in);
     char* p = strstr(buf, "</result>");
     if (!p) {
@@ -858,15 +862,44 @@ int RESULT::write_to_client(FILE* fout) {
     *p = 0;
     fputs(buf, fout);
 
-    // platform name will be null in anonymous case; don't send
-    //
-    if (strlen(platform_name)) {
-        sprintf(buf2,
+    APP_VERSION* avp = bavp->avp;
+    if (avp == (APP_VERSION*)1) avp = NULL;
+    if (avp) {
+        PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
+        fprintf(fout,
             "    <platform>%s</platform>\n"
             "    <version_num>%d</version_num>\n",
-            platform_name, version_num
+            pp->name, avp->version_num
         );
-        fputs(buf2, fout);
+        if (strlen(avp->plan_class)) {
+            fprintf(fout,
+                "    <plan_class>%s</plan_class>\n"
+                "    <avg_ncpus>%f</avg_ncpus>\n"
+                "    <max_ncpus>%f</max_ncpus>\n"
+                "    <flops>%f</flops>\n",
+                avp->plan_class,
+                bavp->host_usage.avg_ncpus,
+                bavp->host_usage.max_ncpus,
+                bavp->host_usage.flops
+            );
+            if (strlen(bavp->host_usage.cmdline)) {
+                fprintf(fout,
+                    "    <cmdline>%s</cmdline>\n",
+                    bavp->host_usage.cmdline
+                );
+            }
+            for (i=0; i<bavp->host_usage.coprocs.coprocs.size(); i++) {
+                COPROC& cp = bavp->host_usage.coprocs.coprocs[i];
+                fprintf(fout,
+                    "    <coproc>\n"
+                    "        <name>%s</name>\n"
+                    "        <count>%d</count>\n"
+                    "    </coproc>\n",
+                    cp.name,
+                    cp.count
+                );
+            }
+        }
     }
     fputs("</result>\n", fout);
     return 0;
@@ -1062,6 +1095,7 @@ void GLOBAL_PREFS::parse(const char* buf, const char* venue) {
     if (parse_double(buf2, "<ram_max_used_idle_pct>", dtemp)) {
         ram_max_used_idle_frac = dtemp/100.;
     }
+    parse_double(buf2, "<max_ncpus_pct>", max_ncpus_pct);
 }
 
 void GLOBAL_PREFS::defaults() {

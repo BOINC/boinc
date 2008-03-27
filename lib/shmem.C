@@ -268,8 +268,9 @@ int detach_shmem(void* p) {
 }
 
 #else
-// V6 mmap() shared memory for Unix/Linux/Mac
 
+// V6 mmap() shared memory for Unix/Linux/Mac
+//
 int create_shmem_mmap(char *path, size_t size, void** pp) {
     int fd, retval;
     struct stat sbuf;
@@ -301,7 +302,6 @@ int create_shmem_mmap(char *path, size_t size, void** pp) {
 
     *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
     
-    // Now close the file. The kernel doesn’t use our file descriptor.
     close(fd);
 
     if (*pp == MAP_FAILED) {
@@ -331,7 +331,6 @@ int attach_shmem_mmap(char *path, void** pp) {
 
     *pp = mmap(NULL, sbuf.st_size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
     
-    // Now close the file. The kernel doesn’t use our file descriptor.
     close(fd);
 
     if (*pp == MAP_FAILED) {
@@ -349,6 +348,7 @@ int detach_shmem_mmap(void* p, size_t size) {
 
 
 // Compatibility routines for Unix/Linux/Mac V5 applications 
+//
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
     
@@ -402,6 +402,7 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
 // prevents any more processes from attaching (by clearing 
 // the key in the shared memory structure), so BOINC does it 
 // only after we are completey done with the segment.
+//
 int destroy_shmem(key_t key){
     struct shmid_ds buf;
     int id, retval;
@@ -427,7 +428,7 @@ int attach_shmem(key_t key, void** pp){
 
     id = shmget(key, 0, 0);
     if (id < 0) {
-        perror("shmget");
+        perror("shmget in attach_shmem");
         return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);

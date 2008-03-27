@@ -222,7 +222,9 @@ public:
     FILE_INFO* lookup_file_info(PROJECT*, const char* name);
     RESULT* lookup_result(PROJECT*, const char*);
     WORKUNIT* lookup_workunit(PROJECT*, const char*);
-    APP_VERSION* lookup_app_version(APP*, char* platform, int ver);
+    APP_VERSION* lookup_app_version(
+        APP*, char* platform, int ver, char* plan_class
+    );
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*, bool detaching);
@@ -262,7 +264,7 @@ private:
     bool enforce_schedule();
     bool no_work_for_a_cpu();
     void rr_simulation();
-    void make_running_task_heap(vector<ACTIVE_TASK*>&);
+    void make_running_task_heap(vector<ACTIVE_TASK*>&, double&);
     void print_deadline_misses();
 public:
     double retry_shmem_time;

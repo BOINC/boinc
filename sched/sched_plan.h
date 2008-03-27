@@ -20,4 +20,4 @@
 #include "boinc_db.h"
 #include "server_types.h"
 
-extern bool app_plan(HOST&, char* plan_class, HOST_USAGE&);
+extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);

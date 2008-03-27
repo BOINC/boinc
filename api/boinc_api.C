@@ -202,18 +202,13 @@ static int setup_shared_mem() {
     return 0;
 }
 
-// Return CPU time of worker thread (and optionally others)
-// This may be called from any thread
+// Return CPU time of process.
 //
 double boinc_worker_thread_cpu_time() {
     double cpu;
 #ifdef _WIN32
     int retval;
-    if (options.all_threads_cpu_time) {
-        retval = boinc_process_cpu_time(cpu);
-    } else {
-        retval = boinc_thread_cpu_time(worker_thread_handle, cpu);
-    }
+    retval = boinc_process_cpu_time(cpu);
     if (retval) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }

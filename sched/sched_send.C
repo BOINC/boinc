@@ -109,57 +109,56 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
     return false;
 }
 
-// return the APP and the best APP_VERSION for the given host.
-// return false if none
+// return BEST_APP_VERSION for the given host, or NULL if none
 //
 //
-bool get_app_version(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
-    WORKUNIT& wu, APP* &app, APP_VERSION* &avp
+BEST_APP_VERSION* get_app_version(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, WORKUNIT& wu
 ) {
     bool found;
     double flops;
     unsigned int i;
     int j;
+    BEST_APP_VERSION* bavp;
 
-    app = ssp->lookup_app(wu.appid);
-    if (!app) {
-        log_messages.printf(MSG_CRITICAL, "Can't find APP#%d\n", wu.appid);
-        return false;
+    //
+    // see if app is already in memoized array
+    //
+    for (i=0; i<reply.wreq.best_app_versions.size(); i++) {
+        bavp = reply.wreq.best_app_versions[i];
+        if (bavp->appid == wu.appid) {
+            if (!bavp->avp) return NULL;
+            return bavp;
+        }
     }
 
+    APP* app = ssp->lookup_app(wu.appid);
+    if (!app) {
+        log_messages.printf(MSG_CRITICAL, "app not found: %d\n", wu.appid);
+        return NULL;
+    }
+
+    bavp = new BEST_APP_VERSION;
+    bavp->appid = wu.appid;
     if (anonymous(sreq.platforms.list[0])) {
         found = sreq.has_version(*app);
         if (!found) {
             log_messages.printf(MSG_DEBUG, "Didn't find anonymous app\n");
-            return false;
+            bavp->avp = 0;
+        } else {
+            bavp->avp = (APP_VERSION*)1;    // arbitrary nonzero value
         }
-        avp = NULL;
-        return true;
+        reply.wreq.best_app_versions.push_back(bavp);
+        return bavp;
     }
 
-    // see if app is already in memoized array
-    //
-    for (i=0; i<reply.wreq.best_app_versions.size(); i++) {
-        BEST_APP_VERSION& bav = reply.wreq.best_app_versions[i];
-        if (bav.appid == wu.appid) {
-            if (bav.avp) {
-                avp = bav.avp;
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
 
     // go through the client's platforms.
     // Scan the app versions for each platform.
     // Find the one with highest expected FLOPS
     //
-    BEST_APP_VERSION bav;
-    bav.appid = wu.appid;
-    bav.host_usage.flops = 0;
-    bav.avp = NULL;
+    bavp->host_usage.flops = 0;
+    bavp->avp = NULL;
     for (i=0; i<sreq.platforms.list.size(); i++) {
         PLATFORM* p = sreq.platforms.list[i];
         for (j=0; j<ssp->napp_versions; j++) {
@@ -172,51 +171,45 @@ bool get_app_version(
                 continue;
             }
             if (strlen(av.plan_class)) {
-                if (app_plan(reply.host, av.plan_class, host_usage)) {
-                    flops = host_usage.flops;
-                } else {
-                    flops = 0;
+                if (!app_plan(sreq, av.plan_class, host_usage)) {
+                    continue;
                 }
             } else {
-                flops = reply.host.p_fpops;
+                host_usage.init_seq(reply.host.p_fpops);
             }
-            if (flops > bav.host_usage.flops) {
-                bav.host_usage.flops = flops;
-                bav.avp = &av;
+            if (host_usage.flops > bavp->host_usage.flops) {
+                bavp->host_usage = host_usage;
+                bavp->avp = &av;
             }
         }
     }
-    if (bav.avp) {
-        reply.wreq.best_app_versions.push_back(bav);
-        avp = bav.avp;
+    reply.wreq.best_app_versions.push_back(bavp);
+    if (bavp->avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_DEBUG,
                 "Best version of app %s is %d (%f FLOPS)\n",
-                app->name, avp->id, bav.host_usage.flops
+                app->name, bavp->avp->id, bavp->host_usage.flops
             );
         }
-        return true;
-    }
-
-    // here if no app version exists
-    //
-    reply.wreq.best_app_versions.push_back(bav);
-
-    if (config.debug_version_select) {
-        log_messages.printf(MSG_DEBUG,
-            "no app version available: APP#%d PLATFORM#%d min_version %d\n",
-            app->id, sreq.platforms.list[0]->id, app->min_version
+    } else {
+        // here if no app version exists
+        //
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_DEBUG,
+                "no app version available: APP#%d PLATFORM#%d min_version %d\n",
+                app->id, sreq.platforms.list[0]->id, app->min_version
+            );
+        }
+        char message[256];
+        sprintf(message,
+            "%s is not available for your type of computer.",
+            app->user_friendly_name
         );
+        USER_MESSAGE um(message, "high");
+        reply.wreq.insert_no_work_message(um);
+        reply.wreq.no_app_version = true;
     }
-    char message[256];
-    sprintf(message,
-        "%s is not available for your type of computer.",
-        app->user_friendly_name
-    );
-    USER_MESSAGE um(message, "high");
-    reply.wreq.insert_no_work_message(um);
-    reply.wreq.no_app_version = true;
-    return false;
+    return bavp;
 }
 
 static char* find_user_friendly_name(int appid) {
@@ -711,11 +704,14 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, APP* app, APP_VERSION* avp
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, APP* app, BEST_APP_VERSION* bavp
 ) {
     int retval;
     WORKUNIT wu2, wu3;
     
+    APP_VERSION* avp = bavp->avp;
+    if (avp == (APP_VERSION*)1) avp = NULL;
+
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
     //
@@ -878,13 +874,14 @@ void SCHEDULER_REPLY::got_bad_result() {
 
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
-    SCHEDULER_REPLY& reply, APP* app, APP_VERSION* avp
+    SCHEDULER_REPLY& reply, BEST_APP_VERSION* bavp
 ) {
     int retval;
     double wu_seconds_filled;
     bool resent_result = false;
+    APP* app = ssp->lookup_app(wu.appid);
 
-    retval = add_wu_to_reply(wu, reply, app, avp);
+    retval = add_wu_to_reply(wu, reply, app, bavp);
     if (retval) return retval;
 
     // in the scheduling locality case,
@@ -996,11 +993,7 @@ int add_result_to_reply(
         );
         return retval;
     }
-    if (avp) {
-        PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
-        strcpy(result.platform_name, pp->name);
-        result.version_num = avp->version_num;
-    }
+    result.bavp = bavp;
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
     request.estimated_delay += wu_seconds_filled/effective_ncpus(reply.host);

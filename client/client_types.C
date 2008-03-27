@@ -1079,6 +1079,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     strcpy(api_version, "");
     version_num = 0;
     strcpy(platform, "");
+    strcpy(plan_class, "");
     app = NULL;
     project = NULL;
     while (in.fgets(buf, 256)) {
@@ -1092,6 +1093,7 @@ int APP_VERSION::parse(MIOFILE& in) {
         if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_str(buf, "<api_version>", api_version, sizeof(api_version))) continue;
         if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] APP_VERSION::parse(): unrecognized: %s\n", buf
@@ -1114,6 +1116,9 @@ int APP_VERSION::write(MIOFILE& out) {
         version_num,
         platform
     );
+    if (strlen(plan_class)) {
+        out.printf("    <plan_class>%s</plan_class>\n", plan_class);
+    }
     if (strlen(api_version)) {
         out.printf("    <api_version>%s</api_version>\n", api_version);
     }
@@ -1404,6 +1409,11 @@ void RESULT::clear() {
     project = NULL;
     version_num = 0;
     strcpy(platform, "");
+    strcpy(plan_class, "");
+    strcpy(cmdline, "");
+    avg_ncpus = 1;
+    max_ncpus = 1;
+    flops = gstate.host_info.p_fpops;
 }
 
 // parse a <result> element from scheduling server.
@@ -1419,7 +1429,12 @@ int RESULT::parse_server(MIOFILE& in) {
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
         if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_double(buf, "<avg_ncpus>", avg_ncpus)) continue;
+        if (parse_double(buf, "<max_ncpus>", max_ncpus)) continue;
+        if (parse_double(buf, "<flops>", flops)) continue;
+        if (parse_str(buf, "<cmdline>", cmdline, sizeof(cmdline))) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
@@ -1481,7 +1496,12 @@ int RESULT::parse_state(MIOFILE& in) {
         if (parse_double(buf, "<intops_per_cpu_sec>", intops_per_cpu_sec)) continue;
         if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
         if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_double(buf, "<avg_ncpus>", avg_ncpus)) continue;
+        if (parse_double(buf, "<max_ncpus>", max_ncpus)) continue;
+        if (parse_double(buf, "<flops>", flops)) continue;
+        if (parse_str(buf, "<cmdline>", cmdline, sizeof(cmdline))) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
@@ -1503,14 +1523,26 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         "    <exit_status>%d</exit_status>\n"
         "    <state>%d</state>\n"
         "    <platform>%s</platform>\n"
-        "    <version_num>%d</version_num>\n",
+        "    <version_num>%d</version_num>\n"
+        "    <avg_ncpus>%f</avg_ncpus>\n"
+        "    <max_ncpus>%f</max_ncpus>\n"
+        "    <flops>%f</flops>\n",
         name,
         final_cpu_time,
         exit_status,
         state(),
         platform,
-        version_num
+        version_num,
+        avg_ncpus,
+        max_ncpus,
+        flops
     );
+    if (strlen(plan_class)) {
+        out.printf("    <plan_class>%s</plan_class>\n", plan_class);
+    }
+    if (strlen(cmdline)) {
+        out.printf("    <cmdline>%s</cmdline>\n", cmdline);
+    }
     if (fpops_per_cpu_sec) {
         out.printf("    <fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
     }

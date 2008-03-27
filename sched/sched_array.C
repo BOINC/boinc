@@ -124,8 +124,9 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         // Find the app and best app_version for this host.
         //
-        found = get_app_version(sreq, reply, wu, app, avp);
-        if (!found) {
+        BEST_APP_VERSION* bavp;
+        bavp = get_app_version(sreq, reply, wu);
+        if (!bavp) {
             continue;
         }
 
@@ -241,9 +242,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             goto done;
         }
 
-        retval = add_result_to_reply(
-            result, wu, sreq, reply, app, avp
-        );
+        retval = add_result_to_reply(result, wu, sreq, reply, bavp);
 
         // add_result_to_reply() fails only in fairly pathological cases -
         // e.g. we couldn't update the DB record or modify XML fields.

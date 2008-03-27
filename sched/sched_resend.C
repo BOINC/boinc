@@ -105,8 +105,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool did_any = false;
     int num_eligible_to_resend=0;
     int num_resent=0;
-    APP* app;
-    APP_VERSION* avp;
+    BEST_APP_VERSION* bavp;
     int retval;
 
     sprintf(buf, " where hostid=%d and server_state=%d ",
@@ -139,8 +138,8 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
 
-        found = get_app_version(sreq, reply, wu, app, avp);
-        if (!found) {
+        bavp = get_app_version(sreq, reply, wu);
+        if (!bavp) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] no app version [RESULT#%d]\n",
                 reply.host.id, result.id
@@ -186,9 +185,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             USER_MESSAGE um(warning_msg, "high");
             reply.insert_message(um);
         } else {
-            retval = add_result_to_reply(
-                result, wu, sreq, reply, app, avp
-            );
+            retval = add_result_to_reply(result, wu, sreq, reply, bavp);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] failed to send [RESULT#%d]\n",

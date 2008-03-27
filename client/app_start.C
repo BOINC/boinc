@@ -211,6 +211,19 @@ int ACTIVE_TASK::write_app_init_file() {
     return retval;
 }
 
+static int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path) {
+    FILE *fp = boinc_fopen(link_path, "w");
+    if (!fp) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "Can't create link file %s", link_path
+        );
+        return ERR_FOPEN;
+    }
+    fprintf(fp, "<soft_link>%s</soft_link>\n", rel_file_path);
+    fclose(fp);
+    return 0;
+}
+
 // set up a file reference, given a slot dir and project dir.
 // This means:
 // 1) copy the file to slot dir, if reference is by copy
@@ -251,23 +264,17 @@ static int setup_file(
     }
 
 #ifdef _WIN32
-    FILE *fp = boinc_fopen(link_path, "w");
-    if (!fp) {
-        msg_printf(project, MSG_INTERNAL_ERROR,
-            "Can't open link file %s", link_path
-        );
-        return ERR_FOPEN;
-    }
-    fprintf(fp, "<soft_link>%s</soft_link>\n", rel_file_path);
-    fclose(fp);
+    retval = make_soft_link(project, link_path, rel_file_path);
+    if (retval) return retval;
 #else
     retval = symlink(rel_file_path, link_path);
     if (retval) {
-        msg_printf(project, MSG_INTERNAL_ERROR,
-            "Can't symlink %s to %s: %d", rel_file_path, link_path, retval
-        );
-        perror("symlink");
-        return ERR_SYMLINK;
+        // A Unix system can't make symlinks if the filesystem if FAT32
+        // (e.g. external USB disk).
+        // Try making a soft link instead.
+        //
+        retval = make_soft_link(project, link_path, rel_file_path);
+        if (retval) return retval;
     }
 #endif
 #ifdef SANDBOX
@@ -615,6 +622,10 @@ int ACTIVE_TASK::start(bool first_time) {
     argv[0] = exec_name;
     char cmdline[8192];
     strcpy(cmdline, wup->command_line.c_str());
+    if (strlen(result->cmdline)) {
+        strcat(cmdline, " ");
+        strcat(cmdline, result->cmdline);
+    }
     parse_command_line(cmdline, argv+1);
     if (log_flags.task_debug) {
         debug_print_argv(argv);
@@ -749,6 +760,10 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
+        if (strlen(result->cmdline)) {
+            strcat(cmdline, " ");
+            strcat(cmdline, result->cmdline);
+        }
         sprintf(buf, "../../%s", exec_path );
         if (g_use_sandbox) {
             char switcher_path[100];

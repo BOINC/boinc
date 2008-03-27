@@ -276,15 +276,14 @@ static int possibly_send_result(
     DB_RESULT result2;
     int retval, count;
     char buf[256];
-    APP* app;
-    APP_VERSION* avp;
+    BEST_APP_VERSION* bavp;
 
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    bool found = get_app_version(sreq, reply, wu, app, avp);
+    bavp = get_app_version(sreq, reply, wu);
 
-    if (!found && anonymous(sreq.platforms.list[0])) {
+    if (!bavp && anonymous(sreq.platforms.list[0])) {
         char help_msg_buf[512];
         sprintf(help_msg_buf,
             "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.",
@@ -295,12 +294,13 @@ static int possibly_send_result(
         reply.set_delay(DELAY_ANONYMOUS);
     }
 
-    if (!found) return ERR_NO_APP_VERSION;
+    if (!bavp) return ERR_NO_APP_VERSION;
 
     // wu_is_infeasible() returns the reason why the WU is not feasible;
     // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
     // see sched_send.h.
     // 
+    APP* app = ssp->lookup_app(wu.appid);
     if (wu_is_infeasible(wu, sreq, reply, *app)) {
         return ERR_INSUFFICIENT_RESOURCE;
     }
@@ -312,7 +312,7 @@ static int possibly_send_result(
         if (count > 0) return ERR_WU_USER_RULE;
     }
 
-    return add_result_to_reply(result, wu, sreq, reply, app, avp);
+    return add_result_to_reply(result, wu, sreq, reply, bavp);
 }
 
 // returns true if the work generator can not make more work for this

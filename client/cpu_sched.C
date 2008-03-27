@@ -513,9 +513,8 @@ void CLIENT_STATE::schedule_cpus() {
 #ifdef SIM
     if (!cpu_sched_rr_only) {
 #endif
-    int ncpus_used = 0;
-    //while (ncpus_used < ncpus) {
-    while ((int)ordered_scheduled_results.size() < ncpus) {
+    double ncpus_used = 0;
+    while (ncpus_used < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
         rp->already_selected = true;
@@ -545,12 +544,8 @@ void CLIENT_STATE::schedule_cpus() {
                 atp->needs_shmem = false;
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
-            ncpus_used += atp->nthreads;
-		} else {
-            // if we haven't run the app yet, assume it has one thread
-            //
-            ncpus_used++;
         }
+        ncpus_used += rp->avg_ncpus;
 
         rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
@@ -569,7 +564,7 @@ void CLIENT_STATE::schedule_cpus() {
 
     // Next, choose results from projects with large debt
     //
-    while ((int)ordered_scheduled_results.size() < ncpus) {
+    while (ncpus_used < ncpus) {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
@@ -599,6 +594,7 @@ void CLIENT_STATE::schedule_cpus() {
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
+        ncpus_used += rp->avg_ncpus;
         double xx = (rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->anticipated_debt -= xx;
         if (log_flags.cpu_sched_debug) {
@@ -614,17 +610,19 @@ void CLIENT_STATE::schedule_cpus() {
 // make a list of preemptable tasks, ordered by their preemptability.
 //
 void CLIENT_STATE::make_running_task_heap(
-    vector<ACTIVE_TASK*> &running_tasks
+    vector<ACTIVE_TASK*> &running_tasks, double& ncpus_used
 ) {
     unsigned int i;
     ACTIVE_TASK* atp;
 
+    ncpus_used = 0;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->result->project->non_cpu_intensive) continue;
         if (!atp->result->runnable()) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         running_tasks.push_back(atp);
+        ncpus_used += atp->result->avg_ncpus;
     }
 
     std::make_heap(
@@ -655,6 +653,7 @@ bool CLIENT_STATE::enforce_schedule() {
     vector<ACTIVE_TASK*> running_tasks;
 	static double last_time = 0;
     int retval;
+    double ncpus_used;
 
     // Do this when requested, and once a minute as a safety net
     //
@@ -694,13 +693,15 @@ bool CLIENT_STATE::enforce_schedule() {
 
     // make heap of currently running tasks, ordered by preemptibility
     //
-    make_running_task_heap(running_tasks);
+    make_running_task_heap(running_tasks, ncpus_used);
 
     // if there are more running tasks than ncpus,
     // then mark the extras for preemption 
     //
-    while (running_tasks.size() > (unsigned int)ncpus) {
-        running_tasks[0]->next_scheduler_state = CPU_SCHED_PREEMPTED;
+    while (ncpus_used > ncpus) {
+        atp = running_tasks[0];
+        atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+        ncpus_used -= atp->result->avg_ncpus;
         std::pop_heap(
             running_tasks.begin(),
             running_tasks.end(),
@@ -717,11 +718,6 @@ bool CLIENT_STATE::enforce_schedule() {
             ram_left/MEGA
         );
     }
-
-    // keep track of how many tasks we plan on running
-    // (i.e. have next_scheduler_state = SCHEDULED)
-    //
-    int nrunning = (int)running_tasks.size();
 
     // Loop through the scheduled results
     //
@@ -765,7 +761,7 @@ bool CLIENT_STATE::enforce_schedule() {
             if (atp->procinfo.working_set_size_smoothed > ram_left) {
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 atp->too_large = true;
-                nrunning--;
+                ncpus_used -= atp->result->avg_ncpus;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[mem_usage_debug] enforce: result %s can't continue, too big %.2fMB > %.2fMB",
@@ -801,7 +797,7 @@ bool CLIENT_STATE::enforce_schedule() {
         // Preempt something if needed (and possible).
         //
         bool run_task = false;
-        bool need_to_preempt = (nrunning==ncpus) && running_tasks.size();
+        bool need_to_preempt = (ncpus_used >= ncpus) && running_tasks.size();
             // the 2nd half of the above is redundant
         if (need_to_preempt) {
             // examine the most preemptable task.
@@ -821,7 +817,7 @@ bool CLIENT_STATE::enforce_schedule() {
                     rp->project->deadlines_missed--;
                 }
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-                nrunning--;
+                ncpus_used -= atp->result->avg_ncpus;
                 std::pop_heap(
                     running_tasks.begin(),
                     running_tasks.end(),
@@ -849,14 +845,14 @@ bool CLIENT_STATE::enforce_schedule() {
         if (run_task) {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-            nrunning++;
+            ncpus_used += rp->avg_ncpus;
             ram_left -= atp->procinfo.working_set_size_smoothed;
         }
     }
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO,
-            "[cpu_sched_debug] finished preempt loop, nrunning %d",
-            nrunning
+            "[cpu_sched_debug] finished preempt loop, ncpus_used %f",
+            ncpus_used
         );
     }
 
@@ -879,16 +875,13 @@ bool CLIENT_STATE::enforce_schedule() {
         }
     }
 
-    if (log_flags.cpu_sched_debug && nrunning < ncpus) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Some CPUs idle (%d<%d)",
-            nrunning, ncpus
+    if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] using %f out of %d CPUs",
+            ncpus_used, ncpus
         );
-		request_work_fetch("CPUs idle");
-    }
-    if (log_flags.cpu_sched_debug && nrunning > ncpus) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Too many tasks started (%d>%d)",
-            nrunning, ncpus
-        );
+        if (ncpus_used < ncpus) {
+            request_work_fetch("CPUs idle");
+        }
     }
 
     // schedule new non CPU intensive tasks
