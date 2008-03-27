@@ -22,8 +22,8 @@
 				AdditionalIncludeDirectories="../boinc;../common;../include"
 				PreprocessorDefinitions="WIN32;_WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;_POSIX_"
 				MinimalRebuild="TRUE"
-				BasicRuntimeChecks="0"
-				RuntimeLibrary="1"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="5"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
@@ -80,8 +80,8 @@
 				AdditionalIncludeDirectories="../boinc;../common;../include"
 				PreprocessorDefinitions="WIN32;_WIN32;_MT;NDEBUG;_WINDOWS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;_CONSOLE;_POSIX_"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
-				EnableEnhancedInstructionSet="0"
+				RuntimeLibrary="4"
+				EnableEnhancedInstructionSet="2"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
@@ -94,6 +94,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/LTCG"
 				OutputFile="$(IntDir)/$(ProjectName).lib"/>
 			<Tool
 				Name="VCMIDLTool"/>

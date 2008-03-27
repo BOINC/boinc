@@ -48,7 +48,8 @@
 				ProgramDataBaseFileName=".\Build\Release\obj/"
 				BrowseInformation="1"
 				WarningLevel="3"
-				SuppressStartupBanner="FALSE"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="0"
 				CompileAs="2"
 				ForcedIncludeFiles=""/>
@@ -57,8 +58,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies=""
-				OutputFile="$(OutDir)/libdc-client-boinc.lib"
-				AdditionalLibraryDirectories="$(OutDir)/"
+				OutputFile="$(OutDir)/libdc-client-boinc_2003.lib"
+				AdditionalLibraryDirectories=""
 				IgnoreAllDefaultLibraries="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -105,7 +106,7 @@
 				PreprocessorDefinitions="WIN32;_WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;_POSIX_"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
-				BasicRuntimeChecks="0"
+				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				BufferSecurityCheck="TRUE"
 				ForceConformanceInForLoopScope="FALSE"
@@ -128,7 +129,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libdc-client-boinc-debug.lib"
+				OutputFile="$(OutDir)/libdc-client-boinc-debug_2003.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
