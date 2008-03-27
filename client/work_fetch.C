@@ -483,7 +483,7 @@ bool CLIENT_STATE::compute_work_requests() {
             continue;
         }
         if ((p->deadlines_missed >= ncpus)
-            && overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY
+            && overall_work_fetch_urgency < WORK_FETCH_NEED
         ) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO,
