@@ -647,3 +647,9 @@ David  27 Mar 2008
 
     multi_thread/
         multi_thread.C
+
+Charlie 27 Mar 2008
+    - example_app: Fixes to Mac build script.
+    
+    example_app/
+        MakeMacExample.sh
