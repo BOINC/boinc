@@ -2705,3 +2705,14 @@ David  Mar 27 2008
     tools/
         update_versions
     version.h
+
+David  Mar 27 2008
+    - Library: switch from lstat() back to stat() most places;
+        this broke some projects' back-end code.
+        Make a new function (boinc_file_or_symlink_exists())
+        for use by the client when clearing out slot dirs
+
+    client/
+        sandbox.C
+    lib/
+        filesys.C,h

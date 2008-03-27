@@ -59,6 +59,7 @@ extern "C" {
   extern int is_dir(const char* path);
   extern int boinc_truncate(const char*, double);
   extern int boinc_file_exists(const char* path);
+  extern int boinc_file_or_symlink_exists(const char* path);
 
 #ifdef __cplusplus
 }

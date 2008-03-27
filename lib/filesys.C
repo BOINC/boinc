@@ -74,20 +74,17 @@ using std::string;
 
 char boinc_failed_file[256];
 
-#ifdef _WIN32
-#define lstat(x,y) stat(x,y)
-#endif
 // routines for enumerating the entries in a directory
 
 int is_file(const char* path) {
     struct stat sbuf;
-    int retval = lstat(path, &sbuf);
+    int retval = stat(path, &sbuf);
     return (!retval && (sbuf.st_mode & S_IFREG));
 }
 
 int is_dir(const char* path) {
     struct stat sbuf;
-    int retval = lstat(path, &sbuf);
+    int retval = stat(path, &sbuf);
     return (!retval && (sbuf.st_mode & S_IFDIR));
 }
 
@@ -287,7 +284,7 @@ int file_size(const char* path, double& size) {
     struct stat sbuf;
     int retval;
 
-    retval = lstat(path, &sbuf);
+    retval = stat(path, &sbuf);
     if (retval) return ERR_NOT_FOUND;
     size = (double)sbuf.st_size;
     return 0;
@@ -445,8 +442,21 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 
 int boinc_file_exists(const char* path) {
    struct stat buf;
+   if (stat(path, &buf)) {
+       return false;     // stat() returns zero on success
+   }
+   return true;
+}
 
+// same, but doesn't traverse symlinks
+//
+int boinc_file_or_symlink_exists(const char* path) {
+   struct stat buf;
+#ifdef _WIN32
+   if (stat(path, &buf)) {
+#else
    if (lstat(path, &buf)) {
+#endif
        return false;     // stat() returns zero on success
    }
    return true;

@@ -149,12 +149,12 @@ static int delete_project_owned_file_aux(const char* path) {
 // Delete the file located at path.
 // If "retry" is set, do retries for 5 sec in case some
 // other program (e.g. virus checker) has the file locked.
-// Don't do this if deleting directories - it can lock up Manager.
+// Don't do this if deleting directories - it can lock up the Manager.
 //
 int delete_project_owned_file(const char* path, bool retry) {
     int retval = 0;
 
-    if (!boinc_file_exists(path)) {
+    if (!boinc_file_or_symlink_exists(path)) {
         return 0;
     }
     retval = delete_project_owned_file_aux(path);
