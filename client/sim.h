@@ -177,7 +177,7 @@ private:
     bool enforce_schedule();
     bool no_work_for_a_cpu();
     void rr_simulation();
-    void make_running_task_heap(vector<ACTIVE_TASK*>&);
+    void make_running_task_heap(vector<ACTIVE_TASK*>&, double&);
     void print_deadline_misses();
 public:
     double retry_shmem_time;

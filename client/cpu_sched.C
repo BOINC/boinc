@@ -473,6 +473,7 @@ void CLIENT_STATE::schedule_cpus() {
     double expected_pay_off;
     unsigned int i;
     double rrs = runnable_resource_share();
+    double ncpus_used;
 
     if (log_flags.cpu_sched_debug) {
 		msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
@@ -513,7 +514,7 @@ void CLIENT_STATE::schedule_cpus() {
 #ifdef SIM
     if (!cpu_sched_rr_only) {
 #endif
-    double ncpus_used = 0;
+    ncpus_used = 0;
     while (ncpus_used < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
