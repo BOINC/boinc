@@ -2610,3 +2610,11 @@ Charlie Mar 21 2008
     clientgui/
         mac/
             SetupSecurity.cpp
+
+Charlie Mar 27 2008
+    - Mac: When invoked with the -lib argument, BOINC build script builds the 
+        utility application MakeAppIcon_h in addition to the three libraries 
+        libboinc_api.a, libboinc_graphics2.a and libboinc.a.
+
+    mac_build/
+        BuildMacBOINC.sh

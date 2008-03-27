@@ -22,7 +22,7 @@
 #
 ##
 # Script for building Macintosh BOINC Manager, Core Client and libraries
-# by Charlie Fenton 1/10/08
+# by Charlie Fenton 3/27/08
 # with thanks to Reinhard Prix for his assistance
 ##
 
@@ -49,7 +49,8 @@
 ##
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
 ##
-## -lib         build the three libraries: libboinc_api.a, libboinc_graphics2.a, libboinc.a
+## -lib         build the three libraries: libboinc_api.a, libboinc_graphics2.a, libboinc.a 
+##              and the utility application MakeAppIcon_h.
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
@@ -82,7 +83,7 @@ if [ "${doclean}" = "clean" ]; then
 fi
 
 if [ "${buildlibs}" = "1" ]; then
-targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc"
+targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target MakeAppIcon_h"
 fi
 
 if [ "${buildclient}" = "1" ]; then
