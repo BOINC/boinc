@@ -22,6 +22,8 @@
 // It divides this among a number N of "worker" threads.
 // N is passed in through init_data.xml, and defaults to 4.
 //
+// Doesn't do checkpointing.
+//
 // The main issue is how to suspend/resume the threads.
 // The standard BOINC API doesn't work - it assumes that
 // the initial thread is the only one.
@@ -65,6 +67,7 @@ typedef pthread_t THREAD_ID;
 struct THREAD {
     THREAD_ID id;
     int index;
+    int units_done;
 
     void start(THREAD_FUNC);
     void suspend(bool);
@@ -85,10 +88,19 @@ struct THREAD_SET {
         }
         return true;
     }
+    int units_done() {
+        int count = 0;
+        for (unsigned int i=0; i<threads.size(); i++) {
+            THREAD* t = threads[i];
+            count += t->units_done;
+        }
+        return count;
+    }
 };
 
-#ifdef _WIN32
 void THREAD::start(THREAD_FUNC func) {
+    units_done = 0;
+#ifdef _WIN32
     id = (HANDLE) _beginthreadex(
         NULL,
         16384,
@@ -101,27 +113,26 @@ void THREAD::start(THREAD_FUNC func) {
         fprintf(stderr, "Can't start thread\n");
         exit(1);
     }
-}
-void THREAD::suspend(bool if_susp) {
-    if (if_susp) {
-        SuspendThread(id);
-    } else {
-        ResumeThread(id);
-    }
-}
 #else
-void THREAD::start(THREAD_FUNC func) {
     int retval;
     retval = pthread_create(&id, 0, func, (void*)this);
     if (retval) {
         fprintf(stderr, "can't start thread\n");
         exit(1);
     }
+#endif
 }
 void THREAD::suspend(bool if_susp) {
+#ifdef _WIN32
+    if (if_susp) {
+        SuspendThread(id);
+    } else {
+        ResumeThread(id);
+    }
+#else
     pthread_kill(id, if_susp?SIGSTOP:SIGCONT);
-}
 #endif
+}
 
 // do a billion floating-point ops
 // (note: I needed to add an arg to this;
@@ -146,6 +157,7 @@ void* worker(void* p) {
     THREAD* t = (THREAD*)p;
     for (int i=0; i<gflops_per_thread; i++) {
         double x = giga_flop(i);
+        t->units_done++;
         fprintf(stderr, "thread %d finished %d: %f\n", t->index, i, x);
     }
     t->id = THREAD_ID_NULL;
@@ -167,10 +179,15 @@ int main(int argc, char** argv) {
     options.direct_process_action = false;
     boinc_init_options(&options);
     boinc_get_status(&status);
-    boinc_get_init_data(aid);
-    if (strlen(aid.opaque)) {
-        parse_int(aid.opaque, "<nthreads>", nthreads);
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--nthreads")) {
+            nthreads = atoi(argv[++i]);
+        } else {
+            fprintf(stderr, "unrecognized arg: %s\n", argv[i]);
+        }
     }
+
     gflops_per_thread = TOTAL_GFLOPS/nthreads;
 
     for (i=0; i<nthreads; i++) {
@@ -181,6 +198,8 @@ int main(int argc, char** argv) {
     }
 
     while (1) {
+        double f = thread_set.units_done()/((double)TOTAL_GFLOPS);
+        boinc_fraction_done(f);
         if (thread_set.done()) break;
         bool old_susp = status.suspended;
         boinc_get_status(&status);
