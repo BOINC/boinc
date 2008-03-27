@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="client"
 	ProjectGUID="{EE96AAE0-7D9F-48AA-8ECD-7EECED30289C}"
 	RootNamespace="dcapi"
@@ -87,6 +87,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
 				OutputFile="$(OutDir)/libdc-client-boinc.lib"
 				AdditionalLibraryDirectories="$(OutDir)/"
 				IgnoreAllDefaultLibraries="false"
@@ -180,6 +181,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
 				OutputFile="$(OutDir)/libdc-client-boinc-debug.lib"
 				AdditionalLibraryDirectories="$(OutDir)/"
 				SuppressStartupBanner="true"
