@@ -2729,3 +2729,12 @@ David  Mar 27 2008
 
     db/
         schema.sql
+
+David  Mar 27 2008
+    - scheduler: add "distinct_beta_apps" option;
+        lets users filter out beta apps as well as others
+        (from Nicolas Maire)
+
+    sched/
+        sched_send.C
+        sched_config.C,h

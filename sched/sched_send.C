@@ -374,10 +374,10 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 
         pos = str.find("<app_id>", pos) + 1;
     }
-	if (parse_bool(buf,"<allow_non_preferred_apps>", flag)) {
+	if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
 	    reply.wreq.host_info.allow_non_preferred_apps = flag;
     }
-	if (parse_bool(buf,"<allow_beta_work>", flag)) {
+	if (parse_bool(buf,"allow_beta_work", flag)) {
         reply.wreq.host_info.allow_beta_work = flag;
 	}
  
@@ -441,9 +441,9 @@ static inline int check_app_filter(
             break;
         }
     }
-    // TODO: select between the following via config
-    //if (!app_allowed) {
-    if (!app_allowed && reply.wreq.user_apps_only && !reply.wreq.beta_only) {
+    if (!app_allowed && reply.wreq.user_apps_only && 
+        (!reply.wreq.beta_only || config.distinct_beta_apps)
+    ) {
         reply.wreq.no_allowed_apps_available = true;
         log_messages.printf(MSG_DEBUG,
             "[USER#%d] [WU#%d] user doesn't want work for this application\n",
@@ -1045,7 +1045,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     get_host_info(reply); // parse project prefs for app details
     reply.wreq.beta_only = false;
-    reply.wreq.user_apps_only=true;
+    reply.wreq.user_apps_only = true;
 
     log_messages.printf(MSG_DEBUG,
         "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",

@@ -138,6 +138,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_double(tag, "reliable_reduced_delay_bound", reliable_reduced_delay_bound)) continue;
         if (xp.parse_int(tag, "grace_period_hours", grace_period_hours)) continue;
         if (xp.parse_int(tag, "delete_delay_hours", delete_delay_hours)) continue;
+        if (xp.parse_bool(tag, "distinct_beta_apps", distinct_beta_apps)) continue;
         if (xp.parse_bool(tag, "workload_sim", workload_sim)) continue;
         if (xp.parse_bool(tag, "ended", ended)) continue;
         if (xp.parse_int(tag, "shmem_work_items", shmem_work_items)) continue;
