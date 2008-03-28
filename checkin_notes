@@ -653,3 +653,15 @@ Charlie 28 Mar 2008
     
     example_app/
         MakeMacExample.sh
+
+David  28 Mar 2008
+    - multi_thread: suspend/resume didn't work in the Unix implementation.
+        REMINDER TO SELF: you can't suspend or resume pthreads - period.
+        So I changed things so that in the Unix implementation,
+        we fork a second process, in which the threads run.
+        The first process handles suspend/resume messages
+        by signaling the 2nd process.
+        The 2nd process generates system messages (frac done, CPU time)
+    
+    multi_thread/
+        multi_thread.C
