@@ -73,4 +73,6 @@ struct COPROC_CELL_SPE : public COPROC {
     virtual ~COPROC_CELL_SPE(){}
 };
 
+void fake_cuda(COPROCS&);
+
 #endif

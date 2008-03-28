@@ -2790,3 +2790,10 @@ David  Mar 28 2008
 
     sched/
         sched_send.C
+
+David  Mar 28 2008
+    - some debugging code
+    client/
+        client_state.C
+    lib/
+        coproc.C,h

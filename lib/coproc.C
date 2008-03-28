@@ -90,6 +90,32 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
     }
 }
 
+// add a non-existent CUDA coproc (for debugging)
+//
+void fake_cuda(COPROCS& coprocs) {
+   COPROC_CUDA cc;
+   strcpy(cc.name, "cuda 0");
+   cc.count = 1;
+   cc.prop.totalGlobalMem = 1000;
+   cc.prop.sharedMemPerBlock = 100;
+   cc.prop.regsPerBlock = 8;
+   cc.prop.warpSize = 10;
+   cc.prop.memPitch = 10;
+   cc.prop.maxThreadsPerBlock = 20;
+   cc.prop.maxThreadsDim[0] = 2;
+   cc.prop.maxThreadsDim[1] = 2;
+   cc.prop.maxThreadsDim[2] = 2;
+   cc.prop.maxGridSize[0] = 10;
+   cc.prop.maxGridSize[1] = 10;
+   cc.prop.maxGridSize[2] = 10;
+   cc.prop.totalConstMem = 10;
+   cc.prop.major = 1;
+   cc.prop.minor = 1;
+   cc.prop.clockRate = 10000;
+   cc.prop.textureAlignment = 1000;
+   coprocs.coprocs.push_back(cc);
+}
+
 void COPROC_CUDA::write_xml(FILE* f) {
     fprintf(f,
         "<coproc_cuda>\n"
@@ -107,7 +133,8 @@ void COPROC_CUDA::write_xml(FILE* f) {
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
         "   <clockRate>%d</clockRate>\n"
-        "   <textureAlignment>%u</textureAlignment>\n",
+        "   <textureAlignment>%u</textureAlignment>\n"
+        "</coproc_cuda>\n",
         count,
         prop.name,
         (unsigned int)prop.totalGlobalMem,

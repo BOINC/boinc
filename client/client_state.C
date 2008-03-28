@@ -239,6 +239,9 @@ int CLIENT_STATE::init() {
     show_host_info();
 
     coprocs.get();
+#if 0
+    fake_cuda(coprocs);
+#endif
     for (i=0; i<coprocs.coprocs.size(); i++) {
         COPROC& c = coprocs.coprocs[i];
         msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c.name, c.count);
