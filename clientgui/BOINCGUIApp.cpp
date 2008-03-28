@@ -253,7 +253,7 @@ bool CBOINCGUIApp::OnInit() {
         );
         wxMessageDialog* pDlg = new wxMessageDialog(NULL, strDialogMessage, wxT(""), wxOK);
         GetCurrentProcess(&psn);
-        ShowHideProcess(&psn, false);
+        SetFrontProcess(&psn);  // Shows process if hidden
         pDlg->ShowModal();
         if (pDlg)
             pDlg->Destroy();
