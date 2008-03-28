@@ -53,7 +53,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         // the following is for an app that can use anywhere
         // from 1 to 64 threads, can control this exactly,
         // and whose speedup is .95N
-        // (so a sequential app will be used if one is available)
+        // (so on a uniprocessor, we'll use a sequential app
+        // if one is available)
         //
         int ncpus, nthreads;
         bool bounded;
@@ -66,6 +67,26 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
         hu.flops = 0.95*sreq.host.p_fpops*nthreads;
         return true;
+    } else if (!strcmp(plan_class, "cuda")) {
+        // the following is for an app that uses a CUDA GPU
+        // and some CPU also, and gets 50 GFLOPS total
+        //
+        for (unsigned int i=0; i<sreq.coprocs.coprocs.size(); i++) {
+            COPROC cp = sreq.coprocs.coprocs[i];
+            if (!strcmp(cp.name, "CUDA")) {
+                COPROC cu;
+                strcpy(cu.name, cp.name);
+                cu.count = 1;
+                hu.coprocs.coprocs.push_back(cu);
+                double x = 1e9/sreq.host.p_fpops;
+                if (x > 1) x = 1;
+                hu.avg_ncpus = x;
+                hu.max_ncpus = x;
+                hu.flops = 5e11;
+                return true;
+            }
+        }
+        return false;
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

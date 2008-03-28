@@ -723,6 +723,7 @@ int add_wu_to_reply(
         }
         
         reply.insert_app_unique(*app);
+        av2.bavp = bavp;
         reply.insert_app_version_unique(*avp2);
         log_messages.printf(MSG_DEBUG,
             "[HOST#%d] Sending app_version %s %d %d\n",
@@ -993,7 +994,6 @@ int add_result_to_reply(
         );
         return retval;
     }
-    result.bavp = bavp;
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
     request.estimated_delay += wu_seconds_filled/effective_ncpus(reply.host);

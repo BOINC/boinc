@@ -407,6 +407,12 @@ struct APP_VERSION {
     char platform[256];
     char plan_class[64];
     char api_version[16];
+    double avg_ncpus;
+    double max_ncpus;
+    double flops;
+    char cmdline[256];      // additional cmdline args
+    COPROCS coprocs;
+
     APP* app;
     PROJECT* project;
     std::vector<FILE_REF> app_files;
@@ -456,12 +462,7 @@ struct RESULT {
     int version_num;        // identifies the app used
     char plan_class[64];
     char platform[256];
-    char cmdline[256];      // additional cmdline args
     APP_VERSION* avp;
-    double avg_ncpus;
-    double max_ncpus;
-    double flops;
-    COPROCS coprocs;
     std::vector<FILE_REF> output_files;
     bool ready_to_report;
         // we're ready to report this result to the server;

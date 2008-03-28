@@ -546,7 +546,7 @@ void CLIENT_STATE::schedule_cpus() {
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
         }
-        ncpus_used += rp->avg_ncpus;
+        ncpus_used += rp->avp->avg_ncpus;
 
         rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
@@ -595,7 +595,7 @@ void CLIENT_STATE::schedule_cpus() {
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
-        ncpus_used += rp->avg_ncpus;
+        ncpus_used += rp->avp->avg_ncpus;
         double xx = (rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->anticipated_debt -= xx;
         if (log_flags.cpu_sched_debug) {
@@ -623,7 +623,7 @@ void CLIENT_STATE::make_running_task_heap(
         if (!atp->result->runnable()) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         running_tasks.push_back(atp);
-        ncpus_used += atp->result->avg_ncpus;
+        ncpus_used += atp->app_version->avg_ncpus;
     }
 
     std::make_heap(
@@ -702,7 +702,7 @@ bool CLIENT_STATE::enforce_schedule() {
     while (ncpus_used > ncpus) {
         atp = running_tasks[0];
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-        ncpus_used -= atp->result->avg_ncpus;
+        ncpus_used -= atp->app_version->avg_ncpus;
         std::pop_heap(
             running_tasks.begin(),
             running_tasks.end(),
@@ -762,7 +762,7 @@ bool CLIENT_STATE::enforce_schedule() {
             if (atp->procinfo.working_set_size_smoothed > ram_left) {
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 atp->too_large = true;
-                ncpus_used -= atp->result->avg_ncpus;
+                ncpus_used -= atp->app_version->avg_ncpus;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[mem_usage_debug] enforce: result %s can't continue, too big %.2fMB > %.2fMB",
@@ -818,7 +818,7 @@ bool CLIENT_STATE::enforce_schedule() {
                     rp->project->deadlines_missed--;
                 }
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-                ncpus_used -= atp->result->avg_ncpus;
+                ncpus_used -= atp->app_version->avg_ncpus;
                 std::pop_heap(
                     running_tasks.begin(),
                     running_tasks.end(),
@@ -846,7 +846,7 @@ bool CLIENT_STATE::enforce_schedule() {
         if (run_task) {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-            ncpus_used += rp->avg_ncpus;
+            ncpus_used += atp->app_version->avg_ncpus;
             ram_left -= atp->procinfo.working_set_size_smoothed;
         }
     }
@@ -1476,7 +1476,7 @@ void CLIENT_STATE::set_ncpus() {
     if (config.ncpus>0) {
         ncpus = config.ncpus;
     } else if (host_info.p_ncpus>0) {
-        ncpus = (host_info.p_ncpus * global_prefs.max_ncpus_pct)/100;
+        ncpus = (int)((host_info.p_ncpus * global_prefs.max_ncpus_pct)/100);
         if (ncpus == 0) ncpus = 1;
     } else {
         ncpus = 1;

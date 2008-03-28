@@ -44,6 +44,7 @@ extern DB_CONN boinc_db;
 // Dummy name for file xfers
 #define FILE_MOVER "move_file"
 
+struct BEST_APP_VERSION;
 
 // A compilation target, i.e. a architecture/OS combination.
 // The core client will be given only applications with the same platform
@@ -106,6 +107,10 @@ struct APP_VERSION {
     int max_core_version;   // if <>0, max core version this will run with
     bool deprecated;
     char plan_class[256];
+
+    // the following used by scheduler, not in DB
+    //
+    BEST_APP_VERSION* bavp;
 
     int write(FILE*);
     void clear();
@@ -438,8 +443,6 @@ struct CREDITED_JOB {
 #define ASSIGN_HOST     1
 #define ASSIGN_USER     2
 #define ASSIGN_TEAM     3
-
-struct BEST_APP_VERSION;
 
 struct RESULT {
     int id;

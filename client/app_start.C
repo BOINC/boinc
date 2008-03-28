@@ -507,6 +507,9 @@ int ACTIVE_TASK::start(bool first_time) {
     // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
     cmd_line = exec_path + std::string(" ") + wup->command_line;
+    if (strlen(app_version->cmdline)) {
+        cmd_line += std::string(" ") + app_version->cmdline;
+    }
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
 
@@ -760,9 +763,9 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
-        if (strlen(result->cmdline)) {
+        if (strlen(app_version->cmdline)) {
             strcat(cmdline, " ");
-            strcat(cmdline, result->cmdline);
+            strcat(cmdline, app_version->cmdline);
         }
         sprintf(buf, "../../%s", exec_path );
         if (g_use_sandbox) {

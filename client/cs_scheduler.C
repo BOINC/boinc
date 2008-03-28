@@ -664,6 +664,16 @@ int CLIENT_STATE::handle_scheduler_reply(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
         if (avp) {
+            // update performance-related info;
+            // generally this shouldn't change,
+            // but if it does it's better to use the new stuff
+            //
+            avp->avg_ncpus = avpp.avg_ncpus;
+            avp->max_ncpus = avpp.max_ncpus;
+            avp->flops = avpp.flops;
+            strcpy(avp->cmdline, avpp.cmdline);
+            avp->coprocs = avpp.coprocs;
+
             // if we had download failures, clear them
             //
             avp->clear_errors();

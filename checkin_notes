@@ -2759,3 +2759,28 @@ Charlie Mar 28 2008
         BOINCGUIApp.cpp
         mac/
             SetupSecurity.cpp
+
+David  Mar 28 2008
+    - server and client:
+        in server->client reply messages and in the client itself,
+        move app-planning info from RESULT to APP_VERSION.
+        This was necessary to allow anonymous platform info (app_info.xml)
+        to specify avg_ncpus, etc.
+        e.g., if someone wants to write a multithread version of SETI@home,
+        or a GPU/CUDA version,
+        they can run it using the anonymous platform mechanism
+        and it will be scheduled correctly.
+
+        If a server sends an existing APP_VERSION but with different
+        app-planning info, the client will accept and use the new info.
+
+    client/
+        app_start.C
+        client_types.C,h
+        cpu_sched.C
+    db/
+        boinc_db.h
+    sched/
+        sched_send.C
+        sched_plan.C
+        server_types.C

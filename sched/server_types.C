@@ -832,6 +832,8 @@ int APP::write(FILE* fout) {
 
 int APP_VERSION::write(FILE* fout) {
     char buf[LARGE_BLOB_SIZE];
+    unsigned int i;
+
     strcpy(buf, xml_doc);
     char* p = strstr(buf, "</app_version>");
     if (!p) {
@@ -844,6 +846,31 @@ int APP_VERSION::write(FILE* fout) {
     fprintf(fout, "    <platform>%s</platform>\n", pp->name);
     if (strlen(plan_class)) {
         fprintf(fout, "    <plan_class>%s</plan_class>\n", plan_class);
+    }
+    fprintf(fout,
+        "    <avg_ncpus>%f</avg_ncpus>\n"
+        "    <max_ncpus>%f</max_ncpus>\n"
+        "    <flops>%f</flops>\n",
+        bavp->host_usage.avg_ncpus,
+        bavp->host_usage.max_ncpus,
+        bavp->host_usage.flops
+    );
+    if (strlen(bavp->host_usage.cmdline)) {
+        fprintf(fout,
+            "    <cmdline>%s</cmdline>\n",
+            bavp->host_usage.cmdline
+        );
+    }
+    for (i=0; i<bavp->host_usage.coprocs.coprocs.size(); i++) {
+        COPROC& cp = bavp->host_usage.coprocs.coprocs[i];
+        fprintf(fout,
+            "    <coproc>\n"
+            "        <name>%s</name>\n"
+            "        <count>%d</count>\n"
+            "    </coproc>\n",
+            cp.name,
+            cp.count
+        );
     }
     fputs("</app_version>\n", fout);
     return 0;
@@ -868,38 +895,10 @@ int RESULT::write_to_client(FILE* fout) {
         PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
         fprintf(fout,
             "    <platform>%s</platform>\n"
-            "    <version_num>%d</version_num>\n",
-            pp->name, avp->version_num
+            "    <version_num>%d</version_num>\n"
+            "    <plan_class>%s</plan_class>\n",
+            pp->name, avp->version_num, avp->plan_class
         );
-        if (strlen(avp->plan_class)) {
-            fprintf(fout,
-                "    <plan_class>%s</plan_class>\n"
-                "    <avg_ncpus>%f</avg_ncpus>\n"
-                "    <max_ncpus>%f</max_ncpus>\n"
-                "    <flops>%f</flops>\n",
-                avp->plan_class,
-                bavp->host_usage.avg_ncpus,
-                bavp->host_usage.max_ncpus,
-                bavp->host_usage.flops
-            );
-            if (strlen(bavp->host_usage.cmdline)) {
-                fprintf(fout,
-                    "    <cmdline>%s</cmdline>\n",
-                    bavp->host_usage.cmdline
-                );
-            }
-            for (i=0; i<bavp->host_usage.coprocs.coprocs.size(); i++) {
-                COPROC& cp = bavp->host_usage.coprocs.coprocs[i];
-                fprintf(fout,
-                    "    <coproc>\n"
-                    "        <name>%s</name>\n"
-                    "        <count>%d</count>\n"
-                    "    </coproc>\n",
-                    cp.name,
-                    cp.count
-                );
-            }
-        }
     }
     fputs("</result>\n", fout);
     return 0;
