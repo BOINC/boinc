@@ -465,7 +465,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
 #endif
 
-        // chmod u=rwx,g=rwx,o=x "/Library/Application Support/BOINC Data/switcher"
+        // chmod u=rx,g=rx,o= "/Library/Application Support/BOINC Data/switcher"
         // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
         // set read and execute permission for user and group, no access for others
         err = DoPrivilegedExec(chmodPath, "u=rx,g=rx,o=", fullpath, NULL, NULL, NULL);
@@ -576,6 +576,7 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
             if (lstat(fullpath, &sbuf) == 0) {
                 // A broken symlink in a slot directory may be OK if slot is no longer in use
                 if (S_ISLNK(sbuf.st_mode)) {
+                    retval = 0;
                     continue;
                 }
             }

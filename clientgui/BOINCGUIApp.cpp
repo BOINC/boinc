@@ -204,6 +204,7 @@ bool CBOINCGUIApp::OnInit() {
 	
     wxString strDirectory = wxEmptyString;
     bool success;
+    ProcessSerialNumber psn;
 
     // Set the current directory ahead of the application launch so the core
     //   client can find its files
@@ -251,6 +252,8 @@ bool CBOINCGUIApp::OnInit() {
             errCode
         );
         wxMessageDialog* pDlg = new wxMessageDialog(NULL, strDialogMessage, wxT(""), wxOK);
+        GetCurrentProcess(&psn);
+        ShowHideProcess(&psn, false);
         pDlg->ShowModal();
         if (pDlg)
             pDlg->Destroy();
@@ -387,7 +390,6 @@ bool CBOINCGUIApp::OnInit() {
     );
     wxASSERT(m_pMacSystemMenu);
 
-    ProcessSerialNumber psn;
     ProcessInfoRec pInfo;
     OSStatus err;
     

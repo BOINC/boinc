@@ -2750,3 +2750,12 @@ David  Mar 27 2008
             update_forum_activities.php
         user/
             team_founder_transfer_action.php
+
+Charlie Mar 28 2008
+    - Mac Sandbox: Fix bug setting permissions for symlinks.
+    - Mac: Show (make visible) Manager if displaying sandbox errror dialog.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp
