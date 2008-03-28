@@ -574,6 +574,13 @@ function update_3_13_2008() {
     do_query("alter table app_version add unique apvp (appid, platformid, version_num, plan_class)");
 }
 
+// The following cleans up from a bug that causes "team transfer pending"
+// to be shown even after transfer is finished
+//
+function update_3_27_2008() {
+    do_query("update team set ping_user=0, ping_time=0 where ping_user=userid");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see

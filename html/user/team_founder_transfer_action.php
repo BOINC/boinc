@@ -70,7 +70,7 @@ if ($action == "transfer") {
         if ($team->ping_user) {
             if ($user->id == $team->ping_user) {
                 if (transfer_ok($team, $now)) {
-                    $team->update("userid=$user->id");
+                    $team->update("userid=$user->id, ping_user=0, ping_time=0");
                     echo "<p>Congratulations, you are now the new founder of team ".$team->name."
                     Go to <a href=\"".URL_BASE."home.php\">Your Account page</a>
                     to find the Team Admin options.";

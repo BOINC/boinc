@@ -2738,3 +2738,15 @@ David  Mar 27 2008
     sched/
         sched_send.C
         sched_config.C,h
+
+David  Mar 27 2008
+    - web: on completion of team foundership transfer,
+        clear ping_user and ping_time fields
+    - web: fix outdated update_forum_activities script
+
+    html/
+        ops/
+            db_update.php
+            update_forum_activities.php
+        user/
+            team_founder_transfer_action.php
