@@ -2577,11 +2577,11 @@ Charlie Mar 20 2008
         buildWxMac.sh
 
 David  Mar 20 2008
-	- updated GeoIP stuff
+    - updated GeoIP stuff
 
-	html/inc/
-		GeoIP.dat
-		geoip.inc
+    html/inc/
+        GeoIP.dat
+        geoip.inc
 
 Charlie Mar 20 2008
     - Mac: Update sandbox security for symlinks replacing xml soft links.
@@ -2795,5 +2795,14 @@ David  Mar 28 2008
     - some debugging code
     client/
         client_state.C
+    lib/
+        coproc.C,h
+
+David  Mar 28 2008
+    - client: debug coprocessor code
+
+    client/
+        client_state.C
+        cs_scheduler.C
     lib/
         coproc.C,h

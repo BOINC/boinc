@@ -223,8 +223,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     if (coprocs.coprocs.size()) {
         fprintf(f, "    <coprocs>\n");
         for (i=0; i<coprocs.coprocs.size(); i++) {
-            COPROC& c = coprocs.coprocs[i];
-            c.write_xml(f);
+            COPROC* c = coprocs.coprocs[i];
+            c->write_xml(f);
         }
         fprintf(f, "    </coprocs>\n");
     }

@@ -31,7 +31,7 @@ struct COPROC {
 };
 
 struct COPROCS {
-    std::vector<COPROC> coprocs;
+    std::vector<COPROC*> coprocs;
 
     COPROCS(){}
     void get();

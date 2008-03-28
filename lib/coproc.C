@@ -45,8 +45,8 @@ int COPROCS::parse(FILE* fin) {
     while (fgets(buf, sizeof(buf), fin)) {
         if (strstr(buf, "</coprocs>")) return 0;
         if (strstr(buf, "<coproc_cuda>")) {
-            COPROC_CUDA cc;
-            int retval = cc.parse(fin);
+            COPROC_CUDA* cc = new COPROC_CUDA;
+            int retval = cc->parse(fin);
             if (!retval) {
                 coprocs.push_back(cc);
             }
@@ -82,10 +82,10 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    if (count < 1) return;
 
    for (int i=0; i<count; i++) {
-       COPROC_CUDA cc;
-       (*__cudaGetDeviceProperties)(&cc.prop, i);
-       cc.count = 1;
-       strcpy(cc.name, cc.prop.name);
+       COPROC_CUDA* cc = new COPROC_CUDA;
+       (*__cudaGetDeviceProperties)(&cc->prop, i);
+       cc->count = 1;
+       strcpy(cc->name, "CUDA");
        coprocs.coprocs.push_back(cc);
     }
 }
@@ -93,26 +93,27 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
 // add a non-existent CUDA coproc (for debugging)
 //
 void fake_cuda(COPROCS& coprocs) {
-   COPROC_CUDA cc;
-   strcpy(cc.name, "cuda 0");
-   cc.count = 1;
-   cc.prop.totalGlobalMem = 1000;
-   cc.prop.sharedMemPerBlock = 100;
-   cc.prop.regsPerBlock = 8;
-   cc.prop.warpSize = 10;
-   cc.prop.memPitch = 10;
-   cc.prop.maxThreadsPerBlock = 20;
-   cc.prop.maxThreadsDim[0] = 2;
-   cc.prop.maxThreadsDim[1] = 2;
-   cc.prop.maxThreadsDim[2] = 2;
-   cc.prop.maxGridSize[0] = 10;
-   cc.prop.maxGridSize[1] = 10;
-   cc.prop.maxGridSize[2] = 10;
-   cc.prop.totalConstMem = 10;
-   cc.prop.major = 1;
-   cc.prop.minor = 1;
-   cc.prop.clockRate = 10000;
-   cc.prop.textureAlignment = 1000;
+   COPROC_CUDA* cc = new COPROC_CUDA;
+   strcpy(cc->name, "CUDA");
+   cc->count = 1;
+   strcpy(cc->prop.name, cc->name);
+   cc->prop.totalGlobalMem = 1000;
+   cc->prop.sharedMemPerBlock = 100;
+   cc->prop.regsPerBlock = 8;
+   cc->prop.warpSize = 10;
+   cc->prop.memPitch = 10;
+   cc->prop.maxThreadsPerBlock = 20;
+   cc->prop.maxThreadsDim[0] = 2;
+   cc->prop.maxThreadsDim[1] = 2;
+   cc->prop.maxThreadsDim[2] = 2;
+   cc->prop.maxGridSize[0] = 10;
+   cc->prop.maxGridSize[1] = 10;
+   cc->prop.maxGridSize[2] = 10;
+   cc->prop.totalConstMem = 10;
+   cc->prop.major = 1;
+   cc->prop.minor = 1;
+   cc->prop.clockRate = 10000;
+   cc->prop.textureAlignment = 1000;
    coprocs.coprocs.push_back(cc);
 }
 
@@ -136,7 +137,7 @@ void COPROC_CUDA::write_xml(FILE* f) {
         "   <textureAlignment>%u</textureAlignment>\n"
         "</coproc_cuda>\n",
         count,
-        prop.name,
+        name,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
