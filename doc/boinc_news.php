@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("Mar 28, 2008",
+    "Read
+    <a href=http://www.nature.com/news/2008/080326/full/452397a.html>an article in Nature News</a>
+    about the (BOINC-based, though it doesn't say so) 
+    <a href=http://qcn.stanford.edu/>Quake Catcher Network</a>."
+),
 array("Mar 20, 2008",
     "Watch an excellent talk by CERN's Francois Grey,
     <a href=http://www.liftconference.com/distributed-computing-distributed-thinking>From distributed computing to distributed thinking</a>."

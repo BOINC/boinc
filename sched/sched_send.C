@@ -994,6 +994,7 @@ int add_result_to_reply(
         );
         return retval;
     }
+    result.bavp = bavp;
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
     request.estimated_delay += wu_seconds_filled/effective_ncpus(reply.host);

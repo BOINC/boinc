@@ -2784,3 +2784,9 @@ David  Mar 28 2008
         sched_send.C
         sched_plan.C
         server_types.C
+
+David  Mar 28 2008
+    - scheduler: fix crash bug
+
+    sched/
+        sched_send.C
