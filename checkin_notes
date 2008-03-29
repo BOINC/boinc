@@ -2806,3 +2806,14 @@ David  Mar 28 2008
         cs_scheduler.C
     lib/
         coproc.C,h
+
+David  Mar 29 2008
+    - try to get API to compile on Cygwin
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+        cpu_sched.C
+    lib/
+        coproc.h

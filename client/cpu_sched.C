@@ -479,7 +479,7 @@ void CLIENT_STATE::schedule_cpus() {
 		msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
     }
 
-	// do round-robin simulation to find what results miss deadline,
+	// do round-robin simulation to find what results miss deadline
     //
     rr_simulation();
     if (log_flags.cpu_sched_debug) {
@@ -608,7 +608,7 @@ void CLIENT_STATE::schedule_cpus() {
     set_client_state_dirty("schedule_cpus");
 }
 
-// make a list of preemptable tasks, ordered by their preemptability.
+// make a list of running tasks, ordered by their preemptability.
 //
 void CLIENT_STATE::make_running_task_heap(
     vector<ACTIVE_TASK*> &running_tasks, double& ncpus_used

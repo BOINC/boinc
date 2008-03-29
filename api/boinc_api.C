@@ -983,14 +983,7 @@ int start_timer_thread() {
     //
     uintptr_t thread;
     UINT uiThreadId;
-    thread = _beginthreadex(
-        NULL,
-        16384,       // stack size
-        timer_thread,
-        0,
-        0,
-        &uiThreadId
-    );
+    thread = CreateThread(NULL, 0, timer_thread, 0, 0, &uiThreadId);
 
     if (!thread) {
         fprintf(stderr, "start_timer_thread(): _beginthreadex() failed, errno %d\n", errno);

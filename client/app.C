@@ -148,7 +148,7 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 
 #ifdef _WIN32
 
-// call this when a process has existed but will be started again
+// call this when a process has exited but will be started again
 // (e.g. suspend via quit, exited but no finish file).
 // In these cases we want to keep the shmem and events
 //
@@ -160,13 +160,10 @@ void ACTIVE_TASK::close_process_handles() {
 }
 #endif
 
-// call this when a process has exited and we're not going to restart it
+// called when a process has exited
 //
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32
-    if (gstate.exit_after_finish) {
-        exit(0);
-    }
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment
     //
@@ -200,11 +197,11 @@ void ACTIVE_TASK::cleanup_task() {
         app_client_shm.shm = NULL;
         gstate.retry_shmem_time = 0;
     }
+#endif
     
     if (gstate.exit_after_finish) {
         exit(0);
     }
-#endif
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
