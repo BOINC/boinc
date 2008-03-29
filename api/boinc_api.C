@@ -733,7 +733,7 @@ struct GRAPHICS_APP {
         char* argv[4];
         char abspath[1024];
 #ifdef _WIN32
-        _fullpath(abspath, path, 1024);
+        GetFullPathName(path, 1024, abspath, NULL);
 #else
         strcpy(abspath, path);
 #endif
@@ -913,10 +913,10 @@ static void timer_handler() {
 
 #ifdef _WIN32
 
-UINT WINAPI timer_thread(void *) {
+DWORD WINAPI timer_thread(void *) {
      
     while (1) {
-        Sleep(TIMER_PERIOD*1000);
+        Sleep((int)(TIMER_PERIOD*1000));
         timer_handler();
 
         // poor man's CPU time accounting for Win9x
@@ -981,12 +981,9 @@ int start_timer_thread() {
 
     // Create the timer thread
     //
-    uintptr_t thread;
-    UINT uiThreadId;
-    thread = CreateThread(NULL, 0, timer_thread, 0, 0, &uiThreadId);
-
-    if (!thread) {
-        fprintf(stderr, "start_timer_thread(): _beginthreadex() failed, errno %d\n", errno);
+    DWORD id;
+    if (!CreateThread(NULL, 0, timer_thread, 0, 0, &id)) {
+        fprintf(stderr, "start_timer_thread(): CreateThread() failed, errno %d\n", errno);
         return errno;
     }
     
