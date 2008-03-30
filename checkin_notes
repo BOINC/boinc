@@ -2817,3 +2817,12 @@ David  Mar 29 2008
         cpu_sched.C
     lib/
         coproc.h
+
+Janus  Mar 30 2008
+    - Fixed the error message when the scheduler rejects further work
+      due to the client already having enough work per CPU as per the
+      max_wus_in_progress configuration variable.
+      
+    sched/
+        sched_send.C
+
