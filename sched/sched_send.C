@@ -1277,7 +1277,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             reply.set_delay(delay_time);
         }
         if (reply.wreq.cache_size_exceeded) {
-            sprintf(helpful, "(reached per-host limit of %d tasks)",
+            sprintf(helpful, "(reached per-CPU limit of %d tasks)",
                 config.max_wus_in_progress
             );
             USER_MESSAGE um(helpful, "high");
