@@ -2845,3 +2845,10 @@ David  Mar 31 2008
     sched/
         *.C
         server_types.h
+
+David  Mar 31 2008
+    - graphics API: add a boinc_close_window_and_quit() function
+
+    api
+        graphics2.h
+        graphics2_win.C
