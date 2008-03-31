@@ -426,6 +426,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CASetPermissionBOINCData.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CASetPermissionBOINCDataProjects.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CASetPermissionBOINCDataSlots.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAShutdownBOINC.cpp"
 				>
 			</File>
@@ -439,6 +451,10 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\dirops.cpp"
 				>
 			</File>
 			<File
@@ -555,6 +571,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CASetPermissionBOINCData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CASetPermissionBOINCDataProjects.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CASetPermissionBOINCDataSlots.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CAShutdownBOINC.h"
 				>
 			</File>
@@ -568,6 +596,10 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownUD.h"
+				>
+			</File>
+			<File
+				RelativePath=".\dirops.h"
 				>
 			</File>
 			<File

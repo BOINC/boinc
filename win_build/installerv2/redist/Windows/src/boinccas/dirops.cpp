@@ -180,3 +180,64 @@ BOOL MoveFolder(tstring& csPath, tstring& csNewPath)
 	return bRet;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+//    FUNCTION:    RecursiveSetPermissions
+//    DESCRIPTION: Copies a directory to a new location
+//
+//    RETURN:         TRUE for success, FALSE for failure
+//
+/////////////////////////////////////////////////////////////////////////////////////
+BOOL RecursiveSetPermissions(tstring& csPath, PACL pACL)
+{
+    BOOL bRet = TRUE;
+
+    tstring csPathMask;
+    tstring csFullPath;
+    
+    csPath     += _T("\\");
+    csPathMask = csPath + _T("*.*");
+        
+    WIN32_FIND_DATA ffData;
+    HANDLE hFind;
+    hFind = FindFirstFile(csPathMask.c_str(), &ffData);
+
+    if (hFind == INVALID_HANDLE_VALUE){
+        return FALSE;
+    }
+    
+
+    // Copying all the files
+    while (hFind && FindNextFile(hFind, &ffData)) 
+    {
+        if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
+            (_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
+        {
+            csFullPath = csPath + ffData.cFileName;
+
+            // Set the ACL on the file.
+            SetNamedSecurityInfo( 
+#ifdef _UNICODE
+                (LPWSTR)csFullPath.c_str(),
+#else
+                (LPSTR)csFullPath.c_str(),
+#endif
+                SE_FILE_OBJECT,
+                DACL_SECURITY_INFORMATION,
+                NULL,
+                NULL,
+                pACL,
+                NULL
+            );
+
+            if( ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) 
+            {
+                    RecursiveSetPermissions(csFullPath, pACL);
+            }
+        }
+    }
+
+    FindClose(hFind);
+    return bRet;
+}
+

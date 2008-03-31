@@ -2852,3 +2852,33 @@ David  Mar 31 2008
     api
         graphics2.h
         graphics2_win.C
+
+Rom    Mar 31 2008
+    - WINSETUP: Explicitly set the permissions on the BOINC Data
+        directory structure during every install.
+
+    win_build/
+        boincmgr_curl.vcproj
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.def
+        boinccas.rc
+        boinccas.vcproj
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CASetPermissionBOINCData.cpp, .h (Added)
+        CASetPermissionBOINCDataProjects.cpp, .h (Added)
+        CASetPermissionBOINCDataSlots.cpp, .h (Added)
+        dirops.cpp, .h
+        stdafx.h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    Mar 31 2008 (HEAD)
+    - Tag for 6.1.12 release, all platforms
+      boinc_core_release_6_1_12
+
+    /
+        configure.ac
+        version.h

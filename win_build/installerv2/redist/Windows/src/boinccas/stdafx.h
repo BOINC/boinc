@@ -78,6 +78,7 @@
 #include <shlobj.h>
 #include <sddl.h>
 #include <wincrypt.h>
+#include <aclapi.h>
 
 // CRT Header Files:
 #include <time.h>

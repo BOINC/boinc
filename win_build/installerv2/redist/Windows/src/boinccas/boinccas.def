@@ -22,4 +22,7 @@ EXPORTS
 	GrantBOINCProjectsRights
 	HideBOINCMasterProfile
 	HideBOINCProjectProfile
+	SetPermissionBOINCData
+	SetPermissionBOINCDataProjects
+	SetPermissionBOINCDataSlots
 	

@@ -13,6 +13,7 @@ BOOL RemoveReadOnly(tstring& csFileName);
 BOOL RecursiveDeleteFolder(tstring& csPath);
 BOOL RecursiveCopyFolder(tstring& csFromPath, tstring& csToPath);
 BOOL MoveFolder(tstring& csPath, tstring& csNewPath);
+BOOL RecursiveSetPermissions(tstring& csPath, PACL pACL);
 
 #endif
 

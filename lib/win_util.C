@@ -26,32 +26,6 @@
 #include "win_util.h"
 
 
-#define WINSTA_ALL ( \
-WINSTA_ACCESSCLIPBOARD  | WINSTA_ACCESSGLOBALATOMS | \
-WINSTA_CREATEDESKTOP    | WINSTA_ENUMDESKTOPS      | \
-WINSTA_ENUMERATE        | WINSTA_EXITWINDOWS       | \
-WINSTA_READATTRIBUTES   | WINSTA_READSCREEN        | \
-WINSTA_WRITEATTRIBUTES  | DELETE                   | \
-READ_CONTROL            | WRITE_DAC                | \
-WRITE_OWNER \
-)
-
-#define DESKTOP_ALL ( \
-DESKTOP_CREATEMENU      | DESKTOP_CREATEWINDOW  | \
-DESKTOP_ENUMERATE       | DESKTOP_HOOKCONTROL   | \
-DESKTOP_JOURNALPLAYBACK | DESKTOP_JOURNALRECORD | \
-DESKTOP_READOBJECTS     | DESKTOP_SWITCHDESKTOP | \
-DESKTOP_WRITEOBJECTS    | DELETE                | \
-READ_CONTROL            | WRITE_DAC             | \
-WRITE_OWNER \
-)
-
-#define GENERIC_ACCESS ( \
-GENERIC_READ    | GENERIC_WRITE | \
-GENERIC_EXECUTE | GENERIC_ALL \
-)
-
-
 /**
  * Find out if we are on a Windows 2000 compatible system
  **/
@@ -393,7 +367,7 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
                    INHERIT_ONLY_ACE | OBJECT_INHERIT_ACE;
       pace->Header.AceSize  = sizeof(ACCESS_ALLOWED_ACE) +
                    GetLengthSid(psid) - sizeof(DWORD);
-      pace->Mask            = GENERIC_ACCESS;
+      pace->Mask            = GENERIC_ALL;
 
       if (!CopySid(GetLengthSid(psid), &pace->SidStart, psid))
          throw;
@@ -407,10 +381,10 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
       )
          throw;
 
-      // Add the second ACE to the window station.
+      // Add an ACE to the window station.
 
       pace->Header.AceFlags = NO_PROPAGATE_INHERIT_ACE;
-      pace->Mask            = WINSTA_ALL;
+      pace->Mask            = GENERIC_ALL;
 
       if (!AddAce(
             pNewAcl,
@@ -619,7 +593,7 @@ BOOL AddAceToDesktop(HDESK hdesk, PSID psid)
       if (!AddAccessAllowedAce(
             pNewAcl,
             ACL_REVISION,
-            DESKTOP_ALL,
+            GENERIC_ALL,
             psid)
       )
          throw;
