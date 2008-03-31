@@ -1,8 +1,9 @@
 dcapi (0.9-13) unstable; urgency=low
 
   * Enable the local backend
+  * New Debian version. 
 
- -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 13 Mar 2007 15:38:42 +0100
+ -- Gábor Gombás <gombasg@sztaki.hu>  Mon, 31 Mar 2008 09:51:11 +0200
 
 dcapi (0.9-12) unstable; urgency=low
 
