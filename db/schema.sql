@@ -57,7 +57,7 @@ create table app_version (
     appid               integer     not null,
     version_num         integer     not null,
     platformid          integer     not null,
-    xml_doc             blob,
+    xml_doc             mediumblob,
     min_core_version    integer     not null default 0,
     max_core_version    integer     not null default 0,
     deprecated          tinyint     not null default 0,

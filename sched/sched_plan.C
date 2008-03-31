@@ -72,11 +72,11 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         // and some CPU also, and gets 50 GFLOPS total
         //
         for (unsigned int i=0; i<sreq.coprocs.coprocs.size(); i++) {
-            COPROC cp = sreq.coprocs.coprocs[i];
-            if (!strcmp(cp.name, "CUDA")) {
-                COPROC cu;
-                strcpy(cu.name, cp.name);
-                cu.count = 1;
+            COPROC* cp = sreq.coprocs.coprocs[i];
+            if (!strcmp(cp->name, "CUDA")) {
+                COPROC* cu = new COPROC;
+                strcpy(cu->name, cp->name);
+                cu->count = 1;
                 hu.coprocs.coprocs.push_back(cu);
                 double x = 1e9/sreq.host.p_fpops;
                 if (x > 1) x = 1;

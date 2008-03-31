@@ -76,7 +76,7 @@ int main(int argc, const char** argv) {
     DB_APP app;
     DB_WORKUNIT wu;
     int retval;
-    char wu_template[LARGE_BLOB_SIZE];
+    char wu_template[BLOB_SIZE];
     char wu_template_file[256], result_template_file[256], result_template_path[1024];
     const char* command_line=NULL;
     const char** infiles = NULL;

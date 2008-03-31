@@ -644,9 +644,9 @@ int wu_is_infeasible(
 //
 int insert_after(char* buffer, const char* after, const char* text) {
     char* p;
-    char temp[LARGE_BLOB_SIZE];
+    char temp[BLOB_SIZE];
 
-    if (strlen(buffer) + strlen(text) > LARGE_BLOB_SIZE-1) {
+    if (strlen(buffer) + strlen(text) > BLOB_SIZE-1) {
         log_messages.printf(MSG_CRITICAL,
             "insert_after: overflow: %d %d\n",
             strlen(buffer), strlen(text)
@@ -671,7 +671,7 @@ int insert_after(char* buffer, const char* after, const char* text) {
 // in preparation for sending it to a client
 //
 int insert_wu_tags(WORKUNIT& wu, APP& app) {
-    char buf[LARGE_BLOB_SIZE];
+    char buf[BLOB_SIZE];
     
     sprintf(buf,
         "    <rsc_fpops_est>%f</rsc_fpops_est>\n"

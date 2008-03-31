@@ -174,7 +174,7 @@ static int process_wu_template(
     const char* additional_xml
 ) {
     char* p;
-    char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
+    char buf[BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
     string out, cmdline;
     int retval, file_number;
     double nbytes;
@@ -443,7 +443,7 @@ int create_result(
 ) {
     DB_RESULT result;
     char base_outfile_name[256];
-    char result_template[LARGE_BLOB_SIZE];
+    char result_template[BLOB_SIZE];
     int retval;
 
     result.clear();
@@ -540,8 +540,8 @@ int create_work(
     const char* additional_xml
 ) {
     int retval;
-    char _result_template[LARGE_BLOB_SIZE];
-    char wu_template[LARGE_BLOB_SIZE];
+    char _result_template[BLOB_SIZE];
+    char wu_template[BLOB_SIZE];
 
 #if 0
     retval = check_files(infiles, ninfiles, config);

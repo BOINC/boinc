@@ -63,7 +63,7 @@ bool one_pass = false;
 // Don't patch the URL; we'll download the same file
 //
 void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
-    char buf[LARGE_BLOB_SIZE], temp[256];
+    char buf[BLOB_SIZE], temp[256];
     char * p;
 
     strcpy(buf, xml_doc);
@@ -87,8 +87,8 @@ void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
 }
 
 void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
-    char file_name[256], buf[LARGE_BLOB_SIZE], new_file_name[256];
-    char new_buf[LARGE_BLOB_SIZE];
+    char file_name[256], buf[BLOB_SIZE], new_file_name[256];
+    char new_buf[BLOB_SIZE];
     char * p;
     int retval;
     DB_WORKUNIT wu = original_wu;
@@ -172,7 +172,7 @@ void wait_for_results(int wu_id) {
 void make_work(vector<string> &wu_names) {
     int retval, start_time=time(0);
     char keypath[256];
-    char buf[LARGE_BLOB_SIZE];
+    char buf[BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     int nwu_names = wu_names.size();
     DB_WORKUNIT wus[nwu_names];

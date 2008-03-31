@@ -35,11 +35,16 @@
 extern DB_CONN boinc_db;
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
-// Large is for fields with user-supplied text, and preferences
+// The following is for regular blobs, 64KB
 
-#define LARGE_BLOB_SIZE   65536
-#define MSG_FROM_HOST_BLOB_SIZE 262144
-#define MSG_TO_HOST_BLOB_SIZE 262144
+#define BLOB_SIZE   65536
+
+// The following are for "medium blobs",
+// which are 16MB in the DB
+//
+#define APP_VERSION_XML_BLOB_SIZE   262144
+#define MSG_FROM_HOST_BLOB_SIZE     262144
+#define MSG_TO_HOST_BLOB_SIZE       262144
 
 // Dummy name for file xfers
 #define FILE_MOVER "move_file"
@@ -84,7 +89,7 @@ struct APP_VERSION {
     int appid;
     int version_num;
     int platformid;
-    char xml_doc[LARGE_BLOB_SIZE];
+    char xml_doc[APP_VERSION_XML_BLOB_SIZE];
     // describes app files. format:
     // <file_info>...</file_info>
     // ...
@@ -127,9 +132,9 @@ struct USER {
     double total_credit;
     double expavg_credit;           // credit per second, recent average
     double expavg_time;             // when the above was computed
-    char global_prefs[LARGE_BLOB_SIZE];
+    char global_prefs[BLOB_SIZE];
         // global preferences, within <global_preferences> tag
-    char project_prefs[LARGE_BLOB_SIZE];
+    char project_prefs[BLOB_SIZE];
         // project preferences; format:
         // <project_preferences>
         //    <resource_share>X</resource_share>
@@ -190,7 +195,7 @@ struct TEAM {
     char url[256];
     int type;               // Team type (see above)
     char name_html[256];
-    char description[LARGE_BLOB_SIZE];
+    char description[BLOB_SIZE];
     int nusers;             // UNDEFINED BY DEFAULT
     char country[256];
     double total_credit;
@@ -337,7 +342,7 @@ struct WORKUNIT {
     int create_time;
     int appid;                  // associated app
     char name[256];
-    char xml_doc[LARGE_BLOB_SIZE];
+    char xml_doc[BLOB_SIZE];
     int batch;
     double rsc_fpops_est;       // estimated # of FP operations
         // used to estimate how long a result will take on a host
@@ -462,9 +467,9 @@ struct RESULT {
     int received_time;              // when result was received from host
     char name[256];
     double cpu_time;                // CPU time used to complete result
-    char xml_doc_in[LARGE_BLOB_SIZE];     // descriptions of output files
-    char xml_doc_out[LARGE_BLOB_SIZE];    // MD5s of output files
-    char stderr_out[LARGE_BLOB_SIZE];     // stderr output, if any
+    char xml_doc_in[BLOB_SIZE];     // descriptions of output files
+    char xml_doc_out[BLOB_SIZE];    // MD5s of output files
+    char stderr_out[BLOB_SIZE];     // stderr output, if any
     int batch;
     int file_delete_state;          // see above; values for file_delete_state
     int validate_state;
@@ -778,8 +783,8 @@ struct SCHED_RESULT_ITEM {
     int received_time;
     double cpu_time;
     double claimed_credit;
-    char xml_doc_out[LARGE_BLOB_SIZE];
-    char stderr_out[LARGE_BLOB_SIZE];
+    char xml_doc_out[BLOB_SIZE];
+    char stderr_out[BLOB_SIZE];
     int app_version_num;
     int exit_status;
     int file_delete_state;

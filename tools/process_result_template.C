@@ -40,9 +40,9 @@
 // add a signature of its contents up to that point.
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
-    char* p = xml, *q1, *q2, buf[LARGE_BLOB_SIZE], buf2[LARGE_BLOB_SIZE];;
-    char signature_hex[LARGE_BLOB_SIZE];
-    char signature_xml[LARGE_BLOB_SIZE];
+    char* p = xml, *q1, *q2, buf[BLOB_SIZE], buf2[BLOB_SIZE];;
+    char signature_hex[BLOB_SIZE];
+    char signature_xml[BLOB_SIZE];
     int retval, len;
 
     while (1) {
@@ -108,7 +108,7 @@ int process_result_template(
     SCHED_CONFIG& config
 ) {
     char* p,*q;
-    char temp[LARGE_BLOB_SIZE], buf[256];
+    char temp[BLOB_SIZE], buf[256];
     int retval;
 
     while (1) {

@@ -457,7 +457,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
 // so only include fields modified by the scheduler.
 //
 int DB_HOST::update_diff(HOST& h) {
-    char buf[LARGE_BLOB_SIZE], updates[LARGE_BLOB_SIZE], query[LARGE_BLOB_SIZE];
+    char buf[BLOB_SIZE], updates[BLOB_SIZE], query[BLOB_SIZE];
     strcpy(updates, "");
     if (rpc_seqno != h.rpc_seqno) {
         sprintf(buf, " rpc_seqno=%d,", rpc_seqno);

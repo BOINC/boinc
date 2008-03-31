@@ -2826,3 +2826,22 @@ Janus  Mar 30 2008
     sched/
         sched_send.C
 
+David  Mar 31 2008
+    - DB/feeder/scheduler: change app_version.xml_doc from blob to mediumblob,
+        and change the correspending structure field from 64KB to 256KB
+        (could increase this if needed).
+        This is needed to handle app versions with lots (> 100) of files
+    - change LARGE_BLOB_SIZE to BLOB_SIZE a bunch of places
+    - Change COPROCS from vector<COPROC> to vector<COPROC*>.
+        Otherwise the right virtual functions of COPROCs don't get called
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/ops/
+        db_update.php
+    lib/
+        coproc.h
+    sched/
+        *.C
+        server_types.h

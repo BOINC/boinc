@@ -35,6 +35,11 @@ struct COPROCS {
     std::vector<COPROC*> coprocs;
 
     COPROCS(){}
+    ~COPROCS() {
+        for (unsigned int i=0; i<coprocs.size(); i++) {
+            delete coprocs[i];
+        }
+    }
     void get();
     int parse(FILE*);
 };

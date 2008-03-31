@@ -126,7 +126,7 @@ int get_file_path(
 
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
-    char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
+    char filename[256], pathname[256], buf[BLOB_SIZE];
     bool no_delete=false;
     int count_deleted = 0, retval, mthd_retval = 0;
 
@@ -180,7 +180,7 @@ int wu_delete_files(WORKUNIT& wu) {
 
 int result_delete_files(RESULT& result) {
     char* p;
-    char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
+    char filename[256], pathname[256], buf[BLOB_SIZE];
     bool no_delete=false;
     int count_deleted = 0, retval, mthd_retval = 0;
 

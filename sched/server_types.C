@@ -504,7 +504,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i;
-    char buf[LARGE_BLOB_SIZE];
+    char buf[BLOB_SIZE];
 
     // Note: at one point we had
     // "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
@@ -831,7 +831,7 @@ int APP::write(FILE* fout) {
 }
 
 int APP_VERSION::write(FILE* fout) {
-    char buf[LARGE_BLOB_SIZE];
+    char buf[BLOB_SIZE];
     unsigned int i;
 
     strcpy(buf, xml_doc);
@@ -862,14 +862,14 @@ int APP_VERSION::write(FILE* fout) {
         );
     }
     for (i=0; i<bavp->host_usage.coprocs.coprocs.size(); i++) {
-        COPROC& cp = bavp->host_usage.coprocs.coprocs[i];
+        COPROC* cp = bavp->host_usage.coprocs.coprocs[i];
         fprintf(fout,
             "    <coproc>\n"
             "        <name>%s</name>\n"
             "        <count>%d</count>\n"
             "    </coproc>\n",
-            cp.name,
-            cp.count
+            cp->name,
+            cp->count
         );
     }
     fputs("</app_version>\n", fout);
@@ -877,7 +877,7 @@ int APP_VERSION::write(FILE* fout) {
 }
 
 int RESULT::write_to_client(FILE* fout) {
-    char buf[LARGE_BLOB_SIZE];
+    char buf[BLOB_SIZE];
     unsigned int i;
 
     strcpy(buf, xml_doc_in);
@@ -1074,7 +1074,7 @@ int HOST::parse_disk_usage(FILE* fin) {
 }
 
 void GLOBAL_PREFS::parse(const char* buf, const char* venue) {
-    char buf2[LARGE_BLOB_SIZE];
+    char buf2[BLOB_SIZE];
     double dtemp;
 
     defaults();

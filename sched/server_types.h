@@ -85,6 +85,7 @@ struct HOST_USAGE {
         flops = x;
         strcpy(cmdline, "");
     }
+    ~HOST_USAGE(){}
 };
 
 // keep track of the best app_version for each app for this host
@@ -241,8 +242,8 @@ struct SCHEDULER_REQUEST {
         // how many wall-clock seconds will elapse before
         // host will begin any new work for this project
     double duration_correction_factor;
-    char global_prefs_xml[LARGE_BLOB_SIZE];
-    char working_global_prefs_xml[LARGE_BLOB_SIZE];
+    char global_prefs_xml[BLOB_SIZE];
+    char working_global_prefs_xml[BLOB_SIZE];
     char code_sign_key[4096];
 
     bool anonymous_platform;

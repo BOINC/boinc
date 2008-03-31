@@ -65,7 +65,7 @@ void init_xfer_result(DB_RESULT& result) {
 
 int create_download_result(DB_RESULT& result, int host_id) {
     int retval;
-    char result_xml[LARGE_BLOB_SIZE];
+    char result_xml[BLOB_SIZE];
     sprintf(result_xml,
         "<result>\n"
         "    <wu_name>%s</wu_name>\n"

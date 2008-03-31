@@ -786,7 +786,7 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 // 2) send global prefs in reply msg if needed
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    char buf[LARGE_BLOB_SIZE];
+    char buf[BLOB_SIZE];
     reply.send_global_prefs = false;
     bool have_working_prefs = (strlen(sreq.working_global_prefs_xml)>0);
     bool have_master_prefs = (strlen(sreq.global_prefs_xml)>0);
