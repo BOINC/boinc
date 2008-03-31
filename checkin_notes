@@ -665,3 +665,9 @@ David  28 Mar 2008
     
     multi_thread/
         multi_thread.C
+
+David  31 Mar 2008
+    - example graphics app: if no heartbeat, quit after 5 seconds
+
+    example_app/
+        uc2_graphics.C

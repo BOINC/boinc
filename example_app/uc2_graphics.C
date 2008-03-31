@@ -85,7 +85,7 @@ static void draw_text() {
     y += dy;
     if (x < 0 || x > .5) dx *= -1;
     if (y < 0 || y > .5) dy *= -1;
-    double fd = 0, cpu=0;
+    double fd = 0, cpu=0, dt;
     if (shmem) {
         fd = shmem->fraction_done;
         cpu = shmem->cpu_time;
@@ -99,8 +99,11 @@ static void draw_text() {
     sprintf(buf, "CPU time: %f", cpu); 
     txf_render_string(.1, x, y+.3, 0, 500, white, 0, buf);
     if (shmem) {
-        if (dtime()-shmem->update_time > 5) {
-            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App not running");
+        dt = dtime() - shmem->update_time;
+        if (dt > 10) {
+            boinc_close_window_and_quit();
+        } else if (dt > 5) {
+            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App not running - exiting in 5 seconds");
         } else if (shmem->status.suspended) {
             txf_render_string(.1, 0, 0, 0, 500, white, 0, "App suspended");
         }
