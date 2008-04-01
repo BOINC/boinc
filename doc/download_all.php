@@ -187,27 +187,24 @@ if ($xml) {
         }
         list_end();
         echo "
-            <p>
+            <h3>Other platforms</h3>
             If your computer is not of one of these types, you can
             <ul>
             <li> <a href=trac/wiki/AnonymousPlatform>make your own client software</a> or
             <li> <a href=trac/wiki/DownloadOther>download executables from a third-party site</a>
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>
-            BOINC is not available for Mac OS 9 or earlier.
-            There are no plans to develop an OS 9 version.
-            <p>
-            The Windows BOINC client can be
-            <a href=trac/wiki/WinDeploy>deployed across a Windows network
-            using Active Directory</a>.
+
+            <h3>Linux info</h2>
         ";
+        show_linux_info();
     }
     echo "
-        <p>
-        Download information can be restricted by
-        platform and/or version number,
-        and can be obtained in XML format.
-        <a href=trac/wiki/DownloadInfo>Details</a>.
+        <h3>Customizing this page</h3>
+        The information on this page can be
+        <a href=trac/wiki/DownloadInfo>
+        restricted by platform and/or version number,
+        or presented  in XML format</a>.
     ";
     page_tail();
 }

@@ -1,5 +1,34 @@
 <?php
 
+function show_linux_info() {
+    echo "
+        <p>
+        The current release is known to work with these Linux versions:
+        <ul>
+        <li> Fedora Core 7 and 8
+        <li> Debian 4.1
+        <li> Ubuntu 7.10
+        </ul>
+        <p>
+        For other Linux versions,
+        check if a BOINC package is offered by your Linux distribution.
+        <ul>
+        <li> Fedora 7 and higher: type
+          <pre>yum install boinc-client boinc-manager</pre> as root.
+        <li> Debian and Ubuntu: package names <b>boinc-client</b>,
+            <b>boinc-manager</b>
+            (more info <a href=http://wiki.debian.org/BOINC>here</a>).
+            Also <b>boinc-dev</b> (for project developers).
+        <li> Gentoo: package name <b>sci-misc/boinc</b>
+        </ul>
+        <p>
+        Alternatively, download the
+        <a href=download_all.php>BOINC client for older Linux versions</a>.
+        This doesn't have a graphical interface,
+        but it should work on all Linux systems, both x86 and x64.
+    ";
+}
+
 function type_text($type) {
     global $xml;
     if ($xml) {
@@ -60,14 +89,6 @@ $w5816= array(
     "status"=>"Older version (also works on Windows 95 and NT 4.0)",
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
     "date"=>"1 Mar 2007",
-    "type"=>"win_new",
-);
-
-$w5411= array(
-    "num"=>"5.4.11",
-    "status"=>"Older version",
-    "file"=>"boinc_5.4.11_windows_intelx86.exe",
-    "date"=>"2 Aug 2006",
     "type"=>"win_new",
 );
 
@@ -148,14 +169,6 @@ $l5816 = array(
     "status"=>"Older version (includes GUI)",
     "file"=>"boinc_5.8.16_i686-pc-linux-gnu.sh",
     "date"=>"7 March 2007",
-    "type"=>"sea",
-);
-
-$l5411 = array(
-    "num"=>"5.4.11",
-    "status"=>"Recommended version",
-    "file"=>"boinc_5.4.11_i686-pc-linux-gnu.sh",
-    "date"=>"12 December 2006",
     "type"=>"sea",
 );
 

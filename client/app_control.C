@@ -372,6 +372,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     }
     gstate.request_schedule_cpus("application exited");
     gstate.request_work_fetch("application exited");
+    gstate.free_coprocs(*app_version);
 }
 
 bool ACTIVE_TASK::finish_file_present() {

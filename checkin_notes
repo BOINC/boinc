@@ -2882,3 +2882,20 @@ Rom    Mar 31 2008 (HEAD)
     /
         configure.ac
         version.h
+
+David  April 1 2008
+    - client: add coprocessor support: i.e., parse the list of coprocs
+        in <app_version>s from the server,
+        keep track of the number free of each type of coproc,
+        and don't run an app that needs more than are available.
+        (not quite working yet)
+
+    client/
+        app_control.C
+        app_start.C
+        client_state.C,h
+        client_types.C
+        cpu_sched.C
+        cs_scheduler.C
+    lib/
+        coproc.C,h

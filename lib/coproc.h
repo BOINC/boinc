@@ -22,6 +22,8 @@
 
 #include <vector>
 
+#include "miofile.h"
+
 struct COPROC {
     char name[256];     // must be unique
     int count;          // how many are present
@@ -29,6 +31,7 @@ struct COPROC {
 
     virtual void write_xml(FILE*){}
     virtual ~COPROC(){}
+    int parse(MIOFILE&);
 };
 
 struct COPROCS {
@@ -42,6 +45,17 @@ struct COPROCS {
     }
     void get();
     int parse(FILE*);
+    COPROC* lookup(char*);
+    void transfer_from(COPROCS& c) {
+        for (unsigned int i=0; i<coprocs.size(); i++) {
+            delete coprocs[i];
+        }
+        coprocs.clear();
+        for (unsigned int i=0; i<c.coprocs.size(); i++) {
+            coprocs.push_back(c.coprocs[i]);
+        }
+        c.coprocs.clear();
+    }
 };
 
 // the following copied from /usr/local/cuda/include/driver_types.h

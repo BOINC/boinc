@@ -40,39 +40,7 @@ function download_link($pname) {
         </td></tr> </table>
     ";
     if ($pname == 'linux'||$pname == 'linuxx64') {
-        $pcompat = $platforms["linuxcompat"];
-        $vcompat = latest_version($pcompat);
-        $numcompat = $vcompat['num'];
-        $filecompat = $vcompat['file'];
-        $urlcompat = $url_base.$filecompat;
-        $pathcompat = "dl/$filecompat";
-        $scompat = number_format(filesize($pathcompat)/1000000, 2);
-        echo "
-            <p>
-            This release is known to work with these Linux versions:
-            <ul>
-            <li> Fedora Core 7 and 8
-            <li> Debian 4.1
-            <li> Ubuntu 7.10
-            </ul>
-            <p>
-            For other Linux versions,
-            check if a BOINC package is offered by your Linux distribution.
-            Example package names:
-            <ul>
-            <li> Gentoo: sci-misc/boinc
-            <li> Debian and Ubuntu: boinc-client, boinc-manager
-                (more info <a href=http://wiki.debian.org/BOINC>here</a>).
-                Also boinc-dev (for project developers).
-            </ul>
-            <p>
-            Alternatively, download the
-            <a href=$urlcompat>BOINC client for older Linux versions</a>
-            (version $numcompat, $scompat MB).
-            This doesn't have a graphical interface,
-            but it should work on all Linux systems,
-            both x86 and x64.
-        ";
+        show_linux_info();
     }
 }
 

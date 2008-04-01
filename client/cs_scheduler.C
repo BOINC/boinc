@@ -672,7 +672,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             avp->max_ncpus = avpp.max_ncpus;
             avp->flops = avpp.flops;
             strcpy(avp->cmdline, avpp.cmdline);
-            avp->coprocs = avpp.coprocs;
+            avp->coprocs.transfer_from(avpp.coprocs);
 
             // if we had download failures, clear them
             //

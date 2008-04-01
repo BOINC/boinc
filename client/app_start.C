@@ -803,6 +803,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
 #endif
     set_task_state(PROCESS_EXECUTING, "start");
+    gstate.reserve_coprocs(*app_version);
     return 0;
 
     // go here on error; "buf" contains error message, "retval" is nonzero

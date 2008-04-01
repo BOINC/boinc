@@ -34,6 +34,22 @@
 
 #include "coproc.h"
 
+int COPROC::parse(MIOFILE& fin) {
+    char buf[1024];
+    strcpy(name, "");
+    count = 0;
+    used = 0;
+    while (fin.fgets(buf, sizeof(buf))) {
+        if (match_tag(buf, "</coproc>")) {
+            if (!strlen(name)) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_int(buf, "<count>", count)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 void COPROCS::get() {
     COPROC_CUDA::get(*this);
     COPROC_CELL_SPE::get(*this);
@@ -43,7 +59,9 @@ int COPROCS::parse(FILE* fin) {
     char buf[1024];
 
     while (fgets(buf, sizeof(buf), fin)) {
-        if (strstr(buf, "</coprocs>")) return 0;
+        if (match_tag(buf, "</coprocs>")) {
+            return 0;
+        }
         if (strstr(buf, "<coproc_cuda>")) {
             COPROC_CUDA* cc = new COPROC_CUDA;
             int retval = cc->parse(fin);
@@ -53,6 +71,14 @@ int COPROCS::parse(FILE* fin) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+COPROC* COPROCS::lookup(char* name) {
+    for (unsigned int i=0; i<coprocs.size(); i++) {
+        COPROC* cp = coprocs[i];
+        if (!strcmp(name, cp->name)) return cp;
+    }
+    return NULL;
 }
 
 void COPROC_CUDA::get(COPROCS& coprocs) {

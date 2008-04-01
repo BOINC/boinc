@@ -292,6 +292,9 @@ public:
         // - an app fails to start (CS::schedule_cpus())
         // - any project op is done via RPC (suspend/resume)
         // - any result op is done via RPC (suspend/resume)
+    bool sufficient_coprocs(APP_VERSION&);
+    void reserve_coprocs(APP_VERSION&);
+    void free_coprocs(APP_VERSION&);
 
 // --------------- cs_account.C:
 public:

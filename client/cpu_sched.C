@@ -67,6 +67,41 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
+bool CLIENT_STATE::sufficient_coprocs(APP_VERSION& av) {
+    for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
+        COPROC* cp = av.coprocs.coprocs[i];
+        COPROC* cp2 = coprocs.lookup(cp->name);
+        if (!cp2) {
+            msg_printf(av.project, MSG_INFO,
+                "Missing a %s coprocessor", cp->name
+            );
+            return false;
+        }
+        if (cp2->used + cp->count > cp2->count) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void CLIENT_STATE::reserve_coprocs(APP_VERSION& av) {
+    for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
+        COPROC* cp = av.coprocs.coprocs[i];
+        COPROC* cp2 = coprocs.lookup(cp->name);
+        if (!cp2) continue;
+        cp2->used += cp->count;
+    }
+}
+
+void CLIENT_STATE::free_coprocs(APP_VERSION& av) {
+    for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
+        COPROC* cp = av.coprocs.coprocs[i];
+        COPROC* cp2 = coprocs.lookup(cp->name);
+        if (!cp2) continue;
+        cp2->used -= cp->count;
+    }
+}
+
 static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
     // returning true means t1 is more preemptable than t0,
     // the "largest" result is at the front of a heap, 
@@ -520,6 +555,8 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
         rp->already_selected = true;
 
+        if (!sufficient_coprocs(*rp->avp)) continue;
+
 		atp = lookup_active_task_by_result(rp);
 		if (atp) {
             // see if it fits in available RAM
@@ -569,6 +606,7 @@ void CLIENT_STATE::schedule_cpus() {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
+        if (!sufficient_coprocs(*rp->avp)) continue;
 		atp = lookup_active_task_by_result(rp);
 		if (atp) {
 			if (atp->procinfo.working_set_size_smoothed > ram_left) {
@@ -941,6 +979,7 @@ bool CLIENT_STATE::enforce_schedule() {
             switch (atp->task_state()) {
             case PROCESS_UNINITIALIZED:
             case PROCESS_SUSPENDED:
+                if (!sufficient_coprocs(*atp->app_version)) continue;
                 action = true;
                 retval = atp->resume_or_start(
                     atp->scheduler_state == CPU_SCHED_UNINITIALIZED

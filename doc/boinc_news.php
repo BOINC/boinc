@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("Mar 31, 2008",
+    "The BOINC client software is now available for Fedora 7 and higher
+    from official repositories.
+    To install it, just type <code>yum install boinc-client boinc-manager</code> as root.
+    Thanks to Milos Jakubicek, with help from Eric Myers and Debarshi Ray."
+),
 array("Mar 28, 2008",
     "Read
     <a href=http://www.nature.com/news/2008/080326/full/452397a.html>an article in Nature News</a>
