@@ -20,7 +20,11 @@
 #ifndef UNIX_UTIL_H
 #define UNIX_UTIL_H
 
+// Nothing in this file is needed on WIN32
+#ifndef _WIN32
+
 #include "config.h"
+
 
 #ifdef __cplusplus
 #include <cstdio>
@@ -47,6 +51,8 @@ int daemon(int nochdir, int noclose);
 #endif
 
 #endif /* HAVE_DAEMON */
+
+#endif /* _WIN32 */
 
 #endif /* UNIX_UTIL_H */
 
