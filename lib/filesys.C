@@ -336,7 +336,8 @@ int clean_out_dir(const char* dirpath) {
 }
 
 // return total size of files in directory and optionally its subdirectories
-// Special version for Win because stat() is slow, can be avoided
+// Win: use special version because stat() is slow, can be avoided
+// Unix: skip symbolic links
 //
 int dir_size(const char* dirpath, double& size, bool recurse) {
 #ifdef WIN32
@@ -385,7 +386,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
                 if (retval) continue;
                 size += x;
             }
-        } else {
+        } else if (is_file(subdir)) {
             retval = file_size(subdir, x);
             if (retval) continue;
             size += x;

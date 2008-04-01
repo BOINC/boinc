@@ -8,10 +8,11 @@ array("Mar 31, 2008",
     Thanks to Milos Jakubicek, with help from Eric Myers and Debarshi Ray."
 ),
 array("Mar 28, 2008",
-    "Read
-    <a href=http://www.nature.com/news/2008/080326/full/452397a.html>an article in Nature News</a>
-    about the (BOINC-based, though it doesn't say so) 
-    <a href=http://qcn.stanford.edu/>Quake Catcher Network</a>."
+    "Read about a new BOINC-based project,
+    <a href=http://qcn.stanford.edu/>Quake Catcher Network</a>,
+    in
+    <a href=http://www.wired.com/science/planetearth/news/2008/03/quake_network>Wired</a> and
+    <a href=http://www.nature.com/news/2008/080326/full/452397a.html>Nature News</a>."
 ),
 array("Mar 20, 2008",
     "Watch an excellent talk by CERN's Francois Grey,

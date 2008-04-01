@@ -2928,3 +2928,12 @@ David  April 1 2008
         gui_rpc_client_ops.C
     win_build/
         sim.vcproj
+
+David  April 1 2008
+    - client (Unix): don't follow symbolic links when
+        computing directory size.
+        This will avoid counting the size of executables and input files
+        in slot directories.
+
+    lib/
+        filesys.C
