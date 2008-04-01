@@ -24,6 +24,8 @@
 #include "boinc_win.h"
 #elif (!defined(__EMX__))
 #include <sys/stat.h>
+#else
+#include "config.h"
 #endif
 
 #include <cstring>

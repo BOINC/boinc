@@ -17,9 +17,43 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-#include "cpp.h"
+// There is a reason that having a file called "cpp.h" that includes config.h
+// and some of the C++ header files.  That reason is because there are #defines
+// that alter the behiour of the standard C and C++ headers.  In this case
+// we need to use the "small files" environment on some unix systems.  That
+// can't be done if we include "cpp.h"
+// #include "cpp.h" 
+
+// copied directly from cpp.h
+#if defined(_WIN32) && !defined(__CYGWIN32__)
+
+#if defined(_WIN64) && defined(_M_X64)
+#define HOSTTYPE    "windows_x86_64"
+#define HOSTTYPEALT "windows_intelx86"
+#else
+#define HOSTTYPE "windows_intelx86"
+#endif
+
+#include "version.h"         // version numbers from autoconf
+#endif
+
+#if !defined(_WIN32) || defined(__CYGWIN32__)
+#include "config.h"
+
+// Access to binary files in /proc filesystem doesn't work in the 64bit
+// files environment on some systems.  None of the functions here need 
+// 64bit file functions, so we'll undefine _FILE_OFFSET_BITS and _LARGE_FILES.
+#undef _FILE_OFFSET_BITS
+#undef _LARGE_FILES
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstring>
+#endif
+
 
 #include "config.h"
+
 
 #include <cstdio>
 #include <cstdlib>
@@ -579,8 +613,8 @@ int HOST_INFO::get_host_info() {
     get_cpu_info_maxosx(*this);
 #elif defined(__EMX__)
     CPU_INFO_t    cpuInfo;
-    strcpy( p_vendor, cpuInfo.vendor.company);
-    strcpy( p_model, cpuInfo.name.fromID);
+    strlcpy( p_vendor, cpuInfo.vendor.company, sizeof(p_vendor));
+    strlcpy( p_model, cpuInfo.name.fromID, sizeof(p_model));
 #elif defined(HAVE_SYS_SYSCTL_H)
     int mib[2];
     size_t len;
@@ -608,6 +642,7 @@ int HOST_INFO::get_host_info() {
     CPU_TYPE_TO_TEXT( (cpu_type& 0xffffffff), cpu_type_name);
     strncpy( p_model, "Alpha ", sizeof( p_model));
     strncat( p_model, cpu_type_name, (sizeof( p_model)- strlen( p_model)- 1));
+    p_model[sizeof(p_model)-1]=0;
 #elif defined(HAVE_SYS_SYSTEMINFO_H)
     sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
     sysinfo(SI_ISALIST, p_model, sizeof(p_model));
@@ -832,7 +867,71 @@ inline bool device_idle(time_t t, const char *device) {
     return stat(device, &sbuf) || (sbuf.st_atime < t);
 }
 
-inline bool all_tty_idle(time_t t, char *device, char first_char, int num_tty) {
+static const struct dir_dev {
+  char *dir;
+  char *dev;
+} tty_patterns[] = {
+#ifdef unix
+  { "/dev","tty" },
+  { "/dev","pty" },
+  { "/dev/pts","" },
+#endif
+// add other ifdefs here as necessary.
+  { NULL, NULL },
+};
+
+std::vector<std::string> get_tty_list() {
+    // Create a list of all terminal devices on the system.
+    char devname[1024];
+    char fullname[1024];
+    int done,i=0;
+    std::vector<std::string> tty_list;
+    
+    do {
+      DIRREF dev=dir_open(tty_patterns[i].dir);
+      if (dev) {
+        do {
+          // get next file
+	  done=dir_scan(devname,dev,1024);
+	  // does it match our tty pattern? If so, add it to the tty list.
+	  if (!done && (strstr(devname,tty_patterns[i].dev) == devname)) {
+	     // don't add anything starting with .
+	     if (devname[0] != '.') {
+               sprintf(fullname,"%s/%s",tty_patterns[i].dir,devname);
+               tty_list.push_back(fullname);
+	     }
+	  }
+        } while (!done);
+      }
+      i++;
+    } while (tty_patterns[i].dir != NULL);
+    return tty_list;
+}
+       
+
+inline bool all_tty_idle(time_t t) {
+    // The initial implementation of this function was very broken.
+    // It assumed that incrementing a character is enough to cover all
+    // possible terminals.  It was also being passed a pointer to a string
+    // allocated in unwritable memory on some systems, and would therefore
+    // segfault when called.  This implementation is better.
+    static std::vector<std::string> tty_list;
+    struct stat sbuf;
+    int i;
+
+    if (tty_list.size()==0) tty_list=get_tty_list();
+    for (i=0; i<tty_list.size(); i++) {
+      // ignore errors
+      if (!stat(tty_list[i].c_str(), &sbuf)) {
+	// printf("%s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
+	if (sbuf.st_atime >= t) {
+	  return false;
+	}
+      }
+    }
+    return true;
+#if 0    
+    // this is the old implementation
     struct stat sbuf;
     char *tty_index = device + strlen(device) - 1;
     *tty_index = first_char;
@@ -845,6 +944,7 @@ inline bool all_tty_idle(time_t t, char *device, char first_char, int num_tty) {
         }
     }
     return true;
+#endif
 }
 
 #ifdef HAVE_UTMP_H
@@ -860,69 +960,69 @@ inline bool user_idle(time_t t, struct utmp* u) {
             tty[i+5] = '\0';
         }
     }
-    return device_idle(t, tty);
-}
+      return device_idle(t, tty);
+  }
 
 #if !defined(HAVE_SETUTENT) || !defined(HAVE_GETUTENT)
-static FILE *ufp = NULL;
-static struct utmp ut;
+  static FILE *ufp = NULL;
+  static struct utmp ut;
 
-// get next user login record
-// (this is defined on everything except BSD)
-//
-struct utmp *getutent() {
-    if (ufp == NULL) {
+  // get next user login record
+  // (this is defined on everything except BSD)
+  //
+  struct utmp *getutent() {
+      if (ufp == NULL) {
 #if defined(UTMP_LOCATION)
-        if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL) {
+	  if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL) {
 #elif defined(UTMP_FILE)
-        if ((ufp = fopen(UTMP_FILE, "r")) == NULL) {
+	  if ((ufp = fopen(UTMP_FILE, "r")) == NULL) {
 #elif defined(_PATH_UTMP)
-        if ((ufp = fopen(_PATH_UTMP, "r")) == NULL) {
+	  if ((ufp = fopen(_PATH_UTMP, "r")) == NULL) {
 #else
-        if ((ufp = fopen("/etc/utmp", "r")) == NULL) {
+	  if ((ufp = fopen("/etc/utmp", "r")) == NULL) {
 #endif
-            return((struct utmp *)NULL);
-        }
-    }
-    do {
-        if (fread((char *)&ut, sizeof(ut), 1, ufp) != 1) {
-            return((struct utmp *)NULL);
-        }
-    } while (ut.ut_name[0] == 0);
-    return(&ut);
-}
+	      return((struct utmp *)NULL);
+	  }
+      }
+      do {
+	  if (fread((char *)&ut, sizeof(ut), 1, ufp) != 1) {
+	      return((struct utmp *)NULL);
+	  }
+      } while (ut.ut_name[0] == 0);
+      return(&ut);
+  }
 
-void setutent() {
-    if (ufp != NULL) rewind(ufp);
-}
+  void setutent() {
+      if (ufp != NULL) rewind(ufp);
+  }
 #endif
 
-// scan list of logged-in users, and see if they're all idle
-//
-inline bool all_logins_idle(time_t t) {
-    struct utmp* u;
-    setutent();
+  // scan list of logged-in users, and see if they're all idle
+  //
+  inline bool all_logins_idle(time_t t) {
+      struct utmp* u;
+      setutent();
 
-    while ((u = getutent()) != NULL) {
-        if (!user_idle(t, u)) {
-            return false;
-        }
-    }
-    return true;
-}
+      while ((u = getutent()) != NULL) {
+	  if (!user_idle(t, u)) {
+	      return false;
+	  }
+      }
+      return true;
+  }
 #endif  // HAVE_UTMP_H
 
 #ifdef __APPLE__
 
-bool HOST_INFO::users_idle(
-    bool check_all_logins, double idle_time_to_run, double *actual_idle_time
-) {
-    double idleTime = 0;
-    
-    if (gEventHandle) {
-       idleTime = NXIdleTime(gEventHandle);    
-    } else {
-        // Initialize Mac OS X idle time measurement / idle detection
+  bool HOST_INFO::users_idle(
+      bool check_all_logins, double idle_time_to_run, double *actual_idle_time
+  ) {
+      double idleTime = 0;
+      
+      if (gEventHandle) {
+	 idleTime = NXIdleTime(gEventHandle);    
+      } else {
+	  // Initialize Mac OS X idle time measurement / idle detection
         // Do this here because NXOpenEventStatus() may not be available 
         // immediately on system startup when running as a deaemon.
         gEventHandle = NXOpenEventStatus();
@@ -945,7 +1045,7 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     }
 #endif
 
-    if (!all_tty_idle(idle_time, "/dev/tty1", '1', 7)) return false;
+    if (!all_tty_idle(idle_time)) return false;
 
     // According to Frank Thomas (#463) the following may be pointless
     //

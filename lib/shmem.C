@@ -53,6 +53,12 @@ extern "C" int debug_printf(const char *fmt, ...);
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
+// MAP_FILE isn't defined on most operating systems, and even then, it
+// is often defined just for the sake of compatibility.  On those that
+// don't define it, we will....
+#ifndef MAP_FILE
+#define MAP_FILE 0
+#endif
 #endif
 
 #include "error_numbers.h"
@@ -315,6 +321,7 @@ int create_shmem_mmap(char *path, size_t size, void** pp) {
 int destroy_shmem_mmap(key_t key){
     return 0;
 }
+
 
 int attach_shmem_mmap(char *path, void** pp) {
     int fd, retval;

@@ -249,6 +249,74 @@ AC_DEFUN([AM_PATH_WXCONFIG],
 
   fi
 
+  # on solaris the wx CFLAGS and LIBS can be messed up because of the compiler
+  # used in the default installs.  So we need to fix them.
+  case "${host}" in
+    sparc-sun-solaris*)
+      old_wx_cflags="${WX_CFLAGS}"
+      WX_CFLAGS=
+      for flag in $old_wx_cflags ; do
+        case "${flag}" in
+          -x*)
+            echo > /dev/null
+            ;;
+          -mt)
+            WX_CFLAGS="${WX_CFLAGS} ${PTHREAD_CFLAGS}"
+            ;;
+          *)
+            WX_CFLAGS="${WX_CFLAGS} ${flag}"
+            ;;
+        esac
+      done
+      old_wx_cppflags="${WX_CPPFLAGS}"
+      WX_CPPFLAGS=
+      for flag in $old_wx_cppflags ; do
+        case "${flag}" in
+          -x*)
+            echo > /dev/null
+            ;;
+          -mt)
+            WX_CPPFLAGS="${WX_CPPFLAGS} ${PTHREAD_CFLAGS}"
+            ;;
+          *)
+            WX_CPPFLAGS="${WX_CPPFLAGS} ${flag}"
+            ;;
+        esac
+      done
+      old_wx_cxxflags="${WX_CXXFLAGS}"
+      WX_CXXFLAGS=
+      for flag in $old_wx_cxxflags ; do
+        case "${flag}" in
+          -x*)
+            echo > /dev/null
+            ;;
+          -mt)
+            WX_CXXFLAGS="${WX_CXXFLAGS} ${PTHREAD_CFLAGS}"
+            ;;
+          *)
+            WX_CXXFLAGS="${WX_CXXFLAGS} ${flag}"
+            ;;
+        esac
+      done
+      old_wx_libs="${WX_LIBS}"
+      WX_LIBS=
+      for flag in $old_wx_libs ; do
+        case "${flag}" in
+          -x*)
+            echo > /dev/null
+            ;;
+          -mt)
+            WX_LIBS="${WX_LIBS} ${PTHREAD_LIBS}"
+            ;;
+          *)
+            WX_LIBS="${WX_LIBS} ${flag}"
+            ;;
+        esac
+      done
+    ;;
+  esac
+
+
   AC_SUBST(WX_CPPFLAGS)
   AC_SUBST(WX_CFLAGS)
   AC_SUBST(WX_CXXFLAGS)

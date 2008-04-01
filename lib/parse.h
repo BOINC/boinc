@@ -23,13 +23,17 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <string>
-#include <math.h>
-#ifdef solaris
+#include <cmath>
+#ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
+extern "C" {
+int finite(double);
+}
 #endif
 #endif
 

@@ -56,7 +56,7 @@ endif
 libboinc_a_SOURCES = \
     app_ipc.C \
     base64.C \
-	coproc.C \
+    coproc.C \
     crypt.C \
     diagnostics.C \
     filesys.C \
@@ -78,6 +78,7 @@ libboinc_a_SOURCES = \
     shmem.C \
     str_util.C \
     util.C	\
+    unix_util.C \
 	$(mac_sources)
 
 include_HEADERS = \

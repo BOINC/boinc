@@ -65,6 +65,7 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
+#include "unix_util.h"
 #include "prefs.h"
 #include "filesys.h"
 #include "network.h"

@@ -33,6 +33,43 @@ else
         MYSQL_CFLAGS=`echo $MYSQL_CFLAGS | sed -e 's|-arch i386||g'`
         ;;
     esac
+    # on solaris the mysql CFLAGS and LIBS can be messed up because of the 
+    # compiler used in the default installs.  So we need to fix them.
+    case "${host}" in
+      sparc-sun-solaris*)
+        old_mysql_cflags="${MYSQL_CFLAGS}"
+	MYSQL_CFLAGS=
+        for flag in $old_mysql_cflags ; do
+	  case "${flag}" in 
+	    -x*) 
+	      echo > /dev/null
+	      ;;
+	    -mt)
+	      MYSQL_CFLAGS="${MYSQL_CFLAGS} ${PTHREAD_CFLAGS}"
+	      ;;
+	    *)
+	      MYSQL_CFLAGS="${MYSQL_CFLAGS} ${flag}"
+	      ;;
+	  esac
+	done
+        old_mysql_libs="${MYSQL_LIBS}"
+	MYSQL_LIBS=
+        for flag in $old_mysql_libs ; do
+	  case "${flag}" in 
+	    -x*) 
+	      echo > /dev/null
+	      ;;
+	    -mt)
+	      MYSQL_LIBS="${MYSQL_LIBS} ${PTHREAD_LIBS}"
+	      ;;
+	    *)
+	      MYSQL_LIBS="${MYSQL_LIBS} ${flag}"
+	      ;;
+	  esac
+	done
+      ;;
+    esac
+
     AC_MSG_RESULT($MYSQL_CFLAGS)
     no_mysql=no
 fi

@@ -2937,3 +2937,46 @@ David  April 1 2008
 
     lib/
         filesys.C
+
+Eric K  April 1 2008
+    - Build fixes for non-Win32, non-Linux, non-MacOS systems.
+    - configure script: 
+        - Added checks for functions strdup(), strdupa(), 
+            daemon(), stat64(), strcasestr()
+        - Fixed problems with kc_mysql.m4 and wxWidgets.m4 returning
+	    invalid CFLAGS and LIBS flags.
+	- Fixed incorrect order of pthread flag checking on solaris.
+    - New files: lib/unix_util.[Ch].  Currently contains implementation of
+        daemon() for systems that lack it.
+    - Access to binary files in /proc was failing on some systems when compiled
+        with 64 bit file access.  Rearranged headers and defines to force 32bit
+        file access in hostinfo_unix.C
+    - all_tty_idle() didn't work as advertised on any system as far as I can
+        tell.  I rewrote it to check ttys that are not named /dev/tty[1-9].
+        The old implementation was modifying a statically allocated read-only
+        string, anyway.
+    - added implementation of non-standard function strcasestr() to str_util.C
+    - added #define of MAP_FILE to shmem.C, because it is missing from most
+        unix systems, (and is unnecessary on linux anyway).
+    - other minor bug fixes.
+
+    configure.ac
+    client/
+        main.C
+        hostinfo_unix.C
+    m4/
+        kc_mysql.m4
+        acx_pthread.m4
+        wxWidgets.m4
+    lib/
+        str_util.[Ch]
+        shmem.C
+        unix_util.[Ch]
+        parse.h
+        Makefile.am
+    api/
+        graphics2_util.C
+
+
+
+
