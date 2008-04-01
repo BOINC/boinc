@@ -299,6 +299,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name)) continue;
+        if (parse_str(buf, "<plan_class>", plan_class)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
     }
     return ERR_XML_PARSE;

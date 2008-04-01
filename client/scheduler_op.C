@@ -689,6 +689,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                     "Can't parse application version in scheduler reply: %s",
                     boincerror(retval)
                 );
+                av.coprocs.delete_coprocs();
             } else {
                 app_versions.push_back(av);
             }

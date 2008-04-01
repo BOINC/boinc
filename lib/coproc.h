@@ -29,33 +29,35 @@ struct COPROC {
     int count;          // how many are present
     int used;           // how many are in use (used by client)
 
-    virtual void write_xml(FILE*){}
+    virtual void write_xml(MIOFILE&);
+    COPROC(){
+        strcpy(name, "");
+        count = 0;
+        used = 0;
+    }
     virtual ~COPROC(){}
     int parse(MIOFILE&);
 };
 
 struct COPROCS {
-    std::vector<COPROC*> coprocs;
+    std::vector<COPROC*> coprocs;   // not deleted in destructor
+        // so any structure that includes this needs to do it manually
 
     COPROCS(){}
-    ~COPROCS() {
+    ~COPROCS(){}
+    void delete_coprocs(){
         for (unsigned int i=0; i<coprocs.size(); i++) {
             delete coprocs[i];
+        }
+    }
+    void write_xml(MIOFILE& out) {
+        for (unsigned int i=0; i<coprocs.size(); i++) {
+            coprocs[i]->write_xml(out);
         }
     }
     void get();
     int parse(FILE*);
     COPROC* lookup(char*);
-    void transfer_from(COPROCS& c) {
-        for (unsigned int i=0; i<coprocs.size(); i++) {
-            delete coprocs[i];
-        }
-        coprocs.clear();
-        for (unsigned int i=0; i<c.coprocs.size(); i++) {
-            coprocs.push_back(c.coprocs[i]);
-        }
-        c.coprocs.clear();
-    }
 };
 
 // the following copied from /usr/local/cuda/include/driver_types.h
@@ -80,7 +82,7 @@ struct cudaDeviceProp {
 struct COPROC_CUDA : public COPROC {
     cudaDeviceProp prop;
 
-    virtual void write_xml(FILE*);
+    virtual void write_xml(MIOFILE&);
     virtual ~COPROC_CUDA(){}
     static void get(COPROCS&);
     void clear();

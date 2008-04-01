@@ -34,6 +34,15 @@
 
 #include "coproc.h"
 
+void COPROC::write_xml(MIOFILE& f) {
+    f.printf(
+        "<coproc>\n"
+        "   <name>%s</name>\n"
+        "   <count>%d</count>\n"
+        "</coproc>\n",
+        name, count
+    );
+}
 int COPROC::parse(MIOFILE& fin) {
     char buf[1024];
     strcpy(name, "");
@@ -143,8 +152,8 @@ void fake_cuda(COPROCS& coprocs) {
    coprocs.coprocs.push_back(cc);
 }
 
-void COPROC_CUDA::write_xml(FILE* f) {
-    fprintf(f,
+void COPROC_CUDA::write_xml(MIOFILE& f) {
+    f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"

@@ -133,6 +133,7 @@ public:
     GLOBAL_PREFS global_prefs;
     SIM_HOST host_info;
     TIME_STATS time_stats;
+    COPROCS coprocs;
     CLIENT_STATE();
     bool initialized;
     bool run_cpu_benchmarks;
@@ -195,6 +196,9 @@ public:
 
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
+    bool sufficient_coprocs(APP_VERSION&);
+    void reserve_coprocs(APP_VERSION&);
+    void free_coprocs(APP_VERSION&);
 
 // --------------- cs_apps.C:
 private:

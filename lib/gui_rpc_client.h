@@ -150,6 +150,7 @@ class APP_VERSION {
 public:
     std::string app_name;
     int version_num;
+    std::string plan_class;
     APP* app;
     PROJECT* project;
 

@@ -224,7 +224,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "    <coprocs>\n");
         for (i=0; i<coprocs.coprocs.size(); i++) {
             COPROC* c = coprocs.coprocs[i];
-            c->write_xml(f);
+            c->write_xml(mf);
         }
         fprintf(f, "    </coprocs>\n");
     }
@@ -672,7 +672,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             avp->max_ncpus = avpp.max_ncpus;
             avp->flops = avpp.flops;
             strcpy(avp->cmdline, avpp.cmdline);
-            avp->coprocs.transfer_from(avpp.coprocs);
+            avp->coprocs.delete_coprocs();
+            avp->coprocs = avpp.coprocs;
 
             // if we had download failures, clear them
             //

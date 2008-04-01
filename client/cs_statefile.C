@@ -625,7 +625,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
             }
         }
         for (i=0; i<app_versions.size(); i++) {
-            if (app_versions[i]->project == p) app_versions[i]->write(f);
+            if (app_versions[i]->project == p) {
+                app_versions[i]->write(f);
+            }
         }
         for (i=0; i<workunits.size(); i++) {
             if (workunits[i]->project == p) workunits[i]->write(f);

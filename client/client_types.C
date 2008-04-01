@@ -1155,6 +1155,8 @@ int APP_VERSION::write(MIOFILE& out) {
         retval = app_files[i].write(out);
         if (retval) return retval;
     }
+    coprocs.write_xml(out);
+
     out.printf(
         "</app_version>\n"
     );

@@ -43,10 +43,13 @@
 
 #include <string>
 #include <cstring>
-#include "client_msgs.h"
+
 #include "str_util.h"
 #include "util.h"
 #include "error_numbers.h"
+#include "coproc.h"
+
+#include "client_msgs.h"
 #include "log_flags.h"
 
 #ifdef SIM

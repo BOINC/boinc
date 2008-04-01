@@ -612,15 +612,20 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
         } else {
             strLocalBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
         }
+        char buf[256];
+        if (state_result->wup->avp->plan_class.size()) {
+            sprintf(buf, " (%s)", state_result->wup->avp->plan_class.c_str());
+        } else {
+            strcpy(buf, "");
+        }
         strBuffer.Printf(
-            wxT(" %s %.2f"), 
+            wxT(" %s %.2f%s"), 
             strLocalBuffer.c_str(),
-            state_result->wup->avp->version_num/100.0
+            state_result->wup->avp->version_num/100.0,
+            buf
         );
         setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
-
     }
-
     return 0;
 }
 

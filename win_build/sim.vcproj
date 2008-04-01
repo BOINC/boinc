@@ -688,6 +688,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\coproc.C"
+				>
+			</File>
+			<File
 				RelativePath="..\client\cpu_sched.C"
 				>
 			</File>

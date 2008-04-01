@@ -2907,3 +2907,24 @@ Rom    April 1 2008
         
     client/
         http_curl.C
+
+David  April 1 2008
+    - client: finish and debug coprocessor support
+    - manager and GUI RPC: show plan class in app version string
+
+    client/
+        client_types.C
+        cpu_sched.C
+        cs_scheduler.C
+        cs_statefile.C
+        scheduler_op.C
+        sim.h
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
+    lib/
+        coproc.C,h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    win_build/
+        sim.vcproj
