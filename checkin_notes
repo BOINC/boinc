@@ -2899,3 +2899,11 @@ David  April 1 2008
         cs_scheduler.C
     lib/
         coproc.C,h
+
+Rom    April 1 2008
+    - client: Per Carl's recommendation add CURLOPT_POST301 to the
+        list of curl options used so that the followups to redirects
+        still post instead of get.
+        
+    client/
+        http_curl.C

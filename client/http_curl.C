@@ -416,6 +416,7 @@ int HTTP_OP::libcurl_exec(
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_POST301, 1L);
 
     // if we tell Curl to accept any encoding (e.g. deflate)
     // it seems to accept them all, which screws up projects that
