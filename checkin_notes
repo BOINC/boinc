@@ -3021,3 +3021,9 @@ David  April 2 2008
     
     sched/
         server_types.C
+
+David  April 2 2008
+    - server: when creating log dir, we were using wrong bit for sticky flag
+
+    sched/
+        sched_util.C

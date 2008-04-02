@@ -129,7 +129,7 @@ void get_log_path(char* p, const char* filename) {
     sprintf(dir, "../log_%s", host);
     sprintf(p, "%s/%s", dir, filename);
     mode_t old_mask = umask(0);
-    mkdir(dir, 02770);
+    mkdir(dir, 01770);
         // make log_x directory sticky and group-rwx
         // so that whatever apache puts there will be owned by us
     umask(old_mask);
