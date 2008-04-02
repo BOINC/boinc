@@ -2975,10 +2975,13 @@ Eric K  April 1 2008
         graphics2_util.C
 
 Charlie April 1 2008
+    - Graphics API: Add boinc_close_window_and_quit() API to UNIX / Mac lib.
     - Mac: Fix compiler warning.
     - Mac: Remove -fvisibility* compiler flags from BOINC library builds 
         and boinc_cmd build.
     
+    api/
+        graphics2_unix.C
     client/
         hostinfo_unix.C
     mac_build/

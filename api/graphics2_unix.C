@@ -53,7 +53,7 @@ static bool need_show = false;
 
 bool fullscreen;
 
-static void close_window() {
+void boinc_close_window_and_quit() {
     exit(0);
 }
 
@@ -61,7 +61,7 @@ static void close_window() {
 //
 void keyboardD(unsigned char key, int /*x*/, int /*y*/) {
     if (fullscreen) {
-        close_window();
+        boinc_close_window_and_quit();
     } else {
         boinc_app_key_press((int) key, 0);
     }
@@ -69,7 +69,7 @@ void keyboardD(unsigned char key, int /*x*/, int /*y*/) {
 
 void keyboardU(unsigned char key, int /*x*/, int /*y*/) {
     if (fullscreen) {
-        close_window();
+        boinc_close_window_and_quit();
     } else {
         boinc_app_key_release((int) key, 0);
     }
@@ -78,7 +78,7 @@ void keyboardU(unsigned char key, int /*x*/, int /*y*/) {
 void mouse_click(int button, int state, int x, int y){
     clicked_button = button;
     if (fullscreen) {
-        close_window();
+        boinc_close_window_and_quit();
     } else {
         if (state) {
             boinc_app_mouse_button(x, y, button, false);
@@ -90,7 +90,7 @@ void mouse_click(int button, int state, int x, int y){
 
 void mouse_click_move(int x, int y){
     if (fullscreen) {
-        close_window();
+        boinc_close_window_and_quit();
     } else if (clicked_button == 2){
         boinc_app_mouse_move(x, y, false, false, true);
     } else if (clicked_button == 1){
@@ -163,7 +163,7 @@ static void make_window() {
     app_graphics_init();
   
 #ifdef __APPLE__
-    glutWMCloseFunc(close_window);   // Enable the window's close box
+    glutWMCloseFunc(boinc_close_window_and_quit);   // Enable the window's close box
     BringAppToFront();
     // Show window only after a successful call to throttled_app_render(); 
     // this avoids momentary display of old image when screensaver restarts 
@@ -203,7 +203,7 @@ static void timer_handler(int) {
         checkparentcounter = 500 / TIMER_INTERVAL_MSEC;
         if (getppid() == 1) {
             // Quit graphics application if parent process no longer running
-            close_window();
+            boinc_close_window_and_quit();
         }
     }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
