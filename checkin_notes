@@ -3015,3 +3015,9 @@ David  April 2 2008
         single_job_assimilator.C
     tools/
         backend_lib.h
+
+David  April 2 2008
+    - scheduler: bug fix for case when app version XML is > 64KB
+    
+    sched/
+        server_types.C

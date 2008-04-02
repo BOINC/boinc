@@ -833,7 +833,7 @@ int APP::write(FILE* fout) {
 }
 
 int APP_VERSION::write(FILE* fout) {
-    char buf[BLOB_SIZE];
+    char buf[APP_VERSION_XML_BLOB_SIZE];
     unsigned int i;
 
     strcpy(buf, xml_doc);
