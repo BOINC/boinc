@@ -21,6 +21,7 @@
 #define _COPROC_
 
 #include <vector>
+#include <cstring>
 
 #include "miofile.h"
 

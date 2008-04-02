@@ -20,6 +20,8 @@
 #ifndef H_BACKEND_LIB
 #define H_BACKEND_LIB
 
+#include <limits.h>
+
 #include "crypt.h"
 #include "sched_config.h"
 #include "boinc_db.h"
