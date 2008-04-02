@@ -22,10 +22,10 @@
 #
 # Script to build Macintosh example_app using Makefile
 #
-# by Charlie Fenton 4/1/08
+# by Charlie Fenton 4/2/08
 #
 ## In Terminal, CD to the example_app/Mac directory.
-##     cd [path]/example_app/Mac/
+##     cd [path]/example_app/
 ## then run this script:
 ##     sh [path]/MakeMacExample.sh [ -clean ]
 ##
