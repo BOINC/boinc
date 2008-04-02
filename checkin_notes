@@ -2571,10 +2571,7 @@ Charlie Mar 20 2008
     lib/
         mac/
             mac_backtrace.C
-    mac_build/
-        boinc.xcodeproj/
-            project.pbxproj
-        buildWxMac.sh
+Å        buildWxMac.sh
 
 David  Mar 20 2008
     - updated GeoIP stuff
@@ -2977,6 +2974,9 @@ Eric K  April 1 2008
     api/
         graphics2_util.C
 
-
-
-
+Charlie April 1 2008
+    - Mac: Remove -fvisibility* compiler flags from BOINC library builds.
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
