@@ -671,3 +671,15 @@ David  31 Mar 2008
 
     example_app/
         uc2_graphics.C
+
+
+Charlie 1 Apr 2008
+    - example_app: Remove -fvisibility* compiler flags from all 3 Mac build 
+        methods.
+    
+    example_app/
+        Makefile_mac2
+        MakeMacExample.sh
+    mac_build/
+        UpperCase2.xcodeproj/
+            project.pbxproj

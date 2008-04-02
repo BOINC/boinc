@@ -1,5 +1,5 @@
 # stand-alone makefile for uc2 BOINC example application on Macintosh.
-# Updated 3/26/08
+# Updated 4/1/08
 #
 
 BOINC_DIR = ../../boinc
@@ -27,14 +27,14 @@ LDFLAGS_PPC = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk,-arch,ppc
 CC_i386 = /usr/bin/gcc-4.0
 CXX_i386 = /usr/bin/g++-4.0
 CXXFLAGS_i386 = -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
-    -mmacosx-version-min=10.4 -fvisibility=hidden -fvisibility-inlines-hidden \
+    -mmacosx-version-min=10.4 \
     $(CXXFLAGS_ALL)
 LDFLAGS_i386 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,i386
 
 CC_x86_64 = /usr/bin/gcc-4.0
 CXX_x86_64 = /usr/bin/g++-4.0
 CXXFLAGS_x86_64 = -arch x86_64 -isysroot /Developer/SDKs/MacOSX10.5.sdk \
-    -mmacosx-version-min=10.5 -fvisibility=hidden -fvisibility-inlines-hidden \
+    -mmacosx-version-min=10.5 \
     $(CXXFLAGS_ALL)
 LDFLAGS_x86_64 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk,-arch,x86_64
 
