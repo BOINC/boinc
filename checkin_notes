@@ -2987,3 +2987,20 @@ Charlie April 1 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  April 2 2008
+    - Client/server protocol:
+        send <client_cap_plan_class/> if client understands
+        app version plan class.
+        The server checks for this instead of version > 6.11.
+    - clean up unix_util: .h files declare only (extern) interfaces;
+        no reason for daemon() to be C
+
+    client/
+        cs_scheduler.C
+    lib/
+        unix_util.C,h
+    sched/
+        sched_plan.C
+        sched_send.C
+        server_types.C,h

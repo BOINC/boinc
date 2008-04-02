@@ -270,6 +270,7 @@ struct SCHEDULER_REQUEST {
     bool have_other_results_list;
     bool have_ip_results_list;
     bool have_time_stats_log;
+    bool client_cap_plan_class;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();

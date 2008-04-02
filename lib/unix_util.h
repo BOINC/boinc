@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2008 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -15,7 +15,7 @@
 // To view the GNU Lesser General Public License visit
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #ifndef UNIX_UTIL_H
 #define UNIX_UTIL_H
@@ -25,30 +25,9 @@
 
 #include "config.h"
 
-
-#ifdef __cplusplus
-#include <cstdio>
-#include <cstdlib>
-#else
-#include <stdio.h>
-#include <stdlib.h>
-#endif
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #ifndef HAVE_DAEMON
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-int daemon(int nochdir, int noclose);
-
-#ifdef __cplusplus
-}
-#endif
+extern int daemon(int nochdir, int noclose);
 
 #endif /* HAVE_DAEMON */
 

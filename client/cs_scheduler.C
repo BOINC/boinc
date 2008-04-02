@@ -134,6 +134,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->duration_correction_factor
     );
 
+    // write client capabilities
+    //
+    fprintf(f,
+        "    <client_cap_plan_class/>\n"
+    );
+
     write_platforms(p, mf);
 
     // send supported app_versions for anonymous platform clients

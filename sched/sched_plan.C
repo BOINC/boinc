@@ -43,12 +43,6 @@ static void get_ncpus(SCHEDULER_REQUEST& sreq, int& ncpus, bool& bounded) {
 }
 
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
-    // clients before 6.1.11 don't understand plan_class
-    //
-    int v = sreq.core_client_major_version*10000
-        + sreq.core_client_minor_version*100
-        + sreq.core_client_release;
-    if (v < 60111) return false;
     if (!strcmp(plan_class, "mt")) {
         // the following is for an app that can use anywhere
         // from 1 to 64 threads, can control this exactly,

@@ -170,7 +170,7 @@ BEST_APP_VERSION* get_app_version(
                 reply.wreq.outdated_core = true;
                 continue;
             }
-            if (strlen(av.plan_class)) {
+            if (strlen(av.plan_class) && sreq.client_cap_plan_class) {
                 if (!app_plan(sreq, av.plan_class, host_usage)) {
                     continue;
                 }

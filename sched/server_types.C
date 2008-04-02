@@ -161,6 +161,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     have_other_results_list = false;
     have_ip_results_list = false;
     have_time_stats_log = false;
+    client_cap_plan_class = false;
 
     char* unused = fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
@@ -306,6 +307,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             coprocs.parse(fin);
             continue;
         }
+        if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
 
         if (match_tag(buf, "<active_task_set>")) continue;
         if (match_tag(buf, "<app>")) continue;
