@@ -3027,3 +3027,12 @@ David  April 2 2008
 
     sched/
         sched_util.C
+
+Rom    April 2 2008
+    - WINSETUP: Make sure the executable permissions are setup correctly
+        after the binaries are installed.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.def
+        boinccas.vcproj
+        CASetPermissionBOINC.cpp, .h (Added)
