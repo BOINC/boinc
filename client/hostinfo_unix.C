@@ -917,7 +917,7 @@ inline bool all_tty_idle(time_t t) {
     // segfault when called.  This implementation is better.
     static std::vector<std::string> tty_list;
     struct stat sbuf;
-    int i;
+    unsigned int i;
 
     if (tty_list.size()==0) tty_list=get_tty_list();
     for (i=0; i<tty_list.size(); i++) {

@@ -2975,8 +2975,12 @@ Eric K  April 1 2008
         graphics2_util.C
 
 Charlie April 1 2008
-    - Mac: Remove -fvisibility* compiler flags from BOINC library builds.
+    - Mac: Fix compiler warning.
+    - Mac: Remove -fvisibility* compiler flags from BOINC library builds 
+        and boinc_cmd build.
     
+    client/
+        hostinfo_unix.C
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
