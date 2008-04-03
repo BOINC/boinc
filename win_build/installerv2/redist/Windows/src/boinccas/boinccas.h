@@ -96,6 +96,8 @@ public:
         const tstring      strMessage               // message
         );
 
+    // Reboot machine when setup has completed.
+    UINT RebootWhenFinished();
 
 protected:
     MSIHANDLE   m_hMSIHandle;

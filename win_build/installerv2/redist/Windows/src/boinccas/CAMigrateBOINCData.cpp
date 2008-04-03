@@ -321,9 +321,12 @@ UINT CAMigrateBOINCData::OnRollback()
 UINT CAMigrateBOINCData::OnExecution()
 {
     tstring      strCustomActionData;
-    tstring      strInstallDirectory;
-    tstring      strDataDirectory;
-    tstring      strClientStateFile;
+    tstring      strCurrentInstallDirectory;
+    tstring      strFutureInstallDirectory;
+    tstring      strCurrentDataDirectory;
+    tstring      strFutureDataDirectory;
+    tstring      strMigrationDirectory;
+    tstring      strDestinationClientStateFile;
     tstring      strTemp;
     struct _stat buf;
     BOOL         bMigratingData = FALSE;
@@ -341,22 +344,26 @@ UINT CAMigrateBOINCData::OnExecution()
         _T("CAMigrateBOINCData::OnExecution -- Function Begin")
     );
 
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+
+    GetRegistryValue( _T("INSTALLDIR"), strCurrentInstallDirectory );
+
+    uiReturnValue = GetProperty( _T("INSTALLDIR"), strFutureInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
+    uiReturnValue = GetProperty( _T("DATADIR"), strFutureDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
-    strClientStateFile = strDataDirectory + _T("\\client_state.xml");
+    strDestinationClientStateFile = strFutureDataDirectory + _T("\\client_state.xml");
+
 
     // Perform some basic sanity tests to see if we need to migrate
     //   anything.
     BOOL bClientStateExists =
-        (BOOL)(0 == _stat(strClientStateFile.c_str(), &buf));
+        (BOOL)(0 == _stat(strDestinationClientStateFile.c_str(), &buf));
     BOOL bInstallDataSameDirectory = 
-        (BOOL)(strInstallDirectory == strDataDirectory);
+        (BOOL)(strFutureInstallDirectory == strFutureDataDirectory);
     BOOL bDataDirExistsWithinInstallDir = 
-        (BOOL)(tstring::npos != strDataDirectory.find(strInstallDirectory));
+        (BOOL)(tstring::npos != strFutureDataDirectory.find(strFutureInstallDirectory));
 
     if      ( bClientStateExists )
     {
@@ -406,16 +413,23 @@ UINT CAMigrateBOINCData::OnExecution()
             _T("Data files do NOT exist, performing migration.")
         );
 
-        if ( GetFileDirectorySizes( strInstallDirectory, ullFileSize, ullDirectorySize ) )
+        strTemp = strCurrentInstallDirectory + _T("\\client_state.xml");
+        if (0 == _stat(strTemp.c_str(), &buf)) {
+            strMigrationDirectory = strCurrentInstallDirectory;
+        } else {
+            strMigrationDirectory = strFutureInstallDirectory;
+        }
+
+        if ( GetFileDirectorySizes( strMigrationDirectory, ullFileSize, ullDirectorySize ) )
         {
             // The total amount of disk space required depends on whether or not
             //   the files in the original location are on the same volume as the
             //   destination. So do a quick check to see if we have enough disk
             //   space.
-            GetFreeDiskSpace(strDataDirectory, ullFreeDiskSpace);
+            GetFreeDiskSpace(strFutureDataDirectory, ullFreeDiskSpace);
 
             // Are we on the same volume?
-            if (strInstallDirectory.substr(0, 2) == strDataDirectory.substr(0, 2))
+            if (strMigrationDirectory.substr(0, 2) == strFutureDataDirectory.substr(0, 2))
             {
                 // We only need the amount of free space as the largest file
                 //   that is going to be transfered.
@@ -467,8 +481,8 @@ UINT CAMigrateBOINCData::OnExecution()
     {
         strTemp = _T("FALSE|");
     }
-    strTemp += strInstallDirectory + _T("|");
-    strTemp += strDataDirectory;
+    strTemp += strMigrationDirectory + _T("|");
+    strTemp += strFutureDataDirectory;
 
     SetProperty( _T("CAMigrateBOINCDataInstall"), strTemp );
     SetProperty( _T("CAMigrateBOINCDataRollback"), strTemp );

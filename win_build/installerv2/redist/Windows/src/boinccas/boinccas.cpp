@@ -103,8 +103,6 @@ UINT BOINCCABase::Execute()
 
     OnInitialize();
 
-
-
     if      ( TRUE == MsiGetMode( m_hMSIHandle, MSIRUNMODE_SCHEDULED ) )
     {
         uiReturnValue = OnInstall();
@@ -659,6 +657,19 @@ UINT BOINCCABase::LogMessage(
 
     }
     return uiReturnValue;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    RebootWhenFinished
+//
+// Description: Reboot computer when setup completes installation.
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::RebootWhenFinished()
+{
+    return MsiSetMode(m_hMSIHandle, MSIRUNMODE_REBOOTATEND, TRUE);
 }
 
 const char *BOINC_RCSID_08ed2ba826="$Id$";

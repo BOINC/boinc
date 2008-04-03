@@ -65,6 +65,9 @@ UINT CACreateBOINCGroups::OnExecution()
     NET_API_STATUS   nasReturnValue;
     DWORD            dwParameterError;
     UINT             uiReturnValue = -1;
+    BOOL             bBOINCAdminsCreated = FALSE;
+    BOOL             bBOINCUsersCreated = FALSE;
+    BOOL             bBOINCProjectsCreated = FALSE;
     tstring          strUserSID;
     tstring          strBOINCMasterAccountUsername;
     tstring          strBOINCProjectAccountUsername;
@@ -114,6 +117,9 @@ UINT CACreateBOINCGroups::OnExecution()
         return ERROR_INSTALL_FAILURE;
     }
 
+    if (NERR_Success == nasReturnValue) {
+        bBOINCAdminsCreated = TRUE;
+    }
 
     // If we just created the 'boinc_admins' local group then we need to populate
     //   it with the default accounts.
@@ -160,7 +166,7 @@ UINT CACreateBOINCGroups::OnExecution()
             NULL,
             NULL,
             nasReturnValue,
-            _T("Failed to add user to the 'boinc_users' group (Administrator).")
+            _T("Failed to add user to the 'boinc_admins' group (Administrator).")
         );
         return ERROR_INSTALL_FAILURE;
     }
@@ -199,7 +205,7 @@ UINT CACreateBOINCGroups::OnExecution()
             NULL,
             NULL,
             nasReturnValue,
-            _T("Failed to add user to the 'boinc_users' group (Installing User).")
+            _T("Failed to add user to the 'boinc_admins' group (Installing User).")
         );
         return ERROR_INSTALL_FAILURE;
     }
@@ -238,7 +244,7 @@ UINT CACreateBOINCGroups::OnExecution()
             NULL,
             NULL,
             nasReturnValue,
-            _T("Failed to add user to the 'boinc_users' group (BOINC Master).")
+            _T("Failed to add user to the 'boinc_admins' group (BOINC Master).")
         );
         return ERROR_INSTALL_FAILURE;
     }
@@ -272,6 +278,9 @@ UINT CACreateBOINCGroups::OnExecution()
         return ERROR_INSTALL_FAILURE;
     }
 
+    if (NERR_Success == nasReturnValue) {
+        bBOINCUsersCreated = TRUE;
+    }
 
     // If we just created the 'boinc_users' local group or the user has enabled all
     //   users to manage BOINC then we need to make sure that the 'Everyone' group
@@ -352,6 +361,9 @@ UINT CACreateBOINCGroups::OnExecution()
         return ERROR_INSTALL_FAILURE;
     }
 
+    if (NERR_Success == nasReturnValue) {
+        bBOINCProjectsCreated = TRUE;
+    }
 
     // If we just created the 'boinc_projects' local group or the user has enabled 
     //   protected application execution then we need to add the 'boinc_project'
@@ -405,6 +417,10 @@ UINT CACreateBOINCGroups::OnExecution()
     SetProperty( _T("BOINC_ADMINS_GROUPNAME"), _T("boinc_admins") );
     SetProperty( _T("BOINC_USERS_GROUPNAME"), _T("boinc_users") );
     SetProperty( _T("BOINC_PROJECTS_GROUPNAME"), _T("boinc_projects") );
+
+    if (bBOINCAdminsCreated || bBOINCUsersCreated || bBOINCProjectsCreated) {
+        RebootWhenFinished();
+    }
 
     return ERROR_SUCCESS;
 }

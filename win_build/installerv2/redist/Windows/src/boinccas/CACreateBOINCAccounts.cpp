@@ -73,6 +73,8 @@ UINT CACreateBOINCAccounts::OnExecution()
     tstring          strEnableProtectedApplicationExecution;
     PSID             pSid;
     NET_API_STATUS   nasReturnValue;
+    BOOL             bBOINCMasterAccountCreated = FALSE;
+    BOOL             bBOINCProjectAccountCreated = FALSE;
     BOOL             bBOINCMasterAccountModified = FALSE;
     BOOL             bBOINCProjectAccountModified = FALSE;
     UINT             uiReturnValue = -1;
@@ -247,7 +249,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 return ERROR_INSTALL_FAILURE;
             }
 
-            SetProperty( _T("BOINC_MASTER_CREATED"), _T("1") );
+            bBOINCMasterAccountCreated = TRUE;
         }
         if(pSid != NULL) {
             HeapFree(GetProcessHeap(), 0, pSid);
@@ -405,7 +407,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 return ERROR_INSTALL_FAILURE;
             }
 
-            SetProperty( _T("BOINC_PROJECT_CREATED"), _T("1") );
+            bBOINCProjectAccountCreated = TRUE;
         }
         if(pSid != NULL) {
             HeapFree(GetProcessHeap(), 0, pSid);
@@ -431,6 +433,10 @@ UINT CACreateBOINCAccounts::OnExecution()
         SetProperty( _T("BOINC_PROJECT_ISUSERNAME"), strBOINCProjectAccountUsername );
     }
     SetProperty( _T("BOINC_PROJECT_PASSWORD"), strBOINCProjectAccountPassword );
+
+    if (bBOINCMasterAccountCreated || bBOINCProjectAccountCreated) {
+        RebootWhenFinished();
+    }
 
     return ERROR_SUCCESS;
 }

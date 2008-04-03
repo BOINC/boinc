@@ -3036,3 +3036,22 @@ Rom    April 2 2008
         boinccas.def
         boinccas.vcproj
         CASetPermissionBOINC.cpp, .h (Added)
+
+Rom    April 3 2008
+    - WINSETUP: Inform MSI that a reboot is suggested after creation of
+        'boinc_master', 'boinc_project', 'boinc_admins', 'boinc_users',
+        'boinc_projects'.
+    - WINSETUP: Reread the INSTALLDIR property from the registry to
+        determine if their is data to migrate. INSTALLDIR is changed to
+        whereever the user wants to install BOINC now, whihc may be
+        different then where it was in 5.10.
+    - WINSETUP: If the user is running on Win2k but hasn't upgraded to
+        SP4, inform them of the new requirement.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.cpp, .h
+        CACreateBOINCAccounts.cpp
+        CACreateBOINCGroups.cpp
+        CAMigrateBOINCData.cpp
