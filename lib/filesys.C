@@ -88,6 +88,14 @@ int is_dir(const char* path) {
     return (!retval && (sbuf.st_mode & S_IFDIR));
 }
 
+#ifndef _WIN32
+int is_symlink(const char* path) {
+    struct stat sbuf;
+    int retval = stat(path, &sbuf);
+    return (!retval && (sbuf.st_mode & S_IFLNK));
+}
+#endif
+
 // Open a directory
 //
 DIRREF dir_open(const char* p) {
@@ -337,7 +345,7 @@ int clean_out_dir(const char* dirpath) {
 
 // return total size of files in directory and optionally its subdirectories
 // Win: use special version because stat() is slow, can be avoided
-// Unix: skip symbolic links
+// Unix: follow symbolic links
 //
 int dir_size(const char* dirpath, double& size, bool recurse) {
 #ifdef WIN32
@@ -386,7 +394,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
                 if (retval) continue;
                 size += x;
             }
-        } else if (is_file(subdir)) {
+        } else {
             retval = file_size(subdir, x);
             if (retval) continue;
             size += x;

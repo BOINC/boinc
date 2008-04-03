@@ -3055,3 +3055,18 @@ Rom    April 3 2008
         CACreateBOINCAccounts.cpp
         CACreateBOINCGroups.cpp
         CAMigrateBOINCData.cpp
+
+David  April 3 2008
+    - API: change boinc_resolve_filename() so that it detects symbolic links
+        and treats them as a special case.
+        Also, if the virtual file doesn't exist (as in the standalone case)
+        just return zero; otherwise if the app is running standalone
+        and checks the return value, it will error out.
+
+        NOTE: apps that check the return value of boinc_resolve_filename()
+        won't work on 6.12+ under Unix;
+        recompiling with this change will fix the problem.
+
+    lib/
+        app_ipc.C
+        filesys.C,h

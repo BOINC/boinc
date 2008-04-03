@@ -302,24 +302,38 @@ void APP_CLIENT_SHM::reset_msgs() {
     memset(shm, 0, sizeof(SHARED_MEM));
 }
 
-// resolve "symbolic link"
+// Resolve virtual name (in slot dir) to physical path (in project dir).
+// Cases:
+// - Windows and pre-6.12 Unix:
+//   virtual name refers to a "soft link" (XML file acting as symbolic link)
+// - 6.12+ Unix:
+//   virtual name is a symbolic link
+// - Standalone: physical path is same as virtual name
 //
-int boinc_resolve_filename(const char *virtual_name, char *physical_name, int len) {
+int boinc_resolve_filename(
+    const char *virtual_name, char *physical_name, int len
+) {
     FILE *fp;
     char buf[512], *p;
 
     if (!virtual_name) return ERR_NULL;
     strlcpy(physical_name, virtual_name, len);
 
+#ifndef _WIN32
+    if (is_symlink(virtual_name)) {
+        return 0;
+    }
+#endif
+
     // Open the link file and read the first line
     //
     fp = boinc_fopen(virtual_name, "r");
-    if (!fp) return ERR_FOPEN;
+    if (!fp) return 0;
 
     // must initialize buf since fgets() on an empty file won't do anything
     //
     buf[0] = 0;
-    p =fgets(buf, 512, fp);
+    p =fgets(buf, sizeof(buf), fp);
     fclose(fp);
 
     // If it's the <soft_link> XML tag, return its value,
