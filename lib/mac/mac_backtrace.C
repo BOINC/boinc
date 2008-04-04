@@ -172,7 +172,9 @@ void PrintBacktrace(void) {
             strlcpy(saved_env, env, sizeof(saved_env));
         }
         setenv("NSUnbufferedIO", "YES", 1);
-           
+        
+        // For some reason, using the -p option with the value from getpid() 
+        // fails here but the -o option with a path does work.
         snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o %s", pathToThisProcess);
         f = popen(pipeBuf, "r+");
         if (f) {
