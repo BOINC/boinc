@@ -3099,3 +3099,15 @@ Eric K  April 4 2008
             Makefile.am
 	    boinc-client.in
 
+Rom    April 4 2008
+    - WINSETUP: Fix the bug during uninstall where the data files were not
+        being migrated back to the executable directory.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CAMigrateBOINCData.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll

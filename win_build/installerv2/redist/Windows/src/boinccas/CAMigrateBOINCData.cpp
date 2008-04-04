@@ -325,11 +325,11 @@ UINT CAMigrateBOINCData::OnExecution()
     tstring      strFutureInstallDirectory;
     tstring      strCurrentDataDirectory;
     tstring      strFutureDataDirectory;
+    tstring      strMigration;
     tstring      strMigrationDirectory;
     tstring      strDestinationClientStateFile;
-    tstring      strTemp;
+    tstring      strRemove;
     struct _stat buf;
-    BOOL         bMigratingData = FALSE;
     ULONGLONG    ullFileSize = 0;
     ULONGLONG    ullDirectorySize = 0;
     ULONGLONG    ullFreeDiskSpace = 0;
@@ -353,139 +353,151 @@ UINT CAMigrateBOINCData::OnExecution()
     uiReturnValue = GetProperty( _T("DATADIR"), strFutureDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
-    strDestinationClientStateFile = strFutureDataDirectory + _T("\\client_state.xml");
+    uiReturnValue = GetRegistryValue( _T("MIGRATION"), strMigration );
+    uiReturnValue = GetRegistryValue( _T("MIGRATIONDIR"), strMigrationDirectory );
+
+    uiReturnValue = GetProperty( _T("REMOVE"), strRemove );
+    if ( uiReturnValue ) return uiReturnValue;
 
 
-    // Perform some basic sanity tests to see if we need to migrate
-    //   anything.
-    BOOL bClientStateExists =
-        (BOOL)(0 == _stat(strDestinationClientStateFile.c_str(), &buf));
-    BOOL bInstallDataSameDirectory = 
-        (BOOL)(strFutureInstallDirectory == strFutureDataDirectory);
-    BOOL bDataDirExistsWithinInstallDir = 
-        (BOOL)(tstring::npos != strFutureDataDirectory.find(strFutureInstallDirectory));
-
-    if      ( bClientStateExists )
+    // If the REMOVE property is specified, then we are uninstalling BOINC, and
+    // need to move things back to their orginal location.
+    if (strRemove.length())
     {
-        bMigratingData = FALSE;
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Data files already exists, skipping migration.")
-        );
-    }
-    else if ( bInstallDataSameDirectory ) 
-    {
-        bMigratingData = FALSE;
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Install directory and data directory are the same, skipping migration.")
-        );
-    }
-    else if ( bDataDirExistsWithinInstallDir )
-    {
-        bMigratingData = FALSE;
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Data drectory exists within the install directory, skipping migration.")
-        );
+        strCustomActionData = strMigration + _T("|");
+        strCustomActionData += strFutureDataDirectory + _T("|");
+        strCustomActionData += strMigrationDirectory;
     }
     else
     {
-        bMigratingData = TRUE;
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Data files do NOT exist, performing migration.")
-        );
+        strDestinationClientStateFile = strFutureDataDirectory + _T("\\client_state.xml");
 
-        strTemp = strCurrentInstallDirectory + _T("\\client_state.xml");
-        if (0 == _stat(strTemp.c_str(), &buf)) {
-            strMigrationDirectory = strCurrentInstallDirectory;
-        } else {
-            strMigrationDirectory = strFutureInstallDirectory;
-        }
 
-        if ( GetFileDirectorySizes( strMigrationDirectory, ullFileSize, ullDirectorySize ) )
+        // Perform some basic sanity tests to see if we need to migrate
+        //   anything.
+        BOOL bClientStateExists =
+            (BOOL)(0 == _stat(strDestinationClientStateFile.c_str(), &buf));
+        BOOL bInstallDataSameDirectory = 
+            (BOOL)(strFutureInstallDirectory == strFutureDataDirectory);
+        BOOL bDataDirExistsWithinInstallDir = 
+            (BOOL)(tstring::npos != strFutureDataDirectory.find(strFutureInstallDirectory));
+
+        if      ( bClientStateExists )
         {
-            // The total amount of disk space required depends on whether or not
-            //   the files in the original location are on the same volume as the
-            //   destination. So do a quick check to see if we have enough disk
-            //   space.
-            GetFreeDiskSpace(strFutureDataDirectory, ullFreeDiskSpace);
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Data files already exists, skipping migration.")
+            );
+        }
+        else if ( bInstallDataSameDirectory ) 
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Install directory and data directory are the same, skipping migration.")
+            );
+        }
+        else if ( bDataDirExistsWithinInstallDir )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Data drectory exists within the install directory, skipping migration.")
+            );
+        }
+        else
+        {
+            strMigration = _T("TRUE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Data files do NOT exist, performing migration.")
+            );
 
-            // Are we on the same volume?
-            if (strMigrationDirectory.substr(0, 2) == strFutureDataDirectory.substr(0, 2))
-            {
-                // We only need the amount of free space as the largest file
-                //   that is going to be transfered.
-                if (ullFileSize > ullFreeDiskSpace)
-                {
-                    LogMessage(
-                        INSTALLMESSAGE_FATALEXIT,
-                        NULL, 
-                        NULL,
-                        NULL,
-                        NULL,
-                        _T("Not enough free disk space is available to migrate BOINC's data files to\n"
-                           "the new data directory. Please free up some disk space or migrate the files\n"
-                           "manually.")
-                        );
-                    return ERROR_INSTALL_FAILURE;
-                }
+            strMigrationDirectory = strCurrentInstallDirectory + _T("\\client_state.xml");
+            if (0 == _stat(strMigrationDirectory.c_str(), &buf)) {
+                strMigrationDirectory = strCurrentInstallDirectory;
+            } else {
+                strMigrationDirectory = strFutureInstallDirectory;
             }
-            else
+
+            if ( GetFileDirectorySizes( strMigrationDirectory, ullFileSize, ullDirectorySize ) )
             {
-                // We only need the amount of free space of the directory
-                //   that is going to be transfered.
-                if (ullDirectorySize > ullFreeDiskSpace)
+                // The total amount of disk space required depends on whether or not
+                //   the files in the original location are on the same volume as the
+                //   destination. So do a quick check to see if we have enough disk
+                //   space.
+                GetFreeDiskSpace(strFutureDataDirectory, ullFreeDiskSpace);
+
+                // Are we on the same volume?
+                if (strMigrationDirectory.substr(0, 2) == strFutureDataDirectory.substr(0, 2))
                 {
-                    LogMessage(
-                        INSTALLMESSAGE_FATALEXIT,
-                        NULL, 
-                        NULL,
-                        NULL,
-                        NULL,
-                        _T("Not enough free disk space is available to migrate BOINC's data files to\n"
-                           "the new data directory. Please free up some disk space or migrate the files\n"
-                           "manually.")
-                        );
-                    return ERROR_INSTALL_FAILURE;
+                    // We only need the amount of free space as the largest file
+                    //   that is going to be transfered.
+                    if (ullFileSize > ullFreeDiskSpace)
+                    {
+                        LogMessage(
+                            INSTALLMESSAGE_FATALEXIT,
+                            NULL, 
+                            NULL,
+                            NULL,
+                            NULL,
+                            _T("Not enough free disk space is available to migrate BOINC's data files to\n"
+                               "the new data directory. Please free up some disk space or migrate the files\n"
+                               "manually.")
+                            );
+                        return ERROR_INSTALL_FAILURE;
+                    }
+                }
+                else
+                {
+                    // We only need the amount of free space of the directory
+                    //   that is going to be transfered.
+                    if (ullDirectorySize > ullFreeDiskSpace)
+                    {
+                        LogMessage(
+                            INSTALLMESSAGE_FATALEXIT,
+                            NULL, 
+                            NULL,
+                            NULL,
+                            NULL,
+                            _T("Not enough free disk space is available to migrate BOINC's data files to\n"
+                               "the new data directory. Please free up some disk space or migrate the files\n"
+                               "manually.")
+                            );
+                        return ERROR_INSTALL_FAILURE;
+                    }
                 }
             }
         }
+
+        // Contruct a '|' delimited string to pass along to the install script
+        //   and rollback script parts of this custom action.
+        strCustomActionData += strMigration + _T("|");
+        strCustomActionData += strMigrationDirectory + _T("|");
+        strCustomActionData += strFutureDataDirectory;
     }
 
-
-    // Contruct a '|' delimited string to pass along to the install script
-    //   and rollback script parts of this custom action.
-    if (bMigratingData)
-    {
-        strTemp = _T("TRUE|");
-    }
-    else
-    {
-        strTemp = _T("FALSE|");
-    }
-    strTemp += strMigrationDirectory + _T("|");
-    strTemp += strFutureDataDirectory;
-
-    SetProperty( _T("CAMigrateBOINCDataInstall"), strTemp );
-    SetProperty( _T("CAMigrateBOINCDataRollback"), strTemp );
+    SetRegistryValue( _T("MIGRATION"), strMigration );
+    SetRegistryValue( _T("MIGRATIONDIR"), strMigrationDirectory );
+    SetProperty( _T("CAMigrateBOINCDataInstall"), strCustomActionData );
+    SetProperty( _T("CAMigrateBOINCDataRollback"), strCustomActionData );
 
     LogMessage(
         INSTALLMESSAGE_INFO,
