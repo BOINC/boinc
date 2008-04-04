@@ -662,6 +662,8 @@ AC_CONFIG_FILES([
                  clientgui/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+		 client/scripts/Makefile
+		 client/scripts/boinc-client
                  db/Makefile
                  doc/Makefile
                  doc/manpages/Makefile

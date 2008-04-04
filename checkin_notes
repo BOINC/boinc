@@ -3084,3 +3084,18 @@ Charlie April 4 2008
     lib/
         mac/
             mac_backtrace.C
+
+Eric K  April 4 2008
+    - Added init.d script (boinc-client.in) and Makefile.am to install it.
+    - I got this from the Fedora package.  I have modified it to create the
+      run directory if it does not exist, and to not run boinc as root.
+      Checking for running processes needs to be improved.
+    - boinc-client.in is still very linux centric and probably won't work on
+      non-linux systems or under Bourne shell without significant changes.
+
+    configure.ac
+    client/
+        scripts/
+            Makefile.am
+	    boinc-client.in
+
