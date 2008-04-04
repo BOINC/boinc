@@ -2571,7 +2571,7 @@ Charlie Mar 20 2008
     lib/
         mac/
             mac_backtrace.C
-Å        buildWxMac.sh
+        buildWxMac.sh
 
 David  Mar 20 2008
     - updated GeoIP stuff
@@ -3077,3 +3077,10 @@ Charlie April 3 2008
 
     mac_build/
         HowToBuildBOINC_XCode.rtf
+
+Charlie April 4 2008
+    Mac: Fix bugs in new backtrace code.
+
+    lib/
+        mac/
+            mac_backtrace.C
