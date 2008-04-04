@@ -3070,3 +3070,10 @@ David  April 3 2008
     lib/
         app_ipc.C
         filesys.C,h
+
+Charlie April 3 2008
+    Mac: Update build documentation, move building project applications build
+        instructions to a separate document (wiki page)
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
