@@ -82,14 +82,14 @@ enum {
 #define SKIPFRAME 4 /* Number frames overhead for signal handler and backtrace */
 
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
-static void GetPathToThisProcess(char* outbuf, size_t maxLen);
+static void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbuf, size_t outBufLen);
 static void PrintOSVersion(char *minorVersion);
 
 void PrintBacktrace(void) {
     int                         err;
     QCrashReportRef             crRef = NULL;
 
-    char                        pathToThisProcess[1024], pipeBuf[1024], *nameBuf;
+    char                        nameBuf[256], pathToThisProcess[1024], pipeBuf[1024];
     
     const NXArchInfo            *localArch;
     char                        OSMinorVersion;
@@ -121,14 +121,8 @@ void PrintBacktrace(void) {
     }
 #endif
 
-    GetPathToThisProcess(pathToThisProcess, sizeof(pathToThisProcess));
+    GetNameOfAndPathToThisProcess(nameBuf, sizeof(nameBuf), pathToThisProcess, sizeof(pathToThisProcess));
     
-    nameBuf = strrchr(pathToThisProcess, '/');
-    if (nameBuf) {
-        ++nameBuf;      // Advance over the separator
-    } else {
-        nameBuf = pathToThisProcess;
-    }
     if (nameBuf[0]) {
         fprintf(stderr, "\nCrashed executable name: %s\n", nameBuf);
     }
@@ -229,40 +223,51 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
-static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
+static void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbuf, size_t outBufLen) {
     FILE *f;
-    char buf[256], *p, *q;
+    char buf[256], *p, *q=NULL;
     pid_t aPID = getpid();
+    size_t nameLen;
 
     *outbuf = '\0';
+    *nameBuf = '\0';
     
-    sprintf(buf, "ps -xwo command -p %d", (int)aPID);
+    sprintf(buf, "ps -wo command -p %d", (int)aPID);
     f = popen(buf, "r");
     if (f == NULL)
         return;
     
-    PersistentFGets (outbuf, maxLen, f);      // Discard header line
-    PersistentFGets (outbuf, maxLen, f);
+    PersistentFGets (outbuf, outBufLen, f);     // Discard header line
+    PersistentFGets (outbuf, outBufLen, f);     // Get the UNIX command which ran us
     pclose(f);
 
+    sprintf(buf, "ps -p %d -c -o command", aPID);
+    f = popen(buf,  "r");
+    if (!f)
+        return;
+    PersistentFGets(nameBuf, nameBufLen, f);    // Discard header line
+    PersistentFGets(nameBuf, nameBufLen, f);    // Get just the name of our application
+    fclose(f);
+
     // Remove trailing newline if present
-    p = strchr(outbuf, '\n');
+    p = strchr(nameBuf, '\n');
     if (p)
         *p = '\0';
     
     // Strip off any arguments
-    p = strstr(outbuf, " -");
-    q = p;
-    if (p) {
-        while (*p == ' ') {
-            q = p;
-            if (--p < outbuf)
-                break;
-        }
+    p = outbuf;
+    nameLen = strlen(nameBuf);
+    // Find last instance of string nameBuf in string outbuf
+    while (p) {
+        q = p;
+        p = strnstr(q + nameLen, nameBuf, outBufLen);
     }
     
-    if (q)
+    // Terminate the string immediately after path
+    if (q) {
+        q += nameLen;
         *q = '\0';
+    }
 }
 
 
