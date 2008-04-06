@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  This is the manual page for the BOINC core client (boinc_client).
 
- Copyright © 2007 University of California
+ Copyright © 2007-2008 University of California
 
  Permission is granted to copy, distribute and/or modify this document
  under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -11,12 +11,24 @@
  Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 -->
 
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
-"file:///usr/share/xml/docbook/schema/dtd/4.2/docbookx.dtd" [
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
-  <!ENTITY dhbinary    "boinc_client">
-  <!ENTITY dhdate      "<date>October 06, 2007</date>">
-  <!ENTITY gnu         "<acronym>GNU</acronym>">
+  <!ENTITY binary   "boinc_client">
+  <!ENTITY command  "<command>boinc_client</command>">
+  <!ENTITY date     "<date>April 06, 2008</date>">
+  <!ENTITY gnu      "<acronym>GNU</acronym>">
+  <!ENTITY man_boincmgr
+                    "<citerefentry>
+                       <refentrytitle>boincmgr</refentrytitle>
+                       <manvolnum>1</manvolnum>
+                     </citerefentry>">
+  <!ENTITY man_boinc_cmd
+                    "<citerefentry>
+                       <refentrytitle>boinc_cmd</refentrytitle>
+                       <manvolnum>1</manvolnum>
+                     </citerefentry>">
+  <!ENTITY rpc_port "31416">
 ]>
 
 <refentry>
@@ -27,48 +39,63 @@
         <lastname>Moeller</lastname>
         <email>steffen_moeller@gmx.de</email>
       </author>
-
       <author>
         <firstname>Frank</firstname>
         <lastname>Thomas</lastname>
         <email>frank@thomas-alfeld.de</email>
       </author>
-    </authorgroup>
+      <author>
+        <firstname>Eric</firstname>
+        <lastname>Myers</lastname>
+        <email>myers@spy-hill.net</email>
+      </author>
+   </authorgroup>
     <copyright>
       <year>2007</year>
+      <year>2008</year>
       <holder>University of California</holder>
     </copyright>
-    &dhdate;
+    &date;
   </refentryinfo>
 
   <refmeta>
-    <refentrytitle>&dhbinary;</refentrytitle>
+    <refentrytitle>&binary;</refentrytitle>
     <manvolnum>1</manvolnum>
   </refmeta>
 
   <refnamediv>
-    <refname>&dhbinary;</refname>
+    <refname>&binary;</refname>
     <refpurpose>The BOINC core client program.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <cmdsynopsis>
-      <command>&dhbinary;</command>
+      <command>&binary;</command>
       <arg><replaceable>options</replaceable></arg>
     </cmdsynopsis>
   </refsynopsisdiv>
 
   <refsect1>
     <title>DESCRIPTION</title>
-    <para><command>&dhbinary;</command> starts a client for communication with
-      the Berkeley Open Infrastructure for Network Computing. For a graphical
-      interface to the BOINC client, use BOINC Manager. For a command-line
-      interface to the BOINC client, use boinc_cmd.</para>
+    <para>The BOINC "core client", &command;, is the heart of BOINC. It
+      controls which project applications are run on your computer,
+      downloading "Workunits" and uploading the "Result" files from completed
+      tasks. &command; is usually run in the background, ideally as a daemon.
+      It can then be controlled either by a graphical tool called the BOINC
+      Manager, &man_boincmgr;, or a command-line tool called &man_boinc_cmd;,
+      by means of Remote Proceedure Calls (RPCs) over port &rpc_port;.</para>
+
+    <para>The BOINC core client can be controlled by command-line options,
+      configuration files, and environment variables. Standard usage is simply
+      to start the client running in the background.</para>
   </refsect1>
 
   <refsect1>
     <title>OPTIONS</title>
-    <para>A full summary of options is included below.</para>
+    <para>These command-line options for &command; can be used to control how
+      BOINC is started. Once the client has started, you should use a separate
+      program, (&man_boincmgr; or &man_boinc_cmd;) which communicates with it
+      by means of Remote Proceedure Calls (RPCs).</para>
 
     <variablelist>
       <varlistentry>
@@ -77,6 +104,7 @@
           <para>show options</para>
         </listitem>
       </varlistentry>
+
 
       <varlistentry>
         <term><option>--version</option></term>
@@ -243,15 +271,16 @@
 
   <refsect1>
     <title>SEE ALSO</title>
+    <para>&man_boincmgr;, &man_boinc_cmd;</para>
     <para><ulink url="http://boinc.berkeley.edu/trac/wiki/UnixClient"/></para>
   </refsect1>
 
   <refsect1>
     <title>COPYRIGHT</title>
-    <para>Copyright © 2007 University of California. Permission is granted to
-      copy, distribute and/or modify this document under the terms of the
-      &gnu; Free Documentation License, Version 1.2 or any later version
-      published by the Free Software Foundation; with no Invariant Sections,
-      no Front-Cover Texts, and no Back-Cover Texts.</para>
+    <para>Copyright © 2007-2008 University of California. Permission is
+      granted to copy, distribute and/or modify this document under the terms
+      of the &gnu; Free Documentation License, Version 1.2 or any later
+      version published by the Free Software Foundation; with no Invariant
+      Sections, no Front-Cover Texts, and no Back-Cover Texts.</para>
   </refsect1>
 </refentry>
