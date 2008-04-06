@@ -3111,3 +3111,17 @@ Rom    April 4 2008
     win_build/installerv2/redist/Windows/Win32/
         boinccas.dll
         boinccas95.dll
+
+David  April 5 2008
+    - fixes for gcc 4.3
+
+    client/
+        app_start.C
+        client_msgs.h
+    html/inc/
+        stats_sites.inc
+    lib/
+        crypt.h
+        parse.h
+        procinfo_unix.C
+

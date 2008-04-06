@@ -32,10 +32,10 @@ $info_sites = array(
         "http://www.kd-web.info/clanky.php",
         "Flash-based BOINC tutorials", "(in Czech, English, and Slovak)"
     ),
-    array(
-        "http://www.kazlev.karoo.net/noob_help.htm",
-        "BOINC mini-FAQ"
-    ),
+    //array(
+    //    "http://www.kazlev.karoo.net/noob_help.htm",
+    //    "BOINC mini-FAQ"
+    //),
     array(
         "http://boincfaq.mundayweb.com/",
         "The BOINC FAQ Service",
@@ -131,7 +131,9 @@ echo "
 <h3>Project status sites</h3>
 Show if the servers of various projects are up or down.
 <ul>
-<li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
+";
+//<li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
+echo "
 <li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>
 </ul>
 <a name=misc></a>
@@ -157,6 +159,7 @@ echo "
 <ul>
 <li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
 <li> <a href=http://www.grid-france.fr/tutoriaux/comment-personnaliser-boinc-au-couleur-de-l-equipe-france/>Skin for Equipe France (WCG)</a>
+<li> <a href=http://wcg.userfriendly.org/resources.jspx>Skin for team UserFriendly.org</a>
 </ul>
 <a name=sites></a>
 <h3>Other BOINC-related web sites</h3>
@@ -204,21 +207,21 @@ language("English", array(
     site("http://www.calmchaosonline.com/", "Calm Chaos"),
     site("http://www.teamphoenixrising.net/", "Team Phoenix Rising"),
     site("http://www.unitedmacs.com/", "United Macs"),
-    site("http://sirans-boincnews.com/", "Siran's BOINC Projects News Site"),
+    //site("http://sirans-boincnews.com/", "Siran's BOINC Projects News Site"),
     site("http://www.ukboincteam.org.uk/", "UK BOINC Team"),
     site("http://symbion.madnezz.com/", "Symbion"),
     site("http://scotlandsseti.blogspot.com/", "Megacruncher's Blog"),
     site("http://www.bc-team.org/", "BOINC Confederation"),
-    site("http://theclangers.net/", "The Clangers"),
+    //site("http://theclangers.net/", "The Clangers"),
     site("http://www.free-dc.org/", "Free-DC"),
     site("http://forums.anandtech.com/categories.aspx?catid=39&entercat=y", "TeAm Anandtech"),
     site("http://www.boinc-australia.net", "BOINC@Australia"),
-    site("http://www.boinc-doc.net", "boinc-doc.net"),
+    //site("http://www.boinc-doc.net", "boinc-doc.net"),
     site("http://www.boincuk.com/", "BOINC UK and Team Lookers"),
-    site("http://www.kazlev.karoo.net/", "TeamACC (Arthur C. Clarke fans)"),
+    //site("http://www.kazlev.karoo.net/", "TeamACC (Arthur C. Clarke fans)"),
     site("http://www.setiusa.net/", "SETI.USA"),
     site("http://www.boincsynergy.com/", "BOINC Synergy"),
-    site("http://www.esea.dk/esea/boinc.asp", "Earth Space Exploration Agency"),
+    //site("http://www.esea.dk/esea/boinc.asp", "Earth Space Exploration Agency"),
     site("http://www.tswb.org", "Team Starfire World BOINC"),
     //site("http://www.geocities.com/boinc_volunteers/", "BOINC Volunteers")
 ));
@@ -234,12 +237,12 @@ language("Finnish", array(
     //),
 ));
 language("French", array(
-    site("http://wwww.boinc-2tf.org", "2TF Asso"),
+    //site("http://wwww.boinc-2tf.org", "2TF Asso"),
     site("http://boincfrance.org", "BOINCFRANCE.ORG"),
     site("http://www.boinc-af.org", "L'Alliance Francophone"),
 ));
 language("German", array(
-    site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
+    //site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
     site("http://www.swissteam.net/", "SwissTeam.net"),
     site("http://www.unitedmacs.com/", "United Macs"),
     site("http://www.rechenkraft.net/", "Rechenkraft"),
@@ -255,9 +258,9 @@ language("German", array(
     site("http://www.setigermany.de", "SETI.Germany"),
     site("http://www.sar-hessen.org", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),
-    site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (L&uuml;beck, Germany)"),
+    //site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (L&uuml;beck, Germany)"),
     site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),
-    site( "http://www.emuleatboinc.de/board", "Official eMule @ BOINC Team Page")
+    //site( "http://www.emuleatboinc.de/board", "Official eMule @ BOINC Team Page")
 ));
 language("Hungarian", array(
     site("http://seti.hwsw.hu/", "HWSW SETI@home Team")
@@ -324,6 +327,7 @@ If you'd like to add a web site to this list, please
 <h2>BOINC-related videos</h2>
 
 <ul>
+<li> <a href=http://www.liftconference.com/distributed-computing-distributed-thinking> Francois Grey at Lift, Feb 2008</a>
 <li> <a href=http://www.youtube.com/watch?v=8iSRLIK-x6A>David Anderson talks about BOINC</a>
 <li> <a href=http://www.youtube.com/watch?v=GzATbET3g54>David Baker talks about Rosetta@home</a>
 </ul>

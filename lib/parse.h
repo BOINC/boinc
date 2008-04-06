@@ -24,11 +24,10 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <string>
-#include <cmath>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
 extern "C" {

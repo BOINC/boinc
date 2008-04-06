@@ -47,11 +47,6 @@ $stats_sites = array(
         "Includes non-BOINC projects and completed projects."
     ),
     array(
-        "http://boinc.mundayweb.com/",
-        "boinc.mundayweb.com",
-        "Developed by Neil Munday"
-    ),
-    array(
         "http://www.boincuk.com/globalprojectstats.php",
         "BOINC UK",
         ""
@@ -123,8 +118,8 @@ $sig_sites = array(
         "http://boinc.mundayweb.com",
         "User-configurable stats counters. Cool!"
     ),
-    array("http://www.bigbee.be/comp/boinc/signature.php?id=9",
-        "http://www.bigbee.be/comp/boinc/signature.php",
+    array("http://www.bigbee.be/comp/boinc/",
+        "boinc.be",
         ""
     ),
     array("http://www.boincstats.com/page/faq.php#3",

@@ -30,7 +30,8 @@
 //#define USE_RSAEURO 1
 #endif
 
-#include <cstdio>
+#include <stdio.h>
+#include <string.h>
 
 #ifdef USE_RSAEURO
 #include "rsaeuro.h"

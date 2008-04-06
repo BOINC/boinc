@@ -28,8 +28,7 @@
 #endif
 
 #include <stdio.h>
-
-#include <cstring>
+#include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include <dirent.h>

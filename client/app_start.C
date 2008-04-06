@@ -394,7 +394,7 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     retval = write_app_init_file();
     if (retval) {
-        strcpy(buf, "Can't write init file");
+        sprintf(buf, "Can't write init file: %d", retval);
         goto error;
     }
 

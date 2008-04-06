@@ -25,8 +25,10 @@
 //     msg_printf();
 // }
 
+#include <algorithm>
 #include <deque>
 #include <string>
+#include <string.h>
 
 #include "log_flags.h"
 
