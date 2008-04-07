@@ -90,7 +90,6 @@ void PrintBacktrace(void) {
     QCrashReportRef             crRef = NULL;
 
     char                        nameBuf[256], pathToThisProcess[1024], pipeBuf[1024];
-    int                         pathLen;
     const NXArchInfo            *localArch;
     char                        OSMinorVersion;
     time_t                      t;
@@ -166,11 +165,6 @@ void PrintBacktrace(void) {
             strlcpy(saved_env, env, sizeof(saved_env));
         }
         setenv("NSUnbufferedIO", "YES", 1);
-        
-//        pathLen = readlink(pathToThisProcess, pathToThisProcess, sizeof(pathToThisProcess));
-//        if (pathLen >= 0) { // readlink() returns -1 if not a aymbolic link
-//            pathToThisProcess[pathLen] = '\0';
-//        }
         
         // For some reason, using the -p option with the value from getpid() 
         // fails here but the -o option with a path does work.

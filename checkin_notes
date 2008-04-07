@@ -3125,8 +3125,8 @@ David  April 5 2008
         parse.h
         procinfo_unix.C
 
-Charlie April 4 2008
-    Mac: Fix new backtrace code for x86_64 Client and project applcations.
+Charlie April 7 2008
+    Mac: Fix new backtrace code for x86_64 Client and project applications.
 
     lib/
         mac/
