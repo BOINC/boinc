@@ -90,7 +90,7 @@ void PrintBacktrace(void) {
     QCrashReportRef             crRef = NULL;
 
     char                        nameBuf[256], pathToThisProcess[1024], pipeBuf[1024];
-    
+    int                         pathLen;
     const NXArchInfo            *localArch;
     char                        OSMinorVersion;
     time_t                      t;
@@ -167,9 +167,20 @@ void PrintBacktrace(void) {
         }
         setenv("NSUnbufferedIO", "YES", 1);
         
+//        pathLen = readlink(pathToThisProcess, pathToThisProcess, sizeof(pathToThisProcess));
+//        if (pathLen >= 0) { // readlink() returns -1 if not a aymbolic link
+//            pathToThisProcess[pathLen] = '\0';
+//        }
+        
         // For some reason, using the -p option with the value from getpid() 
         // fails here but the -o option with a path does work.
-        snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o %s", pathToThisProcess);
+#ifdef __x86_64__
+        snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
+#elif defined (__i386__)
+        snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
+#else
+        snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
+#endif
         f = popen(pipeBuf, "r+");
         if (f) {
             setbuf(f, 0);
