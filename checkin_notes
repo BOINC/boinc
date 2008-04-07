@@ -3154,3 +3154,11 @@ David  April 7 2008
         cs_scheduler.C
     lib/
         parse.C
+
+Rom    April 7 2008 (HEAD)
+    - Tag for 6.1.14 release, all platforms
+      boinc_core_release_6_1_14
+
+    /
+        configure.ac
+        version.h
