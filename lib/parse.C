@@ -358,6 +358,7 @@ void xml_unescape(const char* in, char* out) {
 
 // we got an unrecognized line.
 // If it has two <'s (e.g. <foo>xx</foo>) return 0.
+// If it's of the form <foo/> return 0.
 // If it's of the form <foo> then scan for </foo> and return 0.
 // Otherwise return ERR_XML_PARSE
 //
@@ -376,6 +377,7 @@ int skip_unrecognized(char* buf, MIOFILE& fin) {
     if (!q) {
         return ERR_XML_PARSE;
     }
+    if (q[-1] == '/') return 0;
     *q = 0;
     close_tag = string("</") + string(p+1) + string(">");
     while (fin.fgets(buf2, 256)) {

@@ -3144,3 +3144,13 @@ Rom    April 7 2008 (HEAD)
     /
         configure.ac
         version.h
+
+David  April 7 2008
+    - client: send client_cap_plan_class as <x>1</x> rather than <x/>
+        in scheduler request; the latter breaks older schedulers.
+    - old parse code: make skip_unexpected() work with <x/>
+
+    client/
+        cs_scheduler.C
+    lib/
+        parse.C

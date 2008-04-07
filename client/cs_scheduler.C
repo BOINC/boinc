@@ -137,7 +137,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // write client capabilities
     //
     fprintf(f,
-        "    <client_cap_plan_class/>\n"
+        "    <client_cap_plan_class>1</client_cap_plan_class>\n"
     );
 
     write_platforms(p, mf);
