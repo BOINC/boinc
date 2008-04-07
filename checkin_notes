@@ -3126,8 +3126,13 @@ David  April 5 2008
         procinfo_unix.C
 
 Charlie April 7 2008
+    GUI: Disable Show Graphics button if any selected task is suspended for 
+        any reason.
     Mac: Fix new backtrace code for x86_64 Client and project applications.
 
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
     lib/
         mac/
             mac_backtrace.C

@@ -407,6 +407,7 @@ void CViewWorkGrid::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
     RESULT*             result = NULL;
     PROJECT*            project = NULL;
+    CC_STATUS           status;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     int                 i, n;
     bool                wasSuspended=false, all_same_project=false;
@@ -426,10 +427,14 @@ void CViewWorkGrid::UpdateSelection() {
     
     if (n > 0) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
+        pDoc->GetCoreClientStatus(status);
+        if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+        }
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
-   
+
     for(i=0; i<n; i++) {
         wxString resultName = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME).Trim(false);
         wxString projectURL = m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_HIDDEN_URL).Trim(false);
@@ -464,7 +469,11 @@ void CViewWorkGrid::UpdateSelection() {
                 ) {
                      m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
                 }
-            
+ 
+            if (result->suspended_via_gui || result->project_suspended_via_gui) {
+                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+            }
+           
             // Disable Abort button if any selected task already aborted
             if (
                 result->active_task_state == PROCESS_ABORT_PENDING ||

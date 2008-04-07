@@ -481,6 +481,7 @@ void CViewWork::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
     RESULT*             result = NULL;
     PROJECT*            project = NULL;
+    CC_STATUS           status;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
  
     wxASSERT(NULL != pDoc);
@@ -516,6 +517,15 @@ void CViewWork::UpdateSelection() {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
             } else {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+            }
+
+            pDoc->GetCoreClientStatus(status);
+            if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+            }
+            
+            if (result->suspended_via_gui || result->project_suspended_via_gui) {
+                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
             }
 
             if (
