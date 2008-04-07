@@ -3137,3 +3137,10 @@ Charlie April 7 2008
         mac/
             mac_backtrace.C
 
+Rom    April 7 2008 (HEAD)
+    - Tag for 6.1.13 release, all platforms
+      boinc_core_release_6_1_13
+
+    /
+        configure.ac
+        version.h
