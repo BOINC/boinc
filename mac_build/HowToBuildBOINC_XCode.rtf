@@ -14,7 +14,7 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 4/3/08\
+Last updated 4/7/08\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 6.1.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
@@ -28,6 +28,7 @@ Note: the information in this document changes from time to time for different v
 \f0\fs24 \cf0 \
 Contents of this document:\
 \'95 Important requirements for building BOINC software for the Mac.\
+\'95 Cross-Platform Development.\
 \'95 Building BOINC Manager, BOINC Client and boinc_cmd.\
 \'95 Building BOINC Manager Installer.\
 \'95 Debugging and BOINC security.\
@@ -77,11 +78,13 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
 \cf0 Starting with version 6.1.0, the BOINC Client supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued. This allows us to build the BOINC Client and Manager using only GCC 4.0, which offers a number of advantages.\
-As of version 6.1.0, the BOINC Client includes support for the x86_64 (64-bit Intel) architecture.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
-\
+\pard\pardeftab720\sa260\ql\qnatural
+\cf0 As of version 6.1.0, the BOINC Client includes support for the x86_64 (64-bit Intel) architecture.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
 \pard\pardeftab720\sa260\qc
 
 \b\fs28 \cf0 Cross-Platform Development
@@ -184,7 +187,9 @@ XCode installed these utilities in the
 \f4\fs26 /usr/bin/ 
 \f0\fs24 directory, but the upgrades by default will install in 
 \f4\fs26 /usr/local/bin/.
-\f0\fs24   If you install there, you must also set your PATH environment variable to include that location.  The scripts referenced below do this automatically.\
+\f0\fs24   If you install there, you must also set your 
+\f4\fs26 PATH
+\f0\fs24  environment variable to include that location.  The scripts referenced below do this automatically.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \i0 \cf0 \
@@ -198,11 +203,15 @@ These are not done by either the XCode projects which come with wxMac-2.8.7, nor
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
 [2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):\
-    c-ares-1.5.1\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\fs26 \cf0     c-ares-1.5.1\
     curl-7.18.0\
     jpeg-6b\
     wxMac-2.8.7\
-\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\fs24 \cf0 \
 Important: do not change the names of any of these 3 directories.\
 \
 [3] Get the BOINC source tree from Subversion, and put it in the same BOINC_dev folder.  To do this, type the following in Terminal:\
@@ -216,7 +225,9 @@ Important: do not change the names of any of these 3 directories.\
 \f0\fs24   \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-(You may change the name of the boinc directory to anything you wish.)\
+(You may change the name of the 
+\f1\fs26 boinc
+\f0\fs24  directory to anything you wish.)\
 \
 The command above retrieves the source code from the HEAD (TRUNK) or development branch of the CVS repository.  For more information on getting the BOINC source code, see:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -291,7 +302,17 @@ The options for BuildMacBOINC.sh are:\
 \b0  was needed for building older versions of the wxMac library in conjunction with the older versions of the setupForBoinc.sh or buildWxMac.sh scripts.  It is not used for BOINC 5.9.2 or later.  \
   \'95 
 \b boinc.xcodeproj
-\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has three extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture, and Deployment-no64 which builds only 32-bit products.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.\
+\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has three extra build configurations, 
+\i i386-Deployment
+\i0  and 
+\i ppc-Deployment
+\i0 , which can be used for testing only to build for just one architecture, and 
+\i Deployment-no64
+\i0  which builds only 32-bit products.  The 
+\i Development
+\i0  build configuration builds only the native architecture and is used for debugging.  The 
+\i Deployment
+\i0  build configuration builds a universal binary and is suitable for release builds.\
 \
 The standard release of BOINC version 6.1.0 and later contains a universal binary of the BOINC Client containing builds for three architectures: ppc, i386 and x86_64.  The Mac OS automatically chooses the appropriate architecture as follows:\
  \'95 On a PowerPC Mac, it runs the ppc executable.\
@@ -352,11 +373,15 @@ source \{path\}/BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 5 4\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 Version 5.5.4 of BOINC Manager for the Macintosh introduced new, stricter security measures.  For details, please see the file boinc/mac_installer/Readme.rtf and {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/sandbox.php"}}{\fldrslt http://boinc.berkeley.edu/sandbox.php}} and {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SandboxUser"}}{\fldrslt 
+\cf0 Version 5.5.4 of BOINC Manager for the Macintosh introduced new, stricter security measures.  For details, please see the file 
+\f1\fs26 boinc/mac_installer/Readme.rtf
+\f0\fs24  and {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/sandbox.php"}}{\fldrslt http://boinc.berkeley.edu/sandbox.php}} and {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SandboxUser"}}{\fldrslt 
 \f1 http://boinc.berkeley.edu/trac/wiki/SandboxUser}}\
 \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
-\cf0 \CocoaLigature0 The GDB debugger can't attach to applications which are running as a diferent user or group so it ignores the S_ISUID and S_ISGID permisison bits when launching an application.  To work around this, BOINC does not use the special boinc_master or boinc_project users or groups when run from XCode.  \
+\cf0 \CocoaLigature0 The GDB debugger can't attach to applications which are running as a diferent user or group so it ignores the S_ISUID and S_ISGID permisison bits when launching an application.  To work around this, the BOINC 
+\i \CocoaLigature1 Development
+\i0 \CocoaLigature0  build does not use the special boinc_master or boinc_project users or groups, and so can be run under the debugger from XCode.  \
 \
 The 
 \i Development
