@@ -3162,3 +3162,10 @@ Rom    April 7 2008 (HEAD)
     /
         configure.ac
         version.h
+
+Rom    April 9 2008
+    - DIAG: Make sure that if the symstore isn't defined at all, don't
+        construct the symstore search path.
+        
+    lib/
+        stackwalker_win.cpp
