@@ -142,7 +142,7 @@ $m5817c = array(
 
 $l6114 = array(
     "num"=>"6.1.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.1.14_i686-pc-linux-gnu.sh",
     "date"=>"10 Apr 2008",
     "type"=>"sea",
@@ -158,7 +158,7 @@ $l51045 = array(
 
 $l6114ubuntu = array(
     "num"=>"6.1.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_ubuntu_6.1.14_i686-pc-linux-gnu.sh",
     "date"=>"10 Apr 2008",
     "type"=>"sea",
@@ -174,7 +174,7 @@ $l51045ubuntu = array(
 
 $l6114ubuntux64 = array(
     "num"=>"6.1.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_ubuntu_6.1.14_x86_64-pc-linux-gnu.sh",
     "date"=>"10 Apr 2008",
     "type"=>"sea",
