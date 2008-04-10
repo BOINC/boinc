@@ -3169,3 +3169,9 @@ Rom    April 9 2008
         
     lib/
         stackwalker_win.cpp
+
+Rom    April 10 2008
+    - WINSETUP: Don't check for SP4 against Win9X.
+    
+    win_build/installerv2/
+        BOINC.ism
