@@ -3175,3 +3175,9 @@ Rom    April 10 2008
     
     win_build/installerv2/
         BOINC.ism
+
+Rom    April 10 2008
+    - LIB: Fix build break on Linux compat VM.
+    
+    lib/
+        util.C
