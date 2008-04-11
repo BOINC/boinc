@@ -249,7 +249,7 @@ BOINC_GETSOCKOPT_TYPE
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 
 if test "${enable_client}" = yes; then
-   LIBCURL_CHECK_CONFIG([yes], [7.15.5], [haveCurl=yes], [haveCurl=no])
+   LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
    
    if test "${haveCurl}" != yes; then
       AC_MSG_ERROR([

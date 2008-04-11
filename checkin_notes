@@ -3181,3 +3181,9 @@ Rom    April 10 2008
     
     lib/
         util.C
+
+Rom    April 11 2008
+    - BLD: Update confgiure.ac to require libcurl 7.17.1.
+    
+    /
+        configure.ac
