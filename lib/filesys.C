@@ -92,7 +92,7 @@ int is_dir(const char* path) {
 int is_symlink(const char* path) {
     struct stat sbuf;
     int retval = lstat(path, &sbuf);
-    return (!retval && (sbuf.st_mode & S_IFLNK));
+    return (!retval && S_ISLNK(sbuf.st_mode));
 }
 #endif
 

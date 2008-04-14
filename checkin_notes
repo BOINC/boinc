@@ -3197,3 +3197,11 @@ David  April 13 2008
         client_types.C,h
     lib/
         filesys.C
+
+Charlie April 14 2008
+    - Fix is_symlink() to use S_ISLNK() macro instead of incorrect 
+        (sbuf.st_mode & S_IFLNK), which made it return true for regular files   
+        and caused boinc_resolve_filename() to work incorrectly.
+
+    lib/
+        filesys.C
