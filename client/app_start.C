@@ -267,15 +267,12 @@ static int setup_file(
     retval = make_soft_link(project, link_path, rel_file_path);
     if (retval) return retval;
 #else
-    retval = symlink(rel_file_path, link_path);
-    if (retval) {
-        // A Unix system can't make symlinks if the filesystem if FAT32
-        // (e.g. external USB disk).
-        // Try making a soft link instead.
-        //
+    if (project->use_symlinks) {
+        retval = symlink(rel_file_path, link_path);
+    } else {
         retval = make_soft_link(project, link_path, rel_file_path);
-        if (retval) return retval;
     }
+    if (retval) return retval;
 #endif
 #ifdef SANDBOX
     return set_to_project_group(link_path);

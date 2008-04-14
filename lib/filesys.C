@@ -91,7 +91,7 @@ int is_dir(const char* path) {
 #ifndef _WIN32
 int is_symlink(const char* path) {
     struct stat sbuf;
-    int retval = stat(path, &sbuf);
+    int retval = lstat(path, &sbuf);
     return (!retval && (sbuf.st_mode & S_IFLNK));
 }
 #endif

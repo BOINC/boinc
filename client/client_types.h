@@ -234,6 +234,7 @@ public:
                             // use those apps rather then getting from server
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
+    bool use_symlinks;
 
     // items send in scheduler replies, requesting that
     // various things be sent in the next request

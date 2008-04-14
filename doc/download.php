@@ -127,6 +127,7 @@ function show_download($pname) {
         ";
     }
     echo "
+        | <a href=trac/wiki/VersionHistory>Version history</a>
         <p>
         </td><td valign=top>
     ";

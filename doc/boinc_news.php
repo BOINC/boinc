@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("Apr 7, 2008",
+    "Congratulations to <a href=http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=0c6075252a929a1c9e1a887d1cd85ac5&html=1>NEZ</a>,
+    whose contribution to BOINC-based projects recently exceeded 10 TeraFLOPS.
+    This would (and should) rank 136th on the
+    <a href=http://www.top500.org/>Top 500 Supercomputer</a> list."
+),
 array("Mar 31, 2008",
     "The BOINC client software is now available for Fedora 7 and higher
     from official repositories.

@@ -3187,3 +3187,13 @@ Rom    April 11 2008
     
     /
         configure.ac
+
+David  April 13 2008
+    - client: use symlinks only if project has <use_symlinks/> element.
+    - API: fixed boinc_resolve_filename() bug: didn't work right for symlinks
+
+    client/
+        app_start.C
+        client_types.C,h
+    lib/
+        filesys.C

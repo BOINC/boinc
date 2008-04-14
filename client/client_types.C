@@ -108,6 +108,7 @@ void PROJECT::init() {
     work_request_urgency = WORK_FETCH_DONT_NEED;
     duration_correction_factor = 1;
     project_files_downloaded_time = 0;
+    use_symlinks = false;
 
     // Initialize scratch variables.
     rrsim_proc_rate = 0.0;
@@ -188,6 +189,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
         if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
         if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
+        if (parse_bool(buf, "use_symlinks", use_symlinks)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s", buf
@@ -238,7 +240,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
 		"    <send_time_stats_log>%d</send_time_stats_log>\n"
 		"    <send_job_log>%d</send_job_log>\n"
-        "%s%s%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -277,7 +279,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         detach_when_done?"    <detach_when_done/>\n":"",
         ended?"    <ended/>\n":"",
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
-        (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
+        (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":"",
+        use_symlinks?"    <use_symlinks/>\n":""
     );
     if (ams_resource_share >= 0) {
         out.printf("    <ams_resource_share>%f</ams_resource_share>\n",
@@ -358,6 +361,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     if (ams_resource_share > 0) {
         resource_share = ams_resource_share;
     }
+    use_symlinks = p.use_symlinks;
 }
 
 // Write project statistic to project statistics file
