@@ -3211,3 +3211,20 @@ David  April 14 2008
 
     clientgui/
         AdvancedFrame.cpp
+
+
+Eric K  April 14 2008
+    - Unix init script: modified to make less linux specific.  
+        - Does not presume the existence of "pidof" or "runuser".  
+        - If started with an old style Bourne shell, will try to restart
+          in bash, zsh or ksh.
+	- Starts with no parameters by default.
+	- Logs stdout and stderr to /var/log/boinc_client.log and
+          /var/log/boinc_client_err.log by default.
+	- With appropriate "boinc-client.conf", the script can be run by
+	  a non-root user.
+	- More changes are likely to be required.
+    client/
+        scripts/
+            boinc-client.in
+	    Makefile.am
