@@ -1036,6 +1036,37 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
 #else  // ! __APPLE__
 
+bool interrupts_idle(time_t t) {
+    static FILE *ifp = NULL;
+    static long irq_count[256];
+    static time_t last_irq = time(NULL);
+
+    char line[256];
+    int i = 0;
+    long ccount = 0;
+
+    if (ifp == NULL) {
+        if ((ifp = fopen("/proc/interrupts", "r")) == NULL) {
+            return true;
+        }
+    }
+    rewind(ifp);
+    while (fgets(line, sizeof(line), ifp)) {
+        // Check for mouse, keyboard and PS/2 devices.
+        if (strcasestr(line, "mouse") != NULL ||
+            strcasestr(line, "keyboard") != NULL ||
+            strcasestr(line, "i8042") != NULL) {
+            // If any IRQ count changed, update last_irq.
+            if (sscanf(line, "%d: %ld", &i, &ccount) == 2 &&
+                irq_count[i] != ccount) {
+                last_irq = time(NULL);
+                irq_count[i] = ccount;
+            }
+        }
+    }
+    return last_irq < t;
+}
+
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
 
@@ -1054,6 +1085,8 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     if (!device_idle(idle_time, "/dev/input/mice")) return false;
     if (!device_idle(idle_time, "/dev/kbd")) return false;
         // solaris
+    // Check /proc/interrupts to detect keyboard or mouse activity.
+    if (!interrupts_idle(idle_time)) return false;
     return true;
 }
 

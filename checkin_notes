@@ -3228,3 +3228,9 @@ Eric K  April 14 2008
         scripts/
             boinc-client.in
 	    Makefile.am
+
+David  April 14 2008
+    - client: improved user idle checking on Linux (from Frank Thomas)
+
+    client/
+        hostinfo_unix.C
