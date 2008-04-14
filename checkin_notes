@@ -3205,3 +3205,9 @@ Charlie April 14 2008
 
     lib/
         filesys.C
+
+David  April 14 2008
+    - manager: fix menu appearance
+
+    clientgui/
+        AdvancedFrame.cpp

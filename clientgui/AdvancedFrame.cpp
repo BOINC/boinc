@@ -441,7 +441,7 @@ bool CAdvancedFrame::CreateMenu() {
     //
     wxMenuItem* pItem = menuActivity->Append(
         ID_ACTIVITYMENUSEPARATOR,
-        (const wxChar *) " ",
+        (const wxChar *) wxT(" "),
             // wxEmptyString here causes a wxWidgets assertion when debugging
         wxEmptyString,
         wxITEM_NORMAL
