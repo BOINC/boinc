@@ -3234,3 +3234,12 @@ David  April 14 2008
 
     client/
         hostinfo_unix.C
+
+Charlie April 15 2008 (HEAD)
+    - Tag for 6.1.15 release, all platforms
+      boinc_core_release_6_1_15
+
+    /
+        configure.ac
+        version.h
+
