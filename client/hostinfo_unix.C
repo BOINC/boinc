@@ -1036,6 +1036,7 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
 #else  // ! __APPLE__
 
+#if LINUX_LIKE_SYSTEM
 bool interrupts_idle(time_t t) {
     static FILE *ifp = NULL;
     static long irq_count[256];
@@ -1066,6 +1067,7 @@ bool interrupts_idle(time_t t) {
     }
     return last_irq < t;
 }
+#endif
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
@@ -1078,15 +1080,19 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 
     if (!all_tty_idle(idle_time)) return false;
 
-    // According to Frank Thomas (#463) the following may be pointless
+#if LINUX_LIKE_SYSTEM
+    // Check /proc/interrupts to detect keyboard or mouse activity.
+    if (!interrupts_idle(idle_time)) return false;
+#else
+    // We should find out which of the following are actually relevant
+    // on which systems (if any)
     //
     if (!device_idle(idle_time, "/dev/mouse")) return false;
         // solaris, linux
     if (!device_idle(idle_time, "/dev/input/mice")) return false;
     if (!device_idle(idle_time, "/dev/kbd")) return false;
         // solaris
-    // Check /proc/interrupts to detect keyboard or mouse activity.
-    if (!interrupts_idle(idle_time)) return false;
+#endif
     return true;
 }
 

@@ -3255,3 +3255,11 @@ Rytis  April 15 2008
     
     html/inc/
         translation.inc
+
+David  April 15 2008
+    - client: do the /proc/interrupts stuff (see above)
+        only on Linux-like systems;
+        use device_idle() only on non-Linux Unix systems
+    
+    client/
+        hostinfo_unix.C

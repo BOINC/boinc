@@ -46,10 +46,11 @@ function send_email($user, $subject, $body, $body_html=null) {
             return true;
         }
     } else {
-        if (defined('EMAIL_FROM')) {
+        $headers ="";
+        if (defined('EMAIL_FROM') && defined('EMAIL_FROM_NAME')) {
+            $headers = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
+        } else if (defined('EMAIL_FROM')) {
             $headers = "From: ". EMAIL_FROM;
-        } else {
-            $headers ="";
         }
         return mail($user->email_addr, $subject, $body, $headers);
     }
