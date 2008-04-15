@@ -3248,3 +3248,10 @@ Charlie April 15 2008
         boinc_resolve_filename().
     lib/
         app_ipc.C
+
+Rytis  April 15 2008
+    - user web: change flush statement to function call in translation system
+        (fixes #425).
+    
+    html/inc/
+        translation.inc

@@ -433,7 +433,7 @@ if (!file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc")
     echo "ERROR: Could not load language interface.
         This is a fatal error, exiting.
     ";
-    flush;
+    flush();
     exit;
 }
 
