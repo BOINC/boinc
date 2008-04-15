@@ -3243,3 +3243,8 @@ Charlie April 15 2008 (HEAD)
         configure.ac
         version.h
 
+Charlie April 15 2008
+    - API: fix boinc_resolve_filename_s() to handle symlinks the same as 
+        boinc_resolve_filename().
+    lib/
+        app_ipc.C
