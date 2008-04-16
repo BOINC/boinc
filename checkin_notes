@@ -3263,3 +3263,11 @@ David  April 15 2008
     
     client/
         hostinfo_unix.C
+
+Charlie April 15 2008
+    - Fix is_file() to use S_ISREG() macro instead of incorrect 
+        (sbuf.st_mode & S_IFREG); fix is_dir() to use S_ISDIR() macro instead of 
+        incorrect (sbuf.st_mode & S_IFDIR).
+
+    lib/
+        filesys.C
