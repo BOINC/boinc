@@ -3271,3 +3271,10 @@ Charlie April 15 2008
 
     lib/
         filesys.C
+
+Charlie April 16 2008
+    - Fix is_file() and is_dir() to compile properly on Windows by using 
+	the actual expressions instead of the macros which aren't defined.
+
+    lib/
+        filesys.C
