@@ -1189,7 +1189,7 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             // Connect to the remote machine
             wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
             long lPort = GUI_RPC_PORT; 
-            int iPos = sHost.find(_(":")); 
+            size_t iPos = sHost.find(_(":")); 
             if (iPos != -1) { 
                 wxString sPort = sHost.substr(iPos + 1); 
                 if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
@@ -1683,7 +1683,6 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
     if (IsShown()) {
 		std::string url;
 		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
-		canonicalize_master_url(url);
 
 		wxString wxurl;
 		wxurl.Printf(
@@ -1705,7 +1704,6 @@ void CAdvancedFrame::OnHelpBOINC(wxCommandEvent& event) {
     if (IsShown()) {
 		std::string url;
 		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
-		canonicalize_master_url(url);
 
 		wxString wxurl;
 		wxurl.Printf(
@@ -1990,11 +1988,11 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                         strComputerName = wxT("localhost");
                     }
 
+                    strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
+
                     if (pDoc->IsReconnecting()) {
-                        strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
                         strStatusText.Printf(_("Connecting to %s"), strComputerName.c_str());
                     } else {
-                        strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
                         strStatusText.Printf(
                             _("Connected to %s (%s)"),
                             strComputerName.c_str(),
@@ -2004,8 +2002,9 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 
                     // The Mac takes a huge performance hit redrawing this window, 
                     //   window, so don't change the text unless we really have too.
-                    if (GetTitle() != strTitle)
+                    if (GetTitle() != strTitle) {
                         SetTitle(strTitle);
+                    }
                         
                     if (strStatusText != strCachedStatusText) {
                         strCachedStatusText = strStatusText;

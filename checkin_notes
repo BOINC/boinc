@@ -3288,3 +3288,27 @@ David  April 17 2008
         coproc.C,h
     sched/
         Makefile.am
+
+Rom    April 17 2008
+    - MGR: Make help system work again
+    - MGR: Add pre-release to the BOINC Manager title bar and about
+        dialog if it is a pre-release version of BOINC.
+    - CLI: Add some pre-release text to the CC startup routine and
+        suggest they revert back to a released build if they don't
+        plan on testing the client.
+
+    /
+        version.h
+        version.h.in
+    client/
+        auto_update.C
+        client_state.C
+    clientgui/
+        AdvancedFrame.cpp
+        DlgAbout.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        SkinManager.cpp
+    lib/
+        common_defs.h

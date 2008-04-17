@@ -177,6 +177,7 @@ struct VERSION_INFO {
     int major;
     int minor;
     int release;
+    bool prerelease;
     int parse(MIOFILE&); 
     void write(MIOFILE&); 
     bool greater_than(VERSION_INFO&);

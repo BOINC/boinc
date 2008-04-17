@@ -30,6 +30,7 @@
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "SkinManager.h"
+#include "version.h"
 
 
 ////@begin XPM images
@@ -909,7 +910,11 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
 
 
 wxString CSkinAdvanced::GetApplicationName() {
-    return m_strApplicationName;
+    wxString strApplicationName = m_strApplicationName;
+#ifdef BOINC_PRERELEASE
+        strApplicationName += wxT(" (Pre-release)");
+#endif
+    return strApplicationName;
 }
 
 

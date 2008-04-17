@@ -1069,7 +1069,6 @@ void CDlgPreferences::OnHelp(wxHelpEvent& event) {
     if (IsShown()) {
 		std::string url;
 		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
-		canonicalize_master_url(url);
 
 		wxString wxurl;
 	    wxurl.Printf(

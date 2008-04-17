@@ -282,7 +282,6 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     if (IsShown()) {
 		std::string url;
 		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
-		canonicalize_master_url(url);
 
 		wxString wxurl;
 		wxurl.Printf(
@@ -304,7 +303,6 @@ void CSimpleFrame::OnHelpBOINCManager(wxCommandEvent& event) {
     if (IsShown()) {
 		std::string url;
 		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
-		canonicalize_master_url(url);
 
 		wxString wxurl;
 		wxurl.Printf(

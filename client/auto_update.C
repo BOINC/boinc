@@ -263,6 +263,7 @@ int VERSION_INFO::parse(MIOFILE& in) {
         if (parse_int(buf, "<major>", major)) continue;
         if (parse_int(buf, "<minor>", minor)) continue;
         if (parse_int(buf, "<release>", release)) continue;
+        if (parse_bool(buf, "<prerelease>", prerelease)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -273,8 +274,9 @@ void VERSION_INFO::write(MIOFILE& out) {
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
         "   <release>%d</release>\n"
+        "   <prerelease>%d</prerelease>\n"
         "</version>\n",
-        major, minor, release
+        major, minor, release, prerelease
     );
 }
 

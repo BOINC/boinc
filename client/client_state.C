@@ -82,6 +82,7 @@ CLIENT_STATE::CLIENT_STATE():
     core_client_version.major = BOINC_MAJOR_VERSION;
     core_client_version.minor = BOINC_MINOR_VERSION;
     core_client_version.release = BOINC_RELEASE;
+    core_client_version.prerelease = BOINC_PRERELEASE;
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -182,6 +183,13 @@ int CLIENT_STATE::init() {
         ""
 #endif
     );
+
+    if (core_client_version.prerelease) {
+        msg_printf(NULL, MSG_USER_ERROR, "Pre-release Software: This version of BOINC is a development version and may not function properly.");
+        msg_printf(NULL, MSG_USER_ERROR, "This version is not supported through the normal support methods.");
+        msg_printf(NULL, MSG_USER_ERROR, "Report any problems to boinc_alpha@ssl.berkeley.edu.");
+        msg_printf(NULL, MSG_USER_ERROR, "If you did not intend to help test BOINC download and install the latest non-development release.");
+    }
 
     log_flags.show();
 
