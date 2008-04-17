@@ -23,6 +23,10 @@
 #include <vector>
 #include <cstring>
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 #include "miofile.h"
 
 struct COPROC {
@@ -30,7 +34,9 @@ struct COPROC {
     int count;          // how many are present
     int used;           // how many are in use (used by client)
 
+#ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
+#endif
     COPROC(){
         strcpy(name, "");
         count = 0;
@@ -51,11 +57,13 @@ struct COPROCS {
             delete coprocs[i];
         }
     }
+#ifndef _USING_FCGI_
     void write_xml(MIOFILE& out) {
         for (unsigned int i=0; i<coprocs.size(); i++) {
             coprocs[i]->write_xml(out);
         }
     }
+#endif
     void get();
     int parse(FILE*);
     COPROC* lookup(char*);
@@ -83,7 +91,9 @@ struct cudaDeviceProp {
 struct COPROC_CUDA : public COPROC {
     cudaDeviceProp prop;
 
+#ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
+#endif
     virtual ~COPROC_CUDA(){}
     static void get(COPROCS&);
     void clear();

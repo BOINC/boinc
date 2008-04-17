@@ -3278,3 +3278,13 @@ Charlie April 16 2008
 
     lib/
         filesys.C
+
+David  April 17 2008
+    - scheduler: fix FCGI compile problem.
+        FCGI can't use libboinc.a; is needs its own specially-compiled
+        versions of everything in lib/
+
+    lib/
+        coproc.C,h
+    sched/
+        Makefile.am

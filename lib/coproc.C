@@ -34,6 +34,7 @@
 
 #include "coproc.h"
 
+#ifndef _USING_FCGI_
 void COPROC::write_xml(MIOFILE& f) {
     f.printf(
         "<coproc>\n"
@@ -43,6 +44,8 @@ void COPROC::write_xml(MIOFILE& f) {
         name, count
     );
 }
+#endif
+
 int COPROC::parse(MIOFILE& fin) {
     char buf[1024];
     strcpy(name, "");
@@ -152,6 +155,7 @@ void fake_cuda(COPROCS& coprocs) {
    coprocs.coprocs.push_back(cc);
 }
 
+#ifndef _USING_FCGI_
 void COPROC_CUDA::write_xml(MIOFILE& f) {
     f.printf(
         "<coproc_cuda>\n"
@@ -188,6 +192,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         (unsigned int)prop.textureAlignment
     );
 }
+#endif
 
 void COPROC_CUDA::clear() {
     strcpy(prop.name, "");

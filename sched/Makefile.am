@@ -150,6 +150,9 @@ delete_file_SOURCES = delete_file.C
 
 sched_driver_SOURCES = sched_driver.C
 
+# N.B.: the FCGI scheduler can't use lib/libboinc.a;
+# it needs to have specially compiled versions of everything
+# because its stdio is different
 fcgi_SOURCES = \
     handle_request.C \
     hr.C \
@@ -174,6 +177,7 @@ fcgi_SOURCES = \
     ../db/boinc_db.C \
     ../db/db_base.C \
     ../lib/base64.C \
+    ../lib/coproc.C \
     ../lib/crypt.C \
     ../lib/filesys.C \
     ../lib/md5.c \
@@ -189,7 +193,7 @@ fcgi_SOURCES = \
     ../tools/backend_lib.C
 
 fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_LDADD = $(LDADD) -lfcgi
+fcgi_LDADD = -lfcgi $(MYSQL_LIBS)
 
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.C \
