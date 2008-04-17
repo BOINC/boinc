@@ -272,6 +272,14 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
             return p;
         }
+
+        if (r->max_wait_before_report >= 0 && gstate.now > r->completed_time + r->max_wait_before_report) {
+            return p;
+        }
+
+        if (r->project->max_wait_before_report >=0 && gstate.now > r->completed_time + r->project->max_wait_before_report) {
+            return p;
+        }
     }
     return 0;
 }

@@ -109,6 +109,7 @@ void PROJECT::init() {
     duration_correction_factor = 1;
     project_files_downloaded_time = 0;
     use_symlinks = false;
+    max_wait_before_report = -1;  // 0 is a useful number.  less than 0 is a flag.
 
     // Initialize scratch variables.
     rrsim_proc_rate = 0.0;
@@ -190,6 +191,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
         if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         if (parse_bool(buf, "use_symlinks", use_symlinks)) continue;
+        if (parse_double(buf, "max_wait_before_report", max_wait_before_report)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s", buf
@@ -240,6 +242,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
 		"    <send_time_stats_log>%d</send_time_stats_log>\n"
 		"    <send_job_log>%d</send_job_log>\n"
+        "    <max_wait_before_report>$f</max_wait_before_report>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -269,6 +272,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		sched_rpc_pending,
         send_time_stats_log,
         send_job_log,
+        max_wait_before_report,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
@@ -362,6 +366,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
         resource_share = ams_resource_share;
     }
     use_symlinks = p.use_symlinks;
+    max_wait_before_report = p.max_wait_before_report;
 }
 
 // Write project statistic to project statistics file
@@ -1445,6 +1450,7 @@ void RESULT::clear() {
     version_num = 0;
     strcpy(platform, "");
     strcpy(plan_class, "");
+    max_wait_before_report = -1;  // less than 0 is a flag that it is not used for this result.
 }
 
 // parse a <result> element from scheduling server.
@@ -1462,6 +1468,7 @@ int RESULT::parse_server(MIOFILE& in) {
         if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
         if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_double(buf, "<max_wait_before_report>", max_wait_before_report)) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
@@ -1525,6 +1532,7 @@ int RESULT::parse_state(MIOFILE& in) {
         if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
         if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_double(buf, "<max_wait_before_report>", max_wait_before_report)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
@@ -1616,8 +1624,10 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         out.printf(
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%f</report_deadline>\n",
+            "    <max_wait_before_report>%f<max_wait_before_report>\n",
             wu_name,
-            report_deadline
+            report_deadline,
+            max_wait_before_report
         );
         for (i=0; i<output_files.size(); i++) {
             retval = output_files[i].write(out);

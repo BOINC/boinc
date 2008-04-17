@@ -788,6 +788,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<project_files>")) {
             retval = project->parse_project_files(mf, true);
+        } else if (parse_double(buf,"<max_wait_before_report>", project->max_wait_before_report)) {
+            continue;
 #ifdef ENABLE_AUTO_UPDATE
         } else if (match_tag(buf, "<auto_update>")) {
             retval = auto_update.parse(mf);

@@ -235,6 +235,7 @@ public:
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
     bool use_symlinks;
+    double max_wait_before_report;
 
     // items send in scheduler replies, requesting that
     // various things be sent in the next request
@@ -471,6 +472,7 @@ struct RESULT {
         // or there was an error
     double completed_time;
         // time when ready_to_report was set
+    double max_wait_before_report;
     bool got_server_ack;
         // we're received the ack for this result from the server
     double final_cpu_time;
