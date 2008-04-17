@@ -188,7 +188,7 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_USER_ERROR, "Pre-release Software: This version of BOINC is a development version and may not function properly.");
         msg_printf(NULL, MSG_USER_ERROR, "This version is not supported through the normal support methods.");
         msg_printf(NULL, MSG_USER_ERROR, "Report any problems to boinc_alpha@ssl.berkeley.edu.");
-        msg_printf(NULL, MSG_USER_ERROR, "If you did not intend to help test BOINC download and install the latest non-development release.");
+        msg_printf(NULL, MSG_USER_ERROR, "If you did not intend to help test BOINC, download and install the latest non-development release.");
     }
 
     log_flags.show();
