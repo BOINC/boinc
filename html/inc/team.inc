@@ -96,7 +96,7 @@ function display_team_page($team, $user) {
                 if ($team->ping_user) {
                     $deadline = date_str(transfer_ok_time($team));
                     row2("Foundership change requested",
-                        "<a href=team_change_founder_form.php?teamid=1>Respond by $deadline</a>"
+                        "<a href=team_change_founder_form.php?teamid=$team->id>Respond by $deadline</a>"
                     );
                 }
             } else {

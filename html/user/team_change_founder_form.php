@@ -25,6 +25,7 @@ if ($team->ping_user != 0) {
         echo "<p>Team member ".user_links($ping_user)." requested this
             team's foundership on $x, but left the team, thus canceling the request.
         ";
+        $team->update("ping_user=0, ping_time=0");
     } else {
         $ping_user = BoincUser::lookup_id($team->ping_user);
         $x = date_str(transfer_ok_time($team));

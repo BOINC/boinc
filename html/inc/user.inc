@@ -315,7 +315,6 @@ function community_links($user) {
     if ($tot) {
         row2("Message boards", "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">$tot posts</a>");
     }
-
     if ($g_logged_in_user && $g_logged_in_user->id != $user->id) {
         row2("Contact", "<a href=\"pm.php?action=new&userid=".$user->id."\">Send private message</a>");
         $friend = BoincFriend::lookup($g_logged_in_user->id, $user->id);

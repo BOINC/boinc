@@ -10,7 +10,7 @@ if (!$user) {
  
 $logged_in_user = get_logged_in_user(false);
 $caching = false;
-if (!$logged_in_user || ($userid != $logged_in_user->id)) {
+if (!$logged_in_user) {
     $caching = true;
     $cache_args = "userid=$userid";
     start_cache(USER_PROFILE_TTL,$cache_args);

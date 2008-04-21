@@ -3312,3 +3312,17 @@ Rom    April 17 2008
         SkinManager.cpp
     lib/
         common_defs.h
+
+David  April 21 2008
+    - user web: clear team founder change if requester left team
+    - user web: check for deleted thread in subcription list
+    - user web: fix founder change link
+
+    html/
+        inc/
+            team.inc
+            user.inc
+        user/
+            forum_index.php
+            team_change_founder_form.php
+            view_profile.php

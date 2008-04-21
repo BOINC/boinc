@@ -102,6 +102,10 @@ if ($user) {
         show_thread_and_context_header();
         foreach ($subs as $sub) {
             $thread = BoincThread::lookup_id($sub->threadid);
+            if (!$thread) {
+                BoincSubscription::delete($user->id, $sub->threadid);
+                continue;
+            }
             if ($thread->hidden) continue;
             show_thread_and_context($thread, $user);
         }
