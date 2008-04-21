@@ -88,10 +88,8 @@ function show_participate() {
         <span class=section_title>".tr(HOME_HEADING1)."</span>
         <br>
         <a class=heading href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-        &middot; <a class=heading href=help.php><b><nobr>".tr(HOME_HELP)."</nobr></b></a> 
-        &middot; <a class=heading href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
-        &middot; <a class=heading href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
-        &middot; <a class=heading href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
+        &middot; <a class=heading href=wiki/index.php><b><nobr>Documentation</nobr></b></a> 
+        &middot; <a class=heading href=links.php><b><nobr>Web sites</nobr></b></a>
         </center>
         </td></tr>
         <tr><td>

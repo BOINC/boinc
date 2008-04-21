@@ -3335,3 +3335,8 @@ Rom    April 21 2008 (HEAD)
         configure.ac
         version.h
 
+David  April 21 2008
+    - client: fix array size
+
+    client/
+        hostinfo_unix.C

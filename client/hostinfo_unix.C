@@ -220,7 +220,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     FILE* fapm = fopen("/proc/apm", "r");
     if (fapm) {         // Then we're using APM!  Yay.
 
-        char    apm_driver_version[10];
+        char    apm_driver_version[11];
         int     apm_major_version;
         int     apm_minor_version;
         int     apm_flags;
