@@ -3326,3 +3326,12 @@ David  April 21 2008
             forum_index.php
             team_change_founder_form.php
             view_profile.php
+
+Rom    April 21 2008 (HEAD)
+    - Tag for 6.1.16 release, all platforms
+      boinc_core_release_6_1_16
+
+    /
+        configure.ac
+        version.h
+
