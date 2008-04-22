@@ -3328,8 +3328,7 @@ David  April 21 2008
             view_profile.php
 
 Rom    April 21 2008 (HEAD)
-    - Tag for 6.1.16 release, all platforms
-      boinc_core_release_6_1_16
+    - Bump version to 6.1.16.
 
     /
         configure.ac
@@ -3340,3 +3339,12 @@ David  April 21 2008
 
     client/
         hostinfo_unix.C
+
+Charlie April 22 2008
+    - MGR: fix a compiler warning (size_t is unsigned).
+    - Tag for 6.1.16 release, all platforms
+      boinc_core_release_6_1_16
+
+    clientgui/
+        AdvancedFrame.cpp
+
