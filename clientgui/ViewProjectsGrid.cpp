@@ -505,15 +505,26 @@ void CViewProjectsGrid::UpdateSelection() {
     CMainDocument*  pDoc = wxGetApp().GetDocument();
     int             i, n;
     bool            wasSuspended=false, wasNoNewWork=false;
+    static int      lastCount = 0;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
-	if(!m_bForceUpdateSelection) {
-		return;
-	}
+    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
+    n = (int)arrSelRows.GetCount();
+
+    // Normally, OnGridSelectRange() is called twice: one for deselecting the previous item 
+    //  and again for selecting the new item, but occasionally it is not triggered for the 
+    //  new selection.  This hack works around that bug.
+    if (n != lastCount) {
+        m_bForceUpdateSelection = true;
+    }
+    
+    if(!m_bForceUpdateSelection) {
+        return;
+    }
 
     CBOINCBaseView::PreUpdateSelection();
 
@@ -521,14 +532,15 @@ void CViewProjectsGrid::UpdateSelection() {
     // Update the tasks static box buttons
     //
     pGroup = m_TaskGroups[0];
-
-    wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();	
-    n = (int)arrSelRows.GetCount();
     
     if (n > 0) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
+        UpdateWebsiteSelection(GRP_WEBSITES, NULL);
+        if(m_TaskGroups.size()>1) {
+            m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+        }
     }
    
     for(i=0; i<n; i++) {

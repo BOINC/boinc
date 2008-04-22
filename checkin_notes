@@ -3348,3 +3348,11 @@ Charlie April 22 2008
     clientgui/
         AdvancedFrame.cpp
 
+Charlie April 22 2008
+    - MGR: Work around a bug where Projects Grid View occasionally failed 
+        to update when a new selection is made.  For unknown reasons,
+        OnGridSelectRange() would be called for deselecting the old item 
+        but occasionally not for selecting the new one.
+        
+    clientgui/
+        ViewWorkGrid.cpp
