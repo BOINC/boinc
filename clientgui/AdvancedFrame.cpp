@@ -1190,7 +1190,7 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
             long lPort = GUI_RPC_PORT; 
             int iPos = sHost.find(_(":")); 
-            if (iPos != -1) { 
+            if (iPos != wxNOT_FOUND) { 
                 wxString sPort = sHost.substr((size_t)iPos + 1); 
                 if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
                 sHost.erase((size_t)iPos); 
