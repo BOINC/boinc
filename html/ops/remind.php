@@ -20,6 +20,9 @@
 // --send
 //      Actually send emails (this is an option to encourage
 //      you to do thorough testing before using it)
+// --count N
+//      By default send to all users that qualify, but if count is
+//      set, only send to N users at a time
 //
 // This program sends "reminder" emails to
 // - failed users: those who
@@ -46,7 +49,7 @@
 //
 
 $globals->start_interval = 14*86400;
-$globals->email_interval = 30*86400;
+$globals->email_interval = 200*86400;
 $globals->lapsed_interval = 60*86400;
 $globals->do_failed = false;
 $globals->do_lapsed = false;
@@ -54,12 +57,13 @@ $globals->show_email = false;
 $globals->send = false;
 $globals->explain = false;
 $globals->userid = 0;
+$globals->count = -1;
 
 for ($i=1; $i<$argc; $i++) {
     if ($argv[$i] == "--failed") {
-        $do_failed = true;
+        $globals->do_failed = true;
     } elseif ($argv[$i] == "--lapsed") {
-        $do_lapsed = true;
+        $globals->do_lapsed = true;
     } elseif ($argv[$i] == "--show_email") {
         $globals->show_email = true;
     } elseif ($argv[$i] == "--explain") {
@@ -69,9 +73,12 @@ for ($i=1; $i<$argc; $i++) {
     } elseif ($argv[$i] == "--userid") {
         $i++;
         $globals->userid = $argv[$i];
+    } elseif ($argv[$i] == "--count") {
+        $i++;
+        $globals->count = $argv[$i];
     } else {
         echo "unrecognized option $argv[$i]\n";
-        echo "usage: remind.php [--failed ] [--lapsed] [--userid N] [--show_mail] [--explain] [--send]\n";
+        echo "usage: remind.php [--failed ] [--lapsed] [--userid N] [--show_mail] [--explain] [--send] [--count N]\n";
         exit (1);
     }
 }
@@ -87,12 +94,12 @@ set_time_limit(0);
 // Change these here if needed.
 //
 $dir = "remind_email";
-$failed_html = "$dir/failed_html";
-$failed_text = "$dir/failed_text";
-$failed_subject = "$dir/failed_subject";
-$lapsed_html = "$dir/lapsed_html";
-$lapsed_text = "$dir/lapsed_text";
-$lapsed_subject = "$dir/lapsed_subject";
+$failed_html = "$dir/reminder_failed_html";
+$failed_text = "$dir/reminder_failed_text";
+$failed_subject = "$dir/reminder_failed_subject";
+$lapsed_html = "$dir/reminder_lapsed_html";
+$lapsed_text = "$dir/reminder_lapsed_text";
+$lapsed_subject = "$dir/reminder_lapsed_subject";
 
 // return time of last scheduler RPC from this user,
 // or zero if they're never done one
@@ -164,7 +171,7 @@ function replace($user, $template) {
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
         $user->id,
-        floor ((time() - $user->last_rpc_time) / 86400),
+        floor ((time() - last_rpc_time($user)) / 86400),
     );
     return preg_replace($pat, $rep, $template);
 }
@@ -203,6 +210,11 @@ function mail_type($user, $type) {
         $query = "insert into sent_email values($user->id, $now, $ntype)";
         mysql_query($query);
     }
+    $globals->count--;
+    if ($globals->count == 0) { 
+        echo "reached limit set by --count - exiting...\n";
+        exit();
+    }
 }
 
 function last_reminder_time($user) {
@@ -228,7 +240,7 @@ function handle_user($user, $do_type) {
         }
         return;
     }
-    $max_email_time = time() - $email_interval;
+    $max_email_time = time() - $globals->email_interval;
     if (last_reminder_time($user) > $max_email_time) {
         if ($globals->explain) {
             echo "user: $user->id sent too recently\n";
@@ -299,10 +311,10 @@ if ($globals->userid) {
     mail_type($user, 'failed');
     mail_type($user, 'lapsed');
 } else {
-    if ($do_failed) {
+    if ($globals->do_failed) {
         do_failed();
     }
-    if ($do_lapsed) {
+    if ($globals->do_lapsed) {
         do_lapsed();
     }
 }
