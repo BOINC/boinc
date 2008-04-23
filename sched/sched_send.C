@@ -208,6 +208,7 @@ BEST_APP_VERSION* get_app_version(
         USER_MESSAGE um(message, "high");
         reply.wreq.insert_no_work_message(um);
         reply.wreq.no_app_version = true;
+        return NULL;
     }
     return bavp;
 }

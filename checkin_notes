@@ -3357,3 +3357,12 @@ Charlie April 22 2008
         
     clientgui/
         ViewWorkGrid.cpp
+
+David  April 23 2008
+    - scheduler: fix bug where scheduler sends a WU when
+        an app version is not available for that platform
+
+    sched/
+        handle_request.C
+        sched_config.C,h
+        sched_send.C

@@ -124,6 +124,7 @@ public:
     //
     bool debug_version_select;
     bool debug_assignment;
+    bool debug_prefs;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

@@ -811,23 +811,33 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     //
     if (have_working_prefs) {
         sreq.global_prefs.parse(sreq.working_global_prefs_xml, "");
-        log_messages.printf(MSG_DEBUG, "using working prefs\n");
+        if (config.debug_prefs) {
+            log_messages.printf(MSG_DEBUG, "using working prefs\n");
+        }
     } else {
         if (have_master_prefs) {
             if (have_db_prefs && db_mod_time > master_mod_time) {
                 sreq.global_prefs.parse(reply.user.global_prefs, reply.host.venue);
-                log_messages.printf(MSG_DEBUG, "using db prefs - more recent\n");
+                if (config.debug_prefs) {
+                    log_messages.printf(MSG_DEBUG, "using db prefs - more recent\n");
+                }
             } else {
                 sreq.global_prefs.parse(sreq.global_prefs_xml, reply.host.venue);
-                log_messages.printf(MSG_DEBUG, "using master prefs\n");
+                if (config.debug_prefs) {
+                    log_messages.printf(MSG_DEBUG, "using master prefs\n");
+                }
             }
         } else {
             if (have_db_prefs) {
                 sreq.global_prefs.parse(reply.user.global_prefs, reply.host.venue);
-                log_messages.printf(MSG_DEBUG, "using db prefs\n");
+                if (config.debug_prefs) {
+                    log_messages.printf(MSG_DEBUG, "using db prefs\n");
+                }
             } else {
                 sreq.global_prefs.defaults();
-                log_messages.printf(MSG_DEBUG, "using default prefs\n");
+                if (config.debug_prefs) {
+                    log_messages.printf(MSG_DEBUG, "using default prefs\n");
+                }
             }
         }
     }
