@@ -520,6 +520,7 @@ void CViewProjectsGrid::UpdateSelection() {
     //  new selection.  This hack works around that bug.
     if (n != lastCount) {
         m_bForceUpdateSelection = true;
+        lastCount = n;
     }
     
     if(!m_bForceUpdateSelection) {
