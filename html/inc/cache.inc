@@ -2,9 +2,10 @@
 
 require_once("../project/cache_parameters.inc");
 
-if (function_exists("apache_request_headers")) {
-    $no_cache = false;
-} else {
+// If we can't see request headers, don't do caching
+//
+$no_cache = false;
+if (!function_exists("apache_request_headers")) {
     $no_cache = true;
 }
 
@@ -150,8 +151,10 @@ function get_cached_data($max_age, $params=""){
 }
 
 function start_cache($max_age, $params=""){
-    global $no_cache;
+    global $no_cache, $caching;
+
     if ($no_cache) return;
+    $caching = true;
 
     $path = get_path($params);
     $lastmodified = @filemtime($path);

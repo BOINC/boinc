@@ -13,7 +13,7 @@ $caching = false;
 if (!$logged_in_user) {
     $caching = true;
     $cache_args = "userid=$userid";
-    start_cache(USER_PROFILE_TTL,$cache_args);
+    start_cache(USER_PROFILE_TTL, $cache_args);
 }
 page_head("Profile: $user->name");
 start_table();

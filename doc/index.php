@@ -88,7 +88,7 @@ function show_participate() {
         <span class=section_title>".tr(HOME_HEADING1)."</span>
         <br>
         <a class=heading href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-        &middot; <a class=heading href=wiki/index.php><b><nobr>Documentation</nobr></b></a> 
+        &middot; <a class=heading href=wiki/index.php/User_Manual><b><nobr>Documentation</nobr></b></a> 
         &middot; <a class=heading href=links.php><b><nobr>Web sites</nobr></b></a>
         </center>
         </td></tr>

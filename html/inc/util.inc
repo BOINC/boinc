@@ -12,6 +12,7 @@ ini_set("memory_limit", "64M");
 date_default_timezone_set("UTC");
 
 $generating_xml = false;
+$caching = false;
 
 // db_init
 // Connects to database server and selects database as noted in config.xml
@@ -114,17 +115,24 @@ function show_login($user) {
 
 // Page_head() is overridable so that projects that want to integrate BOINC
 // with an existing web framework can more easily do so.
-// To take advantage of this simply define the function page_head()
-// somewhere in the project include file.
+// To do so, define page_head() in the project include file.
 //
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
+    global $caching;
+
     $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
     
     if (defined("CHARSET")) {
         header("Content-type: text/html; charset=".tra("CHARSET"));
+    }
+    if (!$caching) {
+        header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
+        header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
+        header ("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
+        header ("Pragma: no-cache");                          // HTTP/1.0
     }
     
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd\">\n";
@@ -484,15 +492,6 @@ function parse_bool($xml, $tag) {
     $y = (int)parse_element($xml, $x);
     if ($y != 0) return true;
     return false;
-}
-
-// Call this if for dynamic pages
-//
-function no_cache() {
-    header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
-    header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
-    header ("Cache-Control: no-cache, must-revalidate");  // HTTP/1.1
-    header ("Pragma: no-cache");                          // HTTP/1.0
 }
 
 // Generates a legal filename from a parameter string.

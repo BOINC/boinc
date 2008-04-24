@@ -3366,3 +3366,11 @@ David  April 23 2008
         handle_request.C
         sched_config.C,h
         sched_send.C
+
+David  April 24 2008
+    - user web: send no-cache headers except if we're doing
+        whole-page caching.  Fixes #626
+
+    html/inc/
+        util.inc
+        cache.inc
