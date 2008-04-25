@@ -3374,3 +3374,10 @@ David  April 24 2008
     html/inc/
         util.inc
         cache.inc
+
+Rom    April 25 2008
+    - MGR: On Linux, start the manager from the current directory instead
+        of using argv[0] to build the path.
+    
+    clientgui/
+        BOINCClientManager.cpp
