@@ -3389,3 +3389,9 @@ David  April 25 2008
 
     client/
         cpu_sched.C
+
+David  April 25 2008
+    - web: restore OS/CPU details to host list; add Tasks link
+
+    html/inc/
+        host.inc

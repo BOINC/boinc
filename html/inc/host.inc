@@ -195,15 +195,18 @@ function host_nresults($host) {
 // If private is false, show the owner's name only if they've given permission
 //
 function show_host_row($host, $i, $private, $show_owner) {
-    $user = BoincUser::lookup_id($host->userid);
-
-    echo "<tr><td>", host_link($host->id), "</td>\n";
+    echo "<tr><td>
+        <nobr><a href=show_host_detail.php?hostid=$hostid>$host->id</a>
+        [<a href=results.php?hostid=$host->id>tasks]</nobar>
+        </td>
+    ";
     if ($private) {
         echo "<td>$host->domain_name</td>\n";
         echo "<td>$host->venue</td>\n";
     } else {
         echo "<td>$i</td>\n";
         if ($show_owner) {
+            $user = BoincUser::lookup_id($host->userid);
             if ($user && $user->show_hosts) {
                 echo "<td>", user_links($user), "</td>\n";
             } else {
@@ -228,8 +231,8 @@ function show_host_row($host, $i, $private, $show_owner) {
         //
         echo "<td align=right>", format_credit($host->expavg_credit), "</td>\n";
         echo "<td align=right>", format_credit_large($host->total_credit), "</td>\n";
-        echo "<td>$host->p_vendor</td>\n";
-        echo "<td>$host->os_name</td>\n";
+        echo "<td>$host->p_vendor<br><span class=note>$host->p_model</span></td>\n";
+        echo "<td>$host->os_name<br><span class=note>$host->os_version</span></td>\n";
         echo "<td>".sched_log_link($host->rpc_time)."</td>\n";
     }
 
