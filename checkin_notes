@@ -2941,8 +2941,8 @@ Eric K  April 1 2008
         - Added checks for functions strdup(), strdupa(), 
             daemon(), stat64(), strcasestr()
         - Fixed problems with kc_mysql.m4 and wxWidgets.m4 returning
-	    invalid CFLAGS and LIBS flags.
-	- Fixed incorrect order of pthread flag checking on solaris.
+        invalid CFLAGS and LIBS flags.
+    - Fixed incorrect order of pthread flag checking on solaris.
     - New files: lib/unix_util.[Ch].  Currently contains implementation of
         daemon() for systems that lack it.
     - Access to binary files in /proc was failing on some systems when compiled
@@ -3097,7 +3097,7 @@ Eric K  April 4 2008
     client/
         scripts/
             Makefile.am
-	    boinc-client.in
+        boinc-client.in
 
 Rom    April 4 2008
     - WINSETUP: Fix the bug during uninstall where the data files were not
@@ -3218,16 +3218,16 @@ Eric K  April 14 2008
         - Does not presume the existence of "pidof" or "runuser".  
         - If started with an old style Bourne shell, will try to restart
           in bash, zsh or ksh.
-	- Starts with no parameters by default.
-	- Logs stdout and stderr to /var/log/boinc_client.log and
+    - Starts with no parameters by default.
+    - Logs stdout and stderr to /var/log/boinc_client.log and
           /var/log/boinc_client_err.log by default.
-	- With appropriate "boinc-client.conf", the script can be run by
-	  a non-root user.
-	- More changes are likely to be required.
+    - With appropriate "boinc-client.conf", the script can be run by
+      a non-root user.
+    - More changes are likely to be required.
     client/
         scripts/
             boinc-client.in
-	    Makefile.am
+        Makefile.am
 
 David  April 14 2008
     - client: improved user idle checking on Linux (from Frank Thomas)
@@ -3274,7 +3274,7 @@ Charlie April 15 2008
 
 Charlie April 16 2008
     - Fix is_file() and is_dir() to compile properly on Windows by using 
-	the actual expressions instead of the macros which aren't defined.
+    the actual expressions instead of the macros which aren't defined.
 
     lib/
         filesys.C
@@ -3381,3 +3381,11 @@ Rom    April 25 2008
     
     clientgui/
         BOINCClientManager.cpp
+
+David  April 25 2008
+    - client: fix bugs with scheduling app that use coprocessors
+    - client: factor out "schedule_if_possible()" logic from
+        two places in schedule_cpus()
+
+    client/
+        cpu_sched.C

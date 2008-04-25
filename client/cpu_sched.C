@@ -81,6 +81,12 @@ bool CLIENT_STATE::sufficient_coprocs(APP_VERSION& av) {
             return false;
         }
         if (cp2->used + cp->count > cp2->count) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[cpu_sched_debug] insufficient coproc %s (%d + %d > %d)",
+                    cp2->name, cp2->used, cp->count, cp2->count
+                );
+            }
             return false;
         }
     }
@@ -92,6 +98,12 @@ void CLIENT_STATE::reserve_coprocs(APP_VERSION& av) {
         COPROC* cp = av.coprocs.coprocs[i];
         COPROC* cp2 = coprocs.lookup(cp->name);
         if (!cp2) continue;
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[cpu_sched_debug] reserving %d of coproc %s",
+                cp->count, cp2->name
+            );
+        }
         cp2->used += cp->count;
     }
 }
@@ -101,6 +113,12 @@ void CLIENT_STATE::free_coprocs(APP_VERSION& av) {
         COPROC* cp = av.coprocs.coprocs[i];
         COPROC* cp2 = coprocs.lookup(cp->name);
         if (!cp2) continue;
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[cpu_sched_debug] freeing %d of coproc %s",
+                cp->count, cp2->name
+            );
+        }
         cp2->used -= cp->count;
     }
 }
@@ -501,14 +519,64 @@ void CLIENT_STATE::print_deadline_misses() {
     }
 }
 
+static bool schedule_if_possible(
+    RESULT* rp, double& ncpus_used, double& ram_left, double rrs, double expected_payoff
+) {
+	ACTIVE_TASK* atp;
+
+	atp = gstate.lookup_active_task_by_result(rp);
+    if (!atp || atp->task_state() == PROCESS_UNINITIALIZED) {
+        if (!gstate.sufficient_coprocs(*rp->avp)) {
+            if (log_flags.cpu_sched_debug) {
+		        msg_printf(rp->project, MSG_INFO,
+			        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
+                );
+            }
+            return false;
+        }
+    }
+	if (atp) {
+        // see if it fits in available RAM
+        //
+		if (atp->procinfo.working_set_size_smoothed > ram_left) {
+			if (log_flags.cpu_sched_debug) {
+				msg_printf(rp->project, MSG_INFO,
+					"[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
+					rp->name, atp->procinfo.working_set_size_smoothed/MEGA
+				);
+			}
+            atp->too_large = true;
+			return false;
+		}
+        atp->too_large = false;
+        
+        if (gstate.retry_shmem_time > gstate.now) {
+            if (atp->app_client_shm.shm == NULL) {
+                atp->needs_shmem = true;
+                return false;
+            }
+            atp->needs_shmem = false;
+        }
+		ram_left -= atp->procinfo.working_set_size_smoothed;
+    }
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(rp->project, MSG_INFO,
+			"[cpu_sched_debug] scheduling %s",
+			rp->name
+		);
+    }
+    ncpus_used += rp->avp->avg_ncpus;
+    rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_payoff;
+    return true;
+}
+
 // CPU scheduler - decide which results to run.
 // output: sets ordered_scheduled_result.
 //
 void CLIENT_STATE::schedule_cpus() {
     RESULT* rp;
     PROJECT* p;
-	ACTIVE_TASK* atp;
-    double expected_pay_off;
+    double expected_payoff;
     unsigned int i;
     double rrs = runnable_resource_share();
     double ncpus_used;
@@ -543,7 +611,7 @@ void CLIENT_STATE::schedule_cpus() {
 		active_tasks.active_tasks[i]->too_large = false;
 	}
 
-    expected_pay_off = global_prefs.cpu_scheduling_period();
+    expected_payoff = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
 	double ram_left = available_ram();
 
@@ -558,45 +626,10 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
         rp->already_selected = true;
 
-        if (!sufficient_coprocs(*rp->avp)) continue;
+        if (!schedule_if_possible(rp, ncpus_used, ram_left, rrs, expected_payoff)) continue;
 
-		atp = lookup_active_task_by_result(rp);
-		if (atp) {
-            // see if it fits in available RAM
-            //
-			if (atp->procinfo.working_set_size_smoothed > ram_left) {
-				if (log_flags.cpu_sched_debug) {
-					msg_printf(rp->project, MSG_INFO,
-						"[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
-						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
-					);
-				}
-                atp->too_large = true;
-				continue;
-			}
-            atp->too_large = false;
-            
-            // TODO: merge this chunk of code with its clone
-            if (gstate.retry_shmem_time > gstate.now) {
-                if (atp->app_client_shm.shm == NULL) {
-                    atp->needs_shmem = true;
-                    continue;
-                }
-                atp->needs_shmem = false;
-            }
-			ram_left -= atp->procinfo.working_set_size_smoothed;
-        }
-        ncpus_used += rp->avp->avg_ncpus;
-
-        rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
         rp->edf_scheduled = true;
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(rp->project, MSG_INFO,
-				"[cpu_sched_debug] scheduling (deadline) %s",
-				rp->name
-			);
-        }
         ordered_scheduled_results.push_back(rp);
     }
 #ifdef SIM
@@ -609,39 +642,7 @@ void CLIENT_STATE::schedule_cpus() {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
-        if (!sufficient_coprocs(*rp->avp)) continue;
-		atp = lookup_active_task_by_result(rp);
-		if (atp) {
-			if (atp->procinfo.working_set_size_smoothed > ram_left) {
-				if (log_flags.cpu_sched_debug) {
-					msg_printf(NULL, MSG_INFO,
-						"[cpu_sched_debug]  %s too large: %.2fMB",
-						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
-					);
-				}
-                atp->too_large = true;
-				continue;
-			}
-            atp->too_large = false;
-
-            // don't select if it would need a new shared-mem seg
-            // and we're out of them
-            //
-            if (gstate.retry_shmem_time > gstate.now) {
-                if (atp->app_client_shm.shm == NULL) {
-                    atp->needs_shmem = true;
-                    continue;
-                }
-                atp->needs_shmem = false;
-            }
-			ram_left -= atp->procinfo.working_set_size_smoothed;
-		}
-        ncpus_used += rp->avp->avg_ncpus;
-        double xx = (rp->project->resource_share / rrs) * expected_pay_off;
-        rp->project->anticipated_debt -= xx;
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scheduling (regular) %s", rp->name);
-        }
+        if (!schedule_if_possible(rp, ncpus_used, ram_left, rrs, expected_payoff)) continue;
         ordered_scheduled_results.push_back(rp);
     }
 
@@ -981,8 +982,8 @@ bool CLIENT_STATE::enforce_schedule() {
         case CPU_SCHED_SCHEDULED:
             switch (atp->task_state()) {
             case PROCESS_UNINITIALIZED:
-            case PROCESS_SUSPENDED:
                 if (!sufficient_coprocs(*atp->app_version)) continue;
+            case PROCESS_SUSPENDED:
                 action = true;
                 retval = atp->resume_or_start(
                     atp->scheduler_state == CPU_SCHED_UNINITIALIZED
