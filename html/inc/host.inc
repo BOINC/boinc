@@ -196,7 +196,7 @@ function host_nresults($host) {
 //
 function show_host_row($host, $i, $private, $show_owner) {
     echo "<tr><td>
-        <nobr><a href=show_host_detail.php?hostid=$hostid>$host->id</a>
+        <nobr><a href=show_host_detail.php?hostid=$host->id>$host->id</a>
         [<a href=results.php?hostid=$host->id>tasks</a>]</nobr>
         </td>
     ";
