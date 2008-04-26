@@ -55,7 +55,7 @@ function show_host($host, $user, $ipprivate) {
     if ($user) {
         if ($ipprivate) {
             row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
-            if (strcmp($host->last_ip_addr, $host->external_ip_addr)) {
+            if ($host->last_ip_addr != $host->external_ip_addr) {
                 row2("External IP address", $host->external_ip_addr);
             }
         } else { 
@@ -76,7 +76,7 @@ function show_host($host, $user, $ipprivate) {
     }
     row2("Created", time_str($host->create_time));
     row2("Total Credit", format_credit_large($host->total_credit));
-    row2("Recent average credit", format_credit($host->expavg_credit));
+    row2("Avg. credit", format_credit($host->expavg_credit));
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of CPUs", $host->p_ncpus);
     row2("Operating System", "$host->os_name <br> $host->os_version");
@@ -170,7 +170,7 @@ function top_host_table_start($sort_by) {
     echo "<th>Owner</th>\n";
     if ($sort_by == 'total_credit') {
         echo "
-            <th><a href=top_hosts.php?sort_by=expavg_credit>Recent average credit</a></th>
+            <th><a href=top_hosts.php?sort_by=expavg_credit>Avg. credit</a></th>
             <th>Total credit</th>
         ";
     } else {

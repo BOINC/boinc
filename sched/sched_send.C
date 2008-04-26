@@ -17,8 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-// scheduler code related to sending work
-
+// scheduler code related to sending jobs
 
 #include "config.h"
 #include <vector>
@@ -65,6 +64,8 @@ using namespace std;
 #ifdef MATCHMAKER
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply);
 #endif
+
+int preferred_app_message_index=0;
 
 const char* infeasible_string(int code) {
     switch (code) {
@@ -134,7 +135,7 @@ BEST_APP_VERSION* get_app_version(
 
     APP* app = ssp->lookup_app(wu.appid);
     if (!app) {
-        log_messages.printf(MSG_CRITICAL, "app not found: %d\n", wu.appid);
+        log_messages.printf(MSG_CRITICAL, "WU refers to nonexistent app: %d\n", wu.appid);
         return NULL;
     }
 
@@ -143,7 +144,9 @@ BEST_APP_VERSION* get_app_version(
     if (anonymous(sreq.platforms.list[0])) {
         found = sreq.has_version(*app);
         if (!found) {
-            log_messages.printf(MSG_DEBUG, "Didn't find anonymous app\n");
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG, "Didn't find anonymous app for %s\n", app->name);
+            }
             bavp->avp = 0;
         } else {
             bavp->avp = (APP_VERSION*)1;    // arbitrary nonzero value
@@ -283,19 +286,21 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
     }
 
     if (x < 0) {
-        log_messages.printf(MSG_DEBUG,
-            "Insufficient disk: disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
-            prefs.disk_max_used_gb, prefs.disk_max_used_pct,
-            prefs.disk_min_free_gb
-        );
-        log_messages.printf(MSG_DEBUG,
-            "Insufficient disk: host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
-            host.d_total, host.d_free, host.d_boinc_used_total
-        );
-        log_messages.printf(MSG_DEBUG,
-            "Insufficient disk: x1 %f x2 %f x3 %f x %f\n",
-            x1, x2, x3, x
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "Insufficient disk: disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
+                prefs.disk_max_used_gb, prefs.disk_max_used_pct,
+                prefs.disk_min_free_gb
+            );
+            log_messages.printf(MSG_DEBUG,
+                "Insufficient disk: host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
+                host.d_total, host.d_free, host.d_boinc_used_total
+            );
+            log_messages.printf(MSG_DEBUG,
+                "Insufficient disk: x1 %f x2 %f x3 %f x %f\n",
+                x1, x2, x3, x
+            );
+        }
         reply.wreq.disk.set_insufficient(-x);
     }
     return x;
@@ -343,15 +348,17 @@ static double estimate_wallclock_duration(
     if (reply.host.cpu_efficiency) {
         ewd /= reply.host.cpu_efficiency;
     }
-    log_messages.printf(MSG_DEBUG,
-        "est cpu dur %f; running_frac %f; est %f\n",
-        ecd, running_frac, ewd
-    );
+    if (config.debug_send) {
+        log_messages.printf(MSG_DEBUG,
+            "est cpu dur %f; running_frac %f; est %f\n",
+            ecd, running_frac, ewd
+        );
+    }
     return ewd;
 }
 
-// Find or compute various info about the host.
-// These parameters affect how work is sent to the host
+// Find or compute various info about the host;
+// this info affects which jobs are sent to the host.
 //
 static int get_host_info(SCHEDULER_REPLY& reply) {
     char buf[8096];
@@ -395,10 +402,13 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     // 2) The host error rate is less then the config max error rate
     // 3) The host results per day is equal to the config file value
     //
-    log_messages.printf(MSG_DEBUG, "[HOST#%d] Checking if it is reliable (OS = %s) error_rate = %.3f avg_turnaround(hours) = %.0f \n",
-        reply.host.id, reply.host.os_name, reply.host.error_rate,
-        reply.host.avg_turnaround/3600
-    );
+    if (config.debug_send) {
+        log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] Checking if reliable (OS = %s) error_rate = %.3f avg_turnaround = %.0f hrs\n",
+            reply.host.id, reply.host.os_name, reply.host.error_rate,
+            reply.host.avg_turnaround/3600
+        );
+    }
 
 	// Platforms other then Windows, Linux and Intel Macs need a
     // larger set of computers to be marked reliable
@@ -415,11 +425,13 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
         && (config.daily_result_quota == 0 || reply.host.max_results_day >= config.daily_result_quota)
      ) {
         reply.wreq.host_info.reliable = true;
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] is reliable (OS = %s) error_rate = %.3f avg_turnaround(hours) = %.0f \n",
-            reply.host.id, reply.host.os_name, reply.host.error_rate,
-            reply.host.avg_turnaround/3600
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] is reliable (OS = %s) error_rate = %.3f avg_turnaround(hours) = %.0f \n",
+                reply.host.id, reply.host.os_name, reply.host.error_rate,
+                reply.host.avg_turnaround/3600
+            );
+        }
     }
     return 0;
 }
@@ -427,7 +439,6 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 // Check to see if the user has set application preferences.
 // If they have, then only send work for the allowed applications
 //
-
 static inline int check_app_filter(
     WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
 ) {
@@ -446,10 +457,12 @@ static inline int check_app_filter(
         (!reply.wreq.beta_only || config.distinct_beta_apps)
     ) {
         reply.wreq.no_allowed_apps_available = true;
-        log_messages.printf(MSG_DEBUG,
-            "[USER#%d] [WU#%d] user doesn't want work for this application\n",
-            reply.user.id, wu.id
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[USER#%d] [WU#%d] user doesn't want work for this application\n",
+                reply.user.id, wu.id
+            );
+        }
         return INFEASIBLE_APP_SETTING;
     }
     return 0;
@@ -492,11 +505,13 @@ static inline int check_memory(
         USER_MESSAGE um(message,"high");
         reply.wreq.insert_no_work_message(um);
         
-        log_messages.printf(MSG_DEBUG,
-            "[WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
-            wu.id, wu.name, wu.rsc_memory_bound/MEGA,
-            reply.host.id, ram/MEGA, usable_ram/MEGA
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
+                wu.id, wu.name, wu.rsc_memory_bound/MEGA,
+                reply.host.id, ram/MEGA, usable_ram/MEGA
+            );
+        }
         reply.wreq.mem.set_insufficient(wu.rsc_memory_bound);
         reply.set_delay(DELAY_NO_WORK_TEMP);
         return INFEASIBLE_MEM;
@@ -557,11 +572,13 @@ static inline int check_deadline(
         double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
         double diff = est_report_delay - wu.delay_bound;
         if (diff > 0) {
-            log_messages.printf(MSG_DEBUG,
-                "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (estimated_delay is %f)\n",
-                wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound,
-                request.estimated_delay
-            );
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (estimated_delay is %f)\n",
+                    wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound,
+                    request.estimated_delay
+                );
+            }
             reply.wreq.speed.set_insufficient(diff);
             return INFEASIBLE_CPU;
         }
@@ -589,17 +606,21 @@ int wu_is_infeasible(
     //
     if (app_hr_type(app)) {
         if (hr_unknown_platform_type(reply.host, app_hr_type(app))) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
-                reply.host.id, wu.id, app_hr_type(app)
-            );
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
+                    reply.host.id, wu.id, app_hr_type(app)
+                );
+            }
             return INFEASIBLE_HR;
         }
         if (already_sent_to_different_platform_quick(request, wu, app)) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
-                reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, app_hr_type(app))
-            );
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
+                    reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, app_hr_type(app))
+                );
+            }
             return INFEASIBLE_HR;
         }
     }
@@ -726,10 +747,12 @@ int add_wu_to_reply(
         reply.insert_app_unique(*app);
         av2.bavp = bavp;
         reply.insert_app_version_unique(*avp2);
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] Sending app_version %s %d %d\n",
-            reply.host.id, app->name, avp2->platformid, avp2->version_num
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] Sending app_version %s %d %d\n",
+                reply.host.id, app->name, avp2->platformid, avp2->version_num
+            );
+        }
     }
 
     // add time estimate to reply
@@ -737,9 +760,7 @@ int add_wu_to_reply(
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
-        log_messages.printf(MSG_NORMAL,
-            "insert_wu_tags failed %d\n", retval
-        );
+        log_messages.printf(MSG_NORMAL, "insert_wu_tags failed %d\n", retval);
         return retval;
     }
     wu3=wu2;
@@ -849,10 +870,12 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
 
     if (config.max_wus_in_progress) {
         if (wreq.nresults_on_host >= config.max_wus_in_progress*ncpus) {
-            log_messages.printf(MSG_DEBUG,
-                "cache limit exceeded; %d > %d*%d\n",
-                wreq.nresults_on_host, config.max_wus_in_progress, ncpus
-            );
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "in-progress job limit exceeded; %d > %d*%d\n",
+                    wreq.nresults_on_host, config.max_wus_in_progress, ncpus
+                );
+            }
             wreq.cache_size_exceeded = true;
             return false;
         }
@@ -944,10 +967,12 @@ int add_result_to_reply(
             result.report_deadline = result.sent_time + delay_bound;
         }
 
-        log_messages.printf(MSG_DEBUG,
-            "[RESULT#%d] [HOST#%d] (resend lost work)\n",
-            result.id, reply.host.id
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[RESULT#%d] [HOST#%d] (resend lost work)\n",
+                result.id, reply.host.id
+            );
+        }
     }
     retval = result.mark_as_sent(old_server_state);
     if (retval==ERR_DB_NOT_FOUND) {
@@ -963,10 +988,12 @@ int add_result_to_reply(
     if (retval) return retval;
 
     wu_seconds_filled = estimate_wallclock_duration(wu, request, reply);
-    log_messages.printf(MSG_NORMAL,
-        "[HOST#%d] Sending [RESULT#%d %s] (fills %.2f seconds)\n",
-        reply.host.id, result.id, result.name, wu_seconds_filled
-    );
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[HOST#%d] Sending [RESULT#%d %s] (fills %.2f seconds)\n",
+            reply.host.id, result.id, result.name, wu_seconds_filled
+        );
+    }
 
     retval = update_wu_transition_time(wu, result.report_deadline);
     if (retval) {
@@ -1030,115 +1057,12 @@ int add_result_to_reply(
     return 0;
 }
 
-void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+// send messages to user about why jobs were or weren't sent
+//
+static void explain_to_user(SCHEDULER_REPLY& reply) {
     char helpful[512];
-    int preferred_app_message_index=0;
 
-    reply.wreq.core_client_version =
-        sreq.core_client_major_version*100 + sreq.core_client_minor_version;
-    reply.wreq.disk_available = max_allowable_disk(sreq, reply);
-    reply.wreq.core_client_version = sreq.core_client_major_version*100
-        + sreq.core_client_minor_version;
-
-    if (hr_unknown_platform(sreq.host)) {
-        reply.wreq.hr_reject_perm = true;
-        return;
-    }
-
-    get_host_info(reply); // parse project prefs for app details
-    reply.wreq.beta_only = false;
-    reply.wreq.user_apps_only = true;
-
-    log_messages.printf(MSG_DEBUG,
-        "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
-        reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
-    );
-
-    if (sreq.work_req_seconds <= 0) return;
-
-    reply.wreq.seconds_to_fill = sreq.work_req_seconds;
-    if (reply.wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
-        reply.wreq.seconds_to_fill = MAX_SECONDS_TO_SEND;
-    }
-    if (reply.wreq.seconds_to_fill < MIN_SECONDS_TO_SEND) {
-        reply.wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
-    }
-
-    if (config.enable_assignment) {
-        if (send_assigned_jobs(sreq, reply)) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] sent assigned jobs\n", reply.host.id
-            );
-            return;
-        }
-    }
-
-    if (config.workload_sim && sreq.have_other_results_list) {
-        init_ip_results(
-            sreq.global_prefs.work_buf_min(), effective_ncpus(reply.host), sreq.ip_results
-        );
-    }
-
-    if (config.locality_scheduling) {
-        reply.wreq.infeasible_only = false;
-        send_work_locality(sreq, reply);
-    } else {
-#ifdef MATCHMAKER
-        send_work_matchmaker(sreq, reply);
-#else
-        // give top priority to results that require a 'reliable host'
-        //
-        if (reply.wreq.host_info.reliable) {
-            reply.wreq.reliable_only = true;
-            reply.wreq.infeasible_only = false;
-            scan_work_array(sreq, reply);
-        }
-        reply.wreq.reliable_only = false;
-
-        // give 2nd priority to results for a beta app
-        // (projects should load beta work with care,
-        // otherwise your users won't get production work done!
-        //
-        if (reply.wreq.host_info.allow_beta_work) {
-            reply.wreq.beta_only = true;
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
-                reply.host.id
-            );
-            scan_work_array(sreq, reply);
-        }
-        reply.wreq.beta_only = false;
-
-        // give next priority to results that were infeasible for some other host
-        //
-        reply.wreq.infeasible_only = true;
-        scan_work_array(sreq, reply);
-
-        reply.wreq.infeasible_only = false;
-        scan_work_array(sreq, reply);
-        
-       	// If the user has said they prefer to only receive work
-       	// from certain apps
-       	//
-       	if (!reply.wreq.nresults && reply.wreq.host_info.allow_non_preferred_apps ) {
-       		reply.wreq.user_apps_only = false;
-       		preferred_app_message_index = reply.wreq.no_work_messages.size();
-           	log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] is looking for work from a non-preferred application\n",
-                reply.host.id
-            );
-       		scan_work_array(sreq, reply);
-       	}
-#endif
-    }
-
-    log_messages.printf(MSG_NORMAL,
-        "[HOST#%d] Sent %d results [scheduler ran %f seconds]\n",
-        reply.host.id, reply.wreq.nresults, elapsed_wallclock_time() 
-    );
-
-    // Send messages explaining why work was sent from apps
-    // the user did not check on the website
+    // If work was sent from apps // the user did not select, explain
     //
     if (reply.wreq.nresults && !reply.wreq.user_apps_only) {
         USER_MESSAGE um("No work can be sent for the applications you have selected", "high");
@@ -1161,7 +1085,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
            	}
         }
 
-        // Inform the user about applications they didn't qualify for
+        // Tell the user about applications they didn't qualify for
         //
         for(int i=0;i<preferred_app_message_index;i++){
             reply.insert_message(reply.wreq.no_work_messages.at(i));
@@ -1285,11 +1209,125 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             reply.insert_message(um);
             reply.set_delay(DELAY_NO_WORK_CACHE);
             log_messages.printf(MSG_NORMAL,
-                "host %d already has %d result(s) on cache\n",
+                "host %d already has %d result(s) in progress\n",
                 reply.host.id, reply.wreq.nresults_on_host
             );
         }        
     }
+}
+
+void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    reply.wreq.core_client_version =
+        sreq.core_client_major_version*100 + sreq.core_client_minor_version;
+    reply.wreq.disk_available = max_allowable_disk(sreq, reply);
+    reply.wreq.core_client_version = sreq.core_client_major_version*100
+        + sreq.core_client_minor_version;
+
+    if (hr_unknown_platform(sreq.host)) {
+        reply.wreq.hr_reject_perm = true;
+        return;
+    }
+
+    get_host_info(reply); // parse project prefs for app details
+    reply.wreq.beta_only = false;
+    reply.wreq.user_apps_only = true;
+
+    if (config.debug_send) {
+        log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
+            reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
+        );
+    }
+
+    if (sreq.work_req_seconds <= 0) return;
+
+    reply.wreq.seconds_to_fill = sreq.work_req_seconds;
+    if (reply.wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
+        reply.wreq.seconds_to_fill = MAX_SECONDS_TO_SEND;
+    }
+    if (reply.wreq.seconds_to_fill < MIN_SECONDS_TO_SEND) {
+        reply.wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
+    }
+
+    if (config.enable_assignment) {
+        if (send_assigned_jobs(sreq, reply)) {
+            if (config.debug_assignment) {
+                log_messages.printf(MSG_DEBUG,
+                    "[HOST#%d] sent assigned jobs\n", reply.host.id
+                );
+            }
+            return;
+        }
+    }
+
+    if (config.workload_sim && sreq.have_other_results_list) {
+        init_ip_results(
+            sreq.global_prefs.work_buf_min(), effective_ncpus(reply.host), sreq.ip_results
+        );
+    }
+
+    if (config.locality_scheduling) {
+        reply.wreq.infeasible_only = false;
+        send_work_locality(sreq, reply);
+    } else {
+#ifdef MATCHMAKER
+        send_work_matchmaker(sreq, reply);
+#else
+        // give top priority to results that require a 'reliable host'
+        //
+        if (reply.wreq.host_info.reliable) {
+            reply.wreq.reliable_only = true;
+            reply.wreq.infeasible_only = false;
+            scan_work_array(sreq, reply);
+        }
+        reply.wreq.reliable_only = false;
+
+        // give 2nd priority to results for a beta app
+        // (projects should load beta work with care,
+        // otherwise your users won't get production work done!
+        //
+        if (reply.wreq.host_info.allow_beta_work) {
+            reply.wreq.beta_only = true;
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
+                    reply.host.id
+                );
+            }
+            scan_work_array(sreq, reply);
+        }
+        reply.wreq.beta_only = false;
+
+        // give next priority to results that were infeasible for some other host
+        //
+        reply.wreq.infeasible_only = true;
+        scan_work_array(sreq, reply);
+
+        reply.wreq.infeasible_only = false;
+        scan_work_array(sreq, reply);
+        
+       	// If the user has said they prefer to only receive work from certain apps
+       	//
+       	if (!reply.wreq.nresults && reply.wreq.host_info.allow_non_preferred_apps ) {
+       		reply.wreq.user_apps_only = false;
+       		preferred_app_message_index = reply.wreq.no_work_messages.size();
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[HOST#%d] is looking for work from a non-preferred application\n",
+                    reply.host.id
+                );
+            }
+       		scan_work_array(sreq, reply);
+       	}
+#endif
+    }
+
+    log_messages.printf(MSG_NORMAL,
+        "[HOST#%d] Sent %d results [scheduler ran %f seconds]\n",
+        reply.host.id, reply.wreq.nresults, elapsed_wallclock_time() 
+    );
+
+    explain_to_user(reply);
 }
 
 #ifdef MATCHMAKER
@@ -1300,7 +1338,7 @@ struct JOB{
     double est_time;
     double disk_usage;
     APP* app;
-    APP_VERSION* avp;
+    BEST_APP_VERSION* bavp;
 
     void get_value(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 };
@@ -1335,7 +1373,7 @@ int read_sendable_result(DB_RESULT& result) {
         return ERR_NOT_FOUND;
     }
     if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-        log_messages.printf(MSG_DEBUG,
+        log_messages.printf(MSG_NORMAL,
             "[RESULT#%d] expected to be unsent; instead, state is %d\n",
             result.id, result.server_state
         );
@@ -1363,27 +1401,21 @@ void JOB::get_value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         app = ssp->lookup_app(wu.appid);
         found = sreq.has_version(*app);
         if (!found) return;
-        avp = NULL;
+        bavp = NULL;
     } else {
-        found = get_app_version(sreq, reply, wu, app, avp);
-        if (!found) return;
-
-        // see if the core client is too old.
-        // don't bump the infeasible count because this
-        // isn't the result's fault
-        //
-        if (!app_core_compatible(reply.wreq, *avp)) {
-            return;
-        }
+        bavp = get_app_version(sreq, reply, wu);
+        if (!bavp) return;
     }
     if (app == NULL) return; // this should never happen
 
     retval = wu_is_infeasible(wu, sreq, reply, *app);
     if (retval) {
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
-            reply.host.id, wu.id, wu.name, infeasible_string(retval)
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+                reply.host.id, wu.id, wu.name, infeasible_string(retval)
+            );
+        }
         return;
     }
 
@@ -1430,10 +1462,12 @@ bool wu_is_infeasible_slow(
             return true;
         } else {
             if (n>0) {
-                log_messages.printf(MSG_DEBUG,
-                    "send_work: user %d already has %d result(s) for WU %d\n",
-                    reply.user.id, n, wu_result.workunit.id
-                );
+                if (config.debug_send) {
+                    log_messages.printf(MSG_DEBUG,
+                        "send_work: user %d already has %d result(s) for WU %d\n",
+                        reply.user.id, n, wu_result.workunit.id
+                    );
+                }
                 return true;
             }
         }
@@ -1455,11 +1489,13 @@ bool wu_is_infeasible_slow(
             return true;
         } else {
             if (n>0) {
-                log_messages.printf(MSG_DEBUG,
-                    "send_work: host %d already has %d result(s) for WU %d\n",
-                    reply.host.id, n, wu_result.workunit.id
-                );
-            return true;
+                if (config.debug_send) {
+                    log_messages.printf(MSG_DEBUG,
+                        "send_work: host %d already has %d result(s) for WU %d\n",
+                        reply.host.id, n, wu_result.workunit.id
+                    );
+                }
+                return true;
             }
         }
     }
@@ -1470,10 +1506,12 @@ bool wu_is_infeasible_slow(
         if (already_sent_to_different_platform_careful(
             sreq, reply.wreq, wu, *app
         )) {
-             log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
-                reply.host.id, wu.id, wu.name
-            );
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
+                    reply.host.id, wu.id, wu.name
+                );
+            }
             // Mark the workunit as infeasible.
             // This ensures that jobs already assigned to a platform
             // are processed first.
@@ -1553,7 +1591,7 @@ void JOB_SET::send(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         result.id = wu_result.resultid;
         retval = read_sendable_result(result);
         if (retval) continue;
-        add_result_to_reply(result, wu, sreq, reply, job.app, job.avp);
+        add_result_to_reply(result, wu, sreq, reply, job.bavp);
         i++;
     }
 }

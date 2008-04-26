@@ -3395,3 +3395,14 @@ David  April 25 2008
 
     html/inc/
         host.inc
+
+David  April 25 2008
+    - web: tweaks to host list
+    - scheduler: condition lots of log file writes on config flags
+        (i.e. divide "debug" output into a bunch of categories, individually selectable)
+
+    html/inc/
+        host.inc
+    sched/
+        sched_config.C,h
+        sched_send.C
