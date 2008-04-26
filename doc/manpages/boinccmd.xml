@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- This is the manual page for boinc_cmd, a command tool that provides an
+ This is the manual page for boinccmd, a command tool that provides an
  interactive command-line interface for the core client.
 
  Copyright © 2007-2008 University of California
@@ -45,26 +45,26 @@
   </refentryinfo>
 
   <refmeta>
-    <refentrytitle>&boinc_cmd;</refentrytitle>
+    <refentrytitle>&boinccmd;</refentrytitle>
     <manvolnum>1</manvolnum>
   </refmeta>
 
   <refnamediv>
-    <refname>&boinc_cmd;</refname> 
+    <refname>&boinccmd;</refname> 
     <refpurpose>command line interface to the BOINC core client</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <para>
       <cmdsynopsis>
-        &cmd_boinc_cmd;
+        &cmd_boinccmd;
         <arg><option>--host</option> <replaceable>hostname</replaceable><arg
           >:<replaceable>port</replaceable></arg></arg>
         <arg><option>--passwd</option> <replaceable>passwd</replaceable></arg>
         <arg choice="req"><replaceable>command</replaceable></arg>
       </cmdsynopsis>
       <cmdsynopsis>
-        &cmd_boinc_cmd;
+        &cmd_boinccmd;
         <arg><option>-hV</option></arg>
       </cmdsynopsis>
     </para>
@@ -75,8 +75,8 @@
 
   <refsect1>
     <title>DESCRIPTION</title>
-    <para>The BOINC command tool (&cmd_boinc_cmd;) provides a command line
-      interface to a running BOINC core client (&man_boinc_client;).</para>
+    <para>The BOINC command tool (&cmd_boinccmd;) provides a command line
+      interface to a running BOINC core client (&man_boinc;).</para>
   </refsect1>
 
   <refsect1>
@@ -102,7 +102,7 @@
         <listitem>
           <para>Use <replaceable>passwd</replaceable> as password for RPC
             authentication. If the current working directory contains a file
-            <filename>gui_rpc_auth.cfg</filename>, &cmd_boinc_cmd; will read
+            <filename>gui_rpc_auth.cfg</filename>, &cmd_boinccmd; will read
             the password from this file.</para>
         </listitem>
       </varlistentry>
@@ -565,7 +565,7 @@
 
   <refsect1>
     <title>SEE ALSO</title>
-    <para>&man_boinc_client;, &man_boincmgr;</para>
+    <para>&man_boinc;, &man_boincmgr;</para>
     <para><ulink url="http://boinc.berkeley.edu/trac/wiki/BoincCmd"/></para>
   </refsect1>
 

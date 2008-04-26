@@ -1,16 +1,16 @@
-<!ENTITY boinc_client       "boinc_client">
-<!ENTITY boinc_cmd          "boinc_cmd">
+<!ENTITY boinc              "boinc">
+<!ENTITY boinccmd           "boinccmd">
 <!ENTITY boincmgr           "boincmgr">
-<!ENTITY cmd_boinc_client   "<command>&boinc_client;</command>">
-<!ENTITY cmd_boinc_cmd      "<command>&boinc_cmd;</command>">
+<!ENTITY cmd_boinc          "<command>&boinc;</command>">
+<!ENTITY cmd_boinccmd       "<command>&boinccmd;</command>">
 <!ENTITY cmd_boincmgr       "<command>&boincmgr;</command>">
 <!ENTITY gnu                "<acronym>GNU</acronym>">
-<!ENTITY man_boinc_client   "<citerefentry>
-                               <refentrytitle>&boinc_client;</refentrytitle>
+<!ENTITY man_boinc          "<citerefentry>
+                               <refentrytitle>&boinc;</refentrytitle>
                                <manvolnum>1</manvolnum>
                              </citerefentry>">
-<!ENTITY man_boinc_cmd      "<citerefentry>
-                               <refentrytitle>&boinc_cmd;</refentrytitle>
+<!ENTITY man_boinccmd       "<citerefentry>
+                               <refentrytitle>&boinccmd;</refentrytitle>
                                <manvolnum>1</manvolnum>
                              </citerefentry>">
 <!ENTITY man_boincmgr       "<citerefentry>

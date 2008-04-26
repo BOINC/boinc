@@ -66,7 +66,7 @@
   <refsect1>
     <title>DESCRIPTION</title>
     <para>The BOINC manager (&cmd_boincmgr;) is a controling and monitoring
-      utility for the BOINC core client (&man_boinc_client;).</para>
+      utility for the BOINC core client (&man_boinc;).</para>
   </refsect1>
 
   <refsect1>
@@ -117,7 +117,7 @@
 
   <refsect1>
     <title>SEE ALSO</title>
-    <para>&man_boinc_client;, &man_boinc_cmd;</para>
+    <para>&man_boinc;, &man_boinccmd;</para>
     <para>
       <ulink url="http://boinc.berkeley.edu/trac/wiki/ManagerAdvanced"/>
     </para>

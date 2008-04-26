@@ -4,7 +4,7 @@
 include $(top_srcdir)/Makefile.incl
 
 if ENABLE_CLIENT
-  CLIENT_MANS = boinc_client.1 boinc_cmd.1
+  CLIENT_MANS = boinc.1 boinccmd.1
 endif
 
 if BUILD_CLIENTGUI

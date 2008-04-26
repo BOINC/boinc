@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- This is the manual page for the BOINC core client (boinc_client).
+ This is the manual page for the BOINC core client (boinc).
 
  Copyright © 2007-2008 University of California
 
@@ -48,31 +48,31 @@
   </refentryinfo>
 
   <refmeta>
-    <refentrytitle>&boinc_client;</refentrytitle>
+    <refentrytitle>&boinc;</refentrytitle>
     <manvolnum>1</manvolnum>
   </refmeta>
 
   <refnamediv>
-    <refname>&boinc_client;</refname>
+    <refname>&boinc;</refname>
     <refpurpose>The BOINC core client program.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
     <cmdsynopsis>
-      &cmd_boinc_client;
+      &cmd_boinc;
       <arg><replaceable>options</replaceable></arg>
     </cmdsynopsis>
   </refsynopsisdiv>
 
   <refsect1>
     <title>DESCRIPTION</title>
-    <para>The BOINC "core client", &cmd_boinc_client;, is the heart of BOINC.
+    <para>The BOINC "core client", &cmd_boinc;, is the heart of BOINC.
       It controls which project applications are run on your computer,
       downloading "Workunits" and uploading the "Result" files from completed
-      tasks. &cmd_boinc_client; is usually run in the background, ideally as a
+      tasks. &cmd_boinc; is usually run in the background, ideally as a
       daemon. It can then be controlled either by a graphical tool called the
       BOINC Manager, &man_boincmgr;, or a command-line tool called
-      &man_boinc_cmd;, by means of Remote Proceedure Calls (RPCs) over port
+      &man_boinccmd;, by means of Remote Proceedure Calls (RPCs) over port
       &rpc_port;.</para>
 
     <para>The BOINC core client can be controlled by command-line options,
@@ -82,10 +82,10 @@
 
   <refsect1>
     <title>OPTIONS</title>
-    <para>These command-line options for &cmd_boinc_client; can be used to
-      control how BOINC is started. Once the client has started, you should
-      use a separate program, (&man_boincmgr; or &man_boinc_cmd;) which
-      communicates with it by means of Remote Proceedure Calls (RPCs).</para>
+    <para>These command-line options for &cmd_boinc; can be used to control
+      how BOINC is started. Once the client has started, you should use a
+      separate program, (&man_boincmgr; or &man_boinccmd;) which communicates
+      with it by means of Remote Proceedure Calls (RPCs).</para>
 
     <variablelist>
       <varlistentry>
@@ -204,7 +204,7 @@
           <para>Omits creation of a socket as required for the remote control
             of the client. Consequently the client cannot be controlled by
             external tools like GUIs (&cmd_boincmgr; etc.) or the console
-            command tool (&cmd_boinc_cmd;).</para>
+            command tool (&cmd_boinccmd;).</para>
         </listitem>
       </varlistentry>
 
@@ -261,7 +261,7 @@
 
   <refsect1>
     <title>SEE ALSO</title>
-    <para>&man_boinc_cmd;, &man_boincmgr;</para>
+    <para>&man_boinccmd;, &man_boincmgr;</para>
     <para><ulink url="http://boinc.berkeley.edu/trac/wiki/UnixClient"/></para>
   </refsect1>
 
