@@ -3406,3 +3406,12 @@ David  April 25 2008
     sched/
         sched_config.C,h
         sched_send.C
+
+Rom    April 28 2008 (HEAD)
+    - Tag for 6.1.17 release, all platforms
+      boinc_core_release_6_1_17
+
+    /
+        configure.ac
+        version.h
+
