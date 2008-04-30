@@ -362,7 +362,7 @@ static double estimate_wallclock_duration(
 //
 static int get_host_info(SCHEDULER_REPLY& reply) {
     char buf[8096];
-    std::string str;
+    string str;
     unsigned int pos = 0;
     int temp_int;
     bool flag;
@@ -389,12 +389,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
         reply.wreq.host_info.allow_beta_work = flag;
 	}
  
-    // Decide whether or not this computer is a 'reliable' computer
-    //
-    double expavg_credit = reply.host.expavg_credit;
-    double expavg_time = reply.host.expavg_time;
-    double avg_turnaround = reply.host.avg_turnaround;
-    update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
+    // Decide whether or not this computer is 'reliable'
     // A computer is reliable if the following conditions are true
     // (for those that are set in the config file)
     // 1) The host average turnaround is less than the config
@@ -402,6 +397,10 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     // 2) The host error rate is less then the config max error rate
     // 3) The host results per day is equal to the config file value
     //
+    double expavg_credit = reply.host.expavg_credit;
+    double expavg_time = reply.host.expavg_time;
+    double avg_turnaround = reply.host.avg_turnaround;
+    update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
             "[HOST#%d] Checking if reliable (OS = %s) error_rate = %.3f avg_turnaround = %.0f hrs\n",
@@ -414,7 +413,11 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     // larger set of computers to be marked reliable
     //
     double multiplier = 1.0;
-    if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux") || (strstr(reply.host.os_name,"Darwin") && !(strstr(reply.host.p_vendor,"Power Macintosh")))) {
+    if (strstr(reply.host.os_name,"Windows")
+        || strstr(reply.host.os_name,"Linux")
+        || (strstr(reply.host.os_name,"Darwin")
+            && !(strstr(reply.host.p_vendor,"Power Macintosh"))
+    )) {
     	multiplier = 1.0;
     } else {
     	multiplier = 1.8;
@@ -436,36 +439,22 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     return 0;
 }
 
-// Check to see if the user has set application preferences.
-// If they have, then only send work for the allowed applications
+// Return true if the user has set application preferences,
+// and this job is not for a selected app
 //
-static inline int check_app_filter(
+bool app_not_selected(
     WORKUNIT& wu, SCHEDULER_REQUEST& , SCHEDULER_REPLY& reply
 ) {
     unsigned int i;
 
-    if (reply.wreq.host_info.preferred_apps.size() == 0) return 0;
-    bool app_allowed = false;
+    if (reply.wreq.host_info.preferred_apps.size() == 0) return false;
     for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
-        if (wu.appid==reply.wreq.host_info.preferred_apps[i].appid) {
-            app_allowed = true;
+        if (wu.appid == reply.wreq.host_info.preferred_apps[i].appid) {
     	    reply.wreq.host_info.preferred_apps[i].work_available = true;
-            break;
+            return false;
         }
     }
-    if (!app_allowed && reply.wreq.user_apps_only && 
-        (!reply.wreq.beta_only || config.distinct_beta_apps)
-    ) {
-        reply.wreq.no_allowed_apps_available = true;
-        if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[USER#%d] [WU#%d] user doesn't want work for this application\n",
-                reply.user.id, wu.id
-            );
-        }
-        return INFEASIBLE_APP_SETTING;
-    }
-    return 0;
+    return true;
 }
 
 // see how much RAM we can use on this machine
@@ -586,7 +575,7 @@ static inline int check_deadline(
     return 0;
 }
 
-// Quick checks (no DB access) to see if the WU can be sent on the host.
+// Fast checks (no DB access) to see if the job can be sent to the host.
 // Reasons why not include:
 // 1) the host doesn't have enough memory;
 // 2) the host doesn't have enough disk space;
@@ -594,10 +583,7 @@ static inline int check_deadline(
 //    the host probably won't get the result done within the delay bound
 // 4) app isn't in user's "approved apps" list
 //
-// TODO: this should be used in locality scheduling case too.
-// Should move a few other checks from sched_array.C
-//
-int wu_is_infeasible(
+int wu_is_infeasible_fast(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, APP& app
 ) {
     int retval;
@@ -631,8 +617,6 @@ int wu_is_infeasible(
         }
     }
 
-    retval = check_app_filter(wu, request, reply);
-    if (retval) return retval;
     retval = check_memory(wu, request, reply);
     if (retval) return retval;
     retval = check_disk(wu, request, reply);
@@ -1061,6 +1045,7 @@ int add_result_to_reply(
 //
 static void explain_to_user(SCHEDULER_REPLY& reply) {
     char helpful[512];
+    unsigned int i;
 
     // If work was sent from apps // the user did not select, explain
     //
@@ -1069,7 +1054,7 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
         reply.insert_message(um);
 
         // Inform the user about applications with no work
-        for (int i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
+        for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
          	if (!reply.wreq.host_info.preferred_apps[i].work_available) {
          		APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
          		// don't write message if the app is deprecated
@@ -1087,7 +1072,7 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
 
         // Tell the user about applications they didn't qualify for
         //
-        for(int i=0;i<preferred_app_message_index;i++){
+        for(i=0;i<preferred_app_message_index;i++){
             reply.insert_message(reply.wreq.no_work_messages.at(i));
         }
         USER_MESSAGE um1("You have selected to receive work from other applications if no work is available for the applications you selected", "high");
@@ -1103,8 +1088,8 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
         USER_MESSAGE um2("No work sent", "high");
         reply.insert_message(um2);
         // Inform the user about applications with no work
-        for(int i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
-         	if ( !reply.wreq.host_info.preferred_apps[i].work_available ) {
+        for(i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
+         	if (!reply.wreq.host_info.preferred_apps[i].work_available) {
          		APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
          		// don't write message if the app is deprecated
          		if ( app != NULL ) {
@@ -1124,7 +1109,7 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
         }
         if (reply.wreq.no_allowed_apps_available) {
             USER_MESSAGE um(
-                "No work available for the applications you have selected.  Please check your settings on the website.",
+                "No work available for the applications you have selected.  Please check your settings on the web site.",
                 "high"
             );
             reply.insert_message(um);
@@ -1306,7 +1291,8 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.wreq.infeasible_only = false;
         scan_work_array(sreq, reply);
         
-       	// If the user has said they prefer to only receive work from certain apps
+        // If user has selected apps but will accept any,
+        // and we haven't found any jobs for selected apps, try others
        	//
        	if (!reply.wreq.nresults && reply.wreq.host_info.allow_non_preferred_apps ) {
        		reply.wreq.user_apps_only = false;
@@ -1334,13 +1320,13 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
 struct JOB{
     int index;
-    double value;
+    double score;
     double est_time;
     double disk_usage;
     APP* app;
     BEST_APP_VERSION* bavp;
 
-    void get_value(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+    void get_score(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 };
 
 struct JOB_SET {
@@ -1351,8 +1337,8 @@ struct JOB_SET {
     std::list<JOB> jobs;     // sorted high to low
 
     void add_job(JOB&);
-    double higher_value_disk_usage(double);
-    double lowest_value();
+    double higher_score_disk_usage(double);
+    double lowest_score();
     inline bool request_satisfied() {
         return est_time >= work_req;
     }
@@ -1382,10 +1368,10 @@ int read_sendable_result(DB_RESULT& result) {
     return 0;
 }
 
-// compute a "value" for sending this WU to this host.
+// compute a "score" for sending this job to this host.
 // return 0 if the WU is infeasible
 //
-void JOB::get_value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool found;
     WORKUNIT wu;
     int retval;
@@ -1393,7 +1379,7 @@ void JOB::get_value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     WU_RESULT& wu_result = ssp->wu_results[index];
     wu = wu_result.workunit;
 
-    value = 0;
+    score = 0;
 
     // Find the app and app_version for the client's platform.
     //
@@ -1406,9 +1392,8 @@ void JOB::get_value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         bavp = get_app_version(sreq, reply, wu);
         if (!bavp) return;
     }
-    if (app == NULL) return; // this should never happen
 
-    retval = wu_is_infeasible(wu, sreq, reply, *app);
+    retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
     if (retval) {
         if (config.debug_send) {
             log_messages.printf(MSG_DEBUG,
@@ -1419,24 +1404,50 @@ void JOB::get_value(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         return;
     }
 
-    value = 1;
-    double val = 1;
+    score = 1;
+
+    // check if user has selected apps
+    //
+    if (!reply.wreq.host_info.allow_beta_work || config.distinct_beta_apps) {
+        if (app_not_selected(wu, sreq, reply)) {
+            if (!reply.wreq.host_info.allow_non_preferred_apps) {
+                score = 0;
+                return;
+            }
+        } else {
+            if (reply.wreq.host_info.allow_non_preferred_apps) {
+                score += 1;
+            }
+        }
+    }
+
+    // if it's a beta user, try to send beta jobs
+    //
     if (app->beta) {
         if (reply.wreq.host_info.allow_beta_work) {
-            value += 1;
+            score += 1;
         } else {
-            value = 0;
+            score = 0;
             return;
         }
-    } else {
-        if (reply.wreq.host_info.reliable && (wu_result.need_reliable)) {
-            value += 1;
-        }
+    }
+
+    // if job needs to get done fast, send to fast/reliable host
+    //
+    if (reply.wreq.host_info.reliable && (wu_result.need_reliable)) {
+        score += 1;
     }
     
+    // if job already committed to an HR class,
+    // try to send to host in that class
+    //
     if (wu_result.infeasible_count) {
-        value += 1;
+        score += 1;
     }
+
+    // If user has selected some apps but will accept jobs from others,
+    // try to send them jobs from the selected apps
+    //
 }
 
 bool wu_is_infeasible_slow(
@@ -1523,12 +1534,12 @@ bool wu_is_infeasible_slow(
     return false;
 }
 
-double JOB_SET::lowest_value() {
+double JOB_SET::lowest_score() {
     if (jobs.empty()) return 0;
-    return jobs.back().value;
+    return jobs.back().score;
 }
 
-// add the given job, and remove lowest-value jobs
+// add the given job, and remove lowest-score jobs
 // that are in excess of work request
 // or that cause the disk limit to be exceeded
 //
@@ -1551,7 +1562,7 @@ void JOB_SET::add_job(JOB& job) {
     }
     list<JOB>::iterator i = jobs.begin();
     while (i != jobs.end()) {
-        if (i->value < job.value) {
+        if (i->score < job.score) {
             jobs.insert(i, job);
             break;
         }
@@ -1564,13 +1575,13 @@ void JOB_SET::add_job(JOB& job) {
     disk_usage += job.disk_usage;
 }
 
-// return the disk usage of jobs above the given value
+// return the disk usage of jobs above the given score
 //
-double JOB_SET::higher_value_disk_usage(double v) {
+double JOB_SET::higher_score_disk_usage(double v) {
     double sum = 0;
     list<JOB>::iterator i = jobs.begin();
     while (i != jobs.end()) {
-        if (i->value < v) break;
+        if (i->score < v) break;
         sum += i->disk_usage;
         i++;
     }
@@ -1623,8 +1634,11 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         JOB job;
         job.index = i;
-        job.get_value(sreq, reply);
-        if (job.value > jobs.lowest_value()) {
+        job.get_score(sreq, reply);
+        log_messages.printf(MSG_NORMAL,
+            "score for %s: %f\n", wu_result.workunit.name, job.score
+        );
+        if (job.score > jobs.lowest_score()) {
             ssp->wu_results[i].state = pid;
             unlock_sema();
             if (wu_is_infeasible_slow(wu_result, sreq, reply)) {

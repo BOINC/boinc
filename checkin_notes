@@ -3453,3 +3453,17 @@ Rom    April 30 2008
         graphics2_unix.C
         graphics2_win.C
 
+David  April 30 2008
+    - client (Unix) Add /usr/local/cuda/lib/ to LD_LIBRARY_PATH
+        before looking for CUDA library
+    - scheduler: some additional work on matchmaker scheduling
+        Changed check_app_filter() so that it doesn't depend on
+        the current multi-phase approach;
+        move that logic to scan_array()
+
+    lib/
+        coproc.C
+    sched/
+        sched_array.C
+        sched_locality.C
+        sched_send.C,h

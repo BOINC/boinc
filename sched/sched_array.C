@@ -110,15 +110,33 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
         
+        wu = wu_result.workunit;
+
+        // check app filter if needed
+        //
+        if (reply.wreq.user_apps_only &&
+            (!reply.wreq.beta_only || config.distinct_beta_apps)
+        ) {
+            if (app_not_selected(wu, sreq, reply)) {
+                reply.wreq.no_allowed_apps_available = true;
+                if (config.debug_send) {
+                    log_messages.printf(MSG_DEBUG,
+                        "[USER#%d] [WU#%d] user doesn't want work for this application\n",
+                        reply.user.id, wu.id
+                    );
+                }
+                continue;
+            }
+        }
+
         // don't send if host can't handle it
         //
-        wu = wu_result.workunit;
-        retval = wu_is_infeasible(wu, sreq, reply, *app);
+        retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
         if (retval) {
-               log_messages.printf(MSG_DEBUG,
-                   "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
-                   reply.host.id, wu.id, wu.name, infeasible_string(retval)
-               );
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+                reply.host.id, wu.id, wu.name, infeasible_string(retval)
+            );
             continue;
         }
 

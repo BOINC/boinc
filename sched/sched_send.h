@@ -44,7 +44,7 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 #define INFEASIBLE_HR       8
 #define INFEASIBLE_BANDWIDTH 9
 
-extern int wu_is_infeasible(
+extern int wu_is_infeasible_fast(
     WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&, APP&
 );
  
@@ -59,3 +59,4 @@ extern int update_wu_transition_time(WORKUNIT wu, time_t x);
 extern void lock_sema();
 extern void unlock_sema();
 extern const char* infeasible_string(int);
+extern bool app_not_selected(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);

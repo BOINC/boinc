@@ -121,11 +121,22 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    __cudaGetDeviceProperties = (int(__stdcall*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
 #else
-   int (*__cudaGetDeviceCount)( int * );
-   int (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
+   void (*__cudaGetDeviceCount)( int * );
+   void (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
+
+    // Add CUDA dir to library path while looking for CUDA lib.
+    // Leave it there, shouldn't hurt.
+    //
+    char* p = getenv("LD_LIBRARY_PATH");
+    if (!strstr(p, "/usr/local/cuda/lib")) {
+        char libpath[8192];
+        sprintf(libpath, "%s:/usr/local/cuda/lib", p);
+        setenv("LD_LIBRARY_PATH", libpath, 1);
+    }
+
 #ifdef __APPLE__
    void *cudalib = dlopen ("libcudart.dylib", RTLD_NOW );
-   #else
+#else
    void *cudalib = dlopen ("libcudart.so", RTLD_NOW );
 #endif
    if(!cudalib) return;
@@ -134,13 +145,12 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
 #endif
-   retval = (*__cudaGetDeviceCount)(&count);
-   if (retval || count < 1) return;
+   (*__cudaGetDeviceCount)(&count);
+   if (count < 1) return;
 
    for (int i=0; i<count; i++) {
        COPROC_CUDA* cc = new COPROC_CUDA;
-       retval = (*__cudaGetDeviceProperties)(&cc->prop, i);
-       if (retval) continue;
+       (*__cudaGetDeviceProperties)(&cc->prop, i);
        cc->count = 1;
        strcpy(cc->name, "CUDA");
        coprocs.coprocs.push_back(cc);
