@@ -250,9 +250,13 @@ int CLIENT_STATE::init() {
 #if 0
     fake_cuda(coprocs);
 #endif
-    for (i=0; i<coprocs.coprocs.size(); i++) {
-        COPROC* c = coprocs.coprocs[i];
-        msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c->name, c->count);
+    if (coprocs.coprocs.size() == 0) {
+        msg_printf(NULL, MSG_INFO, "No coprocessors");
+    } else {
+        for (i=0; i<coprocs.coprocs.size(); i++) {
+            COPROC* c = coprocs.coprocs[i];
+            msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c->name, c->count);
+        }
     }
 
     // Check to see if we can write the state file.

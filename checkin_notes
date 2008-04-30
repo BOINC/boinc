@@ -3431,3 +3431,17 @@ Rom    April 30 2008
     api/
         graphics2_unix.C
         graphics2_win.C
+
+David  April 30 2008
+	- client: Win: fix CUDA detection:
+		look in the registry to find the CUDA install directory,
+		and look for cudart.dll in that dir.
+	- client: for CUDA, don't confuse coproc.name ("CUDA")
+		from coproc.prop.name (e.g., "Device Emulation (CPU)" on my PC,
+		which doesn't have a recent-enough GPU)
+	- client: if no coprocessors present, say so in startup messages
+
+	client/
+		client_state.C
+	lib/
+		coproc.C

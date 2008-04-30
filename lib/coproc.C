@@ -94,17 +94,35 @@ COPROC* COPROCS::lookup(char* name) {
 }
 
 void COPROC_CUDA::get(COPROCS& coprocs) {
-   void (*__cudaGetDeviceCount)( int * );
-   void (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
-   int count;
+   int count, retval;
 
 #ifdef _WIN32
-   HMODULE cudalib = GetModuleHandle("cudart.dll");
-   __cudaGetDeviceCount = (void(*)(int*)) GetProcAddress(cudalib, "cudaGetDeviceCount");
+   int (__stdcall* __cudaGetDeviceCount)( int * );
+   int (__stdcall* __cudaGetDeviceProperties) ( cudaDeviceProp*, int );
+   int bufsize=256;
+   char buf[256], path[256];
+   HKEY key;
+   retval = RegOpenKeyEx(
+        HKEY_LOCAL_MACHINE,
+        _T("SOFTWARE\\NVIDIA Corporation\\Installed Products\\NVIDIA CUDA"),
+        NULL,
+        KEY_READ,
+        &key
+   );
+   if (retval != ERROR_SUCCESS) return;
+   retval = RegQueryValueEx(key, "InstallDir", NULL, NULL, (LPBYTE)buf, (LPDWORD)&bufsize);
+   RegCloseKey(key);
+   if (retval != ERROR_SUCCESS) return;
+   sprintf(path, "%s\\bin\\cudart.dll", buf);
+
+   HMODULE cudalib = LoadLibrary(path);
+   __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(cudalib, "cudaGetDeviceCount");
    if(!__cudaGetDeviceCount) return;
-   __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
+   __cudaGetDeviceProperties = (int(__stdcall*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
 #else
+   int (*__cudaGetDeviceCount)( int * );
+   int (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
 #ifdef __APPLE__
    void *cudalib = dlopen ("libcudart.dylib", RTLD_NOW );
    #else
@@ -116,12 +134,13 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
 #endif
-   (*__cudaGetDeviceCount)(&count);
-   if (count < 1) return;
+   retval = (*__cudaGetDeviceCount)(&count);
+   if (retval || count < 1) return;
 
    for (int i=0; i<count; i++) {
        COPROC_CUDA* cc = new COPROC_CUDA;
-       (*__cudaGetDeviceProperties)(&cc->prop, i);
+       retval = (*__cudaGetDeviceProperties)(&cc->prop, i);
+       if (retval) continue;
        cc->count = 1;
        strcpy(cc->name, "CUDA");
        coprocs.coprocs.push_back(cc);
@@ -176,7 +195,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <textureAlignment>%u</textureAlignment>\n"
         "</coproc_cuda>\n",
         count,
-        name,
+        prop.name,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
