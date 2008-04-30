@@ -3467,3 +3467,10 @@ David  April 30 2008
         sched_array.C
         sched_locality.C
         sched_send.C,h
+
+David  April 30 2008
+    - boinc_cmd: changed help strings to say "boinccmd".
+        I'd like to change the filename too but can't figure out Makefile stuff
+
+    lib/
+        boinc_cmd.C

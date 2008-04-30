@@ -17,10 +17,10 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-// boinc_cmd: command-line interface to a BOINC core client,
+// boinccmd: command-line interface to a BOINC core client,
 // using GUI RPCs.
 //
-// usage: boinc_cmd [--host hostname] [--passwd passwd] command
+// usage: boinccmd [--host hostname] [--passwd passwd] command
 
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
@@ -46,13 +46,13 @@ using std::string;
 #include "common_defs.h"
 
 void version(){
-    printf("boinc_cmd,  built from %s \n", PACKAGE_STRING );
+    printf("boinccmd,  built from %s \n", PACKAGE_STRING );
     exit(0);
 }
 
 void usage() {
     fprintf(stderr, "\n\
-usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
+usage: boinccmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
  --lookup_account URL email passwd\n\
  --create_account URL email passwd name\n\
