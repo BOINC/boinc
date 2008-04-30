@@ -116,11 +116,19 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
 #endif // _WIN32 && _DEBUG
 
 
-// stub function for initializing the diagnostics environment.
+// stub function for initializing the worker diagnostic environment.
 //
 int boinc_init_diagnostics(int _flags) {
     int modified_flags = BOINC_DIAG_BOINCAPPLICATION | _flags;
     return diagnostics_init(modified_flags, BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR);
+}
+
+
+// stub function for initializing the graphic diagnostic environment.
+//
+int boinc_init_graphics_diagnostics(int _flags) {
+    int modified_flags = BOINC_DIAG_BOINCAPPLICATION | _flags;
+    return diagnostics_init(modified_flags, BOINC_DIAG_GFX_STDOUT, BOINC_DIAG_GFX_STDERR);
 }
 
 

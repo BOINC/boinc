@@ -60,6 +60,8 @@
 //
 #define BOINC_DIAG_STDERR                  "stderr"
 #define BOINC_DIAG_STDOUT                  "stdout"
+#define BOINC_DIAG_GFX_STDERR              "stderrgfx"
+#define BOINC_DIAG_GFX_STDOUT              "stdoutgfx"
 
 
 #ifdef __cplusplus
@@ -69,6 +71,7 @@ extern "C" {
 
 // These are functions common to all platforms
 extern int boinc_init_diagnostics( int flags );
+extern int boinc_init_graphics_diagnostics( int flags );
 extern int boinc_install_signal_handlers();
 extern int boinc_finish_diag();
 

@@ -3415,3 +3415,11 @@ Rom    April 28 2008 (HEAD)
         configure.ac
         version.h
 
+Rom    April 30 2008
+    - DIAG: Add an easy way for projects to initialize the diagnostics
+        framework for graphics applications.
+    - DIAG: Make SetDllDirectory work for Win2k3, Vista, and Win2k8
+    
+    lib/
+        diagnostics.C, .h
+        stackwalker_win.cpp

@@ -368,12 +368,6 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if (g_bInitialized != FALSE)
         return 0;
 
-    // Detect which version of Windows we are running on.
-    OSVERSIONINFO osvi;
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx((OSVERSIONINFO*)&osvi);
-
     // Get a real handle to the current process and store it for future use.
     DuplicateHandle(
         GetCurrentProcess(),
@@ -384,6 +378,12 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         false,
         DUPLICATE_SAME_ACCESS
     );
+
+    // Detect which version of Windows we are running on.
+    OSVERSIONINFO osvi;
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    GetVersionEx((OSVERSIONINFO*)&osvi);
 
     // For the most part the dbghelp.dll does the right stuff, but there are
     // conditions where things go off into never never land.  Most of the
@@ -396,7 +396,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // that is before the System and Windows directories which is what we
     // want.
     if ((VER_PLATFORM_WIN32_NT == osvi.dwPlatformId) &&
-        (5 == osvi.dwMajorVersion) && (1 == osvi.dwMinorVersion))
+        ((6 >= osvi.dwMajorVersion) ||                                  // == Vista, Win2008, +
+         (5 == osvi.dwMajorVersion) && (0 != osvi.dwMinorVersion)))     // == Win XP, Win2003
     {
         HMODULE hKernel32 = LoadLibraryA("kernel32.dll");
         if (hKernel32) {
@@ -425,7 +426,10 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
             return 1;
         }
 
-        DebuggerLoadLibrary(&g_hSymSrvDll, pszBOINCLocation, "symsrv.dll");
+        DebuggerLoadLibrary(&g_hSymSrvDll,  pszBOINCLocation, "symsrv.dll");
+        DebuggerLoadLibrary(&g_hSrcSrvDll,  pszBOINCLocation, "srcsrv.dll");
+        DebuggerLoadLibrary(&g_hVersionDll, pszBOINCLocation, "version.dll");
+
         if (g_hSymSrvDll) {
             pSSSO = (tSSSO)GetProcAddress(g_hSymSrvDll, "SymbolServerSetOptions");
             if (pSSSO) {
@@ -450,9 +454,6 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
             }
         }
 
-        DebuggerLoadLibrary(&g_hSrcSrvDll, pszBOINCLocation, "srcsrv.dll");
-
-        DebuggerLoadLibrary(&g_hVersionDll, pszBOINCLocation, "version.dll");
         if (g_hVersionDll) {
             pGFVIS = (tGFVIS)GetProcAddress(g_hVersionDll, "GetFileVersionInfoSizeA");
             pGFVI = (tGFVI)GetProcAddress(g_hVersionDll, "GetFileVersionInfoA");
