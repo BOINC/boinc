@@ -3423,3 +3423,11 @@ Rom    April 30 2008
     lib/
         diagnostics.C, .h
         stackwalker_win.cpp
+
+Rom    April 30 2008
+    - API: If the diagnostics framework hasn't been initialized for
+        the graphics application, initialize it.
+        
+    api/
+        graphics2_unix.C
+        graphics2_win.C

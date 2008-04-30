@@ -210,6 +210,13 @@ static void timer_handler(int) {
 }
 
 void boinc_graphics_loop(int argc, char** argv) {
+    int retval = 0;
+
+    if (!diagnostics_is_initialized()) {
+        retval = boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
+        if (retval) return retval;
+    }
+
 #ifdef __APPLE__
     char dir [MAXPATHLEN];
     getcwd(dir, MAXPATHLEN);
