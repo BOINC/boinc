@@ -3445,3 +3445,11 @@ David  April 30 2008
 		client_state.C
 	lib/
 		coproc.C
+
+Rom    April 30 2008
+    - API: Fix build break from my last check-in.
+        
+    api/
+        graphics2_unix.C
+        graphics2_win.C
+
