@@ -37,8 +37,8 @@
 static void print_options(char* prog) {
     printf(
         "The command-line options for %s are intended for debugging.\n"
-        "The recommended command-line interface is a separate program,'boinc_cmd'.\n"
-        "Run boinc_cmd in the same current as %s.\n"
+        "The recommended command-line interface is a separate program,'boinccmd'.\n"
+        "Run boinccmd in the same current as %s.\n"
         "\n"
         "Usage: %s [options]\n"
         "    --help                          show options\n"

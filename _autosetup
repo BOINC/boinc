@@ -128,7 +128,6 @@ echo "$cmdline"
 if eval $cmdline; then
     echo "Done, now run ./configure"
     echo " ./configure -C                         to enable caching"
-    echo " ./configure --enable-maintainer-mode   to enable maintainer dependencies"
     exit 0
 else
     echo "Something failed .... please check error-message and re-run when fixed."

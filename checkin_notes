@@ -3496,3 +3496,18 @@ Reinhard May 1 2008
    features by default
 
    configure.ac
+
+David  May 1 2008
+    - scheduler: matchmaking scheduler now works;
+        uncomment MATCHMAKER to enable it.
+        More testing needed.
+    - client (unix): avoid crash if LD_LIBRARY_PATH not set
+
+    _autosetup
+    client/
+        cs_cmdline.C
+    lib/
+        gui_rpc_client_print.C
+        coproc.C
+    sched/
+        sched_send.C

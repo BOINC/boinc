@@ -1378,13 +1378,13 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     WU_RESULT& wu_result = ssp->wu_results[index];
     wu = wu_result.workunit;
+    app = ssp->lookup_app(wu.appid);
 
     score = 0;
 
     // Find the app and app_version for the client's platform.
     //
     if (anonymous(sreq.platforms.list[0])) {
-        app = ssp->lookup_app(wu.appid);
         found = sreq.has_version(*app);
         if (!found) return;
         bavp = NULL;
