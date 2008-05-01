@@ -3490,3 +3490,9 @@ Charlie May 1 2008
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+Reinhard May 1 2008
+   - commented-out AM_MAINTAINER_MODE in configure.ac to *activate* all maintainer-mode
+   features by default
+
+   configure.ac

@@ -134,7 +134,9 @@ AC_SUBST([BOINC_MINOR_VERSION])
 AC_SUBST([TOP_BUILD_DIR], [`pwd`])
 AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])
 
-AM_MAINTAINER_MODE
+## commented this out to turn all maintainer-mode features ON by default,
+## such as automatic reconfiguring on changes in Makefile.am's and configure.ac
+## AM_MAINTAINER_MODE
 
 dnl Checks for programs.
 AC_PROG_CC
