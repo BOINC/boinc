@@ -94,9 +94,10 @@ COPROC* COPROCS::lookup(char* name) {
 }
 
 void COPROC_CUDA::get(COPROCS& coprocs) {
-   int count, retval;
+   int count;
 
 #ifdef _WIN32
+   int retval;
    int (__stdcall* __cudaGetDeviceCount)( int * );
    int (__stdcall* __cudaGetDeviceProperties) ( cudaDeviceProp*, int );
    int bufsize=256;
@@ -124,6 +125,9 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
    void (*__cudaGetDeviceCount)( int * );
    void (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
 
+#ifdef __APPLE__
+   void *cudalib = dlopen ("/usr/local/cuda/lib/libcudart.dylib", RTLD_NOW );
+#else
     // Add CUDA dir to library path while looking for CUDA lib.
     // Leave it there, shouldn't hurt.
     //
@@ -134,9 +138,6 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
         setenv("LD_LIBRARY_PATH", libpath, 1);
     }
 
-#ifdef __APPLE__
-   void *cudalib = dlopen ("libcudart.dylib", RTLD_NOW );
-#else
    void *cudalib = dlopen ("libcudart.so", RTLD_NOW );
 #endif
    if(!cudalib) return;

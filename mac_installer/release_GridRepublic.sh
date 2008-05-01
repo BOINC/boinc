@@ -21,7 +21,7 @@
 
 ##
 # Release Script for Macintosh GridRepublic Desktop by Charlie Fenton
-## updated 3/13/08 by Charlie Fenton
+## updated 5/1/08 by Charlie Fenton
 ##
 
 ## NOTE: This script is deprecated.
@@ -239,7 +239,7 @@ sudo chmod -R 555 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ex
 ##### We've decided not to create branded command-line executables; they are identical to standard ones
 #### mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"
 #### cp -fpR $BUILDPATH/boinc "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/"
-#### cp -fpR $BUILDPATH/boinc_cmd "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/"
+#### cp -fpR $BUILDPATH/boinccmd "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/"
 #### cp -fpR curl/ca-bundle.crt "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/"
 #### sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"/*
 #### sudo chmod -R u+rw-s,g+r-ws,o+r-w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"/*

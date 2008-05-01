@@ -3474,3 +3474,19 @@ David  April 30 2008
 
     lib/
         boinc_cmd.C
+
+Charlie May 1 2008
+    - API: fix Mac compile errors.
+    - client: implement Mac CUDA detection, fix compiler warning.
+    - boinc_cmd: change name to "boinccmd".
+
+    api/
+        graphics2_unix.C
+    lib/
+        coproc.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh

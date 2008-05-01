@@ -21,7 +21,7 @@
 
 ##
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
-## updated 3/13/08 by Charlie Fenton
+## updated 5/1/08 by Charlie Fenton
 ##
 
 ## Usage:
@@ -200,7 +200,7 @@ sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_univers
 
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir
 cp -fpR $BUILDPATH/boinc ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/
-cp -fpR $BUILDPATH/boinc_cmd ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/
+cp -fpR $BUILDPATH/boinccmd ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/
 cp -fpR curl/ca-bundle.crt ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/
 
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher

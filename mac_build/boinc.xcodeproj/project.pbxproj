@@ -705,7 +705,7 @@
 		DD65020809F599B9008E8A3A /* txf_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.C; path = ../api/txf_util.C; sourceTree = SOURCE_ROOT; };
 		DD65020909F599B9008E8A3A /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../api/txf_util.h; sourceTree = SOURCE_ROOT; };
 		DD6617870A3FFD8C00FFEBEB /* check_security.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = check_security.C; sourceTree = "<group>"; };
-		DD69FEE808416C1300C01361 /* boinc_cmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_cmd; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD69FEE808416C1300C01361 /* boinccmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinccmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD69FEF608416C9A00C01361 /* boinc_cmd.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = boinc_cmd.C; path = ../lib/boinc_cmd.C; sourceTree = SOURCE_ROOT; };
 		DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = browser_safari.mm; path = ../clientgui/mac/browser_safari.mm; sourceTree = SOURCE_ROOT; };
 		DD6D0A8507E9A61B007F882B /* network.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = network.C; path = ../lib/network.C; sourceTree = SOURCE_ROOT; };
@@ -1054,7 +1054,7 @@
 				DDAEC9E107FA583B00A7BC36 /* SetVersion */,
 				DD96AFF90811075000A06F22 /* BOINCSaver.saver */,
 				DD1277B3081F3D67007B5DE1 /* PostInstall.app */,
-				DD69FEE808416C1300C01361 /* boinc_cmd */,
+				DD69FEE808416C1300C01361 /* boinccmd */,
 				DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */,
 				DD7748980A356C880025D05E /* SetUpSecurity */,
 				DDD0953F0A3EDD2500C95BA4 /* switcher */,
@@ -1713,7 +1713,7 @@
 			);
 			name = cmd_boinc;
 			productName = cmd_boinc;
-			productReference = DD69FEE808416C1300C01361 /* boinc_cmd */;
+			productReference = DD69FEE808416C1300C01361 /* boinccmd */;
 			productType = "com.apple.product-type.tool";
 		};
 		DD7748970A356C880025D05E /* SetUpSecurity */ = {
@@ -3276,7 +3276,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinc_cmd;
+				PRODUCT_NAME = boinccmd;
 			};
 			name = Dev_noSandbox;
 		};
@@ -3288,7 +3288,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinc_cmd;
+				PRODUCT_NAME = boinccmd;
 			};
 			name = Deploy_noSandbox;
 		};
@@ -3755,7 +3755,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinc_cmd;
+				PRODUCT_NAME = boinccmd;
 			};
 			name = "Deployment-no64";
 		};
@@ -4114,7 +4114,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinc_cmd;
+				PRODUCT_NAME = boinccmd;
 			};
 			name = Deployment;
 		};
@@ -4447,7 +4447,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinc_cmd;
+				PRODUCT_NAME = boinccmd;
 			};
 			name = Development;
 		};
@@ -4459,7 +4459,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinc_cmd;
+				PRODUCT_NAME = boinccmd;
 			};
 			name = ppc_Deployment;
 		};
@@ -4722,7 +4722,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_NAME = boinc_cmd;
+				PRODUCT_NAME = boinccmd;
 			};
 			name = i386_Deployment;
 		};

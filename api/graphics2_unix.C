@@ -37,6 +37,7 @@
 #include "boinc_glut.h"
 #include "boinc_api.h"
 #include "graphics2.h"
+#include "diagnostics.h"
 
 #define TIMER_INTERVAL_MSEC 30
 
