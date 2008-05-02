@@ -3561,3 +3561,12 @@ David  May 2 2008
         sched_result.C
         sched_send.C
         server_types.C,h
+
+Rom    May 2 2008
+    - Tag for 6.2.1 release, all platforms
+      boinc_core_release_6_2_1
+
+    /
+        configure.ac
+        version.h
+
