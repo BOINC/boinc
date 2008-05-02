@@ -330,18 +330,8 @@ double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
 static double estimate_wallclock_duration(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
-    double running_frac;
-    if (reply.wreq.core_client_version<=419) {
-        running_frac = reply.host.on_frac;
-    } else {
-        running_frac = reply.host.active_frac * reply.host.on_frac;
-    }
-    if (running_frac < HOST_ACTIVE_FRAC_MIN) {
-        running_frac = HOST_ACTIVE_FRAC_MIN;
-    }
-    if (running_frac > 1) running_frac = 1;
     double ecd = estimate_cpu_duration(wu, reply);
-    double ewd = ecd/running_frac;
+    double ewd = ecd/reply.wreq.running_frac;
     if (reply.host.duration_correction_factor) {
         ewd *= reply.host.duration_correction_factor;
     }
@@ -350,8 +340,8 @@ static double estimate_wallclock_duration(
     }
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
-            "est cpu dur %f; running_frac %f; est %f\n",
-            ecd, running_frac, ewd
+            "est cpu dur %f;  est wall dur %f\n",
+            ecd, reply.wreq.running_frac, ewd
         );
     }
     return ewd;
@@ -401,13 +391,6 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     double expavg_time = reply.host.expavg_time;
     double avg_turnaround = reply.host.avg_turnaround;
     update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
-    if (config.debug_send) {
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] Checking if reliable (OS = %s) error_rate = %.3f avg_turnaround = %.0f hrs\n",
-            reply.host.id, reply.host.os_name, reply.host.error_rate,
-            reply.host.avg_turnaround/3600
-        );
-    }
 
 	// Platforms other then Windows, Linux and Intel Macs need a
     // larger set of computers to be marked reliable
@@ -428,13 +411,15 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
         && (config.daily_result_quota == 0 || reply.host.max_results_day >= config.daily_result_quota)
      ) {
         reply.wreq.host_info.reliable = true;
-        if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] is reliable (OS = %s) error_rate = %.3f avg_turnaround(hours) = %.0f \n",
-                reply.host.id, reply.host.os_name, reply.host.error_rate,
-                reply.host.avg_turnaround/3600
-            );
-        }
+    }
+    if (config.debug_send) {
+        log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] is%s reliable (OS = %s) error_rate = %.3f avg_turn_hrs = %.0f \n",
+            reply.host.id,
+            reply.wreq.host_info.reliable?"":" not",
+            reply.host.os_name, reply.host.error_rate,
+            reply.host.avg_turnaround/3600
+        );
     }
     return 0;
 }
@@ -563,9 +548,9 @@ static inline int check_deadline(
         if (diff > 0) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
-                    "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (estimated_delay is %f)\n",
-                    wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound,
-                    request.estimated_delay
+                    "[WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
+                    wu.id, wu.name, (int)est_report_delay,
+                    reply.host.id, wu.delay_bound
                 );
             }
             reply.wreq.speed.set_insufficient(diff);
@@ -1201,7 +1186,21 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
     }
 }
 
+static void get_running_frac(SCHEDULER_REPLY& reply) {
+    if (reply.wreq.core_client_version<=419) {
+        reply.wreq.running_frac = reply.host.on_frac;
+    } else {
+        reply.wreq.running_frac = reply.host.active_frac * reply.host.on_frac;
+    }
+    if (reply.wreq.running_frac < HOST_ACTIVE_FRAC_MIN) {
+        reply.wreq.running_frac = HOST_ACTIVE_FRAC_MIN;
+    }
+    if (reply.wreq.running_frac > 1) reply.wreq.running_frac = 1;
+}
+
 void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    if (sreq.work_req_seconds <= 0) return;
+
     reply.wreq.core_client_version =
         sreq.core_client_major_version*100 + sreq.core_client_minor_version;
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
@@ -1214,17 +1213,32 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 
     get_host_info(reply); // parse project prefs for app details
-    reply.wreq.beta_only = false;
-    reply.wreq.user_apps_only = true;
+
+    get_running_frac(reply);
 
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
-            reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
+            "%s matchmaking scheduling; %s EDF sim\n",
+#ifdef MATCHMAKER
+            "Using",
+#else
+            "Not using",
+#endif
+            config.workload_sim?"Using":"Not using"
+        );
+        log_messages.printf(MSG_DEBUG,
+            "available disk %f GB, work_buf_min %d\n",
+            reply.wreq.disk_available/1e9,
+            (int)sreq.global_prefs.work_buf_min()
+        );
+        log_messages.printf(MSG_DEBUG,
+            "running frac %f DCF %f CPU effic %f est delay %d\n",
+            reply.wreq.running_frac,
+            reply.host.duration_correction_factor,
+            reply.host.cpu_efficiency,
+            (int)sreq.estimated_delay
         );
     }
-
-    if (sreq.work_req_seconds <= 0) return;
 
     reply.wreq.seconds_to_fill = sreq.work_req_seconds;
     if (reply.wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
@@ -1258,6 +1272,9 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 #ifdef MATCHMAKER
         send_work_matchmaker(sreq, reply);
 #else
+        reply.wreq.beta_only = false;
+        reply.wreq.user_apps_only = true;
+
         // give top priority to results that require a 'reliable host'
         //
         if (reply.wreq.host_info.reliable) {
@@ -1307,11 +1324,6 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
        	}
 #endif
     }
-
-    log_messages.printf(MSG_NORMAL,
-        "[HOST#%d] Sent %d results [scheduler ran %f seconds]\n",
-        reply.host.id, reply.wreq.nresults, elapsed_wallclock_time() 
-    );
 
     explain_to_user(reply);
 }
@@ -1635,9 +1647,11 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         JOB job;
         job.index = i;
         job.get_score(sreq, reply);
-        log_messages.printf(MSG_NORMAL,
-            "score for %s: %f\n", wu_result.workunit.name, job.score
-        );
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "score for %s: %f\n", wu_result.workunit.name, job.score
+            );
+        }
         if (job.score > jobs.lowest_score()) {
             ssp->wu_results[i].state = pid;
             unlock_sema();

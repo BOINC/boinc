@@ -126,6 +126,10 @@ public:
     bool debug_assignment;
     bool debug_prefs;
     bool debug_send;
+    bool debug_request_headers;
+    bool debug_user_messages;
+    bool debug_request_details;
+    bool debug_handle_results;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

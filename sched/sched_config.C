@@ -187,6 +187,10 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "debug_assignment", debug_assignment)) continue;
         if (xp.parse_bool(tag, "debug_prefs", debug_prefs)) continue;
         if (xp.parse_bool(tag, "debug_send", debug_send)) continue;
+        if (xp.parse_bool(tag, "debug_request_headers", debug_request_headers)) continue;
+        if (xp.parse_bool(tag, "debug_user_messages", debug_user_messages)) continue;
+        if (xp.parse_bool(tag, "debug_request_details", debug_request_details)) continue;
+        if (xp.parse_bool(tag, "debug_handle_results", debug_handle_results)) continue;
 
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about

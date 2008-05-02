@@ -186,7 +186,7 @@ void sigterm_handler(int signo) {
     return;
 }
 
-void log_request_info(int& length) {
+static void log_request_headers(int& length) {
     char *cl=getenv("CONTENT_LENGTH");
     char *ri=getenv("REMOTE_ADDR");
     char *rm=getenv("REQUEST_METHOD");
@@ -399,7 +399,9 @@ int main(int argc, char** argv) {
         counter++;
         log_messages.set_indent_level(0);
 #endif
-    log_request_info(length);
+    if (config.debug_request_headers) {
+        log_request_headers(length);
+    }
 
     if (check_stop_sched()) {
         send_message("Project is temporarily shut down for maintenance", 3600);

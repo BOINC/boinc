@@ -258,10 +258,6 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         reply.host = host;
-        log_messages.printf(MSG_DEBUG,
-            "Request [HOST#%d] Database [HOST#%d] Request [RPC#%d] Database [RPC#%d]\n",
-            sreq.hostid, host.id, sreq.rpc_seqno, host.rpc_seqno
-        );
 
         // look up user based on the ID in host record,
         // and see if the authenticator matches (regular or weak)
@@ -1133,6 +1129,23 @@ void handle_msgs_to_host(SCHEDULER_REPLY& reply) {
     }
 }
 
+static void log_request(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    log_messages.printf(MSG_NORMAL,
+        "Request: [USER#%d] [HOST#%d] [IP %s] client %d.%d.%d, work req %d sec\n",
+        reply.user.id, reply.host.id, get_remote_addr(),
+        sreq.core_client_major_version, sreq.core_client_minor_version,
+        sreq.core_client_release,
+        (int)sreq.work_req_seconds
+    );
+    if (config.debug_request_details) {
+        log_messages.printf(MSG_DEBUG,
+             "Request details: auth %s, RPC seqno %d, platform %s\n",
+             sreq.authenticator, sreq.rpc_seqno, sreq.platform.name
+        );
+    }
+    log_messages.set_indent_level(2);
+}
+
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key
 ) {
@@ -1215,12 +1228,7 @@ void process_request(
     initial_host = reply.host;
     reply.host.rpc_seqno = sreq.rpc_seqno;
 
-    log_messages.printf(MSG_NORMAL,
-        "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%d.%d\n",
-        reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno,
-        sreq.core_client_major_version, sreq.core_client_minor_version,
-        sreq.core_client_release
-    );
+    log_request(sreq, reply);
 
     // is host blacklisted?
     //
@@ -1361,6 +1369,33 @@ leave:
     }
 }
 
+static void log_incomplete_request(SCHEDULER_REQUEST& sreq) {
+    // BOINC scheduler requests use method POST.
+    // So method GET means that someone is trying a browser.
+    //
+    char *rm=getenv("REQUEST_METHOD");
+    bool used_get = false;
+    if (rm && !strcmp(rm, "GET")) {
+        used_get = true;
+    }
+    log_messages.printf(MSG_NORMAL,
+        "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%d.%d\n",
+        used_get?"(used GET method - probably a browser) ":"",
+        get_remote_addr(), sreq.authenticator, sreq.platform.name,
+        sreq.core_client_major_version, sreq.core_client_minor_version,
+        sreq.core_client_release
+    );
+}
+
+static void log_user_messages(SCHEDULER_REPLY& sreply) {
+    for (unsigned int i=0; i<sreply.messages.size(); i++) {
+        USER_MESSAGE um = sreply.messages[i];
+        log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] MSG(%4s) %s \n", sreply.host.id, um.priority.c_str(), um.message.c_str()
+        );
+    }
+}
+
 void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
@@ -1370,32 +1405,9 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     log_messages.set_indent_level(1);
 
     if (sreq.parse(fin) == 0){
-        log_messages.printf(MSG_NORMAL,
-             "Handling request: IP %s, auth %s, host %d, platform %s, version %d.%d.%d, work req %d sec\n",
-             get_remote_addr(), sreq.authenticator, sreq.hostid, sreq.platform.name,
-             sreq.core_client_major_version, sreq.core_client_minor_version,
-             sreq.core_client_release,
-             (int)sreq.work_req_seconds
-        );
         process_request(sreq, sreply, code_sign_key);
-		log_messages.set_indent_level(2);
     } else {
-        // BOINC scheduler requests use method POST.
-        // So method GET means that someone is trying a browser.
-        //
-        char *rm=getenv("REQUEST_METHOD");
-        if (rm && !strcmp(rm, "GET")) {
-            sreply.probable_user_browser=true;
-        }
-		log_messages.set_indent_level(2);
-        log_messages.printf(MSG_NORMAL,
-            "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%d.%d\n",
-            sreply.probable_user_browser?"(probably a browser) ":"",
-            get_remote_addr(), sreq.authenticator, sreq.platform.name,
-            sreq.core_client_major_version, sreq.core_client_minor_version,
-            sreq.core_client_release
-        );
-
+        log_incomplete_request(sreq);
         USER_MESSAGE um("Incomplete request received.", "low");
         sreply.insert_message(um);
         sreply.nucleus_only = true;
@@ -1405,13 +1417,8 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         send_file_deletes(sreq, sreply);
     }
 
-    // write all messages to log file
-    //
-    for (unsigned int i=0; i<sreply.messages.size(); i++) {
-        USER_MESSAGE um = sreply.messages[i];
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] MSG(%4s) %s \n", sreply.host.id, um.priority.c_str(), um.message.c_str()
-        );
+    if (config.debug_user_messages) {
+        log_user_messages(sreply);
     }
 
     sreply.write(fout);

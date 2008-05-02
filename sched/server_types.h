@@ -110,6 +110,7 @@ struct WORK_REQ {
     double disk_available;
     int nresults;
     int core_client_version;
+    double running_frac;
 
     RESOURCE disk;
     RESOURCE mem;
@@ -301,7 +302,6 @@ struct SCHEDULER_REPLY {
     int lockfile_fd; // file descriptor of lockfile, or -1 if no lock.
     bool send_global_prefs;
     bool nucleus_only;          // send only message
-    bool probable_user_browser;
     USER user;
     char email_hash[MD5_LEN];
     HOST host;                  // after validation, contains full host rec

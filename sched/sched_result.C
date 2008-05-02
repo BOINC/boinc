@@ -24,6 +24,7 @@
 #include "server_types.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
+#include "sched_config.h"
 
 #include "sched_result.h"
 
@@ -86,12 +87,14 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
 
-        log_messages.printf(MSG_NORMAL,
-            "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
-            reply.host.id, srip->id, srip->name, srip->server_state,
-            srip->outcome, srip->client_state, srip->validate_state,
-            srip->file_delete_state
-        );
+        if (config.debug_handle_results) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
+                reply.host.id, srip->id, srip->name, srip->server_state,
+                srip->outcome, srip->client_state, srip->validate_state,
+                srip->file_delete_state
+            );
+        }
 
         // Do various sanity checks.
         // If one of them fails, set srip->id = 0,
@@ -166,8 +169,9 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         if (srip->received_time) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%d %s] got result twice\n",
-                reply.host.id, srip->id, srip->name
+                "[HOST#%d] [RESULT#%d %s] already got result, at %s \n",
+                reply.host.id, srip->id, srip->name,
+                time_to_string(srip->received_time)
             );
             srip->id = 0;
             reply.result_acks.push_back(std::string(rp->name));
@@ -246,9 +250,11 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         } else {
             srip->claimed_credit = srip->cpu_time * reply.host.claimed_credit_per_cpu_sec;
         }
-        log_messages.printf(MSG_DEBUG,
-            "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.claimed_credit_per_cpu_sec, srip->claimed_credit
-        );
+        if (config.debug_handle_results) {
+            log_messages.printf(MSG_DEBUG,
+                "cpu time %f credit/sec %f, claimed credit %f\n", srip->cpu_time, reply.host.claimed_credit_per_cpu_sec, srip->claimed_credit
+            );
+        }
         srip->server_state = RESULT_SERVER_STATE_OVER;
 
         strlcpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
@@ -262,16 +268,20 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         if ((srip->client_state == RESULT_FILES_UPLOADED) && (srip->exit_status == 0)) {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
-            log_messages.printf(MSG_DEBUG,
-                "[RESULT#%d %s]: setting outcome SUCCESS\n",
-                srip->id, srip->name
-            );
+            if (config.debug_handle_results) {
+                log_messages.printf(MSG_DEBUG,
+                    "[RESULT#%d %s]: setting outcome SUCCESS\n",
+                    srip->id, srip->name
+                );
+            }
             reply.got_good_result();
         } else {
-            log_messages.printf(MSG_DEBUG,
-                "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
-                srip->id, srip->name, srip->client_state, srip->exit_status
-            );
+            if (config.debug_handle_results) {
+                log_messages.printf(MSG_DEBUG,
+                    "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
+                    srip->id, srip->name, srip->client_state, srip->exit_status
+                );
+            }
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
             reply.got_bad_result();
