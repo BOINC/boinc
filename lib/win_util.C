@@ -745,10 +745,24 @@ GetAccountSid(
 // all the threads in the entire system,
 // and find those belonging to the process (ugh!!)
 //
+
+// OpenThread
+typedef HANDLE (WINAPI *tOT)(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId);
+
 int suspend_or_resume_threads(DWORD pid, bool resume) { 
     HANDLE threads, thread;
+    HMODULE hKernel32Lib = NULL;
     THREADENTRY32 te = {0}; 
+    tOT pOT = NULL;
  
+    // Dynamically link to the proper function pointers.
+    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
+
+    if (!pOT) {
+        return -1;
+    }
+
     threads = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0); 
     if (threads == INVALID_HANDLE_VALUE) return -1;
  
@@ -757,13 +771,16 @@ int suspend_or_resume_threads(DWORD pid, bool resume) {
         CloseHandle(threads); 
         return -1;
     }
+
     do { 
         if (te.th32OwnerProcessID == pid) {
-            thread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
+            thread = pOT(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
             resume ?  ResumeThread(thread) : SuspendThread(thread);
             CloseHandle(thread);
         } 
     } while (Thread32Next(threads, &te)); 
+
     CloseHandle (threads); 
+
     return 0;
 } 

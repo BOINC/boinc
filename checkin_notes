@@ -3511,3 +3511,20 @@ David  May 1 2008
         coproc.C
     sched/
         sched_send.C
+
+Rom    May 2 2008
+    - MGR/CLI: remove direct references to CreateEnvironmentBlock and
+        DestroyEnvironmentBlock since Win98 doesn't support them. This
+        functionality is only required for the Windows sandbox implementation
+        anyway.
+    - LIB: Remove direct reference to OpenThread in win_util.C since it
+        isn't supported on Win98.
+    - MGR: Another fix for CC execution on a Linux machine.
+        
+    client/
+        app_start.C
+    clientgui/
+        BOINCClientManager.cpp
+    lib/
+        proc_control.C
+        win_util.C

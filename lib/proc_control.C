@@ -174,6 +174,13 @@ void get_sandbox_account_service_token() {
 // chdir into the given directory, and run a program there.
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
+
+// CreateEnvironmentBlock
+typedef BOOL (WINAPI *tCEB)(LPVOID *lpEnvironment, HANDLE hToken, BOOL bInherit);
+// DestroyEnvironmentBlock
+typedef BOOL (WINAPI *tDEB)(LPVOID lpEnvironment);
+
+
 int run_app_windows(
     const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
 ) {
@@ -198,6 +205,18 @@ int run_app_windows(
 
     get_sandbox_account_interactive_token();
     if (sandbox_account_interactive_token != NULL) {
+
+        // Find CreateEnvironmentBlock/DestroyEnvironmentBlock pointers
+        tCEB    pCEB = NULL;
+        tDEB    pDEB = NULL;
+        HMODULE hUserEnvLib = NULL;
+
+        hUserEnvLib = LoadLibrary("userenv.dll");
+        if (hUserEnvLib) {
+            pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
+            pDEB = (tDEB) GetProcAddress(hUserEnvLib, "DestroyEnvironmentBlock");
+        }
+
 
         // Retrieve the current window station and desktop names
         char szWindowStation[256];
@@ -238,7 +257,7 @@ int run_app_windows(
                  
         // Construct an environment block that contains environment variables that don't
         //   describe the current user.
-        if (!CreateEnvironmentBlock(&environment_block, sandbox_account_interactive_token, FALSE)) {
+        if (!pCEB(&environment_block, sandbox_account_interactive_token, FALSE)) {
             windows_error_string(error_msg, sizeof(error_msg));
             fprintf(stderr, "CreateEnvironmentBlock failed: %s\n", error_msg);
         }
@@ -257,9 +276,15 @@ int run_app_windows(
             &process_info 
         );
 
-        if (!DestroyEnvironmentBlock(environment_block)) {
+        if (!pDEB(environment_block)) {
             windows_error_string(error_msg, sizeof(error_msg));
             fprintf(stderr, "DestroyEnvironmentBlock failed: %s\n", error_msg);
+        }
+
+        if (hUserEnvLib) {
+            pCEB = NULL;
+            pDEB = NULL;
+            FreeLibrary(hUserEnvLib);
         }
     } else {
         retval = CreateProcess(

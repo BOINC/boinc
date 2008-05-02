@@ -144,6 +144,8 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 
 
 bool CBOINCClientManager::StartupBOINCCore() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function Begin"));
+
     bool                bReturnValue = false;
     wxString            strExecute = wxEmptyString;
 
@@ -181,6 +183,9 @@ bool CBOINCClientManager::StartupBOINCCore() {
     } else {
         szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
     }
+
+    fprintf(stderr, "CMainDocument::CachedStateUpdate - szExecute '%s'\n", szExecute);
+    fprintf(stderr, "CMainDocument::CachedStateUpdate - szDataDirectory '%s'\n", szDataDirectory);
 
     bProcessStarted = CreateProcess(
         NULL,
@@ -257,7 +262,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
 #else   // Unix based systems
 
     // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = wxT("boinc -redirectio -launched_by_manager");
+    strExecute = wxT("./boinc -redirectio -launched_by_manager");
     if (!g_use_sandbox) {
         strExecute += wxT(" -insecure");
     }
@@ -271,6 +276,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
         bReturnValue = true;
     }
 
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function End"));
     return bReturnValue;
 }
 

@@ -77,6 +77,18 @@ using std::vector;
 
 #include "app.h"
 
+
+#ifdef _WIN32
+// Dynamically link to these functions at runtime, otherwise BOINC
+// cannot run on Win98
+
+// CreateEnvironmentBlock
+typedef BOOL (WINAPI *tCEB)(LPVOID *lpEnvironment, HANDLE hToken, BOOL bInherit);
+// DestroyEnvironmentBlock
+typedef BOOL (WINAPI *tDEB)(LPVOID lpEnvironment);
+
+#endif
+
 // Goes through an array of strings, and prints each string
 //
 #ifndef _WIN32
@@ -514,8 +526,18 @@ int ACTIVE_TASK::start(bool first_time) {
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {
+            // Find CreateEnvironmentBlock/DestroyEnvironmentBlock pointers
+            tCEB    pCEB = NULL;
+            tDEB    pDEB = NULL;
+            HMODULE hUserEnvLib = NULL;
 
-            if (!CreateEnvironmentBlock(&environment_block, sandbox_account_service_token, FALSE)) {
+            hUserEnvLib = LoadLibrary("userenv.dll");
+            if (hUserEnvLib) {
+                pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
+                pDEB = (tDEB) GetProcAddress(hUserEnvLib, "DestroyEnvironmentBlock");
+            }
+
+            if (!pCEB(&environment_block, sandbox_account_service_token, FALSE)) {
                 if (log_flags.task) {
                     windows_error_string(error_msg, sizeof(error_msg));
                     msg_printf(result->project, MSG_INFO,
@@ -546,13 +568,19 @@ int ACTIVE_TASK::start(bool first_time) {
                 );
             }
 
-            if (!DestroyEnvironmentBlock(environment_block)) {
+            if (!pDEB(environment_block)) {
                 if (log_flags.task) {
                     windows_error_string(error_msg, sizeof(error_msg));
                     msg_printf(result->project, MSG_INFO,
                         "Process environment block cleanup failed: %s", error_msg
                     );
                 }
+            }
+
+            if (hUserEnvLib) {
+                pCEB = NULL;
+                pDEB = NULL;
+                FreeLibrary(hUserEnvLib);
             }
 
         } else {
