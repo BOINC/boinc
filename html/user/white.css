@@ -70,6 +70,7 @@ td.category {
 td.navbar {
     border: 0px;
     text-align: center;
+    vertival-align: middle;
 }
 
 a.navbar:link {

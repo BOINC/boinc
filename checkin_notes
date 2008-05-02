@@ -3553,3 +3553,11 @@ David  May 2 2008
         sched_result.C
         sched_send.C
         server_types.C,h
+
+David  May 2 2008
+    - web: improve error messages if login link fails
+        (URL may have been truncated in email reader)
+
+    html/user/
+        login_action.php
+        white.css

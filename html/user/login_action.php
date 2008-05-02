@@ -52,11 +52,21 @@ $t = get_int('t', true);
 $h = get_str('h', true);
 if ($id && $t && $h) {
     $user = BoincUser::lookup_id($id);
-    if (!$user) error_page("no such user");
+    if (!$user) {
+        error_page("Invalid user ID.
+            Please make sure you visited the complete URL;
+            it may have been split across lines by your email reader."
+        );
+    }
     $x = $id.$user->authenticator.$t;
     $x = md5($x);
     $x = substr($x, 0, 16);
-    if ($x != $h) error_page("bad hash");
+    if ($x != $h) {
+        error_page("Invalid authenticator.
+            Please make sure you visited the complete URL;
+            it may have been split across lines by your email reader."
+        );
+    }
     if (time() - $t > 86400) {
         error_page("Link has expired;
             go <a href=get_passwd.php>here</a> to
