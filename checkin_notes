@@ -3528,3 +3528,13 @@ Rom    May 2 2008
     lib/
         proc_control.C
         win_util.C
+
+Rom    May 2 2008 (HEAD)
+    - Bump version to 6.3.0
+    - Branch Source Tree 
+      boinc_core_release_6_2
+
+    /
+        configure.ac
+        version.h
+
