@@ -132,7 +132,7 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
     // Leave it there, shouldn't hurt.
     //
     char* p = getenv("LD_LIBRARY_PATH");
-    if (p) {
+    if (p && strlen(p)) {
         if (!strstr(p, "/usr/local/cuda/lib")) {
             char libpath[8192];
             sprintf(libpath, "%s:/usr/local/cuda/lib", p);

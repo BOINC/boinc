@@ -496,7 +496,6 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     memset(&team, 0, sizeof(team));
     nucleus_only = false;
     project_is_down = false;
-    probable_user_browser = false;
     send_msg_ack = false;
     strcpy(email_hash, "");
 }
@@ -543,10 +542,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             request_delay=min_delay_needed; 
         }
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
-        log_messages.printf(MSG_NORMAL,
-            "sending delay request %f\n", request_delay
-        );
     }
+    log_messages.printf(MSG_NORMAL,
+        "Sending reply to [HOST#%d]: %d results, delay req %f [scheduler ran %f seconds]\n",
+        host.id, wreq.nresults, request_delay, elapsed_wallclock_time() 
+    );
+
     if (wreq.core_client_version <= 419) {
         std::string msg;
         std::string pri = "low";
@@ -940,6 +941,7 @@ int RESULT::parse_from_client(FILE* fin) {
         }
         if (match_tag(buf, "<platform>")) continue;
         if (match_tag(buf, "<version_num>")) continue;
+        if (match_tag(buf, "<plan_class>")) continue;
         if (match_tag(buf, "<completed_time>")) continue;
         if (match_tag(buf, "<file_name>")) continue;
         if (match_tag(buf, "<file_ref>")) continue;

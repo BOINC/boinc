@@ -3538,3 +3538,18 @@ Rom    May 2 2008 (HEAD)
         configure.ac
         version.h
 
+David  May 2 2008
+    - scheduler: clean up message log.
+        Merge redundant messages.
+        Condition various messages on config flags.
+    - client (Unix) fix to CUDA detection if LD_LIBRARY_PATH is ""
+
+    lib/
+        coproc.C
+    sched/
+        handle_request.C
+        main.C
+        sched_config.C,h
+        sched_result.C
+        sched_send.C
+        server_types.C,h
