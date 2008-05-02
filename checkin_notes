@@ -3538,3 +3538,11 @@ Rom    May 2 2008 (HEAD)
         configure.ac
         version.h
 
+Rom    May 2 2008
+    - Tag for 6.2.0 release, all platforms
+      boinc_core_release_6_2_0
+
+    /
+        configure.ac
+        version.h
+
