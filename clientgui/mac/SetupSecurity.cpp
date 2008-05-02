@@ -238,7 +238,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
             return err;
 #else
         sprintf(buf1, "root:%s", boinc_master_group_name);
-        // chown root:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/switcher"
+        // chown root:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
