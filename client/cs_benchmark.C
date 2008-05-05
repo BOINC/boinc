@@ -79,6 +79,10 @@
 #define INT_END     27
 #define OVERALL_END 30
 
+#define MIN_CPU_TIME  3
+    // if the CPU time accumulated during one of the 10-sec segments
+    // is less than this, ignored the benchmark
+
 #define BM_FP_INIT  0
 #define BM_FP       1
 #define BM_INT_INIT 2
@@ -97,6 +101,7 @@ struct BENCHMARK_DESC {
     HOST_INFO host_info;
     bool done;
     bool error;
+    char error_str[256];
     double int_loops;
     double int_time;
 #ifdef _WIN32
@@ -143,14 +148,20 @@ bool benchmark_time_to_stop(int which) {
 }
 
 // benchmark a single CPU
-// This takes 60-120 seconds,
 //
 int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     HOST_INFO host_info;
-    double vax_mips, int_loops=0, int_time=0;
+    int retval;
+    double vax_mips, int_loops=0, int_time=0, fp_time;
 
+    sprintf(bdp->error_str, "");
     host_info.clear_host_info();
-    whetstone(host_info.p_fpops);
+    retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+    if (retval) {
+        bdp->error = true;
+        sprintf(bdp->error_str, "FP benchmark ran only %f sec; ignoring", fp_time);
+        return 0;
+    }
 #ifdef _WIN32
 	// Windows: do integer benchmark only on CPU zero.
 	// There's a mysterious bug/problem that gives wildly
@@ -159,7 +170,12 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 	//
 	if (bdp->ordinal == 0) {
 #endif
-    dhrystone(vax_mips, int_loops, int_time);
+    retval = dhrystone(vax_mips, int_loops, int_time, MIN_CPU_TIME);
+    if (retval) {
+        bdp->error = true;
+        sprintf(bdp->error_str, "Integer benchmark ran only %f sec; ignoring", int_time);
+        return 0;
+    }
     host_info.p_iops = vax_mips*1e6;
     host_info.p_membw = 1e9;
     host_info.m_cache = 1e6;    // TODO: measure the cache
@@ -430,7 +446,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
                 );
             }
             ndone++;
-            if (benchmark_descs[i].error) had_error = true;
+            if (benchmark_descs[i].error) {
+                msg_printf(0, MSG_INTERNAL_ERROR, benchmark_descs[i].error_str);
+                had_error = true;
+            }
         }
     }
     if (log_flags.benchmark_debug) {
@@ -483,8 +502,8 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             }
             host_info.p_membw = p_membw;
             host_info.m_cache = m_cache;
+            print_benchmark_results();
         }
-        print_benchmark_results();
 
         // scale duration correction factor according to change in benchmarks.
         //

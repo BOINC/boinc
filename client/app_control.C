@@ -109,6 +109,7 @@ int ACTIVE_TASK::request_exit() {
 		"<quit/>",
         app_client_shm.shm->process_control_request
     );
+    quit_time = gstate.now;
     return 0;
 }
 

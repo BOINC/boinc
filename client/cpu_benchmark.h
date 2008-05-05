@@ -26,7 +26,7 @@
 #define BM_TYPE_FP       0
 #define BM_TYPE_INT      1
 
-extern void dhrystone(double& vax_mips, double& loops, double& cpu_time);
-extern void whetstone(double& flops);
+extern int dhrystone(double& vax_mips, double& loops, double& cpu_time, double min_cpu_time);
+extern int whetstone(double& flops, double& cpu_time, double min_cpu_time);
 extern void benchmark_wait_to_start(int which);
 extern bool benchmark_time_to_stop(int which);

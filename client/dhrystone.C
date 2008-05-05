@@ -75,8 +75,8 @@ Enumeration  Func_1(DS_DATA&, Capital_Letter , Capital_Letter );
 bool      Func_2(DS_DATA&, Str_30 , Str_30 );
 bool Func_3(Enumeration EnumParIn);
 
-void dhrystone(
-   double& Vax_Mips, double& int_loops, double& int_time
+int dhrystone(
+   double& Vax_Mips, double& int_loops, double& int_time, double min_cpu_time
 ){
         One_Fifty       Int_1_Loc;
   REG   One_Fifty       Int_2_Loc;
@@ -161,13 +161,14 @@ void dhrystone(
 
     boinc_calling_thread_cpu_time(endclock);
     benchtime = endclock - startclock;
+    int_time = benchtime;
+    if (benchtime < min_cpu_time) return -1;
 
     //printf ("%12.0f runs %6.2f seconds \n",(double) Loops, benchtime);
 
     Dhrystones_Per_Second = (double) Loops / benchtime;
     Vax_Mips = Dhrystones_Per_Second / 1757.0;
     int_loops = Loops;
-    int_time = benchtime;
 #if 0
     printf ("Dhrystones per Second:                      ");
     printf ("%10.0lf \n", Dhrystones_Per_Second);
@@ -176,6 +177,7 @@ void dhrystone(
 #endif
     free(Next_Ptr_Glob);
     free(Ptr_Glob);
+    return 0;
 }
 
 void Proc_1(DS_DATA& dd, REG Rec_Pointer Ptr_Val_Par)

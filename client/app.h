@@ -109,6 +109,10 @@ public:
     double abort_time;
         // when we sent an abort message to this app
         // kill it 5 seconds later if it doesn't exit
+    double quit_time;
+        // when we sent a quit message; kill if still there after 10 sec
+    int premature_exit_count;
+
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     MSG_QUEUE graphics_request_queue;
     MSG_QUEUE process_control_queue;
@@ -118,8 +122,6 @@ public:
     int graphics_mode_acked;            // mode acked by app
     int graphics_mode_before_ss;        // mode before last screensaver request
     double graphics_mode_ack_timeout;
-    bool exit_requested;
-    int premature_exit_count;
 
 #ifdef SIM
     double cpu_time_left;
