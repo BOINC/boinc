@@ -60,11 +60,11 @@ function type_text($type) {
     }
 }
 
-$w6116= array(
-    "num"=>"6.1.16",
+$w621= array(
+    "num"=>"6.2.1",
     "status"=>"Development version",
-    "file"=>"boinc_6.1.16_windows_intelx86.exe",
-    "date"=>"22 Apr 2008",
+    "file"=>"boinc_6.2.1_windows_intelx86.exe",
+    "date"=>"5 May 2008",
     "type"=>"win_new",
 );
 
@@ -92,11 +92,11 @@ $w5816= array(
     "type"=>"win_new",
 );
 
-$m6116 = array(
-    "num"=>"6.1.16",
+$m621 = array(
+    "num"=>"6.2.1",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.1.16_macOSX_universal.zip",
-    "date"=>"22 Apr 2008",
+    "file"=>"boinc_6.2.1_macOSX_universal.zip",
+    "date"=>"5 May 2008",
     "type"=>"mac_advanced",
 );
 
@@ -116,11 +116,11 @@ $m5817 = array(
     "type"=>"mac_advanced",
 );
 
-$m6116c = array(
-    "num"=>"6.1.16",
+$m621c = array(
+    "num"=>"6.2.1",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.1.16_universal-apple-darwin.zip",
-    "date"=>"22 Apr 2008",
+    "file"=>"boinc_6.2.1_universal-apple-darwin.zip",
+    "date"=>"5 May 2008",
     "type"=>"bare_core",
 );
 
@@ -201,7 +201,7 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w6116,
+        $w621,
         $w51045,
         $w5816,
     )
@@ -221,8 +221,8 @@ $mac = array(
     "description"=>"Version 10.3+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m6116,
-        $m6116c,
+        $m621,
+        $m621c,
         $m51045,
         $m51045c,
         $m5817,
