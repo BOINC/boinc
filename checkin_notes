@@ -3433,18 +3433,18 @@ Rom    April 30 2008
         graphics2_win.C
 
 David  April 30 2008
-	- client: Win: fix CUDA detection:
-		look in the registry to find the CUDA install directory,
-		and look for cudart.dll in that dir.
-	- client: for CUDA, don't confuse coproc.name ("CUDA")
-		from coproc.prop.name (e.g., "Device Emulation (CPU)" on my PC,
-		which doesn't have a recent-enough GPU)
-	- client: if no coprocessors present, say so in startup messages
+    - client: Win: fix CUDA detection:
+        look in the registry to find the CUDA install directory,
+        and look for cudart.dll in that dir.
+    - client: for CUDA, don't confuse coproc.name ("CUDA")
+        from coproc.prop.name (e.g., "Device Emulation (CPU)" on my PC,
+        which doesn't have a recent-enough GPU)
+    - client: if no coprocessors present, say so in startup messages
 
-	client/
-		client_state.C
-	lib/
-		coproc.C
+    client/
+        client_state.C
+    lib/
+        coproc.C
 
 Rom    April 30 2008
     - API: Fix build break from my last check-in.
@@ -3561,3 +3561,29 @@ David  May 2 2008
     html/user/
         login_action.php
         white.css
+
+David  May 4 2008
+    - client: if we request that an app exit,
+        and it doesn't do so within 10 seconds, kill it.
+        This deals with the situation where the app is ignoring messages
+        (e.g. because it forgot to end a critical section).
+    - client: if either the FP or int benchmark runs less than
+        3 CPU seconds (out of 10 seconds of wall time) ignore the benchmark.
+        This is an effort to deal with a problem where (for unknown reasons)
+        the int benchmark runs for a tiny amount of CPU time,
+        leading to an absurdly large result
+    - Manager: don't prepend "[error]" to MSG_INTERNAL_ERROR messages;
+        the client already does this.
+
+    THESE ARE ALL BUG FIXES
+
+    client/
+        app.C,h
+        app_control.C
+        cpu_benchmark.h
+        cs_benchmark.C
+        dhrystone.C
+        sim_util.C
+        whetstone.C
+    clientgui/
+        ViewMessages.cpp

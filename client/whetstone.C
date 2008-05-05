@@ -79,7 +79,9 @@ void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2)
 	 return;
 }
 
-void whetstone(double& flops) {
+// return an error if CPU time is less than min_cpu_time
+//
+int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
 	long n1,n2,n3,n4,n5,n6,n7,n8,i,ix,n1mult;
 	SPDP x,y,z;
 	long j,k,l, jjj;
@@ -257,8 +259,13 @@ void whetstone(double& flops) {
     while (!benchmark_time_to_stop(BM_TYPE_FP));
 
     boinc_calling_thread_cpu_time(finisec);
+    double diff = finisec - startsec;
+    cpu_time = diff;
+    if (diff < min_cpu_time) {
+        return -1;
+    }
 
-	KIPS = (100.0*x100*ii)/(double)(finisec-startsec);
+	KIPS = (100.0*x100*ii)/diff;
 #if 0
 	if (KIPS >= 1000.0)
 		printf("C Converted Double Precision Whetstones: %.1f MIPS\n", KIPS/1000.0);
@@ -268,6 +275,7 @@ void whetstone(double& flops) {
 
     // convert from thousands of instructions a second to instructions a second.
     flops = KIPS*1000.0;
+    return 0;
 }
 
 const char *BOINC_RCSID_595304be61 = "$Id$";

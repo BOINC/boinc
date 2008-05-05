@@ -382,14 +382,7 @@ wxInt32 CViewMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-        switch(message->priority) {
-        case MSG_INTERNAL_ERROR:
-            strBuffer = wxT("[error]") + wxString(message->body.c_str(), wxConvUTF8);
-            break;
-        default:
-            strBuffer = wxString(message->body.c_str(), wxConvUTF8);
-            break;
-        }
+        strBuffer = wxString(message->body.c_str(), wxConvUTF8);
     }
 
     strBuffer.Replace(wxT("\n"), wxT(""), true);

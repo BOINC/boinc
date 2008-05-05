@@ -99,7 +99,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     strcpy(slot_dir, "");
     graphics_mode_acked = MODE_UNSUPPORTED;
     graphics_mode_ack_timeout = 0;
-    exit_requested = false;
     fraction_done = 0;
     episode_start_cpu_time = 0;
     run_interval_start_wall_time = gstate.now;
@@ -112,6 +111,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     too_large = false;
     needs_shmem = false;
     want_network = 0;
+    premature_exit_count = 0;
+    quit_time = 0;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
     pid_handle = 0;
@@ -312,6 +313,11 @@ bool ACTIVE_TASK_SET::poll() {
         if (atp->task_state() == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + 5.0) {
                 atp->kill_task(false);
+            }
+        }
+        if (atp->task_state() == PROCESS_QUIT_PENDING) {
+            if (gstate.now > atp->quit_time + 10.0) {
+                atp->kill_task(true);
             }
         }
     }

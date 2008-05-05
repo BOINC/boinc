@@ -291,7 +291,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     strcpy(slot_dir, "");
     graphics_mode_acked = MODE_UNSUPPORTED;
     graphics_mode_ack_timeout = 0;
-    exit_requested = false;
+    quit_time = 0;
     fraction_done = 0;
     episode_start_cpu_time = 0;
     run_interval_start_wall_time = gstate.now;
