@@ -1,4 +1,39 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+#ifndef _HR_INFO_
+#define _HR_INFO_
+
 #include "hr.h"
+
+// statistics about the host population,
+// and about the set of jobs in shared mem.
+//
+struct PERF_INFO {
+    double host_fpops_mean;
+    double host_fpops_stdev;
+    double wu_fpops_mean;
+    double wu_fpops_stdev;
+
+    int write_file();
+    int read_file();
+};
 
 struct HR_INFO {
     double *rac_per_class[HR_NTYPES];
@@ -13,6 +48,8 @@ struct HR_INFO {
         // # of slots per type (fixed at start)
     bool type_being_used[HR_NTYPES];
         // whether any app is actually using this HR type
+    PERF_INFO perf_info;
+
     int write_file();
     int read_file();
     void scan_db();
@@ -24,3 +61,6 @@ struct HR_INFO {
 };
 
 #define HR_INFO_FILENAME "../hr_info.txt"
+#define PERF_INFO_FILENAME "../perf_info.txt"
+
+#endif

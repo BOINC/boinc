@@ -1,7 +1,25 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 #include <stdio.h>
-#ifdef HAVE_MALLOC_H
 #include <malloc.h>
-#endif
+#include <math.h>
 
 #include "error_numbers.h"
 #include "sched_msgs.h"
@@ -66,11 +84,17 @@ void HR_INFO::init() {
 void HR_INFO::scan_db() {
     DB_HOST host;
     int retval;
-    int i;
+    int i, n=0;
+    double sum=0, sum_sqr=0;
 
     while (1) {
         retval = host.enumerate("where expavg_credit>1");
         if (retval) break;
+        if (host.p_fpops > 1e7 && host.p_fpops < 1e13) {
+            n++;
+            sum += host.p_fpops;
+            sum_sqr += host.p_fpops*host.p_fpops;
+        }
         //printf("host %d: %s | %s | %s\n", host.id, host.os_name, host.p_vendor, host.p_model);
         for (i=1; i<HR_NTYPES; i++) {
             if (hr_unknown_platform_type(host, i)) {
@@ -86,6 +110,15 @@ void HR_INFO::scan_db() {
     if (retval != ERR_DB_NOT_FOUND) {
         fprintf(stderr, "host enum: %d", retval);
         exit(1);
+    }
+    // if no hosts, use reasonable defaults
+    //
+    if (n) {
+        perf_info.host_fpops_mean = sum/n;
+        perf_info.host_fpops_stdev = sqrt((sum_sqr - sum*perf_info.host_fpops_mean)/n);
+    } else {
+        perf_info.host_fpops_mean = 3e9;
+        perf_info.host_fpops_stdev = 1e9;
     }
 }
 
@@ -167,4 +200,26 @@ void HR_INFO::show(FILE* f) {
             );
         }
     }
+}
+
+int PERF_INFO::read_file() {
+    FILE* f = fopen(PERF_INFO_FILENAME, "r");
+    if (!f) return ERR_FOPEN;
+    fscanf(f, "%f %f",
+        &host_fpops_mean,
+        &host_fpops_stdev
+    );
+    fclose(f);
+    return 0;
+}
+
+int PERF_INFO::write_file() {
+    FILE* f = fopen(PERF_INFO_FILENAME, "w");
+    if (!f) return ERR_FOPEN;
+    fprintf(f, "%f %f\n",
+        host_fpops_mean,
+        host_fpops_stdev
+    );
+    fclose(f);
+    return 0;
 }

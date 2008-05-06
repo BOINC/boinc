@@ -98,6 +98,7 @@
 #include <ctime>
 #include <csignal>
 #include <unistd.h>
+#include <math.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <vector>
@@ -352,8 +353,33 @@ void weighted_interleave(double* weights, int n, int k, int* v, int* count) {
     free(x);
 }
 
+// update the job size statistics fields of array entries
+//
+static void update_stats() {
+    int i, n=0;
+    double sum=0, sum_sqr=0;
+
+    for (i=0; i<ssp->max_wu_results; i++) {
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.state != WR_STATE_PRESENT) continue;
+        n++;
+        double e = wu_result.workunit.rsc_fpops_est;
+        sum += e;
+        sum_sqr += e*e;
+    }
+    double mean = sum/n;
+    double stdev = sqrt((sum_sqr - sum*mean)/n);
+    for (i=0; i<ssp->max_wu_results; i++) {
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.state != WR_STATE_PRESENT) continue;
+        double e = wu_result.workunit.rsc_fpops_est;
+        double diff = e - mean;
+        wu_result.fpops_size = diff/stdev;
+    }
+}
+
 // Make one pass through the work array, filling in empty slots.
-// Return true if should call this again immediately.
+// Return true if we filled in any.
 //
 static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
     int i;
@@ -471,6 +497,10 @@ void feeder_loop() {
                 "No action; sleeping %.2f sec\n", sleep_interval
             );
             boinc_sleep(sleep_interval);
+        } else {
+            if (config.job_size_matching) {
+                update_stats();
+            }
         }
 
         fflush(stdout);
@@ -704,6 +734,15 @@ int main(int argc, char** argv) {
     }
 
     hr_init();
+    if (config.job_size_matching) {
+        retval = ssp->perf_info.read_file();
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "can't read perf_info file; run census\n"
+            );
+            exit(1);
+        }
+    }
 
     signal(SIGUSR1, show_state);
 

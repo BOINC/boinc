@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("May 5, 2008",
+    "Version 3.0 of <a href=http://www.conmunix.net/offene-projekte/boinc-lcs/>Boinc LCS</a> (a free PHP script for monitoring remote BOINC clients) has been released."
+),
 array("Apr 20, 2008",
     "The BOINC user documentation has been moved from
     <a href=trac/wiki/RunningBoinc>Trac</a>

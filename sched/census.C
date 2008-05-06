@@ -70,4 +70,5 @@ int main(int argc, char** argv) {
     hri.init();
     hri.scan_db();
     hri.write_file();
+    hri.perf_info.write_file();
 }

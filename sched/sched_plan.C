@@ -27,6 +27,7 @@
 //    (you need to prevent that from being overwritten too)
 // In either case, put your version under source-code control, e.g. SVN
 
+#include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_plan.h"
 
@@ -79,6 +80,11 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 hu.flops = 5e11;
                 return true;
             }
+        }
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_DEBUG,
+                "Host lacks CUDA coprocessor for plan class %s\n", plan_class
+            );
         }
         return false;
     }

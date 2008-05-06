@@ -183,6 +183,8 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
+        if (xp.parse_bool(tag, "job_size_matching", job_size_matching)) continue;
+
         if (xp.parse_bool(tag, "debug_version_select", debug_version_select)) continue;
         if (xp.parse_bool(tag, "debug_assignment", debug_assignment)) continue;
         if (xp.parse_bool(tag, "debug_prefs", debug_prefs)) continue;

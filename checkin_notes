@@ -3621,4 +3621,31 @@ Eric K  May 6 2008
      api/
          x_opengl.C
 
+David  May 6 2008
+    - scheduler: add preliminary support for "job size matching"
+        (attempt to send big jobs to fast hosts, small jobs to slow hosts).
+        - have "census" compute mean/stdev of host speeds,
+            write it to a file perf_info.txt
+        - have feeder compute mean/stdev of sizes of jobs in shmem
+        - have feeder read perf_info.txt into shmem
+    - scheduler: add some debugging messages for app version selection
+    - Add LGPL license to a few files
+    - upgrade/setup scripts: copy census to bin/
 
+    py/Boinc/
+        setup_project.py
+    sched/
+        assimilate_handler.C
+        census.C
+        feeder.C
+        hr_info.C,h
+        sched_array.h
+        sched_config.C,h
+        sched_plan.C
+        sched_resend.h
+        sched_shmem.h
+        sched_timezone.h
+        server_types.C
+        single_job_assimilator.C
+        validate_util2.h
+        validator.h

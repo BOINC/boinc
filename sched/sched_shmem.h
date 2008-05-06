@@ -27,6 +27,7 @@
 #define _SCHED_SHMEM_H_
 
 #include "boinc_db.h"
+#include "hr_info.h"
 
 // the following must be at least as large as DB tables
 // (counting only non-deprecated entries for the current major version)
@@ -60,6 +61,7 @@ struct WU_RESULT {
     int resultid;
     int time_added_to_shared_memory;
     int result_priority;
+    double fpops_size;      // measured in stdevs
 };
 
 // this struct is followed in memory by an array of WU_RESULTS
@@ -68,7 +70,7 @@ struct SCHED_SHMEM {
     bool ready;             // feeder sets to true when init done
         // the following fields let the scheduler make sure
         // that the shared mem has the right format
-    int ss_size;            // size of this struct, including array
+    int ss_size;            // size of this struct, including WU_RESULT array
     int platform_size;      // sizeof(PLATFORM)
     int app_size;           // sizeof(APP)
     int app_version_size;   // sizeof(APP_VERSION)
@@ -84,6 +86,7 @@ struct SCHED_SHMEM {
     int max_app_versions;
     int max_assignments;
     int max_wu_results;
+    PERF_INFO perf_info;
     PLATFORM platforms[MAX_PLATFORMS];
     APP apps[MAX_APPS];
     APP_VERSION app_versions[MAX_APP_VERSIONS];
