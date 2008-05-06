@@ -30,6 +30,7 @@
 #include "app_ipc.h"
 #include "util.h"
 #include "filesys.h"
+#include "unix_util.h"
 
 #include "boinc_gl.h"
 #include "boinc_glut.h"
@@ -488,8 +489,7 @@ static void timer_handler(int) {
             case MODE_FULLSCREEN:
             case MODE_BLANKSCREEN:
                 if (strlen(m.display)) {
-                    sprintf(buf, "DISPLAY=%s", m.display);
-                    putenv(buf);
+		    setenv("DISPLAY",m.display,1);
                 }
                 set_mode(m.mode);
                 break;

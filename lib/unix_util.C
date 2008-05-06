@@ -19,10 +19,79 @@
 
 #include "unix_util.h"
 
+#ifndef HAVE_SETENV
+
+#include <vector>
+#include <cstring>
+#include <cerrno>
+#include <cstdlib>
+
+static std::vector<char *> envstrings;
+
+// In theory setenv() is posix, but some implementations of unix
+// don't have it.  The implementation isn't trivial because of
+// differences in how putenv() behaves on different systems.
+int setenv(const char *name, const char *value, int overwrite) {
+    char *buf;
+    int rv;
+    // Name can't contant an equal sign.
+    if (strchr(name,'=')) {
+        errno=EINVAL;
+        return -1;
+    }
+    // get any existing environment string.
+    buf=getenv(name);
+    if (!buf) {
+        // no existing string, allocate a new one.
+        buf=(char *)malloc(strlen(name)+strlen(value)+2);
+        if (buf) envstrings.push_back(buf);
+    } else {
+        // we do have an existing string.
+        // Are we allowed to overwrite it?  If not return success.
+        if (!overwrite) return 0;
+        // is it long enough to hold our current string?
+        if (strlen(buf)<(strlen(name)+strlen(value)+1)) {
+            // no.  See if we originally allocated this string.
+            std::vector<char *>::iterator i=envstrings.begin();
+	    for (;i!=envstrings.end();i++) {
+                if (*i == buf) break;
+	    }
+	    if (i!=envstrings.end()) {
+                // we allocated this string.  Reallocate it.
+                buf=(char *)realloc(buf,strlen(name)+strlen(value)+2);
+                *i=buf;
+	    } else {
+                // someone else allocated the string.  Allocate new memory.
+                buf=(char *)malloc(strlen(name)+strlen(value)+2);
+                if (buf) envstrings.push_back(buf);
+            }
+	}
+    }
+    if (!buf) {
+        errno=ENOMEM;
+        return -1;
+    }
+    sprintf(buf,"%s=%s",name,value);
+    rv=putenv(buf);
+    // Yes, there is a potential memory leak here.  Some versions of operating
+    // systems copy the string into the environment, others make the
+    // existing string part of the environment.  If we were to
+    // implement unsetenv(), it might be possible to recover some of
+    // this memory.  But unsetenv() is even less trivial than setenv.
+    return rv;
+}
+#endif /*  !HAVE_SETENV */       
+
 #ifndef HAVE_DAEMON
 
 #include <cstdio>
 #include <cstdlib>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+using std::FILE;
+using std::freopen;
 
 static FILE *stderr_null, *stdout_null;
 
@@ -57,4 +126,4 @@ int daemon(int nochdir, int noclose) {
     return 0;
 }    
 
-#endif /* HAVE_DAEMON */
+#endif /* !HAVE_DAEMON */

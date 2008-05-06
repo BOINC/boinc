@@ -25,9 +25,16 @@
 
 #include "config.h"
 
+#ifndef HAVE_SETENV
+
+extern "C" int setenv(const char *name, const char *value, int overwrite);
+
+#endif
+
+
 #ifndef HAVE_DAEMON
 
-extern int daemon(int nochdir, int noclose);
+extern "C" int daemon(int nochdir, int noclose);
 
 #endif /* HAVE_DAEMON */
 
