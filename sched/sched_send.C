@@ -1343,7 +1343,7 @@ struct JOB{
     APP* app;
     BEST_APP_VERSION* bavp;
 
-    void get_score(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+    bool get_score(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 };
 
 struct JOB_SET {
@@ -1386,9 +1386,9 @@ int read_sendable_result(DB_RESULT& result) {
 }
 
 // compute a "score" for sending this job to this host.
-// return score=0 if the WU is infeasible
+// return false if the WU is infeasible
 //
-void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool found;
     WORKUNIT wu;
     int retval;
@@ -1402,7 +1402,7 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // Find the app_version for the client's platform.
     //
     bavp = get_app_version(sreq, reply, wu);
-    if (!bavp) return;
+    if (!bavp) return false;
 
     retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
     if (retval) {
@@ -1412,7 +1412,7 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 reply.host.id, wu.id, wu.name, infeasible_string(retval)
             );
         }
-        return;
+        return false;
     }
 
     score = 1;
@@ -1422,8 +1422,7 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (!reply.wreq.host_info.allow_beta_work || config.distinct_beta_apps) {
         if (app_not_selected(wu, sreq, reply)) {
             if (!reply.wreq.host_info.allow_non_preferred_apps) {
-                score = 0;
-                return;
+                return false;
             }
         } else {
             if (reply.wreq.host_info.allow_non_preferred_apps) {
@@ -1438,8 +1437,7 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (reply.wreq.host_info.allow_beta_work) {
             score += 1;
         } else {
-            score = 0;
-            return;
+            return false;
         }
     }
 
@@ -1460,9 +1458,19 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     //
     score += bavp->host_usage.flops/1e9;
 
+    // match large jobs to fast hosts
+    //
+    if (config.job_size_matching) {
+        double host_stdev = (reply.host.p_fpops - ssp->perf_info.host_fpops_mean)/ ssp->perf_info.host_fpops_stdev;
+        double diff = host_stdev - wu_result.fpops_size;
+        score -= diff*diff;
+    }
+
     // TODO: If user has selected some apps but will accept jobs from others,
     // try to send them jobs from the selected apps
     //
+
+    return true;
 }
 
 bool wu_is_infeasible_slow(
@@ -1649,7 +1657,9 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         JOB job;
         job.index = i;
-        job.get_score(sreq, reply);
+        if (!job.get_score(sreq, reply)) {
+            continue;
+        }
         if (config.debug_send) {
             log_messages.printf(MSG_DEBUG,
                 "score for %s: %f\n", wu_result.workunit.name, job.score

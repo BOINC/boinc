@@ -3649,3 +3649,12 @@ David  May 6 2008
         single_job_assimilator.C
         validate_util2.h
         validator.h
+
+David  May 6 2008
+    - scheduler: finished support for job size matching.
+        Let x be the host speed (expressed in stdevs from mean)
+        Let y be the job size (expressed in stdevs from mean)
+        Decrement score by (x-y)^2
+
+    sched/
+        sched_send.C
