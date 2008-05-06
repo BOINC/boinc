@@ -3597,3 +3597,13 @@ Charlie May 5 2008
         cs_benchmark.C
     clientgui/
         MainDocument.cpp
+
+David  May 5 2008
+    - Added command-completion script for bash
+
+    client/scripts/
+        boinc.bash
+    sched/
+        sched_send.C
+    html/user/
+        profile_rate.php

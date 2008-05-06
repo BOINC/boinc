@@ -148,7 +148,7 @@ $math = array(
     array(
         array(
             "SHA-1 Collision Search Graz",
-            "http://boinc.iaik.tugraz.at/",
+            "http://boinc.iaik.tugraz.at/sha1_coll_search/",
             "Graz University of Technology",
             "Cryptography",
             "Search for collisions (weaknesses) of the widely-used SHA-1 hash function.",

@@ -149,7 +149,12 @@ BEST_APP_VERSION* get_app_version(
             }
             bavp->avp = 0;
         } else {
-            bavp->avp = (APP_VERSION*)1;    // arbitrary nonzero value
+            // TODO: allow anonymous platform apps to use coprocs,
+            // multi-thread etc.
+            //
+            bavp->host_usage.init_seq(reply.host.p_fpops);
+            bavp->avp = (APP_VERSION*)1;    // arbitrary nonzero value;
+                // means the client already has the app version
         }
         reply.wreq.best_app_versions.push_back(bavp);
         return bavp;
@@ -1381,7 +1386,7 @@ int read_sendable_result(DB_RESULT& result) {
 }
 
 // compute a "score" for sending this job to this host.
-// return 0 if the WU is infeasible
+// return score=0 if the WU is infeasible
 //
 void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool found;
@@ -1394,16 +1399,10 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     score = 0;
 
-    // Find the app and app_version for the client's platform.
+    // Find the app_version for the client's platform.
     //
-    if (anonymous(sreq.platforms.list[0])) {
-        found = sreq.has_version(*app);
-        if (!found) return;
-        bavp = NULL;
-    } else {
-        bavp = get_app_version(sreq, reply, wu);
-        if (!bavp) return;
-    }
+    bavp = get_app_version(sreq, reply, wu);
+    if (!bavp) return;
 
     retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
     if (retval) {
@@ -1457,7 +1456,11 @@ void JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         score += 1;
     }
 
-    // If user has selected some apps but will accept jobs from others,
+    // Favor jobs that will run fast
+    //
+    score += bavp->host_usage.flops/1e9;
+
+    // TODO: If user has selected some apps but will accept jobs from others,
     // try to send them jobs from the selected apps
     //
 }
