@@ -154,7 +154,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     int retval;
     double vax_mips, int_loops=0, int_time=0, fp_time;
 
-    sprintf(bdp->error_str, "");
+    bdp->error_str[0] = '\0';
     host_info.clear_host_info();
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     if (retval) {

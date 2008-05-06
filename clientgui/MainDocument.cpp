@@ -1210,24 +1210,28 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         // See if we are already running the graphics application for this task
         previous_gfx_app = GetRunningGraphicsApp(result, slot);
 
-#ifdef __WXMAC__
-        ProcessSerialNumber gfx_app_psn;
+#ifndef __WXMSW__
         char* argv[5];
 
         if (previous_gfx_app) {
+#ifdef __WXMAC__
+        ProcessSerialNumber gfx_app_psn;
             // If this graphics app is already running,
             // just bring it to the front
             //
             if (!GetProcessForPID(previous_gfx_app->pid, &gfx_app_psn)) {
                 SetFrontProcess(&gfx_app_psn);
             }
+#endif
+            // If graphics app is already running, don't launch a second instance
+            //
             return 0;
         }
-        // For unknown reasons, the graphics application exits with 
-        // "RegisterProcess failed (error = -50)" unless we pass its 
-        // full path twice in the argument list to execv.
-        //
         argv[0] = "switcher";
+        // For unknown reasons on Macs, the graphics application 
+        // exits with "RegisterProcess failed (error = -50)" unless 
+        // we pass its full path twice in the argument list to execv.
+        //
         argv[1] = (char *)result->graphics_exec_path.c_str();
         argv[2] = (char *)result->graphics_exec_path.c_str();
         argv[3] = "--graphics";
@@ -1246,8 +1250,8 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             iRetVal = run_program(
                 result->slot_path.c_str(),
                 result->graphics_exec_path.c_str(),
-                3,
-                &argv[1],
+                2,
+                &argv[2],
                 0,
                 id
             );

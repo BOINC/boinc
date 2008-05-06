@@ -3587,3 +3587,13 @@ David  May 4 2008
         whetstone.C
     clientgui/
         ViewMessages.cpp
+
+Charlie May 5 2008
+    - client: Fix compiler warning.
+    - MGR: Fix CMainDocument::WorkShowGraphics() for Mac, UNIX and  Linux 
+        to allow showing graphics with or without sandbox.
+        
+    client/
+        cs_benchmark.C
+    clientgui/
+        MainDocument.cpp
