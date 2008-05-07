@@ -1,6 +1,16 @@
 <?
 
 $project_news = array(
+array("May 7, 2008",
+    "<a href=http://www.predictioncenter.org/casp8/index.cgi>CASP8</a>,
+    a competition for protein structure prediction, starts soon.
+    <a href=http://www.rechenkraft.net>Rechenkraft.net</a> is
+    sponsoring a team credit-race to support
+    <a href=http://boinc.fzk.de/poem>POEM@home</a>,
+    one of the CASP participants.
+    Results will be reported at
+    <a href=http://starmageddon.dyndns.org/pboinc/index.php>Planet BOINC</a>."
+),
 array("May 6, 2008",
     "Alpha testing of BOINC software is done by volunteers.
     Many thanks to <a href=http://isaac.ssl.berkeley.edu/alpha/top_testers.php>this month's top testers</a>."
