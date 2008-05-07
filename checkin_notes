@@ -3665,3 +3665,24 @@ Charlie May 7 2008
         
     clientgui/
         MainDocument.cpp
+
+David  May 7 2008
+    - client (Unix): linking libcudart.so wasn't working,
+        so CUDA detection failed.
+        For reasons I don't understand,
+        adding "/usr/local/cuda/lib" to LD_LIBRARY_PATH
+        and then doing dlopen("libcudart.so") wasn't working,
+        even though the library is in that dir.
+        I worked around this by calling
+        dlopen("/usr/local/cuda/lib/libcudart.so") and if that fails call
+        dlopen("libcudart.so"),
+    - Unix: commented out Eric's setenv() stuff.
+        After doing a configure, HAVE_SETENV is not in config.h,
+        so something's messed up with it.
+    - client: trimmed down "pre-release software" message
+
+    client/
+        client_state.C
+    lib/
+        coproc.C
+        unix_util.C,h

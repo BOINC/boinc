@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("May 6, 2008",
+    "Alpha testing of BOINC software is done by volunteers.
+    Many thanks to <a href=http://isaac.ssl.berkeley.edu/alpha/top_testers.php>this month's top testers</a>."
+),
 array("May 5, 2008",
     "Version 3.0 of <a href=http://www.conmunix.net/offene-projekte/boinc-lcs/>Boinc LCS</a> (a free PHP script for monitoring remote BOINC clients) has been released."
 ),
