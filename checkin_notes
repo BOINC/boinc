@@ -3658,3 +3658,10 @@ David  May 6 2008
 
     sched/
         sched_send.C
+
+Charlie May 7 2008
+    - MGR: Statistics and Disk tab panes: clear when disconnected from Client, 
+        update quickly when connecting to a (different) Client.
+        
+    clientgui/
+        MainDocument.cpp

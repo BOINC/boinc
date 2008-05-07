@@ -488,6 +488,7 @@ int CMainDocument::ResetState() {
     host.clear_host_info();
     results.clear();
     ft.clear();
+    statistics_status.clear();
     disk_usage.clear();
     proxy_info.clear();
 
@@ -1516,8 +1517,9 @@ int CMainDocument::CachedDiskUsageUpdate() {
         wxTimeSpan ts(wxDateTime::Now() - m_dtDiskUsageTimestamp);
 
 		// don't get disk usage more than once per minute
+                // unless we just connected to a client
 		//
-        if (ts.GetSeconds() > 60) {
+        if ((ts.GetSeconds() > 60) || disk_usage.projects.empty()) {
             m_dtDiskUsageTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_disk_usage(disk_usage);
@@ -1554,7 +1556,7 @@ int CMainDocument::CachedStatisticsStatusUpdate() {
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtStatisticsStatusTimestamp);
-        if (ts.GetSeconds() > 0) {
+        if ((ts.GetSeconds() > 0) || statistics_status.projects.empty()) {
             m_dtStatisticsStatusTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_statistics(statistics_status);
