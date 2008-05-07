@@ -3605,3 +3605,10 @@ Charlie May 5 2008
         cs_benchmark.C
     clientgui/
         MainDocument.cpp
+
+Charlie May 7 2008
+    - MGR: Statistics and Disk tab panes: clear when disconnected from Client, 
+        update quickly when connecting to a (different) Client.
+        
+    clientgui/
+        MainDocument.cpp
