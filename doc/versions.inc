@@ -172,11 +172,11 @@ $l51045ubuntu = array(
     "type"=>"sea",
 );
 
-$l6117ubuntux64 = array(
-    "num"=>"6.1.17",
+$l621ubuntux64 = array(
+    "num"=>"6.2.1",
     "status"=>"Development version",
-    "file"=>"boinc_ubuntu_6.1.17_x86_64-pc-linux-gnu.sh",
-    "date"=>"28 Apr 2008",
+    "file"=>"boinc_ubuntu_6.2.1_x86_64-pc-linux-gnu.sh",
+    "date"=>"6 May Apr 2008",
     "type"=>"sea",
 );
 
@@ -256,7 +256,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-        $l6117ubuntux64,
+        $l621ubuntux64,
         $l51045ubuntux64,
     )
 );
