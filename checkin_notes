@@ -3716,3 +3716,12 @@ David  May 8 2008
         edf_sim.C
         sched_array.C
         sched_config.C,h
+
+Rom    May 8 2008
+    - LIB: Windows 9X doesn't like it when you specify a security descriptor, so
+        special case Win9X so that it'll pass a NULL to CreateFileMapping.
+    
+    lib/
+        shmem.C
+
+        
