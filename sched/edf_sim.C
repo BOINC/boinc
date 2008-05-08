@@ -26,16 +26,48 @@
 #include "fcgi_stdio.h"
 #endif
 
+#ifdef SIM
+#include <stdarg.h>
+#else
+#include "sched_config.h"
+#include "sched_msgs.h"
+#endif
+
 #include "edf_sim.h"
 
 using std::vector;
 
-//#define TEST
-//#define DEBUG
+#define SUMMARY 0
+    // show candidate decision
+#define WORKLOAD  1
+    // show workload
+#define DETAIL   2
+    // show every step of simulation
 
-// 0 shows initial workload and candidate decisions
-// 1 shows function calls results of sim: make/miss deadline
-// 2 shows every step of sim
+static void log_msg(int level, const char* format, ...) {
+#ifdef SIM
+#else
+    switch(level) {
+    case SUMMARY:
+        if (!config.debug_send) return;
+        break;
+    case WORKLOAD:
+        if (!config.debug_edf_sim_workload) return;
+        break;
+    case DETAIL:
+        if (!config.debug_edf_sim_detail) return;
+        break;
+    }
+#endif
+    va_list va;
+    va_start(va, format);
+#ifdef SIM
+    vfprintf(stderr, format, va);
+#else
+    log_messages.vprintf(MSG_DEBUG, format, va);
+#endif
+    va_end(va);
+}
 
 bool lessthan_deadline(const IP_RESULT& p1, const IP_RESULT& p2) {
     if (p1.computation_deadline < p2.computation_deadline) return true;
@@ -50,9 +82,7 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
     double booked_to[128];
     int j;
 
-#ifdef DEBUG
-    fprintf(stderr, "mark_edf_misses\n");
-#endif
+    log_msg(DETAIL, "mark_edf_misses\n");
 
     // keeps track of when each cpu is next free
     //
@@ -81,34 +111,28 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
         }
       
         booked_to[lowest_booked_cpu] += r.cpu_time_remaining;
-#ifdef DEBUG
-        fprintf(stderr, "  running %s on cpu %d; finishes at %f\n",
-            r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]
+        log_msg(DETAIL, "  running %s on cpu %d; finishes at %.2f\n",
+            r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]/3600
         );
-#endif
         if (booked_to[lowest_booked_cpu] > r.computation_deadline) {
 	        r.misses_deadline = true;
 	        r.estimated_completion_time = booked_to[lowest_booked_cpu];
-#ifdef DEBUG
-	        fprintf(stderr, "  %s misses_deadline; est completion %f\n",
-                r.name, booked_to[lowest_booked_cpu]
+	        log_msg(DETAIL, "  %s misses_deadline; est completion %.2f\n",
+                r.name, booked_to[lowest_booked_cpu]/3600
             );
-#endif
         } else {
 	        r.misses_deadline = false;
-#ifdef DEBUG
-	        fprintf(stderr, "  %s makes deadline; est completion %f\n",
-                r.name, booked_to[lowest_booked_cpu]
+	        log_msg(DETAIL, "  %s makes deadline; est completion %.2f\n",
+                r.name, booked_to[lowest_booked_cpu]/3600
             );
-#endif
 	        // if result doesn't miss its deadline,
             // then the estimated_completion_time is of no use
         }
     }
 }
 
-// For each ip_result, computes computation_deadline from report_deadline,
-// and determines if the deadline would be missed by simulating edf
+// For each ip_result, compute computation_deadline from report_deadline,
+// and determine if the deadline would be missed by simulating EDF
 //
 void init_ip_results(
     double work_buf_min,
@@ -117,17 +141,16 @@ void init_ip_results(
 ){
     unsigned int i;
 
-#ifdef DEBUG
-    fprintf(stderr, "init_ip_results; work_buf_min %f ncpus %d:\n", work_buf_min, ncpus);
-#endif
+    log_msg(DETAIL,
+        "init_ip_results; work_buf_min %.2f ncpus %d:\n",
+        work_buf_min/3600, ncpus
+    );
     for (i=0; i<ip_results.size(); i++) {
         IP_RESULT& r = ip_results[i];
         r.computation_deadline = r.report_deadline - work_buf_min;
-#ifdef DEBUG
-        fprintf(stderr, "    %s: deadline %.2f cpu %.2f\n",
-            r.name, r.computation_deadline, r.cpu_time_remaining
+        log_msg(DETAIL, "    %s: deadline %.2f cpu %.2f\n",
+            r.name, r.computation_deadline/3600, r.cpu_time_remaining/3600
         );
-#endif
     }
 
     // run edf simulation to determine whether any results miss their deadline
@@ -198,12 +221,10 @@ bool check_candidate (
     double booked_to[128];     // keeps track of when each cpu is free
     int j;
 
-#ifdef DEBUG
-    fprintf(stderr, "check_candidate %s: dl %f cpu %f\n",
-        candidate.name, candidate.computation_deadline,
-        candidate.cpu_time_remaining
+    log_msg(DETAIL, "check_candidate %s: dl %.2f cpu %.2f\n",
+        candidate.name, candidate.computation_deadline/3600,
+        candidate.cpu_time_remaining/3600
     );
-#endif
 
     for (j=0; j<ncpus; j++) {
         booked_to[j] = 0;
@@ -230,11 +251,9 @@ bool check_candidate (
             }
         }
         booked_to[lowest_booked_cpu] += r.cpu_time_remaining;
-#ifdef DEBUG
-        fprintf(stderr, "  running %s on cpu %d; finishes at %f\n",
-            r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]
+        log_msg(DETAIL, "  running %s on cpu %d; finishes at %.2f\n",
+            r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]/3600
         );
-#endif
 
         // return false if completion time if > computation_deadline AND
         // result would not have missed deadline to begin with
@@ -242,11 +261,11 @@ bool check_candidate (
         if (booked_to[lowest_booked_cpu] > r.computation_deadline
             && !r.misses_deadline
         ) {
-#ifdef DEBUG
-	        fprintf(stderr, "  cand. fails; %s now misses deadline: %f > %f\n",
-                r.name, booked_to[lowest_booked_cpu], r.computation_deadline
+	        log_msg(SUMMARY,
+                "  cand. fails; %s now misses deadline: %.2f > %.2f\n",
+                r.name, booked_to[lowest_booked_cpu]/3600,
+                r.computation_deadline/3600
             );
-#endif
             return false;
         }
         // check a late result (i.e., one that would have missed its
@@ -255,19 +274,18 @@ bool check_candidate (
         if (r.misses_deadline 
             && booked_to[lowest_booked_cpu] > r.estimated_completion_time
         ){
-#ifdef DEBUG
-            fprintf(stderr, "  cand. fails; late result %s to be returned even later\n", r.name);
-#endif
+            log_msg(SUMMARY,
+                "  cand. fails; late result %s would be returned even later\n",
+                r.name
+            );
             return false;
         }
     }
-#ifdef DEBUG
-    fprintf(stderr, "  cand. succeeds\n");
-#endif
+    log_msg(SUMMARY, "  cand. succeeds\n");
     return true;
 }
 
-#ifdef TEST
+#if 0
 int main() {
     vector<IP_RESULT> ip_results;
     double work_buf_min = 0;

@@ -131,6 +131,8 @@ public:
     bool debug_user_messages;
     bool debug_request_details;
     bool debug_handle_results;
+    bool debug_edf_sim_workload;    // show workload for EDF sim
+    bool debug_edf_sim_detail;      // show details of EDF sim
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

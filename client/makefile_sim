@@ -12,7 +12,8 @@ OBJS = \
     sim_util.o \
     time_stats.o \
     work_fetch.o \
-    ../sched/edf_sim.o \
+    edf_sim.o \
+    ../lib/coproc.o \
     ../lib/mfile.o \
     ../lib/miofile.o \
     ../lib/parse.o \
@@ -22,4 +23,4 @@ OBJS = \
 all: sim
 
 sim: $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o sim
+	$(CXX) $(CXXFLAGS) $(OBJS) -o sim -ldl

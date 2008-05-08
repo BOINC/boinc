@@ -3698,3 +3698,21 @@ Charlie May 7 2008
 
     lib/
         coproc.C
+
+David  May 8 2008
+    - scheduler: add new log flags debug_edf_sim_workload, debug_edf_sim_details
+        for getting info on EDF simulation;
+        change output from seconds to hours
+    - API: remove extern "C" from graphics API
+        (convince me it's needed before restoring)
+
+    api/
+        graphics2.h
+    client/
+        makefile_sim
+    lib/
+        diagnostics.C
+    sched/
+        edf_sim.C
+        sched_array.C
+        sched_config.C,h
