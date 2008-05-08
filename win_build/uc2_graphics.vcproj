@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="uc2_graphics"
+	Name="example_app_graphics"
 	ProjectGUID="{3CF31288-A44D-4C78-A3AA-B05B6E32DF11}"
 	>
 	<Platforms>
@@ -80,13 +80,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
-				OutputFile="Release/uppercase_graphics_6.7_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/uc2_graphics_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -179,13 +179,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
-				OutputFile="Release/uppercase_5.14_windows_x86_64.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -276,13 +276,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib"
-				OutputFile="Debug/uc2_graphics_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/uc2_graphics_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -373,13 +373,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib"
-				OutputFile="Debug/uppercase_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
