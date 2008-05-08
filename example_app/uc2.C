@@ -165,9 +165,9 @@ int main(int argc, char **argv) {
     if (state && n==1) {
         fseek(infile, nchars, SEEK_SET);
         boinc_truncate(output_path, nchars);
-        retval = out.open(output_path, "a");
+        retval = out.open(output_path, "ab");
     } else {
-        retval = out.open(output_path, "w");
+        retval = out.open(output_path, "wb");
     }
     if (retval) {
         fprintf(stderr, "APP: upper_case output open failed:\n");

@@ -272,11 +272,6 @@ static void parse_project_prefs(char* buf) {
 }
 
 int main(int argc, char** argv) {
-    // Provide a way to get error messages from system. 
-    // Graphics applications are launched from the slot directory
-    // and so the graphics application should have read/write
-    // permissions there.
-    //
     boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
 
 #ifdef __APPLE__
@@ -290,5 +285,5 @@ int main(int argc, char** argv) {
     }
     boinc_graphics_loop(argc, argv);
 
-    diagnostics_finish();
+    boinc_finish_diag();
 }

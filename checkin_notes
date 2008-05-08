@@ -696,3 +696,14 @@ Rom    8 May 2008
     
     win_build/
         <various Files>
+
+David  8 May 2008
+    - uppercase: use binary output mode on Win,
+        otherwise results don't match.
+    - graphics app: call boinc_finish_diag() instead of diagnostics_finish()
+        (API calls should start with boinc_;
+        it would be nice it the init/finish names matched)
+
+    example_app/
+        uc2_graphics.C
+        uc2.C
