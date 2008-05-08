@@ -94,71 +94,59 @@ COPROC* COPROCS::lookup(char* name) {
 }
 
 void COPROC_CUDA::get(COPROCS& coprocs) {
-   int count;
+    int count, retval;
 
 #ifdef _WIN32
-   int retval;
-   int (__stdcall* __cudaGetDeviceCount)( int * );
-   int (__stdcall* __cudaGetDeviceProperties) ( cudaDeviceProp*, int );
-   int bufsize=256;
-   char buf[256], path[256];
-   HKEY key;
-   retval = RegOpenKeyEx(
+    int (__stdcall* __cudaGetDeviceCount)( int * );
+    int (__stdcall* __cudaGetDeviceProperties) ( cudaDeviceProp*, int );
+    int bufsize=256;
+    char buf[256], path[256];
+    HKEY key;
+    retval = RegOpenKeyEx(
         HKEY_LOCAL_MACHINE,
         _T("SOFTWARE\\NVIDIA Corporation\\Installed Products\\NVIDIA CUDA"),
         NULL,
         KEY_READ,
         &key
-   );
-   if (retval != ERROR_SUCCESS) return;
-   retval = RegQueryValueEx(key, "InstallDir", NULL, NULL, (LPBYTE)buf, (LPDWORD)&bufsize);
-   RegCloseKey(key);
-   if (retval != ERROR_SUCCESS) return;
-   sprintf(path, "%s\\bin\\cudart.dll", buf);
+    );
+    if (retval != ERROR_SUCCESS) return;
+    retval = RegQueryValueEx(key, "InstallDir", NULL, NULL, (LPBYTE)buf, (LPDWORD)&bufsize);
+    RegCloseKey(key);
+    if (retval != ERROR_SUCCESS) return;
+    sprintf(path, "%s\\bin\\cudart.dll", buf);
 
-   HMODULE cudalib = LoadLibrary(path);
-   __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(cudalib, "cudaGetDeviceCount");
-   if(!__cudaGetDeviceCount) return;
-   __cudaGetDeviceProperties = (int(__stdcall*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
+    HMODULE cudalib = LoadLibrary(path);
+    __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(cudalib, "cudaGetDeviceCount");
+    if(!__cudaGetDeviceCount) return;
+    __cudaGetDeviceProperties = (int(__stdcall*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
 #else
-   void (*__cudaGetDeviceCount)( int * );
-   void (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
+    void* cudalib;
+    void (*__cudaGetDeviceCount)( int * );
+    void (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
 
 #ifdef __APPLE__
-   void *cudalib = dlopen ("/usr/local/cuda/lib/libcudart.dylib", RTLD_NOW );
+    cudalib = dlopen ("/usr/local/cuda/lib/libcudart.dylib", RTLD_NOW );
 #else
-    // Add CUDA dir to library path while looking for CUDA lib.
-    // Leave it there, shouldn't hurt.
-    //
-    char* p = getenv("LD_LIBRARY_PATH");
-    if (p && strlen(p)) {
-        if (!strstr(p, "/usr/local/cuda/lib")) {
-            char libpath[8192];
-            sprintf(libpath, "%s:/usr/local/cuda/lib", p);
-            setenv("LD_LIBRARY_PATH", libpath, 1);
-        }
-    } else {
-        setenv("LD_LIBRARY_PATH", "/usr/local/cuda/lib", 1);
+    cudalib = dlopen ("/usr/local/cuda/lib/libcudart.so", RTLD_NOW );
+    if (!cudalib) {
+        cudalib = dlopen ("libcudart.so", RTLD_NOW );
     }
-
-   void *cudalib = dlopen ("libcudart.so", RTLD_NOW );
 #endif
-   if(!cudalib) return;
-   __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
-   if(!__cudaGetDeviceCount) return;
-   __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
+    __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
+    if(!__cudaGetDeviceCount) return;
+    __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) return;
 #endif
-   (*__cudaGetDeviceCount)(&count);
-   if (count < 1) return;
+    (*__cudaGetDeviceCount)(&count);
+    if (count < 1) return;
 
-   for (int i=0; i<count; i++) {
-       COPROC_CUDA* cc = new COPROC_CUDA;
-       (*__cudaGetDeviceProperties)(&cc->prop, i);
-       cc->count = 1;
-       strcpy(cc->name, "CUDA");
-       coprocs.coprocs.push_back(cc);
+    for (int i=0; i<count; i++) {
+        COPROC_CUDA* cc = new COPROC_CUDA;
+        (*__cudaGetDeviceProperties)(&cc->prop, i);
+        cc->count = 1;
+        strcpy(cc->name, "CUDA");
+        coprocs.coprocs.push_back(cc);
     }
 }
 
