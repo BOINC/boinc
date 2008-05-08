@@ -80,84 +80,97 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
     EXPLICIT_ACCESS ea;
     SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
     SECURITY_ATTRIBUTES sa;
+    OSVERSIONINFO osvi; 
     char global_seg_name[256];
 
-    // Create a well-known SID for the Everyone group.
-    if(!AllocateAndInitializeSid(&SIDAuthWorld, 1,
-                     SECURITY_WORLD_RID,
-                     0, 0, 0, 0, 0, 0, 0,
-                     &pEveryoneSID))
-    {
-        fprintf(stderr, "AllocateAndInitializeSid Error %u\n", GetLastError());
-        goto Cleanup;
-    }
+    // Win9X doesn't like any reference to a security descriptor. So if we
+    //   detect that we are running on the Win9X platform pass a NULL value
+    //   for it.
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx(&osvi);
+    if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
 
-    // Initialize an EXPLICIT_ACCESS structure for an ACE.
-    // The ACE will allow Everyone all access to the shared memory object.
-    ZeroMemory(&ea, sizeof(EXPLICIT_ACCESS));
-    ea.grfAccessPermissions = FILE_MAP_ALL_ACCESS;
-    ea.grfAccessMode = SET_ACCESS;
-    ea.grfInheritance= NO_INHERITANCE;
-    ea.Trustee.TrusteeForm = TRUSTEE_IS_SID;
-    ea.Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
-    ea.Trustee.ptstrName  = (LPTSTR) pEveryoneSID;
-
-    // Create a new ACL that contains the new ACEs.
-    dwRes = SetEntriesInAcl(1, &ea, NULL, &pACL);
-    if (ERROR_SUCCESS != dwRes) 
-    {
-        fprintf(stderr, "SetEntriesInAcl Error %u\n", GetLastError());
-        goto Cleanup;
-    }
-
-    // Initialize a security descriptor.  
-    pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
-    if (NULL == pSD) 
-    { 
-        fprintf(stderr, "LocalAlloc Error %u\n", GetLastError());
-        goto Cleanup; 
-    } 
- 
-    if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) 
-    {  
-        fprintf(stderr, "InitializeSecurityDescriptor Error %u\n", GetLastError());
-        goto Cleanup; 
-    } 
- 
-    // Add the ACL to the security descriptor. 
-    if (!SetSecurityDescriptorDacl(pSD, 
-            TRUE,     // bDaclPresent flag   
-            pACL, 
-            FALSE))   // not a default DACL 
-    {  
-        fprintf(stderr, "SetSecurityDescriptorDacl Error %u\n", GetLastError());
-        goto Cleanup; 
-    } 
-
-    // Initialize a security attributes structure.
-    sa.nLength = sizeof (SECURITY_ATTRIBUTES);
-    sa.lpSecurityDescriptor = pSD;
-    sa.bInheritHandle = FALSE;
-
-    // Use the security attributes to set the security descriptor
-    // when you create a shared file mapping.
-
-    // The 'Global' prefix must be included in the shared memory
-    // name if the shared memory segment is going to cross
-    // terminal server session boundries.
-    //
-    sprintf(global_seg_name, "Global\\%s", seg_name);
-
-    // Try using 'Global' so that it can cross terminal server sessions
-    //
-    hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, global_seg_name);
-    dwError = GetLastError();
-    if (!hMap && (ERROR_ACCESS_DENIED == dwError)) {
-        // Couldn't use the 'Global' tag, so just attempt to use the original
-        // name.
-        //
-        hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, seg_name);
+        hMap = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, seg_name);
         dwError = GetLastError();
+
+    } else {
+        // Create a well-known SID for the Everyone group.
+        if(!AllocateAndInitializeSid(&SIDAuthWorld, 1,
+                         SECURITY_WORLD_RID,
+                         0, 0, 0, 0, 0, 0, 0,
+                         &pEveryoneSID))
+        {
+            fprintf(stderr, "AllocateAndInitializeSid Error %u\n", GetLastError());
+            goto Cleanup;
+        }
+
+        // Initialize an EXPLICIT_ACCESS structure for an ACE.
+        // The ACE will allow Everyone all access to the shared memory object.
+        ZeroMemory(&ea, sizeof(EXPLICIT_ACCESS));
+        ea.grfAccessPermissions = FILE_MAP_ALL_ACCESS;
+        ea.grfAccessMode = SET_ACCESS;
+        ea.grfInheritance= NO_INHERITANCE;
+        ea.Trustee.TrusteeForm = TRUSTEE_IS_SID;
+        ea.Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
+        ea.Trustee.ptstrName  = (LPTSTR) pEveryoneSID;
+
+        // Create a new ACL that contains the new ACEs.
+        dwRes = SetEntriesInAcl(1, &ea, NULL, &pACL);
+        if (ERROR_SUCCESS != dwRes) 
+        {
+            fprintf(stderr, "SetEntriesInAcl Error %u\n", GetLastError());
+            goto Cleanup;
+        }
+
+        // Initialize a security descriptor.  
+        pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
+        if (NULL == pSD) 
+        { 
+            fprintf(stderr, "LocalAlloc Error %u\n", GetLastError());
+            goto Cleanup; 
+        } 
+     
+        if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) 
+        {  
+            fprintf(stderr, "InitializeSecurityDescriptor Error %u\n", GetLastError());
+            goto Cleanup; 
+        } 
+     
+        // Add the ACL to the security descriptor. 
+        if (!SetSecurityDescriptorDacl(pSD, 
+                TRUE,     // bDaclPresent flag   
+                pACL, 
+                FALSE))   // not a default DACL 
+        {  
+            fprintf(stderr, "SetSecurityDescriptorDacl Error %u\n", GetLastError());
+            goto Cleanup; 
+        } 
+
+        // Initialize a security attributes structure.
+        sa.nLength = sizeof (SECURITY_ATTRIBUTES);
+        sa.lpSecurityDescriptor = pSD;
+        sa.bInheritHandle = FALSE;
+
+        // Use the security attributes to set the security descriptor
+        // when you create a shared file mapping.
+
+        // The 'Global' prefix must be included in the shared memory
+        // name if the shared memory segment is going to cross
+        // terminal server session boundries.
+        //
+        sprintf(global_seg_name, "Global\\%s", seg_name);
+
+        // Try using 'Global' so that it can cross terminal server sessions
+        //
+        hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, global_seg_name);
+        dwError = GetLastError();
+        if (!hMap && (ERROR_ACCESS_DENIED == dwError)) {
+            // Couldn't use the 'Global' tag, so just attempt to use the original
+            // name.
+            //
+            hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, seg_name);
+            dwError = GetLastError();
+        }
     }
 
     if (disable_mapview && (NULL != hMap) && (ERROR_ALREADY_EXISTS == dwError)) {
@@ -171,12 +184,14 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
 
 Cleanup:
 
-    if (pEveryoneSID) 
-        FreeSid(pEveryoneSID);
-    if (pACL) 
-        LocalFree(pACL);
-    if (pSD) 
-        LocalFree(pSD);
+    if (osvi.dwPlatformId != VER_PLATFORM_WIN32_WINDOWS) {
+        if (pEveryoneSID) 
+            FreeSid(pEveryoneSID);
+        if (pACL) 
+            LocalFree(pACL);
+        if (pSD) 
+            LocalFree(pSD);
+    }
 
     return hMap;
 }
