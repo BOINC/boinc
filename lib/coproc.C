@@ -94,9 +94,10 @@ COPROC* COPROCS::lookup(char* name) {
 }
 
 void COPROC_CUDA::get(COPROCS& coprocs) {
-    int count, retval;
+    int count;
 
 #ifdef _WIN32
+    int retval;
     int (__stdcall* __cudaGetDeviceCount)( int * );
     int (__stdcall* __cudaGetDeviceProperties) ( cudaDeviceProp*, int );
     int bufsize=256;

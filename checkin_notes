@@ -3692,3 +3692,9 @@ David  May 7 2008
 
     client/
         file_xfer.C
+
+Charlie May 7 2008
+    - client: Fix compiler warning.
+
+    lib/
+        coproc.C
