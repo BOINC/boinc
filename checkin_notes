@@ -683,3 +683,10 @@ Charlie 1 Apr 2008
     mac_build/
         UpperCase2.xcodeproj/
             project.pbxproj
+
+Rom    8 May 2008
+    - Uc2 - Change the call to diagnostics_init to boinc_init_graphics_diagnostics
+        for the graphics application.
+        
+    example_app/
+        uc2_graphics.C

@@ -277,7 +277,7 @@ int main(int argc, char** argv) {
     // and so the graphics application should have read/write
     // permissions there.
     //
-    diagnostics_init(BOINC_DIAG_DEFAULTS, "stdoutgfx", "stderrgfx");
+    boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
 
 #ifdef __APPLE__
     setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));
