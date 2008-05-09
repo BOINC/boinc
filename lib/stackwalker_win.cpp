@@ -359,8 +359,8 @@ BOOL CALLBACK SymEnumerateModulesProc(LPSTR /* ModuleName */, DWORD64 BaseOfDll,
         _ftprintf(stderr, _T("    Company Name          : %s\n")  , szCompanyName);
         _ftprintf(stderr, _T("    Product Name          : %s\n")  , szProductName);
         _ftprintf(stderr, _T("    Product Version       : %s\n")  , szProductVersion);
-        _ftprintf(stderr, _T("\n"));
     }
+    _ftprintf(stderr, _T("\n"));
 
     return TRUE;
 }
