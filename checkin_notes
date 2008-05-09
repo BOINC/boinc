@@ -3830,3 +3830,12 @@ David  May 9 2008
     lib/
         crypt.C
         crypt_prog.C
+
+David  May 9 2008
+    - scheduler: performance optimization for EDF simulation.
+        Keep track of the "easiest" job that has been rejected by EDF sim.
+        Any jobs harder than this one can be rejected without doing the sim.
+
+    sched/
+        sched_send.C
+        server_types.h

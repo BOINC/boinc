@@ -618,6 +618,9 @@ int wu_is_infeasible_fast(
     //
     if (config.workload_sim && request.have_other_results_list) {
         double est_cpu = estimate_cpu_duration(wu, reply);
+        if (reply.wreq.edf_reject_test(est_cpu, wu.delay_bound)) {
+            return INFEASIBLE_WORKLOAD;
+        }
         IP_RESULT candidate("", wu.delay_bound, est_cpu);
         strcpy(candidate.name, wu.name);
         if (check_candidate(candidate, effective_ncpus(reply.host), request.ip_results)) {
@@ -625,6 +628,7 @@ int wu_is_infeasible_fast(
             // but don't add it the the workload yet;
             // wait until we commit to sending it
         } else {
+            reply.wreq.edf_reject(est_cpu, wu.delay_bound);
             reply.wreq.speed.set_insufficient(0);
             return INFEASIBLE_WORKLOAD;
         }

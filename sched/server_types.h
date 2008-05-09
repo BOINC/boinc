@@ -97,6 +97,7 @@ struct BEST_APP_VERSION {
 };
 
 // summary of a client's request for work, and our response to it
+// Note: this is zeroed out in SCHEDULER_REPLY constructor
 //
 struct WORK_REQ {
     bool infeasible_only;
@@ -111,6 +112,30 @@ struct WORK_REQ {
     int nresults;
     int core_client_version;
     double running_frac;
+
+    // The following keep track of the "easiest" job that was rejected
+    // by EDF simulation.
+    // Any jobs harder than this can be rejected without doing the simulation.
+    //
+    double edf_reject_min_cpu;
+    int edf_reject_max_delay_bound;
+    bool have_edf_reject;
+    void edf_reject(double cpu, int delay_bound) {
+        if (have_edf_reject) {
+            if (cpu < edf_reject_min_cpu) edf_reject_min_cpu = cpu;
+            if (delay_bound> edf_reject_max_delay_bound) edf_reject_max_delay_bound = delay_bound;
+        } else {
+            edf_reject_min_cpu = cpu;
+            edf_reject_max_delay_bound = delay_bound;
+            have_edf_reject = true;
+        }
+    }
+    bool edf_reject_test(double cpu, int delay_bound) {
+        if (!have_edf_reject) return false;
+        if (cpu < edf_reject_min_cpu) return false;
+        if (delay_bound > edf_reject_max_delay_bound) return false;
+        return true;
+    }
 
     RESOURCE disk;
     RESOURCE mem;
