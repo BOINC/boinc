@@ -345,20 +345,20 @@ BOOL CALLBACK SymEnumerateModulesProc(LPSTR /* ModuleName */, DWORD64 BaseOfDll,
     }
 
     _ftprintf(stderr, _T("ModLoad: "));
-    _ftprintf(stderr, _T("%.8x ")                          , Module.BaseOfImage);
-    _ftprintf(stderr, _T("%.8x ")                          , Module.ImageSize);
-    _ftprintf(stderr, _T("%s ")                            , Module.LoadedImageName);
+    _ftprintf(stderr, _T("%.8x ")                                 , Module.BaseOfImage);
+    _ftprintf(stderr, _T("%.8x ")                                 , Module.ImageSize);
+    _ftprintf(stderr, _T("%s ")                                   , Module.LoadedImageName);
     if (bFileVersionSupported && bFileVersionRetrieved) {
-        _ftprintf(stderr, _T("(%s) ")                      , szVersionInfo);
+        _ftprintf(stderr, _T("(%s) ")                             , szVersionInfo);
     }
-    _ftprintf(stderr, _T("(%s Symbols Loaded)")            , szSymbolType);
+    _ftprintf(stderr, _T("(%s Symbols Loaded)")                   , szSymbolType);
     _ftprintf(stderr, _T("\n"));
+    _ftprintf(stderr, _T("    Linked PDB Filename   : %s\n")      , Module.CVData);
     if (bFileVersionSupported && bFileVersionRetrieved) {
         _ftprintf(stderr, _T("    File Version          : %s\n")  , szFileVersion);
         _ftprintf(stderr, _T("    Company Name          : %s\n")  , szCompanyName);
         _ftprintf(stderr, _T("    Product Name          : %s\n")  , szProductName);
         _ftprintf(stderr, _T("    Product Version       : %s\n")  , szProductVersion);
-        _ftprintf(stderr, _T("    Linked PDB Filename   : %s\n")  , Module.CVData);
         _ftprintf(stderr, _T("\n"));
     }
 
