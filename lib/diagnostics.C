@@ -463,6 +463,7 @@ int diagnostics_cycle_logs() {
         file_size(stderr_log, f_size);
 #endif
         if (f_size > max_stderr_file_size) {
+            if (NULL == stderr_file) return ERR_FOPEN;
             fclose(stderr_file);
             boinc_copy(stderr_log, stderr_archive);
             stderr_file = freopen(stderr_log, "w", stderr);
@@ -480,6 +481,7 @@ int diagnostics_cycle_logs() {
         file_size(stdout_log, f_size);
 #endif
         if (f_size > max_stdout_file_size) {
+            if (NULL == stdout_file) return ERR_FOPEN;
             fclose(stdout_file);
             boinc_copy(stdout_log, stdout_archive);
             stdout_file = freopen(stdout_log, "w", stdout);

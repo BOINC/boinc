@@ -3724,4 +3724,24 @@ Rom    May 8 2008
     lib/
         shmem.C
 
+Rom    May 9 2008
+    - DIAG: Passing a null value to fclose in VS 2005 will cause a crash, so
+        check to make sure that stdout_file and stderr_file are not null before
+        attempting to close them. If they are null return ERR_FOPEN so that
+        the next message logged can attempt to cycle the log without error.
+    - CLIENT: Make sure the diagnostics framework is initialized before
+        the config file is parsed or the command line is parsed, that way
+        if and unexpected XML tab or command line parameter is found the
+        client doesn't crash.
         
+        NOTE: The client would only crash if the log file was already greater
+          than 2MB which would cause the client to attempt to cycle the
+          log files. Since the diagnostics framework wasn't initialized yet
+          nothing was logged to the log file, no call stack was generated, 
+          and the default Windows debugging environment was fired up.
+          
+    client/
+        main.C
+    lib/
+        diagnostics.C
+
