@@ -3771,3 +3771,9 @@ David  May 9 2008
         app.C
         app_control.C
         app_start.C
+
+Rytis  May 9 2008
+    - ops pages: add missing error numbers.
+    
+    html/inc/
+        db_ops.inc
