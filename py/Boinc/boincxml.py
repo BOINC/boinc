@@ -121,16 +121,20 @@ class XMLConfig:
     def read(self, failopen_ok=False):
         """Read the XML object's file source and return self."""
         try:
-            self.xml     = xml.dom.minidom.parse(self.filename)
+            self.xml = xml.dom.minidom.parse(self.filename)
             strip_white_space(self.xml)
-        except IOError, e:
+        except:
             if not failopen_ok:
                 # raise
-                raise Exception("%s: Couldn't parse XML config\n%s: %s"%(sys.argv[0],sys.argv[0],e))
-            print >>sys.stderr, "Warning:", e
+                raise Exception("Couldn't parse XML config\n")
+            print >>sys.stderr, "Warning: couldn't parse XML file"
             # self.xml = xml.dom.minidom.Document()
             self._init_empty_xml()
-        self._get_elements()
+        try:
+            self._get_elements()
+        except:
+            if not failopen_ok:
+                raise Exception("%s: Couldn't get elements from XML file");
         return self
     def _get_elements(self):
         pass

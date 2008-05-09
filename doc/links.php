@@ -39,7 +39,7 @@ $info_sites = array(
     array(
         "http://boincfaq.mundayweb.com/",
         "The BOINC FAQ Service",
-        "(English, German and Dutch)"
+        "(English, German, Dutch, Spanish and French)"
     ),
     array(
         "http://www.boinc-wiki.info/",

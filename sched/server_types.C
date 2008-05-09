@@ -869,10 +869,10 @@ int APP_VERSION::write(FILE* fout) {
         COPROC* cp = bavp->host_usage.coprocs.coprocs[i];
         fprintf(fout,
             "    <coproc>\n"
-            "        <name>%s</name>\n"
+            "        <type>%s</type>\n"
             "        <count>%d</count>\n"
             "    </coproc>\n",
-            cp->name,
+            cp->type,
             cp->count
         );
     }

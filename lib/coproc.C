@@ -38,25 +38,25 @@
 void COPROC::write_xml(MIOFILE& f) {
     f.printf(
         "<coproc>\n"
-        "   <name>%s</name>\n"
+        "   <type>%s</type>\n"
         "   <count>%d</count>\n"
         "</coproc>\n",
-        name, count
+        type, count
     );
 }
 #endif
 
 int COPROC::parse(MIOFILE& fin) {
     char buf[1024];
-    strcpy(name, "");
+    strcpy(type, "");
     count = 0;
     used = 0;
     while (fin.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coproc>")) {
-            if (!strlen(name)) return ERR_XML_PARSE;
+            if (!strlen(type)) return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<type>", type, sizeof(type))) continue;
         if (parse_int(buf, "<count>", count)) continue;
     }
     return ERR_XML_PARSE;
@@ -85,10 +85,10 @@ int COPROCS::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-COPROC* COPROCS::lookup(char* name) {
+COPROC* COPROCS::lookup(char* type) {
     for (unsigned int i=0; i<coprocs.size(); i++) {
         COPROC* cp = coprocs[i];
-        if (!strcmp(name, cp->name)) return cp;
+        if (!strcmp(type, cp->type)) return cp;
     }
     return NULL;
 }
@@ -146,7 +146,7 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
         COPROC_CUDA* cc = new COPROC_CUDA;
         (*__cudaGetDeviceProperties)(&cc->prop, i);
         cc->count = 1;
-        strcpy(cc->name, "CUDA");
+        strcpy(cc->type, "CUDA");
         coprocs.coprocs.push_back(cc);
     }
 }
@@ -155,9 +155,9 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
 //
 void fake_cuda(COPROCS& coprocs) {
    COPROC_CUDA* cc = new COPROC_CUDA;
-   strcpy(cc->name, "CUDA");
+   strcpy(cc->type, "CUDA");
    cc->count = 1;
-   strcpy(cc->prop.name, cc->name);
+   strcpy(cc->prop.name, "CUDA NVIDIA chip");
    cc->prop.totalGlobalMem = 1000;
    cc->prop.sharedMemPerBlock = 100;
    cc->prop.regsPerBlock = 8;
@@ -218,6 +218,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
 #endif
 
 void COPROC_CUDA::clear() {
+    count = 0;
     strcpy(prop.name, "");
     prop.totalGlobalMem = 0;
     prop.sharedMemPerBlock = 0;
@@ -245,10 +246,7 @@ int COPROC_CUDA::parse(FILE* fin) {
     while (fgets(buf, sizeof(buf), fin)) {
         if (strstr(buf, "</coproc_cuda>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
-        if (parse_str(buf, "<name>", name, sizeof(name))) {
-            strcpy(prop.name, name);
-            continue;
-        }
+        if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
         if (parse_int(buf, "<totalGlobalMem`>", (int&)prop.totalGlobalMem)) continue;
         if (parse_int(buf, "<sharedMemPerBlock`>", (int&)prop.sharedMemPerBlock)) continue;
         if (parse_int(buf, "<regsPerBlock`>", prop.regsPerBlock)) continue;

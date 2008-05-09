@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("May 9, 2008",
+    "The <a href=http://boincfaq.mundayweb.com/>BOINC FAQ Service</a>
+    is now available in Spanish and French
+    (as well as English, German, and Dutch)."
+),
 array("May 7, 2008",
     "<a href=http://www.predictioncenter.org/casp8/index.cgi>CASP8</a>,
     a competition for protein structure prediction, starts soon.

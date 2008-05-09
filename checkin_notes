@@ -3778,7 +3778,7 @@ Rytis  May 9 2008
     html/inc/
         db_ops.inc
 
-David May 9 2008
+David  May 9 2008
     - client (Unix): when running app, open fd 0 to /dev/null
         rather than just closing it (from Gabor Gombas)
 
@@ -3795,3 +3795,19 @@ Rom    May 9 2008
         
     lib/
         stackwalker_win.cpp
+
+David  May 9 2008
+    - client and server: in coprocessor records, change "name" to "type"
+        to avoid confusion with "name" field of CUDA.
+        This is a bug fix - please port.
+    - start script: don't error out if run_state.xml file is empty
+        (which happens if project runs out of disk space)
+
+    lib/
+        coproc.C,h
+    py/Boinc/
+        boincxml.py
+    sched/
+        sched_plan.C
+        sched_send.C
+        server_types.C

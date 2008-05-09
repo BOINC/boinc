@@ -30,15 +30,15 @@
 #include "miofile.h"
 
 struct COPROC {
-    char name[256];     // must be unique
+    char type[256];     // must be unique
     int count;          // how many are present
     int used;           // how many are in use (used by client)
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
-    COPROC(){
-        strcpy(name, "");
+    COPROC(char* t){
+        strcpy(type, t);
         count = 0;
         used = 0;
     }
@@ -94,6 +94,7 @@ struct COPROC_CUDA : public COPROC {
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
+    COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
     static void get(COPROCS&);
     void clear();

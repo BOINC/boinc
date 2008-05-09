@@ -195,8 +195,8 @@ BEST_APP_VERSION* get_app_version(
     if (bavp->avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_DEBUG,
-                "Best version of app %s is %d (%f FLOPS)\n",
-                app->name, bavp->avp->id, bavp->host_usage.flops
+                "Best version of app %s is %d (%.2f GFLOPS)\n",
+                app->name, bavp->avp->id, bavp->host_usage.flops/1e9
             );
         }
     } else {
