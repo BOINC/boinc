@@ -3777,3 +3777,10 @@ Rytis  May 9 2008
     
     html/inc/
         db_ops.inc
+
+David May 9 2008
+    - client (Unix): when running app, open fd 0 to /dev/null
+        rather than just closing it (from Gabor Gombas)
+
+    client/
+        app_start.C

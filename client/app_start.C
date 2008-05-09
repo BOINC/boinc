@@ -743,9 +743,11 @@ int ACTIVE_TASK::start(bool first_time) {
         // If an error happens,
         // exit nonzero so that the core client knows there was a problem.
 
-        // close descriptors
+        // don't pass stdout to the app
         //
-        fclose(stdout);
+        int fd = open("/dev/null", O_RDWR);
+        dup2(fd, 0);
+        close(fd);
 
         // add project dir to library path
         //
