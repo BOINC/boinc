@@ -3821,3 +3821,12 @@ David  May 9 2008
         cpu_sched.C
     lib/
         coproc.h
+
+David  May 9 2008
+    - tools: performance enhancement to crypt functions,
+        and have crypt_prog exit nonzero on failure
+        (from Nicolas Alvarez)
+
+    lib/
+        crypt.C
+        crypt_prog.C

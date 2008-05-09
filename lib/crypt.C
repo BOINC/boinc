@@ -60,18 +60,18 @@ int print_hex_data(FILE* f, DATA_BLOCK& x) {
 
 // same, but write to buffer
 //
-int sprint_hex_data(char* p, DATA_BLOCK& x) {
+int sprint_hex_data(char* out_buf, DATA_BLOCK& x) {
     unsigned int i;
-    char buf[16];
+    const char hex[] = "0123456789abcdef";
+    char* p = out_buf;
 
-    strcpy(p, "");
     for (i=0; i<x.len; i++) {
-        sprintf(buf, "%02x", x.data[i]);
-        strcat(p, buf);
-        if (i%32==31) strcat(p, "\n");
+        *p++ = hex[x.data[i]/16];
+        *p++ = hex[x.data[i]%16];
+        if (i%32==31) *p++ = '\n';
     }
-    if (x.len%32 != 0) strcat(p, "\n");
-    strcat(p, ".\n");
+    if (x.len%32 != 0) *p++ = '\n';
+    strcpy(p, ".\n");
 
     return 0;
 }

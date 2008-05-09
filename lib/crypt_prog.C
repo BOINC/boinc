@@ -47,7 +47,7 @@
 
 void die(const char* p) {
     fprintf(stderr, "Error: %s\n", p);
-    exit(1);
+    exit(2);
 }
 
 unsigned int random_int() {
@@ -142,7 +142,12 @@ int main(int argc, char** argv) {
         if (retval) die("scan_hex_data");
         retval = verify_file(argv[2], public_key, signature, is_valid);
         if (retval) die("verify_file");
-        printf("file is %s\n", is_valid?"valid":"invalid");
+        if (is_valid) {
+            printf("file is valid\n");
+        } else {
+            printf("file is invalid\n");
+            return 1;
+        }
     } else if (!strcmp(argv[1], "-test_crypt")) {
         fpriv = fopen(argv[2], "r");
         if (!fpriv) die("fopen");
@@ -163,8 +168,8 @@ int main(int argc, char** argv) {
         printf("out: %s\n", out.data);
     } else {
         printf("unrecognized command\n");
+        return 1;
     }
-
     return 0;
 }
 
