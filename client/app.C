@@ -31,9 +31,7 @@
 
 #ifndef _WIN32
 
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
@@ -78,6 +76,13 @@
 
 using std::max;
 using std::min;
+
+#define ABORT_TIMEOUT   60
+    // if we send app <abort> request, wait this long before killing it.
+    // This gives it time to download symbol files (which can be several MB)
+    // and write stack trace to stderr
+#define QUIT_TIMEOUT    10
+    // Same, for <quit>.  Shorter because no stack trace is generated
 
 ACTIVE_TASK::~ACTIVE_TASK() {
 #ifndef SIM
@@ -311,12 +316,12 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() == PROCESS_ABORT_PENDING) {
-            if (gstate.now > atp->abort_time + 5.0) {
+            if (gstate.now > atp->abort_time + ABORT_TIMEOUT) {
                 atp->kill_task(false);
             }
         }
         if (atp->task_state() == PROCESS_QUIT_PENDING) {
-            if (gstate.now > atp->quit_time + 10.0) {
+            if (gstate.now > atp->quit_time + QUIT_TIMEOUT) {
                 atp->kill_task(true);
             }
         }

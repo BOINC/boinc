@@ -33,10 +33,7 @@
 
 #else
 #include "config.h"
-
-#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 
 #if HAVE_SYS_IPC_H
 #include <sys/ipc.h>

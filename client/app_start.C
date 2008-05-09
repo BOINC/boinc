@@ -743,6 +743,10 @@ int ACTIVE_TASK::start(bool first_time) {
         // If an error happens,
         // exit nonzero so that the core client knows there was a problem.
 
+        // close descriptors
+        //
+        fclose(stdout);
+
         // add project dir to library path
         //
         char libpath[8192];

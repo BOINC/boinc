@@ -3761,3 +3761,13 @@ Rom    May 9 2008
         
     lib/
         stackwalker_win.cpp
+
+David  May 9 2008
+    - client: increase <abort> timeout from 5 sec to 60;
+        this gives the diagnostic system time to download
+        symbol files (which may be several MB) and write a stack trace.
+
+    client/
+        app.C
+        app_control.C
+        app_start.C
