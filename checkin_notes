@@ -3811,3 +3811,13 @@ David  May 9 2008
         sched_plan.C
         sched_send.C
         server_types.C
+
+David  May 9 2008
+    - client part of the above
+
+    client/
+        client_state.C
+        client_types.C
+        cpu_sched.C
+    lib/
+        coproc.h

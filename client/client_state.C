@@ -254,7 +254,7 @@ int CLIENT_STATE::init() {
     } else {
         for (i=0; i<coprocs.coprocs.size(); i++) {
             COPROC* c = coprocs.coprocs[i];
-            msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c->name, c->count);
+            msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c->type, c->count);
         }
     }
 

@@ -104,6 +104,7 @@ struct COPROC_CUDA : public COPROC {
 
 struct COPROC_CELL_SPE : public COPROC {
     static void get(COPROCS&);
+    COPROC_CELL_SPE() : COPROC("Cell SPE"){}
     virtual ~COPROC_CELL_SPE(){}
 };
 

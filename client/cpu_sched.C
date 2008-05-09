@@ -73,10 +73,10 @@ using std::vector;
 bool CLIENT_STATE::sufficient_coprocs(APP_VERSION& av) {
     for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
         COPROC* cp = av.coprocs.coprocs[i];
-        COPROC* cp2 = coprocs.lookup(cp->name);
+        COPROC* cp2 = coprocs.lookup(cp->type);
         if (!cp2) {
             msg_printf(av.project, MSG_INFO,
-                "Missing a %s coprocessor", cp->name
+                "Missing a %s coprocessor", cp->type
             );
             return false;
         }
@@ -84,7 +84,7 @@ bool CLIENT_STATE::sufficient_coprocs(APP_VERSION& av) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(NULL, MSG_INFO,
                     "[cpu_sched_debug] insufficient coproc %s (%d + %d > %d)",
-                    cp2->name, cp2->used, cp->count, cp2->count
+                    cp2->type, cp2->used, cp->count, cp2->count
                 );
             }
             return false;
@@ -96,12 +96,12 @@ bool CLIENT_STATE::sufficient_coprocs(APP_VERSION& av) {
 void CLIENT_STATE::reserve_coprocs(APP_VERSION& av) {
     for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
         COPROC* cp = av.coprocs.coprocs[i];
-        COPROC* cp2 = coprocs.lookup(cp->name);
+        COPROC* cp2 = coprocs.lookup(cp->type);
         if (!cp2) continue;
         if (log_flags.cpu_sched_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[cpu_sched_debug] reserving %d of coproc %s",
-                cp->count, cp2->name
+                cp->count, cp2->type
             );
         }
         cp2->used += cp->count;
@@ -111,12 +111,12 @@ void CLIENT_STATE::reserve_coprocs(APP_VERSION& av) {
 void CLIENT_STATE::free_coprocs(APP_VERSION& av) {
     for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
         COPROC* cp = av.coprocs.coprocs[i];
-        COPROC* cp2 = coprocs.lookup(cp->name);
+        COPROC* cp2 = coprocs.lookup(cp->type);
         if (!cp2) continue;
         if (log_flags.cpu_sched_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[cpu_sched_debug] freeing %d of coproc %s",
-                cp->count, cp2->name
+                cp->count, cp2->type
             );
         }
         cp2->used -= cp->count;
