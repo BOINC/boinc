@@ -3745,3 +3745,12 @@ Rom    May 9 2008
     lib/
         diagnostics.C
 
+Charlie May 8 2008
+    - MGR: Update comments on how to link with Development / debug build of wxWidgets; 
+        add this info to build documentation.
+        
+    clientgui/
+        mac/
+            MacGUI.pch
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
