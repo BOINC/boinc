@@ -111,14 +111,17 @@ bool DebuggerLoadLibrary(
     *lphInstance = LoadLibraryA( strTargetLibrary.c_str() );
     if ( *lphInstance == NULL )
     {
+        _ftprintf( stderr, "LoadLibraryA( %s ): GetLastError = %lu\n", strTargetLibrary.c_str(), gle );
+
         strTargetLibrary = strLibrary;
         *lphInstance = LoadLibraryA( strTargetLibrary.c_str() );
         if ( *lphInstance == NULL )
         {
-            _ftprintf( stderr, "LoadLibraryA( %s ): GetLastError = %lu\n", strLibrary.c_str(), gle );
+            _ftprintf( stderr, "LoadLibraryA( %s ): GetLastError = %lu\n", strTargetLibrary.c_str(), gle );
             return false;
         }
     }
+    _ftprintf( stderr, _T("Loaded Library    : %s\n"), strTargetLibrary.c_str());
     return true;
 }
 

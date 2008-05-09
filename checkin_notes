@@ -3754,3 +3754,10 @@ Charlie May 8 2008
             MacGUI.pch
     mac_build/
         HowToBuildBOINC_XCode.rtf
+
+Rom    May 9 2008
+    - DIAG: Include the list of libraries loaded as well as their locations
+        when the runtime debugger is engaged.
+        
+    lib/
+        stackwalker_win.cpp
