@@ -30,10 +30,11 @@
 
 // To use the Development (Debug) build of wxMac (allows stepping into wxMac 
 //   source code, enables debug, trace, Asserts, etc.):
-// (1) Set USE_DEBUG_WXMAC to 1
-// (2) Select Development build configuration
-// (3) Select mgr_boinc target
-// (4) In Xcode's View menu, set "Groups & Files Column > Target Membership" on
+// (1) Set USE_DEBUG_WXMAC to 1 in this source file
+// (2) In the Project menu, set the Active Build Configuration to "Development"
+// (3) In the Project menu, set the Active Target to "mgr_boinc"
+// (4) In Xcode's main project window, control-click on the title "Groups & Files" at the 
+//      top of the left-hand pane and select "Target Membership" from the contextual menu.
 // (5) In the XCode project's Groups and Files column:
 //      uncheck "External Frameworks and Libraries/libwx_mac_static.a"
 // (6) In the XCode project's Groups and Files column:
