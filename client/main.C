@@ -321,9 +321,6 @@ static void init_core_client(int argc, char** argv) {
 #else
 #endif
 
-    read_config_file();
-    gstate.parse_cmdline(argc, argv);
-
 #ifndef _WIN32
     if (g_use_sandbox)
         // Set file creation mask to be writable by both user and group and
@@ -349,6 +346,11 @@ static void init_core_client(int argc, char** argv) {
     diagnostics_init(flags, "stdoutdae", "stderrdae");
     diagnostics_set_max_file_sizes(config.max_stdout_file_size, config.max_stderr_file_size);
 
+    // Read config and parse the commandline after initializing the
+    // diagnostics framework.
+    read_config_file();
+    gstate.parse_cmdline(argc, argv);
+
 	// Win32 - detach from console if requested
 #ifdef _WIN32
 	if (gstate.detach_console) {
@@ -356,7 +358,7 @@ static void init_core_client(int argc, char** argv) {
 	}
 #endif
 
-// Unix: install signal handlers
+    // Unix: install signal handlers
 #ifndef _WIN32
     // Handle quit signals gracefully
     boinc_set_signal_handler(SIGHUP, signal_handler);
@@ -368,7 +370,7 @@ static void init_core_client(int argc, char** argv) {
 #endif
 #endif
 
-// Windows: install console controls
+    // Windows: install console controls
 #ifdef _WIN32
     if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
         if (!gstate.executing_as_daemon) {
@@ -691,11 +693,13 @@ int main(int argc, char** argv) {
     init_core_client(argc, argv);
 
 #ifdef _WIN32
+
     // Figure out if we're on Win9x
     OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     g_bIsWin9x = osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS;
+
     if (g_bIsWin9x) {
         // Win9x doesn't send us the shutdown or close console
         //   event, so we are going to create a hidden window
@@ -715,7 +719,6 @@ int main(int argc, char** argv) {
             g_Win9xMonitorSystemThreadID = NULL;
         }
     }
-
 
     SERVICE_TABLE_ENTRY dispatchTable[] = {
         { TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
