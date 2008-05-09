@@ -3784,3 +3784,14 @@ David May 9 2008
 
     client/
         app_start.C
+
+Rom    May 9 2008
+    - DIAG: Include the PDB filename that is linked to the EXE at
+        compile time to the module information dumped during a crash.
+        
+      NOTE: This should give a project admin a tickle that the PDB
+        and EXE names need to be set before compiling and not renamed
+        after the fact.
+        
+    lib/
+        stackwalker_win.cpp
