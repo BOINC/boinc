@@ -2,6 +2,11 @@
 
 $project_news = array(
 array("May 9, 2008",
+    "BOINC volunteer Werner Klein is
+    <a href=http://www.sternengucker.org/index.php/artikel/interview-seti-ist-heute-bereits-erfolgreich/>interviewed
+    in Sternengucker.org</a> (German)."
+),
+array("May 9, 2008",
     "The <a href=http://boincfaq.mundayweb.com/>BOINC FAQ Service</a>
     is now available in Spanish and French
     (as well as English, German, and Dutch)."

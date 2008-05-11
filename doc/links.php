@@ -243,6 +243,7 @@ language("French", array(
 ));
 language("German", array(
     //site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
+    site("http://www.gridcommunity.de/index.php", "International Grid Community"),
     site("http://www.swissteam.net/", "SwissTeam.net"),
     site("http://www.unitedmacs.com/", "United Macs"),
     site("http://www.rechenkraft.net/", "Rechenkraft"),

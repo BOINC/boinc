@@ -3839,3 +3839,20 @@ David  May 9 2008
     sched/
         sched_send.C
         server_types.h
+
+David  May 11 2008
+    - Client (Windows) change the way core/app shmem segs are created.
+        Old: get_shmem_seg_name() tries names of the form shm_boinc_N
+            until it finds one for which creating succeeds.
+            Then it detaches (deletes) the segment and records the name.
+            Later, the segment is created again.
+            This creates a race condition if two core clients
+            are running on the same host.
+            It's also kind of silly.
+        New: get_shmem_seg_name() doesn't detach the segment,
+            and we dont have to create it again later.
+            
+    client/
+        app_start.C
+    lib/
+        shmem.C

@@ -79,8 +79,8 @@ using std::vector;
 
 
 #ifdef _WIN32
-// Dynamically link to these functions at runtime, otherwise BOINC
-// cannot run on Win98
+// Dynamically link to these functions at runtime;
+// otherwise BOINC cannot run on Win98
 
 // CreateEnvironmentBlock
 typedef BOOL (WINAPI *tCEB)(LPVOID *lpEnvironment, HANDLE hToken, BOOL bInherit);
@@ -102,28 +102,24 @@ static void debug_print_argv(char** argv) {
 }
 #endif
 
-// make a unique key for core/app shared memory segment
+// Make a unique key for core/app shared memory segment.
+// Windows: also create and attach to the segment.
 //
 int ACTIVE_TASK::get_shmem_seg_name() {
 #ifdef _WIN32
-    int     i = 0;
-    char    szSharedMemoryName[256];
-    HANDLE  hSharedMemoryHandle = 0;
+    int i;
+    char seg_name[256];
+    HANDLE h = 0;
 
     for (i=0; i<1024; i++) {
-        sprintf(szSharedMemoryName, "%sboinc_%d", SHM_PREFIX, i);
-        hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL, true);
-        if (hSharedMemoryHandle) break;
+        sprintf(seg_name, "%sboinc_%d", SHM_PREFIX, i);
+        hSharedMemoryHandle = create_shmem(
+            seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm, false
+        );
+        if (h) break;
     }
-
-    if (!hSharedMemoryHandle) {
-        return ERR_SHMGET;
-    }
-    detach_shmem(hSharedMemoryHandle, NULL);
-
-    sprintf(szSharedMemoryName, "boinc_%d", i);
-    strcpy(shmem_seg_name, szSharedMemoryName);
-
+    if (!h) return ERR_SHMGET;
+    sprintf(shmem_seg_name, "boinc_%d", i);
 #else
     char init_data_path[256];
 #ifndef __EMX__
@@ -492,19 +488,6 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     startup_info.dwFlags = STARTF_FORCEOFFFEEDBACK;
 
-    // create shared mem segment if needed
-    //
-    if (!app_client_shm.shm) {
-        sprintf(buf, "%s%s", SHM_PREFIX, shmem_seg_name);
-        shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
-            (void **)&app_client_shm.shm, false
-        );
-        if (shm_handle == NULL) {
-            strcpy(buf, "Can't create shared memory");
-            retval = ERR_SHMGET;
-            goto error;
-        }
-    }
     app_client_shm.reset_msgs();
 
     if (config.run_apps_manually) {

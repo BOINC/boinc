@@ -53,6 +53,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
+
 // MAP_FILE isn't defined on most operating systems, and even then, it
 // is often defined just for the sake of compatibility.  On those that
 // don't define it, we will....
@@ -70,7 +71,9 @@ extern "C" int debug_printf(const char *fmt, ...);
 
 #ifdef _WIN32
 
-HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview) {
+HANDLE create_shmem(
+    LPCTSTR seg_name, int size, void** pp, bool disable_mapview
+) {
     HANDLE hMap = NULL;
     DWORD dwError = 0;
     DWORD dwRes = 0;
@@ -83,9 +86,10 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
     OSVERSIONINFO osvi; 
     char global_seg_name[256];
 
-    // Win9X doesn't like any reference to a security descriptor. So if we
-    //   detect that we are running on the Win9X platform pass a NULL value
-    //   for it.
+    // Win9X doesn't like any reference to a security descriptor.
+    // So if we detect that we are running on the Win9X platform pass
+    // a NULL value for it.
+    //
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
@@ -96,10 +100,10 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
     } else {
         // Create a well-known SID for the Everyone group.
         if(!AllocateAndInitializeSid(&SIDAuthWorld, 1,
-                         SECURITY_WORLD_RID,
-                         0, 0, 0, 0, 0, 0, 0,
-                         &pEveryoneSID))
-        {
+             SECURITY_WORLD_RID,
+             0, 0, 0, 0, 0, 0, 0,
+             &pEveryoneSID)
+        ) {
             fprintf(stderr, "AllocateAndInitializeSid Error %u\n", GetLastError());
             goto Cleanup;
         }
@@ -124,15 +128,15 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
 
         // Initialize a security descriptor.  
         pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
-        if (NULL == pSD) 
-        { 
+        if (NULL == pSD) { 
             fprintf(stderr, "LocalAlloc Error %u\n", GetLastError());
             goto Cleanup; 
         } 
      
-        if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) 
-        {  
-            fprintf(stderr, "InitializeSecurityDescriptor Error %u\n", GetLastError());
+        if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) {
+            fprintf(stderr, "InitializeSecurityDescriptor Error %u\n",
+                GetLastError()
+            );
             goto Cleanup; 
         } 
      
@@ -140,9 +144,11 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
         if (!SetSecurityDescriptorDacl(pSD, 
                 TRUE,     // bDaclPresent flag   
                 pACL, 
-                FALSE))   // not a default DACL 
-        {  
-            fprintf(stderr, "SetSecurityDescriptorDacl Error %u\n", GetLastError());
+                FALSE) // not a default DACL 
+        ) {  
+            fprintf(stderr,
+                "SetSecurityDescriptorDacl Error %u\n", GetLastError()
+            );
             goto Cleanup; 
         } 
 
