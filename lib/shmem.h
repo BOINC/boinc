@@ -34,7 +34,7 @@
 // The above with _mmap: V6 mmap() shared memory for Unix/Linux/Mac
 
 #ifdef _WIN32
-HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview);
+HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp);
 HANDLE attach_shmem(LPCTSTR seg_name, void** pp);
 int detach_shmem(HANDLE hSharedMem, void* p);
 #else

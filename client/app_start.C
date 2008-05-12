@@ -113,8 +113,8 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 
     for (i=0; i<1024; i++) {
         sprintf(seg_name, "%sboinc_%d", SHM_PREFIX, i);
-        hSharedMemoryHandle = create_shmem(
-            seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm, false
+        h = create_shmem(
+            seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
         );
         if (h) break;
     }

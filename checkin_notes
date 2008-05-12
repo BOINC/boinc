@@ -3885,3 +3885,11 @@ Rom    May 12 2008
     
     win_build/installerv2/redist/Windows/src/boinccas/
         CAMigrateBOINCData.cpp, .h
+
+David  May 12 2008
+	- client (win): bug fixes to yesterday's checkin
+
+    client/
+	    app_start.C
+	lib/
+		shmem.C,h

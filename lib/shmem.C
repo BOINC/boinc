@@ -71,9 +71,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 
 #ifdef _WIN32
 
-HANDLE create_shmem(
-    LPCTSTR seg_name, int size, void** pp, bool disable_mapview
-) {
+HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
     HANDLE hMap = NULL;
     DWORD dwError = 0;
     DWORD dwRes = 0;
@@ -120,8 +118,7 @@ HANDLE create_shmem(
 
         // Create a new ACL that contains the new ACEs.
         dwRes = SetEntriesInAcl(1, &ea, NULL, &pACL);
-        if (ERROR_SUCCESS != dwRes) 
-        {
+        if (ERROR_SUCCESS != dwRes) {
             fprintf(stderr, "SetEntriesInAcl Error %u\n", GetLastError());
             goto Cleanup;
         }
@@ -179,13 +176,13 @@ HANDLE create_shmem(
         }
     }
 
-    if (disable_mapview && (NULL != hMap) && (ERROR_ALREADY_EXISTS == dwError)) {
-        CloseHandle(hMap);
-        hMap = NULL;
-    }
-
-    if (!disable_mapview && (NULL != hMap) && pp) {
-        *pp = MapViewOfFile( hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    if (hMap) {
+        if (GetLastError() == ERROR_ALREADY_EXISTS) {
+            CloseHandle(hMap);
+            hMap = NULL;
+        } else {
+            *pp = MapViewOfFile( hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+        }
     }
 
 Cleanup:
