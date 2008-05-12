@@ -3634,6 +3634,12 @@ David  May 7 2008
         coproc.C
         unix_util.C,h
 
+Charlie May 7 2008
+    - client: Fix compiler warning.
+
+    lib/
+        coproc.C
+
 Rom    May 8 2008
     - LIB: Windows 9X doesn't like it when you specify a security descriptor, so
         special case Win9X so that it'll pass a NULL to CreateFileMapping.
