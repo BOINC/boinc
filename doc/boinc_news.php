@@ -1,6 +1,28 @@
 <?
 
 $project_news = array(
+array("May 9, 2008",
+    "The <a href=http://boincfaq.mundayweb.com/>BOINC FAQ Service</a>
+    is now available in Spanish and French
+    (as well as English, German, and Dutch)."
+),
+array("May 7, 2008",
+    "<a href=http://www.predictioncenter.org/casp8/index.cgi>CASP8</a>,
+    a competition for protein structure prediction, starts soon.
+    <a href=http://www.rechenkraft.net>Rechenkraft.net</a> is
+    sponsoring a team credit-race to support
+    <a href=http://boinc.fzk.de/poem>POEM@home</a>,
+    one of the CASP participants.
+    Results will be reported at
+    <a href=http://starmageddon.dyndns.org/pboinc/index.php>Planet BOINC</a>."
+),
+array("May 6, 2008",
+    "Alpha testing of BOINC software is done by volunteers.
+    Many thanks to <a href=http://isaac.ssl.berkeley.edu/alpha/top_testers.php>this month's top testers</a>."
+),
+array("May 5, 2008",
+    "Version 3.0 of <a href=http://www.conmunix.net/offene-projekte/boinc-lcs/>Boinc LCS</a> (a free PHP script for monitoring remote BOINC clients) has been released."
+),
 array("Apr 20, 2008",
     "The BOINC user documentation has been moved from
     <a href=trac/wiki/RunningBoinc>Trac</a>

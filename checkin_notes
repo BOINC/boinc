@@ -3671,3 +3671,20 @@ Charlie May 8 2008
             MacGUI.pch
     mac_build/
         HowToBuildBOINC_XCode.rtf
+
+David  May 9 2008
+    - client and server: in coprocessor records, change "name" to "type"
+        to avoid confusion with "name" field of CUDA.
+        This is a bug fix - please port.
+    - start script: don't error out if run_state.xml file is empty
+        (which happens if project runs out of disk space)
+
+    lib/
+        coproc.C,h
+    py/Boinc/
+        boincxml.py
+    sched/
+        sched_plan.C
+        sched_send.C
+        server_types.C
+
