@@ -3856,3 +3856,15 @@ David  May 11 2008
         app_start.C
     lib/
         shmem.C
+
+Eric K May 12 2008
+    - Fixes to init script.
+    - Commands in Makefile.am to install init scripts
+    - Initial checkin of sample configuration file boinc-client.conf
+
+    client/
+        scripts/
+            Makefile.am
+            boinc-client.in
+            boinc-client.conf
+

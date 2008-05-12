@@ -54,7 +54,8 @@ sysconfdir=`dirname @sysconfdir@/.`
 ########################################################################
 
 # set the basic PATH
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/ucb/bin
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/ucb/bin
+export PATH
 
 # Find the correct ps to use.  On solaris /usr/ucb/ps is the one to use
 # on everything else, we hope the first one in the path is the right one.
@@ -72,7 +73,7 @@ fi
 ########################################################################
 SHELLS="bash ksh zsh"
 # count how many times we've tried to restart
-TRIES=$1
+TRIES=$2
 if [ -z "$TRIES" ] ; then
   TRIES=0
 fi
@@ -92,7 +93,7 @@ if [ -z "$BASH_VERSION" -a -z "$ZSH_VERSION" ] ; then
       for try in $SHELLS ; do
         ex=`which $try`
         if [ ! -z "${ex}" -a -x "${ex}" ] ; then
-          if ${ex} $0 $TRIES ; then
+          if ${ex} $0 $1 $TRIES ; then
             # it worked, we can exit
             exit 0
           else
@@ -161,9 +162,11 @@ BOINCOPTS=
 
 # If there is the subsys directory, then use it ...
 if [ -d /var/lock/subsys/ ]; then
-        LOCKFILE=/var/lock/subsys/boinc-client
+        LOCKFILE=/var/lock/subsys/${BOINCEXE_NAME}
 elif [ -d /var/lock ]; then
-        LOCKFILE=/var/lock/boinc-client
+        LOCKFILE=/var/lock/${BOINCEXE_NAME}
+elif [ -d /var/run ]; then
+        LOCKFILE=/var/run/${BOINCEXE_NAME}.lock
 fi
 
 # su on Linux seems to need this to be set to work properly in a script
@@ -177,23 +180,24 @@ export TERM=dumb
 
 if [ -f /etc/rc.d/init.d/functions ] ; then
       . /etc/rc.d/init.d/functions
-      if `printf "Hello" >/dev/null 2>/dev/null` ; then
+else
+      if printf "Hello" >/dev/null 2>/dev/null ; then
            # printf works
            printcol='printf \033[60G%s'
-        if `echo -en "Hello" >/dev/null 2>/dev/null` ; then
+      elif echo -en "Hello" >/dev/null 2>/dev/null ; then
            # echo -en works
            printcol='echo -en \033[60G'
-        else
+      else
            # no printf make do with echo -n
            printcol="echo -n .........."
-        fi
-        function echo_success () { $printcol "[OK]" ; }
-        function echo_failure () { $printcol "[FAILED]" ; }
-        function echo_warning () { $printcol "[WARNING]" ; }
-        function killproc() {
+      fi
+      function echo_success () { $printcol "[OK]" ; }
+      function echo_failure () { $printcol "[FAILED]" ; }
+      function echo_warning () { $printcol "[WARNING]" ; }
+      function killproc() {
              PID=`local_pidof $1`
              [ $PID ] && kill $PID 
-        }
+      }
 fi
 
 # check if we have pidof.  If not use ps and grep for the same job.
@@ -212,7 +216,9 @@ fi
 # If we don't have it, use su for the same job.
 # 
 if [ ! -x /sbin/runuser ] ; then
-  alias runuser=su
+  RUNUSER=su
+else 
+  RUNUSER=runuser
 fi
 
 # Some additional places to look for executables
@@ -264,6 +270,7 @@ if [ "${config_file}" != "none" ]; then
   . ${config_file}
 fi
 
+
 ## Add ${BOINCDIR} to the path, just in case the executables are stored there.
 export PATH=${PATH}:${BOINCDIR}
 
@@ -288,7 +295,8 @@ if [ ! -d $BOINCDIR ]; then
 fi
 
 ## Check what user we are running as:
-USERNOW=`whoami`
+# we can't rely on the existence of "whoami" or "logname", so we'll use ps.
+USERNOW=`${PS} u $$ | tail -1 | awk '{print $1}'`
 if [ -z "$BOINCUSER" ] ; then
   BOINCUSER="${USERNOW}"
 fi
@@ -321,7 +329,8 @@ if [ "${USERNOW}" = "${BOINCUSER}" ] ; then
     exit 8
   fi
 elif [ "${USERNOW}" = "root" ] ; then
-  if [ -z `su -s /bin/sh $BOINCUSER -c "if test -O ${BOINCDIR} ; then echo success ; fi"` ]; then
+  cmd="if test -O ${BOINCDIR} ; then echo success ; fi"
+  if [ -z `su $BOINCUSER -c "$cmd"` ]; then
     echo -n ERROR: $BOINCDIR is not owned by $BOINCUSER.
     echo_failure
     echo
@@ -389,6 +398,7 @@ case "$1" in
           echo 
         fi
 
+        touch ${LOGFILE} ${ERRORLOG}
         NOCORE="ulimit -c 0 2>&1 >/dev/null"
         echo -n "Starting BOINC client as a daemon:  "
         if [ "${BOINCUSER}" = "${USERNOW}" ] ; then 
@@ -396,7 +406,8 @@ case "$1" in
            $NOCORE
            $BOINCEXE $BOINCOPTS >>$LOGFILE 2>>$ERRORLOG &
         else
-           runuser - $BOINCUSER -c "$NOCORE ; $BOINCEXE $BOINCOPTS >>$LOGFILE 2>>$ERRORLOG"
+           chown ${BOINCUSER} ${LOGFILE} ${ERRORLOG}
+           ${RUNUSER} - $BOINCUSER -c "$NOCORE ; $BOINCEXE $BOINCOPTS >>$LOGFILE 2>>$ERRORLOG" 2>/dev/null > /dev/null &
         fi
         sleep 3  
         PID=`local_pidof $BOINCEXE_NAME`
