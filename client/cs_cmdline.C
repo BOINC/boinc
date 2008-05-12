@@ -201,6 +201,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(start_delay)) {
             if (i == argc-1) show_options = true;
             else config.start_delay = atof(argv[++i]);
+        } else if (ARG(allow_multiple_clients)) {
+            config.allow_multiple_clients = true;
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;

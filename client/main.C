@@ -319,8 +319,10 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
 
+    gstate.parse_cmdline(argc, argv);
+
 #ifdef _WIN32
-    if (!config.allow_multiple_instances) {
+    if (!config.allow_multiple_clients) {
         chdir_to_data_dir();
     }
 #endif
@@ -355,7 +357,6 @@ static void init_core_client(int argc, char** argv) {
     // Read config and parse the commandline after initializing the
     // diagnostics framework.
     read_config_file();
-    gstate.parse_cmdline(argc, argv);
 
 	// Win32 - detach from console if requested
 #ifdef _WIN32

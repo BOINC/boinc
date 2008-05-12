@@ -3904,3 +3904,12 @@ David  May 12 2008
         main.C
     lib/
         shmem.C,h
+
+David  May 12 2008
+    - client: change --allow_multiple_clients to a command line option
+        (it can't go in the config file)
+
+    client/
+        cs_cmdline.C
+        log_flags.C
+        main.C
