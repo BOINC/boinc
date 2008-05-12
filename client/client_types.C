@@ -1108,7 +1108,7 @@ int APP_VERSION::parse(MIOFILE& in) {
         if (parse_double(buf, "<flops>", flops)) continue;
         if (parse_str(buf, "<cmdline>", cmdline, sizeof(cmdline))) continue;
         if (match_tag(buf, "<coproc>")) {
-            COPROC* cp = new COPROC;
+            COPROC* cp = new COPROC("");
             int retval = cp->parse(in);
             if (!retval) {
                 coprocs.coprocs.push_back(cp);
