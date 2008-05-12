@@ -3887,9 +3887,20 @@ Rom    May 12 2008
         CAMigrateBOINCData.cpp, .h
 
 David  May 12 2008
-	- client (win): bug fixes to yesterday's checkin
+    - client (win): bug fixes to yesterday's checkin
 
     client/
-	    app_start.C
-	lib/
-		shmem.C,h
+        app_start.C
+    lib/
+        shmem.C,h
+
+David  May 12 2008
+    - client: add <allow_multiple_clients> cc_config.xml option
+    - client: remove stress_shmem code
+
+    client/
+        client_state.C
+        log_flags.C,h
+        main.C
+    lib/
+        shmem.C,h

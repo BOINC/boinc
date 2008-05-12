@@ -73,10 +73,9 @@ struct LOG_FLAGS {
     bool scrsave_debug;
     bool app_msg_send;       // show shared-mem message to apps
     bool app_msg_receive;    // show shared-mem message from apps
-	bool mem_usage_debug;	// memory usage
+	bool mem_usage_debug;	 // memory usage
 	bool network_status_debug;
     bool checkpoint_debug;
-    int stress_shmem_debug;
 
     LOG_FLAGS();
     void defaults();
@@ -104,6 +103,7 @@ struct CONFIG {
     double start_delay;
     bool run_apps_manually;
     std::string force_auth;
+    bool allow_multiple_clients;
 
     CONFIG();
     void defaults();

@@ -266,12 +266,8 @@ static void signal_handler(int signum) {
 }
 #endif
 
-static void init_core_client(int argc, char** argv) {
-    setbuf(stdout, 0);
-    setbuf(stderr, 0);
-
 #ifdef _WIN32
-
+static void chdir_to_data_dir() {
 	LONG    lReturnValue;
 	HKEY    hkSetupHive;
     LPTSTR  lpszRegistryValue = NULL;
@@ -314,11 +310,19 @@ static void init_core_client(int argc, char** argv) {
         }
     }
 
-    // Cleanup
 	if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
+}
+#endif
 
-#else
+static void init_core_client(int argc, char** argv) {
+    setbuf(stdout, 0);
+    setbuf(stderr, 0);
+
+#ifdef _WIN32
+    if (!config.allow_multiple_instances) {
+        chdir_to_data_dir();
+    }
 #endif
 
 #ifndef _WIN32
@@ -344,7 +348,9 @@ static void init_core_client(int argc, char** argv) {
     }
 
     diagnostics_init(flags, "stdoutdae", "stderrdae");
-    diagnostics_set_max_file_sizes(config.max_stdout_file_size, config.max_stderr_file_size);
+    diagnostics_set_max_file_sizes(
+        config.max_stdout_file_size, config.max_stderr_file_size
+    );
 
     // Read config and parse the commandline after initializing the
     // diagnostics framework.
@@ -406,19 +412,21 @@ int initialize() {
     }
 #endif
 
-    retval = wait_client_mutex(".", 10);
-    if (retval) {
-        fprintf(stderr, 
-            "Another instance of BOINC is running\n"
-        );
-#ifdef _WIN32
-        if (!gstate.executing_as_daemon) {
-            LogEventErrorMessage(
-                TEXT("Another instance of BOINC is running")
+    if (!config.allow_multiple_clients) {
+        retval = wait_client_mutex(".", 10);
+        if (retval) {
+            fprintf(stderr, 
+                "Another instance of BOINC is running\n"
             );
-        }
+#ifdef _WIN32
+            if (!gstate.executing_as_daemon) {
+                LogEventErrorMessage(
+                    TEXT("Another instance of BOINC is running")
+                );
+            }
 #endif
-        return ERR_EXEC;
+            return ERR_EXEC;
+        }
     }
 
 

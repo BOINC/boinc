@@ -43,9 +43,6 @@ int detach_shmem(HANDLE hSharedMem, void* p);
 extern int create_shmem_mmap(char *path, size_t size, void** pp);
 extern int attach_shmem_mmap(char *path, void** pp);
 extern int detach_shmem_mmap(void* p, size_t size);
-// For testing on Apple, Linux, UNIX systems with limited number 
-// of shared memory segments per process and / or system-wide
-extern void stress_shmem(short reduce_by);
 #endif
 extern int create_shmem(key_t, int size, gid_t gid, void**);
 extern int attach_shmem(key_t, void**);

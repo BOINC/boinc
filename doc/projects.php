@@ -5,33 +5,32 @@ page_head("Choosing BOINC projects");
 
 echo "
 <p>
-BOINC software is used by many volunteer computing projects.
+BOINC software is used by many volunteer computing <b>projects</b>.
 These projects are completely independent.
 Some are based at universities and research labs,
 others are run by companies and individuals.
 
-When you participate in a project,
-you entrust it with the health of your computer and the privacy of your data.
 In deciding whether to participate in a project,
 read its web site and consider the following questions:
 
 <ul>
 <li> Does it clearly describe its goals,
     and are these goals important and beneficial?
-<li> Do you trust that its applications
-  won't damage your computer or violate your privacy?
 <li> Do you trust it to use proper security practices on its servers?
 <li> Who owns the results of the computation?
   Will they be freely available to the public
   or will they belong to a for-profit business?
 </ul>
-A list of scientific publications of BOINC-based projects is
-<a href=http://boinc.berkeley.edu/trac/wiki/ProjectPapers>here</a>.
-<p>
-
-The following list of projects is provided for your information;
-they are not endorsed by BOINC or U.C. Berkeley.
-You can find other projects using <a href=http://google.com>Google</a>.
+See:
+<ul>
+<li>
+<a href=wiki/index.php/Project_list>A complete list of projects</a>.
+<li>
+<a href=http://boinc.berkeley.edu/trac/wiki/ProjectPapers>
+A list of scientific publications of projects</a>.
+</ul>
+The following projects are known to us;
+however, they are not endorsed by BOINC or U.C. Berkeley.
 <ul>
 ";
 list_start("cellpadding=2, width=100%");
