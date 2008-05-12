@@ -442,6 +442,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CASetPermissionBOINCDiagnostics.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAShutdownBOINC.cpp"
 				>
 			</File>
@@ -588,6 +592,10 @@
 			</File>
 			<File
 				RelativePath=".\CASetPermissionBOINCDataSlots.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CASetPermissionBOINCDiagnostics.h"
 				>
 			</File>
 			<File
