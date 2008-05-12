@@ -3697,3 +3697,11 @@ David  May 9 2008
         cpu_sched.C
     lib/
         coproc.h
+
+Rom    May 2 2008
+    - Tag for 6.2.2 release, all platforms
+      boinc_core_release_6_2_2
+
+    /
+        configure.ac
+        version.h
