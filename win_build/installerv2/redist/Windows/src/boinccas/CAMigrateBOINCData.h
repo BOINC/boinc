@@ -36,6 +36,16 @@ public:
     BOOL GetFileDirectorySizes( tstring strDirectory, ULONGLONG& ullFileSize, ULONGLONG& ullDirectorySize );
     BOOL GetFreeDiskSpace( tstring strDirectory, ULONGLONG& ullFreeSpace );
     BOOL MoveFiles( tstring strSourceDirectory, tstring strDestinationDirectory, ULONGLONG& ullBytesTransfered );
+    BOOL IsDirectoryExcluded( tstring strTargetDirectory );
+    inline bool StartsWith( tstring const& s, tstring const& prefix )
+    {
+        return s.substr(0, prefix.size()) == prefix;
+    }
+    inline void DowncaseString(tstring& w) {
+        for (tstring::iterator p = w.begin(); p != w.end(); ++p) {
+            *p = tolower(*p);
+        }
+    }
 };
 
 

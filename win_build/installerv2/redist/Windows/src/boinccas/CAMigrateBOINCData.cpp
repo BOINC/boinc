@@ -758,7 +758,8 @@ BOOL CAMigrateBOINCData::MoveFiles( tstring strSourceDirectory, tstring strDesti
         else // it is a directory -> Copying recursivly
         { 
             if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
-                (_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
+                (_tcscmp(ffData.cFileName, _T("..")) != 0) && 
+                (!IsDirectoryExcluded(tstring(ffData.cFileName)))) 
             {
                 if( !MoveFiles(csFullPath, csNewFullPath, ullBytesTransfered) )
                 {
@@ -790,6 +791,22 @@ BOOL CAMigrateBOINCData::MoveFiles( tstring strSourceDirectory, tstring strDesti
 	RemoveDirectory(strSourceDirectory.c_str());
 
     return bRet;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+BOOL CAMigrateBOINCData::IsDirectoryExcluded( tstring strTargetDirectory )
+{
+    DowncaseString(strTargetDirectory);
+    if (StartsWith(strTargetDirectory, tstring("locale"))) return TRUE;
+    if (StartsWith(strTargetDirectory, tstring("skins"))) return TRUE;
+    return FALSE;
 }
 
 

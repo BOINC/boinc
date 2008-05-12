@@ -3869,11 +3869,19 @@ Eric K May 12 2008
             boinc-client.conf
 
 Rom    May 12 2008
-    - Add the ability for the users in 'boinc_projects' to be able to
-        read/execute the DLLs needed in the diagnostics framework.
+    - WINSETUP: Add the ability for the users in 'boinc_projects' 
+        to be able to read/execute the DLLs needed in the diagnostics
+        framework.
         (dbghelp.dll, srcsrv.dll, symsrv.dll, symsrv.yes)
     
     win_build/installerv2/redist/Windows/src/boinccas/
         boinccas.def
         boinccas.vcproj
         CASetPermissionBOINCDiagnostics.cpp, .h (added)
+
+Rom    May 12 2008
+    - WINSETUP: Exclude the skins, and locale directory from data
+        migration.
+    
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAMigrateBOINCData.cpp, .h
