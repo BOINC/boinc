@@ -250,23 +250,37 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		m_pieCtrlTotal->m_Series.Clear();
 		wxPiePart part;
 
-		//free disk space
-		FormatDiskSpace(free,diskspace);
-		part.SetLabel(_("free disk space - ") + diskspace);
-		part.SetValue(free);
-		part.SetColour(wxColour(238,238,238));
-		m_pieCtrlTotal->m_Series.Add(part);
-
-		//used by boinc projects
+		// used by BOINC
 		boinctotal += pDoc->disk_usage.d_boinc;
-		FormatDiskSpace(boinctotal,diskspace);
+        boinctotal *= 100;
+		FormatDiskSpace(boinctotal, diskspace);
 		part.SetLabel(_("used by BOINC - ") + diskspace);
 		part.SetValue(boinctotal);
 		part.SetColour(wxColour(0,0,0));
 		m_pieCtrlTotal->m_Series.Add(part);
 
-		//used by others
-		FormatDiskSpace(total-boinctotal-free,diskspace);
+        double avail = pDoc->disk_usage.d_allowed - boinctotal;
+        if (avail > 0) {
+            if (avail > free) avail = free;
+		    FormatDiskSpace(avail, diskspace);
+		    part.SetLabel(_("free, available to BOINC - ") + diskspace);
+		    part.SetValue(avail);
+		    part.SetColour(wxColour(128, 128, 128));
+		    m_pieCtrlTotal->m_Series.Add(part);
+        } else {
+            avail = 0;
+        }
+
+        // free disk space
+		FormatDiskSpace(free-avail, diskspace);
+		part.SetLabel(_("free, not available to BOINC - ") + diskspace);
+		part.SetValue(free-avail);
+		part.SetColour(wxColour(238,238,238));
+		m_pieCtrlTotal->m_Series.Add(part);
+
+
+		// used by others
+		FormatDiskSpace(total-boinctotal-free, diskspace);
 		part.SetLabel(_("used by other programs - ") + diskspace);
 		part.SetValue(total-boinctotal-free);
 		part.SetColour(wxColour(192,192,192));

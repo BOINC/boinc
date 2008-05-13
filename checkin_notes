@@ -3925,3 +3925,12 @@ David  May 13 2008
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  May 13 2008
+    - manager: in disk tab, divide free space into
+        available/unavailable to BOINC
+
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        ViewResources.cpp
