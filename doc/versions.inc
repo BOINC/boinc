@@ -7,7 +7,7 @@ function show_linux_info() {
         <ul>
         <li> Fedora Core 7 and 8
         <li> Debian 4.1
-        <li> Ubuntu 7.10
+        <li> Ubuntu 7.10 and 8.04
         </ul>
         <p>
         For other Linux versions,
@@ -60,11 +60,11 @@ function type_text($type) {
     }
 }
 
-$w621= array(
-    "num"=>"6.2.1",
+$w622= array(
+    "num"=>"6.2.2",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.1_windows_intelx86.exe",
-    "date"=>"5 May 2008",
+    "file"=>"boinc_6.2.2_windows_intelx86.exe",
+    "date"=>"13 May 2008",
     "type"=>"win_new",
 );
 
@@ -92,11 +92,11 @@ $w5816= array(
     "type"=>"win_new",
 );
 
-$m621 = array(
-    "num"=>"6.2.1",
+$m622 = array(
+    "num"=>"6.2.2",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.2.1_macOSX_universal.zip",
-    "date"=>"5 May 2008",
+    "file"=>"boinc_6.2.2_macOSX_universal.zip",
+    "date"=>"13 May 2008",
     "type"=>"mac_advanced",
 );
 
@@ -116,11 +116,11 @@ $m5817 = array(
     "type"=>"mac_advanced",
 );
 
-$m621c = array(
-    "num"=>"6.2.1",
+$m622c = array(
+    "num"=>"6.2.2",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.2.1_universal-apple-darwin.zip",
-    "date"=>"5 May 2008",
+    "file"=>"boinc_6.2.2_universal-apple-darwin.zip",
+    "date"=>"13 May 2008",
     "type"=>"bare_core",
 );
 
@@ -201,7 +201,7 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w621,
+        $w622,
         $w51045,
         $w5816,
     )
@@ -221,8 +221,8 @@ $mac = array(
     "description"=>"Version 10.3+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m621,
-        $m621c,
+        $m622,
+        $m622c,
         $m51045,
         $m51045c,
         $m5817,
