@@ -422,6 +422,9 @@ int handle_wu(
             if (credit_from_wu) {
                 credit = get_credit_from_wu(wu, results);
             }
+            if (max_granted_credit && credit>max_granted_credit) {
+                credit = max_granted_credit;
+            }
 
             // scan results.
             // update as needed, and count the # of results

@@ -3946,3 +3946,11 @@ David  May 13 2008
             user.inc
         languages/translations/
             en.po
+
+David  May 13 2008
+    - validator: canonical_credit was being set incorrectly
+        when -max_granted_credit used.
+        
+    sched/
+        sched_send.C
+        validator.C

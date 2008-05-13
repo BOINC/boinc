@@ -250,7 +250,6 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
     if (prefs.disk_max_used_pct == 0) {
        prefs.disk_max_used_pct = config.default_disk_max_used_pct;
     }
-    // Always leave some disk space free
     if (prefs.disk_min_free_gb < config.default_disk_min_free_gb) {
        prefs.disk_min_free_gb = config.default_disk_min_free_gb;
     }
