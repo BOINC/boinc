@@ -3,14 +3,22 @@
 $biomed = array(
     "Biology and Medicine",
     array(
-//        array(
-//            "Proteins@Home",
-//            "http://biology.polytechnique.fr/proteinsathome",
-//            "Ecole Polytechnique, Paris",
-//            "Protein structure prediction",
-//            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
-//            "proteinsathome.gif"
-//        ),
+        array(
+            "Superlink@Technion",
+            "http://cbl-link02.cs.technion.ac.il/superlinkattechnion/",
+            "Technion, Israel",
+            "Genetic linkage analysis",
+            "Superlink@Technion helps geneticists all over the world find disease-provoking genes causing some types of diabetes, hypertension (high blood pressure), cancer, schizophrenia and many others.",
+            "superlink_logo.gif"
+        ),
+        array(
+            "Proteins@Home",
+            "http://biology.polytechnique.fr/proteinsathome",
+            "Ecole Polytechnique, Paris",
+            "Protein structure prediction",
+            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
+            "proteinsathome.gif"
+        ),
         array(
             "The Lattice Project",
             "http://boinc.umiacs.umd.edu/",

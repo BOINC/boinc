@@ -3934,3 +3934,15 @@ David  May 13 2008
         gui_rpc_server_ops.C
     clientgui/
         ViewResources.cpp
+
+David  May 13 2008
+    - make some strings in user.inc translatable (from Simek)
+    - close fd 1, not 0, for apps
+
+    client/
+        app_start.C
+    html/
+        inc/
+            user.inc
+        languages/translations/
+            en.po

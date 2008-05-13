@@ -580,6 +580,81 @@ msgstr ""
 msgid "unread" 
 msgstr ""
 
+msgid "User ID" 
+msgstr ""
+
+msgid "Used in community functions"
+msgstr ""
+
+msgid "Account key"
+msgstr ""
+
+msgid "Provides full access to your account"
+msgstr ""
+
+msgid "Weak account key"
+msgstr ""
+
+msgid "Provides"
+msgstr ""
+
+msgid "limited access"
+msgstr ""
+
+msgid "to your account"
+msgstr ""
+
+msgid "Friends"
+msgstr ""
+
+msgid "Find friends"
+msgstr ""
+
+msgid "hidden"
+msgstr ""
+
+msgid "Donor"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "(foundership change request pending)"
+msgstr ""
+
+#########################################
+# Public user page (show_user.php)
+#########################################
+
+msgid "Projects in which you are participating"
+msgstr ""
+
+msgid "Projects in which %1 is participating"
+msgstr ""
+
+msgid "Project"
+msgstr ""
+
+msgid "Click for user page"
+msgstr ""
+
+msgid "Since"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "This person is a friend"
+msgstr ""
+
+msgid "Cancel friendship"
+msgstr ""
+
+msgid "Request pending"
+msgstr ""
+
+msgid "Add as friend"
+msgstr ""
 
 #########################################
 # "Weak account key" page (weak_auth.php)

@@ -729,7 +729,7 @@ int ACTIVE_TASK::start(bool first_time) {
         // don't pass stdout to the app
         //
         int fd = open("/dev/null", O_RDWR);
-        dup2(fd, 0);
+        dup2(fd, STDOUT_FILENO);
         close(fd);
 
         // add project dir to library path
