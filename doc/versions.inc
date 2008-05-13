@@ -176,7 +176,7 @@ $l622ubuntux64 = array(
     "num"=>"6.2.2",
     "status"=>"Development version",
     "file"=>"boinc_ubuntu_6.2.2_x86_64-pc-linux-gnu.sh",
-    "date"=>"13 May Apr 2008",
+    "date"=>"13 May 2008",
     "type"=>"sea",
 );
 
