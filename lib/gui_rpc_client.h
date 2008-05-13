@@ -356,6 +356,7 @@ struct DISK_USAGE {
     double d_total;
     double d_free;
     double d_boinc;     // amount used by BOINC itself, not projects
+    double d_allowed;   // amount BOINC is allowed to use, total
 
     DISK_USAGE(){clear();}
     ~DISK_USAGE();

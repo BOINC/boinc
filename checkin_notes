@@ -3913,3 +3913,15 @@ David  May 12 2008
         cs_cmdline.C
         log_flags.C
         main.C
+
+David  May 13 2008
+    - Added <d_allowed> element to get_disk_usage GUI RPC
+
+    client/
+        gui_rpc_server_ops.C
+        hostinfo_win.C
+    clientgui/
+        ViewResources.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

@@ -26,7 +26,7 @@ See:
 <li>
 <a href=wiki/index.php/Project_list>A complete list of projects</a>.
 <li>
-<a href=http://boinc.berkeley.edu/trac/wiki/ProjectPapers>
+<a href=/wiki/index.php/Publications_by_BOINC_projects>
 A list of scientific publications of projects</a>.
 </ul>
 The following projects are known to us;

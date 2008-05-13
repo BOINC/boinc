@@ -626,42 +626,23 @@ int get_accelerators(
 }
 
 
-// Gets windows specific host information (not complete)
+// Gets host information; called on startup and before each sched RPC
 //
 int HOST_INFO::get_host_info() {
-
-    // Get timezone
 	get_timezone(timezone);
-
-    // Detect the filesystem information
 	get_filesystem_info(d_total, d_free);
-    
-    // Detect the amount of memory the system has
     get_memory_info(m_nbytes, m_swap);
-
-    // Detect OS Information
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
-
-    // Detect proccessor make and model.
     get_processor_info(
         p_vendor, sizeof(p_vendor),
         p_model, sizeof(p_model),
         p_features, sizeof(p_features)
     );
-
-    // Detect the number of CPUs
     get_processor_count(p_ncpus);
-
-    // Detect host name/ip info
     get_local_network_info();
-
-    // Detect which accelerators are installed on the system
-    get_accelerators(
-        accelerators, sizeof(accelerators)
-    );
-
+    get_accelerators(accelerators, sizeof(accelerators));
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }

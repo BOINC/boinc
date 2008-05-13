@@ -751,6 +751,7 @@ void DISK_USAGE::clear() {
     d_free = 0;
     d_total = 0;
     d_boinc = 0;
+    d_allowed = 0;
 }
 
 RESULTS::~RESULTS() {
@@ -1386,6 +1387,7 @@ int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
             if (parse_double(buf, "<d_total>", du.d_total)) continue;
             if (parse_double(buf, "<d_free>", du.d_free)) continue;
             if (parse_double(buf, "<d_boinc>", du.d_boinc)) continue;
+            if (parse_double(buf, "<d_allowed>", du.d_allowed)) continue;
         }
     }
     return retval;
