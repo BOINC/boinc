@@ -3711,3 +3711,12 @@ Rom    May 2 2008
     /
         configure.ac
         version.h
+
+Charlie May 14 2008
+    - Mac: revise build scripts for c-ares and cURL to work when there are 
+        spaces in the paths.  These changes are based on information from 
+        the cURL developers.
+
+    mac_build/
+        buildc-ares.sh
+        buildcurl.sh
