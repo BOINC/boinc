@@ -164,7 +164,7 @@ bool CViewResources::OnRestoreState(wxConfigBase* /*pConfig*/) {
 void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString diskspace;
-	double boinctotal=0.0;
+	static double project_total=0.0;
 	unsigned int i;
 
     wxASSERT(pDoc);
@@ -194,6 +194,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		//only refresh when worthy changes
 		if(refreshBOINC) {
 			m_pieCtrlBOINC->m_Series.Clear();
+            project_total = 0;
 			for (i=0; i<pDoc->disk_usage.projects.size(); i++) {
 				//update data for boinc projects pie chart
 				PROJECT* project = pDoc->DiskUsageProject(i);
@@ -201,7 +202,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 				FormatProjectName(project, projectname);
 				FormatDiskSpace(project->disk_usage, diskspace);
 				double usage = project->disk_usage;
-				boinctotal += usage;
+				project_total += usage;
 				wxPiePart part;
 				part.SetLabel(projectname + wxT(" - ") + diskspace);
 				part.SetValue(usage);
@@ -219,7 +220,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			m_pieCtrlBOINC->m_Series.Clear();
 			wxPiePart part;
 			part.SetLabel(_("not attached to any BOINC project - 0 bytes"));
-			part.SetValue(boinctotal);
+			part.SetValue(1);
 			part.SetColour(wxColour(0,0,0));
 			m_pieCtrlBOINC->m_Series.Add(part);
 			m_pieCtrlBOINC->Refresh();
@@ -251,15 +252,14 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		wxPiePart part;
 
 		// used by BOINC
-		boinctotal += pDoc->disk_usage.d_boinc;
-        boinctotal *= 100;
-		FormatDiskSpace(boinctotal, diskspace);
+        double boinc_total = project_total + pDoc->disk_usage.d_boinc;
+		FormatDiskSpace(boinc_total, diskspace);
 		part.SetLabel(_("used by BOINC - ") + diskspace);
-		part.SetValue(boinctotal);
+		part.SetValue(boinc_total);
 		part.SetColour(wxColour(0,0,0));
 		m_pieCtrlTotal->m_Series.Add(part);
 
-        double avail = pDoc->disk_usage.d_allowed - boinctotal;
+        double avail = pDoc->disk_usage.d_allowed - boinc_total;
         if (avail > 0) {
             if (avail > free) avail = free;
 		    FormatDiskSpace(avail, diskspace);
@@ -280,9 +280,10 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
 
 		// used by others
-		FormatDiskSpace(total-boinctotal-free, diskspace);
+        double used_by_others = total-boinc_total-free;
+		FormatDiskSpace(used_by_others, diskspace);
 		part.SetLabel(_("used by other programs - ") + diskspace);
-		part.SetValue(total-boinctotal-free);
+		part.SetValue(used_by_others);
 		part.SetColour(wxColour(192,192,192));
 		m_pieCtrlTotal->m_Series.Add(part);
 		m_pieCtrlTotal->Refresh();

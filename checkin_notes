@@ -3963,4 +3963,9 @@ Charlie May 14 2008
     mac_build/
         buildc-ares.sh
         buildcurl.sh
-        
+
+David  May 13 2008
+	- manager: fix disk display
+
+	clientgui/
+		ViewResources.cpp
