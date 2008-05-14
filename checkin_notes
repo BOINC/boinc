@@ -3969,3 +3969,11 @@ David  May 13 2008
 
 	clientgui/
 		ViewResources.cpp
+
+Rom    May 14 2008
+    - Tag for 6.3.0 release, all platforms
+      boinc_core_release_6_3_0
+
+    /
+        configure.ac
+        version.h
