@@ -3965,10 +3965,10 @@ Charlie May 14 2008
         buildcurl.sh
 
 David  May 13 2008
-	- manager: fix disk display
+    - manager: fix disk display
 
-	clientgui/
-		ViewResources.cpp
+    clientgui/
+        ViewResources.cpp
 
 Rom    May 14 2008
     - Tag for 6.3.0 release, all platforms
@@ -3977,3 +3977,9 @@ Rom    May 14 2008
     /
         configure.ac
         version.h
+
+David  May 13 2008
+    - API: compile fix
+
+    api/
+        graphics2_util.C

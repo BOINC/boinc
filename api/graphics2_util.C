@@ -59,7 +59,7 @@ void* boinc_graphics_make_shmem(char* prog_name, int size) {
     char shmem_name[256];
     void* p;
     get_shmem_name(prog_name, shmem_name);
-    shmem_handle = create_shmem(shmem_name, size, &p, false);
+    shmem_handle = create_shmem(shmem_name, size, &p);
     if (shmem_handle == NULL) return 0;
     return p;
 #else
