@@ -72,16 +72,21 @@ bool run_slow = false;
 bool early_exit = false;
 bool early_crash = false;
 bool early_sleep = false;
-double cpu_time = 20;
+double cpu_time = 20, comp_result;
 
-static void use_some_cpu() {
-    double j = 3.14159;
-    int i, n = 0;
-    for (i=0; i<20000000; i++) {
-        n++;
-        j *= n+j-3.14159;
-        j /= (float)n;
+// do a billion floating-point ops
+// (note: I needed to add an arg to this;
+// otherwise the MS C++ compiler optimizes away
+// all but the first call to it!)
+//
+static double do_a_giga_flop(int foo) {
+    double x = 3.14159*foo;
+    int i;
+    for (i=0; i<500000000; i++) {
+        x += 5.12313123;
+        x *= 0.5398394834;
     }
+    return x;
 }
 
 int do_checkpoint(MFILE& mf, int nchars) {
@@ -236,7 +241,7 @@ int main(int argc, char **argv) {
     //
     if (cpu_time) {
         double start = dtime();
-        while (1) {
+        for (int i=0; ; i++) {
             double e = dtime()-start;
             if (e > cpu_time) break;
             fd = .5 + .5*(e/cpu_time);
@@ -250,8 +255,7 @@ int main(int argc, char **argv) {
 				}
 				boinc_checkpoint_completed();
 			}
-
-            use_some_cpu();
+            comp_result = do_a_giga_flop(i);
         }
     }
     boinc_fraction_done(1);

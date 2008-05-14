@@ -707,3 +707,10 @@ David  8 May 2008
     example_app/
         uc2_graphics.C
         uc2.C
+
+David  14 May 2008
+	- uppercase: borrow CPU-burning routine from multithread
+		(won't be optimized out)
+
+	example_app/
+		uc2.C
