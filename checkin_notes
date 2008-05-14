@@ -3983,3 +3983,10 @@ David  May 13 2008
 
     api/
         graphics2_util.C
+
+Rom    May 2 2008 (HEAD)
+    - Bump version to 6.3.1
+
+    /
+        configure.ac
+        version.h
