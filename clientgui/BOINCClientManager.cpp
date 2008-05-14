@@ -263,7 +263,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
 #else   // Unix based systems
 
     // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = wxT("./boinc -redirectio -launched_by_manager");
+    strExecute = ::wxGetCwd() + wxT("/boinc -redirectio -launched_by_manager");
     if (!g_use_sandbox) {
         strExecute += wxT(" -insecure");
     }
