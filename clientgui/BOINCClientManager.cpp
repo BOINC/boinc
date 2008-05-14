@@ -162,7 +162,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
     // Append boinc.exe to the end of the strExecute string and get ready to rock
     strExecute.Printf(
-        wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
+        wxT("\"%s\\boinc.exe\" --redirectio --launched_by_manager %s"),
         wxGetApp().GetRootDirectory().c_str(),
         wxGetApp().GetArguments().c_str()
     );
@@ -231,17 +231,17 @@ bool CBOINCClientManager::StartupBOINCCore() {
 #if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
             strExecute = wxT("\"");            
             strExecute += wxT(buf);
-            strExecute += wxT("/Contents/Resources/boinc\" -redirectio -launched_by_manager");
+            strExecute += wxT("/Contents/Resources/boinc\" --redirectio --launched_by_manager");
             m_lBOINCCoreProcessId = ::wxExecute(strExecute);
 #else   // Use wxExecute(wxChar **argv ...) instead of wxExecute(wxString& ...)
             strcat(buf, "/Contents/Resources/boinc");
             argv[0] = buf;
-            argv[1] = "-redirectio";
-            argv[2] = "-launched_by_manager";
+            argv[1] = "--redirectio";
+            argv[2] = "--launched_by_manager";
             argv[3] = NULL;
 #ifdef SANDBOX
-            if (! g_use_sandbox) {
-                argv[3] = "-insecure";
+            if (!g_use_sandbox) {
+                argv[3] = "--insecure";
                 argv[4] = NULL;
             }
 #endif
@@ -263,9 +263,9 @@ bool CBOINCClientManager::StartupBOINCCore() {
 #else   // Unix based systems
 
     // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = ::wxGetCwd() + wxT("/boinc -redirectio -launched_by_manager");
+    strExecute = ::wxGetCwd() + wxT("/boinc --redirectio --launched_by_manager");
     if (!g_use_sandbox) {
-        strExecute += wxT(" -insecure");
+        strExecute += wxT(" --insecure");
     }
 
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());

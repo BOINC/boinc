@@ -3997,3 +3997,11 @@ Rom    May 14 2008
 
     clientgui/
         BOINCClientManager.cpp
+
+Rom    May 14 2008
+    - MGR: BOINC commandline options require the '--' in front
+        of the option. '-' just causes the CC to exit while
+        printing its help fr the commandline options.
+        
+    clientgui/
+        BOINCClientManager.cpp
