@@ -138,13 +138,14 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     }
 #endif
 
+    wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), retval);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function End"));
     return running;
 }
 
 
 bool CBOINCClientManager::StartupBOINCCore() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::StartupBOINCCore - Function Begin"));
 
     bool                bReturnValue = false;
     wxString            strExecute = wxEmptyString;
@@ -184,8 +185,8 @@ bool CBOINCClientManager::StartupBOINCCore() {
         szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
     }
 
-    fprintf(stderr, "CMainDocument::CachedStateUpdate - szExecute '%s'\n", szExecute);
-    fprintf(stderr, "CMainDocument::CachedStateUpdate - szDataDirectory '%s'\n", szDataDirectory);
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), szExecute);
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n", szDataDirectory);
 
     bProcessStarted = CreateProcess(
         NULL,
@@ -267,6 +268,9 @@ bool CBOINCClientManager::StartupBOINCCore() {
         strExecute += wxT(" -insecure");
     }
 
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n", ::wxGetWorkingDirectory().c_str());
+
     m_lBOINCCoreProcessId = ::wxExecute(strExecute);
     
 #endif
@@ -276,7 +280,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
         bReturnValue = true;
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::StartupBOINCCore - Function End"));
     return bReturnValue;
 }
 

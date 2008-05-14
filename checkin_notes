@@ -3720,3 +3720,10 @@ Charlie May 14 2008
     mac_build/
         buildc-ares.sh
         buildcurl.sh
+
+Rom    May 14 2008
+    - MGR: Fix trace statements in StartupBOINC()
+    - MGR: Add some more trace statements for Linux startup.
+
+    clientgui/
+        BOINCClientManager.cpp
