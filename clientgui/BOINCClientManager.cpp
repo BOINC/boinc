@@ -186,7 +186,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
     }
 
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), szExecute);
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n", szDataDirectory);
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), szDataDirectory);
 
     bProcessStarted = CreateProcess(
         NULL,
@@ -269,7 +269,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
     }
 
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n", ::wxGetWorkingDirectory().c_str());
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), ::wxGetWorkingDirectory().c_str());
 
     m_lBOINCCoreProcessId = ::wxExecute(strExecute);
     
