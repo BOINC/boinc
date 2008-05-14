@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 2/27/08
+# Updated 5/14/08
 #
 ## In Terminal, CD to the c-ares-1.5.1 directory.
 ##     cd [path]/c-ares-1.5.1/
@@ -96,7 +96,9 @@ export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9
 export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 
-./configure --enable-shared=NO --host=ppc
+# curl configure and make expect a path to _installed_ c-ares-1.5.1
+# so set a temporary install path that does not contain spaces.
+./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=ppc
 if [  $? -ne 0 ]; then return 1; fi
 
 else
@@ -106,7 +108,7 @@ export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Deve
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 
-./configure --enable-shared=NO --host=ppc
+./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=ppc
 fi
 
 if [  $? -ne 0 ]; then return 1; fi
@@ -129,7 +131,7 @@ export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
-./configure --enable-shared=NO --host=i386
+./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=i386
 if [  $? -ne 0 ]; then return 1; fi
 
 make
@@ -165,7 +167,7 @@ export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
 export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
-./configure --enable-shared=NO --host=x86_64 --without-random CFLAGS="-arch x86_64"
+./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
 
 make
