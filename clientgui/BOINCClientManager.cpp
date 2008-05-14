@@ -264,9 +264,6 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
     // Append boinc.exe to the end of the strExecute string and get ready to rock
     strExecute = ::wxGetCwd() + wxT("/boinc --redirectio --launched_by_manager");
-    if (!g_use_sandbox) {
-        strExecute += wxT(" --insecure");
-    }
 
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), ::wxGetCwd().c_str());

@@ -3735,3 +3735,11 @@ Rom    May 14 2008
         
     clientgui/
         BOINCClientManager.cpp
+
+Rom    May 14 2008
+    - MGR: --insecure isn't supported on Linux yet. It is only
+        supported on the Mac.
+        
+    clientgui/
+        BOINCClientManager.cpp
+
