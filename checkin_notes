@@ -3978,15 +3978,22 @@ Rom    May 14 2008
         configure.ac
         version.h
 
-David  May 13 2008
+David  May 14 2008
     - API: compile fix
 
     api/
         graphics2_util.C
 
-Rom    May 2 2008 (HEAD)
+Rom    May 14 2008 (HEAD)
     - Bump version to 6.3.1
 
     /
         configure.ac
         version.h
+
+Rom    May 14 2008
+    - MGR: Fix trace statements in StartupBOINC()
+    - MGR: Add some more trace statements for Linux startup.
+
+    clientgui/
+        BOINCClientManager.cpp
