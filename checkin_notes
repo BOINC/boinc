@@ -4013,3 +4013,13 @@ Charlie May 15 2008
     clientgui/
         common/
             wxPieCtrl.cpp
+
+David  May 15
+    - client: added some http_debug messages in case where
+        POST2 temp file can't be opened or read
+    - client: don't show --sandbox option if it's not available
+
+    client/
+        http_curl.C
+        cs_cmdline.C
+        cs_scheduler.C

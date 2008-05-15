@@ -643,13 +643,11 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     // add exception handling on phop members
     //
     size_t stWrite = fwrite(ptr, size, nmemb, (FILE*) phop->fileOut);
-#if 1
     if (log_flags.http_xfer_debug) {
         msg_printf(NULL, MSG_INFO,
             "[http_xfer_debug] HTTP: wrote %d bytes", (int)stWrite
         );
     }
-#endif
     phop->bytes_xferred += (double)(stWrite);
     phop->update_speed();  // this should update the transfer speed
     return stWrite;
@@ -1040,7 +1038,9 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             }
             net_status.got_http_error();
 			if (log_flags.http_debug) {
-				msg_printf(NULL, MSG_INFO, "[http_debug] HTTP error: %s", hop->error_msg);
+				msg_printf(NULL, MSG_INFO,
+                    "[http_debug] HTTP error: %s", hop->error_msg
+                );
 			}
         }
 
@@ -1055,11 +1055,24 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             if (!hop->fileOut) { // ack, can't open back up!
                 hop->response = 1;
                     // flag as a bad response for a possible retry later
+                if (log_flags.http_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[http_debug] can't open post output file %s",
+                        hop->outfile
+                    );
+                }
             } else {
                 fseek(hop->fileOut, 0, SEEK_SET);
-                // CMC Note: req1 is a pointer to "header" which is 4096
-                memset(hop->req1, 0, 4096);
-                size_t temp __attribute__ ((unused)) = fread(hop->req1, 1, (size_t) dSize, hop->fileOut); 
+                strcpy(hop->req1, "");
+                size_t nread = fread(hop->req1, 1, (size_t) dSize, hop->fileOut); 
+                if (nread != (size_t)dSize) {
+                    if (log_flags.http_debug) {
+                        msg_printf(NULL, MSG_INFO,
+                            "[http_debug] post output file read failed %ld",
+                            nread
+                        );
+                    }
+                }
             }
         }
 
