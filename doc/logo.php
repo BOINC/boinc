@@ -59,7 +59,10 @@ Installer splash screen:
 </ul>
 'Powered by BOINC' image:
 <p>
-<img src=logo/pb_boinc.gif>
+<a href=http://boinc.berkeley.edu><img src=logo/pb_boinc.gif></a>
+<p>
+(always link this to http://boinc.berkeley.edu)
+
 <p>
 
 Wallpaper:

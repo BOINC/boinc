@@ -4047,3 +4047,16 @@ Rom    May 15 2008
         
     clientscr/
         screensaver_win.cpp
+
+David  May 15 2008
+    - web: add <no_computing> option to config.xml.
+        If present, don't show anything related to computing.
+        Use this for Bossa/Bolt projects, and the BOINC message boards.
+
+    html/
+        inc/
+            team.inc
+            user.inc
+            util.inc
+        user/
+            home.php

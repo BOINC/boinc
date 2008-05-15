@@ -35,7 +35,9 @@ start_table();
 echo "<tr><td valign=top>";
 start_table();
 show_user_info_private($user);
-show_user_stats_private($user);
+if (!no_computing()) {
+    show_user_stats_private($user);
+}
 
 if (file_exists("../project/donations.inc")) {
     require_once("../project/donations.inc");

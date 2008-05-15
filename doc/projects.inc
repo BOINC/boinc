@@ -4,6 +4,14 @@ $biomed = array(
     "Biology and Medicine",
     array(
         array(
+            "GPU Grid - PS3 Grid",
+            "http://www.ps3grid.net/",
+            "Barcelona Biomedical Research Park (PRBB)",
+            "Molecular simulations of proteins",
+            "PS3GRID opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on the Cell processor and the PlayStation3. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.",
+            "ps3grid.png"
+        ),
+        array(
             "Superlink@Technion",
             "http://cbl-link02.cs.technion.ac.il/superlinkattechnion/",
             "Technion, Israel",

@@ -72,8 +72,10 @@ function display_team_page($team, $user) {
         row2("Web site", "<a href=$x>$x</a>");
     }
     
-    row2("Total credit", format_credit_large($team->total_credit));
-    row2("Recent average credit", format_credit_large($team->expavg_credit));
+    if (!no_computing()) {
+        row2("Total credit", format_credit_large($team->total_credit));
+        row2("Recent average credit", format_credit_large($team->expavg_credit));
+    }
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
 
@@ -160,21 +162,23 @@ function display_team_members($team, $offset, $sort_by) {
     echo "<tr>
         <th>Name</th>
     ";
-    if ($nosort) {
-        echo "
-            <th>Total credit</th>
-            <th>Recent average credit</th>
-        ";
-    } else {
-        if ($sort_by == "total_credit") {
-            echo "<th>Total credit</th>";
+    if (!no_computing()) {
+        if ($nosort) {
+            echo "
+                <th>Total credit</th>
+                <th>Recent average credit</th>
+            ";
         } else {
-            echo "<th><a href=team_members.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
-        }
-        if ($sort_by == "expavg_credit") {
-            echo "<th>Recent average credit</th>";
-        } else {
-            echo "<th><a href=team_members.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
+            if ($sort_by == "total_credit") {
+                echo "<th>Total credit</th>";
+            } else {
+                echo "<th><a href=team_members.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
+            }
+            if ($sort_by == "expavg_credit") {
+                echo "<th>Recent average credit</th>";
+            } else {
+                echo "<th><a href=team_members.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
+            }
         }
     }
 
@@ -201,8 +205,14 @@ function display_team_members($team, $offset, $sort_by) {
         }
         echo "<tr class=row1>
             <td align=left>$j) $x
-            <td align=right>$user_total_credit</td>
-            <td align=right>$user_expavg_credit</td>
+        ";
+        if (!no_computing()) {
+            echo "
+                <td align=right>$user_total_credit</td>
+                <td align=right>$user_expavg_credit</td>
+            ";
+        }
+        echo "
             <td align=center>$user->country</td>
             </tr>
         ";

@@ -189,21 +189,27 @@ function show_user_info_private($user) {
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a> | <a href=\"edit_passwd_form.php\">".tra("password")."</a> | <a href=\"edit_user_info_form.php\">".tra("other account info")."</a>");
     row2("", "<a href=\"logout.php?".url_tokens($user->authenticator)."\">".tra("Log out")."</a>");
-    row2(tra("User ID"), "<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
-    row2(tra("Account key"), "<br/><span class=\"note\">".tra("Provides full access to your account")."</span>", $user->authenticator);
-    row2(tra("Weak account key"), "<br/><span class=\"note\">".tra("Provides")." <a href=\"weak_auth.php\">".tra("limited access")."</a>".tra("to your account")."</span>", weak_auth($user));
+    row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
+    if (!no_computing()) {
+        row2(tra("Account key")."<br/><span class=\"note\">".tra("Provides full access to your account")."</span>", $user->authenticator);
+        row2(tra("Weak account key"), "<br/><span class=\"note\">".tra("Provides")." <a href=\"weak_auth.php\">".tra("limited access")."</a>".tra("to your account")."</span>", weak_auth($user));
+    }
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
-    row2(
-        tra("When and how BOINC uses your computer"),
-        "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
-    );
+    if (!no_computing()) {
+        row2(
+            tra("When and how BOINC uses your computer"),
+            "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
+        );
+    }
     row2(tra("Message boards and private messages"),
         "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
     );
-    row2(tra("Resource share and graphics"),
-        "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
-    );
+    if (!no_computing()) {
+        row2(tra("Resource share and graphics"),
+            "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
+        );
+    }
 }
 
 function show_community_private($user) {
@@ -285,12 +291,14 @@ function show_user_summary_public($user) {
     if (strlen($user->url)) {
         row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
     }
-    show_credit($user);
+    if (!no_computing()) {
+        show_credit($user);
 
-    if ($user->show_hosts) {
-        row2(tra("Computers"), "<a href=\"".URL_BASE."hosts_user.php?userid=$user->id\">".tra("View")."</a>");
-    } else {
-        row2(tra("Computers"), tra("hidden"));
+        if ($user->show_hosts) {
+            row2(tra("Computers"), "<a href=\"".URL_BASE."hosts_user.php?userid=$user->id\">".tra("View")."</a>");
+        } else {
+            row2(tra("Computers"), tra("hidden"));
+        }
     }
     if ($user->donated == 1) { 
         if (file_exists("../project/donations.inc")) {
@@ -333,7 +341,7 @@ function community_links($user) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
             $x .= friend_links($fuser);
         }
-        row2(tra("Friends"), "($n)", $x);
+        row2(tra("Friends")." ($n)", $x);
     }
 }
 

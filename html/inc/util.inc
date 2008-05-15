@@ -80,7 +80,7 @@ $g_logged_in_user = null;
 
 function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user;
-    $g_logged_in_user = null;
+    if ($g_logged_in_user) return $g_logged_in_user;
     $login_request = false;
 
     $authenticator = null;
@@ -492,6 +492,10 @@ function parse_bool($xml, $tag) {
     $y = (int)parse_element($xml, $x);
     if ($y != 0) return true;
     return false;
+}
+
+function no_computing() {
+    return parse_bool(get_config(), "no_computing");
 }
 
 // Generates a legal filename from a parameter string.
