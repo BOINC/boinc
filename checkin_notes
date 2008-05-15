@@ -4005,3 +4005,11 @@ Rom    May 14 2008
         
     clientgui/
         BOINCClientManager.cpp
+
+Charlie May 15 2008
+    MGR: Adjust pie control slices so small wedges are visible if at 
+        all possible,
+        
+    clientgui/
+        common/
+            wxPieCtrl.cpp
