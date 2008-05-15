@@ -4072,3 +4072,11 @@ David  May 15 2008
 
     client/
         schedule_op.C
+
+David  May 15 2008
+    - client: when parsing state file, don't change result states
+        unless there's an inconsistency
+        Fixes #621
+
+    client/
+        client_types.C

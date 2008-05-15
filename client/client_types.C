@@ -1485,10 +1485,17 @@ int RESULT::parse_state(MIOFILE& in) {
     clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) {
-            // restore some invariants in case of bad state file
+            // set state to something reasonable in case of bad state file
             //
             if (got_server_ack || ready_to_report) {
-                set_state(RESULT_FILES_UPLOADED, "RESULT::parse_state");
+                switch (state()) {
+                case RESULT_NEW:
+                case RESULT_FILES_DOWNLOADING:
+                case RESULT_FILES_DOWNLOADED:
+                case RESULT_FILES_UPLOADING:
+                    set_state(RESULT_FILES_UPLOADED, "RESULT::parse_state");
+                    break;
+                }
             }
             return 0;
         }
