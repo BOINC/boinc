@@ -98,7 +98,7 @@ function show_other_projects($user, $personal) {
         if ($personal) {
             echo "<h3>".tra("Projects in which you are participating")."</h3>";
         } else {
-            echo "<h3>."tra("Projects in which %1 is participating", $user->name)."</h3>";
+            echo "<h3>".tra("Projects in which %1 is participating", $user->name)."</h3>";
         }
         start_table();
         row_heading_array(array(
