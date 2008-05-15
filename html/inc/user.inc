@@ -280,7 +280,7 @@ function show_community_private($user) {
 //
 function show_user_summary_public($user) {
     global $g_logged_in_user;
-    row2("%1 member since", PROJECT), date_str($user->create_time));
+    row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     row2(tra("Country"), $user->country);
     if (strlen($user->url)) {
         row2(tra("URL"), "<a href=\"http://$user->url\">http://$user->url</a>");
