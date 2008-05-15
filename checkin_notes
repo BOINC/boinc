@@ -4060,3 +4060,5 @@ David  May 15 2008
             util.inc
         user/
             home.php
+    py/Boinc
+        setup_project.py

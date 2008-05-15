@@ -417,6 +417,8 @@ class Project:
         config.fuh_debug_level = 3
         config.one_result_per_user_per_wu = 0
         config.send_result_abort = 1
+        if web_only:
+            config.no_computing = 1
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')
