@@ -4014,7 +4014,7 @@ Charlie May 15 2008
         common/
             wxPieCtrl.cpp
 
-David  May 15
+David  May 15 2008
     - client: added some http_debug messages in case where
         POST2 temp file can't be opened or read
     - client: don't show --sandbox option if it's not available
@@ -4023,3 +4023,11 @@ David  May 15
         http_curl.C
         cs_cmdline.C
         cs_scheduler.C
+
+Rom    May 15 2008
+    - Tag for 6.3.1 release, all platforms
+      boinc_core_release_6_3_1
+
+    /
+        configure.ac
+        version.h
