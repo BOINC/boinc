@@ -517,7 +517,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     next_rpc_delay = 0;
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    strcpy(host_venue, "");
+    strcpy(host_venue, project->host_venue);
+        // the project won't send us a venue if it's doing maintenance
+        // or doesn't check the DB because no work.
+        // Don't overwrite the host venue in that case.
     strcpy(master_url, "");
     code_sign_key = 0;
     code_sign_key_signature = 0;

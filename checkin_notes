@@ -4062,3 +4062,13 @@ David  May 15 2008
             home.php
     py/Boinc
         setup_project.py
+
+David  May 15 2008
+    - client: If a scheduler reply doesn't include <host_venue>
+        (as is the case if its DB is down,
+        or it has no work and skips the DB check)
+        don't overwrite the host_venue on the client.
+        Fixes #656, I hope (Rom: please port)
+
+    client/
+        schedule_op.C
