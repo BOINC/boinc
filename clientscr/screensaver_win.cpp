@@ -323,6 +323,14 @@ INT CScreensaver::Run() {
         rpc->close();
         break;
     case sm_preview:
+        // In Windows, preview mode is for the mini-view of the screensaver.
+        //   For BOINC we just display the icon, so there is no need to
+        //   startup the data management thread which in turn will
+        //   launch a graphics application.
+        if (FAILED(hr = DoSaver())) {
+            DisplayErrorMsg(hr);
+        }
+        break;
     case sm_full:
         // Create the data management thread to talk with the daemon
         if (!CreateDataManagementThread()) {
@@ -344,7 +352,6 @@ INT CScreensaver::Run() {
             rpc = NULL;
         }
         break;
-        
     case sm_passwordchange:
         ChangePassword();
         break;
