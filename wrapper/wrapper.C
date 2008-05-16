@@ -213,7 +213,11 @@ int TASK::run(int argct, char** argvt) {
         if ((i+1) < argct){
             command_line += string(" ");
         }
-    }   
+    }
+
+    fprintf(stderr, "wrapper: running %s (%s)\n",
+        app_path.c_str(), command_line.c_str()
+    );
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
@@ -241,7 +245,7 @@ int TASK::run(int argct, char** argvt) {
     } else {
         startup_info.hStdError = win_fopen(STDERR_FILE, "a");
     }
-             
+
     if (!CreateProcess(
         app_path.c_str(),
         (LPSTR)command.c_str(),
@@ -303,7 +307,6 @@ int TASK::run(int argct, char** argvt) {
         argv[0] = buf;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         argc = parse_command_line(arglist, argv+1);
-        fprintf(stderr, "wrapper: running %s (%s)\n", buf, arglist);
         setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
         retval = execv(buf, argv);
         exit(ERR_EXEC);
@@ -482,7 +485,6 @@ int main(int argc, char** argv) {
         TASK& task = tasks[i];
         double frac_done = ((double)i)/((double)tasks.size());
 
-        fprintf(stderr, "running %s\n", task.application.c_str());
         task.starting_cpu = cpu;
         retval = task.run(argc, argv);
         if (retval) {
@@ -522,7 +524,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
     int argc;
 
     command_line = GetCommandLine();
-    argc = parse_command_line( command_line, argv );
+    argc = parse_command_line(command_line, argv);
     return main(argc, argv);
 }
 #endif

@@ -714,3 +714,9 @@ David  14 May 2008
 
 	example_app/
 		uc2.C
+
+David  16 May 2008
+    - wrapper: when run a job, write program name and cmdline to stderr
+
+    wrapper/
+        wrapper.C
