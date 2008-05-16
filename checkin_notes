@@ -4117,3 +4117,11 @@ David  May 16 2008
 
     client/
         http_curl.C
+
+David  May 16 2008
+    - client: go one step further, and don't create temp files
+        in some system-supplied directory;
+        create them in the BOINC data directory.
+
+    client/
+        http_curl.C
