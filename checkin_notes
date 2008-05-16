@@ -4099,3 +4099,10 @@ David  May 15 2008
     sched/
         handle_request.C
         server_types.C
+
+Rom    May 16 2008
+    - MGR: Fix a casting issue that was causing crashes on x64 platforms.
+      fixes# 658 (From: bbaetz)
+    
+    clientgui/
+        SkinManager.cpp
