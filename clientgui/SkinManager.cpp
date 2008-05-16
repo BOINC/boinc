@@ -101,11 +101,11 @@ CSkinItem::~CSkinItem() {
 
 
 wxColour CSkinItem::ParseColor(wxString strColor) {
-    int red, green, blue;
+    long red, green, blue;
     wxStringTokenizer tkz(strColor, wxT(":"), wxTOKEN_RET_EMPTY);
-    wxString(tkz.GetNextToken()).ToLong((long*)&red);
-	wxString(tkz.GetNextToken()).ToLong((long*)&green);
-	wxString(tkz.GetNextToken()).ToLong((long*)&blue);
+    wxString(tkz.GetNextToken()).ToLong(&red);
+	wxString(tkz.GetNextToken()).ToLong(&green);
+	wxString(tkz.GetNextToken()).ToLong(&blue);
     return wxColour((unsigned char)red, (unsigned char)green, (unsigned char)blue);
 }
 
