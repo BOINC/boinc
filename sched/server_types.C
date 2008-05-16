@@ -588,17 +588,18 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         config.long_name
     );
 
-    if (project_is_down) {
-        fprintf(fout,"<project_is_down/>\n");
-    }
-
-    if (nucleus_only) goto end;
-
     if (config.request_time_stats_log) {
         if (!have_time_stats_log(*this)) {
             fprintf(fout, "<send_time_stats_log>1</send_time_stats_log>\n");
         }
     }
+
+    if (project_is_down) {
+        fprintf(fout,"<project_is_down/>\n");
+        goto end;
+    }
+
+    if (nucleus_only) goto end;
 
     if (strlen(config.symstore)) {
         fprintf(fout, "<symstore>%s</symstore>\n", config.symstore);

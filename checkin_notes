@@ -4080,3 +4080,22 @@ David  May 15 2008
 
     client/
         client_types.C
+
+David  May 15 2008
+    - scheduler: there were several situations where the scheduler
+        would send a reply without having looked up the user and team
+        in the DB; e.g.:
+        - client version# is too low
+        - DB is down
+        - host is blacklisted
+        It would then send a full scheduler reply,
+        including a blank team name and other missing info.
+        
+        Fix this by setting reply.nucleus_only initially
+        (this causes a minimal reply to be sent)
+        and clearing it only if the host/user/team lookup succeeds.
+        Fixes #417, #633 (I think)
+
+    sched/
+        handle_request.C
+        server_types.C

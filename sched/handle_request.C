@@ -1228,6 +1228,8 @@ void process_request(
     initial_host = reply.host;
     reply.host.rpc_seqno = sreq.rpc_seqno;
 
+    reply.nucleus_only = false;
+
     log_request(sreq, reply);
 
     // is host blacklisted?
@@ -1401,6 +1403,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REPLY sreply;
 
     memset(&sreq, 0, sizeof(sreq));
+    sreply.nucleus_only = true;
 
     log_messages.set_indent_level(1);
 
@@ -1410,7 +1413,6 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         log_incomplete_request(sreq);
         USER_MESSAGE um("Incomplete request received.", "low");
         sreply.insert_message(um);
-        sreply.nucleus_only = true;
     }
 
     if (config.locality_scheduling && !sreply.nucleus_only) {
