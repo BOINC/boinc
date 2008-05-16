@@ -3743,3 +3743,11 @@ Rom    May 14 2008
     clientgui/
         BOINCClientManager.cpp
 
+Rom    May 15 2008
+    - SCR: BOINC's screensaver module in preview mode only displays
+        the BOINC icon, since the preview window is only 300x200 or
+        so. We shouldn't launch the data management thread when
+        launched in preview mode.
+        
+    clientscr/
+        screensaver_win.cpp
