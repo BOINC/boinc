@@ -4106,3 +4106,14 @@ Rom    May 16 2008
     
     clientgui/
         SkinManager.cpp
+
+David  May 16 2008
+    - client: JM7 was seeing repeated file upload failures.
+        It turned out that when we close and reopen
+        the temp file that stores the HTTP reply, the open was failing.
+        I have no idea why.
+        Attempted workaround: open the file for R/W originally,
+        and instead of close/open do a seek.
+
+    client/
+        http_curl.C
