@@ -1,7 +1,6 @@
-#!bash
-# Source this file in bash to get command completion (using tab)
-# for boinc and boinccmd
-# Written by Frank S. Thomas
+# Source this file in BASH to get command completion (using tab) for
+# boinc and boinccmd. Written by Frank S. Thomas <fst@debian.org>.
+# See also: http://boinc.berkeley.edu/trac/wiki/BashCommandCompletion
 
 _boinc()
 {
@@ -96,4 +95,5 @@ _boinccmd()
     esac
 }
 complete -F _boinccmd boinccmd
+
 # vim: syntax=sh
