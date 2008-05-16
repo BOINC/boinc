@@ -134,6 +134,7 @@ int ACTIVE_TASK::kill_task(bool restart) {
 #endif
     kill(pid, SIGKILL);
 #endif
+    free_coprocs();
 	if (restart) {
 		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
 		gstate.request_enforce_schedule("Task restart");
@@ -370,7 +371,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     }
     gstate.request_schedule_cpus("application exited");
     gstate.request_work_fetch("application exited");
-    gstate.free_coprocs(*app_version);
+    free_coprocs();
 }
 
 bool ACTIVE_TASK::finish_file_present() {

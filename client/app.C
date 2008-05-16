@@ -609,6 +609,17 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
+void ACTIVE_TASK::reserve_coprocs() {
+    gstate.reserve_coprocs(*app_version);
+    coprocs_reserved = true;
+}
+
+void ACTIVE_TASK::free_coprocs() {
+    if (!coprocs_reserved) return;
+    gstate.free_coprocs(*app_version);
+    coprocs_reserved = false;
+}
+
 // Write XML information about this active task set
 //
 int ACTIVE_TASK_SET::write(MIOFILE& fout) {

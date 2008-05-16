@@ -4125,3 +4125,14 @@ David  May 16 2008
 
     client/
         http_curl.C
+
+David  May 16 2008
+    - client: on Windows (at least) if you kill a task (e.g. reset project)
+        ACTIVE_TASK::handle_exited_app() never gets called,
+        so the coprocessors weren't getting freed.
+        Fix this.
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
