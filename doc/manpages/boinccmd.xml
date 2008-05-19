@@ -566,7 +566,7 @@
   <refsect1>
     <title>SEE ALSO</title>
     <para>&man_boinc;, &man_boincmgr;</para>
-    <para><ulink url="http://boinc.berkeley.edu/trac/wiki/BoincCmd"/></para>
+    <para><ulink url="http://boinc.berkeley.edu/wiki/Boinccmd_tool"/></para>
   </refsect1>
 
   <refsect1>
