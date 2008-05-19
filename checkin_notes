@@ -3829,3 +3829,12 @@ David  May 16 2008
         app.C,h
         app_control.C
         app_start.C
+
+Rom    May 19 2008
+    - Tag for 6.2.4 release, all platforms
+      boinc_core_release_6_2_4
+
+    /
+        configure.ac
+        version.h
+
