@@ -3845,3 +3845,10 @@ Charlie May 15 2008
     clientgui/
         common/
             wxPieCtrl.cpp
+
+Charlie May 19 2008
+    MGR: Don't enlarge pie control slices if value is zero.
+        
+    clientgui/
+        common/
+            wxPieCtrl.cpp

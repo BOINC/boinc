@@ -227,7 +227,9 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
                         intAngles.push_back((int)angles[i]);
                         if (i > 0) {
                             if ((intAngles[i] - intAngles[i-1]) < MINANGLE) {
-                                intAngles[i] = intAngles[i-1] + MINANGLE;
+                                if (angles[i] > 0.0) {
+                                    intAngles[i] = intAngles[i-1] + MINANGLE;
+                                }
                             }
                         }
                     }
@@ -239,7 +241,9 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
                             if ((intAngles[i+1] - intAngles[i]) >= MINANGLE) {
                                 break;
                             }
-                            intAngles[i] = intAngles[i+1] - MINANGLE;
+                            if (angles[i+1] > 0.0) {
+                                intAngles[i] = intAngles[i+1] - MINANGLE;
+                            }
                         }
                     }
                 }
