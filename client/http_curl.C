@@ -259,6 +259,7 @@ int HTTP_OP::libcurl_exec(
     CURLMcode curlMErr;
     CURLcode curlErr;
     char strTmp[128];
+    static int outfile_seqno=0;
 
     safe_strcpy(m_url, url);
 
@@ -275,22 +276,7 @@ int HTTP_OP::libcurl_exec(
     } else {
         // always want an outfile for the server response, delete when op done
         bTempOutfile = true;
-        strcpy(outfile, "");
-#if defined(_WIN32) && !defined(__CYGWIN32__)
-        char* ptrName;
-        ptrName = _tempnam("./", "blc");
-        if (ptrName) {
-            strcpy(outfile, ptrName);
-            free(ptrName);
-        }
-#elif defined( __EMX__)
-        strcpy(outfile, "blcXXXXXX"); // a template for the mktemp
-       // mktemp will not open the file
-        mktemp(outfile);
-#else  // use mkstemp on Mac & Linux due to security issues
-        strcpy(outfile, "blcXXXXXX"); // a template for the mkstemp
-        close(mkstemp(outfile));
-#endif
+        sprintf(outfile, "http_temp_%d", outfile_seqno++);
     }
 
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
@@ -445,7 +431,7 @@ int HTTP_OP::libcurl_exec(
 
     // set up an output file for the reply
     //
-    if (outfile && strlen(outfile)>0) {  
+    if (strlen(outfile)) {  
 		if (file_offset>0.0) {
             fileOut = boinc_fopen(outfile, "ab+");
         } else {
