@@ -446,10 +446,11 @@ int HTTP_OP::libcurl_exec(
     // set up an output file for the reply
     //
     if (outfile && strlen(outfile)>0) {  
-		// if offset>0 don't truncate!
-		char szType[3] = "wb";
-		if (file_offset>0.0) szType[0] = 'a';
-        fileOut = boinc_fopen(outfile, szType);
+		if (file_offset>0.0) {
+            fileOut = boinc_fopen(outfile, "ab+");
+        } else {
+            fileOut = boinc_fopen(outfile, "wb+");
+        }
         if (!fileOut) {
             msg_printf(NULL, MSG_INTERNAL_ERROR, 
                 "Can't create HTTP response output file %s", outfile
@@ -642,14 +643,12 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     // TODO: maybe assert stRead == size*nmemb,
     // add exception handling on phop members
     //
-    size_t stWrite = fwrite(ptr, size, nmemb, (FILE*) phop->fileOut);
-#if 1
+    size_t stWrite = fwrite(ptr, size, nmemb, phop->fileOut);
     if (log_flags.http_xfer_debug) {
         msg_printf(NULL, MSG_INFO,
             "[http_xfer_debug] HTTP: wrote %d bytes", (int)stWrite
         );
     }
-#endif
     phop->bytes_xferred += (double)(stWrite);
     phop->update_speed();  // this should update the transfer speed
     return stWrite;
@@ -912,7 +911,7 @@ void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
 }
 
 void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
-    int iNumMsg;
+    int iNumMsg, retval;
     HTTP_OP* hop = NULL;
     CURLMsg *pcurlMsg = NULL;
 
@@ -1040,7 +1039,9 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             }
             net_status.got_http_error();
 			if (log_flags.http_debug) {
-				msg_printf(NULL, MSG_INFO, "[http_debug] HTTP error: %s", hop->error_msg);
+				msg_printf(NULL, MSG_INFO,
+                    "[http_debug] HTTP error: %s", hop->error_msg
+                );
 			}
         }
 
@@ -1048,18 +1049,26 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             // for a successfully completed request on a "post2" --
             // read in the temp file into req1 memory
             //
-            fclose(hop->fileOut);
-            double dSize = 0.0f;
-            file_size(hop->outfile, dSize);
-            hop->fileOut = boinc_fopen(hop->outfile, "rb");
-            if (!hop->fileOut) { // ack, can't open back up!
+            size_t dSize = ftell(hop->fileOut);
+            retval = fseek(hop->fileOut, 0, SEEK_SET);
+            if (retval) {
+                // flag as a bad response for a possible retry later
                 hop->response = 1;
-                    // flag as a bad response for a possible retry later
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "[http_debug] can't rewind post output file %s",
+                    hop->outfile
+                );
             } else {
-                fseek(hop->fileOut, 0, SEEK_SET);
-                // CMC Note: req1 is a pointer to "header" which is 4096
-                memset(hop->req1, 0, 4096);
-                size_t temp __attribute__ ((unused)) = fread(hop->req1, 1, (size_t) dSize, hop->fileOut); 
+                strcpy(hop->req1, "");
+                size_t nread = fread(hop->req1, 1, dSize, hop->fileOut); 
+                if (nread != dSize) {
+                    if (log_flags.http_debug) {
+                        msg_printf(NULL, MSG_INFO,
+                            "[http_debug] post output file read failed %ld",
+                            nread
+                        );
+                    }
+                }
             }
         }
 
