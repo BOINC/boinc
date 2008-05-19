@@ -3791,3 +3791,11 @@ Rom    May 19 2008
     
     win_build/installerv2/
         BOINC.ism
+
+Rom    May 19 2008
+    - Tag for 6.2.3 release, all platforms
+      boinc_core_release_6_2_3
+
+    /
+        configure.ac
+        version.h
