@@ -4136,3 +4136,11 @@ David  May 16 2008
         app.C,h
         app_control.C
         app_start.C
+
+Charlie May 19 2008
+    MGR: Don't enlarge pie control slices if value is zero.
+        
+    clientgui/
+        common/
+            wxPieCtrl.cpp
+
