@@ -187,14 +187,20 @@ void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)
 	}	
 }
 
+#define MINANGLE 2
 
 void wxPieCtrl::DrawParts(wxRect& pieRect)
 {
 	wxArrayDouble angles;
+        unsigned int i;
+        std::vector<int> intAngles;
 	wxPen oldpen = m_CanvasDC.GetPen();
 	if(m_ShowEdges) {
 		m_CanvasDC.SetPen(*wxBLACK_PEN);
 	}
+        
+        intAngles.clear();
+        
 	if(m_Series.Count() == 1)
 	{
 		m_CanvasDC.SetBrush(wxBrush(m_Series[0].GetColour()));
@@ -214,7 +220,31 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	}
 	else {
 		GetPartAngles(angles);
-		for(unsigned int i = 0; i < angles.Count(); i++)
+                
+                 if (angles.Count() > 1) {
+                    // Try to adjust angles so each segment is visible
+                    for(i = 0; i < angles.Count(); i++) {
+                        intAngles.push_back((int)angles[i]);
+                        if (i > 0) {
+                            if ((intAngles[i] - intAngles[i-1]) < MINANGLE) {
+                                intAngles[i] = intAngles[i-1] + MINANGLE;
+                            }
+                        }
+                    }
+                    
+                    // If we expanded last segment past 360, go back and fix it
+                    if (intAngles[angles.Count()-1] > 360) {
+                        intAngles[angles.Count()-1] = 360;
+                        for(i = angles.Count()-2; i > 0; i--) {
+                            if ((intAngles[i+1] - intAngles[i]) >= MINANGLE) {
+                                break;
+                            }
+                            intAngles[i] = intAngles[i+1] - MINANGLE;
+                        }
+                    }
+                }
+                
+		for(i = 0; i < angles.Count(); i++)
 		{
 			if(i > 0)
 			{
@@ -226,13 +256,13 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 				double t1,t2;
 #ifndef __WXMSW__
 				// Convert angles to ints and back to doubles to avoid roundoff error which causes gaps between parts
-				t1 = (double)(int)angles[i-1];
-				t2 = (double)(int)angles[i];
-				// !!! very little parts (angel diff < 1) are not shown
+				t1 = (double)intAngles[i-1];
+				t2 = (double)intAngles[i];
+				// !!! very little parts (angle diff < 1) are not shown
 				// because t1=t2 after type conversion
 #else
-				t1 = angles[i-1];
-				t2 = angles[i];
+				t1 = intAngles[i-1];
+				t2 = intAngles[i];
 #endif 
 				if(t1 != t2) {
 #if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
