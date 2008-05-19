@@ -3784,3 +3784,10 @@ Rom    May 19 2008
     client/
         cs_cmdlinc.C
         main.C
+
+Rom    May 19 2008
+    - WINSETUP: Block installing on domain controllers for this release.
+        I'll fix this for the next release cycle, or a future 6.2 release.
+    
+    win_build/installerv2/
+        BOINC.ism
