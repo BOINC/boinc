@@ -3776,3 +3776,11 @@ Rom    May 16 2008
     
     clientgui/
         SkinManager.cpp
+
+Rom    May 19 2008
+    - client: fix command line parsing bug. Parse the command line before
+        initializing the diagnostics framework.
+        
+    client/
+        cs_cmdlinc.C
+        main.C

@@ -60,7 +60,9 @@ static void print_options(char* prog) {
         "    --daemon                        run as daemon (Unix)\n"
         "    --exit_before_start             exit right before starting a job\n"
         "    --exit_after_finish             exit right after finishing a job\n"
+#ifdef SANDBOX
         "    --insecure                      disable app sandboxing (Unix)\n"
+#endif
         "    --launched_by_manager           core client was launched by Manager\n"
         "    --run_by_updater                set by updater\n"
         "    --start_delay X                 delay starting apps for X secs\n"

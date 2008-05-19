@@ -321,6 +321,10 @@ static void init_core_client(int argc, char** argv) {
 #else
 #endif
 
+    // Parse the commandline so we can determine what special
+    // actions to take.
+    gstate.parse_cmdline(argc, argv);
+
 #ifndef _WIN32
     if (g_use_sandbox)
         // Set file creation mask to be writable by both user and group and
@@ -346,10 +350,8 @@ static void init_core_client(int argc, char** argv) {
     diagnostics_init(flags, "stdoutdae", "stderrdae");
     diagnostics_set_max_file_sizes(config.max_stdout_file_size, config.max_stderr_file_size);
 
-    // Read config and parse the commandline after initializing the
-    // diagnostics framework.
+    // Read config after initializing the diagnostics framework.
     read_config_file();
-    gstate.parse_cmdline(argc, argv);
 
 	// Win32 - detach from console if requested
 #ifdef _WIN32
