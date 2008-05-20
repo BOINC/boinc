@@ -4164,3 +4164,14 @@ David  May 20 2008
             team.inc
         user/
             team_search.php
+
+David  May 20 2008
+    - web: fix bugs introduced by recent tra() changes.
+        PLEASE CHECK THESE CHANGES BEFORE SUBMITTING THEM
+
+    html/
+        inc/
+            host.inc
+            user.inc
+        user/
+            cert1.php

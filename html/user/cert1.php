@@ -25,7 +25,7 @@ echo "
 <center>
 <table width=700 border=0><tr><td>
 <center>
-<font style=\"font-size: 52\" face=\"Old English Text MT,ZapfChancery\">Certificate of Computation
+<font style=\"font-size: 52\" face=\"Old English Text MT,Academy Engraved LET,ZapfChancery\">Certificate of Computation
 
 
 <font face=\"Lucida Bright,Times New Roman\" style=\"font-size:24\">
