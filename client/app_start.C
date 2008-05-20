@@ -479,6 +479,7 @@ int ACTIVE_TASK::start(bool first_time) {
     LPVOID environment_block = NULL;
     char slotdirpath[256];
     char error_msg[1024];
+    char error_msg2[1024];
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -553,9 +554,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
             if (!pDEB(environment_block)) {
                 if (log_flags.task) {
-                    windows_error_string(error_msg, sizeof(error_msg));
+                    windows_error_string(error_msg, sizeof(error_msg2));
                     msg_printf(result->project, MSG_INFO,
-                        "Process environment block cleanup failed: %s", error_msg
+                        "Process environment block cleanup failed: %s",
+                        error_msg2
                     );
                 }
             }

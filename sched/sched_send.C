@@ -1111,7 +1111,7 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
             if (reply.wreq.core_client_version>419) {
                 sprintf(helpful,
                     "(won't finish in time) "
-                    "Computer on %.1f%% of time, BOINC on %.1f%% of that",
+                    "BOINC runs %.1f%% of time, computation enabled %.1f%% of that",
                     100.0*reply.host.on_frac, 100.0*reply.host.active_frac
                 );
             } else {

@@ -4175,3 +4175,14 @@ David  May 20 2008
             user.inc
         user/
             cert1.php
+
+David  May 20 2008
+    - Add alternative stylesheet for project web
+    - Tweak error messages in client and server
+
+    client/
+        app_start.C
+    html/user/
+        style2.css
+    sched/
+        sched_send.C
