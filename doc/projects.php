@@ -16,7 +16,7 @@ read its web site and consider the following questions:
 <li> Does it clearly describe its goals,
     and are these goals important and beneficial?
 <li> Do they have any published results? See
-<a href=/wiki/index.php/Publications_by_BOINC_projects>
+<a href=/wiki/Publications_by_BOINC_projects>
 A list of scientific publications of BOINC projects</a>.
 <li> Do you trust it to use proper security practices on its servers?
 <li> Who owns the results of the computation?
@@ -28,9 +28,9 @@ We at BOINC have communicated with the following projects,
 and we believe that their descriptions
 (institution and area of research) are accurate.
 See also
-<a href=wiki/index.php/Project_list>a complete list of projects</a>.
+<a href=wiki/Project_list>a complete list of projects</a>.
 ";
-list_start("cellpadding=2, width=100%");
+list_start("cellpadding=2 width=100%");
 list_heading("Project name<br><span class=note>Mouse over for details; click to visit web site</span>", "Project URL<br><span class=note>Copy and paste into BOINC client</span>");
 shuffle($areas);
 foreach ($areas as $area) {

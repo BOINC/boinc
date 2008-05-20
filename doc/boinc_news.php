@@ -31,7 +31,7 @@ array("May 5, 2008",
 array("Apr 20, 2008",
     "The BOINC user documentation has been moved from
     <a href=trac/wiki/RunningBoinc>Trac</a>
-    to <a href=wiki/index.php/User_Manual>Mediawiki</a>,
+    to <a href=wiki/User_manual>Mediawiki</a>,
     which provides better navigation and editing interfaces.
     Please help us fix the remaining broken links."
 ),

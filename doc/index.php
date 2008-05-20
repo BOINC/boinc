@@ -16,9 +16,8 @@ require_once("../html/inc/translation.inc");
 function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
-    echo "
-        <table cellpadding=8>
-        <tr><td class=fieldname>
+    echo "<table cellpadding=8 cellspacing=0>
+        <tr><td class=heading>
         <center>
         <span class=section_title>Computing power</span>
         <br>
@@ -62,7 +61,7 @@ function show_news_items() {
     require_once("../html/inc/news.inc");
     echo "
         <table border=0 cellpadding=8>
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>News</span>
         </center>
@@ -83,13 +82,13 @@ function show_news_items() {
 
 function show_participate() {
     echo "
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>".tr(HOME_HEADING1)."</span>
         <br>
         <a class=heading href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-        &middot; <a class=heading href=/wiki/index.php/BOINC_Help><b>Help</b></a>
-        &middot; <a class=heading href=wiki/index.php/User_Manual><b><nobr>Documentation</nobr></b></a> 
+        &middot; <a class=heading href=/wiki/BOINC_Help><b>Help</b></a>
+        &middot; <a class=heading href=wiki/User_manual><b><nobr>Documentation</nobr></b></a> 
         </center>
         </td></tr>
         <tr><td>
@@ -104,7 +103,7 @@ function show_participate() {
 
 function show_create() {
     echo "
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>Compute with BOINC</span>
         <br>
@@ -136,7 +135,7 @@ function show_create() {
 
 function show_other() {
     echo "
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>The BOINC project</span>
         </center>

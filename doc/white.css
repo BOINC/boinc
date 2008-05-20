@@ -72,9 +72,10 @@ pre {
 }
 
 th {
-	background-color: rgb(157, 221, 255);
+	background-color: rgb(200, 221, 250);
 	color: black;
 	font-weight: bold;
+        border: 1px solid lightgray;
 }
 
 td.indent {
@@ -82,12 +83,15 @@ td.indent {
 }
 
 td.heading {
-        background-color: rgb(157, 221, 255);
-	    font-weight: bold;
+#background-color: rgb(157, 221, 255);
+#font-weight: bold;
+        background-color: rgb(223, 240, 255);
+        border: 1px solid lightgray;
 }
 
 td.fieldname {
-        background-color: rgb(213, 240, 255);
+        background-color: rgb(235, 248, 255);
+#border: 1px solid gray;
 }
 
 td.category {

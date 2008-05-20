@@ -4144,3 +4144,13 @@ Charlie May 19 2008
         common/
             wxPieCtrl.cpp
 
+David  May 19 2008
+    - client: eliminate spurious "unparsed XML" messages
+        Fixes #664.  Rom, please backport to 6.2
+    - web: convert some tr() to tra() on BOINC web pages
+
+    client/
+        cs_account.C
+        scheduler_op.C
+    languages/translations/
+        en.po
