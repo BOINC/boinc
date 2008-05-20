@@ -16,9 +16,10 @@ function team_search_form($params) {
     ";
     start_table();
     row2("<b>Search criteria (use one or more)</b>", "");
-    row2("Key words<br><span class=note>Find teams with these words in their names or descriptions</span>", "<input name=keywords value=\"$params->keywords\">");
+    row2('Key words<br><span class="note">Find teams with these words in their names or descriptions</span>',
+        '<input name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
     row2_init("Country", "");
-    echo "<select name=country><option value=\"\" selected>---</option>";
+    echo '<select name="country"><option value="" selected>---</option>';
     $country = $params->country;
     if (!$country || $country == 'None') $country = "XXX";
     print_country_select($country);
@@ -26,7 +27,7 @@ function team_search_form($params) {
     row2("Type of team", team_type_select($params->type, true));
     $checked = $params->active?"checked":"";
     row2("Show only active teams", "<input type=checkbox name=active $checked>");
-    row2("", "<input type=submit name=submit value=Search>");
+    row2("", '<input type="submit" name="submit" value="Search">');
     end_table();
     echo "
         </form>
@@ -39,15 +40,15 @@ function foundership_transfer_link($user, $team) {
         if ($team->userid == $user->id) {
             return "None";
         } else {
-            return "<a href=\"team_founder_transfer_form.php\">Initiate request</a>";
+            return '<a href="team_founder_transfer_form.php">Initiate request</a>';
         }
     }
     if ($team->ping_user == $user->id) {
         if (transfer_ok($team, now)) {
-            return "Requested by you, and founder response deadline has passed.  <a href=\"team_founder_transfer_form.php\">Complete foundership transfer</a>.";
+            return 'Requested by you, and founder response deadline has passed.  <a href="team_founder_transfer_form.php">Complete foundership transfer</a>.';
         } else {
             $deadline = date_str(transfer_ok_time($team));
-            return "<a href=\"team_founder_transfer_form.php\">Requested by you</a>; founder response deadline is $deadline";
+            return '<a href="team_founder_transfer_form.php">Requested by you</a>; founder response deadline is '.$deadline;
         }
     }
     return "<a href=\"team_founder_transfer_form.php\">Deferred</a>";
@@ -89,7 +90,7 @@ function display_team_page($team, $user) {
         if ($user->teamid != $team->id) {
             $tokens = url_tokens($user->authenticator);
             row2("",
-                "<a href='team_join.php?$tokens&teamid=$team->id'>Join this team</a>
+                "<a href='team_join.php?$tokens&amp;teamid=$team->id'>Join this team</a>
                 <br><span class=note>Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address.</span>"
             );
         }
@@ -135,9 +136,9 @@ function display_team_page($team, $user) {
         }
     }
     row2("New members in last day", $x);
-    row2("Total members", "$team->nusers (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=expavg_credit>view</a>)");
-    row2("Active members", "$team->nusers_active (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=expavg_credit>view</a>)");
-    row2("Members with credit", "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&offset=0&sort_by=total_credit>view</a>)");
+    row2("Total members", "$team->nusers (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>view</a>)");
+    row2("Active members", "$team->nusers_active (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>view</a>)");
+    row2("Members with credit", "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=total_credit>view</a>)");
     end_table();
 }
 
@@ -172,12 +173,12 @@ function display_team_members($team, $offset, $sort_by) {
             if ($sort_by == "total_credit") {
                 echo "<th>Total credit</th>";
             } else {
-                echo "<th><a href=team_members.php?teamid=$team->id&sort_by=total_credit&offset=$offset>Total credit</a></th>";
+                echo "<th><a href=team_members.php?teamid=$team->id&amp;sort_by=total_credit&amp;offset=$offset>Total credit</a></th>";
             }
             if ($sort_by == "expavg_credit") {
                 echo "<th>Recent average credit</th>";
             } else {
-                echo "<th><a href=team_members.php?teamid=$team->id&sort_by=expavg_credit&offset=$offset>Recent average credit</a></th>";
+                echo "<th><a href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>Recent average credit</a></th>";
             }
         }
     }
@@ -222,11 +223,11 @@ function display_team_members($team, $offset, $sort_by) {
 
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=team_members.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Last $n</a> | ";
+        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>Last $n</a> | ";
     }
     if ($j == $offset + $n + 1) {
         $new_offset = $offset + $n;
-        echo "<a href=team_members.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Next $n</a>";
+        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>Next $n</a>";
     }
 }
 

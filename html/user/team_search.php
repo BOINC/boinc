@@ -130,7 +130,11 @@ function search($params) {
 $user = get_logged_in_user(false);
 if (isset($_GET['submit'])) {
     $params = null;
-    $params->keywords = $_GET['keywords'];
+    if(get_magic_quotes_gpc()) {
+        $params->keywords = stripslashes($_GET['keywords']);
+    } else {
+        $params->keywords = $_GET['keywords'];
+    }
     $params->country = $_GET['country'];
     $params->type = $_GET['type'];
     $params->active = get_str('active', true);

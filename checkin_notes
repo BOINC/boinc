@@ -4154,3 +4154,13 @@ David  May 19 2008
         scheduler_op.C
     languages/translations/
         en.po
+
+David  May 20 2008
+    - web: fix for cross-site scripting vulnerability
+        (from Nicolas Alvarez)
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_search.php
