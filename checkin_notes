@@ -3838,3 +3838,9 @@ Rom    May 19 2008
         configure.ac
         version.h
 
+Charlie May 19 2008
+    MGR: Fix Compile error - add change which was not ported from branch 
+        boinc_core_release_6_2; checked in to boinc_core_release_6_2_4 tag.
+    
+    client/
+        client_state.C

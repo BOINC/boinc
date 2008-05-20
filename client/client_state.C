@@ -82,7 +82,11 @@ CLIENT_STATE::CLIENT_STATE():
     core_client_version.major = BOINC_MAJOR_VERSION;
     core_client_version.minor = BOINC_MINOR_VERSION;
     core_client_version.release = BOINC_RELEASE;
+#ifdef BOINC_PRERELEASE
     core_client_version.prerelease = BOINC_PRERELEASE;
+#else
+    core_client_version.prerelease = false;
+#endif
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
