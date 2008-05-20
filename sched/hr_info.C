@@ -202,17 +202,6 @@ void HR_INFO::show(FILE* f) {
     }
 }
 
-int PERF_INFO::read_file() {
-    FILE* f = fopen(PERF_INFO_FILENAME, "r");
-    if (!f) return ERR_FOPEN;
-    fscanf(f, "%f %f",
-        &host_fpops_mean,
-        &host_fpops_stdev
-    );
-    fclose(f);
-    return 0;
-}
-
 int PERF_INFO::write_file() {
     FILE* f = fopen(PERF_INFO_FILENAME, "w");
     if (!f) return ERR_FOPEN;

@@ -146,6 +146,20 @@ HR_INFO hr_info;
 bool using_hr;
     // true iff any app is using HR
 
+// put this here (instead of hr_info.C) so that FCGI compile
+// won't choke on fscanf()
+//
+int PERF_INFO::read_file() {
+    FILE* f = fopen(PERF_INFO_FILENAME, "r");
+    if (!f) return ERR_FOPEN;
+    int n = fscanf(f, "%f %f",
+        &host_fpops_mean,
+        &host_fpops_stdev
+    );
+    fclose(f);
+    return 0;
+}
+
 void cleanup_shmem() {
     ssp->ready = false;
     detach_shmem((void*)ssp);

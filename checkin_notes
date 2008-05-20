@@ -4186,3 +4186,10 @@ David  May 20 2008
         style2.css
     sched/
         sched_send.C
+
+David  May 20 2008
+    - fix FCGI compile
+
+    sched/
+        feeder.C
+        hr_info.C
