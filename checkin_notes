@@ -4217,3 +4217,9 @@ David  May 21 2008
 
     html/user/
         white.css
+
+David  May 21 2008
+    - scheduler: if client has bad code sign key, don't send work
+
+    sched/
+        handle_request.C

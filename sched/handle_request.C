@@ -880,7 +880,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 // send it the new one, with a signature based on the old one.
 // If they don't have a code sign key, send them one
 //
-void send_code_sign_key(
+bool send_code_sign_key(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key
 ) {
     char* oldkey, *signature;
@@ -904,7 +904,7 @@ void send_code_sign_key(
                        "high"
                     );
                     reply.insert_message(um);
-                    return;
+                    return false;
                 }
                 if (!strcmp(oldkey, sreq.code_sign_key)) {
                     sprintf(path, "%s/signature_%d", config.key_dir, i);
@@ -924,12 +924,13 @@ void send_code_sign_key(
                     }
                 }
                 free(oldkey);
-                return;
+                return false;
             }
         }
     } else {
         safe_strcpy(reply.code_sign_key, code_sign_key);
     }
+    return true;
 }
 
 // This routine examines the <min_core_client_version_announced> value
@@ -1329,6 +1330,10 @@ void process_request(
         }
     }
     
+    if (!send_code_sign_key(sreq, reply, code_sign_key)) {
+        ok_to_send_work = false;
+    }
+
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
     if (!have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
@@ -1356,7 +1361,6 @@ void process_request(
         }
     }
 
-    send_code_sign_key(sreq, reply, code_sign_key);
 
     handle_msgs_from_host(sreq, reply);
     if (config.msg_to_host) {
