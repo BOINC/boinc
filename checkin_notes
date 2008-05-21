@@ -4206,3 +4206,8 @@ Rom    May 20 2008
         diagnostics.C, .h
         diagnostics_win.C
         
+David  May 21 2008
+    - web: fix errors in translation changes
+
+    html/inc/
+        user.inc

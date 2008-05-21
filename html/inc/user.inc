@@ -102,7 +102,7 @@ function show_other_projects($user, $personal) {
         }
         start_table();
         row_heading_array(array(
-            tra("Project"), "<br/><span class=\"note\">".tra("Click for user page")."</span>", tra("Total credit"), tra("Average credit"), tra("Since")
+            tra("Project")."<br/><span class=\"note\">".tra("Click for user page")."</span>", tra("Total credit"), tra("Average credit"), tra("Since")
         ));
         foreach($user->projects as $project) {
             show_project($project);
@@ -192,7 +192,7 @@ function show_user_info_private($user) {
     row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
     if (!no_computing()) {
         row2(tra("Account key")."<br/><span class=\"note\">".tra("Provides full access to your account")."</span>", $user->authenticator);
-        row2(tra("Weak account key")."<br/><span class=\"note\">".tra("Provides")." <a href=\"weak_auth.php\">".tra("limited access")."</a>".tra("to your account")."</span>", weak_auth($user));
+        row2(tra("Weak account key")."<br/><span class=\"note\">".tra("Provides")." <a href=\"weak_auth.php\">".tra("limited access")."</a> ".tra("to your account")."</span>", weak_auth($user));
     }
 
     row1("<a name=\"prefs\"></a>".tra("Preferences"));
@@ -276,7 +276,7 @@ function show_community_private($user) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
             $x .= friend_links($fuser);
         }
-        row2(tra("Friends")."($n)", $x);
+        row2(tra("Friends")." ($n)", $x);
     } else {
         row2(tra("Friends"), $x);
     }
