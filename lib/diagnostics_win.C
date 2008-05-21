@@ -1783,13 +1783,24 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                 diagnostics_unhandled_exception_dump_banner();
 
 #ifndef __CYGWIN__
-                // Kickstart the debugger extensions
- 	            bDebuggerInitialized = !DebuggerInitialize(
-                    diagnostics_get_boinc_dir(),
-                    diagnostics_get_symstore(),
-                    diagnostics_is_proxy_enabled(),
-                    diagnostics_get_proxy()
-                );
+                // Kickstart the debugger extensions, look for the debugger files
+                //   in the install directory if it is defined, otherwise look
+                //   in the data directory.
+                if (0 != strlen(diagnostics_get_boinc_install_dir())) {
+ 	                bDebuggerInitialized = !DebuggerInitialize(
+                        diagnostics_get_boinc_install_dir(),
+                        diagnostics_get_symstore(),
+                        diagnostics_is_proxy_enabled(),
+                        diagnostics_get_proxy()
+                    );
+                } else {
+ 	                bDebuggerInitialized = !DebuggerInitialize(
+                        diagnostics_get_boinc_dir(),
+                        diagnostics_get_symstore(),
+                        diagnostics_is_proxy_enabled(),
+                        diagnostics_get_proxy()
+                    );
+                }
 
                 // Dump any useful information
                 if (bDebuggerInitialized) DebuggerDisplayDiagnostics();

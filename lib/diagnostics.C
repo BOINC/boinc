@@ -72,12 +72,13 @@ static char        stderr_log[256];
 static char        stderr_archive[256];
 static FILE*       stderr_file;
 static char        boinc_dir[256];
+static char        boinc_install_dir[256];
 static int         boinc_proxy_enabled;
 static char        boinc_proxy[256];
 static char        symstore[256];
 static int         aborted_via_gui;
-static int max_stderr_file_size = 2048*1024;
-static int max_stdout_file_size = 2048*1024;
+static int         max_stderr_file_size = 2048*1024;
+static int         max_stdout_file_size = 2048*1024;
 
 
 #if defined(_WIN32) && defined(_DEBUG)
@@ -185,6 +186,7 @@ int diagnostics_init(
     snprintf(stderr_log, sizeof(stderr_log), "%s.txt", stderr_prefix);
     snprintf(stderr_archive, sizeof(stderr_archive), "%s.old", stderr_prefix);
     strcpy(boinc_dir, "");
+    strcpy(boinc_install_dir, "");
     boinc_proxy_enabled = 0;
     strcpy(boinc_proxy, "");
     strcpy(symstore, "");
@@ -285,13 +287,18 @@ int diagnostics_init(
     }
 
 
-    // Store the location of the BOINC directory for future use
+    // Store various pieces of inforation for future use.
     if (flags & BOINC_DIAG_BOINCAPPLICATION) {
         char    buf[256];
         char    proxy_address[256];
         int     proxy_port;
         MIOFILE mf;
         FILE*   p;
+#ifdef _WIN32
+        LONG    lReturnValue;
+        HKEY    hkSetupHive;
+        DWORD   dwSize = 0;
+#endif
 
         strcpy(buf, "");
         strcpy(proxy_address, "");
@@ -320,6 +327,33 @@ int diagnostics_init(
                 boinc_proxy[sizeof(boinc_proxy)-1] = '\0';
             }
         }
+
+#ifdef _WIN32
+        // Lookup the location of where BOINC was installed to and store
+        //   that for future use.
+        lReturnValue = RegOpenKeyEx(
+            HKEY_LOCAL_MACHINE, 
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+	        0, 
+            KEY_READ,
+            &hkSetupHive
+        );
+        if (lReturnValue == ERROR_SUCCESS) {
+            // How large does our buffer need to be?
+            dwSize = sizeof(boinc_install_dir);
+
+            lReturnValue = RegQueryValueEx(
+                hkSetupHive,
+                _T("INSTALLDIR"),
+                NULL,
+                NULL,
+                (LPBYTE)&boinc_install_dir,
+                &dwSize
+            );
+        }
+
+        if (hkSetupHive) RegCloseKey(hkSetupHive);
+#endif
     }
 
     return BOINC_SUCCESS;
@@ -330,7 +364,7 @@ int diagnostics_init(
 //
 int diagnostics_finish() {
 
-#if defined(_WIN32)
+#ifdef _WIN32
 
     // Shutdown the message monitor thread and handles
     diagnostics_finish_message_monitor();
@@ -394,6 +428,13 @@ int diagnostics_is_flag_set(int _flags) {
 //
 char* diagnostics_get_boinc_dir() {
     return boinc_dir;
+}
+
+
+// return the location of the BOINC install directory.
+//
+char* diagnostics_get_boinc_install_dir() {
+    return boinc_install_dir;
 }
 
 

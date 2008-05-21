@@ -4193,3 +4193,16 @@ David  May 20 2008
     sched/
         feeder.C
         hr_info.C
+
+Rom    May 20 2008
+    - DIAG: For Windows, lookup and store the install directory
+        location so that the diagnostics framework can use the
+        debugger libraries.
+        
+        NOTE: This is only a problem for applications running
+          under the v6 clients.
+        
+    lib/
+        diagnostics.C, .h
+        diagnostics_win.C
+        
