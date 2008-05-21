@@ -4211,3 +4211,9 @@ David  May 21 2008
 
     html/inc/
         user.inc
+
+David  May 21 2008
+    - web: remove separate blockquote style; fixes #668
+
+    html/user/
+        white.css
