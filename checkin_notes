@@ -4233,3 +4233,14 @@ David  May 21 2008
     lib/
         boinc_cmd.C
         win_util.C,h
+
+David  May 22 2008
+    - client: copy api_version of APP_VERSIONs in scheduler reply,
+        even if we already have the APP_VERSION.
+        Otherwise, when upgrading from 5.10 to 6.2,
+        we won't have the api_version,
+        and we won't learn about it until project releases new version.
+
+
+    client/
+        cs_scheduler.C

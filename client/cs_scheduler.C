@@ -680,6 +680,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             strcpy(avp->cmdline, avpp.cmdline);
             avp->coprocs.delete_coprocs();
             avp->coprocs = avpp.coprocs;
+            strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
 
             // if we had download failures, clear them
             //
