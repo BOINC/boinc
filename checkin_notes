@@ -4223,3 +4223,13 @@ David  May 21 2008
 
     sched/
         handle_request.C
+
+David  May 21 2008
+    - boinccmd (Windows): chdir to the data directory (from registry)
+
+    client/
+        hostinfo_unix.C
+        main.C
+    lib/
+        boinc_cmd.C
+        win_util.C,h
