@@ -365,9 +365,9 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 			break;
 		case WU_CLIENT_ARG:
 			pctx->wu->argv = g_renew(char *, pctx->wu->argv,
-				pctx->wu->argc + 1);
-			pctx->wu->argv[pctx->wu->argc] = g_strndup(text, text_len);
-			pctx->wu->argc++;
+				pctx->wu->argc + 2);
+			pctx->wu->argv[pctx->wu->argc++] = g_strndup(text, text_len);
+			pctx->wu->argv[pctx->wu->argc] = NULL;
 			break;
 		case WU_SUBRESULTS:
 			tmp = g_strndup(text, text_len);
@@ -616,7 +616,8 @@ void DC_destroyWU(DC_Workunit *wu)
 	}
 
 	g_free(wu->client_name);
-	g_strfreev(wu->argv);
+	if (wu->argv)
+		g_strfreev(wu->argv);
 	g_free(wu->tag);
 
 	g_free(wu);
