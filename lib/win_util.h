@@ -31,3 +31,4 @@ extern BOOL GetAccountSid(
     PSID *Sid                   // resultant buffer containing SID
 );
 extern int suspend_or_resume_threads(DWORD pid, bool resume);
+extern void chdir_to_data_dir();

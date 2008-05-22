@@ -148,6 +148,9 @@ int main(int argc, char** argv) {
 	char passwd_buf[256], hostname_buf[256], *hostname=0;
     char* passwd = passwd_buf, *p;
 
+#ifdef _WIN32
+    chdir_to_data_dir();
+#endif
 	strcpy(passwd_buf, "");
 	read_password_from_file(passwd_buf);
 

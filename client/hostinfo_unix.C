@@ -498,39 +498,39 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #include <machine/cpufunc.h>
 
 void use_cpuid(HOST_INFO& host) {
-	u_int p[4];
-	int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt = 0;
-	char capabilities[256];
+    u_int p[4];
+    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt = 0;
+    char capabilities[256];
 
-	do_cpuid(0x0, p);
+    do_cpuid(0x0, p);
 
-	if (p[0] >= 0x1) {
+    if (p[0] >= 0x1) {
 
-		do_cpuid(0x1, p);
+        do_cpuid(0x1, p);
 
-		hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
-		hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
-		hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
-		hasSSE3 = (p[2] & (1 << 0 )) >> 0;
-	}
+        hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
+        hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
+        hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
+        hasSSE3 = (p[2] & (1 << 0 )) >> 0;
+    }
 
-	do_cpuid(0x80000000, p);
-	if (p[0]>=0x80000001) {
-		do_cpuid(0x80000001, p);
-		hasMMX  |= (p[3] & (1 << 23 )) >> 23; // 0x0800000
-		has3DNow    = (p[3] & (1 << 31 )) >> 31; //0x80000000
-		has3DNowExt = (p[3] & (1 << 30 )) >> 30;
-	}
+    do_cpuid(0x80000000, p);
+    if (p[0]>=0x80000001) {
+        do_cpuid(0x80000001, p);
+        hasMMX  |= (p[3] & (1 << 23 )) >> 23; // 0x0800000
+        has3DNow    = (p[3] & (1 << 31 )) >> 31; //0x80000000
+        has3DNowExt = (p[3] & (1 << 30 )) >> 30;
+    }
 
-	capabilities[0] = '\0';
-	if (hasSSE) strncat(capabilities, "sse ", 4);
-	if (hasSSE2) strncat(capabilities, "sse2 ", 5);
-	if (hasSSE3) strncat(capabilities, "sse3 ", 5);
-	if (has3DNow) strncat(capabilities, "3dnow ", 6);
-	if (has3DNowExt) strncat(capabilities, "3dnowext ", 9);
-	if (hasMMX) strncat(capabilities, "mmx ", 4);
-	strip_whitespace(capabilities);
-	snprintf(host.p_model, sizeof(host.p_model), "%s [] [%s]", host.p_model, capabilities);
+    capabilities[0] = '\0';
+    if (hasSSE) strncat(capabilities, "sse ", 4);
+    if (hasSSE2) strncat(capabilities, "sse2 ", 5);
+    if (hasSSE3) strncat(capabilities, "sse3 ", 5);
+    if (has3DNow) strncat(capabilities, "3dnow ", 6);
+    if (has3DNowExt) strncat(capabilities, "3dnowext ", 9);
+    if (hasMMX) strncat(capabilities, "mmx ", 4);
+    strip_whitespace(capabilities);
+    snprintf(host.p_model, sizeof(host.p_model), "%s [] [%s]", host.p_model, capabilities);
 }
 #endif
 #endif
@@ -872,12 +872,12 @@ static const struct dir_dev {
   char *dev;
 } tty_patterns[] = {
 #ifdef unix
-  { "/dev","tty" },
-  { "/dev","pty" },
-  { "/dev/pts","" },
+    { "/dev","tty" },
+    { "/dev","pty" },
+    { "/dev/pts","" },
 #endif
-// add other ifdefs here as necessary.
-  { NULL, NULL },
+    // add other ifdefs here as necessary.
+    { NULL, NULL },
 };
 
 std::vector<std::string> get_tty_list() {
@@ -888,63 +888,43 @@ std::vector<std::string> get_tty_list() {
     std::vector<std::string> tty_list;
     
     do {
-      DIRREF dev=dir_open(tty_patterns[i].dir);
-      if (dev) {
-        do {
-          // get next file
-	  done=dir_scan(devname,dev,1024);
-	  // does it match our tty pattern? If so, add it to the tty list.
-	  if (!done && (strstr(devname,tty_patterns[i].dev) == devname)) {
-	     // don't add anything starting with .
-	     if (devname[0] != '.') {
-               sprintf(fullname,"%s/%s",tty_patterns[i].dir,devname);
-               tty_list.push_back(fullname);
-	     }
-	  }
-        } while (!done);
-      }
-      i++;
+        DIRREF dev=dir_open(tty_patterns[i].dir);
+        if (dev) {
+            do {
+                // get next file
+                done=dir_scan(devname,dev,1024);
+                // does it match our tty pattern? If so, add it to the tty list.
+                if (!done && (strstr(devname,tty_patterns[i].dev) == devname)) {
+                    // don't add anything starting with .
+                    if (devname[0] != '.') {
+                        sprintf(fullname,"%s/%s",tty_patterns[i].dir,devname);
+                        tty_list.push_back(fullname);
+                    }
+                }
+            } while (!done);
+        }
+        i++;
     } while (tty_patterns[i].dir != NULL);
     return tty_list;
 }
        
 
 inline bool all_tty_idle(time_t t) {
-    // The initial implementation of this function was very broken.
-    // It assumed that incrementing a character is enough to cover all
-    // possible terminals.  It was also being passed a pointer to a string
-    // allocated in unwritable memory on some systems, and would therefore
-    // segfault when called.  This implementation is better.
     static std::vector<std::string> tty_list;
     struct stat sbuf;
     unsigned int i;
 
     if (tty_list.size()==0) tty_list=get_tty_list();
     for (i=0; i<tty_list.size(); i++) {
-      // ignore errors
-      if (!stat(tty_list[i].c_str(), &sbuf)) {
-	// printf("%s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
-	if (sbuf.st_atime >= t) {
-	  return false;
-	}
-      }
-    }
-    return true;
-#if 0    
-    // this is the old implementation
-    struct stat sbuf;
-    char *tty_index = device + strlen(device) - 1;
-    *tty_index = first_char;
-    for (int i = 0; i < num_tty; i++, (*tty_index)++) {
-        if (stat(device, &sbuf)) {
-            // error looking at device; don't try any more
-            return true;
-        } else if (sbuf.st_atime >= t) {
-            return false;
+        // ignore errors
+        if (!stat(tty_list[i].c_str(), &sbuf)) {
+            // printf("%s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
+            if (sbuf.st_atime >= t) {
+                return false;
+            }
         }
     }
     return true;
-#endif
 }
 
 #ifdef HAVE_UTMP_H
@@ -960,8 +940,8 @@ inline bool user_idle(time_t t, struct utmp* u) {
             tty[i+5] = '\0';
         }
     }
-      return device_idle(t, tty);
-  }
+    return device_idle(t, tty);
+}
 
 #if !defined(HAVE_SETUTENT) || !defined(HAVE_GETUTENT)
   static FILE *ufp = NULL;
@@ -973,21 +953,21 @@ inline bool user_idle(time_t t, struct utmp* u) {
   struct utmp *getutent() {
       if (ufp == NULL) {
 #if defined(UTMP_LOCATION)
-	  if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL) {
+          if ((ufp = fopen(UTMP_LOCATION, "r")) == NULL) {
 #elif defined(UTMP_FILE)
-	  if ((ufp = fopen(UTMP_FILE, "r")) == NULL) {
+          if ((ufp = fopen(UTMP_FILE, "r")) == NULL) {
 #elif defined(_PATH_UTMP)
-	  if ((ufp = fopen(_PATH_UTMP, "r")) == NULL) {
+          if ((ufp = fopen(_PATH_UTMP, "r")) == NULL) {
 #else
-	  if ((ufp = fopen("/etc/utmp", "r")) == NULL) {
+          if ((ufp = fopen("/etc/utmp", "r")) == NULL) {
 #endif
-	      return((struct utmp *)NULL);
-	  }
+              return((struct utmp *)NULL);
+          }
       }
       do {
-	  if (fread((char *)&ut, sizeof(ut), 1, ufp) != 1) {
-	      return((struct utmp *)NULL);
-	  }
+          if (fread((char *)&ut, sizeof(ut), 1, ufp) != 1) {
+              return((struct utmp *)NULL);
+          }
       } while (ut.ut_name[0] == 0);
       return(&ut);
   }
@@ -1004,9 +984,9 @@ inline bool user_idle(time_t t, struct utmp* u) {
       setutent();
 
       while ((u = getutent()) != NULL) {
-	  if (!user_idle(t, u)) {
-	      return false;
-	  }
+          if (!user_idle(t, u)) {
+              return false;
+          }
       }
       return true;
   }
@@ -1014,15 +994,15 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
 #ifdef __APPLE__
 
-  bool HOST_INFO::users_idle(
-      bool check_all_logins, double idle_time_to_run, double *actual_idle_time
-  ) {
-      double idleTime = 0;
+bool HOST_INFO::users_idle(
+    bool check_all_logins, double idle_time_to_run, double *actual_idle_time
+) {
+    double idleTime = 0;
       
-      if (gEventHandle) {
-	 idleTime = NXIdleTime(gEventHandle);    
-      } else {
-	  // Initialize Mac OS X idle time measurement / idle detection
+    if (gEventHandle) {
+        idleTime = NXIdleTime(gEventHandle);    
+    } else {
+        // Initialize Mac OS X idle time measurement / idle detection
         // Do this here because NXOpenEventStatus() may not be available 
         // immediately on system startup when running as a deaemon.
         gEventHandle = NXOpenEventStatus();

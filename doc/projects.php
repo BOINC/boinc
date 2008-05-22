@@ -1,6 +1,7 @@
 <?php
 require_once("docutil.php");
 require_once("projects.inc");
+require_once("get_platforms.inc");
 page_head("Choosing BOINC projects");
 
 echo "
@@ -31,12 +32,17 @@ See also
 <a href=wiki/Project_list>a complete list of projects</a>.
 ";
 list_start("cellpadding=2 width=100%");
-list_heading("Project name<br><span class=note>Mouse over for details; click to visit web site</span>", "Project URL<br><span class=note>Copy and paste into BOINC client</span>");
+list_heading(
+    "Project name<br><span class=note>Mouse over for details; click to visit web site</span>",
+    "Project URL",
+    "Supported platforms"
+);
 shuffle($areas);
 foreach ($areas as $area) {
     list_bar($area[0]);
     $projects = $area[1];
     shuffle($projects);
+    $n = 0;
     foreach ($projects as $p) {
         $img = "";
         if ($p[5]) {
@@ -45,7 +51,14 @@ foreach ($areas as $area) {
         $desc = addslashes($p[4]);
         $x = "<a href=$p[1] onmouseover=\"return escape('$img <b>Home:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $desc')\">$p[0]</a>";
         $y = $p[1];
-        list_item($x, $y);
+        $p = get_platforms_cached($y);
+        echo "<tr class=row$n>
+            <td valign=top>$x</td>
+            <td valign=top>$y</td>
+            <td width=30% valign=top>$p</td>
+            </tr>
+        ";
+        $n = 1-$n;
     }
 }
 list_end();
