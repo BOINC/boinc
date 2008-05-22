@@ -484,6 +484,8 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
+extern void print_suspend_tasks_message(int);
+
 #define POLL_INTERVAL   1.0
     // the client will handle I/O (including GUI RPCs)
     // for up to POLL_INTERVAL seconds before calling poll_slow_events()

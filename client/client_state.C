@@ -463,6 +463,7 @@ bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, retval;
     static int last_suspend_reason=0;
     static bool tasks_restarted = false;
+    static bool first=true;
     double old_now = now;
 #ifdef __APPLE__
     double idletime;
@@ -535,6 +536,13 @@ bool CLIENT_STATE::poll_slow_events() {
             if (tasks_suspended) {
                 resume_tasks(last_suspend_reason);
             }
+        }
+    } else if (first) {
+        // if suspended, show message the first time around
+        //
+        first = false;
+        if (suspend_reason) {
+            print_suspend_tasks_message(suspend_reason);
         }
     }
     tasks_suspended = (suspend_reason != 0);

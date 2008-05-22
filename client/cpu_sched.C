@@ -522,32 +522,32 @@ void CLIENT_STATE::print_deadline_misses() {
 static bool schedule_if_possible(
     RESULT* rp, double& ncpus_used, double& ram_left, double rrs, double expected_payoff
 ) {
-	ACTIVE_TASK* atp;
+    ACTIVE_TASK* atp;
 
-	atp = gstate.lookup_active_task_by_result(rp);
+    atp = gstate.lookup_active_task_by_result(rp);
     if (!atp || atp->task_state() == PROCESS_UNINITIALIZED) {
         if (!gstate.sufficient_coprocs(*rp->avp)) {
             if (log_flags.cpu_sched_debug) {
-		        msg_printf(rp->project, MSG_INFO,
-			        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
                 );
             }
             return false;
         }
     }
-	if (atp) {
+    if (atp) {
         // see if it fits in available RAM
         //
-		if (atp->procinfo.working_set_size_smoothed > ram_left) {
-			if (log_flags.cpu_sched_debug) {
-				msg_printf(rp->project, MSG_INFO,
-					"[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
-					rp->name, atp->procinfo.working_set_size_smoothed/MEGA
-				);
-			}
+        if (atp->procinfo.working_set_size_smoothed > ram_left) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
+                    rp->name, atp->procinfo.working_set_size_smoothed/MEGA
+                );
+            }
             atp->too_large = true;
-			return false;
-		}
+            return false;
+        }
         atp->too_large = false;
         
         if (gstate.retry_shmem_time > gstate.now) {
@@ -557,13 +557,13 @@ static bool schedule_if_possible(
             }
             atp->needs_shmem = false;
         }
-		ram_left -= atp->procinfo.working_set_size_smoothed;
+        ram_left -= atp->procinfo.working_set_size_smoothed;
     }
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
-			"[cpu_sched_debug] scheduling %s",
-			rp->name
-		);
+            "[cpu_sched_debug] scheduling %s",
+            rp->name
+        );
     }
     ncpus_used += rp->avp->avg_ncpus;
     rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_payoff;
@@ -582,10 +582,10 @@ void CLIENT_STATE::schedule_cpus() {
     double ncpus_used;
 
     if (log_flags.cpu_sched_debug) {
-		msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
     }
 
-	// do round-robin simulation to find what results miss deadline
+    // do round-robin simulation to find what results miss deadline
     //
     rr_simulation();
     if (log_flags.cpu_sched_debug) {
@@ -607,13 +607,13 @@ void CLIENT_STATE::schedule_cpus() {
         p->anticipated_debt = p->short_term_debt;
         p->deadlines_missed = p->rr_sim_deadlines_missed;
     }
-	for (i=0; i<active_tasks.active_tasks.size(); i++) {
-		active_tasks.active_tasks[i]->too_large = false;
-	}
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        active_tasks.active_tasks[i]->too_large = false;
+    }
 
     expected_payoff = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
-	double ram_left = available_ram();
+    double ram_left = available_ram();
 
     // First choose results from projects with P.deadlines_missed>0
     //
@@ -694,22 +694,22 @@ bool CLIENT_STATE::enforce_schedule() {
     unsigned int i;
     ACTIVE_TASK* atp;
     vector<ACTIVE_TASK*> running_tasks;
-	static double last_time = 0;
+    static double last_time = 0;
     int retval;
     double ncpus_used;
 
     // Do this when requested, and once a minute as a safety net
     //
-	if (now - last_time > 60) {
-		must_enforce_cpu_schedule = true;
-	}
+    if (now - last_time > 60) {
+        must_enforce_cpu_schedule = true;
+    }
     if (!must_enforce_cpu_schedule) return false;
     must_enforce_cpu_schedule = false;
-	last_time = now;
+    last_time = now;
     bool action = false;
 
     if (log_flags.cpu_sched_debug) {
-		msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
         for (i=0; i<ordered_scheduled_results.size(); i++) {
             RESULT* rp = ordered_scheduled_results[i];
             msg_printf(rp->project, MSG_INFO,
@@ -753,7 +753,7 @@ bool CLIENT_STATE::enforce_schedule() {
         running_tasks.pop_back();
     }
 
-	double ram_left = available_ram();
+    double ram_left = available_ram();
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
@@ -1065,7 +1065,7 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
     if (x>1) {
         x = 1;
     }
-	rrsim_proc_rate = x*gstate.overall_cpu_frac();
+    rrsim_proc_rate = x*gstate.overall_cpu_frac();
     if (log_flags.rr_simulation) {
         msg_printf(this, MSG_INFO,
             "[rr_sim] set_rrsim_proc_rate: %f (rrs %f, rs %f, nactive %d, ocf %f",
@@ -1098,7 +1098,7 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
 // that are too large to run in RAM right now.
 //
 void CLIENT_STATE::rr_simulation() {
-	double rrs = nearly_runnable_resource_share();
+    double rrs = nearly_runnable_resource_share();
     double trs = total_resource_share();
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
@@ -1107,18 +1107,18 @@ void CLIENT_STATE::rr_simulation() {
     double x;
     vector<RESULT*>::iterator it;
 
-	double ar = available_ram();
+    double ar = available_ram();
 
-	if (log_flags.rr_simulation) {
-		msg_printf(0, MSG_INFO,
+    if (log_flags.rr_simulation) {
+        msg_printf(0, MSG_INFO,
             "[rr_sim] rr_sim start: work_buf_total %f rrs %f trs %f ncpus %d",
             work_buf_total(), rrs, trs, ncpus
         );
-	}
+    }
 
     // Initialize result lists for each project:
-	// "active" is what's currently running (in the simulation)
-	// "pending" is what's queued
+    // "active" is what's currently running (in the simulation)
+    // "pending" is what's queued
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -1152,7 +1152,7 @@ void CLIENT_STATE::rr_simulation() {
         // the shortfall is its entire share.
         //
         if (!p->active.size()) {
-			double rsf = trs ? p->resource_share/trs : 1;
+            double rsf = trs ? p->resource_share/trs : 1;
             p->cpu_shortfall = work_buf_total() * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
@@ -1188,7 +1188,7 @@ void CLIENT_STATE::rr_simulation() {
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
                 "[rr_sim] result %s finishes after %f (%f/%f)",
-				rpbest->name, rpbest->rrsim_finish_delay, rpbest->rrsim_cpu_left, pbest->rrsim_proc_rate
+                rpbest->name, rpbest->rrsim_finish_delay, rpbest->rrsim_cpu_left, pbest->rrsim_proc_rate
             );
         }
 
@@ -1196,24 +1196,24 @@ void CLIENT_STATE::rr_simulation() {
         //
         double diff = sim_now + rpbest->rrsim_finish_delay - ((rpbest->computation_deadline()-now)*CPU_PESSIMISM_FACTOR + now);
         if (diff > 0) {
-			ACTIVE_TASK* atp = lookup_active_task_by_result(rpbest);
-			if (atp && atp->procinfo.working_set_size_smoothed > ar) {
-				if (log_flags.rr_simulation) {
-					msg_printf(pbest, MSG_INFO,
-						"[rr_sim] result %s misses deadline but too large to run",
-						rpbest->name
-					);
-				}
-			} else {
-				rpbest->rr_sim_misses_deadline = true;
-				pbest->rr_sim_deadlines_missed++;
-				if (log_flags.rr_simulation) {
-					msg_printf(pbest, MSG_INFO,
-						"[rr_sim] result %s misses deadline by %f",
-						rpbest->name, diff
-					);
-				}
-			}
+            ACTIVE_TASK* atp = lookup_active_task_by_result(rpbest);
+            if (atp && atp->procinfo.working_set_size_smoothed > ar) {
+                if (log_flags.rr_simulation) {
+                    msg_printf(pbest, MSG_INFO,
+                        "[rr_sim] result %s misses deadline but too large to run",
+                        rpbest->name
+                    );
+                }
+            } else {
+                rpbest->rr_sim_misses_deadline = true;
+                pbest->rr_sim_deadlines_missed++;
+                if (log_flags.rr_simulation) {
+                    msg_printf(pbest, MSG_INFO,
+                        "[rr_sim] result %s misses deadline by %f",
+                        rpbest->name, diff
+                    );
+                }
+            }
         }
 
         int last_active_size = (int)active.size();
@@ -1282,42 +1282,42 @@ void CLIENT_STATE::rr_simulation() {
             if (nidle_cpus<0) nidle_cpus = 0;
             if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
 
-			double rsf = trs?pbest->resource_share/trs:1;
+            double rsf = trs?pbest->resource_share/trs:1;
             double proj_cpu_share = ncpus*rsf;
 
             if (last_proj_active_size < proj_cpu_share) {
                 pbest->cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_size);
-				if (log_flags.rr_simulation) {
-					msg_printf(pbest, MSG_INFO,
-						"[rr_sim] new shortfall %f d_time %f proj_cpu_share %f lpas %d",
-						pbest->cpu_shortfall, d_time, proj_cpu_share, last_proj_active_size
-					);
-				}
+                if (log_flags.rr_simulation) {
+                    msg_printf(pbest, MSG_INFO,
+                        "[rr_sim] new shortfall %f d_time %f proj_cpu_share %f lpas %d",
+                        pbest->cpu_shortfall, d_time, proj_cpu_share, last_proj_active_size
+                    );
+                }
             }
 
-			if (end_time < buf_end) {
+            if (end_time < buf_end) {
                 d_time = buf_end - end_time;
                 // if this is the last result for this project, account for the tail
                 if (!pbest->active.size()) { 
                     pbest->cpu_shortfall += d_time * proj_cpu_share;
-					if (log_flags.rr_simulation) {
-						 msg_printf(pbest, MSG_INFO, "[rr_sim] proj out of work; shortfall %f d %f pcs %f",
-							 pbest->cpu_shortfall, d_time, proj_cpu_share
-					     );
-					}
+                    if (log_flags.rr_simulation) {
+                         msg_printf(pbest, MSG_INFO, "[rr_sim] proj out of work; shortfall %f d %f pcs %f",
+                             pbest->cpu_shortfall, d_time, proj_cpu_share
+                         );
+                    }
                 }
             }
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
                     "[rr_sim] total: idle cpus %d, last active %d, active %d, shortfall %f",
                     nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall
-					
-				);
-				msg_printf(0, MSG_INFO,
-					"[rr_sim] proj %s: last active %d, active %d, shortfall %f",
-					pbest->get_project_name(), last_proj_active_size, (int)pbest->active.size(),
-					pbest->cpu_shortfall
-				);
+                    
+                );
+                msg_printf(0, MSG_INFO,
+                    "[rr_sim] proj %s: last active %d, active %d, shortfall %f",
+                    pbest->get_project_name(), last_proj_active_size, (int)pbest->active.size(),
+                    pbest->cpu_shortfall
+                );
             }
         }
 
@@ -1557,18 +1557,18 @@ int ACTIVE_TASK::preempt(bool quit_task) {
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {
-			if (quit_task) {
-				msg_printf(result->project, MSG_INFO,
-					"[cpu_sched] Preempting %s (left in memory because no checkpoint yet)",
-					result->name
-				);
-			} else {
-				msg_printf(result->project, MSG_INFO,
-					"[cpu_sched] Preempting %s (left in memory)",
-					result->name
-				);
-			}
-		}
+            if (quit_task) {
+                msg_printf(result->project, MSG_INFO,
+                    "[cpu_sched] Preempting %s (left in memory because no checkpoint yet)",
+                    result->name
+                );
+            } else {
+                msg_printf(result->project, MSG_INFO,
+                    "[cpu_sched] Preempting %s (left in memory)",
+                    result->name
+                );
+            }
+        }
         retval = suspend();
     }
     return 0;
@@ -1580,18 +1580,18 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
 #ifdef SIM
-	if (dcf_dont_use) {
-		duration_correction_factor = 1.0;
-		return;
-	}
-	if (dcf_stats) {
-		((SIM_PROJECT*)this)->update_dcf_stats(rp);
+    if (dcf_dont_use) {
+        duration_correction_factor = 1.0;
         return;
-	}
+    }
+    if (dcf_stats) {
+        ((SIM_PROJECT*)this)->update_dcf_stats(rp);
+        return;
+    }
 #endif
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
     double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time(false);
-	double old_dcf = duration_correction_factor;
+    double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,
     // but bad to underestimate it.
@@ -1615,12 +1615,12 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     if (duration_correction_factor > 100) duration_correction_factor = 100;
     if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
 
-	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
-		msg_printf(this, MSG_INFO,
+    if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
+        msg_printf(this, MSG_INFO,
             "[csd|wfd] DCF: %f->%f, raw_ratio %f, adj_ratio %f",
-			old_dcf, duration_correction_factor, raw_ratio, adj_ratio
-		);
-	}
+            old_dcf, duration_correction_factor, raw_ratio, adj_ratio
+        );
+    }
 }
 
 const char *BOINC_RCSID_e830ee1 = "$Id$";

@@ -183,6 +183,11 @@ static string reason_string(int reason) {
     return s_reason;
 }
 
+void print_suspend_tasks_message(int reason) {
+    string s_reason = "Suspending computation" + reason_string(reason);
+    msg_printf(NULL, MSG_INFO, s_reason.c_str());
+}
+
 int CLIENT_STATE::suspend_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
         if (log_flags.cpu_sched) {
@@ -190,9 +195,7 @@ int CLIENT_STATE::suspend_tasks(int reason) {
         }
         active_tasks.suspend_all(true);
     } else {
-        string s_reason;
-        s_reason = "Suspending computation" + reason_string(reason);
-        msg_printf(NULL, MSG_INFO, s_reason.c_str());
+        print_suspend_tasks_message(reason);
         active_tasks.suspend_all(global_prefs.leave_apps_in_memory);
     }
     return 0;

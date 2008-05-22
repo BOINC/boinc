@@ -4244,3 +4244,11 @@ David  May 22 2008
 
     client/
         cs_scheduler.C
+
+David  May 22 2008
+    - client: print a message at startup if computation is suspended
+
+    client/
+        client_state.C,h
+        cpu_sched.C
+        cs_prefs.C
