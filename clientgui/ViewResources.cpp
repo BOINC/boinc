@@ -253,7 +253,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
 		// used by BOINC
         double boinc_total = project_total + pDoc->disk_usage.d_boinc;
-		FormatDiskSpace(boinc_total, diskspace);
+        FormatDiskSpace(boinc_total, diskspace);
 		part.SetLabel(_("used by BOINC - ") + diskspace);
 		part.SetValue(boinc_total);
 		part.SetColour(wxColour(0,0,0));
@@ -272,9 +272,10 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         }
 
         // free disk space
-		FormatDiskSpace(free-avail, diskspace);
+        double not_avail = free - avail;
+		FormatDiskSpace(not_avail, diskspace);
 		part.SetLabel(_("free, not available to BOINC - ") + diskspace);
-		part.SetValue(free-avail);
+		part.SetValue(not_avail);
 		part.SetColour(wxColour(238,238,238));
 		m_pieCtrlTotal->m_Series.Add(part);
 
