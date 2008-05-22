@@ -16,9 +16,8 @@ require_once("../html/inc/translation.inc");
 function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
-    echo "
-        <table cellpadding=8>
-        <tr><td class=fieldname>
+    echo "<table cellpadding=8 cellspacing=0>
+        <tr><td class=heading>
         <center>
         <span class=section_title>Computing power</span>
         <br>
@@ -62,7 +61,7 @@ function show_news_items() {
     require_once("../html/inc/news.inc");
     echo "
         <table border=0 cellpadding=8>
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>News</span>
         </center>
@@ -83,13 +82,13 @@ function show_news_items() {
 
 function show_participate() {
     echo "
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>".tr(HOME_HEADING1)."</span>
         <br>
         <a class=heading href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
-        &middot; <a class=heading href=wiki/index.php/User_Manual><b><nobr>Documentation</nobr></b></a> 
-        &middot; <a class=heading href=links.php><b><nobr>Web sites</nobr></b></a>
+        &middot; <a class=heading href=/wiki/BOINC_Help><b>Help</b></a>
+        &middot; <a class=heading href=wiki/User_manual><b><nobr>Documentation</nobr></b></a> 
         </center>
         </td></tr>
         <tr><td>
@@ -104,7 +103,7 @@ function show_participate() {
 
 function show_create() {
     echo "
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>Compute with BOINC</span>
         <br>
@@ -114,28 +113,29 @@ function show_create() {
         </center>
         </td></tr>
         <tr><td>
-        <b>Scientists</b>: if your group has moderate
-        programming, web, sysadmin, and hardware resources,
-        you can use BOINC to create a
-        <a href=volunteer.php>volunteer computing project</a>.
-        With a single Linux server you can get
-        the computing power of thousands of CPUs.
-        Organizations such as IBM World Community Grid may be able
-        to host your project
-        (please <a href=trac/wiki/ProjectPeople>contact us</a> for information).
+        <b>Scientists</b>: 
+        use BOINC to create a
+        <a href=volunteer.php>volunteer computing project</a>,
+        giving you the computing power of thousands of CPUs.
         <br>
         <b>Universities</b>: use BOINC to create a
         <a href=trac/wiki/VirtualCampusSupercomputerCenter>Virtual Campus Supercomputing Center</a>.
         <br>
         <b>Companies</b>:
         use BOINC for <a href=dg.php>desktop Grid computing</a>.
+        <br>
+        And check out:
+        <ul>
+            <li> <a href=trac/wiki/BoltIntro>Bolt</a> (software for web-based education and training)</a>
+            <li> <a href=trac/wiki/BossaIntro>Bossa</a> (software for distributed thinking projects)</a>
+        </ul>
         </td></tr>
     ";
 }
 
 function show_other() {
     echo "
-        <tr><td class=fieldname>
+        <tr><td class=heading>
         <center>
         <span class=section_title>The BOINC project</span>
         </center>
@@ -143,16 +143,14 @@ function show_other() {
         <tr><td>
             <ul>
             <li> <a href=trac/wiki/BoincIntro/>Overview</a>
-            <li> <a href=trac/wiki/SoftwareDevelopment>Software development</a>
-            <li> <a href=trac/wiki/TranslateIntro>Translation</a> of web and GUI text
             <li> <a href=trac/wiki/ProjectPeople>Personnel and contributors</a>
-            <li> BOINC <a href=email_lists.php>email lists</a>
-            <li> BOINC <a href=dev/>message boards</a>
-            <li> <a href=http://boinc.berkeley.edu/trac/wiki/BoincPapers>Papers and talks</a> on BOINC
-            <li> <a href=logo.php>Logos and graphics</a>
+            <li> <a href=trac/wiki/SoftwareDevelopment>Software development</a>
+            <li> <a href=email_lists.php>Email lists</a>
+            <li> <a href=dev/>Message boards</a>
             <li> <a href=trac/wiki/BoincEvents>Events</a>
-            <li> <a href=trac/wiki/BoltIntro>Bolt</a> (software for web-based education and training)</a>
-            <li> <a href=trac/wiki/BossaIntro>Bossa</a> (software for distributed thinking projects)</a>
+            <li> <a href=http://boinc.berkeley.edu/trac/wiki/BoincPapers>Papers and talks</a> on BOINC
+            <li> <a href=trac/wiki/TranslateIntro>Translation</a> of web and GUI text
+            <li> <a href=logo.php>Logos and graphics</a>
             </ul>
             <br>
         </td></tr>

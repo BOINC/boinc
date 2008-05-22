@@ -90,13 +90,20 @@ int PROJECT::write_account_file() {
 int PROJECT::parse_account(FILE* in) {
     char buf[256];
     int retval;
+    bool in_project_prefs = false;
 
     strcpy(master_url, "");
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
-        if (match_tag(buf, "<project_preferences>")) continue;
-        if (match_tag(buf, "</project_preferences>")) continue;
+        if (match_tag(buf, "<project_preferences>")) {
+            in_project_prefs = true;
+            continue;
+        }
+        if (match_tag(buf, "</project_preferences>")) {
+            in_project_prefs = false;
+            continue;
+        }
         if (match_tag(buf, "</account>")) {
             return 0;
         } else if (match_tag(buf, "<venue")) {
@@ -125,7 +132,9 @@ int PROJECT::parse_account(FILE* in) {
             if (retval) return retval;
             continue;
         } else {
-            if (log_flags.unparsed_xml) {
+            // don't show unparsed XML errors if we're in project prefs
+            //
+            if (!in_project_prefs && log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
                     "[unparsed_xml] PROJECT::parse_account(): unrecognized: %s\n", buf
                 );

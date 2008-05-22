@@ -5,36 +5,32 @@ page_head("Choosing BOINC projects");
 
 echo "
 <p>
-BOINC software is used by many volunteer computing projects.
+BOINC software is used by many volunteer computing <b>projects</b>.
 These projects are completely independent.
 Some are based at universities and research labs,
 others are run by companies and individuals.
-
-When you participate in a project,
-you entrust it with the health of your computer and the privacy of your data.
 In deciding whether to participate in a project,
 read its web site and consider the following questions:
 
 <ul>
 <li> Does it clearly describe its goals,
     and are these goals important and beneficial?
-<li> Do you trust that its applications
-  won't damage your computer or violate your privacy?
+<li> Do they have any published results? See
+<a href=/wiki/Publications_by_BOINC_projects>
+A list of scientific publications of BOINC projects</a>.
 <li> Do you trust it to use proper security practices on its servers?
 <li> Who owns the results of the computation?
   Will they be freely available to the public
   or will they belong to a for-profit business?
 </ul>
-A list of scientific publications of BOINC-based projects is
-<a href=http://boinc.berkeley.edu/trac/wiki/ProjectPapers>here</a>.
-<p>
 
-The following list of projects is provided for your information;
-they are not endorsed by BOINC or U.C. Berkeley.
-You can find other projects using <a href=http://google.com>Google</a>.
-<ul>
+We at BOINC have communicated with the following projects,
+and we believe that their descriptions
+(institution and area of research) are accurate.
+See also
+<a href=wiki/Project_list>a complete list of projects</a>.
 ";
-list_start("cellpadding=2, width=100%");
+list_start("cellpadding=2 width=100%");
 list_heading("Project name<br><span class=note>Mouse over for details; click to visit web site</span>", "Project URL<br><span class=note>Copy and paste into BOINC client</span>");
 shuffle($areas);
 foreach ($areas as $area) {
@@ -60,9 +56,6 @@ You can participate in several projects, ensuring that
 your computer will be kept busy even when one project has no work.
 You can control how your resources (such as computer time
 and disk space) are divided among these projects.
-When you attach to a project, you will be asked for its URL.
-This is simply the address of its web site;
-copy it from your browser's address field or from the list above.
 
 <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
 ";

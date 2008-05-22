@@ -33,10 +33,10 @@ function download_link($pname) {
     $s = number_format(filesize($path)/1000000, 2);
 
     echo "
-        <table border=4 cellpadding=10><tr><td class=fieldname>
-        <a href=$url><font size=4><u>".tr(DL_DOWNLOAD)."</u></font></a>
+        <table border=4 cellpadding=10><tr><td class=heading>
+        <a href=$url><font size=4><u>".tra("Download BOINC")."</u></font></a>
         <br>".
-        sprintf(tr(DL_VERSION_LNAME_SIZE), $num, $long_name, $s )."
+        sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
         </td></tr> </table>
     ";
     if ($pname == 'linux'||$pname == 'linuxx64') {
@@ -90,7 +90,8 @@ function show_pictures() {
 function show_download($pname) {
     echo "
         <table cellpadding=10><tr><td valign=top>
-        ".tr(DL_WHATS_BOINC)
+        ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like.").
+        "<p>"
     ;
     if ($pname) {
         download_link($pname);
@@ -108,21 +109,21 @@ function show_download($pname) {
     }
     echo "
         <p>
-        <a href=trac/wiki/SystemRequirements><nobr>".tr(DL_SYSTEMREQ)."</nobr></a>
-        | <a href=trac/wiki/ReleaseNotes><nobr>".tr(DL_RELNOTES)."</nobr></a>
-        | <a href=trac/wiki/TroubleshootClient><nobr>".tr(DL_TROUBLE)."</nobr></a>
+        <a href=wiki/System_requirements><nobr>".tra("System requirements")."</nobr></a>
+        | <a href=trac/wiki/ReleaseNotes><nobr>".tra("Release notes")."</nobr></a>
+        | <a href=wiki/BOINC_Help><nobr>".tra("Help")."</nobr></a>
     ";
     if ($pname) {
-        //echo " | <a href=download.php?all_platforms=1><nobr>".tr(DL_OTHERSYS)."</nobr></a>
-        echo " | <a href=download_all.php><nobr>".tr(DL_ALLVERSIONS)."</nobr></a>
+        //echo " | <a href=download.php?all_platforms=1><nobr>".tra("Other systems")."</nobr></a>
+        echo " | <a href=download_all.php><nobr>".tra("All versions")."</nobr></a>
         ";
     } else {
-        echo " | <a href=download_all.php><nobr>".tr(DL_ALLVERSIONS)."</nobr></a>
+        echo " | <a href=download_all.php><nobr>".tra("All versions")."</nobr></a>
         <p>"
-        .tr(DL_IF_OTHERTYPES)."
+        .tra("If your computer is not of one of the above types, you can")."
         <ul>
-        <li> ".sprintf(tr(DL_MAKEYOUROWN),"<a href=anonymous_platform.php>","</a>")."
-        <li> ".sprintf(tr(DL_DL_FROM3RDP),"<a href=download_other.php>","</a>")."
+        <li> ".sprintf(tra("%s make your own client software %s or"), "<a href=anonymous_platform.php>", "</a>")."
+        <li> ".sprintf(tra("%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."), "<a href=download_other.php>", "</a>")."
         </ul>
         ";
     }
@@ -144,7 +145,7 @@ if ($_GET['xml']) {
     exit();
 }
 
-page_head(tr(DL_DOWNLOAD_TITLE));
+page_head(tra("BOINC: compute for science"));
 
 if ($_GET['all_platforms']) {
     show_download(null);
