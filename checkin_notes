@@ -3863,3 +3863,13 @@ David  May 19 2008
         scheduler_op.C
     languages/translations/
         en.po
+
+David  May 21 2008
+    - boinccmd (Windows): chdir to the data directory (from registry)
+
+    client/
+        hostinfo_unix.C
+        main.C
+    lib/
+        boinc_cmd.C
+        win_util.C,h
