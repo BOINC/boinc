@@ -76,6 +76,8 @@ DC_Result *_DC_createResult(const char *wu_name, int db_id,
 					"file %s to %s", upload_path,
 					workdir_path);
 		}
+		g_free(workdir_path);
+		g_free(upload_path);
 	}
 	return result;
 }
