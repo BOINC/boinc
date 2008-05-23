@@ -4297,3 +4297,13 @@ David  May 23 2008
         cpu_sched.C
     lib/
         coproc.h
+
+David  May 23 2008
+    - client: handle coprocs in RR simulation.  Not tested.
+        TODO: handle multithread apps in RR simulation; should be easy now.
+
+    client/
+        client_types.h
+        cpu_sched.C
+    lib/
+        coproc.h

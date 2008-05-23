@@ -70,6 +70,14 @@ struct COPROCS {
     bool sufficient_coprocs(COPROCS&, bool verbose);
     void reserve_coprocs(COPROCS&, bool verbose);
     void free_coprocs(COPROCS&, bool verbose);
+    void clone(COPROCS& c) {
+        for (unsigned int i=0; i<c.coprocs.size(); i++) {
+            COPROC* cp = c.coprocs[i];
+            COPROC* cp2 = new COPROC(cp->type);
+            cp2->count = cp->count;
+            coprocs.push_back(cp2);
+        }
+    }
 };
 
 // the following copied from /usr/local/cuda/include/driver_types.h

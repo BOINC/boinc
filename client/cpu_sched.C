@@ -1078,6 +1078,41 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
     }
 }
 
+struct RR_SIM_STATUS {
+    vector<RESULT*> active;
+    COPROCS coprocs;
+
+    inline bool can_run(RESULT* rp) {
+        return coprocs.sufficient_coprocs(rp->avp->coprocs, log_flags.rr_simulation);
+    }
+    inline void activate(RESULT* rp) {
+        coprocs.reserve_coprocs(rp->avp->coprocs, log_flags.rr_simulation);
+        active.push_back(rp);
+    }
+    // remove *rpbest from active set,
+    // and adjust CPU time left for other results
+    //
+    inline void remove_active(RESULT* rpbest) {
+        coprocs.free_coprocs(rpbest->avp->coprocs, log_flags.rr_simulation);
+        vector<RESULT*>::iterator it = active.begin();
+        while (it != active.end()) {
+            RESULT* rp = *it;
+            if (rp == rpbest) {
+                it = active.erase(it);
+            } else {
+                rp->rrsim_cpu_left -= rp->project->rr_sim_status.proc_rate*rpbest->rrsim_finish_delay;
+                it++;
+            }
+        }
+    }
+    inline int nactive() {
+        return (int) active.size();
+    }
+    ~RR_SIM_STATUS() {
+        coprocs.delete_coprocs();
+    }
+};
+
 // Do a simulation of the current workload
 // with weighted round-robin (WRR) scheduling.
 // Include jobs that are downloading.
@@ -1107,11 +1142,11 @@ void CLIENT_STATE::rr_simulation() {
     double trs = total_resource_share();
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
-    vector<RESULT*> active;
+    RR_SIM_STATUS sim_status;
     unsigned int i;
     double x;
-    vector<RESULT*>::iterator it;
 
+    sim_status.coprocs.clone(coprocs);
     double ar = available_ram();
 
     if (log_flags.rr_simulation) {
@@ -1136,8 +1171,8 @@ void CLIENT_STATE::rr_simulation() {
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining(false);
         p = rp->project;
-        if (p->rr_sim_status.can_run(rp, gstate.ncpus)) {
-            active.push_back(rp);
+        if (p->rr_sim_status.can_run(rp, gstate.ncpus) && sim_status.can_run(rp)) {
+            sim_status.activate(rp);
             p->rr_sim_status.activate(rp);
         } else {
             p->rr_sim_status.add_pending(rp);
@@ -1170,13 +1205,13 @@ void CLIENT_STATE::rr_simulation() {
     //
     double sim_now = now;
     cpu_shortfall = 0;
-    while (active.size()) {
+    while (sim_status.nactive()) {
 
         // compute finish times and see which result finishes first
         //
         rpbest = NULL;
-        for (i=0; i<active.size(); i++) {
-            rp = active[i];
+        for (i=0; i<sim_status.active.size(); i++) {
+            rp = sim_status.active[i];
             p = rp->project;
             rp->rrsim_finish_delay = rp->rrsim_cpu_left/p->rr_sim_status.proc_rate;
             if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
@@ -1218,23 +1253,10 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
 
-        int last_active_size = (int)active.size();
+        int last_active_size = sim_status.nactive();
         int last_proj_active_size = pbest->rr_sim_status.cpus_used();
 
-        // remove *rpbest from active set,
-        // and adjust CPU time left for other results
-        //
-        it = active.begin();
-        while (it != active.end()) {
-            rp = *it;
-            if (rp == rpbest) {
-                it = active.erase(it);
-            } else {
-                x = rp->project->rr_sim_status.proc_rate*rpbest->rrsim_finish_delay;
-                rp->rrsim_cpu_left -= x;
-                it++;
-            }
-        }
+        sim_status.remove_active(rpbest);
  
         pbest->rr_sim_status.remove_active(rpbest);
 
@@ -1243,8 +1265,8 @@ void CLIENT_STATE::rr_simulation() {
         while (1) {
             rp = pbest->rr_sim_status.get_pending();
             if (!rp) break;
-            if (pbest->rr_sim_status.can_run(rp, gstate.ncpus)) {
-                active.push_back(rp);
+            if (pbest->rr_sim_status.can_run(rp, gstate.ncpus) && sim_status.can_run(rp)) {
+                sim_status.activate(rp);
                 pbest->rr_sim_status.activate(rp);
             } else {
                 pbest->rr_sim_status.add_pending(rp);
@@ -1307,7 +1329,8 @@ void CLIENT_STATE::rr_simulation() {
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
                     "[rr_sim] total: idle cpus %d, last active %d, active %d, shortfall %f",
-                    nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall
+                    nidle_cpus, last_active_size, sim_status.nactive(),
+                    cpu_shortfall
                     
                 );
                 msg_printf(0, MSG_INFO,

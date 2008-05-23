@@ -151,7 +151,7 @@ struct DAILY_STATS {
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
 
-struct RR_SIM_STATUS {
+struct RR_SIM_PROJECT_STATUS {
     std::vector<RESULT*>active;
         // jobs currently running (in simulation)
     std::vector<RESULT*>pending;
@@ -351,7 +351,7 @@ public:
         // a download is backed off
     bool some_result_suspended();
 
-    RR_SIM_STATUS rr_sim_status;
+    RR_SIM_PROJECT_STATUS rr_sim_status;
         // temps used in CLIENT_STATE::rr_simulation();
     void set_rrsim_proc_rate(double rrs);
 
