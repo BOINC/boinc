@@ -1,3 +1,9 @@
+dcapi (0.9-14) unstable; urgency=low
+
+  * Memory handling bug fixes.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Fri, 23 May 2008 19:12:48 +0200
+
 dcapi (0.9-13) unstable; urgency=low
 
   * Enable the local backend
