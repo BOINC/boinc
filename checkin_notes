@@ -4307,3 +4307,11 @@ David  May 23 2008
         cpu_sched.C
     lib/
         coproc.h
+
+David  May 23 2008
+	- client: test the above; compile fixes for Win
+
+	client/
+		client_types.h
+		cpu_sched.C
+		sim_util.C

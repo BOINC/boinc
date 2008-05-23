@@ -156,9 +156,7 @@ void SIM_PROJECT::init() {
     project_files_downloaded_time = 0;
 
     // Initialize scratch variables.
-    rrsim_proc_rate = 0.0;
-    cpu_shortfall = 0.0;
-    rr_sim_deadlines_missed = 0;
+    rr_sim_status.clear();
     deadlines_missed = 0;
 
     // sim-specific:

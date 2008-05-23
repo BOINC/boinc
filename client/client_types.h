@@ -178,8 +178,8 @@ struct RR_SIM_PROJECT_STATUS {
     inline bool none_active() {
         return !active.size();
     }
-    inline bool can_run(RESULT* p, int ncpus) {
-        return active.size() < (int)ncpus;
+    inline bool can_run(RESULT*, int ncpus) {
+        return (int)active.size() < ncpus;
     }
     inline void remove_active(RESULT* r) {
         std::vector<RESULT*>::iterator it = active.begin();
