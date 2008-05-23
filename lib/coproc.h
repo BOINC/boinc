@@ -67,6 +67,9 @@ struct COPROCS {
     void get();
     int parse(FILE*);
     COPROC* lookup(char*);
+    bool sufficient_coprocs(COPROCS&, bool verbose);
+    void reserve_coprocs(COPROCS&, bool verbose);
+    void free_coprocs(COPROCS&, bool verbose);
 };
 
 // the following copied from /usr/local/cuda/include/driver_types.h

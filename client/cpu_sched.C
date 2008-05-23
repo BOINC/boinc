@@ -70,20 +70,20 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-bool CLIENT_STATE::sufficient_coprocs(APP_VERSION& av) {
-    for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
-        COPROC* cp = av.coprocs.coprocs[i];
-        COPROC* cp2 = coprocs.lookup(cp->type);
+bool COPROCS::sufficient_coprocs(COPROCS& needed, bool verbose) {
+    for (unsigned int i=0; i<needed.coprocs.size(); i++) {
+        COPROC* cp = needed.coprocs[i];
+        COPROC* cp2 = lookup(cp->type);
         if (!cp2) {
-            msg_printf(av.project, MSG_INFO,
+            msg_printf(NULL, MSG_INFO,
                 "Missing a %s coprocessor", cp->type
             );
             return false;
         }
         if (cp2->used + cp->count > cp2->count) {
-            if (log_flags.cpu_sched_debug) {
+            if (verbose) {
                 msg_printf(NULL, MSG_INFO,
-                    "[cpu_sched_debug] insufficient coproc %s (%d + %d > %d)",
+                    "insufficient coproc %s (%d + %d > %d)",
                     cp2->type, cp2->used, cp->count, cp2->count
                 );
             }
@@ -93,30 +93,28 @@ bool CLIENT_STATE::sufficient_coprocs(APP_VERSION& av) {
     return true;
 }
 
-void CLIENT_STATE::reserve_coprocs(APP_VERSION& av) {
-    for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
-        COPROC* cp = av.coprocs.coprocs[i];
-        COPROC* cp2 = coprocs.lookup(cp->type);
+void COPROCS::reserve_coprocs(COPROCS& needed, bool verbose) {
+    for (unsigned int i=0; i<needed.coprocs.size(); i++) {
+        COPROC* cp = needed.coprocs[i];
+        COPROC* cp2 = lookup(cp->type);
         if (!cp2) continue;
-        if (log_flags.cpu_sched_debug) {
+        if (verbose) {
             msg_printf(NULL, MSG_INFO,
-                "[cpu_sched_debug] reserving %d of coproc %s",
-                cp->count, cp2->type
+                "reserving %d of coproc %s", cp->count, cp2->type
             );
         }
         cp2->used += cp->count;
     }
 }
 
-void CLIENT_STATE::free_coprocs(APP_VERSION& av) {
-    for (unsigned int i=0; i<av.coprocs.coprocs.size(); i++) {
-        COPROC* cp = av.coprocs.coprocs[i];
-        COPROC* cp2 = coprocs.lookup(cp->type);
+void COPROCS::free_coprocs(COPROCS& needed, bool verbose) {
+    for (unsigned int i=0; i<needed.coprocs.size(); i++) {
+        COPROC* cp = needed.coprocs[i];
+        COPROC* cp2 = lookup(cp->type);
         if (!cp2) continue;
-        if (log_flags.cpu_sched_debug) {
+        if (verbose) {
             msg_printf(NULL, MSG_INFO,
-                "[cpu_sched_debug] freeing %d of coproc %s",
-                cp->count, cp2->type
+                "freeing %d of coproc %s", cp->count, cp2->type
             );
         }
         cp2->used -= cp->count;
@@ -526,7 +524,9 @@ static bool schedule_if_possible(
 
     atp = gstate.lookup_active_task_by_result(rp);
     if (!atp || atp->task_state() == PROCESS_UNINITIALIZED) {
-        if (!gstate.sufficient_coprocs(*rp->avp)) {
+        if (!gstate.coprocs.sufficient_coprocs(
+            rp->avp->coprocs, log_flags.cpu_sched_debug)
+        ) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
@@ -982,7 +982,11 @@ bool CLIENT_STATE::enforce_schedule() {
         case CPU_SCHED_SCHEDULED:
             switch (atp->task_state()) {
             case PROCESS_UNINITIALIZED:
-                if (!sufficient_coprocs(*atp->app_version)) continue;
+                if (!coprocs.sufficient_coprocs(
+                    atp->app_version->coprocs, log_flags.cpu_sched_debug
+                )){
+                    continue;
+                }
             case PROCESS_SUSPENDED:
                 action = true;
                 retval = atp->resume_or_start(

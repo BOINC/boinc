@@ -610,13 +610,17 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
 }
 
 void ACTIVE_TASK::reserve_coprocs() {
-    gstate.reserve_coprocs(*app_version);
+    gstate.coprocs.reserve_coprocs(
+        app_version->coprocs, log_flags.cpu_sched_debug
+    );
     coprocs_reserved = true;
 }
 
 void ACTIVE_TASK::free_coprocs() {
     if (!coprocs_reserved) return;
-    gstate.free_coprocs(*app_version);
+    gstate.coprocs.free_coprocs(
+        app_version->coprocs, log_flags.cpu_sched_debug
+    );
     coprocs_reserved = false;
 }
 

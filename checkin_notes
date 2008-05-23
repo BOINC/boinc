@@ -4287,3 +4287,13 @@ David  May 23 2008
         client_types.C,h
         cpu_sched.C
         work_fetch.C
+
+David  May 23 2008
+    - client: shuffle code to abstract coprocessor reservation
+
+    client/
+        app.C
+        client_state.h
+        cpu_sched.C
+    lib/
+        coproc.h
