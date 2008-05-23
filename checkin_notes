@@ -3896,3 +3896,12 @@ Rom    May 23 2008
         boincmgr_curl.vcproj
     win_build/installerv2/
         BOINCx64.ism
+
+Rom    May 19 2008
+    - Tag for 6.2.5 release, all platforms
+      boinc_core_release_6_2_5
+
+    /
+        configure.ac
+        version.h
+
