@@ -4277,3 +4277,13 @@ David  May 23 2008
     client/
         gui_rpc_server.C,h
         gui_rpc_server_ops.C
+
+David  May 23 2008
+    - client: shuffle to code to give an abstraction (RR_SIM_STATUS)
+        of a project's state during round-robin simulation
+        (first step to handling coprocs in RR sim)
+
+    client/
+        client_types.C,h
+        cpu_sched.C
+        work_fetch.C

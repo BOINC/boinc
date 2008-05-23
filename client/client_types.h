@@ -151,6 +151,57 @@ struct DAILY_STATS {
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
 
+struct RR_SIM_STATUS {
+    std::vector<RESULT*>active;
+        // jobs currently running (in simulation)
+    std::vector<RESULT*>pending;
+        // jobs runnable but not running yet
+    int deadlines_missed;
+    double proc_rate;
+        // fraction of each CPU this project will get
+        // set in CLIENT_STATE::rr_misses_deadline();
+    double cpu_shortfall;
+
+    inline void clear() {
+        active.clear();
+        pending.clear();
+        deadlines_missed = 0;
+        proc_rate = 0;
+        cpu_shortfall = 0;
+    }
+    inline void activate(RESULT* rp) {
+        active.push_back(rp);
+    }
+    inline void add_pending(RESULT* rp) {
+        pending.push_back(rp);
+    }
+    inline bool none_active() {
+        return !active.size();
+    }
+    inline bool can_run(RESULT* p, int ncpus) {
+        return active.size() < (int)ncpus;
+    }
+    inline void remove_active(RESULT* r) {
+        std::vector<RESULT*>::iterator it = active.begin();
+        while (it != active.end()) {
+            if (*it == r) {
+                it = active.erase(it);
+            } else {
+                it++;
+            }
+        }
+    }
+    inline RESULT* get_pending() {
+        if (!pending.size()) return NULL;
+        RESULT* rp = pending[0];
+        pending.erase(pending.begin());
+        return rp;
+    }
+    inline int cpus_used() {
+        return (int) active.size();
+    }
+};
+
 class PROJECT {
 public:
     // the following items come from the account file
@@ -300,15 +351,10 @@ public:
         // a download is backed off
     bool some_result_suspended();
 
-    // temps used in CLIENT_STATE::rr_simulation();
-    std::vector<RESULT*>active;
-    std::vector<RESULT*>pending;
-    double rrsim_proc_rate;
-        // fraction of each CPU this project will get in RR simulation
+    RR_SIM_STATUS rr_sim_status;
+        // temps used in CLIENT_STATE::rr_simulation();
     void set_rrsim_proc_rate(double rrs);
-    // set in CLIENT_STATE::rr_misses_deadline();
-    double cpu_shortfall;
-    int rr_sim_deadlines_missed;
+
     int deadlines_missed;   // used as scratch by scheduler, enforcer
 
     // "debt" is how much CPU time we owe this project relative to others

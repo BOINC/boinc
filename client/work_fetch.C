@@ -214,7 +214,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
                 continue;
             }
 
-            if (p->long_term_debt + p->cpu_shortfall < p_prospect->long_term_debt + p_prospect->cpu_shortfall
+            if (p->long_term_debt + p->rr_sim_status.cpu_shortfall < p_prospect->long_term_debt + p_prospect->rr_sim_status.cpu_shortfall
                 && !p->non_cpu_intensive
             ) {
                 continue;
@@ -435,10 +435,10 @@ bool CLIENT_STATE::compute_work_requests() {
         } else {
             p->work_request_urgency = WORK_FETCH_DONT_NEED;
             p->work_request = 0;
-			if (p->rr_sim_deadlines_missed) {
+			if (p->rr_sim_status.deadlines_missed) {
 				possible_deadline_miss = true;
 			}
-            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period()) {
+            if (p->rr_sim_status.cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period()) {
                 project_shortfall = true;
             }
         }
@@ -515,7 +515,7 @@ bool CLIENT_STATE::compute_work_requests() {
             }
             continue;
         }
-        if (p->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
+        if (p->rr_sim_status.cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO, "[work_fetch_debug] project has no shortfall; skipping");
             }
@@ -550,10 +550,10 @@ bool CLIENT_STATE::compute_work_requests() {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "[work_fetch_debug] project DCF %f out of range: changing shortfall %f to 1.0", 
-                         p->duration_correction_factor, p->cpu_shortfall
+                         p->duration_correction_factor, p->rr_sim_status.cpu_shortfall
                     );
                 }
-                p->cpu_shortfall = 1.0;
+                p->rr_sim_status.cpu_shortfall = 1.0;
             }
         }
 
@@ -584,7 +584,7 @@ bool CLIENT_STATE::compute_work_requests() {
             }
             // get work from project with highest LTD
             //
-            if (pbest->long_term_debt + pbest->cpu_shortfall > p->long_term_debt + p->cpu_shortfall) {
+            if (pbest->long_term_debt + pbest->rr_sim_status.cpu_shortfall > p->long_term_debt + p->rr_sim_status.cpu_shortfall) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "[work_fetch_debug] project has less LTD than %s",
@@ -602,7 +602,7 @@ bool CLIENT_STATE::compute_work_requests() {
 
     if (pbest) {
         pbest->work_request = max(
-            pbest->cpu_shortfall,
+            pbest->rr_sim_status.cpu_shortfall,
             cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
         );
 
@@ -619,7 +619,7 @@ bool CLIENT_STATE::compute_work_requests() {
         }
         if (!pbest->nearly_runnable()) {
             pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-        } else if (pbest->cpu_shortfall) {
+        } else if (pbest->rr_sim_status.cpu_shortfall) {
             pbest->work_request_urgency = WORK_FETCH_NEED;
         } else {
             pbest->work_request_urgency = WORK_FETCH_OK;
@@ -628,7 +628,7 @@ bool CLIENT_STATE::compute_work_requests() {
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO,
 				"[work_fetch_debug] compute_work_requests(): work req %f, shortfall %f, urgency %s\n",
-				pbest->work_request, pbest->cpu_shortfall,
+				pbest->work_request, pbest->rr_sim_status.cpu_shortfall,
                 urgency_name(pbest->work_request_urgency)
             );
         }
