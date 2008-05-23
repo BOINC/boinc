@@ -25,6 +25,7 @@
 #define _CONSOLE 1
 #include "boinc_win.h"
 #include "win_service.h"
+#include "win_util.h"
 
 extern HINSTANCE g_hClientLibraryDll;
 static HANDLE g_hWin9xMonitorSystemThread = NULL;
@@ -273,9 +274,7 @@ static void init_core_client(int argc, char** argv) {
     gstate.parse_cmdline(argc, argv);
 
 #ifdef _WIN32
-    if (!config.allow_multiple_clients) {
-        chdir_to_data_dir();
-    }
+    chdir_to_data_dir();
 #endif
 
 #ifndef _WIN32
@@ -364,21 +363,19 @@ int initialize() {
     }
 #endif
 
-    if (!config.allow_multiple_clients) {
-        retval = wait_client_mutex(".", 10);
-        if (retval) {
-            fprintf(stderr, 
-                "Another instance of BOINC is running\n"
-            );
+    retval = wait_client_mutex(".", 10);
+    if (retval) {
+        fprintf(stderr, 
+            "Another instance of BOINC is running\n"
+        );
 #ifdef _WIN32
-            if (!gstate.executing_as_daemon) {
-                LogEventErrorMessage(
-                    TEXT("Another instance of BOINC is running")
-                );
-            }
-#endif
-            return ERR_EXEC;
+        if (!gstate.executing_as_daemon) {
+            LogEventErrorMessage(
+                TEXT("Another instance of BOINC is running")
+            );
         }
+#endif
+        return ERR_EXEC;
     }
 
 

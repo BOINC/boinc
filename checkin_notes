@@ -3884,3 +3884,15 @@ David  May 22 2008
 
     client/
         cs_scheduler.C
+
+Rom    May 23 2008
+    - fix build breaks for Windows x64 builds.
+    
+    client/
+        main.C
+    lib/
+        boinc_cmd.C
+    win_build/
+        boincmgr_curl.vcproj
+    win_build/installerv2/
+        BOINCx64.ism
