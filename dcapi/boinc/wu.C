@@ -265,6 +265,15 @@ static unsigned wu_uuid_hash(const void *ptr)
 	return h[0] ^ h[1] ^ h[2] ^ h[3];
 }
 
+static DC_Workunit *alloc_wu(void)
+{
+	DC_Workunit *wu;
+
+	wu = g_new0(DC_Workunit, 1);
+	wu->refcnt = 1;
+	return wu;
+}
+
 /********************************************************************
  * The WU description parser
  */
@@ -488,10 +497,9 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 		return NULL;
 	}
 
-	wu = g_new0(DC_Workunit, 1);
+	wu = alloc_wu();
 	wu->client_name = g_strdup(clientName);
 	wu->argv = g_strdupv((char **)arguments);
-	wu->refcnt = 1;
 
 	for (wu->argc = 0; arguments && arguments[wu->argc]; wu->argc++)
 		/* Nothing */;
@@ -1240,7 +1248,7 @@ static DC_Workunit *load_from_boinc_db(const uuid_t uuid)
 	}
 	g_free(filename);
 
-	wu = g_new0(DC_Workunit, 1);
+	wu = alloc_wu();
 	wu->client_name = g_strdup(app.name);
 	memcpy(wu->uuid, uuid, sizeof(wu->uuid));
 
@@ -1305,7 +1313,7 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 		return NULL;
 	}
 
-	wu = g_new0(DC_Workunit, 1);
+	wu = alloc_wu();
 	wu->workdir = workdir;
 	memcpy(wu->uuid, uuid, sizeof(wu->uuid));
 
