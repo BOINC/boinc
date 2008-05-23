@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-04-06 16:28-0000\n"
+"PO-Revision-Date: 2008-05-23 00:32-0000\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -305,40 +305,37 @@ msgstr "Éstos son los resultados actuales de la <a href=poll.php> encuesta a us
 # #######################################
 # download.php 2006/08/03 by je2bwm
 # #######################################
-msgid "DL_DOWNLOAD"
+msgid "Download BOINC"
 msgstr "Descargar BOINC"
 
-msgid "DL_VERSION_LNAME_SIZE"
+msgid "%s for %s (%s MB)"
 msgstr "%s para %s (%s MB)"
 
-msgid "DL_WHATS_BOINC"
-msgstr " BOINC es un programa que le permite donar        el tiempo libre de su ordenador para proyectos científicos como        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, y muchos  otros.        <p>        Después de instalar BOINC en su ordenador,        puede conectarlo a tantos de esos proyectos como quiera.        <p>"
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr "BOINC es un programa que le permite donar tiempo de inactividad de su ordenador a proyectos científicos como SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, y muchos otros. <p> Después de instalar BOINC en su ordenador, usted puede unirlo a tantos de dichos proyectos como quiera."
 
-msgid "DL_SYSTEMREQ"
+msgid "System requirements"
 msgstr "Requerimientos del sistema"
 
-msgid "DL_RELNOTES"
+msgid "Release notes"
 msgstr "Notas de la versión"
 
-msgid "DL_TROUBLE"
-msgstr "Solución de problemas"
-
-msgid "DL_OTHERSYS"
+msgid "Other systems"
 msgstr "Otros sistemas"
 
-msgid "DL_ALLVERSIONS"
+msgid "All versions"
 msgstr "Todas las versiones"
 
-msgid "DL_IF_OTHERTYPES"
-msgstr "Si su ordenador no es ninguno de los tipos anteriores, usted puede"
+msgid "If your computer is not of one of the above types, you can"
+msgstr "Si su ordenador no es de ningún tipo de los anteriores, usted puede"
 
-msgid "DL_MAKEYOUROWN"
-msgstr "%s crear su propio software cliente %s o"
+msgid "%s make your own client software %s or"
+msgstr "%s crear su propio programa cliente %s o"
 
-msgid "DL_DL_FROM3RDP"
-msgstr "%s descargar los ejecutables de un sitio web externo %s (disponible para Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, y otros)."
+msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+msgstr "%s descargar ejecutables de sitios web de terceros %s (disponibles para Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, y FreeBSD, y otros)."
 
-msgid "DL_DOWNLOAD_TITLE"
+msgid "BOINC: compute for science"
 msgstr "BOINC: computar para la ciencia"
 
 msgid "DL_MIRRORS"
@@ -613,9 +610,6 @@ msgstr "O, si usted ejecuta varios proyectos, pruebe un %sadministrador de cuent
 
 msgid "HOME_P3"
 msgstr "Si tiene alguna pregunta, o necesita ayuda para comenzar, puede %shablar con un Voluntario para Ayuda%s."
-
-msgid "HOME_HELP"
-msgstr "Ayuda"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Descargar"

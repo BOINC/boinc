@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-03-08 13:39-0000\n"
+"PO-Revision-Date: 2008-05-17 21:07-0000\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -87,13 +87,13 @@ msgid "Is it safe to run %1?"
 msgstr "¿Es seguro ejecutar %1?"
 
 msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "Cada vez que descarga un programa de Internet está haciendo una elección: el programa puede tener errores peligrosos, o el servidor del que se descarga puede haber sido pirateado. %1 ha hecho esfuerzos para minimizar estos riesgos. Hemos probado nuestros programas cuidadosamente. Nuestros servidores están detras de un cortafuegos y están configurados para una seguridad máxima. Para asegurar la integridad de la descarga de los programas, todos los ficheros ejecutables están firmados digitalmente en un ordenador seguro que no está conectado a Internet."
+msgstr "Cada vez que descarga un programa de Internet está asumiendo un riesgo: el programa puede tener errores peligrosos, o el servidor del que se descarga puede haber sido pirateado. %1 ha hecho esfuerzos para minimizar estos riesgos. Hemos probado nuestros programas cuidadosamente. Nuestros servidores están detras de un cortafuegos y están configurados para una seguridad máxima. Para asegurar la integridad de la descarga de los programas, todos los ficheros ejecutables están firmados digitalmente en un ordenador seguro que no está conectado a Internet."
 
 msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr "Las aplicaciones ejecutadas por %1 pueden provocar que algunos ordenadores se sobrecalienten. Si ésto ocurre, no ejecute %1 o use un %programa complementario% que limite el uso de la CPU."
 
 msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 fue desarrolado por %2. BOINC fue desarrolado en la Universidad de California."
+msgstr "%1 fue desarrolado por %2. BOINC fue desarrollado en la Universidad de California."
 
 msgid "Liability"
 msgstr "Responsabilidades"
@@ -587,6 +587,87 @@ msgstr "Se usa en los URL"
 msgid "unread"
 msgstr "no leído"
 
+msgid "User ID"
+msgstr "ID de usuario"
+
+msgid "Used in community functions"
+msgstr "Usado para funciones comunitarias"
+
+msgid "Account key"
+msgstr "Clave de cuenta"
+
+msgid "Provides full access to your account"
+msgstr "Proporciona acceso total  a su cuenta"
+
+msgid "Weak account key"
+msgstr "Clave débil de cuenta"
+
+msgid "Provides"
+msgstr "Proporciona"
+
+msgid "limited access"
+msgstr "acceso limitado"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "to your account"
+msgstr "a su cuenta"
+
+msgid "Friends"
+msgstr "Amigos"
+
+msgid "Find friends"
+msgstr "Encontrar amigos"
+
+msgid "hidden"
+msgstr "oculto"
+
+msgid "Donor"
+msgstr "Donante"
+
+# ########################################
+# Apps page (apps.php)
+# ########################################
+msgid "Notifications"
+msgstr "Notificaciones"
+
+msgid "(foundership change request pending)"
+msgstr "(petición de modificación del fundador pendiente)"
+
+# ########################################
+# Public user page (show_user.php)
+# ########################################
+msgid "Projects in which you are participating"
+msgstr "Proyectos en los que está usted participando"
+
+msgid "Projects in which %1 is participating"
+msgstr "Proyectos en los que %1 está participando"
+
+msgid "Project"
+msgstr "Proyecto"
+
+msgid "Click for user page"
+msgstr "Pulse para ver la página de usuario"
+
+msgid "Since"
+msgstr "Desde"
+
+msgid "Contact"
+msgstr "Contactar"
+
+msgid "This person is a friend"
+msgstr "Esta persona es un amigo"
+
+msgid "Cancel friendship"
+msgstr "Cancelar amistad"
+
+msgid "Request pending"
+msgstr "Solicitud pediente"
+
+msgid "Add as friend"
+msgstr "Añadir como amigo"
+
 # ########################################
 # "Weak account key" page (weak_auth.php)
 # ########################################
@@ -594,7 +675,7 @@ msgid "Your 'weak account key' lets you attach computers to your account on this
 msgstr "Su 'clave débil de cuenta' le permite unir computadoras a su cuenta en este proyecto, sin permitir entrar a su cuenta en el sitio web del proyecto o cambiar datos de la cuenta de alguna forma."
 
 msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "Este mecanismo funciona sólo con proyectos que actualizaron el software servidor a la versión del 7 de Diciembre de 2007 o posterior."
+msgstr "Este mecanismo funciona sólo con los proyectos que hayan actualizado el software de su servidor a la versión del 7 de Diciembre de 2007 o posterior."
 
 msgid "Your weak account key for this project is:"
 msgstr "Su clave débil de cuenta para este proyecto es:"
