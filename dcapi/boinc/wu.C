@@ -587,7 +587,6 @@ void DC_destroyWU(DC_Workunit *wu)
 	if (wu->workdir)
 	{
 		const char *name;
-		char *file;
 		GDir *dir;
 		int ret;
 
