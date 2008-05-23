@@ -66,6 +66,8 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s):
     auth_needed = false;
     au_ss_state = AU_SS_INIT;
     au_mgr_state = AU_MGR_INIT;
+    got_auth1 = false;
+    got_auth2 = false;
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
@@ -414,6 +416,12 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         if (FD_ISSET(gr->sock, &fg.read_fds)) {
             retval = gr->handle_rpc();
             if (retval) {
+                if (log_flags.guirpc_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[guirpc_debug] error %d from handler, closing socket\n",
+                        retval
+                    );
+                }
                 delete gr;
                 iter = gui_rpcs.erase(iter);
                 continue;
@@ -425,7 +433,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 
 void GUI_RPC_CONN_SET::close() {
     if (log_flags.guirpc_debug) {
-        msg_printf(NULL, MSG_INFO, "[guirpc_debug] closing GUI RPC socket %d\n", lsock);
+        msg_printf(NULL, MSG_INFO,
+            "[guirpc_debug] closing GUI RPC listening socket %d\n", lsock
+        );
     }
     if (lsock >= 0) {
         boinc_close_socket(lsock);

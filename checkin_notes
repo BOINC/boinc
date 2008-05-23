@@ -4266,3 +4266,14 @@ David  May 23 2008
     sched/
         sched_config.C,h
         sched_send.C
+
+David  May 23 2008
+    - client: if GUI RPC auth error, close the socket.
+        This prevents a DoS by sending <auth1> over and over,
+        filling the send buffer and eventually causing the client to block.
+    - Unix build: if m4 missing, check for gm4
+
+    _autosetup
+    client/
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C

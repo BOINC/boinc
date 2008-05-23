@@ -42,6 +42,10 @@ public:
     char nonce[256];
     bool auth_needed;
         // if true, don't allow operations other than authentication
+    bool got_auth1;
+    bool got_auth2;
+        // keep track of whether we've got the 2 authentication msgs;
+        // don't accept more than one of each (to prevent DoS)
     bool is_local;
         // connection is from local host
     int au_ss_state;
@@ -55,7 +59,7 @@ public:
     ~GUI_RPC_CONN();
     int handle_rpc();
     void handle_auth1(MIOFILE&);
-    void handle_auth2(char*, MIOFILE&);
+    int handle_auth2(char*, MIOFILE&);
     void handle_get_project_config(char* buf, MIOFILE& fout);
     void handle_get_project_config_poll(char*, MIOFILE& fout);
     void handle_lookup_account(char* buf, MIOFILE& fout);

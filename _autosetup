@@ -90,6 +90,8 @@ check_version()
       if test -f /usr/ccs/bin/m4
       then
          echo >/dev/null
+      elif check_version gm4 1.4; then
+         have_gm4=yes;
       else 
          echo "Couldn't find a new-enough version of 'm4', please install one!";
          exit 1;

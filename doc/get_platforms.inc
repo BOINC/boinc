@@ -32,6 +32,7 @@ function friendly_name($p) {
     case 'powerpc64-unknown-linux-gnu': return 'Linux/PowerPC64';
     case 'windows_x86_64': return 'Windows/x86_64';
     case 'powerpc64-ps3-linux-gnu': return 'Playstation3/Linux';
+    case 'x86_64-unknown-linux-gnu': return null;
     }
     if (strstr($p, "fubar")) return null;
     return $p;
