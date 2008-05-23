@@ -76,6 +76,14 @@ $w51045= array(
     "type"=>"win_new",
 );
 
+$w625x64= array(
+    "num"=>"6.2.5",
+    "status"=>"Development version",
+    "file"=>"boinc_6.2.5_windows_x86_64.exe",
+    "date"=>"23 May 2008",
+    "type"=>"win_new",
+);
+
 $w51045x64= array(
     "num"=>"5.10.45",
     "status"=>"Recommended version",
@@ -212,6 +220,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+        $w625x64,
         $w51045x64,
     )
 );
