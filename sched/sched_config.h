@@ -120,7 +120,11 @@ public:
     int max_ncpus;
     vector<regex_t> ban_os;
     vector<regex_t> ban_cpu;
+    bool matchmaker;
+    int mm_min_slots;
+    int mm_max_slots;
     bool job_size_matching;
+
     // log flags
     //
     bool debug_version_select;

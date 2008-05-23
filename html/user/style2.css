@@ -22,6 +22,8 @@ input, select {
 	border: 1px solid grey;
 	background-color: #eeeeee;
 	padding: 3px;
+	font-size: 11px;
+	margin: 2px;
 }
 
 input:hover, input:active, select:hover {
@@ -30,7 +32,7 @@ input:hover, input:active, select:hover {
 
 input.btn {
 	margin: 3px 0px;
-	padding: 2px 4px;
+	padding: 2px 5px;
 }
 
 h1 {
@@ -200,31 +202,28 @@ tr.message {
 	overflow: auto;
 }
 
-blockquote {
+ blockquote.postbody {
 	border-left: 2px solid #00A0E3;
-	background: #d6eef8;
-	padding: 3px;
+	background-color:  #F0F8FF;
+	padding: 4px 8px;
 	margin-bottom: 0px;
 	margin-left: 20px;
+	margin-right: 60px;
 	font-style: italic;
-}
-
-#blockquote.postbody {
-	border-style: inset;
-	border-color: blue;
-	background-color: rgb(240,240,255);
-	padding-left: 5px;
-	padding-bottom: 0px;
-	margin-bottom: 0px;
-	margin-left: 15px;
-	margin-right: 140px;
-	font-style: oblique
 }
 
 #thread {
 	width: 100%;
 	table-layout: fixed;
 	overflow: overflow;
+}
+
+#threadauthor input {
+	background-color: white;
+}
+
+td.lastpost {
+	background-color: white;
 }
 
 .sigdelim {
@@ -252,9 +251,9 @@ td.postbody {
 }
 
 td.postfooter{
-	background-color: #F0F8FF;
+	background-color: #EEEEEE;
 	border-top: 1px solid #00A0E3;
-	border-left: 1px solid #00A0E3;
+	border-left: none;
 	border-right: none;
 	border-bottom: none;
 	padding-left: 6px;

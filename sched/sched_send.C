@@ -59,11 +59,8 @@ using namespace std;
 #define FCGI_ToFILE(x) (x)
 #endif
 
-//#define MATCHMAKER
 
-#ifdef MATCHMAKER
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply);
-#endif
 
 int preferred_app_message_index=0;
 
@@ -1206,6 +1203,59 @@ static void get_running_frac(SCHEDULER_REPLY& reply) {
     if (reply.wreq.running_frac > 1) reply.wreq.running_frac = 1;
 }
 
+static void send_work_old(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    reply.wreq.beta_only = false;
+    reply.wreq.user_apps_only = true;
+
+    // give top priority to results that require a 'reliable host'
+    //
+    if (reply.wreq.host_info.reliable) {
+        reply.wreq.reliable_only = true;
+        reply.wreq.infeasible_only = false;
+        scan_work_array(sreq, reply);
+    }
+    reply.wreq.reliable_only = false;
+
+    // give 2nd priority to results for a beta app
+    // (projects should load beta work with care,
+    // otherwise your users won't get production work done!
+    //
+    if (reply.wreq.host_info.allow_beta_work) {
+        reply.wreq.beta_only = true;
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
+                reply.host.id
+            );
+        }
+        scan_work_array(sreq, reply);
+    }
+    reply.wreq.beta_only = false;
+
+    // give next priority to results that were infeasible for some other host
+    //
+    reply.wreq.infeasible_only = true;
+    scan_work_array(sreq, reply);
+
+    reply.wreq.infeasible_only = false;
+    scan_work_array(sreq, reply);
+    
+    // If user has selected apps but will accept any,
+    // and we haven't found any jobs for selected apps, try others
+    //
+    if (!reply.wreq.nresults && reply.wreq.host_info.allow_non_preferred_apps ) {
+        reply.wreq.user_apps_only = false;
+        preferred_app_message_index = reply.wreq.no_work_messages.size();
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] is looking for work from a non-preferred application\n",
+                reply.host.id
+            );
+        }
+        scan_work_array(sreq, reply);
+    }
+}
+
 void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (sreq.work_req_seconds <= 0) return;
 
@@ -1226,12 +1276,8 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
-            "%s matchmaking scheduling; %s EDF sim\n",
-#ifdef MATCHMAKER
-            "Using",
-#else
-            "Not using",
-#endif
+            "%s matchmaker scheduling; %s EDF sim\n",
+            config.matchmaker?"Using":"Not using",
             config.workload_sim?"Using":"Not using"
         );
         log_messages.printf(MSG_DEBUG,
@@ -1276,67 +1322,16 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (config.locality_scheduling) {
         reply.wreq.infeasible_only = false;
         send_work_locality(sreq, reply);
-    } else {
-#ifdef MATCHMAKER
+    } else if (config.matchmaker) {
         send_work_matchmaker(sreq, reply);
-#else
-        reply.wreq.beta_only = false;
-        reply.wreq.user_apps_only = true;
-
-        // give top priority to results that require a 'reliable host'
-        //
-        if (reply.wreq.host_info.reliable) {
-            reply.wreq.reliable_only = true;
-            reply.wreq.infeasible_only = false;
-            scan_work_array(sreq, reply);
-        }
-        reply.wreq.reliable_only = false;
-
-        // give 2nd priority to results for a beta app
-        // (projects should load beta work with care,
-        // otherwise your users won't get production work done!
-        //
-        if (reply.wreq.host_info.allow_beta_work) {
-            reply.wreq.beta_only = true;
-            if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
-                    reply.host.id
-                );
-            }
-            scan_work_array(sreq, reply);
-        }
-        reply.wreq.beta_only = false;
-
-        // give next priority to results that were infeasible for some other host
-        //
-        reply.wreq.infeasible_only = true;
-        scan_work_array(sreq, reply);
-
-        reply.wreq.infeasible_only = false;
-        scan_work_array(sreq, reply);
-        
-        // If user has selected apps but will accept any,
-        // and we haven't found any jobs for selected apps, try others
-       	//
-       	if (!reply.wreq.nresults && reply.wreq.host_info.allow_non_preferred_apps ) {
-       		reply.wreq.user_apps_only = false;
-       		preferred_app_message_index = reply.wreq.no_work_messages.size();
-            if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] is looking for work from a non-preferred application\n",
-                    reply.host.id
-                );
-            }
-       		scan_work_array(sreq, reply);
-       	}
-#endif
+    } else {
+        send_work_old(sreq, reply);
     }
 
     explain_to_user(reply);
 }
 
-#ifdef MATCHMAKER
+// Matchmaker scheduling code follows
 
 struct JOB{
     int index;
@@ -1420,30 +1415,27 @@ bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     score = 1;
 
-    // check if user has selected apps
+    // check if user has selected apps,
+    // and send beta work to beta users
     //
-    if (!reply.wreq.host_info.allow_beta_work || config.distinct_beta_apps) {
-        if (app_not_selected(wu, sreq, reply)) {
-            if (!reply.wreq.host_info.allow_non_preferred_apps) {
-                return false;
-            }
-        } else {
-            if (reply.wreq.host_info.allow_non_preferred_apps) {
-                score += 1;
-            }
-        }
-    }
-
-    // if it's a beta user, try to send beta jobs
-    //
-    if (app->beta) {
+    if(app->beta && !config.distinct_beta_apps) {
         if (reply.wreq.host_info.allow_beta_work) {
             score += 1;
         } else {
             return false;
         }
+    } else {
+        if (app_not_selected(wu, sreq, reply)) {
+            if (!reply.wreq.host_info.allow_non_preferred_apps) {
+                return false;
+            } else {
+            // Allow work to be sent, but it will not get a bump in its score
+            }
+        } else {
+            score += 1;
+        }
     }
-
+            
     // if job needs to get done fast, send to fast/reliable host
     //
     if (reply.wreq.host_info.reliable && (wu_result.need_reliable)) {
@@ -1636,8 +1628,10 @@ void JOB_SET::send(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int i, slots_scanned=0, slots_locked=0;
     JOB_SET jobs;
-    int min_slots = 20;
-    int max_slots = 50;
+    int min_slots = config.mm_min_slots;
+    if (!min_slots) min_slots = ssp->max_wu_results/2;
+    int max_slots = config.mm_max_slots;
+    if (!max_slots) max_slots = ssp->max_wu_results;
     int max_locked = 10;
     int pid = getpid();
 
@@ -1668,7 +1662,7 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "score for %s: %f\n", wu_result.workunit.name, job.score
             );
         }
-        if (job.score > jobs.lowest_score()) {
+        if (job.score > jobs.lowest_score() || !jobs.request_satisfied()) {
             ssp->wu_results[i].state = pid;
             unlock_sema();
             if (wu_is_infeasible_slow(wu_result, sreq, reply)) {
@@ -1692,6 +1686,5 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         );
     }
 }
-#endif
 
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

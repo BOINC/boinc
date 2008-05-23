@@ -50,6 +50,9 @@ int SCHED_CONFIG::parse(FILE* f) {
     int retval;
     regex_t re;
 
+    // Don't bother to initialize to zero since it's a global.
+    // If this ever changes, need to initialize
+    //
     mf.init_file(f);
     max_wus_to_send = 10;
     default_disk_max_used_gb = 100.;
@@ -59,7 +62,6 @@ int SCHED_CONFIG::parse(FILE* f) {
     fuh_debug_level = MSG_NORMAL;
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
-    debug_version_select = false;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
@@ -183,7 +185,11 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
+        if (xp.parse_bool(tag, "matchmaker", matchmaker)) continue;
+        if (xp.parse_int(tag, "mm_min_slots", mm_min_slots)) continue;
+        if (xp.parse_int(tag, "mm_max_slots", mm_max_slots)) continue;
         if (xp.parse_bool(tag, "job_size_matching", job_size_matching)) continue;
+
 
         if (xp.parse_bool(tag, "debug_version_select", debug_version_select)) continue;
         if (xp.parse_bool(tag, "debug_assignment", debug_assignment)) continue;

@@ -4252,3 +4252,17 @@ David  May 22 2008
         client_state.C,h
         cpu_sched.C
         cs_prefs.C
+
+David  May 23 2008
+    - scheduler: added
+        - config option <matchmaker> for matchmaker scheduling
+        - config options <mm_min_slots>, <mm_max_slots>, <job_size_matching>
+            to control matchmaker scheduling
+    - scheduler: tweaks to matchmaker scheduling from Kevin Reed
+    - web: fixes to alternative stylesheet from Simek
+
+    html/user/
+        style2.css
+    sched/
+        sched_config.C,h
+        sched_send.C
