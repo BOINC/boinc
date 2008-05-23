@@ -491,6 +491,7 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	wu = g_new0(DC_Workunit, 1);
 	wu->client_name = g_strdup(clientName);
 	wu->argv = g_strdupv((char **)arguments);
+	wu->refcnt = 1;
 
 	for (wu->argc = 0; arguments && arguments[wu->argc]; wu->argc++)
 		/* Nothing */;
@@ -535,7 +536,7 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 
 void DC_destroyWU(DC_Workunit *wu)
 {
-	if (!wu)
+	if (!wu || --wu->refcnt > 0)
 		return;
 
 	g_hash_table_remove(wu_table, wu->uuid);

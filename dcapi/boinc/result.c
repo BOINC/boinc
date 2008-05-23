@@ -39,6 +39,9 @@ DC_Result *_DC_createResult(const char *wu_name, int db_id,
 		return NULL;
 	}
 
+	/* Make sure the WU remains valid while the result lives */
+	result->wu->refcnt++;
+
 	if (!result->wu->db_id)
 		result->wu->db_id = db_id;
 
@@ -81,6 +84,8 @@ void _DC_destroyResult(DC_Result *result)
 {
 	/* Mark the work unit as completed in the database */
 	_DC_resultCompleted(result);
+	/* Drop the reference on the WU */
+	DC_destroyWU(result->wu);
 
 	while (result->output_files)
 	{
