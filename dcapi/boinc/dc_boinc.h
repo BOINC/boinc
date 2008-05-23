@@ -96,6 +96,9 @@ struct _DC_Workunit
 
 	/* Name of the checkpoint file, if exists (relative to workdir) */
 	char			*ckpt_name;
+
+	/* Reference count */
+	int			refcnt;
 };
 
 struct _DC_Result
