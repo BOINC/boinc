@@ -583,25 +583,12 @@ void DC_destroyWU(DC_Workunit *wu)
 		GDir *dir;
 		int ret;
 
-		/* Remove known files explicitely to avoid the 'unknown file'
-		 * warning below */
-		file = _DC_workDirPath(wu, WU_DESC_FILE, FILE_DCAPI);
-		if (file)
-		{
-			unlink(file);
-			g_free(file);
-		}
-
 		dir = g_dir_open(wu->workdir, 0, NULL);
-		/* The work directory should not contain any extra files, but
-		 * just in case */
 		while (dir && (name = g_dir_read_name(dir)))
 		{
 			GString *str = g_string_new(wu->workdir);
 			g_string_append_c(str, G_DIR_SEPARATOR);
 			g_string_append(str, name);
-			DC_log(LOG_INFO, "Removing unknown file %s",
-				str->str);
 			unlink(str->str);
 			g_string_free(str, TRUE);
 		}
