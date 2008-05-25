@@ -79,7 +79,7 @@
 #define INT_END     27
 #define OVERALL_END 30
 
-#define MIN_CPU_TIME  3
+#define MIN_CPU_TIME  2
     // if the CPU time accumulated during one of the 10-sec segments
     // is less than this, ignored the benchmark
 

@@ -4309,9 +4309,15 @@ David  May 23 2008
         coproc.h
 
 David  May 23 2008
-	- client: test the above; compile fixes for Win
+    - client: test the above; compile fixes for Win
 
-	client/
-		client_types.h
-		cpu_sched.C
-		sim_util.C
+    client/
+        client_types.h
+        cpu_sched.C
+        sim_util.C
+
+David  May 24 2008
+    - client: reduce min CPU time for valid benchmark from 3 to 2
+
+    client/
+        cs_benchmark.C
