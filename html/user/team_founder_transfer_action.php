@@ -9,6 +9,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
+require_once("../inc/pm.inc");
 
 $user = get_logged_in_user();
 if (!$user->teamid) {
@@ -29,9 +30,13 @@ Please do not respond to this email.
 The mailbox is not monitored and the email
 was sent using an automated system.";
     
+    $subject = PROJECT." team founder transfer";
     $founder = lookup_user_id($team->userid);
 
-    return send_email($founder, PROJECT." team founder transfer", $body);
+    // send founder a private message for good measure
+
+    pm_send($founder, $subject, $body);
+    return send_email($founder, $subject, $body);
 }
 
 function send_founder_transfer_decline_email($team, $user) {
@@ -55,17 +60,20 @@ if ($action == "transfer") {
 
     if (new_transfer_request_ok($team, $now)) {
         $success = send_founder_transfer_email($team, $user);
-        if ($success) {
-            $team->update("ping_user=$user->id, ping_time=$now");
-            echo "<p>
-                The current founder has been notified of your request by email.
-                <p>
-                If the founder does not respond within 60 days you will be
-                allowed to become the founder.
-            ";
-        } else {
-            echo "Couldn't send notification email; please try again later.";
-        }
+
+        // Go ahead with the transfer even if the email send fails.
+        // Otherwise it would be impossible to rescue a team
+        // whose founder email is invalid
+        //
+        $team->update("ping_user=$user->id, ping_time=$now");
+        echo "<p>
+            The current founder has been notified of your request by email
+            and private message.
+            <p>
+            If the founder does not respond within 60 days you will be
+            allowed to become the founder.
+            <p>
+        ";
     } else {
         if ($team->ping_user) {
             if ($user->id == $team->ping_user) {

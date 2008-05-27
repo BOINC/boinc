@@ -4328,3 +4328,18 @@ Rom    May 27 2008
         
     lib/
         diagnostics_win.C
+
+David  May 27 2008
+    - web: team transfer request was being rejected if email to founder failed,
+        so there was no way of rescuing a team with invalid founder email.
+        I changed it to record the request anyway.
+        This is potentially hazardous - if the founder's email server
+        is temporarily down, the request would go through
+        without the founder being notified.
+        To offset this, I added a notification via private message.
+
+    html/
+        inc/
+            email.inc
+        user/
+            team_founder_transfer_action.php
