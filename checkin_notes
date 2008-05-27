@@ -4321,3 +4321,10 @@ David  May 24 2008
 
     client/
         cs_benchmark.C
+
+Rom    May 27 2008
+    - DIAG: When an application crashes, dump out the install and data
+        directory as part of the crash report.
+        
+    lib/
+        diagnostics_win.C

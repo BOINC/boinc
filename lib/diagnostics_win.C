@@ -1349,12 +1349,16 @@ int diagnostics_unhandled_exception_dump_banner() {
     strdate(szDate);
     strtime(szTime);
 
-    fprintf( stderr, "\n\n");
-    fprintf( stderr, "********************\n");
-    fprintf( stderr, "\n\n");
-    fprintf( stderr, "BOINC Windows Runtime Debugger Version %s\n", BOINC_VERSION_STRING);
-    fprintf( stderr, "\n\n");
-    fprintf( stderr, "Dump Timestamp    : %s %s\n", szDate, szTime );
+    fprintf(stderr, "\n\n");
+    fprintf(stderr, "********************\n");
+    fprintf(stderr, "\n\n");
+    fprintf(stderr, "BOINC Windows Runtime Debugger Version %s\n", BOINC_VERSION_STRING);
+    fprintf(stderr, "\n\n");
+    fprintf(stderr, "Dump Timestamp    : %s %s\n", szDate, szTime);
+    if (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
+        fprintf(stderr, "Install Directory : %s\n", diagnostics_get_boinc_install_dir());
+        fprintf(stderr, "Data Directory    : %s\n", diagnostics_get_boinc_dir());
+    }
 
     return 0;
 }
