@@ -443,7 +443,19 @@ UINT CAMigrateBOINCData::OnExecution()
                 //   the files in the original location are on the same volume as the
                 //   destination. So do a quick check to see if we have enough disk
                 //   space.
-                GetFreeDiskSpace(strFutureDataDirectory, ullFreeDiskSpace);
+                if (!GetFreeDiskSpace(strFutureDataDirectory, ullFreeDiskSpace))
+                {
+                    // If the destination directory doesn't exist, try the parent
+                    //   directory
+                    tstring strBuffer = tstring(strFutureDataDirectory + _T("..\\"));
+                    if (!GetFreeDiskSpace(strBuffer, ullFreeDiskSpace))
+                    {
+                        // If the parent directory doesn't exist, just choose
+                        //   the default volume. Something is better than nothing
+                        GetFreeDiskSpace(tstring(""), ullFreeDiskSpace);
+                    }
+                }
+
 
                 // Are we on the same volume?
                 if (strMigrationDirectory.substr(0, 2) == strFutureDataDirectory.substr(0, 2))
@@ -453,15 +465,15 @@ UINT CAMigrateBOINCData::OnExecution()
                     if (ullFileSize > ullFreeDiskSpace)
                     {
                         LogMessage(
-                            INSTALLMESSAGE_FATALEXIT,
+                            INSTALLMESSAGE_INFO,
                             NULL, 
                             NULL,
                             NULL,
                             NULL,
                             _T("Not enough free disk space is available to migrate BOINC's data files to\n"
                                "the new data directory. Please free up some disk space or migrate the files\n"
-                               "manually.")
-                            );
+                               "manually. (ullFileSize > ullFreeDiskSpace)")
+                        );
                         return ERROR_INSTALL_FAILURE;
                     }
                 }
@@ -472,15 +484,15 @@ UINT CAMigrateBOINCData::OnExecution()
                     if (ullDirectorySize > ullFreeDiskSpace)
                     {
                         LogMessage(
-                            INSTALLMESSAGE_FATALEXIT,
+                            INSTALLMESSAGE_INFO,
                             NULL, 
                             NULL,
                             NULL,
                             NULL,
                             _T("Not enough free disk space is available to migrate BOINC's data files to\n"
                                "the new data directory. Please free up some disk space or migrate the files\n"
-                               "manually.")
-                            );
+                               "manually. (ullDirectorySize > ullFreeDiskSpace)")
+                        );
                         return ERROR_INSTALL_FAILURE;
                     }
                 }
@@ -593,41 +605,169 @@ BOOL CAMigrateBOINCData::GetFileDirectorySizes( tstring strDirectory, ULONGLONG&
 typedef BOOL (CALLBACK* MyGetDiskFreeSpaceEx)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
 BOOL CAMigrateBOINCData::GetFreeDiskSpace( tstring strDirectory, ULONGLONG& ullFreeSpace )
 {
-    ULARGE_INTEGER TotalNumberOfFreeBytes;
-    ULARGE_INTEGER TotalNumberOfBytes;
-    ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;
-    DWORD dwSectPerClust;
-    DWORD dwBytesPerSect;
-    DWORD dwFreeClusters;
-    DWORD dwTotalClusters;
+    ULARGE_INTEGER          TotalNumberOfFreeBytes;
+    ULARGE_INTEGER          TotalNumberOfBytes;
+    ULARGE_INTEGER          TotalNumberOfBytesFreeToCaller;
+    DWORD                   dwSectPerClust = NULL;
+    DWORD                   dwBytesPerSect = NULL;
+    DWORD                   dwFreeClusters = NULL;
+    DWORD                   dwTotalClusters = NULL;
+    BOOL                    bReturnValue = FALSE;
+    MyGetDiskFreeSpaceEx    pGetDiskFreeSpaceEx = NULL;
+    TCHAR                   szMessage[2048];
 
-    MyGetDiskFreeSpaceEx pGetDiskFreeSpaceEx;
+#ifdef _UNICODE
     pGetDiskFreeSpaceEx = (MyGetDiskFreeSpaceEx)GetProcAddress(
         GetModuleHandle("kernel32.dll"), "GetDiskFreeSpaceExW"
     );
+#else
+    pGetDiskFreeSpaceEx = (MyGetDiskFreeSpaceEx)GetProcAddress(
+        GetModuleHandle("kernel32.dll"), "GetDiskFreeSpaceExA"
+    );
+#endif
+
+    _sntprintf(
+        szMessage, 
+        sizeof(szMessage),
+        _T("GetFreeDiskSpace Directory Location: '%s'"),
+        strDirectory.c_str()
+    );
+    LogMessage(
+        INSTALLMESSAGE_INFO,
+        NULL, 
+        NULL,
+        NULL,
+        NULL,
+        szMessage
+    );
 
     if (pGetDiskFreeSpaceEx) {
-        pGetDiskFreeSpaceEx(
-            strDirectory.c_str(),
-            &TotalNumberOfBytesFreeToCaller,
-            &TotalNumberOfBytes,
-            &TotalNumberOfFreeBytes
+
+        if (0 == strDirectory.length())
+        {
+            bReturnValue = pGetDiskFreeSpaceEx(
+                NULL,
+                &TotalNumberOfBytesFreeToCaller,
+                &TotalNumberOfBytes,
+                &TotalNumberOfFreeBytes
+            );
+        }
+        else
+        {
+            bReturnValue = pGetDiskFreeSpaceEx(
+                strDirectory.c_str(),
+                &TotalNumberOfBytesFreeToCaller,
+                &TotalNumberOfBytes,
+                &TotalNumberOfFreeBytes
+            );
+        }
+
+        _sntprintf(
+            szMessage, 
+            sizeof(szMessage),
+            _T("GetDiskFreeSpaceEx Return Value: '%d'"),
+            bReturnValue
+        );
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            szMessage
+        );
+
+        _sntprintf(
+            szMessage, 
+            sizeof(szMessage),
+            _T("GetDiskFreeSpaceEx GetLastError: '%d'"),
+            GetLastError()
+        );
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            szMessage
+        );
+
+        _sntprintf(
+            szMessage, 
+            sizeof(szMessage),
+            _T("TotalNumberOfFreeBytes: '%I64u'"),
+            TotalNumberOfFreeBytes.QuadPart
+        );
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            szMessage
         );
 
         ullFreeSpace = TotalNumberOfFreeBytes.QuadPart;
-    } else {
-        GetDiskFreeSpace(
-            strDirectory.c_str(),
-            &dwSectPerClust,
-            &dwBytesPerSect,
-            &dwFreeClusters,
-            &dwTotalClusters
+
+    }
+    else
+    {
+
+        if (0 == strDirectory.length())
+        {
+            bReturnValue = GetDiskFreeSpace(
+                NULL,
+                &dwSectPerClust,
+                &dwBytesPerSect,
+                &dwFreeClusters,
+                &dwTotalClusters
+            );
+        }
+        else
+        {
+            bReturnValue = GetDiskFreeSpace(
+                strDirectory.c_str(),
+                &dwSectPerClust,
+                &dwBytesPerSect,
+                &dwFreeClusters,
+                &dwTotalClusters
+            );
+        }
+
+        _sntprintf(
+            szMessage, 
+            sizeof(szMessage),
+            _T("GetDiskFreeSpace Return Value: '%d'"),
+            bReturnValue
+        );
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            szMessage
+        );
+
+        _sntprintf(
+            szMessage, 
+            sizeof(szMessage),
+            _T("GetDiskFreeSpace GetLastError: '%d'"),
+            GetLastError()
+        );
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            szMessage
         );
 
         ullFreeSpace = dwFreeClusters * dwSectPerClust * dwBytesPerSect;
     }
 
-    return TRUE;
+    return bReturnValue;
 }
 
 

@@ -26,5 +26,4 @@ EXPORTS
 	SetPermissionBOINCData
 	SetPermissionBOINCDataProjects
 	SetPermissionBOINCDataSlots
-	SetPermissionBOINCDiagnostics
 	

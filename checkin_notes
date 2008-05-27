@@ -4343,3 +4343,27 @@ David  May 27 2008
             email.inc
         user/
             team_founder_transfer_action.php
+
+Rom    May 27 2008
+    - WINSETUP: The call to GetFreeDiskSpaceEx was failing becuase the path
+        didn't exist yet, so all the values in the returned data structures
+        was random junk. If the directory had never been created before
+        then it was returning 27/57 bytes free. If the drectory had existed
+        at one time then the return values were several gigabytes.
+        
+        If the first request to GetFreeDiskSpaceEx fails, then check for the
+        parent directory, if that fails pass a NULL value which means check
+        the default volume.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.def
+        boinccas.rc
+        boinccas.vcproj
+        CAMigrateBOINCData.cpp
+        CASetPermissionBOINCDiagnostics.cpp, .h (deleted)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
