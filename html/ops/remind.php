@@ -159,6 +159,7 @@ function read_email_files() {
 function replace($user, $template) {
     $pat = array(
         '/<name\/>/',
+        '/<email\/>/',
         '/<create_time\/>/',
         '/<total_credit\/>/',
         '/<opt_out_url\/>/',
@@ -167,6 +168,7 @@ function replace($user, $template) {
     );
     $rep = array(
         $user->name,
+        $user->email_addr,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
