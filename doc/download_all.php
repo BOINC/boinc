@@ -195,7 +195,7 @@ if ($xml) {
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>
 
-            <h3>Linux info</h2>
+            <h3>Linux info</h3>
         ";
         show_linux_info();
     }
