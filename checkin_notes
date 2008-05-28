@@ -3911,3 +3911,11 @@ Charlie May 28 2008
     
     mac_installer/
         preinstall
+
+Rom    May 28 2008
+    - Tag for 6.2.6 release, all platforms
+      boinc_core_release_6_2_6
+
+    /
+        configure.ac
+        version.h
