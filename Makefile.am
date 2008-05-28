@@ -17,7 +17,7 @@ if ENABLE_CLIENT
 endif
 
 if BUILD_CLIENTGUI
-   CLIENTGUI_SUBDIRS = clientgui clientgui/icons locale/client 
+   CLIENTGUI_SUBDIRS = clientgui clientgui/res locale/client 
 endif
 
 # ORDER MATTERS below.  One must build dependencies FIRST, then things
