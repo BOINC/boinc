@@ -8,8 +8,6 @@ $user = get_logged_in_user();
 $join = date('j F Y', $user->create_time);
 $today = date('j F Y', time(0));
 
-credit_to_ops($user->total_credit, $ops, $unit);
-
 $border=$_GET["border"];
 if ($border=="no") {
     $border = 0;
@@ -50,13 +48,13 @@ echo "
     <td align=left>
     <font face=$font style=\"font-size:16\">
 ";
-if (defined(CERT_SIGNATURE)) {
+if (defined("CERT_SIGNATURE")) {
     echo "
-        <img src=images/".CERT_SIGNATURE.">
+        <img src=".CERT_SIGNATURE.">
         <br>
     ";
 }
-if (defined(CERT_DIRECTOR_NAME)) {
+if (defined("CERT_DIRECTOR_NAME")) {
     echo CERT_DIRECTOR_NAME." <br>Director, ".PROJECT."
         <br>
     ";
@@ -66,14 +64,14 @@ echo "
     $today
     </td>
 ";
-if (defined(CERT_PROJECT_LOGO)) {
+if (defined("CERT_PROJECT_LOGO")) {
     echo "
-        <td align=center valign=center> <img src=PROJECT_LOGO> </td>
+        <td align=center valign=center> <img src=".CERT_PROJECT_LOGO."> </td>
     ";
 }
-if (defined(CERT_INSTITUTION_LOGO)) {
+if (defined("CERT_INSTITUTION_LOGO")) {
     echo "
-        <td align=center width=30% valign=center><img src=images/INSTITUTION_LOGO></td>
+        <td align=center width=30% valign=center><img src=".CERT_INSTITUTION_LOGO."></td>
     ";
 }
 echo "
