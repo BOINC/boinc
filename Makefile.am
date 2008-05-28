@@ -13,11 +13,11 @@ if ENABLE_SERVER
 endif
 
 if ENABLE_CLIENT
-   CLIENT_SUBDIRS = client 
+   CLIENT_SUBDIRS = client client/scripts
 endif
 
 if BUILD_CLIENTGUI
-   CLIENTGUI_SUBDIRS = clientgui sea
+   CLIENTGUI_SUBDIRS = clientgui locale/client 
 endif
 
 # ORDER MATTERS below.  One must build dependencies FIRST, then things
@@ -33,8 +33,7 @@ EXTRA_DIST =                                    \
 	stripchart                                  \
     INSTALL										
 
-includedir = ${prefix}/include/BOINC
-include_HEADERS = \
+pkginclude_HEADERS = \
     config.h \
     version.h
 

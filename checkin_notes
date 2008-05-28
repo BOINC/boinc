@@ -4383,3 +4383,27 @@ Eric   May 27 2008
                 BOINC Manager.po (renamed BOINC-Manager.po)
                 BOINC Manager.mo (renamed BOINC-Manager.mo)
 
+Eric	May 27 2008
+    - Makefiles: 
+        added client/scripts to default client build
+        removed sea from the default clientgui build
+        added locale/client to the default clientgui build
+        moved installed header from $(includedir) to $(pkgincludedir) which
+            is $(includedir)/boinc by default.
+        removed redefinitions of $(includedir) from makefiles.
+    - configure:
+        added locale/client/Makefile to AC_CONFIG_FILES
+    
+    configure.ac
+    Makefile.am
+    api/
+        Makefile.am
+    db/
+        Makefile.am
+    sched/
+        Makefile.am
+    lib/
+        Makefile.am
+    zip/
+        Makefile.am
+

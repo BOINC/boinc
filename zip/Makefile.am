@@ -9,9 +9,7 @@ AM_CPPFLAGS =  -I$(top_srcdir)/zlib -I$(top_srcdir)/lib -I$(top_srcdir)/zip -I$(
 ##noinst_PROGRAMS = test
 lib_LIBRARIES = libboinc_zip.a
 
-## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
-includedir = ${prefix}/include/BOINC/
-include_HEADERS = boinc_zip.h
+pkginclude_HEADERS = boinc_zip.h
 
 libboinc_zip_a_SOURCES = boinc_zip.cpp \
 ./unzip/apihelp.c \

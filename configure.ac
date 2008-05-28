@@ -670,6 +670,7 @@ AC_CONFIG_FILES([
                  doc/Makefile
                  doc/manpages/Makefile
                  lib/Makefile
+		 locale/client/Makefile
                  Makefile
                  py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  py/Boinc/Makefile

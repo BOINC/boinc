@@ -81,7 +81,7 @@ libboinc_a_SOURCES = \
     unix_util.C \
 	$(mac_sources)
 
-include_HEADERS = \
+pkginclude_HEADERS = \
     app_ipc.h \
     boinc_win.h \
 	common_defs.h	\
@@ -101,9 +101,6 @@ include_HEADERS = \
     std_fixes.h \
     str_util.h \
     util.h
-
-## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
-includedir = ${prefix}/include/BOINC/
 
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C

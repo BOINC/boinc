@@ -44,11 +44,8 @@ libboinc_api_a_SOURCES = $(api_files)
 libboinc_graphics2_a_SOURCES = $(graphics2_files)
 libboinc_graphics2_a_CPPFLAGS = -I$(top_srcdir)/lib 
 
-## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
-includedir = ${prefix}/include/BOINC/
-
 ## install only headers that are meant for exporting the API !!
-include_HEADERS = 	\
+pkginclude_HEADERS = 	\
 	boinc_api.h   	\
 	graphics2.h	\
 	gutil.h

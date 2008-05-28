@@ -88,11 +88,8 @@ census_SOURCES = \
     hr.C \
     hr_info.C
 
-## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
-includedir = ${prefix}/include/BOINC/
-
 ## install only headers that are meant for exporting the API !!
-include_HEADERS = \
+pkginclude_HEADERS = \
 	sched_config.h \
 	sched_msgs.h \
 	sched_util.h \
