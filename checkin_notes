@@ -4367,3 +4367,19 @@ Rom    May 27 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Eric   May 27 2008
+    - clientgui:  renamed locale files from "BOINC Manager.*" to
+        "BOINC-Manager.*"
+    - Added Makefile to locale/client to install the BOINC Manager.po files
+        into $(datadir)/locale (typically $(prefix)/share/locale)
+
+    clientgui/
+        BOINCGUIApp.cpp
+    locale/
+        client/
+            Makefile.am
+            */
+                BOINC Manager.po (renamed BOINC-Manager.po)
+                BOINC Manager.mo (renamed BOINC-Manager.mo)
+

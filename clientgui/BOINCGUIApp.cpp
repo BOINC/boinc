@@ -306,7 +306,7 @@ bool CBOINCGUIApp::OnInit() {
         );
     }
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
-    m_pLocale->AddCatalog(wxT("BOINC Manager"));
+    m_pLocale->AddCatalog(wxT("BOINC-Manager"));
 
     InitSupportedLanguages();
 
