@@ -4463,3 +4463,11 @@ Eric	May 28 2008
     db/
         schema.sql
 
+Rom    May 15 2008
+    - Tag for 6.3.2 release, all platforms
+      boinc_core_release_6_3_2
+
+    /
+        configure.ac
+        version.h
+
