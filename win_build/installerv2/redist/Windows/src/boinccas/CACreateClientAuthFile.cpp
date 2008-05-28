@@ -68,6 +68,7 @@ UINT CACreateClientAuthFile::OnExecution()
     tstring          strClientAuthFile;
     tstring          strVersionNT;
     struct _stat     buf;
+    TCHAR                   szMessage[2048];
     UINT             uiReturnValue = -1;
 
 
@@ -135,7 +136,6 @@ UINT CACreateClientAuthFile::OnExecution()
         // We are installing in protected mode, which means the 'boinc_project'
         //   account password has been changed, so we need to write out the new
         //   username and password to the client_auth.xml file.
-        FILE* fClientAuthFile = NULL;
         DWORD dwSize = Base64EncodeGetRequiredLength((int)strBOINCProjectAccountPassword.length());
         LPSTR szBuffer = (LPSTR)malloc(dwSize*sizeof(TCHAR));
         if (!szBuffer)
@@ -177,7 +177,22 @@ UINT CACreateClientAuthFile::OnExecution()
 		}
         CA2W pszUnicodeEncodedPassword( szBuffer );
 
+        _sntprintf(
+            szMessage, 
+            sizeof(szMessage),
+            _T("(Unicode) Base64 Encoded String: '%s'"),
+            pszUnicodeEncodedPassword.m_psz
+        );
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            szMessage
+        );
 
+        FILE* fClientAuthFile = NULL;
         fClientAuthFile = _tfopen(strClientAuthFile.c_str(), _T("w"));
         
         _ftprintf(
@@ -189,7 +204,7 @@ UINT CACreateClientAuthFile::OnExecution()
             _T("    </boinc_project>\n")
             _T("</client_authorization>\n"),
             strBOINCProjectAccountUsername.c_str(),
-            pszUnicodeEncodedPassword
+            pszUnicodeEncodedPassword.m_psz
         );
 
         fclose(fClientAuthFile);

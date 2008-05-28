@@ -4520,3 +4520,21 @@ Eric	May 28 2008
             Makefile.am  moved to clientgui/res
             boincmgr.{16x16,32x32,48x48}.png  moved to clientgui/res
 
+Rom    May 28 2008
+    - WINSETUP: Fix a struct alignment issue when dumping the base64 encoded
+        password for boinc_project to a file.
+        
+        ATL's string conversion functions act of a class and not a buffer
+        which makes memory management easier but doesn't interop well with
+        fprintf unless you specify the buffer name directly.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CACreateClientAuthFile.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
