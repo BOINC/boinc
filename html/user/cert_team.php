@@ -52,13 +52,13 @@ echo "
     <td align=left>
     <font face=$font style=\"font-size:16\">
 ";
-if (defined(CERT_SIGNATURE)) {
+if (defined("CERT_SIGNATURE")) {
     echo "
-        <img src=images/".CERT_SIGNATURE.">
+        <img src=".CERT_SIGNATURE.">
         <br>
     ";
 }
-if (defined(CERT_DIRECTOR_NAME)) {
+if (defined("CERT_DIRECTOR_NAME")) {
     echo CERT_DIRECTOR_NAME." <br>Director, ".PROJECT."
         <br>
     ";
@@ -68,14 +68,14 @@ echo "
     $today
     </td>
 ";
-if (defined(CERT_PROJECT_LOGO)) {
+if (defined("CERT_PROJECT_LOGO")) {
     echo "
-        <td align=center valign=center> <img src=PROJECT_LOGO> </td>
+        <td align=center valign=center> <img src=".CERT_PROJECT_LOGO."> </td>
     ";
 }
-if (defined(CERT_INSTITUTION_LOGO)) {
+if (defined("CERT_INSTITUTION_LOGO")) {
     echo "
-        <td align=center width=30% valign=center><img src=images/INSTITUTION_LOGO></td>
+        <td align=center width=30% valign=center><img src=".CERT_INSTITUTION_LOGO."></td>
     ";
 }
 echo "
