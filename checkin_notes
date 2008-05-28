@@ -3905,3 +3905,9 @@ Rom    May 19 2008
         configure.ac
         version.h
 
+Charlie May 28 2008
+    - Mac Installer: delete old locale directory to remove "boinc manager.mo" 
+        files before installing new "boinc-manager.mo" files (or vice versa).
+    
+    mac_installer/
+        preinstall
