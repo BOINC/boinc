@@ -4420,3 +4420,16 @@ Eric    May 27 2008
         common/
             wxPieCtrl.cpp
 
+Eric    May 28 2008
+    - moved icons from sea into clientgui/icons
+    - added Makefile to clientgui/icons to install them in $(pkgdatadir) which
+      is usually $(prefix)/share/boinc.
+    - Even though these icons are packaged with the sea, they don't appear
+      to be referenced in any code and don't appear to ever be used.
+
+    configure.ac
+    Makefile.am
+    clientgui/
+        icons/
+            Makefile.am
+            boincmgr.{16x16,32x32,48x48}.png
