@@ -1,9 +1,9 @@
 <?php
 
-function credit_to_ops($user, &$ops, &$unit) {
+function credit_to_ops($credit, &$ops, &$unit) {
     // 100 units of credit is 86400*10^9 ops
     // 1 unit of credit is 864*10^9 ops
-    $ops_trillion = ($user->total_credit*864)/1000;
+    $ops_trillion = ($credit*864)/1000;
     $unit = "trillion";
     $ops = $ops_trillion;
     if ($ops_trillion > 1000) {
@@ -21,10 +21,10 @@ function credit_to_ops($user, &$ops, &$unit) {
     $ops = number_format($ops, 2);
 }
 
-function credit_string($user, $bolden) {
-    $cobbs = number_format($user->total_credit, 0);
+function credit_string($credit, $bolden) {
+    $cobbs = number_format($credit, 0);
 
-    credit_to_ops($user, $ops, $unit);
+    credit_to_ops($credit, $ops, $unit);
       
     if ($bolden) {
         $lbold="[[";
@@ -33,7 +33,6 @@ function credit_string($user, $bolden) {
         $lbold="";        $rbold="";
     } 
     return " $lbold$cobbs Cobblestones$rbold of computation ($ops $unit floating-point operations)";
-    return $credit;
 }
 
 ?>

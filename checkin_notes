@@ -4495,3 +4495,16 @@ David  May 28 2008
         client_types.h
         pers_file_xfer.h
         time_stats.h
+
+David  May 28 2008
+    - web: add project.inc variables to customize certificates;
+        add team certificate;
+        add links to certificates from user page
+
+    html/
+        inc/
+            cert.inc
+            user.inc
+        user/
+            cert_team.php (new)
+            cert1.php

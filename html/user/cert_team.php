@@ -4,11 +4,13 @@ require_once("../inc/util.inc");
 require_once("../inc/cert.inc");
 
 $user = get_logged_in_user();
+$team = BoincTeam::lookup_id($user->teamid);
+if (!$team) error_page("no team");
 
-$join = date('j F Y', $user->create_time);
+$join = date('j F Y', $team->create_time);
 $today = date('j F Y', time(0));
 
-credit_to_ops($user->total_credit, $ops, $unit);
+credit_to_ops($team->total_credit, $ops, $unit);
 
 $border=$_GET["border"];
 if ($border=="no") {
@@ -17,7 +19,7 @@ if ($border=="no") {
     $border=8;
 }
 
-$credit = credit_string($user->total_credit, false);
+$credit = credit_string($team->total_credit, false);
 
 $title_font = "\"Optima,ZapfChancery\"";
 $font = "\"Optima,Lucida Bright,Times New Roman\"";
@@ -32,10 +34,10 @@ echo "
 
     <font face=$font style=\"font-size:28\">
     <br><br><br>
-    This certifies that
+    This certifies that team
     <p>
     <font face=$font style=\"font-size:32\">
-    $user->name
+    $team->name
 
     <font face=$font style=\"font-size:18\">
     <p>
