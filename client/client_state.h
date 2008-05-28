@@ -241,6 +241,7 @@ private:
     bool garbage_collect_always();
     bool update_results();
     int nresults_for_project(PROJECT*);
+    void check_clock_reset();
 
 // --------------- cpu_sched.C:
 private:

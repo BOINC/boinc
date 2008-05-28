@@ -24,10 +24,10 @@
 #include <vector>
 
 class TIME_STATS {
-    double last_update;
     bool first;
     int previous_connected_state;
 public:
+    double last_update;
 // we maintain an exponentially weighted average of these quantities:
     double on_frac;
         // the fraction of total time this host runs the core client

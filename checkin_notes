@@ -4478,3 +4478,20 @@ Rom    May 28 2008 (HEAD)
         configure.ac
         version.h
 
+David  May 28 2008
+    - client: on startup, detect when the system clock has been set backwards,
+        and clear all timeout variables.
+        This should fix the situation where, say:
+        1) the user sets the system clock forward by a year;
+        2) all projects get their min_rpc_time set;
+        3) the user sets the system clock back to the correct time.
+        Previously, BOINC would not do anything for a year.
+
+        Note: a restart of BOINC is required to fix things.
+        It would be harder to do this on the fly.
+
+    client/
+        client_state.C,h
+        client_types.h
+        pers_file_xfer.h
+        time_stats.h

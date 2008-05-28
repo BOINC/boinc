@@ -116,8 +116,8 @@ public:
 };
 
 class PERS_FILE_XFER_SET {
-    FILE_XFER_SET* file_xfers;
 public:
+    FILE_XFER_SET* file_xfers;
     std::vector<PERS_FILE_XFER*>pers_file_xfers;
 
     PERS_FILE_XFER_SET(FILE_XFER_SET*);

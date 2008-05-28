@@ -245,6 +245,8 @@ int CLIENT_STATE::init() {
     set_ncpus();
     show_host_info();
 
+    check_clock_reset();
+
     coprocs.get();
 #if 0
     fake_cuda(coprocs);
@@ -1571,6 +1573,40 @@ static inline double rand_range(double rmin, double rmax) {
 double calculate_exponential_backoff( int n, double MIN, double MAX) {
     double rmax = std::min(MAX, exp((double)n));
     return rand_range(MIN, rmax);
+}
+
+// See if a timestamp in the client state file
+// is later than the current time.
+// If so, the user must have decremented the system clock.
+// Clear all timeout variables.
+//
+void CLIENT_STATE::check_clock_reset() {
+    now = time(0);
+    if (!time_stats.last_update) return;
+    if (time_stats.last_update <= now) return;
+
+    msg_printf(NULL, MSG_INFO,
+        "System clock was turned backwards; clearing timeouts"
+    );
+    new_version_check_time = now;
+    all_projects_list_check_time = now;
+
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->min_rpc_time = 0;
+        if (p->next_rpc_time) {
+            p->next_rpc_time = now;
+        }
+        p->next_file_xfer_up = 0;
+        p->next_file_xfer_down = 0;
+    }
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];
+        pfx->next_request_time = 0;
+    }
+
+    // RESULT: could change report_deadline, but not clear how
 }
 
 const char *BOINC_RCSID_e836980ee1 = "$Id$";
