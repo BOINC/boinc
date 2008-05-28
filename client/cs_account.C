@@ -303,8 +303,8 @@ int PROJECT::parse_statistics(FILE* in) {
             sort(statistics.begin(), statistics.end());
             return 0;
         }
-        else if (match_tag(buf, "<project_statistics>")) continue;
-        else if (match_tag(buf, "<daily_statistics>")) {
+        if (match_tag(buf, "<project_statistics>")) continue;
+        if (match_tag(buf, "<daily_statistics>")) {
             DAILY_STATS daily_stats;
             retval = daily_stats.parse(in);
             if (!retval) {
@@ -312,16 +312,14 @@ int PROJECT::parse_statistics(FILE* in) {
             }
             continue;
         }
-        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+        if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
             canonicalize_master_url(master_url);
             continue;
         }
-        else {
-            if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
-                    "[unparsed_xml] PROJECT::parse_statistics(): unrecognized: %s\n", buf
-                );
-            }
+        if (log_flags.unparsed_xml) {
+            msg_printf(0, MSG_INFO,
+                "[unparsed_xml] PROJECT::parse_statistics(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -354,7 +352,7 @@ int CLIENT_STATE::parse_statistics_files() {
                     );
                 } else {
                     for (std::vector<DAILY_STATS>::const_iterator i=temp.statistics.begin();
-                        i!=temp.statistics.end(); ++i
+                        i!=temp.statistics.end(); i++
                     ) {
                         project->statistics.push_back(*i);
                     }

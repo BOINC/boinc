@@ -4441,3 +4441,12 @@ Eric	May 28 2008
       in stage/$(prefix)/lib, etc)
 
     Makefile.am
+
+David  May 28 2008
+    - web: style tweaks; fixes #667
+
+    client/
+        cs_account.C
+    html/user/
+        forum_forum.php
+        white.css
