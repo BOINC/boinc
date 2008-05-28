@@ -4433,3 +4433,11 @@ Eric    May 28 2008
         icons/
             Makefile.am
             boincmgr.{16x16,32x32,48x48}.png
+
+Eric	May 28 2008
+    - Added a stage target for staging a distribution.
+      Executing "make stage" will "make all" and will install the client
+      under the stage directory (i.e. binaries is stage/$(prefix)/bin, libraries
+      in stage/$(prefix)/lib, etc)
+
+    Makefile.am

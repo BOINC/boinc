@@ -37,6 +37,16 @@ pkginclude_HEADERS = \
     config.h \
     version.h
 
+# Add a stage target for staging a distribution
+
+clean-generic:
+	rm -rf stage
+
+stage: all
+	if [ ! -d stage ] ; then mkdir stage ; fi
+	rm -rf stage/*
+	$(MAKE) DESTDIR=$(PWD)/stage install
+
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
 #	cd $(distdir) && ./_autosetup
