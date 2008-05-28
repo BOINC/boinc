@@ -4412,3 +4412,11 @@ Eric	May 27 2008
         added LIBBOINC_VERSION definition for libtool use.
 
     configure.ac
+
+Eric    May 27 2008
+    - fixed problem with missing includes and missing namespace notations
+
+    clientgui/
+        common/
+            wxPieCtrl.cpp
+

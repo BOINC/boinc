@@ -8,6 +8,8 @@
 // Copyright:   (c) Volodymir (T-Rex) Tryapichko
 // Licence:     wxWidgets license
 /////////////////////////////////////////////////////////////////////////////
+#include <vector>
+#include <algorithm>
 #include "wxPieCtrl.h"
 #include <wx/arrimpl.cpp>
 
@@ -307,7 +309,7 @@ void wxPieCtrl::DrawLegend(int left, int top)
 	{
 		m_CanvasDC.GetTextExtent(m_Series[i].GetLabel(), &tw, &th);
 		dy += (th+3);
-		maxwidth = max(maxwidth, (int)(2*m_legendHorBorder+tw+15));
+		maxwidth = std::max(maxwidth, (int)(2*m_legendHorBorder+tw+15));
 	}
 	dy += m_LegendVerBorder;
 
@@ -355,7 +357,7 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 	//size for background ops
 	GetSize(&bgW,&bgH);
 	//pie rect respects padding and is centered
-	int maxL = min(bgW,bgH) - 2* m_padding;
+	int maxL = std::min(bgW,bgH) - 2* m_padding;
 
 	if(m_CanRepaint)
 	{
