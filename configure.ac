@@ -10,6 +10,9 @@ AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 6.3.2)
+LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
+AC_SUBST([LIBBOINC_VERSION])
+
 
 AC_ARG_ENABLE(debug, 
     AS_HELP_STRING([--enable-debug],

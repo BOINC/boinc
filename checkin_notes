@@ -4407,3 +4407,8 @@ Eric	May 27 2008
     zip/
         Makefile.am
 
+Eric	May 27 2008
+    - configure:
+        added LIBBOINC_VERSION definition for libtool use.
+
+    configure.ac
