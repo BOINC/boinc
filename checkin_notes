@@ -4538,3 +4538,10 @@ Rom    May 28 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Charlie May 28 2008
+    - Mac Installer: delete old locale directory to remove "boinc manager.mo" 
+        files before installing new "boinc-manager.mo" files (or vice versa).
+    
+    mac_installer/
+        preinstall
