@@ -1,0 +1,43 @@
+#! /bin/sh
+dbhost=`grep db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+dbuser=`grep db_user ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+dbname=`grep db_name ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+MYSQL="mysql -D $dbname -h $dbhost -u $dbuser -N -B"
+
+DECAY_TIME=30*86400
+
+function median_query() {
+  $MYSQL --execute="
+     create temporary table medians (id int auto_increment primary key)
+       select $1 from host 
+       where rpc_time>unix_timestamp(now())-($DECAY_TIME)
+             and credit_per_cpu_sec>0
+       order by $1; 
+     create temporary table ids
+       select round(avg(id)-0.5) as id from medians;
+     insert into ids select round(avg(id)+0.5) from medians;
+     select avg($1) from medians where id in (
+       select id from ids
+     );
+     drop table medians;
+     drop table ids;"
+}
+
+median_credit_per_cpu_sec=`median_query credit_per_cpu_sec`
+median_p_fpops=`median_query p_fpops`
+median_p_iops=`median_query p_iops`
+ratio=`$MYSQL --execute="select ($median_p_fpops+$median_p_iops)/($median_credit_per_cpu_sec)*5.787037037037e-13"`
+
+nrows=`$MYSQL --execute="select count(id) from credit_multiplier"`
+if [ $nrows = 0 ] ; then
+  $MYSQL --execute="insert into credit_multiplier values (0,unix_timestamp(now())-86400,1.0)"
+fi
+
+last_value=`$MYSQL --execute="select multiplier from credit_multiplier where (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier)"`
+last_time=`$MYSQL --execute="select unix_timestamp(now())-time from credit_multiplier where (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier)"`
+
+value=`$MYSQL --execute="select ($last_value*(($DECAY_TIME)-$last_time)+$ratio*$last_time)/($DECAY_TIME)"`
+
+$MYSQL --execute="insert into credit_multiplier values (0,unix_timestamp(now()),$value);"
+
+exit 0

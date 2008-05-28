@@ -581,3 +581,12 @@ create table notify (
     opaque              integer         not null
         -- some other ID, e.g. that of the thread, user or PM record
 );
+
+-- credit multiplier.  Used by the assimilator and autoadjust_credit script
+-- to automatically adjust granted credit.
+create table credit_multiplier (
+    id			serial		primary key,
+    time		integer		not null,
+    multiplier		double		not null default 0;
+) engine=MyISAM;
+

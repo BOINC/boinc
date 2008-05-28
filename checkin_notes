@@ -4450,3 +4450,16 @@ David  May 28 2008
     html/user/
         forum_forum.php
         white.css
+
+Eric	May 28 2008
+    - Added database table credit_multiplier and script to be run daily
+      (calculate_credit_multiplier) to determine what factor to multiply claimed
+      credit by before insertion into the database.  Changes to scheduler to
+      implement have not yet been checked in.
+
+    tools/
+        Makefile.am
+	calculate_credit_multiplier
+    db/
+        schema.sql
+
