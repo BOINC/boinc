@@ -4508,3 +4508,15 @@ David  May 28 2008
         user/
             cert_team.php (new)
             cert1.php
+
+Eric	May 28 2008
+    - have been told clientgui/res is the appropriate place for icons so have
+      moved clientgui/icons/* clientgui/res
+
+    Makefile.am
+    configure.ac
+    clientgui/
+        icons/
+            Makefile.am  moved to clientgui/res
+            boincmgr.{16x16,32x32,48x48}.png  moved to clientgui/res
+
