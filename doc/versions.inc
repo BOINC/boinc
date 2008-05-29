@@ -60,7 +60,7 @@ function type_text($type) {
     }
 }
 
-$w624= array(
+$w626= array(
     "num"=>"6.2.6",
     "status"=>"Development version",
     "file"=>"boinc_6.2.6_windows_intelx86.exe",
