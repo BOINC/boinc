@@ -272,7 +272,7 @@ int handle_wu(
 
     if (wu.canonical_resultid) {
         log_messages.printf(MSG_NORMAL,
-            "[WU#%d %s] handle_wu(): Already has canonical result %d\n",
+            "[WU#%d %s] Already has canonical result %d\n",
             wu.id, wu.name, wu.canonical_resultid
         );
         ++log_messages;
@@ -283,10 +283,6 @@ int handle_wu(
         for (i=0; i<items.size(); i++) {
             RESULT& result = items[i].res;
 
-            log_messages.printf(MSG_NORMAL,
-                 "[WU#%d %s] handle_wu(): Analyzing result %d\n",
-                 wu.id, wu.name, result.id
-             );
             if (result.id == wu.canonical_resultid) {
                 canonical_result_index = i; 
             }
@@ -315,6 +311,10 @@ int handle_wu(
             default:
                 continue;
             }
+            log_messages.printf(MSG_NORMAL,
+                 "[WU#%d] handle_wu(): testing result %d\n",
+                 wu.id, result.id
+             );
 
             check_pair(result, canonical_result, retry);
             if (retry) transition_time = DELAYED;

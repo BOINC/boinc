@@ -39,17 +39,17 @@ int assimilate_handler(
     SCOPE_MSG_LOG scope_messages(log_messages, MSG_NORMAL);
     scope_messages.printf("[%s] Assimilating\n", wu.name);
     if (wu.canonical_resultid) {
-        string output_file_name;
+        FILE_INFO output_file;
 
         scope_messages.printf("[%s] Found canonical result\n", wu.name);
         log_messages.printf_multiline(
             MSG_DEBUG, canonical_result.xml_doc_out,
             "[%s] canonical result", wu.name
         );
-       if (!(get_output_file_path(canonical_result, output_file_name))) {
+       if (!(get_output_file_path(canonical_result, output_file))) {
            scope_messages.printf(
                 "[%s] Output file path %s\n",
-                wu.name, output_file_name.c_str()
+                wu.name, output_file.path.c_str()
             );
        }
     } else {

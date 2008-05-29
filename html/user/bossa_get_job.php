@@ -24,7 +24,7 @@ if ($ji) {
 } else {
     page_head("No jobs available");
     echo "
-        Sorry, no more jobs are available right now.
+        Sorry, no jobs are available right now.
         <p>
         Please try again later.
     ";

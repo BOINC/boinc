@@ -24,10 +24,19 @@
 #include <string>
 
 #include "boinc_db.h"
+#include "parse.h"
 
-extern int get_output_file_path(RESULT const& result, std::string& path);
-extern int get_output_file_paths(RESULT const& result, std::vector<std::string>&);
-extern int get_logical_name(RESULT const& result, std::string const& path, std::string& name);
+struct FILE_INFO {
+    std::string name;
+    std::string path;
+    bool optional;
+
+    int parse(XML_PARSER&);
+};
+
+extern int get_output_file_path(RESULT& result, FILE_INFO&);
+extern int get_output_file_paths(RESULT& result, std::vector<FILE_INFO>&);
+extern int get_logical_name(RESULT& result, std::string& path, std::string& name);
 extern double median_mean_credit(WORKUNIT&, std::vector<RESULT>& results);
 extern double get_credit_from_wu(WORKUNIT&, std::vector<RESULT>& results);
 extern double stddev_credit(WORKUNIT&, std::vector<RESULT>& results);

@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("May 18, 2008",
+    "The source code for BOINCoid (a port of BOINC to Java and to
+    Google's Android platform, by computer scientists from Technion)
+    has been <a href=http://sourceforge.net/projects/boincoid>released on Sourceforge.net</a>."
+),
 array("May 9, 2008",
     "BOINC volunteer Werner Klein is
     <a href=http://www.sternengucker.org/index.php/artikel/interview-seti-ist-heute-bereits-erfolgreich/>interviewed

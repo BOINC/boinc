@@ -33,51 +33,61 @@
 using std::string;
 using std::vector;
 
-class FILE_CACHE {
-    mutable string _md5sum;
-public:
-    const string filedata;
+struct FILE_CKSUM {
+    string md5sum;
 
-    FILE_CACHE(string const& filedata0) : filedata(filedata0) {}
-    ~FILE_CACHE(){}
-
-    string const md5sum() const {
-        if (_md5sum.empty()) {
-            _md5sum = md5_string(filedata);
-        }
-        return _md5sum;
+    FILE_CKSUM(string& filedata) {
+        md5sum = md5_string(filedata);
     }
+    ~FILE_CKSUM(){}
 };
 
-bool files_match(FILE_CACHE const& f1, FILE_CACHE const& f2) {
-    return (f1.md5sum() == f2.md5sum() && f1.filedata == f2.filedata);
+struct FILE_CKSUM_LIST {
+    vector<FILE_CKSUM> files;
+    ~FILE_CKSUM_LIST(){}
+};
+
+bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
+    if (f1.files.size() != f2.files.size()) return false;
+    for (unsigned int i=0; i<f1.files.size(); i++) {
+        if (f1.files[i].md5sum != f2.files[i].md5sum) return false;
+    }
+    return true;
 }
 
-// read file into memory
-//
 int init_result(RESULT& result, void*& data) {
     int retval;
-    string path;
+    FILE_CKSUM_LIST* fcl = new FILE_CKSUM_LIST;
+    vector<FILE_INFO> files;
 
-    retval = get_output_file_path(result, path);
+    retval = get_output_file_paths(result, files);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d %s] check_set: can't get output filename\n",
+            "[RESULT#%d %s] check_set: can't get output filenames\n",
             result.id, result.name
         );
         return retval;
     }
 
     string filedata;
-    retval = read_file_string(path.c_str(), filedata);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d %s] Couldn't open %s\n",
-            result.id, result.name, path.c_str()
-        );
-        return retval;
+    for (unsigned int i=0; i<files.size(); i++) {
+        FILE_INFO& fi = files[i];
+        retval = read_file_string(fi.path.c_str(), filedata);
+        if (retval) {
+            if (fi.optional) {
+                filedata = "";
+            } else {
+                log_messages.printf(MSG_CRITICAL,
+                    "[RESULT#%d %s] Couldn't open %s\n",
+                    result.id, result.name, fi.path.c_str()
+                );
+                return retval;
+            }
+        }
+        FILE_CKSUM fc(filedata);
+        fcl->files.push_back(fc);
     }
-    data = (void*) new FILE_CACHE(filedata);
+    data = (void*) fcl;
     return 0;
 }
 
@@ -86,15 +96,15 @@ int compare_results(
     RESULT const& /*r2*/, void* data2,
     bool& match
 ) {
-    FILE_CACHE const* f1 = (FILE_CACHE*) data1;
-    FILE_CACHE const* f2 = (FILE_CACHE*) data2;
+    FILE_CKSUM_LIST* f1 = (FILE_CKSUM_LIST*) data1;
+    FILE_CKSUM_LIST* f2 = (FILE_CKSUM_LIST*) data2;
 
     match = files_match(*f1, *f2);
     return 0;
 }
 
 int cleanup_result(RESULT const& /*result*/, void* data) {
-    delete (FILE_CACHE*) data;
+    delete (FILE_CKSUM*) data;
     return 0;
 }
 

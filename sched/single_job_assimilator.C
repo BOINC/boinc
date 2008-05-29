@@ -66,26 +66,27 @@ int assimilate_handler(
     }
     *p = 0;
     if (wu.canonical_resultid) {
-        vector<string> output_file_paths;
+        vector<FILE_INFO> output_files;
         char copy_path[256];
-        get_output_file_paths(canonical_result, output_file_paths);
-        unsigned int n = output_file_paths.size();
+        get_output_file_paths(canonical_result, output_files);
+        unsigned int n = output_files.size();
         for (i=0; i<n; i++) {
-            string path = output_file_paths[i], logical_name;
-            retval = get_logical_name(canonical_result, path, logical_name);
+            FILE_INFO& fi = output_files[i];
+            string logical_name;
+            retval = get_logical_name(canonical_result, fi.path, logical_name);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "Couldn't get logical name for %s: %d\n",
-                    path.c_str(), retval
+                    fi.path.c_str(), retval
                 );
                 return retval;
             }
             sprintf(copy_path, "%s/%s", job_dir, logical_name.c_str());
-            retval = boinc_copy(path.c_str() , copy_path);
+            retval = boinc_copy(fi.path.c_str() , copy_path);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "couldn't copy file %s to %s\n",
-                    path.c_str(), copy_path
+                    fi.path.c_str(), copy_path
                 );
                 return retval;
             }

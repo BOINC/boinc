@@ -137,7 +137,7 @@ case 'add_app':
     $min_conf_sum = get_str('min_conf_sum');
     $min_conf_frac = get_str('min_conf_frac');
     $max_instances = get_str('max_instances');
-    $training_course = get_str('training_course');
+    $training_course = get_str('training_course' ,true);
     if (strlen($training_course)) {
         $course = BoltCourse::lookup_name($training_course);
         if (!$course) {

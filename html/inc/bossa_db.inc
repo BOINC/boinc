@@ -155,7 +155,7 @@ class BossaJobInst {
         //
         // TODO: put the following in a transaction
         $db = BossaDb::get();
-        $query = "select * from DBNAME.bossa_job where (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 limit 1";
+        $query = "select * from DBNAME.bossa_job where app_id=$app->id and (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 limit 1";
         $result = $db->do_query($query);
         if (!$result) return null;
         $job = mysql_fetch_object($result, 'BossaJob');

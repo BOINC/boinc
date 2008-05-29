@@ -4545,3 +4545,18 @@ Charlie May 28 2008
     
     mac_installer/
         preinstall
+
+David  May 29 2008
+    - Validator framework: change get_output_file_path()
+        to return a struct FILE_INFO (including "optional")
+        instead of just the filename.
+        This lets you avoid erroring out if optional file is missing.
+    - Sample bitwise validator: support > 1 output file correctly
+
+    sched/
+        sample_assimilator.C
+        sample_bitwise_validator.C
+        sample_dummy_assimilator.C
+        single_job_assimilator.C
+        validate_util.C,h
+        validator.C

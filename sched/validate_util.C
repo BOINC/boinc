@@ -40,9 +40,10 @@
 using std::vector;
 using std::string;
 
-static int parse_filename(XML_PARSER& xp, string& name) {
+int FILE_INFO::parse(XML_PARSER& xp) {
     char tag[256];
     bool is_tag, found=false;
+    optional = false;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/file_info")) {
@@ -50,12 +51,14 @@ static int parse_filename(XML_PARSER& xp, string& name) {
         }
         if (xp.parse_string(tag, "name", name)) {
             found = true;
+            continue;
         }
+        if (xp.parse_bool(tag, "optional", optional)) continue;
     }
     return ERR_XML_PARSE;
 }
 
-int get_output_file_path(RESULT const& result, string& path_str) {
+int get_output_file_path(RESULT& result, FILE_INFO& fi) {
     char tag[256], path[1024];
     bool is_tag;
     string name;
@@ -65,31 +68,37 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "file_info")) {
-            int retval = parse_filename(xp, name);
+            int retval = fi.parse(xp);
             if (retval) return retval;
-            dir_hier_path(name.c_str(), config.upload_dir, config.uldl_dir_fanout, path);
-            path_str = path;
+            dir_hier_path(
+                fi.name.c_str(), config.upload_dir, config.uldl_dir_fanout, path
+            );
+            fi.path = path;
             return 0;
         }
     }
     return ERR_XML_PARSE;
 }
 
-int get_output_file_paths(RESULT const& result, vector<string>& paths) {
+int get_output_file_paths(RESULT& result, vector<FILE_INFO>& fis) {
     char tag[256], path[1024];
     bool is_tag;
     MIOFILE mf;
     string name;
     mf.init_buf_read(result.xml_doc_out);
     XML_PARSER xp(&mf);
-    paths.clear();
+    fis.clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "file_info")) {
-            int retval =  parse_filename(xp, name);
+            FILE_INFO fi;
+            int retval =  fi.parse(xp);
             if (retval) return retval;
-            dir_hier_path(name.c_str(), config.upload_dir, config.uldl_dir_fanout, path);
-            paths.push_back(path);
+            dir_hier_path(
+                fi.name.c_str(), config.upload_dir, config.uldl_dir_fanout, path
+            );
+            fi.path = path;
+            fis.push_back(fi);
         }
     }
     return 0;
@@ -118,7 +127,7 @@ struct FILE_REF {
 
 // given a path returned by the above, get the corresponding logical name
 //
-int get_logical_name(RESULT const& result, string const& path, string& name) {
+int get_logical_name(RESULT& result, string& path, string& name) {
     char phys_name[1024];
     char tag[256];
     bool is_tag;
