@@ -4560,3 +4560,9 @@ David  May 29 2008
         single_job_assimilator.C
         validate_util.C,h
         validator.C
+
+Charlie May 29 2008
+    - MGR: eliminate spurious --graphics argument when showing V6 graphics.
+        
+    clientgui/
+        MainDocument.cpp

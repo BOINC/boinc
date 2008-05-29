@@ -1212,7 +1212,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         previous_gfx_app = GetRunningGraphicsApp(result, slot);
 
 #ifndef __WXMSW__
-        char* argv[5];
+        char* argv[4];
 
         if (previous_gfx_app) {
 #ifdef __WXMAC__
@@ -1235,14 +1235,13 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         //
         argv[1] = (char *)result->graphics_exec_path.c_str();
         argv[2] = (char *)result->graphics_exec_path.c_str();
-        argv[3] = "--graphics";
-        argv[4] = 0;
+        argv[3] = 0;
     
          if (g_use_sandbox) {
             iRetVal = run_program(
                 result->slot_path.c_str(),
                "../../switcher/switcher",
-                4,
+                3,
                 argv,
                 0,
                 id
@@ -1251,7 +1250,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             iRetVal = run_program(
                 result->slot_path.c_str(),
                 result->graphics_exec_path.c_str(),
-                2,
+                1,
                 &argv[2],
                 0,
                 id
@@ -1263,13 +1262,12 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         // If graphics app is already running, don't launch a second instance
         //
         if (previous_gfx_app) return 0;
-        argv[0] = "--graphics";
-        argv[1] = 0;
+        argv[0] =0;
         
         iRetVal = run_program(
             result->slot_path.c_str(),
             result->graphics_exec_path.c_str(),
-            1,
+            0,
             argv,
             0,
             id
