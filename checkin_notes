@@ -3919,3 +3919,9 @@ Rom    May 28 2008
     /
         configure.ac
         version.h
+
+Charlie May 29 2008
+    - MGR: eliminate spurious --graphics argument when showing V6 graphics.
+        
+    clientgui/
+        MainDocument.cpp
