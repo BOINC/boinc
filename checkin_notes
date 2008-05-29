@@ -4566,3 +4566,20 @@ Charlie May 29 2008
         
     clientgui/
         MainDocument.cpp
+
+David  May 29 2008
+    - Redo the above so that get_output_file_path() is unchanged;
+        add new functions get_output_file_info();
+    - change get_output_file_path() to look at the result's
+        xml_doc_in rather than its xml_doc_out;
+        this is the one that will have <optional/>
+    - fix crashing bug in the above
+
+    sched/
+        sample_assimilator.C
+        sample_bitwise_validator.C
+        sample_dummy_assimilator.C
+        sched_util.C
+        single_job_assimilator.C
+        validate_util.C,h
+        validator.C

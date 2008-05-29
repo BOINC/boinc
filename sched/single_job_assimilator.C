@@ -68,7 +68,7 @@ int assimilate_handler(
     if (wu.canonical_resultid) {
         vector<FILE_INFO> output_files;
         char copy_path[256];
-        get_output_file_paths(canonical_result, output_files);
+        get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
         for (i=0; i<n; i++) {
             FILE_INFO& fi = output_files[i];

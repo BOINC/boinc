@@ -60,7 +60,7 @@ int init_result(RESULT& result, void*& data) {
     FILE_CKSUM_LIST* fcl = new FILE_CKSUM_LIST;
     vector<FILE_INFO> files;
 
-    retval = get_output_file_paths(result, files);
+    retval = get_output_file_infos(result, files);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "[RESULT#%d %s] check_set: can't get output filenames\n",
@@ -104,7 +104,7 @@ int compare_results(
 }
 
 int cleanup_result(RESULT const& /*result*/, void* data) {
-    delete (FILE_CKSUM*) data;
+    delete (FILE_CKSUM_LIST*) data;
     return 0;
 }
 

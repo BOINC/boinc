@@ -58,7 +58,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int get_output_file_path(RESULT& result, FILE_INFO& fi) {
+int get_output_file_info(RESULT& result, FILE_INFO& fi) {
     char tag[256], path[1024];
     bool is_tag;
     string name;
@@ -80,12 +80,12 @@ int get_output_file_path(RESULT& result, FILE_INFO& fi) {
     return ERR_XML_PARSE;
 }
 
-int get_output_file_paths(RESULT& result, vector<FILE_INFO>& fis) {
+int get_output_file_infos(RESULT& result, vector<FILE_INFO>& fis) {
     char tag[256], path[1024];
     bool is_tag;
     MIOFILE mf;
     string name;
-    mf.init_buf_read(result.xml_doc_out);
+    mf.init_buf_read(result.xml_doc_in);
     XML_PARSER xp(&mf);
     fis.clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -100,6 +100,25 @@ int get_output_file_paths(RESULT& result, vector<FILE_INFO>& fis) {
             fi.path = path;
             fis.push_back(fi);
         }
+    }
+    return 0;
+}
+
+int get_output_file_path(RESULT& result, string& path) {
+    FILE_INFO fi;
+    int retval = get_output_file_info(result, fi);
+    if (retval) return retval;
+    path = fi.path;
+    return 0;
+}
+
+int get_output_file_paths(RESULT& result, vector<string>& paths) {
+    vector<FILE_INFO> fis;
+    int retval = get_output_file_infos(result, fis);
+    if (retval) return retval;
+    paths.clear();
+    for (unsigned int i=0; i<fis.size(); i++) {
+        paths.push_back(fis[i].path);
     }
     return 0;
 }

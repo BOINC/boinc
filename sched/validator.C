@@ -461,15 +461,24 @@ int handle_wu(
                         );
                     }
                     log_messages.printf(MSG_NORMAL,
-                        "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",
-                        result.id, result.name, result.granted_credit, result.hostid
+                        "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",
+                        result.id, result.name, result.granted_credit,
+                        result.hostid
                     );
                     break;
                 case VALIDATE_STATE_INVALID:
+                    log_messages.printf(MSG_NORMAL,
+                        "[RESULT#%d %s] Invalid [HOST#%d]\n",
+                        result.id, result.name, result.hostid
+                    );
                     is_invalid(result);
                     update_result = true;
                     break;
                 case VALIDATE_STATE_INIT:
+                    log_messages.printf(MSG_NORMAL,
+                        "[RESULT#%d %s] Inconclusive [HOST#%d]\n",
+                        result.id, result.name, result.hostid
+                    );
                     result.validate_state = VALIDATE_STATE_INCONCLUSIVE;
                     update_result = true;
                     break;

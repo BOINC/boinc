@@ -46,7 +46,7 @@ int assimilate_handler(
             MSG_DEBUG, canonical_result.xml_doc_out,
             "[%s] canonical result", wu.name
         );
-       if (!(get_output_file_path(canonical_result, output_file))) {
+       if (!(get_output_file_info(canonical_result, output_file))) {
            scope_messages.printf(
                 "[%s] Output file path %s\n",
                 wu.name, output_file.path.c_str()

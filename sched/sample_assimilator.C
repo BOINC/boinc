@@ -59,7 +59,7 @@ int assimilate_handler(
     if (wu.canonical_resultid) {
         vector<FILE_INFO> output_files;
         char copy_path[256];
-        get_output_file_paths(canonical_result, output_files);
+        get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
         for (i=0; i<n; i++) {
             FILE_INFO& fi = output_files[i];
@@ -69,7 +69,7 @@ int assimilate_handler(
                 sprintf(copy_path, "../sample_results/%s_%d", wu.name, i);
             }
             retval = boinc_copy(fi.path.c_str() , copy_path);
-            if (retval) {
+            if (retval && !fi.optional) {
                 sprintf(buf, "couldn't copy file %s\n", fi.path.c_str());
                 write_error(buf);
                 return retval;

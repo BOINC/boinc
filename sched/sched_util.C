@@ -206,10 +206,6 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
     } else {
         new_avg = .7*host.avg_turnaround + .3*turnaround;
     }
-    log_messages.printf(MSG_NORMAL,
-        "turnaround %f; old %f; new %f\n",
-        turnaround, host.avg_turnaround, new_avg
-    );
     host.avg_turnaround = new_avg;
 }
 

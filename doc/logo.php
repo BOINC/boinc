@@ -62,6 +62,10 @@ Installer splash screen:
 <a href=http://boinc.berkeley.edu><img src=logo/pb_boinc.gif></a>
 <p>
 (always link this to http://boinc.berkeley.edu)
+<p>
+Monochrome/black:
+<p>
+<img src=logo/boinc_watermark.png>
 
 <p>
 
