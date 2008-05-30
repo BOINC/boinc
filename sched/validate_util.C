@@ -46,10 +46,10 @@ int FILE_INFO::parse(XML_PARSER& xp) {
     optional = false;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "/file_info")) {
+        if (!strcmp(tag, "/file_ref")) {
             return found?0:ERR_XML_PARSE;
         }
-        if (xp.parse_string(tag, "name", name)) {
+        if (xp.parse_string(tag, "file_name", name)) {
             found = true;
             continue;
         }
@@ -90,7 +90,7 @@ int get_output_file_infos(RESULT& result, vector<FILE_INFO>& fis) {
     fis.clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "file_info")) {
+        if (!strcmp(tag, "file_ref")) {
             FILE_INFO fi;
             int retval =  fi.parse(xp);
             if (retval) return retval;

@@ -122,7 +122,7 @@ class BossaJobInst {
     function insert() {
         $db = BossaDb::get();
         $now = time();
-        $query = "insert into DBNAME.bossa_job_inst (create_time, job_id, user_id, confidence) values ($now, $this->job_id, $this->user_id, $this->confidence)";
+        $query = "insert into DBNAME.bossa_job_inst (create_time, app_id, job_id, user_id, confidence) values ($now, $this->app_id, $this->job_id, $this->user_id, $this->confidence)";
         $result = $db->do_query($query);
         if (!$result) {
             echo "$query\n";
@@ -150,11 +150,21 @@ class BossaJobInst {
     // Returns the job instance or NULL.
     //
     static function assign($app, $user) {
+        $db = BossaDb::get();
+        // first look for unfinished jobs
+        //
+        $query = "select * from DBNAME.bossa_job_inst where app_id=$app->id and user_id=$user->id and finish_time=0 limit 1";
+        $result = $db->do_query($query);
+        if ($result) {
+            $ji = mysql_fetch_object($result, 'BossaJobInst');
+            mysql_free_result($result);
+            return $ji;
+        }
+
         // this query skips jobs for which this user
         // has already been assigned an instance
         //
         // TODO: put the following in a transaction
-        $db = BossaDb::get();
         $query = "select * from DBNAME.bossa_job where app_id=$app->id and (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 limit 1";
         $result = $db->do_query($query);
         if (!$result) return null;
@@ -166,6 +176,7 @@ class BossaJobInst {
         $ji->user_id = $user->id;
         $ji->job_id = $job->id;
         $ji->confidence = $user->conf;
+        $ji->app_id = $app->id;
 
         if (!$ji->insert()) {
             echo mysql_error();

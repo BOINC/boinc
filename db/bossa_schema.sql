@@ -35,6 +35,7 @@ create table bossa_job (
 create table bossa_job_inst (
     id                  integer     not null auto_increment,
     create_time         integer     not null,
+    app_id              integer     not null,
     job_id              integer     not null,
     user_id             integer     not null,
     finish_time         integer     not null,

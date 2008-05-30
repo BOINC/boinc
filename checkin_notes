@@ -4583,3 +4583,12 @@ David  May 29 2008
         single_job_assimilator.C
         validate_util.C,h
         validator.C
+
+David  May 29 2008
+    - validator/assimilator: parse <file_ref>s rather than <file_info>s;
+        the latter is where the <optional/> flag is.
+
+    sched/
+        validate_util.C
+    sched/
+        validate_util.C
