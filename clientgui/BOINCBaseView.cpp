@@ -161,6 +161,10 @@ void CBOINCBaseView::FireOnListRender(wxTimerEvent& event) {
     OnListRender(event);
 }
 
+void CBOINCBaseView::FireOnShowItemProperties(int item) {
+    OnShowItemProperties(item);
+}
+
 
 void CBOINCBaseView::FireOnListSelected(wxListEvent& event) {
     OnListSelected(event);
@@ -186,6 +190,10 @@ wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
     return OnListGetItemAttr(item);
 }
 
+
+void CBOINCBaseView::OnShowItemProperties( int item) {
+	//do nothing in base view
+}
 
 void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {

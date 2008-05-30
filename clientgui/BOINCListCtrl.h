@@ -42,6 +42,7 @@ public:
 private:
     
     virtual void            OnClick(wxCommandEvent& event);
+	virtual void            OnDoubleClick(wxMouseEvent& event);
 
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
@@ -50,6 +51,9 @@ private:
     bool                    m_bIsSingleSelection;
 
     CBOINCBaseView*         m_pParentView;
+
+protected:
+	DECLARE_EVENT_TABLE()
 
 };
 

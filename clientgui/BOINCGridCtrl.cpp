@@ -119,6 +119,7 @@ static int CompareDateString(const wxString& first,const wxString& second) {
 /* ########## grid ctrl implementation ############### */
 BEGIN_EVENT_TABLE (CBOINCGridCtrl, wxGrid)
 	EVT_GRID_LABEL_LEFT_CLICK(CBOINCGridCtrl::OnLabelLClick)
+	EVT_GRID_CELL_LEFT_DCLICK(CBOINCGridCtrl::OnCellLDoubleClick)
 END_EVENT_TABLE ()
 
 /* Constructor, don't call any grid methods here, because they could raise events, 
@@ -563,6 +564,12 @@ void CBOINCGridCtrl::DrawColLabel( wxDC& dc, int col )
 		int y = rect.GetY();
 		dc.DrawBitmap(this->sortAscending ? descBitmap : ascBitmap,x,y,true);
 	}
+}
+
+/* handles left button double click (to show properties, if supported by the view) */
+void CBOINCGridCtrl::OnCellLDoubleClick(wxGridEvent& ev) {
+	wxDynamicCast(GetParent(),CBOINCBaseView)->FireOnShowItemProperties(ev.GetRow());	
+	ev.Skip();
 }
 
 /* handles left mouse click on column header */

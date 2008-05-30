@@ -93,6 +93,7 @@ public:
 	                        int textOrientation = wxHORIZONTAL );
 	virtual void DrawColLabel( wxDC& dc, int col );
 	void OnLabelLClick(wxGridEvent& ev);
+	void OnCellLDoubleClick(wxGridEvent& ev);
 	void SortData();
 	void SetColumnSortType(int col,int sortType=CST_STRING);
 	wxArrayInt GetSelectedRows2();

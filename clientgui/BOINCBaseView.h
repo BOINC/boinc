@@ -100,6 +100,7 @@ public:
 
     virtual int             GetListRowCount();
     void                    FireOnListRender( wxTimerEvent& event );
+	void                    FireOnShowItemProperties( int item );
     void                    FireOnListSelected( wxListEvent& event );
     void                    FireOnListDeselected( wxListEvent& event );
     wxString                FireOnListGetItemText( long item, long column ) const;
@@ -114,6 +115,7 @@ protected:
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
     virtual void            OnListRender( wxTimerEvent& event );
+	virtual void			OnShowItemProperties( int item );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
     virtual wxString        OnListGetItemText( long item, long column ) const;

@@ -29,6 +29,10 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCListCtrl, wxListView)
 
+BEGIN_EVENT_TABLE (CBOINCListCtrl, wxListView)
+	EVT_LEFT_DCLICK(CBOINCListCtrl::OnDoubleClick)
+END_EVENT_TABLE ()
+
 
 CBOINCListCtrl::CBOINCListCtrl() {}
 
@@ -145,6 +149,20 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     return true;
 }
 
+void CBOINCListCtrl::OnDoubleClick(wxMouseEvent& event) {
+	wxLogTrace(wxT("Function Start/End"), wxT("CBOINCListCtrl::OnDoubleClick - Function Begin"));
+	wxString msg = wxEmptyString;	
+	wxPoint pt;
+
+	pt.x=event.GetX();
+	pt.y=event.GetY();
+	int flags= wxLIST_HITTEST_ONITEM;
+	int item = this->HitTest(pt,flags,NULL);
+	if(item > wxNOT_FOUND) {
+		wxDynamicCast(m_pParentView, CBOINCBaseView)->FireOnShowItemProperties(item);	
+	}
+	wxLogTrace(wxT("Function Start/End"), wxT("CBOINCListCtrl::OnDoubleClick - Function End"));
+}
 
 void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCListCtrl::OnClick - Function Begin"));

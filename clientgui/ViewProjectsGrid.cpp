@@ -32,7 +32,7 @@
 #include "AdvancedFrame.h"
 #include "ViewProjectsGrid.h"
 #include "Events.h"
-
+#include "DlgItemProperties.h"
 
 #include "res/proj.xpm"
 
@@ -931,5 +931,23 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     UpdateSelection();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function End"));
+}
+
+void CViewProjectsGrid::OnShowItemProperties(int item) {
+	wxString strProjectURL = wxEmptyString;
+	wxString msg = wxEmptyString;
+	wxString temp = wxEmptyString;
+
+	if(item<0) return;
+
+	strProjectURL = HtmlEntityEncode(
+            m_pGridPane->GetCellValue(item,COLUMN_HIDDEN_URL).Trim(false)
+        );
+    PROJECT* project = wxGetApp().GetDocument()->project(strProjectURL);
+	if(!project) return;
+	//displaying the infos on a dialog
+	CDlgItemProperties dlg(this);
+	dlg.renderInfos(project);
+	dlg.ShowModal();
 }
 

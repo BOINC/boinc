@@ -743,5 +743,8 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
     return 0;
 }
 
+void CViewProjects::OnShowItemProperties(int item) {
+	wxMessageBox(wxT("show props here"));
+}
 
 const char *BOINC_RCSID_b4edf777fc = "$Id$";

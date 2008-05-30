@@ -66,6 +66,7 @@ protected:
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
     virtual void            OnListRender( wxTimerEvent& event );
+	virtual void			OnShowItemProperties( int item );
 
     void                    FormatProjectName( wxInt32 item, wxString& strBuffer );
     void                    FormatAccountName( wxInt32 item, wxString& strBuffer );
@@ -79,6 +80,8 @@ protected:
     bool                    IsWebsiteLink( const wxString& strLink );
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
     wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
+
+	wxString				renderHTMLProject(PROJECT* p);
 
     CBOINCGridCtrl*	m_pGridPane;
 };
