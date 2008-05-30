@@ -3925,3 +3925,12 @@ Charlie May 29 2008
         
     clientgui/
         MainDocument.cpp
+
+Rom    May 30 2008
+    - Tag for 6.2.7 release, all platforms
+      boinc_core_release_6_2_7
+
+    /
+        configure.ac
+        version.h
+
