@@ -3,16 +3,12 @@
 function result_claimed_credit_string($result, $string_to_show) {
     if ($result->server_state <> 5) return "---";
     switch($result->outcome) {
-    case 1: return $string_to_show; //Success
-    case 2: return "---"; //Couldn't send
     case 3: if ($result->exit_status <> -221) {
                 return $string_to_show; //Client error
-	    } else return "---"; // Aborted by server
-    case 4: return "---"; //No reply
-    case 5: return "---"; //Didn't need
-    case 6: return "---"; // Validate error
-    case 7: return "---"; // client detached
-    default: return $string_to_show;
+	    } 
+    default: if ($result->claimed_credit > 0) {
+                     return $string_to_show;
+	    } else return "---"; // no claimed credit 
     }
 }
 
@@ -26,13 +22,9 @@ function result_granted_credit_string($result, $string_to_show) {
             return "pending";
         }
         return $string_to_show;
-    case 2: return "---"; //Couldn't send
-    case 3: return "---"; //Client error
-    case 4: return "---"; //No reply
-    case 5: return "---"; //Didn't need
-    case 6: return "---"; //Validate error
-    case 7: return "---"; // client detached
-    default: return $string_to_show;
+    default: if ($result->granted_credit > 0) {
+                     return $string_to_show;
+	    } else return "---"; // no claimed credit 
     }
 } 
 
