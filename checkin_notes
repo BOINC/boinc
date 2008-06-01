@@ -4592,3 +4592,14 @@ David  May 29 2008
         validate_util.C
     sched/
         validate_util.C
+
+David  May 31 2008
+    - server: added -simulation option to feeder, validator, and assimilator
+        (for use in server simulator)
+
+    client/
+        cs_scheduler.C
+    sched
+        feeder.C
+        transitioner.C
+        validator.C

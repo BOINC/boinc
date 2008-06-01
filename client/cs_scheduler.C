@@ -829,7 +829,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             //
             generate_new_host_cpid();
             msg_printf(project, MSG_INFO,
-                "Generated new host CPID: %s", host_info.host_cpid
+                "Generated new computer cross-project ID: %s",
+                host_info.host_cpid
             );
         }
         //msg_printf(project, MSG_INFO, "Changing host ID from %d to %d", project->hostid, sr.hostid);

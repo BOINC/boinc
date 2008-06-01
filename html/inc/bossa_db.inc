@@ -158,7 +158,7 @@ class BossaJobInst {
         if ($result) {
             $ji = mysql_fetch_object($result, 'BossaJobInst');
             mysql_free_result($result);
-            return $ji;
+            if ($ji) return $ji;
         }
 
         // this query skips jobs for which this user

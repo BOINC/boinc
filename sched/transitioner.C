@@ -35,6 +35,7 @@ using namespace std;
 #include <climits>
 #include <cstdlib>
 #include <string>
+#include <signal.h>
 #include <sys/time.h>
 
 #include "boinc_db.h"
@@ -61,6 +62,12 @@ R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;
 bool one_pass = false;
+bool simulation = false;
+
+void signal_handler(int signum) {
+    log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
+    return;
+}
 
 int result_suffix(char* name) {
     char* p = strrchr(name, '_');
@@ -644,8 +651,13 @@ void main_loop() {
         log_messages.printf(MSG_DEBUG, "doing a pass\n");
         if (!do_pass()) {
             if (one_pass) break;
-            log_messages.printf(MSG_DEBUG, "sleeping %d\n", SLEEP_INTERVAL);
-            sleep(SLEEP_INTERVAL);
+            if (simulation) {
+                signal(SIGUSR2, signal_handler);
+                pause();
+            } else {
+                log_messages.printf(MSG_DEBUG, "sleeping %d\n", SLEEP_INTERVAL);
+                sleep(SLEEP_INTERVAL);
+            }
         }
     }
 }
@@ -664,6 +676,8 @@ int main(int argc, char** argv) {
             mod_n = atoi(argv[++i]);
             mod_i = atoi(argv[++i]);
             do_mod = true;
+        } else if (!strcmp(argv[i], "-simulator")) {
+            simulation = true;
         }
     }
     if (!one_pass) check_stop_daemons();

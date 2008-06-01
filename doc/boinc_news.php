@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("May 31, 2008",
+    "The <a href=http://orbit.psi.edu/>Orbit@home</a> project
+    from the <a href=http://www.psi.edu/>Planetary Science Institute</a>
+    is open for public beta test.
+    Orbit@home focuses on celestial mechanics,
+    Their first scientific application, SurveySimulator,
+    simulates the performance of astronomical surveys searching
+    for Near Earth Objects (NEOs) such as asteroids and comets."
+),
 array("May 18, 2008",
     "The source code for BOINCoid (a port of BOINC to Java and to
     Google's Android platform, by computer scientists from Technion)

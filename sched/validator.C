@@ -42,6 +42,7 @@ using namespace std;
 #include <vector>
 #include <cstdlib>
 #include <string>
+#include <signal.h>
 
 #include "boinc_db.h"
 #include "util.h"
@@ -86,6 +87,12 @@ double max_claimed_credit = 0;
 bool grant_claimed_credit = false;
 bool update_credited_job = false;
 bool credit_from_wu = false;
+bool simulation = false;
+
+void signal_handler(int signum) {
+        log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
+            return;
+}
 
 void update_error_rate(DB_HOST& host, bool valid) {
     if (host.error_rate > 1) host.error_rate = 1;
@@ -637,7 +644,12 @@ int main_loop() {
         did_something = do_validate_scan(app);
         if (!did_something) {
             if (one_pass) break;
-            sleep(sleep_interval);
+            if (simulation) {
+                 signal(SIGUSR2, signal_handler);
+                 pause();
+            } else {
+                sleep(sleep_interval);
+            }
         }
     }
     return 0;
@@ -707,6 +719,8 @@ int main(int argc, char** argv) {
             update_credited_job = true;
         } else if (!strcmp(argv[i], "-credit_from_wu")) {
             credit_from_wu = true;
+        } else if (!strcmp(argv[i], "-simulator")) {
+            simulation = true;
         } else {
             fprintf(stderr, "Invalid option '%s'\nTry `%s --help` for more information\n", argv[i], argv[0]);
             log_messages.printf(MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
