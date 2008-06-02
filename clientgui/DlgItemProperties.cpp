@@ -71,15 +71,15 @@ void CDlgItemProperties::renderInfos(PROJECT* project) {
 	//collecting infos
 	project->get_name(name);
 	html.Printf(htmltemplate,
-			_("project infos for "),wxString(name.c_str(),wxConvUTF8),
-			_("master url"),wxString(project->master_url.c_str(),wxConvUTF8),
-			_("user name"),wxString(project->user_name.c_str(),wxConvUTF8),
-			_("team name"),wxString(project->team_name.c_str(),wxConvUTF8),
+			_("project infos for "),name.c_str(),
+			_("master url"),project->master_url.c_str(),
+			_("user name"),project->user_name.c_str(),
+			_("team name"),project->team_name.c_str(),
 			_("user total credit"),project->user_total_credit,
 			_("user average credit"),project->user_expavg_credit,
 			_("host total credit"),project->host_total_credit,
 			_("host average credit"),project->host_expavg_credit,
-			_("disk usage"),FormatDiskSpace(project->disk_usage),
+			_("disk usage"),FormatDiskSpace(project->disk_usage).c_str(),
 			_("short term debt"),project->short_term_debt,
 			_("long term debt"),project->long_term_debt,
 			_("duration correction factor"),project->duration_correction_factor,
@@ -100,11 +100,11 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 							<tr><td><b>%s</b></td><td>%s</td></tr> \
 							</table></body></html>";
 	
-	wxString name = wxString(result->name.c_str(),wxConvUTF8);
+	
 	wxString appname = this->FormatApplicationName(result);
 	html.Printf(htmltemplate,
-			_("task infos for "),name,
-			_("application name"),appname
+			_("task infos for "),result->name.c_str(),
+			_("application name"),appname.c_str()
 			);
 	this->m_html->SetPage(html);
 }
