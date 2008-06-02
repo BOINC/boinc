@@ -4603,3 +4603,13 @@ David  May 31 2008
         feeder.C
         transitioner.C
         validator.C
+
+David  2 June 2008
+    - Add cross-project certificate
+
+    html/
+        inc/
+            user.inc
+        user/
+            cert_all.php (new)
+            img/boinc_fade_600.png

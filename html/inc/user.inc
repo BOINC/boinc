@@ -17,9 +17,6 @@ function parse_project($f) {
         if ($x = parse_element($buf, "<name>")) {
             $p->name = $x;
         }
-        if ($x = parse_element($buf, "<name>")) {
-            $p->name = $x;
-        }
         if ($x = parse_element($buf, "<url>")) {
             $p->url = $x;
         }
@@ -148,6 +145,7 @@ function show_user_stats_private($user) {
     if ($user->teamid) {
         $x .= " | <a href=cert_team.php>Team</a>";
     }
+    $x .= " | <a href=cert_all.php>Cross-project</a>";
     row2(tra("Certificate"), $x);
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
 }
