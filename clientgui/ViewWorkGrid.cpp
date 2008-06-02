@@ -31,6 +31,7 @@
 #include "ViewWorkGrid.h"
 #include "Events.h"
 #include "error_numbers.h"
+#include "DlgItemProperties.h"
 
 #include "res/result.xpm"
 
@@ -1054,6 +1055,25 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         }
     }
     UpdateSelection();
+}
+
+void CViewWorkGrid::OnShowItemProperties(int item) {
+	wxString strProjectURL = wxEmptyString;
+	wxString strName = wxEmptyString;
+
+	if(item<0) return;
+
+	strProjectURL = HtmlEntityEncode(
+            m_pGridPane->GetCellValue(item,COLUMN_HIDDEN_URL).Trim(false)
+        );
+	strName = m_pGridPane->GetCellValue(item,COLUMN_NAME).Trim(false);
+
+	RESULT* result = wxGetApp().GetDocument()->result(strName,strProjectURL);
+	if(!result) return;
+	//displaying the infos on a dialog
+	CDlgItemProperties dlg(this);
+	dlg.renderInfos(result);
+	dlg.ShowModal();
 }
 
 

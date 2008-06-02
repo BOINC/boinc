@@ -935,8 +935,6 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
 void CViewProjectsGrid::OnShowItemProperties(int item) {
 	wxString strProjectURL = wxEmptyString;
-	wxString msg = wxEmptyString;
-	wxString temp = wxEmptyString;
 
 	if(item<0) return;
 

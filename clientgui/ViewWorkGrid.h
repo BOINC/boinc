@@ -63,6 +63,7 @@ protected:
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
     virtual void            OnListRender( wxTimerEvent& event );	
+	virtual void			OnShowItemProperties(int item);
 
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatApplicationName( wxInt32 item, wxString& strBuffer ) const;

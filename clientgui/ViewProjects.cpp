@@ -31,7 +31,7 @@
 #include "BOINCListCtrl.h"
 #include "ViewProjects.h"
 #include "Events.h"
-
+#include "DlgItemProperties.h"
 
 #include "res/proj.xpm"
 
@@ -744,7 +744,12 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
 }
 
 void CViewProjects::OnShowItemProperties(int item) {
-	wxMessageBox(wxT("show props here"));
+	PROJECT* project = wxGetApp().GetDocument()->project(item);
+	if(!project) return;
+	//displaying the infos on a dialog
+	CDlgItemProperties dlg(this);
+	dlg.renderInfos(project);
+	dlg.ShowModal();
 }
 
 const char *BOINC_RCSID_b4edf777fc = "$Id$";

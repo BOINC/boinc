@@ -37,6 +37,8 @@ public:
 	void OnOK(wxCommandEvent& event);
 	void renderInfos(PROJECT* project);
 	void renderInfos(RESULT* result);
+	wxString FormatDiskSpace(double bytes);
+	wxString FormatApplicationName(RESULT* result );
 };
 
 #endif // _DLGITEMPROPERTIES_H_

@@ -33,6 +33,7 @@
 #include "error_numbers.h"
 #include "app_ipc.h"
 #include "util.h"
+#include "DlgItemProperties.h"
 
 #include "res/result.xpm"
 
@@ -844,5 +845,13 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     return 0;
 }
 
+void CViewWork::OnShowItemProperties(int item) {
+	RESULT* result = wxGetApp().GetDocument()->result(item);
+	if(!result) return;
+	//displaying the infos on a dialog
+	CDlgItemProperties dlg(this);
+	dlg.renderInfos(result);
+	dlg.ShowModal();
+}
 
 const char *BOINC_RCSID_34f860f736 = "$Id$";
