@@ -721,6 +721,7 @@ msgstr "If you have any questions, or need help getting started, you can "
     "%stalk to a Volunteer Helper%s. "
 
 msgid "Help"
+msgstr ""
 
 msgid "HOME_DOWNLOAD"
 msgstr "Download"
