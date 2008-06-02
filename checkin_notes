@@ -4613,3 +4613,10 @@ David  2 June 2008
         user/
             cert_all.php (new)
             img/boinc_fade_600.png
+
+David  2 June 2008
+    - validator/assimilator: get_output_file_info()
+        was looking at the wrong XML field
+
+    sched/
+        validate_util.C

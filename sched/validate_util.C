@@ -63,7 +63,7 @@ int get_output_file_info(RESULT& result, FILE_INFO& fi) {
     bool is_tag;
     string name;
     MIOFILE mf;
-    mf.init_buf_read(result.xml_doc_out);
+    mf.init_buf_read(result.xml_doc_in);
     XML_PARSER xp(&mf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
