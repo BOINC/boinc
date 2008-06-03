@@ -112,7 +112,7 @@ int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
 bool CBOINCClientManager::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function Begin"));
 
-    int retval;
+    int retval=0;
     bool running = false;
     HOST_INFO hostinfo;
     RPC_CLIENT rpc;
