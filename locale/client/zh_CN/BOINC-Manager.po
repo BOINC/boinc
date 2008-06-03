@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-04-23 14:01+0800\n"
+"PO-Revision-Date: 2008-05-30 10:16+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -928,7 +928,7 @@ msgid ""
 "All Rights Reserved."
 msgstr ""
 "(C) 2003-2008 加州大学伯克利分校。\n"
-"保留所有权力。\n"
+"保留所有权利。\n"
 "\n"
 "( 中文翻译: Yin Gang @ Team China )\n"
 "( 中文网站: http://www.equn.com )\n"
@@ -1115,7 +1115,6 @@ msgid "On multiprocessor systems, use at most"
 msgstr "在多处理器系统上，最多使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:232
-#, no-c-format
 msgid "% of the processors"
 msgstr "% 处理器"
 
@@ -1573,7 +1572,7 @@ msgstr "查看您用来运行 Einstein@Home 的计算机列表"
 
 #: clientgui/Localization.cpp:103
 msgid "LIGO project"
-msgstr "LIGO项目"
+msgstr "LIGO 项目"
 
 #: clientgui/Localization.cpp:105
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
@@ -1630,7 +1629,7 @@ msgstr "全局统计"
 
 #: clientgui/Localization.cpp:147
 msgid "Summary statistics for World Community Grid"
-msgstr "WCG概况统计"
+msgstr "WCG 概况统计"
 
 #: clientgui/Localization.cpp:149
 msgid "My Grid"
@@ -1654,7 +1653,7 @@ msgstr "研究"
 
 #: clientgui/Localization.cpp:159
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "了解WCG平台上的项目"
+msgstr "了解 WCG 平台上的项目"
 
 #: clientgui/MainDocument.cpp:416
 msgid "Starting client services; please wait..."
@@ -1785,7 +1784,7 @@ msgstr "代理配置"
 
 #: clientgui/ProxyPage.cpp:340
 msgid "HTTP proxy"
-msgstr "HTTP代理"
+msgstr "HTTP 代理"
 
 #: clientgui/ProxyPage.cpp:343
 #: clientgui/ProxyPage.cpp:363
@@ -1798,7 +1797,7 @@ msgstr "自动检测"
 
 #: clientgui/ProxyPage.cpp:360
 msgid "SOCKS proxy"
-msgstr "SOCKS代理"
+msgstr "SOCKS 代理"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
 #, c-format
@@ -2697,15 +2696,19 @@ msgstr "磁盘"
 msgid "not attached to any BOINC project - 0 bytes"
 msgstr "未加入到任何 BOINC 项目 - 0字节"
 
-#: clientgui/ViewResources.cpp:256
-msgid "free disk space - "
-msgstr "剩余磁盘空间 - "
-
-#: clientgui/ViewResources.cpp:263
+#: clientgui/ViewResources.cpp:257
 msgid "used by BOINC - "
 msgstr "BOINC使用 - "
 
-#: clientgui/ViewResources.cpp:269
+#: clientgui/ViewResources.cpp:266
+msgid "free, available to BOINC - "
+msgstr "BOINC 可用的剩余磁盘空间 - "
+
+#: clientgui/ViewResources.cpp:277
+msgid "free, not available to BOINC - "
+msgstr "BOINC 不可用的剩余磁盘空间 - "
+
+#: clientgui/ViewResources.cpp:286
 msgid "used by other programs - "
 msgstr "其它程序使用 - "
 
@@ -3099,7 +3102,7 @@ msgstr " - 休息时间段"
 #: clientgui/ViewWork.cpp:781
 #: clientgui/ViewWorkGrid.cpp:798
 msgid " - CPU benchmarks"
-msgstr " - CPU基准测试"
+msgstr " - CPU 基准测试"
 
 #: clientgui/ViewWork.cpp:784
 #: clientgui/ViewWorkGrid.cpp:801
@@ -3332,7 +3335,7 @@ msgstr "Old Page Index = %i"
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr "OnDropTarget: index by HitTest = %i"
 
-#: clientgui/common/wxPieCtrl.cpp:64
+#: clientgui/common/wxPieCtrl.cpp:66
 msgid "Pie Ctrl"
 msgstr "派图"
 

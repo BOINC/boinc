@@ -25,13 +25,13 @@ msgid "POLL_TITLE"
 msgstr "BOINC dotazník"
 
 msgid "POLL_INTRO"
-msgstr "Mnoho dobrovolných výpočetních projektů, jako jsou Climateprediction.net, Einstein@home "
-"a SETI@home, používá program nazývaný BOINC. Pokud se podílíte v některém z takovýchto projektů, "
+msgstr "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, Einstein@home "
+"a SETI@home, používá program nazývaný BOINC. Pokud se podílíte na některém z takovýchto projektů, "
 "rádi bychom Vás požádali o vyplnění následujícího dotazníku. Zodpovězení následujících otázek nám "
 "pomůže zlepšit jednotlivé projekty, získat více účastníku a také dosáhnout větších vědeckých výsledků.</p>"
-"<p>Odpovězte prosím na tolik otázek, kolik chcete, na konec jděte dolů na stránku a klikněte na OK. "
-"Pokud jste již dotazník dříve vyplnili, ale vaše odpovědi se změnily, prosím, vyplňte jej znova. "
-"Vaše staré odpovědi budou nahrazeny novými.</p>"
+"<p>Odpovězte prosím na tolik otázek, kolik chcete, poté jděte na konec stránky a klikněte na OK. "
+"Pokud jste již dotazník dříve vyplnili, ale vaše odpovědi se změnily, prosím, vyplňte jej znova - "
+"vaše staré odpovědi budou nahrazeny novými.</p>"
 "<p>Současné výsledky BOINC dotazníku jsou k <a href=poll_results.php>vidění zde</a>.</p>"
 
 msgid "POLL_RUN"
@@ -53,7 +53,8 @@ msgid "POLL_COMMENTS"
 msgstr "Komentáře"
 
 msgid "POLL_COMMENTS_QUESTION"
-msgstr "Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit projekty, nebo samotný BOINC:"
+msgstr "Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit "
+"jednotlivé projekty, nebo samotný BOINC:"
 
 msgid "POLL_OTHER"
 msgstr "Další:"
@@ -89,7 +90,7 @@ msgid "POLL_LCOMPLICATED"
 msgstr "bylo to moc složité"
 
 msgid "POLL_LSTOPPED"
-msgstr "přestal jsem a zapomněl jsem znovu začít"
+msgstr "přestal jsem a zapomněl jsem znova začít"
 
 msgid "POLL_LPROBLEMS"
 msgstr "způsobovalo to potíže na mém počítači"
@@ -215,7 +216,7 @@ msgid "POLL_MB_STAFF"
 msgstr "To, že se také autoři projektu zapojují v diskuzním fóru"
 
 msgid "POLL_WEB_SITE"
-msgstr "Poučné stránky projektu"
+msgstr "Informativní stránky projektu"
 
 msgid "POLL_SCIENCE_IMPORTANT"
 msgstr "Výzkum je důležitý a může pomoci"
@@ -269,7 +270,7 @@ msgid "POLL_HELP_BDOC"
 msgstr "Na stránkách BOINC"
 
 msgid "POLL_HELP_BMLIST"
-msgstr "Na BOINC mailovém adresáři"
+msgstr "Na BOINC mailové konferenci"
 
 msgid "POLL_HELP_WIKI"
 msgstr "Na neoficiální BOINC wiki"
@@ -303,44 +304,41 @@ msgstr "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tat
 # download.php 2006/08/03 by je2bwm
 ########################################
 
-msgid "DL_DOWNLOAD"
+msgid "Download BOINC"
 msgstr "Stáhnout BOINC"
 
-msgid "DL_VERSION_LNAME_SIZE"
+msgid "%s for %s (%s MB)"
 msgstr "%s pro %s (%s MB)"
 
-msgid "DL_WHATS_BOINC"
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
 msgstr "<p>BOINC je program, který Vám umožňuje darovat volný výpočetní výkon Vašeho počítače "
 "pro účely vědeckých projektů jako jsou SETI@home, Climateprediction.net, Rosetta@home, "
 "World Community Grid a mnohé další.</p>"
-"<p>Po nainstalování programu BOINC na Váš počítač se můžete připojit do tolika projektů, kolik chcete.</p>"
+"<p>Po nainstalování programu BOINC na Vašem počítači se můžete připojit do tolika projektů, kolik chcete.</p>"
 
-msgid "DL_SYSTEMREQ"
+msgid "System requirements"
 msgstr "Systémové požadavky"
 
-msgid "DL_RELNOTES"
+msgid "Release notes"
 msgstr "Poznámky k vydání"
 
-msgid "DL_TROUBLE"
-msgstr "Řešení problémů"
-
-msgid "DL_OTHERSYS"
+msgid "Other systems"
 msgstr "Jiné systémy"
 
-msgid "DL_ALLVERSIONS"
+msgid "All versions"
 msgstr "Všechny verze"
 
-msgid "DL_IF_OTHERTYPES"
+msgid "If your computer is not of one of the above types, you can"
 msgstr "Pokud Váš počítač není jedním z těchto typů, můžete si"
 
-msgid "DL_MAKEYOUROWN"
+msgid "%s make your own client software %s or"
 msgstr "%s vytvořit vlastní klientský program %s nebo si"
 
-msgid "DL_DL_FROM3RDP"
+msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
 msgstr "%s stáhnout aplikaci od jiných autorů %s"
 " (dostupné pro Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD a další)."
 
-msgid "DL_DOWNLOAD_TITLE"
+msgid "BOINC: compute for science"
 msgstr "BOINC: počítejte pro vědu"
 
 msgid "DL_MIRRORS"
@@ -515,7 +513,7 @@ msgid "RLN_SINGLE_USER_INSTALL"
 msgstr "Instalace pro jednoho uživatele"
 
 msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "Toto je doporučený způsob. BOINC poběží tehdy, kdy budete Vy přihlášen "
+msgstr "Toto je doporučený způsob. BOINC poběží jen tehdy, když budete přihlášen "
 "(instalující uživatel). BOINC se bude nacházet ve Vaší nabídce Start, ale ne u ostatních uživatelů. "
 "Šetřič obrazovky BOINC bude zobrazovat průběh výpočtu jen Vám (ostatní uživatelé si budou moci také "
 "spustit šetřič obrazovky, ale uvidí jen textové informace)."
@@ -636,10 +634,10 @@ msgstr "Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. "
 "Vyberte si prosím Váš jazyk: "
 
 msgid "HELP_HEADING2"
-msgstr "Jiné zdroje pomoci"
+msgstr "Nápověda BOINC na webu"
 
 msgid "HELP_P2_ITEM1"
-msgstr "Používání programu BOINC "
+msgstr "Uživatelský manuál pro BOINC "
 
 msgid "HELP_P2_ITEM2"
 msgstr "Řešení problémů s programem BOINC "
@@ -677,7 +675,7 @@ msgstr "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) "
 "nebo k mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: "
 "%sVyberte si%s projekty "
 "%sStáhněte si%s a nainstalujte program BOINC "
-"%sVložte adresu projektu, vaší emailovou adresu, a heslo."
+"%sVložte vaší emailovou adresu a heslo k projektu."
 
 msgid "HOME_P2"
 msgstr "Případně, pokud používáte více projektů současně, "
@@ -686,8 +684,8 @@ msgstr "Případně, pokud používáte více projektů současně, "
 msgid "HOME_P3"
 msgstr "Pokud máte nějaké dotazy, nebo potřebujete poradit, můžete se %szeptat dobrovolných pomocníků%s."
 
-msgid "HOME_MORE_INFO"
-msgstr "Používání BOINC"
+msgid "Help"
+msgstr "Nápověda"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Ke stažení"
@@ -705,4 +703,4 @@ msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgid "HOME_BOINC_DESC"
-msgstr "Open-source software pro %sdobrovolnické počítání%s a %sdesktop grid computing%s.
+msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s.

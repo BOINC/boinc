@@ -53,7 +53,7 @@ msgid "How %1 will use your computer"
 msgstr "Jak bude %1 využívat Váš počítač"
 
 msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "Při používání bude %1 využívat část výpočetního výkonu, místa na disku a připojení Vašeho počítače. Můžete též ovlivnit, kolik prostředků bude %1 využívat a také kdy je bude využívat."
+msgstr "Při běhu bude %1 využívat část výpočetního výkonu, místa na disku a připojení Vašeho počítače. Můžete též ovlivnit, kolik prostředků bude %1 využívat a také kdy je bude využívat."
 
 msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
 msgstr "Práce vykonaná Vaším počítačem přispěje k dosažení cíle %1 tak, jak je psáno na stránkách projektu. Cíle projektu se mohou čas od času měnit."
@@ -247,6 +247,15 @@ msgstr "Upravit zprávu"
 msgid "Use BBCode tags to format your text"
 msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
 
+msgid "%1 message board"
+msgstr "%+ diskuzní fórum"
+
+msgid "Mark all threads as read"
+msgstr "Označit všechna vlákna jako přečtená"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená"
+
 #########################################
 # Forum thread
 #########################################
@@ -280,6 +289,15 @@ msgstr "Nebyl nalezen žádný nadpis obsahující '%1'."
 msgid "No posts containing '%1' could be found."
 msgstr "Nebyl nalezen žádný příspěvek obsahující '%1'."
 
+msgid "Advanced search"
+msgstr "Pokročilé hledání"
+
+msgid "Search for words in forum messages"
+msgstr "Hledat slova v příspěvcích ve fórech"
+
+msgid "Search forums"
+msgstr "Hledat ve fórech"
+
 #########################################
 # Private messages
 #########################################
@@ -295,7 +313,7 @@ msgstr "Psát zprávu"
 msgid "Forum index"
 msgstr "Obsah fóra"
 
-msgid "Create new"
+msgid "Send private message"
 msgstr "Vytvořit novou"
 
 msgid "Preview"
@@ -379,11 +397,8 @@ msgstr "Uživatel %1 byl zablokován, nemůže vám posílat soukromé zprávy."
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Pro odblokování, navštivte %1nastavení diskuzního fóra%2"
 
-msgid "Sender"
-msgstr "Odesílatel"
-
-msgid "Date"
-msgstr "Datum"
+msgid "Sender and date"
+msgstr "Odesílatel a datum"
 
 msgid "Delete"
 msgstr "Smazat"
@@ -454,6 +469,9 @@ msgstr "Odhlásit"
 msgid "Community"
 msgstr "Komunita"
 
+msgid "Community preferences"
+msgstr "Nastavení komunity"
+
 msgid "Create"
 msgstr "Vytvořit"
 
@@ -466,8 +484,20 @@ msgstr "Týmy"
 msgid "Team"
 msgstr "Tým"
 
+msgid "Member of team"
+msgstr "Členem týmu"
+
+msgid "%1 posts"
+msgstr "%1 přispěvků"
+
 msgid "None"
 msgstr "Žádný"
+
+msgid "Administer"
+msgstr "Spravovat"
+
+msgid "Founder but not member of"
+msgstr "Zakladatel, ale již ne člen"
 
 msgid "administrative functions"
 msgstr "administrativní funkce"
@@ -481,29 +511,26 @@ msgstr "najít tým"
 msgid "Preferences"
 msgstr "Nastavení"
 
-msgid "General preferences"
-msgstr "Hlavní nastavení"
+msgid "Computing preferences"
+msgstr "Výpočetní preference"
 
-msgid "specify when and how BOINC uses your computer"
-msgstr "určuje jak a kdy bude BOINC využívat Váš počítač"
-
-msgid "View or edit"
-msgstr "Zobrazit nebo upravit"
+msgid "When and how BOINC uses your computer"
+msgstr "Kdy a jak má BOINC používat Váš počítač"
 
 msgid "%1 preferences"
 msgstr "%1 nastavení"
 
-msgid "control resource share and customize graphics"
-msgstr "určuje rozdělení zdrojů a nastavení grafiky programu"
+msgid "Resource share and graphics"
+msgstr "Využití prostředků a grafika"
 
 msgid "Message board preferences"
-msgstr "Diskuzní fórum, nastavení"
+msgstr "Nastavení diskuzního fóra"
 
-msgid "configure features and appearance of message boards"
-msgstr "určuje vlastnosti a zobrazení diskuzního fóra"
+msgid "Message boards and private messages"
+msgstr "Diskuzní fóra a soukromé zprávy"
 
-msgid "Work done"
-msgstr "Hotová práce"
+msgid "Computing and credit"
+msgstr "Výpočty a kredit"
 
 msgid "%1 member since"
 msgstr "Členem %1 od"
@@ -534,3 +561,107 @@ msgstr "Číslo účtu"
 
 msgid "Used in URLs"
 msgstr "Použité v adresách"
+
+msgid "unread"
+msgstr "nepřečtené"
+
+msgid "User ID"
+msgstr "Uživatelské ID"
+
+msgid "Used in community functions"
+msgstr "Použití u komunitních funkcí"
+
+msgid "Account key"
+msgstr "Klíč k účtu"
+
+msgid "Provides full access to your account"
+msgstr "Poskytuje plný přístup k Vašemu účtu"
+
+msgid "Weak account key"
+msgstr "Slabý klíč k účtu"
+
+msgid "Provides"
+msgstr "Poskytuje"
+
+msgid "limited access"
+msgstr "omezený přístup"
+
+msgid "to your account"
+msgstr "k Vašemu účtu"
+
+msgid "Friends"
+msgstr "Přátelé"
+
+msgid "Find friends"
+msgstr "Najít přátele"
+
+msgid "hidden"
+msgstr "skrytý"
+
+msgid "Donor"
+msgstr "Dárce"
+
+msgid "Notifications"
+msgstr "Oznámení"
+
+msgid "(foundership change request pending)"
+msgstr "(dosud nevyřízený požadavek na změnu zakladatelství)"
+
+#########################################
+# Public user page (show_user.php)
+#########################################
+
+msgid "Projects in which you are participating"
+msgstr "Projekty na kterých se podílíte"
+
+msgid "Projects in which %1 is participating"
+msgstr "Projekty, na kterých se podílí %1"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Click for user page"
+msgstr "Klikněte pro vstup na uživatelskou stránku"
+
+msgid "Since"
+msgstr "Od"
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "This person is a friend"
+msgstr "Tento uživatel je přítel"
+
+msgid "Cancel friendship"
+msgstr "Zrušit přátelství"
+
+msgid "Request pending"
+msgstr "Dosud nevyřízený požadavek"
+
+msgid "Add as friend"
+msgstr "Přidat jako přítele"
+
+#########################################
+# "Weak account key" page (weak_auth.php)
+#########################################
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "'Slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k Vašemu účtu - "
+"bez možnosti přístupu na účet či ke změně nastavení."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Tento mechanismus funguje pouze tehdy, pokud byl server projektu upgradován po 7. prosinci 2007."
+
+msgid "Your weak account key for this project is:"
+msgstr "Váš slabý klíč k účtu pro tento projekt je:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor s účtem' k danému projektu. "
+"Tento soubor má jméno ve tvaru <b>účet_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Vytvořte tento soubor, pokud je to třeba. Nastavte jeho obsah na:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "Váš slabý klíč k účtu popisuje funkci k Vašemu heslu. Pokud změníte Vaše heslo, "
+"Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
