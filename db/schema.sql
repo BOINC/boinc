@@ -587,6 +587,6 @@ create table notify (
 create table credit_multiplier (
     id			serial		primary key,
     time		integer		not null,
-    multiplier		double		not null default 0;
+    multiplier		double		not null default 0
 ) engine=MyISAM;
 
