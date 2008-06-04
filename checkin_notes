@@ -4383,7 +4383,7 @@ Eric   May 27 2008
                 BOINC Manager.po (renamed BOINC-Manager.po)
                 BOINC Manager.mo (renamed BOINC-Manager.mo)
 
-Eric	May 27 2008
+Eric    May 27 2008
     - Makefiles: 
         added client/scripts to default client build
         removed sea from the default clientgui build
@@ -4407,7 +4407,7 @@ Eric	May 27 2008
     zip/
         Makefile.am
 
-Eric	May 27 2008
+Eric    May 27 2008
     - configure:
         added LIBBOINC_VERSION definition for libtool use.
 
@@ -4434,7 +4434,7 @@ Eric    May 28 2008
             Makefile.am
             boincmgr.{16x16,32x32,48x48}.png
 
-Eric	May 28 2008
+Eric    May 28 2008
     - Added a stage target for staging a distribution.
       Executing "make stage" will "make all" and will install the client
       under the stage directory (i.e. binaries is stage/$(prefix)/bin, libraries
@@ -4451,7 +4451,7 @@ David  May 28 2008
         forum_forum.php
         white.css
 
-Eric	May 28 2008
+Eric    May 28 2008
     - Added database table credit_multiplier and script to be run daily
       (calculate_credit_multiplier) to determine what factor to multiply claimed
       credit by before insertion into the database.  Changes to scheduler to
@@ -4459,7 +4459,7 @@ Eric	May 28 2008
 
     tools/
         Makefile.am
-	calculate_credit_multiplier
+    calculate_credit_multiplier
     db/
         schema.sql
 
@@ -4509,7 +4509,7 @@ David  May 28 2008
             cert_team.php (new)
             cert1.php
 
-Eric	May 28 2008
+Eric    May 28 2008
     - have been told clientgui/res is the appropriate place for icons so have
       moved clientgui/icons/* clientgui/res
 
@@ -4620,3 +4620,23 @@ David  2 June 2008
 
     sched/
         validate_util.C
+
+David  4 June 2008
+    - Back end: add adaptive validation feature
+        (DB update required)
+    - Fixed typo in Eric's 5/28 checkin
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/
+        ops/
+            db_update.php
+        user/
+            forum_post.php
+    py/Boinc/
+        database.py
+    sched/
+        sched_send.C
+        server_types.C
+        validator.C

@@ -78,6 +78,7 @@ extern int check_pair(
 );
 
 char app_name[256];
+DB_APP app;
 int wu_id_modulus=0;
 int wu_id_remainder=0;
 int one_pass_N_WU=0;
@@ -90,8 +91,12 @@ bool credit_from_wu = false;
 bool simulation = false;
 
 void signal_handler(int signum) {
-        log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
-            return;
+    log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
+    return;
+}
+
+bool is_unreplicated(WORKUNIT& wu) {
+    return (wu.target_nresults == 1 && app.target_nresults > 1);
 }
 
 void update_error_rate(DB_HOST& host, bool valid) {
@@ -171,7 +176,9 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     }
 
     double old_error_rate = host.error_rate;
-    update_error_rate(host, true);
+    if (!is_unreplicated(wu)) {
+        update_error_rate(host, true);
+    }
     sprintf(
         buf,
         "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f, credit_per_cpu_sec=%f, error_rate=%f",
@@ -232,7 +239,7 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     return 0;
 }
 
-int is_invalid(RESULT& result) {
+int is_invalid(WORKUNIT& wu, RESULT& result) {
     char buf[256];
     int retval;
     DB_HOST host;
@@ -246,7 +253,9 @@ int is_invalid(RESULT& result) {
         return retval;
     }
     double old_error_rate = host.error_rate;
-    update_error_rate(host, false);
+    if (!is_unreplicated(wu)) {
+        update_error_rate(host, false);
+    }
     sprintf(buf, "error_rate=%f", host.error_rate);
     retval = host.update_field(buf);
     if (retval) {
@@ -363,7 +372,7 @@ int handle_wu(
                     "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
                     result.id, result.name
                 );
-                is_invalid(result);
+                is_invalid(wu, result);
             }
             if (update_result) {
                 log_messages.printf(MSG_NORMAL,
@@ -478,7 +487,7 @@ int handle_wu(
                         "[RESULT#%d %s] Invalid [HOST#%d]\n",
                         result.id, result.name, result.hostid
                     );
-                    is_invalid(result);
+                    is_invalid(wu, result);
                     update_result = true;
                     break;
                 case VALIDATE_STATE_INIT:
@@ -622,7 +631,6 @@ bool do_validate_scan(APP& app) {
 
 int main_loop() {
     int retval;
-    DB_APP app;
     bool did_something;
     char buf[256];
 

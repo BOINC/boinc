@@ -36,6 +36,9 @@ if ($content && $title && (!$preview)){
     header('Location: forum_thread.php?id=' . $thread->id);
 }
 
+echo "title: $title";
+echo "<br>cont: $content";
+
 page_head('Create new thread');
 show_forum_header($logged_in_user);
 

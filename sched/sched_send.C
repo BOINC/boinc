@@ -1012,7 +1012,8 @@ int add_result_to_reply(
         request.ip_results.push_back(ipr);
     }
 
-    // mark job as done if debugging flag is set
+    // mark job as done if debugging flag is set;
+    // this is used by sched_driver.C (performance testing)
     //
     if (mark_jobs_done) {
         DB_WORKUNIT dbwu;
@@ -1028,6 +1029,30 @@ int add_result_to_reply(
         dbwu.update_field(buf);
 
     }
+
+    // If we're sending an unreplicated job to an untrusted host,
+    // mark it as replicated
+    //
+    if (wu.target_nresults == 1 && app->target_nresults > 1 && !reply.wreq.trust) {
+        DB_WORKUNIT dbwu;
+        char buf[256];
+        sprintf(buf, "target_nresults=%d and transition_time=%d",
+            app->target_nresults, time(0)
+        );
+        dbwu.id = wu.id;
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[WU#%d] sending to untrusted host, replicating", wu.id
+            );
+        }
+        retval = dbwu.update_field(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "WU update failed: %d", retval
+            );
+        }
+    }
+
     return 0;
 }
 
@@ -1256,6 +1281,16 @@ static void send_work_old(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 }
 
+#define ER_MAX  0.05
+// decide whether to unreplicated jobs to this host
+//
+void set_trust(SCHEDULER_REPLY& reply) {
+    reply.wreq.trust = false;
+    if (reply.host.error_rate > ER_MAX) return;
+    double x = reply.host.error_rate/ER_MAX;
+    if (drand() > x) reply.wreq.trust = true;
+}
+
 void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (sreq.work_req_seconds <= 0) return;
 
@@ -1271,6 +1306,8 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 
     get_host_info(reply); // parse project prefs for app details
+
+    set_trust(reply);
 
     get_running_frac(reply);
 

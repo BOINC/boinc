@@ -52,7 +52,8 @@ class App(DatabaseObject):
                     'user_friendly_name',
                     'homogeneous_redundancy',
                     'weight',
-                    'beta'
+                    'beta',
+                    'target_nresults'
                     ])
 
 class AppVersion(DatabaseObject):

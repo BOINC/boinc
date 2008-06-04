@@ -76,6 +76,7 @@ struct APP {
     double weight;          // tells the feeder what fraction of results
                             // should come from this app
     bool beta;
+    int target_nresults;
 
     int write(FILE*);
     void clear();

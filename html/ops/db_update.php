@@ -584,12 +584,16 @@ function update_3_27_2008() {
 function update_3_31_2008() {
     do_query("alter table app_version change column xml_doc xml_doc mediumblob");
 }
+function update_6_3_2008() {
+    do_query("alter table app add target_nresults smallint not null default 0");
+}
+
 
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_3_13_2008();
+//update_6_3_2008();
 
 ?>

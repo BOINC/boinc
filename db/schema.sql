@@ -48,6 +48,7 @@ create table app (
     homogeneous_redundancy smallint not null default 0,
     weight              double      not null default 1,
     beta                smallint    not null default 0,
+    target_nresults     smallint    not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -585,8 +586,8 @@ create table notify (
 -- credit multiplier.  Used by the assimilator and autoadjust_credit script
 -- to automatically adjust granted credit.
 create table credit_multiplier (
-    id			serial		primary key,
-    time		integer		not null,
-    multiplier		double		not null default 0
+    id                  serial          primary key,
+    time                integer         not null,
+    multiplier          double          not null default 0
 ) engine=MyISAM;
 

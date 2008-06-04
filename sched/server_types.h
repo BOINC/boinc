@@ -112,6 +112,7 @@ struct WORK_REQ {
     int nresults;
     int core_client_version;
     double running_frac;
+    bool trust;     // allow unreplicated jobs to be sent
 
     // The following keep track of the "easiest" job that was rejected
     // by EDF simulation.

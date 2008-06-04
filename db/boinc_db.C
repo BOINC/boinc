@@ -141,10 +141,10 @@ void DB_PLATFORM::db_parse(MYSQL_ROW &r) {
 void DB_APP::db_print(char* buf){
     sprintf(buf,
         "create_time=%d, name='%s', min_version=%d, "
-        "deprecated=%d, user_friendly_name='%s', homogeneous_redundancy=%d, weight=%f, beta=%d",
+        "deprecated=%d, user_friendly_name='%s', homogeneous_redundancy=%d, weight=%f, beta=%d, target_nresults=%d",
         create_time, name, min_version,
         deprecated?1:0, user_friendly_name, homogeneous_redundancy, weight,
-        beta?1:0
+        beta?1:0, target_nresults
     );
 }
 
@@ -160,6 +160,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     homogeneous_redundancy = atoi(r[i++]);
     weight = atof(r[i++]);
     beta = atoi(r[i++]);
+    target_nresults = atoi(r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){

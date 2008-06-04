@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("June 2, 2008",
+    "BOINCstats and BAM! are now available in
+    <a href=http://br.boincstats.com/>Brazilian Portuguese</a> and
+    <a href=http://tr.boincstats.com/>Turkish</a>."
+),
 array("May 31, 2008",
     "The <a href=http://orbit.psi.edu/>Orbit@home</a> project
     from the <a href=http://www.psi.edu/>Planetary Science Institute</a>
