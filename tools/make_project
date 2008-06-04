@@ -333,10 +333,24 @@ cronjob_filename = os.path.join(
     )
 print >>open(cronjob_filename,'w'), '''
 0,5,10,15,20,25,30,35,40,45,50,55 * * * * %(proot)s/bin/start --cron
-''' %locals()
+'''%locals()
 
-print '''Done installing files.
+readme_filename = os.path.join(
+    options.project_root,
+    project_shortname+'.readme'
+    )
 
+test_app_msg = ''
+if options.test_app:
+    test_app_msg = '''
+3. The project is configured with a test application.
+    To install this application (recommended) run:
+        cd %(proot)s
+        bin/xadd
+        bin/update_versions
+'''%locals()
+    
+print >>open(readme_filename,'w'), '''
 Steps to complete installation:
 
 1. Change Apache configuration (as root):
@@ -351,12 +365,7 @@ Steps to complete installation:
 
    (If cron cannot run "start", try using a helper script to set PATH and
    PYTHONPATH)
-
-3. The project is configured with a test application.
-    To install this application (recommended) run:
-        cd %(proot)s
-        bin/xadd
-        bin/update_versions
+%(test_app_msg)s
 
 To start, show status, and stop the project, run:
     bin/start
@@ -374,4 +383,10 @@ To use this project for your own computations, you'll need to
 - Develop programs to submit and handle jobs
 See the online documentation at http://boinc.berkeley.edu/
 
+'''%locals()
+
+print '''
+Done installing files.  Please view
+%(readme_filename)s
+for important additional instructions.
 '''%locals()

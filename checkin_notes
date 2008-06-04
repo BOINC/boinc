@@ -4640,3 +4640,13 @@ David  4 June 2008
         sched_send.C
         server_types.C
         validator.C
+
+David  4 June 2008
+    - make_project: when it's done it prints out a bunch of instructions.
+        These are more than 24 lines, so in the VMWare BOINC VM
+        they scroll off the window and are lost.
+        Instead, write them to a file (project/project.readme).
+        Also, only write the message about example app if -test_app
+
+    tools/
+        make_project
