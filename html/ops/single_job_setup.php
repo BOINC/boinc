@@ -147,6 +147,8 @@ function create_app_dir() {
 // make sure daemons are in the config file
 //
 function check_config_file() {
+    global $app_name, $platform;
+
     $config = file_get_contents('config.xml');
     if (!strstr($config, "single_job_assimilator")) {
         echo "- Add the following to the <daemons> section of config.xml:\n
