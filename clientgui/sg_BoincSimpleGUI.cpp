@@ -132,7 +132,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
         _("&%s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    // %s is the project name
+    // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about the %s"), 
