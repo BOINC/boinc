@@ -20,7 +20,7 @@ function pm_create_new($error = null) {
         echo "</div>\n";
     }
     
-    global $logged_in_user;
+    global $g_logged_in_user;
     $replyto = get_int("replyto", true);
     $userid = get_int("userid", true);
     
@@ -28,7 +28,7 @@ function pm_create_new($error = null) {
     $content = null;
     if ($replyto) {
         $message = BoincPrivateMessage::lookup_id($replyto);
-        if (!$message || $message->userid != $logged_in_user->id) {
+        if (!$message || $message->userid != $g_logged_in_user->id) {
             error_page("no such message");
         }
         $content = "[quote]".$message->content."[/quote]\n";
@@ -61,7 +61,7 @@ function pm_create_new($error = null) {
     
     echo "<form action=\"pm.php\" method=\"post\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
-    echo form_tokens($logged_in_user->authenticator);
+    echo form_tokens($g_logged_in_user->authenticator);
     start_table();
     row2(tra("To")."<br /><span class=\"smalltext\">".tra("User IDs or unique usernames, separated with commas")."</span>",
         "<input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\">"
@@ -112,10 +112,10 @@ function pm_web_line($notify) {
 }
 
 function pm_send($to_user, $subject, $content) {
-    global $logged_in_user;
+    global $g_logged_in_user;
     $sql_subject = mysql_real_escape_string($subject);
     $sql_content = mysql_real_escape_string($content);
-    $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $logged_in_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
+    $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $g_logged_in_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if (!$mid) {
         error_page("Couldn't create message");
     }
@@ -128,7 +128,7 @@ function pm_send($to_user, $subject, $content) {
         break;
     case 1:
         send_pm_notification_email(
-            $logged_in_user, $to_user, $subject, $content
+            $g_logged_in_user, $to_user, $subject, $content
         );
         break;
     }

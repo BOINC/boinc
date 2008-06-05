@@ -87,7 +87,7 @@ end_table();
 page_tail();
 
 function show_message_row($thread, $parent_post) {
-    global $logged_in_user;
+    global $g_logged_in_user;
     global $content;
     global $preview;
 
@@ -103,14 +103,14 @@ function show_message_row($thread, $parent_post) {
     }
 
     $x2 .= " method=\"post\">\n";
-    $x2 .= form_tokens($logged_in_user->authenticator);
+    $x2 .= form_tokens($g_logged_in_user->authenticator);
     $x2 .= "<textarea name=\"content\" rows=\"18\" cols=\"80\">";
     if ($preview) {
         $x2 .= stripslashes(htmlspecialchars($content));
     } else {
         if ($parent_post) $x2 .= quote_text(stripslashes(htmlspecialchars($parent_post->content)), 80)."\n";
     }
-    if (!$logged_in_user->prefs->no_signature_by_default){
+    if (!$g_logged_in_user->prefs->no_signature_by_default){
         $enable_signature="checked=\"true\"";
     } else {
         $enable_signature="";

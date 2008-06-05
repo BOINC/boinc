@@ -4656,3 +4656,13 @@ Charlie 4 June 2008
         
     clientgui/
         sg_BoincSimpleGUI.cpp,h
+
+David  4 June 2008
+    - web: fixed a couple of references to "global $logged_in_user".
+        It's $g_logged_in_user.
+
+    html/
+        inc/
+            pm.inc
+        user/
+            forum_reply.php
