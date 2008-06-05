@@ -4650,3 +4650,9 @@ David  4 June 2008
 
     tools/
         make_project
+
+Charlie 4 June 2008
+    - MGR: Fix help menus in Simple GUI (not applicable on Windows).
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp,h

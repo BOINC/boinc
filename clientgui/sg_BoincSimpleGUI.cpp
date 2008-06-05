@@ -60,8 +60,9 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
     // We can't eliminate the Mac Help menu, so we might as well make it useful.
-    EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINCManager)
-    EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINCWebsite)
+    EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
+    EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
+    EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
 END_EVENT_TABLE()
 
 CSimpleFrame::CSimpleFrame() {
@@ -107,13 +108,31 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuName.Printf(
+        _("%s &help"), 
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuDescription.Printf(
+        _("Show information about %s"), 
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    menuHelp->Append(
+        ID_HELPBOINC,
+        strMenuName, 
+        strMenuDescription
+    );
+
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&%s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    // %s is the application name
+    // %s is the project name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about the %s"), 
@@ -297,8 +316,8 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
 }
 
 
-void CSimpleFrame::OnHelpBOINCManager(wxCommandEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
+void CSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINC - Function Begin"));
 
     if (IsShown()) {
 		std::string url;
@@ -314,19 +333,7 @@ void CSimpleFrame::OnHelpBOINCManager(wxCommandEvent& event) {
 		ExecuteBrowserLink(wxurl);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function End"));
-}
-
-
-void CSimpleFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function Begin"));
-
-    if (IsShown()) {
-        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().c_str();
-        ExecuteBrowserLink(url);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINC - Function End"));
 }
 
 

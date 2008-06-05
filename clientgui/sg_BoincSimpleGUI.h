@@ -104,8 +104,7 @@ public:
    ~CSimpleFrame();
 
     void OnHelp( wxHelpEvent& event );
-    void OnHelpBOINCManager( wxCommandEvent& event );
-    void OnHelpBOINCWebsite( wxCommandEvent& event );
+    void OnHelpBOINC( wxCommandEvent& event );
 
 	void OnConnect(CFrameEvent& event );
     void OnProjectsAttachToProject();
