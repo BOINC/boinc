@@ -1260,9 +1260,8 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     // 2nd %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s is going to shutdown the core client it is currently connected to.\n"
-          "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
-          "so you can attach to a different core client."),
+        _("%s will shut down the currently connected client,\n"
+          "and prompt you for another host to connect to.\n"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 

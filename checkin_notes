@@ -4712,3 +4712,9 @@ David  5 June 2008
             pm.php
             team_edit_action.php
             team_search.php
+
+David  5 June 2008
+    - manager: fix messages: "shut down" is 2 wds etc.
+
+    clientgui/
+        AdvancedFrame.cpp
