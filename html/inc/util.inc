@@ -7,6 +7,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/profile.inc");
+require_once("../inc/util_basic.inc");
 
 ini_set("memory_limit", "64M");
 date_default_timezone_set("UTC");
@@ -418,80 +419,6 @@ function print_login_form() {
     page_tail();
 }
 
-// Look for an element in a line of XML text
-// If it's a single-tag element, and it's present, just return the tag
-//
-function parse_element($xml, $tag) {
-    $element = null;
-    $closetag = "</" . substr($tag,1);
-    $x = strstr($xml, $tag);
-    if ($x) {
-        if (strstr($tag, "/>")) return $tag;
-        $y = substr($x, strlen($tag));
-        $n = strpos($y, $closetag);
-        if ($n) {
-            $element = substr($y, 0, $n);
-        }
-    }
-    return trim($element);
-}
-
-function parse_next_element($xml, $tag, &$cursor) {
-    $element = null;
-    $closetag = "</" . substr($tag,1);
-    $pos = substr($xml,$cursor);
-    $x = strstr($pos, $tag);
-    if ($x) {
-        if (strstr($tag, "/>")) return $tag;
-        $y = substr($x, strlen($tag));
-        $n = strpos($y, $closetag);
-        if ($n) {
-            $element = substr($y, 0, $n);
-        }
-        $cursor = (strlen($xml) - strlen($x)) + strlen($tag) + strlen($closetag) + strlen($element);
-    }
-    return trim($element);
-}
-
-if (!function_exists("file_get_contents")) {
-function file_get_contents($path) {
-    $x = "";
-    $f = fopen($path, "r");
-    if ($f) {
-        while (!feof($f)) $x .= fread($f, 4096);
-        fclose($f);
-    }
-    return $x;
-}
-}
-
-$g_config = null;
-function get_config() {
-    global $g_config;
-    if ($g_config == null) {
-       $g_config = file_get_contents("../../config.xml");
-    }
-    return $g_config;
-}
-
-// look for a particular element in the ../../config.xml file
-//
-function parse_config($config, $tag) {
-    $element = parse_element($config, $tag);
-    return $element;
-}
-
-// return true if XML contains either <tag/> or <tag>1</tag>
-//
-function parse_bool($xml, $tag) {
-    $x = "<$tag/>";
-    if (strstr($xml, $x)) return true;
-    $x = "<$tag>";
-    $y = (int)parse_element($xml, $x);
-    if ($y != 0) return true;
-    return false;
-}
-
 function no_computing() {
     return parse_bool(get_config(), "no_computing");
 }
@@ -542,14 +469,6 @@ function format_credit($x) {
 //
 function format_credit_large($x) {
     return number_format($x, 0);
-}
-
-function web_stopped() {
-    return file_exists("../../stop_web");
-}
-
-function sched_stopped() {
-    return file_exists("../../stop_sched");
 }
 
 function friend_links($user) {

@@ -4718,3 +4718,13 @@ David  5 June 2008
 
     clientgui/
         AdvancedFrame.cpp
+
+David  5 June 2008
+    - web: moved some basic utility functions to a separate file
+        that doesn't need to include all sorts of crap
+
+    html/inc/
+        boinc_db.inc
+        util.inc
+        util_basics.inc (new)
+        xml.inc

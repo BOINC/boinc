@@ -1,7 +1,7 @@
 <?php
 
 require_once("../inc/db_conn.inc");
-require_once("../inc/util.inc");
+require_once("../inc/util_basic.inc");
 
 class BoincDb extends DbConn {
     static $instance;
@@ -12,12 +12,12 @@ class BoincDb extends DbConn {
             if ($generating_xml) {
                 xml_error(-183);
             } else {
-                page_head("Page not available");
-                echo "This page requires database access.
+                show_page(
+                    "Page not available",
+                    "This page requires database access.
                     Our database server is temporarily shut down for maintenance.
-                    Please try again later.
-                ";
-                page_tail();
+                    Please try again later."
+                );
             }
             exit();
         }
