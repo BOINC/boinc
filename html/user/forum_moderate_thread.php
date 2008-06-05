@@ -57,7 +57,7 @@ case 'move':
 case 'title':
     echo "<input type=hidden name=action value=title>";
     row2("New title:",
-        "<input name=\"newtitle\" value=\"".stripslashes(htmlspecialchars($thread->title))."\">"
+        "<input name=\"newtitle\" value=\"".htmlspecialchars($thread->title)."\">"
     );
     break;
 default:

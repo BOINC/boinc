@@ -39,11 +39,11 @@ function trSpecific($tokennumber, $language=""){
         //If we have the language, include it
         //echo "[$language]";
         require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");
-        return stripslashes($language_lookup_array[$tokennumber]);
+        return $language_lookup_array[$tokennumber];
     } else {
         return false;
     }
-}    
+}
 
 /*************************
  * Parses the language interface file containing the tokens (can parse .po-style files)
@@ -115,7 +115,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     fwrite($fh, '?>');
     fclose($fh);
     $real_interface_size = sizeof($interface);
-    
+
     // Now run through each language and recompile their lookup arrays.
     //
     if (is_dir($langdir.$transdir)) {
@@ -246,7 +246,7 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
 // that you will manually recompile the languages when updated...
 //
 //    return false;
-    
+
     $last_compile = 0;
     if (file_exists($langdir."last_compile_timer")) {
         $last_compile = filemtime($langdir."last_compile_timer");
@@ -289,7 +289,7 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
 }
 
 /**************************
- * Parses a gettext .po-file into an indexed PHP array, 
+ * Parses a gettext .po-file into an indexed PHP array,
  * checking for inconsistencies if needed.
  * The $file is parsed and validated against $interface
  *************************/
@@ -375,11 +375,11 @@ function tr($tokennumber){
         language_log("token $tokennumber missing from language interface.");
         //print_r($language_lookup_array);
     }
-    
+
     if (array_key_exists($tokennumber,$language_lookup_array)){
         //If language has got the token
         //If found in client language, return that
-        return stripslashes($language_lookup_array[$tokennumber]);        
+        return $language_lookup_array[$tokennumber];
     }
     return "[translation missing for $tokennumber]";
 }
@@ -394,7 +394,7 @@ function tra($string, $s1 = null, $s2 = null, $s3 = null, $s4 = null, $s5 = null
     if (array_key_exists($key, $language_lookup_array)) {
         $string = $language_lookup_array[$key];
     }
-    
+
     $string = str_replace('%1', $s1, $string);
     $string = str_replace('%2', $s2, $string);
     $string = str_replace('%3', $s3, $string);
@@ -408,7 +408,7 @@ function language_log($message, $loglevel=0){
     if ($loglevel==0) $msg = "[ Debug    ]";
     if ($loglevel==1) $msg = "[ Warning  ]";
     if ($loglevel==2) $msg = "[ CRITICAL ]";
-    
+
     if ($loglevel>=$lang_log_level){
         $fh = fopen($lang_log_file,"a");
         fwrite($fh, date("Y-m-d H:i:s",time())." ".$msg." ".$message."\n");
@@ -454,10 +454,10 @@ if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
 
 // Find out which language to use by iterating through list
 // The list is comma-separated, so split it into an array of the following type:
-//        Array ( 
-//    [0] => da 
-//    [1] => en-us;q=0.7 
-//    [2] => en;q=0.3 
+//        Array (
+//    [0] => da
+//    [1] => en-us;q=0.7
+//    [2] => en;q=0.3
 //  )
 
 $client_languages=explode(",",$language_string);

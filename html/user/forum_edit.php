@@ -38,8 +38,8 @@ $thread_owner = BoincUser::lookup_id($thread->owner);
 //
 $can_edit_title = ($post->parent_post==0 && $thread_owner->id==$logged_in_user->id && !is_banished($logged_in_user));
 
-$content = post_str("content", true);
-$title = post_str("title", true);
+$content = undo_magic_quotes(post_str("content", true));
+$title = undo_magic_quotes(post_str("title", true));
 $preview = post_str("preview", true);
 
 if (post_str('submit',true) && (!$preview)) {
@@ -96,12 +96,12 @@ if ($can_edit_title) {
     if ($preview) {
         row2(
             tra("Title").html_info(),
-            "<input type=\"text\" name=\"title\" value=\"".stripslashes(htmlspecialchars($title))."\">"
+            "<input type=\"text\" name=\"title\" value=\"".htmlspecialchars($title)."\">"
         );
     } else {
         row2(
             tra("Title").html_info(),
-            '<input type="text" name="title" value="'.stripslashes(htmlspecialchars($thread->title)).'">'
+            '<input type="text" name="title" value="'.htmlspecialchars($thread->title).'">'
         );
     }
 };
@@ -109,12 +109,12 @@ if ($can_edit_title) {
 if ($preview) {
     row2(
         tra("Message").html_info().post_warning(),
-        "<textarea name=\"content\" rows=\"12\" cols=\"80\">".stripslashes(htmlspecialchars($content))."</textarea>"
+        "<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
     );
 } else {
     row2(
         tra("Message").html_info().post_warning(),
-        '<textarea name="content" rows="12" cols="80">'.stripslashes(htmlspecialchars($post->content)).'</textarea>'
+        '<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
     );
 }
 

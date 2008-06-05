@@ -7,7 +7,7 @@ require_once("../inc/user.inc");
 // check for email/password case
 //
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
-$passwd = stripslashes(post_str("passwd", true));
+$passwd = undo_magic_quotes(post_str("passwd", true));
 
 if ($email_addr && $passwd) {
     $user = lookup_user_email_addr($email_addr);

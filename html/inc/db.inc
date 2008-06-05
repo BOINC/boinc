@@ -101,12 +101,10 @@ function boinc_real_escape_string($x) {
 // trims whitespace and escapes quotes.
 // Does NOT remove HTML tags.
 //
-function process_user_text($value) {
-    $value = trim($value);
-    if (get_magic_quotes_gpc()) {
-        $value = stripslashes($value);
-    }
-    return boinc_real_escape_string($value);
+function process_user_text($x) {
+    $x = trim($x);
+    $x = undo_magic_quotes($x);
+    return boinc_real_escape_string($x);
 }
 
 // escape a string for MySQL "like"

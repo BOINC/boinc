@@ -154,9 +154,9 @@ function do_send($logged_in_user) {
     check_banished($logged_in_user);
     check_tokens($logged_in_user->authenticator);
     
-    $to = stripslashes(post_str("to", true));
-    $subject = stripslashes(post_str("subject", true));
-    $content = stripslashes(post_str("content", true));
+    $to = undo_magic_quotes(post_str("to", true));
+    $subject = undo_magic_quotes(post_str("subject", true));
+    $content = undo_magic_quotes(post_str("content", true));
     
     if (post_str("preview", true) == tra("Preview")) {
         pm_create_new();

@@ -263,7 +263,6 @@ function thread_is_unread($user, $thread) {
 //
 function cleanup_title($title) {
     $x = trim(htmlspecialchars($title));
-    $x = stripslashes($x);      // clean up funky old titles in DB
     if (strlen($x)==0) return "(no title)";
     else return $x;
 }

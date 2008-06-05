@@ -4675,3 +4675,40 @@ David  5 June 2008
         boinc_db.C
     tools/
         make_project
+
+David  5 June 2008
+    - web: clean up stuff related to stripslashes():
+        1) it's not correct to apply stripslashes() to all form input.
+            That should be done only if magic quotes is on.
+            I fixed this by adding a function undo_magic_quotes()
+            that does the right thing.
+        2) There's no reason to strip backslashes from user-supplied text
+            (forum titles and bodies, private messages, passwords etc.)
+            I'm not sure why this was being done.
+            It prevented messages from containing backslashes.
+
+    html/
+        inc/
+            db.inc
+            db_ops.inc
+            forum.inc
+            forum_email.inc
+            pm.inc
+            text_transform.inc
+            translation.inc
+            util.inc
+        user/
+            create_account_action.php
+            create_profile.php
+            donation_ipn.php
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            edit_passwd_action.php
+            forum_edit.php
+            forum_moderate_thread.php
+            forum_post.php
+            forum_reply.php
+            login_action.php
+            pm.php
+            team_edit_action.php
+            team_search.php

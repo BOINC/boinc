@@ -48,8 +48,8 @@ function pm_create_new($error = null) {
         }
     } else {
         $writeto = post_str("to", true);
-        $subject = stripslashes(post_str("subject", true));
-        $content = stripslashes(post_str("content", true));
+        $subject = undo_magic_quotes(post_str("subject", true));
+        $content = undo_magic_quotes(post_str("content", true));
     }
     
     $content = htmlspecialchars($content);

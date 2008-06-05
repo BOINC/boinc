@@ -2,9 +2,12 @@
 
 require_once('../inc/sanitize_html.inc');
 
-// This file holds options and functions relating to outputted text.
-// It does things like clean out HTML, convert newlines to <br> tags,
-// and other such niceties.
+// Functions that process user-supplied text (e.g. messages)
+// prior to displaying it to users.
+// Goals:
+// - Security (don't send evil javascript)
+// - obey user preferences
+// - improve formatting (e.g., convert newlines to <br> tags)
 
 class output_options {
     var $bb2html;            // BBCode as HTML? (on)
@@ -14,7 +17,6 @@ class output_options {
     var $nl2br;                // Convert newlines to <br>'s? (on)
     var $htmlitems;            // Convert special chars to HTML entities? (on)
     var $htmlscrub;            // Scrub "bad" HTML tags? (off)
-    var $stripslashes;        // Strip slashes (depends)
     var $highlight_terms;// Array of terms to be highlighted (off)    
 
     // Constructor - set the defaults.
@@ -27,9 +29,6 @@ class output_options {
         $this->nl2br = 1;
         $this->htmlitems = 1;
         $this->htmlscrub = 0;
-        if (get_magic_quotes_gpc()) {
-            $this->stripslashes = 1;
-        }
         $this->highlight_terms = 0;
         return true;
     }
@@ -55,9 +54,6 @@ function output_transform($text, $options = NULL) {
         $options = new output_options; // Defaults in the class definition
     }
     
-    if ($options->stripslashes) {
-        $text = stripslashes($text);
-    }
     if ($options->htmlitems) {
         //$text = htmlentities($text);
         $text = htmlspecialchars($text);

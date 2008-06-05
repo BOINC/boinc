@@ -65,7 +65,7 @@ if (!$user->prefs->no_signature_by_default){
 } else {
     $signature_by_default="";
 }
-$signature=stripslashes($user->prefs->signature);
+$signature=$user->prefs->signature;
 $maxlen=250;
 row2(
     "Signature for message board posts<br>

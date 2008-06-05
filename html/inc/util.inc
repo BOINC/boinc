@@ -14,11 +14,9 @@ date_default_timezone_set("UTC");
 $generating_xml = false;
 $caching = false;
 
-// db_init
 // Connects to database server and selects database as noted in config.xml
-// (Or, in some cases, if only read-only access is necessary, tries instead
-// to connect to replica database server noted in <replica_db_host> tag. If
-// this tag doesn't exist, db_init will revert to connecting to <db_host>.)
+// If only read-only access is necessary,
+// tries instead to connect to <replica_db_host> if tag exists.
 //
 function db_init($try_replica=false) {
     if (web_stopped()) {
@@ -618,6 +616,14 @@ function close_output_buffer($filename) {
 
 function html_info() {
     return "<br><a href=\"bbcode.php\" target=\"_new\"><span class=\"smalltext\">".tra("Use BBCode tags to format your text")."</span></a>\n";
+}
+
+// strip slashes if magic quotes in effect
+function undo_magic_quotes($x) {
+    if (get_magic_quotes_gpc()) {
+        return stripslashes($x);
+    }
+    return $x;
 }
 
 function get_int($name, $optional=false) {

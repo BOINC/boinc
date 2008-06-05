@@ -71,18 +71,19 @@ function search($params) {
     $list = array();
     $tried = false;
     if (strlen($params->keywords)) {
-        $name_lc = strtolower($params->keywords);
+        $kw = BoincDb::escape_string($params->keywords);
+        $name_lc = strtolower($kw);
         $name_lc = escape_pattern($name_lc);
 
         $list2 = get_teams("name='$name_lc'", $params->active);
         merge_lists($list2, $list, 20);
 
-        $list2 = get_teams("name like '".boinc_real_escape_string($name_lc)."%'", $params->active);
+        $list2 = get_teams("name like '".$name_lc."%'", $params->active);
         merge_lists($list2, $list, 5);
 
-        $list2 = get_teams("match(name) against ('$params->keywords')", $params->active);
+        $list2 = get_teams("match(name) against ('$kw')", $params->active);
         merge_lists($list2, $list, 5);
-        $list2 = get_teams("match(name, description) against ('$params->keywords')", $params->active);
+        $list2 = get_teams("match(name, description) against ('$kw')", $params->active);
         //echo "<br>keyword matches: ",sizeof($list2);
         merge_lists($list2, $list, 3);
         $tried = true;
@@ -130,11 +131,7 @@ function search($params) {
 $user = get_logged_in_user(false);
 if (isset($_GET['submit'])) {
     $params = null;
-    if(get_magic_quotes_gpc()) {
-        $params->keywords = stripslashes($_GET['keywords']);
-    } else {
-        $params->keywords = $_GET['keywords'];
-    }
+    $params->keywords = undo_magic_quotes($_GET['keywords']);
     $params->country = $_GET['country'];
     $params->type = $_GET['type'];
     $params->active = get_str('active', true);

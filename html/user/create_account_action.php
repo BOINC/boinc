@@ -73,8 +73,8 @@ if ($user) {
     show_error("There's already an account with that email address.");
 }
 
-$passwd = stripslashes(post_str("passwd"));
-$passwd2 = stripslashes(post_str("passwd2"));
+$passwd = undo_magic_quotes(post_str("passwd"));
+$passwd2 = undo_magic_quotes(post_str("passwd2"));
 if ($passwd != $passwd2) {
     show_error("New passwords are different");
 }

@@ -36,9 +36,6 @@ if ($content && $title && (!$preview)){
     header('Location: forum_thread.php?id=' . $thread->id);
 }
 
-echo "title: $title";
-echo "<br>cont: $content";
-
 page_head('Create new thread');
 show_forum_header($logged_in_user);
 
@@ -70,10 +67,17 @@ $submit_help = "";
 $body_help = "";
 
 //Title
-if ($content && !$title) $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
-row2(tra("Title").$submit_help, "<input type=\"text\" name=\"title\" size=\"62\" value=\"".stripslashes(htmlspecialchars($title))."\">");
+if ($content && !$title) {
+    $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
+}
+
+row2(tra("Title").$submit_help,
+    "<input type=\"text\" name=\"title\" size=\"62\" value=\"".htmlspecialchars($title)."\">"
+);
 //Message
-row2(tra("Message").html_info().post_warning().$body_help, "<textarea name=\"content\" rows=\"12\" cols=\"54\">".stripslashes(htmlspecialchars($content))."</textarea>");
+row2(tra("Message").html_info().post_warning().$body_help,
+    "<textarea name=\"content\" rows=\"12\" cols=\"54\">".htmlspecialchars($content)."</textarea>"
+);
 
 if (!$logged_in_user->prefs->no_signature_by_default) {
     $enable_signature="checked=\"true\"";

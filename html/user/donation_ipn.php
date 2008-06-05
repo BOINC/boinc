@@ -7,7 +7,7 @@ db_init();
 $req = 'cmd=_notify-validate';
 
 foreach ($_POST as $key => $value) {
-    $value = urlencode(stripslashes($value));
+    $value = urlencode(undo_magic_quotes($value));
     $req .= "&$key=$value";
 }
 

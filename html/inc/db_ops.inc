@@ -189,9 +189,10 @@ class SqlQueryString {
     }
     function addclause($clause) {
         if ($clause) {
-            $c = stripslashes(urldecode($clause));
+            $clause = undo_magic_quotes($clause);
+            $c = urldecode($clause);
             $this->add("( $c )");
-            $clause = urlencode(stripslashes($clause));
+            $clause = urlencode($clause);
             $this->urlquery .= "&clauses=$clause";
         }
     }

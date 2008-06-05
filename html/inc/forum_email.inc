@@ -108,10 +108,10 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 // send them an email notifying them of the reply.
 //
 function send_reply_notification_email($thread, $user){
-    $title = PROJECT . ": A user has posted to '". stripslashes($thread->title) ."'";
+    $title = PROJECT . ": A user has posted to '". $thread->title ."'";
     $link = URL_BASE . "forum_thread.php?id=" . $thread->id;
     $body = "Another " . PROJECT . " user has posted to the thread
-\"" . stripslashes($thread->title) . "\".\n"
+\"" . $thread->title . "\".\n"
            ."To view the updated thread, visit:\n$link
 
 --------------------------

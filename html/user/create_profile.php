@@ -157,10 +157,10 @@ function show_questions($profile) {
     $response1 = "";
     $response2 = "";
     if (isset($profile->response1)) {
-        $response1 = stripslashes($profile->response1);
+        $response1 = $profile->response1;
     }
     if (isset($profile->response2)) {
-        $response2 = stripslashes($profile->response2);
+        $response2 = $profile->response2;
     }
 
     row1(show_profile_heading1());
