@@ -79,7 +79,9 @@ function get_platforms_cached($url) {
         if ($l) {
             file_put_contents($fname, json_encode($l));
         } else {
-            if (!file_exists($fname)) {
+            if (file_exists($fname)) {
+                touch($fname);
+            } else {
                 $l[] = "Unknown";
                 file_put_contents($fname, json_encode($l));
             }

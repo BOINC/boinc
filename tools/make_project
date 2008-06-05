@@ -355,9 +355,13 @@ Steps to complete installation:
 
 1. Change Apache configuration (as root):
 
-   cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf && apachectl restart
+   cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf
 
    (path to httpd.conf varies)
+   Then restart the web server:
+
+   /usr/sbin/apache2ctl restart
+   (or /usr/sbin/apachectl restart)
 
 2. Add to crontab (as %(USER)s)
 

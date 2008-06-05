@@ -4666,3 +4666,12 @@ David  4 June 2008
             pm.inc
         user/
             forum_reply.php
+
+David  5 June 2008
+    - validator/assimilator: fix bug in 2 June checkin
+        (xml_doc_in wasn't included in DB query)
+
+    db/
+        boinc_db.C
+    tools/
+        make_project

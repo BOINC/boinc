@@ -1143,6 +1143,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.outcome = atoi(r[i++]);
     res.claimed_credit = atof(r[i++]);
     res.granted_credit = atof(r[i++]);
+    strcpy2(res.xml_doc_in, r[i++]);
     strcpy2(res.xml_doc_out, r[i++]);
     strcpy2(res.stderr_out, r[i++]);
     res.cpu_time = atof(r[i++]);
@@ -1197,6 +1198,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.outcome, "
             "   res.claimed_credit, "
             "   res.granted_credit, "
+            "   res.xml_doc_in, "
             "   res.xml_doc_out, "
             "   res.stderr_out, "
             "   res.cpu_time, "
