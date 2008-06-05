@@ -3934,3 +3934,9 @@ Rom    May 30 2008
         configure.ac
         version.h
 
+Charlie 4 June 2008
+    - MGR: Fix help menus in Simple GUI (not applicable on Windows).
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp,h
+
