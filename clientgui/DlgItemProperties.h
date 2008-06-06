@@ -39,6 +39,8 @@ public:
 	void renderInfos(RESULT* result);
 	wxString FormatDiskSpace(double bytes);
 	wxString FormatApplicationName(RESULT* result );
+	wxString FormatStatus(RESULT* result);
+	wxString FormatTime(float fBuffer);
 };
 
 #endif // _DLGITEMPROPERTIES_H_

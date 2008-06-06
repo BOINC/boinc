@@ -36,7 +36,7 @@ class CDlgItemPropertiesBase : public wxDialog
 		wxButton* m_btnClose;
 	
 	public:
-		CDlgItemPropertiesBase( wxWindow* parent, wxWindowID id = ID_DEFAULT, const wxString& title = _("BOINC Manager - Item Properties"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 503,480 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		CDlgItemPropertiesBase( wxWindow* parent, wxWindowID id = ID_DEFAULT, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 503,480 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~CDlgItemPropertiesBase();
 	
 };

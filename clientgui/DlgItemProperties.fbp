@@ -35,7 +35,7 @@
             <property name="size">503,480</property>
             <property name="style">wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</property>
             <property name="subclass"></property>
-            <property name="title">BOINC Manager - Item Properties</property>
+            <property name="title"></property>
             <property name="tooltip"></property>
             <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
             <property name="window_name"></property>
