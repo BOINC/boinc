@@ -102,6 +102,7 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
     int (__stdcall* __cudaGetDeviceProperties) ( cudaDeviceProp*, int );
     int bufsize=256;
     char buf[256], path[256];
+#if 0
     HKEY key;
     retval = RegOpenKeyEx(
         HKEY_LOCAL_MACHINE,
@@ -115,8 +116,10 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
     RegCloseKey(key);
     if (retval != ERROR_SUCCESS) return;
     sprintf(path, "%s\\bin\\cudart.dll", buf);
-
     HMODULE cudalib = LoadLibrary(path);
+#else
+    HMODULE cudalib = LoadLibrary("nvcuda.dll");
+#endif
     __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(cudalib, "cudaGetDeviceCount");
     if(!__cudaGetDeviceCount) return;
     __cudaGetDeviceProperties = (int(__stdcall*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );

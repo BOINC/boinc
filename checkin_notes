@@ -4728,3 +4728,9 @@ David  5 June 2008
         util.inc
         util_basics.inc (new)
         xml.inc
+
+David  6 June 2008
+    - client (Win) look for CUDA as nvcuda.dll
+
+    lib/
+        coproc.C
