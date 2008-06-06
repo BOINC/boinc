@@ -138,15 +138,15 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 			_("application name"),appname.c_str(),
 			_("workunit name"),result->wu_name.c_str(), 
 			_("state infos"),
-			_("state"),FormatStatus(result)
+			_("state"),FormatStatus(result).c_str()
 			);
 	//second part (only for active tasks available)
 	if(result->active_task) {
 		html2.Printf(htmltemplate2,
 			_("calculation infos"),
-			_("checkpoint cpu time"),FormatTime(result->checkpoint_cpu_time),
-			_("current cpu time"),FormatTime(result->current_cpu_time),
-			_("est. cpu time remaining"),FormatTime(result->estimated_cpu_time_remaining),
+			_("checkpoint cpu time"),FormatTime(result->checkpoint_cpu_time).c_str(),
+			_("current cpu time"),FormatTime(result->current_cpu_time).c_str(),
+			_("est. cpu time remaining"),FormatTime(result->estimated_cpu_time_remaining).c_str(),
 			_("fraction done"),floor(result->fraction_done * 100000)/1000
 			);
 	}
