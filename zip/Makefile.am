@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
 ## note:  -D flags taken from a zip config build under Linux

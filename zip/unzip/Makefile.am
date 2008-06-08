@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
 EXTRA_DIST = BUGS	      WHERE	  envargs.c    inflate.c   ttyio.h	 unzvers.h	\

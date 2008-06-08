@@ -4735,11 +4735,14 @@ David  6 June 2008
     lib/
         coproc.C
 
-Rom    May 28 2008
+Rom    8 June 2008
     - Tag for 6.3.3 release, all platforms
       boinc_core_release_6_3_3
 
     /
         configure.ac
         version.h
+
+David  8 June 2008
+    - Fix emacs mode line in Makefile.am's
 

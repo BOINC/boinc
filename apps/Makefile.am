@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
 include $(top_srcdir)/Makefile.incl

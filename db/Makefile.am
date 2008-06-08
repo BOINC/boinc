@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
 ## the following headers need to be installed

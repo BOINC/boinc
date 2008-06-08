@@ -1,3 +1,5 @@
+## -*- mode: makefile; tab-width: 4 -*-
+
 include $(top_srcdir)/Makefile.incl
 
 datadir = $(prefix)/share/locale 

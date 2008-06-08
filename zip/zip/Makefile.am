@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
 EXTRA_DIST = deflate.c   tailor.h  z_api.h	  z_crypt.h    z_ttyio.h   ziperr.h    zipup.c 	\

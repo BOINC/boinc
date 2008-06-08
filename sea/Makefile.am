@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 EXTRA_DIST = make-sea.sh
 
 vers = \

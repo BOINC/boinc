@@ -1,4 +1,4 @@
-## -*- mode: make; tab-width: 4 -*-
+## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
 EXTRA_DIST = ax_check_gl.m4	  ax_lang_compiler_ms.m4  sah_header_stdcxx.m4 		\

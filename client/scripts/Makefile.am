@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 
 install-exec-hook:
 	chmod +x boinc-client

@@ -1,3 +1,4 @@
+## -*- mode: makefile; tab-width: 4 -*-
 include $(top_srcdir)/Makefile.incl
 
 bin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move
