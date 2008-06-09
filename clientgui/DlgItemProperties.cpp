@@ -29,135 +29,75 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgItemProperties, wxDialog)
 
-BEGIN_EVENT_TABLE(CDlgItemProperties, wxDialog)
-	//buttons
-	EVT_BUTTON(wxID_OK,CDlgItemProperties::OnOK)
-END_EVENT_TABLE()
-
 /* Constructor */
 CDlgItemProperties::CDlgItemProperties(wxWindow* parent) : CDlgItemPropertiesBase(parent,ID_ANYDIALOG) {
+	this->m_current_row=0;
 }
 
-void CDlgItemProperties::OnOK(wxCommandEvent& ev) {
-	ev.Skip();
-}
-
+// destructor
 CDlgItemProperties::~CDlgItemProperties() {
 }
 
+// renders infos for a project
 void CDlgItemProperties::renderInfos(PROJECT* project) {
-	//CMainDocument* pDoc = wxGetApp().GetDocument();
-	this->SetTitle(_("BOINC Manager - project properties"));
-	wxString html = wxEmptyString;	
-	wxString htmltemplate = "<html><body><h3>%s %s</h3><table width=\"100%%\" border=\"0\"> \
-							<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%0.0f</td></tr> \
-							<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							<tr><td>%s</td><td>%0.2f</td></tr> \
-							<tr><td>%s</td><td>%0.2f</td></tr> \
-							<tr><td>%s</td><td>%0.2f</td></tr> \
-							<tr><td>%s</td><td>%0.2f</td></tr> \
-							<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							<tr><td>%s</td><td>%0.2f</td></tr> \
-							<tr><td>%s</td><td>%0.2f</td></tr> \
-							<tr><td>%s</td><td>%0.4f</td></tr> \
-							<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							</table></body></html>";
 	std::string name;
 	//collecting infos
 	project->get_name(name);
+	wxString wxTitle = _("Properties for ");
+	wxTitle.append(name.c_str());
+	this->SetTitle(wxTitle);
 	
-	html.Printf(htmltemplate,
-			_("project infos for "),name.c_str(),
-			_("general infos"),
-			_("master url:"),project->master_url.c_str(),
-			_("user name:"),project->user_name.c_str(),
-			_("team name:"),project->team_name.c_str(),
-			_("resource share"),project->resource_share,
-			_("credit infos"),
-			_("user total credit:"),project->user_total_credit,
-			_("user average credit:"),project->user_expavg_credit,
-			_("host total credit:"),project->host_total_credit,
-			_("host average credit:"),project->host_expavg_credit,
-			_("disk usage infos"),
-			_("disk usage:"),FormatDiskSpace(project->disk_usage).c_str(),
-			_("scheduling infos"),
-			_("short term debt:"),project->short_term_debt,
-			_("long term debt:"),project->long_term_debt,
-			_("duration correction factor:"),project->duration_correction_factor,
-			_("diverse infos"),
-			_("non cpu intensive:"),project->non_cpu_intensive ? _("yes") : _("no"),
-			_("suspended via gui:"),project->suspended_via_gui ? _("yes") : _("no"),
-			_("don't request more work:"),project->dont_request_more_work ? _("yes") : _("no"),
-			_("scheduler rpc in progress:"),project->scheduler_rpc_in_progress ? _("yes") : _("no"),
-			_("attached via account mgr:"),project->attached_via_acct_mgr ? _("yes") : _("no"),
-			_("detach when done:"),project->detach_when_done ? _("yes") : _("no"),
-			_("ended:"),project->ended ? _("yes") : _("no")
-			);
-	this->m_html->SetPage(html);
+	this->addSection(_("general infos"));
+	this->addProperty(_("master url:"),wxT(project->master_url.c_str()));
+	this->addProperty(_("user name:"),wxT(project->user_name.c_str()));
+	this->addProperty(_("team name:"),wxT(project->team_name.c_str()));
+	this->addProperty(_("resource share:"),wxString::Format(wxT("%0.0f"),project->resource_share));
+	this->addSection(_("credit infos"));
+	this->addProperty(_("user total credit:"),wxString::Format(wxT("%0.2f"),project->user_total_credit));
+	this->addProperty(_("user avg. credit:"),wxString::Format(wxT("%0.2f"),project->user_expavg_credit));
+	this->addProperty(_("host total credit:"),wxString::Format(wxT("%0.2f"),project->host_total_credit));
+	this->addProperty(_("host avg. credit:"),wxString::Format(wxT("%0.2f"),project->host_expavg_credit));
+	this->addSection(_("disk usage infos"));
+	this->addProperty(_("disk usage:"),this->FormatDiskSpace(project->disk_usage));
+	this->addSection(_("scheduling infos"));
+	this->addProperty(_("short term debt:"),wxString::Format(wxT("%0.2f"),project->short_term_debt));
+	this->addProperty(_("long term debt:"),wxString::Format(wxT("%0.2f"),project->long_term_debt));
+	this->addProperty(_("duration corr. factor:"),wxString::Format(wxT("%0.4f"),project->duration_correction_factor));
+	this->addSection(_("diverse infos"));
+	this->addProperty(_("non cpu intensive:"),project->non_cpu_intensive ? _("yes") : _("no"));
+	this->addProperty(_("suspended via gui:"),project->suspended_via_gui ? _("yes") : _("no"));
+	this->addProperty(_("don't request more work:"),project->dont_request_more_work ? _("yes") : _("no"));
+	this->addProperty(_("scheduler call in progress:"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
+	this->addProperty(_("attached via account mgr.:"),project->attached_via_acct_mgr ? _("yes") : _("no"));
+	this->addProperty(_("detach when done:"),project->detach_when_done ? _("yes") : _("no"));
+	this->addProperty(_("ended:"),project->ended ? _("yes") : _("no"));
+	this->m_gbSizer->Layout();
+	this->m_scrolledWindow->FitInside();
 }
 
+// renders infos for a task/result
 void CDlgItemProperties::renderInfos(RESULT* result) {
-	this->SetTitle(_("BOINC Manager - task properties"));
-	wxString html = wxEmptyString;	
-	wxString html1= wxEmptyString;	
-	wxString html2= wxEmptyString;	
-	wxString html3= wxT("</table></body></html>");
-	
-	wxString htmltemplate1 = wxT("<html><body><h3>%s %s</h3><table width=\"100%%\" border=\"0\"> \
-							<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td>%s</td><td>%s</td></tr> \
-							<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							<tr><td>%s</td><td>%s</td></tr>");
-							
-	wxString htmltemplate2 = wxT("<tr><td colspan=\"2\" bgcolor=\"#EEEEEE\">%s</td><tr> \
-							 <tr><td>%s</td><td>%s</td></tr> \
-							 <tr><td>%s</td><td>%s</td></tr> \
-							 <tr><td>%s</td><td>%s</td></tr> \
-							 <tr><td>%s</td><td>%.3f %%</td></tr> \
-							 ");
+	wxString wxTitle = _("Properties for ");
+	wxTitle.append(result->name.c_str());
+	this->SetTitle(wxTitle);
 
-	//first part
-	wxString appname = this->FormatApplicationName(result);
-	html1.Printf(htmltemplate1,
-			_("task infos for "),result->name.c_str(),
-			_("general infos"),
-			_("application name"),appname.c_str(),
-			_("workunit name"),result->wu_name.c_str(), 
-			_("state infos"),
-			_("state"),FormatStatus(result).c_str()
-			);
-	//second part (only for active tasks available)
+	this->addSection(_("general infos"));
+	this->addProperty(_("application name:"),this->FormatApplicationName(result));
+	this->addProperty(_("workunit name:"),result->wu_name.c_str());
+	this->addSection(_("state infos"));
+	this->addProperty(_("state:"),this->FormatStatus(result));
 	if(result->active_task) {
-		html2.Printf(htmltemplate2,
-			_("calculation infos"),
-			_("checkpoint cpu time"),FormatTime(result->checkpoint_cpu_time).c_str(),
-			_("current cpu time"),FormatTime(result->current_cpu_time).c_str(),
-			_("est. cpu time remaining"),FormatTime(result->estimated_cpu_time_remaining).c_str(),
-			_("fraction done"),floor(result->fraction_done * 100000)/1000
-			);
+		this->addSection(_("calculation infos"));
+		this->addProperty(_("checkpoint cpu time:"),FormatTime(result->checkpoint_cpu_time));
+		this->addProperty(_("current cpu time:"),FormatTime(result->current_cpu_time));
+		this->addProperty(_("est. copu time remaining:"),FormatTime(result->estimated_cpu_time_remaining));
+		this->addProperty(_("fraction done:"),wxString::Format(wxT("%.3f %%"),floor(result->fraction_done * 100000)/1000));
 	}
-	//concat all parts 
-	html.append(html1);
-	html.append(html2);
-	html.append(html3);
-
-	this->m_html->SetPage(html);
+	this->m_gbSizer->Layout();
+	this->m_scrolledWindow->FitInside();
 }
 
+//
 wxString CDlgItemProperties::FormatDiskSpace(double bytes) {
     double         xTera = 1099511627776.0;
     double         xGiga = 1073741824.0;
@@ -179,6 +119,7 @@ wxString CDlgItemProperties::FormatDiskSpace(double bytes) {
     return strBuffer;
 }
 
+//
 wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
 	wxString strBuffer = wxEmptyString;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -220,6 +161,8 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
     return strBuffer;
 }
 
+
+//
 wxString CDlgItemProperties::FormatStatus(RESULT* result) {
 	wxString strBuffer= wxEmptyString;
     CMainDocument* doc = wxGetApp().GetDocument();    
@@ -322,6 +265,7 @@ wxString CDlgItemProperties::FormatStatus(RESULT* result) {
     return strBuffer;
 }
 
+// 
 wxString CDlgItemProperties::FormatTime(float fBuffer) {
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
@@ -338,8 +282,30 @@ wxString CDlgItemProperties::FormatTime(float fBuffer) {
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
-        strBuffer = wxT(" ") + ts.Format();
+        strBuffer = ts.Format();
     }
 
     return strBuffer;
+}
+
+// adds a title section label to the dialog 
+void CDlgItemProperties::addSection(const wxString& title) {
+	wxStaticText* staticText = new wxStaticText( m_scrolledWindow, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, 0);
+	staticText->Wrap( -1 );
+	staticText->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );	
+	m_gbSizer->Add( staticText, wxGBPosition( m_current_row, 0 ), wxGBSpan( 1, 2 ), wxALL|wxEXPAND, 3);
+	m_current_row++;
+}
+
+// adds a property row to the dialog 
+void CDlgItemProperties::addProperty(const wxString& name, const wxString& value) {
+	
+	wxStaticText* staticText = new wxStaticText( m_scrolledWindow, wxID_ANY, name, wxDefaultPosition, wxDefaultSize, 0 );
+	staticText->Wrap( -1 );
+	m_gbSizer->Add( staticText, wxGBPosition( m_current_row, 0 ), wxGBSpan( 1, 1 ), wxALL, 3 );
+	
+	staticText = new wxStaticText( m_scrolledWindow, wxID_ANY, value, wxDefaultPosition, wxDefaultSize, 0 );
+	staticText->Wrap( -1 );
+	m_gbSizer->Add( staticText, wxGBPosition( m_current_row, 1 ), wxGBSpan( 1, 1 ), wxALL|wxEXPAND, 3 );
+	m_current_row++;
 }

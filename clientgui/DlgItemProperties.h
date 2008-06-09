@@ -29,18 +29,22 @@
 
 class CDlgItemProperties : public CDlgItemPropertiesBase {
 	DECLARE_DYNAMIC_CLASS( CDlgItemProperties )
-    DECLARE_EVENT_TABLE()
 public:
 	CDlgItemProperties(wxWindow* parent=NULL);//to act as standard constructor set a default value
 	virtual ~CDlgItemProperties();
 	//
-	void OnOK(wxCommandEvent& event);
 	void renderInfos(PROJECT* project);
 	void renderInfos(RESULT* result);
+private:
+	int m_current_row;
+	//formatting methods
 	wxString FormatDiskSpace(double bytes);
 	wxString FormatApplicationName(RESULT* result );
 	wxString FormatStatus(RESULT* result);
 	wxString FormatTime(float fBuffer);
+	//generic layout methods
+	void addSection(const wxString& title);
+	void addProperty(const wxString& name, const wxString& value);
 };
 
 #endif // _DLGITEMPROPERTIES_H_

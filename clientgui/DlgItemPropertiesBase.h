@@ -10,14 +10,15 @@
 
 #include <wx/intl.h>
 
-#include <wx/html/htmlwin.h>
 #include <wx/gdicmn.h>
+#include <wx/gbsizer.h>
+#include <wx/sizer.h>
+#include <wx/scrolwin.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/string.h>
 #include <wx/button.h>
-#include <wx/sizer.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -32,7 +33,9 @@ class CDlgItemPropertiesBase : public wxDialog
 	private:
 	
 	protected:
-		wxHtmlWindow* m_html;
+		wxBoxSizer* m_bSizer1;
+		wxScrolledWindow* m_scrolledWindow;
+		wxGridBagSizer* m_gbSizer;
 		wxButton* m_btnClose;
 	
 	public:
