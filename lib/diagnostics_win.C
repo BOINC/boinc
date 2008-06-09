@@ -1358,6 +1358,7 @@ int diagnostics_unhandled_exception_dump_banner() {
     if (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
         fprintf(stderr, "Install Directory : %s\n", diagnostics_get_boinc_install_dir());
         fprintf(stderr, "Data Directory    : %s\n", diagnostics_get_boinc_dir());
+        fprintf(stderr, "Project Symstore  : %s\n", diagnostics_get_symstore());
     }
 
     return 0;

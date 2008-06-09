@@ -4746,3 +4746,16 @@ Rom    8 June 2008
 David  8 June 2008
     - Fix emacs mode line in Makefile.am's
 
+Rom    9 June 2008
+    - DIAG: Fix 2 year old bug when projects are using a symstore.
+        init_data.xml was writing 'symstore' and the diagnostic
+        code was looking for 'project_symstore'. Why did it take
+        so long to find? Oh well, make it obvious if it ever
+        happens again by dumping the symstore url in the crash
+        report.
+        
+        Ugh...
+        
+    lib/
+        diagnostics.C
+        diagnostics_win.C

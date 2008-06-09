@@ -310,7 +310,7 @@ int diagnostics_init(
 			while(mf.fgets(buf, sizeof(buf))) {
 				if (match_tag(buf, "</app_init_data>")) break;
 				else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
-				else if (parse_str(buf, "<project_symstore>", symstore, 256)) continue;
+				else if (parse_str(buf, "<symstore>", symstore, 256)) continue;
 				else if (match_tag(buf, "<use_http_proxy/>")) {
 					boinc_proxy_enabled = true;
 					continue;
