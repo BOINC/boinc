@@ -107,7 +107,7 @@ function show_create() {
         <center>
         <span class=section_title>Compute with BOINC</span>
         <br>
-        <a class=heading href=trac/wiki/CreateProjectOutline>Documentation</a>
+        <a class=heading href=trac/wiki/ProjectMain>Documentation</a>
         &middot; <a class=heading href=trac/wiki/ServerUpdates>Updates</a>
         &middot; <a class=heading href=trac/wiki/ConferenceList>Conferences</a>
         </center>

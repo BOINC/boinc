@@ -4767,3 +4767,11 @@ David  10 June 2008
         util.inc
     sched/
         sched_shmem.C
+
+David  10 June 2008
+    - make_project: allow account creation initially.
+        Otherwise it's another nit-picky little step
+        in the project "quick start" process.
+
+    py/Boinc/
+        setup_project.py
