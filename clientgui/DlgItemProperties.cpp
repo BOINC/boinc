@@ -40,13 +40,29 @@ CDlgItemProperties::~CDlgItemProperties() {
 
 // renders infos for a project
 void CDlgItemProperties::renderInfos(PROJECT* project) {
-	std::string name;
+	std::string projectname;
 	//collecting infos
-	project->get_name(name);
+	project->get_name(projectname);
+	//disk usage needs additional lookups
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	pDoc->CachedDiskUsageUpdate();
+	std::vector<PROJECT*> dp = pDoc->disk_usage.projects;
+	double diskusage=0.0;	
+	for (unsigned int i=0; i< dp.size(); i++) {
+		PROJECT* tp = dp[i];		
+		std::string tname;		
+		tp->get_name(tname);
+		wxString t1(tname.c_str());
+		if(t1.IsSameAs(projectname.c_str()) || t1.IsSameAs(project->master_url.c_str())) {
+			diskusage =tp->disk_usage;
+			break;
+		}
+	}
+	//set dialog title
 	wxString wxTitle = _("Properties for ");
-	wxTitle.append(name.c_str());
+	wxTitle.append(projectname.c_str());
 	this->SetTitle(wxTitle);
-	
+	//layout controls
 	this->addSection(_("general infos"));
 	this->addProperty(_("master url:"),wxT(project->master_url.c_str()));
 	this->addProperty(_("user name:"),wxT(project->user_name.c_str()));
@@ -58,7 +74,8 @@ void CDlgItemProperties::renderInfos(PROJECT* project) {
 	this->addProperty(_("host total credit:"),wxString::Format(wxT("%0.2f"),project->host_total_credit));
 	this->addProperty(_("host avg. credit:"),wxString::Format(wxT("%0.2f"),project->host_expavg_credit));
 	this->addSection(_("disk usage infos"));
-	this->addProperty(_("disk usage:"),this->FormatDiskSpace(project->disk_usage));
+	
+	this->addProperty(_("disk usage:"),this->FormatDiskSpace(diskusage));
 	this->addSection(_("scheduling infos"));
 	this->addProperty(_("short term debt:"),wxString::Format(wxT("%0.2f"),project->short_term_debt));
 	this->addProperty(_("long term debt:"),wxString::Format(wxT("%0.2f"),project->long_term_debt));
@@ -90,7 +107,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 		this->addSection(_("calculation infos"));
 		this->addProperty(_("checkpoint cpu time:"),FormatTime(result->checkpoint_cpu_time));
 		this->addProperty(_("current cpu time:"),FormatTime(result->current_cpu_time));
-		this->addProperty(_("est. copu time remaining:"),FormatTime(result->estimated_cpu_time_remaining));
+		this->addProperty(_("est. cpu time remaining:"),FormatTime(result->estimated_cpu_time_remaining));
 		this->addProperty(_("fraction done:"),wxString::Format(wxT("%.3f %%"),floor(result->fraction_done * 100000)/1000));
 	}
 	this->m_gbSizer->Layout();
@@ -98,7 +115,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 }
 
 //
-wxString CDlgItemProperties::FormatDiskSpace(double bytes) {
+wxString CDlgItemProperties::FormatDiskSpace(double bytes) {	
     double         xTera = 1099511627776.0;
     double         xGiga = 1073741824.0;
     double         xMega = 1048576.0;
@@ -151,7 +168,7 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
             strcpy(buf, "");
         }
         strBuffer.Printf(
-            wxT(" %s %.2f%s"), 
+            wxT("%s %.2f%s"), 
             strLocalBuffer.c_str(),
             state_result->wup->avp->version_num/100.0,
             buf
