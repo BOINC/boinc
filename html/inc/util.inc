@@ -1,5 +1,6 @@
 <?php
 
+require_once("../inc/util_basic.inc");
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
@@ -7,7 +8,6 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/profile.inc");
-require_once("../inc/util_basic.inc");
 
 ini_set("memory_limit", "64M");
 date_default_timezone_set("UTC");

@@ -185,12 +185,9 @@ APP* SCHED_SHMEM::lookup_app(int id) {
 
 // find an app version for a given platform
 //
-APP_VERSION* SCHED_SHMEM::lookup_app_version(
-    int appid, int platformid
-) {
-    int i;
+APP_VERSION* SCHED_SHMEM::lookup_app_version(int appid, int platformid) {
     APP_VERSION* avp;
-    for (i=0; i<napp_versions; i++) {
+    for (int i=0; i<napp_versions; i++) {
         avp = &app_versions[i];
         if (avp->appid == appid && avp->platformid == platformid) {
             return avp;
@@ -206,10 +203,8 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
 // of servers try to get a single work item)
 //
 bool SCHED_SHMEM::no_work(int pid) {
-    int i;
-
     if (!ready) return true;
-    for (i=0; i<max_wu_results; i++) {
+    for (int i=0; i<max_wu_results; i++) {
         if (wu_results[i].state == WR_STATE_PRESENT) {
             wu_results[i].state = pid;
             return false;
@@ -219,9 +214,7 @@ bool SCHED_SHMEM::no_work(int pid) {
 }
 
 void SCHED_SHMEM::restore_work(int pid) {
-    int i;
-
-    for (i=0; i<max_wu_results; i++) {
+    for (int i=0; i<max_wu_results; i++) {
         if (wu_results[i].state == pid) {
             wu_results[i].state = WR_STATE_PRESENT;
             return;
