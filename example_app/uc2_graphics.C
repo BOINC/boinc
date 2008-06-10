@@ -166,6 +166,7 @@ void app_graphics_render(int xs, int ys, double time_of_day) {
     if (shmem == NULL) {
         shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
     }
+    shmem->countdown = 5;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

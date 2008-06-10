@@ -110,6 +110,18 @@ int do_checkpoint(MFILE& mf, int nchars) {
 #ifdef APP_GRAPHICS
 void update_shmem() {
     if (!shmem) return;
+
+    // Check whether a graphics app is running,
+    // and don't bother updating shmem if so.
+    // This doesn't matter here,
+    // but may be worth doing if updating shmem is expensive.
+    //
+    if (shmem->countdown > 0) {
+        // the graphics app sets this to 5 every time it renders a frame
+        shmem->countdown--;
+    } else {
+        return;
+    }
     shmem->fraction_done = boinc_get_fraction_done();
     shmem->cpu_time = boinc_worker_thread_cpu_time();;
     shmem->update_time = dtime();

@@ -720,3 +720,13 @@ David  16 May 2008
 
     wrapper/
         wrapper.C
+
+David  10 June 2008
+    - graphics: if no graphics app is running,
+        don't bother updating shmem
+        (not important in the example app,
+        but a useful technique if updating the shmem is expensive)
+
+    example_app/
+        uc2.C,h
+        uc2_graphics.C
