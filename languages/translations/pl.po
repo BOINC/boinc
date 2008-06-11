@@ -1,9 +1,9 @@
-##########################################
+﻿##########################################
 # Language: Polish
 # FileID  : $Id$
 ##########################################
 # For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
+# http://boinc.berkeley.edu/trac/wiki/TranslateIntro
 ##########################################
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
@@ -302,56 +302,47 @@ msgstr "Odpowiedzi na ankietę zapisane"
 msgid "POLL_THANKS"
 msgstr "Dziękujemy za wypełnienie ankiety BOINC."
 
-msgid "POLL_"
-msgstr
+msgid "POLL_RESULTS_TITLE"
+msgstr "Wyniki ankiety"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "Są to aktualne wyniki <a href=poll.php>ankiety użytkowników BOINC</a>.  Strona jest uaktualniana co godzinę."
 
 ########################################
-# download.php 2006/08/03 by je2bwm
+# download.php
 ########################################
 
-msgid "DL_DOWNLOAD"
-msgstr "Pobierz BOINC"
+msgid "Download BOINC"
+msgstr "Pobierz BOINC Menadżera"
 
-msgid "DL_VERSION_LNAME_SIZE"
+msgid "%s for %s (%s MB)"
 msgstr "%s dla %s (%s MB)"
 
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr "BOINC jest oprogramowaniem, które pozwala wykorzystać wolną moc obliczeniową twojego komputera dla nauki w projektach takich jak SETI@home, Climateprediction.net, Rosetta@home, World Community Grid  oraz wielu innych. <p>Po zainstalowaniu Menadżera BOINC na twoim komputerze możesz przyłączyć się do dowolnie wybranych przez Ciebie projektów."
 
-msgid "DL_WHATS_BOINC"
-msgstr " BOINC jest programem, który pozwala wykorzystać"
-"        wolną moc obliczeniową twojego komputera dla nauki w"
-"        projektach takich jak SETI@home, Rosetta@home,"
-"        Climateprediction.net, oraz wielu innych."
-"        <p>"
-"        Po zainstalowaniu Menadżera BOINC na twoim komputerze,"
-"        możesz podłączyć się do jakich tylko chcesz projektów."
-"        <p>"
+msgid "System requirements"
+msgstr "Wymagania sprzętowe"
 
-msgid "DL_SYSTEMREQ"
-msgstr "Wymagania systemowe"
-
-msgid "DL_RELNOTES"
+msgid "Release notes"
 msgstr "Zmiany w aktualnej wersji"
 
-msgid "DL_TROUBLE"
-msgstr "Problemy i ich rozwiązania"
-
-msgid "DL_OTHERSYS"
+msgid "Other systems"
 msgstr "Inne systemy"
 
-msgid "DL_ALLVERSIONS"
+msgid "All versions"
 msgstr "Wszystkie wersje"
 
-msgid "DL_IF_OTHERTYPES"
+msgid "If your computer is not of one of the above types, you can"
 msgstr "Jeżeli twój komputer korzysta z innego systemu operacyjnego lub jest innego typy możesz"
 
-msgid "DL_MAKEYOUROWN"
+msgid "%s make your own client software %s or"
 msgstr "%s stworzyć własny program obsługujący platformę BOINC %s lub"
 
-msgid "DL_DL_FROM3RDP"
-msgstr "%s pobrać gotowe programy stworzone przez innych %s"
-    " (dostępne dla platform Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, i FreeBSD oraz innych)."
+msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+msgstr "%s pobrać gotowe programy stworzone przez innych użytkowników %s (dostępne dla platform Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, i FreeBSD oraz innych)."
 
-msgid "DL_DOWNLOAD_TITLE"
+msgid "BOINC: compute for science"
 msgstr "BOINC: liczy dla nauki"
 
 msgid "DL_MIRRORS"
@@ -363,288 +354,9 @@ msgstr "Uwaga: pliki są pobierane z różnych serwerów "
     "jeżeli z jakiegos powodu nie można pobrać pliku, odśwież stronę i spróbuj ponownie. "
 
 ##############################################
-# system_requirements.php by je2bwm 2006/08/07
-##############################################
-msgid "SRQ_PAGE_TITLE"
-msgstr "Wzmagania systemowe"
-
-msgid "SRQ_INTRO"
-msgstr "Twój komputer musi spełniać poniższe wymagania, aby korzystać z BOINC. "
-    "Projekty korzystające z platformy BOINC mogą mieć dodatkowe wymagania systemowe."
-
-msgid "SRQ_MSWIN"
-msgstr "Windows"
-
-msgid "SRQ_OS"
-msgstr "Systemy operacyjne"
-
-msgid "SRQ_MSWIN_REQ_OS"
-msgstr "Windows 98 lub nowszy"
-
-msgid "SRQ_MIN_HARDWARE"
-msgstr "Minimalne wymagania sprzętowe"
-
-msgid "SRQ_MSWIN_REQ_CPU"
-msgstr "Pentium 233 MHz (Zalecane: Pentium 500 MHz lub szybszy)"
-
-msgid "SRQ_MSWIN_REQ_RAM"
-msgstr "64 MB RAM (Zalecane: 128 MB RAM lub więcej)"
-
-msgid "SRQ_MSWIN_REQ_DISK"
-msgstr "20 MB wolnego miejsca na dysku"
-
-msgid "SRQ_APPLMAC"
-msgstr "Macintosh"
-
-msgid "SRQ_APPLMAC_REQ_OS"
-msgstr "Mac OS X 10.3 lub nowszy"
-
-msgid "SRQ_APPLMAC_REQ_CPU"
-msgstr "Macintosh z procesorem Intel x86 lub PowerPC G3, G4, lub G5"
-
-msgid "SRQ_APPLMAC_REQ_RAM"
-msgstr "128 MB RAM (Zalecane: 256 MB RAM lub więcej)"
-
-msgid "SRQ_APPLMAC_REQ_DISK"
-msgstr "200 MB wolnego miejsca na dysku"
-
-msgid "SRQ_LINUX"
-msgstr "Linux"
-
-msgid "SRQ_LINUX_REQ_KERNEL"
-msgstr "Linux z jądrem 2.2.14 lub nowszym"
-
-msgid "SRQ_LINUX_REQ_GLIBC"
-msgstr "glibc 2.3.2 lub nowszy"
-
-msgid "SRQ_LINUX_REQ_XFREE86"
-msgstr "XFree86-3.3.6 lub nowszy"
-
-msgid "SRQ_LINUX_REQ_GTKPLUS"
-msgstr "gtk+2.0 lub nowszy"
-
-msgid "SRQ_LINUX_REQ_CPU"
-msgstr "Pentium 500 MHz lub szybszy"
-
-msgid "SRQ_LINUX_REQ_RAM"
-msgstr "64 MB RAM"
-
-msgid "SRQ_LINUX_REQ_DISK"
-msgstr "50 MB wolnego miejsca na dysku"
-
-##############################################
-# release_notes.php
-##############################################
-msgid "RLN_PAGE_TITLE"
-msgstr "Zmiany w aktualnej wersji"
-
-msgid "RLN_WHATS_NEW"
-msgstr "CO nowego w %s"
-
-msgid "RLN_INSTALLING"
-msgstr "Instalacja"
-
-msgid "RLN_UNINSTALLING"
-msgstr "Deinstalacja"
-
-msgid "RLN_KNOWN_ISSUES"
-msgstr "Znane usterki"
-
-msgid "RLN_WIN_INSTALL_PROBLEMS"
-msgstr "W Windowsie czasami się zdarza, że instalacja Menadżera BOINC kończy się niepowodzeniem dlatego, "
-    "że wcześniej była zainstalowana poprzednia wersja Menadżera BOINC. Jeśli tak się stanie: "
-    "%s Zamknij Menadżera, jeśli był uruchomiony i odinstaluj go "
-    "korzystając z %s Dodaj/Usuń Programy w Panelu Sterowania%s. "
-    "Zainstaluj nową wersję ponownie. "
-    "%s Jeśli instalacja się znowu nie powiedzie, zainstaluj ponownie "
-    "poprzednią wersję Menadżera, którą używałeś "
-    "(stare wersje można znaleźć %stutaj%s). "
-    "Odinstaluj ją tak jak jest opisane powyżej, następnie zainstaluj nową wersję. "
-    "%s Jeśli kolejna próba instalacji zakończy się niepowodzeniem, pobierz program %sWindows Install Clean Up%s "
-    "ze strony Microsoftu i uruchom go. "
-    "Stara wersja BOINC będzie pokazana jako BOINC [wersja] lub jako "
-    "uszkodzona instalacja (na samej górze okna). "
-    "Wybierz starą wersję, następnie kliknij 'Remove' i 'Exit'. "
-    "Zrestartuj swój komputer. "
-    "Zainstaluj nową wersję. "
-    "(Uwaga: zostaw wszystkie informacje o pozostałych programach, "
-     "w przeciwnym wypadku możesz mieć problemy z ich deinstalacją). "
-    "%s "
-
-msgid "RLN_TROUBLESHOOT"
-msgstr "Problemy i ich rozwiązania"
-
-msgid "RLN_NEWF_5_4_AM"
-msgstr "Support for 'Account managers' - web sites that let you browse "
-    "BOINC projects, attach/detach, change resource share and settings, "
-    "all with point-and-click simplicity. "
-    "Account managers are also great if you have several computers - "
-    "you just have to make changes once."
-
-msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-msgstr "General preferences can be overridden by a local file; "
-    "details are %s here %s."
-
-msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-msgstr "BOINC now alerts you whenever it needs you "
-    "to create a network connection."
-
-msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "Menadżer BOINC posiada dwa interfejsy: "
-    " 'Prosty' (podstawowe informacje, kolorowe skórki) "
-    " oraz 'Zaawansowany' (wszystkie informacje, prosty wygląd). "
-    " Prosty interfejs umożliwia zmianę ustawień lokalnych. "
-    " W każdej chwili możesz zmienić typ interjesu. "
-
-msgid "RLN_5_8_THROTTLE"
-msgstr " Przepustowość CPU: możesz ograniczyć ciepło wydzielane przez CPU poprzez ustawienie "
-    " limitu wykonywanych operacji na sekundę przez BOINC. "
-
-msgid "RLN_5_8_SCHED"
-msgstr " Poprawiono reguły raportowania, w szczególności zagubionych próbek oraz ich ważności, "
-    " nawet na wolnych komputerach liczących w dużej liczbie projektów. "
-
-msgid "RLN_5_8_MEM"
-msgstr " Możesz ustalić limit pamięci zużywanej przez BOINC; "
-    " to pozwoli przetwarzać dane cały czas bez utraty wydajności. "
-
-msgid "RLN_5_8_SANDBOX"
-msgstr " Wersja na Mac OS X uruchamia aplikacje na nieuprzywilejowanych kontach, "
-    " co zwiększa bezpieczeństwo użytkownika. "
-
-msgid "RLN_5_8_SNOOZE"
-msgstr " Przycisk wstrzymania (i pasku narzędziowym systemu) pozwoli Ci "
-    " wstrzymać obliczenia na jedną godzinę. "
-
-msgid "RLN_RECOMMEND_LATEST_VERSION"
-msgstr "Zalecamy, aby wszyscy użytkownicy BOINC zaktualizowali Menadżera do wersji %s."
-
-msgid "RLN_LINK2_VERSION_HISTORY"
-msgstr "Szczegółowa lista zmian znajduje się %stutaj%s."
-
-msgid "RLN_MSWIN"
-msgstr "Windows"
-
-msgid "RLN_APPLMAC"
-msgstr "Macintosh"
-
-msgid "RLN_LINUX"
-msgstr "Linux"
-
-msgid "RLN_MSWIN_INSTALL_MODES"
-msgstr "Menadżer BOINC może być zainstalowany w trzech różnych typach:"
-
-msgid "RLN_SINGLE_USER_INSTALL"
-msgstr "Instalacja dla jednego użytkownika"
-
-msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "Jest to zalecany typ instalacji. "
-    "BOINC uruchamia się i pracuje tylko, gdy dany użytkownik (na którego koncie został on zainstalowany) jest zalogowany. "
-    "BOINC występuje w twoim menu Start, ale nie innych użytkowników. "
-    "Komenda 'Pokaż grafikę' w Menadżerze BOINC działa tylko na twoim koncie. "
-    "Wygaszacz ekranu BOINC pokazuje grafikę z projektów tylko na twoim koncie. "
-    "(inni użytkownicy mogą uruchomić wygaszacz, ale zobaczą"
-    "tylko informacje w postaci tekstowej)."
-
-msgid "RLN_SHARED_INSTALL"
-msgstr "Instalacja wspólna"
-
-msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-msgstr "BOINC uruchamia się i pracuje niezależnie od tego, kto jest zalogowany. "
-    "BOINC występuje w menu Start każdego użytkownika. "
-    "Gdy BOINC jest uruchomiony, przetwarza on dane dla określonego użytkownika "
-    "(nieważne kto jest zalogowany). "
-    "Komenda 'Pokaż grafikę' w Menadżerze BOINC działa na koncie, na którym został on zainstalowany,"
-    "Wygaszacz ekranu BOINC pokazuje grafikę z projektów tylko na koncie, na którym został zainstalowany. "
-    "(inni użytkownicy mogą uruchomić wygaszacz, ale zobaczą"
-    "tylko informacje w postaci tekstowej)."
-
-msgid "RLN_WIN_SERVICE_INSTALL"
-msgstr "Instalacja serwisowa"
-
-msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "BOINC uruchamia się i pracuje cały czas (nawet jeśli nikt nie jest zalogowany). "
-    "BOINC występuje w menu Start użytkownika, który go zainstalował, "
-    "ale nie innych użytkowników.   "
-    "Komenda 'Pokaż grafikę' w Menadżerze BOINC "
-    "nie działa u żadnego użytkownika. "
-    "Wygaszacz ekranu BOINC pokazuje tylko informacje w postaci tekstowej."
-
-msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "BOINC dla Linuxa jest udostępniony w formie samorozpakowywującego się archiwum. "
-    "Ten typ instalacji wymaga od Ciebie znajomości "
-    "linii poleceń (terminalu)."
-
-msgid "RLN_LINUX_DL_FILENAME"
-msgstr "Pliki do pobrania mają nazwy w formie np. takiej jak <code>%s</code>."
-
-msgid "RLN_LINUX_RUN_SEA"
-msgstr "Po pobraniu takiego pliku wpisz w terminalu <pre>%s</pre>"
-
-msgid "RLN_LINUX_RESULTOF_SEA"
-msgstr "Ta operacja stworzy katalog BOINC/ z następującymi plikami:"
-
-msgid "RLN_BOINC_CORE_CL"
-msgstr "Głowny klient BOINC"
-
-msgid "RLN_BOINC_MANAGER"
-msgstr "Menadżer BOINC"
-
-msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
-msgstr "Skrypt uruchamiający główny klient BOINC'a."
-
-msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
-msgstr "Skrypt uruchamiający Menadżer BOINC ."
-
-msgid "RLN_LINUX_AUTOSTART"
-msgstr "Możesz także ustawić aby%s główny klient BOINC uruchamiał się zaraz po starcie systemu %s."
-
-msgid "RLN_MSWIN_UNINSTALL_DESC"
-msgstr "Wbierz Start/Panel Sterowania/Dodaj lub usuń programy. "
-    "Wybierz BOINC, następnie kliknij Usuń. "
-    "To usuwa jedynie oprogramowanie BOINC. "
-    "Aby usunąć także dane projektów, skasuj cały katalog BOINC "
-    "(najczęściej znajdujący się w C:/Program Files/BOINC). "
-
-msgid "RLN_ISSUE_PROXY_NTLMAUTH"
-msgstr "If you use a proxy server, please hold off upgrading for now. "
-    "We have a fix in the works for proxies that use NTLM authentication."
-
-msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-msgstr "(Windows) If BOINC applications are repeatedly crashing on your computer, "
-    "it's possibly that you need to "
-    "%supgrade to the latest version (9.0c or later) of DirectX %s."
-
-msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-msgstr "(Windows) If BOINC runs at the same time as Windows XP 3-D screensavers, "
-    "the system becomes sluggish and unresponsive."
-
-msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-msgstr "(Windows) Applications that were built before October 2004 "
-    "do not display screensaver graphics with the Service or "
-    "Shared install type, "
-    "or the Single-user install type with "
-    "the password protect screensaver option on NT based machines."
-
-msgid "RLN_TROUBLESHOOT_INTRO"
-msgstr "If you have problems with BOINC, here are some steps you can take:"
-
-msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-msgstr "If you have a problem with a particular project, "
-    "go to the 'Questions and Answers' area of the project's web site. "
-    "You may find the solution to your problem. "
-    "If not, post it there, and you'll get help from other users. "
-    "If the problem persists, "
-    "use the BOINC Manager to 'reset' that project. "
-    "This will erase any jobs in progress and start from scratch. "
-
-msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
-msgstr "If you have problems with BOINC itself, "
-    "get help from the %s BOINC message boards %s."
-
-##############################################
 # help.php
 ##############################################
+
 msgid "HELP_TITLE"
 msgstr "Uzyskiwanie pomocy w sprawach BOINC"
 
@@ -734,8 +446,8 @@ msgid "HOME_P3"
 msgstr "Jeżeli masz jakieś pytania, lub potrzebujesz pomocy w rozpoczęciu swojej przygody z BOINC, "
     "%sskontaktuj się z jednym z ochotników oferujących pomoc%s. "
 
-msgid "HOME_MORE_INFO"
-msgstr "Korzystanie z BOINC"
+msgid "Help"
+msgstr "Pomoc"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Pobierz"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-05-23 00:32-0000\n"
+"PO-Revision-Date: 2008-06-10 00:03-0000\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -342,213 +342,6 @@ msgid "DL_MIRRORS"
 msgstr "Nota: los archivos son descargados de servidores espejo en boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, y einstein.aset.psu.edu (gracias a estas instituciones). El servidor es elegido aleatoriamente - si la descarga falla, recargue esta página e inténtelo de nuevo."
 
 # #############################################
-# system_requirements.php by je2bwm 2006/08/07
-# #############################################
-msgid "SRQ_PAGE_TITLE"
-msgstr "Requisitos del sistema"
-
-msgid "SRQ_INTRO"
-msgstr "Su ordenador debe satisfacer los siguientes requerimientos para ejecutar BOINC. Los proyectos basados en BOINC pueden tener requerimientos adicionales."
-
-msgid "SRQ_MSWIN"
-msgstr "Windows"
-
-msgid "SRQ_OS"
-msgstr "Sistemas operativos"
-
-msgid "SRQ_MSWIN_REQ_OS"
-msgstr "Windows 98 o posterior"
-
-msgid "SRQ_MIN_HARDWARE"
-msgstr "Hardware mínimo"
-
-msgid "SRQ_MSWIN_REQ_CPU"
-msgstr "Pentium 233 MHz (Recomendado: Pentium 500 MHz o superior)"
-
-msgid "SRQ_MSWIN_REQ_RAM"
-msgstr "64 MB RAM (Recomendado: 128 MB RAM o más)"
-
-msgid "SRQ_MSWIN_REQ_DISK"
-msgstr "20 MB de disco duro libres"
-
-msgid "SRQ_APPLMAC"
-msgstr "Macintosh"
-
-msgid "SRQ_APPLMAC_REQ_OS"
-msgstr "Mac OS X 10.3 y posteriores"
-
-msgid "SRQ_APPLMAC_REQ_CPU"
-msgstr "Ordenador Macintosh con procesador Intel x86 ó PowerPC G3, G4 ó G5"
-
-msgid "SRQ_APPLMAC_REQ_RAM"
-msgstr "128 MB RAM (Recomendado: 256 MB RAM o más)"
-
-msgid "SRQ_APPLMAC_REQ_DISK"
-msgstr "200 MB de disco duro libres"
-
-msgid "SRQ_LINUX"
-msgstr "Linux"
-
-msgid "SRQ_LINUX_REQ_KERNEL"
-msgstr "Linux kernel 2.2.14 o superior"
-
-msgid "SRQ_LINUX_REQ_GLIBC"
-msgstr "glibc 2.3.2 o superior"
-
-msgid "SRQ_LINUX_REQ_XFREE86"
-msgstr "XFree86-3.3.6 o superior"
-
-msgid "SRQ_LINUX_REQ_GTKPLUS"
-msgstr "gtk+2.0 o superior"
-
-msgid "SRQ_LINUX_REQ_CPU"
-msgstr "Pentium 500 MHz o superior"
-
-msgid "SRQ_LINUX_REQ_RAM"
-msgstr "64 MB RAM"
-
-msgid "SRQ_LINUX_REQ_DISK"
-msgstr "50 MB de disco duro libres"
-
-# #############################################
-# release notes by je2bwm 2006/08/09
-# #############################################
-msgid "RLN_PAGE_TITLE"
-msgstr "Notas de la versión"
-
-msgid "RLN_WHATS_NEW"
-msgstr "Novedades en %s"
-
-msgid "RLN_INSTALLING"
-msgstr "Instalando"
-
-msgid "RLN_UNINSTALLING"
-msgstr "Desinstalando"
-
-msgid "RLN_KNOWN_ISSUES"
-msgstr "Problemas conocidos"
-
-msgid "RLN_WIN_INSTALL_PROBLEMS"
-msgstr "(Windows) En casos infrecuentes, la instalación puede fallar debido a una instalación previa de BOINC. Si esto ocurre: %s Salga de BOINC si está ejecutándose, y desinstale BOINC usando %s Inicio/Panel de control/Agregar o quitar programas%s. Instale la nueva versión de nuevo. %s Si esto falla, reinstale la versión de BOINC que tenían instalada anteriormente  (las versiones anteriores puede encontrarlas %saquí%s). Desinstálelo como se indicó anteriormente, y luego instale la nueva versión. %s Si esto falla, descargue la utilidad %sHerramienta de limpieza de Windows Installer%s  de Microsoft y ejecútelo. La versión anterior de BOINC aparece bien como BOINC.msi o como un icono corrupto .msi (será la primera opción). Pulse en él para seleccionarlo, y luego pulse Eliminar y Salir (Remove and Exit). Reinicie su ordenador. Instale la nueva versión. (Advertencia: deje todos los demás ficheros .msi tal y como están, de otro modo tendrá problemas desinstalando otros programas). %s "
-
-msgid "RLN_TROUBLESHOOT"
-msgstr "Solución de problemas con BOINC"
-
-msgid "RLN_NEWF_5_4_AM"
-msgstr "Ayuda para 'Administradores de cuentas' - sitios web que le permiten ver, unirse/separase, cambiar los recursos del ordenador y preferencias de los proyectos de BOINC, fácilmente, con solo marcar con el ratón. Los Adminstradores de cuentas son también muy utiles si tiene varios ordenadores -  sólo tiene que realizar los cambios una vez."
-
-msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-msgstr "Las preferencias generales pueden ser sustituidas por otras de un archivo local; los detalles están %s aquí %s."
-
-msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-msgstr "BOINC ahora le avisa siempre que necesita establecer una conexión de red."
-
-msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "El administrador de BOINC ofrece dos interfaces diferentes: 'Simple' (pequeña, gráfica, con pieles) y 'Avanzada' (máxima información). La interfaz Simple permite editar las preferencias localmente. Usted puede cambiar entre modo Simple y Avanzado."
-
-msgid "RLN_5_8_THROTTLE"
-msgstr "Regulación de la CPU: usted puede reducir el calentamiento de la CPU reduciendo la fraccion de tiempo durante el cual BOINC trabaja."
-
-msgid "RLN_5_8_SCHED"
-msgstr "Políticas de planificación mejoradas evitan que las tareas sobrepasen el limite para informar incluso en ordenadores lentos con muchos proyectos."
-
-msgid "RLN_5_8_MEM"
-msgstr "Puede limitar la cantidad de memoria que usa BOINC; esto le permite trabajar  con su ordenador todo el tiempo sin perder eficiencia."
-
-msgid "RLN_5_8_SANDBOX"
-msgstr "Mac OS X ejecuta aplicaciones en una cuenta de usuario sin privilegios, aumentando la seguridad."
-
-msgid "RLN_5_8_SNOOZE"
-msgstr "El botón dormitar (en el icono de la barra de tareas) le permite parar la ejecucuión durante una hora."
-
-msgid "RLN_RECOMMEND_LATEST_VERSION"
-msgstr "Recomendamos que todos los usuarios de BOINC actualizen a %s."
-
-msgid "RLN_LINK2_VERSION_HISTORY"
-msgstr "%s Aquí %s encontrará un historial de revisiones detallado."
-
-msgid "RLN_MSWIN"
-msgstr "Windows"
-
-msgid "RLN_APPLMAC"
-msgstr "Macintosh"
-
-msgid "RLN_LINUX"
-msgstr "Linux"
-
-msgid "RLN_MSWIN_INSTALL_MODES"
-msgstr "BOINC puede ser instalado en distintos modos:"
-
-msgid "RLN_SINGLE_USER_INSTALL"
-msgstr "Instalación monousuario"
-
-msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "Este es el modo recomendado. BOINC se ejecutará mientras usted (el usuario que lo ha instalado) haya inciado una sesión en su ordenador. BOINC aparece en el menú de Inicio de usted, pero no en el de los demás usuarios. El comando 'Mostrar gráficos' del administardor BOINC funciona sólo para  usted. El Protector de pantalla de BOINC muestra gráficos de las aplicaciones sólo para usted (los demás usuarios pueden ejecutar el protector de pantalla pero solo verán la información textual)."
-
-msgid "RLN_SHARED_INSTALL"
-msgstr "Instalación compartida"
-
-msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-msgstr "BOINC se ejecuta cada vez que cualquier usuario inicia una sesión. BOINC aparece en el menú de Inicio de todos los usuarios. Mientras BOINC está funcionando, lo hace como un sólo usuario (bien el primer usuario en iniciar una sesión, o el primero que ejecuta BOINC). El comando 'Mostrar gráficos' del administrador BOINC funciona sólo para dicho usuario. El protector de pantalla de BOINC muestra gráficos de las aplicaciones sólo para dicho usuario (los demás usuarios pueden ejecutar el protector de pantalla pero sólo verán información textual)."
-
-msgid "RLN_WIN_SERVICE_INSTALL"
-msgstr "Instalación de servicio"
-
-msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "BOINC funciona siempre (incluso cuando nadie ha iniciado una sesión). BOINC aparece en el menú de Inicio del usuario que lo instaló, pero no en el de los demás. El comando 'Mostrar gráficos' del administrador BOINC no funcionará para ningún usuario. El protector de pantalla de BOINC sólo mostrará información textual."
-
-msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "BOINC para Linux es distribuido como un archivo autoextraible. Este tipo de instalación requiere que usted esté familiarizado con el interfaz de línea de comandos de UNIX."
-
-msgid "RLN_LINUX_DL_FILENAME"
-msgstr "Los archivos de descarga tienen nombres como <code>%s</code>."
-
-msgid "RLN_LINUX_RUN_SEA"
-msgstr "Después de descargar el archivo, escriba<pre>%s</pre>"
-
-msgid "RLN_LINUX_RESULTOF_SEA"
-msgstr "Esto creará una carpeta BOINC/ con los siguientes archivos:"
-
-msgid "RLN_BOINC_CORE_CL"
-msgstr "El cliente BOINC"
-
-msgid "RLN_BOINC_MANAGER"
-msgstr "El administrador BOINC"
-
-msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
-msgstr "Un archivo de comandos que cambia al directorio directorio de BOINC y ejecuta el cliente núcleo."
-
-msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
-msgstr "Un archivo de comandos que cambia al directorio  de BOINC y ejecuta el administrador."
-
-msgid "RLN_LINUX_AUTOSTART"
-msgstr "Usted podría querer que%s el cliente se inicie automáticamente %sal arrancar."
-
-msgid "RLN_MSWIN_UNINSTALL_DESC"
-msgstr "Seleccione Inicio/ Panel de control/Agregar o quitar programas. Seleccione BOINC, y después pulse Quitar. Esto sólo elimina el programa BOINC. Para eliminar BOINC completamente, borre la carpeta de datos de BOINC (normalmente en C:/Archivos de programa/BOINC)."
-
-msgid "RLN_ISSUE_PROXY_NTLMAUTH"
-msgstr "Si usted usa un servidor proxy, por favor, no actualize por ahora. Tenemos en desarrollo un parche para los proxys que usan la autenticación NTLM."
-
-msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-msgstr "(Windows) Si BOINC se cuelga repetidamente en su ordenador, puede que necesite %sactualizarlo a la última versión (9.0c o posterior) de DirectX %s."
-
-msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-msgstr "(Windows) Si BOINC se ejecuta al mismo tiempo que un protector de pantalla de Windows XP 3-D, el sistema no responde."
-
-msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-msgstr "(Windows) Aplicaciones que fueron hechas antes de octubre de 2004 no muestran gráficos con los tipos de instalación como Servicio o Compartida, o con el tipo de instalación Monousuario con protector de pantalla con contraseña en ordenadores con NT."
-
-msgid "RLN_TROUBLESHOOT_INTRO"
-msgstr "Si tiene problemas con BOINC, aquí tiene algunos pasos para solucionarlos:"
-
-msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-msgstr "Si tiene un problema con un proyecto específico, vaya al área de 'Preguntas y Respuestas' del sitio web del proyecto. Debería encontar solución a su problema. Si no, publíquelo en dicho sitio web, y otros usuarios le ayudarán. Si el problema continúa, use el administrador BOINC para 'reiniciar' dicho proyecto. Esto borrará cualquier trabajo en progreso y comenzará de cero."
-
-msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
-msgstr "Si tiene problemas con el programa BOINC, consiga ayuda de los %s foros de BOINC %s."
-
-# #############################################
 # help.php
 # #############################################
 msgid "HELP_TITLE"
@@ -610,6 +403,9 @@ msgstr "O, si usted ejecuta varios proyectos, pruebe un %sadministrador de cuent
 
 msgid "HOME_P3"
 msgstr "Si tiene alguna pregunta, o necesita ayuda para comenzar, puede %shablar con un Voluntario para Ayuda%s."
+
+msgid "Help"
+msgstr "Ayuda"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Descargar"

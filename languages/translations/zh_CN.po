@@ -1,23 +1,23 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 14992\n"
+"Project-Id-Version: 15349\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-04-07 10:48+0800\n"
+"PO-Revision-Date: 2008-06-03 15:59+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
-"Language-Team: www.EQUN.com <zenith.yin@gmail.com>\n"
+"Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 
-##########################################
+# #########################################
 # Language: English (International)
 # FileID  : $Id$
-##########################################
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
+# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -30,9 +30,9 @@ msgstr "简体中文"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Simplified Chinese"
 
-########################################
+# #######################################
 # poll-related stuff
-########################################
+# #######################################
 msgid "POLL_TITLE"
 msgstr "BOINC 用户调查"
 
@@ -202,7 +202,7 @@ msgid "POLL_WWEB"
 msgstr "其它网站"
 
 msgid "POLL_FACTOR"
-msgstr "在您决定参加某个BOINC项目时，哪些因素在您看来最为重要？"
+msgstr "在您决定参加某个 BOINC 项目时，哪些因素在您看来最为重要？"
 
 msgid "POLL_GRAPHICS"
 msgstr "好看的屏保"
@@ -303,260 +303,50 @@ msgstr "调查结果"
 msgid "POLL_RESULTS_TEXT"
 msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果，该页面每小时更新一次。"
 
-########################################
-# download.php 2006/08/03 by je2bwm
-########################################
-msgid "DL_DOWNLOAD"
+# #######################################
+# download.php
+# #######################################
+msgid "Download BOINC"
 msgstr "下载 BOINC"
 
-msgid "DL_VERSION_LNAME_SIZE"
+msgid "%s for %s (%s MB)"
 msgstr "%s 用于 %s (%s兆字节)"
 
-msgid "DL_WHATS_BOINC"
-msgstr "BOINC使得您可以把计算机的闲置时间捐献给如 SETI@home、Einstein@home、Climateprediction.net、Rosetta@home、World Commnunity Grid 等等许多科研项目。<p>在将 BOINC 安装到您的计算机上之后，您可以加入任意多个您喜欢的项目。<p>"
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr "BOINC 使得您可以把计算机的闲置时间捐献给如 SETI@home、Einstein@home、Climateprediction.net、Rosetta@home、World Commnunity Grid 等等许多科研项目。<p>在将 BOINC 安装到您的计算机上之后，您可以加入任意多个您喜欢的项目。<p>"
 
-msgid "DL_SYSTEMREQ"
+msgid "System requirements"
 msgstr "系统需求"
 
-msgid "DL_RELNOTES"
+msgid "Release notes"
 msgstr "发行说明"
 
-msgid "DL_TROUBLE"
-msgstr "疑难解答"
-
-msgid "DL_OTHERSYS"
+msgid "Other systems"
 msgstr "其它系统"
 
-msgid "DL_ALLVERSIONS"
+msgid "All versions"
 msgstr "所有版本"
 
-msgid "DL_IF_OTHERTYPES"
+msgid "If your computer is not of one of the above types, you can"
 msgstr "如果您的计算机不属于上面任何一种类型，您可以"
 
-msgid "DL_MAKEYOUROWN"
+msgid "%s make your own client software %s or"
 msgstr "%s 制作您自己的客户端软件 %s 或者"
 
-msgid "DL_DL_FROM3RDP"
+msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
 msgstr "%s 从第三方网站下载相应的可执行文件 %s (包括 Solaris/Opteron、Linux/Opteron、 Linux/PPC、HP-UX 以及 FreeBSD 等等)。"
 
-msgid "DL_DOWNLOAD_TITLE"
+msgid "BOINC: compute for science"
 msgstr "BOINC：为科学而计算"
 
 msgid "DL_MIRRORS"
 msgstr "注意：文件是从包括 boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg.de、einstein.astro.gla.ac.uk、einstein.ligo.caltech.edu 以及 einstein.aset.psu.edu 在内的镜像服务器下载的，感谢提供下载服务的这些学校。下载服务器是随机选择的，如果下载失败，请尝试刷新页面后重新下载。"
 
-##############################################
-# system_requirements.php by je2bwm 2006/08/07
-##############################################
-msgid "SRQ_PAGE_TITLE"
-msgstr "系统需求"
-
-msgid "SRQ_INTRO"
-msgstr "要运行 BOINC，您的计算机必须满足如下需求。基于 BOINC 的计算项目可能会有额外的配置需求。"
-
-msgid "SRQ_MSWIN"
-msgstr "Windows"
-
-msgid "SRQ_OS"
-msgstr "操作系统"
-
-msgid "SRQ_MSWIN_REQ_OS"
-msgstr "Windows 98 以及之后的所有版本"
-
-msgid "SRQ_MIN_HARDWARE"
-msgstr "最低硬件配置"
-
-msgid "SRQ_MSWIN_REQ_CPU"
-msgstr "主频 233MHz 的处理器 (推荐使用主频为 500MHz 以上的处理器)"
-
-msgid "SRQ_MSWIN_REQ_RAM"
-msgstr "64 兆内存 (推荐具备 128 兆以上的内存)"
-
-msgid "SRQ_MSWIN_REQ_DISK"
-msgstr "20 兆硬盘空间"
-
-msgid "SRQ_APPLMAC"
-msgstr "Macintosh"
-
-msgid "SRQ_APPLMAC_REQ_OS"
-msgstr "10.3 或更新版本的 Mac OS X"
-
-msgid "SRQ_APPLMAC_REQ_CPU"
-msgstr "配备有 Intel x86 处理器或 PowerPC G3、G4、G5 处理器的 Macintosh 计算机"
-
-msgid "SRQ_APPLMAC_REQ_RAM"
-msgstr "128兆内存 (推荐具备256兆以上的内存)"
-
-msgid "SRQ_APPLMAC_REQ_DISK"
-msgstr "200兆硬盘空间"
-
-msgid "SRQ_LINUX"
-msgstr "Linux"
-
-msgid "SRQ_LINUX_REQ_KERNEL"
-msgstr "2.2.14 或更新版本的 Linux 内核"
-
-msgid "SRQ_LINUX_REQ_GLIBC"
-msgstr "2.3.2 或更新版本的 glibc"
-
-msgid "SRQ_LINUX_REQ_XFREE86"
-msgstr "3.3.6 或更新版本的 XFree86"
-
-msgid "SRQ_LINUX_REQ_GTKPLUS"
-msgstr "2.0 或更新版本的 gtk+"
-
-msgid "SRQ_LINUX_REQ_CPU"
-msgstr "主频 500MHz 以上的处理器"
-
-msgid "SRQ_LINUX_REQ_RAM"
-msgstr "64 兆内存"
-
-msgid "SRQ_LINUX_REQ_DISK"
-msgstr "50 兆硬盘空间"
-
-##############################################
-# release_notes.php
-##############################################
-msgid "RLN_PAGE_TITLE"
-msgstr "发行说明"
-
-msgid "RLN_WHATS_NEW"
-msgstr "%s 的新特性"
-
-msgid "RLN_INSTALLING"
-msgstr "安装"
-
-msgid "RLN_UNINSTALLING"
-msgstr "卸载"
-
-msgid "RLN_KNOWN_ISSUES"
-msgstr "已知问题"
-
-msgid "RLN_WIN_INSTALL_PROBLEMS"
-msgstr "(Windows) 有时候，安装过程会因为之前安装过的 BOINC 而导致失败。如果发生这种情况：%s 先退出运行中的 BOINC，再通过 %s开始菜单/控制面板/添加删除程序%s 来卸载 BOINC，然后再次安装新的版本。%s 如果仍然失败，重新安装之前您所使用的 BOINC 版本 (旧的版本可以在 %s这里%s 找到)。然后按照上面说的先卸载再安装新的版本。%s 如果仍然失败，请从微软的官方网站下载并运行 %sWindows Installer 清理实用工具%s。旧的 BOINC 版本可能显示为 BOINC.msi 或者一个损坏图标 .msi (将会显示在列表的最上端)。点击选中它，然后点击 Remove (移除) 按钮并退出该工具。重启您的计算机后应该就可以安装新的版本了。(警告：不要管其它所有的 .msi 文件，否则您在其它程序时可能就会有问题了)。%s "
-
-msgid "RLN_TROUBLESHOOT"
-msgstr "BOINC 疑难解答"
-
-msgid "RLN_NEWF_5_4_AM"
-msgstr "支持“帐户管理器” － 通过相应的网站，您将只需几次点击即可完成浏览 BOINC 项目、加入或退出 BOINC 项目、调整资源分享率及修改其它参数等各种操作。如果您拥有多台计算机，帐户管理器也是相当有用的 － 很多操作您将只需要修改一次就可以了。"
-
-msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-msgstr "可以通过在本地设置一个文件来替代通用的参数设置，详细信息请看 %s这里%s。"
-
-msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-msgstr "BOINC在需要网络连接时会通知用户。"
-
-msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "BOINC Manager 提供两种不同的界面：“简洁”界面(小巧、图形化、支持换肤)和“高级”界面 (提供最多的信息)，前者还允许本地化的参数设置，您可以在简洁界面和高级界面间任意进行切换。"
-
-msgid "RLN_5_8_THROTTLE"
-msgstr "CPU占用率限制，您可以控制 BOINC 计算时所能使用的处理器资源以减少 CPU 的发热。"
-
-msgid "RLN_5_8_SCHED"
-msgstr "改进的调度策略使得您可以避免超出任务包的完成期限，即使是在很慢的计算机上参加了很多的项目。"
-
-msgid "RLN_5_8_MEM"
-msgstr "您可以限制 BOINC 使用的内存量，这样即使您一直运行计算程序，也不会有性能方面的损失。"
-
-msgid "RLN_5_8_SANDBOX"
-msgstr "Mac OS X 版本将在非特权帐户下运行计算程序以提高安全性。"
-
-msgid "RLN_5_8_SNOOZE"
-msgstr "在系统托盘区的 BOINC 图标上右键选择“休息一下”可以让您的计算机停止计算一个小时。"
-
-msgid "RLN_RECOMMEND_LATEST_VERSION"
-msgstr "我们推荐所有 BOINC 用户都升级到 %s。"
-
-msgid "RLN_LINK2_VERSION_HISTORY"
-msgstr "详细的版本更新历史请看 %s这里%s。"
-
-msgid "RLN_MSWIN"
-msgstr "Windows"
-
-msgid "RLN_APPLMAC"
-msgstr "Macintosh"
-
-msgid "RLN_LINUX"
-msgstr "Linux"
-
-msgid "RLN_MSWIN_INSTALL_MODES"
-msgstr "BOINC可以使用下面任何一种安装模式："
-
-msgid "RLN_SINGLE_USER_INSTALL"
-msgstr "单用户安装模式"
-
-msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "推荐模式。BOINC 将在您 (也就是运行安装程序的用户) 登录时运行。BOINC 只会被显示在您的开始菜单中。BOINC 管理器中“显示图形”的操作也只对您有效。BOINC 屏保也只会为您显示计算程序的图形 (其它用户也能运行屏保，但只会看到一些文本信息)。"
-
-msgid "RLN_SHARED_INSTALL"
-msgstr "共享安装模式"
-
-msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-msgstr "BOINC 将在任何用户登录之后运行。BOINC 会显示在所有用户的开始菜单中。BOINC 会运行在某个特定的用户帐号下 (第一位登录的用户，或者第一位运行BOINC的用户)。BOINC Manager中的“显示图形”操作只对该用户有效。BOINC 屏保也只会为该用户显示计算程序的图形 (其它用户也能运行屏保，但只会看到一些文本信息)。"
-
-msgid "RLN_WIN_SERVICE_INSTALL"
-msgstr "系统服务安装模式"
-
-msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "BOINC 会一直运行 (即使用户没有登录)。BOINC 只会显示在安装用户的开始菜单中。BOINC管理器中的“显示图形”操作对所有用户均无效。BOINC屏保将只显示文本信息。"
-
-msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "Linux 平台上的 BOINC 是作为一个自解压档案来发布的。这将需要您对 UNIX 的命令行操作界面有一定了解。"
-
-msgid "RLN_LINUX_DL_FILENAME"
-msgstr "安装文件的文件名类似于<code>%s</code>。"
-
-msgid "RLN_LINUX_RUN_SEA"
-msgstr "下载完成后，输入<pre>%s</pre>"
-
-msgid "RLN_LINUX_RESULTOF_SEA"
-msgstr "该操作将创建一个包含如下文件的 BOINC 目录："
-
-msgid "RLN_BOINC_CORE_CL"
-msgstr "BOINC 核心客户端"
-
-msgid "RLN_BOINC_MANAGER"
-msgstr "BOINC Manager"
-
-msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
-msgstr "一个脚本，运行后进入 BOINC 目录并运行核心客户端。"
-
-msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
-msgstr "一个脚本，运行后进入 BOINC 目录并运行 BOINC Manager。"
-
-msgid "RLN_LINUX_AUTOSTART"
-msgstr "您也许会想要在启动时 %s自动运行核心客户端%s。"
-
-msgid "RLN_MSWIN_UNINSTALL_DESC"
-msgstr "在开始菜单中依次选择“控制面板/添加删除程序”，找到并选中 BOINC，点击“删除”即可。但这样将只卸载 BOINC 的软件，如果要完全移除 BOINC，请删除 BOINC 的数据目录，该目录通常位于C:/Programs Files/BOINC。"
-
-msgid "RLN_ISSUE_PROXY_NTLMAUTH"
-msgstr "如果您使用代理服务器，请暂时不要升级。我们已经修正了对使用NTLM认证的代理服务器的使用。"
-
-msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-msgstr "(Windows) 如果 BOINC 程序在您的计算机上反复出错，有可能您需要 %s升级至最新版本的DirectX%s。"
-
-msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-msgstr "(Windows) 如果 BOINC 运行时也启动了 Windows XP 的 3D 屏保，系统将变得很慢，可能失去响应。"
-
-msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-msgstr "(Windows) 2004年10月前生成的应用程序在系统服务安装模式或共享安装模式下将无法显示屏保图形，如果在基于 NT 的计算机上使用了带密码保护的屏保，那在单用户安装模式下也将无法显示图形。"
-
-msgid "RLN_TROUBLESHOOT_INTRO"
-msgstr "如果您在使用 BOINC 的过程中碰到问题，可以采取如下解决方法："
-
-msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-msgstr "如果该问题是针对特定项目，请访问该项目网站的“疑难解答”区域，您也许可以在那找到问题的解决方法，如果没有，请将问题张贴上去， 您将会得到其它用户的帮助。如果问题仍然存在，请在 BOINC Manager 中选择“重置”该项目，该操作将会删除此项目所有相关文件，从头开始。"
-
-msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
-msgstr "如果您的问题是关于 BOINC 本身，请访问 %sBOINC官方网站的留言板%s 以寻求帮助。"
-
-##############################################
+# #############################################
 # help.php
-##############################################
+# #############################################
 msgid "HELP_TITLE"
-msgstr "从BOINC得到帮助"
+msgstr "从 BOINC 得到帮助"
 
 msgid "HELP_HEADING1"
 msgstr "在线帮助"
@@ -600,9 +390,9 @@ msgstr "如果您是一位有经验的 BOINC 用户，我们鼓励您 %s成为�
 msgid "HELP_P3_2"
 msgstr "如果您已经是一位志愿帮助者并且想要编辑您的参数设置，请 %s点击这里%s。"
 
-##############################################
+# #############################################
 # index.php
-##############################################
+# #############################################
 msgid "HOME_HEADING1"
 msgstr "志愿者"
 
@@ -615,7 +405,7 @@ msgstr "如果参加了多个项目，您可以使用 %s帐户管理器%s 来简
 msgid "HOME_P3"
 msgstr "如果有任何相关问题，或者需要一些帮助，您还可以 %s和很乐意帮忙的志愿者们进行交谈%s。"
 
-msgid "HOME_HELP"
+msgid "Help"
 msgstr "帮助"
 
 msgid "HOME_DOWNLOAD"
