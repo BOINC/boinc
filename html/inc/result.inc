@@ -3,12 +3,15 @@
 function result_claimed_credit_string($result, $string_to_show) {
     if ($result->server_state <> 5) return "---";
     switch($result->outcome) {
-    case 3: if ($result->exit_status <> -221) {
+    case 3:
+        if ($result->exit_status <> -221) {
                 return $string_to_show; //Client error
-	    } 
-    default: if ($result->claimed_credit > 0) {
-                     return $string_to_show;
-	    } else return "---"; // no claimed credit 
+        } 
+    default:
+        if ($result->claimed_credit > 0) {
+            return $string_to_show;
+	    }
+        return "---"; // no claimed credit 
     }
 }
 
@@ -22,9 +25,11 @@ function result_granted_credit_string($result, $string_to_show) {
             return "pending";
         }
         return $string_to_show;
-    default: if ($result->granted_credit > 0) {
-                     return $string_to_show;
-	    } else return "---"; // no claimed credit 
+    default:
+        if ($result->granted_credit > 0) {
+            return $string_to_show;
+	    }
+        return "---"; // no claimed credit 
     }
 } 
 
@@ -32,7 +37,7 @@ function result_server_state_string($result) {
     switch($result->server_state) {
     case 1: return "Inactive";
     case 2: return "Unsent";
-    case 4: return "In Progress";
+    case 4: return "In progress";
     case 5: return "Over";
     }
     return "Unknown";
@@ -40,11 +45,14 @@ function result_server_state_string($result) {
 
 function result_outcome_string($result) {
     switch($result->outcome) {
+    case 0: return "---";
     case 1: return "Success";
     case 2: return "Couldn't send";
-    case 3: if ($result->exit_status <> -221) {
+    case 3:
+        if ($result->exit_status <> -221) {
                return "Client error";
-	    } else return "Redundant result";
+        }
+        return "Redundant result";
     case 4: return "No reply";
     case 5: return "Didn't need";
     case 6: return "Validate error";
@@ -61,9 +69,11 @@ function result_client_state_string($result) {
     case 3: return "Compute error";
     case 4: return "Uploading";
     case 5: return "Done";
-    case 6: if ($result->exit_status <> -221) {
-               return "Aborted by user";
-	    } else return "Cancelled by server";
+    case 6:
+        if ($result->exit_status <> -221) {
+            return "Aborted by user";
+        }
+        return "Cancelled by server";
     }
 }
 
@@ -71,9 +81,11 @@ function validate_state_str($result) {
     switch($result->validate_state) {
     case 0: return "Initial";
     case 1: return "Valid";
-    case 2: if ($result->exit_status <> -221) {
-               return "Invalid";
-	    } else return "Not necessary";
+    case 2:
+        if ($result->exit_status <> -221) {
+            return "Invalid";
+        }
+        return "Not necessary";
     case 3: return "Workunit error - check skipped";
     case 4: return "Checked, but no consensus yet";
     case 5: return "Task was reported too late to validate";
@@ -106,8 +118,7 @@ function wu_error_mask_str($s) {
     if ($s) {
         $x = $x."Unrecognized Error: $s ";
     }
-    if (strlen($x)) {
-    } else {
+    if (!strlen($x)) {
         $x="<br>";
     }
     return $x;
