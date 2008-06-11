@@ -4775,3 +4775,9 @@ David  10 June 2008
 
     py/Boinc/
         setup_project.py
+
+David  12 June 2008
+    - added Free-DC CPID stats
+
+    html/inc/
+        stats_sites.inc

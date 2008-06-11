@@ -4,6 +4,9 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 // the following sites generate stats for a given CPID
 //
 $cpid_stats_sites = array(
+    array("Free-DC",
+        "http://stats.free-dc.org/stats.php?page=userbycpid&cpid=%s"
+    ),
     array("BOINC all Project Stats",
         "http://www.allprojectstats.com/showuser.php?id=%s"
     ),
