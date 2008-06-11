@@ -551,7 +551,8 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     if (is_acct_mgr_detected) {
         menuName.Printf(
             _("Open %s Web..."),
-            pSkinAdvanced->GetApplicationShortName().c_str()
+            //pSkinAdvanced->GetApplicationShortName().c_str()
+			ami.acct_mgr_name.c_str()
         );
         pMenu->Append(ID_OPENWEBSITE, menuName, wxEmptyString);
     }
