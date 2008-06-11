@@ -8,7 +8,7 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
-$auth = process_user_text($_GET["account_key"]);
+$auth = get_str("account_key");
 
 $user = lookup_user_auth($auth);
 if (!$user) {

@@ -23,7 +23,7 @@ function email_sent_message($email_addr) {
     ";
 }
 
-$email_addr = process_user_text(strtolower($_POST["email_addr"]));
+$email_addr = strtolower(post_str("email_addr"));
 if (!strlen($email_addr)) {
     error_page("no address given");
 }

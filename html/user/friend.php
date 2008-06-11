@@ -82,7 +82,9 @@ function handle_add_confirm($user) {
     if ($msg) $msg = strip_tags(process_user_text($msg));
 
     $now = time();
-    $ret = BoincFriend::replace("user_src=$user->id, user_dest=$destid, message='$msg', create_time=$now, reciprocated=0");
+    $ret = BoincFriend::replace(
+        "user_src=$user->id, user_dest=$destid, message='$msg', create_time=$now, reciprocated=0"
+    );
     if (!$ret) {
         error_page("database error");
     }

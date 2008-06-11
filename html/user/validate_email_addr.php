@@ -24,8 +24,8 @@ function send_validate_email() {
 }
 
 function validate() {
-    $x = process_user_text(get_str("x"));
-    $u = process_user_text(get_int("u"));
+    $x = get_str("x");
+    $u = get_int("u");
     $user = lookup_user_id($u);
     if (!$user) {
         error_page("No such user.\n");

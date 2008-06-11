@@ -4,15 +4,12 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
-$auth = process_user_text(post_str("auth", true));
-$email_addr = strtolower(process_user_text(post_str("email_addr", true)));
+$auth = post_str("auth", true);
+$email_addr = strtolower(post_str("email_addr", true));
 
-// Note: don't call process_user_text() on passwords.
-// This is not needed, and will break passwords containing punctuation
-
-$old_passwd = undo_magic_quotes(post_str("old_passwd", true));
-$passwd = undo_magic_quotes(post_str("passwd"));
-$passwd2 = undo_magic_quotes(post_str("passwd2"));
+$old_passwd = post_str("old_passwd", true);
+$passwd = post_str("passwd");
+$passwd2 = post_str("passwd2");
 
 if ($passwd != $passwd2) {
     error_page("New passwords are different");

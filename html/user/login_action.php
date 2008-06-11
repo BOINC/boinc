@@ -7,7 +7,7 @@ require_once("../inc/user.inc");
 // check for email/password case
 //
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
-$passwd = undo_magic_quotes(post_str("passwd", true));
+$passwd = post_str("passwd", true);
 
 if ($email_addr && $passwd) {
     $user = lookup_user_email_addr($email_addr);
@@ -81,9 +81,9 @@ if ($id && $t && $h) {
 // check for account key case.
 // see if key is in URL; if not then check for POST data
 //
-$authenticator = process_user_text(get_str("key", true));
+$authenticator = get_str("key", true);
 if (!$authenticator) {
-   $authenticator = process_user_text(post_str("authenticator", true));
+   $authenticator = post_str("authenticator", true);
 }
 if (!$authenticator) {
     error_page("You must supply an account key");

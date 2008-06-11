@@ -38,8 +38,8 @@ $thread_owner = BoincUser::lookup_id($thread->owner);
 //
 $can_edit_title = ($post->parent_post==0 && $thread_owner->id==$logged_in_user->id && !is_banished($logged_in_user));
 
-$content = undo_magic_quotes(post_str("content", true));
-$title = undo_magic_quotes(post_str("title", true));
+$content = post_str("content", true);
+$title = post_str("title", true);
 $preview = post_str("preview", true);
 
 if (post_str('submit',true) && (!$preview)) {

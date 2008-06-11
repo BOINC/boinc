@@ -4790,3 +4790,20 @@ David  12 June 2008
             results.inc
         user/
             workunit.php
+
+David  12 June 2008
+    - web: cleaned up logic of string processing.
+        There are two aspects:
+        1) undoing magic quotes (if it's being used).
+            This must be done for all GET and POST string inputs.
+            It is now done automatically by get_str() and post_str().
+            The places that refer to $_GET and $_POST directly
+            must do it themselves using undo_magic_quotes().
+        2) Escaping user-supplied strings before using them in DB queries.
+            This is done by process_user_text()
+            (which should be renamed db_escape_string()).
+            The new principle:
+            call process_user_text() in the function that does the DB query
+            (not at any higher level).
+
+    html/ many files

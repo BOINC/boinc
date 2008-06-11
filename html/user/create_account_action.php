@@ -43,7 +43,7 @@ if ($teamid) {
 }
 
 if(defined('INVITE_CODES')) {
-    $invite_code = process_user_text(post_str("invite_code"));
+    $invite_code = post_str("invite_code");
     if (strlen($invite_code)==0) {
         show_error(tra("You must supply an invitation code to create an account."));
     }
@@ -52,7 +52,7 @@ if(defined('INVITE_CODES')) {
     }
 } 
 
-$new_name = process_user_text(post_str("new_name"));
+$new_name = post_str("new_name");
 if (strlen($new_name)==0) {
     show_error("You must supply a name for your account");
 }
@@ -60,7 +60,7 @@ if ($new_name != strip_tags($new_name)) {
     show_error("HTML tags not allowed in name");
 }
 
-$new_email_addr = process_user_text(post_str("new_email_addr"));
+$new_email_addr = post_str("new_email_addr");
 $new_email_addr = strtolower($new_email_addr);
 if (!is_valid_email_addr($new_email_addr)) {
     show_error("Invalid email address:
@@ -73,8 +73,8 @@ if ($user) {
     show_error("There's already an account with that email address.");
 }
 
-$passwd = undo_magic_quotes(post_str("passwd"));
-$passwd2 = undo_magic_quotes(post_str("passwd2"));
+$passwd = post_str("passwd");
+$passwd2 = post_str("passwd2");
 if ($passwd != $passwd2) {
     show_error("New passwords are different");
 }

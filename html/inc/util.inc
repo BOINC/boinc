@@ -577,7 +577,7 @@ function get_str($name, $optional=false) {
     if (!$x && !$optional) {
         error_page("missing or bad parameter: $name");
     }
-    return $x;
+    return undo_magic_quotes($x);
 }
 
 function get_venue($name) {
@@ -595,7 +595,7 @@ function post_str($name, $optional=false) {
     if (!$x && !$optional) {
         error_page("missing or bad parameter: $name");
     }
-    return $x;
+    return undo_magic_quotes($x);
 }
 
 function is_ascii($str) {

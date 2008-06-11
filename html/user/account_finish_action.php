@@ -4,8 +4,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 
-$auth = process_user_text(post_str("auth"));
-$name = process_user_text(post_str("name"));
+$auth = post_str("auth");
+$name = post_str("name");
 
 if (strlen($name)==0) {
     error_page("You must supply a name for your account");
@@ -19,7 +19,11 @@ if (!is_valid_country($country)) {
     error_page( "invalid country");
 }
 
-$postal_code = strip_tags(process_user_text(post_str("postal_code", true)));
+$postal_code = strip_tags(post_str("postal_code", true));
+
+$auth = process_user_text($auth);
+$name = process_user_text($name);
+$postal_code = process_user_text($postal_code);
 
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) {

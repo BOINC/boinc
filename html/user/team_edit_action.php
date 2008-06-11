@@ -20,7 +20,7 @@ if ($x) {
 $team_name = process_user_text(strip_tags(post_str("name")));
 $team_name_lc = strtolower($team_name);
 
-$tnh = undo_magic_quotes(post_str("name_html", true));
+$tnh = post_str("name_html", true);
 $team_name_html = sanitize_html($tnh);
 
 $team_name_html = process_user_text($team_name_html);

@@ -354,6 +354,8 @@ function show_profile_link($user) {
     }
 }
 
+// the following DB-escapes its args
+//
 function make_user(
     $email_addr, $name, $passwd_hash,
     $country=null, $postal_code=null, $project_prefs=null, $teamid=0
@@ -363,6 +365,11 @@ function make_user(
     $cross_project_id = random_string();
     $now = time();
     if (!is_valid_country($country)) return null;
+
+    $email_addr = process_user_text($email_addr);
+    $name = process_user_text($name);
+    $passwd_hash = process_user_text($passwd_hash);
+
     $country = BoincDb::escape_string($country);
     $postal_code = strip_tags(process_user_text($postal_code));
 

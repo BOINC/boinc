@@ -498,7 +498,7 @@ function make_team(
     $description = process_user_text($description);
     $country = process_user_text($country);
     if (!is_valid_country($country)) {
-            $country = 'None';
+        $country = 'None';
     }
     $country = boinc_real_escape_string($country);  // for Cote d'Ivoire
 

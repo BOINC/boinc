@@ -12,7 +12,7 @@ $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
 $email_addr = get_str("email_addr");
-$passwd_hash = process_user_text(get_str("passwd_hash", true));
+$passwd_hash = get_str("passwd_hash", true);
 
 $email_addr = BoincDb::escape_string($email_addr);
 $user = BoincUser::lookup("email_addr='$email_addr'");

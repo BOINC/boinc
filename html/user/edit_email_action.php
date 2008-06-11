@@ -7,8 +7,8 @@ require_once("../inc/user.inc");
 
 $user = get_logged_in_user();
 
-$email_addr = strtolower(process_user_text(post_str("email_addr")));
-$passwd = process_user_text(post_str("passwd", true));
+$email_addr = strtolower(post_str("email_addr"));
+$passwd = post_str("passwd", true);
 
 page_head("Change email address of account");
 
@@ -34,7 +34,10 @@ if (!is_valid_email_addr($email_addr)) {
             echo "Invalid password.";
         } else {
             $passwd_hash = md5($passwd.$email_addr);
-            $result = $user->update("email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0");
+            $email_addr = process_user_text($email_addr);
+            $result = $user->update(
+                "email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0"
+            );
             if ($result) {
                 echo "
                     The email address of your account is now $email_addr.
@@ -50,5 +53,4 @@ if (!is_valid_email_addr($email_addr)) {
 }
 
 page_tail();
-
 ?>

@@ -103,7 +103,6 @@ function boinc_real_escape_string($x) {
 //
 function process_user_text($x) {
     $x = trim($x);
-    $x = undo_magic_quotes($x);
     return boinc_real_escape_string($x);
 }
 

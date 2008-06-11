@@ -19,16 +19,16 @@ if (parse_bool($config, "disable_account_creation")) {
 }
 
 if(defined('INVITE_CODES')) {
-    $invite_code = process_user_text(get_str("invite_code"));
+    $invite_code = get_str("invite_code");
     if (!preg_match(INVITE_CODES, $invite_code)) {
         xml_error(-209);
     }
 } 
 
 $email_addr = get_str("email_addr");
-$email_addr = process_user_text(strtolower($email_addr));
-$passwd_hash = process_user_text(get_str("passwd_hash"));
-$user_name = process_user_text(get_str("user_name"));
+$email_addr = strtolower($email_addr);
+$passwd_hash = get_str("passwd_hash");
+$user_name = get_str("user_name");
 
 if (!is_valid_email_addr($email_addr)) {
     xml_error(-205);
