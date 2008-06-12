@@ -185,9 +185,9 @@ function show_textarea($name, $text) {
 // Don't assign to $profile->x if this is the case.
 //
 function process_create_profile($user, $profile) {
-    $response1 = $_POST['response1'];
-    $response2 = $_POST['response2'];
-    $language = $_POST['language'];
+    $response1 = post_str('response1');
+    $response2 = post_str('response2');
+    $language = post_str('language');
     if (isset($_POST['delete_pic'])) {
         $delete_pic = $_POST['delete_pic'];
     } else {

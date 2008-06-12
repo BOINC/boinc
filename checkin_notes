@@ -4825,3 +4825,9 @@ David  12 June 2008
             project.inc
         user/
             home.php
+
+David  13 June 2008
+    - web: handle magic quotes correctly in profile create/edit
+
+    html/user/
+        create_profile.php
