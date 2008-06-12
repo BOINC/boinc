@@ -112,6 +112,8 @@ function show_login($user) {
     }
 }
 
+$cache_control_extra="";
+
 // Page_head() is overridable so that projects that want to integrate BOINC
 // with an existing web framework can more easily do so.
 // To do so, define page_head() in the project include file.
@@ -119,6 +121,7 @@ function show_login($user) {
 if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     global $caching;
+    global $cache_control_extra;
 
     $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
@@ -130,7 +133,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     if (!$caching) {
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
         header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
-        header ("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
+        header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
         header ("Pragma: no-cache");                          // HTTP/1.0
     }
     

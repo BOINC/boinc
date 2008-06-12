@@ -24,8 +24,9 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 // offensive forum posts.
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
-function project_banner($title) {
+function project_banner($title, $prefix) {
     // Put your project title and logo here
+    // If you include any links, prepend URL with $prefix
 
     echo "<table width=\"100%\">
         <tr>
@@ -35,10 +36,11 @@ function project_banner($title) {
     ";
 }
 
-function project_footer($show_return, $show_date) {
+function project_footer($show_return, $show_date, $prefix) {
+    // If you include any links, prepend URL with $prefix
     echo "<br><hr noshade size=1><center>";
     if ($show_return) {
-        echo "<a href=index.php>Home</a> | <a href=home.php>My Account</a> | <a href=forum_index.php>Message Boards</a><br>\n";
+        echo "<a href=".$prefix."index.php>Home</a> | <a href=".$prefix."home.php>My Account</a> | <a href=".$prefix."forum_index.php>Message Boards</a><br>\n";
     }
     echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {

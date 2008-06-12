@@ -17,6 +17,8 @@ if ($via_web) {
     clear_cookie('via_web');
 }
 
+$cache_control_extra = "no-store,";
+
 if ($init) {
     clear_cookie('init');
     page_head(tra("Welcome to %1", PROJECT));

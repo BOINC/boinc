@@ -4807,3 +4807,21 @@ David  12 June 2008
             (not at any higher level).
 
     html/ many files
+
+David  12 June 2008
+    - web: add $prefix arg to sample project_header(), project_footer()
+        (fix links on profile-index pages)
+    - web: use cache-control "no-store" only for home.php.
+        This makes it so that, e.g. if you scroll to the middle of a long page,
+        follow a link, then click Back,
+        you'll go back the original scroll position rather than top of page.
+
+    html/
+        inc/
+            util.inc
+        ops/
+            update_profile_pages.php
+        project.sample/
+            project.inc
+        user/
+            home.php

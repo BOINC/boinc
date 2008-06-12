@@ -7,7 +7,7 @@ require_once("../inc/uotd.inc");
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 
-//echo date(DATE_RFC822), ": Starting\n";
+echo date(DATE_RFC822), ": Starting\n";
 
 set_time_limit(0);
 ini_set("memory_limit", "1024M");
@@ -387,5 +387,5 @@ build_country_pages();
 build_alpha_pages();
 build_picture_pages(GALLERY_WIDTH, GALLERY_HEIGHT);
 
-//echo date(DATE_RFC822), ": Finished\n";
+echo date(DATE_RFC822), ": Finished\n";
 ?>
