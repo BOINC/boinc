@@ -4835,10 +4835,23 @@ David  13 June 2008
 David  13 June 2008
     - API/runtime system: remove "fraction done update period" stuff.
         This was always 1 second, which is fine.
+        Rom: please back-port.
 
     api/
         boinc_api.C
     client/
         app_start.C
+    lib/
+        app_ipc.C,h
+
+David  13 June 2008
+    - client/API: add "computation_deadline" to APP_INIT_DATA.
+        This supports apps that can do variable amounts of computing;
+        they can boinc_finish() if their deadline is near.
+        Rom: please back-port.
+
+    client/
+        app_start.C
+        client_types.h
     lib/
         app_ipc.C,h

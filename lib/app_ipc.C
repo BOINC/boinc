@@ -142,7 +142,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<rsc_fpops_est>%f</rsc_fpops_est>\n"
         "<rsc_fpops_bound>%f</rsc_fpops_bound>\n"
         "<rsc_memory_bound>%f</rsc_memory_bound>\n"
-        "<rsc_disk_bound>%f</rsc_disk_bound>\n",
+        "<rsc_disk_bound>%f</rsc_disk_bound>\n"
+        "<computation_deadline>%f</computation_deadline>\n",
         ai.slot,
         ai.wu_cpu_time,
         ai.user_total_credit,
@@ -156,7 +157,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.rsc_fpops_est,
         ai.rsc_fpops_bound,
         ai.rsc_memory_bound,
-        ai.rsc_disk_bound
+        ai.rsc_disk_bound,
+        ai.computation_deadline
     );
     MIOFILE mf;
     mf.init_file(f);
@@ -242,6 +244,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double(tag, "rsc_fpops_bound", ai.rsc_fpops_bound)) continue;
         if (xp.parse_double(tag, "rsc_memory_bound", ai.rsc_memory_bound)) continue;
         if (xp.parse_double(tag, "rsc_disk_bound", ai.rsc_disk_bound)) continue;
+        if (xp.parse_double(tag, "computation_deadline", ai.computation_deadline)) continue;
         if (xp.parse_double(tag, "wu_cpu_time", ai.wu_cpu_time)) continue;
         if (xp.parse_double(tag, "checkpoint_period", ai.checkpoint_period)) continue;
         if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;

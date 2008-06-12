@@ -590,8 +590,7 @@ struct RESULT {
         // used to keep cpu scheduler from scheduling a result twice
         // transient; used only within schedule_cpus()
     double computation_deadline();
-        // used by the CPU scheduler to determine if there is a cause for
-        // a pre-emption of running results.
+        // report deadline - prefs.work_buf_min - time slice
     bool rr_sim_misses_deadline;
     bool last_rr_sim_missed_deadline;
 

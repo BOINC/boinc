@@ -186,6 +186,7 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.rsc_fpops_bound = wup->rsc_fpops_bound;
     aid.rsc_memory_bound = wup->rsc_memory_bound;
     aid.rsc_disk_bound = wup->rsc_disk_bound;
+    aid.computation_deadline = result->computation_deadline();
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
