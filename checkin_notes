@@ -4831,3 +4831,14 @@ David  13 June 2008
 
     html/user/
         create_profile.php
+
+David  13 June 2008
+    - API/runtime system: remove "fraction done update period" stuff.
+        This was always 1 second, which is fine.
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h

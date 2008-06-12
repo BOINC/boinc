@@ -91,7 +91,6 @@ static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
 static volatile int time_until_checkpoint;
     // time until enable checkpoint
-static volatile int time_until_fraction_done_update;
     // time until report fraction done to core client
 static volatile double fraction_done;
 static volatile double last_checkpoint_cpu_time;
@@ -376,7 +375,6 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     fraction_done = -1;
     time_until_checkpoint = (int)aid.checkpoint_period;
     last_checkpoint_cpu_time = aid.wu_cpu_time;
-    time_until_fraction_done_update = (int)aid.fraction_done_update_period;
     last_wu_cpu_time = aid.wu_cpu_time;
 
     if (standalone) {
@@ -514,7 +512,6 @@ int boinc_parse_init_data_file() {
     aid.host_total_credit = 0;
     aid.host_expavg_credit = 0;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
-    aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
 
     if (!boinc_file_exists(INIT_DATA_FILE)) {
         fprintf(stderr,
@@ -598,13 +595,14 @@ int resume_activities() {
 #endif
     return 0;
 }
+
 int restore_activities() {
  int retval;
     if (boinc_status.suspended) {
-	    retval = suspend_activities();
-	    } else {
-	        retval = resume_activities();
-	    }
+        retval = suspend_activities();
+    } else {
+        retval = resume_activities();
+    }
     return retval;
 }
 
@@ -883,18 +881,14 @@ static void timer_handler() {
     // don't bother reporting CPU time etc. if we're suspended
     //
     if (options.send_status_msgs && !boinc_status.suspended) {
-        time_until_fraction_done_update -= 1;
-        if (time_until_fraction_done_update <= 0) {
-            double cur_cpu;
-            cur_cpu = boinc_worker_thread_cpu_time();
-            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
-            time_until_fraction_done_update = (int)aid.fraction_done_update_period;
-        }
+        double cur_cpu = boinc_worker_thread_cpu_time();
+        last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+        update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
     }
     
-    // If running under V5 client, notify the client if the graphics app 
-    //    exits (e.g., if user clicked in the graphics window's close box.)
+    // If running under V5 client, notify the client if the graphics app exits
+    // (e.g., if user clicked in the graphics window's close box.)
+    //
     if (ga_win.pid) {
         if (! ga_win.is_running()) {
             app_client_shm->shm->graphics_reply.send_msg(

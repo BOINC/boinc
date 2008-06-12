@@ -187,7 +187,6 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.rsc_memory_bound = wup->rsc_memory_bound;
     aid.rsc_disk_bound = wup->rsc_disk_bound;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
-    aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
 #ifdef _WIN32
