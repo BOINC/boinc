@@ -4826,13 +4826,13 @@ David  12 June 2008
         user/
             home.php
 
-David  13 June 2008
+David  12 June 2008
     - web: handle magic quotes correctly in profile create/edit
 
     html/user/
         create_profile.php
 
-David  13 June 2008
+David  12 June 2008
     - API/runtime system: remove "fraction done update period" stuff.
         This was always 1 second, which is fine.
         Rom: please back-port.
@@ -4844,7 +4844,7 @@ David  13 June 2008
     lib/
         app_ipc.C,h
 
-David  13 June 2008
+David  12 June 2008
     - client/API: add "computation_deadline" to APP_INIT_DATA.
         This supports apps that can do variable amounts of computing;
         they can boinc_finish() if their deadline is near.
@@ -4855,3 +4855,14 @@ David  13 June 2008
         client_types.h
     lib/
         app_ipc.C,h
+
+David  13 June 2008
+    - web: fixed numerous bugs in team founder transfer mechanism
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_founder_transfer_form.php
+            team_founder_transfer_action.php
+            team_display.php

@@ -21,10 +21,10 @@ function send_founder_transfer_email($team, $user) {
 transfer foundership of $team->name in ".PROJECT.".
 Please visit
 ".URL_BASE."team_change_founder_form.php?teamid=".$team->id."
-to transfer foundership or decline the request.
+to grant or decline the request.
     
-If you do not respond to this request within two months, ".$user->name." will
-be given the option to become the team founder.
+If you do not respond within 60 days, ".$user->name." will
+be allowed to become the team founder.
     
 Please do not respond to this email.
 The mailbox is not monitored and the email
@@ -34,6 +34,14 @@ was sent using an automated system.";
     $founder = lookup_user_id($team->userid);
 
     // send founder a private message for good measure
+
+    $body = "Team member ".$user->name." has asked that you
+transfer foundership of $team->name.
+Please go [url=".URL_BASE."team_change_founder_form.php?teamid=$team->id]here[/url] to grant or decline the request.
+    
+If you do not respond within 60 days, ".$user->name." will
+be allowed to become the team founder.
+";
 
     pm_send($founder, $subject, $body);
     return send_email($founder, $subject, $body);
@@ -53,12 +61,12 @@ was sent using an automated system.";
 
 $action = post_str("action");
 
-if ($action == "transfer") {
+switch ($action) {
+case "initiate_transfer":
     $team = BoincTeam::lookup_id($user->teamid);
-    page_head("Request foundership of ".$team->name);
     $now = time();
-
     if (new_transfer_request_ok($team, $now)) {
+        page_head("Requesting foundership of ".$team->name);
         $success = send_founder_transfer_email($team, $user);
 
         // Go ahead with the transfer even if the email send fails.
@@ -75,34 +83,25 @@ if ($action == "transfer") {
             <p>
         ";
     } else {
-        if ($team->ping_user) {
-            if ($user->id == $team->ping_user) {
-                if (transfer_ok($team, $now)) {
-                    $team->update("userid=$user->id, ping_user=0, ping_time=0");
-                    echo "<p>Congratulations, you are now the new founder of team ".$team->name."
-                    Go to <a href=\"".URL_BASE."home.php\">Your Account page</a>
-                    to find the Team Admin options.";
-                } else {
-                    echo "<p>
-                        You have already requested the foundership
-                        of $team->name.
-                        <p>
-                        Team founder has been notified about your request.
-                        If he/she does not respond by ".time_str(transfer_ok_time($team))."
-                        you will be given the option to assume team foundership.
-                    ";
-                }
-            } else {
-                $ping_user = lookup_user_id($team->ping_user);
-                echo "<p>Foundership was requested by ".user_links($ping_user)." on ".time_str($team->ping_time);
-            }
-        } else {
-            echo "<p>A foundership change has been requested in the last three
-                months and new requests are currently disabled.
-            ";
-        }
+        error_page("Foundership request not allowed now");
     }
-} else if ($action == "decline") {
+    break;
+case "finalize_transfer":
+    $team = BoincTeam::lookup_id($user->teamid);
+    $now = time();
+    if ($user->id == $team->ping_user && transfer_ok($team, $now)) {
+        page_head("Assumed foundership of ".$team->name);
+        $team->update("userid=$user->id, ping_user=0, ping_time=0");
+        echo "
+            Congratulations, you are now the founder of team ".$team->name."
+            Go to <a href=\"".URL_BASE."home.php\">Your Account page</a>
+            to find the Team Admin options.
+        ";
+    } else {
+        error_page("Foundership request not allowed now");
+    }
+    break;
+case "decline":
     $teamid = post_int("teamid");
     $team = lookup_team($teamid);
     require_founder_login($user, $team);
@@ -119,8 +118,9 @@ if ($action == "transfer") {
     } else {
         echo "<p>There were no foundership requests.";
     }
-} else {
-    error_page("no action");
+    break;
+default:
+    error_page("undefined action $action");
 }
 
 echo "<a href='team_display.php?teamid=$team->id'>Return to team page</a>";

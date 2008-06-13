@@ -329,7 +329,8 @@ If you'd like to add a web site to this list, please
 
 <ul>
 <li> <a href=http://www.liftconference.com/distributed-computing-distributed-thinking> Francois Grey at Lift, Feb 2008</a>
-<li> <a href=http://www.youtube.com/watch?v=8iSRLIK-x6A>David Anderson talks about BOINC</a>
+<li> <a href=http://www.youtube.com/watch?v=8iSRLIK-x6A>David Anderson talks about BOINC</a> (2006)
+<li> <a href=http://video.google.com/videoplay?docid=5863868341014543476&hl=en>David Anderson talks at CPDN Open Day (2004)</a> (33 minutes).
 <li> <a href=http://www.youtube.com/watch?v=GzATbET3g54>David Baker talks about Rosetta@home</a>
 </ul>
 ";

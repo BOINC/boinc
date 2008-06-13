@@ -14,47 +14,47 @@ if (!$team) {
 page_head("Request foundership of $team->name");
 $now = time();
 
-if (new_transfer_request_ok($team, $now)) {
-    echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">";
-    echo "<p>If the team founder is not active and you want to assume
-        the role of founder, click the button below.
-        The current founder will be sent an email detailing your request,
-        and will be given an option to transfer foundership to you
-        or to decline your request.
-        If the founder does not respond in 60 days,
-        you will be given an option to become the founder.
-        <p>
-        Are you sure you want to request foundership?
+if ($user->id == $team->ping_user) {
+    echo "<p>You requested the foundership of $team->name
+        on ".date_str($team->ping_time).".
     ";
-
-    echo "<input type=\"hidden\" name=\"action\" value=\"transfer\">
-        <input type=\"submit\" value=\"Request foundership\">
-        </form>
-    ";
+    if (transfer_ok($team, $now)) {
+        echo "
+            60 days have elapsed since your request,
+            and the founder has not responded.
+            You may now assume foundership by clicking here:
+            <form method=\"post\" action=\"team_founder_transfer_action.php\">
+            <input type=\"hidden\" name=\"action\" value=\"finalize_transfer\">
+            <input type=\"submit\" value=\"Assume foundership\">
+            </form>
+        ";
+    } else {
+        echo "<p>
+            The founder was notified of your request.
+            If he/she does not respond by ".date_str(transfer_ok_time($team))."
+            you will be given an option to become founder.
+        ";
+    }
 } else {
-    if ($team->ping_user) {
-        if ($user->id == $team->ping_user) {
-            echo "<p>You have already requested the foundership
-                of $team->name.
-            ";
-            if (transfer_ok($team, $now)) {
-                echo "
-                    60 days have elapsed since your request,
-                    and the founder has not responded.
-                    You may now assume foundership by clicking here:
-                    <form method=\"post\" action=\"team_founder_transfer_action.php\">
-                    <input type=\"hidden\" name=\"action\" value=\"transfer\">
-                    <input type=\"submit\" value=\"Assume foundership\">
-                    </form>
-                ";
-            } else {
-                echo "<p>
-                    The founder has been notified of your request.
-                    If he/she does not respond by ".date_str(transfer_ok_time($team))."
-                    you will be given an option to become founder.
-                ";
-            }
-        } else {
+    if (new_transfer_request_ok($team, $now)) {
+        echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">";
+        echo "<p>If the team founder is not active and you want to assume
+            the role of founder, click the button below.
+            The current founder will be sent an email detailing your request,
+            and will be able to transfer foundership to you
+            or to decline your request.
+            If the founder does not respond in 60 days,
+            you will be allowed to become the founder.
+            <p>
+            Are you sure you want to request foundership?
+        ";
+
+        echo "<input type=\"hidden\" name=\"action\" value=\"initiate_transfer\">
+            <input type=\"submit\" value=\"Request foundership\">
+            </form>
+        ";
+    } else {
+        if ($team->ping_user) {
             if ($team->ping_user < 0) {
                 $team->ping_user = -$team->ping_user;
             }
@@ -62,12 +62,12 @@ if (new_transfer_request_ok($team, $now)) {
             echo "<p>Founder change has already been requested by ".
                 user_links($ping_user)." on ".date_str($team->ping_time).".
             ";
+        } else {
+            echo "<p>A foundership change was requested during the last 90 days,
+                 so new requests are not allowed.
+                 Please try again later.
+            ";
         }
-    } else {
-        echo "<p>A foundership change was requested during the last 90 days,
-             so new requests are not allowed.
-             Please try again later.
-        ";
     }
 }
 

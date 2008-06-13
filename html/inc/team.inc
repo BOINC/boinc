@@ -36,19 +36,22 @@ function team_search_form($params) {
 
 function foundership_transfer_link($user, $team) {
     $now = time();
+    if ($team->ping_user == $user->id) {
+        if (transfer_ok($team, $now)) {
+            return "Requested by you, and founder response deadline has passed.
+                <br>
+                <a href=team_founder_transfer_form.php>Complete foundership transfer</a>.
+            ";
+        } else {
+            $deadline = date_str(transfer_ok_time($team));
+            return '<a href="team_founder_transfer_form.php">Requested by you</a>; founder response deadline is '.$deadline;
+        }
+    }
     if (new_transfer_request_ok($team, $now)) {
         if ($team->userid == $user->id) {
             return "None";
         } else {
             return '<a href="team_founder_transfer_form.php">Initiate request</a>';
-        }
-    }
-    if ($team->ping_user == $user->id) {
-        if (transfer_ok($team, now)) {
-            return 'Requested by you, and founder response deadline has passed.  <a href="team_founder_transfer_form.php">Complete foundership transfer</a>.';
-        } else {
-            $deadline = date_str(transfer_ok_time($team));
-            return '<a href="team_founder_transfer_form.php">Requested by you</a>; founder response deadline is '.$deadline;
         }
     }
     return "<a href=\"team_founder_transfer_form.php\">Deferred</a>";
