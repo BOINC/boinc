@@ -22,6 +22,7 @@ create table bossa_job (
     create_time         integer     not null,
     name                varchar(255) not null,
     app_id              integer     not null,
+    batch_id            integer     not null,
     info                text,
     batch               integer     not null,
     time_estimate       integer     not null,
@@ -50,5 +51,13 @@ create table bossa_user (
     user_id             integer     not null,
     flags               integer     not null,
     info                text
-        -- Project-dependent info about user's ability and performance.
+        -- Project-dependent info about users ability and performance.
+);
+
+create table bossa_batch (
+    id                  integer     not null auto_increment,
+    create_time         integer     not null,
+    app_id              integer     not null,
+    state               integer     not null,
+    primary key(id)
 );

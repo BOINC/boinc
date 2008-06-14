@@ -4866,3 +4866,11 @@ David  13 June 2008
             team_founder_transfer_form.php
             team_founder_transfer_action.php
             team_display.php
+
+David  14 June 2008
+    - manager: fix some strings ("comm" is not an OK abbrev.)
+        Also got rid of references to Yahoo.
+
+    clientgui/
+        WelcomePage.cpp,h
+        BOINCWizards.h

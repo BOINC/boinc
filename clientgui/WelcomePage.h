@@ -97,7 +97,6 @@ public:
     wxCheckBox* m_pErrProjectAlreadyAttachedCtrl;
     wxCheckBox* m_pErrProjectAttachFailureCtrl;
     wxCheckBox* m_pErrGoogleCommCtrl;
-    wxCheckBox* m_pErrYahooCommCtrl;
     wxCheckBox* m_pErrNetDetectionCtrl;
 #endif
 ////@end CWelcomePage member variables

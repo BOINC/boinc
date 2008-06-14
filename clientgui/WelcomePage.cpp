@@ -102,7 +102,6 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
     m_pErrProjectAlreadyAttachedCtrl = NULL;
     m_pErrProjectAttachFailureCtrl = NULL;
     m_pErrGoogleCommCtrl = NULL;
-    m_pErrYahooCommCtrl = NULL;
     m_pErrNetDetectionCtrl = NULL;
 #endif
 ////@end CWelcomePage member initialisation
@@ -197,13 +196,6 @@ void CWelcomePage::CreateControls()
     itemFlexGridSizer8->Add(m_pErrGoogleCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     itemFlexGridSizer8->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_pErrYahooCommCtrl = new wxCheckBox;
-    m_pErrYahooCommCtrl->Create( itemWizardPage2, ID_ERRYAHOOCOMM, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_pErrYahooCommCtrl->SetValue(FALSE);
-    itemFlexGridSizer8->Add(m_pErrYahooCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-    itemFlexGridSizer8->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_pErrNetDetectionCtrl = new wxCheckBox;
     m_pErrNetDetectionCtrl->Create( itemWizardPage2, ID_ERRNETDETECTION, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
@@ -312,7 +304,6 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pErrProjectAlreadyAttachedCtrl);
     wxASSERT(m_pErrProjectAttachFailureCtrl);
     wxASSERT(m_pErrGoogleCommCtrl);
-    wxASSERT(m_pErrYahooCommCtrl);
     wxASSERT(m_pErrNetDetectionCtrl);
 #endif
 
@@ -391,7 +382,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Project Properties Failure")
     );
     m_pErrProjectCommCtrl->SetLabel(
-        _("Project Comm Failure")
+        _("Project Communication Failure")
     );
     m_pErrProjectPropertiesURLCtrl->SetLabel(
         _("Project Properties URL Failure")
@@ -412,10 +403,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Project Attach Failure")
     );
     m_pErrGoogleCommCtrl->SetLabel(
-        _("Google Comm Failure")
-    );
-    m_pErrYahooCommCtrl->SetLabel(
-        _("Yahoo Comm Failure")
+        _("Failure Communicating with Reference Site")
     );
     m_pErrNetDetectionCtrl->SetLabel(
         _("Net Detection Failure")
@@ -451,9 +439,6 @@ void CWelcomePage::OnPageChanging( wxWizardExEvent& event ) {
     }
     if (m_pErrGoogleCommCtrl->GetValue()) {
         ulFlags |= WIZDEBUG_ERRGOOGLECOMM;
-    }
-    if (m_pErrYahooCommCtrl->GetValue()) {
-        ulFlags |= WIZDEBUG_ERRYAHOOCOMM;
     }
     if (m_pErrAccountAlreadyExistsCtrl->GetValue()) {
         ulFlags |= WIZDEBUG_ERRACCOUNTALREADYEXISTS;

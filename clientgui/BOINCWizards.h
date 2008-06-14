@@ -78,7 +78,6 @@
 #define ID_ERRPROJECTALREADYATTACHED 11106
 #define ID_ERRPROJECTATTACHFAILURE 11107
 #define ID_ERRGOOGLECOMM 11108
-#define ID_ERRYAHOOCOMM 11109
 #define ID_ERRNETDETECTION 11110
 
 // Project Info/Account Manager Info Controls
@@ -155,7 +154,6 @@ class wxHyperLink;
 //
 #define WIZDEBUG_ERRPROJECTPROPERTIES                 0x00000001
 #define WIZDEBUG_ERRPROJECTPROPERTIESURL              0x00000002
-#define WIZDEBUG_ERRYAHOOCOMM                         0x00000004
 #define WIZDEBUG_ERRGOOGLECOMM                        0x00000008
 #define WIZDEBUG_ERRNETDETECTION                      0x00000010
 #define WIZDEBUG_ERRPROJECTCOMM                       0x00000020
