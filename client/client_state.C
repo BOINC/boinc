@@ -1407,8 +1407,12 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 
     garbage_collect_always();
 
-    // forcibly remove apps and app_versions
-    // (but not if anonymous platform)
+    // "ordered_scheduled_results" may contain pointers (now dangling)
+    // to tasks of this project.
+    //
+    ordered_scheduled_results.clear();
+
+    // remove apps and app_versions (but not if anonymous platform)
     //
     if (!project->anonymous_platform || detaching) {
         avp_iter = app_versions.begin();

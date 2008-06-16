@@ -4874,3 +4874,16 @@ David  14 June 2008
     clientgui/
         WelcomePage.cpp,h
         BOINCWizards.h
+
+David  16 June 2008
+    - client: fix crashing bug when detach from project.
+        The problem: the variable ordered_scheduled_results
+        has a list of pointers to RESULTs.
+        These pointers become dangling when the project is detached.
+        It's not sufficient to do schedule_cpus() because this returns
+        immediately if # projects == 0.
+        So clear the list directly.
+        Rom: please port to 6.2
+
+    client/
+        client_state.C
