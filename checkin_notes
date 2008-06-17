@@ -730,3 +730,16 @@ David  10 June 2008
     example_app/
         uc2.C,h
         uc2_graphics.C
+
+David  17 June 2008
+    - wrapper: add two new features.
+        1) each task can include a <weight> (double, default=1).
+            The task's contribution to total fraction done is
+            proportional to the weight.
+        2) each task can include a <checkpoint_filename> (string)
+            This names a checkpoint file used by the app.
+            If its mod time changes, we'll assume a checkpoint
+            has been done and notify the client.
+
+    wrapper/
+        wrapper.C

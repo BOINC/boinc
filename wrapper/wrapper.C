@@ -41,8 +41,10 @@
 #include "boinc_win.h"
 #include "win_util.h"
 #else
-#include <unistd.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "procinfo.h"
 #endif
 
@@ -67,7 +69,13 @@ struct TASK {
     string stdin_filename;
     string stdout_filename;
     string stderr_filename;
+    string checkpoint_filename;
+        // name of task's checkpoint file, if any
+    double checkpoint_cpu_time;
+        // CPU time at last checkpoint
     string command_line;
+    double weight;
+        // contribution of this task to overall fraction done
     double final_cpu_time;
     double starting_cpu;
         // how much CPU time was used by tasks before this in the job file
@@ -78,10 +86,12 @@ struct TASK {
     HANDLE pid_handle;
     DWORD pid;
     HANDLE thread_handle;
+    _stat last_stat;    // mod time of checkpoint file
 #else
     int pid;
+    struct stat last_stat;
 #endif
-    void init();
+    bool stat_first;
     int parse(XML_PARSER&);
     bool poll(int& status);
     int run(int argc, char** argv);
@@ -89,6 +99,19 @@ struct TASK {
     void stop();
     void resume();
 	double cpu_time();
+    inline bool has_checkpointed() {
+        bool changed = false;
+        if (checkpoint_filename.size() == 0) return false;
+        struct stat new_stat;
+        int retval = stat(checkpoint_filename.c_str(), &new_stat);
+        if (retval) return false;
+        if (!stat_first && new_stat.st_mtime != last_stat.st_mtime) {
+            changed = true;
+        }
+        stat_first = false;
+        last_stat.st_mtime = new_stat.st_mtime;
+        return changed;
+    }
 };
 
 vector<TASK> tasks;
@@ -97,7 +120,9 @@ int TASK::parse(XML_PARSER& xp) {
     char tag[1024];
     bool is_tag;
 
+    weight = 1;
     final_cpu_time = 0;
+    stat_first = true;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr, "SCHED_CONFIG::parse(): unexpected text %s\n", tag);
@@ -111,6 +136,8 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
         else if (xp.parse_string(tag, "command_line", command_line)) continue;
+        else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
+        else if (xp.parse_double(tag, "weight", weight)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -193,13 +220,6 @@ HANDLE win_fopen(const char* path, const char* mode) {
 	}
 }
 #endif
-
-// the "state file" might tell us which app we're in the middle of,
-// what the starting CPU time is, etc.
-// Not implemented yet.
-//
-void parse_state_file() {
-}
 
 int TASK::run(int argct, char** argvt) {
     string app_path, stdout_path, stdin_path, stderr_path;
@@ -418,14 +438,18 @@ double TASK::cpu_time() {
     //
     return wall_cpu_time;
 #else
-    return  linux_cpu_time(pid);
+    return linux_cpu_time(pid);
 #endif
 }
 
 void send_status_message(TASK& task, double frac_done) {
+    double current_cpu_time = task.starting_cpu + task.cpu_time();
+    if (task.has_checkpointed()) {
+        task.checkpoint_cpu_time = current_cpu_time;
+    }
     boinc_report_app_status(
-        task.starting_cpu + task.cpu_time(),
-        task.starting_cpu,
+        current_cpu_time,
+        task.checkpoint_cpu_time,
         frac_done
     );
 }
@@ -457,9 +481,9 @@ void read_checkpoint(int& ntasks, double& cpu) {
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
-    int retval;
-    int ntasks;
-    double cpu;
+    int retval, ntasks;
+    unsigned int i;
+    double cpu, total_weight=0, w=0;
 
     memset(&options, 0, sizeof(options));
     options.main_program = true;
@@ -474,18 +498,22 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
-    parse_state_file();
-
     read_checkpoint(ntasks, cpu);
     if (ntasks > (int)tasks.size()) {
         fprintf(stderr, "Checkpoint file: ntasks %d too large\n", ntasks);
         boinc_finish(1);
     }
-    for (unsigned int i=ntasks; i<tasks.size(); i++) {
+    for (i=0; i<tasks.size(); i++) {
+        total_weight += tasks[i].weight;
+    }
+    for (i=0; i<tasks.size(); i++) {
         TASK& task = tasks[i];
-        double frac_done = ((double)i)/((double)tasks.size());
+        w += task.weight;
+        if (i<ntasks) continue;
+        double frac_done = w/total_weight;
 
         task.starting_cpu = cpu;
+        task.checkpoint_cpu_time = cpu;
         retval = task.run(argc, argv);
         if (retval) {
             fprintf(stderr, "can't run app: %d\n", retval);
