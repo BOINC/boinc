@@ -528,7 +528,7 @@ static inline int check_bandwidth(
     if (diff > 0) {
         char message[256];
         sprintf(message,
-            "%s requires %0.2f kbps download bandwidth.  Your computer has been measured at %0.2f kbps.",
+            "%s requires %0.2f KB/sec download bandwidth.  Your computer has been measured at %0.2f KB/sec.",
             find_user_friendly_name(wu.appid),
             wu.rsc_bandwidth_bound/KILO, reply.host.n_bwdown/KILO
         );
