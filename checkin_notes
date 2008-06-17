@@ -4887,3 +4887,10 @@ David  16 June 2008
 
     client/
         client_state.C
+
+David  16 June 2008
+    - scheduler: if host.n_bwdown is zero, skip the bandwidth check;
+        the host hasn't been measured yet.
+
+    sched/
+        sched_send.C

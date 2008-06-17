@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("June 16, 2008",
+    "<a href=logo/logo_3d>3-D versions of the BOINC logo</a>
+    are now available; thanks to John from Ireland for creating these."
+),
 array("June 2, 2008",
     "BOINCstats and BAM! are now available in
     <a href=http://br.boincstats.com/>Brazilian Portuguese</a> and

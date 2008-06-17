@@ -190,29 +190,27 @@ int get_timezone() {
 // Returns true if the host is currently running off battery power
 // If you can't figure out, return false
 //
-// TODO: port this to other platforms (Windows, others?)
-//
 bool HOST_INFO::host_is_running_on_batteries() {
 #if defined(__APPLE__)
-  CFDictionaryRef pSource = NULL;
-  CFStringRef psState;
-  int i;
-  bool retval = false;
+    CFDictionaryRef pSource = NULL;
+    CFStringRef psState;
+    int i;
+    bool retval = false;
   
-  CFTypeRef blob = IOPSCopyPowerSourcesInfo();
-  CFArrayRef list = IOPSCopyPowerSourcesList(blob);
+    CFTypeRef blob = IOPSCopyPowerSourcesInfo();
+    CFArrayRef list = IOPSCopyPowerSourcesList(blob);
 
-  for(i = 0; i < CFArrayGetCount(list); i++) {
-    pSource = IOPSGetPowerSourceDescription(blob, CFArrayGetValueAtIndex(list, i));
-    if(!pSource) break;
-    psState = (CFStringRef)CFDictionaryGetValue(pSource, CFSTR(kIOPSPowerSourceStateKey));
-    if(!CFStringCompare(psState,CFSTR(kIOPSBatteryPowerValue),0))
-      retval = true;
-  }
+    for (i=0; i<CFArrayGetCount(list); i++) {
+        pSource = IOPSGetPowerSourceDescription(blob, CFArrayGetValueAtIndex(list, i));
+        if(!pSource) break;
+        psState = (CFStringRef)CFDictionaryGetValue(pSource, CFSTR(kIOPSPowerSourceStateKey));
+        if(!CFStringCompare(psState,CFSTR(kIOPSBatteryPowerValue),0))
+        retval = true;
+    }
 
-  CFRelease(blob);
-  CFRelease(list);
-  return(retval);
+    CFRelease(blob);
+    CFRelease(list);
+    return retval;
 
 #elif LINUX_LIKE_SYSTEM
     bool    retval = false;
