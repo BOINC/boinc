@@ -1,7 +1,7 @@
 <?php
 
 require_once("../inc/db_conn.inc");
-require_once("../inc/util.inc");
+require_once("../inc/util_basic.inc");
 
 define ('VALIDATE_STATE_INIT', 0);
 define ('VALIDATE_STATE_VALID', 1);

@@ -4888,9 +4888,17 @@ David  16 June 2008
     client/
         client_state.C
 
-David  16 June 2008
+David  17 June 2008
     - scheduler: if host.n_bwdown is zero, skip the bandwidth check;
         the host hasn't been measured yet.
 
     sched/
         sched_send.C
+
+David  17 June 2008
+    - web: shuffle code to eliminate redundancy
+
+    html/inc/
+        boinc_db.inc
+        bossa_db.inc
+        util.inc

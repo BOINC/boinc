@@ -15,19 +15,23 @@ date_default_timezone_set("UTC");
 $generating_xml = false;
 $caching = false;
 
+function db_maintenance() {
+    page_head("Not available");
+    echo "This page requires database access.
+        Our database server is temporarily shut down for maintenance.
+        Please try again later.
+    ";
+    page_tail();
+    exit();
+}
+
 // Connects to database server and selects database as noted in config.xml
 // If only read-only access is necessary,
 // tries instead to connect to <replica_db_host> if tag exists.
 //
 function db_init($try_replica=false) {
     if (web_stopped()) {
-        page_head("Not available");
-        echo "This page requires database access.
-            Our database server is temporarily shut down for maintenance.
-            Please try again later.
-        ";
-        page_tail();
-        exit();
+        db_maintenance();
     }
     $retval = db_init_aux($try_replica);
     if ($retval == 1) {
