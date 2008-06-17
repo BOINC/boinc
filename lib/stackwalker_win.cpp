@@ -353,7 +353,9 @@ BOOL CALLBACK SymEnumerateModulesProc(LPSTR /* ModuleName */, DWORD64 BaseOfDll,
     }
     _ftprintf(stderr, _T("(%s Symbols Loaded)")                   , szSymbolType);
     _ftprintf(stderr, _T("\n"));
+#ifndef __MINGW32__
     _ftprintf(stderr, _T("    Linked PDB Filename   : %s\n")      , Module.CVData);
+#endif
     if (bFileVersionSupported && bFileVersionRetrieved) {
         _ftprintf(stderr, _T("    File Version          : %s\n")  , szFileVersion);
         _ftprintf(stderr, _T("    Company Name          : %s\n")  , szCompanyName);
