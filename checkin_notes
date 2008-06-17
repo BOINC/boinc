@@ -3958,3 +3958,14 @@ David  12 June 2008
     lib/
         app_ipc.C,h
 
+David  13 June 2008
+    - client/API: add "computation_deadline" to APP_INIT_DATA.
+        This supports apps that can do variable amounts of computing;
+        they can boinc_finish() if their deadline is near.
+        Rom: please back-port.
+
+    client/
+        app_start.C
+        client_types.h
+    lib/
+        app_ipc.C,h
