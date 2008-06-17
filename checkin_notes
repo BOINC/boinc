@@ -3945,3 +3945,16 @@ David  6 June 2008
 
     lib/
         coproc.C
+
+David  12 June 2008
+    - API/runtime system: remove "fraction done update period" stuff.
+        This was always 1 second, which is fine.
+        Rom: please back-port.
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h
+

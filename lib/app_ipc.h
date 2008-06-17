@@ -178,6 +178,7 @@ struct APP_INIT_DATA {
     double rsc_fpops_bound;
     double rsc_memory_bound;
     double rsc_disk_bound;
+    double computation_deadline;
 
     // the following are used for compound apps,
     // where each stage of the computation is a fixed fraction of the total.
