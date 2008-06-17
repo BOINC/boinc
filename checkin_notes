@@ -3940,3 +3940,8 @@ Charlie 4 June 2008
     clientgui/
         sg_BoincSimpleGUI.cpp,h
 
+David  6 June 2008
+    - client (Win) look for CUDA as nvcuda.dll
+
+    lib/
+        coproc.C
