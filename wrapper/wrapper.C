@@ -86,7 +86,7 @@ struct TASK {
     HANDLE pid_handle;
     DWORD pid;
     HANDLE thread_handle;
-    _stat last_stat;    // mod time of checkpoint file
+    struct _stat last_stat;    // mod time of checkpoint file
 #else
     int pid;
     struct stat last_stat;
@@ -509,7 +509,7 @@ int main(int argc, char** argv) {
     for (i=0; i<tasks.size(); i++) {
         TASK& task = tasks[i];
         w += task.weight;
-        if (i<ntasks) continue;
+        if ((int)i<ntasks) continue;
         double frac_done = w/total_weight;
 
         task.starting_cpu = cpu;
