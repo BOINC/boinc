@@ -113,7 +113,6 @@ struct MSG_QUEUE {
 	bool timeout(double);
 };
 
-#define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
 #define DEFAULT_CHECKPOINT_PERIOD               300
 
 #define SHM_PREFIX          "shm_"
@@ -191,7 +190,6 @@ struct APP_INIT_DATA {
     double checkpoint_period;     // recommended checkpoint period
     SHMEM_SEG_NAME shmem_seg_name;
     double wu_cpu_time;       // cpu time from previous episodes
-    double fraction_done_update_period;
 
     APP_INIT_DATA();
     APP_INIT_DATA(const APP_INIT_DATA&);  // copy constructor

@@ -137,7 +137,6 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<host_expavg_credit>%f</host_expavg_credit>\n"
         "<resource_share_fraction>%f</resource_share_fraction>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
-        "<fraction_done_update_period>%f</fraction_done_update_period>\n"
         "<fraction_done_start>%f</fraction_done_start>\n"
         "<fraction_done_end>%f</fraction_done_end>\n"
         "<rsc_fpops_est>%f</rsc_fpops_est>\n"
@@ -152,7 +151,6 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.host_expavg_credit,
         ai.resource_share_fraction,
         ai.checkpoint_period,
-        ai.fraction_done_update_period,
         ai.fraction_done_start,
         ai.fraction_done_end,
         ai.rsc_fpops_est,
@@ -246,7 +244,6 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double(tag, "rsc_disk_bound", ai.rsc_disk_bound)) continue;
         if (xp.parse_double(tag, "wu_cpu_time", ai.wu_cpu_time)) continue;
         if (xp.parse_double(tag, "checkpoint_period", ai.checkpoint_period)) continue;
-        if (xp.parse_double(tag, "fraction_done_update_period", ai.fraction_done_update_period)) continue;
         if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double(tag, "fraction_done_end", ai.fraction_done_end)) continue;
         xp.skip_unexpected(tag, true, "parse_init_data_file");
