@@ -757,3 +757,9 @@ David  18 June 2008
 
     wrapper/
         wrapper.C
+
+David  18 June 2008
+    - wrapper: Win: change slashes to backslashes in executable path
+
+    wrapper/
+        wrapper.C

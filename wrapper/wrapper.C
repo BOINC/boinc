@@ -232,6 +232,14 @@ HANDLE win_fopen(const char* path, const char* mode) {
 }
 #endif
 
+void slash_to_backslash(char* p) {
+    while (1) {
+        char* q = strchr(p, '/');
+        if (!q) break;
+        *q = '\\';
+    }
+}
+
 int TASK::run(int argct, char** argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
@@ -263,6 +271,7 @@ int TASK::run(int argct, char** argvt) {
     STARTUPINFO startup_info;
     string command;
 
+    slash_to_backslash(app_path);
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     command = app_path + string(" ") + command_line;
