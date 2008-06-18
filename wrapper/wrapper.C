@@ -115,9 +115,10 @@ struct TASK {
 };
 
 vector<TASK> tasks;
+APP_INIT_DATA aid;
 
 int TASK::parse(XML_PARSER& xp) {
-    char tag[1024];
+    char tag[1024], buf[8192], buf2[8192];
     bool is_tag;
 
     weight = 1;
@@ -135,7 +136,17 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
         else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
-        else if (xp.parse_string(tag, "command_line", command_line)) continue;
+        else if (xp.parse_str(tag, "command_line", buf, sizeof(buf))) {
+            while (1) {
+                char* p = strstr(buf, "$PROJECT_DIR");
+                if (!p) break;
+                strcpy(buf2, p+strlen("$PROJECT_DIR"));
+                strcpy(p, aid.project_dir);
+                strcat(p, buf2);
+            }
+            command_line = buf;
+            continue;
+        }
         else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
         else if (xp.parse_double(tag, "weight", weight)) continue;
     }
@@ -222,9 +233,17 @@ HANDLE win_fopen(const char* path, const char* mode) {
 #endif
 
 int TASK::run(int argct, char** argvt) {
-    string app_path, stdout_path, stdin_path, stderr_path;
+    string stdout_path, stdin_path, stderr_path;
+    char app_path[1024], buf[256];
 
-    boinc_resolve_filename_s(application.c_str(), app_path);
+    strcpy(buf, application.c_str());
+    char* p = strstr(buf, "$PROJECT_DIR");
+    if (p) {
+        p += strlen("$PROJECT_DIR");
+        sprintf(app_path, "%s%s", aid.project_dir, p);
+    } else {
+        boinc_resolve_filename(buf, app_path);
+    }
 
     // Append wrapper's command-line arguments to those in the job file.
     //
@@ -236,7 +255,7 @@ int TASK::run(int argct, char** argvt) {
     }
 
     fprintf(stderr, "wrapper: running %s (%s)\n",
-        app_path.c_str(), command_line.c_str()
+        app_path, command_line.c_str()
     );
 
 #ifdef _WIN32
@@ -323,12 +342,11 @@ int TASK::run(int argct, char** argvt) {
 		// construct argv
         // TODO: use malloc instead of stack var
         //
-        strcpy(buf, app_path.c_str());
-        argv[0] = buf;
+        argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         argc = parse_command_line(arglist, argv+1);
         setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
-        retval = execv(buf, argv);
+        retval = execv(app_path, argv);
         exit(ERR_EXEC);
     }
 #endif
@@ -492,6 +510,9 @@ int main(int argc, char** argv) {
 
     boinc_init_options(&options);
     fprintf(stderr, "wrapper: starting\n");
+
+    boinc_get_init_data(aid);
+
     retval = parse_job_file();
     if (retval) {
         fprintf(stderr, "can't parse job file: %d\n", retval);

@@ -749,3 +749,11 @@ David  18 June 2008
 
     wrapper/
         wrapper.C
+
+David  18 June 2008
+    - wrapper: replace $PROJECT_DIR with project dir in task command lines
+    - wrapper: if program name starts with $PROJECT_DIR,
+        substitute with project dir and treat as physical name
+
+    wrapper/
+        wrapper.C
