@@ -286,7 +286,7 @@ int TASK::run(int argct, char** argvt) {
     }
 
     if (!CreateProcess(
-        app_path.c_str(),
+        app_path,
         (LPSTR)command.c_str(),
         NULL,
         NULL,
