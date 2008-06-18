@@ -530,7 +530,7 @@ int main(int argc, char** argv) {
                     // as recoverable, and restart us.
                     // We don't want this, so return an 8-bit error code.
                     //
-                    boinc_finish(ERR_CHILD_FAILED);
+                    boinc_finish(EXIT_CHILD_FAILED);
                 }
                 break;
             }
