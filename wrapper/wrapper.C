@@ -242,7 +242,7 @@ int TASK::run(int argct, char** argvt) {
         p += strlen("$PROJECT_DIR");
         sprintf(app_path, "%s%s", aid.project_dir, p);
     } else {
-        boinc_resolve_filename(buf, app_path);
+        boinc_resolve_filename(buf, app_path, sizeof(app_path));
     }
 
     // Append wrapper's command-line arguments to those in the job file.
@@ -305,7 +305,7 @@ int TASK::run(int argct, char** argvt) {
     SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
 #else
     int retval, argc;
-    char progname[256], buf[256];
+    char progname[256];
     char* argv[256];
     char arglist[4096];
 	FILE* stdout_file;
