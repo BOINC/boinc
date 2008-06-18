@@ -522,7 +522,7 @@ static inline int check_bandwidth(
     // if n_bwdown is zero, the host has never downloaded anything,
     // so skip this check
     //
-    if (host.n_bwdown == 0) return 0;
+    if (reply.host.n_bwdown == 0) return 0;
 
     double diff = wu.rsc_bandwidth_bound - reply.host.n_bwdown;
     if (diff > 0) {

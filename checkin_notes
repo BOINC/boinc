@@ -4902,3 +4902,20 @@ David  17 June 2008
         boinc_db.inc
         bossa_db.inc
         util.inc
+
+David  18 June 2008
+    - change EXIT_ABORTED_VIA_GUI to EXIT_ABORTED_BY_CLIENT
+    - change ERR_CHILD_FAILED TO EXIT_CHILD_FAILED
+        (it's an exit code, not a function error code)
+    - client: reduce severity of benchmark error
+    - scheduler: compile fix
+
+    api/
+        boinc_api.C
+    client/
+        cs_benchmark.C
+    lib/
+        str_util.C
+        error_numbers.h
+    sched/
+        sched_send.C

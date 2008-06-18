@@ -447,7 +447,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             }
             ndone++;
             if (benchmark_descs[i].error) {
-                msg_printf(0, MSG_INTERNAL_ERROR, benchmark_descs[i].error_str);
+                msg_printf(0, MSG_INFO, benchmark_descs[i].error_str);
                 had_error = true;
             }
         }
@@ -460,7 +460,6 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     if (ndone == bm_ncpus) {
         double old_p_fpops = host_info.p_fpops;
         if (had_error) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR, "CPU benchmarks error");
 			cpu_benchmarks_set_defaults();
         } else {
             double p_fpops = 0;

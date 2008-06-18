@@ -701,7 +701,7 @@ static void handle_process_control_msg() {
 #elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
-                exit_from_timer_thread(EXIT_ABORTED_VIA_GUI);
+                exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {

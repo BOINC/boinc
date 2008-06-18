@@ -27,7 +27,8 @@
 
 #define EXIT_STATEFILE_WRITE    192
 #define EXIT_SIGNAL             193
-#define EXIT_ABORTED_VIA_GUI    194
+#define EXIT_ABORTED_BY_CLIENT  194
+#define EXIT_CHILD_FAILED       195
 
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change
@@ -184,7 +185,6 @@
 #define ERR_BAD_FILENAME    -225
 #define ERR_TOO_MANY_EXITS  -226
 #define ERR_RMDIR           -227
-#define ERR_CHILD_FAILED    -228
 #define ERR_SYMLINK         -229
 #define ERR_DB_CONN_LOST    -230
 
