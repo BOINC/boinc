@@ -4952,3 +4952,9 @@ Rom    18 June 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  18 June 2008
+    - web: in team remove-user form, link names and show IDs
+
+    html/user/
+        team_remove_inactive_form.php
