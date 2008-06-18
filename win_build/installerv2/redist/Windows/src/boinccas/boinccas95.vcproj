@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib"
+				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib version.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -151,7 +151,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib"
+				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib version.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -238,7 +238,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib"
+				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib version.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -326,7 +326,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib"
+				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib shfolder.lib shell32.lib version.lib"
 				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -402,7 +402,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAValidateInstall.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAValidateSetupType.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CAVerifyInstallDirectories.cpp"
 				>
 			</File>
 			<File
@@ -483,7 +491,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAValidateInstall.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CAValidateSetupType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAVerifyInstallDirectories.h"
 				>
 			</File>
 			<File

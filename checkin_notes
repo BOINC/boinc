@@ -4919,3 +4919,36 @@ David  18 June 2008
         error_numbers.h
     sched/
         sched_send.C
+
+Rom    18 June 2008
+    - WINSETUP: Validate that the installed executables are
+        the ones we are expecting.
+    - WINSETUP: Do not allow the data directory and install
+        directory to be the same directory.
+    - WINSETUP: Reduce the amount of time allocated to
+        shutdown the BOINC Manager from 30 secs to 5 secs
+        before killing it. Otherwise the user thinks the
+        install process is hung.
+    - WINSETUP: Change text for describing the protected
+        mode install
+    - WINSETUP: Add text describing the reason for a reboot
+    - WINSETUP: Add text describing the need to run a repair
+        in the case where a third party BOINC CC was installed
+        or a private drop of the CC was used.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        boinccas.vcproj
+        boinccas95.def
+        boinccas95.vcproj
+        CAShutdownBOINCManager.cpp
+        CAValidateInstall.cpp, .h (added)
+        CAVerifyInstallDirectories.cpp, .h (added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
