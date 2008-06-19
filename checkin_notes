@@ -4993,3 +4993,18 @@ Rom    19 June 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    19 June 2008
+    - WINSETUP: Suppress the reboot prompt and just reboot, since we
+        have already informed the user it is needed on the conformation
+        screen
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+        

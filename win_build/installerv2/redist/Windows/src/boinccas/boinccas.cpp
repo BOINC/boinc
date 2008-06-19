@@ -670,6 +670,7 @@ UINT BOINCCABase::LogMessage(
 UINT BOINCCABase::RebootWhenFinished()
 {
     SetProperty(_T("RETURN_REBOOTREQUESTED"), _T("1"));
+    SetProperty(_T("REBOOTPROMPT"), _T("Suppress"));
     return MsiSetMode(m_hMSIHandle, MSIRUNMODE_REBOOTATEND, TRUE);
 }
 
