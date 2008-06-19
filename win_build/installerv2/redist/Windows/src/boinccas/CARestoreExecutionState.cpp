@@ -63,13 +63,16 @@ UINT CARestoreExecutionState::OnExecution()
     tstring     strLaunchProgram;
     tstring     strReturnRebootRequested;
     tstring     strReturnValidateInstall;
+    tstring     strRebootPrompt;
 
     GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
     GetRegistryValue( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
+    GetRegistryValue( _T("REBOOTPROMPT"), strRebootPrompt );
     GetRegistryValue( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
 
     SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
     SetProperty( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
+    SetProperty( _T("REBOOTPROMPT"), strRebootPrompt );
     SetProperty( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
 
     return ERROR_SUCCESS;

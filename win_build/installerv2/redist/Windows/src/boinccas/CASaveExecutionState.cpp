@@ -63,20 +63,23 @@ UINT CASaveExecutionState::OnExecution()
     tstring     strLaunchProgram;
     tstring     strReturnRebootRequested;
     tstring     strReturnValidateInstall;
+    tstring     strRebootPrompt;
 
     GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
     GetProperty( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
+    GetProperty( _T("REBOOTPROMPT"), strRebootPrompt );
     GetProperty( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
 
     SetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
     SetRegistryValue( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
+    SetRegistryValue( _T("REBOOTPROMPT"), strRebootPrompt );
     SetRegistryValue( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
 
     // Disable the ability to launch BOINC Manager if either a reboot is
     //   requested or validation of the installation executables fails.
-    if ((strReturnRebootRequested == _T("1")) || strReturnValidateInstall == _T("0"))
+    if ((strReturnRebootRequested == _T("1")) || (strReturnValidateInstall == _T("0")))
     {
-        SetRegistryValue( _T("LAUNCHPROGRAM"), _T("0") );
+        SetRegistryValue( _T("LAUNCHPROGRAM"), _T("") );
     }
 
     return ERROR_SUCCESS;

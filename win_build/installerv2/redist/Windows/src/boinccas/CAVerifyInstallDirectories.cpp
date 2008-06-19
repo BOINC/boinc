@@ -80,6 +80,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
             _T("The installation directory and data directory must be different directories. Please select a different data directory.")
             );
 
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
     }
     else

@@ -424,7 +424,7 @@ UINT CACreateBOINCAccounts::OnExecution()
     } else {
         SetProperty( _T("BOINC_MASTER_ISUSERNAME"), strBOINCMasterAccountUsername );
     }
-    SetProperty( _T("BOINC_MASTER_PASSWORD"), strBOINCMasterAccountPassword );
+    SetProperty( _T("BOINC_MASTER_PASSWORD"), strBOINCMasterAccountPassword, false );
 
     SetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
     if (bBOINCProjectAccountModified) {
@@ -432,7 +432,7 @@ UINT CACreateBOINCAccounts::OnExecution()
     } else {
         SetProperty( _T("BOINC_PROJECT_ISUSERNAME"), strBOINCProjectAccountUsername );
     }
-    SetProperty( _T("BOINC_PROJECT_PASSWORD"), strBOINCProjectAccountPassword );
+    SetProperty( _T("BOINC_PROJECT_PASSWORD"), strBOINCProjectAccountPassword, false );
 
     if (bBOINCMasterAccountCreated || bBOINCProjectAccountCreated) {
         RebootWhenFinished();
