@@ -126,8 +126,10 @@ void REDUCED_ARRAY_GEN::add_source_row(float* in) {
     int i, ry;
 
     if (scury >= sdimy) {
-        printf("too many calls to add_source_row()!\n");
-        *(int*)0 = 0;
+        // printf("too many calls to add_source_row()!\n");
+        // Crashing is not an appropriate response in release code.
+        assert(scury<sdimy);
+        return;
     }
     if (rdimy == sdimy) {
         ry = scury;
