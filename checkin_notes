@@ -4970,3 +4970,26 @@ David  18 June 2008
             forum.inc
         ops/
             forum_repair.php
+
+Rom    19 June 2008
+    - WINSETUP: Properties that are changed during the execution phase
+        of setup do NOT bubble back up to the UI phase of setup when
+        completed. Create some custom actions that store those properties
+        in the registry and then read them back after we are back in the
+        UI phase. Without them we cannot control what text is displayed
+        in the setup completion dialog.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.cpp
+        boinccas95.def
+        boinccas95.vcproj
+        CARestoreExecutionState.cpp, .h (Added)
+        CASaveExecutionState.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

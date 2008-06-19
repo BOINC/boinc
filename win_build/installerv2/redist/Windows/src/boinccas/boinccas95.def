@@ -14,3 +14,7 @@ EXPORTS
 	ShutdownBOINCManager
 	CleanupOldBinaries
 	VerifyInstallDirectories
+    ValidateInstall
+    SaveExecutionState
+    RestoreExecutionState
+    

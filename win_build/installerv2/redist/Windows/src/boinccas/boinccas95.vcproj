@@ -390,7 +390,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CARestoreExecutionState.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CARestoreSetupState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CASaveExecutionState.cpp"
 				>
 			</File>
 			<File
@@ -479,7 +487,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CARestoreExecutionState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CARestoreSetupState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CASaveExecutionState.h"
 				>
 			</File>
 			<File

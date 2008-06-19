@@ -669,7 +669,7 @@ UINT BOINCCABase::LogMessage(
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::RebootWhenFinished()
 {
+    SetProperty(_T("RETURN_REBOOTREQUESTED"), _T("1"));
     return MsiSetMode(m_hMSIHandle, MSIRUNMODE_REBOOTATEND, TRUE);
 }
 
-const char *BOINC_RCSID_08ed2ba826="$Id$";
