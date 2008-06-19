@@ -4,6 +4,8 @@
 // due to bugs and DB gremlins.
 // This script repairs some of them.
 
+ini_set("memory_limit", "1024M");
+
 require_once("../inc/forum_db.inc");
 
 function update_thread_timestamps() {
@@ -36,7 +38,7 @@ function update_user_posts() {
 function update_thread_replies() {
     $threads = BoincThread::enum();
     foreach ($threads as $t) {
-        $n = BoincPost::count("thread=$t->id");
+        $n = BoincPost::count("thread=$t->id and hidden=0");
         $n--;
         if ($t->replies != $n) {
             $t->update("replies=$n");

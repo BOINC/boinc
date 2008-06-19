@@ -58,7 +58,7 @@ class BoincThread {
         $db = BoincDb::get();
         return $db->update($this, 'thread', $clause);
     }
-    static function enum($clause) {
+    static function enum($clause="") {
         $db = BoincDb::get();
         return $db->enum('thread', 'BoincThread', $clause);
     }
