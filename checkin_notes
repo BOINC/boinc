@@ -4958,3 +4958,15 @@ David  18 June 2008
 
     html/user/
         team_remove_inactive_form.php
+
+David  18 June 2008
+    - If a hidden post is deleted, don't decrement its thread's post count;
+        it was already decremented when the post was hidden
+    - Added a function to forum_repair.php to fix inconsistencies
+        due to the above bug
+
+    html/
+        inc/
+            forum.inc
+        ops/
+            forum_repair.php

@@ -1,35 +1,14 @@
 <?php
-    require_once("../inc/db.inc");
 
-// activate/deactivate script
-if (1) {
-  echo "
-This script needs to be activated before it can be run.
-Once you understand what the script does you can change the 
-if (1) to if (0) at the top of the file to activate it.
-Be sure to deactivate the script after using it to make sure
-it is not accidentally run. 
-";
-  exit;
-}
+// The forum tables contain items that can become inconsistent
+// due to bugs and DB gremlins.
+// This script repairs some of them.
 
-    db_init();
+require_once("../inc/forum_db.inc");
 
 function update_thread_timestamps() {
-    $result = mysql_query("select * from thread");
-    while ($thread = mysql_fetch_object($result)) {
-    if (0) {
-        $q = "select min(timestamp) as foo from post where thread=$thread->id";
-        $r2 = mysql_query($q);
-        $m = mysql_fetch_object($r2);
-        echo "id: $thread->id; min: $m->foo\n";
-        mysql_free_result($r2);
-        $n = $m->foo;
-        if ($n) {
-            $q = "update thread set create_time=$n where id=$thread->id";
-            mysql_query($q);
-        }
-    }
+    $threads = BoincThread::enum();
+    foreach ($threads as $thread) {
         $q = "select max(timestamp) as foo from post where thread=$thread->id";
         $r2 = mysql_query($q);
         $m = mysql_fetch_object($r2);
@@ -41,23 +20,32 @@ function update_thread_timestamps() {
             mysql_query($q);
         }
     }
-    mysql_free_result($result);
 }
 
 function update_user_posts() {
-    $result = mysql_query("select * from user");
-    while ($user = mysql_fetch_object($result)) {
-        $q = "select count(*) as num from post where user=$user->id";
-        $r2 = mysql_query($q);
-        $m = mysql_fetch_object($r2);
-        mysql_free_result($r2);
-        if ($m->num != $user->posts) {
-            echo "user $user->id: $user->posts $m->num\n";
-            $q = "update user set posts=$m->num where id=$user->id";
-            mysql_query($q);
+    $users = BoincUser::enum();
+    foreach ($users as $user) {
+        $num = BoincPost::count("user=$user->id");
+        if ($num != $user->posts) {
+            echo "user $user->id: $user->posts $num\n";
+            $user->update("posts=$num");
         }
     }
-    mysql_free_result($result);
 }
 
+function update_thread_replies() {
+    $threads = BoincThread::enum();
+    foreach ($threads as $t) {
+        $n = BoincPost::count("thread=$t->id");
+        $n--;
+        if ($t->replies != $n) {
+            $t->update("replies=$n");
+            echo "updated thread $t->id; $t->replies -> $n\n";
+        }
+    }
+}
+
+//update_thread_replies(); exit();
+
+echo "You must uncomment a function call in the script\n";
 ?>

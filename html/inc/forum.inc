@@ -764,8 +764,10 @@ function unhide_post($post, $thread, $forum) {
 
 function delete_post($post, $thread, $forum) {
     $post->delete();
-    $thread->update("replies=replies-1");
-    $forum->update("posts=posts-1");
+    if (!$post->hidden) {
+        $thread->update("replies=replies-1");
+        $forum->update("posts=posts-1");
+    }
     $count = BoincPost::count("thread=$thread->id");
     if ($count == 0) {
         $forum->update("threads=threads-1");

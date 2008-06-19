@@ -4,12 +4,12 @@
 // Its state is stored in the database,
 // and the course may change underneath it.
 //
-// A state in a course is described by:
-// - an associative array mapping logical names to state structures.
-//   Typically this includes the logical name of the current child
-//   and info such as a sequence index.
-//   This is kind of like a "call stack",
-//   except that it can contain units not currently active.
+// A state in a course is described by an associative array
+// mapping logical names to state structures.
+// Typically this includes the logical name of the current child
+// and info such as a sequence index.
+// This is kind of like a "call stack",
+// except that it can contain units not currently active.
 
 //
 class BoltIter {

@@ -15,6 +15,47 @@ function show_results() {
 
 }
 
+// get names of units of a given type
+
+function units_of_type($unit, $type) {
+    $names = array();
+    if (is_subclass_of($unit, $type)) {
+        $names[] = $unit->name;
+    }
+    if (is_subclass_of($unit, "BoltSet")) {
+        foreach ($unit->units as $u) {
+            $n = units_of_type($u);
+            $names = array_merge($names, $n);
+        }
+    }
+    return array_unique($names);
+}
+
+// show a menu of select units
+//
+function select_menu($top_unit) {
+    echo "<select name=selects>";
+    $names = units_of_type($top_unit, "BoltSelect");
+    foreach ($names as $n) {
+        echo "<option> $n";
+    }
+    echo "</select>";
+}
+
+// show a menu of exercise sets
+//
+function ex_set_menu($top_units) {
+    echo "<select name=ex_sets>";
+    $names = units_of_type($top_unit, "BoltExSet");
+    foreach ($names as $n) {
+        echo "<option> $n";
+    }
+    echo "</select>";
+}
+
+function compare($select_name, $exset_name) {
+}
+
 //if (get_str('submit', true)) {
 //    show_results();
 //} else {
