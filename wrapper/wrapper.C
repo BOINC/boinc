@@ -174,6 +174,7 @@ int parse_job_file() {
             continue;
         }
         if (!strcmp(tag, "/job_desc")) {
+            fclose(f);
             return 0;
         }
         if (!strcmp(tag, "task")) {
@@ -184,6 +185,7 @@ int parse_job_file() {
             }
         }
     }
+    fclose(f);
     return ERR_XML_PARSE;
 }
 
@@ -274,7 +276,7 @@ int TASK::run(int argct, char** argvt) {
     slash_to_backslash(app_path);
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
-    command = app_path + string(" ") + command_line;
+    command = string("\"") + app_path + string("\" ") + command_line;
 
     // pass std handles to app
     //
@@ -501,6 +503,7 @@ void read_checkpoint(int& ntasks, double& cpu) {
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return;
     int n = fscanf(f, "%d %lf", &nt, &c);
+    fclose(f);
     if (n != 2) return;
     ntasks = nt;
     cpu = c;

@@ -763,3 +763,11 @@ David  18 June 2008
 
     wrapper/
         wrapper.C
+
+David  19 June 2008
+	- wrapper, Win: put quotes around program name in command-line arg
+		to CreateProcess() (in case it contains spaces)
+	- wrapper: close files
+
+	wrapper/
+		wrapper.C
