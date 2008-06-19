@@ -1,9 +1,60 @@
 <?php
 
-function choose_select() {
+// a "snapshot" is a condensed representation of the results
+// for a particular select/xset pair.
+// Namely, it's an array whose elements contain
+//  bolt_user: the user
+//  xset_result: the user's first completion of the xset
+//  select_finished: the user's last completion of the select before this
+
+function write_snapshot($course_id, $select_name, $xset_name, $start) {
+    $xrs = BoltXsetResult::enum(
+        "course_id=$course_id and name='$xset_name' and create_time >= $start"
+    );
+    $sfs = BoltSelectFinished::enum(
+        "course_id=$course_id and name='$select_name' and end_time >= $start"
+    );
+
+    // make an array, keyed by user ID, of earliest xset result
+    //
+    $a = array();
+    foreach ($xrs as $xr) {
+        $uid = $xr->user_id;
+        if (!array_key_exists($uid, $a) || $xr->create_time < $a[$uid]->xr->create_time) {
+            $x = null;
+            $x->xr = $xr;
+            $a[$uid] = $x;
+        }
+    }
+
+    // now scan select finishes, and for each user find last one before xset
+    //
+    foreach ($sfs as $sf) {
+        $uid = $sf->user_id;
+        if (!array_key_exists($uid, $a)) continue;
+        if ($sf->end_time > $a[$uid]->xr->create_time) continue;
+        if (!is_set($a[$uid]->sf || $sf->create_time > $a[$uid]->sf.create_time) {
+            $a[$uid]->sf = $sf;
+        }
+    }
+    $filename = "compare_snapshot_$course_id_$select_name_$xset_name.json";
+    $f = fopen($filename, "w");
+    fwrite($f, json_encode($a));
+    fclose($f);
 }
 
-function choose_xset() {
+function read_snapshot($course_id, $select_name, $xset_name) {
+    $filename = "compare_snapshot_$course_id_$select_name_$xset_name.json";
+    $f = fopen($filename, "r");
+    $x = fread($f, filesize($filename));
+    fclose($f);
+    return json_decode($x);
+}
+
+// show comparison results for a given select/xset pair.
+//
+function show_comparison($ss, $filter, $breakdown) {
+    //
 }
 
 function show_form() {
@@ -44,8 +95,8 @@ function select_menu($top_unit) {
 
 // show a menu of exercise sets
 //
-function ex_set_menu($top_units) {
-    echo "<select name=ex_sets>";
+function xset_menu($top_units) {
+    echo "<select name=xsets>";
     $names = units_of_type($top_unit, "BoltExSet");
     foreach ($names as $n) {
         echo "<option> $n";

@@ -23,13 +23,16 @@ class BoltSelect extends BoltSet {
         $this->ordered = true;
     }
 
-    function finished() {
+    function finished($iter) {
         global $user;
         global $course;
         global $view;
 
+        $state_rec = $iter->state[$this->name];
+        $child_name = $state_rec['child_name'];
         $now = time();
-        BoltSelectFinished::insert("(user_id, course_id, end_time, name, view_id) values ($user->id, $course->id, $now, '$this->name', $view->id)");
+        BoltSelectFinished::insert("(user_id, course_id, end_time, name, selected_unit, view_id) values ($user->id, $course->id, $now, '$this->name', '$child_name', $view->id)");
+        parent::finished($iter);
     }
 }
 

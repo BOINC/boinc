@@ -92,7 +92,7 @@ create table bolt_xset_result (
     start_time      integer         not null,
     end_time        integer         not null,
     name            varchar(255)    not null,
-        -- logical name of result set unit
+        -- logical name of exercise set unit
     score           double          not null,
 		-- weighted average score
     view_id         integer         not null,
@@ -109,6 +109,8 @@ create table bolt_select_finished (
     end_time        integer         not null,
     name            varchar(255)    not null,
         -- logical name of the select unit
+    selected_unit   varchar(255)    not null,
+        -- name of selected subunit
     view_id         integer         not null,
         -- the view of the last item
     primary key(id)

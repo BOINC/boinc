@@ -32,9 +32,31 @@ function int_review() {
     );
 }
 
-return sequence(
-    name('course'),
-    random(
+function my_rand($student, $unit) {
+    return rand();
+}
+
+function sample_select() {
+    return select(
+        name('sample select'),
+        valuator('my_rand'),
+        lesson(
+            name('lesson 1'),
+            filename('bolt_sample_lesson.php?n=1')
+        ),
+        lesson(
+            name('lesson 2'),
+            filename('bolt_sample_lesson.php?n=2')
+        ),
+        lesson(
+            name('lesson 3'),
+            filename('bolt_sample_lesson.php?n=3')
+        )
+    );
+}
+
+function sample_random() {
+    return random(
         name('first lessons'),
         number(2),
         lesson(
@@ -49,8 +71,11 @@ return sequence(
             name('lesson 3'),
             filename('bolt_sample_lesson.php?n=3')
         )
-    ),
-    exercise_set(
+    );
+}
+
+function xset_with_review() {
+    return exercise_set(
         name('exercise set 1'),
         number(2),
         exercise(
@@ -69,7 +94,26 @@ return sequence(
         repeat(.7, int_review(), REVIEW|REPEAT),
         repeat(1, null, REPEAT|NEXT),
         refresh(array(7, 14, 28))
-    ),
+    );
+}
+
+function sample_xset() {
+    return exercise_set(
+        name('exercise set 1'),
+        number(1),
+        exercise(
+            name('exercise 1'),
+            filename('bolt_sample_exercise.php?n=1')
+        )
+    );
+}
+
+return sequence(
+    name('course'),
+    // sample_random(),
+    // xset_with_review(),
+    sample_select(),
+    sample_xset(),
     part2()
 );
 

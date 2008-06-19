@@ -5007,4 +5007,10 @@ Rom    19 June 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
-        
+       
+David  19 June 2008
+    - diagnostics library: in signal handler, use _exit() instead of exit();
+        an atexit() function might have been what caused the signal
+
+    lib/
+        diagnostics.C
