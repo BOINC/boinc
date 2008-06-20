@@ -490,8 +490,8 @@ int boinc_main_loop() {
             requested_suspend = false;
         }
         if (requested_resume) {
-            gstate.run_mode.set(RUN_MODE_AUTO, 0);
-            gstate.network_mode.set(RUN_MODE_AUTO, 0);
+            gstate.run_mode.set(RUN_MODE_RESTORE, 0);
+            gstate.network_mode.set(RUN_MODE_RESTORE, 0);
             requested_resume = false;
         }
 #endif

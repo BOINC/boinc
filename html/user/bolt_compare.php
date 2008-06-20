@@ -1,5 +1,7 @@
 <?php
 
+require_once("../inc/bolt_db.inc");
+
 // a "snapshot" is a condensed representation of the results
 // for a particular select/xset pair.
 // Namely, it's an array whose elements contain
@@ -32,9 +34,13 @@ function write_snapshot($course_id, $select_name, $xset_name, $start) {
     foreach ($sfs as $sf) {
         $uid = $sf->user_id;
         if (!array_key_exists($uid, $a)) continue;
-        if ($sf->end_time > $a[$uid]->xr->create_time) continue;
-        if (!is_set($a[$uid]->sf || $sf->create_time > $a[$uid]->sf.create_time) {
-            $a[$uid]->sf = $sf;
+        $x = $a[$uid];
+        $xr = $x->xr;
+        if ($sf->end_time > $xr->create_time) continue;
+        $s = $x->sf;
+        if (!is_set($x->sf) || $sf->create_time > $s.create_time) {
+            $x->sf = $sf;
+            $a[$uid] = $x;
         }
     }
     $filename = "compare_snapshot_$course_id_$select_name_$xset_name.json";
@@ -54,7 +60,6 @@ function read_snapshot($course_id, $select_name, $xset_name) {
 // show comparison results for a given select/xset pair.
 //
 function show_comparison($ss, $filter, $breakdown) {
-    //
 }
 
 function show_form() {
@@ -63,7 +68,6 @@ function show_form() {
 }
 
 function show_results() {
-
 }
 
 // get names of units of a given type

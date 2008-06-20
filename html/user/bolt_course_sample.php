@@ -99,7 +99,7 @@ function xset_with_review() {
 
 function sample_xset() {
     return exercise_set(
-        name('exercise set 1'),
+        name('sample exercise set'),
         number(1),
         exercise(
             name('exercise 1'),

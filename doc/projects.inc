@@ -13,7 +13,7 @@ $biomed = array(
         ),
         array(
             "Superlink@Technion",
-            "http://cbl-link02.cs.technion.ac.il/superlinkattechnion/",
+            "http://cbl-boinc-server2.cs.technion.ac.il/superlinkattechnion/",
             "Technion, Israel",
             "Genetic linkage analysis",
             "Superlink@Technion helps geneticists all over the world find disease-provoking genes causing some types of diabetes, hypertension (high blood pressure), cancer, schizophrenia and many others.",

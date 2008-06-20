@@ -5014,3 +5014,12 @@ David  19 June 2008
 
     lib/
         diagnostics.C
+
+David  20 June 2008
+    - client (Win): if running as service, and service is suspended/resumed,
+        restore previous run state rather than going to auto.
+    - client: improve startup messages (non-system user??)
+
+    client/
+        client_state.C
+        main.C

@@ -195,34 +195,18 @@ int CLIENT_STATE::init() {
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
     if (executing_as_daemon) {
-        msg_printf(NULL, MSG_INFO, "Executing as a daemon");
+        msg_printf(NULL, MSG_INFO, "Running as a daemon");
     }
 
     relative_to_absolute("", buf);
     msg_printf(NULL, MSG_INFO, "Data directory: %s", buf);
 
-    // if we are running as anybody other than localsystem
-    // and executing as a daemon then app graphics won't work.
-    // display a note at startup reminding user of that.
-    //
 #ifdef _WIN32
     DWORD  buf_size = sizeof(buf);
     LPTSTR pbuf = buf;
 
     GetUserName(pbuf, &buf_size);
-    if (executing_as_daemon && (strcmp("SYSTEM", pbuf))) {
-        msg_printf(NULL, MSG_INFO,
-            "BOINC is running as a service and as a non-system user."
-        );
-    }
-#endif
-
-#ifdef __APPLE__
-    if (executing_as_daemon) {
-        msg_printf(NULL, MSG_INFO,
-            "BOINC is running as a daemon."
-        );
-    }
+    msg_printf(NULL, MSG_INFO, "Running under account %s", pbuf);
 #endif
 
     parse_account_files();
