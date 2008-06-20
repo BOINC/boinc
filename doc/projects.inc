@@ -3,14 +3,30 @@
 $biomed = array(
     "Biology and Medicine",
     array(
-//        array(
-//            "Proteins@Home",
-//            "http://biology.polytechnique.fr/proteinsathome",
-//            "Ecole Polytechnique, Paris",
-//            "Protein structure prediction",
-//            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
-//            "proteinsathome.gif"
-//        ),
+        array(
+            "GPU Grid - PS3 Grid",
+            "http://www.ps3grid.net/",
+            "Barcelona Biomedical Research Park (PRBB)",
+            "Molecular simulations of proteins",
+            "PS3GRID opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on the Cell processor and the PlayStation3. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.",
+            "ps3grid.png"
+        ),
+        array(
+            "Superlink@Technion",
+            "http://cbl-boinc-server2.cs.technion.ac.il/superlinkattechnion/",
+            "Technion, Israel",
+            "Genetic linkage analysis",
+            "Superlink@Technion helps geneticists all over the world find disease-provoking genes causing some types of diabetes, hypertension (high blood pressure), cancer, schizophrenia and many others.",
+            "superlink_logo.gif"
+        ),
+        array(
+            "Proteins@Home",
+            "http://biology.polytechnique.fr/proteinsathome",
+            "Ecole Polytechnique, Paris",
+            "Protein structure prediction",
+            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
+            "proteinsathome.gif"
+        ),
         array(
             "The Lattice Project",
             "http://boinc.umiacs.umd.edu/",
@@ -148,7 +164,7 @@ $math = array(
     array(
         array(
             "SHA-1 Collision Search Graz",
-            "http://boinc.iaik.tugraz.at/",
+            "http://boinc.iaik.tugraz.at/sha1_coll_search/",
             "Graz University of Technology",
             "Cryptography",
             "Search for collisions (weaknesses) of the widely-used SHA-1 hash function.",

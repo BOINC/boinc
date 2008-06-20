@@ -28,6 +28,7 @@ class BoltSelect extends BoltSet {
         global $course;
         global $view;
 
+        echo "FINISHED: $child_name";
         $now = time();
         BoltSelectFinished::insert("(user_id, course_id, end_time, name, view_id) values ($user->id, $course->id, $now, '$this->name', $view->id)");
     }
