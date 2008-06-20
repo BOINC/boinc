@@ -61,11 +61,11 @@ function type_text($type) {
     }
 }
 
-$w626= array(
-    "num"=>"6.2.6",
+$w628= array(
+    "num"=>"6.2.8",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.6_windows_intelx86.exe",
-    "date"=>"29 May 2008",
+    "file"=>"boinc_6.2.8_windows_intelx86.exe",
+    "date"=>"20 June 2008",
     "type"=>"win_new",
 );
 
@@ -210,7 +210,7 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w626,
+        $w628,
         $w51045,
         $w5816,
     )
