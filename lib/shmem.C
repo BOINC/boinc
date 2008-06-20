@@ -71,7 +71,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 
 #ifdef _WIN32
 
-HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
+HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
     HANDLE hMap = NULL;
     DWORD dwError = 0;
     DWORD dwRes = 0;
@@ -157,21 +157,27 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
         // Use the security attributes to set the security descriptor
         // when you create a shared file mapping.
 
+        // Try using 'Global' so that it can cross terminal server sessions
         // The 'Global' prefix must be included in the shared memory
         // name if the shared memory segment is going to cross
-        // terminal server session boundries.
+        // terminal server session boundaries.
         //
-        sprintf(global_seg_name, "Global\\%s", seg_name);
-
-        // Try using 'Global' so that it can cross terminal server sessions
-        //
-        hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, global_seg_name);
-        dwError = GetLastError();
-        if (!hMap && (ERROR_ACCESS_DENIED == dwError)) {
-            // Couldn't use the 'Global' tag, so just attempt to use the original
-            // name.
-            //
-            hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, seg_name);
+        if (try_global) {
+            sprintf(global_seg_name, "Global\\%s", seg_name);
+            hMap = CreateFileMapping(
+                INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0,
+                size, global_seg_name
+            );
+            dwError = GetLastError();
+            if (!hMap && (ERROR_ACCESS_DENIED == dwError)) {
+                // Couldn't use the 'Global' tag, so try the original name.
+                try_global = false;
+            }
+        }
+        if (!try_global) {
+            hMap = CreateFileMapping(
+                INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, seg_name
+            );
             dwError = GetLastError();
         }
     }

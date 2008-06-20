@@ -111,10 +111,12 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     char seg_name[256];
     HANDLE h = 0;
 
+    bool try_global = (sandbox_account_service_token != NULL);
     for (i=0; i<1024; i++) {
         sprintf(seg_name, "%sboinc_%d", SHM_PREFIX, i);
         h = create_shmem(
-            seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
+            seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm,
+            try_global
         );
         if (h) break;
     }
@@ -345,6 +347,9 @@ int ACTIVE_TASK::start(bool first_time) {
     int retval;
 #ifdef _WIN32
     std::string cmd_line;
+
+    get_sandbox_account_service_token();
+        // do this first because it affects how we create shmem seg
 #endif
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
@@ -505,8 +510,6 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
-
-    get_sandbox_account_service_token();
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {

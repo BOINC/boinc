@@ -5023,3 +5023,16 @@ David  20 June 2008
     client/
         client_state.C
         main.C
+
+David  20 June 2008
+    - client (Win): if we're not in protected mode,
+        don't create shmem segs in global name space.
+        Hopefully this will fix a bug
+        (on Vista, UAC off, non-protected install)
+        where apps fail to attach to shmem.
+
+    client/
+        app_start.C
+    lib/
+        proc_control.C
+        shmem.C,h
