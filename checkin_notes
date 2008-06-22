@@ -5036,3 +5036,11 @@ David  20 June 2008
     lib/
         proc_control.C
         shmem.C,h
+
+David  22 June 2008
+    - scheduler: change message if bad auth (fixes #685)
+
+    client/
+        hostinfo_unix.C
+    sched/
+        handle_request.C

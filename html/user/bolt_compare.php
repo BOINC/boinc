@@ -1,7 +1,7 @@
 <?php
 
 // actions:
-// none
+// (none)
 //      form to choose select and xset; OK goes to:
 // snap_form
 //      if have a snapshot, show its start/end times
@@ -12,15 +12,15 @@
 //      show comparison.
 //      show form to set or change filter or breakdown.
 
+require_once("../inc/util.inc");
+require_once("../inc/bolt_db.inc");
+require_once("../inc/bolt_util.inc");
+
 // show comparison results for a given select/xset pair.
 //
 function show_comparison($ss, $filter, $breakdown) {
 }
 
-function show_form() {
-    choose_select();
-    choose_xset();
-}
 
 function show_results() {
 }
@@ -29,12 +29,12 @@ function show_results() {
 
 function units_of_type($unit, $type) {
     $names = array();
-    if (is_subclass_of($unit, $type)) {
+    if (get_class($unit) == $type) {
         $names[] = $unit->name;
     }
     if (is_subclass_of($unit, "BoltSet")) {
         foreach ($unit->units as $u) {
-            $n = units_of_type($u);
+            $n = units_of_type($u, $type);
             $names = array_merge($names, $n);
         }
     }
@@ -43,8 +43,10 @@ function units_of_type($unit, $type) {
 
 // show a menu of select units
 //
-function select_menu($top_unit) {
-    echo "<select name=selects>";
+function choose_select($top_unit) {
+    echo "<select name=select_name>
+        <option selected> ---
+    ";
     $names = units_of_type($top_unit, "BoltSelect");
     foreach ($names as $n) {
         echo "<option> $n";
@@ -54,22 +56,109 @@ function select_menu($top_unit) {
 
 // show a menu of exercise sets
 //
-function xset_menu($top_units) {
-    echo "<select name=xsets>";
-    $names = units_of_type($top_unit, "BoltExSet");
+function choose_xset($top_unit) {
+    echo "<select name=xset_name>
+        <option selected> ---
+    ";
+    $names = units_of_type($top_unit, "BoltExerciseSet");
     foreach ($names as $n) {
         echo "<option> $n";
     }
     echo "</select>";
 }
 
+function compare_aux($snap) {
+    // for each select alternative, build an array of xset scores
+    //
+    $a = array();
+    foreach ($snap as $x) {
+        //$a[$x->select_finished_name][] = $x->xset_result->score;
+    }
+
+    foreach ($a as $name => $scores) {
+        conf_int_90($scores, $lo, $hi);
+        $n = count($scores);
+        echo "
+            <br>$name: lo $lo hi $hi ($count results)
+        ";
+    }
+}
+
 function compare($select_name, $exset_name) {
 }
 
-//if (get_str('submit', true)) {
-//    show_results();
-//} else {
-//    show_form();
-//}
+function show_snap_form($top_unit) {
+    global $course_id;
+    $select_name = get_str('select_name');
+    $xset_name = get_str('xset_name');
+    page_head("Data snapshot");
+    $s = read_compare_snapshot($course_id, $select_name, $xset_name);
+    if ($s) {
+        $end = date_str($s->end);
+        echo "
+            A data snapshot exists for the $$s->dur days prior to $end.
+        ";
+        button(
+            "bolt_compare.php?action=compare&course_id=$course_id",
+            "Use this snapshot"
+        );
+    }
+    echo "
+        <form action=bolt_compare.php>
+        <form type=hidden name=action value=snapshot_create>
+        <form type=hidden name=course_id value=$course_id>
+        Create a new snapshot using data from the last
+        <input name=dur> days.
+        <input type=submit value=OK>
+        </form>
+    ";
+    page_tail();
+}
+
+function snap_action($select_name, $xset_name) {
+    $dur = get_int('dur');
+    $start = time() - $dur*86400;
+    $s = write_compare_snapshot($select_name, $xset_name, $start);
+    compare_aux($a);
+}
+
+function show_choice($top_unit) {
+    global $course_id;
+    page_head("Unit comparison");
+    echo "
+        <form action=bolt_compare.php>
+        <input type=hidden name=course_id value=$course_id>
+        This tool lets you compare alternative lessons.
+        These lessons must be included in a 'select' unit,
+        typically with a random selection function.
+        This must be followed by an exercise set
+        that tests for the concepts in the lessons.
+        <p>
+        Please choose a select unit
+    ";
+    choose_select($top_unit);
+    echo "
+        and an exercise set
+    ";
+    choose_xset($top_unit);
+    echo "
+        <input type=hidden name=action value=snap_form>
+        <p>
+        <input type=submit value=OK>
+    ";
+}
+
+$course_id = get_int('course_id');
+$course = BoltCourse::lookup_id($course_id);
+$top_unit = require_once($course->doc_file);
+
+$action = get_str('action', true);
+switch ($action) {
+case "": show_choice($top_unit); break;
+case "snap_form": show_snap_form($top_unit); break;
+case "snap_action": snap_action(); break;
+case "compare": show_compare(); break;
+default: error_page("Unknown action $action");
+}
 
 ?>

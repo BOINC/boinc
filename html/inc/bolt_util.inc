@@ -62,7 +62,7 @@ function request_info($user, $course) {
 //  xset_result: the user's first completion of the xset
 //  select_finished: the user's last completion of the select before this
 
-function write_snapshot($course_id, $select_name, $xset_name, $start) {
+function write_compare_snapshot($course_id, $select_name, $xset_name, $start) {
     $xrs = BoltXsetResult::enum(
         "course_id=$course_id and name='$xset_name' and create_time >= $start"
     );
@@ -100,11 +100,13 @@ function write_snapshot($course_id, $select_name, $xset_name, $start) {
     $f = fopen($filename, "w");
     fwrite($f, json_encode($a));
     fclose($f);
+    return $a;
 }
 
-function read_snapshot($course_id, $select_name, $xset_name) {
-    $filename = "compare_snapshot_$course_id_$select_name_$xset_name.json";
-    $f = fopen($filename, "r");
+function read_compare_snapshot($course_id, $select_name, $xset_name) {
+    $filename = "compare_snapshot_".$course_id."_".$select_name."_".$xset_name.".json";
+    $f = @fopen($filename, "r");
+    if (!$f) return null;
     $x = fread($f, filesize($filename));
     fclose($f);
     return json_decode($x);

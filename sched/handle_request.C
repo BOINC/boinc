@@ -290,7 +290,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 retval = user.lookup(buf);
                 if (retval) {
                     USER_MESSAGE um("Invalid or missing account key.  "
-                        "Visit this project's web site to get an account key.",
+                        "Detach and reattach to this project to fix this.",
                         "high"
                     );
                     reply.insert_message(um);
@@ -359,7 +359,7 @@ lookup_user_and_make_new_host:
         if (retval) {
             USER_MESSAGE um(
                 "Invalid or missing account key.  "
-                "Visit this project's web site to get an account key.",
+                "Detach and reattach to this project to fix this.",
                 "low"
             );
             reply.insert_message(um);

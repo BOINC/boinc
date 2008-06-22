@@ -216,8 +216,8 @@ bool HOST_INFO::host_is_running_on_batteries() {
     bool    retval = false;
 
     FILE* fapm = fopen("/proc/apm", "r");
-    if (fapm) {         // Then we're using APM!  Yay.
-
+    if (fapm) {
+        // we're using APM
         char    apm_driver_version[11];
         int     apm_major_version;
         int     apm_minor_version;
@@ -235,8 +235,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
         retval = (apm_ac_line_status == 0);
         fclose(fapm);
     } else {
-
-        // we try ACPI
+        // try ACPI
         char buf[128];
         char ac_state[64];
         std::string ac_name;
