@@ -99,7 +99,7 @@ void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& WXUNUSED(event))
 }
 
 // Operations
-bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
+bool wxTaskBarIconEx::SetIcon(const wxIcon& icon)
 {
     if (!IsOK())
         return FALSE;
@@ -118,10 +118,28 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
         notifyData.hIcon = (HICON) icon.GetHICON();
     }
 
-    if (((const wxChar*) tooltip != NULL) && (tooltip != wxT("")))
+
+    UpdateIcon();
+    return m_iconAdded;
+}
+
+bool wxTaskBarIconEx::SetTooltip(const wxString& message)
+{
+    if (!IsOK())
+        return FALSE;
+
+    memset(&notifyData, 0, sizeof(notifyData));
+    notifyData.cbSize           = sizeof(notifyData);
+    notifyData.hWnd             = (HWND) m_hWnd;
+    notifyData.uID              = 99;
+    notifyData.uCallbackMessage = sm_taskbarMsg;
+    notifyData.uFlags           = NIF_MESSAGE;
+    notifyData.uVersion         = NOTIFYICON_VERSION;
+
+    if (((const wxChar*) message != NULL) && (message != wxT("")))
     {
         notifyData.uFlags |= NIF_TIP ;
-        lstrcpyn(notifyData.szTip, WXSTRINGCAST tooltip, sizeof(notifyData.szTip));
+        lstrcpyn(notifyData.szTip, WXSTRINGCAST message, sizeof(notifyData.szTip));
     }
 
 

@@ -5072,3 +5072,12 @@ Rom    23 June 2008
         boinc32.xpm
     win_build/
         boincmgr_curl.vcproj
+
+Rom    23 June 2008
+    - MGR: Change from using balloons to tooltips. Fixes #9.
+      Thanks David Barnard.
+      
+    clientgui/
+        BOINCTaskBar.cpp
+    clientgui/msw/
+        taskbarex.cpp, .h
