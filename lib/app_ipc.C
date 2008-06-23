@@ -249,7 +249,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double(tag, "checkpoint_period", ai.checkpoint_period)) continue;
         if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double(tag, "fraction_done_end", ai.fraction_done_end)) continue;
-        xp.skip_unexpected(tag, true, "parse_init_data_file");
+        xp.skip_unexpected(tag, false, "parse_init_data_file");
     }
     fprintf(stderr, "parse_init_data_file: no end tag\n");
     return ERR_XML_PARSE;

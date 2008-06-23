@@ -5081,3 +5081,14 @@ Rom    23 June 2008
         BOINCTaskBar.cpp
     clientgui/msw/
         taskbarex.cpp, .h
+
+David  23 June 2008
+    - API, Unix: when boinc_finish(x) is called, exit with code x
+        even if signals happen in the atexit() handling
+    - API: don't print XML parse warnings for init_data.xml file
+
+    api/
+        boinc_api.C
+    lib/
+        app_ipc.C
+        diagnostics.C,h

@@ -68,10 +68,11 @@ function choose_xset($top_unit) {
 }
 
 function compare_aux($snap) {
+    print_r($snap);
     // for each select alternative, build an array of xset scores
     //
     $a = array();
-    foreach ($snap as $x) {
+    foreach ($snap->recs as $uid=>$x) {
         //$a[$x->select_finished_name][] = $x->xset_result->score;
     }
 
@@ -93,20 +94,25 @@ function show_snap_form($top_unit) {
     $xset_name = get_str('xset_name');
     page_head("Data snapshot");
     $s = read_compare_snapshot($course_id, $select_name, $xset_name);
+
     if ($s) {
-        $end = date_str($s->end);
+        $end = date_str($s->time);
         echo "
-            A data snapshot exists for the $$s->dur days prior to $end.
+            A data snapshot exists for the $s->dur days prior to $end.
         ";
         button(
             "bolt_compare.php?action=compare&course_id=$course_id",
             "Use this snapshot"
         );
+    } else {
+        echo "There is currently no snapshot.";
     }
     echo "
         <form action=bolt_compare.php>
-        <form type=hidden name=action value=snapshot_create>
-        <form type=hidden name=course_id value=$course_id>
+        <input type=hidden name=action value=snap_action>
+        <input type=hidden name=course_id value=$course_id>
+        <input type=hidden name=select_name value=\"$select_name\">
+        <input type=hidden name=xset_name value=\"$xset_name\">
         Create a new snapshot using data from the last
         <input name=dur> days.
         <input type=submit value=OK>
@@ -115,11 +121,13 @@ function show_snap_form($top_unit) {
     page_tail();
 }
 
-function snap_action($select_name, $xset_name) {
+function snap_action() {
+    global $course_id;
+    $select_name = get_str('select_name');
+    $xset_name = get_str('xset_name');
     $dur = get_int('dur');
-    $start = time() - $dur*86400;
-    $s = write_compare_snapshot($select_name, $xset_name, $start);
-    compare_aux($a);
+    $s = write_compare_snapshot($course_id, $select_name, $xset_name, $dur);
+    compare_aux($s);
 }
 
 function show_choice($top_unit) {

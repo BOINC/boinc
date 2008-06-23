@@ -469,7 +469,10 @@ void boinc_exit(int status) {
     // stops endless exit()/atexit() loops.
     _exit(status);
 #else
-    // POSIX exit call.
+    // arrange to exit with given status even if errors happen
+    // in atexit() functions
+    //
+    set_signal_exit_code(status);
     exit(status);
 #endif
 }

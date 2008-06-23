@@ -90,24 +90,24 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
 
     switch(reportType){
 
-        case _CRT_WARN:
-        case _CRT_ERROR:
+    case _CRT_WARN:
+    case _CRT_ERROR:
 
-            if (flags & BOINC_DIAG_TRACETOSTDERR) {
-                fprintf(stderr, szMsg);
-            }
+        if (flags & BOINC_DIAG_TRACETOSTDERR) {
+            fprintf(stderr, szMsg);
+        }
 
-            if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-                fprintf(stdout, szMsg);
-            }
+        if (flags & BOINC_DIAG_TRACETOSTDOUT) {
+            fprintf(stdout, szMsg);
+        }
 
-            break;
-        case _CRT_ASSERT:
+        break;
+    case _CRT_ASSERT:
 
-            fprintf(stderr, "ASSERT: %s\n", szMsg);
+        fprintf(stderr, "ASSERT: %s\n", szMsg);
 
-            (*retVal) = 1;
-            break;
+        (*retVal) = 1;
+        break;
 
     }
 
@@ -141,9 +141,6 @@ int boinc_finish_diag() {
     return diagnostics_finish();
 }
 
-
-// to setup an unhandled exception filter on Windows
-//
 int boinc_install_signal_handlers() {
 #ifdef _WIN32
     SetUnhandledExceptionFilter(boinc_catch_signal);
@@ -577,20 +574,26 @@ void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
 #endif /* HAVE_SIGACTION */
 }
 
+// exit code to use if signalled; can be changed
+static int signal_exit_code = EXIT_SIGNAL;
+
+void set_signal_exit_code(int x) {
+    signal_exit_code = x;
+}
 
 void boinc_catch_signal(int signal) {
     switch(signal) {
-        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup\n");
-             return;
-        case SIGINT: fprintf(stderr, "SIGINT: interrupt program\n"); break;
-        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction\n"); break;
-        case SIGABRT: fprintf(stderr, "SIGABRT: abort called\n"); break;
-        case SIGBUS: fprintf(stderr, "SIGBUS: bus error\n"); break;
-        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation\n"); break;
-        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument\n"); break;
-        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader\n");
-            return;
-        default: fprintf(stderr, "unknown signal %d\n", signal); break;
+    case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup\n");
+         return;
+    case SIGINT: fprintf(stderr, "SIGINT: interrupt program\n"); break;
+    case SIGILL: fprintf(stderr, "SIGILL: illegal instruction\n"); break;
+    case SIGABRT: fprintf(stderr, "SIGABRT: abort called\n"); break;
+    case SIGBUS: fprintf(stderr, "SIGBUS: bus error\n"); break;
+    case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation\n"); break;
+    case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument\n"); break;
+    case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader\n");
+        return;
+    default: fprintf(stderr, "unknown signal %d\n", signal); break;
     }
 
 #ifdef __GLIBC__
@@ -606,9 +609,8 @@ void boinc_catch_signal(int signal) {
 #endif
 
     fprintf(stderr, "\nExiting...\n");
-    _exit(EXIT_SIGNAL);
+    _exit(signal_exit_code);
 }
-
 
 #endif
 

@@ -129,6 +129,7 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 extern void boinc_trace(const char *pszFormat, ...);
 extern void boinc_info(const char *pszFormat, ...);
 
+extern void set_signal_exit_code(int);
 
 #ifdef __cplusplus
 }

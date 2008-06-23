@@ -53,6 +53,10 @@ function request_info($user, $course) {
     page_tail();
 }
 
+function compare_snapshot_filename($course_id, $select_name, $xset_name) {
+    return "../bolt_snap/compare_snapshot_".$course_id."_".$select_name."_".$xset_name.".json";
+}
+
 ////// stuff related to snapshots
 
 // a "snapshot" is a condensed representation of the results
@@ -62,7 +66,9 @@ function request_info($user, $course) {
 //  xset_result: the user's first completion of the xset
 //  select_finished: the user's last completion of the select before this
 
-function write_compare_snapshot($course_id, $select_name, $xset_name, $start) {
+function write_compare_snapshot($course_id, $select_name, $xset_name, $dur) {
+    $now = time();
+    $start = $now - $dur*86400;
     $xrs = BoltXsetResult::enum(
         "course_id=$course_id and name='$xset_name' and create_time >= $start"
     );
@@ -96,15 +102,20 @@ function write_compare_snapshot($course_id, $select_name, $xset_name, $start) {
             $a[$uid] = $x;
         }
     }
-    $filename = "compare_snapshot_$course_id_$select_name_$xset_name.json";
+    $filename = compare_snapshot_filename($course_id, $select_name, $xset_name);
     $f = fopen($filename, "w");
-    fwrite($f, json_encode($a));
+
+    $s = null;
+    $s->recs = $a;
+    $s->dur = $dur;
+    $s->time = $now;
+    fwrite($f, json_encode($s));
     fclose($f);
-    return $a;
+    return $s;
 }
 
 function read_compare_snapshot($course_id, $select_name, $xset_name) {
-    $filename = "compare_snapshot_".$course_id."_".$select_name."_".$xset_name.".json";
+    $filename = compare_snapshot_filename($course_id, $select_name, $xset_name);
     $f = @fopen($filename, "r");
     if (!$f) return null;
     $x = fread($f, filesize($filename));
