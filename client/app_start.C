@@ -79,8 +79,8 @@ using std::vector;
 
 
 #ifdef _WIN32
-// Dynamically link to these functions at runtime, otherwise BOINC
-// cannot run on Win98
+// Dynamically link to these functions at runtime;
+// otherwise BOINC cannot run on Win98
 
 // CreateEnvironmentBlock
 typedef BOOL (WINAPI *tCEB)(LPVOID *lpEnvironment, HANDLE hToken, BOOL bInherit);
@@ -102,28 +102,26 @@ static void debug_print_argv(char** argv) {
 }
 #endif
 
-// make a unique key for core/app shared memory segment
+// Make a unique key for core/app shared memory segment.
+// Windows: also create and attach to the segment.
 //
 int ACTIVE_TASK::get_shmem_seg_name() {
 #ifdef _WIN32
-    int     i = 0;
-    char    szSharedMemoryName[256];
-    HANDLE  hSharedMemoryHandle = 0;
+    int i;
+    char seg_name[256];
+    HANDLE h = 0;
 
+    bool try_global = (sandbox_account_service_token != NULL);
     for (i=0; i<1024; i++) {
-        sprintf(szSharedMemoryName, "%sboinc_%d", SHM_PREFIX, i);
-        hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL, true);
-        if (hSharedMemoryHandle) break;
+        sprintf(seg_name, "%sboinc_%d", SHM_PREFIX, i);
+        h = create_shmem(
+            seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm,
+            try_global
+        );
+        if (h) break;
     }
-
-    if (!hSharedMemoryHandle) {
-        return ERR_SHMGET;
-    }
-    detach_shmem(hSharedMemoryHandle, NULL);
-
-    sprintf(szSharedMemoryName, "boinc_%d", i);
-    strcpy(shmem_seg_name, szSharedMemoryName);
-
+    if (!h) return ERR_SHMGET;
+    sprintf(shmem_seg_name, "boinc_%d", i);
 #else
     char init_data_path[256];
 #ifndef __EMX__
@@ -349,6 +347,9 @@ int ACTIVE_TASK::start(bool first_time) {
     int retval;
 #ifdef _WIN32
     std::string cmd_line;
+
+    get_sandbox_account_service_token();
+        // do this first because it affects how we create shmem seg
 #endif
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
@@ -483,6 +484,7 @@ int ACTIVE_TASK::start(bool first_time) {
     LPVOID environment_block = NULL;
     char slotdirpath[256];
     char error_msg[1024];
+    char error_msg2[1024];
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -492,19 +494,6 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     startup_info.dwFlags = STARTF_FORCEOFFFEEDBACK;
 
-    // create shared mem segment if needed
-    //
-    if (!app_client_shm.shm) {
-        sprintf(buf, "%s%s", SHM_PREFIX, shmem_seg_name);
-        shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
-            (void **)&app_client_shm.shm, false
-        );
-        if (shm_handle == NULL) {
-            strcpy(buf, "Can't create shared memory");
-            retval = ERR_SHMGET;
-            goto error;
-        }
-    }
     app_client_shm.reset_msgs();
 
     if (config.run_apps_manually) {
@@ -521,8 +510,6 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
-
-    get_sandbox_account_service_token();
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {
@@ -570,9 +557,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
             if (!pDEB(environment_block)) {
                 if (log_flags.task) {
-                    windows_error_string(error_msg, sizeof(error_msg));
+                    windows_error_string(error_msg, sizeof(error_msg2));
                     msg_printf(result->project, MSG_INFO,
-                        "Process environment block cleanup failed: %s", error_msg
+                        "Process environment block cleanup failed: %s",
+                        error_msg2
                     );
                 }
             }
@@ -742,6 +730,12 @@ int ACTIVE_TASK::start(bool first_time) {
         // from here on we're running in a new process.
         // If an error happens,
         // exit nonzero so that the core client knows there was a problem.
+
+        // don't pass stdout to the app
+        //
+        int fd = open("/dev/null", O_RDWR);
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
 
         // add project dir to library path
         //

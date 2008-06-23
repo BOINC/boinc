@@ -53,6 +53,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
+
 // MAP_FILE isn't defined on most operating systems, and even then, it
 // is often defined just for the sake of compatibility.  On those that
 // don't define it, we will....
@@ -70,7 +71,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 
 #ifdef _WIN32
 
-HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview) {
+HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
     HANDLE hMap = NULL;
     DWORD dwError = 0;
     DWORD dwRes = 0;
@@ -83,9 +84,10 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
     OSVERSIONINFO osvi; 
     char global_seg_name[256];
 
-    // Win9X doesn't like any reference to a security descriptor. So if we
-    //   detect that we are running on the Win9X platform pass a NULL value
-    //   for it.
+    // Win9X doesn't like any reference to a security descriptor.
+    // So if we detect that we are running on the Win9X platform pass
+    // a NULL value for it.
+    //
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
@@ -96,10 +98,10 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
     } else {
         // Create a well-known SID for the Everyone group.
         if(!AllocateAndInitializeSid(&SIDAuthWorld, 1,
-                         SECURITY_WORLD_RID,
-                         0, 0, 0, 0, 0, 0, 0,
-                         &pEveryoneSID))
-        {
+             SECURITY_WORLD_RID,
+             0, 0, 0, 0, 0, 0, 0,
+             &pEveryoneSID)
+        ) {
             fprintf(stderr, "AllocateAndInitializeSid Error %u\n", GetLastError());
             goto Cleanup;
         }
@@ -116,23 +118,22 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
 
         // Create a new ACL that contains the new ACEs.
         dwRes = SetEntriesInAcl(1, &ea, NULL, &pACL);
-        if (ERROR_SUCCESS != dwRes) 
-        {
+        if (ERROR_SUCCESS != dwRes) {
             fprintf(stderr, "SetEntriesInAcl Error %u\n", GetLastError());
             goto Cleanup;
         }
 
         // Initialize a security descriptor.  
         pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
-        if (NULL == pSD) 
-        { 
+        if (NULL == pSD) { 
             fprintf(stderr, "LocalAlloc Error %u\n", GetLastError());
             goto Cleanup; 
         } 
      
-        if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) 
-        {  
-            fprintf(stderr, "InitializeSecurityDescriptor Error %u\n", GetLastError());
+        if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) {
+            fprintf(stderr, "InitializeSecurityDescriptor Error %u\n",
+                GetLastError()
+            );
             goto Cleanup; 
         } 
      
@@ -140,9 +141,11 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
         if (!SetSecurityDescriptorDacl(pSD, 
                 TRUE,     // bDaclPresent flag   
                 pACL, 
-                FALSE))   // not a default DACL 
-        {  
-            fprintf(stderr, "SetSecurityDescriptorDacl Error %u\n", GetLastError());
+                FALSE) // not a default DACL 
+        ) {  
+            fprintf(stderr,
+                "SetSecurityDescriptorDacl Error %u\n", GetLastError()
+            );
             goto Cleanup; 
         } 
 
@@ -154,32 +157,38 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
         // Use the security attributes to set the security descriptor
         // when you create a shared file mapping.
 
+        // Try using 'Global' so that it can cross terminal server sessions
         // The 'Global' prefix must be included in the shared memory
         // name if the shared memory segment is going to cross
-        // terminal server session boundries.
+        // terminal server session boundaries.
         //
-        sprintf(global_seg_name, "Global\\%s", seg_name);
-
-        // Try using 'Global' so that it can cross terminal server sessions
-        //
-        hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, global_seg_name);
-        dwError = GetLastError();
-        if (!hMap && (ERROR_ACCESS_DENIED == dwError)) {
-            // Couldn't use the 'Global' tag, so just attempt to use the original
-            // name.
-            //
-            hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, seg_name);
+        if (try_global) {
+            sprintf(global_seg_name, "Global\\%s", seg_name);
+            hMap = CreateFileMapping(
+                INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0,
+                size, global_seg_name
+            );
+            dwError = GetLastError();
+            if (!hMap && (ERROR_ACCESS_DENIED == dwError)) {
+                // Couldn't use the 'Global' tag, so try the original name.
+                try_global = false;
+            }
+        }
+        if (!try_global) {
+            hMap = CreateFileMapping(
+                INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, size, seg_name
+            );
             dwError = GetLastError();
         }
     }
 
-    if (disable_mapview && (NULL != hMap) && (ERROR_ALREADY_EXISTS == dwError)) {
-        CloseHandle(hMap);
-        hMap = NULL;
-    }
-
-    if (!disable_mapview && (NULL != hMap) && pp) {
-        *pp = MapViewOfFile( hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    if (hMap) {
+        if (GetLastError() == ERROR_ALREADY_EXISTS) {
+            CloseHandle(hMap);
+            hMap = NULL;
+        } else {
+            *pp = MapViewOfFile( hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+        }
     }
 
 Cleanup:
@@ -483,33 +492,6 @@ int print_shmem_info(key_t key) {
     );
 
     return 0;
-}
-
-// For debugging shared memory logic
-// For testing on Apple, Linux, UNIX systems with limited number 
-// of shared memory segments per process and / or system-wide
-// Mac OS X has a default limit of 8 segments per process, 32 system-wide
-// If 
-void stress_shmem(short reduce_by) {
-    int retval;
-    void * shmaddr[16];
-    key_t key[] = {
-        'BNC0', 'BNC1', 'BNC2', 'BNC3', 'BNC4', 'BNC5', 'BNC6', 'BNC7',
-        'BNC8', 'BNC9', 'BNCA', 'BNCB', 'BNCC', 'BNCD', 'BNCE', 'BNCF' 
-    };
-    int i, id;
-    
-    if (reduce_by > 16) reduce_by = 16;
-    
-    // Tie up 5 of the 8 shared memory segments each process may have
-    for (i=0; i<reduce_by; i++) {
-        retval = create_shmem(key[i], 1024, 0, &shmaddr[i]);
-        id = shmget(key[i], 0, 0);
-        // Mark it for automatic destruction when BOINC exits
-        if (id >= 0) {
-            retval = shmctl(id, IPC_RMID, 0);
-        }
-    }
 }
 
 #endif  // !defined(_WIN32) && !defined(__EMX__)

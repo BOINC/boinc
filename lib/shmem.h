@@ -34,7 +34,9 @@
 // The above with _mmap: V6 mmap() shared memory for Unix/Linux/Mac
 
 #ifdef _WIN32
-HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview);
+HANDLE create_shmem(
+    LPCTSTR seg_name, int size, void** pp, bool try_global=true
+);
 HANDLE attach_shmem(LPCTSTR seg_name, void** pp);
 int detach_shmem(HANDLE hSharedMem, void* p);
 #else
@@ -43,9 +45,6 @@ int detach_shmem(HANDLE hSharedMem, void* p);
 extern int create_shmem_mmap(char *path, size_t size, void** pp);
 extern int attach_shmem_mmap(char *path, void** pp);
 extern int detach_shmem_mmap(void* p, size_t size);
-// For testing on Apple, Linux, UNIX systems with limited number 
-// of shared memory segments per process and / or system-wide
-extern void stress_shmem(short reduce_by);
 #endif
 extern int create_shmem(key_t, int size, gid_t gid, void**);
 extern int attach_shmem(key_t, void**);

@@ -41,11 +41,11 @@ HANDLE sandbox_account_service_token = NULL;
 void get_sandbox_account_interactive_token() {
     FILE* f;
     char buf[256];
-    std::string encoded_username_str;
-    std::string encoded_password_str;
-    std::string username_str;
-    std::string domainname_str; 
-    std::string password_str; 
+    string encoded_username_str;
+    string encoded_password_str;
+    string username_str;
+    string domainname_str; 
+    string password_str; 
     int retval = 0;
     static bool first=true;
     PSID sandbox_account_sid = NULL;
@@ -116,11 +116,11 @@ void get_sandbox_account_interactive_token() {
 void get_sandbox_account_service_token() {
     FILE* f;
     char buf[256];
-    std::string encoded_username_str;
-    std::string encoded_password_str;
-    std::string username_str;
-    std::string domainname_str; 
-    std::string password_str; 
+    string encoded_username_str;
+    string encoded_password_str;
+    string username_str;
+    string domainname_str; 
+    string password_str; 
     int retval = 0;
     static bool first=true;
 
