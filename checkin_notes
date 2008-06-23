@@ -5052,3 +5052,9 @@ David  22 June 2008
         client_state.C
     lib/
         coproc.C,h
+
+David  23 June 2008
+    - API: compile fix
+
+    api/
+        reduce_main.C

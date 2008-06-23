@@ -34,6 +34,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include <assert.h>
+
 #include <algorithm>
 
 #endif
