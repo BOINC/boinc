@@ -144,12 +144,12 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
-        SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
+        SetIcon(m_iconTaskBarDisconnected);
     } else {
         if (RUN_MODE_NEVER == status.task_mode) {
-            SetIcon(m_iconTaskBarSnooze, wxEmptyString);
+            SetIcon(m_iconTaskBarSnooze);
         } else {
-            SetIcon(m_iconTaskBarNormal, wxEmptyString);
+            SetIcon(m_iconTaskBarNormal);
         }
     }
 
@@ -290,6 +290,7 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
 }
 
 
+// Note: tooltip must not have a trailing linebreak. 
 void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
     wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
@@ -307,32 +308,28 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         bool           bIsDownloaded        = false;
         wxInt32        iResultCount         = 0;
         wxInt32        iIndex               = 0;
-        wxIcon         iconIcon             = wxNullIcon;
         CC_STATUS      status;
 
         wxASSERT(pDoc);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
         if (pDoc->IsConnected()) {
-            iconIcon = m_iconTaskBarNormal;
+            // Display the currently connected computer.
+            pDoc->GetConnectedComputerName(strMessage);
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("Computation is suspended.\n")
+                    _("\nComputation is suspended.")
                 );
                 strMessage += strBuffer;
             }
 
             if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("Network activity is suspended.\n")
+                    _("\nNetwork activity is suspended.")
                 );
                 strMessage += strBuffer;
-            }
-
-            if (strMessage.Length() > 0) {
-                strMessage += wxT("\n");
             }
 
             iResultCount = pDoc->GetWorkCount();
@@ -355,23 +352,22 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                     fProgress = floor(result->fraction_done*10000)/100;
                 }
 
-                strBuffer.Printf(_("%s: %.2f%% completed\n"), strProjectName.c_str(), fProgress );
+                strBuffer.Printf(_("\n%s: %.2f%% completed"), strProjectName.c_str(), fProgress );
                 strMessage += strBuffer;
             }
         } else if (pDoc->IsReconnecting()) {
             strBuffer.Printf(
-                _("Reconnecting to client.\n")
+                _("\nReconnecting to client.")
             );
             strMessage += strBuffer;
         } else {
             strBuffer.Printf(
-                _("Not connected to a client.\n")
+                _("\nNot connected to a client.")
             );
-            iconIcon = m_iconTaskBarDisconnected;
             strMessage += strBuffer;
         }
 
-        SetIcon(iconIcon, strMessage);
+        SetTooltip(strMessage);
     }
 }
 
@@ -422,7 +418,7 @@ void CTaskBarIcon::FireReloadSkin() {
 
 
 void CTaskBarIcon::ResetTaskBar() {
-    SetIcon(m_iconTaskBarNormal, wxEmptyString);
+    SetIcon(m_iconTaskBarNormal);
 }
 
 
