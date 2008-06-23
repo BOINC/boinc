@@ -292,6 +292,7 @@ public:
     wxString    GetApplicationName();
     wxString    GetApplicationShortName();
     wxIcon*     GetApplicationIcon();
+    wxIcon*     GetApplicationIcon32();
     wxIcon*     GetApplicationDisconnectedIcon();
     wxIcon*     GetApplicationSnoozeIcon();
     wxBitmap*   GetApplicationLogo();
@@ -308,6 +309,7 @@ private:
     wxString    m_strApplicationName;
     wxString    m_strApplicationShortName;
     CSkinIcon   m_iconApplicationIcon;
+    CSkinIcon   m_iconApplicationIcon32;
     CSkinIcon   m_iconApplicationDisconnectedIcon;
     CSkinIcon   m_iconApplicationSnoozeIcon;
     wxBitmap    m_bitmapApplicationLogo;

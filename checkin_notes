@@ -4012,3 +4012,17 @@ David  20 June 2008
     lib/
         proc_control.C
         shmem.C,h
+
+Rom    23 June 2008
+    - MGR: Fix the Alt-Tab icon on Windows XP. Fixes# 586.
+      Thanks Der Meister.
+      
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCGUIApp.cpp
+        sg_BoincSimpleGUI.cpp, .h
+        SkinManager.cpp, .h
+    clientgui/res/
+        boinc32.xpm
+    win_build/
+        boincmgr_curl.vcproj

@@ -653,14 +653,16 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
                 // Initialize the simple gui window
                 pNewFrame = new CSimpleFrame(
                     m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-                    m_pSkinManager->GetAdvanced()->GetApplicationIcon()
+                    m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+                    m_pSkinManager->GetAdvanced()->GetApplicationIcon32()
                 );
                 break;
             case BOINC_ADVANCEDGUI:
                 // Initialize the advanced gui window
                 pNewFrame = new CAdvancedFrame(
                     m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-                    m_pSkinManager->GetAdvanced()->GetApplicationIcon()
+                    m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+                    m_pSkinManager->GetAdvanced()->GetApplicationIcon32()
                 );
                 break;
         }

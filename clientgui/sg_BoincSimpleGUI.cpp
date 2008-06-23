@@ -71,7 +71,7 @@ CSimpleFrame::CSimpleFrame() {
 }
 
 
-CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) : 
+CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, 
 #ifdef __WXMAC__
                     wxSize(409, 561),
@@ -85,7 +85,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     RestoreState();
 
     // Initialize Application
-    SetIcon(*icon);
+    wxIconBundle icons;
+    icons.AddIcon(*icon);
+    icons.AddIcon(*icon32);
+    SetIcons(icons);
     
 #ifdef __WXMAC__
     // We can't eliminate the Mac menu bar or the Help menu, so we 
@@ -669,4 +672,5 @@ void CSimplePanel::OnEraseBackground(wxEraseEvent& event){
     wxDC *dc = event.GetDC();
     dc->DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0);
 }
+
 

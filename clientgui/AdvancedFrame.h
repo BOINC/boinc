@@ -52,7 +52,7 @@ class CAdvancedFrame : public CBOINCBaseFrame
 
 public:
     CAdvancedFrame();
-    CAdvancedFrame(wxString title, wxIcon* icon);
+    CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32);
 
     ~CAdvancedFrame(void);
 
@@ -148,4 +148,5 @@ protected:
 
 
 #endif
+
 

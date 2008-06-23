@@ -99,7 +99,7 @@ class CSimpleFrame : public CBOINCBaseFrame
 
 public:
     CSimpleFrame();
-    CSimpleFrame(wxString title, wxIcon* icon);
+    CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32);
 
    ~CSimpleFrame();
 
@@ -129,4 +129,5 @@ protected:
 };
 
 #endif
+
 

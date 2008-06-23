@@ -607,6 +607,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\res\boinc32.xpm"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\res\boinc_logo.xpm"
 				>
 			</File>

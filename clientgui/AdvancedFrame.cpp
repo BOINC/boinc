@@ -205,7 +205,7 @@ CAdvancedFrame::CAdvancedFrame() {
 }
 
 
-CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) : 
+CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, wxDefaultPosition, wxDefaultSize,
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
@@ -221,7 +221,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
 	m_iDisplayViewType = VIEW_GRID;
 
     // Initialize Application
-    SetIcon(*icon);
+    wxIconBundle icons;
+    icons.AddIcon(*icon);
+    icons.AddIcon(*icon32);
+    SetIcons(icons);
 
     // Restore main application frame settings
     RestoreState();
