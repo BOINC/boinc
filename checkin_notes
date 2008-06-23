@@ -5058,3 +5058,17 @@ David  23 June 2008
 
     api/
         reduce_main.C
+
+Rom    23 June 2008
+    - MGR: Fix the Alt-Tab icon on Windows XP. Fixes# 586.
+      Thanks Der Meister.
+      
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCGUIApp.cpp
+        sg_BoincSimpleGUI.cpp, .h
+        SkinManager.cpp, .h
+    clientgui/res/
+        boinc32.xpm
+    win_build/
+        boincmgr_curl.vcproj

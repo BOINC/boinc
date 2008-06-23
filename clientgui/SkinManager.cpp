@@ -77,6 +77,7 @@
 #include "res/skins/default/graphic/advanced_link_image.xpm"
 #include "res/skins/default/graphic/dialog_background_image.xpm"
 #include "res/boinc.xpm"
+#include "res/boinc32.xpm"
 #include "res/boincdisconnect.xpm"
 #include "res/boincsnooze.xpm"
 #include "res/boinc_logo.xpm"
@@ -842,6 +843,7 @@ void CSkinAdvanced::Clear() {
     m_strApplicationName = wxEmptyString;
     m_strApplicationShortName = wxEmptyString;
     m_iconApplicationIcon.Clear();
+    m_iconApplicationIcon32.Clear();
     m_iconApplicationDisconnectedIcon.Clear();
     m_iconApplicationSnoozeIcon.Clear();
     m_bitmapApplicationLogo = wxNullBitmap;
@@ -869,6 +871,9 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
             continue;
         } else if (match_tag(buf, "<application_icon>")) {
             m_iconApplicationIcon.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<application_icon32>")) {
+            m_iconApplicationIcon32.Parse(in);
             continue;
         } else if (match_tag(buf, "<application_disconnected_icon>")) {
             m_iconApplicationDisconnectedIcon.Parse(in);
@@ -927,6 +932,9 @@ wxIcon* CSkinAdvanced::GetApplicationIcon() {
     return m_iconApplicationIcon.GetIcon();
 }
 
+wxIcon* CSkinAdvanced::GetApplicationIcon32() {
+    return m_iconApplicationIcon32.GetIcon();
+}
 
 wxIcon* CSkinAdvanced::GetApplicationDisconnectedIcon() { 
     return m_iconApplicationDisconnectedIcon.GetIcon();
@@ -994,6 +1002,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         wxASSERT(!m_strApplicationShortName.IsEmpty());
     }
     m_iconApplicationIcon.SetDefaults(wxT("application"), (const char**)boinc_xpm);
+    m_iconApplicationIcon32.SetDefaults(wxT("application"), (const char**)boinc32_xpm);
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), (const char**)boincdisconnect_xpm);
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), (const char**)boincsnooze_xpm);
     if (!m_bitmapApplicationLogo.Ok()) {
@@ -1466,4 +1475,5 @@ bool CSkinManager::InitializeDelayedValidation() {
            m_AdvancedSkin.InitializeDelayedValidation() && 
            m_WizardsSkin.InitializeDelayedValidation();
 }
+
 
