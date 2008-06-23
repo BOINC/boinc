@@ -231,7 +231,10 @@ int CLIENT_STATE::init() {
 
     check_clock_reset();
 
-    coprocs.get();
+    char* msg = coprocs.get();
+    if (msg) {
+        msg_printf(NULL, MSG_INFO, msg);
+    }
 #if 0
     fake_cuda(coprocs);
 #endif

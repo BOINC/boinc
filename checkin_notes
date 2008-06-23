@@ -5044,3 +5044,11 @@ David  22 June 2008
         hostinfo_unix.C
     sched/
         handle_request.C
+
+David  22 June 2008
+    - client: print msgs if can't find CUDA libs
+
+    client/
+        client_state.C
+    lib/
+        coproc.C,h

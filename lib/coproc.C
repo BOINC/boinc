@@ -62,9 +62,11 @@ int COPROC::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
-void COPROCS::get() {
-    COPROC_CUDA::get(*this);
+char* COPROCS::get() {
+    char* p = COPROC_CUDA::get(*this);
+    if (p) return p;
     COPROC_CELL_SPE::get(*this);
+    return NULL;
 }
 
 int COPROCS::parse(FILE* fin) {
@@ -93,7 +95,7 @@ COPROC* COPROCS::lookup(char* type) {
     return NULL;
 }
 
-void COPROC_CUDA::get(COPROCS& coprocs) {
+char* COPROC_CUDA::get(COPROCS& coprocs) {
     int count;
 
 #ifdef _WIN32
@@ -111,19 +113,30 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
         KEY_READ,
         &key
     );
-    if (retval != ERROR_SUCCESS) return;
+    if (retval != ERROR_SUCCESS) {
+        return "Can't find registry key";;
+    }
     retval = RegQueryValueEx(key, "InstallDir", NULL, NULL, (LPBYTE)buf, (LPDWORD)&bufsize);
     RegCloseKey(key);
-    if (retval != ERROR_SUCCESS) return;
+    if (retval != ERROR_SUCCESS) {
+        return "Can't get registry value";
+    }
     sprintf(path, "%s\\bin\\cudart.dll", buf);
     HMODULE cudalib = LoadLibrary(path);
 #else
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
 #endif
+    if (!cudalib) {
+        return "Can't load library nvcuda.dll";
+    }
     __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(cudalib, "cudaGetDeviceCount");
-    if(!__cudaGetDeviceCount) return;
+    if(!__cudaGetDeviceCount) {
+        return "Library doesn't have cudaGetDeviceCount()";
+    }
     __cudaGetDeviceProperties = (int(__stdcall*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
-    if (!__cudaGetDeviceProperties) return;
+    if (!__cudaGetDeviceProperties) {
+        return "Library doesn't have cudaGetDeviceProperties()";
+    }
 #else
     void* cudalib;
     void (*__cudaGetDeviceCount)( int * );
@@ -137,13 +150,22 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
         cudalib = dlopen ("libcudart.so", RTLD_NOW );
     }
 #endif
+    if (!cudalib) {
+        return "Can't load library libcudart";
+    }
     __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
-    if(!__cudaGetDeviceCount) return;
+    if(!__cudaGetDeviceCount) {
+        return "Library doesn't have cudaGetDeviceCount()";
+    }
     __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
-    if (!__cudaGetDeviceProperties) return;
+    if (!__cudaGetDeviceProperties) {
+        return "Library doesn't have cudaGetDeviceProperties()";
+    }
 #endif
     (*__cudaGetDeviceCount)(&count);
-    if (count < 1) return;
+    if (count < 1) {
+        return "No CUDA devices found";
+    }
 
     for (int i=0; i<count; i++) {
         COPROC_CUDA* cc = new COPROC_CUDA;
@@ -152,6 +174,7 @@ void COPROC_CUDA::get(COPROCS& coprocs) {
         strcpy(cc->type, "CUDA");
         coprocs.coprocs.push_back(cc);
     }
+    return 0;
 }
 
 // add a non-existent CUDA coproc (for debugging)
@@ -291,5 +314,6 @@ int COPROC_CUDA::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-void COPROC_CELL_SPE::get(COPROCS&) {
+char* COPROC_CELL_SPE::get(COPROCS&) {
+    return NULL;
 }
