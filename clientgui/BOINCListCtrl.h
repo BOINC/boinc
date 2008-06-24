@@ -55,7 +55,6 @@ public:
 
 	long                    GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
     long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
-
 private:
     virtual void            OnClick(wxCommandEvent& event);
 
@@ -69,19 +68,19 @@ private:
 
 #if USE_NATIVE_LISTCONTROL
 public:
-   void PostDrawBarGraphEvent();
+   void                     PostDrawBarGraphEvent();
 private:
-    void OnDrawBarGraph(CDrawBarGraphEvent& event);
-    void DrawBarGraphs(void);
+    void                    OnDrawBarGraph(CDrawBarGraphEvent& event);
+    void                    DrawBarGraphs(void);
     
-    bool m_bBarGraphEventPending;
+    bool                    m_bBarGraphEventPending;
 
     DECLARE_EVENT_TABLE()
 #else
  public:
-    void DrawBarGraphs(void);
-    wxScrolledWindow* GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
-    wxCoord GetHeaderHeight(void) { return m_headerHeight; }
+    void                    DrawBarGraphs(void);
+    wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
+    wxCoord                 GetHeaderHeight(void) { return m_headerHeight; }
 #endif
 };
 
@@ -94,7 +93,7 @@ public:
             SetEventObject(myCtrl);
         }
 
-    virtual wxEvent *Clone() const { return new CDrawBarGraphEvent(*this); }
+    virtual wxEvent *       Clone() const { return new CDrawBarGraphEvent(*this); }
 };
 
 BEGIN_DECLARE_EVENT_TYPES()
@@ -109,10 +108,10 @@ class MyEvtHandler : public wxEvtHandler
 {
 public:
     MyEvtHandler(CBOINCListCtrl *theListControl) { m_listCtrl = theListControl; }
-    void OnPaint(wxPaintEvent & event);
+    void                    OnPaint(wxPaintEvent & event);
 
 private:
-    CBOINCListCtrl *m_listCtrl;
+    CBOINCListCtrl *        m_listCtrl;
 
     DECLARE_EVENT_TABLE()
 };
