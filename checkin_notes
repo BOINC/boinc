@@ -5092,3 +5092,11 @@ David  23 June 2008
     lib/
         app_ipc.C
         diagnostics.C,h
+
+Charlie 23 June 2008
+    - MGR: Fix build breaks on Mac.
+        
+    clientgui/
+        BOINCTaskBar.cpp, h
+        mac/
+            MacSysMenu.cpp,h
