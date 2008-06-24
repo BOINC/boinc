@@ -2,8 +2,8 @@
 
 // represents a categorization of students
 //
-class Categorization {
-    abstrcat function name();
+abstract class Categorization {
+    abstract function name();
         // returns descriptive name
     abstract function categories();
         // returns list of categories
@@ -49,6 +49,14 @@ class CatAge20 extends Categorization {
     }
 }
 
-$categorizations = array("CatSex", "CatAge20");
+$categorizations = array(new CatSex(), new CatAge20());
+
+function lookup_categorization($name) {
+    global $categorizations;
+    foreach ($categorizations as $c) {
+        if ($c->name() == $name) return $c;
+    }
+    return null;
+}
 
 ?>

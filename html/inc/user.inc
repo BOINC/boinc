@@ -373,12 +373,10 @@ function make_user(
     $country = BoincDb::escape_string($country);
     $postal_code = strip_tags(process_user_text($postal_code));
 
-    $ret = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
 
-    if ($ret) {
-        $db = BoincDb::get();
-        $id = $db->insert_id();
-        return BoincUser::lookup_id($id);
+    if ($uid) {
+        return BoincUser::lookup_id($uid);
     } else {
         return null;
     }

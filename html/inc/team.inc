@@ -518,10 +518,9 @@ function make_team(
         $country,
         0
     );
-    $result = BoincTeam::insert($clause);
-    if ($result) {
-        $db = BoincDb::get();
-        return BoincTeam::lookup_id($db->insert_id());
+    $id = BoincTeam::insert($clause);
+    if ($id) {
+        return BoincTeam::lookup_id($id);
     } else {
         return null;
     }

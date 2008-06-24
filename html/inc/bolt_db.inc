@@ -129,7 +129,7 @@ class BoltCourse {
 }
 
 class BoltEnrollment {
-    function insert($clause) {
+    static function insert($clause) {
         $db = BoltDb::get();
         return $db->insert('bolt_enrollment', $clause);
     }
@@ -190,7 +190,7 @@ class BoltXsetResult {
         $db = BoltDb::get();
         return $db->lookup_id($id, 'bolt_xset_result', 'BoltXsetResult');
     }
-    function insert($clause) {
+    static function insert($clause) {
         $db = BoltDb::get();
         $ret = $db->insert('bolt_xset_result', $clause);
         if (!$ret) return null;
@@ -215,7 +215,7 @@ class BoltRefreshRec {
         $db = BoltDb::get();
         return $db->replace('bolt_refresh', $clause);
     }
-    function insert($clause) {
+    static function insert($clause) {
         $db = BoltDb::get();
         $ret = $db->insert('bolt_refresh', $clause);
         if (!$ret) return null;
@@ -232,7 +232,7 @@ class BoltRefreshRec {
 }
 
 class BoltSelectFinished {
-    function insert($clause) {
+    static function insert($clause) {
         $db = BoltDb::get();
         return $db->insert('bolt_select_finished', $clause);
     }
@@ -243,7 +243,7 @@ class BoltSelectFinished {
 }
 
 class BoltQuestion {
-    function insert($clause) {
+    static function insert($clause) {
         $db = BoltDb::get();
         return $db->insert('bolt_question', $clause);
     }

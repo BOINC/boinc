@@ -82,7 +82,9 @@ class BoincUser {
     }
     static function insert($clause) {
         $db = BoincDb::get();
-        return $db->insert('user', $clause);
+        $ret = $db->insert('user', $clause);
+        if (!$ret) return 0;
+        return $db->insert_id();
     }
     function delete() {
         $db = BoincDb::get();
@@ -94,7 +96,9 @@ class BoincTeam {
     static $cache;
     static function insert($clause) {
         $db = BoincDb::get();
-        return $db->insert('team', $clause);
+        $ret = $db->insert('team', $clause);
+        if (!$ret) return 0;
+        return $db->insert_id();
     }
     static function lookup_id_nocache($id) {
         $db = BoincDb::get();

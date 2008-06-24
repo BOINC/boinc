@@ -5100,3 +5100,10 @@ Charlie 23 June 2008
         BOINCTaskBar.cpp, h
         mac/
             MacSysMenu.cpp,h
+
+David  23 June 2008
+    - web: insert() functions return ID
+
+    html/inc/
+        user.inc
+        team.inc

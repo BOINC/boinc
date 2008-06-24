@@ -1,5 +1,62 @@
 <?php
 
+////// functions that traverse a unit tree
+
+// get names of units of a given type
+
+function units_of_type($unit, $type) {
+    $names = array();
+    if (get_class($unit) == $type) {
+        $names[] = $unit->name;
+    }
+    if (is_subclass_of($unit, "BoltSet")) {
+        foreach ($unit->units as $u) {
+            $n = units_of_type($u, $type);
+            $names = array_merge($names, $n);
+        }
+    }
+    return array_unique($names);
+}
+
+// show a menu of select units
+//
+function choose_select($top_unit) {
+    echo "<select name=select_name>
+        <option selected> ---
+    ";
+    $names = units_of_type($top_unit, "BoltSelect");
+    foreach ($names as $n) {
+        echo "<option> $n";
+    }
+    echo "</select>";
+}
+
+// show a menu of exercise sets
+//
+function choose_xset($top_unit) {
+    echo "<select name=xset_name>
+        <option selected> ---
+    ";
+    $names = units_of_type($top_unit, "BoltExerciseSet");
+    foreach ($names as $n) {
+        echo "<option> $n";
+    }
+    echo "</select>";
+}
+
+// Find a unit of given name
+//
+function lookup_unit($top_unit, $name) {
+    if ($top_unit->name == $name) return $top_unit;
+    if (is_subclass_of($top_unit, "BoltSet")) {
+        foreach ($top_unit->units as $child) {
+            $u = lookup_unit($child, $name);
+            if ($u) return $u;
+        }
+    }
+    return null;
+}
+
 ////// bits of HTML for getting user info
 
 function info_incomplete($user) {
@@ -53,11 +110,11 @@ function request_info($user, $course) {
     page_tail();
 }
 
+////// stuff related to snapshots
+
 function compare_snapshot_filename($course_id, $select_name, $xset_name) {
     return "../bolt_snap/compare_snapshot_".$course_id."_".$select_name."_".$xset_name.".json";
 }
-
-////// stuff related to snapshots
 
 // a "snapshot" is a condensed representation of the results
 // for a particular select/xset pair.
@@ -76,7 +133,7 @@ function write_compare_snapshot($course_id, $select_name, $xset_name, $dur) {
         "course_id=$course_id and name='$select_name' and end_time >= $start"
     );
 
-    // make an array, keyed by user ID, of earliest xset result
+    // make an array $a, keyed by user ID, of earliest xset result
     //
     $a = array();
     foreach ($xrs as $xr) {
@@ -92,16 +149,36 @@ function write_compare_snapshot($course_id, $select_name, $xset_name, $dur) {
     //
     foreach ($sfs as $sf) {
         $uid = $sf->user_id;
-        if (!array_key_exists($uid, $a)) continue;
+        if (!array_key_exists($uid, $a)) {
+            echo "no xset result";
+            continue;
+        }
         $x = $a[$uid];
         $xr = $x->xr;
-        if ($sf->end_time > $xr->create_time) continue;
-        $s = $x->sf;
-        if (!is_set($x->sf) || $sf->create_time > $s.create_time) {
+        if ($sf->end_time > $xr->create_time) {
+            echo "select finish is too late";
+            continue;
+        }
+        if (!isset($x->sf) || $sf->create_time > $s.create_time) {
             $x->sf = $sf;
             $a[$uid] = $x;
         }
     }
+
+    // cull array elements for which we didn't find a select finish.
+    // Look up user records for other elements.
+    //
+    foreach ($a as $uid=>$x) {
+        if (!isset($x->sf)) {
+            unset($a[$uid]);
+        } else {
+            $user = BoincUser::lookup_id($uid);
+            BoltUser::lookup($user);
+            $x->user = $user;
+            $a[$uid] = $x;
+        }
+    }
+
     $filename = compare_snapshot_filename($course_id, $select_name, $xset_name);
     $f = fopen($filename, "w");
 
