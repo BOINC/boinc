@@ -24,10 +24,24 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
+#ifdef __WXMSW__
+#define USE_NATIVE_LISTCONTROL 1
+#else
+#define USE_NATIVE_LISTCONTROL 0
+#endif
+
+#if USE_NATIVE_LISTCONTROL
+#define LISTCTRL_BASE wxListCtrl
+#include "wx/listctrl.h"
+#else
+#define LISTCTRL_BASE wxGenericListCtrl
+#include "wx/generic/listctrl.h"
+#endif
 
 class CBOINCBaseView;
+class CDrawBarGraphEvent;
 
-class CBOINCListCtrl : public wxListView {
+class CBOINCListCtrl : public LISTCTRL_BASE {
     DECLARE_DYNAMIC_CLASS(CBOINCListCtrl)
 
 public:
@@ -40,7 +54,6 @@ public:
     virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
 private:
-    
     virtual void            OnClick(wxCommandEvent& event);
 
     virtual wxString        OnGetItemText(long item, long column) const;
@@ -51,8 +64,57 @@ private:
 
     CBOINCBaseView*         m_pParentView;
 
+#if USE_NATIVE_LISTCONTROL
+public:
+   void PostDrawBarGraphEvent();
+private:
+    void OnDrawBarGraph(CDrawBarGraphEvent& event);
+    void DrawBarGraphs(void);
+    
+    bool m_bBarGraphEventPending;
+#else
+ public:
+    void DrawBarGraphs(void);
+//    wxScrolledWindow* GetMainWin(void) { return (wxScrolledWindow*) ((wxGenericListCtrl*)this)->m_mainWin; }
+//    wxCoord GetHeaderHeight(void) { return ((wxGenericListCtrl*)this)->m_headerHeight; }
+    wxScrolledWindow* GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
+    wxCoord GetHeaderHeight(void) { return m_headerHeight; }
+    long GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
+    long GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
+#endif
 };
 
+class CDrawBarGraphEvent : public wxEvent
+{
+public:
+    CDrawBarGraphEvent(wxEventType evtType, CBOINCListCtrl* myCtrl)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(myCtrl);
+        }
+
+    virtual wxEvent *Clone() const { return new CDrawBarGraphEvent(*this); }
+};
+
+BEGIN_DECLARE_EVENT_TYPES()
+DECLARE_EVENT_TYPE( wxEVT_DRAW_BARGRAPH, 10000 )
+END_DECLARE_EVENT_TYPES()
+
+#define EVT_DRAW_BARGRAPH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_BARGRAPH, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
+
+// Define a custom event handler
+class MyEvtHandler : public wxEvtHandler
+{
+public:
+    MyEvtHandler(CBOINCListCtrl *theListControl) { m_listCtrl = theListControl; }
+    void OnPaint(wxPaintEvent & event);
+
+private:
+    CBOINCListCtrl *m_listCtrl;
+
+    DECLARE_EVENT_TABLE()
+};
 
 #endif
 

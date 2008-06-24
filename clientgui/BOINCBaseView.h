@@ -105,6 +105,9 @@ public:
     wxString                FireOnListGetItemText( long item, long column ) const;
     int                     FireOnListGetItemImage( long item ) const;
     wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
+    
+    int                     GetProgressColumn() { return m_iProgressColumn; }
+    virtual double          GetProgressValue(long item);
 
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
@@ -155,6 +158,8 @@ protected:
 
     bool                    m_bForceUpdateSelection;
     bool                    m_bIgnoreUIEvents;
+    
+    int                     m_iProgressColumn;
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;

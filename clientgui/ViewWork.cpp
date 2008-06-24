@@ -139,6 +139,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report deadline"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
 
+    m_iProgressColumn = COLUMN_PROGRESS;
+
     UpdateSelection();
 }
 
@@ -842,6 +844,26 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         break;
     }
     return 0;
+}
+
+
+double CViewWork::GetProgressValue(long item) {
+    float          fBuffer = 0;
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
+
+    if (result) {
+        if (result->active_task) {
+            fBuffer = result->fraction_done;
+        } else {
+            if(result->state < RESULT_COMPUTE_ERROR) {
+                fBuffer = 0.0;
+            } else {
+                fBuffer = 1.0;
+            }
+        }
+    }
+
+    return fBuffer;
 }
 
 

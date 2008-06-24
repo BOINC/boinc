@@ -91,6 +91,8 @@ protected:
     wxInt32                 FormatResourceShare( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
+    virtual double          GetProgressValue(long item);
+
     bool                    IsWebsiteLink( const wxString& strLink );
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
     wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );

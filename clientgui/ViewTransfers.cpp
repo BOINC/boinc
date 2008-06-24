@@ -122,6 +122,8 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, 80);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
 
+    m_iProgressColumn = COLUMN_PROGRESS;
+
     UpdateSelection();
 }
 
@@ -542,6 +544,29 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     }
 
     return 0;
+}
+
+
+double CViewTransfers::GetProgressValue(long item) {
+    float          fBytesSent = 0;
+    float          fFileSize = 0;
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+
+    if (transfer) {
+        fBytesSent = transfer->bytes_xferred;
+        fFileSize = transfer->nbytes;
+    }
+
+    // Curl apparently counts the HTTP header in byte count.
+    // Prevent this from causing > 100% display
+    //
+    if (fBytesSent > fFileSize) {
+        fBytesSent = fFileSize;
+    }
+
+    if ( 0.0 == fFileSize ) return 0.0;
+    
+    return (fBytesSent / fFileSize);
 }
 
 

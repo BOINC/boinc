@@ -4902,3 +4902,14 @@ David  17 June 2008
         boinc_db.inc
         bossa_db.inc
         util.inc
+
+Charlie 24 June 2008
+    - MGR: Add contrasting background on alternate rows and progress bars to 
+        List Views.
+        
+    clientgui/
+        BOINCBaseView.cpp,h
+        BOINCListCtrl.cpp,h
+        ViewProjects.cpp,h
+        ViewTransfers.cpp,h
+        ViewWork.cpp,h

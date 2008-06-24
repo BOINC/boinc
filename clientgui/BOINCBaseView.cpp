@@ -93,17 +93,33 @@ CBOINCBaseView::CBOINCBaseView(
 
     m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
     wxASSERT(m_pListPane);
-
+    
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
 
     SetSizer(itemFlexGridSizer);
 
     Layout();
+
+#if USE_NATIVE_CONTROL
+    m_pListPane->PushEventHandler(new MyEvtHandler(m_listCtrl));
+#else
+    (m_pListPane->GetMainWin())->PushEventHandler(new MyEvtHandler(m_pListPane));
+#endif
+
+    m_iProgressColumn = -1;
 }
 
 
-CBOINCBaseView::~CBOINCBaseView() {}
+CBOINCBaseView::~CBOINCBaseView() {
+    if (m_pListPane) {
+#if USE_NATIVE_LISTCONTROL
+        m_pListPane->PopEventHandler(true);
+#else
+        (m_pListPane->GetMainWin())->PopEventHandler(true);
+#endif
+    }
+}
 
 
 // The name of the view.
@@ -541,6 +557,11 @@ bool CBOINCBaseView::_EnsureLastItemVisible() {
 
 bool CBOINCBaseView::EnsureLastItemVisible() {
     return false;
+}
+
+
+double CBOINCBaseView::GetProgressValue(long item) {
+    return 0.0;
 }
 
 

@@ -84,6 +84,8 @@ protected:
     wxInt32                 FormatSpeed( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
+    virtual double          GetProgressValue(long item);
+
     DECLARE_EVENT_TABLE()
 };
 

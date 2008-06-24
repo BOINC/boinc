@@ -158,6 +158,8 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource share"), wxLIST_FORMAT_CENTRE, 85);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
 
+    m_iProgressColumn = COLUMN_RESOURCESHARE;
+    
     UpdateSelection();
 }
 
@@ -672,6 +674,21 @@ wxInt32 CViewProjects::FormatResourceShare(wxInt32 item, wxString& strBuffer) co
     }
 
     return 0;
+}
+
+
+double CViewProjects::GetProgressValue(long item) {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT*       project = wxGetApp().GetDocument()->project(item);
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (project && pDoc) {
+        return (project->resource_share / pDoc->m_fProjectTotalResourceShare);
+    }
+
+    return 0.0;
 }
 
 
