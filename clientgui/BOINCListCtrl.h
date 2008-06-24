@@ -53,6 +53,9 @@ public:
     virtual bool            OnSaveState(wxConfigBase* pConfig);
     virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
+	long                    GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
+    long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
+
 private:
     virtual void            OnClick(wxCommandEvent& event);
 
@@ -72,15 +75,13 @@ private:
     void DrawBarGraphs(void);
     
     bool m_bBarGraphEventPending;
+
+    DECLARE_EVENT_TABLE()
 #else
  public:
     void DrawBarGraphs(void);
-//    wxScrolledWindow* GetMainWin(void) { return (wxScrolledWindow*) ((wxGenericListCtrl*)this)->m_mainWin; }
-//    wxCoord GetHeaderHeight(void) { return ((wxGenericListCtrl*)this)->m_headerHeight; }
     wxScrolledWindow* GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
     wxCoord GetHeaderHeight(void) { return m_headerHeight; }
-    long GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
-    long GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
 #endif
 };
 

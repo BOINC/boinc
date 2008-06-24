@@ -101,8 +101,8 @@ CBOINCBaseView::CBOINCBaseView(
 
     Layout();
 
-#if USE_NATIVE_CONTROL
-    m_pListPane->PushEventHandler(new MyEvtHandler(m_listCtrl));
+#if USE_NATIVE_LISTCONTROL
+    m_pListPane->PushEventHandler(new MyEvtHandler(m_pListPane));
 #else
     (m_pListPane->GetMainWin())->PushEventHandler(new MyEvtHandler(m_pListPane));
 #endif
@@ -560,7 +560,7 @@ bool CBOINCBaseView::EnsureLastItemVisible() {
 }
 
 
-double CBOINCBaseView::GetProgressValue(long item) {
+double CBOINCBaseView::GetProgressValue(long) {
     return 0.0;
 }
 

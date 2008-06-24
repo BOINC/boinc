@@ -28,6 +28,8 @@
 
 
 #if USE_NATIVE_LISTCONTROL
+DEFINE_EVENT_TYPE(wxEVT_DRAW_BARGRAPH)
+
 BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
     EVT_DRAW_BARGRAPH(CBOINCListCtrl::OnDrawBarGraph)
 END_EVENT_TABLE()
@@ -222,7 +224,7 @@ void CBOINCListCtrl::DrawBarGraphs()
 {
     long topItem, numItems, numVisibleItems, i, item;
     wxRect r;
-    int w, x = 0;
+    int w = 0, x = 0;
     int progressColumn = m_pParentView->GetProgressColumn();
 #if USE_NATIVE_LISTCONTROL
     wxClientDC dc(this);
