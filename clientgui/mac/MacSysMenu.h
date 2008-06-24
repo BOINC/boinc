@@ -34,7 +34,7 @@ public:
     CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
     ~CMacSystemMenu();
 
-    bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString);
+    bool SetIcon(const wxIcon& icon);
 
     void LoadPrivateFrameworkBundle( CFStringRef framework, CFBundleRef *bundlePtr );
     //	Function pointer prototypes to the Mach-O Cocoa wrappers
