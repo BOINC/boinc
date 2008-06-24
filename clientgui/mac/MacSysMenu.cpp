@@ -54,7 +54,7 @@ public:
     virtual ~wxTaskBarIconImpl();
 
     virtual bool IsIconInstalled() const = 0;
-    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip) = 0;
+    virtual bool SetIcon(const wxIcon& icon) = 0;
     virtual bool RemoveIcon() = 0;
     virtual bool PopupMenu(wxMenu *menu) = 0;
 
@@ -103,7 +103,7 @@ public:
     virtual ~wxDockTaskBarIcon();
 
     virtual bool IsIconInstalled() const;
-    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip);
+    virtual bool SetIcon(const wxIcon& icon);
     virtual bool RemoveIcon();
     virtual bool PopupMenu(wxMenu *menu);
 
@@ -164,7 +164,7 @@ CMacSystemMenu::~CMacSystemMenu() {
 
 
 // Set the System Menu Icon from XPM data
-bool CMacSystemMenu::SetIcon(const wxIcon& icon, const wxString&) {
+bool CMacSystemMenu::SetIcon(const wxIcon& icon) {
     wxBitmap theBits;
 
     if (&icon == currentIcon)

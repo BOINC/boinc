@@ -4035,3 +4035,14 @@ Rom    23 June 2008
         BOINCTaskBar.cpp
     clientgui/msw/
         taskbarex.cpp, .h
+
+Charlie 23 June 2008
+    - client: Fix build break on Mac.
+    - MGR: Fix build breaks on Mac.
+    
+    client/
+        client_state.C
+    clientgui/
+        BOINCTaskBar.cpp, h
+        mac/
+            MacSysMenu.cpp,h

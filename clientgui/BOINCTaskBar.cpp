@@ -440,7 +440,7 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
 // Rather than using an entire separate icon, overlay the Dock icon with a badge 
 // so we don't need additional Snooze and Disconnected icons for branding.
-bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
+bool CTaskBarIcon::SetIcon(const wxIcon& icon) {
     wxIcon macIcon;
     bool result;
     OSStatus err = noErr ;
@@ -452,7 +452,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
     
     currentIcon = &icon;
     
-    result = wxGetApp().GetMacSystemMenu()->SetIcon(icon, tooltip);
+    result = wxGetApp().GetMacSystemMenu()->SetIcon(icon);
 
     RestoreApplicationDockTileImage();      // Remove any previous badge
 
