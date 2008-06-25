@@ -430,6 +430,7 @@ int CBOINCBaseView::SynchronizeCache() {
     int         iColumnIndex     = 0;
     int         iColumnTotal     = 0;
     bool        bNeedRefreshData = false;
+    bool        bNeedSort = false;
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
@@ -440,9 +441,15 @@ int CBOINCBaseView::SynchronizeCache() {
         for (iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++) {
             if (SynchronizeCacheItem(iRowIndex, iColumnIndex)) {
                 bNeedRefreshData = true;
+                if (iColumnIndex == m_iSortColumn) {
+                    bNeedSort = true;
+                }
             }
         }
 
+        if (bNeedSort) {
+            sortData();
+        }
         if (bNeedRefreshData) {
             m_pListPane->RefreshItem(iRowIndex);
         }
@@ -471,6 +478,10 @@ bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
     }
     return false;
 }
+
+
+void CBOINCBaseView::sortData() {}
+
 
 int CBOINCBaseView::UpdateCache(
     long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData)

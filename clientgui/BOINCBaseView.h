@@ -142,6 +142,7 @@ protected:
     virtual int             RemoveCacheElement();
     virtual int             SynchronizeCache();
     virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
+    virtual void            sortData();
     virtual int             UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            EmptyTasks();

@@ -86,6 +86,9 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
+static CViewWork* myCViewWork;
+
+
 CViewWork::CViewWork()
 {}
 
@@ -142,6 +145,9 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
 
     m_iProgressColumn = COLUMN_PROGRESS;
+
+    // Needed by static sort routine;
+    myCViewWork = this;
 
     UpdateSelection();
 }
@@ -505,8 +511,6 @@ void CViewWork::UpdateSelection() {
 }
 
 
-static CViewWork* myCViewWork;
-
 static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
     CWork*          work1 = myCViewWork->m_WorkCache.at(*iRowIndex1);
     CWork*          work2 = myCViewWork->m_WorkCache.at(*iRowIndex2);
@@ -559,7 +563,12 @@ static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
 }
 
 
-// For now, just invert the order for testing
+void CViewWork::sortData() {
+    if (m_iSortColumn >= 0) {
+        m_iSortedIndexes.Sort(CompareViewWorkItems);
+    }
+}
+
 void CViewWork::OnColClick(wxListEvent& event) {
     wxListItem      item;
     int             newSortColumn = event.GetColumn();
@@ -570,8 +579,10 @@ void CViewWork::OnColClick(wxListEvent& event) {
         m_bReverseSort = !m_bReverseSort;
     } else {
         // Remove sort arrow from old sort column
-        item.SetImage(-1);
-        m_pListPane->SetColumn(m_iSortColumn, item);
+        if (m_iSortColumn >= 0) {
+            item.SetImage(-1);
+            m_pListPane->SetColumn(m_iSortColumn, item);
+        }
         m_iSortColumn = newSortColumn;
         m_bReverseSort = false;
     }
@@ -579,7 +590,6 @@ void CViewWork::OnColClick(wxListEvent& event) {
     item.SetImage(m_bReverseSort ? 0 : 1);
     m_pListPane->SetColumn(newSortColumn, item);
 
-    myCViewWork = this;
     m_iSortedIndexes.Sort(CompareViewWorkItems);
 
     pFrame->FireRefreshView();
