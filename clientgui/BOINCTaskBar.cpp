@@ -374,6 +374,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             }
 
             if (iActiveTaskCount <= 2) {
+                if (strMessage.Length() > 0) strMessage += wxT("\n");
                 strMessage += strActiveTaskBuffer;
             } else {
                 // More than two active tasks are running on the system, we don't have
