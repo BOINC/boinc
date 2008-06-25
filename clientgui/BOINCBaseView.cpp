@@ -30,6 +30,8 @@
 #include "Events.h"
 
 #include "res/boinc.xpm"
+#include "res/sortascending.xpm"
+#include "res/sortdescending.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
@@ -53,7 +55,8 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     //
     m_pTaskPane = NULL;
     m_pListPane = NULL;
-
+    m_SortArrows = NULL;
+    
     SetName(GetViewName());
 
     SetAutoLayout(TRUE);
@@ -110,6 +113,11 @@ CBOINCBaseView::CBOINCBaseView(
     m_iProgressColumn = -1;
     m_iSortColumn = -1;
     m_bReverseSort = false;
+
+    m_SortArrows = new wxImageList(16, 16, true);
+    m_SortArrows->Add( wxIcon( sortascending_xpm ) );
+    m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
+    m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
 }
 
 
@@ -120,6 +128,9 @@ CBOINCBaseView::~CBOINCBaseView() {
 #else
         (m_pListPane->GetMainWin())->PopEventHandler(true);
 #endif
+    }
+    if (m_SortArrows) {
+        delete m_SortArrows;
     }
 }
 

@@ -111,7 +111,12 @@ public:
 
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
+    int                     m_iSortColumn;
+    bool                    m_bReverseSort;
+
 protected:
+
+    wxImageList *           m_SortArrows;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
@@ -151,8 +156,8 @@ protected:
     virtual bool            EnsureLastItemVisible();
 
     static  void            append_to_status(wxString& existing, const wxChar* additional);
-	static  wxString        HtmlEntityEncode(wxString strRaw);
-	static  wxString        HtmlEntityDecode(wxString strRaw);
+    static  wxString        HtmlEntityEncode(wxString strRaw);
+    static  wxString        HtmlEntityDecode(wxString strRaw);
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
@@ -161,8 +166,6 @@ protected:
     bool                    m_bIgnoreUIEvents;
     
     int                     m_iProgressColumn;
-    int                     m_iSortColumn;
-    bool                    m_bReverseSort;
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;

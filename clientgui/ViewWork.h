@@ -66,11 +66,11 @@ public:
     void                    OnProjectWebsiteClicked( wxEvent& event );
     
     void                    OnColClick(wxListEvent& event);
-    virtual int             CompareItems(wxInt32 iRowIndex, wxInt32 iColumnIndex);
     
-protected:
     std::vector<CWork*>     m_WorkCache;
     wxArrayInt              m_iSortedIndexes;
+
+protected:
 
     virtual wxInt32         GetDocCount();
 

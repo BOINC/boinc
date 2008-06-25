@@ -349,28 +349,28 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
 
     switch(column) {
         case COLUMN_PROJECT:
-            FormatProjectName(m_iSortedIndexes[item], strBuffer);
+            FormatProjectName(item, strBuffer);
             break;
         case COLUMN_APPLICATION:
-            FormatApplicationName(m_iSortedIndexes[item], strBuffer);
+            FormatApplicationName(item, strBuffer);
             break;
         case COLUMN_NAME:
-            FormatName(m_iSortedIndexes[item], strBuffer);
+            FormatName(item, strBuffer);
             break;
         case COLUMN_CPUTIME:
-            FormatCPUTime(m_iSortedIndexes[item], strBuffer);
+            FormatCPUTime(item, strBuffer);
             break;
         case COLUMN_PROGRESS:
-            FormatProgress(m_iSortedIndexes[item], strBuffer);
+            FormatProgress(item, strBuffer);
             break;
         case COLUMN_TOCOMPLETION:
-            FormatTimeToCompletion(m_iSortedIndexes[item], strBuffer);
+            FormatTimeToCompletion(item, strBuffer);
             break;
         case COLUMN_REPORTDEADLINE:
-            FormatReportDeadline(m_iSortedIndexes[item], strBuffer);
+            FormatReportDeadline(item, strBuffer);
             break;
         case COLUMN_STATUS:
-            FormatStatus(m_iSortedIndexes[item], strBuffer);
+            FormatStatus(item, strBuffer);
             break;
     }
 
@@ -505,112 +505,147 @@ void CViewWork::UpdateSelection() {
 }
 
 
+static CViewWork* myCViewWork;
+
+static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
+    CWork*          work1 = myCViewWork->m_WorkCache.at(*iRowIndex1);
+    CWork*          work2 = myCViewWork->m_WorkCache.at(*iRowIndex2);
+    int             result = 0;
+    
+    switch (myCViewWork->m_iSortColumn) {
+        case COLUMN_PROJECT:
+	result = work1->m_strProjectName.CmpNoCase(work2->m_strProjectName);
+        break;
+    case COLUMN_APPLICATION:
+	result = work1->m_strApplicationName.CmpNoCase(work2->m_strApplicationName);
+        break;
+    case COLUMN_NAME:
+	result = work1->m_strName.CmpNoCase(work2->m_strName);
+        break;
+    case COLUMN_CPUTIME:
+        if (work1->m_fCPUTime < work2->m_fCPUTime) {
+            result = -1;
+        } else if (work1->m_fCPUTime > work2->m_fCPUTime) {
+            result = 1;
+        }
+        break;
+    case COLUMN_PROGRESS:
+        if (work1->m_fProgress < work2->m_fProgress) {
+            result = -1;
+        } else if (work1->m_fProgress > work2->m_fProgress) {
+            result = 1;
+        }
+        break;
+    case COLUMN_TOCOMPLETION:
+        if (work1->m_fTimeToCompletion < work2->m_fTimeToCompletion) {
+            result = -1;
+        } else if (work1->m_fTimeToCompletion > work2->m_fTimeToCompletion) {
+            result = 1;
+        }
+        break;
+    case COLUMN_REPORTDEADLINE:
+        if (work1->m_tReportDeadline < work2->m_tReportDeadline) {
+            result = -1;
+        } else if (work1->m_tReportDeadline > work2->m_tReportDeadline) {
+            result = 1;
+        }
+        break;
+    case COLUMN_STATUS:
+	result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
+        break;
+    }
+
+    return (myCViewWork->m_bReverseSort ? result * (-1) : result);
+}
+
+
 // For now, just invert the order for testing
 void CViewWork::OnColClick(wxListEvent& event) {
+    wxListItem      item;
+    int             newSortColumn = event.GetColumn();
     CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
-    int i, j=0;
 
-    int newSortColumn = event.GetColumn();
+    item.SetMask(wxLIST_MASK_IMAGE);
     if (newSortColumn == m_iSortColumn) {
         m_bReverseSort = !m_bReverseSort;
     } else {
+        // Remove sort arrow from old sort column
+        item.SetImage(-1);
+        m_pListPane->SetColumn(m_iSortColumn, item);
         m_iSortColumn = newSortColumn;
         m_bReverseSort = false;
     }
     
-    if (m_bReverseSort) {
-        for (i=m_iSortedIndexes.GetCount()-1; i >=0; i--) {
-            m_iSortedIndexes[i] = j++;
-        }
-    } else {
-         for (i=m_iSortedIndexes.GetCount()-1; i >=0; i--) {
-            m_iSortedIndexes[i] = i;
-        }
-   }
+    item.SetImage(m_bReverseSort ? 0 : 1);
+    m_pListPane->SetColumn(newSortColumn, item);
+
+    myCViewWork = this;
+    m_iSortedIndexes.Sort(CompareViewWorkItems);
+
     pFrame->FireRefreshView();
 }
 
 
-int CViewWork::CompareItems(wxInt32 iRowIndex1, wxInt32 iRowIndex2) {
-    int         item1 = m_iSortedIndexes[iRowIndex1];
-    int         item2 = m_iSortedIndexes[iRowIndex2];
-    
-    switch (m_iSortColumn) {
-    case COLUMN_PROJECT:
-    case COLUMN_APPLICATION:
-    case COLUMN_NAME:
-    case COLUMN_CPUTIME:
-    case COLUMN_PROGRESS:
-    case COLUMN_TOCOMPLETION:
-    case COLUMN_REPORTDEADLINE:
-    case COLUMN_STATUS:
-        break;
-    }
-    return (item1 == item2);        // TEMPORARY
-}
-
-
 bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
-    int         item = m_iSortedIndexes[iRowIndex];
     wxString    strDocumentText  = wxEmptyString;
     float       fDocumentFloat = 0.0;
     time_t      tDocumentTime = (time_t)0;
-    CWork*      work = m_WorkCache.at(item);
+    CWork*      work = m_WorkCache.at(iRowIndex);
 
     strDocumentText.Empty();
 
     switch (iColumnIndex) {
         case COLUMN_PROJECT:
-            GetDocProjectName(item, strDocumentText);
+            GetDocProjectName(iRowIndex, strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strProjectName)) {
                 work->m_strProjectName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_APPLICATION:
-            GetDocApplicationName(item, strDocumentText);
+            GetDocApplicationName(iRowIndex, strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strApplicationName)) {
                 work->m_strApplicationName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_NAME:
-            GetDocName(item, strDocumentText);
+            GetDocName(iRowIndex, strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strName)) {
                 work->m_strName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_CPUTIME:
-            GetDocCPUTime(item, fDocumentFloat);
+            GetDocCPUTime(iRowIndex, fDocumentFloat);
             if (fDocumentFloat != work->m_fCPUTime) {
                 work->m_fCPUTime = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_PROGRESS:
-            GetDocProgress(item, fDocumentFloat);
+            GetDocProgress(iRowIndex, fDocumentFloat);
             if (fDocumentFloat != work->m_fProgress) {
                 work->m_fProgress = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_TOCOMPLETION:
-            GetDocTimeToCompletion(item, fDocumentFloat);
+            GetDocTimeToCompletion(iRowIndex, fDocumentFloat);
             if (fDocumentFloat != work->m_fTimeToCompletion) {
                 work->m_fTimeToCompletion = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_REPORTDEADLINE:
-            GetDocReportDeadline(item, tDocumentTime);
+            GetDocReportDeadline(iRowIndex, tDocumentTime);
             if (tDocumentTime != work->m_tReportDeadline) {
                 work->m_tReportDeadline = tDocumentTime;
                 return true;
             }
             break;
         case COLUMN_STATUS:
-            GetDocStatus(item, strDocumentText);
+            GetDocStatus(iRowIndex, strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strStatus)) {
                 work->m_strStatus = strDocumentText;
                 return true;
@@ -624,7 +659,7 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
 
 void CViewWork::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
-    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT* result = wxGetApp().GetDocument()->result(item);
     PROJECT* state_project = NULL;
     std::string project_name;
 
@@ -653,7 +688,7 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
 
 void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT* result = wxGetApp().GetDocument()->result(item);
     RESULT* state_result = NULL;
     wxString strLocalBuffer;
 
@@ -701,7 +736,7 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
 
 
 void CViewWork::GetDocName(wxInt32 item, wxString& strBuffer) const {
-    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT* result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(result);
 
@@ -720,7 +755,7 @@ wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
 
 
 void CViewWork::GetDocCPUTime(wxInt32 item, float& fBuffer) const {
-    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     fBuffer = 0;
     if (result) {
@@ -763,7 +798,7 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 
 
 void CViewWork::GetDocProgress(wxInt32 item, float& fBuffer) const {
-    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     fBuffer = 0;
     if (result) {
@@ -789,7 +824,7 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
 
 
 void CViewWork::GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const {
-    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     fBuffer = 0;
     if (result) {
@@ -823,7 +858,7 @@ wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) con
 
 
 void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
-    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
         time = result->report_deadline;
@@ -846,7 +881,7 @@ wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const
 
 void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
-    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
     CC_STATUS      status;
 
     wxASSERT(doc);
