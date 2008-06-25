@@ -368,7 +368,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                     fProgress = floor(result->fraction_done*10000)/100;
                 }
 
-                strBuffer.Printf(_("%s: %.2f%% completed"), strProjectName.c_str(), fProgress );
+                strBuffer.Printf(_("%s: %.2f%% completed."), strProjectName.c_str(), fProgress );
                 if (strActiveTaskBuffer.Length() > 0) strActiveTaskBuffer += wxT("\n");
                 strActiveTaskBuffer += strBuffer;
             }
@@ -381,7 +381,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 //   enough room to display them all, so just tell the user how many are
                 //   currently running.
                 strBuffer.Printf(
-                    _("%d tasks running")
+                    _("%d tasks running.")
                 );
                 if (strMessage.Length() > 0) strMessage += wxT("\n");
                 strMessage += strBuffer;
