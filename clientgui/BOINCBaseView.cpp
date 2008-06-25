@@ -108,6 +108,8 @@ CBOINCBaseView::CBOINCBaseView(
 #endif
 
     m_iProgressColumn = -1;
+    m_iSortColumn = -1;
+    m_bReverseSort = false;
 }
 
 
@@ -239,7 +241,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         }
 
         if (iDocCount) {
-            SyncronizeCache();
+            SynchronizeCache();
         }
 
         if (_EnsureLastItemVisible() && (iDocCount != iCacheCount)) {
@@ -411,13 +413,11 @@ int CBOINCBaseView::RemoveCacheElement() {
 }
 
 
-int CBOINCBaseView::SyncronizeCache() {
+int CBOINCBaseView::SynchronizeCache() {
     int         iRowIndex        = 0;
     int         iRowTotal        = 0;
     int         iColumnIndex     = 0;
     int         iColumnTotal     = 0;
-    wxString    strDocumentText  = wxEmptyString;
-    wxString    strListPaneText  = wxEmptyString;
     bool        bNeedRefreshData = false;
 
     iRowTotal = GetDocCount();
@@ -427,16 +427,7 @@ int CBOINCBaseView::SyncronizeCache() {
         bNeedRefreshData = false;
 
         for (iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++) {
-            strDocumentText.Empty();
-            strListPaneText.Empty();
-
-            strDocumentText = OnDocGetItemText(iRowIndex, iColumnIndex);
-            strListPaneText = OnListGetItemText(iRowIndex, iColumnIndex);
-
-            if (!strDocumentText.IsSameAs(strListPaneText)) {
-                if (0 != UpdateCache(iRowIndex, iColumnIndex, strDocumentText)) {
-                    wxASSERT(FALSE);
-                }
+            if (SynchronizeCacheItem(iRowIndex, iColumnIndex)) {
                 bNeedRefreshData = true;
             }
         }
@@ -449,6 +440,26 @@ int CBOINCBaseView::SyncronizeCache() {
     return 0;
 }
 
+
+// Default version for case when all items are wxStrings; override where appropriate
+bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
+    wxString    strDocumentText  = wxEmptyString;
+    wxString    strListPaneText  = wxEmptyString;
+
+    strDocumentText.Empty();
+    strListPaneText.Empty();
+
+    strDocumentText = OnDocGetItemText(iRowIndex, iColumnIndex);
+    strListPaneText = OnListGetItemText(iRowIndex, iColumnIndex);
+
+    if (!strDocumentText.IsSameAs(strListPaneText)) {
+        if (0 != UpdateCache(iRowIndex, iColumnIndex, strDocumentText)) {
+            wxASSERT(FALSE);
+        }
+        return true;
+    }
+    return false;
+}
 
 int CBOINCBaseView::UpdateCache(
     long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData)

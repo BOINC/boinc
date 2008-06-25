@@ -135,7 +135,8 @@ protected:
     virtual int             EmptyCache();
     virtual int             GetCacheCount();
     virtual int             RemoveCacheElement();
-    virtual int             SyncronizeCache();
+    virtual int             SynchronizeCache();
+    virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
     virtual int             UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            EmptyTasks();
@@ -160,6 +161,8 @@ protected:
     bool                    m_bIgnoreUIEvents;
     
     int                     m_iProgressColumn;
+    int                     m_iSortColumn;
+    bool                    m_bReverseSort;
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;

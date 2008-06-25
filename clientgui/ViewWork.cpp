@@ -64,10 +64,11 @@ CWork::~CWork() {
     m_strProjectName.Clear();
     m_strApplicationName.Clear();
     m_strName.Clear();
-    m_strCPUTime.Clear();
-    m_strProgress.Clear();
-    m_strTimeToCompletion.Clear();
-    m_strReportDeadline.Clear();
+    
+    m_fCPUTime = 0.0;
+    m_fProgress = 0.0;
+    m_fTimeToCompletion = 0.0;
+    m_tReportDeadline = (time_t)0;
     m_strStatus.Clear();
 }
 
@@ -81,6 +82,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
+    EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
 END_EVENT_TABLE ()
 
 
@@ -335,76 +337,40 @@ wxInt32 CViewWork::GetDocCount() {
 }
 
 
-wxString CViewWork::OnListGetItemText(long item, long column) const {
-    CWork*    work      = NULL;
+wxString CViewWork::OnDocGetItemText(long item, long column) const {
+    wxASSERT(false);        //    should never be called
     wxString  strBuffer = wxEmptyString;
-
-    try {
-        work = m_WorkCache.at(item);
-    } catch ( std::out_of_range ) {
-        work = NULL;
-    }
-
-    if (work) {
-        switch(column) {
-            case COLUMN_PROJECT:
-                strBuffer = work->m_strProjectName;
-                break;
-            case COLUMN_APPLICATION:
-                strBuffer = work->m_strApplicationName;
-                break;
-            case COLUMN_NAME:
-                strBuffer = work->m_strName;
-                break;
-            case COLUMN_CPUTIME:
-                strBuffer = work->m_strCPUTime;
-                break;
-            case COLUMN_PROGRESS:
-                strBuffer = work->m_strProgress;
-                break;
-            case COLUMN_TOCOMPLETION:
-                strBuffer = work->m_strTimeToCompletion;
-                break;
-            case COLUMN_REPORTDEADLINE:
-                strBuffer = work->m_strReportDeadline;
-                break;
-            case COLUMN_STATUS:
-                strBuffer = work->m_strStatus;
-                break;
-        }
-    }
-
     return strBuffer;
 }
 
 
-wxString CViewWork::OnDocGetItemText(long item, long column) const {
+wxString CViewWork::OnListGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
 
     switch(column) {
         case COLUMN_PROJECT:
-            FormatProjectName(item, strBuffer);
+            FormatProjectName(m_iSortedIndexes[item], strBuffer);
             break;
         case COLUMN_APPLICATION:
-            FormatApplicationName(item, strBuffer);
+            FormatApplicationName(m_iSortedIndexes[item], strBuffer);
             break;
         case COLUMN_NAME:
-            FormatName(item, strBuffer);
+            FormatName(m_iSortedIndexes[item], strBuffer);
             break;
         case COLUMN_CPUTIME:
-            FormatCPUTime(item, strBuffer);
+            FormatCPUTime(m_iSortedIndexes[item], strBuffer);
             break;
         case COLUMN_PROGRESS:
-            FormatProgress(item, strBuffer);
+            FormatProgress(m_iSortedIndexes[item], strBuffer);
             break;
         case COLUMN_TOCOMPLETION:
-            FormatTimeToCompletion(item, strBuffer);
+            FormatTimeToCompletion(m_iSortedIndexes[item], strBuffer);
             break;
         case COLUMN_REPORTDEADLINE:
-            FormatReportDeadline(item, strBuffer);
+            FormatReportDeadline(m_iSortedIndexes[item], strBuffer);
             break;
         case COLUMN_STATUS:
-            FormatStatus(item, strBuffer);
+            FormatStatus(m_iSortedIndexes[item], strBuffer);
             break;
     }
 
@@ -417,6 +383,7 @@ wxInt32 CViewWork::AddCacheElement() {
     wxASSERT(pItem);
     if (pItem) {
         m_WorkCache.push_back(pItem);
+        m_iSortedIndexes.Add(m_WorkCache.size()-1);
         return 0;
     }
     return -1;
@@ -429,6 +396,7 @@ wxInt32 CViewWork::EmptyCache() {
         delete m_WorkCache[i];
     }
     m_WorkCache.clear();
+    m_iSortedIndexes.Clear();
     return 0;
 }
 
@@ -439,42 +407,19 @@ wxInt32 CViewWork::GetCacheCount() {
 
 
 wxInt32 CViewWork::RemoveCacheElement() {
+    unsigned int i;
     delete m_WorkCache.back();
     m_WorkCache.erase(m_WorkCache.end() - 1);
+    m_iSortedIndexes.Clear();
+    for (i=0; i<m_WorkCache.size(); i++) {
+        m_iSortedIndexes.Add(i);
+    }
     return 0;
 }
 
 
 wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
-    CWork* work   = m_WorkCache.at(item);
-
-    switch(column) {
-        case COLUMN_PROJECT:
-            work->m_strProjectName = strNewData;
-            break;
-        case COLUMN_APPLICATION:
-            work->m_strApplicationName = strNewData;
-            break;
-        case COLUMN_NAME:
-            work->m_strName = strNewData;
-            break;
-        case COLUMN_CPUTIME:
-            work->m_strCPUTime = strNewData;
-            break;
-        case COLUMN_PROGRESS:
-            work->m_strProgress = strNewData;
-            break;
-        case COLUMN_TOCOMPLETION:
-            work->m_strTimeToCompletion = strNewData;
-            break;
-        case COLUMN_REPORTDEADLINE:
-            work->m_strReportDeadline = strNewData;
-            break;
-        case COLUMN_STATUS:
-            work->m_strStatus = strNewData;
-            break;
-    }
-
+    wxASSERT(false);        //    should never be called
     return 0;
 }
 
@@ -560,9 +505,126 @@ void CViewWork::UpdateSelection() {
 }
 
 
-wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
+// For now, just invert the order for testing
+void CViewWork::OnColClick(wxListEvent& event) {
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    int i, j=0;
+
+    int newSortColumn = event.GetColumn();
+    if (newSortColumn == m_iSortColumn) {
+        m_bReverseSort = !m_bReverseSort;
+    } else {
+        m_iSortColumn = newSortColumn;
+        m_bReverseSort = false;
+    }
+    
+    if (m_bReverseSort) {
+        for (i=m_iSortedIndexes.GetCount()-1; i >=0; i--) {
+            m_iSortedIndexes[i] = j++;
+        }
+    } else {
+         for (i=m_iSortedIndexes.GetCount()-1; i >=0; i--) {
+            m_iSortedIndexes[i] = i;
+        }
+   }
+    pFrame->FireRefreshView();
+}
+
+
+int CViewWork::CompareItems(wxInt32 iRowIndex1, wxInt32 iRowIndex2) {
+    int         item1 = m_iSortedIndexes[iRowIndex1];
+    int         item2 = m_iSortedIndexes[iRowIndex2];
+    
+    switch (m_iSortColumn) {
+    case COLUMN_PROJECT:
+    case COLUMN_APPLICATION:
+    case COLUMN_NAME:
+    case COLUMN_CPUTIME:
+    case COLUMN_PROGRESS:
+    case COLUMN_TOCOMPLETION:
+    case COLUMN_REPORTDEADLINE:
+    case COLUMN_STATUS:
+        break;
+    }
+    return (item1 == item2);        // TEMPORARY
+}
+
+
+bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
+    int         item = m_iSortedIndexes[iRowIndex];
+    wxString    strDocumentText  = wxEmptyString;
+    float       fDocumentFloat = 0.0;
+    time_t      tDocumentTime = (time_t)0;
+    CWork*      work = m_WorkCache.at(item);
+
+    strDocumentText.Empty();
+
+    switch (iColumnIndex) {
+        case COLUMN_PROJECT:
+            GetDocProjectName(item, strDocumentText);
+            if (!strDocumentText.IsSameAs(work->m_strProjectName)) {
+                work->m_strProjectName = strDocumentText;
+                return true;
+            }
+            break;
+        case COLUMN_APPLICATION:
+            GetDocApplicationName(item, strDocumentText);
+            if (!strDocumentText.IsSameAs(work->m_strApplicationName)) {
+                work->m_strApplicationName = strDocumentText;
+                return true;
+            }
+            break;
+        case COLUMN_NAME:
+            GetDocName(item, strDocumentText);
+            if (!strDocumentText.IsSameAs(work->m_strName)) {
+                work->m_strName = strDocumentText;
+                return true;
+            }
+            break;
+        case COLUMN_CPUTIME:
+            GetDocCPUTime(item, fDocumentFloat);
+            if (fDocumentFloat != work->m_fCPUTime) {
+                work->m_fCPUTime = fDocumentFloat;
+                return true;
+            }
+            break;
+        case COLUMN_PROGRESS:
+            GetDocProgress(item, fDocumentFloat);
+            if (fDocumentFloat != work->m_fProgress) {
+                work->m_fProgress = fDocumentFloat;
+                return true;
+            }
+            break;
+        case COLUMN_TOCOMPLETION:
+            GetDocTimeToCompletion(item, fDocumentFloat);
+            if (fDocumentFloat != work->m_fTimeToCompletion) {
+                work->m_fTimeToCompletion = fDocumentFloat;
+                return true;
+            }
+            break;
+        case COLUMN_REPORTDEADLINE:
+            GetDocReportDeadline(item, tDocumentTime);
+            if (tDocumentTime != work->m_tReportDeadline) {
+                work->m_tReportDeadline = tDocumentTime;
+                return true;
+            }
+            break;
+        case COLUMN_STATUS:
+            GetDocStatus(item, strDocumentText);
+            if (!strDocumentText.IsSameAs(work->m_strStatus)) {
+                work->m_strStatus = strDocumentText;
+                return true;
+            }
+            break;
+    }
+
+    return false;
+}
+
+
+void CViewWork::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
-    RESULT* result = wxGetApp().GetDocument()->result(item);
+    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
     PROJECT* state_project = NULL;
     std::string project_name;
 
@@ -573,19 +635,25 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
-        } else {
+            strBuffer = wxString(project_name.c_str(), wxConvUTF8);
+         } else {
             doc->ForceCacheUpdate();
         }
     }
+}
+
+
+wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
+    strBuffer = HtmlEntityDecode(work->m_strProjectName);
 
     return 0;
 }
 
 
-wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
+void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    RESULT* result = wxGetApp().GetDocument()->result(item);
+    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
     RESULT* state_result = NULL;
     wxString strLocalBuffer;
 
@@ -621,31 +689,40 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
         );
         setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
     }
+}
+
+
+wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
+    strBuffer = work->m_strApplicationName;
+
     return 0;
 }
 
 
-wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
-    RESULT* result = wxGetApp().GetDocument()->result(item);
+void CViewWork::GetDocName(wxInt32 item, wxString& strBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
     wxASSERT(result);
 
     if (result) {
-        strBuffer = wxString(result->name.c_str(), wxConvUTF8);
+        strBuffer = result->name;
     }
+}
+
+
+wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
+    strBuffer = wxString(work->m_strName.c_str(), wxConvUTF8);
 
     return 0;
 }
 
 
-wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
-    float          fBuffer = 0;
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-    RESULT*        result = wxGetApp().GetDocument()->result(item);
+void CViewWork::GetDocCPUTime(wxInt32 item, float& fBuffer) const {
+    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
+    fBuffer = 0;
     if (result) {
         if (result->active_task) {
             fBuffer = result->current_cpu_time;
@@ -657,7 +734,18 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
             }
         }
     }
+}
 
+
+wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
+
+    wxInt32        iHour = 0;
+    wxInt32        iMin = 0;
+    wxInt32        iSec = 0;
+    wxTimeSpan     ts;
+    float          fBuffer = work->m_fCPUTime;
+    
     if (0 == fBuffer) {
         strBuffer = wxT("---");
     } else {
@@ -674,10 +762,10 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
-    float          fBuffer = 0;
-    RESULT*        result = wxGetApp().GetDocument()->result(item);
+void CViewWork::GetDocProgress(wxInt32 item, float& fBuffer) const {
+    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
+    fBuffer = 0;
     if (result) {
         if (result->active_task) {
             fBuffer = floor(result->fraction_done * 100000)/1000;
@@ -689,24 +777,34 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
             }
         }
     }
+}
 
-    strBuffer.Printf(wxT("%.3f%%"), fBuffer);
+
+wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
+    strBuffer.Printf(wxT("%.3f%%"), work->m_fProgress);
 
     return 0;
 }
 
 
+void CViewWork::GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const {
+    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+
+    fBuffer = 0;
+    if (result) {
+        fBuffer = result->estimated_cpu_time_remaining;
+    }
+}
+
+
 wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const {
-    float          fBuffer = 0;
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]); 
+    float          fBuffer = work->m_fTimeToCompletion;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
     wxTimeSpan     ts;
-    RESULT*        result = wxGetApp().GetDocument()->result(item);
-
-    if (result) {
-        fBuffer = result->estimated_cpu_time_remaining;
-    }
 
     if (0 >= fBuffer) {
         strBuffer = wxT("---");
@@ -724,22 +822,31 @@ wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) con
 }
 
 
-wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const {
-    wxDateTime     dtTemp;
-    RESULT*        result = wxGetApp().GetDocument()->result(item);
+void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
+    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
     if (result) {
-        dtTemp.Set((time_t)result->report_deadline);
-        strBuffer = dtTemp.Format();
+        time = result->report_deadline;
+    } else {
+        time = (time_t)0;
     }
+}
+
+
+wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
+    wxDateTime     dtTemp;
+
+    dtTemp.Set(work->m_tReportDeadline);
+    strBuffer = dtTemp.Format();
 
     return 0;
 }
 
 
-wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
+void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
-    RESULT*        result = wxGetApp().GetDocument()->result(item);
+    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
     CC_STATUS      status;
 
     wxASSERT(doc);
@@ -747,7 +854,10 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     doc->GetCoreClientStatus(status);
 
-    if (!result) return 0;
+    if (!result) {
+        strBuffer.Clear();
+        return;
+    }
 	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     switch(result->state) {
     case RESULT_NEW:
@@ -843,13 +953,20 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
         break;
     }
+}
+
+
+wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
+    strBuffer = work->m_strStatus;
+
     return 0;
 }
 
 
 double CViewWork::GetProgressValue(long item) {
     float          fBuffer = 0;
-    RESULT*        result = wxGetApp().GetDocument()->result(item);
+    RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
     if (result) {
         if (result->active_task) {
