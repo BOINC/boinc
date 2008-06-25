@@ -78,31 +78,31 @@ UINT CAValidateInstall::OnExecution()
     strTemp = strInstallDirectory + _T("\\boinc.exe");
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T(""));
+        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
 
     strTemp = strInstallDirectory + _T("\\boinc.dll");
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T(""));
+        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
     
     strTemp = strInstallDirectory + _T("\\boincmgr.exe");
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T(""));
+        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
     
     strTemp = strInstallDirectory + _T("\\boinccmd.exe");
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T(""));
+        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
     
     strTemp = strInstallDirectory + _T("\\boinctray.exe");
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T(""));
+        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
 
 

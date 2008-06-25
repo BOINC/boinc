@@ -386,6 +386,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAMigrateBOINCDataCleanup.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CAMigrateBOINCDataVersion.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAMigratex86x64.cpp"
 				>
 			</File>
@@ -480,6 +488,14 @@
 			</File>
 			<File
 				RelativePath=".\CAMigrateBOINCData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAMigrateBOINCDataCleanup.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAMigrateBOINCDataVersion.h"
 				>
 			</File>
 			<File

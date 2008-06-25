@@ -5107,3 +5107,24 @@ David  23 June 2008
     html/inc/
         user.inc
         team.inc
+
+Rom    25 June 2008
+    - WINSETUP: Store and cleanup a set of flags to avoid repeatedly
+        migrating data back and forth.
+    - WINSETUP: If the migration uninstall routine detects a newer
+        version of BOINC being installed, skip the uninstall process.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        boinccas95.def
+        boinccas95.vcproj
+        CAMigrateBOINCData.cpp
+        CAMigrateBOINCDataCleanup.cpp, .h (Added)
+        CAMigrateBOINCDataVersion.cpp, .h (Added)
+        CAValidateInstall.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

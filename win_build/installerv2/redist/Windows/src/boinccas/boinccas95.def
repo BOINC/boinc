@@ -8,6 +8,8 @@ EXPORTS
 	DllMain
 	ValidateSetupType
 	MigrateBOINCData
+	MigrateBOINCDataVersion
+	MigrateBOINCDataCleanup
 	MigrateX86X64
 	RestoreSetupState
 	SaveSetupState

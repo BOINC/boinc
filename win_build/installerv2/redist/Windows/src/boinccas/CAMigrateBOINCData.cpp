@@ -326,9 +326,12 @@ UINT CAMigrateBOINCData::OnExecution()
     tstring      strCurrentDataDirectory;
     tstring      strFutureDataDirectory;
     tstring      strMigration;
+    tstring      strMigrationSkipped;
+    tstring      strMigrationVersion;
     tstring      strMigrationDirectory;
     tstring      strDestinationClientStateFile;
     tstring      strRemove;
+    tstring      strProductVersion;
     struct _stat buf;
     ULONGLONG    ullFileSize = 0;
     ULONGLONG    ullDirectorySize = 0;
@@ -354,9 +357,13 @@ UINT CAMigrateBOINCData::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetRegistryValue( _T("MIGRATION"), strMigration );
+    uiReturnValue = GetRegistryValue( _T("MIGRATIONVERSION"), strMigrationVersion );
     uiReturnValue = GetRegistryValue( _T("MIGRATIONDIR"), strMigrationDirectory );
 
     uiReturnValue = GetProperty( _T("REMOVE"), strRemove );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("ProductVersion"), strProductVersion );
     if ( uiReturnValue ) return uiReturnValue;
 
 
@@ -364,9 +371,21 @@ UINT CAMigrateBOINCData::OnExecution()
     // need to move things back to their orginal location.
     if (strRemove.length())
     {
-        strCustomActionData = strMigration + _T("|");
-        strCustomActionData += strFutureDataDirectory + _T("|");
-        strCustomActionData += strMigrationDirectory;
+        if ( 0 <= _tcscmp(strProductVersion.c_str(), strMigrationVersion.c_str()) )
+        {
+            strCustomActionData = strMigration + _T("|");
+            strCustomActionData += strFutureDataDirectory + _T("|");
+            strCustomActionData += strMigrationDirectory;
+        }
+        else 
+        {
+            // We are installing a new version, so skip the uninstall process
+            //
+            strMigrationSkipped = _T("1");
+            strCustomActionData = _T("FALSE|");
+            strCustomActionData += strFutureDataDirectory + _T("|");
+            strCustomActionData += strMigrationDirectory;
+        }
     }
     else
     {
@@ -384,6 +403,12 @@ UINT CAMigrateBOINCData::OnExecution()
 
         if      ( bClientStateExists )
         {
+            // If migration was done with a previous 6.x client then we don't need
+            //   to migrate, but we do need to preserve our migration settings
+            if ((strProductVersion == strMigrationVersion) && (strMigration == _T("TRUE")))
+            {
+                strMigrationSkipped = _T("1");
+            }
             strMigration = _T("FALSE");
             LogMessage(
                 INSTALLMESSAGE_INFO,
@@ -506,7 +531,10 @@ UINT CAMigrateBOINCData::OnExecution()
         strCustomActionData += strFutureDataDirectory;
     }
 
-    SetRegistryValue( _T("MIGRATION"), strMigration );
+    if ( _T("1") != strMigrationSkipped )
+    {
+        SetRegistryValue( _T("MIGRATION"), strMigration );
+    }
     SetRegistryValue( _T("MIGRATIONDIR"), strMigrationDirectory );
     SetProperty( _T("CAMigrateBOINCDataInstall"), strCustomActionData );
     SetProperty( _T("CAMigrateBOINCDataRollback"), strCustomActionData );
