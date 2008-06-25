@@ -300,13 +300,15 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         CMainDocument* pDoc                 = wxGetApp().GetDocument();
         wxString       strMachineName       = wxEmptyString;
         wxString       strMessage           = wxEmptyString;
-        wxString       strBuffer            = wxEmptyString;
         wxString       strProjectName       = wxEmptyString;
+        wxString       strBuffer            = wxEmptyString;
+        wxString       strActiveTaskBuffer  = wxEmptyString;
         float          fProgress            = 0;
         bool           bIsActive            = false;
         bool           bIsExecuting         = false;
         bool           bIsDownloaded        = false;
         wxInt32        iResultCount         = 0;
+        wxInt32        iActiveTaskCount     = 0;
         wxInt32        iIndex               = 0;
         CC_STATUS      status;
 
@@ -314,21 +316,27 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
         if (pDoc->IsConnected()) {
-            // Display the currently connected computer.
-            pDoc->GetConnectedComputerName(strMessage);
+            pDoc->GetConnectedComputerName(strMachineName);
+
+            // Only show machine name if connected to remote machine.
+            if (!pDoc->IsComputerNameLocal(strMachineName)) {
+                strMessage += strMachineName;
+            }
 
             pDoc->GetCoreClientStatus(status);
             if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("\nComputation is suspended.")
+                    _("Computation is suspended.")
                 );
+                if (strMessage.Length() > 0) strMessage += wxT("\n");
                 strMessage += strBuffer;
             }
 
             if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 strBuffer.Printf(
-                    _("\nNetwork activity is suspended.")
+                    _("Network activity is suspended.")
                 );
+                if (strMessage.Length() > 0) strMessage += wxT("\n");
                 strMessage += strBuffer;
             }
 
@@ -343,6 +351,14 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
                 if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
 
+                // Increment the active task counter
+                iActiveTaskCount++;
+
+                // If we have more then two active tasks then we'll just be displaying
+                //   the total number of active tasks anyway, so just look at the rest
+                //   of the result records.
+                if (iActiveTaskCount > 2) continue;
+
                 if (result) {
                     state_result = pDoc->state.lookup_result(result->project_url, result->name);
                     if (state_result) {
@@ -352,18 +368,35 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                     fProgress = floor(result->fraction_done*10000)/100;
                 }
 
-                strBuffer.Printf(_("\n%s: %.2f%% completed"), strProjectName.c_str(), fProgress );
+                strBuffer.Printf(_("%s: %.2f%% completed"), strProjectName.c_str(), fProgress );
+                if (strActiveTaskBuffer.Length() > 0) strActiveTaskBuffer += wxT("\n");
+                strActiveTaskBuffer += strBuffer;
+            }
+
+            if (iActiveTaskCount <= 2) {
+                strMessage += strActiveTaskBuffer;
+            } else {
+                // More than two active tasks are running on the system, we don't have
+                //   enough room to display them all, so just tell the user how many are
+                //   currently running.
+                strBuffer.Printf(
+                    _("%d tasks running")
+                );
+                if (strMessage.Length() > 0) strMessage += wxT("\n");
                 strMessage += strBuffer;
             }
+
         } else if (pDoc->IsReconnecting()) {
             strBuffer.Printf(
-                _("\nReconnecting to client.")
+                _("Reconnecting to client.")
             );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
             strMessage += strBuffer;
         } else {
             strBuffer.Printf(
-                _("\nNot connected to a client.")
+                _("Not connected to a client.")
             );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
             strMessage += strBuffer;
         }
 

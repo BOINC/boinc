@@ -5128,3 +5128,13 @@ Rom    25 June 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    25 June 2008
+    - MGR: If more than two active tasks are running then tell the
+        user how many active tasks are running instead of attempting
+        to display the percent complete of each one.
+    - MGR: If the computer name is the local host then skip displaying
+        it in the tooltip.
+        
+    clientgui/
+        BOINCTaskBar.cpp
