@@ -565,7 +565,11 @@ static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
 
 void CViewWork::sortData() {
     if (m_iSortColumn >= 0) {
+        CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+        
         m_iSortedIndexes.Sort(CompareViewWorkItems);
+
+        pFrame->FireRefreshView();
     }
 }
 

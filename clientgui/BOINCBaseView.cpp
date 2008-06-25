@@ -447,14 +447,14 @@ int CBOINCBaseView::SynchronizeCache() {
             }
         }
 
-        if (bNeedSort) {
-            sortData();
-        }
         if (bNeedRefreshData) {
             m_pListPane->RefreshItem(iRowIndex);
         }
     }
 
+    if (bNeedSort) {
+        sortData();     // Will mark entire list as needing refresh
+    }
     return 0;
 }
 
