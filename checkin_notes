@@ -4046,3 +4046,11 @@ Charlie 23 June 2008
         BOINCTaskBar.cpp, h
         mac/
             MacSysMenu.cpp,h
+
+Rom    17 June 2008
+    - Tag for 6.2.9 release, all platforms
+      boinc_core_release_6_2_9
+
+    /
+        configure.ac
+        version.h
