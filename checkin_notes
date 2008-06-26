@@ -771,3 +771,10 @@ David  19 June 2008
 
 	wrapper/
 		wrapper.C
+
+David  26 June 2008
+    - wrapper: added --graphics cmdline arg.
+        Use this if your app has a graphics app.
+
+    wrapper/
+        wrapper.C

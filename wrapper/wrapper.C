@@ -116,6 +116,7 @@ struct TASK {
 
 vector<TASK> tasks;
 APP_INIT_DATA aid;
+bool graphics = false;
 
 int TASK::parse(XML_PARSER& xp) {
     char tag[1024], buf[8192], buf2[8192];
@@ -515,10 +516,19 @@ int main(int argc, char** argv) {
     unsigned int i;
     double cpu, total_weight=0, w=0;
 
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--graphics")) {
+            graphics = true;
+        }
+    }
+
     memset(&options, 0, sizeof(options));
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
+    if (graphics) {
+        options.backwards_compatible_graphics = true;
+    }
 
     boinc_init_options(&options);
     fprintf(stderr, "wrapper: starting\n");
