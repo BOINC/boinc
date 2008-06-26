@@ -4926,7 +4926,7 @@ Charlie 24 June 2008
         BOINCBaseView.cpp,h
         ViewWork.cpp,h
 
-Charlie 24 June 2008
+Charlie 25 June 2008
     - MGR List View: Move more functionality into base class.  After sorting, 
         refresh only those rows which have moved.  Begin implementing multiple 
         selections.  Restore correct selections after sort.
@@ -4934,3 +4934,13 @@ Charlie 24 June 2008
     clientgui/
         BOINCBaseView.cpp,h
         ViewWork.cpp,h
+
+Charlie 26 June 2008
+    - MGR List View: Complete multiple settings for Tasks tab, implement all 
+        features in Projects tab, save and restore sort columns and directions.
+
+    clientgui/
+        BOINCBaseView.cpp,h
+        BOINCListCtrl.cpp
+        ViewProjects.cpp,h
+        ViewWork.cpp

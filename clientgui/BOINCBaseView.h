@@ -111,6 +111,8 @@ public:
     int                     GetProgressColumn() { return m_iProgressColumn; }
     virtual double          GetProgressValue(long item);
 
+    void                    InitSort();
+
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
     int                     m_iSortColumn;

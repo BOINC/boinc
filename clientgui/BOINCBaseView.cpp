@@ -505,6 +505,17 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
 }
 
 
+void CBOINCBaseView::InitSort() {
+    wxListItem      item;
+
+    if (m_iSortColumn < 0) return;
+    item.SetMask(wxLIST_MASK_IMAGE);
+    item.SetImage(m_bReverseSort ? 0 : 1);
+    m_pListPane->SetColumn(m_iSortColumn, item);
+    sortData();
+}
+
+
 void CBOINCBaseView::sortData() {
     if (m_iSortColumn < 0) return;
     
