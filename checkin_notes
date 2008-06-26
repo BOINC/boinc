@@ -5143,7 +5143,7 @@ David  25 June 2008
     - client: improve error messages when can't copy files
     - client: change CUDA detection on Linux and Mac.
         Look for libcuda.so in /usr/lib/nvidia and /usr/lib64/nvidia.
-        If we find it, assume that libcudart is in the library path.
+        If we find it, assume that libcudart is bundled with the app.
 
     client/
         app_start.C
