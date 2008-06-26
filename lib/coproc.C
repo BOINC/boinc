@@ -63,8 +63,8 @@ int COPROC::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
-char* COPROCS::get() {
-    char* p = COPROC_CUDA::get(*this);
+const char* COPROCS::get() {
+    const char* p = COPROC_CUDA::get(*this);
     if (p) return p;
     COPROC_CELL_SPE::get(*this);
     return NULL;
@@ -96,7 +96,7 @@ COPROC* COPROCS::lookup(char* type) {
     return NULL;
 }
 
-char* COPROC_CUDA::get(COPROCS& coprocs) {
+const char* COPROC_CUDA::get(COPROCS& coprocs) {
     int count;
 
 #ifdef _WIN32
@@ -298,6 +298,6 @@ int COPROC_CUDA::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-char* COPROC_CELL_SPE::get(COPROCS&) {
+const char* COPROC_CELL_SPE::get(COPROCS&) {
     return NULL;
 }

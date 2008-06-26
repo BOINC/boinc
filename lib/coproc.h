@@ -37,7 +37,7 @@ struct COPROC {
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
-    COPROC(char* t){
+    COPROC(const char* t){
         strcpy(type, t);
         count = 0;
         used = 0;
@@ -64,7 +64,7 @@ struct COPROCS {
         }
     }
 #endif
-    char* get();
+    const char* get();
     int parse(FILE*);
     COPROC* lookup(char*);
     bool sufficient_coprocs(COPROCS&, bool verbose);
@@ -107,14 +107,14 @@ struct COPROC_CUDA : public COPROC {
 #endif
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
-    static char* get(COPROCS&);
+    static const char* get(COPROCS&);
     void clear();
     int parse(FILE*);
 };
 
 
 struct COPROC_CELL_SPE : public COPROC {
-    static char* get(COPROCS&);
+    static const char* get(COPROCS&);
     COPROC_CELL_SPE() : COPROC("Cell SPE"){}
     virtual ~COPROC_CELL_SPE(){}
 };
