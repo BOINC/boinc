@@ -113,7 +113,7 @@ function request_info($user, $course) {
 ////// stuff related to snapshots
 
 function compare_snapshot_filename($course_id, $select_name, $xset_name) {
-    return "../bolt_snap/compare_snapshot_".$course_id."_".$select_name."_".$xset_name.".json";
+    return "../bolt_snap/compare_snapshot_".$course_id."_".$select_name."_".$xset_name;
 }
 
 // a "snapshot" is a condensed representation of the results
@@ -186,7 +186,7 @@ function write_compare_snapshot($course_id, $select_name, $xset_name, $dur) {
     $s->recs = $a;
     $s->dur = $dur;
     $s->time = $now;
-    fwrite($f, json_encode($s));
+    fwrite($f, serialize($s));
     fclose($f);
     return $s;
 }
@@ -197,12 +197,12 @@ function read_compare_snapshot($course_id, $select_name, $xset_name) {
     if (!$f) return null;
     $x = fread($f, filesize($filename));
     fclose($f);
-    return json_decode($x);
+    return unserialize($x);
 }
 
 
 function map_snapshot_filename($course_id) {
-    return "../bolt_snap/map_snapshot_".$course_id.".json";
+    return "../bolt_snap/map_snapshot_".$course_id;
 }
 
 // a "map snapshot" is:
@@ -216,12 +216,13 @@ function write_map_snapshot($course_id, $dur) {
     $start = $now - $dur*86400;
 
     $views = array();
+    $results = array();
     $xset_results = array();
     $users = array();
 
-    $vs = BoltView::enum("course_id=$course_id and create_time>$start");
+    $vs = BoltView::enum("course_id=$course_id and start_time>$start");
     foreach ($vs as $v) {
-        if (array_key_exists($v->item_name), $views) {
+        if (array_key_exists($v->item_name, $views)) {
             $x = $views[$v->item_name];
             $x[] = $v;
             $views[$v->item_name] = $x;
@@ -237,7 +238,7 @@ function write_map_snapshot($course_id, $dur) {
 
     $rs = BoltResult::enum("course_id=$course_id and create_time>$start");
     foreach ($rs as $r) {
-        if (array_key_exists($r->item_name), $results) {
+        if (array_key_exists($r->item_name, $results)) {
             $x = $results[$r->item_name];
             $x[] = $r;
             $results[$r->item_name] = $x;
@@ -253,15 +254,15 @@ function write_map_snapshot($course_id, $dur) {
 
     $xrs = BoltXsetResult::enum("course_id=$course_id and create_time>$start");
     foreach ($xrs as $xr) {
-        if (array_key_exists($xr->item_name), $xset_results) {
-            $x = $xset_results[$xr->item_name];
+        if (array_key_exists($xr->name, $xset_results)) {
+            $x = $xset_results[$xr->name];
             $x[] = $xr;
-            $xset_results[$xr->item_name] = $x;
+            $xset_results[$xr->name] = $x;
         } else {
-            $xset_results[$xr->item_name] = array($xr);
+            $xset_results[$xr->name] = array($xr);
         }
         if (!array_key_exists($xr->user_id, $users)) {
-            $user = BoincUser::lookup_id($r->user_id);
+            $user = BoincUser::lookup_id($xr->user_id);
             BoltUser::lookup($user);
             $users[$v->user_id] = $user;
         }
@@ -277,18 +278,19 @@ function write_map_snapshot($course_id, $dur) {
 
     $filename = map_snapshot_filename($course_id);
     $f = fopen($filename, "w");
-    fwrite($f, json_encode($y));
+    fwrite($f, serialize($y));
     fclose($f);
+
     return $y;
 }
 
-function read_map_snapshot() {
-    $filename = map_snapshot_filename($course_id, $select_name, $xset_name);
+function read_map_snapshot($course_id) {
+    $filename = map_snapshot_filename($course_id);
     $f = @fopen($filename, "r");
     if (!$f) return null;
     $x = fread($f, filesize($filename));
     fclose($f);
-    return json_decode($x);
+    return unserialize($x);
 }
 
 ////// Statistics

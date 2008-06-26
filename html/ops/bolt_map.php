@@ -10,9 +10,10 @@
 //      show a map;
 //      show form to set or change filter or breakdown
 
-require_once("../util.inc");
+require_once("../inc/util.inc");
 require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_cat.inc");
+require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
 
 function show_snap_form() {
@@ -46,23 +47,70 @@ function show_snap_form() {
 }
 
 function snap_action() {
-     global $course_id;
-     $dur = get_int('dur');
-     $s = write_map_snapshot($course_id, $dur);
-     map_aux($select_name, $xset_name, $s);
+    global $course_id;
+    global $top_unit;
 
+    $dur = get_int('dur');
+    $s = write_map_snapshot($course_id, $dur);
+    show_map();
 }
 
-function map_aux($snap) {
+function show_unit($snap, $unit) {
+    $class = get_class($unit);
+    echo "<li> $unit->name ($class); ";
+    if ($unit->is_item) {
+        if (array_key_exists($unit->name, $snap->views)) {
+            $n = count($snap->views[$unit->name]);
+        } else {
+            $n = 0;
+        }
+        echo "$n views";
+    }
+    if ($class == "BoltExercise") {
+        if (array_key_exists($unit->name, $snap->results)) {
+            $rs = $snap->results[$unit->name];
+            $sum = 0;
+            $n = count($rs);
+            foreach ($rs as $r) {
+                $sum += $r->score;
+            }
+            $avg = $sum/$n;
+            echo " avg score: $avg ($n)";
+        }
+    }
+    if ($class == "BoltExerciseSet") {
+        if (array_key_exists($unit->name, $snap->xset_results)) {
+            $xrs = $snap->xset_results[$unit->name];
+            $sum = 0;
+            $n = count($xrs);
+            foreach ($xrs as $xr) {
+                $sum += $xr->score;
+            }
+            $avg = $sum/$n;
+            echo " avg score: $avg ($n)";
+        }
+    }
+    echo "\n";
 }
 
-function show_map($unit, $level) {
-    for ($i=0; $i<$level; $i++) echo '  ';
-    echo "$unit->name: $unit->nviews\n";
+function show_unit_recurse($snap, $unit) {
+    show_unit($snap, $unit);
     if ($unit->is_item) return;
     foreach ($unit->units as $u) {
-        show_map($u, $level+1);
+        echo "<ul>\n";
+        show_unit_recurse($snap, $u);
+        echo "</ul>\n";
     }
+}
+
+function show_map() {
+    global $course_id;
+    global $top_unit;
+
+    page_head("Course map");
+    $snap = read_map_snapshot($course_id);
+    show_unit_recurse($snap, $top_unit);
+    page_tail();
 }
 
 $course_id = get_int('course_id');
@@ -79,7 +127,7 @@ case "snap_action":
     snap_action();
     break;
 case "map":
-    show_map($top_unit, 0);
+    show_map();
     break;
 default:
     error_page("Unknown action $action");

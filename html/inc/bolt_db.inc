@@ -181,7 +181,7 @@ class BoltResult {
     }
     static function enum($clause) {
         $db = BoltDb::get();
-        return $db->enum('bolt_view', 'BoltResult', $clause);
+        return $db->enum('bolt_result', 'BoltResult', $clause);
     }
 }
 

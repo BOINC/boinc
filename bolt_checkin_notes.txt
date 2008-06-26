@@ -139,3 +139,10 @@ David  Feb 22 2008
             bolt.inc
         ops/
             bolt_map.php
+
+David  June 26 2008
+    - (a bunch of checkins recently)
+        Added basic Unit Comparison feature, including
+        - snapshots (makes it fast)
+        - filtering and breakdown
+        Also revisited Maps, and started redoing them along the same lines
