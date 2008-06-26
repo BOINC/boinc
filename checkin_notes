@@ -4064,3 +4064,11 @@ Rom    25 June 2008
     /
         configure.ac
         version.h
+
+Rom    26 June 2008
+    - Tag for 6.2.10 release, all platforms
+      boinc_core_release_6_2_10
+
+    /
+        configure.ac
+        version.h
