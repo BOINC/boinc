@@ -30,6 +30,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "filesys.h"
 #include "parse.h"
 
 #include "coproc.h"
@@ -100,36 +101,17 @@ char* COPROC_CUDA::get(COPROCS& coprocs) {
 
 #ifdef _WIN32
     int retval;
-    int (__stdcall* __cudaGetDeviceCount)( int * );
-    int (__stdcall* __cudaGetDeviceProperties) ( cudaDeviceProp*, int );
+    int (__stdcall* __cudaGetDeviceCount)(int*);
+    int (__stdcall* __cudaGetDeviceProperties)(cudaDeviceProp*, int);
     int bufsize=256;
     char buf[256], path[256];
-#if 0
-    HKEY key;
-    retval = RegOpenKeyEx(
-        HKEY_LOCAL_MACHINE,
-        _T("SOFTWARE\\NVIDIA Corporation\\Installed Products\\NVIDIA CUDA"),
-        NULL,
-        KEY_READ,
-        &key
-    );
-    if (retval != ERROR_SUCCESS) {
-        return "Can't find registry key";;
-    }
-    retval = RegQueryValueEx(key, "InstallDir", NULL, NULL, (LPBYTE)buf, (LPDWORD)&bufsize);
-    RegCloseKey(key);
-    if (retval != ERROR_SUCCESS) {
-        return "Can't get registry value";
-    }
-    sprintf(path, "%s\\bin\\cudart.dll", buf);
-    HMODULE cudalib = LoadLibrary(path);
-#else
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
-#endif
     if (!cudalib) {
         return "Can't load library nvcuda.dll";
     }
-    __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(cudalib, "cudaGetDeviceCount");
+    __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(
+        cudalib, "cudaGetDeviceCount"
+    );
     if(!__cudaGetDeviceCount) {
         return "Library doesn't have cudaGetDeviceCount()";
     }
@@ -139,16 +121,18 @@ char* COPROC_CUDA::get(COPROCS& coprocs) {
     }
 #else
     void* cudalib;
-    void (*__cudaGetDeviceCount)( int * );
-    void (*__cudaGetDeviceProperties) ( cudaDeviceProp*, int );
+    void (*__cudaGetDeviceCount)(int*);
+    void (*__cudaGetDeviceProperties)(cudaDeviceProp*, int);
 
-#ifdef __APPLE__
-    cudalib = dlopen ("/usr/local/cuda/lib/libcudart.dylib", RTLD_NOW );
-#else
-    cudalib = dlopen ("/usr/local/cuda/lib/libcudart.so", RTLD_NOW );
-    if (!cudalib) {
-        cudalib = dlopen ("libcudart.so", RTLD_NOW );
+    if (!boinc_file_exists("/usr/lib64/nvidia/libcuda.so")
+        && !boinc_file_exists("/usr/lib/nvidia/libcuda.so")
+    ){
+        return "No CUDA driver found";
     }
+#ifdef __APPLE__
+    cudalib = dlopen ("libcudart.dylib", RTLD_NOW );
+#else
+    cudalib = dlopen ("libcudart.so", RTLD_NOW );
 #endif
     if (!cudalib) {
         return "Can't load library libcudart";

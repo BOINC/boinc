@@ -240,4 +240,38 @@ function test_stats() {
     echo "lo $lo hi $hi\n";
 }
 
+//////////// graph drawing
+
+function bar($title, $n, $width, $lo, $hi) {
+    $x1 = $width*$lo;
+    $x2 = $width*($hi-$lo);
+    $a1 = number_format($lo*100);
+    $a2 = number_format($hi*100);
+    return "
+        <tr>
+        <td>$title<br><span class=note>($n students)</span></td>
+        <td>
+            <table class=bolt_bar width=$width><tr class=bolt_bar>
+            <td class=bolt_bar1 width=$x1 bgcolor=lightgray align=right>$a1</td>
+            <td class=bolt_bar2 width=$x2 bgcolor=black></td>
+            <td class=bolt_bar1 bgcolor=lightgray>$a2</td>
+            </tr></table>
+        </td>
+        </tr>
+    ";
+}
+
+function bar_insuff($title, $width) {
+    return "
+        <tr>
+        <td>$title</td>
+        <td>
+            <table class=bolt_bar width=$width><tr class=bolt_bar>
+            <td class=bolt_bar1 bgcolor=lightgray>Insufficient data</td>
+            </tr></table>
+        </td>
+        </tr>
+    ";
+}
+
 ?>

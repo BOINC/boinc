@@ -265,7 +265,8 @@ static int setup_file(
             retval = boinc_copy(file_path, link_path);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Can't copy %s to %s", file_path, link_path
+                    "Can't copy %s to %s: %s", file_path, link_path,
+                    boincerror(retval)
                 );
                 return retval;
             }
@@ -319,7 +320,8 @@ int ACTIVE_TASK::copy_output_files() {
         int retval = boinc_rename(slotfile, projfile);
         if (retval) {
             msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                "Can't rename output file %s", fip->name
+                "Can't rename output file %s to %s: %s",
+                fip->name, projfile, boincerror(retval)
             );
         }
     }
@@ -737,7 +739,7 @@ int ACTIVE_TASK::start(bool first_time) {
         dup2(fd, STDOUT_FILENO);
         close(fd);
 
-        // add project dir to library path
+        // add project dir and slot dir to library path
         //
         char libpath[8192];
         get_project_dir(wup->project, buf, sizeof(buf));

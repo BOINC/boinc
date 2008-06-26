@@ -17,51 +17,8 @@ require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt_cat.inc");
 
-function filter_form($sel_name, $sel_cat) {
-    global $categorizations;
-    $checked = (!$sel_name || $sel_name == "none")?"checked":"";
-    echo "
-        Filter by:
-        <ul>
-        <li><input type=radio name=filter value=none $checked> None
-    ";
-    foreach ($categorizations as $c) {
-        $name = $c->name();
-        $cats = $c->categories();
-        echo "
-            <li> $name
-            <ul>
-        ";
-        foreach ($cats as $x) {
-            $checked = ($sel_name == $name && $sel_cat == $x) ? "checked":"";
-            echo "
-                <li> <input type=radio name=filter value=\"$name:$x\" $checked> $x
-            ";
-        }
-        echo "</ul>";
-    }
-    echo "</ul>";
-}
-
-function breakdown_form($sel_name) {
-    global $categorizations;
-    echo "
-        Break down by:
-        <ul>
-        <li><input type=radio name=breakdown value=none> None
-    ";
-    foreach ($categorizations as $c) {
-        $name = $c->name();
-        $checked = ($sel_name == $name)?"checked":"";
-        echo "
-            <li> <input type=radio name=breakdown value=\"$name\" $checked> $name
-        ";
-    }
-    echo "</ul>";
-}
-
 function compare_case(
-    $select_unit, $snap, $filter, $filter_cat, $breakdown, $breakdown_cat
+    $title, $select_unit, $snap, $filter, $filter_cat, $breakdown, $breakdown_cat
 ) {
 
     // for each select alternative, build an array of xset scores
@@ -77,27 +34,30 @@ function compare_case(
             continue;
         }
         $z = $x->sf->selected_unit;
-        echo "<br>unit: $z ";
         $u = $x->sf->selected_unit;
         $a[$u][] = $x->xr->score;
     }
 
+    if ($title) {
+        echo "
+            <tr class=bolt_head2><td colspan=2><b>$title</b></td></tr>
+        ";
+    }
     foreach ($select_unit->units as $child) {
         if (array_key_exists($child->name, $a)) {
             $scores = $a[$child->name];
             $n = count($scores);
             if ($n < 2) {
-                $x = "insufficient data";
+                $x = bar_insuff($child->name, 600);
             } else {
                 conf_int_90($scores, $lo, $hi);
-                $x = "($lo, $hi) ($n results)";
+                //$x = "($lo, $hi) ($n results)";
+                $x = bar($child->name, $n, 600, $lo, $hi);
             }
         } else {
-            $x = "insufficient data";
+            $x = bar_insuff($child->name, 600);
         }
-        echo "
-            <p>$child->name: $x
-        ";
+        echo $x;
     }
 }
 
@@ -130,18 +90,24 @@ function compare_aux($select_name, $xset_name, $snap) {
 
     page_head("Unit comparison");
     echo "
-        The following compares the alternatives of the
-        <b>$select_name</b> select unit
-        with respect to the <b>$xset_name</b> exercise set unit.
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE."bolt.css\">
+        The following compares the alternatives of
+        <b>$select_name</b> with respect to <b>$xset_name</b>.
+        <p>
     ";
 
-    compare_case($select_unit, $snap, $filter, $filter_cat, null, null);
+    echo "<table class=\"bolt_box\">";
+    if ($breakdown) echo "<tr class=bolt_head1><td colspan=2>Total</td></tr>";
+
+    compare_case(null, $select_unit, $snap, $filter, $filter_cat, null, null);
     if ($breakdown) {
+        echo "<tr class=bolt_head1><td colspan=2>Breakdown by $breakdown_name</td></tr>";
         foreach ($breakdown->categories() as $c) {
-            echo "<h3>$c</h3>";
-            compare_case($select_unit, $snap, $filter, $filter_cat, $breakdown, $c);
+            compare_case($c, $select_unit, $snap, $filter, $filter_cat, $breakdown, $c);
+            echo "<p>";
         }
     }
+    echo "</table>";
 
     echo "
         <form action=bolt_compare.php>
@@ -149,7 +115,7 @@ function compare_aux($select_name, $xset_name, $snap) {
         <input type=hidden name=course_id value=$course_id>
         <input type=hidden name=select_name value=\"$select_name\">
         <input type=hidden name=xset_name value=\"$xset_name\">
-        <table><tr><td>
+        <table width=600><tr><td>
     ";
     filter_form($filter_name, $filter_cat);
     echo "</td><td>";

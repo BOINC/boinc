@@ -59,4 +59,47 @@ function lookup_categorization($name) {
     return null;
 }
 
+function filter_form($sel_name, $sel_cat) {
+    global $categorizations;
+    $checked = (!$sel_name || $sel_name == "none")?"checked":"";
+    echo "
+        Filter by:
+        <ul>
+        <li><input type=radio name=filter value=none $checked> None
+    ";
+    foreach ($categorizations as $c) {
+        $name = $c->name();
+        $cats = $c->categories();
+        echo "
+            <li> $name
+            <ul>
+        ";
+        foreach ($cats as $x) {
+            $checked = ($sel_name == $name && $sel_cat == $x) ? "checked":"";
+            echo "
+                <li> <input type=radio name=filter value=\"$name:$x\" $checked> $x
+            ";
+        }
+        echo "</ul>";
+    }
+    echo "</ul>";
+}
+
+function breakdown_form($sel_name) {
+    global $categorizations;
+    echo "
+        Break down by:
+        <ul>
+        <li><input type=radio name=breakdown value=none> None
+    ";
+    foreach ($categorizations as $c) {
+        $name = $c->name();
+        $checked = ($sel_name == $name)?"checked":"";
+        echo "
+            <li> <input type=radio name=breakdown value=\"$name\" $checked> $name
+        ";
+    }
+    echo "</ul>";
+}
+
 ?>
