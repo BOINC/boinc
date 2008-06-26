@@ -34,7 +34,7 @@
 #include <cstdio>
 #include <cstdarg>
 #include <cstdlib>
-#include "config.h"
+#include <unistd.h>
 #endif
 
 #ifdef __APPLE__
