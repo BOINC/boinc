@@ -4936,7 +4936,7 @@ Charlie 25 June 2008
         ViewWork.cpp,h
 
 Charlie 26 June 2008
-    - MGR List View: Complete multiple settings for Tasks tab, implement all 
+    - MGR List View: Complete multiple selections for Tasks tab, implement all 
         features in Projects tab, save and restore sort columns and directions.
 
     clientgui/

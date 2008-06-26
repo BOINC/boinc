@@ -112,7 +112,7 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
     // Save sorting column and direction
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("SortColumn"), m_pParentView->m_iSortColumn);
-    pConfig->Write(wxT("SortAscending"), m_pParentView->m_bReverseSort);
+    pConfig->Write(wxT("ReverseSortOrder"), m_pParentView->m_bReverseSort);
 
     return true;
 }
@@ -165,7 +165,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     // Restore sorting column and direction
     pConfig->SetPath(strBaseConfigLocation);
-    pConfig->Read(wxT("SortAscending"), &iTempValue,-1);
+    pConfig->Read(wxT("ReverseSortOrder"), &iTempValue,-1);
     if (-1 != iTempValue) {
             m_pParentView->m_bReverseSort = iTempValue != 0 ? true : false;
     }
