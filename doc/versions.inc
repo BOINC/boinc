@@ -77,11 +77,11 @@ $w51045= array(
     "type"=>"win_new",
 );
 
-$w626x64= array(
-    "num"=>"6.2.6",
+$w629x64= array(
+    "num"=>"6.2.9",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.6_windows_x86_64.exe",
-    "date"=>"29 May 2008",
+    "file"=>"boinc_6.2.9_windows_x86_64.exe",
+    "date"=>"26 June 2008",
     "type"=>"win_new",
 );
 
@@ -221,7 +221,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w626x64,
+        $w629x64,
         $w51045x64,
     )
 );
