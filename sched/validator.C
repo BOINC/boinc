@@ -90,7 +90,7 @@ bool update_credited_job = false;
 bool credit_from_wu = false;
 bool simulation = false;
 
-void signal_handler(int signum) {
+void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
     return;
 }
@@ -600,7 +600,7 @@ int handle_wu(
 // make one pass through the workunits with need_validate set.
 // return true if there were any
 //
-bool do_validate_scan(APP& app) {
+bool do_validate_scan() {
     DB_VALIDATOR_ITEM_SET validator;
     std::vector<VALIDATOR_ITEM> items;
     bool found=false;
@@ -649,7 +649,7 @@ int main_loop() {
 
     while (1) {
         check_stop_daemons();
-        did_something = do_validate_scan(app);
+        did_something = do_validate_scan();
         if (!did_something) {
             if (one_pass) break;
             if (simulation) {

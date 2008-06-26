@@ -114,7 +114,6 @@ BEST_APP_VERSION* get_app_version(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, WORKUNIT& wu
 ) {
     bool found;
-    double flops;
     unsigned int i;
     int j;
     BEST_APP_VERSION* bavp;
@@ -329,7 +328,7 @@ double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
 // across all projects.
 //
 static double estimate_wallclock_duration(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+    WORKUNIT& wu, SCHEDULER_REQUEST&, SCHEDULER_REPLY& reply
 ) {
     double ecd = estimate_cpu_duration(wu, reply);
     double ewd = ecd/reply.wreq.running_frac;
@@ -341,8 +340,7 @@ static double estimate_wallclock_duration(
     }
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
-            "est cpu dur %f;  est wall dur %f\n",
-            ecd, reply.wreq.running_frac, ewd
+            "est cpu dur %f;  est wall dur %f\n", ecd, ewd
         );
     }
     return ewd;
@@ -390,7 +388,6 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     //
     double expavg_credit = reply.host.expavg_credit;
     double expavg_time = reply.host.expavg_time;
-    double avg_turnaround = reply.host.avg_turnaround;
     update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
 
 	// Platforms other then Windows, Linux and Intel Macs need a
@@ -587,7 +584,7 @@ int wu_is_infeasible_fast(
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
-                    reply.host.id, wu.id, app_hr_type(app)
+                    reply.host.id, wu.id, wu.name, app_hr_type(app)
                 );
             }
             return INFEASIBLE_HR;
@@ -1085,15 +1082,15 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
                         "No work is available for %s",
                         find_user_friendly_name(reply.wreq.host_info.preferred_apps[i].appid)
                     );
-        			USER_MESSAGE um(explanation, "high");
-           			reply.insert_message(um);
+        			USER_MESSAGE um2(explanation, "high");
+           			reply.insert_message(um2);
          		}
            	}
         }
 
         // Tell the user about applications they didn't qualify for
         //
-        for(i=0;i<preferred_app_message_index;i++){
+        for (i=0; i<preferred_app_message_index; i++){
             reply.insert_message(reply.wreq.no_work_messages.at(i));
         }
         USER_MESSAGE um1("You have selected to receive work from other applications if no work is available for the applications you selected", "high");
@@ -1109,7 +1106,7 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
         USER_MESSAGE um2("No work sent", "high");
         reply.insert_message(um2);
         // Inform the user about applications with no work
-        for(i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
+        for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
          	if (!reply.wreq.host_info.preferred_apps[i].work_available) {
          		APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
          		// don't write message if the app is deprecated
@@ -1122,7 +1119,7 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
            	}
         }
         // Inform the user about applications they didn't qualify for
-        for(int i=0;i<reply.wreq.no_work_messages.size();i++){
+        for (i=0; i<reply.wreq.no_work_messages.size(); i++){
         	reply.insert_message(reply.wreq.no_work_messages.at(i));
         }
         if (reply.wreq.no_app_version) {
@@ -1430,7 +1427,6 @@ int read_sendable_result(DB_RESULT& result) {
 // return false if the WU is infeasible
 //
 bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    bool found;
     WORKUNIT wu;
     int retval;
 

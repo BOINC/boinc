@@ -5190,3 +5190,15 @@ David  26 June 2008
         client_state.C
         sandbox.C,h
         hostinfo_unix.C
+
+David  26 June 2008
+    - back-end code: fix compiler warnings (and maybe bugs);
+        to some retentive code cleanup
+
+    sched/
+        feeder.C
+        sched_send.C
+        transitioner.C
+        trickle_handler.C
+        validator.C
+        validate_util.C

@@ -77,7 +77,7 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
 // make one pass through trickle_ups with handled == 0
 // return true if there were any
 //
-bool do_trickle_scan(APP& app) {
+bool do_trickle_scan() {
     DB_MSG_FROM_HOST mfh;
     char buf[256];
     bool found=false;
@@ -97,7 +97,6 @@ bool do_trickle_scan(APP& app) {
 
 int main_loop(bool one_pass) {
     int retval;
-    DB_APP app;
     bool did_something;
     char buf[256];
 
@@ -109,7 +108,7 @@ int main_loop(bool one_pass) {
 
     while (1) {
         check_stop_daemons();
-        did_something = do_trickle_scan(app);
+        did_something = do_trickle_scan();
         if (one_pass) break;
         if (!did_something) {
             sleep(5);

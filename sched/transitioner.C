@@ -64,7 +64,7 @@ bool do_mod = false;
 bool one_pass = false;
 bool simulation = false;
 
-void signal_handler(int signum) {
+void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
     return;
 }

@@ -147,7 +147,7 @@ bool using_hr;
     // true iff any app is using HR
 bool simulation = false;
 
-void signal_handler(int signum) {
+void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
     return;
 }
@@ -158,10 +158,7 @@ void signal_handler(int signum) {
 int PERF_INFO::read_file() {
     FILE* f = fopen(PERF_INFO_FILENAME, "r");
     if (!f) return ERR_FOPEN;
-    int n = fscanf(f, "%f %f",
-        &host_fpops_mean,
-        &host_fpops_stdev
-    );
+    int n = fscanf(f, "%lf %lf", &host_fpops_mean, &host_fpops_stdev);
     fclose(f);
     return 0;
 }
@@ -602,7 +599,7 @@ void hr_init() {
     // find the weight for each HR type
     //
     for (i=0; i<ssp->napps; i++) {
-        int hrt = ssp->apps[i].homogeneous_redundancy;
+        hrt = ssp->apps[i].homogeneous_redundancy;
         hr_info.type_weights[hrt] += ssp->apps[i].weight;
         hr_info.type_being_used[hrt] = true;
     }
