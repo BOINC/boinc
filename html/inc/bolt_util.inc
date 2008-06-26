@@ -200,6 +200,97 @@ function read_compare_snapshot($course_id, $select_name, $xset_name) {
     return json_decode($x);
 }
 
+
+function map_snapshot_filename($course_id) {
+    return "../bolt_snap/map_snapshot_".$course_id.".json";
+}
+
+// a "map snapshot" is:
+// - an assoc array "views" mapping unit name to a list of views
+// - an assoc array "results" mapping unit name to a list of results
+// - an assoc array "xset_results" mapping unit name to a list of xset results
+// - an assoc array "users" mapping user ID to user record
+//
+function write_map_snapshot($course_id, $dur) {
+    $now = time();
+    $start = $now - $dur*86400;
+
+    $views = array();
+    $xset_results = array();
+    $users = array();
+
+    $vs = BoltView::enum("course_id=$course_id and create_time>$start");
+    foreach ($vs as $v) {
+        if (array_key_exists($v->item_name), $views) {
+            $x = $views[$v->item_name];
+            $x[] = $v;
+            $views[$v->item_name] = $x;
+        } else {
+            $views[$v->item_name] = array($v);
+        }
+        if (!array_key_exists($v->user_id, $users)) {
+            $user = BoincUser::lookup_id($v->user_id);
+            BoltUser::lookup($user);
+            $users[$v->user_id] = $user;
+        }
+    }
+
+    $rs = BoltResult::enum("course_id=$course_id and create_time>$start");
+    foreach ($rs as $r) {
+        if (array_key_exists($r->item_name), $results) {
+            $x = $results[$r->item_name];
+            $x[] = $r;
+            $results[$r->item_name] = $x;
+        } else {
+            $results[$r->item_name] = array($r);
+        }
+        if (!array_key_exists($r->user_id, $users)) {
+            $user = BoincUser::lookup_id($r->user_id);
+            BoltUser::lookup($user);
+            $users[$v->user_id] = $user;
+        }
+    }
+
+    $xrs = BoltXsetResult::enum("course_id=$course_id and create_time>$start");
+    foreach ($xrs as $xr) {
+        if (array_key_exists($xr->item_name), $xset_results) {
+            $x = $xset_results[$xr->item_name];
+            $x[] = $xr;
+            $xset_results[$xr->item_name] = $x;
+        } else {
+            $xset_results[$xr->item_name] = array($xr);
+        }
+        if (!array_key_exists($xr->user_id, $users)) {
+            $user = BoincUser::lookup_id($r->user_id);
+            BoltUser::lookup($user);
+            $users[$v->user_id] = $user;
+        }
+    }
+
+    $y = null;
+    $y->views = $views;
+    $y->results = $results;
+    $y->xset_results = $xset_results;
+    $y->users = $users;
+    $y->dur = $dur;
+    $y->time = $now;
+
+    $filename = map_snapshot_filename($course_id);
+    $f = fopen($filename, "w");
+    fwrite($f, json_encode($y));
+    fclose($f);
+    return $y;
+}
+
+function read_map_snapshot() {
+    $filename = map_snapshot_filename($course_id, $select_name, $xset_name);
+    $f = @fopen($filename, "r");
+    if (!$f) return null;
+    $x = fread($f, filesize($filename));
+    fclose($f);
+    return json_decode($x);
+}
+
 ////// Statistics
 
 // compute the mean and stdev of an array

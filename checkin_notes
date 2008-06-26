@@ -5182,3 +5182,11 @@ David  26 June 2008
 
     lib/
         coproc.C,h
+
+David  26 June 2008
+    - more gcc fixes
+
+    client/
+        client_state.C
+        sandbox.C,h
+        hostinfo_unix.C

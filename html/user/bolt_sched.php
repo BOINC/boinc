@@ -433,8 +433,8 @@ case 'answer':          // submit answer in exercise
 
     $qs = BoltDb::escape_string($_SERVER['QUERY_STRING']);
     $result_id = BoltResult::insert(
-        "(view_id, score, response)
-        values ($view->id, $bolt_ex_score, '$qs')"
+        "(view_id, item_name, score, response)
+        values ($view->id, '$view->item_name', $bolt_ex_score, '$qs')"
     );
     $view->update("result_id=$result_id");
 

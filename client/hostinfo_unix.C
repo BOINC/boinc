@@ -260,7 +260,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     }
     if (Detect == method) {
         // try SysFS
-        char buf[128];
+        char buf[256];
         std::string ps_name;
         FILE* fsys;
 
@@ -273,7 +273,6 @@ bool HOST_INFO::host_is_running_on_batteries() {
             );
             fsys = fopen(path, "r");
             if (!fsys) continue;
-            char buf[128];
             (void) fgets(buf, sizeof(buf), fsys);
             fclose(fsys);
             // AC adapters have type "Mains"

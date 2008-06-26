@@ -40,7 +40,7 @@ bool g_use_sandbox = false;
 
 #ifndef _WIN32
 #ifndef _DEBUG
-static int lookup_group(char* name, gid_t& gid) {
+static int lookup_group(const char* name, gid_t& gid) {
     struct group* gp = getgrnam(name);
     if (!gp) return ERR_GETGRNAM;
     gid = gp->gr_gid;
@@ -75,7 +75,7 @@ int get_project_gid() {
 
 int set_to_project_group(const char* path) {
     if (g_use_sandbox) {
-        if (switcher_exec(SETPROJECTGRP_FILE_NAME, (char*)path)) {
+        if (switcher_exec(SETPROJECTGRP_FILE_NAME, path)) {
             return ERR_CHOWN;
         }
     }
@@ -88,13 +88,13 @@ int set_to_project_group(const char* path) {
 // system() invokes a shell, we can't use it to run the switcher 
 // or setprojectgrp utilities, so we must do a fork() and execv().
 //
-int switcher_exec(char *util_filename, char* cmdline) {
+int switcher_exec(const char *util_filename, const char* cmdline) {
     char* argv[100];
     char util_path[1024];
 
     sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
-    argv[0] = util_filename;
-    parse_command_line(cmdline, argv+1);
+    argv[0] = (char*)util_filename;
+    parse_command_line((char*)cmdline, argv+1);
     int pid = fork();
     if (pid == -1) {
         perror("fork() failed in switcher_exec");

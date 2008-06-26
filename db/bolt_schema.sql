@@ -73,6 +73,7 @@ create table bolt_result (
     course_id       integer         not null,
     view_id         integer         not null,
         -- the display of exercise
+    item_name       varchar(255)    not null,
     score           double          not null,
     response        text            not null,
         -- the query string containing user's responses
