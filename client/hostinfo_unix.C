@@ -213,63 +213,147 @@ bool HOST_INFO::host_is_running_on_batteries() {
     return retval;
 
 #elif LINUX_LIKE_SYSTEM
-    bool    retval = false;
+    static enum {
+      Detect,
+      ProcAPM,
+      ProcACPI,
+      SysClass,
+      NoBattery
+    } method = Detect;
+    static char path[64] = "";
 
-    FILE* fapm = fopen("/proc/apm", "r");
-    if (fapm) {
-        // we're using APM
-        char    apm_driver_version[11];
-        int     apm_major_version;
-        int     apm_minor_version;
-        int     apm_flags;
-        int     apm_ac_line_status=1;
-
-        // Supposedly we're on batteries if the 5th entry is zero.
-        int n = fscanf(fapm, "%10s %d.%d %x %x",
-            apm_driver_version,
-            &apm_major_version,
-            &apm_minor_version,
-            &apm_flags,
-            &apm_ac_line_status
-        );
-        retval = (apm_ac_line_status == 0);
-        fclose(fapm);
-    } else {
-        // try ACPI
-        char buf[128];
-        char ac_state[64];
+    if (Detect == method) {
+        // try APM in ProcFS
+        FILE *fapm = fopen("/proc/apm", "r");
+        if (fapm) {
+            method = ProcAPM;
+            fclose(fapm);
+        }
+    }
+    if (Detect == method) {
+        // try ACPI in ProcFS
         std::string ac_name;
         FILE* facpi;
 
-        // we need to find the right ac adapter first
         DirScanner dir("/proc/acpi/ac_adapter/");
         while (dir.scan(ac_name)) {
-            if ((ac_name.c_str()==".")||(ac_name.c_str()=="..")) continue;
-
             // newer ACPI versions use "state" as filename
-            sprintf(ac_state, "/proc/acpi/ac_adapter/%s/state", ac_name.c_str());
-            facpi = fopen(ac_state, "r");
+            snprintf(
+                path, sizeof(path), "/proc/acpi/ac_adapter/%s/state",
+                ac_name.c_str()
+            );
+            facpi = fopen(path, "r");
             if (!facpi) {
                 // older ACPI versions use "status" instead
-                sprintf(ac_state, "/proc/acpi/ac_adapter/%s/status", ac_name.c_str());
-                facpi = fopen(ac_state, "r");
+                snprintf(
+                    path, sizeof(path), "/proc/acpi/ac_adapter/%s/status",
+                    ac_name.c_str()
+                );
+                facpi = fopen(path, "r");
             }
-
             if (facpi) {
-                char* p = fgets(buf, 128, facpi);
+                method = ProcACPI;
                 fclose(facpi);
-
-                // only valid state if it contains "state" (newer) or "Status" (older)
-                if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL)) {
-                    // on batteries if ac adapter is "off-line" (or maybe "offline")
-                    retval = (strstr(buf, "off") != NULL);
-                    break;
-                }
+                break;
             }
         }
     }
+    if (Detect == method) {
+        // try SysFS
+        char buf[128];
+        std::string ps_name;
+        FILE* fsys;
 
-    return retval;
+        DirScanner dir("/sys/class/power_supply/");
+        while (dir.scan(ps_name)) {
+            // check the type of the power supply
+            snprintf(
+                path, sizeof(path), "/sys/class/power_supply/%s/type",
+                ps_name.c_str()
+            );
+            fsys = fopen(path, "r");
+            if (!fsys) continue;
+            char buf[128];
+            (void) fgets(buf, sizeof(buf), fsys);
+            fclose(fsys);
+            // AC adapters have type "Mains"
+            if ((strstr(buf, "mains") != NULL) || (strstr(buf, "Mains") != NULL)) {
+                method = SysClass;
+                // to check if we're on battery we look at "online",
+                // located in the same directory
+                snprintf(
+                    path, sizeof(path), "/sys/class/power_supply/%s/online",
+                    ps_name.c_str()
+                );
+                break;
+            }
+        }
+    }
+    switch (method) {
+    case Detect:
+        // if we haven't found a method so far, give up
+        method = NoBattery;
+        // fall through
+    case NoBattery:
+         // we have no way to determine if we're on batteries,
+         // so we say we aren't
+        return false;
+    case ProcAPM:
+        {
+            // use /proc/apm
+            FILE* fapm = fopen("/proc/apm", "r");
+            if (!fapm) return false;
+
+            char    apm_driver_version[11];
+            int     apm_major_version;
+            int     apm_minor_version;
+            int     apm_flags;
+            int     apm_ac_line_status=1;
+
+            // supposedly we're on batteries if the 5th entry is zero.
+            (void) fscanf(fapm, "%10s %d.%d %x %x",
+                apm_driver_version,
+                &apm_major_version,
+                &apm_minor_version,
+                &apm_flags,
+                &apm_ac_line_status
+            );
+
+            fclose(fapm);
+
+            return (apm_ac_line_status == 0);
+        }
+    case ProcACPI:
+        {
+            // use /proc/acpi/ac_adapter/*/stat{e,us}
+            FILE *facpi = fopen(path, "r");
+            if (!facpi) return false;
+
+            char buf[128];
+            (void) fgets(buf, sizeof(buf), facpi);
+
+            fclose(facpi);
+
+            if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL))
+                // on batteries if ac adapter is "off-line" (or maybe "offline")
+                return (strstr(buf, "off") != NULL);
+
+            return false;
+        }
+    case SysClass:
+        {
+            // use /sys/class/power_supply/*/online
+            FILE *fsys = fopen(path, "r");
+            if (!fsys) return false;
+
+            int online;
+            (void) fscanf(fsys, "%d", &online);
+            fclose(fsys);
+
+            // online is 1 if on AC power, 0 if on battery
+            return (0 == online);
+        }
+    }
 #else
     return false;
 #endif

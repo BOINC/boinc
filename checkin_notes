@@ -5163,3 +5163,10 @@ Rom    26 June 2008
     /
         configure.ac
         version.h
+
+David  26 June 2008
+    - client: fix battery detection on newer Linux
+        (from Roberto Virga)
+
+    client/
+        hostinfo_unix.C
