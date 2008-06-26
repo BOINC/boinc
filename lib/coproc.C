@@ -124,8 +124,8 @@ char* COPROC_CUDA::get(COPROCS& coprocs) {
     void (*__cudaGetDeviceCount)(int*);
     void (*__cudaGetDeviceProperties)(cudaDeviceProp*, int);
 
-    if (!boinc_file_exists("/usr/lib64/nvidia/libcuda.so")
-        && !boinc_file_exists("/usr/lib/nvidia/libcuda.so")
+    if (!boinc_file_exists("/usr/lib64/libcuda.so")
+        && !boinc_file_exists("/usr/lib/libcuda.so")
     ){
         return "No CUDA driver found";
     }
