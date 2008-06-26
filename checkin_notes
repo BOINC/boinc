@@ -4925,3 +4925,12 @@ Charlie 24 June 2008
     clientgui/
         BOINCBaseView.cpp,h
         ViewWork.cpp,h
+
+Charlie 24 June 2008
+    - MGR List View: Move more functionality into base class.  After sorting, 
+        refresh only those rows which have moved.  Begin implementing multiple 
+        selections.  Restore correct selections after sort.
+        
+    clientgui/
+        BOINCBaseView.cpp,h
+        ViewWork.cpp,h

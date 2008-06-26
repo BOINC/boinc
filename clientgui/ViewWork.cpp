@@ -88,13 +88,65 @@ END_EVENT_TABLE ()
 
 static CViewWork* myCViewWork;
 
+static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
+    CWork*          work1 = myCViewWork->m_WorkCache.at(*iRowIndex1);
+    CWork*          work2 = myCViewWork->m_WorkCache.at(*iRowIndex2);
+    int             result = 0;
+    
+    switch (myCViewWork->m_iSortColumn) {
+        case COLUMN_PROJECT:
+	result = work1->m_strProjectName.CmpNoCase(work2->m_strProjectName);
+        break;
+    case COLUMN_APPLICATION:
+	result = work1->m_strApplicationName.CmpNoCase(work2->m_strApplicationName);
+        break;
+    case COLUMN_NAME:
+	result = work1->m_strName.CmpNoCase(work2->m_strName);
+        break;
+    case COLUMN_CPUTIME:
+        if (work1->m_fCPUTime < work2->m_fCPUTime) {
+            result = -1;
+        } else if (work1->m_fCPUTime > work2->m_fCPUTime) {
+            result = 1;
+        }
+        break;
+    case COLUMN_PROGRESS:
+        if (work1->m_fProgress < work2->m_fProgress) {
+            result = -1;
+        } else if (work1->m_fProgress > work2->m_fProgress) {
+            result = 1;
+        }
+        break;
+    case COLUMN_TOCOMPLETION:
+        if (work1->m_fTimeToCompletion < work2->m_fTimeToCompletion) {
+            result = -1;
+        } else if (work1->m_fTimeToCompletion > work2->m_fTimeToCompletion) {
+            result = 1;
+        }
+        break;
+    case COLUMN_REPORTDEADLINE:
+        if (work1->m_tReportDeadline < work2->m_tReportDeadline) {
+            result = -1;
+        } else if (work1->m_tReportDeadline > work2->m_tReportDeadline) {
+            result = 1;
+        }
+        break;
+    case COLUMN_STATUS:
+	result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
+        break;
+    }
+
+    return (myCViewWork->m_bReverseSort ? result * (-1) : result);
+}
+
 
 CViewWork::CViewWork()
 {}
 
 
+ /*DEFAULT_LIST_SINGLE_SEL_FLAGS*/
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
 {
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
@@ -148,6 +200,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 
     // Needed by static sort routine;
     myCViewWork = this;
+    m_funcSortCompare = CompareViewWorkItems;
 
     UpdateSelection();
 }
@@ -508,95 +561,6 @@ void CViewWork::UpdateSelection() {
     }
 
     CBOINCBaseView::PostUpdateSelection();
-}
-
-
-static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
-    CWork*          work1 = myCViewWork->m_WorkCache.at(*iRowIndex1);
-    CWork*          work2 = myCViewWork->m_WorkCache.at(*iRowIndex2);
-    int             result = 0;
-    
-    switch (myCViewWork->m_iSortColumn) {
-        case COLUMN_PROJECT:
-	result = work1->m_strProjectName.CmpNoCase(work2->m_strProjectName);
-        break;
-    case COLUMN_APPLICATION:
-	result = work1->m_strApplicationName.CmpNoCase(work2->m_strApplicationName);
-        break;
-    case COLUMN_NAME:
-	result = work1->m_strName.CmpNoCase(work2->m_strName);
-        break;
-    case COLUMN_CPUTIME:
-        if (work1->m_fCPUTime < work2->m_fCPUTime) {
-            result = -1;
-        } else if (work1->m_fCPUTime > work2->m_fCPUTime) {
-            result = 1;
-        }
-        break;
-    case COLUMN_PROGRESS:
-        if (work1->m_fProgress < work2->m_fProgress) {
-            result = -1;
-        } else if (work1->m_fProgress > work2->m_fProgress) {
-            result = 1;
-        }
-        break;
-    case COLUMN_TOCOMPLETION:
-        if (work1->m_fTimeToCompletion < work2->m_fTimeToCompletion) {
-            result = -1;
-        } else if (work1->m_fTimeToCompletion > work2->m_fTimeToCompletion) {
-            result = 1;
-        }
-        break;
-    case COLUMN_REPORTDEADLINE:
-        if (work1->m_tReportDeadline < work2->m_tReportDeadline) {
-            result = -1;
-        } else if (work1->m_tReportDeadline > work2->m_tReportDeadline) {
-            result = 1;
-        }
-        break;
-    case COLUMN_STATUS:
-	result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
-        break;
-    }
-
-    return (myCViewWork->m_bReverseSort ? result * (-1) : result);
-}
-
-
-void CViewWork::sortData() {
-    if (m_iSortColumn >= 0) {
-        CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
-        
-        m_iSortedIndexes.Sort(CompareViewWorkItems);
-
-        pFrame->FireRefreshView();
-    }
-}
-
-void CViewWork::OnColClick(wxListEvent& event) {
-    wxListItem      item;
-    int             newSortColumn = event.GetColumn();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
-
-    item.SetMask(wxLIST_MASK_IMAGE);
-    if (newSortColumn == m_iSortColumn) {
-        m_bReverseSort = !m_bReverseSort;
-    } else {
-        // Remove sort arrow from old sort column
-        if (m_iSortColumn >= 0) {
-            item.SetImage(-1);
-            m_pListPane->SetColumn(m_iSortColumn, item);
-        }
-        m_iSortColumn = newSortColumn;
-        m_bReverseSort = false;
-    }
-    
-    item.SetImage(m_bReverseSort ? 0 : 1);
-    m_pListPane->SetColumn(newSortColumn, item);
-
-    m_iSortedIndexes.Sort(CompareViewWorkItems);
-
-    pFrame->FireRefreshView();
 }
 
 

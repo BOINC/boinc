@@ -70,6 +70,8 @@ public:
 	std::vector<CTaskItem*> m_Tasks;
 };
 
+typedef int     (*ListSortCompareFunc)(int*, int*);
+
 
 class CBOINCBaseView : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseView )
@@ -116,8 +118,6 @@ public:
 
 protected:
 
-    wxImageList *           m_SortArrows;
-
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
@@ -128,6 +128,8 @@ protected:
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
+    void                    OnColClick(wxListEvent& event);
+    
     virtual void            OnGridSelectCell( wxGridEvent& event );
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
 
@@ -142,7 +144,7 @@ protected:
     virtual int             RemoveCacheElement();
     virtual int             SynchronizeCache();
     virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
-    virtual void            sortData();
+    void                    sortData();
     virtual int             UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            EmptyTasks();
@@ -167,6 +169,10 @@ protected:
     bool                    m_bIgnoreUIEvents;
     
     int                     m_iProgressColumn;
+
+    wxImageList *           m_SortArrows;
+    ListSortCompareFunc     m_funcSortCompare;
+    wxArrayInt              m_iSortedIndexes;
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;

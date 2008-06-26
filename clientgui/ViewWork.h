@@ -65,10 +65,7 @@ public:
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
     
-    void                    OnColClick(wxListEvent& event);
-    
     std::vector<CWork*>     m_WorkCache;
-    wxArrayInt              m_iSortedIndexes;
 
 protected:
 
@@ -84,7 +81,6 @@ protected:
     virtual wxInt32         RemoveCacheElement();
     virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
     virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
-    virtual void            sortData();
     virtual void            UpdateSelection();
 
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;

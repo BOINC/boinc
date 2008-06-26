@@ -55,6 +55,8 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     //
     m_pTaskPane = NULL;
     m_pListPane = NULL;
+    m_iProgressColumn = -1;
+    m_iSortColumn = -1;
     m_SortArrows = NULL;
     
     SetName(GetViewName());
@@ -480,7 +482,65 @@ bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
 }
 
 
-void CBOINCBaseView::sortData() {}
+void CBOINCBaseView::OnColClick(wxListEvent& event) {
+    wxListItem      item;
+    int             newSortColumn = event.GetColumn();
+
+    item.SetMask(wxLIST_MASK_IMAGE);
+    if (newSortColumn == m_iSortColumn) {
+        m_bReverseSort = !m_bReverseSort;
+    } else {
+        // Remove sort arrow from old sort column
+        if (m_iSortColumn >= 0) {
+            item.SetImage(-1);
+            m_pListPane->SetColumn(m_iSortColumn, item);
+        }
+        m_iSortColumn = newSortColumn;
+        m_bReverseSort = false;
+    }
+    
+    item.SetImage(m_bReverseSort ? 0 : 1);
+    m_pListPane->SetColumn(newSortColumn, item);
+    sortData();
+}
+
+
+void CBOINCBaseView::sortData() {
+    if (m_iSortColumn < 0) return;
+    
+    wxArrayInt oldSortedIndexes(m_iSortedIndexes);
+    wxArrayInt selections;
+    int i, j, m, n = m_iSortedIndexes.GetCount();
+    
+    // Remember which cache elements are selected and deselect them
+    m_bIgnoreUIEvents = true;
+    i = -1;
+    while (1) {
+        i = m_pListPane->GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (i < 0) break;
+        selections.Add(m_iSortedIndexes[i]);
+        m_pListPane->SetItemState(i, 0, wxLIST_STATE_SELECTED);
+    }
+    
+    m_iSortedIndexes.Sort(m_funcSortCompare);
+    
+    // Reselect previously selected cache elements in the sorted list 
+    m = selections.GetCount();
+    for (i=0; i<m; i++) {
+        if (selections[i] >= 0) {
+            j = m_iSortedIndexes.Index(selections[i]);
+            m_pListPane->SetItemState(j, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        }
+    }
+    m_bIgnoreUIEvents = false;
+
+    // Refresh rows which have moved
+    for (i=0; i<n; i++) {
+        if (m_iSortedIndexes[i] != oldSortedIndexes[i]) {
+            m_pListPane->RefreshItem(i);
+         }
+    }
+}
 
 
 int CBOINCBaseView::UpdateCache(
