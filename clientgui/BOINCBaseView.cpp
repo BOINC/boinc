@@ -261,21 +261,23 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
             m_pListPane->EnsureVisible(iDocCount - 1);
         }
 
-        // If no item has been selected yet, select the first item.
+        if (m_pListPane->m_bIsSingleSelection) {
+            // If no item has been selected yet, select the first item.
 #ifdef __WXMSW__
-         if ((m_pListPane->GetSelectedItemCount() == 0) &&
-            (m_pListPane->GetItemCount() >= 1)) {
+             if ((m_pListPane->GetSelectedItemCount() == 0) &&
+                (m_pListPane->GetItemCount() >= 1)) {
 
-            long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
-            m_pListPane->SetItemState(0, desiredstate, desiredstate);
-        }
+                long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
+                m_pListPane->SetItemState(0, desiredstate, desiredstate);
+            }
 #else
-         if ((m_pListPane->GetFirstSelected() < 0) &&
-            (m_pListPane->GetItemCount() >= 1))
-            m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
-                                            wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
+             if ((m_pListPane->GetFirstSelected() < 0) &&
+                (m_pListPane->GetItemCount() >= 1))
+                m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
+                                                wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
 #endif
-
+        }
+        
         UpdateSelection();
 
         m_bProcessingListRenderEvent = false;
@@ -343,6 +345,22 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function End"));
+}
+
+
+// Work around a bug (feature?) in virtual list control 
+//   which does not send deselection events
+void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
+    static int oldSelectionCount = 0;
+    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+    
+    if (newSelectionCount < oldSelectionCount) {
+        wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
+        leDeselectedEvent.SetEventObject(this);
+        OnListDeselected(leDeselectedEvent);
+    }
+    oldSelectionCount = newSelectionCount;
+    event.Skip();
 }
 
 
@@ -521,7 +539,7 @@ void CBOINCBaseView::sortData() {
     
     wxArrayInt oldSortedIndexes(m_iSortedIndexes);
     wxArrayInt selections;
-    int i, j, m, n = m_iSortedIndexes.GetCount();
+    int i, j, m, n = (int)m_iSortedIndexes.GetCount();
     
     // Remember which cache elements are selected and deselect them
     m_bIgnoreUIEvents = true;
@@ -536,7 +554,7 @@ void CBOINCBaseView::sortData() {
     m_iSortedIndexes.Sort(m_funcSortCompare);
     
     // Reselect previously selected cache elements in the sorted list 
-    m = selections.GetCount();
+    m = (int)selections.GetCount();
     for (i=0; i<m; i++) {
         if (selections[i] >= 0) {
             j = m_iSortedIndexes.Index(selections[i]);

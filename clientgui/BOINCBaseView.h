@@ -49,7 +49,7 @@ public:
     wxString                m_strDescription;
     wxInt32                 m_iEventID;
 
-	wxButton*				m_pButton;
+    wxButton*               m_pButton;
     wxString                m_strWebSiteLink;
 };
 
@@ -126,6 +126,7 @@ protected:
     virtual void            OnListRender( wxTimerEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
+    virtual void            OnCacheHint(wxListEvent& event);
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
