@@ -353,7 +353,7 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
     static int oldSelectionCount = 0;
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
-    
+
     if (newSelectionCount < oldSelectionCount) {
         wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
         leDeselectedEvent.SetEventObject(this);
@@ -406,11 +406,6 @@ void CBOINCBaseView::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
 
 int CBOINCBaseView::GetDocCount() {
     return 0;
-}
-
-
-wxString CBOINCBaseView::OnDocGetItemText(long WXUNUSED(item), long WXUNUSED(column)) const {
-    return wxString(wxT("Undefined"));
 }
 
 
@@ -479,23 +474,7 @@ int CBOINCBaseView::SynchronizeCache() {
 }
 
 
-// Default version for case when all items are wxStrings; override where appropriate
-bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
-    wxString    strDocumentText  = wxEmptyString;
-    wxString    strListPaneText  = wxEmptyString;
-
-    strDocumentText.Empty();
-    strListPaneText.Empty();
-
-    strDocumentText = OnDocGetItemText(iRowIndex, iColumnIndex);
-    strListPaneText = OnListGetItemText(iRowIndex, iColumnIndex);
-
-    if (!strDocumentText.IsSameAs(strListPaneText)) {
-        if (0 != UpdateCache(iRowIndex, iColumnIndex, strDocumentText)) {
-            wxASSERT(FALSE);
-        }
-        return true;
-    }
+bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 WXUNUSED(iRowIndex), wxInt32 WXUNUSED(iColumnIndex)) {
     return false;
 }
 
@@ -569,13 +548,6 @@ void CBOINCBaseView::sortData() {
             m_pListPane->RefreshItem(i);
          }
     }
-}
-
-
-int CBOINCBaseView::UpdateCache(
-    long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData)
-) {
-    return -1;
 }
 
 

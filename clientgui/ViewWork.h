@@ -73,13 +73,10 @@ protected:
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
-    virtual wxString        OnDocGetItemText( long item, long column ) const;
-
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
     virtual wxInt32         GetCacheCount();
     virtual wxInt32         RemoveCacheElement();
-    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
     virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
     virtual void            UpdateSelection();
 

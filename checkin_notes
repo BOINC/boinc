@@ -4944,3 +4944,7 @@ Charlie 26 June 2008
         BOINCListCtrl.cpp
         ViewProjects.cpp,h
         ViewWork.cpp
+
+Charlie 27 June 2008
+    - MGR List View: work around wxListCtrl not sending deselection events. Implement 
+        all features in Trasnfers tab.  Fix bugs, clean up code.

@@ -495,13 +495,6 @@ wxInt32 CViewProjects::GetDocCount() {
 }
 
 
-wxString CViewProjects::OnDocGetItemText(long item, long column) const {
-    wxASSERT(false);        //    should never be called
-    wxString  strBuffer = wxEmptyString;
-    return strBuffer;
-}
-
-
 wxString CViewProjects::OnListGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
 
@@ -569,12 +562,6 @@ wxInt32 CViewProjects::RemoveCacheElement() {
     for (i=0; i<m_ProjectCache.size(); i++) {
         m_iSortedIndexes.Add(i);
     }
-    return 0;
-}
-
-
-wxInt32 CViewProjects::UpdateCache(long item, long column, wxString& strNewData) {
-    wxASSERT(false);        //    should never be called
     return 0;
 }
 
@@ -687,55 +674,55 @@ void CViewProjects::UpdateSelection() {
 bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     float       fDocumentFloat = 0.0;
-    CProject*   project = m_ProjectCache.at(iRowIndex);
+    CProject*   project = m_ProjectCache.at(m_iSortedIndexes[iRowIndex]);
 
     strDocumentText.Empty();
 
     switch (iColumnIndex) {
         case COLUMN_PROJECT:
-            GetDocProjectName(iRowIndex, strDocumentText);
+            GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strProjectName)) {
                 project->m_strProjectName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_ACCOUNTNAME:
-            GetDocAccountName(iRowIndex, strDocumentText);
+            GetDocAccountName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strAccountName)) {
                 project->m_strAccountName = strDocumentText;
                 return true;
             }
            break;
         case COLUMN_TEAMNAME:
-            GetDocTeamName(iRowIndex, strDocumentText);
+            GetDocTeamName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strTeamName)) {
                 project->m_strTeamName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_TOTALCREDIT:
-            GetDocTotalCredit(iRowIndex, fDocumentFloat);
+            GetDocTotalCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fTotalCredit) {
                 project->m_fTotalCredit = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_AVGCREDIT:
-            GetDocAVGCredit(iRowIndex, fDocumentFloat);
+            GetDocAVGCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fAVGCredit) {
                 project->m_fAVGCredit = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_RESOURCESHARE:
-            GetDocResourceShare(iRowIndex, fDocumentFloat);
+            GetDocResourceShare(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fResourceShare) {
                 project->m_fResourceShare = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_STATUS:
-            GetDocStatus(iRowIndex, strDocumentText);
+            GetDocStatus(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strStatus)) {
                 project->m_strStatus = strDocumentText;
                 return true;

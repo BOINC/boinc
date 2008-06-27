@@ -137,7 +137,6 @@ protected:
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
 
     virtual int             GetDocCount();
-    virtual wxString        OnDocGetItemText( long item, long column ) const;
     virtual wxString        OnDocGetItemImage( long item ) const;
     virtual wxString        OnDocGetItemAttr( long item ) const;
 
@@ -148,7 +147,6 @@ protected:
     virtual int             SynchronizeCache();
     virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
     void                    sortData();
-    virtual int             UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            EmptyTasks();
 

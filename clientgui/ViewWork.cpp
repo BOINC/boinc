@@ -82,7 +82,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
     EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
-    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewWork::OnCacheHint)
+    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewWork::OnCacheHint)
 END_EVENT_TABLE ()
 
 
@@ -423,13 +423,6 @@ wxInt32 CViewWork::GetDocCount() {
 }
 
 
-wxString CViewWork::OnDocGetItemText(long item, long column) const {
-    wxASSERT(false);        //    should never be called
-    wxString  strBuffer = wxEmptyString;
-    return strBuffer;
-}
-
-
 wxString CViewWork::OnListGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
 
@@ -500,12 +493,6 @@ wxInt32 CViewWork::RemoveCacheElement() {
     for (i=0; i<m_WorkCache.size(); i++) {
         m_iSortedIndexes.Add(i);
     }
-    return 0;
-}
-
-
-wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
-    wxASSERT(false);        //    should never be called
     return 0;
 }
 
@@ -622,62 +609,62 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     float       fDocumentFloat = 0.0;
     time_t      tDocumentTime = (time_t)0;
-    CWork*      work = m_WorkCache.at(iRowIndex);
+    CWork*      work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
 
     strDocumentText.Empty();
 
     switch (iColumnIndex) {
         case COLUMN_PROJECT:
-            GetDocProjectName(iRowIndex, strDocumentText);
+            GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strProjectName)) {
                 work->m_strProjectName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_APPLICATION:
-            GetDocApplicationName(iRowIndex, strDocumentText);
+            GetDocApplicationName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strApplicationName)) {
                 work->m_strApplicationName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_NAME:
-            GetDocName(iRowIndex, strDocumentText);
+            GetDocName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strName)) {
                 work->m_strName = strDocumentText;
                 return true;
             }
             break;
         case COLUMN_CPUTIME:
-            GetDocCPUTime(iRowIndex, fDocumentFloat);
+            GetDocCPUTime(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != work->m_fCPUTime) {
                 work->m_fCPUTime = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_PROGRESS:
-            GetDocProgress(iRowIndex, fDocumentFloat);
+            GetDocProgress(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != work->m_fProgress) {
                 work->m_fProgress = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_TOCOMPLETION:
-            GetDocTimeToCompletion(iRowIndex, fDocumentFloat);
+            GetDocTimeToCompletion(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != work->m_fTimeToCompletion) {
                 work->m_fTimeToCompletion = fDocumentFloat;
                 return true;
             }
             break;
         case COLUMN_REPORTDEADLINE:
-            GetDocReportDeadline(iRowIndex, tDocumentTime);
+            GetDocReportDeadline(m_iSortedIndexes[iRowIndex], tDocumentTime);
             if (tDocumentTime != work->m_tReportDeadline) {
                 work->m_tReportDeadline = tDocumentTime;
                 return true;
             }
             break;
         case COLUMN_STATUS:
-            GetDocStatus(iRowIndex, strDocumentText);
+            GetDocStatus(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strStatus)) {
                 work->m_strStatus = strDocumentText;
                 return true;
