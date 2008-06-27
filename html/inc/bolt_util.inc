@@ -367,4 +367,20 @@ function bar_insuff($title, $width) {
     ";
 }
 
+function outcome_graph($x) {
+    return "<td>outcome graph</td>";
+}
+
+function time_graph($t) {
+    return "<td>time graph</td>";
+}
+
+function score_graph($t) {
+    return "<td>score graph</td>";
+}
+
+function empty_cell() {
+    return "<td><br></td>";
+}
+
 ?>
