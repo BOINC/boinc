@@ -49,7 +49,7 @@ public:
     wxString                m_strDescription;
     wxInt32                 m_iEventID;
 
-	wxButton*				m_pButton;
+    wxButton*               m_pButton;
     wxString                m_strWebSiteLink;
 };
 
@@ -69,6 +69,8 @@ public:
 
 	std::vector<CTaskItem*> m_Tasks;
 };
+
+typedef int     (*ListSortCompareFunc)(int*, int*);
 
 
 class CBOINCBaseView : public wxPanel {
@@ -105,8 +107,16 @@ public:
     wxString                FireOnListGetItemText( long item, long column ) const;
     int                     FireOnListGetItemImage( long item ) const;
     wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
+    
+    int                     GetProgressColumn() { return m_iProgressColumn; }
+    virtual double          GetProgressValue(long item);
+
+    void                    InitSort();
 
     std::vector<CTaskItemGroup*> m_TaskGroups;
+
+    int                     m_iSortColumn;
+    bool                    m_bReverseSort;
 
 protected:
 
@@ -116,15 +126,17 @@ protected:
     virtual void            OnListRender( wxTimerEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
+    virtual void            OnCacheHint(wxListEvent& event);
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
+    void                    OnColClick(wxListEvent& event);
+    
     virtual void            OnGridSelectCell( wxGridEvent& event );
     virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
 
     virtual int             GetDocCount();
-    virtual wxString        OnDocGetItemText( long item, long column ) const;
     virtual wxString        OnDocGetItemImage( long item ) const;
     virtual wxString        OnDocGetItemAttr( long item ) const;
 
@@ -132,8 +144,9 @@ protected:
     virtual int             EmptyCache();
     virtual int             GetCacheCount();
     virtual int             RemoveCacheElement();
-    virtual int             SyncronizeCache();
-    virtual int             UpdateCache( long item, long column, wxString& strNewData );
+    virtual int             SynchronizeCache();
+    virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
+    void                    sortData();
 
     virtual void            EmptyTasks();
 
@@ -147,14 +160,20 @@ protected:
     virtual bool            EnsureLastItemVisible();
 
     static  void            append_to_status(wxString& existing, const wxChar* additional);
-	static  wxString        HtmlEntityEncode(wxString strRaw);
-	static  wxString        HtmlEntityDecode(wxString strRaw);
+    static  wxString        HtmlEntityEncode(wxString strRaw);
+    static  wxString        HtmlEntityDecode(wxString strRaw);
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 
     bool                    m_bForceUpdateSelection;
     bool                    m_bIgnoreUIEvents;
+    
+    int                     m_iProgressColumn;
+
+    wxImageList *           m_SortArrows;
+    ListSortCompareFunc     m_funcSortCompare;
+    wxArrayInt              m_iSortedIndexes;
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;

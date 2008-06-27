@@ -27,7 +27,20 @@
 #include "Events.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CBOINCListCtrl, wxListView)
+#if USE_NATIVE_LISTCONTROL
+DEFINE_EVENT_TYPE(wxEVT_DRAW_BARGRAPH)
+
+BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
+    EVT_DRAW_BARGRAPH(CBOINCListCtrl::OnDrawBarGraph)
+END_EVENT_TABLE()
+#endif
+
+BEGIN_EVENT_TABLE(MyEvtHandler, wxEvtHandler)
+    EVT_PAINT(MyEvtHandler::OnPaint)
+END_EVENT_TABLE()
+
+
+IMPLEMENT_DYNAMIC_CLASS(CBOINCListCtrl, LISTCTRL_BASE)
 
 
 CBOINCListCtrl::CBOINCListCtrl() {}
@@ -35,12 +48,16 @@ CBOINCListCtrl::CBOINCListCtrl() {}
 
 CBOINCListCtrl::CBOINCListCtrl(
     CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags
-) : wxListView(
+) : LISTCTRL_BASE(
     pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags
 ) {
     m_pParentView = pView;
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
+    
+#if USE_NATIVE_LISTCONTROL
+    m_bBarGraphEventPending = false;
+#endif
 
     Connect(
         iListWindowID, 
@@ -92,6 +109,10 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
 #endif
     }
 
+    // Save sorting column and direction
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Write(wxT("SortColumn"), m_pParentView->m_iSortColumn);
+    pConfig->Write(wxT("ReverseSortOrder"), m_pParentView->m_bReverseSort);
 
     return true;
 }
@@ -140,6 +161,18 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         }
 
         SetColumn(iIndex, liColumnInfo);
+    }
+
+    // Restore sorting column and direction
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Read(wxT("ReverseSortOrder"), &iTempValue,-1);
+    if (-1 != iTempValue) {
+            m_pParentView->m_bReverseSort = iTempValue != 0 ? true : false;
+    }
+    pConfig->Read(wxT("SortColumn"), &iTempValue,-1);
+    if (-1 != iTempValue) {
+            m_pParentView->m_iSortColumn = iTempValue;
+            m_pParentView->InitSort();
     }
 
     return true;
@@ -201,6 +234,114 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
 
     return m_pParentView->FireOnListGetItemAttr(item);
 }
+
+
+void CBOINCListCtrl::DrawBarGraphs()
+{
+    long topItem, numItems, numVisibleItems, i, item;
+    wxRect r;
+    int w = 0, x = 0;
+    int progressColumn = m_pParentView->GetProgressColumn();
+#if USE_NATIVE_LISTCONTROL
+    wxClientDC dc(this);
+    m_bBarGraphEventPending = false;
+#else
+    wxClientDC dc(GetMainWin());   // Available only in wxGenericListCtrl
+#endif
+
+#ifdef __WXMAC__
+    wxColour progressColor = wxColour( 40, 170, 170, 60);
+    wxColour rowStripeColor = wxColour( 0, 0, 0, 10);
+#else
+    wxColour progressColor = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
+    wxColour rowStripeColor = wxColour( 240, 240, 240);
+    dc.SetLogicalFunction(wxAND);
+#endif
+
+    numItems = GetItemCount();
+    if (numItems) {
+        topItem = GetTopItem();     // Doesn't work properly for Mac Native control
+
+        numVisibleItems = GetCountPerPage();
+        ++numVisibleItems;
+
+        if (numItems <= (topItem + numVisibleItems)) numVisibleItems = numItems - topItem;
+
+        x = 0;
+
+        if (progressColumn >= 0) {
+            for (i=0; i< progressColumn; i++) {
+                x += GetColumnWidth(i);
+            }
+            w = GetColumnWidth(progressColumn);
+        }
+        
+        for (i=0; i<numVisibleItems; i++) {
+            item = topItem + i;
+            GetItemRect(item, r);
+#if ! USE_NATIVE_LISTCONTROL
+            r.y = r.y - GetHeaderHeight() - 1;
+#endif
+            if (item % 2) {
+                dc.SetPen(rowStripeColor);
+                dc.SetBrush(rowStripeColor);
+                dc.DrawRectangle( r );
+            }
+
+            if (progressColumn < 0) continue;
+            r.x = x;
+            r.width = w;
+            r.Inflate(-1, -1);
+            dc.SetPen(progressColor);
+            dc.SetBrush(*wxTRANSPARENT_BRUSH);
+            dc.DrawRectangle( r );
+            r.Inflate(-1, 0);
+            dc.DrawRectangle( r );
+
+            r.width = r.width * m_pParentView->GetProgressValue(item);
+            dc.SetPen(*wxTRANSPARENT_PEN);
+            dc.SetBrush(progressColor);
+            dc.DrawRectangle( r );
+        }
+    }
+}
+
+#if USE_NATIVE_LISTCONTROL
+
+void MyEvtHandler::OnPaint(wxPaintEvent & event)
+{
+    event.Skip();
+    if (m_listCtrl) {
+        m_listCtrl->PostDrawBarGraphEvent();
+    }
+}
+
+void CBOINCListCtrl::PostDrawBarGraphEvent() {
+    if (m_bBarGraphEventPending) return;
+    
+    CDrawBarGraphEvent newEvent(wxEVT_DRAW_BARGRAPH, this);
+    AddPendingEvent(newEvent);
+    m_bBarGraphEventPending = true;
+}
+
+void CBOINCListCtrl::OnDrawBarGraph(CDrawBarGraphEvent& event) {
+    DrawBarGraphs();
+    event.Skip();
+}
+
+#else
+
+void MyEvtHandler::OnPaint(wxPaintEvent & event)
+{
+    if (m_listCtrl) {
+        (m_listCtrl->GetMainWin())->ProcessEvent(event);
+        m_listCtrl->DrawBarGraphs();
+    } else {
+        event.Skip();
+    }
+}
+
+#endif
 
 
 const char *BOINC_RCSID_5cf411daa0 = "$Id$";

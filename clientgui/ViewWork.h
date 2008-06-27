@@ -31,16 +31,16 @@
 class CWork : public wxObject
 {
 public:
-	CWork();
-	~CWork();
+    CWork();
+    ~CWork();
 
-	wxString m_strProjectName;
+    wxString m_strProjectName;
     wxString m_strApplicationName;
     wxString m_strName;
-    wxString m_strCPUTime;
-    wxString m_strProgress;
-    wxString m_strTimeToCompletion;
-    wxString m_strReportDeadline;
+    float m_fCPUTime;
+    float m_fProgress;
+    float m_fTimeToCompletion;
+    time_t m_tReportDeadline;
     wxString m_strStatus;
 };
 
@@ -64,32 +64,40 @@ public:
     void                    OnWorkAbort( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
+    
+    std::vector<CWork*>     m_WorkCache;
 
 protected:
-    std::vector<CWork*>     m_WorkCache;
 
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
-    virtual wxString        OnDocGetItemText( long item, long column ) const;
-
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
     virtual wxInt32         GetCacheCount();
     virtual wxInt32         RemoveCacheElement();
-    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
-
+    virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
     virtual void            UpdateSelection();
 
+    void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocApplicationName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatApplicationName( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatName( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocCPUTime(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatCPUTime( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocProgress(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatProgress( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
     wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+
+    virtual double          GetProgressValue(long item);
 
     DECLARE_EVENT_TABLE()
 };

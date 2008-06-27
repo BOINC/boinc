@@ -30,6 +30,8 @@
 #include "Events.h"
 
 #include "res/boinc.xpm"
+#include "res/sortascending.xpm"
+#include "res/sortdescending.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
@@ -53,7 +55,10 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     //
     m_pTaskPane = NULL;
     m_pListPane = NULL;
-
+    m_iProgressColumn = -1;
+    m_iSortColumn = -1;
+    m_SortArrows = NULL;
+    
     SetName(GetViewName());
 
     SetAutoLayout(TRUE);
@@ -93,17 +98,43 @@ CBOINCBaseView::CBOINCBaseView(
 
     m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
     wxASSERT(m_pListPane);
-
+    
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
 
     SetSizer(itemFlexGridSizer);
 
     Layout();
+
+#if USE_NATIVE_LISTCONTROL
+    m_pListPane->PushEventHandler(new MyEvtHandler(m_pListPane));
+#else
+    (m_pListPane->GetMainWin())->PushEventHandler(new MyEvtHandler(m_pListPane));
+#endif
+
+    m_iProgressColumn = -1;
+    m_iSortColumn = -1;
+    m_bReverseSort = false;
+
+    m_SortArrows = new wxImageList(16, 16, true);
+    m_SortArrows->Add( wxIcon( sortascending_xpm ) );
+    m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
+    m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
 }
 
 
-CBOINCBaseView::~CBOINCBaseView() {}
+CBOINCBaseView::~CBOINCBaseView() {
+    if (m_pListPane) {
+#if USE_NATIVE_LISTCONTROL
+        m_pListPane->PopEventHandler(true);
+#else
+        (m_pListPane->GetMainWin())->PopEventHandler(true);
+#endif
+    }
+    if (m_SortArrows) {
+        delete m_SortArrows;
+    }
+}
 
 
 // The name of the view.
@@ -223,28 +254,30 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         }
 
         if (iDocCount) {
-            SyncronizeCache();
+            SynchronizeCache();
         }
 
         if (_EnsureLastItemVisible() && (iDocCount != iCacheCount)) {
             m_pListPane->EnsureVisible(iDocCount - 1);
         }
 
-        // If no item has been selected yet, select the first item.
+        if (m_pListPane->m_bIsSingleSelection) {
+            // If no item has been selected yet, select the first item.
 #ifdef __WXMSW__
-         if ((m_pListPane->GetSelectedItemCount() == 0) &&
-            (m_pListPane->GetItemCount() >= 1)) {
+             if ((m_pListPane->GetSelectedItemCount() == 0) &&
+                (m_pListPane->GetItemCount() >= 1)) {
 
-            long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
-            m_pListPane->SetItemState(0, desiredstate, desiredstate);
-        }
+                long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
+                m_pListPane->SetItemState(0, desiredstate, desiredstate);
+            }
 #else
-         if ((m_pListPane->GetFirstSelected() < 0) &&
-            (m_pListPane->GetItemCount() >= 1))
-            m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
-                                            wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
+             if ((m_pListPane->GetFirstSelected() < 0) &&
+                (m_pListPane->GetItemCount() >= 1))
+                m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
+                                                wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
 #endif
-
+        }
+        
         UpdateSelection();
 
         m_bProcessingListRenderEvent = false;
@@ -315,6 +348,22 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
+// Work around a bug (feature?) in virtual list control 
+//   which does not send deselection events
+void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
+    static int oldSelectionCount = 0;
+    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+
+    if (newSelectionCount < oldSelectionCount) {
+        wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
+        leDeselectedEvent.SetEventObject(this);
+        OnListDeselected(leDeselectedEvent);
+    }
+    oldSelectionCount = newSelectionCount;
+    event.Skip();
+}
+
+
 wxString CBOINCBaseView::OnListGetItemText(long WXUNUSED(item), long WXUNUSED(column)) const {
     return wxString(wxT("Undefined"));
 }
@@ -360,11 +409,6 @@ int CBOINCBaseView::GetDocCount() {
 }
 
 
-wxString CBOINCBaseView::OnDocGetItemText(long WXUNUSED(item), long WXUNUSED(column)) const {
-    return wxString(wxT("Undefined"));
-}
-
-
 wxString CBOINCBaseView::OnDocGetItemImage(long WXUNUSED(item)) const {
     return wxString(wxT("Undefined"));
 }
@@ -395,14 +439,13 @@ int CBOINCBaseView::RemoveCacheElement() {
 }
 
 
-int CBOINCBaseView::SyncronizeCache() {
+int CBOINCBaseView::SynchronizeCache() {
     int         iRowIndex        = 0;
     int         iRowTotal        = 0;
     int         iColumnIndex     = 0;
     int         iColumnTotal     = 0;
-    wxString    strDocumentText  = wxEmptyString;
-    wxString    strListPaneText  = wxEmptyString;
     bool        bNeedRefreshData = false;
+    bool        bNeedSort = false;
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
@@ -411,17 +454,11 @@ int CBOINCBaseView::SyncronizeCache() {
         bNeedRefreshData = false;
 
         for (iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++) {
-            strDocumentText.Empty();
-            strListPaneText.Empty();
-
-            strDocumentText = OnDocGetItemText(iRowIndex, iColumnIndex);
-            strListPaneText = OnListGetItemText(iRowIndex, iColumnIndex);
-
-            if (!strDocumentText.IsSameAs(strListPaneText)) {
-                if (0 != UpdateCache(iRowIndex, iColumnIndex, strDocumentText)) {
-                    wxASSERT(FALSE);
-                }
+            if (SynchronizeCacheItem(iRowIndex, iColumnIndex)) {
                 bNeedRefreshData = true;
+                if (iColumnIndex == m_iSortColumn) {
+                    bNeedSort = true;
+                }
             }
         }
 
@@ -430,14 +467,87 @@ int CBOINCBaseView::SyncronizeCache() {
         }
     }
 
+    if (bNeedSort) {
+        sortData();     // Will mark entire list as needing refresh
+    }
     return 0;
 }
 
 
-int CBOINCBaseView::UpdateCache(
-    long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData)
-) {
-    return -1;
+bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 WXUNUSED(iRowIndex), wxInt32 WXUNUSED(iColumnIndex)) {
+    return false;
+}
+
+
+void CBOINCBaseView::OnColClick(wxListEvent& event) {
+    wxListItem      item;
+    int             newSortColumn = event.GetColumn();
+
+    item.SetMask(wxLIST_MASK_IMAGE);
+    if (newSortColumn == m_iSortColumn) {
+        m_bReverseSort = !m_bReverseSort;
+    } else {
+        // Remove sort arrow from old sort column
+        if (m_iSortColumn >= 0) {
+            item.SetImage(-1);
+            m_pListPane->SetColumn(m_iSortColumn, item);
+        }
+        m_iSortColumn = newSortColumn;
+        m_bReverseSort = false;
+    }
+    
+    item.SetImage(m_bReverseSort ? 0 : 1);
+    m_pListPane->SetColumn(newSortColumn, item);
+    sortData();
+}
+
+
+void CBOINCBaseView::InitSort() {
+    wxListItem      item;
+
+    if (m_iSortColumn < 0) return;
+    item.SetMask(wxLIST_MASK_IMAGE);
+    item.SetImage(m_bReverseSort ? 0 : 1);
+    m_pListPane->SetColumn(m_iSortColumn, item);
+    sortData();
+}
+
+
+void CBOINCBaseView::sortData() {
+    if (m_iSortColumn < 0) return;
+    
+    wxArrayInt oldSortedIndexes(m_iSortedIndexes);
+    wxArrayInt selections;
+    int i, j, m, n = (int)m_iSortedIndexes.GetCount();
+    
+    // Remember which cache elements are selected and deselect them
+    m_bIgnoreUIEvents = true;
+    i = -1;
+    while (1) {
+        i = m_pListPane->GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (i < 0) break;
+        selections.Add(m_iSortedIndexes[i]);
+        m_pListPane->SetItemState(i, 0, wxLIST_STATE_SELECTED);
+    }
+    
+    m_iSortedIndexes.Sort(m_funcSortCompare);
+    
+    // Reselect previously selected cache elements in the sorted list 
+    m = (int)selections.GetCount();
+    for (i=0; i<m; i++) {
+        if (selections[i] >= 0) {
+            j = m_iSortedIndexes.Index(selections[i]);
+            m_pListPane->SetItemState(j, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        }
+    }
+    m_bIgnoreUIEvents = false;
+
+    // Refresh rows which have moved
+    for (i=0; i<n; i++) {
+        if (m_iSortedIndexes[i] != oldSortedIndexes[i]) {
+            m_pListPane->RefreshItem(i);
+         }
+    }
 }
 
 
@@ -541,6 +651,11 @@ bool CBOINCBaseView::_EnsureLastItemVisible() {
 
 bool CBOINCBaseView::EnsureLastItemVisible() {
     return false;
+}
+
+
+double CBOINCBaseView::GetProgressValue(long) {
+    return 0.0;
 }
 
 

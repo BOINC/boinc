@@ -37,9 +37,9 @@ public:
     wxString m_strProjectName;
     wxString m_strAccountName;
     wxString m_strTeamName;
-    wxString m_strTotalCredit;
-    wxString m_strAVGCredit;
-    wxString m_strResourceShare;
+    float m_fTotalCredit;
+    float m_fAVGCredit;
+    float m_fResourceShare;
     wxString m_strStatus;
 };
 
@@ -66,30 +66,36 @@ public:
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
 
-protected:
     std::vector<CProject*>  m_ProjectCache;
 
+protected:
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
-
-    virtual wxString        OnDocGetItemText( long item, long column ) const;
-
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
     virtual wxInt32         GetCacheCount();
     virtual wxInt32         RemoveCacheElement();
-    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
+    virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
 
     virtual void            UpdateSelection();
 
+    void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocAccountName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatAccountName( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocTeamName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocTotalCredit(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatTotalCredit( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocAVGCredit(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatAVGCredit( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocResourceShare(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatResourceShare( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+
+    virtual double          GetProgressValue(long item);
 
     bool                    IsWebsiteLink( const wxString& strLink );
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
