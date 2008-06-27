@@ -5207,11 +5207,13 @@ Charlie 27 June 2008
     -MGR: Add all features of Grid Views to Accessible Views Projects Tab, 
         Tasks Tab and Tranfers Tab, including: progress bars, light gray 
         stripes on alternate rows, sorting, multiple selections.  
-        For those fields where it is practical to do so, store Tasks 
-        data in native form for better efficiency comparing, sorting and updating 
-        cached data; format data only when needed for list display.  Add array of 
-        sorted indexes into the list to make sorting faster and more efficient, 
-        and to maintain associations with underlying data after sorting.
+        For those fields where it is practical to do so, store data in native  
+        form for better efficiency comparing, sorting and updating cached  
+        data;format data only when needed for list display.  Add a separate 
+        array of integers which are indexes into the list; sort only this 
+        array to make sorting faster & more efficient, and to maintain 
+        associations with underlying data after sorting (view's data struct 
+        at index X always corresponds to result at index X).
         Refresh only those rows with changed values or which have moved due to 
         sorting.  Restore previous sorting settings when relaunching Manager.
         
