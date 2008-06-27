@@ -289,7 +289,7 @@ if options.test_app:
     filepath = versdir+'/'+dname
     os.mkdir(ucdir)
     os.mkdir(versdir)
-    shutil.copy('../apps/upper_case', filepath)
+    shutil.copy('../../boinc_samples/example_app/uc2', filepath)
     shutil.copy('uc_result', proot+'/templates/')
     shutil.copy('uc_wu', proot+'/templates/')
     shutil.copy('../tools/create_work_example', proot+'/bin/')

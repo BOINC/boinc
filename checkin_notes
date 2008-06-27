@@ -5223,3 +5223,18 @@ Charlie 27 June 2008
         ViewProjects.cpp,h
         ViewTransfers.cpp,h
         ViewWork.cpp,h
+
+David  27 June 2008
+    - make_project: change the --test_app option so that it gets the
+        app executable from boinc_samples/example_app/uc2,
+        rather than boinc/apps/upper_case.
+        (boinc_samples must be installed in the same dir as boinc).
+
+        The reason: the BOINC autoconf-based build process
+        produces executables that have zillions of shared library dependencies,
+        and generally won't run on machines other than
+        the one where they were built.
+        Executables built in boinc_samples/ don't have this problem.
+
+    tools/
+        make_project
