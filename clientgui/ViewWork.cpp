@@ -82,7 +82,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
     EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
-    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewProjects::OnCacheHint)
+    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewWork::OnCacheHint)
 END_EVENT_TABLE ()
 
 
@@ -469,7 +469,7 @@ wxInt32 CViewWork::AddCacheElement() {
     wxASSERT(pItem);
     if (pItem) {
         m_WorkCache.push_back(pItem);
-        m_iSortedIndexes.Add(m_WorkCache.size()-1);
+        m_iSortedIndexes.Add((int)m_WorkCache.size()-1);
         return 0;
     }
     return -1;

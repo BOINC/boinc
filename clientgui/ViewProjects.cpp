@@ -538,7 +538,7 @@ wxInt32 CViewProjects::AddCacheElement() {
     wxASSERT(pItem);
     if (pItem) {
         m_ProjectCache.push_back(pItem);
-        m_iSortedIndexes.Add(m_ProjectCache.size()-1);
+        m_iSortedIndexes.Add((int)m_ProjectCache.size()-1);
         return 0;
     }
     return -1;
