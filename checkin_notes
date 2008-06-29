@@ -5238,3 +5238,11 @@ David  27 June 2008
 
     tools/
         make_project
+
+David  29 June 2008
+    - client: add "Suspending computation" messages for
+        system idle and initial delay cases.
+        Rom: please back-port
+
+    client/
+        cs_prefs.C

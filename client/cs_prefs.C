@@ -180,6 +180,12 @@ static string reason_string(int reason) {
     if (reason & SUSPEND_REASON_DISK_SIZE) {
         s_reason += " - out of disk space - change global prefs";
     }
+    if (reason & SUSPEND_REASON_NO_RECENT_INPUT) {
+        s_reason += " - no recent user activity";
+    }
+    if (reason & SUSPEND_REASON_INITIAL_DELAY) {
+        s_reason += " - initial delay";
+    }
     return s_reason;
 }
 

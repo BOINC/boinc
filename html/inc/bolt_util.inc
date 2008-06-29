@@ -335,7 +335,7 @@ function test_stats() {
 
 //////////// graph drawing
 
-function bar($title, $n, $width, $lo, $hi) {
+function compare_bar($title, $n, $width, $lo, $hi) {
     $x1 = $width*$lo;
     $x2 = $width*($hi-$lo);
     $a1 = number_format($lo*100);
@@ -354,7 +354,7 @@ function bar($title, $n, $width, $lo, $hi) {
     ";
 }
 
-function bar_insuff($title, $width) {
+function compare_bar_insuff($title, $width) {
     return "
         <tr>
         <td>$title</td>

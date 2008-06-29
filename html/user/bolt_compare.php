@@ -48,14 +48,14 @@ function compare_case(
             $scores = $a[$child->name];
             $n = count($scores);
             if ($n < 2) {
-                $x = bar_insuff($child->name, 600);
+                $x = compare_bar_insuff($child->name, 600);
             } else {
                 conf_int_90($scores, $lo, $hi);
                 //$x = "($lo, $hi) ($n results)";
-                $x = bar($child->name, $n, 600, $lo, $hi);
+                $x = compare_bar($child->name, $n, 600, $lo, $hi);
             }
         } else {
-            $x = bar_insuff($child->name, 600);
+            $x = compare_bar_insuff($child->name, 600);
         }
         echo $x;
     }
