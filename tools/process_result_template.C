@@ -76,6 +76,8 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
     return 0;
 }
 
+#if 0   // is this used anywhere??
+
 // remove file upload signatures from a result XML doc
 //
 int remove_signatures(char* xml) {
@@ -93,6 +95,7 @@ int remove_signatures(char* xml) {
     }
     return 0;
 }
+#endif
 
 // macro-substitute a result template:
 // - replace OUTFILE_x with base_filename_x, etc.

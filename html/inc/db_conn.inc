@@ -133,6 +133,13 @@ class DbConn {
     function base_error() {
         return mysql_error($this->db_conn);
     }
+    function table_exists($table_name) {
+        $result = $this->do_query("show tables like '$table_name'");
+        $t = mysql_fetch_object($result);
+        mysql_free_result($result);
+        if ($t == "$table_name") return true;
+        return false;
+    }
 }
 
 ?>

@@ -5257,3 +5257,17 @@ David  30 June 2008
     sched/
         sample_bitwise_validator.C
         validate_util.C,h
+
+David  30 June 2008
+    - scheduler: fix bug where a pointer to a 32-bit time field
+        was being cast to a pointer to 64-bit time field
+        (this caused wrong results on 64-bit servers)
+        From Sharov Artyom.
+
+    html/inc/
+        db_conn.inc
+    sched/
+        handle_request.C
+        sched_send.C
+    tools/
+        process_results_template.C

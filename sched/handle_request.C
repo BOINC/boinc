@@ -1161,6 +1161,7 @@ void process_request(
     char buf[256];
     HOST initial_host;
     unsigned int i;
+    time_t t;
 
     memset(&reply.wreq, 0, sizeof(reply.wreq));
 
@@ -1263,11 +1264,13 @@ void process_request(
     }
 
     last_rpc_time = reply.host.rpc_time;
-    rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
+    t = reply.host.rpc_time;
+    rpc_time_tm = localtime(&t);
     last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
-    reply.host.rpc_time = time(0);
-    rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
+    t = time(0);
+    reply.host.rpc_time = t;
+    rpc_time_tm = localtime(&t);
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (config.daily_result_quota) {

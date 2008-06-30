@@ -126,6 +126,25 @@ function show_insts($job_id) {
 
 
 $user = get_logged_in_user();
+
+$db = BossaDb::get();
+if (!$db) error_page("Can't connect to database server");
+
+if (!$db->table_exists('bossa_app
+    page_head("Create Bossa database");
+    $db_name = $db->db_name;
+    echo "
+        The database tables for Bossa don't seem to exist.
+        To create them, go to ~/boinc/db and type
+        <pre>
+mysql $db_name < bossa_schema.sql
+</pre>
+    Then <a href=bossa_admin.php>reload this page</a>.
+    ";
+    page_tail();
+    exit();
+}
+
 BossaUser::lookup($user);
 
 $action = get_str('action', true);

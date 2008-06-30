@@ -1194,14 +1194,16 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
             );
 
             // set delay so host won't return until a random time in
-            // the first hour of 'the next day'.  This is to prevent a
-            // lot of hosts from flooding the scheduler with requests
-            // at the same time of day.
-            rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
-            delay_time  = (23 - rpc_time_tm->tm_hour) * 3600 +
-                          (59 - rpc_time_tm->tm_min) * 60 +
-                          (60 - rpc_time_tm->tm_sec) + 
-                          (int)(3600*(double)rand()/(double)RAND_MAX);
+            // the first hour of the next day.
+            // This is to prevent a lot of hosts from flooding the scheduler
+            // with requests at the same time of day.
+            //
+            time_t t = reply.host.rpc_time;
+            rpc_time_tm = localtime(&t);
+            delay_time  = (23 - rpc_time_tm->tm_hour) * 3600
+                + (59 - rpc_time_tm->tm_min) * 60
+                + (60 - rpc_time_tm->tm_sec)
+                + (int)(3600*(double)rand()/(double)RAND_MAX);
             reply.set_delay(delay_time);
         }
         if (reply.wreq.cache_size_exceeded) {

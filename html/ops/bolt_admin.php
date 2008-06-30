@@ -77,6 +77,25 @@ function show_all() {
 }
 
 $user = get_logged_in_user();
+
+$db = BoltDb::get();
+if (!$db) error_page("Can't connect to database server");
+
+if (!$db->table_exists('bolt_course')) {
+    page_head("Create Bolt database");
+    $db_name = $db->db_name;
+    echo "
+        The database tables for Bolt don't seem to exist.
+        To create them, go to ~/boinc/db and type
+        <pre>
+mysql $db_name < bolt_schema.sql
+</pre>
+    Then <a href=bolt_admin.php>reload this page</a>.
+    ";
+    page_tail();
+    exit();
+}
+
 BoltUser::lookup($user);
 $course_id = get_int('course_id', true);
 if ($course_id) $course = BoltCourse::lookup_id($course_id);
