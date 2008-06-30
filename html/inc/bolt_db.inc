@@ -52,10 +52,17 @@ class BoltDb extends DbConn {
         }
         if (!isset($instance)) {
             $config = get_config();
-            $user = parse_config($config, '<bolt_db_user>');
-            $passwd = parse_config($config, '<bolt_db_passwd>');
-            $host = parse_config($config, '<bolt_db_host>');
             $name = parse_config($config, '<bolt_db_name>');
+            if (!$name) {
+                $name = parse_config($config, '<db_name>');
+                $user = parse_config($config, '<db_user>');
+                $passwd = parse_config($config, '<db_passwd>');
+                $host = parse_config($config, '<db_host>');
+            } else {
+                $user = parse_config($config, '<bolt_db_user>');
+                $passwd = parse_config($config, '<bolt_db_passwd>');
+                $host = parse_config($config, '<bolt_db_host>');
+            }
             if ($host == null) {
                 $host = "localhost";
             }
