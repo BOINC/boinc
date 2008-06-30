@@ -367,16 +367,40 @@ function compare_bar_insuff($title, $width) {
     ";
 }
 
-function outcome_graph($x) {
-    return "<td>outcome graph</td>";
+function outcome_graph($x, $width) {
+    $n = $x[0]+$x[1]+$x[2];
+    if (!$n) return empty_cell();
+    $x0 = $width*$x[0]/$n;
+    $x1 = $width*$x[1]/$n;
+    $x2 = $width*$x[2]/$n;
+    return "<td>
+        <table class=bolt_bar><tr>
+            <td class=bolt_bar height=10 width=$x0 bgcolor=green></td>
+            <td class=bolt_bar width=$x1 bgcolor=red></td>
+            <td class=bolt_bar width=$x2 bgcolor=yellow></td>
+        </tr></table>
+        </td>
+    ";
 }
 
-function time_graph($t) {
-    return "<td>time graph</td>";
+function time_graph($t, $w) {
+    $x = (log10($t)+2)*$w/4;
+    return "<td>
+        <table class=bolt_bar><tr>
+            <td class=bolt_bar width=$x bgcolor=green></td>
+        </tr></table>
+    </td>";
 }
 
-function score_graph($t) {
-    return "<td>score graph</td>";
+function score_graph($t, $w) {
+    $x = $t*$w;
+    $y = (1-$t)*$w;
+    return "<td>
+        <table class=bolt_bar><tr>
+            <td class=bolt_bar height=10 width=$x bgcolor=green></td>
+            <td class=bolt_bar width=$y bgcolor=white></td>
+        </tr></table>
+    </td>";
 }
 
 function empty_cell() {

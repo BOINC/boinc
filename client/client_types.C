@@ -1212,6 +1212,7 @@ int APP_VERSION::api_major_version() {
 
 int FILE_REF::parse(MIOFILE& in) {
     char buf[256];
+    bool temp;
 
     strcpy(file_name, "");
     strcpy(open_name, "");
@@ -1225,6 +1226,7 @@ int FILE_REF::parse(MIOFILE& in) {
         if (parse_bool(buf, "main_program", main_program)) continue;
         if (parse_bool(buf, "copy_file", copy_file)) continue;
 		if (parse_bool(buf, "optional", optional)) continue;
+		if (parse_bool(buf, "no_validate", temp)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] FILE_REF::parse(): unrecognized: %s\n", buf

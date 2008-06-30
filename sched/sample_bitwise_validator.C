@@ -72,6 +72,7 @@ int init_result(RESULT& result, void*& data) {
     string filedata;
     for (unsigned int i=0; i<files.size(); i++) {
         FILE_INFO& fi = files[i];
+        if (fi.no_validate) continue;
         retval = read_file_string(fi.path.c_str(), filedata);
         if (retval) {
             if (fi.optional) {

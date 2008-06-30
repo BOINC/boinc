@@ -5246,3 +5246,14 @@ David  29 June 2008
 
     client/
         cs_prefs.C
+
+David  30 June 2008
+    - server: add optional <no_validate> element to output file <file_ref>s.
+        This tells the sample bitwise validator to ignore this file.
+    - client: parse the above field (avoid "unparsed XML" msgs)
+
+    client/
+        client_types.C
+    sched/
+        sample_bitwise_validator.C
+        validate_util.C,h

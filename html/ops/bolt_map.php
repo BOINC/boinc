@@ -34,6 +34,9 @@ require_once("../inc/bolt_cat.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
 
+echo "
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE."bolt.css\">
+";
 // the following are to minimize argument passing
 
 $snap = null;
@@ -97,15 +100,16 @@ function spaces($level) {
 function filter_array($array) {
     global $snap, $filter, $filter_cat, $breakdown, $breakdown_cat;
 
-    if (!$filter) return $array;
+    if (!$filter && !$breakdown) return $array;
     $x = array();
     foreach ($array as $y) {
+        if (!array_key_exists($y->user_id, $snap->users)) continue;
         $u = $snap->users[$y->user_id];
-        if ($filter->category($u) != $filter_cat) {
+        if ($filter && $filter->categorize($u) != $filter_cat) {
             continue;
         }
         if ($breakdown && $breakdown_cat) {
-            if ($breakdown->category($u) != $breakdown_cat) {
+            if ($breakdown->categorize($u) != $breakdown_cat) {
                 continue;
             }
         }
@@ -188,10 +192,18 @@ function show_unit_row($unit, $class, $level, $is_answer) {
     global $breakdown, $breakdown_cat;
 
     $a = $is_answer?" (answer)":"";
-    echo "<tr>
-        <td>".spaces($level)."$unit->name</td>
-        <td>$class $a</td>
-    ";
+    echo "<tr>";
+    if ($breakdown && $breakdown_cat) {
+        echo "
+            <td><br></td>
+            <td><br></td>
+        ";
+    } else  {
+        echo "
+            <td>".spaces($level)."$unit->name</td>
+            <td>$class $a</td>
+        ";
+    }
     if ($breakdown) {
         if ($breakdown_cat) {
             echo "<td>$breakdown_cat</td>\n";
@@ -206,8 +218,8 @@ function show_unit_row($unit, $class, $level, $is_answer) {
         $out = outcomes($views);
         $t = avg_time($views);
         echo "<td>$n</td>";
-        echo outcome_graph($out);
-        echo time_graph($t);
+        echo outcome_graph($out, 200);
+        echo time_graph($t, 200);
         echo empty_cell();
         break;
     case "BoltExercise":
@@ -218,14 +230,17 @@ function show_unit_row($unit, $class, $level, $is_answer) {
         $t = avg_time($views);
         $score = avg_score($results);
         echo "<td>$n</td>";
-        echo outcome_graph($out);
-        echo time_graph($t);
-        echo score_graph($score);
+        echo outcome_graph($out, 200);
+        echo time_graph($t, 200);
+        echo score_graph($score, 200);
         break;
     case "BoltExerciseSet":
+        echo empty_cell();
+        echo empty_cell();
+        echo empty_cell();
         $xr = get_xset_results($unit);
         $score = avg_score($xr);
-        echo score_graph($score);
+        echo score_graph($score, 200);
         break;
     default:
     }
@@ -253,7 +268,7 @@ function show_unit($unit, $level) {
         if ($breakdown) {
             foreach ($breakdown->categories() as $c) {
                 $breakdown_cat = $c;
-                show_unit_row($unit, $class, $level, $true);
+                show_unit_row($unit, $class, $level, true);
             }
         }
     }
@@ -271,7 +286,7 @@ function show_map() {
     global $snap, $course_id, $top_unit, $filter, $filter_cat, $breakdown;
 
     $breakdown_name = get_str('breakdown', true);
-    if ($breakdown_name) {
+    if ($breakdown_name && $breakdown_name != 'none') {
         $breakdown = lookup_categorization($breakdown_name);
         if (!$breakdown) error_page("unknown breakdown $breakdown_name");
     } else {
@@ -293,10 +308,15 @@ function show_map() {
     page_head("Course map");
     $snap = read_map_snapshot($course_id);
     echo "
-        <table class=bolt_box>
+        <table class=\"bolt_box\">
         <tr>
             <th>Name</th>
             <th>Type</th>
+    ";
+    if ($breakdown) {
+        echo "<th>Group</th>";
+    }
+    echo "
             <th>Views</th>
             <th>Outcome</th>
             <th>Time</th>

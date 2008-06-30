@@ -26,10 +26,14 @@
 #include "boinc_db.h"
 #include "parse.h"
 
+// bit of a misnomer - this actually taken from the <file_ref> elements
+// of result.xml_doc_in
+//
 struct FILE_INFO {
     std::string name;
     std::string path;
     bool optional;
+    bool no_validate;
 
     int parse(XML_PARSER&);
 };

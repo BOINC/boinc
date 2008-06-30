@@ -44,6 +44,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
     char tag[256];
     bool is_tag, found=false;
     optional = false;
+    no_validate = false;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/file_ref")) {
@@ -54,6 +55,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool(tag, "optional", optional)) continue;
+        if (xp.parse_bool(tag, "no_validate", no_validate)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -67,7 +69,7 @@ int get_output_file_info(RESULT& result, FILE_INFO& fi) {
     XML_PARSER xp(&mf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "file_info")) {
+        if (!strcmp(tag, "file_ref")) {
             int retval = fi.parse(xp);
             if (retval) return retval;
             dir_hier_path(
