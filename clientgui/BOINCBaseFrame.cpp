@@ -80,6 +80,7 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
 
     m_aSelectedComputerMRU.Clear();
 
+    m_bShowConnectionFailedAlert = false;
 
     m_pDialupManager = new CBOINCDialUpManager();
     wxASSERT(m_pDialupManager->IsOk());
@@ -171,6 +172,11 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
             }
         }
 
+        if (m_bShowConnectionFailedAlert && IsShown()) {
+            m_bShowConnectionFailedAlert = false;
+            ShowConnectionFailedAlert();
+        }
+        
         bAlreadyRunningLoop = false;
     }
 }
@@ -232,16 +238,16 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
             );
         }
 #elif defined (__WXMAC__)
-        // Notification only events on platforms other than Windows and Mac are 
-        //   currently discarded.  On Linux the application is restored and 
-        //   input focus is set on the notification which interrupts whatever 
-        //   the user was up to.
-        if (!event.m_notification_only) {
-            int retval = 0;
+        // wxMessageBox() / ProcessResponse() hangs the Manager if hidden.
+        // Currently, the only non-notification-only alert is Connection Failed,
+        // which is now has logic to be displayed when Manager is maximized.
 
-//            if (!IsShown()) {
-//                Show();
-//            }
+        // Notification only events on platforms other than Windows are 
+        //   currently discarded.  Otherwise the application would be restored 
+        //   and input focus set on the notification which interrupts whatever 
+        //   the user was doing.
+        if (IsShown() && !event.m_notification_only) {
+            int retval = 0;
 
             retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
             if (event.m_alert_event_type == AlertProcessResponse) {
@@ -439,6 +445,11 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
         AlertProcessResponse
     );
 
+    // If we are minimized, set flag to show alert when maximized
+    if (!IsShown()) {
+        m_bShowConnectionFailedAlert = true;
+    }
+    
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionFailedAlert - Function End"));
 }
 

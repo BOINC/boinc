@@ -108,6 +108,8 @@ protected:
 
     wxArrayString       m_aSelectedComputerMRU;
 
+    bool                m_bShowConnectionFailedAlert;
+
     virtual bool        SaveState();
     virtual bool        RestoreState();
 
