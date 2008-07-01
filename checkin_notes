@@ -4090,10 +4090,16 @@ David  29 June 2008
         cs_prefs.C
 
 Charlie 30 June 2008
-    - MGR: Reset messages whenver connecting or reconnecting to client.  Fixes 2 
+    - MGR: Reset messages whenever connecting or reconnecting to client.  Fixes 2 
         bugs: stale messages if client on remote host was stopped and restarted 
         while local manager was connected to it but minimized, and stale messages 
         when local client exited and was automatically restarted by Manager.
+    - MGR: On Mac, don't display alerts when minimized, as they hang Manager.  On 
+        Windows and Mac, if minimized when trying to display the Connection Failed 
+        dialog, set a flag to display it when the user maximizes the application, 
+        so the user can respond.  In addition, Windows still immediately displays 
+        a Connection Failed balloon if minimized.
         
     clientgui/
+        BOINCBaseFrame.cpp,h
         MainDocument.cpp
