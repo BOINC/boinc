@@ -5322,3 +5322,14 @@ Eric	1 July 2008
         parse.h
         procinfo_unix.C
 
+David  1 July 2008
+    - web: don't check for the stop_web file in BoincDb::get().
+        That forces that file to include a bunch of unnecessary stuff.
+        Do the check at a higher level.
+
+    html/
+        inc/
+            boinc_db.inc
+            util.inc
+        user/
+            forum_index.php

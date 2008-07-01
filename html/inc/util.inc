@@ -6,7 +6,6 @@ require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
-require_once("../inc/forum.inc");
 require_once("../inc/profile.inc");
 
 ini_set("memory_limit", "64M");
@@ -14,38 +13,6 @@ date_default_timezone_set("UTC");
 
 $generating_xml = false;
 $caching = false;
-
-function db_maintenance() {
-    page_head("Not available");
-    echo "This page requires database access.
-        Our database server is temporarily shut down for maintenance.
-        Please try again later.
-    ";
-    page_tail();
-    exit();
-}
-
-// Connects to database server and selects database as noted in config.xml
-// If only read-only access is necessary,
-// tries instead to connect to <replica_db_host> if tag exists.
-//
-function db_init($try_replica=false) {
-    if (web_stopped()) {
-        db_maintenance();
-    }
-    $retval = db_init_aux($try_replica);
-    if ($retval == 1) {
-        echo "Unable to connect to database - please try again later\n";
-        echo "Error: ", mysql_errno(), mysql_error();
-        exit();
-    }
-    if ($retval == 2) {
-        echo "Unable to select database - please try again later";
-        echo mysql_error();
-        exit();
-    }
-    return 0;
-}
 
 function send_cookie($name, $value, $permanent, $ops=false) {
     // the following allows independent login for projects on the same server
@@ -715,6 +682,44 @@ function show_image($src, $title, $alt, $height=null) {
         $h = "height=\"$height\"";
     }
     echo "<img border=0 title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
+}
+
+function check_web_stopped() {
+    global $generating_xml;
+    if (web_stopped()) {
+        if ($generating_xml) {
+            xml_error(-183);
+        } else {
+            //page_head("Not available");
+            echo "This page requires database access.
+                Our database server is temporarily shut down for maintenance.
+                Please try again later.
+            ";
+            page_tail();
+            exit();
+        }
+    }
+}
+
+// Connects to database server and selects database as noted in config.xml
+// If only read-only access is necessary,
+// tries instead to connect to <replica_db_host> if tag exists.
+// DEPRECATED - use boinc_db.h
+//
+function db_init($try_replica=false) {
+    check_web_stopped();
+    $retval = db_init_aux($try_replica);
+    if ($retval == 1) {
+        echo "Unable to connect to database - please try again later\n";
+        echo "Error: ", mysql_errno(), mysql_error();
+        exit();
+    }
+    if ($retval == 2) {
+        echo "Unable to select database - please try again later";
+        echo mysql_error();
+        exit();
+    }
+    return 0;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
