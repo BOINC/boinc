@@ -32,15 +32,34 @@
 #include <stdlib.h>
 #include <time.h>
 
+// do a billion floating-point ops
+// (note: I needed to add an arg to this;
+// otherwise the MS C++ compiler optimizes away
+// all but the first call to it!)
+//
+static double do_a_giga_flop(int foo) {
+    double x = 3.14159*foo;
+    int i;
+    for (i=0; i<500000000; i++) {
+        x += 5.12313123;
+        x *= 0.5398394834;
+    }
+    return x;
+}
+
 int main(int argc, char** argv) {
     char buf[256];
     FILE* in, *out;
 
     fprintf(stderr, "worker starting\n");
     in = fopen("in", "r");
+    if (!in) {
+        fprintf(stderr, "missing input file\n");
+        exit(1);
+    } 
     out = fopen("out", "w");
-    if (!in || !out) {
-        fprintf(stderr, "missing file\n");
+    if (!out) {
+        fprintf(stderr, "can't open output file\n");
         exit(1);
     } 
     fgets(buf, 256, in);
@@ -53,12 +72,9 @@ int main(int argc, char** argv) {
     int nsec = 10;
     if (argc > 1) nsec = atoi(argv[1]);
 
+    int i=0;
     while (time(0) < start+nsec) {
-        double x=5;
-        for (int i=0; i<10000000; i++) {
-            x /= 2.1;
-            x += 1.5;
-        }
+        do_a_giga_flop(i++);
     }
     fputs("done!\n", stdout);
     return 0;
