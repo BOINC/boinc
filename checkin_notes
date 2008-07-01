@@ -5286,3 +5286,9 @@ Charlie 30 June 2008
     clientgui/
         BOINCBaseFrame.cpp,h
         MainDocument.cpp
+
+Charlie 1 July 2008
+    - MGR: Fix build break on Linux.
+    
+    clientgui/
+        ViewWork.cpp

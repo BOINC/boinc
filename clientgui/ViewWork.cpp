@@ -760,7 +760,7 @@ void CViewWork::GetDocName(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(result);
 
     if (result) {
-        strBuffer = result->name;
+        strBuffer = wxString(result->name.c_str(), wxConvUTF8);
     }
 }
 
