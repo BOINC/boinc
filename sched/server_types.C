@@ -135,7 +135,7 @@ SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
 SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
 }
 
-int SCHEDULER_REQUEST::parse(FILE* fin) {
+const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     char buf[256];
     RESULT result;
     int retval;
@@ -165,9 +165,9 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     client_cap_plan_class = false;
 
     char* unused = fgets(buf, sizeof(buf), fin);
-    if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
+    if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
     while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</scheduler_request>")) return 0;
+        if (match_tag(buf, "</scheduler_request>")) return NULL;
         if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
             remove_quotes(authenticator);
             continue;
@@ -347,9 +347,9 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         MIOFILE mf;
         mf.init_file(fin);
         retval = skip_unrecognized(buf, mf);
-        if (retval) return retval;
+        if (retval) return "unterminated unrecognized XML";
     }
-    return ERR_XML_PARSE;
+    return "no end tag";
 }
 
 int SCHEDULER_REQUEST::write(FILE* fout) {

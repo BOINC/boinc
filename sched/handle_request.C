@@ -1408,17 +1408,20 @@ static void log_user_messages(SCHEDULER_REPLY& sreply) {
 void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
+    char buf[1024];
 
     memset(&sreq, 0, sizeof(sreq));
     sreply.nucleus_only = true;
 
     log_messages.set_indent_level(1);
 
-    if (sreq.parse(fin) == 0){
+    const char* p = sreq.parse(fin);
+    if (!p){
         process_request(sreq, sreply, code_sign_key);
     } else {
+        sprintf(buf, "Error in request message: %s", p);
         log_incomplete_request(sreq);
-        USER_MESSAGE um("Incomplete request received.", "low");
+        USER_MESSAGE um(buf, "low");
         sreply.insert_message(um);
     }
 

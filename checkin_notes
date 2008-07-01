@@ -5292,3 +5292,17 @@ Charlie 1 July 2008
     
     clientgui/
         ViewWork.cpp
+
+David  1 July 2008
+    - web: when hide/unhide/delete posts,
+        set the timestamp of the thread to the timetamp of
+        the latest non-hidden post (rather than to now).
+        Same thing for forum timestamp.
+    - scheduler: return more informative message to user in case of
+        request message parse error
+
+    html/inc/
+        forum.inc
+    sched/
+        handle_request.C
+        server_types.C
