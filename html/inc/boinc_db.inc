@@ -1,7 +1,6 @@
 <?php
 
 require_once("../inc/db_conn.inc");
-require_once("../inc/util.inc");
 
 class BoincDb extends DbConn {
     static $instance;
