@@ -171,12 +171,6 @@ bin/start
 
 if ($argc != 2) usage();
 $boinc_samples_dir = $argv[1];
-if (!file_exists("single_job_setup.php")) {
-    echo "You must run this script in the project/html/ops directory
-    ";
-    exit();
-}
-chdir("../..");
 check_wrapper_exists();
 get_includes();
 add_application();
