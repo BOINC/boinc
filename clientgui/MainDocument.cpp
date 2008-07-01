@@ -509,9 +509,7 @@ int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* sz
     m_pNetworkConnection->SetComputer(szComputer, iPort, szComputerPassword, bUseDefaultPassword);
     m_pNetworkConnection->FireReconnectEvent();
 
-    if (szComputer != strOldMachineName) {
-        ResetMessageState();
-    }
+    ResetMessageState();
     return 0;
 }
 
@@ -519,6 +517,7 @@ int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* sz
 int CMainDocument::Reconnect() {
     m_pNetworkConnection->ForceReconnect();
     m_pNetworkConnection->FireReconnectEvent();
+    ResetMessageState();
     return 0;
 }
 
