@@ -87,10 +87,11 @@ function filter_form($sel_name, $sel_cat) {
 
 function breakdown_form($sel_name) {
     global $categorizations;
+    $checked = (!$sel_name || $sel_name == "none")?"checked":"";
     echo "
         Break down by:
         <ul>
-        <li><input type=radio name=breakdown value=none> None
+        <li><input type=radio name=breakdown value=none $checked> None
     ";
     foreach ($categorizations as $c) {
         $name = $c->name();

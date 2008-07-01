@@ -370,34 +370,43 @@ function compare_bar_insuff($title, $width) {
 function outcome_graph($x, $width) {
     $n = $x[0]+$x[1]+$x[2];
     if (!$n) return empty_cell();
-    $x0 = $width*$x[0]/$n;
-    $x1 = $width*$x[1]/$n;
+    $x0 = $width*$x[1]/$n;
+    $x1 = $width*$x[0]/$n;
     $x2 = $width*$x[2]/$n;
+    if ($x[1]/$n>0.05) {
+        $t0 = number_format(100*$x[1]/$n)."%";
+    } else {
+        $t0 = "";
+    }
     return "<td>
         <table class=bolt_bar><tr>
-            <td class=bolt_bar height=10 width=$x0 bgcolor=green></td>
-            <td class=bolt_bar width=$x1 bgcolor=red></td>
-            <td class=bolt_bar width=$x2 bgcolor=yellow></td>
+            <td class=bolt_bar height=10 width=$x0 bgcolor=#88ff88><span class=note>$t0</span></td>
+            <td class=bolt_bar height=10 width=$x1 bgcolor=#ff8888></td>
+            <td class=bolt_bar height=10 width=$x2 bgcolor=#ffff88></td>
         </tr></table>
         </td>
     ";
 }
 
 function time_graph($t, $w) {
+    if ($t == 0) return "<td>---</td>";
     $x = (log10($t)+2)*$w/4;
+    $t = number_format($t, 1);
     return "<td>
         <table class=bolt_bar><tr>
-            <td class=bolt_bar width=$x bgcolor=green></td>
+            <td class=bolt_bar height=10 width=$x bgcolor=#cccccc>$t sec</td>
         </tr></table>
     </td>";
 }
 
 function score_graph($t, $w) {
+    if ($t == 0) return "<td>---</td>";
     $x = $t*$w;
     $y = (1-$t)*$w;
+    $t = number_format($t*100);
     return "<td>
         <table class=bolt_bar><tr>
-            <td class=bolt_bar height=10 width=$x bgcolor=green></td>
+            <td class=bolt_bar height=10 width=$x bgcolor=#cccccc><span class=note>$t%</span></td>
             <td class=bolt_bar width=$y bgcolor=white></td>
         </tr></table>
     </td>";

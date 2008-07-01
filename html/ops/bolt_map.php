@@ -90,7 +90,7 @@ function snap_action() {
 function spaces($level) {
     $x = "";
     for ($i=0; $i<$level; $i++) {
-        $x .= "&nbsp;&nbsp;&nbsp;";
+        $x .= "&nbsp;&nbsp;&nbsp;&nbsp;";
     }
     return $x;
 }
@@ -188,6 +188,17 @@ function get_xset_results($unit) {
     return array();
 }
 
+function class_name($class) {
+    switch ($class) {
+    case "BoltSequence": return "sequence";
+    case "BoltSelect": return "select";
+    case "BoltLesson": return "lesson";
+    case "BoltExercise": return "exercise";
+    case "BoltExerciseSet": return "exercise set";
+    case "BoltRandom": return "random";
+    }
+}
+
 function show_unit_row($unit, $class, $level, $is_answer) {
     global $breakdown, $breakdown_cat;
 
@@ -199,9 +210,10 @@ function show_unit_row($unit, $class, $level, $is_answer) {
             <td><br></td>
         ";
     } else  {
+        $c = class_name($class);
         echo "
-            <td>".spaces($level)."$unit->name</td>
-            <td>$class $a</td>
+            <td><b>".spaces($level)."$unit->name</b></td>
+            <td>$c $a</td>
         ";
     }
     if ($breakdown) {
@@ -219,32 +231,47 @@ function show_unit_row($unit, $class, $level, $is_answer) {
         $t = avg_time($views);
         echo "<td>$n</td>";
         echo outcome_graph($out, 200);
-        echo time_graph($t, 200);
         echo empty_cell();
+        echo time_graph($t, 200);
         break;
     case "BoltExercise":
         $views = get_views($unit, $is_answer?BOLT_MODE_ANSWER:BOLT_MODE_SHOW);
-        $results = get_results($unit);
         $n = count($views);
         $out = outcomes($views);
         $t = avg_time($views);
-        $score = avg_score($results);
         echo "<td>$n</td>";
         echo outcome_graph($out, 200);
+        if ($is_answer) {
+            echo empty_cell();
+        } else {
+            $results = get_results($unit);
+            $score = avg_score($results);
+            echo score_graph($score, 200);
+        }
         echo time_graph($t, 200);
-        echo score_graph($score, 200);
         break;
     case "BoltExerciseSet":
-        echo empty_cell();
-        echo empty_cell();
-        echo empty_cell();
         $xr = get_xset_results($unit);
+        $n = count($xr);
+        echo "<td>$n</td>";
+        echo empty_cell();
         $score = avg_score($xr);
         echo score_graph($score, 200);
+        echo empty_cell();
         break;
     default:
     }
     echo "</tr>\n";
+}
+
+function breakdown_class($class) {
+    switch ($class) {
+    case "BoltLesson":
+    case "BoltExercise":
+    case "BoltExerciseSet":
+        return true;
+    }
+    return false;
 }
 
 function show_unit($unit, $level) {
@@ -253,7 +280,7 @@ function show_unit($unit, $level) {
     $class = get_class($unit);
     $breakdown_cat = null;
     show_unit_row($unit, $class, $level, false);
-    if ($breakdown) {
+    if ($breakdown && breakdown_class($class)) {
         foreach ($breakdown->categories() as $c) {
             $breakdown_cat = $c;
             show_unit_row($unit, $class, $level, false);
@@ -319,8 +346,8 @@ function show_map() {
     echo "
             <th>Views</th>
             <th>Outcome</th>
-            <th>Time</th>
             <th>Score</th>
+            <th>Time</th>
         </tr>
     ";
     show_unit_recurse($top_unit, 0);
