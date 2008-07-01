@@ -446,9 +446,7 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
     );
 
     // If we are minimized, set flag to show alert when maximized
-    if (!IsShown()) {
-        m_bShowConnectionFailedAlert = true;
-    }
+    m_bShowConnectionFailedAlert = !IsShown();
     
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionFailedAlert - Function End"));
 }

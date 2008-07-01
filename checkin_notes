@@ -5273,7 +5273,7 @@ David  30 June 2008
         process_results_template.C
 
 Charlie 30 June 2008
-    - MGR: Reset messages whenver connecting or reconnecting to client.  Fixes 2 
+    - MGR: Reset messages whenever connecting or reconnecting to client.  Fixes 2 
         bugs: stale messages if client on remote host was stopped and restarted 
         while local manager was connected to it but minimized, and stale messages 
         when local client exited and was automatically restarted by Manager.
