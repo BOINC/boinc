@@ -85,7 +85,6 @@ int main(int argc, const char** argv) {
     char db_user[256],db_host[256];
     char buf[256];
     char additional_xml[256];
-    SCHED_CONFIG config;
     bool assign_flag = false;
     bool assign_multi = false;
     int assign_id = 0;
@@ -201,10 +200,10 @@ int main(int argc, const char** argv) {
 #define CHKARG(x,m) do { if (!(x)) { fprintf(stderr, "create_work: bad command line: "m"\n"); exit(1); } } while (0)
 #define CHKARG_STR(v,m) CHKARG(strlen(v),m)
 
-    CHKARG_STR(app.name             , "need -appname");
-    CHKARG_STR(wu.name              , "need -wu_name");
-    CHKARG_STR(wu_template_file     , "need -wu_template");
-    CHKARG_STR(result_template_file , "need -result_template");
+    CHKARG_STR(app.name             , "need --appname");
+    CHKARG_STR(wu.name              , "need --wu_name");
+    CHKARG_STR(wu_template_file     , "need --wu_template");
+    CHKARG_STR(result_template_file , "need --result_template");
 #undef CHKARG
 #undef CHKARG_STR
 

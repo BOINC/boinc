@@ -38,7 +38,6 @@ const char *usage =
 "   and creates the directory if needed.\n\n";
 
 int main(int argc, char** argv) {
-    SCHED_CONFIG config;
     char path[256];
     int retval;
 

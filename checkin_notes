@@ -5333,3 +5333,17 @@ David  1 July 2008
             util.inc
         user/
             forum_index.php
+
+David  1 July 2008
+    - create_work: couldn't connect to database because it had
+        an automatic var SCHED_CONFIG (hence nonzero)
+    - make_project: include xadd in list of instructions
+    - boinc_submit: fix bugs in --stdin
+        
+    tools/
+        boinc_submit
+        create_work.C
+        dir_hier_path.C
+        kill_wu.C
+        make_project
+        poll_wu.C

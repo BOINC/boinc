@@ -52,6 +52,8 @@ function get_project_dir() {
         echo "You must set the environment variable BOINC_PROJECT_DIR
 to the path of a BOINC project, e.g.:
 
+> export BOINC_PROJECT_DIR=~/projects/my_project
+or in csh:
 > setenv BOINC_PROJECT_DIR ~/projects/my_project
 
 ";
@@ -321,7 +323,11 @@ function create_job() {
     if ($verbose) {
         echo "Executing command: $cmd\n";
     }
-    system($cmd);
+    system($cmd, $retval);
+    if ($retval) {
+        echo "create_work in $project_dir failed: $retval\n";
+        exit(1);
+    }
 }
 
 // copy input files and program file to the download hierarchy
@@ -364,7 +370,7 @@ function check_program() {
 
 function parse_args($argc, $argv) {
     global $platform, $infiles, $outfiles, $stdin_file, $stdout_file;
-    global $program, $cmdline_args, $wuid;
+    global $program, $cmdline_args, $wuid, $verbose;
 
     for ($i=1; $i<$argc; $i++) {
         switch ($argv[$i]) {
@@ -418,7 +424,7 @@ function show_result($result, $i) {
 }
 
 function show_wu_status($wu) {
-    $now = date("F j, Y, g:i a e");
+    $now = date("F j, Y, g:i a");
     switch ($wu->assimilate_state) {
     case 0:
         echo "$now: job $wu->id is in progress\n";
@@ -467,6 +473,11 @@ make_wrapper_job_file();
 make_job_file();
 make_wu_template();
 make_result_template();
+
+// from this point on, stdin file is like other input files
+if ($stdin_file) {
+    $infiles[] = $stdin_file;
+}
 copy_files();
 create_job();
 wait();
