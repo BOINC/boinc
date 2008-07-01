@@ -52,6 +52,8 @@
 #include <sys/wait.h>
 #endif
 
+#include <vector>
+
 #endif
 
 using std::vector;

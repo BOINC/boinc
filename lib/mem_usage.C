@@ -27,6 +27,9 @@
 // Can't use large file calls with solaris procfs.
 #if defined(_FILE_OFFSET_BITS) && ( _FILE_OFFSET_BITS == 64 )
 #undef _FILE_OFFSET_BITS
+#undef _LARGE_FILES
+#undef _LARGEFILE_SOURCE
+#undef _LARGEFILE64_SOURCE
 #endif
 #endif
 #include <stdio.h>

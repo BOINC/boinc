@@ -18,11 +18,10 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 // There is a reason that having a file called "cpp.h" that includes config.h
-// and some of the C++ header files.  That reason is because there are #defines
-// that alter the behiour of the standard C and C++ headers.  In this case
-// we need to use the "small files" environment on some unix systems.  That
-// can't be done if we include "cpp.h"
-// #include "cpp.h" 
+// and some of the C++ header files is bad.  That reason is because there are 
+// #defines that alter the behiour of the standard C and C++ headers.  In 
+// this case we need to use the "small files" environment on some unix 
+// systems.  That can't be done if we include "cpp.h"
 
 // copied directly from cpp.h
 #if defined(_WIN32) && !defined(__CYGWIN32__)
@@ -37,14 +36,17 @@
 #include "version.h"         // version numbers from autoconf
 #endif
 
-#if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
+
+#if !defined(_WIN32) || defined(__CYGWIN32__)
 
 // Access to binary files in /proc filesystem doesn't work in the 64bit
 // files environment on some systems.  None of the functions here need 
 // 64bit file functions, so we'll undefine _FILE_OFFSET_BITS and _LARGE_FILES.
 #undef _FILE_OFFSET_BITS
 #undef _LARGE_FILES
+#undef _LARGEFILE_SOURCE
+#undef _LARGEFILE64_SOURCE
 #include <iostream>
 #include <vector>
 #include <string>
@@ -52,7 +54,6 @@
 #endif
 
 
-#include "config.h"
 
 
 #include <cstdio>
