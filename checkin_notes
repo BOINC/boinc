@@ -5285,3 +5285,4 @@ Charlie 30 June 2008
         
     clientgui/
         BOINCBaseFrame.cpp,h
+        MainDocument.cpp
