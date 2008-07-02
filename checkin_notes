@@ -5347,3 +5347,13 @@ David  1 July 2008
         kill_wu.C
         make_project
         poll_wu.C
+
+Charlie 1 July 2008
+    - MGR: New tasks and projects properties displays from Frank Weiler.
+    
+    clientgui/
+        DlgItemProperties.cpp,.h (new)
+        Events.h
+        ViewProjects.cpp,.h
+        ViewWork.cpp,..h
+        Makefile.am

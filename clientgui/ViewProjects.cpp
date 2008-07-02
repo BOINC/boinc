@@ -31,6 +31,7 @@
 #include "BOINCListCtrl.h"
 #include "ViewProjects.h"
 #include "Events.h"
+#include "DlgItemProperties.h"
 
 
 #include "res/proj.xpm"
@@ -54,6 +55,7 @@
 #define BTN_NOWORK       2
 #define BTN_RESET        3
 #define BTN_DETACH       4
+#define BTN_PROPERTIES   5
 
 
 CProject::CProject() {
@@ -79,6 +81,7 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_NONEWWORK, CViewProjects::OnProjectNoNewWork)
     EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
+    EVT_BUTTON(ID_TASK_PROJECT_SHOW_PROPERTIES, CViewProjects::OnShowItemProperties)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjects::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
@@ -192,6 +195,13 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
           "Tasks in progress will be lost "
           "(use 'Update' first to report any completed tasks)."),
         ID_TASK_PROJECT_DETACH 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Properties"),
+        _("Show project details."),
+        ID_TASK_PROJECT_SHOW_PROPERTIES 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -466,6 +476,18 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
+void CViewProjects::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
+    long item = m_pListPane->GetFirstSelected();
+    PROJECT* project = wxGetApp().GetDocument()->project(m_iSortedIndexes[item]);
+
+    if(!project) return;
+    //displaying the infos on a dialog
+    CDlgItemProperties dlg(this);
+    dlg.renderInfos(project);
+    dlg.ShowModal();
+}
+
+
 void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function Begin"));
 
@@ -589,6 +611,7 @@ void CViewProjects::UpdateSelection() {
     n = m_pListPane->GetSelectedItemCount();
     if (n > 0) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
+        m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
         UpdateWebsiteSelection(GRP_WEBSITES, NULL);
@@ -655,6 +678,8 @@ void CViewProjects::UpdateSelection() {
         }
         
         if (n == 1) {
+            m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
+            
             UpdateWebsiteSelection(GRP_WEBSITES, project);
             if(m_TaskGroups.size()>1) {
                 m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);

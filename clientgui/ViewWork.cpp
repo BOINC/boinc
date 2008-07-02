@@ -33,6 +33,7 @@
 #include "error_numbers.h"
 #include "app_ipc.h"
 #include "util.h"
+#include "DlgItemProperties.h"
 
 #include "res/result.xpm"
 
@@ -54,6 +55,7 @@
 #define BTN_GRAPHICS                0
 #define BTN_SUSPEND                 1
 #define BTN_ABORT                   2
+#define BTN_PROPERTIES              3
 
 
 CWork::CWork() {
@@ -78,6 +80,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
+    EVT_BUTTON(ID_TASK_SHOW_PROPERTIES, CViewWork::OnShowItemProperties)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
@@ -179,6 +182,13 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
         _("Abandon work on the result. "
           "You will get no credit for it."),
         ID_TASK_WORK_ABORT 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Properties"),
+        _("Show task details."),
+        ID_TASK_SHOW_PROPERTIES 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -392,6 +402,18 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
+void CViewWork::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
+    long item = m_pListPane->GetFirstSelected();
+    RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
+
+    if(!result) return;
+    //displaying the infos on a dialog
+    CDlgItemProperties dlg(this);
+    dlg.renderInfos(result);
+    dlg.ShowModal();
+}
+
+
 void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnProjectWebsiteClicked - Function Begin"));
 
@@ -522,6 +544,7 @@ void CViewWork::UpdateSelection() {
         if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_USAGE_LIMIT)) {
             m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
         }
+        m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
@@ -584,6 +607,10 @@ void CViewWork::UpdateSelection() {
                 if (first_project_url != result->project_url) {
                     all_same_project = false;
                 }
+            }
+            
+            if (n == 1) {
+                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
             }
         }
     }
