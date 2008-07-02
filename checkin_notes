@@ -5400,3 +5400,9 @@ David  2 July 2008
     tools/
         backend_lib.C,h
         process_result_template.C
+
+David  2 July 2008
+    - typo in make_project
+
+    tools/
+        make_project

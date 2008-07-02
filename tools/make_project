@@ -371,7 +371,7 @@ Steps to complete installation:
    PYTHONPATH)
 %(test_app_msg)s
 
-3. In the project home directory (%(proot)) run
+3. In the project home directory (%(proot)s) run
     bin/xadd
 
 To start, show status, and stop the project, run:
