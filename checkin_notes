@@ -187,7 +187,7 @@ Charlie Jan 7 2008
         5.10.34 or later and Mac OS 10.4 or later.
 
     clientgui/
-        BOINCGUIApp.cpp,h
+        BOINCGUIApp.cpp,.h
     mac_build/
         Make_BOINC_Service.sh
 
@@ -281,7 +281,7 @@ Charlie Jan 10 2008
             if we implement that in the future.
         
     clientgui/
-        sg_DlgMessages.cpp,h
+        sg_DlgMessages.cpp,.h
         ViewMessages.cpp
 
 David Jan 10 2008
@@ -1175,7 +1175,7 @@ David  Feb 5 2008
 
     clientgui/
         AdvancedFrame.cpp
-        MainDocument.cpp,h
+        MainDocument.cpp,.h
     lib/
         gui_rpc_client.C,h
 
@@ -1273,7 +1273,7 @@ Charlie Feb 7 2008
     - MGR: If user shuts down connected client, don't auto-relaunch it.
     
     clientgui/
-        MainDocument.cpp,h
+        MainDocument.cpp,.h
         AdvancedFrame.cpp
 
 David  Feb 8 2008
@@ -1827,9 +1827,9 @@ Charlie Mar 4 2008
     - MGR: Disallow multiple selections in grid views.
 
     clientgui/
-        ViewProjectsGrid.cpp,h
-        ViewTransfersGrid.cpp,h
-        ViewWorkGrid.cpp,h
+        ViewProjectsGrid.cpp,.h
+        ViewTransfersGrid.cpp,.h
+        ViewWorkGrid.cpp,.h
 
 David  Mar 4 2008
     - web: fixed typo that cause bad (and slow) query
@@ -1886,7 +1886,7 @@ Charlie Mar 4 2008
         not updated to reflect the new selection.
 
     clientgui/
-        BOINCGridCtrl.cpp,h
+        BOINCGridCtrl.cpp,.h
         ViewMessagesGrid.cpp
         ViewProjectsGrid.cpp
         ViewTransfersGrid.cpp
@@ -1904,11 +1904,11 @@ Charlie Mar 5 2008
 
     clientgui/
         BOINCGridtrl.cpp
-        MainDocument.cpp,h
+        MainDocument.cpp,.h
         ViewMessagesGrid.cpp
-        ViewProjectsGrid.cpp,h
-        ViewTransfersGrid.cpp,h
-        ViewWorkGrid.cpp,h
+        ViewProjectsGrid.cpp,.h
+        ViewTransfersGrid.cpp,.h
+        ViewWorkGrid.cpp,.h
 
 David  Mar 5 2008
     - server: debugged single-job submission feature.
@@ -1978,8 +1978,8 @@ Charlie Mar 6 2008
             these as true to restrict that tab to single-selections.
     
     clientgui/
-        ViewProjectsGrid.cpp,h
-        ViewWorkGrid.cpp,h
+        ViewProjectsGrid.cpp,.h
+        ViewWorkGrid.cpp,.h
 
 Rom    6 Mar 2008
     - CLI: Make the CreateProcessAsUser process work again on Windows.
@@ -4655,7 +4655,7 @@ Charlie 4 June 2008
     - MGR: Fix help menus in Simple GUI (not applicable on Windows).
         
     clientgui/
-        sg_BoincSimpleGUI.cpp,h
+        sg_BoincSimpleGUI.cpp,.h
 
 David  4 June 2008
     - web: fixed a couple of references to "global $logged_in_user".
@@ -4872,7 +4872,7 @@ David  14 June 2008
         Also got rid of references to Yahoo.
 
     clientgui/
-        WelcomePage.cpp,h
+        WelcomePage.cpp,.h
         BOINCWizards.h
 
 David  16 June 2008
@@ -5099,7 +5099,7 @@ Charlie 23 June 2008
     clientgui/
         BOINCTaskBar.cpp, h
         mac/
-            MacSysMenu.cpp,h
+            MacSysMenu.cpp,.h
 
 David  23 June 2008
     - web: insert() functions return ID
@@ -5218,11 +5218,11 @@ Charlie 27 June 2008
         sorting.  Restore previous sorting settings when relaunching Manager.
         
     clientgui/
-        BOINCBaseView.cpp,h
-        BOINCListCtrl.cpp,h
-        ViewProjects.cpp,h
-        ViewTransfers.cpp,h
-        ViewWork.cpp,h
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp,.h
+        ViewProjects.cpp,.h
+        ViewTransfers.cpp,.h
+        ViewWork.cpp,.h
 
 David  27 June 2008
     - make_project: change the --test_app option so that it gets the
@@ -5284,7 +5284,7 @@ Charlie 30 June 2008
         a Connection Failed balloon if minimized.
         
     clientgui/
-        BOINCBaseFrame.cpp,h
+        BOINCBaseFrame.cpp,.h
         MainDocument.cpp
 
 Charlie 1 July 2008
@@ -5348,14 +5348,14 @@ David  1 July 2008
         make_project
         poll_wu.C
 
-Charlie 1 July 2008
+Charlie 2 July 2008
     - MGR: New tasks and projects properties displays from Frank Weiler.
     
     clientgui/
         DlgItemProperties.cpp,.h (new)
         Events.h
         ViewProjects.cpp,.h
-        ViewWork.cpp,..h
+        ViewWork.cpp,.h
         Makefile.am
      mac_build/
         boinc.xcodeproj/
