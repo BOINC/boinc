@@ -252,6 +252,7 @@
 		DDBE74390C03B1C600453BB8 /* cs_platforms.C in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.C */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
 		DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */; };
+		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
 		DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */; };
@@ -830,6 +831,8 @@
 		DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
 		DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectsComponent.cpp; path = ../clientgui/sg_ProjectsComponent.cpp; sourceTree = SOURCE_ROOT; };
 		DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProjectsComponent.h; path = ../clientgui/sg_ProjectsComponent.h; sourceTree = SOURCE_ROOT; };
+		DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgItemProperties.cpp; sourceTree = "<group>"; };
+		DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgItemProperties.h; sourceTree = "<group>"; };
 		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD095480A3EDF2D00C95BA4 /* switcher.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.C; sourceTree = "<group>"; };
 		DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjects.cpp; path = ../clientgui/ViewProjects.cpp; sourceTree = SOURCE_ROOT; };
@@ -1203,6 +1206,8 @@
 				DDFE84E40B60CD66009B43D9 /* DlgAdvPreferencesBase.h */,
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
 				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
+				DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */,
+				DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
 				DD81C43907C5D2240098A04D /* DlgOptions.h */,
 				DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */,
@@ -2310,6 +2315,7 @@
 				DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */,
 				DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */,
 				DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */,
+				DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
