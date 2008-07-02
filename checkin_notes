@@ -5357,3 +5357,8 @@ Charlie 1 July 2008
         ViewProjects.cpp,.h
         ViewWork.cpp,..h
         Makefile.am
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    win_build/
+        boincmgr_curl.vcproj

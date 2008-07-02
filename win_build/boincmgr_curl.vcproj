@@ -2182,6 +2182,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\clientgui\DlgItemProperties.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgItemProperties.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\ViewMessages.cpp"
 					>
 				</File>
