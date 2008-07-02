@@ -5406,3 +5406,22 @@ David  2 July 2008
 
     tools/
         make_project
+
+David  2 July 2008
+    - client and server: the client includes global_prefs.xml
+        in scheduler request messages, without checking its contents.
+        One user had apparently edited global_prefs.xml with an XML editor;
+        it had an <?xml tag at the start,
+        and had been collapsed into a single line with no newlines,
+        and no newline at the end.
+        This caused all scheduler requests from that client to get
+        "Incomplete request" responses.
+
+        The long-term fix is for the client to verify global_prefs.xml,
+        and for the scheduler to parse it with XML_PARSER.
+        As a short-term fix, I made these changes:
+        - If the scheduler reads a line that's too long, it ignores it.
+        - The scheduler ignores <?xml
+
+    sched/
+        server_types.C

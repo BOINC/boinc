@@ -167,6 +167,17 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
     while (fgets(buf, sizeof(buf), fin)) {
+        // If a line is too long, ignore it.
+        // This can happen e.g. if the client has bad global_prefs.xml
+        // This won't be necessary if we rewrite this using XML_PARSER
+        //
+        if (!strchr(buf, '\n')) {
+            while (fgets(buf, sizeof(buf), fin)) {
+                if (strchr(buf, '\n')) break;
+            }
+            continue;
+        }
+
         if (match_tag(buf, "</scheduler_request>")) return NULL;
         if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
             remove_quotes(authenticator);
@@ -340,6 +351,9 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (match_tag(buf, "<resource_share>")) continue;
         if (match_tag(buf, "<scheduler_url>")) continue;
         if (match_tag(buf, "</project>")) continue;
+        if (match_tag(buf, "<?xml")) continue;
+        strip_whitespace(buf);
+        if (!strlen(buf)) continue;
 
         log_messages.printf(MSG_NORMAL,
             "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
