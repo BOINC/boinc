@@ -33,7 +33,7 @@ extern int process_result_template(
     char* result_template,
     R_RSA_PRIVATE_KEY& key,
     char* base_filename,
-    SCHED_CONFIG& config
+    SCHED_CONFIG&
 );
 
 extern int read_file(FILE*, char* buf);

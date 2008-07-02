@@ -40,7 +40,6 @@ static int send_assigned_job(
     static bool first=true;
     static int seqno=0;
     static R_RSA_PRIVATE_KEY key;
-    APP* app;
     BEST_APP_VERSION* bavp;
                                  
     if (first) {
@@ -70,7 +69,7 @@ static int send_assigned_job(
     }
 
     sprintf(rtfpath, "../%s", wu.result_template_file);
-    sprintf(suffix, "%d_%d_%d", getpid(), time(0), seqno++);
+    sprintf(suffix, "%d_%d_%d", getpid(), (int)time(0), seqno++);
     retval = create_result(wu, rtfpath, suffix, key, config, 0, 0);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -101,7 +100,7 @@ static int send_assigned_job(
     }
     log_messages.printf(MSG_DEBUG,
         "[WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
-        wu.id, result_id, reply.host.id
+        wu.id, result_id, reply.host.id, asg.id
     );
     return 0;
 }

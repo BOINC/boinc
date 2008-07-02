@@ -185,7 +185,7 @@ static int setup_shared_mem() {
 #else
     if (aid.shmem_seg_name == -1) {
         // Version 6 Unix/Linux/Mac client 
-        if (attach_shmem_mmap( MMAPPED_FILE_NAME, (void**)&app_client_shm->shm)) {
+        if (attach_shmem_mmap(MMAPPED_FILE_NAME, (void**)&app_client_shm->shm)) {
             delete app_client_shm;
             app_client_shm = NULL;
         }

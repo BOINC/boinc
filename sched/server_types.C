@@ -119,7 +119,7 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
 
 void WORK_REQ::insert_no_work_message(USER_MESSAGE& um) {
     bool found = false;
-    for (int i=0; i<no_work_messages.size(); i++) {
+    for (unsigned int i=0; i<no_work_messages.size(); i++) {
         if (!strcmp(um.message.c_str(), no_work_messages.at(i).message.c_str())){
             found = true;
             break;
@@ -164,7 +164,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     have_time_stats_log = false;
     client_cap_plan_class = false;
 
-    char* unused = fgets(buf, sizeof(buf), fin);
+    fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</scheduler_request>")) return NULL;
@@ -883,7 +883,6 @@ int APP_VERSION::write(FILE* fout) {
 
 int RESULT::write_to_client(FILE* fout) {
     char buf[BLOB_SIZE];
-    unsigned int i;
 
     strcpy(buf, xml_doc_in);
     char* p = strstr(buf, "</result>");

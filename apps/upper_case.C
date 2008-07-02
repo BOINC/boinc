@@ -178,7 +178,7 @@ int main(int argc, char **argv) {
 
     // main loop - read characters, convert to UC, write
     //
-    for (int i=0; ; i++) {
+    for (i=0; ; i++) {
         c = fgetc(infile);
 
         if (c == EOF) break;

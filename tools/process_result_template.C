@@ -108,7 +108,7 @@ int process_result_template(
     char* result_template,
     R_RSA_PRIVATE_KEY& key,
     char* base_filename,
-    SCHED_CONFIG& config
+    SCHED_CONFIG& config_loc
 ) {
     char* p,*q;
     char temp[BLOB_SIZE], buf[256];
@@ -132,13 +132,13 @@ int process_result_template(
         p = strstr(result_template, UPLOAD_URL_MACRO);
         if (p) {
             strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
-            strcpy(p, config.upload_url);
+            strcpy(p, config_loc.upload_url);
             strcat(p, temp);
             continue;
         }
         break;
     }
-    if (!config.dont_generate_upload_certificates) {
+    if (!config_loc.dont_generate_upload_certificates) {
         retval = add_signatures(result_template, key);
         if (retval) return retval;
     }

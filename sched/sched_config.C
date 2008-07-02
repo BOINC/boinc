@@ -50,10 +50,11 @@ int SCHED_CONFIG::parse(FILE* f) {
     int retval;
     regex_t re;
 
-    // Don't bother to initialize to zero since it's a global.
-    // If this ever changes, need to initialize
-    //
     mf.init_file(f);
+
+    memset(this, 0, sizeof(*this));
+    ban_os = new vector<regex_t>;
+    ban_cpu = new vector<regex_t>;
     max_wus_to_send = 10;
     default_disk_max_used_gb = 100.;
     default_disk_max_used_pct = 50.;
@@ -151,14 +152,14 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "no_darwin_6", no_darwin_6)) {
             if (no_darwin_6) {
                 regcomp(&re, ".*Darwin.*\t.*(5\\.|6\\.).*", REG_EXTENDED|REG_NOSUB);
-                ban_os.push_back(re);
+                ban_os->push_back(re);
             }
             continue;
         }
         if (xp.parse_bool(tag, "no_amd_k6", no_amd_k6)) {
             if (no_amd_k6) {
                 regcomp(&re, ".*AMD.*\t.*Family 5 Model 8 Stepping 0.*", REG_EXTENDED|REG_NOSUB);
-                ban_cpu.push_back(re);
+                ban_cpu->push_back(re);
             }
             continue;
         }
@@ -172,7 +173,7 @@ int SCHED_CONFIG::parse(FILE* f) {
             if (retval) {
                 log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
             } else {
-                ban_os.push_back(re);
+                ban_os->push_back(re);
             }
             continue;
         }
@@ -181,7 +182,7 @@ int SCHED_CONFIG::parse(FILE* f) {
             if (retval) {
                 log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
             } else {
-                ban_cpu.push_back(re);
+                ban_cpu->push_back(re);
             }
             continue;
         }
@@ -233,7 +234,7 @@ int SCHED_CONFIG::download_path(const char* filename, char* path) {
 }
 
 void get_project_dir(char* p, int len) {
-    char* unused = getcwd(p, len);
+    getcwd(p, len);
     char* q = strrchr(p, '/');
     if (q) *q = 0;
 }

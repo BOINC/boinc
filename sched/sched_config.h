@@ -118,8 +118,8 @@ public:
     bool request_time_stats_log;
     bool enable_assignment;
     int max_ncpus;
-    vector<regex_t> ban_os;
-    vector<regex_t> ban_cpu;
+    vector<regex_t> *ban_os;
+    vector<regex_t> *ban_cpu;
     bool matchmaker;
     int mm_min_slots;
     int mm_max_slots;

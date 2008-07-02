@@ -95,7 +95,7 @@ static void get_weak_auth(USER& user, char* buf) {
     sprintf(buf, "%d_%s", user.id, out);
 }
 
-static void send_error_message(SCHEDULER_REPLY& reply, char* msg, int delay) {
+static void send_error_message(SCHEDULER_REPLY& reply, const char* msg, int delay) {
     USER_MESSAGE um(msg, "low");
     reply.insert_message(um);
     reply.set_delay(delay);
@@ -189,7 +189,7 @@ static void mark_results_over(DB_HOST& host) {
     );
     while (!result.enumerate(buf)) {
         sprintf(buf2,
-            "server_state=%d, outcome=%d, received_time = %d",
+            "server_state=%d, outcome=%d, received_time = %ld",
             RESULT_SERVER_STATE_OVER,
             RESULT_OUTCOME_CLIENT_DETACHED,
             time(0)
@@ -999,8 +999,8 @@ bool unacceptable_os(
     unsigned int i;
     char buf[1024];
 
-    for (i=0; i<config.ban_os.size(); i++) {
-        regex_t& re = config.ban_os[i];
+    for (i=0; i<config.ban_os->size(); i++) {
+        regex_t& re = (*config.ban_os)[i];
         strcpy(buf, sreq.host.os_name);
         strcat(buf, "\t");
         strcat(buf, sreq.host.os_version);
@@ -1027,8 +1027,8 @@ bool unacceptable_cpu(
     unsigned int i;
     char buf[1024];
 
-    for (i=0; i<config.ban_cpu.size(); i++) {
-        regex_t& re = config.ban_cpu[i];
+    for (i=0; i<config.ban_cpu->size(); i++) {
+        regex_t& re = (*config.ban_cpu)[i];
         strcpy(buf, sreq.host.p_vendor);
         strcat(buf, "\t");
         strcat(buf, sreq.host.p_model);

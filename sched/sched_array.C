@@ -52,8 +52,6 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_RESULT result;
     char buf[256];
     APP* app;
-    APP_VERSION* avp;
-    bool found;
 
     lock_sema();
     

@@ -5362,3 +5362,41 @@ Charlie 2 July 2008
             project.pbxproj
     win_build/
         boincmgr_curl.vcproj
+
+David  2 July 2008
+    - server code: at some point I made a global var "SCHED_CONFIG config",
+        mostly so that the parse function could assume
+        that everything was initially zero.
+        However, various back-end functions pass around SCHED_CONFIG&
+        as an argument (also named "config").
+        This creates a shadow, which is always bad.
+        Worse is the possibility that some projects have back-end programs
+        that have a SCHED_CONFIG variable that's automatic,
+        and therefore isn't zero initially,
+        and therefore isn't parsing correctly.
+
+        To fix this, I changed the 2 vectors in SCHED_CONFIG into pointers,
+        and have the parse routine zero the structure.
+        I was tempted to remove the SCHED_CONFIG& args to back-end functions,
+        but this would have broken some projects' code.
+        I did, however, change the name from config to config_loc
+        to avoid shadowing.
+
+        Also fixed various other compiler warnings.
+
+    api/
+        boinc_api.C
+    apps/
+        upper_case.C
+    lib/
+        shmem.C,h
+    sched/
+        handle_request.C
+        sched_array.C
+        sched_assign.C
+        sched_config.C,h
+        sched_send.C
+        server_types.C
+    tools/
+        backend_lib.C,h
+        process_result_template.C

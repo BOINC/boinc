@@ -301,7 +301,7 @@ int detach_shmem(void* p) {
 
 // V6 mmap() shared memory for Unix/Linux/Mac
 //
-int create_shmem_mmap(char *path, size_t size, void** pp) {
+int create_shmem_mmap(const char *path, size_t size, void** pp) {
     int fd, retval;
     struct stat sbuf;
     
@@ -347,7 +347,7 @@ int destroy_shmem_mmap(key_t key){
 }
 
 
-int attach_shmem_mmap(char *path, void** pp) {
+int attach_shmem_mmap(const char *path, void** pp) {
     int fd, retval;
     struct stat sbuf;
     

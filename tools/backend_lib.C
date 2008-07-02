@@ -169,7 +169,7 @@ static int process_wu_template(
     char* tmplate,
     const char** infiles,
     int ninfiles,
-    SCHED_CONFIG& config,
+    SCHED_CONFIG& config_loc,
     const char* command_line,
     const char* additional_xml
 ) {
@@ -217,8 +217,8 @@ static int process_wu_template(
                         );
                     } else {
                         dir_hier_path(
-                            infiles[file_number], config.download_dir,
-                            config.uldl_dir_fanout, path, true
+                            infiles[file_number], config_loc.download_dir,
+                            config_loc.uldl_dir_fanout, path, true
                         );
 
                         // if file isn't found in hierarchy,
@@ -226,26 +226,26 @@ static int process_wu_template(
                         //
                         if (!boinc_file_exists(path)) {
                             sprintf(top_download_path,
-                                "%s/%s",config.download_dir,
+                                "%s/%s",config_loc.download_dir,
                                 infiles[file_number]
                             );
                             boinc_copy(top_download_path, path);
                         }
 
-                        if (!config.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
+                        if (!config_loc.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
                             retval = md5_file(path, md5, nbytes);
                             if (retval) {
                                 fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
                                 return retval;
                             }
-                            else if (config.cache_md5_info) {
+                            else if (config_loc.cache_md5_info) {
                                 write_md5_info(path, md5, nbytes);
                             }
                         }
 
                         dir_hier_url(
-                            infiles[file_number], config.download_url,
-                            config.uldl_dir_fanout, url
+                            infiles[file_number], config_loc.download_url,
+                            config_loc.uldl_dir_fanout, url
                         );
                         sprintf(buf,
                             "    <name>%s</name>\n"
@@ -403,7 +403,7 @@ int create_result_ti(
     char* result_template_filename,
     char* result_name_suffix,
     R_RSA_PRIVATE_KEY& key,
-    SCHED_CONFIG& config,
+    SCHED_CONFIG& config_loc,
     char* query_string,
         // if nonzero, write value list here; else do insert
     int priority_increase
@@ -422,7 +422,7 @@ int create_result_ti(
         result_template_filename,
         result_name_suffix,
         key,
-        config,
+        config_loc,
         query_string,
         priority_increase
     );
@@ -436,7 +436,7 @@ int create_result(
     char* result_template_filename,
     char* result_name_suffix,
     R_RSA_PRIVATE_KEY& key,
-    SCHED_CONFIG& config,
+    SCHED_CONFIG& config_loc,
     char* query_string,
         // if nonzero, write value list here; else do insert
     int priority_increase
@@ -463,10 +463,7 @@ int create_result(
     }
 
     retval = process_result_template(
-        result_template,
-        key,
-        base_outfile_name,
-        config
+        result_template, key, base_outfile_name, config_loc
     );
     if (retval) {
         fprintf(stderr, "process_result_template() error: %d\n", retval);
@@ -495,7 +492,7 @@ int create_result(
     // if using locality scheduling, advertise data file
     // associated with this newly-created result
     //
-    if (config.locality_scheduling) {
+    if (config_loc.locality_scheduling) {
         char datafilename[512];
         char *last=strstr(result.name, "__");
         if (result.name<last && last<(result.name+255)) {
@@ -512,13 +509,13 @@ int create_result(
 
 // make sure a WU's input files are actually there
 //
-int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config) {
+int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config_loc) {
     int i;
     char path[256];
 
     for (i=0; i<ninfiles; i++) {
         dir_hier_path(
-            infiles[i], config.download_dir, config.uldl_dir_fanout, path
+            infiles[i], config_loc.download_dir, config_loc.uldl_dir_fanout, path
         );
 		if (!boinc_file_exists(path)) {
 			return 1;
@@ -535,7 +532,7 @@ int create_work(
     const char* result_template_filepath,
     const char** infiles,
     int ninfiles,
-    SCHED_CONFIG& config,
+    SCHED_CONFIG& config_loc,
     const char* command_line,
     const char* additional_xml
 ) {
@@ -544,7 +541,7 @@ int create_work(
     char wu_template[BLOB_SIZE];
 
 #if 0
-    retval = check_files(infiles, ninfiles, config);
+    retval = check_files(infiles, ninfiles, config_loc);
     if (retval) {
         fprintf(stderr, "Missing input file: %s\n", infiles[0]);
         return -1;
@@ -554,7 +551,7 @@ int create_work(
     strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_wu_template(
-        wu, wu_template, infiles, ninfiles, config, command_line, additional_xml
+        wu, wu_template, infiles, ninfiles, config_loc, command_line, additional_xml
     );
     if (retval) {
         fprintf(stderr, "process_wu_template: %d\n", retval);

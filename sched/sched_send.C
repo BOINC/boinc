@@ -217,7 +217,7 @@ BEST_APP_VERSION* get_app_version(
     return bavp;
 }
 
-static char* find_user_friendly_name(int appid) {
+static const char* find_user_friendly_name(int appid) {
 	APP* app = ssp->lookup_app(appid);
 	if (app) return app->user_friendly_name;
     return "deprecated application";
@@ -1028,7 +1028,7 @@ int add_result_to_reply(
         result.update_field(buf);
 
         dbwu.id = wu.id;
-        sprintf(buf, "transition_time=%d", time(0));
+        sprintf(buf, "transition_time=%ld", time(0));
         dbwu.update_field(buf);
 
     }
@@ -1039,7 +1039,7 @@ int add_result_to_reply(
     if (wu.target_nresults == 1 && app->target_nresults > 1 && !reply.wreq.trust) {
         DB_WORKUNIT dbwu;
         char buf[256];
-        sprintf(buf, "target_nresults=%d and transition_time=%d",
+        sprintf(buf, "target_nresults=%d and transition_time=%ld",
             app->target_nresults, time(0)
         );
         dbwu.id = wu.id;
@@ -1064,6 +1064,7 @@ int add_result_to_reply(
 static void explain_to_user(SCHEDULER_REPLY& reply) {
     char helpful[512];
     unsigned int i;
+    int j;
 
     // If work was sent from apps // the user did not select, explain
     //
@@ -1090,8 +1091,8 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
 
         // Tell the user about applications they didn't qualify for
         //
-        for (i=0; i<preferred_app_message_index; i++){
-            reply.insert_message(reply.wreq.no_work_messages.at(i));
+        for (j=0; j<preferred_app_message_index; j++){
+            reply.insert_message(reply.wreq.no_work_messages.at(j));
         }
         USER_MESSAGE um1("You have selected to receive work from other applications if no work is available for the applications you selected", "high");
         reply.insert_message(um1);
