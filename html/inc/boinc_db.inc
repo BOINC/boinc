@@ -180,6 +180,14 @@ class BoincWorkunit {
         if (!$ret) return $ret;
         return $db->insert_id();
     }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('workunit', 'BoincWorkunit', $clause);
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'workunit', $clause);
+    }
 }
 
 class BoincApp {
@@ -297,6 +305,10 @@ class BoincPlatform {
     static function enum($clause) {
         $db = BoincDb::get();
         return $db->enum('platform', 'BoincPlatform', $clause);
+    }
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'platform', 'BoincPlatform');
     }
 }
 

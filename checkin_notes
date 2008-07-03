@@ -5442,3 +5442,11 @@ Rom    3 July 2008
         CAGrantBOINCProjectsRights.cpp
         CAGrantBOINCUsersRights.cpp
         CAMigrateBOINCData.cpp
+
+David  3 July 2008
+    - boinc_submit: add --jobs and --abort options
+
+    html/inc/
+        boinc_db.inc
+    tools/
+        boinc_submit

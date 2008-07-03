@@ -406,7 +406,7 @@ function parse_args($argc, $argv) {
         case '--abort':
             $wuid = $argv[++$i];
             abort_job($wuid);
-        case '--show':
+        case '--jobs':
             show_jobs();
         default:
             if ($program) {
@@ -421,30 +421,38 @@ function parse_args($argc, $argv) {
 }
 
 function abort_job($wuid) {
-    $wu = BoincWorkunit::lookup_id($wu_id);
-    if (!$wu) error_page("No such job");
+    $wu = BoincWorkunit::lookup_id($wuid);
+    if (!$wu) error("No such job");
     $app = BoincApp::lookup_id($wu->appid);
     if (!strstr($app->name, "single_job")) {
-        error_page("Not a boinc_submit job");
+        error("Not a boinc_submit job");
+    }
+    if ($wu->error_mask) {
+        echo "Job $wuid has already been aborted.\n";
+        exit;
     }
     $x = $wu->error_mask | 16;
     $now = time();
     BoincResult::update_aux("server_state=5, outcome=5 where server_state=2 and workunitid=$wuid");
-    $wu->update("error_mask=$x and transition_time=$now");
+    $wu->update("error_mask=$x, transition_time=$now");
+    echo "Job $wuid has been aborted.\n";
     exit;
 }
 
 function show_jobs() {
-    $apps = BoincApp::enum();
+    $apps = BoincApp::enum("");
     foreach($apps as $app) {
         if (!strstr($app->name, "single_job")) continue;
-        $platform = BoincPlatform::lookup_id($app->platformid);
+        $avs = BoincAppVersion::enum("appid=$app->id");
+        $av = $avs[0];
+        $platform = BoincPlatform::lookup_id($av->platformid);
         echo "Jobs for $platform->user_friendly_name:\n";
         $wus = BoincWorkunit::enum("appid=$app->id");
-        foreach $wus as $wu {
-            echo "$wu->id: state $wu->assimilate_state\n";
+        foreach ($wus as $wu) {
+            show_job($wu);
         }
     }
+    exit;
 }
 
 function show_result($result, $i) {
@@ -461,8 +469,17 @@ function show_result($result, $i) {
     }
 }
 
+function show_job($wu) {
+    echo "Job $wu->id: ";
+    switch ($wu->assimilate_state) {
+    case 0: echo "in progress\n"; break;
+    case 1: echo "being assimilated\n"; break;
+    case 2: echo "completed\n"; break;
+    }
+}
+
 function show_wu_status($wu) {
-    $now = date("F j, Y, g:i a");
+    $now = date("F j, Y, g:i A");
     switch ($wu->assimilate_state) {
     case 0:
         echo "$now: job $wu->id is in progress\n";
