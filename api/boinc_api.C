@@ -841,7 +841,9 @@ static void timer_handler() {
     // handle messages from the core client
     //
     if (app_client_shm) {
-        handle_heartbeat_msg();
+        if (options.check_heartbeat) {
+            handle_heartbeat_msg();
+        }
         if (options.handle_trickle_downs) {
             handle_trickle_down_msg();
         }

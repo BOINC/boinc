@@ -5450,3 +5450,12 @@ David  3 July 2008
         boinc_db.inc
     tools/
         boinc_submit
+
+David  3 July 2008
+    - API: read heartbeat messages only if options.check_heartbest is set.
+        Otherwise, in compound apps we'll have both monitor and worker
+        reading the messages; this is a race condition
+        and will lead to spurious "no heartbeat" exits.
+
+    api/
+        boinc_api.C
