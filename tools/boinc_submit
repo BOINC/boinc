@@ -111,6 +111,21 @@ function do_includes() {
     BoincDb::get();
 }
 
+function check_infiles() {
+    global $infiles, $stdin_file, $job_dir;
+    chdir($job_dir);
+    foreach ($infiles as $i) {
+        if (!file_exists($i)) {
+	    error("Missing input file $i\n");
+	}
+    }
+    if ($stdin_file) {
+        if (!file_exists($stdin_file)) {
+	    error("Missing input file $stdin_file\n");
+	}
+    }
+}
+
 function check_app_version() {
     global $platform, $app_name;
     $app_name = "single_job_$platform";
@@ -521,6 +536,7 @@ function wait() {
 get_project_dir();
 do_includes();
 parse_args($argc, $argv);
+check_infiles();
 check_app_version();
 check_program();
 create_wu();
