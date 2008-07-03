@@ -76,6 +76,12 @@ boinc-options:
     Direct f to the program's stdin
 --stdout f
     Direct the program's stdout to f
+--wait jobID
+    Wait for the completion of an existing job
+--abort jobID
+    Abort an existing job
+--jobs
+    Show pending jobs
 --help
     Print this
 ";
@@ -397,6 +403,11 @@ function parse_args($argc, $argv) {
         case '--wait':
             $wuid = $argv[++$i];
             wait();
+        case '--abort':
+            $wuid = $argv[++$i];
+            abort_job($wuid);
+        case '--show':
+            show_jobs();
         default:
             if ($program) {
                 $cmdline_args .= ''.$argv[$i];
@@ -407,6 +418,33 @@ function parse_args($argc, $argv) {
         }
     }
     if (!$program) usage();
+}
+
+function abort_job($wuid) {
+    $wu = BoincWorkunit::lookup_id($wu_id);
+    if (!$wu) error_page("No such job");
+    $app = BoincApp::lookup_id($wu->appid);
+    if (!strstr($app->name, "single_job")) {
+        error_page("Not a boinc_submit job");
+    }
+    $x = $wu->error_mask | 16;
+    $now = time();
+    BoincResult::update_aux("server_state=5, outcome=5 where server_state=2 and workunitid=$wuid");
+    $wu->update("error_mask=$x and transition_time=$now");
+    exit;
+}
+
+function show_jobs() {
+    $apps = BoincApp::enum();
+    foreach($apps as $app) {
+        if (!strstr($app->name, "single_job")) continue;
+        $platform = BoincPlatform::lookup_id($app->platformid);
+        echo "Jobs for $platform->user_friendly_name:\n";
+        $wus = BoincWorkunit::enum("appid=$app->id");
+        foreach $wus as $wu {
+            echo "$wu->id: state $wu->assimilate_state\n";
+        }
+    }
 }
 
 function show_result($result, $i) {
