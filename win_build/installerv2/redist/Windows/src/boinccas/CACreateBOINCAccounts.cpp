@@ -26,7 +26,7 @@
 
 
 #define CUSTOMACTION_NAME               _T("CACreateBOINCAccounts")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Create user accounts used by BOINC for secure sandboxes")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Validating user accounts used by BOINC for secure sandboxes")
 
 
 /////////////////////////////////////////////////////////////////////

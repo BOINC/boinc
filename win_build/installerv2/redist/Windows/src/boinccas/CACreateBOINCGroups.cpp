@@ -25,7 +25,7 @@
 
 
 #define CUSTOMACTION_NAME               _T("CACreateBOINCGroups")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Create user groups used by BOINC for secure sandboxes")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Validating user groups used by BOINC for secure sandboxes")
 
 
 /////////////////////////////////////////////////////////////////////

@@ -332,10 +332,13 @@ UINT CAMigrateBOINCData::OnExecution()
     tstring      strDestinationClientStateFile;
     tstring      strRemove;
     tstring      strProductVersion;
+    tstring      strWindowsDirectory;
+    tstring      strWindowsSystemDirectory;
     struct _stat buf;
     ULONGLONG    ullFileSize = 0;
     ULONGLONG    ullDirectorySize = 0;
     ULONGLONG    ullFreeDiskSpace = 0;
+    TCHAR        szBuffer[2048];
     UINT         uiReturnValue = -1;
 
     LogMessage(
@@ -400,6 +403,7 @@ UINT CAMigrateBOINCData::OnExecution()
             (BOOL)(strFutureInstallDirectory == strFutureDataDirectory);
         BOOL bDataDirExistsWithinInstallDir = 
             (BOOL)(tstring::npos != strFutureDataDirectory.find(strFutureInstallDirectory));
+
 
         if      ( bClientStateExists )
         {

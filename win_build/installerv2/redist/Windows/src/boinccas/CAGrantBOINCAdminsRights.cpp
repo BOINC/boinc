@@ -25,7 +25,7 @@
 
 
 #define CUSTOMACTION_NAME               _T("CAGrantBOINCAdminsRights")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Granting the BOINC Administrators required privileges")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Validating the BOINC Administrators group privilege levels")
 
 
 /////////////////////////////////////////////////////////////////////
@@ -88,21 +88,56 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
         // most cases.
 
         // User Rights
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeNetworkLogonRight' right."));
         GrantUserRight(pSid, L"SeNetworkLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeRemoteInteractiveLogonRight' right."));
         GrantUserRight(pSid, L"SeRemoteInteractiveLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeBatchLogonRight' right."));
         GrantUserRight(pSid, L"SeBatchLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeInteractiveLogonRight' right."));
         GrantUserRight(pSid, L"SeInteractiveLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeServiceLogonRight' right."));
         GrantUserRight(pSid, L"SeServiceLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDenyNetworkLogonRight' right."));
         GrantUserRight(pSid, L"SeDenyNetworkLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDenyInteractiveLogonRight' right."));
         GrantUserRight(pSid, L"SeDenyInteractiveLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDenyBatchLogonRight' right."));
         GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDenyServiceLogonRight' right."));
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDenyRemoteInteractiveLogonRight' right."));
         GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
         // Privileges
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeTcbPrivilege' right."));
         GrantUserRight(pSid, L"SeTcbPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeMachineAccountPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeMachineAccountPrivilege' right."));
+        GrantUserRight(pSid, L"SeMachineAccountPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeIncreaseQuotaPrivilege' right."));
         if (!GrantUserRight(pSid, L"SeIncreaseQuotaPrivilege", TRUE))
         {
             LogMessage(
@@ -114,9 +149,13 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
                 _T("Failed call to GrantUserRight - SeIncreaseQuotaPrivilege")
             );
         }
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeBackupPrivilege' right."));
         GrantUserRight(pSid, L"SeBackupPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeChangeNotifyPrivilege' right."));
         if (!GrantUserRight(pSid, L"SeChangeNotifyPrivilege", TRUE))
         {
             LogMessage(
@@ -128,11 +167,21 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
                 _T("Failed call to GrantUserRight - SeChangeNotifyPrivilege")
             );
         }
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeSystemTimePrivilege' right."));
         GrantUserRight(pSid, L"SeSystemTimePrivilege", FALSE);
-        GrantUserRight(pSid, L"SeCreateTokenPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeCreatePagefilePrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeCreateTokenPrivilege' right."));
+        GrantUserRight(pSid, L"SeCreateTokenPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeCreatePagefilePrivilege' right."));
+        GrantUserRight(pSid, L"SeCreatePagefilePrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeCreateGlobalPrivilege' right."));
         if (!GrantUserRight(pSid, L"SeCreateGlobalPrivilege", TRUE))
         {
             LogMessage(
@@ -144,7 +193,9 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
                 _T("Failed call to GrantUserRight - SeCreateGlobalPrivilege")
             );
         }
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDebugPrivilege' right."));
         if (!GrantUserRight(pSid, L"SeDebugPrivilege", TRUE))
         {
             LogMessage(
@@ -156,21 +207,61 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
                 _T("Failed call to GrantUserRight - SeDebugPrivilege")
             );
         }
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeEnableDelegationPrivilege' right."));
         GrantUserRight(pSid, L"SeEnableDelegationPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeRemoteShutdownPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeAuditPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeImpersonatePrivilege", FALSE);
-        GrantUserRight(pSid, L"SeIncreaseBasePriorityPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeLoadDriverPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeLockMemoryPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeSecurityPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeSystemEnvironmentPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeManageVolumePrivilege", FALSE);
-        GrantUserRight(pSid, L"SeProfileSingleProcessPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeSystemProfilePrivilege", FALSE);
-        GrantUserRight(pSid, L"SeUndockPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeRemoteShutdownPrivilege' right."));
+        GrantUserRight(pSid, L"SeRemoteShutdownPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeAuditPrivilege' right."));
+        GrantUserRight(pSid, L"SeAuditPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeImpersonatePrivilege' right."));
+        GrantUserRight(pSid, L"SeImpersonatePrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeIncreaseBasePriorityPrivilege' right."));
+        GrantUserRight(pSid, L"SeIncreaseBasePriorityPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeLoadDriverPrivilege' right."));
+        GrantUserRight(pSid, L"SeLoadDriverPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeLockMemoryPrivilege' right."));
+        GrantUserRight(pSid, L"SeLockMemoryPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeSecurityPrivilege' right."));
+        GrantUserRight(pSid, L"SeSecurityPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeSystemEnvironmentPrivilege' right."));
+        GrantUserRight(pSid, L"SeSystemEnvironmentPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeManageVolumePrivilege' right."));
+        GrantUserRight(pSid, L"SeManageVolumePrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeProfileSingleProcessPrivilege' right."));
+        GrantUserRight(pSid, L"SeProfileSingleProcessPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeSystemProfilePrivilege' right."));
+        GrantUserRight(pSid, L"SeSystemProfilePrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeUndockPrivilege' right."));
+        GrantUserRight(pSid, L"SeUndockPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeAssignPrimaryTokenPrivilege' right."));
         if (!GrantUserRight(pSid, L"SeAssignPrimaryTokenPrivilege", TRUE))
         {
             LogMessage(
@@ -182,11 +273,23 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
                 _T("Failed call to GrantUserRight - SeAssignPrimaryTokenPrivilege")
             );
         }
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeRestorePrivilege' right."));
         GrantUserRight(pSid, L"SeRestorePrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeShutdownPrivilege' right."));
         GrantUserRight(pSid, L"SeShutdownPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeSynchAgentPrivilege' right."));
         GrantUserRight(pSid, L"SeSynchAgentPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeTakeOwnershipPrivilege' right."));
         GrantUserRight(pSid, L"SeTakeOwnershipPrivilege", FALSE);
+        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
     }
     else

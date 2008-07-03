@@ -25,7 +25,7 @@
 
 
 #define CUSTOMACTION_NAME               _T("CAGrantBOINCProjectsRights")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Granting the BOINC Projects required privileges")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Validating the BOINC Projects group privilege levels")
 
 
 /////////////////////////////////////////////////////////////////////

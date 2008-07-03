@@ -5425,3 +5425,20 @@ David  2 July 2008
 
     sched/
         server_types.C
+
+Rom    3 July 2008
+    - WINSETUP: Change the custom action descriptions for those custom
+        actions that deal with user rights and privileges and user
+        accounts.
+    - WINSETUP: Add some basic benchmarking code for user rights and
+        privileges
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CACreateBOINCAccounts.cpp
+        CACreateBOINCGroups.cpp
+        CAGrantBOINCAdminsRights.cpp
+        CAGrantBOINCMasterRights.cpp
+        CAGrantBOINCProjectRights.cpp
+        CAGrantBOINCProjectsRights.cpp
+        CAGrantBOINCUsersRights.cpp
+        CAMigrateBOINCData.cpp
