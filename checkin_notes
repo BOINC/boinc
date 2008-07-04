@@ -5475,3 +5475,16 @@ David  4 July 2008
         single_job_assimilator.C
     tools/
         boinc_submit
+
+David  4 July 2008
+    - web: check profile text with Akismet if enabled
+    - web: in get_logged_in_user(), check for bad user agent types
+        (a bit of spam-resistance)
+
+    html/
+        inc/
+            akismet.inc
+            profile.inc
+            util.inc
+        user/
+            create_profile.php

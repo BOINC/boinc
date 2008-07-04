@@ -3,6 +3,7 @@
 // TODO: the following is organized in a funky way.  Clean it up
 
 require_once("../inc/profile.inc");
+require_once("../inc/akismet.inc");
 
 // output a select form item with the given name,
 // from a list of newline-delineated items from the text file.
@@ -188,6 +189,10 @@ function process_create_profile($user, $profile) {
     $response1 = post_str('response1');
     $response2 = post_str('response2');
     $language = post_str('language');
+
+    akismet_check($user, $response1);
+    akismet_check($user, $response2);
+
     if (isset($_POST['delete_pic'])) {
         $delete_pic = $_POST['delete_pic'];
     } else {

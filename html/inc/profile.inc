@@ -218,9 +218,9 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     $options = get_output_options($logged_in_user);
 
     row1(show_profile_heading1());
-    row1(output_transform($profile->response1,$options), 2, "foobar");
+    row1(output_transform($profile->response1, $options), 2, "foobar");
     row1(show_profile_heading2());
-    row1(output_transform($profile->response2,$options), 2, "foobar");
+    row1(output_transform($profile->response2, $options), 2, "foobar");
 
     if (!$can_edit and !$screen_mode) {
         row1("Your feedback on this profile");

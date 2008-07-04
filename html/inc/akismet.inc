@@ -2,11 +2,12 @@
 
 function akismet_check($user, $post) {
     $config = get_config();
-    $master_url = parse_config($config, "<master_url>");
     $key = parse_config($config, "<akismet_key>");
-    if ($key == null) {
-        return true; // unable to get key from config
+    if (!$key) {
+        return true;
     }
+
+    $master_url = parse_config($config, "<master_url>");
     $master_url = urlencode($master_url);
     $response = akismet_request("key=$key&blog=$master_url", "rest.akismet.com", "/1.1/verify-key");
     if ("valid" == $response[1] ) {
@@ -26,7 +27,12 @@ function akismet_check($user, $post) {
         $response = akismet_request($request, "$key.rest.akismet.com", "/1.1/comment-check");
 
         if ("true" == $response[1]) { // Akismet says it's spam
-            error_page("Your post has been marked as spam by akismet.net anti-spam system. If you feel that this is wrong, please try editing your message.");
+            error_page(
+                "Your text has been marked as spam by the akismet.net
+                anti-spam system.
+                If you feel that this is wrong,
+                please try editing your message.
+            ");
         } else {
             return true;
         }

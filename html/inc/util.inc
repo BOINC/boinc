@@ -51,25 +51,23 @@ $g_logged_in_user = null;
 function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user;
     if ($g_logged_in_user) return $g_logged_in_user;
-    $login_request = false;
 
+    $x = ereg(
+        "curl|wget|libww|lwp::simple|lwp-trivial|fetch|rufusbot|java/|microsoft url control|webreaper",
+        strtolower($_SERVER[HTTP_USER_AGENT])
+    );
+    if ($x > 0) {
+        error_page("bad user agent");
+    }
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
 
-// leave this out for now
-//    if (!$authenticator) {
-//        $authenticator = get_str('login_auth', true);
-//        if ($authenticator) $login_request = true;
-//    }
     $authenticator = process_user_text($authenticator);
     if ($authenticator) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
     if ($must_be_logged_in) {
         require_login($g_logged_in_user);
-    }
-    if ($g_logged_in_user && $login_request) {
-        send_cookie('auth', $authenticator, true);
     }
     return $g_logged_in_user;
 }
