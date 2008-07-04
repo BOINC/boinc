@@ -42,17 +42,33 @@ int assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& /*results*/, RESULT& canonical_result
 ) {
     int retval;
-    char buf[1024], filename[256], job_dir[256];
+    char buf[1024], filename[256], job_dir[256], job_dir_file[256];
     unsigned int i;
 
+    // delete the template files
+    //
+    sprintf(buf, "../templates/sj_wu_template_%d", wu.id);
+    unlink(buf);
+    sprintf(buf, "../templates/sj_result_template_%d", wu.id);
+    unlink(buf);
+
+    // read and delete the job directory file
+    //
     sprintf(filename, "sj_%d", wu.id);
-    dir_hier_path(filename, config.upload_dir, config.uldl_dir_fanout, buf);
-    FILE* f = fopen(buf, "r");
+    dir_hier_path(
+        filename, config.upload_dir, config.uldl_dir_fanout, job_dir_file
+    );
+    FILE* f = fopen(job_dir_file, "r");
     if (!f) {
         log_messages.printf(MSG_CRITICAL, "Can't open job file %s\n", buf);
         return 0;
     }
     fgets(buf, 1024, f);
+    fclose(f);
+    unlink(job_dir_file);
+
+    // parse the job directory file
+    //
     char* p = strstr(buf, "<job_dir>");
     if (!p) {
         log_messages.printf(MSG_CRITICAL, "garbage in job file: %s\n", buf);
@@ -65,7 +81,21 @@ int assimilate_handler(
         return 0;
     }
     *p = 0;
+
+    // Create a job summary file
+    //
+    sprintf(filename, "%s/job_summary_%d", job_dir, wu.id);
+    f = fopen(filename, "w");
+
+    // If job was successful, copy the output files
+    //
     if (wu.canonical_resultid) {
+        fprintf(f,
+            "Job was completed by host %d.\n"
+            "CPU time: %f seconds\n",
+            canonical_result.hostid,
+            canonical_result.cpu_time
+        );
         vector<FILE_INFO> output_files;
         char copy_path[256];
         get_output_file_infos(canonical_result, output_files);
@@ -75,26 +105,27 @@ int assimilate_handler(
             string logical_name;
             retval = get_logical_name(canonical_result, fi.path, logical_name);
             if (retval) {
-                log_messages.printf(MSG_CRITICAL,
+                fprintf(f,
                     "Couldn't get logical name for %s: %d\n",
                     fi.path.c_str(), retval
                 );
-                return retval;
+                continue;
             }
             sprintf(copy_path, "%s/%s", job_dir, logical_name.c_str());
             retval = boinc_copy(fi.path.c_str() , copy_path);
             if (retval) {
-                log_messages.printf(MSG_CRITICAL,
-                    "couldn't copy file %s to %s\n",
-                    fi.path.c_str(), copy_path
+                fprintf(f,
+                    "Output file %s not present.\n", logical_name.c_str()
                 );
-                return retval;
+                continue;
             }
         }
     } else {
-        sprintf(buf, "%s/error_msg", job_dir);
-        f = fopen(buf, "w");
-        fprintf(f, "Error: 0x%x\n", wu.error_mask);
+        fprintf(f,
+            "The job was not successfully completed.\n"
+            "Error: 0x%x\n", wu.error_mask
+        );
     }
+    fclose(f);
     return 0;
 }

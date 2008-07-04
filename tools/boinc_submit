@@ -6,18 +6,19 @@
 // Implementation notes:
 // - The jobs use the app "single_job_PLATFORM".
 //   This app has a single app_version containing the wrapper for that platform
-// - the executable is part of the WU, and has the sticky bit set,
+// - the executable is part of the WU, has the sticky bit set,
 //   and has a signature
 // - The logical and physical name of the executable
 //   (as stored in the download directory) is "program_platform_cksum"
 //   where cksum is the last 8 chars of the MD5
-// - The physical name of the job file is job_WUID.xml
+// - The physical name of the job file is sj_WUID.xml
 // - The physical names of the input/output files are name_WUID
 // - a file containing the job directory is stored in
 //   sj_WUID in the upload hierarchy
-// - a workunit template sj_WUID is created in templates/
+// - workunit and result templates sj_wu_template_WUID
+//   and sj_result_template_WUID are created in templates/
 // - the single_job_assimilator copies the output files to the job dir,
-//   and cleans up the sj_WUID and WU template files
+//   and cleans up the sj_WUID and template files
 
 ini_set('error_reporting', E_ALL);
 
@@ -285,6 +286,7 @@ function make_result_template() {
 "    <file_ref>
         <file_name><OUTFILE_$i/></file_name>
         <open_name>$outfile</open_name>
+        <optional/>
         <copy_file/>
     </file_ref>
 ");
@@ -296,6 +298,7 @@ function make_result_template() {
 "    <file_ref>
         <file_name><OUTFILE_$i/></file_name>
         <open_name>$stdout_file</open_name>
+        <optional/>
     </file_ref>
 ");
     }

@@ -239,8 +239,7 @@ static int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path
 // set up a file reference, given a slot dir and project dir.
 // This means:
 // 1) copy the file to slot dir, if reference is by copy
-// 2) (Unix) make a symbolic link
-// 3) (Windows) make a 
+// 2) else make a soft link
 //
 static int setup_file(
     PROJECT* project, FILE_INFO* fip, FILE_REF& fref,

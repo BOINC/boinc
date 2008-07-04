@@ -5459,3 +5459,19 @@ David  3 July 2008
 
     api/
         boinc_api.C
+
+David  4 July 2008
+    - Improvements to single-job submission:
+        1) the assimilator creates a job_summary_WUID file saying
+            - what host did the job
+            - error status if any
+            - info about missing output files
+        2) all output files are now optional.
+        3) the assimilator deletes temp files (templates, job dir file)
+
+    client/
+        app_start.C
+    sched/
+        single_job_assimilator.C
+    tools/
+        boinc_submit
