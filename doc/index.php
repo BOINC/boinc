@@ -126,8 +126,8 @@ function show_create() {
         <br>
         And check out:
         <ul>
-            <li> <a href=trac/wiki/BoltIntro>Bolt</a> (software for web-based education and training)</a>
-            <li> <a href=trac/wiki/BossaIntro>Bossa</a> (software for distributed thinking projects)</a>
+            <li> <a href=trac/wiki/BoltIntro>Bolt</a>: software for web-based education and training</a>
+            <li> <a href=trac/wiki/BossaIntro>Bossa</a>: software for distributed thinking projects</a>
         </ul>
         </td></tr>
     ";

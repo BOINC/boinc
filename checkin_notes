@@ -5193,7 +5193,7 @@ David  26 June 2008
 
 David  26 June 2008
     - back-end code: fix compiler warnings (and maybe bugs);
-        to some retentive code cleanup
+        do some retentive code cleanup
 
     sched/
         feeder.C
@@ -5307,7 +5307,7 @@ David  1 July 2008
         handle_request.C
         server_types.C
 
-Eric	1 July 2008
+Eric  1 July 2008
     - client: Fixes ticket Fixes ticket #537. Forces use of small 
       files in zlib.h and when /proc filesystem is used on solaris.
 
@@ -5488,3 +5488,13 @@ David  4 July 2008
             util.inc
         user/
             create_profile.php
+
+David  6 July 2008
+    - web: include "reason" field in emails for thread moderation
+
+    html/
+        inc/
+            forum_email.inc
+        user/
+            forum_moderate_thread.php
+            forum_modearte_thread_action.php

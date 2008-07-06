@@ -15,12 +15,11 @@ if (!is_moderator($logged_in_user, $forum)) {
     error_page("not authorized");
 }
 
-page_head('Moderate');
+page_head("Moderate thread '$thread->title'");
 
 echo "<form action=forum_moderate_thread_action.php?thread=$thread->id method=POST>\n";
 echo form_tokens($logged_in_user->authenticator);
 start_table();
-row1("Moderate thread");
 
 $action = get_str('action');
 switch ($action) {
@@ -46,13 +45,14 @@ case 'move':
     $categories = BoincCategory::enum();
     foreach ($categories as $category) {
         $forums = BoincForum::enum("category=$category->id");
-        foreach ($forums as $forum) {
-            $selectbox .= '<option value="'.$forum->id.'">'.$forum->title.'</option>';  
+        foreach ($forums as $f) {
+            $selectbox .= '<option value="'.$f->id.'">'.$f->title.'</option>';  
         }  
     }  
     $selectbox .= '</option>';  
     
-    row2("Destination forum:", $selectbox);  
+    row2("Current forum", $forum->title);
+    row2("Destination forum", $selectbox);  
     break;
 case 'title':
     echo "<input type=hidden name=action value=title>";
@@ -64,7 +64,7 @@ default:
     error_page("Unknown action");
 }
 
-row2("Reason<br>Mailed if nonempty",
+row2("Reason<br><span class=note>Mailed if nonempty</span>",
     "<textarea rows=10 cols=80 name=\"reason\"></textarea>"
 );
 

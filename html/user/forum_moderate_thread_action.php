@@ -20,38 +20,74 @@ if (!is_moderator($logged_in_user, $forum)) {
     error_page("You are not authorized to moderate this post.");
 }
 
-if ($action=="hide") {
-    $cat = post_int("category");        // TODO - store this somewhere
+$explanation = "";
+$cat = post_int("category", true);
+if ($cat) {
+    $explanation .= "Reason: ";
+    switch ($cat) {
+    case 1: $explanation .= "obscene"; break;
+    case 2: $explanation .= "flame/hate mail"; break;
+    case 3: $explanation .= "commercial spam"; break;
+    case 4: $explanation .= "other"; break;
+    }
+    $explanation .= "\n";
+}
+
+$comment = post_str('reason', true);
+if ($comment) {
+    $explanation .= "Moderator comment: $comment\n";
+}
+
+switch ($action) {
+case "hide":
     $result = hide_thread($thread, $forum);
-} elseif ($action=="unhide"){
+    $action_name = "hidden";
+    break;
+case "unhide":
     $result = unhide_thread($thread, $forum);
-} elseif ($action=="sticky"){
+    $action_name = "unhidden";
+    break;
+case "sticky":
     $result = $thread->update("sticky=1");
-} elseif ($action=="desticky"){
+    $action_name = "made sticky";
+    break;
+case "desticky":
     $result = $thread->update("sticky=0");
-} elseif ($action == "lock") {
+    $action_name = "made non-sticky";
+    break;
+case "lock":
     $result = $thread->update("locked=1");
-} elseif ($action == "unlock") {
+    $action_name = "locked";
+    break;
+case "unlock":
     $result = $thread->update("locked=0");
-} elseif ($action=="move"){
+    $action_name = "unlocked";
+    break;
+case "move":
     if ($forum->parent_type != 0) error_page("No");
     $fid = post_int('forumid');
     $new_forum = BoincForum::lookup_id($fid);
     $result = move_thread($thread, $forum, $new_forum);
-} elseif ($action=="title"){
+    $action_name = "moved from $forum->title to $new_forum->title";
+    break;
+case "title":
     $title = post_str('newtitle');
     $result = $thread->update("title='$title'");
-} else {
+    $action_name = "renamed from '$thread->title' to '$title'";
+    break;
+default:
     error_page("Unknown action ");
 }
 
-if ($result) {
-    $reason = post_str('reason', true);
-    if (!$reason) $reason = "None given";
-    send_thread_moderation_email($forum, $thread, $reason, $action);
-    header('Location: forum_thread.php?id='.$thread->id);
-} else {
+if (!$result) {
     error_page("Moderation failed");
 }
+
+$reason = post_str('reason', true);
+if (!$reason) $reason = "None given";
+send_thread_moderation_email(
+    $forum, $thread, $reason, $action_name, $explanation
+);
+header('Location: forum_thread.php?id='.$thread->id);
 
 ?>
