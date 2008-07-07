@@ -54,7 +54,7 @@ boinc_gui_SOURCES = \
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
     DlgGenericMessage.cpp \
-    DlgItemProperties \
+    DlgItemProperties.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
     hyperlink.cpp \
