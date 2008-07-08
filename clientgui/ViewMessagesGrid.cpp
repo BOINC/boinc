@@ -109,13 +109,9 @@ CViewMessagesGrid::CViewMessagesGrid(wxNotebook* pNotebook) :
 	pItem = new CTaskItem(
         _("Copy selected messages"),
 #ifdef __WXMAC__
-        _("Copy the selected messages to the clipboard. "
-          "You can select multiple messages by holding down the shift "
-          "or command key while clicking on messages."),
+        _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."),
 #else
-        _("Copy the selected messages to the clipboard. "
-          "You can select multiple messages by holding down the shift "
-          "or control key while clicking on messages."),
+        _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."),
 #endif
         ID_TASK_MESSAGES_COPYSELECTED
     );

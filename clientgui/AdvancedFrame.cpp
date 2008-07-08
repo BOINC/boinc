@@ -360,15 +360,13 @@ bool CAdvancedFrame::CreateMenu() {
     menuView->AppendRadioItem(
         ID_VIEWACCESSIBLE,
         _("&Accessible View"),
-        _("Accessible views are compatible with accessibility aids such as "
-          "screen readers.")
+        _("Accessible views are compatible with accessibility aids such as screen readers.")
     );
 
     menuView->AppendRadioItem(
         ID_VIEWGRID,
         _("&Grid View"),
-        _("Grid views allow you to sort various columns and displays "
-          "graphical progress bars.")
+        _("Grid views allow you to sort various columns and displays graphical progress bars.")
     );
 
     menuView->Append(
@@ -1263,8 +1261,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     // 2nd %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s will shut down the currently connected client,\n"
-          "and prompt you for another host to connect to.\n"),
+        _("%s will shut down the currently connected client,\nand prompt you for another host to connect to.\n"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
@@ -1445,11 +1442,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
-            _("If you stop using %s,\n"
-              "you'll keep all your current projects,\n"
-              "but you'll have to manage projects manually.\n"
-              "\n"
-              "Do you want to stop using %s?"), 
+            _("If you stop using %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to stop using %s?"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
@@ -1630,8 +1623,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             // %s is the application name
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             strDialogMessage.Printf(
-                _("The %s's default language has been changed, in order for this "
-                  "change to take affect you must restart the %s."),
+                _("The %s's default language has been changed, in order for this change to take affect you must restart the %s."),
                 pSkinAdvanced->GetApplicationName().c_str(),
                 pSkinAdvanced->GetApplicationName().c_str()
             );

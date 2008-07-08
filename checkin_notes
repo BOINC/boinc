@@ -5539,4 +5539,34 @@ Rom    8 July 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
-    
+   
+Eric K	8 July 2008
+    - Fix for unicode compiles in DlgItemProperties.cpp
+    - Fix for compilers that can't concatenate a normal character string
+      to a wide character string.  For example L"Hi "  "There" works in GCC
+      but not in some compilers because L"Hi " has a different type than
+      "There". This primarily shows up in SunStudio compilers.  The fix is
+      ugly, but it works.
+
+    clientgui/
+        CompletionPage.cpp
+        AdvancedFrame.cpp
+        ViewMessages.cpp
+        BOINCDialupManager.cpp
+        WelcomePage.cpp
+        ViewProjectsGrid.cpp
+        SkinManager.cpp
+        NotDetectedPage.cpp
+        ViewTransfers.cpp
+        ProxyInfoPage.cpp
+        ViewMessagesGrid.cpp
+        BOINCClientManager.cpp
+        ProjectProcessingPage.cpp
+        AccountManagerInfoPage.cpp
+        AccountKeyPage.cpp
+        ViewTransfersGrid.cpp
+        BOINCBaseFrame.cpp
+        ViewWorkGrid.cpp
+        sg_DlgMessages.cpp
+	DlgItemProperties.cpp
+

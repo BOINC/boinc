@@ -185,20 +185,14 @@ void CErrAlreadyExistsPage::OnPageChanged( wxWizardExEvent& event ) {
             _("Username already in use")
         );
         m_pDirectionsStaticCtrl->SetLabel(
-            _("An account with that username already exists and has a\n"
-              "different password than the one you entered.\n"
-              "\n"
-              "Please visit the project's web site and follow the instructions there.")
+            _("An account with that username already exists and has a\ndifferent password than the one you entered.\n\nPlease visit the project's web site and follow the instructions there.")
         );
     } else {
         m_pTitleStaticCtrl->SetLabel(
             _("Email address already in use")
         );
         m_pDirectionsStaticCtrl->SetLabel(
-            _("An account with that email address already exists and has a\n"
-              "different password than the one you entered.\n"
-              "\n"
-              "Please visit the project's web site and follow the instructions there.")
+            _("An account with that email address already exists and has a\ndifferent password than the one you entered.\n\nPlease visit the project's web site and follow the instructions there.")
         );
     }
 

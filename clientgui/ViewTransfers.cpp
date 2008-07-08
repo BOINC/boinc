@@ -158,8 +158,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Abort Transfer"),
-        _("Click 'Abort transfer' to delete the file from the transfer queue. "
-          "This will prevent you from being granted credit for this result."),
+        _("Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."),
         ID_TASK_TRANSFERS_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -270,9 +269,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
         pTransfer = m_TransferCache.at(m_iSortedIndexes[row]);
 
         strMessage.Printf(
-            _("Are you sure you want to abort this file transfer '%s'?\n"
-              "NOTE: Aborting a transfer will invalidate a task and you\n"
-              "will not receive credit for it."), 
+            _("Are you sure you want to abort this file transfer '%s'?\nNOTE: Aborting a transfer will invalidate a task and you\nwill not receive credit for it."), 
             pTransfer->m_strFileName.c_str()
         );
 

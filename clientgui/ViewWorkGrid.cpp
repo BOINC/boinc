@@ -128,8 +128,7 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Abort"),
-        _("Abandon work on the result. "
-          "You will get no credit for it."),
+        _("Abandon work on the result. You will get no credit for it."),
         ID_TASK_WORK_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -327,8 +326,7 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         //FormatStatus(iResult, strStatus);
 
         strMessage.Printf(
-            _("Are you sure you want to abort this task '%s'?\n"
-              "(Progress: %s %%, Status: %s)"), 
+            _("Are you sure you want to abort this task '%s'?\n(Progress: %s %%, Status: %s)"), 
             strName.c_str(),
             strProgress.c_str(),
             strStatus.c_str()

@@ -317,11 +317,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             );
 
             strBuffer.Printf(
-                _("If possible, add projects at the\n"
-                  "%s web site.\n"
-                  "\n"
-                  "Projects added via this wizard will not be\n"
-                  "listed on or managed via %s."), 
+                _("If possible, add projects at the\n%s web site.\n\nProjects added via this wizard will not be\nlisted on or managed via %s."), 
                 wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
                 wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
             );
@@ -334,8 +330,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
                 _("Attach to project")
             );
             m_pDescriptionStaticCtrl->SetLabel(
-                _("We'll now guide you through the process of attaching\n"
-			      "to a project.")
+                _("We'll now guide you through the process of attaching\nto a project.")
             );
         }
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
@@ -349,8 +344,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             strBuffer
         );
         strBuffer.Printf(
-            _("We'll now remove this computer from %s.  From now on,\n"
-              "attach and detach projects directly from this computer.\n"
+            _("We'll now remove this computer from %s.  From now on,\nattach and detach projects directly from this computer.\n"
               ), 
             pWAM->m_strProjectName.c_str()
         );
@@ -364,10 +358,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             _("Account manager")
         );
         m_pDescriptionStaticCtrl->SetLabel(
-            _("We'll now guide you through the process of attaching\n"
-              "to an account manager.\n\n"
-			  "If you want to attach to a single project, click Cancel,\n"
-			  "then select the 'Attach to project' menu item instead."
+            _("We'll now guide you through the process of attaching\nto an account manager.\n\nIf you want to attach to a single project, click Cancel,\nthen select the 'Attach to project' menu item instead."
 			)
         );
     } else {

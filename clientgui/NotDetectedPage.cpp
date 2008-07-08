@@ -184,19 +184,14 @@ void CErrNotDetectedPage::OnPageChanged( wxWizardExEvent& event ) {
             _("Project not found")
         );
         m_pDirectionsStaticCtrl->SetLabel(
-            _("The URL you supplied is not that of a BOINC-based project.\n"
-              "\n"
-              "Please check the URL and try again.")
+            _("The URL you supplied is not that of a BOINC-based project.\n\nPlease check the URL and try again.")
         );
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
         m_pTitleStaticCtrl->SetLabel(
             _("Account manager not found")
         );
         m_pDirectionsStaticCtrl->SetLabel(
-            _("The URL you supplied is not that of a BOINC-based account\n"
-              "manager.\n"
-              "\n"
-              "Please check the URL and try again.")
+            _("The URL you supplied is not that of a BOINC-based account\nmanager.\n\nPlease check the URL and try again.")
         );
     } else {
         wxASSERT(FALSE);

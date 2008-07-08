@@ -215,8 +215,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
         if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
             m_pCompletionMessage->SetLabel(
-                _("When you click Finish, your web browser will go to a page where\n"
-                  "you can set your account name and preferences.")
+                _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences.")
             );
         } else {
             m_pCompletionMessage->SetLabel(

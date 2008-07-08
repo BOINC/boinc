@@ -371,9 +371,7 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
             ShowAlert(
                 strDialogTitle,
 #ifndef __WXMAC__
-                _("Authorization failed connecting to running client."
-                  "\nMake sure you start this program in the same directory as the client."
-                ),
+                _("Authorization failed connecting to running client.\nMake sure you start this program in the same directory as the client."),
 #else
                 _("Authorization failed connecting to running client."),
 #endif
@@ -431,8 +429,7 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
     // 2st %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s is not able to connect to a %s client.\n"
-          "Would you like to try to connect again?"),
+        _("%s is not able to connect to a %s client.\nWould you like to try to connect again?"),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
@@ -478,16 +475,13 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
     //    i.e. 'BOINC', 'GridRepublic'
 #ifdef __WXMSW__
     strDialogMessage.Printf(
-        _("%s is not able to start a %s client.\n"
-          "Please launch the Control Panel->Administative Tools->Services "
-          "applet and start the BOINC service."),
+        _("%s is not able to start a %s client.\nPlease launch the Control Panel->Administative Tools->Services applet and start the BOINC service."),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
 #else
     strDialogMessage.Printf(
-        _("%s is not able to start a %s client.\n"
-          "Please start the daemon and try again."),
+        _("%s is not able to start a %s client.\nPlease start the daemon and try again."),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
@@ -544,9 +538,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
     // 3nd %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s is not currently connected to a %s client.\n"
-          "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
-          "To connect up to your local computer please use 'localhost' as the host name."),
+        _("%s is not currently connected to a %s client.\nPlease use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\nTo connect up to your local computer please use 'localhost' as the host name."),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()

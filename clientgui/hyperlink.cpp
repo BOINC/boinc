@@ -189,12 +189,7 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
         // 3rd %s is the application name
         //    i.e. 'BOINC Manager', 'GridRepublic Manager'
         strDialogMessage.Printf(
-            _("%s tried to display the web page\n"
-            "\t%s\n"
-            "but couldn't find a web browser.\n"
-            "To fix this, set the environment variable\n"
-            "BROWSER to the path of your web browser,\n"
-            "then restart the %s."),
+            _("%s tried to display the web page\n\t%s\nbut couldn't find a web browser.\nTo fix this, set the environment variable\nBROWSER to the path of your web browser,\nthen restart the %s."),
             wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName().c_str(),
             strLink.c_str(),
             wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName().c_str()

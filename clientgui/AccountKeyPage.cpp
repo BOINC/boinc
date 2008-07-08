@@ -225,10 +225,7 @@ void CAccountKeyPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Enter account key")
     );
     m_pDirectionsStaticCtrl->SetLabel(
-        _("This project uses an \"account key\" to identify you.\n"
-          "\n"
-          "Go to the project's web site to create an account. Your account\n"
-          "key will be emailed to you.")
+        _("This project uses an \"account key\" to identify you.\n\nGo to the project's web site to create an account. Your account\nkey will be emailed to you.")
     );
     m_pAccountKeyExampleDescriptionStaticCtrl->SetLabel(
         _("An account key looks like:")

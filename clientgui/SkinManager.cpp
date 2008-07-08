@@ -1046,11 +1046,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         }
         // NOTE: Must be called after filling in m_strProjectName and m_strApplicationName
         m_strExitMessage.Printf(
-            _("This will shut down %s and its tasks entirely until either the\n"
-              "%s application or the %s screen saver is run again.\n\n"
-              "In most cases, it is better just to close the %s window\n"
-              "rather than to exit the application; that will allow %s to run its\n"
-              "tasks at the times you selected in your preferences."),
+            _("This will shut down %s and its tasks entirely until either the\n%s application or the %s screen saver is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
                 m_strApplicationShortName.c_str(),
                 m_strApplicationName.c_str(),
                 m_strApplicationShortName.c_str(),

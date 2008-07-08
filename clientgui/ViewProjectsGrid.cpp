@@ -120,8 +120,7 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Update"),
-        _("Report all completed tasks, get latest credit, "
-          "get latest preferences, and possibly get more tasks."),
+        _("Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."),
         ID_TASK_PROJECT_UPDATE
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -142,19 +141,14 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Reset project"),
-        _("Delete all files and tasks associated with this project, "
-          "and get new tasks.  "
-          "You can update the project "
-          "first to report any completed tasks."),
+        _("Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."),
         ID_TASK_PROJECT_RESET
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Detach"),
-        _("Detach computer from this project.  "
-          "Tasks in progress will be lost "
-          "(use 'Update' first to report any completed tasks)."),
+        _("Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."),
         ID_TASK_PROJECT_DETACH
     );
     pGroup->m_Tasks.push_back( pItem );

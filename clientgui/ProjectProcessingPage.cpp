@@ -484,8 +484,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                         strBuffer += 
-                            _("Required wizard file(s) are missing from the target server.\n"
-                              "(lookup_account.php/create_account.php)\n");
+                            _("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
                     } else if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                         strBuffer += 
                             _("An internal server error has occurred.\n");

@@ -113,8 +113,7 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
 
     pItem = new CTaskItem(
         _("Abort Transfer"),
-        _("Click 'Abort transfer' to delete the file from the transfer queue. "
-          "This will prevent you from being granted credit for this result."),
+        _("Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."),
         ID_TASK_TRANSFERS_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -230,9 +229,7 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Aborting transfer(s)..."));
 	strMessage.Printf(
-        _("Are you sure you want to abort this file(s) transfer ?\n"
-          "NOTE: Aborting a transfer will invalidate a task and you\n"
-          "will not receive credit for it."));
+        _("Are you sure you want to abort this file(s) transfer ?\nNOTE: Aborting a transfer will invalidate a task and you\nwill not receive credit for it."));
     iAnswer = ::wxMessageBox(strMessage,_("Abort File Transfer(s)"),wxYES_NO | wxICON_QUESTION,this);
     if (wxYES == iAnswer) {
         wxArrayInt aRows = m_pGridPane->GetSelectedRows2();
