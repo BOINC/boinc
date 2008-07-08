@@ -42,6 +42,7 @@
 // buttons in the "tasks" area
 #define BTN_COPYALL      0
 #define BTN_COPYSELECTED 1
+#define BTN_FILTERMSGS   2
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
@@ -49,6 +50,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewMessages, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_MESSAGES_COPYALL, CViewMessages::OnMessagesCopyAll)
     EVT_BUTTON(ID_TASK_MESSAGES_COPYSELECTED, CViewMessages::OnMessagesCopySelected)
+    EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CViewMessages::OnMessagesFilter)
     EVT_LIST_ITEM_SELECTED(ID_LIST_MESSAGESVIEW, CViewMessages::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_MESSAGESVIEW, CViewMessages::OnListDeselected)
 END_EVENT_TABLE ()
@@ -71,9 +73,12 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     //
     // Initialize variables used in later parts of the class
     //
-    m_iPreviousDocCount = 0;
-
-
+    m_iPreviousRowCount = 0;
+    m_iTotalDocCount = 0;
+    m_iPreviousTotalDocCount = 0;
+    m_bIsFiltered = false;
+    m_strFilteredProjectName.clear();
+    m_iFilteredIndexes.Clear();
     //
     // Setup View
     //
@@ -99,6 +104,13 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
           "or control key while clicking on messages."),
 #endif
         ID_TASK_MESSAGES_COPYSELECTED 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Show only this project"),
+        _("Show only the messages for the selected project."),
+        ID_TASK_MESSAGES_FILTERBYPROJECT 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -129,6 +141,8 @@ CViewMessages::~CViewMessages() {
         m_pMessageErrorAttr = NULL;
     }
     EmptyTasks();
+    m_strFilteredProjectName.clear();
+    m_iFilteredIndexes.Clear();
 }
 
 
@@ -217,8 +231,80 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
+void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesFilter - Function Begin"));
+
+    wxInt32 iIndex = -1;
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    MESSAGE*   message;
+    
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+
+    m_iFilteredIndexes.Clear();
+    m_strFilteredProjectName.clear();
+
+    if (m_bIsFiltered) {
+        m_bIsFiltered = false;
+        m_iFilteredDocCount = m_iTotalDocCount;
+    } else {
+        iIndex = m_pListPane->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (iIndex >= 0) {
+             message = wxGetApp().GetDocument()->message(iIndex);
+             if ((message->project).size() > 0) {
+                pFrame->UpdateStatusText(_("Filtering messages..."));
+                m_strFilteredProjectName = message->project;
+                m_bIsFiltered = true;
+                for (iIndex = 0; iIndex < m_iTotalDocCount; iIndex++) {
+                    message = wxGetApp().GetDocument()->message(iIndex);
+                    if (message->project == m_strFilteredProjectName) {
+                        m_iFilteredIndexes.Add(iIndex);
+                    }
+
+                }
+            m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
+           }
+        }
+    }
+    
+    // Force a complete update
+    m_iPreviousRowCount = 0;
+    m_pListPane->DeleteAllItems();
+    m_pListPane->SetItemCount(m_iFilteredDocCount);
+    UpdateSelection();
+    pFrame->FireRefreshView();
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesFilter - Function End"));
+}
+
+
+wxInt32 CViewMessages::GetFilteredMessageIndex( wxInt32 iRow) const {
+    if (m_bIsFiltered) return m_iFilteredIndexes[iRow];
+    return iRow;
+}
+
+
+// Get the (possibly filtered) item count (i.e., the Row count)
 wxInt32 CViewMessages::GetDocCount() {
-    return wxGetApp().GetDocument()->GetMessageCount();
+    int i;
+    
+    m_iTotalDocCount = wxGetApp().GetDocument()->GetMessageCount();
+    if (m_bIsFiltered) {
+        for (i = m_iPreviousTotalDocCount; i < m_iTotalDocCount; i++) {
+            MESSAGE*   message = wxGetApp().GetDocument()->message(i);
+            if (message->project == m_strFilteredProjectName) {
+                m_iFilteredIndexes.Add(i);
+            }
+        }
+        m_iPreviousTotalDocCount = m_iTotalDocCount;
+        m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
+        return m_iFilteredDocCount;
+    }
+
+    m_iPreviousTotalDocCount = m_iTotalDocCount;
+    m_iFilteredDocCount = m_iTotalDocCount;
+    return m_iTotalDocCount;
 }
 
 
@@ -237,8 +323,8 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
         wxASSERT(m_pListPane);
 
         isConnected = pDoc->IsConnected();
-        wxInt32 iDocCount = GetDocCount();
-        if (0 >= iDocCount) {
+        wxInt32 iRowCount = GetDocCount();
+        if (0 >= iRowCount) {
             m_pListPane->DeleteAllItems();
         } else {
             // If connection status changed, adjust color of messages display
@@ -254,29 +340,29 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
                 }
                 // Force a complete update
                 m_pListPane->DeleteAllItems();
-                m_pListPane->SetItemCount(iDocCount);
+                m_pListPane->SetItemCount(iRowCount);
            }
             
-            if (m_iPreviousDocCount != iDocCount)
-                m_pListPane->SetItemCount(iDocCount);
+            if (m_iPreviousRowCount != iRowCount)
+                m_pListPane->SetItemCount(iRowCount);
         }
 
-        if ((iDocCount) && (_EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
-            m_pListPane->EnsureVisible(iDocCount - 1);
+        if ((iRowCount) && (_EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {
+            m_pListPane->EnsureVisible(iRowCount - 1);
         }
 
         if (isConnected) {
             pDoc->GetConnectedComputerName(strNewMachineName);
             if (strLastMachineName != strNewMachineName) {
                 strLastMachineName = strNewMachineName;
-                if (iDocCount) {
-                    m_pListPane->EnsureVisible(iDocCount - 1);
+                if (iRowCount) {
+                    m_pListPane->EnsureVisible(iRowCount - 1);
                 }
             }
         }
 
-        if (m_iPreviousDocCount != iDocCount) {
-            m_iPreviousDocCount = iDocCount;
+        if (m_iPreviousRowCount != iRowCount) {
+            m_iPreviousRowCount = iRowCount;
         }
 
         m_bProcessingListRenderEvent = false;
@@ -288,16 +374,17 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
 
 wxString CViewMessages::OnListGetItemText(long item, long column) const {
     wxString        strBuffer   = wxEmptyString;
-
+    wxInt32         index       = GetFilteredMessageIndex(item);
+    
     switch(column) {
     case COLUMN_PROJECT:
-        FormatProjectName(item, strBuffer);
+        FormatProjectName(index, strBuffer);
         break;
     case COLUMN_TIME:
-        FormatTime(item, strBuffer);
+        FormatTime(index, strBuffer);
         break;
     case COLUMN_MESSAGE:
-        FormatMessage(item, strBuffer);
+        FormatMessage(index, strBuffer);
         break;
     }
 
@@ -307,7 +394,8 @@ wxString CViewMessages::OnListGetItemText(long item, long column) const {
 
 wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
-    MESSAGE*        message     = wxGetApp().GetDocument()->message(item);
+    wxInt32         index       = GetFilteredMessageIndex(item);
+    MESSAGE*        message     = wxGetApp().GetDocument()->message(index);
 
     if (message) {
         switch(message->priority) {
@@ -328,8 +416,8 @@ bool CViewMessages::EnsureLastItemVisible() {
     int numVisible = m_pListPane->GetCountPerPage();
 
     // Auto-scroll only if already at bottom of list
-    if ((m_iPreviousDocCount > numVisible)
-         && ((m_pListPane->GetTopItem() + numVisible) < (m_iPreviousDocCount-1)) 
+    if ((m_iPreviousRowCount > numVisible)
+         && ((m_pListPane->GetTopItem() + numVisible) < (m_iPreviousRowCount-1)) 
     ) {
         return false;
     }
@@ -340,16 +428,43 @@ bool CViewMessages::EnsureLastItemVisible() {
 
 void CViewMessages::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
+    MESSAGE*            message;
 
     CBOINCBaseView::PreUpdateSelection();
 
     pGroup = m_TaskGroups[0];
-    if (m_pListPane->GetSelectedItemCount()) {
+    int n = m_pListPane->GetSelectedItemCount();
+
+    if (n > 0) {
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_COPYSELECTED]);
     } else {
         m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_COPYSELECTED]);
     }
-
+    
+    if (m_bIsFiltered) {
+        m_pTaskPane->UpdateTask(
+            pGroup->m_Tasks[BTN_FILTERMSGS], 
+            _("Show all messages"), 
+            _("Resume tasks for this project.")
+        );
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_FILTERMSGS]);
+          
+    } else {
+        m_pTaskPane->UpdateTask(
+            pGroup->m_Tasks[BTN_FILTERMSGS], 
+            _("Show only this project"),
+            _("Show only the messages for the selected project.")
+        );
+        m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_FILTERMSGS]);
+        if (n == 1) {
+            n = m_pListPane->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+            message = wxGetApp().GetDocument()->message(n);
+            if ((message->project).size() > 0) {
+                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_FILTERMSGS]);
+            }
+        }
+    }
+    
     CBOINCBaseView::PostUpdateSelection();
 }
 
@@ -407,7 +522,8 @@ bool CViewMessages::OpenClipboard() {
 
 
 wxInt32 CViewMessages::CopyToClipboard(wxInt32 item) {
-    wxInt32        iRetVal = -1;
+    wxInt32        iRetVal  = -1;
+    wxInt32         index   = GetFilteredMessageIndex(item);
 
     if (m_bClipboardOpen) {
         wxString       strBuffer = wxEmptyString;
@@ -415,9 +531,9 @@ wxInt32 CViewMessages::CopyToClipboard(wxInt32 item) {
         wxString       strProject = wxEmptyString;
         wxString       strMessage = wxEmptyString;
 
-        FormatTime(item, strTimeStamp);
-        FormatProjectName(item, strProject);
-        FormatMessage(item, strMessage);
+        FormatTime(index, strTimeStamp);
+        FormatProjectName(index, strProject);
+        FormatMessage(index, strMessage);
 
 #ifdef __WXMSW__
         strBuffer.Printf(wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());

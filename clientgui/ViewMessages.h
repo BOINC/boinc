@@ -46,16 +46,24 @@ public:
 
     void                    OnMessagesCopyAll( wxCommandEvent& event );
     void                    OnMessagesCopySelected( wxCommandEvent& event );
+    void                    OnMessagesFilter( wxCommandEvent& event );
 
 protected:
 
-    wxInt32                 m_iPreviousDocCount;
+    wxArrayInt              m_iFilteredIndexes;
+    wxInt32                 m_iTotalDocCount;
+    wxInt32                 m_iFilteredDocCount;
+    wxInt32                 m_iPreviousTotalDocCount;
+    wxInt32                 m_iPreviousRowCount;
+    bool                    m_bIsFiltered;
+    std::string             m_strFilteredProjectName;
 
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
 
     virtual void            OnListRender( wxTimerEvent& event );
 
+    virtual wxInt32         GetFilteredMessageIndex( wxInt32 iRow) const;
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;

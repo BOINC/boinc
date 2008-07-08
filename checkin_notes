@@ -5498,3 +5498,11 @@ David  6 July 2008
         user/
             forum_moderate_thread.php
             forum_modearte_thread_action.php
+
+Charlie 8 July 2008
+    - MGR: Add "Show only this project" button to messages tab; filters 
+        message display to show only messages for the selected project.
+    
+    clientgui/
+        Events.h
+        ViewMessages.cpp,.h
