@@ -4103,3 +4103,18 @@ Charlie 30 June 2008
     clientgui/
         BOINCBaseFrame.cpp,h
         MainDocument.cpp
+
+Eric	1 July 2008
+    - client: Fixes ticket Fixes ticket #537. Forces use of small 
+      files in zlib.h and when /proc filesystem is used on solaris.
+
+    client/
+        cpp.h
+        app_start.C
+        client_types.C
+        app_control.C
+        hostinfo_unix.C
+    lib/
+        mem_usage.C
+        parse.h
+        procinfo_unix.C

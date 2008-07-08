@@ -58,6 +58,8 @@
 #include <fcntl.h>
 #endif
 
+#include <vector>
+
 using std::vector;
 
 #include "filesys.h"

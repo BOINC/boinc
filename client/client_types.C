@@ -24,6 +24,15 @@
 #include "zlib.h"
 #else
 #include "config.h"
+// Somehow having config.h define _FILE_OFFSET_BITS or _LARGE_FILES is
+// causing open to be redefined to open64 which somehow, in some versions
+// of zlib.h causes gzopen to be redefined as gzopen64 which subsequently gets
+// reported as a linker error.  So for this file, we compile in small files
+// mode, regardless of these settings
+#undef _FILE_OFFSET_BITS
+#undef _LARGE_FILES
+#undef _LARGEFILE_SOURCE
+#undef _LARGEFILE64_SOURCE
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <zlib.h>
