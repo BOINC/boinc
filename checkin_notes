@@ -5580,3 +5580,11 @@ David  8 July 2008
     html/inc/
         boinc_db.inc
 		util.inc
+
+Eric K  8 July 2008
+    - sparc-solaris: detect_platforms() 
+      test if it is possible to run 64-bit apps.
+
+    client/
+        cs_platforms.C
+
