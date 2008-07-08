@@ -5570,3 +5570,12 @@ Eric K	8 July 2008
         sg_DlgMessages.cpp
 	DlgItemProperties.cpp
 
+David  8 July 2008
+    - web: if stop_web file is present, don't allow any DB access
+        (I broke this a few days ago)
+    - client: improve message for file upload server errors
+
+    client/
+        file_xfer.C
+    html/inc/
+        boinc_db.inc

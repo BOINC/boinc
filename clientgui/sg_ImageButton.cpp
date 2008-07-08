@@ -142,4 +142,3 @@ void CImageButton::SetEnableShowGraphics(bool show) {
 		Refresh();
 	}
 }
- 

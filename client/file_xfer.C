@@ -155,7 +155,9 @@ int FILE_XFER::parse_upload_response(double &nbytes) {
     }
 
     if (parse_str(req1, "<message>", buf, sizeof(buf))) {
-        msg_printf(fip->project, MSG_INTERNAL_ERROR, "Error on file upload: %s", buf);
+        msg_printf(fip->project, MSG_INTERNAL_ERROR,
+            "Error reported by file upload server: %s", buf
+        );
     }
     if (log_flags.file_xfer_debug) {
         msg_printf(fip->project, MSG_INFO,

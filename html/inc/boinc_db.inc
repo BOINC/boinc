@@ -8,6 +8,12 @@ class BoincDb extends DbConn {
 
     static function get($readonly = false) {
         if (!isset($instance)) {
+            if (web_stopped()) {
+                show_page("Project down for maintenence",
+                    "Please check back in a few hours."
+                );
+                exit;
+            }
             $config = get_config();
             $user = parse_config($config, '<db_user>');
             $passwd = parse_config($config, '<db_passwd>');
