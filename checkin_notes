@@ -5515,3 +5515,11 @@ Charlie 8 July 2008
         ViewProjects.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+Rytis 8 July 2008
+    - user web: fix forum preferences saving (empty signatures were not
+        allowed).
+    
+    html/user/
+        edit_forum_preferences_action.php
+

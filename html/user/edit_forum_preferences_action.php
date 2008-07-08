@@ -93,7 +93,7 @@ $no_signature_by_default = ($_POST["signature_by_default"]!="")?0:1;
 $pm_notification = post_int("pm_notification");
 //$low_rating_threshold = post_int("forum_low_rating_threshold");
 //$high_rating_threshold = post_int("forum_high_rating_threshold");
-$signature = post_str("signature");
+$signature = post_str("signature", true);
 if (strlen($signature)>250) {
     error_page(
         "Your signature was too long, please keep it less than 250 chars"
