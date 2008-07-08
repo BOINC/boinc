@@ -52,6 +52,8 @@ function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user;
     if ($g_logged_in_user) return $g_logged_in_user;
 
+	check_web_stopped();
+
     $x = ereg(
         "curl|wget|libww|lwp::simple|lwp-trivial|fetch|rufusbot|java/|microsoft url control|webreaper",
         strtolower($_SERVER[HTTP_USER_AGENT])
@@ -688,7 +690,7 @@ function check_web_stopped() {
         if ($generating_xml) {
             xml_error(-183);
         } else {
-            //page_head("Not available");
+            page_head("Project down for maintenance");
             echo "This page requires database access.
                 Our database server is temporarily shut down for maintenance.
                 Please try again later.

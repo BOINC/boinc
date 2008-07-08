@@ -5579,3 +5579,4 @@ David  8 July 2008
         file_xfer.C
     html/inc/
         boinc_db.inc
+		util.inc
