@@ -85,21 +85,21 @@ void CDlgItemProperties::renderInfos(PROJECT* project) {
 		PROJECT* tp = dp[i];		
 		std::string tname;		
 		tp->get_name(tname);
-		wxString t1(tname.c_str());
-		if(t1.IsSameAs(projectname.c_str()) || t1.IsSameAs(project->master_url.c_str())) {
+		wxString t1(wxString(tname.c_str(),wxConvUTF8));
+		if(t1.IsSameAs(wxString(projectname.c_str(),wxConvUTF8)) || t1.IsSameAs(wxString(project->master_url.c_str(),wxConvUTF8))) {
 			diskusage =tp->disk_usage;
 			break;
 		}
 	}
 	//set dialog title
 	wxString wxTitle = _("Properties for ");
-	wxTitle.append(projectname.c_str());
+	wxTitle.append(wxString(projectname.c_str(),wxConvUTF8));
 	this->SetTitle(wxTitle);
 	//layout controls
 	this->addSection(_("general infos"));
-	this->addProperty(_("master url:"),wxT(project->master_url.c_str()));
-	this->addProperty(_("user name:"),wxT(project->user_name.c_str()));
-	this->addProperty(_("team name:"),wxT(project->team_name.c_str()));
+	this->addProperty(_("master url:"),wxString(project->master_url.c_str(),wxConvUTF8));
+	this->addProperty(_("user name:"),wxString(project->user_name.c_str(),wxConvUTF8));
+	this->addProperty(_("team name:"),wxString(project->team_name.c_str(),wxConvUTF8));
 	this->addProperty(_("resource share:"),wxString::Format(wxT("%0.0f"),project->resource_share));
 	this->addSection(_("credit infos"));
 	this->addProperty(_("user total credit:"),wxString::Format(wxT("%0.2f"),project->user_total_credit));
@@ -128,12 +128,12 @@ void CDlgItemProperties::renderInfos(PROJECT* project) {
 // renders infos for a task/result
 void CDlgItemProperties::renderInfos(RESULT* result) {
 	wxString wxTitle = _("Properties for ");
-	wxTitle.append(result->name.c_str());
+	wxTitle.append(wxString(result->name.c_str(),wxConvUTF8));
 	this->SetTitle(wxTitle);
 
 	this->addSection(_("general infos"));
 	this->addProperty(_("application name:"),this->FormatApplicationName(result));
-	this->addProperty(_("workunit name:"),result->wu_name.c_str());
+	this->addProperty(_("workunit name:"),wxString(result->wu_name.c_str(),wxConvUTF8));
 	this->addSection(_("state infos"));
 	this->addProperty(_("state:"),this->FormatStatus(result));
 	if(result->active_task) {
