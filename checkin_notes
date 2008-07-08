@@ -4118,3 +4118,11 @@ Eric	1 July 2008
         mem_usage.C
         parse.h
         procinfo_unix.C
+
+Rom    8 July 2008
+    - Tag for 6.2.12 release, all platforms
+      boinc_core_release_6_2_12
+
+    /
+        configure.ac
+        version.h
