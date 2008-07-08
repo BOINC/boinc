@@ -92,9 +92,9 @@ END_EVENT_TABLE ()
 
 static CViewProjects* myCViewProjects;
 
-static int CompareViewProjectsItems(int *iRowIndex1, int *iRowIndex2) {
-    CProject*  project1 = myCViewProjects->m_ProjectCache.at(*iRowIndex1);
-    CProject*  project2 = myCViewProjects->m_ProjectCache.at(*iRowIndex2);
+static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
+    CProject*  project1 = myCViewProjects->m_ProjectCache.at(iRowIndex1);
+    CProject*  project2 = myCViewProjects->m_ProjectCache.at(iRowIndex2);
     int             result = 0;
     
     switch (myCViewProjects->m_iSortColumn) {
@@ -133,7 +133,8 @@ static int CompareViewProjectsItems(int *iRowIndex1, int *iRowIndex2) {
         break;
     }
 
-    return (myCViewProjects->m_bReverseSort ? result * (-1) : result);
+    // Always return FALSE for equality (result == 0)
+    return (myCViewProjects->m_bReverseSort ? (result > 0) : (result <= 0));
 }
 
 

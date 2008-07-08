@@ -79,9 +79,9 @@ END_EVENT_TABLE ()
 
 static CViewTransfers* MyCViewTransfers;
 
-static int CompareViewTransferItems(int *iRowIndex1, int *iRowIndex2) {
-    CTransfer*      transfer1 = MyCViewTransfers->m_TransferCache.at(*iRowIndex1);
-    CTransfer*      transfer2 = MyCViewTransfers->m_TransferCache.at(*iRowIndex2);
+static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
+    CTransfer*      transfer1 = MyCViewTransfers->m_TransferCache.at(iRowIndex1);
+    CTransfer*      transfer2 = MyCViewTransfers->m_TransferCache.at(iRowIndex2);
     int             result = 0;
     
     switch (MyCViewTransfers->m_iSortColumn) {
@@ -124,7 +124,8 @@ static int CompareViewTransferItems(int *iRowIndex1, int *iRowIndex2) {
         break;
     }
 
-    return (MyCViewTransfers->m_bReverseSort ? result * (-1) : result);
+    // Always return FALSE for equality (result == 0)
+    return (MyCViewTransfers->m_bReverseSort ? (result > 0) : (result <= 0));
 }
 
 

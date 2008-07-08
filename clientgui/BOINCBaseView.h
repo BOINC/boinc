@@ -70,7 +70,7 @@ public:
 	std::vector<CTaskItem*> m_Tasks;
 };
 
-typedef int     (*ListSortCompareFunc)(int*, int*);
+typedef bool     (*ListSortCompareFunc)(int, int);
 
 
 class CBOINCBaseView : public wxPanel {

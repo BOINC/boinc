@@ -91,10 +91,10 @@ END_EVENT_TABLE ()
 
 static CViewWork* myCViewWork;
 
-static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
-    CWork*          work1 = myCViewWork->m_WorkCache.at(*iRowIndex1);
-    CWork*          work2 = myCViewWork->m_WorkCache.at(*iRowIndex2);
-    int             result = 0;
+static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
+    CWork*          work1 = myCViewWork->m_WorkCache.at(iRowIndex1);
+    CWork*          work2 = myCViewWork->m_WorkCache.at(iRowIndex2);
+    int             result = false;
     
     switch (myCViewWork->m_iSortColumn) {
         case COLUMN_PROJECT:
@@ -139,7 +139,8 @@ static int CompareViewWorkItems(int *iRowIndex1, int *iRowIndex2) {
         break;
     }
 
-    return (myCViewWork->m_bReverseSort ? result * (-1) : result);
+    // Always return FALSE for equality (result == 0)
+    return (myCViewWork->m_bReverseSort ? (result > 0) : (result < 0));
 }
 
 

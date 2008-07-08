@@ -530,7 +530,7 @@ void CBOINCBaseView::sortData() {
         m_pListPane->SetItemState(i, 0, wxLIST_STATE_SELECTED);
     }
     
-    m_iSortedIndexes.Sort(m_funcSortCompare);
+    std::stable_sort(m_iSortedIndexes.begin(), m_iSortedIndexes.end(), m_funcSortCompare);
     
     // Reselect previously selected cache elements in the sorted list 
     m = (int)selections.GetCount();
