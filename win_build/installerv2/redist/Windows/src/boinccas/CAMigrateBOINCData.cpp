@@ -334,6 +334,9 @@ UINT CAMigrateBOINCData::OnExecution()
     tstring      strProductVersion;
     tstring      strWindowsDirectory;
     tstring      strWindowsSystemDirectory;
+    tstring      strProgramFilesDirectory;
+    tstring      strSystemDrive;
+    tstring      strMessage;
     struct _stat buf;
     ULONGLONG    ullFileSize = 0;
     ULONGLONG    ullDirectorySize = 0;
@@ -394,6 +397,89 @@ UINT CAMigrateBOINCData::OnExecution()
     {
         strDestinationClientStateFile = strFutureDataDirectory + _T("\\client_state.xml");
 
+        // Determine the Windows directory
+        if (GetWindowsDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
+        {
+            strWindowsDirectory = szBuffer;
+
+            strMessage = _T("strWindowsDirectory: '");
+            strMessage += strWindowsDirectory;
+            strMessage += _T("'");
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                strMessage.c_str()
+            );
+        }
+
+        // Determine the system drive
+        if (!strWindowsDirectory.empty())
+        {
+            TCHAR drive[_MAX_DRIVE];
+            TCHAR dir[_MAX_DIR];
+            TCHAR fname[_MAX_FNAME];
+            TCHAR ext[_MAX_EXT];
+
+            _tsplitpath(strWindowsDirectory.c_str(), drive, dir, fname, ext);
+
+            strSystemDrive = tstring(drive) + _T("\\");       
+
+            strMessage = _T("strSystemDrive: '");
+            strMessage += strSystemDrive;
+            strMessage += _T("'");
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                strMessage.c_str()
+            );
+        }
+
+        // Determine the Windows System directory.
+        if (GetSystemDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
+        {
+            strWindowsSystemDirectory = szBuffer;
+
+            strMessage = _T("strWindowsSystemDirectory: '");
+            strMessage += strWindowsSystemDirectory;
+            strMessage += _T("'");
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                strMessage.c_str()
+            );
+        }
+
+        // Determine the Program Files directory.
+        if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
+        {
+            strProgramFilesDirectory = szBuffer;
+
+            strMessage = _T("strProgramFilesDirectory: '");
+            strMessage += strProgramFilesDirectory;
+            strMessage += _T("'");
+
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                strMessage.c_str()
+            );
+        }
+
 
         // Perform some basic sanity tests to see if we need to migrate
         //   anything.
@@ -403,7 +489,22 @@ UINT CAMigrateBOINCData::OnExecution()
             (BOOL)(strFutureInstallDirectory == strFutureDataDirectory);
         BOOL bDataDirExistsWithinInstallDir = 
             (BOOL)(tstring::npos != strFutureDataDirectory.find(strFutureInstallDirectory));
-
+        BOOL bInstallDirWindowsDirSame = 
+            (BOOL)(strFutureInstallDirectory == strWindowsDirectory);
+        BOOL bDataDirWindowsDirSame = 
+            (BOOL)(strFutureDataDirectory == strWindowsDirectory);
+        BOOL bInstallDirSystemDriveSame = 
+            (BOOL)(strFutureInstallDirectory == strSystemDrive);
+        BOOL bDataDirSystemDriveSame = 
+            (BOOL)(strFutureDataDirectory == strSystemDrive);
+        BOOL bInstallDirWindowsSystemDirSame = 
+            (BOOL)(strFutureInstallDirectory == strWindowsSystemDirectory);
+        BOOL bDataDirWindowsSystemDirSame = 
+            (BOOL)(strFutureDataDirectory == strWindowsSystemDirectory);
+        BOOL bInstallDirProgramFilesDirSame = 
+            (BOOL)(strFutureInstallDirectory == strProgramFilesDirectory);
+        BOOL bDataDirProgramFilesDirSame = 
+            (BOOL)(strFutureDataDirectory == strProgramFilesDirectory);
 
         if      ( bClientStateExists )
         {
@@ -445,6 +546,102 @@ UINT CAMigrateBOINCData::OnExecution()
                 NULL,
                 NULL,
                 _T("Data drectory exists within the install directory, skipping migration.")
+            );
+        }
+        else if ( bInstallDirWindowsDirSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Install directory is the same as the Windows directory, skipping migration.")
+            );
+        }
+        else if ( bDataDirWindowsDirSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Data directory is the same as the Windows directory, skipping migration.")
+            );
+        }
+        else if ( bInstallDirSystemDriveSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Install directory is the same as the system drive, skipping migration.")
+            );
+        }
+        else if ( bDataDirSystemDriveSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Data directory is the same as the system drive, skipping migration.")
+            );
+        }
+        else if ( bInstallDirWindowsSystemDirSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Install directory is the same as the Windows system directory, skipping migration.")
+            );
+        }
+        else if ( bDataDirWindowsSystemDirSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Data directory is the same as the Windows system directory, skipping migration.")
+            );
+        }
+        else if ( bInstallDirProgramFilesDirSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Install directory is the same as the program files directory, skipping migration.")
+            );
+        }
+        else if ( bDataDirProgramFilesDirSame )
+        {
+            strMigration = _T("FALSE");
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Data directory is the same as the program files directory, skipping migration.")
             );
         }
         else

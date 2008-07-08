@@ -5523,3 +5523,20 @@ Rytis 8 July 2008
     html/user/
         edit_forum_preferences_action.php
 
+Rom    8 July 2008
+    - WINSETUP: Prevent certain special paths from being used for either
+        the install directory or the data directory. Prevent this from
+        both the UI component of setup, and if the situation is detected
+        from the migration custom action, skip migration.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CAMigrateBOINCData.cpp
+        CAVerifyInstallDirectories.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+    

@@ -62,6 +62,12 @@ UINT CAVerifyInstallDirectories::OnExecution()
 {
     tstring strInstallDirectory;
     tstring strDataDirectory;
+    tstring strWindowsDirectory;
+    tstring strWindowsSystemDirectory;
+    tstring strProgramFilesDirectory;
+    tstring strSystemDrive;
+    tstring strMessage;
+    TCHAR   szBuffer[2048];
     UINT    uiReturnValue = 0;
 
 
@@ -72,13 +78,207 @@ UINT CAVerifyInstallDirectories::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
 
-    if ( strInstallDirectory == strDataDirectory )
+    // Determine the Windows directory
+    if (GetWindowsDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
+    {
+        strWindowsDirectory = szBuffer;
+
+        strMessage = _T("strWindowsDirectory: '");
+        strMessage += strWindowsDirectory;
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
+    }
+
+    // Determine the system drive
+    if (!strWindowsDirectory.empty())
+    {
+        TCHAR drive[_MAX_DRIVE];
+        TCHAR dir[_MAX_DIR];
+        TCHAR fname[_MAX_FNAME];
+        TCHAR ext[_MAX_EXT];
+
+        _tsplitpath(strWindowsDirectory.c_str(), drive, dir, fname, ext);
+
+        strSystemDrive = tstring(drive) + _T("\\");       
+
+        strMessage = _T("strSystemDrive: '");
+        strMessage += strSystemDrive;
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
+    }
+
+    // Determine the Windows System directory.
+    if (GetSystemDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
+    {
+        strWindowsSystemDirectory = szBuffer;
+
+        strMessage = _T("strWindowsSystemDirectory: '");
+        strMessage += strWindowsSystemDirectory;
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
+    }
+
+    // Determine the Program Files directory.
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
+    {
+        strProgramFilesDirectory = szBuffer;
+
+        strMessage = _T("strProgramFilesDirectory: '");
+        strMessage += strProgramFilesDirectory;
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
+    }
+
+
+    // Perform some basic sanity tests to see if we need to migrate
+    //   anything.
+    BOOL bInstallDataSameDirectory = 
+        (BOOL)(strInstallDirectory == strDataDirectory);
+    BOOL bInstallDirWindowsDirSame = 
+        (BOOL)(strInstallDirectory == strWindowsDirectory);
+    BOOL bDataDirWindowsDirSame = 
+        (BOOL)(strDataDirectory == strWindowsDirectory);
+    BOOL bInstallDirSystemDriveSame = 
+        (BOOL)(strInstallDirectory == strSystemDrive);
+    BOOL bDataDirSystemDriveSame = 
+        (BOOL)(strDataDirectory == strSystemDrive);
+    BOOL bInstallDirWindowsSystemDirSame = 
+        (BOOL)(strInstallDirectory == strWindowsSystemDirectory);
+    BOOL bDataDirWindowsSystemDirSame = 
+        (BOOL)(strDataDirectory == strWindowsSystemDirectory);
+    BOOL bInstallDirProgramFilesDirSame = 
+        (BOOL)(strInstallDirectory == strProgramFilesDirectory);
+    BOOL bDataDirProgramFilesDirSame = 
+        (BOOL)(strDataDirectory == strProgramFilesDirectory);
+
+
+    if ( bInstallDataSameDirectory )
     {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
             _T("The installation directory and data directory must be different directories. Please select a different data directory.")
-            );
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bInstallDirWindowsDirSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Install directory is the same as the Windows directory. Please select a different install directory.")
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bDataDirWindowsDirSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Data directory is the same as the Windows directory. Please select a different data directory.")
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bInstallDirSystemDriveSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Install directory is the same as the system drive. Please select a different install directory.")
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bDataDirSystemDriveSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Data directory is the same as the system drive. Please select a different data directory.")
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bInstallDirWindowsSystemDirSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Install directory is the same as the Windows system directory. Please select a different install directory.")
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bDataDirWindowsSystemDirSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Data directory is the same as the Windows system directory. Please select a different data directory.")
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bInstallDirProgramFilesDirSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Install directory is the same as the program files directory. Please select a different install directory.")
+        );
+
+        SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
+        uiReturnValue = ERROR_INSTALL_USEREXIT;
+    }
+    else if ( bDataDirProgramFilesDirSame )
+    {
+        DisplayMessage(
+            MB_OK, 
+            MB_ICONERROR,
+            _T("Data directory is the same as the program files directory. Please select a different data directory.")
+        );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
