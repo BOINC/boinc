@@ -290,6 +290,12 @@ wxInt32 CViewMessages::GetDocCount() {
     int i;
     
     m_iTotalDocCount = wxGetApp().GetDocument()->GetMessageCount();
+    if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
+        // Usually due to a disconnect from client
+        m_bIsFiltered = false;
+        UpdateSelection();
+    }
+    
     if (m_bIsFiltered) {
         for (i = m_iPreviousTotalDocCount; i < m_iTotalDocCount; i++) {
             MESSAGE*   message = wxGetApp().GetDocument()->message(i);
