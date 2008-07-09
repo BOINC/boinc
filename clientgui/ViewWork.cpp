@@ -611,7 +611,7 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
         if (state_result->wup->avp->plan_class.size()) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
-                wxString(state_result->wup->avp->plan_class.c_str(), wxConvUTF8)
+                state_result->wup->avp->plan_class.c_str()
             );
         }
         
