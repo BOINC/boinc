@@ -625,7 +625,7 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
         if (state_result->wup->avp->plan_class.size()) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
-                wxString(state_result->wup->avp->plan_class.c_str(), wxConvUTF8)
+                state_result->wup->avp->plan_class.c_str()
             );
         }
         
