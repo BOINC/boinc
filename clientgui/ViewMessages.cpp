@@ -289,6 +289,8 @@ wxInt32 CViewMessages::GetDocCount() {
     if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
         // Usually due to a disconnect from client
         m_bIsFiltered = false;
+        m_strFilteredProjectName.clear();
+        m_iFilteredIndexes.Clear();
         UpdateSelection();
     }
     

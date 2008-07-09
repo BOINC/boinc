@@ -5599,3 +5599,11 @@ Rom    8 July 2008
     clientgui/
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+Charlie 8 July 2008
+    - MGR: Fix build breaks from the above changes: pass a C string, not a 
+        wxString to the PrintF method.
+
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
