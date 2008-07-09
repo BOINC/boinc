@@ -761,7 +761,7 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         if (state_result->wup->avp->plan_class.size()) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
-                state_result->wup->avp->plan_class.c_str()
+                wxString(state_result->wup->avp->plan_class.c_str(), wxConvUTF8).c_str()
             );
         }
         
