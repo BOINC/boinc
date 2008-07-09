@@ -599,7 +599,8 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT* result = wxGetApp().GetDocument()->result(item);
     RESULT* state_result = NULL;
-    wxString strLocalBuffer;
+    wxString strAppBuffer = wxEmptyString;
+    wxString strClassBuffer = wxEmptyString;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -614,23 +615,27 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
 
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
+
         if (state_result->wup->app->user_friendly_name.size()) {
-            strLocalBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
+            strAppBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
-            strLocalBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
+            strAppBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
         }
-        char buf[256];
+        
         if (state_result->wup->avp->plan_class.size()) {
-            sprintf(buf, " (%s)", state_result->wup->avp->plan_class.c_str());
-        } else {
-            strcpy(buf, "");
+            strClassBuffer.Printf(
+                wxT(" (%s)"),
+                wxString(state_result->wup->avp->plan_class.c_str(), wxConvUTF8)
+            );
         }
+        
         strBuffer.Printf(
             wxT(" %s %.2f%s"), 
-            strLocalBuffer.c_str(),
+            strAppBuffer.c_str(),
             state_result->wup->avp->version_num/100.0,
-            buf
+            strClassBuffer.c_str()
         );
+
         setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
     }
     return 0;

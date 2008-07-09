@@ -5588,3 +5588,14 @@ Eric K  8 July 2008
     client/
         cs_platforms.C
 
+Rom    8 July 2008
+    - MGR: Fix the application name for both views.
+    
+      NOTE: the data type 'char' should NOT be used within the various
+        views. This is the classic example of how direct data access
+        messes things up in projects with many developers. Use wxString
+        with the PrintF method instead.
+
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
