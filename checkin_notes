@@ -5617,7 +5617,7 @@ Charlie 9 July 2008
         app_control.C
         cs_benchmark.C
 
-Rom    8 July 2008
+Rom    9 July 2008
     - MGR: Fix the application name for both views.
        (ANSI/Unicode compatible)(VS/GCC compatible)
     
@@ -5625,3 +5625,9 @@ Rom    8 July 2008
         ViewWork.cpp
         ViewWorkGrid.cpp
 
+Rom    9 July 2008
+    - WINSETUP: Normalize the special paths checks.
+    
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAMigrateBOINCData.cpp
+        CAVerifyInstallDirectories.cpp

@@ -102,22 +102,23 @@ void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& WXUNUSED(event))
 bool wxTaskBarIconEx::SetIcon(const wxIcon& icon)
 {
     if (!IsOK())
-        return FALSE;
+        return false;
+
+    if (!icon.Ok())
+        return false;
 
     memset(&notifyData, 0, sizeof(notifyData));
     notifyData.cbSize           = sizeof(notifyData);
     notifyData.hWnd             = (HWND) m_hWnd;
     notifyData.uID              = 99;
     notifyData.uCallbackMessage = sm_taskbarMsg;
-    notifyData.uFlags           = NIF_MESSAGE;
+    notifyData.uFlags           = NIF_MESSAGE | NIF_ICON;
     notifyData.uVersion         = NOTIFYICON_VERSION;
 
-    if (icon.Ok())
-    {
-        notifyData.uFlags |= NIF_ICON;
-        notifyData.hIcon = (HICON) icon.GetHICON();
-    }
-
+    lstrcpyn(notifyData.szInfo, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szInfoTitle));
+    lstrcpyn(notifyData.szTip, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szTip));
+    notifyData.hIcon            = (HICON) icon.GetHICON();
 
     UpdateIcon();
     return m_iconAdded;
@@ -126,22 +127,23 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon)
 bool wxTaskBarIconEx::SetTooltip(const wxString& message)
 {
     if (!IsOK())
-        return FALSE;
+        return false;
+
+    if (message.empty())
+        return false;
 
     memset(&notifyData, 0, sizeof(notifyData));
     notifyData.cbSize           = sizeof(notifyData);
     notifyData.hWnd             = (HWND) m_hWnd;
     notifyData.uID              = 99;
     notifyData.uCallbackMessage = sm_taskbarMsg;
-    notifyData.uFlags           = NIF_MESSAGE;
+    notifyData.uFlags           = NIF_MESSAGE | NIF_TIP;
     notifyData.uVersion         = NOTIFYICON_VERSION;
 
-    if (((const wxChar*) message != NULL) && (message != wxT("")))
-    {
-        notifyData.uFlags |= NIF_TIP ;
-        lstrcpyn(notifyData.szTip, WXSTRINGCAST message, sizeof(notifyData.szTip));
-    }
-
+    lstrcpyn(notifyData.szInfo, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szInfoTitle));
+    lstrcpyn(notifyData.szTip, WXSTRINGCAST message, sizeof(notifyData.szTip));
+    notifyData.hIcon            = NULL;
 
     UpdateIcon();
     return m_iconAdded;
@@ -152,39 +154,23 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     if (!IsOK())
         return false;
 
-    wxString strTip = wxEmptyString;
-
-    if (!IsBalloonsSupported())
-        strTip = title + wxT(" - ") + message;
+    if (!icon.Ok())
+        return false;
 
     memset(&notifyData, 0, sizeof(notifyData));
     notifyData.cbSize           = sizeof(notifyData);
     notifyData.hWnd             = (HWND) m_hWnd;
     notifyData.uID              = 99;
     notifyData.uCallbackMessage = sm_taskbarMsg;
-    notifyData.uFlags           = NIF_MESSAGE;
+    notifyData.uFlags           = NIF_MESSAGE | NIF_INFO | NIF_TIP | NIF_ICON;
     notifyData.dwInfoFlags      = iconballoon | NIIF_NOSOUND;
     notifyData.uTimeout         = timeout;
     notifyData.uVersion         = NOTIFYICON_VERSION;
 
-    if (icon.Ok())
-    {
-        notifyData.uFlags |= NIF_ICON;
-        notifyData.hIcon = (HICON) icon.GetHICON();
-    }
-
-    if (IsBalloonsSupported())
-    {
-        notifyData.uFlags |= NIF_INFO | NIF_TIP;
-        lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
-        lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
-        lstrcpyn(notifyData.szTip, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szTip));
-    }
-    else
-    {
-        notifyData.uFlags |= NIF_TIP;
-        lstrcpyn(notifyData.szTip, WXSTRINGCAST strTip, sizeof(notifyData.szTip));
-    }
+    lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
+    lstrcpyn(notifyData.szTip, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szTip));
+    notifyData.hIcon            = (HICON) icon.GetHICON();
 
     UpdateIcon();
     return m_iconAdded;

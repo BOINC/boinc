@@ -81,7 +81,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
     // Determine the Windows directory
     if (GetWindowsDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
     {
-        strWindowsDirectory = szBuffer;
+        strWindowsDirectory = tstring(szBuffer) + _T("\\");
 
         strMessage = _T("strWindowsDirectory: '");
         strMessage += strWindowsDirectory;
@@ -126,7 +126,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
     // Determine the Windows System directory.
     if (GetSystemDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
     {
-        strWindowsSystemDirectory = szBuffer;
+        strWindowsSystemDirectory = tstring(szBuffer) + _T("\\");
 
         strMessage = _T("strWindowsSystemDirectory: '");
         strMessage += strWindowsSystemDirectory;
@@ -145,7 +145,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
     // Determine the Program Files directory.
     if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
     {
-        strProgramFilesDirectory = szBuffer;
+        strProgramFilesDirectory = tstring(szBuffer) + _T("\\");
 
         strMessage = _T("strProgramFilesDirectory: '");
         strMessage += strProgramFilesDirectory;
