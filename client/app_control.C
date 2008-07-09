@@ -33,6 +33,7 @@
 
 #else
 #include "config.h"
+#include <string>
 #include <unistd.h>
 
 #if HAVE_SYS_IPC_H
