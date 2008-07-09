@@ -4126,3 +4126,11 @@ Rom    8 July 2008
     /
         configure.ac
         version.h
+
+Charlie 9 July 2008
+    - client: Fix build breaks on Mac due to removal of headers from cpp.h.
+        (checked into boinc_core_release_6_2_12 tag.)
+
+    client/
+        app_control.C
+        cs_benchmark.C

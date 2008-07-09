@@ -36,6 +36,7 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
+#include <string>
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
