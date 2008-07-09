@@ -5603,7 +5603,9 @@ Rom    8 July 2008
 Charlie 8 July 2008
     - MGR: Fix build breaks from the above changes: pass a C string, not a 
         wxString to the PrintF method.
+    - MGR: better clean up when connection lost while filtering messages.
 
     clientgui/
+        ViewMessages.cpp
         ViewWork.cpp
         ViewWorkGrid.cpp
