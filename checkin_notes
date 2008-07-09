@@ -4146,3 +4146,10 @@ Charlie 8 July 2008
     clientgui/
         ViewWork.cpp
         ViewWorkGrid.cpp
+
+Charlie 9 July 2008
+    - client: Fix build breaks on Mac due to removal of headers from cpp.h.
+
+    client/
+        app_control.C
+        cs_benchmark.C
