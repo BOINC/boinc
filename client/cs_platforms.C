@@ -112,32 +112,32 @@ void CLIENT_STATE::detect_platforms() {
     argv[1]=argv[0];
     argv[2]=NULL;
     if (f) {
-      fclose(f);
-      if (0==(pid=fork())) {
-	// we are in child process
-	freopen("/dev/null","a",stderr);
-	freopen("/dev/null","a",stdout);
-	rv=execv(argv[0],argv);
-	exit(rv);
-      } else {
-	// we are in the parent process.
-	time_t start=time(0);
-	int done;
-	// wait 5 seconds or until the process exits.
-	do {
-	  done=waitpid(pid,&rv,WNOHANG);
-          sleep(1);
-	} while (!done && ((time(0)-start)<5));
-        // if we timed out, kill the process	
-	if ((time(0)-start)>=5) {
-          kill(pid,SIGKILL); 
-          done=-1;
-	}
-	// if we exited with success add the 64 bit platform
-        if ((done == pid) && (rv == 0)) {
-           add_platform("sparc64-sun-solaris");
-	}
-      }
+        fclose(f);
+        if (0==(pid=fork())) {
+            // we are in child process
+            freopen("/dev/null","a",stderr);
+            freopen("/dev/null","a",stdout);
+            rv=execv(argv[0],argv);
+            exit(rv);
+        } else {
+            // we are in the parent process.
+            time_t start=time(0);
+            int done;
+            // wait 5 seconds or until the process exits.
+            do {
+                done=waitpid(pid,&rv,WNOHANG);
+                sleep(1);
+            } while (!done && ((time(0)-start)<5));
+            // if we timed out, kill the process	
+            if ((time(0)-start)>=5) {
+                kill(pid,SIGKILL); 
+                done=-1;
+            }
+            // if we exited with success add the 64 bit platform
+            if ((done == pid) && (rv == 0)) {
+               add_platform("sparc64-sun-solaris");
+            }
+        }
     }
     add_platform("sparc-sun-solaris");
     // the following platform is obsolete, but we'll add it anyway.

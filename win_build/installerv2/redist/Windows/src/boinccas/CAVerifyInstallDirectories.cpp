@@ -184,107 +184,87 @@ UINT CAVerifyInstallDirectories::OnExecution()
         (BOOL)(strDataDirectory == strProgramFilesDirectory);
 
 
-    if ( bInstallDataSameDirectory )
-    {
+    if ( bInstallDataSameDirectory ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("The installation directory and data directory must be different directories. Please select a different data directory.")
+            _T("The program directory and data directory must be different. Please select a different data directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bInstallDirWindowsDirSame )
-    {
+    } else if ( bInstallDirWindowsDirSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Install directory is the same as the Windows directory. Please select a different install directory.")
+            _T("The program directory may not be the Windows directory. Please select a different program directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bDataDirWindowsDirSame )
-    {
+    } else if ( bDataDirWindowsDirSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Data directory is the same as the Windows directory. Please select a different data directory.")
+            _T("The data directory may not be the Windows directory. Please select a different data directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bInstallDirSystemDriveSame )
-    {
+    } else if ( bInstallDirSystemDriveSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Install directory is the same as the system drive. Please select a different install directory.")
+            _T("The program directory may not be the system drive. Please select a different program directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bDataDirSystemDriveSame )
-    {
+    } else if ( bDataDirSystemDriveSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Data directory is the same as the system drive. Please select a different data directory.")
+            _T("The data directory may not be the system drive. Please select a different data directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bInstallDirWindowsSystemDirSame )
-    {
+    } else if ( bInstallDirWindowsSystemDirSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Install directory is the same as the Windows system directory. Please select a different install directory.")
+            _T("The program directory may not be the Windows system directory. Please select a different program directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bDataDirWindowsSystemDirSame )
-    {
+    } else if ( bDataDirWindowsSystemDirSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Data directory is the same as the Windows system directory. Please select a different data directory.")
+            _T("The data directory may not be the Windows system directory. Please select a different data directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bInstallDirProgramFilesDirSame )
-    {
+    } else if ( bInstallDirProgramFilesDirSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Install directory is the same as the program files directory. Please select a different install directory.")
+            _T("The program directory may not be the program files directory. Please select a different program directory.")
         );
 
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else if ( bDataDirProgramFilesDirSame )
-    {
+    } else if ( bDataDirProgramFilesDirSame ) {
         DisplayMessage(
             MB_OK, 
             MB_ICONERROR,
-            _T("Data directory is the same as the program files directory. Please select a different data directory.")
+            _T("The data directory may not be the program files directory. Please select a different data directory.")
         );
-
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("0"));
         uiReturnValue = ERROR_INSTALL_USEREXIT;
-    }
-    else
-    {
+    } else {
         SetProperty(_T("RETURN_VERIFYINSTALLDIRECTORIES"), _T("1"));
         uiReturnValue = ERROR_SUCCESS;
     }

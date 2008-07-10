@@ -35,6 +35,9 @@
 
 #include "coproc.h"
 
+using std::string;
+using std::vector;
+
 #ifndef _USING_FCGI_
 void COPROC::write_xml(MIOFILE& f) {
     f.printf(
@@ -63,11 +66,13 @@ int COPROC::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
-const char* COPROCS::get() {
+vector<string> COPROCS::get() {
+    vector<string> strings;
     const char* p = COPROC_CUDA::get(*this);
-    if (p) return p;
-    COPROC_CELL_SPE::get(*this);
-    return NULL;
+    if (p) strings.push_back(p);
+    p = COPROC_CELL_SPE::get(*this);
+    if (p) strings.push_back(p);
+    return strings;
 }
 
 int COPROCS::parse(FILE* fin) {
@@ -124,18 +129,22 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
     void (*__cudaGetDeviceCount)(int*);
     void (*__cudaGetDeviceProperties)(cudaDeviceProp*, int);
 
-    if (!boinc_file_exists("/usr/lib64/libcuda.so")
-        && !boinc_file_exists("/usr/lib/libcuda.so")
-    ){
-        return "No CUDA driver found";
-    }
 #ifdef __APPLE__
-    cudalib = dlopen ("libcudart.dylib", RTLD_NOW );
+    cudalib = dlopen("libcudart.dylib", RTLD_NOW);
 #else
-    cudalib = dlopen ("libcudart.so", RTLD_NOW );
+
+    const char* libname;
+#ifdef __x86_64__
+    libname = "./libcudart64.so";
+#else
+    libname = "./libcudart32.so";
+#endif
+    cudalib = dlopen(libname, RTLD_NOW);
+
 #endif
     if (!cudalib) {
         return "Can't load library libcudart";
+        perror("dlopen");
     }
     __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
     if(!__cudaGetDeviceCount) {
@@ -146,19 +155,22 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
         return "Library doesn't have cudaGetDeviceProperties()";
     }
 #endif
+    bool found = false;
     (*__cudaGetDeviceCount)(&count);
-    if (count < 1) {
-        return "No CUDA devices found";
-    }
-
     for (int i=0; i<count; i++) {
         COPROC_CUDA* cc = new COPROC_CUDA;
         (*__cudaGetDeviceProperties)(&cc->prop, i);
-        cc->count = 1;
-        strcpy(cc->type, "CUDA");
-        coprocs.coprocs.push_back(cc);
+        if (cc->prop.major >= 1) {
+            found = true;
+            cc->count = 1;
+            strcpy(cc->type, "CUDA");
+            coprocs.coprocs.push_back(cc);
+        }
     }
-    return 0;
+    if (!found) {
+        return "No CUDA devices found";
+    }
+    return "CUDA devices found";
 }
 
 // add a non-existent CUDA coproc (for debugging)

@@ -5644,3 +5644,25 @@ Rom    10 July 2008
     
     client/
         main.C
+
+David  10 July 2008
+    - client, Linux: change CUDA probing.
+        libcudart{32,64}.so is bundled with client.
+        client loads it and if successful calls the device-query functions.
+    - client, Linux: append the current directory
+        (i.e., the BOINC data directory) to the LD_LIBRARY_PATH for apps.
+        This goes after the project dir and the slot dir.
+        This lets apps link to libcudartX.so.
+        NOTE: this is not recommended; better to include it with your app.
+    - client: allow for multiple messages from coproc probing
+    - fixed indentation in cs_platforms.C
+
+    win_build/.../boinccas
+        CAVerifyInstallDirectories.cpp
+    client/
+        client_status.C
+        cs_platforms.C
+    lib/
+        coproc.C,h
+        libcudart32.so (put these here for now; can move if needed)
+        libcudart64.so

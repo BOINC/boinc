@@ -231,9 +231,9 @@ int CLIENT_STATE::init() {
 
     check_clock_reset();
 
-    const char* msg = coprocs.get();
-    if (msg) {
-        msg_printf(NULL, MSG_INFO, msg);
+    vector<string> strs = coprocs.get();
+    for (i=0; i<strs.size(); i++) {
+        msg_printf(NULL, MSG_INFO, strs[i].c_str());
     }
 #if 0
     fake_cuda(coprocs);

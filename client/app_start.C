@@ -624,7 +624,7 @@ int ACTIVE_TASK::start(bool first_time) {
     app_client_shm.reset_msgs();
 
     // save current dir
-    getcwd( current_dir, sizeof(current_dir));
+    getcwd(current_dir, sizeof(current_dir));
 
     // chdir() into the slot directory
     //
@@ -676,6 +676,9 @@ int ACTIVE_TASK::start(bool first_time) {
     // Unix/Linux/Mac case
 
     char* argv[100];
+    char current_dir[1024];
+
+    getcwd(current_dir, sizeof(current_dir));
 
     // Set up core/app shared memory seg if needed
     //
@@ -744,7 +747,9 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         char libpath[8192];
         get_project_dir(wup->project, buf, sizeof(buf));
-        sprintf(libpath, "%s:%s:%s", getenv("LD_LIBRARY_PATH"), buf, slot_dir);
+        sprintf(libpath, "%s:%s:%s:%s",
+            getenv("LD_LIBRARY_PATH"), buf, slot_dir, current_dir
+        );
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
         retval = chdir(slot_dir);

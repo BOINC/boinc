@@ -21,6 +21,7 @@
 #define _COPROC_
 
 #include <vector>
+#include <string>
 #include <cstring>
 
 #ifdef _USING_FCGI_
@@ -64,7 +65,7 @@ struct COPROCS {
         }
     }
 #endif
-    const char* get();
+    std::vector<std::string> get();
     int parse(FILE*);
     COPROC* lookup(char*);
     bool sufficient_coprocs(COPROCS&, bool verbose);

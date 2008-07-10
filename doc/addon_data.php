@@ -522,6 +522,15 @@ array('phpboinc10.zip',
     'This is a PHP script that will interpret your client statistics and display it on a webpage. By default it points to client_state.xml, but can be changed to point to any location. It includes an example output at the bottom of the script.',
     1110197681
 ),
+array('phpBOINCer-1.5.zip',
+    'phpBOINCer',
+    '1.5',
+    'An improved PHP script based upon phpBOINC by Richard Silvers, to display BOINC stats on a webpage, and store or retrieve these stats to a mySQL database. ',
+    'http://kke.endofinternet.net/',
+    'Windows, *nix',
+    'This PHP script will parse your client_state.xml file (location configurable) and display it on a webpage. Optionally you can use this script to parse and store these statistics into a mySQL database instead of displaying it. You can also use the script to then pull these statistics from the mySQL database and display them on a webpage. This could be useful if your BOINC client is not on the same machine as your webserver, but you can access your database remotely. Possibly many other creative uses. See README.txt or phpBOINCer.php for more information.',
+    1215641230
+),
 
 
 );
