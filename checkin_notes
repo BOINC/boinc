@@ -5631,3 +5631,10 @@ Rom    9 July 2008
     win_build/installerv2/redist/Windows/src/boinccas/
         CAMigrateBOINCData.cpp
         CAVerifyInstallDirectories.cpp
+
+Charlie 10 July 2008
+    - MGR: Change wxEVT_DRAW_BARGRAPH from 10000 to 12000 to avoid possible 
+        conflict with wxEVT_FRAME_ALERT.
+        
+    clientgui/
+        BOINCListCtrl.h
