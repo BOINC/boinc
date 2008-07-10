@@ -302,15 +302,18 @@ static void init_core_client(int argc, char** argv) {
     }
 
     diagnostics_init(flags, "stdoutdae", "stderrdae");
-    diagnostics_set_max_file_sizes(
-        config.max_stdout_file_size, config.max_stderr_file_size
-    );
 
     // Read config and parse the commandline after initializing the
     // diagnostics framework.
     read_config_file();
 
-	// Win32 - detach from console if requested
+    // Set the max file sizes of the logs based on user preferences.
+    //
+    diagnostics_set_max_file_sizes(
+        config.max_stdout_file_size, config.max_stderr_file_size
+    );
+
+    // Win32 - detach from console if requested
 #ifdef _WIN32
 	if (gstate.detach_console) {
 		FreeConsole();

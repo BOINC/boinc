@@ -5638,3 +5638,9 @@ Charlie 10 July 2008
         
     clientgui/
         BOINCListCtrl.h
+
+Rom    10 July 2008
+    - CC: Read the config file before setting the max file sizes.
+    
+    client/
+        main.C
