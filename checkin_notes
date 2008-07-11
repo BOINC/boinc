@@ -5679,3 +5679,10 @@ Rom    11 July 2008
         
     clientgui/
         BOINCTaskBar.cpp
+
+Rom    11 July 2008
+    - SEA: Include the CUDA dynamic libraries in the self-extracting
+        archive for Linux bulds.
+        
+    sea/
+        Makefile.am
