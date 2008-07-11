@@ -5666,3 +5666,9 @@ David  10 July 2008
         coproc.C,h
         libcudart32.so (put these here for now; can move if needed)
         libcudart64.so
+
+Charlie 11 July 2008
+    - MGR: Small bug fix in new sortable Accessible Views.
+        
+    clientgui/
+        BOINCBaseView.cpp
