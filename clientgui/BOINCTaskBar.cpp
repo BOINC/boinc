@@ -381,7 +381,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 //   enough room to display them all, so just tell the user how many are
                 //   currently running.
                 strBuffer.Printf(
-                    _("%d tasks running.")
+                    _("%d tasks running."),
+                    iActiveTaskCount
                 );
                 if (strMessage.Length() > 0) strMessage += wxT("\n");
                 strMessage += strBuffer;

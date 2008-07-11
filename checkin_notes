@@ -5672,3 +5672,10 @@ Charlie 11 July 2008
         
     clientgui/
         BOINCBaseView.cpp
+
+Rom    11 July 2008
+    - MGR: Fix small bug when displaying the active task count in the
+        taskbar.
+        
+    clientgui/
+        BOINCTaskBar.cpp
