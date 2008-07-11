@@ -5686,3 +5686,11 @@ Rom    11 July 2008
         
     sea/
         Makefile.am
+
+Rom    11 July 2008
+    - Tag for 6.3.5 release, all platforms
+      boinc_core_release_6_3_5
+
+    /
+        configure.ac
+        version.h
