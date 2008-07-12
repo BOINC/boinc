@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-20 15:09+0200\n"
+"PO-Revision-Date: 2008-07-12 19:04+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -263,6 +263,15 @@ msgstr "Taisyti žinutę"
 msgid "Use BBCode tags to format your text"
 msgstr "Naudokite BBCode žymes teksto formatavimui"
 
+msgid "%1 message board"
+msgstr "%1 forumas"
+
+msgid "Mark all threads as read"
+msgstr "Pažymėti visas temas kaip perskaitytas"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Pažymėti visas temas forumuose kaip perskaitytas."
+
 # ########################################
 # Forum thread
 # ########################################
@@ -292,6 +301,15 @@ msgstr "Nerasta pavadinimų, turinčių \"%1\"."
 
 msgid "No posts containing '%1' could be found."
 msgstr "Nerasta įrašų, turinčių \"%1\"."
+
+msgid "Advanced search"
+msgstr "Detali paieška"
+
+msgid "Search for words in forum messages"
+msgstr "Ieškoti žodžių forumų žinutėse"
+
+msgid "Search forums"
+msgstr "Ieškoti forumuose"
 
 # ########################################
 # Private messages
@@ -568,6 +586,90 @@ msgstr "Naudojamas internetiniuose adresuose"
 
 msgid "unread"
 msgstr "neskaityta"
+
+msgid "User ID"
+msgstr "Vartotojo ID"
+
+msgid "Used in community functions"
+msgstr "Naudojama bendruomenės funkcijose"
+
+msgid "Account key"
+msgstr "Abonemento raktas"
+
+msgid "Provides full access to your account"
+msgstr "Suteikia pilną priėjimą prie jūsų abonemento"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "Weak account key"
+msgstr "Silpnas abonemento raktas"
+
+msgid "Provides"
+msgstr "Suteikia"
+
+msgid "limited access"
+msgstr "ribotą priėjimą"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "to your account"
+msgstr "prie jūsų abonemento"
+
+msgid "Friends"
+msgstr "Draugai"
+
+msgid "Find friends"
+msgstr "Rasti draugus"
+
+msgid "hidden"
+msgstr "paslėptas"
+
+msgid "Donor"
+msgstr "Suteikęs paramą"
+
+# ########################################
+# Apps page (apps.php)
+# ########################################
+msgid "Notifications"
+msgstr "Pranešimai"
+
+msgid "(foundership change request pending)"
+msgstr "(laukiamas įkūrėjo pakeitimas)"
+
+# ########################################
+# Public user page (show_user.php)
+# ########################################
+msgid "Projects in which you are participating"
+msgstr "Projektai, kuriuose dalyvaujate"
+
+msgid "Projects in which %1 is participating"
+msgstr "Projektai, kuriuose dalyvauja %1"
+
+msgid "Project"
+msgstr "Projektas"
+
+msgid "Click for user page"
+msgstr "Spustelėkite dalyvio puslapiui"
+
+msgid "Since"
+msgstr "Nuo"
+
+msgid "Contact"
+msgstr "Susisiekti"
+
+msgid "This person is a friend"
+msgstr "Šis asmuo yra draugas"
+
+msgid "Cancel friendship"
+msgstr "Nutraukti draugystę"
+
+msgid "Request pending"
+msgstr "Laukiama patvirtinimo"
+
+msgid "Add as friend"
+msgstr "Pridėti draugą"
 
 # ########################################
 # "Weak account key" page (weak_auth.php)
