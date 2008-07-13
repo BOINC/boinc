@@ -25,6 +25,5 @@ if ($result) {
     ";
     page_tail();
 }
-error_page("database error");
 
 ?>

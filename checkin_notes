@@ -5694,3 +5694,9 @@ Rom    11 July 2008
     /
         configure.ac
         version.h
+
+David  12 July 2008
+	- web: fixed opt-out page
+
+	html/user/
+		opt_out.php
