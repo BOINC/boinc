@@ -5706,3 +5706,13 @@ David  12 July 2008
 
     lib/
         coproc.C
+
+Rytis  13 July 2008
+    - fix the layout of profile_menu.php on table-based websites, and since
+        I'm already editing it, make it translatable.
+
+    html/
+        user/
+            profile_menu.php
+        languages/translations/
+            en.po

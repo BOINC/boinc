@@ -677,3 +677,49 @@ msgstr ""
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
 msgstr ""
+
+#########################################
+# Participant profiles
+#########################################
+
+msgid "Profiles"
+msgstr ""
+
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr ""
+
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr ""
+
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr ""
+
+msgid "User of the Day"
+msgstr ""
+
+msgid "User Profile Explorer"
+msgstr ""
+
+msgid "View the %1User Picture Gallery%2."
+msgstr ""
+
+msgid "Browse profiles %1by country%2."
+msgstr ""
+
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr ""
+
+msgid "Alphabetical profile listings:"
+msgstr ""
+
+msgid "Search profile text"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "No profiles"
+msgstr ""
+
+msgid "No profiles matched your query."
+msgstr ""

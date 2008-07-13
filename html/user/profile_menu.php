@@ -15,24 +15,18 @@ if ($option) {
     exit();
 }
 
-page_head("Profiles");
+page_head(tra("Profiles"));
 
 echo "
-    <p>
-    <b>Profiles</b> let individuals share backgrounds
-    and opinions with the " . PROJECT . " community.
-    Explore the diversity of your fellow volunteers,
-    and contribute your own views for others to enjoy.
-    <p>
-    If you haven't already, you can
-    <a href=create_profile.php>create your own user profile</a>
-    for others to see!
-";
-rowify("<br>");
+    <p>".tra("%1Profiles%2 let individuals share backgrounds and opinions with the %3 community.", "<b>", "</b>", PROJECT).
+    tra("Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy.")."</p>
+    <p>".tra("If you haven't already, you can %1create your own user profile%2 for others to see!", "<a href=\"create_profile.php\">", "</a>")."</p>";
+
 start_table_noborder();
+rowify("<br>");
 
 $today = getdate(time());
-$UOTD_heading = "User of the Day -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
+$UOTD_heading = tra("User of the Day")." -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
 row1($UOTD_heading);
 echo "<tr><td>";
     $profile = get_current_uotd();
@@ -46,27 +40,26 @@ echo "<tr><td>";
 echo "</td></tr>";
 
 rowify("<br>");
-row1("User Profile Explorer");
+row1(tra("User Profile Explorer"));
 echo "<tr><td>
     <ul>
-    <li>View the <a href=\"" . URL_BASE . "user_profile/user_gallery_1.html\">User Picture Gallery</a>.</li>
-    <li>Browse profiles <a href=\"" . URL_BASE . "user_profile/profile_country.html\">by country</a>.</li>
-    <li>Browse profiles <a href=\"?cmd=rand&pic=-1\">at random</a>,
-    <a href=\"?cmd=rand&pic=1\">at random with pictures</a>, or 
-    <a href=\"?cmd=rand&pic=0\">at random without pictures</a>.</li>
+    <li>".tra("View the %1User Picture Gallery%2.", "<a href=\"" . URL_BASE . "user_profile/user_gallery_1.html\">", "</a>")."</li>
+    <li>".tra("Browse profiles %1by country%2.", "<a href=\"" . URL_BASE . "user_profile/profile_country.html\">", "</a>")."</li>
+    <li>".tra("Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2.", "<a href=\"?cmd=rand&pic=-1\">", "</a>",
+            "<a href=\"?cmd=rand&pic=1\">", "<a href=\"?cmd=rand&pic=0\">")."</li>
 ";
 if (file_exists(PROFILE_PATH . "profile_alpha.html")) {
-    echo "<li>Alphabetical profile listings:<br>";
+    echo "<li>".tra("Alphabetical profile listings:")."<br>";
 
     include( PROFILE_PATH . "profile_alpha.html" );
 }
 echo "</ul></td></tr>";
 
-row1("Search profile text");
+row1(tra("Search profile text"));
 rowify("
     <form action=\"profile_search_action.php\" method=\"GET\">
     <input name=\"search_string\">
-    <input type=\"submit\" value=\"OK\">
+    <input type=\"submit\" value=\"".tra("Search")."\">
     </form>
 ");
 end_table();
@@ -87,8 +80,8 @@ function select_profile($cmd) {
         }
 
         if (count($profiles) == 0) {
-            page_head("No profiles");
-            echo "No profiles matched your query.<br>";
+            page_head(tra("No profiles"));
+            echo tra("No profiles matched your query.");
             page_tail();
             exit();
         }
