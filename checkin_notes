@@ -5700,3 +5700,9 @@ David  12 July 2008
 
 	html/user/
 		opt_out.php
+
+David  12 July 2008
+    - small change to mac cuda
+
+    lib/
+        coproc.C

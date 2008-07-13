@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("July 10, 2008",
+    "<a href=http://boinc.berkeley.edu/wiki/BOINC_logo_merchandise>BOINC-logo merchandise</a> (T-shirts, mouse pads) is now available."
+),
 array("July 9, 2008",
     "New add-on software: <a href=http://boinc.berkeley.edu/addon_item.php?platform=web&item=phpBOINCer-1.5.zip>phpBOINCer</a>,
     a PHP script to display BOINC stats on a webpage,

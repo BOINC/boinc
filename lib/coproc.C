@@ -130,7 +130,7 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
     void (*__cudaGetDeviceProperties)(cudaDeviceProp*, int);
 
 #ifdef __APPLE__
-    cudalib = dlopen("libcudart.dylib", RTLD_NOW);
+    cudalib = dlopen("./libcudart.dylib", RTLD_NOW);
 #else
 
     const char* libname;

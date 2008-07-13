@@ -72,14 +72,14 @@ class BossaUser {
 }
 
 class BossaApp {
-    function insert($clause) {
+    static function insert($clause) {
         $db = BossaDb::get();
         return $db->insert('bossa_app', $clause);
     }
 
-    static function lookup_short_name($name) {
+    static function lookup($clause) {
         $db = BossaDb::get();
-        return $db->lookup('bossa_app', 'BossaApp', "short_name='$name'");
+        return $db->lookup('bossa_app', 'BossaApp', $clause);
     }
 
     static function lookup_id($id) {
@@ -98,18 +98,11 @@ class BossaApp {
 }
 
 class BossaJob {
-    function insert() {
+    static function insert($clause) {
         $db = BossaDb::get();
-        $now = time();
-        $int_max = 2147483647;
-        $query = "insert into DBNAME.bossa_job (create_time, name, app_id, info, batch, time_estimate, time_limit, conf_needed, transition_time) values ($now, '$this->name', $this->app_id, '$this->info', $this->batch, $this->time_estimate, $this->time_limit, $this->conf_needed, $int_max)";
-        $result = $db->do_query($query);
-        if (!$result) {
-            echo "$query\n";
-            return false;
-        }
-        $this->id = $db->insert_id();
-        return true;
+        $ret = $db->insert('bossa_job', $clause);
+        if (!$ret) return 0;
+        return $db->insert_id();
     }
     function update($clause) {
         $db = BossaDb::get();
@@ -126,17 +119,11 @@ class BossaJob {
 }
 
 class BossaJobInst {
-    function insert() {
+    function insert($clause) {
         $db = BossaDb::get();
-        $now = time();
-        $query = "insert into DBNAME.bossa_job_inst (create_time, app_id, job_id, user_id, confidence) values ($now, $this->app_id, $this->job_id, $this->user_id, $this->confidence)";
-        $result = $db->do_query($query);
-        if (!$result) {
-            echo "$query\n";
-            return false;
-        }
-        $this->id = $db->insert_id();
-        return true;
+        $ret = $db->insert('bossa_job_inst', $clause);
+        if (!$ret) return 0;
+        return $db->insert_id();
     }
 
     static function lookup_id($id) {
@@ -158,7 +145,7 @@ class BossaJobInst {
     //
     static function assign($app, $user) {
         $db = BossaDb::get();
-        // first look for unfinished jobs
+        // first look for unfinished jobs previously assigned to this user
         //
         $query = "select * from DBNAME.bossa_job_inst where app_id=$app->id and user_id=$user->id and finish_time=0 limit 1";
         $result = $db->do_query($query);
@@ -171,45 +158,27 @@ class BossaJobInst {
         // this query skips jobs for which this user
         // has already been assigned an instance
         //
-        // TODO: put the following in a transaction
-        $query = "select * from DBNAME.bossa_job where app_id=$app->id and (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 limit 1";
+        $prio = "priority_".$user->bossa->category;
+        $query = "select * from DBNAME.bossa_job where app_id=$app->id and (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and is_calibration=0 order by $prio desc limit 1";
         $result = $db->do_query($query);
         if (!$result) return null;
         $job = mysql_fetch_object($result, 'BossaJob');
         if (!$job) return null;
         mysql_free_result($result);
 
-        $ji = new BossaJobInst();
-        $ji->user_id = $user->id;
-        $ji->job_id = $job->id;
-        $ji->confidence = $user->conf;
-        $ji->app_id = $app->id;
-
-        if (!$ji->insert()) {
-            echo mysql_error();
-            return null;
-        }
-
-        $job->update("conf_needed=conf_needed-$user->conf");
-        return $ji;
-    }
-
-    // The given job instance has completed
-    //
-    function completed($job) {
-        $this->finish_time = time();
-        $this->update("finish_time=$this->finish_time, info='$this->info'");
-
         $now = time();
-        return $job->update("transition_time=$now");
+        $clause = "(create_time, app_id, job_id, user_id) values ($now, $app->id, $job->id, $user->id)";
+        $id = BossaJobInst::insert($clause);
+        return BossaJobInst::lookup_id($id);
     }
+}
 
-    // The given job instance has timed out.
-    //
-    function timed_out($job) {
-        $job->npending--;
-        $job->more_needed = ($job->npending+$job->nsuccess < $job->nsuccess_needed);
-        return $job->update("npending=$job->npending, more_needed=$job->more_needed");
+class BossaBatch {
+    function insert($clause) {
+        $db = BossaDb::get();
+        $ret = $db->insert('bossa_batch', $clause);
+        if (!$ret) return 0;
+        return $db->insert_id();
     }
 }
 

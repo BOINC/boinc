@@ -20,11 +20,6 @@ function show_bapp($app) {
     }
     echo "<br>";
     show_button("bossa_admin.php?action=show_jobs&app_id=$app->id", "Show jobs", "Show jobs");
-    echo "<br><form action=".$app->short_name."_workgen.php>
-        Create <input name=njobs size=5> new jobs
-        <input type=submit value=OK>
-        </form>
-    ";
 }
 
 function show_apps() {
@@ -57,15 +52,6 @@ function add_app_form() {
         "Description<span class=note><br>Visible to users</span>",
         "<textarea name=description cols=60></textarea>"
     );
-    row2(
-        "Min confidence sum for consensus",
-        "<input name=min_conf_sum value=2>"
-    );
-    row2(
-        "Min confidence fraction for consensus",
-        "<input name=min_conf_frac value=\"0.5\">"
-    );
-    row2("Max job instances", "<input name=max_instances value=5>");
     row2("Name of Bolt training course", "<input name=training_course>");
     row2("", "<input type=submit submit value=\"Create app\">");
     end_table();
@@ -130,7 +116,8 @@ $user = get_logged_in_user();
 $db = BossaDb::get();
 if (!$db) error_page("Can't connect to database server");
 
-if (!$db->table_exists('bossa_app
+if (0) {
+if (!$db->table_exists('bossa_app')) {
     page_head("Create Bossa database");
     $db_name = $db->db_name;
     echo "
@@ -144,6 +131,7 @@ mysql $db_name < bossa_schema.sql
     page_tail();
     exit();
 }
+}
 
 BossaUser::lookup($user);
 
@@ -153,9 +141,6 @@ case 'add_app':
     $name = BossaDb::escape_string(get_str('app_name'));
     $short_name = get_str('short_name');
     $description = BossaDb::escape_string(get_str('description'));
-    $min_conf_sum = get_str('min_conf_sum');
-    $min_conf_frac = get_str('min_conf_frac');
-    $max_instances = get_str('max_instances');
     $training_course = get_str('training_course' ,true);
     if (strlen($training_course)) {
         $course = BoltCourse::lookup_name($training_course);
@@ -167,7 +152,7 @@ case 'add_app':
         $courseid = 0;
     }
     $now = time();
-    $app_id = BossaApp::insert("(create_time, name, short_name, description, min_conf_sum, min_conf_frac, max_instances, bolt_course_id) values ($now, '$name', '$short_name', '$description', $min_conf_sum, $min_conf_frac, $max_instances, $courseid)");
+    $app_id = BossaApp::insert("(create_time, name, short_name, description, bolt_course_id) values ($now, '$name', '$short_name', '$description', $courseid)");
     if ($courseid) {
         $course->update("bossa_app_id=$app_id");
     }
