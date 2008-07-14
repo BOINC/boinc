@@ -5733,3 +5733,19 @@ David  14 July 2008
 
     sched/
         sched_send.C
+
+Rom    14 July 2008
+    - WINSETUP: Create a flag file that can be used to keep either the
+        manager or the CC from starting until a reboot has been
+        performed.  Flag the file for deletion after a reboot has been
+        performed.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.cpp
+        boinccas.rc
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

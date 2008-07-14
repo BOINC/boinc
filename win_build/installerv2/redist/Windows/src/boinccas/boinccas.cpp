@@ -669,8 +669,57 @@ UINT BOINCCABase::LogMessage(
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::RebootWhenFinished()
 {
+    tstring strInstallDirectory;
+    tstring strRebootPending;
+    FILE*   fRebootPending;
+
+    GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+
+
+    // Create reboot pending file
+    //
+    strRebootPending = strInstallDirectory + _T("\\RebootPending.txt");
+
+    fRebootPending = _tfopen(strRebootPending.c_str(), _T("wb"));
+    if (fRebootPending) fclose(fRebootPending);
+
+
+    // Create a registry key to delete the RebootInProgress.txt flag
+    //   file on a reboot.
+    //
+	LONG lReturnValue;
+	HKEY hkSetupHive;
+
+	lReturnValue = RegCreateKeyEx(
+        HKEY_LOCAL_MACHINE, 
+        _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce"),
+		0,
+        NULL,
+        REG_OPTION_NON_VOLATILE,
+        KEY_READ | KEY_WRITE,
+        NULL,
+        &hkSetupHive,
+        NULL
+    );
+	if (lReturnValue == ERROR_SUCCESS) 
+    {
+        tstring strCommand;
+
+        strCommand = _T("!cmd /c \"del '") + strRebootPending + _T("'\"");
+
+        RegSetValueEx(
+            hkSetupHive, 
+            _T("BOINCRebootPendingCleanup"),
+            0,
+            REG_SZ,
+            (CONST BYTE *)strCommand.c_str(),
+            (DWORD)(strCommand.size()*sizeof(TCHAR))
+        );
+
+	    RegCloseKey(hkSetupHive);
+    }
+
     SetProperty(_T("RETURN_REBOOTREQUESTED"), _T("1"));
-    SetProperty(_T("REBOOTPROMPT"), _T("Suppress"));
     return MsiSetMode(m_hMSIHandle, MSIRUNMODE_REBOOTATEND, TRUE);
 }
 
