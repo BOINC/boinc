@@ -1612,6 +1612,8 @@ void JOB_SET::add_job(JOB& job) {
             est_time -= worst_job.est_time;
             disk_usage -= worst_job.disk_usage;
             jobs.pop_back();
+        } else {
+            break;
         }
     }
     while (!jobs.empty()) {
@@ -1620,6 +1622,8 @@ void JOB_SET::add_job(JOB& job) {
             est_time -= worst_job.est_time;
             disk_usage -= worst_job.disk_usage;
             jobs.pop_back();
+        } else {
+            break;
         }
     }
     list<JOB>::iterator i = jobs.begin();

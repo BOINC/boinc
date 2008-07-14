@@ -5727,3 +5727,9 @@ David  14 July 2008
         account_finish.php
     sched/
         sched_send.C
+
+David  14 July 2008
+    - scheduler: fix infinite loop in matchmaker sched (from Artyom Sharov)
+
+    sched/
+        sched_send.C
