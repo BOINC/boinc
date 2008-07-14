@@ -1,19 +1,16 @@
 <?php
 
 function show_next_job($app, $user) {
-    BossaDb::start_transaction();
     $inst = BossaJobInst::assign($app, $user);
     if ($inst) {
         $job = BossaJob::lookup_id($inst->job_id);
         $file = "../inc/$app->short_name.inc";
         require_once($file);
         job_issued($job, $inst, $user);
-        BossaDb::commit();
         page_head("Bossa job");
         job_show($job, $inst, $user);
         page_tail();
     } else {
-        BossaDb::commit();
         page_head("No jobs available");
         echo "
             Sorry, no jobs are available right now.

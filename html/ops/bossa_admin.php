@@ -19,7 +19,7 @@ function show_bapp($app) {
         show_button("bossa_admin.php?action=hide&app_id=$app->id", "Hide", "Hide this app");
     }
     echo "<br>";
-    show_button("bossa_admin.php?action=show_jobs&app_id=$app->id", "Show jobs", "Show jobs");
+    show_button("bossa_admin.php?action=show_batches&app_id=$app->id", "Show batches", "Show batches");
 }
 
 function show_apps() {
@@ -85,10 +85,10 @@ function show_all() {
     admin_page_tail();
 }
 
-function show_jobs($app_id) {
-    $app = BossaApp::lookup_id($app_id);
-    echo "<h2>Jobs for $app->name</h2>";
-    $jobs = BossaJob::enum("app_id=$app_id");
+function show_batch($batch_id) {
+    $batch = BossaBatch::lookup_id($batch_id);
+    page_head("Jobs for batch $batch->name");
+    $jobs = BossaJob::enum("batch_id=$batch_id");
     foreach ($jobs as $job) {
         echo "<pre>\n";
         print_r($job);
@@ -98,6 +98,17 @@ function show_jobs($app_id) {
             <hr>
         ";
     }
+    page_tail();
+}
+
+function show_batches($app_id) {
+    $batches = BossaBatch::enum("app_id = $app_id");
+    page_head("Batches");
+    foreach ($batches as $batch) {
+        echo "<br><a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>$batch->name</a>
+        ";
+    }
+    page_tail();
 }
 
 function show_insts($job_id) {
@@ -166,9 +177,13 @@ case 'update_user':
     $user->bossa->flags = $flags;
     Header('Location: bossa_admin.php');
     exit();
-case 'show_jobs':
+case 'show_batches':
     $app_id = $_GET['app_id'];
-    show_jobs($app_id);
+    show_batches($app_id);
+    exit();
+case 'show_batch':
+    $batch_id = $_GET['batch_id'];
+    show_batch($batch_id);
     exit();
 case 'show_insts':
     $job_id = $_GET['job_id'];

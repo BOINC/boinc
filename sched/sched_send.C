@@ -148,7 +148,7 @@ BEST_APP_VERSION* get_app_version(
             // TODO: allow anonymous platform apps to use coprocs,
             // multi-thread etc.
             //
-            bavp->host_usage.init_seq(reply.host.p_fpops);
+            bavp->host_usage.sequential_app(reply.host.p_fpops);
             bavp->avp = (APP_VERSION*)1;    // arbitrary nonzero value;
                 // means the client already has the app version
         }
@@ -179,7 +179,7 @@ BEST_APP_VERSION* get_app_version(
                     continue;
                 }
             } else {
-                host_usage.init_seq(reply.host.p_fpops);
+                host_usage.sequential_app(reply.host.p_fpops);
             }
             if (host_usage.flops > bavp->host_usage.flops) {
                 bavp->host_usage = host_usage;

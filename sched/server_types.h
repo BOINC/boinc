@@ -78,7 +78,15 @@ struct HOST_USAGE {
     double flops;
     char cmdline[256];
 
-    void init_seq(double x) {
+
+    HOST_USAGE() {
+        coprocs.coprocs.clear();
+        avg_ncpus = 1;
+        max_ncpus = 1;
+        flops = 0;
+        strcpy(cmdline, "");
+    }
+    void sequential_app(double x) {
         coprocs.coprocs.clear();
         avg_ncpus = 1;
         max_ncpus = 1;

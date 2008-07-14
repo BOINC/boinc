@@ -12,12 +12,13 @@ function bossa_job_create(
 
     $now = time();
     $int_max = 2147483647;
-    $clause = "(create_time, app_id, batch_id, state, info, is_calibration, priority_0) values ($now, $app_id, $batch_id, 0, '$info', $is_calibration, $priority)";
+    $clause = "(create_time, app_id, batch_id, state, info, is_calibration, priority_0) values ($now, $app_id, $batch_id, 1, '$info', $is_calibration, $priority)";
     return $job->insert($clause);
 }
 
-function bossa_batch_create($name) {
-    return BossaBatch::insert("(name) values ('$name')");
+function bossa_batch_create($appid, $name) {
+    $now = time();
+    return BossaBatch::insert("(create_time, app_id, name) values ($now, $appid, '$name')");
 }
 
 function bossa_app_lookup($name) {

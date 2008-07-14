@@ -208,6 +208,14 @@ class BossaBatch {
         if (!$ret) return 0;
         return $db->insert_id();
     }
+    static function enum($clause) {
+        $db = BossaDb::get();
+        return $db->enum('bossa_batch', 'BossaBatch', $clause);
+    }
+    static function lookup_id($id) {
+        $db = BossaDb::get();
+        return $db->lookup_id($id, 'bossa_batch', 'BossaBatch');
+    }
 }
 
 ?>
