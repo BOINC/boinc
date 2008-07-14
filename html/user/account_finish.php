@@ -9,7 +9,7 @@ require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
 
-$auth = process_user_text(get_str("auth"));
+$auth = get_str("auth");
 $user = lookup_user_auth($auth);
 if (!$user) {
     error_page("no such account");

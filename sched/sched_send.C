@@ -541,25 +541,27 @@ static inline int check_bandwidth(
 static inline int check_deadline(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
+    if (config.ignore_delay_bound) return 0;
+
     // skip delay check if host currently doesn't have any work
     // (i.e. everyone gets one result, no matter how slow they are)
     //
-    if (!config.ignore_delay_bound && request.estimated_delay>0) {
-        double ewd = estimate_wallclock_duration(wu, request, reply);
-        double est_completion_delay = request.estimated_delay + ewd;
-        double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
-        double diff = est_report_delay - wu.delay_bound;
-        if (diff > 0) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
-                    wu.id, wu.name, (int)est_report_delay,
-                    reply.host.id, wu.delay_bound
-                );
-            }
-            reply.wreq.speed.set_insufficient(diff);
-            return INFEASIBLE_CPU;
+    if (request.estimated_delay == 0) return 0;
+
+    double ewd = estimate_wallclock_duration(wu, request, reply);
+    double est_completion_delay = request.estimated_delay + ewd;
+    double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
+    double diff = est_report_delay - wu.delay_bound;
+    if (diff > 0) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "[WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
+                wu.id, wu.name, (int)est_report_delay,
+                reply.host.id, wu.delay_bound
+            );
         }
+        reply.wreq.speed.set_insufficient(diff);
+        return INFEASIBLE_CPU;
     }
     return 0;
 }

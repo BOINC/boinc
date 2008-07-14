@@ -37,6 +37,14 @@ class BossaDb extends DbConn {
         $db = self::get();
         return $db->base_escape_string($string);
     }
+    static function start_transaction() {
+        $db = BossaDb::get();
+        $db->do_query("start transaction");
+    }
+    static function commit() {
+        $db = BossaDb::get();
+        $db->do_query("commit");
+    }
 }
 
 class BossaUser {
@@ -116,6 +124,15 @@ class BossaJob {
         $db = BossaDb::get();
         return $db->enum('bossa_job', 'BossaJob', $clause);
     }
+
+    // app-callable:
+    //
+    function get_info() {
+        return unserialize($this->info);
+    }
+    function set_priority($x) {
+        return $this->update("priority_0=$x");
+    }
 }
 
 class BossaJobInst {
@@ -158,7 +175,11 @@ class BossaJobInst {
         // this query skips jobs for which this user
         // has already been assigned an instance
         //
-        $prio = "priority_".$user->bossa->category;
+        if (isset($user->bossa->category)) {
+            $prio = "priority_".$user->bossa->category;
+        } else {
+            $prio = "priority_0";
+        }
         $query = "select * from DBNAME.bossa_job where app_id=$app->id and (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and is_calibration=0 order by $prio desc limit 1";
         $result = $db->do_query($query);
         if (!$result) return null;
@@ -170,6 +191,13 @@ class BossaJobInst {
         $clause = "(create_time, app_id, job_id, user_id) values ($now, $app->id, $job->id, $user->id)";
         $id = BossaJobInst::insert($clause);
         return BossaJobInst::lookup_id($id);
+    }
+
+    // app-callable functions
+    //
+    function update_info($info) {
+        $info = serialize($info);
+        return $this->update("info='$info'");
     }
 }
 

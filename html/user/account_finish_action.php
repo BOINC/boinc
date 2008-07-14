@@ -21,7 +21,6 @@ if (!is_valid_country($country)) {
 
 $postal_code = strip_tags(post_str("postal_code", true));
 
-$auth = process_user_text($auth);
 $name = process_user_text($name);
 $postal_code = process_user_text($postal_code);
 

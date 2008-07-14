@@ -5716,3 +5716,14 @@ Rytis  13 July 2008
             profile_menu.php
         languages/translations/
             en.po
+
+David  14 July 2008
+    - web: fix bugs that cause backslashes to be introduced
+        in global prefs update via account manager RPC
+
+    html/user/
+        am_set_info.php
+        account_finish_action.php
+        account_finish.php
+    sched/
+        sched_send.C

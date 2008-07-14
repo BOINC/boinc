@@ -14,7 +14,7 @@ create table bossa_app (
     info                text,
         -- app-specific info, JSON
     primary key(id)
-);
+) engine = InnoDB;
 
 create table bossa_job (
     id                  integer     not null auto_increment,
@@ -22,7 +22,6 @@ create table bossa_job (
     app_id              integer     not null,
     batch_id            integer     not null,
     state               integer     not null,
-    transition_time     integer     not null,
     info                text,
     is_calibration      tinyint     not null,
     priority_0          float       not null,
@@ -37,6 +36,7 @@ create table bossa_job_inst (
     job_id              integer     not null,
     user_id             integer     not null,
     finish_time         integer     not null,
+    transition_time     integer     not null,
     info                text,
     primary key(id)
 ) engine=InnoDB;
@@ -48,7 +48,7 @@ create table bossa_user (
         -- debug, show_all
     info                text
         -- Project-dependent info about users ability and performance.
-);
+) engine = InnoDB;
 
 create table bossa_batch (
     id                  integer     not null auto_increment,
@@ -56,4 +56,4 @@ create table bossa_batch (
     name                varchar(255) not null,
     app_id              integer     not null,
     primary key(id)
-);
+) engine = InnoDB;
