@@ -1,9 +1,12 @@
 <?php
 
-// This script generates some random image files
+// Generate image files and answer files for Bossa example
 // Usage:
 //
-// bossa_example_make_files.php nfiles dir
+// bossa_example_make_files.php options
+// --nfiles N           how many files to create
+// --dir dir            where to put them (e.g., ../user/example)
+// --ellipse_frac X     fraction of images with ellipses
 
 function rand_color($im, $range) {
     $mid = 200;
@@ -42,9 +45,9 @@ function make_image($case) {
     return $im;
 }
 
-function make_test_case() {
+function make_test_case($ellipse_frac) {
     $case = null;
-    $case->have_ellipse = rand(0, 1);
+    $case->have_ellipse = drand() < $ellipse_frac;
     if ($case->have_ellipse) {
         $case->cx = rand(50, 550);
         $case->cy = rand(50, 350);
@@ -54,22 +57,38 @@ function make_test_case() {
     return $case;
 }
 
-if ($argc < 3) {
-    echo "Usage: bossa_example_make_files nfiles dir\n";
-    exit;
+function drand() {
+    return ((double)rand())/getrandmax();
 }
 
-$n = $argv[1];
-$dir = $argv[2];
+function usage() {
+    global $argv;
+    exit("Usage: ".$argv[0]." --nfiles N --dir dir [--ellipse_frac x]\n");
+}
+
+$nfiles = 0;
+$dir = null;
+$ellipse_frac = 0.5;
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == '--nfiles') $nfiles = $argv[++$i];
+    elseif ($argv[$i] == '--dir') $dir = $argv[++$i];
+    elseif ($argv[$i] == '--ellipse_frac') $ellipse_frac = $argv[++$i];
+    else usage();
+}
+
+if (!$nfiles || !$dir) usage();
 
 if (!is_dir($dir)) {
-    echo "$dir is not a directory\n";
-    exit;
+    exit("$dir is not a directory\n");
 }
 
-for ($i=0; $i<$n; $i++) {
+for ($i=0; $i<$nfiles; $i++) {
     $path = "$dir/$i.png";
-    $case = make_test_case();
+    $anspath = "$dir/$i.ans";
+    $case = make_test_case($ellipse_frac);
+    $f = fopen($anspath, 'w');
+    fwrite($f, serialize($case));
+    fclose(f);
     imagepng(make_image($case), $path);
 }
 

@@ -5782,3 +5782,15 @@ Rom    15 July 2008
         boinccas.dll
         boinccas95.dll
 
+David  15 July 2008
+    - scheduler: Add a notion of "hard app" for SETI@home.
+        If an app is hard, the scheduler always does the deadline check,
+        even if the client has no other jobs for this project.
+        And the estimated wallclock duration is multiplied by 1.3,
+        to avoid sending jobs to hosts that will barely make the deadline.
+
+        Hard apps are marked by setting weight = -1.
+        This is a total kludge, to avoid adding another field to app.
+
+    sched/
+        sched_send.C

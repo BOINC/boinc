@@ -2,9 +2,23 @@
 
 require_once("../inc/bossa_db.inc");
 require_once("../inc/bolt_db.inc");
-require_once("../inc/util_ops.inc");
+require_once("../inc/util.inc");
 
-function show_bapp($app) {
+function job_state_string($s) {
+    switch ($s) {
+    case 0: return "Embargoed";
+    case 1: return "In progress";
+    case 2: return "Completed";
+    }
+}
+
+function include_app_file($app_id) {
+    $app = BossaApp::lookup_id($app_id);
+    $file = "../inc/$app->short_name.inc";
+    require_once($file);
+}
+
+function show_app($app) {
     echo "<tr>
         <td>Name: $app->name<br>
             Short name: $app->short_name<br>
@@ -28,7 +42,7 @@ function show_apps() {
     row1("Existing apps", 2);
     table_header("Name/description", "");
     foreach ($apps as $app) {
-        show_bapp($app);
+        show_app($app);
     }
     end_table();
 }
@@ -52,6 +66,7 @@ function add_app_form() {
         "Description<span class=note><br>Visible to users</span>",
         "<textarea name=description cols=60></textarea>"
     );
+    row2("Fraction of calibration jobs", "<input name=calibration_frac>");
     row2("Name of Bolt training course", "<input name=training_course>");
     row2("", "<input type=submit submit value=\"Create app\">");
     end_table();
@@ -76,49 +91,108 @@ function user_settings() {
 }
 
 function show_all() {
-    admin_page_head("Bossa administration");
+    page_head("Bossa administration");
     show_apps();
     echo "<p>";
     add_app_form();
     echo "<p>";
     user_settings();
-    admin_page_tail();
+    page_tail();
+}
+
+function show_instances($job_id) {
+    $insts = BossaJobInst::enum("job_id=$job_id");
+    if (!count($insts)) {
+        echo "---";
+        return;
+    }
+    start_table();
+    table_header("User", "Start", "Duration", "Result");
+    foreach ($insts as $inst) {
+        $user = BoincUser::lookup_id($inst->user_id);
+        $t = time_str($inst->create_time);
+        if ($inst->finish_time) {
+            $d = $inst->finish_time - $inst->create_time;
+            $d /= 60;
+            $d = number_format($d, 2);
+            $d = "$d min.";
+        } else {
+            $d = "---";
+        };
+        echo "<tr>
+            <td><a href=show_user.php?userid=$user->id>$user->name</a></td>
+            <td>$t</td>
+            <td>$d</td>
+            <td>
+        ";
+        show_instance_summary($inst);
+        echo "
+            </td>
+            </tr>
+        ";
+    }
+    end_table();
 }
 
 function show_batch($batch_id) {
     $batch = BossaBatch::lookup_id($batch_id);
+    if (!$batch) error_page("No such batch");
+    include_app_file($batch->app_id);
     page_head("Jobs for batch $batch->name");
     $jobs = BossaJob::enum("batch_id=$batch_id");
+    start_table();
+    table_header("ID", "Created", "State", "Instances");
     foreach ($jobs as $job) {
-        echo "<pre>\n";
-        print_r($job);
-        echo "</pre>\n";
+        $t = time_str($job->create_time);
+        $s = job_state_string($job->state);
+        echo "<tr>
+            <td>
+                <a href=bossa_admin.php?action=show_insts&job_id=$job->id>$job->id</a><br>
+        ";
+        show_job_summary($job);
         echo "
-            <a href=bossa_admin.php?action=show_insts&job_id=$job->id>Show instances</a>
-            <hr>
+            </td>
+            <td>$t</td>
+            <td>$s</td>
+            <td>
+        ";
+        show_instances($job->id);
+        echo "
+            </td>
+            </tr>
         ";
     }
+    end_table();
     page_tail();
 }
 
 function show_batches($app_id) {
     $batches = BossaBatch::enum("app_id = $app_id");
     page_head("Batches");
+    start_table();
+    table_header("Name", "Created", "Jobs", "Completed");
     foreach ($batches as $batch) {
-        echo "<br><a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>$batch->name</a>
+        $n = BossaJob::count("batch_id=$batch->id");
+        $c = BossaJob::count("batch_id=$batch->id and state=2");
+        $t = time_str($batch->create_time);
+        echo "<tr>
+            <td><a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>$batch->name</a></td>
+            <td>$t</td>
+            <td>$n</td>
+            <td>$c</td>
+            </tr>
         ";
     }
+    end_table();
     page_tail();
 }
 
 function show_insts($job_id) {
-    echo "<h2>Job instances</h2>";
-    $jis = BossaJobInst::enum("job_id=$job_id");
-    foreach ($jis as $ji) {
-        echo "<pre>\n";
-        print_r($ji);
-        echo "</pre><hr>\n";
-    }
+    $job = BossaJob::lookup_id($job_id);
+    include_app_file($job->app_id);
+    page_head("Instances of job $job_id");
+    show_instances($job_id);
+    page_tail();
 }
 
 
@@ -162,6 +236,7 @@ case 'add_app':
     } else {
         $courseid = 0;
     }
+    $calibration_frac = get_str('calibration_frac' ,true);
     $now = time();
     $app_id = BossaApp::insert("(create_time, name, short_name, description, bolt_course_id) values ($now, '$name', '$short_name', '$description', $courseid)");
     if ($courseid) {

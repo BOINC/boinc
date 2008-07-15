@@ -11,6 +11,7 @@ create table bossa_app (
     bolt_course_id      integer     not null,
     time_estimate       integer     not null,
     time_limit          integer     not null,
+    calibration_frac    double      not null,
     info                text,
         -- app-specific info, JSON
     primary key(id)
@@ -23,9 +24,10 @@ create table bossa_job (
     batch_id            integer     not null,
     state               integer     not null,
     info                text,
-    is_calibration      tinyint     not null,
-    priority_0          float       not null,
+    calibration         tinyint     not null,
+    priority_0          double      not null,
         -- add more as needed
+        -- for calibration jobs, init to random and decrement on each view
     primary key(id)
 ) engine=InnoDB;
 
@@ -36,7 +38,7 @@ create table bossa_job_inst (
     job_id              integer     not null,
     user_id             integer     not null,
     finish_time         integer     not null,
-    transition_time     integer     not null,
+    timeout             integer     not null,
     info                text,
     primary key(id)
 ) engine=InnoDB;
@@ -55,5 +57,6 @@ create table bossa_batch (
     create_time         integer     not null,
     name                varchar(255) not null,
     app_id              integer     not null,
+    calibration         tinyint     not null,
     primary key(id)
 ) engine = InnoDB;

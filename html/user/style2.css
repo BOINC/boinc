@@ -76,6 +76,7 @@ td {
 	padding: 4px;
 	border: 0px;
 	margin-bottom: 0px;	
+	vertical-align: top;
 }
 
 td.bordered {
@@ -100,23 +101,19 @@ td.heading2 {
 td.fieldname {
 	background-color: #eeeeee;
 	text-align: right;
-	vertical-align: top;
 }
 
 td.fieldvalue {
-	vertical-align: top;
 	font-weight: bold;
 }
 
 td.fieldname_error {
 	background-color: #ff8888;
 	text-align: right;
-	vertical-align: top;
 }
 
 td.fieldvalue_error {
 	background-color: #ff8888;
-	vertical-align: top;
 	font-weight: bold;
 }
 

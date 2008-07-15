@@ -118,4 +118,8 @@ function parse_config($config, $tag) {
     return $element;
 }
 
+function drand() {
+    return ((double)rand())/getrandmax();
+}
+
 ?>

@@ -538,17 +538,27 @@ static inline int check_bandwidth(
     return 0;
 }
 
+// Determine if the app is "hard",
+// and we should send it only to high-end hosts.
+// Currently this is specified by setting weight=-1;
+// this is a kludge for SETI@home/Astropulse.
+//
+static inline bool hard_app(APP& app) {
+    return (app.weight == -1);
+}
+
 static inline int check_deadline(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+    WORKUNIT& wu, APP& app, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
     if (config.ignore_delay_bound) return 0;
 
     // skip delay check if host currently doesn't have any work
     // (i.e. everyone gets one result, no matter how slow they are)
     //
-    if (request.estimated_delay == 0) return 0;
+    if (request.estimated_delay == 0 && !hard_app(app)) return 0;
 
     double ewd = estimate_wallclock_duration(wu, request, reply);
+    if (hard_app(app)) ewd *= 1.3;
     double est_completion_delay = request.estimated_delay + ewd;
     double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
     double diff = est_report_delay - wu.delay_bound;
@@ -634,7 +644,7 @@ int wu_is_infeasible_fast(
             return INFEASIBLE_WORKLOAD;
         }
     } else {
-        retval = check_deadline(wu, request, reply);
+        retval = check_deadline(wu, app, request, reply);
         if (retval) return INFEASIBLE_WORKLOAD;
     }
 
