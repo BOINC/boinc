@@ -5794,3 +5794,11 @@ David  15 July 2008
 
     sched/
         sched_send.C
+
+David  15 July 2008
+    - scheduler: with matchmaker scheduling, avoid infinite loop
+        if result not in DB
+        (from Artyom Sharov, DerMeister)
+
+    sched/
+        sched_send.C

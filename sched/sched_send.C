@@ -1671,15 +1671,15 @@ void JOB_SET::send(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     list<JOB>::iterator i = jobs.begin();
     while (i != jobs.end()) {
-        JOB& job = *i;
+        JOB& job = *(i++);
         WU_RESULT wu_result = ssp->wu_results[job.index];
         ssp->wu_results[job.index].state = WR_STATE_EMPTY;
         wu = wu_result.workunit;
         result.id = wu_result.resultid;
         retval = read_sendable_result(result);
-        if (retval) continue;
-        add_result_to_reply(result, wu, sreq, reply, job.bavp);
-        i++;
+        if (!retval) {
+            add_result_to_reply(result, wu, sreq, reply, job.bavp);
+        }
     }
 }
 

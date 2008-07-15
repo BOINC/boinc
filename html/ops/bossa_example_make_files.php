@@ -8,6 +8,8 @@
 // --dir dir            where to put them (e.g., ../user/example)
 // --ellipse_frac X     fraction of images with ellipses
 
+require_once("../inc/util_basic.inc");
+
 function rand_color($im, $range) {
     $mid = 200;
     $lo = $mid - $range;
@@ -55,10 +57,6 @@ function make_test_case($ellipse_frac) {
         $case->h = rand(50, 100);
     }
     return $case;
-}
-
-function drand() {
-    return ((double)rand())/getrandmax();
 }
 
 function usage() {

@@ -5,8 +5,6 @@ create table bossa_app (
     short_name          varchar(255) not null,
     description         varchar(255) not null,
     long_jobs           tinyint     not null,
-    display_script      varchar(255) not null,
-    backend_script      varchar(255) not null,
     hidden              tinyint     not null,
     bolt_course_id      integer     not null,
     time_estimate       integer     not null,

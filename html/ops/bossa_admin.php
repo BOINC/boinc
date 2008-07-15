@@ -170,13 +170,16 @@ function show_batches($app_id) {
     $batches = BossaBatch::enum("app_id = $app_id");
     page_head("Batches");
     start_table();
-    table_header("Name", "Created", "Jobs", "Completed");
+    table_header("ID", "Name", "Calibration?", "Created", "Jobs", "Completed");
     foreach ($batches as $batch) {
         $n = BossaJob::count("batch_id=$batch->id");
         $c = BossaJob::count("batch_id=$batch->id and state=2");
         $t = time_str($batch->create_time);
+        $cal = $batch->calibration?"yes":"no";
         echo "<tr>
-            <td><a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>$batch->name</a></td>
+            <td><a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>$batch->id</a></td>
+            <td>$batch->name</td>
+            <td>$cal</td>
             <td>$t</td>
             <td>$n</td>
             <td>$c</td>
