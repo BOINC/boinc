@@ -5757,3 +5757,28 @@ David  14 July 2008
     sched/
         sched_send.C
         server_types.h
+
+Rom    15 July 2008
+    - WINSETUP: Don't create the flag file until after the migration phase
+        has been completed.
+    - WINSETUP: Use real quotes around the delete file command instead of
+        tick marks, the Windows shell throws an error
+    - WINSETUP: Instead of calling the Windows API to determinethe various
+        special folders, use the MSI properties which match the 'choose folder'
+        dialog. We can skip the step if doing a case insensitive compare.
+        Plus it appears that MSI normalizes the paths for us.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.cpp
+        boinccas95.def
+        boinccas95.vcproj
+        CAMigrateBOINCData.cpp
+        CAValidateRebootRequest.cpp, .h (Added)
+        CAVerifyInstallDirectories.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+

@@ -336,12 +336,11 @@ UINT CAMigrateBOINCData::OnExecution()
     tstring      strWindowsSystemDirectory;
     tstring      strProgramFilesDirectory;
     tstring      strSystemDrive;
-    tstring      strMessage;
+    tstring      strVersionWindows64;
     struct _stat buf;
     ULONGLONG    ullFileSize = 0;
     ULONGLONG    ullDirectorySize = 0;
     ULONGLONG    ullFreeDiskSpace = 0;
-    TCHAR        szBuffer[2048];
     UINT         uiReturnValue = -1;
 
     LogMessage(
@@ -372,6 +371,32 @@ UINT CAMigrateBOINCData::OnExecution()
     uiReturnValue = GetProperty( _T("ProductVersion"), strProductVersion );
     if ( uiReturnValue ) return uiReturnValue;
 
+    uiReturnValue = GetProperty( _T("VersionNT64"), strVersionWindows64 );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("WindowsFolder"), strWindowsDirectory );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("WindowsVolume"), strSystemDrive );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    if (strVersionWindows64.length() > 0)
+    {
+        uiReturnValue = GetProperty( _T("System64Folder"), strWindowsSystemDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
+
+        uiReturnValue = GetProperty( _T("ProgramFiles64Folder"), strProgramFilesDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
+    }
+    else
+    {
+        uiReturnValue = GetProperty( _T("SystemFolder"), strWindowsSystemDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
+
+        uiReturnValue = GetProperty( _T("ProgramFilesFolder"), strProgramFilesDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
+    }
+
 
     // If the REMOVE property is specified, then we are uninstalling BOINC, and
     // need to move things back to their orginal location.
@@ -396,90 +421,6 @@ UINT CAMigrateBOINCData::OnExecution()
     else
     {
         strDestinationClientStateFile = strFutureDataDirectory + _T("\\client_state.xml");
-
-        // Determine the Windows directory
-        if (GetWindowsDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
-        {
-            strWindowsDirectory = tstring(szBuffer) + _T("\\");
-
-            strMessage = _T("strWindowsDirectory: '");
-            strMessage += strWindowsDirectory;
-            strMessage += _T("'");
-
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                strMessage.c_str()
-            );
-        }
-
-        // Determine the system drive
-        if (!strWindowsDirectory.empty())
-        {
-            TCHAR drive[_MAX_DRIVE];
-            TCHAR dir[_MAX_DIR];
-            TCHAR fname[_MAX_FNAME];
-            TCHAR ext[_MAX_EXT];
-
-            _tsplitpath(strWindowsDirectory.c_str(), drive, dir, fname, ext);
-
-            strSystemDrive = tstring(drive) + _T("\\");       
-
-            strMessage = _T("strSystemDrive: '");
-            strMessage += strSystemDrive;
-            strMessage += _T("'");
-
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                strMessage.c_str()
-            );
-        }
-
-        // Determine the Windows System directory.
-        if (GetSystemDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
-        {
-            strWindowsSystemDirectory = tstring(szBuffer) + _T("\\");
-
-            strMessage = _T("strWindowsSystemDirectory: '");
-            strMessage += strWindowsSystemDirectory;
-            strMessage += _T("'");
-
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                strMessage.c_str()
-            );
-        }
-
-        // Determine the Program Files directory.
-        if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
-        {
-            strProgramFilesDirectory = tstring(szBuffer) + _T("\\");
-
-            strMessage = _T("strProgramFilesDirectory: '");
-            strMessage += strProgramFilesDirectory;
-            strMessage += _T("'");
-
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                strMessage.c_str()
-            );
-        }
-
 
         // Perform some basic sanity tests to see if we need to migrate
         //   anything.

@@ -422,6 +422,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CAValidateRebootRequest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAValidateSetupType.cpp"
 				>
 			</File>
@@ -524,6 +528,10 @@
 			</File>
 			<File
 				RelativePath=".\CAValidateInstall.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CAValidateRebootRequest.h"
 				>
 			</File>
 			<File

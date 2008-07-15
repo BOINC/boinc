@@ -66,8 +66,7 @@ UINT CAVerifyInstallDirectories::OnExecution()
     tstring strWindowsSystemDirectory;
     tstring strProgramFilesDirectory;
     tstring strSystemDrive;
-    tstring strMessage;
-    TCHAR   szBuffer[2048];
+    tstring strVersionWindows64;
     UINT    uiReturnValue = 0;
 
 
@@ -77,88 +76,30 @@ UINT CAVerifyInstallDirectories::OnExecution()
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
+    uiReturnValue = GetProperty( _T("VersionNT64"), strVersionWindows64 );
+    if ( uiReturnValue ) return uiReturnValue;
 
-    // Determine the Windows directory
-    if (GetWindowsDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
+    uiReturnValue = GetProperty( _T("WindowsFolder"), strWindowsDirectory );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("WindowsVolume"), strSystemDrive );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    if (strVersionWindows64.length() > 0)
     {
-        strWindowsDirectory = tstring(szBuffer) + _T("\\");
+        uiReturnValue = GetProperty( _T("System64Folder"), strWindowsSystemDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
 
-        strMessage = _T("strWindowsDirectory: '");
-        strMessage += strWindowsDirectory;
-        strMessage += _T("'");
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            strMessage.c_str()
-        );
+        uiReturnValue = GetProperty( _T("ProgramFiles64Folder"), strProgramFilesDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
     }
-
-    // Determine the system drive
-    if (!strWindowsDirectory.empty())
+    else
     {
-        TCHAR drive[_MAX_DRIVE];
-        TCHAR dir[_MAX_DIR];
-        TCHAR fname[_MAX_FNAME];
-        TCHAR ext[_MAX_EXT];
+        uiReturnValue = GetProperty( _T("SystemFolder"), strWindowsSystemDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
 
-        _tsplitpath(strWindowsDirectory.c_str(), drive, dir, fname, ext);
-
-        strSystemDrive = tstring(drive) + _T("\\");       
-
-        strMessage = _T("strSystemDrive: '");
-        strMessage += strSystemDrive;
-        strMessage += _T("'");
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            strMessage.c_str()
-        );
-    }
-
-    // Determine the Windows System directory.
-    if (GetSystemDirectory(szBuffer, sizeof(szBuffer)/sizeof(TCHAR)))
-    {
-        strWindowsSystemDirectory = tstring(szBuffer) + _T("\\");
-
-        strMessage = _T("strWindowsSystemDirectory: '");
-        strMessage += strWindowsSystemDirectory;
-        strMessage += _T("'");
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            strMessage.c_str()
-        );
-    }
-
-    // Determine the Program Files directory.
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
-    {
-        strProgramFilesDirectory = tstring(szBuffer) + _T("\\");
-
-        strMessage = _T("strProgramFilesDirectory: '");
-        strMessage += strProgramFilesDirectory;
-        strMessage += _T("'");
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            strMessage.c_str()
-        );
+        uiReturnValue = GetProperty( _T("ProgramFilesFolder"), strProgramFilesDirectory );
+        if ( uiReturnValue ) return uiReturnValue;
     }
 
 
