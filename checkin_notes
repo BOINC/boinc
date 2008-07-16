@@ -5802,3 +5802,10 @@ David  15 July 2008
 
     sched/
         sched_send.C
+
+David  15 July 2008
+    - scheduler: fix logic to not send plan-class apps to clients
+        that don't know about plan class
+
+    sched/
+        sched_send.C
