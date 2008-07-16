@@ -5809,3 +5809,10 @@ David  15 July 2008
 
     sched/
         sched_send.C
+
+Rom    16 July 2008
+    - MGR: Detect when a reboot is required for BOINC and display an error
+        dialog if it is required.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
