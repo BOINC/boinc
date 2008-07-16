@@ -346,7 +346,7 @@ static void init_core_client(int argc, char** argv) {
 }
 
 #ifdef _WIN32
-    char event_message[2048];
+char event_message[2048];
 #endif
 
 int initialize() {
@@ -358,7 +358,8 @@ int initialize() {
         stprintf(event_message, 
             TEXT("BOINC Core Client Error Message\n"
                  "Failed to initialize the BOINC Client Library.\n"
-                 "Load failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+                 "Load failed: %s\n"),
+            windows_error_string(event_message, sizeof(event_message))
         );
         if (!gstate.executing_as_daemon) {
             fprintf(stderr, event_message);

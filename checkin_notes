@@ -5816,3 +5816,10 @@ Rom    16 July 2008
         
     clientgui/
         BOINCGUIApp.cpp, .h
+
+Rom    16 July 2008
+    - WINSETUP: Revamp the various strings used.
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
