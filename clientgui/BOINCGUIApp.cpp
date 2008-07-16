@@ -71,6 +71,7 @@ bool CBOINCGUIApp::OnInit() {
     // Setup variables with default values
     m_strBOINCArguments = wxEmptyString;
     m_strBOINCMGRRootDirectory = wxEmptyString;
+    m_strBOINCMGRDataDirectory = wxEmptyString;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -322,6 +323,27 @@ bool CBOINCGUIApp::OnInit() {
         m_pLocale, 
         m_pConfig->Read(wxT("Skin"), m_pSkinManager->GetDefaultSkinName())
     );
+
+
+    // Perform any last minute checks that should keep the manager
+    // from starting up.
+    wxString strRebootPendingFile = 
+        GetRootDirectory() + wxFileName::GetPathSeparator() + wxT("RebootPending.txt");
+    
+    wxFileInputStream fisRebootPending(strRebootPendingFile);
+    if (fisRebootPending.IsOk()) {
+
+        wxMessageDialog dialog(
+            NULL,
+            _("A reboot is required in order for BOINC to run properly.\nPlease reboot your computer and try again."),
+            _("BOINC Manager"),
+            wxOK|wxICON_ERROR
+        );
+
+        dialog.ShowModal();
+        return false;
+    }
+
 
     // Initialize the main document
     m_pDocument = new CMainDocument();

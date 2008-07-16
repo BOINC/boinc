@@ -4174,3 +4174,10 @@ Rom    11 July 2008
         
     clientgui/
         BOINCTaskBar.cpp
+
+Rom    16 July 2008
+    - MGR: Detect when a reboot is required for BOINC and display an error
+        dialog if it is required.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
