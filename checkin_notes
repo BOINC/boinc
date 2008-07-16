@@ -4189,3 +4189,12 @@ Rom    16 July 2008
     /
         configure.ac
         version.h
+
+Rom    16 July 2008
+    - WINSETUP: Don't execute the custom action that creates the
+        RebootPending.txt file in the program directory if a reboot
+        isn't required.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
