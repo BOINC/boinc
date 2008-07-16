@@ -4181,3 +4181,11 @@ Rom    16 July 2008
         
     clientgui/
         BOINCGUIApp.cpp, .h
+
+Rom    16 July 2008
+    - Tag for 6.2.13 release, all platforms
+      boinc_core_release_6_2_13
+
+    /
+        configure.ac
+        version.h
