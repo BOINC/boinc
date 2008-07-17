@@ -157,11 +157,11 @@ $l635 = array(
     "type"=>"sea",
 );
 
-$l6212 = array(
-    "num"=>"6.2.12",
+$l6214 = array(
+    "num"=>"6.2.14",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.12_i686-pc-linux-gnu.sh",
-    "date"=>"10 July 2008",
+    "file"=>"boinc_6.2.14_i686-pc-linux-gnu.sh",
+    "date"=>"17 July 2008",
     "type"=>"sea",
 );
 
@@ -181,11 +181,11 @@ $l635ubuntu = array(
     "type"=>"sea",
 );
 
-$l6212ubuntu = array(
-    "num"=>"6.2.12",
+$l6214ubuntu = array(
+    "num"=>"6.2.14",
     "status"=>"Development version",
-    "file"=>"boinc_ubuntu_6.2.12_i686-pc-linux-gnu.sh",
-    "date"=>"10 July 2008",
+    "file"=>"boinc_ubuntu_6.2.14_i686-pc-linux-gnu.sh",
+    "date"=>"17 July 2008",
     "type"=>"sea",
 );
 
@@ -205,11 +205,11 @@ $l635ubuntux64 = array(
     "type"=>"sea",
 );
 
-$l6212ubuntux64 = array(
-    "num"=>"6.2.12",
+$l6214ubuntux64 = array(
+    "num"=>"6.2.14",
     "status"=>"Development version",
-    "file"=>"boinc_ubuntu_6.2.12_x86_64-pc-linux-gnu.sh",
-    "date"=>"10 July 2008",
+    "file"=>"boinc_ubuntu_6.2.14_x86_64-pc-linux-gnu.sh",
+    "date"=>"17 July 2008",
     "type"=>"sea",
 );
 
@@ -270,7 +270,7 @@ $linuxcompat = array(
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l635,
-        $l6212,
+        $l6214,
         $l51045,
         $l5816,
     )
@@ -282,7 +282,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l635ubuntu,
-        $l6212ubuntu,
+        $l6214ubuntu,
         $l51045ubuntu,
     )
 );
@@ -293,7 +293,7 @@ $linuxx64 = array(
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
         $l635ubuntux64,
-        $l6212ubuntux64,
+        $l6214ubuntux64,
         $l51045ubuntux64,
     )
 );
