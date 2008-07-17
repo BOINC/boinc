@@ -324,7 +324,7 @@ bool CBOINCGUIApp::OnInit() {
         m_pConfig->Read(wxT("Skin"), m_pSkinManager->GetDefaultSkinName())
     );
 
-
+#ifdef __WXMSW__
     // Perform any last minute checks that should keep the manager
     // from starting up.
     wxString strRebootPendingFile = 
@@ -343,7 +343,7 @@ bool CBOINCGUIApp::OnInit() {
         dialog.ShowModal();
         return false;
     }
-
+#endif
 
     // Initialize the main document
     m_pDocument = new CMainDocument();

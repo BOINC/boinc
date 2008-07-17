@@ -4206,3 +4206,9 @@ Rom    16 July 2008
     /
         configure.ac
         version.h
+
+Charlie 17 July 2008
+    - MGR: Code which tests for reboot required should be Windows-only.
+        
+    clientgui/
+        BOINCGUIApp.cpp
