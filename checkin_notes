@@ -5838,3 +5838,10 @@ Charlie 17 July 2008
         
     clientgui/
         BOINCGUIApp.cpp
+
+David  17 July 2008
+    - scheduler: in matchmaker scheduler, if find a "locked" array slot,
+        which whether we're the process that locked it (from Artyom Sharov)
+
+    sched/
+        sched_send.C

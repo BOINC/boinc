@@ -1685,21 +1685,18 @@ void JOB_SET::send(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 }
 
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    int i, slots_scanned=0, slots_locked=0;
+    int i, slots_locked=0;
     JOB_SET jobs;
     int min_slots = config.mm_min_slots;
     if (!min_slots) min_slots = ssp->max_wu_results/2;
     int max_slots = config.mm_max_slots;
     if (!max_slots) max_slots = ssp->max_wu_results;
     int max_locked = 10;
-    int pid = getpid();
 
     lock_sema();
     i = rand() % ssp->max_wu_results;
-    while (1) {
+    for (int slots_scanned=0; slots_scanned<max_slots; slots_scanned++) {
         i = (i+1) % ssp->max_wu_results;
-        slots_scanned++;
-        if (slots_scanned >= max_slots) break;
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch (wu_result.state) {
         case WR_STATE_EMPTY:
@@ -1707,6 +1704,7 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         case WR_STATE_PRESENT:
             break;
         default:
+            if (g_pid == wu_result.state) break;
             slots_locked++;
             continue;
         }
@@ -1722,7 +1720,7 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
         }
         if (job.score > jobs.lowest_score() || !jobs.request_satisfied()) {
-            ssp->wu_results[i].state = pid;
+            ssp->wu_results[i].state = g_pid;
             unlock_sema();
             if (wu_is_infeasible_slow(wu_result, sreq, reply)) {
                 lock_sema();

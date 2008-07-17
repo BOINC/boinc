@@ -49,16 +49,10 @@ function job_finished($job, $inst) {
     //
     $insts = $job->get_finished_instances();
     $n = count($insts);
-    echo "got $n finished jobs\n";
-    if ($n >= 10) {
-        $job->update_state(BOSSA_JOB_INCONCLUSIVE);
-        return;
-    }
 
     $results = null;
     foreach ($insts as $inst) {
-        $x = $inst->get_info();
-        $results[] = $x;
+        $results[] = $inst->get_info();
     }
     for ($i=0; $i<$n-1; $i++) {
         $r1 = $results[$i];
@@ -68,8 +62,11 @@ function job_finished($job, $inst) {
                 $job->update_state(BOSSA_JOB_DONE);
                 return;
             }
-            echo "$i and $j are not compat\n";
         }
+    }
+    if ($n >= 10) {
+        $job->update_state(BOSSA_JOB_INCONCLUSIVE);
+        return;
     }
 }
 

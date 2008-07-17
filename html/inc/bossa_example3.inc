@@ -1,11 +1,7 @@
 <?php
 
-require_once("../inc/bossa.inc");
-
-// Bossa example #3.
-// Show the user an image and ask them to click on the ellipse
-// This version uses calibration jobs.
-// We maintain the following each user:
+// Bossa example #3 - calibration jobs.
+// We maintain the following for each user:
 // nneg         # of negative calibration jobs shown
 // nneg_err     # of errors
 // npos
@@ -17,15 +13,20 @@ require_once("../inc/bossa.inc");
 //
 // a job is considered done if either
 // - N instances are positive and match within +- 20 pixels,
-//      and prod(pos_err_rate)<1e3
+//      and prod(pos_err_rate)<PROB_LIMIT
 // - 2 instances are negative
-//      and prod(neg_err_rate)<1e3
+//      and prod(neg_err_rate)<PROB_LIMIT
 // - there are 10 finished instances
 //   (in which case the job is marked as inconclusive)
+
+require_once("../inc/bossa.inc");
+
+define("PROB_LIMIT", 1e-3);
 
 function job_show($job, $inst, $user) {
     $info = $job->get_info($job);
     $path = $info->path;
+    echo "JOB SHOW";
     echo "
         <h2>Find the Ellipse!</h2>
         <form method=get action=bossa_job_finished.php>
@@ -40,13 +41,14 @@ function job_show($job, $inst, $user) {
 }
 
 function job_issued($job, $inst, $user) {
+    echo "JOB ISSUED";
     $insts = $job->get_instances();
     if (count($insts) > 1) {
         $job->set_priority(0);
     }
 }
 
-function job_finished($job, $inst) {
+function job_finished($job, $inst, $user) {
     $response = null;
     if (get_str('submit', true)) {
         $response->have_ellipse = 0;
@@ -57,31 +59,81 @@ function job_finished($job, $inst) {
     }
     $inst->update_info($response);
 
+    if ($job->calibration) {
+        $info = $job->get_info();
+        $answer = $info->answer;
+        if (compatible($response, $answer)) {
+            if ($answer->have_ellipse) {
+                $u->npos++;
+            } else {
+                $u->nneg++;
+            }
+        } else {
+            if ($answer->have_ellipse) {
+                $u->npos++;
+                $u->npos_err++;
+            } else {
+                $u->nneg++;
+                $u->nneg_err++;
+            }
+        }
+        $b = $user->bossa;
+        $b->update_info($info);
+        return;
+    }
+
     // see if job is done
     //
     $insts = $job->get_finished_instances();
     $n = count($insts);
-    echo "got $n finished jobs\n";
-    if ($n >= 10) {
-        $job->update_state(BOSSA_JOB_INCONCLUSIVE);
+
+    $results = null;
+    $users = null;
+    foreach ($insts as $inst) {
+        $results[] = $inst->get_info();
+        $u = $inst->get_user();
+        $users[] = $u->bossa->get_info();
+    }
+
+    // see if there's a negative consensus
+    //
+    $prob = 1;
+    for ($i=0; $i<$n; $i++) {
+        $r = $results[$i];
+        if ($r1->have_ellipse) continue;
+        $u = $users[$i];
+        $prob *= $u->neg_err_rate;
+    }
+    if ($prob < PROB_LIMIT) {
+        $job->update_state(BOSSA_JOB_DONE);
         return;
     }
 
-    $results = null;
-    foreach ($insts as $inst) {
-        $x = $inst->get_info();
-        $results[] = $x;
-    }
-    for ($i=0; $i<$n-1; $i++) {
+    // see if there's a positive consensus
+    //
+    for ($i=0; $i<$n; $i++) {
         $r1 = $results[$i];
-        for ($j=$i+1; $j<$n; $j++) {
+        $u = $users[$i];
+        $prob = $u->pos_error_rate;
+        for ($j=0; $j<$n; $j++) {
+            if ($j == $i) continue;
             $r2 = $results[$j];
             if (compatible($r1, $r2)) {
-                $job->update_state(BOSSA_JOB_DONE);
-                return;
+                $u2 = $users[$j];
+                $prob *= $u2->pos_err_rate;
             }
-            echo "$i and $j are not compat\n";
         }
+        if ($prob < PROB_LIMIT) {
+            $job->update_state(BOSSA_JOB_DONE);
+            return;
+        }
+    }
+
+    // see if there are too many instances without a consensus
+    //
+    if ($n >= 10) {
+        $job->update_state(BOSSA_JOB_INCONCLUSIVE);
+        return;
     }
 }
 
@@ -121,3 +173,5 @@ function show_instance_summary($inst) {
 
 function show_user_summary($user) {
 }
+
+?>

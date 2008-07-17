@@ -66,6 +66,8 @@ function add_app_form() {
         "Description<span class=note><br>Visible to users</span>",
         "<textarea name=description cols=60></textarea>"
     );
+    row2("Average time per job", "<input name=time_estimate> seconds");
+    row2("Time limit per job", "<input name=time_limit> seconds");
     row2("Fraction of calibration jobs", "<input name=calibration_frac>");
     row2("Name of Bolt training course", "<input name=training_course>");
     row2("", "<input type=submit submit value=\"Create app\">");
@@ -229,7 +231,7 @@ case 'add_app':
     $name = BossaDb::escape_string(get_str('app_name'));
     $short_name = get_str('short_name');
     $description = BossaDb::escape_string(get_str('description'));
-    $training_course = get_str('training_course' ,true);
+    $training_course = get_str('training_course', true);
     if (strlen($training_course)) {
         $course = BoltCourse::lookup_name($training_course);
         if (!$course) {
@@ -239,9 +241,11 @@ case 'add_app':
     } else {
         $courseid = 0;
     }
-    $calibration_frac = get_str('calibration_frac' ,true);
+    $time_estimate = get_str('time_estimate');
+    $time_limit = get_str('time_limit');
+    $calibration_frac = get_str('calibration_frac' , true);
     $now = time();
-    $app_id = BossaApp::insert("(create_time, name, short_name, description, bolt_course_id) values ($now, '$name', '$short_name', '$description', $courseid)");
+    $app_id = BossaApp::insert("(create_time, name, short_name, description, bolt_course_id, time_estimate, time_limit, calibration_frac) values ($now, '$name', '$short_name', '$description', $courseid, $time_estimate, $time_limit, $calibration_frac)");
     if ($courseid) {
         $course->update("bossa_app_id=$app_id");
     }

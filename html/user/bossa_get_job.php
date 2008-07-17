@@ -14,8 +14,9 @@ if (!$app) {
     error_page("no such app: $bossa_app_id");
 }
 
-BossaDb::start_transaction();
-show_next_job($app, $user);
-BossaDb::commit();
+{
+    $trans = new BossaTransaction();
+    show_next_job($app, $user);
+}
 
 ?>

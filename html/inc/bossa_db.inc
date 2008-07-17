@@ -38,12 +38,28 @@ class BossaDb extends DbConn {
         return $db->base_escape_string($string);
     }
     static function start_transaction() {
+        echo "start transaction\n";
+        return;
         $db = BossaDb::get();
         $db->do_query("start transaction");
     }
     static function commit() {
+        echo "commit\n";
+        return;
         $db = BossaDb::get();
         $db->do_query("commit");
+    }
+}
+
+// use this as a local to ensure that transaction is committed
+// regardless of exceptions
+//
+class BossaTransaction {
+    function __construct() {
+        BossaDb::start_transaction();
+    }
+    function __destruct() {
+        BossaDb::commit();
     }
 }
 
@@ -76,6 +92,16 @@ class BossaUser {
         $db = BossaDb::get();
         $clause = "$clause where user_id=$this->user_id";
         return $db->update_aux('bossa_user', $clause);
+    }
+
+    // app-callable:
+    //
+    function get_info() {
+        return unserialize($this->info);
+    }
+    function update_info($info) {
+        $info = serialize($info);
+        $this->update("info='$info'");
     }
 }
 
@@ -194,11 +220,12 @@ class BossaJobInst {
         }
 
         if ($app->calibration_frac && drand() < $app->calibration_frac) {
-            $query = "select * from DBNAME.bossa_job where app_id=$app->id and (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and calibration=1 order by $prio desc limit 1";
+            $query = "select * from DBNAME.bossa_job where app_id=$app->id and (select count(*) from DBNAME.bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and calibration=1 order by priority_0 desc limit 1";
             $result = $db->do_query($query);
             if (!$result) return null;
             $job = mysql_fetch_object($result, 'BossaJob');
             if (!$job) return null;
+            $job->update("priority_0=priority_0-1");
             mysql_free_result($result);
         } else {
             if (isset($user->bossa->category)) {
@@ -231,6 +258,11 @@ class BossaJobInst {
     }
     function get_info() {
         return unserialize($this->info);
+    }
+    function get_user() {
+        $user = BoincUser::lookup_id($this->user_id);
+        BossaUser::lookup($user);
+        return $user;
     }
 }
 
