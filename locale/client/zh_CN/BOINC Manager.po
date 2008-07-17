@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-02 10:27+0800\n"
+"PO-Revision-Date: 2008-07-17 09:32+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -205,7 +205,7 @@ msgid "Exit the %s"
 msgstr "退出 %s"
 
 #: clientgui/AdvancedFrame.cpp:353
-#: clientgui/BOINCTaskBar.cpp:612
+#: clientgui/BOINCTaskBar.cpp:613
 #: clientgui/mac/MacSysMenu.cpp:220
 msgid "E&xit"
 msgstr "退出(&X)"
@@ -426,7 +426,7 @@ msgid "Show information about BOINC and %s"
 msgstr "查看 BOINC 和 %s 的信息"
 
 #: clientgui/AdvancedFrame.cpp:603
-#: clientgui/BOINCTaskBar.cpp:602
+#: clientgui/BOINCTaskBar.cpp:603
 #, c-format
 msgid "&About %s..."
 msgstr "关于 %s (&A)..."
@@ -585,12 +585,12 @@ msgstr ""
 "\n"
 "请访问项目网站并按照上面的说明进行操作。"
 
-#: clientgui/BOINCBaseFrame.cpp:349
+#: clientgui/BOINCBaseFrame.cpp:355
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - 连接错误"
 
-#: clientgui/BOINCBaseFrame.cpp:358
+#: clientgui/BOINCBaseFrame.cpp:364
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
@@ -598,7 +598,7 @@ msgstr ""
 "您当前未被授权管理本客户端。\n"
 "请联系系统管理员将您添加到名称为 boinc_users 的本地用户组。"
 
-#: clientgui/BOINCBaseFrame.cpp:368
+#: clientgui/BOINCBaseFrame.cpp:374
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
@@ -606,20 +606,20 @@ msgstr ""
 "连接运行中的客户端时发生验证错误。\n"
 "请务必在该客户端所在的文件目录中运行本程序。"
 
-#: clientgui/BOINCBaseFrame.cpp:372
+#: clientgui/BOINCBaseFrame.cpp:378
 msgid "Authorization failed connecting to running client."
 msgstr "连接至已运行的客户端时发生验证错误。"
 
-#: clientgui/BOINCBaseFrame.cpp:380
+#: clientgui/BOINCBaseFrame.cpp:386
 msgid "The password you have provided is incorrect, please try again."
 msgstr "您提供的密码不正确，请重试。"
 
-#: clientgui/BOINCBaseFrame.cpp:419
+#: clientgui/BOINCBaseFrame.cpp:425
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - 连接失败"
 
-#: clientgui/BOINCBaseFrame.cpp:428
+#: clientgui/BOINCBaseFrame.cpp:434
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -628,12 +628,12 @@ msgstr ""
 "%s 无法连接至 %s 客户端。\n"
 "您想再连接一次吗？"
 
-#: clientgui/BOINCBaseFrame.cpp:462
+#: clientgui/BOINCBaseFrame.cpp:471
 #, c-format
 msgid "%s - Daemon Start Failed"
 msgstr "%s - 客户端服务程序启动失败"
 
-#: clientgui/BOINCBaseFrame.cpp:472
+#: clientgui/BOINCBaseFrame.cpp:481
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
@@ -642,7 +642,7 @@ msgstr ""
 "%s 无法启动 %s 客户端的服务程序。\n"
 "请依次运行 控制面板->管理工具->服务，并从中启动 BOINC 服务。"
 
-#: clientgui/BOINCBaseFrame.cpp:480
+#: clientgui/BOINCBaseFrame.cpp:489
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
@@ -651,12 +651,12 @@ msgstr ""
 "%s 无法启动 %s 客户端的服务程序。\n"
 "请手工启动服务程序后再重试。"
 
-#: clientgui/BOINCBaseFrame.cpp:527
+#: clientgui/BOINCBaseFrame.cpp:536
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - 连接状态"
 
-#: clientgui/BOINCBaseFrame.cpp:538
+#: clientgui/BOINCBaseFrame.cpp:547
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -745,7 +745,7 @@ msgstr "%s 已经成功地断开至互联网的连接。"
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s 断开至互联网的连接失败。"
 
-#: clientgui/BOINCGUIApp.cpp:251
+#: clientgui/BOINCGUIApp.cpp:252
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
@@ -754,31 +754,44 @@ msgstr ""
 "BOINC 的所有者或权限设置错误，请重新安装 BOINC。\n"
 "( 错误代码 %d )"
 
-#: clientgui/BOINCGUIApp.cpp:456
+#: clientgui/BOINCGUIApp.cpp:338
+msgid ""
+"A reboot is required in order for BOINC to run properly.\n"
+"Please reboot your computer and try again."
+msgstr ""
+"您此次安装的 BOINC 必须在计算机重新启动后才能正常运行。\n"
+"请在重启您的计算机之后再重新运行本程序。"
+
+#: clientgui/BOINCGUIApp.cpp:339
+#: clientgui/DlgAbout.cpp:137
+msgid "BOINC Manager"
+msgstr "BOINC Manager"
+
+#: clientgui/BOINCGUIApp.cpp:478
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "启动 BOINC 时仅显示在系统托盘区"
 
-#: clientgui/BOINCGUIApp.cpp:457
+#: clientgui/BOINCGUIApp.cpp:479
 msgid "Startup BOINC with these optional arguments"
 msgstr "使用可选参数来启动 BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:458
+#: clientgui/BOINCGUIApp.cpp:480
 msgid "disable BOINC security users and permissions"
 msgstr "禁用 BOINC 中用户和权限相关的安全选项"
 
-#: clientgui/BOINCGUIApp.cpp:522
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "(Automatic Detection)"
 msgstr "( 自动检测 )"
 
-#: clientgui/BOINCGUIApp.cpp:523
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "(Unknown)"
 msgstr "( 未知 )"
 
-#: clientgui/BOINCGUIApp.cpp:524
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "(User Defined)"
 msgstr "( 用户自定义 )"
 
-#: clientgui/BOINCGUIApp.cpp:725
+#: clientgui/BOINCGUIApp.cpp:747
 #, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - 退出确认"
@@ -801,25 +814,25 @@ msgstr "%s: 已完成 %.2f%%。"
 msgid "%d tasks running."
 msgstr "%d 个任务正在运行。"
 
-#: clientgui/BOINCTaskBar.cpp:392
+#: clientgui/BOINCTaskBar.cpp:393
 msgid "Reconnecting to client."
 msgstr "正在重新连接至客户端。"
 
-#: clientgui/BOINCTaskBar.cpp:398
+#: clientgui/BOINCTaskBar.cpp:399
 msgid "Not connected to a client."
 msgstr "当前没有连接到任何客户端。"
 
-#: clientgui/BOINCTaskBar.cpp:583
+#: clientgui/BOINCTaskBar.cpp:584
 #, c-format
 msgid "Open %s Web..."
 msgstr "打开 %s 的网站..."
 
-#: clientgui/BOINCTaskBar.cpp:590
+#: clientgui/BOINCTaskBar.cpp:591
 #, c-format
 msgid "Open %s..."
 msgstr "打开 %s..."
 
-#: clientgui/BOINCTaskBar.cpp:597
+#: clientgui/BOINCTaskBar.cpp:598
 msgid "Snooze"
 msgstr "休息一下"
 
@@ -922,10 +935,6 @@ msgstr "您已经成功地加入了当前帐户管理器。"
 #, c-format
 msgid "About %s"
 msgstr "关于 %s"
-
-#: clientgui/DlgAbout.cpp:137
-msgid "BOINC Manager"
-msgstr "BOINC Manager"
 
 #: clientgui/DlgAbout.cpp:156
 msgid "Version:"
@@ -2122,8 +2131,8 @@ msgid "%d"
 msgstr "%d"
 
 #: clientgui/sg_ImageButton.cpp:90
-#: clientgui/ViewWork.cpp:795
-#: clientgui/ViewWorkGrid.cpp:812
+#: clientgui/ViewWork.cpp:800
+#: clientgui/ViewWorkGrid.cpp:817
 msgid "Running"
 msgstr "运行中"
 
@@ -2909,36 +2918,36 @@ msgstr "稍后重试 "
 
 #: clientgui/ViewTransfers.cpp:528
 #: clientgui/ViewTransfersGrid.cpp:426
-#: clientgui/ViewWork.cpp:756
-#: clientgui/ViewWorkGrid.cpp:773
+#: clientgui/ViewWork.cpp:761
+#: clientgui/ViewWorkGrid.cpp:778
 msgid "Download failed"
 msgstr "下载失败"
 
 #: clientgui/ViewTransfers.cpp:530
 #: clientgui/ViewTransfersGrid.cpp:428
-#: clientgui/ViewWork.cpp:817
-#: clientgui/ViewWorkGrid.cpp:834
+#: clientgui/ViewWork.cpp:822
+#: clientgui/ViewWorkGrid.cpp:839
 msgid "Upload failed"
 msgstr "上传失败"
 
 #: clientgui/ViewTransfers.cpp:533
 #: clientgui/ViewTransfersGrid.cpp:431
-#: clientgui/ViewWork.cpp:767
-#: clientgui/ViewWorkGrid.cpp:784
+#: clientgui/ViewWork.cpp:772
+#: clientgui/ViewWorkGrid.cpp:789
 msgid "Suspended"
 msgstr "已被暂停"
 
 #: clientgui/ViewTransfers.cpp:536
 #: clientgui/ViewTransfersGrid.cpp:434
-#: clientgui/ViewWork.cpp:819
-#: clientgui/ViewWorkGrid.cpp:836
+#: clientgui/ViewWork.cpp:824
+#: clientgui/ViewWorkGrid.cpp:841
 msgid "Uploading"
 msgstr "正在上传"
 
 #: clientgui/ViewTransfers.cpp:536
 #: clientgui/ViewTransfersGrid.cpp:434
-#: clientgui/ViewWork.cpp:758
-#: clientgui/ViewWorkGrid.cpp:775
+#: clientgui/ViewWork.cpp:763
+#: clientgui/ViewWorkGrid.cpp:780
 msgid "Downloading"
 msgstr "正在下载"
 
@@ -3068,115 +3077,115 @@ msgstr "继续计算当前任务。"
 msgid "Suspend work for this task."
 msgstr "暂停计算当前任务。"
 
-#: clientgui/ViewWork.cpp:752
-#: clientgui/ViewWorkGrid.cpp:769
+#: clientgui/ViewWork.cpp:757
+#: clientgui/ViewWorkGrid.cpp:774
 msgid "New"
 msgstr "新任务"
 
-#: clientgui/ViewWork.cpp:763
-#: clientgui/ViewWorkGrid.cpp:780
+#: clientgui/ViewWork.cpp:768
+#: clientgui/ViewWorkGrid.cpp:785
 msgid "Project suspended by user"
 msgstr "项目已被用户暂停"
 
-#: clientgui/ViewWork.cpp:765
-#: clientgui/ViewWorkGrid.cpp:782
+#: clientgui/ViewWork.cpp:770
+#: clientgui/ViewWorkGrid.cpp:787
 msgid "Task suspended by user"
 msgstr "任务已被用户暂停"
 
-#: clientgui/ViewWork.cpp:769
-#: clientgui/ViewWorkGrid.cpp:786
+#: clientgui/ViewWork.cpp:774
+#: clientgui/ViewWorkGrid.cpp:791
 msgid " - on batteries"
 msgstr " - 电池供电"
 
-#: clientgui/ViewWork.cpp:772
-#: clientgui/ViewWorkGrid.cpp:789
+#: clientgui/ViewWork.cpp:777
+#: clientgui/ViewWorkGrid.cpp:794
 msgid " - user active"
 msgstr " - 用户活跃"
 
-#: clientgui/ViewWork.cpp:775
-#: clientgui/ViewWorkGrid.cpp:792
+#: clientgui/ViewWork.cpp:780
+#: clientgui/ViewWorkGrid.cpp:797
 msgid " - computation suspended"
 msgstr " - 计算被暂停"
 
-#: clientgui/ViewWork.cpp:778
-#: clientgui/ViewWorkGrid.cpp:795
+#: clientgui/ViewWork.cpp:783
+#: clientgui/ViewWorkGrid.cpp:800
 msgid " - time of day"
 msgstr " - 休息时间段"
 
-#: clientgui/ViewWork.cpp:781
-#: clientgui/ViewWorkGrid.cpp:798
+#: clientgui/ViewWork.cpp:786
+#: clientgui/ViewWorkGrid.cpp:803
 msgid " - CPU benchmarks"
 msgstr " - CPU 基准测试"
 
-#: clientgui/ViewWork.cpp:784
-#: clientgui/ViewWorkGrid.cpp:801
+#: clientgui/ViewWork.cpp:789
+#: clientgui/ViewWorkGrid.cpp:806
 msgid " - need disk space"
 msgstr " - 磁盘空间不足"
 
-#: clientgui/ViewWork.cpp:788
-#: clientgui/ViewWorkGrid.cpp:805
+#: clientgui/ViewWork.cpp:793
+#: clientgui/ViewWorkGrid.cpp:810
 msgid "Waiting for memory"
 msgstr "等待足够的内存"
 
-#: clientgui/ViewWork.cpp:790
-#: clientgui/ViewWorkGrid.cpp:807
+#: clientgui/ViewWork.cpp:795
+#: clientgui/ViewWorkGrid.cpp:812
 msgid "Waiting for shared memory"
 msgstr "等待足够的共享内存"
 
-#: clientgui/ViewWork.cpp:793
-#: clientgui/ViewWorkGrid.cpp:810
+#: clientgui/ViewWork.cpp:798
+#: clientgui/ViewWorkGrid.cpp:815
 msgid "Running, high priority"
 msgstr "运行中，高优先级"
 
-#: clientgui/ViewWork.cpp:800
-#: clientgui/ViewWorkGrid.cpp:817
+#: clientgui/ViewWork.cpp:805
+#: clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
 msgstr "( 非 CPU 密集 )"
 
-#: clientgui/ViewWork.cpp:804
-#: clientgui/ViewWorkGrid.cpp:821
+#: clientgui/ViewWork.cpp:809
+#: clientgui/ViewWorkGrid.cpp:826
 msgid "Waiting to run"
 msgstr "等待运行"
 
-#: clientgui/ViewWork.cpp:806
-#: clientgui/ViewWork.cpp:809
-#: clientgui/ViewWorkGrid.cpp:823
-#: clientgui/ViewWorkGrid.cpp:826
+#: clientgui/ViewWork.cpp:811
+#: clientgui/ViewWork.cpp:814
+#: clientgui/ViewWorkGrid.cpp:828
+#: clientgui/ViewWorkGrid.cpp:831
 msgid "Ready to start"
 msgstr "准备运行"
 
-#: clientgui/ViewWork.cpp:813
-#: clientgui/ViewWorkGrid.cpp:830
+#: clientgui/ViewWork.cpp:818
+#: clientgui/ViewWorkGrid.cpp:835
 msgid "Computation error"
 msgstr "计算错误"
 
-#: clientgui/ViewWork.cpp:825
-#: clientgui/ViewWorkGrid.cpp:842
+#: clientgui/ViewWork.cpp:830
+#: clientgui/ViewWorkGrid.cpp:847
 msgid "Aborted by user"
 msgstr "已被用户终止"
 
-#: clientgui/ViewWork.cpp:828
-#: clientgui/ViewWorkGrid.cpp:845
+#: clientgui/ViewWork.cpp:833
+#: clientgui/ViewWorkGrid.cpp:850
 msgid "Aborted by project"
 msgstr "已被项目中止"
 
-#: clientgui/ViewWork.cpp:831
-#: clientgui/ViewWorkGrid.cpp:848
+#: clientgui/ViewWork.cpp:836
+#: clientgui/ViewWorkGrid.cpp:853
 msgid "Aborted"
 msgstr "已中止"
 
-#: clientgui/ViewWork.cpp:836
-#: clientgui/ViewWorkGrid.cpp:853
+#: clientgui/ViewWork.cpp:841
+#: clientgui/ViewWorkGrid.cpp:858
 msgid "Acknowledged"
 msgstr "已被确认"
 
-#: clientgui/ViewWork.cpp:838
-#: clientgui/ViewWorkGrid.cpp:855
+#: clientgui/ViewWork.cpp:843
+#: clientgui/ViewWorkGrid.cpp:860
 msgid "Ready to report"
 msgstr "等待上报"
 
-#: clientgui/ViewWork.cpp:840
-#: clientgui/ViewWorkGrid.cpp:857
+#: clientgui/ViewWork.cpp:845
+#: clientgui/ViewWorkGrid.cpp:862
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "错误：非法状态 '%d'"
