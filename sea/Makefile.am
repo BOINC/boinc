@@ -3,7 +3,7 @@ EXTRA_DIST = make-sea.sh
 vers = \
   @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@.@BOINC_RELEASE@_@boinc_platform@
 sea = boinc_$(vers).sh
-tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinc_cmd BOINC/binstall.sh\
+tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinccmd BOINC/binstall.sh\
 	BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png BOINC/boincmgr.48x48.png \
     BOINC/ca-bundle.crt
 
@@ -37,8 +37,8 @@ BOINC/boinc: ../client/boinc BOINC
 BOINC/boincmgr: ../clientgui/boincmgr BOINC
 	cp ../clientgui/boincmgr BOINC/boincmgr
 
-BOINC/boinc_cmd: ../lib/boinc_cmd  BOINC
-	cp ../lib/boinc_cmd BOINC/boinc_cmd
+BOINC/boinccmd: ../lib/boinccmd  BOINC
+	cp ../lib/boinc_cmd BOINC/boinccmd
 
 BOINC/boincmgr.16x16.png: boincmgr.16x16.png
 	cp boincmgr.16x16.png BOINC/boincmgr.16x16.png

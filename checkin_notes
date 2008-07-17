@@ -4212,3 +4212,9 @@ Charlie 17 July 2008
         
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    17 July 2008
+    - SEA: Change references of boinc_cmd to boinccmd
+    
+    sea/
+        Makefile.am
