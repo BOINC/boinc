@@ -5845,3 +5845,15 @@ David  17 July 2008
 
     sched/
         sched_send.C
+
+Rom    18 July 2008
+    - WINSETUP: Make sure we kill the manager on WinNT based systems instead
+        of requesting a graceful exit first.  For some reason, every once
+        and awhile the installer gets stuck in the call to SendMessage()
+        which in turn is waiting on the manager to come out of whatever
+        event processing code it is stuck in. I don't know if the manager
+        is stuck in wxWidget code or not, but the installer shouldn't
+        ever get stuck waiting on a hung app.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAShutdownBOINCManager.cpp

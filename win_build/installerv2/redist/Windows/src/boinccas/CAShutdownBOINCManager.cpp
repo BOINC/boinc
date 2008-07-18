@@ -71,6 +71,11 @@ UINT CAShutdownBOINCManager::OnExecution()
 
     const UINT WM_TASKBARSHUTDOWN = ::RegisterWindowMessage(_T("TaskbarShutdown"));
 
+#ifdef _UNICODE
+    TerminateProcessEx( tstring(_T("boincmgr.exe")) );
+    TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
+#endif
+
     do
     {
         hWndBOINCManagerSystray = FindWindow( _T("wxTaskBarExWindowClass"), _T("BOINCManagerSystray") );
@@ -111,10 +116,6 @@ UINT CAShutdownBOINCManager::OnExecution()
 
     }
 
-#ifdef _UNICODE
-    TerminateProcessEx( tstring(_T("boincmgr.exe")) );
-    TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
-#endif
     return ERROR_SUCCESS;
 }
 
