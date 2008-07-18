@@ -5857,3 +5857,16 @@ Rom    18 July 2008
         
     win_build/installerv2/redist/Windows/src/boinccas/
         CAShutdownBOINCManager.cpp
+
+David  18 July 2008
+    - web: fiddle around with style2.css and sample front page;
+        change font, etc.
+
+    html/
+        project.sample/
+            project.inc
+        user/
+            sample_index.php
+            style2.css
+            weak_auth.php
+            white.css

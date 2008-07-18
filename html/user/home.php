@@ -33,7 +33,7 @@ if ($init) {
     page_head("Your account");
 }
 
-start_table();
+start_table_noborder();
 echo "<tr><td valign=top>";
 start_table();
 show_user_info_private($user);

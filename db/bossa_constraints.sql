@@ -3,8 +3,7 @@ alter table bossa_app
     add unique(short_name);
 
 alter table bossa_job
-    add unique(name),
-    add index bj_conf_needed(app_id, conf_needed);
+    add index bj_conf_needed(app_id, calibration, priority_0);
 
 alter table bossa_job_inst
     add index bji_job(job_id),

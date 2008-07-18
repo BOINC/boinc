@@ -78,10 +78,10 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://
 echo "<html>
     <head>
     <title>".PROJECT."</title>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"".STYLESHEET."\">
     <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
     </head><body>
-    <h1>".PROJECT."</h1>
+    <span class=page_title>".PROJECT."</span>
     <table cellpadding=\"8\" cellspacing=\"4\">
     <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
 ";

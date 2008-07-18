@@ -10,21 +10,18 @@ page_head("Weak account key");
 
 $weak_auth = weak_auth($user);
 
-//this is somewhat a rewrite of escape_url_readable from str_util.C - maybe it 
-//should be moved into its own function instead of inline here
+// figure out the name of this project's account file.
 
-//cut off the http://
+// strip http://
 $idx = strpos($url, '://');
-if ($idx !== FALSE) {
+if ($idx) {
 	$url = substr($url, $idx+strlen('://'));
 }
+
 //convert invalid characters into underscores
 for ($i=0; $i<strlen($url); $i++) {
 	$c = $url[$i];
-	if (ctype_alnum($c) || $c == '.' || $c == '-' || $c == '_') {
-		//noop; easier than inverting the condition
-	} else {
-		//in-place modification
+	if (!ctype_alnum($c) && $c != '.' && $c != '-' && $c != '_') {
 		$url[$i] = '_';
 	}
 }

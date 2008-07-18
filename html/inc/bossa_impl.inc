@@ -5,7 +5,6 @@ function show_next_job($app, $user) {
     if ($inst) {
         $job = BossaJob::lookup_id($inst->job_id);
         $file = "../inc/$app->short_name.inc";
-        echo "reading $file\n";
         require_once($file);
         job_issued($job, $inst, $user);
         page_head("Bossa job");

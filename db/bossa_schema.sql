@@ -46,8 +46,9 @@ create table bossa_user (
     category            integer     not null,
     flags               integer     not null,
         -- debug, show_all
-    info                text
+    info                text,
         -- Project-dependent info about users ability and performance.
+    primary key(user_id)
 ) engine = InnoDB;
 
 create table bossa_batch (

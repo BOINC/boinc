@@ -26,7 +26,6 @@ define("PROB_LIMIT", 1e-3);
 function job_show($job, $inst, $user) {
     $info = $job->get_info($job);
     $path = $info->path;
-    echo "JOB SHOW";
     echo "
         <h2>Find the Ellipse!</h2>
         <form method=get action=bossa_job_finished.php>
@@ -41,7 +40,6 @@ function job_show($job, $inst, $user) {
 }
 
 function job_issued($job, $inst, $user) {
-    echo "JOB ISSUED";
     $insts = $job->get_instances();
     if (count($insts) > 1) {
         $job->set_priority(0);
@@ -60,8 +58,16 @@ function job_finished($job, $inst, $user) {
     $inst->update_info($response);
 
     if ($job->calibration) {
+        $b = $user->bossa;
         $info = $job->get_info();
         $answer = $info->answer;
+        $u = $b->get_info();
+        if (!$u) {
+            $u->npos = 0;
+            $u->npos_err = 0;
+            $u->nneg = 0;
+            $u->nneg_err = 0;
+        }
         if (compatible($response, $answer)) {
             if ($answer->have_ellipse) {
                 $u->npos++;
@@ -77,8 +83,7 @@ function job_finished($job, $inst, $user) {
                 $u->nneg_err++;
             }
         }
-        $b = $user->bossa;
-        $b->update_info($info);
+        $b->update_info($u);
         return;
     }
 
@@ -159,7 +164,7 @@ function job_timed_out($job, $inst, $user) {
 
 function show_job_summary($job) {
     $info = $job->get_info();
-    echo "<a href=".URL_BASE."$info->path>View image</a>";
+    echo "<a href=".URL_BASE."$info->path>(view image)</a>";
 }
 
 function show_instance_summary($inst) {
@@ -172,6 +177,25 @@ function show_instance_summary($inst) {
 }
 
 function show_user_summary($user) {
+    $b = $user->bossa;
+    $info = $b->get_info();
+    if ($info) {
+        if ($info->npos) {
+            $pos_err = $info->npos_err/$info->npos;
+        } else {
+            $pos_err = "---";
+        }
+        if ($info->nneg) {
+            $neg_err = $info->nneg_err/$info->nneg;
+        } else {
+            $neg_err = "---";
+        }
+        echo "error rate: positive $pos_err ($info->npos_err/$info->npos),
+             negative $neg_err ($info->nneg_err/$info->nneg)
+        ";
+    } else {
+        echo "No data";
+    }
 }
 
 ?>

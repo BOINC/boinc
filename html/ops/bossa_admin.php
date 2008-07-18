@@ -102,8 +102,8 @@ function show_all() {
     page_tail();
 }
 
-function show_instances($job_id) {
-    $insts = BossaJobInst::enum("job_id=$job_id");
+function show_instances($job) {
+    $insts = BossaJobInst::enum("job_id=$job->id");
     if (!count($insts)) {
         echo "---";
         return;
@@ -122,7 +122,7 @@ function show_instances($job_id) {
             $d = "---";
         };
         echo "<tr>
-            <td><a href=show_user.php?userid=$user->id>$user->name</a></td>
+            <td><a href=bossa_admin.php?action=show_user&app_id=$job->app_id&user_id=$user->id>$user->name</a></td>
             <td>$t</td>
             <td>$d</td>
             <td>
@@ -149,7 +149,7 @@ function show_batch($batch_id) {
         $s = job_state_string($job->state);
         echo "<tr>
             <td>
-                <a href=bossa_admin.php?action=show_insts&job_id=$job->id>$job->id</a><br>
+                $job->id <a href=bossa_admin.php?action=show_insts&job_id=$job->id>(details)</a><br>
         ";
         show_job_summary($job);
         echo "
@@ -158,7 +158,7 @@ function show_batch($batch_id) {
             <td>$s</td>
             <td>
         ";
-        show_instances($job->id);
+        show_instances($job);
         echo "
             </td>
             </tr>
@@ -170,23 +170,19 @@ function show_batch($batch_id) {
 
 function show_batches($app_id) {
     $batches = BossaBatch::enum("app_id = $app_id");
-    page_head("Batches");
+    $app = BossaApp::lookup_id($app_id);
+    page_head("Batches ($app->name)");
     start_table();
     table_header("ID", "Name", "Calibration?", "Created", "Jobs", "Completed");
     foreach ($batches as $batch) {
-        $n = BossaJob::count("batch_id=$batch->id");
-        $c = BossaJob::count("batch_id=$batch->id and state=2");
-        $t = time_str($batch->create_time);
-        $cal = $batch->calibration?"yes":"no";
-        echo "<tr>
-            <td><a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>$batch->id</a></td>
-            <td>$batch->name</td>
-            <td>$cal</td>
-            <td>$t</td>
-            <td>$n</td>
-            <td>$c</td>
-            </tr>
-        ";
+        table_row(
+            "$batch->id <a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>(show jobs)</a>",
+            "$batch->name",
+            $batch->calibration?"yes":"no",
+            time_str($batch->create_time),
+            BossaJob::count("batch_id=$batch->id"),
+            BossaJob::count("batch_id=$batch->id and state=2")
+        );
     }
     end_table();
     page_tail();
@@ -196,10 +192,26 @@ function show_insts($job_id) {
     $job = BossaJob::lookup_id($job_id);
     include_app_file($job->app_id);
     page_head("Instances of job $job_id");
-    show_instances($job_id);
+    show_instances($job);
     page_tail();
 }
 
+function show_user() {
+    $user_id = get_int('user_id');
+    $app_id = get_int('app_id');
+    $user = BoincUser::lookup_id("$user_id");
+    BossaUser::lookup($user);
+    $app = BossaApp::lookup_id($app_id);
+
+    include_app_file($app_id);
+    page_head("Bossa user ($app->name)");
+    show_user_summary($user);
+    $insts = BossaJobInst::enum("user_id=$user_id");
+    foreach ($insts as $inst) {
+
+    }
+    page_tail();
+}
 
 $user = get_logged_in_user();
 
@@ -219,7 +231,7 @@ mysql $db_name < bossa_schema.sql
     Then <a href=bossa_admin.php>reload this page</a>.
     ";
     page_tail();
-    exit();
+    exit;
 }
 }
 
@@ -250,7 +262,7 @@ case 'add_app':
         $course->update("bossa_app_id=$app_id");
     }
     Header('Location: bossa_admin.php');
-    exit();
+    exit;
 case 'update_user':
     $flags = 0;
     if (get_str('show_all', true)) $flags |= BOLT_FLAGS_SHOW_ALL;
@@ -258,19 +270,22 @@ case 'update_user':
     $user->bossa->update("flags=$flags");
     $user->bossa->flags = $flags;
     Header('Location: bossa_admin.php');
-    exit();
+    exit;
+case 'show_user':
+    show_user();
+    exit;
 case 'show_batches':
     $app_id = $_GET['app_id'];
     show_batches($app_id);
-    exit();
+    exit;
 case 'show_batch':
     $batch_id = $_GET['batch_id'];
     show_batch($batch_id);
-    exit();
+    exit;
 case 'show_insts':
     $job_id = $_GET['job_id'];
     show_insts($job_id);
-    exit();
+    exit;
 case 'hide':
     $app_id = get_int('app_id');
     $app = BossaApp::lookup_id($app_id);
@@ -285,7 +300,7 @@ case 'unhide':
     break;
 case '':
     show_all();
-    exit();
+    exit;
 default:
     error_page("unknown action $action");
 }

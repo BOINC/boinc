@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("July 17, 2008",
+    "GPU computing has arrived to BOINC!
+    The <a href=http://www.gpugrid.net>GPUGRID.net</a> project
+    from the Barcelona Biomedical Research Park (PRBB)
+    uses CUDA-capable NVIDIA chips
+    to create an infrastructure for biomolecular simulations.
+    (Currently available for Linux64; other platforms to follow soon.
+    To participate, follow the instructions on the web site)."
+),
 array("July 10, 2008",
     "<a href=http://boinc.berkeley.edu/wiki/BOINC_logo_merchandise>BOINC-logo merchandise</a> (T-shirts, mouse pads) is now available."
 ),

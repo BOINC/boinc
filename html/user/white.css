@@ -4,15 +4,16 @@ a:link, a:visited, a:active {
 
 body, table, select {
     background-color: white;
-    font-family: Verdana, Arial, Sans-Serif;
-    font-size: 12px;
+    font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
+    font-size: 13px;
+    margin: 5px 10px;
 }
 
 body {
     color: black;
 }
 
-th{
+th {
     background-color: #c0c0c0;
     font-weight: bold;
     border: 1px solid white;
@@ -234,6 +235,11 @@ td.disabled {
     background-color: #ff8800;
 } 
 
+span.page_title {
+    font-size: 24px;
+    margin: 20px;
+}
+
 span.note {
     font-weight: normal;
     font-size: 0.9em;
@@ -269,11 +275,11 @@ span.highlight {
 }
 
 #news {
-    background-color: #dddddd;
-    vertical-align: top;
+    background-color: #eeeeee;
 }
 
 #news h2, #uotd h2, #mainnav h2 {
+    margin-top: 0px;
     font-size: 1.2em;
     font-weight: bold;
 }
@@ -289,8 +295,7 @@ span.highlight {
 }
 
 #uotd {
-    background-color: #ffeeff;
-    vertical-align: top;
+    background-color: #eeeeee;
 }
 
 .smalltext {

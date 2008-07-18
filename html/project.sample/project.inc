@@ -28,11 +28,10 @@ function project_banner($title, $prefix) {
     // Put your project title and logo here
     // If you include any links, prepend URL with $prefix
 
-    echo "<table width=\"100%\">
-        <tr>
-        <td><h2>$title</h2></td>
-        <td align=right>
-       </td></tr></table>
+    echo "
+        <p>
+        <span class=\"page_title\">$title</span>
+        <p>
     ";
 }
 
@@ -44,7 +43,8 @@ function project_footer($show_return, $show_date, $prefix) {
     }
     echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {
-        echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"</font>\n";
+        $t = time_str(time());
+        echo "<span class=\"note\">Generated $t</span>\n";
     }
 }
 
@@ -75,25 +75,24 @@ function show_profile_question2() {
 }
 
 function project_workunit($wu){
-    //echo "This is displayed on the workunit page";
+    // shown in the workunit page
 }
 
 function project_user_summary($user){
-    //echo "Text here will go to the user summary page";
+    // shown in the user summary page
 }
 
 function project_user_page_private($user){
-    //echo "Whatever is here is added to the private account page";
+    // shown in the private account page
 }
 
 function project_user_credit($user){
-    //echo "Whatever is here is added to the private account page";
+    // shown in the the private account page, credit area
 }
 
 function project_forum_post_rules() {
-    // Add <li> entries for additional forum post rules
-    return "
-    ";
+    // additional forum post rules
+    return "";
 }
 
 ?>
