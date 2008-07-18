@@ -27,6 +27,7 @@
 #include <vector>
 #include "common_defs.h"
 #include "gui_rpc_client.h"
+#include "asyncRPC.h"
 
 typedef struct {
     int slot;
@@ -159,6 +160,23 @@ public:
     HOST_INFO                   host;
     wxDateTime                  m_dtCachedStateTimestamp;
 
+    //
+    // Async RPC support
+    //
+public:
+    int                         RequestRPC(ASYNC_RPC_REQUEST& request);
+    void                        OnRPCComplete(CRPCFinishedEvent& event);
+    ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
+void TestAsyncRPC();        // TEMPORARY -- CAF
+#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
+    wxCriticalSection           m_critsect;
+#endif
+
+private:
+    RPCThread*                  m_RPCThread;
+    ASYNC_RPC_REQUEST           current_rpc_request;
+    AsyncRPCDlg*                m_RPCWaitDlg;
+    std::vector<ASYNC_RPC_REQUEST> RPC_requests;
 
     //
     // Project Tab
@@ -210,6 +228,8 @@ private:
 
 public:
     RESULTS                     results;
+    RESULTS                     async_results_buf;
+    int                         m_iGet_results_RPC_retval;
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);
 

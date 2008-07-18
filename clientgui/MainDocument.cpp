@@ -64,7 +64,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bUsedDefaultPassword = false;
     m_iPort = GUI_RPC_PORT,
     m_iReadGUIRPCAuthFailure = 0;
-}
+ }
 
 
 CNetworkConnection::~CNetworkConnection() {
@@ -377,6 +377,16 @@ int CMainDocument::OnInit() {
 
     m_pClientManager = new CBOINCClientManager();
     wxASSERT(m_pClientManager);
+
+    m_RPCWaitDlg = NULL;
+
+    m_RPCThread = new RPCThread(this);
+    wxASSERT(m_RPCThread);
+
+    iRetVal = m_RPCThread->Create();
+    wxASSERT(iRetVal);
+    
+    m_RPCThread->Run();
 
     return iRetVal;
 }
@@ -956,6 +966,7 @@ int CMainDocument::CachedResultsStatusUpdate() {
             m_dtResultsTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_results(results);
+iRetVal = m_iGet_results_RPC_retval;
             if (iRetVal) {
                 wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), iRetVal);
                 ForceCacheUpdate();

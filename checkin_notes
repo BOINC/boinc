@@ -5845,3 +5845,12 @@ David  17 July 2008
 
     sched/
         sched_send.C
+
+Charlie 18 July 2008
+    - MGR: First round of changes for asycn GUI RPCs; includes temporary 
+        changes for testing.
+        
+    clientgui/
+        AsyncRPC.cpp,.h
+        BOINCBaseFrame.cpp,.h
+        MainDocument.cpp,.h
