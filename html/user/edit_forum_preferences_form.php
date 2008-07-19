@@ -43,20 +43,29 @@ row2(
 
 // ------------ Forum identity -----------
 
-$zero_select = $two_select = "";
+$select_0 = $select_1 = $select_2 = "";
 if (strlen($user->prefs->avatar)){
-    $two_select="checked=\"true\"";
+    if (substr($user->prefs->avatar, 0, 4) == 'http') { // Gravatar
+        $select_1 = "checked=\"true\"";
+    } else {
+        $select_2 = "checked=\"true\"";
+    }
 } else {
-    $zero_select="checked=\"true\"";
+    $select_0 = "checked=\"true\"";
 }
 row1("Message-board identity");
 row2("Avatar
-    <br><span class=note>An image representing you on the message boards.
-    <br>Format: JPG or /PNG.  Size: at most 4 KB, 100x100 pixels</span>",
-    "<input type=\"radio\" name=\"avatar_select\" value=\"0\" ".$zero_select.">Don't use an avatar <br><input type=\"radio\" name=\"avatar_select\" value=\"2\" ".$two_select.">Use this uploaded avatar: <input type=\"file\" name=\"picture\">"
+    <br><span class=\"note\">An image representing you on the message boards.
+    <br>Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels</span>",
+    "<input type=\"radio\" id=\"avatar_select_0\" name=\"avatar_select\" value=\"0\" ".$select_0.">
+        <label for=\"avatar_select_0\">Don't use an avatar</label><br>
+    <input type=\"radio\" id=\"avatar_select_1\" name=\"avatar_select\" value=\"1\" ".$select_1.">
+        <label for=\"avatar_select_1\">Use a Globally Recognized Avatar provided by <a href=\"http://gravatar.com\">Gravatar.com</a></label><br>
+    <input type=\"radio\" id=\"avatar_select_2\" name=\"avatar_select\" value=\"2\" ".$select_2.">
+        <label for=\"avatar_select_2\">Use this uploaded avatar:</label> <input type=\"file\" name=\"picture\">"
 );
 if (strlen($user->prefs->avatar)){
-    row2("Avatar preview<br><span class=note>This is how your avatar will look</span>",
+    row2("Avatar preview<br><span class=\"note\">This is how your avatar will look</span>",
     "<img src=\"".$user->prefs->avatar."\" width=\"100\" height=\"100\">");
 }
 

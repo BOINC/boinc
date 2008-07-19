@@ -5696,10 +5696,10 @@ Rom    11 July 2008
         version.h
 
 David  12 July 2008
-	- web: fixed opt-out page
+    - web: fixed opt-out page
 
-	html/user/
-		opt_out.php
+    html/user/
+        opt_out.php
 
 David  12 July 2008
     - small change to mac cuda
@@ -5870,3 +5870,10 @@ David  18 July 2008
             style2.css
             weak_auth.php
             white.css
+
+Rytis  19 July 2008
+    - forums: add support for Globally Recognized Avatars.
+    
+    html/user/
+            edit_forum_preferences_form.php
+            edit_forum_preferences_action.php
