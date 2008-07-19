@@ -5847,10 +5847,42 @@ David  17 July 2008
         sched_send.C
 
 Charlie 18 July 2008
-    - MGR: First round of changes for asycn GUI RPCs; includes temporary 
+    - MGR: First round of changes for async GUI RPCs; includes temporary 
         changes for testing.
         
     clientgui/
         AsyncRPC.cpp,.h
         BOINCBaseFrame.cpp,.h
+        MainDocument.cpp,.h
+
+Rom    18 July 2008
+    - WINSETUP: Make sure we kill the manager on WinNT based systems instead
+        of requesting a graceful exit first.  For some reason, every once
+        and awhile the installer gets stuck in the call to SendMessage()
+        which in turn is waiting on the manager to come out of whatever
+        event processing code it is stuck in. I don't know if the manager
+        is stuck in wxWidget code or not, but the installer shouldn't
+        ever get stuck waiting on a hung app.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAShutdownBOINCManager.cpp
+
+David  18 July 2008
+    - web: fiddle around with style2.css and sample front page;
+        change font, etc.
+
+    html/
+        project.sample/
+            project.inc
+        user/
+            sample_index.php
+            style2.css
+            weak_auth.php
+            white.css
+
+Charlie 18 July 2008
+    - MGR: async GUI RPCs: close socket, kill RPC thread if user cancels. 
+        
+    clientgui/
+        AsyncRPC.cpp
         MainDocument.cpp,.h

@@ -102,6 +102,11 @@ void *RPCThread::Entry() {
             continue;
         }
 
+       if (! m_Doc->IsConnected()) {
+            Yield();
+            continue;
+        }
+
         retval = ProcessRPCRequest();
  
 // TODO: Do we need a critical section here and in CBOINCGUIApp::SetActiveGUI()?
@@ -125,8 +130,14 @@ int RPCThread::ProcessRPCRequest() {
     ASYNC_RPC_REQUEST       *current_request;
     
     current_request = m_Doc->GetCurrentRPCRequest();
+Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
     switch (current_request->which_rpc) {
+    case RPC_GET_STATE:
+        if (current_request->inBuf == NULL) return -1;
+        retval = (m_Doc->rpc).get_state((CC_STATE&)*(CC_STATE*)(current_request->inBuf));
+        break;
+    
     case RPC_GET_RESULTS:
         if (current_request->inBuf == NULL) return -1;
         // TODO: Confirm if the following is correct
@@ -134,7 +145,6 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_GET_ALL_PROJECTS_LIST:
         if (current_request->inBuf == NULL) return -1;
-// Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
         retval = (m_Doc->rpc).get_all_projects_list((ALL_PROJECTS_LIST&)*(ALL_PROJECTS_LIST*)(current_request->inBuf));
         break;
     default:
@@ -165,7 +175,7 @@ int RPCThread::ProcessRPCRequest() {
 int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
     static bool inUserRequest = false;
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
-    int retval = 0;
+    int retval = 0, retval2 = 0;
     
     // Check if a duplicate request is already on the queue
     for (iter=RPC_requests.begin(); iter!=RPC_requests.end(); iter++) {
@@ -210,19 +220,44 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
             }
             ::wxSafeYield(NULL, true);  // Continue processing events
         } while (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
-        
-// TODO:  ****** Cancel RPC if user pressed Cancel. ********
-// TODO:  ****** Because buffer may have been on stack! ********
+//      GetCurrentProcess(&psn);
+//      SetFrontProcess(&psn);  // Shows process if hidden
         if (m_RPCWaitDlg) {
-    //        GetCurrentProcess(&psn);
-    //        SetFrontProcess(&psn);  // Shows process if hidden
-            if (m_RPCWaitDlg->ShowModal() != wxID_OK) retval = -1;
-            if (m_RPCWaitDlg)
+            if (m_RPCWaitDlg->ShowModal() != wxID_OK) {
+                retval = -1;
+                // If the RPC continues to get data after we return to 
+                // our caller, it may try to write into a buffer or struct
+                // which the caller has already deleted.  To prevent this, 
+                // we close the socket (disconnect) and kill the RPC thread.
+                // This is ugly but necessary.  We must then reconnect and 
+                // start a new RPC thread.
+                if (current_rpc_request.isActive) {
+                    current_rpc_request.isActive = false;
+                    rpc.close();
+                    m_RPCThread->Kill();
+                    m_RPCThread = NULL;
+                    RPC_requests.clear();
+                    current_rpc_request.clear();
+                    // We will be reconnected to the same client (if possible) by 
+                    // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
+//                wxString strComputer = wxEmptyString;
+//                GetConnectedComputerName(strComputer);
+//                retval2 = rpc.init(strComputer.mb_str(), m_pNetworkConnection->GetGUI_RPC_Port());
+                
+                    m_RPCThread = new RPCThread(this);
+                    wxASSERT(m_RPCThread);
+                    retval2 = m_RPCThread->Create();
+                    wxASSERT(retval2);
+                    m_RPCThread->Run();
+                }
+            }
+            if (m_RPCWaitDlg) {
                 m_RPCWaitDlg->Destroy();
+            }
             m_RPCWaitDlg = NULL;
         }
         inUserRequest = false;
-    }
+        }
     
     return retval;
 }
@@ -270,6 +305,16 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         }
     
         switch (completed_RPC_requests[i].which_rpc) {
+        case RPC_GET_STATE:
+            m_iGet_state_RPC_retval = retval;
+#if 0
+            if (completed_RPC_requests[i].exchangeBuf) {
+                CC_STATE* inBuf = (CC_STATE*)completed_RPC_requests[i].inBuf;
+                CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
+                inBuf->results.swap(exchangeBuf->results);
+            }
+#endif
+            break;
         case RPC_GET_RESULTS:
             m_iGet_results_RPC_retval = retval;
             if (completed_RPC_requests[i].exchangeBuf) {
@@ -279,7 +324,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
             break;
         case RPC_GET_ALL_PROJECTS_LIST:
-            m_iGet_results_RPC_retval = retval;
+//            m_iGet_all_projects_list_RPC_retval = retval;
             if (completed_RPC_requests[i].exchangeBuf) {
                 ALL_PROJECTS_LIST* inBuf = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].inBuf;
                 ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].exchangeBuf;

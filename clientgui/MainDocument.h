@@ -73,6 +73,7 @@ public:
     bool           IsConnectEventSignaled() { return m_bConnectEvent; };
     bool           IsConnected() { return m_bConnected; };
     bool           IsReconnecting() { return m_bReconnecting; };
+    int            GetGUI_RPC_Port() { return m_iPort; };
 
 private:
     CMainDocument* m_pDocument;
@@ -229,6 +230,7 @@ private:
 public:
     RESULTS                     results;
     RESULTS                     async_results_buf;
+    int                         m_iGet_state_RPC_retval;
     int                         m_iGet_results_RPC_retval;
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);

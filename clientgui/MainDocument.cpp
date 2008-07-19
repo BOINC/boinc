@@ -379,6 +379,7 @@ int CMainDocument::OnInit() {
     wxASSERT(m_pClientManager);
 
     m_RPCWaitDlg = NULL;
+    current_rpc_request.clear();
 
     m_RPCThread = new RPCThread(this);
     wxASSERT(m_RPCThread);
@@ -966,7 +967,7 @@ int CMainDocument::CachedResultsStatusUpdate() {
             m_dtResultsTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_results(results);
-iRetVal = m_iGet_results_RPC_retval;
+//iRetVal = m_iGet_results_RPC_retval;
             if (iRetVal) {
                 wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), iRetVal);
                 ForceCacheUpdate();
