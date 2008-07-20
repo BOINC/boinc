@@ -5881,7 +5881,8 @@ David  18 July 2008
             white.css
 
 Charlie 18 July 2008
-    - MGR: async GUI RPCs: close socket, kill RPC thread if user cancels. 
+    - MGR: async GUI RPCs: close socket, kill RPC thread if user cancels;
+        auto-close "waiting for RPC" dialog only when that request completes. 
         
     clientgui/
         AsyncRPC.cpp

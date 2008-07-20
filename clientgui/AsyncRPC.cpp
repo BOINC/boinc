@@ -130,7 +130,7 @@ int RPCThread::ProcessRPCRequest() {
     ASYNC_RPC_REQUEST       *current_request;
     
     current_request = m_Doc->GetCurrentRPCRequest();
-Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+//Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
     switch (current_request->which_rpc) {
     case RPC_GET_STATE:
@@ -345,15 +345,16 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
             delete completed_RPC_requests[i].event;
             completed_RPC_requests[i].event = NULL;
-        }
-    }
-
-    if (m_RPCWaitDlg) {
-        if (m_RPCWaitDlg->IsShown()) {
-            m_RPCWaitDlg->EndModal(wxID_OK);
         } else {
-            m_RPCWaitDlg->Destroy();
-            m_RPCWaitDlg = NULL;
+
+            if (m_RPCWaitDlg) {
+                if (m_RPCWaitDlg->IsShown()) {
+                    m_RPCWaitDlg->EndModal(wxID_OK);
+                } else {
+                    m_RPCWaitDlg->Destroy();
+                    m_RPCWaitDlg = NULL;
+                }
+            }
         }
     }
 }
