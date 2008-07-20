@@ -76,6 +76,7 @@ for ($i=1; $i<$argc; $i++) {
 
 if (!$nfiles || !$dir) usage();
 
+$dir = "../user/$dir";
 if (!is_dir($dir)) {
     exit("$dir is not a directory\n");
 }

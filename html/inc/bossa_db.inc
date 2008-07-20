@@ -3,10 +3,6 @@
 require_once("../inc/db_conn.inc");
 require_once("../inc/util_basic.inc");
 
-define ('VALIDATE_STATE_INIT', 0);
-define ('VALIDATE_STATE_VALID', 1);
-define ('VALIDATE_STATE_INVALID', 2);
-
 class BossaDb extends DbConn {
     public static $instance;
 
@@ -38,13 +34,13 @@ class BossaDb extends DbConn {
         return $db->base_escape_string($string);
     }
     static function start_transaction() {
-        echo "start transaction\n";
+        //echo "start transaction\n";
         return;
         $db = BossaDb::get();
         $db->do_query("start transaction");
     }
     static function commit() {
-        echo "commit\n";
+        //echo "commit\n";
         return;
         $db = BossaDb::get();
         $db->do_query("commit");
@@ -245,7 +241,7 @@ class BossaJobInst {
         }
 
         $now = time();
-        $clause = "(create_time, app_id, job_id, user_id) values ($now, $app->id, $job->id, $user->id)";
+        $clause = "(create_time, app_id, job_id, user_id, calibration) values ($now, $app->id, $job->id, $user->id, $job->calibration)";
         $id = BossaJobInst::insert($clause);
         return BossaJobInst::lookup_id($id);
     }

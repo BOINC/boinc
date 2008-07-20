@@ -7,9 +7,7 @@ function show_next_job($app, $user) {
         $file = "../inc/$app->short_name.inc";
         require_once($file);
         job_issued($job, $inst, $user);
-        page_head("Bossa job");
         job_show($job, $inst, $user);
-        page_tail();
     } else {
         page_head("No jobs available");
         echo "

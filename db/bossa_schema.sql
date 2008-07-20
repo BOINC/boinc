@@ -37,6 +37,7 @@ create table bossa_job_inst (
     user_id             integer     not null,
     finish_time         integer     not null,
     timeout             integer     not null,
+    calibration         tinyint     not null,
     info                text,
     primary key(id)
 ) engine=InnoDB;

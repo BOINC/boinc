@@ -5877,3 +5877,9 @@ Rytis  19 July 2008
     html/user/
             edit_forum_preferences_form.php
             edit_forum_preferences_action.php
+
+David  20 July 2008
+    - manager: fix typo
+
+    clientgui/
+        DlgAdvPreferencesBase.cpp

@@ -102,7 +102,19 @@ function show_all() {
     page_tail();
 }
 
-function show_instances($job) {
+function job_duration($inst) {
+    if ($inst->finish_time) {
+        $d = $inst->finish_time - $inst->create_time;
+        $d /= 60;
+        $d = number_format($d, 2);
+        $d = "$d min.";
+    } else {
+        $d = "---";
+    }
+    return $d;
+}
+
+function job_show_instances($job) {
     $insts = BossaJobInst::enum("job_id=$job->id");
     if (!count($insts)) {
         echo "---";
@@ -113,21 +125,14 @@ function show_instances($job) {
     foreach ($insts as $inst) {
         $user = BoincUser::lookup_id($inst->user_id);
         $t = time_str($inst->create_time);
-        if ($inst->finish_time) {
-            $d = $inst->finish_time - $inst->create_time;
-            $d /= 60;
-            $d = number_format($d, 2);
-            $d = "$d min.";
-        } else {
-            $d = "---";
-        };
+        $d = job_duration($inst);
         echo "<tr>
             <td><a href=bossa_admin.php?action=show_user&app_id=$job->app_id&user_id=$user->id>$user->name</a></td>
             <td>$t</td>
             <td>$d</td>
             <td>
         ";
-        show_instance_summary($inst);
+        echo instance_summary($inst->get_info());
         echo "
             </td>
             </tr>
@@ -149,16 +154,16 @@ function show_batch($batch_id) {
         $s = job_state_string($job->state);
         echo "<tr>
             <td>
-                $job->id <a href=bossa_admin.php?action=show_insts&job_id=$job->id>(details)</a><br>
+                $job->id <a href=bossa_admin.php?action=job_show_insts&job_id=$job->id>(details)</a><br>
         ";
-        show_job_summary($job);
+        echo job_summary($job);
         echo "
             </td>
             <td>$t</td>
             <td>$s</td>
             <td>
         ";
-        show_instances($job);
+        job_show_instances($job);
         echo "
             </td>
             </tr>
@@ -188,12 +193,21 @@ function show_batches($app_id) {
     page_tail();
 }
 
-function show_insts($job_id) {
+function job_show_insts($job_id) {
     $job = BossaJob::lookup_id($job_id);
     include_app_file($job->app_id);
     page_head("Instances of job $job_id");
-    show_instances($job);
+    job_show_instances($job);
     page_tail();
+}
+
+function calibration_job_string($inst, $job) {
+    if ($inst->calibration) {
+        $i = $job->get_info();
+        return "yes: ".instance_summary($i->answer);
+    } else {
+        return "no";
+    }
 }
 
 function show_user() {
@@ -205,11 +219,21 @@ function show_user() {
 
     include_app_file($app_id);
     page_head("Bossa user ($app->name)");
-    show_user_summary($user);
+    echo user_summary($user);
     $insts = BossaJobInst::enum("user_id=$user_id");
+    start_table();
+    table_header("Job", "Calibration?", "Start", "Duration", "Result");
     foreach ($insts as $inst) {
-
+        $job = BossaJob::lookup_id($inst->job_id);
+        table_row(
+            "$inst->job_id <a href=bossa_admin.php?action=job_show_insts&job_id=$inst->job_id>(details)</a><br>".job_summary($job),
+            calibration_job_string($inst, $job),
+            time_str($inst->create_time),
+            job_duration($inst),
+            instance_summary($inst->get_info())
+        );
     }
+    end_table();
     page_tail();
 }
 
@@ -282,9 +306,9 @@ case 'show_batch':
     $batch_id = $_GET['batch_id'];
     show_batch($batch_id);
     exit;
-case 'show_insts':
+case 'job_show_insts':
     $job_id = $_GET['job_id'];
-    show_insts($job_id);
+    job_show_insts($job_id);
     exit;
 case 'hide':
     $app_id = get_int('app_id');

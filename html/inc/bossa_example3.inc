@@ -24,10 +24,10 @@ require_once("../inc/bossa.inc");
 define("PROB_LIMIT", 1e-3);
 
 function job_show($job, $inst, $user) {
-    $info = $job->get_info($job);
+    $info = $job->get_info();
     $path = $info->path;
+    page_head("Find the Ellipse");
     echo "
-        <h2>Find the Ellipse!</h2>
         <form method=get action=bossa_job_finished.php>
         Click on the center of the ellipse.
         If you don't see one, click here:
@@ -37,6 +37,7 @@ function job_show($job, $inst, $user) {
         <input type=image name=pic src=$path>
         </form>
     ";
+    page_tail();
 }
 
 function job_issued($job, $inst, $user) {
@@ -162,21 +163,20 @@ function job_timed_out($job, $inst, $user) {
     $job->set_priority(1);
 }
 
-function show_job_summary($job) {
+function job_summary($job) {
     $info = $job->get_info();
-    echo "<a href=".URL_BASE."$info->path>(view image)</a>";
+    return "<a href=".URL_BASE."$info->path>(view image)</a>";
 }
 
-function show_instance_summary($inst) {
-    $info = $inst->get_info();
+function instance_summary($info) {
     if ($info->have_ellipse) {
-        echo "($info->cx, $info->cy)";
+        return "ellipse ($info->cx, $info->cy)";
     } else {
-        echo "---";
+        return "no ellipse";
     }
 }
 
-function show_user_summary($user) {
+function user_summary($user) {
     $b = $user->bossa;
     $info = $b->get_info();
     if ($info) {
@@ -190,11 +190,11 @@ function show_user_summary($user) {
         } else {
             $neg_err = "---";
         }
-        echo "error rate: positive $pos_err ($info->npos_err/$info->npos),
+        return "error rate: positive $pos_err ($info->npos_err/$info->npos),
              negative $neg_err ($info->nneg_err/$info->nneg)
         ";
     } else {
-        echo "No data";
+        return "No data";
     }
 }
 
