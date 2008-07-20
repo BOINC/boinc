@@ -130,7 +130,7 @@ int RPCThread::ProcessRPCRequest() {
     ASYNC_RPC_REQUEST       *current_request;
     
     current_request = m_Doc->GetCurrentRPCRequest();
-//Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
     switch (current_request->which_rpc) {
     case RPC_GET_STATE:
@@ -267,6 +267,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     int retval = event.GetInt();
     int i, n;
     std::vector<ASYNC_RPC_REQUEST> completed_RPC_requests;
+    bool stillWaitingForPendingRequests = false;
 
     // Move all requests for the completed RPC to our local vector
     // We do this in reverse order so we can remove them from queue
@@ -276,7 +277,10 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             completed_RPC_requests.push_back(RPC_requests[i]);
             RPC_requests[i].event = NULL;  // Is this needed to prevent calling event's destructor?
             RPC_requests.erase(RPC_requests.begin()+i);
-
+        } else {
+            if (RPC_requests[i].event == NULL) {
+                stillWaitingForPendingRequests = true;
+            }
         }
     }
 
@@ -345,15 +349,15 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
             delete completed_RPC_requests[i].event;
             completed_RPC_requests[i].event = NULL;
-        } else {
-
-            if (m_RPCWaitDlg) {
-                if (m_RPCWaitDlg->IsShown()) {
-                    m_RPCWaitDlg->EndModal(wxID_OK);
-                } else {
-                    m_RPCWaitDlg->Destroy();
-                    m_RPCWaitDlg = NULL;
-                }
+        }
+    }
+    if (! stillWaitingForPendingRequests) {
+        if (m_RPCWaitDlg) {
+            if (m_RPCWaitDlg->IsShown()) {
+                m_RPCWaitDlg->EndModal(wxID_OK);
+            } else {
+                m_RPCWaitDlg->Destroy();
+                m_RPCWaitDlg = NULL;
             }
         }
     }
