@@ -885,18 +885,21 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const {
 
 wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const {
     CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]); 
-    float          fBuffer = work->m_fTimeToCompletion;
+    double         est = work->m_fTimeToCompletion;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
     wxTimeSpan     ts;
 
-    if (0 >= fBuffer) {
+    if (est > 86400*365*10) {
+        est = 86400*365*10;
+    }
+    if (est <= 0) {
         strBuffer = wxT("---");
     } else {
-        iHour = (wxInt32)(fBuffer / (60 * 60));
-        iMin  = (wxInt32)(fBuffer / 60) % 60;
-        iSec  = (wxInt32)(fBuffer) % 60;
+        iHour = (wxInt32)(est / (60 * 60));
+        iMin  = (wxInt32)(est / 60) % 60;
+        iSec  = (wxInt32)(est) % 60;
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 

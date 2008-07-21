@@ -5909,3 +5909,10 @@ David  21 July 2008
         ViewWorkGrid.cpp
     lib/
         coproc.C,h
+
+David  21 July 2008
+    - manager: display days w/ 2 decimals
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        ViewWork.cpp
