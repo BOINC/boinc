@@ -22,6 +22,8 @@
 
 #include "regex.h"
 #include <vector>
+#include <stdio.h>
+
 using std::vector;
 
 // parsed version of server configuration file

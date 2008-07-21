@@ -5916,3 +5916,9 @@ David  21 July 2008
     clientgui/
         DlgAdvPreferences.cpp
         ViewWork.cpp
+
+David  21 July 2008
+    - server compile fix for gcc 4.3
+
+    sched/
+        sched_config.h
