@@ -385,7 +385,7 @@ int CMainDocument::OnInit() {
     wxASSERT(m_RPCThread);
 
     iRetVal = m_RPCThread->Create();
-    wxASSERT(iRetVal);
+    wxASSERT(!iRetVal);
     
     m_RPCThread->Run();
 
@@ -403,6 +403,21 @@ int CMainDocument::OnExit() {
         m_pClientManager = NULL;
     }
 
+    if (m_RPCThread) {
+        m_RPCThread->Delete();
+        wxStopWatch ThreadDeleteTimer = wxStopWatch();
+        // RPC thread sets m_RPCThread to NULL when it exits
+        while (m_RPCThread) {
+            // Allow 5 seconds for RPC thread to exit gracefully
+           if (ThreadDeleteTimer.Time() > 5000) {
+                m_RPCThread->Pause();   // Needed on Windows
+                m_RPCThread->Kill();
+                break;
+            }
+        }
+        m_RPCThread = NULL;
+    }
+    
     if (m_pNetworkConnection) {
         delete m_pNetworkConnection;
         m_pNetworkConnection = NULL;

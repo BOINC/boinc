@@ -169,12 +169,12 @@ public:
     void                        OnRPCComplete(CRPCFinishedEvent& event);
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
 void TestAsyncRPC();        // TEMPORARY -- CAF
+    RPCThread*                  m_RPCThread;
 #if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
     wxCriticalSection           m_critsect;
 #endif
 
 private:
-    RPCThread*                  m_RPCThread;
     ASYNC_RPC_REQUEST           current_rpc_request;
     AsyncRPCDlg*                m_RPCWaitDlg;
     std::vector<ASYNC_RPC_REQUEST> RPC_requests;

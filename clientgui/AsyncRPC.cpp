@@ -79,6 +79,8 @@ RPCThread::RPCThread(CMainDocument *pDoc)
 
 
 void RPCThread::OnExit() {
+    // Tell CMainDocument that thread has gracefully ended 
+    m_Doc->m_RPCThread = NULL;
 }
 
 
@@ -233,6 +235,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
                 // start a new RPC thread.
                 if (current_rpc_request.isActive) {
                     current_rpc_request.isActive = false;
+                    m_RPCThread->Pause();   // Needed on Windows
                     rpc.close();
                     m_RPCThread->Kill();
                     m_RPCThread = NULL;
@@ -247,8 +250,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
                     m_RPCThread = new RPCThread(this);
                     wxASSERT(m_RPCThread);
                     retval2 = m_RPCThread->Create();
-                    wxASSERT(retval2);
-                    m_RPCThread->Run();
+                    wxASSERT(!retval2);
+                    retval2 = m_RPCThread->Run();
+                    wxASSERT(!retval2);
                 }
             }
             if (m_RPCWaitDlg) {
@@ -432,7 +436,7 @@ ALL_PROJECTS_LIST pl;
 
 void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
     ASYNC_RPC_REQUEST request;
-    wxDateTime completionTime;
+    wxDateTime completionTime = wxDateTime((time_t)0);
     int retval = 0;
 
     completionTime.ResetTime();
@@ -450,7 +454,7 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
 
     retval = RequestRPC(request);
 
-    wxString s = completionTime.Format("%T");
+    wxString s = completionTime.Format("%X");
     printf("Completion time = %s\n", s.c_str());
     printf("RequestRPC returned %d\n", retval);
 }
