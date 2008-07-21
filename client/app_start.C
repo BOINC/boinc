@@ -364,6 +364,8 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF fref;
     FILE_INFO* fip;
     int retval;
+    bool coprocs_reserved = false;
+
 #ifdef _WIN32
     get_sandbox_account_service_token();
         // do this first because it affects how we create shmem seg
@@ -495,6 +497,9 @@ int ACTIVE_TASK::start(bool first_time) {
         exit(0);
     }
 
+    reserve_coprocs();
+    coprocs_reserved = true;
+
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -519,10 +524,9 @@ int ACTIVE_TASK::start(bool first_time) {
         set_task_state(PROCESS_EXECUTING, "start");
         return 0;
     }
-    // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
     sprintf(cmdline, "%s %s %s",
-        exec_path, wup->command_line, app_version->cmdline
+        exec_path, wup->command_line.c_str(), app_version->cmdline
     );
     cuda_cmdline(this, cmdline);
 
@@ -841,12 +845,15 @@ int ACTIVE_TASK::start(bool first_time) {
 
 #endif
     set_task_state(PROCESS_EXECUTING, "start");
-    reserve_coprocs();
     return 0;
 
     // go here on error; "buf" contains error message, "retval" is nonzero
     //
 error:
+    if (coprocs_reserved) {
+        free_coprocs();
+    }
+
     // if something failed, it's possible that the executable was munged.
     // Verify it to trigger another download.
     //

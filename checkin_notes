@@ -5540,7 +5540,7 @@ Rom    8 July 2008
         boinccas.dll
         boinccas95.dll
    
-Eric K	8 July 2008
+Eric K    8 July 2008
     - Fix for unicode compiles in DlgItemProperties.cpp
     - Fix for compilers that can't concatenate a normal character string
       to a wide character string.  For example L"Hi "  "There" works in GCC
@@ -5568,7 +5568,7 @@ Eric K	8 July 2008
         BOINCBaseFrame.cpp
         ViewWorkGrid.cpp
         sg_DlgMessages.cpp
-	DlgItemProperties.cpp
+    DlgItemProperties.cpp
 
 David  8 July 2008
     - web: if stop_web file is present, don't allow any DB access
@@ -5579,7 +5579,7 @@ David  8 July 2008
         file_xfer.C
     html/inc/
         boinc_db.inc
-		util.inc
+        util.inc
 
 Eric K  8 July 2008
     - sparc-solaris: detect_platforms() 
@@ -5895,3 +5895,17 @@ David  21 July 2008
         cpu_sched.C
     lib/
         coproc.h
+
+David  21 July 2008
+    - client: bug fixes to the above
+    - client: better messages reporting coprocessors
+    - manager: bounds checks to avoid wxwidgets asserts
+        when job CPU estimates are absurdly large
+
+    client/
+        app_start.C
+        client_state.C
+    clientgui/
+        ViewWorkGrid.cpp
+    lib/
+        coproc.C,h

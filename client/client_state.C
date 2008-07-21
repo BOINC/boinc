@@ -235,15 +235,16 @@ int CLIENT_STATE::init() {
     for (i=0; i<strs.size(); i++) {
         msg_printf(NULL, MSG_INFO, strs[i].c_str());
     }
-#if 0
-    fake_cuda(coprocs);
+#if 1
+    fake_cuda(coprocs, 2);
 #endif
     if (coprocs.coprocs.size() == 0) {
         msg_printf(NULL, MSG_INFO, "No coprocessors");
     } else {
         for (i=0; i<coprocs.coprocs.size(); i++) {
             COPROC* c = coprocs.coprocs[i];
-            msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c->type, c->count);
+            c->description(buf);
+            msg_printf(NULL, MSG_INFO, "Coprocessor: %s", buf);
         }
     }
 

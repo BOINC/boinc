@@ -46,7 +46,9 @@ struct COPROC {
         strcpy(type, t);
         count = 0;
         used = 0;
+        memset(&owner, 0, sizeof(owner));
     }
+    virtual void description(char*){};
     virtual ~COPROC(){}
     int parse(MIOFILE&);
 };
@@ -115,6 +117,7 @@ struct COPROC_CUDA : public COPROC {
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
     static const char* get(COPROCS&);
+    virtual void description(char*);
     void clear();
     int parse(FILE*);
 };
@@ -123,9 +126,10 @@ struct COPROC_CUDA : public COPROC {
 struct COPROC_CELL_SPE : public COPROC {
     static const char* get(COPROCS&);
     COPROC_CELL_SPE() : COPROC("Cell SPE"){}
+    virtual void description(char*);
     virtual ~COPROC_CELL_SPE(){}
 };
 
-void fake_cuda(COPROCS&);
+void fake_cuda(COPROCS&, int);
 
 #endif

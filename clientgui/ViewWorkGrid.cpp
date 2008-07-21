@@ -714,7 +714,7 @@ wxInt32 CViewWorkGrid::FormatProgress(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewWorkGrid::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const {
-    float          fBuffer = 0;
+    double         est = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
@@ -722,15 +722,19 @@ wxInt32 CViewWorkGrid::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer)
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
-        fBuffer = result->estimated_cpu_time_remaining;
+        est = result->estimated_cpu_time_remaining;
+        if (est > 86400*365*10) {
+            est = 86400*365*10;     // sanity check
+        }
+
     }
 
-    if (0 >= fBuffer) {
+    if (est <= 0) {
         strBuffer = wxT("---");
     } else {
-        iHour = (wxInt32)(fBuffer / (60 * 60));
-        iMin  = (wxInt32)(fBuffer / 60) % 60;
-        iSec  = (wxInt32)(fBuffer) % 60;
+        iHour = (wxInt32)(est / (60 * 60));
+        iMin  = (wxInt32)(est / 60) % 60;
+        iSec  = (wxInt32)(est) % 60;
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
