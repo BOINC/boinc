@@ -93,21 +93,34 @@ bool COPROCS::sufficient_coprocs(COPROCS& needed, bool verbose) {
     return true;
 }
 
-void COPROCS::reserve_coprocs(COPROCS& needed, bool verbose) {
+void COPROCS::reserve_coprocs(COPROCS& needed, void* owner, bool verbose) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
-        if (!cp2) continue;
+        if (!cp2) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Coproc type %s not found", cp->type
+            );
+            continue;
+        }
         if (verbose) {
             msg_printf(NULL, MSG_INFO,
                 "reserving %d of coproc %s", cp->count, cp2->type
             );
         }
         cp2->used += cp->count;
+        int n = cp->count;
+        for (int i=0; i<cp2->count; i++) {
+            if (!cp2->owner[i]) {
+                cp2->owner[i] = owner;
+                n--;
+                if (!n) break;
+            }
+        }
     }
 }
 
-void COPROCS::free_coprocs(COPROCS& needed, bool verbose) {
+void COPROCS::free_coprocs(COPROCS& needed, void* owner, bool verbose) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
@@ -118,6 +131,11 @@ void COPROCS::free_coprocs(COPROCS& needed, bool verbose) {
             );
         }
         cp2->used -= cp->count;
+        for (int i=0; i<cp2->count; i++) {
+            if (cp2->owner[i] == owner) {
+                cp2->owner[i] = 0;
+            }
+        }
     }
 }
 
@@ -1085,14 +1103,14 @@ struct RR_SIM_STATUS {
         return coprocs.sufficient_coprocs(rp->avp->coprocs, log_flags.rr_simulation);
     }
     inline void activate(RESULT* rp) {
-        coprocs.reserve_coprocs(rp->avp->coprocs, log_flags.rr_simulation);
+        coprocs.reserve_coprocs(rp->avp->coprocs, rp, log_flags.rr_simulation);
         active.push_back(rp);
     }
     // remove *rpbest from active set,
     // and adjust CPU time left for other results
     //
     inline void remove_active(RESULT* rpbest) {
-        coprocs.free_coprocs(rpbest->avp->coprocs, log_flags.rr_simulation);
+        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, log_flags.rr_simulation);
         vector<RESULT*>::iterator it = active.begin();
         while (it != active.end()) {
             RESULT* rp = *it;

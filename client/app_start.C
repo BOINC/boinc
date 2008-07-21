@@ -61,6 +61,7 @@
 #include <vector>
 
 using std::vector;
+using std::string;
 
 #include "filesys.h"
 #include "error_numbers.h"
@@ -103,6 +104,20 @@ static void debug_print_argv(char** argv) {
     }
 }
 #endif
+
+// for apps that use CUDA coprocessors, append "--device x" to the command line
+//
+static void cuda_cmdline(ACTIVE_TASK* atp, char* cmdline) {
+    char buf[256];
+    COPROC* cp = gstate.coprocs.lookup("CUDA");
+    if (!cp) return;
+    for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
+        if (cp->owner[i] == atp) {
+            sprintf(buf, " --device %d", i);
+            strcat(cmdline, buf);
+        }
+    }
+}
 
 // Make a unique key for core/app shared memory segment.
 // Windows: also create and attach to the segment.
@@ -344,13 +359,12 @@ int ACTIVE_TASK::copy_output_files() {
 //
 int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], buf[256], exec_path[256];
+    char cmdline[8192];
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
     int retval;
 #ifdef _WIN32
-    std::string cmd_line;
-
     get_sandbox_account_service_token();
         // do this first because it affects how we create shmem seg
 #endif
@@ -507,10 +521,11 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
-    cmd_line = exec_path + std::string(" ") + wup->command_line;
-    if (strlen(app_version->cmdline)) {
-        cmd_line += std::string(" ") + app_version->cmdline;
-    }
+    sprintf(cmdline, "%s %s %s",
+        exec_path, wup->command_line, app_version->cmdline
+    );
+    cuda_cmdline(this, cmdline);
+
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
 
@@ -539,7 +554,7 @@ int ACTIVE_TASK::start(bool first_time) {
             if (CreateProcessAsUser(
                 sandbox_account_service_token,
                 exec_path,
-                (LPSTR)cmd_line.c_str(),
+                cmdline,
                 NULL,
                 NULL,
                 FALSE,
@@ -577,7 +592,7 @@ int ACTIVE_TASK::start(bool first_time) {
         } else {
             if (CreateProcess(
                 exec_path,
-                (LPSTR)cmd_line.c_str(),
+                cmdline,
                 NULL,
                 NULL,
                 FALSE,
@@ -788,12 +803,8 @@ int ACTIVE_TASK::start(bool first_time) {
             perror("setpriority");
         }
 #endif
-        char cmdline[8192];
-        strcpy(cmdline, wup->command_line.c_str());
-        if (strlen(app_version->cmdline)) {
-            strcat(cmdline, " ");
-            strcat(cmdline, app_version->cmdline);
-        }
+        sprintf(cmdline, "%s %s", wup->command_line.c_str(), app_version->cmdline);
+        cuda_cmdline(this, cmdline);
         sprintf(buf, "../../%s", exec_path );
         if (g_use_sandbox) {
             char switcher_path[100];

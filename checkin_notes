@@ -5883,3 +5883,15 @@ David  20 July 2008
 
     clientgui/
         DlgAdvPreferencesBase.cpp
+
+David  21 July 2008
+    - client: if an app is using CUDA coprocessors,
+        pass it additional command line arg(s) "--device X" (X=0,1,...)
+        to tell it which GPU(s) to use.
+
+    client/
+        app.C
+        app_start.C
+        cpu_sched.C
+    lib/
+        coproc.h

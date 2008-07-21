@@ -92,15 +92,15 @@ function job_timed_out($job, $inst, $user) {
 
 function show_job_summary($job) {
     $info = $job->get_info();
-    echo "<a href=".URL_BASE."$info->path>View image</a>";
+    return "<a href=".URL_BASE."$info->path>View image</a>";
 }
 
 function show_instance_summary($inst) {
     $info = $inst->get_info();
     if ($info->have_ellipse) {
-        echo "($info->cx, $info->cy)";
+        return "ellipse ($info->cx, $info->cy)";
     } else {
-        echo "---";
+        return "no ellipse";
     }
 }
 

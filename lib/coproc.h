@@ -30,10 +30,14 @@
 
 #include "miofile.h"
 
+#define MAX_COPROC_INSTANCES   8
+
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
     int used;           // how many are in use (used by client)
+    void* owner[MAX_COPROC_INSTANCES];
+        // which ACTIVE_TASK each one is allocated to
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
@@ -69,8 +73,10 @@ struct COPROCS {
     int parse(FILE*);
     COPROC* lookup(char*);
     bool sufficient_coprocs(COPROCS&, bool verbose);
-    void reserve_coprocs(COPROCS&, bool verbose);
-    void free_coprocs(COPROCS&, bool verbose);
+    void reserve_coprocs(COPROCS&, void*, bool verbose);
+    void free_coprocs(COPROCS&, void*, bool verbose);
+
+    // used in round-robin simulator, to avoid messing w/ master copy
     void clone(COPROCS& c) {
         for (unsigned int i=0; i<c.coprocs.size(); i++) {
             COPROC* cp = c.coprocs[i];
