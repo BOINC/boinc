@@ -344,7 +344,7 @@ def install_boinc_files(dest_dir):
           'sample_bitwise_validator', 'sample_trivial_validator',
           'file_deleter', 'sample_dummy_assimilator',
           'sample_assimilator', 'sample_work_generator',
-          'update_stats', 'db_dump', 'db_purge' ])
+          'update_stats', 'db_dump', 'db_purge', 'pymw_assimilator' ])
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
         [ 'start', 'show_shmem' ])
     force_symlink(dir('bin', 'start'), dir('bin', 'stop'))
@@ -352,7 +352,8 @@ def install_boinc_files(dest_dir):
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
         [ 'create_work', 'xadd', 'dbcheck_files_exist', 'run_in_ops',
           'update_versions', 'parse_config', 'grep_logs', 'db_query',
-          'watch_tcp', 'sign_executable', 'dir_hier_move', 'dir_hier_path' ])
+          'watch_tcp', 'sign_executable', 'dir_hier_move', 'dir_hier_path',
+	  'pymw_setup' ])
     map(lambda (s): install(srcdir('py/Boinc',s), dir('bin',s)),
         [ 'add_util.py', 'boinc_db.py', 'boinc_project_path.py',
           'boincxml.py', 'configxml.py', 'database.py',
