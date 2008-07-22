@@ -253,6 +253,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
                     wxASSERT(!retval2);
                     retval2 = m_RPCThread->Run();
                     wxASSERT(!retval2);
+                    m_pNetworkConnection->SetStateDisconnected();
                 }
             }
             if (m_RPCWaitDlg) {

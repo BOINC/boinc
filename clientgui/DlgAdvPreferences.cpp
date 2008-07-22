@@ -253,7 +253,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 		}
 	}
 	// connection interval
-	buffer.Printf(wxT("%01.4f"),prefs.work_buf_min_days);
+	buffer.Printf(wxT("%01.2f"),prefs.work_buf_min_days);
 	*m_txtNetConnectInterval << buffer;
 	//download rate
 	buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_down / 1024);

@@ -463,7 +463,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizerDiskUsage->Add( m_staticText42, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtDiskLeastFree = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTDISKLEASTFREE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtDiskLeastFree->SetToolTip( _("BOINC leaves at least this amount of disk space free (in Gigagytes)") );
+	m_txtDiskLeastFree->SetToolTip( _("BOINC leaves at least this amount of disk space free (in Gigabytes)") );
 
 	fgSizerDiskUsage->Add( m_txtDiskLeastFree, 0, wxALL, 1 );
 
