@@ -235,11 +235,19 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
                 // start a new RPC thread.
                 if (current_rpc_request.isActive) {
                     current_rpc_request.isActive = false;
+#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
+                    // Killing a thread while it is in a critical section 
+                    // usually causes an unrecoverable deadlock situation
+                    m_critsect.Enter();
+#endif
                     m_RPCThread->Pause();   // Needed on Windows
                     rpc.close();
                     m_RPCThread->Kill();
 #ifdef __WXMSW__
                     m_RPCThread->Delete();  // Needed on Windows, crashes on Mac/Linux
+#endif
+#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
+                    m_critsect.Leave();
 #endif
                     m_RPCThread = NULL;
                     RPC_requests.clear();
@@ -436,7 +444,7 @@ void AsyncRPCDlg::OnRPCDlgTimer(wxTimerEvent& WXUNUSED(event)) {
 
 /// For testing: triggered by Advanced / Options menu item.
 void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
-ALL_PROJECTS_LIST pl;
+    ALL_PROJECTS_LIST pl;
     ASYNC_RPC_REQUEST request;
     wxDateTime completionTime = wxDateTime((time_t)0);
     int retval = 0;
@@ -456,7 +464,7 @@ ALL_PROJECTS_LIST pl;
 
     retval = RequestRPC(request);
 
-    wxString s = completionTime.Format("%X");
+    wxString s = completionTime.FormatTime();
     wxLogMessage(wxT("Completion time = %s"), s.c_str());
     wxLogMessage(wxT("RequestRPC returned %d\n"), retval);
 }

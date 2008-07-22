@@ -70,6 +70,7 @@ OBJ = \
     AccountManagerPropertiesPage.o \
     AlreadyAttachedPage.o \
     AlreadyExistsPage.o \
+    AsyncRPC.o \
     CompletionErrorPage.o \
     CompletionPage.o \
     NoInternetConnectionPage.o \

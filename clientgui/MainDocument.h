@@ -27,7 +27,7 @@
 #include <vector>
 #include "common_defs.h"
 #include "gui_rpc_client.h"
-#include "asyncRPC.h"
+#include "AsyncRPC.h"
 
 typedef struct {
     int slot;

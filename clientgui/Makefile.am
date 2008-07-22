@@ -34,6 +34,7 @@ boinc_gui_SOURCES = \
     AdvancedFrame.cpp \
     AlreadyAttachedPage.cpp \
     AlreadyExistsPage.cpp \
+    AsyncRPC.cpp \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCBaseWizard.cpp \

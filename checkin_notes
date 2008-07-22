@@ -5943,11 +5943,13 @@ David  21 July 2008
 
 Charlie 21 July 2008
     - MGR: async GUI RPCs: Fix RPC cancel, etc. for Windows. 
-    - MGR: async GUI RPCs: Update XCode project to include AsyncRPC.cpp,h
+    - MGR: async GUI RPCs: Update XCode, makefile  project to include 
+        AsyncRPC.cpp,h.
         
     clientgui/
         AsyncRPC.cpp
         MainDocument.cpp,.h
+        makefile.am
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
