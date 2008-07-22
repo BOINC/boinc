@@ -57,6 +57,8 @@ int sleep_interval = SLEEP_INTERVAL;
 
 int one_pass_N_WU=0;
 
+char pymw_dir[256];
+
 // assimilate all WUs that need it
 // return nonzero if did anything
 //
@@ -179,8 +181,12 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-mod")) {
             wu_id_modulus   = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
-        } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+	} else if (!strcmp(argv[i], "-pymw_dir")) {
+	    // Absolute path of PyMW working directory
+	    // pymw_assimilator will copy results in this directory
+	    strcpy(pymw_dir, argv[++i]);
+	} else {
+	    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 

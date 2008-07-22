@@ -16,6 +16,7 @@ noinst_PROGRAMS = \
     message_handler \
     request_file_list \
     sample_assimilator \
+    pymw_assimilator \
     sample_dummy_assimilator \
     sample_bitwise_validator \
     sample_trivial_validator \
@@ -125,6 +126,9 @@ sample_dummy_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
 sample_assimilator_SOURCES = assimilator.C sample_assimilator.C validate_util.C validate_util.h
 sample_assimilator_DEPENDENCIES = $(LIB_SCHED)
+
+pymw_assimilator_SOURCES = assimilator.C pymw_assimilator.C validate_util.C validate_util.h
+pymw_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
 sample_work_generator_SOURCES = sample_work_generator.C
 sample_work_generator_DEPENDENCIES = $(LIB_SCHED)
