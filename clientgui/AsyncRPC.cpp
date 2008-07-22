@@ -238,6 +238,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
                     m_RPCThread->Pause();   // Needed on Windows
                     rpc.close();
                     m_RPCThread->Kill();
+#ifdef __WXMSW__
+                    m_RPCThread->Delete();  // Needed on Windows, crashes on Mac/Linux
+#endif
                     m_RPCThread = NULL;
                     RPC_requests.clear();
                     current_rpc_request.clear();
@@ -246,14 +249,13 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
 //                wxString strComputer = wxEmptyString;
 //                GetConnectedComputerName(strComputer);
 //                retval2 = rpc.init(strComputer.mb_str(), m_pNetworkConnection->GetGUI_RPC_Port());
-                
+                    m_pNetworkConnection->SetStateDisconnected();
                     m_RPCThread = new RPCThread(this);
                     wxASSERT(m_RPCThread);
                     retval2 = m_RPCThread->Create();
                     wxASSERT(!retval2);
                     retval2 = m_RPCThread->Run();
                     wxASSERT(!retval2);
-                    m_pNetworkConnection->SetStateDisconnected();
                 }
             }
             if (m_RPCWaitDlg) {
@@ -433,9 +435,8 @@ void AsyncRPCDlg::OnRPCDlgTimer(wxTimerEvent& WXUNUSED(event)) {
 #endif  // USE_RPC_DLG_TIMER
 
 /// For testing: triggered by Advanced / Options menu item.
-ALL_PROJECTS_LIST pl;
-
 void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+ALL_PROJECTS_LIST pl;
     ASYNC_RPC_REQUEST request;
     wxDateTime completionTime = wxDateTime((time_t)0);
     int retval = 0;
@@ -456,7 +457,7 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     retval = RequestRPC(request);
 
     wxString s = completionTime.Format("%X");
-    printf("Completion time = %s\n", s.c_str());
-    printf("RequestRPC returned %d\n", retval);
+    wxLogMessage(wxT("Completion time = %s"), s.c_str());
+    wxLogMessage(wxT("RequestRPC returned %d\n"), retval);
 }
 

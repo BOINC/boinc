@@ -5540,7 +5540,7 @@ Rom    8 July 2008
         boinccas.dll
         boinccas95.dll
    
-Eric K	8 July 2008
+Eric K    8 July 2008
     - Fix for unicode compiles in DlgItemProperties.cpp
     - Fix for compilers that can't concatenate a normal character string
       to a wide character string.  For example L"Hi "  "There" works in GCC
@@ -5568,7 +5568,7 @@ Eric K	8 July 2008
         BOINCBaseFrame.cpp
         ViewWorkGrid.cpp
         sg_DlgMessages.cpp
-	DlgItemProperties.cpp
+    DlgItemProperties.cpp
 
 David  8 July 2008
     - web: if stop_web file is present, don't allow any DB access
@@ -5579,7 +5579,7 @@ David  8 July 2008
         file_xfer.C
     html/inc/
         boinc_db.inc
-		util.inc
+        util.inc
 
 Eric K  8 July 2008
     - sparc-solaris: detect_platforms() 
@@ -5696,10 +5696,10 @@ Rom    11 July 2008
         version.h
 
 David  12 July 2008
-	- web: fixed opt-out page
+    - web: fixed opt-out page
 
-	html/user/
-		opt_out.php
+    html/user/
+        opt_out.php
 
 David  12 July 2008
     - small change to mac cuda
@@ -5889,9 +5889,66 @@ Charlie 18 July 2008
         AsyncRPC.cpp
         MainDocument.cpp,.h
 
+Rytis  19 July 2008
+    - forums: add support for Globally Recognized Avatars.
+    
+    html/user/
+            edit_forum_preferences_form.php
+            edit_forum_preferences_action.php
+
+David  20 July 2008
+    - manager: fix typo
+
+    clientgui/
+        DlgAdvPreferencesBase.cpp
+
+David  21 July 2008
+    - client: if an app is using CUDA coprocessors,
+        pass it additional command line arg(s) "--device X" (X=0,1,...)
+        to tell it which GPU(s) to use.
+
+    client/
+        app.C
+        app_start.C
+        cpu_sched.C
+    lib/
+        coproc.h
+
+David  21 July 2008
+    - client: bug fixes to the above
+    - client: better messages reporting coprocessors
+    - manager: bounds checks to avoid wxwidgets asserts
+        when job CPU estimates are absurdly large
+
+    client/
+        app_start.C
+        client_state.C
+    clientgui/
+        ViewWorkGrid.cpp
+    lib/
+        coproc.C,h
+
+David  21 July 2008
+    - manager: display days w/ 2 decimals
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        ViewWork.cpp
+
+David  21 July 2008
+    - server compile fix for gcc 4.3
+
+    sched/
+        sched_config.h
+
 Charlie 21 July 2008
     - MGR: async GUI RPCs: Fix RPC cancel, etc. for Windows. 
+    - MGR: async GUI RPCs: Update XCode project to include AsyncRPC.cpp,h
         
     clientgui/
         AsyncRPC.cpp
         MainDocument.cpp,.h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
