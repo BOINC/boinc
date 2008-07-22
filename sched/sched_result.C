@@ -250,6 +250,9 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         } else {
             srip->claimed_credit = srip->cpu_time * reply.host.claimed_credit_per_cpu_sec;
         }
+	// Regardless of the method of claiming credit, multiply by the
+	// application's credit multiplier at the time of result creation.
+	srip->claimed_credit*=credit_multiplier(srip->appid,srip->sent_time);
         if (config.debug_handle_results) {
             log_messages.printf(MSG_DEBUG,
                 "cpu time %f credit/sec %f, claimed credit %f\n", srip->cpu_time, reply.host.claimed_credit_per_cpu_sec, srip->claimed_credit

@@ -1,12 +1,23 @@
 #! /bin/sh
 dbhost=`grep db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+replica_dbhost=`grep replica_db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
 dbuser=`grep db_user ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
 dbname=`grep db_name ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+if [ -z "${replica_dbhost}" ] ; then
+  replica_dbhost=${dbhost}
+fi
+
 MYSQL="mysql -D $dbname -h $dbhost -u $dbuser -N -B"
+MYSQL_R="mysql -D $dbname -h $replica_dbhost -u $dbuser -N -B"
 
 DECAY_TIME=30*86400
+RUN_INCREMENT=86400
+MAX_NRESULTS=10000
+FILE_DELETE_READY=1
+FILE_DELETE_DONE=2
+FILE_DELETE_ERROR=3
 
-function median_query() {
+function median_host_query() {
   $MYSQL --execute="
      create temporary table medians (id int auto_increment primary key)
        select $1 from host 
@@ -23,21 +34,63 @@ function median_query() {
      drop table ids;"
 }
 
-median_credit_per_cpu_sec=`median_query credit_per_cpu_sec`
-median_p_fpops=`median_query p_fpops`
-median_p_iops=`median_query p_iops`
-ratio=`$MYSQL --execute="select ($median_p_fpops+$median_p_iops)/($median_credit_per_cpu_sec)*5.787037037037e-13"`
+function get_recent_credited_results() {
+  $MYSQL_R --execute="
+    create temporary table recent_results 
+      select 
+        granted_credit,
+	cpu_time,
+        hostid,
+	p_fpops,
+	p_iops
+      from host,result where 
+        file_delete_state in ($FILE_DELETE_READY,$FILE_DELETE_DONE) and
+        granted_credit>0 and
+        received_time>unix_timestamp(now())-$DECAY_TIME and
+	unix_timestamp(result.mod_time)>unix_timestamp(now())-$RUN_INCREMENT and
+	host.rpc_time>unix_timestamp(now())-$DECAY_TIME and
+	appid=$1 and
+	result.hostid=host.id
+      limit $MAX_NRESULTS;
+    create temporary table merged_results 
+        select sum(granted_credit)/sum(cpu_time) as granted_rate,
+	hostid,
+	(p_fpops+p_iops)*5.787037037037e-13 as bench_rate 
+    from recent_results 
+    group by hostid;
+    create temporary table medians (id int auto_increment primary key)
+      select (bench_rate+1e-10)/(granted_rate+1e-10) as mult 
+      from merged_results 
+      order by mult; 
+    create temporary table ids
+      select round(avg(id)-0.5) as id from medians;
+    insert into ids select round(avg(id)+0.5) from medians;
+    select avg(mult) from medians where id in (
+      select id from ids
+    );
+    drop table ids;
+    drop table medians;
+    drop table merged_results;
+    drop table recent_results;"
+}
 
-nrows=`$MYSQL --execute="select count(id) from credit_multiplier"`
-if [ $nrows = 0 ] ; then
-  $MYSQL --execute="insert into credit_multiplier values (0,unix_timestamp(now())-86400,1.0)"
-fi
 
-last_value=`$MYSQL --execute="select multiplier from credit_multiplier where (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier)"`
-last_time=`$MYSQL --execute="select unix_timestamp(now())-time from credit_multiplier where (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier)"`
+appids=`$MYSQL --execute="select id from app where deprecated=0 and beta=0"`
 
-value=`$MYSQL --execute="select ($last_value*(($DECAY_TIME)-$last_time)+$ratio*$last_time)/($DECAY_TIME)"`
+for appid in $appids ; do
+  ratio=`get_recent_credited_results $appid`
 
-$MYSQL --execute="insert into credit_multiplier values (0,unix_timestamp(now()),$value);"
+  nrows=`$MYSQL --execute="select count(id) from credit_multiplier where appid=$appid"`
+  if [ $nrows = 0 ] ; then
+    $MYSQL --execute="insert into credit_multiplier values (0,$appid,unix_timestamp(now())-86400,1.0)"
+  fi
+
+    last_value=`$MYSQL --execute="select multiplier from credit_multiplier where appid=$appid and (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier where appid=$appid)"`
+    last_time=`$MYSQL --execute="select unix_timestamp(now())-time from credit_multiplier where appid=$appid and (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier where appid=$appid)"`
+
+    value=`$MYSQL --execute="select ($last_value*(($DECAY_TIME)-$last_time)+$ratio*$last_time)/($DECAY_TIME)"`
+
+    $MYSQL --execute="insert into credit_multiplier values (0,$appid,unix_timestamp(now()),$value);"
+done
 
 exit 0

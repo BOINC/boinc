@@ -565,6 +565,23 @@ struct TRANSITIONER_ITEM {
     void parse(MYSQL_ROW&);
 };
 
+struct CREDIT_MULTIPLIER {
+    int id;
+    int appid;
+    int time;
+    double multiplier;
+
+    void clear();
+};
+    
+struct DB_CREDIT_MULTIPLIER : public DB_BASE, public CREDIT_MULTIPLIER {
+    DB_CREDIT_MULTIPLIER(DB_CONN* p=0);
+    int get_id();
+    void db_print(char *);
+    void db_parse(MYSQL_ROW &row);
+    void get_nearest(int appid, int time);
+};
+
 struct VALIDATOR_ITEM {
     WORKUNIT wu;
     RESULT res;
@@ -572,6 +589,8 @@ struct VALIDATOR_ITEM {
     void clear();
     void parse(MYSQL_ROW&);
 };
+
+    
 
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
@@ -716,6 +735,7 @@ public:
     int update_workunit(WORKUNIT&);
 };
 
+
 // used by the feeder and scheduler for outgoing work
 //
 struct WORK_ITEM {
@@ -773,6 +793,7 @@ struct SCHED_RESULT_ITEM {
     int id;
     char name[256];
     int workunitid;
+    int appid;
     int server_state;
     int client_state;
     int validate_state;

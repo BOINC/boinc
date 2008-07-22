@@ -5922,3 +5922,27 @@ David  21 July 2008
 
     sched/
         sched_config.h
+
+Eric  22 July 2008
+    - Implementation of automatic credit leveling for cpu based projects that
+      wish to use it.
+    - The script calculate_credit_multiplier (expected to be run daily as
+      a config.xml task) looks at the ratio of granted credit to CPU time 
+      for recent results for each app.  Multiplier is calculated to cause 
+      median hosts granted credit per cpu second to equal to equal that 
+      expected from its benchmarks.  This is 30-day exponentially averaged 
+      with the previous value of the multplier and stored in the table 
+      credit_multplier.
+    - When a result is received the server adjusts claimed credit by the
+      value the multiplier had when the result was sent.
+
+    tools/
+        calculate_credit_multiplier
+    db/
+        boinc_db.[Ch]
+    db/
+        schema.sql
+    sched/
+        sched_util.[Ch]
+	sched_result.C
+

@@ -247,6 +247,12 @@ double fpops_to_credit(double fpops, double intops) {
     return std::max(fpc, intc);
 }
 
+double credit_multiplier(int appid, time_t create_time) {
+    DB_CREDIT_MULTIPLIER mult;
+    mult.get_nearest(appid,create_time);
+    return mult.multiplier;
+}
+
 int count_results(char* query, int& n) {
     DB_RESULT result;
     int retval = result.count(n, query);

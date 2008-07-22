@@ -68,6 +68,7 @@ void ASSIGNMENT::clear() {memset(this, 0, sizeof(*this));}
 void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void VALIDATOR_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
+void CREDIT_MULTIPLIER::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -93,6 +94,8 @@ DB_MSG_TO_HOST::DB_MSG_TO_HOST(DB_CONN* dc) :
     DB_BASE("msg_to_host", dc?dc:&boinc_db){}
 DB_ASSIGNMENT::DB_ASSIGNMENT(DB_CONN* dc) :
     DB_BASE("assignment", dc?dc:&boinc_db){}
+DB_CREDIT_MULTIPLIER::DB_CREDIT_MULTIPLIER(DB_CONN* dc) :
+    DB_BASE("credit_multiplier", dc?dc:&boinc_db){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
@@ -118,6 +121,7 @@ int DB_RESULT::get_id() {return id;}
 int DB_MSG_FROM_HOST::get_id() {return id;}
 int DB_MSG_TO_HOST::get_id() {return id;}
 int DB_ASSIGNMENT::get_id() {return id;}
+int DB_CREDIT_MULTIPLIER::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
@@ -913,6 +917,56 @@ void DB_ASSIGNMENT::db_parse(MYSQL_ROW& r) {
     resultid = atoi(r[i++]);
 }
 
+void DB_CREDIT_MULTIPLIER::db_print(char* buf) {
+    sprintf(buf,
+        "appid=%d, "
+        "time=%d, "
+        "multiplier=%f ",
+        appid,
+        time,
+        multiplier
+    );
+}
+
+void DB_CREDIT_MULTIPLIER::db_parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    appid = atoi(r[i++]);
+    time = atoi(r[i++]);
+    multiplier = atof(r[i++]);
+}
+
+void DB_CREDIT_MULTIPLIER::get_nearest(int Appid, int Time) {
+    char query[MAX_QUERY_LEN];
+    MYSQL_ROW row;
+    MYSQL_RES *rp;
+    // set default values.
+    clear();
+    multiplier=1;
+    time=::time(NULL);
+    appid=Appid;
+
+    snprintf(query,MAX_QUERY_LEN,
+	"select * from credit_multiplier where appid=%d and"
+	  "abs(time-%d)=("
+	    "select min(abs(time-%d)) from credit_multiplier where appid=%d"
+	  ") limit 1",
+	Appid,Time,Time,Appid
+    );
+    if (db->do_query(query) != 0) return;
+    rp = mysql_store_result(db->mysql);
+    if (!rp) return;
+
+    row = mysql_fetch_row(rp);
+    if (!row) {
+      mysql_free_result(rp);
+    } else {
+      db_parse(row);
+    }
+    return;
+}
+
 void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     clear();
@@ -1483,6 +1537,7 @@ void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
     id = atoi(r[i++]);
     strcpy2(name, r[i++]);
     workunitid = atoi(r[i++]);
+    appid = atoi(r[i++]);
     server_state = atoi(r[i++]);
     hostid = atoi(r[i++]);
     userid = atoi(r[i++]);
@@ -1516,6 +1571,7 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         "   id, "
         "   name, "
         "   workunitid, "
+	"   appid, "
         "   server_state, "
         "   hostid, "
         "   userid, "
