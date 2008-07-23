@@ -155,7 +155,8 @@ public:
 
     CNetworkConnection*         m_pNetworkConnection;
     CBOINCClientManager*        m_pClientManager;
-    RPC_CLIENT                  rpc;
+    AsyncRPC                    rpc;
+    RPC_CLIENT                  rpcClient;
     CC_STATE                    state;
     CC_STATUS                   status;
     HOST_INFO                   host;
@@ -165,7 +166,7 @@ public:
     // Async RPC support
     //
 public:
-    int                         RequestRPC(ASYNC_RPC_REQUEST& request);
+    int                         RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority = false);
     void                        OnRPCComplete(CRPCFinishedEvent& event);
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
 void TestAsyncRPC();        // TEMPORARY -- CAF

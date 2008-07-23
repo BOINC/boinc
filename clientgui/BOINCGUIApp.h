@@ -37,6 +37,7 @@ class CBOINCBaseFrame;
 class CMainDocument;
 class CTaskBarIcon;
 class CSkinManager;
+class CRPCFinishedEvent;
 
 
 class CBOINCGUIApp : public wxApp {
@@ -123,8 +124,13 @@ public:
     void                FireReloadSkin();
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
+
+    virtual void        OnRPCFinished( CRPCFinishedEvent& event );
+    bool                ProcessRPCFinishedEvents();
     
     int                 ConfirmExit();
+
+DECLARE_EVENT_TABLE()
 };
 
 

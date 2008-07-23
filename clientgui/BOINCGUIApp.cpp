@@ -62,8 +62,14 @@ EXTERN_C DWORD BOINCGetIdleTickCount();
 #endif
 
 
+DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
+
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
+
+BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
+    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
+END_EVENT_TABLE ()
 
 
 bool CBOINCGUIApp::OnInit() {
@@ -269,7 +275,7 @@ bool CBOINCGUIApp::OnInit() {
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #if defined(__WXMSW__) || defined(__WXMAC__)
         BOINC_DIAG_REDIRECTSTDERR |
-        BOINC_DIAG_REDIRECTSTDOUT |
+// TEMPORARY FOR TESTING ASYNC RPCs -- CAF        BOINC_DIAG_REDIRECTSTDOUT |
 #endif
         BOINC_DIAG_TRACETOSTDOUT;
 
@@ -620,6 +626,23 @@ int CBOINCGUIApp::ClientLibraryShutdown() {
     ::ClientLibraryShutdown();
 #endif
     return 0;
+}
+
+
+void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+   
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->OnRPCComplete(event);
+}
+
+
+bool CBOINCGUIApp::ProcessRPCFinishedEvents() {
+    CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
+    
+    return SearchEventTable(*(wxEventTable*)GetEventTable(), (wxEvent&)RPC_done_event);
 }
 
 

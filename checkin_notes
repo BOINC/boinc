@@ -5982,3 +5982,14 @@ Charlie 22 July 2008
         
     clientgui/
         AsyncRPC.cpp,.h
+
+Charlie 23 July 2008
+    - MGR: async GUI RPCs: All RPCs now go through separate thread, 
+        but still one at a time and don't return to requesting call 
+        until each RPC is completed. 
+        
+    clientgui/
+        AsyncRPC.cpp,.h
+        BOINCBaseFrame.cpp,.h
+        BOINCGUIApp.cpp,.h
+        MainDocument.cpp,.h

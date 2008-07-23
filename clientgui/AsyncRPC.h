@@ -26,7 +26,7 @@
 
 #include "wx/thread.h"
 
-#include "BOINCBaseFrame.h"
+//#include "BOINCBaseFrame.h"
 
 //#include "common_defs.h"
 //#include "gui_rpc_client.h"
@@ -34,6 +34,7 @@
 #define USE_RPC_DLG_TIMER 0
 #define USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS 0
 
+class CBOINCGUIApp;     // Forward declaration
 class CMainDocument;    // Forward declaration
 
 
@@ -47,7 +48,7 @@ enum RPC_SELECTOR {
     RPC_GET_SIMPLE_GUI_INFO2,
     RPC_GET_PROJECT_STATUS1,
     RPC_GET_PROJECT_STATUS2,
-    RPC_GET_ALL_PROJECTS_LIST,
+    RPC_GET_ALL_PROJECTS_LIST,              // 10
     RPC_GET_DISK_USAGE,
     RPC_SHOW_GRAPHICS,
     RPC_PROJECT_OP,
@@ -57,7 +58,7 @@ enum RPC_SELECTOR {
     RPC_RUN_BENCHMARKS,
     RPC_SET_PROXY_SETTINGS,
     RPC_GET_PROXY_SETTINGS,
-    RPC_GET_MESSAGES,
+    RPC_GET_MESSAGES,                       // 20
     RPC_FILE_TRANSFER_OP,
     RPC_RESULT_OP,
     RPC_GET_HOST_INFO,
@@ -67,7 +68,7 @@ enum RPC_SELECTOR {
     RPC_NETWORK_AVAILABLE,
     RPC_GET_PROJECT_INIT_STATUS,
     RPC_GET_PROJECT_CONFIG,
-    RPC_GET_PROJECT_CONFIG_POLL,
+    RPC_GET_PROJECT_CONFIG_POLL,            // 30
     RPC_LOOKUP_ACCOUNT,
     RPC_LOOKUP_ACCOUNT_POLL,
     RPC_CREATE_ACCOUNT,
@@ -77,7 +78,7 @@ enum RPC_SELECTOR {
     RPC_PROJECT_ATTACH_POLL,
     RPC_ACCT_MGR_RPC,
     RPC_ACCT_MGR_RPC_POLL,
-    RPC_GET_NEWER_VERSION,
+    RPC_GET_NEWER_VERSION,                  // 40
     RPC_READ_GLOBAL_PREFS_OVERRIDE,
     RPC_READ_CC_CONFIG,
     RPC_GET_CC_STATUS,
@@ -87,7 +88,7 @@ enum RPC_SELECTOR {
     RPC_GET_GLOBAL_PREFS_OVERRIDE,
     RPC_SET_GLOBAL_PREFS_OVERRIDE,
     RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT,
-    RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT,
+    RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT,   // 50
     RPC_SET_DEBTS,
     NUM_RPC_SELECTORS
 };
@@ -103,6 +104,7 @@ struct ASYNC_RPC_REQUEST {
     wxEvent *event;
     wxEvtHandler *eventHandler;
     wxDateTime *completionTime;
+    int *result;
     bool isActive;
 
     ASYNC_RPC_REQUEST();
@@ -119,7 +121,11 @@ public:
     AsyncRPC(CMainDocument *pDoc);
     ~AsyncRPC();
 
-    int                         RPC_Wait(RPC_SELECTOR which_rpc, void* arg1 = NULL, void* arg2 = NULL, void* arg3 = NULL, void* arg4 = NULL);
+    int                         RPC_Wait(
+                                    RPC_SELECTOR which_rpc, void* arg1 = NULL, void* 
+                                    arg2 = NULL, void* arg3 = NULL, void* arg4 = NULL, 
+                                    bool hasPriority = false
+                                );
 
     // Manager must do all RPC data transfers through AsyncRPC calls, so 
     // this class must have methods corresponding to all RPC_CLIENT data 
@@ -167,7 +173,7 @@ public:
     int get_proxy_settings(GR_PROXY_INFO& arg1)
             { return RPC_Wait(RPC_GET_PROXY_SETTINGS, (void*)&arg1); }
     int get_messages(int seqno, MESSAGES& arg1)
-            { return RPC_Wait(RPC_GET_MESSAGES, (void*)&arg1); }
+            { return RPC_Wait(RPC_GET_MESSAGES, (void*)&seqno, (void*)&arg1); }
     int file_transfer_op(FILE_TRANSFER& arg1, const char* op)
             { return RPC_Wait(RPC_FILE_TRANSFER_OP, (void*)&arg1, (void*)op); }
     int result_op(RESULT& arg1, const char* op)
@@ -280,13 +286,20 @@ private:
 class CRPCFinishedEvent : public wxEvent
 {
 public:
-    CRPCFinishedEvent(wxEventType evtType, CBOINCBaseFrame *pFrame)
+    CRPCFinishedEvent(wxEventType evtType)
         : wxEvent(-1, evtType)
         {
-            SetEventObject(pFrame);
+            SetEventObject(wxTheApp);
         }
 
-    virtual wxEvent *       Clone() const { return new CRPCFinishedEvent(*this); }
+    CRPCFinishedEvent(const CRPCFinishedEvent& event)
+        : wxEvent(event), m_retval(event.m_retval) {}
+         
+    virtual wxEvent *       Clone() const { 
+        CRPCFinishedEvent* newEvent = new CRPCFinishedEvent(*this); 
+        newEvent->m_retval = m_retval;
+        return newEvent;
+    }
 
     void                    SetInt(int i) { m_retval = i; }
     int                     GetInt() const { return m_retval; }

@@ -45,7 +45,6 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
-DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -57,7 +56,6 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
-    EVT_RPC_FINISHED(CBOINCBaseFrame::OnRPCFinished)
 END_EVENT_TABLE ()
 
 
@@ -288,16 +286,6 @@ void CBOINCBaseFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
 	Close();
 
 	wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnCloseWindow - Function End"));
-}
-
-
-void CBOINCBaseFrame::OnRPCFinished( CRPCFinishedEvent& event ) {
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
-   
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
-    pDoc->OnRPCComplete(event);
 }
 
 

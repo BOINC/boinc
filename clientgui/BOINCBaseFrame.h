@@ -27,7 +27,6 @@
 class CFrameEvent;
 class CFrameAlertEvent;
 class CBOINCDialUpManager;
-class CRPCFinishedEvent;
 
 enum FrameAlertEventType {
     AlertNormal = 0,
@@ -62,7 +61,6 @@ public:
     virtual void        OnClose( wxCloseEvent& event );
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
-    virtual void        OnRPCFinished( CRPCFinishedEvent& event );
     
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }

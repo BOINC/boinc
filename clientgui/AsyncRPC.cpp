@@ -28,7 +28,7 @@
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "AsyncRPC.h"
-//#include "BOINCClientManager.h"
+#include "BOINCBaseFrame.h"
 
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 250
@@ -53,6 +53,7 @@ void ASYNC_RPC_REQUEST::clear() {
     event = NULL;
     eventHandler = NULL;
     completionTime = NULL;
+    result = NULL;
     isActive = false;
 }
 
@@ -71,6 +72,7 @@ bool ASYNC_RPC_REQUEST::isSameAs(ASYNC_RPC_REQUEST& otherRequest) {
     }
     if (eventHandler != otherRequest.eventHandler) return false;
     if (completionTime != otherRequest.completionTime) return false;
+    if (result != otherRequest.result) return false;
     // OK if isActive doesn't match.
     return true;
 }
@@ -84,7 +86,8 @@ AsyncRPC::AsyncRPC(CMainDocument *pDoc) {
 AsyncRPC::~AsyncRPC() {}
 
 
-int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2, void *arg3, void *arg4) {
+int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2, 
+                            void *arg3, void *arg4, bool hasPriority) {
     ASYNC_RPC_REQUEST request;
     int retval = 0;
 
@@ -94,7 +97,9 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2, void *arg
     request.arg3 = arg3;
     request.arg4 = arg4;
 
-    retval = m_Doc->RequestRPC(request);
+    retval = m_Doc->RequestRPC(request, hasPriority);
+wxLogMessage(wxT("RequestRPC %d returned %d"), which_rpc, retval);
+    
     return retval;
 }
 
@@ -110,6 +115,7 @@ void RPCThread::OnExit() {
     m_Doc->m_RPCThread = NULL;
 }
 
+static int theRetVal;       // TEMPORARY until I fix CRPCFinishedEvent::GetInt() and CRPCFinishedEvent::setInt()
 
 // We don't need critical sections because:
 // 1. CMainDocument never modifies mDoc->current_rpc_request while the 
@@ -138,16 +144,11 @@ void *RPCThread::Entry() {
 
         retval = ProcessRPCRequest();
  
-// TODO: Do we need a critical section here and in CBOINCGUIApp::SetActiveGUI()?
-        // We need to get the frame each time, in case it was 
-        // changed by a call to CBOINCGUIApp::SetActiveGUI().
-        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-
-        CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED, pFrame );
+        CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
         RPC_done_event.SetInt(retval);
+theRetVal = retval; // TEMPORARY until I fix CRPCFinishedEvent::GetInt() and CRPCFinishedEvent::setInt()
 
-        wxPostEvent( pFrame, RPC_done_event );
+        wxPostEvent( wxTheApp, RPC_done_event );
     }
 
     return NULL;
@@ -162,19 +163,206 @@ int RPCThread::ProcessRPCRequest() {
 //Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
     switch (current_request->which_rpc) {
-    case RPC_GET_STATE:
-        if (current_request->arg1 == NULL) return -1;
-        retval = (m_Doc->rpc).get_state((CC_STATE&)*(CC_STATE*)(current_request->arg1));
+    // RPC_SELECTORS with no arguments
+    case RPC_RUN_BENCHMARKS:
+    case RPC_QUIT:
+    case RPC_NETWORK_AVAILABLE:
+    case RPC_PROJECT_ATTACH_FROM_FILE:
+    case RPC_READ_GLOBAL_PREFS_OVERRIDE:
+    case RPC_READ_CC_CONFIG:
         break;
-    
-    case RPC_GET_RESULTS:
+    default:
+        // All others must have at least one argument
+        wxASSERT(false);
         if (current_request->arg1 == NULL) return -1;
-        // TODO: Confirm if the following is correct
-        retval = (m_Doc->rpc).get_results((RESULTS&)*(RESULTS*)(current_request->arg1));
+        break;
+    }
+    switch (current_request->which_rpc) {
+    case RPC_AUTHORIZE:
+        retval = (m_Doc->rpcClient).authorize((const char*)(current_request->arg1));
+        break;
+    case RPC_EXCHANGE_VERSIONS:
+        retval = (m_Doc->rpcClient).exchange_versions(*(VERSION_INFO*)(current_request->arg1));
+        break;
+    case RPC_GET_STATE:
+        retval = (m_Doc->rpcClient).get_state(*(CC_STATE*)(current_request->arg1));
+        break;
+    case RPC_GET_RESULTS:
+        retval = (m_Doc->rpcClient).get_results(*(RESULTS*)(current_request->arg1));
+        break;
+    case RPC_GET_FILE_TRANSFERS:
+        retval = (m_Doc->rpcClient).get_file_transfers(*(FILE_TRANSFERS*)(current_request->arg1));
+        break;
+    case RPC_GET_SIMPLE_GUI_INFO1:
+        retval = (m_Doc->rpcClient).get_simple_gui_info(*(SIMPLE_GUI_INFO*)(current_request->arg1));
+        break;
+    case RPC_GET_SIMPLE_GUI_INFO2:
+        retval = (m_Doc->rpcClient).get_simple_gui_info(*(CC_STATE*)(current_request->arg1), 
+                                                            *(RESULTS*)(current_request->arg2)
+                                                        );
+        break;
+    case RPC_GET_PROJECT_STATUS1:
+        retval = (m_Doc->rpcClient).get_project_status(*(CC_STATE*)(current_request->arg1));
+        break;
+    case RPC_GET_PROJECT_STATUS2:
+        retval = (m_Doc->rpcClient).get_project_status(*(PROJECTS*)(current_request->arg1));
         break;
     case RPC_GET_ALL_PROJECTS_LIST:
-        if (current_request->arg1 == NULL) return -1;
-        retval = (m_Doc->rpc).get_all_projects_list((ALL_PROJECTS_LIST&)*(ALL_PROJECTS_LIST*)(current_request->arg1));
+        retval = (m_Doc->rpc).get_all_projects_list(*(ALL_PROJECTS_LIST*)(current_request->arg1));
+        break;
+    case RPC_GET_DISK_USAGE:
+        retval = (m_Doc->rpcClient).get_disk_usage(*(DISK_USAGE*)(current_request->arg1));
+        break;
+    case RPC_SHOW_GRAPHICS:
+        retval = (m_Doc->rpcClient).show_graphics((const char*)(current_request->arg1), 
+                                                        (const char*)(current_request->arg2), 
+                                                        *(int*)(current_request->arg3), 
+                                                        *(DISPLAY_INFO*)(current_request->arg4)
+                                                    );
+        break;
+    case RPC_PROJECT_OP:
+        retval = (m_Doc->rpcClient).project_op(*(PROJECT*)(current_request->arg1), 
+                                                        (const char*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_SET_RUN_MODE:
+        retval = (m_Doc->rpcClient).set_run_mode(*(int*)(current_request->arg1), 
+                                                        *(double*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_SET_NETWORK_MODE:
+        retval = (m_Doc->rpcClient).set_network_mode(*(int*)(current_request->arg1),
+                                                        *(double*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_GET_SCREENSAVER_TASKS:
+        retval = (m_Doc->rpcClient).get_screensaver_tasks(*(int*)(current_request->arg1),
+                                                        *(RESULTS*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_RUN_BENCHMARKS:
+        retval = (m_Doc->rpcClient).run_benchmarks();
+        break;
+    case RPC_SET_PROXY_SETTINGS:
+        retval = (m_Doc->rpcClient).set_proxy_settings(*(GR_PROXY_INFO*)(current_request->arg1));
+        break;
+    case RPC_GET_PROXY_SETTINGS:
+        retval = (m_Doc->rpcClient).get_proxy_settings(*(GR_PROXY_INFO*)(current_request->arg1));
+        break;
+    case RPC_GET_MESSAGES:
+        retval = (m_Doc->rpcClient).get_messages(*(int*)(current_request->arg1), 
+                                                        *(MESSAGES*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_FILE_TRANSFER_OP:
+        retval = (m_Doc->rpcClient).file_transfer_op(*(FILE_TRANSFER*)(current_request->arg1), 
+                                                        (const char*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_RESULT_OP:
+        retval = (m_Doc->rpcClient).result_op(*(RESULT*)(current_request->arg1),
+                                                        (const char*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_GET_HOST_INFO:
+        retval = (m_Doc->rpcClient).get_host_info(*(HOST_INFO*)(current_request->arg1));
+        break;
+    case RPC_QUIT:
+        retval = (m_Doc->rpcClient).quit();
+        break;
+    case RPC_ACCT_MGR_INFO:
+        retval = (m_Doc->rpcClient).acct_mgr_info(*(ACCT_MGR_INFO*)(current_request->arg1));
+        break;
+    case RPC_GET_STATISTICS:
+        retval = (m_Doc->rpcClient).get_statistics(*(PROJECTS*)(current_request->arg1));
+        break;
+    case RPC_NETWORK_AVAILABLE:
+        retval = (m_Doc->rpcClient).network_available();
+        break;
+    case RPC_GET_PROJECT_INIT_STATUS:
+        retval = (m_Doc->rpcClient).get_project_init_status(*(PROJECT_INIT_STATUS*)(current_request->arg1));
+        break;
+    case RPC_GET_PROJECT_CONFIG:
+        retval = (m_Doc->rpcClient).get_project_config(*(std::string*)(current_request->arg1));
+        break;
+    case RPC_GET_PROJECT_CONFIG_POLL:
+        retval = (m_Doc->rpcClient).get_project_config_poll(*(PROJECT_CONFIG*)(current_request->arg1));
+        break;
+    case RPC_LOOKUP_ACCOUNT:
+        retval = (m_Doc->rpcClient).lookup_account(*(ACCOUNT_IN*)(current_request->arg1));
+        break;
+    case RPC_LOOKUP_ACCOUNT_POLL:
+        retval = (m_Doc->rpcClient).lookup_account_poll(*(ACCOUNT_OUT*)(current_request->arg1));
+        break;
+    case RPC_CREATE_ACCOUNT:
+        retval = (m_Doc->rpcClient).create_account(*(ACCOUNT_IN*)(current_request->arg1));
+        break;
+    case RPC_CREATE_ACCOUNT_POLL:
+        retval = (m_Doc->rpcClient).create_account_poll(*(ACCOUNT_OUT*)(current_request->arg1));
+        break;
+    case RPC_PROJECT_ATTACH:
+        retval = (m_Doc->rpcClient).project_attach((const char*)(current_request->arg1), 
+                                                        (const char*)(current_request->arg2), 
+                                                        (const char*)(current_request->arg3)
+                                                    );
+        break;
+    case RPC_PROJECT_ATTACH_FROM_FILE:
+        retval = (m_Doc->rpcClient).project_attach_from_file();
+        break;
+    case RPC_PROJECT_ATTACH_POLL:
+        retval = (m_Doc->rpcClient).project_attach_poll(*(PROJECT_ATTACH_REPLY*)(current_request->arg1));
+        break;
+    case RPC_ACCT_MGR_RPC:
+        retval = (m_Doc->rpcClient).acct_mgr_rpc((const char*)(current_request->arg1), 
+                                                        (const char*)(current_request->arg2), 
+                                                        (const char*)(current_request->arg3),
+                                                        (bool*)(current_request->arg4)
+                                                    );
+        break;
+    case RPC_ACCT_MGR_RPC_POLL:
+        retval = (m_Doc->rpcClient).acct_mgr_rpc_poll(*(ACCT_MGR_RPC_REPLY*)(current_request->arg1));
+        break;
+    case RPC_GET_NEWER_VERSION:
+        retval = (m_Doc->rpcClient).get_newer_version(*(std::string*)(current_request->arg1));
+        break;
+    case RPC_READ_GLOBAL_PREFS_OVERRIDE:
+        retval = (m_Doc->rpcClient).read_global_prefs_override();
+        break;
+    case RPC_READ_CC_CONFIG:
+        retval = (m_Doc->rpcClient).read_cc_config();
+        break;
+    case RPC_GET_CC_STATUS:
+        retval = (m_Doc->rpcClient).get_cc_status(*(CC_STATUS*)(current_request->arg1));
+        break;
+    case RPC_GET_GLOBAL_PREFS_FILE:
+        retval = (m_Doc->rpcClient).get_global_prefs_file(*(std::string*)(current_request->arg1));
+        break;
+    case RPC_GET_GLOBAL_PREFS_WORKING:
+        retval = (m_Doc->rpcClient).get_global_prefs_working(*(std::string*)(current_request->arg1));
+        break;
+    case RPC_GET_GLOBAL_PREFS_WORKING_STRUCT:
+        retval = (m_Doc->rpcClient).get_global_prefs_working_struct(*(GLOBAL_PREFS*)(current_request->arg1), 
+                                                        *(GLOBAL_PREFS_MASK*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_GET_GLOBAL_PREFS_OVERRIDE:
+        retval = (m_Doc->rpcClient).get_global_prefs_override(*(std::string*)(current_request->arg1));
+        break;
+    case RPC_SET_GLOBAL_PREFS_OVERRIDE:
+         retval = (m_Doc->rpcClient).set_global_prefs_override(*(std::string*)(current_request->arg1));
+        break;
+    case RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT:
+        retval = (m_Doc->rpcClient).get_global_prefs_override_struct(*(GLOBAL_PREFS*)(current_request->arg1), 
+                                                        *(GLOBAL_PREFS_MASK*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT:
+        retval = (m_Doc->rpcClient).set_global_prefs_override_struct(*(GLOBAL_PREFS*)(current_request->arg1), 
+                                                        *(GLOBAL_PREFS_MASK*)(current_request->arg2)
+                                                    );
+        break;
+    case RPC_SET_DEBTS:
+        retval = (m_Doc->rpcClient).set_debts(*(std::vector<PROJECT>*)(current_request->arg1));
         break;
     default:
         break;
@@ -201,7 +389,7 @@ int RPCThread::ProcessRPCRequest() {
 
 // TODO: combine RPC requests for different buffers, then just copy the buffer.
 
-int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
+int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     static bool inUserRequest = false;
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0, retval2 = 0;
@@ -211,8 +399,12 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
         if (iter->isSameAs(request)) return 0;
     }
 
-    if (request.event == NULL) {
-        // If no completion event specified, this is a user-initiated event. 
+    if ((request.event == NULL) && (request.result == NULL)) {
+        request.result = &retval;
+    }
+    
+    if (hasPriority) {
+        // hasPriority should be set if this is a user-initiated event. 
         // Since the user is waiting, insert this at head of request queue
         iter = RPC_requests.insert(RPC_requests.begin(), request);
     } else {
@@ -230,24 +422,37 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
         // Make sure activation is an atomic operation
         request.isActive = false;
         current_rpc_request = request;
+        if ((request.event == NULL) && (request.result == NULL)) {
+            current_rpc_request.result = &retval;
+        }
         current_rpc_request.isActive = true;
 #endif
     }
 
     // If no completion event specified, this is a user-initiated event so 
     // wait for completion but show a dialog allowing the user to cancel.
-    if ((request.event == NULL) && !inUserRequest) {
+    if (request.event == NULL) {
+    // TODO: proper handling if a second user request is received while first is pending
+        if (inUserRequest) {
+            wxLogMessage(wxT("Second user RPC request while another was pending"));
+            wxASSERT(false);
+            return -1;
+        }
         inUserRequest = true;
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
         wxStopWatch Dlgdelay = wxStopWatch();
         m_RPCWaitDlg = new AsyncRPCDlg();
+
         do {
             // OnRPCComplete() sets m_RPCWaitDlg to NULL if RPC completed 
             if (! m_RPCWaitDlg) {
                 inUserRequest = false;
                 return retval;
             }
-            ::wxSafeYield(NULL, true);  // Continue processing events
+//            ::wxSafeYield(NULL, true);  // Continue processing events
+            wxGetApp().ProcessRPCFinishedEvents();
+
+
         } while (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
 //      GetCurrentProcess(&psn);
 //      SetFrontProcess(&psn);  // Shows process if hidden
@@ -268,7 +473,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
                     m_critsect.Enter();
 #endif
                     m_RPCThread->Pause();   // Needed on Windows
-                    rpc.close();
+                    rpcClient.close();
                     m_RPCThread->Kill();
 #ifdef __WXMSW__
                     m_RPCThread->Delete();  // Needed on Windows, crashes on Mac/Linux
@@ -283,7 +488,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
                     // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
 //                wxString strComputer = wxEmptyString;
 //                GetConnectedComputerName(strComputer);
-//                retval2 = rpc.init(strComputer.mb_str(), m_pNetworkConnection->GetGUI_RPC_Port());
+//                retval2 = rpcClient.init(strComputer.mb_str(), m_pNetworkConnection->GetGUI_RPC_Port());
                     m_pNetworkConnection->SetStateDisconnected();
                     m_RPCThread = new RPCThread(this);
                     wxASSERT(m_RPCThread);
@@ -307,6 +512,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request) {
 
 void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     int retval = event.GetInt();
+retval = theRetVal; // TEMPORARY until I fix CRPCFinishedEvent::GetInt() and CRPCFinishedEvent::setInt()
     int i, n;
     std::vector<ASYNC_RPC_REQUEST> completed_RPC_requests;
     bool stillWaitingForPendingRequests = false;
@@ -349,38 +555,139 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         if (completed_RPC_requests[i].completionTime) {
             *(completed_RPC_requests[i].completionTime) = wxDateTime::Now();
         }
-    
+        if (completed_RPC_requests[i].result) {
+            *(completed_RPC_requests[i].result) = retval;
+        }
+
+#if 0  // Post-processing
         switch (completed_RPC_requests[i].which_rpc) {
+        case RPC_AUTHORIZE:
+            break;
+        case RPC_EXCHANGE_VERSIONS:
+            break;
         case RPC_GET_STATE:
-            m_iGet_state_RPC_retval = retval;
-#if 0
+//            m_iGet_state_RPC_retval = retval;
+            // TODO: Implement buffer swapping, buffer time stamp
             if (completed_RPC_requests[i].exchangeBuf) {
                 CC_STATE* arg1 = (CC_STATE*)completed_RPC_requests[i].arg1;
                 CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
                 arg1->results.swap(exchangeBuf->results);
             }
-#endif
             break;
         case RPC_GET_RESULTS:
-            m_iGet_results_RPC_retval = retval;
+//            m_iGet_results_RPC_retval = retval;
+            // TODO: Implement buffer swapping, buffer time stamp
             if (completed_RPC_requests[i].exchangeBuf) {
                 RESULTS* arg1 = (RESULTS*)completed_RPC_requests[i].arg1;
                 RESULTS* exchangeBuf = (RESULTS*)completed_RPC_requests[i].exchangeBuf;
                 arg1->results.swap(exchangeBuf->results);
             }
             break;
+        case RPC_GET_FILE_TRANSFERS:
+            break;
+        case RPC_GET_SIMPLE_GUI_INFO1:
+            break;
+        case RPC_GET_SIMPLE_GUI_INFO2:
+            break;
+        case RPC_GET_PROJECT_STATUS1:
+            break;
+        case RPC_GET_PROJECT_STATUS2:
+            break;
         case RPC_GET_ALL_PROJECTS_LIST:
 //            m_iGet_all_projects_list_RPC_retval = retval;
-m_iGet_state_RPC_retval = retval;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+            // TODO: Implement buffer swapping, buffer time stamp
             if (completed_RPC_requests[i].exchangeBuf) {
                 ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].arg1;
                 ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
             }
             break;
+        case RPC_GET_DISK_USAGE:
+            break;
+        case RPC_SHOW_GRAPHICS:
+            break;
+        case RPC_PROJECT_OP:
+            break;
+        case RPC_SET_RUN_MODE:
+            break;
+        case RPC_SET_NETWORK_MODE:
+            break;
+        case RPC_GET_SCREENSAVER_TASKS:
+            break;
+        case RPC_RUN_BENCHMARKS:
+            break;
+        case RPC_SET_PROXY_SETTINGS:
+            break;
+        case RPC_GET_PROXY_SETTINGS:
+            break;
+        case RPC_GET_MESSAGES:
+            break;
+        case RPC_FILE_TRANSFER_OP:
+            break;
+        case RPC_RESULT_OP:
+            break;
+        case RPC_GET_HOST_INFO:
+            break;
+        case RPC_QUIT:
+            break;
+        case RPC_ACCT_MGR_INFO:
+            break;
+        case RPC_GET_STATISTICS:
+            break;
+        case RPC_NETWORK_AVAILABLE:
+            break;
+        case RPC_GET_PROJECT_INIT_STATUS:
+            break;
+        case RPC_GET_PROJECT_CONFIG:
+            break;
+        case RPC_GET_PROJECT_CONFIG_POLL:
+            break;
+        case RPC_LOOKUP_ACCOUNT:
+            break;
+        case RPC_LOOKUP_ACCOUNT_POLL:
+            break;
+        case RPC_CREATE_ACCOUNT:
+            break;
+        case RPC_CREATE_ACCOUNT_POLL:
+            break;
+        case RPC_PROJECT_ATTACH:
+            break;
+        case RPC_PROJECT_ATTACH_FROM_FILE:
+            break;
+        case RPC_PROJECT_ATTACH_POLL:
+            break;
+        case RPC_ACCT_MGR_RPC:
+            break;
+        case RPC_ACCT_MGR_RPC_POLL:
+            break;
+        case RPC_GET_NEWER_VERSION:
+            break;
+        case RPC_READ_GLOBAL_PREFS_OVERRIDE:
+            break;
+        case RPC_READ_CC_CONFIG:
+            break;
+        case RPC_GET_CC_STATUS:
+            break;
+        case RPC_GET_GLOBAL_PREFS_FILE:
+            break;
+        case RPC_GET_GLOBAL_PREFS_WORKING:
+            break;
+        case RPC_GET_GLOBAL_PREFS_WORKING_STRUCT:
+            break;
+        case RPC_GET_GLOBAL_PREFS_OVERRIDE:
+            break;
+        case RPC_SET_GLOBAL_PREFS_OVERRIDE:
+            break;
+        case RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT:
+            break;
+        case RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT:
+            break;
+        case RPC_SET_DEBTS:
+            break;
         default:
             break;
         }
+#endif  // Post-processing
 
         if (completed_RPC_requests[i].event) {
             if (completed_RPC_requests[i].eventHandler) {
@@ -488,16 +795,18 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     request.event = NULL;
     request.eventHandler = NULL;
     request.completionTime = &completionTime;
+//    request.result = NULL;
+    request.result = &m_iGet_state_RPC_retval;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
     request.isActive = false;
     
-//retval = rpc.get_all_projects_list(pl);
+//retval = rpcClient.get_all_projects_list(pl);
 
-    retval = RequestRPC(request);
+    retval = RequestRPC(request, true);
 
     wxString s = completionTime.FormatTime();
     wxLogMessage(wxT("Completion time = %s"), s.c_str());
     wxLogMessage(wxT("RequestRPC returned %d\n"), retval);
     ::wxSafeYield(NULL, true);  // Allow processing of RPC_FINISHED event
-    wxLogMessage(wxT("rpc.get_all_projects_list returned %d\n"), m_iGet_state_RPC_retval);
+    wxLogMessage(wxT("rpcClient.get_all_projects_list returned %d\n"), m_iGet_state_RPC_retval);
 }
 

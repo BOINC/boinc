@@ -99,7 +99,7 @@ void CNetworkConnection::Poll() {
 
     if (IsReconnecting()) {
         wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Reconnection Detected"));
-        retval = m_pDocument->rpc.init_poll();
+        retval = m_pDocument->rpcClient.init_poll();
         if (!retval) {
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing..."));
 
@@ -161,9 +161,9 @@ void CNetworkConnection::Poll() {
             //   timeout event right after boot-up.
             //
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpc.init_asynch(NULL, 60.0, true, m_iPort);
+                retval = m_pDocument->rpcClient.init_asynch(NULL, 60.0, true, m_iPort);
             } else {
-                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60.0, false, m_iPort);
+                retval = m_pDocument->rpcClient.init_asynch(strComputer.mb_str(), 60.0, false, m_iPort);
             }
 
             if (!retval) {
@@ -331,7 +331,7 @@ void CNetworkConnection::SetStateDisconnected() {
 IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)
 
 
-CMainDocument::CMainDocument() {
+CMainDocument::CMainDocument() : rpc(this) {
 
 #ifdef __WIN32__
     int retval;
@@ -509,7 +509,7 @@ int CMainDocument::CachedStateUpdate() {
 
 
 int CMainDocument::ResetState() {
-    rpc.close();
+    rpcClient.close();
     state.clear();
     host.clear_host_info();
     results.clear();
