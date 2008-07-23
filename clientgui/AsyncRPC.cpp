@@ -173,8 +173,10 @@ int RPCThread::ProcessRPCRequest() {
         break;
     default:
         // All others must have at least one argument
-        wxASSERT(false);
-        if (current_request->arg1 == NULL) return -1;
+        if (current_request->arg1 == NULL) {
+            wxASSERT(false);
+            return -1;
+        }
         break;
     }
     switch (current_request->which_rpc) {
