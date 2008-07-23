@@ -45,9 +45,11 @@ ASYNC_RPC_REQUEST::~ASYNC_RPC_REQUEST() {
 
 void ASYNC_RPC_REQUEST::clear() {
     which_rpc = (RPC_SELECTOR) 0;
-    inBuf = NULL;
+    arg1 = NULL;
     exchangeBuf = NULL;
-    outBuf = NULL;
+    arg2 = NULL;
+    arg3 = NULL;
+    arg4 = NULL;
     event = NULL;
     eventHandler = NULL;
     completionTime = NULL;
@@ -57,9 +59,11 @@ void ASYNC_RPC_REQUEST::clear() {
 
 bool ASYNC_RPC_REQUEST::isSameAs(ASYNC_RPC_REQUEST& otherRequest) {
     if (which_rpc != otherRequest.which_rpc) return false;
-    if (inBuf != otherRequest.inBuf) return false;
+    if (arg1 != otherRequest.arg1) return false;
     if (exchangeBuf != otherRequest.exchangeBuf) return false;
-    if (outBuf != otherRequest.outBuf) return false;
+    if (arg2 != otherRequest.arg2) return false;
+    if (arg3 != otherRequest.arg3) return false;
+    if (arg4 != otherRequest.arg4) return false;
     if (event != otherRequest.event) {
         if (event->GetEventType() != (otherRequest.event)->GetEventType()) return false;
         if (event->GetId() != (otherRequest.event)->GetId()) return false;
@@ -69,6 +73,29 @@ bool ASYNC_RPC_REQUEST::isSameAs(ASYNC_RPC_REQUEST& otherRequest) {
     if (completionTime != otherRequest.completionTime) return false;
     // OK if isActive doesn't match.
     return true;
+}
+
+
+AsyncRPC::AsyncRPC(CMainDocument *pDoc) {
+    m_Doc = pDoc;
+}
+
+
+AsyncRPC::~AsyncRPC() {}
+
+
+int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2, void *arg3, void *arg4) {
+    ASYNC_RPC_REQUEST request;
+    int retval = 0;
+
+    request.which_rpc = which_rpc;
+    request.arg1 = arg1;
+    request.arg2 = arg2;
+    request.arg3 = arg3;
+    request.arg4 = arg4;
+
+    retval = m_Doc->RequestRPC(request);
+    return retval;
 }
 
 
@@ -132,22 +159,22 @@ int RPCThread::ProcessRPCRequest() {
     ASYNC_RPC_REQUEST       *current_request;
     
     current_request = m_Doc->GetCurrentRPCRequest();
-Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+//Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
     switch (current_request->which_rpc) {
     case RPC_GET_STATE:
-        if (current_request->inBuf == NULL) return -1;
-        retval = (m_Doc->rpc).get_state((CC_STATE&)*(CC_STATE*)(current_request->inBuf));
+        if (current_request->arg1 == NULL) return -1;
+        retval = (m_Doc->rpc).get_state((CC_STATE&)*(CC_STATE*)(current_request->arg1));
         break;
     
     case RPC_GET_RESULTS:
-        if (current_request->inBuf == NULL) return -1;
+        if (current_request->arg1 == NULL) return -1;
         // TODO: Confirm if the following is correct
-        retval = (m_Doc->rpc).get_results((RESULTS&)*(RESULTS*)(current_request->inBuf));
+        retval = (m_Doc->rpc).get_results((RESULTS&)*(RESULTS*)(current_request->arg1));
         break;
     case RPC_GET_ALL_PROJECTS_LIST:
-        if (current_request->inBuf == NULL) return -1;
-        retval = (m_Doc->rpc).get_all_projects_list((ALL_PROJECTS_LIST&)*(ALL_PROJECTS_LIST*)(current_request->inBuf));
+        if (current_request->arg1 == NULL) return -1;
+        retval = (m_Doc->rpc).get_all_projects_list((ALL_PROJECTS_LIST&)*(ALL_PROJECTS_LIST*)(current_request->arg1));
         break;
     default:
         break;
@@ -328,26 +355,27 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             m_iGet_state_RPC_retval = retval;
 #if 0
             if (completed_RPC_requests[i].exchangeBuf) {
-                CC_STATE* inBuf = (CC_STATE*)completed_RPC_requests[i].inBuf;
+                CC_STATE* arg1 = (CC_STATE*)completed_RPC_requests[i].arg1;
                 CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
-                inBuf->results.swap(exchangeBuf->results);
+                arg1->results.swap(exchangeBuf->results);
             }
 #endif
             break;
         case RPC_GET_RESULTS:
             m_iGet_results_RPC_retval = retval;
             if (completed_RPC_requests[i].exchangeBuf) {
-                RESULTS* inBuf = (RESULTS*)completed_RPC_requests[i].inBuf;
+                RESULTS* arg1 = (RESULTS*)completed_RPC_requests[i].arg1;
                 RESULTS* exchangeBuf = (RESULTS*)completed_RPC_requests[i].exchangeBuf;
-                inBuf->results.swap(exchangeBuf->results);
+                arg1->results.swap(exchangeBuf->results);
             }
             break;
         case RPC_GET_ALL_PROJECTS_LIST:
 //            m_iGet_all_projects_list_RPC_retval = retval;
+m_iGet_state_RPC_retval = retval;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
             if (completed_RPC_requests[i].exchangeBuf) {
-                ALL_PROJECTS_LIST* inBuf = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].inBuf;
+                ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].arg1;
                 ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].exchangeBuf;
-                inBuf->projects.swap(exchangeBuf->projects);
+                arg1->projects.swap(exchangeBuf->projects);
             }
             break;
         default:
@@ -452,9 +480,11 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     completionTime.ResetTime();
 
     request.which_rpc = RPC_GET_ALL_PROJECTS_LIST;
-    request.inBuf = &pl;
+    request.arg1 = &pl;
     request.exchangeBuf = NULL;
-    request.outBuf = NULL;
+    request.arg2 = NULL;
+    request.arg3 = NULL;
+    request.arg4 = NULL;
     request.event = NULL;
     request.eventHandler = NULL;
     request.completionTime = &completionTime;
@@ -467,5 +497,7 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     wxString s = completionTime.FormatTime();
     wxLogMessage(wxT("Completion time = %s"), s.c_str());
     wxLogMessage(wxT("RequestRPC returned %d\n"), retval);
+    ::wxSafeYield(NULL, true);  // Allow processing of RPC_FINISHED event
+    wxLogMessage(wxT("rpc.get_all_projects_list returned %d\n"), m_iGet_state_RPC_retval);
 }
 
