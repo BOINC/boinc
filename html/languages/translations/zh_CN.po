@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.14861\n"
+"Project-Id-Version: rev.15601\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-03-07 11:18+0800\n"
+"PO-Revision-Date: 2008-07-15 15:37+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -492,7 +492,7 @@ msgid "Create"
 msgstr "创建"
 
 msgid "Profile"
-msgstr "个人概况"
+msgstr "档案"
 
 msgid "Teams"
 msgstr "团队"
@@ -581,6 +581,81 @@ msgstr "在网址(URL)中使用"
 msgid "unread"
 msgstr "未读"
 
+msgid "User ID"
+msgstr "用户 ID"
+
+msgid "Used in community functions"
+msgstr "在社区功能中使用"
+
+msgid "Account key"
+msgstr "帐户密钥"
+
+msgid "Provides full access to your account"
+msgstr "可用于完全访问您的帐户"
+
+msgid "Weak account key"
+msgstr "弱帐户密钥"
+
+msgid "Provides"
+msgstr "可用于"
+
+msgid "limited access"
+msgstr "受限制地访问"
+
+msgid "to your account"
+msgstr "您的帐户"
+
+msgid "Friends"
+msgstr "好友"
+
+msgid "Find friends"
+msgstr "寻找好友"
+
+msgid "hidden"
+msgstr "隐藏"
+
+msgid "Donor"
+msgstr "捐助者"
+
+msgid "Notifications"
+msgstr "通知"
+
+msgid "(foundership change request pending)"
+msgstr "( 好友请求待处理 )"
+
+#########################################
+# Public user page (show_user.php)
+#########################################
+msgid "Projects in which you are participating"
+msgstr "您已参与的项目"
+
+msgid "Projects in which %1 is participating"
+msgstr "%1 已参与的项目"
+
+msgid "Project"
+msgstr "项目"
+
+msgid "Click for user page"
+msgstr "点击访问用户页面"
+
+msgid "Since"
+msgstr "加入日期"
+
+msgid "Contact"
+msgstr "联系"
+
+msgid "This person is a friend"
+msgstr "这是一位好友"
+
+msgid "Cancel friendship"
+msgstr "删除该好友"
+
+msgid "Request pending"
+msgstr "请求待处理"
+
+msgid "Add as friend"
+msgstr "添加为好友"
+
 # ########################################
 # "Weak account key" page (weak_auth.php)
 # ########################################
@@ -601,4 +676,49 @@ msgstr "根据需要创建该文件，并将其内容设置为："
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
 msgstr "弱帐户密钥是根据您的帐户密码计算而来。如果您修改了您的帐户密码，您的弱帐户密钥也随之改变，您之前的弱帐户密钥将失效。"
+
+#########################################
+# Participant profiles
+#########################################
+msgid "Profiles"
+msgstr "档案"
+
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr "通过 %1档案%2 志愿者可以向 %3 社区分享他的背景和观点。"
+
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr "可以了解其他志愿者的想法，也可以让他人看到您分享的观点。"
+
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr "如果您还没有档案，现在就可以%1创建您自己的用户档案%2。"
+
+msgid "User of the Day"
+msgstr "每日用户"
+
+msgid "User Profile Explorer"
+msgstr "使用档案浏览器"
+
+msgid "View the %1User Picture Gallery%2."
+msgstr "查看%1用户图片库%2。"
+
+msgid "Browse profiles %1by country%2."
+msgstr "%1按国家或地区%2浏览档案。"
+
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr "%1随机地浏览所有%2，%3随机地浏览带图片的%4或%5随机地浏览不带图片%6的档案。"
+
+msgid "Alphabetical profile listings:"
+msgstr "按字母表顺序的档案列表："
+
+msgid "Search profile text"
+msgstr "搜索档案文本"
+
+msgid "Search"
+msgstr "搜索"
+
+msgid "No profiles"
+msgstr "没有档案"
+
+msgid "No profiles matched your query."
+msgstr "没有档案符合您的查询条件。"
 
