@@ -75,6 +75,8 @@ END_EVENT_TABLE ()
 bool CBOINCGUIApp::OnInit() {
 
     // Setup variables with default values
+    ProcessingRPC = false;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
+    
     m_strBOINCArguments = wxEmptyString;
     m_strBOINCMGRRootDirectory = wxEmptyString;
     m_strBOINCMGRDataDirectory = wxEmptyString;
@@ -636,13 +638,6 @@ void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     
     pDoc->OnRPCComplete(event);
-}
-
-
-bool CBOINCGUIApp::ProcessRPCFinishedEvents() {
-    CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
-    
-    return SearchEventTable(*(wxEventTable*)GetEventTable(), (wxEvent&)RPC_done_event);
 }
 
 

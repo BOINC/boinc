@@ -1559,6 +1559,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+pDoc->TestAsyncRPC(); return;          // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
     // General Tab
     dlg.m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
@@ -1936,6 +1937,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
     CMainDocument*    pDoc     = wxGetApp().GetDocument();
     wxMenuBar*        pMenuBar = GetMenuBar();
 
+    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
     if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
@@ -2024,6 +2026,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 
 
 void CAdvancedFrame::OnListPanelRender(wxTimerEvent& WXUNUSED(event)) {
+    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
     FireRefreshView();
 }
 

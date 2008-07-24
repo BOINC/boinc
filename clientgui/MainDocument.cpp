@@ -379,6 +379,7 @@ int CMainDocument::OnInit() {
     wxASSERT(m_pClientManager);
 
     m_RPCWaitDlg = NULL;
+    m_bWaitingForRPC = false;
     current_rpc_request.clear();
 
     m_RPCThread = new RPCThread(this);

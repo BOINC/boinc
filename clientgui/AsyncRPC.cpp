@@ -115,7 +115,6 @@ void RPCThread::OnExit() {
     m_Doc->m_RPCThread = NULL;
 }
 
-static int theRetVal;       // TEMPORARY until I fix CRPCFinishedEvent::GetInt() and CRPCFinishedEvent::setInt()
 
 // We don't need critical sections because:
 // 1. CMainDocument never modifies mDoc->current_rpc_request while the 
@@ -139,14 +138,13 @@ void *RPCThread::Entry() {
 
        if (! m_Doc->IsConnected()) {
             Yield();
-            continue;
+//            continue;
         }
 
         retval = ProcessRPCRequest();
  
         CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
         RPC_done_event.SetInt(retval);
-theRetVal = retval; // TEMPORARY until I fix CRPCFinishedEvent::GetInt() and CRPCFinishedEvent::setInt()
 
         wxPostEvent( wxTheApp, RPC_done_event );
     }
@@ -392,7 +390,7 @@ int RPCThread::ProcessRPCRequest() {
 // TODO: combine RPC requests for different buffers, then just copy the buffer.
 
 int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
-    static bool inUserRequest = false;
+//    static bool inUserRequest = false;
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0, retval2 = 0;
     
@@ -435,26 +433,38 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     // wait for completion but show a dialog allowing the user to cancel.
     if (request.event == NULL) {
     // TODO: proper handling if a second user request is received while first is pending
-        if (inUserRequest) {
+//        if (inUserRequest) {
+        if (m_bWaitingForRPC) {
             wxLogMessage(wxT("Second user RPC request while another was pending"));
             wxASSERT(false);
+#if 0
+            while (m_bWaitingForRPC) {
+                ::wxSafeYield(NULL, true);  // Continue processing events
+            }
+            return retval;
+#else
             return -1;
+#endif
         }
-        inUserRequest = true;
+//        inUserRequest = true;
+        m_bWaitingForRPC = true;
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
         wxStopWatch Dlgdelay = wxStopWatch();
-        m_RPCWaitDlg = new AsyncRPCDlg();
+        wxGetApp().ProcessingRPC = true;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
+//        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+//        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+        
+        m_RPCWaitDlg = new AsyncRPCDlg();
         do {
-            // OnRPCComplete() sets m_RPCWaitDlg to NULL if RPC completed 
-            if (! m_RPCWaitDlg) {
-                inUserRequest = false;
+//            ::wxSafeYield(pFrame, true);  // Continue processing events
+            wxTheApp->Yield(true);  // Continue processing events
+            // OnRPCComplete() clears m_bWaitingForRPC if RPC completed 
+            if (! m_bWaitingForRPC) {
+//                inUserRequest = false;
+                wxGetApp().ProcessingRPC = false;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
                 return retval;
             }
-//            ::wxSafeYield(NULL, true);  // Continue processing events
-            wxGetApp().ProcessRPCFinishedEvents();
-
-
         } while (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
 //      GetCurrentProcess(&psn);
 //      SetFrontProcess(&psn);  // Shows process if hidden
@@ -499,22 +509,21 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     retval2 = m_RPCThread->Run();
                     wxASSERT(!retval2);
                 }
+                if (m_RPCWaitDlg) {
+                    m_RPCWaitDlg->Destroy();
+                }
+                m_RPCWaitDlg = NULL;
+                m_bWaitingForRPC = false;
+                wxGetApp().ProcessingRPC = false;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
             }
-            if (m_RPCWaitDlg) {
-                m_RPCWaitDlg->Destroy();
-            }
-            m_RPCWaitDlg = NULL;
         }
-        inUserRequest = false;
-        }
-    
+    }
     return retval;
 }
 
 
 void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     int retval = event.GetInt();
-retval = theRetVal; // TEMPORARY until I fix CRPCFinishedEvent::GetInt() and CRPCFinishedEvent::setInt()
     int i, n;
     std::vector<ASYNC_RPC_REQUEST> completed_RPC_requests;
     bool stillWaitingForPendingRequests = false;
@@ -712,6 +721,7 @@ retval = theRetVal; // TEMPORARY until I fix CRPCFinishedEvent::GetInt() and CRP
                 m_RPCWaitDlg = NULL;
             }
         }
+        m_bWaitingForRPC = false;
     }
 }
 

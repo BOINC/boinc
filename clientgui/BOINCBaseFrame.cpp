@@ -143,6 +143,8 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
+
     if (!bAlreadyRunOnce && m_pDocumentPollTimer->IsRunning()) {
         // Complete any remaining initialization that has to happen after we are up
         //   and running
@@ -157,6 +159,8 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
 void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
     static bool       bAlreadyRunningLoop = false;
     CMainDocument*    pDoc = wxGetApp().GetDocument();
+
+    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
     if (!bAlreadyRunningLoop && m_pAlertPollTimer->IsRunning()) {
         bAlreadyRunningLoop = true;

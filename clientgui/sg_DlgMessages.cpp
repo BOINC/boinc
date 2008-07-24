@@ -339,6 +339,8 @@ void CPanelMessages::OnRefresh(wxTimerEvent& event) {
     bool isConnected;
     static bool was_connected = false;
     
+    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
+    
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
 

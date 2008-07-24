@@ -5993,3 +5993,19 @@ Charlie 23 July 2008
         BOINCBaseFrame.cpp,.h
         BOINCGUIApp.cpp,.h
         MainDocument.cpp,.h
+
+Charlie 23 July 2008
+    - MGR: async GUI RPCs: Get RPCs all working in separate thread; 
+        temporarily ignore timer events which would do RPCs while 
+        a previous RPC request is in progress. 
+
+    clientgui/
+        AdvancedFrame.cpp
+        AsyncRPC.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp,.h
+        BOINCTaskBar.cpp
+        MainDocument.cpp,.h
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_ProjectsComponent.cpp

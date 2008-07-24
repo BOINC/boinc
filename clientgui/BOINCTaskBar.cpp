@@ -133,11 +133,13 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+   CMainDocument* pDoc = wxGetApp().GetDocument();
     CC_STATUS      status;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
     // What is the current status of the client?
     pDoc->GetCoreClientStatus(status);
@@ -487,7 +489,10 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon) {
     
     currentIcon = &icon;
     
-    result = wxGetApp().GetMacSystemMenu()->SetIcon(icon);
+    CMacSystemMenu* sysMenu = wxGetApp().GetMacSystemMenu();
+    if (sysMenu == NULL) return 0;
+    
+    result = sysMenu->SetIcon(icon);
 
     RestoreApplicationDockTileImage();      // Remove any previous badge
 

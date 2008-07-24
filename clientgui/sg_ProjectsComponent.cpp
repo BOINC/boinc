@@ -731,6 +731,9 @@ void CProjectsComponent::OnEraseBackground(wxEraseEvent& event){
 void CProjectsComponent::OnMessageCheck(wxTimerEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	MESSAGE* message;
+
+        if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
+    
 	// Only look at the messages recieved since the last time we looked
 	if ( pDoc->GetMessageCount() > (int) lastMessageId ) {
 		// Loop through and check for any messages recieved that are error messages

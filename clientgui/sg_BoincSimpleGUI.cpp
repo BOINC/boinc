@@ -543,6 +543,8 @@ void CSimplePanel::OnProjectsAttachToProject() {
 void CSimplePanel::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
 
+    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
+
     if (IsShown()) {
 
 	    if (!projectViewInitialized) {

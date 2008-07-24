@@ -179,6 +179,7 @@ private:
     ASYNC_RPC_REQUEST           current_rpc_request;
     AsyncRPCDlg*                m_RPCWaitDlg;
     std::vector<ASYNC_RPC_REQUEST> RPC_requests;
+    bool                        m_bWaitingForRPC;
 
     //
     // Project Tab

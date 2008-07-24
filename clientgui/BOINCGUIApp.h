@@ -126,7 +126,7 @@ public:
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
 
     virtual void        OnRPCFinished( CRPCFinishedEvent& event );
-    bool                ProcessRPCFinishedEvents();
+    bool                ProcessingRPC;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
     
     int                 ConfirmExit();
 
