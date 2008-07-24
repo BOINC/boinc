@@ -41,6 +41,7 @@
 #include <unistd.h>
 #include <cerrno>
 #include <sys/stat.h>
+#include <string>
 #endif
 
 #ifdef __EMX__
