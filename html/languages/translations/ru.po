@@ -2,16 +2,16 @@
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-01-13 15:00+0300\n"
+"PO-Revision-Date: 2008-07-17 22:00+0300\n"
 "Last-Translator: Nikolay Saharov <saharovna@mail.ru>\n"
-"Language-Team: \n"
+"Language-Team: Russia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 ##########################################
-# Language: Russian (Russian Federation) (based on en.po SVN rev.14372)
+# Language: Russian (Russian Federation) (based on en.po SVN rev.15601)
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
 # Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
@@ -160,7 +160,7 @@ msgid "Account creation is disabled for %1 at the moment. Please try again later
 msgstr "В данный момент создание учетной записи запрещено в %1. Пожалуйста, повторите позже."
 
 msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "Эта учетная запись будет относиться к команде '%1' и будет иметь настройки проекта как у ее создателя."
+msgstr "Эта учетная запись будет относиться к команде '%1' и будет иметь настройки проекта как у ее основателя."
 
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
 msgstr "Внимание: Если Вы используете BOINC версии 5.2+ вместе с Менеджером BOINC, не используйте эту форму. Просто запустите BOINC, выберите 'Добавить проект', и введите адрес электронной почты и пароль. "
@@ -287,6 +287,15 @@ msgstr "Редактировать сообщение"
 msgid "Use BBCode tags to format your text"
 msgstr "Используйте тэги BBCode для форматирования Вашего текста"
 
+msgid "%1 message board"
+msgstr "Доска сообщений %1"
+
+msgid "Mark all threads as read"
+msgstr "Отметить все обсуждения прочитанными"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Отметить все обсуждения во всех досках сообщений как 'прочитанные'."
+
 
 #########################################
 # Forum thread
@@ -325,6 +334,15 @@ msgstr "Темы, содержащие '%1', не были найдены."
 
 msgid "No posts containing '%1' could be found."
 msgstr "Сообщения, содержащие '%1', не были найдены."
+
+msgid "Advanced search"
+msgstr "Расширенный поиск"
+
+msgid "Search for words in forum messages"
+msgstr "Поиск введенных слов в сообщениях на форумах"
+
+msgid "Search forums"
+msgstr "Найти в форумах"
 
 
 #########################################
@@ -599,9 +617,86 @@ msgstr "Номер учетной записи"
 msgid "Used in URLs"
 msgstr "Используется в ссылках URL"
 
-msgid "unread"
+msgid "unread" 
 msgstr "непрочтенных"
 
+msgid "User ID" 
+msgstr "ID пользователя"
+
+msgid "Used in community functions"
+msgstr "Используется в функциях сообщества"
+
+msgid "Account key"
+msgstr "Ключ учетной записи"
+
+msgid "Provides full access to your account"
+msgstr "Предоставляет полный доступ к Вашей учетной записи"
+
+msgid "Weak account key"
+msgstr "Слабый ключ учетной записи"
+
+msgid "Provides"
+msgstr "Предоставляет"
+
+msgid "limited access"
+msgstr "ограниченный доступ"
+
+msgid "to your account"
+msgstr "к Вашей учетной записи"
+
+msgid "Friends"
+msgstr "Друзья"
+
+msgid "Find friends"
+msgstr "Найти друзей"
+
+msgid "hidden"
+msgstr "скрыто"
+
+msgid "Donor"
+msgstr "Донор"
+
+msgid "Notifications"
+msgstr "Уведомления"
+
+msgid "(foundership change request pending)"
+msgstr "(запрос на смену основателя в ожидании)"
+
+
+#########################################
+# Public user page (show_user.php)
+# Страница общедоступной информации о пользователе
+#########################################
+
+msgid "Projects in which you are participating"
+msgstr "Проекты, в которых Вы принимаете участие"
+
+msgid "Projects in which %1 is participating"
+msgstr "Проекты, в которых %1 принимает участие"
+
+msgid "Project"
+msgstr "Проект"
+
+msgid "Click for user page"
+msgstr "Нажмите, чтобы перейти на страницу пользователя"
+
+msgid "Since"
+msgstr "С"
+
+msgid "Contact"
+msgstr "Контакт"
+
+msgid "This person is a friend"
+msgstr "Персона является другом"
+
+msgid "Cancel friendship"
+msgstr "Прекратить дружбу"
+
+msgid "Request pending"
+msgstr "Запрос в ожидании"
+
+msgid "Add as friend"
+msgstr "Добавить друга"
 
 #########################################
 # "Weak account key" page (weak_auth.php)
@@ -625,3 +720,50 @@ msgstr "Создайте этот файл, если необходимо. Ег�
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
 msgstr "Ваш слабый учетный ключ является функцией Вашего пароля. Если Вы измените свой пароль, Ваш слабый учетный ключ изменится, и Ваш предыдущий слабый учетный ключ станет недействительным."
+
+#########################################
+# Participant profiles
+# Профили участников
+#########################################
+
+msgid "Profiles"
+msgstr "Профили"
+
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr "%1Профили%2 позволяют людям разделять биографические данные и личные мнения с сообществом %3."
+
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr "Исследуйте разнообразие ваших единомышленников-добровольцев, и представьте вашу собственную точку зрения другим."
+
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr "Если Вы этого еще не сделали, Вы можете %1создать свой собственный профиль пользователя%2, чтобы другие смогли его увидеть!"
+
+msgid "User of the Day"
+msgstr "Пользователь Дня"
+
+msgid "User Profile Explorer"
+msgstr "Обозреватель профилей пользователей"
+
+msgid "View the %1User Picture Gallery%2."
+msgstr "Посмотреть %1Галерею картинок пользователей%2."
+
+msgid "Browse profiles %1by country%2."
+msgstr "Просмотреть профили %1по странам%2."
+
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr "Просмотреть профили %1случайно%2, %3случайно с картинками%2, или %4случайно без картинок%2."
+
+msgid "Alphabetical profile listings:"
+msgstr "Алфавитные списки профилей:"
+
+msgid "Search profile text"
+msgstr "Поиск по тексту профиля"
+
+msgid "Search"
+msgstr "Найти"
+
+msgid "No profiles"
+msgstr "Нет профилей"
+
+msgid "No profiles matched your query."
+msgstr "Нет профилей, соответствующих Вашему запросу."
