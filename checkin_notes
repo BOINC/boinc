@@ -5946,8 +5946,15 @@ Eric  22 July 2008
         sched_util.[Ch]
 	sched_result.C
 
-David  23 July 2008
+David  24 July 2008
     - web: fix profile rate
 
     html/user/
         profile_rate.php
+
+David  24 July 2008
+    - client: report all errors in parsing app_info.xml files
+        Fixes #703
+
+    client/
+        cs_statefile.C
