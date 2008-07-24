@@ -5946,3 +5946,8 @@ Eric  22 July 2008
         sched_util.[Ch]
 	sched_result.C
 
+David  23 July 2008
+    - web: fix profile rate
+
+    html/user/
+        profile_rate.php

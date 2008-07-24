@@ -1,5 +1,6 @@
 <?php
  
+require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 
 $userid = $_GET['userid'];
