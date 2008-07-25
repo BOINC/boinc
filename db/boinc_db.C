@@ -948,7 +948,7 @@ void DB_CREDIT_MULTIPLIER::get_nearest(int Appid, int Time) {
     appid=Appid;
 
     snprintf(query,MAX_QUERY_LEN,
-	"select * from credit_multiplier where appid=%d and"
+	"select * from credit_multiplier where appid=%d and "
 	  "abs(time-%d)=("
 	    "select min(abs(time-%d)) from credit_multiplier where appid=%d"
 	  ") limit 1",
