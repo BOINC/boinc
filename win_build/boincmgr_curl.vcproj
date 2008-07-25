@@ -2370,6 +2370,14 @@
 				Name="Support"
 				>
 				<File
+					RelativePath="..\clientgui\AsyncRPC.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\AsyncRPC.h"
+					>
+				</File>
+				<File
 					RelativePath="..\lib\gui_rpc_client.C"
 					>
 					<FileConfiguration
