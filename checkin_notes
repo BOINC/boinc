@@ -5958,3 +5958,11 @@ David  24 July 2008
 
     client/
         cs_statefile.C
+
+Rom    25 July 2008
+    - Tag for 6.3.6 release, all platforms
+      boinc_core_release_6_3_6
+
+    /
+        configure.ac
+        version.h
