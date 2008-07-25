@@ -263,6 +263,7 @@ $windowsx64 = array(
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w636x64,
+        $w6214x64,
         $w51045x64,
     )
 );
