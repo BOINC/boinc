@@ -52,6 +52,7 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
 BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_TIMER(ID_DOCUMENTPOLLTIMER, CBOINCBaseFrame::OnDocumentPoll)
     EVT_TIMER(ID_ALERTPOLLTIMER, CBOINCBaseFrame::OnAlertPoll)
+    EVT_TIMER(ID_PERIODICRPCTIMER, CBOINCBaseFrame::OnPeriodicRPC)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
@@ -96,6 +97,10 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
 
     m_pAlertPollTimer->Start(1000);                  // Send event every 1000 milliseconds
 
+    m_pPeriodicRPCTimer = new wxTimer(this, ID_PERIODICRPCTIMER);
+    wxASSERT(m_pPeriodicRPCTimer);
+
+    m_pPeriodicRPCTimer->Start(1000);                  // Send event every 1000 milliseconds
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -116,8 +121,14 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
 CBOINCBaseFrame::~CBOINCBaseFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function Begin"));
 
+    wxASSERT(m_pPeriodicRPCTimer);
     wxASSERT(m_pAlertPollTimer);
     wxASSERT(m_pDocumentPollTimer);
+
+    if (m_pPeriodicRPCTimer) {
+        m_pPeriodicRPCTimer->Stop();
+        delete m_pPeriodicRPCTimer;
+    }
 
     if (m_pAlertPollTimer) {
         m_pAlertPollTimer->Stop();
@@ -136,6 +147,23 @@ CBOINCBaseFrame::~CBOINCBaseFrame() {
 }
 
 
+void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
+    static bool        bAlreadyRunningLoop = false;
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {
+        bAlreadyRunningLoop = true;
+
+        pDoc->RunPeriodicRPCs();
+        
+        bAlreadyRunningLoop = false;
+    }
+}
+
+
 void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     static bool        bAlreadyRunOnce = false;
     CMainDocument*     pDoc = wxGetApp().GetDocument();
@@ -143,7 +171,7 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
+//    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
     if (!bAlreadyRunOnce && m_pDocumentPollTimer->IsRunning()) {
         // Complete any remaining initialization that has to happen after we are up
@@ -160,7 +188,7 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
     static bool       bAlreadyRunningLoop = false;
     CMainDocument*    pDoc = wxGetApp().GetDocument();
 
-    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
+//    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
     if (!bAlreadyRunningLoop && m_pAlertPollTimer->IsRunning()) {
         bAlreadyRunningLoop = true;

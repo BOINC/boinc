@@ -144,10 +144,12 @@ public:
     bool                        IsConnected();
     bool                        IsReconnecting();
 
+
     int                         GetCoreClientStatus(CC_STATUS&, bool bForce = false);
     int                         SetActivityRunMode(int iMode, int iTimeout);
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
+    void                        RunPeriodicRPCs();
     int                         ForceCacheUpdate();
     int                         RunBenchmarks();
 
@@ -158,8 +160,14 @@ public:
     AsyncRPC                    rpc;
     RPC_CLIENT                  rpcClient;
     CC_STATE                    state;
+    CC_STATE                    state_altbuf;
+    int                         cc_state_rpc_result;
     CC_STATUS                   status;
+    CC_STATUS                   status_altbuf;
+    int                         cc_status_rpc_result;
     HOST_INFO                   host;
+    HOST_INFO                   host_altbuf;
+    int                         host_info_rpc_result;
     wxDateTime                  m_dtCachedStateTimestamp;
 
     //

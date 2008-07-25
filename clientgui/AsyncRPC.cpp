@@ -33,6 +33,8 @@
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 250
 
+bool LogRPCs = false;
+
 ASYNC_RPC_REQUEST::ASYNC_RPC_REQUEST() {
     clear();
 }
@@ -98,7 +100,7 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     request.arg4 = arg4;
 
     retval = m_Doc->RequestRPC(request, hasPriority);
-wxLogMessage(wxT("RequestRPC %d returned %d"), which_rpc, retval);
+//wxLogMessage(wxT("RequestRPC %d returned %d"), which_rpc, retval);
     
     return retval;
 }
@@ -422,9 +424,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         // Make sure activation is an atomic operation
         request.isActive = false;
         current_rpc_request = request;
-        if ((request.event == NULL) && (request.result == NULL)) {
-            current_rpc_request.result = &retval;
-        }
         current_rpc_request.isActive = true;
 #endif
     }
@@ -534,7 +533,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     for (i=n-1; i>=0; --i) {
         if (RPC_requests[i].which_rpc == current_rpc_request.which_rpc) {
             completed_RPC_requests.push_back(RPC_requests[i]);
-            RPC_requests[i].event = NULL;  // Is this needed to prevent calling event's destructor?
+            RPC_requests[i].event = NULL;  // Is this needed to prevent calling the event's destructor?
             RPC_requests.erase(RPC_requests.begin()+i);
         } else {
             if (RPC_requests[i].event == NULL) {
@@ -570,7 +569,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             *(completed_RPC_requests[i].result) = retval;
         }
 
-#if 0  // Post-processing
+#if 1  // Post-processing
         switch (completed_RPC_requests[i].which_rpc) {
         case RPC_AUTHORIZE:
             break;
@@ -582,6 +581,14 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             if (completed_RPC_requests[i].exchangeBuf) {
                 CC_STATE* arg1 = (CC_STATE*)completed_RPC_requests[i].arg1;
                 CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+                arg1->apps.swap(exchangeBuf->apps);
+                arg1->app_versions.swap(exchangeBuf->app_versions);
+                arg1->wus.swap(exchangeBuf->wus);
+                arg1->results.swap(exchangeBuf->results);
+                exchangeBuf->global_prefs = arg1->global_prefs;
+                exchangeBuf->version_info = arg1->version_info;
+                exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
                 arg1->results.swap(exchangeBuf->results);
             }
             break;
@@ -638,6 +645,11 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         case RPC_RESULT_OP:
             break;
         case RPC_GET_HOST_INFO:
+            if (completed_RPC_requests[i].exchangeBuf) {
+                HOST_INFO* arg1 = (HOST_INFO*)completed_RPC_requests[i].arg1;
+                HOST_INFO* exchangeBuf = (HOST_INFO*)completed_RPC_requests[i].exchangeBuf;
+                *exchangeBuf = *arg1;
+            }
             break;
         case RPC_QUIT:
             break;
@@ -678,6 +690,11 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         case RPC_READ_CC_CONFIG:
             break;
         case RPC_GET_CC_STATUS:
+            if (completed_RPC_requests[i].exchangeBuf) {
+                CC_STATUS* arg1 = (CC_STATUS*)completed_RPC_requests[i].arg1;
+                CC_STATUS* exchangeBuf = (CC_STATUS*)completed_RPC_requests[i].exchangeBuf;
+                *exchangeBuf = *arg1;
+            }
             break;
         case RPC_GET_GLOBAL_PREFS_FILE:
             break;
@@ -700,7 +717,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         }
 #endif  // Post-processing
 
-        if (completed_RPC_requests[i].event) {
+        if ( (completed_RPC_requests[i].event) && (completed_RPC_requests[i].event != (wxEvent*)-1) ) {
             if (completed_RPC_requests[i].eventHandler) {
                 completed_RPC_requests[i].eventHandler->ProcessEvent(*completed_RPC_requests[i].event);
             } else {

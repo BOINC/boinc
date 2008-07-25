@@ -52,6 +52,7 @@ public:
 
     ~CBOINCBaseFrame();
 
+    void                OnPeriodicRPC( wxTimerEvent& event );
     void                OnDocumentPoll( wxTimerEvent& event );
     void                OnAlertPoll( wxTimerEvent& event );
 
@@ -100,6 +101,7 @@ protected:
 
     wxTimer*            m_pDocumentPollTimer;
     wxTimer*            m_pAlertPollTimer;
+    wxTimer*            m_pPeriodicRPCTimer;
 
     int                 m_iSelectedLanguage;
     int                 m_iReminderFrequency;

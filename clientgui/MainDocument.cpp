@@ -350,7 +350,10 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_iMessageSequenceNumber = 0;
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
+    
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
+    cc_status_rpc_result = 0;
+    
     m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
     m_dtResultsTimestamp = wxDateTime((time_t)0);
     m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
@@ -477,34 +480,14 @@ int CMainDocument::OnRefreshState() {
 
 
 int CMainDocument::CachedStateUpdate() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function Begin"));
-
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    // Most of this is now handled by RunPeriodicRPCs() and ForceCacheUpdate()
     int     retval = 0;
 
-    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedStateTimestamp);
-    if (IsConnected() && (ts.GetSeconds() > 3600)) {
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-        pFrame->UpdateStatusText(_("Retrieving system state; please wait..."));
+    if (cc_state_rpc_result) retval = cc_state_rpc_result;
+    if (host_info_rpc_result) retval = host_info_rpc_result;
+            
+    if (retval) m_pNetworkConnection->SetStateDisconnected();
 
-        m_dtCachedStateTimestamp = wxDateTime::Now();
-        retval = rpc.get_state(state);
-        if (retval) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get State Failed '%d'"), retval);
-            m_pNetworkConnection->SetStateDisconnected();
-        }
-        pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
-
-        retval = rpc.get_host_info(host);
-        if (retval) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'"), retval);
-            m_pNetworkConnection->SetStateDisconnected();
-        }
-
-        pFrame->UpdateStatusText(wxEmptyString);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function End"));
     return retval;
 }
 
@@ -595,15 +578,23 @@ int CMainDocument::FrameShutdownDetected() {
 int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     wxString         strMachine = wxEmptyString;
     int              iRetVal = 0;
-
     if (IsConnected()) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
-        if ((ts.GetSeconds() > 0) || bForce) {
+        if (bForce) {
             m_dtCachedCCStatusTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_cc_status(ccs);
             if (0 == iRetVal) {
                 status = ccs;
+            } else {
+                cc_status_rpc_result = iRetVal;
+            }
+        } else {
+            ccs = status;
+        }
+        
+        if (cc_status_rpc_result) {
+            m_pNetworkConnection->SetStateDisconnected();
+        } else {
                 if (ccs.manager_must_quit) {
                     GetConnectedComputerName(strMachine);
                     if (IsComputerNameLocal(strMachine)) {
@@ -612,13 +603,8 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
                         pFrame->Close(true);
                     }
                 }
-            } else {
-                m_pNetworkConnection->SetStateDisconnected();
             }
         } else {
-            ccs = status;
-        }
-    } else {
         iRetVal = -1;
     }
 
@@ -664,10 +650,100 @@ int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
 }
 
 
+void CMainDocument::RunPeriodicRPCs() {
+    ASYNC_RPC_REQUEST request;
+    wxDateTime dtNow(wxDateTime::Now());
+//    int retval = 0;
+
+    if (!IsConnected()) return;
+    
+    // *********** RPC_GET_CC_STATUS **************
+    
+    wxTimeSpan ts(dtNow - m_dtCachedCCStatusTimestamp);
+    if (ts.GetSeconds() > 0) {
+        m_dtCachedCCStatusTimestamp = wxDateTime::Now();
+
+        request.clear();
+        request.which_rpc = RPC_GET_CC_STATUS;
+        request.arg1 = &status_altbuf;
+        request.exchangeBuf = &status;
+        request.event = (wxEvent*)-1;
+        request.completionTime = &m_dtCachedCCStatusTimestamp;
+        request.result = &cc_status_rpc_result;
+       
+        RequestRPC(request);
+}
+
+    ts = dtNow - m_dtCachedStateTimestamp;
+    if (ts.GetSeconds() > 3600) {
+
+    // *********** RPC_GET_STATE **************
+
+        request.clear();
+        request.which_rpc = RPC_GET_STATE;
+        request.arg1 = &state_altbuf;
+        request.exchangeBuf = &state;
+        request.event = (wxEvent*)-1;
+        request.result = &cc_state_rpc_result;
+       
+        RequestRPC(request);
+
+    // *********** RPC_GET_HOST_INFO **************
+
+        request.clear();
+        request.which_rpc = RPC_GET_HOST_INFO;
+        request.arg1 = &host_altbuf;
+        request.exchangeBuf = &host;
+        request.event = (wxEvent*)-1;
+        request.completionTime = &m_dtCachedStateTimestamp;
+        request.result = &host_info_rpc_result;
+       
+        RequestRPC(request);
+    }
+}
+
+
+// TODO: CAF: Is it enough to just reset m_dtCachedStateTimestamp 
+// and let RunPeriodicRPCs() update the state?  This would avoid 
+// displaying the "Please wait" dialog on multi-processor computers.  
+// Possible exceptions might be when ForceCacheUpdate() is called 
+// from these routines (which may need immediate results):
+//      CDlgItemProperties::FormatApplicationName()
+//      WorkunitNotebook::AddTab()
+//      CMainDocument::CachedProjectStatusUpdate()
+//      CMainDocument::CachedSimpleGUIUpdate()
+//
 int CMainDocument::ForceCacheUpdate() {
-    m_dtCachedStateTimestamp = wxDateTime((time_t)0);
-    CachedStateUpdate();
-    return 0;
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::ForceCacheUpdate - Function Begin"));
+
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    int     retval = 0;
+
+    if (IsConnected()) {
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+        pFrame->UpdateStatusText(_("Retrieving system state; please wait..."));
+
+        m_dtCachedStateTimestamp = wxDateTime::Now();
+        retval = rpc.get_state(state);
+        if (retval) {
+            cc_state_rpc_result = retval;
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::ForceCacheUpdate - Get State Failed '%d'"), retval);
+            m_pNetworkConnection->SetStateDisconnected();
+        }
+        pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
+
+        retval = rpc.get_host_info(host);
+        if (retval) {
+            host_info_rpc_result = retval;
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::ForceCacheUpdate - Get Host Information Failed '%d'"), retval);
+            m_pNetworkConnection->SetStateDisconnected();
+        }
+
+        pFrame->UpdateStatusText(wxEmptyString);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::ForceCacheUpdate - Function End"));
+    return retval;
 }
 
 
