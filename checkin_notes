@@ -5966,3 +5966,15 @@ Rom    25 July 2008
     /
         configure.ac
         version.h
+
+David  25 July 2008
+    - back-end stuff to support Python MW (from Adam Kornafeld)
+        Not complete.
+
+    py/Boinc/
+        projectxml.py
+    sched/
+        assimilate_handler.h
+        assimilator.C
+    tools/
+        pymw_setup

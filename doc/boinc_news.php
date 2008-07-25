@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("July 24, 2008",
+    "The <a href=http://gcl.cis.udel.edu/EastCoast08/>First
+    East Coast BOINC Meeting</a>
+    will take place August 29 2008 at the University of Delaware.
+    "
+),
 array("July 17, 2008",
     "GPU computing has arrived to BOINC!
     The <a href=http://www.gpugrid.net>GPUGRID.net</a> project

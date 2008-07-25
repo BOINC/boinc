@@ -18,7 +18,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 // This is a framework for an assimilator.
-// You need to link with with an (application-specific) function
+// You need to link this with an (application-specific) function
 // assimilate_handler()
 // in order to make a complete program.
 //
@@ -45,17 +45,15 @@ using std::vector;
 
 #define LOCKFILE "assimilator.out"
 #define PIDFILE  "assimilator.pid"
+#define SLEEP_INTERVAL 10
 
 bool update_db = true;
 bool noinsert = false;
-
 int wu_id_modulus=0, wu_id_remainder=0;
-
-#define SLEEP_INTERVAL 10
-
 int sleep_interval = SLEEP_INTERVAL;
-
 int one_pass_N_WU=0;
+int g_argc;
+char** g_argv;
 
 // assimilate all WUs that need it
 // return nonzero if did anything
@@ -104,7 +102,7 @@ bool do_pass(APP& app) {
         }
 
         log_messages.printf(MSG_DEBUG,
-            "[%s] assimilating boinc WU %d; state=%d\n", wu.name, wu.id, wu.assimilate_state
+            "[%s] assimilating WU %d; state=%d\n", wu.name, wu.id, wu.assimilate_state
         );
 
         sprintf(buf, "where workunitid=%d", wu.id);
@@ -143,7 +141,7 @@ bool do_pass(APP& app) {
         if (update_db) {
             // Defer assimilation until next result is returned
             int assimilate_state = ASSIMILATE_DONE;
-            if ( retval == DEFER_ASSIMILATION ) {
+            if (retval == DEFER_ASSIMILATION) {
                 assimilate_state = ASSIMILATE_INIT;
             }
             sprintf(
@@ -192,6 +190,8 @@ int main(int argc, char** argv) {
     char buf[256];
 
     check_stop_daemons();
+    g_argc = argc;
+    g_argv = argv;
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);

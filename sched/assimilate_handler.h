@@ -17,8 +17,17 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// Include this in assimilate handlers
+
 #include <vector>
 #include "boinc_db.h"
 #define DEFER_ASSIMILATION 123321
+    // if the assimilate handler returns this,
+    // don't mark WU as assimilated; instead, wait for another
+    // result to be returned and try again
+    // (kludge for WCG)
 
 extern int assimilate_handler(WORKUNIT&, std::vector<RESULT>&, RESULT&);
+
+extern int g_argc;
+extern char** g_argv;
