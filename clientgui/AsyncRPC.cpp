@@ -33,7 +33,7 @@
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 250
 
-bool LogRPCs = false;
+bool LogRPCs = false;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
 ASYNC_RPC_REQUEST::ASYNC_RPC_REQUEST() {
     clear();
@@ -721,6 +721,8 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             if (completed_RPC_requests[i].eventHandler) {
                 completed_RPC_requests[i].eventHandler->ProcessEvent(*completed_RPC_requests[i].event);
             } else {
+                // We must get the frame immediately before using it, 
+                // since it may have been changed by SetActiveGUI().
                 CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
                 wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
                 pFrame->ProcessEvent(*completed_RPC_requests[i].event);

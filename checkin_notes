@@ -6019,6 +6019,5 @@ Charlie 25 July 2008
     clientgui/
         AsyncRPC.cpp
         BOINCBaseFrame.cpp,.h
-        BOINCGUIApp.cpp,.h
         Events.h
         MainDocument.cpp,.h

@@ -350,6 +350,8 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_iMessageSequenceNumber = 0;
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
+    cc_state_rpc_result = 0;
+    host_info_rpc_result = 0;
     
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
     cc_status_rpc_result = 0;
@@ -595,16 +597,16 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
         if (cc_status_rpc_result) {
             m_pNetworkConnection->SetStateDisconnected();
         } else {
-                if (ccs.manager_must_quit) {
-                    GetConnectedComputerName(strMachine);
-                    if (IsComputerNameLocal(strMachine)) {
-                        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-                        pFrame->Close(true);
-                    }
+            if (ccs.manager_must_quit) {
+                GetConnectedComputerName(strMachine);
+                if (IsComputerNameLocal(strMachine)) {
+                    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+                    pFrame->Close(true);
                 }
             }
-        } else {
+        }
+    } else {
         iRetVal = -1;
     }
 
@@ -672,7 +674,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.result = &cc_status_rpc_result;
        
         RequestRPC(request);
-}
+    }
 
     ts = dtNow - m_dtCachedStateTimestamp;
     if (ts.GetSeconds() > 3600) {
