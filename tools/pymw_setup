@@ -94,29 +94,45 @@ if os.path.isdir(app_dir):
     logging.info("PyMW client applications are already installed")
 else:
     os.mkdir(app_dir)
-    # Linux
+    # Platform strings
+    i686_pc_linux_gnu = "pymw_1.00_i686-pc-linux-gnu"
+    windows_intelx86  = "pymw_1.00_windows_intelx86"
+    i686_apple_darwin = "pymw_1.00_i686-apple-darwin"
+    # i686-pc-linux-gnu
     logging.info("setting up client application for Linux platform")
-    linux_dir = os.path.join(app_dir, "pymw_1.00_i686-pc-linux-gnu")
-    linux_exe = os.path.join(linux_dir, "pymw_1.00_i686-pc-linux-gnu")
+    linux_dir = os.path.join(app_dir, i686_pc_linux_gnu)
+    linux_exe = os.path.join(linux_dir, i686_pc_linux_gnu)
     os.mkdir(linux_dir)
     open(linux_exe, "w").writelines(LINUX_WORKER)
-    open(os.path.join(linux_dir, "pymw_1.00_i686-pc-linux-gnu.file_ref_info"), "w").writelines(FILE_REF)
+    open(os.path.join(linux_dir, i686_pc_linux_gnu + ".file_ref_info"), "w").writelines(FILE_REF)
     open(os.path.join(linux_dir, "pymw_app.py"), "w").writelines(PYMW_APP)
     open(os.path.join(linux_dir, "pymw_app.py.file_ref_info"), "w").writelines(FILE_REF)
     os.chmod(linux_exe, stat.S_IRWXU)
     logging.info("client application for Linux platform set up successfully")
     
-    # Windows
+    # windows_intelx86
     logging.info("setting up client application for Windows platform")
-    win_dir = os.path.join(app_dir, "pymw_1.00_windows_intelx86")
-    win_exe = os.path.join(win_dir, "pymw_1.00_windows_intelx86")
+    win_dir = os.path.join(app_dir, windows_intelx86)
+    win_exe = os.path.join(win_dir, windows_intelx86)
     os.mkdir(win_dir)
     open(win_exe, "w").writelines(WINDOWS_WORKER)
-    open(os.path.join(win_dir, "pymw_1.00_windows_intelx86.file_ref_info"), "w").writelines(FILE_REF)
+    open(os.path.join(win_dir, windows_intelx86 + ".file_ref_info"), "w").writelines(FILE_REF)
     open(os.path.join(win_dir, "pymw_app.py"), "w").writelines(PYMW_APP)
     open(os.path.join(win_dir, "pymw_app.py.file_ref_info"), "w").writelines(FILE_REF)
     os.chmod(win_exe, stat.S_IRWXU)
     logging.info("client application for Windows platform set up successfully")
+
+    # i686-apple-darwin
+    logging.info("setting up client application for Apple platform")
+    apple_dir = os.path.join(app_dir, i686_apple_darwin)
+    apple_exe = os.path.join(apple_dir, i686_apple_darwin)
+    os.mkdir(apple_dir)
+    open(apple_exe, "w").writelines(LINUX_WORKER)
+    open(os.path.join(apple_dir, i686_apple_darwin + ".file_ref_info"), "w").writelines(FILE_REF)
+    open(os.path.join(apple_dir, "pymw_app.py"), "w").writelines(PYMW_APP)
+    open(os.path.join(apple_dir, "pymw_app.py.file_ref_info"), "w").writelines(FILE_REF)
+    os.chmod(apple_exe, stat.S_IRWXU)
+    logging.info("client application for Apple platform set up successfully")
     
     # Call update_versions
     project_home = config.config.app_dir.rpartition('/')[0]
