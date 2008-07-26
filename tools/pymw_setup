@@ -108,11 +108,11 @@ else:
     
     # Windows
     logging.info("setting up client application for Windows platform")
-    win_dir = os.path.join(app_dir, "pymw_1.00_windows_intelx86")
-    win_exe = os.path.join(win_dir, "pymw_1.00_windows_intelx86.exe")
+    win_dir = os.path.join(app_dir, "pymw_1.00_windows_intelx86.bat")
+    win_exe = os.path.join(win_dir, "pymw_1.00_windows_intelx86.bat")
     os.mkdir(win_dir)
     open(win_exe, "w").writelines(WINDOWS_WORKER)
-    open(os.path.join(win_dir, "pymw_1.00_windows_intelx86.exe.file_ref_info"), "w").writelines(FILE_REF)
+    open(os.path.join(win_dir, "pymw_1.00_windows_intelx86.bat.file_ref_info"), "w").writelines(FILE_REF)
     open(os.path.join(win_dir, "pymw_app.py"), "w").writelines(PYMW_APP)
     open(os.path.join(win_dir, "pymw_app.py.file_ref_info"), "w").writelines(FILE_REF)
     os.chmod(win_exe, stat.S_IRWXU)
