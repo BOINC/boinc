@@ -5978,3 +5978,9 @@ David  25 July 2008
         assimilator.C
     tools/
         pymw_setup
+
+David  25 July 2008
+    - web: escape text on edit thread title
+
+    html/user/
+        forum_moderate_thread_action.php

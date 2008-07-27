@@ -71,7 +71,7 @@ case "move":
     $action_name = "moved from $forum->title to $new_forum->title";
     break;
 case "title":
-    $title = post_str('newtitle');
+    $title = process_user_text(post_str('newtitle'));
     $result = $thread->update("title='$title'");
     $action_name = "renamed from '$thread->title' to '$title'";
     break;
