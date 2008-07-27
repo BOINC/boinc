@@ -71,9 +71,10 @@ case "move":
     $action_name = "moved from $forum->title to $new_forum->title";
     break;
 case "title":
-    $title = process_user_text(post_str('newtitle'));
+    $new_title = post_str('newtitle');
+    $title = process_user_text($new_title);
     $result = $thread->update("title='$title'");
-    $action_name = "renamed from '$thread->title' to '$title'";
+    $action_name = "renamed from '$thread->title' to '$new_title'";
     break;
 default:
     error_page("Unknown action ");
