@@ -5994,6 +5994,19 @@ Charlie 23 July 2008
         BOINCGUIApp.cpp,.h
         MainDocument.cpp,.h
 
+David  24 July 2008
+    - web: fix profile rate
+
+    html/user/
+        profile_rate.php
+
+David  24 July 2008
+    - client: report all errors in parsing app_info.xml files
+        Fixes #703
+
+    client/
+        cs_statefile.C
+
 Charlie 24 July 2008
     - MGR: async GUI RPCs: Get RPCs all working in separate thread; 
         temporarily ignore timer events which would do RPCs while 
@@ -6010,6 +6023,26 @@ Charlie 24 July 2008
         sg_DlgMessages.cpp
         sg_ProjectsComponent.cpp
 
+Rom    25 July 2008
+    - Tag for 6.3.6 release, all platforms
+      boinc_core_release_6_3_6
+
+    /
+        configure.ac
+        version.h
+
+David  25 July 2008
+    - back-end stuff to support Python MW (from Adam Kornafeld)
+        Not complete.
+
+    py/Boinc/
+        projectxml.py
+    sched/
+        assimilate_handler.h
+        assimilator.C
+    tools/
+        pymw_setup
+        
 Charlie 25 July 2008
     - MGR: async GUI RPCs: Implement first Periodic RPCs called 
         from a timer event for CachedStateUpdate(), ForceCacheUpdate(), 
@@ -6020,4 +6053,16 @@ Charlie 25 July 2008
         AsyncRPC.cpp
         BOINCBaseFrame.cpp,.h
         Events.h
+        MainDocument.cpp,.h
+
+Charlie 26 July 2008
+    - MGR: async GUI RPCs: Simulate handling of CRPCFinishedEvent but 
+        don't allow any other events (so allow no user activity) while 
+        processing demand RPCs.  This avoids the ugly "flashing" of 
+        windows caused by wxSafeYield() disabling the controls.  
+        Increase delay before displaying Please Wait dialog from 250 
+        to 1250 milliseconds.
+        
+    clientgui/
+        AsyncRPC.cpp,h
         MainDocument.cpp,.h

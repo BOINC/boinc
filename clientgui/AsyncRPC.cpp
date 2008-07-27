@@ -31,7 +31,7 @@
 #include "BOINCBaseFrame.h"
 
 // Delay in milliseconds before showing AsyncRPCDlg
-#define RPC_WAIT_DLG_DELAY 250
+#define RPC_WAIT_DLG_DELAY 1500
 
 bool LogRPCs = false;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
@@ -55,7 +55,7 @@ void ASYNC_RPC_REQUEST::clear() {
     event = NULL;
     eventHandler = NULL;
     completionTime = NULL;
-    result = NULL;
+    resultPtr = NULL;
     isActive = false;
 }
 
@@ -74,7 +74,7 @@ bool ASYNC_RPC_REQUEST::isSameAs(ASYNC_RPC_REQUEST& otherRequest) {
     }
     if (eventHandler != otherRequest.eventHandler) return false;
     if (completionTime != otherRequest.completionTime) return false;
-    if (result != otherRequest.result) return false;
+    if (resultPtr != otherRequest.resultPtr) return false;
     // OK if isActive doesn't match.
     return true;
 }
@@ -126,6 +126,7 @@ void RPCThread::OnExit() {
 
 void *RPCThread::Entry() {
     int retval;
+    CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
 
     while(true) {
         // check if we were asked to exit
@@ -145,9 +146,7 @@ void *RPCThread::Entry() {
 
         retval = ProcessRPCRequest();
  
-        CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
-        RPC_done_event.SetInt(retval);
-
+//        RPC_done_event.SetInt(retval);
         wxPostEvent( wxTheApp, RPC_done_event );
     }
 
@@ -372,11 +371,15 @@ int RPCThread::ProcessRPCRequest() {
 
 #if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
     m_Doc->m_critsect.Enter();
+    current_request->retval = retval;
     current_request->isActive = false;
+        
     m_Doc->m_critsect.Leave();
 #else
     // Deactivation is an atomic operation
+    current_request->retval = retval;
     current_request->isActive = false;
+        
 #endif
 
     return retval;
@@ -401,8 +404,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         if (iter->isSameAs(request)) return 0;
     }
 
-    if ((request.event == NULL) && (request.result == NULL)) {
-        request.result = &retval;
+    if ((request.event == NULL) && (request.resultPtr == NULL)) {
+        request.resultPtr = &retval;
     }
     
     if (hasPriority) {
@@ -456,8 +459,24 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         
         m_RPCWaitDlg = new AsyncRPCDlg();
         do {
-//            ::wxSafeYield(pFrame, true);  // Continue processing events
+#if 0   // Yield allows user activity which can cause problems with long values of RPC_WAIT_DLG_DELAY
             wxTheApp->Yield(true);  // Continue processing events
+            // wxSafeYield prevents user activity but causes ugly disabling of coontrols
+//            ::wxSafeYield(pFrame, true);  // Continue processing events
+#else   // Simulate handling of CRPCFinishedEvent but don't allow any other events (so no user activity)
+//            usleep(1);   ///// ???? SwitchToThread() on Windows?  nanosleep() on UNIX ????
+#ifdef __WXMSW__
+            SwitchToThread();
+#else
+            // TODO: is there a way for main UNIX thread to yield wih no minimum delay?
+            timespec ts = {0, 1};   /// 1 nanosecond
+            nanosleep(&ts, NULL);   /// 1 nanosecond or less 
+               ///// ???? SwitchToThread() on Windows?  nanosleep() on UNIX ????
+#endif
+            if (!current_rpc_request.isActive) {
+                HandleCompletedRPC();
+            }
+#endif
             // OnRPCComplete() clears m_bWaitingForRPC if RPC completed 
             if (! m_bWaitingForRPC) {
 //                inUserRequest = false;
@@ -522,11 +541,23 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
 
 void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
-    int retval = event.GetInt();
+    HandleCompletedRPC();
+    return;
+ }   
+    
+ void CMainDocument::HandleCompletedRPC() {
+    int retval;
     int i, n;
     std::vector<ASYNC_RPC_REQUEST> completed_RPC_requests;
     bool stillWaitingForPendingRequests = false;
-
+    
+    if(current_rpc_request.isActive) return;
+    // We can get here either via a CRPCFinishedEvent event posted 
+    // by the RPC thread or by a call from RequestRPC.  If we were 
+    // called from RequestRPC, the CRPCFinishedEvent will still be 
+    // on the event queue, so we get called twice.  Check for this here.
+    if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
+   
     // Move all requests for the completed RPC to our local vector
     // We do this in reverse order so we can remove them from queue
     n = RPC_requests.size();
@@ -541,7 +572,8 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
         }
     }
-
+    
+    retval = current_rpc_request.retval;
     current_rpc_request.clear();
 
     // Start the next RPC request while we process the one just completed.
@@ -565,8 +597,8 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         if (completed_RPC_requests[i].completionTime) {
             *(completed_RPC_requests[i].completionTime) = wxDateTime::Now();
         }
-        if (completed_RPC_requests[i].result) {
-            *(completed_RPC_requests[i].result) = retval;
+        if (completed_RPC_requests[i].resultPtr) {
+            *(completed_RPC_requests[i].resultPtr) = retval;
         }
 
 #if 1  // Post-processing
@@ -827,7 +859,7 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     request.eventHandler = NULL;
     request.completionTime = &completionTime;
 //    request.result = NULL;
-    request.result = &m_iGet_state_RPC_retval;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+    request.resultPtr = &m_iGet_state_RPC_retval;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
     request.isActive = false;
     
 //retval = rpcClient.get_all_projects_list(pl);

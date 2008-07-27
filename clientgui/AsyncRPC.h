@@ -104,7 +104,8 @@ struct ASYNC_RPC_REQUEST {
     wxEvent *event;
     wxEvtHandler *eventHandler;
     wxDateTime *completionTime;
-    int *result;
+    int *resultPtr;
+    int retval;
     bool isActive;
 
     ASYNC_RPC_REQUEST();

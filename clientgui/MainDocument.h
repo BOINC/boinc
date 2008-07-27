@@ -144,7 +144,6 @@ public:
     bool                        IsConnected();
     bool                        IsReconnecting();
 
-
     int                         GetCoreClientStatus(CC_STATUS&, bool bForce = false);
     int                         SetActivityRunMode(int iMode, int iTimeout);
     int                         SetNetworkRunMode(int iMode, int iTimeout);
@@ -176,6 +175,7 @@ public:
 public:
     int                         RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority = false);
     void                        OnRPCComplete(CRPCFinishedEvent& event);
+    void                        HandleCompletedRPC();
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
 void TestAsyncRPC();        // TEMPORARY -- CAF
     RPCThread*                  m_RPCThread;

@@ -580,6 +580,7 @@ int CMainDocument::FrameShutdownDetected() {
 int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     wxString         strMachine = wxEmptyString;
     int              iRetVal = 0;
+
     if (IsConnected()) {
         if (bForce) {
             m_dtCachedCCStatusTimestamp = wxDateTime::Now();
@@ -671,7 +672,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.exchangeBuf = &status;
         request.event = (wxEvent*)-1;
         request.completionTime = &m_dtCachedCCStatusTimestamp;
-        request.result = &cc_status_rpc_result;
+        request.resultPtr = &cc_status_rpc_result;
        
         RequestRPC(request);
     }
@@ -686,7 +687,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.arg1 = &state_altbuf;
         request.exchangeBuf = &state;
         request.event = (wxEvent*)-1;
-        request.result = &cc_state_rpc_result;
+        request.resultPtr = &cc_state_rpc_result;
        
         RequestRPC(request);
 
@@ -698,7 +699,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.exchangeBuf = &host;
         request.event = (wxEvent*)-1;
         request.completionTime = &m_dtCachedStateTimestamp;
-        request.result = &host_info_rpc_result;
+        request.resultPtr = &host_info_rpc_result;
        
         RequestRPC(request);
     }
