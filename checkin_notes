@@ -6063,8 +6063,8 @@ Charlie 26 July 2008
         Increase delay before displaying Please Wait dialog from 250 
         to 1250 milliseconds.
     - MGR: Eliminate Grid Views.
-    NOTE: The Grid View source files still should be removed from Windows 
-        project and makefiles for Linux, etc. and possibly from SVN trunk.
+    NOTE: The Grid View source files still should be removed from 
+        makefiles for Linux, etc. and possibly from SVN trunk.
         
     clientgui/
         AdvancedFrame.cpp,.h
