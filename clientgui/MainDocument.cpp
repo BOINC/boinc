@@ -658,6 +658,8 @@ void CMainDocument::RunPeriodicRPCs() {
     wxDateTime dtNow(wxDateTime::Now());
 //    int retval = 0;
 
+    int currentTabView = wxGetApp().GetCurrentViewPage();
+
     if (!IsConnected()) return;
     
     // *********** RPC_GET_CC_STATUS **************
@@ -1062,7 +1064,6 @@ int CMainDocument::CachedResultsStatusUpdate() {
             m_dtResultsTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_results(results);
-//iRetVal = m_iGet_results_RPC_retval;
             if (iRetVal) {
                 wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), iRetVal);
                 ForceCacheUpdate();
@@ -1215,7 +1216,7 @@ void CMainDocument::KillInactiveGraphicsApps()
     
     // If none of the Tasks displays are visible, we need to update 
     // the results vector.  This call does nothing if recently updated
-    // by a call from CViewWork, CViewWorkGrid or CViewTabPage.
+    // by a call from CViewWork or CViewTabPage.
     CachedResultsStatusUpdate();
     
     gfx_app_iter = m_running_gfx_apps.begin();

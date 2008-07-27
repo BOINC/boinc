@@ -57,8 +57,7 @@
 #define ID_ADVPREFSDLG                          6033
 #define ID_SHUTDOWNCORECLIENT                   6034
 #define ID_HELPBOINC                            6035
-#define ID_VIEWACCESSIBLE                       6036
-#define ID_VIEWGRID                             6037
+#define ID_VIEWLIST                             6036
 #define ID_PERIODICRPCTIMER                     6050
 #define ID_SIMPLEFRAME                          6100
 #define ID_SIMPLEMESSAGECHECKTIMER              6101
@@ -81,10 +80,6 @@
 #define ID_LIST_RESOURCEUTILIZATIONVIEW         7004
 #define ID_LIST_STATISTICSVIEW                  7005
 #define ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL	7006
-#define ID_LIST_WORKGRIDVIEW                    7007
-#define ID_LIST_TRANSFERSGRIDVIEW               7008
-#define ID_LIST_PROJECTSGRIDVIEW                7009
-#define ID_LIST_MESSAGESGRIDVIEW                7010
 #define ID_TASK_BASE                            8000
 #define ID_TASK_PROJECTSVIEW                    8000
 #define ID_TASK_WORKVIEW                        8001
@@ -92,10 +87,6 @@
 #define ID_TASK_MESSAGESVIEW                    8003
 #define ID_TASK_STATISTICSVIEW                  8004
 #define ID_TASK_RESOURCEUTILIZATIONVIEW         8005
-#define ID_TASK_WORKGRIDVIEW                    8006
-#define ID_TASK_TRANSFERSGRIDVIEW               8007
-#define ID_TASK_PROJECTSGRIDVIEW                8008
-#define ID_TASK_MESSAGESGRIDVIEW                8009
 #define ID_TASK_PROJECT_UPDATE                  9000
 #define ID_TASK_PROJECT_SUSPEND                 9002
 #define ID_TASK_PROJECT_RESUME                  9003

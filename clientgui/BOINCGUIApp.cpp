@@ -277,7 +277,7 @@ bool CBOINCGUIApp::OnInit() {
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #if defined(__WXMSW__) || defined(__WXMAC__)
         BOINC_DIAG_REDIRECTSTDERR |
-// TEMPORARY FOR TESTING ASYNC RPCs -- CAF        BOINC_DIAG_REDIRECTSTDOUT |
+        BOINC_DIAG_REDIRECTSTDOUT |
 #endif
         BOINC_DIAG_TRACETOSTDOUT;
 
@@ -730,6 +730,28 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
     return true;
+}
+
+
+int CBOINCGUIApp::GetCurrentViewPage() {
+    if (m_iGUISelected == BOINC_SIMPLEGUI) return VW_SGUI;
+    
+    switch (((CAdvancedFrame*)m_pFrame)->GetViewTabIndex()) {
+    case 0:
+        return VW_PROJ;
+    case 1:
+        return VW_TASK;
+    case 2:
+        return VW_XFER;
+    case 3:
+        return VW_MSGS;
+    case 4:
+        return VW_STAT;
+    case 5:
+        return VW_DISK;
+    }
+    
+    return 0;       // Should never happen.
 }
 
 

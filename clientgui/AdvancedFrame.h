@@ -56,7 +56,6 @@ public:
 
     ~CAdvancedFrame(void);
 
-    void OnSwitchView( wxCommandEvent& event );
     void OnSwitchGUI( wxCommandEvent& event );
 
     void OnActivitySelection( wxCommandEvent& event );
@@ -87,6 +86,7 @@ public:
     void OnListPanelRender( wxTimerEvent& event );
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
+    int GetViewTabIndex() { return m_pNotebook->GetSelection(); }
 
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
@@ -105,7 +105,6 @@ private:
     CStatusBar*     m_pStatusbar;
 
     bool            m_bDisplayShutdownClientWarning;
-	wxInt32			m_iDisplayViewType;
 
     wxString        m_strBaseTitle;
 

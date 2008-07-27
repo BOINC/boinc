@@ -31,6 +31,16 @@
 #define BOINC_ADVANCEDGUI                   1
 #define BOINC_SIMPLEGUI                     2
 
+// Bit values for CBOINCGUIApp::GetCurrentView() and 
+// CMainDocument::RunPeriodicRPCs()
+#define VW_PROJ 1
+#define VW_TASK 2
+#define VW_XFER 4
+#define VW_MSGS 8
+#define VW_STAT 16
+#define VW_DISK 32
+#define VW_SGUI 1024
+
 
 class wxLogBOINC;
 class CBOINCBaseFrame;
@@ -124,6 +134,7 @@ public:
     void                FireReloadSkin();
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
+    int                 GetCurrentViewPage();
 
     virtual void        OnRPCFinished( CRPCFinishedEvent& event );
     bool                ProcessingRPC;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF

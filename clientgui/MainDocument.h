@@ -73,7 +73,6 @@ public:
     bool           IsConnectEventSignaled() { return m_bConnectEvent; };
     bool           IsConnected() { return m_bConnected; };
     bool           IsReconnecting() { return m_bReconnecting; };
-    int            GetGUI_RPC_Port() { return m_iPort; };
 
 private:
     CMainDocument* m_pDocument;
