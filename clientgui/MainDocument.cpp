@@ -361,16 +361,20 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_iGet_project_status1_rpc_result = -1;
     
     m_dtResultsTimestamp = wxDateTime((time_t)0);
-    m_iGet_results_rpc_result = 0;
+    m_iGet_results_rpc_result = -1;
     
     m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_iGet_file_transfers_rpc_result = 0;
     
-    m_iGet_messages_rpc_result = 0;
+    m_iGet_messages_rpc_result = -1;
     
     m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
+    m_iGet_dsk_usage_rpc_result = -1;
+
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
+    m_iGet_statistics_rpc_result = -1;
+    
     m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
 }
 
