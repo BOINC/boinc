@@ -6002,3 +6002,9 @@ David  28 July 2008
     html/ops/
         repair_forums.php
         db_update.php
+
+Eric  28 July 2008
+    - modified the credit multiplier calculation to make it more stable.
+
+    tools/
+        calculate_credit_multiplier

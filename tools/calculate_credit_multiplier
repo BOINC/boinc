@@ -88,7 +88,7 @@ for appid in $appids ; do
     last_value=`$MYSQL --execute="select multiplier from credit_multiplier where appid=$appid and (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier where appid=$appid)"`
     last_time=`$MYSQL --execute="select unix_timestamp(now())-time from credit_multiplier where appid=$appid and (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier where appid=$appid)"`
 
-    value=`$MYSQL --execute="select ($last_value*(($DECAY_TIME)-$last_time)+$ratio*$last_time)/($DECAY_TIME)"`
+    value=`$MYSQL --execute="select ($last_value*((($DECAY_TIME)-$last_time)+$ratio*$last_time))/($DECAY_TIME)"`
 
     $MYSQL --execute="insert into credit_multiplier values (0,$appid,unix_timestamp(now()),$value);"
 done
