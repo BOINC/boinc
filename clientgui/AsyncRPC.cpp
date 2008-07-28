@@ -209,7 +209,7 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).get_project_status(*(PROJECTS*)(current_request->arg1));
         break;
     case RPC_GET_ALL_PROJECTS_LIST:
-        retval = (m_Doc->rpc).get_all_projects_list(*(ALL_PROJECTS_LIST*)(current_request->arg1));
+        retval = (m_Doc->rpcClient).get_all_projects_list(*(ALL_PROJECTS_LIST*)(current_request->arg1));
         break;
     case RPC_GET_DISK_USAGE:
         retval = (m_Doc->rpcClient).get_disk_usage(*(DISK_USAGE*)(current_request->arg1));
