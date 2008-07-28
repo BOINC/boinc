@@ -1494,8 +1494,6 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-pDoc->TestAsyncRPC(); return;          // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
-
     // General Tab
     dlg.m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
 
