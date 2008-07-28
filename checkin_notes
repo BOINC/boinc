@@ -5992,3 +5992,13 @@ David  27 July 2008
 	    graphics2.h
 		graphics2_unix.C
 		graphics2_win.C
+
+David  28 July 2008
+    - ops: add script to fix backslashes in posts etc.
+    - DB: add db_update.php entry for Eric's new table
+
+    db/
+        boinc_db.C
+    html/ops/
+        repair_forums.php
+        db_update.php

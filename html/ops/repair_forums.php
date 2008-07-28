@@ -22,6 +22,20 @@ function cleanup_orphan_threads() {
     }
 }
 
-cleanup_orphan_threads();
+// Old PHP code put \' and \" into text fields instead of ' and ".
+// Fix this.
+//
+function remove_backslashes($table, $field) {
+    $db = BoincDb::get();
+    $query = "update DBNAME.$table set $field=replace(replace($field, '\\\\\\\"', '\\\"'), '\\\\\\'', '\'')";
+    $db->do_query($query);
+}
+
+remove_backslashes("post", "content");
+remove_backslashes("profile", "response1");
+remove_backslashes("profile", "response2");
+remove_backslashes("thread", "title");
+
+//cleanup_orphan_threads();
 
 ?>

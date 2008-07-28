@@ -937,22 +937,23 @@ void DB_CREDIT_MULTIPLIER::db_parse(MYSQL_ROW& r) {
     multiplier = atof(r[i++]);
 }
 
-void DB_CREDIT_MULTIPLIER::get_nearest(int Appid, int Time) {
+void DB_CREDIT_MULTIPLIER::get_nearest(int _appid, int t) {
     char query[MAX_QUERY_LEN];
     MYSQL_ROW row;
     MYSQL_RES *rp;
+
     // set default values.
     clear();
-    multiplier=1;
-    time=::time(NULL);
-    appid=Appid;
+    multiplier = 1;
+    time = ::time(NULL);
+    appid = _appid;
 
     snprintf(query,MAX_QUERY_LEN,
-	"select * from credit_multiplier where appid=%d and "
-	  "abs(time-%d)=("
+        "select * from credit_multiplier where appid=%d and "
+	    "abs(time-%d)=("
 	    "select min(abs(time-%d)) from credit_multiplier where appid=%d"
-	  ") limit 1",
-	Appid,Time,Time,Appid
+	    ") limit 1",
+        appid, t, t, appid
     );
     if (db->do_query(query) != 0) return;
     rp = mysql_store_result(db->mysql);
@@ -960,9 +961,9 @@ void DB_CREDIT_MULTIPLIER::get_nearest(int Appid, int Time) {
 
     row = mysql_fetch_row(rp);
     if (!row) {
-      mysql_free_result(rp);
+        mysql_free_result(rp);
     } else {
-      db_parse(row);
+        db_parse(row);
     }
     return;
 }

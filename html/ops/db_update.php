@@ -584,10 +584,20 @@ function update_3_27_2008() {
 function update_3_31_2008() {
     do_query("alter table app_version change column xml_doc xml_doc mediumblob");
 }
+
 function update_6_3_2008() {
     do_query("alter table app add target_nresults smallint not null default 0");
 }
 
+function update_7_28_2008() {
+    do_query("create table credit_multiplier (
+        id          serial          primary key,
+        appid       integer         not null,
+        time        integer         not null,
+        multiplier  double          not null default 0
+        ) engine=MyISAM
+    ");
+}
 
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
