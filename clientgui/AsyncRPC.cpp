@@ -404,7 +404,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         if (iter->isSameAs(request)) return 0;
     }
 
-    if ((request.event == NULL) && (request.resultPtr == NULL)) {
+    if ((request.event == 0) && (request.resultPtr == NULL)) {
         request.resultPtr = &retval;
     }
     
@@ -433,7 +433,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
     // If no completion event specified, this is a user-initiated event so 
     // wait for completion but show a dialog allowing the user to cancel.
-    if (request.event == NULL) {
+    if (request.event == 0) {
     // TODO: proper handling if a second user request is received while first is pending
 //        if (inUserRequest) {
         if (m_bWaitingForRPC) {
@@ -567,7 +567,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             RPC_requests[i].event = NULL;  // Is this needed to prevent calling the event's destructor?
             RPC_requests.erase(RPC_requests.begin()+i);
         } else {
-            if (RPC_requests[i].event == NULL) {
+            if (RPC_requests[i].event == 0) {
                 stillWaitingForPendingRequests = true;
             }
         }
@@ -601,15 +601,13 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             *(completed_RPC_requests[i].resultPtr) = retval;
         }
 
-#if 1  // Post-processing
+        // Post-processing
         switch (completed_RPC_requests[i].which_rpc) {
         case RPC_AUTHORIZE:
             break;
         case RPC_EXCHANGE_VERSIONS:
             break;
         case RPC_GET_STATE:
-//            m_iGet_state_RPC_retval = retval;
-            // TODO: Implement buffer swapping, buffer time stamp
             if (completed_RPC_requests[i].exchangeBuf) {
                 CC_STATE* arg1 = (CC_STATE*)completed_RPC_requests[i].arg1;
                 CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
@@ -625,8 +623,6 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
             break;
         case RPC_GET_RESULTS:
-//            m_iGet_results_RPC_retval = retval;
-            // TODO: Implement buffer swapping, buffer time stamp
             if (completed_RPC_requests[i].exchangeBuf) {
                 RESULTS* arg1 = (RESULTS*)completed_RPC_requests[i].arg1;
                 RESULTS* exchangeBuf = (RESULTS*)completed_RPC_requests[i].exchangeBuf;
@@ -634,18 +630,26 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
             break;
         case RPC_GET_FILE_TRANSFERS:
+            if (completed_RPC_requests[i].exchangeBuf) {
+                FILE_TRANSFERS* arg1 = (FILE_TRANSFERS*)completed_RPC_requests[i].arg1;
+                FILE_TRANSFERS* exchangeBuf = (FILE_TRANSFERS*)completed_RPC_requests[i].exchangeBuf;
+                arg1->file_transfers.swap(exchangeBuf->file_transfers);
+            }
             break;
         case RPC_GET_SIMPLE_GUI_INFO1:
             break;
         case RPC_GET_SIMPLE_GUI_INFO2:
             break;
         case RPC_GET_PROJECT_STATUS1:
+            if (completed_RPC_requests[i].exchangeBuf) {
+                CC_STATE* arg1 = (CC_STATE*)completed_RPC_requests[i].arg1;
+                CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+            }
             break;
         case RPC_GET_PROJECT_STATUS2:
             break;
         case RPC_GET_ALL_PROJECTS_LIST:
-//            m_iGet_all_projects_list_RPC_retval = retval;
-            // TODO: Implement buffer swapping, buffer time stamp
             if (completed_RPC_requests[i].exchangeBuf) {
                 ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].arg1;
                 ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].exchangeBuf;
@@ -653,6 +657,13 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
             break;
         case RPC_GET_DISK_USAGE:
+                DISK_USAGE* arg1 = (DISK_USAGE*)completed_RPC_requests[i].arg1;
+                DISK_USAGE* exchangeBuf = (DISK_USAGE*)completed_RPC_requests[i].exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+                exchangeBuf->d_total = arg1->d_total;
+                exchangeBuf->d_free = arg1->d_free;
+                exchangeBuf->d_boinc = arg1->d_boinc;
+                exchangeBuf->d_allowed = arg1->d_allowed;
             break;
         case RPC_SHOW_GRAPHICS:
             break;
@@ -671,6 +682,11 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         case RPC_GET_PROXY_SETTINGS:
             break;
         case RPC_GET_MESSAGES:
+            if (completed_RPC_requests[i].exchangeBuf) {
+                MESSAGES* arg2 = (MESSAGES*)completed_RPC_requests[i].arg2;
+                MESSAGES* exchangeBuf = (MESSAGES*)completed_RPC_requests[i].exchangeBuf;
+                arg2->messages.swap(exchangeBuf->messages);
+            }
             break;
         case RPC_FILE_TRANSFER_OP:
             break;
@@ -688,6 +704,11 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         case RPC_ACCT_MGR_INFO:
             break;
         case RPC_GET_STATISTICS:
+            if (completed_RPC_requests[i].exchangeBuf) {
+                PROJECTS* arg1 = (PROJECTS*)completed_RPC_requests[i].arg1;
+                PROJECTS* exchangeBuf = (PROJECTS*)completed_RPC_requests[i].exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+            }
             break;
         case RPC_NETWORK_AVAILABLE:
             break;
@@ -747,11 +768,11 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         default:
             break;
         }
-#endif  // Post-processing
 
         if ( (completed_RPC_requests[i].event) && (completed_RPC_requests[i].event != (wxEvent*)-1) ) {
             if (completed_RPC_requests[i].eventHandler) {
                 completed_RPC_requests[i].eventHandler->ProcessEvent(*completed_RPC_requests[i].event);
+
             } else {
                 // We must get the frame immediately before using it, 
                 // since it may have been changed by SetActiveGUI().
@@ -845,7 +866,7 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     ALL_PROJECTS_LIST pl;
     ASYNC_RPC_REQUEST request;
     wxDateTime completionTime = wxDateTime((time_t)0);
-    int retval = 0;
+    int req_retval = 0, rpc_result = 0;
 
     completionTime.ResetTime();
 
@@ -859,17 +880,17 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     request.eventHandler = NULL;
     request.completionTime = &completionTime;
 //    request.result = NULL;
-    request.resultPtr = &m_iGet_state_RPC_retval;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+    request.resultPtr = &rpc_result;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
     request.isActive = false;
     
 //retval = rpcClient.get_all_projects_list(pl);
 
-    retval = RequestRPC(request, true);
+    req_retval = RequestRPC(request, true);
 
     wxString s = completionTime.FormatTime();
     wxLogMessage(wxT("Completion time = %s"), s.c_str());
-    wxLogMessage(wxT("RequestRPC returned %d\n"), retval);
+    wxLogMessage(wxT("RequestRPC returned %d\n"), req_retval);
     ::wxSafeYield(NULL, true);  // Allow processing of RPC_FINISHED event
-    wxLogMessage(wxT("rpcClient.get_all_projects_list returned %d\n"), m_iGet_state_RPC_retval);
+    wxLogMessage(wxT("rpcClient.get_all_projects_list returned %d\n"), rpc_result);
 }
 

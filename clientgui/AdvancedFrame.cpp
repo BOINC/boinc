@@ -186,9 +186,11 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_FRAME_REFRESH(CAdvancedFrame::OnRefreshView)
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
+    EVT_FRAME_UPDATEMESSAGES(CAdvancedFrame::OnUpdateMessages)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
-    EVT_TIMER(ID_FRAMELISTRENDERTIMER, CAdvancedFrame::OnListPanelRender)
+// TODO: Remove ID_FRAMELISTRENDERTIMER and all related code
+//    EVT_TIMER(ID_FRAMELISTRENDERTIMER, CAdvancedFrame::OnListPanelRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
 END_EVENT_TABLE ()
 
@@ -237,12 +239,12 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
 
-    m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
-    wxASSERT(m_pFrameListPanelRenderTimer);
+//    m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);    // CAF
+//    wxASSERT(m_pFrameListPanelRenderTimer);
 
     m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-    m_pFrameListPanelRenderTimer->Start(1000);       // Send event every 1 second
+//    m_pFrameListPanelRenderTimer->Start(1000);       // Send event every 1 second
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -258,7 +260,7 @@ CAdvancedFrame::~CAdvancedFrame() {
 
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
-    wxASSERT(m_pFrameListPanelRenderTimer);
+//    wxASSERT(m_pFrameListPanelRenderTimer);
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
@@ -278,11 +280,11 @@ CAdvancedFrame::~CAdvancedFrame() {
         m_pFrameRenderTimer = NULL;
     }
 
-    if (m_pFrameListPanelRenderTimer) {
-        m_pFrameListPanelRenderTimer->Stop();
-        delete m_pFrameListPanelRenderTimer;
-        m_pFrameListPanelRenderTimer = NULL;
-    }
+//    if (m_pFrameListPanelRenderTimer) {
+//        m_pFrameListPanelRenderTimer->Stop();
+//        delete m_pFrameListPanelRenderTimer;
+//        m_pFrameListPanelRenderTimer = NULL;
+//    }
 
     if (m_pStatusbar)
         wxCHECK_RET(DeleteStatusbar(), _T("Failed to delete status bar."));
@@ -1057,7 +1059,6 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
     switch(event.GetId()) {
     case ID_FILEACTIVITYRUNALWAYS:
         pDoc->SetActivityRunMode(RUN_MODE_ALWAYS, 0);
@@ -1493,6 +1494,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+pDoc->TestAsyncRPC(); return;          // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
     // General Tab
     dlg.m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
@@ -1843,6 +1845,22 @@ void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
 }
 
 
+void CAdvancedFrame::OnUpdateMessages(CFrameEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function Begin"));
+
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->CachedMessageUpdate();
+    FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function End"));
+}
+
+
+
 void CAdvancedFrame::OnRefreshState(wxTimerEvent &event) {
     static bool bAlreadyRunningLoop = false;
 
@@ -1969,6 +1987,8 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 
     if ((-1 != event.GetSelection())) {
         UpdateRefreshTimerInterval(event.GetSelection());
+        wxTimerEvent event (wxEVT_TIMER, ID_PERIODICRPCTIMER);
+        AddPendingEvent(event);
         FireRefreshView();
     }
 
@@ -2048,7 +2068,6 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
     if (IsShown()) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
-        CMainDocument*  pDoc = wxGetApp().GetDocument();
 
 
         wxASSERT(m_pNotebook);
@@ -2058,6 +2077,10 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(pView);
+
+// TODO: Confirm we don't need to do something like the following for m_pPeriodicRPCTimer.
+#if 0
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
 
         if (m_pFrameListPanelRenderTimer && m_pFrameListPanelRenderTimer->IsRunning()) {
             m_pFrameListPanelRenderTimer->Stop();
@@ -2076,6 +2099,7 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
                 }
             }
         }
+#endif
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateRefreshTimerInterval - Function End"));
@@ -2085,22 +2109,22 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
 void CAdvancedFrame::StartTimers() {
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
-    wxASSERT(m_pFrameListPanelRenderTimer);
+//    wxASSERT(m_pFrameListPanelRenderTimer);
     CBOINCBaseFrame::StartTimers();
     m_pRefreshStateTimer->Start();
     m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
+//    m_pFrameListPanelRenderTimer->Start();
 }
 
 
 void CAdvancedFrame::StopTimers() {
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
-    wxASSERT(m_pFrameListPanelRenderTimer);
+//    wxASSERT(m_pFrameListPanelRenderTimer);
     CBOINCBaseFrame::StopTimers();
     m_pRefreshStateTimer->Stop();
     m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
+//    m_pFrameListPanelRenderTimer->Stop();
 }
 
 

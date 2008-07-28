@@ -158,14 +158,16 @@ public:
     AsyncRPC                    rpc;
     RPC_CLIENT                  rpcClient;
     CC_STATE                    state;
-    CC_STATE                    state_altbuf;
-    int                         cc_state_rpc_result;
+    CC_STATE                    async_state_buf;
+    int                         m_iGet_state_rpc_result;
+    
     CC_STATUS                   status;
-    CC_STATUS                   status_altbuf;
-    int                         cc_status_rpc_result;
+    CC_STATUS                   async_status_buf;
+    int                         m_iGet_status_rpc_result;
+    
     HOST_INFO                   host;
-    HOST_INFO                   host_altbuf;
-    int                         host_info_rpc_result;
+    HOST_INFO                   async_host_buf;
+    int                         m_iGet_host_info_rpc_result;
     wxDateTime                  m_dtCachedStateTimestamp;
 
     //
@@ -193,6 +195,7 @@ private:
     //
 private:
     int                         CachedProjectStatusUpdate();
+    int                         m_iGet_project_status1_rpc_result;
     wxDateTime                  m_dtProjecStatusTimestamp;
 
 public:
@@ -239,8 +242,8 @@ private:
 public:
     RESULTS                     results;
     RESULTS                     async_results_buf;
-    int                         m_iGet_state_RPC_retval;
-    int                         m_iGet_results_RPC_retval;
+    int                         m_iGet_results_rpc_result;
+    
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);
 
@@ -270,6 +273,9 @@ private:
 
 public:
     MESSAGES                    messages;
+    MESSAGES                    async_messages_buf;
+    int                         m_iGet_messages_rpc_result;
+    
     MESSAGE*                    message(unsigned int);
     int                         CachedMessageUpdate();
 
@@ -289,6 +295,9 @@ private:
 
 public:
     FILE_TRANSFERS              ft;
+    FILE_TRANSFERS              async_ft_buf;
+    int                         m_iGet_file_transfers_rpc_result;
+    
     FILE_TRANSFER*              file_transfer(unsigned int);
     FILE_TRANSFER*              file_transfer(const wxString& fileName, const wxString& project_url);
 
@@ -308,6 +317,9 @@ private:
 
 public:
     DISK_USAGE                  disk_usage;
+    DISK_USAGE                  async_disk_usage_buf;
+    int                         m_iGet_dsk_usage_rpc_result;
+    
     PROJECT*                    DiskUsageProject(unsigned int);
     int                         CachedDiskUsageUpdate();
 
@@ -319,8 +331,10 @@ private:
     wxDateTime                  m_dtStatisticsStatusTimestamp;
 
 public:
-	PROJECTS                    statistics_status;
+    PROJECTS                    statistics_status;
+    PROJECTS                    async_statistics_status_buf;
     PROJECT*                    statistic(unsigned int);
+    int                         m_iGet_statistics_rpc_result;
 
     int                         GetStatisticsCount();
 	

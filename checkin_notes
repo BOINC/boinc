@@ -6042,7 +6042,7 @@ David  25 July 2008
         assimilator.C
     tools/
         pymw_setup
-        
+
 Charlie 25 July 2008
     - MGR: async GUI RPCs: Implement first Periodic RPCs called 
         from a timer event for CachedStateUpdate(), ForceCacheUpdate(), 
@@ -6054,6 +6054,12 @@ Charlie 25 July 2008
         BOINCBaseFrame.cpp,.h
         Events.h
         MainDocument.cpp,.h
+
+David  25 July 2008
+    - web: escape text on edit thread title
+
+    html/user/
+        forum_moderate_thread_action.php
 
 Charlie 26 July 2008
     - MGR: async GUI RPCs: Simulate handling of CRPCFinishedEvent but 
@@ -6081,3 +6087,21 @@ Charlie 26 July 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  27 July 2008
+	- API: small additions to graphics stderr messages
+
+    api/
+	    graphics2.h
+		graphics2_unix.C
+		graphics2_win.C
+
+Charlie 28 July 2008
+    - MGR: async GUI RPCs: All periodic RPCs for Advanced View implemented.
+    
+    clientgui/
+        AdvancedFrame.cpp,.h
+        AsyncRPC.cpp
+        BOINCBaseView.cpp
+        BOINCBaseFrame.cpp,h
+        MainDocument.cpp,.h

@@ -91,12 +91,13 @@ public:
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
     void OnUpdateStatus( CFrameEvent& event );
+    void OnUpdateMessages( CFrameEvent& event );
 
     void ResetReminderTimers();
 
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
-    wxTimer*        m_pFrameListPanelRenderTimer;
+//    wxTimer*        m_pFrameListPanelRenderTimer;
 
 private:
 

@@ -189,7 +189,10 @@ int CBOINCBaseView::GetListRowCount() {
 
 
 void CBOINCBaseView::FireOnListRender(wxTimerEvent& event) {
+extern bool LogRPCs;
+LogRPCs = true;   // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
     OnListRender(event);
+LogRPCs=false;   // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 }
 
 
