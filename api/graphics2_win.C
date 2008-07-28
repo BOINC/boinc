@@ -39,8 +39,8 @@ static bool window_ready=false;
 static UINT_PTR gfx_timer_id = 0;
 static bool fullscreen;
 
-void boinc_close_window_and_quit() {
-    //fprintf(stderr, "Close event detected, shutting down.\n");
+void boinc_close_window_and_quit(const char* p) {
+    fprintf(stderr, "Close event (%s) detected, shutting down.\n", p);
 
     window_ready=false;
     wglMakeCurrent(NULL,NULL);  // release GL rendering context
@@ -205,7 +205,7 @@ LRESULT CALLBACK WndProc(
     case WM_KEYDOWN:
         if(!window_ready) return 0;    
         if (fullscreen) {
-            boinc_close_window_and_quit();
+            boinc_close_window_and_quit("key down");
         } else {           
             boinc_app_key_press((int)wParam, (int)lParam);
         }
@@ -213,7 +213,7 @@ LRESULT CALLBACK WndProc(
     case WM_KEYUP:
         if(!window_ready) return 0;    
         if (fullscreen) {
-            boinc_close_window_and_quit();
+            boinc_close_window_and_quit("key up");
         } else {
             boinc_app_key_release((int)wParam, (int)lParam);           
         }
@@ -227,7 +227,7 @@ LRESULT CALLBACK WndProc(
         if(!window_ready) return 0;    
 
         if (fullscreen) {
-            boinc_close_window_and_quit();
+            boinc_close_window_and_quit("button up");
         } else  {
             int which;
             bool down;
@@ -243,7 +243,7 @@ LRESULT CALLBACK WndProc(
         GetCursorPos(&cPos);
         if (fullscreen) { 
             if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-                boinc_close_window_and_quit();
+                boinc_close_window_and_quit("mouse move");
             }
         } else {
             boinc_app_mouse_move(
@@ -255,10 +255,10 @@ LRESULT CALLBACK WndProc(
         }
         return 0;
     case WM_CLOSE:
-        boinc_close_window_and_quit();
+        boinc_close_window_and_quit("WM_CLOSE");
         return 0;
     case WM_SHUTDOWNGFX:
-        boinc_close_window_and_quit();
+        boinc_close_window_and_quit("WM_SHUTDOWNGFX");
         return 0;
     case WM_DESTROY:
         PostQuitMessage(0);

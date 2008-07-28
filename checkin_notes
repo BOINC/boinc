@@ -5984,3 +5984,10 @@ David  25 July 2008
 
     html/user/
         forum_moderate_thread_action.php
+
+David  27 July 2008
+	- API: small additions to graphics stderr messages
+
+    api/
+	    graphics2.h
+		graphics2_win.C
