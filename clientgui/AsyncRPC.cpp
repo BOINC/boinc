@@ -657,6 +657,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             }
             break;
         case RPC_GET_DISK_USAGE:
+            if (completed_RPC_requests[i].exchangeBuf) {
                 DISK_USAGE* arg1 = (DISK_USAGE*)completed_RPC_requests[i].arg1;
                 DISK_USAGE* exchangeBuf = (DISK_USAGE*)completed_RPC_requests[i].exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
@@ -664,6 +665,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
                 exchangeBuf->d_free = arg1->d_free;
                 exchangeBuf->d_boinc = arg1->d_boinc;
                 exchangeBuf->d_allowed = arg1->d_allowed;
+            }
             break;
         case RPC_SHOW_GRAPHICS:
             break;
