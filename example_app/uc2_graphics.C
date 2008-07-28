@@ -101,7 +101,7 @@ static void draw_text() {
     if (shmem) {
         dt = dtime() - shmem->update_time;
         if (dt > 10) {
-            boinc_close_window_and_quit();
+            boinc_close_window_and_quit("shmem not updated");
         } else if (dt > 5) {
             txf_render_string(.1, 0, 0, 0, 500, white, 0, "App not running - exiting in 5 seconds");
         } else if (shmem->status.suspended) {
@@ -166,7 +166,9 @@ void app_graphics_render(int xs, int ys, double time_of_day) {
     if (shmem == NULL) {
         shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
     }
-    shmem->countdown = 5;
+    if (shmem) {
+        shmem->countdown = 5;
+    }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -111,6 +111,10 @@ int do_checkpoint(MFILE& mf, int nchars) {
 void update_shmem() {
     if (!shmem) return;
 
+    // always do this; otherwise a graphics app will immediately
+    // assume we're not alive
+    shmem->update_time = dtime();
+
     // Check whether a graphics app is running,
     // and don't bother updating shmem if so.
     // This doesn't matter here,
@@ -124,7 +128,6 @@ void update_shmem() {
     }
     shmem->fraction_done = boinc_get_fraction_done();
     shmem->cpu_time = boinc_worker_thread_cpu_time();;
-    shmem->update_time = dtime();
     boinc_get_status(&shmem->status);
 }
 #endif
