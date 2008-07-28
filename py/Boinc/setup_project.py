@@ -366,12 +366,13 @@ def install_boinc_files(dest_dir, web_only):
           'sample_bitwise_validator', 'sample_trivial_validator',
           'file_deleter', 'sample_dummy_assimilator',
           'sample_assimilator', 'sample_work_generator',
-          'single_job_assimilator',
+          'single_job_assimilator', 'pymw_assimilator',
           'update_stats', 'db_dump', 'db_purge', 'show_shmem', 'census' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
         [ 'create_work', 'xadd', 'dbcheck_files_exist', 'run_in_ops',
           'update_versions', 'parse_config', 'grep_logs', 'db_query',
-          'watch_tcp', 'sign_executable', 'dir_hier_move', 'dir_hier_path' ])
+          'watch_tcp', 'sign_executable', 'dir_hier_move',
+          'pymw_setup', 'dir_hier_path' ])
     map(lambda (s): install(srcdir('lib',s), dir('bin',s)),
         [ 'crypt_prog' ])
     map(lambda (s): install(srcdir('sched',s), dir('',s)),

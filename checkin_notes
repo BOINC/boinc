@@ -6008,3 +6008,13 @@ Eric  28 July 2008
 
     tools/
         calculate_credit_multiplier
+
+David  28 July 2008
+    - server: add assimilator for Python Master/Worker system,
+        and change setup script to copy its files
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        Makefile.am
+        pymw_assimilator.C
