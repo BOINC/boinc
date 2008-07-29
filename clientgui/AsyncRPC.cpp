@@ -540,7 +540,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     
  void CMainDocument::HandleCompletedRPC() {
     int retval;
-    int i, n;
+    int i, n, requestIndex = -1;
     bool stillWaitingForPendingRequests = false;
     
     if(current_rpc_request.isActive) return;
@@ -551,17 +551,21 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
    
     // Find our completed request in the queue
-    // We do this in reverse order so we can remove it from queue
     n = RPC_requests.size();
     for (i=0; i<n; ++i) {
         if (RPC_requests[i].isSameAs(current_rpc_request)) {
-            RPC_requests[i].event = NULL;  // Is this needed to prevent calling the event's destructor?
-            RPC_requests.erase(RPC_requests.begin()+i);
+            requestIndex = i;
         } else {
             if (RPC_requests[i].event == 0) {
                 stillWaitingForPendingRequests = true;
             }
         }
+    }
+    
+    if (requestIndex >= 0) {
+        // Remove completed request from the queue
+        RPC_requests[i].event = NULL;  // Is this needed to prevent calling the event's destructor?
+        RPC_requests.erase(RPC_requests.begin()+requestIndex);
     }
     
     retval = current_rpc_request.retval;
