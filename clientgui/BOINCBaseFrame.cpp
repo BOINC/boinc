@@ -56,6 +56,8 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_TIMER(ID_PERIODICRPCTIMER, CBOINCBaseFrame::OnPeriodicRPC)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
+    EVT_FRAME_UPDATEMESSAGES(CBOINCBaseFrame::OnUpdateMessages)
+    EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
 END_EVENT_TABLE ()
@@ -172,8 +174,6 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-//    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
-
     if (!bAlreadyRunOnce && m_pDocumentPollTimer->IsRunning()) {
         // Complete any remaining initialization that has to happen after we are up
         //   and running
@@ -188,8 +188,6 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
 void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
     static bool       bAlreadyRunningLoop = false;
     CMainDocument*    pDoc = wxGetApp().GetDocument();
-
-//    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
     if (!bAlreadyRunningLoop && m_pAlertPollTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
@@ -218,6 +216,10 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
 void CBOINCBaseFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function Begin"));
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnRefreshView(CFrameEvent& event) {
 }
 
 
@@ -344,6 +346,21 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
     }
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnUpdateMessages(CFrameEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function Begin"));
+
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->CachedMessageUpdate();
+    FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function End"));
 }
 
 

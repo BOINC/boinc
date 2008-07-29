@@ -147,8 +147,9 @@ public:
     int                         SetActivityRunMode(int iMode, int iTimeout);
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
+    void                        RefreshRPCs();
     void                        RunPeriodicRPCs();
-    int                         ForceCacheUpdate();
+    int                         ForceCacheUpdate(bool immediate = true);
     int                         RunBenchmarks();
 
     bool                        IsUserAuthorized();
@@ -353,6 +354,7 @@ public:
     //
     // Simple GUI Updates
     //
+    int                         m_iGet_simple_gui2_rpc_result;
 private:
     wxDateTime                  m_dtCachedSimpleGUITimestamp;
     int                         CachedSimpleGUIUpdate();

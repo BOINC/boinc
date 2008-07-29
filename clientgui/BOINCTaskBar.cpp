@@ -139,8 +139,6 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
-
     // What is the current status of the client?
     pDoc->GetCoreClientStatus(status);
 

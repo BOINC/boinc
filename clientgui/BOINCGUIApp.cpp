@@ -75,8 +75,6 @@ END_EVENT_TABLE ()
 bool CBOINCGUIApp::OnInit() {
 
     // Setup variables with default values
-    ProcessingRPC = false;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
-    
     m_strBOINCArguments = wxEmptyString;
     m_strBOINCMGRRootDirectory = wxEmptyString;
     m_strBOINCMGRDataDirectory = wxEmptyString;
@@ -734,7 +732,13 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 
 int CBOINCGUIApp::GetCurrentViewPage() {
-    if (m_iGUISelected == BOINC_SIMPLEGUI) return VW_SGUI;
+    if (m_iGUISelected == BOINC_SIMPLEGUI) {
+        if (((CSimpleFrame*)m_pFrame)->isMessagesDlgOpen()) {
+            return VW_SGUI | VW_SMSG;
+        } else {
+            return VW_SGUI;
+        }
+    }
     
     switch (((CAdvancedFrame*)m_pFrame)->GetViewTabIndex()) {
     case 0:

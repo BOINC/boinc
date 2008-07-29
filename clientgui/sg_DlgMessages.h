@@ -95,8 +95,7 @@ public:
     /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGMESSAGES
     void OnEraseBackground( wxEraseEvent& event );
 
-    /// wxEVT_TIMER event handler for ID_REFRESHMESSAGESTIMER
-    void OnRefresh( wxTimerEvent& event );
+    void OnRefresh();
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
@@ -130,8 +129,6 @@ private:
 
     bool                    m_bProcessingRefreshEvent;
     bool                    m_bForceUpdateSelection;
-
-	wxTimer*                m_pRefreshMessagesTimer;
 
     bool                    EnsureLastItemVisible();
 	wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
@@ -174,6 +171,8 @@ public:
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
+    
+    void OnRefresh() { m_pBackgroundPanel->OnRefresh(); }
 
 private:
 

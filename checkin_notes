@@ -6102,6 +6102,48 @@ Charlie 28 July 2008
     clientgui/
         AdvancedFrame.cpp,.h
         AsyncRPC.cpp
-        BOINCBaseView.cpp
         BOINCBaseFrame.cpp,h
+        BOINCBaseView.cpp
         MainDocument.cpp,.h
+
+David  28 July 2008
+    - ops: add script to fix backslashes in posts etc.
+    - DB: add db_update.php entry for Eric's new table
+
+    db/
+        boinc_db.C
+    html/ops/
+        repair_forums.php
+        db_update.php
+
+Eric  28 July 2008
+    - modified the credit multiplier calculation to make it more stable.
+
+    tools/
+        calculate_credit_multiplier
+
+David  28 July 2008
+    - server: add assimilator for Python Master/Worker system,
+        and change setup script to copy its files
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        Makefile.am
+        pymw_assimilator.C
+
+Charlie 29 July 2008
+    - MGR: async GUI RPCs: All periodic RPCs for Simple View implemented.
+    
+    clientgui/
+        AdvancedFrame.cpp,.h
+        AsyncRPC.cpp,.h
+        BOINCBaseFrame.cpp,h
+        BOINCBaseView.cpp
+        BOINCGUIApp.cpp,.h
+        BOINCTaskBar.cpp
+        Events.h
+        MainDocument.cpp,.h
+        sg_BoincSimpleGUI.cpp,.h
+        sg_DlgMessages.cpp,.h
+        sg_ProjectsComponent.cpp,.h

@@ -55,6 +55,7 @@ public:
     void                OnPeriodicRPC( wxTimerEvent& event );
     void                OnDocumentPoll( wxTimerEvent& event );
     void                OnAlertPoll( wxTimerEvent& event );
+    virtual void        OnRefreshView( CFrameEvent& event );
 
     void                OnInitialized( CFrameEvent& event );
 
@@ -62,6 +63,7 @@ public:
     virtual void        OnClose( wxCloseEvent& event );
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
+    void                OnUpdateMessages( CFrameEvent& event );
     
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }

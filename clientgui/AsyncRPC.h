@@ -293,19 +293,7 @@ public:
             SetEventObject(wxTheApp);
         }
 
-    CRPCFinishedEvent(const CRPCFinishedEvent& event)
-        : wxEvent(event), m_retval(event.m_retval) {}
-         
-    virtual wxEvent *       Clone() const { 
-        CRPCFinishedEvent* newEvent = new CRPCFinishedEvent(*this); 
-        newEvent->m_retval = m_retval;
-        return newEvent;
-    }
-
-    void                    SetInt(int i) { m_retval = i; }
-    int                     GetInt() const { return m_retval; }
-private:
-    int                     m_retval;
+    virtual wxEvent *Clone() const { return new CRPCFinishedEvent(*this); }
 };
 
 BEGIN_DECLARE_EVENT_TYPES()

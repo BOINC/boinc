@@ -395,13 +395,14 @@ int RPCThread::ProcessRPCRequest() {
 // TODO: combine RPC requests for different buffers, then just copy the buffer.
 
 int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
-//    static bool inUserRequest = false;
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0, retval2 = 0;
     
     // Check if a duplicate request is already on the queue
     for (iter=RPC_requests.begin(); iter!=RPC_requests.end(); iter++) {
-        if (iter->isSameAs(request)) return 0;
+        if (iter->isSameAs(request)) {
+            return 0;
+        }
     }
 
     if ((request.event == 0) && (request.resultPtr == NULL)) {
@@ -435,24 +436,14 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     // wait for completion but show a dialog allowing the user to cancel.
     if (request.event == 0) {
     // TODO: proper handling if a second user request is received while first is pending
-//        if (inUserRequest) {
         if (m_bWaitingForRPC) {
             wxLogMessage(wxT("Second user RPC request while another was pending"));
             wxASSERT(false);
-#if 0
-            while (m_bWaitingForRPC) {
-                ::wxSafeYield(NULL, true);  // Continue processing events
-            }
-            return retval;
-#else
             return -1;
-#endif
         }
-//        inUserRequest = true;
         m_bWaitingForRPC = true;
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
         wxStopWatch Dlgdelay = wxStopWatch();
-        wxGetApp().ProcessingRPC = true;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
 //        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
 //        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
@@ -463,15 +454,15 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             wxTheApp->Yield(true);  // Continue processing events
             // wxSafeYield prevents user activity but causes ugly disabling of coontrols
 //            ::wxSafeYield(pFrame, true);  // Continue processing events
-#else   // Simulate handling of CRPCFinishedEvent but don't allow any other events (so no user activity)
-//            usleep(1);   ///// ???? SwitchToThread() on Windows?  nanosleep() on UNIX ????
+#else
+        // Simulate handling of CRPCFinishedEvent but don't allow any other events (so no user activity)
+        // Allow RPC thread to run while we wait for it
 #ifdef __WXMSW__
             SwitchToThread();
 #else
             // TODO: is there a way for main UNIX thread to yield wih no minimum delay?
             timespec ts = {0, 1};   /// 1 nanosecond
             nanosleep(&ts, NULL);   /// 1 nanosecond or less 
-               ///// ???? SwitchToThread() on Windows?  nanosleep() on UNIX ????
 #endif
             if (!current_rpc_request.isActive) {
                 HandleCompletedRPC();
@@ -479,15 +470,18 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 #endif
             // OnRPCComplete() clears m_bWaitingForRPC if RPC completed 
             if (! m_bWaitingForRPC) {
-//                inUserRequest = false;
-                wxGetApp().ProcessingRPC = false;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
                 return retval;
             }
         } while (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
-//      GetCurrentProcess(&psn);
-//      SetFrontProcess(&psn);  // Shows process if hidden
+//      GetCurrentProcess(&psn);    // Mac only
+//      SetFrontProcess(&psn);  // Mac only: Shows process if hidden
         if (m_RPCWaitDlg) {
             if (m_RPCWaitDlg->ShowModal() != wxID_OK) {
+                // TODO: If user presses Cancel in Please Wait dialog but request 
+                // has not yet been started, should we just remove it from queue? 
+                // If wemake that change, should we also add a separate menu item  
+                // to reset the RPC connection (or does one already exist)?
+
                 retval = -1;
                 // If the RPC continues to get data after we return to 
                 // our caller, it may try to write into a buffer or struct
@@ -532,7 +526,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 }
                 m_RPCWaitDlg = NULL;
                 m_bWaitingForRPC = false;
-                wxGetApp().ProcessingRPC = false;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
             }
         }
     }
@@ -548,7 +541,6 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
  void CMainDocument::HandleCompletedRPC() {
     int retval;
     int i, n;
-    std::vector<ASYNC_RPC_REQUEST> completed_RPC_requests;
     bool stillWaitingForPendingRequests = false;
     
     if(current_rpc_request.isActive) return;
@@ -558,12 +550,11 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     // on the event queue, so we get called twice.  Check for this here.
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
    
-    // Move all requests for the completed RPC to our local vector
-    // We do this in reverse order so we can remove them from queue
+    // Find our completed request in the queue
+    // We do this in reverse order so we can remove it from queue
     n = RPC_requests.size();
-    for (i=n-1; i>=0; --i) {
-        if (RPC_requests[i].which_rpc == current_rpc_request.which_rpc) {
-            completed_RPC_requests.push_back(RPC_requests[i]);
+    for (i=0; i<n; ++i) {
+        if (RPC_requests[i].isSameAs(current_rpc_request)) {
             RPC_requests[i].event = NULL;  // Is this needed to prevent calling the event's destructor?
             RPC_requests.erase(RPC_requests.begin()+i);
         } else {
@@ -574,9 +565,135 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     }
     
     retval = current_rpc_request.retval;
+
+    if (current_rpc_request.completionTime) {
+        *(current_rpc_request.completionTime) = wxDateTime::Now();
+    }
+    if (current_rpc_request.resultPtr) {
+        *(current_rpc_request.resultPtr) = retval;
+    }
+
+    // Post-processing
+    switch (current_rpc_request.which_rpc) {
+    case RPC_GET_STATE:
+        if (current_rpc_request.exchangeBuf) {
+            CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
+            CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
+            arg1->projects.swap(exchangeBuf->projects);
+            arg1->apps.swap(exchangeBuf->apps);
+            arg1->app_versions.swap(exchangeBuf->app_versions);
+            arg1->wus.swap(exchangeBuf->wus);
+            arg1->results.swap(exchangeBuf->results);
+            exchangeBuf->global_prefs = arg1->global_prefs;
+            exchangeBuf->version_info = arg1->version_info;
+            exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
+            arg1->results.swap(exchangeBuf->results);
+        }
+        break;
+    case RPC_GET_RESULTS:
+        if (current_rpc_request.exchangeBuf) {
+            RESULTS* arg1 = (RESULTS*)current_rpc_request.arg1;
+            RESULTS* exchangeBuf = (RESULTS*)current_rpc_request.exchangeBuf;
+            arg1->results.swap(exchangeBuf->results);
+        }
+        break;
+    case RPC_GET_FILE_TRANSFERS:
+        if (current_rpc_request.exchangeBuf) {
+            FILE_TRANSFERS* arg1 = (FILE_TRANSFERS*)current_rpc_request.arg1;
+            FILE_TRANSFERS* exchangeBuf = (FILE_TRANSFERS*)current_rpc_request.exchangeBuf;
+            arg1->file_transfers.swap(exchangeBuf->file_transfers);
+        }
+        break;
+    case RPC_GET_SIMPLE_GUI_INFO2:
+        if (current_rpc_request.exchangeBuf) {
+            CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
+            CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
+            arg1->projects.swap(exchangeBuf->projects);
+        }
+        if (current_rpc_request.arg3) {
+            RESULTS* arg2 = (RESULTS*)current_rpc_request.arg2;
+            RESULTS* arg3 = (RESULTS*)current_rpc_request.arg3;
+            arg2->results.swap(arg3->results);
+        }
+        break;
+    case RPC_GET_PROJECT_STATUS1:
+        if (current_rpc_request.exchangeBuf) {
+            CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
+            CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
+            arg1->projects.swap(exchangeBuf->projects);
+        }
+        break;
+    case RPC_GET_ALL_PROJECTS_LIST:
+        if (current_rpc_request.exchangeBuf) {
+            ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)current_rpc_request.arg1;
+            ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)current_rpc_request.exchangeBuf;
+            arg1->projects.swap(exchangeBuf->projects);
+        }
+        break;
+    case RPC_GET_DISK_USAGE:
+        if (current_rpc_request.exchangeBuf) {
+            DISK_USAGE* arg1 = (DISK_USAGE*)current_rpc_request.arg1;
+            DISK_USAGE* exchangeBuf = (DISK_USAGE*)current_rpc_request.exchangeBuf;
+            arg1->projects.swap(exchangeBuf->projects);
+            exchangeBuf->d_total = arg1->d_total;
+            exchangeBuf->d_free = arg1->d_free;
+            exchangeBuf->d_boinc = arg1->d_boinc;
+            exchangeBuf->d_allowed = arg1->d_allowed;
+        }
+        break;
+    case RPC_GET_MESSAGES:
+        if (current_rpc_request.exchangeBuf) {
+            MESSAGES* arg2 = (MESSAGES*)current_rpc_request.arg2;
+            MESSAGES* exchangeBuf = (MESSAGES*)current_rpc_request.exchangeBuf;
+            arg2->messages.swap(exchangeBuf->messages);
+        }
+        break;
+    case RPC_GET_HOST_INFO:
+        if (current_rpc_request.exchangeBuf) {
+            HOST_INFO* arg1 = (HOST_INFO*)current_rpc_request.arg1;
+            HOST_INFO* exchangeBuf = (HOST_INFO*)current_rpc_request.exchangeBuf;
+            *exchangeBuf = *arg1;
+        }
+        break;
+    case RPC_GET_STATISTICS:
+        if (current_rpc_request.exchangeBuf) {
+            PROJECTS* arg1 = (PROJECTS*)current_rpc_request.arg1;
+            PROJECTS* exchangeBuf = (PROJECTS*)current_rpc_request.exchangeBuf;
+            arg1->projects.swap(exchangeBuf->projects);
+        }
+        break;
+        
+    case RPC_GET_CC_STATUS:
+        if (current_rpc_request.exchangeBuf) {
+            CC_STATUS* arg1 = (CC_STATUS*)current_rpc_request.arg1;
+            CC_STATUS* exchangeBuf = (CC_STATUS*)current_rpc_request.exchangeBuf;
+            *exchangeBuf = *arg1;
+        }
+        break;
+    default:
+        // We don't support double buffering for other RPC calls 
+        wxASSERT(current_rpc_request.exchangeBuf == NULL);
+        break;
+    }
+
+    if ( (current_rpc_request.event) && (current_rpc_request.event != (wxEvent*)-1) ) {
+        if (current_rpc_request.eventHandler) {
+            current_rpc_request.eventHandler->ProcessEvent(*current_rpc_request.event);
+
+        } else {
+            // We must get the frame immediately before using it, 
+            // since it may have been changed by SetActiveGUI().
+            CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+            wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+            pFrame->ProcessEvent(*current_rpc_request.event);
+        }
+        delete current_rpc_request.event;
+        current_rpc_request.event = NULL;
+    }
+
     current_rpc_request.clear();
 
-    // Start the next RPC request while we process the one just completed.
+    // Start the next RPC request.
     if (RPC_requests.size() > 0) {
 #if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
         m_critsect.Enter();
@@ -591,201 +708,6 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
 #endif
     }
 
-    // Now process the requests we have satisfied.
-    n = completed_RPC_requests.size();
-    for (i=n-1; i>=0; --i) {
-        if (completed_RPC_requests[i].completionTime) {
-            *(completed_RPC_requests[i].completionTime) = wxDateTime::Now();
-        }
-        if (completed_RPC_requests[i].resultPtr) {
-            *(completed_RPC_requests[i].resultPtr) = retval;
-        }
-
-        // Post-processing
-        switch (completed_RPC_requests[i].which_rpc) {
-        case RPC_AUTHORIZE:
-            break;
-        case RPC_EXCHANGE_VERSIONS:
-            break;
-        case RPC_GET_STATE:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                CC_STATE* arg1 = (CC_STATE*)completed_RPC_requests[i].arg1;
-                CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
-                arg1->projects.swap(exchangeBuf->projects);
-                arg1->apps.swap(exchangeBuf->apps);
-                arg1->app_versions.swap(exchangeBuf->app_versions);
-                arg1->wus.swap(exchangeBuf->wus);
-                arg1->results.swap(exchangeBuf->results);
-                exchangeBuf->global_prefs = arg1->global_prefs;
-                exchangeBuf->version_info = arg1->version_info;
-                exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
-                arg1->results.swap(exchangeBuf->results);
-            }
-            break;
-        case RPC_GET_RESULTS:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                RESULTS* arg1 = (RESULTS*)completed_RPC_requests[i].arg1;
-                RESULTS* exchangeBuf = (RESULTS*)completed_RPC_requests[i].exchangeBuf;
-                arg1->results.swap(exchangeBuf->results);
-            }
-            break;
-        case RPC_GET_FILE_TRANSFERS:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                FILE_TRANSFERS* arg1 = (FILE_TRANSFERS*)completed_RPC_requests[i].arg1;
-                FILE_TRANSFERS* exchangeBuf = (FILE_TRANSFERS*)completed_RPC_requests[i].exchangeBuf;
-                arg1->file_transfers.swap(exchangeBuf->file_transfers);
-            }
-            break;
-        case RPC_GET_SIMPLE_GUI_INFO1:
-            break;
-        case RPC_GET_SIMPLE_GUI_INFO2:
-            break;
-        case RPC_GET_PROJECT_STATUS1:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                CC_STATE* arg1 = (CC_STATE*)completed_RPC_requests[i].arg1;
-                CC_STATE* exchangeBuf = (CC_STATE*)completed_RPC_requests[i].exchangeBuf;
-                arg1->projects.swap(exchangeBuf->projects);
-            }
-            break;
-        case RPC_GET_PROJECT_STATUS2:
-            break;
-        case RPC_GET_ALL_PROJECTS_LIST:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].arg1;
-                ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)completed_RPC_requests[i].exchangeBuf;
-                arg1->projects.swap(exchangeBuf->projects);
-            }
-            break;
-        case RPC_GET_DISK_USAGE:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                DISK_USAGE* arg1 = (DISK_USAGE*)completed_RPC_requests[i].arg1;
-                DISK_USAGE* exchangeBuf = (DISK_USAGE*)completed_RPC_requests[i].exchangeBuf;
-                arg1->projects.swap(exchangeBuf->projects);
-                exchangeBuf->d_total = arg1->d_total;
-                exchangeBuf->d_free = arg1->d_free;
-                exchangeBuf->d_boinc = arg1->d_boinc;
-                exchangeBuf->d_allowed = arg1->d_allowed;
-            }
-            break;
-        case RPC_SHOW_GRAPHICS:
-            break;
-        case RPC_PROJECT_OP:
-            break;
-        case RPC_SET_RUN_MODE:
-            break;
-        case RPC_SET_NETWORK_MODE:
-            break;
-        case RPC_GET_SCREENSAVER_TASKS:
-            break;
-        case RPC_RUN_BENCHMARKS:
-            break;
-        case RPC_SET_PROXY_SETTINGS:
-            break;
-        case RPC_GET_PROXY_SETTINGS:
-            break;
-        case RPC_GET_MESSAGES:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                MESSAGES* arg2 = (MESSAGES*)completed_RPC_requests[i].arg2;
-                MESSAGES* exchangeBuf = (MESSAGES*)completed_RPC_requests[i].exchangeBuf;
-                arg2->messages.swap(exchangeBuf->messages);
-            }
-            break;
-        case RPC_FILE_TRANSFER_OP:
-            break;
-        case RPC_RESULT_OP:
-            break;
-        case RPC_GET_HOST_INFO:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                HOST_INFO* arg1 = (HOST_INFO*)completed_RPC_requests[i].arg1;
-                HOST_INFO* exchangeBuf = (HOST_INFO*)completed_RPC_requests[i].exchangeBuf;
-                *exchangeBuf = *arg1;
-            }
-            break;
-        case RPC_QUIT:
-            break;
-        case RPC_ACCT_MGR_INFO:
-            break;
-        case RPC_GET_STATISTICS:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                PROJECTS* arg1 = (PROJECTS*)completed_RPC_requests[i].arg1;
-                PROJECTS* exchangeBuf = (PROJECTS*)completed_RPC_requests[i].exchangeBuf;
-                arg1->projects.swap(exchangeBuf->projects);
-            }
-            break;
-        case RPC_NETWORK_AVAILABLE:
-            break;
-        case RPC_GET_PROJECT_INIT_STATUS:
-            break;
-        case RPC_GET_PROJECT_CONFIG:
-            break;
-        case RPC_GET_PROJECT_CONFIG_POLL:
-            break;
-        case RPC_LOOKUP_ACCOUNT:
-            break;
-        case RPC_LOOKUP_ACCOUNT_POLL:
-            break;
-        case RPC_CREATE_ACCOUNT:
-            break;
-        case RPC_CREATE_ACCOUNT_POLL:
-            break;
-        case RPC_PROJECT_ATTACH:
-            break;
-        case RPC_PROJECT_ATTACH_FROM_FILE:
-            break;
-        case RPC_PROJECT_ATTACH_POLL:
-            break;
-        case RPC_ACCT_MGR_RPC:
-            break;
-        case RPC_ACCT_MGR_RPC_POLL:
-            break;
-        case RPC_GET_NEWER_VERSION:
-            break;
-        case RPC_READ_GLOBAL_PREFS_OVERRIDE:
-            break;
-        case RPC_READ_CC_CONFIG:
-            break;
-        case RPC_GET_CC_STATUS:
-            if (completed_RPC_requests[i].exchangeBuf) {
-                CC_STATUS* arg1 = (CC_STATUS*)completed_RPC_requests[i].arg1;
-                CC_STATUS* exchangeBuf = (CC_STATUS*)completed_RPC_requests[i].exchangeBuf;
-                *exchangeBuf = *arg1;
-            }
-            break;
-        case RPC_GET_GLOBAL_PREFS_FILE:
-            break;
-        case RPC_GET_GLOBAL_PREFS_WORKING:
-            break;
-        case RPC_GET_GLOBAL_PREFS_WORKING_STRUCT:
-            break;
-        case RPC_GET_GLOBAL_PREFS_OVERRIDE:
-            break;
-        case RPC_SET_GLOBAL_PREFS_OVERRIDE:
-            break;
-        case RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT:
-            break;
-        case RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT:
-            break;
-        case RPC_SET_DEBTS:
-            break;
-        default:
-            break;
-        }
-
-        if ( (completed_RPC_requests[i].event) && (completed_RPC_requests[i].event != (wxEvent*)-1) ) {
-            if (completed_RPC_requests[i].eventHandler) {
-                completed_RPC_requests[i].eventHandler->ProcessEvent(*completed_RPC_requests[i].event);
-
-            } else {
-                // We must get the frame immediately before using it, 
-                // since it may have been changed by SetActiveGUI().
-                CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-                pFrame->ProcessEvent(*completed_RPC_requests[i].event);
-            }
-            delete completed_RPC_requests[i].event;
-            completed_RPC_requests[i].event = NULL;
-        }
-    }
     if (! stillWaitingForPendingRequests) {
         if (m_RPCWaitDlg) {
             if (m_RPCWaitDlg->IsShown()) {

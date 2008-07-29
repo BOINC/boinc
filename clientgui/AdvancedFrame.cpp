@@ -183,10 +183,8 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
     EVT_SHOW(CAdvancedFrame::OnShow)
-    EVT_FRAME_REFRESH(CAdvancedFrame::OnRefreshView)
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
-    EVT_FRAME_UPDATEMESSAGES(CAdvancedFrame::OnUpdateMessages)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
 // TODO: Remove ID_FRAMELISTRENDERTIMER and all related code
@@ -1494,6 +1492,8 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+pDoc->TestAsyncRPC(); return;          // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+
     // General Tab
     dlg.m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
 
@@ -1843,22 +1843,6 @@ void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
 }
 
 
-void CAdvancedFrame::OnUpdateMessages(CFrameEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function Begin"));
-
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
-    pDoc->CachedMessageUpdate();
-    FireRefreshView();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function End"));
-}
-
-
-
 void CAdvancedFrame::OnRefreshState(wxTimerEvent &event) {
     static bool bAlreadyRunningLoop = false;
 
@@ -1886,8 +1870,6 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
     CMainDocument*    pDoc     = wxGetApp().GetDocument();
     wxMenuBar*        pMenuBar = GetMenuBar();
 
-    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
-    
     if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
@@ -1975,7 +1957,6 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 
 
 void CAdvancedFrame::OnListPanelRender(wxTimerEvent& WXUNUSED(event)) {
-    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
     FireRefreshView();
 }
 
@@ -1985,9 +1966,14 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 
     if ((-1 != event.GetSelection())) {
         UpdateRefreshTimerInterval(event.GetSelection());
+
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        
+        pDoc->RunPeriodicRPCs();
+        
         wxTimerEvent event (wxEVT_TIMER, ID_PERIODICRPCTIMER);
         AddPendingEvent(event);
-        FireRefreshView();
     }
 
     event.Skip();

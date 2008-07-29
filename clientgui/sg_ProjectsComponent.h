@@ -98,6 +98,7 @@ private:
 	bool receivedErrorMessage;
 	bool alertMessageDisplayed;
 	size_t lastMessageId;
+    bool m_bIs_acct_mgr_detected;
 	void OnMessageCheck(wxTimerEvent& WXUNUSED(event));
    	void MessagesViewed();
 	void UpdateDisplayedProjects();

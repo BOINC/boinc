@@ -40,6 +40,7 @@
 #define VW_STAT 16
 #define VW_DISK 32
 #define VW_SGUI 1024
+#define VW_SMSG 2048
 
 
 class wxLogBOINC;
@@ -137,7 +138,6 @@ public:
     int                 GetCurrentViewPage();
 
     virtual void        OnRPCFinished( CRPCFinishedEvent& event );
-    bool                ProcessingRPC;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
     
     int                 ConfirmExit();
 

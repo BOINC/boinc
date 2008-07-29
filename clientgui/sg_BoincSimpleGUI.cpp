@@ -49,6 +49,7 @@
 #include "sg_ClientStateIndicator.h"
 #include "sg_StatImageLoader.h"
 #include "sg_ViewTabPage.h"
+#include "sg_DlgMessages.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
@@ -191,6 +192,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
 
+    dlgMsgsPtr = NULL;
     m_pBackgroundPanel = new CSimplePanel(this);
 }
 
@@ -349,6 +351,19 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
 }
 
 
+void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
+    
+    m_pBackgroundPanel->OnFrameRender();
+    
+    if (dlgMsgsPtr) {
+        dlgMsgsPtr->OnRefresh();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function End"));
+}
+
+
 void CSimpleFrame::OnProjectsAttachToProject() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
 
@@ -362,7 +377,8 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 
     if (pDoc->IsConnected()) {
         
-        m_pBackgroundPanel->m_pFrameRenderTimer->Stop();
+        // TODO: Should we stop updating while running the wizard?
+//        m_pBackgroundPanel->m_pFrameRenderTimer->Stop();
 
         CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
@@ -373,7 +389,7 @@ void CSimpleFrame::OnProjectsAttachToProject() {
         if (pWizard)
             pWizard->Destroy();
 
-        m_pBackgroundPanel->m_pFrameRenderTimer->Start();
+//        m_pBackgroundPanel->m_pFrameRenderTimer->Start();
     } else {
         ShowNotCurrentlyConnectedAlert();
     }
@@ -451,7 +467,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSimplePanel, wxPanel)
 BEGIN_EVENT_TABLE(CSimplePanel, wxPanel)
     EVT_SIZE(CSimplePanel::OnSize)
     EVT_ERASE_BACKGROUND(CSimplePanel::OnEraseBackground)
-    EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimplePanel::OnFrameRender)
+//    EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimplePanel::OnFrameRender)
 END_EVENT_TABLE()
 
 
@@ -475,11 +491,7 @@ CSimplePanel::CSimplePanel(wxWindow* parent) :
 	notebookViewInitialized = false;
 	dlgOpen = false;
 
-	//set polling timer for interface
-	m_pFrameRenderTimer = new wxTimer(this, ID_SIMPLEFRAMERENDERTIMER);
-    wxASSERT(m_pFrameRenderTimer);
-    m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-
+    
 	InitEmptyView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Overloaded Constructor Function End"));
@@ -489,13 +501,7 @@ CSimplePanel::CSimplePanel(wxWindow* parent) :
 CSimplePanel::~CSimplePanel()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Destructor Function Begin"));
-    wxASSERT(m_pFrameRenderTimer);
-
-	if (m_pFrameRenderTimer) {
-        m_pFrameRenderTimer->Stop();
-        delete m_pFrameRenderTimer;
-    }
-
+    
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Destructor Function End"));
 }
 
@@ -540,10 +546,9 @@ void CSimplePanel::OnProjectsAttachToProject() {
 }
 
 
-void CSimplePanel::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
+// called from CSimpleFrame::OnRefreshView()
+void CSimplePanel::OnFrameRender() {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
-
-    if (wxGetApp().ProcessingRPC) return;  // TEMPORARY UNTIL PERIODIC ASYNC RPCs IMPLEMENTED -- CAF
 
     if (IsShown()) {
 

@@ -29,7 +29,6 @@
 #define ID_FRAMETASKRENDERTIMER                 6005
 #define ID_FRAMELISTRENDERTIMER                 6006
 #define ID_DOCUMENTPOLLTIMER                    6007
-#define ID_SIMPLEFRAMERENDERTIMER               6008
 #define ID_ALERTPOLLTIMER                       6009
 #define ID_FILEACTIVITYRUNALWAYS                6010
 #define ID_FILEACTIVITYRUNBASEDONPREPERENCES    6011
@@ -51,7 +50,6 @@
 #define ID_ADVANCEDAMDEFECT                     6027
 #define ID_OPENWEBSITE                          6028
 #define ID_FILESWITCHGUI                        6029
-#define ID_REFRESHMESSAGESTIMER                 6030
 #define ID_ACTIVITYMENUSEPARATOR                6031
 #define ID_FILECLOSEWINDOW                      6032
 #define ID_ADVPREFSDLG                          6033
