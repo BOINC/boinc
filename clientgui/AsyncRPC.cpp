@@ -564,7 +564,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     
     if (requestIndex >= 0) {
         // Remove completed request from the queue
-        RPC_requests[i].event = NULL;  // Is this needed to prevent calling the event's destructor?
+        RPC_requests[requestIndex].event = NULL;  // Is this needed to prevent calling the event's destructor?
         RPC_requests.erase(RPC_requests.begin()+requestIndex);
     }
     
