@@ -682,14 +682,14 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
 
     if ( (current_rpc_request.event) && (current_rpc_request.event != (wxEvent*)-1) ) {
         if (current_rpc_request.eventHandler) {
-            current_rpc_request.eventHandler->ProcessEvent(*current_rpc_request.event);
-
+//            current_rpc_request.eventHandler->ProcessEvent(*current_rpc_request.event);
+            current_rpc_request.eventHandler->AddPendingEvent(*current_rpc_request.event);
         } else {
             // We must get the frame immediately before using it, 
             // since it may have been changed by SetActiveGUI().
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-            pFrame->ProcessEvent(*current_rpc_request.event);
+            pFrame->AddPendingEvent(*current_rpc_request.event);
         }
         delete current_rpc_request.event;
         current_rpc_request.event = NULL;
