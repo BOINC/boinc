@@ -14,7 +14,7 @@
 // a job is considered done if either
 // - N instances are positive and match within +- 20 pixels,
 //      and prod(pos_err_rate)<PROB_LIMIT
-// - 2 instances are negative
+// - N instances are negative
 //      and prod(neg_err_rate)<PROB_LIMIT
 // - there are 10 finished instances
 //   (in which case the job is marked as inconclusive)
@@ -24,7 +24,7 @@ require_once("../inc/bossa.inc");
 define("PROB_LIMIT", 1e-3);
 
 function job_show($job, $inst, $user) {
-    $info = $job->get_info();
+    $info = $job->get_opaque_data();
     $path = $info->path;
     page_head("Find the Ellipse");
     echo "
@@ -56,13 +56,15 @@ function job_finished($job, $inst, $user) {
         $response->cx = get_int('pic_x');
         $response->cy = get_int('pic_y');
     }
-    $inst->update_info($response);
+    $inst->set_opaque_data($response);
 
+    // if this is a calibration job, update user's opaque data
+    //
     if ($job->calibration) {
         $b = $user->bossa;
-        $info = $job->get_info();
+        $info = $job->get_opaque_data();
         $answer = $info->answer;
-        $u = $b->get_info();
+        $u = $b->get_opaque_data();
         if (!$u) {
             $u->npos = 0;
             $u->npos_err = 0;
@@ -84,11 +86,11 @@ function job_finished($job, $inst, $user) {
                 $u->nneg_err++;
             }
         }
-        $b->update_info($u);
+        $b->set_opaque_data($u);
         return;
     }
 
-    // see if job is done
+    // now see if job is done
     //
     $insts = $job->get_finished_instances();
     $n = count($insts);
@@ -96,9 +98,9 @@ function job_finished($job, $inst, $user) {
     $results = null;
     $users = null;
     foreach ($insts as $inst) {
-        $results[] = $inst->get_info();
+        $results[] = $inst->get_opaque_data();
         $u = $inst->get_user();
-        $users[] = $u->bossa->get_info();
+        $users[] = $u->bossa->get_opaque_data();
     }
 
     // see if there's a negative consensus
@@ -111,7 +113,7 @@ function job_finished($job, $inst, $user) {
         $prob *= $u->neg_err_rate;
     }
     if ($prob < PROB_LIMIT) {
-        $job->update_state(BOSSA_JOB_DONE);
+        $job->set_state(BOSSA_JOB_DONE);
         return;
     }
 
@@ -130,7 +132,7 @@ function job_finished($job, $inst, $user) {
             }
         }
         if ($prob < PROB_LIMIT) {
-            $job->update_state(BOSSA_JOB_DONE);
+            $job->set_state(BOSSA_JOB_DONE);
             return;
         }
     }
@@ -138,9 +140,14 @@ function job_finished($job, $inst, $user) {
     // see if there are too many instances without a consensus
     //
     if ($n >= 10) {
-        $job->update_state(BOSSA_JOB_INCONCLUSIVE);
+        $job->set_state(BOSSA_JOB_INCONCLUSIVE);
         return;
     }
+
+    // still looking for consensus - get another instance
+    //
+    $job->set_priority(2);
+
 }
 
 // two results are compatible if neither found an ellipse,
@@ -164,7 +171,7 @@ function job_timed_out($job, $inst, $user) {
 }
 
 function job_summary($job) {
-    $info = $job->get_info();
+    $info = $job->get_opaque_data();
     return "<a href=".URL_BASE."$info->path>(view image)</a>";
 }
 
@@ -178,7 +185,7 @@ function instance_summary($info) {
 
 function user_summary($user) {
     $b = $user->bossa;
-    $info = $b->get_info();
+    $info = $b->get_opaque_data();
     if ($info) {
         if ($info->npos) {
             $pos_err = $info->npos_err/$info->npos;

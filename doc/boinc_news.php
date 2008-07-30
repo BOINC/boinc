@@ -1,6 +1,16 @@
 <?
 
 $project_news = array(
+array("July 30, 2008",
+    "BOINC 6.2.14 has been released to the public for all platforms. 
+    Please visit the <a href=http://boinc.berkeley.edu/download.php>
+    download</a> page to upgrade now."
+),
+array("July 29, 2008",
+    "The <a href=http://qcn.stanford.edu>Quake Catcher Network</a>
+    detected today's <a href=http://qcn.stanford.edu/EVENTS/2008_211/>
+    magnitude 5.4 earthquake in Los Angeles</a> within 7 seconds."
+),
 array("July 24, 2008",
     "The <a href=http://gcl.cis.udel.edu/EastCoast08/>First
     East Coast BOINC Meeting</a>

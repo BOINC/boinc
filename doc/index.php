@@ -174,6 +174,9 @@ function show_nsf() {
     ";
 }
 
+// how to add language names:
+// paste into notepad++, select ANSI format,
+// then copy/paste into here
 function language_form() {
     echo "
         <table><tr><td>
@@ -185,6 +188,7 @@ function language_form() {
         <option value=be>Беларускі
         <option value=bg>Български
         <option value=ca>Català
+        <option value=cs>Čeština
         <option value=de>Deutsch
         <option value=en>English
         <option value=es>Espa&ntilde;ol

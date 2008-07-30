@@ -92,10 +92,10 @@ class BossaUser {
 
     // app-callable:
     //
-    function get_info() {
+    function get_opaque_data() {
         return unserialize($this->info);
     }
-    function update_info($info) {
+    function set_opaque_data($info) {
         $info = serialize($info);
         $this->update("info='$info'");
     }
@@ -160,7 +160,7 @@ class BossaJob {
 
     // app-callable:
     //
-    function get_info() {
+    function get_opaque_data() {
         return unserialize($this->info);
     }
     function set_priority($x) {
@@ -172,7 +172,7 @@ class BossaJob {
     function get_finished_instances() {
         return BossaJobInst::enum("job_id = $this->id and finish_time>0");
     }
-    function update_state($s) {
+    function set_state($s) {
         $this->update("state=$s");
     }
 }
@@ -248,11 +248,11 @@ class BossaJobInst {
 
     // app-callable functions
     //
-    function update_info($info) {
+    function set_opaque_data($info) {
         $info = serialize($info);
         return $this->update("info='$info'");
     }
-    function get_info() {
+    function get_opaque_data() {
         return unserialize($this->info);
     }
     function get_user() {

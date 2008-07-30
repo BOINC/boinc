@@ -128,6 +128,19 @@ CLIENT_STATE::CLIENT_STATE():
     last_wakeup_time = dtime();
 }
 
+void CLIENT_STATE::show_proxy_info() {
+    if (proxy_info.use_http_proxy) {
+        msg_printf(NULL, MSG_INFO, "Using HTTP proxy %s:%d",
+            proxy_info.http_server_name, proxy_info.http_server_port
+        );
+    }
+    if (proxy_info.use_socks_proxy) {
+        msg_printf(NULL, MSG_INFO, "Using SOCKS proxy %s:%d",
+            proxy_info.socks_server_name, proxy_info.socks_server_port
+        );
+    }
+}
+
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
     msg_printf(NULL, MSG_INFO,
@@ -228,6 +241,7 @@ int CLIENT_STATE::init() {
     host_info.get_host_info();
     set_ncpus();
     show_host_info();
+    show_proxy_info();
 
     check_clock_reset();
 

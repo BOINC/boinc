@@ -12,7 +12,7 @@ require_once("../inc/bossa.inc");
 //   (in which case the job is marked as inconclusive)
 
 function job_show($job, $inst, $user) {
-    $info = $job->get_info($job);
+    $info = $job->get_opaque_data($job);
     $path = $info->path;
     echo "
         <h2>Find the Ellipse!</h2>
@@ -47,7 +47,7 @@ function job_finished($job, $inst) {
         $response->cx = get_int('pic_x');
         $response->cy = get_int('pic_y');
     }
-    $inst->update_info($response);
+    $inst->set_opaque_data($response);
 
     // see whether we have a consensus
     //
@@ -56,14 +56,14 @@ function job_finished($job, $inst) {
 
     $results = null;
     foreach ($insts as $inst) {
-        $results[] = $inst->get_info();
+        $results[] = $inst->get_opaque_data();
     }
     for ($i=0; $i<$n-1; $i++) {
         $r1 = $results[$i];
         for ($j=$i+1; $j<$n; $j++) {
             $r2 = $results[$j];
             if (compatible($r1, $r2)) {
-                $job->update_state(BOSSA_JOB_DONE);
+                $job->set_state(BOSSA_JOB_DONE);
                 return;
             }
         }
@@ -72,11 +72,11 @@ function job_finished($job, $inst) {
     // no consensus - see whether we've reached replication limit
     //
     if ($n >= 10) {
-        $job->update_state(BOSSA_JOB_INCONCLUSIVE);
+        $job->set_state(BOSSA_JOB_INCONCLUSIVE);
         return;
     }
 
-    // still looking for consensus - allow another instance to be issued
+    // still looking for consensus - get another instance
     //
     $job->set_priority(2);
 }
@@ -102,12 +102,12 @@ function job_timed_out($job, $inst, $user) {
 }
 
 function show_job_summary($job) {
-    $info = $job->get_info();
+    $info = $job->get_opaque_data();
     return "<a href=".URL_BASE."$info->path>View image</a>";
 }
 
 function show_instance_summary($inst) {
-    $info = $inst->get_info();
+    $info = $inst->get_opaque_data();
     if ($info->have_ellipse) {
         return "ellipse ($info->cx, $info->cy)";
     } else {

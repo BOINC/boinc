@@ -43,14 +43,14 @@ if (!$user) {
     xml_error(-136);
 }
 
-$name = process_user_text(get_str("name"));
-$country = get_str("country");
+$name = process_user_text(get_str("name", true));
+$country = get_str("country", true);
 if ($country && !is_valid_country($country)) {
     xml_error(-1, "invalid country");
 }
-$postal_code = process_user_text(get_str("postal_code"));
-$global_prefs = process_user_text(get_str("global_prefs"));
-$project_prefs = process_user_text(get_str("project_prefs"));
+$postal_code = process_user_text(get_str("postal_code", true));
+$global_prefs = process_user_text(get_str("global_prefs", true));
+$project_prefs = process_user_text(get_str("project_prefs", true));
 
 // Do processing on project prefs so that we don't overwrite project-specific
 // settings if AMS has no idea about them
@@ -62,13 +62,13 @@ if (stripos($project_prefs, "<project_specific>") === false) {
     $project_prefs = str_ireplace("<project_preferences>", "<project_preferences>\n".$orig_project_specific, $project_prefs);
 }
 
-$url = process_user_text(get_str("url"));
-$send_email = process_user_text(get_str("send_email"));
-$show_hosts = process_user_text(get_str("show_hosts"));
+$url = process_user_text(get_str("url", true));
+$send_email = process_user_text(get_str("send_email", true));
+$show_hosts = process_user_text(get_str("show_hosts", true));
 $teamid = get_int("teamid", true);
-$venue = process_user_text(get_str("venue"));
-$email_addr = strtolower(process_user_text(get_str("email_addr")));
-$password_hash = process_user_text(get_str("password_hash"));
+$venue = process_user_text(get_str("venue", true));
+$email_addr = strtolower(process_user_text(get_str("email_addr", true)));
+$password_hash = process_user_text(get_str("password_hash", true));
 
 $query = "";
 if ($name) {

@@ -7,7 +7,7 @@ require_once("../inc/bossa.inc");
 // This version does no replication.
 
 function job_show($job, $inst, $user) {
-    $info = $job->get_info($job);
+    $info = $job->get_opaque_data($job);
     $path = $info->path;
     page_head("Find the Ellipse");
     echo "
@@ -36,7 +36,7 @@ function job_finished($job, $inst) {
         $response->cx = get_int('pic_x');
         $response->cy = get_int('pic_y');
     }
-    $inst->update_info($response);
+    $inst->set_opaque_data($response);
 }
 
 function job_timed_out($job, $inst, $user) {
@@ -44,12 +44,12 @@ function job_timed_out($job, $inst, $user) {
 }
 
 function job_summary($job) {
-    $info = $job->get_info();
+    $info = $job->get_opaque_data();
     return "<a href=".URL_BASE."$info->path>View image</a>";
 }
 
 function instance_summary($inst) {
-    $info = $inst->get_info();
+    $info = $inst->get_opaque_data();
     if ($info->have_ellipse) {
         return "($info->cx, $info->cy)";
     } else {

@@ -6024,3 +6024,15 @@ David  28 July 2008
 
     html/user/
         create_profile.php
+
+David  30 July 2008
+    - client: show proxy info in messages at startup and when changed
+        fixes #704
+    - web: fix the am_set_info.php RPC
+        (most args are optional, not mandatory)
+
+    client/
+        client_state.C,h
+        gui_rpc_server_ops.C
+    html/user/
+        am_set_info.php
