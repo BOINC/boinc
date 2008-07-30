@@ -303,11 +303,13 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
     if (!event.CanVeto()) {
+        wxGetApp().FrameClosed();
         Destroy();
     } else {
         Hide();
     }
 #else
+    wxGetApp().FrameClosed();
     Destroy();
 #endif
 

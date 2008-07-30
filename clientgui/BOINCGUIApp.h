@@ -115,6 +115,7 @@ public:
     wxLocale*           GetLocale()                 { return m_pLocale; }
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
+    void                FrameClosed()               { m_pFrame = NULL; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
     wxString            GetArguments()              { return m_strBOINCArguments; }
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }

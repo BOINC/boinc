@@ -6156,3 +6156,9 @@ Charlie 29 July 2008
 
 Charlie 30 July 2008
     - MGR: async GUI RPCs: Bug fixes.
+    clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp,.h
+        sg_BoincSimpleGUI.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.h
