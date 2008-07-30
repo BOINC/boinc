@@ -29,12 +29,16 @@ function job_show($job, $inst, $user) {
 
 function job_issued($job, $inst, $user) {
     $insts = $job->get_instances();
-    if (count($insts) > 1) {
+    if (count($insts) == 1) {
+        $job->set_priority(2);
+    } else {
         $job->set_priority(0);
     }
 }
 
 function job_finished($job, $inst) {
+    // record the user's response
+    //
     $response = null;
     if (get_str('submit', true)) {
         $response->have_ellipse = 0;
@@ -45,7 +49,7 @@ function job_finished($job, $inst) {
     }
     $inst->update_info($response);
 
-    // see if job is done
+    // see whether we have a consensus
     //
     $insts = $job->get_finished_instances();
     $n = count($insts);
@@ -64,10 +68,17 @@ function job_finished($job, $inst) {
             }
         }
     }
+
+    // no consensus - see whether we've reached replication limit
+    //
     if ($n >= 10) {
         $job->update_state(BOSSA_JOB_INCONCLUSIVE);
         return;
     }
+
+    // still looking for consensus - allow another instance to be issued
+    //
+    $job->set_priority(2);
 }
 
 // two results are compatible if neither found an ellipse,
@@ -87,7 +98,7 @@ function compatible($r1, $r2) {
 }
 
 function job_timed_out($job, $inst, $user) {
-    $job->set_priority(1);
+    $job->set_priority(2);
 }
 
 function show_job_summary($job) {

@@ -6018,3 +6018,9 @@ David  28 July 2008
     sched/
         Makefile.am
         pymw_assimilator.C
+
+David  28 July 2008
+    - web: allow profiles to have blank text fields
+
+    html/user/
+        create_profile.php

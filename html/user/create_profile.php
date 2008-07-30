@@ -186,8 +186,8 @@ function show_textarea($name, $text) {
 // Don't assign to $profile->x if this is the case.
 //
 function process_create_profile($user, $profile) {
-    $response1 = post_str('response1');
-    $response2 = post_str('response2');
+    $response1 = post_str('response1', true);
+    $response2 = post_str('response2', true);
     $language = post_str('language');
 
     akismet_check($user, $response1);
