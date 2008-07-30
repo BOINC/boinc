@@ -110,7 +110,7 @@ function show_download($pname) {
     echo "
         <p>
         <a href=wiki/System_requirements><nobr>".tra("System requirements")."</nobr></a>
-        | <a href=trac/wiki/ReleaseNotes><nobr>".tra("Release notes")."</nobr></a>
+        | <a href=wiki/Release_Notes><nobr>".tra("Release notes")."</nobr></a>
         | <a href=wiki/BOINC_Help><nobr>".tra("Help")."</nobr></a>
     ";
     if ($pname) {
@@ -129,6 +129,7 @@ function show_download($pname) {
     }
     echo "
         | <a href=trac/wiki/VersionHistory>Version history</a>
+        | <a href=http://boincfaq.mundayweb.com/index.php?view=376>FAQ</a>
         <p>
         </td><td valign=top>
     ";
