@@ -6162,3 +6162,4 @@ Charlie 30 July 2008
         sg_BoincSimpleGUI.cpp
         BOINCBaseFrame.cpp
         BOINCGUIApp.h
+        BOINCDialupManager.cpp
