@@ -204,7 +204,14 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_GET_PROJECT_STATUS1:
         if (current_request->exchangeBuf) {
-            ((CC_STATE*)(current_request->arg1))->projects = ((CC_STATE*)(current_request->exchangeBuf))->projects;
+            ((CC_STATE*)(current_request->arg1))->projects.clear();
+            int n = ((CC_STATE*)(current_request->exchangeBuf))->projects.size();
+            for (int i=0; i<n; i++) {
+                PROJECT* p = new PROJECT();
+                p->copy(*((CC_STATE*)(current_request->exchangeBuf))->projects[i]);
+                p->master_url = ((CC_STATE*)(current_request->exchangeBuf))->projects[i]->master_url;
+                ((CC_STATE*)(current_request->arg1))->projects.push_back(p);
+            }
         }
         retval = (m_Doc->rpcClient).get_project_status(*(CC_STATE*)(current_request->arg1));
         break;
@@ -697,7 +704,9 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
             // since it may have been changed by SetActiveGUI().
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+            if (pFrame) {
             pFrame->AddPendingEvent(*current_rpc_request.event);
+            }
         }
         delete current_rpc_request.event;
         current_rpc_request.event = NULL;
