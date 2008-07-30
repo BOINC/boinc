@@ -701,7 +701,6 @@ void CMainDocument::RefreshRPCs() {
 }
 
 
-// TODO: RunPeriodicRPCs()
 void CMainDocument::RunPeriodicRPCs() {
     ASYNC_RPC_REQUEST request;
 //    int retval = 0;
@@ -873,7 +872,7 @@ void CMainDocument::RunPeriodicRPCs() {
         }
     }
     
-    // *********** GET_SIMPLE_GUI_INFO1, GET_SIMPLE_GUI_INFO2, etc. **************
+    // *********** GET_SIMPLE_GUI_INFO2 **************
 
     if (currentTabView & VW_SGUI) {
         wxTimeSpan ts(dtNow - m_dtCachedSimpleGUITimestamp);
@@ -893,6 +892,11 @@ void CMainDocument::RunPeriodicRPCs() {
             RequestRPC(request);
         }
     }
+
+    //TODO: *********** RPC_ACCT_MGR_INFO **************
+    //TODO: perhaps every 10 minutes when running VW_SGUI
+
+
 }
 
 
