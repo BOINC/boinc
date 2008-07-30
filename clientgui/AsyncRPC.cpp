@@ -203,6 +203,9 @@ int RPCThread::ProcessRPCRequest() {
                                                         );
         break;
     case RPC_GET_PROJECT_STATUS1:
+        if (current_request->exchangeBuf) {
+            ((CC_STATE*)(current_request->arg1))->projects = ((CC_STATE*)(current_request->exchangeBuf))->projects;
+        }
         retval = (m_Doc->rpcClient).get_project_status(*(CC_STATE*)(current_request->arg1));
         break;
     case RPC_GET_PROJECT_STATUS2:
@@ -397,6 +400,11 @@ int RPCThread::ProcessRPCRequest() {
 int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0, retval2 = 0;
+    
+    // If we are quitting, cancel any pending RPCs
+    if (request.which_rpc == RPC_QUIT) {
+        RPC_requests.clear();
+    }
     
     // Check if a duplicate request is already on the queue
     for (iter=RPC_requests.begin(); iter!=RPC_requests.end(); iter++) {

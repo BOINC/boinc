@@ -195,11 +195,11 @@ private:
     // Project Tab
     //
 private:
-    int                         CachedProjectStatusUpdate();
     int                         m_iGet_project_status1_rpc_result;
     wxDateTime                  m_dtProjecStatusTimestamp;
 
 public:
+    int                         CachedProjectStatusUpdate(bool bForce = false);
     PROJECT*                    project(unsigned int);
 	PROJECT*                    project(const wxString& projectname);
     float                       m_fProjectTotalResourceShare;
@@ -355,9 +355,9 @@ public:
     // Simple GUI Updates
     //
     int                         m_iGet_simple_gui2_rpc_result;
+    int                         CachedSimpleGUIUpdate(bool bForce = false);
 private:
     wxDateTime                  m_dtCachedSimpleGUITimestamp;
-    int                         CachedSimpleGUIUpdate();
 
 public:
     int                         GetSimpleGUIWorkCount();

@@ -435,6 +435,7 @@ int CMainDocument::OnExit() {
             }
         }
         m_RPCThread = NULL;
+        rpcClient.close();
     }
     
     if (m_pNetworkConnection) {
@@ -759,13 +760,13 @@ void CMainDocument::RunPeriodicRPCs() {
     
     // *********** RPC_GET_PROJECT_STATUS1 **************
 
-    if (currentTabView & VW_PROJ) {
+    if (currentTabView & (VW_PROJ | VW_SGUI)) {
         wxTimeSpan ts(dtNow - m_dtProjecStatusTimestamp);
         if (ts.GetSeconds() > 0) {
             request.clear();
             request.which_rpc = RPC_GET_PROJECT_STATUS1;
-            request.arg1 = &async_state_buf.projects;
-            request.exchangeBuf = &state.projects;
+            request.arg1 = &async_state_buf;
+            request.exchangeBuf = &state;
             request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
             // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
             // finished, which may have changed since request was made
@@ -1012,10 +1013,15 @@ bool CMainDocument::IsUserAuthorized() {
 }
 
 
-int CMainDocument::CachedProjectStatusUpdate() {
+int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
     int     i = 0;
 
     if (! IsConnected()) return -1;
+
+    if (bForce) {
+        m_dtProjecStatusTimestamp = wxDateTime::Now();
+        m_iGet_project_status1_rpc_result = rpc.get_project_status(state);
+    }
 
     if (m_iGet_project_status1_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'"), m_iGet_project_status1_rpc_result);
@@ -1888,10 +1894,15 @@ int CMainDocument::SetProxyConfiguration() {
 }
 
 
-int CMainDocument::CachedSimpleGUIUpdate() {
+int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
     int     i = 0;
 
     if (! IsConnected()) return -1;
+
+    if (bForce) {
+        m_dtCachedSimpleGUITimestamp = wxDateTime::Now();
+        m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(state, results);
+    }
 
     if (m_iGet_simple_gui2_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedSimpleGUIUpdate - Get Simple GUI Failed '%d'"), m_iGet_simple_gui2_rpc_result);
