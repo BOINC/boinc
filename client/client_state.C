@@ -139,6 +139,9 @@ void CLIENT_STATE::show_proxy_info() {
             proxy_info.socks_server_name, proxy_info.socks_server_port
         );
     }
+    if (!proxy_info.use_http_proxy && !proxy_info.use_socks_proxy) {
+        msg_printf(NULL, MSG_INFO, "Not using a proxy");
+    }
 }
 
 void CLIENT_STATE::show_host_info() {

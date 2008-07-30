@@ -6036,3 +6036,10 @@ David  30 July 2008
         gui_rpc_server_ops.C
     html/user/
         am_set_info.php
+
+David  30 July 2008
+    - client: show message if no proxy
+        fixes #704
+
+    client/
+        client_state.C
