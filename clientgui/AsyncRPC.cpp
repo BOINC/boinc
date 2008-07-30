@@ -593,119 +593,122 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     }
 
     // Post-processing
-    switch (current_rpc_request.which_rpc) {
-    case RPC_GET_STATE:
-        if (current_rpc_request.exchangeBuf) {
-            CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
-            CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
-            arg1->projects.swap(exchangeBuf->projects);
-            arg1->apps.swap(exchangeBuf->apps);
-            arg1->app_versions.swap(exchangeBuf->app_versions);
-            arg1->wus.swap(exchangeBuf->wus);
-            arg1->results.swap(exchangeBuf->results);
-            exchangeBuf->global_prefs = arg1->global_prefs;
-            exchangeBuf->version_info = arg1->version_info;
-            exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
-            arg1->results.swap(exchangeBuf->results);
+    if (! retval) {
+        switch (current_rpc_request.which_rpc) {
+        case RPC_GET_STATE:
+            if (current_rpc_request.exchangeBuf) {
+                CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
+                CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+                arg1->apps.swap(exchangeBuf->apps);
+                arg1->app_versions.swap(exchangeBuf->app_versions);
+                arg1->wus.swap(exchangeBuf->wus);
+                arg1->results.swap(exchangeBuf->results);
+                exchangeBuf->global_prefs = arg1->global_prefs;
+                exchangeBuf->version_info = arg1->version_info;
+                exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
+                arg1->results.swap(exchangeBuf->results);
+            }
+            break;
+        case RPC_GET_RESULTS:
+            if (current_rpc_request.exchangeBuf) {
+                RESULTS* arg1 = (RESULTS*)current_rpc_request.arg1;
+                RESULTS* exchangeBuf = (RESULTS*)current_rpc_request.exchangeBuf;
+                arg1->results.swap(exchangeBuf->results);
+            }
+            break;
+        case RPC_GET_FILE_TRANSFERS:
+            if (current_rpc_request.exchangeBuf) {
+                FILE_TRANSFERS* arg1 = (FILE_TRANSFERS*)current_rpc_request.arg1;
+                FILE_TRANSFERS* exchangeBuf = (FILE_TRANSFERS*)current_rpc_request.exchangeBuf;
+                arg1->file_transfers.swap(exchangeBuf->file_transfers);
+            }
+            break;
+        case RPC_GET_SIMPLE_GUI_INFO2:
+            if (current_rpc_request.exchangeBuf) {
+                CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
+                CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+            }
+            if (current_rpc_request.arg3) {
+                RESULTS* arg2 = (RESULTS*)current_rpc_request.arg2;
+                RESULTS* arg3 = (RESULTS*)current_rpc_request.arg3;
+                arg2->results.swap(arg3->results);
+            }
+            break;
+        case RPC_GET_PROJECT_STATUS1:
+            if (current_rpc_request.exchangeBuf) {
+                CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
+                CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+            }
+            break;
+        case RPC_GET_ALL_PROJECTS_LIST:
+            if (current_rpc_request.exchangeBuf) {
+                ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)current_rpc_request.arg1;
+                ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)current_rpc_request.exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+            }
+            break;
+        case RPC_GET_DISK_USAGE:
+            if (current_rpc_request.exchangeBuf) {
+                DISK_USAGE* arg1 = (DISK_USAGE*)current_rpc_request.arg1;
+                DISK_USAGE* exchangeBuf = (DISK_USAGE*)current_rpc_request.exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+                exchangeBuf->d_total = arg1->d_total;
+                exchangeBuf->d_free = arg1->d_free;
+                exchangeBuf->d_boinc = arg1->d_boinc;
+                exchangeBuf->d_allowed = arg1->d_allowed;
+            }
+            break;
+        case RPC_GET_MESSAGES:
+            if (current_rpc_request.exchangeBuf) {
+                MESSAGES* arg2 = (MESSAGES*)current_rpc_request.arg2;
+                MESSAGES* exchangeBuf = (MESSAGES*)current_rpc_request.exchangeBuf;
+                arg2->messages.swap(exchangeBuf->messages);
+            }
+            break;
+        case RPC_GET_HOST_INFO:
+            if (current_rpc_request.exchangeBuf) {
+                HOST_INFO* arg1 = (HOST_INFO*)current_rpc_request.arg1;
+                HOST_INFO* exchangeBuf = (HOST_INFO*)current_rpc_request.exchangeBuf;
+                *exchangeBuf = *arg1;
+            }
+            break;
+        case RPC_GET_STATISTICS:
+            if (current_rpc_request.exchangeBuf) {
+                PROJECTS* arg1 = (PROJECTS*)current_rpc_request.arg1;
+                PROJECTS* exchangeBuf = (PROJECTS*)current_rpc_request.exchangeBuf;
+                arg1->projects.swap(exchangeBuf->projects);
+            }
+            break;
+            
+        case RPC_GET_CC_STATUS:
+            if (current_rpc_request.exchangeBuf) {
+                CC_STATUS* arg1 = (CC_STATUS*)current_rpc_request.arg1;
+                CC_STATUS* exchangeBuf = (CC_STATUS*)current_rpc_request.exchangeBuf;
+                *exchangeBuf = *arg1;
+            }
+            break;
+        default:
+            // We don't support double buffering for other RPC calls 
+            wxASSERT(current_rpc_request.exchangeBuf == NULL);
+            break;
         }
-        break;
-    case RPC_GET_RESULTS:
-        if (current_rpc_request.exchangeBuf) {
-            RESULTS* arg1 = (RESULTS*)current_rpc_request.arg1;
-            RESULTS* exchangeBuf = (RESULTS*)current_rpc_request.exchangeBuf;
-            arg1->results.swap(exchangeBuf->results);
-        }
-        break;
-    case RPC_GET_FILE_TRANSFERS:
-        if (current_rpc_request.exchangeBuf) {
-            FILE_TRANSFERS* arg1 = (FILE_TRANSFERS*)current_rpc_request.arg1;
-            FILE_TRANSFERS* exchangeBuf = (FILE_TRANSFERS*)current_rpc_request.exchangeBuf;
-            arg1->file_transfers.swap(exchangeBuf->file_transfers);
-        }
-        break;
-    case RPC_GET_SIMPLE_GUI_INFO2:
-        if (current_rpc_request.exchangeBuf) {
-            CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
-            CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
-            arg1->projects.swap(exchangeBuf->projects);
-        }
-        if (current_rpc_request.arg3) {
-            RESULTS* arg2 = (RESULTS*)current_rpc_request.arg2;
-            RESULTS* arg3 = (RESULTS*)current_rpc_request.arg3;
-            arg2->results.swap(arg3->results);
-        }
-        break;
-    case RPC_GET_PROJECT_STATUS1:
-        if (current_rpc_request.exchangeBuf) {
-            CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
-            CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
-            arg1->projects.swap(exchangeBuf->projects);
-        }
-        break;
-    case RPC_GET_ALL_PROJECTS_LIST:
-        if (current_rpc_request.exchangeBuf) {
-            ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)current_rpc_request.arg1;
-            ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)current_rpc_request.exchangeBuf;
-            arg1->projects.swap(exchangeBuf->projects);
-        }
-        break;
-    case RPC_GET_DISK_USAGE:
-        if (current_rpc_request.exchangeBuf) {
-            DISK_USAGE* arg1 = (DISK_USAGE*)current_rpc_request.arg1;
-            DISK_USAGE* exchangeBuf = (DISK_USAGE*)current_rpc_request.exchangeBuf;
-            arg1->projects.swap(exchangeBuf->projects);
-            exchangeBuf->d_total = arg1->d_total;
-            exchangeBuf->d_free = arg1->d_free;
-            exchangeBuf->d_boinc = arg1->d_boinc;
-            exchangeBuf->d_allowed = arg1->d_allowed;
-        }
-        break;
-    case RPC_GET_MESSAGES:
-        if (current_rpc_request.exchangeBuf) {
-            MESSAGES* arg2 = (MESSAGES*)current_rpc_request.arg2;
-            MESSAGES* exchangeBuf = (MESSAGES*)current_rpc_request.exchangeBuf;
-            arg2->messages.swap(exchangeBuf->messages);
-        }
-        break;
-    case RPC_GET_HOST_INFO:
-        if (current_rpc_request.exchangeBuf) {
-            HOST_INFO* arg1 = (HOST_INFO*)current_rpc_request.arg1;
-            HOST_INFO* exchangeBuf = (HOST_INFO*)current_rpc_request.exchangeBuf;
-            *exchangeBuf = *arg1;
-        }
-        break;
-    case RPC_GET_STATISTICS:
-        if (current_rpc_request.exchangeBuf) {
-            PROJECTS* arg1 = (PROJECTS*)current_rpc_request.arg1;
-            PROJECTS* exchangeBuf = (PROJECTS*)current_rpc_request.exchangeBuf;
-            arg1->projects.swap(exchangeBuf->projects);
-        }
-        break;
-        
-    case RPC_GET_CC_STATUS:
-        if (current_rpc_request.exchangeBuf) {
-            CC_STATUS* arg1 = (CC_STATUS*)current_rpc_request.arg1;
-            CC_STATUS* exchangeBuf = (CC_STATUS*)current_rpc_request.exchangeBuf;
-            *exchangeBuf = *arg1;
-        }
-        break;
-    default:
-        // We don't support double buffering for other RPC calls 
-        wxASSERT(current_rpc_request.exchangeBuf == NULL);
-        break;
     }
-
+    
     if ( (current_rpc_request.event) && (current_rpc_request.event != (wxEvent*)-1) ) {
-        if (current_rpc_request.eventHandler) {
-//            current_rpc_request.eventHandler->ProcessEvent(*current_rpc_request.event);
-            current_rpc_request.eventHandler->AddPendingEvent(*current_rpc_request.event);
-        } else {
-            // We must get the frame immediately before using it, 
-            // since it may have been changed by SetActiveGUI().
-            CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-            wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-            if (pFrame) {
-            pFrame->AddPendingEvent(*current_rpc_request.event);
+        if (! retval) {
+            if (current_rpc_request.eventHandler) {
+                current_rpc_request.eventHandler->AddPendingEvent(*current_rpc_request.event);
+            } else {
+                // We must get the frame immediately before using it, 
+                // since it may have been changed by SetActiveGUI().
+                CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+                wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+                if (pFrame) {
+                    pFrame->AddPendingEvent(*current_rpc_request.event);
+                }
             }
         }
         delete current_rpc_request.event;
