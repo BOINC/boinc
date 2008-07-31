@@ -100,7 +100,7 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     request.arg4 = arg4;
 
     retval = m_Doc->RequestRPC(request, hasPriority);
-//wxLogMessage(wxT("RequestRPC %d returned %d"), which_rpc, retval);
+// wxLogMessage(wxT("RequestRPC %d returned %d"), which_rpc, retval);
     
     return retval;
 }
@@ -135,10 +135,10 @@ void *RPCThread::Entry() {
 
         if (! m_Doc->GetCurrentRPCRequest()->isActive) {
             // Wait until CMainDocument issues next RPC request
-#ifdef __WXMSW__
-            Yield();
+#ifdef __WXMSW__       // Until we can suspend the thread without Deadlock on Windows
+            Sleep(1);
 #else
-            Pause();
+            Yield();
 #endif
             continue;
         }
@@ -150,14 +150,15 @@ void *RPCThread::Entry() {
 
         retval = ProcessRPCRequest();
         wxPostEvent( wxTheApp, RPC_done_event );
-    }
+        }
 
-#ifndef __WXMSW__
+#ifndef __WXMSW__       // Deadlocks on Windows
+
     // Use a critical section to prevent a crash during 
     // manager shutdown due to a rare race condition 
     m_Doc->m_critsect.Enter();
     m_Doc->m_critsect.Leave();
-#endif
+#endif //  !!__WXMSW__       // Deadlocks on Windows
 
     return NULL;
 }
@@ -438,10 +439,13 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         request.isActive = false;
         current_rpc_request = request;
         current_rpc_request.isActive = true;
-#ifndef __WXMSW__
+    }
+#ifndef __WXMSW__       // Deadlocks on Windows
+    if (current_rpc_request.isActive && m_RPCThread->IsPaused()) {
+// wxLogMessage(wxT("RequestRPC Resume"));
         m_RPCThread->Resume();
-#endif
-	}
+    }
+#endif //  !!__WXMSW__       // Deadlocks on Windows
 
     // If no completion event specified, this is a user-initiated event so 
     // wait for completion but show a dialog allowing the user to cancel.
@@ -461,11 +465,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         
         m_RPCWaitDlg = new AsyncRPCDlg();
         do {
-#if 0   // Yield allows user activity which can cause problems with long values of RPC_WAIT_DLG_DELAY
-            wxTheApp->Yield(true);  // Continue processing events
-            // wxSafeYield prevents user activity but causes ugly disabling of coontrols
-//            ::wxSafeYield(pFrame, true);  // Continue processing events
-#else
         // Simulate handling of CRPCFinishedEvent but don't allow any other events (so no user activity)
         // Allow RPC thread to run while we wait for it
 #ifdef __WXMSW__
@@ -477,8 +476,16 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 #endif
             if (!current_rpc_request.isActive) {
                 HandleCompletedRPC();
+#ifndef __WXMSW__       // Deadlocks on Windows
+                } else {
+                // for safety
+                if (m_RPCThread->IsPaused()) {
+// wxLogMessage(wxT("RequestRPC 2 Resume"));
+                    m_RPCThread->Resume();
+               }
+#endif //  !!__WXMSW__       // Deadlocks on Windows
             }
-#endif
+
             // OnRPCComplete() clears m_bWaitingForRPC if RPC completed 
             if (! m_bWaitingForRPC) {
                 return retval;
@@ -502,6 +509,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 // start a new RPC thread.
                 if (current_rpc_request.isActive) {
                     current_rpc_request.isActive = false;
+// wxLogMessage(wxT("RequestRPC Cancel Pause"));
                     m_RPCThread->Pause();   // Needed on Windows
                     rpcClient.close();
                     m_RPCThread->Kill();
@@ -523,6 +531,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     wxASSERT(!retval2);
                     retval2 = m_RPCThread->Run();
                     wxASSERT(!retval2);
+// wxLogMessage(wxT("RequestRPC Cancel 2 Pause"));
+//                    m_RPCThread->Pause();
                 }
                 if (m_RPCWaitDlg) {
                     m_RPCWaitDlg->Destroy();
@@ -541,7 +551,7 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     return;
  }   
     
- void CMainDocument::HandleCompletedRPC() {
+void CMainDocument::HandleCompletedRPC() {
     int retval;
     int i, n, requestIndex = -1;
     bool stillWaitingForPendingRequests = false;
@@ -552,7 +562,8 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
     // called from RequestRPC, the CRPCFinishedEvent will still be 
     // on the event queue, so we get called twice.  Check for this here.
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
-   
+//    m_RPCThread->Pause();
+
     // Find our completed request in the queue
     n = RPC_requests.size();
     for (i=0; i<n; ++i) {
@@ -678,6 +689,13 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
                 *exchangeBuf = *arg1;
             }
             break;
+        case RPC_ACCT_MGR_INFO:
+            if (current_rpc_request.exchangeBuf) {
+                ACCT_MGR_INFO* arg1 = (ACCT_MGR_INFO*)current_rpc_request.arg1;
+                ACCT_MGR_INFO* exchangeBuf = (ACCT_MGR_INFO*)current_rpc_request.exchangeBuf;
+                *exchangeBuf = *arg1;
+           }
+            break;
         default:
             // We don't support double buffering for other RPC calls 
             wxASSERT(current_rpc_request.exchangeBuf == NULL);
@@ -711,10 +729,26 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         RPC_requests[0].isActive = false;
         current_rpc_request = RPC_requests[0];
         current_rpc_request.isActive = true;
-#ifndef __WXMSW__
-        m_RPCThread->Resume();
+#ifndef __WXMSW__       // Deadlocks on Windows
+        if (m_RPCThread->IsPaused()) {
+// wxLogMessage(wxT("HandleCompletedRPC Resume"));
+            m_RPCThread->Resume();
+        }
+    } else {
+// wxLogMessage(wxT("HandleCompletedRPC Pause"));
+        m_RPCThread->Pause();
+        while (!m_RPCThread->IsPaused()) {
+#ifdef __WXMSW__
+            SwitchToThread();
+#else
+            // TODO: is there a way for main UNIX thread to yield wih no minimum delay?
+            timespec ts = {0, 1};   /// 1 nanosecond
+            nanosleep(&ts, NULL);   /// 1 nanosecond or less 
 #endif
-	}
+        }
+#endif  // ! __WXMSW__       // Deadlocks on Windows
+    }
+
 
     if (! stillWaitingForPendingRequests) {
         if (m_RPCWaitDlg) {
