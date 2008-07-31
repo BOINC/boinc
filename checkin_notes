@@ -6087,6 +6087,8 @@ Charlie 26 July 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+    win_build/
+        boincmgr_curl.vcproj
 
 David  27 July 2008
 	- API: small additions to graphics stderr messages
