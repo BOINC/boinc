@@ -6188,7 +6188,8 @@ David  30 July 2008
 Charlie 30 July 2008
     - MGR: async GUI RPCs: under SimpleGUI, call acct_mgr_info RPC 
         every 10 minutes.
-    - MGR: async GUI RPCs: Suspend RPC thread when not in use.
+    - MGR: async GUI RPCs: Suspend RPC thread when not in use (except 
+        on Windows).
         
     clientgui/
         AsyncRPC.cpp

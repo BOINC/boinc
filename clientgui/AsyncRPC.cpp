@@ -135,7 +135,11 @@ void *RPCThread::Entry() {
 
         if (! m_Doc->GetCurrentRPCRequest()->isActive) {
             // Wait until CMainDocument issues next RPC request
+#ifdef __WXMSW__
+            Yield();
+#else
             Pause();
+#endif
             continue;
         }
 
@@ -685,8 +689,8 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
                 // We must get the frame immediately before using it, 
                 // since it may have been changed by SetActiveGUI().
                 CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
                 if (pFrame) {
+                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
                     pFrame->AddPendingEvent(*current_rpc_request.event);
                 }
             }
