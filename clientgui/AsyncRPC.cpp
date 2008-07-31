@@ -152,10 +152,12 @@ void *RPCThread::Entry() {
         wxPostEvent( wxTheApp, RPC_done_event );
     }
 
+#ifndef __WXMSW__
     // Use a critical section to prevent a crash during 
     // manager shutdown due to a rare race condition 
     m_Doc->m_critsect.Enter();
     m_Doc->m_critsect.Leave();
+#endif
 
     return NULL;
 }
@@ -436,8 +438,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         request.isActive = false;
         current_rpc_request = request;
         current_rpc_request.isActive = true;
+#ifndef __WXMSW__
         m_RPCThread->Resume();
-    }
+#endif
+	}
 
     // If no completion event specified, this is a user-initiated event so 
     // wait for completion but show a dialog allowing the user to cancel.
@@ -707,8 +711,10 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
         RPC_requests[0].isActive = false;
         current_rpc_request = RPC_requests[0];
         current_rpc_request.isActive = true;
+#ifndef __WXMSW__
         m_RPCThread->Resume();
-    }
+#endif
+	}
 
     if (! stillWaitingForPendingRequests) {
         if (m_RPCWaitDlg) {

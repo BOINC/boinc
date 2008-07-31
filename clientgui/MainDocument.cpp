@@ -428,12 +428,13 @@ int CMainDocument::OnExit() {
     if (m_RPCThread) {
         // Use a critical section to prevent a crash during 
         // manager shutdown due to a rare race condition 
-        m_critsect.Enter();
+#ifndef __WXMSW__
+		m_critsect.Enter();
         m_RPCThread->Delete();
         // On some platforms, Delete() takes effect only when thread calls TestDestroy()
         m_RPCThread->Resume();
         m_critsect.Leave();
-        
+#endif        
         wxStopWatch ThreadDeleteTimer = wxStopWatch();
         // RPC thread sets m_RPCThread to NULL when it exits
         while (m_RPCThread) {
