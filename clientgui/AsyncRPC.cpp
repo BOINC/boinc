@@ -218,7 +218,8 @@ int RPCThread::ProcessRPCRequest() {
             int n = ((CC_STATE*)(current_request->exchangeBuf))->projects.size();
             for (int i=0; i<n; i++) {
                 PROJECT* p = new PROJECT();
-                p->copy(*((CC_STATE*)(current_request->exchangeBuf))->projects[i]);
+//                p->copy(*((CC_STATE*)(current_request->exchangeBuf))->projects[i]);
+                // get_project_status RPC needs master_url and will fill in everything else
                 p->master_url = ((CC_STATE*)(current_request->exchangeBuf))->projects[i]->master_url;
                 ((CC_STATE*)(current_request->arg1))->projects.push_back(p);
             }
@@ -595,7 +596,7 @@ void CMainDocument::HandleCompletedRPC() {
     if (! retval) {
         switch (current_rpc_request.which_rpc) {
         case RPC_GET_STATE:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
                 CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
@@ -610,21 +611,21 @@ void CMainDocument::HandleCompletedRPC() {
             }
             break;
         case RPC_GET_RESULTS:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 RESULTS* arg1 = (RESULTS*)current_rpc_request.arg1;
                 RESULTS* exchangeBuf = (RESULTS*)current_rpc_request.exchangeBuf;
                 arg1->results.swap(exchangeBuf->results);
             }
             break;
         case RPC_GET_FILE_TRANSFERS:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 FILE_TRANSFERS* arg1 = (FILE_TRANSFERS*)current_rpc_request.arg1;
                 FILE_TRANSFERS* exchangeBuf = (FILE_TRANSFERS*)current_rpc_request.exchangeBuf;
                 arg1->file_transfers.swap(exchangeBuf->file_transfers);
             }
             break;
         case RPC_GET_SIMPLE_GUI_INFO2:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
                 CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
@@ -636,21 +637,21 @@ void CMainDocument::HandleCompletedRPC() {
             }
             break;
         case RPC_GET_PROJECT_STATUS1:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
                 CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
             }
             break;
         case RPC_GET_ALL_PROJECTS_LIST:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 ALL_PROJECTS_LIST* arg1 = (ALL_PROJECTS_LIST*)current_rpc_request.arg1;
                 ALL_PROJECTS_LIST* exchangeBuf = (ALL_PROJECTS_LIST*)current_rpc_request.exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
             }
             break;
         case RPC_GET_DISK_USAGE:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 DISK_USAGE* arg1 = (DISK_USAGE*)current_rpc_request.arg1;
                 DISK_USAGE* exchangeBuf = (DISK_USAGE*)current_rpc_request.exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
@@ -661,21 +662,21 @@ void CMainDocument::HandleCompletedRPC() {
             }
             break;
         case RPC_GET_MESSAGES:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 MESSAGES* arg2 = (MESSAGES*)current_rpc_request.arg2;
                 MESSAGES* exchangeBuf = (MESSAGES*)current_rpc_request.exchangeBuf;
                 arg2->messages.swap(exchangeBuf->messages);
             }
             break;
         case RPC_GET_HOST_INFO:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 HOST_INFO* arg1 = (HOST_INFO*)current_rpc_request.arg1;
                 HOST_INFO* exchangeBuf = (HOST_INFO*)current_rpc_request.exchangeBuf;
                 *exchangeBuf = *arg1;
             }
             break;
         case RPC_GET_STATISTICS:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 PROJECTS* arg1 = (PROJECTS*)current_rpc_request.arg1;
                 PROJECTS* exchangeBuf = (PROJECTS*)current_rpc_request.exchangeBuf;
                 arg1->projects.swap(exchangeBuf->projects);
@@ -683,14 +684,14 @@ void CMainDocument::HandleCompletedRPC() {
             break;
             
         case RPC_GET_CC_STATUS:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 CC_STATUS* arg1 = (CC_STATUS*)current_rpc_request.arg1;
                 CC_STATUS* exchangeBuf = (CC_STATUS*)current_rpc_request.exchangeBuf;
                 *exchangeBuf = *arg1;
             }
             break;
         case RPC_ACCT_MGR_INFO:
-            if (current_rpc_request.exchangeBuf) {
+            if (current_rpc_request.exchangeBuf && !retval) {
                 ACCT_MGR_INFO* arg1 = (ACCT_MGR_INFO*)current_rpc_request.arg1;
                 ACCT_MGR_INFO* exchangeBuf = (ACCT_MGR_INFO*)current_rpc_request.exchangeBuf;
                 *exchangeBuf = *arg1;
