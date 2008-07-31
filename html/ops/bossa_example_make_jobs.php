@@ -41,7 +41,7 @@ function make_jobs($dir, $appid, $calibration) {
 }
 
 function usage() {
-    exit("Usage: bossa_example_make_jobs --app_name x --dir d [--calibration]]\n");
+    exit("Usage: php bossa_example_make_jobs.php --app_name x --dir d [--calibration]]\n");
 }
 
 $calibration = false;

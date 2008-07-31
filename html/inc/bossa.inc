@@ -34,4 +34,13 @@ function bossa_app_lookup($name) {
     return $app->id;
 }
 
+function bossa_lookup_job($instid, &$job, &$inst, &$user) {
+    $inst = BossaJobInst::lookup_id($instid);
+    if (!$inst) return false;
+    $job = BossaJob::lookup_id($inst->job_id);
+    $user = BoincUser::lookup_id($inst->user_id);
+    BossaUser::lookup($user);
+    return true;
+}
+
 ?>

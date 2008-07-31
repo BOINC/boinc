@@ -2,9 +2,8 @@
 
 $project_news = array(
 array("July 30, 2008",
-    "BOINC 6.2.14 has been released to the public for all platforms. 
-    Please visit the <a href=http://boinc.berkeley.edu/download.php>
-    download</a> page to upgrade now."
+    "BOINC 6.2.14 is now the recommended version for all platforms. 
+    <a href=http://boinc.berkeley.edu/download.php>Upgrade now</a>."
 ),
 array("July 29, 2008",
     "The <a href=http://qcn.stanford.edu>Quake Catcher Network</a>

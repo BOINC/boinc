@@ -132,7 +132,7 @@ function job_show_instances($job) {
             <td>$d</td>
             <td>
         ";
-        echo instance_summary($inst->get_info());
+        echo instance_summary($inst->get_opaque_data());
         echo "
             </td>
             </tr>
@@ -280,6 +280,7 @@ case 'add_app':
     $time_estimate = get_str('time_estimate');
     $time_limit = get_str('time_limit');
     $calibration_frac = get_str('calibration_frac' , true);
+    if (!$calibration_frac) $calibration_frac = 0;
     $now = time();
     $app_id = BossaApp::insert("(create_time, name, short_name, description, bolt_course_id, time_estimate, time_limit, calibration_frac) values ($now, '$name', '$short_name', '$description', $courseid, $time_estimate, $time_limit, $calibration_frac)");
     if ($courseid) {

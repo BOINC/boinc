@@ -25,7 +25,9 @@ function show_app($app) {
     } else {
         $x = "<a href=bossa_get_job.php?bossa_app_id=$app->id>Get job</a>";
     }
-    row2("$app->name<span class=note><br>$app->description</span>", $x);
+    $est = number_format($app->time_estimate/60., 2);
+    $limit = number_format($app->time_limit/60., 2);
+    row2("$app->name<br><span class=note>$app->description<br>Time: $est min. average, $limit min limit</span>", $x);
 }
 
 function show_apps() {
