@@ -181,9 +181,7 @@ public:
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
 void TestAsyncRPC();        // TEMPORARY -- CAF
     RPCThread*                  m_RPCThread;
-#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
     wxCriticalSection           m_critsect;
-#endif
 
 private:
     ASYNC_RPC_REQUEST           current_rpc_request;

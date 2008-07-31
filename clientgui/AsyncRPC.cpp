@@ -135,7 +135,7 @@ void *RPCThread::Entry() {
 
         if (! m_Doc->GetCurrentRPCRequest()->isActive) {
             // Wait until CMainDocument issues next RPC request
-            Yield();
+            Pause();
             continue;
         }
 
@@ -145,10 +145,13 @@ void *RPCThread::Entry() {
         }
 
         retval = ProcessRPCRequest();
- 
-//        RPC_done_event.SetInt(retval);
         wxPostEvent( wxTheApp, RPC_done_event );
     }
+
+    // Use a critical section to prevent a crash during 
+    // manager shutdown due to a rare race condition 
+    m_Doc->m_critsect.Enter();
+    m_Doc->m_critsect.Leave();
 
     return NULL;
 }
@@ -379,18 +382,9 @@ int RPCThread::ProcessRPCRequest() {
         break;
     }
 
-#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
-    m_Doc->m_critsect.Enter();
-    current_request->retval = retval;
-    current_request->isActive = false;
-        
-    m_Doc->m_critsect.Leave();
-#else
     // Deactivation is an atomic operation
     current_request->retval = retval;
     current_request->isActive = false;
-        
-#endif
 
     return retval;
 }
@@ -434,17 +428,11 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     
     // Start this RPC if no other RPC is already in progress.
     if (RPC_requests.size() == 1) {
-#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
-        m_critsect.Enter();
-        current_rpc_request = request;
-        current_rpc_request.isActive = true;
-        m_critsect.Leave();
-#else
         // Make sure activation is an atomic operation
         request.isActive = false;
         current_rpc_request = request;
         current_rpc_request.isActive = true;
-#endif
+        m_RPCThread->Resume();
     }
 
     // If no completion event specified, this is a user-initiated event so 
@@ -506,19 +494,11 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 // start a new RPC thread.
                 if (current_rpc_request.isActive) {
                     current_rpc_request.isActive = false;
-#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
-                    // Killing a thread while it is in a critical section 
-                    // usually causes an unrecoverable deadlock situation
-                    m_critsect.Enter();
-#endif
                     m_RPCThread->Pause();   // Needed on Windows
                     rpcClient.close();
                     m_RPCThread->Kill();
 #ifdef __WXMSW__
                     m_RPCThread->Delete();  // Needed on Windows, crashes on Mac/Linux
-#endif
-#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
-                    m_critsect.Leave();
 #endif
                     m_RPCThread = NULL;
                     RPC_requests.clear();
@@ -719,17 +699,11 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
 
     // Start the next RPC request.
     if (RPC_requests.size() > 0) {
-#if USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS
-        m_critsect.Enter();
-        current_rpc_request = RPC_requests[0];
-        current_rpc_request.isActive = true;
-        m_critsect.Leave();
-#else
         // Make sure activation is an atomic operation
         RPC_requests[0].isActive = false;
         current_rpc_request = RPC_requests[0];
         current_rpc_request.isActive = true;
-#endif
+        m_RPCThread->Resume();
     }
 
     if (! stillWaitingForPendingRequests) {

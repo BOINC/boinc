@@ -32,7 +32,6 @@
 //#include "gui_rpc_client.h"
 
 #define USE_RPC_DLG_TIMER 0
-#define USE_CRITICAL_SECTIONS_FOR_ASYNC_RPCS 0
 
 class CBOINCGUIApp;     // Forward declaration
 class CMainDocument;    // Forward declaration
