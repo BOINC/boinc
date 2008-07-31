@@ -331,6 +331,7 @@ static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
     gstate.proxy_info.parse(in);
     gstate.set_client_state_dirty("Set proxy settings RPC");
     fout.printf("<success/>\n");
+    gstate.show_proxy_info();
 
     // tell running apps to reread app_info file (for F@h)
     //

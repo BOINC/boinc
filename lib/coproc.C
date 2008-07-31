@@ -105,11 +105,8 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
     int count;
 
 #ifdef _WIN32
-    int retval;
     int (__stdcall* __cudaGetDeviceCount)(int*);
     int (__stdcall* __cudaGetDeviceProperties)(cudaDeviceProp*, int);
-    int bufsize=256;
-    char buf[256], path[256];
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
     if (!cudalib) {
         return "Can't load library nvcuda.dll";
@@ -175,10 +172,10 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
 
 // add a non-existent CUDA coproc (for debugging)
 //
-void fake_cuda(COPROCS& coprocs) {
+void fake_cuda(COPROCS& coprocs, int count) {
    COPROC_CUDA* cc = new COPROC_CUDA;
    strcpy(cc->type, "CUDA");
-   cc->count = 1;
+   cc->count = count;
    strcpy(cc->prop.name, "CUDA NVIDIA chip");
    cc->prop.totalGlobalMem = 1000;
    cc->prop.sharedMemPerBlock = 100;
@@ -308,6 +305,10 @@ int COPROC_CUDA::parse(FILE* fin) {
         if (parse_int(buf, "<textureAlignment`>", (int&)prop.textureAlignment)) continue;
     }
     return ERR_XML_PARSE;
+}
+
+void COPROC_CUDA::description(char* p) {
+    sprintf(p, "%s (%d)", prop.name, count);
 }
 
 const char* COPROC_CELL_SPE::get(COPROCS&) {

@@ -356,10 +356,14 @@ public:
     //
     int                         m_iGet_simple_gui2_rpc_result;
     int                         CachedSimpleGUIUpdate(bool bForce = false);
+    int                         m_iAcct_mgr_info_rpc_result;
 private:
     wxDateTime                  m_dtCachedSimpleGUITimestamp;
+    wxDateTime                  m_dtCachedAcctMgrInfoTimestamp;
 
 public:
+    ACCT_MGR_INFO               ami;
+    ACCT_MGR_INFO               async_ami_buf;
     int                         GetSimpleGUIWorkCount();
 
 };

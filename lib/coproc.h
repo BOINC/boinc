@@ -30,10 +30,14 @@
 
 #include "miofile.h"
 
+#define MAX_COPROC_INSTANCES   8
+
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
     int used;           // how many are in use (used by client)
+    void* owner[MAX_COPROC_INSTANCES];
+        // which ACTIVE_TASK each one is allocated to
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
@@ -42,7 +46,9 @@ struct COPROC {
         strcpy(type, t);
         count = 0;
         used = 0;
+        memset(&owner, 0, sizeof(owner));
     }
+    virtual void description(char*){};
     virtual ~COPROC(){}
     int parse(MIOFILE&);
 };
@@ -69,8 +75,10 @@ struct COPROCS {
     int parse(FILE*);
     COPROC* lookup(char*);
     bool sufficient_coprocs(COPROCS&, bool verbose);
-    void reserve_coprocs(COPROCS&, bool verbose);
-    void free_coprocs(COPROCS&, bool verbose);
+    void reserve_coprocs(COPROCS&, void*, bool verbose);
+    void free_coprocs(COPROCS&, void*, bool verbose);
+
+    // used in round-robin simulator, to avoid messing w/ master copy
     void clone(COPROCS& c) {
         for (unsigned int i=0; i<c.coprocs.size(); i++) {
             COPROC* cp = c.coprocs[i];
@@ -109,6 +117,7 @@ struct COPROC_CUDA : public COPROC {
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
     static const char* get(COPROCS&);
+    virtual void description(char*);
     void clear();
     int parse(FILE*);
 };
@@ -117,9 +126,10 @@ struct COPROC_CUDA : public COPROC {
 struct COPROC_CELL_SPE : public COPROC {
     static const char* get(COPROCS&);
     COPROC_CELL_SPE() : COPROC("Cell SPE"){}
+    virtual void description(char*);
     virtual ~COPROC_CELL_SPE(){}
 };
 
-void fake_cuda(COPROCS&);
+void fake_cuda(COPROCS&, int);
 
 #endif

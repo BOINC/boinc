@@ -376,6 +376,9 @@ CMainDocument::CMainDocument() : rpc(this) {
     
     m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
     m_iGet_simple_gui2_rpc_result = -1;
+    
+    m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)0);
+    m_iAcct_mgr_info_rpc_result = -1;
 }
 
 
@@ -697,6 +700,9 @@ void CMainDocument::RefreshRPCs() {
     m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
 //  m_iGet_simple_gui2_rpc_result = -1;
 
+    m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)0);
+    m_iAcct_mgr_info_rpc_result = -1;
+
 //  m_iGet_state_rpc_result = -1;
 }
 
@@ -892,11 +898,22 @@ void CMainDocument::RunPeriodicRPCs() {
             RequestRPC(request);
         }
     }
+    // *********** RPC_ACCT_MGR_INFO **************
 
-    //TODO: *********** RPC_ACCT_MGR_INFO **************
-    //TODO: perhaps every 10 minutes when running VW_SGUI
-
-
+    if (currentTabView & VW_SGUI) {
+        wxTimeSpan ts(dtNow - m_dtCachedAcctMgrInfoTimestamp);
+        if (ts.GetSeconds() > 600) {
+            request.clear();
+            request.which_rpc = RPC_ACCT_MGR_INFO;
+            request.arg1 = &async_ami_buf;
+            request.exchangeBuf = &ami;
+            request.event = (wxEvent*)-1;
+            request.completionTime = &m_dtCachedAcctMgrInfoTimestamp;
+            request.resultPtr = &m_iAcct_mgr_info_rpc_result;
+           
+            RequestRPC(request);
+        }
+    }
 }
 
 

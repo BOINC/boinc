@@ -77,7 +77,6 @@ CProjectsComponent::CProjectsComponent(CSimplePanel* parent,wxPoint coord) :
 	m_maxNumOfIcons = 6; // max number of icons in component
 	m_leftIndex = 0;
     lastMessageId = 0;
-    m_bIs_acct_mgr_detected = false;
 	CreateComponent();
 
 	receivedErrorMessage = false;
@@ -93,14 +92,6 @@ CProjectsComponent::~CProjectsComponent() {
 
 void CProjectsComponent::CreateComponent()
 {
-    // Should we display the synchronize button instead of the
-    //   attach to project button?
-    ACCT_MGR_INFO ami;
-	CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    pDoc->rpc.acct_mgr_info(ami);
-    m_bIs_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
-
 	Freeze();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -127,7 +118,6 @@ void CProjectsComponent::CreateComponent()
 		);
 	}
 	btnAddProj->SetToolTip(ttAddProject);
-    btnAddProj->Show(!m_bIs_acct_mgr_detected);
 
 	// syncronize button, hidden by default.
     wxToolTip *ttSynchronize = new wxToolTip(_("Synchronize projects with account manager system"));
@@ -145,7 +135,7 @@ void CProjectsComponent::CreateComponent()
 		);
 	}
 	btnSynchronize->SetToolTip(ttSynchronize);
-    btnSynchronize->Show(m_bIs_acct_mgr_detected);
+    btnSynchronize->Show(false);
 
     /// Help
 	wxToolTip *ttHelp = new wxToolTip(_("Get help with BOINC"));
@@ -552,8 +542,6 @@ void CProjectsComponent::OnSynchronize(wxCommandEvent& /*event*/) {
 void CProjectsComponent::UpdateInterface()
 {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
-	CC_STATUS     status;
-	pDoc->GetCoreClientStatus(status);
 
 	// Check to see if error messages have been received
 	if ( receivedErrorMessage ) {
@@ -578,7 +566,16 @@ void CProjectsComponent::UpdateInterface()
 		}
 	}
 
-    if (m_bIs_acct_mgr_detected) {
+    // Should we display the synchronize button instead of the
+    //   attach to project button?
+	CC_STATUS       status;
+    bool            is_acct_mgr_detected = false;
+
+	pDoc->GetCoreClientStatus(status);
+
+    is_acct_mgr_detected = pDoc->ami.acct_mgr_url.size() ? true : false;
+
+    if (is_acct_mgr_detected) {
 		btnAddProj->Show(false);
 		btnSynchronize->Show(true);
 	} else {
@@ -598,7 +595,7 @@ void CProjectsComponent::UpdateInterface()
 	}
 
     // Should we disable the attach to project button?
-    if (status.disallow_attach || m_bIs_acct_mgr_detected) {
+    if (status.disallow_attach || is_acct_mgr_detected) {
         btnAddProj->Show(false);
     } else {
         btnAddProj->Show(true);

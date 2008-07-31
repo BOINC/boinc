@@ -6163,3 +6163,30 @@ Charlie 30 July 2008
         BOINCBaseFrame.cpp
         BOINCGUIApp.h
         BOINCDialupManager.cpp
+
+David  30 July 2008
+    - client: show proxy info in messages at startup and when changed
+        fixes #704
+    - web: fix the am_set_info.php RPC
+        (most args are optional, not mandatory)
+
+    client/
+        client_state.C,h
+        gui_rpc_server_ops.C
+    html/user/
+        am_set_info.php
+
+David  30 July 2008
+    - client: show message if no proxy
+        fixes #704
+
+    client/
+        client_state.C
+
+Charlie 30 July 2008
+    - MGR: async GUI RPCs: under SimpleGUI, call acct_mgr_info RPC 
+        every 10 minutes.
+        
+    clientgui/
+        MainDocument.cpp,.h
+        sg_ProjectsComponent.cpp
