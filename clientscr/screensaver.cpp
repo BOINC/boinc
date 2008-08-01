@@ -313,6 +313,7 @@ void *CScreensaver::DataManagementProc() {
     double          launch_time             = 0.0;
     double          last_change_time        = 0.0;
     double          last_run_check_time     = 0.0;
+
 #ifdef _WIN32
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
     SetError(TRUE, SCRAPPERR_BOINCSCREENSAVERLOADING);
@@ -369,7 +370,7 @@ void *CScreensaver::DataManagementProc() {
             continue;
         }
 
-	if (suspend_reason != 0) {
+        if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
             SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
             if (m_hGraphicsApplication || previous_result_ptr) {
                 // use previous_result_ptr because graphics_app_result_ptr may no longer be valid

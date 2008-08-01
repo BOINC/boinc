@@ -96,10 +96,6 @@ void CBOINCDialUpManager::OnPoll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     static bool         bAlreadyRunningLoop = false;
-#if defined(__WXMSW__)
-//    CTaskBarIcon*       pTaskbar = wxGetApp().GetTaskBarIcon();
-#endif
-    wxTimeSpan          tsLastDialupAlertSent;
     bool                bIsOnline = false;
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
@@ -111,9 +107,7 @@ void CBOINCDialUpManager::OnPoll() {
     if (!bAlreadyRunningLoop && pDoc) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-#if defined(__WXMSW__)
-//      wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
-#endif
+
         bAlreadyRunningLoop = true;
 
         // cache the various states
@@ -250,7 +244,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
-    if (tsLastDialupAlertSent.GetMinutes() >= pFrame->GetReminderFrequency()) {
+    if ((tsLastDialupAlertSent.GetMinutes() >= pFrame->GetReminderFrequency()) && (pFrame->GetReminderFrequency() != 0)) {
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NotifyUserNeedConnection - Manager not shown, notify instead"));
         m_dtLastDialupAlertSent = wxDateTime::Now();
 
@@ -305,7 +299,7 @@ int CBOINCDialUpManager::Connect() {
 
 
     tsLastDialupRequest = wxDateTime::Now() - m_dtLastDialupRequest;
-    if (tsLastDialupRequest.GetMinutes() >= pFrame->GetReminderFrequency()) {
+    if ((tsLastDialupRequest.GetMinutes() >= pFrame->GetReminderFrequency()) && (pFrame->GetReminderFrequency() != 0)) {
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Connect - Begin connection process"));
         m_dtLastDialupRequest = wxDateTime::Now();
 

@@ -4218,3 +4218,15 @@ Rom    17 July 2008
     
     sea/
         Makefile.am
+
+Rom    31 July 2008
+    - SCR: Don't treat CPU throttling as BOINC beeing suspended.
+        Fixes #706
+    - MGR: If the reminder frequency is 0, then don't show any
+        reminder messages.
+
+    clientgui/
+        BOINCDialupManager.cpp
+    clientscr/
+        screensaver.cpp
+        screensaver_win.cpp
