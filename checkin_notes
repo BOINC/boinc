@@ -6045,7 +6045,7 @@ David  30 July 2008
         client_state.C
 
 Rom    31 July 2008
-    - SCR: Don't treat CPU throttling as BOINC beeing suspended.
+    - SCR: Don't treat CPU throttling as BOINC being suspended.
         Fixes #706
     - MGR: If the reminder frequency is 0, then don't show any
         reminder messages.
@@ -6055,4 +6055,12 @@ Rom    31 July 2008
     clientscr/
         screensaver.cpp
         screensaver_win.cpp
-    
+
+Charlie 1 Aug 2008
+    - SCR / CLIENT: fix get_screensaver_tasks RPC so it does not 
+        exclude tasks suspended for CPU throttling.  Fixes the 
+        screensaver problem for V6 graphics.  Checked into 
+        boinc_core_release_6_2_15 tag.
+        
+    client/
+        gui_rpc_server_ops.C
