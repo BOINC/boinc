@@ -4230,3 +4230,12 @@ Rom    31 July 2008
     clientscr/
         screensaver.cpp
         screensaver_win.cpp
+
+Rom    31 July 2008
+    - Tag for 6.2.15 release, all platforms
+      boinc_core_release_6_2_15
+
+    /
+        configure.ac
+        version.h
+
