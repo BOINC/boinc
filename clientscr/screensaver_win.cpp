@@ -892,20 +892,21 @@ VOID CScreensaver::UpdateErrorBoxText() {
     size_t   iIndex          = 0;
 
 
-    if ((SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError)
-        || (SCRAPPERR_DAEMONALLOWSNOGRAPHICS == m_hrError) 
-    ) {
+    if ((SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) || (SCRAPPERR_DAEMONALLOWSNOGRAPHICS == m_hrError) ) {
         if (m_updating_results) return;     // results vector is currently being updated by rpc
         
         iResultCount = results.results.size();
 		int iModIndex;
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-			// cycle through the active results starting from the last one
+
+            // cycle through the active results starting from the last one
 			iModIndex = (iIndex + m_iLastResultShown+1) % iResultCount;
+
             bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iModIndex)->state);
             bIsActive     = (results.results.at(iModIndex)->active_task);
             bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iModIndex)->scheduler_state);
             if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+
             pProject = state.lookup_project(results.results.at(iModIndex)->project_url);
             if (NULL != pProject) {
 				RESULT* pResult = state.lookup_result(pProject, results.results.at(iModIndex)->name);
@@ -932,6 +933,7 @@ VOID CScreensaver::UpdateErrorBoxText() {
 				GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
             }
         }
+
         m_szError[ sizeof(m_szError) -1 ] = '\0';
     } else {
         // Load error string

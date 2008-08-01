@@ -6043,3 +6043,16 @@ David  30 July 2008
 
     client/
         client_state.C
+
+Rom    31 July 2008
+    - SCR: Don't treat CPU throttling as BOINC beeing suspended.
+        Fixes #706
+    - MGR: If the reminder frequency is 0, then don't show any
+        reminder messages.
+
+    clientgui/
+        BOINCDialupManager.cpp
+    clientscr/
+        screensaver.cpp
+        screensaver_win.cpp
+    
