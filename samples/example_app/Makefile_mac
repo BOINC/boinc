@@ -3,7 +3,7 @@
 # It should not be used by itself without the script.
 # Updated 3/26/08
 
-BOINC_DIR = ../../boinc
+BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_LIB_LINK_DIR = $(BOINC_DIR)/mac_build/build/Deployment

@@ -1,3 +1,5 @@
+DEPRECATED - the samples directory is now part of the BOINC tree
+
 David  7 April 2006
     - extended upper_case so that it draws graphics
         (text, image, bouncing ball)

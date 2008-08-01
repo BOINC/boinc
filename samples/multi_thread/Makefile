@@ -5,7 +5,7 @@
 # This creates a symbolic link to the C++ library,
 # which is linked statically
 
-BOINC_DIR = ../../boinc
+BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 

@@ -6,7 +6,7 @@
 # which is linked statically
 
 # Change the following to match your installation
-BOINC_DIR = ../../boinc
+BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 
