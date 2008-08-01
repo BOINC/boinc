@@ -6070,3 +6070,11 @@ David  1 Aug 2008
     - fix Makefiles in samples/
 
     samples/*/Makefile*
+
+David  1 Aug 2008
+    - client (Unix): fix bugs in setting LD_LIBRARY_PATH.
+        We need to add paths relative to the slot directory,
+        not the BOINC directory (doh!!).
+
+    client/
+        app_start.C

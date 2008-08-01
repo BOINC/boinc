@@ -763,13 +763,19 @@ int ACTIVE_TASK::start(bool first_time) {
         dup2(fd, STDOUT_FILENO);
         close(fd);
 
-        // add project dir and slot dir to library path
+        // add to library path:
+        // - the project dir (../../projects/X)
+        // - the slot dir (.)
+        // - the BOINC dir (../..)
+        // We use relative paths in case higher-level dirs
+        // are not readable to the account under which app runs
         //
         char libpath[8192];
         get_project_dir(wup->project, buf, sizeof(buf));
-        sprintf(libpath, "%s:%s:%s:%s",
-            getenv("LD_LIBRARY_PATH"), buf, slot_dir, current_dir
+        sprintf(libpath, "%s:../../%s:.:../..",
+            getenv("LD_LIBRARY_PATH"), buf
         );
+        fprintf(stderr, "LD PATH: %s\n", libpath);
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
         retval = chdir(slot_dir);
