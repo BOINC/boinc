@@ -6078,3 +6078,19 @@ David  1 Aug 2008
 
     client/
         app_start.C
+
+David  3 Aug 2008
+    - client: fix crash in this scenario:
+        A file upload sends request.
+        The network is down, and something (e.g. a router)
+        sends a long (> 4KB) error page.
+        This overruns the 4KB buffer of HTTP_OP::req1.
+        Solution: keep track of the size of the buffer,
+        and don't overrun it.
+        Also move the body of a huge for loop into a separate function.
+        From Ian Hay.
+        Fixes #705
+
+    client/
+        file_xfer.C
+        http_curl.C,h

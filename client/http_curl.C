@@ -228,13 +228,14 @@ int HTTP_OP::init_post(
 // This is used for file upload (both get_file_size and file_upload)
 //
 int HTTP_OP::init_post2(
-    const char* url, char* r1, const char* in, double offset
+    const char* url, char* r1, int r1_len, const char* in, double offset
 ) {
     int retval;
     double size;
 
     init();
     req1 = r1;
+    req1_len = r1_len;
     if (in) {
         safe_strcpy(infile, in);
         file_offset = offset;
@@ -896,14 +897,165 @@ void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
     );
 }
 
+// we have a message for this HTTP_OP.
+// get the response code for this request
+//
+void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
+    CURLcode curlErr;
+    int retval;
+
+    curlErr = curl_easy_getinfo(curlEasy, 
+        CURLINFO_RESPONSE_CODE, &response
+    );
+
+    // CURLINFO_LONG+25 is a workaround for a bug in the gcc version
+    // included with Mac OS X 10.3.9
+    //
+    curlErr = curl_easy_getinfo(curlEasy, 
+        (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &connect_error
+    );
+
+    // update byte counts and transfer speed
+    //
+    if (want_download) {
+        // SIZE_DOWNLOAD is the byte count "on the wire"
+        // (possible with compression)
+        // TOTAL_TIME is the elapsed time of the download
+        // STARTTRANSFER_TIME is portion of elapsed time involved
+        // with setup (connection establishment etc.)
+        // SPEED_DOWNLOAD is bytes/sec based on uncompressed size
+        // (we don't use it)
+        //
+        double size_download, total_time, starttransfer_time;
+        curlErr = curl_easy_getinfo(curlEasy, 
+            CURLINFO_SIZE_DOWNLOAD, &size_download
+        );
+        curlErr = curl_easy_getinfo(curlEasy, 
+            CURLINFO_TOTAL_TIME, &total_time
+        );
+        curlErr = curl_easy_getinfo(curlEasy, 
+            CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
+        );
+        double dt = total_time - starttransfer_time;
+        if (dt > 0) {
+            gstate.net_stats.down.update(size_download, dt);
+        }
+    }
+    if (want_upload) {
+        double size_upload, total_time, starttransfer_time;
+        curlErr = curl_easy_getinfo(curlEasy, 
+            CURLINFO_SIZE_UPLOAD, &size_upload
+        );
+        curlErr = curl_easy_getinfo(curlEasy, 
+            CURLINFO_TOTAL_TIME, &total_time
+        );
+        curlErr = curl_easy_getinfo(curlEasy, 
+            CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
+        );
+        double dt = total_time - starttransfer_time;
+        if (dt > 0) {
+            gstate.net_stats.up.update(size_upload, dt);
+        }
+    }
+
+    // the op is done if curl_multi_msg_read gave us a msg for this http_op
+    //
+    http_op_state = HTTP_STATE_DONE;        
+    CurlResult = pcurlMsg->data.result;
+
+    if (CurlResult == CURLE_OK) {
+        if ((response/100)*100 == HTTP_STATUS_OK) {
+            http_op_retval = 0;  
+        } else if ((response/100)*100 == HTTP_STATUS_CONTINUE) {
+            return;
+        } else {
+            // Got a response from server but its not OK or CONTINUE,
+            // so save response with error message to display later.
+            //
+            if (response >= 400) {
+                strcpy(error_msg, boincerror(response));
+            } else {
+                sprintf(error_msg, "HTTP error %ld", response);
+            }
+            switch (response) {
+            case HTTP_STATUS_NOT_FOUND:
+                http_op_retval = ERR_FILE_NOT_FOUND;
+                break;
+            default:
+                http_op_retval = ERR_HTTP_ERROR;
+            }
+        }
+        net_status.need_physical_connection = false;
+    } else {
+        strcpy(error_msg, curl_easy_strerror(CurlResult));
+        switch(CurlResult) {
+        case CURLE_COULDNT_RESOLVE_HOST:
+            http_op_retval = ERR_GETHOSTBYNAME;
+            break;
+        case CURLE_COULDNT_CONNECT:
+            http_op_retval = ERR_CONNECT;
+            break;
+        default:
+            http_op_retval = ERR_HTTP_ERROR;
+        }
+        net_status.got_http_error();
+        if (log_flags.http_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[http_debug] HTTP error: %s", error_msg
+            );
+        }
+    }
+
+    if (!http_op_retval && http_op_type == HTTP_OP_POST2) {
+        // for a successfully completed request on a "post2" --
+        // read in the temp file into req1 memory
+        //
+        size_t dSize = ftell(fileOut);
+        retval = fseek(fileOut, 0, SEEK_SET);
+        if (retval) {
+            // flag as a bad response for a possible retry later
+            response = 1;
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "[http_debug] can't rewind post output file %s",
+                outfile
+            );
+        } else {
+            strcpy(req1, "");
+            if (dSize > req1_len) {
+                dSize = req1_len;
+            }
+            size_t nread = fread(req1, 1, dSize, fileOut); 
+            if (nread != dSize) {
+                if (log_flags.http_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[http_debug] post output file read failed %ld",
+                        nread
+                    );
+                }
+            }
+            req1[req1_len-1] = 0;   // make sure null-terminated
+        }
+    }
+
+    // close files and "sockets" (i.e. libcurl handles)
+    //
+    close_file();
+    close_socket();
+
+    // finally remove the tmpfile if not explicitly set
+    //
+    if (bTempOutfile) {
+        boinc_delete_file(outfile);
+    }
+}
+
 void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
-    int iNumMsg, retval;
+    int iNumMsg;
     HTTP_OP* hop = NULL;
     CURLMsg *pcurlMsg = NULL;
 
     int iRunning = 0;  // curl flags for max # of fds & # running queries
     CURLMcode curlMErr;
-    CURLcode curlErr;
 
     // get the data waiting for transfer in or out
     // use timeout value so that we don't hog CPU in this loop
@@ -925,149 +1077,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
         //
         hop = lookup_curl(pcurlMsg->easy_handle);
         if (!hop) continue;
-
-         // we have a message from one of our http_ops
-         // get the response code for this request
-        //
-        curlErr = curl_easy_getinfo(hop->curlEasy, 
-            CURLINFO_RESPONSE_CODE, &hop->response
-        );
-
-        // CURLINFO_LONG+25 is a workaround for a bug in the gcc version
-        // included with Mac OS X 10.3.9
-        //
-        curlErr = curl_easy_getinfo(hop->curlEasy, 
-            (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &hop->connect_error
-        );
-
-        // update byte counts and transfer speed
-        //
-        if (hop->want_download) {
-            // SIZE_DOWNLOAD is the byte count "on the wire"
-            // (possible with compression)
-            // TOTAL_TIME is the elapsed time of the download
-            // STARTTRANSFER_TIME is portion of elapsed time involved
-            // with setup (connection establishment etc.)
-            // SPEED_DOWNLOAD is bytes/sec based on uncompressed size
-            // (we don't use it)
-            //
-            double size_download, total_time, starttransfer_time;
-			curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_SIZE_DOWNLOAD, &size_download
-            );
-			curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_TOTAL_TIME, &total_time
-            );
-			curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
-            );
-            double dt = total_time - starttransfer_time;
-            if (dt > 0) {
-                gstate.net_stats.down.update(size_download, dt);
-            }
-        }
-        if (hop->want_upload) {
-            double size_upload, total_time, starttransfer_time;
-			curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_SIZE_UPLOAD, &size_upload
-            );
-			curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_TOTAL_TIME, &total_time
-            );
-			curlErr = curl_easy_getinfo(hop->curlEasy, 
-                CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
-            );
-            double dt = total_time - starttransfer_time;
-            if (dt > 0) {
-                gstate.net_stats.up.update(size_upload, dt);
-            }
-        }
-
-        // the op is done if curl_multi_msg_read gave us a msg for this http_op
-        //
-        hop->http_op_state = HTTP_STATE_DONE;        
-        hop->CurlResult = pcurlMsg->data.result;
-
-        if (hop->CurlResult == CURLE_OK) {
-            if ((hop->response/100)*100 == HTTP_STATUS_OK) {
-                hop->http_op_retval = 0;  
-            } else if ((hop->response/100)*100 == HTTP_STATUS_CONTINUE) {
-                continue;
-            } else {
-                // Got a response from server but its not OK or CONTINUE,
-                // so save response with error message to display later.
-                //
-                if (hop->response >= 400) {
-                    strcpy(hop->error_msg, boincerror(hop->response));
-                } else {
-                    sprintf(hop->error_msg, "HTTP error %ld", hop->response);
-                }
-                switch (hop->response) {
-                case HTTP_STATUS_NOT_FOUND:
-                    hop->http_op_retval = ERR_FILE_NOT_FOUND;
-                    break;
-                default:
-                    hop->http_op_retval = ERR_HTTP_ERROR;
-                }
-            }
-            net_status.need_physical_connection = false;
-        } else {
-            strcpy(hop->error_msg, curl_easy_strerror(hop->CurlResult));
-            switch(hop->CurlResult) {
-            case CURLE_COULDNT_RESOLVE_HOST:
-                hop->http_op_retval = ERR_GETHOSTBYNAME;
-                break;
-            case CURLE_COULDNT_CONNECT:
-                hop->http_op_retval = ERR_CONNECT;
-                break;
-            default:
-                hop->http_op_retval = ERR_HTTP_ERROR;
-            }
-            net_status.got_http_error();
-			if (log_flags.http_debug) {
-				msg_printf(NULL, MSG_INFO,
-                    "[http_debug] HTTP error: %s", hop->error_msg
-                );
-			}
-        }
-
-        if (!hop->http_op_retval && hop->http_op_type == HTTP_OP_POST2) {
-            // for a successfully completed request on a "post2" --
-            // read in the temp file into req1 memory
-            //
-            size_t dSize = ftell(hop->fileOut);
-            retval = fseek(hop->fileOut, 0, SEEK_SET);
-            if (retval) {
-                // flag as a bad response for a possible retry later
-                hop->response = 1;
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
-                    "[http_debug] can't rewind post output file %s",
-                    hop->outfile
-                );
-            } else {
-                strcpy(hop->req1, "");
-                size_t nread = fread(hop->req1, 1, dSize, hop->fileOut); 
-                if (nread != dSize) {
-                    if (log_flags.http_debug) {
-                        msg_printf(NULL, MSG_INFO,
-                            "[http_debug] post output file read failed %ld",
-                            nread
-                        );
-                    }
-                }
-            }
-        }
-
-        // close files and "sockets" (i.e. libcurl handles)
-        //
-        hop->close_file();
-        hop->close_socket();
-
-        // finally remove the tmpfile if not explicitly set
-        //
-        if (hop->bTempOutfile) {
-            boinc_delete_file(hop->outfile);
-        }
+        hop->handle_messages(pcurlMsg);
     }
 }
 
