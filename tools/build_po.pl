@@ -7,9 +7,9 @@ my $path = $ARGV[0];
 if ($path eq "") {
     die "Usage: build_po.pl [PROJECT_PATH]";
 }
-system("xgettext --omit-header --directory=".$path."/html/inc -o en.po --keyword=tra -L PHP --no-location ".$path."/html/inc/*");
-system("xgettext --omit-header --directory=".$path."/html/user -j -o en.po --keyword=tra -L PHP --no-location ".$path."/html/user/*");
-system("xgettext --omit-header --directory=".$path."/html/project -j -o en.po --keyword=tra -L PHP --no-location ".$path."/html/project/*");
+system("xgettext --omit-header --directory=".$path."/html/inc -o en.po --keyword=tra -L PHP --no-location ".$path."/html/inc/*.inc");
+system("xgettext --omit-header --directory=".$path."/html/user -j -o en.po --keyword=tra -L PHP --no-location ".$path."/html/user/*.php");
+system("xgettext --omit-header --directory=".$path."/html/project -j -o en.po --keyword=tra -L PHP --no-location ".$path."/html/project/*.*");
 
 my @timedata = localtime(time);
 my $header = "";
