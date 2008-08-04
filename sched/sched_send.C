@@ -174,6 +174,10 @@ BEST_APP_VERSION* get_app_version(
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
             if (reply.wreq.core_client_version < av.min_core_version) {
+                log_messages.printf(MSG_DEBUG,
+                    "outdated client version %d < min core version %d\n",
+                    reply.wreq.core_client_version, av.min_core_version
+                );
                 reply.wreq.outdated_core = true;
                 continue;
             }

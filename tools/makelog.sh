@@ -44,17 +44,17 @@ while [ true ] ; do
     echo " "                                                                                      >> $filepath
     echo " "                                                                                      >> $filepath
 
-# determine which files to search.  Normally we just search cgi.log, but if the timestamp of cgi.log
-# and cgi.log.0 are within 300 seconds of each other, then we search both. The 10,000,000 case will
+# determine which files to search.  Normally we just search scheduler.log, but if the timestamp of scheduler.log
+# and scheduler.log.0 are within 600 seconds of each other, then we search both. The 10,000,000 case will
 # handle what happens if either $cgilogtime or $cgilog0time is not properly defined.
 
-    export cgilog0time=`ls --time-style=+%s -l ../log_*/cgi.log.0 | awk '{print $6}'`
+    export cgilog0time=`ls --time-style=+%s -l ../log_*/scheduler.log.0 | awk '{print $6}'`
     export cgilogtime=$cgilog0time
-    export cgilogtime=`ls --time-style=+%s -l ../log_*/cgi.log | awk '{print $6}'`
+    export cgilogtime=`ls --time-style=+%s -l ../log_*/scheduler.log | awk '{print $6}'`
     export deltatime=$(($cgilogtime-$cgilog0time))
-    export filelist="../log_*/cgi.log"
-    if [ $deltatime -lt 300 ] || [ $deltatime -gt 10000000 ] ; then
-        export filelist="../log_*/cgi.log ../log_*/cgi.log.0"
+    export filelist="../log_*/scheduler.log"
+    if [ $deltatime -lt 600 ] || [ $deltatime -gt 10000000 ] ; then
+        export filelist="../log_*/scheduler.log ../log_*/scheduler.log.0"
     fi
 
 # now grep for all log entries from 3 minutes ago.  Use sed to hide any sensitive info

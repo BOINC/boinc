@@ -6117,3 +6117,22 @@ David  4 Aug 2008
 
     sched/
         sched_send.C,h
+
+Bruce  5 Aug 2008
+    - scheduler: in resending lost results, must copy core
+      client version.  David -- this can probably be done
+      better and might indicate that some other info is not
+      being properly copied.  Please review and fix if needed.
+      Before this fix, scheduler.log was complaining about
+      outdated core clients version 0 < min needed core 413.
+
+    - tools for scheduler logging: change cgi.log.X to scheduler.log.X
+      in script that creates on-line logs for users to read
+      to help diagnose problems.
+
+    tools/
+        makelog.sh
+    sched/
+        sched_send.C
+        handle_request.C
+
