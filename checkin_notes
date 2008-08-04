@@ -6101,3 +6101,13 @@ Rytis  4 Aug 2008
     
     tools/
         build_po.pl
+
+Rytis  4 Aug 2008
+    - user web: make team.inc translatable, and update en.po using the
+        new script (fix #661)
+    
+    html/
+        inc/
+            team.inc
+        languages/translations/
+            en.po

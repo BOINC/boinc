@@ -1,310 +1,19 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-02 16:26+0200\n"
-"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: utf-8\n"
-
-##########################################
 # Language: English (International)
 # FileID  : $Id$
-# Author  : Janus Kristensen
-# Email   : jbk@visualgroup.dk
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-##########################################
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-msgid "CHARSET"
-msgstr "UTF-8"
-
-# The name of this language in this language
-msgid "LANG_NAME_NATIVE"
-msgstr "English"
-
-# The name of this language in an international language (English)
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
-
-#########################################
-# Apps page (apps.php)
-#########################################
-msgid "Applications"
+msgid ""
 msgstr ""
+PO-Revision-Date: 2008-8-4 10:0
+Last-Translator: Generated automatically from source files
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-Poedit-SourceCharset: utf-8
 
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr ""
-
-msgid "Platform"
-msgstr ""
-
-msgid "Current version"
-msgstr ""
-
-msgid "Installation time"
-msgstr ""
-
-#########################################
-# Rules and Policies page (info.php)
-#########################################
-msgid "Read our rules and policies"
-msgstr ""
-
-msgid "Run %1 only on authorized computers"
-msgstr ""
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr ""
-
-msgid "How %1 will use your computer"
-msgstr ""
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr ""
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr ""
-
-msgid "Privacy policy"
-msgstr ""
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr ""
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr ""
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-
-msgid "Is it safe to run %1?"
-msgstr ""
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr ""
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
-
-msgid "Liability"
-msgstr ""
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr ""
-
-msgid "Other BOINC projects"
-msgstr ""
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr ""
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr ""
-
-#########################################
-# Create account form (create_account_form.php)
-#########################################
-msgid "Create an account"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
-
-msgid "Email Address"
-msgstr ""
-
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
-
-msgid "Country"
-msgstr ""
-
-msgid "Select the country you want to represent, if any."
-msgstr ""
-
-msgid "Postal or ZIP Code"
-msgstr ""
-
-msgid "Create account"
-msgstr ""
-
-msgid "Account creation is disabled"
-msgstr ""
-
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr ""
-
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr ""
-
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr ""
-
-msgid "Password"
-msgstr ""
-
-msgid "Must be at least %1 characters"
-msgstr ""
-
-msgid "Confirm password"
-msgstr ""
-
-msgid "Invitation Code"
-msgstr ""
-
-msgid "A valid invitation code is required to create an account."
-msgstr ""
-
-msgid "You must supply an invitation code to create an account."
-msgstr ""
-
-msgid "The invitation code you gave is not valid."
-msgstr ""
-
-#########################################
-# Forum sample index page
-#########################################
-msgid "%1 Message boards"
-msgstr ""
-
-msgid "Message boards"
-msgstr ""
-
-#########################################
-# General stuff (create_account_form.php and others)
-#########################################
-msgid "Optional"
-msgstr ""
-
-#########################################
-# Various top table pages (top users, computers, teams)
-#########################################
-msgid "Top participants"
-msgstr ""
 
 msgid "Rank"
 msgstr ""
 
-msgid "Total credit"
-msgstr ""
-
-msgid "Recent average credit"
-msgstr ""
-
-msgid "Participant since"
-msgstr ""
-
-msgid "Top %1 teams"
-msgstr ""
-
-msgid "Members"
-msgstr ""
-
-msgid "Top hosts"
-msgstr ""
-
-#########################################
-# Forum
-#########################################
-msgid "Posts"
-msgstr ""
-
-msgid "Topic"
-msgstr ""
-
-msgid "Thread"
-msgstr ""
-
-msgid "Threads"
-msgstr ""
-
-msgid "Last post"
-msgstr ""
-
-msgid "Author"
-msgstr ""
-
-msgid "Views"
-msgstr ""
-
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr ""
-
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr ""
-
-msgid "Create a new thread"
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "Add my signature to this post"
-msgstr ""
-
-msgid "Message"
-msgstr ""
-
-msgid "Edit message"
-msgstr ""
-
-msgid "Use BBCode tags to format your text"
-msgstr ""
-
-msgid "%1 message board"
-msgstr ""
-
-msgid "Mark all threads as read"
-msgstr ""
-
-msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
-
-#########################################
-# Forum thread
-#########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr ""
-
-msgid "Post to thread"
-msgstr ""
-
-msgid "Unsubscribe"
-msgstr ""
-
-msgid "Subscribe"
-msgstr ""
-
-#########################################
-# Forum search features
-#########################################
-msgid "Forum search"
-msgstr ""
-
-msgid "Titles containing '%1'"
-msgstr ""
-
-msgid "Posts containing '%1'"
-msgstr ""
-
-msgid "No titles containing '%1' could be found."
-msgstr ""
-
-msgid "No posts containing '%1' could be found."
-msgstr ""
-
-msgid "Advanced search"
+msgid "Name"
 msgstr ""
 
 msgid "Search for words in forum messages"
@@ -313,19 +22,57 @@ msgstr ""
 msgid "Search forums"
 msgstr ""
 
-#########################################
-# Private messages
-#########################################
+msgid "Advanced search"
+msgstr ""
+
 msgid "Private messages"
+msgstr ""
+
+msgid "Questions and Answers"
+msgstr ""
+
+msgid "Message boards"
+msgstr ""
+
+msgid "%1 message board"
+msgstr ""
+
+msgid ""
+"In order to create a new thread in %1 you must have a certain amount of "
+"credit. This is to prevent and protect against abuse of the system."
+msgstr ""
+
+msgid ""
+"You cannot create any more threads right now. Please wait a while before "
+"trying again. This delay has been enforced to protect against abuse of the "
+"system."
+msgstr ""
+
+msgid "Thread"
+msgstr ""
+
+msgid "Posts"
+msgstr ""
+
+msgid "Author"
+msgstr ""
+
+msgid "Views"
+msgstr ""
+
+msgid "Last post"
+msgstr ""
+
+msgid "Mark all threads as read"
+msgstr ""
+
+msgid "Mark all threads in all message boards as 'read'."
 msgstr ""
 
 msgid "Inbox"
 msgstr ""
 
 msgid "Write"
-msgstr ""
-
-msgid "Forum index"
 msgstr ""
 
 msgid "Send private message"
@@ -343,211 +90,196 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
+msgid "Message"
+msgstr ""
+
 msgid "Send message"
 msgstr ""
 
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgid ""
+"You are not allowed to send privates messages so often. Please wait some "
+"time before sending more messages."
 msgstr ""
 
-msgid "Your message has been sent."
+msgid "unread"
 msgstr ""
 
-msgid "You have no private messages."
+msgid "Search criteria (use one or more)"
 msgstr ""
 
-msgid "No such message"
+msgid "Key words"
 msgstr ""
 
-msgid "Really delete?"
+msgid "Find teams with these words in their names or descriptions"
 msgstr ""
 
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgid "Country"
 msgstr ""
 
-msgid "Yes, delete"
+msgid "Type of team"
 msgstr ""
 
-msgid "No, cancel"
+msgid "Show only active teams"
 msgstr ""
 
-msgid "You need to fill all fields to send a private message"
+msgid "Search"
 msgstr ""
 
-msgid "Could not find user with id %1"
+msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
 
-msgid "Could not find user with username %1"
+msgid "Complete foundership transfer"
 msgstr ""
 
-msgid "%1 is not a unique username; you will have to use user ID"
+msgid "Requested by you"
 msgstr ""
 
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
-
-msgid "Really block %1?"
-msgstr ""
-
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr ""
-
-msgid "Please note that you can only block a limited amount of users."
-msgstr ""
-
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr ""
-
-msgid "Add user to filter"
-msgstr ""
-
-msgid "No such user"
-msgstr ""
-
-msgid "User %1 blocked"
-msgstr ""
-
-msgid "User %1 has been blocked from sending you private messages."
-msgstr ""
-
-msgid "To unblock, visit %1message board preferences%2"
-msgstr ""
-
-msgid "Sender and date"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "Reply"
-msgstr ""
-
-msgid "Block user"
-msgstr ""
-
-msgid "With selected messages"
-msgstr ""
-
-msgid "Mark as read"
-msgstr ""
-
-msgid "Mark as unread"
-msgstr ""
-
-#########################################
-# Links from the main page
-#########################################
-msgid "Questions and Answers"
-msgstr ""
-
-#########################################
-# "Your account" page (home.php)
-#########################################
-msgid "Your account"
-msgstr ""
-
-msgid "Welcome to %1"
-msgstr ""
-
-msgid "View and edit your account preferences using the links below."
-msgstr ""
-
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr ""
-
-msgid "Account information"
-msgstr ""
-
-msgid "Email address"
-msgstr ""
-
-msgid "URL"
-msgstr ""
-
-msgid "Postal code"
-msgstr ""
-
-msgid "Change"
-msgstr ""
-
-msgid "email address"
-msgstr ""
-
-msgid "password"
-msgstr ""
-
-msgid "other account info"
-msgstr ""
-
-msgid "Log out"
-msgstr ""
-
-msgid "Community"
-msgstr ""
-
-msgid "Community preferences"
-msgstr ""
-
-msgid "Create"
-msgstr ""
-
-msgid "Profile"
-msgstr ""
-
-msgid "Teams"
-msgstr ""
-
-msgid "Team"
-msgstr ""
-
-msgid "Member of team"
-msgstr ""
-
-msgid "%1 posts"
+msgid "founder response deadline is %1"
 msgstr ""
 
 msgid "None"
 msgstr ""
 
-msgid "Administer"
+msgid "Initiate request"
 msgstr ""
 
-msgid "Founder but not member of"
+msgid "Deferred"
 msgstr ""
 
-msgid "administrative functions"
+msgid "Team info"
 msgstr ""
 
-msgid "Quit team"
+msgid "Description"
 msgstr ""
 
-msgid "find a team"
+msgid "Web site"
 msgstr ""
 
-msgid "Preferences"
+msgid "Total credit"
 msgstr ""
 
-msgid "Computing preferences"
+msgid "Recent average credit"
 msgstr ""
 
-msgid "When and how BOINC uses your computer"
+msgid "Type"
 msgstr ""
 
-msgid "%1 preferences"
+msgid "Message board"
 msgstr ""
 
-msgid "Resource share and graphics"
+msgid "Threads"
 msgstr ""
 
-msgid "Message board preferences"
+msgid "Join this team"
 msgstr ""
 
-msgid "Message boards and private messages"
+msgid ""
+"Note: if 'OK to email' is set in your project preferences, joining a team "
+"gives its founder access to your email address."
+msgstr ""
+
+msgid "Foundership change requested"
+msgstr ""
+
+msgid "Respond by %1"
+msgstr ""
+
+msgid "Team foundership change"
+msgstr ""
+
+msgid "Members"
+msgstr ""
+
+msgid "Founder"
+msgstr ""
+
+msgid "Admins"
+msgstr ""
+
+msgid "New members in last day"
+msgstr ""
+
+msgid "Total members"
+msgstr ""
+
+msgid "view"
+msgstr ""
+
+msgid "Active members"
+msgstr ""
+
+msgid "Members with credit"
+msgstr ""
+
+msgid "Admin"
+msgstr ""
+
+msgid "Last %1"
+msgstr ""
+
+msgid "Next %1"
+msgstr ""
+
+msgid "No such team."
+msgstr ""
+
+msgid "This operation requires foundership."
+msgstr ""
+
+msgid "This operation requires team admin privileges"
+msgstr ""
+
+msgid ""
+"%1Privacy note%2: if you create a team, your project preferences (resource "
+"share, graphics preferences) will be visible to the public."
+msgstr ""
+
+msgid "Team name, text version"
+msgstr ""
+
+msgid "Don't use HTML tags."
+msgstr ""
+
+msgid "Team name, HTML version"
+msgstr ""
+
+msgid "You may use %1limited HTML tags%2."
+msgstr ""
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr ""
+
+msgid "URL of team web page, if any"
+msgstr ""
+
+msgid "without \"http://\""
+msgstr ""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr ""
+
+msgid "Description of team"
+msgstr ""
+
+msgid "Projects in which you are participating"
+msgstr ""
+
+msgid "Projects in which %1 is participating"
+msgstr ""
+
+msgid "Project"
+msgstr ""
+
+msgid "Click for user page"
+msgstr ""
+
+msgid "Average credit"
+msgstr ""
+
+msgid "Since"
 msgstr ""
 
 msgid "Computing and credit"
-msgstr ""
-
-msgid "%1 member since"
 msgstr ""
 
 msgid "Pending credit"
@@ -568,19 +300,43 @@ msgstr ""
 msgid "Cross-project statistics"
 msgstr ""
 
+msgid "Certificate"
+msgstr ""
+
 msgid "Stats on your cell phone"
 msgstr ""
 
-msgid "Account number"
+msgid "Account information"
 msgstr ""
 
-msgid "Used in URLs"
+msgid "Email address"
 msgstr ""
 
-msgid "unread" 
+msgid "URL"
 msgstr ""
 
-msgid "User ID" 
+msgid "Postal code"
+msgstr ""
+
+msgid "%1 member since"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "email address"
+msgstr ""
+
+msgid "password"
+msgstr ""
+
+msgid "other account info"
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+msgid "User ID"
 msgstr ""
 
 msgid "Used in community functions"
@@ -604,41 +360,79 @@ msgstr ""
 msgid "to your account"
 msgstr ""
 
-msgid "Friends"
+msgid "Preferences"
+msgstr ""
+
+msgid "When and how BOINC uses your computer"
+msgstr ""
+
+msgid "Computing preferences"
+msgstr ""
+
+msgid "Message boards and private messages"
+msgstr ""
+
+msgid "Community preferences"
+msgstr ""
+
+msgid "Resource share and graphics"
+msgstr ""
+
+msgid "%1 preferences"
+msgstr ""
+
+msgid "Community"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "%1 posts"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Quit team"
+msgstr ""
+
+msgid "Administer"
+msgstr ""
+
+msgid "(foundership change request pending)"
+msgstr ""
+
+msgid "Member of team"
+msgstr ""
+
+msgid "Team"
+msgstr ""
+
+msgid "find a team"
+msgstr ""
+
+msgid "Founder but not member of"
 msgstr ""
 
 msgid "Find friends"
+msgstr ""
+
+msgid "Friends"
+msgstr ""
+
+msgid "Computers"
 msgstr ""
 
 msgid "hidden"
 msgstr ""
 
 msgid "Donor"
-msgstr ""
-
-msgid "Notifications"
-msgstr ""
-
-msgid "(foundership change request pending)"
-msgstr ""
-
-#########################################
-# Public user page (show_user.php)
-#########################################
-
-msgid "Projects in which you are participating"
-msgstr ""
-
-msgid "Projects in which %1 is participating"
-msgstr ""
-
-msgid "Project"
-msgstr ""
-
-msgid "Click for user page"
-msgstr ""
-
-msgid "Since"
 msgstr ""
 
 msgid "Contact"
@@ -656,42 +450,340 @@ msgstr ""
 msgid "Add as friend"
 msgstr ""
 
-#########################################
-# "Weak account key" page (weak_auth.php)
-#########################################
-
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgid "CHARSET"
 msgstr ""
 
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgid "Use BBCode tags to format your text"
 msgstr ""
 
-msgid "Your weak account key for this project is:"
+msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgid "Select the country you want to represent, if any."
 msgstr ""
 
-msgid "Create this file if needed. Set its contents to:"
+msgid "Postal or ZIP Code"
 msgstr ""
 
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgid "Optional"
 msgstr ""
 
-#########################################
-# Participant profiles
-#########################################
+msgid "Applications"
+msgstr ""
+
+msgid ""
+"%1 currently has the following applications. When you participate in %1, "
+"work for one or more of these applications will be assigned to your "
+"computer. The current version of the application will be downloaded to your "
+"computer. This happens automatically; you don't have to do anything."
+msgstr ""
+
+msgid "Platform"
+msgstr ""
+
+msgid "Current version"
+msgstr ""
+
+msgid "Installation time"
+msgstr ""
+
+msgid "You must supply an invitation code to create an account."
+msgstr ""
+
+msgid "The invitation code you gave is not valid."
+msgstr ""
+
+msgid "Create an account"
+msgstr ""
+
+msgid "Account creation is disabled"
+msgstr ""
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr ""
+
+msgid ""
+"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
+"form. Just run BOINC, select Attach Project, and enter an email address and "
+"password."
+msgstr ""
+
+msgid ""
+"This account will belong to the team %1 and will have the project "
+"preferences of its founder."
+msgstr ""
+
+msgid "Invitation Code"
+msgstr ""
+
+msgid "A valid invitation code is required to create an account."
+msgstr ""
+
+msgid "Email Address"
+msgstr ""
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Must be at least %1 characters"
+msgstr ""
+
+msgid "Confirm password"
+msgstr ""
+
+msgid "Create account"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Add my signature to this post"
+msgstr ""
+
+msgid "%1 Message boards"
+msgstr ""
+
+msgid "Topic"
+msgstr ""
+
+msgid "Your message has been sent."
+msgstr ""
+
+msgid "You have no private messages."
+msgstr ""
+
+msgid "Sender"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Mark as read"
+msgstr ""
+
+msgid "Mark as unread"
+msgstr ""
+
+msgid "With selected"
+msgstr ""
+
+msgid "No such message"
+msgstr ""
+
+msgid "Block user"
+msgstr ""
+
+msgid "Reply"
+msgstr ""
+
+msgid "Really delete?"
+msgstr ""
+
+msgid ""
+"Are you sure you want to delete the message with subject &quot;%1&quot; "
+"(sent by %2 on %3)?"
+msgstr ""
+
+msgid "Yes, delete"
+msgstr ""
+
+msgid "No, cancel"
+msgstr ""
+
+msgid "No such message."
+msgstr ""
+
+msgid "You need to fill all fields to send a private message"
+msgstr ""
+
+msgid "Could not find user with id %1"
+msgstr ""
+
+msgid "Could not find user with username %1"
+msgstr ""
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr ""
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr ""
+
+msgid "Really block %1?"
+msgstr ""
+
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr ""
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr ""
+
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr ""
+
+msgid "Add user to filter"
+msgstr ""
+
+msgid "No such user"
+msgstr ""
+
+msgid "User %1 blocked"
+msgstr ""
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr ""
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr ""
+
+msgid "Create a new thread"
+msgstr ""
+
+msgid "Post to thread"
+msgstr ""
+
+msgid "Forum search results"
+msgstr ""
+
+msgid "Forum search"
+msgstr ""
+
+msgid "This thread has been hidden for administrative purposes"
+msgstr ""
+
+msgid "Unsubscribe"
+msgstr ""
+
+msgid "Subscribe"
+msgstr ""
+
+msgid "Welcome to %1"
+msgstr ""
+
+msgid "View and edit your account preferences using the links below."
+msgstr ""
+
+msgid "Read our rules and policies"
+msgstr ""
+
+msgid "Run %1 only on authorized computers"
+msgstr ""
+
+msgid ""
+"Run %1 only on computers that you own, or for which you have obtained the "
+"owner's permission. Some companies and schools have policies that prohibit "
+"using their computers for projects such as %1."
+msgstr ""
+
+msgid "How %1 will use your computer"
+msgstr ""
+
+msgid ""
+"When you run %1 on your computer, it will use part of the computer's CPU "
+"power, disk space, and network bandwidth. You can control how much of your "
+"resources are used by %1, and when it uses them."
+msgstr ""
+
+msgid ""
+"The work done by your computer contributes to the goals of %1, as described "
+"on its web site. The application programs may change from time to time."
+msgstr ""
+
+msgid "Privacy policy"
+msgstr ""
+
+msgid ""
+"Your account on %1 is identified by a name that you choose. This name may be "
+"shown on the %1 web site, along with a summary of the work your computer has "
+"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
+"your identity."
+msgstr ""
+
+msgid ""
+"If you participate in %1, information about your computer (such as its "
+"processor type, amount of memory, etc.) will be recorded by %1 and used to "
+"decide what type of work to assign to your computer. This information will "
+"also be shown on %1's web site. Nothing that reveals your computer's "
+"location (e.g. its domain name or network address) will be shown."
+msgstr ""
+
+msgid ""
+"To participate in %1, you must give an address where you receive email. This "
+"address will not be shown on the %1 web site or shared with organizations. %"
+"1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+
+msgid "Is it safe to run %1?"
+msgstr ""
+
+msgid ""
+"Any time you download a program through the Internet you are taking a "
+"chance: the program might have dangerous errors, or the download server "
+"might have been hacked. %1 has made efforts to minimize these risks. We have "
+"tested our applications carefully. Our servers are behind a firewall and are "
+"configured for high security. To ensure the integrity of program downloads, "
+"all executable files are digitally signed on a secure computer not connected "
+"to the Internet."
+msgstr ""
+
+msgid ""
+"The applications run by %1 may cause some computers to overheat. If this "
+"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+
+msgid ""
+"%1 was developed by %2. BOINC was developed at the University of California."
+msgstr ""
+
+msgid "Liability"
+msgstr ""
+
+msgid ""
+"%1 and %2 assume no liability for damage to your computer, loss of data, or "
+"any other event or condition that may occur as a result of participating in %"
+"1."
+msgstr ""
+
+msgid "Other BOINC projects"
+msgstr ""
+
+msgid ""
+"Other projects use the same platform, BOINC, as %1. You may want to consider "
+"participating in one or more of these projects. By doing so, your computer "
+"will do useful work even when %1 has no work available for it."
+msgstr ""
+
+msgid ""
+"These other projects are not associated with %1, and we cannot vouch for "
+"their security practices or the nature of their research. Join them at your "
+"own risk."
+msgstr ""
+
+msgid "Sender and date"
+msgstr ""
 
 msgid "Profiles"
 msgstr ""
 
-msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgid ""
+"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
+"community."
 msgstr ""
 
-msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgid ""
+"Explore the diversity of your fellow volunteers, and contribute your own "
+"views for others to enjoy."
 msgstr ""
 
-msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgid ""
+"If you haven't already, you can %1create your own user profile%2 for others "
+"to see!"
 msgstr ""
 
 msgid "User of the Day"
@@ -706,7 +798,9 @@ msgstr ""
 msgid "Browse profiles %1by country%2."
 msgstr ""
 
-msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgid ""
+"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
+"without pictures%2."
 msgstr ""
 
 msgid "Alphabetical profile listings:"
@@ -715,11 +809,52 @@ msgstr ""
 msgid "Search profile text"
 msgstr ""
 
-msgid "Search"
-msgstr ""
-
 msgid "No profiles"
 msgstr ""
 
 msgid "No profiles matched your query."
+msgstr ""
+
+msgid "Top hosts"
+msgstr ""
+
+msgid "Top participants"
+msgstr ""
+
+msgid "Top %1 teams"
+msgstr ""
+
+msgid "Participant since"
+msgstr ""
+
+msgid ""
+"Your 'weak account key' lets you attach computers to your account on this "
+"project, without giving the ability to log in to your account or to change "
+"it in any way."
+msgstr ""
+
+msgid ""
+"This mechanism works only with projects that have upgraded their server "
+"software 7 Dec 2007 or later."
+msgstr ""
+
+msgid "Your weak account key for this project is:"
+msgstr ""
+
+msgid ""
+"To use your weak account key on a given host, find or create the 'account "
+"file' for this project. This file has a name of the form "
+"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr ""
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr ""
+
+msgid ""
+"Your weak account key is a function of your password. If you change your "
+"password, your weak account key changes, and your previous weak account key "
+"becomes invalid."
+msgstr ""
+
+msgid "Your account"
 msgstr ""

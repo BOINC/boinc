@@ -11,50 +11,46 @@ require_once("../inc/team_types.inc");
 require_once("../inc/time.inc");
 
 function team_search_form($params) {
-    echo "
-        <form name=form action=team_search.php>
-    ";
+    echo '<form name="form" action="team_search.php">';
     start_table();
-    row2("<b>Search criteria (use one or more)</b>", "");
-    row2('Key words<br><span class="note">Find teams with these words in their names or descriptions</span>',
+    row2('<b>'.tra('Search criteria (use one or more)').'</b>', '');
+    row2(tra('Key words').'<br><span class="note">'.tra('Find teams with these words in their names or descriptions').'</span>',
         '<input name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
-    row2_init("Country", "");
+    row2_init(tra('Country'), '');
     echo '<select name="country"><option value="" selected>---</option>';
     $country = $params->country;
     if (!$country || $country == 'None') $country = "XXX";
     print_country_select($country);
     echo "</select></td></tr>\n";
-    row2("Type of team", team_type_select($params->type, true));
+    row2(tra('Type of team'), team_type_select($params->type, true));
     $checked = $params->active?"checked":"";
-    row2("Show only active teams", "<input type=checkbox name=active $checked>");
-    row2("", '<input type="submit" name="submit" value="Search">');
+    row2(tra('Show only active teams'), '<input type="checkbox" name="active" $checked>');
+    row2('', '<input type="submit" name="submit" value="'.tra('Search').'">');
     end_table();
-    echo "
-        </form>
-    ";
+    echo '</form>';
 }
 
 function foundership_transfer_link($user, $team) {
     $now = time();
     if ($team->ping_user == $user->id) {
         if (transfer_ok($team, $now)) {
-            return "Requested by you, and founder response deadline has passed.
+            return tra('Requested by you, and founder response deadline has passed.').'
                 <br>
-                <a href=team_founder_transfer_form.php>Complete foundership transfer</a>.
-            ";
+                <a href="team_founder_transfer_form.php">'.tra('Complete foundership transfer').'</a>.
+            ';
         } else {
             $deadline = date_str(transfer_ok_time($team));
-            return '<a href="team_founder_transfer_form.php">Requested by you</a>; founder response deadline is '.$deadline;
+            return '<a href="team_founder_transfer_form.php">'.tra('Requested by you').'</a>; '.tra('founder response deadline is %1', $deadline);
         }
     }
     if (new_transfer_request_ok($team, $now)) {
         if ($team->userid == $user->id) {
-            return "None";
+            return tra('None');
         } else {
-            return '<a href="team_founder_transfer_form.php">Initiate request</a>';
+            return '<a href="team_founder_transfer_form.php">'.tra('Initiate request').'</a>';
         }
     }
-    return "<a href=\"team_founder_transfer_form.php\">Deferred</a>";
+    return '<a href="team_founder_transfer_form.php">'.tra('Deferred').'</a>';
 }
 
 function display_team_page($team, $user) {
@@ -63,9 +59,9 @@ function display_team_page($team, $user) {
     echo sanitize_html($team->name_html);
     echo "<p>";
     start_table();
-    row1("Team info");
+    row1(tra('Team info'));
     if (strlen($team->description)) {
-        row2("Description", sanitize_html($team->description));
+        row2(tra('Description'), sanitize_html($team->description));
     }
     if (strlen($team->url)) {;
         if (strstr($team->url, "http://")) {
@@ -73,45 +69,45 @@ function display_team_page($team, $user) {
         } else {
             $x = "http://$team->url";
         }
-        row2("Web site", "<a href=$x>$x</a>");
+        row2(tra('Web site'), "<a href=$x>$x</a>");
     }
     
     if (!no_computing()) {
-        row2("Total credit", format_credit_large($team->total_credit));
-        row2("Recent average credit", format_credit_large($team->expavg_credit));
+        row2(tra('Total credit'), format_credit_large($team->total_credit));
+        row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
     }
-    row2("Country", $team->country);
-    row2("Type", team_type_name($team->type));
+    row2(tra('Country'), $team->country);
+    row2(tra('Type'), team_type_name($team->type));
 
     if ($team->forum && is_forum_visible_to_user($team->forum, $user)) {
         $f = $team->forum;
-        row2("<a href=team_forum.php?teamid=$team->id>Message board</a>",
-            "Threads: $f->threads<br>Posts: $f->posts<br>Last post: ".time_diff_str($f->timestamp, time())
+        row2('<a href="team_forum.php?teamid='.$team->id.'">'.tra('Message board').'</a>',
+            tra('Threads').': '.$f->threads.'<br>'.tra('Posts').': '.$f->posts.'<br>'.tra('Last post').': '.time_diff_str($f->timestamp, time())
         );
     }
     if ($user) {
         if ($user->teamid != $team->id) {
             $tokens = url_tokens($user->authenticator);
             row2("",
-                "<a href='team_join.php?$tokens&amp;teamid=$team->id'>Join this team</a>
-                <br><span class=note>Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address.</span>"
+                '<a href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
+                <br><span class="note">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</span>'
             );
         }
         if (($user->teamid == $team->id)) {
             if (($user->id == $team->userid)) {
                 if ($team->ping_user) {
                     $deadline = date_str(transfer_ok_time($team));
-                    row2("Foundership change requested",
-                        "<a href=team_change_founder_form.php?teamid=$team->id>Respond by $deadline</a>"
+                    row2(tra('Foundership change requested'),
+                        '<a href="team_change_founder_form.php?teamid='.$team->id.'">'.tra('Respond by %1', $deadline).'</a>'
                     );
                 }
             } else {
-                row2("Team foundership change", foundership_transfer_link($user, $team));
+                row2(tra('Team foundership change'), foundership_transfer_link($user, $team));
             }
         }
     }
-    row1("Members");
-    row2("Founder", user_links($team->founder));
+    row1(tra('Members'));
+    row2(tra('Founder'), user_links($team->founder));
     if (count($team->admins)) {
         $first = true;
         $x = "";
@@ -123,7 +119,7 @@ function display_team_page($team, $user) {
             }
             $x .= user_links($a);
         }
-        row2("Admins", $x);
+        row2(tra('Admins'), $x);
     }
     $x = "0";
     if (count($team->new_members)) {
@@ -138,10 +134,10 @@ function display_team_page($team, $user) {
             $x .= user_links($a);
         }
     }
-    row2("New members in last day", $x);
-    row2("Total members", "$team->nusers (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>view</a>)");
-    row2("Active members", "$team->nusers_active (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>view</a>)");
-    row2("Members with credit", "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=total_credit>view</a>)");
+    row2(tra('New members in last day'), $x);
+    row2(tra('Total members'), "$team->nusers (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>".tra('view')."</a>)");
+    row2(tra('Active members'), "$team->nusers_active (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=expavg_credit>".tra('view')."</a>)");
+    row2(tra('Members with credit'), "$team->nusers_worked (<a href=team_members.php?teamid=$team->id&amp;offset=0&amp;sort_by=total_credit>".tra('view')."</a>)");
     end_table();
 }
 
@@ -163,33 +159,33 @@ function display_team_members($team, $offset, $sort_by) {
     }
     
     start_table();
-    echo "<tr>
-        <th>Name</th>
-    ";
+    echo '<tr>
+        <th>'.tra('Name').'</th>
+    ';
     if (!no_computing()) {
         if ($nosort) {
-            echo "
-                <th>Total credit</th>
-                <th>Recent average credit</th>
-            ";
+            echo '
+                <th>'.tra('Total credit').'</th>
+                <th>'.tra('Recent average credit').'</th>
+            ';
         } else {
             if ($sort_by == "total_credit") {
-                echo "<th>Total credit</th>";
+                echo '<th>'.tra('Total credit').'</th>';
             } else {
-                echo "<th><a href=team_members.php?teamid=$team->id&amp;sort_by=total_credit&amp;offset=$offset>Total credit</a></th>";
+                echo "<th><a href=team_members.php?teamid=$team->id&amp;sort_by=total_credit&amp;offset=$offset>".tra('Total credit')."</a></th>";
             }
             if ($sort_by == "expavg_credit") {
-                echo "<th>Recent average credit</th>";
+                echo '<th>'.tra('Recent average credit').'</th>';
             } else {
-                echo "<th><a href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>Recent average credit</a></th>";
+                echo "<th><a href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>".tra('Recent average credit').'</a></th>';
             }
         }
     }
 
-    echo "
-        <th>Country</th>
+    echo '
+        <th>'.tra('Country').'</th>
         </tr>
-    ";
+    ';
 
     if ($nosort) {
         $users = BoincUser::enum("teamid=$team->id limit $offset,$n");
@@ -203,9 +199,9 @@ function display_team_members($team, $offset, $sort_by) {
         $user_expavg_credit = format_credit($user->expavg_credit);
         $x = user_links($user);
         if ($user->id == $team->userid) {
-            $x .= " [Founder]";
+            $x .= ' ['.tra('Founder').']';
         } else if (is_team_admin_aux($user, $admins)) {
-            $x .= " [Admin]";
+            $x .= ' ['.tra('Admin').']';
         }
         echo "<tr class=row1>
             <td align=left>$j) $x
@@ -226,11 +222,11 @@ function display_team_members($team, $offset, $sort_by) {
 
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>Last $n</a> | ";
+        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Last %1', $n)."</a> | ";
     }
     if ($j == $offset + $n + 1) {
         $new_offset = $offset + $n;
-        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>Next $n</a>";
+        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Next %1', $n)."</a>";
     }
 }
 
@@ -238,7 +234,7 @@ function display_team_members($team, $offset, $sort_by) {
 //
 function require_team($team) {
     if (!$team) {
-        error_page("No such team.");
+        error_page(tra('No such team.'));
     }
 }
 
@@ -251,7 +247,7 @@ function is_team_founder($user, $team) {
 function require_founder_login($user, $team) {
     require_team($team);
     if ($user->id != $team->userid) {
-        error_page("This operation requires foundership.");
+        error_page(tra('This operation requires foundership.'));
     }
 }
 
@@ -275,7 +271,7 @@ function is_team_admin_aux($user, $admins) {
 
 function require_admin($user, $team) {
     if (!is_team_admin($user, $team)) {
-        error_page("This operation requires team admin privileges");
+        error_page(tra('This operation requires team admin privileges'));
     }
 }
 
@@ -306,23 +302,23 @@ function admin_list($teamid) {
 
 function team_table_start($sort_by, $type_url) {
     echo "<tr>
-        <th>".tra("Rank")."</th>
-        <th>".tra("Name")."</th>
-        <th>".tra("Members")."</th>
+        <th>".tra('Rank')."</th>
+        <th>".tra('Name')."</th>
+        <th>".tra('Members')."</th>
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tra("Recent average credit")."</a></th>
-            <th>".tra("Total credit")."</th>
+            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tra('Recent average credit')."</a></th>
+            <th>".tra('Total credit')."</th>
         ";
     } else {
         echo "
-            <th>".tra("Recent average credit")."</th>
-            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tra("Total credit")."</a></th>
+            <th>".tra('Recent average credit')."</th>
+            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tra('Total credit')."</a></th>
         ";
     }
     echo "
-        <th>".tra("Country")."</th>
+        <th>".tra('Country')."</th>
         <th>Type</th>
         </tr>
     ";
@@ -371,38 +367,36 @@ function team_edit_form($team, $label, $url) {
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
     }
-    echo "
+    echo '
         <p>
-        <b>Privacy note</b>: if you create a team, your project preferences
-        (resource share, graphics preferences)
-        will be visible to the public.
+        '.tra('%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'
         <p>
-    ";
+    ';
     start_table();
-    row2( "Team name, text version
-        <br><span class=note> Don't use HTML tags.  </span>",
+    row2(tra('Team name, text version').'
+        <br><span class="note">'.tra('Don\'t use HTML tags.').'</span>',
         "<input name=name type=text size=50 value='$team->name'>"
     );
-    row2("Team name, HTML version
-        <br><span class=note>
-        You may use <a href=html.php target=_new>limited HTML tags</a>.
-        If you don't know HTML, leave this box blank.</span>",
+    row2(tra('Team name, HTML version').'
+        <br><span class="note">
+        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        '.tra('If you don\'t know HTML, leave this box blank.').'</span>',
         "<input name=name_html type=text size=50 value=\"".str_replace('"',"'",$team->name_html)."\">"
     );
-    row2("URL of team web page, if any:<br><font size=-2>(without \"http://\")
-        This URL will be linked to from the team's page on this site.",
+    row2(tra('URL of team web page, if any').':<br><font size=-2>('.tra('without "http://"').')
+        '.tra('This URL will be linked to from the team\'s page on this site.'),
         "<input name=url size=60 value='$team->url'>"
     );
-    row2("Description of team:
-        <br><span class=note>
-        You may use <a href=html.php target=_new>limited HTML tags</a>.
-        </span>",
+    row2(tra('Description of team').':
+        <br><span class="note">
+        '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
+        </span>',
         "<textarea name=description cols=60 rows=10>$team->description</textarea>"
     );
 
-    row2("Type of team:", team_type_select($team->type));
+    row2(tra('Type of team').':', team_type_select($team->type));
 
-    row2_init("Country",
+    row2_init(tra('Country'),
         "<select name=country>"
     );
     print_country_select($team->country);
