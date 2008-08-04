@@ -6094,3 +6094,10 @@ David  3 Aug 2008
     client/
         file_xfer.C
         http_curl.C,h
+
+Rytis  4 Aug 2008
+    - developer tools: a script to build en.po from PHP files to ease
+        translation. Usage: build_po.pl [PROJECT_PATH]
+    
+    tools/
+        build_po.pl
