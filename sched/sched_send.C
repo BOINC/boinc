@@ -91,10 +91,6 @@ inline int effective_ncpus(HOST& host) {
 const double DEFAULT_RAM_SIZE = 64000000;
     // if host sends us an impossible RAM size, use this instead
 
-bool anonymous(PLATFORM* platform) {
-    return (!strcmp(platform->name, "anonymous"));
-}
-
 bool SCHEDULER_REQUEST::has_version(APP& app) {
     unsigned int i;
 
@@ -141,12 +137,20 @@ BEST_APP_VERSION* get_app_version(
         found = sreq.has_version(*app);
         if (!found) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG, "Didn't find anonymous app for %s\n", app->name);
+                log_messages.printf(MSG_DEBUG,
+                    "Didn't find anonymous platform app for %s\n", app->name
+                );
             }
             bavp->avp = 0;
         } else {
-            // TODO: allow anonymous platform apps to use coprocs,
-            // multi-thread etc.
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "Found anonymous platform app for %s\n", app->name
+                );
+            }
+            // TODO: anonymous platform apps should be able to tell us
+            // how fast they are and how many CPUs and coprocs they use.
+            // For now, assume they use 1 CPU
             //
             bavp->host_usage.sequential_app(reply.host.p_fpops);
             bavp->avp = (APP_VERSION*)1;    // arbitrary nonzero value;
@@ -156,8 +160,7 @@ BEST_APP_VERSION* get_app_version(
         return bavp;
     }
 
-
-    // go through the client's platforms.
+    // Go through the client's platforms.
     // Scan the app versions for each platform.
     // Find the one with highest expected FLOPS
     //

@@ -6111,3 +6111,9 @@ Rytis  4 Aug 2008
             team.inc
         languages/translations/
             en.po
+
+David  4 Aug 2008
+    - scheduler: added a debug msg for anonymous platform
+
+    sched/
+        sched_send.C,h

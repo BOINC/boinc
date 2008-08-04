@@ -17,6 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+#include <string.h>
+
 extern void send_work(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern int add_result_to_reply(
@@ -24,7 +26,9 @@ extern int add_result_to_reply(
     BEST_APP_VERSION* bavp
 );
 
-extern bool anonymous(PLATFORM*);
+inline bool anonymous(PLATFORM* platform) {
+    return (!strcmp(platform->name, "anonymous"));
+}
 
 extern BEST_APP_VERSION* get_app_version(
     SCHEDULER_REQUEST&, SCHEDULER_REPLY&, WORKUNIT&
