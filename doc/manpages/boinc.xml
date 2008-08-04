@@ -262,7 +262,10 @@
   <refsect1>
     <title>SEE ALSO</title>
     <para>&man_boinccmd;, &man_boincmgr;</para>
-    <para><ulink url="http://boinc.berkeley.edu/trac/wiki/UnixClient"/></para>
+    <para>
+      <ulink
+        url="http://boinc.berkeley.edu/wiki/Client_configuration_(advanced)"/>
+    </para>
   </refsect1>
 
   <refsect1>
