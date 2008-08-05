@@ -26,9 +26,8 @@
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef HAVE_STRING_H
 #include <string.h>
-#endif
+#include <errno.h>
 #include <math.h>
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
@@ -82,7 +81,9 @@ inline bool match_tag(const std::string &s, const char* tag) {
 inline bool parse_int(const char* buf, const char* tag, int& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
-    x = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
+    int y = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
+    if (errno == ERANGE) return false;
+    x = y;
     return true;
 }
 

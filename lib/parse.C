@@ -34,6 +34,7 @@
 #include <cstdlib>
 #include <string>
 #include <math.h>
+#include <errno.h>
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
 #endif
@@ -586,13 +587,15 @@ bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
             return false;
         }
     }
-    i = strtol(buf, &end, 0);
+    int j = strtol(buf, &end, 0);
+    if (errno == ERANGE) return false;
     if (end != buf+strlen(buf)) return false;
 
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
+    i = j;
     return true;
 }
 

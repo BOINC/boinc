@@ -6150,3 +6150,14 @@ David  5 Aug 2008
     sched/
         handle_request.C
         sched_send.C
+
+David  5 Aug 2008
+    - XML parsing: when parsing ints, check for errno == ERANGE.
+        This means the int was too big.
+        Ignore it - the XML was corrupted.
+        This should fix a problem reported by Kevin where the
+        mod_time in a user's global prefs was 100 years in the future,
+        causing those prefs to irrevocably propagate.
+
+    lib/
+        parse.C,h
