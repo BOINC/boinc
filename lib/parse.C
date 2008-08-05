@@ -587,7 +587,7 @@ bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
             return false;
         }
     }
-    int j = strtol(buf, &end, 0);
+    int val = strtol(buf, &end, 0);
     if (errno == ERANGE) return false;
     if (end != buf+strlen(buf)) return false;
 
@@ -595,7 +595,7 @@ bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
-    i = j;
+    i = val;
     return true;
 }
 
@@ -621,13 +621,14 @@ bool XML_PARSER::parse_double(char* parsed_tag, const char* start_tag, double& x
             return false;
         }
     }
-    x = strtod(buf, &end);
+    double val = strtod(buf, &end);
     if (end != buf+strlen(buf)) return false;
 
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
+    x = val;
     return true;
 }
 
@@ -654,7 +655,7 @@ bool XML_PARSER::parse_bool(char* parsed_tag, const char* start_tag, bool& b) {
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
     if (is_tag) return false;
-    b = (strtol(buf, &end, 0) != 0);
+    bool val = (strtol(buf, &end, 0) != 0);
     if (end != buf+strlen(buf)) return false;
 
     end_tag[0] = '/';
@@ -663,6 +664,7 @@ bool XML_PARSER::parse_bool(char* parsed_tag, const char* start_tag, bool& b) {
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
+    b = val;
     return true;
 }
 

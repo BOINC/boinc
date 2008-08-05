@@ -800,7 +800,12 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (db_mod_time > dtime()) db_mod_time = dtime();
     }
 
-    //log_messages.printf(MSG_DEBUG, "have_master:%d have_working: %d have_db: %d\n", have_master_prefs, have_working_prefs, have_db_prefs);
+    if (config.debug_prefs) {
+        log_messages.printf(MSG_DEBUG,
+            "have_master:%d have_working: %d have_db: %d\n",
+            have_master_prefs, have_working_prefs, have_db_prefs
+        );
+    }
 
     // decide which prefs to use for sched decisions,
     // and parse them into sreq.global_prefs
@@ -868,9 +873,16 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     // decide whether to send DB prefs in reply msg
     //
-    //log_messages.printf(MSG_DEBUG, "have db %d; dbmod %f; global mod %f\n", have_db_prefs, db_mod_time, sreq.global_prefs.mod_time);
+    if (config.debug_prefs) {
+        log_messages.printf(MSG_DEBUG,
+            "have db %d; dbmod %f; global mod %f\n",
+            have_db_prefs, db_mod_time, sreq.global_prefs.mod_time
+        );
+    }
     if (have_db_prefs && db_mod_time > master_mod_time) {
-        log_messages.printf(MSG_DEBUG, "sending db prefs in reply\n");
+        if (config.debug_prefs) {
+            log_messages.printf(MSG_DEBUG, "sending db prefs in reply\n");
+        }
         reply.send_global_prefs = true;
     }
     return 0;
