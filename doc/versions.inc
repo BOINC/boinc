@@ -79,7 +79,7 @@ $w6215= array(
 
 $w6214= array(
     "num"=>"6.2.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.2.14_windows_intelx86.exe",
     "date"=>"16 July 2008",
     "type"=>"win_new",
@@ -111,7 +111,7 @@ $w6215x64= array(
 
 $w6214x64= array(
     "num"=>"6.2.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.2.14_windows_x86_64.exe",
     "date"=>"16 July 2008",
     "type"=>"win_new",
@@ -143,7 +143,7 @@ $m6215 = array(
 
 $m6214 = array(
     "num"=>"6.2.14",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Development version (standard GUI)",
     "file"=>"boinc_6.2.14_macOSX_universal.zip",
     "date"=>"17 July 2008",
     "type"=>"mac_advanced",
@@ -215,7 +215,7 @@ $l6215 = array(
 
 $l6214 = array(
     "num"=>"6.2.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_compat_6.2.14_i686-pc-linux-gnu.sh",
     "date"=>"17 July 2008",
     "type"=>"sea",
@@ -247,7 +247,7 @@ $l6215ubuntu = array(
 
 $l6214ubuntu = array(
     "num"=>"6.2.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.2.14_i686-pc-linux-gnu.sh",
     "date"=>"17 July 2008",
     "type"=>"sea",
@@ -279,7 +279,7 @@ $l6215ubuntux64 = array(
 
 $l6214ubuntux64 = array(
     "num"=>"6.2.14",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.2.14_x86_64-pc-linux-gnu.sh",
     "date"=>"17 July 2008",
     "type"=>"sea",
