@@ -6181,3 +6181,11 @@ David  5 Aug 2008
         handle_request.C
     lib/
         parse.C
+
+David  5 Aug 2008
+    - web: added copyright and license info to PHP files
+
+    html/
+        ops/*.php
+        inc/*.inc
+        user/*.php
