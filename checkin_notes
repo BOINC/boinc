@@ -6189,3 +6189,14 @@ David  5 Aug 2008
         ops/*.php
         inc/*.inc
         user/*.php
+
+David  5 Aug 2008
+    - added copyright and license info to some C files
+
+    client/
+        hostinfo_unix_test.C
+        sim.h
+        rrsim_test.C
+    lib/
+        msg_queue.h
+        procinfo_win.C
