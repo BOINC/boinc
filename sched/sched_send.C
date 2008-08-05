@@ -1320,11 +1320,7 @@ void set_trust(SCHEDULER_REPLY& reply) {
 void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (sreq.work_req_seconds <= 0) return;
 
-    reply.wreq.core_client_version =
-        sreq.core_client_major_version*100 + sreq.core_client_minor_version;
     reply.wreq.disk_available = max_allowable_disk(sreq, reply);
-    reply.wreq.core_client_version = sreq.core_client_major_version*100
-        + sreq.core_client_minor_version;
 
     if (hr_unknown_platform(sreq.host)) {
         reply.wreq.hr_reject_perm = true;

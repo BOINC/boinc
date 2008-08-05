@@ -6136,3 +6136,17 @@ Bruce  5 Aug 2008
         sched_send.C
         handle_request.C
 
+David  5 Aug 2008
+    - web: stylesheet fixes
+        fixes #708
+    - sched: slightly revise Bruce's fix
+
+    html/
+        inc/
+            util.inc
+        user/
+            style2.css
+            white.css
+    sched/
+        handle_request.C
+        sched_send.C

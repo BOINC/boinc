@@ -1317,6 +1317,9 @@ void process_request(
         goto leave;
     }
 
+    reply.wreq.core_client_version =
+        sreq.core_client_major_version*100 + sreq.core_client_minor_version;
+         
     handle_global_prefs(sreq, reply);
 
     handle_results(sreq, reply);
@@ -1324,7 +1327,6 @@ void process_request(
     reply.wreq.nresults_on_host = sreq.other_results.size();
     if (sreq.have_other_results_list) {
         if (config.resend_lost_results) {
-            reply.wreq.core_client_version = 100*sreq.core_client_major_version + sreq.core_client_minor_version;
             if (resend_lost_work(sreq, reply)) {
                 ok_to_send_work = false;
             }

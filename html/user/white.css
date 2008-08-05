@@ -71,7 +71,13 @@ td.category {
 td.navbar {
     border: 0px;
     text-align: center;
-    vertival-align: middle;
+    vertical-align: middle;
+}
+
+td.friend {
+    background-color: #e8e8e8;
+    text-align: center;
+    vertical-align: center;
 }
 
 a.navbar:link {
@@ -133,6 +139,10 @@ h3, h4 {
 }
 
 img {
+    border: 0px;
+}
+
+img.userimg {
     border: 0px;
 }
 

@@ -56,6 +56,10 @@ img {
     border: 0px;
 }
 
+img.userimg {
+    border: 0px;
+}
+
 table {
     border: 1px solid black;
     background-color: white;
@@ -121,6 +125,12 @@ td.category {
 td.navbar {
     border: 0px;
     text-align: center;
+}
+
+td.friend {
+    background-color: #ffffff;
+    text-align: center;
+    vertical-align: center;
 }
 
 a.navbar:link, a.navbar:visited {

@@ -77,9 +77,9 @@ function get_logged_in_user($must_be_logged_in=true) {
 function show_login($user) {
     if ($user) {
         echo "Logged in as %s.\n", $user->name;
-        echo "<br><a href=login_form.php>Log in as someone else.</a>\n";
+        echo "<br><a href=\"login_form.php\">Log in as someone else.</a>\n";
     } else {
-        echo "Not logged in";
+        echo "Not logged in.";
     }
 }
 
@@ -120,9 +120,9 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
         </head>
     ";
     if ($java_onload){
-        echo "<body bgcolor=\"#ffffff\" onload=\"".$java_onload."\">";
+        echo "<body onload=\"".$java_onload."\">";
     } else {
-        echo "<body bgcolor=\"#ffffff\">";
+        echo "<body>";
     }
     display_cvs_versions();
     project_banner($title, $prefix);
@@ -158,7 +158,7 @@ function db_error_page() {
     echo "A database error occurred while handling your request.
         <br>Please try again later.
         <br>If the error persists, please submit a
-        <a href=bug_report_form.php>problem report</a>.
+        <a href=\"bug_report_form.php\">problem report</a>.
     ";
     page_tail();
 }
@@ -282,12 +282,12 @@ function row2_plain($x, $y) {
 }
 
 function row3($x, $y, $z) {
-    echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";
+    echo "<tr><td width=\"30%\" valign=\"top\" align=\"right\">$x</td><td>$y</td><td>$z</td></tr>\n";
 }
 
 function row4($xx, $xy, $yx, $yy) {
-    echo "<tr><td width=25% valign=top>$xx</td><td width=25%>$xy</td>"
-        . "<td width=25% >$yx</td><td width=%25>$yy</td></tr>
+    echo "<tr><td width=\"25%\" valign=\"top\">$xx</td><td width=\"25%\">$xy</td>"
+        . "<td width=\"25%\">$yx</td><td width=\"%25\">$yy</td></tr>
     ";
 }
 
@@ -306,7 +306,7 @@ function row_array($x) {
 function row_heading_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<th class=heading>$h</th>";
+        echo "<th class=\"heading\">$h</th>";
     }
     echo "</tr>\n";
 }
@@ -349,32 +349,32 @@ function valid_tokens($auth) {
 function check_tokens($auth) {
     if (valid_tokens($auth)) return;
     error_page(
-        "Link has timed out.  Please click Back, refresh the page,
+        "Link has timed out. Please click Back, refresh the page,
         and try again."
     );
 }
 
 function print_login_form_aux($next_url, $user) {
     echo "
-        <form name=f method=post action=login_action.php>
-        <input type=hidden name=next_url value='$next_url'>
+        <form name=\"f\" method=\"post\" action=\"login_action.php\">
+        <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
     start_table();
     row2("Email address:", '<input name="email_addr" size="40" tabindex="1">');
-    row2("Password:<br><font size=-2><a href=get_passwd.php>Forgot password?</a>",
+    row2("Password:<br><font size=\"-2\"><a href=\"get_passwd.php\">Forgot password?</a>",
         '<input type="password" name="passwd" size="40" tabindex="2">'
     );
     row2("Stay logged in on this computer",
-        "<input type=checkbox name=stay_logged_in checked>"
+        '<input type="checkbox" name="stay_logged_in" checked>'
     );
     $x = urlencode($next_url);
     row2("",
-        "<input type=submit name=mode value=\"Log in\" tabindex=\"3\"><br><br>or <a href=create_account_form.php?next_url=$x>create an account</a>"
+        "<input type=\"submit\" name=\"mode\" value=\"Log in\" tabindex=\"3\"><br><br>or <a href=\"create_account_form.php?next_url=$x\">create an account</a>/."
     );
     if ($user) {
         row1("Log out");
         row2("You are logged in as $user->name",
-            "<a href=logout.php?".url_tokens($user->authenticator).">Log out</a>"
+            "<a href=\"logout.php?".url_tokens($user->authenticator)."\">Log out</a>"
         );
     }
     end_table();
@@ -449,7 +449,7 @@ function friend_links($user) {
     if (is_banished($user)) {
         return "";
     }
-    $x = "<table height=100 width=150 border=0 cellpadding=4><tr><td bgcolor=#e8e8e8>";
+    $x = "<table height=\"100\" width=\"150\" border=\"0\" cellpadding=\"4\"><tr><td class=\"friend\">";
     if ($user->has_profile) {
         $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
         if ($profile && $profile->has_picture) {
@@ -457,7 +457,7 @@ function friend_links($user) {
         } else {
             $img_url = URL_BASE."img/head_20.png";
         }
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a><br>';
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="View the profile of '.$user->name.'" align="top" src="'.$img_url.'" alt="Profile"></a><br>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) { 
@@ -476,7 +476,7 @@ function user_links($user) {
     $x = "";
     if ($user->has_profile) {
         $img_url = URL_BASE."img/head_20.png";
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" border="0" align=top src="'.$img_url.'" alt="Profile"></a>';
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="View the profile of '.$user->name.'" align="top" src="'.$img_url.'" alt="Profile"></a>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) { 
@@ -488,7 +488,7 @@ function user_links($user) {
 
 function host_link($hostid) {
     if ($hostid) {
-        return "<a href=show_host_detail.php?hostid=$hostid>$hostid</a>";
+        return "<a href=\"show_host_detail.php?hostid=$hostid\">$hostid</a>";
     } else {
         return "---";
     }
@@ -668,10 +668,10 @@ function show_button($url, $text, $desc) {
     $desc_esc = addslashes($desc);
     echo "
         <script>
-        document.write('<input onClick=\"document.location.href=\'$url\'\" class=btn type=button value=\"$text_esc\" title=\"$desc_esc\">')
+        document.write('<input onClick=\"document.location.href=\'$url\'\" class=\"btn\" type=\"button\" value=\"$text_esc\" title=\"$desc_esc\">')
         </script>
         <noscript>
-        <a href=$url title=$desc>$text</a>
+        <a href=\"$url\" title=\"$desc\">$text</a>
         </noscript>
     ";
 }
@@ -681,7 +681,7 @@ function show_image($src, $title, $alt, $height=null) {
     if ($height) {
         $h = "height=\"$height\"";
     }
-    echo "<img border=0 title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
+    echo "<img border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
 function check_web_stopped() {
