@@ -5944,7 +5944,7 @@ Eric  22 July 2008
         schema.sql
     sched/
         sched_util.[Ch]
-	sched_result.C
+    sched_result.C
 
 David  24 July 2008
     - web: fix profile rate
@@ -5986,12 +5986,12 @@ David  25 July 2008
         forum_moderate_thread_action.php
 
 David  27 July 2008
-	- API: small additions to graphics stderr messages
+    - API: small additions to graphics stderr messages
 
     api/
-	    graphics2.h
-		graphics2_unix.C
-		graphics2_win.C
+        graphics2.h
+        graphics2_unix.C
+        graphics2_win.C
 
 David  28 July 2008
     - ops: add script to fix backslashes in posts etc.
@@ -6161,3 +6161,12 @@ David  5 Aug 2008
 
     lib/
         parse.C,h
+
+David  5 Aug 2008
+    - client: if fail to parse global_prefs.xml, delete it and reset global prefs
+        (which may have been modified by the attempt at parsing)
+
+    client/
+        cs_prefs.C
+    lib/
+        prefs.C,h

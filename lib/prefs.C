@@ -310,8 +310,16 @@ void GLOBAL_PREFS::clear_bools() {
     dont_verify_images = false;
 }
 
-GLOBAL_PREFS::GLOBAL_PREFS() {
+void GLOBAL_PREFS::init() {
     defaults();
+    strcpy(source_project, "");
+    strcpy(source_scheduler, "");
+    mod_time = 0;
+    host_specific = false;
+}
+
+GLOBAL_PREFS::GLOBAL_PREFS() {
+    init();
 }
 
 // Parse XML global prefs, setting defaults first.
@@ -319,14 +327,8 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 int GLOBAL_PREFS::parse(
     XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
 ) {
-    defaults();
+    init();
     clear_bools();
-
-    strcpy(source_project, "");
-    strcpy(source_scheduler, "");
-    mod_time = 0;
-    host_specific = false;
-
     return parse_override(xp, host_venue, found_venue, mask);
 }
 

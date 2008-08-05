@@ -163,6 +163,7 @@ struct GLOBAL_PREFS {
 
     GLOBAL_PREFS();
     void defaults();
+    void init();
     void clear_bools();
     int parse(XML_PARSER&, const char* venue, bool& found_venue, GLOBAL_PREFS_MASK& mask);
     int parse_day(XML_PARSER&);
