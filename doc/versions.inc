@@ -175,7 +175,7 @@ $m6215c = array(
 
 $m6214c = array(
     "num"=>"6.2.14",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Development version (Unix command-line version)",
     "file"=>"boinc_6.2.14_universal-apple-darwin.zip",
     "date"=>"17 July 2008",
     "type"=>"bare_core",
@@ -215,7 +215,7 @@ $l6215 = array(
 
 $l6214 = array(
     "num"=>"6.2.14",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_compat_6.2.14_i686-pc-linux-gnu.sh",
     "date"=>"17 July 2008",
     "type"=>"sea",
@@ -247,7 +247,7 @@ $l6215ubuntu = array(
 
 $l6214ubuntu = array(
     "num"=>"6.2.14",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.2.14_i686-pc-linux-gnu.sh",
     "date"=>"17 July 2008",
     "type"=>"sea",
@@ -279,7 +279,7 @@ $l6215ubuntux64 = array(
 
 $l6214ubuntux64 = array(
     "num"=>"6.2.14",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.2.14_x86_64-pc-linux-gnu.sh",
     "date"=>"17 July 2008",
     "type"=>"sea",
