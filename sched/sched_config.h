@@ -124,6 +124,7 @@ public:
     int mm_min_slots;
     int mm_max_slots;
     bool job_size_matching;
+    bool use_credit_multiplier;
 
     // log flags
     //

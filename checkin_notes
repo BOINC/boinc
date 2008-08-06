@@ -6231,3 +6231,13 @@ David  6 Aug 2008
     sched/
         edf_sim.C
         sched_send.C
+
+David  6 Aug 2008
+    - scheduler: make credit_multiplier stuff conditional on
+        <use_credit_multiplier> flag in config.xml
+
+    db/
+        schema.sql
+    sched/
+        sched_config.C,h
+        sched_result.C
