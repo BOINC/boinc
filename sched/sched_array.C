@@ -1,21 +1,19 @@
-// Berkeley Open Infrastructure for Network Computing
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2008 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // scheduler code related to sending work
 
@@ -47,7 +45,7 @@
 // send only results that were previously infeasible for some host
 //
 void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    int i, j, retval, n, rnd_off;
+    int i, j, retval, n, rnd_off, last_retval=0;;
     WORKUNIT wu;
     DB_RESULT result;
     char buf[256];
@@ -130,13 +128,14 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // don't send if host can't handle it
         //
         retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
-        if (retval) {
+        if (retval && retval != last_retval) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
                     reply.host.id, wu.id, wu.name, infeasible_string(retval)
                 );
             }
+            last_retval = retval;
             continue;
         }
 

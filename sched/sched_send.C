@@ -1,21 +1,19 @@
-// Berkeley Open Infrastructure for Network Computing
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2008 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // scheduler code related to sending jobs
 
@@ -1056,23 +1054,31 @@ int add_result_to_reply(
     // If we're sending an unreplicated job to an untrusted host,
     // mark it as replicated
     //
-    if (wu.target_nresults == 1 && app->target_nresults > 1 && !reply.wreq.trust) {
-        DB_WORKUNIT dbwu;
-        char buf[256];
-        sprintf(buf, "target_nresults=%d and transition_time=%ld",
-            app->target_nresults, time(0)
-        );
-        dbwu.id = wu.id;
-        if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[WU#%d] sending to untrusted host, replicating", wu.id
+    if (wu.target_nresults == 1 && app->target_nresults > 1) {
+        if (reply.wreq.trust) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[WU#%d] sending to trusted host, not replicating\n", wu.id
+                );
+            }
+        } else {
+            DB_WORKUNIT dbwu;
+            char buf[256];
+            sprintf(buf, "target_nresults=%d, min_quorum=%d, transition_time=%ld",
+                app->target_nresults, app->target_nresults, time(0)
             );
-        }
-        retval = dbwu.update_field(buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "WU update failed: %d", retval
-            );
+            dbwu.id = wu.id;
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[WU#%d] sending to untrusted host, replicating\n", wu.id
+                );
+            }
+            retval = dbwu.update_field(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "WU update failed: %d", retval
+                );
+            }
         }
     }
 

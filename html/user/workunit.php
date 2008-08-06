@@ -41,26 +41,36 @@ if ($wu->canonical_resultid) {
     );
     row2("granted credit", format_credit($wu->canonical_credit));
 }
-row2("minimum quorum", $wu->min_quorum);
-row2("initial replication", $wu->target_nresults);
-row2("max # of error/total/success tasks",
-    "$wu->max_error_results, $wu->max_total_results, $wu->max_success_results"
-);
-if ($wu->error_mask) {
-    row2("errors", wu_error_mask_str($wu->error_mask));
-}
-if ($wu->need_validate) {
-    row2("validation", "Pending");
-}
-end_table();
-project_workunit($wu);
 
-result_table_start(false, true, true);
-$results = BoincResult::enum("workunitid=$wuid");
-foreach ($results as $result) {
-    show_result_row($result, false, true, true);
+// if app is using adaptive replication and WU not assimilated yet,
+// don't show anything more
+// (so that bad guys can't tell if they have an unreplicated job)
+
+if ($app->target_nresults>0 && $wu->assimilate_state < 2) {
+    row2("Tasks in progress", "suppressed pending completion");
+} else {
+    row2("minimum quorum", $wu->min_quorum);
+    row2("initial replication", $wu->target_nresults);
+    row2("max # of error/total/success tasks",
+        "$wu->max_error_results, $wu->max_total_results, $wu->max_success_results"
+    );
+    if ($wu->error_mask) {
+        row2("errors", wu_error_mask_str($wu->error_mask));
+    }
+    if ($wu->need_validate) {
+        row2("validation", "Pending");
+    }
+    end_table();
+    project_workunit($wu);
+
+    result_table_start(false, true, true);
+    $results = BoincResult::enum("workunitid=$wuid");
+    foreach ($results as $result) {
+        show_result_row($result, false, true, true);
+    }
+    echo "</table>\n";
 }
-echo "</table>\n";
+
 page_tail();
 
 ?>

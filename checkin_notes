@@ -6200,3 +6200,11 @@ David  5 Aug 2008
     lib/
         msg_queue.h
         procinfo_win.C
+
+David  6 Aug 2008
+    - added copyright and license info to .C, .cpp, .h files
+    - scheduler: fix bug in adaptive replication:
+        if send an unreplicated job to untrusted host,
+        set both wu.target_nresults and wu.min_quorum to app.target_nresults.
+
+    */*.C,cpp,h
