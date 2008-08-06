@@ -6208,3 +6208,9 @@ David  6 Aug 2008
         set both wu.target_nresults and wu.min_quorum to app.target_nresults.
 
     */*.C,cpp,h
+
+David  6 Aug 2008
+    - file_deleter: add -delete_antiques_now options
+
+    sched/
+        file_deleter.C

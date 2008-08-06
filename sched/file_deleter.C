@@ -107,6 +107,7 @@ int id_modulus=0, id_remainder=0;
 bool dont_retry_errors = false;
 bool dont_delete_antiques = false;
 bool dont_delete_batches = false;
+int antique_delay = ANTIQUE_DELAY;
 
 // Given a filename, find its full path in the upload directory hierarchy
 // Return an error if file isn't there.
@@ -413,6 +414,9 @@ int add_antiques_to_list(int days) {
         );
         return -1;
     }
+    log_messages.printf(MSG_DEBUG,
+        "Searching for antique files older than %d days\n", days
+    );
 
     sprintf(command,  "find %s -type f -mtime +%d -follow", config.upload_dir, days);
     
@@ -571,6 +575,8 @@ int main(int argc, char** argv) {
             dont_delete_antiques = true;
         } else if (!strcmp(argv[i], "-dont_delete_batches")) {
             dont_delete_batches = true;
+        } else if (!strcmp(argv[i], "-delete_antiques_now")) {
+            antique_delay = 0;
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "Unrecognized arg: %s\n", argv[i]
@@ -610,7 +616,7 @@ int main(int argc, char** argv) {
 
     bool retry_errors_now = !dont_retry_errors;
     double next_error_time=0;
-    double next_antique_time = dtime() + ANTIQUE_DELAY;
+    double next_antique_time = dtime() + antique_delay;
     while (1) {
         bool got_any = do_pass(false);
         if (retry_errors_now) {
