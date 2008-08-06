@@ -6221,4 +6221,13 @@ David  6 Aug 2008
         coords relative to window, not screen
 
     api/
-        graphics2_win.C
+
+David  6 Aug 2008
+    - scheduler: fix bug that caused jobs to be sent to clients
+        using anonymous platform
+        even if they don't have the necessary app version.
+        Also, send an explanatory message in this case.
+
+    sched/
+        edf_sim.C
+        sched_send.C

@@ -111,6 +111,7 @@ BEST_APP_VERSION* get_app_version(
     unsigned int i;
     int j;
     BEST_APP_VERSION* bavp;
+    char message[256];
 
     //
     // see if app is already in memoized array
@@ -138,6 +139,13 @@ BEST_APP_VERSION* get_app_version(
                 log_messages.printf(MSG_DEBUG,
                     "Didn't find anonymous platform app for %s\n", app->name
                 );
+                sprintf(message,
+                    "Your app_info.xml file doesn't have a version of %s.",
+                    app->user_friendly_name
+                );
+                USER_MESSAGE um(message, "high");
+                reply.wreq.insert_no_work_message(um);
+                reply.wreq.no_app_version = true;
             }
             bavp->avp = 0;
         } else {
@@ -155,6 +163,7 @@ BEST_APP_VERSION* get_app_version(
                 // means the client already has the app version
         }
         reply.wreq.best_app_versions.push_back(bavp);
+        if (!bavp->avp) return NULL;
         return bavp;
     }
 
@@ -210,7 +219,6 @@ BEST_APP_VERSION* get_app_version(
                 app->id, sreq.platforms.list[0]->id, app->min_version
             );
         }
-        char message[256];
         sprintf(message,
             "%s is not available for your type of computer.",
             app->user_friendly_name

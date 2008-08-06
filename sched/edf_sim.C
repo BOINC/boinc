@@ -279,7 +279,7 @@ bool check_candidate (
             return false;
         }
     }
-    log_msg(SUMMARY, "  cand. succeeds\n");
+    log_msg(SUMMARY, "  candidate succeeds\n");
     return true;
 }
 
