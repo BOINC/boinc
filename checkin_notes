@@ -6214,3 +6214,11 @@ David  6 Aug 2008
 
     sched/
         file_deleter.C
+
+
+David  6 Aug 2008
+    - API (Windows): call mouse-handling functions with
+        coords relative to window, not screen
+
+    api/
+        graphics2_win.C

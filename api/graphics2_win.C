@@ -231,23 +231,22 @@ LRESULT CALLBACK WndProc(
         } else  {
             int which;
             bool down;
-            POINT cPos;
-            GetCursorPos(&cPos);
             parse_mouse_event(uMsg, which, down);
-            boinc_app_mouse_button(cPos.x, cPos.y, which, down);
+            boinc_app_mouse_button(
+                (int)(short)LOWORD(lParam), (int)(short)HIWORD(lParam),
+                which, down
+            );
         }
         return 0;
     case WM_MOUSEMOVE:
         if(!window_ready) return 0;    
-        POINT cPos;
-        GetCursorPos(&cPos);
         if (fullscreen) { 
-            if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
+            if((int)(short)LOWORD(lParam) != mousePos.x || (int)(short)HIWORD(lParam) != mousePos.y) {
                 boinc_close_window_and_quit("mouse move");
             }
         } else {
             boinc_app_mouse_move(
-                cPos.x, cPos.y,
+                (int)(short)LOWORD(lParam), (int)(short)HIWORD(lParam),
                 (wParam&MK_LBUTTON)!=0,
                 (wParam&MK_MBUTTON)!=0,
                 (wParam&MK_RBUTTON)!=0
