@@ -598,9 +598,10 @@ function show_post(
         
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
-        if ($no_forum_rating != NULL) { 
+        if ($no_forum_rating) { 
             echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
+            echo "</a>";
         } else {
             $rating = $post->rating();
             echo " | Rating: ", $rating, "</i> | rate: 
