@@ -65,8 +65,9 @@ if ($app->target_nresults>0 && $wu->assimilate_state < 2) {
 
     result_table_start(false, true, true);
     $results = BoincResult::enum("workunitid=$wuid");
+    $i = 0;
     foreach ($results as $result) {
-        show_result_row($result, false, true, true);
+        show_result_row($result, false, true, true, $i++);
     }
     echo "</table>\n";
 }

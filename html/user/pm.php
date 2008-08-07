@@ -105,12 +105,12 @@ function do_inbox($logged_in_user) {
             echo "</td></tr>\n";
         }
         echo "
-            <tr><td class=shaded>
+            <tr><td>
             <a href=\"javascript:set_all(1)\">Select all</a>
             |
             <a href=\"javascript:set_all(0)\">Unselect all</a>
             </td>
-            <td class=shaded colspan=2>
+            <td colspan=2>
             <input type=\"submit\" name=\"action_select\" value=\"".tra("Delete")."\">
             selected messages
             </td></tr>

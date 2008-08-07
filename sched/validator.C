@@ -98,13 +98,13 @@ bool is_unreplicated(WORKUNIT& wu) {
 }
 
 void update_error_rate(DB_HOST& host, bool valid) {
+    if (valid) {
+        host.error_rate *= 0.95;
+    } else {
+        host.error_rate += 0.1;
+    }
     if (host.error_rate > 1) host.error_rate = 1;
     if (host.error_rate <= 0) host.error_rate = 0.1;
-    //
-    host.error_rate *= 0.95;
-    if (!valid) {
-        host.error_rate += 0.05;
-    }
 }
 
 // Here when a result has been validated and its granted_credit has been set.

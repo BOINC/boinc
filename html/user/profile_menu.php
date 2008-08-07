@@ -33,12 +33,11 @@ if ($option) {
 page_head(tra("Profiles"));
 
 echo "
-    <p>".tra("%1Profiles%2 let individuals share backgrounds and opinions with the %3 community.", "<b>", "</b>", PROJECT).
-    tra("Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy.")."</p>
-    <p>".tra("If you haven't already, you can %1create your own user profile%2 for others to see!", "<a href=\"create_profile.php\">", "</a>")."</p>";
+    <p>".tra("%1Profiles%2 let individuals share backgrounds and opinions with the %3 community.", "<b>", "</b>", PROJECT)." ".
+    tra("Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy.")."
+    <p>".tra("If you haven't already, you can %1create your own user profile%2 for others to see!", "<a href=\"create_profile.php\">", "</a>");
 
 start_table_noborder();
-rowify("<br>");
 
 $today = getdate(time());
 $UOTD_heading = tra("User of the Day")." -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
@@ -54,7 +53,6 @@ echo "<tr><td>";
 
 echo "</td></tr>";
 
-rowify("<br>");
 row1(tra("User Profile Explorer"));
 echo "<tr><td>
     <ul>

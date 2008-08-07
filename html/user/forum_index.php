@@ -37,7 +37,7 @@ if ((get_int("read", true) == 1)) {
     }
 }
 
-function show_forum_summary($forum) {
+function show_forum_summary($forum, $i) {
     switch ($forum->parent_type) {
     case 0:
         $t = $forum->title;
@@ -51,8 +51,9 @@ function show_forum_summary($forum) {
         if (!strlen($d)) $d = "Discussion among members of $team->name";
         break;
     }
+    $j = $i % 2;
     echo "
-        <tr class=\"row1\">
+        <tr class=\"row$j\">
         <td>
             <em>
             <a href=\"forum_forum.php?id=$forum->id\">$t
@@ -82,6 +83,7 @@ $first = true;
 foreach ($categories as $category) {
     if ($first) {
         $first = false;
+        echo "<p>";
         show_forum_title($category, NULL, NULL);
         show_mark_as_read_button($user);
         echo "<p>";
@@ -97,15 +99,16 @@ foreach ($categories as $category) {
         ';
     }
     $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
+    $i = 0;
     foreach ($forums as $forum) {
-        show_forum_summary($forum);
+        show_forum_summary($forum, $i++);
     }
 }
 
 if ($user && $user->teamid) {
     $forum = BoincForum::lookup("parent_type=1 and category=$user->teamid");
     if ($forum) {
-        show_forum_summary($forum);
+        show_forum_summary($forum, $i++);
     }
 }
 end_table();
@@ -113,8 +116,9 @@ end_table();
 if ($user) {
     $subs = BoincSubscription::enum("userid=$user->id");
     if (count($subs)) {
-        echo "<h3>Subscribed threads</h2>";
+        echo "<p><span class=title>Subscribed threads</span><p>";
         show_thread_and_context_header();
+        $i = 0;
         foreach ($subs as $sub) {
             $thread = BoincThread::lookup_id($sub->threadid);
             if (!$thread) {
@@ -122,7 +126,7 @@ if ($user) {
                 continue;
             }
             if ($thread->hidden) continue;
-            show_thread_and_context($thread, $user);
+            show_thread_and_context($thread, $user, $i++);
         }
         end_table();
     }

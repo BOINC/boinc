@@ -182,16 +182,11 @@ function show_questions($profile) {
 
     row1(show_profile_heading1());
     rowify(show_profile_question1().html_info());
-    rowify("<br>");
     show_textarea("response1", $response1);
-    rowify("<br>");
     row1( show_profile_heading2());
     rowify( show_profile_question2().html_info());
-    rowify("<br>");
     show_textarea("response2", $response2);
-    rowify("<br>");
     show_language_selection($profile);
-    rowify("<br>");
 }
 
 function show_textarea($name, $text) {

@@ -112,16 +112,18 @@ function show_forum_header($user) {
     echo "<tr>\n";
     
     // Search
-    echo "<td><form action=\"forum_search_action.php\" method=\"POST\">
+    echo "
+        <form action=\"forum_search_action.php\" method=\"POST\">
+        <td>
         <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
         <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
         <input type=\"hidden\" name=\"search_sort\" value=\"5\">
         <input type=\"text\" name=\"search_keywords\">
         <input class=\"btn\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
         <span class=\"smalltext\"><a href=\"forum_search.php\">".tra("Advanced search")."</a></span>
+        </td>
         </form>
     ";
-    echo "</td>\n";
     
     if ($user) {
         echo "<td align=\"right\">\n";
@@ -195,7 +197,7 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
 function start_forum_table($headings, $extra="width=\"100%\"") {
     $span = null;
     
-    start_table($extra." cellspacing=\"0\"");
+    start_table($extra);
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {
@@ -541,11 +543,9 @@ function show_post(
     }
     echo "</span></div></td>";
 
+    echo "<td class=\"postheader\">";
     if ($controls == FORUM_CONTROLS) {
-        echo "<td colspan=\"2\" class=\"postheader\">";
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
-    } else {
-        echo "<td class=\"postheader\">";
     }
 
     if ($logged_in_user && $post->timestamp>$last_visit){
@@ -581,7 +581,7 @@ function show_post(
         echo "<br>This post has been filtered (rating: ".($post->rating()).")$andtext, press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
     }
     echo "</td></tr></form>";
-    echo "<tr class=\"row$n\"><td class=\"postbody\" colspan=\"2\">";
+    echo "<tr class=\"row$n\"><td class=\"postbody\">";
 
     if (!$filter || !$rated_below_threshold){
         $posttext = $post->content;
@@ -601,7 +601,6 @@ function show_post(
         if ($no_forum_rating != NULL) { 
             echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
-            echo "</td>";
         } else {
             $rating = $post->rating();
             echo " | Rating: ", $rating, "</i> | rate: 
@@ -612,21 +611,17 @@ function show_post(
             show_image(RATE_NEGATIVE_IMAGE, "Click if you don't like this message", "Rate -", RATE_NEGATIVE_IMAGE_HEIGHT);
             echo "</a> <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
-            echo "</a></td> ";
+            echo "</a>";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
-            echo "<td align=right class=\"postfooter\">";
             $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
             show_button($url, "Reply", "Post a reply to this message");
-            echo "</td>";
-        } else {
-            echo "<td class=\"postfooter\"></td>";
         }
-        echo "</tr>";
+        echo "</td></tr>";
     } else {
-        echo "</td></tr><tr><td class=\"postfooter\" colspan=\"2\">";
+        echo "</td></tr><tr><td class=\"postfooter\">";
     }
-    echo "<tr class=\"postseperator\"><td colspan=3></td></tr>";
+    echo "<tr class=\"postseperator\"><td colspan=2></td></tr>";
 }
 
 // Show a post and its context (e.g. for search results, user posts)
@@ -1069,12 +1064,13 @@ function show_thread_and_context_header() {
 // show a 1-line summary of thread and its forum.
 // Used for search results and subscription list
 //
-function show_thread_and_context($thread, $user) {
+function show_thread_and_context($thread, $user, $i) {
     $thread_forum = BoincForum::lookup_id($thread->forum);
     if (!$thread_forum) return;
     if (!is_forum_visible_to_user($thread_forum, $user)) return;
     $owner = BoincUser::lookup_id($thread->owner);
-    echo "<tr><td>\n";
+    $j = $i % 2;
+    echo "<tr class=row$j><td>\n";
     switch($thread_forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($thread_forum->category);

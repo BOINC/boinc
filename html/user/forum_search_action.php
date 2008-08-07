@@ -164,11 +164,12 @@ $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, rou
 
 // Display the threads while we search for posts
 if (count($threads)){
-    echo "<h2>Thread titles matching your query:</h2>";
+    echo "<span class=title>Thread titles matching your query:</span>";
     show_thread_and_context_header();
+    $i = 0;
     foreach ($threads as $thread){
         if ($thread->hidden) continue;
-        show_thread_and_context($thread, $logged_in_user);
+        show_thread_and_context($thread, $logged_in_user, $i++);
     }
     end_table();
     echo "<br /><br />";
@@ -183,7 +184,7 @@ $posts = search_post_content(
 );
 
 if (count($posts)){
-    echo "<h2>Messages matching your query:</h2>";
+    echo "<span class=title>Messages matching your query:</span>";
     start_table();
     $n = 1;
     $options = get_output_options($logged_in_user);

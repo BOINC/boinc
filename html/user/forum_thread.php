@@ -84,6 +84,7 @@ $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->i
 
 show_forum_header($logged_in_user);
 
+echo "<p>";
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
@@ -179,7 +180,7 @@ echo "<input type=submit value=Sort>
 ";
 
 // Here is where the actual thread begins.
-$headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),"",2));
+$headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
 
 start_forum_table($headings, "id=\"thread\" width=100%");
 show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, true);

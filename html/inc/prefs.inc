@@ -832,7 +832,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
     if ($x) {
-        row1("Separate preferences for $venue", 2, "heading2");
+        row1("Separate preferences for $venue", 2, "heading");
         echo "<tr><td colspan=2>";
         start_table();
         if ($subset == "global") {
@@ -847,7 +847,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
         echo "</td></tr>\n";
     } else {
         //$x = subset_name($subset);
-        row1("<a href=add_venue.php?venue=$venue&subset=$subset$tokens>Add separate preferences for $venue</a>", 2, "heading2");
+        row1("<a href=add_venue.php?venue=$venue&subset=$subset$tokens>Add separate preferences for $venue</a>", 2, "heading");
     }
 }
 
@@ -858,7 +858,7 @@ function print_prefs_display_project($user, $columns=false) {
     start_table();
     $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">(Switch View)</a></font>";
     if ($columns) {
-        row1("Combined preferences".$switch_link, 2, "heading2");
+        row1("Combined preferences".$switch_link, 2, "heading");
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");
         prefs_show_privacy($user);
@@ -872,7 +872,7 @@ function print_prefs_display_project($user, $columns=false) {
         echo "</td></tr>\n";
     } else {
         if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
-            row1("Primary (default) preferences".$switch_link, 2, "heading2");
+            row1("Primary (default) preferences".$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");
@@ -914,7 +914,7 @@ function print_prefs_display_global($user, $columns=false) {
     $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">(Switch View)</a></font>";
     start_table();
     if ($columns) {
-        row1("Combined preferences".$switch_link, 2, "heading2");
+        row1("Combined preferences".$switch_link, 2, "heading");
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");
         prefs_show_columns_global($global_prefs);
@@ -923,7 +923,7 @@ function print_prefs_display_global($user, $columns=false) {
 
     } else {
         if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school)) {
-            row1("Primary (default) preferences".$switch_link, 2, "heading2");
+            row1("Primary (default) preferences".$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");

@@ -69,14 +69,16 @@ function show_list($list) {
         <th>Country</th>
         </tr>
     ";
+    $i = 0;
     foreach ($list as $team) {
         $type = team_type_name($team->type);
-        echo "<tr class=bordered>
-            <td class=shaded valign=top><a href=team_display.php?teamid=$team->id>$team->name</a></td>
-            <td class=shaded valign=top><span class=note>".sanitize_html($team->description)."</span></td>
-            <td class=shaded valign=top align=right>".format_credit($team->expavg_credit)."</td>
-            <td class=shaded valign=top>$type</td>
-            <td class=shaded valign=top>$team->country</td>
+        $j = $i++ % 2;
+        echo "<tr class=row$j>
+            <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
+            <td><span class=note>".sanitize_html($team->description)."</span></td>
+            <td>".format_credit($team->expavg_credit)."</td>
+            <td>$type</td>
+            <td>$team->country</td>
             </tr>
         ";
     }

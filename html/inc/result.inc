@@ -185,7 +185,7 @@ function bad_result($result) {
 }
 
 function show_result_row(
-    $result, $show_wu_link, $show_host_link, $show_result_link
+    $result, $show_wu_link, $show_host_link, $show_result_link, $i
 ) {
     $s = time_str($result->sent_time);
     // if result has been received, show the received time,
@@ -210,11 +210,8 @@ function show_result_row(
     $result_granted_credit = format_credit($result->granted_credit);
     $result_claimed_credit = result_claimed_credit_string($result, $result_claimed_credit);
     $result_granted_credit = result_granted_credit_string($result, $result_granted_credit); 
-    if (bad_result($result)) {
-        echo "<tr class=invalid_result>";
-    } else {
-        echo "<tr>";
-    }
+    $j = $i % 2;
+    echo "<tr class=row$j>";
     if ($show_result_link) {
         echo "<td><a href=\"result.php?resultid=$result->id\" title=\"Name: ".$result->name."\">$result->id</a></td>\n";
     }

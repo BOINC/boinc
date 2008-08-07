@@ -48,16 +48,16 @@ if ($hostid) {
 }
 page_head("Tasks for $type");
 result_table_start(true, false, true);
-$i = 0;
 $query = "$clause order by id desc limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
 $number_of_results = count($results);
 echo show_result_navigation(
     $clause, $number_of_results, $offset, $results_per_page
 );
+$i = 0;
 foreach ($results as $result) {
     if ($i >= $results_per_page) break;
-    show_result_row($result, true, false, true);
+    show_result_row($result, true, false, true, $i);
     $i++;
 }
 echo "</table>\n";

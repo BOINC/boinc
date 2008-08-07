@@ -231,7 +231,7 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 function start_table($extra="width=\"100%\"") {
-    echo "<table border=\"1\" cellpadding=\"5\" $extra>";
+    echo "<table $extra>";
 }
 
 function start_table_noborder($width="100%") {
@@ -322,7 +322,7 @@ function row_array($x) {
 function row_heading_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<th class=\"heading\">$h</th>";
+        echo "<th>$h</th>";
     }
     echo "</tr>\n";
 }
