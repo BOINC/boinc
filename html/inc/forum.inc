@@ -616,6 +616,7 @@ function show_post(
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
             $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;";
             show_button($url, "Reply", "Post a reply to this message");
         }
         echo "</td></tr>";
