@@ -4276,3 +4276,11 @@ Rom    7 Aug 2008
     win_build/
         boinc.sln
         boinctray.vcproj
+
+Rom    7 Aug 2008
+    - Tag for 6.2.15 release, all platforms
+      boinc_core_release_6_2_15
+
+    /
+        configure.ac
+        version.h
