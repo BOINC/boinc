@@ -34,8 +34,9 @@ function include_app_file($app_id) {
     require_once($file);
 }
 
-function show_app($app) {
-    echo "<tr>
+function show_app($app, $i) {
+    $j = $i%2;
+    echo "<tr class=row$j>
         <td>Name: $app->name<br>
             Short name: $app->short_name<br>
             Description: $app->description<br>
@@ -57,8 +58,9 @@ function show_apps() {
     start_table();
     row1("Existing apps", 2);
     table_header("Name/description", "");
+    $i = 0;
     foreach ($apps as $app) {
-        show_app($app);
+        show_app($app, $i++);
     }
     end_table();
 }
@@ -165,10 +167,12 @@ function show_batch($batch_id) {
     $jobs = BossaJob::enum("batch_id=$batch_id");
     start_table();
     table_header("ID", "Created", "State", "Instances");
+    $i = 0;
     foreach ($jobs as $job) {
         $t = time_str($job->create_time);
         $s = job_state_string($job->state);
-        echo "<tr>
+        $j = $i++ % 2;
+        echo "<tr class=row$j>
             <td>
                 $job->id <a href=bossa_admin.php?action=job_show_insts&job_id=$job->id>(details)</a><br>
         ";

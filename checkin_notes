@@ -6325,3 +6325,16 @@ David  7 Aug 2008
 	html/user/
 		forum_forum.php
 		white.css
+
+David  7 Aug 2008
+    - validator: get_credit_from_wu() returns an error, rather than exiting,
+        if WU doesn't have <credit> element
+
+    html/
+        ops/
+            bossa_admin.php
+        user/
+            white.css
+    sched/
+        validator.C
+        validate_util.C,h

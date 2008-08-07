@@ -83,10 +83,11 @@ td.indent {
 }
 
 td.heading {
-#background-color: rgb(157, 221, 255);
-#font-weight: bold;
-        background-color: rgb(223, 240, 255);
-        border: 1px solid lightblue;
+    background-color: rgb(223, 240, 255);
+    border: 1px solid lightblue;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+
 }
 
 td.fieldname {

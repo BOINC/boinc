@@ -5,9 +5,7 @@ a, a:link, a:visited, a:active {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
+a:hover { text-decoration: underline; }
 
 body {
     background-image: url("img/gray_gradient.png");
@@ -25,7 +23,7 @@ h1, h2 {
 }
 
 h1 {
-	color: #203C66;
+    color: #203C66;
     margin: 10px;
 }
 
@@ -41,15 +39,14 @@ hr {
 
 table {
     border: 2px solid #e8e8e8;
-    padding: 2px;
-	margin: 2px 2px 2px 2px;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	background-color: white;
+    padding: 4px;
+    margin: 2px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
 }
 
 table.noborder {
-	border: none;
+    border: none;
 }
 
 th {
@@ -70,7 +67,7 @@ td.indent { border-left: 4px solid white; }
 
 td.heading {
     font-weight: bold;
-	margin: 4px 0px;
+    margin: 4px 0px;
     padding: 8px;
     background-color: #d8d8d8;
 }
@@ -79,11 +76,11 @@ td.fieldname {
     background-color: #eeeeee;
     text-align: right;
     padding-right: 10px;
-	margin: 2px 0px;
+    margin: 2px 0px;
 }
 
 td.fieldvalue {
-	margin: 2px 0px;
+    margin: 2px 0px;
     vertical-align: middle;
 }
 
@@ -127,9 +124,8 @@ tr.message { background-color: #e0e0e0; }
 
 input, select, textarea{
     border: 1px solid #d8d8d8;
-	background color: #eeeeee;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     padding: 2px;
     font-size: 12px;
 }
@@ -150,9 +146,9 @@ img.userimg { border: 0px; }
 
 #news {
     background-color: #dff0ff;
-	border: 2px solid lightblue;
-	padding: 10px;
-	margin: 4px;
+    border: 2px solid lightblue;
+    padding: 10px;
+    margin: 4px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 }
@@ -175,9 +171,9 @@ img.userimg { border: 0px; }
 
 #uotd {
     background-color: #eeeeee;
-	border: 2px solid lightgray;
-	padding: 10px;
-	margin: 4px;
+    border: 2px solid lightgray;
+    padding: 10px;
+    margin: 4px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 }
@@ -186,15 +182,15 @@ img.userimg { border: 0px; }
 
 td.category , tr.subtitle{
     background-color: #dddddd;
-	border: 0px;
+    border: 0px;
     font-weight: bold;
     margin: 6px 0px;
 }
 
 th {
     font-weight: bold;
-	margin: 4px 2px;
-	padding: 4px;
+    margin: 4px 2px;
+    padding: 4px;
 }
 
 td.postheader { 
@@ -202,18 +198,18 @@ td.postheader {
     border-bottom: 1px solid rgb(190,190,200);
     border-left: none;
     border-right: none;
-	border-top: none;
-	margin-left: 4px;
+    border-top: none;
+    margin-left: 4px;
 }
 
 td.postbody { 
     font-size: 9pt;
-	margin-left: 4px;
+    margin-left: 4px;
 }
 
 td.postfooter {
     background-color: rgb(220,210,210);
-	margin-left: 4px;
+    margin-left: 4px;
 }
 
 tr.helpdeskseperator { height: 10pt; }
@@ -221,11 +217,11 @@ tr.helpdeskseperator { height: 10pt; }
 tr.postseperator {
     background-color: rgb(200,200,200);
     border: 1px solid rgb(170,170,170);
-	margin: 4px 0px;
+    margin: 4px 0px;
 }
 
 tr.postseperator td {
-    border: none;
+    border: 0px;
 }
 
 td.threadline { text-align: left; }
@@ -254,7 +250,7 @@ blockquote.postbody {
     border-left: 2px solid blue;
     border-color: blue;
     background-color: rgb(240,240,255);
-	padding: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 5px;
     margin: 0px 100px 0px 15px;
     font-style: italic;
 } 
@@ -273,7 +269,7 @@ td.lastpost { background-color: white; }
     height: 1px;
     background-color: black;
     color: black;
-    border: 0;
+    border: 0px;
     margin-right: 100%;
 }
 

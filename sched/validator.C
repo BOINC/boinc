@@ -434,7 +434,14 @@ int handle_wu(
             if (retry) transition_time = DELAYED;
 
             if (credit_from_wu) {
-                credit = get_credit_from_wu(wu, results);
+                retval = get_credit_from_wu(wu, results, credit);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "[WU#%d %s] get_credit_from_wu returned %d\n",
+                        wu.id, wu.name, retval
+                    );
+                    return retval;
+                }
             }
             if (max_granted_credit && credit>max_granted_credit) {
                 credit = max_granted_credit;
