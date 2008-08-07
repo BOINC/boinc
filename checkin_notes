@@ -6271,4 +6271,15 @@ Rom    7 Aug 2008
         boinc.sln
         boinctray.vcproj
         
-        
+Rom    7 Aug 2008
+    - CLIENT: Initial checkin for CUDART support for Win32
+    
+    coprocs/CUDA/mswin/Win32/Debug/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/Win32/Release/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/Win32/ReleaseSigned/bin/
+        cudart.dll
+    win_build/
+        boinc_post_bld_rules.cmd
+    

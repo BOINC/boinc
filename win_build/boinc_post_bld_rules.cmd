@@ -84,4 +84,9 @@ if not exist %OUTPUTDIR%\zlib1.dll (
     copy "%PROJECTROOTDIR%\zlib\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\zlib1.dll" "%OUTPUTDIR%"
 )
 
+if not exist %OUTPUTDIR%\cudart.dll (
+    echo Copying cudart to the output directory...
+    copy "%PROJECTROOTDIR%\coprocs\cuda\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\cudart.dll" "%OUTPUTDIR%"
+)
+
 EXIT /B 0
