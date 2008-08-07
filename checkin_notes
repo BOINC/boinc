@@ -6312,3 +6312,9 @@ David  7 Aug 2008
                 gray_gradient.png
     sched/
         validator.C
+
+David  7 Aug 2008
+    - web: add -webkit-border-radius so that rounded corners work on Safari
+
+    html/user/
+        white.css

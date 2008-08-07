@@ -44,6 +44,7 @@ table {
     padding: 2px;
 	margin: 2px 2px 2px 2px;
 	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
 	background-color: white;
 }
 
@@ -107,7 +108,6 @@ td.friend {
 tr.row0 {
     background-color: #d9d9d9;
     text-align: left;
-#-moz-border-radius: 6px;
 }
 
 tr.row1 {
@@ -125,6 +125,7 @@ input, select, textarea{
     border: 1px solid #d8d8d8;
 	background color: #eeeeee;
 	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
     padding: 2px;
     font-size: 12px;
 }
@@ -149,6 +150,7 @@ img.userimg { border: 0px; }
 	padding: 10px;
 	margin: 4px;
     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 
 #news h2, #uotd h2, #mainnav h2 {
@@ -173,6 +175,7 @@ img.userimg { border: 0px; }
 	padding: 10px;
 	margin: 4px;
     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 
 /*   Forum   */
