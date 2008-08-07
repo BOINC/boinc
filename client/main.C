@@ -33,6 +33,8 @@ static bool requested_suspend = false;
 static bool requested_resume = false;
 
 typedef BOOL (CALLBACK* ClientLibraryStartup)();
+typedef BOOL (CALLBACK* IdleTrackerStartup)();
+typedef void (CALLBACK* IdleTrackerShutdown)();
 typedef void (CALLBACK* ClientLibraryShutdown)();
 #ifndef _T
 #define _T(X) X
@@ -410,9 +412,28 @@ int initialize() {
 #ifdef _WIN32
     if(g_hClientLibraryDll) {
         ClientLibraryStartup fnClientLibraryStartup;
+        IdleTrackerStartup fnIdleTrackerStartup;
+
         fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
         if(fnClientLibraryStartup) {
             if(!fnClientLibraryStartup()) {
+                stprintf(event_message, 
+                    TEXT("BOINC Core Client Error Message\n"
+                        "Failed to initialize the BOINC Client Library Interface.\n"
+                        "BOINC will not be able to determine if the user is idle or not...\n"
+                        "Load failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+                );
+                if (!gstate.executing_as_daemon) {
+                    fprintf(stderr, event_message);
+                } else {
+                    LogEventErrorMessage(event_message);
+                }
+            }
+        }
+
+        fnIdleTrackerStartup = (IdleTrackerStartup)GetProcAddress(g_hClientLibraryDll, _T("IdleTrackerStartup"));
+        if(fnIdleTrackerStartup) {
+            if(!fnIdleTrackerStartup()) {
                 stprintf(event_message, 
                     TEXT("BOINC Core Client Error Message\n"
                         "Failed to initialize the BOINC Idle Detection Interface.\n"
@@ -427,6 +448,7 @@ int initialize() {
             }
         }
     }
+
 #endif
     return 0;
 }
@@ -514,11 +536,19 @@ int finalize() {
 
 #ifdef _WIN32
     if(g_hClientLibraryDll) {
+        IdleTrackerShutdown fnIdleTrackerShutdown;
         ClientLibraryShutdown fnClientLibraryShutdown;
+
+        fnIdleTrackerShutdown = (IdleTrackerShutdown)GetProcAddress(g_hClientLibraryDll, _T("IdleTrackerShutdown"));
+        if(fnIdleTrackerShutdown) {
+            fnIdleTrackerShutdown();
+        }
+
         fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryShutdown"));
         if(fnClientLibraryShutdown) {
             fnClientLibraryShutdown();
         }
+
         if(!FreeLibrary(g_hClientLibraryDll)) {
             stprintf(event_message, 
                 TEXT("BOINC Core Client Error Message\n"
@@ -527,12 +557,14 @@ int finalize() {
                 ),
                 windows_error_string(event_message, sizeof(event_message))
             );
+
             if (!gstate.executing_as_daemon) {
                 fprintf(stderr, event_message);
             } else {
                 LogEventErrorMessage(event_message);
             }
         }
+
         g_hClientLibraryDll = NULL;
     }
 

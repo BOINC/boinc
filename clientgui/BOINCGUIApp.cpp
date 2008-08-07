@@ -55,6 +55,8 @@ static bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMSW__
 EXTERN_C BOOL  ClientLibraryStartup();
+EXTERN_C BOOL  IdleTrackerAttach();
+EXTERN_C void  IdleTrackerDetach();
 EXTERN_C void  ClientLibraryShutdown();
 EXTERN_C DWORD BOINCGetIdleTickCount();
 #endif
@@ -397,6 +399,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Startup the System Idle Detection code
     ClientLibraryStartup();
+    IdleTrackerAttach();
 
 #ifdef __WXMAC__
     s_bSkipExitConfirmation = false;
@@ -450,6 +453,7 @@ bool CBOINCGUIApp::OnInit() {
 
 int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
+    IdleTrackerDetach();
     ClientLibraryShutdown();
 
     if (m_pDocument) {
@@ -608,6 +612,22 @@ OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEven
 int CBOINCGUIApp::ClientLibraryStartup() {
 #ifdef __WXMSW__
     ::ClientLibraryStartup();
+#endif
+    return 0;
+}
+
+
+int CBOINCGUIApp::IdleTrackerAttach() {
+#ifdef __WXMSW__
+    ::IdleTrackerAttach();
+#endif
+    return 0;
+}
+
+
+int CBOINCGUIApp::IdleTrackerDetach() {
+#ifdef __WXMSW__
+    ::IdleTrackerDetach();
 #endif
     return 0;
 }

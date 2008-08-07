@@ -6241,3 +6241,34 @@ David  6 Aug 2008
     sched/
         sched_config.C,h
         sched_result.C
+
+Rom    7 Aug 2008
+    - CLIENT/MGR/TRAY: When installed on Vista and UAC is turned on
+        the user by default cannot create globally shared objects. This
+        becomes a problem when protected application mode is turned off
+        for keyboard and mouse detection.  Basically all of the components
+        would start up and fail to create the shared memory segment
+        and report the error through stderr which most people don't look
+        at by default.
+        
+        The client is now the only component that is allowed to create the
+        shared memory segment, if creating the global segment fails it'll
+        create a local one instead. Both the tray and manager now just attach
+        to the existing segment, first trying the global one then the local
+        one.
+        
+
+    client/
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp, .h
+    clientlib/win/
+        boinc_dll.cpp
+        IdleTracker.cpp
+    clienttray/
+        tray_win.cpp, .h
+    win_build/
+        boinc.sln
+        boinctray.vcproj
+        
+        

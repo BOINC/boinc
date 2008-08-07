@@ -136,10 +136,11 @@ EXTERN_C __declspec(dllexport) DWORD BOINCGetIdleTickCount()
 	return (dwCurrentTickCount - dwLastTickCount);
 }
 
+
 /**
  * Initialize DLL: install kbd/mouse hooks.
  **/
-BOOL IdleTrackerStartup()
+EXTERN_C __declspec(dllexport) BOOL IdleTrackerStartup()
 {
  	BOOL                bExists = FALSE;
 	BOOL                bResult = FALSE;
@@ -206,6 +207,18 @@ BOOL IdleTrackerStartup()
 			    4096,
 			    "Global\\BoincIdleTracker"
             );
+        if( NULL == g_hMemoryMappedData )
+        {
+	        g_hMemoryMappedData = 
+                CreateFileMapping(
+                    INVALID_HANDLE_VALUE,
+			        &sec_attr,
+			        PAGE_READWRITE,
+			        0,
+			        4096,
+			        "BoincIdleTracker"
+                );
+        }
 
  	    if( NULL != g_hMemoryMappedData )
  	    {
@@ -249,10 +262,131 @@ BOOL IdleTrackerStartup()
     return bResult;
 }
 
+
+/**
+ * Initialize DLL: install kbd/mouse hooks.
+ **/
+EXTERN_C __declspec(dllexport) BOOL IdleTrackerAttach()
+{
+ 	BOOL                bExists = FALSE;
+	BOOL                bResult = FALSE;
+ 	SECURITY_ATTRIBUTES	sec_attr;
+ 	SECURITY_DESCRIPTOR sd;
+
+
+    g_bIsWindows2000Compatible = IsWindows2000Compatible();
+    g_bIsTerminalServicesEnabled = IsTerminalServicesEnabled();
+
+        
+    if ( !g_bIsWindows2000Compatible )
+    {
+        if ( NULL == g_hHkKeyboard )
+        {
+            g_hHkKeyboard = SetWindowsHookEx( 
+                WH_KEYBOARD, 
+                KeyboardTracker, 
+                g_hModule,
+                0
+            );
+	    }
+	    if ( NULL == g_hHkMouse )
+        {
+		    g_hHkMouse = SetWindowsHookEx( 
+                WH_MOUSE, 
+                MouseTracker, 
+                g_hModule,
+                0
+            );
+	    }
+
+	    _ASSERT( g_hHkKeyboard );
+	    _ASSERT( g_hHkMouse );
+    }
+    else
+    {
+        g_hUser32 = LoadLibrary("user32.dll");            
+        if (g_hUser32)
+            g_fnGetLastInputInfo = (GETLASTINPUTINFO)GetProcAddress(g_hUser32, "GetLastInputInfo");
+
+
+ 	    /*
+ 	    * Create a security descriptor that will allow
+ 	    * everyone full access.
+ 	    */
+ 	    InitializeSecurityDescriptor( &sd, SECURITY_DESCRIPTOR_REVISION );
+ 	    SetSecurityDescriptorDacl( &sd, TRUE, NULL, FALSE );
+
+ 	    sec_attr.nLength = sizeof(sec_attr);
+ 	    sec_attr.bInheritHandle = TRUE;
+ 	    sec_attr.lpSecurityDescriptor = &sd;
+
+ 	    /*
+	    * Create a filemap object that is global for everyone,
+ 	    * including users logged in via terminal services.
+ 	    */
+	    g_hMemoryMappedData = 
+            OpenFileMapping(
+                FILE_MAP_READ | FILE_MAP_WRITE,
+			    FALSE,
+			    "Global\\BoincIdleTracker"
+            );
+        if( NULL == g_hMemoryMappedData )
+        {
+	        g_hMemoryMappedData = 
+                OpenFileMapping(
+                    FILE_MAP_READ | FILE_MAP_WRITE,
+			        FALSE,
+			        "BoincIdleTracker"
+                );
+        }
+
+ 	    if( NULL != g_hMemoryMappedData )
+ 	    {
+ 		    if( ERROR_ALREADY_EXISTS == GetLastError() )
+ 			    bExists = TRUE;
+
+            g_pSystemWideIdleData = (struct SystemWideIdleData*) 
+                MapViewOfFile(
+                    g_hMemoryMappedData, 
+                    FILE_MAP_ALL_ACCESS,
+ 				    0,
+                    0,
+                    0
+                );
+
+            _ASSERT( g_pSystemWideIdleData );
+        }
+
+ 	    if( !bExists && g_pSystemWideIdleData )
+ 	    {
+ 		    g_pSystemWideIdleData->dwLastTick = GetTickCount();
+ 	    }
+    }
+
+
+    if ( !g_bIsWindows2000Compatible )
+    {
+	    if ( !g_hHkKeyboard || !g_hHkMouse )
+		    bResult = FALSE;
+	    else
+		    bResult = TRUE;
+    }
+    else
+    {
+        if ( !g_hUser32 || !g_fnGetLastInputInfo || !g_hMemoryMappedData || !g_pSystemWideIdleData )
+		    bResult = FALSE;
+	    else
+		    bResult = TRUE;
+    }
+
+    return bResult;
+}
+
+
 /**
  * Terminate DLL: remove hooks.
  **/
-void IdleTrackerShutdown()
+EXTERN_C __declspec(dllexport) void IdleTrackerDetach()
 {
     if ( !g_bIsWindows2000Compatible )
     {
@@ -282,5 +416,41 @@ void IdleTrackerShutdown()
             FreeLibrary(g_hUser32);
     }
 }
+
+
+/**
+ * Terminate DLL: remove hooks.
+ **/
+EXTERN_C __declspec(dllexport) void IdleTrackerShutdown()
+{
+    if ( !g_bIsWindows2000Compatible )
+    {
+	    BOOL bResult;
+	    if ( g_hHkKeyboard )
+	    {
+		    bResult = UnhookWindowsHookEx( g_hHkKeyboard );
+		    _ASSERT( bResult );
+		    g_hHkKeyboard = NULL;
+	    }
+	    if ( g_hHkMouse )
+	    {
+		    bResult = UnhookWindowsHookEx(g_hHkMouse);
+		    _ASSERT( bResult );
+		    g_hHkMouse = NULL;
+	    }
+    }
+    else
+    {
+        if( NULL != g_pSystemWideIdleData )
+ 	    {
+ 		    UnmapViewOfFile(g_pSystemWideIdleData);
+ 		    CloseHandle(g_hMemoryMappedData);
+ 	    }
+
+        if ( NULL != g_hUser32 )
+            FreeLibrary(g_hUser32);
+    }
+}
+
 
 const char *BOINC_RCSID_14d432d5b3 = "$Id$";

@@ -677,15 +677,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\clientlib\win\IdleTracker.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\clienttray\tray_win.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\win_util.C"
 				>
 			</File>
 		</Filter>
@@ -698,15 +690,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientlib\win\IdleTracker.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clienttray\tray_win.h"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\win_util.h"
 				>
 			</File>
 		</Filter>
