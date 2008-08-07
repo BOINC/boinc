@@ -57,6 +57,8 @@ protected:
 #endif
 
     int                 ClientLibraryStartup();
+    int                 IdleTrackerAttach();
+    int                 IdleTrackerDetach();
     int                 ClientLibraryShutdown();
 
     wxConfig*           m_pConfig;

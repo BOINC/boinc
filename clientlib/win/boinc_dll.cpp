@@ -46,14 +46,10 @@ BOOL APIENTRY DllMain(
 
 EXTERN_C __declspec(dllexport) BOOL ClientLibraryStartup()
 {
-	if (!IdleTrackerStartup())
-        return FALSE;
-
     return TRUE;
 }
 
 EXTERN_C __declspec(dllexport) void ClientLibraryShutdown()
 {
-    IdleTrackerShutdown();
 }
 

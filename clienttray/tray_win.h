@@ -44,6 +44,7 @@ protected:
 
     HANDLE                  m_hDataManagementThread;
     BOOL                    m_bClientLibraryInitialized;
+    BOOL                    m_bIdleTrackerInitialized;
 };
 
 #endif
