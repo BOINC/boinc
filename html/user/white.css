@@ -48,6 +48,10 @@ table {
 	background-color: white;
 }
 
+table.noborder {
+	border: none;
+}
+
 th {
     background-color: #c0c0c0;
     font-weight: bold;

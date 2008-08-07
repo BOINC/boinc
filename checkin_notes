@@ -6318,3 +6318,10 @@ David  7 Aug 2008
 
     html/user/
         white.css
+
+David  7 Aug 2008
+	- web: add table.noborder class for S@h
+
+	html/user/
+		forum_forum.php
+		white.css

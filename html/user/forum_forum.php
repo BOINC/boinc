@@ -88,13 +88,18 @@ echo '
 
 show_button("forum_post.php?id=$id", "New thread", "Add a new thread to this forum");
 
-echo " <br><br></td>";
-echo '<td valign=top align="right">';
-echo '    <form action="forum_forum.php" method="get">
-    <input type="hidden" name="id" value="'.$forum->id.'">';
+echo "</td>
+	<form action=\"forum_forum.php\" method=\"get\">
+	<td valign=top align=\"right\">
+    <input type=\"hidden\" name=\"id\" value=\"$forum->id\">
+";
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '<input type="submit" value="Sort"></form></td>';
-echo "</tr></table>";
+echo "<input type=\"submit\" value=\"Sort\">
+	</td>
+	</form>
+	</tr>
+	</table>
+";
 
 show_forum($forum, $start, $sort_style, $user);
 
