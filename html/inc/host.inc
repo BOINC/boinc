@@ -211,7 +211,8 @@ function host_nresults($host) {
 // If private is false, show the owner's name only if they've given permission
 //
 function show_host_row($host, $i, $private, $show_owner) {
-    echo "<tr><td>
+    $j = $i % 2;
+    echo "<tr class=row$j><td>
         <nobr><a href=show_host_detail.php?hostid=$host->id>$host->id</a>
         | <a href=results.php?hostid=$host->id>tasks</a></nobr>
         </td>
