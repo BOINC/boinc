@@ -380,7 +380,7 @@ function show_posts(
             if ($postnumber!=$previous_post+1){
                 // A number of posts were hidden, display a way to unhide them:
                 //
-                echo "<tr class=\"postseperator\"><td></td><td colspan=\"2\">
+                echo "<tr class=\"postseperator\"><td></td><td>
                     Only the first post and the last ".($logged_in_user->prefs->display_wrap_postcount)." posts 
                     (of the ".($postcount+1)." posts in this thread) are displayed. <br />
                     <a href=\"?id=".$thread->id."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>

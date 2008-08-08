@@ -6338,3 +6338,9 @@ David  7 Aug 2008
     sched/
         validator.C
         validate_util.C,h
+
+David  7 Aug 2008
+    - web: forum tweak
+
+    html/inc/
+        forum.inc
