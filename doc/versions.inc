@@ -69,19 +69,11 @@ $w636= array(
     "type"=>"win_new",
 );
 
-$w6215= array(
-    "num"=>"6.2.15",
+$w6216= array(
+    "num"=>"6.2.16",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.15_windows_intelx86.exe",
-    "date"=>"1 Aug 2008",
-    "type"=>"win_new",
-);
-
-$w6214= array(
-    "num"=>"6.2.14",
-    "status"=>"Development version",
-    "file"=>"boinc_6.2.14_windows_intelx86.exe",
-    "date"=>"16 July 2008",
+    "file"=>"boinc_6.2.16_windows_intelx86.exe",
+    "date"=>"8 Aug 2008",
     "type"=>"win_new",
 );
 
@@ -101,19 +93,11 @@ $w636x64= array(
     "type"=>"win_new",
 );
 
-$w6215x64= array(
-    "num"=>"6.2.15",
+$w6216x64= array(
+    "num"=>"6.2.16",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.15_windows_x86_64.exe",
-    "date"=>"1 Aug 2008",
-    "type"=>"win_new",
-);
-
-$w6214x64= array(
-    "num"=>"6.2.14",
-    "status"=>"Development version",
-    "file"=>"boinc_6.2.14_windows_x86_64.exe",
-    "date"=>"16 July 2008",
+    "file"=>"boinc_6.2.16_windows_x86_64.exe",
+    "date"=>"8 Aug 2008",
     "type"=>"win_new",
 );
 
