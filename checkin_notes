@@ -4278,8 +4278,8 @@ Rom    7 Aug 2008
         boinctray.vcproj
 
 Rom    7 Aug 2008
-    - Tag for 6.2.15 release, all platforms
-      boinc_core_release_6_2_15
+    - Tag for 6.2.16 release, all platforms
+      boinc_core_release_6_2_16
 
     /
         configure.ac
