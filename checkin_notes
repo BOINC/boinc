@@ -6360,3 +6360,11 @@ Rom    8 Aug 2008
         
     lib/
         coproc.C
+
+Rom    8 Aug 2008
+    - Tag for 6.3.8 release, all platforms
+      boinc_core_release_6_3_8
+
+    /
+        configure.ac
+        version.h
