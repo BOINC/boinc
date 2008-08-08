@@ -135,17 +135,9 @@ $w5816= array(
 
 $m6215 = array(
     "num"=>"6.2.15",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_6.2.15_macOSX_universal.zip",
     "date"=>"1 Aug 2008",
-    "type"=>"mac_advanced",
-);
-
-$m6214 = array(
-    "num"=>"6.2.14",
-    "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.2.14_macOSX_universal.zip",
-    "date"=>"17 July 2008",
     "type"=>"mac_advanced",
 );
 
@@ -167,17 +159,9 @@ $m5817 = array(
 
 $m6215c = array(
     "num"=>"6.2.15",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_6.2.15_universal-apple-darwin.zip",
     "date"=>"1 Aug 2008",
-    "type"=>"bare_core",
-);
-
-$m6214c = array(
-    "num"=>"6.2.14",
-    "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.2.14_universal-apple-darwin.zip",
-    "date"=>"17 July 2008",
     "type"=>"bare_core",
 );
 
@@ -207,17 +191,9 @@ $l635 = array(
 
 $l6215 = array(
     "num"=>"6.2.15",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_compat_6.2.15_i686-pc-linux-gnu.sh",
     "date"=>"4 Aug 2008",
-    "type"=>"sea",
-);
-
-$l6214 = array(
-    "num"=>"6.2.14",
-    "status"=>"Recommended version",
-    "file"=>"boinc_compat_6.2.14_i686-pc-linux-gnu.sh",
-    "date"=>"17 July 2008",
     "type"=>"sea",
 );
 
@@ -239,17 +215,9 @@ $l635ubuntu = array(
 
 $l6215ubuntu = array(
     "num"=>"6.2.15",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.2.15_i686-pc-linux-gnu.sh",
     "date"=>"4 Aug 2008",
-    "type"=>"sea",
-);
-
-$l6214ubuntu = array(
-    "num"=>"6.2.14",
-    "status"=>"Recommended version",
-    "file"=>"boinc_6.2.14_i686-pc-linux-gnu.sh",
-    "date"=>"17 July 2008",
     "type"=>"sea",
 );
 
@@ -271,17 +239,9 @@ $l635ubuntux64 = array(
 
 $l6215ubuntux64 = array(
     "num"=>"6.2.15",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.2.15_x86_64-pc-linux-gnu.sh",
     "date"=>"4 Aug 2008",
-    "type"=>"sea",
-);
-
-$l6214ubuntux64 = array(
-    "num"=>"6.2.14",
-    "status"=>"Recommended version",
-    "file"=>"boinc_6.2.14_x86_64-pc-linux-gnu.sh",
-    "date"=>"17 July 2008",
     "type"=>"sea",
 );
 
@@ -308,7 +268,6 @@ $windows = array(
     "versions"=>array(
         $w636,
         $w6215,
-        $w6214,
         $w51045,
         $w5816,
     )
@@ -321,7 +280,6 @@ $windowsx64 = array(
     "versions"=>array(
         $w636x64,
         $w6215x64,
-        $w6214x64,
         $w51045x64,
     )
 );
@@ -333,8 +291,6 @@ $mac = array(
     "versions"=>array(
         $m6215,
         $m6215c,
-        $m6214,
-        $m6214c,
         $m51045,
         $m51045c,
         $m5817,
@@ -349,7 +305,6 @@ $linuxcompat = array(
     "versions"=>array(
         $l635,
         $l6215,
-        $l6214,
         $l51045,
         $l5816,
     )
@@ -362,7 +317,6 @@ $linux = array(
     "versions"=>array(
         $l635ubuntu,
         $l6215ubuntu,
-        $l6214ubuntu,
         $l51045ubuntu,
     )
 );
@@ -374,7 +328,6 @@ $linuxx64 = array(
     "versions"=>array(
         $l635ubuntux64,
         $l6215ubuntux64,
-        $l6214ubuntux64,
         $l51045ubuntux64,
     )
 );
