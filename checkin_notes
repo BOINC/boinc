@@ -6353,3 +6353,10 @@ Rom    8 Aug 2008
         configure.ac
         version.h
 
+Rom    8 Aug 2008
+    - client: Changes references of nvcuda.dll to cudart.dll.  Someday NVidia
+        might include it in its driver pack for Windows, until then we have
+        to include it as part of BOINC.
+        
+    lib/
+        coproc.C

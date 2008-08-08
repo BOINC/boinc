@@ -105,9 +105,9 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
 #ifdef _WIN32
     int (__stdcall* __cudaGetDeviceCount)(int*);
     int (__stdcall* __cudaGetDeviceProperties)(cudaDeviceProp*, int);
-    HMODULE cudalib = LoadLibrary("nvcuda.dll");
+    HMODULE cudalib = LoadLibrary("cudart.dll");
     if (!cudalib) {
-        return "Can't load library nvcuda.dll";
+        return "Can't load library cudart.dll";
     }
     __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(
         cudalib, "cudaGetDeviceCount"
