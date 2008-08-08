@@ -6344,3 +6344,12 @@ David  7 Aug 2008
 
     html/inc/
         forum.inc
+
+Rom    8 Aug 2008
+    - Tag for 6.3.7 release, all platforms
+      boinc_core_release_6_3_7
+
+    /
+        configure.ac
+        version.h
+
