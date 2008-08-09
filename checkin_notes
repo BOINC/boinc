@@ -6384,3 +6384,13 @@ Rytis  9 Aug 2008
     
     html/inc/
         forum.inc
+
+Rom    9 Aug 2008
+    - CLIENT: checkin for CUDART support for Win32
+    
+    coprocs/CUDA/mswin/x64/Debug/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/x64/Release/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/x64/ReleaseSigned/bin/
+        cudart.dll
