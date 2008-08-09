@@ -71,7 +71,7 @@ $w638= array(
 
 $w6216= array(
     "num"=>"6.2.16",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.2.16_windows_intelx86.exe",
     "date"=>"8 Aug 2008",
     "type"=>"win_new",
@@ -95,7 +95,7 @@ $w636x64= array(
 
 $w6216x64= array(
     "num"=>"6.2.16",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.2.16_windows_x86_64.exe",
     "date"=>"8 Aug 2008",
     "type"=>"win_new",
