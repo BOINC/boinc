@@ -289,7 +289,6 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
 // generating FILE_REF and FILE_INFO objects for each <app_file> element.
 //
 int PROJECT::parse_preferences_for_user_files() {
-    char* p, *q, *q2;
     char buf[1024];
     string timestamp, open_name, url, filename;
     FILE_INFO* fip;
