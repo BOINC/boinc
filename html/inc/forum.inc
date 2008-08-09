@@ -271,9 +271,9 @@ function thread_last_visit($user, $thread) {
 
 function thread_is_unread($user, $thread) {
     if (!$user) return false;
-    if ($thread->timestamp < $user->prefs->mark_as_read_timestamp) return false;
+    if ($thread->timestamp <= $user->prefs->mark_as_read_timestamp) return false;
     $log = BoincForumLogging::lookup($user->id, $thread->id);
-    if ($log && ($thread->timestamp < $log->timestamp)) return false;
+    if ($log && ($thread->timestamp <= $log->timestamp)) return false;
     return true;
 }
 
