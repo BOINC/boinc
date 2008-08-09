@@ -495,8 +495,10 @@ function show_post(
     }
 
     echo "
-        <tr class=\"row".$n."\" valign=\"top\">
-        <td rowspan=\"3\"><a name=\"".$post->id."\"></a><div class=\"authorcol\">
+        <tr class=\"row$n\">
+        <td rowspan=\"3\">
+        <a name=\"$post->id\"></a>
+        <div class=\"authorcol\">
     ";
 
     echo user_links($user);
@@ -530,16 +532,18 @@ function show_post(
         $user->nposts = BoincPost::count("user=$user->id");
     }
     
-    if(function_exists('project_forum_user_info')){
+    if (function_exists('project_forum_user_info')){
         project_forum_user_info($user);
-    } else { // default
+    } else {
         // circumvent various forms of identity spoofing
         // by displaying the  user id of the poster.
         //
         echo "Posts: $user->nposts<br>";
         echo "ID: ".$user->id."<br>";
-        echo "Credit: ".number_format($user->total_credit)."<br>";
-        echo "RAC: ".number_format($user->expavg_credit)."<br>";
+        if (!no_computing()) {
+            echo "Credit: ".number_format($user->total_credit)."<br>";
+            echo "RAC: ".number_format($user->expavg_credit)."<br>";
+        }
     }
     echo "</span></div></td>";
 
@@ -580,8 +584,12 @@ function show_post(
         }
         echo "<br>This post has been filtered (rating: ".($post->rating()).")$andtext, press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
     }
-    echo "</td></tr></form>";
-    echo "<tr class=\"row$n\"><td class=\"postbody\">";
+    echo "</td>
+        </tr>
+        </form>
+        <tr class=\"row$n\">
+        <td class=\"postbody\">
+    ";
 
     if (!$filter || !$rated_below_threshold){
         $posttext = $post->content;

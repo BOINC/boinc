@@ -294,18 +294,19 @@ int PROJECT::parse_preferences_for_user_files() {
     string timestamp, open_name, url, filename;
     FILE_INFO* fip;
     FILE_REF fr;
-    char prefs_buf[MAX_PROJ_PREFS_LEN];
-    strcpy(prefs_buf, project_specific_prefs.c_str());
-    p = prefs_buf;
 
     user_files.clear();
+    size_t n=0, start, end;
     while (1) {
-        q = strstr(p, "<app_file>");
-        if (!q) break;
-        q2 = strstr(q, "</app_file>");
-        if (!q2) break;
-        *q2 = 0;
-        strcpy(buf, q);
+        start = project_specific_prefs.find("<app_file>", n);
+        if (start == string::npos) break;
+        end = project_specific_prefs.find("</app_file>", n);
+        if (end == string::npos) break;
+        start += strlen("<app_file>");
+        string x = project_specific_prefs.substr(start, end);
+        n = end + strlen("</app_file>");
+
+        strlcpy(buf, x.c_str(), sizeof(buf));
         if (!parse_str(buf, "<timestamp>", timestamp)) break;
         if (!parse_str(buf, "<open_name>", open_name)) break;
         if (!parse_str(buf, "<url>", url)) break;
@@ -324,10 +325,7 @@ int PROJECT::parse_preferences_for_user_files() {
         fr.file_info = fip;
         strcpy(fr.open_name, open_name.c_str());
         user_files.push_back(fr);
-
-        p = q2+strlen("</app_file>");
     }
-
     return 0;
 }
 
