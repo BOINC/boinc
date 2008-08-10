@@ -153,7 +153,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                     }
                     fwrite($fh, "<?php\n");
                     fwrite($fh, '$s = \'$s\''.";\n"); // Quick Kludge
-                    $keys = array_keys($language);
+                    $keys = @array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
                         if (isset($keys[$i]) && isset($language[$keys[$i]])) {
                             if ($language[$keys[$i]] == "") {
@@ -365,7 +365,7 @@ function checkToken($current_token, $interface, $line, $file){
  * This function prints any missing tokens as errors
  *****************/
 function checkMissingTokens($language_array, $interface){
-    $diff = array_values(array_diff( array_keys($interface),array_keys($language_array)));
+    $diff = @array_values(array_diff( array_keys($interface),array_keys($language_array)));
     for ($i=0; $i<sizeof($diff); $i++){
         language_log("Language file is missing token (".$interface[$diff[$i]].")",1);
     }
