@@ -1019,7 +1019,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             );
         } else {
             strcpy(req1, "");
-            if (dSize > req1_len) {
+            if (dSize > (size_t)req1_len) {
                 dSize = req1_len;
             }
             size_t nread = fread(req1, 1, dSize, fileOut); 
