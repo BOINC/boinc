@@ -12,7 +12,7 @@ body {
     background-repeat: repeat-x;
     background-color: white;
     font-family: Verdana, Arial, Sans Serif;
-    font-size: 12px;
+    font-size: 13px;
     margin: 5px 10px;
     color: black;
 }
@@ -106,19 +106,19 @@ td.friend {
     vertical-align: middle;
 }
 
-tr.row0 {
+.row0 {
     background-color: #d9d9d9;
     text-align: left;
 }
 
-tr.row1 {
+.row1 {
     background-color: #eeeeee;
     text-align: left;
 }
 
-tr.row_hd0 { background-color: rgb(207,250,207); }
+.row_hd0 { background-color: rgb(207,250,207); }
 
-tr.row_hd1 { background-color: rgb(222,250,222); }
+.row_hd1 { background-color: rgb(222,250,222); }
 
 tr.message { background-color: #e0e0e0; }
 
@@ -131,7 +131,8 @@ input, select, textarea{
 }
 
 input[type="button"], input[type="submit"], input.btn {
-    padding: 1px 3px;
+    padding: 2px 4px;
+    margin: 2px 0px;
     color: #203C66;
     border: 1px solid #a8a8a8;
     font-size: 12px;
@@ -170,8 +171,8 @@ img.userimg { border: 0px; }
 }
 
 #uotd {
-    background-color: #eeeeee;
-    border: 2px solid lightgray;
+    background-color: #d3d3d3;
+    border: 2px solid #eeeeee;
     padding: 10px;
     margin: 4px;
     -moz-border-radius: 10px;
@@ -194,22 +195,27 @@ th {
 }
 
 td.postheader { 
-    background-color: rgb(220,210,210);
-    border-bottom: 1px solid rgb(190,190,200);
-    border-left: none;
-    border-right: none;
-    border-top: none;
+    background-color: #eeeeee;
+    height: 24px;
     margin-left: 4px;
+    padding-left: 8px; 
+    -moz-border-radius: 0px 0px 10px 10px; 
+    -webkit-border-radius: 0px 0px 10px 10px; 
 }
 
 td.postbody { 
     font-size: 9pt;
     margin-left: 4px;
+    background-color: white;
 }
 
 td.postfooter {
-    background-color: rgb(220,210,210);
-    margin-left: 4px;
+    background-color: #eeeeee; 
+    height: 26px; 
+    margin-left: 4px; 
+    padding-left: 8px; 
+    -moz-border-radius: 10px 10px 0px 0px; 
+    -webkit-border-radius: 10px 10px 0px 0px; 
 }
 
 tr.helpdeskseperator { height: 10pt; }
@@ -218,10 +224,6 @@ tr.postseperator {
     background-color: rgb(200,200,200);
     border: 1px solid rgb(170,170,170);
     margin: 4px 0px;
-}
-
-tr.postseperator td {
-    border: 0px;
 }
 
 td.threadline { text-align: left; }
@@ -237,9 +239,26 @@ td.threadline { text-align: left; }
 }
 
 .authorcol {
-    width: 120px;
+    width: 136px;
     overflow: hidden;
 }
+
+div.authorcol { 
+    border: 1px solid #c8c8c8; 
+    background-color: white; 
+    padding: 8px 5px; 
+    width: 120px; 
+    margin-left: 2px; 
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+} 
+
+.authorinfo img { 
+    border: 1px solid #a8a8a8; 
+    margin: 3px 9px; 
+} 
+
+.authorcol input { margin: 4px 10px; } 
 
 .cellwrap{
     width: 100%;
@@ -250,7 +269,7 @@ blockquote.postbody {
     border-left: 2px solid blue;
     border-color: blue;
     background-color: rgb(240,240,255);
-    padding: 0px 0px 0px 5px;
+    padding: 2px 0px 2px 5px;
     margin: 0px 100px 0px 15px;
     font-style: italic;
 } 
@@ -305,7 +324,6 @@ span.highlight {
     padding-left: 1em;
     white-space: nowrap;
     overflow: auto;
-    color: #000000;
 }
 
 .smalltext {

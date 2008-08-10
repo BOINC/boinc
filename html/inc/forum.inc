@@ -495,8 +495,8 @@ function show_post(
     }
 
     echo "
-        <tr class=\"row$n\">
-        <td rowspan=\"3\">
+        <tr>
+        <td class=\"row$n\" rowspan=\"3\">
         <a name=\"$post->id\"></a>
         <div class=\"authorcol\">
     ";
@@ -526,7 +526,7 @@ function show_post(
     $url = "pm.php?action=new&userid=".$user->id;
     $name = $user->name;
     show_button($url, "Send message", "Send $name a private message");
-    echo "<br>Joined: ", gmdate('M j y', $user->create_time), "<br>";
+    echo "Joined: ", gmdate('M j y', $user->create_time), "<br>";
 
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
@@ -566,7 +566,7 @@ function show_post(
     ;
 
     if ($post->parent_post) {
-        echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#".$post->parent_post."\">Message ID ".$post->parent_post."</a>.";
+        echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#".$post->parent_post."\">Message ".$post->parent_post."</a>.";
     }
     echo " ";
     if ($can_edit && $controls != NO_CONTROLS) {

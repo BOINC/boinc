@@ -6394,3 +6394,13 @@ Rom    9 Aug 2008
         cudart.dll
     coprocs/CUDA/mswin/x64/ReleaseSigned/bin/
         cudart.dll
+
+David  9 Aug 2008
+    - web: forum tweaks (from Simek)
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
+            white.css
