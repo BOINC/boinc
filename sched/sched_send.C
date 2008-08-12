@@ -567,9 +567,16 @@ static inline int check_deadline(
     if (config.ignore_delay_bound) return 0;
 
     // skip delay check if host currently doesn't have any work
+    // and it's not a hard app.
     // (i.e. everyone gets one result, no matter how slow they are)
     //
     if (request.estimated_delay == 0 && !hard_app(app)) return 0;
+
+    // if it's a hard app, don't send it to a host with no credit
+    //
+    if (hard_app(app) && reply.host.total_credit == 0) {
+        return INFEASIBLE_CPU;
+    }
 
     double ewd = estimate_wallclock_duration(wu, request, reply);
     if (hard_app(app)) ewd *= 1.3;

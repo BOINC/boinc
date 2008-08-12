@@ -32,7 +32,7 @@ using std::deque;
 
 #define MAX_SAVED_MESSAGES 1000
 
-// a dequeue of up to MAX_SAVED_MESSAGES most recent messages,
+// a cache of MAX_SAVED_MESSAGES most recent messages,
 // stored in newest-first order
 //
 deque<MESSAGE_DESC*> message_descs;
@@ -47,21 +47,24 @@ void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
 
     if (fmt == NULL) return;
 
-    va_start(ap, fmt); // Parses string for variables
-    vsprintf(buf, fmt, ap); // And convert symbols To actual numbers
-    va_end(ap); // Results are stored in text
+    va_start(ap, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, ap);
+    buf[sizeof(buf)-1] = 0;
+    va_end(ap);
 
     show_message(p, buf, priority);
 }
 
-// stash message in memory
+// add message to cache, and delete old messages if cache too big
 //
 void record_message(PROJECT* p, int priority, int now, char* message) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;
     strcpy(mdp->project_name, "");
     if (p) {
-        strcpy(mdp->project_name, p->get_project_name());
+        strlcpy(
+            mdp->project_name, sizeof(mdp->project_name), p->get_project_name()
+        );
     }
     mdp->priority = priority;
     mdp->timestamp = now;

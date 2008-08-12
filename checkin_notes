@@ -6423,3 +6423,14 @@ David  12 Aug 2008
             forum_index.php
             team_members.php
             white.css
+
+David  12 Aug 2008
+    - scheduler: don't send jobs for "hard apps" (weight==-1)
+        to hosts with total_credit=0
+    - client: add a buffer size check
+
+    client/
+        client_msgs.C
+        main.C
+    sched/
+        sched_send.C

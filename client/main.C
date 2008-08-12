@@ -108,6 +108,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
     } else {
         strlcpy(message, msg, sizeof(message));
     }
+
+    // trim trailing \n's
+    //
     while (strlen(message)&&message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
     }
