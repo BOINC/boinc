@@ -6195,3 +6195,10 @@ Charlie 30 July 2008
         AsyncRPC.cpp
         MainDocument.cpp,.h
         sg_ProjectsComponent.cpp
+
+Charlie 11 Aug 2008
+    - MGR: async GUI RPCs: don't perform preiodic RPCs in Advanced View 
+        when hidden / minimized.
+
+    clientgui/
+        MainDocument.cpp

@@ -726,6 +726,9 @@ void CMainDocument::RunPeriodicRPCs() {
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
+    // TODO: modify SimpleGUI to not do RPCs when hidden / minimized
+    if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
+
     wxDateTime dtNow(wxDateTime::Now());
     
     // *********** RPC_GET_CC_STATUS **************
