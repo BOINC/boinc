@@ -6434,3 +6434,11 @@ David  12 Aug 2008
         main.C
     sched/
         sched_send.C
+
+David  12 Aug 2008
+    - web: improve sample project_specific_prefs.inc
+        to add "allow_non_preferred_apps pref
+        and remove frame rate pref
+
+    html/project/
+        project_specific_prefs.inc

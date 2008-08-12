@@ -6,8 +6,18 @@
 // - preferences for your application graphics
 // - application selection (i.e. if you have muliple apps,
 //   let user choose among them)
+//
+// Edit this file accordingly,
+// and put your version in html/project_specific/project_specific_prefs.inc
 
-// These prefs are represented in three ways:
+// Select standard prefs here:
+
+define ('COLOR_PREFS', false);
+define ('GFX_CPU_PREFS', true);
+define ('APP_SELECT_PREFS', false);
+$project_has_beta = false;
+
+// Project-specific prefs are represented in three ways:
 // - as an XML document (stored in the DB in this form)
 // - as a PHP structure
 // - as a set of HTTP GET form variables
@@ -29,24 +39,22 @@
 //      Parse form variables into XML, and return it.
 //      Also error-check values, and return errors in $errors->*
 
-// Place your version in html/project_specific/project_specific_prefs.inc
-
 function option($name, $val) {
     $x = ($name == $val) ?  "selected" : "";
     return "<option name='$name' $x>$name\n";
 }
 
 define('COLOR_DESC', 'Color scheme for graphics');
-define('FRAME_RATE_DESC', 'Max frames/second for graphics<br><span class=note>0 or blank if no limit</span>');
 define("MAX_GFX_CPU_PCT_DESC", "Maximum CPU % for graphics<br><span class=note>0 ... 100</span>");
 define('APP_SELECT_DESC', 'Run only the selected applications');
+define('ACCEPT_ANY_DESC', 'If no work for selected applications is available, accept work from other applications?');
 
 // The following array is for app filtering; uncomment if you want it.
 // Note: in this implementation, if a user selects all apps,
 // no <app_id> elements are included in their prefs,
 // which means that if the project adds a new app such users will run it also.
 //
-if (false) {
+if (APP_SELECT_PREFS) {
     $app_array = array(
         array(1, "Application one"),
         array(2, "Application two"),
@@ -75,28 +83,33 @@ function selected_app_text($prefs) {
 }
 
 function project_specific_prefs_default() {
-    return "
-        <color_scheme>Tahiti Sunset</color_scheme>
-        <max_frames_sec>30</max_frames_sec>
-        <max_gfx_cpu_pct>20</max_gfx_cpu_pct>
-    ";
+    $x = "";
+    if (COLOR_PREFS) {
+        $x .= "<color_scheme>Tahiti Sunset</color_scheme>\n";
+    }
+    if (GFX_CPU_PREFS) {
+        $x .= "<max_gfx_cpu_pct>20</max_gfx_cpu_pct>\n";
+    }
+    return $x;
 }
 
 function project_specific_prefs_edit($prefs, $error=false) {
     global $app_array;
-    $x = $prefs->color_scheme;
-    $y = "<select name=color_scheme>
-            ".option("Tahiti Sunset", $x)
-            .option("Desert Sands", $x)."
-        </select>
-    ";
-    row2(COLOR_DESC, $y);
+    if (COLOR_PREFS) {
+        $x = $prefs->color_scheme;
+        $y = "<select name=color_scheme>
+                ".option("Tahiti Sunset", $x)
+                .option("Desert Sands", $x)."
+            </select>
+        ";
+        row2(COLOR_DESC, $y);
+    }
 
-    $y = "<input size=5 name=max_frames_sec value='$prefs->max_frames_sec'>";
-    row2(FRAME_RATE_DESC, $y, isset($error->max_frames_sec));
-    $y = "<input size=5 name=max_gfx_cpu_pct value='$prefs->max_gfx_cpu_pct'>";
-    row2(MAX_GFX_CPU_PCT_DESC, $y, isset($error->max_gfx_cpu_pct));
-    if ($app_array) {
+    if (GFX_CPU_PREFS) {
+        $y = "<input size=5 name=max_gfx_cpu_pct value='$prefs->max_gfx_cpu_pct'>";
+        row2(MAX_GFX_CPU_PCT_DESC, $y, isset($error->max_gfx_cpu_pct));
+    }
+    if (APP_SELECT_PREFS) {
         $x = "";
         foreach ($app_array as $app) {
             $app_id = $app[0];
@@ -110,26 +123,25 @@ function project_specific_prefs_edit($prefs, $error=false) {
             $x .= "<input type=checkbox name=app_id_$app_id $checked> $app_name<br>";
         }
         row2(APP_SELECT_DESC, $x);
+        $checked = $prefs->allow_non_preferred_apps?"checked":"";
+        row2(ACCEPT_ANY_DESC, "<input type=checkbox name=allow_non_preferred_apps $checked>");
     }
 }
 
 function project_specific_prefs_parse_form(&$error) {
     global $app_array;
-    $color_scheme = $_GET["color_scheme"];
-    $max_frames_sec = $_GET["max_frames_sec"];
-    $max_gfx_cpu_pct = $_GET["max_gfx_cpu_pct"];
+    $x = "";
+    if (COLOR_PREFS) {
+        $color_scheme = $_GET["color_scheme"];
+        $x .= "<color_scheme>$color_scheme</color_scheme>\n";
+    }
+    if (GFX_CPU_PREFS) {
+        $max_gfx_cpu_pct = $_GET["max_gfx_cpu_pct"];
+        if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) $error->max_gfx_cpu_pct = true;
+        $x .= "<max_gfx_cpu_pct>$max_gfx_cpu_pct</max_gfx_cpu_pct>\n";
+    }
 
-    // Error-check preferences
-    //
-    if (!verify_numeric($max_frames_sec, 0)) $error->max_frames_sec = true;
-    if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) $error->max_gfx_cpu_pct = true;
-
-    $x = "<color_scheme>$color_scheme</color_scheme>
-        <max_frames_sec>$max_frames_sec</max_frames_sec>
-        <max_gfx_cpu_pct>$max_gfx_cpu_pct</max_gfx_cpu_pct>
-";
-
-    if ($app_array) {
+    if (APP_SELECT_PREFS) {
         $y = "";
         $some_unchecked = false;
         foreach ($app_array as $app) {
@@ -144,6 +156,9 @@ function project_specific_prefs_parse_form(&$error) {
         if ($some_unchecked) {
             $x .= $y;
         }
+        if (isset($_GET["allow_non_preferred_apps"])) {
+            $x .= "<allow_non_preferred_apps>1</allow_non_preferred_apps>\n";
+        }
     }
 
     return $x;
@@ -152,36 +167,51 @@ function project_specific_prefs_parse_form(&$error) {
 function project_specific_prefs_show($prefs, $columns=false) {
     global $app_array;
     if ($columns) {
-        row_defs(COLOR_DESC,"color_scheme", "", "", $prefs);
-        row_defs(FRAME_RATE_DESC, "max_frames_sec", "", "", $prefs);
-        row_defs(MAX_GFX_CPU_PCT_DESC, "max_gfx_cpu_pct", "", "", $prefs);
-        if ($app_array) {
+        if (COLOR_PREFS) {
+            row_defs(COLOR_DESC,"color_scheme", "", "", $prefs);
+        }
+        if (GFX_CPU_PREFS) {
+            row_defs(MAX_GFX_CPU_PCT_DESC, "max_gfx_cpu_pct", "", "", $prefs);
+        }
+        if (APP_SELECT_PREFS) {
             $prefs->app_id_text = selected_app_text($prefs);
             if ($prefs->home) $prefs->home->app_id_text = selected_app_text($prefs->home);
             if ($prefs->school) $prefs->school->app_id_text = selected_app_text($prefs->school);
             if ($prefs->work) $prefs->work->app_id_text = selected_app_text($prefs->work);
             row_defs(APP_SELECT_DESC, "app_id_text", "", "", $prefs);
+            row_defs(ACCEPT_ANY_DESC, "allow_non_preferred_apps_text", "", "", $prefs);
         }
     } else {
-        row2(COLOR_DESC, $prefs->color_scheme);
-        row2(FRAME_RATE_DESC, $prefs->max_frames_sec);
-        row2(MAX_GFX_CPU_PCT_DESC, $prefs->max_gfx_cpu_pct);
-        if ($app_array) {
+        if (COLOR_PREFS) {
+            row2(COLOR_DESC, $prefs->color_scheme);
+        }
+        if (GFX_CPU_PREFS) {
+            row2(MAX_GFX_CPU_PCT_DESC, $prefs->max_gfx_cpu_pct);
+        }
+        if (APP_SELECT_PREFS) {
             row2(APP_SELECT_DESC, selected_app_text($prefs));
+            row2(ACCEPT_ANY_DESC, $prefs->allow_non_preferred_apps_text);
         }
     }
 }
 
 function project_specific_prefs_parse($prefs_xml) {
-    $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
-    $prefs->max_frames_sec = parse_element($prefs_xml, "<max_frames_sec>");
-    $prefs->max_gfx_cpu_pct = parse_element($prefs_xml, "<max_gfx_cpu_pct>");
-    $cursor = 0;
-    while ($thisxml = parse_next_element($prefs_xml, "<app_id>", $cursor)) {
-        if (is_numeric($thisxml)) {
-            $n = (int) $thisxml;
-            $prefs->app_ids[] = $n;
+    if (COLOR_PREFS) {
+        $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
+    }
+    if (GFX_CPU_PREFS) {
+        $prefs->max_gfx_cpu_pct = parse_element($prefs_xml, "<max_gfx_cpu_pct>");
+    }
+    if (APP_SELECT_PREFS) {
+        $cursor = 0;
+        while ($thisxml = parse_next_element($prefs_xml, "<app_id>", $cursor)) {
+            if (is_numeric($thisxml)) {
+                $n = (int) $thisxml;
+                $prefs->app_ids[] = $n;
+            }
         }
+        $prefs->allow_non_preferred_apps = parse_element($prefs_xml, "<allow_non_preferred_apps>");
+        $prefs->allow_non_preferred_apps_text = $prefs->allow_non_preferred_apps?"yes":"no";
     }
     return $prefs;
 }
