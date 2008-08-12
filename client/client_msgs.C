@@ -23,6 +23,7 @@
 #include <cstring>
 #include <deque>
 #endif
+#include "str_util.h"
 
 using std::deque;
 
