@@ -63,7 +63,7 @@ void record_message(PROJECT* p, int priority, int now, char* message) {
     strcpy(mdp->project_name, "");
     if (p) {
         strlcpy(
-            mdp->project_name, sizeof(mdp->project_name), p->get_project_name()
+            mdp->project_name, p->get_project_name(), sizeof(mdp->project_name)
         );
     }
     mdp->priority = priority;

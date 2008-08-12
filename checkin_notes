@@ -6442,3 +6442,9 @@ David  12 Aug 2008
 
     html/project/
         project_specific_prefs.inc
+
+Charlie 12 Aug 2008
+    - client: fix compile error.
+
+    client/
+        client_msgs.C
