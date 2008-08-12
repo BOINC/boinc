@@ -833,7 +833,7 @@ void CMainDocument::RunPeriodicRPCs() {
     
     // *********** RPC_GET_MESSAGES **************
 
-    if (currentTabView & (VW_MSGS | VW_SMSG)) {
+    if (currentTabView & (VW_MSGS | VW_SGUI)) {
         request.clear();
         request.which_rpc = RPC_GET_MESSAGES;
         // m_iMessageSequenceNumber could change between request and execution

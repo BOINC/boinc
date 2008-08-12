@@ -360,7 +360,9 @@ void CBOINCBaseFrame::OnUpdateMessages(CFrameEvent& event) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     
     pDoc->CachedMessageUpdate();
-    FireRefreshView();
+
+    CFrameEvent refreshEvent(wxEVT_FRAME_REFRESHVIEW, this);
+    AddPendingEvent(refreshEvent);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function End"));
 }
@@ -373,8 +375,20 @@ void CBOINCBaseFrame::FireInitialize() {
 
 
 void CBOINCBaseFrame::FireRefreshView() {
-    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
-    AddPendingEvent(event);
+    // This no longer directly posts a wxEVT_FRAME_REFRESHVIEW
+    // It now calls RunPeriodicRPCs() to call any RPCs which 
+    // ar due.  The async RPC code then posts the event, but 
+    // only if an RPC was actually invoked.
+    // TODO: we may want to add code to force the RPCs.
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->RunPeriodicRPCs();
+
+//    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
+//    AddPendingEvent(event);
 }
 
 

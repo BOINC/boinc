@@ -6202,3 +6202,12 @@ Charlie 11 Aug 2008
 
     clientgui/
         MainDocument.cpp
+
+Charlie 12 Aug 2008
+    - MGR: async GUI RPCs: FireRefreshView() runs preiodic RPCs before 
+        posting wxEVT_FRAME_REFRESHVIEW event.
+    - MGR: async GUI RPCs: always call rpc.get_messages() in Simple View.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        MainDocument.cpp
