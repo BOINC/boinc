@@ -6410,3 +6410,16 @@ Charlie 10 Aug 2008
 
     client/
         http_curl.C
+
+David  12 Aug 2008
+    - web: stylesheet tweaks (from Simek)
+
+    html/
+        inc/
+            forum.inc
+            prefs.inc
+            util.inc
+        user/
+            forum_index.php
+            team_members.php
+            white.css

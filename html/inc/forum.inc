@@ -1092,9 +1092,9 @@ function show_thread_and_context($thread, $user, $i) {
     }
     echo '
         </td><td>'.($thread->replies+1).'</td>
-        <td align="left"><div class="authorcol">'.user_links($owner).'</div></td>
+        <td>'.user_links($owner).'</td>
         <td>'.$thread->views.'</td>
-        <td style="text-align:right">'.time_diff_str($thread->timestamp, time()).'</td>
+        <td>'.time_diff_str($thread->timestamp, time()).'</td>
         </tr>
     ';
 }

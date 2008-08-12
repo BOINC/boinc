@@ -860,7 +860,7 @@ function print_prefs_display_project($user, $columns=false) {
     if ($columns) {
         row1("Combined preferences".$switch_link, 2, "heading");
         echo "<tr><td colspan=2>";
-        start_table("width=100% border=4");
+        start_table();
         prefs_show_privacy($user);
         venue_show($user);
         row_top("Project specific settings");
@@ -875,7 +875,7 @@ function print_prefs_display_project($user, $columns=false) {
             row1("Primary (default) preferences".$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
-        start_table("width=100% border=4");
+        start_table();
         prefs_show_resource($project_prefs, false);
         if ($project_has_beta) prefs_show_beta($project_prefs, false);
         prefs_show_privacy($user);
@@ -916,7 +916,7 @@ function print_prefs_display_global($user, $columns=false) {
     if ($columns) {
         row1("Combined preferences".$switch_link, 2, "heading");
         echo "<tr><td colspan=2>";
-        start_table("width=100% border=4");
+        start_table();
         prefs_show_columns_global($global_prefs);
         end_table();
         echo "</td></tr>\n";
@@ -926,7 +926,7 @@ function print_prefs_display_global($user, $columns=false) {
             row1("Primary (default) preferences".$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
-        start_table("width=100% border=4");
+        start_table();
         prefs_show_global($global_prefs);
         $tokens = url_tokens($user->authenticator);
         row2("<br>", "<a href=prefs_edit.php?subset=global$tokens>Edit preferences</a>");

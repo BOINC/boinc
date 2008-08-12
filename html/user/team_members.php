@@ -19,7 +19,6 @@
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/cache.inc");
-require_once("../inc/cache.inc");
 
 if (isset($_GET["sort_by"])) {
     $sort_by = $_GET["sort_by"];

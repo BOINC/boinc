@@ -27,8 +27,6 @@ h1 {
     margin: 10px;
 }
 
-h2, h3, h4 { color: black; }
-
 h3, h4 { font-weight: bold; }
 
 hr {
@@ -116,9 +114,9 @@ td.friend {
     text-align: left;
 }
 
-.row_hd0 { background-color: rgb(207,250,207); }
+.row_hd0 { background-color: #cffacf; }
 
-.row_hd1 { background-color: rgb(222,250,222); }
+.row_hd1 { background-color: #defade; }
 
 tr.message { background-color: #e0e0e0; }
 
@@ -147,7 +145,7 @@ img.userimg { border: 0px; }
 
 #news {
     background-color: #dff0ff;
-    border: 2px solid lightblue;
+    border: 2px solid #add8e6;
     padding: 10px;
     margin: 4px;
     -moz-border-radius: 10px;
@@ -221,12 +219,23 @@ td.postfooter {
 tr.helpdeskseperator { height: 10pt; }
 
 tr.postseperator {
-    background-color: rgb(200,200,200);
-    border: 1px solid rgb(170,170,170);
+    background-color: #c8c8c8;
+    border: 1px solid #aaaaaa;
     margin: 4px 0px;
 }
 
 td.threadline { text-align: left; }
+
+td.numbers {
+    text-align: center;
+}
+
+td.numbers {
+    text-align: left;
+}
+
+td.lastpost {
+}
 
 .title {
     font-size: 14px;
@@ -260,16 +269,11 @@ div.authorcol {
 
 .authorcol input { margin: 4px 10px; } 
 
-.cellwrap{
-    width: 100%;
-    overflow: auto;
-}
-
 blockquote.postbody {
-    border-left: 2px solid blue;
-    border-color: blue;
-    background-color: rgb(240,240,255);
-    padding: 2px 0px 2px 5px;
+    border: 1px solid #d7ffea;
+    border-left: 3px solid #0069a1;
+    background-color: #f5fffa;
+    padding: 4px 6px;
     margin: 0px 100px 0px 15px;
     font-style: italic;
 } 
@@ -279,17 +283,6 @@ blockquote.postbody {
     table-layout: fixed;
     overflow: overflow;
     word-wrap: break-word;
-}
-
-td.lastpost { background-color: white; }
-
-.sigdelim {
-    width: 60%;
-    height: 1px;
-    background-color: black;
-    color: black;
-    border: 0px;
-    margin-right: 100%;
 }
 
 span.page_title {
@@ -304,7 +297,7 @@ span.note {
 }
 
 span.news_date {
-    color: rgb(100,100,100);
+    color: #646464;
     font-size: 0.9em;
 }
 
@@ -357,11 +350,11 @@ span.highlight {
 
 /*   Server Status Page   */
 
-td.running { background-color: #00ff00; }
+td.running { background-color: #9aff4f; }
 
-td.notrunning { background-color: #ff0000; }
+td.notrunning { background-color: #feff6f; }
 
-td.disabled { background-color: #ff8800; }
+td.disabled { background-color: #ff4f4f; }
 
 /*   IE hack   */
 

@@ -56,13 +56,13 @@ function show_forum_summary($forum, $i) {
         <tr class=\"row$j\">
         <td>
             <em>
-            <a href=\"forum_forum.php?id=$forum->id\">$t
-            </a></em>
+            <a href=\"forum_forum.php?id=$forum->id\">$t</a>
+            </em>
             <br><span class=\"smalltext\">$d</span>
         </td>
-        <td>$forum->threads</td>
-        <td>$forum->posts</td>
-        <td>".time_diff_str($forum->timestamp, time())."</td>
+        <td class=\"numbers\">$forum->threads</td>
+        <td class=\"numbers\">$forum->posts</td>
+        <td class=\"lastpost\">".time_diff_str($forum->timestamp, time())."</td>
     </tr>";
 }
 
