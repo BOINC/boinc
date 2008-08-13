@@ -4284,3 +4284,10 @@ Rom    7 Aug 2008
     /
         configure.ac
         version.h
+
+Charlie 13 Aug 2008
+    - Mac Installer: fix bugs in script which converts BOINC installer 
+        to a GridRepublic installer.
+    
+    mac_installer/
+        make_GridRepublic.sh
