@@ -100,11 +100,11 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         fprintf(f, "<project_preferences>\n%s</project_preferences>\n", ai.project_preferences);
     }
     if (strlen(ai.team_name)) {
-        xml_escape(ai.team_name, buf);
+        xml_escape(ai.team_name, buf, sizeof(buf));
         fprintf(f, "<team_name>%s</team_name>\n", buf);
     }
     if (strlen(ai.user_name)) {
-        xml_escape(ai.user_name, buf);
+        xml_escape(ai.user_name, buf, sizeof(buf));
         fprintf(f, "<user_name>%s</user_name>\n", buf);
     }
     if (strlen(ai.project_dir)) {

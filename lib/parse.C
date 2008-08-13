@@ -94,7 +94,7 @@ bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     memcpy(tempbuf, p, len);
     tempbuf[len] = 0;
     strip_whitespace(tempbuf);
-    xml_unescape(tempbuf, dest);
+    xml_unescape(tempbuf, dest, destlen);
     return true;
 }
 
@@ -296,7 +296,7 @@ char* sgets(char* buf, int len, char*& in) {
 //
 // NOTE: output buffer should be 6X size of input
 //
-void xml_escape(const char* in, char* out) {
+void xml_escape(const char* in, char* out, int len) {
     char buf[256], *p;
 
     p = out;
@@ -327,13 +327,14 @@ void xml_escape(const char* in, char* out) {
         } else {
             *p++ = x;
         }
+        if (p > out + len - 8) break;
     }
     *p = 0;
 }
 
 // output buffer need not be larger than input
 //
-void xml_unescape(const char* in, char* out) {
+void xml_unescape(const char* in, char* out, int len) {
     char* p = out;
     while (*in) {
         if (!strncmp(in, "&lt;", 4)) {
@@ -351,6 +352,7 @@ void xml_unescape(const char* in, char* out) {
         } else {
             *p++ = *in++;
         }
+        if (p > out + len - 2) break;
     }
     *p = 0;
 }

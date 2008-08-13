@@ -323,10 +323,10 @@ void write_host(HOST& host, FILE* f, bool detail) {
     int retval;
     char p_vendor[2048], p_model[2048], os_name[2048], os_version[2048];
 
-    xml_escape(host.p_vendor, p_vendor);
-    xml_escape(host.p_model, p_model);
-    xml_escape(host.os_name, os_name);
-    xml_escape(host.os_version, os_version);
+    xml_escape(host.p_vendor, p_vendor, sizeof(p_vendor));
+    xml_escape(host.p_model, p_model, sizeof(p_model));
+    xml_escape(host.os_name, os_name, sizeof(os_name));
+    xml_escape(host.os_version, os_version, sizeof(os_version));
     fprintf(f,
         "<host>\n"
         "    <id>%d</id>\n",
@@ -413,8 +413,8 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     char cpid[MD5_LEN];
 
     char name[2048], url[2048];
-    xml_escape(user.name, name);
-    xml_escape(user.url, url);
+    xml_escape(user.name, name, sizeof(name));
+    xml_escape(user.url, url, sizeof(url));
 
     safe_strcpy(buf, user.cross_project_id);
     safe_strcat(buf, user.email_addr);
@@ -484,9 +484,9 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     char name[2048];
     char url[2048], name_html[2048];
     int retval;
-    char description[8192]; // this should be plenty of room for xml escaping a 1024 string
+    char description[BLOB_SIZE];
 
-    xml_escape(team.name, name);
+    xml_escape(team.name, name, sizeof(name));
 
     fprintf(f,
         "<team>\n"
@@ -511,7 +511,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     retval = user.lookup_id(team.userid);
     if (!retval) {
         char fname[2048];
-        xml_escape(user.name, fname);
+        xml_escape(user.name, fname, sizeof(fname));
         fprintf(f,
             "  <founder_name>%s</founder_name>\n",
             fname
@@ -523,14 +523,14 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         team.create_time
     );
     if (strlen(team.url)) {
-        xml_escape(team.url, url);
+        xml_escape(team.url, url, sizeof(url));
         fprintf(f,
             " <url>%s</url>\n",
             url
         );
     }
     if (strlen(team.name_html)) {
-        xml_escape(team.name_html, name_html);
+        xml_escape(team.name_html, name_html, sizeof(name_html));
         fprintf(f,
             "<name_html>%s</name_html>\n",
             name_html
@@ -538,8 +538,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     }
 
     if (strlen(team.description)) {
-    	team.description[1024] = 0;		// truncate
-        xml_escape(team.description, description);
+        xml_escape(team.description, description, sizeof(description));
         fprintf(f,
             "<description>%s</description>\n",
             description

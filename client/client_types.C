@@ -214,8 +214,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "<project>\n"
     );
 
-    xml_escape(user_name, un);
-    xml_escape(team_name, tn);
+    xml_escape(user_name, un, sizeof(un));
+    xml_escape(team_name, tn, sizeof(tn));
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
