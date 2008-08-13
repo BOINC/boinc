@@ -173,14 +173,14 @@ TexFont * txfLoadFont(const char *filename) {
 	txf->tgvi = NULL;
 	txf->lut = NULL;
 	txf->teximage = NULL;
-	got = fread(fileid, 1, 4, file);
+	got = (unsigned long)fread(fileid, 1, 4, file);
 	if (got != 4 || strncmp(fileid, "\377txf", 4)) {
 		lastError = "not a texture font file.";
 		goto error;
 	}
 	// CONSTANT CONDITION
 	assert(sizeof(int) == 4);  // Ensure external file format size. 
-	got = fread(&endianness, sizeof(int), 1, file);
+	got = (unsigned long)fread(&endianness, sizeof(int), 1, file);
 	if (got == 1 && endianness == 0x12345678) {
 		swap = 0;
 	} else if (got == 1 && endianness == 0x78563412) {
@@ -190,17 +190,17 @@ TexFont * txfLoadFont(const char *filename) {
 		goto error;
 	}
 #define EXPECT(n) if (got != (unsigned long) n) { lastError = "premature end of file."; goto error; }
-	got = fread(&format, sizeof(int), 1, file);
+	got = (unsigned long)fread(&format, sizeof(int), 1, file);
 	EXPECT(1);
-	got = fread(&txf->tex_width, sizeof(int),  1, file);
+	got = (unsigned long)fread(&txf->tex_width, sizeof(int),  1, file);
 	EXPECT(1);
-	got = fread(&txf->tex_height, sizeof(int), 1, file);
+	got = (unsigned long)fread(&txf->tex_height, sizeof(int), 1, file);
 	EXPECT(1);
-	got = fread(&txf->max_ascent, sizeof(int), 1, file);
+	got = (unsigned long)fread(&txf->max_ascent, sizeof(int), 1, file);
 	EXPECT(1);
-	got = fread(&txf->max_descent, sizeof(int),1, file);
+	got = (unsigned long)fread(&txf->max_descent, sizeof(int),1, file);
 	EXPECT(1);
-	got = fread(&txf->num_glyphs, sizeof(int), 1, file);
+	got = (unsigned long)fread(&txf->num_glyphs, sizeof(int), 1, file);
 	EXPECT(1);
 
 	if (swap) {
@@ -218,7 +218,7 @@ TexFont * txfLoadFont(const char *filename) {
 	}
 	// CONSTANT CONDITION
 	assert(sizeof(TexGlyphInfo) == 12);  // Ensure external file format size.
-	got = fread(txf->tgi, sizeof(TexGlyphInfo), txf->num_glyphs, file);
+	got = (unsigned long)fread(txf->tgi, sizeof(TexGlyphInfo), txf->num_glyphs, file);
 	EXPECT(txf->num_glyphs);
 
 	if (swap) {
@@ -292,7 +292,7 @@ TexFont * txfLoadFont(const char *filename) {
 			lastError = "out of memory.";
 			goto error;
 		}
-		got = fread(orig, 1, txf->tex_width * txf->tex_height, file);
+		got = (unsigned long)fread(orig, 1, txf->tex_width * txf->tex_height, file);
 		EXPECT(txf->tex_width * txf->tex_height);
 		txf->teximage = (unsigned char *)
         malloc(2 * txf->tex_width * txf->tex_height);
@@ -313,7 +313,7 @@ TexFont * txfLoadFont(const char *filename) {
 			lastError = "out of memory.";
         goto error;
       }
-      got = fread(txf->teximage, 1, txf->tex_width * txf->tex_height, file);
+      got = (unsigned long)fread(txf->teximage, 1, txf->tex_width * txf->tex_height, file);
       EXPECT(txf->tex_width * txf->tex_height);
     }
     break;
@@ -326,7 +326,7 @@ TexFont * txfLoadFont(const char *filename) {
 		lastError = "out of memory.";
 		goto error;
     }
-    got = fread(texbitmap, 1, stride * height, file);
+    got = (unsigned long)fread(texbitmap, 1, stride * height, file);
     EXPECT(stride * height);
     if (useLuminanceAlpha) {
 		txf->teximage = (unsigned char *) calloc(width * height * 2, 1);

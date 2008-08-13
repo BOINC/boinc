@@ -52,7 +52,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/lib;../image_libs;../jpeglib;../glut"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE"
 				StringPooling="false"
 				RuntimeLibrary="0"
@@ -151,7 +151,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/lib;../image_libs;../jpeglib;../glut"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE"
 				StringPooling="false"
 				RuntimeLibrary="0"
@@ -248,7 +248,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/lib;../image_libs;../jpeglib;../glut"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -345,7 +345,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/lib;../image_libs;../jpeglib;../glut"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -417,7 +417,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\worker\worker.C"
+				RelativePath="..\samples\worker\worker.C"
 				>
 			</File>
 		</Filter>

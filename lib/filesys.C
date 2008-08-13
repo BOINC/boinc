@@ -650,11 +650,15 @@ int FILE_LOCK::unlock(const char* filename) {
 }
 
 void boinc_getcwd(char* path) {
+#ifdef _WIN32
+    getcwd(path, 256);
+#else
     char* p __attribute__ ((unused)) = getcwd(path, 256);
+#endif
 }
 
 void relative_to_absolute(const char* relname, char* path) {
-    char* p __attribute__ ((unused)) = getcwd(path, 256);
+    boinc_getcwd(path);
     if (strlen(relname)) {
         strcat(path, "/");
         strcat(path, relname);

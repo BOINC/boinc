@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="libboincapi"
-	ProjectGUID="{0BC1DB36-030A-4321-B387-1CEE2611E329}"
+	Name="libboincapi_staticcrt"
+	ProjectGUID="{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/win_build;../../boinc/;../../boinc/lib;../image_libs;../jpeglib;../glut"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -110,8 +110,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/win_build;../../boinc/;../../boinc/lib;../image_libs;../jpeglib;../glut"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -175,8 +175,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/win_build;../../boinc/;../../boinc/lib;../image_libs;../jpeglib;../glut"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -239,8 +239,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;../../boinc;../../boinc/api;../../boinc/win_build;../../boinc/;../../boinc/lib;../image_libs;../jpeglib;../glut"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -287,7 +287,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\boinc\api\boinc_api.C"
+				RelativePath="..\api\boinc_api.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -307,7 +307,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_api.C"
+				RelativePath="..\api\graphics_api.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -327,7 +327,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_data.C"
+				RelativePath="..\api\graphics_data.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -347,7 +347,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_impl.C"
+				RelativePath="..\api\graphics_impl.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -367,7 +367,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\gutil.C"
+				RelativePath="..\api\gutil.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -387,35 +387,147 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\gutil_text.C"
+				RelativePath="..\api\gutil_text.C"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\reduce_lib.C"
+				RelativePath="..\api\reduce_lib.C"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\reduce_main.C"
+				RelativePath="..\api\reduce_main.C"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\texfont.c"
+				RelativePath="..\api\texfont.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\texture.C"
+				RelativePath="..\api\texture.C"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\tgalib.C"
+				RelativePath="..\api\tgalib.C"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\txf_util.C"
+				RelativePath="..\api\txf_util.C"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\windows_opengl.C"
+				RelativePath="..\api\windows_opengl.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -441,43 +553,43 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\boinc\api\boinc_api.h"
+				RelativePath="..\api\boinc_api.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\boinc_gl.h"
+				RelativePath="..\api\boinc_gl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_api.h"
+				RelativePath="..\api\graphics_api.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_data.h"
+				RelativePath="..\api\graphics_data.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\graphics_impl.h"
+				RelativePath="..\api\graphics_impl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\gutil.h"
+				RelativePath="..\api\gutil.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\reduce.h"
+				RelativePath="..\api\reduce.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\texfont.h"
+				RelativePath="..\api\texfont.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\texture.h"
+				RelativePath="..\api\texture.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\boinc\api\txf_util.h"
+				RelativePath="..\api\txf_util.h"
 				>
 			</File>
 		</Filter>

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="libgraphics2"
-	ProjectGUID="{814EBFD3-3CE6-4933-A580-C1FE3147ACB4}"
+	Name="libboinc_staticcrt"
+	ProjectGUID="{B00664BD-71EB-46C1-957E-CD851418D395}"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -43,16 +43,23 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS"
-				MinimalRebuild="true"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include"
+				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
+				BrowseInformation="1"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
+				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -65,7 +72,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libgraphics2.lib"
+				OutputFile="$(OutDir)/libboincd.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -110,16 +118,23 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS"
-				MinimalRebuild="true"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include"
+				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
+				BrowseInformation="1"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
+				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -132,7 +147,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libboincapi.lib"
+				OutputFile="$(OutDir)/libboincd.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -175,14 +191,19 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -195,7 +216,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libgraphics2.lib"
+				OutputFile="$(OutDir)/libboinc.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -239,14 +261,19 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -259,7 +286,147 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libboincapi.lib"
+				OutputFile="$(OutDir)/libboinc.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseSigned|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				RuntimeLibrary="0"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)/libboinc.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseSigned|x64"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				RuntimeLibrary="0"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)/libboinc.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -287,7 +454,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\api\boinc_api.C"
+				RelativePath="..\lib\app_ipc.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -307,7 +474,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\graphics2.C"
+				RelativePath="..\lib\base64.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\coproc.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\crypt.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\diagnostics.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -327,7 +506,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\graphics2_util.C"
+				RelativePath="..\lib\diagnostics_win.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\filesys.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -347,7 +530,23 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\graphics2_win.C"
+				RelativePath="..\lib\hostinfo.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\md5.c"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\md5_file.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\mem_usage.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\mfile.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -367,7 +566,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\gutil.C"
+				RelativePath="..\lib\miofile.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -387,7 +586,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\gutil_text.C"
+				RelativePath="..\lib\network.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\parse.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -407,7 +610,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\reduce_lib.C"
+				RelativePath="..\lib\prefs.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -427,7 +630,15 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\reduce_main.C"
+				RelativePath="..\lib\proc_control.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\shmem.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -447,7 +658,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\texfont.c"
+				RelativePath="..\lib\stackwalker_win.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -467,7 +678,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\texture.C"
+				RelativePath="..\lib\str_util.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\util.C"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -487,44 +702,8 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\tgalib.C"
+				RelativePath="..\lib\win_util.C"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\api\txf_util.C"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -533,43 +712,111 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\api\boinc_api.h"
+				RelativePath="..\lib\app_ipc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\boinc_gl.h"
+				RelativePath="..\lib\base64.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\graphics2.h"
+				RelativePath="..\lib\boinc_win.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\graphics_api.h"
+				RelativePath="..\lib\coproc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\graphics_data.h"
+				RelativePath="..\lib\crypt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\graphics_impl.h"
+				RelativePath="..\lib\diagnostics.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\gutil.h"
+				RelativePath="..\lib\diagnostics_win.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\texfont.h"
+				RelativePath="..\lib\error_numbers.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\texture.h"
+				RelativePath="..\lib\filesys.h"
 				>
 			</File>
 			<File
-				RelativePath="..\api\txf_util.h"
+				RelativePath="..\lib\hostinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\md5.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\md5_file.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\mem_usage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\mfile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\miofile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\network.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\parse.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\prefs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\proc_control.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\result_state.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\stackwalker_imports.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\stackwalker_win.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\std_fixes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\str_util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\win_util.h"
 				>
 			</File>
 		</Filter>

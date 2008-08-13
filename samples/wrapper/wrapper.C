@@ -514,7 +514,7 @@ int main(int argc, char** argv) {
     unsigned int i;
     double cpu, total_weight=0, w=0;
 
-    for (i=1; i<argc; i++) {
+    for (i=1; i<(unsigned int)argc; i++) {
         if (!strcmp(argv[i], "--graphics")) {
             graphics = true;
         }

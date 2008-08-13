@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -111,7 +111,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -174,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -236,7 +236,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -282,11 +282,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\image_libs\bmplib.cpp"
+				RelativePath="..\samples\image_libs\bmplib.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\image_libs\tgalib.cpp"
+				RelativePath="..\samples\image_libs\tgalib.cpp"
 				>
 			</File>
 		</Filter>
@@ -296,11 +296,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\image_libs\bmplib.h"
+				RelativePath="..\samples\image_libs\bmplib.h"
 				>
 			</File>
 			<File
-				RelativePath="..\image_libs\tgalib.h"
+				RelativePath="..\samples\image_libs\tgalib.h"
 				>
 			</File>
 		</Filter>

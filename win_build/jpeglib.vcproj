@@ -45,8 +45,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../../boinc/lib"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
+				AdditionalIncludeDirectories=".;../lib"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -113,8 +113,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".;../../boinc/lib"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
+				AdditionalIncludeDirectories=".;../lib"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -178,8 +178,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;../../boinc/lib"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories=".;../lib"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -241,8 +241,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;../../boinc/lib"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				AdditionalIncludeDirectories=".;../lib"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -288,215 +288,215 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\jpeglib\jcapimin.c"
+				RelativePath="..\samples\jpeglib\jcapimin.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcapistd.c"
+				RelativePath="..\samples\jpeglib\jcapistd.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jccoefct.c"
+				RelativePath="..\samples\jpeglib\jccoefct.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jccolor.c"
+				RelativePath="..\samples\jpeglib\jccolor.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcdctmgr.c"
+				RelativePath="..\samples\jpeglib\jcdctmgr.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jchuff.c"
+				RelativePath="..\samples\jpeglib\jchuff.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcinit.c"
+				RelativePath="..\samples\jpeglib\jcinit.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcmainct.c"
+				RelativePath="..\samples\jpeglib\jcmainct.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcmarker.c"
+				RelativePath="..\samples\jpeglib\jcmarker.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcmaster.c"
+				RelativePath="..\samples\jpeglib\jcmaster.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcomapi.c"
+				RelativePath="..\samples\jpeglib\jcomapi.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcparam.c"
+				RelativePath="..\samples\jpeglib\jcparam.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcphuff.c"
+				RelativePath="..\samples\jpeglib\jcphuff.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcprepct.c"
+				RelativePath="..\samples\jpeglib\jcprepct.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jcsample.c"
+				RelativePath="..\samples\jpeglib\jcsample.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jctrans.c"
+				RelativePath="..\samples\jpeglib\jctrans.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdapimin.c"
+				RelativePath="..\samples\jpeglib\jdapimin.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdapistd.c"
+				RelativePath="..\samples\jpeglib\jdapistd.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdatadst.c"
+				RelativePath="..\samples\jpeglib\jdatadst.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdatasrc.c"
+				RelativePath="..\samples\jpeglib\jdatasrc.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdcoefct.c"
+				RelativePath="..\samples\jpeglib\jdcoefct.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdcolor.c"
+				RelativePath="..\samples\jpeglib\jdcolor.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jddctmgr.c"
+				RelativePath="..\samples\jpeglib\jddctmgr.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdhuff.c"
+				RelativePath="..\samples\jpeglib\jdhuff.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdinput.c"
+				RelativePath="..\samples\jpeglib\jdinput.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdmainct.c"
+				RelativePath="..\samples\jpeglib\jdmainct.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdmarker.c"
+				RelativePath="..\samples\jpeglib\jdmarker.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdmaster.c"
+				RelativePath="..\samples\jpeglib\jdmaster.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdmerge.c"
+				RelativePath="..\samples\jpeglib\jdmerge.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdphuff.c"
+				RelativePath="..\samples\jpeglib\jdphuff.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdpostct.c"
+				RelativePath="..\samples\jpeglib\jdpostct.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdsample.c"
+				RelativePath="..\samples\jpeglib\jdsample.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdtrans.c"
+				RelativePath="..\samples\jpeglib\jdtrans.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jerror.c"
+				RelativePath="..\samples\jpeglib\jerror.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jfdctflt.c"
+				RelativePath="..\samples\jpeglib\jfdctflt.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jfdctfst.c"
+				RelativePath="..\samples\jpeglib\jfdctfst.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jfdctint.c"
+				RelativePath="..\samples\jpeglib\jfdctint.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jidctflt.c"
+				RelativePath="..\samples\jpeglib\jidctflt.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jidctfst.c"
+				RelativePath="..\samples\jpeglib\jidctfst.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jidctint.c"
+				RelativePath="..\samples\jpeglib\jidctint.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jidctred.c"
+				RelativePath="..\samples\jpeglib\jidctred.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jmemmgr.c"
+				RelativePath="..\samples\jpeglib\jmemmgr.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jmemnobs.c"
+				RelativePath="..\samples\jpeglib\jmemnobs.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jquant1.c"
+				RelativePath="..\samples\jpeglib\jquant1.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jquant2.c"
+				RelativePath="..\samples\jpeglib\jquant2.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jutils.c"
+				RelativePath="..\samples\jpeglib\jutils.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\rdbmp.c"
+				RelativePath="..\samples\jpeglib\rdbmp.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\rdcolmap.c"
+				RelativePath="..\samples\jpeglib\rdcolmap.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\rdgif.c"
+				RelativePath="..\samples\jpeglib\rdgif.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\rdppm.c"
+				RelativePath="..\samples\jpeglib\rdppm.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\rdrle.c"
+				RelativePath="..\samples\jpeglib\rdrle.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\rdswitch.c"
+				RelativePath="..\samples\jpeglib\rdswitch.c"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\rdtarga.c"
+				RelativePath="..\samples\jpeglib\rdtarga.c"
 				>
 			</File>
 		</Filter>
@@ -506,55 +506,55 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\jpeglib\cderror.h"
+				RelativePath="..\samples\jpeglib\cderror.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\cdjpeg.h"
+				RelativePath="..\samples\jpeglib\cdjpeg.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jchuff.h"
+				RelativePath="..\samples\jpeglib\jchuff.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jconfig.h"
+				RelativePath="..\samples\jpeglib\jconfig.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdct.h"
+				RelativePath="..\samples\jpeglib\jdct.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jdhuff.h"
+				RelativePath="..\samples\jpeglib\jdhuff.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jerror.h"
+				RelativePath="..\samples\jpeglib\jerror.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jinclude.h"
+				RelativePath="..\samples\jpeglib\jinclude.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jmemsys.h"
+				RelativePath="..\samples\jpeglib\jmemsys.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jmorecfg.h"
+				RelativePath="..\samples\jpeglib\jmorecfg.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jpegint.h"
+				RelativePath="..\samples\jpeglib\jpegint.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jpeglib.h"
+				RelativePath="..\samples\jpeglib\jpeglib.h"
 				>
 			</File>
 			<File
-				RelativePath="..\jpeglib\jversion.h"
+				RelativePath="..\samples\jpeglib\jversion.h"
 				>
 			</File>
 		</Filter>

@@ -272,7 +272,7 @@ int generate_signature(
     int retval;
 
     block.data = (unsigned char*)text_to_sign;
-    block.len = strlen(text_to_sign);
+    block.len = (unsigned int)strlen(text_to_sign);
     signature_data.data = signature_buf;
     signature_data.len = SIGNATURE_SIZE_BINARY;
     retval = sign_block(block, key, signature_data);

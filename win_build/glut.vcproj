@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -111,7 +111,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
+				PreprocessorDefinitions="WIN32;_MT;_DEBUG;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;CLIENT;BOINC_APP_GRAPHICS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -174,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -237,7 +237,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -284,7 +284,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\glut\glut_roman.c"
+				RelativePath="..\samples\glut\glut_roman.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -304,7 +304,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\glut\glut_stroke.c"
+				RelativePath="..\samples\glut\glut_stroke.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -324,7 +324,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\glut\glut_swidth.c"
+				RelativePath="..\samples\glut\glut_swidth.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -344,7 +344,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\glut\win32_glx.c"
+				RelativePath="..\samples\glut\win32_glx.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -364,7 +364,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\glut\win32_util.c"
+				RelativePath="..\samples\glut\win32_util.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -384,7 +384,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\glut\win32_x11.c"
+				RelativePath="..\samples\glut\win32_x11.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -410,35 +410,35 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\glut\glut.h"
+				RelativePath="..\samples\glut\glut.h"
 				>
 			</File>
 			<File
-				RelativePath="..\glut\glutbitmap.h"
+				RelativePath="..\samples\glut\glutbitmap.h"
 				>
 			</File>
 			<File
-				RelativePath="..\glut\glutint.h"
+				RelativePath="..\samples\glut\glutint.h"
 				>
 			</File>
 			<File
-				RelativePath="..\glut\glutstroke.h"
+				RelativePath="..\samples\glut\glutstroke.h"
 				>
 			</File>
 			<File
-				RelativePath="..\glut\glutwin32.h"
+				RelativePath="..\samples\glut\glutwin32.h"
 				>
 			</File>
 			<File
-				RelativePath="..\glut\stroke.h"
+				RelativePath="..\samples\glut\stroke.h"
 				>
 			</File>
 			<File
-				RelativePath="..\glut\win32_glx.h"
+				RelativePath="..\samples\glut\win32_glx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\glut\win32_x11.h"
+				RelativePath="..\samples\glut\win32_x11.h"
 				>
 			</File>
 		</Filter>
