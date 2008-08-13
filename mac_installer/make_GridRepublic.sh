@@ -139,7 +139,7 @@ sudo echo ${BRANDING_INFO} > "${PR_PATH}/Library/Application Support/BOINC Data/
 
 ## If skins folder is present. copy it into BOINC Data folder
 if [ -d "skins" ]; then
-    sudo cp -fpR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
+    cp -fR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
 fi
 
 ## Modify for Grid Republic
