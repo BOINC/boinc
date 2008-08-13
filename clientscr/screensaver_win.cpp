@@ -1077,6 +1077,42 @@ void CScreensaver::HandleRPCError()
 
 
 
+void CScreensaver::CheckKeyboardMouseActivity()
+{
+    // Science application has focus, and is visible.
+    //
+    // Some science application take a really long time to display something on their
+    // window, during this time the window will appear to eat keyboard and mouse event
+    // messages and not respond to other system events.  These windows are considered
+    // ghost windows, normally they have an outline and can be moved around and resized.
+    // In the science application case where the borders are hidden from view, the
+    // window just takes on the background of the previous window which happens to be
+    // the black screensaver window owned by this process.
+    //
+    // Verify that their hasn't been any keyboard or mouse activity.  If there has
+    // we should hide the window from this process and exit out of the screensaver to
+    // return control back to the user as quickly as possible.
+    BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Graphics Window Detected and is the foreground window.\n"));
+    if (gspfnMyGetLastInputInfo) {
+        BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Checking idle actvity.\n"));
+        LASTINPUTINFO lii;
+        lii.cbSize = sizeof(LASTINPUTINFO);
+
+        gspfnMyGetLastInputInfo(&lii);
+
+        if (m_dwLastInputTimeAtStartup != lii.dwTime) {
+            BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Activity Detected.\n"));
+            ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
+            ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
+            SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+            SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+        }
+    }
+}
+
+
+
+
 void CScreensaver::CheckForegroundWindow()
 {
     BOOL    bForegroundWindowIsScreensaver;
@@ -1112,36 +1148,6 @@ void CScreensaver::CheckForegroundWindow()
                         NULL,
                         NULL
                     );
-                }
-            }
-        } else {
-            // Science application has focus, and is visible.
-            //
-            // Some science application take a really long time to display something on their
-            // window, during this time the window will appear to eat keyboard and mouse event
-            // messages and not respond to other system events.  These windows are considered
-            // ghost windows, normally they have an outline and can be moved around and resized.
-            // In the science application case where the borders are hidden from view, the
-            // window just takes on the background of the previous window which happens to be
-            // the black screensaver window owned by this process.
-            //
-            // Verify that their hasn't been any keyboard or mouse activity.  If there has
-            // we should hide the window from this process and exit out of the screensaver to
-            // return control back to the user as quickly as possible.
-            BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Graphics Window Detected and is the foreground window.\n"));
-            if (gspfnMyGetLastInputInfo) {
-                BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Checking idle actvity.\n"));
-                LASTINPUTINFO lii;
-                lii.cbSize = sizeof(LASTINPUTINFO);
-
-                gspfnMyGetLastInputInfo(&lii);
-
-                if (m_dwLastInputTimeAtStartup != lii.dwTime) {
-                    BOINCTRACE(_T("CScreensaver::CheckForegroundWindow - Activity Detected.\n"));
-                    ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
-                    ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
-                    SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                    SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
                 }
             }
         }

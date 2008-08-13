@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "BOINC System Tray for Windows"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincmgr"
-            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "LegalCopyright", "© 2003-2008 University of California"
             VALUE "OriginalFilename", "boincmgr.exe"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"

@@ -6462,6 +6462,7 @@ Charlie 13 Aug 2008
     
     mac_installer/
         make_GridRepublic.sh
+<<<<<<< .working
 
 David  13 Aug 2008
     - client and server: add "len" arg to xml_escape() and xml_unescape()
@@ -6514,3 +6515,22 @@ Rom    13 Aug 2008
     
     win_build/
         libboincapi_staticcrt.vcproj
+
+Rom    13 Aug 2008
+    - Update copyright strings in various Windows resource files.
+    
+    client/win/
+        boinc_cli.rc
+        boinc_cli_2003.rc
+        boinc_cmd.rc
+    clientgui/
+        BOINCGUIApp.rc
+        BOINCGUIApp_2003.rc
+    clientlib/win/
+        boinc_dll.rc
+        boinc_dll_2003.rc
+    clientscr/
+        boinc_ss.rc
+        boinc_ss_2003.rc
+    clienttray/
+        boinc_tray.rc
