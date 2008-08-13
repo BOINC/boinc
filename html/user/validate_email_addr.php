@@ -23,7 +23,8 @@ require_once("../inc/email.inc");
 function send_validate_email() {
     global $master_url;
     $user = get_logged_in_user();
-    $x2 = md5($user->email_addr.$user->authenticator);
+    $x2 = uniqid(rand(), true);
+    $user->update("signature='$x2'");
     send_email(
         $user,
         "Validate BOINC email address",
@@ -47,7 +48,7 @@ function validate() {
         error_page("No such user.\n");
     }
 
-    $x2 = md5($user->email_addr.$user->authenticator);
+    $x2 = $user->signature;
     if ($x2 != $x) {
         error_page("Error in URL data - can't validate email address");
     }
