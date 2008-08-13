@@ -6478,3 +6478,33 @@ David  13 Aug 2008
         db_dump.C
         db_purge.C
         server_types.C
+
+Rom    13 Aug 2008
+    - SAMPLES: Add all the samples to the BOINC solution and delete the
+        old solution.
+    - LIB: Clean up a bunch of warnings.
+    
+    api/
+        texfont.C
+    lib/
+        crypt.C
+    lib/
+        filesys.C
+    samples/wrapper/
+        wrapper.C
+    win_build/
+        boinc.sln
+        glut.vcproj
+        image_libs.vcproj
+        jpeglib.vcproj
+        libboinc_staticcrt.vcproj
+        libboincapi.vcproj
+        libboincapi_staticcrt.vcproj
+        libgraphics2.vcproj
+        multi_thread.vcproj
+        sleeper.vcproj
+        uc2.vcproj
+        uc2_graphics.vcproj
+        upper_case.vcproj
+        worker.vcproj
+        wrapper.vcproj
