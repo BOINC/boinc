@@ -6508,3 +6508,9 @@ Rom    13 Aug 2008
         upper_case.vcproj
         worker.vcproj
         wrapper.vcproj
+
+Rom    13 Aug 2008
+    - WIN: Remove deprecated v5 graphics files from the solution.
+    
+    win_build/
+        libboincapi_staticcrt.vcproj
