@@ -42,7 +42,7 @@
 ##
 ## Invoke this script with the three parts of version number as arguments.  
 ## For example, if the version is 3.2.1:
-##     source [path_to_this_script] 3 2 1
+##     sh [path_to_this_script] 3 2 1
 ##
 ## This will create a directory "BOINC_Installer" in the parent directory of 
 ## the current directory
@@ -128,6 +128,7 @@ fi
 cp -fp "${SOURCE_PKG_PATH}/Resources/postinstall" "${SCRIPTS_PATH}/"
 cp -fp "${SOURCE_PKG_PATH}/Resources/postupgrade" "${SCRIPTS_PATH}/"
 cp -fpR "${SOURCE_PKG_PATH}/Resources/PostInstall.app" "${IR_PATH}/"
+cp -fp "${SOURCE_PKG_PATH}/Resources/all_projects_list.xml" "${IR_PATH}/"
 
 ##### We've decided not to customize BOINC Data directory name for branding
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data"
@@ -138,7 +139,7 @@ sudo echo ${BRANDING_INFO} > "${PR_PATH}/Library/Application Support/BOINC Data/
 
 ## If skins folder is present. copy it into BOINC Data folder
 if [ -d "skins" ]; then
-    cp -fpR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
+    sudo cp -fpR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
 fi
 
 ## Modify for Grid Republic
