@@ -6617,4 +6617,12 @@ Rom    14 Aug 2008
     win_build/
         boinc.sln
         *.vcproj
-    
+
+Rom    14 Aug 2008
+    - WINSCR: Certain checks should be done regularly like keyboard/mouse
+        activity and the notification window check. They should not depend
+        on whether or not the graphics window has been displayed or not.
+        
+    clientscr/
+        screensaver.cpp
+        screensaver_win.cpp, .h

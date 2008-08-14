@@ -489,6 +489,22 @@ void *CScreensaver::DataManagementProc() {
             }
         } else {    // End if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL))
 
+#ifdef _WIN32
+
+            // Check for keyboard and mouse activity just in case the
+            // user wants to blow out of the screensaver.
+            //
+            CheckKeyboardMouseActivity();
+
+            // Check to see if there are any notification windows from
+            // personal firewalls, virus scanners, or anything else that
+            // demands the users attention. If there is blow out of the
+            // screensaver
+            CheckForNotificationWindow();
+
+#endif
+
+
             // Is the graphics app still running?
             if (m_hGraphicsApplication) {
 #ifdef _WIN32
