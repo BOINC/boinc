@@ -6563,3 +6563,23 @@ Rom    13 Aug 2008
         boinc_2003.sln
         seed.sln
         <Various .vcproj files>
+
+Rom    13 Aug 2008
+    - WIN: Remove any remaining references to Seed and CPDNBBC.
+    
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+    clientgui/
+        BOINCGUIApp.rc
+    clientgui/res/
+        seed16.xpm
+        seed32.xpm
+        seedamwizard.xpm
+        seedapwizard.xpm
+    clientlib/win/
+        boinc_dll.rc
+    clientscr/
+        boinc_ss.rc
+    clientscr/res/
+        seed.bmp
