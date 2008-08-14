@@ -21,7 +21,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 2/21/08 by Charlie Fenton
+# updated 8/13/08 by Charlie Fenton
 ##
 
 ## Usage:
@@ -37,6 +37,10 @@
 ##     gridrepublic.tiff (for screensaver)
 ##     gridrepublic_ss_logo (for screensaver)
 ##     skins directory containing GridRepublic skin (optional)
+##
+## NOTE: This script uses PackageMaker, which is installed as part of the 
+##   XCode developer tools.  So you must have installed XCode Developer 
+##   Tools on the Mac before running this script.
 ##
 ## cd to the working directory:
 ##
@@ -139,7 +143,7 @@ sudo echo ${BRANDING_INFO} > "${PR_PATH}/Library/Application Support/BOINC Data/
 
 ## If skins folder is present. copy it into BOINC Data folder
 if [ -d "skins" ]; then
-    cp -fR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
+    sudo cp -fR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
 fi
 
 ## Modify for Grid Republic
@@ -266,6 +270,9 @@ fi
 
 # Allow the installer wrapper application to modify the package's Info.plist file
 sudo chmod u+w,g+w,o+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info.plist"
+
+# Update the installer wrapper application's creation date
+sudo touch "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app"
 
 # Remove temporary copies of Pkg-Info.plist and Description.plist
 sudo rm ${NEW_DIR_PATH}/Pkg-Info.plist
