@@ -18,6 +18,7 @@
 
 require_once("../inc/bolt_db.inc");
 require_once("../inc/util.inc");
+require_once("../inc/bolt_util.inc");
 
 page_head("Courses");
 
@@ -57,10 +58,12 @@ foreach ($courses as $course) {
             <a href=bolt_sched.php?course_id=$course->id&action=start>Start</a>
         ";
     }
-    row2("<b>$course->name</b>
+    row2_init("<b>$course->name</b>
         <br><span class=note>$course->description</span>",
         $status
     );
+    show_refreshes();
+    echo "</td></tr>\n";
 }
 end_table();
 page_tail();

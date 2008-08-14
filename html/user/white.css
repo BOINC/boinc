@@ -50,6 +50,7 @@ table.noborder {
 th {
     background-color: #c0c0c0;
     font-weight: bold;
+    vertical-align: top;
 }
 
 td {

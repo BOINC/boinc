@@ -189,7 +189,6 @@ function get_views($unit, $mode) {
 function get_results($unit) {
     global $snap;
 
-    print_r($snap->results);
     if (array_key_exists($unit->name, $snap->results)) {
         return filter_array($snap->results[$unit->name]);
     }
@@ -362,7 +361,7 @@ function show_map() {
     }
     echo "
             <th>Views</th>
-            <th>Outcome</th>
+            <th>Outcome<br><span class=note>Green=Next,<br>Yellow=Back,<br>Red=None</span></th>
             <th>Score</th>
             <th>Time</th>
         </tr>

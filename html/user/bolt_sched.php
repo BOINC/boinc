@@ -118,7 +118,7 @@ function show_finished_page($view_id, $prev_view_id) {
 
 function show_refresh_finished() {
     page_header("Refresh completed");
-    echo "Refresh finished";
+    echo "<a href=bolt.php>Return to courses</a>";
     page_footer();
 }
 
@@ -401,6 +401,7 @@ case 'next':            // "next" button in lesson or exercise answer page
     } else {
         if ($refresh) {
             show_refresh_finished();
+            $refresh->update('count=count+1');
         } else {
             $iter->frac_done = 1;
             $fin_view_id = create_view($iter, BOLT_MODE_FINISHED, $view_id);
@@ -460,25 +461,34 @@ case 'answer':          // submit answer in exercise
     // If this is part of an exercise set, call its callback function
     //
     $repeat = null;
-    if ($iter->xset) {
-        $is_last = $iter->xset->xset_callback($iter, $bolt_ex_score, $view->id, $avg_score, $repeat);
+    $xset = $iter->xset;
+    if ($xset) {
+        $is_last = $xset->xset_callback($iter, $bolt_ex_score, $view->id, $avg_score, $repeat);
         if ($repeat) $repeat->avg_score = $avg_score;
         if ($is_last) {
             // if the exercise set if finished, make or update DB records
             //
             $now = time();
-            $xset = $iter->xset;
             $id = BoltXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$xset->name', $avg_score, $view_id)");
-            $due_time = $now + 100000;
-            $refresh = BoltRefreshRec::lookup(
-                "user_id=$user->id and course_id=$course->id and name='$xset->name'"
-            );
+            $refresh = $xset->refresh;
             if ($refresh) {
-                $refresh->update("create_time=$now, xset_result_id=$id, due_time=$due_time");
-            } else {
-                BoltRefreshRec::insert(
-                    "(user_id, course_id, name, create_time, xset_result_id, due_time) values ($user->id, $course->id, '$xset->name', $now, $id, $due_time)"
+                $refresh_rec = BoltRefreshRec::lookup(
+                    "user_id=$user->id and course_id=$course->id and name='$xset->name'"
                 );
+                if ($refresh_rec) {
+                    $count = $refresh_rec->count;
+                    $n = count($refresh->intervals);
+                    if ($count >= $n) {
+                        $count = $n - 1;
+                    }
+                    $due_time = time() + $refresh->intervals[$count]*86400;
+                    $refresh_rec->update("create_time=$now, xset_result_id=$id, due_time=$due_time");
+                } else {
+                    $due_time = time() + $refresh->intervals[0]*86400;
+                    BoltRefreshRec::insert(
+                        "(user_id, course_id, name, create_time, xset_result_id, due_time, count) values ($user->id, $course->id, '$xset->name', $now, $id, $due_time, 0)"
+                    );
+                }
             }
         }
     }

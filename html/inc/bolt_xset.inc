@@ -18,14 +18,17 @@
 
 class BoltExerciseSet extends BoltRandom {
     public $repeats;
-    function __construct($name, $units, $number, $repeats) {
+    public $refresh;
+    function __construct($name, $units, $number, $repeats, $refresh) {
         parent::__construct($name, $units, $number);
         $this->repeats = $repeats;
+        $this->refresh = $refresh;
     }
 
     // called when an exercise in this set has just been graded.
     // - record the score in our state structure
-    // - return a structure saying what navigation info to show:
+    // - return true if this was last exercise in the set
+    // - if so, also return a structure saying what navigation info to show:
     //   - review
     //   - repeat now
     //   - next
@@ -33,7 +36,6 @@ class BoltExerciseSet extends BoltRandom {
     function xset_callback(&$iter, $score, $view_id, &$avg_score, &$repeat) {
         global $course;
         global $user;
-        global $refresh;
 
         $nav_info = null;
         $state_rec = $iter->state[$this->name];

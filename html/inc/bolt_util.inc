@@ -432,4 +432,32 @@ function empty_cell() {
     return "<td><br></td>";
 }
 
+//////////// show refresh schedule //////////////
+
+function show_refresh($r) {
+    echo "<tr>
+        <td>".time_str($r->create_time)."</td>
+        <td>$r->name
+            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Start</a>
+            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=resume>Resume</a>
+        </td>
+        <td>".time_str($r->due_time)."</td>
+        </tr>
+    ";
+}
+
+function show_refreshes() {
+    global $user;
+    global $course;
+
+    $refreshes = BoltRefreshRec::enum("user_id=$user->id and course_id=$course->id");
+    if (!count($refreshes)) return;
+    start_table();
+    table_header("Created", "Unit", "Due");
+    foreach ($refreshes as $r) {
+        show_refresh($r);
+    }
+    end_table();
+}
+
 ?>

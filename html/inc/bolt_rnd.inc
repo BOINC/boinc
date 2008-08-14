@@ -48,7 +48,7 @@ function random() {
     $args = func_get_args();
     $units = array();
     $name = "";
-    $number = 1;
+    $number = 0;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
@@ -66,6 +66,7 @@ function random() {
             }
         }
     }
+    if ($number == 0) $number = count($units);
     return new BoltRandom($name, $units, $number);
 }
 

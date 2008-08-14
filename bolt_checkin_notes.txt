@@ -165,3 +165,25 @@ David  August 14 2008
         user/
             bolt_sched.php
             bolt_compare.php
+
+David  August 14 2008
+    - Finished implemenation of refresh intervals;
+        added "count" field to DB table to keep track of how many times
+        we've refreshed.
+    - show refresh schedule on main courses page
+    - default for random structure is all units, not 1
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_rnd.inc
+            bolt_xset.inc
+            bolt_util.inc
+        ops/
+            bolt_map.php
+        user/
+            bolt.php
+            bolt_course.php
+            bolt_sched.php
+            white.css

@@ -95,32 +95,8 @@ function show_views() {
     end_table();
 }
 
-function show_refresh($r) {
-    echo "<tr>
-        <td>".time_str($r->create_time)."</td>
-        <td>$r->name
-            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Start</a>
-            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=resume>Resume</a>
-        </td>
-        <td>".time_str($r->due_time)."</td>
-        </tr>
-    ";
-}
-
-function show_refreshes() {
-    global $user;
-    global $course;
-
-    $refreshes = BoltRefreshRec::enum("user_id=$user->id and course_id=$course->id");
-    start_table();
-    table_header("Created", "Unit", "Due");
-    foreach ($refreshes as $r) {
-        show_refresh($r);
-    }
-    end_table();
-}
-
 require_once("../inc/bolt_db.inc");
+require_once("../inc/bolt_util.inc");
 
 $course_id = get_int('course_id');
 $course = BoltCourse::lookup_id($course_id);

@@ -133,6 +133,8 @@ create table bolt_refresh (
         -- most recent result for this exercise set
     due_time        integer         not null,
         -- when refresh will be due
+    count           integer         not null,
+        -- index into intervals array
     primary key (id)
 );
 
