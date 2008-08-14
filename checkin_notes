@@ -4328,3 +4328,11 @@ Rom    14 Aug 2008
     clientscr/
         screensaver.cpp
         screensaver_win.cpp, .h
+
+Rom    14 Aug 2008
+    - Tag for 6.2.17 release, all platforms
+      boinc_core_release_6_2_17
+
+    /
+        configure.ac
+        version.h
