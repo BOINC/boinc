@@ -418,6 +418,9 @@ int CMainDocument::OnInit() {
 int CMainDocument::OnExit() {
     int iRetVal = 0;
 
+    RPC_requests.clear();
+    current_rpc_request.clear();
+
     if (m_pClientManager) {
         m_pClientManager->ShutdownBOINCCore();
 
@@ -446,8 +449,9 @@ int CMainDocument::OnExit() {
             }
         }
         m_RPCThread = NULL;
-        rpcClient.close();
     }
+    
+        rpcClient.close();
     
     if (m_pNetworkConnection) {
         delete m_pNetworkConnection;

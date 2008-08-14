@@ -755,10 +755,9 @@ void CMainDocument::HandleCompletedRPC() {
         if (m_RPCWaitDlg) {
             if (m_RPCWaitDlg->IsShown()) {
                 m_RPCWaitDlg->EndModal(wxID_OK);
-            } else {
+            }
                 m_RPCWaitDlg->Destroy();
                 m_RPCWaitDlg = NULL;
-            }
         }
         m_bWaitingForRPC = false;
     }

@@ -6211,3 +6211,11 @@ Charlie 12 Aug 2008
     clientgui/
         BOINCBaseFrame.cpp
         MainDocument.cpp
+
+Charlie 14 Aug 2008
+    - MGR: async GUI RPCs: Destroy RPC Wait Dialog after calling EndModal
+        to fix memory leak which prevented exit from Manager.
+
+    clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp
