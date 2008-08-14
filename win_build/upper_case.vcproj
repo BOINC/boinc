@@ -80,13 +80,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
-				OutputFile="Release/uppercase_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -179,13 +179,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
-				OutputFile="Release/uppercase_5.14_windows_x86_64.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -276,13 +276,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib"
-				OutputFile="Debug/uppercase_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -373,13 +373,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib"
-				OutputFile="Debug/uppercase_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\uppercase_6.1_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>

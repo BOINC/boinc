@@ -626,8 +626,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfATL="0"
@@ -727,8 +727,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfATL="1"
@@ -828,8 +828,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfATL="1"
@@ -929,8 +929,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfATL="1"

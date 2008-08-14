@@ -80,13 +80,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib"
-				OutputFile="Release/sleeper_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -179,13 +179,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib"
-				OutputFile="Release/sleeper_5.10_windows_x86_64.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -276,13 +276,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
-				OutputFile="Debug/sleeper_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -373,13 +373,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
-				OutputFile="Debug/sleeper_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -410,8 +410,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -470,13 +470,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
-				OutputFile="Debug/sleeper_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -507,8 +507,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -567,13 +567,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
-				OutputFile="Debug/sleeper_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Debug/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -604,8 +604,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -666,13 +666,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib"
-				OutputFile="Release/sleeper_5.10_windows_intelx86.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -703,8 +703,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -765,13 +765,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib"
-				OutputFile="Release/sleeper_5.10_windows_x86_64.exe"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="Release/sleeper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\sleeper_6.1_windows_x86_64.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>

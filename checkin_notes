@@ -6608,3 +6608,13 @@ Rom    14 Aug 2008
           
     client/
         hostinfo_win.C
+
+Rom    14 Aug 2008
+    - WIN: Finish up the fixes to the project files. Everything should
+        build, and all output files should end up in the win_build/build
+        directory.
+        
+    win_build/
+        boinc.sln
+        *.vcproj
+    

@@ -673,8 +673,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -781,8 +781,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -889,8 +889,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -998,8 +998,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
