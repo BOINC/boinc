@@ -1,21 +1,19 @@
-// Berkeley Open Infrastructure for Network Computing
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2008 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 // 
 
 #ifdef _WIN32
@@ -337,13 +335,11 @@ void *CScreensaver::DataManagementProc() {
                 if (m_hGraphicsApplication || graphics_app_result_ptr) {
                     terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                     graphics_app_result_ptr = NULL;
-                    m_hGraphicsApplication = 0;
-                    graphics_app_result_ptr = NULL;
                     previous_result_ptr = NULL;
+                    m_hGraphicsApplication = 0;
                 }
                 return 0;       // Exit the thread
             }
-            boinc_sleep(0.25);
         }
 
         if (m_bResetCoreState) {
@@ -411,7 +407,9 @@ void *CScreensaver::DataManagementProc() {
 
             // V6 graphics only: if worker application has stopped running, terminate_screensaver
             if ((graphics_app_result_ptr == NULL) && (m_hGraphicsApplication != 0)) {
-//                if (previous_result_ptr) print_to_log_file("%s finished", previous_result.name.c_str());
+                if (previous_result_ptr) {
+                    BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), previous_result.name.c_str());
+                }
                 terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
                 previous_result_ptr = NULL;
                 // waitpid test will clear m_hGraphicsApplication
@@ -433,7 +431,9 @@ void *CScreensaver::DataManagementProc() {
 #endif
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
-//                    if (previous_result_ptr) print_to_log_file("time to change: %s", previous_result.name.c_str());
+                    if (previous_result_ptr) {
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s\n"), previous_result.name.c_str());
+                    }
                     terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                     if (m_hGraphicsApplication == 0) {
                         graphics_app_result_ptr = NULL;
@@ -469,7 +469,9 @@ void *CScreensaver::DataManagementProc() {
                     // may have been freed by the time we perform later tests
                     previous_result = *graphics_app_result_ptr;
                     previous_result_ptr = &previous_result;
-//                    if (previous_result_ptr) print_to_log_file("launching %s", previous_result.name.c_str());                    
+                    if (previous_result_ptr) {
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), previous_result.name.c_str());
+                    }
                 }
             } else {
                 if (state.projects.size() == 0) {
@@ -486,6 +488,23 @@ void *CScreensaver::DataManagementProc() {
                 }
             }
         } else {    // End if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL))
+
+#ifdef _WIN32
+
+            // Check for keyboard and mouse activity just in case the
+            // user wants to blow out of the screensaver.
+            //
+            CheckKeyboardMouseActivity();
+
+            // Check to see if there are any notification windows from
+            // personal firewalls, virus scanners, or anything else that
+            // demands the users attention. If there is blow out of the
+            // screensaver
+            CheckForNotificationWindow();
+
+#endif
+
+
             // Is the graphics app still running?
             if (m_hGraphicsApplication) {
 #ifdef _WIN32
@@ -512,6 +531,11 @@ void *CScreensaver::DataManagementProc() {
             }
         }
 #endif      // ! SIMULATE_NO_GRAPHICS
-    }                           // end while(true)
-//            return noErr;       // should never get here; it fixes compiler warning
+
+
+        // Only loop through the data management proc 4 times a second.
+        //
+        boinc_sleep(0.25);
+
+    } // end while(true)
 }

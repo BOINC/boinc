@@ -158,7 +158,11 @@ protected:
 
     DWORD WINAPI    DataManagementProc();
     static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );
+
+    void            CheckKeyboardMouseActivity();
+    void            CheckForNotificationWindow();
     void            CheckForegroundWindow();
+
     int             terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app);
 	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
     void            HandleRPCError(void);
