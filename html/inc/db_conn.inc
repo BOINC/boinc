@@ -150,10 +150,10 @@ class DbConn {
         return mysql_error($this->db_conn);
     }
     function table_exists($table_name) {
-        $result = $this->do_query("show tables like '$table_name'");
-        $t = mysql_fetch_object($result);
+        $result = $this->do_query("show tables from DBNAME like '$table_name'");
+        $t = mysql_fetch_array($result);
         mysql_free_result($result);
-        if ($t == "$table_name") return true;
+        if ($t[0] == "$table_name") return true;
         return false;
     }
 }

@@ -149,6 +149,10 @@ class BoltCourse {
         $db = BoltDb::get();
         return $db->update($this, 'bolt_course', $clause);
     }
+    function doc_file() {
+        $sn = $this->short_name;
+        return "../inc/$sn.inc";
+    }
 }
 
 class BoltEnrollment {

@@ -224,7 +224,7 @@ function show_choice($top_unit) {
 
 $course_id = get_int('course_id');
 $course = BoltCourse::lookup_id($course_id);
-$top_unit = require_once($course->doc_file);
+$top_unit = require_once($course->doc_file());
 
 $action = get_str('action', true);
 switch ($action) {

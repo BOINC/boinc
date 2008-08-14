@@ -317,7 +317,7 @@ if (!$course) {
 }
 $view_id = get_int('view_id', true);
 $action = get_str('action', true);
-$course_doc = require_once($course->doc_file);
+$course_doc = require_once($course->doc_file());
 
 switch ($action) {
 case 'start':
@@ -369,6 +369,8 @@ case 'prev':
         if ($mode == BOLT_MODE_ANSWER) {
             $v2 = BoltView::lookup_id($view->prev_view_id);
             $result = BoltResult::lookup_id($v2->result_id);
+            srand($v2->id);
+            $bolt_ex_score = $result->score;
             $bolt_ex_query_string = $result->response;
         }
         $view_id = create_view($iter, $mode, $view->prev_view_id);
@@ -448,9 +450,10 @@ case 'answer':          // submit answer in exercise
     // make a record of the result
 
     $qs = BoltDb::escape_string($_SERVER['QUERY_STRING']);
+    $now = time();
     $result_id = BoltResult::insert(
-        "(view_id, item_name, score, response)
-        values ($view->id, '$view->item_name', $bolt_ex_score, '$qs')"
+        "(create_time, user_id, course_id, view_id, item_name, score, response)
+        values ($now, $user->id, $course->id, $view->id, '$view->item_name', $bolt_ex_score, '$qs')"
     );
     $view->update("result_id=$result_id");
 

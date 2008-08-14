@@ -6479,6 +6479,22 @@ David  13 Aug 2008
         db_purge.C
         server_types.C
 
+David  13 Aug 2008
+    - client and server: add "len" arg to xml_escape() and xml_unescape()
+        (prevent buffer overrun).
+        Also remove 1024 char limit for team description in db_dump.
+
+    client/
+        client_types.C
+    lib/
+        app_ipc.C
+        parse.C,h
+        proxy_info.C
+    sched/
+        db_dump.C
+        db_purge.C
+        server_types.C
+
 Rom    13 Aug 2008
     - SAMPLES: Add all the samples to the BOINC solution and delete the
         old solution.

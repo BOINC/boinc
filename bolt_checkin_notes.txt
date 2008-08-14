@@ -146,3 +146,22 @@ David  June 26 2008
         - snapshots (makes it fast)
         - filtering and breakdown
         Also revisited Maps, and started redoing them along the same lines
+
+David  August 14 2008
+    - remove "doc_file" field; use short_name.inc
+    - fix tabl_exists()
+    - fix bugs when return to answer page
+    - create bolt_result records correctly
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            db_conn.inc
+            bolt_db.inc
+        ops/
+            bolt_map.php
+            bolt_admin.php
+        user/
+            bolt_sched.php
+            bolt_compare.php

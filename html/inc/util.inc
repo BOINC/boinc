@@ -72,7 +72,7 @@ function get_logged_in_user($must_be_logged_in=true) {
 
     $x = ereg(
         "curl|wget|libww|lwp::simple|lwp-trivial|fetch|rufusbot|java/|microsoft url control|webreaper",
-        strtolower($_SERVER[HTTP_USER_AGENT])
+        strtolower($_SERVER["HTTP_USER_AGENT"])
     );
     if ($x > 0) {
         error_page("bad user agent");

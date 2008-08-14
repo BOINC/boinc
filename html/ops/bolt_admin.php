@@ -23,7 +23,6 @@ function show_course($course) {
     $x = "<b>$course->name</b>
             <br>Description: $course->description
             <br>Created: ".date_str($course->create_time)."
-            <br>Course document: $course->doc_file
     ";
     $y = "<a href=bolt_map.php?course_id=$course->id>Course map</a>
         <br><a href=bolt_compare.php?course_id=$course->id>Lesson compare</a>
@@ -58,7 +57,6 @@ function add_course_form() {
     row2("Course name<span class=note><br>Visible to users</span>", "<input name=course_name>");
     row2("Internal name<span class=note><br>Not visible to users; used as a directory name, so no spaces or special chars</span>", "<input name=short_name>");
     row2("Description<span class=note><br>Visible to users</span>", "<textarea name=description cols=60></textarea>");
-    row2("Course document", "<input name=doc_file>");
     row2("", "<input type=submit name=submit value=\"Add course\">");
     end_table();
     echo "</form>";
@@ -127,9 +125,8 @@ case 'add_course':
     $short_name = BoltDb::escape_string(get_str('short_name'));
     $name = BoltDb::escape_string(get_str('course_name'));
     $description = BoltDb::escape_string(get_str('description'));
-    $doc_file = get_str('doc_file');
     $now = time();
-    BoltCourse::insert("(create_time, short_name, name, description, doc_file) values ($now, '$short_name', '$name', '$description', '$doc_file')");
+    BoltCourse::insert("(create_time, short_name, name, description) values ($now, '$short_name', '$name', '$description')");
     Header('Location: bolt_admin.php');
     break;
 case 'update_user_form':

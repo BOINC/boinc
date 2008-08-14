@@ -189,6 +189,7 @@ function get_views($unit, $mode) {
 function get_results($unit) {
     global $snap;
 
+    print_r($snap->results);
     if (array_key_exists($unit->name, $snap->results)) {
         return filter_array($snap->results[$unit->name]);
     }
@@ -389,7 +390,7 @@ function show_map() {
 $course_id = get_int('course_id');
 $course = BoltCourse::lookup_id($course_id);
 if (!$course) error_page("no course");
-$top_unit = require_once("../user/$course->doc_file");
+$top_unit = require_once($course->doc_file());
 
 $action = get_str('action', true);
 switch ($action) {
