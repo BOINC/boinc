@@ -6583,3 +6583,12 @@ Rom    13 Aug 2008
         boinc_ss.rc
     clientscr/res/
         seed.bmp
+
+Rom    14 Aug 2008
+    - WIN: Update OS Detection code.
+    
+        NOTE: Holy cow, Between Vista and Server 2008 there are now
+          26 different SKUs.
+          
+    client/
+        hostinfo_win.C
